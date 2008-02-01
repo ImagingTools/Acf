@@ -20,9 +20,8 @@ namespace inemo
 */
 class CNemoSensor: public acf::ModelTemplate<acf::NamedTemplate<inemo::INemoSensor> >
 {
+public:
 	CNemoSensor();
-
-protected:	
 };
 
 
