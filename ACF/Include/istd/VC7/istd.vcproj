@@ -134,6 +134,9 @@
 			<File
 				RelativePath="..\IPolymorphic.h">
 			</File>
+			<File
+				RelativePath="..\istd.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

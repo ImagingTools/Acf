@@ -2,6 +2,8 @@
 #define iwin_CWinTimer_h_included
 
 
+#include "iwin/iwin.h"
+
 #include "isys/ITimer.h"
 
 
@@ -9,6 +11,11 @@ namespace iwin
 {
 
 
+/**
+	\ingroup iwin
+
+	An timer implementation for the Windows plattform
+*/
 class CWinTimer: public isys::ITimer
 {
 public:

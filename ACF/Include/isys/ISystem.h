@@ -2,6 +2,8 @@
 #define isys_ISystem_h_included
 
 
+#include "isys/isys.h"
+
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
 
@@ -11,6 +13,8 @@ namespace isys
 
 
 /**
+	\ingroup isys
+
 	Interface for access of some system dependent features and infos.
 */
 class ISystem: virtual public istd::IPolymorphic

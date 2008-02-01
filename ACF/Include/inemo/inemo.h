@@ -10,6 +10,14 @@
 @} 
 */
 
+/**
+	\namespace inemo
+	\brief This namespace contains system indenendent implementations of NEMO product
+*/
+namespace inemo
+{
+	
+} // namespace inemo
 
 
 #endif // !inemo_h_included

@@ -13,8 +13,8 @@
 
 
 /**
-\namespace istd
-* This namespace contains the standard primitives and basic implementations.
+	\namespace istd
+	\brief This namespace contains the standard, system indenendent primitives and basic implementations.
 */
 namespace istd
 {

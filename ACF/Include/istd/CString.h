@@ -2,12 +2,12 @@
 #define istd_CString_h_included
 
 
+#include "istd/istd.h"
+
+
 #include <string>
 #include <xstring>
 #include <vector>
-
-
-#include "istd/istd.h"
 
 
 namespace istd
@@ -15,7 +15,9 @@ namespace istd
 	
 
 /**
-* This class is a wrapper for wchar_t data type from the standard C-library.
+	\ingroup istd
+
+	This class is a wrapper for wchar_t data type from the standard C-library.
 */
 class CString: public std::wstring
 {
@@ -43,7 +45,6 @@ public:
 	This function makes this string empty.
 	*/
 	void Reset();
-
 
 	bool operator ==(const CString& other) const;
 	bool operator ==(const char*) const;

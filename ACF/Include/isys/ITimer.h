@@ -2,6 +2,8 @@
 #define isys_ITimer_h_included
 
 
+#include "isys/isys.h"
+
 #include "istd/IPolymorphic.h"
 
 
@@ -10,7 +12,9 @@ namespace isys
 
 
 /**
-Common interface for timer implementations.
+	\ingroup isys
+
+	Common interface for timer implementations.
 */
 class ITimer: virtual public istd::IPolymorphic
 {
