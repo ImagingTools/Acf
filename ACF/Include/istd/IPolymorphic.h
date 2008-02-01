@@ -8,10 +8,7 @@ namespace istd
 
 
 /**
-\namespace istd
-This namespace contains the standard primitives and basic implementations.
-\class IPolymorphic
-Base interface for all used interfaces and implementations
+	Base interface for all used interfaces and implementations
 */
 class IPolymorphic
 {
