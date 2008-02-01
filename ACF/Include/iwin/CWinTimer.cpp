@@ -39,13 +39,13 @@ double CWinTimer::GetElapsed() const
 	long long endCounter;
 	::QueryPerformanceCounter((LARGE_INTEGER*)&endCounter);
 
-	return (endCounter - m_startCounter) / (double)(m_timerFrequence);
+	return (endCounter - m_startCounter) / double(m_timerFrequence);
 }
 
 
 double CWinTimer::GetTimerResolution() const
 {
-	return 1.0 / (double)(m_timerFrequence);
+	return 1.0 / double(m_timerFrequence);
 }
 
 
