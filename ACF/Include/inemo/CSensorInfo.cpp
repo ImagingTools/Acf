@@ -1,11 +1,11 @@
-#include "inemo/CNemoSensor.h"
+#include "inemo/CSensorInfo.h"
 
 
 namespace inemo
 {
 
 
-CNemoSensor::CNemoSensor()
+CSensorInfo::CSensorInfo()
 {
 
 }

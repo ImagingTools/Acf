@@ -4,6 +4,7 @@
 
 #include "inemo/inemo.h"
 
+#include "imeas/CMeasurementRange.h"
 
 #include "Persist/SerializableInterface.h"
 
@@ -13,6 +14,9 @@
 namespace inemo
 {
 
+
+class CSensorSpecification;
+
 /**
 	\ingroup inemo
 
@@ -21,6 +25,38 @@ namespace inemo
 */
 class INemoSensor: virtual public acf::SerializableInterface, virtual public acf::NamedInterface
 {
+public:
+	/**
+	* Returns the sensor specification data.
+	*/
+	virtual const CSensorSpecification& GetSensorSpecification() const = 0;
+
+	/**
+	* Returns the sensor measurment range.
+	*/
+	virtual const imeas::CMeasurementRange& GetMeasurementRange() const = 0;
+
+	/**
+	* Returns the first level sensor location.
+	*/
+	virtual std::string GetFirstLevelLocation() const = 0;
+
+	/**
+	* Returns the second level sensor location.
+	*/
+	virtual std::string GetSecondLevelLocation() const = 0;
+
+	/**
+	* Returns the third level sensor location.
+	*/
+	virtual std::string GetThirdLevelLocation() const = 0;
+
+	/**
+	* Returns the fourth level sensor location.
+	*/
+	virtual std::string GetFourthLevelLocation() const = 0;
+
+		
 };
 
 

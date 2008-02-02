@@ -110,6 +110,12 @@
 			<File
 				RelativePath="..\CNemoSensor.cpp">
 			</File>
+			<File
+				RelativePath="..\CSensorInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\CSensorSpecification.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -117,6 +123,12 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\CNemoSensor.h">
+			</File>
+			<File
+				RelativePath="..\CSensorInfo.h">
+			</File>
+			<File
+				RelativePath="..\CSensorSpecification.h">
 			</File>
 			<File
 				RelativePath="..\inemo.h">
