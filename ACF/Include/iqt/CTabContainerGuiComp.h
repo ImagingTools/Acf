@@ -11,6 +11,9 @@
 
 #include "Comp/MultipleComponentDependency.h"
 #include "Comp/Attribute.h"
+#include "Comp/MultipleAttribute.h"
+
+#include "QtCompLib/QtIconProviderInterface.h"
 
 
 namespace iqt
@@ -32,6 +35,8 @@ protected:
 
 protected:
 	acf::MultipleComponentDependency<acf::QtGuiInterface> m_slaveGuisCompIfPtr;
+	acf::ComponentDependency<acf::QtIconProviderInterface> m_iconsProviderCompIfPtr;
+	acf::StringListAttribute m_tabNamesAttr;
 };
 
 

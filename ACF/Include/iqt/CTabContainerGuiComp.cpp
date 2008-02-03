@@ -12,7 +12,9 @@ namespace iqt
 
 CTabContainerGuiComp::CTabContainerGuiComp()
 	:BaseClass(), 
-	m_slaveGuisCompIfPtr(this, "SlaveGuiComponents")
+	m_slaveGuisCompIfPtr(this, "SlaveGuiComponents"),
+	m_tabNamesAttr(this, "TabNames"),
+	m_iconsProviderCompIfPtr(this, "TabIcons")
 {
 
 }
@@ -29,13 +31,38 @@ CTabContainerGuiComp::~CTabContainerGuiComp()
 void CTabContainerGuiComp::initializeGui()
 {
 	if (m_widget != NULL){
-		int tabCount = m_slaveGuisCompIfPtr.dependencyCount();
+		int tabCount = m_tabNamesAttr.count();
 		for (int tabIndex = 0; tabIndex < tabCount; tabIndex++){
-			acf::QtGuiInterface* guiPtr = m_slaveGuisCompIfPtr.interfacePtr(tabIndex);
-			if (guiPtr != NULL){
-				QWidget* tab = new QWidget(m_widget);
+			QString tabName= acf::qtString(m_tabNamesAttr.value(tabIndex));
 
-				guiPtr->attachTo(tab);
+			QWidget* tab = new QWidget(m_widget);
+
+			int addTabIndex = m_widget->addTab(tab, tabName);
+
+			bool isAttached = false;
+
+			if (tabIndex < m_slaveGuisCompIfPtr.dependencyCount()){
+				acf::QtGuiInterface* guiPtr = m_slaveGuisCompIfPtr.interfacePtr(tabIndex);
+				if (guiPtr != NULL){
+					guiPtr->attachTo(tab);
+
+					isAttached = true;
+				}
+			}
+
+			if (m_iconsProviderCompIfPtr.isValid()){
+				int iconCount = m_iconsProviderCompIfPtr->iconCount();			
+				if (tabIndex < iconCount){
+					m_widget->setIconSize(QSize(32, 32));
+
+					QIcon icon = m_iconsProviderCompIfPtr->getIcon(tabIndex);
+
+					m_widget-> setTabIcon(addTabIndex, icon);
+				}
+			}
+
+			if (!isAttached){
+				m_widget->setTabEnabled(addTabIndex, false);
 			}
 		}
 	}
