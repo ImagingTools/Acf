@@ -1,0 +1,66 @@
+#ifndef istd_CStaticServicesProvider_h_included
+#define istd_CStaticServicesProvider_h_included
+
+
+#include <map>
+
+#include "istd/IServicesProvider.h"
+
+
+namespace istd
+{
+
+
+/**
+	Manage list of global services.
+ */
+class CStaticServicesProvider
+{
+public:
+	/**
+		Set parent provider.
+		This provider will be used if this static service provider has no registered service for specified type.
+	*/
+	static void SetParent(const IServicesProvider* parentPtr);
+	/**
+		Register service for specified ID.
+	*/
+	static bool RegisterService(const type_info& serviceId, void* servicePtr);
+	static void* GetService(const type_info& serviceId);
+	static IServicesProvider& GetProviderInstance();
+
+protected:
+	class Provider: public IServicesProvider
+	{
+	public:
+		// reimplemented (istd::IServicesProvider)
+		virtual void* GetService(const type_info& serviceId) const;
+	};
+
+private:
+	/**
+	Lock of constructor.
+	*/
+	CStaticServicesProvider(){}
+
+	typedef ::std::map<const type_info*, void*> Services;
+
+	static Services m_registeredServices;
+	static Provider m_providerInstance;
+	static const IServicesProvider* m_parentPtr;
+};
+
+
+template <class Service>
+typename Service* GetService()
+{
+	return static_cast<Service*>(CStaticServicesProvider::GetService(typeid(Service)));
+}
+
+
+} // namespace istd
+
+
+#endif // !istd_CStaticServicesProvider_h_included
+
+

@@ -1,0 +1,73 @@
+#include "istd.h"
+
+
+#include <assert.h>
+
+#include "istd/ITrace.h"
+#include "istd/CStaticServicesProvider.h"
+
+
+namespace istd
+{
+
+
+// public methods of class CGroupRegistrator
+
+CGroupRegistrator::CGroupRegistrator(const char* fileName)
+{
+	ITrace* tracePtr = GetService<ITrace>();
+
+	if (tracePtr != NULL){
+		tracePtr->RegisterGroupId(fileName);
+	}
+}
+
+
+// public functions
+
+void OnSoftwareError(const char* fileName, int line)
+{
+	ITrace* tracePtr = GetService<ITrace>();
+
+	if (tracePtr != NULL){
+		static const char* groupId = "assert";
+
+		if (tracePtr->IsTraceEnabled(TL_CRITICAL, groupId)){
+			tracePtr->LogMessage(TL_CRITICAL, groupId, "assertion error", fileName, line);
+
+			assert(false);
+		}
+	}
+	else{
+		assert(false);
+	}
+}
+
+
+
+bool CheckTraceEnabled(TraceLevel level, const char* groupId)
+{
+	ITrace* tracePtr = GetService<ITrace>();
+
+	if (tracePtr != NULL){
+		return tracePtr->IsTraceEnabled(level, groupId);
+	}
+	else{
+		return false;
+	}
+}
+
+
+void SendTraceMessage(TraceLevel level, const char* groupId, const char* message, const char* fileName, int line)
+{
+	ITrace* tracePtr = GetService<ITrace>();
+
+	if (tracePtr != NULL){
+		tracePtr->LogMessage(level, groupId, message, fileName, line);
+	}
+}
+
+
+} // namespace istd
+
+

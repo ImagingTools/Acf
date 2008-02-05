@@ -109,7 +109,7 @@ bool CString::operator == (const std::string& s) const
 }
 
 
-bool CString::operator != (const char * s) const
+bool CString::operator != (const char* s) const
 {
 	return !operator ==(s);
 }
@@ -146,7 +146,7 @@ CString& CString::operator = (const char* s)
 }
 
 
-CString& CString::operator = (const wchar_t * s)
+CString& CString::operator = (const wchar_t* s)
 {
 	CString ss(s);
 	
@@ -189,7 +189,7 @@ bool CString::IsEmpty() const
 CString CString::ToUpper() const
 {
 	CString upperString;
-	for(CString::const_iterator iter = begin(); iter != end();iter++){
+	for (CString::const_iterator iter = begin(); iter != end();iter++){
 		upperString.push_back(std::toupper(*iter, std::locale()));
 	}
 

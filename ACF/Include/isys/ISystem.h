@@ -29,34 +29,7 @@ public:
 	* Returns the working directory of application.
 	*/
 	virtual istd::CString GetWorkingDirectory() const = 0;
-
-	/**
-	* Returns default system pointer.
-	*/
-	static isys::ISystem* GetDefaultSystemPtr();
-
-protected:
-	static void SetDefaultSystemPtr(isys::ISystem* systemPtr);
-
-protected:
-	static isys::ISystem* s_defaultSystemPtr;
 };
-
-
-// public static members
-
-inline isys::ISystem* ISystem::GetDefaultSystemPtr()
-{
-	return s_defaultSystemPtr;
-}
-
-
-// protected static members
-
-inline void ISystem::SetDefaultSystemPtr(isys::ISystem* systemPtr)
-{
-	s_defaultSystemPtr = systemPtr;
-}
 
 
 } // namespace isys

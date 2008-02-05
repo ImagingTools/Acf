@@ -36,6 +36,8 @@ void CWinTimer::Start()
 
 double CWinTimer::GetElapsed() const
 {
+	I_ASSERT(sizeof(long long) == sizeof(LARGE_INTEGER));
+
 	long long endCounter;
 	::QueryPerformanceCounter((LARGE_INTEGER*)&endCounter);
 
