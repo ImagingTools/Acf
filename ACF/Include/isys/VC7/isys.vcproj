@@ -121,9 +121,6 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
-			<File
-				RelativePath="..\ISystem.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
