@@ -4,8 +4,6 @@
 
 #include <fstream>
 
-#include "istd/CStaticServicesProvider.h"
-
 #include "iser/CBinaryWriteArchiveBase.h"
 
 
@@ -30,7 +28,7 @@ public:
 	CFileWriteArchive(
 					const istd::CString& fileName,
 					bool supportTagSkipping = true,
-					const IVersionInfo* versionInfoPtr = istd::GetService<IVersionInfo>(),
+					const IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
 					bool serializeHeader = true);
 
 	/**

@@ -13,9 +13,9 @@ CFileWriteArchive::CFileWriteArchive(
 			bool supportTagSkipping,
 			const IVersionInfo* versionInfoPtr,
 			bool serializeHeader)
-:	BaseClass(false), m_supportTagSkipping(supportTagSkipping)
+:	BaseClass(versionInfoPtr), m_supportTagSkipping(supportTagSkipping)
 {
-	m_stream.open(fileName.ascii().c_str(), std::fstream::out | std::fstream::binary);
+	m_stream.open(fileName.ToString().c_str(), std::fstream::out | std::fstream::binary);
 
 	if (serializeHeader){
 		SerializeHeader();
@@ -46,13 +46,13 @@ bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
 			return false;
 		}
 
-		m_tagStack.push_back();
+		m_tagStack.push_back(TagStackElement());
 		TagStackElement& element = m_tagStack.back();
 
 		element.tagBinaryId = tag.GetBinaryId();
 		element.endFieldPosition = m_stream.tellp();
 
-		std::ofstream::pos_type dummyPos = 0;
+		I_DWORD dummyPos = 0;
 		retVal = retVal && Process(dummyPos);
 	}
 

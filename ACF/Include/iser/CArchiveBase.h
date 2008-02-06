@@ -19,11 +19,12 @@ public:
 
 protected:
 	// list of standard tags used to serialize header
-	static iser::CArchiveTag headerTag;
-	static iser::CArchiveTag versionInfosTag;
-	static iser::CArchiveTag versionInfoTag;
-	static iser::CArchiveTag versionIdTag;
-	static iser::CArchiveTag versionTag;
+	static iser::CArchiveTag s_headerTag;
+	static iser::CArchiveTag s_versionInfosTag;
+	static iser::CArchiveTag s_versionInfoTag;
+	static iser::CArchiveTag s_versionIdTag;
+	static iser::CArchiveTag s_versionNumberTag;
+	static iser::CArchiveTag s_versionDescriptionTag;
 };
 
 

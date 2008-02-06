@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMemoryReadArchive.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMemoryWriteArchive.cpp"
 				>
 			</File>
@@ -235,6 +239,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileWriteArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMemoryReadArchive.h"
 				>
 			</File>
 			<File

@@ -14,8 +14,14 @@ namespace iser
 class CMemoryWriteArchive: public CBinaryWriteArchiveBase
 {
 public:
-	CMemoryWriteArchive();
-	~CMemoryWriteArchive();
+	typedef CBinaryWriteArchiveBase BaseClass;
+
+	CMemoryWriteArchive(
+				const IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
+				bool serializeHeader = true);
+
+	const void* GetBuffer() const;
+	int GetBufferSize() const;
 
 	// reimplemented (iser::IArchive)
 	virtual bool ProcessData(void* data, int size);

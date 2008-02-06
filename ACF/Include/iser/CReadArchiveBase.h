@@ -2,7 +2,7 @@
 #define iser_CReadArchiveBase_included
 
 
-#include "iser/IArchive.h"
+#include "iser/CArchiveBase.h"
 #include "iser/CReaderVersionInfo.h"
 
 
@@ -10,7 +10,7 @@ namespace iser
 {
 
 
-class CReadArchiveBase: public IArchive
+class CReadArchiveBase: public CArchiveBase
 {
 public:
 	// reimplemented (iser::IArchive)
@@ -18,12 +18,6 @@ public:
 	virtual I_DWORD GetVersion(int versionId = IVersionInfo::UserVersionId) const;
 
 protected:
-	/**
-		Constructor.
-		\param	serializeHeader	if it is true, header will be serialized during contruction.
-	*/
-	CReadArchiveBase(bool serializeHeader);
-
 	/**
 		Serialize standard header.
 		During serialization of header list of known versions will be loaded.

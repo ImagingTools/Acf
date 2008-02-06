@@ -124,8 +124,8 @@ bool CBinaryWriteArchiveBase::Process(istd::CString& value)
 
 // protected methods
 
-CBinaryWriteArchiveBase::CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr, bool serializeHeader)
-:	BaseClass(versionInfoPtr, serializeHeader)
+CBinaryWriteArchiveBase::CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr)
+:	BaseClass(versionInfoPtr)
 {
 }
 

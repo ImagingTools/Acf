@@ -36,8 +36,6 @@ protected:
 	enum{
 		MaxStringLength = 100000
 	};
-
-	CBinaryReadArchiveBase(bool serializeHeader);
 };
 
 

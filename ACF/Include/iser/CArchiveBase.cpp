@@ -25,11 +25,12 @@ bool CArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subT
 
 // static attributes
 
-iser::CArchiveTag CArchiveBase::headerTag("AcfHeader", "Header of ACF archive");
-iser::CArchiveTag CArchiveBase::versionInfosTag("VersionInfos", "List of version infos");
-iser::CArchiveTag CArchiveBase::versionInfoTag("Info", "Version info");
-iser::CArchiveTag CArchiveBase::versionIdTag("Id", "Version ID");
-iser::CArchiveTag CArchiveBase::versionTag("Version", "Version number");
+iser::CArchiveTag CArchiveBase::s_headerTag("AcfHeader", "Header of ACF archive");
+iser::CArchiveTag CArchiveBase::s_versionInfosTag("VersionInfos", "List of version infos");
+iser::CArchiveTag CArchiveBase::s_versionInfoTag("Version", "Version info");
+iser::CArchiveTag CArchiveBase::s_versionIdTag("Id", "Version ID");
+iser::CArchiveTag CArchiveBase::s_versionNumberTag("Number", "Version number");
+iser::CArchiveTag CArchiveBase::s_versionDescriptionTag("Description", "Version description");
 
 
 } // namespace iser

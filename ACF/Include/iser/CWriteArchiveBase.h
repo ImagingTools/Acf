@@ -2,14 +2,14 @@
 #define iser_CWriteArchiveBase_included
 
 
-#include "iser/IArchive.h"
+#include "iser/CArchiveBase.h"
 
 
 namespace iser
 {
 
 
-class CWriteArchiveBase: public IArchive
+class CWriteArchiveBase: public CArchiveBase
 {
 public:
 	// reimplemented (iser::IArchive)
@@ -19,16 +19,19 @@ public:
 protected:
 	/**
 		Constructor.
-		\param	versionInfoPtr	optional pointer to version info object.
-		\param	serializeHeader	if it is true, header will be serialized during contruction.
+		Please note no header will be serialized during contruction.
+		You have to explicite call method SerializeHeader in your derrived implementation.
 	*/
-	CWriteArchiveBase(const IVersionInfo* versionInfoPtr, bool serializeHeader);
+	CWriteArchiveBase(const IVersionInfo* versionInfoPtr);
 
 	/**
 		Serialize standard header.
 		During serialization of header list of known versions will be loaded.
 	*/
 	virtual bool SerializeHeader();
+
+	// static methods
+	static const IVersionInfo* GetDefaultVersionInfo();
 
 private:
 	const IVersionInfo* m_versionInfoPtr;

@@ -14,8 +14,6 @@ class CBinaryWriteArchiveBase: public CWriteArchiveBase
 public:
 	typedef CWriteArchiveBase BaseClass;
 
-	~CBinaryWriteArchiveBase();
-
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool EndTag(const CArchiveTag& tag);
@@ -35,7 +33,7 @@ public:
 	virtual bool Process(istd::CString& value);
 
 protected:
-	CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr, bool serializeHeader);
+	CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr);
 };
 
 

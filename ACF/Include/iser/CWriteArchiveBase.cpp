@@ -1,14 +1,11 @@
 #include "iser/CWriteArchiveBase.h"
 
 
+#include "istd/CStaticServicesProvider.h"
+
+
 namespace iser
 {
-
-
-CWriteArchiveBase::CWriteArchiveBase(const IVersionInfo* versionInfoPtr)
-:	m_versionInfoPtr(versionInfoPtr)
-{
-}
 
 
 // reimplemented (iser::IArchive)
@@ -21,8 +18,8 @@ bool CWriteArchiveBase::IsStoring() const
 
 I_DWORD CWriteArchiveBase::GetVersion(int versionId) const
 {
-	if (versionInfoPtr != NULL){
-		return versionInfoPtr->GetVersion(versionId);
+	if (m_versionInfoPtr != NULL){
+		return m_versionInfoPtr->GetVersion(versionId);
 	}
 
 	return IVersionInfo::UnknownVersion;
@@ -31,51 +28,67 @@ I_DWORD CWriteArchiveBase::GetVersion(int versionId) const
 
 // protected methods
 
-bool CReadArchiveBase::SerializeHeader()
+CWriteArchiveBase::CWriteArchiveBase(const IVersionInfo* versionInfoPtr)
+:	m_versionInfoPtr(versionInfoPtr)
 {
-	bool retVal = BeginTag(headerTag);
+}
+
+
+bool CWriteArchiveBase::SerializeHeader()
+{
+	bool retVal = BeginTag(s_headerTag);
 
 	IVersionInfo::VersionIds ids;
 
-	if (versionInfoPtr != NULL){
-		ids = versionInfoPtr->GetVersionIds();
+	if (m_versionInfoPtr != NULL){
+		ids = m_versionInfoPtr->GetVersionIds();
 	}
 
 	int versionIdsCount = int(ids.size());
 
-	retVal = retVal && BeginMultiTag(versionInfosTag, versionInfoTag, versionIdsCount);
+	retVal = retVal && BeginMultiTag(s_versionInfosTag, s_versionInfoTag, versionIdsCount);
 
 	for (		IVersionInfo::VersionIds::iterator iter = ids.begin();
 				retVal && (iter != ids.end());
 				++iter){
-		I_ASSERT(versionInfoPtr != NULL);
+		I_ASSERT(m_versionInfoPtr != NULL);
 
-		retVal = retVal && BeginTag(versionInfoTag);
+		retVal = retVal && BeginTag(s_versionInfoTag);
 
-		retVal = retVal && BeginTag(versionIdTag);
+		retVal = retVal && BeginTag(s_versionIdTag);
 		int id = *iter;
 		retVal = retVal && Process(id);
-		retVal = retVal && EndTag(versionIdTag);
+		retVal = retVal && EndTag(s_versionIdTag);
 
-		retVal = retVal && BeginTag(versionTag);
-		I_DWORD version = versionInfoPtr->GetVersion(id);
+		retVal = retVal && BeginTag(s_versionNumberTag);
+		I_DWORD version = m_versionInfoPtr->GetVersion(id);
 		retVal = retVal && Process(version);
-		retVal = retVal && EndTag(versionTag);
+		retVal = retVal && EndTag(s_versionNumberTag);
 
-		retVal = retVal && EndTag(versionInfoTag);
+		retVal = retVal && BeginTag(s_versionDescriptionTag);
+		::std::string& description = const_cast<::std::string&>(m_versionInfoPtr->GetVersionIdDescription(id));
+		retVal = retVal && Process(description);
+		retVal = retVal && EndTag(s_versionDescriptionTag);
+
+		retVal = retVal && EndTag(s_versionInfoTag);
 	}
 
-	retVal = retVal && EndTag(versionInfosTag);
+	retVal = retVal && EndTag(s_versionInfosTag);
 
-	retVal = retVal && EndTag(headerTag);
+	retVal = retVal && EndTag(s_headerTag);
 
 	return retVal;
 }
 
 
+// static methods
+
+const IVersionInfo* CWriteArchiveBase::GetDefaultVersionInfo()
+{
+	return istd::GetService<IVersionInfo>();
+}
+
+
 } // namespace iser
-
-
-#endif // !iser_CReadArchiveBase_included
 
 

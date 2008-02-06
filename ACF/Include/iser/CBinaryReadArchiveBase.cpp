@@ -147,13 +147,5 @@ bool CBinaryReadArchiveBase::Process(istd::CString& value)
 }
 
 
-// protected methods
-
-CBinaryReadArchiveBase::CBinaryReadArchiveBase(bool serializeHeader)
-:	BaseClass(serializeHeader)
-{
-}
-
-
 } // namespace iser
 

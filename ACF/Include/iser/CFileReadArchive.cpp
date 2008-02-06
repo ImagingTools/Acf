@@ -13,7 +13,7 @@ namespace iser
 
 
 CFileReadArchive::CFileReadArchive(const istd::CString& fileName, bool supportTagSkipping, bool serializeHeader)
-:	BaseClass(false), m_supportTagSkipping(supportTagSkipping)
+:	m_supportTagSkipping(supportTagSkipping)
 {
 	m_stream.open(fileName.ToString().c_str(), std::fstream::in | std::fstream::binary);
 
