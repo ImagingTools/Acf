@@ -3,6 +3,7 @@
 
 /**
 \defgroup iqtdb
+\ingroup ACF
 @{
 */
 
