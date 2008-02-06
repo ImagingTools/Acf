@@ -1,12 +1,8 @@
-#ifndef INemoSystemModel_h_included
-#define INemoSystemModel_h_included
+#ifndef inemo_INemoSystemModel_included
+#define inemo_INemoSystemModel_included
 
 
 #include "inemo/inemo.h"
-
-#include "Model/ModelInterface.h"
-
-#include "Persist/SerializableInterface.h"
 
 #include "Base/NamedInterface.h"
 
@@ -24,7 +20,7 @@ class INemoSensors;
 	The system model reflects all changes in the nemo database.
 	All NEMO view components are direct or indirect observers of this model.
 */
-class INemoSystemModel: virtual public acf::ModelInterface
+class INemoSystemModel: virtual public acf::PolymorphicInterface
 {
 public:
 	virtual inemo::INemoSensors* GetNemoSensorsModel() const = 0;
@@ -34,4 +30,4 @@ public:
 } // namespace inemo
 
 
-#endif // !INemoSystemModel_h_included
+#endif // !inemo_INemoSystemModel_included

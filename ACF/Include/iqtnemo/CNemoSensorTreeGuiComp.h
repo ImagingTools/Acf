@@ -18,6 +18,8 @@
 
 #include "inemo/INemoSensors.h"
 
+#include "iqtnemo/INemoSensorSelectionListener.h"
+
 #include "generatedfiles/ui_CNemoSensorTreeGuiComp.h"
 
 
@@ -27,6 +29,8 @@ namespace iqtnemo
 
 class CNemoSensorTreeGuiComp: public acf::QtAbstractGuiObserverComp<inemo::INemoSensors, acf::QtGuiTemplateBasedComponent<QWidget, Ui::CNemoSensorTreeGuiComp> >
 {
+	Q_OBJECT
+
 public:
 	typedef acf::QtAbstractGuiObserverComp<inemo::INemoSensors, acf::QtGuiTemplateBasedComponent<QWidget, Ui::CNemoSensorTreeGuiComp> > BaseClass;
 
@@ -49,10 +53,12 @@ private:
 	virtual void UpdateView();
 	virtual void ResetView();
 
-private:
-	inemo::INemoSensor* m_selectedSensorPtr;
+private slots:
+	void OnSelected();
 
+private:
 	acf::ComponentDependency<acf::QtIconProviderInterface> m_stateIconsProviderIfPtr;
+	acf::MultipleComponentDependency<iqtnemo::INemoSensorSelectionListener> m_selectionListenersIfPtr;
 };
 
 

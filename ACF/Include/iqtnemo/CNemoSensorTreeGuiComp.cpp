@@ -54,9 +54,9 @@ private:
 
 CNemoSensorTreeGuiComp::CNemoSensorTreeGuiComp()
 	:BaseClass(),
-	m_stateIconsProviderIfPtr(this, "StateIcons")
+	m_stateIconsProviderIfPtr(this, "StateIcons"),
+	m_selectionListenersIfPtr(this, "SelectionListeners")
 {
-	m_selectedSensorPtr = NULL;
 }
 
 
@@ -122,6 +122,8 @@ void CNemoSensorTreeGuiComp::initializeGui()
 
 		SensorList->header()->setResizeMode(QHeaderView::ResizeToContents);
 		SensorList->setIconSize(QSize(16, 16));
+
+		connect(SensorList, SIGNAL(itemSelectionChanged()), this, SLOT(OnSelected()));
 	}
 }
 
@@ -136,13 +138,14 @@ void CNemoSensorTreeGuiComp::UpdateView()
 	int sensorCount = nemoSensorsPtr->GetSensorCount();
 
 	for (int sensorIndex = 0; sensorIndex < sensorCount; sensorIndex++){
-		inemo::INemoSensor& sensor = nemoSensorsPtr->GetSensor(sensorIndex);
+		inemo::INemoSensor* sensorPtr = &nemoSensorsPtr->GetSensor(sensorIndex);
 
 		QTreeWidgetItem* sensorItem = new QTreeWidgetItem();
-		sensorItem->setText(0, acf::qtString(sensor.name()));
+		sensorItem->setText(0, acf::qtString(sensorPtr->name()));
+		sensorItem->setData(0, SensorItemDelegate::ItemData, QVariant(QVariant::Int, &sensorPtr));
 
 		if (m_stateIconsProviderIfPtr.isValid()){
-			QIcon icon = m_stateIconsProviderIfPtr->getIcon(sensor.GetState());
+			QIcon icon = m_stateIconsProviderIfPtr->getIcon(sensorPtr->GetState());
 			
 
 			sensorItem->setIcon(0, icon);
@@ -161,6 +164,29 @@ void CNemoSensorTreeGuiComp::ResetView()
 }
 
 
+// private slots
+
+void CNemoSensorTreeGuiComp::OnSelected()
+{
+	inemo::INemoSensor* selectedSensorPtr = NULL;
+
+	QList<QTreeWidgetItem*> selectedList = SensorList->selectedItems();
+	if (!selectedList.isEmpty()){
+		QTreeWidgetItem* itemPtr = selectedList.at(0);
+
+		QVariant userData = itemPtr->data(0, SensorItemDelegate::ItemData);
+
+		acf::PolymorphicInterface* polyPtr = reinterpret_cast<acf::PolymorphicInterface*>(userData.toInt());
+
+		selectedSensorPtr = dynamic_cast<inemo::INemoSensor*>(polyPtr);
+	}
+
+	for (int listenerIndex = 0; listenerIndex < m_selectionListenersIfPtr.dependencyCount(); listenerIndex++){
+		if (m_selectionListenersIfPtr.isValid(listenerIndex)){
+			m_selectionListenersIfPtr.interfacePtr(listenerIndex)->OnSensorSelected(selectedSensorPtr);
+		}
+	}
+}
 
 
 } // namespace iqtnemo

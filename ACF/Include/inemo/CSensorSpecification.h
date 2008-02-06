@@ -1,5 +1,5 @@
-#ifndef CSensorSpecification_included
-#define CSensorSpecification_included
+#ifndef inemo_CSensorSpecification_included
+#define inemo_CSensorSpecification_included
 
 
 #include "Model/Model.h"
@@ -26,4 +26,4 @@ public:
 } // namespace inemo
 
 
-#endif // !CSensorSpecification_included
+#endif // !inemo_CSensorSpecification_included

@@ -51,7 +51,7 @@ private:
 };
 
 
-template <class Service>
+template <typename Service>
 typename Service* GetService()
 {
 	return static_cast<Service*>(CStaticServicesProvider::GetService(typeid(Service)));

@@ -33,7 +33,7 @@ bool CNemoSystemOverviewGuiComp::onAttached(acf::ModelInterface* modelPtr)
 {
 	if (BaseClass::onAttached(modelPtr)){
 		if (m_sensorsObserverIfPtr.isValid()){
-			inemo::INemoSensors* sensorsModelPtr = m_objectPtr->GetNemoSensorsModel();
+			acf::ModelInterface* sensorsModelPtr = dynamic_cast<acf::ModelInterface*>(m_objectPtr->GetNemoSensorsModel());
 			if (sensorsModelPtr != NULL){
 				sensorsModelPtr->attachObserver(m_sensorsObserverIfPtr.getInterface());
 			}

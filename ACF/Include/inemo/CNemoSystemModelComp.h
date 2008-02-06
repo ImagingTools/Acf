@@ -1,5 +1,5 @@
-#ifndef CNemoSystemModelComp_h_included
-#define CNemoSystemModelComp_h_included
+#ifndef inemo_CNemoSystemModelComp_included
+#define inemo_CNemoSystemModelComp_included
 
 
 #include "inemo/inemo.h"
@@ -12,19 +12,12 @@
 #include "Comp/ComponentDependency.h"
 #include "Comp/Attribute.h"
 
-#include "Base/FactorisableContainerTemplate.h"
-#include "Base/ObjectFactoryInterface.h"
-#include "Base/FactoryTemplate.h"
-
 #include "inemo/INemoSystemModel.h"
 #include "inemo/INemoSensor.h"
 
 
 namespace inemo
 {
-
-
-class INemoDatabaseAccessor;
 
 
 /**
@@ -54,4 +47,4 @@ private:
 } // namespace inemo
 
 
-#endif // !CNemoSystemModelComp_h_included
+#endif // !inemo_CNemoSystemModelComp_included

@@ -19,7 +19,7 @@ class INemoSensor;
 /**
 	\ingroup inemo
 */
-class INemoSensors: virtual public acf::ModelInterface
+class INemoSensors: virtual public acf::PolymorphicInterface
 {
 public:
 	/**

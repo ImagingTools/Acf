@@ -28,7 +28,10 @@ bool CNemoSystemModelComp::onInitialize(acf::ComponentManagerInterface* managerP
 {
 	if (BaseClass::onInitialize(managerPtr)){
 		if (m_sensorsModelIfPtr.isValid()){
-			addChildModel(m_sensorsModelIfPtr.getInterface());
+			acf::ModelInterface* modelPtr = dynamic_cast<acf::ModelInterface*>(m_sensorsModelIfPtr.getInterface());
+			if (modelPtr != NULL){
+				addChildModel(modelPtr);
+			}
 		}
 
 		return true;
