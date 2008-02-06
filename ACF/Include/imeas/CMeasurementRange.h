@@ -1,5 +1,5 @@
-#ifndef CMeasurementRange_h_included
-#define CMeasurementRange_h_included
+#ifndef CMeasurementRange_included
+#define CMeasurementRange_included
 
 
 #include "imeas/imeas.h"
@@ -27,4 +27,4 @@ public:
 } // namespace imeas
 
 
-#endif // !CMeasurementRange_h_included
+#endif // !CMeasurementRange_included

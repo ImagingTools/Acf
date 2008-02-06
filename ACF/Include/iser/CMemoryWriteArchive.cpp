@@ -1,4 +1,4 @@
-#include "memorywritearchive.h"
+#include "iser/CMemoryWriteArchive.h"
 #include "istd/CString.h"
 
 
@@ -12,12 +12,6 @@ CMemoryWriteArchive::CMemoryWriteArchive(): CBinaryWriteArchiveBase()
 }
 
 
-CMemoryWriteArchive::~CMemoryWriteArchive()
-{
-	Flush();
-}
-
-
 bool CMemoryWriteArchive::ProcessData(void* data, int size)
 {
 	if (data == NULL || size <= 0){
@@ -27,12 +21,6 @@ bool CMemoryWriteArchive::ProcessData(void* data, int size)
 	m_memory.insert(m_memory.end(), (char*)data, (char*)data + size);
 
 	return true;
-}
-
-
-void CMemoryWriteArchive::Flush()
-{
-
 }
 
 

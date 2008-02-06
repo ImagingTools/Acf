@@ -32,8 +32,8 @@ void OnSoftwareError(const char* fileName, int line)
 	if (tracePtr != NULL){
 		static const char* groupId = "assert";
 
-		if (tracePtr->IsTraceEnabled(TL_CRITICAL, groupId)){
-			tracePtr->LogMessage(TL_CRITICAL, groupId, "assertion error", fileName, line);
+		if (tracePtr->IsTraceEnabled(CriticalLevel, groupId)){
+			tracePtr->LogMessage(CriticalLevel, groupId, "assertion error", fileName, line);
 
 			assert(false);
 		}

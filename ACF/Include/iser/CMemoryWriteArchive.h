@@ -1,9 +1,10 @@
-#ifndef iser_CMemoryWriteArchive_h_included
-#define iser_CMemoryWriteArchive_h_included
+#ifndef iser_CMemoryWriteArchive_included
+#define iser_CMemoryWriteArchive_included
 
 
-#include "binarywritearchive.h"
-#include <fstream>
+#include <vector>
+
+#include "iser/CBinaryWriteArchiveBase.h"
 
 
 namespace iser
@@ -19,17 +20,14 @@ public:
 	// reimplemented (iser::IArchive)
 	virtual bool ProcessData(void* data, int size);
 	
-	// reimplemented (CBinaryWriteArchiveBase)
-	virtual void Flush();
-
 protected:
-	std::vector<unsigned char> m_memory;
+	::std::vector<unsigned char> m_memory;
 };
 
 
 } // namespace iser
 
 
-#endif // iser_CMemoryWriteArchive_h_included
+#endif // iser_CMemoryWriteArchive_included
 
 

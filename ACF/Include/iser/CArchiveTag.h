@@ -4,38 +4,35 @@
 
 #include <string>
 
-#include "iser/iser.h"
+#include "iser/IVersionInfo.h"
 
 
 namespace iser
 {
 
 
+class IArchive;
+
+
 /**
-	Achive tag used to group data in archive stream.
+	Archive tag used to group data in archive stream.
 */
 class CArchiveTag
 {
 public:
 	CArchiveTag(	const ::std::string& id,
-					const ::std::string& comment,
-					int versioningType = IArchive::VT_USER_APPLICATION,
-					I_DWORD fromVersion = 0,
-					I_DWORD toVersion = 0xffffffff);
-
-	/**
-		Check if this tag is active for specified archive.
-	*/
-	bool AcceptArchive(const IArchive& archive) const;
+					const ::std::string& comment);
 
 	/**
 		Get ID of this tag.
 	*/
 	const ::std::string& GetId() const;
+
 	/**
 		Get automatic generated binary ID.
 	*/
 	I_DWORD GetBinaryId() const;
+
 	/**
 		Get comment of this tag.
 		Comments are human readable and are used for diagnostic.
@@ -47,11 +44,6 @@ private:
 	I_DWORD m_binaryId;
 
 	::std::string m_comment;
-
-	int m_versioningType;
-
-	I_DWORD m_fromVersion;
-	I_DWORD m_toVersion;
 };
 
 

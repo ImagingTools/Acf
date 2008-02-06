@@ -1,5 +1,5 @@
-#ifndef isys_h_included
-#define isys_h_included
+#ifndef isys_included
+#define isys_included
 
 
 /**
@@ -22,4 +22,4 @@ namespace isys
 } // namespace isys
 
 
-#endif // !isys_h_included
+#endif // !isys_included

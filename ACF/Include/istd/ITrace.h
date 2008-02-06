@@ -1,5 +1,5 @@
-#ifndef istd_ITrace_h_included
-#define istd_ITrace_h_included
+#ifndef istd_ITrace_included
+#define istd_ITrace_included
 
 
 #include <string>
@@ -48,6 +48,6 @@ public:
 } // namespace istd
 
 
-#endif // !istd_ITrace_h_included
+#endif // !istd_ITrace_included
 
 

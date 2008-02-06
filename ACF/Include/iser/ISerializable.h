@@ -1,5 +1,5 @@
-#ifndef iser_ISerializable_h_included
-#define iser_ISerializable_h_included
+#ifndef iser_ISerializable_included
+#define iser_ISerializable_included
 
 
 #include "istd/IPolymorphic.h"
@@ -32,7 +32,7 @@ public:
 
 
 
-#endif // iser_ISerializable_h_included
+#endif // iser_ISerializable_included
 
 
 

@@ -1,24 +1,76 @@
+#include "iser/CFileReadArchive.h"
+
+
 #include <assert.h>
 
-#include "ser/filereadarchive.h"
 #include "istd/CString.h"
+
+#include "iser/CArchiveTag.h"
 
 
 namespace iser
 {
 
 
-CFileReadArchive::CFileReadArchive(const CString& fileName): CBinaryReadArchiveBase()
+CFileReadArchive::CFileReadArchive(const istd::CString& fileName, bool supportTagSkipping, bool serializeHeader)
+:	BaseClass(false), m_supportTagSkipping(supportTagSkipping)
 {
-	m_stream.open(fileName.ascii().c_str(), std::fstream::in | std::fstream::binary);
+	m_stream.open(fileName.ToString().c_str(), std::fstream::in | std::fstream::binary);
 
-	CBinaryArchiveBase::Process(m_version);
+	if (serializeHeader){
+		SerializeHeader();
+	}
 }
 
 
-CFileReadArchive::~CFileReadArchive()
+bool CFileReadArchive::IsTagSkippingSupported() const
 {
-	m_stream.close();
+	return m_supportTagSkipping;
+}
+
+
+bool CFileReadArchive::BeginTag(const CArchiveTag& tag)
+{
+	bool retVal = BaseClass::BeginTag(tag);
+
+	if (m_supportTagSkipping){
+		if (!retVal){
+			return false;
+		}
+
+		m_tagStack.push_back(TagStackElement());
+		TagStackElement& element = m_tagStack.back();
+
+		element.tagBinaryId = tag.GetBinaryId();
+
+		retVal = retVal && Process(element.endPosition);
+	}
+
+	return retVal;
+}
+
+
+bool CFileReadArchive::EndTag(const CArchiveTag& tag)
+{
+	if (m_supportTagSkipping){
+		TagStackElement& element = m_tagStack.back();
+
+		bool retVal = (element.tagBinaryId == tag.GetBinaryId());
+
+		if (!retVal){
+			I_CRITICAL();	// BeginTag and EndTag have to use the same tag
+
+			return false;
+		}
+
+		m_stream.seekg(element.endPosition);
+
+		m_tagStack.pop_back();
+
+		return !m_stream.fail();
+	}
+
+	return true;
 }
 
 
@@ -32,14 +84,6 @@ bool CFileReadArchive::ProcessData(void* data, int size)
 }
 
 
-int CFileReadArchive::tagSize()
-{
-	int size = 0;
-	m_stream.read((char*)&size, sizeof(int));
-	
-	return m_stream.fail()? 0 : size;
-}
-
-
 } // namespace iser
+
 

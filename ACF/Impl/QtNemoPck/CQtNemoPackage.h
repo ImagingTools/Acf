@@ -1,5 +1,5 @@
-#ifndef CQtNemoPackage_h_included
-#define CQtNemoPackage_h_included
+#ifndef CQtNemoPackage_included
+#define CQtNemoPackage_included
 
 
 #include "Comp/ComponentLibrary.h"
@@ -12,5 +12,5 @@ public:
 };
 
 
-#endif // !CQtNemoPackage_h_included
+#endif // !CQtNemoPackage_included
 

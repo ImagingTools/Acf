@@ -1,5 +1,5 @@
-#ifndef iwin_CWinTimer_h_included
-#define iwin_CWinTimer_h_included
+#ifndef iwin_CWinTimer_included
+#define iwin_CWinTimer_included
 
 
 #include "iwin/iwin.h"
@@ -38,4 +38,4 @@ protected:
 } // namespace iwin
 
 
-#endif // !iwin_CWinTimer_h_included
+#endif // !iwin_CWinTimer_included

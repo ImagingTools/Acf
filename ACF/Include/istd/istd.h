@@ -1,5 +1,5 @@
-#ifndef istd_h_included
-#define istd_h_included
+#ifndef istd_included
+#define istd_included
 
 
 /**
@@ -21,10 +21,10 @@ public:
 
 enum TraceLevel
 {
-	TL_INFO,
-	TL_WARNING,
-	TL_ERROR,
-	TL_CRITICAL
+	InfoLevel,
+	WarningLevel,
+	ErrorLevel,
+	CriticalLevel
 };
 
 
@@ -42,7 +42,8 @@ typedef unsigned short I_WORD;
 typedef signed short I_SWORD;
 typedef unsigned int I_DWORD;
 typedef signed int I_SDWORD;
-typedef long long I_QWORD;
+typedef unsigned long long I_QWORD;
+typedef signed long long I_SQWORD;
 
 
 #ifdef _DEBUG
@@ -50,14 +51,14 @@ typedef long long I_QWORD;
 
 #define I_IF_DEBUG(instructions) instructions
 #define I_ASSERT(condition) if (!(condition)){::istd::OnSoftwareError(__FILE__, __LINE__);}
-#define I_ERROR() istd::OnSoftwareError(__FILE__, __LINE__)
+#define I_CRITICAL() istd::OnSoftwareError(__FILE__, __LINE__)
 
 
 #else //_DEBUG
 
 
 #define I_ASSERT(test)
-#define I_ERROR()
+#define I_CRITICAL()
 #define I_IF_DEBUG(instructions)
 
 
@@ -68,10 +69,10 @@ typedef long long I_QWORD;
 
 
 #define I_TRACE(level, groupId, message) if (CheckTraceEnabled(level, groupId)){static CGroupRegistrator registrator(groupId); SendTraceMessage(level, groupId, message, __FILE__, __LINE__);}
-#define I_TRACE_INFO(groupId, message) I_TRACE(istd::TL_INFO, groupId, message)
-#define I_TRACE_WARNING(groupId, message) I_TRACE(istd::TL_WARNING, groupId, message)
-#define I_TRACE_ERROR(groupId, message) I_TRACE(istd::TL_ERROR, groupId, message)
-#define I_TRACE_CRITICAL(groupId, message) I_TRACE(istd::TL_CRITICAL, groupId, message)
+#define I_TRACE_INFO(groupId, message) I_TRACE(istd::InfoLevel, groupId, message)
+#define I_TRACE_WARNING(groupId, message) I_TRACE(istd::WarningLevel, groupId, message)
+#define I_TRACE_ERROR(groupId, message) I_TRACE(istd::ErrorLevel, groupId, message)
+#define I_TRACE_CRITICAL(groupId, message) I_TRACE(istd::CriticalLevel, groupId, message)
 
 
 #else //defined(_DEBUG) || defined(I_FORCE_TRACE)
@@ -86,5 +87,5 @@ typedef long long I_QWORD;
 #endif //defined(_DEBUG) || defined(I_FORCE_TRACE)
 
 
-#endif // !istd_h_included
+#endif // !istd_included
 

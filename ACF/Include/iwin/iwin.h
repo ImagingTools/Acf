@@ -1,5 +1,5 @@
-#ifndef iwin_h_included
-#define iwin_h_included
+#ifndef iwin_included
+#define iwin_included
 
 
 /**
@@ -22,4 +22,4 @@ namespace iwin
 } // namespace iwin
 
 
-#endif // !iwin_h_included
+#endif // !iwin_included

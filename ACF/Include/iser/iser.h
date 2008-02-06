@@ -1,5 +1,5 @@
-#ifndef iser_h_included
-#define iser_h_included
+#ifndef iser_included
+#define iser_included
 
 
 /**
@@ -24,5 +24,5 @@ namespace iser
 } // namespace iser
 
 
-#endif // !iser_h_included
+#endif // !iser_included
 

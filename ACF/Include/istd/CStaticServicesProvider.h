@@ -1,5 +1,5 @@
-#ifndef istd_CStaticServicesProvider_h_included
-#define istd_CStaticServicesProvider_h_included
+#ifndef istd_CStaticServicesProvider_included
+#define istd_CStaticServicesProvider_included
 
 
 #include <map>
@@ -61,6 +61,6 @@ typename Service* GetService()
 } // namespace istd
 
 
-#endif // !istd_CStaticServicesProvider_h_included
+#endif // !istd_CStaticServicesProvider_included
 
 

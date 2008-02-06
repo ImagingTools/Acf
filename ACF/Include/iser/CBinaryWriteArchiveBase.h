@@ -1,31 +1,46 @@
-#ifndef iser_CBinaryWriteArchiveBase_h_included
-#define iser_CBinaryWriteArchiveBase_h_included
+#ifndef iser_CBinaryWriteArchiveBase_included
+#define iser_CBinaryWriteArchiveBase_included
 
 
-#include "iser/CBinaryArchiveBase.h"
+#include "iser/CWriteArchiveBase.h"
 
 
 namespace iser
 {
 
 
-class CBinaryWriteArchiveBase: public CBinaryArchiveBase
+class CBinaryWriteArchiveBase: public CWriteArchiveBase
 {
 public:
-	CBinaryWriteArchiveBase();
+	typedef CWriteArchiveBase BaseClass;
+
 	~CBinaryWriteArchiveBase();
 
 	// reimplemented (iser::IArchive)
-	virtual bool Process(CString& value);
+	virtual bool BeginTag(const CArchiveTag& tag);
+	virtual bool EndTag(const CArchiveTag& tag);
+	virtual bool Process(bool& value);
+	virtual bool Process(char& value);
+	virtual bool Process(I_BYTE& value);
+	virtual bool Process(I_SBYTE& value);
+	virtual bool Process(I_WORD& value);
+	virtual bool Process(I_SWORD& value);
+	virtual bool Process(I_DWORD& value);
+	virtual bool Process(I_SDWORD& value);
+	virtual bool Process(I_QWORD& value);
+	virtual bool Process(I_SQWORD& value);
+	virtual bool Process(float& value);
+	virtual bool Process(double& value);
 	virtual bool Process(std::string& value);
-	virtual bool BeginTag(const CArchiveTag& tag, bool* skipFlagPtr = NULL);
-	virtual bool EndTag();
-	virtual bool IsStoring() const;
+	virtual bool Process(istd::CString& value);
+
+protected:
+	CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr, bool serializeHeader);
 };
 
 
 } // namespace iser
 
 
-#endif // iser_CBinaryWriteArchiveBase_h_included
+#endif // iser_CBinaryWriteArchiveBase_included
 

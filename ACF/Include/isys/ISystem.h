@@ -1,5 +1,5 @@
-#ifndef isys_ISystem_h_included
-#define isys_ISystem_h_included
+#ifndef isys_ISystem_included
+#define isys_ISystem_included
 
 
 #include "isys/isys.h"
@@ -35,4 +35,4 @@ public:
 } // namespace isys
 
 
-#endif // !isys_ISystem_h_included
+#endif // !isys_ISystem_included

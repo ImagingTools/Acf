@@ -1,69 +1,135 @@
-#include "binarywritearchive.h"
+#include "iser/CBinaryWriteArchiveBase.h"
+
+
 #include "istd/CString.h"
+
+#include "iser/CArchiveTag.h"
 
 
 namespace iser
 {
 
 
-CBinaryWriteArchiveBase::CBinaryWriteArchiveBase()
+// reimplemented (iser::IArchive)
+
+bool CBinaryWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 {
-	m_version = 0xffffffff;
+	I_DWORD binaryId = tag.GetBinaryId();
+
+	return Process(binaryId);
 }
 
 
-CBinaryWriteArchiveBase::~CBinaryWriteArchiveBase()
+bool CBinaryWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 {
+	return true;
 }
 
 
-bool CBinaryWriteArchiveBase::Process(CString& value)
+bool CBinaryWriteArchiveBase::Process(bool& value)
 {
-	int size = value.size() * sizeof(wchar_t);
-	ProcessData(&size, sizeof(int));
+	return ProcessData(&value, sizeof(bool));
+}
 
-	return ProcessData((void*)value.c_str(), size);	
+
+bool CBinaryWriteArchiveBase::Process(char& value)
+{
+	return ProcessData(&value, sizeof(char));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_BYTE& value)
+{
+	return ProcessData(&value, sizeof(I_BYTE));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_SBYTE& value)
+{
+	return ProcessData(&value, sizeof(I_SBYTE));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_WORD& value)
+{
+	return ProcessData(&value, sizeof(I_WORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_SWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SWORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_DWORD& value)
+{
+	return ProcessData(&value, sizeof(I_DWORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_SDWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SDWORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_QWORD& value)
+{
+	return ProcessData(&value, sizeof(I_QWORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(I_SQWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SQWORD));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(float& value)
+{
+	return ProcessData(&value, sizeof(float));
+}
+
+
+bool CBinaryWriteArchiveBase::Process(double& value)
+{
+	return ProcessData(&value, sizeof(double));
 }
 
 
 bool CBinaryWriteArchiveBase::Process(std::string& value)
 {			
 	int size = value.size() * sizeof(char);
-	ProcessData(&size, sizeof(int));
 
-	return ProcessData((void*)value.c_str(), size);
+	bool retVal = Process(size);
+
+	retVal = retVal && ProcessData((void*)value.c_str(), size);
+
+	return retVal;
 }
 
 
-bool CBinaryWriteArchiveBase::BeginTag(const std::string& tag)
+bool CBinaryWriteArchiveBase::Process(istd::CString& value)
 {
-	bool result = Process(const_cast<std::string&>(tag));
-	if (result){
-		m_tags.push_back(tag);
-	}
+	int size = value.size() * sizeof(wchar_t);
 
-	return result;
+	bool retVal = Process(size);
+
+	retVal = retVal && ProcessData((void*)value.c_str(), size);	
+
+	return retVal;
 }
 
 
-bool CBinaryWriteArchiveBase::EndTag()
+// protected methods
+
+CBinaryWriteArchiveBase::CBinaryWriteArchiveBase(const IVersionInfo* versionInfoPtr, bool serializeHeader)
+:	BaseClass(versionInfoPtr, serializeHeader)
 {
-	if (m_tags.size() == 0){
-		return false;
-	}
-
-	bool result = Process(m_tags.back());
-	m_tags.pop_back();
-
-	return result;
-}
-
-
-bool CBinaryWriteArchiveBase::IsStoring() const
-{
-	return true;
 }
 
 
 } // namespace iser
+
 

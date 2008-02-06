@@ -1,5 +1,5 @@
-#ifndef CNemoSensor_h_included
-#define CNemoSensor_h_included
+#ifndef CNemoSensor_included
+#define CNemoSensor_included
 
 
 #include "inemo/inemo.h"
@@ -58,4 +58,4 @@ protected:
 } // namespace inemo
 
 
-#endif // !CNemoSensor_h_included
+#endif // !CNemoSensor_included

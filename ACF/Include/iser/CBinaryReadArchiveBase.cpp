@@ -1,45 +1,101 @@
+#include "iser/CBinaryReadArchiveBase.h"
+
+
 #include <assert.h>
-#include "binaryreadarchive.h"
+
 #include "istd/CString.h"
+
+#include "iser/CArchiveTag.h"
 
 
 namespace iser
 {
 
 
-CBinaryReadArchiveBase::CBinaryReadArchiveBase()
+bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag)
 {
-	m_version = 0;
+	I_DWORD readId;
+	bool retVal = Process(readId);
+
+	return retVal && (readId != tag.GetBinaryId());
 }
 
 
-CBinaryReadArchiveBase::~CBinaryReadArchiveBase()
+bool CBinaryReadArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 {
-
+	return true;
 }
 
 
-bool CBinaryReadArchiveBase::Process(CString& value)
+bool CBinaryReadArchiveBase::Process(bool& value)
 {
-	int stringLength;
+	return ProcessData(&value, sizeof(bool));
+}
 
-	bool retVal = Process(stringLength);
 
-	if (retVal && (stringLength > 0)){
-		if (stringLength > MAX_STRING_LENGTH){
-			return false;
-		}
+bool CBinaryReadArchiveBase::Process(char& value)
+{
+	return ProcessData(&value, sizeof(char));
+}
 
-		::std::vector<wchar_t> buffer(stringLength + 1, 0);
 
-		retVal = ProcessData(&buffer[0], stringLength * sizeof(wchar_t));	
+bool CBinaryReadArchiveBase::Process(I_BYTE& value)
+{
+	return ProcessData(&value, sizeof(I_BYTE));
+}
 
-		if (retVal){
-			value = CString(&buffer[0]);
-		}
-	}
 
-	return retVal;
+bool CBinaryReadArchiveBase::Process(I_SBYTE& value)
+{
+	return ProcessData(&value, sizeof(I_SBYTE));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_WORD& value)
+{
+	return ProcessData(&value, sizeof(I_WORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_SWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SWORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_DWORD& value)
+{
+	return ProcessData(&value, sizeof(I_DWORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_SDWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SDWORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_QWORD& value)
+{
+	return ProcessData(&value, sizeof(I_QWORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(I_SQWORD& value)
+{
+	return ProcessData(&value, sizeof(I_SQWORD));
+}
+
+
+bool CBinaryReadArchiveBase::Process(float& value)
+{
+	return ProcessData(&value, sizeof(float));
+}
+
+
+bool CBinaryReadArchiveBase::Process(double& value)
+{
+	return ProcessData(&value, sizeof(double));
 }
 
 
@@ -50,7 +106,7 @@ bool CBinaryReadArchiveBase::Process(std::string& value)
 	bool retVal = Process(stringLength);
 
 	if (retVal && (stringLength > 0)){
-		if (stringLength > MAX_STRING_LENGTH){
+		if (stringLength > MaxStringLength){
 			return false;
 		}
 
@@ -67,46 +123,35 @@ bool CBinaryReadArchiveBase::Process(std::string& value)
 }
 
 
-bool CBinaryReadArchiveBase::IsStoring() const
+bool CBinaryReadArchiveBase::Process(istd::CString& value)
 {
-	return false;
-}
+	int stringLength;
 
+	bool retVal = Process(stringLength);
 
-bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag, bool* skipFlagPtr)
-{
-	std::string readTag;
-	if (Process(readTag)){
-		if (tag == readTag){
-			m_tags.push_back(tag);
+	if (retVal && (stringLength > 0)){
+		if (stringLength > MaxStringLength){
+			return false;
+		}
 
-			return true;
+		::std::vector<wchar_t> buffer(stringLength + 1, 0);
+
+		retVal = ProcessData(&buffer[0], stringLength * sizeof(wchar_t));	
+
+		if (retVal){
+			value = istd::CString(&buffer[0]);
 		}
 	}
 
-	return false;
+	return retVal;
 }
 
 
-bool CBinaryReadArchiveBase::EndTag()
+// protected methods
+
+CBinaryReadArchiveBase::CBinaryReadArchiveBase(bool serializeHeader)
+:	BaseClass(serializeHeader)
 {
-	assert(m_tags.size() != 0);
-	if (m_tags.size() == 0){
-
-		return false;
-	}
-
-	std::string readTag;
-	if (Process(readTag)){
-		std::string tag = m_tags.back();
-		if (tag == readTag){
-			m_tags.pop_back();
-
-			return true;
-		}
-	}
-
-	return false;
 }
 
 

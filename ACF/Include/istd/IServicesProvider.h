@@ -1,5 +1,5 @@
-#ifndef istd_IServicesProvider_h_included
-#define istd_IServicesProvider_h_included
+#ifndef istd_IServicesProvider_included
+#define istd_IServicesProvider_included
 
 
 #include "istd/IPolymorphic.h"
@@ -26,6 +26,6 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IServicesProvider_h_included
+#endif // !istd_IServicesProvider_included
 
 

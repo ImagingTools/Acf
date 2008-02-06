@@ -1,5 +1,5 @@
-#ifndef istd_IPolymorphic_h_included
-#define istd_IPolymorphic_h_included
+#ifndef istd_IPolymorphic_included
+#define istd_IPolymorphic_included
 
 
 #include "istd/istd.h"
@@ -27,5 +27,5 @@ public:
 } // namespace istd
 
 
-#endif // !istd_IPolymorphic_h_included
+#endif // !istd_IPolymorphic_included
 

@@ -1,5 +1,5 @@
-#ifndef iqtnemo_h_included
-#define iqtnemo_h_included
+#ifndef iqtnemo_included
+#define iqtnemo_included
 
 /**
 \defgroup iqtnemo
@@ -18,5 +18,4 @@ namespace iqtnemo
 
 }
 
-
-#endif // !iqtnemo_h_included
+#endif // !iqtnemo_included

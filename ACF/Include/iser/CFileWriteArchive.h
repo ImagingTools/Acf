@@ -1,9 +1,12 @@
-#ifndef iser_CFileWriteArchive_h_included
-#define iser_CFileWriteArchive_h_included
+#ifndef iser_CFileWriteArchive_included
+#define iser_CFileWriteArchive_included
 
 
-#include "binarywritearchive.h"
 #include <fstream>
+
+#include "istd/CStaticServicesProvider.h"
+
+#include "iser/CBinaryWriteArchiveBase.h"
 
 
 namespace iser
@@ -13,22 +16,54 @@ namespace iser
 class CFileWriteArchive: public CBinaryWriteArchiveBase
 {
 public:
-	CFileWriteArchive(const CString& fileName);
-	~CFileWriteArchive();
+	typedef CBinaryWriteArchiveBase BaseClass;
+
+	/**
+		Contructor.
+		\param	fileName			name of file.
+		\param	supportTagSkipping	if it is true skipping of tags on EndTag is supported.
+									Please note that supporting of tag skipping store additional data in file
+									and it is not compatible with files created without tag skipping.
+									\sa	EndTag and IsTagSkippingSupported.
+		\param	serializeHeader		if it is true (default) archive header will be serialized.
+	*/
+	CFileWriteArchive(
+					const istd::CString& fileName,
+					bool supportTagSkipping = true,
+					const IVersionInfo* versionInfoPtr = istd::GetService<IVersionInfo>(),
+					bool serializeHeader = true);
+
+	/**
+		Force internal stream object to flush.
+	*/
+	void Flush();
 
 	// reimplemented (iser::IArchive)
+	virtual bool IsTagSkippingSupported() const;
+	virtual bool BeginTag(const CArchiveTag& tag);
+	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool ProcessData(void* data, int size);
-	
-	// reimplemented (CBinaryWriteArchiveBase)
-	virtual void Flush();
 
 protected:
+	struct TagStackElement
+	{
+		I_DWORD tagBinaryId;
+		I_DWORD endFieldPosition;
+	};
+	
+private:
 	std::ofstream m_stream;
+
+	bool m_supportTagSkipping;
+
+	typedef ::std::vector<TagStackElement> TagStack;
+
+	TagStack m_tagStack;
 };
 
 
 } // namespace iser
 
 
-#endif // iser_CFileWriteArchive_h_included
+#endif // iser_CFileWriteArchive_included
 

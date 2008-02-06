@@ -1,40 +1,48 @@
-#ifndef iser_CBinaryReadArchiveBase_h_included
-#define iser_CBinaryReadArchiveBase_h_included
+#ifndef iser_CBinaryReadArchiveBase_included
+#define iser_CBinaryReadArchiveBase_included
 
 
-#include "iser/CBinaryArchiveBase.h"
+#include "iser/CReadArchiveBase.h"
 
 
 namespace iser
 {
 
 
-class CBinaryReadArchiveBase: public CBinaryArchiveBase
+class CBinaryReadArchiveBase: public CReadArchiveBase
 {
 public:
-	CBinaryReadArchiveBase();
-	~CBinaryReadArchiveBase();
-
-	virtual int tagSize() = 0;
+	typedef CReadArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	virtual bool Process(CString& value);
+	virtual bool BeginTag(const CArchiveTag& tag);
+	virtual bool EndTag(const CArchiveTag& tag);
+	virtual bool Process(bool& value);
+	virtual bool Process(char& value);
+	virtual bool Process(I_BYTE& value);
+	virtual bool Process(I_SBYTE& value);
+	virtual bool Process(I_WORD& value);
+	virtual bool Process(I_SWORD& value);
+	virtual bool Process(I_DWORD& value);
+	virtual bool Process(I_SDWORD& value);
+	virtual bool Process(I_QWORD& value);
+	virtual bool Process(I_SQWORD& value);
+	virtual bool Process(float& value);
+	virtual bool Process(double& value);
 	virtual bool Process(std::string& value);
-	virtual bool IsStoring() const;
-	virtual bool BeginTag(const CArchiveTag& tag, bool* skipFlagPtr = NULL);
-	virtual bool EndTag();
+	virtual bool Process(istd::CString& value);
 
 protected:
 	enum{
-		MAX_STRING_LENGTH = 100000
+		MaxStringLength = 100000
 	};
 
-	struct TagStackElement
+	CBinaryReadArchiveBase(bool serializeHeader);
 };
 
 
 } // namespace iser
 
 
-#endif // iser_CBinaryReadArchiveBase_h_included
+#endif // iser_CBinaryReadArchiveBase_included
 

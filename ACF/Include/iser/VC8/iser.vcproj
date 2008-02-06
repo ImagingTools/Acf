@@ -169,11 +169,11 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="..\CArchiveTag.cpp"
+				RelativePath="..\CArchiveBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CBinaryArchiveBase.cpp"
+				RelativePath="..\CArchiveTag.cpp"
 				>
 			</File>
 			<File
@@ -196,17 +196,29 @@
 				RelativePath="..\CMemoryWriteArchive.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CReadArchiveBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CReaderVersionInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CWriteArchiveBase.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp"
 			>
 			<File
-				RelativePath="..\CArchiveTag.h"
+				RelativePath="..\CArchiveBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CBinaryArchiveBase.h"
+				RelativePath="..\CArchiveTag.h"
 				>
 			</File>
 			<File
@@ -230,6 +242,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CReadArchiveBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CReaderVersionInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CWriteArchiveBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IArchive.h"
 				>
 			</File>
@@ -243,6 +267,10 @@
 			</File>
 			<File
 				RelativePath="..\ISerializable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IVersionInfo.h"
 				>
 			</File>
 		</Filter>

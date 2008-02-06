@@ -1,4 +1,6 @@
-#include "ser/filewritearchive.h"
+#include "iser/CFileWriteArchive.h"
+
+
 #include "istd/CString.h"
 
 
@@ -6,18 +8,86 @@ namespace iser
 {
 
 
-CFileWriteArchive::CFileWriteArchive(const CString& fileName)
-	:CBinaryWriteArchiveBase()
+CFileWriteArchive::CFileWriteArchive(
+			const istd::CString& fileName,
+			bool supportTagSkipping,
+			const IVersionInfo* versionInfoPtr,
+			bool serializeHeader)
+:	BaseClass(false), m_supportTagSkipping(supportTagSkipping)
 {
 	m_stream.open(fileName.ascii().c_str(), std::fstream::out | std::fstream::binary);
-	CBinaryArchiveBase::Process(m_version);
+
+	if (serializeHeader){
+		SerializeHeader();
+	}
 }
 
 
-CFileWriteArchive::~CFileWriteArchive()
+void CFileWriteArchive::Flush()
 {
-	Flush();
-	m_stream.close();
+	m_stream.flush();
+}
+
+
+// reimplemented (iser::IArchive)
+
+bool CFileWriteArchive::IsTagSkippingSupported() const
+{
+	return true;
+}
+
+
+bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
+{
+	bool retVal = BaseClass::BeginTag(tag);
+
+	if (m_supportTagSkipping){
+		if (!retVal){
+			return false;
+		}
+
+		m_tagStack.push_back();
+		TagStackElement& element = m_tagStack.back();
+
+		element.tagBinaryId = tag.GetBinaryId();
+		element.endFieldPosition = m_stream.tellp();
+
+		std::ofstream::pos_type dummyPos = 0;
+		retVal = retVal && Process(dummyPos);
+	}
+
+	return retVal;
+}
+
+
+bool CFileWriteArchive::EndTag(const CArchiveTag& tag)
+{
+	if (m_supportTagSkipping){
+		TagStackElement& element = m_tagStack.back();
+
+		bool retVal = (element.tagBinaryId == tag.GetBinaryId());
+
+		if (!retVal){
+			I_CRITICAL();	// BeginTag and EndTag have to use the same tag
+
+			return false;
+		}
+
+		I_DWORD endPosition = m_stream.tellp();
+
+		m_stream.seekp(element.endFieldPosition);
+
+		retVal = retVal && Process(endPosition);
+
+		m_stream.seekp(endPosition);
+
+		m_tagStack.pop_back();
+
+		return retVal;
+	}
+	else{
+		return true;
+	}
 }
 
 
@@ -28,12 +98,6 @@ bool CFileWriteArchive::ProcessData(void* data, int size)
 	}
 
 	return !m_stream.fail();
-}
-
-
-void CFileWriteArchive::Flush()
-{
-	m_stream.flush();
 }
 
 

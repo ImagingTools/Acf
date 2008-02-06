@@ -1,5 +1,5 @@
-#ifndef istd_CString_h_included
-#define istd_CString_h_included
+#ifndef istd_CString_included
+#define istd_CString_included
 
 
 #include "istd/istd.h"
@@ -32,12 +32,12 @@ public:
 	CString(const CString& str);
 
 	/**
-	This function returns standard 8-bit string.
+		This function returns standard 8-bit string.
 	*/
 	const std::string& ToString() const;
 
 	/**
-	This function returns standard 8-bit string.
+		This function returns standard 8-bit string.
 	*/
 	bool IsEmpty() const;
 
@@ -82,4 +82,4 @@ typedef std::vector<CString> StringList;
 } // namespace istd
 
 
-#endif // !istd_CString_h_included
+#endif // !istd_CString_included

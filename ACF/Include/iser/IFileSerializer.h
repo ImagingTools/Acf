@@ -1,5 +1,5 @@
-#ifndef iser_IFileSerializer_h_included
-#define iser_IFileSerializer_h_included
+#ifndef iser_IFileSerializer_included
+#define iser_IFileSerializer_included
 
 
 #include "istd/IPolymorphic.h"
@@ -31,4 +31,4 @@ public:
 } // namespace iser
 
 
-#endif // iser_IFileSerializer_h_included
+#endif // iser_IFileSerializer_included

@@ -1,5 +1,5 @@
-#ifndef iqt_CTabContainerGuiComp_h_included
-#define iqt_CTabContainerGuiComp_h_included
+#ifndef iqt_CTabContainerGuiComp_included
+#define iqt_CTabContainerGuiComp_included
 
 
 #include "iqt.h"
@@ -44,5 +44,5 @@ protected:
 } // namespace iqt
 
 
-#endif // !iqt_CTabContainerGuiComp_h_included
+#endif // !iqt_CTabContainerGuiComp_included
 

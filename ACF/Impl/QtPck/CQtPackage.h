@@ -1,5 +1,5 @@
-#ifndef CQtPackage_h_included
-#define CQtPackage_h_included
+#ifndef CQtPackage_included
+#define CQtPackage_included
 
 
 #include "Comp/ComponentLibrary.h"
@@ -14,5 +14,5 @@ public:
 };
 
 
-#endif // !CQtPackage_h_included
+#endif // !CQtPackage_included
 

@@ -1,5 +1,5 @@
-#ifndef INemoSensor_h_included
-#define INemoSensor_h_included
+#ifndef INemoSensor_included
+#define INemoSensor_included
 
 
 #include "inemo/inemo.h"
@@ -78,4 +78,4 @@ public:
 } // namespace inemo
 
 
-#endif // !INemoSensor_h_included
+#endif // !INemoSensor_included

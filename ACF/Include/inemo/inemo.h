@@ -1,5 +1,5 @@
-#ifndef inemo_h_included
-#define inemo_h_included
+#ifndef inemo_included
+#define inemo_included
 
 
 /**
@@ -21,4 +21,4 @@ namespace inemo
 } // namespace inemo
 
 
-#endif // !inemo_h_included
+#endif // !inemo_included

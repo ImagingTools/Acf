@@ -1,5 +1,5 @@
-#ifndef imeas_h_included
-#define imeas_h_included
+#ifndef imeas_included
+#define imeas_included
 
 
 /**
@@ -23,4 +23,4 @@ namespace imeas
 } // namespace imeas
 
 
-#endif // !imeas_h_included
+#endif // !imeas_included

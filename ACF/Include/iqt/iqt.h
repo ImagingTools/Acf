@@ -1,5 +1,5 @@
-#ifndef iqt_h_included
-#define iqt_h_included
+#ifndef iqt_included
+#define iqt_included
 
 
 /**
@@ -23,4 +23,4 @@ namespace iqt
 } // namespace iqt
 
 
-#endif // !iqt_h_included
+#endif // !iqt_included

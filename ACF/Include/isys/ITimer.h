@@ -1,5 +1,5 @@
-#ifndef isys_ITimer_h_included
-#define isys_ITimer_h_included
+#ifndef isys_ITimer_included
+#define isys_ITimer_included
 
 
 #include "isys/isys.h"
@@ -39,5 +39,5 @@ public:
 } // namespace isys
 
 
-#endif // !isys_ITimer_h_included
+#endif // !isys_ITimer_included
 
