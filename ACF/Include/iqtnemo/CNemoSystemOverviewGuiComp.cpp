@@ -58,9 +58,9 @@ void CNemoSystemOverviewGuiComp::OnSensorSelected(inemo::INemoSensor* selectedSe
 			if (m_sensorObserversIfPtr.isValid(observerIndex)){
 				acf::ObserverInterface* observerPtr = m_sensorObserversIfPtr.interfacePtr(observerIndex);
 				if (observerPtr != NULL && !selectedModelPtr->isAttached(*observerPtr)){
-					selectedModelPtr->attachObserver(observerPtr);
-
-					selectedModelPtr->notifyUpdate();
+					if (selectedModelPtr->attachObserver(observerPtr)){
+						selectedModelPtr->notifyUpdate();
+					}
 				}
 			}
 		}
@@ -95,7 +95,7 @@ void CNemoSystemOverviewGuiComp::onDetached(acf::ModelInterface* modelPtr)
 }
 
 
-void CNemoSystemOverviewGuiComp::update(acf::ModelInterface* modelPtr)
+void CNemoSystemOverviewGuiComp::update(acf::ModelInterface* modelPtr, int updateFlags, acf::PolymorphicInterface* updateParamsPtr)
 {
 }
 

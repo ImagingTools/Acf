@@ -1,7 +1,11 @@
 #include "iqtnemo/CNemoSensorPlotGuiComp.h"
 
+#include <QPainter>
 
 #include "qwt_plot_grid.h"
+#include "qwt_scale_widget.h"
+#include "qwt_color_map.h"
+#include "qwt_plot_layout.h"
 
 #include "QtAcf/QtAcf.h"
 
@@ -12,6 +16,54 @@
 
 namespace iqtnemo
 {
+
+
+class Background: public QwtPlotItem
+{
+public:
+    Background()
+    {
+        setZ(0.0);
+    }
+
+    virtual int rtti() const
+    {
+        return QwtPlotItem::Rtti_PlotUserItem;
+    }
+
+    virtual void draw(QPainter *painter,
+        const QwtScaleMap &, const QwtScaleMap &yMap,
+        const QRect &rect) const
+    {
+        QColor c(Qt::red);
+        QRect r = rect;
+
+		c.setAlpha(70);
+		r.setBottom(yMap.transform(90));
+        r.setTop(yMap.transform(100));
+        painter->fillRect(r, c);
+
+        QColor c2(Qt::yellow);
+		c2.setAlpha(70);
+		r.setBottom(yMap.transform(70));
+        r.setTop(yMap.transform(90));
+        painter->fillRect(r, c2);
+
+		QColor c3(Qt::green);
+		c3.setAlpha(70);
+		r.setBottom(yMap.transform(70));
+        r.setTop(yMap.transform(30));
+        painter->fillRect(r, c3);
+
+		r.setBottom(yMap.transform(30));
+        r.setTop(yMap.transform(10));
+        painter->fillRect(r, c2);
+
+		r.setBottom(yMap.transform(10));
+        r.setTop(yMap.transform(0));
+        painter->fillRect(r, c);
+	}
+};
 
 
 CNemoSensorPlotGuiComp::CNemoSensorPlotGuiComp()
@@ -40,7 +92,7 @@ void CNemoSensorPlotGuiComp::onDetached(acf::ModelInterface* modelPtr)
 }
 
 
-void CNemoSensorPlotGuiComp::update(acf::ModelInterface* modelPtr)
+void CNemoSensorPlotGuiComp::update(acf::ModelInterface* modelPtr, int updateFlags, acf::PolymorphicInterface* updateParamsPtr)
 {
 	UpdateView();
 }
@@ -70,14 +122,34 @@ void CNemoSensorPlotGuiComp::initializeGui()
 		QLayout* layoutPtr = PlotFrame->layout();
 
 		QwtPlotGrid* gridPtr = new QwtPlotGrid();
-		
 		QPen gridPen(QBrush(Qt::lightGray), 0, Qt::DashLine);
 		gridPtr->setMajPen(gridPen);
 
 		m_plotPtr = new QwtPlot(PlotFrame);
 		m_plotPtr->setCanvasLineWidth(0);
-		m_plotPtr->setBackgroundColor(Qt::white);
+		m_plotPtr->setAxisScale(QwtPlot::yLeft, 0, 100);
+		m_plotPtr->plotLayout()->setAlignCanvasToScales(true);
+		Background* background = new Background();
+		background->attach(m_plotPtr);
 
+		QColor c(Qt::blue);
+		QColor c2(Qt::darkBlue);
+        c.setAlpha(50);
+        m_plotCurve.setPen(c2);
+//		m_plotCurve.setBrush(c);
+		m_plotCurve.setRenderHint(QwtPlotItem::RenderAntialiased);
+/*
+		QwtScaleWidget* scaleWidget = (QwtScaleWidget *)m_plotPtr->axisWidget(QwtPlot::yLeft);
+		scaleWidget->setMargin(128);
+
+		QwtLinearColorMap colorMap(Qt::darkGreen, Qt::red);
+		colorMap.addColorStop(0.2, Qt::yellow);
+		colorMap.addColorStop(0.3, Qt::green);
+		colorMap.addColorStop(0.7, Qt::green);
+		colorMap.addColorStop(0.8, Qt::yellow);
+		scaleWidget->setColorBarEnabled(true);
+		scaleWidget->setColorMap(QwtDoubleInterval(0, 1), colorMap);
+*/
 		m_plotCurve.attach(m_plotPtr);
 		gridPtr->attach(m_plotPtr);
 
@@ -87,6 +159,7 @@ void CNemoSensorPlotGuiComp::initializeGui()
 
 		layoutPtr->addWidget(m_plotPtr);
 	}
+
 }
 
 

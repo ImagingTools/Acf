@@ -38,7 +38,7 @@ public:
 	// reimplemented (acf::ObserverInterface)
 	virtual bool onAttached(acf::ModelInterface* modelPtr);
 	virtual void onDetached(acf::ModelInterface* modelPtr);
-	virtual void update(acf::ModelInterface* modelPtr);
+	virtual void update(acf::ModelInterface* modelPtr, int updateFlags = 0, acf::PolymorphicInterface* updateParamsPtr = NULL);
 
 	// reimplemented (acf::ModelEditorInterface)
 	virtual void updateEditor();

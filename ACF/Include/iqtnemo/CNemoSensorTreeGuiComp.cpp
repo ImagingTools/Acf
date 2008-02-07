@@ -80,7 +80,7 @@ void CNemoSensorTreeGuiComp::onDetached(acf::ModelInterface* modelPtr)
 }
 
 
-void CNemoSensorTreeGuiComp::update(acf::ModelInterface* modelPtr)
+void CNemoSensorTreeGuiComp::update(acf::ModelInterface* modelPtr, int updateFlags, acf::PolymorphicInterface* updateParamsPtr)
 {
 	ResetView();
 
