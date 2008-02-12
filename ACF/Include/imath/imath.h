@@ -18,7 +18,7 @@
 
 /**
 	Package with mathematical functions and algebraical primitives.
-	This package is system undependent.
+	This package is system independent.
 	This package use following ACF packages:
 	\li istd
 	\li iser

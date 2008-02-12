@@ -72,6 +72,7 @@ public:
 		Check if two values are equal after rounding up.
 	*/
 	bool IsRoundedUpEqual(const TComposedColor<Count>& color, int precision = 4) const;
+
 	/**
 		Allows to compare two colors with tolerance.
 	*/
@@ -82,20 +83,24 @@ public:
 		Normalized values have all components in the range [0, 1].
 	*/
 	bool IsNormalized() const;
+
 	/**
 		Make this color to be normalized CMYK.
 		Normalized values have all components in the range [0, 1].
 	*/
 	void Normalize();
+
 	/**
 		Get normalized color.
 		Normalized values have all components in the range [0, 1].
 	*/
 	void GetNormalized(TComposedColor<Count>& result) const;
+
 	/**
 		Get euclidian distance to other color.
 	*/
 	double GetDistance(const TComposedColor<Count>& color) const;
+
 	/**
 		Get square of euclidian distance to other color.
 	*/
