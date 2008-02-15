@@ -14,7 +14,6 @@ namespace iser
 class IArchive;
 
 
-
 /**
 	Common class for all classes which objects can be archived or restored from archive.
  */
