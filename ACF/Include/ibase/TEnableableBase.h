@@ -2,11 +2,10 @@
 #define ibase_TEnableableBase_included
 
 
-#include "ibase/ibase.h"
-
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+
+#include "ibase/ibase.h"
 
 
 namespace ibase
@@ -28,6 +27,9 @@ public:
 	virtual void SetEnabled(bool isEnabled = true);
 
 protected:
+	/**
+		Serialize state of enable flag.
+	*/
 	virtual bool SerializeState(ibase::IArchive& archive);
 
 protected:
@@ -35,13 +37,15 @@ protected:
 };
 
 
+// public methods
+
 TEnableableBase::Enableable()
 {
 	m_isEnabled = true;
 }
 
 
-// pdseudo-reimplemented (ibase::IEnableable)
+// pseudo-reimplemented (ibase::IEnableable)
 
 bool TEnableableBase::IsEnabled() const
 {
@@ -81,3 +85,5 @@ bool TEnableableBase::SerializeState(iser::IArchive& archive)
 
 
 #endif // ibase_TEnableableBase_included
+
+
