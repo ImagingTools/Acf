@@ -141,6 +141,9 @@
 				RelativePath="..\CMemoryWriteArchive.cpp">
 			</File>
 			<File
+				RelativePath="..\CMinimalVersionInfo.cpp">
+			</File>
+			<File
 				RelativePath="..\CReadArchiveBase.cpp">
 			</File>
 			<File
@@ -173,6 +176,9 @@
 			</File>
 			<File
 				RelativePath="..\CMemoryWriteArchive.h">
+			</File>
+			<File
+				RelativePath="..\CMinimalVersionInfo.h">
 			</File>
 			<File
 				RelativePath="..\CReadArchiveBase.h">
