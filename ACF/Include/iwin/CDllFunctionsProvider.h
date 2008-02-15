@@ -2,16 +2,18 @@
 #define iwin_CDllFunctionsProvider_included
 
 
-#include <string>
-
-#include "windows.h"
-
-#include "isys/IFunctionsProvider.h"
-
 #include "iwin/iwin.h"
 
 
-namespace iwin{
+#include <string>
+
+#include <windows.h>
+
+#include "isys/IFunctionsProvider.h"
+
+
+namespace iwin
+{
 
 
 /**
@@ -31,7 +33,7 @@ public:
 
 	void Reset();
 
-	// reimplemented (qpck::IDynamicLibrary)
+	// reimplemented (isys::IFunctionsProvider)
 	virtual bool IsValid() const;
 	virtual void* GetFunction(const ::std::string& id) const;
 

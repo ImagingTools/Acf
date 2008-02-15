@@ -1,7 +1,8 @@
 #include "iwin/CDllFunctionsProvider.h"
 
 
-namespace iwin{
+namespace iwin
+{
 
 
 CDllFunctionsProvider::CDllFunctionsProvider(const ::std::string& dllPath)
@@ -38,7 +39,7 @@ bool CDllFunctionsProvider::OpenDll(const ::std::string& dllPath)
 }
 
 
-// reimplemented (qpck::IDynamicLibrary)
+// reimplemented (isys::IFunctionsProvider)
 
 bool CDllFunctionsProvider::IsValid() const
 {
