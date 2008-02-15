@@ -2,6 +2,9 @@
 #define istd_IServicesProvider_included
 
 
+#include "istd/istd.h"
+
+
 #include "istd/IPolymorphic.h"
 
 

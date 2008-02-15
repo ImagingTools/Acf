@@ -147,6 +147,9 @@
 				RelativePath="..\CString.h">
 			</File>
 			<File
+				RelativePath="..\IEnableable.h">
+			</File>
+			<File
 				RelativePath="..\IFactory.h">
 			</File>
 			<File

@@ -2,6 +2,9 @@
 #define istd_INamed_included
 
 
+#include "istd/istd.h"
+
+
 #include "istd/CString.h"
 #include "istd/IPolymorphic.h"
 

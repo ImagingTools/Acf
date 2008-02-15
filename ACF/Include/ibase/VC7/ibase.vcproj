@@ -127,6 +127,9 @@
 				RelativePath="..\ibase.h">
 			</File>
 			<File
+				RelativePath="..\TEnableableBase.h">
+			</File>
+			<File
 				RelativePath="..\TNamedBase.h">
 			</File>
 		</Filter>

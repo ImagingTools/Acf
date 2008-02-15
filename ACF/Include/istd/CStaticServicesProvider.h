@@ -2,7 +2,11 @@
 #define istd_CStaticServicesProvider_included
 
 
+#include "istd/istd.h"
+
+
 #include <map>
+
 
 #include "istd/IServicesProvider.h"
 

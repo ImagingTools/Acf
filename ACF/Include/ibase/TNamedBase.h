@@ -1,11 +1,9 @@
-#ifndef istd_TNamedBase_included
-#define istd_TNamedBase_included
+#ifndef ibase_TNamedBase_included
+#define ibase_TNamedBase_included
 
 
 #include "ibase/ibase.h"
 
-
-#include "istd/INamed.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -39,16 +37,16 @@ protected:
 // peudeo-reimplemented (istd::INamed)
 
 template <class BaseClass>
-const istd::CString& TNamedBase<BaseClass>::name() const
+const istd::CString& TNamedBase<BaseClass>::GetName() const
 {
 	return m_name;
 }
 
 
 template <class BaseClass>
-void TNamedBase<BaseClass>::setName(const istd::CString& newName)
+void TNamedBase<BaseClass>::SetName(const istd::CString& name)
 {
-	m_name = newName;
+	m_name = name;
 }
 
 

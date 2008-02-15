@@ -2,6 +2,9 @@
 #define istd_ITrace_included
 
 
+#include "istd/istd.h"
+
+
 #include <string>
 
 #include "istd/IPolymorphic.h"
