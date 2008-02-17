@@ -37,24 +37,22 @@ bool CFileWriteArchive::IsTagSkippingSupported() const
 }
 
 
-bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
+bool CFileWriteArchive::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
 {
 	bool retVal = BaseClass::BeginTag(tag);
 
-	if (m_supportTagSkipping){
-		if (!retVal){
-			return false;
-		}
-
-		m_tagStack.push_back(TagStackElement());
-		TagStackElement& element = m_tagStack.back();
-
-		element.tagBinaryId = tag.GetBinaryId();
-		element.endFieldPosition = m_stream.tellp();
-
-		I_DWORD dummyPos = 0;
-		retVal = retVal && Process(dummyPos);
+	if (!retVal){
+		return false;
 	}
+
+	m_tagStack.push_back(TagStackElement());
+	TagStackElement& element = m_tagStack.back();
+
+	element.tagBinaryId = tag.GetBinaryId();
+	element.endFieldPosition = (useTagSkipping && m_supportTagSkipping)? m_stream.tellp(): 0;
+
+	I_DWORD dummyPos = 0;
+	retVal = retVal && Process(dummyPos);
 
 	return retVal;
 }
@@ -62,17 +60,17 @@ bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
 
 bool CFileWriteArchive::EndTag(const CArchiveTag& tag)
 {
-	if (m_supportTagSkipping){
-		TagStackElement& element = m_tagStack.back();
+	TagStackElement& element = m_tagStack.back();
 
-		bool retVal = (element.tagBinaryId == tag.GetBinaryId());
+	bool retVal = (element.tagBinaryId == tag.GetBinaryId());
 
-		if (!retVal){
-			I_CRITICAL();	// BeginTag and EndTag have to use the same tag
+	if (!retVal){
+		I_CRITICAL();	// BeginTag and EndTag have to use the same tag
 
-			return false;
-		}
+		return false;
+	}
 
+	if (element.endFieldPosition != 0){	// add position of the file tag end to the tag begin
 		I_DWORD endPosition = m_stream.tellp();
 
 		m_stream.seekp(element.endFieldPosition);
@@ -80,14 +78,11 @@ bool CFileWriteArchive::EndTag(const CArchiveTag& tag)
 		retVal = retVal && Process(endPosition);
 
 		m_stream.seekp(endPosition);
-
-		m_tagStack.pop_back();
-
-		return retVal;
 	}
-	else{
-		return true;
-	}
+
+	m_tagStack.pop_back();
+
+	return retVal && BaseClass::EndTag(tag);
 }
 
 

@@ -12,7 +12,7 @@ namespace iser
 
 // reimplemented (iser::IArchive)
 
-bool CBinaryWriteArchiveBase::BeginTag(const CArchiveTag& tag)
+bool CBinaryWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkipping*/)
 {
 	I_DWORD binaryId = tag.GetBinaryId();
 
@@ -20,9 +20,11 @@ bool CBinaryWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 }
 
 
-bool CBinaryWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
+bool CBinaryWriteArchiveBase::EndTag(const CArchiveTag& tag)
 {
-	return true;
+	I_DWORD binaryId = ~tag.GetBinaryId();
+
+	return Process(binaryId);
 }
 
 

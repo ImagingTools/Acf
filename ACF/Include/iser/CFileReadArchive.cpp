@@ -29,22 +29,21 @@ bool CFileReadArchive::IsTagSkippingSupported() const
 }
 
 
-bool CFileReadArchive::BeginTag(const CArchiveTag& tag)
+bool CFileReadArchive::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
 {
 	bool retVal = BaseClass::BeginTag(tag);
 
-	if (m_supportTagSkipping){
-		if (!retVal){
-			return false;
-		}
-
-		m_tagStack.push_back(TagStackElement());
-		TagStackElement& element = m_tagStack.back();
-
-		element.tagBinaryId = tag.GetBinaryId();
-
-		retVal = retVal && Process(element.endPosition);
+	if (!retVal){
+		return false;
 	}
+
+	m_tagStack.push_back(TagStackElement());
+	TagStackElement& element = m_tagStack.back();
+
+	element.tagBinaryId = tag.GetBinaryId();
+
+	retVal = retVal && Process(element.endPosition);
+	element.useTagSkipping = useTagSkipping && m_supportTagSkipping;
 
 	return retVal;
 }
@@ -52,25 +51,23 @@ bool CFileReadArchive::BeginTag(const CArchiveTag& tag)
 
 bool CFileReadArchive::EndTag(const CArchiveTag& tag)
 {
-	if (m_supportTagSkipping){
-		TagStackElement& element = m_tagStack.back();
+	TagStackElement& element = m_tagStack.back();
 
-		bool retVal = (element.tagBinaryId == tag.GetBinaryId());
+	bool retVal = (element.tagBinaryId == tag.GetBinaryId());
 
-		if (!retVal){
-			I_CRITICAL();	// BeginTag and EndTag have to use the same tag
+	if (!retVal){
+		I_CRITICAL();	// BeginTag and EndTag have to use the same tag
 
-			return false;
-		}
-
-		m_stream.seekg(element.endPosition);
-
-		m_tagStack.pop_back();
-
-		return !m_stream.fail();
+		return false;
 	}
 
-	return true;
+	if (element.useTagSkipping && (element.endPosition != 0)){
+		m_stream.seekg(element.endPosition);
+	}
+
+	m_tagStack.pop_back();
+
+	return BaseClass::EndTag(tag);
 }
 
 

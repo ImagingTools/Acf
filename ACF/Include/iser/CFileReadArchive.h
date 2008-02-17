@@ -29,7 +29,7 @@ public:
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginTag(const CArchiveTag& tag);
+	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false);
 	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool ProcessData(void* data, int size);
 	
@@ -38,6 +38,7 @@ protected:
 	{
 		I_DWORD tagBinaryId;
 		I_DWORD endPosition;
+		bool useTagSkipping;
 	};
 
 private:

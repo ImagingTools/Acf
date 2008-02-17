@@ -50,7 +50,7 @@ bool CXmlReadArchive::IsTagSkippingSupported() const
 }
 
 
-bool CXmlReadArchive::BeginTag(const iser::CArchiveTag& tag)
+bool CXmlReadArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
 {
 	QString tagId(tag.GetId().c_str());
 
@@ -70,7 +70,7 @@ bool CXmlReadArchive::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
+bool CXmlReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
 {
 	QString tagId(tag.GetId().c_str());
 

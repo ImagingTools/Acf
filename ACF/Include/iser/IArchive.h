@@ -45,20 +45,22 @@ public:
 	/**
 		Begin of archive tag.
 		\param	tag				tag object.
+		\param	useTagSkipping	flag signalling that support of tag skipping should be enabled.
 	*/
-	virtual bool BeginTag(const CArchiveTag& tag) = 0;
+	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false) = 0;
 
 	/**
 		Begin of archive tag containing set of subelements of the same type.
 		\sa BeginTag.
-		\param	tag			main tag.
-		\param	subTag		type of subelement tag.
-		\param	count		number of subelements.
-							If it is read archive this value will be set.
-							If it storing archive this is input value.
-		\return				true if success. In this case you have to call EndTag after serializing of subelements.
+		\param	tag				main tag.
+		\param	subTag			type of subelement tag.
+		\param	count			number of subelements.
+								If it is read archive this value will be set.
+								If it storing archive this is input value.
+		\param	useTagSkipping	flag signalling that support of tag skipping should be enabled.
+		\return					true if success. In this case you have to call EndTag after serializing of subelements.
 	*/
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count) = 0;
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false) = 0;
 
 	/**
 		End of archive tag.

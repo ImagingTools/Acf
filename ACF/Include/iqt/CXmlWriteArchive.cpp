@@ -70,7 +70,7 @@ bool CXmlWriteArchive::IsTagSkippingSupported() const
 }
 
 
-bool CXmlWriteArchive::BeginTag(const iser::CArchiveTag& tag)
+bool CXmlWriteArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
 {
 	QDomElement newElement = m_document.createElement(QString::fromStdString(tag.GetId()));
 
@@ -82,7 +82,7 @@ bool CXmlWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/)
+bool CXmlWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/, bool /*useTagSkipping*/)
 {
 	return BeginTag(tag);
 }

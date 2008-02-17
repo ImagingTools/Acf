@@ -15,7 +15,7 @@ class CArchiveBase: public IArchive
 public:
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false);
 
 protected:
 	// list of standard tags used to serialize header
