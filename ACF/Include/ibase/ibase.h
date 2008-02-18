@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup ibase
+\defgroup ibase ibase
 \ingroup ACF
 @{
 */
@@ -15,7 +15,7 @@
 
 /**
 	This namespace containes basic implementations of standard primitives
-	This package is system undependent.
+	This package is system independent.
 	This package use following ACF packages:
 	\li	istd
 	\li	iser

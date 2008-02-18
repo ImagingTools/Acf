@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup imath
+\defgroup imath imath
 \ingroup ACF
 @{
 */

@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup icmm
+\defgroup icmm icmm
 \ingroup ACF
 @{
 */

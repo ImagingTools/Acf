@@ -2,7 +2,7 @@
 #define iqtdb_h_included
 
 /**
-\defgroup iqtdb
+\defgroup iqtdb iqtdb
 \ingroup ACF
 @{
 */

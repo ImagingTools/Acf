@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup iser
+\defgroup iser iser
 \ingroup ACF
 @{
 */

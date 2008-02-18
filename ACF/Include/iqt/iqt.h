@@ -8,7 +8,7 @@
 
 
 /**
-\defgroup iqt
+\defgroup iqt iqt
 \ingroup ACF
 @{
 */

@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup imeas
+\defgroup imeas imeas
 \ingroup ACF
 @{
 */

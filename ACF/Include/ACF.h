@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup ACF
+\defgroup ACF ACF
 \ingroup ACF
 @{
 @} 

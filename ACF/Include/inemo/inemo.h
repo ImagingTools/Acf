@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup inemo
+\defgroup inemo inemo
 @{
 */
 
