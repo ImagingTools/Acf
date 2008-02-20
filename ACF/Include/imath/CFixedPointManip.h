@@ -178,6 +178,6 @@ inline double CFixedPointManip::GetNormalValue(I_SDWORD intValue) const
 } // namespace imath
 
 
-#endif //!imath_CRoundedValueManip_included
+#endif // !imath_CRoundedValueManip_included
 
 

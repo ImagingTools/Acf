@@ -31,6 +31,6 @@ private:
 } // namespace iwin
 
 
-#endif //!iwin_CWinCriticalSection_included
+#endif // !iwin_CWinCriticalSection_included
 
 

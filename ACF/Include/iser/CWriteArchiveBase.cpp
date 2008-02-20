@@ -34,7 +34,7 @@ CWriteArchiveBase::CWriteArchiveBase(const IVersionInfo* versionInfoPtr)
 }
 
 
-bool CWriteArchiveBase::SerializeHeader()
+bool CWriteArchiveBase::SerializeAcfHeader()
 {
 	bool retVal = BeginTag(s_headerTag);
 

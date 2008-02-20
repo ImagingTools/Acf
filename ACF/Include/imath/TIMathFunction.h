@@ -35,6 +35,6 @@ typedef TIMathFuntion<double, double> CDoubleFunction;
 } // namespace imath
 
 
-#endif //!imat_TIMathFuntion_included
+#endif // !imat_TIMathFuntion_included
 
 

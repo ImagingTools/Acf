@@ -168,6 +168,12 @@
 				RelativePath="..\ITrace.h">
 			</File>
 			<File
+				RelativePath="..\TCascadedMap.h">
+			</File>
+			<File
+				RelativePath="..\TDelPtr.h">
+			</File>
+			<File
 				RelativePath="..\TFactory.h">
 			</File>
 			<File
@@ -175,6 +181,9 @@
 			</File>
 			<File
 				RelativePath="..\TObjectFactory.h">
+			</File>
+			<File
+				RelativePath="..\TPointer.h">
 			</File>
 		</Filter>
 	</Files>

@@ -13,7 +13,7 @@ namespace isys{
 /**
 	Interface for critical section implementations.
  */
-class ICriticalSection: public istd::IPolymorphic
+class ICriticalSection: virtual public istd::IPolymorphic
 {
 public:
 	/**

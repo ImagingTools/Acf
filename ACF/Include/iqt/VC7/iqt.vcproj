@@ -93,6 +93,15 @@
 			<File
 				RelativePath="..\CTabContainerGuiComp.cpp">
 			</File>
+			<File
+				RelativePath="..\CXmlReadArchive.cpp">
+			</File>
+			<File
+				RelativePath="..\CXmlWriteArchive.cpp">
+			</File>
+			<File
+				RelativePath="..\iqt.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -100,6 +109,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\CTabContainerGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\CXmlReadArchive.h">
+			</File>
+			<File
+				RelativePath="..\CXmlWriteArchive.h">
+			</File>
+			<File
+				RelativePath="..\iqt.h">
 			</File>
 		</Filter>
 		<Filter

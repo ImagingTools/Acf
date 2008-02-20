@@ -73,6 +73,6 @@ typedef TIValueManip<double> IDoubleManip;
 } // namespace imath
 
 
-#endif //!imath_TIValueManip_included
+#endif // !imath_TIValueManip_included
 
 

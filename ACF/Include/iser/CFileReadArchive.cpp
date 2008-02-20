@@ -18,7 +18,7 @@ CFileReadArchive::CFileReadArchive(const istd::CString& fileName, bool supportTa
 	m_stream.open(fileName.ToString().c_str(), ::std::fstream::in | ::std::fstream::binary);
 
 	if (serializeHeader){
-		SerializeHeader();
+		SerializeAcfHeader();
 	}
 }
 

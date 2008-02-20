@@ -12,7 +12,7 @@ namespace iser
 class ISerializable;
 
 
-class IFileSerializer: public acf::IPolymorphic
+class IFileSerializer: virtual public acf::IPolymorphic
 {
 public:
 	/**

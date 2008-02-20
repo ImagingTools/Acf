@@ -1,5 +1,5 @@
-#ifndef INCLUDED_iser_IArchive_h
-#define INCLUDED_iser_IArchive_h
+#ifndef iser_IArchive_included
+#define iser_IArchive_included
 
 
 #include <string>
@@ -20,7 +20,7 @@ class CArchiveTag;
 /**
 	Represent input/output persistence archive.
 */
-class IArchive: public istd::IPolymorphic
+class IArchive: virtual public istd::IPolymorphic
 {
 public:
 	/**
@@ -152,5 +152,5 @@ public:
 } // namespace iser
 
 
-#endif // INCLUDED_iser_IArchive_h
+#endif // iser_IArchive_included
 

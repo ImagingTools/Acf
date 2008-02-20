@@ -20,7 +20,7 @@ protected:
 	/**
 		Constructor.
 		Please note no header will be serialized during contruction.
-		You have to explicite call method SerializeHeader in your derrived implementation.
+		You have to explicite call method SerializeAcfHeader in your derrived implementation.
 	*/
 	CWriteArchiveBase(const IVersionInfo* versionInfoPtr);
 
@@ -28,7 +28,7 @@ protected:
 		Serialize standard header.
 		During serialization of header list of known versions will be loaded.
 	*/
-	virtual bool SerializeHeader();
+	virtual bool SerializeAcfHeader();
 
 	// static methods
 	static const IVersionInfo* GetDefaultVersionInfo();

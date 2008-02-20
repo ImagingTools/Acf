@@ -2,8 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="iser"
-	ProjectGUID="{6DFD9DED-F84C-43C5-953A-9713464D7D15}">
+	Name="icomp"
+	ProjectGUID="{F3A159CA-14B5-4800-8039-0157CF31EA27}"
+	SccProjectName="&quot;$/develop/modules/iwin&quot;, XRAAAAAA"
+	SccLocalPath="..\iwin">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -26,7 +28,7 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -76,7 +78,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
@@ -120,113 +122,80 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\CArchiveBase.cpp">
+				RelativePath="..\CComponentBase.cpp">
 			</File>
 			<File
-				RelativePath="..\CArchiveTag.cpp">
+				RelativePath="..\CComponentContext.cpp">
 			</File>
 			<File
-				RelativePath="..\CBinaryReadArchiveBase.cpp">
+				RelativePath="..\CCompositeComponentContext.cpp">
 			</File>
 			<File
-				RelativePath="..\CBinaryWriteArchiveBase.cpp">
+				RelativePath="..\CPackageStaticInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\CFileReadArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CMemoryWriteArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CMinimalVersionInfo.cpp">
-			</File>
-			<File
-				RelativePath="..\CReadArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CReaderVersionInfo.cpp">
-			</File>
-			<File
-				RelativePath="..\CWriteArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlReadArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlWriteArchiveBase.cpp">
+				RelativePath="..\CRegistryElement.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
 			<File
-				RelativePath="..\CArchiveBase.h">
+				RelativePath="..\CComponentBase.h">
 			</File>
 			<File
-				RelativePath="..\CArchiveTag.h">
+				RelativePath="..\CComponentContext.h">
 			</File>
 			<File
-				RelativePath="..\CBinaryReadArchiveBase.h">
+				RelativePath="..\CCompositeComponentContext.h">
 			</File>
 			<File
-				RelativePath="..\CBinaryWriteArchiveBase.h">
+				RelativePath="..\CPackageStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\CFileReadArchive.h">
+				RelativePath="..\CRegistryElement.h">
 			</File>
 			<File
-				RelativePath="..\CFileWriteArchive.h">
+				RelativePath="..\IAttribute.h">
 			</File>
 			<File
-				RelativePath="..\CMemoryWriteArchive.h">
+				RelativePath="..\IAttributeStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\CMinimalVersionInfo.h">
+				RelativePath="..\icomp.h">
 			</File>
 			<File
-				RelativePath="..\CReadArchiveBase.h">
+				RelativePath="..\IComponent.h">
 			</File>
 			<File
-				RelativePath="..\CReaderVersionInfo.h">
+				RelativePath="..\IComponentContext.h">
 			</File>
 			<File
-				RelativePath="..\CWriteArchiveBase.h">
+				RelativePath="..\IComponentStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.h">
+				RelativePath="..\IRegistry.h">
 			</File>
 			<File
-				RelativePath="..\CXmlFileWriteArchive.h">
+				RelativePath="..\IRegistryElement.h">
 			</File>
 			<File
-				RelativePath="..\CXmlReadArchiveBase.h">
+				RelativePath="..\TAttributePtr.h">
 			</File>
 			<File
-				RelativePath="..\CXmlWriteArchiveBase.h">
+				RelativePath="..\TAttributeStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\IArchive.h">
+				RelativePath="..\TComponentStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\IFileSerializer.h">
+				RelativePath="..\TInterfaceRegistrator.h">
 			</File>
 			<File
-				RelativePath="..\iser.h">
+				RelativePath="..\TReferencePtr.h">
 			</File>
 			<File
-				RelativePath="..\ISerializable.h">
-			</File>
-			<File
-				RelativePath="..\IVersionInfo.h">
+				RelativePath="..\TSimpleAttribute.h">
 			</File>
 		</Filter>
 	</Files>

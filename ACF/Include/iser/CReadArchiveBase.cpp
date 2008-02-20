@@ -21,7 +21,7 @@ I_DWORD CReadArchiveBase::GetVersion(int versionId) const
 
 // protected methods
 
-bool CReadArchiveBase::SerializeHeader()
+bool CReadArchiveBase::SerializeAcfHeader()
 {
 	bool retVal = BeginTag(s_headerTag);
 

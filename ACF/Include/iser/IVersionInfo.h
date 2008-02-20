@@ -13,7 +13,7 @@ namespace iser
 {
 
 
-class IVersionInfo: public istd::IPolymorphic
+class IVersionInfo: virtual public istd::IPolymorphic
 {
 public:
 	/**

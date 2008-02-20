@@ -1,0 +1,197 @@
+#include "iser/CXmlReadArchiveBase.h"
+
+
+#include <strstream>
+
+
+namespace iser
+{
+
+
+// reimplemented (iser::IArchive)
+
+bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
+{
+	bool retVal = true;
+
+	::std::string tagText;
+
+	retVal = retVal && ReadToDelimeter("<", tagText);
+	retVal = retVal && ReadToDelimeter(">",  tagText);
+
+	retVal = retVal && (tagText == tag.GetId());
+
+	return retVal;
+}
+
+
+bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
+{
+	bool retVal = true;
+
+	::std::string tagText;
+
+	retVal = retVal && ReadToDelimeter("<", tagText);
+	retVal = retVal && ReadToDelimeter(" ", tagText);
+
+	retVal = retVal && (tagText == tag.GetId());
+
+	retVal = retVal && ReadToDelimeter("\"", tagText);
+	retVal = retVal && ReadToDelimeter("\"", tagText);
+
+	::std::istrstream stream(tagText.c_str());
+
+	stream >> count;
+
+	return retVal;
+}
+
+
+bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
+{
+	bool retVal = true;
+
+	::std::string tagText;
+
+	retVal = retVal && ReadToDelimeter("<", tagText);
+	retVal = retVal && ReadToDelimeter(">", tagText);
+
+	retVal = retVal && !tagText.empty() && (tagText[0] == '/');
+	retVal = retVal && (tagText.substr(1) == tag.GetId());
+
+	return retVal;
+}
+
+
+bool CXmlReadArchiveBase::Process(bool& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(char& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_BYTE& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_SBYTE& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_WORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_SWORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_DWORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_SDWORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_QWORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(I_SQWORD& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(float& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(double& value)
+{
+	return ProcessInternal(value);
+}
+
+
+bool CXmlReadArchiveBase::Process(::std::string& value)
+{
+	char foundDelimeter;
+
+	do{
+		bool retVal = ReadToDelimeter("<>", value, false, &foundDelimeter);
+		if (!retVal){
+			return false;
+		}
+	} while (foundDelimeter == '<');
+
+	return true;
+}
+
+
+bool CXmlReadArchiveBase::Process(istd::CString& value)
+{
+	::std::string textValue;
+	if (ProcessInternal(textValue)){
+		value = textValue;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CXmlReadArchiveBase::ProcessData(void* dataPtr, int size)
+{
+	return false;
+}
+
+
+// protected methods
+
+CXmlReadArchiveBase::CXmlReadArchiveBase(const iser::CArchiveTag& rootTag)
+:	m_rootTag(rootTag)
+{
+}
+
+
+bool CXmlReadArchiveBase::SerializeXmlHeader()
+{
+	bool retVal = true;
+
+	::std::string tagText;
+
+	do{
+		retVal = retVal && ReadToDelimeter("<", tagText);
+		retVal = retVal && ReadToDelimeter(">", tagText);
+	} while (retVal && (tagText != m_rootTag.GetId()));
+
+	return retVal;
+}
+
+
+} // namespace iser
+
+

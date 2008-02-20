@@ -1,5 +1,5 @@
-#ifndef INCLUDED_iser_CArchiveTag_h
-#define INCLUDED_iser_CArchiveTag_h
+#ifndef iser_CArchiveTag_included
+#define iser_CArchiveTag_included
 
 
 #include <string>
@@ -52,7 +52,7 @@ private:
 
 
 
-#endif //!INCLUDED_iser_CArchiveTag_h
+#endif // !iser_CArchiveTag_included
 
 
 

@@ -22,7 +22,7 @@ protected:
 		Serialize standard header.
 		During serialization of header list of known versions will be loaded.
 	*/
-	virtual bool SerializeHeader();
+	virtual bool SerializeAcfHeader();
 
 private:
 	CReaderVersionInfo m_versionInfo;

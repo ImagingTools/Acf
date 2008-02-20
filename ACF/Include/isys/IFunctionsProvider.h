@@ -1,5 +1,5 @@
-#ifndef INCLUDED_isys_IFunctionsProvider_h
-#define INCLUDED_isys_IFunctionsProvider_h
+#ifndef isys_IFunctionsProvider_included
+#define isys_IFunctionsProvider_included
 
 
 #include <string>
@@ -17,7 +17,7 @@ namespace isys
 	Interface for set of functions accessed by its ID.
 	Typically it is used to access dynamic loaded libraries.
  */
-class IFunctionsProvider: public istd::IPolymorphic
+class IFunctionsProvider: virtual public istd::IPolymorphic
 {
 public:
 	/**
@@ -35,7 +35,7 @@ public:
 } // namespace isys
 
 
-#endif //!INCLUDED_isys_IFunctionsProvider_h
+#endif // !isys_IFunctionsProvider_included
 
 
 

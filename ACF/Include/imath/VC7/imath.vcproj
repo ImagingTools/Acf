@@ -145,12 +145,12 @@
 				RelativePath="..\imath.h">
 			</File>
 			<File
+				RelativePath="..\TIMathFunction.h">
+			</File>
+			<File
 				RelativePath="..\TIValueManip.h">
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\TIMathFunction.h">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

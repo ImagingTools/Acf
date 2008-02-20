@@ -14,7 +14,7 @@ CMemoryWriteArchive::CMemoryWriteArchive(
 :	BaseClass(versionInfoPtr)
 {
 	if (serializeHeader){
-		SerializeHeader();
+		SerializeAcfHeader();
 	}
 }
 

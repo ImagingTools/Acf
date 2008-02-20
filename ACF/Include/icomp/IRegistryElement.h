@@ -1,0 +1,78 @@
+#ifndef icomp_IRegistryElement_included
+#define icomp_IRegistryElement_included
+
+
+#include <set>
+#include <string>
+
+#include "istd/TDelPtr.h"
+
+#include "iser/ISerializable.h"
+
+
+namespace icomp
+{
+
+
+class IComponentStaticInfo;
+
+
+/**
+	Represents element of registry describing component parameters.
+	Registry reflects state of registry files.
+*/
+class IRegistryElement: virtual public iser::ISerializable
+{
+public:
+	typedef ::std::set<::std::string> Ids;
+	typedef istd::TDelPtr<iser::ISerializable> AttributePtr;
+
+	/**
+		Describe information stored with each attribute.
+	*/
+	struct AttributeInfo
+	{
+		AttributePtr attributePtr;
+		::std::string exportId;
+	};
+
+	/**
+		Get access to component static info object.
+	*/
+	virtual const IComponentStaticInfo& GetComponentStaticInfo() const = 0;
+
+	/**
+		Get ID list of existing attributes.
+	*/
+	virtual Ids GetAttributeIds() const = 0;
+
+	/**
+		Insert new attribute info object to collection of attributes.
+		\param	attributeId		unique ID of new attribute.
+		\param	createAttribute	if it is true, new attribute instance will be created.
+	*/
+	virtual AttributeInfo* InsertAttributeInfo(const ::std::string& attributeId, bool createAttribute = true) = 0;
+
+	/**
+		Create attribute object for specified ID.
+	*/
+	virtual iser::ISerializable* CreateAttribute(const ::std::string& attributeId) const = 0;
+
+	/**
+		Get access to stored attribute info structure.
+	*/
+	virtual const AttributeInfo* GetAttributeInfo(const ::std::string& attributeId) const = 0;
+
+	/**
+		Removes attribute info structure from this collection.
+	*/
+	virtual bool RemoveAttributeInfo(const ::std::string& attributeId) = 0;
+};
+
+
+}//namespace icomp
+
+
+#endif // !icomp_IRegistryElement_included
+
+
