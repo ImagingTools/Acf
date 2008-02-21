@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;$(ACFDIR)/Include&quot;;&quot;$(GMG4_INTERFACES)&quot;;&quot;$(GMG4_INC_LCMS)&quot;;&quot;$(GMG4_MX_PROFILE)&quot;;&quot;$(GMG4_SNIPPETS)&quot;"
+				AdditionalIncludeDirectories="..;../../StaticLib;&quot;$(ACFDIR)/Include&quot;;&quot;$(GMG4_INTERFACES)&quot;;&quot;$(GMG4_INC_LCMS)&quot;;&quot;$(GMG4_MX_PROFILE)&quot;;&quot;$(GMG4_SNIPPETS)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -80,7 +80,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;&quot;$(ACFDIR)/Include&quot;;&quot;$(GMG4_INTERFACES)&quot;;&quot;$(GMG4_INC_LCMS)&quot;;&quot;$(GMG4_MX_PROFILE)&quot;;&quot;$(GMG4_SNIPPETS)&quot;"
+				AdditionalIncludeDirectories="..;../../StaticLib;&quot;$(ACFDIR)/Include&quot;;&quot;$(GMG4_INTERFACES)&quot;;&quot;$(GMG4_INC_LCMS)&quot;;&quot;$(GMG4_MX_PROFILE)&quot;;&quot;$(GMG4_SNIPPETS)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="3"
@@ -139,9 +139,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\IccToMxProfileMap.cpp">
-			</File>
-			<File
 				RelativePath="..\IcmDll.cpp">
 			</File>
 			<File
@@ -174,9 +171,6 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-			<File
-				RelativePath="..\IccToMxProfileMap.h">
-			</File>
 			<File
 				RelativePath="..\IcmDll.h">
 			</File>

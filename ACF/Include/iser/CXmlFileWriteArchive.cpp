@@ -22,6 +22,12 @@ CXmlFileWriteArchive::CXmlFileWriteArchive(
 }
 
 
+CXmlFileWriteArchive::~CXmlFileWriteArchive()
+{
+	Flush();
+}
+
+
 // protected methods
 
 // reimplemented (iser::CXmlWriteArchiveBase)

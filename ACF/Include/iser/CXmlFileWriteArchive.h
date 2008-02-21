@@ -22,9 +22,10 @@ public:
 
 	CXmlFileWriteArchive(
 				const istd::CString& fileName,
-				const IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
+				const IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
+	virtual ~CXmlFileWriteArchive();
 
 protected:
 	// reimplemented (iser::CXmlWriteArchiveBase)

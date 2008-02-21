@@ -23,7 +23,7 @@ public:
 
 	CXmlFileWriteArchive(
 				const istd::CString& fileName = "",
-				const iser::IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
+				const iser::IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 	~CXmlFileWriteArchive();

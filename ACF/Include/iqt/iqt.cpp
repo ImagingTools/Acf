@@ -11,7 +11,7 @@ QString GetQString(const istd::CString& string)
 }
 
 
-istd::CString GetQString(const QString& string)
+istd::CString GetCString(const QString& string)
 {
 	return istd::CString(string.toStdWString());
 }

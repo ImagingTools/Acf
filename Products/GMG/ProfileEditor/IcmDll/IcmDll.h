@@ -11,7 +11,7 @@
 
 #include "cp_mx.h"
 
-#include "IccToMxProfileMap.h"
+#include "CIccToMxProfileMap.h"
 
 // STL Includes
 #include <map>

@@ -31,6 +31,9 @@ I_DWORD CWriteArchiveBase::GetVersion(int versionId) const
 CWriteArchiveBase::CWriteArchiveBase(const IVersionInfo* versionInfoPtr)
 :	m_versionInfoPtr(versionInfoPtr)
 {
+	if (m_versionInfoPtr != NULL){
+		m_versionInfoPtr = istd::GetService<IVersionInfo>();
+	}
 }
 
 
@@ -78,14 +81,6 @@ bool CWriteArchiveBase::SerializeAcfHeader()
 	retVal = retVal && EndTag(s_headerTag);
 
 	return retVal;
-}
-
-
-// static methods
-
-const IVersionInfo* CWriteArchiveBase::GetDefaultVersionInfo()
-{
-	return istd::GetService<IVersionInfo>();
 }
 
 

@@ -8,17 +8,11 @@ namespace iser
 {
 
 
-CXmlWriteArchiveBase::~CXmlWriteArchiveBase()
-{
-	Flush();
-}
-
-
 // reimplemented (iser::IArchive)
 
 bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkipping*/)
 {
-	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + ">");
+	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + ">\n");
 
 	++m_indent;
 
@@ -31,9 +25,9 @@ bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkippin
 bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
 {
 	::std::ostrstream stream;
-	stream << count;
+	stream << count << ::std::ends;
 
-	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + " count=\"" + stream.str() + "\">");
+	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + " count=\"" + stream.str() + "\">\n");
 
 	++m_indent;
 
@@ -47,7 +41,7 @@ bool CXmlWriteArchiveBase::EndTag(const CArchiveTag& tag)
 {
 	--m_indent;
 
-	return MakeIndent() && WriteString("</" + tag.GetId() + ">");
+	return MakeIndent() && WriteString("</" + tag.GetId() + ">\n");
 }
 
 
@@ -167,7 +161,7 @@ bool CXmlWriteArchiveBase::Flush()
 
 bool CXmlWriteArchiveBase::MakeIndent()
 {
-	return WriteString(::std::string(' ', m_indent));
+	return WriteString(::std::string(m_indent * 2, ' '));
 }
 
 

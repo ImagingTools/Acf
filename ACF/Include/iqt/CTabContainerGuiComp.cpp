@@ -1,3 +1,5 @@
+#ifdef OLD_ACF_SUPPORT
+
 #include <QGridLayout>
 
 #include "QtAcf/QtAcf.h"
@@ -78,3 +80,6 @@ void CTabContainerGuiComp::destroyGui()
 
 
 } // namespace iqt
+
+
+#endif // OLD_ACF_SUPPORT

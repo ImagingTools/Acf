@@ -17,7 +17,7 @@ public:
 	typedef CBinaryWriteArchiveBase BaseClass;
 
 	CMemoryWriteArchive(
-				const IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
+				const IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true);
 
 	const void* GetBuffer() const;

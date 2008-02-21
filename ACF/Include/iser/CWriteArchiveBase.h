@@ -30,9 +30,6 @@ protected:
 	*/
 	virtual bool SerializeAcfHeader();
 
-	// static methods
-	static const IVersionInfo* GetDefaultVersionInfo();
-
 private:
 	const IVersionInfo* m_versionInfoPtr;
 };

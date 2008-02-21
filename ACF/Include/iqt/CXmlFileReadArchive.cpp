@@ -272,7 +272,7 @@ bool CXmlFileReadArchive::Process(istd::CString& value)
 {
 	QString text = PullTextNode();
 
-	value = iqt::GetQString(text);
+	value = iqt::GetCString(text);
 
 	return !m_currentNode.isNull();
 }

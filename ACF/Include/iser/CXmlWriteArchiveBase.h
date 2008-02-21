@@ -15,8 +15,6 @@ class CXmlWriteArchiveBase: public CWriteArchiveBase, public CXmlDocumentInfoBas
 public:
 	typedef iser::CWriteArchiveBase BaseClass;
 
-	virtual ~CXmlWriteArchiveBase();
-
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false);
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false);
@@ -78,7 +76,7 @@ bool CXmlWriteArchiveBase::ProcessInternal(const Type& value)
 
 	::std::ostrstream stream;
 
-	stream << value << "\n";
+	stream << value << "\n" << ::std::ends;
 
 	retVal = retVal && WriteString(stream.str());
 

@@ -28,7 +28,7 @@ public:
 	CFileWriteArchive(
 					const istd::CString& fileName,
 					bool supportTagSkipping = true,
-					const IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
+					const IVersionInfo* versionInfoPtr = NULL,
 					bool serializeHeader = true);
 
 	/**
