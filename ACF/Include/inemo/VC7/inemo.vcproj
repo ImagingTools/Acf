@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../Include;&quot;$(ACFDIR_OLD)\Include&quot;"
+				AdditionalIncludeDirectories="&quot;$(ACFDIR)\Include&quot;;&quot;$(ACFDIR_OLD)\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
