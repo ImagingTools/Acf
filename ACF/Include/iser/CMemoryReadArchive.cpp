@@ -19,7 +19,7 @@ CMemoryReadArchive::CMemoryReadArchive(
 	m_readPosition(0)
 {
 	if (serializeHeader){
-		SerializeHeader();
+		SerializeAcfHeader();
 	}
 }
 
@@ -32,7 +32,7 @@ CMemoryReadArchive::CMemoryReadArchive(
 	m_readPosition(0)
 {
 	if (serializeHeader){
-		SerializeHeader();
+		SerializeAcfHeader();
 	}
 }
 

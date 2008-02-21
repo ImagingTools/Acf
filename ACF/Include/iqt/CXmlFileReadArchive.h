@@ -1,5 +1,5 @@
-#ifndef iqt_CXmlReadArchive_included
-#define iqt_CXmlReadArchive_included
+#ifndef iqt_CXmlFileReadArchive_included
+#define iqt_CXmlFileReadArchive_included
 
 
 #include <QDomDocument>
@@ -16,12 +16,15 @@ namespace iqt
 {
 
 
-class CXmlReadArchive: public iser::CReadArchiveBase, public iser::CXmlDocumentInfoBase
+class CXmlFileReadArchive: public iser::CReadArchiveBase, public iser::CXmlDocumentInfoBase
 {
 public:
-	CXmlReadArchive(const istd::CString& fileName = "", const istd::CString& xmlRootName = GetDefaultRootName());
+	CXmlFileReadArchive(
+				const istd::CString& fileName = "",
+				bool serializeHeader = true,
+				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
-	bool OpenDocument(const istd::CString& fileName, const istd::CString& xmlRootName = GetDefaultRootName());
+	bool OpenDocument(const istd::CString& fileName);
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
@@ -53,12 +56,15 @@ protected:
 private:
 	QDomDocument m_document;
 	QDomNode m_currentNode;
+
+	iser::CArchiveTag m_rootTag;
+	bool m_serializeHeader;
 };
 
 
 } // namespace iqt
 
 
-#endif // !iqt_CXmlReadArchive_included
+#endif // !iqt_CXmlFileReadArchive_included
 
 

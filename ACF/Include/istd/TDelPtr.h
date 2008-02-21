@@ -79,7 +79,7 @@ protected:
 
 template <class Type, bool DelArray>
 inline TDelPtr<Type, DelArray>::TDelPtr(Type* ptr)
-	:	BaseClass(ptr)
+:	BaseClass(ptr)
 {
 }
 

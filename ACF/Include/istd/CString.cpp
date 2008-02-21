@@ -17,7 +17,7 @@ CString::CString()
 
 
 CString::CString(const wchar_t* str)
-	:BaseClass(str)
+:	BaseClass(str)
 {
 
 }
@@ -52,7 +52,7 @@ CString::CString(const ::std::string& str)
 
 
 CString::CString(const ::std::wstring& wideString)
-	:BaseClass(wideString)
+:	BaseClass(wideString)
 {
 
 }

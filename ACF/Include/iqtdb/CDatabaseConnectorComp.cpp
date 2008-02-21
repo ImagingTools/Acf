@@ -8,7 +8,7 @@ namespace iqtdb
 
 
 CDatabaseConnectorComp::CDatabaseConnectorComp()
-	:BaseClass(),
+:	BaseClass(),
 	m_databaseDriverNameAttr("ODBC", this, "DatabaseDriver"),
 	m_databaseNameAttr("", this, "DatabaseName"),
 	m_hostNameAttr("localhost", this, "DatabaseHost"),

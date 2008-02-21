@@ -11,7 +11,7 @@ namespace iqt
 
 
 CTabContainerGuiComp::CTabContainerGuiComp()
-	:BaseClass(), 
+:	BaseClass(), 
 	m_slaveGuisCompIfPtr(this, "SlaveGuiComponents"),
 	m_tabNamesAttr(this, "TabNames"),
 	m_iconsProviderCompIfPtr(this, "TabIcons"),

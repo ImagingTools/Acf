@@ -2,7 +2,7 @@
 #define iser_CXmlDocumentInfoBase_included
 
 
-#include "istd/CString.h"
+#include <string>
 
 #include "iser/iser.h"
 
@@ -17,10 +17,10 @@ namespace iser
 class CXmlDocumentInfoBase
 {
 public:
-	static const istd::CString& GetDefaultRootName();
+	static const std::string& GetElementSeparator();
 
 private:
-	static istd::CString s_defaultRootName;
+	static std::string s_elementSeparator;
 };
 
 

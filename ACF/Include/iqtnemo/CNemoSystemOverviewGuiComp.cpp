@@ -11,7 +11,7 @@ namespace iqtnemo
 
 
 CNemoSystemOverviewGuiComp::CNemoSystemOverviewGuiComp()
-	:BaseClass(), 
+:	BaseClass(), 
 	m_sensorListGuiIfPtr(this, "SensorListGui"),
 	m_systemOverviewGuiIfPtr(this, "SystemOverviewGui"),
 	m_sensorDataGuiIfPtr(this, "SensorDataGui"),

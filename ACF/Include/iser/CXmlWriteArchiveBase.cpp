@@ -22,6 +22,8 @@ bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkippin
 
 	++m_indent;
 
+	m_isSeparatorNeeded = false;
+
 	return retVal;
 }
 
@@ -34,6 +36,8 @@ bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveT
 	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + " count=\"" + stream.str() + "\">");
 
 	++m_indent;
+
+	m_isSeparatorNeeded = false;
 
 	return retVal;
 }
@@ -143,7 +147,8 @@ CXmlWriteArchiveBase::CXmlWriteArchiveBase(const IVersionInfo* versionInfoPtr, c
 :	BaseClass(versionInfoPtr),
 	m_rootTag(rootTag),
 	m_indent(0),
-	m_isHeaderSerialized(false)
+	m_isHeaderSerialized(false),
+	m_isSeparatorNeeded(false)
 {
 }
 

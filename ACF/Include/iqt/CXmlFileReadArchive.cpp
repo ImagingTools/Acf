@@ -1,4 +1,4 @@
-#include "iqt/CXmlReadArchive.h"
+#include "iqt/CXmlFileReadArchive.h"
 
 
 #include <sstream>
@@ -11,15 +11,20 @@ namespace iqt
 {
 
 
-CXmlReadArchive::CXmlReadArchive(const istd::CString& fileName, const istd::CString& xmlRootName)
+CXmlFileReadArchive::CXmlFileReadArchive(
+			const istd::CString& fileName,
+			bool serializeHeader,
+			const iser::CArchiveTag& rootTag)
+:	m_serializeHeader(serializeHeader),
+	m_rootTag(rootTag)
 {
 	if (!fileName.IsEmpty()){
-		OpenDocument(fileName, xmlRootName);
+		OpenDocument(fileName);
 	}
 }
 
 
-bool CXmlReadArchive::OpenDocument(const istd::CString& fileName, const istd::CString& xmlRootName)
+bool CXmlFileReadArchive::OpenDocument(const istd::CString& fileName)
 {
 	QFile file(iqt::GetQString(fileName));
 	if (!file.open(QIODevice::ReadOnly)){
@@ -32,25 +37,31 @@ bool CXmlReadArchive::OpenDocument(const istd::CString& fileName, const istd::CS
 		return false;
 	}
 
-	if (m_currentNode.nodeValue() != iqt::GetQString(xmlRootName)){
+	if (m_currentNode.nodeValue() != iqt::GetQString(m_rootTag.GetId())){
 		QDomElement mainElement = m_document.documentElement();
 
 		m_currentNode = mainElement.firstChild();
 	}
 
-	return !m_currentNode.isNull();
+	bool retVal = !m_currentNode.isNull();
+
+	if (m_serializeHeader){
+		retVal = retVal && SerializeAcfHeader();
+	}
+
+	return retVal;
 }
 
 
 // reimplemented (iser::IArchive)
 
-bool CXmlReadArchive::IsTagSkippingSupported() const
+bool CXmlFileReadArchive::IsTagSkippingSupported() const
 {
 	return true;
 }
 
 
-bool CXmlReadArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
+bool CXmlFileReadArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
 {
 	QString tagId(tag.GetId().c_str());
 
@@ -70,7 +81,7 @@ bool CXmlReadArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkippi
 }
 
 
-bool CXmlReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
+bool CXmlFileReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
 {
 	QString tagId(tag.GetId().c_str());
 
@@ -94,7 +105,7 @@ bool CXmlReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CA
 }
 
 
-bool CXmlReadArchive::EndTag(const iser::CArchiveTag& tag)
+bool CXmlFileReadArchive::EndTag(const iser::CArchiveTag& tag)
 {
 	m_currentNode = m_currentNode.parentNode();
 
@@ -102,7 +113,7 @@ bool CXmlReadArchive::EndTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlReadArchive::Process(bool& value)
+bool CXmlFileReadArchive::Process(bool& value)
 {
 	QString text = PullTextNode();
 
@@ -122,7 +133,7 @@ bool CXmlReadArchive::Process(bool& value)
 }
 
 
-bool CXmlReadArchive::Process(char& value)
+bool CXmlFileReadArchive::Process(char& value)
 {
 	QString text = PullTextNode();
 
@@ -136,7 +147,7 @@ bool CXmlReadArchive::Process(char& value)
 }
 
 
-bool CXmlReadArchive::Process(I_BYTE& value)
+bool CXmlFileReadArchive::Process(I_BYTE& value)
 {
 	QString text = PullTextNode();
 
@@ -147,7 +158,7 @@ bool CXmlReadArchive::Process(I_BYTE& value)
 }
 
 
-bool CXmlReadArchive::Process(I_SBYTE& value)
+bool CXmlFileReadArchive::Process(I_SBYTE& value)
 {
 	QString text = PullTextNode();
 
@@ -158,7 +169,7 @@ bool CXmlReadArchive::Process(I_SBYTE& value)
 }
 
 
-bool CXmlReadArchive::Process(I_WORD& value)
+bool CXmlFileReadArchive::Process(I_WORD& value)
 {
 	QString text = PullTextNode();
 
@@ -169,7 +180,7 @@ bool CXmlReadArchive::Process(I_WORD& value)
 }
 
 
-bool CXmlReadArchive::Process(I_SWORD& value)
+bool CXmlFileReadArchive::Process(I_SWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -180,7 +191,7 @@ bool CXmlReadArchive::Process(I_SWORD& value)
 }
 
 
-bool CXmlReadArchive::Process(I_DWORD& value)
+bool CXmlFileReadArchive::Process(I_DWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -191,7 +202,7 @@ bool CXmlReadArchive::Process(I_DWORD& value)
 }
 
 
-bool CXmlReadArchive::Process(I_SDWORD& value)
+bool CXmlFileReadArchive::Process(I_SDWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -202,7 +213,7 @@ bool CXmlReadArchive::Process(I_SDWORD& value)
 }
 
 
-bool CXmlReadArchive::Process(I_QWORD& value)
+bool CXmlFileReadArchive::Process(I_QWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -213,7 +224,7 @@ bool CXmlReadArchive::Process(I_QWORD& value)
 }
 
 
-bool CXmlReadArchive::Process(I_SQWORD& value)
+bool CXmlFileReadArchive::Process(I_SQWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -224,7 +235,7 @@ bool CXmlReadArchive::Process(I_SQWORD& value)
 }
 
 
-bool CXmlReadArchive::Process(float& value)
+bool CXmlFileReadArchive::Process(float& value)
 {
 	QString text = PullTextNode();
 
@@ -235,7 +246,7 @@ bool CXmlReadArchive::Process(float& value)
 }
 
 
-bool CXmlReadArchive::Process(double& value)
+bool CXmlFileReadArchive::Process(double& value)
 {
 	QString text = PullTextNode();
 
@@ -246,7 +257,7 @@ bool CXmlReadArchive::Process(double& value)
 }
 
 
-bool CXmlReadArchive::Process(::std::string& value)
+bool CXmlFileReadArchive::Process(::std::string& value)
 {
 	QString text = PullTextNode();
 
@@ -257,7 +268,7 @@ bool CXmlReadArchive::Process(::std::string& value)
 }
 
 
-bool CXmlReadArchive::Process(istd::CString& value)
+bool CXmlFileReadArchive::Process(istd::CString& value)
 {
 	QString text = PullTextNode();
 
@@ -267,7 +278,7 @@ bool CXmlReadArchive::Process(istd::CString& value)
 }
 
 
-bool CXmlReadArchive::ProcessData(void* dataPtr, int size)
+bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
 {
 	QString text = PullTextNode();
 
@@ -287,7 +298,7 @@ bool CXmlReadArchive::ProcessData(void* dataPtr, int size)
 
 // protected methods
 
-QString CXmlReadArchive::PullTextNode()
+QString CXmlFileReadArchive::PullTextNode()
 {
 	while (		!m_currentNode.isNull() &&
 				!m_currentNode.isText()){

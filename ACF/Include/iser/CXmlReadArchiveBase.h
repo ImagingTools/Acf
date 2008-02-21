@@ -3,13 +3,14 @@
 
 
 #include "iser/CReadArchiveBase.h"
+#include "iser/CXmlDocumentInfoBase.h"
 
 
 namespace iser
 {
 
 
-class CXmlReadArchiveBase: public iser::CReadArchiveBase
+class CXmlReadArchiveBase: public iser::CReadArchiveBase, public CXmlDocumentInfoBase
 {
 public:
 	typedef iser::CReadArchiveBase BaseClass;

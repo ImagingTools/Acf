@@ -53,7 +53,7 @@ private:
 
 
 CNemoSensorTreeGuiComp::CNemoSensorTreeGuiComp()
-	:BaseClass(),
+:	BaseClass(),
 	m_stateIconsProviderIfPtr(this, "StateIcons"),
 	m_selectionListenersIfPtr(this, "SelectionListeners")
 {

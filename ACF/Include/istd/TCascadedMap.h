@@ -20,12 +20,31 @@ template <typename Key, typename Value>
 class TCascadedMap
 {
 public:
+	/**
+		Constructor with optional assigning of parent map.
+	*/
 	TCascadedMap(const TCascadedMap<Key, Value>* parentPtr = NULL);
 
+	/**
+		Get access to parent map instance.
+	*/
 	const TCascadedMap<Key, Value>* GetParent() const;
+
+	/**
+		Set instance of parent map.
+	*/
 	void SetParent(const TCascadedMap<Key, Value>* parentPtr);
 
+	/**
+		Element access operator.
+		If key object not exists, it will be automatically created.
+	*/
 	Value& operator[](const Key& key);
+
+	/**
+		Element access operator.
+		If key object not exists, it will be automatically created.
+	*/
 	const Value& operator[](const Key& key) const;
 
 	/**
@@ -56,20 +75,57 @@ public:
 	*/
 	Value* FindLocalElement(const Key& key);
 
+	/**
+		Get key value at specified index.
+	*/
 	const Key& GetKeyAt(int index) const;
+	/**
+		Get key value from local context at specified index.
+	*/
 	const Key& GetLocalKeyAt(int index) const;
+	/**
+		Get key value from local context at specified index.
+	*/
 	Key& GetLocalKeyAt(int index);
 
+	/**
+		Get mapped value at specified index.
+	*/
 	const Value& GetValueAt(int index) const;
+
+	/**
+		Get mapped value from local context at specified index.
+	*/
 	const Value& GetLocalValueAt(int index) const;
+
+	/**
+		Get mapped value from local context at specified index.
+	*/
 	Value& GetLocalValueAt(int index);
 
+	/**
+		Get number of elements.
+	*/
 	int GetElementsCount() const;
+
+	/**
+		Get number of elements in local context.
+	*/
 	int GetLocalElementsCount() const;
 
+	/**
+		Insert element in local context.
+	*/
 	bool InsertLocal(const Key& key, const Value& value);
 
+	/**
+		Get owner context of element at specified index.
+	*/
 	const TCascadedMap<Key, Value>* GetOwnerMap(int index) const;
+
+	/**
+		Get owner context of element at specified index.
+	*/
 	TCascadedMap<Key, Value>* GetOwnerMap(int index);
 
 	// TODO: add element removing and correct comment in class header.

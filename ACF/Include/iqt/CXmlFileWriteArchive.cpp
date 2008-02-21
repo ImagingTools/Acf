@@ -1,4 +1,4 @@
-#include "iqt/CXmlWriteArchive.h"
+#include "iqt/CXmlFileWriteArchive.h"
 
 
 #include <sstream>
@@ -11,29 +11,29 @@ namespace iqt
 {
 
 
-CXmlWriteArchive::CXmlWriteArchive(const iser::IVersionInfo* versionInfoPtr)
-:	BaseClass(versionInfoPtr), m_isSeparatorNeeded(false)
-{
-}
-
-
-CXmlWriteArchive::CXmlWriteArchive(
+CXmlFileWriteArchive::CXmlFileWriteArchive(
 			const istd::CString& fileName,
 			const iser::IVersionInfo* versionInfoPtr,
-			const istd::CString& xmlRootName)
-:	BaseClass(versionInfoPtr), m_isSeparatorNeeded(false)
+			bool serializeHeader,
+			const iser::CArchiveTag& rootTag)
+:	BaseClass(versionInfoPtr),
+	m_serializeHeader(serializeHeader),
+	m_rootTag(rootTag),
+	m_isSeparatorNeeded(false)
 {
-	OpenDocument(fileName, xmlRootName);
+	if (!fileName.empty()){
+		OpenDocument(fileName);
+	}
 }
 
 
-CXmlWriteArchive::~CXmlWriteArchive()
+CXmlFileWriteArchive::~CXmlFileWriteArchive()
 {
 	Flush();
 }
 
 
-bool CXmlWriteArchive::Flush()
+bool CXmlFileWriteArchive::Flush()
 {
 	if (!m_file.isOpen()){
 		QTextStream stream(&m_file);
@@ -47,30 +47,36 @@ bool CXmlWriteArchive::Flush()
 }
 
 
-bool CXmlWriteArchive::OpenDocument(const istd::CString& fileName, const istd::CString& xmlRootName)
+bool CXmlFileWriteArchive::OpenDocument(const istd::CString& fileName)
 {
+	bool retVal = true;
+
 	m_file.setFileName(iqt::GetQString(fileName));
 	m_file.open(QIODevice::WriteOnly);
 
 	m_document.clear();
 
-	m_currentParent = m_document.createElement(iqt::GetQString(xmlRootName));
+	m_currentParent = m_document.createElement(iqt::GetQString(m_rootTag.GetId()));
 
 	m_document.appendChild(m_currentParent);
 
-	return true;
+	if (m_serializeHeader){
+		retVal = retVal && SerializeAcfHeader();
+	}
+
+	return retVal;
 }
 
 
 // reimplemented (iser::IArchive)
 
-bool CXmlWriteArchive::IsTagSkippingSupported() const
+bool CXmlFileWriteArchive::IsTagSkippingSupported() const
 {
 	return true;
 }
 
 
-bool CXmlWriteArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
+bool CXmlFileWriteArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipping*/)
 {
 	QDomElement newElement = m_document.createElement(QString::fromStdString(tag.GetId()));
 
@@ -82,13 +88,13 @@ bool CXmlWriteArchive::BeginTag(const iser::CArchiveTag& tag, bool /*useTagSkipp
 }
 
 
-bool CXmlWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/, bool /*useTagSkipping*/)
+bool CXmlFileWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/, bool /*useTagSkipping*/)
 {
 	return BeginTag(tag);
 }
 
 
-bool CXmlWriteArchive::EndTag(const iser::CArchiveTag& tag)
+bool CXmlFileWriteArchive::EndTag(const iser::CArchiveTag& tag)
 {
 	m_currentParent = m_currentParent.parentNode().toElement();
 
@@ -98,91 +104,91 @@ bool CXmlWriteArchive::EndTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlWriteArchive::Process(bool& value)
+bool CXmlFileWriteArchive::Process(bool& value)
 {
 	return PushTextNode(value? "true": "false");
 }
 
 
-bool CXmlWriteArchive::Process(char& value)
+bool CXmlFileWriteArchive::Process(char& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_BYTE& value)
+bool CXmlFileWriteArchive::Process(I_BYTE& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_SBYTE& value)
+bool CXmlFileWriteArchive::Process(I_SBYTE& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_WORD& value)
+bool CXmlFileWriteArchive::Process(I_WORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_SWORD& value)
+bool CXmlFileWriteArchive::Process(I_SWORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_DWORD& value)
+bool CXmlFileWriteArchive::Process(I_DWORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_SDWORD& value)
+bool CXmlFileWriteArchive::Process(I_SDWORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_QWORD& value)
+bool CXmlFileWriteArchive::Process(I_QWORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(I_SQWORD& value)
+bool CXmlFileWriteArchive::Process(I_SQWORD& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(float& value)
+bool CXmlFileWriteArchive::Process(float& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(double& value)
+bool CXmlFileWriteArchive::Process(double& value)
 {
 	return PushTextNode(QString::number(value));
 }
 
 
-bool CXmlWriteArchive::Process(::std::string& value)
+bool CXmlFileWriteArchive::Process(::std::string& value)
 {
 	return PushTextNode(QString::fromStdString(value));
 }
 
 
-bool CXmlWriteArchive::Process(istd::CString& value)
+bool CXmlFileWriteArchive::Process(istd::CString& value)
 {
 	return PushTextNode(iqt::GetQString(value));
 }
 
 
-bool CXmlWriteArchive::ProcessData(void* dataPtr, int size)
+bool CXmlFileWriteArchive::ProcessData(void* dataPtr, int size)
 {
 	::std::ostringstream stream;
 	stream << ::std::hex;
@@ -200,10 +206,10 @@ bool CXmlWriteArchive::ProcessData(void* dataPtr, int size)
 
 // protected methods
 
-bool CXmlWriteArchive::PushTextNode(const QString& text)
+bool CXmlFileWriteArchive::PushTextNode(const QString& text)
 {
 	if (m_isSeparatorNeeded){
-		QDomElement separator = m_document.createElement("br");
+		QDomElement separator = m_document.createElement(GetQString(GetElementSeparator()));
 
 		m_currentParent.appendChild(separator);
 	}

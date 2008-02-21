@@ -4,7 +4,7 @@
 
 
 CQtPackage::CQtPackage()
-	:BaseClass()
+:	BaseClass()
 {
 	acf::ComponentLibraryInfo info;
 	info.setLibName("Qt");

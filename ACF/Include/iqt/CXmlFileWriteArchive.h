@@ -1,5 +1,5 @@
-#ifndef iqt_CXmlWriteArchive_included
-#define iqt_CXmlWriteArchive_included
+#ifndef iqt_CXmlFileWriteArchive_included
+#define iqt_CXmlFileWriteArchive_included
 
 
 #include <QDomDocument>
@@ -16,23 +16,21 @@ namespace iqt
 {
 
 
-class CXmlWriteArchive: public iser::CWriteArchiveBase, public iser::CXmlDocumentInfoBase
+class CXmlFileWriteArchive: public iser::CWriteArchiveBase, public iser::CXmlDocumentInfoBase
 {
 public:
 	typedef iser::CWriteArchiveBase BaseClass;
 
-	CXmlWriteArchive(const iser::IVersionInfo* versionInfoPtr = GetDefaultVersionInfo());
-	CXmlWriteArchive(
-				const istd::CString& fileName,
+	CXmlFileWriteArchive(
+				const istd::CString& fileName = "",
 				const iser::IVersionInfo* versionInfoPtr = GetDefaultVersionInfo(),
-				const istd::CString& xmlRootName = GetDefaultRootName());
-	~CXmlWriteArchive();
+				bool serializeHeader = true,
+				const iser::CArchiveTag& rootTag = s_acfRootTag);
+	~CXmlFileWriteArchive();
 
 	bool Flush();
 
-	bool OpenDocument(
-				const istd::CString& fileName,
-				const istd::CString& xmlRootName = GetDefaultRootName());
+	bool OpenDocument(const istd::CString& fileName);
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
@@ -64,15 +62,19 @@ protected:
 private:
 	QDomDocument m_document;
 	QDomElement m_currentParent;
-	bool m_isSeparatorNeeded;
 
 	QFile m_file;
+
+	iser::CArchiveTag m_rootTag;
+	bool m_serializeHeader;
+
+	bool m_isSeparatorNeeded;
 };
 
 
 } // namespace iqt
 
 
-#endif // !iqt_CXmlWriteArchive_included
+#endif // !iqt_CXmlFileWriteArchive_included
 
 

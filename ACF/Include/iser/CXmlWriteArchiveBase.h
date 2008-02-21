@@ -3,13 +3,14 @@
 
 
 #include "iser/CWriteArchiveBase.h"
+#include "iser/CXmlDocumentInfoBase.h"
 
 
 namespace iser
 {
 
 
-class CXmlWriteArchiveBase: public iser::CWriteArchiveBase
+class CXmlWriteArchiveBase: public CWriteArchiveBase, public CXmlDocumentInfoBase
 {
 public:
 	typedef iser::CWriteArchiveBase BaseClass;
@@ -56,6 +57,8 @@ private:
 
 	int m_indent;
 	bool m_isHeaderSerialized;
+
+	bool m_isSeparatorNeeded;
 };
 
 
@@ -64,11 +67,22 @@ private:
 template <typename Type>
 bool CXmlWriteArchiveBase::ProcessInternal(const Type& value)
 {
+	bool retVal = true;
+
+	if (m_isSeparatorNeeded){
+		retVal = retVal && MakeIndent();
+		retVal = retVal && WriteString("<" + GetElementSeparator() + ">\n");
+	}
+
+	retVal = retVal && MakeIndent();
+
 	::std::ostrstream stream;
 
-	stream << value;
+	stream << value << "\n";
 
-	return WriteString(stream.str());
+	retVal = retVal && WriteString(stream.str());
+
+	return retVal;
 }
 
 

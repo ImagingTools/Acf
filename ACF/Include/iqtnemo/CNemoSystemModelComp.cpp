@@ -12,7 +12,7 @@ namespace iqtnemo
 
 
 CNemoSystemModelComp::CNemoSystemModelComp()
-	:BaseClass()
+:	BaseClass()
 {
 	registerInterface<inemo::INemoSystemModel>(this);
 }

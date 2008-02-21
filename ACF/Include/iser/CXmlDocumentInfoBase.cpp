@@ -5,15 +5,15 @@ namespace iser
 {
 
 
-const istd::CString& CXmlDocumentInfoBase::GetDefaultRootName()
+const std::string& CXmlDocumentInfoBase::GetElementSeparator()
 {
-	return s_defaultRootName;
+	return s_elementSeparator;
 }
 
 
 // static attributes
 
-istd::CString CXmlDocumentInfoBase::s_defaultRootName("AcfDocument");
+std::string CXmlDocumentInfoBase::s_elementSeparator("br");
 
 
 } // namespace iser

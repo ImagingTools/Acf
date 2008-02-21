@@ -8,7 +8,7 @@ namespace iqtdb
 
 
 CTableModelCompBase::CTableModelCompBase()
-	:BaseClass(),
+:	BaseClass(),
 	m_databaseConnectorIfPtr(this, "DatabaseConnector"),
 	m_tableNameAttr("", this, "TableName"),
 	m_schemaNameAttr("", this, "SchemaName"),

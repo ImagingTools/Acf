@@ -68,7 +68,7 @@ protected:
 private:
 	mutable ::std::string m_stdString;
 	mutable bool m_isModified;
-}; 
+};
 
 
 typedef ::std::vector<CString> StringList;

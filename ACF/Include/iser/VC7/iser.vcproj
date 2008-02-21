@@ -126,6 +126,9 @@
 				RelativePath="..\CArchiveTag.cpp">
 			</File>
 			<File
+				RelativePath="..\CBinaryArchiveBase.cpp">
+			</File>
+			<File
 				RelativePath="..\CBinaryReadArchiveBase.cpp">
 			</File>
 			<File
@@ -136,6 +139,9 @@
 			</File>
 			<File
 				RelativePath="..\CFileWriteArchive.cpp">
+			</File>
+			<File
+				RelativePath="..\CMemoryReadArchive.cpp">
 			</File>
 			<File
 				RelativePath="..\CMemoryWriteArchive.cpp">
@@ -151,6 +157,9 @@
 			</File>
 			<File
 				RelativePath="..\CWriteArchiveBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CXmlDocumentInfoBase.cpp">
 			</File>
 			<File
 				RelativePath="..\CXmlFileReadArchive.cpp">
@@ -175,6 +184,9 @@
 				RelativePath="..\CArchiveTag.h">
 			</File>
 			<File
+				RelativePath="..\CBinaryArchiveBase.h">
+			</File>
+			<File
 				RelativePath="..\CBinaryReadArchiveBase.h">
 			</File>
 			<File
@@ -185,6 +197,9 @@
 			</File>
 			<File
 				RelativePath="..\CFileWriteArchive.h">
+			</File>
+			<File
+				RelativePath="..\CMemoryReadArchive.h">
 			</File>
 			<File
 				RelativePath="..\CMemoryWriteArchive.h">
@@ -200,6 +215,9 @@
 			</File>
 			<File
 				RelativePath="..\CWriteArchiveBase.h">
+			</File>
+			<File
+				RelativePath="..\CXmlDocumentInfoBase.h">
 			</File>
 			<File
 				RelativePath="..\CXmlFileReadArchive.h">

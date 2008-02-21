@@ -205,7 +205,7 @@ void CNemoSensorPlotGuiComp::CBackgroundItem::draw(QPainter *painter, const QwtS
 
 
 CNemoSensorPlotGuiComp::CNemoSensorPlotGuiComp()
-	:BaseClass()
+:	BaseClass()
 {
 }
  

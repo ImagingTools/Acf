@@ -94,10 +94,10 @@
 				RelativePath="..\CTabContainerGuiComp.cpp">
 			</File>
 			<File
-				RelativePath="..\CXmlReadArchive.cpp">
+				RelativePath="..\CXmlFileReadArchive.cpp">
 			</File>
 			<File
-				RelativePath="..\CXmlWriteArchive.cpp">
+				RelativePath="..\CXmlFileWriteArchive.cpp">
 			</File>
 			<File
 				RelativePath="..\iqt.cpp">
@@ -111,10 +111,10 @@
 				RelativePath="..\CTabContainerGuiComp.h">
 			</File>
 			<File
-				RelativePath="..\CXmlReadArchive.h">
+				RelativePath="..\CXmlFileReadArchive.h">
 			</File>
 			<File
-				RelativePath="..\CXmlWriteArchive.h">
+				RelativePath="..\CXmlFileWriteArchive.h">
 			</File>
 			<File
 				RelativePath="..\iqt.h">
