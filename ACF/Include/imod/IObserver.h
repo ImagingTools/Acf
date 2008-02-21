@@ -16,8 +16,10 @@ class IModel;
 
 
 /**
+	\ingroup imod
+
 	Common interface for all classe that implement the Observer functionality
-	in the imod/Observable design pattern.
+	in the Model/Observer design pattern.
 */
 class IObserver: virtual public istd::IPolymorphic
 {

@@ -18,6 +18,8 @@ class IModel;
 
 
 /**
+	\ingroup imod
+
 	Basic implementation for a single model observer.
 */
 template <class ObjectClass> 

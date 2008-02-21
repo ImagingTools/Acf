@@ -16,7 +16,10 @@ namespace imod
 
 class IModel;
 
+
 /**
+	\ingroup imod
+
 	Basic implementation of an multiple model observer.
 /*/
 template<class ObjectClass>

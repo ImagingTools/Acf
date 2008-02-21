@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup ibase ibase
+\defgroup ibase Basic Implementations
 \ingroup ACF
 @{
 */

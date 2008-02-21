@@ -4,7 +4,7 @@
 
 
 /**
-\defgroup icomp Component Module
+\defgroup icomp Component Framework
 \ingroup ACF
 @{
 */

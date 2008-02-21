@@ -6,7 +6,7 @@
 
 
 /**
-	\defgroup istd istd
+	\defgroup istd Standard
 	\ingroup ACF
 
 	Contains the standard, system indenendent primitives and basic implementations.

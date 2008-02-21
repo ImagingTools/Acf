@@ -12,6 +12,8 @@ namespace imod
 {
 
 /**
+	\ingroup imod
+
 	Common interface for an model editor.
 */
 class IModelEditor: virtual public imod::IObserver
@@ -30,7 +32,7 @@ public:
 	/**
 		Returns \c true if the model data can be changed.
 	*/
-	virtual bool IsModelChangable() const = 0;
+	virtual bool IsModelChangeable() const = 0;
 };
 
 

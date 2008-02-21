@@ -17,6 +17,8 @@ namespace imod
 
 
 /**
+	\ingroup imod
+
 	Basic implementation of a model.
 */
 class CModelBase: virtual public imod::IModel

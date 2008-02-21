@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup imod imod
+\defgroup imod Model/Observer
 \ingroup ACF
 @{
 */

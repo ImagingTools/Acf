@@ -13,7 +13,10 @@ namespace imod
 
 
 /**
-	Wrapper implementation of model.
+	\ingroup imod
+
+	This model wrapper provides a simple connection between a concrete IChangeable implementation
+	and a model.
 */
 template <class BaseClass>
 class TModelWrap: virtual public BaseClass, public imod::CModelBase

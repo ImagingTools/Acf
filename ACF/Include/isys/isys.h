@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup isys isys
+\defgroup isys System
 \ingroup ACF
 @{
 */

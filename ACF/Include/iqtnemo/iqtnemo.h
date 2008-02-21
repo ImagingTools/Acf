@@ -2,7 +2,7 @@
 #define iqtnemo_included
 
 /**
-\defgroup iqtnemo iqtnemo
+\defgroup iqtnemo Qt Nemo
 @{
 */
 

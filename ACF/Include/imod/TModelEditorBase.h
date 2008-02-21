@@ -14,6 +14,8 @@ namespace imod
 
 
 /**
+	\ingroup imod
+
 	Basic implementation for an single model editor
 */
 template <class InterfaceClass>
@@ -30,7 +32,7 @@ public:
 	virtual void OnDetached(imod::IModel* modelPtr);
 
 	// reimplemented (imod::IModelEditor)
-	virtual bool IsModelChangable() const;
+	virtual bool IsModelChangeable() const;
 
 protected:
 	// reimplemented (TSingleModelObserverBase<InterfaceClass>)
@@ -74,7 +76,7 @@ void TModelEditorBase<InterfaceClass>::OnDetached(imod::IModel* modelPtr)
 // reimplemented (imod::IModelEditor)
 
 template <class InterfaceClass>
-bool TModelEditorBase<InterfaceClass>::IsModelChangable() const
+bool TModelEditorBase<InterfaceClass>::IsModelChangeable() const
 {
 	return true;
 }

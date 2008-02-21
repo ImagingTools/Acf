@@ -8,7 +8,7 @@
 
 
 /**
-\defgroup iqt iqt
+\defgroup iqt Qt Basics
 \ingroup ACF
 @{
 */

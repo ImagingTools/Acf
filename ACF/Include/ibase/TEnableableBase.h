@@ -13,6 +13,8 @@ namespace ibase
 
 
 /**
+	\ingroup ibase
+
 	Basic implementation of IEnabled interface.
 */
 template <class BaseClass>

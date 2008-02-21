@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup icmm icmm
+\defgroup icmm Color Management
 \ingroup ACF
 @{
 */

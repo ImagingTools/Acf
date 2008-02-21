@@ -16,7 +16,9 @@ class IObserver;
 
 
 /**
-	Common interface for model objects, that supports imod/Observer design pattern.
+	\ingroup imod
+
+	Common interface for model objects, that supports Model/Observer design pattern.
 	\sa IObserver
 */
 class IModel: virtual public istd::IPolymorphic

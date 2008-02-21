@@ -2,7 +2,7 @@
 #define idb_h_included
 
 /**
-\defgroup idb idb
+\defgroup idb Database
 \ingroup ACF
 @{
 */

@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup imeas imeas
+\defgroup imeas Measurement
 \ingroup ACF
 @{
 */

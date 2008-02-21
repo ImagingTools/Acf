@@ -3,7 +3,7 @@
 
 
 /**
-\defgroup inemo inemo
+\defgroup inemo Nemo Basics
 @{
 */
 

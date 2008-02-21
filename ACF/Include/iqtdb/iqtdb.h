@@ -2,7 +2,7 @@
 #define iqtdb_h_included
 
 /**
-\defgroup iqtdb iqtdb
+\defgroup iqtdb Qt Database
 \ingroup ACF
 @{
 */
