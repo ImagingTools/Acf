@@ -93,12 +93,12 @@ void CNemoSystemModelComp::SynchronizeModelWithTable()
 			int modelId = sensorRecord.value("sensor").toInt();
 
 			QSqlTableModel specificationTable(this, m_tableModelPtr->database());
-			specificationTable.setTable("nemo.models");
+			specificationTable.setTable(CalculateFullTableName("models"));
 			if (specificationTable.select()){
 				for (int row = 0; row < specificationTable.rowCount(); row++){
 					QSqlRecord rowRecord = specificationTable.record(row);
-					int id = rowRecord.value("id").toInt();
 
+					int id = rowRecord.value("id").toInt();
 					if (id == modelId){
 						inemo::CNemoSensorSpecification specification;
 						istd::CRange range(rowRecord.value("low").toDouble(), rowRecord.value("high").toDouble());
@@ -110,20 +110,34 @@ void CNemoSystemModelComp::SynchronizeModelWithTable()
 			}
 
 			// Set measurement data:
-			int sensorId = sensorRecord.value("sensor").toInt();
-			QString measurementTableName = QString("nemo.sensor%1").arg(sensorId, 5, 10, QLatin1Char('0'));
-			QSqlTableModel measurementTable(this, m_tableModelPtr->database());
-			measurementTable.setTable(measurementTableName);
-			if (measurementTable.select()){
+			int sensorId = sensorRecord.value("id").toInt();
+			QString measurementTableName = CalculateFullTableName(QString("sensor%1").arg(sensorId, 5, 10, QLatin1Char('0')));
+			QString sqlQuery = QString("SELECT time, value, predict_a, predict_b FROM %1").arg(measurementTableName);
+			QSqlQuery query(sqlQuery, m_tableModelPtr->database());
+			bool result = query.exec();
+			if (result){
 				acf::Sequence measuredData;
 				acf::Sequence predictedDataA;
 				acf::Sequence predictedDataB;
-				for (int row = 0; row < measurementTable.rowCount(); row++){
-					QSqlRecord rowRecord = measurementTable.record(row);
-					float x = row;
-					float value = rowRecord.value("value").toDouble();
-					float predicedValueA = rowRecord.value("predicta").toDouble();
-					float predicedValueB = rowRecord.value("predicta").toDouble();
+				double prevx = -1;
+
+				int timeColumn = query.record().indexOf("time");
+				int valueColumn = query.record().indexOf("value");
+				int predictaColumn = query.record().indexOf("predict_a");
+				int predictbColumn = query.record().indexOf("predict_b");
+				while (query.next()) {
+					double x = query.value(timeColumn).toDouble();
+					if (x < prevx){
+						int a = x;
+					}
+					else{
+						prevx = x;
+					}
+
+					double value = query.value(valueColumn).toDouble();
+					double predicedValueA = query.value(predictaColumn).toDouble();
+					double predicedValueB = query.value(predictbColumn).toDouble();
+			
 					measuredData.addPoint(x, value);
 					predictedDataA.addPoint(x, predicedValueA);
 					predictedDataB.addPoint(x, predicedValueB);

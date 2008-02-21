@@ -58,17 +58,22 @@ protected:
 	*/
 	virtual void SynchronizeModelWithTable() = 0;
 
+	QString CalculateFullTableName(const QString& tableName = QString()) const;
+
 private slots:
 	void RefreshModel();
 
 protected:
 	QSqlRelationalTableModel* m_tableModelPtr;
+	QString m_schemaName;
+	QString m_tableName;
 
 private:
 	QTimer m_checkModelTimer;
 
 	acf::ComponentDependency<idb::IDatabaseConnector> m_databaseConnectorIfPtr;
 	acf::StringAttribute m_tableNameAttr;
+	acf::StringAttribute m_schemaNameAttr;
 	acf::IntAttribute m_updateIntervallAttr;
 };
 

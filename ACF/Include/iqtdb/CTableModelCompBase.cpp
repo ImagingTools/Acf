@@ -11,6 +11,7 @@ CTableModelCompBase::CTableModelCompBase()
 	:BaseClass(),
 	m_databaseConnectorIfPtr(this, "DatabaseConnector"),
 	m_tableNameAttr("", this, "TableName"),
+	m_schemaNameAttr("", this, "SchemaName"),
 	m_updateIntervallAttr(1, this, "UpdateIntervall")
 {
 	registerInterface<acf::ModelInterface>(this);
@@ -27,7 +28,15 @@ bool CTableModelCompBase::onInitialize(acf::ComponentManagerInterface* managerPt
 		if (!m_databaseConnectorIfPtr->IsDatabaseConnected()){
 			if (m_databaseConnectorIfPtr->ConnectToDatabase()){
 				m_tableModelPtr = new QSqlRelationalTableModel(this);
-				m_tableModelPtr->setTable(acf::qtString(m_tableNameAttr.value()));
+				m_schemaName = acf::qtString(m_schemaNameAttr.value());
+				m_tableName = acf::qtString(m_tableNameAttr.value());
+
+				QString tableName = m_tableName;
+				if (!m_schemaName.isEmpty()){
+					tableName = m_schemaName + "." + tableName;
+				}
+
+				m_tableModelPtr->setTable(tableName);
 		
 				connect(&m_checkModelTimer, SIGNAL(timeout()), this, SLOT(RefreshModel()));
 				m_checkModelTimer.start(m_updateIntervallAttr.value() * 1000); 
@@ -43,6 +52,24 @@ bool CTableModelCompBase::onInitialize(acf::ComponentManagerInterface* managerPt
 	}
 
 	return false;
+}
+
+
+// protected methods
+
+QString CTableModelCompBase::CalculateFullTableName(const QString& tableName) const
+{
+	QString fullTableName = tableName;
+
+	if (tableName.isEmpty()){
+		fullTableName = m_tableName;
+	}
+
+	if (!m_schemaName.isEmpty()){
+		fullTableName = m_schemaName + "." + fullTableName;
+	}
+
+	return fullTableName;
 }
 
 

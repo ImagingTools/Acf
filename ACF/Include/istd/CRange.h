@@ -37,6 +37,11 @@ public:
 	bool IsValid() const;
 
 	/**
+		Return \c true if the bottom value is equal to the top value.
+	*/
+	bool IsEmpty() const;
+
+	/**
 		Get the bottom value.	
 	*/
 	double GetBottomValue() const;
@@ -102,7 +107,13 @@ private:
 
 inline bool CRange::IsValid() const
 {
-	return m_bottomValue <= m_topValue;
+	return (m_bottomValue <= m_topValue);
+}
+
+
+inline bool CRange::IsEmpty() const
+{
+	return (m_bottomValue == m_topValue);
 }
 
 

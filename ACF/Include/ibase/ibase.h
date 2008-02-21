@@ -2,6 +2,9 @@
 #define ibase_included
 
 
+#include "istd/istd.h"
+
+
 /**
 \defgroup ibase ibase
 \ingroup ACF

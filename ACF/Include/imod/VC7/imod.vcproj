@@ -2,10 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="istd"
-	ProjectGUID="{126B67F7-B779-4A80-A651-1111D5EDF583}"
-	SccProjectName="&quot;$/develop/modules/iwin&quot;, XRAAAAAA"
-	SccLocalPath="..\iwin">
+	Name="imod"
+	ProjectGUID="{AA16B362-CE5A-48C6-9322-42620FE1006D}"
+	SccProjectName=""
+	SccLocalPath="">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -122,74 +122,38 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\CRange.cpp">
-			</File>
-			<File
-				RelativePath="..\CStaticServicesProvider.cpp">
-			</File>
-			<File
-				RelativePath="..\CString.cpp">
-			</File>
-			<File
-				RelativePath="..\istd.cpp">
+				RelativePath="..\CModelBase.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
 			<File
-				RelativePath="..\CRange.h">
+				RelativePath="..\CModelBase.h">
 			</File>
 			<File
-				RelativePath="..\CStaticServicesProvider.h">
+				RelativePath="..\imod.h">
 			</File>
 			<File
-				RelativePath="..\CString.h">
+				RelativePath="..\IModel.h">
 			</File>
 			<File
-				RelativePath="..\IChangeable.h">
+				RelativePath="..\IModelEditor.h">
 			</File>
 			<File
-				RelativePath="..\IEnableable.h">
+				RelativePath="..\IObserver.h">
 			</File>
 			<File
-				RelativePath="..\IFactory.h">
+				RelativePath="..\TModelEditorBase.h">
 			</File>
 			<File
-				RelativePath="..\INamed.h">
+				RelativePath="..\TModelWrap.h">
 			</File>
 			<File
-				RelativePath="..\IPolymorphic.h">
+				RelativePath="..\TMultiModelObserverBase.h">
 			</File>
 			<File
-				RelativePath="..\IServicesProvider.h">
-			</File>
-			<File
-				RelativePath="..\istd.h">
-			</File>
-			<File
-				RelativePath="..\ITrace.h">
-			</File>
-			<File
-				RelativePath="..\TCascadedMap.h">
-			</File>
-			<File
-				RelativePath="..\TChangeNotifier.h">
-			</File>
-			<File
-				RelativePath="..\TDelPtr.h">
-			</File>
-			<File
-				RelativePath="..\TFactory.h">
-			</File>
-			<File
-				RelativePath="..\TIObjectFactory.h">
-			</File>
-			<File
-				RelativePath="..\TObjectFactory.h">
-			</File>
-			<File
-				RelativePath="..\TPointer.h">
+				RelativePath="..\TSingleModelObserverBase.h">
 			</File>
 		</Filter>
 	</Files>

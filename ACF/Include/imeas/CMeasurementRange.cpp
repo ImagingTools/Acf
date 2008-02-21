@@ -12,7 +12,7 @@ CMeasurementRange::CMeasurementRange()
 
 bool CMeasurementRange::IsValid() const
 {
-	return m_warningRange.IsValid() && m_errorRange.IsValid();
+	return (m_warningRange.IsValid() && m_errorRange.IsValid()) && (!m_warningRange.IsEmpty() && !m_errorRange.IsEmpty());
 }
 
 

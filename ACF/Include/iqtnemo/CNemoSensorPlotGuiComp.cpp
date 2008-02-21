@@ -68,16 +68,19 @@ void CNemoSensorPlotGuiComp::initializeGui()
 	if (m_widget != NULL){
 		QLayout* layoutPtr = PlotFrame->layout();
 
+		// setup the plot grid:
 		QwtPlotGrid* gridPtr = new QwtPlotGrid();
 		QPen gridPen(QBrush(Qt::lightGray), 0, Qt::DashLine);
 		gridPtr->setMajPen(gridPen);
 
+		// setup the plot:
 		m_plotPtr = new QwtPlot(PlotFrame);
 		m_plotPtr->setCanvasLineWidth(0);
 		m_plotPtr->setAxisScale(QwtPlot::yLeft, 0, 100);
 		m_plotPtr->plotLayout()->setAlignCanvasToScales(true);
 		m_background.attach(m_plotPtr);
 
+		// setup plot curve:
 		QColor c(Qt::white);
 		QColor c2(Qt::darkBlue);
         c.setAlpha(128);
@@ -85,9 +88,11 @@ void CNemoSensorPlotGuiComp::initializeGui()
 		m_plotCurve.setBrush(c);
 		m_plotCurve.setRenderHint(QwtPlotItem::RenderAntialiased);
 
+		// attach all graphic objects to the plot:
 		m_plotCurve.attach(m_plotPtr);
 		gridPtr->attach(m_plotPtr);
 
+		// create layout for the plot widget and add plot:
 		if (layoutPtr == NULL){
 			layoutPtr = new QGridLayout(PlotFrame);
 		}
@@ -106,6 +111,7 @@ void CNemoSensorPlotGuiComp::UpdateView()
 	}
 
 	istd::CRange sensorRange = m_objectPtr->GetSpecification().GetRange();
+	m_plotCurve.setBaseline(sensorRange.GetBottomValue());
 
 	m_background.SetMeasurementRange(m_objectPtr->GetMeasurementRange(), sensorRange);
 	m_plotPtr->setAxisScale(QwtPlot::yLeft, sensorRange.GetBottomValue(), sensorRange.GetTopValue());
@@ -164,8 +170,8 @@ int CNemoSensorPlotGuiComp::CBackgroundItem::rtti() const
 
 void CNemoSensorPlotGuiComp::CBackgroundItem::draw(QPainter *painter, const QwtScaleMap &, const QwtScaleMap &yMap, const QRect &rect) const
 {
-	if (m_measurementRange.IsValid()){
-		
+	if (!m_measurementRange.IsValid()){
+		return;	
 	}
 	
 	QColor c(Qt::red);
@@ -202,6 +208,6 @@ CNemoSensorPlotGuiComp::CNemoSensorPlotGuiComp()
 	:BaseClass()
 {
 }
-
+ 
 
 } // namespace iqtnemo
