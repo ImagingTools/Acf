@@ -13,7 +13,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ACFDIR)\Lib\$(ConfigurationName)VC7"
+			OutputDirectory="$(ACFDIR)\Bin\$(ConfigurationName)VC7"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			UseOfMFC="0"
@@ -66,9 +66,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ACFDIR)\Lib\$(ConfigurationName)VC7"
+			OutputDirectory="$(ACFDIR)\Bin\$(ConfigurationName)VC7"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
+			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -87,8 +87,7 @@
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/ACF_$(ProjectName).lib"/>
+				Name="VCLinkerTool"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -112,6 +111,8 @@
 			<Tool
 				Name="VCXMLDataGeneratorTool"/>
 			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
 				Name="VCManagedWrapperGeneratorTool"/>
 			<Tool
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
@@ -127,9 +128,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
-			<File
-				RelativePath="..\Empty.cpp">
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

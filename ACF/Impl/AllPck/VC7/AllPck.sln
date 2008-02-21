@@ -52,6 +52,17 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ixln", "..\..\..\Include\ixln\VC7\ixln.vcproj", "{D5379D78-3D01-491F-B477-EC8F2A35ED2E}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdLib", "..\..\StdLib\VC7\StdLib.vcproj", "{AA94C676-48A9-4FCF-BC0F-96B0E910F463}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7F855A37-4741-472A-82B5-5F57C4B6F2D1} = {7F855A37-4741-472A-82B5-5F57C4B6F2D1}
+		{FE2B4D42-47B8-4656-9A43-36C8CBF6B09D} = {FE2B4D42-47B8-4656-9A43-36C8CBF6B09D}
+		{F3A159CA-14B5-4800-8039-0157CF31EA27} = {F3A159CA-14B5-4800-8039-0157CF31EA27}
+		{6DFD9DED-F84C-43C5-953A-9713464D7D15} = {6DFD9DED-F84C-43C5-953A-9713464D7D15}
+		{126B67F7-B779-4A80-A651-1111D5EDF583} = {126B67F7-B779-4A80-A651-1111D5EDF583}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
@@ -107,6 +118,10 @@ Global
 		{D5379D78-3D01-491F-B477-EC8F2A35ED2E}.Debug.Build.0 = Debug|Win32
 		{D5379D78-3D01-491F-B477-EC8F2A35ED2E}.Release.ActiveCfg = Release|Win32
 		{D5379D78-3D01-491F-B477-EC8F2A35ED2E}.Release.Build.0 = Release|Win32
+		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Debug.ActiveCfg = Debug|Win32
+		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Debug.Build.0 = Debug|Win32
+		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Release.ActiveCfg = Release|Win32
+		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

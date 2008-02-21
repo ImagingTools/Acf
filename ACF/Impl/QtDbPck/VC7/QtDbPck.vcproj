@@ -12,8 +12,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\Bin\ReleaseVC7"
-			IntermediateDirectory="Release"
+			OutputDirectory="$(ACFDIR)\Bin\$(ConfigurationName)VC7"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2">
 			<Tool
 				Name="VCCLCompilerTool"
@@ -55,8 +55,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\Bin\DebugVC7"
-			IntermediateDirectory="Debug"
+			OutputDirectory="$(ACFDIR)\Bin\$(ConfigurationName)VC7"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2">
 			<Tool
 				Name="VCCLCompilerTool"
