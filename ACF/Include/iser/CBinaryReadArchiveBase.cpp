@@ -17,7 +17,7 @@ bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkipp
 	I_DWORD readId;
 	bool retVal = Process(readId);
 
-	return retVal && (readId != tag.GetBinaryId());
+	return retVal && (readId == tag.GetBinaryId());
 }
 
 
@@ -26,7 +26,7 @@ bool CBinaryReadArchiveBase::EndTag(const CArchiveTag& tag)
 	I_DWORD readId;
 	bool retVal = Process(readId);
 
-	return retVal && (~readId != tag.GetBinaryId());
+	return retVal && (~readId == tag.GetBinaryId());
 }
 
 

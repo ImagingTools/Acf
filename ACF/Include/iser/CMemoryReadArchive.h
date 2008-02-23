@@ -34,6 +34,7 @@ protected:
 	const I_BYTE* m_bufferPtr;
 	int m_bufferSize;
 	int m_readPosition;
+	bool m_isValid;
 };
 
 

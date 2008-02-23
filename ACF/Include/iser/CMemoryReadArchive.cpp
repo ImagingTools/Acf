@@ -16,10 +16,11 @@ CMemoryReadArchive::CMemoryReadArchive(
 			bool serializeHeader)
 :	m_bufferPtr((const I_BYTE*)bufferPtr),
 	m_bufferSize(bufferSize),
-	m_readPosition(0)
+	m_readPosition(0),
+	m_isValid(true)
 {
 	if (serializeHeader){
-		SerializeAcfHeader();
+		m_isValid = SerializeAcfHeader();
 	}
 }
 
@@ -29,10 +30,11 @@ CMemoryReadArchive::CMemoryReadArchive(
 			bool serializeHeader)
 :	m_bufferPtr((const I_BYTE*)writeArchive.GetBuffer()),
 	m_bufferSize(writeArchive.GetBufferSize()),
-	m_readPosition(0)
+	m_readPosition(0),
+	m_isValid(true)
 {
 	if (serializeHeader){
-		SerializeAcfHeader();
+		m_isValid = SerializeAcfHeader();
 	}
 }
 
@@ -42,6 +44,10 @@ CMemoryReadArchive::CMemoryReadArchive(
 bool CMemoryReadArchive::ProcessData(void* data, int size)
 {
 	if (m_readPosition + size > m_bufferSize){
+		m_isValid = false;
+	}
+
+	if (!m_isValid){
 		return false;
 	}
 

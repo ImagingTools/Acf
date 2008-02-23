@@ -2,8 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="iser"
-	ProjectGUID="{6DFD9DED-F84C-43C5-953A-9713464D7D15}">
+	Name="ixln"
+	ProjectGUID="{D5379D78-3D01-491F-B477-EC8F2A35ED2E}"
+	SccProjectName="&quot;$/develop/modules/iwin&quot;, XRAAAAAA"
+	SccLocalPath="..\iwin">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -20,13 +22,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../../"
+				AdditionalIncludeDirectories="../../;&quot;$(XERCESDIR)/src&quot;;&quot;$(XALANDIR)/src&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				CompileAs="0"/>
@@ -71,12 +73,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../"
+				AdditionalIncludeDirectories="../../;&quot;$(XERCESDIR)/src&quot;;&quot;$(XALANDIR)/src&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
+				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="3"
@@ -120,58 +123,13 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="..\CArchiveBase.cpp">
+				RelativePath="..\CFileXmlReadArchive.cpp">
 			</File>
 			<File
-				RelativePath="..\CArchiveTag.cpp">
+				RelativePath="..\CFileXmlWriteArchive.cpp">
 			</File>
 			<File
-				RelativePath="..\CBinaryArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CBinaryReadArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CBinaryWriteArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CFileReadArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CMemoryReadArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CMemoryWriteArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CMinimalVersionInfo.cpp">
-			</File>
-			<File
-				RelativePath="..\CReadArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CReaderVersionInfo.cpp">
-			</File>
-			<File
-				RelativePath="..\CTextReadArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CTextWriteArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CWriteArchiveBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlDocumentInfoBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp">
+				RelativePath="..\CXercesBase.cpp">
 			</File>
 			<File
 				RelativePath="..\CXmlReadArchiveBase.cpp">
@@ -184,58 +142,13 @@
 			Name="Header Files"
 			Filter="*.h, *.hpp">
 			<File
-				RelativePath="..\CArchiveBase.h">
+				RelativePath="..\CFileXmlReadArchive.h">
 			</File>
 			<File
-				RelativePath="..\CArchiveTag.h">
+				RelativePath="..\CFileXmlWriteArchive.h">
 			</File>
 			<File
-				RelativePath="..\CBinaryArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CBinaryReadArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CBinaryWriteArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CFileReadArchive.h">
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.h">
-			</File>
-			<File
-				RelativePath="..\CMemoryReadArchive.h">
-			</File>
-			<File
-				RelativePath="..\CMemoryWriteArchive.h">
-			</File>
-			<File
-				RelativePath="..\CMinimalVersionInfo.h">
-			</File>
-			<File
-				RelativePath="..\CReadArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CReaderVersionInfo.h">
-			</File>
-			<File
-				RelativePath="..\CTextReadArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CTextWriteArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CWriteArchiveBase.h">
-			</File>
-			<File
-				RelativePath="..\CXmlDocumentInfoBase.h">
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.h">
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h">
+				RelativePath="..\CXercesBase.h">
 			</File>
 			<File
 				RelativePath="..\CXmlReadArchiveBase.h">
@@ -244,19 +157,7 @@
 				RelativePath="..\CXmlWriteArchiveBase.h">
 			</File>
 			<File
-				RelativePath="..\IArchive.h">
-			</File>
-			<File
-				RelativePath="..\IFileSerializer.h">
-			</File>
-			<File
-				RelativePath="..\iser.h">
-			</File>
-			<File
-				RelativePath="..\ISerializable.h">
-			</File>
-			<File
-				RelativePath="..\IVersionInfo.h">
+				RelativePath="..\ixln.h">
 			</File>
 		</Filter>
 	</Files>

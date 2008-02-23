@@ -63,78 +63,6 @@ bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 }
 
 
-bool CXmlReadArchiveBase::Process(bool& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(char& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_BYTE& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_SBYTE& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_WORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_SWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_DWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_SDWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_QWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(I_SQWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(float& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlReadArchiveBase::Process(double& value)
-{
-	return ProcessInternal(value);
-}
-
-
 bool CXmlReadArchiveBase::Process(::std::string& value)
 {
 	char foundDelimeter;
@@ -159,12 +87,6 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 		return true;
 	}
 
-	return false;
-}
-
-
-bool CXmlReadArchiveBase::ProcessData(void* dataPtr, int size)
-{
 	return false;
 }
 

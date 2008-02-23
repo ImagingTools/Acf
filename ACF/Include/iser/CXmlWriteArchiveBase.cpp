@@ -45,93 +45,26 @@ bool CXmlWriteArchiveBase::EndTag(const CArchiveTag& tag)
 }
 
 
-bool CXmlWriteArchiveBase::Process(bool& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(char& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_BYTE& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_SBYTE& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_WORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_SWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_DWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_SDWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_QWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(I_SQWORD& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(float& value)
-{
-	return ProcessInternal(value);
-}
-
-
-bool CXmlWriteArchiveBase::Process(double& value)
-{
-	return ProcessInternal(value);
-}
-
-
 bool CXmlWriteArchiveBase::Process(::std::string& value)
 {
-	return ProcessInternal(value);
+	bool retVal = true;
+
+	if (m_isSeparatorNeeded){
+		retVal = retVal && MakeIndent();
+		retVal = retVal && WriteString("<" + GetElementSeparator().ToString() + ">\n");
+	}
+
+	retVal = retVal && MakeIndent();
+
+	retVal = retVal && WriteString(value) && WriteString("\n");
+
+	return retVal;
 }
 
 
 bool CXmlWriteArchiveBase::Process(istd::CString& value)
 {
-	return ProcessInternal(value.ToString());
-}
-
-
-bool CXmlWriteArchiveBase::ProcessData(void* dataPtr, int size)
-{
-	return false;
+	return Process(::std::string(value.ToString()));
 }
 
 
@@ -168,7 +101,7 @@ bool CXmlWriteArchiveBase::MakeIndent()
 bool CXmlWriteArchiveBase::SerializeXmlHeader()
 {
 	bool retVal = true;
-	
+
 	retVal = retVal && WriteString("<?xml version=\"1.0\"?>\n");
 	retVal = retVal && BeginTag(m_rootTag);
 

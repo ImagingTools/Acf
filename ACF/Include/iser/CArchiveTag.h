@@ -15,7 +15,7 @@ class IArchive;
 
 
 /**
-	Archive tag used to group data in archive stream.
+	Process tag used to group data in archive stream.
 */
 class CArchiveTag
 {

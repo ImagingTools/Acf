@@ -22,6 +22,8 @@ public:
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false);
 
 protected:
+	CArchiveBase(){}
+
 	// list of standard tags used to serialize header
 	static iser::CArchiveTag s_acfRootTag;
 	static iser::CArchiveTag s_headerTag;
@@ -30,6 +32,12 @@ protected:
 	static iser::CArchiveTag s_versionIdTag;
 	static iser::CArchiveTag s_versionNumberTag;
 	static iser::CArchiveTag s_versionDescriptionTag;
+
+private:
+	/**
+		Block of copy contructor for all derrived classes.
+	*/
+	CArchiveBase(const CArchiveBase&){}
 };
 
 

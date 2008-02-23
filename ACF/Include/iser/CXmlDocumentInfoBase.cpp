@@ -5,7 +5,7 @@ namespace iser
 {
 
 
-const std::string& CXmlDocumentInfoBase::GetElementSeparator()
+const istd::CString& CXmlDocumentInfoBase::GetElementSeparator()
 {
 	return s_elementSeparator;
 }
@@ -13,7 +13,7 @@ const std::string& CXmlDocumentInfoBase::GetElementSeparator()
 
 // static attributes
 
-std::string CXmlDocumentInfoBase::s_elementSeparator("br");
+istd::CString CXmlDocumentInfoBase::s_elementSeparator("br");
 
 
 } // namespace iser

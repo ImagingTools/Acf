@@ -1,0 +1,68 @@
+#ifndef iser_CTextWriteArchiveBase_included
+#define iser_CTextWriteArchiveBase_included
+
+
+#include "iser/CWriteArchiveBase.h"
+
+
+namespace iser
+{
+
+
+/**
+	Common archive implementation of text-based storing archives.
+*/
+class CTextWriteArchiveBase: public CWriteArchiveBase
+{
+public:
+	typedef CWriteArchiveBase BaseClass;
+
+	using BaseClass::Process;
+
+	// reimplemented (iser::IArchive)
+	virtual bool Process(bool& value);
+	virtual bool Process(char& value);
+	virtual bool Process(I_BYTE& value);
+	virtual bool Process(I_SBYTE& value);
+	virtual bool Process(I_WORD& value);
+	virtual bool Process(I_SWORD& value);
+	virtual bool Process(I_DWORD& value);
+	virtual bool Process(I_SDWORD& value);
+	virtual bool Process(I_QWORD& value);
+	virtual bool Process(I_SQWORD& value);
+	virtual bool Process(float& value);
+	virtual bool Process(double& value);
+	virtual bool ProcessData(void* dataPtr, int size);
+
+protected:
+	CTextWriteArchiveBase(const IVersionInfo* versionInfoPtr);
+
+	// template methods
+	template <typename Type>
+	bool ProcessInternal(const Type& value);
+};
+
+
+// template methods
+
+template <typename Type>
+bool CTextWriteArchiveBase::ProcessInternal(const Type& value)
+{
+	bool retVal = true;
+
+	::std::ostrstream stream;
+
+	stream << value << "\n" << ::std::ends;
+
+	retVal = retVal && Process(::std::string(stream.str()));
+
+	return retVal;
+}
+
+
+} // namespace iser
+
+
+#endif // !iser_CTextWriteArchiveBase_included
+
+
