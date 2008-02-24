@@ -6,7 +6,7 @@
 
 
 /**
-\defgroup ixln ixln
+\defgroup ixln Xalan/Xerces
 \ingroup ACF
 @{
 */

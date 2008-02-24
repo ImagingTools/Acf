@@ -14,7 +14,10 @@ namespace ibase
 {
 
 
-class INamedObject: virtual public IObject, virtual public INamed
+/**
+	Connection interface between IObject and INamed.
+*/
+class INamedObject: virtual public ibase::IObject, virtual public istd::INamed
 {
 };
 

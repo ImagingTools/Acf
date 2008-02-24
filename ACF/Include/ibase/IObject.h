@@ -14,7 +14,10 @@ namespace ibase
 {
 
 
-class IObject: virtual public IChangeable, virtual public ISerializable
+/**
+	Common interface for factorisable model objects.
+*/
+class IObject: virtual public istd::IChangeable, virtual public iser::ISerializable
 {
 public:
 	virtual istd::CString& GetFactoryId() const;
