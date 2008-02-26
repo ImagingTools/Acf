@@ -83,18 +83,27 @@ template <class ObjectClass>
 bool TSingleModelObserverBase<ObjectClass>::OnAttached(imod::IModel* modelPtr)
 {
 	I_ASSERT(modelPtr != NULL);
+	I_ASSERT(m_modelPtr == NULL);
 
-	if (m_modelPtr != NULL){
-		m_modelPtr->DetachObserver(this);
+	if (modelPtr == NULL){
+		return false;
 	}
 
-	m_modelPtr = modelPtr;
+	if (m_modelPtr != NULL){
+		return false;
+	}
 
 	m_objectPtr = dynamic_cast<ObjectClass*>(modelPtr);
 	if (m_objectPtr == NULL){
 		m_modelPtr = NULL;
 		return false;
 	}
+
+	BeforeUpdate(NULL);
+
+	m_modelPtr = modelPtr;
+
+	AfterUpdate(m_modelPtr);
 
 	return true;
 }
@@ -103,9 +112,16 @@ bool TSingleModelObserverBase<ObjectClass>::OnAttached(imod::IModel* modelPtr)
 template <class ObjectClass> 
 bool TSingleModelObserverBase<ObjectClass>::OnDetached(imod::IModel* modelPtr)
 {
+	I_ASSERT(modelPtr != NULL);
+
 	if (m_modelPtr == modelPtr){		
+
+		BeforeUpdate(modelPtr);
+	
 		m_modelPtr = NULL;
 		m_objectPtr = NULL;
+
+		AfterUpdate(NULL);
 
 		return true;
 	}

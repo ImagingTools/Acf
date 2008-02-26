@@ -129,6 +129,9 @@
 				RelativePath="..\IDatabaseConnector.h">
 			</File>
 			<File
+				RelativePath="..\IDatabaseTableModelProvider.h">
+			</File>
+			<File
 				RelativePath="..\idb.h">
 			</File>
 		</Filter>

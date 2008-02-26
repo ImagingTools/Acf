@@ -43,9 +43,9 @@ TModelWrap<BaseClass>::TModelWrap()
 template <class BaseClass>
 void TModelWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	BaseClass::BeginChanges(changeFlags, changeParamsPtr);
-
 	if (m_changeCounter == 0){
+		BaseClass::BeginChanges(changeFlags, changeParamsPtr);
+	
 		NotifyBeforeUpdate(changeFlags, changeParamsPtr);
 	}
 
@@ -56,11 +56,11 @@ void TModelWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* ch
 template <class BaseClass>
 void TModelWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	BaseClass::EndChanges(changeFlags, changeParamsPtr);
-
 	m_changeCounter--;
 
 	if (m_changeCounter == 0){
+		BaseClass::EndChanges(changeFlags, changeParamsPtr);
+	
 		NotifyAfterUpdate(changeFlags, changeParamsPtr);
 	}
 }

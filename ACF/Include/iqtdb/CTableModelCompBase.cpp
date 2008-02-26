@@ -16,8 +16,6 @@ CTableModelCompBase::CTableModelCompBase()
 	m_schemaNameAttr("", this, "SchemaName"),
 	m_updateIntervallAttr(1, this, "UpdateIntervall")
 {
-	registerInterface<imod::IModel>(this);
-
 	m_tableModelPtr = NULL;
 }
 
@@ -82,11 +80,7 @@ void CTableModelCompBase::RefreshModel()
 	if (m_tableModelPtr != NULL){
 		if (m_tableModelPtr->select()){
 			if (IsModelChanged()){
-				SynchronizeModelWithTable();
-
-				istd::TChangeNotifier<istd::IChangeable> notifier(this);
-
-				notifier.Reset();
+				UpdateModel();
 			}
 		}
 	}

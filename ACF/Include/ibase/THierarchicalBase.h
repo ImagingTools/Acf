@@ -5,6 +5,7 @@
 #include "ibase/ibase.h"
 
 #include "istd/IHierarchical.h"
+#include "istd/TChangeDelegator.h"
 
 
 namespace ibase
@@ -18,12 +19,10 @@ namespace ibase
 	This class is a pseudo-implementation of istd::IHierarchical interface.
 */
 template <class BaseClass>
-class THierarchicalBase: virtual public BaseClass
+class THierarchicalBase: public istd::TChangeDelegator<BaseClass>
 {
 public:
-	enum UpdateFlags{
-		
-	};
+	typedef istd::TChangeDelegator<BaseClass> BaseImpl;
 
 	THierarchicalBase();
 
@@ -33,10 +32,6 @@ public:
 	virtual int GetChildCount() const;
 	virtual istd::IPolymorphic* GetChild(int index) const;
 	virtual istd::IHierarchical* GetParent() const;
-
-	// peudeo-reimplemented (istd::IChangeable)
-	virtual void BeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
 
 protected:
 	istd::IHierarchical* m_parentPtr;
@@ -56,6 +51,11 @@ template <class BaseClass>
 void THierarchicalBase<BaseClass>::SetParentPtr(istd::IHierarchical* parentPtr)
 {
 	m_parentPtr = parentPtr;
+
+	istd::IChangeable* changeablePtr = dynamic_cast<istd::IChangeable*>(parentPtr);
+	if (changeablePtr){
+		SetSlavePtr(changeablePtr);
+	}
 }
 
 
@@ -79,22 +79,6 @@ template <class BaseClass>
 istd::IHierarchical* THierarchicalBase<BaseClass>::GetParent() const
 {
 	return m_parentPtr;
-}
-
-
-// peudeo-reimplemented (istd::IChangeable)
-
-template <class BaseClass>
-void THierarchicalBase<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	BaseClass::BeginChanges(changeFlags, changeParamsPtr);
-}
-
-
-template <class BaseClass>
-void THierarchicalBase<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	BaseClass::EndChanges(changeFlags, changeParamsPtr);
 }
 
 

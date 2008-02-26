@@ -15,12 +15,15 @@
 #include "Comp/Component.h"
 #include "Comp/Attribute.h"
 #include "Comp/MultipleAttribute.h"
-
+#include "Comp/MultipleComponentDependency.h"
 
 #include "istd/IChangeable.h"
+
 #include "idb/IDatabaseConnector.h"
+#include "idb/IDatabaseTableModelProvider.h"
 
 #include "imod/IModel.h"
+#include "imod/IModelEditor.h"
 
 
 namespace iqtdb
@@ -35,9 +38,8 @@ namespace iqtdb
 	for enable the update delegation to the connected observers.
 */
 class CTableModelCompBase:	public QObject,
-							public acf::Component,
-							public istd::IChangeable,
-							public imod::IModel
+							public acf::Component
+
 {
 	Q_OBJECT
 public:
@@ -50,14 +52,19 @@ public:
 
 protected:
 	/**
+		Abstract method for update database table with the contents of the model.
+	*/
+	virtual void UpdateTable() = 0;
+
+	/**
+		Abstract method for update model with the contents of the database table.
+	*/
+	virtual void UpdateModel() = 0;
+
+	/**
 		Abstract method for checking the model changes.
 	*/
 	virtual bool IsModelChanged() const = 0;
-
-	/**
-		Abstract method to create the model data from the table content.
-	*/
-	virtual void SynchronizeModelWithTable() = 0;
 
 	QString CalculateFullTableName(const QString& tableName = QString()) const;
 
@@ -73,6 +80,7 @@ private:
 	QTimer m_checkModelTimer;
 
 	acf::ComponentDependency<idb::IDatabaseConnector> m_databaseConnectorIfPtr;
+
 	acf::StringAttribute m_tableNameAttr;
 	acf::StringAttribute m_schemaNameAttr;
 	acf::IntAttribute m_updateIntervallAttr;

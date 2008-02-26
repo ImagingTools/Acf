@@ -282,6 +282,9 @@
 				RelativePath="..\TCascadedMap.h">
 			</File>
 			<File
+				RelativePath="..\TChangeDelegator.h">
+			</File>
+			<File
 				RelativePath="..\TChangeNotifier.h">
 			</File>
 			<File

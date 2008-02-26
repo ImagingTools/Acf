@@ -16,7 +16,7 @@ template <class Changeable>
 class TChangeNotifier   
 {
 public:
-	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = 0);
+	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 	virtual  ~TChangeNotifier();
 
 	void Reset();
@@ -28,16 +28,18 @@ public:
 private:
 	Changeable* m_changeablePtr;
 	int m_changeFlags;
+	istd::IPolymorphic* m_updateParamsPtr;
 };
 
 
 template <class Changeable>
-TChangeNotifier<Changeable>::TChangeNotifier(Changeable* changeablePtr, int changeFlags)
+TChangeNotifier<Changeable>::TChangeNotifier(Changeable* changeablePtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
 	:m_changeablePtr(changeablePtr),
-	m_changeFlags(changeFlags)
+	m_changeFlags(changeFlags),
+	m_updateParamsPtr(updateParamsPtr)
 {
 	if (m_changeablePtr != NULL){
-		m_changeablePtr->BeginChanges(changeFlags);
+		m_changeablePtr->BeginChanges(changeFlags, m_updateParamsPtr);
 	}
 }
 
@@ -54,7 +56,7 @@ template <class Changeable>
 inline void TChangeNotifier<Changeable>::Reset()
 {
 	if (IsValid()){
-		m_changeablePtr->EndChanges(m_changeFlags);
+		m_changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
 	}
 
 	m_changeablePtr = NULL;
@@ -71,6 +73,8 @@ inline bool TChangeNotifier<Changeable>::IsValid() const
 template <class Changeable>
 inline const Changeable* TChangeNotifier<Changeable>::operator->() const
 {
+	I_ASSERT(m_changeablePtr != NULL);
+
 	return m_changeablePtr;
 }
 
@@ -78,6 +82,8 @@ inline const Changeable* TChangeNotifier<Changeable>::operator->() const
 template <class Changeable>
 inline Changeable* TChangeNotifier<Changeable>::operator->()
 {
+	I_ASSERT(m_changeablePtr != NULL);
+
 	return m_changeablePtr;
 }
 
@@ -85,6 +91,8 @@ inline Changeable* TChangeNotifier<Changeable>::operator->()
 template <class Changeable>
 inline TChangeNotifier<Changeable>::operator Changeable*() const
 {
+	I_ASSERT(m_changeablePtr != NULL);
+
 	return m_changeablePtr;
 }
 
