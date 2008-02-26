@@ -12,7 +12,7 @@ namespace iser
 {
 
 
-bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkipping*/)
+bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag)
 {
 	I_DWORD readId;
 	bool retVal = Process(readId);

@@ -16,8 +16,8 @@ public:
 	typedef iser::CReadArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false);
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false);
+	virtual bool BeginTag(const CArchiveTag& tag);
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool Process(::std::string& value);
 	virtual bool Process(istd::CString& value);

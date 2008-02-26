@@ -19,7 +19,7 @@ public:
 	bool RegisterSubcomponentInfo(const ::std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
 
 	// reimplemented (icomp::CPackageStaticInfo)
-	virtual IComponent* CreateComponent(const IComponentContext& context) const;
+	virtual IComponent* CreateComponent(const IComponentContext* contextPtr) const;
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual const SubcomponentInfos& GetSubcomponentInfos() const;

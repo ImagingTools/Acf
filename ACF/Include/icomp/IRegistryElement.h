@@ -9,6 +9,8 @@
 
 #include "iser/ISerializable.h"
 
+#include "icomp/icomp.h"
+
 
 namespace icomp
 {
@@ -66,7 +68,7 @@ public:
 	/**
 		Removes attribute info structure from this collection.
 	*/
-	virtual bool RemoveAttributeInfo(const ::std::string& attributeId) = 0;
+	virtual bool RemoveAttribute(const ::std::string& attributeId) = 0;
 };
 
 

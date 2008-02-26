@@ -55,7 +55,7 @@ const iser::ISerializable* CComponentContext::GetAttribute(const ::std::string& 
 }
 
 
-IComponent* CComponentContext::GetSubComponent(const ::std::string& /*componentId*/) const
+IComponent* CComponentContext::GetSubcomponent(const ::std::string& /*componentId*/) const
 {
 	return NULL;	// normal component has no subcomponents
 }

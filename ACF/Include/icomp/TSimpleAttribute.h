@@ -5,6 +5,8 @@
 #include "iser/IArchive.h"
 #include "iser/ISerializable.h"
 
+#include "icomp/icomp.h"
+
 
 namespace icomp
 {

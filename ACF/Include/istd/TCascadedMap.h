@@ -20,6 +20,9 @@ template <typename Key, typename Value>
 class TCascadedMap
 {
 public:
+	typedef Key KeyType;
+	typedef Value ValueType;
+
 	/**
 		Constructor with optional assigning of parent map.
 	*/
@@ -39,69 +42,69 @@ public:
 		Element access operator.
 		If key object not exists, it will be automatically created.
 	*/
-	Value& operator[](const Key& key);
+	ValueType& operator[](const KeyType& key);
 
 	/**
 		Element access operator.
 		If key object not exists, it will be automatically created.
 	*/
-	const Value& operator[](const Key& key) const;
+	const ValueType& operator[](const KeyType& key) const;
 
 	/**
 		Find index index of specified key.
 	*/
-	int FindIndex(const Key& key) const;
+	int FindIndex(const KeyType& key) const;
 
 	/**
 		Find index index of specified key using local context only.
 	*/
-	int FindLocalIndex(const Key& key) const;
+	int FindLocalIndex(const KeyType& key) const;
 
 	/**
 		Find value element associated with specified key.
 		\return	pointer to associated value, or NULL if key not exists.
 	*/
-	const Value* FindElement(const Key& key) const;
+	const ValueType* FindElement(const KeyType& key) const;
 
 	/**
 		Find value element associated with specified key using local context only.
 		\return	pointer to associated value, or NULL if key not exists.
 	*/
-	const Value* FindLocalElement(const Key& key) const;
+	const ValueType* FindLocalElement(const KeyType& key) const;
 
 	/**
 		Find value element associated with specified key using local context only.
 		\return	pointer to associated value, or NULL if key not exists.
 	*/
-	Value* FindLocalElement(const Key& key);
+	ValueType* FindLocalElement(const KeyType& key);
 
 	/**
 		Get key value at specified index.
 	*/
-	const Key& GetKeyAt(int index) const;
+	const KeyType& GetKeyAt(int index) const;
 	/**
 		Get key value from local context at specified index.
 	*/
-	const Key& GetLocalKeyAt(int index) const;
+	const KeyType& GetLocalKeyAt(int index) const;
 	/**
 		Get key value from local context at specified index.
 	*/
-	Key& GetLocalKeyAt(int index);
+	KeyType& GetLocalKeyAt(int index);
 
 	/**
 		Get mapped value at specified index.
 	*/
-	const Value& GetValueAt(int index) const;
+	const ValueType& GetValueAt(int index) const;
 
 	/**
 		Get mapped value from local context at specified index.
 	*/
-	const Value& GetLocalValueAt(int index) const;
+	const ValueType& GetLocalValueAt(int index) const;
 
 	/**
 		Get mapped value from local context at specified index.
 	*/
-	Value& GetLocalValueAt(int index);
+	ValueType& GetLocalValueAt(int index);
 
 	/**
 		Get number of elements.
@@ -116,7 +119,7 @@ public:
 	/**
 		Insert element in local context.
 	*/
-	bool InsertLocal(const Key& key, const Value& value);
+	bool InsertLocal(const KeyType& key, const ValueType& value);
 
 	/**
 		Get owner context of element at specified index.
@@ -133,11 +136,11 @@ public:
 private:
 	const TCascadedMap<Key, Value>* m_parentPtr;
 
-	typedef ::std::map<Key, int> IndexsMap;
-	typedef ::std::pair<Key, Value> Pair;
+	typedef ::std::map<KeyType, int> IndicesMap;
+	typedef ::std::pair<KeyType, ValueType> Pair;
 	typedef ::std::vector<Pair> PairList;
 
-	mutable IndexsMap m_positionsMap;
+	mutable IndicesMap m_positionsMap;
 	mutable PairList m_pairList;
 };
 
@@ -166,9 +169,9 @@ void TCascadedMap<Key, Value>::SetParent(const TCascadedMap<Key, Value>* parentP
 
 
 template <typename Key, typename Value>
-Value& TCascadedMap<Key, Value>::operator[](const Key& key)
+typename TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::operator[](const KeyType& key)
 {
-	IndexsMap::const_iterator iter = m_positionsMap.find(key);
+	IndicesMap::const_iterator iter = m_positionsMap.find(key);
 	if (iter != m_positionsMap.end()){
 		return m_pairList[iter->second];
 	}
@@ -176,23 +179,23 @@ Value& TCascadedMap<Key, Value>::operator[](const Key& key)
 	int newIndex = int(m_pairList.size());
 	m_positionsMap[key] = newIndex;
 
-	m_pairList.push_back(Pair(key, Value()));
+	m_pairList.push_back(Pair(key, ValueType()));
 
 	return m_positionsMap.back();
 }
 
 
 template <typename Key, typename Value>
-const Value& TCascadedMap<Key, Value>::operator[](const Key& key) const
+typename const TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::operator[](const KeyType& key) const
 {
 	return const_cast<TCascadedMap*>(this)->operator[](key);
 }
 
 
 template <typename Key, typename Value>
-int TCascadedMap<Key, Value>::FindIndex(const Key& key) const
+int TCascadedMap<Key, Value>::FindIndex(const KeyType& key) const
 {
-	IndexsMap::const_iterator iter = m_positionsMap.find(key);
+	IndicesMap::const_iterator iter = m_positionsMap.find(key);
 	if (iter != m_positionsMap.end()){
 		return iter->second;
 	}
@@ -206,9 +209,9 @@ int TCascadedMap<Key, Value>::FindIndex(const Key& key) const
 
 
 template <typename Key, typename Value>
-int TCascadedMap<Key, Value>::FindLocalIndex(const Key& key) const
+int TCascadedMap<Key, Value>::FindLocalIndex(const KeyType& key) const
 {
-	IndexsMap::const_iterator iter = m_positionsMap.find(key);
+	IndicesMap::const_iterator iter = m_positionsMap.find(key);
 	if (iter != m_positionsMap.end()){
 		return iter->second;
 	}
@@ -218,7 +221,7 @@ int TCascadedMap<Key, Value>::FindLocalIndex(const Key& key) const
 
 
 template <typename Key, typename Value>
-typename const Value* TCascadedMap<Key, Value>::FindElement(const Key& key) const
+typename const TCascadedMap<Key, Value>::ValueType* TCascadedMap<Key, Value>::FindElement(const KeyType& key) const
 {
 	int index = FindIndex(key);
 	if (index >= 0){
@@ -230,7 +233,7 @@ typename const Value* TCascadedMap<Key, Value>::FindElement(const Key& key) cons
 
 
 template <typename Key, typename Value>
-typename const Value* TCascadedMap<Key, Value>::FindLocalElement(const Key& key) const
+typename const TCascadedMap<Key, Value>::ValueType* TCascadedMap<Key, Value>::FindLocalElement(const KeyType& key) const
 {
 	int index = FindLocalIndex(key);
 	if (index >= 0){
@@ -242,7 +245,7 @@ typename const Value* TCascadedMap<Key, Value>::FindLocalElement(const Key& key)
 
 
 template <typename Key, typename Value>
-typename Value* TCascadedMap<Key, Value>::FindLocalElement(const Key& key)
+typename TCascadedMap<Key, Value>::ValueType* TCascadedMap<Key, Value>::FindLocalElement(const KeyType& key)
 {
 	int index = FindLocalIndex(key);
 	if (index >= 0){
@@ -254,7 +257,7 @@ typename Value* TCascadedMap<Key, Value>::FindLocalElement(const Key& key)
 
 
 template <typename Key, typename Value>
-const Key& TCascadedMap<Key, Value>::GetKeyAt(int index) const
+typename const TCascadedMap<Key, Value>::KeyType& TCascadedMap<Key, Value>::GetKeyAt(int index) const
 {
 	int elementsCount = GetLocalElementsCount();
 	if (index < elementsCount){
@@ -268,7 +271,7 @@ const Key& TCascadedMap<Key, Value>::GetKeyAt(int index) const
 
 
 template <typename Key, typename Value>
-const Key& TCascadedMap<Key, Value>::GetLocalKeyAt(int index) const
+typename const TCascadedMap<Key, Value>::KeyType& TCascadedMap<Key, Value>::GetLocalKeyAt(int index) const
 {
 	I_ASSERT(index < int(m_pairList.size()));
 
@@ -277,7 +280,7 @@ const Key& TCascadedMap<Key, Value>::GetLocalKeyAt(int index) const
 
 
 template <typename Key, typename Value>
-Key& TCascadedMap<Key, Value>::GetLocalKeyAt(int index)
+typename TCascadedMap<Key, Value>::KeyType& TCascadedMap<Key, Value>::GetLocalKeyAt(int index)
 {
 	I_ASSERT(index < int(m_pairList.size()));
 
@@ -286,7 +289,7 @@ Key& TCascadedMap<Key, Value>::GetLocalKeyAt(int index)
 
 
 template <typename Key, typename Value>
-const Value& TCascadedMap<Key, Value>::GetValueAt(int index) const
+typename const TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::GetValueAt(int index) const
 {
 	int elementsCount = GetLocalElementsCount();
 	if (index < elementsCount){
@@ -300,7 +303,7 @@ const Value& TCascadedMap<Key, Value>::GetValueAt(int index) const
 
 
 template <typename Key, typename Value>
-Value& TCascadedMap<Key, Value>::GetLocalValueAt(int index)
+typename TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::GetLocalValueAt(int index)
 {
 	I_ASSERT(index < int(m_pairList.size()));
 
@@ -309,7 +312,7 @@ Value& TCascadedMap<Key, Value>::GetLocalValueAt(int index)
 
 
 template <typename Key, typename Value>
-const Value& TCascadedMap<Key, Value>::GetLocalValueAt(int index) const
+typename const TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::GetLocalValueAt(int index) const
 {
 	I_ASSERT(index < int(m_pairList.size()));
 
@@ -337,9 +340,9 @@ int TCascadedMap<Key, Value>::GetLocalElementsCount() const
 
 
 template <typename Key, typename Value>
-bool TCascadedMap<Key, Value>::InsertLocal(const Key& key, const Value& value)
+bool TCascadedMap<Key, Value>::InsertLocal(const KeyType& key, const ValueType& value)
 {
-	IndexsMap::const_iterator iter = m_positionsMap.find(key);
+	IndicesMap::const_iterator iter = m_positionsMap.find(key);
 	if (iter != m_positionsMap.end()){
 		return false;
 	}
@@ -347,7 +350,7 @@ bool TCascadedMap<Key, Value>::InsertLocal(const Key& key, const Value& value)
 	int newIndex = int(m_pairList.size());
 	m_positionsMap[key] = newIndex;
 
-	m_pairList.push_back(Pair(key, Value()));
+	m_pairList.push_back(Pair(key, ValueType()));
 
 	return true;
 }

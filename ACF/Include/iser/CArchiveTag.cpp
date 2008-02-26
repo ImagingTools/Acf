@@ -11,9 +11,11 @@ namespace iser
 
 CArchiveTag::CArchiveTag(
 				const ::std::string& id,
-				const ::std::string& comment)
+				const ::std::string& comment,
+				bool isTagSkippingUsed)
 	:	m_id(id),
-		m_comment(comment)
+		m_comment(comment),
+		m_isTagSkippingUsed(isTagSkippingUsed)
 {
 	m_binaryId = 0;
 	int idSize = int(m_id.size());

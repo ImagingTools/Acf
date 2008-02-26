@@ -38,7 +38,7 @@ public:
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false);
+	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool ProcessData(void* data, int size);
 

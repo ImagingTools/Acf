@@ -76,7 +76,7 @@ bool CXmlWriteArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlWriteArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/, bool /*useTagSkipping*/)
+bool CXmlWriteArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/)
 {
     return BeginTag(tag);
 }

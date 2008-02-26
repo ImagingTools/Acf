@@ -132,6 +132,9 @@
 				RelativePath="..\ICriticalSection.h">
 			</File>
 			<File
+				RelativePath="..\IFileSystem.h">
+			</File>
+			<File
 				RelativePath="..\IFunctionsProvider.h">
 			</File>
 			<File

@@ -62,7 +62,7 @@ bool CXmlReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
+bool CXmlReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
 	if (!BeginTag(tag)){
 		return false;

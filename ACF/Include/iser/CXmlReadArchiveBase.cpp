@@ -10,7 +10,7 @@ namespace iser
 
 // reimplemented (iser::IArchive)
 
-bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
+bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag)
 {
 	bool retVal = true;
 
@@ -25,7 +25,7 @@ bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
 }
 
 
-bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
+bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count)
 {
 	bool retVal = true;
 

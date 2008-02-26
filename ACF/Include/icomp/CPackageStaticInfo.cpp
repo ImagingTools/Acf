@@ -13,7 +13,7 @@ bool CPackageStaticInfo::RegisterSubcomponentInfo(const ::std::string& subcompon
 
 // reimplemented (icomp::IPackageStaticInfo)
 
-IComponent* CPackageStaticInfo::CreateComponent(const IComponentContext& context) const
+IComponent* CPackageStaticInfo::CreateComponent(const IComponentContext* /*contextPtr*/) const
 {
 	return NULL;
 }

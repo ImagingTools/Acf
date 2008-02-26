@@ -47,7 +47,7 @@ public:
 		\param	tag				tag object.
 		\param	useTagSkipping	flag signalling that support of tag skipping should be enabled.
 	*/
-	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false) = 0;
+	virtual bool BeginTag(const CArchiveTag& tag) = 0;
 
 	/**
 		Begin of archive tag containing set of subelements of the same type.
@@ -60,7 +60,7 @@ public:
 		\param	useTagSkipping	flag signalling that support of tag skipping should be enabled.
 		\return					true if success. In this case you have to call EndTag after serializing of subelements.
 	*/
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping = false) = 0;
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count) = 0;
 
 	/**
 		End of archive tag.

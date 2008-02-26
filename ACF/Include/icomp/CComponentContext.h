@@ -30,7 +30,7 @@ public:
 	virtual const IRegistryElement& GetRegistryElement() const;
 	virtual const IComponentContext* GetParentContext() const;
 	virtual const iser::ISerializable* GetAttribute(const ::std::string& attributeId, const IComponentContext** realContextPtr = NULL) const;
-	virtual IComponent* GetSubComponent(const ::std::string& componentId) const;
+	virtual IComponent* GetSubcomponent(const ::std::string& componentId) const;
 
 private:
 	const IComponentContext* m_parentPtr;

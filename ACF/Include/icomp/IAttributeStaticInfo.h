@@ -8,6 +8,8 @@
 
 #include "iser/ISerializable.h"
 
+#include "icomp/icomp.h"
+
 
 namespace icomp{
 

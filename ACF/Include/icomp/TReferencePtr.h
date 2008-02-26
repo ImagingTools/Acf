@@ -110,7 +110,7 @@ bool TReferencePtr::EnsureInitialized() const
 
 		const IComponentContext* parentPtr = m_realContextPtr->GetParentContext();
 		if (parentPtr != NULL){
-			m_componentPtr = parentPtr->GetSubComponent(attribute.GetComponentId());
+			m_componentPtr = parentPtr->GetSubcomponent(attribute.GetComponentId());
 		}
 	}
 

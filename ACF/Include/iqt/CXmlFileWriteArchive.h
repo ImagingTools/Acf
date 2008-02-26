@@ -34,8 +34,8 @@ public:
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginTag(const iser::CArchiveTag& tag, bool useTagSkipping = false);
-	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count, bool useTagSkipping = false);
+	virtual bool BeginTag(const iser::CArchiveTag& tag);
+	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const iser::CArchiveTag& tag);
 	virtual bool Process(bool& value);
 	virtual bool Process(char& value);

@@ -4,6 +4,8 @@
 
 #include "iser/ISerializable.h"
 
+#include "icomp/icomp.h"
+
 
 namespace icomp
 {
@@ -47,7 +49,7 @@ public:
 	/**
 		Get access to subcomponent using its ID.
 	*/
-	virtual IComponent* GetSubComponent(const ::std::string& componentId) const = 0;
+	virtual IComponent* GetSubcomponent(const ::std::string& componentId) const = 0;
 };
 
 

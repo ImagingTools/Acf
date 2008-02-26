@@ -21,12 +21,12 @@ class ISystem: virtual public istd::IPolymorphic
 {
 public:
 	/**
-	* Returns the standard temp path, that will be used by the application.
+		Returns the standard temp path, that will be used by the application.
 	*/
 	virtual istd::CString GetTempDirPath() const = 0;
 
 	/**
-	* Returns the working directory of application.
+		Returns the working directory of application.
 	*/
 	virtual istd::CString GetWorkingDirectory() const = 0;
 };

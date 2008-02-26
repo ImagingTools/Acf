@@ -2,6 +2,9 @@
 #define icomp_TInterfaceRegistrator_included
 
 
+#include "icomp/icomp.h"
+
+
 namespace icomp
 {
 

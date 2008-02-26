@@ -1,0 +1,60 @@
+#ifndef icomp_CFileRegistriesManagerBase_included
+#define icomp_CFileRegistriesManagerBase_included
+
+
+#include <string>
+#include <map>
+
+#include "istd/IPolymorphic.h"
+#include "istd/TDelPtr.h"
+
+#include "iser/IArchive.h"
+
+#include "icomp/IRegistriesManager.h"
+#include "icomp/IComponentStaticInfo.h"
+
+
+namespace icomp
+{
+
+
+class IRegistry;
+
+
+class CFileRegistriesManagerBase: public IRegistriesManager
+{
+public:
+	// reimplemented (icomp::IRegistriesManager)
+	virtual const IRegistry* GetRegistry(const ::std::string& packageId, const ::std::string& factoryId, const IRegistry* contextPtr) const;
+
+protected:
+	/**
+		Constructor.
+		\param	factoryPtr	pointer to main static info object used to factorize real components.
+	*/
+	CFileRegistriesManagerBase(const IComponentStaticInfo* factoryPtr);
+
+	// abstract methods
+	/**
+		Create archive for specified path.
+		\param	path		path to registry file without extension.
+	*/
+	virtual iser::IArchive* CreateArchive(const ::std::string& path) const = 0;
+
+private:
+	typedef ::std::map<::std::string, istd::TDelPtr<IRegistry> > RegistriesMap;
+	typedef ::std::map<const IRegistry*, ::std::string> InvRegistriesMap;
+
+	mutable RegistriesMap m_registriesMap;
+	mutable InvRegistriesMap m_invRegistriesMap;
+
+	const IComponentStaticInfo& m_componentsFactory;
+};
+
+
+}//namespace icomp
+
+
+#endif // !icomp_CFileRegistriesManagerBase_included
+
+

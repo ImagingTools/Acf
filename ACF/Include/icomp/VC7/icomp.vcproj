@@ -129,10 +129,19 @@
 				RelativePath="..\CComponentContext.cpp">
 			</File>
 			<File
+				RelativePath="..\CCompositeComponent.cpp">
+			</File>
+			<File
 				RelativePath="..\CCompositeComponentContext.cpp">
 			</File>
 			<File
+				RelativePath="..\CFileRegistriesManagerBase.cpp">
+			</File>
+			<File
 				RelativePath="..\CPackageStaticInfo.cpp">
+			</File>
+			<File
+				RelativePath="..\CRegistry.cpp">
 			</File>
 			<File
 				RelativePath="..\CRegistryElement.cpp">
@@ -148,16 +157,22 @@
 				RelativePath="..\CComponentContext.h">
 			</File>
 			<File
+				RelativePath="..\CCompositeComponent.h">
+			</File>
+			<File
 				RelativePath="..\CCompositeComponentContext.h">
+			</File>
+			<File
+				RelativePath="..\CFileRegistriesManagerBase.h">
 			</File>
 			<File
 				RelativePath="..\CPackageStaticInfo.h">
 			</File>
 			<File
-				RelativePath="..\CRegistryElement.h">
+				RelativePath="..\CRegistry.h">
 			</File>
 			<File
-				RelativePath="..\IAttribute.h">
+				RelativePath="..\CRegistryElement.h">
 			</File>
 			<File
 				RelativePath="..\IAttributeStaticInfo.h">
@@ -173,6 +188,9 @@
 			</File>
 			<File
 				RelativePath="..\IComponentStaticInfo.h">
+			</File>
+			<File
+				RelativePath="..\IRegistriesManager.h">
 			</File>
 			<File
 				RelativePath="..\IRegistry.h">

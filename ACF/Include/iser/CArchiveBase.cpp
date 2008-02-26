@@ -13,9 +13,9 @@ bool CArchiveBase::IsTagSkippingSupported() const
 }
 
 
-bool CArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool useTagSkipping)
+bool CArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count)
 {
-	bool retVal = BeginTag(tag, useTagSkipping);
+	bool retVal = BeginTag(tag);
 
 	retVal = retVal && Process(count);
 

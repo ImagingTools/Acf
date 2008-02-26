@@ -112,7 +112,7 @@ const IRegistryElement::AttributeInfo* CRegistryElement::GetAttributeInfo(const 
 bool CRegistryElement::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag attributeInfosTag("AttributeInfoMap", "List of attribute infos");
-	static iser::CArchiveTag attributeInfoTag("AttributeInfo", "Attribute info");
+	static iser::CArchiveTag attributeInfoTag("AttributeInfo", "Attribute info", true);
 	static iser::CArchiveTag attributeIdTag("Id", "Attribute ID");
 	static iser::CArchiveTag attributeTypeTag("Type", "Type of attribute");
 	static iser::CArchiveTag exportIdTag("ExportId", "ID used for export");
@@ -132,7 +132,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 		for (		AttributeInfoMap::iterator iter = m_attributeInfos.begin();
 					iter != m_attributeInfos.end();
 					++iter){
-			retVal = retVal && archive.BeginTag(attributeInfoTag, true);
+			retVal = retVal && archive.BeginTag(attributeInfoTag);
 
 			retVal = retVal && archive.BeginTag(attributeIdTag);
 			::std::string attributeId = iter->first;
@@ -173,7 +173,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 	}
 	else{
 		for (int i = 0; i < attributesCount; ++i){
-			retVal = retVal && archive.BeginTag(attributeInfoTag, true);
+			retVal = retVal && archive.BeginTag(attributeInfoTag);
 
 			retVal = retVal && archive.BeginTag(attributeIdTag);
 			::std::string attributeId;

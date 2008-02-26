@@ -52,6 +52,11 @@ public:
 		Reset internal pointer value without deleting instance and return previos value.
 	 */
 	Type* PopPtr();
+	/**
+		Take internal pointer over.
+		It set pointer from other object and detach it from them.
+	*/
+	void TakeOver(TDelPtr& sourcePtr);
 
 	/**
 		Assign operator.
@@ -121,6 +126,13 @@ inline typename Type* TDelPtr<Type, DelArray>::PopPtr()
 	BaseClass::SetPtr(NULL);
 
 	return slavePtr;
+}
+
+
+template <class Type, bool DelArray>
+void TDelPtr<Type, DelArray>::TakeOver(TDelPtr& sourcePtr)
+{
+	SetPtr(sourcePtr.PopPtr());
 }
 
 

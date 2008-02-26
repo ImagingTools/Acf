@@ -1,8 +1,11 @@
 #include "icomp/CCompositeComponentContext.h"
 
 
-#include "icomp/IComponentStaticInfo.h"
+#include "icomp/IRegistry.h"
 #include "icomp/IRegistryElement.h"
+#include "icomp/IRegistriesManager.h"
+#include "icomp/IComponentStaticInfo.h"
+#include "icomp/CCompositeComponent.h"
 
 
 namespace icomp
@@ -12,40 +15,68 @@ namespace icomp
 CCompositeComponentContext::CCompositeComponentContext(
 			const IRegistryElement* elementPtr,
 			const IRegistry* registryPtr,
+			const IRegistriesManager* registriesManagerPtr,
 			const CCompositeComponentContext* parentPtr)
-:	BaseClass(elementPtr, parentPtr)
+:	BaseClass(elementPtr, parentPtr),
+	m_registry(*registryPtr),
+	m_registriesManager(*registriesManagerPtr)
 {
+	I_ASSERT(registryPtr != NULL);
+
 	// TODO: implement CCompositeComponentContext!!!
 }
 
 
 // reimplemented (icomp::IComponentContext)
 
-IComponent* CCompositeComponentContext::GetSubComponent(const ::std::string& componentId) const
+IComponent* CCompositeComponentContext::GetSubcomponent(const ::std::string& componentId) const
 {
-	ComponentMap::iterator iter = m_componentMap.find(componentId);
-	if (iter == m_componentMap.end()){
-		ComponentPtr& componentPtr = m_componentMap[componentId];
+	ComponentMap::const_iterator iter = m_componentMap.find(componentId);
+	if (iter != m_componentMap.end()){
+		return iter->second.componentPtr.GetPtr();
+	}
+	else{
+		ComponentInfo& componentInfo = m_componentMap[componentId];
 
-		const IRegistryElement& registryElement = GetRegistryElement();
-		const IComponentStaticInfo& staticInfo = registryElement.GetComponentStaticInfo();
-		const IComponentStaticInfo::SubcomponentInfos& subcomponentInfos = staticInfo.GetSubcomponentInfos();
+		const IRegistry::ElementInfo* elementInfoPtr = m_registry.GetElementInfo(componentId);
+		if (elementInfoPtr != NULL && elementInfoPtr->elementPtr.IsValid()){
+			const IRegistryElement& registryElement = *elementInfoPtr->elementPtr;
 
-		// TODO: implement it correct!
-		int subcomponentIndex = subcomponentInfos.FindIndex(componentId);
+			switch (elementInfoPtr->elementType){
+			case IRegistry::ET_COMPONENT:
+				{
+					const IComponentStaticInfo& elementStaticInfo = registryElement.GetComponentStaticInfo();
 
-		if (subcomponentIndex >= 0){
-			const IComponentStaticInfo* subStaticInfoPtr = subcomponentInfos.GetValueAt(subcomponentIndex);
+					componentInfo.contextPtr.SetPtr(new CComponentContext(&registryElement, this));
+					if (componentInfo.contextPtr.IsValid()){
+						componentInfo.componentPtr.SetPtr(elementStaticInfo.CreateComponent(componentInfo.contextPtr.GetPtr()));
+					}
+				}
+				break;
 
-			if (subStaticInfoPtr != NULL){
-//				subStaticInfoPtr->CreateComponent(
+			case IRegistry::ET_COMPOSITION:
+				{
+					const IRegistry* subRegistryPtr = m_registriesManager.GetRegistry(elementInfoPtr->packageId, elementInfoPtr->factoryId, &m_registry);
+					if (subRegistryPtr != NULL){
+						CCompositeComponentContext* newInfoPtr = new CCompositeComponentContext(
+									&registryElement,
+									subRegistryPtr,
+									&m_registriesManager,
+									this);
+
+						componentInfo.contextPtr.SetPtr(newInfoPtr);
+
+						if (componentInfo.contextPtr.IsValid()){
+							componentInfo.componentPtr.SetPtr(new CCompositeComponent(newInfoPtr));
+						}
+					}
+				}
+				break;
 			}
 		}
 
-		return componentPtr.GetPtr();
+		return componentInfo.componentPtr.GetPtr();
 	}
-
-	return iter->second.GetPtr();
 }
 
 

@@ -21,7 +21,8 @@ class CArchiveTag
 {
 public:
 	CArchiveTag(	const ::std::string& id,
-					const ::std::string& comment);
+					const ::std::string& comment,
+					bool isTagSkippingUsed = false);
 
 	/**
 		Get ID of this tag.
@@ -38,14 +39,27 @@ public:
 		Comments are human readable and are used for diagnostic.
 	*/
 	const ::std::string& GetComment() const;
+	/**
+		Check if it is needed to support tag skipping for this tag.
+	*/
+	bool IsTagSkippingUsed() const;
 
 private:
 	::std::string m_id;
 	I_DWORD m_binaryId;
 
 	::std::string m_comment;
+
+	bool m_isTagSkippingUsed;
 };
 
+
+// inline methods
+
+inline bool CArchiveTag::IsTagSkippingUsed() const
+{
+	return m_isTagSkippingUsed;
+}
 
 
 } // namespace iser

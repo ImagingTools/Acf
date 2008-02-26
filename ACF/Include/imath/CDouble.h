@@ -287,7 +287,7 @@ inline double CDouble::GetRoundedUp(double value, int precision)
 {
 	double scale = ::pow(10.0, precision);
 
-	return ::floor(value * scale + 0.5) / scale;	// TODO: correct it
+	return ::ceil(value * scale) / scale;
 }
 
 
@@ -295,7 +295,7 @@ inline bool CDouble::IsRoundedUpEqual(double value1, double value2, int precisio
 {
 	double scale = ::pow(10.0, precision);
 
-	return ::floor(value1 * scale + 0.5) == ::floor(value2 * scale);	// TODO: correct it
+	return ::ceil(value1 * scale) == ::ceil(value2 * scale);
 }
 
 

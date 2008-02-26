@@ -16,7 +16,7 @@ public:
 	TComponentStaticInfo(IComponentStaticInfo* baseComponentPtr = NULL);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
-	virtual IComponent* CreateComponent(const IComponentContext& context) const;
+	virtual IComponent* CreateComponent(const IComponentContext* contextPtr) const;
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual const SubcomponentInfos& GetSubcomponentInfos() const;
@@ -71,9 +71,9 @@ bool TComponentStaticInfo<Component>::RegisterSubcomponentInfo(const ::std::stri
 //	reimplemented (icomp::IComponentStaticInfo)
 
 template <class Component>
-IComponent* TComponentStaticInfo<Component>::CreateComponent(const IComponentContext& context) const
+IComponent* TComponentStaticInfo<Component>::CreateComponent(const IComponentContext* contextPtr) const
 {
-	return new Component(context);
+	return new Component(contextPtr);
 }
 
 

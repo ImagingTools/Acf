@@ -29,7 +29,7 @@ bool CFileReadArchive::IsTagSkippingSupported() const
 }
 
 
-bool CFileReadArchive::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
+bool CFileReadArchive::BeginTag(const CArchiveTag& tag)
 {
 	bool retVal = BaseClass::BeginTag(tag);
 
@@ -43,7 +43,7 @@ bool CFileReadArchive::BeginTag(const CArchiveTag& tag, bool useTagSkipping)
 	element.tagBinaryId = tag.GetBinaryId();
 
 	retVal = retVal && Process(element.endPosition);
-	element.useTagSkipping = useTagSkipping && m_supportTagSkipping;
+	element.useTagSkipping = tag.IsTagSkippingUsed() && m_supportTagSkipping;
 
 	return retVal;
 }

@@ -15,7 +15,7 @@ public:
 	typedef CWriteArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	virtual bool BeginTag(const CArchiveTag& tag, bool useTagSkipping = false);
+	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool Process(bool& value);
 	virtual bool Process(char& value);

@@ -10,7 +10,7 @@ namespace iser
 
 // reimplemented (iser::IArchive)
 
-bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkipping*/)
+bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 {
 	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + ">\n");
 
@@ -22,7 +22,7 @@ bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag, bool /*useTagSkippin
 }
 
 
-bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count, bool /*useTagSkipping*/)
+bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count)
 {
 	::std::ostrstream stream;
 	stream << count << ::std::ends;

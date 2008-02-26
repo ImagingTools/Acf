@@ -18,21 +18,61 @@ class CCompositeComponentContext: public CComponentContext
 public:
 	typedef CComponentContext BaseClass;
 
+	/**
+		Constructor.
+		\param	elementPtr				registry element object describing parameterisation of this composition treated as component.
+										It can not be NULL.
+		\param	registryPtr				data model object used by this composition.
+										It can not be NULL.
+		\param	registriesManagerPtr	registry manager allowing to access to registries if composite subelement is created.
+		\param	componentFactoryPtr		root object of native components factory.
+										Subelements of this object are instances of CPackageStaticInfo allowing access to components factory.
+										It can not be NULL.
+		\param	parentPtr				pointer to parent object of this instance.
+	*/
 	CCompositeComponentContext(
 				const IRegistryElement* elementPtr,
 				const IRegistry* registryPtr,
+				const IRegistriesManager* registriesManagerPtr,
 				const CCompositeComponentContext* parentPtr = NULL);
 
-	IRegistriesManager* GetRegistriesManager() const;
+	const IRegistry& GetRegistry() const;
+	const IRegistriesManager& GetRegistriesManager() const;
 
 	// reimplemented (icomp::IComponentContext)
-	virtual IComponent* GetSubComponent(const ::std::string& componentId) const;
+	virtual IComponent* GetSubcomponent(const ::std::string& componentId) const;
 
 private:
 	typedef istd::TDelPtr<icomp::IComponent> ComponentPtr;
-	typedef ::std::map< ::std::string, ComponentPtr > ComponentMap;
+	typedef istd::TDelPtr<icomp::IComponentContext> ContextPtr;
+
+	struct ComponentInfo
+	{
+		ComponentPtr componentPtr;
+		ContextPtr contextPtr;
+	};
+
+	typedef ::std::map< ::std::string, ComponentInfo > ComponentMap;
+
 	mutable ComponentMap m_componentMap;
+
+	const IRegistry& m_registry;
+	const IRegistriesManager& m_registriesManager;
 };
+
+
+// inline methods
+
+inline const IRegistry& CCompositeComponentContext::GetRegistry() const
+{
+	return m_registry;
+}
+
+
+inline const IRegistriesManager& CCompositeComponentContext::GetRegistriesManager() const
+{
+	return m_registriesManager;
+}
 
 
 }//namespace icomp

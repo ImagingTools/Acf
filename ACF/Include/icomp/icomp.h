@@ -23,10 +23,8 @@
 		static inline icomp::IComponentStaticInfo& GetStaticInfo()\
 		{\
 			static icomp::CComponentStaticInfo staticInfo(BaseClass::GetStaticInfo());\
-
 			return staticInfo;\
 		}\
-		// reimplemented (icomp::IComponent)
 		virtual icomp::IComponentStaticInfo* GetStaticInfoPtr()\
 		{\
 			return &GetStaticInfo();\

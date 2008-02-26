@@ -6,6 +6,8 @@
 
 #include "istd/IPolymorphic.h"
 
+#include "icomp/icomp.h"
+
 
 namespace icomp
 {
