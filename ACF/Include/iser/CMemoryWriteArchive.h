@@ -11,6 +11,10 @@ namespace iser
 {
 
 
+/**
+	Implementation of archive using memory buffer to store state of persistent objects.
+	Internal format of this buffer is compatible with class \c iser::CMemoryReadArchive.
+*/
 class CMemoryWriteArchive: public CBinaryWriteArchiveBase
 {
 public:
@@ -23,6 +27,11 @@ public:
 	const void* GetBuffer() const;
 	int GetBufferSize() const;
 
+	/**
+		Reset internal buffer.
+	*/
+	void Reset();
+
 	// reimplemented (iser::IArchive)
 	virtual bool ProcessData(void* data, int size);
 	
@@ -30,6 +39,8 @@ protected:
 	typedef ::std::vector<unsigned char> DataBuffer;
 
 	DataBuffer m_dataBuffer;
+
+	bool m_serializeHeader;
 };
 
 

@@ -11,11 +11,9 @@ namespace iser
 CMemoryWriteArchive::CMemoryWriteArchive(
 			const IVersionInfo* versionInfoPtr,
 			bool serializeHeader)
-:	BaseClass(versionInfoPtr)
+:	BaseClass(versionInfoPtr), m_serializeHeader(serializeHeader)
 {
-	if (serializeHeader){
-		SerializeAcfHeader();
-	}
+	Reset();
 }
 
 
@@ -28,6 +26,16 @@ const void* CMemoryWriteArchive::GetBuffer() const
 int CMemoryWriteArchive::GetBufferSize() const
 {
 	return int(m_dataBuffer.size());
+}
+
+
+void CMemoryWriteArchive::Reset()
+{
+	m_dataBuffer.clear();
+
+	if (m_serializeHeader){
+		SerializeAcfHeader();
+	}
 }
 
 
