@@ -9,6 +9,9 @@ namespace iser
 {
 
 
+/**
+	Base class for archive implementations reading data based on its binary representation.
+*/
 class CBinaryReadArchiveBase: public CReadArchiveBase
 {
 public:

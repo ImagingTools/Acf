@@ -126,9 +126,6 @@
 				RelativePath="..\CArchiveTag.cpp">
 			</File>
 			<File
-				RelativePath="..\CBinaryArchiveBase.cpp">
-			</File>
-			<File
 				RelativePath="..\CBinaryReadArchiveBase.cpp">
 			</File>
 			<File
@@ -188,9 +185,6 @@
 			</File>
 			<File
 				RelativePath="..\CArchiveTag.h">
-			</File>
-			<File
-				RelativePath="..\CBinaryArchiveBase.h">
 			</File>
 			<File
 				RelativePath="..\CBinaryReadArchiveBase.h">
