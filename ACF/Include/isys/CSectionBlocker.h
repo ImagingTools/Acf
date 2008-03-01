@@ -2,6 +2,9 @@
 #define isys_CSectionBlocker_included
 
 
+#include "isys/isys.h"
+
+
 namespace isys{
 
 

@@ -2,6 +2,14 @@
 #define isys_IFileSystem_included
 
 
+#include "isys/isys.h"
+
+
+#include <string>
+
+#include "istd/IPolymorphic.h"
+
+
 namespace isys
 {
 

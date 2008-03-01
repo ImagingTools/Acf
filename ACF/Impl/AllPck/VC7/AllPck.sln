@@ -104,6 +104,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfStd", "..\..\AcfStd\VC7\
 		{126B67F7-B779-4A80-A651-1111D5EDF583} = {126B67F7-B779-4A80-A651-1111D5EDF583}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfWin", "..\..\AcfWin\VC7\AcfWin.vcproj", "{6161AE88-6ED6-4843-A5AB-4B6288511D5E}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+		{633B67F7-B154-4A80-A651-1111D5EDF583} = {633B67F7-B154-4A80-A651-1111D5EDF583}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(Qt) = preSolution
 		Integration = True
@@ -227,6 +235,14 @@ Global
 		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.NemoRelease.Build.0 = Release|Win32
 		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Release.ActiveCfg = Release|Win32
 		{AA94C676-48A9-4FCF-BC0F-96B0E910F463}.Release.Build.0 = Release|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.Debug.ActiveCfg = Debug|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.Debug.Build.0 = Debug|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.NemoDebug.ActiveCfg = Debug|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.NemoDebug.Build.0 = Debug|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.NemoRelease.ActiveCfg = Release|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.NemoRelease.Build.0 = Release|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.Release.ActiveCfg = Release|Win32
+		{6161AE88-6ED6-4843-A5AB-4B6288511D5E}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

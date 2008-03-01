@@ -69,7 +69,7 @@ public:
 	bool IsNormalized() const;
 
 	/**
-		Make this color to be normalized CMYK.
+		Make this color to be normalized.
 		Normalized values have all components in the range [0, 1].
 	*/
 	void Normalize();
@@ -103,6 +103,7 @@ public:
 	TComposedColor<Count> operator/(double value) const;
 
 	const TComposedColor<Count>& operator=(const TComposedColor<Count>& color);
+	const TComposedColor<Count>& operator=(double colorValue);
 
 	const TComposedColor<Count>& operator+=(const TComposedColor<Count>& color);
 	const TComposedColor<Count>& operator-=(const TComposedColor<Count>& color);
@@ -303,6 +304,15 @@ inline const TComposedColor<Count>& TComposedColor<Count>::operator=(const TComp
 	for (int i = 0; i < Count; ++i){
 		m_components[i] = color.m_components[i];
 	}
+
+	return *this;
+}
+
+
+template <int Count>
+inline const TComposedColor<Count>& TComposedColor<Count>::operator=(double colorValue)
+{
+	memset(m_components, 0.0, sizeof(double) * Count);
 
 	return *this;
 }

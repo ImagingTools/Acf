@@ -2,9 +2,10 @@
 #define isys_ICriticalSection_included
 
 
-#include "istd/IPolymorphic.h"
-
 #include "isys/isys.h"
+
+
+#include "istd/IPolymorphic.h"
 
 
 namespace isys{

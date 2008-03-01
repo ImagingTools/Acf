@@ -34,7 +34,7 @@ public:
 	virtual const IRegistryElement& GetRegistryElement() const = 0;
 
 	/**
-		Get access to parant component context.
+		Get access to parent component context.
 	*/
 	virtual const IComponentContext* GetParentContext() const = 0;
 

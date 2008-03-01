@@ -29,7 +29,7 @@ public:
 
 // standard templatization
 
-typedef TIMathFuntion<double, double> CDoubleFunction;
+typedef TIMathFuntion<double, double> IDoubleFunction;
 
 
 } // namespace imath
