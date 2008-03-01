@@ -9,10 +9,10 @@ CQtPackage::CQtPackage()
 {
 	acf::ComponentLibraryInfo info;
 	info.setLibName("Qt");
-	setLibraryInfo(info);
+	SetLibraryInfo(info);
 
-	registerComponent<iqt::CTabContainerGuiComp>("TabContainerGui");
-	registerComponent<iqt::CLoginGuiComp>("LoginGui");
+	RegisterComponent<iqt::CTabContainerGuiComp>("TabContainerGui");
+	RegisterComponent<iqt::CLoginGuiComp>("LoginGui");
 }
 
 

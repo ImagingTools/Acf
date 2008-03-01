@@ -48,7 +48,7 @@ public:
 	CTableModelCompBase();
 
 	// reimplemented (acf::ComponentInterface)
-	virtual bool onInitialize(acf::ComponentManagerInterface* managerPtr);
+	virtual bool OnInitialize(acf::ComponentManagerInterface* managerPtr);
 
 protected:
 	/**

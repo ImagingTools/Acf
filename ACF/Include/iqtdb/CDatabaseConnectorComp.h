@@ -39,8 +39,8 @@ public:
 	virtual bool DisconnectFromDatabase();
 
 	// reimplemented (acf::ComponentInterface)
-	virtual bool onInitialize(acf::ComponentManagerInterface* managerPtr);
-	virtual void onDeinitialize(acf::ComponentManagerInterface* managerPtr);
+	virtual bool OnInitialize(acf::ComponentManagerInterface* managerPtr);
+	virtual void OnDeinitialize(acf::ComponentManagerInterface* managerPtr);
 
 private:
 	QSqlDatabase m_database;

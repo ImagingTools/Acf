@@ -15,7 +15,7 @@ CDatabaseConnectorComp::CDatabaseConnectorComp()
 	m_userNameAttr("", this, "User"),
 	m_passwordAttr("", this, "Password")
 {
-	registerInterface<idb::IDatabaseConnector>(this);
+	RegisterInterface<idb::IDatabaseConnector>(this);
 }
 
 
@@ -43,15 +43,15 @@ bool CDatabaseConnectorComp::DisconnectFromDatabase()
 
 // reimplemented (acf::ComponentInterface)
 
-bool CDatabaseConnectorComp::onInitialize(acf::ComponentManagerInterface* managerPtr)
+bool CDatabaseConnectorComp::OnInitialize(acf::ComponentManagerInterface* managerPtr)
 {
-	if (BaseClass::onInitialize(managerPtr)){
-		m_database = QSqlDatabase::addDatabase(iqt::GetQString(m_databaseDriverNameAttr.value()));
+	if (BaseClass::OnInitialize(managerPtr)){
+		m_database = QSqlDatabase::addDatabase(iqt::GetQString(m_databaseDriverNameAttr.GetValue()));
 
-		m_database.setHostName(iqt::GetQString(m_hostNameAttr.value()));
-		m_database.setDatabaseName(iqt::GetQString(m_databaseNameAttr.value()));
-		m_database.setUserName(iqt::GetQString(m_userNameAttr.value()));
-		m_database.setPassword(iqt::GetQString(m_passwordAttr.value()));
+		m_database.setHostName(iqt::GetQString(m_hostNameAttr.GetValue()));
+		m_database.setDatabaseName(iqt::GetQString(m_databaseNameAttr.GetValue()));
+		m_database.setUserName(iqt::GetQString(m_userNameAttr.GetValue()));
+		m_database.setPassword(iqt::GetQString(m_passwordAttr.GetValue()));
 
 		return true;
 	}
@@ -60,11 +60,11 @@ bool CDatabaseConnectorComp::onInitialize(acf::ComponentManagerInterface* manage
 }
 
 
-void CDatabaseConnectorComp::onDeinitialize(acf::ComponentManagerInterface* managerPtr)
+void CDatabaseConnectorComp::OnDeinitialize(acf::ComponentManagerInterface* managerPtr)
 {
 	DisconnectFromDatabase();
 
-	BaseClass::onDeinitialize(managerPtr);
+	BaseClass::OnDeinitialize(managerPtr);
 }
 
 

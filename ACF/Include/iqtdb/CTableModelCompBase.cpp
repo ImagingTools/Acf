@@ -22,9 +22,9 @@ CTableModelCompBase::CTableModelCompBase()
 
 // reimplemented (acf::ComponentInterface)
 
-bool CTableModelCompBase::onInitialize(acf::ComponentManagerInterface* managerPtr)
+bool CTableModelCompBase::OnInitialize(acf::ComponentManagerInterface* managerPtr)
 {
-	if (BaseClass::onInitialize(managerPtr)){
+	if (BaseClass::OnInitialize(managerPtr)){
 		if (!m_databaseConnectorIfPtr->IsDatabaseConnected()){
 			if (!m_databaseConnectorIfPtr->ConnectToDatabase()){
 				QString error = QSqlDatabase().lastError().text();
@@ -36,8 +36,8 @@ bool CTableModelCompBase::onInitialize(acf::ComponentManagerInterface* managerPt
 		}
 
 		m_tableModelPtr = new QSqlRelationalTableModel(this);
-		m_schemaName = iqt::GetQString(m_schemaNameAttr.value());
-		m_tableName = iqt::GetQString(m_tableNameAttr.value());
+		m_schemaName = iqt::GetQString(m_schemaNameAttr.GetValue());
+		m_tableName = iqt::GetQString(m_tableNameAttr.GetValue());
 
 		QString tableName = m_tableName;
 		if (!m_schemaName.isEmpty()){
@@ -47,7 +47,7 @@ bool CTableModelCompBase::onInitialize(acf::ComponentManagerInterface* managerPt
 		m_tableModelPtr->setTable(tableName);
 
 		connect(&m_checkModelTimer, SIGNAL(timeout()), this, SLOT(RefreshModel()));
-		m_checkModelTimer.start(m_updateIntervallAttr.value() * 1000); 
+		m_checkModelTimer.start(m_updateIntervallAttr.GetValue() * 1000); 
 
 		m_checkModelTimer.singleShot(500, this, SLOT(RefreshModel())); 
 

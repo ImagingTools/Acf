@@ -31,21 +31,21 @@ CTabContainerGuiComp::~CTabContainerGuiComp()
 void CTabContainerGuiComp::initializeGui()
 {
 	if (m_widget != NULL){
-		QSize iconSize = QSize(m_iconSizeAttr.value(), m_iconSizeAttr.value());
+		QSize iconSize = QSize(m_iconSizeAttr.GetValue(), m_iconSizeAttr.GetValue());
 		if (!iconSize.isNull() && iconSize.isValid() && !iconSize.isEmpty()){
 			m_widget->setIconSize(iconSize);
 		}
 
-		int tabCount = m_tabNamesAttr.count();
+		int tabCount = m_tabNamesAttr.GetCount();
 		for (int tabIndex = 0; tabIndex < tabCount; tabIndex++){
-			QString tabName = iqt::GetQString(m_tabNamesAttr.value(tabIndex));
+			QString tabName = iqt::GetQString(m_tabNamesAttr.GetValue(tabIndex));
 
 			QWidget* tab = new QWidget(m_widget);
 			int addTabIndex = m_widget->addTab(tab, tabName);
 			
 			bool isAttached = false;
 			if (tabIndex < m_slaveGuisCompIfPtr.dependencyCount()){
-				acf::QtGuiInterface* guiPtr = m_slaveGuisCompIfPtr.interfacePtr(tabIndex);
+				acf::QtGuiInterface* guiPtr = m_slaveGuisCompIfPtr.GetInterfacePtr(tabIndex);
 				if (guiPtr != NULL){
 					guiPtr->attachTo(tab);
 
@@ -53,7 +53,7 @@ void CTabContainerGuiComp::initializeGui()
 				}
 			}
 			
-			if (m_iconsProviderCompIfPtr.isValid()){
+			if (m_iconsProviderCompIfPtr.IsValid()){
 				int iconCount = m_iconsProviderCompIfPtr->iconCount();			
 				if (tabIndex < iconCount){
 					QIcon icon = m_iconsProviderCompIfPtr->getIcon(tabIndex);
@@ -68,7 +68,7 @@ void CTabContainerGuiComp::initializeGui()
 		}
 		
 		// setup the corner widget:
-		if (m_cornerGuiCompIfPtr.isValid()){
+		if (m_cornerGuiCompIfPtr.IsValid()){
 			QFrame* cornerFrame = new QFrame(m_widget);
 			m_widget->setCornerWidget(cornerFrame);
 

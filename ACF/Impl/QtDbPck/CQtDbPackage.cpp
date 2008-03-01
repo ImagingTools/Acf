@@ -10,9 +10,9 @@ CQtDbPackage::CQtDbPackage()
 
 	acf::ComponentLibraryInfo info;
 	info.setLibName("Qt Database");
-	setLibraryInfo(info);
+	SetLibraryInfo(info);
 
-	registerComponent<CDatabaseConnectorComp>("DatabaseConnector");
+	RegisterComponent<CDatabaseConnectorComp>("DatabaseConnector");
 }
 
 
