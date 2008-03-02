@@ -89,7 +89,8 @@ bool TModelEditorBase<InterfaceClass>::IsModelChangeable() const
 template <class InterfaceClass>
 void TModelEditorBase<InterfaceClass>::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	if (m_modelPtr == modelPtr && m_modelPtr != NULL){
+	imod::IModel* myModelPtr = GetModelPtr();
+	if (myModelPtr == modelPtr && myModelPtr != NULL){
 		if (!m_ignoreUpdates){
 			m_ignoreUpdates = true;
 			

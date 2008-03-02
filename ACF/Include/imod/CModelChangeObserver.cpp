@@ -34,7 +34,6 @@ void CModelChangeObserver::SetModelPtr(imod::IModel* modelPtr)
 }
 
 
-
 // protected methods
 
 bool CModelChangeObserver::IsDirty() const
@@ -46,6 +45,24 @@ bool CModelChangeObserver::IsDirty() const
 void CModelChangeObserver::SetDirty(bool isDirty)
 {
 	m_isDirty = isDirty;
+}
+
+
+// public methods of embedded class Observer
+
+CModelChangeObserver::Observer::Observer(imod::CModelChangeObserver& parent)
+:	m_parent(parent)
+{
+}
+
+
+// protected methods of embedded class Observer
+
+// reimplemented (TSingleModelObserverBase)
+
+void CModelChangeObserver::Observer::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
+	m_parent.SetDirty(true);
 }
 
 

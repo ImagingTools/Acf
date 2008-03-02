@@ -32,18 +32,13 @@ protected:
 	class Observer: public imod::TSingleModelObserverBase<imod::IModel>
 	{
 	public:
-		Observer(CModelChangeObserver& parent)
-		:	m_parent(parent)
-		{
-		}
-
-		// reimplemented (TSingleModelObserverBase)
-		virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL)
-		{
-			m_parent.SetDirty(true);
-		}
-
 		using CSingleModelObserverBase::EnsureDetached;
+
+		Observer(CModelChangeObserver& parent);
+
+	protected:
+		// reimplemented (TSingleModelObserverBase)
+		virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 
 	private:
 		CModelChangeObserver& m_parent;
