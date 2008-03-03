@@ -2,7 +2,7 @@
 #define iser_ISerializable_included
 
 
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 
 #include "iser/IVersionInfo.h"
 
@@ -17,7 +17,7 @@ class IArchive;
 /**
 	Common class for all classes which objects can be archived or restored from archive.
  */
-class ISerializable: virtual public istd::IPolymorphic
+class ISerializable: virtual public istd::IChangeable
 {
 public:
 	/**

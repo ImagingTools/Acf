@@ -74,6 +74,8 @@ void CSingleModelObserverBase::AfterUpdate(imod::IModel* modelPtr, int updateFla
 }
 
 
+// protected methods
+
 void CSingleModelObserverBase::EnsureDetached()
 {
 	if (m_modelPtr != NULL){
@@ -81,6 +83,11 @@ void CSingleModelObserverBase::EnsureDetached()
 	}
 
 	m_modelPtr = NULL;
+}
+
+
+void CSingleModelObserverBase::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
 }
 
 

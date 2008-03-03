@@ -16,6 +16,7 @@ class IModel;
 	\ingroup imod
 
 	Basic implementation for a single model observer.
+	Derrived implementations can reimplement simplified OnUpdate method to be notified about model changes.
 */
 class CSingleModelObserverBase: virtual public IObserver 
 {
@@ -46,8 +47,7 @@ protected:
 	*/
 	void EnsureDetached();
 
-	// abstract methods
-	virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL) = 0;
+	virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 private:
 	imod::IModel* m_modelPtr;
