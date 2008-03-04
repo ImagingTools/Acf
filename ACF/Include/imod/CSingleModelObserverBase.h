@@ -47,7 +47,7 @@ protected:
 	*/
 	void EnsureDetached();
 
-	virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 private:
 	imod::IModel* m_modelPtr;

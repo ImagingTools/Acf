@@ -70,7 +70,7 @@ void CSingleModelObserverBase::AfterUpdate(imod::IModel* modelPtr, int updateFla
 {
 	I_ASSERT(m_modelPtr == modelPtr);
 
-	OnUpdate(modelPtr, updateFlags, updateParamsPtr);
+	OnUpdate(updateFlags, updateParamsPtr);
 }
 
 
@@ -86,11 +86,10 @@ void CSingleModelObserverBase::EnsureDetached()
 }
 
 
-void CSingleModelObserverBase::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSingleModelObserverBase::OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
 }
 
 
 } // namespace imod
-
 

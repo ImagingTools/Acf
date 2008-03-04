@@ -231,6 +231,9 @@
 				RelativePath="..\CModelChangeObserver.cpp">
 			</File>
 			<File
+				RelativePath="..\CMultiModelObserverBase.cpp">
+			</File>
+			<File
 				RelativePath="..\CSerializedUndoManager.cpp">
 			</File>
 			<File
@@ -245,6 +248,9 @@
 			</File>
 			<File
 				RelativePath="..\CModelChangeObserver.h">
+			</File>
+			<File
+				RelativePath="..\CMultiModelObserverBase.h">
 			</File>
 			<File
 				RelativePath="..\CSerializedUndoManager.h">

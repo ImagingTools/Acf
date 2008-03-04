@@ -38,7 +38,7 @@ protected:
 
 	protected:
 		// reimplemented (TSingleModelObserverBase)
-		virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
+		virtual void OnUpdate(int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 
 	private:
 		CModelChangeObserver& m_parent;

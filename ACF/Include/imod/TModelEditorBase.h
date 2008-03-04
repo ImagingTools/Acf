@@ -36,7 +36,7 @@ public:
 
 protected:
 	// reimplemented (TSingleModelObserverBase<InterfaceClass>)
-	virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
+	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 	bool m_ignoreUpdates;
 };
@@ -87,10 +87,10 @@ bool TModelEditorBase<InterfaceClass>::IsModelChangeable() const
 // reimplemented (TSingleModelObserverBase<InterfaceClass>)
 
 template <class InterfaceClass>
-void TModelEditorBase<InterfaceClass>::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void TModelEditorBase<InterfaceClass>::OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	imod::IModel* myModelPtr = GetModelPtr();
-	if (myModelPtr == modelPtr && myModelPtr != NULL){
+	imod::IModel* modelPtr = GetModelPtr();
+	if (modelPtr != NULL){
 		if (!m_ignoreUpdates){
 			m_ignoreUpdates = true;
 			
