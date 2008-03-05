@@ -41,6 +41,14 @@ const CPackageStaticInfo::SubcomponentInfos& CPackageStaticInfo::GetSubcomponent
 }
 
 
+// protected methods
+
+void CPackageStaticInfo::ResetSubcomponentList()
+{
+	m_subcomponentInfos.ResetLocal();
+}
+
+
 }//namespace icomp
 
 

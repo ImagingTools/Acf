@@ -13,7 +13,7 @@ namespace icomp
 	Static info for component package.
 	Please note, that in composed component concept there is no distinguish between package and component.
 */
-class CPackageStaticInfo: public IComponentStaticInfo
+class CPackageStaticInfo: virtual public IComponentStaticInfo
 {
 public:
 	bool RegisterSubcomponentInfo(const ::std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
@@ -23,6 +23,9 @@ public:
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual const SubcomponentInfos& GetSubcomponentInfos() const;
+
+protected:
+	void ResetSubcomponentList();
 
 private:
 	SubcomponentInfos m_subcomponentInfos;

@@ -17,7 +17,7 @@ namespace icomp
 {
 
 
-class IRegistry: public iser::ISerializable
+class IRegistry: virtual public iser::ISerializable
 {
 public:
 	typedef ::std::set<::std::string> Ids;

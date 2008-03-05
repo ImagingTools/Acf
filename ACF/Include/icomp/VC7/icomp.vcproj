@@ -146,6 +146,9 @@
 			<File
 				RelativePath="..\CRegistryElement.cpp">
 			</File>
+			<File
+				RelativePath="..\CXmlRegistriesManager.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -173,6 +176,9 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryElement.h">
+			</File>
+			<File
+				RelativePath="..\CXmlRegistriesManager.h">
 			</File>
 			<File
 				RelativePath="..\IAttributeStaticInfo.h">

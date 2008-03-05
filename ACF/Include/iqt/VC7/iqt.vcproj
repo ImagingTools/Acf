@@ -173,6 +173,9 @@
 				RelativePath="..\CLoginGuiComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CPackagesLoader.cpp">
+			</File>
+			<File
 				RelativePath="..\CTabContainerGuiComp.cpp">
 			</File>
 			<File
@@ -200,6 +203,9 @@
 			</File>
 			<File
 				RelativePath="..\CLoginGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\CPackagesLoader.h">
 			</File>
 			<File
 				RelativePath="..\CTabContainerGuiComp.h">

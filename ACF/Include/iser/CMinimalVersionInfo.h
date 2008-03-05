@@ -20,7 +20,7 @@ class ISerializable;
 	Please note, that list of ID's for version info must be separate created,
 	becouse this information can not be retrived from iser::ISerializable.
 */
-class CMinimalVersionInfo: public IVersionInfo
+class CMinimalVersionInfo: virtual public IVersionInfo
 {
 public:
 	/**

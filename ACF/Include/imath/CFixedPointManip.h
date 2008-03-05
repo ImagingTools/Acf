@@ -12,7 +12,7 @@ namespace imath
 /**
 	Implementation of \c imath::IDoubleManip interface for fixed point arithmentic.
 */
-class CFixedPointManip: public IDoubleManip
+class CFixedPointManip: virtual public IDoubleManip
 {
 public:
 	enum RoundingType

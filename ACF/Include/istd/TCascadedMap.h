@@ -131,6 +131,11 @@ public:
 	*/
 	TCascadedMap<Key, Value>* GetOwnerMap(int index);
 
+	/**
+		Removes all elements from local context.
+	*/
+	void ResetLocal();
+
 	// TODO: add element removing and correct comment in class header.
 
 private:
@@ -381,6 +386,14 @@ TCascadedMap<Key, Value>* TCascadedMap<Key, Value>::GetOwnerMap(int index)
 	I_ASSERT(m_parentPtr != NULL);	// Index from outside this map!
 
 	return m_parentPtr->GetOwnerMap(index - elementsCount);
+}
+
+
+template <typename Key, typename Value>
+void TCascadedMap<Key, Value>::ResetLocal()
+{
+	m_positionsMap.clear();
+	m_pairList.clear();
 }
 
 

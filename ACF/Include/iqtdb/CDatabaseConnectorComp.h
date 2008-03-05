@@ -26,7 +26,7 @@ namespace iqtdb
 /**
 	Qt based component implementation of IDatabaseConnector interface using QSqlDatabase class.	
 */
-class CDatabaseConnectorComp: public QObject, public acf::Component, public idb::IDatabaseConnector
+class CDatabaseConnectorComp: public QObject, public acf::Component, virtual public idb::IDatabaseConnector
 {
 public:
 	typedef acf::Component BaseClass;

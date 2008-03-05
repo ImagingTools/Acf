@@ -15,7 +15,7 @@ namespace icomp
 class IAttributeStaticInfo;
 
 
-class CRegistryElement: public IRegistryElement
+class CRegistryElement: virtual public IRegistryElement
 {
 public:
 	/**

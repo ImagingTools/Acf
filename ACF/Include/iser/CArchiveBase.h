@@ -14,7 +14,7 @@ namespace iser
 	Base implementation of iser::IArchive interface.
 	It provides standard implementation of some methods and standard tags.
 */
-class CArchiveBase: public IArchive
+class CArchiveBase: virtual public IArchive
 {
 public:
 	// reimplemented (iser::IArchive)

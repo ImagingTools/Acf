@@ -10,7 +10,7 @@ namespace icomp
 
 
 template <class Component>
-class TComponentStaticInfo: public IComponentStaticInfo
+class TComponentStaticInfo: virtual public IComponentStaticInfo
 {
 public:
 	TComponentStaticInfo(IComponentStaticInfo* baseComponentPtr = NULL);

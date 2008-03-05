@@ -16,7 +16,7 @@ namespace iwin
 
 	An timer implementation for the Windows plattform
 */
-class CTimer: public isys::ITimer
+class CTimer: virtual public isys::ITimer
 {
 public:
 	CTimer();

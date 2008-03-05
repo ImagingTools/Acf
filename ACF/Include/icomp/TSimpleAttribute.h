@@ -16,7 +16,7 @@ namespace icomp
 	Template implementation of single component attribute.
 */
 template <typename ValueType> 
-class TSimpleAttribute: public iser::ISerializable
+class TSimpleAttribute: virtual public iser::ISerializable
 {
 public:
 	virtual const ValueType& GetValue() const;

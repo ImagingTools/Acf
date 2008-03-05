@@ -9,7 +9,7 @@ namespace icomp
 {
 
 
-class CComponentBase: public IComponent
+class CComponentBase: virtual public IComponent
 {
 public:
 	/**

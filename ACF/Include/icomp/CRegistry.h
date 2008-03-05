@@ -12,7 +12,7 @@ namespace icomp
 /**
 	Standard implementation of registry.
 */
-class CRegistry: public IRegistry
+class CRegistry: virtual public IRegistry
 {
 public:
 	/**

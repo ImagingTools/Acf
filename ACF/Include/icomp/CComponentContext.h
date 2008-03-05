@@ -21,7 +21,7 @@ class IRegistryElement;
 	This implementation uses icomp::IRegistryElement to generate lilst of attributes.
 	Please note that resolving of exported attribute is done.
 */
-class CComponentContext: public IComponentContext
+class CComponentContext: virtual public IComponentContext
 {
 public:
 	CComponentContext(const IRegistryElement* elementPtr, const IComponentContext* parentPtr = NULL);

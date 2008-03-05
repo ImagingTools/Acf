@@ -14,7 +14,7 @@ namespace isys
 {
 
 
-class IFileSystem: public istd::IPolymorphic
+class IFileSystem: virtual public istd::IPolymorphic
 {
 public:
 	/**

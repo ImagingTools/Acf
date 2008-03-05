@@ -21,7 +21,7 @@ namespace icomp
 class IRegistry;
 
 
-class CFileRegistriesManagerBase: public IRegistriesManager
+class CFileRegistriesManagerBase: virtual public IRegistriesManager
 {
 public:
 	// reimplemented (icomp::IRegistriesManager)

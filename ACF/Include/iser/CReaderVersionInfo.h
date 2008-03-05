@@ -11,7 +11,7 @@ namespace iser
 {
 
 
-class CReaderVersionInfo: public IVersionInfo
+class CReaderVersionInfo: virtual public IVersionInfo
 {
 public:
 	void Reset();

@@ -12,7 +12,7 @@
 namespace iwin{
 
 
-class CCriticalSection: public isys::ICriticalSection
+class CCriticalSection: virtual public isys::ICriticalSection
 {
 public:
 	CCriticalSection();

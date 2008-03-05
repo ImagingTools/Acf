@@ -10,7 +10,7 @@ namespace icomp
 {
 
 
-class CCompositeComponent: public IComponent
+class CCompositeComponent: virtual public IComponent
 {
 public:
 	CCompositeComponent(const CCompositeComponentContext* contextPtr);

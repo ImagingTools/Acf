@@ -29,7 +29,7 @@ protected:
 	virtual void SetDirty(bool isDirty = true);
 	virtual bool IsDirty() const;
 
-	class Observer: public imod::TSingleModelObserverBase<imod::IModel>
+	class Observer: virtual public imod::TSingleModelObserverBase<imod::IModel>
 	{
 	public:
 		using CSingleModelObserverBase::EnsureDetached;

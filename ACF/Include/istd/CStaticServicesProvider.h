@@ -39,7 +39,7 @@ public:
 	static IServicesProvider& GetProviderInstance();
 
 protected:
-	class Provider: public IServicesProvider
+	class Provider: virtual public IServicesProvider
 	{
 	public:
 		// reimplemented (istd::IServicesProvider)

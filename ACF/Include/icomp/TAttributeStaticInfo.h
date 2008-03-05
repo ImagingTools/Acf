@@ -10,7 +10,7 @@ namespace icomp
 
 
 template <class Attribute>
-class TAttributeStaticInfo: public IAttributeStaticInfo
+class TAttributeStaticInfo: virtual public IAttributeStaticInfo
 {
 public:
 	TAttributeStaticInfo(icomp::IComponentStaticInfo& staticInfo, const type_info& attributeType, const ::std::string& id, bool isObligatory);
