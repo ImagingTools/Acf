@@ -76,6 +76,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../../;&quot;$(XERCESDIR)/src&quot;;&quot;$(XALANDIR)/src&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
+				StringPooling="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
