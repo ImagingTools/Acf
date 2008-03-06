@@ -65,16 +65,7 @@ bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 
 bool CXmlReadArchiveBase::Process(::std::string& value)
 {
-	char foundDelimeter;
-
-	do{
-		bool retVal = ReadToDelimeter("<>", value, false, &foundDelimeter);
-		if (!retVal){
-			return false;
-		}
-	} while (foundDelimeter == '<');
-
-	return true;
+	return ReadToDelimeter("<", value, false);
 }
 
 

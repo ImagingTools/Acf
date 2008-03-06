@@ -63,16 +63,6 @@ public:
 	void TakeOver(TComPtr& sourcePtr);
 
 	/**
-		Assign operator.
-	*/
-	TComPtr& operator=(const TComPtr& ptr);
-	/**
-		Address operator.
-	*/
-	Type** operator&();
-
-protected:
-	/**
 		Increase reference counter.
 	*/
 	void IncRef();
@@ -80,6 +70,15 @@ protected:
 		Decrease reference counter.
 	*/
 	void DecRef();
+
+	/**
+		Assign operator.
+	*/
+	TComPtr& operator=(const TComPtr& ptr);
+	/**
+		Address operator.
+	*/
+	Type** operator&();
 };
 
 
@@ -166,17 +165,6 @@ bool TComPtr<Type>::CoCreateInstance(REFCLSID rclsid, IUnknown* outerPtr, I_DWOR
 
 
 template <class Type>
-TComPtr<Type>& TComPtr<Type>::operator=(const TComPtr& ptr)
-{
-	SetPtr(ptr.GetPtr(), true);
-
-	return *this;
-}
-
-
-// protected methods
-
-template <class Type>
 void TComPtr<Type>::IncRef()
 {
 	Type* ptr = BaseClass::GetPtr();
@@ -197,6 +185,15 @@ void TComPtr<Type>::DecRef()
 	}
 
 	ptr->Release();
+}
+
+
+template <class Type>
+TComPtr<Type>& TComPtr<Type>::operator=(const TComPtr& ptr)
+{
+	SetPtr(ptr.GetPtr(), true);
+
+	return *this;
 }
 
 

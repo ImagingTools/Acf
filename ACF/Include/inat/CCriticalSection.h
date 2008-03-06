@@ -7,10 +7,8 @@
 
 #ifdef _WIN32
 #include "iwin/CCriticalSection.h"
-#else
-#ifdef QT_CORE_LIB
+#elif defined QT_CORE_LIB
 #include "iqt/CCriticalSection.h"
-#endif
 #elif
 #error Operating system not supported
 #endif
