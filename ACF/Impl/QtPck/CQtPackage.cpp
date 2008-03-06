@@ -1,3 +1,5 @@
+#ifdef OLD_ACF_SUPPORT
+
 #include "CQtPackage.h"
 
 #include "iqt/CTabContainerGuiComp.h"
@@ -17,3 +19,5 @@ CQtPackage::CQtPackage()
 
 
 EXPORT_COMPONENT_LIBRARY(CQtPackage);
+
+#endif // OLD_ACF_SUPPORT
