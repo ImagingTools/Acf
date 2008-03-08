@@ -3,7 +3,7 @@
 
 #include "icomp/IComponentContext.h"
 #include "icomp/IRegistryElement.h"
-#include "icomp/IComponentStaticInfo.h"
+#include "icomp/CPackageStaticInfo.h"
 
 
 namespace icomp
@@ -42,6 +42,16 @@ void* CComponentBase::GetInterface(const type_info& interfaceType, const ::std::
 const IComponentContext& CComponentBase::GetComponentContext() const
 {
 	return m_context;
+}
+
+
+// static methods
+
+icomp::IComponentStaticInfo& CComponentBase::GetStaticInfo()
+{
+	static CPackageStaticInfo emptyInfo;
+
+	return emptyInfo;
 }
 
 

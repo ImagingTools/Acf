@@ -22,7 +22,7 @@ public:
 
 	// reimplemented (iqt::IGuiObject)
 	virtual bool IsGuiCreated() const;
-	virtual bool CreateGui(QWidget* parentPtr, bool addToLayout = true);
+	virtual bool CreateGui(QWidget* parentPtr);
 	virtual bool DestroyGui();
 	virtual QWidget* GetWidget() const;
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
@@ -63,11 +63,19 @@ protected:
 	/**
 		Create slave widget object.
 	 */
-	virtual QWidget* CreateWidget(QWidget* parentPtr) const = 0;
+	virtual QWidget* InitWidgetToParent(QWidget* parentPtr) = 0;
 
 private:
 	QWidget* m_widgetPtr;
 };
+
+
+// inline methods
+
+inline QWidget* CGuiComponentBase::GetWidget() const
+{
+	return m_widgetPtr;
+}
 
 
 } // namespace iqt

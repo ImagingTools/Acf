@@ -37,12 +37,12 @@ private:
 
 template <class Component>
 TComponentStaticInfo<Component>::TComponentStaticInfo(IComponentStaticInfo* baseComponentPtr)
-:	m_baseComponentPtr(baseComponentPtr),
+:	m_baseComponentPtr(baseComponentPtr)
 {
 	if (baseComponentPtr != NULL){
-		m_interfaceExtractors.SetParent(baseComponentPtr->m_interfaceExtractors);
-		m_attributeInfos.SetParent(baseComponentPtr->m_attributeInfos);
-		m_subcomponentInfos.SetParent(baseComponentPtr->m_subcomponentInfos);
+		m_interfaceExtractors.SetParent(&baseComponentPtr->GetInterfaceExtractors());
+		m_attributeInfos.SetParent(&baseComponentPtr->GetAttributeInfos());
+		m_subcomponentInfos.SetParent(&baseComponentPtr->GetSubcomponentInfos());
 	}
 }
 

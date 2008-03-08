@@ -2,6 +2,17 @@
 #define icomp_TSimComponentWrap_included
 
 
+#include <map>
+
+#include "icomp/IComponent.h"
+#include "icomp/IComponentContext.h"
+#include "icomp/CRegistryElement.h"
+
+
+namespace icomp
+{
+
+
 template <class Base>
 class TSimComponentWrap: public Base, protected CRegistryElement, protected IComponentContext
 {
@@ -74,21 +85,24 @@ bool TSimComponentWrap<Base>::SetAttr(const ::std::string& attributeId, iser::IS
 
 // reimplemeted (icomp::IComponentContext)
 
+template <class Base>
 const IRegistryElement& TSimComponentWrap<Base>::GetRegistryElement() const
 {
-	return this;
+	return *this;
 }
 
 
+template <class Base>
 const IComponentContext* TSimComponentWrap<Base>::GetParentContext() const
 {
 	return this;
 }
 
 
+template <class Base>
 const iser::ISerializable* TSimComponentWrap<Base>::GetAttribute(const ::std::string& attributeId, const IComponentContext** realContextPtr = NULL) const
 {
-	AttributeInfo* infoPtr = GetAttributeInfo(attributeId);
+	const AttributeInfo* infoPtr = GetAttributeInfo(attributeId);
 	if (infoPtr != NULL){
 		return infoPtr->attributePtr.GetPtr();
 	}
@@ -97,9 +111,10 @@ const iser::ISerializable* TSimComponentWrap<Base>::GetAttribute(const ::std::st
 }
 
 
+template <class Base>
 IComponent* TSimComponentWrap<Base>::GetSubcomponent(const ::std::string& componentId) const
 {
-	ComponentMap::iterator iter = m_componentMap.find();
+	ComponentMap::const_iterator iter = m_componentMap.find(componentId);
 
 	if (iter != m_componentMap.end()){
 		return iter->second;
@@ -107,6 +122,9 @@ IComponent* TSimComponentWrap<Base>::GetSubcomponent(const ::std::string& compon
 
 	return NULL;
 }
+
+
+}//namespace icomp
 
 
 #endif //!icomp_TSimComponentWrap_included

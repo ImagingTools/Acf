@@ -3,6 +3,8 @@
 
 
 #include "icomp/IComponent.h"
+#include "icomp/TComponentStaticInfo.h"
+#include "icomp/TInterfaceRegistrator.h"
 
 
 namespace icomp
@@ -21,6 +23,8 @@ public:
 	// reimplemented (icomp::IComponent)
 	virtual void* GetInterface(const type_info& interfaceType, const ::std::string& subId = "");
 	virtual const IComponentContext& GetComponentContext() const;
+
+	static icomp::IComponentStaticInfo& GetStaticInfo();
 
 private:
 	const IComponentContext& m_context;

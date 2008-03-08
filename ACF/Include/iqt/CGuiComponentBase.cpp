@@ -22,13 +22,13 @@ bool CGuiComponentBase::IsGuiCreated() const
 }
 
 
-bool CGuiComponentBase::CreateGui(QWidget* parentPtr, bool addToLayout)
+bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 {
 	if (m_widgetPtr == NULL){
-		m_widgetPtr = CreateWidget(parentPtr);
+		m_widgetPtr = InitWidgetToParent(parentPtr);
 
 		if (m_widgetPtr != NULL){
-			if (addToLayout && (parentPtr != NULL)){
+			if (parentPtr != NULL){
 				QLayout* layoutPtr = parentPtr->layout();
 
 				if (layoutPtr != NULL){

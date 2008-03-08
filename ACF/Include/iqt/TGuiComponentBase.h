@@ -19,9 +19,13 @@ class TGuiComponentBase: public QObject, public CGuiComponentBase, public UI
 {
 public:
 	typedef CGuiComponentBase BaseClass;
+	I_COMPONENT(TGuiComponentBase);
+	I_REGISTER_INTERFACE(IGuiObject);
+
+	TGuiComponentBase(const icomp::IComponentContext* contextPtr);
 
 	// reimplemented (iqt::CGuiComponentBase)
-	virtual QWidget* CreateMainWidget(QWidget* parentPtr) const;
+	virtual QWidget* InitWidgetToParent(QWidget* parentPtr);
 
 protected:
 	// reimplemented (iqt::CGuiComponentBase)
@@ -29,21 +33,32 @@ protected:
 };
 
 
+// public methods
+
+template <class UI, class WidgetType>
+TGuiComponentBase<UI, WidgetType>::TGuiComponentBase(const icomp::IComponentContext* contextPtr)
+:	BaseClass(contextPtr)
+{
+}
+
+
 // reimplemented (iqt::CGuiComponentBase)
 
 template <class UI, class WidgetType>
-QWidget* TGuiComponentBase<UI, WidgetType>::CreateMainWidget(QWidget* parentPtr) const
+QWidget* TGuiComponentBase<UI, WidgetType>::InitWidgetToParent(QWidget* parentPtr)
 {
+	I_ASSERT(!IsGuiCreated());
+
 	WidgetType* widgetPtr = new WidgetType(parentPtr);
 
 	setupUi(widgetPtr);
 
     const QMetaObject* mo = metaObject();
-    Q_ASSERT(mo);
+    I_ASSERT(mo != NULL);
     const QObjectList list = qFindChildren<QObject *>(widgetPtr, QString());
     for (int i = 0; i < mo->methodCount(); ++i) {
         const char *slot = mo->method(i).signature();
-        Q_ASSERT(slot);
+        I_ASSERT(slot);
         if (slot[0] != 'o' || slot[1] != 'n' || slot[2] != '_')
             continue;
         bool foundIt = false;
@@ -77,6 +92,8 @@ QWidget* TGuiComponentBase<UI, WidgetType>::CreateMainWidget(QWidget* parentPtr)
         if (!foundIt)
             qWarning("QMetaObject::connectSlotsByName(): No matching signal for %s", slot);
     }
+
+	return widgetPtr;
 }
 
 
@@ -87,7 +104,11 @@ QWidget* TGuiComponentBase<UI, WidgetType>::CreateMainWidget(QWidget* parentPtr)
 template <class UI, class WidgetType>
 void TGuiComponentBase<UI, WidgetType>::OnRetranslate()
 {
-	retranslateUi(widgetPtr);
+	QWidget* widgetPtr = GetWidget();
+
+	if (widgetPtr != NULL){
+		retranslateUi(widgetPtr);
+	}
 
 	BaseClass::OnRetranslate();
 }

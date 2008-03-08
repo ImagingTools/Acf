@@ -38,7 +38,7 @@ public:
 	/**
 		Get access to internal QWidget object.
 	*/
-	virtual QWidget* GetWidgetPtr() const = 0;
+	virtual QWidget* GetWidget() const = 0;
 	/**
 		Called on trying to close application.
 		\param	ignoredPtr		if it is not NULL, ignoring of close is allowed.

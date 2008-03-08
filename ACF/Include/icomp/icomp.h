@@ -18,18 +18,12 @@
 	General ACF component declaration.
 	It should be placed in class declaration as first line.
 */
-#define I_COMPONENT(BaseClass)\
-	public:\
-		static inline icomp::IComponentStaticInfo& GetStaticInfo()\
-		{\
-			static icomp::CComponentStaticInfo staticInfo(BaseClass::GetStaticInfo());\
-			return staticInfo;\
-		}\
-		virtual icomp::IComponentStaticInfo* GetStaticInfoPtr()\
-		{\
-			return &GetStaticInfo();\
-		}\
-	private:
+#define I_COMPONENT(ComponentType)\
+	static icomp::IComponentStaticInfo& GetStaticInfo()\
+	{\
+		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::GetStaticInfo());\
+		return staticInfo;\
+	}
 
 #define I_REGISTER_INTERFACE(InterfaceType)\
 	static inline void Register##InterfaceType()\

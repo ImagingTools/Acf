@@ -300,43 +300,44 @@
 					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
-"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
-"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="NemoDebug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
-"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="NemoRelease|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
-"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;.\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 			</File>
+		</Filter>
+		<Filter
+			Name="Form Files"
+			Filter="ui"
+			UniqueIdentifier="{99349809-55BA-4b9d-BF79-8FDBB0286EB3}">
 		</Filter>
 	</Files>
 	<Globals>

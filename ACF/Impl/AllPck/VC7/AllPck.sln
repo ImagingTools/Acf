@@ -133,6 +133,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compositor", "..\..\Composi
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtPck", "..\..\QtPck\VC7\QtPck.vcproj", "{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CompSimu", "..\..\..\Docs\Tutorial\Appl\CompSimu\VC7\CompSimu.vcproj", "{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(Qt) = preSolution
 		Integration = True
@@ -288,6 +302,22 @@ Global
 		{6BD89B26-013F-4F41-87B7-14D632CCFEFF}.NemoRelease.Build.0 = Release|Win32
 		{6BD89B26-013F-4F41-87B7-14D632CCFEFF}.Release.ActiveCfg = Release|Win32
 		{6BD89B26-013F-4F41-87B7-14D632CCFEFF}.Release.Build.0 = Release|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.Debug.ActiveCfg = Debug|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.Debug.Build.0 = Debug|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.NemoDebug.ActiveCfg = NemoDebug|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.NemoDebug.Build.0 = NemoDebug|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.NemoRelease.ActiveCfg = NemoRelease|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.NemoRelease.Build.0 = NemoRelease|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.Release.ActiveCfg = Release|Win32
+		{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}.Release.Build.0 = Release|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.Debug.ActiveCfg = Debug|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.Debug.Build.0 = Debug|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.NemoDebug.ActiveCfg = Debug|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.NemoDebug.Build.0 = Debug|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.NemoRelease.ActiveCfg = Release|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.NemoRelease.Build.0 = Release|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.Release.ActiveCfg = Release|Win32
+		{DEFDB415-CBC9-48A0-A227-CD7B4B4CE610}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -20,4 +20,7 @@ CQtPackage::CQtPackage()
 
 EXPORT_COMPONENT_LIBRARY(CQtPackage);
 
+
 #endif // OLD_ACF_SUPPORT
+
+

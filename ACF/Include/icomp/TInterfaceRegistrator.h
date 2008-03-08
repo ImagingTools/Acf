@@ -2,7 +2,7 @@
 #define icomp_TInterfaceRegistrator_included
 
 
-#include "icomp/icomp.h"
+#include "icomp/IComponentStaticInfo.h"
 
 
 namespace icomp
@@ -16,11 +16,20 @@ template <class Interface>
 class TInterfaceRegistrator
 {
 public:
-	TInterfaceRegistrator(icomp::IComponentStaticInfo* staticInfoPtr);
+	TInterfaceRegistrator(icomp::IComponentStaticInfo& staticInfo);
 
 protected:
 	static void* InterfaceExtractor(IComponent* componentPtr);
 };
+
+
+// protected methods
+
+template <class Interface>
+void* TInterfaceRegistrator<Interface>::InterfaceExtractor(IComponent* componentPtr)
+{
+	return dynamic_cast<Interface>(componentPtr);
+}
 
 
 // public methods
@@ -28,14 +37,7 @@ protected:
 template <class Interface>
 TInterfaceRegistrator<Interface>::TInterfaceRegistrator(icomp::IComponentStaticInfo& staticInfo)
 {
-	staticInfo.RegisterInterfaceExtractor(typeid(Interface).name(), InterfaceExtractor);
-}
-
-
-template <class Interface>
-static void* TInterfaceRegistrator<Interface>::InterfaceExtractor(IComponent* componentPtr)
-{
-	return dynamic_cast<Interface>(componentPtr);
+	staticInfo.RegisterInterfaceExtractor(typeid(Interface).name(), TInterfaceRegistrator<Interface>::InterfaceExtractor);
 }
 
 

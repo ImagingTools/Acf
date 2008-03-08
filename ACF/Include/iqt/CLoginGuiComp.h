@@ -2,36 +2,26 @@
 #define iqt_CLoginGuiComp_included
 
 
-#include "iqt.h"
+#include "iqt/TGuiComponentBase.h"
 
-
-#include "QtAcf/QtGuiTemplateBasedComponent.h"
-#include "QtAcf/QtAbstractGuiObserverComp.h"
-
-#include "Comp/MultipleComponentDependency.h"
-#include "Comp/Attribute.h"
-#include "Comp/MultipleAttribute.h"
-
-#include "QtCompLib/QtIconProviderInterface.h"
-
-#include "ui_CLoginGuiComp.h"
+#include "iqt/GeneratedFiles/ui_CLoginGuiComp.h"
 
 
 namespace iqt
 {
 
 
-class CLoginGuiComp: public acf::QtGuiTemplateBasedComponent<QWidget, Ui::CLoginGuiComp>
+class CLoginGuiComp: public TGuiComponentBase<Ui::CLoginGuiComp, QWidget>
 {
 public:
-	typedef acf::QtGuiTemplateBasedComponent<QWidget, Ui::CLoginGuiComp> BaseClass;
+	typedef TGuiComponentBase<Ui::CLoginGuiComp, QWidget> BaseClass;
+	I_COMPONENT(CLoginGuiComp);
 
-	CLoginGuiComp();
-	virtual ~CLoginGuiComp();
+	CLoginGuiComp(const icomp::IComponentContext* contextPtr);
 
 protected:
-	// reimplemented (acf::QtAbstractGuiComponent)
-	virtual void initializeGui();
+	// reimplemented (iqt::CGuiComponentBase)
+	virtual void OnGuiCreated();
 };
 
 
@@ -39,4 +29,5 @@ protected:
 
 
 #endif // !iqt_CLoginGuiComp_included
+
 

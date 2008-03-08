@@ -1,5 +1,3 @@
-#ifdef OLD_ACF_SUPPORT
-
 #include <QGridLayout>
 
 #include "iqt/CLoginGuiComp.h"
@@ -9,29 +7,22 @@ namespace iqt
 {
 
 
-CLoginGuiComp::CLoginGuiComp()
-:	BaseClass()
+CLoginGuiComp::CLoginGuiComp(const icomp::IComponentContext* contextPtr)
+:	BaseClass(contextPtr)
 {
-
-}
-
-
-CLoginGuiComp::~CLoginGuiComp()
-{
-
 }
 
 
 // protected methods
 
-// reimplemented (acf::QtAbstractGuiComponent)
+// reimplemented (iqt::CGuiComponentBase)
 
-void CLoginGuiComp::initializeGui()
+void CLoginGuiComp::OnGuiCreated()
 {
+	BaseClass::OnGuiCreated();
 }
 
 
 } // namespace iqt
 
 
-#endif // OLD_ACF_SUPPORT
