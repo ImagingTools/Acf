@@ -1,11 +1,12 @@
-#ifndef qstd_TIFactory_h_included
-#define qstd_TIFactory_h_included
+#ifndef istd_TIFactory_h_included
+#define istd_TIFactory_h_included
 
 
 #include "istd/istd.h"
 
 
 #include <string>
+#include <set>
 #include <vector>
 
 
@@ -23,7 +24,7 @@ template <class InterfaceType>
 class TIFactory: virtual public istd::IPolymorphic  
 {
 public:
-	typedef ::std::set< ::std::string> KeyList;
+	typedef std::set<std::string> KeyList;
 
 	/**
 		Returns all posible keys for this factory.
@@ -45,5 +46,5 @@ typedef TIFactory<istd::IPolymorphic> IFactory;
 } // namespace istd
 
 
-#endif // !qstd_TIFactory_h_included
+#endif // !istd_TIFactory_h_included
 

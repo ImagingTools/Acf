@@ -2,9 +2,10 @@
 #define istd_TComposedFactory_h_included
 
 
-#include <map>
+#include <list>
 
 #include "istd/TIFactory.h"
+#include "istd/TOptDelPtr.h"
 
 
 namespace istd
@@ -33,8 +34,8 @@ public:
 	virtual InterfaceType* CreateInstance(const ::std::string& keyId = "") const;
 
 protected:
-	typedef istd::ToptDelPtr<FactoryClass> FactoryPtr;
-	typedef ::std::list< ::std::string, FactoryPtr> FactoryList;
+	typedef istd::TOptDelPtr<FactoryClass> FactoryPtr;
+	typedef std::list<FactoryPtr> FactoryList;
 
 	FactoryList m_factoryList;
 };
@@ -79,7 +80,7 @@ typename TComposedFactory<InterfaceType>::KeyList TComposedFactory<InterfaceType
 
 
 template <class InterfaceType>
-istd::IPolymorphic* TComposedFactory<InterfaceType>::CreateInstance(const ::std::string& keyId)
+InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const std::string& keyId) const
 {
 	for (		FactoryList::const_iterator iter = m_factoryList.begin();
 				iter != m_factoryList.end();
