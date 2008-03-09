@@ -12,6 +12,7 @@ namespace iqt
 
 
 class CGuiComponentBase:
+			public QObject, 
 			public icomp::CComponentBase,
 			public IGuiObject
 {
@@ -58,6 +59,9 @@ protected:
 		Called just before GUI is released.
 	 */
 	virtual void OnGuiDestroyed();
+
+	// reimplemented (QObject)
+	bool eventFilter(QObject* obj, QEvent* event);
 
 	// abstract methods
 	/**

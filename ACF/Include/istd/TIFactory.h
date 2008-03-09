@@ -7,7 +7,6 @@
 
 #include <string>
 #include <set>
-#include <vector>
 
 
 #include "istd/IPolymorphic.h"

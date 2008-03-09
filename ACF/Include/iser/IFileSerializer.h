@@ -12,18 +12,28 @@ namespace iser
 class ISerializable;
 
 
-class IFileSerializer: virtual public acf::IPolymorphic
+class IFileSerializer: virtual public istd::IPolymorphic
 {
 public:
+
+	enum SerializationState
+	{
+		StateOk,
+		StateAborted,
+		StateFailed
+	};
+
 	/**
 		This function loads data \c data from file \c fileName
+		\returns serialization state. \sa SerializationState
 	*/
-	virtual bool LoadFromFile(ISerializable& data, const istd::CString& fileName) = 0;
+	virtual int LoadFromFile(ISerializable& data, const istd::CString& fileName) const = 0;
 
 	/**
 		This function saves data \c data to file \c fileName
+		\returns serialization state. \sa SerializationState
 	*/
-	virtual bool SaveToFile(ISerializable& data, const istd::CString& fileName) = 0;
+	virtual int SaveToFile(ISerializable& data, const istd::CString& fileName) const = 0;
 };
 
 

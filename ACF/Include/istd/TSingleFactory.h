@@ -25,7 +25,7 @@ public:
 	explicit TSingleFactory(const std::string& keyId);
 
 	// reimplemented (istd::TIFactory)
-	virtual KeyList GetKeys() const;
+	virtual KeyList GetFactoryKeys() const;
 	virtual InterfaceType* CreateInstance(const std::string& keyId = "") const;
 
 private:
@@ -35,6 +35,14 @@ private:
 
 // public methods
 
+template <class InterfaceType, class Implementation>
+TSingleFactory<InterfaceType, Implementation>::TSingleFactory(const std::string& keyId)
+	:m_keyId(keyId)
+{
+
+}
+
+
 // reimplemented (istd::IFactory)
 
 template <class InterfaceType, class Implementation>
@@ -42,7 +50,7 @@ typename TIFactory<InterfaceType>::KeyList TSingleFactory<InterfaceType, Impleme
 {
 	KeyList retVal;
 
-	retVal.push_back(m_keyId);
+	retVal.insert(m_keyId);
 
 	return retVal;
 }

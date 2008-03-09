@@ -2,7 +2,7 @@
 #define iqt_CLoginGuiComp_included
 
 
-#include "iqt/TGuiComponentBase.h"
+#include "iqt/TDesignerGuiComponentBase.h"
 
 #include "iqt/GeneratedFiles/ui_CLoginGuiComp.h"
 
@@ -11,10 +11,10 @@ namespace iqt
 {
 
 
-class CLoginGuiComp: public TGuiComponentBase<Ui::CLoginGuiComp, QWidget>
+class CLoginGuiComp: public TDesignerGuiComponentBase<Ui::CLoginGuiComp, QWidget>
 {
 public:
-	typedef TGuiComponentBase<Ui::CLoginGuiComp, QWidget> BaseClass;
+	typedef TDesignerGuiComponentBase<Ui::CLoginGuiComp, QWidget> BaseClass;
 	I_COMPONENT(CLoginGuiComp);
 
 	CLoginGuiComp(const icomp::IComponentContext* contextPtr);

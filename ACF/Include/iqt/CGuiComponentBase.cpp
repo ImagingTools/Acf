@@ -2,6 +2,7 @@
 
 
 #include <QLayout>
+#include <QEvent>
 
 
 namespace iqt
@@ -35,6 +36,10 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 					layoutPtr->addWidget(m_widgetPtr);
 				}
 			}
+
+			m_widgetPtr->installEventFilter(this);
+
+			metaObject()->connectSlotsByName(m_widgetPtr);
 
 			OnGuiCreated();
 
@@ -98,6 +103,41 @@ void CGuiComponentBase::OnGuiDestroyed()
 }
 
 
-} // namespace iqt
+// reimplemented (QObject)
 
+bool CGuiComponentBase::eventFilter(QObject* obj, QEvent* event)
+{
+	QWidget* widgetPtr = GetWidget();
+	if (obj != widgetPtr || widgetPtr == NULL){
+		return false;
+	}
+
+	switch (event->type()){
+		case QEvent::Close:
+			bool ignoreClose;
+			OnTryClose(&ignoreClose);
+			if (ignoreClose){
+				event->ignore();
+
+				return true;
+			}
+
+		case QEvent::Show:
+			OnGuiShown();
+			break;
+
+		case QEvent::Hide:
+			OnGuiHidden();
+			break;
+
+		case QEvent::LanguageChange:
+			OnRetranslate();
+			break;
+	}
+
+	return false;
+}
+
+
+} // namespace iqt
 

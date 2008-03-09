@@ -3,7 +3,6 @@
 
 
 #include <QWidget>
-#include "qmetaobject.h"
 
 #include "iqt/CGuiComponentBase.h"
 
@@ -14,8 +13,8 @@ namespace iqt
 
 /**	Base class for all Qt GUI componentes.
  */
-template <class UI, class WidgetType = QWidget>
-class TGuiComponentBase: public QObject, public CGuiComponentBase, public UI
+template <class WidgetType>
+class TGuiComponentBase: public CGuiComponentBase
 {
 public:
 	typedef CGuiComponentBase BaseClass;
@@ -26,17 +25,13 @@ public:
 
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual QWidget* InitWidgetToParent(QWidget* parentPtr);
-
-protected:
-	// reimplemented (iqt::CGuiComponentBase)
-	virtual void OnRetranslate();
 };
 
 
 // public methods
 
-template <class UI, class WidgetType>
-TGuiComponentBase<UI, WidgetType>::TGuiComponentBase(const icomp::IComponentContext* contextPtr)
+template <class WidgetType>
+TGuiComponentBase<WidgetType>::TGuiComponentBase(const icomp::IComponentContext* contextPtr)
 :	BaseClass(contextPtr)
 {
 }
@@ -44,73 +39,14 @@ TGuiComponentBase<UI, WidgetType>::TGuiComponentBase(const icomp::IComponentCont
 
 // reimplemented (iqt::CGuiComponentBase)
 
-template <class UI, class WidgetType>
-QWidget* TGuiComponentBase<UI, WidgetType>::InitWidgetToParent(QWidget* parentPtr)
+template <class WidgetType>
+QWidget* TGuiComponentBase<WidgetType>::InitWidgetToParent(QWidget* parentPtr)
 {
 	I_ASSERT(!IsGuiCreated());
 
 	WidgetType* widgetPtr = new WidgetType(parentPtr);
 
-	setupUi(widgetPtr);
-
-    const QMetaObject* mo = metaObject();
-    I_ASSERT(mo != NULL);
-    const QObjectList list = qFindChildren<QObject *>(widgetPtr, QString());
-    for (int i = 0; i < mo->methodCount(); ++i) {
-        const char *slot = mo->method(i).signature();
-        I_ASSERT(slot);
-        if (slot[0] != 'o' || slot[1] != 'n' || slot[2] != '_')
-            continue;
-        bool foundIt = false;
-        for(int j = 0; j < list.count(); ++j) {
-            const QObject *co = list.at(j);
-            QByteArray objName = co->objectName().toAscii();
-            int len = objName.length();
-            if (!len || qstrncmp(slot + 3, objName.data(), len) || slot[len+3] != '_')
-                continue;
-            const QMetaObject *smo = co->metaObject();
-            int sigIndex = smo->indexOfMethod(slot + len + 4);
-            if (sigIndex < 0) { // search for compatible signals
-                int slotlen = qstrlen(slot + len + 4) - 1;
-                for (int k = 0; k < co->metaObject()->methodCount(); ++k) {
-                    if (smo->method(k).methodType() != QMetaMethod::Signal)
-                        continue;
-
-                    if (!qstrncmp(smo->method(k).signature(), slot + len + 4, slotlen)) {
-                        sigIndex = k;
-                        break;
-                    }
-                }
-            }
-            if (sigIndex < 0)
-                continue;
-            if (QMetaObject::connect(co, sigIndex, this, i)) {
-                foundIt = true;
-                break;
-            }
-        }
-        if (!foundIt)
-            qWarning("QMetaObject::connectSlotsByName(): No matching signal for %s", slot);
-    }
-
 	return widgetPtr;
-}
-
-
-// protected methods
-
-// reimplemented (iqt::CGuiComponentBase)
-
-template <class UI, class WidgetType>
-void TGuiComponentBase<UI, WidgetType>::OnRetranslate()
-{
-	QWidget* widgetPtr = GetWidget();
-
-	if (widgetPtr != NULL){
-		retranslateUi(widgetPtr);
-	}
-
-	BaseClass::OnRetranslate();
 }
 
 
