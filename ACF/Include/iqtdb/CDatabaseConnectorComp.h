@@ -1,5 +1,5 @@
-#ifndef iqtdb_CDatabaseConnectorComp_h_included
-#define iqtdb_CDatabaseConnectorComp_h_included
+#ifndef iqtdb_CDatabaseConnectorComp_included
+#define iqtdb_CDatabaseConnectorComp_included
 
 
 #include "iqtdb.h"
@@ -56,5 +56,5 @@ private:
 } // namespace iqtdb
 
 
-#endif // !iqtdb_CDatabaseConnectorComp_h_included
+#endif // !iqtdb_CDatabaseConnectorComp_included
 

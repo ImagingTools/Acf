@@ -1,5 +1,5 @@
-#ifndef idb_IDatabaseConnector_h_included
-#define idb_IDatabaseConnector_h_included
+#ifndef idb_IDatabaseConnector_included
+#define idb_IDatabaseConnector_included
 
 
 #include "istd/IPolymorphic.h"
@@ -26,4 +26,4 @@ public:
 } // namespace idb
 
 
-#endif // !idb_IDatabaseConnector_h_included
+#endif // !idb_IDatabaseConnector_included

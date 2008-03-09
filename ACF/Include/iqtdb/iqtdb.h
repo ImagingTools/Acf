@@ -1,5 +1,5 @@
-#ifndef iqtdb_h_included
-#define iqtdb_h_included
+#ifndef iqtdb_included
+#define iqtdb_included
 
 /**
 \defgroup iqtdb Qt Database
@@ -20,4 +20,4 @@ namespace iqtdb
 }
 
 
-#endif // !iqtdb_h_included
+#endif // !iqtdb_included

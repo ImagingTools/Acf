@@ -1,5 +1,5 @@
-#ifndef istd_TComposedFactory_h_included
-#define istd_TComposedFactory_h_included
+#ifndef istd_TComposedFactory_included
+#define istd_TComposedFactory_included
 
 
 #include <list>
@@ -101,6 +101,6 @@ InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const std::string
 } // namespace istd
 
 
-#endif // !istd_TComposedFactory_h_included
+#endif // !istd_TComposedFactory_included
 
 

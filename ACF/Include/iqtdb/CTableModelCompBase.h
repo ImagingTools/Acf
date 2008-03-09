@@ -1,5 +1,5 @@
-#ifndef iqtdb_CTableModelCompBase_h_included
-#define iqtdb_CTableModelCompBase_h_included
+#ifndef iqtdb_CTableModelCompBase_included
+#define iqtdb_CTableModelCompBase_included
 
 
 #include "iqtdb.h"
@@ -90,5 +90,5 @@ private:
 } // namespace iqtdb
 
 
-#endif // !iqtdb_CTableModelCompBase_h_included
+#endif // !iqtdb_CTableModelCompBase_included
 

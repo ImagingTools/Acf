@@ -1,5 +1,5 @@
-#ifndef ACF_h_included
-#define ACF_h_included
+#ifndef ACF_included
+#define ACF_included
 
 
 /**
@@ -22,4 +22,4 @@ and includes many well designed components, which you can directly use in your a
 */
 
 
-#endif // !ACF_h_included
+#endif // !ACF_included

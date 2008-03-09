@@ -1,5 +1,5 @@
-#ifndef istd_TIFactory_h_included
-#define istd_TIFactory_h_included
+#ifndef istd_TIFactory_included
+#define istd_TIFactory_included
 
 
 #include "istd/istd.h"
@@ -45,5 +45,5 @@ typedef TIFactory<istd::IPolymorphic> IFactory;
 } // namespace istd
 
 
-#endif // !istd_TIFactory_h_included
+#endif // !istd_TIFactory_included
 

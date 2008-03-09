@@ -1,5 +1,5 @@
-#ifndef idb_h_included
-#define idb_h_included
+#ifndef idb_included
+#define idb_included
 
 /**
 \defgroup idb Database
@@ -20,4 +20,4 @@ namespace idb
 }
 
 
-#endif // !idb_h_included
+#endif // !idb_included
