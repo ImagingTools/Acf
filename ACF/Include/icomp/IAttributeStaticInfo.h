@@ -17,19 +17,36 @@ namespace icomp{
 class IAttributeStaticInfo: virtual public istd::IPolymorphic
 {
 public:
-	/**	Create instance of this attribute.
+	/**
+		Create instance of this attribute.
 	 */
 	virtual iser::ISerializable* CreateAttribute() const = 0;
 
-	/**	Get ID of this attribute.
+	/**
+		Get ID of this attribute.
 	 */
 	virtual const ::std::string& GetAttributeId() const = 0;
-	/**	Return attribute type description.
+
+	/**
+		Get description of this attribute.
+	 */
+	virtual const ::std::string& GetAttributeDescription() const = 0;
+
+	/**
+		Get default attribute value.
+		\return	pointer to default attribute value, if set. Elsewhere it returns NULL.
+	*/
+	virtual const iser::ISerializable* GetAttributeDefaultValue() const = 0;
+
+	/**
+		Return attribute type description.
 	 */
 	virtual const type_info& GetAttributeType() const = 0;
-	/**	Check if this attribute is obligatory.
-	 *		If attribute is obligatory, its value shouldn't be NULL.
-	 *		Please note, that this flag is only suggestion for registry designer.
+
+	/**
+		Check if this attribute is obligatory.
+		If attribute is obligatory, its value shouldn't be NULL.
+		Please note, that this flag is only suggestion for registry designer.
 	 */
 	virtual bool IsObligatory() const = 0;
 };

@@ -56,7 +56,7 @@ IComponent* CCompositeComponentContext::GetSubcomponent(const ::std::string& com
 
 			case IRegistry::ET_COMPOSITION:
 				{
-					const IRegistry* subRegistryPtr = m_registriesManager.GetRegistry(elementInfoPtr->packageId, elementInfoPtr->factoryId, &m_registry);
+					const IRegistry* subRegistryPtr = m_registriesManager.GetRegistry(elementInfoPtr->packageId, elementInfoPtr->componentId, &m_registry);
 					if (subRegistryPtr != NULL){
 						CCompositeComponentContext* newInfoPtr = new CCompositeComponentContext(
 									&registryElement,

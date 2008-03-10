@@ -41,23 +41,17 @@ public:
 		ElementPtr elementPtr;		///<	Pointer to registry element
 		int elementType;			///<	Type of element. \sa ElementType
 		::std::string packageId;	///<	ID of package. It can be for example part of dynamic link library storing set of component or folder name with composed components
-		::std::string factoryId;	///<	ID of component factory inside package.
+		::std::string componentId;	///<	ID of component inside package.
 	};
 
 	/**
-		Information for exported interface.
+		Map assigning interface ID to component ID exporting this interface.
 	*/
-	struct InterfaceInfo
-	{
-		::std::string componentId;
-		::std::string subId;
-	};
-
-	typedef ::std::map< ::std::string, InterfaceInfo> InterfaceInfos;
+	typedef ::std::map< ::std::string, ::std::string> ExportedInterfacesMap;
 	/**
 		Map assigning exported sub-component names to internal subcomponent ID's.
 	*/
-	typedef ::std::map< ::std::string, ::std::string> SubcomponentMap;
+	typedef ::std::map< ::std::string, ::std::string> ExportedComponentsMap;
 
 	/**
 		Get ID list of existing elements.
@@ -72,7 +66,7 @@ public:
 				const ::std::string& elementId,
 				int elementType,
 				const ::std::string& packageId,
-				const ::std::string& factoryId,
+				const ::std::string& componentId,
 				bool ensureElementCreated = true) = 0;
 
 	/**
@@ -88,12 +82,12 @@ public:
 	/**
 		Get access to information structore of exported interfaces.
 	*/
-	virtual const InterfaceInfos& GetExportedInterfaceInfos() const = 0;
+	virtual const ExportedInterfacesMap& GetExportedExportedInterfacesMap() const = 0;
 
 	/**
 		Get access to map used to convert exported sub-components to internal sub-component ID's.
 	*/
-	virtual const SubcomponentMap& GetExportedSubcomponentMap() const = 0;
+	virtual const ExportedComponentsMap& GetExportedComponentsMap() const = 0;
 };
 
 

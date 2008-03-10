@@ -19,7 +19,6 @@ class TGuiComponentBase: public CGuiComponentBase
 public:
 	typedef CGuiComponentBase BaseClass;
 	I_COMPONENT(TGuiComponentBase);
-	I_REGISTER_INTERFACE(IGuiObject);
 
 	TGuiComponentBase(const icomp::IComponentContext* contextPtr);
 
@@ -34,6 +33,7 @@ template <class WidgetType>
 TGuiComponentBase<WidgetType>::TGuiComponentBase(const icomp::IComponentContext* contextPtr)
 :	BaseClass(contextPtr)
 {
+	I_REGISTER_INTERFACE(IGuiObject);
 }
 
 

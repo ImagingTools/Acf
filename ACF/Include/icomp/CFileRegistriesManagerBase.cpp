@@ -49,7 +49,7 @@ const IRegistry* CFileRegistriesManagerBase::GetRegistryFromFile(const istd::CSt
 
 const IRegistry* CFileRegistriesManagerBase::GetRegistry(
 			const ::std::string& packageId,
-			const ::std::string& factoryId,
+			const ::std::string& componentId,
 			const IRegistry* contextPtr) const
 {
 	istd::CString path;
@@ -68,7 +68,7 @@ const IRegistry* CFileRegistriesManagerBase::GetRegistry(
 		path += istd::CString(packageId) + istd::CString("/");
 	}
 
-	path += istd::CString(factoryId);
+	path += istd::CString(componentId);
 
 	return GetRegistryFromFile(path);
 }

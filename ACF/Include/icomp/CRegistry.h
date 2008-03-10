@@ -27,22 +27,27 @@ public:
 			const ::std::string& elementId,
 			int elementType,
 			const ::std::string& packageId,
-			const ::std::string& factoryId,
+			const ::std::string& componentId,
 			bool ensureElementCreated = true);
 	virtual const ElementInfo* GetElementInfo(const ::std::string& elementId) const;
 	virtual bool RemoveElementInfo(const ::std::string& elementId);
-	virtual const InterfaceInfos& GetExportedInterfaceInfos() const;
-	virtual const SubcomponentMap& GetExportedSubcomponentMap() const;
+	virtual const ExportedInterfacesMap& GetExportedExportedInterfacesMap() const;
+	virtual const ExportedComponentsMap& GetExportedComponentsMap() const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-private:
-	typedef ::std::map< ::std::string, ElementInfo> ElementsMap;
+protected:
+	bool SerializeComponents(iser::IArchive& archive);
+	bool SerializeExportedInterfaces(iser::IArchive& archive);
+	bool SerializeExportedComponents(iser::IArchive& archive);
 
-	ElementsMap m_elementInfos;
-	InterfaceInfos m_interfaceInfos;
-	SubcomponentMap m_subcomponentMap;
+private:
+	typedef ::std::map< ::std::string, ElementInfo> ComponentsMap;
+
+	ComponentsMap m_componentsMap;
+	ExportedInterfacesMap m_exportedInterfacesMap;
+	ExportedComponentsMap m_exportedComponentsMap;
 
 	const IComponentStaticInfo& m_componentsFactory;
 };

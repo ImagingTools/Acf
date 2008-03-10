@@ -64,10 +64,10 @@ bool TSimpleAttribute<ValueType>::Serialize(iser::IArchive& archive)
 }
 
 
-typedef TSimpleAttribute<int> IntAttribute;
-typedef TSimpleAttribute<bool> BoolAttribute;
-typedef TSimpleAttribute<double> DoubleAttribute;
-typedef TSimpleAttribute<CString> StringAttribute;
+typedef TSimpleAttribute<int> CIntAttribute;
+typedef TSimpleAttribute<bool> CBoolAttribute;
+typedef TSimpleAttribute<double> CDoubleAttribute;
+typedef TSimpleAttribute<CString> CStringAttribute;
 
 
 } // namespace icomp

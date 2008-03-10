@@ -22,30 +22,26 @@ void* CCompositeComponent::GetInterface(const type_info& interfaceType, const ::
 	const IRegistry& registry = m_context.GetRegistry();
 
 	if (subId.empty()){
-		const IRegistry::InterfaceInfos& interfaceInfos = registry.GetExportedInterfaceInfos();
-		IRegistry::InterfaceInfos::const_iterator iter = interfaceInfos.find(interfaceType.name());
+		const IRegistry::ExportedInterfacesMap& interfaceInfos = registry.GetExportedExportedInterfacesMap();
+		IRegistry::ExportedInterfacesMap::const_iterator iter = interfaceInfos.find(interfaceType.name());
 		if (iter != interfaceInfos.end()){
-			const IRegistry::InterfaceInfo& info = iter->second;
-			IComponent* componentPtr = m_context.GetSubcomponent(info.componentId);
+			::std::string componentId;
+			::std::string restId;
+			SplitComponentId(iter->second, componentId, restId);
+
+			IComponent* componentPtr = m_context.GetSubcomponent(componentId);
 			if (componentPtr != NULL){
-				return componentPtr->GetInterface(interfaceType, info.subId);
+				return componentPtr->GetInterface(interfaceType, restId);
 			}
 		}
 	}
 	else{
 		::std::string componentId;
 		::std::string restId;
-		::std::string::size_type pointPos = subId.find('.');
-		if (pointPos != ::std::string::npos){
-			componentId = componentId.substr(0, pointPos);
-			restId = componentId.substr(pointPos + 1);
-		}
-		else{
-			componentId = componentId;
-		}
+		SplitComponentId(subId, componentId, restId);
 
-		const IRegistry::SubcomponentMap& subcomponentMap = registry.GetExportedSubcomponentMap();
-		IRegistry::SubcomponentMap::const_iterator iter = subcomponentMap.find(componentId);
+		const IRegistry::ExportedComponentsMap& subcomponentMap = registry.GetExportedComponentsMap();
+		IRegistry::ExportedComponentsMap::const_iterator iter = subcomponentMap.find(componentId);
 		if (iter != subcomponentMap.end()){
 			const ::std::string& realComponentId = iter->second;
 			IComponent* componentPtr = m_context.GetSubcomponent(realComponentId);
@@ -56,6 +52,24 @@ void* CCompositeComponent::GetInterface(const type_info& interfaceType, const ::
 	}
 
 	return NULL;
+}
+
+
+// protected methods
+
+// static methods
+
+void CCompositeComponent::SplitComponentId(const ::std::string& fullId, ::std::string& componentId, ::std::string& restId)
+{
+	::std::string::size_type pointPos = fullId.find('.');
+	if (pointPos != ::std::string::npos){
+		componentId = fullId.substr(0, pointPos);
+		restId = componentId.substr(pointPos + 1);
+	}
+	else{
+		componentId = fullId;
+		restId = "";
+	}
 }
 
 

@@ -30,7 +30,6 @@ class CExample: public icomp::CComponentBase, public ITestInterface
 	typedef CComponentBase BaseClass;
 
 	I_COMPONENT(CExample);
-	I_REGISTER_INTERFACE(ITestInterface);
 
 public:
 	CExample(const icomp::IComponentContext* contextPtr);

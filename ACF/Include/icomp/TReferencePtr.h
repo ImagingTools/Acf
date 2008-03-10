@@ -20,10 +20,11 @@ class TReferencePtr: public TAttributePtr<CReferenceAttribute>
 {
 public:
 	typedef TAttributePtr<CReferenceAttribute> BaseClass;
+	typedef Interface InterfaceType;
 
 	TReferencePtr();
 
-	void Init(const IComponent* ownerPtr, const IAttributeStaticInfo* infoPtr);
+	void Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo);
 
 	/**
 		Check if this reference can be resolved.
@@ -37,7 +38,7 @@ public:
 	/**
 		Access to internal pointer.
 	*/
-	const Interface* operator->() const;
+	Interface* operator->() const;
 
 	/**
 		Access to object pointed by internal pointer.
@@ -47,41 +48,43 @@ public:
 protected:
 	TReferencePtr(const TReferencePtr& ptr);
 
-	bool EnsureInitialized();
+	bool EnsureInitialized() const;
 
 private:
-	mutable IComponent* m_componentPtr;
 	const IComponentContext* m_realContextPtr;
+
+	mutable Interface* m_componentPtr;
+	mutable bool m_isInitialized;
 };
 
 
 // public methods
 
 template <class Interface>
-TReferencePtr::TReferencePtr()
-:	m_componentPtr(NULL), m_realContextPtr(NULL)
+TReferencePtr<Interface>::TReferencePtr()
+:	m_realContextPtr(NULL), m_componentPtr(NULL), m_isInitialized(false)
 {
 }
 
 
 template <class Interface>
-void TReferencePtr::Init(const IComponent* ownerPtr, const IAttributeStaticInfo* infoPtr)
+void TReferencePtr<Interface>::Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo)
 {
-	BaseClass::Init(ownerPtr, infoPtr, &m_realContextPtr);
+	BaseClass::Init(ownerPtr, staticInfo, &m_realContextPtr);
 
 	m_componentPtr = NULL;
 }
 
 
 template <class Interface>
-bool TReferencePtr::IsValid() const
+bool TReferencePtr<Interface>::IsValid() const
 {
 	return EnsureInitialized();
 }
 
 
 template <class Interface>
-IComponent* TReferencePtr::GetComponent() const
+IComponent* TReferencePtr<Interface>::GetComponent() const
 {
 	EnsureInitialized();
 
@@ -89,28 +92,49 @@ IComponent* TReferencePtr::GetComponent() const
 }
 
 
+template <class Interface>
+typename Interface* TReferencePtr<Interface>::operator->() const
+{
+	EnsureInitialized();
+	I_ASSERT(m_componentPtr != NULL);
+
+	return m_componentPtr;
+}
+
+
+template <class Interface>
+typename const Interface& TReferencePtr<Interface>::operator*() const
+{
+	EnsureInitialized();
+	I_ASSERT(m_componentPtr != NULL);
+
+	return *m_componentPtr;
+}
+
+
 // protected methods
 
 template <class Interface>
 TReferencePtr<Interface>::TReferencePtr(const TReferencePtr& ptr)
-:	BaseClass(ptr), m_componentPtr(ptr.m_componentPtr), m_realContextPtr(ptr.m_realContextPtr)
+:	BaseClass(ptr),
+	m_realContextPtr(ptr.m_realContextPtr),
+	m_componentPtr(ptr.m_componentPtr),
+	m_isInitialized(ptr.m_isInitialized)
 {
 }
 
 
 template <class Interface>
-bool TReferencePtr::EnsureInitialized() const
+bool TReferencePtr<Interface>::EnsureInitialized() const
 {
-	if (m_componentPtr != NULL){
-		return true;
-	}
-
-	if ((m_realContextPtr != NULL) && BaseClass::IsValid()){
+	if (!m_isInitialized && (m_realContextPtr != NULL) && BaseClass::IsValid()){
 		const CReferenceAttribute& attribute = *GetAttributePtr();
 
 		const IComponentContext* parentPtr = m_realContextPtr->GetParentContext();
 		if (parentPtr != NULL){
-			m_componentPtr = parentPtr->GetSubcomponent(attribute.GetComponentId());
+			m_componentPtr = dynamic_cast<Interface*>(parentPtr->GetSubcomponent(attribute.GetComponentId()));
+
+			m_isInitialized = true;
 		}
 	}
 

@@ -127,6 +127,9 @@
 				RelativePath="..\IApplication.h">
 			</File>
 			<File
+				RelativePath="..\IApplicationInfo.h">
+			</File>
+			<File
 				RelativePath="..\ibase.h">
 			</File>
 			<File

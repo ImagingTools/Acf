@@ -29,7 +29,7 @@ void* CComponentBase::GetInterface(const type_info& interfaceType, const ::std::
 
 	int index = extractors.FindIndex(interfaceType.name());
 
-	if (index > 0){
+	if (index >= 0){
 		IComponentStaticInfo::InterfaceExtractorPtr extractorPtr = extractors.GetValueAt(index);
 
 		return extractorPtr(this);

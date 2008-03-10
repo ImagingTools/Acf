@@ -24,8 +24,8 @@ CRegistry::CRegistry(const IComponentStaticInfo* factoryPtr)
 IRegistry::Ids CRegistry::GetElementIds() const
 {
 	Ids retVal;
-	for (		ElementsMap::const_iterator iter = m_elementInfos.begin();
-				iter != m_elementInfos.begin();
+	for (		ComponentsMap::const_iterator iter = m_componentsMap.begin();
+				iter != m_componentsMap.begin();
 				++iter){
 		retVal.insert(iter->first);
 	}
@@ -38,11 +38,11 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 			const ::std::string& elementId,
 			int elementType,
 			const ::std::string& packageId,
-			const ::std::string& factoryId,
+			const ::std::string& componentId,
 			bool ensureElementCreated)
 {
-	ElementsMap::const_iterator iter = m_elementInfos.find(elementId);
-	if (iter != m_elementInfos.end()){
+	ComponentsMap::const_iterator iter = m_componentsMap.find(elementId);
+	if (iter != m_componentsMap.end()){
 		return NULL;
 	}
 
@@ -57,7 +57,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 				I_ASSERT(*packageInfoPtr2 != NULL);
 
 				const IComponentStaticInfo::SubcomponentInfos& packageSubInfos = (*packageInfoPtr2)->GetSubcomponentInfos();
-				const IComponentStaticInfo::SubcomponentInfos::ValueType* componentInfoPtr2 = packageSubInfos.FindElement(factoryId);
+				const IComponentStaticInfo::SubcomponentInfos::ValueType* componentInfoPtr2 = packageSubInfos.FindElement(componentId);
 				if (componentInfoPtr2 != NULL){
 					I_ASSERT(*componentInfoPtr2 != NULL);
 
@@ -75,10 +75,10 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		return NULL;
 	}
 
-	ElementInfo& newElement = m_elementInfos[elementId];
+	ElementInfo& newElement = m_componentsMap[elementId];
 	newElement.elementType = elementType;
 	newElement.packageId = packageId;
-	newElement.factoryId = factoryId;
+	newElement.componentId = componentId;
 	newElement.elementPtr.TakeOver(registryPtr);
 
 	return &newElement;
@@ -87,8 +87,8 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 
 const IRegistry::ElementInfo* CRegistry::GetElementInfo(const ::std::string& elementId) const
 {
-	ElementsMap::const_iterator iter = m_elementInfos.find(elementId);
-	if (iter != m_elementInfos.end()){
+	ComponentsMap::const_iterator iter = m_componentsMap.find(elementId);
+	if (iter != m_componentsMap.end()){
 		return &(iter->second);
 	}
 
@@ -98,19 +98,19 @@ const IRegistry::ElementInfo* CRegistry::GetElementInfo(const ::std::string& ele
 
 bool CRegistry::RemoveElementInfo(const ::std::string& elementId)
 {
-	return m_elementInfos.erase(elementId) > 0;
+	return m_componentsMap.erase(elementId) > 0;
 }
 
 
-const IRegistry::InterfaceInfos& CRegistry::GetExportedInterfaceInfos() const
+const IRegistry::ExportedInterfacesMap& CRegistry::GetExportedExportedInterfacesMap() const
 {
-	return m_interfaceInfos;
+	return m_exportedInterfacesMap;
 }
 
 
-const IRegistry::SubcomponentMap& CRegistry::GetExportedSubcomponentMap() const
+const IRegistry::ExportedComponentsMap& CRegistry::GetExportedComponentsMap() const
 {
-	return m_subcomponentMap;
+	return m_exportedComponentsMap;
 }
 
 
@@ -118,30 +118,40 @@ const IRegistry::SubcomponentMap& CRegistry::GetExportedSubcomponentMap() const
 
 bool CRegistry::Serialize(iser::IArchive& archive)
 {
+	return		SerializeComponents(archive) &&
+				SerializeExportedInterfaces(archive) &&
+				SerializeExportedComponents(archive);
+}
+
+
+// protected methods
+
+bool CRegistry::SerializeComponents(iser::IArchive& archive)
+{
 	static iser::CArchiveTag elementsListTag("ElementsList", "List of registry elements");
-	static iser::CArchiveTag elementDescriptionTag("ElementDescription", "Description of single element");
-	static iser::CArchiveTag elementIdTag("ID", "ID of element in registry");
+	static iser::CArchiveTag elementTag("Element", "Description of single element");
+	static iser::CArchiveTag elementIdTag("Id", "ID of element in registry");
 	static iser::CArchiveTag elementTypeTag("Type", "Type of element");
 	static iser::CArchiveTag packageIdTag("PackageId", "ID of package");
-	static iser::CArchiveTag factoryIdTag("FactoryId", "ID of factory");
-	static iser::CArchiveTag elementTag("Element", "Data of single element", true);
+	static iser::CArchiveTag componentIdTag("ComponentId", "ID of factory");
+	static iser::CArchiveTag dataTag("Data", "Data of single element", true);
 	static iser::CArchiveTag isValidTag("IsValid", "It is true if this element is valid");
 
 	bool isStoring = archive.IsStoring();
 
 	bool retVal = true;
 
-	int elementsCount = int(m_elementInfos.size());
+	int count = int(m_componentsMap.size());
 
-	retVal = retVal && archive.BeginMultiTag(elementsListTag, elementDescriptionTag, elementsCount);
+	retVal = retVal && archive.BeginMultiTag(elementsListTag, elementTag, count);
 
 	if (isStoring){
-		for (		ElementsMap::iterator iter = m_elementInfos.begin();
-					iter != m_elementInfos.end();
+		for (		ComponentsMap::iterator iter = m_componentsMap.begin();
+					iter != m_componentsMap.end();
 					++iter){
 			ElementInfo& element = iter->second;
 
-			retVal = retVal && archive.BeginTag(elementDescriptionTag);
+			retVal = retVal && archive.BeginTag(elementTag);
 
 			retVal = retVal && archive.BeginTag(elementIdTag);
 			retVal = retVal && archive.Process(const_cast< ::std::string&>(iter->first));
@@ -155,11 +165,11 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(element.packageId);
 			retVal = retVal && archive.EndTag(packageIdTag);
 
-			retVal = retVal && archive.BeginTag(factoryIdTag);
-			retVal = retVal && archive.Process(element.factoryId);
-			retVal = retVal && archive.EndTag(factoryIdTag);
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(element.componentId);
+			retVal = retVal && archive.EndTag(componentIdTag);
 
-			retVal = retVal && archive.BeginTag(elementTag);
+			retVal = retVal && archive.BeginTag(dataTag);
 
 			bool isValid = element.elementPtr.IsValid();
 			retVal = retVal && archive.BeginTag(isValidTag);
@@ -170,14 +180,14 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 				retVal = retVal && element.elementPtr->Serialize(archive);
 			}
 
-			retVal = retVal && archive.EndTag(elementTag);
+			retVal = retVal && archive.EndTag(dataTag);
 
-			retVal = retVal && archive.EndTag(elementDescriptionTag);
+			retVal = retVal && archive.EndTag(elementTag);
 		}
 	}
 	else{
-		for (int i = 0; i < elementsCount; ++i){
-			retVal = retVal && archive.BeginTag(elementDescriptionTag);
+		for (int i = 0; i < count; ++i){
+			retVal = retVal && archive.BeginTag(elementTag);
 
 			ElementInfo newInfo;
 
@@ -196,15 +206,15 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(packageId);
 			retVal = retVal && archive.EndTag(packageIdTag);
 
-			::std::string factoryId;
-			retVal = retVal && archive.BeginTag(factoryIdTag);
-			retVal = retVal && archive.Process(factoryId);
-			retVal = retVal && archive.EndTag(factoryIdTag);
+			::std::string componentId;
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(componentId);
+			retVal = retVal && archive.EndTag(componentIdTag);
 
-			retVal = retVal && archive.BeginTag(elementTag);
+			retVal = retVal && archive.BeginTag(dataTag);
 
 			if (elementType != ET_NONE){
-				ElementInfo* newInfoPtr = InsertElementInfo(elementId, elementType, packageId, factoryId, false);
+				ElementInfo* newInfoPtr = InsertElementInfo(elementId, elementType, packageId, componentId, false);
 				if (newInfoPtr == NULL){
 					return false;
 				}
@@ -219,13 +229,129 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 				}
 			}
 
-			retVal = retVal && archive.EndTag(elementTag);
+			retVal = retVal && archive.EndTag(dataTag);
 
-			retVal = retVal && archive.EndTag(elementDescriptionTag);
+			retVal = retVal && archive.EndTag(elementTag);
 		}
 	}
 
 	retVal = retVal && archive.EndTag(elementsListTag);
+
+	return retVal;
+}
+
+
+bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
+{
+	static iser::CArchiveTag exportedInterfacesTag("ExportedInterfaces", "List of exported interfaces");
+	static iser::CArchiveTag interfaceTag("Interface", "Single exported interface");
+	static iser::CArchiveTag interfaceIdTag("InterfaceId", "ID of exported interface");
+	static iser::CArchiveTag componentIdTag("ComponentId", "ID of component in registry implementing exported interface");
+
+	bool isStoring = archive.IsStoring();
+
+	bool retVal = true;
+
+	int count = int(m_exportedInterfacesMap.size());
+
+	retVal = retVal && archive.BeginMultiTag(exportedInterfacesTag, interfaceTag, count);
+
+	if (isStoring){
+		for (		ExportedInterfacesMap::iterator iter = m_exportedInterfacesMap.begin();
+					iter != m_exportedInterfacesMap.end();
+					++iter){
+			retVal = retVal && archive.BeginTag(interfaceTag);
+
+			retVal = retVal && archive.BeginTag(interfaceIdTag);
+			retVal = retVal && archive.Process(const_cast< ::std::string&>(iter->first));
+			retVal = retVal && archive.EndTag(interfaceIdTag);
+
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(iter->second);
+			retVal = retVal && archive.EndTag(componentIdTag);
+
+			retVal = retVal && archive.EndTag(interfaceTag);
+		}
+	}
+	else{
+		for (int i = 0; i < count; ++i){
+			retVal = retVal && archive.BeginTag(interfaceTag);
+
+			::std::string interfaceId;
+			retVal = retVal && archive.BeginTag(interfaceIdTag);
+			retVal = retVal && archive.Process(interfaceId);
+			retVal = retVal && archive.EndTag(interfaceIdTag);
+
+			::std::string componentId;
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(componentId);
+			retVal = retVal && archive.EndTag(componentIdTag);
+
+			m_exportedInterfacesMap[interfaceId] = componentId;
+
+			retVal = retVal && archive.EndTag(interfaceTag);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(exportedInterfacesTag);
+
+	return retVal;
+}
+
+
+bool CRegistry::SerializeExportedComponents(iser::IArchive& archive)
+{
+	static iser::CArchiveTag exportedComponentsTag("ExportedComponents", "List of exported components");
+	static iser::CArchiveTag componentTag("Component", "Exported component info");
+	static iser::CArchiveTag exportedIdTag("ExportedId", "Exported component ID");
+	static iser::CArchiveTag componentIdTag("ComponentId", "ID of component in registry");
+
+	bool isStoring = archive.IsStoring();
+
+	bool retVal = true;
+
+	int count = int(m_exportedComponentsMap.size());
+
+	retVal = retVal && archive.BeginMultiTag(exportedComponentsTag, componentTag, count);
+
+	if (isStoring){
+		for (		ExportedComponentsMap::iterator iter = m_exportedComponentsMap.begin();
+					iter != m_exportedComponentsMap.end();
+					++iter){
+			retVal = retVal && archive.BeginTag(componentTag);
+
+			retVal = retVal && archive.BeginTag(exportedIdTag);
+			retVal = retVal && archive.Process(const_cast< ::std::string&>(iter->first));
+			retVal = retVal && archive.EndTag(exportedIdTag);
+
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(iter->second);
+			retVal = retVal && archive.EndTag(componentIdTag);
+
+			retVal = retVal && archive.EndTag(componentTag);
+		}
+	}
+	else{
+		for (int i = 0; i < count; ++i){
+			retVal = retVal && archive.BeginTag(componentTag);
+
+			::std::string exportedId;
+			retVal = retVal && archive.BeginTag(exportedIdTag);
+			retVal = retVal && archive.Process(exportedId);
+			retVal = retVal && archive.EndTag(exportedIdTag);
+
+			::std::string componentId;
+			retVal = retVal && archive.BeginTag(componentIdTag);
+			retVal = retVal && archive.Process(componentId);
+			retVal = retVal && archive.EndTag(componentIdTag);
+
+			m_exportedComponentsMap[exportedId] = componentId;
+
+			retVal = retVal && archive.EndTag(componentTag);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(exportedComponentsTag);
 
 	return retVal;
 }

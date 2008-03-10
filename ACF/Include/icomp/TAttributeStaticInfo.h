@@ -13,27 +13,41 @@ template <class Attribute>
 class TAttributeStaticInfo: virtual public IAttributeStaticInfo
 {
 public:
-	TAttributeStaticInfo(icomp::IComponentStaticInfo& staticInfo, const ::std::string& id, bool isObligatory);
+	TAttributeStaticInfo(
+				icomp::IComponentStaticInfo& staticInfo,
+				const ::std::string& id,
+				const ::std::string& description,
+				const Attribute* defaultValuePtr = NULL,
+				bool isObligatory = true);
 
 	// reimplemented (icomp::IAttributeStaticInfo)
 	virtual iser::ISerializable* CreateAttribute() const;
 	virtual const ::std::string& GetAttributeId() const;
+	virtual const ::std::string& GetAttributeDescription() const;
+	virtual const iser::ISerializable* GetAttributeDefaultValue() const;
 	virtual const type_info& GetAttributeType() const;
 	virtual bool IsObligatory() const;
 
 private:
+	::std::string m_id;
+	::std::string m_description;
+	const Attribute* m_defaultValuePtr;
 	bool m_isObligatory;
-	const ::std::string m_id;
 };
 
 
 // public methods
 
 template <class Attribute>
-TAttributeStaticInfo<Attribute>::TAttributeStaticInfo(icomp::IComponentStaticInfo& staticInfo, const ::std::string& id, bool isObligatory)
-:	m_isObligatory(isObligatory), m_id(id)
+TAttributeStaticInfo<Attribute>::TAttributeStaticInfo(
+			icomp::IComponentStaticInfo& staticInfo,
+			const ::std::string& id,
+			const ::std::string& description,
+			const Attribute* defaultValuePtr,
+			bool isObligatory)
+:	m_id(id), m_description(description), m_defaultValuePtr(defaultValuePtr), m_isObligatory(isObligatory)
 {
-	staticInfo.RegisterAttributeInfo(this);
+	staticInfo.RegisterAttributeInfo(id, this);
 }
 
 
@@ -42,7 +56,12 @@ TAttributeStaticInfo<Attribute>::TAttributeStaticInfo(icomp::IComponentStaticInf
 template <class Attribute>
 iser::ISerializable* TAttributeStaticInfo<Attribute>::CreateAttribute() const
 {
-	return new Attribute();
+	if (m_defaultValuePtr != NULL){
+		return new Attribute(*m_defaultValuePtr);
+	}
+	else{
+		return new Attribute();
+	}
 }
 
 
@@ -50,6 +69,20 @@ template <class Attribute>
 const ::std::string& TAttributeStaticInfo<Attribute>::GetAttributeId() const
 {
 	return m_id;
+}
+
+
+template <class Attribute>
+const ::std::string& TAttributeStaticInfo<Attribute>::GetAttributeDescription() const
+{
+	return m_description;
+}
+
+
+template <class Attribute>
+const iser::ISerializable* TAttributeStaticInfo<Attribute>::GetAttributeDefaultValue() const
+{
+	return m_defaultValuePtr;
 }
 
 

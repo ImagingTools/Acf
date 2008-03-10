@@ -17,7 +17,7 @@ template <class Attribute>
 class TAttributePtr
 {
 public:
-	typedef Attribute InterfaceType;
+	typedef Attribute AttributeType;
 
 	TAttributePtr();
 
@@ -63,14 +63,11 @@ TAttributePtr<Attribute>::TAttributePtr()
 template <class Attribute>
 bool TAttributePtr<Attribute>::Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo, const IComponentContext** realContextPtr)
 {
-	qcf_ASSERT(ownerPtr != NULL);
-
-	const IComponentContext& componentContext = ownerPtr->GetComponentContext();
+	I_ASSERT(ownerPtr != NULL);
 
 	const ::std::string& attributeId = staticInfo.GetAttributeId();
-
-	iser::ISerializable* attributePtr = componentContextPtr->GetAttribute(attributeId, realContextPtr);
-
+	const IComponentContext& componentContext = ownerPtr->GetComponentContext();
+	const iser::ISerializable* attributePtr = componentContext.GetAttribute(attributeId, realContextPtr);
 	m_attributePtr = dynamic_cast<const Attribute*>(attributePtr);
 
 	return (m_attributePtr != NULL);

@@ -37,7 +37,7 @@ TInterfaceRegistrator<Interface>::TInterfaceRegistrator(icomp::IComponentStaticI
 template <class Interface>
 void* TInterfaceRegistrator<Interface>::InterfaceExtractor(IComponent* componentPtr)
 {
-	return dynamic_cast<Interface>(componentPtr);
+	return dynamic_cast<Interface*>(componentPtr);
 }
 
 
