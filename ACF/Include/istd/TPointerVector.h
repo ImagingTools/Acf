@@ -2,7 +2,11 @@
 #define istd_TPointerVector_included
 
 
+#include "istd/istd.h"
+
+
 #include <vector>
+#include <functional>
 #include <algorithm>
 
 
@@ -14,7 +18,7 @@ namespace istd
 	Default delete adapter.
 */
 template<typename PointerType>
-class TDeleteAdapter: public ::std::unary_function<PointerType, void>
+class TDeleteAdapter: public std::unary_function<PointerType, void>
 {
 public:
 	void operator()(PointerType& pointer)

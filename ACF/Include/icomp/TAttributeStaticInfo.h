@@ -13,7 +13,7 @@ template <class Attribute>
 class TAttributeStaticInfo: virtual public IAttributeStaticInfo
 {
 public:
-	TAttributeStaticInfo(icomp::IComponentStaticInfo& staticInfo, const type_info& attributeType, const ::std::string& id, bool isObligatory);
+	TAttributeStaticInfo(icomp::IComponentStaticInfo& staticInfo, const ::std::string& id, bool isObligatory);
 
 	// reimplemented (icomp::IAttributeStaticInfo)
 	virtual iser::ISerializable* CreateAttribute() const;

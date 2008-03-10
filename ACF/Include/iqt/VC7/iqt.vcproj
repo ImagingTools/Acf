@@ -338,11 +338,6 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
-		<Filter
-			Name="Form Files"
-			Filter="ui"
-			UniqueIdentifier="{99349809-55BA-4b9d-BF79-8FDBB0286EB3}">
-		</Filter>
 	</Files>
 	<Globals>
 		<Global

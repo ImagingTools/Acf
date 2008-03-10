@@ -21,7 +21,7 @@ public:
 
 	TAttributePtr();
 
-	void Init(const IComponent* ownerPtr, const IAttributeStaticInfo* infoPtr, const IComponentContext** realContextPtr = NULL);
+	bool Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo, const IComponentContext** realContextPtr = NULL);
 
 	/**
 		Check if this attribute is valid.
