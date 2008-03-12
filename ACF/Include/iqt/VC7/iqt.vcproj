@@ -18,7 +18,7 @@
 			ConfigurationType="4">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;.\GeneratedFiles"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -57,7 +57,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;.\GeneratedFiles"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="3"
@@ -97,7 +97,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;.\GeneratedFiles"
 				PreprocessorDefinitions="OLD_ACF_SUPPORT;UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -133,7 +133,7 @@
 			ConfigurationType="4">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;.\GeneratedFiles"
 				PreprocessorDefinitions="OLD_ACF_SUPPORT;UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -188,7 +188,13 @@
 				RelativePath="..\CPackagesLoader.cpp">
 			</File>
 			<File
+				RelativePath="..\CSplashScreenGuiComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CTabContainerGuiComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CTimer.cpp">
 			</File>
 			<File
 				RelativePath="..\CTreeWidgetFilter.cpp">
@@ -262,7 +268,13 @@
 				RelativePath="..\CPackagesLoader.h">
 			</File>
 			<File
+				RelativePath="..\CSplashScreenGuiComp.h">
+			</File>
+			<File
 				RelativePath="..\CTabContainerGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\CTimer.h">
 			</File>
 			<File
 				RelativePath="..\CTreeWidgetFilter.h">
@@ -294,7 +306,10 @@
 			Filter="moc;h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
 			<File
-				RelativePath=".\generatedfiles\ui_CLoginGuiComp.h">
+				RelativePath="..\generated\ui_CLoginGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\generated\ui_CSplashScreenGuiComp.h">
 			</File>
 		</Filter>
 		<Filter
@@ -307,40 +322,83 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFile)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\Generated\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFile)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\Generated\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="NemoDebug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFile)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\Generated\ui_CLoginGuiComp.h&quot;"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="NemoRelease|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFile)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CLoginGuiComp.h&quot; &quot;$(InputPath)&quot;
 "
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;..\GeneratedFiles\ui_CLoginGuiComp.h&quot;"/>
+						Outputs="&quot;..\Generated\ui_CLoginGuiComp.h&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CSplashScreenGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CSplashScreenGuiComp.h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_CSplashScreenGuiComp.h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CSplashScreenGuiComp.h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_CSplashScreenGuiComp.h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NemoDebug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CSplashScreenGuiComp.h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_CSplashScreenGuiComp.h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="NemoRelease|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_CSplashScreenGuiComp.h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_CSplashScreenGuiComp.h&quot;"/>
 				</FileConfiguration>
 			</File>
 		</Filter>

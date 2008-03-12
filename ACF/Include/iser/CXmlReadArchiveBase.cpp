@@ -65,7 +65,15 @@ bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 
 bool CXmlReadArchiveBase::Process(::std::string& value)
 {
-	return ReadToDelimeter("<", value, false);
+	::std::string xmlText;
+	if (ReadToDelimeter("<", xmlText, false)){
+		DecodeXml(xmlText, value);
+
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 

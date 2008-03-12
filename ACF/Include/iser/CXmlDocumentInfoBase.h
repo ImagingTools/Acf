@@ -2,6 +2,8 @@
 #define iser_CXmlDocumentInfoBase_included
 
 
+#include <map>
+
 #include "istd/CString.h"
 
 #include "iser/iser.h"
@@ -29,11 +31,29 @@ public:
 	*/
 	void SetCommentEnabled(bool state = true);
 
+	// static methods
+	static void EncodeXml(const ::std::string& text, ::std::string& xmlText);
+	static void DecodeXml(const ::std::string& xmlText, ::std::string& text);
 	static const istd::CString& GetElementSeparator();
+
+protected:
+	class CharToEntityMap: public ::std::map< char, ::std::string >
+	{
+	public:
+		CharToEntityMap();
+	};
+
+	class EntityToChartMap: public ::std::map< ::std::string, char >
+	{
+	public:
+		EntityToChartMap();
+	};
 
 private:
 	bool m_isCommentEnabled;
 
+	static CharToEntityMap s_charToEntityMap;
+	static EntityToChartMap s_entityToChartMap;
 	static istd::CString s_elementSeparator;
 };
 

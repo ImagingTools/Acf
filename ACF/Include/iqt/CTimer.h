@@ -1,27 +1,27 @@
-#ifndef iwin_CTimer_included
-#define iwin_CTimer_included
+#ifndef iqt_CTimer_included
+#define iqt_CTimer_included
 
+
+#include <QTime>
 
 #include "isys/ITimer.h"
 
-#include "iwin/iwin.h"
+#include "iqt/iqt.h"
 
 
-namespace iwin
+namespace iqt
 {
 
 
 /**
-	\ingroup iwin
+	\ingroup iqt
 
-	An timer implementation for the Windows plattform
+	An timer implementation for Qt library.
 */
 class CTimer: virtual public isys::ITimer
 {
 public:
 	CTimer();
-
-	bool IsVaild() const;
 
 	double GetTimeTo(const CTimer& timer) const;
 
@@ -33,15 +33,11 @@ public:
 	virtual double GetTimerResolution() const;
 
 private:
-	long long m_startCounter;
-
-	// static attributes
-	static long long s_timerFrequence;
-	static bool s_isTimerFrequenceValid;
+	QTime m_time;
 };
 
 
-} // namespace iwin
+} // namespace iqt
 
 
-#endif // !iwin_CTimer_included
+#endif // !iqt_CTimer_included

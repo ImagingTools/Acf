@@ -14,7 +14,7 @@ template <class Component>
 class TComponentStaticInfo: virtual public IComponentStaticInfo
 {
 public:
-	TComponentStaticInfo(IComponentStaticInfo* baseComponentPtr = NULL);
+	TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr = NULL);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual IComponent* CreateComponent(const IComponentContext* contextPtr) const;
@@ -26,7 +26,7 @@ public:
 	virtual bool RegisterSubcomponentInfo(const ::std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
 
 private:
-	IComponentStaticInfo* m_baseComponentPtr;
+	const IComponentStaticInfo* m_baseComponentPtr;
 
 	InterfaceExtractors m_interfaceExtractors;
 	AttributeInfos m_attributeInfos;
@@ -37,7 +37,7 @@ private:
 // public methods
 
 template <class Component>
-TComponentStaticInfo<Component>::TComponentStaticInfo(IComponentStaticInfo* baseComponentPtr)
+TComponentStaticInfo<Component>::TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr)
 :	m_baseComponentPtr(baseComponentPtr)
 {
 	if (baseComponentPtr != NULL){

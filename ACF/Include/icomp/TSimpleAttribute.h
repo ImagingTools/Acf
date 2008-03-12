@@ -2,8 +2,11 @@
 #define icomp_TSimpleAttribute_included
 
 
+#include "istd/CString.h"
+
 #include "iser/IArchive.h"
 #include "iser/ISerializable.h"
+#include "iser/CArchiveTag.h"
 
 #include "icomp/icomp.h"
 
@@ -19,6 +22,10 @@ template <typename ValueType>
 class TSimpleAttribute: virtual public iser::ISerializable
 {
 public:
+	TSimpleAttribute();
+	explicit TSimpleAttribute(const ValueType& value);
+	TSimpleAttribute(const TSimpleAttribute& attribute);
+
 	virtual const ValueType& GetValue() const;
 	virtual void SetValue(const ValueType& value);
 
@@ -31,6 +38,26 @@ protected:
 
 
 // public methods
+
+template <typename ValueType> 
+TSimpleAttribute<ValueType>::TSimpleAttribute()
+{
+}
+
+
+template <typename ValueType> 
+TSimpleAttribute<ValueType>::TSimpleAttribute(const ValueType& value)
+:	m_value(value)
+{
+}
+
+
+template <typename ValueType> 
+TSimpleAttribute<ValueType>::TSimpleAttribute(const TSimpleAttribute& attribute)
+:	m_value(attribute.GetValue())
+{
+}
+
 
 template <typename ValueType> 
 const ValueType& TSimpleAttribute<ValueType>::GetValue() const
@@ -53,7 +80,7 @@ bool TSimpleAttribute<ValueType>::Serialize(iser::IArchive& archive)
 {
 	bool result = true;
 
-	static iser::CArchiveTag valueTag("Value", "Value of attribute", iser::IArchive::VT_FRAMEWORK);
+	static iser::CArchiveTag valueTag("Value", "Value of attribute");
 	result = result && archive.BeginTag(valueTag);
 
 	result = result && archive.Process(m_value);
@@ -67,7 +94,7 @@ bool TSimpleAttribute<ValueType>::Serialize(iser::IArchive& archive)
 typedef TSimpleAttribute<int> CIntAttribute;
 typedef TSimpleAttribute<bool> CBoolAttribute;
 typedef TSimpleAttribute<double> CDoubleAttribute;
-typedef TSimpleAttribute<CString> CStringAttribute;
+typedef TSimpleAttribute<istd::CString> CStringAttribute;
 
 
 } // namespace icomp

@@ -21,17 +21,27 @@ class ITimer: virtual public istd::IPolymorphic
 {
 public:
 	/**
-	* Starts the timer.
+		Start the timer.
 	*/
 	virtual void Start() = 0;
 
 	/**
-	* Returns the time in seconds from start until this call.
+		Return the time in seconds from start until this call.
 	*/
 	virtual double GetElapsed() const = 0;
 
 	/**
-	* Returns the timer resolution in seconds.
+		Get time difference to second timer.
+	*/
+	virtual double GetTimeTo(const ITimer& timer) const = 0;
+
+	/**
+		Wait for specific timer elapsed value is reached.
+	*/
+	virtual void WaitTo(double time) const = 0;
+
+	/**
+		Return the timer resolution in seconds.
 	*/
 	virtual double GetTimerResolution() const = 0;
 };

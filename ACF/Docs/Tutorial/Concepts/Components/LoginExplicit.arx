@@ -5,7 +5,7 @@
 		</VersionInfos>
 	</AcfHeader>
 
-	<ElementsList count="2">
+	<ElementsList count="3">
 		<Element>
 			<Id>
 				Application
@@ -23,7 +23,7 @@
 				<IsEnabled>
 					true
 				</IsEnabled>
-				<AttributeInfoMap count = "1">
+				<AttributeInfoMap count = "2">
 					<AttributeInfo>
 						<Id>
 							MainGui
@@ -39,6 +39,24 @@
 							</IsEnabled>
 							<ComponentId>
 								Login
+							</ComponentId>
+						</Data>
+					</AttributeInfo>
+					<AttributeInfo>
+						<Id>
+							SplashScreen
+						</Id>
+						<Type>
+							class icomp::CReferenceAttribute
+						</Type>
+						<ExportId>
+						</ExportId>
+						<Data>
+							<IsEnabled>
+								true
+							</IsEnabled>
+							<ComponentId>
+								Splash
 							</ComponentId>
 						</Data>
 					</AttributeInfo>
@@ -63,6 +81,45 @@
 					true
 				</IsEnabled>
 				<AttributeInfoMap count = "0">
+				</AttributeInfoMap>
+			</Data>
+		</Element>
+		<Element>
+			<Id>
+				Splash
+			</Id>
+			<Type>
+				1
+			</Type>
+			<PackageId>
+				QtPck
+			</PackageId>
+			<ComponentId>
+				SplashScreen
+			</ComponentId>
+			<Data>
+				<IsEnabled>
+					true
+				</IsEnabled>
+				<AttributeInfoMap count = "1">
+					<AttributeInfo>
+						<Id>
+							ImagePath
+						</Id>
+						<Type>
+							class icomp::TSimpleAttribute&lt;class istd::CString&gt;
+						</Type>
+						<ExportId>
+						</ExportId>
+						<Data>
+							<IsEnabled>
+								true
+							</IsEnabled>
+							<Value>
+								C:\Work\Projects\QUISS\Projects\TCVision\Install\ToInstall\QUISS\Resources\TCVision.l\Splash.jpg
+							</Value>
+						</Data>
+					</AttributeInfo>
 				</AttributeInfoMap>
 			</Data>
 		</Element>

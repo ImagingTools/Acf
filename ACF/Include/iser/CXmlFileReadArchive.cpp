@@ -28,8 +28,8 @@ bool CXmlFileReadArchive::ReadToDelimeter(
 			bool skipDelimeter,
 			char* foundDelimeterPtr)
 {
-	int cutFromPos = -1;
-	int cutToPos = -1;
+	int cutFromPos = -2;
+	int cutToPos = -2;
 
 	::std::string readString;
 
@@ -40,7 +40,15 @@ bool CXmlFileReadArchive::ReadToDelimeter(
 	while (!m_stream.fail()){
 		::std::string::size_type foundPosition = delimeters.find(m_lastReadChar);
 		if (foundPosition != ::std::string::npos){
+			m_useLastReadChar = !skipDelimeter;
+
 			if (cutFromPos < 0){
+				if (cutToPos < 0){
+					result = "";
+
+					return true;
+				}
+
 				cutFromPos = 0;
 			}
 
@@ -49,8 +57,6 @@ bool CXmlFileReadArchive::ReadToDelimeter(
 			}
 
 			result = readString.substr(cutFromPos, cutToPos - cutFromPos);
-
-			m_useLastReadChar = !skipDelimeter;
 
 			if (foundDelimeterPtr != NULL){
 				*foundDelimeterPtr = delimeters.at(foundPosition);

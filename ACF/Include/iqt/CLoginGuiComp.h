@@ -4,7 +4,7 @@
 
 #include "iqt/TDesignerGuiComponentBase.h"
 
-#include "iqt/GeneratedFiles/ui_CLoginGuiComp.h"
+#include "iqt/Generated/ui_CLoginGuiComp.h"
 
 
 namespace iqt

@@ -40,7 +40,7 @@ QWidget* TDesignerGuiComponentBase<UI, WidgetType>::InitWidgetToParent(QWidget* 
 {
 	I_ASSERT(!IsGuiCreated());
 
-	WidgetType* widgetPtr = BaseClass::InitWidgetToParent(parentPtr);
+	QWidget* widgetPtr = BaseClass::InitWidgetToParent(parentPtr);
 
 	setupUi(widgetPtr);
 

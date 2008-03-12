@@ -3,6 +3,8 @@
 
 #include <QApplication>
 
+#include "iqt/CTimer.h"
+
 
 namespace iqt
 {
@@ -30,11 +32,33 @@ int CApplicationComp::Execute(int argc, char** argv)
 		QApplication application(argc, argv);
 		application.setStyle(appStyle.c_str());
 
-		m_mainGuiCompPtr->CreateGui(NULL);
-		QWidget* mainWidegtPtr = m_mainGuiCompPtr->GetWidget();
+		iqt::CTimer timer;
 
-		if (mainWidegtPtr != NULL){
-			mainWidegtPtr->show();
+		bool useSplashScreen = m_splashScreenCompPtr.IsValid() && m_splashScreenCompPtr->CreateGui(NULL);
+		if (useSplashScreen){
+			QWidget* splashWidgetPtr = m_splashScreenCompPtr->GetWidget();
+			I_ASSERT(splashWidgetPtr != NULL);
+
+			splashWidgetPtr->show();
+		}
+
+		m_mainGuiCompPtr->CreateGui(NULL);
+		QWidget* mainWidgetPtr = m_mainGuiCompPtr->GetWidget();
+
+		if (useSplashScreen){
+			I_ASSERT(m_splashTimeAttrPtr.IsValid());
+			timer.WaitTo(m_splashTimeAttrPtr->GetValue());
+
+			QWidget* splashWidgetPtr = m_mainGuiCompPtr->GetWidget();
+			I_ASSERT(splashWidgetPtr != NULL);
+
+			splashWidgetPtr->hide();
+
+			m_splashScreenCompPtr->DestroyGui();
+		}
+
+		if (mainWidgetPtr != NULL){
+			mainWidgetPtr->show();
 
 			// start application loop:
 			retVal = application.exec();
@@ -49,7 +73,7 @@ int CApplicationComp::Execute(int argc, char** argv)
 
 istd::CString CApplicationComp::GetHelpText() const
 {
-	return "";
+	return "-style QtStyle\tname of Qt-specified style";
 }
 
 

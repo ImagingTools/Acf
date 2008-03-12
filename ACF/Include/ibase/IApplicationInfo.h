@@ -8,15 +8,22 @@
 #include "ibase/ibase.h"
 
 
+#include "iser/IVersionInfo.h"
+
+
 namespace ibase
 {		
 
 
-class IApplicationInfo: public istd::IPolymorphic
+class IApplicationInfo: public iser::IVersionInfo
 {
 public:
 	virtual istd::CString GetApplicationName() const = 0;
 	virtual istd::CString GetApplicationPath() const = 0;
+	/**
+		Encode version number to human readable form.
+	*/
+	virtual istd::CString EncodeVersionName(I_DWORD version, int versionId = UserVersionId) const = 0;
 };
 
 

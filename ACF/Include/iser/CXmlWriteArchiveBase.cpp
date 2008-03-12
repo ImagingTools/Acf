@@ -56,7 +56,10 @@ bool CXmlWriteArchiveBase::Process(::std::string& value)
 
 	retVal = retVal && MakeIndent();
 
-	retVal = retVal && WriteString(value) && WriteString("\n");
+	::std::string xmlText;
+	EncodeXml(value, xmlText);
+
+	retVal = retVal && WriteString(xmlText) && WriteString("\n");
 
 	return retVal;
 }

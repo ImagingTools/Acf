@@ -12,9 +12,7 @@ CTimer::CTimer()
 {
 	m_startCounter = 0;
 
-	m_isValid = (::QueryPerformanceFrequency((LARGE_INTEGER*)&m_timerFrequence) != 0);
-
-	if (m_isValid){
+	if (s_isTimerFrequenceValid){
 		Start();
 	}
 }
@@ -22,7 +20,13 @@ CTimer::CTimer()
 
 bool CTimer::IsVaild() const
 {
-	return m_isValid;
+	return s_isTimerFrequenceValid;
+}
+
+
+double CTimer::GetTimeTo(const CTimer& timer) const
+{
+	return (m_startCounter - timer.m_startCounter) / double(s_timerFrequence);
 }
 
 
@@ -41,15 +45,42 @@ double CTimer::GetElapsed() const
 	long long endCounter;
 	::QueryPerformanceCounter((LARGE_INTEGER*)&endCounter);
 
-	return (endCounter - m_startCounter) / double(m_timerFrequence);
+	return (endCounter - m_startCounter) / double(s_timerFrequence);
+}
+
+
+double CTimer::GetTimeTo(const ITimer& timer) const
+{
+	const CTimer* natTimerPtr = dynamic_cast<const CTimer*>(&timer);
+	if (natTimerPtr != NULL){
+		return GetTimeTo(*natTimerPtr);
+	}
+	else{
+		return GetElapsed() - timer.GetElapsed();
+	}
+}
+
+
+void CTimer::WaitTo(double time) const
+{
+	int restMs;
+	while ((restMs = int((time - GetElapsed()) * 1000)) > 0){
+		::SleepEx(I_DWORD(restMs), FALSE);
+	}
 }
 
 
 double CTimer::GetTimerResolution() const
 {
-	return 1.0 / double(m_timerFrequence);
+	return 1.0 / double(s_timerFrequence);
 }
 
+
+
+// static attributes
+
+long long CTimer::s_timerFrequence;
+bool CTimer::s_isTimerFrequenceValid = (::QueryPerformanceFrequency((LARGE_INTEGER*)&CTimer::s_timerFrequence) != 0);
 
 
 } // namespace iwin
