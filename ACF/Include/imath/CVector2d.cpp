@@ -1,0 +1,35 @@
+#include "imath/CVector2d.h"
+
+
+namespace imath{
+
+
+inline void CVector2d::Init(double angle, double length)
+{
+	SetX(::cos(angle) * length);
+	SetY(::sin(angle) * length);
+}
+
+
+CVector2d CVector2d::GetOrthogonal() const
+{
+	return CVector2d(GetY(), -GetX());
+}
+
+
+CVector2d CVector2d::GetNormalized(double length) const
+{
+	CVector2d retVal;
+
+    if (GetNormalized(retVal, length)){
+		return retVal;
+    }
+	else{
+        return CVector2d(length, 0.0);
+	}
+}
+
+
+} // namespace imath
+
+

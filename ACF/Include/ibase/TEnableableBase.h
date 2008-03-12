@@ -66,7 +66,7 @@ bool TEnableableBase::IsEnablingAllowed() const
 void TEnableableBase::SetEnabled(bool isEnabled)
 {
 	if (IsEnablingAllowed()){
-		istd::TChangeNotifier<istd::IChangeable> changePtr(this);
+		istd::CChangeNotifier changePtr(this);
 	
 		m_isEnabled = isEnabled;
 	}

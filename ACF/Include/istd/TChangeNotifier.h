@@ -4,7 +4,7 @@
 
 #include "istd/istd.h"
 
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 
 
 namespace istd
@@ -21,6 +21,7 @@ public:
 	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 	virtual  ~TChangeNotifier();
 
+	void SetChangeable(Changeable* changeablePtr);
 	void Reset();
 	bool IsValid() const;
 	const Changeable* operator->() const;
@@ -36,12 +37,12 @@ private:
 
 template <class Changeable>
 TChangeNotifier<Changeable>::TChangeNotifier(Changeable* changeablePtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
-	:m_changeablePtr(changeablePtr),
+:	m_changeablePtr(changeablePtr),
 	m_changeFlags(changeFlags),
 	m_updateParamsPtr(updateParamsPtr)
 {
 	if (m_changeablePtr != NULL){
-		m_changeablePtr->BeginChanges(changeFlags, m_updateParamsPtr);
+		m_changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
 	}
 }
 
@@ -55,13 +56,26 @@ TChangeNotifier<Changeable>::~TChangeNotifier()
 
 
 template <class Changeable>
+void TChangeNotifier<Changeable>::SetChangeable(Changeable* changeablePtr)
+{
+	Reset();
+
+	m_changeablePtr = changeablePtr;
+
+	if (m_changeablePtr != NULL){
+		m_changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
+	}
+}
+
+
+template <class Changeable>
 inline void TChangeNotifier<Changeable>::Reset()
 {
-	if (IsValid()){
+	if (m_changeablePtr != NULL){
 		m_changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
-	}
 
-	m_changeablePtr = NULL;
+		m_changeablePtr = NULL;
+	}
 }
 
 
@@ -97,6 +111,9 @@ inline TChangeNotifier<Changeable>::operator Changeable*() const
 
 	return m_changeablePtr;
 }
+
+
+typedef TChangeNotifier<IChangeable> CChangeNotifier;
 
 
 } // namespace istd

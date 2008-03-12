@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="istd"
-	ProjectGUID="{126B67F7-B779-4A80-A651-1111D5EDF583}"
+	Name="i2d"
+	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
 	SccProjectName="&quot;$/develop/modules/iwin&quot;, XRAAAAAA"
 	SccLocalPath="..\iwin">
 	<Platforms>
@@ -229,96 +229,12 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
-			<File
-				RelativePath="..\CChangeDelegator.cpp">
-			</File>
-			<File
-				RelativePath="..\CRange.cpp">
-			</File>
-			<File
-				RelativePath="..\CStaticServicesProvider.cpp">
-			</File>
-			<File
-				RelativePath="..\CString.cpp">
-			</File>
-			<File
-				RelativePath="..\istd.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
 			<File
-				RelativePath="..\CChangeDelegator.h">
-			</File>
-			<File
-				RelativePath="..\CRange.h">
-			</File>
-			<File
-				RelativePath="..\CStaticServicesProvider.h">
-			</File>
-			<File
-				RelativePath="..\CString.h">
-			</File>
-			<File
-				RelativePath="..\IChangeable.h">
-			</File>
-			<File
-				RelativePath="..\IEnableable.h">
-			</File>
-			<File
-				RelativePath="..\IHierarchical.h">
-			</File>
-			<File
-				RelativePath="..\INamed.h">
-			</File>
-			<File
-				RelativePath="..\IPolymorphic.h">
-			</File>
-			<File
-				RelativePath="..\IServicesProvider.h">
-			</File>
-			<File
-				RelativePath="..\istd.h">
-			</File>
-			<File
-				RelativePath="..\ITrace.h">
-			</File>
-			<File
-				RelativePath="..\TCascadedMap.h">
-			</File>
-			<File
-				RelativePath="..\TChangeBinder.h">
-			</File>
-			<File
-				RelativePath="..\TChangeDelegator.h">
-			</File>
-			<File
-				RelativePath="..\TChangeNotifier.h">
-			</File>
-			<File
-				RelativePath="..\TChangesReductorWrap.h">
-			</File>
-			<File
-				RelativePath="..\TComposedFactory.h">
-			</File>
-			<File
-				RelativePath="..\TDelPtr.h">
-			</File>
-			<File
-				RelativePath="..\TIFactory.h">
-			</File>
-			<File
-				RelativePath="..\TOptDelPtr.h">
-			</File>
-			<File
-				RelativePath="..\TPointer.h">
-			</File>
-			<File
-				RelativePath="..\TPointerVector.h">
-			</File>
-			<File
-				RelativePath="..\TSingleFactory.h">
+				RelativePath="..\i2d.h">
 			</File>
 		</Filter>
 	</Files>

@@ -132,6 +132,12 @@
 			<File
 				RelativePath="..\CFixedPointManip.cpp">
 			</File>
+			<File
+				RelativePath="..\CFulcrumFunctionBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CVector2d.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -146,6 +152,9 @@
 				RelativePath="..\CFixedPointManip.h">
 			</File>
 			<File
+				RelativePath="..\CFulcrumFunctionBase.h">
+			</File>
+			<File
 				RelativePath="..\imath.h">
 			</File>
 			<File
@@ -154,7 +163,13 @@
 			<File
 				RelativePath="..\TIValueManip.h">
 			</File>
+			<File
+				RelativePath="..\TVector.h">
+			</File>
 		</Filter>
+		<File
+			RelativePath="..\CVector2d.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -19,50 +19,30 @@ namespace imod
 	and a model.
 */
 template <class BaseClass>
-class TModelWrap: virtual public BaseClass, public imod::CModelBase
+class TModelWrap: public istd::TChangesReductorWrap<BaseClass>, public imod::CModelBase
 {
-public:
-	TModelWrap();
-
+protected:
 	// pseudo-reimplemented (istd::IChangeable)
-	virtual void BeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-
-private:
-	int m_changeCounter;
+	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 };
 
 
+// protected methods
+
+// pseudo-reimplemented (istd::IChangeable)
+
 template <class BaseClass>
-TModelWrap<BaseClass>::TModelWrap()
+void TModelWrap<BaseClass>::OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	m_changeCounter = 0;
+	NotifyBeforeUpdate(changeFlags, changeParamsPtr);
 }
 
 
 template <class BaseClass>
-void TModelWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void TModelWrap<BaseClass>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	if (m_changeCounter == 0){
-		BaseClass::BeginChanges(changeFlags, changeParamsPtr);
-	
-		NotifyBeforeUpdate(changeFlags, changeParamsPtr);
-	}
-
-	m_changeCounter++;
-}
-
-
-template <class BaseClass>
-void TModelWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	m_changeCounter--;
-
-	if (m_changeCounter == 0){
-		BaseClass::EndChanges(changeFlags, changeParamsPtr);
-	
-		NotifyAfterUpdate(changeFlags, changeParamsPtr);
-	}
+	NotifyAfterUpdate(changeFlags, changeParamsPtr);
 }
 
 
@@ -70,4 +50,5 @@ void TModelWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* chan
 
 
 #endif // !imod_TModelWrap_included
+
 
