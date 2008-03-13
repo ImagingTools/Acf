@@ -18,49 +18,49 @@ bool CMeasurementRange::IsValid() const
 
 void CMeasurementRange::SetLowerErrorLimit(double lowerErrorLimit)
 {
-	m_errorRange.SetBottomValue(lowerErrorLimit);
+	m_errorRange.SetMinValue(lowerErrorLimit);
 }
 
 
 void CMeasurementRange::SetUpperErrorLimit(double upperErrorLimit)
 {
-	m_errorRange.SetTopValue(upperErrorLimit);
+	m_errorRange.SetMaxValue(upperErrorLimit);
 }
 
 
 void CMeasurementRange::SetLowerWarningLimit(double lowerWarningLimit)
 {
-	m_warningRange.SetBottomValue(lowerWarningLimit);
+	m_warningRange.SetMinValue(lowerWarningLimit);
 }
 
 
 void CMeasurementRange::SetUpperWarningLimit(double upperWarningLimit)
 {
-	m_warningRange.SetTopValue(upperWarningLimit);
+	m_warningRange.SetMaxValue(upperWarningLimit);
 }
 
 
 double CMeasurementRange::GetLowerErrorLimit() const
 {
-	return m_errorRange.GetBottomValue();
+	return m_errorRange.GetMinValue();
 }
 
 
 double CMeasurementRange::GetUpperErrorLimit() const
 {
-	return m_errorRange.GetTopValue();
+	return m_errorRange.GetMaxValue();
 }
 
 
 double CMeasurementRange::GetLowerWarningLimit() const
 {
-	return m_warningRange.GetBottomValue();
+	return m_warningRange.GetMinValue();
 }
 
 
 double CMeasurementRange::GetUpperWarningLimit() const
 {
-	return m_warningRange.GetTopValue();
+	return m_warningRange.GetMaxValue();
 }
 
 

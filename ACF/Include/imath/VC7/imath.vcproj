@@ -155,6 +155,9 @@
 				RelativePath="..\CFulcrumFunctionBase.h">
 			</File>
 			<File
+				RelativePath="..\CVector2d.h">
+			</File>
+			<File
 				RelativePath="..\imath.h">
 			</File>
 			<File
@@ -167,9 +170,6 @@
 				RelativePath="..\TVector.h">
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\CVector2d.h">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

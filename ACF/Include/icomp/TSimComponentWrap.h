@@ -35,7 +35,6 @@ public:
 	*/
 	bool SetAttr(const ::std::string& attributeId, iser::ISerializable* attributePtr);
 
-protected:
 	// reimplemeted (icomp::IComponentContext)
 	virtual const IRegistryElement& GetRegistryElement() const;
 	virtual const IComponentContext* GetParentContext() const;
@@ -52,20 +51,20 @@ private:
 
 template <class Base>
 TSimComponentWrap<Base>::TSimComponentWrap()
-:	BaseClass(this),
-	CRegistryElement(&InitStaticInfo(this))
+:	CRegistryElement(&InitStaticInfo(this))
 {
+	SetComponentContext(this);
 }
 
 
 template <class Base>
 bool TSimComponentWrap<Base>::SetRef(const ::std::string& referenceId, IComponent* componentPtr)
 {
-	I_ASSERT(attributePtr != NULL);
+	I_ASSERT(componentPtr != NULL);
 
-	AttributeInfo* infoPtr = InsertAttributeInfo(referenceId, false);
+	AttributeInfo* infoPtr = GetAttributeInfo(referenceId);
 	if (infoPtr != NULL){
-		infoPtr->attributePtr.SetPtr(new CReferenceAttribute(referenceId));
+		I_ASSERT(infoPtr->attributePtr.IsValid());
 
 		m_componentMap[referenceId] = componentPtr;
 
@@ -81,7 +80,7 @@ bool TSimComponentWrap<Base>::SetAttr(const ::std::string& attributeId, iser::IS
 {
 	I_ASSERT(attributePtr != NULL);
 
-	AttributeInfo* infoPtr = InsertAttributeInfo(attributeId, false);
+	AttributeInfo* infoPtr = GetAttributeInfo(attributeId, false);
 	if (infoPtr != NULL){
 		infoPtr->attributePtr.SetPtr(attributePtr);
 
@@ -114,10 +113,17 @@ template <class Base>
 const iser::ISerializable* TSimComponentWrap<Base>::GetAttribute(const ::std::string& attributeId, const IComponentContext** realContextPtr) const
 {
 	const AttributeInfo* infoPtr = GetAttributeInfo(attributeId);
+
+	if (infoPtr == NULL){
+		infoPtr = (const_cast<TSimComponentWrap<Base>*>(this))->InsertAttributeInfo(attributeId, true);
+	}
+	
 	if (infoPtr != NULL){
 		if (realContextPtr != NULL){
 			*realContextPtr = this;
 		}
+
+			
 		return infoPtr->attributePtr.GetPtr();
 	}
 

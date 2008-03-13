@@ -5,6 +5,8 @@
 #include "imod/imod.h"
 
 
+#include "istd/TChangesReductorWrap.h"
+
 #include "imod/CModelBase.h"
 
 

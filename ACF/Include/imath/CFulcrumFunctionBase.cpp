@@ -93,7 +93,7 @@ bool CFulcrumFunctionBase::Serialize(iser::IArchive& archive)
 	else{
 		istd::CChangeNotifier notifier(this);
 
-		int fulcrumsCount;
+		int fulcrumsCount = 0;
 		retVal = retVal && archive.BeginMultiTag(fulcrumsTag, fulcrumTag, fulcrumsCount);
 
 		if (!retVal){

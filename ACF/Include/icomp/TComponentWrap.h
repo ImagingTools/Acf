@@ -16,8 +16,11 @@ template <class Component>
 class TComponentWrap: public Component
 {
 public:
-	TComponentWrap(const IComponentContext* contextPtr);
+	TComponentWrap(const IComponentContext* contextPtr = NULL);
 	virtual ~TComponentWrap();
+
+protected:
+	virtual void SetComponentContext(const icomp::IComponentContext* contextPtr);
 };
 
 
@@ -26,13 +29,24 @@ public:
 template <class Component>
 TComponentWrap<Component>::TComponentWrap(const IComponentContext* contextPtr)
 {
-	I_ASSERT(contextPtr != NULL);
+	if (contextPtr != NULL){
+		SetComponentContext(contextPtr);
+	}
+}
 
-	SetComponentContext(contextPtr);
 
-	Component::InitStaticInfo(this);
+// protected methods
 
-	OnComponentCreated();
+template <class Component>
+void TComponentWrap<Component>::SetComponentContext(const IComponentContext* contextPtr)
+{
+	Component::SetComponentContext(contextPtr);
+
+	if (contextPtr != NULL){
+		Component::InitStaticInfo(this);
+
+		OnComponentCreated();
+	}
 }
 
 

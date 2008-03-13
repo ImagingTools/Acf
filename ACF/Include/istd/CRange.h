@@ -29,7 +29,7 @@ public:
 	/**
 		Constructs a range object from two numbers.
 	*/
-	CRange(double bottomValue, double topValue);
+	CRange(double minValue, double topValue);
 
 	/**
 		Return \c true if the bottom value is smaller or equal then the top value.
@@ -44,22 +44,22 @@ public:
 	/**
 		Get the bottom value.	
 	*/
-	double GetBottomValue() const;
+	double GetMinValue() const;
 
 	/**
 		Set the bottom value.	
 	*/
-	void SetBottomValue(double bottomValue);
+	void SetMinValue(double minValue);
 
 	/**
 		Get the top value.	
 	*/
-	double GetTopValue() const;
+	double GetMaxValue() const;
 
 	/**
 		Set the top value.	
 	*/
-	void SetTopValue(double topValue);
+	void SetMaxValue(double topValue);
 
 	/**
 		Get length of this range.
@@ -93,13 +93,19 @@ public:
 	*/
 	double GetNearestInRange(double value) const;
 
+	/**
+		Returns the value, that corresponds the input value \c inputValue in the other range \c otherRange.
+		\note \c inputValue must be in current range.
+	*/
+	double GetMappedTo(double inputValue, const istd::CRange& otherRange) const;
+
 	CRange& operator=(const CRange& range);
 	bool operator==(const CRange& range) const;
 	bool operator!=(const CRange& range) const;
 
 private:
-	double m_topValue;
-	double m_bottomValue;
+	double m_minValue;
+	double m_maxValue;
 };
 
 
@@ -107,43 +113,43 @@ private:
 
 inline bool CRange::IsValid() const
 {
-	return (m_bottomValue <= m_topValue);
+	return (m_minValue <= m_maxValue);
 }
 
 
 inline bool CRange::IsEmpty() const
 {
-	return (m_bottomValue == m_topValue);
+	return (m_minValue == m_maxValue);
 }
 
 
-inline double CRange::GetBottomValue() const
+inline double CRange::GetMinValue() const
 {
-	return m_bottomValue;
+	return m_minValue;
 }
 
 
-inline double CRange::GetTopValue() const
+inline double CRange::GetMaxValue() const
 {
-	return m_topValue;
+	return m_maxValue;
 }
 
 
 inline double CRange::GetLength() const
 {
-	return IsValid()? m_topValue - m_bottomValue: 0;
+	return IsValid()? m_maxValue - m_minValue: 0;
 }
 
 
 inline bool CRange::operator==(const CRange& range) const
 {
-	return (m_topValue == range.m_topValue) && (m_bottomValue == range.m_bottomValue);
+	return (m_maxValue == range.m_maxValue) && (m_minValue == range.m_minValue);
 }
 
 
 inline bool CRange::operator!=(const CRange& range) const
 {
-	return (m_topValue != range.m_topValue) || (m_bottomValue != range.m_bottomValue);
+	return (m_maxValue != range.m_maxValue) || (m_minValue != range.m_minValue);
 }
 
 
@@ -151,3 +157,4 @@ inline bool CRange::operator!=(const CRange& range) const
 
 
 #endif // !istd_CRange_included
+

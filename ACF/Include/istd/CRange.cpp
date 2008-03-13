@@ -9,32 +9,32 @@ namespace istd
 
 
 CRange::CRange()
-:	m_bottomValue(0.0), m_topValue(0.0)
+:	m_minValue(0.0), m_maxValue(0.0)
 {
 }
 
 
 CRange::CRange(const CRange& range)
-:	m_bottomValue(range.m_bottomValue), m_topValue(range.m_topValue)
+:	m_minValue(range.m_minValue), m_maxValue(range.m_maxValue)
 {
 }
 
 
-CRange::CRange(double bottomValue, double topValue)
-:	m_bottomValue(bottomValue), m_topValue(topValue)
+CRange::CRange(double minValue, double maxValue)
+:	m_minValue(minValue), m_maxValue(maxValue)
 {
 }
 
 
-void CRange::SetBottomValue(double bottomValue)
+void CRange::SetMinValue(double minValue)
 {
-	m_bottomValue = bottomValue;
+	m_minValue = minValue;
 }
 
 
-void CRange::SetTopValue(double topValue)
+void CRange::SetMaxValue(double maxValue)
 {
-	m_topValue = topValue;
+	m_maxValue = maxValue;
 }
 
 
@@ -42,7 +42,7 @@ bool CRange::IsInside(double value) const
 {
 	I_ASSERT(IsValid());
 
-	return (m_bottomValue <= value) && (m_topValue >= value);
+	return (m_minValue <= value) && (m_maxValue >= value);
 }
 
 
@@ -51,40 +51,49 @@ bool CRange::IsRangeInside(const CRange& range) const
 	I_ASSERT(IsValid());
 	I_ASSERT(range.IsValid());
 
-	return (m_bottomValue <= range.m_bottomValue) && (m_topValue >= range.m_topValue);
+	return (m_minValue <= range.m_minValue) && (m_maxValue >= range.m_maxValue);
 }
 
 
 CRange CRange::GetIntersection(const CRange& otherRange) const
 {
-	return CRange(::std::max(GetBottomValue(), otherRange.GetBottomValue()), ::std::min(GetTopValue(), otherRange.GetTopValue()));
+	return CRange(::std::max(GetMinValue(), otherRange.GetMinValue()), ::std::min(GetMaxValue(), otherRange.GetMaxValue()));
 }
 
 
 CRange CRange::GetUnion(const CRange& otherRange) const
 {
-	return CRange(::std::min(GetBottomValue(), otherRange.GetBottomValue()), ::std::max(GetTopValue(), otherRange.GetTopValue()));
+	return CRange(::std::min(GetMinValue(), otherRange.GetMinValue()), ::std::max(GetMaxValue(), otherRange.GetMaxValue()));
 }
 
 
 double CRange::GetNearestInRange(double value) const
 {
-	if (value < m_topValue){
-		value = m_topValue;
+	if (value < m_maxValue){
+		value = m_maxValue;
 	}
 
-	if (value > m_bottomValue){
-		value = m_bottomValue;
+	if (value > m_minValue){
+		value = m_minValue;
 	}
 
 	return value;
 }
 
+	
+double CRange::GetMappedTo(double inputValue, const istd::CRange& otherRange) const
+{
+	I_ASSERT(IsInside(inputValue));
+
+	return otherRange.GetMinValue() + inputValue * (otherRange.GetLength() / GetLength());
+}
+
+
 
 CRange& CRange::operator=(const CRange& range)
 {
-	m_topValue = range.m_topValue;
-	m_bottomValue = range.m_bottomValue;
+	m_maxValue = range.m_maxValue;
+	m_minValue = range.m_minValue;
 
 	return *this;
 }

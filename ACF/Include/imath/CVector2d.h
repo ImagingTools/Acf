@@ -1,5 +1,5 @@
-#ifndef INCLUDED_q2d_CVector2d_h
-#define INCLUDED_q2d_CVector2d_h
+#ifndef i2d_CVector2d_included
+#define i2d_CVector2d_included
 
 
 
@@ -137,7 +137,7 @@ inline void CVector2d::SetY(double y)
 }
 
 
-CVector2d CVector2d::GetTranslated(const TVector<2>& vector)
+inline CVector2d CVector2d::GetTranslated(const TVector<2>& vector)
 {
 	return *this + vector;
 }
@@ -230,6 +230,5 @@ inline CVector2d& CVector2d::operator/=(double scalar)
 } // namespace imath
 
 
-#endif //!INCLUDED_q2d_CVector2d_h
-
+#endif //!i2d_CVector2d_included
 
