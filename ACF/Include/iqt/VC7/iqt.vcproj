@@ -183,6 +183,15 @@
 				RelativePath="..\CGuiComponentBase.cpp">
 			</File>
 			<File
+				RelativePath="..\CIconProviderComp.cpp">
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="TRUE">
+					<Tool
+						Name="VCCLCompilerTool"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\CLoginGuiComp.cpp">
 			</File>
 			<File
@@ -263,6 +272,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\CIconProviderComp.h">
+			</File>
+			<File
 				RelativePath="..\CLoginGuiComp.h">
 			</File>
 			<File
@@ -288,6 +300,9 @@
 			</File>
 			<File
 				RelativePath="..\IGuiObject.h">
+			</File>
+			<File
+				RelativePath="..\IIconProvider.h">
 			</File>
 			<File
 				RelativePath="..\iqt.h">
