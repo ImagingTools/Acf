@@ -27,6 +27,7 @@ public:
 
 private:
 	int m_changeCounter;
+	int m_cumulatedFlags;
 };
 
 
@@ -44,21 +45,23 @@ TChangesReductorWrap<BaseClass>::TChangesReductorWrap()
 template <class BaseClass>
 void TChangesReductorWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	if (m_changeCounter == 0){
+	if (m_changeCounter++ == 0){
 		BaseClass::BeginChanges(changeFlags, changeParamsPtr);
+		m_cumulatedFlags = changeFlags;
 	}
-
-	m_changeCounter++;
+	else{
+		m_cumulatedFlags |= changeFlags;
+	}
 }
 
 
 template <class BaseClass>
 void TChangesReductorWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	m_changeCounter--;
+	if (--m_changeCounter == 0){
+		m_cumulatedFlags |= changeFlags;
 
-	if (m_changeCounter == 0){
-		BaseClass::EndChanges(changeFlags, changeParamsPtr);
+		BaseClass::EndChanges(m_cumulatedFlags, changeParamsPtr);
 	}
 }
 

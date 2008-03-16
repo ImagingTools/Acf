@@ -69,10 +69,10 @@ public:
 
 inline CCmyk::CCmyk(double c, double m, double y, double k)
 {
-	SetComponentValue(CI_CYAN, c);
-	SetComponentValue(CI_MAGENTA, m);
-	SetComponentValue(CI_YELLOW, y);
-	SetComponentValue(CI_BLACK, k);
+	SetElement(CI_CYAN, c);
+	SetElement(CI_MAGENTA, m);
+	SetElement(CI_YELLOW, y);
+	SetElement(CI_BLACK, k);
 }
 
 
@@ -86,49 +86,49 @@ inline CCmyk::CCmyk(const CCmyk& color)
 
 inline double CCmyk::GetC() const
 {
-	return GetComponentValue(CI_CYAN);
+	return GetElement(CI_CYAN);
 }
 
 
 inline void CCmyk::SetC(double value)
 {
-	SetComponentValue(CI_CYAN, value);
+	SetElement(CI_CYAN, value);
 }
 
 
 inline double CCmyk::GetM() const
 {
-	return GetComponentValue(CI_MAGENTA);
+	return GetElement(CI_MAGENTA);
 }
 
 
 inline void CCmyk::SetM(double value)
 {
-	SetComponentValue(CI_MAGENTA, value);
+	SetElement(CI_MAGENTA, value);
 }
 
 
 inline double CCmyk::GetY() const
 {
-	return GetComponentValue(CI_YELLOW);
+	return GetElement(CI_YELLOW);
 }
 
 
 inline void CCmyk::SetY(double value)
 {
-	SetComponentValue(CI_YELLOW, value);
+	SetElement(CI_YELLOW, value);
 }
 
 
 inline double CCmyk::GetK() const
 {
-	return GetComponentValue(CI_BLACK);
+	return GetElement(CI_BLACK);
 }
 
 
 inline void CCmyk::SetK(double value)
 {
-	SetComponentValue(CI_BLACK, value);
+	SetElement(CI_BLACK, value);
 }
 
 

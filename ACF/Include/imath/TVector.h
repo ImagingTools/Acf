@@ -28,6 +28,11 @@ public:
 	TVector(const TVector<Size>& vector);
 
 	/**
+		Get number of components.
+	*/
+	int GetElementsCount() const;
+
+	/**
 		Get element at specified index.
 	*/
 	double GetElement(int index) const;
@@ -127,7 +132,7 @@ public:
 	double operator[](int index) const;
 	double& operator[](int index);
 
-private:
+protected:
     double m_elements[Size];
 };
 
@@ -136,7 +141,7 @@ private:
 
 template <int Size>
 inline TVector<Size>::TVector()
-{	/* random filled */
+{
 }
 
 
@@ -150,6 +155,13 @@ inline TVector<Size>::TVector(const TVector<Size>& vector)
 
 
 // inline methods
+
+template <int Size>
+inline int TVector<Size>::GetElementsCount() const
+{
+	return Size;
+}
+
 
 template <int Size>
 inline double TVector<Size>::GetElement(int index) const

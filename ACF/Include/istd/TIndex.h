@@ -13,7 +13,17 @@ template <int Dimensions>
 class TIndex
 {
 public:
+	/**
+		Default constructor without member initialization.
+	*/
 	TIndex();
+	/**
+		Constructor initializing all member to specified value.
+	*/
+	explicit TIndex(int value);
+	/**
+		Copy constructor.
+	*/
 	TIndex(const TIndex& array);
 
 	/**
@@ -30,6 +40,29 @@ public:
 		Set element at specified index.
 	*/
 	void SetAt(int index, int value);
+
+	/**
+		Set all components to specified value.
+	*/
+	void SetAllElements(int value);
+
+	/**
+		Check if index is inside boundaries.
+		Index is inside boundaries, if all its components are smaller than according boundary components.
+	*/
+	bool IsInside(const TIndex& boundaries) const;
+
+	/**
+		Increase this index inside the boundaries.
+		\return	false, if increase wasn't possible (e.g. overflow).
+	*/
+	bool Increase(const TIndex& boundaries);
+
+	/**
+		Decrese this index inside the boundaries.
+		\return	false, if decrease wasn't possible (e.g. overflow).
+	*/
+	bool Decrease(const TIndex& boundaries);
 
 	int operator[](int index) const;
 	int operator[](int index);
@@ -88,6 +121,13 @@ inline int& TIndex<Dimensions>::operator[](int index)
 // public methods
 
 template <int Dimensions>
+TIndex<Dimensions>::TIndex(int value)
+{
+	SetAllElements(value);
+}
+
+
+template <int Dimensions>
 TIndex<Dimensions>::TIndex()
 {
 	for (int i = 0; i < Dimensions; ++i){
@@ -100,6 +140,77 @@ template <int Dimensions>
 TIndex<Dimensions>::TIndex(const TIndex& array)
 :	m_elements(array.m_elements)
 {
+}
+
+
+template <int Dimensions>
+void TIndex<Dimensions>::SetAllElements(int value)
+{
+	for (int i = 0; i < Dimensions; ++i){
+		m_elements[i] = value;
+	}
+}
+
+
+template <int Dimensions>
+bool TIndex<Dimensions>::IsInside(const TIndex& boundaries) const
+{
+	for (int i = 0; i < Dimensions; ++i){
+		I_ASSERT(m_elements[i] >= 0);
+
+		if (m_elements[i] >= boundaries.m_elements[i]){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+template <int Dimensions>
+bool TIndex<Dimensions>::Increase(const TIndex& boundaries)
+{
+	I_ASSERT(IsInside(boundaries);
+
+	for (int i = 0; i < Dimensions; ++i){
+		if (m_elements[i] < boundaries.m_elements[i] - 1){
+			m_elements[i]++;
+			for (int j = 0; j < i; ++j){
+				m_elements[j] = 0;
+			}
+
+			return true;
+		}
+	}
+
+	SetAllElements(0);
+
+	return false;
+}
+
+
+template <int Dimensions>
+bool TIndex<Dimensions>::Decrease(const TIndex& boundaries)
+{
+	I_ASSERT(IsInside(boundaries);
+
+	for (int i = 0; i < Dimensions; ++i){
+		if (m_elements[i] > 0){
+			m_elements[i]--;
+
+			for (int j = 0; j < i; ++j){
+				m_elements[j] = boundaries.m_elements[j] - 1;
+			}
+
+			return true;
+		}
+	}
+
+	for (int j = 0; j < Dimensions; ++j){
+		m_elements[j] = boundaries.m_elements[j] - 1;
+	}
+
+	return false;
 }
 
 

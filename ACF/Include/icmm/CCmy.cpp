@@ -1,4 +1,4 @@
-#include "icmm/CCmyk.h"
+#include "icmm/CCmy.h"
 
 
 #include "iser/CArchiveTag.h"
@@ -8,7 +8,7 @@ namespace icmm
 {
 
 
-bool CCmyk::Serialize(iser::IArchive& archive)
+bool CCmy::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
@@ -26,11 +26,6 @@ bool CCmyk::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.BeginTag(yellowTag);
 	retVal = retVal && archive.Process(GetElementRef(CI_YELLOW));
 	retVal = retVal && archive.EndTag(yellowTag);
-
-	static iser::CArchiveTag blackTag("Black", "Black component");
-	retVal = retVal && archive.BeginTag(blackTag);
-	retVal = retVal && archive.Process(GetElementRef(CI_BLACK));
-	retVal = retVal && archive.EndTag(blackTag);
 
 	return retVal;
 }

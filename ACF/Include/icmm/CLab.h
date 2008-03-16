@@ -65,9 +65,9 @@ public:
 
 inline CLab::CLab(double l, double a, double b)
 {
-	SetComponentValue(CI_L, l);
-	SetComponentValue(CI_A, a);
-	SetComponentValue(CI_B, b);
+	SetElement(CI_L, l);
+	SetElement(CI_A, a);
+	SetElement(CI_B, b);
 }
 
 
@@ -81,37 +81,37 @@ inline CLab::CLab(const CLab& color)
 
 inline double CLab::GetL() const
 {
-	return GetComponentValue(CI_L);
+	return GetElement(CI_L);
 }
 
 
 inline void CLab::SetL(double value)
 {
-	SetComponentValue(CI_L, value);
+	SetElement(CI_L, value);
 }
 
 
 inline double CLab::GetA() const
 {
-	return GetComponentValue(CI_A);
+	return GetElement(CI_A);
 }
 
 
 inline void CLab::SetA(double value)
 {
-	SetComponentValue(CI_A, value);
+	SetElement(CI_A, value);
 }
 
 
 inline double CLab::GetB() const
 {
-	return GetComponentValue(CI_B);
+	return GetElement(CI_B);
 }
 
 
 inline void CLab::SetB(double value)
 {
-	SetComponentValue(CI_B, value);
+	SetElement(CI_B, value);
 }
 
 

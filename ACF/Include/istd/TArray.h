@@ -102,6 +102,8 @@ inline int TArray<Element, Dimensions>::GetSize(int dimension) const
 template <class Element, int Dimensions>
 inline const TArray<Element, Dimensions>::Element& GetAt(const TIndex<Dimensions>& index) const
 {
+	I_ASSERT(IsInside(index, m_sizes);
+
 	int elementIndex = GetElementIndex(index);
 	I_ASSERT(elementIndex < int(m_elements.size()));
 
@@ -112,6 +114,8 @@ inline const TArray<Element, Dimensions>::Element& GetAt(const TIndex<Dimensions
 template <class Element, int Dimensions>
 inline void TArray<Element, Dimensions>::SetAt(const TIndex<Dimensions>& index, const Element& value)
 {
+	I_ASSERT(IsInside(index, m_sizes);
+
 	int elementIndex = GetElementIndex(index);
 	I_ASSERT(elementIndex < int(m_elements.size()));
 

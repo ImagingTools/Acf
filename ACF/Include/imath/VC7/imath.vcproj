@@ -133,9 +133,6 @@
 				RelativePath="..\CFixedPointManip.cpp">
 			</File>
 			<File
-				RelativePath="..\CFulcrumFunctionBase.cpp">
-			</File>
-			<File
 				RelativePath="..\CVector2d.cpp">
 			</File>
 		</Filter>
@@ -152,19 +149,22 @@
 				RelativePath="..\CFixedPointManip.h">
 			</File>
 			<File
-				RelativePath="..\CFulcrumFunctionBase.h">
-			</File>
-			<File
 				RelativePath="..\CVector2d.h">
 			</File>
 			<File
 				RelativePath="..\imath.h">
 			</File>
 			<File
+				RelativePath="..\TFulcrumGridFunctionBase.h">
+			</File>
+			<File
 				RelativePath="..\TIMathFunction.h">
 			</File>
 			<File
 				RelativePath="..\TIValueManip.h">
+			</File>
+			<File
+				RelativePath="..\TSplineGridFunctionBase.h">
 			</File>
 			<File
 				RelativePath="..\TVector.h">

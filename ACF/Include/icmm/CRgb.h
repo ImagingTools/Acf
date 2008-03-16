@@ -66,9 +66,9 @@ public:
 
 inline CRgb::CRgb(double r, double g, double b)
 {
-	SetComponentValue(Red, r);
-	SetComponentValue(Green, g);
-	SetComponentValue(Blue, b);
+	SetElement(Red, r);
+	SetElement(Green, g);
+	SetElement(Blue, b);
 }
 
 
@@ -82,37 +82,37 @@ inline CRgb::CRgb(const CRgb& color)
 
 inline double CRgb::GetRed() const
 {
-	return GetComponentValue(Red);
+	return GetElement(Red);
 }
 
 
 inline void CRgb::SetRed(double value)
 {
-	SetComponentValue(Red, value);
+	SetElement(Red, value);
 }
 
 
 inline double CRgb::GetGreen() const
 {
-	return GetComponentValue(Green);
+	return GetElement(Green);
 }
 
 
 inline void CRgb::SetGreen(double value)
 {
-	SetComponentValue(Green, value);
+	SetElement(Green, value);
 }
 
 
 inline double CRgb::GetBlue() const
 {
-	return GetComponentValue(Blue);
+	return GetElement(Blue);
 }
 
 
 inline void CRgb::SetBlue(double value)
 {
-	SetComponentValue(Blue, value);
+	SetElement(Blue, value);
 }
 
 
