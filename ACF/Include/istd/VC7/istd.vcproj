@@ -230,6 +230,9 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\CBitStream.cpp">
+			</File>
+			<File
 				RelativePath="..\CChangeDelegator.cpp">
 			</File>
 			<File
@@ -327,6 +330,9 @@
 				RelativePath="..\TSingleFactory.h">
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\CBitStream.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

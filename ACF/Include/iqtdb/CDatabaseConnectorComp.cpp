@@ -29,7 +29,9 @@ bool CDatabaseConnectorComp::IsDatabaseConnected() const
 
 bool CDatabaseConnectorComp::ConnectToDatabase()
 {
-	return m_database.open();
+	bool retVal = m_database.open();
+
+	return retVal && m_database.isOpen();
 }
 
 

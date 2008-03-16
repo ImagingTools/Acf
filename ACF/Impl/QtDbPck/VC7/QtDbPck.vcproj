@@ -145,7 +145,7 @@
 		</Configuration>
 		<Configuration
 			Name="NemoRelease|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ACFDIR)\Bin\ReleaseVC7"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2">
 			<Tool
