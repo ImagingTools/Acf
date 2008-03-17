@@ -14,7 +14,7 @@ namespace imath{
 
 /**	Simple implementation of fixed-size vector.
  */
-template <int Size>
+template <int Size, class ElementType = double>
 class TVector
 {
 public:
@@ -25,22 +25,22 @@ public:
 	/**
 		Copy constructor.
 	 */
-	TVector(const TVector<Size>& vector);
+	TVector(const TVector<Size, ElementType>& vector);
 
 	/**
 		Get element at specified index.
 	*/
-	double GetElement(int index) const;
+	const ElementType& GetElement(int index) const;
 
 	/**
 		Get reference to element at specified index.
 	*/
-	double& GetElementRef(int index);
+	ElementType& GetElementRef(int index);
 
 	/**
 		Set element at specified index.
 	*/
-	void SetElement(int index, double value);
+	void SetElement(int index, const ElementType& value);
 
 	/**
 		Set all coordinates to zero.
@@ -50,82 +50,82 @@ public:
 	/**
 		Translate the point.
 	*/
-	void Translate(const TVector<Size>& vector);
+	void Translate(const TVector<Size, ElementType>& vector);
 
 	/**
 		Get translated point.
 	*/
-	TVector<Size> GetTranslated(const TVector<Size>& vector);
+	TVector<Size, ElementType> GetTranslated(const TVector<Size, ElementType>& vector);
 
 	/**
 		/overloaded
 	*/
-	void GetTranslated(const TVector<Size>& vector, TVector<Size>& result);
+	void GetTranslated(const TVector<Size, ElementType>& vector, TVector<Size, ElementType>& result);
 
 	/**
 		Check if this vector is null.
 	*/
-	bool IsNull(double tolerance = I_BIG_EPSILON) const;
+	bool IsNull(ElementType tolerance = I_BIG_EPSILON) const;
 
 	/**
 		Return dot product of two vectors.
 	*/
-	double GetDotProduct(const TVector<Size>& vector) const;
+	ElementType GetDotProduct(const TVector<Size, ElementType>& vector) const;
 
 	/**
 		Return euclidian length square.
 	*/
-	double GetLength2() const;
+	ElementType GetLength2() const;
 	/**
 		Return euclidian length.
 	*/
-	double GetLength() const;
+	ElementType GetLength() const;
 
 	/**
 		Return distance square between two vectors.
 	*/
-	double GetDistance2(const TVector<Size>& vector) const;
+	ElementType GetDistance2(const TVector<Size, ElementType>& vector) const;
 
 	/**
 		Return distance between two vectors.
 	*/
-	double GetDistance(const TVector<Size>& vector) const;
+	ElementType GetDistance(const TVector<Size, ElementType>& vector) const;
 
 	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
 		\return	true, if normalization successed.
 	*/
-	bool Normalize(double length = 1.0);
+	bool Normalize(ElementType length = 1.0);
 	/**
 		Return normalized vector with the same direction and specified length.
 		\param	length	new vector length.
 		\return	true, if normalization successed.
 	*/
-	bool GetNormalized(TVector<Size>& result, double length = 1.0) const;
+	bool GetNormalized(TVector<Size, ElementType>& result, ElementType length = 1.0) const;
 
 	/**
 		Serialize this vector to specified archive.
 	*/
 	bool Serialize(iser::IArchive& archive);
 
-	bool operator==(const TVector<Size>& vector) const;
-	bool operator!=(const TVector<Size>& vector) const;
+	bool operator==(const TVector<Size, ElementType>& vector) const;
+	bool operator!=(const TVector<Size, ElementType>& vector) const;
 
-	TVector<Size> operator-() const;
+	TVector<Size, ElementType> operator-() const;
 
-	TVector<Size> operator+(const TVector<Size>& vector) const;
-	TVector<Size> operator-(const TVector<Size>& vector) const;
-	TVector<Size> operator*(double scalar) const;
-	TVector<Size> operator/(double scalar) const;
+	TVector<Size, ElementType> operator+(const TVector<Size, ElementType>& vector) const;
+	TVector<Size, ElementType> operator-(const TVector<Size, ElementType>& vector) const;
+	TVector<Size, ElementType> operator*(ElementType scalar) const;
+	TVector<Size, ElementType> operator/(ElementType scalar) const;
 
-	TVector<Size>& operator+=(const TVector<Size>& vector);
-	TVector<Size>& operator-=(const TVector<Size>& vector);
-	TVector<Size>& operator*=(double scalar);
-	TVector<Size>& operator/=(double scalar);
+	TVector<Size, ElementType>& operator+=(const TVector<Size, ElementType>& vector);
+	TVector<Size, ElementType>& operator-=(const TVector<Size, ElementType>& vector);
+	TVector<Size, ElementType>& operator*=(ElementType scalar);
+	TVector<Size, ElementType>& operator/=(ElementType scalar);
 
-	double operator[](int index) const;
-	double& operator[](int index);
+	const ElementType& operator[](int index) const;
+	ElementType& operator[](int index);
 
 	// static methods
 
@@ -136,20 +136,20 @@ public:
 
 
 protected:
-    double m_elements[Size];
+    ElementType m_elements[Size];
 };
 
 
 // inline constructors
 
-template <int Size>
-inline TVector<Size>::TVector()
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>::TVector()
 {
 }
 
 
-template <int Size>
-inline TVector<Size>::TVector(const TVector<Size>& vector)
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>::TVector(const TVector<Size, ElementType>& vector)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] = vector.m_elements[index];
@@ -159,29 +159,29 @@ inline TVector<Size>::TVector(const TVector<Size>& vector)
 
 // inline methods
 
-template <int Size>
-inline double TVector<Size>::GetElement(int index) const
+template <int Size, class ElementType>
+inline typename const ElementType& TVector<Size, ElementType>::GetElement(int index) const
 {
 	return operator[](index);
 }
 
 
-template <int Size>
-inline double& TVector<Size>::GetElementRef(int index)
+template <int Size, class ElementType>
+inline typename ElementType& TVector<Size, ElementType>::GetElementRef(int index)
 {
 	return operator[](index);
 }
 
 
-template <int Size>
-inline void TVector<Size>::SetElement(int index, double value)
+template <int Size, class ElementType>
+inline void TVector<Size, ElementType>::SetElement(int index, const ElementType& value)
 {
 	operator[](index) = value;
 }
 
 
-template <int Size>
-inline void TVector<Size>::Reset()
+template <int Size, class ElementType>
+inline void TVector<Size, ElementType>::Reset()
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] = 0.0;
@@ -189,8 +189,8 @@ inline void TVector<Size>::Reset()
 }
 
 
-template <int Size>
-inline void TVector<Size>::Translate(const TVector<Size>& vector)
+template <int Size, class ElementType>
+inline void TVector<Size, ElementType>::Translate(const TVector<Size, ElementType>& vector)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] += vector.m_elements[index];
@@ -198,31 +198,31 @@ inline void TVector<Size>::Translate(const TVector<Size>& vector)
 }
 
 
-template <int Size>
-TVector<Size> TVector<Size>::GetTranslated(const TVector<Size>& vector)
+template <int Size, class ElementType>
+TVector<Size, ElementType> TVector<Size, ElementType>::GetTranslated(const TVector<Size, ElementType>& vector)
 {
 	return *this + vector;
 }
 
 
-template <int Size>
-void TVector<Size>::GetTranslated(const TVector<Size>& vector, TVector<Size>& result)
+template <int Size, class ElementType>
+void TVector<Size, ElementType>::GetTranslated(const TVector<Size, ElementType>& vector, TVector<Size, ElementType>& result)
 {
 	result = *this + vector;
 }
 
 
-template <int Size>
-inline bool TVector<Size>::IsNull(double tolerance) const
+template <int Size, class ElementType>
+inline bool TVector<Size, ElementType>::IsNull(ElementType tolerance) const
 {
 	return GetLength2() <= tolerance * tolerance;
 }
 
 
-template <int Size>
-inline double TVector<Size>::GetDotProduct(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline ElementType TVector<Size, ElementType>::GetDotProduct(const TVector<Size, ElementType>& vector) const
 {
-	double retVal = 0.0;
+	ElementType retVal = 0.0;
 
 	for (int index = 0; index < Size; ++index){
 		retVal +=  m_elements[index] * vector.m_elements[index];
@@ -232,29 +232,29 @@ inline double TVector<Size>::GetDotProduct(const TVector<Size>& vector) const
 }
 
 
-template <int Size>
-inline double TVector<Size>::GetLength2() const
+template <int Size, class ElementType>
+inline ElementType TVector<Size, ElementType>::GetLength2() const
 {
 	return GetDotProduct(*this);
 }
 
 
-template <int Size>
-inline double TVector<Size>::GetLength() const
+template <int Size, class ElementType>
+inline ElementType TVector<Size, ElementType>::GetLength() const
 {
 	return ::sqrt(GetLength2());
 }
 
 
-template <int Size>
-inline double TVector<Size>::GetDistance2(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline ElementType TVector<Size, ElementType>::GetDistance2(const TVector<Size, ElementType>& vector) const
 {
 	return (*this - vector).GetLength2();
 }
 
 
-template <int Size>
-inline double TVector<Size>::GetDistance(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline ElementType TVector<Size, ElementType>::GetDistance(const TVector<Size, ElementType>& vector) const
 {
 	return ::sqrt(GetDistance2(vector));
 }
@@ -262,8 +262,8 @@ inline double TVector<Size>::GetDistance(const TVector<Size>& vector) const
 
 // operators
 
-template <int Size>
-inline bool TVector<Size>::operator==(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline bool TVector<Size, ElementType>::operator==(const TVector<Size, ElementType>& vector) const
 {
 	for (int index = 0; index < Size; ++index){
 		if (m_elements[index] != vector.m_elements[index]){
@@ -274,15 +274,15 @@ inline bool TVector<Size>::operator==(const TVector<Size>& vector) const
 }
 
 
-template <int Size>
-inline bool TVector<Size>::operator!=(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline bool TVector<Size, ElementType>::operator!=(const TVector<Size, ElementType>& vector) const
 {
 	return !operator==(vector);
 }
 
 
-template <int Size>
-inline TVector<Size>& TVector<Size>::operator+=(const TVector<Size>& vector)
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>& TVector<Size, ElementType>::operator+=(const TVector<Size, ElementType>& vector)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] += vector.m_elements[index];
@@ -292,8 +292,8 @@ inline TVector<Size>& TVector<Size>::operator+=(const TVector<Size>& vector)
 }
 
 
-template <int Size>
-inline TVector<Size>& TVector<Size>::operator-=(const TVector<Size>& vector)
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>& TVector<Size, ElementType>::operator-=(const TVector<Size, ElementType>& vector)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] -= vector.m_elements[index];
@@ -303,8 +303,8 @@ inline TVector<Size>& TVector<Size>::operator-=(const TVector<Size>& vector)
 }
 
 
-template <int Size>
-inline TVector<Size>& TVector<Size>::operator*=(double scalar)
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>& TVector<Size, ElementType>::operator*=(ElementType scalar)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] *= scalar;
@@ -314,8 +314,8 @@ inline TVector<Size>& TVector<Size>::operator*=(double scalar)
 }
 
 
-template <int Size>
-inline TVector<Size>& TVector<Size>::operator/=(double scalar)
+template <int Size, class ElementType>
+inline TVector<Size, ElementType>& TVector<Size, ElementType>::operator/=(ElementType scalar)
 {
 	for (int index = 0; index < Size; ++index){
 		m_elements[index] /= scalar;
@@ -325,10 +325,10 @@ inline TVector<Size>& TVector<Size>::operator/=(double scalar)
 }
 
 
-template <int Size>
-inline TVector<Size> TVector<Size>::operator-() const
+template <int Size, class ElementType>
+inline TVector<Size, ElementType> TVector<Size, ElementType>::operator-() const
 {
-	TVector<Size> retVal;
+	TVector<Size, ElementType> retVal;
 
 	for (int index = 0; index < Size; ++index){
 		retVal.m_elements[index] = -m_elements[index];
@@ -338,10 +338,10 @@ inline TVector<Size> TVector<Size>::operator-() const
 }
 
 
-template <int Size>
-inline TVector<Size> TVector<Size>::operator+(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline TVector<Size, ElementType> TVector<Size, ElementType>::operator+(const TVector<Size, ElementType>& vector) const
 {
-	TVector<Size> retVal;
+	TVector<Size, ElementType> retVal;
 
 	for (int index = 0; index < Size; ++index){
 		retVal.m_elements[index] = m_elements[index] + vector.m_elements[index];
@@ -351,10 +351,10 @@ inline TVector<Size> TVector<Size>::operator+(const TVector<Size>& vector) const
 }
 
 
-template <int Size>
-inline TVector<Size> TVector<Size>::operator-(const TVector<Size>& vector) const
+template <int Size, class ElementType>
+inline TVector<Size, ElementType> TVector<Size, ElementType>::operator-(const TVector<Size, ElementType>& vector) const
 {
-	TVector<Size> retVal;
+	TVector<Size, ElementType> retVal;
 
 	for (int index = 0; index < Size; ++index){
 		retVal.m_elements[index] = m_elements[index] - vector.m_elements[index];
@@ -364,10 +364,10 @@ inline TVector<Size> TVector<Size>::operator-(const TVector<Size>& vector) const
 }
 
 
-template <int Size>
-inline TVector<Size> TVector<Size>::operator*(double scalar) const
+template <int Size, class ElementType>
+inline TVector<Size, ElementType> TVector<Size, ElementType>::operator*(ElementType scalar) const
 {
-	TVector<Size> retVal;
+	TVector<Size, ElementType> retVal;
 
 	for (int index = 0; index < Size; ++index){
 		retVal.m_elements[index] = m_elements[index] * scalar;
@@ -377,10 +377,10 @@ inline TVector<Size> TVector<Size>::operator*(double scalar) const
 }
 
 
-template <int Size>
-inline TVector<Size> TVector<Size>::operator/(double scalar) const
+template <int Size, class ElementType>
+inline TVector<Size, ElementType> TVector<Size, ElementType>::operator/(ElementType scalar) const
 {
-	TVector<Size> retVal;
+	TVector<Size, ElementType> retVal;
 
 	for (int index = 0; index < Size; ++index){
 		retVal.m_elements[index] = m_elements[index] / scalar;
@@ -390,8 +390,8 @@ inline TVector<Size> TVector<Size>::operator/(double scalar) const
 }
 
 
-template <int Size>
-double TVector<Size>::operator[](int index) const
+template <int Size, class ElementType>
+const ElementType& TVector<Size, ElementType>::operator[](int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < Size);
@@ -400,8 +400,8 @@ double TVector<Size>::operator[](int index) const
 }
 
 
-template <int Size>
-double& TVector<Size>::operator[](int index)
+template <int Size, class ElementType>
+ElementType& TVector<Size, ElementType>::operator[](int index)
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < Size);
@@ -412,8 +412,8 @@ double& TVector<Size>::operator[](int index)
 
 // static inline methods
 
-template <int Size>
-inline int TVector<Size>::GetElementsCount()
+template <int Size, class ElementType>
+inline int TVector<Size, ElementType>::GetElementsCount()
 {
 	return Size;
 }
@@ -421,12 +421,12 @@ inline int TVector<Size>::GetElementsCount()
 
 // public methods
 
-template <int Size>
-bool TVector<Size>::Normalize(double length)
+template <int Size, class ElementType>
+bool TVector<Size, ElementType>::Normalize(ElementType length)
 {
-    double isLength = GetLength();
+    ElementType isLength = GetLength();
 
-    double proportion = isLength / length;
+    ElementType proportion = isLength / length;
 
 	if (::fabs(proportion) < I_BIG_EPSILON){
         for (int index = 0; index < Size; ++index){
@@ -441,15 +441,15 @@ bool TVector<Size>::Normalize(double length)
 }
 
 
-template <int Size>
-bool TVector<Size>::GetNormalized(TVector<Size>& result, double length) const
+template <int Size, class ElementType>
+bool TVector<Size, ElementType>::GetNormalized(TVector<Size, ElementType>& result, ElementType length) const
 {
-    double isLength = GetLength();
+    ElementType isLength = GetLength();
 
-    double proportion = isLength / length;
+    ElementType proportion = isLength / length;
 
 	if (::fabs(proportion) < I_BIG_EPSILON){
-        double proportion = length / isLength;
+        ElementType proportion = length / isLength;
 
         for (int index = 0; index < Size; ++index){
             result.m_elements[index] = m_elements[index] * proportion;
@@ -463,8 +463,8 @@ bool TVector<Size>::GetNormalized(TVector<Size>& result, double length) const
 }
 
 
-template <int Size>
-bool TVector<Size>::Serialize(iser::IArchive& archive)
+template <int Size, class ElementType>
+bool TVector<Size, ElementType>::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 

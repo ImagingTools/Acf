@@ -65,7 +65,10 @@ public:
 	bool Decrease(const TIndex& boundaries);
 
 	int operator[](int index) const;
-	int operator[](int index);
+	int& operator[](int index);
+
+	bool operator==(const TIndex& index) const;
+	bool operator!=(const TIndex& index) const;
 
 private:
 	int m_elements[Dimensions];
@@ -118,6 +121,26 @@ inline int& TIndex<Dimensions>::operator[](int index)
 }
 
 
+template <int Dimensions>
+bool TIndex<Dimensions>::operator==(const TIndex& index) const
+{
+	for (int i = 0; i < Dimensions; ++i){
+		if (m_elements[i] != index.m_elements[i]){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+template <int Dimensions>
+bool TIndex<Dimensions>::operator!=(const TIndex& index) const
+{
+	return !operator==(index);
+}
+
+
 // public methods
 
 template <int Dimensions>
@@ -138,8 +161,10 @@ TIndex<Dimensions>::TIndex()
 
 template <int Dimensions>
 TIndex<Dimensions>::TIndex(const TIndex& array)
-:	m_elements(array.m_elements)
 {
+	for (int i = 0; i < Dimensions; ++i){
+		m_elements[i] = array.m_elements[i];
+	}
 }
 
 
@@ -170,7 +195,7 @@ bool TIndex<Dimensions>::IsInside(const TIndex& boundaries) const
 template <int Dimensions>
 bool TIndex<Dimensions>::Increase(const TIndex& boundaries)
 {
-	I_ASSERT(IsInside(boundaries);
+	I_ASSERT(IsInside(boundaries));
 
 	for (int i = 0; i < Dimensions; ++i){
 		if (m_elements[i] < boundaries.m_elements[i] - 1){
@@ -192,7 +217,7 @@ bool TIndex<Dimensions>::Increase(const TIndex& boundaries)
 template <int Dimensions>
 bool TIndex<Dimensions>::Decrease(const TIndex& boundaries)
 {
-	I_ASSERT(IsInside(boundaries);
+	I_ASSERT(IsInside(boundaries));
 
 	for (int i = 0; i < Dimensions; ++i){
 		if (m_elements[i] > 0){

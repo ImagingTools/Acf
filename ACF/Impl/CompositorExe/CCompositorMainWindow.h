@@ -8,7 +8,7 @@
 
 #include "icomp/IRegistryElement.h"
 
-#include "ui_CCompositorMainWindow.h"
+#include "Generated/ui_CCompositorMainWindow.h"
 
 
 class CRegistryView;

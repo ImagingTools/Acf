@@ -2,6 +2,11 @@
 #define imath_TSplineGridFunctionBase_included
 
 
+#include "istd/TArray.h"
+
+#include "imath/TFulcrumGridFunctionBase.h"
+
+
 namespace imath
 {
 
@@ -11,18 +16,18 @@ namespace imath
 	To reduce number of coefficients only precalculated derrivative values for each fulcrum will be stored.
 */
 template <class Element, int Dimensions, int DerivativesCount = Dimensions>
-class TSplineGridFunctionBase: public TFulcrumGridFunctionBase
+class TSplineGridFunctionBase: public TFulcrumGridFunctionBase<Element, Dimensions>
 {
 public:
-	typedef CFulcrumFunctionBase BaseClass;
+	typedef TFulcrumGridFunctionBase<Element, Dimensions> BaseClass;
 
 	// reimplemented (imath::TIMathFunction<imath::TVector<Dimensions>, Element>)
 	virtual bool GetValueAt(const imath::TVector<Dimensions>& argument, Element& result) const;
 	virtual Element GetValueAt(const imath::TVector<Dimensions>& argument) const;
 
 protected:
-	typedef Element Derrivates[DerivativesCount];
-	typedef istd::TArray<Derrivates, Dimensions> DerrivatesGrid;
+	typedef TVector<Element> Derivatives[DerivativesCount];
+	typedef istd::TArray<Derivatives, Dimensions> DerivativesGrid;
 
 	/**
 		Calculate interpolated value at specified recursion level.
@@ -34,10 +39,10 @@ protected:
 	*/
 	void CalcRecursiveValueAt(
 				const TVector<Dimensions>& argument,
-				TIndex<Dimensions>& index,
-				const TIndex<Dimensions>& sizes,
+				istd::TIndex<Dimensions>& index,
+				const istd::TIndex<Dimensions>& sizes,
 				int dimension,
-				Element& result);
+				Element& result) const;
 
 	/**
 		Calculate interpolated derivative at specified recursion level.
@@ -50,11 +55,14 @@ protected:
 	*/
 	void CalcRecursiveDerivativeAt(
 				const TVector<Dimensions>& argument,
-				TIndex<Dimensions>& index,
-				const TIndex<Dimensions>& sizes,
+				istd::TIndex<Dimensions>& index,
+				const istd::TIndex<Dimensions>& sizes,
 				int derivativeDimension,
 				int dimension,
-				Element& result)
+				Element& result) const;
+
+	const DerivativesGrid& GetDerivativesGrid() const;
+	DerivativesGrid& GetDerivativesGrid();
 
 	// reimplemented (istd::IChangeable)
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
@@ -68,11 +76,27 @@ protected:
 	/**
 		Calc values of derrivatives after fulcrum grid changes.
 	*/
-	virtual void CalcDerivativesGrid(DerrivatesGrid& result) = 0;
+	virtual void CalcDerivativesGrid(DerivativesGrid& result) = 0;
 
 private:
-	DerrivatesGrid m_derrivativesGrid;
+	DerivativesGrid m_derrivativesGrid;
 };
+
+
+// inline methods
+
+template <class Element, int Dimensions, int DerivativesCount>
+inline typename const TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::DerivativesGrid& TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetDerivativesGrid() const
+{
+	return m_derrivativesGrid;
+}
+
+
+template <class Element, int Dimensions, int DerivativesCount>
+inline typename TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::DerivativesGrid& TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetDerivativesGrid()
+{
+	return m_derrivativesGrid;
+}
 
 
 // static inline methods
@@ -98,12 +122,12 @@ inline double TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::Ge
 template <class Element, int Dimensions, int DerivativesCount>
 bool TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument, Element& result) const
 {
-	TIndex<Dimensions> index;
+	istd::TIndex<Dimensions> index;
 	for (int i = 0; i < Dimensions; ++i){
 		index[i] = FindIndex(i, argument[i]);
 	}
 
-	void CalcRecursiveValueAt(index, Dimensions - 1, result);
+	CalcRecursiveValueAt(argument, index, GetGridSize(), Dimensions - 1, result);
 }
 
 
@@ -123,11 +147,11 @@ typename Element TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>:
 template <class Element, int Dimensions, int DerivativesCount>
 void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursiveDerivativeAt(
 			const TVector<Dimensions>& argument,
-			TIndex<Dimensions>& index,
-			const TIndex<Dimensions>& sizes,
+			istd::TIndex<Dimensions>& index,
+			const istd::TIndex<Dimensions>& sizes,
 			int derivativeDimension,
 			int dimension,
-			Element& result)
+			Element& result) const
 {
 	if (dimension < 0){
 		result = m_derrivativesGrid[index][derivativeDimension];
@@ -178,10 +202,10 @@ void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursi
 template <class Element, int Dimensions, int DerivativesCount>
 void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursiveValueAt(
 			const TVector<Dimensions>& argument,
-			TIndex<Dimensions>& index,
-			const TIndex<Dimensions>& sizes,
+			istd::TIndex<Dimensions>& index,
+			const istd::TIndex<Dimensions>& sizes,
 			int dimension,
-			Element& result)
+			Element& result) const
 {
 	if (dimension < 0){
 		result = GetValueAtIndex(index);

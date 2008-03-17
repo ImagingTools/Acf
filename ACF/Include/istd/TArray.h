@@ -2,6 +2,11 @@
 #define istd_TArray_included
 
 
+#include <vector>
+
+#include "istd/TIndex.h"
+
+
 namespace istd
 {
 
@@ -13,8 +18,46 @@ template <class Element, int Dimensions>
 class TArray
 {
 public:
+	class Iterator: public istd::TIndex<Dimensions>
+	{
+	public:
+		typedef TIndex<Dimensions> BaseClass;
+
+		Iterator(const Iterator& iterator);
+
+		Element& operator*();
+		const Element& operator*() const;
+
+		Element* operator->();
+		const Element* operator->() const;
+
+		Iterator& operator++();
+		Iterator operator++(int);
+
+		Iterator& operator--();
+		Iterator operator--(int);
+
+		Iterator& operator=(const Iterator& iterator);
+
+		bool operator==(const Iterator& iterator) const;
+		bool operator!=(const Iterator& iterator) const;
+
+		friend class TArray<Element, Dimensions>;
+
+	protected:
+		Iterator(TArray* arrayPtr);
+
+	private:
+		TArray* m_arrayPtr;
+	};
+
 	TArray();
 	TArray(const TArray& array);
+
+	/**
+		Removes all elements and set all sizes to 1.
+	*/
+	void Reset();
 
 	/**
 		Get number of dimensions of this array.
@@ -52,6 +95,10 @@ public:
 	*/
 	void SetAt(const TIndex<Dimensions>& index, const Element& value);
 
+	// iterator support
+	Iterator Begin() const;
+	const Iterator& End() const;
+
 	const Element& operator[](const TIndex<Dimensions>& index) const;
 	Element& operator[](const TIndex<Dimensions>& index);
 
@@ -70,6 +117,8 @@ private:
 	Elements m_elements;
 
 	TIndex<Dimensions> m_sizes;
+
+	static Iterator s_endIterator;
 };
 
 
@@ -100,9 +149,9 @@ inline int TArray<Element, Dimensions>::GetSize(int dimension) const
 
 
 template <class Element, int Dimensions>
-inline const TArray<Element, Dimensions>::Element& GetAt(const TIndex<Dimensions>& index) const
+inline typename const Element& TArray<Element, Dimensions>::GetAt(const TIndex<Dimensions>& index) const
 {
-	I_ASSERT(IsInside(index, m_sizes);
+	I_ASSERT(index.IsInside(m_sizes));
 
 	int elementIndex = GetElementIndex(index);
 	I_ASSERT(elementIndex < int(m_elements.size()));
@@ -114,12 +163,28 @@ inline const TArray<Element, Dimensions>::Element& GetAt(const TIndex<Dimensions
 template <class Element, int Dimensions>
 inline void TArray<Element, Dimensions>::SetAt(const TIndex<Dimensions>& index, const Element& value)
 {
-	I_ASSERT(IsInside(index, m_sizes);
+	I_ASSERT(index.IsInside(m_sizes));
 
 	int elementIndex = GetElementIndex(index);
 	I_ASSERT(elementIndex < int(m_elements.size()));
 
 	m_elements[elementIndex] = value;
+}
+
+
+// iterator support
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator TArray<Element, Dimensions>::Begin() const
+{
+	return Iterator(const_cast<TArray<Element, Dimensions>*>(this));
+}
+
+
+template <class Element, int Dimensions>
+typename const TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::End() const
+{
+	return s_endIterator;
 }
 
 
@@ -179,6 +244,15 @@ TArray<Element, Dimensions>::TArray(const TArray& array)
 
 
 template <class Element, int Dimensions>
+void TArray<Element, Dimensions>::Reset()
+{
+	m_sizes = TIndex<Dimensions>(0);
+
+	m_elements.clear();
+}
+
+
+template <class Element, int Dimensions>
 void TArray<Element, Dimensions>::SetSizes(const TIndex<Dimensions>& sizes)
 {
 	m_sizes = sizes;
@@ -210,6 +284,145 @@ void TArray<Element, Dimensions>::UpdateElementsSize()
 	}
 
 	m_elements.resize(cumulatedSizes);
+}
+
+
+// static attributes
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator TArray<Element, Dimensions>::s_endIterator(NULL);
+
+
+// public methods of embedded class Iterator
+
+template <class Element, int Dimensions>
+TArray<Element, Dimensions>::Iterator::Iterator(const Iterator& iterator)
+:	BaseClass(iterator), m_arrayPtr(iterator.m_arrayPtr)
+{
+}
+
+
+template <class Element, int Dimensions>
+const Element& TArray<Element, Dimensions>::Iterator::operator*() const
+{
+	I_ASSERT(m_arrayPtr != NULL);
+	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+
+	return m_arrayPtr->GetAt(*this);
+}
+
+
+template <class Element, int Dimensions>
+typename Element& TArray<Element, Dimensions>::Iterator::operator*()
+{
+	I_ASSERT(m_arrayPtr != NULL);
+	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+
+	return m_arrayPtr->operator[](*this);
+}
+
+
+template <class Element, int Dimensions>
+const Element* TArray<Element, Dimensions>::Iterator::operator->() const
+{
+	I_ASSERT(m_arrayPtr != NULL);
+	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+
+	return &m_arrayPtr->GetAt(*this);
+}
+
+
+template <class Element, int Dimensions>
+Element* TArray<Element, Dimensions>::Iterator::operator->()
+{
+	I_ASSERT(m_arrayPtr != NULL);
+	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+
+	return &m_arrayPtr->operator[](*this);
+}
+
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::Iterator::operator++()
+{
+	if ((m_arrayPtr != NULL) && !Increase(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;
+	}
+
+	return *this;
+}
+
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator TArray<Element, Dimensions>::Iterator::operator++(int)
+{
+	Iterator retVal = *this;
+
+	if ((m_arrayPtr != NULL) && !Increase(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;
+	}
+
+	return retVal;
+}
+
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::Iterator::operator--()
+{
+	if ((m_arrayPtr != NULL) && !Decrease(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;
+	}
+
+	return *this;
+}
+
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator TArray<Element, Dimensions>::Iterator::operator--(int)
+{
+	Iterator retVal = *this;
+
+	if ((m_arrayPtr != NULL) && !Decrease(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;
+	}
+
+	return retVal;
+}
+
+
+template <class Element, int Dimensions>
+typename TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::Iterator::operator=(const Iterator& iterator)
+{
+	BaseClass::operator=(iterator);
+
+	m_arrayPtr = iterator.m_arrayPtr;
+}
+
+
+template <class Element, int Dimensions>
+bool TArray<Element, Dimensions>::Iterator::operator==(const Iterator& iterator) const
+{
+	if ((m_arrayPtr != NULL) && (iterator.m_arrayPtr != NULL)){
+		return (m_arrayPtr == iterator.m_arrayPtr) && (BaseClass::operator==(iterator));
+	}
+
+	return (m_arrayPtr == iterator.m_arrayPtr);
+}
+
+
+template <class Element, int Dimensions>
+bool TArray<Element, Dimensions>::Iterator::operator!=(const Iterator& iterator) const
+{
+	return !operator==(iterator);
+}
+
+
+// protected methods of emedded class Iterator
+
+template <class Element, int Dimensions>
+TArray<Element, Dimensions>::Iterator::Iterator(TArray* arrayPtr)
+:	BaseClass(0), m_arrayPtr(arrayPtr)
+{
 }
 
 
