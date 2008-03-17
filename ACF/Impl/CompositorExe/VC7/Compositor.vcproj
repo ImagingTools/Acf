@@ -129,12 +129,43 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\CCompositorMainWindow.cpp">
+			</File>
+			<File
 				RelativePath="..\Main.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
+			<File
+				RelativePath="..\CCompositorMainWindow.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Forms"
+			Filter="">
+			<File
+				RelativePath="..\CCompositorMainWindow.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFile).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_$(InputFile)&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFile)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFile).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;..\Generated\ui_$(InputFile)&quot;"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
