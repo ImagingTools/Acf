@@ -2,6 +2,9 @@
 #define istd_TIndex_included
 
 
+#include "istd/istd.h"
+
+
 namespace istd
 {
 

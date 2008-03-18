@@ -177,6 +177,9 @@
 				RelativePath="..\CCriticalSection.cpp">
 			</File>
 			<File
+				RelativePath="..\CDateTime.cpp">
+			</File>
+			<File
 				RelativePath="..\CDllFunctionsProvider.cpp">
 			</File>
 			<File
@@ -264,6 +267,9 @@
 			</File>
 			<File
 				RelativePath="..\CCriticalSection.h">
+			</File>
+			<File
+				RelativePath="..\CDateTime.h">
 			</File>
 			<File
 				RelativePath="..\CDllFunctionsProvider.h">
@@ -395,7 +401,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputName).h&quot;"/>
 				</FileConfiguration>
@@ -404,7 +411,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputName).h&quot;"/>
 				</FileConfiguration>
@@ -413,7 +421,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputFileName)&quot;"/>
 				</FileConfiguration>
@@ -422,7 +431,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputFileName)&quot;"/>
 				</FileConfiguration>
@@ -434,7 +444,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputName).h&quot;"/>
 				</FileConfiguration>
@@ -443,7 +454,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputName).h&quot;"/>
 				</FileConfiguration>
@@ -452,7 +464,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputFileName)&quot;"/>
 				</FileConfiguration>
@@ -461,7 +474,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;"
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;..\Generated\ui_$(InputFileName).h&quot; &quot;$(InputPath)&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 						Outputs="&quot;..\Generated\ui_$(InputFileName)&quot;"/>
 				</FileConfiguration>

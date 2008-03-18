@@ -10,7 +10,7 @@
 #include "iser/CArchiveTag.h"
 
 #include "imath/TIMathFunction.h"
-#include "imath/CVector2d.h"
+#include "imath/TVector.h"
 
 
 namespace imath
@@ -22,13 +22,18 @@ namespace imath
 	This grid may be imagined as set of parallel layers for each dimension.
 	Number of this layers and their position can be individually controlled.
 */
-template <class Element, int Dimensions>
+template <class Element, int Dimensions, class Fulcrum = Element>
 class TFulcrumGridFunctionBase:
 			public istd::TChangesReductorWrap<iser::ISerializable>,
-			public TIMathFunction<imath::TVector<Dimensions>, Element>
+			public TIMathFunction<TVector<Dimensions>, Element>
 {
 public:
 	typedef istd::TChangesReductorWrap<iser::ISerializable> BaseClass;
+
+	typedef Element ElementType;
+	typedef Fulcrum FulcrumType;
+	typedef TVector<Dimensions> GridPosition;
+	typedef istd::TArray<Fulcrum, Dimensions> Fulcrums;
 
 	enum ChangeFlags
 	{
@@ -54,7 +59,7 @@ public:
 		Set number of fulcrum layers at specified dimension.
 		Please note, that this fulcrum velues will be not valid after this operation.
 	*/
-	void SetLayersCount(int dimension, int count);
+	virtual void SetLayersCount(int dimension, int count);
 
 	/**
 		Inserts single fulcrum layer.
@@ -72,22 +77,27 @@ public:
 		Please note, that layer are sorted by its position during update.
 		If you want to block update mechanism, use istd::TUpdateNotifier.
 	*/
-	void SetLayerPosition(int dimension, int layerIndex, double position);
+	virtual void SetLayerPosition(int dimension, int layerIndex, double position);
+
+	/**
+		Get position of node at specified grid index.
+	*/
+	GridPosition GetFulcrumPosition(const istd::TIndex<Dimensions>& index) const;
 
 	/**
 		Get value at specified index.
 	*/
-	const Element& GetValueAtIndex(const istd::TIndex<Dimensions>& index) const;
+	const Fulcrum& GetFulcrumAtIndex(const istd::TIndex<Dimensions>& index) const;
 
 	/**
 		Set single fulcrum point.
 	*/
-	void SetValueAtIndex(const istd::TIndex<Dimensions>& index, const Element& value);
+	virtual void SetFulcrumAtIndex(const istd::TIndex<Dimensions>& index, const Fulcrum& value);
 
 	/**
 		Remove fulcrums at spacified layer.
 	*/
-	void RemoveLayer(int dimension, int layerIndex);
+	virtual void RemoveLayer(int dimension, int layerIndex);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -110,12 +120,15 @@ protected:
 							or -1 if this value is smaller than first layer position.
 	*/
 	int FindIndex(int dimension, double value) const;
+	/**
+		Find indices of cuboid containing specified argument value.
+	*/
+	istd::TIndex<Dimensions> FindIndices(const GridPosition& argument) const;
 
 	// reimplemented (istd::IChangeable)
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
 private:
-	typedef istd::TArray<Element, Dimensions> Fulcrums;
 	Fulcrums m_fulcrums;
 
 	typedef ::std::vector<double> LayerPositions;
@@ -127,8 +140,8 @@ private:
 
 // inline methods
 
-template <class Element, int Dimensions>
-inline istd::TIndex<Dimensions> TFulcrumGridFunctionBase<Element, Dimensions>::GetGridSize() const
+template <class Element, int Dimensions, class Fulcrum>
+inline istd::TIndex<Dimensions> TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetGridSize() const
 {
 	return m_fulcrums.GetSizes();
 }
@@ -136,8 +149,8 @@ inline istd::TIndex<Dimensions> TFulcrumGridFunctionBase<Element, Dimensions>::G
 
 // static inline methods
 
-template <class Element, int Dimensions>
-inline int TFulcrumGridFunctionBase<Element, Dimensions>::GetDimensionsCount()
+template <class Element, int Dimensions, class Fulcrum>
+inline int TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetDimensionsCount()
 {
 	return Dimensions;
 }
@@ -145,8 +158,8 @@ inline int TFulcrumGridFunctionBase<Element, Dimensions>::GetDimensionsCount()
 
 // public methods
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::Reset()
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::Reset()
 {
 	m_fulcrums.Reset();
 
@@ -156,8 +169,8 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::Reset()
 }
 
 
-template <class Element, int Dimensions>
-int TFulcrumGridFunctionBase<Element, Dimensions>::GetLayersCount(int dimension) const
+template <class Element, int Dimensions, class Fulcrum>
+int TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetLayersCount(int dimension) const
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -166,8 +179,8 @@ int TFulcrumGridFunctionBase<Element, Dimensions>::GetLayersCount(int dimension)
 }
 
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::SetLayersCount(int dimension, int count)
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::SetLayersCount(int dimension, int count)
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -177,8 +190,8 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::SetLayersCount(int dimension
 }
 
 
-template <class Element, int Dimensions>
-int TFulcrumGridFunctionBase<Element, Dimensions>::InsertLayer(int dimension, double position)
+template <class Element, int Dimensions, class Fulcrum>
+int TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::InsertLayer(int dimension, double position)
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -221,7 +234,7 @@ int TFulcrumGridFunctionBase<Element, Dimensions>::InsertLayer(int dimension, do
 	for (		Fulcrums::Iterator destIter = m_fulcrums.Begin();
 				destIter != m_fulcrums.End();
 				++destIter){
-		TVector<Dimensions> sourceIndex = destIter;
+		GridPosition sourceIndex = destIter;
 		if ((destIter[dimension] >= layerIndex) && (sourceIndex[dimension] > 0)){
 			sourceIndex[dimension]--;
 
@@ -238,8 +251,8 @@ int TFulcrumGridFunctionBase<Element, Dimensions>::InsertLayer(int dimension, do
 }
 
 
-template <class Element, int Dimensions>
-double TFulcrumGridFunctionBase<Element, Dimensions>::GetLayerPosition(int dimension, int layerIndex) const
+template <class Element, int Dimensions, class Fulcrum>
+double TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetLayerPosition(int dimension, int layerIndex) const
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -253,8 +266,8 @@ double TFulcrumGridFunctionBase<Element, Dimensions>::GetLayerPosition(int dimen
 }
 
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::SetLayerPosition(int dimension, int layerIndex, double position)
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::SetLayerPosition(int dimension, int layerIndex, double position)
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -262,32 +275,51 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::SetLayerPosition(int dimensi
 	LayerPositions& positions = m_layersPositions[dimension];
 
 	I_ASSERT(layerIndex >= 0);
-	I_ASSERT(layerIndex < positions.size());
+	I_ASSERT(layerIndex < int(positions.size()));
 
-	istd::CChangeNotifier notifier(CF_SORT_LAYERS);
+	istd::CChangeNotifier notifier(this, CF_SORT_LAYERS);
 
 	positions[layerIndex] = position;
 }
 
 
-template <class Element, int Dimensions>
-typename const Element& TFulcrumGridFunctionBase<Element, Dimensions>::GetValueAtIndex(const istd::TIndex<Dimensions>& index) const
+template <class Element, int Dimensions, class Fulcrum>
+typename TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GridPosition
+			TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetFulcrumPosition(const istd::TIndex<Dimensions>& index) const
+{
+	GridPosition retVal;
+
+	for (int i = 0; i < Dimensions; ++i){
+		const LayerPositions& positions = m_layersPositions[i];
+
+		I_ASSERT(index[i] >= 0);
+		I_ASSERT(index[i] < int(positions.size()));
+
+		retVal[i] = positions[index[i]];
+	}
+
+	return retVal;
+}
+
+
+template <class Element, int Dimensions, class Fulcrum>
+typename const Fulcrum& TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::GetFulcrumAtIndex(const istd::TIndex<Dimensions>& index) const
 {
 	return m_fulcrums.GetAt(index);
 }
 
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::SetValueAtIndex(const istd::TIndex<Dimensions>& index, const Element& value)
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::SetFulcrumAtIndex(const istd::TIndex<Dimensions>& index, const Fulcrum& value)
 {
-	istd::CChangeNotifier notifier();
+	istd::CChangeNotifier notifier(this);
 
 	m_fulcrums.SetAt(index, value);
 }
 
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::RemoveLayer(int dimension, int layerIndex)
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::RemoveLayer(int dimension, int layerIndex)
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -304,7 +336,7 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::RemoveLayer(int dimension, i
 	for (		Fulcrums::Iterator destIter = m_fulcrums.Begin();
 				destIter != m_fulcrums.End();
 				++destIter){
-		TVector<Dimensions> sourceIndex = destIter;
+		GridPosition sourceIndex = destIter;
 		if (destIter[dimension] >= layerIndex){
 			sourceIndex[dimension]++;
 		}
@@ -316,8 +348,8 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::RemoveLayer(int dimension, i
 
 // reimplemented (iser::ISerializable)
 
-template <class Element, int Dimensions>
-bool TFulcrumGridFunctionBase<Element, Dimensions>::Serialize(iser::IArchive& archive)
+template <class Element, int Dimensions, class Fulcrum>
+bool TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
@@ -325,7 +357,7 @@ bool TFulcrumGridFunctionBase<Element, Dimensions>::Serialize(iser::IArchive& ar
 	iser::CArchiveTag positionsTag("Positions", "List of layer positions of fulcrum grid");
 	iser::CArchiveTag positionTag("Position", "Single layer position");
 	iser::CArchiveTag fulcrumsTag("Fulcrums", "List of fulcrums");
-	iser::CArchiveTag fulcrumTag("Fulcrum", "Single fulcrum");
+	iser::CArchiveTag fulcrumTag("Fulcrums", "Single fulcrum");
 
 	bool isStoring = archive.IsStoring();
 
@@ -378,7 +410,7 @@ bool TFulcrumGridFunctionBase<Element, Dimensions>::Serialize(iser::IArchive& ar
 	for (		Fulcrums::Iterator iter = m_fulcrums.Begin();
 				iter != m_fulcrums.End();
 				++iter){
-		Element& point = *iter;
+		Fulcrum& point = *iter;
 
 		retVal = retVal && archive.BeginTag(fulcrumTag);
 		retVal = retVal && point.Serialize(archive);
@@ -393,8 +425,8 @@ bool TFulcrumGridFunctionBase<Element, Dimensions>::Serialize(iser::IArchive& ar
 
 // protected methods
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::SortFulcrums()
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::SortFulcrums()
 {
 	for (int i = 0; i < Dimensions; ++i){
 		LayerPositions& positions = m_layersPositions[i];
@@ -404,8 +436,8 @@ void TFulcrumGridFunctionBase<Element, Dimensions>::SortFulcrums()
 }
 
 
-template <class Element, int Dimensions>
-int TFulcrumGridFunctionBase<Element, Dimensions>::FindIndex(int dimension, double value) const
+template <class Element, int Dimensions, class Fulcrum>
+int TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::FindIndex(int dimension, double value) const
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
@@ -430,10 +462,23 @@ int TFulcrumGridFunctionBase<Element, Dimensions>::FindIndex(int dimension, doub
 }
 
 
+template <class Element, int Dimensions, class Fulcrum>
+istd::TIndex<Dimensions> TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::FindIndices(const GridPosition& argument) const
+{
+	istd::TIndex<Dimensions> retVal;
+
+	for (int i = 0; i < Dimensions; ++i){
+		retVal[i] = FindIndex(i, argument[i]);
+	}
+
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
-template <class Element, int Dimensions>
-void TFulcrumGridFunctionBase<Element, Dimensions>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+template <class Element, int Dimensions, class Fulcrum>
+void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
 

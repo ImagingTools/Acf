@@ -37,7 +37,7 @@ TChangeDelegator<BaseClass>::TChangeDelegator()
 
 template <class BaseClass>
 TChangeDelegator<BaseClass>::TChangeDelegator(IChangeable* slavePtr)
-	:BaseClass2(slavePtr)
+:	BaseClass2(slavePtr)
 {
 }
 

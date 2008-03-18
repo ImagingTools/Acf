@@ -4,6 +4,7 @@
 
 #include "istd/TArray.h"
 
+#include "imath/TVector.h"
 #include "imath/TFulcrumGridFunctionBase.h"
 
 
@@ -15,7 +16,7 @@ namespace imath
 	Spline interpolation function using polynomial 3 degree segments.
 	To reduce number of coefficients only precalculated derrivative values for each fulcrum will be stored.
 */
-template <class Element, int Dimensions, int DerivativesCount = Dimensions>
+template <class Element, int Dimensions, class Fulcrum = Element, int DerivativesCount = Dimensions>
 class TSplineGridFunctionBase: public TFulcrumGridFunctionBase<Element, Dimensions>
 {
 public:
@@ -26,7 +27,7 @@ public:
 	virtual Element GetValueAt(const imath::TVector<Dimensions>& argument) const;
 
 protected:
-	typedef TVector<Element> Derivatives[DerivativesCount];
+	typedef imath::TVector<DerivativesCount, Element> Derivatives;
 	typedef istd::TArray<Derivatives, Dimensions> DerivativesGrid;
 
 	/**
@@ -83,33 +84,35 @@ private:
 };
 
 
-// inline methods
+// protected inline methods
 
-template <class Element, int Dimensions, int DerivativesCount>
-inline typename const TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::DerivativesGrid& TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetDerivativesGrid() const
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+inline typename const TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::DerivativesGrid&
+			TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetDerivativesGrid() const
 {
 	return m_derrivativesGrid;
 }
 
 
-template <class Element, int Dimensions, int DerivativesCount>
-inline typename TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::DerivativesGrid& TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetDerivativesGrid()
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+inline typename TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::DerivativesGrid&
+			TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetDerivativesGrid()
 {
 	return m_derrivativesGrid;
 }
 
 
-// static inline methods
+// static protected inline methods
 
-template <class Element, int Dimensions, int DerivativesCount>
-inline double TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetValueKernelAt(double alpha)
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+inline double TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetValueKernelAt(double alpha)
 {
 	return 2 * alpha * alpha * alpha - 3 * alpha * alpha + 1;
 }
 
 
-template <class Element, int Dimensions, int DerivativesCount>
-inline double TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetDerivativeKernelAt(double alpha)
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+inline double TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetDerivativeKernelAt(double alpha)
 {
 	return alpha * alpha * alpha - 2 * alpha * alpha + alpha;
 }
@@ -119,20 +122,19 @@ inline double TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::Ge
 
 // reimplemented (imath::TIMathFunction<imath::TVector<Dimensions>, Element>)
 
-template <class Element, int Dimensions, int DerivativesCount>
-bool TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument, Element& result) const
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+bool TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument, Element& result) const
 {
-	istd::TIndex<Dimensions> index;
-	for (int i = 0; i < Dimensions; ++i){
-		index[i] = FindIndex(i, argument[i]);
-	}
+	istd::TIndex<Dimensions> index = FindIndices(argument);
 
 	CalcRecursiveValueAt(argument, index, GetGridSize(), Dimensions - 1, result);
+
+	return true;
 }
 
 
-template <class Element, int Dimensions, int DerivativesCount>
-typename Element TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument) const
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+typename Element TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument) const
 {
 	ResultType retVal;
 
@@ -144,8 +146,8 @@ typename Element TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>:
 
 // protected methods
 
-template <class Element, int Dimensions, int DerivativesCount>
-void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursiveDerivativeAt(
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+void TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::CalcRecursiveDerivativeAt(
 			const TVector<Dimensions>& argument,
 			istd::TIndex<Dimensions>& index,
 			const istd::TIndex<Dimensions>& sizes,
@@ -199,8 +201,8 @@ void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursi
 }
 
 
-template <class Element, int Dimensions, int DerivativesCount>
-void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursiveValueAt(
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+void TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::CalcRecursiveValueAt(
 			const TVector<Dimensions>& argument,
 			istd::TIndex<Dimensions>& index,
 			const istd::TIndex<Dimensions>& sizes,
@@ -208,7 +210,7 @@ void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursi
 			Element& result) const
 {
 	if (dimension < 0){
-		result = GetValueAtIndex(index);
+		result = GetFulcrumAtIndex(index);
 
 		return;
 	}
@@ -277,8 +279,8 @@ void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::CalcRecursi
 
 // reimplemented (istd::IChangeable)
 
-template <class Element, int Dimensions, int DerivativesCount>
-void TSplineGridFunctionBase<Element, Dimensions, DerivativesCount>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
+void TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
 

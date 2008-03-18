@@ -121,15 +121,30 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\CDateTimeBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CSimpleDateTime.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
 			<File
+				RelativePath="..\CDateTimeBase.h">
+			</File>
+			<File
 				RelativePath="..\CSectionBlocker.h">
 			</File>
 			<File
+				RelativePath="..\CSimpleDateTime.h">
+			</File>
+			<File
 				RelativePath="..\ICriticalSection.h">
+			</File>
+			<File
+				RelativePath="..\IDateTime.h">
 			</File>
 			<File
 				RelativePath="..\IFileSystem.h">
