@@ -294,6 +294,9 @@
 				RelativePath="..\TArray.h">
 			</File>
 			<File
+				RelativePath="..\TCachedUpdateManagerWrap.h">
+			</File>
+			<File
 				RelativePath="..\TCascadedMap.h">
 			</File>
 			<File
@@ -304,9 +307,6 @@
 			</File>
 			<File
 				RelativePath="..\TChangeNotifier.h">
-			</File>
-			<File
-				RelativePath="..\TChangesReductorWrap.h">
 			</File>
 			<File
 				RelativePath="..\TComposedFactory.h">
@@ -331,6 +331,9 @@
 			</File>
 			<File
 				RelativePath="..\TSingleFactory.h">
+			</File>
+			<File
+				RelativePath="..\TUpdateManagerWrap.h">
 			</File>
 		</Filter>
 	</Files>

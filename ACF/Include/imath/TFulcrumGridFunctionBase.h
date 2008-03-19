@@ -4,7 +4,8 @@
 
 #include <algorithm>
 
-#include "istd/TChangesReductorWrap.h"
+#include "istd/TChangeNotifier.h"
+#include "istd/TCachedUpdateManagerWrap.h"
 
 #include "iser/ISerializable.h"
 #include "iser/CArchiveTag.h"
@@ -24,15 +25,16 @@ namespace imath
 */
 template <class Element, int Dimensions, class Fulcrum = Element>
 class TFulcrumGridFunctionBase:
-			public istd::TChangesReductorWrap<iser::ISerializable>,
+			public istd::TCachedUpdateManagerWrap<iser::ISerializable>,
 			public TIMathFunction<TVector<Dimensions>, Element>
 {
 public:
-	typedef istd::TChangesReductorWrap<iser::ISerializable> BaseClass;
+	typedef istd::TCachedUpdateManagerWrap<iser::ISerializable> BaseClass;
 
 	typedef Element ElementType;
 	typedef Fulcrum FulcrumType;
 	typedef TVector<Dimensions> GridPosition;
+	typedef istd::TIndex<Dimensions> GridIndex;
 	typedef istd::TArray<Fulcrum, Dimensions> Fulcrums;
 
 	enum ChangeFlags
@@ -125,8 +127,8 @@ protected:
 	*/
 	istd::TIndex<Dimensions> FindIndices(const GridPosition& argument) const;
 
-	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	// reimplemented (istd::TCachedUpdateManagerWrap)
+	virtual bool CalculateCache(int changeFlags);
 
 private:
 	Fulcrums m_fulcrums;
@@ -336,7 +338,7 @@ void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::RemoveLayer(int dim
 	for (		Fulcrums::Iterator destIter = m_fulcrums.Begin();
 				destIter != m_fulcrums.End();
 				++destIter){
-		GridPosition sourceIndex = destIter;
+		GridIndex sourceIndex = destIter;
 		if (destIter[dimension] >= layerIndex){
 			sourceIndex[dimension]++;
 		}
@@ -442,6 +444,8 @@ int TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::FindIndex(int dimens
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < Dimensions);
 
+	EnsureCacheValid();
+
 	const LayerPositions& positions = m_layersPositions[dimension];
 
 	int left = 0;
@@ -475,16 +479,18 @@ istd::TIndex<Dimensions> TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>:
 }
 
 
-// reimplemented (istd::IChangeable)
+// reimplemented (istd::TCachedUpdateManagerWrap)
 
 template <class Element, int Dimensions, class Fulcrum>
-void TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+bool TFulcrumGridFunctionBase<Element, Dimensions, Fulcrum>::CalculateCache(int changeFlags)
 {
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	bool retVal = BaseClass::CalculateCache(changeFlags);
 
 	if ((changeFlags & CF_SORT_LAYERS) != 0){
 		SortFulcrums();
 	}
+
+	return retVal;
 }
 
 

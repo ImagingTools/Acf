@@ -5,7 +5,7 @@
 #include "imod/imod.h"
 
 
-#include "istd/TChangesReductorWrap.h"
+#include "istd/TUpdateManagerWrap.h"
 
 #include "imod/CModelBase.h"
 
@@ -21,7 +21,7 @@ namespace imod
 	and a model.
 */
 template <class BaseClass>
-class TModelWrap: public istd::TChangesReductorWrap<BaseClass>, public imod::CModelBase
+class TModelWrap: public istd::TUpdateManagerWrap<BaseClass>, public imod::CModelBase
 {
 protected:
 	// pseudo-reimplemented (istd::IChangeable)

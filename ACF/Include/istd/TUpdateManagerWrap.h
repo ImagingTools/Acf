@@ -1,5 +1,5 @@
-#ifndef istd_TChangesReductorWrap_included
-#define istd_TChangesReductorWrap_included
+#ifndef istd_TUpdateManagerWrap_included
+#define istd_TUpdateManagerWrap_included
 
 
 namespace istd
@@ -14,12 +14,12 @@ class IPolymorphic;
 	If nested update is started, base class implementation of BeginChanges and EndChanges will be blocked.
 */
 template <class Base>
-class TChangesReductorWrap: virtual public Base
+class TUpdateManagerWrap: virtual public Base
 {
 public:
 	typedef Base BaseClass;
 
-	TChangesReductorWrap();
+	TUpdateManagerWrap();
 
 	// pseudo-reimplemented (istd::IChangeable)
 	virtual void BeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
@@ -34,7 +34,7 @@ private:
 // public methods
 
 template <class BaseClass>
-TChangesReductorWrap<BaseClass>::TChangesReductorWrap()
+TUpdateManagerWrap<BaseClass>::TUpdateManagerWrap()
 {
 	m_changeCounter = 0;
 }
@@ -43,7 +43,7 @@ TChangesReductorWrap<BaseClass>::TChangesReductorWrap()
 // pseudo-reimplemented (istd::IChangeable)
 
 template <class BaseClass>
-void TChangesReductorWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void TUpdateManagerWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	if (m_changeCounter++ == 0){
 		BaseClass::BeginChanges(changeFlags, changeParamsPtr);
@@ -56,7 +56,7 @@ void TChangesReductorWrap<BaseClass>::BeginChanges(int changeFlags, istd::IPolym
 
 
 template <class BaseClass>
-void TChangesReductorWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void TUpdateManagerWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	if (--m_changeCounter == 0){
 		m_cumulatedFlags |= changeFlags;
@@ -69,6 +69,6 @@ void TChangesReductorWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymor
 } // namespace istd
 
 
-#endif //!istd_TChangesReductorWrap_included
+#endif //!istd_TUpdateManagerWrap_included
 
 

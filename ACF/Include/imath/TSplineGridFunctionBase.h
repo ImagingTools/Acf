@@ -65,8 +65,8 @@ protected:
 	const DerivativesGrid& GetDerivativesGrid() const;
 	DerivativesGrid& GetDerivativesGrid();
 
-	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	// reimplemented (istd::TCachedUpdateManagerWrap)
+	virtual bool CalculateCache(int changeFlags);
 
 	// static methods
 	static double GetValueKernelAt(double alpha);
@@ -125,11 +125,16 @@ inline double TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesC
 template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
 bool TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::GetValueAt(const imath::TVector<Dimensions>& argument, Element& result) const
 {
-	istd::TIndex<Dimensions> index = FindIndices(argument);
+	if (EnsureCacheValid()){
+		istd::TIndex<Dimensions> index = FindIndices(argument);
 
-	CalcRecursiveValueAt(argument, index, GetGridSize(), Dimensions - 1, result);
+		CalcRecursiveValueAt(argument, index, GetGridSize(), Dimensions - 1, result);
 
-	return true;
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 
@@ -277,16 +282,18 @@ void TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::Ca
 }
 
 
-// reimplemented (istd::IChangeable)
+// reimplemented (istd::TCachedUpdateManagerWrap)
 
 template <class Element, int Dimensions, class Fulcrum, int DerivativesCount>
-void TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+bool TSplineGridFunctionBase<Element, Dimensions, Fulcrum, DerivativesCount>::CalculateCache(int changeFlags)
 {
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	bool retVal = BaseClass::CalculateCache(changeFlags);
 
 	m_derrivativesGrid.SetSizes(GetGridSize());
 
 	CalcDerivativesGrid(m_derrivativesGrid);
+
+	return retVal;
 }
 
 
