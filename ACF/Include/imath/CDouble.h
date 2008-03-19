@@ -6,6 +6,8 @@
 
 #include "iser/IArchive.h"
 
+#include "imath/TVector.h"
+
 
 namespace imath
 {
@@ -14,7 +16,7 @@ namespace imath
 /**
 	Simple wrapper of real value represented as double type.
 */
-class CDouble
+class CDouble: public imath::TVector<1>
 {
 public:
 	CDouble(double value = 0.0);
@@ -55,8 +57,6 @@ public:
 	*/
 	bool IsSimiliar(const CDouble& value, double tolerance = I_BIG_EPSILON) const;
 
-	bool Serialize(iser::IArchive& archive);
-
 	// operators
 	operator double() const;
 
@@ -87,131 +87,128 @@ public:
 	static double GetRoundedUp(double value, int precision = 2);
 	static bool IsRoundedUpEqual(double value1, double value2, int precision = 2);
 	static bool IsSimiliar(double value1, double value2, double tolerance = I_BIG_EPSILON);
-
-private:
-	double m_value;
 };
 
 
 // inline methods
 	
 inline CDouble::CDouble(double value)
-:	m_value(value)
 {
+	SetElement(0, value);
 }
 
 
 inline CDouble::operator double() const
 {
-	return m_value;
+	return GetElement(0);
 }
 
 
 inline CDouble CDouble::GetRounded(int precision) const
 {
-	return GetRounded(m_value, precision);
+	return GetRounded(GetElement(0), precision);
 }
 
 
 inline bool CDouble::IsRoundedEqual(const CDouble& value, int precision) const
 {
-	return IsRoundedEqual(m_value, value.m_value, precision);
+	return IsRoundedEqual(*this, value, precision);
 }
 
 
 inline CDouble CDouble::GetRoundedDown(int precision) const
 {
-	return GetRoundedDown(m_value, precision);
+	return GetRoundedDown(*this, precision);
 }
 
 
 inline bool CDouble::IsRoundedDownEqual(const CDouble& value, int precision) const
 {
-	return IsRoundedDownEqual(m_value, value.m_value, precision);
+	return IsRoundedDownEqual(*this, value, precision);
 }
 
 
 inline CDouble CDouble::GetRoundedUp(int precision) const
 {
-	return GetRoundedUp(m_value, precision);
+	return GetRoundedUp(*this, precision);
 }
 
 
 inline bool CDouble::IsRoundedUpEqual(const CDouble& value, int precision) const
 {
-	return IsRoundedUpEqual(m_value, value.m_value, precision);
+	return IsRoundedUpEqual(*this, value, precision);
 }
 
 
 inline bool CDouble::IsSimiliar(const CDouble& value, double tolerance) const
 {
-	return IsSimiliar(m_value, value, tolerance);
+	return IsSimiliar(*this, value, tolerance);
 }
 
 
 inline bool CDouble::operator==(const CDouble& value) const
 {
-	return m_value == value.m_value;
+	return GetElement(0) == value.GetElement(0);
 }
 
 
 inline bool CDouble::operator!=(const CDouble& value) const
 {
-	return m_value != value.m_value;
+	return GetElement(0) != value.GetElement(0);
 }
 
 
 inline bool CDouble::operator<(const CDouble& value) const
 {
-	return m_value < value.m_value;
+	return GetElement(0) < value.GetElement(0);
 }
 
 
 inline bool CDouble::operator>(const CDouble& value) const
 {
-	return m_value > value.m_value;
+	return GetElement(0) > value.GetElement(0);
 }
 
 
 inline bool CDouble::operator<=(const CDouble& value) const
 {
-	return m_value <= value.m_value;
+	return GetElement(0) <= value.GetElement(0);
 }
 
 
 inline bool CDouble::operator>=(const CDouble& value) const
 {
-	return m_value >= value.m_value;
+	return GetElement(0) >= value.GetElement(0);
 }
 
 
 inline CDouble CDouble::operator+(const CDouble& value) const
 {
-	return m_value + value.m_value;
+	return GetElement(0) + value.GetElement(0);
 }
 
 
 inline CDouble CDouble::operator-(const CDouble& value) const
 {
-	return m_value - value.m_value;
+	return GetElement(0) - value.GetElement(0);
 }
 
 
 inline CDouble CDouble::operator*(const CDouble& value) const
 {
-	return m_value * value.m_value;
+	return GetElement(0) * value.GetElement(0);
 }
 
 
 inline CDouble CDouble::operator/(const CDouble& value) const
 {
-	return m_value / value.m_value;
+	return GetElement(0) / value.GetElement(0);
 }
 
 
 inline const CDouble& CDouble::operator=(const CDouble& value)
 {
-	m_value = value.m_value;
+	operator[](0) = value.GetElement(0);
 
 	return *this;
 }
@@ -219,7 +216,7 @@ inline const CDouble& CDouble::operator=(const CDouble& value)
 
 inline const CDouble& CDouble::operator+=(const CDouble& value)
 {
-	m_value += value.m_value;
+	operator[](0) += value.GetElement(0);
 
 	return *this;
 }
@@ -227,7 +224,7 @@ inline const CDouble& CDouble::operator+=(const CDouble& value)
 
 inline const CDouble& CDouble::operator-=(const CDouble& value)
 {
-	m_value -= value.m_value;
+	operator[](0) -= value.GetElement(0);
 
 	return *this;
 }
@@ -235,7 +232,7 @@ inline const CDouble& CDouble::operator-=(const CDouble& value)
 
 inline const CDouble& CDouble::operator*=(const CDouble& value)
 {
-	m_value *= value.m_value;
+	operator[](0) *= value.GetElement(0);
 
 	return *this;
 }
@@ -243,7 +240,7 @@ inline const CDouble& CDouble::operator*=(const CDouble& value)
 
 inline const CDouble& CDouble::operator/=(const CDouble& value)
 {
-	m_value /= value.m_value;
+	operator[](0) /= value.GetElement(0);
 
 	return *this;
 }

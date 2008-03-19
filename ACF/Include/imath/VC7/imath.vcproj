@@ -127,9 +127,6 @@
 				RelativePath="..\CComplexDoubleManip.cpp">
 			</File>
 			<File
-				RelativePath="..\CDouble.cpp">
-			</File>
-			<File
 				RelativePath="..\CFixedPointManip.cpp">
 			</File>
 			<File
