@@ -139,7 +139,7 @@
 				RelativePath="..\IObject.h">
 			</File>
 			<File
-				RelativePath="..\TEnableableBase.h">
+				RelativePath="..\TEnableableWrap.h">
 			</File>
 			<File
 				RelativePath="..\THierarchicalBase.h">

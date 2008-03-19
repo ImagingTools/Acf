@@ -2,9 +2,6 @@
 #define istd_IEnableable_included
 
 
-#include "istd/istd.h"
-
-
 #include "istd/IChangeable.h"
 
 
@@ -15,16 +12,16 @@ namespace istd
 /**
 	Interface for objects which can be enabled/disabled.	
 */
-class IEnableable: virtual public istd::IChangeable
+class IEnableable: virtual public IChangeable
 {
 public:
 	/**
-		Returns a \c true, if something is enabled.
+		Return a \c true, if something is enabled.
 	*/
 	virtual bool IsEnabled() const = 0;
 
 	/**
-		Returns a \c true, if something can be enabled.
+		Return a \c true, if something can be enabled.
 	*/
 	virtual bool IsEnablingAllowed() const = 0;
 
@@ -40,4 +37,5 @@ public:
 
 
 #endif // istd_IEnableable_included
+
 

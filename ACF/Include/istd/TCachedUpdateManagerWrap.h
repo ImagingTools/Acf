@@ -25,7 +25,16 @@ public:
 	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
 
 protected:
+	/**
+		Ensures cache is valid.
+		If cache is not valid method CalculateCache will be called to update it.
+	*/
 	bool EnsureCacheValid() const;
+	/**
+		Make cache invalid.
+		This is automatically done when model/observer mechanism is used.
+	*/
+	void InvalidateCache(int changeFlags = 0);
 	/**
 		Calculate cache.
 		It will be called, if cache was not valid and EnsureCacheValid() is called.
@@ -56,6 +65,14 @@ inline bool TCachedUpdateManagerWrap<Base>::EnsureCacheValid() const
 
 
 template <class Base>
+void TCachedUpdateManagerWrap<Base>::InvalidateCache(int changeFlags)
+{
+	m_cumulatedFlags |= changeFlags;
+	m_isCacheValid = false;
+}
+
+
+template <class Base>
 inline bool TCachedUpdateManagerWrap<Base>::CalculateCache(int /*changeFlags*/)
 {
 	return true;
@@ -76,8 +93,7 @@ TCachedUpdateManagerWrap<Base>::TCachedUpdateManagerWrap()
 template <class Base>
 void TCachedUpdateManagerWrap<Base>::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	m_isCacheValid = false;
-	m_cumulatedFlags |= changeFlags;
+	InvalidateCache(changeFlags);
 
 	BaseClass::EndChanges(changeFlags, changeParamsPtr);
 }
