@@ -5,17 +5,16 @@
 #include "ibase/IMessage.h"
 
 #include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
 
-#include "imod/TMultiModelObserverBase.h"
+#include "istd/TPointerVector.h"
 
 
 namespace ibase
 {		
 
 template <class BaseClass>
-class TMessageManagerBase:	public imod::TMultiModelObserverBase<ibase::IMessage>,
-							public BaseClass
-
+class TMessageManagerBase:	public BaseClass
 {
 public:
 	TMessageManagerBase();
@@ -23,7 +22,7 @@ public:
 
 	// pseudo-reimplemented (ibase::IMessageManager)
 	virtual int GetWorstCategory() const;
-	virtual int GetMessageCount(int messageCategory) const;
+	virtual int GetMessageCount(int messageCategory = -1) const;
 	virtual const ibase::IMessage* GetMessageFrom(int index, int messageCategory = -1) const;
 	virtual void AddMessage(ibase::IMessage* message);
 	virtual void ClearMessages();
@@ -34,6 +33,7 @@ public:
 protected:
 	int m_maxCategory;
 
+	istd::TPointerVector<ibase::IMessage> m_messages;
 };
 
 
@@ -64,8 +64,8 @@ template <class BaseClass>
 int TMessageManagerBase<BaseClass>::GetMessageCount(int messageCategory) const
 {
 	int count = 0;
-	for (int index = 0; index < GetModelCount(); index++){
-		IMessage* messagePtr = GetObjectPtr(index);
+	for (int index = 0; index < m_messages.GetCount(); index++){
+		const IMessage* messagePtr = m_messages.GetAt(index);
 		I_ASSERT(messagePtr != NULL);
 
 		if (messageCategory == messagePtr->GetCategory()){
@@ -81,8 +81,8 @@ template <class BaseClass>
 const ibase::IMessage* TMessageManagerBase<BaseClass>::GetMessageFrom(int index, int messageCategory) const
 {
 	int count = 0;
-	for (int messageIndex = 0; messageIndex < GetModelCount(); messageIndex++){
-		IMessage* messagePtr = GetObjectPtr(messageIndex);
+	for (int messageIndex = 0; messageIndex < m_messages.GetCount(); messageIndex++){
+		const IMessage* messagePtr = m_messages.GetAt(messageIndex);
 		I_ASSERT(messagePtr != NULL);
 
 		if (messageCategory == messagePtr->GetCategory()){
@@ -103,19 +103,10 @@ void TMessageManagerBase<BaseClass>::AddMessage(ibase::IMessage* messagePtr)
 {
 	I_ASSERT(messagePtr != NULL);
 
-	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(messagePtr);
-	I_ASSERT(modelPtr != NULL);
+	m_messages.PushBack(messagePtr);
 
-	if (modelPtr != NULL){
-		modelPtr->DetachAllObservers();
-
-		if (modelPtr != NULL){
-			if (modelPtr->AttachObserver(this)){
-				if (messagePtr->GetCategory() > m_maxCategory){
-					m_maxCategory = messagePtr->GetCategory() & ~ibase::IMessage::Debug;
-				}
-			}
-		}
+	if (messagePtr->GetCategory() > m_maxCategory){
+		m_maxCategory = messagePtr->GetCategory() & ~ibase::IMessage::Debug;
 	}
 }
 
@@ -123,18 +114,7 @@ void TMessageManagerBase<BaseClass>::AddMessage(ibase::IMessage* messagePtr)
 template <class BaseClass>
 void TMessageManagerBase<BaseClass>::ClearMessages()
 {
-	while(int modelCount = GetModelCount()){
-		for (int messageIndex = 0; messageIndex < modelCount; messageIndex++){
-			imod::IModel* modelPtr = GetModelPtr(messageIndex);
-			if (modelPtr != NULL){
-				modelPtr->DetachObserver(this);
-
-				delete modelPtr;
-
-				break;
-			}
-		}
-	}
+	m_messages.Reset();
 
 	m_maxCategory = 0;
 }
@@ -145,7 +125,32 @@ void TMessageManagerBase<BaseClass>::ClearMessages()
 template <class BaseClass>
 bool TMessageManagerBase<BaseClass>::Serialize(iser::IArchive& archive)
 {
-	return true;
+	if (!archive.IsStoring()){
+		return false;
+	}
+
+	bool retVal = true;
+
+	int messageCount = GetMessageCount();
+
+	static iser::CArchiveTag messagesTag("Messages", "List of messages");
+	static iser::CArchiveTag messageTag("Message", "Message");
+
+	retVal = retVal && archive.BeginMultiTag(messagesTag, messageTag, messageCount);
+
+	if (!retVal){
+		return false;
+	}
+
+    for (int i = 0; i < messageCount; ++i){
+		retVal = retVal && archive.BeginTag(messageTag);
+		retVal = retVal && m_messages.GetAt(i)->Serialize(archive);
+		retVal = retVal && archive.EndTag(messageTag);
+	}
+
+	retVal = retVal && archive.EndTag(messagesTag);
+
+	return retVal;
 }
 
 
@@ -153,3 +158,4 @@ bool TMessageManagerBase<BaseClass>::Serialize(iser::IArchive& archive)
 
 
 #endif // !ibase_TMessageManagerBase_included
+

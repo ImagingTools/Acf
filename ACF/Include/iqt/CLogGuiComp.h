@@ -12,6 +12,8 @@
 #include "ibase/IMessageManager.h"
 #include "ibase/TMessageManagerBase.h"
 
+#include "imod/TMultiModelObserverBase.h"
+
 
 #ifdef OLD_ACF_SUPPORT
 
@@ -50,19 +52,16 @@ public:
 	virtual void AddMessage(ibase::IMessage* messagePtr);
 
 protected:
-	// reimplemented (imod::TMultiModelObserverBase)
-	void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 	// reimplemented (QtAbstractGuiComponent)
 	virtual void initializeGui();
 
 protected slots:
-	void UpdateLog();
+	void OnAddMessage(ibase::IMessage* messagePtr);
 	void OnClear();
 	void OnExport();
 
 signals:
-	void EmitUpdate();
+	void EmitAddMessage(ibase::IMessage* messagePtr);
 
 private:
 	QMutex m_lock;

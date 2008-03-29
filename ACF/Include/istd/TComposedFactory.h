@@ -72,7 +72,7 @@ typename TComposedFactory<InterfaceType>::KeyList TComposedFactory<InterfaceType
 
 		KeyList factoryKeys = factoryPtr->GetFactoryKeys();
 
-		retVal.insert(factoryKeys.begin(), factoryKeys.end());
+		retVal.insert(retVal.end(), factoryKeys.begin(), factoryKeys.end());
 	}
 
 	return retVal;

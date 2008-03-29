@@ -26,14 +26,13 @@ void CLogGuiComp::initializeGui()
 {
 	BaseClass::initializeGui();
 
-	connect(this, SIGNAL(EmitUpdate()), this, SLOT(UpdateLog()), Qt::QueuedConnection);
+	connect(this, SIGNAL(EmitAddMessage(ibase::IMessage*)), this, SLOT(OnAddMessage(ibase::IMessage*)), Qt::QueuedConnection);
 	connect(ClearButton, SIGNAL(clicked()), this, SLOT(OnClear()));
 	connect(ExportButton, SIGNAL(clicked()), this, SLOT(OnExport()));
 
 	LogView->header()->setResizeMode(QHeaderView::Stretch);
 	LogView->header()->hide();
 }
-
 
 
 // reimplemented (ibase::IMessageManager)
@@ -48,43 +47,26 @@ void CLogGuiComp::AddMessage(ibase::IMessage* messagePtr)
 	
 	m_lock.unlock();
 
-	emit EmitUpdate();
-}
-
-
-// protected methods
-
-// reimplemented (imod::TMultiModelObserverBase)
-
-void CLogGuiComp::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-
+	emit EmitAddMessage(messagePtr);
 }
 
 
 // protected slots
 
-void CLogGuiComp::UpdateLog()
+void CLogGuiComp::OnAddMessage(ibase::IMessage* messagePtr)
 {	
 	m_lock.lock();
-	int rows = LogView->topLevelItemCount();
-	int objects = GetModelCount();
-	
-	for (int index = rows; index < objects; index++){
-		ibase::IMessage* messagePtr = GetObjectPtr(index);
-		I_ASSERT(messagePtr != NULL);
 
-		QTreeWidgetItem* logItemPtr = new QTreeWidgetItem();
+	QTreeWidgetItem* messageItemPtr = new QTreeWidgetItem();
 
-		QDateTime dateTime;
-		dateTime.fromTime_t(messagePtr->GetTimeStamp().ToCTime());
+	QDateTime dateTime;
+	dateTime.fromTime_t(messagePtr->GetTimeStamp().ToCTime());
 
-		logItemPtr->setText(TimeColumn, dateTime.toString());
-		logItemPtr->setText(TextColumn, iqt::GetQString(messagePtr->GetText()));
-		logItemPtr->setText(SourceColumn, iqt::GetQString(messagePtr->GetSource()));
+	messageItemPtr->setText(TimeColumn, dateTime.toString());
+	messageItemPtr->setText(TextColumn, iqt::GetQString(messagePtr->GetText()));
+	messageItemPtr->setText(SourceColumn, iqt::GetQString(messagePtr->GetSource()));
 
-		LogView->addTopLevelItem(logItemPtr);
-	}
+	LogView->addTopLevelItem(messageItemPtr);
 
 	m_lock.unlock();
 }
@@ -104,7 +86,6 @@ void CLogGuiComp::OnClear()
 
 void CLogGuiComp::OnExport()
 {
-
 }
 
 

@@ -50,7 +50,7 @@ typename TIFactory<InterfaceType>::KeyList TSingleFactory<InterfaceType, Impleme
 {
 	KeyList retVal;
 
-	retVal.insert(m_keyId);
+	retVal.push_back(m_keyId);
 
 	return retVal;
 }

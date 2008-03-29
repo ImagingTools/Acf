@@ -73,7 +73,6 @@ istd::CString CMessage::GetSource() const
 
 bool CMessage::Serialize(iser::IArchive& archive)
 {
-
 	return true;
 }
 
