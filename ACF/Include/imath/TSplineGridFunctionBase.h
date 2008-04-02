@@ -27,7 +27,7 @@ class TSplineGridFunctionBase: public TFulcrumGridFunctionBase<Argument, Result,
 public:
 	typedef TFulcrumGridFunctionBase<Argument, Result, Fulcrums> BaseClass;
 
-	typedef Degree DerivativeDegree;
+	typedef Degree DerivativeDegreeType;
 
 	// reimplemented (imath::TIMathFunction<Argument, Result>)
 	virtual bool GetValueAt(const Argument& argument, Result& result) const;
@@ -52,7 +52,7 @@ protected:
 				int dimension,
 				const FulcrumSizes& sizes,
 				FulcrumIndex& index,
-				DerivativeDegree& degree,
+				DerivativeDegreeType& degree,
 				Result& result) const;
 
 	// static methods
@@ -65,12 +65,12 @@ protected:
 	*/
 	virtual const ResultType& GetFulcrumDerivativeAtIndex(
 				const FulcrumIndex& index,
-				const DerivativeDegree& degree) const = 0;
+				const DerivativeDegreeType& degree) const = 0;
 
 	/**
 		Check, if this or higher degree derrivatives are supported.
 	*/
-	virtual bool IsDerivativeDegreeSupported(const DerivativeDegree& degree) const = 0;
+	virtual bool IsDerivativeDegreeSupported(const DerivativeDegreeType& degree) const = 0;
 };
 
 
@@ -132,7 +132,7 @@ void TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::CalcRecursiveV
 			int dimension,
 			const FulcrumSizes& sizes,
 			FulcrumIndex& index,
-			DerivativeDegree& derivativeDegree,
+			DerivativeDegreeType& derivativeDegree,
 			Result& result) const
 {
 	I_ASSERT(dimension < GetDimensionsCount());
