@@ -151,6 +151,10 @@ public:
 
 	bool operator==(const TVarVector<Element>& vector) const;
 	bool operator!=(const TVarVector<Element>& vector) const;
+	bool operator<(const TVarVector<Element>& vector) const;
+	bool operator>(const TVarVector<Element>& vector) const;
+	bool operator<=(const TVarVector<Element>& vector) const;
+	bool operator>=(const TVarVector<Element>& vector) const;
 
 	TVarVector<Element> operator-() const;
 
@@ -334,24 +338,42 @@ inline Element TVarVector<Element>::GetDistance(const TVarVector<Element>& vecto
 template <class Element>
 inline bool TVarVector<Element>::operator==(const TVarVector<Element>& vector) const
 {
-	if (GetElementsCount() != vector.GetElementsCount()){
-		return false;
-	}
-
-	int elementsCount = GetElementsCount();
-	for (int i = 0; i < elementsCount; ++i){
-		if (m_elements[i] != vector.m_elements[i]){
-			return false;
-		}
-	}
-	return true;
+	return m_elements == vector.m_elements;
 }
 
 
 template <class Element>
 inline bool TVarVector<Element>::operator!=(const TVarVector<Element>& vector) const
 {
-	return !operator==(vector);
+	return m_elements != vector.m_elements;
+}
+
+
+template <class Element>
+bool TVarVector<Element>::operator<(const TVarVector<Element>& vector) const
+{
+	return m_elements < vector.m_elements;
+}
+
+
+template <class Element>
+bool TVarVector<Element>::operator>(const TVarVector<Element>& vector) const
+{
+	return m_elements > vector.m_elements;
+}
+
+
+template <class Element>
+bool TVarVector<Element>::operator<=(const TVarVector<Element>& vector) const
+{
+	return m_elements <= vector.m_elements;
+}
+
+
+template <class Element>
+bool TVarVector<Element>::operator>=(const TVarVector<Element>& vector) const
+{
+	return m_elements >= vector.m_elements;
 }
 
 
