@@ -9,20 +9,7 @@ namespace iqt
 {
 
 
-void CLogGuiComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
-	connect(this, SIGNAL(EmitAddMessage(ibase::IMessage*)), this, SLOT(OnAddMessage(ibase::IMessage*)), Qt::QueuedConnection);
-	connect(ClearButton, SIGNAL(clicked()), this, SLOT(OnClear()));
-	connect(ExportButton, SIGNAL(clicked()), this, SLOT(OnExport()));
-
-	LogView->header()->setResizeMode(QHeaderView::Stretch);
-	LogView->header()->hide();
-
-	ExportButton->setEnabled(m_fileSerializerCompPtr.IsValid());
-}
-
+// public methods
 
 // reimplemented (ibase::IMessageManager)
 
@@ -37,6 +24,25 @@ void CLogGuiComp::AddMessage(ibase::IMessage* messagePtr)
 	m_lock.unlock();
 
 	emit EmitAddMessage(messagePtr);
+}
+
+
+// protected methods
+	
+// reimplemented (CGuiComponentBase)
+
+void CLogGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	connect(this, SIGNAL(EmitAddMessage(ibase::IMessage*)), this, SLOT(OnAddMessage(ibase::IMessage*)), Qt::QueuedConnection);
+	connect(ClearButton, SIGNAL(clicked()), this, SLOT(OnClear()));
+	connect(ExportButton, SIGNAL(clicked()), this, SLOT(OnExport()));
+
+	LogView->header()->setResizeMode(QHeaderView::Stretch);
+	LogView->header()->hide();
+
+	ExportButton->setEnabled(m_fileSerializerCompPtr.IsValid());
 }
 
 

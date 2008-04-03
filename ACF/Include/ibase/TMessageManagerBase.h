@@ -2,12 +2,13 @@
 #define ibase_TMessageManagerBase_included
 
 
-#include "ibase/IMessage.h"
+#include "istd/TPointerVector.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
-#include "istd/TPointerVector.h"
+#include "ibase/IMessage.h"
+#include "ibase/IMessageManager.h"
 
 
 namespace ibase
@@ -168,6 +169,10 @@ int TMessageManagerBase<BaseClass>::SubstractMask(int category)
 
 	return category;
 }
+
+
+
+typedef ibase::TMessageManagerBase<ibase::IMessageManager> CMessageManager;
 
 
 } // namespace ibase

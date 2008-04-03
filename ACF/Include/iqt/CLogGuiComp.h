@@ -23,13 +23,13 @@ namespace iqt
 
 class CLogGuiComp:
 	public iqt::TDesignerGuiComponentBase<Ui::CLogGuiComp>,
-	public ibase::TMessageManagerBase<ibase::IMessageManager>
+	public ibase::CMessageManager
 {
 	Q_OBJECT
 
 public:
 	typedef iqt::TDesignerGuiComponentBase<Ui::CLogGuiComp> BaseClass;
-	typedef ibase::TMessageManagerBase<ibase::IMessageManager> BaseClass2;
+	typedef ibase::CMessageManager BaseClass2;
 
 	enum
 	{

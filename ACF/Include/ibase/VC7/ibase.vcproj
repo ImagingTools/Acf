@@ -151,7 +151,13 @@
 				RelativePath="..\IObject.h">
 			</File>
 			<File
+				RelativePath="..\TContainer.h">
+			</File>
+			<File
 				RelativePath="..\TEnableableWrap.h">
+			</File>
+			<File
+				RelativePath="..\TFactorisableContainer.h">
 			</File>
 			<File
 				RelativePath="..\THierarchicalBase.h">
@@ -161,6 +167,9 @@
 			</File>
 			<File
 				RelativePath="..\TNamedBase.h">
+			</File>
+			<File
+				RelativePath="..\TSerializableContainer.h">
 			</File>
 		</Filter>
 	</Files>

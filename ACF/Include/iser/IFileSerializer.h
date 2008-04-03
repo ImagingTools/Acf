@@ -4,6 +4,8 @@
 
 #include "istd/IPolymorphic.h"
 
+#include "istd/CString.h"
+
 
 namespace iser
 {
@@ -34,11 +36,23 @@ public:
 		\returns serialization state. \sa SerializationState
 	*/
 	virtual int SaveToFile(ISerializable& data, const istd::CString& fileName) const = 0;
-};
+	
+	/**
+		Returns the last saved file name.
+		\returns serialization state. \sa SerializationState
+	*/
+	virtual const istd::CString& GetLastSaveFileName() const = 0;
 
+	/**
+		Returns the last opened file name.
+		\returns serialization state. \sa SerializationState
+	*/
+	virtual const istd::CString& GetLastOpenFileName() const = 0;
+};
 
 
 } // namespace iser
 
 
 #endif // iser_IFileSerializer_included
+

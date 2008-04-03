@@ -29,7 +29,8 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				CompileAs="0"
+				DisableSpecificWarnings="4250"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -80,7 +81,8 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+				DisableSpecificWarnings="4250"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -119,10 +121,55 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			<File
+				RelativePath="..\CHierarchicalOperator.cpp">
+			</File>
+			<File
+				RelativePath="..\CJob.cpp">
+			</File>
+			<File
+				RelativePath="..\COperatorBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CProcessingControllerBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CProcessingElementBase.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="*.h, *.hpp">
+			<File
+				RelativePath="..\CHierarchicalOperator.h">
+			</File>
+			<File
+				RelativePath="..\CJob.h">
+			</File>
+			<File
+				RelativePath="..\COperatorBase.h">
+			</File>
+			<File
+				RelativePath="..\CProcessingControllerBase.h">
+			</File>
+			<File
+				RelativePath="..\CProcessingElementBase.h">
+			</File>
+			<File
+				RelativePath="..\IJob.h">
+			</File>
+			<File
+				RelativePath="..\IOperator.h">
+			</File>
+			<File
+				RelativePath="..\IOperatorManager.h">
+			</File>
+			<File
+				RelativePath="..\IProcessingController.h">
+			</File>
+			<File
+				RelativePath="..\IProcessingEventHandler.h">
+			</File>
 			<File
 				RelativePath="..\IProgressEventHandler.h">
 			</File>
