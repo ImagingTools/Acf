@@ -15,6 +15,32 @@ namespace istd
 {
 
 
+// define own min function to avoid conflicts between STL and M$ macros
+template <typename T>
+inline typename const T& Min(const T& value1, const T& value2)
+{
+	if (value1 < value2){
+		return value1;
+	}
+	else{
+		return value2;
+	}
+}
+
+
+// define own max function to avoid conflicts between STL and M$ macros
+template <typename T>
+inline typename const T& Max(const T& value1, const T& value2)
+{
+	if (value1 > value2){
+		return value1;
+	}
+	else{
+		return value2;
+	}
+}
+
+
 class CGroupRegistrator
 {
 public:

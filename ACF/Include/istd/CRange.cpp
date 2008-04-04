@@ -1,9 +1,6 @@
 #include "istd\CRange.h"
 
 
-#include <algorithm>
-
-
 namespace istd
 {
 
@@ -57,13 +54,13 @@ bool CRange::IsRangeInside(const CRange& range) const
 
 CRange CRange::GetIntersection(const CRange& otherRange) const
 {
-	return CRange(std::max(GetMinValue(), otherRange.GetMinValue()), std::min(GetMaxValue(), otherRange.GetMaxValue()));
+	return CRange(istd::Max(GetMinValue(), otherRange.GetMinValue()), istd::Min(GetMaxValue(), otherRange.GetMaxValue()));
 }
 
 
 CRange CRange::GetUnion(const CRange& otherRange) const
 {
-	return CRange(std::min(GetMinValue(), otherRange.GetMinValue()), std::max(GetMaxValue(), otherRange.GetMaxValue()));
+	return CRange(istd::Min(GetMinValue(), otherRange.GetMinValue()), istd::Max(GetMaxValue(), otherRange.GetMaxValue()));
 }
 
 

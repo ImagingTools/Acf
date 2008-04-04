@@ -1,6 +1,3 @@
-#include <algorithm>
-
-
 #include "iproc/CHierarchicalOperator.h"
 
 

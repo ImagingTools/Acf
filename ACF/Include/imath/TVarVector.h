@@ -2,7 +2,7 @@
 #define imath_TVarVector_included
 
 
-#include <cmath>
+#include <vector>
 
 #include "iser/IArchive.h"
 
@@ -549,7 +549,7 @@ template <class Element>
 void TVarVector<Element>::SetElementsFrom(const TVarVector& vector, const Element& expansionValue)
 {
 	int elementsCount = GetElementsCount();
-	int minElements = std::min(elementsCount, vector.GetElementsCount());
+	int minElements = istd::Min(elementsCount, vector.GetElementsCount());
 
 	for (int i = 0; i < minElements; ++i){
 		SetElement(i, vector[i]);
