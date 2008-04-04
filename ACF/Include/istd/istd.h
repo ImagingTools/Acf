@@ -65,6 +65,14 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #ifdef _DEBUG
 
 
+/**
+	Automatic generation of variable names. AUTO_VARNAME2 and AUTO_VARNAME3 are helpers and are not for directly use!
+*/
+#define AUTO_VARNAME(var) AUTO_VARNAME2(var, __LINE__)
+#define AUTO_VARNAME2(var, LINE_NUMBER) AUTO_VARNAME3(var, LINE_NUMBER)
+#define AUTO_VARNAME3(var, LINE_NUMBER) var##LINE_NUMBER
+
+
 #define I_IF_DEBUG(instructions) instructions
 #define I_ASSERT(condition) if (!(condition)){::istd::OnSoftwareError(__FILE__, __LINE__);}
 #define I_CRITICAL() istd::OnSoftwareError(__FILE__, __LINE__)
