@@ -144,9 +144,6 @@
 				RelativePath="..\CPackageStaticInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\CReferenceAttribute.cpp">
-			</File>
-			<File
 				RelativePath="..\CRegistry.cpp">
 			</File>
 			<File
@@ -154,6 +151,9 @@
 			</File>
 			<File
 				RelativePath="..\CXmlRegistriesManager.cpp">
+			</File>
+			<File
+				RelativePath="..\TMultiReferencePtr.h">
 			</File>
 		</Filter>
 		<Filter
@@ -173,6 +173,9 @@
 			</File>
 			<File
 				RelativePath="..\CFileRegistriesManagerBase.h">
+			</File>
+			<File
+				RelativePath="..\CMultiReferenceAttribute.h">
 			</File>
 			<File
 				RelativePath="..\CPackageStaticInfo.h">
@@ -230,6 +233,12 @@
 			</File>
 			<File
 				RelativePath="..\TInterfaceRegistrator.h">
+			</File>
+			<File
+				RelativePath="..\TMultiAttribute.h">
+			</File>
+			<File
+				RelativePath="..\TMultiAttributePtr.h">
 			</File>
 			<File
 				RelativePath="..\TReferencePtr.h">

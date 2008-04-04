@@ -22,8 +22,8 @@ QIcon CIconProviderComp::GetIcon(int iconIndex) const
 	I_ASSERT(iconIndex < m_iconFilesAttrPtr.GetCount());
 	I_ASSERT(iconIndex >= 0);
 
-	if (index >= 0 && index < m_iconFilesAttrPtr.GetCount()){
-		return QIcon(iqt::GetQString(m_iconPathAttrPtr.GetValue() + istd::CString("/") + m_iconFilesAttrPtr.GetValue(index)));
+	if (iconIndex >= 0 && iconIndex < m_iconFilesAttrPtr.GetCount()){
+		return QIcon(iqt::GetQString(istd::CString(*m_iconPathAttrPtr) + istd::CString("/") + istd::CString(m_iconFilesAttrPtr[iconIndex])));
 	}
 
 	return emptyIcon;
@@ -31,3 +31,5 @@ QIcon CIconProviderComp::GetIcon(int iconIndex) const
 
 
 } // namespace iqt
+
+

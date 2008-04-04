@@ -80,65 +80,66 @@ void CString::Reset()
 }
 
 	
-bool CString::operator == (const CString& other) const
+bool CString::operator==(const CString& str) const
 {
 	const std::wstring& thisRef = *this;
 
-	return thisRef == (static_cast<const std::wstring&>(other));
+	return thisRef == (static_cast<const std::wstring&>(str));
 }
 
 
-bool CString::operator == (const char * s) const
+bool CString::operator==(const char* str) const
 {
-	CString ss(s);
-	return *this == ss;
+	return *this == CString(str);
 }
 
 
-bool CString::operator == (const wchar_t *s) const
+bool CString::operator==(const wchar_t* str) const
 {
-	CString ss(s);
-	return *this == ss;
+	return *this == CString(str);
 }
 
 
-bool CString::operator == (const std::string& s) const
+bool CString::operator==(const std::string& str) const
 {
-	CString ss(s);
-	return *this == ss;
+	return *this == CString(str);
 }
 
 
-bool CString::operator != (const char* s) const
+bool CString::operator!=(const char* str) const
 {
-	return !operator ==(s);
+	return *this != CString(str);
 }
 
 
-bool CString::operator != (const wchar_t* s) const
+bool CString::operator!=(const wchar_t* str) const
 {
-	return !operator ==(s);
+	return *this != CString(str);
 }
 
 
-bool CString::operator != (const CString& s) const
+bool CString::operator!=(const CString& str) const
 {
-	return !operator ==(s);
+	return static_cast<const BaseClass&>(*this) != str;
 }
 
 
-bool CString::operator != (const std::string& s) const
+bool CString::operator!=(const std::string& str) const
 {
-	return !operator ==(s);
+	return *this != CString(str);
 }
 
 
 
-CString& CString::operator = (const char* s)
+CString CString::operator+(const CString& str) const
 {
-	CString ss(s);
+	return CString(static_cast<const BaseClass&>(*this) + str);
+}
 
-	Copy(ss);
+
+CString& CString::operator=(const char* str)
+{
+	Copy(CString(str));
 
 	m_isModified = true;
 
@@ -146,11 +147,9 @@ CString& CString::operator = (const char* s)
 }
 
 
-CString& CString::operator = (const wchar_t* s)
+CString& CString::operator=(const wchar_t* str)
 {
-	CString ss(s);
-	
-	Copy(ss);
+	Copy(CString(str));
 
 	m_isModified = true;
 
@@ -158,9 +157,9 @@ CString& CString::operator = (const wchar_t* s)
 }
 
 
-CString& CString::operator = (const CString& s)
+CString& CString::operator=(const CString& str)
 {
-	Copy(s);
+	Copy(str);
 
 	m_isModified = true;
 
@@ -168,11 +167,9 @@ CString& CString::operator = (const CString& s)
 }
 
 
-CString& CString::operator = (const std::string& s)
+CString& CString::operator=(const std::string& str)
 {
-	CString ss(s);
-	
-	Copy(ss);
+	Copy(CString(str));
 
 	m_isModified = true;
 
@@ -180,9 +177,13 @@ CString& CString::operator = (const std::string& s)
 }
 
 
-bool CString::IsEmpty() const
+CString& CString::operator+=(const CString& str)
 {
-	return empty();
+	BaseClass::operator+=(str);
+
+	m_isModified = true;
+
+	return *this;
 }
 
 

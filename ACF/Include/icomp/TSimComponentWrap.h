@@ -72,10 +72,17 @@ public:
 	template <class Attribute>
 	bool SetSingleAttr(const std::string& attributeId, const Attribute& attribute)
 	{
-		return SetAttr(attributeId, new TSingleAttribute<Attribute>(attribute));
+		I_ASSERT(IsAttributeTypeCorrect(attributeId, typeid(TSingleAttribute< Attribute >)));
+
+		return SetAttr(attributeId, new TSingleAttribute< Attribute >(attribute));
 	}
 
 protected:
+	/**
+		Check if attribute type is corrected.
+	*/
+	bool IsAttributeTypeCorrect(const std::string& attributeId, const type_info& attributeType);
+
 	// reimplemeted (icomp::IComponentContext)
 	virtual const IRegistryElement& GetRegistryElement() const;
 	virtual const IComponentContext* GetParentContext() const;
@@ -169,6 +176,21 @@ void TSimComponentWrap<Base>::SetStringAttr(const std::string& attributeId, cons
 
 
 // protected methods
+
+template <class Base>
+bool TSimComponentWrap<Base>::IsAttributeTypeCorrect(const std::string& attributeId, const type_info& attributeType)
+{
+	const IComponentStaticInfo& componentInfo = InitStaticInfo(NULL);
+	const IComponentStaticInfo::AttributeInfos& attrInfos = componentInfo.GetAttributeInfos();
+	const IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr = attrInfos.FindElement(attributeId);
+
+	if ((attrInfoPtr != NULL) && (*attrInfoPtr != NULL)){
+		return std::string((*attrInfoPtr)->GetAttributeType().name()) == attributeType.name();
+	}
+
+	return false;
+}
+
 
 // reimplemeted (icomp::IComponentContext)
 

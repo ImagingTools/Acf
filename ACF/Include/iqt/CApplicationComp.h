@@ -22,9 +22,9 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	I_BEGIN_COMPONENT(CApplicationComp)
 		I_REGISTER_INTERFACE(ibase::IApplication)
-		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", "MainGui", true)
-		I_ASSIGN(m_splashScreenCompPtr, "SplashScreen", "Splash screen shown before application is launched", "SplashScreen", false)
-		I_ASSIGN(m_splashTimeAttrPtr, "SplashTime", "Minimal time splash screen will be shown", 2, true)
+		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", true, "MainGui")
+		I_ASSIGN(m_splashScreenCompPtr, "SplashScreen", "Splash screen shown before application is launched", false, "SplashScreen")
+		I_ASSIGN(m_splashTimeAttrPtr, "SplashTime", "Minimal time splash screen will be shown", true, 2)
 	I_END_COMPONENT
 
 	// reimplemented (ibase::IApplication)

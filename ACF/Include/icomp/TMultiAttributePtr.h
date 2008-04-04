@@ -1,5 +1,5 @@
-#ifndef icomp_TSingleAttributePtr_included
-#define icomp_TSingleAttributePtr_included
+#ifndef icomp_TMultiAttributePtr_included
+#define icomp_TMultiAttributePtr_included
 
 
 #include "icomp/IComponentContext.h"
@@ -12,15 +12,15 @@ namespace icomp
 /**
 	Pointer to component attribute.
 	\internal
-	Don't use direct this class, use macros I_ATTR and I_ASSIGN instead.
+	Don't use direct this class, use macros \c I_ATTR and \c I_ASSIGN_MULTI_* instead.
 */
 template <typename Attribute>
-class TSingleAttributePtr
+class TMultiAttributePtr
 {
 public:
 	typedef Attribute AttributeType;
 
-	TSingleAttributePtr();
+	TMultiAttributePtr();
 
 	bool Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo, const IComponentContext** realContextPtr = NULL);
 
@@ -30,22 +30,14 @@ public:
 	bool IsValid() const;
 
 	/**
-		Access to internal attribute pointer.
+		Get number of attributes.
 	*/
-	const Attribute* GetAttributePtr() const;
-
-	/**
-		Access to internal attribute pointer.
-	*/
-	const Attribute* operator->() const;
+	int GetCount() const;
 
 	/**
 		Access to object pointed by internal pointer.
 	*/
-	typename const Attribute::ValueType& operator*() const;
-
-protected:
-	void SetAttribute(const Attribute* m_attributePtr);
+	typename const Attribute::ValueType& operator[](int index) const;
 
 private:
 	const Attribute* m_attributePtr;
@@ -55,14 +47,14 @@ private:
 // public methods
 
 template <typename Attribute>
-TSingleAttributePtr<Attribute>::TSingleAttributePtr()
+TMultiAttributePtr<Attribute>::TMultiAttributePtr()
 :	m_attributePtr(NULL)
 {
 }
 
 
 template <typename Attribute>
-bool TSingleAttributePtr<Attribute>::Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo, const IComponentContext** realContextPtr)
+bool TMultiAttributePtr<Attribute>::Init(const IComponent* ownerPtr, const IAttributeStaticInfo& staticInfo, const IComponentContext** realContextPtr)
 {
 	I_ASSERT(ownerPtr != NULL);
 
@@ -78,47 +70,39 @@ bool TSingleAttributePtr<Attribute>::Init(const IComponent* ownerPtr, const IAtt
 
 
 template <typename Attribute>
-bool TSingleAttributePtr<Attribute>::IsValid() const
+bool TMultiAttributePtr<Attribute>::IsValid() const
 {
 	return (m_attributePtr != NULL);
 }
 
 
 template <typename Attribute>
-const Attribute* TSingleAttributePtr<Attribute>::GetAttributePtr() const
+int TMultiAttributePtr<Attribute>::GetCount() const
 {
-	return m_attributePtr;
+	if (m_attributePtr != NULL){
+		return m_attributePtr->GetValuesCount();
+	}
+	else{
+		return 0;
+	}
 }
 
 
 template <typename Attribute>
-typename const Attribute* TSingleAttributePtr<Attribute>::operator->() const
+typename const Attribute::ValueType& TMultiAttributePtr<Attribute>::operator[](int index) const
 {
-	return m_attributePtr;
-}
-
-
-template <typename Attribute>
-typename const Attribute::ValueType& TSingleAttributePtr<Attribute>::operator*() const
-{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < GetCount());
 	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+	I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
 
-	return m_attributePtr->GetValue();
-}
-
-
-// protected methods
-
-template <typename Attribute>
-void TSingleAttributePtr<Attribute>::SetAttribute(const Attribute* m_attributePtr)
-{
-	m_attributePtr = attributePtr;
+	return m_attributePtr->GetValueAt(index);
 }
 
 
 }//namespace icomp
 
 
-#endif // !icomp_TSingleAttributePtr_included
+#endif // !icomp_TMultiAttributePtr_included
 
 

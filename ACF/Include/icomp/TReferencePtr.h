@@ -13,7 +13,7 @@ namespace icomp
 
 /**
 	Pointer to referenced component object.
-	Don't use direct this class, use macros I_REF and I_ASSIGN instead.
+	Don't use direct this class, use macros \c I_REF and \c I_ASSIGN instead.
 */
 template <class Interface>
 class TReferencePtr: public TSingleAttributePtr<CReferenceAttribute>
@@ -30,10 +30,6 @@ public:
 		Check if this reference can be resolved.
 	*/
 	bool IsValid() const;
-	/**
-		Return access to component associated with this reference.
-	 */
-	IComponent* GetComponent() const;
 
 	/**
 		Access to internal pointer.
@@ -84,15 +80,6 @@ bool TReferencePtr<Interface>::IsValid() const
 
 
 template <class Interface>
-IComponent* TReferencePtr<Interface>::GetComponent() const
-{
-	EnsureInitialized();
-
-	return m_componentPtr;
-}
-
-
-template <class Interface>
 typename Interface* TReferencePtr<Interface>::operator->() const
 {
 	EnsureInitialized();
@@ -128,11 +115,11 @@ template <class Interface>
 bool TReferencePtr<Interface>::EnsureInitialized() const
 {
 	if (!m_isInitialized && (m_realContextPtr != NULL) && BaseClass::IsValid()){
-		const CReferenceAttribute& attribute = *GetAttributePtr();
-
 		const IComponentContext* parentPtr = m_realContextPtr->GetParentContext();
 		if (parentPtr != NULL){
-			m_componentPtr = dynamic_cast<Interface*>(parentPtr->GetSubcomponent(attribute.GetComponentId()));
+			const std::string& componentId = BaseClass::operator*();
+
+			m_componentPtr = dynamic_cast<Interface*>(parentPtr->GetSubcomponent(componentId));
 
 			m_isInitialized = true;
 		}

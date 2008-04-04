@@ -14,7 +14,7 @@ namespace iqt
 
 
 /**
-	Loads packages from dynamic link libraries.
+	Loads component packages from dynamic link libraries.
 */
 class CPackagesLoader: public icomp::CPackageStaticInfo
 {

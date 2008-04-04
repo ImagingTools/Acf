@@ -22,12 +22,12 @@ class CSplashScreenGuiComp: public TDesignerGuiComponentBase<Ui::CSplashScreenGu
 public:
 	typedef TDesignerGuiComponentBase<Ui::CSplashScreenGuiComp, QSplashScreen> BaseClass;
 	I_BEGIN_COMPONENT(CSplashScreenGuiComp)
-		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Version management for application", "Application", false)
-		I_ASSIGN(m_imagePathAttrPtr, "ImagePath", "Path of image shown as splash screen", "Splash-jpg", true)
-		I_ASSIGN(m_productTypeAttrPtr, "ProductType", "Additional product description shown over version info", "Server", false)
+		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Version management for application", false, "Application")
+		I_ASSIGN(m_imagePathAttrPtr, "ImagePath", "Path of image shown as splash screen", true, "Splash.jpg")
+		I_ASSIGN(m_productTypeAttrPtr, "ProductType", "Additional product description shown over version info", false, "Server")
 		I_ASSIGN(m_showAcfVersionAttrPtr, "ShowAcfVersion", "If true, ACF version will be shown", true, true)
 		I_ASSIGN(m_showProductVersionAttrPtr, "ShowProductVersion", "If true, product version will be shown", true, true)
-		I_ASSIGN(m_copyrightTextAttrPtr, "CopyrightText", "Optional copyright text", "(C) Copyright 2008 CompanyName\n\nAll rights reseved", false)
+		I_ASSIGN(m_copyrightTextAttrPtr, "CopyrightText", "Optional copyright text", false, "(C) Copyright 2008 CompanyName\n\nAll rights reseved")
 	I_END_COMPONENT
 
 	// reimplemented (iqt::CGuiComponentBase)

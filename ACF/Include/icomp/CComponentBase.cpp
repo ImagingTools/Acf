@@ -60,7 +60,7 @@ void CComponentBase::OnComponentDestroyed()
 
 // static methods
 
-icomp::IComponentStaticInfo& CComponentBase::InitStaticInfo(CComponentBase* /*componentPtr*/)
+const icomp::IComponentStaticInfo& CComponentBase::InitStaticInfo(CComponentBase* /*componentPtr*/)
 {
 	static CPackageStaticInfo emptyInfo;
 

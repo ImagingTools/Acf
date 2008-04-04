@@ -12,6 +12,9 @@ namespace iqt
 {
 
 
+/**
+	Simple helper class blocking Qt signals of specified QObject.
+*/
 class CSignalBlocker
 {
 public:

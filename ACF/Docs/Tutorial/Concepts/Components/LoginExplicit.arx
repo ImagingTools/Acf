@@ -37,9 +37,9 @@
 							<IsEnabled>
 								true
 							</IsEnabled>
-							<ComponentId>
+							<Value>
 								Login
-							</ComponentId>
+							</Value>
 						</Data>
 					</AttributeInfo>
 					<AttributeInfo>
@@ -55,9 +55,9 @@
 							<IsEnabled>
 								true
 							</IsEnabled>
-							<ComponentId>
+							<Value>
 								Splash
-							</ComponentId>
+							</Value>
 						</Data>
 					</AttributeInfo>
 				</AttributeInfoMap>
@@ -107,7 +107,7 @@
 							ImagePath
 						</Id>
 						<Type>
-							class icomp::TSimpleAttribute&lt;class istd::CString&gt;
+							class icomp::TSingleAttribute&lt;class istd::CString&gt;
 						</Type>
 						<ExportId>
 						</ExportId>

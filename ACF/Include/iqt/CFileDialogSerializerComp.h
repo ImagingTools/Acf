@@ -20,8 +20,8 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	I_BEGIN_COMPONENT(CFileDialogSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileSerializer)
-		I_ASSIGN(m_fileFiltersCompPtr, "FileFilters", "File Filters", "*.*", true)
-		I_ASSIGN(m_fileFiltersAttrPtr, "IconsPath", "Path to the icon files", ".", true)
+		I_ASSIGN(m_fileFiltersCompPtr, "FileFilters", "File Filters", true, "*.*")
+		I_ASSIGN(m_fileFiltersAttrPtr, "IconsPath", "Path to the icon files", true, ".")
 	I_END_COMPONENT
 
 	// reimplemented (iser::IFileSerializer)

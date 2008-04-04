@@ -1,8 +1,6 @@
-#ifndef icomp_TSimpleAttribute_included
-#define icomp_TSimpleAttribute_included
+#ifndef icomp_TSingleAttribute_included
+#define icomp_TSingleAttribute_included
 
-
-#include "istd/CString.h"
 
 #include "iser/IArchive.h"
 #include "iser/ISerializable.h"
@@ -17,57 +15,62 @@ namespace icomp
 
 /**
 	Template implementation of single component attribute.
+	\internal
+	Don't use direct this class, use macros \c I_ATTR and \c I_ASSIGN instead.
 */
-template <typename ValueType> 
+template <typename Value>
 class TSingleAttribute: virtual public iser::ISerializable
 {
 public:
+	typedef Value ValueType;
+
 	TSingleAttribute();
-	explicit TSingleAttribute(const ValueType& value);
 	TSingleAttribute(const TSingleAttribute& attribute);
 
-	virtual const ValueType& GetValue() const;
-	virtual void SetValue(const ValueType& value);
+	explicit TSingleAttribute(const Value& value);
+
+	virtual const Value& GetValue() const;
+	virtual void SetValue(const Value& value);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	ValueType m_value;
+	Value m_value;
 };
 
 
 // public methods
 
-template <typename ValueType> 
-TSingleAttribute<ValueType>::TSingleAttribute()
+template <typename Value>
+TSingleAttribute<Value>::TSingleAttribute()
 {
 }
 
 
-template <typename ValueType> 
-TSingleAttribute<ValueType>::TSingleAttribute(const ValueType& value)
+template <typename Value>
+TSingleAttribute<Value>::TSingleAttribute(const Value& value)
 :	m_value(value)
 {
 }
 
 
-template <typename ValueType> 
-TSingleAttribute<ValueType>::TSingleAttribute(const TSingleAttribute& attribute)
+template <typename Value>
+TSingleAttribute<Value>::TSingleAttribute(const TSingleAttribute& attribute)
 :	m_value(attribute.GetValue())
 {
 }
 
 
-template <typename ValueType> 
-const ValueType& TSingleAttribute<ValueType>::GetValue() const
+template <typename Value>
+const Value& TSingleAttribute<Value>::GetValue() const
 {
 	return m_value;
 }
 
 
-template <typename ValueType> 
-void TSingleAttribute<ValueType>::SetValue(const ValueType& value)
+template <typename Value>
+void TSingleAttribute<Value>::SetValue(const Value& value)
 {
 	m_value = value;
 }
@@ -75,25 +78,25 @@ void TSingleAttribute<ValueType>::SetValue(const ValueType& value)
 
 // reimplemented (ISerializable)
 
-template <typename ValueType> 
-bool TSingleAttribute<ValueType>::Serialize(iser::IArchive& archive)
+template <typename Value>
+bool TSingleAttribute<Value>::Serialize(iser::IArchive& archive)
 {
-	bool result = true;
+	bool retVal = true;
 
 	static iser::CArchiveTag valueTag("Value", "Value of attribute");
-	result = result && archive.BeginTag(valueTag);
+	retVal = retVal && archive.BeginTag(valueTag);
 
-	result = result && archive.Process(m_value);
+	retVal = retVal && archive.Process(m_value);
 
-	result = result && archive.EndTag(valueTag);
+	retVal = retVal && archive.EndTag(valueTag);
 
-	return result;
+	return retVal;
 }
 
 
 } // namespace icomp
 
 
-#endif // icomp_TSimpleAttribute_included
+#endif // icomp_TSingleAttribute_included
 
 

@@ -45,19 +45,23 @@ public:
 	*/
 	void Reset();
 
-	bool operator ==(const CString& other) const;
-	bool operator ==(const char*) const;
-	bool operator ==(const wchar_t*) const;
-	bool operator ==(const std::string&) const;
-	bool operator !=(const char*) const;
-	bool operator !=(const wchar_t*) const;
-	bool operator !=(const CString&) const;
-	bool operator !=(const std::string&) const;
+	bool operator==(const CString& str) const;
+	bool operator==(const char* str) const;
+	bool operator==(const wchar_t* str) const;
+	bool operator==(const std::string& str) const;
+	bool operator!=(const char* str) const;
+	bool operator!=(const wchar_t* str) const;
+	bool operator!=(const CString& str) const;
+	bool operator!=(const std::string& str) const;
 
-	CString& operator =(const char*);
-	CString& operator =(const wchar_t*);
-	CString& operator =(const CString&);
-	CString& operator =(const std::string&);
+	CString operator+(const CString& str) const;
+
+	CString& operator=(const char* str);
+	CString& operator=(const wchar_t* str);
+	CString& operator=(const CString& str);
+	CString& operator=(const std::string& str);
+
+	CString& operator+=(const CString& str);
 
 	CString ToUpper() const;
 	CString ToLower() const;
@@ -73,6 +77,14 @@ private:
 	mutable std::string m_stdString;
 	mutable bool m_isModified;
 };
+
+
+// inline methods
+
+inline bool CString::IsEmpty() const
+{
+	return empty();
+}
 
 
 // public static methods
