@@ -112,7 +112,7 @@ bool TMultiAttribute<Value>::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag valuesTag("Values", "List of attribute values");
 	static iser::CArchiveTag valueTag("Value", "Single Value");
 
-	int valuesCount;
+	int valuesCount = 0;
 
 	if (isStoring){
 		valuesCount = int(m_values.size());

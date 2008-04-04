@@ -19,7 +19,7 @@ template <class Interface>
 class TMultiReferencePtr: public TMultiAttributePtr<CMultiReferenceAttribute>
 {
 public:
-	typedef TMultiAttributePtr<CReferenceAttribute> BaseClass;
+	typedef TMultiAttributePtr<CMultiReferenceAttribute> BaseClass;
 	typedef Interface InterfaceType;
 
 	TMultiReferencePtr();
