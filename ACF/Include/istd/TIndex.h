@@ -103,7 +103,15 @@ public:
 	*/
 	bool Decrease(const TIndex& boundaries);
 
+	/**
+		Get begin value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator Begin() const;
+	/**
+		Get end value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator End() const;
 
 	int operator[](int index) const;

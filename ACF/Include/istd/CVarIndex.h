@@ -69,7 +69,7 @@ public:
 		\param	count	number of dimensions will be set.
 		\return			always true.
 	*/
-	bool SetDimensionsCount(int count) const;
+	bool SetDimensionsCount(int count);
 
 	/**
 		Get element stored at specified index.
@@ -94,20 +94,44 @@ public:
 
 	/**
 		Increase this index inside the boundaries.
+		Please note, that the number of dimensions for this index will not be changed
+		and this operation can be unclear when number of dimensions differs from boundaries number of dimensions.
 		\return	false, if increase wasn't possible (e.g. overflow).
 	*/
 	bool Increase(const CVarIndex& boundaries);
 
 	/**
 		Decrese this index inside the boundaries.
+		Please note, that the number of dimensions for this index will not be changed
+		and this operation can be unclear when number of dimensions differs from boundaries number of dimensions.
 		\return	false, if decrease wasn't possible (e.g. overflow).
 	*/
 	bool Decrease(const CVarIndex& boundaries);
 
+	/**
+		Get minimal number of dimensions needed to to represent this index.
+		In other words this is index of last non-zero component + 1.
+	*/
+	int GetMinDimensionsCount() const;
+
+	/**
+		Get begin value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator Begin() const;
+	/**
+		Get end value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator End() const;
 
+	/**
+		Get access to single index components.
+	*/
 	int operator[](int index) const;
+	/**
+		Get access to single index components.
+	*/
 	int& operator[](int index);
 
 	bool operator==(const CVarIndex& index) const;
@@ -132,9 +156,11 @@ inline int CVarIndex::GetDimensionsCount() const
 }
 
 
-inline bool CVarIndex::SetDimensionsCount(int count) const
+inline bool CVarIndex::SetDimensionsCount(int count)
 {
-	return (count == GetDimensionsCount());
+	m_elements.resize(count, 0);
+
+	return true;
 }
 
 
@@ -153,6 +179,20 @@ inline void CVarIndex::SetAt(int index, int value)
 	I_ASSERT(index < int(m_elements.size()));
 
 	m_elements[index] = value;
+}
+
+
+inline int CVarIndex::GetMinDimensionsCount() const
+{
+	int dimensionsCount = GetDimensionsCount();
+
+	for (int i = dimensionsCount - 1; i >= 0; --i){
+		if (GetAt(i) > 0){
+			return i + 1;
+		}
+	}
+
+	return 0;
 }
 
 

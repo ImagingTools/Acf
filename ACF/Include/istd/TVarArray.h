@@ -113,7 +113,15 @@ public:
 	void SetAt(const IndexType& index, const Element& value);
 
 	// iterator support
+	/**
+		Get begin value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator Begin() const;
+	/**
+		Get end value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	const Iterator& End() const;
 
 	const Element& operator[](const IndexType& index) const;
@@ -245,7 +253,7 @@ inline Element& TVarArray<Element>::operator[](const IndexType& index)
 template <class Element>
 inline int TVarArray<Element>::GetElementIndex(const IndexType& index) const
 {
-	int indexDimensionsCount = m_sizes.GetDimensionsCount();
+	int indexDimensionsCount = index.GetDimensionsCount();
 	int dimensionsCount = m_sizes.GetDimensionsCount();
 
 	int minDimensionsCount = istd::Min(indexDimensionsCount, dimensionsCount);
@@ -459,8 +467,11 @@ bool TVarArray<Element>::Iterator::operator!=(const Iterator& iterator) const
 
 template <class Element>
 TVarArray<Element>::Iterator::Iterator(TVarArray* arrayPtr)
-:	BaseClass(0), m_arrayPtr(arrayPtr)
+:	BaseClass((arrayPtr != NULL)? arrayPtr->GetDimensionsCount(): 0, 0), m_arrayPtr(arrayPtr)
 {
+	if ((m_arrayPtr != NULL) && !IsInside(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;	// if it is not inside of array set it directly to the end iterator state
+	}
 }
 
 typedef TVarArray<> CVarArray;

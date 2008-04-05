@@ -114,7 +114,15 @@ public:
 	void SetAt(const IndexType& index, const Element& value);
 
 	// iterator support
+	/**
+		Get begin value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	Iterator Begin() const;
+	/**
+		Get end value of element access iterator.
+		Please refer to general description of ACF iterators, STL iterators or Qt iterators concept.
+	*/
 	const Iterator& End() const;
 
 	const Element& operator[](const IndexType& index) const;

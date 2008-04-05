@@ -47,10 +47,22 @@ void CVarIndex::SetAllTo(int value)
 
 bool CVarIndex::IsInside(const CVarIndex& boundaries) const
 {
-	for (int i = 0; i < int(m_elements.size()); ++i){
-		I_ASSERT(m_elements[i] >= 0);
+	int dimensionsCount = GetMinDimensionsCount();
+	int boundariesCount = boundaries.GetDimensionsCount();
+	if ((boundariesCount <= 0) || (boundariesCount < dimensionsCount)){
+		return false;
+	}
 
-		if (m_elements[i] >= boundaries.m_elements[i]){
+	for (int commonIndex = 0; commonIndex < dimensionsCount; ++commonIndex){
+		I_ASSERT(m_elements[commonIndex] >= 0);
+
+		if (m_elements[commonIndex] >= boundaries.m_elements[commonIndex]){
+			return false;
+		}
+	}
+
+	for (int restIndex = dimensionsCount; restIndex < boundariesCount; ++restIndex){
+		if (boundaries.m_elements[restIndex] <= 0){
 			return false;
 		}
 	}
@@ -63,7 +75,9 @@ bool CVarIndex::Increase(const CVarIndex& boundaries)
 {
 	I_ASSERT(IsInside(boundaries));
 
-	for (int i = 0; i < int(m_elements.size()); ++i){
+	int dimensionsCount = istd::Min(GetDimensionsCount(), boundaries.GetDimensionsCount());
+
+	for (int i = 0; i < dimensionsCount; ++i){
 		if (m_elements[i] < boundaries.m_elements[i] - 1){
 			m_elements[i]++;
 			for (int j = 0; j < i; ++j){
@@ -74,8 +88,6 @@ bool CVarIndex::Increase(const CVarIndex& boundaries)
 		}
 	}
 
-	SetAllTo(0);
-
 	return false;
 }
 
@@ -84,7 +96,9 @@ bool CVarIndex::Decrease(const CVarIndex& boundaries)
 {
 	I_ASSERT(IsInside(boundaries));
 
-	for (int i = 0; i < int(m_elements.size()); ++i){
+	int dimensionsCount = istd::Min(GetDimensionsCount(), boundaries.GetDimensionsCount());
+
+	for (int i = 0; i < dimensionsCount; ++i){
 		if (m_elements[i] > 0){
 			m_elements[i]--;
 
@@ -96,17 +110,18 @@ bool CVarIndex::Decrease(const CVarIndex& boundaries)
 		}
 	}
 
-	for (int j = 0; j < int(m_elements.size()); ++j){
-		m_elements[j] = boundaries.m_elements[j] - 1;
-	}
-
 	return false;
 }
 
 
 bool CVarIndex::operator==(const CVarIndex& index) const
 {
-	for (int i = 0; i < int(m_elements.size()); ++i){
+	int minDimensionsCount = GetMinDimensionsCount();
+	if (minDimensionsCount != index.GetMinDimensionsCount()){
+		return false;
+	}
+
+	for (int i = 0; i < minDimensionsCount; ++i){
 		if (m_elements[i] != index.m_elements[i]){
 			return false;
 		}

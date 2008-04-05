@@ -136,6 +136,13 @@ public:
 	*/
 	static int GetElementsCount();
 
+	/**
+		Set number of elements.
+		This method is provided for template implementations.
+		\param	count	number of elements.
+		\return			true, if the number of set elements equals template parameter.
+	*/
+	static bool SetElementsCount(int count);
 
 protected:
     Element m_elements[Size];
@@ -418,6 +425,13 @@ template <int Size, class Element>
 inline int TVector<Size, Element>::GetElementsCount()
 {
 	return Size;
+}
+
+
+template <int Size, class Element>
+inline bool TVector<Size, Element>::SetElementsCount(int count)
+{
+	return count == Size;
 }
 
 

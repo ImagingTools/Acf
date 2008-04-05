@@ -431,10 +431,10 @@ bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::Serialize(iser::IArch
 		for (int positionIndex = 0; positionIndex < positionsCount; ++positionIndex){
 			retVal = retVal && archive.BeginTag(positionTag);
 			retVal = retVal && archive.Process(positions[positionIndex]);
-			retVal = retVal && archive.BeginTag(positionTag);
+			retVal = retVal && archive.EndTag(positionTag);
 		}
 
-		retVal = retVal && archive.BeginTag(positionsTag);
+		retVal = retVal && archive.EndTag(positionsTag);
 	}
 
 	retVal = retVal && archive.EndTag(gridTag);

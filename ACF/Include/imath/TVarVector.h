@@ -52,8 +52,9 @@ public:
 
 	/**
 		Set number of elements.
+		\return	always true, this value is provided for template implementations.
 	*/
-	void SetElementsCount(int size, const Element& value = Element());
+	bool SetElementsCount(int size, const Element& value = Element());
 
 	/**
 		Get element at specified i.
@@ -210,11 +211,13 @@ inline int TVarVector<Element>::GetElementsCount() const
 
 
 template <class Element>
-inline void TVarVector<Element>::SetElementsCount(int size, const Element& value = Element())
+inline bool TVarVector<Element>::SetElementsCount(int size, const Element& value = Element())
 {
 	I_ASSERT(size >= 0);
 
 	m_elements.resize(size, value);
+
+	return true;
 }
 
 
