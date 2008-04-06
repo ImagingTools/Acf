@@ -141,7 +141,7 @@ bool CDocumentBase::AddView(imod::IObserver* viewPtr)
 }
 
 
-void CDocumentBase::RemoveView(imod::IObserver* viewPtr)
+void CDocumentBase::RemoveView(imod::IObserver* /*viewPtr*/)
 {
 }
 

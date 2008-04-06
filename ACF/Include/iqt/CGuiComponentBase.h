@@ -19,6 +19,10 @@ class CGuiComponentBase:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
+	I_BEGIN_BASE_COMPONENT(CGuiComponentBase)
+		I_REGISTER_INTERFACE(IGuiObject)
+	I_END_COMPONENT
+
 	CGuiComponentBase();
 
 	// reimplemented (iqt::IGuiObject)

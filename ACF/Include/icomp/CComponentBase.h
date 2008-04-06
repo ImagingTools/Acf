@@ -13,6 +13,7 @@
 #include "icomp/TMultiReferencePtr.h"
 #include "icomp/TAttributeStaticInfo.h"
 #include "icomp/TComponentStaticInfo.h"
+#include "icomp/TBaseComponentStaticInfo.h"
 
 
 
@@ -58,6 +59,15 @@ private:
 	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
 		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(componentPtr));
+
+/**
+	Begin of ACF component declaration for non-instantiable components.
+	It should be placed in class declaration in 'public' block.
+*/
+#define I_BEGIN_BASE_COMPONENT(ComponentType)\
+	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
+	{\
+		static icomp::TBaseComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(componentPtr));
 
 /**
 	End of general ACF component declaration.

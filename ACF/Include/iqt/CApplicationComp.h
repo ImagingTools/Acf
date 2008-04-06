@@ -20,6 +20,7 @@ class CApplicationComp:
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
+
 	I_BEGIN_COMPONENT(CApplicationComp)
 		I_REGISTER_INTERFACE(ibase::IApplication)
 		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", true, "MainGui")

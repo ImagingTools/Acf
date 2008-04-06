@@ -18,6 +18,7 @@ class CFileDialogSerializerComp: public icomp::CComponentBase, virtual public is
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
+
 	I_BEGIN_COMPONENT(CFileDialogSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileSerializer)
 		I_ASSIGN(m_fileFiltersCompPtr, "FileFilters", "File Filters", true, "*.*")

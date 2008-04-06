@@ -40,6 +40,7 @@ public:
 	virtual int GetValuesCount() const;
 	virtual const Value& GetValueAt(int index) const;
 	virtual void SetValueAt(int index, const Value& value);
+	virtual void InsertValue(const Value& value);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -97,6 +98,13 @@ void TMultiAttribute<Value>::SetValueAt(int index, const Value& value)
 	I_ASSERT(index < GetValuesCount());
 
 	m_values[index] = value;
+}
+
+
+template <typename Value>
+void TMultiAttribute<Value>::InsertValue(const Value& value)
+{
+	m_values.push_back(value);
 }
 
 

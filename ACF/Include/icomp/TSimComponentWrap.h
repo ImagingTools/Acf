@@ -40,6 +40,11 @@ public:
 	bool SetRef(const std::string& referenceId, IComponent* componentPtr);
 
 	/**
+		Set named reference to some component.
+	*/
+	bool InsertMultiRef(const std::string& referenceId, IComponent* componentPtr);
+
+	/**
 		Set named attribute.
 		\param	attributeId		ID of attribute.
 		\param	attributePtr	pointer to attribute instance. It will be automatically deleted.
@@ -75,6 +80,34 @@ public:
 		I_ASSERT(IsAttributeTypeCorrect(attributeId, typeid(TSingleAttribute< Attribute >)));
 
 		return SetAttr(attributeId, new TSingleAttribute< Attribute >(attribute));
+	}
+
+	/**
+		Insert new attribute to multi attributes.
+		\param	attributeId		ID of attribute (multiattribute).
+		\param	attribute		single attribute value.
+	*/
+	template <class Attribute>
+	bool InsertMultiAttr(const std::string& attributeId, const Attribute& attribute)
+	{
+		I_ASSERT(IsAttributeTypeCorrect(attributeId, typeid(TMultiAttribute< Attribute >)));
+
+		IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(attributeId, false);
+		if (infoPtr != NULL){
+			IRegistryElement::AttributePtr& attributePtr = infoPtr->attributePtr;
+			if (!attributePtr.IsValid()){
+				attributePtr.SetPtr(new TMultiAttribute< Attribute >);
+			}
+
+			TMultiAttribute< Attribute >* multiAttrPtr = dynamic_cast<TMultiAttribute< Attribute >*>(attributePtr.GetPtr());
+			I_ASSERT(multiAttrPtr != NULL);	// attribute type was correct, casting must be correct
+
+			multiAttrPtr->InsertValue(attribute);
+
+			return true;
+		}
+
+		return false;
 	}
 
 protected:
@@ -118,11 +151,36 @@ bool TSimComponentWrap<Base>::SetRef(const std::string& referenceId, IComponent*
 {
 	I_ASSERT(componentPtr != NULL);
 
+	if (SetAttr(referenceId, new CReferenceAttribute(referenceId))){
+		m_componentMap[referenceId] = componentPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+template <class Base>
+bool TSimComponentWrap<Base>::InsertMultiRef(const std::string& referenceId, IComponent* componentPtr)
+{
+	I_ASSERT(IsAttributeTypeCorrect(referenceId, typeid(CMultiReferenceAttribute)));
+
 	IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(referenceId, false);
 	if (infoPtr != NULL){
-		infoPtr->attributePtr.SetPtr(new CReferenceAttribute(referenceId));
+		IRegistryElement::AttributePtr& attributePtr = infoPtr->attributePtr;
+		if (!attributePtr.IsValid()){
+			attributePtr.SetPtr(new CMultiReferenceAttribute);
+		}
 
-		m_componentMap[referenceId] = componentPtr;
+		CMultiReferenceAttribute* multiAttrPtr = dynamic_cast<CMultiReferenceAttribute*>(attributePtr.GetPtr());
+		I_ASSERT(multiAttrPtr != NULL);	// attribute type was correct, casting must be correct
+
+		std::string attributeId = referenceId + '#' + ('0' + multiAttrPtr->GetValuesCount());
+
+		multiAttrPtr->InsertValue(attributeId);
+
+		m_componentMap[attributeId] = componentPtr;
 
 		return true;
 	}

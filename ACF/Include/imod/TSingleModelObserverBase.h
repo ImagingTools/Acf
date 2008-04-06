@@ -70,7 +70,7 @@ template <class ObjectClass>
 bool TSingleModelObserverBase<ObjectClass>::OnDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnDetached(modelPtr)){
-		// If it was correct attached it cannot be NULL. OnDetach returns true if model was attached.
+		// If model was correctly attached m_objectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
 		I_ASSERT(m_objectPtr != NULL);
 
 		m_objectPtr = NULL;

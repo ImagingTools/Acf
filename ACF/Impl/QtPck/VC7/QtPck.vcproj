@@ -25,7 +25,7 @@
 				WarningLevel="4"
 				DebugInformationFormat="0"
 				CompileAs="0"
-				DisableSpecificWarnings="4355;4505;4510;4511;4512;4127;4702"/>
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -73,7 +73,7 @@
 				WarningLevel="4"
 				DebugInformationFormat="3"
 				CompileAs="0"
-				DisableSpecificWarnings="4355;4505;4510;4511;4512;4127;4702"/>
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool

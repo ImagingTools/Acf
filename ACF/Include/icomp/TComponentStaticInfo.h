@@ -2,8 +2,8 @@
 #define icomp_TComponentStaticInfo_included
 
 
-#include "icomp/IComponentStaticInfo.h"
 #include "icomp/TComponentWrap.h"
+#include "icomp/TBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -11,26 +11,15 @@ namespace icomp
 
 
 template <class Component>
-class TComponentStaticInfo: virtual public IComponentStaticInfo
+class TComponentStaticInfo: public TBaseComponentStaticInfo<Component>
 {
 public:
+	typedef TBaseComponentStaticInfo<Component> BaseClass;
+
 	TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr = NULL);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual IComponent* CreateComponent(const IComponentContext* contextPtr) const;
-	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
-	virtual const AttributeInfos& GetAttributeInfos() const;
-	virtual const SubcomponentInfos& GetSubcomponentInfos() const;
-	virtual bool RegisterInterfaceExtractor(const std::string& interfaceId, InterfaceExtractorPtr extractorPtr);
-	virtual bool RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr);
-	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
-
-private:
-	const IComponentStaticInfo* m_baseComponentPtr;
-
-	InterfaceExtractors m_interfaceExtractors;
-	AttributeInfos m_attributeInfos;
-	SubcomponentInfos m_subcomponentInfos;
 };
 
 
@@ -38,13 +27,8 @@ private:
 
 template <class Component>
 TComponentStaticInfo<Component>::TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr)
-:	m_baseComponentPtr(baseComponentPtr)
+:	BaseClass(baseComponentPtr)
 {
-	if (baseComponentPtr != NULL){
-		m_interfaceExtractors.SetParent(&baseComponentPtr->GetInterfaceExtractors());
-		m_attributeInfos.SetParent(&baseComponentPtr->GetAttributeInfos());
-		m_subcomponentInfos.SetParent(&baseComponentPtr->GetSubcomponentInfos());
-	}
 }
 
 
@@ -56,59 +40,6 @@ IComponent* TComponentStaticInfo<Component>::CreateComponent(const IComponentCon
 	TComponentWrap<Component>* componentPtr = new TComponentWrap<Component>(contextPtr);
 
 	return componentPtr;
-}
-
-
-template <class Component>
-const IComponentStaticInfo::InterfaceExtractors& TComponentStaticInfo<Component>::GetInterfaceExtractors() const
-{
-	return m_interfaceExtractors;
-}
-
-
-template <class Component>
-const IComponentStaticInfo::AttributeInfos& TComponentStaticInfo<Component>::GetAttributeInfos() const
-{
-	return m_attributeInfos;
-}
-
-
-template <class Component>
-const IComponentStaticInfo::SubcomponentInfos& TComponentStaticInfo<Component>::GetSubcomponentInfos() const
-{
-	return m_subcomponentInfos;
-}
-
-
-template <class Component>
-bool TComponentStaticInfo<Component>::RegisterInterfaceExtractor(const std::string& interfaceId, InterfaceExtractorPtr extractorPtr)
-{
-	return m_interfaceExtractors.InsertLocal(interfaceId, extractorPtr);
-}
-
-
-template <class Component>
-bool TComponentStaticInfo<Component>::RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr)
-{
-	return m_attributeInfos.InsertLocal(attributeId, attributeInfoPtr);
-}
-
-
-template <class Component>
-bool TComponentStaticInfo<Component>::RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr)
-{
-	return m_subcomponentInfos.InsertLocal(subcomponentId, componentInfoPtr);
-}
-
-
-// public methods of embedded class InterfaceRegistrator
-
-template <class Component>
-TComponentStaticInfo<Component>::InterfaceRegistrator::InterfaceRegistrator(icomp::IComponentStaticInfo* staticInfoPtr)
-{
-	if (staticInfoPtr != NULL){
-		staticInfoPtr->RegisterInterfaceExtractor(typeid(Component).name());
-	}
 }
 
 

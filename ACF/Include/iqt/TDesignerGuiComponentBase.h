@@ -18,9 +18,6 @@ class TDesignerGuiComponentBase: public TGuiComponentBase<WidgetType>, public UI
 {
 public:
 	typedef TGuiComponentBase<WidgetType> BaseClass;
-	I_BEGIN_COMPONENT(TDesignerGuiComponentBase)
-		I_REGISTER_INTERFACE(IGuiObject)
-	I_END_COMPONENT
 
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual QWidget* InitWidgetToParent(QWidget* parentPtr);

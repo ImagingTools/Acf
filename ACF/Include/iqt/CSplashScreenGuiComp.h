@@ -21,6 +21,7 @@ class CSplashScreenGuiComp: public TDesignerGuiComponentBase<Ui::CSplashScreenGu
 {
 public:
 	typedef TDesignerGuiComponentBase<Ui::CSplashScreenGuiComp, QSplashScreen> BaseClass;
+
 	I_BEGIN_COMPONENT(CSplashScreenGuiComp)
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Version management for application", false, "Application")
 		I_ASSIGN(m_imagePathAttrPtr, "ImagePath", "Path of image shown as splash screen", true, "Splash.jpg")

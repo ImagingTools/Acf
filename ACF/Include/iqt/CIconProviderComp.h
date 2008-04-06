@@ -18,6 +18,7 @@ class CIconProviderComp: public icomp::CComponentBase, public iqt::IIconProvider
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
+
 	I_BEGIN_COMPONENT(CIconProviderComp)
 		I_REGISTER_INTERFACE(iqt::IIconProvider)
 		I_ASSIGN_MULTI_0(m_iconFilesAttrPtr, "IconFiles", "Names of the icon files", true)

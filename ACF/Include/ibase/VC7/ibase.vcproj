@@ -29,7 +29,8 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -80,7 +81,8 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
