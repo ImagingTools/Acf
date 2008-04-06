@@ -32,6 +32,11 @@ public:
 	bool IsValid() const;
 
 	/**
+		Direct cccess to internal pointer.
+	*/
+	Interface* GetPtr() const;
+
+	/**
 		Access to internal pointer.
 	*/
 	Interface* operator->() const;
@@ -79,13 +84,21 @@ bool TReferencePtr<Interface>::IsValid() const
 }
 
 
+
 template <class Interface>
-typename Interface* TReferencePtr<Interface>::operator->() const
+typename Interface* TReferencePtr<Interface>::GetPtr() const
 {
 	EnsureInitialized();
 	I_ASSERT(m_componentPtr != NULL);
 
 	return m_componentPtr;
+}
+
+
+template <class Interface>
+typename Interface* TReferencePtr<Interface>::operator->() const
+{
+	return GetPtr();
 }
 
 

@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 	icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &registriesManager);
 	icomp::TComponentWrap<icomp::CCompositeComponent> composite(&compositeContext);
 
-	ibase::IApplication* applicationPtr = (ibase::IApplication*)composite.GetInterface(typeid(ibase::IApplication), componentId);
+	ibase::IApplication* applicationPtr = composite.GetComponentInterface<ibase::IApplication>(componentId);
 	if (applicationPtr == NULL){
 		std::cout << "Application interface cannot be found" << std::endl;
 

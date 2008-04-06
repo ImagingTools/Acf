@@ -174,6 +174,37 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iproc", "..\..\..\Include\i
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocView", "..\..\..\Docs\Tutorial\Appl\DocView\VC7\DocView.vcproj", "{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65} = {BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}
+		{AA94C676-48A9-4FCF-BC0F-96B0E910F463} = {AA94C676-48A9-4FCF-BC0F-96B0E910F463}
+		{CEB219AC-442A-4B4C-8324-719352C0922B} = {CEB219AC-442A-4B4C-8324-719352C0922B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "istdc", "..\..\..\Include\istdc\VC7\istdc.vcproj", "{AD4F093E-141B-490D-AAAF-C02C69F5C524}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqmain", "..\..\..\Include\iqmain\VC7\iqmain.vcproj", "{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idoc", "..\..\..\Include\idoc\VC7\idoc.vcproj", "{CEB219AC-442A-4B4C-8324-719352C0922B}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(Qt) = preSolution
 		Integration = True
@@ -361,6 +392,38 @@ Global
 		{9BA2C3D2-9483-483F-9019-8C6B027C58C6}.NemoRelease.Build.0 = Release|Win32
 		{9BA2C3D2-9483-483F-9019-8C6B027C58C6}.Release.ActiveCfg = Release|Win32
 		{9BA2C3D2-9483-483F-9019-8C6B027C58C6}.Release.Build.0 = Release|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.Debug.ActiveCfg = Debug|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.Debug.Build.0 = Debug|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.NemoDebug.ActiveCfg = Debug|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.NemoDebug.Build.0 = Debug|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.NemoRelease.ActiveCfg = Release|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.NemoRelease.Build.0 = Release|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.Release.ActiveCfg = Release|Win32
+		{0DE2C74D-7A15-4CCD-9DE0-3B92933B28ED}.Release.Build.0 = Release|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.Debug.ActiveCfg = Debug|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.Debug.Build.0 = Debug|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.NemoDebug.ActiveCfg = NemoDebug|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.NemoDebug.Build.0 = NemoDebug|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.NemoRelease.ActiveCfg = NemoRelease|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.NemoRelease.Build.0 = NemoRelease|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.Release.ActiveCfg = Release|Win32
+		{AD4F093E-141B-490D-AAAF-C02C69F5C524}.Release.Build.0 = Release|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.Debug.ActiveCfg = Debug|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.Debug.Build.0 = Debug|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.NemoDebug.ActiveCfg = NemoDebug|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.NemoDebug.Build.0 = NemoDebug|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.NemoRelease.ActiveCfg = NemoRelease|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.NemoRelease.Build.0 = NemoRelease|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.Release.ActiveCfg = Release|Win32
+		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}.Release.Build.0 = Release|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.Debug.ActiveCfg = Debug|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.Debug.Build.0 = Debug|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.NemoDebug.ActiveCfg = NemoDebug|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.NemoDebug.Build.0 = NemoDebug|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.NemoRelease.ActiveCfg = NemoRelease|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.NemoRelease.Build.0 = NemoRelease|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.Release.ActiveCfg = Release|Win32
+		{CEB219AC-442A-4B4C-8324-719352C0922B}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
