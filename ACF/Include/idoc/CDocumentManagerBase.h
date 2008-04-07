@@ -37,6 +37,7 @@ public:
 	virtual idoc::IDocument* GetDocument(int documentIndex) const;
 	virtual int GetDocumentCount() const;
 	virtual idoc::IDocument* OnFileNew(const std::string& documentId);
+	imod::IObserver* OnWindowNew(const std::string& viewTypeId);
 	virtual bool OnFileSave();
 	virtual bool OnFileSaveAs();
 	virtual bool OnFileOpen(const std::string& documentId);
@@ -55,12 +56,15 @@ protected:
 	/**
 		Gets save file name.
 	*/
-	virtual istd::CString GetSaveFileName(const std::string& documentId) const = 0;
+	virtual istd::CString GetSaveFileName(const idoc::IDocumentTemplate& documentTemplate) const = 0;
 
 	/**
 		Gets open file names.
 	*/
-	virtual istd::CStringList GetOpenFileNames(const std::string& documentId) const  = 0;
+	virtual istd::CStringList GetOpenFileNames(const idoc::IDocumentTemplate& documentTemplate) const  = 0;
+
+private:
+	idoc::IDocumentTemplate* GetTemplateFromId(const std::string& templateId) const;
 
 protected:
 	typedef istd::TPointerVector<idoc::IDocument> Documents;

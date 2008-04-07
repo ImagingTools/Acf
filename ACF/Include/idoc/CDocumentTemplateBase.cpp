@@ -82,7 +82,7 @@ idoc::IDocument* CDocumentTemplateBase::CreateDocument() const
 
 imod::IObserver* CDocumentTemplateBase::AddView(idoc::IDocument& document, const std::string& viewTypeId) const
 {
-	imod::IObserver* viewPtr = CreateView(document, viewTypeId);
+	imod::IObserver* viewPtr = CreateView(viewTypeId);
 	if (viewPtr != NULL){
 		bool retVal = document.AddView(viewPtr);
 		if (!retVal){
@@ -122,19 +122,12 @@ istd::CString CDocumentTemplateBase::GetDefaultTitle() const
 
 // protected methods
 
-imod::IObserver* CDocumentTemplateBase::CreateView(const idoc::IDocument& document, const std::string& viewTypeId) const
+imod::IObserver* CDocumentTemplateBase::CreateView(const std::string& viewTypeId) const
 {
-	if (m_documentFactoryPtr == NULL || m_viewFactoryPtr == NULL){
+	if (m_viewFactoryPtr == NULL){
 		return NULL;
 	}
 	
-	IDocumentFactory::KeyList factoryKeys = m_documentFactoryPtr->GetFactoryKeys();
-
-	IDocumentFactory::KeyList::iterator foundIt = std::find(factoryKeys.begin(), factoryKeys.end(), document.GetDocumentId());
-	if (foundIt == factoryKeys.end()){
-		return NULL;
-	}
-
 	return m_viewFactoryPtr->CreateInstance(viewTypeId);
 }
 

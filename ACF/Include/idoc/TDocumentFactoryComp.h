@@ -24,6 +24,7 @@ public:
 	I_BEGIN_COMPONENT(TDocumentFactoryComp)
 		I_REGISTER_INTERFACE(idoc::IDocument::IDocumentFactory)
 		I_ASSIGN(m_modelFactoryCompPtr, "ModelFactory", "Model factory", true, "ModelFactory")
+		I_ASSIGN(m_ownerTemplateCompPtr, "DocumentTemplate", "Owner document template", true, "DocumentTemplate")
 	I_END_COMPONENT
 
 	TDocumentFactoryComp();
@@ -33,6 +34,7 @@ public:
 
 private:
 	I_REF(IModelFactory, m_modelFactoryCompPtr);
+	I_REF(idoc::IDocumentTemplate, m_ownerTemplateCompPtr);
 };
 
 
@@ -48,9 +50,9 @@ TDocumentFactoryComp<DocumentImpl>::TDocumentFactoryComp()
 // reimplemented (istd::TIFactory)
 
 template <class DocumentImpl> 
-idoc::IDocument* TDocumentFactoryComp<DocumentImpl>::CreateInstance(const std::string& keyId) const
+idoc::IDocument* TDocumentFactoryComp<DocumentImpl>::CreateInstance(const std::string&/* keyId*/) const
 {
-	idoc::IDocument* documentPtr = BaseClass2::CreateInstance(keyId);
+	idoc::IDocument* documentPtr = new DocumentImpl(m_ownerTemplateCompPtr.GetPtr());
 	if (documentPtr != NULL){
 		DocumentImpl* documentImplPtr = dynamic_cast<DocumentImpl*>(documentPtr);
 		I_ASSERT(documentImplPtr != NULL);

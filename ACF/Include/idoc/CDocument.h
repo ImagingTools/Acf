@@ -19,6 +19,8 @@ class CDocument: public idoc::CDocumentBase, public imod::CModelChangeObserver
 public:
 	typedef idoc::CDocumentBase BaseClass;
 
+	CDocument(idoc::IDocumentTemplate* documentTemplatePtr = NULL);
+
 	// reimplemented (idoc::CDocumentBase)
 	virtual void SetContent(imod::IModel* modelPtr);
 

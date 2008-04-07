@@ -15,6 +15,8 @@ class CSerializableDocument: public idoc::CDocumentBase
 {
 public:
 	typedef CDocumentBase BaseClass;
+
+	CSerializableDocument(idoc::IDocumentTemplate* templatePtr = NULL);
 	
 	// reimplemented (idoc::CDocument)
 	virtual void SetContent(imod::IModel* modelPtr);

@@ -119,6 +119,20 @@ idoc::IDocument* CDocumentManagerBase::OnFileNew(const std::string& documentId)
 }
 
 
+imod::IObserver* CDocumentManagerBase::OnWindowNew(const std::string& viewTypeId)
+{
+	idoc::IDocument* activeDocumentPtr = GetActiveDocument();
+	if (activeDocumentPtr != NULL){
+		idoc::IDocumentTemplate* documentTemplatePtr = activeDocumentPtr->GetTemplate();
+		I_ASSERT(documentTemplatePtr != NULL);
+
+		return documentTemplatePtr->AddView(*activeDocumentPtr, viewTypeId);
+	}
+
+	return NULL;
+}
+
+
 bool CDocumentManagerBase::OnFileSave()
 {
 	idoc::IDocument* activeDocument = GetActiveDocument();
@@ -140,7 +154,9 @@ bool CDocumentManagerBase::OnFileSaveAs()
 {
 	idoc::IDocument* activeDocumentPtr = GetActiveDocument();
 	if (activeDocumentPtr != NULL){
-		istd::CString fileName = GetSaveFileName(activeDocumentPtr->GetDocumentId());
+		idoc::IDocumentTemplate* templatePtr = activeDocumentPtr->GetTemplate();
+		I_ASSERT(templatePtr != NULL);
+		istd::CString fileName = GetSaveFileName(*templatePtr);
 		if (fileName.IsEmpty()){
 			return true;
 		}
@@ -159,14 +175,19 @@ bool CDocumentManagerBase::OnFileSaveAs()
 
 bool CDocumentManagerBase::OnFileOpen(const std::string& documentId)
 {
-	bool retVal = true;
+	idoc::IDocumentTemplate* documentTemplate = GetTemplateFromId(documentId);
+	if (documentTemplate != NULL){
+		bool retVal = true;
+	
+		istd::CStringList files = GetOpenFileNames(*documentTemplate);
+		for (int fileIndex = 0; fileIndex < int(files.size()); fileIndex++){
+			retVal = (OpenDocument(files.at(fileIndex)) != NULL) && retVal;
+		}
 
-	istd::CStringList files = GetOpenFileNames(documentId);
-	for (int fileIndex = 0; fileIndex < int(files.size()); fileIndex++){
-		retVal = (OpenDocument(files.at(fileIndex)) != NULL) && retVal;
+		return retVal;
 	}
 
-	return retVal;
+	return false;
 }
 
 
@@ -278,6 +299,18 @@ istd::CString CDocumentManagerBase::CalculateCopyName(const istd::CString& docum
 	}
 
 	return docTitle;
+}
+
+// private methods
+
+idoc::IDocumentTemplate* CDocumentManagerBase::GetTemplateFromId(const std::string& templateId) const
+{
+	DocumentTemplateMap::const_iterator templateIter = m_documentTemplateMap.find(templateId);
+	if (templateIter != m_documentTemplateMap.end()){
+		return templateIter->second;
+	}
+
+	return NULL;
 }
 
 

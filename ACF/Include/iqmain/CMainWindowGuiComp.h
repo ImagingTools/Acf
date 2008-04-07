@@ -58,6 +58,9 @@ public:
 	CMainWindowGuiComp();
 	virtual ~CMainWindowGuiComp();
 
+	// reimplemented (iqt::IGuiObject)
+	virtual void OnTryClose(bool* ignoredPtr = NULL);
+
 	// reimplemented (iqt::IToolBarManager)
 	virtual void SetToolBarsVisible(bool isVisible = true);
 	virtual int GetToolBarCount() const ;
@@ -116,12 +119,6 @@ private:
 	void UpdateUndoMenu();
 
 protected:
-	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
-	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
-	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
-	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
-	I_ATTR(int, m_iconSizeAttrPtr);
-
 	QMenuBar* m_menuBar;
 	QMenu* m_fileMenu;
 	QMenu* m_editMenu;
@@ -148,6 +145,13 @@ protected:
 	QToolBar* m_standardToolBar;
 
 	imod::IUndoManager* m_activeUndoManagerPtr;
+
+private:
+	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
+	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
+	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
+	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
+	I_ATTR(int, m_iconSizeAttrPtr);
 };
 
 

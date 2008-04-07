@@ -82,9 +82,9 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
 
 // reimplemented (idoc::CDocumentManagerBase)
 
-istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const std::string& documentId) const
+istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const idoc::IDocumentTemplate& documentTemplate) const
 {
-	QString filter = CreateFileDialogFilter(documentId);
+	QString filter = CreateFileDialogFilter(documentTemplate);
 
 	QString fileName = QFileDialog::getSaveFileName(NULL, tr("Save..."), "", filter);
 
@@ -92,9 +92,9 @@ istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const std::string&
 }
 
 
-istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFileNames(const std::string& documentId) const
+istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFileNames(const idoc::IDocumentTemplate& documentTemplate) const
 {
-	QString filter = CreateFileDialogFilter(documentId);
+	QString filter = CreateFileDialogFilter(documentTemplate);
 
 	QStringList files = QFileDialog::getOpenFileNames(NULL, tr("Open Files..."), "", filter);
 
@@ -177,18 +177,11 @@ int CMultiDocumentWorkspaceGuiComp::GetDocumentIndex(const imod::IObserver* acti
 }
 
 
-QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const istd::CString& documentId) const
+QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const idoc::IDocumentTemplate& documentTemplate) const
 {
 	QString filter;
 
-	DocumentTemplateMap::const_iterator found = m_documentTemplateMap.find(documentId.ToString());
-	if (found == m_documentTemplateMap.end()){
-		return QString();
-	}
-
-	I_ASSERT(found->second != NULL);
-
-	istd::CStringList filters = found->second->GetFileFilters();
+	istd::CStringList filters = documentTemplate.GetFileFilters();
 	for (int index = 0; index < int(filters.size()); index++){
 		filter += iqt::GetQString(filters.at(index));
 		if (index < int(filters.size()) - 1){

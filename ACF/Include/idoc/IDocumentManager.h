@@ -60,6 +60,11 @@ public:
 	virtual idoc::IDocument* OnFileNew(const std::string& documentId) = 0;
 
 	/**
+		Creates a new view for active document.
+	*/
+	virtual imod::IObserver* OnWindowNew(const std::string& viewTypeId) = 0;
+
+	/**
 		Saves active document. 
 	*/
 	virtual bool OnFileSave() = 0;

@@ -25,20 +25,19 @@ class IDocumentTemplate;
 class CDocumentBase: virtual public idoc::IDocument
 {
 public:
-	CDocumentBase();
+	CDocumentBase(idoc::IDocumentTemplate* documentTemplatePtr = NULL);
 	virtual ~CDocumentBase();
 
-	virtual void SetDocumentId(const std::string& documentId);
 	virtual void SetContent(imod::IModel* modelPtr);
 	virtual void SetFileName(const istd::CString& fileName);
-	virtual void SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr);
+	virtual void SetDocumentTemplate(idoc::IDocumentTemplate* documentTemplatePtr);
 	virtual void RegisterFileEngine(const istd::IFileEngine* fileEnginePtr);
 
 	// reimplemented (idoc::IDocument)
 	virtual istd::CString GetFileName() const;
 	virtual bool Load(const istd::CString& fileName);
 	virtual bool Save(const istd::CString& fileName);
-	virtual std::string GetDocumentId() const;
+	virtual IDocumentTemplate* GetTemplate() const;
 	virtual istd::CString GetDocumentTitle() const;
 	virtual void SetDocumentTitle(const istd::CString& documentTitle);
 	virtual imod::IModel* GetContent() const;
@@ -61,7 +60,7 @@ protected:
 	const istd::IFileEngine* m_fileEnginePtr;
 
 private:
-	const idoc::IDocumentTemplate* m_documentTemplatePtr;
+	idoc::IDocumentTemplate* m_documentTemplatePtr;
 };
 
 

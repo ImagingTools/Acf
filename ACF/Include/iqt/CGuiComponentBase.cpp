@@ -165,6 +165,7 @@ bool CGuiComponentBase::eventFilter(QObject* obj, QEvent* event)
 
 				return true;
 			}
+			break;
 
 		case QEvent::Show:
 			OnGuiShown();

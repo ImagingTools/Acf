@@ -1,8 +1,6 @@
 #include "idoc/CDocumentBase.h"
 
 
-#include "iser/ISerializable.h"
-
 #include "istd/TChangeNotifier.h"
  
 
@@ -10,7 +8,8 @@ namespace idoc
 {		
 
 
-CDocumentBase::CDocumentBase()
+CDocumentBase::CDocumentBase(idoc::IDocumentTemplate* templatePtr)
+	:m_documentTemplatePtr(templatePtr)
 {
 }
 
@@ -20,13 +19,6 @@ CDocumentBase::~CDocumentBase()
 	if (m_modelPtr.IsValid()){
 		m_modelPtr->DetachAllObservers();
 	}
-}
-
-
-
-void CDocumentBase::SetDocumentId(const std::string& documentId)
-{
-	m_documentId = documentId;
 }
 
 
@@ -44,7 +36,7 @@ void CDocumentBase::SetFileName(const istd::CString& fileName)
 }
 
 
-void CDocumentBase::SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr)
+void CDocumentBase::SetDocumentTemplate(idoc::IDocumentTemplate* documentTemplatePtr)
 {
 	I_ASSERT(documentTemplatePtr != NULL);
 
@@ -100,9 +92,9 @@ bool CDocumentBase::Save(const istd::CString& fileName)
 }
 
 
-std::string CDocumentBase::GetDocumentId() const
+idoc::IDocumentTemplate* CDocumentBase::GetTemplate() const
 {
-	return m_documentId;
+	return m_documentTemplatePtr;
 }
 
 

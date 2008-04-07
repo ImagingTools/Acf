@@ -37,7 +37,7 @@ public:
 	virtual istd::CString GetDefaultTitle() const;
 
 protected:
-	virtual imod::IObserver* CreateView(const idoc::IDocument& document, const std::string& viewTypeId = std::string()) const;
+	virtual imod::IObserver* CreateView(const std::string& viewTypeId = std::string()) const;
 
 protected:
 	idoc::IDocumentManager* m_documentManagerPtr;

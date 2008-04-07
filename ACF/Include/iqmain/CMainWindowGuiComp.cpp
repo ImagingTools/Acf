@@ -19,6 +19,8 @@ namespace iqmain
 {
 
 
+// public methods
+
 CMainWindowGuiComp::CMainWindowGuiComp()
 {
 	m_menuBar = NULL;
@@ -50,6 +52,20 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 
 CMainWindowGuiComp::~CMainWindowGuiComp()
 {
+}
+
+
+// reimplemented (iqt::IGuiObject)
+
+void CMainWindowGuiComp::OnTryClose(bool* ignoredPtr)
+{
+	if (m_workspaceCompPtr.IsValid()){
+		m_workspaceCompPtr->OnTryClose(ignoredPtr);
+
+		return;
+	}
+
+	BaseClass::OnTryClose(ignoredPtr);
 }
 
 

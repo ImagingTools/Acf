@@ -36,7 +36,7 @@ public:
 	virtual istd::CString GetFileName() const = 0;
 	virtual bool Load(const istd::CString& fileName) = 0;
 	virtual bool Save(const istd::CString& fileName) = 0;
-	virtual std::string GetDocumentId() const = 0;
+	virtual IDocumentTemplate* GetTemplate() const = 0;
 	virtual istd::CString GetDocumentTitle() const = 0;
 	virtual void SetDocumentTitle(const istd::CString& documentTitle) = 0;
 	virtual bool IsModified() const = 0;

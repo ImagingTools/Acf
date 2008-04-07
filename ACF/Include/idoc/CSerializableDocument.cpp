@@ -10,6 +10,14 @@ namespace idoc
 {		
 
 
+// public methods
+
+CSerializableDocument::CSerializableDocument(idoc::IDocumentTemplate* templatePtr)
+	:BaseClass(templatePtr)
+{
+}
+
+
 // reimplemented (idoc::CDocument)
 
 void CSerializableDocument::SetContent(imod::IModel* modelPtr)

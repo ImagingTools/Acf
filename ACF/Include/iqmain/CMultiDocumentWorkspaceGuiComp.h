@@ -47,8 +47,8 @@ protected:
 	virtual bool eventFilter(QObject* obj, QEvent* event);
 
 	// reimplemented (idoc::CDocumentManagerBase)
-	virtual istd::CString GetSaveFileName(const std::string& documentId) const;
-	virtual istd::CStringList GetOpenFileNames(const std::string& documentId) const;
+	virtual istd::CString GetSaveFileName(const idoc::IDocumentTemplate& documentTemplate) const;
+	virtual istd::CStringList GetOpenFileNames(const idoc::IDocumentTemplate& documentTemplate) const;
 
 	// reimplemented (imod::CMultiModelObserverBase)
 	void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
@@ -72,7 +72,7 @@ private:
 		Creates the filter for the file selection dialog.
 		The filter corresponds with the file types for \c documentID
 	*/
-	QString CreateFileDialogFilter(const istd::CString& documentId) const;
+	QString CreateFileDialogFilter(const idoc::IDocumentTemplate& documentTemplate) const;
 
 protected slots:
 	void OnWindowActivated(QWidget* window);

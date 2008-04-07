@@ -7,6 +7,12 @@ namespace idoc
 
 // public  methods
 
+CDocument::CDocument(idoc::IDocumentTemplate* documentTemplatePtr)
+	:BaseClass(documentTemplatePtr)
+{
+}
+
+
 // reimplemented (idoc::CDocumentBase)
 
 void CDocument::SetContent(imod::IModel* modelPtr)
