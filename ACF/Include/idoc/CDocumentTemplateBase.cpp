@@ -57,7 +57,7 @@ void CDocumentTemplateBase::SetDefaultTitle(const istd::CString& defaultTitle)
 	
 // reimplemented (idoc::IDocumentTemplate)
 
-idoc::IDocument* CDocumentTemplateBase::CreateDocument(const std::string& documentTypeId) const
+idoc::IDocument* CDocumentTemplateBase::CreateDocument() const
 {
 	if (m_documentFactoryPtr == NULL){
 		return NULL;
@@ -68,35 +68,31 @@ idoc::IDocument* CDocumentTemplateBase::CreateDocument(const std::string& docume
 		return NULL;
 	}
 
-	imod::IObserver* viewPtr = CreateView(*documentPtr);
-	if (viewPtr != NULL){
-		bool retVal = documentPtr->AddView(viewPtr);
-		if (!retVal){
-			delete documentPtr;
-			delete viewPtr;
+	// add default view:
+	imod::IObserver* viewPtr = AddView(*documentPtr);
+	if (viewPtr == NULL){
+		delete documentPtr;
 
-			return NULL;
-		}
+		return NULL;
 	}
 
 	return documentPtr;
 }
 
 
-imod::IObserver* CDocumentTemplateBase::CreateView(const idoc::IDocument& document, const std::string& viewTypeId) const
+imod::IObserver* CDocumentTemplateBase::AddView(idoc::IDocument& document, const std::string& viewTypeId) const
 {
-	if (m_documentFactoryPtr == NULL || m_viewFactoryPtr == NULL){
-		return NULL;
-	}
-	
-	IDocumentFactory::KeyList factoryKeys = m_documentFactoryPtr->GetFactoryKeys();
+	imod::IObserver* viewPtr = CreateView(document, viewTypeId);
+	if (viewPtr != NULL){
+		bool retVal = document.AddView(viewPtr);
+		if (!retVal){
+			delete viewPtr;
 
-	IDocumentFactory::KeyList::iterator foundIt = std::find(factoryKeys.begin(), factoryKeys.end(), document.GetDocumentId());
-	if (foundIt == factoryKeys.end()){
-		return NULL;
+			return NULL;
+		}
 	}
 
-	return m_viewFactoryPtr->CreateInstance(viewTypeId);
+	return viewPtr;
 }
 
 
@@ -121,6 +117,25 @@ istd::CStringList CDocumentTemplateBase::GetFileExtensions() const
 istd::CString CDocumentTemplateBase::GetDefaultTitle() const
 {
 	return m_defaultTitle;
+}
+
+
+// protected methods
+
+imod::IObserver* CDocumentTemplateBase::CreateView(const idoc::IDocument& document, const std::string& viewTypeId) const
+{
+	if (m_documentFactoryPtr == NULL || m_viewFactoryPtr == NULL){
+		return NULL;
+	}
+	
+	IDocumentFactory::KeyList factoryKeys = m_documentFactoryPtr->GetFactoryKeys();
+
+	IDocumentFactory::KeyList::iterator foundIt = std::find(factoryKeys.begin(), factoryKeys.end(), document.GetDocumentId());
+	if (foundIt == factoryKeys.end()){
+		return NULL;
+	}
+
+	return m_viewFactoryPtr->CreateInstance(viewTypeId);
 }
 
 

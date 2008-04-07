@@ -29,12 +29,15 @@ public:
 	virtual void SetDefaultTitle(const istd::CString& defaultTitle);
 
 	// reimplemented (idoc::IDocumentTemplate)
-	virtual idoc::IDocument* CreateDocument(const std::string& documentTypeId) const;
-	virtual imod::IObserver* CreateView(const idoc::IDocument& document, const std::string& viewTypeId = std::string()) const;
+	virtual idoc::IDocument* CreateDocument() const;
+	virtual imod::IObserver* AddView(idoc::IDocument& document, const std::string& viewTypeId = std::string()) const;
 	virtual istd::CStringList GetFileFilters() const;
 	virtual istd::CString GetDefaultDirectory() const;
 	virtual istd::CStringList GetFileExtensions() const;
 	virtual istd::CString GetDefaultTitle() const;
+
+protected:
+	virtual imod::IObserver* CreateView(const idoc::IDocument& document, const std::string& viewTypeId = std::string()) const;
 
 protected:
 	idoc::IDocumentManager* m_documentManagerPtr;

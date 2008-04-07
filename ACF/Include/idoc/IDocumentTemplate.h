@@ -26,14 +26,14 @@ public:
 
 
 	/**
-		Creates a document instance for document type \c documentTypeId.
+		Creates a document instance for document.
 	*/
-	virtual idoc::IDocument* CreateDocument(const std::string& documentTypeId) const = 0;
+	virtual idoc::IDocument* CreateDocument() const = 0;
 
 	/**
 		Creates a view instance for document \c document of type \c viewTypeId.
 	*/
-	virtual imod::IObserver* CreateView(const idoc::IDocument& document, const std::string& viewTypeId = std::string()) const = 0;
+	virtual imod::IObserver* AddView(idoc::IDocument& document, const std::string& viewTypeId = std::string()) const = 0;
 
 	/**
 	*/

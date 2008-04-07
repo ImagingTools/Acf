@@ -103,7 +103,7 @@ idoc::IDocument* CDocumentManagerBase::OnFileNew(const std::string& documentId)
 	idoc::IDocumentTemplate* documentTemplatePtr = templateIter->second;
 	I_ASSERT(documentTemplatePtr != NULL);
 
-	idoc::IDocument* newDocumentPtr = documentTemplatePtr->CreateDocument(documentId);
+	idoc::IDocument* newDocumentPtr = documentTemplatePtr->CreateDocument();
 	if (newDocumentPtr != NULL){
 		newDocumentPtr->SetDocumentTitle(documentTemplatePtr->GetDefaultTitle() + istd::CString(" - ") + istd::CString::FromNumber(m_untitledIndex++));
 		
@@ -265,8 +265,6 @@ void CDocumentManagerBase::RemoveDocument(idoc::IDocument* document)
 
 istd::CString CDocumentManagerBase::CalculateCopyName(const istd::CString& documentTitle) const
 {
-	bool foundOccurence = false;
-
 	istd::CString docTitle = documentTitle;
 
 	for (int documentIndex = 0; documentIndex < GetDocumentCount(); documentIndex++){
@@ -274,7 +272,6 @@ istd::CString CDocumentManagerBase::CalculateCopyName(const istd::CString& docum
 
 		if (docTitle == currentDocTitle){
 			docTitle += istd::CString("*");
-			foundOccurence = true;
 			
 			CalculateCopyName(docTitle);
 		}
