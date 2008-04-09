@@ -235,6 +235,9 @@
 				RelativePath="..\TComponentWrap.h">
 			</File>
 			<File
+				RelativePath="..\TFactoryPtr.h">
+			</File>
+			<File
 				RelativePath="..\TInterfaceRegistrator.h">
 			</File>
 			<File

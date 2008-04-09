@@ -152,7 +152,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Mocing $(InputFileName)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;.\GeneratedFiles&quot; &quot;..\$(InputFileName)&quot; -o &quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;.\GeneratedFiles&quot; &quot;..\$(InputFileName)&quot; -o &quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;$(InputFileName).h"
 						Outputs="&quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -161,7 +162,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Mocing $(InputFileName)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;.\GeneratedFiles&quot; &quot;..\$(InputFileName)&quot; -o &quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;.\GeneratedFiles&quot; &quot;..\$(InputFileName)&quot; -o &quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe;../$(InputFileName).h"
 						Outputs="&quot;.\GeneratedFiles\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -220,7 +222,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Rcc&apos;ing AcfDist.qrc..."
-						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;AcfDist&quot; -no-compress &quot;..\AcfDist.qrc&quot; -o .\GeneratedFiles\qrc_AcfDist.cpp"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;AcfDist&quot; -no-compress &quot;..\AcfDist.qrc&quot; -o .\GeneratedFiles\qrc_AcfDist.cpp
+"
 						AdditionalDependencies="..\AcfDist.qrc;Resources/Icons/Logo.png"
 						Outputs=".\GeneratedFiles\qrc_AcfDist.cpp"/>
 				</FileConfiguration>
@@ -234,12 +237,6 @@
 						AdditionalDependencies="..\AcfDist.qrc;Resources/Icons/Logo.png"
 						Outputs=".\GeneratedFiles\qrc_AcfDist.cpp"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\resources\icons\Logo.png">
-			</File>
-			<File
-				RelativePath="..\Resources\Icons\Logo.png">
 			</File>
 		</Filter>
 	</Files>

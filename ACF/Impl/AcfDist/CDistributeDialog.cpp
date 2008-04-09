@@ -27,9 +27,9 @@ CDistributeDialog::CDistributeDialog()
 
 	QSettings settings;
 
-	AcfDirEdit->setText(settings.value("Files/ACFDirectory").toString());
-	DistributeDirEdit->setText(settings.value("Files/DistributeDirectory").toString());
-	LicenseFileEdit->setText(settings.value("Files/LicenseFile").toString());
+	AcfDirEdit->setText(settings.value("Files/ACFDirectory", AcfDirEdit->text()).toString());
+	DistributeDirEdit->setText(settings.value("Files/DistributeDirectory", DistributeDirEdit->text()).toString());
+	LicenseFileEdit->setText(settings.value("Files/LicenseFile", LicenseFileEdit->text()).toString());
 }
 
 
@@ -89,7 +89,7 @@ void CDistributeDialog::OnApply()
 
 	QDir inputDirectory(acfDirectory);
 	if (!inputDirectory.exists()){
-		QMessageBox(QMessageBox::Critical, tr("Error"), tr("No valid ACF directory"));
+		QMessageBox::critical(this, tr("Error"), tr("No valid ACF directory:\n%1").arg(inputDirectory.absolutePath()));
 
 		return;
 	}
