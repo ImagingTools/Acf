@@ -80,7 +80,7 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 bool CXmlReadArchiveBase::Process(istd::CString& value)
 {
 	std::string textValue;
-	if (ProcessInternal(textValue)){
+	if (Process(textValue)){
 		value = textValue;
 
 		return true;
