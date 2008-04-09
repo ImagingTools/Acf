@@ -2,6 +2,9 @@
 #define iqt_TGuiModelJoinerWrap_included
 
 
+#include "imod/IModelEditor.h"
+
+
 namespace iqt
 {
 
@@ -10,7 +13,7 @@ namespace iqt
 	Join functionality of \c iqt::IGuiObject interface and \c imod::IObserver.
 */
 template <class Gui, class Model>
-class TGuiModelJoinerWrap: public Gui, public Model
+class TGuiModelJoinerWrap: public Gui, public Model, virtual public imod::IModelEditor
 {
 public:
 	TGuiModelJoinerWrap();
@@ -49,19 +52,13 @@ protected:
 	// pseudo-reimplemented (imod::IObserver)
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 
-	// abstract methods
-	/**
-		Update model to actual GUI state.
-	*/
-	virtual void UpdateModel() = 0;
-
-	/**
-		Called if GUI should be updated after model changes.
-	*/
-	virtual void UpdateGui() = 0;
+	// pseudo-reimplemented (imod::IModelEditor)
+	virtual bool IsReadOnly() const;
+	virtual void SetReadOnly(bool state);
 
 private:
 	bool m_ignoreUpdates;
+	bool m_isReadOnly;
 };
 
 
@@ -69,7 +66,7 @@ private:
 
 template <class Gui, class Model>
 TGuiModelJoinerWrap<Gui, Model>::TGuiModelJoinerWrap()
-:	m_ignoreUpdates(false)
+:	m_ignoreUpdates(false), m_isReadOnly(false)
 {
 }
 
@@ -92,7 +89,7 @@ bool TGuiModelJoinerWrap<Gui, Model>::OnAttached(imod::IModel* modelPtr)
 template <class Gui, class Model>
 bool TGuiModelJoinerWrap<Gui, Model>::OnDetached(imod::IModel* modelPtr)
 {
-	if (IsModelAttached(modelPtr)){
+	if (!m_isReadOnly && IsModelAttached(modelPtr)){
 		UpdateModel();
 	}
 
@@ -129,7 +126,7 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelAttached()
 	if (!m_ignoreUpdates){
 		m_ignoreUpdates = true;
 
-		UpdateGui();
+		UpdateEditor();
 
 		m_ignoreUpdates = false;
 	}
@@ -139,7 +136,7 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelAttached()
 template <class Gui, class Model>
 void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelDetached()
 {
-	if (IsModelAttached(NULL)){
+	if (!m_isReadOnly && IsModelAttached(NULL)){
 		UpdateModel();
 	}
 }
@@ -204,10 +201,26 @@ void TGuiModelJoinerWrap<Gui, Model>::AfterUpdate(imod::IModel* modelPtr, int up
 	if (!m_ignoreUpdates && IsGuiCreated()){
 		m_ignoreUpdates = true;
 
-		UpdateGui();
+		UpdateEditor();
 
 		m_ignoreUpdates = false;
 	}
+}
+
+
+// pseudo-reimplemented (imod::IModelEditor)
+
+template <class Gui, class Model>
+bool TGuiModelJoinerWrap<Gui, Model>::IsReadOnly() const
+{
+	return m_isReadOnly;
+}
+
+
+template <class Gui, class Model>
+void TGuiModelJoinerWrap<Gui, Model>::SetReadOnly(bool state)
+{
+	m_isReadOnly = state;
 }
 
 

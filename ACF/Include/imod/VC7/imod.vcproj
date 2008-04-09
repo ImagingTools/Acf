@@ -278,9 +278,6 @@
 				RelativePath="..\IUndoManager.h">
 			</File>
 			<File
-				RelativePath="..\TModelEditorBase.h">
-			</File>
-			<File
 				RelativePath="..\TModelWrap.h">
 			</File>
 			<File

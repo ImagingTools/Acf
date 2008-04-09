@@ -26,7 +26,7 @@ public:
 				imod::TSingleModelObserverBase<CTextModel> > BaseClass;
 
 	// reimplemented (iqt::TGuiModelJoinerWrap)
-	virtual void UpdateModel();
+	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 
 protected slots:

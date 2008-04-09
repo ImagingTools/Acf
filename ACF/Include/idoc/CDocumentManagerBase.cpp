@@ -5,6 +5,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "imod/IModelEditor.h"
+
 #include "idoc/IDocumentTemplate.h"
 
 
@@ -27,6 +29,23 @@ imod::IModel* CDocumentManagerBase::OpenDocument(const istd::CString& filePath, 
 {
 	if (filePath.IsEmpty() || (m_documentTemplatePtr == NULL)){
 		return NULL;
+	}
+
+	DocumentInfo* existingInfoPtr = GetDocumenttInfoFromPath(filePath);
+	if (existingInfoPtr != NULL){
+		I_ASSERT(existingInfoPtr->documentPtr.IsValid());
+
+		if (createView){
+			istd::IPolymorphic* viewPtr = m_documentTemplatePtr->CreateView(existingInfoPtr->documentPtr.GetPtr(), viewTypeId);
+			if (viewPtr != NULL){
+				existingInfoPtr->views.push_back(ViewPtr());
+				existingInfoPtr->views.back().SetPtr(viewPtr);
+
+				OnViewRegistered(viewPtr);
+			}
+		}
+
+		return existingInfoPtr->documentPtr.GetPtr();
 	}
 
 	IDocumentTemplate::Ids documentIds = m_documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
@@ -97,7 +116,7 @@ void CDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
 
 imod::IModel* CDocumentManagerBase::GetDocumentFromView(const istd::IPolymorphic& view) const
 {
-	const DocumentInfo* infoPtr = GetViewDocumentInfo(view);
+	const DocumentInfo* infoPtr = GetDocumenttInfoFromView(view);
 	if (infoPtr != NULL){
 		I_ASSERT(infoPtr != NULL);
 		I_ASSERT(infoPtr->documentPtr.IsValid());
@@ -152,6 +171,15 @@ bool CDocumentManagerBase::FileSave(bool requestFileName)
 		filePath = GetSaveFileName(infoPtr->documentTypeId);
 		if (filePath.IsEmpty()){
 			return true;
+		}
+	}
+
+	for (		Views::const_iterator iter = infoPtr->views.begin();
+				iter != infoPtr->views.end();
+				++iter){
+		const imod::IModelEditor* editorPtr = dynamic_cast<const imod::IModelEditor*>(iter->GetPtr());
+		if ((editorPtr != NULL) && (!editorPtr->IsReadOnly())){
+			editorPtr->UpdateModel();
 		}
 	}
 
@@ -251,14 +279,14 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetActiveDocumentInfo(
 {
 	const istd::IPolymorphic* viewPtr = GetActiveView();
 	if (viewPtr != NULL){
-		return GetViewDocumentInfo(*viewPtr);
+		return GetDocumenttInfoFromView(*viewPtr);
 	}
 
 	return NULL;
 }
 
 
-CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetViewDocumentInfo(const istd::IPolymorphic& view) const
+CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumenttInfoFromView(const istd::IPolymorphic& view) const
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
@@ -266,6 +294,21 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetViewDocumentInfo(co
 
 		Views::iterator findIter = std::find(info.views.begin(), info.views.end(), &view);
 		if (findIter != info.views.end()){
+			return &info;
+		}
+	}
+
+	return NULL;
+}
+
+
+CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumenttInfoFromPath(const istd::CString& filePath) const
+{
+	int documentsCount = GetDocumentsCount();
+	for (int i = 0; i < documentsCount; ++i){
+		DocumentInfo& info = GetDocumentInfo(i);
+
+		if (info.filePath == filePath){
 			return &info;
 		}
 	}

@@ -79,9 +79,14 @@ protected:
 	DocumentInfo* GetActiveDocumentInfo() const;
 
 	/**
-		Get document info assigned to active view.
+		Get document info assigned to specified view.
 	*/
-	DocumentInfo* GetViewDocumentInfo(const istd::IPolymorphic& view) const;
+	DocumentInfo* GetDocumenttInfoFromView(const istd::IPolymorphic& view) const;
+
+	/**
+		Get document info assigned to specified file.
+	*/
+	DocumentInfo* GetDocumenttInfoFromPath(const istd::CString& filePath) const;
 
 	/**
 		Create instance of specified document without attaching to this manager.

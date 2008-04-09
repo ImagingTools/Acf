@@ -2,10 +2,9 @@
 #define imod_IModelEditor_included
 
 
+#include "istd/IPolymorphic.h"
+
 #include "imod/imod.h"
-
-
-#include "imod/IObserver.h"
 
 
 namespace imod
@@ -16,7 +15,7 @@ namespace imod
 
 	Common interface for an model editor.
 */
-class IModelEditor: virtual public imod::IObserver
+class IModelEditor: virtual public istd::IPolymorphic
 {
 public:
 	/**
@@ -27,17 +26,18 @@ public:
 	/**
 		Updates model from editor.
 	*/
-	virtual void UpdateModel() = 0;
-
-	/**
-		Resets the editor view.
-	*/
-	virtual void ResetEditor() = 0;
+	virtual void UpdateModel() const = 0;
 
 	/**
 		Returns \c true if the model data can be changed.
 	*/
-	virtual bool IsModelChangeable() const = 0;
+	virtual bool IsReadOnly() const = 0;
+
+	/**
+		Set flag that the model data can be changed.
+		\return	true, if this feature is supported.
+	*/
+	virtual void SetReadOnly(bool state) = 0;
 };
 
 

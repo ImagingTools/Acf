@@ -6,7 +6,7 @@
 
 // reimplemented (iqt::TGuiModelJoinerWrap)
 
-void CTextEditor::UpdateModel()
+void CTextEditor::UpdateModel() const
 {
 	QTextEdit* textEditPtr = GetQtWidget();
 	I_ASSERT(textEditPtr != NULL);

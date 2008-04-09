@@ -1,5 +1,5 @@
-#ifndef icomp_CReferencePtr_included
-#define icomp_CReferencePtr_included
+#ifndef icomp_TReferencePtr_included
+#define icomp_TReferencePtr_included
 
 
 #include "icomp/IComponentContext.h"
@@ -147,6 +147,6 @@ bool TReferencePtr<Interface>::EnsureInitialized() const
 }//namespace icomp
 
 
-#endif // !icomp_CReferencePtr_included
+#endif // !icomp_TReferencePtr_included
 
 
