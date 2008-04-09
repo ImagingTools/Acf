@@ -27,7 +27,7 @@ public:
 
 	// reimplemented (iqt::TGuiModelJoinerWrap)
 	virtual void UpdateModel();
-	virtual void UpdateGui();
+	virtual void UpdateEditor();
 
 protected slots:
 	 void OnTextChanged();

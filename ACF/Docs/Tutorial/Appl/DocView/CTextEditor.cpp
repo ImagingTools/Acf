@@ -21,7 +21,7 @@ void CTextEditor::UpdateModel()
 }
 
 
-void CTextEditor::UpdateGui()
+void CTextEditor::UpdateEditor()
 {
 	QTextEdit* textEditPtr = GetQtWidget();
 	I_ASSERT(textEditPtr != NULL);
