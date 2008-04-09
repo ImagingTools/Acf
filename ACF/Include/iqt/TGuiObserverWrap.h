@@ -1,5 +1,5 @@
-#ifndef iqt_TGuiModelJoinerWrap_included
-#define iqt_TGuiModelJoinerWrap_included
+#ifndef iqt_TGuiObserverWrap_included
+#define iqt_TGuiObserverWrap_included
 
 
 #include "imod/IModelEditor.h"
@@ -12,11 +12,11 @@ namespace iqt
 /**
 	Join functionality of \c iqt::IGuiObject interface and \c imod::IObserver.
 */
-template <class Gui, class Model>
-class TGuiModelJoinerWrap: public Gui, public Model, virtual public imod::IModelEditor
+template <class Gui, class Observer>
+class TGuiObserverWrap: public Gui, public Observer, virtual public imod::IModelEditor
 {
 public:
-	TGuiModelJoinerWrap();
+	TGuiObserverWrap();
 
 	// pseudo-reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
@@ -64,8 +64,8 @@ private:
 
 // public methods
 
-template <class Gui, class Model>
-TGuiModelJoinerWrap<Gui, Model>::TGuiModelJoinerWrap()
+template <class Gui, class Observer>
+TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
 :	m_ignoreUpdates(false), m_isReadOnly(false)
 {
 }
@@ -73,10 +73,10 @@ TGuiModelJoinerWrap<Gui, Model>::TGuiModelJoinerWrap()
 
 // pseudo-reimplemented (imod::IObserver)
 
-template <class Gui, class Model>
-bool TGuiModelJoinerWrap<Gui, Model>::OnAttached(imod::IModel* modelPtr)
+template <class Gui, class Observer>
+bool TGuiObserverWrap<Gui, Observer>::OnAttached(imod::IModel* modelPtr)
 {
-	bool retVal = Model::OnAttached(modelPtr);
+	bool retVal = Observer::OnAttached(modelPtr);
 
 	if (retVal && IsGuiCreated() && IsModelAttached(NULL)){
 		OnGuiModelAttached();
@@ -86,14 +86,14 @@ bool TGuiModelJoinerWrap<Gui, Model>::OnAttached(imod::IModel* modelPtr)
 }
 
 
-template <class Gui, class Model>
-bool TGuiModelJoinerWrap<Gui, Model>::OnDetached(imod::IModel* modelPtr)
+template <class Gui, class Observer>
+bool TGuiObserverWrap<Gui, Observer>::OnDetached(imod::IModel* modelPtr)
 {
 	if (!m_isReadOnly && IsModelAttached(modelPtr)){
 		UpdateModel();
 	}
 
-	bool retVal = Model::OnDetached(modelPtr);
+	bool retVal = Observer::OnDetached(modelPtr);
 
 	if (retVal && IsGuiCreated() && !IsModelAttached(NULL)){
 		OnGuiModelDetached();
@@ -105,20 +105,20 @@ bool TGuiModelJoinerWrap<Gui, Model>::OnDetached(imod::IModel* modelPtr)
 
 // protected methods
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelShown()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiModelShown()
 {
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelHidden()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiModelHidden()
 {
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelAttached()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 {
 	I_ASSERT(IsGuiCreated());
 	I_ASSERT(IsModelAttached(NULL));
@@ -133,8 +133,8 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelAttached()
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelDetached()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiModelDetached()
 {
 	if (!m_isReadOnly && IsModelAttached(NULL)){
 		UpdateModel();
@@ -144,8 +144,8 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiModelDetached()
 
 // pseudo-reimplemented (iqt::CGuiComponentBase)
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiShown()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiShown()
 {
 	Gui::OnGuiShown();
 
@@ -155,8 +155,8 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiShown()
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiHidden()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiHidden()
 {
 	Gui::OnGuiHidden();
 
@@ -166,8 +166,8 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiHidden()
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiCreated()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiCreated()
 {
 	Gui::OnGuiCreated();
 
@@ -177,8 +177,8 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiCreated()
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::OnGuiDestroyed()
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiDestroyed()
 {
 	if (IsModelAttached(NULL)){
 		OnGuiModelDetached();
@@ -190,13 +190,13 @@ void TGuiModelJoinerWrap<Gui, Model>::OnGuiDestroyed()
 
 // pseudo-reimplemented (imod::IObserver)
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
 	I_ASSERT(modelPtr != NULL);
 	I_ASSERT(IsModelAttached(modelPtr));
 
-	Model::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	Observer::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
 
 	if (!m_ignoreUpdates && IsGuiCreated()){
 		m_ignoreUpdates = true;
@@ -210,15 +210,15 @@ void TGuiModelJoinerWrap<Gui, Model>::AfterUpdate(imod::IModel* modelPtr, int up
 
 // pseudo-reimplemented (imod::IModelEditor)
 
-template <class Gui, class Model>
-bool TGuiModelJoinerWrap<Gui, Model>::IsReadOnly() const
+template <class Gui, class Observer>
+bool TGuiObserverWrap<Gui, Observer>::IsReadOnly() const
 {
 	return m_isReadOnly;
 }
 
 
-template <class Gui, class Model>
-void TGuiModelJoinerWrap<Gui, Model>::SetReadOnly(bool state)
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::SetReadOnly(bool state)
 {
 	m_isReadOnly = state;
 }
@@ -227,6 +227,6 @@ void TGuiModelJoinerWrap<Gui, Model>::SetReadOnly(bool state)
 } // namespace iqt
 
 
-#endif //!iqt_TGuiModelJoinerWrap_included
+#endif //!iqt_TGuiObserverWrap_included
 
 

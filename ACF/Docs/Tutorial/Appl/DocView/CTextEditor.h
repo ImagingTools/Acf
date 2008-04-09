@@ -8,12 +8,12 @@
 #include "imod/TSingleModelObserverBase.h"
 
 #include "iqt/TGuiComponentBase.h"
-#include "iqt/TGuiModelJoinerWrap.h"
+#include "iqt/TGuiObserverWrap.h"
 
 #include "CTextModel.h"
 
 
-class CTextEditor: public iqt::TGuiModelJoinerWrap<
+class CTextEditor: public iqt::TGuiObserverWrap<
 			iqt::TGuiComponentBase<QTextEdit>,
 			imod::TSingleModelObserverBase<CTextModel> >
 {
@@ -21,11 +21,11 @@ class CTextEditor: public iqt::TGuiModelJoinerWrap<
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiModelJoinerWrap<
+	typedef iqt::TGuiObserverWrap<
 				iqt::TGuiComponentBase<QTextEdit>,
 				imod::TSingleModelObserverBase<CTextModel> > BaseClass;
 
-	// reimplemented (iqt::TGuiModelJoinerWrap)
+	// reimplemented (iqt::TGuiObserverWrap)
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 

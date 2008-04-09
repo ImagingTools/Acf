@@ -4,7 +4,7 @@
 #include "iqt/CSignalBlocker.h"
 
 
-// reimplemented (iqt::TGuiModelJoinerWrap)
+// reimplemented (iqt::TGuiObserverWrap)
 
 void CTextEditor::UpdateModel() const
 {
