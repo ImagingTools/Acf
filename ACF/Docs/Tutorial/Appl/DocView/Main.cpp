@@ -12,6 +12,7 @@
 #include "istdc/TFileSerializerComp.h"
 
 #include "iqt/CApplicationComp.h"
+#include "iqt/CSplashScreenGuiComp.h"
 
 #include "iqmain/CMainWindowGuiComp.h"
 #include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
@@ -24,7 +25,6 @@ int main(int argc, char *argv[])
 {
 	Q_INIT_RESOURCE(iqmain);
 
-	// model factory:
 	icomp::TSimComponentsFactory<imod::TModelWrap<CTextModelComp> > modelFactoryComp;
 	modelFactoryComp.SetStringAttr("DefaultText", "Ahoj przygodo!");
 
@@ -49,8 +49,15 @@ int main(int argc, char *argv[])
 	mainWindowComp.SetRef("DocumentManager", &workspaceComp);
 	mainWindowComp.InitComponent();
 
+	icomp::TSimComponentWrap<iqt::CSplashScreenGuiComp> splashScreenGui;
+	splashScreenGui.SetStringAttr("ImagePath", "..\\..\\..\\Docs\\Images\\AcfSplashScreen.png");
+	splashScreenGui.SetStringAttr("ProductName", "DocView");
+	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
+	splashScreenGui.InitComponent();
+
 	icomp::TSimComponentWrap<iqt::CApplicationComp> application;
 	application.SetRef("MainGui", &mainWindowComp);
+	application.SetRef("SplashScreen", &splashScreenGui);
 	application.InitComponent();
 
 	return application.Execute(argc, argv);
