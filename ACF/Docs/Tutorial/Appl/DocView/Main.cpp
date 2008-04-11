@@ -1,19 +1,21 @@
-#include "imod/TModelWrap.h"
-
 #include "iser/CXmlFileReadArchive.h"
 #include "iser/CXmlFileWriteArchive.h"
 
+#include "imod/TModelWrap.h"
+
 #include "icomp/TSimComponentWrap.h"
+#include "icomp/TSimComponentModelWrap.h"
+#include "icomp/TSimComponentsFactory.h"
 
 #include "idoc/CSerializedDocumentTemplateComp.h"
+
+#include "istdc/TSingleFactoryComp.h"
+#include "istdc/TFileSerializerComp.h"
 
 #include "iqt/CApplicationComp.h"
 
 #include "iqmain/CMainWindowGuiComp.h"
 #include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
-
-#include "istdc/TSingleFactoryComp.h"
-#include "istdc/TFileSerializerComp.h"
 
 #include "CTextEditorComp.h"
 #include "CTextModelComp.h"
@@ -24,8 +26,10 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(iqmain);
 
 	// model factory:
-	istd::TSingleFactory<icomp::IComponent, imod::TModelWrap<CTextModelComp> > modelFactoryComp("");
-	istd::TSingleFactory<icomp::IComponent, CTextEditorComp> viewFactoryComp("");
+	icomp::TSimComponentsFactory<imod::TModelWrap<CTextModelComp> > modelFactoryComp;
+	modelFactoryComp.SetStringAttr("DefaultText", "Ahoj przygodo!");
+
+	icomp::TSimComponentsFactory<CTextEditorComp> viewFactoryComp;
 
 	typedef istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> SerializerComp;
 	icomp::TSimComponentWrap<SerializerComp> serializerComp;
@@ -37,7 +41,7 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetRef("DocumentSerializer", &serializerComp);
 	documentTemplateComp.InitComponent();
 
-	icomp::TSimComponentWrap<imod::TModelWrap<iqmain::CMultiDocumentWorkspaceGuiComp> > workspaceComp;
+	icomp::TSimComponentModelWrap<iqmain::CMultiDocumentWorkspaceGuiComp> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
 

@@ -1,0 +1,204 @@
+#include "icomp/CSimComponentContextBase.h"
+
+
+#include "icomp/IComponentStaticInfo.h"
+#include "icomp/CReferenceAttribute.h"
+#include "icomp/CFactoryAttribute.h"
+#include "icomp/CMultiReferenceAttribute.h"
+
+
+namespace icomp
+{
+
+
+CSimComponentContextBase::CSimComponentContextBase(const IComponentStaticInfo* infoPtr)
+:	m_registryElement(infoPtr)
+{
+}
+
+
+bool CSimComponentContextBase::SetAttr(const std::string& attributeId, const iser::ISerializable* attributePtr)
+{
+	I_ASSERT(attributePtr != NULL);
+
+	IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(attributeId, false);
+	if (infoPtr != NULL){
+		infoPtr->attributePtr.SetPtr(const_cast<iser::ISerializable*>(attributePtr));
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent* componentPtr)
+{
+	I_ASSERT(componentPtr != NULL);
+
+	if (SetAttr(referenceId, new CReferenceAttribute(referenceId))){
+		m_componentsMap[referenceId] = componentPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IComponent* componentPtr)
+{
+	I_ASSERT(IsAttributeTypeCorrect(referenceId, typeid(CMultiReferenceAttribute)));
+
+	IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(referenceId, false);
+	if (infoPtr != NULL){
+		IRegistryElement::AttributePtr& attributePtr = infoPtr->attributePtr;
+		if (!attributePtr.IsValid()){
+			attributePtr.SetPtr(new CMultiReferenceAttribute);
+		}
+
+		CMultiReferenceAttribute* multiAttrPtr = dynamic_cast<CMultiReferenceAttribute*>(attributePtr.GetPtr());
+		I_ASSERT(multiAttrPtr != NULL);	// attribute type was correct, casting must be correct
+
+		istd::CString indexString = W("0") + istd::CString::FromNumber(multiAttrPtr->GetValuesCount());
+		std::string attributeId = referenceId + '#' + indexString.ToString();
+
+		multiAttrPtr->InsertValue(attributeId);
+
+		m_componentsMap[attributeId] = componentPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CSimComponentContextBase::SetFactory(const std::string& factoryId, const ComponentsFactory* factoryPtr)
+{
+	I_ASSERT(factoryPtr != NULL);
+
+	if (SetAttr(factoryId, new CFactoryAttribute(factoryId))){
+		m_factoriesMap[factoryId] = factoryPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+void CSimComponentContextBase::SetBoolAttr(const std::string& attributeId, bool value)
+{
+	SetSingleAttr<bool>(attributeId, value);
+}
+
+
+void CSimComponentContextBase::SetIntAttr(const std::string& attributeId, int value)
+{
+	SetSingleAttr<int>(attributeId, value);
+}
+
+
+void CSimComponentContextBase::SetDoubleAttr(const std::string& attributeId, double value)
+{
+	SetSingleAttr<double>(attributeId, value);
+}
+
+
+void CSimComponentContextBase::SetStringAttr(const std::string& attributeId, const istd::CString& value)
+{
+	SetSingleAttr<istd::CString>(attributeId, value);
+}
+
+
+// reimplemeted (icomp::IComponentContext)
+
+const IRegistryElement& CSimComponentContextBase::GetRegistryElement() const
+{
+	return m_registryElement;
+}
+
+
+const IComponentContext* CSimComponentContextBase::GetParentContext() const
+{
+	return this;
+}
+
+
+const iser::ISerializable* CSimComponentContextBase::GetAttribute(const std::string& attributeId, const IComponentContext** realContextPtr) const
+{
+	const IRegistryElement::AttributeInfo* infoPtr = m_registryElement.GetAttributeInfo(attributeId);
+	if (infoPtr != NULL){
+		if (realContextPtr != NULL){
+			*realContextPtr = this;
+		}
+		return infoPtr->attributePtr.GetPtr();
+	}
+
+	const IComponentStaticInfo& componentInfo = m_registryElement.GetComponentStaticInfo();
+	const IComponentStaticInfo::AttributeInfos& attributeInfos = componentInfo.GetAttributeInfos();
+	const IComponentStaticInfo::AttributeInfos::ValueType* attributePtr2 = attributeInfos.FindElement(attributeId);
+	if (attributePtr2 != NULL){
+		I_ASSERT(*attributePtr2 != NULL);
+
+		if ((*attributePtr2)->IsObligatory()){
+			const iser::ISerializable* defaultAttributePtr = (*attributePtr2)->GetAttributeDefaultValue();
+			if (defaultAttributePtr != NULL){
+				if (realContextPtr != NULL){
+					*realContextPtr = this;
+				}
+
+				return defaultAttributePtr;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
+IComponent* CSimComponentContextBase::GetSubcomponent(const std::string& componentId) const
+{
+	ComponentsMap::const_iterator iter = m_componentsMap.find(componentId);
+
+	if (iter != m_componentsMap.end()){
+		return iter->second;
+	}
+
+	return NULL;
+}
+
+
+IComponent* CSimComponentContextBase::CreateSubcomponent(const std::string& componentId) const
+{
+	FactoriesMap::const_iterator iter = m_factoriesMap.find(componentId);
+	if (iter != m_factoriesMap.end()){
+		I_ASSERT(iter->second != NULL);
+
+		return iter->second->CreateInstance();
+	}
+
+	return NULL;
+}
+
+
+// protected methods
+
+bool CSimComponentContextBase::IsAttributeTypeCorrect(const std::string& attributeId, const type_info& attributeType)
+{
+	const IComponentStaticInfo& componentInfo = m_registryElement.GetComponentStaticInfo();
+	const IComponentStaticInfo::AttributeInfos& attrInfos = componentInfo.GetAttributeInfos();
+	const IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr = attrInfos.FindElement(attributeId);
+
+	if ((attrInfoPtr != NULL) && (*attrInfoPtr != NULL)){
+		return std::string((*attrInfoPtr)->GetAttributeType().name()) == attributeType.name();
+	}
+
+	return false;
+}
+
+
+}//namespace icomp
+
+

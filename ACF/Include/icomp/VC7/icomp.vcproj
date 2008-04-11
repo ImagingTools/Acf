@@ -152,6 +152,9 @@
 				RelativePath="..\CRegistryElement.cpp">
 			</File>
 			<File
+				RelativePath="..\CSimComponentContextBase.cpp">
+			</File>
+			<File
 				RelativePath="..\CXmlRegistriesManager.cpp">
 			</File>
 			<File
@@ -193,6 +196,9 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryElement.h">
+			</File>
+			<File
+				RelativePath="..\CSimComponentContextBase.h">
 			</File>
 			<File
 				RelativePath="..\CXmlRegistriesManager.h">
@@ -253,6 +259,12 @@
 			</File>
 			<File
 				RelativePath="..\TReferencePtr.h">
+			</File>
+			<File
+				RelativePath="..\TSimComponentModelWrap.h">
+			</File>
+			<File
+				RelativePath="..\TSimComponentsFactory.h">
 			</File>
 			<File
 				RelativePath="..\TSimComponentWrap.h">
