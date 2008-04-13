@@ -27,6 +27,8 @@
 #include "iqt/ITranslationManager.h"
 #include "iqt/TGuiComponentBase.h"
 
+#include "iqmain/IWorkspaceController.h"
+
 
 namespace iqmain
 {
@@ -49,6 +51,7 @@ public:
 		I_REGISTER_INTERFACE(iqt::IToolBarManager)
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
 		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace")
+		I_ASSIGN(m_workspaceControllerCompPtr, "Workspace", "Workspace controller", true, "Workspace")
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false)
 		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager")
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16)
@@ -99,10 +102,15 @@ protected slots:
 	void OnUndo();
 	void OnRedo();
 	void OnFullScreen();
-//	void OnTileHorizontally();
 	void OnAbout();
 	void OnLanguageSelected(QAction* a); 
 	void OnStyleSelected(QAction* a);
+
+	// Workspace controller slots
+	void OnCloseAllWindows(); 
+	void OnCascade(); 
+	void OnTileHorizontally(); 
+	void OnTile(); 
 
 protected:
 	void SetupMainWindow(QMainWindow& mainWindow);
@@ -167,6 +175,7 @@ private:
 private:
 	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
+	I_REF(iqmain::IWorkspaceController, m_workspaceControllerCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);

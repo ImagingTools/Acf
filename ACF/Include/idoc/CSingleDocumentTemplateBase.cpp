@@ -113,6 +113,7 @@ istd::CStringList CSingleDocumentTemplateBase::GetFileFilters(const std::string*
 	return istd::CStringList();
 }
 
+
 istd::CStringList CSingleDocumentTemplateBase::GetFileExtensions(const std::string* documentTypeIdPtr) const
 {
 	if ((documentTypeIdPtr == NULL) || IsDocumentTypeSupported(*documentTypeIdPtr)){

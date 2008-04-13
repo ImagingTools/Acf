@@ -4,6 +4,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "ibase/CMessage.h"
+
 
 namespace iqtdb
 {
@@ -14,7 +16,8 @@ CTableModelCompBase::CTableModelCompBase()
 	m_databaseConnectorIfPtr(this, "DatabaseConnector"),
 	m_tableNameAttr("", this, "TableName"),
 	m_schemaNameAttr("", this, "SchemaName"),
-	m_updateIntervallAttr(1, this, "UpdateIntervall")
+	m_updateIntervallAttr(1, this, "UpdateIntervall"),
+	m_logCompPtr(this, "Log")
 {
 	m_tableModelPtr = NULL;
 }
@@ -27,10 +30,6 @@ bool CTableModelCompBase::OnInitialize(acf::ComponentManagerInterface* managerPt
 	if (BaseClass::OnInitialize(managerPtr)){
 		if (!m_databaseConnectorIfPtr->IsDatabaseConnected()){
 			if (!m_databaseConnectorIfPtr->ConnectToDatabase()){
-				QString error = QSqlDatabase().lastError().text();
-
-				qDebug(error);
-
 				return false;
 			}
 		}
@@ -76,18 +75,29 @@ QString CTableModelCompBase::CalculateFullTableName(const QString& tableName) co
 }
 
 
+void CTableModelCompBase::AddSqlMessage(const QSqlError& error, const QString& source) const
+{
+	QString lastError = error.text();
+	if (m_logCompPtr.IsValid()){
+		m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Warning, iqt::GetCString(lastError), iqt::GetCString(source)));
+	}
+}
+
+
 // private slots
 
 void CTableModelCompBase::RefreshModel()
 {
-	if (m_tableModelPtr != NULL){
-		m_tableModelPtr->select();
-
-		if (IsModelChanged()){
-			UpdateModel();
+	if (m_databaseConnectorIfPtr.IsValid() && m_databaseConnectorIfPtr->IsDatabaseConnected()){
+		if (m_tableModelPtr != NULL){
+			m_tableModelPtr->select();
+			if (IsModelChanged()){
+				UpdateModelFromTable();
+			}
 		}
 	}
 }
 
 
 } // namespace iqtdb
+

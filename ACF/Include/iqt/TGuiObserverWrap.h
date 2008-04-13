@@ -24,6 +24,12 @@ public:
 
 protected:
 	/**
+		Sets update flags for the editor. 
+		GUI editor will ignore all update events, which not matches the previously set filter.
+	*/
+	virtual void SetUpdateFilter(int updateFlags);
+
+	/**
 		Called when model is attached and GUI is shown.
 	*/
 	virtual void OnGuiModelShown();
@@ -59,6 +65,7 @@ protected:
 private:
 	bool m_ignoreUpdates;
 	bool m_isReadOnly;
+	int m_updateFilter;
 };
 
 
@@ -66,7 +73,7 @@ private:
 
 template <class Gui, class Observer>
 TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
-:	m_ignoreUpdates(false), m_isReadOnly(false)
+:	m_ignoreUpdates(false), m_isReadOnly(false), m_updateFilter(0)
 {
 }
 
@@ -104,6 +111,13 @@ bool TGuiObserverWrap<Gui, Observer>::OnDetached(imod::IModel* modelPtr)
 
 
 // protected methods
+
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::SetUpdateFilter(int updateFlags)
+{
+	m_updateFilter = updateFlags;
+}
+
 
 template <class Gui, class Observer>
 void TGuiObserverWrap<Gui, Observer>::OnGuiModelShown()
@@ -198,7 +212,12 @@ void TGuiObserverWrap<Gui, Observer>::AfterUpdate(imod::IModel* modelPtr, int up
 
 	Observer::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
 
-	if (!m_ignoreUpdates && IsGuiCreated()){
+	bool skipUpdate = false;
+	if (m_updateFilter){
+		skipUpdate = ((m_updateFilter & updateFlags) == 0);
+	}
+
+	if (!m_ignoreUpdates && IsGuiCreated() && !skipUpdate){
 		m_ignoreUpdates = true;
 
 		UpdateEditor();

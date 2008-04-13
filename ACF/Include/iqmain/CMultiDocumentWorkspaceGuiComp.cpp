@@ -17,6 +17,69 @@ namespace iqmain
 
 // public methods
 
+// reimplemented (iqmain::IWorkspaceController)
+
+void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
+{
+	QWorkspace* workspacePtr = GetQtWidget();
+	if (workspacePtr == NULL){
+		return;
+	}
+
+	QWidgetList widgets = workspacePtr->windowList();
+
+	int workspaceHeight = workspacePtr->height();
+	int workspaceWidth = workspacePtr->width();
+	int heightForEach = workspaceHeight / widgets.count();
+	
+	int y = 0;
+	for (int viewIndex = 0; viewIndex < widgets.count(); viewIndex++){
+		QWidget* widgetPtr = widgets.at(viewIndex);
+		widgetPtr->showNormal();									
+		if (widgetPtr->parentWidget() != NULL){
+			int preferredHeight = widgetPtr->minimumHeight() + widgetPtr->parentWidget()->baseSize().height();
+			int currentHeight = istd::Max(heightForEach, preferredHeight);
+
+			widgetPtr->parentWidget()->setGeometry( 0, y, workspaceWidth, currentHeight);
+			y += currentHeight;
+		}
+	}
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::Tile()
+{
+	QWorkspace* workspacePtr = GetQtWidget();
+	if (workspacePtr == NULL){
+		return;
+	}
+
+	workspacePtr->tile();
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::Cascade()
+{
+	QWorkspace* workspacePtr = GetQtWidget();
+	if (workspacePtr == NULL){
+		return;
+	}
+
+	workspacePtr->cascade();
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::CloseAllViews()
+{
+	QWorkspace* workspacePtr = GetQtWidget();
+	if (workspacePtr == NULL){
+		return;
+	}
+
+	workspacePtr->closeAllWindows();
+}
+
+
 // reimplemented (iqt::IGuiObject)
 
 void CMultiDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)

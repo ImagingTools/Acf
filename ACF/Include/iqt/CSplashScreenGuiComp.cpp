@@ -33,11 +33,12 @@ void CSplashScreenGuiComp::OnGuiShown()
 		VersionLabel->setText(iqt::GetQString(productVersionText));
 	}
 	VersionDescriptionLabel->setVisible(!productVersionText.empty());
-	VersionLabel->setVisible(!productVersionText	.empty());
+	VersionLabel->setVisible(!productVersionText.empty());
 
 	if (m_productTypeAttrPtr.IsValid()){
 		ProductTypeLabel->setText(iqt::GetQString(*m_productTypeAttrPtr));
 	}
+
 	ProductTypeLabel->setVisible(m_productTypeAttrPtr.IsValid());
 
 	if (m_productNameAttrPtr.IsValid()){
@@ -61,3 +62,4 @@ void CSplashScreenGuiComp::OnGuiShown()
 
 
 } // namespace iqt
+

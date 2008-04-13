@@ -22,8 +22,7 @@
 #include "idb/IDatabaseConnector.h"
 #include "idb/IDatabaseTableModelProvider.h"
 
-#include "imod/IModel.h"
-#include "imod/IModelEditor.h"
+#include "ibase/IMessageContainer.h"
 
 
 namespace iqtdb
@@ -54,12 +53,12 @@ protected:
 	/**
 		Abstract method for update database table with the contents of the model.
 	*/
-	virtual void UpdateTable() = 0;
+	virtual void UpdateTableFromModel() = 0;
 
 	/**
 		Abstract method for update model with the contents of the database table.
 	*/
-	virtual void UpdateModel() = 0;
+	virtual void UpdateModelFromTable() = 0;
 
 	/**
 		Abstract method for checking the model changes.
@@ -67,6 +66,7 @@ protected:
 	virtual bool IsModelChanged() const = 0;
 
 	QString CalculateFullTableName(const QString& tableName = QString()) const;
+	void AddSqlMessage(const QSqlError& error, const QString& source = "Database") const;
 
 private slots:
 	void RefreshModel();
@@ -75,6 +75,7 @@ protected:
 	QSqlRelationalTableModel* m_tableModelPtr;
 	QString m_schemaName;
 	QString m_tableName;
+	acf::ComponentDependency<ibase::IMessageContainer> m_logCompPtr;
 
 private:
 	QTimer m_checkModelTimer;

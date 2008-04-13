@@ -2,6 +2,7 @@
 
 #include "iqt/iqt.h"
 
+#include "ibase/CMessage.h"
 
 namespace iqtdb
 {
@@ -13,7 +14,8 @@ CDatabaseConnectorComp::CDatabaseConnectorComp()
 	m_databaseNameAttr("", this, "DatabaseName"),
 	m_hostNameAttr("localhost", this, "DatabaseHost"),
 	m_userNameAttr("", this, "User"),
-	m_passwordAttr("", this, "Password")
+	m_passwordAttr("", this, "Password"),
+	m_logCompPtr(this, "Log")
 {
 	RegisterInterface<idb::IDatabaseConnector>(this);
 }
@@ -30,6 +32,12 @@ bool CDatabaseConnectorComp::IsDatabaseConnected() const
 bool CDatabaseConnectorComp::ConnectToDatabase()
 {
 	bool retVal = m_database.open();
+	if (!retVal){
+		QString lastError = m_database.lastError().text(); 
+		if (m_logCompPtr.IsValid()){
+			m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Critical, iqt::GetCString(lastError), iqt::GetCString(tr("Database Connector"))));
+		}
+	}
 
 	return retVal && m_database.isOpen();
 }

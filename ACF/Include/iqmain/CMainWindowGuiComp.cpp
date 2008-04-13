@@ -429,48 +429,6 @@ void CMainWindowGuiComp::OnFullScreen()
 	}
 }
 
-/*
-void CMainWindowGuiComp::OnTileHorizontally() 
-{
-	if (!m_documentManagerCompPtr.IsValid()){
-		return;
-	}
-
-	int documentCount = m_documentManagerCompPtr->GetDocumentsCount();
-	if (!documentCount){
-		return;
-	}
-
-	if (!m_workspaceCompPtr.IsValid()){
-		return;
-	}
-
-	QWorkspace* workspacePtr = dynamic_cast<QWorkspace*>(m_workspaceCompPtr->GetWidget());
-	if (workspacePtr == NULL){
-		return;
-	}
-	int height = workspacePtr->height();
-	int heightForEach = height/documentCount;
-	int y = 0;
-
-	for (int documentIndex = 0; documentIndex < documentCount; documentIndex++){
-		imod::IModel* document = m_documentManagerCompPtr->GetDocumentFromView(documentIndex);
-		if (document != NULL){
-			QWidget* window = dynamic_cast<QWidget*>(m_documentManagerCompPtr->GetView(*document));
-			if (window != NULL){
-				window->showNormal();									
-				if (window->parentWidget() != NULL){
-					int preferredHeight = window->minimumHeight() + window->parentWidget()->baseSize().height();
-					int actHeight = max(heightForEach, preferredHeight);
-
-					window->parentWidget()->setGeometry( 0, y, workspacePtr->width(), actHeight );
-					y += actHeight;
-				}
-			}
-		}
-	}
-}
-*/
 
 void CMainWindowGuiComp::OnAbout()
 {
@@ -491,6 +449,38 @@ void CMainWindowGuiComp::OnStyleSelected(QAction* actionPtr)
 	qApp->setStyle(actionPtr->text());
 
 	QApplication::setPalette(QApplication::style()->standardPalette());
+}
+
+
+void CMainWindowGuiComp::OnCloseAllWindows()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->CloseAllViews();
+	}
+}
+
+
+void CMainWindowGuiComp::OnCascade()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->Cascade();
+	}
+}
+
+
+void CMainWindowGuiComp::OnTileHorizontally()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->TileHorizontally();
+	}
+}
+
+
+void CMainWindowGuiComp::OnTile()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->Tile();
+	}
 }
 
 
@@ -538,7 +528,6 @@ void CMainWindowGuiComp::CreateMenuComponents(QMainWindow& mainWindow)
 	m_menuBar->addAction(m_fileMenu->menuAction());
 	m_menuBar->addAction(m_editMenu->menuAction());
 	m_menuBar->addAction(m_viewMenu->menuAction());
-	m_menuBar->addAction(m_windowMenu->menuAction());
 	m_menuBar->addAction(m_helpMenu->menuAction());
 	
 	m_standardToolBar = new QToolBar(&mainWindow);
@@ -552,33 +541,13 @@ void CMainWindowGuiComp::SetupMenuComponents(QMainWindow& /*mainWindow*/)
 
 	SetupEditMenu();
 
-	m_cascadeAction = new QAction(tr("Casca&de"), m_windowMenu);
-	m_windowMenu->addAction(m_cascadeAction);
-	m_cascadeAction->setEnabled(false);
-
-	m_tileHorizontallyAction = new QAction(tr("Tile &Horizontaly"), m_windowMenu);
-	m_windowMenu->addAction(m_tileHorizontallyAction);
-	connect(m_tileHorizontallyAction, SIGNAL(activated()), this, SLOT(OnTileHorizontally()) ); 
-	m_tileHorizontallyAction->setEnabled(false);
-
-	m_tileVerticallyAction = new QAction(tr("Tile &Verticaly"), m_windowMenu);
-	m_windowMenu->addAction(m_tileVerticallyAction);
-	m_tileVerticallyAction->setEnabled(false);
-
-	m_fullScreenAction = new QAction(tr("&Show Full Screen"), m_viewMenu);
-	m_viewMenu->addAction(m_fullScreenAction);
-	connect(m_fullScreenAction, SIGNAL(activated()), this, SLOT(OnFullScreen()));
-
-	m_windowMenu->addSeparator();
-
-	m_closeAllDocumentsAction = new QAction(tr("&Close All Documents"), m_windowMenu);
-	m_windowMenu->addAction(m_closeAllDocumentsAction);
-	m_closeAllDocumentsAction->setEnabled(false);
-
 	m_aboutAction = new QAction(tr("&About..."), m_helpMenu);
 	m_helpMenu->addAction(m_aboutAction);
 	connect(m_aboutAction, SIGNAL(activated()), this, SLOT(OnAbout()));
 
+	m_fullScreenAction = new QAction(tr("&Show Full Screen"), m_viewMenu);
+	m_viewMenu->addAction(m_fullScreenAction);
+	connect(m_fullScreenAction, SIGNAL(activated()), this, SLOT(OnFullScreen()));
 
 	m_quitAction = new QAction(tr("&Quit"), m_fileMenu);
 	m_fileMenu->addSeparator();
@@ -750,13 +719,37 @@ void CMainWindowGuiComp::SetupWorkspace(QMainWindow& mainWindow)
 {
 	if (m_workspaceCompPtr.IsValid()){
 		m_workspaceCompPtr->CreateGui(NULL);
-		QWorkspace* workspacePtr = dynamic_cast<QWorkspace*>(m_workspaceCompPtr->GetWidget());
+		QWidget* workspacePtr = m_workspaceCompPtr->GetWidget();
 		if (workspacePtr != NULL){
 			mainWindow.setCentralWidget(workspacePtr);
-			connect(m_closeAllDocumentsAction, SIGNAL(activated()), workspacePtr, SLOT(closeAllWindows()) ); 
-			connect(m_cascadeAction, SIGNAL(activated()), workspacePtr,	SLOT(cascade()) ); 
-			connect(m_tileVerticallyAction, SIGNAL(activated()), workspacePtr, SLOT(tile()) ); 
 		}
+	}
+
+
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_cascadeAction = new QAction(tr("Casca&de"), m_windowMenu);
+		m_windowMenu->addAction(m_cascadeAction);
+		connect(m_cascadeAction , SIGNAL(activated()), this, SLOT(OnCascade()) ); 
+		m_cascadeAction->setEnabled(false);
+
+		m_tileHorizontallyAction = new QAction(tr("Tile &Horizontaly"), m_windowMenu);
+		m_windowMenu->addAction(m_tileHorizontallyAction);
+		connect(m_tileHorizontallyAction, SIGNAL(activated()), this, SLOT(OnTileHorizontally()) ); 
+		m_tileHorizontallyAction->setEnabled(false);
+
+		m_tileVerticallyAction = new QAction(tr("Tile &Verticaly"), m_windowMenu);
+		m_windowMenu->addAction(m_tileVerticallyAction);
+		connect(m_tileVerticallyAction, SIGNAL(activated()), this, SLOT(OnTile()) ); 
+		m_tileVerticallyAction->setEnabled(false);
+
+		m_windowMenu->addSeparator();
+
+		m_closeAllDocumentsAction = new QAction(tr("&Close All Documents"), m_windowMenu);
+		m_windowMenu->addAction(m_closeAllDocumentsAction);
+		connect(m_closeAllDocumentsAction, SIGNAL(activated()), this, SLOT(OnCloseAllWindows())); 
+		m_closeAllDocumentsAction->setEnabled(false);
+
+		m_menuBar->addAction(m_windowMenu->menuAction());
 	}
 }
 

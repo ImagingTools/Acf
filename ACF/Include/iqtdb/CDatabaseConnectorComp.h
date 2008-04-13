@@ -19,6 +19,8 @@
 
 #include "idb/IDatabaseConnector.h"
 
+#include "ibase/IMessageContainer.h"
+
 
 namespace iqtdb
 {
@@ -50,6 +52,8 @@ private:
 	acf::StringAttribute m_hostNameAttr;
 	acf::StringAttribute m_userNameAttr;
 	acf::StringAttribute m_passwordAttr;
+
+	acf::ComponentDependency<ibase::IMessageContainer> m_logCompPtr;
 };
 
 
