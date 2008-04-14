@@ -21,8 +21,8 @@ public:
 
 	I_BEGIN_COMPONENT(CFileDialogSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileSerializer)
-		I_ASSIGN(m_fileFiltersCompPtr, "FileFilters", "File Filters", true, "*.*")
-		I_ASSIGN(m_fileFiltersAttrPtr, "IconsPath", "Path to the icon files", true, ".")
+		I_ASSIGN_MULTI_0(m_serializersCompPtr, "Serializers", "List of file serializers will be used as slaves", true)
+		I_ASSIGN_MULTI_0(m_fileFiltersAttrPtr, "FileFilters", "File Filters", true)
 	I_END_COMPONENT
 
 	// reimplemented (iser::IFileSerializer)
@@ -37,9 +37,9 @@ protected:
 
 	iser::IFileSerializer* GetSerializerFor(const QString& filePath) const;
 
-protected:
-	I_MULITREF(iser::IFileSerializer, m_serializersCompPtr);
-	I_MUTLIATTR(icomp::CStringAttribute, m_fileFiltersAttrPtr);
+private:
+	I_MULTIREF(iser::IFileSerializer, m_serializersCompPtr);
+	I_MULTIATTR(istd::CString, m_fileFiltersAttrPtr);
 
 	mutable istd::CString m_lastOpenFileName;
 	mutable istd::CString m_lastSaveFileName;

@@ -41,9 +41,9 @@ public:
 
 private:
 	I_ATTR(istd::CString, m_documentTypeIdAttrPtr);
-	I_MULTI_ATTR(istd::CString, m_fileFiltersAttrPtr);
+	I_MULTIATTR(istd::CString, m_fileFiltersAttrPtr);
 	I_ATTR(istd::CString, m_defaultDirectoryAttrPtr);
-	I_MULTI_ATTR(istd::CString, m_fileExtensionsAttrPtr);
+	I_MULTIATTR(istd::CString, m_fileExtensionsAttrPtr);
 	I_FACT(imod::IModel, m_documentCompFact);
 	I_FACT(imod::IObserver, m_viewCompFact);
 	I_REF(iser::IFileSerializer, m_fileSerializerCompPtr);

@@ -100,15 +100,15 @@ private:
 /**
 	Declare multiple user type attribute member.
 */
-#define I_USER_MULTI_ATTR(attrType, member)\
+#define I_USER_MULTIATTR(attrType, member)\
 	typedef icomp::TMultiAttributePtr< attrType >::AttributeType member##_Type;\
 	icomp::TMultiAttributePtr< attrType > member;
 
 /**
 	Declare simple multiple attribute member.
 */
-#define I_MULTI_ATTR(attrType, member)\
-	I_USER_MULTI_ATTR(icomp::TMultiAttribute<attrType>, member)
+#define I_MULTIATTR(attrType, member)\
+	I_USER_MULTIATTR(icomp::TMultiAttribute<attrType>, member)
 
 /**
 	Declare single reference to another component.

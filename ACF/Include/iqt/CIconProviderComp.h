@@ -30,7 +30,7 @@ public:
 	virtual QIcon GetIcon(int index) const;
 
 private:
-	I_MULTI_ATTR(istd::CString, m_iconFilesAttrPtr);
+	I_MULTIATTR(istd::CString, m_iconFilesAttrPtr);
 	I_ATTR(istd::CString, m_iconPathAttrPtr);
 };
 

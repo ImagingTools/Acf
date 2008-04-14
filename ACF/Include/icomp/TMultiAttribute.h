@@ -19,7 +19,7 @@ namespace icomp
 /**
 	Template implementation of single component attribute.
 	\internal
-	Don't use direct this class, use macros I_MULTI_ATTR and I_ASSIGN instead.
+	Don't use direct this class, use macros I_MULTIATTR and I_ASSIGN instead.
 */
 template <typename Value>
 class TMultiAttribute: virtual public iser::ISerializable

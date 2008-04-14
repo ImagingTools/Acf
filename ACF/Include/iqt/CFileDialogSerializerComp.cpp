@@ -29,7 +29,7 @@ int CFileDialogSerializerComp::LoadFromFile(iser::ISerializable& data, const ist
 
 int CFileDialogSerializerComp::SaveToFile(const iser::ISerializable& data, const istd::CString& filePath) const
 {
-	QString saveFileName = getSaveFileName(filePath);
+	QString saveFileName = GetSaveFileName(filePath);
 	if (saveFileName.isEmpty()){
 		return StateAborted;
 	}
@@ -68,7 +68,7 @@ QString CFileDialogSerializerComp::GetOpenFileName(const istd::CString& filePath
 		QString fileFilter;
 
 		for (int index = 0; index < int(m_fileFiltersAttrPtr.GetCount()); index++){
-			fileFilter += iqt::GetQString(m_fileFiltersAttrPtr.GetValue(index));
+			fileFilter += iqt::GetQString(m_fileFiltersAttrPtr[index]);
 			if (index < int(m_fileFiltersAttrPtr.GetCount())-1){
 				fileFilter += "\n";
 			}
@@ -93,7 +93,7 @@ QString CFileDialogSerializerComp::GetSaveFileName(const istd::CString& filePath
 		QString fileFilter;
 
 		for (int index = 0; index < int(m_fileFiltersAttrPtr.GetCount()); index++){
-			fileFilter += iqt::GetQString(m_fileFiltersAttrPtr.GetValue(index));
+			fileFilter += iqt::GetQString(m_fileFiltersAttrPtr[index]);
 			if (index < int(m_fileFiltersAttrPtr.GetCount())-1){
 				fileFilter += "\n";
 			}
@@ -120,12 +120,11 @@ iser::IFileSerializer* CFileDialogSerializerComp::GetSerializerFor(const QString
 
 	QString fileExtension = QString(".") + fileInfo.suffix();
 
-	for (int index = 0; index < int(m_fileFiltersAttrPtr.GetCount()); index++){
-		QString fileFilter = iqt::GetQString(m_fileFiltersAttrPtr.GetValue(index));
+	int filtersCount = istd::Min(m_fileFiltersAttrPtr.GetCount(), m_serializersCompPtr.GetCount());
+	for (int index = 0; index < filtersCount; index++){
+		QString fileFilter = iqt::GetQString(m_fileFiltersAttrPtr[index]);
 		if (fileFilter.contains(fileExtension)){
-			if (index < m_serializersCompPtr.GetCount()){
-				return m_serializersCompPtr.GetInterfacePtr(index);			
-			}
+			return m_serializersCompPtr[index];
 		}
 	}
 
