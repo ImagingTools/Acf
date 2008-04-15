@@ -207,9 +207,6 @@
 			<File
 				RelativePath="..\CQtPackage.cpp">
 			</File>
-			<File
-				RelativePath="..\Main.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
