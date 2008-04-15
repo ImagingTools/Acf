@@ -111,6 +111,8 @@ void CMainWindowGuiComp::RemoveDockWidget(QDockWidget* /*widgetPtr*/)
 
 void CMainWindowGuiComp::OnComponentCreated()
 {
+	BaseClass::OnComponentCreated();
+
 	if (m_documentManagerCompPtr.IsValid()){
 		imod::IModel* documentManagerModelPtr = dynamic_cast<imod::IModel*>(m_documentManagerCompPtr.GetPtr());
 		if (documentManagerModelPtr != NULL){
@@ -128,6 +130,8 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 			documentManagerModelPtr->DetachObserver(this);
 		}
 	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

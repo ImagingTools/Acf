@@ -38,11 +38,6 @@ TComponentWrap<Component>::TComponentWrap(const IComponentContext* contextPtr)
 template <class Component>
 TComponentWrap<Component>::~TComponentWrap()
 {
-	const IComponentContext* contextPtr = GetComponentContext();
-	if (contextPtr != NULL){
-		OnComponentDestroyed();
-	}
-
 	SetComponentContext(NULL);
 }
 
