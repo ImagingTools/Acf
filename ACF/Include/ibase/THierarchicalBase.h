@@ -4,7 +4,7 @@
 
 #include "ibase/ibase.h"
 
-#include "istd/IHierarchical.h"
+#include "istd/TIHierarchical.h"
 #include "istd/TChangeDelegator.h"
 
 
@@ -18,37 +18,37 @@ namespace ibase
 	Template based implementation of a heriarchical object. 
 	This class is a pseudo-implementation of istd::IHierarchical interface.
 */
-template <class BaseClass>
-class THierarchicalBase: public istd::TChangeDelegator<BaseClass>
+template <class Base, class Interface = Base::InterfaceType>
+class THierarchicalBase: public istd::TChangeDelegator<Base>
 {
 public:
-	typedef istd::TChangeDelegator<BaseClass> BaseImpl;
+	typedef istd::TChangeDelegator<Base> BaseClass;
 
 	THierarchicalBase();
 
-	virtual void SetParentPtr(istd::IHierarchical* parentPtr);
+	virtual void SetParentPtr(Interface* parentPtr);
 
-	// peudeo-reimplemented (istd::IHierarchical)
-	virtual int GetChildCount() const;
-	virtual istd::IPolymorphic* GetChild(int index) const;
-	virtual istd::IHierarchical* GetParent() const;
+	// pseudo-reimplemented (istd::TIHierarchical<Interface>)
+	virtual int GetChildsCount() const;
+	virtual Interface* GetChild(int index) const;
+	virtual Interface* GetParent() const;
 
 protected:
-	istd::IHierarchical* m_parentPtr;
+	Interface* m_parentPtr;
 };
 
 
 // public methods
 
-template <class BaseClass>
-THierarchicalBase<BaseClass>::THierarchicalBase()
+template <class Base, class Interface>
+THierarchicalBase<Base, Interface>::THierarchicalBase()
 {
 	m_parentPtr = NULL;
 }
 
 
-template <class BaseClass>
-void THierarchicalBase<BaseClass>::SetParentPtr(istd::IHierarchical* parentPtr)
+template <class Base, class Interface>
+void THierarchicalBase<Base, Interface>::SetParentPtr(Interface* parentPtr)
 {
 	m_parentPtr = parentPtr;
 
@@ -59,24 +59,24 @@ void THierarchicalBase<BaseClass>::SetParentPtr(istd::IHierarchical* parentPtr)
 }
 
 
-// peudeo-reimplemented (istd::IHierarchical)
+// peudeo-reimplemented (istd::TIHierarchical<Interface>)
 
-template <class BaseClass>
-int THierarchicalBase<BaseClass>::GetChildCount() const
+template <class Base, class Interface>
+int THierarchicalBase<Base, Interface>::GetChildsCount() const
 {
 	return 0;
 }
 
 
-template <class BaseClass>
-istd::IPolymorphic* THierarchicalBase<BaseClass>::GetChild(int /*index*/) const
+template <class Base, class Interface>
+typename Interface* THierarchicalBase<Base, Interface>::GetChild(int /*index*/) const
 {
 	return NULL;
 }
 
 
-template <class BaseClass>
-istd::IHierarchical* THierarchicalBase<BaseClass>::GetParent() const
+template <class Base, class Interface>
+typename Interface* THierarchicalBase<Base, Interface>::GetParent() const
 {
 	return m_parentPtr;
 }
@@ -86,3 +86,5 @@ istd::IHierarchical* THierarchicalBase<BaseClass>::GetParent() const
 
 
 #endif // ibase_THierarchicalBase_included
+
+

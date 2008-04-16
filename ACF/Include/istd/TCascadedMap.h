@@ -206,7 +206,7 @@ int TCascadedMap<Key, Value>::FindIndex(const KeyType& key) const
 	}
 
 	if (m_parentPtr != NULL){
-		return m_parentPtr->FindIndex(key);
+		return m_parentPtr->FindIndex(key) + GetLocalElementsCount();
 	}
 
 	return -1;

@@ -6,8 +6,6 @@
 
 
 #include <vector>
-#include <functional>
-#include <algorithm>
 
 
 namespace istd
@@ -17,15 +15,27 @@ namespace istd
 /**
 	Default delete adapter.
 */
-template<typename PointerType>
-class TDeleteAdapter: public std::unary_function<PointerType, void>
+template<typename Pointer>
+class TDeleteAdapter
 {
 public:
-	void operator()(PointerType& pointer)
-	{
-		I_ASSERT(pointer != NULL);
+	typedef Pointer* ElementType;
 
-		delete pointer;
+	static Pointer* GetPtr(const ElementType& element)
+	{
+		return element;
+	}
+
+	static Pointer* PopPtr(const ElementType& element)
+	{
+		return GetPtr(element);
+	}
+
+	static void Delete(const ElementType& element)
+	{
+		I_ASSERT(element != NULL);
+
+		delete element;
 	}
 };
 
@@ -34,7 +44,7 @@ public:
 	Implementation of a pointer container, 
 	which controls the live cycle of the pointer object.
 */
-template <typename PointerType, class DeleteAdapter = TDeleteAdapter<PointerType*> >
+template <typename Pointer, class AccessAdapter = TDeleteAdapter<Pointer> >
 class TPointerVector
 {
 public:
@@ -42,83 +52,86 @@ public:
 
 	int GetCount() const;
 	void Reset();
-	PointerType* GetAt(int index);
-	const PointerType* GetAt(int index) const;
+	Pointer* GetAt(int index) const;
+	void SetAt(int index, typename const AccessAdapter::ElementType& element);
 	void RemoveAt(int index);
-	PointerType* PopAt(int index);
-	void PushBack(PointerType* elementPtr);
+	Pointer* PopAt(int index);
+	void PushBack(typename const AccessAdapter::ElementType& element);
 
 private:
-	typedef std::vector<PointerType*> Elements;
+	typedef std::vector<typename AccessAdapter::ElementType> Elements;
 
 	Elements m_elements;
 };
 
 
-template <typename PointerType, class DeleteAdapter>
-TPointerVector<PointerType, DeleteAdapter>::~TPointerVector()
+// public methods
+
+template <typename Pointer, class AccessAdapter>
+TPointerVector<Pointer, AccessAdapter>::~TPointerVector()
 {
 	Reset();
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-int TPointerVector<PointerType, DeleteAdapter>::GetCount() const
+template <typename Pointer, class AccessAdapter>
+int TPointerVector<Pointer, AccessAdapter>::GetCount() const
 {
 	return int(m_elements.size());
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-void TPointerVector<PointerType, DeleteAdapter>::Reset()
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::Reset()
 {
-	std::for_each(m_elements.begin(), m_elements.end(), DeleteAdapter());
+	for (		Elements::iterator iter = m_elements.begin();
+				iter != m_elements.end();
+				++iter){
+		AccessAdapter::Delete(*iter);
+	}
 
 	m_elements.clear();
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-PointerType* TPointerVector<PointerType, DeleteAdapter>::GetAt(int index)
+template <typename Pointer, class AccessAdapter>
+typename Pointer* TPointerVector<Pointer, AccessAdapter>::GetAt(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
 
-	return *(m_elements.begin() + index);
+	return AccessAdapter::GetPtr(m_elements[index]);
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-const PointerType* TPointerVector<PointerType, DeleteAdapter>::GetAt(int index) const
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::SetAt(int index, typename const AccessAdapter::ElementType& element)
 {
-	I_ASSERT(index >= 0);
-	I_ASSERT(index < int(m_elements.size()));
-
-	return *(m_elements.begin() + index);
+	m_elements[index] = element;
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-void TPointerVector<PointerType, DeleteAdapter>::RemoveAt(int index)
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::RemoveAt(int index)
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
 
 	Elements::iterator delIter = (m_elements.begin() + index);
 
-	DeleteAdapter()(*delIter);
+	AccessAdapter::Delete(*delIter);
 
 	m_elements.erase(delIter);
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-PointerType* TPointerVector<PointerType, DeleteAdapter>::PopAt(int index)
+template <typename Pointer, class AccessAdapter>
+typename Pointer* TPointerVector<Pointer, AccessAdapter>::PopAt(int index)
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
 
-	PointerType* popPtr = *(m_elements.begin() + index);
+	Pointer* popPtr = AccessAdapter::PopPtr(m_elements[index]);
 
 	m_elements.erase(m_elements.begin() + index);
 
@@ -126,10 +139,10 @@ PointerType* TPointerVector<PointerType, DeleteAdapter>::PopAt(int index)
 }
 
 
-template <typename PointerType, class DeleteAdapter>
-void TPointerVector<PointerType, DeleteAdapter>::PushBack(PointerType* elementPtr)
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::PushBack(typename const AccessAdapter::ElementType& element)
 {
-	m_elements.push_back(elementPtr);
+	m_elements.push_back(element);
 }
 
 

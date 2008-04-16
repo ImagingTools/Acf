@@ -3,31 +3,26 @@
 
 
 #include "istd/INamed.h"
-#include "istd/IChangeable.h"
 #include "istd/IEnableable.h"
-#include "istd/IHierarchical.h"
+#include "istd/TIHierarchical.h"
 
 #include "iproc/IProgressInfo.h"
-#include "iproc/IProgressEventHandler.h"
-
-#include "ibase/IMessageContainer.h"
 
 
 namespace iproc
-{		
+{
 
 
 /**
+    Common interface for all operator objects.
     \interface IOperator IOperator.h
-    \brief a common interface for all operator objects.
 */
-class IOperator:	virtual public istd::INamed, 
-					virtual public istd::IEnableable, 
+class IOperator:	virtual public istd::INamed,
+					virtual public istd::IEnableable,
 					virtual public istd::IHierarchical,
-					virtual public iproc::IProgessInfo
+					virtual public iproc::IProgressInfo
 {
 public:
-
 	enum ChangeFlags
 	{
 		ProgressChanged = 1
@@ -75,4 +70,5 @@ public:
 
 
 #endif // !iproc_IOperator_included
+
 

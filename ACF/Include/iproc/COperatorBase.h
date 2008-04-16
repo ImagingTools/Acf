@@ -25,12 +25,9 @@ namespace iproc
 	It is advisable to use this implementation by programming of the own operators. 
 */
 
-class COperatorBase:	public ibase::CMessageContainer,
-						public ibase::TEnableableWrap<
-								ibase::THierarchicalBase<
-									ibase::TNamedBase<iproc::IOperator> 
-								> 
-							> 
+class COperatorBase:
+			public ibase::CMessageContainer,
+			public ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedBase<iproc::IOperator> > >
 {
 public :
 	COperatorBase();

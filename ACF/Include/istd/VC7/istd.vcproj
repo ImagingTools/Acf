@@ -281,9 +281,6 @@
 				RelativePath="..\IEnableable.h">
 			</File>
 			<File
-				RelativePath="..\IHierarchical.h">
-			</File>
-			<File
 				RelativePath="..\INamed.h">
 			</File>
 			<File
@@ -326,10 +323,16 @@
 				RelativePath="..\TIFactory.h">
 			</File>
 			<File
+				RelativePath="..\TIHierarchical.h">
+			</File>
+			<File
 				RelativePath="..\TIndex.h">
 			</File>
 			<File
 				RelativePath="..\TOptDelPtr.h">
+			</File>
+			<File
+				RelativePath="..\TOptPointerVector.h">
 			</File>
 			<File
 				RelativePath="..\TPointer.h">

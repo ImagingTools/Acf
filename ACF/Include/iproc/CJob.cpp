@@ -5,16 +5,6 @@ namespace iproc
 {
 
 
-CJob::CJob()
-{
-}
-
-
-CJob::~CJob()
-{
-}
-
-
 // reimplemented (iproc::IJob)
 
 void CJob::RegisterElementFactory(IOperatorFactory* elementFactoryPtr)
@@ -38,9 +28,9 @@ iproc::IOperator* CJob::AddProcessingElement(const std::string elementFactoryKey
 }
 
 
-// reimplemented (istd::IHierarchical)
+// reimplemented (istd::TIHierarchical<istd::IPolymorphic>)
 
-int CJob::GetChildCount() const
+int CJob::GetChildsCount() const
 {
 	return GetItemCount();
 }

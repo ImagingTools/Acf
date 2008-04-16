@@ -6,14 +6,13 @@
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 
-#include "idoc/CSerializedDocumentTemplateComp.h"
-
 #include "istdc/TSingleFactoryComp.h"
 #include "istdc/TFileSerializerComp.h"
 
 #include "iqt/CApplicationComp.h"
 #include "iqt/CSplashScreenGuiComp.h"
 
+#include "iqmain/CComplexDocumentTemplateComp.h"
 #include "iqmain/CMainWindowGuiComp.h"
 #include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
 
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<SerializerComp> serializerComp;
 	serializerComp.InitComponent();
 
-	icomp::TSimComponentWrap<idoc::CSerializedDocumentTemplateComp> documentTemplateComp;
+	icomp::TSimComponentWrap<iqmain::CComplexDocumentTemplateComp> documentTemplateComp;
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
 	documentTemplateComp.SetRef("DocumentSerializer", &serializerComp);

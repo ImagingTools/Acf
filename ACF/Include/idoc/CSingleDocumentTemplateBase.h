@@ -17,6 +17,9 @@ namespace idoc
 class IDocumentManager;
 
 
+/**
+	Base class implementing document template for single document type.
+*/
 class CSingleDocumentTemplateBase: virtual public idoc::IDocumentTemplate
 {
 public:

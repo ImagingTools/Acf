@@ -254,6 +254,9 @@
 				RelativePath="..\CSingleDocumentTemplateBase.h">
 			</File>
 			<File
+				RelativePath="..\ICommand.h">
+			</File>
+			<File
 				RelativePath="..\idoc.h">
 			</File>
 			<File

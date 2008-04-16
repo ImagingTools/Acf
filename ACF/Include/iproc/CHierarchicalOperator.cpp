@@ -33,7 +33,7 @@ int CHierarchicalOperator::GetWorstCategory() const
 {
 	int category = SubstractMask(m_maxCategory);
 	
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		iproc::COperatorBase* operatorPtr = dynamic_cast<iproc::COperatorBase*>(GetChild(childIndex));
@@ -56,7 +56,7 @@ bool CHierarchicalOperator::BeforeProcessing()
 {
 	bool retVal = BaseClass::BeforeProcessing();
 
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		iproc::IOperator* operatorPtr = dynamic_cast<iproc::IOperator*>(GetChild(childIndex));
@@ -79,7 +79,7 @@ bool CHierarchicalOperator::Execute()
 
 	SetProcessingState(StateProcessing);
 
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		iproc::IOperator* operatorPtr = dynamic_cast<iproc::IOperator*>(GetChild(childIndex));
@@ -99,7 +99,7 @@ bool CHierarchicalOperator::AfterProcessing()
 {
 	bool retVal = BaseClass::AfterProcessing();
 
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		iproc::IOperator* operatorPtr = dynamic_cast<iproc::IOperator*>(GetChild(childIndex));
@@ -118,7 +118,7 @@ void CHierarchicalOperator::Cancel()
 {
 	BaseClass::Cancel();
 
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
 		iproc::IOperator* operatorPtr = dynamic_cast<iproc::IOperator*>(GetChild(childIndex));
@@ -137,7 +137,7 @@ double CHierarchicalOperator::GetProgress() const
 {
 	double summaryProgress = 0.0;
 
-	int childCount = GetChildCount();
+	int childCount = GetChildsCount();
 	int activeOperatorCount = 0;
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
@@ -155,9 +155,9 @@ double CHierarchicalOperator::GetProgress() const
 }
 
 
-// reimplemented (istd::IHierarchical)
+// reimplemented (istd::TIHierarchical<istd::IPolymorphic>)
 
-int CHierarchicalOperator::GetChildCount() const
+int CHierarchicalOperator::GetChildsCount() const
 {
 	return m_childs.size();
 }

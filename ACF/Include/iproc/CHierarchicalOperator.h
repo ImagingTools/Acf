@@ -31,8 +31,8 @@ public:
 	// reimplemented (iproc::IProgressInfo)
 	virtual double GetProgress() const;
 
-	// reimplemented (istd::IHierarchical)
-	virtual int GetChildCount() const;
+	// reimplemented (istd::TIHierarchical<istd::IPolymorphic>)
+	virtual int GetChildsCount() const;
 	virtual istd::IPolymorphic* GetChild(int index) const;
 
 protected:

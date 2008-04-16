@@ -1,5 +1,5 @@
-#ifndef iproc_IProgessInfo_included
-#define iproc_IProgessInfo_included
+#ifndef iproc_IProgressInfo_included
+#define iproc_IProgressInfo_included
 
 
 #include "istd/IPolymorphic.h"
@@ -12,7 +12,7 @@ namespace iproc
 /**
 	Common inteface for processing progress.
 */
-class IProgessInfo: virtual public istd::IPolymorphic
+class IProgressInfo: virtual public istd::IPolymorphic
 {
 public:
 	/**
@@ -25,5 +25,5 @@ public:
 } // namespace iproc
 
 
-#endif // !iproc_IProgessInfo_included
+#endif // !iproc_IProgressInfo_included
 

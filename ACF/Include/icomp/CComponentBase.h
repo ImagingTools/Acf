@@ -56,7 +56,13 @@ private:
 #define I_BEGIN_COMPONENT(ComponentType)\
 	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
-		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(componentPtr));
+		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(NULL));\
+		static bool isStaticInitialized = false;\
+		if (isStaticInitialized && (componentPtr == NULL)){\
+			return staticInfo;\
+		}\
+		isStaticInitialized = true;\
+		BaseClass::InitStaticInfo(componentPtr);
 
 /**
 	Begin of ACF component declaration for non-instantiable components.
@@ -65,7 +71,14 @@ private:
 #define I_BEGIN_BASE_COMPONENT(ComponentType)\
 	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
-		static icomp::TBaseComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(componentPtr));
+		BaseClass::InitStaticInfo(componentPtr);\
+		static icomp::TBaseComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(NULL));\
+		static bool isStaticInitialized = false;\
+		if (isStaticInitialized && (componentPtr == NULL)){\
+			return staticInfo;\
+		}\
+		isStaticInitialized = true;\
+		BaseClass::InitStaticInfo(componentPtr);
 
 /**
 	End of general ACF component declaration.

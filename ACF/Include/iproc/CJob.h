@@ -12,26 +12,24 @@
 namespace iproc
 {
 
+
 /**
 	Standard implementation of an job.
 */
 class CJob:	public iproc::IJob, 
 			public ibase::TFactorisableContainer<iproc::IOperator>,
 			public iproc::CHierarchicalOperator
-{	
+{
 public:
 	typedef ibase::TFactorisableContainer<iproc::IOperator> BaseClass;
 	typedef iproc::CHierarchicalOperator BaseClass2;
-
-	CJob();
-	virtual ~CJob();
 
 	// reimplemented (iproc::IJob)
 	virtual void RegisterElementFactory(IOperatorFactory* elementFactoryPtr);
 	virtual iproc::IOperator* AddProcessingElement(const std::string elementFactoryKey, const std::string& elementId);
 
-	// reimplemented (istd::IHierarchical)
-	virtual int GetChildCount() const;
+	// reimplemented (istd::TIHierarchical<istd::IPolymorphic>)
+	virtual int GetChildsCount() const;
 	virtual istd::IPolymorphic* GetChild(int index) const;
 
 	// reimplemented (iser::ISerializable)
@@ -47,3 +45,5 @@ protected:
 
 
 #endif // CJob_included
+
+

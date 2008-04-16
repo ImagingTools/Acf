@@ -4,7 +4,7 @@
 
 #include "ibase/IMessageContainer.h"
 
-#include "iproc/IOperator.h"
+#include "iproc/IProgressEventHandler.h"
 
 
 namespace iproc
@@ -31,3 +31,5 @@ public:
 
 
 #endif // iproc_IProcessingController_included
+
+

@@ -40,7 +40,7 @@ void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
 			int preferredHeight = widgetPtr->minimumHeight() + widgetPtr->parentWidget()->baseSize().height();
 			int currentHeight = istd::Max(heightForEach, preferredHeight);
 
-			widgetPtr->parentWidget()->setGeometry( 0, y, workspaceWidth, currentHeight);
+			widgetPtr->parentWidget()->setGeometry(0, y, workspaceWidth, currentHeight);
 			y += currentHeight;
 		}
 	}

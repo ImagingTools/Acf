@@ -198,7 +198,7 @@ void CMainWindowGuiComp::OnRetranslate()
 		parentWidgetPtr = GetWidget();
 	}
 
-	if(parentWidgetPtr->isFullScreen()){
+	if (parentWidgetPtr->isFullScreen()){
 		m_fullScreenAction->setText(tr("Cancel Full Screen"));
 	}
 	else{
