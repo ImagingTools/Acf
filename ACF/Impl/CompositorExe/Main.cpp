@@ -10,16 +10,22 @@
 
 int main(int argc, char *argv[])
 {
+	icomp::TSimComponentWrap<iqt::CApplicationComp> application;
+	application.EnsureInitialized(argc, argv);
+
 	icomp::TSimComponentWrap<iqt::CSplashScreenGuiComp> splashScreenComp;
+	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
+	splashScreenGui.SetStringAttr("ProductName", "Compositior");
+	splashScreenGui.SetStringAttr("ProductType", "ACF Tool");
+	splashScreenGui.SetStringAttr("CopyrightText", "See 'licence.txt' for copyright informations");
 	splashScreenComp.InitComponent();
 
 	icomp::TSimComponentWrap<iqt::CLogGuiComp> logGui;
 	logGui.InitComponent();
 
-	icomp::TSimComponentWrap<iqt::CApplicationComp> appComp;
-	appComp.SetRef("SplashScreen", &splashScreenComp);
-	appComp.SetRef("MainGui", &logGui);
-	appComp.InitComponent();
+	application.SetRef("SplashScreen", &splashScreenComp);
+	application.SetRef("MainGui", &logGui);
+	application.InitComponent();
 
-	return appComp.Execute(argc, argv);
+	return application.Execute(argc, argv);
 }

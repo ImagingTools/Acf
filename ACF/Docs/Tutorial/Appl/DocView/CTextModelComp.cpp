@@ -7,7 +7,7 @@
 
 
 CTextModelComp::CTextModelComp()
-:	m_editorCommand("Editor"),
+:	m_editorCommand("&Text"),
 	m_lowercaseCommand("To Lowercase"),
 	m_uppercaseCommand("To Uppercase")
 {

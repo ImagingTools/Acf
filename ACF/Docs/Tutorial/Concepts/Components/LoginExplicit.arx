@@ -101,7 +101,7 @@
 				<IsEnabled>
 					true
 				</IsEnabled>
-				<AttributeInfoMap count = "3">
+				<AttributeInfoMap count = "4">
 					<AttributeInfo>
 						<Id>
 							ImagePath
@@ -152,7 +152,25 @@
 								true
 							</IsEnabled>
 							<Value>
-								Tutorial
+								Tutorial (Dynamic)
+							</Value>
+						</Data>
+					</AttributeInfo>
+					<AttributeInfo>
+						<Id>
+							CopyrightText
+						</Id>
+						<Type>
+							class icomp::TSingleAttribute&lt;class istd::CString&gt;
+						</Type>
+						<ExportId>
+						</ExportId>
+						<Data>
+							<IsEnabled>
+								true
+							</IsEnabled>
+							<Value>
+								See 'licence.txt' for copyright informations
 							</Value>
 						</Data>
 					</AttributeInfo>

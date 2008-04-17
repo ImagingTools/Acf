@@ -24,10 +24,14 @@ int main(int argc, char *argv[])
 {
 	Q_INIT_RESOURCE(iqmain);
 
+	icomp::TSimComponentWrap<iqt::CApplicationComp> application;
+	application.EnsureInitialized(argc, argv);
+
 	icomp::TSimComponentWrap<iqt::CSplashScreenGuiComp> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "DocView");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
+	splashScreenGui.SetStringAttr("CopyrightText", "See 'licence.txt' for copyright informations");
 	splashScreenGui.InitComponent();
 
 	icomp::TSimComponentsFactory<imod::TModelWrap<CTextModelComp> > modelFactoryComp;
@@ -55,7 +59,6 @@ int main(int argc, char *argv[])
 	mainWindowComp.SetRef("DocumentManager", &workspaceComp);
 	mainWindowComp.InitComponent();
 
-	icomp::TSimComponentWrap<iqt::CApplicationComp> application;
 	application.SetRef("MainGui", &mainWindowComp);
 	application.SetRef("SplashScreen", &splashScreenGui);
 	application.InitComponent();

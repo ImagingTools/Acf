@@ -115,7 +115,7 @@ bool CDistributeDialog::CopyAllFiles()
 
 	QStringList specialsFilter;
 	specialsFilter << "*.envVariable";
-	specialsFilter << "GNU.txt";
+	specialsFilter << "*.txt";
 
 	QStringList projectsFilter;
 	projectsFilter << "*.vcproj" << "*.sln";
