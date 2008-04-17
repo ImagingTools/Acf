@@ -11,7 +11,6 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QStatusBar>
-#include <QApplication>
 
 #include "imod/TSingleModelObserverBase.h"
 #include "imod/IUndoManager.h"
@@ -55,6 +54,13 @@ public:
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16)
 	I_END_COMPONENT
 
+	enum GroupId
+	{
+		GI_APPLICATION = 0x200,
+		GI_WINDOW,
+		GI_DOCUMENT,
+		GI_UNDO
+	};
 
 	CMainWindowGuiComp();
 	virtual ~CMainWindowGuiComp();
@@ -80,6 +86,9 @@ protected:
 	virtual void OnDocumentCountChanged();
 	virtual void OnActiveViewChanged();
 	virtual void OnActiveDocumentChanged();
+
+	template <class MenuType>
+	void CreateMenu(const iqt::CHierarchicalCommand& command, MenuType& result) const;
 
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -214,6 +223,45 @@ private:
 	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 };
+
+
+// public template methods
+
+template <class MenuType>
+void CMainWindowGuiComp::CreateMenu(const iqt::CHierarchicalCommand& command, typename MenuType& result) const
+{
+	int prevGroupId = idoc::ICommand::GI_NONE;
+
+	int childsCount = command.GetChildsCount();
+
+	for (int i = 0; i < childsCount; ++i){
+		const iqt::CHierarchicalCommand* hierarchicalPtr = dynamic_cast<const iqt::CHierarchicalCommand*>(command.GetChild(i));
+
+		if (hierarchicalPtr != NULL){
+			int groupId = hierarchicalPtr->GetGroupId();
+
+			if ((groupId != prevGroupId) && (prevGroupId != idoc::ICommand::GI_NONE)){
+				result.addSeparator();
+			}
+
+			if (groupId != idoc::ICommand::GI_NONE){
+				prevGroupId = groupId;
+			}
+
+			if (hierarchicalPtr->GetChildsCount() > 0){
+				QMenu* newMenuPtr = new QMenu(&result);
+				newMenuPtr->setTitle(iqt::GetQString(hierarchicalPtr->GetName()));
+
+				CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
+
+				result.addMenu(newMenuPtr);
+			}
+			else{
+				result.addAction(const_cast<iqt::CHierarchicalCommand*>(hierarchicalPtr));
+			}
+		}
+	}
+}
 
 
 } // namespace iqmain

@@ -45,10 +45,24 @@ public:
 		CF_ALL_ENABLED = CF_GLOBAL_MENU | CF_CONTEXT_MENU | CF_TOOLBAR | CF_TOOLBOX
 	};
 
+	enum GroupId
+	{
+		GI_NONE = -1,
+		GI_NORMAL = 0,
+		GI_USER = 0x1000
+	};
+
 	/**
 		Get priority in the same group.
 	*/
 	virtual int GetPriority() const = 0;
+
+	/**
+		Get group ID used to decide if separator should be used.
+		\sa	GroupId.
+		\return	group ID or negative value, if no group is assigned.
+	*/
+	virtual int GetGroupId() const = 0;
 
 	/**
 		Get static flags of this command.

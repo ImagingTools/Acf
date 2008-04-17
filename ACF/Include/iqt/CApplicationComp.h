@@ -28,6 +28,8 @@ public:
 		I_ASSIGN(m_splashTimeAttrPtr, "SplashTime", "Minimal time splash screen will be shown", true, 2)
 	I_END_COMPONENT
 
+	bool EnsureInitialized(int argc, char** argv);
+
 	// reimplemented (ibase::IApplication)
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
@@ -36,6 +38,8 @@ private:
 	I_REF(IGuiObject, m_mainGuiCompPtr);
 	I_REF(IGuiObject, m_splashScreenCompPtr);
 	I_ATTR(double, m_splashTimeAttrPtr);
+
+	istd::TDelPtr<QApplication> m_applicationPtr;
 };
 
 

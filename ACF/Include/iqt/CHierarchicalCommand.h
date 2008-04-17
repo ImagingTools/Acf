@@ -30,10 +30,11 @@ public:
 	typedef QAction BaseClass;
 	typedef ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedBase<idoc::IHierarchicalCommand> > > BaseClass2;
 
-	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_ALL_ENABLED);
+	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_ALL_ENABLED, int groupId = GI_NORMAL);
 
 	void SetPriority(int priority);
 	void SetStaticFlags(int flags);
+	void SetGroupId(int groupId);
 
 	/**
 		Reset list of childs.
@@ -51,11 +52,9 @@ public:
 	*/
 	void JoinLinkFrom(const idoc::IHierarchicalCommand* rootPtr);
 
-	template <class MenuType>
-	void CreateMenu(MenuType& result) const;
-
 	// reimplemented (idoc::ICommand)
 	virtual int GetPriority() const;
+	virtual int GetGroupId() const;
 	virtual int GetStaticFlags() const;
 	virtual bool Execute(istd::IPolymorphic* contextPtr);
 
@@ -65,6 +64,9 @@ public:
 
 	// reimplemented (istd::INamed)
 	virtual void SetName(const istd::CString& name);
+
+	// reimplemented (istd::IEnableable)
+	virtual void SetEnabled(bool isEnabled = true);
 
 protected:
 	/**
@@ -81,40 +83,11 @@ protected:
 private:
 	int m_priority;
 	int m_staticFlags;
+	int m_groupId;
 
 	typedef istd::TOptPointerVector<CHierarchicalCommand> Childs;
 	Childs m_childs;
 };
-
-
-// public template methods
-
-template <class MenuType>
-void CHierarchicalCommand::CreateMenu(typename MenuType& result) const
-{
-	int childsCount = m_childs.GetCount();
-
-	for (int i = 0; i < childsCount; ++i){
-		const idoc::ICommand* childPtr = m_childs.GetAt(i);
-		I_ASSERT(childPtr != NULL);
-
-		const CHierarchicalCommand* hierarchicalPtr = dynamic_cast<const CHierarchicalCommand*>(childPtr);
-
-		if (hierarchicalPtr != NULL){
-			if (hierarchicalPtr->GetChildsCount() > 0){
-				QMenu* newMenuPtr = new QMenu(&result);
-				newMenuPtr->setTitle(iqt::GetQString(childPtr->GetName()));
-
-				hierarchicalPtr->CreateMenu<QMenu>(*newMenuPtr);
-
-				result.addMenu(newMenuPtr);
-			}
-			else{
-				result.addAction(const_cast<CHierarchicalCommand*>(hierarchicalPtr));
-			}
-		}
-	}
-}
 
 
 } // namespace iqt

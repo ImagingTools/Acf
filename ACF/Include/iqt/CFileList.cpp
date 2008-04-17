@@ -2,7 +2,6 @@
 #include "iqt/CDirList.h"
 
 
-#include <QApplication>
 #include <QFileInfo> 
 
 

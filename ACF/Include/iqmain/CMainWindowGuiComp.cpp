@@ -1,11 +1,9 @@
 #include <QStatusBar>
-#include <QWorkspace>
 #include <QMessageBox>
-#include <QSpacerItem>
-#include <QHBoxLayout>
-#include <QComboBox>
 #include <QFrame>
+#include <QStyle>
 #include <QStyleFactory>
+#include <QApplication>
 
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
@@ -46,19 +44,26 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_fileCommand.InsertChild(&m_openCommand, false);
 	m_fileCommand.InsertChild(&m_saveCommand, false);
 	m_fileCommand.InsertChild(&m_saveAsCommand, false);
+	m_quitCommand.SetGroupId(GI_APPLICATION);
 	m_fileCommand.InsertChild(&m_quitCommand, false);
 
 	m_editCommand.SetPriority(60);
+	m_undoCommand.SetGroupId(GI_UNDO);
 	m_editCommand.InsertChild(&m_undoCommand, false);
+	m_redoCommand.SetGroupId(GI_UNDO);
 	m_editCommand.InsertChild(&m_redoCommand, false);
 
 	m_viewCommand.SetPriority(90);
 	m_viewCommand.InsertChild(&m_fullScreenCommand, false);
 
 	m_windowCommand.SetPriority(120);
+	m_cascadeCommand.SetGroupId(GI_WINDOW);
 	m_windowCommand.InsertChild(&m_cascadeCommand, false);
+	m_tileHorizontallyCommand.SetGroupId(GI_WINDOW);
 	m_windowCommand.InsertChild(&m_tileHorizontallyCommand, false);
+	m_tileVerticallyCommand.SetGroupId(GI_WINDOW);
 	m_windowCommand.InsertChild(&m_tileVerticallyCommand, false);
+	m_closeAllDocumentsCommand.SetGroupId(GI_DOCUMENT);
 	m_windowCommand.InsertChild(&m_closeAllDocumentsCommand, false);
 
 	m_helpCommand.SetPriority(150);
@@ -202,6 +207,11 @@ void CMainWindowGuiComp::OnDocumentCountChanged()
 	m_tileHorizontallyAction->setEnabled(documentsCount > 1);
 	m_tileVerticallyAction->setEnabled(documentsCount > 1);
 	m_closeAllDocumentsAction->setEnabled(documentsCount > 0);
+
+	m_cascadeCommand.SetEnabled(documentsCount > 1);
+	m_tileHorizontallyCommand.SetEnabled(documentsCount > 1);
+	m_tileVerticallyCommand.SetEnabled(documentsCount > 1);
+	m_closeAllDocumentsCommand.SetEnabled(documentsCount > 0);
 }
 
 
@@ -231,6 +241,9 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 
 	m_saveAction->setEnabled(isDocumentActive);
 	m_saveAsAction->setEnabled(isDocumentActive);
+
+	m_saveCommand.SetEnabled(isDocumentActive);
+	m_saveAsCommand.SetEnabled(isDocumentActive);
 
 	UpdateMenuActions();
 }
@@ -264,14 +277,14 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_windowCommand.SetName(tr("&Window").toStdWString());
 	m_helpCommand.SetName(tr("&Help").toStdWString());
 	m_newCommand.SetName(tr("&New").toStdWString());
-	m_newCommand.setIcon(GetIcon("document_128.png"));
+	m_newCommand.setIcon(GetIcon("document"));
 	m_openCommand.SetName(tr("&Open...").toStdWString());
-	m_openCommand.setIcon(GetIcon("folder_128.png"));
+	m_openCommand.setIcon(GetIcon("folder"));
 	m_saveCommand.SetName(tr("&Save").toStdWString());
-	m_saveCommand.setIcon(GetIcon("diskette_128.png"));
+	m_saveCommand.setIcon(GetIcon("diskette"));
 	m_saveAsCommand.SetName(tr("&Save As...").toStdWString());
 	m_quitCommand.SetName(tr("&Quit").toStdWString());
-	m_quitCommand.setIcon(GetIcon("exit.png"));
+	m_quitCommand.setIcon(GetIcon("exit"));
 	m_undoCommand.SetName(tr("&Undo").toStdWString());
 	m_redoCommand.SetName(tr("&Redo").toStdWString());
 	m_fullScreenCommand.SetName((parentWidgetPtr->isFullScreen()?
@@ -399,7 +412,7 @@ void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateP
 
 QIcon CMainWindowGuiComp::GetIcon(const std::string& name)
 {
-	return QIcon((":/Resources/Icons/" + name).c_str());
+	return QIcon((":/Icons/" + name).c_str());
 }
 
 
@@ -670,7 +683,7 @@ void CMainWindowGuiComp::SetupMenuComponents(QMainWindow& /*mainWindow*/)
 	m_quitAction = new QAction(tr("&Quit"), m_fileMenu);
 	m_fileMenu->addSeparator();
 	m_fileMenu->addAction(m_quitAction);
-	m_quitAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/exit.png")));
+	m_quitAction->setIcon(QIcon(":/Icons/exit"));
 	connect(m_quitAction, SIGNAL(activated()), this, SLOT(OnQuit()));
 }
 
@@ -696,7 +709,7 @@ void CMainWindowGuiComp::SetupFileMenu()
 		m_fileMenu->addAction(m_newAction);
 		m_fileMenu->addSeparator();
 		connect(m_newAction, SIGNAL(activated()), this, SLOT(OnNew()));
-		m_newAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/document_128.png")));
+		m_newAction->setIcon(QIcon(":/Icons/document"));
 		m_newAction->setShortcut(tr("Ctrl+N"));
 		m_standardToolBar->addAction(m_newAction);
 
@@ -704,7 +717,7 @@ void CMainWindowGuiComp::SetupFileMenu()
 		m_fileMenu->addAction(m_openAction);
 		m_fileMenu->addSeparator();
 		connect(m_openAction, SIGNAL(activated()), this, SLOT(OnOpen()));
-		m_openAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/folder_128.png")));
+		m_openAction->setIcon(QIcon(":/Icons/folder"));
 		m_openAction->setShortcut(tr("Ctrl+O"));
 		m_standardToolBar->addAction(m_openAction);
 	}
@@ -713,14 +726,14 @@ void CMainWindowGuiComp::SetupFileMenu()
 		m_fileMenu->addAction(m_newMenu->menuAction());
 		m_fileMenu->addSeparator();
 		connect(m_newMenu, SIGNAL(triggered(QAction*)), this, SLOT(OnFileNewAction(QAction*)));
-		m_newMenu->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/document_128.png")));
+		m_newMenu->setIcon(QIcon(":/Icons/document"));
 		m_standardToolBar->addAction(m_newMenu->menuAction());
 
 		m_openMenu = new QMenu(tr("&Open"), m_fileMenu);
 		m_fileMenu->addAction(m_openMenu->menuAction());
 		m_fileMenu->addSeparator();
 		connect(m_openMenu, SIGNAL(triggered(QAction*)), this, SLOT(OnFileOpenAction(QAction*)));
-		m_openMenu->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/folder_128.png")));
+		m_openMenu->setIcon(QIcon(":/Icons/folder"));
 		m_standardToolBar->addAction(m_openMenu->menuAction());
 
 		m_newMenu->clear();
@@ -741,7 +754,7 @@ void CMainWindowGuiComp::SetupFileMenu()
 	m_fileMenu->addAction(m_saveAction);
 	connect(m_saveAction, SIGNAL(activated()), this, SLOT(OnSave()));
 	m_saveAction->setEnabled(false);
-	m_saveAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/diskette_128.png")));
+	m_saveAction->setIcon(QIcon(":/Icons/diskette"));
 	m_saveAction->setShortcut(tr("Ctrl+S"));
 	m_standardToolBar->addAction(m_saveAction);
 
@@ -757,12 +770,12 @@ void CMainWindowGuiComp::SetupEditMenu()
 	m_undoAction = new QAction(tr("&Undo"), m_editMenu);
 	m_undoAction->setShortcut(tr("Ctrl+Z"));
 	connect(m_undoAction, SIGNAL(activated()), this, SLOT(OnUndo()));
-	m_undoAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/Undo.png")));
+	m_undoAction->setIcon(QIcon(":/Icons/Undo"));
 
 	m_redoAction = new QAction(tr("&Redo"), m_editMenu);
 	m_redoAction->setShortcut(tr("Ctrl+Y"));
 	connect(m_redoAction, SIGNAL(activated()), this, SLOT(OnRedo()));
-	m_redoAction->setIcon(QIcon(QString::fromUtf8(":/Resources/Icons/Redo.png")));
+	m_redoAction->setIcon(QIcon(":/Icons/Redo"));
 	
 	m_editMenu->addAction(m_undoAction);
 	m_editMenu->addAction(m_redoAction);
@@ -918,19 +931,20 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 
 void CMainWindowGuiComp::UpdateUndoMenu()
 {
+	bool isUndoAvailable = false;
+	bool isRedoAvailable = false;
+
 	imod::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObjectPtr();
-	if (undoManagerPtr == NULL){
-		m_undoAction->setEnabled(false);
-		m_redoAction->setEnabled(false);
-
-		return;
+	if (undoManagerPtr != NULL){
+		isUndoAvailable = undoManagerPtr->IsUndoAvailable();
+		isRedoAvailable = undoManagerPtr->IsRedoAvailable();
 	}
-
-	bool isUndoAvailable = undoManagerPtr->IsUndoAvailable();
-	bool isRedoAvailable = undoManagerPtr->IsRedoAvailable();
 
 	m_undoAction->setEnabled(isUndoAvailable);
 	m_redoAction->setEnabled(isRedoAvailable);
+
+	m_undoCommand.SetEnabled(isUndoAvailable);
+	m_redoCommand.SetEnabled(isRedoAvailable);
 }
 
 
@@ -972,7 +986,7 @@ void CMainWindowGuiComp::UpdateMenuActions()
 	}
 
 	m_menuBar->clear();
-	m_menuCommands.CreateMenu(*m_menuBar);
+	CreateMenu(m_menuCommands, *m_menuBar);
 }
 
 

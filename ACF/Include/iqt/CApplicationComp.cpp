@@ -2,6 +2,8 @@
 
 
 #include <QApplication>
+#include <QString>
+#include <QIcon>
 
 #include "iqt/CTimer.h"
 
@@ -10,13 +12,9 @@ namespace iqt
 {
 
 
-// reimplemented (ibase::IApplication)
-
-int CApplicationComp::Execute(int argc, char** argv)
+bool CApplicationComp::EnsureInitialized(int argc, char** argv)
 {
-	int retVal = -1;
-
-	if (m_mainGuiCompPtr.IsValid()){
+	if (!m_applicationPtr.IsValid()){
 		std::string appStyle;
 
 		// parse arguments:
@@ -29,9 +27,26 @@ int CApplicationComp::Execute(int argc, char** argv)
 			}
 		}
 
-		QApplication application(argc, argv);
-		application.setStyle(appStyle.c_str());
+		m_applicationPtr.SetPtr(new QApplication(argc, argv));
+		if (!m_applicationPtr.IsValid()){
+			return false;
+		}
 
+		m_applicationPtr->setStyle(appStyle.c_str());
+		m_applicationPtr->setWindowIcon(QIcon(":/Icons/acfLogo"));
+	}
+
+	return true;
+}
+
+
+// reimplemented (ibase::IApplication)
+
+int CApplicationComp::Execute(int argc, char** argv)
+{
+	int retVal = -1;
+
+	if (EnsureInitialized(argc, argv) && m_mainGuiCompPtr.IsValid()){
 		iqt::CTimer timer;
 
 		bool useSplashScreen = m_splashScreenCompPtr.IsValid() && m_splashScreenCompPtr->CreateGui(NULL);
@@ -61,7 +76,7 @@ int CApplicationComp::Execute(int argc, char** argv)
 			mainWidgetPtr->show();
 
 			// start application loop:
-			retVal = application.exec();
+			retVal = m_applicationPtr->exec();
 		}
 
 		m_mainGuiCompPtr->DestroyGui();
@@ -76,6 +91,8 @@ istd::CString CApplicationComp::GetHelpText() const
 	return "-style QtStyle\tname of Qt-specified style";
 }
 
+
+// protected methods
 
 } // namespace iqt
 

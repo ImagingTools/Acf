@@ -5,10 +5,11 @@ namespace iqt
 {
 
 
-CHierarchicalCommand::CHierarchicalCommand(const istd::CString& name, int priority, int staticFlags)
+CHierarchicalCommand::CHierarchicalCommand(const istd::CString& name, int priority, int staticFlags, int groupId)
 :	BaseClass(iqt::GetQString(name), NULL),
 	m_priority(priority),
-	m_staticFlags(staticFlags)
+	m_staticFlags(staticFlags),
+	m_groupId(groupId)
 {
 	BaseClass2::SetName(name);
 }
@@ -17,6 +18,12 @@ CHierarchicalCommand::CHierarchicalCommand(const istd::CString& name, int priori
 void CHierarchicalCommand::SetPriority(int priority)
 {
 	m_priority = priority;
+}
+
+
+void CHierarchicalCommand::SetGroupId(int groupId)
+{
+	m_groupId = groupId;
 }
 
 
@@ -87,6 +94,12 @@ int CHierarchicalCommand::GetPriority() const
 }
 
 
+int CHierarchicalCommand::GetGroupId() const
+{
+	return m_groupId;
+}
+
+
 int CHierarchicalCommand::GetStaticFlags() const
 {
 	return m_staticFlags;
@@ -126,8 +139,17 @@ idoc::ICommand* CHierarchicalCommand::GetChild(int index) const
 
 void CHierarchicalCommand::SetName(const istd::CString& name)
 {
+	BaseClass::setText(iqt::GetQString(name));
 	BaseClass2::SetName(name);
-	setText(iqt::GetQString(name));
+}
+
+
+// reimplemented (istd::IEnableable)
+
+void CHierarchicalCommand::SetEnabled(bool isEnabled)
+{
+	BaseClass::setEnabled(isEnabled);
+	BaseClass2::SetEnabled(isEnabled);
 }
 
 
