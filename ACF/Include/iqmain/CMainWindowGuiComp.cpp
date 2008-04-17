@@ -918,15 +918,19 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 
 void CMainWindowGuiComp::UpdateUndoMenu()
 {
-	if (m_activeUndoManager.GetObjectPtr() == NULL){
+	imod::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObjectPtr();
+	if (undoManagerPtr == NULL){
 		m_undoAction->setEnabled(false);
 		m_redoAction->setEnabled(false);
 
 		return;
 	}
 
-	m_undoAction->setEnabled(m_activeUndoManager.GetObjectPtr()->IsUndoAvailable());
-	m_redoAction->setEnabled(m_activeUndoManager.GetObjectPtr()->IsRedoAvailable());
+	bool isUndoAvailable = undoManagerPtr->IsUndoAvailable();
+	bool isRedoAvailable = undoManagerPtr->IsRedoAvailable();
+
+	m_undoAction->setEnabled(isUndoAvailable);
+	m_redoAction->setEnabled(isRedoAvailable);
 }
 
 
