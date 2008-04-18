@@ -12,8 +12,9 @@
 #include <QActionGroup>
 #include <QStatusBar>
 
-#include "imod/TSingleModelObserverBase.h"
+#include "imod/IModel.h"
 #include "imod/IUndoManager.h"
+#include "imod/TSingleModelObserverBase.h"
 
 #include "idoc/IDocumentManager.h"
 
@@ -47,6 +48,7 @@ public:
 		I_REGISTER_INTERFACE(iqt::IDockManager)
 		I_REGISTER_INTERFACE(iqt::IToolBarManager)
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
+		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
 		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace")
 		I_ASSIGN(m_workspaceControllerCompPtr, "Workspace", "Workspace controller", true, "Workspace")
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false)
@@ -218,6 +220,7 @@ private:
 
 	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
+	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(iqmain::IWorkspaceController, m_workspaceControllerCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);

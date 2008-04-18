@@ -4,6 +4,7 @@
 
 #include "icomp/IComponentContext.h"
 #include "icomp/TSingleAttributePtr.h"
+#include "icomp/TInterfaceManipBase.h"
 #include "icomp/CReferenceAttribute.h"
 
 
@@ -16,7 +17,7 @@ namespace icomp
 	Don't use direct this class, use macros \c I_REF and \c I_ASSIGN instead.
 */
 template <class Interface>
-class TReferencePtr: public TSingleAttributePtr<CReferenceAttribute>
+class TReferencePtr: public TSingleAttributePtr<CReferenceAttribute>, public TInterfaceManipBase<Interface>
 {
 public:
 	typedef TSingleAttributePtr<CReferenceAttribute> BaseClass;
@@ -134,7 +135,13 @@ bool TReferencePtr<Interface>::EnsureInitialized() const
 		if (parentPtr != NULL){
 			const std::string& componentId = BaseClass::operator*();
 
-			m_componentPtr = dynamic_cast<Interface*>(parentPtr->GetSubcomponent(componentId));
+			std::string baseId;
+			std::string subId;
+			SplitId(componentId, baseId, subId);
+
+			IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
+
+			m_componentPtr = ExtractInterface(componentPtr, subId);
 
 			m_isInitialized = true;
 		}

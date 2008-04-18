@@ -31,8 +31,8 @@ public:
 	typedef idoc::CDocumentManagerBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
-		I_REGISTER_INTERFACE(idoc::IDocumentManager);
-		I_REGISTER_INTERFACE(iqmain::IWorkspaceController);
+		I_REGISTER_INTERFACE(idoc::IDocumentManager)
+		I_REGISTER_INTERFACE(iqmain::IWorkspaceController)
 		I_ASSIGN(m_scrollingEnabledAttrPtr, "ScrollingWorkspace", "Enable scrolling of workspace area", true, false)
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate")
 	I_END_COMPONENT

@@ -26,6 +26,7 @@ public:
 				imod::TSingleModelObserverBase<IText> > BaseClass;
 
 	I_BEGIN_COMPONENT(CTextEditorComp)
+		I_REGISTER_INTERFACE(imod::IObserver)
 	I_END_COMPONENT
 
 	// reimplemented (iqt::TGuiObserverWrap)

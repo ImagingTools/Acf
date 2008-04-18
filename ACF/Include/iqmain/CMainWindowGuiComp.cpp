@@ -5,7 +5,6 @@
 #include <QStyleFactory>
 #include <QApplication>
 
-#include "imod/IModel.h"
 #include "imod/IObserver.h"
 
 #include "idoc/ICommandsProvider.h"
@@ -166,22 +165,16 @@ void CMainWindowGuiComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_documentManagerCompPtr.IsValid()){
-		imod::IModel* documentManagerModelPtr = dynamic_cast<imod::IModel*>(m_documentManagerCompPtr.GetPtr());
-		if (documentManagerModelPtr != NULL){
-			documentManagerModelPtr->AttachObserver(this);
-		}
+	if (m_documentManagerModelCompPtr.IsValid()){
+		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
 }
 
 
 void CMainWindowGuiComp::OnComponentDestroyed()
 {
-	if (m_documentManagerCompPtr.IsValid()){
-		imod::IModel* documentManagerModelPtr = dynamic_cast<imod::IModel*>(m_documentManagerCompPtr.GetPtr());
-		if (documentManagerModelPtr != NULL){
-			documentManagerModelPtr->DetachObserver(this);
-		}
+	if (m_documentManagerModelCompPtr.IsValid()){
+		m_documentManagerModelCompPtr->DetachObserver(this);
 	}
 
 	BaseClass::OnComponentDestroyed();

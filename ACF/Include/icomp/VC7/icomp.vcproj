@@ -249,7 +249,13 @@
 				RelativePath="..\TFactoryMember.h">
 			</File>
 			<File
+				RelativePath="..\TInterfaceManipBase.h">
+			</File>
+			<File
 				RelativePath="..\TInterfaceRegistrator.h">
+			</File>
+			<File
+				RelativePath="..\TModelCompWrap.h">
 			</File>
 			<File
 				RelativePath="..\TMultiAttribute.h">

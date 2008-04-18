@@ -1,0 +1,34 @@
+#ifndef imod_TModelCompWrap_included
+#define imod_TModelCompWrap_included
+
+
+#include "imod/TModelWrap.h"
+
+#include "icomp/CComponentBase.h"
+
+
+namespace icomp
+{
+
+
+/**
+	This model wrapper extends functionality of \c icomp::TModelWrap for components.
+*/
+template <class Base>
+class TModelCompWrap: public imod::TModelWrap<Base>
+{
+public:
+	typedef imod::TModelWrap<Base> BaseClass;
+
+	I_BEGIN_COMPONENT(TModelCompWrap)
+		I_REGISTER_INTERFACE(imod::IModel)
+	I_END_COMPONENT
+};
+
+
+} // namespace icomp
+
+
+#endif // !imod_TModelCompWrap_included
+
+

@@ -2,9 +2,6 @@
 #define imod_TModelWrap_included
 
 
-#include "imod/imod.h"
-
-
 #include "istd/TUpdateManagerWrap.h"
 
 #include "imod/CModelBase.h"
@@ -17,14 +14,14 @@ namespace imod
 /**
 	\ingroup imod
 
-	This model wrapper provides a simple connection between a concrete IChangeable implementation
-	and a model.
+	This model wrapper provides a simple connection between a concrete
+	\c istd::IChangeable implementation and a model.
 */
-template <class BaseClass>
-class TModelWrap: public istd::TUpdateManagerWrap<BaseClass>, public imod::CModelBase
+template <class Base>
+class TModelWrap: public istd::TUpdateManagerWrap<Base>, public imod::CModelBase
 {
 public:
-	typedef istd::TUpdateManagerWrap<BaseClass> BaseClass;
+	typedef istd::TUpdateManagerWrap<Base> BaseClass;
 	typedef imod::CModelBase BaseClass2;
 
 protected:
@@ -38,8 +35,8 @@ protected:
 
 // pseudo-reimplemented (istd::IChangeable)
 
-template <class BaseClass>
-void TModelWrap<BaseClass>::OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+template <class Base>
+void TModelWrap<Base>::OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	BaseClass::OnBeginChanges(changeFlags, changeParamsPtr);
 
@@ -47,8 +44,8 @@ void TModelWrap<BaseClass>::OnBeginChanges(int changeFlags, istd::IPolymorphic* 
 }
 
 
-template <class BaseClass>
-void TModelWrap<BaseClass>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+template <class Base>
+void TModelWrap<Base>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
 

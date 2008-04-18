@@ -1,8 +1,7 @@
 #include "iser/CXmlFileReadArchive.h"
 #include "iser/CXmlFileWriteArchive.h"
 
-#include "imod/TModelWrap.h"
-
+#include "icomp/TModelCompWrap.h"
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetStringAttr("CopyrightText", "See 'licence.txt' for copyright informations");
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentsFactory<imod::TModelWrap<CTextModelComp> > modelFactoryComp;
+	icomp::TSimComponentsFactory<icomp::TModelCompWrap<CTextModelComp> > modelFactoryComp;
 	modelFactoryComp.SetStringAttr("DefaultText", "Ahoj przygodo!");
 
 	icomp::TSimComponentsFactory<CTextEditorComp> viewFactoryComp;
@@ -50,7 +49,7 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetRef("DocumentSerializer", &serializerComp);
 	documentTemplateComp.InitComponent();
 
-	icomp::TSimComponentWrap<imod::TModelWrap<iqmain::CMultiDocumentWorkspaceGuiComp> > workspaceComp;
+	icomp::TSimComponentWrap<icomp::TModelCompWrap<iqmain::CMultiDocumentWorkspaceGuiComp> > workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
 
