@@ -20,10 +20,12 @@ public:
 	typedef TXmlStreamWriteArchiveBase<std::ostringstream> BaseClass;
 
 	CXmlStringWriteArchive(
-				const std::string& inputString,
 				const IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
+
+
+	virtual std::string GetString() const;
 };
 
 

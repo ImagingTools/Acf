@@ -5,10 +5,10 @@ namespace iser
 {
 
 
-CXmlStringReadArchive::CXmlStringReadArchive(std::string& outputString, bool serializeHeader, const iser::CArchiveTag& rootTag)
+CXmlStringReadArchive::CXmlStringReadArchive(const std::string& inputString, bool serializeHeader, const iser::CArchiveTag& rootTag)
 :	BaseClass(rootTag)
 {
-	m_stream.str(outputString);
+	m_stream.str(inputString);
 
 	SerializeXmlHeader();
 
