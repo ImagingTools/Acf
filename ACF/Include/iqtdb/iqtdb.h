@@ -17,7 +17,7 @@
 namespace iqtdb
 {
 
-}
+} // namespace iqtdb
 
 
 #endif // !iqtdb_included

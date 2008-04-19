@@ -40,6 +40,12 @@ public:
 	TIndex(const TIndex& array);
 
 	/**
+		Check if this index is valid.
+		Index is valid, if all its components are bigger or equal 0.
+	*/
+	bool IsValid() const;
+
+	/**
 		Reset this object.
 		For this (fixed-size) implementation, it does the same as clear.
 		\sa Clear()
@@ -145,6 +151,19 @@ template <int Dimensions>
 inline bool TIndex<Dimensions>::SetDimensionsCount(int count) const
 {
 	return (count == GetDimensionsCount());
+}
+
+
+template <int Dimensions>
+bool TIndex<Dimensions>::IsValid() const
+{
+	for (int i = 0; i < Dimensions; ++i){
+		if (m_elements[i] < 0){
+			return false;
+		}
+	}
+
+	return true;
 }
 
 

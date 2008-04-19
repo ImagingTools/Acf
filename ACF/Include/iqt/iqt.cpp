@@ -49,5 +49,29 @@ istd::CStringList GetCStringList(const QStringList& stringList)
 }
 
 
+QSize GetQSize(const istd::CIndex2d& size)
+{
+	return QSize(size.GetX(), size.GetY());
+}
+
+
+istd::CIndex2d GetCIndex2d(const QSize& size)
+{
+	return istd::CIndex2d(size.width(), size.height());
+}
+
+
+QPoint GetQPoint(const istd::CIndex2d& position)
+{
+	return QPoint(position.GetX(), position.GetY());
+}
+
+
+istd::CIndex2d GetCIndex2d(const QPoint& position)
+{
+	return istd::CIndex2d(position.x(), position.y());
+}
+
+
 } // namespace iqt
 

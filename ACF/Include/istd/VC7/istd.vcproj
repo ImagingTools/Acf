@@ -260,6 +260,12 @@
 				RelativePath="..\CChangeDelegator.h">
 			</File>
 			<File
+				RelativePath="..\CIndex2d.h">
+			</File>
+			<File
+				RelativePath="..\CPoint2d.h">
+			</File>
+			<File
 				RelativePath="..\CRandomNumber.h">
 			</File>
 			<File

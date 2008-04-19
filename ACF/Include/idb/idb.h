@@ -17,7 +17,7 @@
 namespace idb
 {
 
-}
+} // namespace idb
 
 
 #endif // !idb_included

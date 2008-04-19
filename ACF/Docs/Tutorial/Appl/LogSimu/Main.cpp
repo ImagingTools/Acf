@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "Log");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
-	splashScreenGui.SetStringAttr("CopyrightText", "See 'licence.txt' for copyright informations");
+	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
 	splashScreenGui.InitComponent();
 
 	typedef istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> SerializerComp;
