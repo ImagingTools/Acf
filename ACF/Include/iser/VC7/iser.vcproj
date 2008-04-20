@@ -271,6 +271,9 @@
 				RelativePath="..\IArchive.h">
 			</File>
 			<File
+				RelativePath="..\IFileLoader.h">
+			</File>
+			<File
 				RelativePath="..\iser.h">
 			</File>
 			<File

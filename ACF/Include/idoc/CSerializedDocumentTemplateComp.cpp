@@ -13,7 +13,7 @@ bool CSerializedDocumentTemplateComp::LoadDocumentFromFile(const istd::CString& 
 
 	if (m_fileLoaderCompPtr.IsValid() && (changeableDocPtr != NULL)){
 		int state = m_fileLoaderCompPtr->LoadFromFile(*changeableDocPtr, filePath);
-		return (state == istd::IFileLoader::StateOk);
+		return (state == iser::IFileLoader::StateOk);
 	}
 
 	return false;
@@ -26,7 +26,7 @@ bool CSerializedDocumentTemplateComp::SaveDocumentToFile(const imod::IModel& doc
 
 	if (m_fileLoaderCompPtr.IsValid() && (changeableDocPtr != NULL)){
 		int state = m_fileLoaderCompPtr->SaveToFile(*changeableDocPtr, filePath);
-		return (state == istd::IFileLoader::StateOk);
+		return (state == iser::IFileLoader::StateOk);
 	}
 
 	return false;

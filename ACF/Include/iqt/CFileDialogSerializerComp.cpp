@@ -9,29 +9,30 @@ namespace iqt
 {
 
 
-// reimplemented (istd::IFileLoader)
+// reimplemented (iser::IFileLoader)
 
-bool CFileDialogSerializerComp::IsObjectSupported(const istd::IChangeable& dataObject) const
+bool CFileDialogSerializerComp::IsOperationSupported(
+			const istd::IChangeable* dataObjectPtr,
+			const istd::CString* filePathPtr,
+			bool forLoading,
+			bool forSaving) const
 {
+	if (filePathPtr != NULL){
+		const iser::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(*filePathPtr));
+		if (loaderPtr != NULL){
+			return IsOperationSupported(dataObjectPtr, filePathPtr, forLoading, forSaving);
+		}
+		return false;
+	}
+
 	if (m_serializersCompPtr.IsValid()){
 		int loaderCount = m_serializersCompPtr.GetCount();
 		for (int index = 0; index < loaderCount; index++){
-			istd::IFileLoader* slaveLoaderPtr = m_serializersCompPtr[index];
-			if (slaveLoaderPtr != NULL && slaveLoaderPtr->IsObjectSupported(dataObject)){
+			const iser::IFileLoader* slaveLoaderPtr = m_serializersCompPtr[index];
+			if ((slaveLoaderPtr != NULL) && slaveLoaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, forLoading, forSaving)){
 				return true;
 			}
 		}
-	}
-
-	return false;
-}
-
-
-bool CFileDialogSerializerComp::IsFileSupported(const istd::CString& filePath) const
-{
-	const istd::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(filePath));
-	if (loaderPtr != NULL){
-		return loaderPtr->IsFileSupported(filePath);
 	}
 
 	return false;
@@ -45,7 +46,7 @@ int CFileDialogSerializerComp::LoadFromFile(istd::IChangeable& data, const istd:
 		return StateAborted;
 	}
 
-	istd::IFileLoader* loaderPtr = GetLoaderFor(openFileName);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(openFileName);
 	if (loaderPtr != NULL){
 		return loaderPtr->LoadFromFile(data, iqt::GetCString(openFileName));
 	}
@@ -61,7 +62,7 @@ int CFileDialogSerializerComp::SaveToFile(const istd::IChangeable& data, const i
 		return StateAborted;
 	}
 
-	istd::IFileLoader* loaderPtr = GetLoaderFor(saveFileName);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(saveFileName);
 	if (loaderPtr != NULL){
 		return loaderPtr->SaveToFile(data, iqt::GetCString(saveFileName));
 	}
@@ -141,7 +142,7 @@ QString CFileDialogSerializerComp::GetSaveFileName(const istd::CString& filePath
 }
 
 
-istd::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePath) const
+iser::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePath) const
 {
 	QFileInfo fileInfo(filePath);
 

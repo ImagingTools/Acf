@@ -2,7 +2,7 @@
 #define idoc_CSerializedDocumentTemplateComp_included
 
 
-#include "istd/IFileLoader.h"
+#include "iser/IFileLoader.h"
 
 #include "idoc/CDocumentTemplateCompBase.h"
 
@@ -25,7 +25,7 @@ public:
 	virtual bool SaveDocumentToFile(const imod::IModel& document, const istd::CString& filePath) const;
 
 private:
-	I_REF(istd::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 };
 
 

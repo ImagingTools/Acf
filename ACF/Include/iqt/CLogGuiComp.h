@@ -8,7 +8,7 @@
 #include "ibase/IMessageContainer.h"
 #include "ibase/TMessageContainerWrap.h"
 
-#include "istd/IFileLoader.h"
+#include "iser/IFileLoader.h"
 
 #include "imod/TSingleModelObserverBase.h"
 #include "imod/TModelWrap.h"
@@ -66,7 +66,7 @@ signals:
 	void EmitRemoveMessage(ibase::IMessage* messagePtr);
 
 private:
-	I_REF(istd::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 	I_ATTR(int, m_maxMessageCountAttrPtr);
 
 	class CMessageItem: public QTreeWidgetItem

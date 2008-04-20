@@ -103,3 +103,5 @@ private:
 
 
 #endif // !iqt2d_CImageViewComp_included
+
+
