@@ -50,27 +50,19 @@ public:
 	void SetFitMode(FitMode fitMode);
 	void SetFullScreenMode(bool isFullScreen);
 
-protected:
-	// reimplemented (iqt::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-
 public slots:
 	void SetZoom(double scaleFactor);
 	void SetZoom(const QString& zoomString);
 	void OnZoomIncrement();
 	void OnZoomDecrement();
+	void SwitchFullScreen();
 	void OnFitInView();
 	void OnFitToImage();
-	void SwitchFullScreen();
 	
 signals:
 	void zoomChanged(double);
 	
 protected:
-	void ScaleView(double scaleFactor);
-	void CreateContextMenu();
-
 	virtual void OnResize(QResizeEvent* event);
 	virtual void OnWheelEvent(QWheelEvent* event);
 	virtual void OnKeyReleaseEvent(QKeyEvent* event);
@@ -78,12 +70,17 @@ protected:
 	virtual void OnMouseDoubleClickEvent(QMouseEvent* event);
 	virtual void OnMouseMoveEvent(QMouseEvent* event);
 
+	// reimplemented (iqt::CGuiComponentBase)
+	virtual void OnGuiCreated();
+
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* obj, QEvent* event);
 
 private:
 	void InvalidateScene();
 	void CreateBackgroundPixmap();
+	void CreateContextMenu();
+	void ScaleView(double scaleFactor);
 
 private:
 	QGraphicsScene* m_scenePtr;

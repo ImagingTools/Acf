@@ -14,118 +14,20 @@ namespace iqt2d
 {
 
 
+// public methods
+
 CImageViewComp::CImageViewComp()
 	:m_isFullScreenMode(true),
 	m_isZoomIgnored(false)
 {
 	m_scenePtr = new QGraphicsScene;
+
+	m_scenePtr->setFocus();
 }
 
 
 CImageViewComp::~CImageViewComp() 
 {
-}
-
-
-void CImageViewComp::CreateContextMenu()
-{
-	m_contextMenu = new QMenu(GetWidget());
-	m_contextMenu->setTitle(tr("View Properties"));
-
-	QAction* actiOnFitInView = new QAction(tr("&Fit Image In View"), m_contextMenu);
-	connect(actiOnFitInView, SIGNAL( activated()), this, SLOT(OnFitInView()));
-	m_contextMenu->addAction(actiOnFitInView);
-
-	QAction* actiOnFitToImage = new QAction(tr("&Fit View To Image"), m_contextMenu);
-	connect(actiOnFitToImage, SIGNAL(activated()), this, SLOT(OnFitToImage()));
-	m_contextMenu->addAction(actiOnFitToImage);
-}
-
-
-// reimplemented (QObject)
-
-bool CImageViewComp::eventFilter(QObject* obj, QEvent* event)
-{
-	if (!IsGuiCreated()){
-		return false;
-	}
-
-	QGraphicsView* viewPtr = GetQtWidget();
-	I_ASSERT(viewPtr != NULL);
-	if (viewPtr == NULL){
-		return false;
-	}
-
-	if (obj != viewPtr){
-		return false;
-	}
-
-	switch(event->type()){
-		case QEvent::MouseButtonDblClick:
-		case QEvent::GraphicsSceneMouseDoubleClick:
-			OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(event));
-			break;
-	}
-
-	return false;
-}
-
-
-// reimplemented (iqt::TGuiObserverWrap)
-
-void CImageViewComp::UpdateModel() const
-{
-}
-
-
-void CImageViewComp::UpdateEditor()
-{
-	if (IsGuiCreated()){
-		iqt::CBitmap* bitmapPtr = dynamic_cast<iqt::CBitmap*>(GetObjectPtr());
-
-		if (bitmapPtr != NULL){
-			m_scenePtr->setSceneRect(0, 0, bitmapPtr->width(), bitmapPtr->height());
-
-			m_imageItem.SetImage(*bitmapPtr);
-		}
-	}
-}
-
-
-// protected methods
-
-// reimplemented (iqt::CGuiComponentBase)
-
-void CImageViewComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
-	QGraphicsView* viewPtr = GetQtWidget();
-	I_ASSERT(viewPtr != NULL);
-	if (viewPtr == NULL){
-		return;
-	}
-	
-	viewPtr->setScene(m_scenePtr);
-	viewPtr->setMouseTracking(true);
-	viewPtr->setDragMode(QGraphicsView::ScrollHandDrag);
-
-	m_scenePtr->addItem(&m_imageItem);
-
-	viewPtr->installEventFilter(this);
-
-	CreateContextMenu();
-	CreateBackgroundPixmap();
-
-	viewPtr->setBackgroundBrush(QBrush(m_backgroundPixmap));
-}
-
-
-void CImageViewComp::OnGuiDestroyed()
-{
-	m_scenePtr->removeItem(&m_imageItem);
-
-	BaseClass::OnGuiDestroyed();
 }
 
 
@@ -158,35 +60,7 @@ void CImageViewComp::SetFullScreenMode(bool fullScreenMode)
 }
 
 
-void CImageViewComp::ScaleView(double scaleFactor)
-{
-	QGraphicsView* viewPtr = GetQtWidget();
-	I_ASSERT(viewPtr != NULL);
-	if (viewPtr == NULL){
-		return;
-	}
-
-	QMatrix sceneMatrix = viewPtr->matrix();
-	QMatrix scaleMatrix;
-	scaleMatrix.scale(scaleFactor,scaleFactor);
-
-	sceneMatrix *= scaleMatrix;
-	
-	SetZoom(sceneMatrix.m11());
-}
-
-
-void CImageViewComp::OnZoomIncrement()
-{
-	 ScaleView(pow((double)2, 0.5));  
-}
-
-
-void CImageViewComp::OnZoomDecrement()
-{
-	ScaleView(pow((double)2, -0.5));  
-}
-
+// public slots
 
 void CImageViewComp::SetZoom(double scaleFactor)
 {
@@ -221,6 +95,18 @@ void CImageViewComp::SetZoom(double scaleFactor)
 void CImageViewComp::SetZoom(const QString& zoomString)
 {
 	SetZoom(zoomString.toInt() / 100.0);
+}
+
+
+void CImageViewComp::OnZoomIncrement()
+{
+	 ScaleView(pow((double)2, 0.5));  
+}
+
+
+void CImageViewComp::OnZoomDecrement()
+{
+	ScaleView(pow((double)2, -0.5));  
 }
 
 
@@ -276,7 +162,30 @@ void CImageViewComp::OnFitToImage()
 }
 
 
-void CImageViewComp::OnResize(QResizeEvent* event)
+// reimplemented (iqt::TGuiObserverWrap)
+
+void CImageViewComp::UpdateModel() const
+{
+}
+
+
+void CImageViewComp::UpdateEditor()
+{
+	if (IsGuiCreated()){
+		iqt::CBitmap* bitmapPtr = dynamic_cast<iqt::CBitmap*>(GetObjectPtr());
+
+		if (bitmapPtr != NULL){
+			m_scenePtr->setSceneRect(0, 0, bitmapPtr->width(), bitmapPtr->height());
+
+			m_imageItem.SetImage(*bitmapPtr);
+		}
+	}
+}
+
+
+// protected methods
+
+void CImageViewComp::OnResize(QResizeEvent* /*event*/)
 {
 	if (m_fitMode == ScaleToFit){
 		OnFitInView();
@@ -290,7 +199,7 @@ void CImageViewComp::OnWheelEvent(QWheelEvent* event)
 }
 
 
-void CImageViewComp::OnMouseDoubleClickEvent(QMouseEvent* event)
+void CImageViewComp::OnMouseDoubleClickEvent(QMouseEvent* /*event*/)
 {
 	if (m_isFullScreenMode){
 		SwitchFullScreen();
@@ -298,7 +207,7 @@ void CImageViewComp::OnMouseDoubleClickEvent(QMouseEvent* event)
 }
 
 
-void CImageViewComp::OnMouseMoveEvent(QMouseEvent* event)
+void CImageViewComp::OnMouseMoveEvent(QMouseEvent* /*event*/)
 {
 }
 
@@ -327,9 +236,69 @@ void CImageViewComp::OnKeyReleaseEvent(QKeyEvent* event)
 }
 
 
-void CImageViewComp::OnContextMenuEvent(QContextMenuEvent* event)
+void CImageViewComp::OnContextMenuEvent(QContextMenuEvent* /*event*/)
 {
 	m_contextMenu->exec(QCursor::pos());
+}
+
+
+// reimplemented (iqt::CGuiComponentBase)
+
+void CImageViewComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	QGraphicsView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+	
+	viewPtr->setScene(m_scenePtr);
+	viewPtr->setMouseTracking(true);
+	viewPtr->setDragMode(QGraphicsView::ScrollHandDrag);
+
+	m_scenePtr->addItem(&m_imageItem);
+
+	viewPtr->installEventFilter(this);
+	m_scenePtr->installEventFilter(this);
+
+	CreateContextMenu();
+	CreateBackgroundPixmap();
+
+	viewPtr->setBackgroundBrush(QBrush(m_backgroundPixmap));
+}
+
+
+// reimplemented (QObject)
+
+bool CImageViewComp::eventFilter(QObject* obj, QEvent* event)
+{
+	if (!IsGuiCreated()){
+		return false;
+	}
+
+	QGraphicsView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return false;
+	}
+
+	if (obj != viewPtr && obj != m_scenePtr){
+		return false;
+	}
+
+	switch(event->type()){
+		case QEvent::MouseButtonDblClick:
+		case QEvent::GraphicsSceneMouseDoubleClick:
+			OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(event));
+			break;
+		case QEvent::KeyRelease:
+			OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(event));
+			break;
+	}
+
+	return false;
 }
 
 
@@ -358,6 +327,40 @@ void CImageViewComp::CreateBackgroundPixmap()
 	p.fillRect(0, 8, 8, 8, QBrush(Qt::white));
 	p.fillRect(8, 0, 8, 8, QBrush(Qt::white));
 	p.fillRect(8, 8, 8, 8, QBrush(qRgb(200,200,200)));
+}
+
+
+void CImageViewComp::CreateContextMenu()
+{
+	m_contextMenu = new QMenu(GetWidget());
+	m_contextMenu->setTitle(tr("View Properties"));
+
+	QAction* actiOnFitInView = new QAction(tr("&Fit Image In View"), m_contextMenu);
+	connect(actiOnFitInView, SIGNAL( activated()), this, SLOT(OnFitInView()));
+	m_contextMenu->addAction(actiOnFitInView);
+
+	QAction* actiOnFitToImage = new QAction(tr("&Fit View To Image"), m_contextMenu);
+	connect(actiOnFitToImage, SIGNAL(activated()), this, SLOT(OnFitToImage()));
+	m_contextMenu->addAction(actiOnFitToImage);
+}
+
+
+
+void CImageViewComp::ScaleView(double scaleFactor)
+{
+	QGraphicsView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
+	QMatrix sceneMatrix = viewPtr->matrix();
+	QMatrix scaleMatrix;
+	scaleMatrix.scale(scaleFactor, scaleFactor);
+
+	sceneMatrix *= scaleMatrix;
+	
+	SetZoom(sceneMatrix.m11());
 }
 
 
