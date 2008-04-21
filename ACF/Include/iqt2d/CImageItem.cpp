@@ -12,6 +12,7 @@ namespace iqt2d
 CImageItem::CImageItem() 
 {
 	addToGroup(&m_imageItem);
+	addToGroup(&m_frameItem);
 }
 
 
@@ -71,7 +72,7 @@ int CImageItem::ImageItem::GetHeight() const
 
 void CImageItem::ImageFrame::paint(QPainter* p, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
-	p->setPen(QPen(Qt::darkGreen));		
+	p->setPen(QPen(Qt::black));		
 
 	p->drawRect(rect());
 }

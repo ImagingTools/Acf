@@ -250,7 +250,6 @@ void CMultiDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewPt
 			QWidget* widgetPtr = guiObjectPtr->GetWidget();
 			I_ASSERT(widgetPtr != NULL);
 
-			widgetPtr->setParent(workspacePtr);
 			widgetPtr->installEventFilter(this);
 			workspacePtr->addWindow(widgetPtr);
 			widgetPtr->show();

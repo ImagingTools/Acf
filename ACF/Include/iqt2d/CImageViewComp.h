@@ -35,14 +35,14 @@ public:
 		I_REGISTER_INTERFACE(imod::IObserver)
 	I_END_COMPONENT
 
-	// reimplemented (iqt::TGuiObserverWrap)
-	virtual void UpdateModel() const;
-	virtual void UpdateEditor();
-
 	enum FitMode{
 		NoFit,
 		ScaleToFit
 	};
+
+	// reimplemented (iqt::TGuiObserverWrap)
+	virtual void UpdateModel() const;
+	virtual void UpdateEditor();
 
 	CImageViewComp();
 	virtual ~CImageViewComp();
@@ -53,43 +53,42 @@ public:
 protected:
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 public slots:
-	void SetZoom(qreal zoomFactor);
-	void SetZoom(const QString &);
-	void onIncrementZoom();
-	void onDecrementZoom();
-	void onFitInView();
-	void onFitToImage();
-	void switchFullScreen();
+	void SetZoom(double scaleFactor);
+	void SetZoom(const QString& zoomString);
+	void OnZoomIncrement();
+	void OnZoomDecrement();
+	void OnFitInView();
+	void OnFitToImage();
+	void SwitchFullScreen();
 	
 signals:
 	void zoomChanged(double);
 	
 protected:
-	void ScaleView(qreal);
+	void ScaleView(double scaleFactor);
 	void CreateContextMenu();
-	int GetImageItemWidth(); 
-	int GetImageItemHeight();
 
-/*	virtual void resizeEvent(QResizeEvent*);
-	virtual void wheelEvent(QWheelEvent*);
-	virtual void keyReleaseEvent(QKeyEvent*);
-	virtual void contextMenuEvent(QContextMenuEvent*);
-	virtual void mouseDoubleClickEvent(QMouseEvent*);
-	virtual void mouseMoveEvent(QMouseEvent*);
-	virtual void mouseReleaseEvent(QMouseEvent*);
-	virtual void drawBackground(QPainter*, const QRectF&);
-	virtual QSize sizeHint() const;
-*/
+	virtual void OnResize(QResizeEvent* event);
+	virtual void OnWheelEvent(QWheelEvent* event);
+	virtual void OnKeyReleaseEvent(QKeyEvent* event);
+	virtual void OnContextMenuEvent(QContextMenuEvent* event);
+	virtual void OnMouseDoubleClickEvent(QMouseEvent* event);
+	virtual void OnMouseMoveEvent(QMouseEvent* event);
+
+	// reimplemented (QObject)
+	virtual bool eventFilter(QObject* obj, QEvent* event);
+
 private:
 	void InvalidateScene();
+	void CreateBackgroundPixmap();
 
 private:
-	QGraphicsScene m_scene;
+	QGraphicsScene* m_scenePtr;
 	CImageItem m_imageItem;
 	QMenu* m_contextMenu;
-	QMatrix m_currentTransorm;
 	
 	QPixmap m_backgroundPixmap;
 	FitMode m_fitMode;
