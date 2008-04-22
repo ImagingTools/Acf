@@ -36,18 +36,18 @@ public:
 		\param	description	description of this ID.
 		\return				true, if success.
 	*/
-	bool AddId(int versionId, const std::string& description = "");
+	bool AddId(int versionId, const istd::CString& description = "");
 
 	// reimplemented (iser::IVersionInfo)
 	virtual I_DWORD GetVersion(int versionId) const;
-	virtual const std::string& GetVersionIdDescription(int versionId) const;
+	virtual const istd::CString& GetVersionIdDescription(int versionId) const;
 	virtual VersionIds GetVersionIds() const;
 
 private:
 	struct Info
 	{
 		mutable I_DWORD version;
-		std::string description;
+		istd::CString description;
 	};
 
 	typedef std::map<int, Info> Versions;

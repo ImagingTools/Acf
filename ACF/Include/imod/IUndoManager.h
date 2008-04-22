@@ -15,6 +15,13 @@ namespace imod
 class IUndoManager: virtual public istd::IChangeable
 {
 public:
+	enum UpdateFlags{
+		/**
+			Used to avoid adding of changes to undo list.
+		*/
+		UF_NO_UNDO = 0x400
+	};
+
 	/**
 		Check, if UNDO operation is available.
 	*/

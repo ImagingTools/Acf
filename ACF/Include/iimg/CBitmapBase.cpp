@@ -23,7 +23,7 @@ int CBitmapBase::GetLineBytesCount() const
 
 int CBitmapBase::GetComponentBitsCount(int /*componentIndex*/) const
 {
-	return GetPixelBitsCount() / GetComponentBitsCount();
+	return GetPixelBitsCount() / GetComponentsCount();
 }
 
 
@@ -46,40 +46,60 @@ icmm::CVarColor CBitmapBase::GetColorAt(const istd::CIndex2d& position) const
 
 	icmm::CVarColor retVal(componentsCount);
 
-	int bitsOffsetX = GetPixelBitsCount() * position.GetX();
-	const I_BYTE* linePtr = (const I_BYTE*)GetLinePtr(position.GetY());
-	I_ASSERT(linePtr != NULL);
+	int byteOffsetX = (GetPixelBitsCount() * position.GetX()) >> 3;
+
+	I_BYTE* pixelPtr = (I_BYTE*)GetLinePtr(position.GetY());
+	I_ASSERT(pixelPtr != NULL);
+	pixelPtr += byteOffsetX;
 
 	for (int i = 0; i < componentsCount; ++i){
-		int bitsPerComponent = GetComponentBitsCount(i);
-
-		if (bitsPerComponent > 0){
-			int restComponentBits = bitsPerComponent;
-			int componentValue = 0;
-			int pixelByteOffsetX = bitsOffsetX >> 3;
-			int pixelBitOffsetX = bitsOffsetX & 7;
-			while (restComponentBits){
-				componentValue <<= (8 - pixelBitOffsetX);
-				componentValue = (linePtr[pixelByteOffsetX] >> pixelBitOffsetX) & ((1 << restComponentBits) - 1);
-				restComponentBits -= 8 - pixelBitOffsetX;
-				pixelBitOffsetX = 0;
-				++pixelByteOffsetX;
-			}
-
-			retVal[i] = double(componentValue) / ((1 << bitsPerComponent) - 1);
+		I_BYTE componentValue;
+		if (GetComponentBitsCount(i) == 8){
+			componentValue = pixelPtr[i];
 		}
 		else{
-			retVal[i] = 0.0;
+			componentValue = 0;
 		}
+
+		retVal.SetElement(i, componentValue / 255.0);
 	}
 
 	return retVal;
 }
 
 
-bool CBitmapBase::SetColorAt(const istd::CIndex2d& /*position*/, const icmm::CVarColor& /*color*/)
+bool CBitmapBase::SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color)
 {
-	return false;	// TODO: implement setting of general color value to bitmap.
+	I_ASSERT(position.IsValid());
+	I_ASSERT(position.IsInside(GetImageSize()));
+
+	int componentsCount = GetComponentsCount();
+
+	int byteOffsetX = (GetPixelBitsCount() * position.GetX()) >> 3;
+
+	I_BYTE* pixelPtr = (I_BYTE*)GetLinePtr(position.GetY());
+	I_ASSERT(pixelPtr != NULL);
+	pixelPtr += byteOffsetX;
+
+	int commonComponentsCount = istd::Min(color.GetElementsCount(), componentsCount);
+	for (int i = 0; i < commonComponentsCount; ++i){
+		if (GetComponentBitsCount(i) != 8){
+			return false;
+		}
+
+		double componentValue = color.GetElement(i);
+		pixelPtr[i] = I_BYTE(componentValue * 255);
+	}
+
+	for (int i = commonComponentsCount; i < componentsCount; ++i){
+		if (GetComponentBitsCount(i) != 8){
+			return false;
+		}
+
+		pixelPtr[i] = 0;
+	}
+
+	return true;
 }
 
 

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CImageViewComp.h'
 **
-** Created: Tue 22. Apr 10:58:31 2008
+** Created: Tue 22. Apr 11:14:39 2008
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.2.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -46,7 +46,7 @@ static const char qt_meta_stringdata_iqt2d__CImageViewComp[] = {
     "scaleFactor\0SetZoom(double)\0zoomString\0"
     "SetZoom(QString)\0OnZoomIncrement()\0"
     "OnZoomDecrement()\0SwitchFullScreen()\0"
-    "OnFitInView()\0OnFitToImage()\0"
+    "OnFitToView()\0OnFitToImage()\0"
 };
 
 const QMetaObject iqt2d::CImageViewComp::staticMetaObject = {
@@ -64,6 +64,8 @@ void *iqt2d::CImageViewComp::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_iqt2d__CImageViewComp))
 	return static_cast<void*>(const_cast< CImageViewComp*>(this));
+    if (!strcmp(_clname, "idoc::ICommandsProvider"))
+	return static_cast< idoc::ICommandsProvider*>(const_cast< CImageViewComp*>(this));
     typedef iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>,imod::TSingleModelObserverBase<iimg::IBitmap> > QMocSuperClass;
     return QMocSuperClass::qt_metacast(_clname);
 }
@@ -82,7 +84,7 @@ int iqt2d::CImageViewComp::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 3: OnZoomIncrement(); break;
         case 4: OnZoomDecrement(); break;
         case 5: SwitchFullScreen(); break;
-        case 6: OnFitInView(); break;
+        case 6: OnFitToView(); break;
         case 7: OnFitToImage(); break;
         }
         _id -= 8;

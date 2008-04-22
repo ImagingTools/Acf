@@ -7,6 +7,8 @@
 #include <QByteArray>
 #include <QImageReader>
 
+#include "istd/TChangeNotifier.h"
+
 
 namespace iqt
 {
@@ -45,10 +47,14 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 {
 	QImage* imagePtr = dynamic_cast<QImage*>(&data);
 
-	if ((imagePtr != NULL) && imagePtr->load(iqt::GetQString(filePath))){
-		m_lastLoadFileName = filePath;
+	if (imagePtr != NULL){
+		istd::CChangeNotifier notifier(&data);
 
-		return StateOk;
+		if (imagePtr->load(iqt::GetQString(filePath))){
+			m_lastLoadFileName = filePath;
+
+			return StateOk;
+		}
 	}
 
 	return StateFailed;

@@ -48,6 +48,11 @@ public:
 		\return				true, if pixel color was changed.
 	*/
 	virtual bool SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color) = 0;
+	/**
+		Copy image from other image instance.
+		\return	true if copy was possible.
+	*/
+	virtual bool CopyImageFrom(const IRasterImage& image) = 0;
 };
 
 

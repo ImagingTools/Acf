@@ -3,6 +3,7 @@
 
 
 #include "ibase/IApplication.h"
+#include "ibase/IApplicationInfo.h"
 
 #include "icomp/TSingleAttribute.h"
 #include "icomp/CComponentBase.h"
@@ -25,6 +26,7 @@ public:
 		I_REGISTER_INTERFACE(ibase::IApplication)
 		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", true, "MainGui")
 		I_ASSIGN(m_splashScreenCompPtr, "SplashScreen", "Splash screen shown before application is launched", false, "SplashScreen")
+		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info used to set main window title", false, "ApplicationInfo")
 		I_ASSIGN(m_splashTimeAttrPtr, "SplashTime", "Minimal time splash screen will be shown", true, 2)
 	I_END_COMPONENT
 
@@ -37,6 +39,7 @@ public:
 private:
 	I_REF(IGuiObject, m_mainGuiCompPtr);
 	I_REF(IGuiObject, m_splashScreenCompPtr);
+	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_ATTR(double, m_splashTimeAttrPtr);
 
 	istd::TDelPtr<QApplication> m_applicationPtr;

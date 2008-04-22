@@ -229,10 +229,16 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp">
+			<File
+				RelativePath="..\CApplicationInfoComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CApplicationInfoComp.h">
+			</File>
 			<File
 				RelativePath="..\istdc.h">
 			</File>

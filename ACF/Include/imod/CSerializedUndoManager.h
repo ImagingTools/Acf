@@ -24,10 +24,6 @@ namespace imod
 class CSerializedUndoManager: public TSingleModelObserverBase<iser::ISerializable>, virtual public IUndoManager
 {
 public:
-	enum UpdateFlags{
-		UF_UNDO_MANAGER = 0x400
-	};
-
 	/**
 		Default constructor with optional model pointer to set managed model.
 		You can also use standard connection to observed model.

@@ -39,15 +39,14 @@ public:
 	// reimplemented (iimg::IRasterImage)
 	virtual istd::CIndex2d GetImageSize() const;
 	virtual int GetComponentsCount() const;
+	virtual bool CopyImageFrom(const IRasterImage& image);
 
 protected:
 	QImage::Format CalcQtFormat(int pixelBitsCount, int componentsCount) const;
-	bool SetQImage(const QImage& image, int pixelBitsCount, int componentsCount);
+	bool SetQImage(const QImage& image);
 
 private:
 	istd::TOptDelPtr<I_BYTE, true> m_externalBuffer;
-	int m_pixelBitsCount;
-	int m_componentsCount;
 };
 
 

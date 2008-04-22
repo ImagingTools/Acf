@@ -60,6 +60,13 @@ int CApplicationComp::Execute(int argc, char** argv)
 		m_mainGuiCompPtr->CreateGui(NULL);
 		QWidget* mainWidgetPtr = m_mainGuiCompPtr->GetWidget();
 
+		if (m_applicationInfoCompPtr.IsValid()){
+			mainWidgetPtr->setWindowTitle(iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName()));
+		}
+		else{
+			mainWidgetPtr->setWindowTitle(QObject::tr("ACF application"));
+		}
+
 		if (useSplashScreen){
 			I_ASSERT(m_splashTimeAttrPtr.IsValid());
 			timer.WaitTo(m_splashTimeAttrPtr->GetValue());

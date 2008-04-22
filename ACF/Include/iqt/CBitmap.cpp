@@ -4,22 +4,20 @@
 #include <QVector>
 #include <QColor>
 
+#include "istd/TChangeNotifier.h"
+
 
 namespace iqt
 {
 
 
 CBitmap::CBitmap()
-:	m_pixelBitsCount(0),
-	m_componentsCount(0)
 {
 }
 
 
 CBitmap::CBitmap(const CBitmap& bitmap)
-:	BaseClass(bitmap),
-	m_pixelBitsCount(bitmap.m_pixelBitsCount),
-	m_componentsCount(bitmap.m_componentsCount)
+:	BaseClass(bitmap)
 {
 }
 
@@ -34,7 +32,7 @@ bool CBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int c
 
 		m_externalBuffer.Reset();
 
-		return SetQImage(image, pixelBitsCount, componentsCount);
+		return SetQImage(image);
 	}
 
 	return false;
@@ -52,7 +50,7 @@ bool CBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, bool relea
 
 		m_externalBuffer.SetPtr((I_BYTE*)dataPtr, releaseFlag);
 
-		return SetQImage(image, pixelBitsCount, componentsCount);
+		return SetQImage(image);
 	}
 
 	return false;
@@ -67,7 +65,7 @@ int CBitmap::GetLinesDifference() const
 
 int CBitmap::GetPixelBitsCount() const
 {
-	return m_pixelBitsCount;
+	return GetComponentsCount() * 8;
 }
 
 
@@ -99,7 +97,33 @@ istd::CIndex2d CBitmap::GetImageSize() const
 
 int CBitmap::GetComponentsCount() const
 {
-	return m_componentsCount;
+	switch (BaseClass::format()){
+	case QImage::Format_Indexed8:
+		return 1;
+
+	case QImage::Format_RGB32:
+	case QImage::Format_ARGB32:
+		return 4;
+
+	default:
+		return 0;
+	}
+}
+
+
+bool CBitmap::CopyImageFrom(const IRasterImage& image)
+{
+	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&image);
+
+	if (bitmapPtr != NULL){
+		istd::CChangeNotifier notifier(this);
+
+		BaseClass::operator=(*bitmapPtr);
+
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -114,12 +138,6 @@ QImage::Format CBitmap::CalcQtFormat(int pixelBitsCount, int componentsCount) co
 		}
 		break;
 
-	case 24:	
-		if (componentsCount == 3){
-			return QImage::Format_RGB32;
-		}
-		break;
-
 	case 32:	
 		if (componentsCount == 4){
 			return QImage::Format_ARGB32;
@@ -131,12 +149,9 @@ QImage::Format CBitmap::CalcQtFormat(int pixelBitsCount, int componentsCount) co
 }
 
 
-bool CBitmap::SetQImage(const QImage& image, int pixelBitsCount, int componentsCount)
+bool CBitmap::SetQImage(const QImage& image)
 {
 	BaseClass::operator=(image);
-
-	m_pixelBitsCount = pixelBitsCount;
-	m_componentsCount = componentsCount;
 
 	if (image.format() == QImage::Format_Indexed8){
 		QVector<QRgb> colorTable(256);

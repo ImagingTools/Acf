@@ -54,7 +54,7 @@ istd::IChangeable* CDocumentManagerBase::OpenDocument(const istd::CString& fileP
 		if (infoPtr.IsValid()){
 			I_ASSERT(infoPtr->documentPtr.IsValid());
 
-			istd::CChangeNotifier documentPtr(dynamic_cast<istd::IChangeable*>(infoPtr->documentPtr.GetPtr()));
+			istd::CChangeNotifier documentPtr(dynamic_cast<istd::IChangeable*>(infoPtr->documentPtr.GetPtr()), imod::IUndoManager::UF_NO_UNDO);
 
 			infoPtr->filePath = filePath;
 			infoPtr->documentTypeId = documentTypeId;

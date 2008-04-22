@@ -5,6 +5,7 @@
 #include <set>
 
 #include "istd/IPolymorphic.h"
+#include "istd/CString.h"
 
 #include "iser/iser.h"
 
@@ -52,7 +53,7 @@ public:
 								For example version number of framework cann differ from application version.
 								@sa VersionId, GetVersion.
 	*/
-	virtual const std::string& GetVersionIdDescription(int versionId) const = 0;
+	virtual const istd::CString& GetVersionIdDescription(int versionId) const = 0;
 
 	/**
 		Get list of version ID's.
