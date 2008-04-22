@@ -573,6 +573,7 @@ void CMainWindowGuiComp::SetupMainWindow(QMainWindow& mainWindow)
 	OnRetranslate();
 
 	UpdateMenuActions();
+	UpdateUndoMenu();
 
 	// TODO: Get desktop resolution and calculate the right initial size of the main window.
 	QSize size(800, 600);

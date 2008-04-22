@@ -16,13 +16,18 @@
 
 #include "iqt2d/CImageItem.h"
 
+#include "idoc/ICommandsProvider.h"
+
+#include "iqt/CHierarchicalCommand.h"
+
 
 namespace iqt2d
 {
 
 
 class CImageViewComp: 
-			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, imod::TSingleModelObserverBase<iimg::IBitmap> >
+			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, imod::TSingleModelObserverBase<iimg::IBitmap> >,
+			public idoc::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -44,6 +49,9 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 
+	// reimplemented (idoc::ICommandsProvider)
+	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+
 	CImageViewComp();
 	virtual ~CImageViewComp();
 
@@ -56,7 +64,7 @@ public slots:
 	void OnZoomIncrement();
 	void OnZoomDecrement();
 	void SwitchFullScreen();
-	void OnFitInView();
+	void OnFitToView();
 	void OnFitToImage();
 	
 signals:
@@ -64,7 +72,7 @@ signals:
 	
 protected:
 	virtual void OnResize(QResizeEvent* event);
-	virtual void OnWheelEvent(QWheelEvent* event);
+	virtual void OnWheelEvent(QGraphicsSceneWheelEvent* event);
 	virtual void OnKeyReleaseEvent(QKeyEvent* event);
 	virtual void OnContextMenuEvent(QContextMenuEvent* event);
 	virtual void OnMouseDoubleClickEvent(QMouseEvent* event);
@@ -85,13 +93,14 @@ private:
 private:
 	QGraphicsScene* m_scenePtr;
 	CImageItem m_imageItem;
-	QMenu* m_contextMenu;
 	
 	QPixmap m_backgroundPixmap;
 	FitMode m_fitMode;
 
 	bool m_isFullScreenMode;
 	bool m_isZoomIgnored;
+
+	iqt::CHierarchicalCommand m_editorCommand;
 };
 
 

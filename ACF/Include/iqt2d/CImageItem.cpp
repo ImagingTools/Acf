@@ -3,6 +3,8 @@
 
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 
 namespace iqt2d
@@ -12,7 +14,7 @@ namespace iqt2d
 CImageItem::CImageItem() 
 {
 	addToGroup(&m_imageItem);
-	addToGroup(&m_frameItem);
+//	addToGroup(&m_frameItem);
 }
 
 
@@ -25,19 +27,19 @@ void CImageItem::SetImage(const QImage& image)
 {
 	m_imageItem.SetImage(image);
 
-	m_frameItem.setRect(m_imageItem.boundingRect().adjusted(0.5,0.5,-0.5,-0.5));
+	m_frameItem.setRect(m_imageItem.rect());
 }
 
 
 int CImageItem::GetWidth() const
 {
-	return m_imageItem.GetWidth();
+	return m_frameItem.rect().width();
 }
 
 
 int CImageItem::GetHeight() const
 {
-	return m_imageItem.GetHeight();
+	return m_frameItem.rect().height();
 }
 
 
@@ -72,9 +74,26 @@ int CImageItem::ImageItem::GetHeight() const
 
 void CImageItem::ImageFrame::paint(QPainter* p, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
-	p->setPen(QPen(Qt::black));		
+	QGraphicsScene* scenePtr = scene();
+	if (scenePtr == NULL){
+		return;
+	}
+	
+	QList<QGraphicsView*> parentViews = scenePtr->views();
+	if (parentViews.count() == 0){
+		return;
+	}
 
-	p->drawRect(rect());
+	QGraphicsView* viewPtr = parentViews.at(0);
+	
+	QRectF sceneRect = scenePtr->sceneRect();
+	QRectF viewRect = viewPtr->rect();
+
+	if (viewRect.contains(sceneRect)){
+		p->setPen(QPen(Qt::black));		
+
+		p->drawRect(rect());
+	}
 }
 
 

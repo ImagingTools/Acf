@@ -3,7 +3,8 @@
 
 #include <QApplication>
 #include <QGraphicsScene>
-#include <QWheelEvent>
+#include <QGraphicsSceneWheelEvent>
+#include <QKeyEvent>
 #include <QMenu>
 
 
@@ -45,7 +46,7 @@ void CImageViewComp::SetFitMode(FitMode mode)
 		viewPtr->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 		viewPtr->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-		OnFitInView();
+		OnFitToView();
 	}
 	else{
 		viewPtr->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -128,7 +129,7 @@ void CImageViewComp::SwitchFullScreen()
 }
 
 
-void CImageViewComp::OnFitInView()
+void CImageViewComp::OnFitToView()
 {
 	QGraphicsView* viewPtr = GetQtWidget();
 	I_ASSERT(viewPtr != NULL);
@@ -175,12 +176,21 @@ void CImageViewComp::UpdateEditor()
 		iqt::CBitmap* bitmapPtr = dynamic_cast<iqt::CBitmap*>(GetObjectPtr());
 
 		if (bitmapPtr != NULL){
-			m_scenePtr->setSceneRect(0, 0, bitmapPtr->width(), bitmapPtr->height());
-
 			m_imageItem.SetImage(*bitmapPtr);
+
+			InvalidateScene();
 		}
 	}
 }
+
+
+// reimplemented (idoc::ICommandsProvider)
+
+const idoc::IHierarchicalCommand* CImageViewComp::GetCommands() const
+{
+	return &m_editorCommand;
+}
+
 
 
 // protected methods
@@ -188,12 +198,12 @@ void CImageViewComp::UpdateEditor()
 void CImageViewComp::OnResize(QResizeEvent* /*event*/)
 {
 	if (m_fitMode == ScaleToFit){
-		OnFitInView();
+		OnFitToView();
 	}
 }
 
 
-void CImageViewComp::OnWheelEvent(QWheelEvent* event)
+void CImageViewComp::OnWheelEvent(QGraphicsSceneWheelEvent* event)
 {
 	ScaleView(pow((double)2, -event->delta() / 240.0));
 }
@@ -238,7 +248,6 @@ void CImageViewComp::OnKeyReleaseEvent(QKeyEvent* event)
 
 void CImageViewComp::OnContextMenuEvent(QContextMenuEvent* /*event*/)
 {
-	m_contextMenu->exec(QCursor::pos());
 }
 
 
@@ -296,6 +305,14 @@ bool CImageViewComp::eventFilter(QObject* obj, QEvent* event)
 		case QEvent::KeyRelease:
 			OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(event));
 			break;
+
+		case QEvent::Resize:
+			OnResize(dynamic_cast<QResizeEvent*>(event));
+			break;
+
+		case QEvent::GraphicsSceneWheel:
+			OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(event));
+			break;
 	}
 
 	return false;
@@ -311,8 +328,6 @@ void CImageViewComp::InvalidateScene()
 	if (viewPtr == NULL){
 		return;
 	}
-
-	m_scenePtr->setSceneRect(0,0, m_imageItem.GetWidth(), m_imageItem.GetHeight());
 	
 	viewPtr->centerOn(&m_imageItem);
 }
@@ -332,16 +347,17 @@ void CImageViewComp::CreateBackgroundPixmap()
 
 void CImageViewComp::CreateContextMenu()
 {
-	m_contextMenu = new QMenu(GetWidget());
-	m_contextMenu->setTitle(tr("View Properties"));
+	iqt::CHierarchicalCommand* imageMenuPtr = new iqt::CHierarchicalCommand("&Image");
 
-	QAction* actiOnFitInView = new QAction(tr("&Fit Image In View"), m_contextMenu);
-	connect(actiOnFitInView, SIGNAL( activated()), this, SLOT(OnFitInView()));
-	m_contextMenu->addAction(actiOnFitInView);
+	iqt::CHierarchicalCommand* fitToViewCommandPtr = new iqt::CHierarchicalCommand("&Fit Image To View");
+	connect(fitToViewCommandPtr, SIGNAL( activated()), this, SLOT(OnFitToView()));
+	imageMenuPtr->InsertChild(fitToViewCommandPtr, true);
 
-	QAction* actiOnFitToImage = new QAction(tr("&Fit View To Image"), m_contextMenu);
-	connect(actiOnFitToImage, SIGNAL(activated()), this, SLOT(OnFitToImage()));
-	m_contextMenu->addAction(actiOnFitToImage);
+	iqt::CHierarchicalCommand* fitToImageCommandPtr = new iqt::CHierarchicalCommand("&Fit View To Image");
+	connect(fitToImageCommandPtr, SIGNAL( activated()), this, SLOT(OnFitToImage()));
+	imageMenuPtr->InsertChild(fitToImageCommandPtr, true);
+
+	m_editorCommand.InsertChild(imageMenuPtr, true);
 }
 
 
