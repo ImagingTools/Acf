@@ -12,7 +12,7 @@ static struct StaticInit
 {
 	StaticInit()
 	{
-		Q_INIT_RESOURCE(iqmain);
+		Q_INIT_RESOURCE(iqtdoc);
 	}
 } instance;
 

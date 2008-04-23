@@ -1,5 +1,5 @@
-#ifndef iqmain_CMainWindowComp_included
-#define iqmain_CMainWindowComp_included
+#ifndef iqtdoc_CMainWindowComp_included
+#define iqtdoc_CMainWindowComp_included
 
 
 // Qt includes
@@ -25,10 +25,10 @@
 #include "iqt/TGuiComponentBase.h"
 #include "iqt/CHierarchicalCommand.h"
 
-#include "iqmain/IWorkspaceController.h"
+#include "iqtdoc/IWorkspaceController.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -193,7 +193,7 @@ private:
 	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
-	I_REF(iqmain::IWorkspaceController, m_workspaceControllerCompPtr);
+	I_REF(iqtdoc::IWorkspaceController, m_workspaceControllerCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
@@ -254,8 +254,8 @@ void CMainWindowGuiComp::CreateMenu(const iqt::CHierarchicalCommand& command, ty
 }
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 
-#endif // !iqmain_CMainWindowComp_included
+#endif // !iqtdoc_CMainWindowComp_included
 

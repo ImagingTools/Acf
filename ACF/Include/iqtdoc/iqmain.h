@@ -1,10 +1,10 @@
-#ifndef iqmain_included
-#define iqmain_included
+#ifndef iqtdoc_included
+#define iqtdoc_included
 
 
 
 /**
-\defgroup iqmain Qt Document/View
+\defgroup iqtdoc Qt Document/View
 \ingroup ACF
 	This package contains Qt implementations related to Document/View concept.
 	This package use following ACF packages:
@@ -12,12 +12,12 @@
 	\li iser
 	\li	icmm
 */
-namespace iqmain
+namespace iqtdoc
 {
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 
-#endif // !iqmain_included
+#endif // !iqtdoc_included
 
 

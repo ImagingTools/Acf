@@ -1,5 +1,5 @@
-#ifndef iqmain_CMultiDocumentWorkspaceGuiComp_included
-#define iqmain_CMultiDocumentWorkspaceGuiComp_included
+#ifndef iqtdoc_CMultiDocumentWorkspaceGuiComp_included
+#define iqtdoc_CMultiDocumentWorkspaceGuiComp_included
 
 
 #include <QWorkspace>
@@ -9,10 +9,10 @@
 
 #include "iqt/TGuiComponentBase.h"
 
-#include "iqmain/IWorkspaceController.h"
+#include "iqtdoc/IWorkspaceController.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -22,7 +22,7 @@ namespace iqmain
 class CMultiDocumentWorkspaceGuiComp:
 			public iqt::TGuiComponentBase<QWorkspace>, 
 			public idoc::CDocumentManagerBase,
-			public iqmain::IWorkspaceController
+			public iqtdoc::IWorkspaceController
 {
 	Q_OBJECT
 
@@ -32,12 +32,12 @@ public:
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentManager)
-		I_REGISTER_INTERFACE(iqmain::IWorkspaceController)
+		I_REGISTER_INTERFACE(iqtdoc::IWorkspaceController)
 		I_ASSIGN(m_scrollingEnabledAttrPtr, "ScrollingWorkspace", "Enable scrolling of workspace area", true, false)
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate")
 	I_END_COMPONENT
 
-	// reimplemented (iqmain::IWorkspaceController)
+	// reimplemented (iqtdoc::IWorkspaceController)
 	virtual void TileHorizontally();
 	virtual void Tile();
 	virtual void Cascade();
@@ -100,8 +100,8 @@ private:
 };
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 
-#endif // !iqmain_CMultiDocumentWorkspaceGuiComp_included
+#endif // !iqtdoc_CMultiDocumentWorkspaceGuiComp_included
 

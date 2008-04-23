@@ -16,9 +16,9 @@
 
 #include "iqt2d/CImageViewComp.h"
 
-#include "iqmain/CExtendedDocumentTemplateComp.h"
-#include "iqmain/CMainWindowGuiComp.h"
-#include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
+#include "iqtdoc/CExtendedDocumentTemplateComp.h"
+#include "iqtdoc/CMainWindowGuiComp.h"
+#include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
 
 
 /**
@@ -34,9 +34,9 @@ typedef iqt::CSplashScreenGuiComp SplashScreen;
 typedef iqt::CLogGuiComp Log;
 typedef iqt::CIconProviderComp IconProvider;
 typedef iqt::CFileDialogSerializerComp FileDialogSerializer;
-typedef iqmain::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
-typedef iqmain::CMainWindowGuiComp MainWindowGui;
-typedef icomp::TModelCompWrap<iqmain::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
+typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
+typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
+typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iimg::IBitmap, iqt::CBitmap> > Bitmap;
 typedef iqt2d::CImageViewComp ImageView;
 typedef iqt::CBitmapLoaderComp BitmapLoader;

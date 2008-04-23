@@ -1,11 +1,11 @@
-#ifndef iqmain_IWorkspaceController_included
-#define iqmain_IWorkspaceController_included
+#ifndef iqtdoc_IWorkspaceController_included
+#define iqtdoc_IWorkspaceController_included
 
 
 #include "istd/IPolymorphic.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -37,8 +37,8 @@ public:
 };
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 
-#endif // !iqmain_IWorkspaceController_included
+#endif // !iqtdoc_IWorkspaceController_included
 

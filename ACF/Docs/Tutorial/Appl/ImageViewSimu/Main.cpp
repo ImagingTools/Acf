@@ -3,13 +3,18 @@
 
 
 #include "QtPck/QtPck.h"
+#include "BasePck/BasePck.h"
 
 
 int main(int argc, char *argv[])
 {
-	Q_INIT_RESOURCE(iqmain);
+	Q_INIT_RESOURCE(iqtdoc);
+
+	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
+	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
+	application.SetRef("ApplicationInfo", &applicationInfo);
 	application.EnsureInitialized(argc, argv);
 
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
@@ -17,6 +22,7 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetStringAttr("ProductName", "ImageView");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
 	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
+	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
 	icomp::TSimComponentsFactory<QtPck::Bitmap> modelFactoryComp;

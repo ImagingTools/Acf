@@ -9,10 +9,10 @@
 
 #include "idoc/ICommandsProvider.h"
 
-#include "iqmain/CMainWindowGuiComp.h"
+#include "iqtdoc/CMainWindowGuiComp.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -712,6 +712,6 @@ void CMainWindowGuiComp::ActiveUndoManager::OnUpdate(int /*updateFlags*/, istd::
 }
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 

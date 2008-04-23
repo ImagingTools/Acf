@@ -1,5 +1,5 @@
-#ifndef iqmain_CExtendedDocumentTemplateComp_included
-#define iqmain_CExtendedDocumentTemplateComp_included
+#ifndef iqtdoc_CExtendedDocumentTemplateComp_included
+#define iqtdoc_CExtendedDocumentTemplateComp_included
 
 
 #include <QObject>
@@ -10,10 +10,10 @@
 #include "iqt/IGuiObject.h"
 #include "iqt/CHierarchicalCommand.h"
 
-#include "iqmain/iqmain.h"
+#include "iqtdoc/iqtdoc.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -59,9 +59,9 @@ private:
 };
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 
-#endif // !iqmain_CExtendedDocumentTemplateComp_included
+#endif // !iqtdoc_CExtendedDocumentTemplateComp_included
 
 

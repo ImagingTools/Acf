@@ -173,7 +173,7 @@
    <item>
     <widget class="QFrame" name="VersionFrame" >
      <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow" >
       <enum>QFrame::Raised</enum>
@@ -295,7 +295,7 @@
    <item>
     <widget class="QFrame" name="AcfVersionFrame" >
      <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow" >
       <enum>QFrame::Raised</enum>

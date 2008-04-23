@@ -1,11 +1,11 @@
-#include "iqmain/CExtendedDocumentTemplateComp.h"
+#include "iqtdoc/CExtendedDocumentTemplateComp.h"
 
 
 #include <QMessageBox>
 #include <QFileInfo>
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
@@ -79,6 +79,6 @@ void CExtendedDocumentTemplateComp::OnAboutCommand()
 }
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
 

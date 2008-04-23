@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="iqmain"
+	Name="iqtdoc"
 	ProjectGUID="{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}"
-	RootNamespace="iqmain"
+	RootNamespace="iqtdoc"
 	Keyword="Qt4VSv1.0">
 	<Platforms>
 		<Platform
@@ -315,7 +315,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\iqmain.h">
+				RelativePath="..\iqtdoc.h">
 			</File>
 			<File
 				RelativePath="..\IWorkspaceController.h">
@@ -327,7 +327,7 @@
 			UniqueIdentifier="{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}"
 			ParseFiles="FALSE">
 			<File
-				RelativePath="..\iqmain.qrc">
+				RelativePath="..\iqtdoc.qrc">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -553,7 +553,7 @@
 				RelativePath="..\generated\moc_CMultiDocumentWorkspaceGuiComp.cpp">
 			</File>
 			<File
-				RelativePath="..\generated\qrc_iqmain.cpp">
+				RelativePath="..\generated\qrc_iqtdoc.cpp">
 			</File>
 		</Filter>
 		<Filter

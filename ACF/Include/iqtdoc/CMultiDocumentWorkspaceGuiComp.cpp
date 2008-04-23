@@ -1,4 +1,4 @@
-#include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
+#include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
 
 
 #include <QEvent>
@@ -11,13 +11,13 @@
 #include "idoc/IDocumentTemplate.h"
 
 
-namespace iqmain
+namespace iqtdoc
 {
 
 
 // public methods
 
-// reimplemented (iqmain::IWorkspaceController)
+// reimplemented (iqtdoc::IWorkspaceController)
 
 void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
 {
@@ -312,5 +312,5 @@ void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QWidget* window)
 }	
 
 
-} // namespace iqmain
+} // namespace iqtdoc
 
