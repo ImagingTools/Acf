@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'CImageViewComp.h'
 **
-** Created: Tue 22. Apr 11:14:39 2008
+** Created: Tue 22. Apr 23:56:45 2008
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.2.3)
 **
 ** WARNING! All changes made in this file will be lost!

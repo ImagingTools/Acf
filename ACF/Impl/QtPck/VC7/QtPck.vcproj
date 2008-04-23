@@ -215,6 +215,9 @@
 			<File
 				RelativePath="..\CQtPackage.h">
 			</File>
+			<File
+				RelativePath="..\QtPck.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

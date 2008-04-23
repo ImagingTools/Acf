@@ -1,0 +1,50 @@
+#ifndef QtPck_included
+#define QtPck_included
+
+
+#include "icomp/TModelCompWrap.h"
+#include "icomp/TMakeComponentWrap.h"
+
+#include "iqt/CLoginGuiComp.h"
+#include "iqt/CApplicationComp.h"
+#include "iqt/CSplashScreenGuiComp.h"
+#include "iqt/CLogGuiComp.h"
+#include "iqt/CIconProviderComp.h" 
+#include "iqt/CFileDialogSerializerComp.h"
+#include "iqt/CBitmap.h"
+#include "iqt/CBitmapLoaderComp.h"
+
+#include "iqt2d/CImageViewComp.h"
+
+#include "iqmain/CExtendedDocumentTemplateComp.h"
+#include "iqmain/CMainWindowGuiComp.h"
+#include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
+
+
+/**
+	Standard Qt package.
+*/
+namespace QtPck
+{
+
+
+typedef iqt::CLoginGuiComp LoginGui;
+typedef iqt::CApplicationComp GuiApplication;
+typedef iqt::CSplashScreenGuiComp SplashScreen;
+typedef iqt::CLogGuiComp Log;
+typedef iqt::CIconProviderComp IconProvider;
+typedef iqt::CFileDialogSerializerComp FileDialogSerializer;
+typedef iqmain::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
+typedef iqmain::CMainWindowGuiComp MainWindowGui;
+typedef icomp::TModelCompWrap<iqmain::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
+typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iimg::IBitmap, iqt::CBitmap> > Bitmap;
+typedef iqt2d::CImageViewComp ImageView;
+typedef iqt::CBitmapLoaderComp BitmapLoader;
+
+
+} // namespace QtPck
+
+
+#endif // !QtPck_included
+
+

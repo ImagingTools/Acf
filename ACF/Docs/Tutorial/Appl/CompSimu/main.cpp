@@ -2,24 +2,22 @@
 
 #include "icomp/TSimComponentWrap.h"
 
-#include "iqt/CApplicationComp.h"
-#include "iqt/CSplashScreenGuiComp.h"
-#include "iqt/CLoginGuiComp.h"
+#include "QtPck/QtPck.h"
 
 
 int main(int argc, char *argv[])
 {
-	icomp::TSimComponentWrap<iqt::CApplicationComp> application;
+	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.EnsureInitialized(argc, argv);
 
-	icomp::TSimComponentWrap<iqt::CSplashScreenGuiComp> splashScreenGui;
+	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "CompSimu");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
 	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentWrap<iqt::CLoginGuiComp> loginGui;
+	icomp::TSimComponentWrap<QtPck::LoginGui> loginGui;
 	loginGui.InitComponent();
 
 	application.SetRef("MainGui", &loginGui);

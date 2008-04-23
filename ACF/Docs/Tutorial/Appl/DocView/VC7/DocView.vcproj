@@ -193,6 +193,9 @@
 		<Filter
 			Name="Generated Files"
 			Filter="moc;h;cpp">
+			<File
+				RelativePath="..\generated\moc_CTextEditorComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Forms"

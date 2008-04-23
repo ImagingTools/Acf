@@ -224,7 +224,7 @@
 				QtPck
 			</PackageId>
 			<ComponentId>
-				MultiDocWorkspace
+				MultiDocWorkspaceGui
 			</ComponentId>
 			<Data>
 				<IsEnabled>
@@ -263,7 +263,7 @@
 				BasePck
 			</PackageId>
 			<ComponentId>
-				SerializedDocumentTemplate
+				SingleDocumentTemplate
 			</ComponentId>
 			<Data>
 				<IsEnabled>

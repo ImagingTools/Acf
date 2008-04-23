@@ -513,9 +513,9 @@ template <class Argument, class Result, class Fulcrums>
 typename TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FulcrumIndex
 			TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FindIndices(const ArgumentType& argument) const
 {
-	FulcrumIndex retVal;
-
 	int dimensionsCount = GetDimensionsCount();
+
+	FulcrumIndex retVal(dimensionsCount);
 
 	for (int i = 0; i < dimensionsCount; ++i){
 		retVal[i] = FindIndex(i, argument[i]);

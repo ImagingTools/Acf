@@ -1,20 +1,11 @@
 #ifndef OLD_ACF_SUPPORT
 
 
+#include <QDir>
+
 #include "icomp/export.h"
-#include "icomp/TModelCompWrap.h"
-#include "icomp/TMakeComponentWrap.h"
 
-#include "iqt/CLoginGuiComp.h"
-#include "iqt/CApplicationComp.h"
-#include "iqt/CSplashScreenGuiComp.h"
-#include "iqt/CLogGuiComp.h"
-#include "iqt/CIconProviderComp.h" 
-#include "iqt/CFileDialogSerializerComp.h"
-#include "iqt/CBitmap.h"
-
-#include "iqmain/CMainWindowGuiComp.h"
-#include "iqmain/CMultiDocumentWorkspaceGuiComp.h"
+#include "QtPck.h"
 
 
 static struct StaticInit
@@ -26,17 +17,27 @@ static struct StaticInit
 } instance;
 
 
+namespace QtPck
+{
+
+
 I_EXPORT_PACKAGE("Qt", "Standard Qt package", "Qt Standard");
-I_EXPORT_COMPONENT(iqt::CLoginGuiComp, LoginGui, "Gui used to user login", "User Login Qt GUI");
-I_EXPORT_COMPONENT(iqt::CApplicationComp, GuiApplication, "Main entry point for window based application", "Application Main Entry Start Begin Qt");
-I_EXPORT_COMPONENT(iqt::CSplashScreenGuiComp, SplashScreen, "Splash screen", "Splash Screen Start Begin Qt GUI");
-I_EXPORT_COMPONENT(iqt::CLogGuiComp, Log, "Applcation log as simple list", "Log Info List Qt GUI");
-I_EXPORT_COMPONENT(iqt::CIconProviderComp, IconProvider, "Icon provider", "Icons Qt GUI"); 
-I_EXPORT_COMPONENT(iqt::CFileDialogSerializerComp, FileDialogSerializer, "File dialog serializer", "File Serialization Serializer Dialog GUI Qt"); 
-I_EXPORT_COMPONENT(iqmain::CMainWindowGuiComp, MainWindowGui, "Main Qt application window", "Main Window Start Begin GUI Qt");
-I_EXPORT_COMPONENT(icomp::TModelCompWrap<iqmain::CMultiDocumentWorkspaceGuiComp>, MultiDocWorkspace, "Multi document workspace", "Workspace Document Model View Observer MVC GUI Qt");
-typedef icomp::TMakeComponentWrap<iimg::IBitmap, iqt::CBitmap> CBitmapComp;
-I_EXPORT_COMPONENT(icomp::TModelCompWrap<CBitmapComp>, Bitmap, "QImage based bitmap implementation", "QImage Bitmap Qt");
+
+I_EXPORT_COMPONENT(LoginGui, "Gui used to user login", "User Login Qt GUI");
+I_EXPORT_COMPONENT(GuiApplication, "Main entry point for window based Qt application", "Application Main Entry Start Begin Qt");
+I_EXPORT_COMPONENT(SplashScreen, "Splash screen", "Splash Screen Start Begin Qt GUI");
+I_EXPORT_COMPONENT(Log, "Applcation log as simple list", "Log Info List Qt GUI");
+I_EXPORT_COMPONENT(IconProvider, "Icon provider", "Icons Qt GUI"); 
+I_EXPORT_COMPONENT(FileDialogSerializer, "File dialog serializer", "File Serialization Serializer Dialog GUI Qt"); 
+I_EXPORT_COMPONENT(ExtendedDocumentTemplate, "Extended serialized document template", "Serialized Document Template Qt");
+I_EXPORT_COMPONENT(MainWindowGui, "Main Qt application window", "Main Window Start Begin GUI Qt");
+I_EXPORT_COMPONENT(MultiDocWorkspaceGui, "Multi document workspace", "Workspace Document Model View Observer MVC GUI Qt");
+I_EXPORT_COMPONENT(Bitmap, "QImage based bitmap implementation", "QImage Image Bitmap Qt");
+I_EXPORT_COMPONENT(ImageView, "Display bitmap using observer pattern", "Image Bitmap Display Viewer Observer Qt");
+I_EXPORT_COMPONENT(BitmapLoader, "Load and save bitmaps in binary format", "Image Bitmap Binary Loader Load Save JPG JPEG PNG BMP Qt");
+
+
+} // namespace QtPck
 
 
 #else OLD_ACF_SUPPORT
