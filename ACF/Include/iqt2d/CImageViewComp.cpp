@@ -162,6 +162,12 @@ void CImageViewComp::OnFitToImage()
 }
 
 
+void CImageViewComp::OnResetScale()
+{
+	SetZoom(1.0);
+}
+
+
 // reimplemented (iqt::TGuiObserverWrap)
 
 void CImageViewComp::UpdateModel() const
@@ -269,6 +275,7 @@ void CImageViewComp::OnGuiCreated()
 		return;
 	}
 	
+	viewPtr->setFrameStyle(QFrame::NoFrame);
 	viewPtr->setScene(m_scenePtr);
 	viewPtr->setMouseTracking(true);
 	viewPtr->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -351,6 +358,10 @@ void CImageViewComp::CreateContextMenu()
 		connect(fitToImageCommandPtr, SIGNAL( activated()), this, SLOT(OnFitToImage()));
 		imageMenuPtr->InsertChild(fitToImageCommandPtr, true);
 	}
+
+	iqt::CHierarchicalCommand* resetScaleCommandPtr = new iqt::CHierarchicalCommand("&Reset Zoom");
+	connect(resetScaleCommandPtr, SIGNAL( activated()), this, SLOT(OnResetScale()));
+	imageMenuPtr->InsertChild(resetScaleCommandPtr, true);
 
 	m_editorCommand.InsertChild(imageMenuPtr, true);
 }

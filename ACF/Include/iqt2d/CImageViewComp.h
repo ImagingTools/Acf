@@ -70,6 +70,7 @@ public slots:
 	void SwitchFullScreen();
 	void OnFitToView();
 	void OnFitToImage();
+	void OnResetScale();
 	
 protected:
 	virtual void OnResize(QResizeEvent* event);

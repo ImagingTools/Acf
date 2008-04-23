@@ -35,13 +35,13 @@ void CImageItem::SetImage(const QImage& image)
 
 int CImageItem::GetWidth() const
 {
-	return m_frameItem.rect().width();
+	return m_frameItem.boundingRect().width();
 }
 
 
 int CImageItem::GetHeight() const
 {
-	return m_frameItem.rect().height();
+	return m_frameItem.boundingRect().height();
 }
 
 
