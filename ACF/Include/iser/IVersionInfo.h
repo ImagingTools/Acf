@@ -50,8 +50,8 @@ public:
 	/**
 		Get description of version ID.
 		\param	versionId	versioning type. It allows you to distinguish different version aspects.
-								For example version number of framework cann differ from application version.
-								@sa VersionId, GetVersion.
+							For example version number of framework cann differ from application version.
+							@sa VersionId, GetVersion.
 	*/
 	virtual istd::CString GetVersionIdDescription(int versionId) const = 0;
 

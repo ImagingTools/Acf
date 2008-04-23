@@ -20,6 +20,8 @@ public:
 
 	// pseudo-reimplemented (iser::IVersionInfo)
 	virtual I_DWORD GetVersion(int versionId = UserVersionId) const;
+	virtual istd::CString GetVersionIdDescription(int versionId) const;
+	virtual iser::IVersionInfo::VersionIds GetVersionIds() const;
 };
 
 
@@ -51,6 +53,29 @@ I_DWORD TApplicationInfoWrap<Base>::GetVersion(int versionId) const
 	else{
 		return BaseClass::GetVersion(versionId);
 	}
+}
+
+
+template <class Base>
+istd::CString TApplicationInfoWrap<Base>::GetVersionIdDescription(int versionId) const
+{
+	if (versionId == FrameworkVersionId){
+		return "ACF";
+	}
+	else{
+		return BaseClass::GetVersionIdDescription(versionId);
+	}
+}
+
+
+template <class Base>
+iser::IVersionInfo::VersionIds TApplicationInfoWrap<Base>::GetVersionIds() const
+{
+	VersionIds retVal = BaseClass::GetVersionIds();
+
+	retVal.insert(FrameworkVersionId);
+
+	return retVal;
 }
 
 
