@@ -54,6 +54,7 @@ public:
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false)
 		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager")
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16)
+		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false)
 	I_END_COMPONENT
 
 	enum GroupId
@@ -218,6 +219,7 @@ private:
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
+	I_ATTR(bool, m_useIconTextAttrPtr);
 };
 
 

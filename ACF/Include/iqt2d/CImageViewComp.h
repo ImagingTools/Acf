@@ -106,6 +106,7 @@ private:
 
 	iqt::CHierarchicalCommand m_editorCommand;
 	iqt::CHierarchicalCommand m_fitToViewCommand;
+	iqt::CHierarchicalCommand m_resetZoomCommand;
 
 	I_ATTR(bool, m_allowWidgetResizeAttrPtr);
 };

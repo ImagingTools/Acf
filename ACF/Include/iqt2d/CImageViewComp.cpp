@@ -20,7 +20,8 @@ namespace iqt2d
 CImageViewComp::CImageViewComp()
 	:m_isFullScreenMode(true),
 	m_isZoomIgnored(false),
-	m_fitToViewCommand("&Fit Image To View")
+	m_fitToViewCommand("&Fit Image To View"),
+	m_resetZoomCommand("&Reset Zoom")
 {
 	m_scenePtr = new QGraphicsScene;
 
@@ -176,6 +177,7 @@ void CImageViewComp::OnAutoFit(bool isAutoScale)
 	}
 
 	m_fitToViewCommand.setEnabled(!isAutoScale);
+	m_resetZoomCommand.setEnabled(!isAutoScale);
 }
 
 
@@ -360,7 +362,8 @@ void CImageViewComp::CreateContextMenu()
 	iqt::CHierarchicalCommand* imageMenuPtr = new iqt::CHierarchicalCommand("&Image");
 
 	iqt::CHierarchicalCommand* autoFitToViewCommandPtr = new iqt::CHierarchicalCommand("&Auto Fit");
-	autoFitToViewCommandPtr->SetStaticFlags(iqt::CHierarchicalCommand::CF_ONOFF | iqt::CHierarchicalCommand::CF_GLOBAL_MENU);
+	autoFitToViewCommandPtr->SetStaticFlags(iqt::CHierarchicalCommand::CF_ONOFF | 
+											iqt::CHierarchicalCommand::CF_GLOBAL_MENU);
 	connect(autoFitToViewCommandPtr, SIGNAL(toggled(bool)), this, SLOT(OnAutoFit(bool)));
 	imageMenuPtr->InsertChild(autoFitToViewCommandPtr, true);
 
@@ -374,9 +377,8 @@ void CImageViewComp::CreateContextMenu()
 		imageMenuPtr->InsertChild(fitToImageCommandPtr, true);
 	}
 
-	iqt::CHierarchicalCommand* resetScaleCommandPtr = new iqt::CHierarchicalCommand("&Reset Zoom");
-	connect(resetScaleCommandPtr, SIGNAL( activated()), this, SLOT(OnResetScale()));
-	imageMenuPtr->InsertChild(resetScaleCommandPtr, true);
+	connect(&m_resetZoomCommand, SIGNAL( activated()), this, SLOT(OnResetScale()));
+	imageMenuPtr->InsertChild(&m_resetZoomCommand);
 
 	m_editorCommand.InsertChild(imageMenuPtr, true);
 }

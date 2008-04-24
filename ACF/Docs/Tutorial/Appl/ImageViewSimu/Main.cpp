@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
 {
 	Q_INIT_RESOURCE(iqtdoc);
 
+	QApplication::setStyle("plastique");
+
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.InitComponent();
 

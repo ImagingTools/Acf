@@ -307,7 +307,10 @@ void CMainWindowGuiComp::SetupMainWindow(QMainWindow& mainWindow)
 
 	m_standardToolBar = new QToolBar(&mainWindow);
 	m_standardToolBar->setWindowTitle(tr("Standard"));
-	m_standardToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+	if (m_useIconTextAttrPtr.IsValid()){
+		m_standardToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+	}
 
 	if (m_workspaceCompPtr.IsValid()){
 		m_workspaceCompPtr->CreateGui(NULL);
@@ -653,10 +656,12 @@ void CMainWindowGuiComp::OnFullScreen()
 
 	if (parentWidgetPtr->isFullScreen()){
 		parentWidgetPtr->showMaximized();
+		m_standardToolBar->show();
 		mainWidgetPtr->statusBar()->show();
 	}
 	else{
 		mainWidgetPtr->statusBar()->hide();
+		m_standardToolBar->hide();
 		parentWidgetPtr->showFullScreen();
 	}
 }
