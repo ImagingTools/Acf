@@ -13,6 +13,8 @@ CHierarchicalCommand::CHierarchicalCommand(const istd::CString& name, int priori
 {
 	BaseClass2::SetName(name);
 	SetStaticFlags(staticFlags);
+
+	connect(this, SIGNAL(triggered()), SLOT(OnTriggered()));
 }
 
 
@@ -118,10 +120,11 @@ int CHierarchicalCommand::GetStaticFlags() const
 }
 
 
-bool CHierarchicalCommand::Execute(istd::IPolymorphic* /*contextPtr*/)
+bool CHierarchicalCommand::Execute(istd::IPolymorphic* contextPtr)
 {
-	if (IsEnabled()){
+	if (IsEnabled() && (contextPtr != this)){
 		emit trigger();
+
 		return true;
 	}
 	else{
@@ -162,6 +165,14 @@ void CHierarchicalCommand::SetEnabled(bool isEnabled)
 {
 	BaseClass::setEnabled(isEnabled);
 	BaseClass2::SetEnabled(isEnabled);
+}
+
+
+// protected slots
+
+void CHierarchicalCommand::OnTriggered()
+{
+	Execute(this);
 }
 
 

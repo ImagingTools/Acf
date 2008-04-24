@@ -92,6 +92,16 @@ protected:
 	void CreateMenu(const iqt::CHierarchicalCommand& command, MenuType& result) const;
 	int CreateToolbar(const iqt::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
 
+	void SetupMainWindow(QMainWindow& mainWindow);
+	void SetupFileMenu();
+	void SetupEditMenu();
+	void SetupMainWindowComponents(QMainWindow& mainWindow);
+	bool HasDocumentTemplate() const;
+	void UpdateUndoMenu();
+	void UpdateMenuActions();
+
+	void OnNewDocument(const std::string& documentTypeId);
+
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
@@ -101,15 +111,13 @@ protected:
 	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 	// static methods
-	QIcon GetIcon(const std::string& name);
+	static QIcon GetIcon(const std::string& name);
 
 protected slots:
-	void OnFileNewAction(QAction* action);
 	void OnNew();
 	void OnOpen();
 	void OnSave();
 	void OnSaveAs();
-	void OnNewDocument(const QString& documentTypeId);
 	void OnOpenDocument(const std::string* documentTypeIdPtr = NULL);
 	void OnQuit();
 	void OnUndo();
@@ -124,15 +132,6 @@ protected slots:
 	void OnCascade(); 
 	void OnTileHorizontally(); 
 	void OnTile(); 
-
-protected:
-	void SetupMainWindow(QMainWindow& mainWindow);
-	void SetupFileMenu();
-	void SetupEditMenu();
-	void SetupMainWindowComponents(QMainWindow& mainWindow);
-	bool HasDocumentTemplate() const;
-	void UpdateUndoMenu();
-	void UpdateMenuActions();
 
 private:
 	QMenuBar* m_menuBar;
@@ -162,6 +161,28 @@ private:
 	iqt::CHierarchicalCommand m_closeAllDocumentsCommand;
 	// help menu group
 	iqt::CHierarchicalCommand m_aboutCommand;
+
+	class NewDocumentCommand: public iqt::CHierarchicalCommand
+	{
+	public:
+		typedef iqt::CHierarchicalCommand BaseClass;
+
+		NewDocumentCommand(CMainWindowGuiComp* parentPtr, const std::string& documentTypeId): m_parent(*parentPtr), m_documentTypeId(documentTypeId){}
+
+		// reimplemented (idoc::ICommand)
+		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
+		{
+			m_parent.OnNewDocument(m_documentTypeId);
+
+			return true;
+		}
+
+	private:
+		CMainWindowGuiComp& m_parent;
+		std::string m_documentTypeId;
+	};
+
+	friend class NewDocumentCommand;
 
 	class ActiveUndoManager: public imod::TSingleModelObserverBase<imod::IUndoManager>
 	{

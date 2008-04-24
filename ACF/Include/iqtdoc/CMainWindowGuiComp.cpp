@@ -30,6 +30,9 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
 {
+	m_menuBar = NULL;
+	m_standardToolBar = NULL;
+
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
 	connect(&m_saveCommand, SIGNAL(activated()), this, SLOT(OnSave()));
@@ -43,49 +46,6 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_tileVerticallyCommand, SIGNAL(activated()), this, SLOT(OnTile()));
 	connect(&m_closeAllDocumentsCommand, SIGNAL(activated()), this, SLOT(OnCloseAllWindows()));
 	connect(&m_aboutCommand, SIGNAL(activated()), this, SLOT(OnAbout()));
-
-	m_fileCommand.SetPriority(30);
-	m_newCommand.SetGroupId(GI_DOCUMENT);
-	m_fileCommand.InsertChild(&m_newCommand, false);
-	m_openCommand.SetGroupId(GI_DOCUMENT);
-	m_fileCommand.InsertChild(&m_openCommand, false);
-	m_saveCommand.SetGroupId(GI_DOCUMENT);
-	m_fileCommand.InsertChild(&m_saveCommand, false);
-	m_saveAsCommand.SetGroupId(GI_DOCUMENT);
-	m_fileCommand.InsertChild(&m_saveAsCommand, false);
-	m_quitCommand.SetGroupId(GI_APPLICATION);
-	m_fileCommand.InsertChild(&m_quitCommand, false);
-
-	m_editCommand.SetPriority(60);
-	m_undoCommand.SetGroupId(GI_UNDO);
-	m_editCommand.InsertChild(&m_undoCommand, false);
-	m_redoCommand.SetGroupId(GI_UNDO);
-	m_editCommand.InsertChild(&m_redoCommand, false);
-
-	m_viewCommand.SetPriority(90);
-	m_viewCommand.InsertChild(&m_fullScreenCommand, false);
-
-	m_windowCommand.SetPriority(120);
-	m_cascadeCommand.SetGroupId(GI_WINDOW);
-	m_windowCommand.InsertChild(&m_cascadeCommand, false);
-	m_tileHorizontallyCommand.SetGroupId(GI_WINDOW);
-	m_windowCommand.InsertChild(&m_tileHorizontallyCommand, false);
-	m_tileVerticallyCommand.SetGroupId(GI_WINDOW);
-	m_windowCommand.InsertChild(&m_tileVerticallyCommand, false);
-	m_closeAllDocumentsCommand.SetGroupId(GI_DOCUMENT);
-	m_windowCommand.InsertChild(&m_closeAllDocumentsCommand, false);
-
-	m_helpCommand.SetPriority(150);
-	m_helpCommand.InsertChild(&m_aboutCommand, false);
-
-	m_fixedCommands.InsertChild(&m_fileCommand, false);
-	m_fixedCommands.InsertChild(&m_editCommand, false);
-	m_fixedCommands.InsertChild(&m_viewCommand, false);
-	m_fixedCommands.InsertChild(&m_windowCommand, false);
-	m_fixedCommands.InsertChild(&m_helpCommand, false);
-	
-	m_menuBar = NULL;
-	m_standardToolBar = NULL;
 }
 
 
@@ -153,11 +113,80 @@ void CMainWindowGuiComp::OnComponentCreated()
 	if (m_documentManagerModelCompPtr.IsValid()){
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
+
+	if (m_documentManagerCompPtr.IsValid()){
+		const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
+		if (templatePtr != NULL){
+			idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
+			if (!ids.empty()){
+				m_newCommand.SetGroupId(GI_DOCUMENT);
+				m_fileCommand.InsertChild(&m_newCommand, false);
+
+				if (ids.size() > 1){
+					for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
+								iter != ids.end();
+								++iter){
+						NewDocumentCommand* newCommandPtr = new NewDocumentCommand(this, *iter);
+						if (newCommandPtr != NULL){
+							QString commandName = iqt::GetQString(*iter);
+							newCommandPtr->SetVisuals(commandName, commandName, tr("Creates new document %1").arg(commandName));
+							m_newCommand.InsertChild(newCommandPtr, true);
+						}
+					}
+				}
+			}
+		}
+
+		m_fileCommand.SetPriority(30);
+		m_openCommand.SetGroupId(GI_DOCUMENT);
+		m_fileCommand.InsertChild(&m_openCommand, false);
+		m_saveCommand.SetGroupId(GI_DOCUMENT);
+		m_fileCommand.InsertChild(&m_saveCommand, false);
+		m_saveAsCommand.SetGroupId(GI_DOCUMENT);
+		m_fileCommand.InsertChild(&m_saveAsCommand, false);
+		m_quitCommand.SetGroupId(GI_APPLICATION);
+		m_fileCommand.InsertChild(&m_quitCommand, false);
+
+		m_editCommand.SetPriority(60);
+		m_undoCommand.SetGroupId(GI_UNDO);
+		m_editCommand.InsertChild(&m_undoCommand, false);
+		m_redoCommand.SetGroupId(GI_UNDO);
+		m_editCommand.InsertChild(&m_redoCommand, false);
+
+		m_viewCommand.SetPriority(90);
+		m_viewCommand.InsertChild(&m_fullScreenCommand, false);
+
+		m_windowCommand.SetPriority(120);
+		m_cascadeCommand.SetGroupId(GI_WINDOW);
+		m_windowCommand.InsertChild(&m_cascadeCommand, false);
+		m_tileHorizontallyCommand.SetGroupId(GI_WINDOW);
+		m_windowCommand.InsertChild(&m_tileHorizontallyCommand, false);
+		m_tileVerticallyCommand.SetGroupId(GI_WINDOW);
+		m_windowCommand.InsertChild(&m_tileVerticallyCommand, false);
+		m_closeAllDocumentsCommand.SetGroupId(GI_DOCUMENT);
+		m_windowCommand.InsertChild(&m_closeAllDocumentsCommand, false);
+
+		m_helpCommand.SetPriority(150);
+		m_helpCommand.InsertChild(&m_aboutCommand, false);
+
+		m_fixedCommands.InsertChild(&m_fileCommand, false);
+		m_fixedCommands.InsertChild(&m_editCommand, false);
+		m_fixedCommands.InsertChild(&m_viewCommand, false);
+		m_fixedCommands.InsertChild(&m_windowCommand, false);
+		m_fixedCommands.InsertChild(&m_helpCommand, false);
+	}
 }
 
 
 void CMainWindowGuiComp::OnComponentDestroyed()
 {
+	m_fileCommand.ResetChilds();
+	m_editCommand.ResetChilds();
+	m_viewCommand.ResetChilds();
+	m_windowCommand.ResetChilds();
+	m_helpCommand.ResetChilds();
+	m_fixedCommands.ResetChilds();
+
 	if (m_documentManagerModelCompPtr.IsValid()){
 		m_documentManagerModelCompPtr->DetachObserver(this);
 	}
@@ -233,19 +262,32 @@ int CMainWindowGuiComp::CreateToolbar(const iqt::CHierarchicalCommand& command, 
 			int groupId = hierarchicalPtr->GetGroupId();
 			int flags = hierarchicalPtr->GetStaticFlags();
 
-			if (hierarchicalPtr->GetChildsCount() > 0){
-				prevGroupId = CreateToolbar(*hierarchicalPtr, result, prevGroupId);
-			}
-			else if ((flags & idoc::ICommand::CF_TOOLBAR) != 0){
-				if ((groupId != prevGroupId) && (prevGroupId != idoc::ICommand::GI_NONE)){
-					result.addSeparator();
+			if ((flags & idoc::ICommand::CF_TOOLBAR) != 0){
+				if (hierarchicalPtr->GetChildsCount() > 0){
+					QMenu* newMenuPtr = new QMenu(&result);
+					if (newMenuPtr != NULL){
+						newMenuPtr->setTitle(iqt::GetQString(hierarchicalPtr->GetName()));
+
+						CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
+
+						newMenuPtr->setIcon(hierarchicalPtr->icon());
+						result.addAction(newMenuPtr->menuAction());
+					}
+				}
+				else{
+					if ((groupId != prevGroupId) && (prevGroupId != idoc::ICommand::GI_NONE)){
+						result.addSeparator();
+					}
+
+					result.addAction(hierarchicalPtr);
 				}
 
 				if (groupId != idoc::ICommand::GI_NONE){
 					prevGroupId = groupId;
 				}
-
-				result.addAction(hierarchicalPtr);
+			}
+			else if (hierarchicalPtr->GetChildsCount() > 0){
+				prevGroupId = CreateToolbar(*hierarchicalPtr, result, prevGroupId);
 			}
 		}
 	}
@@ -253,299 +295,6 @@ int CMainWindowGuiComp::CreateToolbar(const iqt::CHierarchicalCommand& command, 
 	return prevGroupId;
 }
 
-
-// reimplemented (iqt::TGuiComponentBase)
-
-void CMainWindowGuiComp::OnGuiCreated()
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	if (mainWindowPtr == NULL){
-		return;
-	}
-
-	SetupMainWindow(*mainWindowPtr);
-}
-
-
-void CMainWindowGuiComp::OnGuiDestroyed()
-{
-	m_menuBar = NULL;
-	m_standardToolBar = NULL;
-}
-
-
-void CMainWindowGuiComp::OnRetranslate()
-{
-	I_ASSERT(GetWidget() != NULL);
-
-	QWidget* parentWidgetPtr = GetWidget()->parentWidget();
-	if (parentWidgetPtr == NULL){
-		parentWidgetPtr = GetWidget();
-	}
-
-	m_fileCommand.SetName(iqt::GetCString(tr("&File")));
-	m_editCommand.SetName(iqt::GetCString(tr("&Edit")));
-	m_viewCommand.SetName(iqt::GetCString(tr("&View")));
-	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
-	m_helpCommand.SetName(iqt::GetCString(tr("&Help")));
-
-	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), GetIcon("document"));
-	m_newCommand.setShortcut(tr("Ctrl+N"));
-	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), GetIcon("folder"));
-	m_openCommand.setShortcut(tr("Ctrl+O"));
-	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), GetIcon("diskette"));
-	m_saveCommand.setShortcut(tr("Ctrl+S"));
-	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
-	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), GetIcon("exit"));
-	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), GetIcon("undo"));
-	m_undoCommand.setShortcut(tr("Ctrl+Z"));
-	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), GetIcon("redo"));
-	m_redoCommand.setShortcut(tr("Ctrl+Shift+Z"));
-	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
-	m_fullScreenCommand.setShortcut(tr("F11"));
-	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
-	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
-	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
-	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
-	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), GetIcon("info"));
-}
-
-
-// reimplemented (imod::TSingleModelObserverBase)
-
-void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	if ((updateFlags & idoc::IDocumentManager::DocumentCountChanged) != 0){
-		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
-		if (documentManagerPtr != NULL){
-			OnDocumentCountChanged();
-		}
-	}
-
-	if ((updateFlags & idoc::IDocumentManager::ViewActivationChanged) != 0){
-		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
-		if (documentManagerPtr != NULL){
-			istd::IChangeable* documentPtr = NULL;
-
-			istd::IPolymorphic* activeViewPtr = documentManagerPtr->GetActiveView();
-
-			if (activeViewPtr != NULL){
-				documentPtr = documentManagerPtr->GetDocumentFromView(*activeViewPtr);
-			}
-
-			bool isViewChanged = (activeViewPtr != m_activeViewPtr);
-			bool isDocumentChanged = (documentPtr != m_activeDocumentPtr);
-
-			m_activeViewPtr = activeViewPtr;
-			m_activeDocumentPtr = documentPtr;
-
-			if (isViewChanged){
-				OnActiveViewChanged();
-			}
-
-			if (isDocumentChanged){
-				OnActiveDocumentChanged();
-			}
-		}
-	}
-}
-
-
-// static methods
-
-QIcon CMainWindowGuiComp::GetIcon(const std::string& name)
-{
-	return QIcon((":/Icons/" + name).c_str());
-}
-
-
-// protected slots
-
-void CMainWindowGuiComp::OnFileNewAction(QAction* activeAction)
-{
-	if (activeAction != NULL){
-		OnNewDocument(activeAction->text());
-	}
-}
-
-
-void CMainWindowGuiComp::OnNew()
-{
-	if (!m_documentManagerCompPtr.IsValid()){
-		return;
-	}
-
-	const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-	if (templatePtr == NULL){
-		return;
-	}
-
-	idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-	if (!ids.empty()){
-		const std::string& documentTypeId = ids.front();
-
-		OnNewDocument(iqt::GetQString(documentTypeId));
-	}
-}
-
-
-void CMainWindowGuiComp::OnOpen()
-{
-	OnOpenDocument(NULL);
-}
-
-
-void CMainWindowGuiComp::OnSave()
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->FileSave()){
-			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
-		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnSaveAs()
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->FileSave(true)){
-			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
-		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnNewDocument(const QString& documentFactoryId)
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		istd::IChangeable* documentPtr = m_documentManagerCompPtr->FileNew(documentFactoryId.toStdString());
-		if (documentPtr == NULL){
-			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
-			return;
-		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnOpenDocument(const std::string* documentTypeIdPtr)
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		bool result = m_documentManagerCompPtr->FileOpen(documentTypeIdPtr);
-		if (!result){
-			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
-			return;
-		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnQuit()
-{
-	QCoreApplication::quit();
-}
-
-
-void CMainWindowGuiComp::OnUndo()
-{
-	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
-	
-	m_activeUndoManager.GetObjectPtr()->DoUndo();
-
-	UpdateUndoMenu();
-}
-
-
-void CMainWindowGuiComp::OnRedo()
-{
-	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
-
-	m_activeUndoManager.GetObjectPtr()->DoRedo();
-	
-	UpdateUndoMenu();
-}
-
-
-void CMainWindowGuiComp::OnFullScreen()
-{
-	QMainWindow* mainWidgetPtr = GetQtWidget();
-
-	I_ASSERT(mainWidgetPtr != NULL);
-
-	QWidget* parentWidgetPtr = mainWidgetPtr->parentWidget();
-	if (parentWidgetPtr == NULL){
-		parentWidgetPtr = mainWidgetPtr;
-	}
-
-	if (parentWidgetPtr == NULL){
-		return;
-	}
-
-	if (parentWidgetPtr->isFullScreen()){
-		parentWidgetPtr->showMaximized();
-		mainWidgetPtr->statusBar()->show();
-	}
-	else{
-		mainWidgetPtr->statusBar()->hide();
-		parentWidgetPtr->showFullScreen();
-	}
-}
-
-
-void CMainWindowGuiComp::OnAbout()
-{
-	// TODO: implement about for MVC.
-}
-
-
-void CMainWindowGuiComp::OnLanguageSelected(QAction* actionPtr) 
-{
-	if (m_translationManagerCompPtr.IsValid()){
-		m_translationManagerCompPtr->SetSelectedLanguage(actionPtr->text());
-	}
-}
-
-
-void CMainWindowGuiComp::OnStyleSelected(QAction* actionPtr) 
-{
-	qApp->setStyle(actionPtr->text());
-
-	QApplication::setPalette(QApplication::style()->standardPalette());
-}
-
-
-void CMainWindowGuiComp::OnCloseAllWindows()
-{
-	if (m_workspaceControllerCompPtr.IsValid()){
-		m_workspaceControllerCompPtr->CloseAllViews();
-	}
-}
-
-
-void CMainWindowGuiComp::OnCascade()
-{
-	if (m_workspaceControllerCompPtr.IsValid()){
-		m_workspaceControllerCompPtr->Cascade();
-	}
-}
-
-
-void CMainWindowGuiComp::OnTileHorizontally()
-{
-	if (m_workspaceControllerCompPtr.IsValid()){
-		m_workspaceControllerCompPtr->TileHorizontally();
-	}
-}
-
-
-void CMainWindowGuiComp::OnTile()
-{
-	if (m_workspaceControllerCompPtr.IsValid()){
-		m_workspaceControllerCompPtr->Tile();
-	}
-}
-
-
-// private methods
 
 void CMainWindowGuiComp::SetupMainWindow(QMainWindow& mainWindow)
 {
@@ -681,6 +430,289 @@ void CMainWindowGuiComp::UpdateMenuActions()
 
 	m_standardToolBar->clear();
 	CreateToolbar(m_menuCommands, *m_standardToolBar);
+}
+
+
+// reimplemented (iqt::TGuiComponentBase)
+
+void CMainWindowGuiComp::OnGuiCreated()
+{
+	QMainWindow* mainWindowPtr = GetQtWidget();
+	if (mainWindowPtr == NULL){
+		return;
+	}
+
+	SetupMainWindow(*mainWindowPtr);
+}
+
+
+void CMainWindowGuiComp::OnGuiDestroyed()
+{
+	m_menuBar = NULL;
+	m_standardToolBar = NULL;
+}
+
+
+void CMainWindowGuiComp::OnRetranslate()
+{
+	I_ASSERT(GetWidget() != NULL);
+
+	QWidget* parentWidgetPtr = GetWidget()->parentWidget();
+	if (parentWidgetPtr == NULL){
+		parentWidgetPtr = GetWidget();
+	}
+
+	m_fileCommand.SetName(iqt::GetCString(tr("&File")));
+	m_editCommand.SetName(iqt::GetCString(tr("&Edit")));
+	m_viewCommand.SetName(iqt::GetCString(tr("&View")));
+	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
+	m_helpCommand.SetName(iqt::GetCString(tr("&Help")));
+
+	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), GetIcon("document"));
+	m_newCommand.setShortcut(tr("Ctrl+N"));
+	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), GetIcon("folder"));
+	m_openCommand.setShortcut(tr("Ctrl+O"));
+	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), GetIcon("diskette"));
+	m_saveCommand.setShortcut(tr("Ctrl+S"));
+	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
+	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), GetIcon("exit"));
+	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), GetIcon("undo"));
+	m_undoCommand.setShortcut(tr("Ctrl+Z"));
+	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), GetIcon("redo"));
+	m_redoCommand.setShortcut(tr("Ctrl+Shift+Z"));
+	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
+	m_fullScreenCommand.setShortcut(tr("F11"));
+	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
+	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
+	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
+	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
+	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), GetIcon("info"));
+}
+
+
+// reimplemented (imod::TSingleModelObserverBase)
+
+void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	if ((updateFlags & idoc::IDocumentManager::DocumentCountChanged) != 0){
+		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
+		if (documentManagerPtr != NULL){
+			OnDocumentCountChanged();
+		}
+	}
+
+	if ((updateFlags & idoc::IDocumentManager::ViewActivationChanged) != 0){
+		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
+		if (documentManagerPtr != NULL){
+			istd::IChangeable* documentPtr = NULL;
+
+			istd::IPolymorphic* activeViewPtr = documentManagerPtr->GetActiveView();
+
+			if (activeViewPtr != NULL){
+				documentPtr = documentManagerPtr->GetDocumentFromView(*activeViewPtr);
+			}
+
+			bool isViewChanged = (activeViewPtr != m_activeViewPtr);
+			bool isDocumentChanged = (documentPtr != m_activeDocumentPtr);
+
+			m_activeViewPtr = activeViewPtr;
+			m_activeDocumentPtr = documentPtr;
+
+			if (isViewChanged){
+				OnActiveViewChanged();
+			}
+
+			if (isDocumentChanged){
+				OnActiveDocumentChanged();
+			}
+		}
+	}
+}
+
+
+// static methods
+
+QIcon CMainWindowGuiComp::GetIcon(const std::string& name)
+{
+	return QIcon((":/Icons/" + name).c_str());
+}
+
+
+// protected slots
+
+void CMainWindowGuiComp::OnNew()
+{
+	if (!m_documentManagerCompPtr.IsValid()){
+		return;
+	}
+
+	const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
+	if (templatePtr == NULL){
+		return;
+	}
+
+	idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
+	if (!ids.empty()){
+		const std::string& documentTypeId = ids.front();
+
+		OnNewDocument(documentTypeId);
+	}
+}
+
+
+void CMainWindowGuiComp::OnOpen()
+{
+	OnOpenDocument(NULL);
+}
+
+
+void CMainWindowGuiComp::OnSave()
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		if (!m_documentManagerCompPtr->FileSave()){
+			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnSaveAs()
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		if (!m_documentManagerCompPtr->FileSave(true)){
+			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		istd::IChangeable* documentPtr = m_documentManagerCompPtr->FileNew(documentFactoryId);
+		if (documentPtr == NULL){
+			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
+			return;
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnOpenDocument(const std::string* documentTypeIdPtr)
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		bool result = m_documentManagerCompPtr->FileOpen(documentTypeIdPtr);
+		if (!result){
+			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
+			return;
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnQuit()
+{
+	QCoreApplication::quit();
+}
+
+
+void CMainWindowGuiComp::OnUndo()
+{
+	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
+	
+	m_activeUndoManager.GetObjectPtr()->DoUndo();
+
+	UpdateUndoMenu();
+}
+
+
+void CMainWindowGuiComp::OnRedo()
+{
+	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
+
+	m_activeUndoManager.GetObjectPtr()->DoRedo();
+	
+	UpdateUndoMenu();
+}
+
+
+void CMainWindowGuiComp::OnFullScreen()
+{
+	QMainWindow* mainWidgetPtr = GetQtWidget();
+
+	I_ASSERT(mainWidgetPtr != NULL);
+
+	QWidget* parentWidgetPtr = mainWidgetPtr->parentWidget();
+	if (parentWidgetPtr == NULL){
+		parentWidgetPtr = mainWidgetPtr;
+	}
+
+	if (parentWidgetPtr == NULL){
+		return;
+	}
+
+	if (parentWidgetPtr->isFullScreen()){
+		parentWidgetPtr->showMaximized();
+		mainWidgetPtr->statusBar()->show();
+	}
+	else{
+		mainWidgetPtr->statusBar()->hide();
+		parentWidgetPtr->showFullScreen();
+	}
+}
+
+
+void CMainWindowGuiComp::OnAbout()
+{
+	// TODO: implement about for MVC.
+}
+
+
+void CMainWindowGuiComp::OnLanguageSelected(QAction* actionPtr) 
+{
+	if (m_translationManagerCompPtr.IsValid()){
+		m_translationManagerCompPtr->SetSelectedLanguage(actionPtr->text());
+	}
+}
+
+
+void CMainWindowGuiComp::OnStyleSelected(QAction* actionPtr) 
+{
+	qApp->setStyle(actionPtr->text());
+
+	QApplication::setPalette(QApplication::style()->standardPalette());
+}
+
+
+void CMainWindowGuiComp::OnCloseAllWindows()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->CloseAllViews();
+	}
+}
+
+
+void CMainWindowGuiComp::OnCascade()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->Cascade();
+	}
+}
+
+
+void CMainWindowGuiComp::OnTileHorizontally()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->TileHorizontally();
+	}
+}
+
+
+void CMainWindowGuiComp::OnTile()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		m_workspaceControllerCompPtr->Tile();
+	}
 }
 
 

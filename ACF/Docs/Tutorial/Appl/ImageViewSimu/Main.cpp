@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
 	documentTemplateComp.SetRef("DocumentLoader", &bitmapLoaderComp);
-	documentTemplateComp.InsertMultiAttr("FileFilters", istd::CString("Bitmap files (*.bmp;*.png;*.jpg)"));
+	documentTemplateComp.InsertMultiAttr("FileFilters", istd::CString("Bitmap files (*.bmp; *.png; *.jpg)"));
 	documentTemplateComp.InsertMultiAttr("FileExtensions", istd::CString("bmp"));
 	documentTemplateComp.InsertMultiAttr("FileExtensions", istd::CString("png"));
 	documentTemplateComp.InsertMultiAttr("FileExtensions", istd::CString("jpg"));

@@ -27,6 +27,8 @@ class CHierarchicalCommand:
 			public QAction,
 			public ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedWrap<idoc::IHierarchicalCommand> > >
 {
+	Q_OBJECT
+
 public:
 	typedef QAction BaseClass;
 	typedef ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedWrap<idoc::IHierarchicalCommand> > > BaseClass2;
@@ -78,6 +80,9 @@ public:
 
 	// reimplemented (istd::IEnableable)
 	virtual void SetEnabled(bool isEnabled = true);
+
+protected slots:
+	void OnTriggered();
 
 protected:
 	/**

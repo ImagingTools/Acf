@@ -205,13 +205,32 @@ QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string
 	if (templatePtr != NULL){
 		istd::CStringList filters = templatePtr->GetFileFilters(documentTypeIdPtr);
 
-		for (		istd::CStringList::iterator iter = filters.begin();
-					iter != filters.end();
-					++iter){
-			if (iter != filters.begin()){
+		if (filters.size() > 1){
+			QString extText;
+			istd::CStringList extensions = templatePtr->GetFileExtensions(documentTypeIdPtr);
+
+			for (		istd::CStringList::iterator extIter = extensions.begin();
+						extIter != extensions.end();
+						++extIter){
+				if (!extText.isEmpty()){
+					extText += "; ";
+				}
+
+				extText += "*." + iqt::GetQString(*extIter);
+			}
+
+			if (!extText.isEmpty()){
+				retVal = tr("All known documents (%1)").arg(extText);
+			}
+		}
+
+		for (		istd::CStringList::iterator filterIter = filters.begin();
+					filterIter != filters.end();
+					++filterIter){
+			if (!retVal.isEmpty()){
 				retVal += "\n";
 			}
-			retVal += iqt::GetQString(*iter);
+			retVal += iqt::GetQString(*filterIter);
 		}
 	}
 
