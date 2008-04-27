@@ -103,10 +103,11 @@ bool TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetValueAt(con
 		FulcrumSizes gridSize = GetGridSize();
 
 		if (index.IsInside(gridSize)){
+			int dimensionsCount = GetDimensionsCount();
 			Degree degree;
-			degree.Reset();
+			degree.SetDimensionsCount(dimensionsCount);
 
-			CalcRecursiveValueAt(argument, GetDimensionsCount() - 1, gridSize, index, degree, result);
+			CalcRecursiveValueAt(argument, dimensionsCount - 1, gridSize, index, degree, result);
 
 			return true;
 		}

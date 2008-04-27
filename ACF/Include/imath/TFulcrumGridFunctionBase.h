@@ -425,7 +425,7 @@ bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::Serialize(iser::IArch
 				return false;
 			}
 
-			positions.resize(positionsCount);
+			SetLayersCount(dimensionIndex, positionsCount);
 		}
 
 		for (int positionIndex = 0; positionIndex < positionsCount; ++positionIndex){
@@ -440,17 +440,6 @@ bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::Serialize(iser::IArch
 	retVal = retVal && archive.EndTag(gridTag);
 
 	retVal = retVal && archive.BeginTag(fulcrumsTag);
-
-
-	if (!isStoring){
-		if (!retVal){
-			Reset();
-
-			return false;
-		}
-
-		m_fulcrums.SetSizes(sizes);
-	}
 
 	for (		Fulcrums::Iterator iter = m_fulcrums.Begin();
 				iter != m_fulcrums.End();
