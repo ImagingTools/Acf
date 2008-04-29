@@ -22,6 +22,8 @@ CBitmap::CBitmap(const CBitmap& bitmap)
 }
 
 
+// reimplemented (iqt::IQImageProvider)
+
 const QImage& CBitmap::GetQImage() const
 {
 	return m_image;

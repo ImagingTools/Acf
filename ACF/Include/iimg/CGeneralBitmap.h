@@ -1,32 +1,20 @@
-#ifndef iqt_CBitmap_included
-#define iqt_CBitmap_included
+#ifndef iimg_CGeneralBitmap_included
+#define iimg_CGeneralBitmap_included
 
 
 #include "istd/TOptDelPtr.h"
 
 #include "iimg/CBitmapBase.h"
 
-#include "iqt/IQImageProvider.h"
 
-
-namespace iqt
+namespace iimg
 {
 
 
-/**
-	Bitmap implementation based on Qt QImage.
-*/
-class CBitmap: public iimg::CBitmapBase, virtual public IQImageProvider
+class CGeneralBitmap: public CBitmapBase
 {
 public:
-	typedef iimg::CBitmapBase BaseClass;
-
-	CBitmap();
-	CBitmap(const CBitmap& bitmap);
-
-	// reimplemented (iqt::IQImageProvider)
-	virtual const QImage& GetQImage() const;
-	virtual bool CopyImageFrom(const QImage& image);
+	CGeneralBitmap();
 
 	// reimplemented (iimg::IBitmap)
 	virtual bool CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount = 8, int componentsCount = 1);
@@ -41,21 +29,19 @@ public:
 	virtual int GetComponentsCount() const;
 	virtual bool CopyImageFrom(const IRasterImage& image);
 
-protected:
-	QImage::Format CalcQtFormat(int pixelBitsCount, int componentsCount) const;
-	bool SetQImage(const QImage& image);
-
-	virtual QImage& GetQImageRef();
-
 private:
-	istd::TOptDelPtr<I_BYTE, true> m_externalBuffer;
-	QImage m_image;
+	istd::TOptDelPtr<I_BYTE, true> m_buffer;
+
+	istd::CIndex2d m_size;
+	int m_linesDifference;
+	int m_pixelBitsCount;
+	int m_componentsCount;
 };
 
 
-} // namespace iqt
+} // namespace iimg
 
 
-#endif iqt_CBitmap_included
+#endif // !iimg_CGeneralBitmap_included
 
 

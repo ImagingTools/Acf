@@ -130,12 +130,18 @@
 			<File
 				RelativePath="..\CBitmapBase.cpp">
 			</File>
+			<File
+				RelativePath="..\CGeneralBitmap.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
 			<File
 				RelativePath="..\CBitmapBase.h">
+			</File>
+			<File
+				RelativePath="..\CGeneralBitmap.h">
 			</File>
 			<File
 				RelativePath="..\IBitmap.h">
