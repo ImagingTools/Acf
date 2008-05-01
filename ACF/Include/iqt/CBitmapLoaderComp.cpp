@@ -8,7 +8,7 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CBitmap.h"
+#include "iqt/IQImageProvider.h"
 
 
 namespace iqt
@@ -23,7 +23,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 			bool forLoading,
 			bool forSaving) const
 {
-	if ((dataObjectPtr != NULL) && (dynamic_cast<const CBitmap*>(dataObjectPtr) == NULL)){
+	if ((dataObjectPtr != NULL) && (dynamic_cast<const IQImageProvider*>(dataObjectPtr) == NULL)){
 		return false;
 	}
 
@@ -46,14 +46,15 @@ bool CBitmapLoaderComp::IsOperationSupported(
 
 int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	CBitmap* bitmapPtr = dynamic_cast<CBitmap*>(&data);
+	IQImageProvider* bitmapPtr = dynamic_cast<IQImageProvider*>(&data);
 
 	if (bitmapPtr != NULL){
 		istd::CChangeNotifier notifier(&data);
 
 		QImage image;
 		if (image.load(iqt::GetQString(filePath))){
-			m_lastLoadFileName = filePath;
+			const_cast<CBitmapLoaderComp*>(this)->SetLastLoadFileName(filePath);
+
 			bitmapPtr->CopyImageFrom(image);
 
 			return StateOk;
@@ -66,12 +67,12 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 
 int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&data);
+	const IQImageProvider* bitmapPtr = dynamic_cast<const IQImageProvider*>(&data);
 
 	if (bitmapPtr != NULL){
 		const QImage& image = bitmapPtr->GetQImage();
 		if (image.save(iqt::GetQString(filePath))){
-			m_lastSaveFileName = filePath;
+			const_cast<CBitmapLoaderComp*>(this)->SetLastSaveFileName(filePath);
 
 			return StateOk;
 		}

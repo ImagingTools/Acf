@@ -37,7 +37,7 @@ public:
 	/**
 		Copy constructor.
 	*/
-	TIndex(const TIndex& array);
+	TIndex(const TIndex& index);
 
 	/**
 		Check if this index is valid.
@@ -64,12 +64,12 @@ public:
 	bool IsDimensionsCountFixed() const;
 
 	/**
-		Get number of dimensions of this array.
+		Get number of dimensions of this index.
 	*/
 	int GetDimensionsCount() const;
 
 	/**
-		Set number of dimensions of this array.
+		Set number of dimensions of this index.
 		It is provided to allows template implementations to use fixed-size or variable arrays.
 		\param	count	number of dimensions will be set.
 		\return			true, if number of set dimensions equals template parameter or false if isn't.
@@ -271,10 +271,10 @@ TIndex<Dimensions>::TIndex()
 
 
 template <int Dimensions>
-TIndex<Dimensions>::TIndex(const TIndex& array)
+TIndex<Dimensions>::TIndex(const TIndex& index)
 {
 	for (int i = 0; i < Dimensions; ++i){
-		m_elements[i] = array.m_elements[i];
+		m_elements[i] = index.m_elements[i];
 	}
 }
 

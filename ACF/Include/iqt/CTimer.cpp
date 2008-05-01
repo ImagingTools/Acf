@@ -71,3 +71,4 @@ double CTimer::GetTimerResolution() const
 
 } // namespace iqt
 
+

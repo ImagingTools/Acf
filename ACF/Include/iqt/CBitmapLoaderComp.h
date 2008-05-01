@@ -22,6 +22,9 @@ public:
 		I_REGISTER_INTERFACE(iser::IFileLoader)
 	I_END_COMPONENT
 
+	virtual void SetLastLoadFileName(const istd::CString& fileName);
+	virtual void SetLastSaveFileName(const istd::CString& fileName);
+
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
@@ -34,9 +37,23 @@ public:
 	virtual const istd::CString& GetLastSaveFileName() const;
 
 private:
-	mutable istd::CString m_lastLoadFileName;
-	mutable istd::CString m_lastSaveFileName;
+	istd::CString m_lastLoadFileName;
+	istd::CString m_lastSaveFileName;
 };
+
+
+// inline methods
+
+inline void CBitmapLoaderComp::SetLastLoadFileName(const istd::CString& fileName)
+{
+	m_lastLoadFileName = fileName;
+}
+
+
+inline void CBitmapLoaderComp::SetLastSaveFileName(const istd::CString& fileName)
+{
+	m_lastSaveFileName = fileName;
+}
 
 
 } // namespace iqt

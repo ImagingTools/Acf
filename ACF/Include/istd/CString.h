@@ -13,7 +13,7 @@
 
 namespace istd
 {
-	
+
 
 /**
 	This class is a wrapper for wchar_t data type from the standard C-library.

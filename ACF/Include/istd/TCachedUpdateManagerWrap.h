@@ -36,6 +36,10 @@ protected:
 	*/
 	void InvalidateCache(int changeFlags = 0);
 	/**
+		Say that cache is valid.
+	*/
+	void SetCacheValid();
+	/**
 		Calculate cache.
 		It will be called, if cache was not valid and EnsureCacheValid() is called.
 		Default implementation does nothing and is provided to ensure
@@ -69,6 +73,15 @@ void TCachedUpdateManagerWrap<Base>::InvalidateCache(int changeFlags)
 {
 	m_cumulatedFlags |= changeFlags;
 	m_isCacheValid = false;
+}
+
+
+template <class Base>
+inline void TCachedUpdateManagerWrap<Base>::SetCacheValid()
+{
+	m_cumulatedFlags = 0;
+
+	m_isCacheValid = true;
 }
 
 

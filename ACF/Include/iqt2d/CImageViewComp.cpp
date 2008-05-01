@@ -8,7 +8,7 @@
 #include <QMenu>
 
 
-#include "iqt/CBitmap.h"
+#include "iqt/IQImageProvider.h"
 
 
 namespace iqt2d
@@ -191,7 +191,7 @@ void CImageViewComp::UpdateModel() const
 void CImageViewComp::UpdateEditor()
 {
 	if (IsGuiCreated()){
-		iqt::CBitmap* bitmapPtr = dynamic_cast<iqt::CBitmap*>(GetObjectPtr());
+		iqt::IQImageProvider* bitmapPtr = dynamic_cast<iqt::IQImageProvider*>(GetObjectPtr());
 
 		if (bitmapPtr != NULL){
 			m_imageItem.SetImage(bitmapPtr->GetQImage());

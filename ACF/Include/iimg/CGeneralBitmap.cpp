@@ -3,6 +3,9 @@
 
 #include <memory.h>
 
+#include "istd/TChangeNotifier.h"
+
+
 
 namespace iimg
 {
@@ -26,6 +29,8 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount
 		return false;
 	}
 
+	istd::CChangeNotifier notifier(this);
+
 	m_linesDifference = (pixelBitsCount * size.GetX() + 7) >> 3;
 	I_ASSERT(m_linesDifference >= 0);
 
@@ -35,7 +40,7 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount
 
 	int bufferSize = m_linesDifference * size.GetY();
 	if (bufferSize > 0){
-		m_buffer.SetPtr(new I_BYTE[], true);
+		m_buffer.SetPtr(new I_BYTE[bufferSize], true);
 
 		return m_buffer.IsValid();
 	}
@@ -56,6 +61,8 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, boo
 				(pixelBitsCount % (componentsCount * 8) != 0)){
 		return false;
 	}
+
+	istd::CChangeNotifier notifier(this);
 
 	m_size = size;
 	m_pixelBitsCount = pixelBitsCount;
