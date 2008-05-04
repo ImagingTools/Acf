@@ -8,8 +8,6 @@ namespace icmm
 {
 
 
-// public methods
-
 CVarColor::CVarColor()
 {
 }
@@ -75,39 +73,6 @@ void CVarColor::GetNormalized(CVarColor& result) const
 }
 
 
-// reimplemented (iser::ISerializable)
-
-bool CVarColor::Serialize(iser::IArchive& archive)
-{
-	bool retVal = true;
-
-	static iser::CArchiveTag colorComponentsTag("ColorComponents", "List of color components");
-	static iser::CArchiveTag componentTag("Component", "Single component");
-
-	int elementsCount = GetElementsCount();
-
-	retVal = retVal && archive.BeginMultiTag(colorComponentsTag, componentTag, elementsCount);
-
-	if (!retVal){
-		return false;
-	}
-
-	if (!archive.IsStoring()){
-		m_elements.resize(elementsCount);
-	}
-
-    for (int i = 0; i < elementsCount; ++i){
-		retVal = retVal && archive.BeginTag(componentTag);
-		retVal = retVal && archive.Process(m_elements[i]);
-		retVal = retVal && archive.EndTag(componentTag);
-	}
-
-	retVal = retVal && archive.EndTag(colorComponentsTag);
-
-	return retVal;
-}
-
-
 const CVarColor& CVarColor::operator=(const CVarColor& color)
 {
 	int elementsCount = color.GetElementsCount();
@@ -163,6 +128,39 @@ const CVarColor& CVarColor::operator/=(const CVarColor& color)
 	}
 
 	return *this;
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CVarColor::Serialize(iser::IArchive& archive)
+{
+	bool retVal = true;
+
+	static iser::CArchiveTag colorComponentsTag("ColorComponents", "List of color components");
+	static iser::CArchiveTag componentTag("Component", "Single component");
+
+	int elementsCount = GetElementsCount();
+
+	retVal = retVal && archive.BeginMultiTag(colorComponentsTag, componentTag, elementsCount);
+
+	if (!retVal){
+		return false;
+	}
+
+	if (!archive.IsStoring()){
+		m_elements.resize(elementsCount);
+	}
+
+    for (int i = 0; i < elementsCount; ++i){
+		retVal = retVal && archive.BeginTag(componentTag);
+		retVal = retVal && archive.Process(m_elements[i]);
+		retVal = retVal && archive.EndTag(componentTag);
+	}
+
+	retVal = retVal && archive.EndTag(colorComponentsTag);
+
+	return retVal;
 }
 
 

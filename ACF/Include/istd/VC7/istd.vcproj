@@ -261,9 +261,6 @@
 			Name="Header Files"
 			Filter="h">
 			<File
-				RelativePath="..\CBinaryIndex.h">
-			</File>
-			<File
 				RelativePath="..\CChangeDelegator.h">
 			</File>
 			<File

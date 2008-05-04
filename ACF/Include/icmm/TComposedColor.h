@@ -4,6 +4,9 @@
 
 #include "math.h"
 
+#include "iser/ISerializable.h"
+#include "iser/CArchiveTag.h"
+
 #include "imath/TIValueManip.h"
 #include "imath/TVector.h"
 
@@ -18,7 +21,7 @@ namespace icmm
 	Generic color implementation.
 */
 template <int Size>
-class TComposedColor: public imath::TVector<Size>
+class TComposedColor: public imath::TVector<Size>, public iser::ISerializable
 {
 public:
 	typedef imath::TVector<Size> BaseClass;
@@ -78,6 +81,9 @@ public:
 
 	const TComposedColor<Size>& operator*=(double value);
 	const TComposedColor<Size>& operator/=(double value);
+
+	// reimplemented (iser::ISerializable)
+	bool Serialize(iser::IArchive& archive);
 };
 
 
@@ -306,6 +312,36 @@ void TComposedColor<Size>::GetNormalized(TComposedColor<Size>& result) const
 	result = *this;
 
 	result.Normalize();
+}
+
+
+// reimplemented (iser::ISerializable)
+
+template <int Size>
+bool TComposedColor<Size>::Serialize(iser::IArchive& archive)
+{
+	bool retVal = true;
+
+	static iser::CArchiveTag colorComponentsTag("ColorComponents", "List of color components");
+	static iser::CArchiveTag componentTag("Component", "Single component");
+
+	int elementsCount = GetElementsCount();
+
+	retVal = retVal && archive.BeginMultiTag(colorComponentsTag, componentTag, elementsCount);
+
+	if ((!retVal) || (!archive.IsStoring() && (elementsCount != Size))){
+		return false;
+	}
+
+    for (int i = 0; i < elementsCount; ++i){
+		retVal = retVal && archive.BeginTag(componentTag);
+		retVal = retVal && archive.Process(m_elements[i]);
+		retVal = retVal && archive.EndTag(componentTag);
+	}
+
+	retVal = retVal && archive.EndTag(colorComponentsTag);
+
+	return retVal;
 }
 
 

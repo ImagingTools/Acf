@@ -19,7 +19,7 @@ namespace icmm
 /**
 	Generic color implementation with components number set at construction time.
 */
-class CVarColor: public imath::TVarVector<>, iser::ISerializable
+class CVarColor: public imath::TVarVector<>, public iser::ISerializable
 {
 public:
 	typedef imath::TVarVector<> BaseClass;
@@ -107,9 +107,6 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	bool Serialize(iser::IArchive& archive);
-
-private:
-	bool m_isSizeKnown;
 };
 
 
