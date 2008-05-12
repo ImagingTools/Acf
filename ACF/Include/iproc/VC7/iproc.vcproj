@@ -171,6 +171,12 @@
 				RelativePath="..\IOperatorManager.h">
 			</File>
 			<File
+				RelativePath="..\IParamsSet.h">
+			</File>
+			<File
+				RelativePath="..\iproc.h">
+			</File>
+			<File
 				RelativePath="..\IProcessingController.h">
 			</File>
 			<File
@@ -181,6 +187,9 @@
 			</File>
 			<File
 				RelativePath="..\IProgressInfo.h">
+			</File>
+			<File
+				RelativePath="..\TIAssyncProcessor.h">
 			</File>
 		</Filter>
 	</Files>

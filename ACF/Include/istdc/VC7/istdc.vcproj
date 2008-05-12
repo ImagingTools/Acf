@@ -236,12 +236,18 @@
 			<File
 				RelativePath="..\CApplicationInfoComp.cpp">
 			</File>
+			<File
+				RelativePath="..\CComposedParamsSetComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
 			<File
 				RelativePath="..\CApplicationInfoComp.h">
+			</File>
+			<File
+				RelativePath="..\CComposedParamsSetComp.h">
 			</File>
 			<File
 				RelativePath="..\istdc.h">

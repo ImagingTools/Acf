@@ -4,6 +4,8 @@
 
 #include "istd/IPolymorphic.h"
 
+#include "iproc/iproc.h"
+
 
 namespace iproc
 {
