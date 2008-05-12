@@ -463,6 +463,9 @@ template <class Element, int Dimensions>
 TArray<Element, Dimensions>::Iterator::Iterator(TArray* arrayPtr)
 :	BaseClass(0), m_arrayPtr(arrayPtr)
 {
+	if ((m_arrayPtr != NULL) && !IsInside(m_arrayPtr->GetSizes())){
+		m_arrayPtr = NULL;	// if it is not inside of array set it directly to the end iterator state
+	}
 }
 
 

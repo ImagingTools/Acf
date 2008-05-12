@@ -161,9 +161,6 @@
 			<File
 				RelativePath="..\CXmlRegistriesManager.cpp">
 			</File>
-			<File
-				RelativePath="..\TMultiReferencePtr.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -269,6 +266,9 @@
 			</File>
 			<File
 				RelativePath="..\TMultiAttributePtr.h">
+			</File>
+			<File
+				RelativePath="..\TMultiReferencePtr.h">
 			</File>
 			<File
 				RelativePath="..\TReferencePtr.h">

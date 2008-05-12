@@ -10,7 +10,7 @@
 namespace istdc
 {
 
-
+// TODO: check if this class should be removed from ACF project
 template <class Interface>
 class TComposedFactoryComp: public icomp::CComponentBase, public istd::TComposedFactory<Interface>
 {
@@ -20,14 +20,14 @@ public:
 
 	I_BEGIN_COMPONENT(TComposedFactoryComp)
 		I_REGISTER_INTERFACE(FactoryInterface)
-		I_ASSIGN_MULTI_0(m_slaveFactoriesCompPtr, "SlaveFactories", "Slave factories", false)
+		I_ASSIGN_MULTI_0(m_slaveFactoriesCompPtr, "SlaveFactories", "Slave factories", true)
 	I_END_COMPONENT
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 
 private:
-	I_MULTIREF(FactoryInterface> m_slaveFactoriesCompPtr);
+	I_MULTIREF(FactoryInterface, m_slaveFactoriesCompPtr);
 };
 
 
@@ -36,12 +36,14 @@ private:
 template <class Interface>
 void TComposedFactoryComp<Interface>::OnComponentCreated()
 {
-	if (m_slaveFactoriesCompPtr.IsValid(factoryIndex)){
-		int salveFactoryCount = m_slaveFactoriesCompPtr.GetCount();
+	BaseClass::OnComponentCreated();
 
-		for (int factoryIndex = 0; factoryIndex < salveFactoryCount; factoryIndex++){
-			RegisterFactory(m_slaveFactoriesCompPtr[factoryIndex]);
-		}
+	int slaveFactoriesCount = m_slaveFactoriesCompPtr.GetCount();
+
+	for (int factoryIndex = 0; factoryIndex < slaveFactoriesCount; ++factoryIndex){
+		I_ASSERT(m_slaveFactoriesCompPtr.IsValid(factoryIndex));	// isObligatory was set to true
+
+		RegisterFactory(m_slaveFactoriesCompPtr[factoryIndex]);
 	}
 }
 

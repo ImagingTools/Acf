@@ -22,6 +22,7 @@ namespace imath
 	Base class for interpolated functions based on fulcrums in multi-dimesional grid.
 	This grid may be imagined as set of parallel layers for each dimension.
 	Number of this layers and their position can be individually controlled.
+	Plese note, that method SetDimensionsCount must be called manually to initialize number of input dimensions also for fixed-size arguments.
 	\param	Argument	function argument type.
 	\param	Result		function result type.
 	\param	Fulcrums	array type used to stored fulcrums. It muss define following public typedefs

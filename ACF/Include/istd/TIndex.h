@@ -155,7 +155,7 @@ inline bool TIndex<Dimensions>::SetDimensionsCount(int count) const
 
 
 template <int Dimensions>
-bool TIndex<Dimensions>::IsValid() const
+inline bool TIndex<Dimensions>::IsValid() const
 {
 	for (int i = 0; i < Dimensions; ++i){
 		if (m_elements[i] < 0){
@@ -168,14 +168,14 @@ bool TIndex<Dimensions>::IsValid() const
 
 
 template <int Dimensions>
-void TIndex<Dimensions>::Reset()
+inline void TIndex<Dimensions>::Reset()
 {
 	Clear();
 }
 
 
 template <int Dimensions>
-void TIndex<Dimensions>::Clear()
+inline void TIndex<Dimensions>::Clear()
 {
 	SetAllTo(0);
 }

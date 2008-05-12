@@ -3,6 +3,7 @@
 
 
 #include "istd/istd.h"
+#include "iser/iser.h"
 
 
 /**
@@ -17,7 +18,7 @@
 
 
 /**
-	This namespace containes basic implementations of standard primitives
+	This namespace containes basic implementations of standard primitives.
 	This package is system independent.
 	This package use following ACF packages:
 	\li	istd

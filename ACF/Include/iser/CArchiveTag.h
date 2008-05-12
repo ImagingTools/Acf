@@ -20,6 +20,12 @@ class IArchive;
 class CArchiveTag
 {
 public:
+	/**
+		Constructor with parameter initialization.
+		\param	id					ID of this tag.
+		\param	comment				human readable and are used for diagnostic.
+		\param	isTagSkippingUsed	true if it is needed to support tag skipping for this tag.
+	*/
 	CArchiveTag(	const std::string& id,
 					const std::string& comment,
 					bool isTagSkippingUsed = false);
