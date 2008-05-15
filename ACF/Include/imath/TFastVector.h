@@ -463,8 +463,17 @@ template <int MaxSize, class Element>
 inline TFastVector<MaxSize, Element>& TFastVector<MaxSize, Element>::operator+=(const TFastVector<MaxSize, Element>& vector)
 {
 	int commonSize = istd::Min(m_elementsCount, vector.m_elementsCount);
+
 	for (int i = 0; i < commonSize; ++i){
 		m_elements[i] += vector.m_elements[i];
+	}
+
+	for (int copyIndex = commonSize; copyIndex < vector.m_elementsCount; ++copyIndex){
+		m_elements[copyIndex] = vector.m_elements[copyIndex];
+	}
+
+	if (vector.m_elementsCount > m_elementsCount){
+		m_elementsCount = vector.m_elementsCount;
 	}
 
 	return *this;
@@ -475,8 +484,17 @@ template <int MaxSize, class Element>
 inline TFastVector<MaxSize, Element>& TFastVector<MaxSize, Element>::operator-=(const TFastVector<MaxSize, Element>& vector)
 {
 	int commonSize = istd::Min(m_elementsCount, vector.m_elementsCount);
+
 	for (int i = 0; i < commonSize; ++i){
 		m_elements[i] -= vector.m_elements[i];
+	}
+
+	for (int copyIndex = commonSize; copyIndex < vector.m_elementsCount; ++copyIndex){
+		m_elements[copyIndex] = -vector.m_elements[copyIndex];
+	}
+
+	if (vector.m_elementsCount > m_elementsCount){
+		m_elementsCount = vector.m_elementsCount;
 	}
 
 	return *this;

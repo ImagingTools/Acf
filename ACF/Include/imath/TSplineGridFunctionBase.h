@@ -35,24 +35,29 @@ public:
 
 protected:
 	/**
-		Calculate interpolated value or derivative at specified recursion level.
+		Cumulate interpolated value or derivative at specified recursion level.
 		\param	argument			position, where interpolation should be calculated.
+									The elements with index less of equal \c dimension indicate non grid components (hard to explain).
+									The other components should be taken from index.
 		\param	sizes				size fulcrum grid.
 		\param	dimension			working dimension and recursion level.
 		\param	index				multidimensional index pointing at cuboid element in fulcrum grid.
+									The elements with index greater \c dimension indicate asked subspace in grid (hard to explain).
 									For the sake of performance it is internal modified,
 									but original state is reverted before this method returns.
 		\param	degree				derivative degree will be taken.
 									For the sake of performance it is internal modified,
 									but original state is reverted before this method returns.
-		\param	result				returned object.
+		\param	cumulationFactor	scaled factor for cumulation.
+		\param	result				object where values are cumulated.
 	*/
-	void CalcRecursiveValueAt(
+	void CumulateRecursiveValueAt(
 				const Argument& argument,
 				int dimension,
 				const FulcrumSizes& sizes,
 				FulcrumIndex& index,
 				DerivativeDegreeType& degree,
+				double cumulationFactor,
 				Result& result) const;
 
 	// static methods
@@ -108,7 +113,7 @@ bool TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetValueAt(con
 			Degree degree;
 			degree.SetDimensionsCount(dimensionsCount);
 
-			CalcRecursiveValueAt(argument, dimensionsCount - 1, gridSize, index, degree, result);
+			CumulateRecursiveValueAt(argument, dimensionsCount - 1, gridSize, index, degree, 1.0, result);
 
 			return true;
 		}
@@ -132,12 +137,13 @@ typename Result TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::Get
 // protected methods
 
 template <class Argument, class Result, class Fulcrums, class Degree>
-void TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::CalcRecursiveValueAt(
+void TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::CumulateRecursiveValueAt(
 			const Argument& argument,
 			int dimension,
 			const FulcrumSizes& sizes,
 			FulcrumIndex& index,
 			DerivativeDegreeType& derivativeDegree,
+			double cumulationFactor,
 			Result& result) const
 {
 	I_ASSERT(dimension < GetDimensionsCount());
@@ -145,106 +151,120 @@ void TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::CalcRecursiveV
 	I_ASSERT(index.GetDimensionsCount() == GetDimensionsCount());
 
 	if (dimension < 0){
-		result = GetFulcrumDerivativeAtIndex(index, derivativeDegree);
+		result += GetFulcrumDerivativeAtIndex(index, derivativeDegree) * cumulationFactor;
 
 		return;
 	}
 
 	int& indexElement = index[dimension];
 
-	if (indexElement >= sizes[dimension] - 1){
-		// element out of boundaries at this dimension
-		I_ASSERT(indexElement == sizes[dimension] - 1);
+	if (indexElement >= 0){
+		if (indexElement < sizes[dimension] - 1){
+			double firstPosition = GetLayerPosition(dimension, indexElement);
+			double secondPosition = GetLayerPosition(dimension, indexElement + 1);
+			double layersDistance = secondPosition - firstPosition;
+			I_ASSERT(layersDistance >= 0);
+			I_ASSERT(argument[dimension] >= firstPosition);
+			I_ASSERT(argument[dimension] <= secondPosition);
+			I_ASSERT(derivativeDegree[dimension] == 0);
 
-		CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, result);
+			bool useDerivative = false;
+			if (derivativeDegree.IncreaseAt(dimension)){
+				useDerivative = IsDerivativeDegreeSupported(derivativeDegree);
+				derivativeDegree.DecreaseAt(dimension);
+			}
+
+			double alpha = (argument[dimension] - firstPosition) / layersDistance;
+
+			double firstValueFactor = useDerivative? GetValueKernelAt(alpha): (1 - alpha);	// use linear interpolation if no derivative is available
+			if (firstValueFactor > I_BIG_EPSILON){
+				CumulateRecursiveValueAt(
+							argument,
+							dimension - 1,
+							sizes,
+							index,
+							derivativeDegree,
+							cumulationFactor * firstValueFactor,
+							result);
+			}
+
+			double secondValueFactor = useDerivative? GetValueKernelAt(1.0 - alpha): alpha;	// use linear interpolation if no derivative is available
+
+			if (secondValueFactor > I_BIG_EPSILON){
+				++indexElement;
+				CumulateRecursiveValueAt(
+							argument,
+							dimension - 1,
+							sizes,
+							index,
+							derivativeDegree,
+							cumulationFactor * secondValueFactor,
+							result);
+				--indexElement;
+			}
+
+			if (useDerivative){
+				derivativeDegree.IncreaseAt(dimension);
+
+				double firstDerivativeFactor = GetDerivativeKernelAt(alpha) * layersDistance;
+				if (firstDerivativeFactor > I_BIG_EPSILON){
+					CumulateRecursiveValueAt(
+								argument,
+								dimension - 1,
+								sizes,
+								index,
+								derivativeDegree,
+								cumulationFactor * firstDerivativeFactor,
+								result);
+				}
+
+				++indexElement;
+
+				double secondDerivativeFactor = -GetDerivativeKernelAt(1.0 - alpha) * layersDistance;
+				if (secondDerivativeFactor < -I_BIG_EPSILON){
+					CumulateRecursiveValueAt(
+								argument,
+								dimension - 1,
+								sizes,
+								index,
+								derivativeDegree,
+								cumulationFactor * secondDerivativeFactor,
+								result);
+				}
+
+				--indexElement;
+
+				derivativeDegree.DecreaseAt(dimension);
+			}
+		}
+		else{
+			// element out of boundaries at this dimension
+			I_ASSERT(indexElement == sizes[dimension] - 1);
+
+			CumulateRecursiveValueAt(
+						argument,
+						dimension - 1,
+						sizes,
+						index,
+						derivativeDegree,
+						cumulationFactor,
+						result);
+		}
 	}
-	else if (indexElement < 0){
+	else{
 		// element out of boundaries at this dimension
 		I_ASSERT(indexElement == -1);
 
 		++indexElement;
-		CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, result);
+		CumulateRecursiveValueAt(
+					argument,
+					dimension - 1,
+					sizes,
+					index,
+					derivativeDegree,
+					cumulationFactor,
+					result);
 		--indexElement;
-	}
-	else{
-		double firstPosition = GetLayerPosition(dimension, indexElement);
-		double secondPosition = GetLayerPosition(dimension, indexElement + 1);
-		double layersDistance = secondPosition - firstPosition;
-		I_ASSERT(layersDistance >= 0);
-		I_ASSERT(argument[dimension] >= firstPosition);
-		I_ASSERT(argument[dimension] <= secondPosition);
-		I_ASSERT(derivativeDegree[dimension] == 0);
-
-		bool useDerivative = false;
-		if (derivativeDegree.IncreaseAt(dimension)){
-			useDerivative = IsDerivativeDegreeSupported(derivativeDegree);
-			derivativeDegree.DecreaseAt(dimension);
-		}
-
-		double alpha = (argument[dimension] - firstPosition) / layersDistance;
-
-		double firstValueFactor = useDerivative? GetValueKernelAt(alpha): (1 - alpha);	// use linear interpolation if no derivative is available
-
-		Result firstValue;
-		if (firstValueFactor > I_EPSILON){
-			CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, firstValue);
-		}
-		else{
-			firstValue.Clear();
-		}
-
-		++indexElement;
-
-		double secondValueFactor = useDerivative? GetValueKernelAt(1.0 - alpha): alpha;	// use linear interpolation if no derivative is available
-
-		Result secondValue;
-		if (secondValueFactor > I_EPSILON){
-			CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, secondValue);
-		}
-		else{
-			secondValue.Clear();
-		}
-
-		--indexElement;
-
-		if (useDerivative){
-			derivativeDegree.IncreaseAt(dimension);
-
-			double firstDerivativeFactor = GetDerivativeKernelAt(alpha) * layersDistance;
-
-			Result firstDerivative;
-			if (firstDerivativeFactor > I_EPSILON){
-				CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, firstDerivative);
-			}
-			else{
-				firstDerivative.Clear();
-			}
-
-			++indexElement;
-
-			double secondDerivativeFactor = -GetDerivativeKernelAt(1.0 - alpha) * layersDistance;
-
-			Result secondDerivative;
-			if (secondDerivativeFactor < -I_EPSILON){
-				CalcRecursiveValueAt(argument, dimension - 1, sizes, index, derivativeDegree, secondDerivative);
-			}
-			else{
-				secondDerivative.Clear();
-			}
-
-			--indexElement;
-
-			derivativeDegree.DecreaseAt(dimension);
-
-			result =	firstValue * firstValueFactor +
-						secondValue * secondValueFactor +
-						firstDerivative * firstDerivativeFactor +
-						secondDerivative * secondDerivativeFactor;
-		}
-		else{
-			result =	firstValue * firstValueFactor +
-						secondValue * secondValueFactor;
-		}
 	}
 }
 
