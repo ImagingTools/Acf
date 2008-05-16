@@ -172,15 +172,27 @@ inline int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetDimensionsCo
 
 
 template <class Argument, class Result, class Fulcrums>
-inline bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetDimensionsCount(int count)
+inline int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetLayersCount(int dimension) const
 {
-	if (m_fulcrums.SetDimensionsCount(count)){
-		m_layers.resize(count);
+	I_ASSERT(dimension >= 0);
+	I_ASSERT(dimension < int(m_layers.size()));
 
-		return true;
-	}
+	return m_layers[dimension].size();
+}
 
-	return false;
+
+template <class Argument, class Result, class Fulcrums>
+inline double TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetLayerPosition(int dimension, int layerIndex) const
+{
+	I_ASSERT(dimension >= 0);
+	I_ASSERT(dimension < int(m_layers.size()));
+
+	const LayerPositions& positions = m_layers[dimension];
+
+	I_ASSERT(layerIndex >= 0);
+	I_ASSERT(layerIndex < int(positions.size()));
+
+	return positions[layerIndex];
 }
 
 
@@ -198,12 +210,15 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::Reset()
 
 
 template <class Argument, class Result, class Fulcrums>
-int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetLayersCount(int dimension) const
+bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetDimensionsCount(int count)
 {
-	I_ASSERT(dimension >= 0);
-	I_ASSERT(dimension < int(m_layers.size()));
+	if (m_fulcrums.SetDimensionsCount(count)){
+		m_layers.resize(count);
 
-	return m_layers[dimension].size();
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -215,21 +230,6 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetLayersCount(int di
 
 	m_layers[dimension].resize(count);
 	m_fulcrums.SetSize(dimension, count);
-}
-
-
-template <class Argument, class Result, class Fulcrums>
-double TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetLayerPosition(int dimension, int layerIndex) const
-{
-	I_ASSERT(dimension >= 0);
-	I_ASSERT(dimension < int(m_layers.size()));
-
-	const LayerPositions& positions = m_layers[dimension];
-
-	I_ASSERT(layerIndex >= 0);
-	I_ASSERT(layerIndex < int(positions.size()));
-
-	return positions[layerIndex];
 }
 
 

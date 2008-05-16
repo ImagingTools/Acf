@@ -84,7 +84,7 @@ protected:
 template <class Argument, class Result, class Fulcrums, class Degree>
 inline double TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetValueKernelAt(double alpha)
 {
-	return 2 * alpha * alpha * alpha - 3 * alpha * alpha + 1;
+	return (2 * alpha - 3) * alpha * alpha + 1;
 }
 
 
