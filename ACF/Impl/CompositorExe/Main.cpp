@@ -106,7 +106,6 @@ int main(int argc, char *argv[])
 	registryLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;
-	documentTemplateComp.SetRef("AboutGui", &splashScreenGui);
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
 	documentTemplateComp.SetRef("DocumentLoader", &registryLoaderComp);
