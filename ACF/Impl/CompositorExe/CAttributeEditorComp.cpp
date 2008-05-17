@@ -85,7 +85,6 @@ void CAttributeEditorComp::UpdateEditor()
 		std::string attributeId = staticAttributeInfPtr->GetAttributeId();
 		const iser::ISerializable* attributePtr = NULL;
 
-
 		const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = registryElementPtr->GetAttributeInfo(attributeId);
 		if (attributeInfoPtr != NULL){
 			attributePtr = attributeInfoPtr->attributePtr.GetPtr();
@@ -94,7 +93,6 @@ void CAttributeEditorComp::UpdateEditor()
 			attributePtr = staticAttributeInfPtr->GetAttributeDefaultValue();
 		}
 
-		// property name item
 		QString attributeName = attributeId.c_str();
 		QTreeWidgetItem* attributeItemPtr = new QTreeWidgetItem();
 		attributeItemPtr->setText(NameColumn, attributeName);
@@ -238,36 +236,39 @@ void CAttributeEditorComp::UpdateModel() const
 void CAttributeEditorComp::OnItemSelected()
 {
 	AttributeInfoBox->hide();
+	const icomp::IAttributeStaticInfo* attributeStaticInfoPtr = NULL;
 
 	QList<QTreeWidgetItem*> items = AttributeTree->selectedItems();
-	if (items.count() == 0){
-		return;
-	}
+	if (items.count() > 0){
+		AttributeType->clear();
+		AttributeDescription->clear();
 
-	AttributeType->clear();
-	AttributeDescription->clear();
+		QTreeWidgetItem* attributeItemPtr = items.at(0);
 
-	QTreeWidgetItem* attributeItemPtr = items.at(0);
-
-	QString attributeId = attributeItemPtr->data(ValueColumn, AttributeId).toString();
-	const icomp::IAttributeStaticInfo* attributeStaticInfoPtr = GetStaticAttributeInfo(attributeId);
-	if (attributeStaticInfoPtr != NULL){		
-		AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(attributeStaticInfoPtr->GetAttributeType().name());
-		if (foundTypeName != m_attributeTypesMap.end()){
-			QString attributeType = foundTypeName->second;
-			if (!attributeType.isEmpty()){
-				if (!attributeStaticInfoPtr->IsObligatory()){
-					attributeType += QString(tr(" (Optional)"));
+		QString attributeId = attributeItemPtr->data(ValueColumn, AttributeId).toString();
+		attributeStaticInfoPtr = GetStaticAttributeInfo(attributeId);
+		if (attributeStaticInfoPtr != NULL){		
+			AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(attributeStaticInfoPtr->GetAttributeType().name());
+			if (foundTypeName != m_attributeTypesMap.end()){
+				QString attributeType = foundTypeName->second;
+				if (!attributeType.isEmpty()){
+					if (!attributeStaticInfoPtr->IsObligatory()){
+						attributeType += QString(tr(" (Optional)"));
+					}
 				}
+
+				AttributeType->setText(attributeType);
 			}
 
-			AttributeType->setText(attributeType);
+			QString attributeDescription = attributeStaticInfoPtr->GetAttributeDescription().c_str();
+			AttributeDescription->setText(attributeDescription);
+
+			AttributeInfoBox->show();
 		}
+	}
 
-		QString attributeDescription = attributeStaticInfoPtr->GetAttributeDescription().c_str();
-		AttributeDescription->setText(attributeDescription);
-
-		AttributeInfoBox->show();
+	if (m_attributeSelectionObserverCompPtr.IsValid()){
+		m_attributeSelectionObserverCompPtr->OnAttributeSelected(attributeStaticInfoPtr);
 	}
 }
 

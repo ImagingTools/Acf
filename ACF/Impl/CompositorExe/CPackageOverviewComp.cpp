@@ -31,7 +31,30 @@ CPackageOverviewComp::CPackageOverviewComp()
 }
 
 
-// public slots
+// reimplemented (IAttributeSelectionObserver)
+
+void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr)
+{
+	if (attributeStaticInfoPtr != NULL){		
+		bool isReference = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CReferenceAttribute));
+		bool isMultiReference = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CMultiReferenceAttribute));
+		bool isFactory = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CFactoryAttribute));
+		bool isMultiFactory = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CMultiFactoryAttribute));
+
+		if (isReference || isMultiReference || isFactory || isMultiFactory){
+			QString interaceId = "TODO: Get interace id";
+			
+			HighlightComponents(interaceId);
+
+			return;
+		}
+	}
+
+	HighlightComponents(QString());
+}
+
+
+// protected methods
 
 void CPackageOverviewComp::GenerateComponentTree()
 {

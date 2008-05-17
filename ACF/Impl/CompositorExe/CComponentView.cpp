@@ -279,8 +279,8 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 
 				connector->setSelected(value.toBool());
 			}
-
 			break;
+
 		case QGraphicsItem::ItemPositionChange:
 			QPointF myCurrentPosition = pos();
 			QPoint newPos = value.toPoint();

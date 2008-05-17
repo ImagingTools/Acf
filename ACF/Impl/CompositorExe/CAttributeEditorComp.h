@@ -11,6 +11,8 @@
 
 #include "Generated/ui_CAttributeEditorComp.h"
 
+#include "IAttributeSelectionObserver.h"
+
 
 class CAttributeEditorComp: public iqt::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement>
 {
@@ -20,6 +22,7 @@ public:
 	typedef iqt::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement> BaseClass;
 	I_BEGIN_COMPONENT(CAttributeEditorComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
+		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "Attribute selection observer", false, "AttributeSelectionObserver")
 	I_END_COMPONENT
 
 	enum
@@ -89,6 +92,8 @@ private:
 
 	typedef std::map<std::string, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
+
+	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 };
 
 

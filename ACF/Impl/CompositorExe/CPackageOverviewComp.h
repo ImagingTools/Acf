@@ -11,10 +11,12 @@
 
 #include "icomp/IRegistry.h"
 
+#include "IAttributeSelectionObserver.h"
 #include "CStaticComponentInfo.h"
 
 
-class CPackageOverviewComp: public iqt::TGuiComponentBase<QTreeWidget>
+class CPackageOverviewComp: public iqt::TGuiComponentBase<QTreeWidget>,
+							public IAttributeSelectionObserver
 {
     Q_OBJECT
 
@@ -22,6 +24,7 @@ public:
 	typedef iqt::TGuiComponentBase<QTreeWidget> BaseClass;
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp)
+		I_REGISTER_INTERFACE(IAttributeSelectionObserver)
 		I_ASSIGN(m_generalStaticInfoPtr, "StaticComponentInfo", "Static Component Info", true, "StaticComponentInfo")
 	I_END_COMPONENT
 
@@ -32,7 +35,11 @@ public:
 
     CPackageOverviewComp();
 
-public slots:
+public:
+	// reimplemented (IAttributeSelectionObserver)
+	virtual void OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr);
+
+protected:
 	void GenerateComponentTree();
  	void HighlightComponents(const QString& interfaceId);
 

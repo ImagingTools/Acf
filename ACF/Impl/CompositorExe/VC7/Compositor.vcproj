@@ -267,6 +267,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\IAttributeSelectionObserver.h">
+			</File>
+			<File
 				RelativePath="..\IRegistryGeometryProvider.h">
 			</File>
 		</Filter>

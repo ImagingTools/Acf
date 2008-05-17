@@ -90,8 +90,13 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	icomp::TSimComponentWrap<CPackageOverviewComp> packageOverviewComp;
+	packageOverviewComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
+	packageOverviewComp.InitComponent();
+
 	// attribute editor:
 	icomp::TSimComponentWrap<CAttributeEditorComp> attributeEditorComp;
+	attributeEditorComp.SetRef("AttributeSelectionObserver", &packageOverviewComp);
 	attributeEditorComp.InitComponent();
 
 	// registry model
@@ -118,10 +123,6 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<QtPck::MultiDocWorkspaceGui> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
-
-	icomp::TSimComponentWrap<CPackageOverviewComp> packageOverviewComp;
-	packageOverviewComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
-	packageOverviewComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::DockWidgetGui> attributeEditorDockComp;
 	attributeEditorDockComp.SetRef("SlaveGui", &attributeEditorComp);

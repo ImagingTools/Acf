@@ -78,8 +78,6 @@ void CRegistryViewComp::UpdateEditor()
 	int itemsCount = items.count();
 	foreach(QGraphicsItem* itemPtr, items){
 		m_scenePtr->removeItem(itemPtr);
-
-		delete itemPtr;
 	}
 
 	icomp::IRegistry* registryPtr = GetObjectPtr();
