@@ -35,6 +35,8 @@ I_EXPORT_COMPONENT(MultiDocWorkspaceGui, "Multi document workspace", "Workspace 
 I_EXPORT_COMPONENT(Bitmap, "QImage based bitmap implementation", "QImage Image Bitmap Qt");
 I_EXPORT_COMPONENT(ImageView, "Display bitmap using observer pattern", "Image Bitmap Display Viewer Observer Qt");
 I_EXPORT_COMPONENT(BitmapLoader, "Load and save bitmaps in binary format", "Image Bitmap Binary Loader Load Save JPG JPEG PNG BMP Qt");
+I_EXPORT_COMPONENT(DockWidgetGui, "Allows to use GUI object as docked views", "View Dock Document GUI Qt");
+I_EXPORT_COMPONENT(SnapImageGui, "Show snapped image and allow to change snap parameters", "View Image Bitmap Camera Snap Parameters GUI Qt");
 
 
 } // namespace QtPck

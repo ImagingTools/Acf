@@ -154,10 +154,12 @@ void CRegistryViewComp::UpdateModel() const
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (iqt::CGuiComponentBase)
 
 void CRegistryViewComp::OnGuiCreated()
 {
+	BaseClass::OnGuiCreated();
+
 	I_ASSERT(m_scenePtr != NULL);
 
 	iqt::CHierarchicalCommand* registryMenuPtr = new iqt::CHierarchicalCommand("&Registry");
@@ -215,14 +217,9 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool is
 	if (m_selectedComponentPtr != NULL){
 		const CComponentView::ComponentData* elementInfoPtr = m_selectedComponentPtr->GetComponent();
 		if (elementInfoPtr != NULL){
-			for (int observerIndex = 0; observerIndex < m_registryElementObserversCompPtr.GetCount(); observerIndex++){
-				imod::IObserver* observerPtr = m_registryElementObserversCompPtr[observerIndex];
-				if (observerPtr != NULL){
-					imod::IModel* registryElementModelPtr = dynamic_cast<imod::IModel*>(elementInfoPtr->elementPtr.GetPtr());
-					if (registryElementModelPtr != NULL && registryElementModelPtr->IsAttached(observerPtr)){
-						registryElementModelPtr->DetachObserver(observerPtr);
-					}
-				}
+			imod::IModel* registryElementModelPtr = dynamic_cast<imod::IModel*>(elementInfoPtr->elementPtr.GetPtr());
+			if (registryElementModelPtr != NULL){
+				registryElementModelPtr->DetachAllObservers();
 			}
 		}
 	}
@@ -522,7 +519,8 @@ void CRegistryViewComp::CRegistryScene::drawBackground(QPainter* painter, const 
 
 void CRegistryViewComp::CRegistryScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 {
-	if (event->mimeData()->formats().at(0) == "component"){
+	QStringList& formats = event->mimeData()->formats();
+	if (!formats.isEmpty() && (formats.first() == "component")){
 		event->acceptProposedAction();
 	}
 }

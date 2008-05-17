@@ -247,11 +247,6 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 		return;
 	}
 
-	bool isDocumentActive = (m_activeDocumentPtr != NULL);
-
-	m_saveCommand.SetEnabled(isDocumentActive);
-	m_saveAsCommand.SetEnabled(isDocumentActive);
-
 	UpdateMenuActions();
 }
 
@@ -402,6 +397,11 @@ void CMainWindowGuiComp::UpdateUndoMenu()
 
 void CMainWindowGuiComp::UpdateMenuActions()
 {
+	bool isDocumentActive = (m_activeDocumentPtr != NULL);
+
+	m_saveCommand.SetEnabled(isDocumentActive);
+	m_saveAsCommand.SetEnabled(isDocumentActive);
+
 	if (m_menuBar == NULL){
 		return;
 	}

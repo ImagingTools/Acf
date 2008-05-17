@@ -14,6 +14,7 @@
 #include "iqt/CBitmap.h"
 #include "iqt/CBitmapLoaderComp.h"
 #include "iqt/CDockWidgetGuiComp.h"
+#include "iqt/CSnapImageGuiComp.h"
 
 #include "iqt2d/CImageViewComp.h"
 
@@ -42,6 +43,7 @@ typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iimg::IBitmap, iqt::CBit
 typedef iqt2d::CImageViewComp ImageView;
 typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CDockWidgetGuiComp DockWidgetGui;
+typedef iqt::CSnapImageGuiComp SnapImageGui;
 
 
 } // namespace QtPck

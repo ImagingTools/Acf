@@ -61,7 +61,7 @@ public:
 	virtual void UpdateEditor();
 	virtual void UpdateModel() const;
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
 public slots:

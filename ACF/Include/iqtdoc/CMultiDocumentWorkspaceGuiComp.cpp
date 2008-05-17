@@ -161,6 +161,7 @@ void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 			const iqt::IGuiObject* guiObjectPtr = dynamic_cast<const iqt::IGuiObject*>(viewPtr.GetPtr());
 			if (guiObjectPtr != NULL){
 				QWidget* widgetPtr = guiObjectPtr->GetWidget();
+				I_ASSERT(widgetPtr != NULL);
 
 				widgetPtr->setWindowTitle(titleName);
 			}
@@ -301,6 +302,20 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 		QWorkspace* workspacePtr = GetQtWidget();
 	
 		workspacePtr->setScrollBarsEnabled(m_scrollingEnabledAttrPtr->GetValue());
+
+		int documentsCount = GetDocumentsCount();
+		for (int i = 0; i < documentsCount; ++i){
+			DocumentInfo& info = GetDocumentInfo(i);
+
+			for (		Views::const_iterator viewIter = info.views.begin();
+						viewIter != info.views.end();
+						++viewIter){
+				const ViewPtr& viewPtr = *viewIter;
+				I_ASSERT(viewPtr.IsValid());
+
+				OnViewRegistered(viewPtr.GetPtr());
+			}
+		}
 	}
 }
 
@@ -317,7 +332,9 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 {
 	BaseClass2::OnEndChanges(changeFlags, changeParamsPtr);
 
-	UpdateAllTitles();
+	if (IsGuiCreated()){
+		UpdateAllTitles();
+	}
 }
 
 

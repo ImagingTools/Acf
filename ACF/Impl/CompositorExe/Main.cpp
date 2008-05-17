@@ -119,15 +119,6 @@ int main(int argc, char *argv[])
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
 
-	if (!registryFile.empty()){
-		if (!workspaceComp.OpenDocument(registryFile, true, "")){
-			QMessageBox::information(
-						NULL,
-						QObject::tr("Error"),
-						QObject::tr("Cannot load registry\n%1").arg(registryFile.c_str()));
-		}
-	}
-
 	icomp::TSimComponentWrap<CPackageOverviewComp> packageOverviewComp;
 	packageOverviewComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
 	packageOverviewComp.InitComponent();
@@ -153,6 +144,15 @@ int main(int argc, char *argv[])
 	application.SetRef("MainGui", &mainWindowComp);
 	application.SetRef("SplashScreen", &splashScreenGui);
 	application.InitComponent();
+
+	if (!registryFile.empty()){
+		if (!workspaceComp.OpenDocument(registryFile, true, "")){
+			QMessageBox::information(
+						NULL,
+						QObject::tr("Error"),
+						QObject::tr("Cannot load registry\n%1").arg(registryFile.c_str()));
+		}
+	}
 
 	return application.Execute(argc, argv);
 }
