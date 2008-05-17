@@ -11,12 +11,14 @@ class CComponentView;
 class CComponentConnector: public QGraphicsItem
 {
 public:
+	typedef QGraphicsItem BaseClass;
+
     enum { 
 		Type = UserType + 2 
 	};
 
-    CComponentConnector(CComponentView *sourceComponent, CComponentView *destComponent);
-    ~CComponentConnector();
+    CComponentConnector(CComponentView *sourceComponent, CComponentView *destComponent, QGraphicsItem *parent = NULL, QGraphicsScene *scene = NULL);
+    virtual ~CComponentConnector();
 
     CComponentView* GetSourceComponent() const;
     void SetSourceComponent(CComponentView* sourceComponent);

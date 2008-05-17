@@ -61,7 +61,7 @@ public:
 
 public slots:
 	void SetCenterOn(const QString& componentRole);
-	void UpdateConnections();
+	void UpdateConnectors();
 
 protected slots:
 	void OnComponentViewSelected(CComponentView* view, bool selected);
@@ -70,6 +70,7 @@ protected slots:
 	void OnRemoveComponent();
 
 private:
+	void ResetScene();
 	void ScaleView(double scaleFactor);
 	void CreateConnector(CComponentView& sourceView, const std::string& referenceComponentId);
 	CComponentView* CreateComponentView(const icomp::IRegistry::ElementInfo& componentRef, const QString& role);

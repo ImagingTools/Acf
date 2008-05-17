@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtPck::DockWidgetGui> attributeEditorDockComp;
 	attributeEditorDockComp.SetRef("SlaveGui", &attributeEditorComp);
-	attributeEditorDockComp.SetIntAttr("DockArea", 3);
+	attributeEditorDockComp.SetIntAttr("DockArea", 0);
 	attributeEditorDockComp.SetStringAttr("DockTitle", "Attributes");
 	attributeEditorDockComp.InitComponent();
 	

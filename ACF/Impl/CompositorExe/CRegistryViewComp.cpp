@@ -1,11 +1,8 @@
-#include <QApplication>
 #include <QPainter>
 #include <QPaintEvent>
-#include <QResizeEvent>
 #include <QMouseEvent>
 #include <QInputDialog>
 #include <QMessageBox>
-#include <QScrollBar>
 
 #include <math.h>
 
@@ -73,12 +70,7 @@ void CRegistryViewComp::UpdateEditor()
 		return;
 	}
 
-	// reset scene:
-	QList<QGraphicsItem*> items = m_compositeItem.children();
-	int itemsCount = items.count();
-	foreach(QGraphicsItem* itemPtr, items){
-		m_scenePtr->removeItem(itemPtr);
-	}
+	ResetScene();
 
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
@@ -99,7 +91,7 @@ void CRegistryViewComp::UpdateEditor()
 		}
 	}
 
-	UpdateConnections();
+	UpdateConnectors();
 }
 
 
@@ -234,6 +226,20 @@ void CRegistryViewComp::OnRemoveComponent()
 
 // private members
 
+void CRegistryViewComp::ResetScene()
+{
+	QList<QGraphicsItem*> items = m_scenePtr->items();
+	int itemsCount = items.count();
+	foreach(QGraphicsItem* itemPtr, items){
+		if (itemPtr == &m_compositeItem){
+			continue;
+		}
+
+		m_scenePtr->removeItem(itemPtr);
+	}
+}
+
+
 void CRegistryViewComp::ScaleView(double scaleFactor)
 {
 	QGraphicsView* viewPtr = GetQtWidget();
@@ -263,12 +269,8 @@ void CRegistryViewComp::CreateConnector(CComponentView& sourceView, const std::s
 	foreach(QGraphicsItem* item, items){
 		CComponentView* referenceViewPtr = dynamic_cast<CComponentView*>(item);
 		if (referenceViewPtr != NULL && referenceViewPtr->GetComponentName() == referenceComponentId.c_str()){
-			CComponentConnector* connector = new CComponentConnector(NULL, NULL);
-			connector->setParentItem(&m_compositeItem);
-			connector->SetSourceComponent(&sourceView);
-			connector->SetDestinationComponent(referenceViewPtr);
+			CComponentConnector* connector = new CComponentConnector(&sourceView, referenceViewPtr, &m_compositeItem, m_scenePtr);
 
-			m_scenePtr->addItem(connector);
 			connector->Adjust();
 		}
 	}
@@ -306,7 +308,7 @@ CComponentView* CRegistryViewComp::CreateComponentView(const icomp::IRegistry::E
 }
 
 
-void CRegistryViewComp::UpdateConnections()
+void CRegistryViewComp::UpdateConnectors()
 {
 	QList<QGraphicsItem*> items = m_compositeItem.children();
 	foreach(QGraphicsItem* item, items){
@@ -324,7 +326,6 @@ void CRegistryViewComp::UpdateConnections()
 			CComponentConnector* connectorPtr = dynamic_cast<CComponentConnector*>(item);
 			if (connectorPtr != NULL){
 				m_scenePtr->removeItem(connectorPtr);
-				connectorPtr->setParentItem(NULL);
 				isDone = false;
 				break;
 			}

@@ -11,8 +11,12 @@ static double TwoPi = 2.0 * Pi;
 
 // public methods
 
-CComponentConnector::CComponentConnector(CComponentView* sourceComponent, CComponentView* destComponent)
-	:m_arrowSize(10)
+CComponentConnector::CComponentConnector(CComponentView* sourceComponent, 
+										 CComponentView* destComponent,
+										 QGraphicsItem *parent, 
+										 QGraphicsScene *scene)
+	:BaseClass(parent, scene),
+	m_arrowSize(10)
 {
 	setAcceptedMouseButtons(0);
 

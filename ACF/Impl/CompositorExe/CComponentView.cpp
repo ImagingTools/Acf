@@ -181,8 +181,6 @@ QRect CComponentView::CalculateRect() const
 	width += (m_gridSize - (width % m_gridSize));
 	height += (m_gridSize - (height % m_gridSize));
 
-	width = std::max(width, height * 2);
-
 	return QRect(rect().left(), rect().top(), width, height);
 }
 
