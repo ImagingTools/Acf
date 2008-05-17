@@ -8,15 +8,13 @@
 #include <QPaintEvent>
 
 
-#include "iser/ISerializable.h"
-
 #include "icomp/IRegistry.h"
 
 
 class CComponentConnector;
 
 
-class CComponentView: public QObject, public QGraphicsRectItem, public iser::ISerializable
+class CComponentView: public QObject, public QGraphicsRectItem
 {
 	Q_OBJECT
 
@@ -37,9 +35,6 @@ public:
 	void RemoveConnector(const CComponentConnector* connector);
 	void RemoveAllConnectors();
 
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-
 protected slots:
 	void OnExportChanged(bool state);
 	void OnRename();
@@ -47,6 +42,7 @@ protected slots:
 signals:
 	void selectionChanged(CComponentView*, bool);
 	void exportChanged(CComponentView*, bool);
+	void positionChanged(CComponentView*, const QPoint& point);
 
 protected:
 	QRectF GetInnerRect() const;

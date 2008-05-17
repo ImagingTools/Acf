@@ -127,29 +127,6 @@ void CComponentView::RemoveAllConnectors()
 }
 
 
-bool CComponentView::Serialize(iser::IArchive& archive)
-{
-	double x = pos().x();
-	double y = pos().y();
-
-	static iser::CArchiveTag posxTag("PosX", "X Poistion");
-	bool result = archive.BeginTag(posxTag);
-	result = result && archive.Process(x);
-	result = result && archive.EndTag(posxTag);
-
-	static iser::CArchiveTag posyTag("PosY", "Y Poistion");
-	result = result && archive.BeginTag(posyTag);
-	result = result && archive.Process(y);
-	result = result && archive.EndTag(posyTag);
-	
-	if (!archive.IsStoring()){
-		setPos(x,y);
-	}
-
-	return result;
-}
-
-
 // protected slots:
 
 void CComponentView::OnExportChanged(bool state)
@@ -162,7 +139,6 @@ void CComponentView::OnExportChanged(bool state)
 
 void CComponentView::OnRename()
 {
-
 }
 
 
@@ -319,7 +295,9 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 			if (parentItem != NULL){
 				parentItem->setRect(parentItem->childrenBoundingRect().adjusted(-m_gridSize, -m_gridSize, m_gridSize, m_gridSize));
 			}
-				
+			
+			emit positionChanged(this, newPos);
+
 			return QVariant(newPos);
 
 	}

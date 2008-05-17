@@ -266,6 +266,9 @@
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\IRegistryGeometryProvider.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Forms"
@@ -326,7 +329,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Rcc&apos;ing $(InputName).qrc..."
-						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;$(InputName)&quot; -no-compress &quot;..\$(InputName).qrc&quot; -o $(InputDir)\Generated\qrc_$(InputName).cpp"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;$(InputName)&quot; -no-compress &quot;..\$(InputName).qrc&quot; -o $(InputDir)\Generated\qrc_$(InputName).cpp
+"
 						AdditionalDependencies="..\$(InputName).qrc;"
 						Outputs="$(InputDir)\Generated\qrc_$(InputName).cpp"/>
 				</FileConfiguration>
@@ -335,7 +339,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Rcc&apos;ing $(InputName).qrc..."
-						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;$(InputName)&quot; -no-compress &quot;..\$(InputName).qrc&quot; -o $(InputDir)\Generated\qrc_$(InputName).cpp"
+						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;$(InputName)&quot; -no-compress &quot;..\$(InputName).qrc&quot; -o $(InputDir)\Generated\qrc_$(InputName).cpp
+"
 						AdditionalDependencies="..\$(InputName).qrc;"
 						Outputs="$(InputDir)\Generated\qrc_$(InputName).cpp"/>
 				</FileConfiguration>

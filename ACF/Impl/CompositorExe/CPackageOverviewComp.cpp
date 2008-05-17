@@ -174,24 +174,34 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(eventObject);
 	I_ASSERT(sourceWidgetPtr != NULL);
 
+	QTreeWidget* treeWidgetPtr = GetQtWidget();
+	I_ASSERT(treeWidgetPtr);
+
 	switch (event->type()){
 	case QEvent::MouseButtonPress:
 		{
 			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
 			I_ASSERT(mouseEvent != NULL);
 
-			if (mouseEvent->button() == Qt::LeftButton && m_selectedComponentInfoPtr != NULL){
-				QMimeData* mimeData = new QMimeData;
-				if (m_selectedComponentInfoPtr != NULL){
-					componentInfoAddress = int(m_selectedComponentInfoPtr);
+			if (mouseEvent->button() == Qt::LeftButton){
+				QModelIndex modelIndex = treeWidgetPtr->indexAt(mouseEvent->pos());
+				QTreeWidgetItem* pressedItemPtr = reinterpret_cast<QTreeWidgetItem*>(modelIndex.internalPointer());
+				if (pressedItemPtr != NULL){
+					PackageComponentItem* selectedItemPtr = dynamic_cast<PackageComponentItem*>(pressedItemPtr);
+					if (selectedItemPtr != NULL && selectedItemPtr->m_componentInfoPtr.IsValid()){
+						QMimeData* mimeData = new QMimeData;
+
+						componentInfoAddress = int(selectedItemPtr->m_componentInfoPtr.GetPtr());
+					
+						QByteArray byteData = QByteArray::number(componentInfoAddress);
+
+						mimeData->setData("component", byteData);
+
+						QDrag *drag = new QDrag(sourceWidgetPtr);
+						drag->setMimeData(mimeData);
+						drag->start(Qt::MoveAction);
+					}
 				}
-				QByteArray byteData = QByteArray::number(componentInfoAddress);
-
-				mimeData->setData("component", byteData);
-
-				QDrag *drag = new QDrag(sourceWidgetPtr);
-				drag->setMimeData(mimeData);
-				drag->start(Qt::MoveAction);
 			}
 		}
 	}
@@ -233,9 +243,6 @@ void CPackageOverviewComp::OnGuiCreated()
 
 	widgetPtr->header()->setResizeMode(QHeaderView::ResizeToContents);
 	widgetPtr->header()->hide();
-
-//	widgetPtr->setDragEnabled(true);
-//	widgetPtr->setDragDropMode(QAbstractItemView::DragOnly);
 
 	widgetPtr->setIndentation(15);
 

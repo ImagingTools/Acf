@@ -9,7 +9,7 @@
 
 #include <math.h>
 
-
+#include "IRegistryGeometryProvider.h"
 #include "CRegistryViewComp.h"
 #include "CComponentView.h"
 #include "CComponentConnector.h"
@@ -64,71 +64,22 @@ const idoc::IHierarchicalCommand* CRegistryViewComp::GetCommands() const
 }
 
 
-// reimplemented (iser::ISerializable)
-
-bool CRegistryViewComp::Serialize(iser::IArchive& archive)
-{
-	bool result = true;
-	
-	/*m_composite.Serialize(archive);
-
-	if (archive.isStoring()){
-		QList<QGraphicsItem*> items = m_compositeItem.children();
-		foreach(QGraphicsItem* item, items){
-			CComponentView* view = dynamic_cast<CComponentView*>(item);
-			if (view != NULL){
-				archive.beginTag("Role");
-				archive.process(iqt::GetCString(view->GetComponentName()));
-				archive.endTag();
-				view->Serialize(archive);
-			}
-		}
-	}
-	else{
-		for (int index = m_composite.GetComponentCount()-1; index >= 0; index--){
-			QString role = iqt::GetQString(m_composite.componentRole(index));
-			bool exported = m_composite.isComponentExported(role.toStdWString());
-
-			addComponentView(role, exported);
-		}
-		QList<QGraphicsItem*> items = m_compositeItem.children();
-		bool retVal2 = true;
-		foreach(QGraphicsItem* item, items){
-			CComponentView* view = dynamic_cast<CComponentView*>(item);
-			if (view != NULL){
-				istd::CString role;
-				retVal2 = retVal2 && archive.beginTag("Role");
-				retVal2 = retVal2 && archive.process(role);
-				retVal2 = retVal2 && archive.endTag();
-				foreach(QGraphicsItem* item2, items){
-					CComponentView* view2 = dynamic_cast<CComponentView*>(item2);
-					if (view2 != NULL){
-						if (view2->GetComponentName() == iqt::GetQString(role)){
-							retVal2 = retVal2 && view2->Serialize(archive);
-						}
-					}
-				}
-
-			}
-		}
-	}
-	
-	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-25,-25,25,25));
-
-	UpdateConnections();
-*/
-	return result;
-}
-
-
 // reimplemented (imod::TModelEditorBase)
 
 void CRegistryViewComp::UpdateEditor()
 {
+	QGraphicsView* viewPtr = GetQtWidget();
+	if (viewPtr == NULL){
+		return;
+	}
+
 	// reset scene:
 	QList<QGraphicsItem*> items = m_compositeItem.children();
-	foreach(QGraphicsItem* item, items){
-		m_scenePtr->removeItem(item);
+	int itemsCount = items.count();
+	foreach(QGraphicsItem* itemPtr, items){
+		m_scenePtr->removeItem(itemPtr);
+
+		delete itemPtr;
 	}
 
 	icomp::IRegistry* registryPtr = GetObjectPtr();
@@ -141,6 +92,11 @@ void CRegistryViewComp::UpdateEditor()
 			const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementId);
 			if (elementInfoPtr != NULL){
 				CComponentView* viewPtr = CreateComponentView(*elementInfoPtr, iqt::GetQString(elementId));
+
+				IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<IRegistryGeometryProvider*>(registryPtr);
+				if (geomeometryProviderPtr != NULL){			
+					viewPtr->setPos(geomeometryProviderPtr->GetComponentPosition(elementId));
+				}
 			}
 		}
 	}
@@ -181,7 +137,6 @@ void CRegistryViewComp::OnGuiCreated()
 		viewPtr->setAcceptDrops(true);
 		
 		m_compositeItem.setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-		m_compositeItem.setRect(m_scenePtr->sceneRect());
 	
 		m_scenePtr->addItem(&m_compositeItem);
 	}
@@ -254,6 +209,15 @@ void CRegistryViewComp::OnExportChanged(CComponentView* viewPtr, bool export)
 }
 
 
+void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition)
+{
+	IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<IRegistryGeometryProvider*>(GetObjectPtr());
+	if (geometryProviderPtr != NULL){
+		geometryProviderPtr->SetComponentPosition(iqt::GetCString(view->GetComponentName()), newPosition);
+	}
+}
+
+
 void CRegistryViewComp::OnRemoveComponent()
 {
 	icomp::IRegistry* registryPtr = GetObjectPtr();
@@ -317,6 +281,8 @@ CComponentView* CRegistryViewComp::CreateComponentView(const icomp::IRegistry::E
 {
 	CComponentView* componentViewPtr = new CComponentView(componentRef, role, &m_compositeItem, m_scenePtr);
 
+	componentViewPtr->setParentItem(&m_compositeItem);
+
 	connect(componentViewPtr, 
 		SIGNAL(selectionChanged(CComponentView*, bool)),
 		this,
@@ -327,12 +293,20 @@ CComponentView* CRegistryViewComp::CreateComponentView(const icomp::IRegistry::E
 		this,
 		SLOT(OnExportChanged(CComponentView*, bool)));
 
-	componentViewPtr->setZValue(m_scenePtr->items().count());
+	connect(componentViewPtr, 
+		SIGNAL(positionChanged(CComponentView*, const QPoint&)),
+		this,
+		SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)));
+
+	int itemsCount = m_scenePtr->items().count();
+
+	componentViewPtr->setZValue(itemsCount);
 
 	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-25,-25,25,25));
 
 	return componentViewPtr;
 }
+
 
 void CRegistryViewComp::UpdateConnections()
 {
@@ -479,7 +453,6 @@ void CRegistryViewComp::CCompositeItem::paint(QPainter* painter, const QStyleOpt
 
 
 // public methods of embedded class CRegistryScene
-
 
 CRegistryViewComp::CRegistryScene::CRegistryScene(CRegistryViewComp& parent)
 	:m_parent(parent)

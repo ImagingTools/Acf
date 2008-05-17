@@ -1,195 +1,233 @@
 <?xml version="1.0"?>
 <Acf>
-	<AcfHeader>
-		<VersionInfos count="0">
-		</VersionInfos>
-	</AcfHeader>
-
-	<ElementsList count="3">
-		<Element>
-			<Id>
-				Application
-			</Id>
-			<Type>
-				1
-			</Type>
-			<PackageId>
-				QtPck
-			</PackageId>
-			<ComponentId>
-				GuiApplication
-			</ComponentId>
-			<Data>
-				<IsEnabled>
-					true
-				</IsEnabled>
-				<AttributeInfoMap count = "2">
-					<AttributeInfo>
-						<Id>
-							MainGui
-						</Id>
-						<Type>
-							class icomp::CReferenceAttribute
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								Login
-							</Value>
-						</Data>
-					</AttributeInfo>
-					<AttributeInfo>
-						<Id>
-							SplashScreen
-						</Id>
-						<Type>
-							class icomp::CReferenceAttribute
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								Splash
-							</Value>
-						</Data>
-					</AttributeInfo>
-				</AttributeInfoMap>
-			</Data>
-		</Element>
-		<Element>
-			<Id>
-				Login
-			</Id>
-			<Type>
-				1
-			</Type>
-			<PackageId>
-				QtPck
-			</PackageId>
-			<ComponentId>
-				LoginGui
-			</ComponentId>
-			<Data>
-				<IsEnabled>
-					true
-				</IsEnabled>
-				<AttributeInfoMap count = "0">
-				</AttributeInfoMap>
-			</Data>
-		</Element>
-		<Element>
-			<Id>
-				Splash
-			</Id>
-			<Type>
-				1
-			</Type>
-			<PackageId>
-				QtPck
-			</PackageId>
-			<ComponentId>
-				SplashScreen
-			</ComponentId>
-			<Data>
-				<IsEnabled>
-					true
-				</IsEnabled>
-				<AttributeInfoMap count = "4">
-					<AttributeInfo>
-						<Id>
-							ImagePath
-						</Id>
-						<Type>
-							class icomp::TSingleAttribute&lt;class istd::CString&gt;
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								../../Docs/Images/AcfSplashScreen.png
-							</Value>
-						</Data>
-					</AttributeInfo>
-					<AttributeInfo>
-						<Id>
-							ProductName
-						</Id>
-						<Type>
-							class icomp::TSingleAttribute&lt;class istd::CString&gt;
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								CompSimu
-							</Value>
-						</Data>
-					</AttributeInfo>
-					<AttributeInfo>
-						<Id>
-							ProductType
-						</Id>
-						<Type>
-							class icomp::TSingleAttribute&lt;class istd::CString&gt;
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								Tutorial (Dynamic)
-							</Value>
-						</Data>
-					</AttributeInfo>
-					<AttributeInfo>
-						<Id>
-							CopyrightText
-						</Id>
-						<Type>
-							class icomp::TSingleAttribute&lt;class istd::CString&gt;
-						</Type>
-						<ExportId>
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								true
-							</IsEnabled>
-							<Value>
-								See 'licence.txt' for copyright informations
-							</Value>
-						</Data>
-					</AttributeInfo>
-				</AttributeInfoMap>
-			</Data>
-		</Element>
-	</ElementsList>
-
-	<ExportedInterfaces count="1">
-		<Interface>
-			<InterfaceId>
-				class ibase::IApplication
-			</InterfaceId>
-			<ComponentId>
-				Application
-			</ComponentId>
-		</Interface>
-	</ExportedInterfaces>
-
-	<ExportedComponents count="0">
-	</ExportedComponents>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ElementsList count="3">
+    <Element>
+      <Id>
+        Application
+      </Id>
+      <Type>
+        1
+      </Type>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        GuiApplication
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              MainGui
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Login
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SplashScreen
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Splash
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Login
+      </Id>
+      <Type>
+        1
+      </Type>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        LoginGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Splash
+      </Id>
+      <Type>
+        1
+      </Type>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        SplashScreen
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="4">
+          <AttributeInfo>
+            <Id>
+              CopyrightText
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                See 'licence.txt' for copyright informations
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ImagePath
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ../../Docs/Images/AcfSplashScreen.png
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ProductName
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                CompSimu
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ProductType
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Tutorial (Dynamic)
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+  </ElementsList>
+  <ExportedInterfaces count="1">
+    <Interface>
+      <InterfaceId>
+        class ibase::IApplication
+      </InterfaceId>
+      <ComponentId>
+        Application
+      </ComponentId>
+    </Interface>
+  </ExportedInterfaces>
+  <ExportedComponents count="0">
+  </ExportedComponents>
+  <ElementPositions count="3">
+    <ElementPosition>
+      <ComponentRole>
+        Application
+      </ComponentRole>
+      <X>
+        50
+      </X>
+      <Y>
+        0
+      </Y>
+    </ElementPosition>
+    <ElementPosition>
+      <ComponentRole>
+        Login
+      </ComponentRole>
+      <X>
+        -225
+      </X>
+      <Y>
+        150
+      </Y>
+    </ElementPosition>
+    <ElementPosition>
+      <ComponentRole>
+        Splash
+      </ComponentRole>
+      <X>
+        -225
+      </X>
+      <Y>
+        -150
+      </Y>
+    </ElementPosition>
+  </ElementPositions>
 </Acf>

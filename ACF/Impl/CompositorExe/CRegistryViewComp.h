@@ -29,7 +29,6 @@
 
 class CRegistryViewComp:	public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, 
 								imod::TSingleModelObserverBase<icomp::IRegistry> >,
-							public iser::ISerializable,
 							public idoc::ICommandsProvider
 {
 	Q_OBJECT
@@ -53,9 +52,6 @@ public:
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
 
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor();
 	virtual void UpdateModel() const;
@@ -70,6 +66,7 @@ public slots:
 protected slots:
 	void OnComponentViewSelected(CComponentView* view, bool selected);
 	void OnExportChanged(CComponentView* view, bool export);
+	void OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition);
 	void OnRemoveComponent();
 
 private:
