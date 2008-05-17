@@ -526,7 +526,6 @@ void CRegistryViewComp::CRegistryScene::dropEvent(QGraphicsSceneDragDropEvent* e
 	QString role = QInputDialog::getText(NULL, tr("ACF Compositor"), tr("Component role:"), QLineEdit::Normal, "", &isOk);
 	if (isOk && !role.isEmpty()){
 		const CStaticComponentInfo* componentPtr = (const CStaticComponentInfo*)address;
-
 		if (componentPtr != NULL){ 
 			m_parent.OnAddComponent(*componentPtr, role);
 		}
