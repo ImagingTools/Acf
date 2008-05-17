@@ -5,6 +5,9 @@
 #include "iser/CXmlFileReadArchive.h"
 #include "iser/CXmlFileWriteArchive.h"
 
+#include "icomp/TModelCompWrap.h"
+#include "icomp/TMakeComponentWrap.h"
+
 #include "isvn/TApplicationInfoWrap.h"
 
 #include "idoc/CSingleDocumentTemplateComp.h"
@@ -12,6 +15,9 @@
 
 #include "istdc/TFileSerializerComp.h"
 #include "istdc/CApplicationInfoComp.h"
+#include "istdc/CComposedParamsSetComp.h"
+
+#include "icam/CFileBitmapAcquisitionParams.h"
 
 
 /**
@@ -25,6 +31,8 @@ typedef istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWrit
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 typedef isvn::TApplicationInfoWrap<istdc::CApplicationInfoComp> ApplicationInfo;
+typedef icomp::TModelCompWrap<istdc::CComposedParamsSetComp> ComposedParamsSet;
+typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<icam::IFileBitmapAcquisitionParams, icam::CFileBitmapAcquisitionParams> > FileBitmapAcquisitionParams;
 
 
 } // namespace BasePck

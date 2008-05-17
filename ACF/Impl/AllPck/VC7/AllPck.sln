@@ -170,6 +170,7 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasePck", "..\..\BasePck\VC7\BasePck.vcproj", "{030936A8-23C4-45EE-8E3D-196FF4D405C6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
+		{4CE30ACB-6EA3-4AB0-87BA-84D0CBB47A7B} = {4CE30ACB-6EA3-4AB0-87BA-84D0CBB47A7B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iimg", "..\..\..\Include\iimg\VC7\iimg.vcproj", "{DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33}"
@@ -189,49 +190,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icam", "..\..\..\Include\ic
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 8
-		SccProjectUniqueName0 = ..\\..\\..\\Include\\iwin\\VC7\\iwin.vcproj
-		SccProjectName0 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath0 = ..\\..\\..\\Include\\iwin\\iwin
-		SccProvider0 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection0 = ..\\VC7\\
-		SccProjectUniqueName1 = ..\\..\\..\\Include\\istd\\VC7\\istd.vcproj
-		SccProjectName1 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath1 = ..\\..\\..\\Include\\istd\\iwin
-		SccProvider1 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection1 = ..\\VC7\\
-		SccProjectUniqueName2 = ..\\..\\..\\Include\\isys\\VC7\\isys.vcproj
-		SccProjectName2 = \u0022$/develop/modules/isys\u0022,\u0020XRAAAAAA
-		SccLocalPath2 = ..\\..\\..\\Include\\isys\\isys
-		SccProvider2 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection2 = ..\\VC7\\
-		SccProjectUniqueName3 = ..\\..\\..\\Include\\idb\\VC7\\idb.vcproj
-		SccProjectName3 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath3 = ..\\..\\..\\Include\\idb\\iwin
-		SccProvider3 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection3 = ..\\VC7\\
-		SccProjectUniqueName4 = ..\\..\\..\\Include\\icomp\\VC7\\icomp.vcproj
-		SccProjectName4 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath4 = ..\\..\\..\\Include\\icomp\\iwin
-		SccProvider4 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection4 = ..\\VC7\\
-		SccProjectUniqueName5 = ..\\..\\..\\Include\\ixln\\VC7\\ixln.vcproj
-		SccProjectName5 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath5 = ..\\..\\..\\Include\\ixln\\iwin
-		SccProvider5 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection5 = ..\\VC7\\
-		SccProjectUniqueName6 = ..\\..\\..\\Include\\inat\\VC7\\inat.vcproj
-		SccProjectName6 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath6 = ..\\..\\..\\Include\\inat\\iwin
-		SccProvider6 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection6 = ..\\VC7\\
-		SccProjectUniqueName7 = ..\\..\\..\\Include\\i2d\\VC7\\i2d.vcproj
-		SccProjectName7 = \u0022$/develop/modules/iwin\u0022,\u0020XRAAAAAA
-		SccLocalPath7 = ..\\..\\..\\Include\\i2d\\iwin
-		SccProvider7 = MSSCCI:Team\u0020Foundation\u0020Server\u0020MSSCCI\u0020Provider
-		SccProjectFilePathRelativizedFromConnection7 = ..\\VC7\\
-	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
 		NemoDebug = NemoDebug

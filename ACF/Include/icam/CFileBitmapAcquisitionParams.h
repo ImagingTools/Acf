@@ -15,6 +15,9 @@ public:
 	// reimplemented (icam::IFileBitmapAcquisitionParams)
 	virtual istd::CString GetDirectory() const;
 
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 private:
 	istd::CString m_directory;
 };

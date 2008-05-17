@@ -35,7 +35,6 @@ class CRegistryViewComp:	public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGr
 	Q_OBJECT
 
 public:
-
 	typedef iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, 
 				imod::TSingleModelObserverBase<icomp::IRegistry> > BaseClass;
 
@@ -90,7 +89,7 @@ protected:
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0); 
 		virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 	};
-	
+
 	class CRegistryScene: public QGraphicsScene
 	{
 	public:
