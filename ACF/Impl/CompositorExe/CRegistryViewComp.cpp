@@ -281,8 +281,6 @@ CComponentView* CRegistryViewComp::CreateComponentView(const icomp::IRegistry::E
 {
 	CComponentView* componentViewPtr = new CComponentView(componentRef, role, &m_compositeItem, m_scenePtr);
 
-	componentViewPtr->setParentItem(&m_compositeItem);
-
 	connect(componentViewPtr, 
 		SIGNAL(selectionChanged(CComponentView*, bool)),
 		this,

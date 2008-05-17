@@ -266,7 +266,6 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 {
 	switch(change){
 		case QGraphicsItem::ItemSelectedChange:
-			emit selectionChanged(this, value.toBool());
 			foreach(CComponentConnector* connector, m_connectors){
 				if (value.toBool()){
 					connector->setZValue(0);
@@ -277,6 +276,7 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 
 				connector->setSelected(value.toBool());
 			}
+			emit selectionChanged(this, value.toBool());
 			break;
 
 		case QGraphicsItem::ItemPositionChange:
