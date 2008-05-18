@@ -16,7 +16,7 @@ namespace icomp
 class CPackageStaticInfo: virtual public IComponentStaticInfo
 {
 public:
-	// reimplemented (icomp::CPackageStaticInfo)
+	// reimplemented (icomp::IComponentStaticInfo)
 	virtual IComponent* CreateComponent(const IComponentContext* contextPtr) const;
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;

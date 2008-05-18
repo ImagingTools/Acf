@@ -90,6 +90,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	icomp::TSimComponentWrap<BasePck::RegistryCodeSaver> codeSaverComp;
+	codeSaverComp.InitComponent();
+
 	icomp::TSimComponentWrap<CPackageOverviewComp> packageOverviewComp;
 	packageOverviewComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
 	packageOverviewComp.InitComponent();
@@ -106,6 +109,7 @@ int main(int argc, char *argv[])
 	// registry view
 	icomp::TSimComponentsFactory<CRegistryViewComp> viewFactoryComp;
 	viewFactoryComp.InsertMultiRef("RegistryElementObservers", &attributeEditorComp);
+	viewFactoryComp.SetRef("RegistryCodeSaver", &codeSaverComp);
 
 	icomp::TSimComponentWrap<istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> > registryLoaderComp;
 	registryLoaderComp.InitComponent();

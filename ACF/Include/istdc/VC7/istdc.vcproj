@@ -239,6 +239,9 @@
 			<File
 				RelativePath="..\CComposedParamsSetComp.cpp">
 			</File>
+			<File
+				RelativePath="..\CRegistryCodeSaverComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -248,6 +251,9 @@
 			</File>
 			<File
 				RelativePath="..\CComposedParamsSetComp.h">
+			</File>
+			<File
+				RelativePath="..\CRegistryCodeSaverComp.h">
 			</File>
 			<File
 				RelativePath="..\istdc.h">

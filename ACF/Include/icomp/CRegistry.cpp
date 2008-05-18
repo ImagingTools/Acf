@@ -224,8 +224,6 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 		for (int i = 0; i < count; ++i){
 			retVal = retVal && archive.BeginTag(elementTag);
 
-			ElementInfo newInfo;
-
 			std::string elementId;
 			retVal = retVal && archive.BeginTag(elementIdTag);
 			retVal = retVal && archive.Process(elementId);

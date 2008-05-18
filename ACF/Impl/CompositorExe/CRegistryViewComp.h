@@ -11,6 +11,8 @@
 #include <QDropEvent>
 
 
+#include "iser/IFileLoader.h"
+
 #include "imod/TSingleModelObserverBase.h"
 
 #include "icomp/IComponentStaticInfo.h"
@@ -40,7 +42,8 @@ public:
 	I_BEGIN_COMPONENT(CRegistryViewComp)
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
 		I_ASSIGN_MULTI_0(m_registryElementObserversCompPtr, "RegistryElementObservers", "Registry element observers", false)
-	I_END_COMPONENT
+		I_ASSIGN(m_registryCodeSaverCompPtr, "RegistryCodeSaver", "Export registry to C++ code file", false, "RegistryCodeSaver")
+	I_END_COMPONENT;
 
 	CRegistryViewComp();
 
@@ -68,6 +71,7 @@ protected slots:
 	void OnExportChanged(CComponentView* view, bool export);
 	void OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition);
 	void OnRemoveComponent();
+	void OnExportToCode();
 
 private:
 	void ResetScene();
@@ -109,6 +113,7 @@ protected:
 
 private:
 	I_MULTIREF(imod::IObserver, m_registryElementObserversCompPtr);
+	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 
 	CRegistryScene* m_scenePtr;
 	CCompositeItem m_compositeItem;

@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include <math.h>
 
@@ -112,6 +113,9 @@ void CRegistryViewComp::OnGuiCreated()
 	iqt::CHierarchicalCommand* removeComponentCommandPtr = new iqt::CHierarchicalCommand("&Remove Component");
 	connect(removeComponentCommandPtr, SIGNAL( activated()), this, SLOT(OnRemoveComponent()));
 	registryMenuPtr->InsertChild(removeComponentCommandPtr, true);
+	iqt::CHierarchicalCommand* exportToCodeCommandPtr = new iqt::CHierarchicalCommand("&Export to code");
+	connect(exportToCodeCommandPtr, SIGNAL( activated()), this, SLOT(OnExportToCode()));
+	registryMenuPtr->InsertChild(exportToCodeCommandPtr, true);
 
 	m_registryCommand.InsertChild(registryMenuPtr, true);
 
@@ -221,6 +225,22 @@ void CRegistryViewComp::OnRemoveComponent()
 			m_scenePtr->removeItem(m_selectedComponentPtr);
 	
 			m_selectedComponentPtr = NULL;
+		}
+	}
+}
+
+
+void CRegistryViewComp::OnExportToCode()
+{
+	icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (		(registryPtr != NULL) &&
+				m_registryCodeSaverCompPtr.IsValid()){
+		QString filter = tr("C++ code file (*.cpp)");
+		QString file = QFileDialog::getSaveFileName(NULL, tr("Export registry to code"), "", filter);
+		if (!file.isEmpty()){
+			if (m_registryCodeSaverCompPtr->SaveToFile(*registryPtr, iqt::GetCString(file)) == iser::IFileLoader::StateFailed){
+				QMessageBox::warning(GetQtWidget(), tr("Error"), tr("Cannot export to file\n%1").arg(file));
+			}
 		}
 	}
 }
