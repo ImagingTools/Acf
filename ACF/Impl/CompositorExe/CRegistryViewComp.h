@@ -52,6 +52,8 @@ public:
 
 	QStringList GetComponentsForDependency(const QString& dependecySource) const;
 
+	double GetGrid() const;
+
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
 
@@ -121,6 +123,14 @@ private:
 
 	iqt::CHierarchicalCommand m_registryCommand;
 };
+
+
+// inline methods
+
+inline double CRegistryViewComp::GetGrid() const
+{
+	return 25;
+}
 
 
 #endif // !CRegistryViewComp_included

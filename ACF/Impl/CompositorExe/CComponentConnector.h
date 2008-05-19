@@ -6,6 +6,7 @@
 
 
 class CComponentView;
+class CRegistryViewComp;
 
 
 class CComponentConnector: public QGraphicsItem
@@ -20,10 +21,12 @@ public:
 		GP_OFFSET = 12
 	};
 
-    CComponentConnector(	CComponentView *sourceComponent, 
-							CComponentView *destComponent, 
-							QGraphicsItem *parent = NULL, 
-							QGraphicsScene *scene = NULL);
+    CComponentConnector(
+				const CRegistryViewComp* registryViewPtr,
+				CComponentView *sourceComponent, 
+				CComponentView *destComponent, 
+				QGraphicsItem *parent = NULL, 
+				QGraphicsScene *scene = NULL);
     
 	virtual ~CComponentConnector();
 
@@ -47,6 +50,8 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
+	const CRegistryViewComp& m_registryView;
+
     CComponentView* m_sourceComponent;
 	CComponentView* m_destComponent;
 

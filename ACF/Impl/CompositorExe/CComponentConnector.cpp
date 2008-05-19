@@ -8,16 +8,22 @@
 
 #include "CComponentView.h"
 #include "CComponentConnector.h"
+#include "CRegistryViewComp.h"
 
 
 // public methods
 
-CComponentConnector::CComponentConnector(CComponentView* sourceComponent, 
-										 CComponentView* destComponent,
-										 QGraphicsItem *parent, 
-										 QGraphicsScene *scene)
-:	BaseClass(parent, scene)
+CComponentConnector::CComponentConnector(
+			const CRegistryViewComp* registryViewPtr,
+			CComponentView* sourceComponent, 
+			CComponentView* destComponent,
+			QGraphicsItem *parent, 
+			QGraphicsScene *scene)
+:	BaseClass(parent, scene),
+	m_registryView(*registryViewPtr)
 {
+	I_ASSERT(registryViewPtr != NULL);
+
 	setAcceptedMouseButtons(0);
 
 	m_destComponent = NULL;
@@ -90,30 +96,33 @@ void CComponentConnector::Adjust()
 	QRectF sourceRect = mapFromItem(m_sourceComponent, m_sourceComponent->GetInnerRect()).boundingRect();
 	QRectF destRect = mapFromItem(m_destComponent, m_destComponent->GetInnerRect()).boundingRect();
 
-	double middleX = ((sourceRect.right() - destRect.left()) < (destRect.right() - sourceRect.left()))?
-				(sourceRect.right() + destRect.left()) * 0.5:
-				(destRect.right() + sourceRect.left()) * 0.5;
-	double middleY = ((sourceRect.bottom() - destRect.top()) < (destRect.bottom() - sourceRect.top()))?
-				(sourceRect.bottom() + destRect.top()) * 0.5:
-				(destRect.bottom() + sourceRect.top()) * 0.5;
+	double middleX = (istd::Max(sourceRect.left(), destRect.left()) + istd::Min(sourceRect.right(), destRect.right())) * 0.5;
+	double middleY = (istd::Max(sourceRect.top(), destRect.top()) + istd::Min(sourceRect.bottom(), destRect.bottom())) * 0.5;
+
+	double sourceMidX = (sourceRect.left() + sourceRect.right()) * 0.5;
+	double sourceMidY = (sourceRect.top() + sourceRect.bottom()) * 0.5;
+	double destMidX = (destRect.left() + destRect.right()) * 0.5;
+	double destMidY = (destRect.top() + destRect.bottom()) * 0.5;
+
+	double gridSize = m_registryView.GetGrid();
 
 	m_connectionLine.clear();
 	if (sourceRect.right() < destRect.left()){
 		m_touchPoint.setX(sourceRect.right());
 
 		if (sourceRect.bottom() < destRect.top()){
-			m_touchPoint.setY(sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75);
+			m_touchPoint.setY(sourceMidY + gridSize);
 
-			m_connectionLine.push_back(QPointF(sourceRect.right() + GP_OFFSET, sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.75 + destRect.right() * 0.25, sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.75 + destRect.right() * 0.25, destRect.top()));
+			m_connectionLine.push_back(QPointF(sourceRect.right() + GP_OFFSET, sourceMidY + gridSize));
+			m_connectionLine.push_back(QPointF(destMidX - gridSize, sourceMidY + gridSize));
+			m_connectionLine.push_back(QPointF(destMidX - gridSize, destRect.top()));
 		}
 		else if (sourceRect.top() > destRect.bottom()){
-			m_touchPoint.setY(sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25);
+			m_touchPoint.setY(sourceMidY - gridSize);
 
-			m_connectionLine.push_back(QPointF(sourceRect.right() + GP_OFFSET, sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.75 + destRect.right() * 0.25, sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.75 + destRect.right() * 0.25, destRect.bottom()));
+			m_connectionLine.push_back(QPointF(sourceRect.right() + GP_OFFSET, sourceMidY - gridSize));
+			m_connectionLine.push_back(QPointF(destMidX - gridSize, sourceMidY - gridSize));
+			m_connectionLine.push_back(QPointF(destMidX - gridSize, destRect.bottom()));
 		}
 		else{
 			m_touchPoint.setY(middleY);
@@ -126,18 +135,18 @@ void CComponentConnector::Adjust()
 		m_touchPoint.setX(sourceRect.left());
 
 		if (sourceRect.bottom() < destRect.top()){
-			m_touchPoint.setY(sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75);
+			m_touchPoint.setY(sourceMidY + gridSize);
 
-			m_connectionLine.push_back(QPointF(sourceRect.left() - GP_OFFSET, sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.25 + destRect.right() * 0.75, sourceRect.top() * 0.25 + sourceRect.bottom() * 0.75));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.25 + destRect.right() * 0.75, destRect.top()));
+			m_connectionLine.push_back(QPointF(sourceRect.left() - GP_OFFSET, sourceMidY + gridSize));
+			m_connectionLine.push_back(QPointF(destMidX + gridSize, sourceMidY + gridSize));
+			m_connectionLine.push_back(QPointF(destMidX + gridSize, destRect.top()));
 		}
 		else if (sourceRect.top() > destRect.bottom()){
-			m_touchPoint.setY(sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25);
+			m_touchPoint.setY(sourceMidY - gridSize);
 
-			m_connectionLine.push_back(QPointF(sourceRect.left() - GP_OFFSET, sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.25 + destRect.right() * 0.75, sourceRect.top() * 0.75 + sourceRect.bottom() * 0.25));
-			m_connectionLine.push_back(QPointF(destRect.left() * 0.25 + destRect.right() * 0.75, destRect.bottom()));
+			m_connectionLine.push_back(QPointF(sourceRect.left() - GP_OFFSET, sourceMidY - gridSize));
+			m_connectionLine.push_back(QPointF(destMidX + gridSize, sourceMidY - gridSize));
+			m_connectionLine.push_back(QPointF(destMidX + gridSize, destRect.bottom()));
 		}
 		else{
 			m_touchPoint.setY(middleY);

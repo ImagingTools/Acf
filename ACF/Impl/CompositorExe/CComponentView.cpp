@@ -15,6 +15,7 @@
 
 #include "CComponentView.h"
 #include "CComponentConnector.h"
+#include "CRegistryViewComp.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -23,20 +24,21 @@
 
 
 CComponentView::CComponentView(
+			const CRegistryViewComp* registryViewPtr,
 			const icomp::IRegistry* registryPtr,
 			const icomp::IRegistry::ElementInfo* elementInfoPtr, 
 			const QString& componentName,
 			QGraphicsItem* parent, 
 			QGraphicsScene* scene) 
 :	QGraphicsRectItem(parent, scene),
+	m_registryView(*registryViewPtr),
 	m_registry(*registryPtr),
 	m_elementInfo(*elementInfoPtr),
 	m_componentName(componentName),
 	m_componentLabelFontSize(14),
-	m_componentIdFontSize(10),
-	m_gridSize(25)
-
+	m_componentIdFontSize(10)
 {
+	I_ASSERT(registryViewPtr != NULL);
 	I_ASSERT(registryPtr != NULL);
 	I_ASSERT(elementInfoPtr != NULL);
 
@@ -183,10 +185,12 @@ QRect CComponentView::CalculateRect() const
 
 	width = qMax(width, fontInfo2.width(componentPath) + 20);
 
-	width += 2 * m_gridSize * m_exportedInterfacesList.size();
+	double gridSize = m_registryView.GetGrid();
 
-	width += (m_gridSize - (width % m_gridSize));
-	height += (m_gridSize - (height % m_gridSize));
+	width += 2 * gridSize * m_exportedInterfacesList.size();
+
+	width = ::ceil(width / gridSize) * gridSize;
+	height = ::ceil(height / gridSize) * gridSize;
 
 	return QRect(rect().left(), rect().top(), width, height);
 }
@@ -308,8 +312,9 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 		case QGraphicsItem::ItemPositionChange:
 			QSizeF size = CalculateRect().size();
 			QPoint newPos = value.toPoint();
-			newPos.setX(::floor((newPos.x() + size.width()) / m_gridSize) * m_gridSize - size.width());
-			newPos.setY(::floor((newPos.y() + size.height()) / m_gridSize) * m_gridSize - size.height());
+			double gridSize = m_registryView.GetGrid();
+			newPos.setX(::floor((newPos.x() + size.width() * 0.5) / gridSize + 0.5) * gridSize - size.width() * 0.5);
+			newPos.setY(::floor((newPos.y() + size.height() * 0.5) / gridSize + 0.5) * gridSize - size.height() * 0.5);
 
 			foreach (CComponentConnector* connector, m_connectors){
 				connector->Adjust();
@@ -317,7 +322,7 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 
 			QGraphicsRectItem* parentItem = dynamic_cast<QGraphicsRectItem*>(this->parentItem());
 			if (parentItem != NULL){
-				parentItem->setRect(parentItem->childrenBoundingRect().adjusted(-m_gridSize, -m_gridSize, m_gridSize, m_gridSize));
+				parentItem->setRect(parentItem->childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
 			}
 			
 			emit positionChanged(this, newPos);

@@ -12,6 +12,7 @@
 
 
 class CComponentConnector;
+class CRegistryViewComp;
 
 
 class CComponentView: public QObject, public QGraphicsRectItem
@@ -19,7 +20,8 @@ class CComponentView: public QObject, public QGraphicsRectItem
 	Q_OBJECT
 
 public:
-	CComponentView( 
+	CComponentView(
+				const CRegistryViewComp* registryViewPtr,
 				const icomp::IRegistry* registryPtr,
 				const icomp::IRegistry::ElementInfo* elementInfoPtr, 
 				const QString& componentName, 
@@ -57,6 +59,8 @@ protected:
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private:
+	const CRegistryViewComp& m_registryView;
+
 	const icomp::IRegistry& m_registry;
 	const icomp::IRegistry::ElementInfo& m_elementInfo;
 	QString m_componentName;
@@ -67,7 +71,6 @@ private:
 
 	const int m_componentLabelFontSize;
 	const int m_componentIdFontSize;
-	const int m_gridSize;
 
 	QList<CComponentConnector*> m_connectors;
 

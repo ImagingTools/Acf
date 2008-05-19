@@ -439,10 +439,10 @@
         Application
       </ComponentRole>
       <X>
-        -300
+        -275
       </X>
       <Y>
-        -450
+        -437
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -450,10 +450,10 @@
         DocumentFactory
       </ComponentRole>
       <X>
-        125
+        50
       </X>
       <Y>
-        -50
+        -137
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -461,10 +461,10 @@
         DocumentLoader
       </ComponentRole>
       <X>
-        125
+        150
       </X>
       <Y>
-        -250
+        -337
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -472,10 +472,10 @@
         DocumentTemplate
       </ComponentRole>
       <X>
-        -300
+        112
       </X>
       <Y>
-        -150
+        -237
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -483,10 +483,10 @@
         MainWindow
       </ComponentRole>
       <X>
-        -300
+        -250
       </X>
       <Y>
-        -350
+        -337
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -494,10 +494,10 @@
         Splash
       </ComponentRole>
       <X>
-        125
+        187
       </X>
       <Y>
-        -450
+        -437
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -505,10 +505,10 @@
         ViewFactory
       </ComponentRole>
       <X>
-        -300
+        300
       </X>
       <Y>
-        -50
+        -137
       </Y>
     </ElementPosition>
     <ElementPosition>
@@ -516,10 +516,10 @@
         Workspace
       </ComponentRole>
       <X>
-        -300
+        -287
       </X>
       <Y>
-        -250
+        -237
       </Y>
     </ElementPosition>
   </ElementPositions>
