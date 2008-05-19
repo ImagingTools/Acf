@@ -2,11 +2,12 @@
 
 #include <QTemporaryFile>
 #include <QApplication>
-
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QDesktopWidget>
 
 #include "iser/CXmlFileWriteArchive.h"
 
-	
 
 // public methods
 
@@ -19,7 +20,7 @@ void CRegistryPreviewComp::OnComponentCreated()
 	QFont font = qApp->font();
 	font.setPointSize(12);
 	m_startLabel.setFont(font);
-	m_startLabel.setText(QApplication::tr("Application is starting..."));
+	m_startLabel.setText(QApplication::tr("Registry is starting... Please wait just a moment!"));
 	m_startLabel.setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
 
 	connect(	this, 
@@ -54,8 +55,14 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 	m_tempFileName.clear();
 
-//	m_startLabel.move(this->rect().center());
+	QDesktopWidget* desktopWidget = QApplication::desktop();
+	if (desktopWidget != NULL){
+		m_startLabel.move(desktopWidget->availableGeometry().center() - QPoint(m_startLabel.width() / 2, m_startLabel.height() / 2));
+	}
+
 	m_startLabel.show();
+
+	bool retVal = true;
 
 	QTemporaryFile tempFile("registry_preview.arx");
 	if (tempFile.open()){
@@ -63,23 +70,33 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 		iser::CXmlFileWriteArchive archive(m_tempFileName.toStdString());
 		if (!(const_cast<icomp::IRegistry&>(registry)).Serialize(archive)){
-			return false;
+			retVal = false;
 		}
 	}
 	else{
-		return false;
+		retVal = false;
 	}
 
-	QProcess::start("./Acf.exe", QStringList() << m_tempFileName);
-	if (waitForStarted(10000)){
-		m_startLabel.hide();
+	if (retVal){
+		static QString acfExeFile = "Acf.exe";
 
-		return true;
+		QFileInfo fileInfo(acfExeFile);
+		if (fileInfo.exists()){
+			QProcess::start(acfExeFile, QStringList() << m_tempFileName);
+			if (waitForStarted()){
+				retVal = true;
+			}
+		}
+		else{
+			QMessageBox::critical(NULL, tr("ACF Compositor"), tr("Acf.exe was not found! The registry preview cannot be started!"));
+
+			retVal = false;
+		}
 	}
 
 	m_startLabel.hide();
 	
-	return false;
+	return retVal;
 }
 
 
