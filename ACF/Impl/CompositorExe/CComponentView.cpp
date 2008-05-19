@@ -318,13 +318,8 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 				connector->Adjust();
 			}
 
-			QGraphicsRectItem* parentItem = dynamic_cast<QGraphicsRectItem*>(this->parentItem());
-			if (parentItem != NULL){
-				parentItem->setRect(parentItem->childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
-			}
-			
 			emit positionChanged(this, newPos);
-
+			
 			return QVariant(newPos);
 
 	}

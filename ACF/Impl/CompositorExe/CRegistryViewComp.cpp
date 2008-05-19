@@ -214,6 +214,9 @@ void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const Q
 	if (geometryProviderPtr != NULL){
 		geometryProviderPtr->SetComponentPosition(iqt::GetCString(view->GetComponentName()), newPosition);
 	}
+
+	int gridSize = GetGrid();
+	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
 }
 
 
@@ -325,13 +328,15 @@ CComponentView* CRegistryViewComp::CreateComponentView(
 	connect(componentViewPtr, 
 		SIGNAL(positionChanged(CComponentView*, const QPoint&)),
 		this,
-		SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)));
+		SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
+		Qt::QueuedConnection);
 
 	int itemsCount = m_scenePtr->items().count();
 
 	componentViewPtr->setZValue(itemsCount);
 
-	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-25,-25,25,25));
+	int gridSize = GetGrid();
+	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
 
 	return componentViewPtr;
 }
@@ -472,10 +477,10 @@ void CRegistryViewComp::CRegistryScene::keyPressEvent(QKeyEvent* keyEvent)
 {
 	switch(keyEvent->key()){
 	case Qt::Key_Plus:
-		m_parent.ScaleView(pow((double)2, 0.5));  
+		m_parent.ScaleView(pow((double)2, 0.5)); 
 		break;
 	case Qt::Key_Minus:
-		m_parent.ScaleView(pow((double)2, -0.5));  
+		m_parent.ScaleView(pow((double)2, -0.5));
 		break;
 	case Qt::Key_Delete:
 		m_parent.OnRemoveComponent();  
