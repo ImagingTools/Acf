@@ -6,19 +6,44 @@
 
 #include "iser/CXmlFileWriteArchive.h"
 
+	
 
-CRegistryPreviewComp::CRegistryPreviewComp()
+// public methods
+
+// reimplemented (icomp::IComponent)
+
+void CRegistryPreviewComp::OnComponentCreated()
 {
+	BaseClass::OnComponentCreated();
+
 	QFont font = qApp->font();
 	font.setPointSize(12);
-	m_threadBox.setFont(font);
-	m_threadBox.setText(QApplication::tr("Application is starting..."));
-	m_threadBox.setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
+	m_startLabel.setFont(font);
+	m_startLabel.setText(QApplication::tr("Application is starting..."));
+	m_startLabel.setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
 
-	connect(this, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(OnFinished(int, QProcess::ExitStatus)));
+	connect(	this, 
+				SIGNAL(finished(int, QProcess::ExitStatus)), 
+				this, 
+				SLOT(OnFinished(int, QProcess::ExitStatus)), 
+				Qt::QueuedConnection);
 }
 
-	
+
+void CRegistryPreviewComp::OnComponentDestroyed()
+{
+	if (IsRunning()){
+		kill();
+
+		if (waitForFinished()){
+			QFile::remove(m_tempFileName);
+		}
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
 // reimplemented (IRegistryPreview)
 
 bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
@@ -29,8 +54,8 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 	m_tempFileName.clear();
 
-//	m_threadBox.move(this->rect().center());
-	m_threadBox.show();
+//	m_startLabel.move(this->rect().center());
+	m_startLabel.show();
 
 	QTemporaryFile tempFile("registry_preview.arx");
 	if (tempFile.open()){
@@ -47,12 +72,12 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 	QProcess::start("./Acf.exe", QStringList() << m_tempFileName);
 	if (waitForStarted(10000)){
-		m_threadBox.hide();
+		m_startLabel.hide();
 
 		return true;
 	}
 
-	m_threadBox.hide();
+	m_startLabel.hide();
 	
 	return false;
 }
@@ -71,8 +96,7 @@ bool CRegistryPreviewComp::IsRunning() const
 void CRegistryPreviewComp::AbortRegistry()
 {
 	QProcess::terminate();
-
-	if (!waitForFinished(10)){
+	if (!waitForFinished()){
 		kill();
 	}
 }

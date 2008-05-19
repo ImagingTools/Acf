@@ -23,7 +23,9 @@ public:
 		I_REGISTER_INTERFACE(IRegistryPreview)
 	I_END_COMPONENT;
 
-	CRegistryPreviewComp();
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 	// reimplemented (IRegistryPreview)
 	virtual bool StartRegistry(const icomp::IRegistry& registry);
@@ -34,7 +36,7 @@ protected slots:
 	void OnFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
-	QLabel m_threadBox;
+	QLabel m_startLabel;
 	QString m_tempFileName;
 };
 
