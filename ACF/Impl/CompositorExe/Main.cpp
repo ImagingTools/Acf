@@ -15,6 +15,7 @@
 #include "CRegistryViewComp.h"
 #include "CPackageOverviewComp.h"
 #include "CAttributeEditorComp.h"
+#include "CRegistryPreviewComp.h"
 
 
 int main(int argc, char *argv[])
@@ -105,11 +106,16 @@ int main(int argc, char *argv[])
 	// registry model
 	icomp::TSimComponentsFactory<CRegistryModelComp> modelFactoryComp;
 	modelFactoryComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
-	
+
+	// registry preview
+	icomp::TSimComponentWrap<CRegistryPreviewComp> registryPreviewComp;
+	registryPreviewComp.InitComponent();
+
 	// registry view
 	icomp::TSimComponentsFactory<CRegistryViewComp> viewFactoryComp;
 	viewFactoryComp.InsertMultiRef("RegistryElementObservers", &attributeEditorComp);
 	viewFactoryComp.SetRef("RegistryCodeSaver", &codeSaverComp);
+	viewFactoryComp.SetRef("RegistryPreview", &registryPreviewComp);
 
 	icomp::TSimComponentWrap<istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> > registryLoaderComp;
 	registryLoaderComp.InitComponent();

@@ -9,6 +9,7 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QDropEvent>
+#include <QTimer>
 
 
 #include "iser/IFileLoader.h"
@@ -25,6 +26,7 @@
 #include "iqt/TGuiObserverWrap.h"
 #include "iqt/CHierarchicalCommand.h"
 
+#include "IRegistryPreview.h"
 #include "CComponentView.h"
 #include "CStaticComponentInfo.h"
 
@@ -43,6 +45,7 @@ public:
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
 		I_ASSIGN_MULTI_0(m_registryElementObserversCompPtr, "RegistryElementObservers", "Registry element observers", false)
 		I_ASSIGN(m_registryCodeSaverCompPtr, "RegistryCodeSaver", "Export registry to C++ code file", false, "RegistryCodeSaver")
+		I_ASSIGN(m_registryPreviewCompPtr, "RegistryPreview", "Executes preview of the registry", false, "RegistryPreview")
 	I_END_COMPONENT;
 
 	CRegistryViewComp();
@@ -67,6 +70,7 @@ public:
 public slots:
 	void SetCenterOn(const QString& componentRole);
 	void UpdateConnectors();
+	void OnExecutionTimerTick();
 
 protected slots:
 	void OnComponentViewSelected(CComponentView* view, bool selected);
@@ -74,6 +78,8 @@ protected slots:
 	void OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition);
 	void OnRemoveComponent();
 	void OnExportToCode();
+	void OnExecute();
+	void OnAbort();
 
 private:
 	void ResetScene();
@@ -114,6 +120,7 @@ protected:
 private:
 	I_MULTIREF(imod::IObserver, m_registryElementObserversCompPtr);
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
+	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
 
 	CRegistryScene* m_scenePtr;
 	CCompositeItem m_compositeItem;
@@ -121,6 +128,10 @@ private:
 
 	iqt::CHierarchicalCommand m_registryCommand;
 	iqt::CHierarchicalCommand m_removeComponentCommand;
+	iqt::CHierarchicalCommand m_executeRegistryCommand;
+	iqt::CHierarchicalCommand m_abortRegistryCommand;
+
+	QTimer m_executionObserverTimer;
 };
 
 

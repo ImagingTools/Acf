@@ -17,7 +17,10 @@
 
 CRegistryViewComp::CRegistryViewComp()
 	:m_selectedComponentPtr(NULL),
-	m_removeComponentCommand("&Remove Component", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR)
+	m_removeComponentCommand("&Remove Component", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR),
+	m_executeRegistryCommand("&Execute Registry", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR),
+	m_abortRegistryCommand("&Abort Registry", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR)
+
 {
 	m_scenePtr = new CRegistryScene(*this);
 
@@ -112,6 +115,7 @@ void CRegistryViewComp::OnGuiCreated()
 
 	iqt::CHierarchicalCommand* registryMenuPtr = new iqt::CHierarchicalCommand("&Registry");
 
+	// setup remove command
 	m_removeComponentCommand.SetVisuals(tr("&Remove Component"), 
 										tr("&Remove Component"), 
 										tr("Remove the selected component from the registry"),
@@ -120,6 +124,25 @@ void CRegistryViewComp::OnGuiCreated()
 	connect(&m_removeComponentCommand, SIGNAL( activated()), this, SLOT(OnRemoveComponent()));
 	registryMenuPtr->InsertChild(&m_removeComponentCommand, false);
 
+	// setup execute command
+	m_executeRegistryCommand.SetVisuals(tr("&Execute Registry"), 
+										tr("&Execute Registry"), 
+										tr("Start registry execution"),
+										QIcon(":/Resources/Icons/player_play.png"));
+	m_executeRegistryCommand.setEnabled(m_registryPreviewCompPtr.IsValid());
+	connect(&m_executeRegistryCommand, SIGNAL( activated()), this, SLOT(OnExecute()));
+	registryMenuPtr->InsertChild(&m_executeRegistryCommand, false);
+
+	// setup abort command
+	m_abortRegistryCommand.SetVisuals(tr("&Abort Registry"), 
+										tr("&Abort Registry"), 
+										tr("Abort registry execution"),
+										QIcon(":/Resources/Icons/player_stop.png"));
+	m_abortRegistryCommand.setEnabled(false);
+	connect(&m_abortRegistryCommand, SIGNAL( activated()), this, SLOT(OnAbort()));
+	registryMenuPtr->InsertChild(&m_abortRegistryCommand, false);
+
+	// setup code export command
 	iqt::CHierarchicalCommand* exportToCodeCommandPtr = new iqt::CHierarchicalCommand("&Export To Code");
 	connect(exportToCodeCommandPtr, SIGNAL( activated()), this, SLOT(OnExportToCode()));
 	registryMenuPtr->InsertChild(exportToCodeCommandPtr, true);
@@ -137,6 +160,12 @@ void CRegistryViewComp::OnGuiCreated()
 		m_compositeItem.setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 	
 		m_scenePtr->addItem(&m_compositeItem);
+	}
+
+	if (m_registryPreviewCompPtr.IsValid()){
+		connect(&m_executionObserverTimer, SIGNAL(timeout()), this, SLOT(OnExecutionTimerTick()));
+
+		m_executionObserverTimer.start(500);
 	}
 }
 
@@ -256,6 +285,33 @@ void CRegistryViewComp::OnExportToCode()
 				QMessageBox::warning(GetQtWidget(), tr("Error"), tr("Cannot export to file\n%1").arg(file));
 			}
 		}
+	}
+}
+
+
+void CRegistryViewComp::OnExecute()
+{
+	icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (		(registryPtr != NULL) &&
+				m_registryPreviewCompPtr.IsValid()){
+		bool retVal = m_registryPreviewCompPtr->StartRegistry(*registryPtr);
+		if (retVal){
+			m_abortRegistryCommand.setEnabled(true);
+			m_executeRegistryCommand.setEnabled(false);
+		}
+	}
+}
+
+
+void CRegistryViewComp::OnAbort()
+{
+	icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (		(registryPtr != NULL) &&
+				m_registryPreviewCompPtr.IsValid()){
+		m_registryPreviewCompPtr->AbortRegistry();
+
+		m_abortRegistryCommand.setEnabled(false);
+		m_executeRegistryCommand.setEnabled(true);
 	}
 }
 
@@ -422,6 +478,17 @@ void CRegistryViewComp::UpdateConnectors()
 }
 
 
+void CRegistryViewComp::OnExecutionTimerTick()
+{
+	if (m_registryPreviewCompPtr.IsValid()){
+		bool isRunning = m_registryPreviewCompPtr->IsRunning();
+
+		m_executeRegistryCommand.setEnabled(!isRunning);
+		m_abortRegistryCommand.setEnabled(isRunning);
+	}
+}
+
+
 // protected methods of embedded class CRegistryViewComp::CCompositeItem
 
 // reimplemented (QGraphicsRectItem)
@@ -552,6 +619,7 @@ void CRegistryViewComp::CRegistryScene::dropEvent(QGraphicsSceneDragDropEvent* e
 }
 
 
-void CRegistryViewComp::CRegistryScene::dragMoveEvent(QGraphicsSceneDragDropEvent * event)
+void CRegistryViewComp::CRegistryScene::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
 }
+

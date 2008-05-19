@@ -159,6 +159,9 @@
 				RelativePath="..\CRegistryModelComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CRegistryPreviewComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CRegistryViewComp.cpp">
 			</File>
 			<File
@@ -244,6 +247,27 @@
 				RelativePath="..\CRegistryModelComp.h">
 			</File>
 			<File
+				RelativePath="..\CRegistryPreviewComp.h">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\CRegistryViewComp.h">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -271,6 +295,9 @@
 			</File>
 			<File
 				RelativePath="..\IRegistryGeometryProvider.h">
+			</File>
+			<File
+				RelativePath="..\IRegistryPreview.h">
 			</File>
 		</Filter>
 		<Filter
@@ -311,6 +338,9 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CPackageOverviewComp.cpp">
+			</File>
+			<File
+				RelativePath="..\generated\moc_CRegistryPreviewComp.cpp">
 			</File>
 			<File
 				RelativePath="..\generated\moc_CRegistryViewComp.cpp">
