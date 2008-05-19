@@ -271,7 +271,7 @@ void CRegistryViewComp::ScaleView(double scaleFactor)
 		scaleMatrix.scale(scaleFactor,scaleFactor);
 
 		sceneMatrix *= scaleMatrix;
-		if (sceneMatrix.m11() < 0.1 || sceneMatrix.m11()> 5){
+		if (sceneMatrix.m11() < 0.3 || sceneMatrix.m11() > 5){
 			return;
 		}
 
@@ -406,44 +406,6 @@ void CRegistryViewComp::UpdateConnectors()
 }
 
 
-void CRegistryViewComp::OnWheelEvent(QWheelEvent *event)
-{
-    ScaleView(pow((double)2, -event->delta() / 240.0));
-}
-
-
-void CRegistryViewComp::OnDragEnterEvent(QDragEnterEvent* event)
-{
-	if (event->mimeData()->formats().at(0) == "component"){
-		event->acceptProposedAction();
-		return;
-	}
-}
-
-
-void CRegistryViewComp::OnDropEvent(QDropEvent *event)
-{
-	const QMimeData* data = event->mimeData();
-	QByteArray dataBytes = data->data("component");
-	int address = dataBytes.toInt();
-	
-	bool retVal = false;
-	QString componentRole = QInputDialog::getText(GetWidget(), tr("ACF Compositor"), tr("Component role:"), QLineEdit::Normal, "",&retVal);
-	if (retVal && !componentRole.isEmpty()){
-		const CStaticComponentInfo* componentPtr = reinterpret_cast<const CStaticComponentInfo*>(address);
-
-		if (componentPtr != NULL){ 
-			OnAddComponent(*componentPtr, componentRole);
-		}
-			
-		event->acceptProposedAction();
-	}
-	else{
-		event->ignore();
-	}
-}
-
-
 // protected methods of embedded class CRegistryViewComp::CCompositeItem
 
 // reimplemented (QGraphicsRectItem)
@@ -494,6 +456,27 @@ CRegistryViewComp::CRegistryScene::CRegistryScene(CRegistryViewComp& parent)
 // protected methods of embedded class CRegistryScene
 
 // reimplemented (QGraphicsScene)
+
+void CRegistryViewComp::CRegistryScene::keyPressEvent(QKeyEvent* keyEvent)
+{
+	switch(keyEvent->key()){
+	case Qt::Key_Plus:
+		m_parent.ScaleView(pow((double)2, 0.5));  
+		break;
+
+	case Qt::Key_Minus:
+		m_parent.ScaleView(pow((double)2, -0.5));  
+
+		break;
+	}
+}
+
+
+void CRegistryViewComp::CRegistryScene::wheelEvent(QGraphicsSceneWheelEvent* event)
+{
+    m_parent.ScaleView(pow((double)2, -event->delta() / 240.0));
+}
+
 
 void CRegistryViewComp::CRegistryScene::drawBackground(QPainter* painter, const QRectF & rect)
 {
@@ -550,10 +533,4 @@ void CRegistryViewComp::CRegistryScene::dropEvent(QGraphicsSceneDragDropEvent* e
 		event->ignore();
 	}
 }
-
-
-void CRegistryViewComp::CRegistryScene::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
-{
-}
-
 

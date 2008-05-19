@@ -84,10 +84,6 @@ private:
 				const icomp::IRegistry::ElementInfo* elementInfoPtr,
 				const std::string& role);
 
-	virtual void OnWheelEvent(QWheelEvent *event);
-	virtual void OnDragEnterEvent(QDragEnterEvent *event);
-	virtual void OnDropEvent(QDropEvent *event);
-
 protected:
 	class CCompositeItem: public QGraphicsRectItem
 	{
@@ -104,10 +100,11 @@ protected:
 
 	protected:
 		// reimplemented (QGraphicsScene)
+		virtual void keyPressEvent(QKeyEvent* keyEvent);
+		virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
 		virtual void drawBackground(QPainter* painter, const QRectF & rect);
 		virtual void dragEnterEvent(QGraphicsSceneDragDropEvent * event);
 		virtual void dropEvent(QGraphicsSceneDragDropEvent * event);
-		virtual void dragMoveEvent(QGraphicsSceneDragDropEvent * event);
 
 	private:
 		CRegistryViewComp& m_parent;

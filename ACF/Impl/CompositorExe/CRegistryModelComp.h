@@ -24,6 +24,11 @@ public:
 		I_ASSIGN(m_staticInfoCompPtr, "StaticComponentInfo", "Static Component Info", true, "StaticComponentInfo")
 	I_END_COMPONENT
 
+	enum ChangeFlags
+	{
+		CF_POSITION = 0x1
+	};
+
 	// reimplemented (IRegistryGeometryProvider)
 	virtual QPoint GetComponentPosition(const istd::CString& componentRole) const;
 	virtual void SetComponentPosition(const istd::CString& componentRole, const QPoint& point);

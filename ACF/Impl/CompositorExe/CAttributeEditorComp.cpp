@@ -603,7 +603,7 @@ void CAttributeEditorComp::AttributeItemDelegate::paint(QPainter* painter, const
 	painter->save();
 
 	QRect rect = option.rect;
-	painter->setPen(QPen(Qt::darkGray, 0.5, Qt::DotLine));
+	painter->setPen(QPen(Qt::darkGray, 0, Qt::DotLine));
 	painter->drawLine(rect.topLeft(), rect.bottomLeft());
 	if (index.column() == ValueColumn){
 		painter->drawLine(rect.topRight(), rect.bottomRight());

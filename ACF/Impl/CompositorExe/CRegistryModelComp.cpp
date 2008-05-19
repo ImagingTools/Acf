@@ -1,5 +1,7 @@
 #include "CRegistryModelComp.h"
 
+#include "istd/TChangeNotifier.h"
+
 
 // public methods
 
@@ -21,7 +23,22 @@ QPoint CRegistryModelComp::GetComponentPosition(const istd::CString& componentRo
 
 void CRegistryModelComp::SetComponentPosition(const istd::CString& componentRole, const QPoint& point)
 {
-	m_elementsPositionMap[componentRole]  = point;
+/*	bool isChangeNeed = false;
+	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentRole);
+	if (elementIter == m_elementsPositionMap.end()){
+		isChangeNeed = true;
+	}
+	else{
+		if(elementIter->second != point){
+			isChangeNeed = true;
+		}
+	}	
+
+	if (isChangeNeed){
+		istd::CChangeNotifier changePtr(this, CF_POSITION);
+*/
+		m_elementsPositionMap[componentRole]  = point;
+//	}
 }
 
 
