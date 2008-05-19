@@ -151,8 +151,6 @@ QRectF CComponentView::GetInnerRect()const
 void CComponentView::OnExportChanged(bool state)
 {
 	setRect(CalculateRect());
-
-	emit exportChanged(this, state);
 }
 
 

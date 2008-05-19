@@ -312,11 +312,6 @@ CComponentView* CRegistryViewComp::CreateComponentView(
 		SLOT(OnComponentViewSelected(CComponentView*, bool)));
 
 	connect(componentViewPtr, 
-		SIGNAL(exportChanged(CComponentView*, bool)),
-		this,
-		SLOT(OnExportChanged(CComponentView*, bool)));
-
-	connect(componentViewPtr, 
 		SIGNAL(positionChanged(CComponentView*, const QPoint&)),
 		this,
 		SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)));

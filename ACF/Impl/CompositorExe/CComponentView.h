@@ -45,7 +45,6 @@ protected slots:
 
 signals:
 	void selectionChanged(CComponentView*, bool);
-	void exportChanged(CComponentView*, bool);
 	void positionChanged(CComponentView*, const QPoint& point);
 
 protected:

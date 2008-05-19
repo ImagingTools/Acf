@@ -102,8 +102,7 @@ void CAttributeEditorComp::UpdateEditor()
 
 		const icomp::CBoolAttribute* boolAttribute = dynamic_cast<const icomp::CBoolAttribute*>(attributePtr);
 		if (boolAttribute != NULL){
-			attributeItemPtr->setFlags(attributeItemPtr->flags() | Qt::ItemIsUserCheckable);
-			attributeItemPtr->setCheckState(ValueColumn, boolAttribute->GetValue() ? Qt::Checked : Qt::Unchecked);
+			attributeItemPtr->setText(ValueColumn, boolAttribute->GetValue() ? tr("true"): tr("false"));
 			attributeItemPtr->setData(ValueColumn, AttributeMining, Attribute);
 
 			continue;
@@ -179,7 +178,7 @@ void CAttributeEditorComp::UpdateEditor()
 		if (referencePtr != NULL){		
 			attributeItemPtr->setText(ValueColumn, iqt::GetQString(referencePtr->GetValue()));
 			attributeItemPtr->setData(ValueColumn, AttributeId, attributeName);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Dependency);
+			attributeItemPtr->setData(ValueColumn, AttributeMining, Reference);
 
 			continue;
 		}
@@ -187,13 +186,13 @@ void CAttributeEditorComp::UpdateEditor()
 		const icomp::CMultiReferenceAttribute* multiReferencePtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(attributePtr);
 		if (multiReferencePtr != NULL){
 			QString dependecyString;
-			for (int dependencyIndex = 0; dependencyIndex < multiReferencePtr->GetValuesCount(); dependencyIndex++){
-				QString dependencyName = iqt::GetQString(multiReferencePtr->GetValueAt(dependencyIndex));
-				dependecyString += dependencyName  + ";";
+			for (int referenceIndex = 0; referenceIndex < multiReferencePtr->GetValuesCount(); referenceIndex++){
+				QString referenceName = iqt::GetQString(multiReferencePtr->GetValueAt(referenceIndex));
+				dependecyString += referenceName  + ";";
 			}
 
 			attributeItemPtr->setText(ValueColumn, dependecyString);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleDependency);
+			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleReference);
 
 			continue;
 		}
@@ -202,7 +201,7 @@ void CAttributeEditorComp::UpdateEditor()
 		if (factoryPtr != NULL){		
 			attributeItemPtr->setText(ValueColumn, iqt::GetQString(factoryPtr->GetValue()));
 			attributeItemPtr->setData(ValueColumn, AttributeId, attributeName);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Dependency);
+			attributeItemPtr->setData(ValueColumn, AttributeMining, Reference);
 
 			continue;
 		}
@@ -210,13 +209,13 @@ void CAttributeEditorComp::UpdateEditor()
 		const icomp::CMultiFactoryAttribute* multiFactoryPtr = dynamic_cast<const icomp::CMultiFactoryAttribute*>(attributePtr);
 		if (multiFactoryPtr != NULL){
 			QString dependecyString;
-			for (int dependencyIndex = 0; dependencyIndex < multiFactoryPtr->GetValuesCount(); dependencyIndex++){
-				QString dependencyName = iqt::GetQString(multiFactoryPtr->GetValueAt(dependencyIndex));
-				dependecyString += dependencyName  + ";";
+			for (int referenceIndex = 0; referenceIndex < multiFactoryPtr->GetValuesCount(); referenceIndex++){
+				QString referenceName = iqt::GetQString(multiFactoryPtr->GetValueAt(referenceIndex));
+				dependecyString += referenceName  + ";";
 			}
 
 			attributeItemPtr->setText(ValueColumn, dependecyString);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleDependency);
+			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleReference);
 
 			continue;
 		}
@@ -322,21 +321,30 @@ QSize CAttributeEditorComp::AttributeItemDelegate::sizeHint(const QStyleOptionVi
 
 QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-	if (index.column() == 0){
+	if (index.column() != ValueColumn){
 		return NULL;
 	}
 
+
 	int propertyMining = index.data(AttributeMining).toInt();
 
-	if (index.column() == ValueColumn && (propertyMining == Dependency || propertyMining == MultipleDependency)){
-		QComboBox* combo = new QComboBox(parent);
-		combo->setEditable(true);
-		return combo;
+	if (propertyMining == Reference || propertyMining == MultipleReference || propertyMining == SelectableAttribute){
+		QComboBox* comboEditor = new QComboBox(parent);
+		comboEditor->setEditable(true);
+		return comboEditor;
 	} 
-	else if (propertyMining == SelectableAttribute){
-		QComboBox* combo = new QComboBox(parent);
-		return combo;
-	}
+
+	if (propertyMining == Attribute){
+		QString attributeId = index.data(AttributeId).toString();
+		const icomp::IAttributeStaticInfo* attributeInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
+		if (attributeInfoPtr != NULL && attributeInfoPtr->GetAttributeType() == typeid(icomp::CBoolAttribute)){
+			QComboBox* comboEditor = new QComboBox(parent);
+			comboEditor->addItem("true");
+			comboEditor->addItem("false");
+	
+			return comboEditor;
+		}
+	} 
 
 	return QItemDelegate::createEditor(parent, option, index);
 }
@@ -344,7 +352,7 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 
 void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index ) const
 {
-	QComboBox* combo = dynamic_cast<QComboBox*>(editor);
+	QComboBox* comboEditor = dynamic_cast<QComboBox*>(editor);
 	QString attributeName = index.data(AttributeId).toString();
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = m_parent.GetRegistryAttribute(attributeName);
 	if (attributeInfoPtr == NULL){
@@ -359,9 +367,39 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 
 	int propertyMining = index.data(AttributeMining).toInt();
 
-	if (index.column() == ValueColumn && combo != NULL && propertyMining == Dependency){
+	if (		index.column() == ValueColumn && comboEditor != NULL && 
+				(propertyMining == Reference || propertyMining == MultipleReference)){
+
 		//TODO: Get list of valid components for this reference
-//		combo->addItems(m_parent.m_componentViewPtr->componentsForDependency(dependecySource));
+//		comboEditor->addItems(m_parent.m_componentViewPtr->componentsForReference(dependecySource));
+
+		icomp::CReferenceAttribute* referenceAttributePtr = dynamic_cast<icomp::CReferenceAttribute*>(attributePtr);
+		icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<icomp::CMultiReferenceAttribute*>(attributePtr);
+		icomp::CFactoryAttribute* factoryAttributePtr = dynamic_cast<icomp::CFactoryAttribute*>(attributePtr);
+		icomp::CMultiFactoryAttribute* multiFactoryAttributePtr = dynamic_cast<icomp::CMultiFactoryAttribute*>(attributePtr);
+
+		if (referenceAttributePtr != NULL){
+			comboEditor->lineEdit()->setText(iqt::GetQString(referenceAttributePtr->GetValue()));
+		}
+		else if(factoryAttributePtr != NULL){
+			comboEditor->lineEdit()->setText(iqt::GetQString(factoryAttributePtr->GetValue()));		
+		}
+		else if(multiReferenceAttributePtr != NULL){
+			QString valuesString;
+			for (int index = 0; index < multiReferenceAttributePtr->GetValuesCount(); index++){
+				valuesString += iqt::GetQString(multiReferenceAttributePtr->GetValueAt(index)) + ";";
+			}
+
+			comboEditor->lineEdit()->setText(valuesString);
+		}
+		else if(multiFactoryAttributePtr != NULL){
+			QString valuesString;
+			for (int index = 0; index < multiFactoryAttributePtr->GetValuesCount(); index++){
+				valuesString += iqt::GetQString(multiFactoryAttributePtr->GetValueAt(index)) + ";";
+			}
+
+			comboEditor->lineEdit()->setText(valuesString);
+		}
 		return;
 	}
 	else if (index.column() == ValueColumn && propertyMining == Attribute){
@@ -380,7 +418,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 		icomp::CBoolAttribute* boolAttribute = dynamic_cast<icomp::CBoolAttribute*>(attributePtr);
 		if (boolAttribute != NULL){
 			bool value = boolAttribute->GetValue();
-			editor->setProperty("text", QVariant(value));
+			comboEditor->setCurrentIndex(value ? 0 : 1);
 		}
 
 		icomp::CStringAttribute* stringAttribute = dynamic_cast<icomp::CStringAttribute*>(attributePtr);
@@ -421,10 +459,10 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 
 		return;
 	}
-	else if(index.column() == ValueColumn && propertyMining == MultipleDependency){
-//		QStringList components = m_parent.m_componentViewPtr->componentsForDependency(dependecySource);
-//		combo->addItems(m_parent.m_componentViewPtr->componentsForDependency(dependecySource));
-//		combo->lineEdit()->setText(index.data().toString());
+	else if(index.column() == ValueColumn && propertyMining == MultipleReference){
+//		QStringList components = m_parent.m_componentViewPtr->componentsForReference(dependecySource);
+//		comboEditor->addItems(m_parent.m_componentViewPtr->componentsForReference(dependecySource));
+//		comboEditor->lineEdit()->setText(index.data().toString());
 
 		return;
 	}	
@@ -437,6 +475,8 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 {
 	icomp::IRegistryElement* elementPtr = m_parent.GetObjectPtr();
 	I_ASSERT(elementPtr != NULL);
+
+	QComboBox* comboEditor = dynamic_cast<QComboBox*>(editor);
 
 	QString attributeName = index.data(AttributeId).toString();
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = m_parent.GetRegistryAttribute(attributeName);
@@ -451,29 +491,39 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 
 	int propertyMining = index.data(AttributeMining).toInt();
 	
-	// set single dependency data
-	if (index.column() == ValueColumn && propertyMining == Dependency){
-		QComboBox* combo = dynamic_cast<QComboBox*>(editor);
-		I_ASSERT(combo != NULL);
-		QString referenceValue = combo->currentText();
+	// set single reference data
+	if (index.column() == ValueColumn && propertyMining == Reference){
+		I_ASSERT(comboEditor != NULL);
+		QString referenceValue = comboEditor->currentText();
 
 		icomp::CReferenceAttribute* referenceAttributePtr = dynamic_cast<icomp::CReferenceAttribute*>(attributePtr);
+		icomp::CFactoryAttribute* factoryAttributePtr = dynamic_cast<icomp::CFactoryAttribute*>(attributePtr);
 		if (referenceAttributePtr != NULL){
 			referenceAttributePtr->SetValue(referenceValue.toStdString());
 		}
+		else if (factoryAttributePtr != NULL){
+			factoryAttributePtr->SetValue(referenceValue.toStdString());
+		}
 	}
-	// set multiple dependency data
-	else if (index.column() == ValueColumn && propertyMining == MultipleDependency){
-		QComboBox* combo = dynamic_cast<QComboBox*>(editor);
-		I_ASSERT(combo != NULL);
-		QString string = combo->lineEdit()->text();
+	// set multiple reference data
+	else if (index.column() == ValueColumn && propertyMining == MultipleReference){
+		I_ASSERT(comboEditor != NULL);
+		QString string = comboEditor->lineEdit()->text();
 		QStringList references = string.split(';',QString::SkipEmptyParts); 
 
 		icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<icomp::CMultiReferenceAttribute*>(attributePtr);
+		icomp::CMultiFactoryAttribute* multiFactoryAttributePtr = dynamic_cast<icomp::CMultiFactoryAttribute*>(attributePtr);
+
 		if (multiReferenceAttributePtr != NULL){
 			multiReferenceAttributePtr->Reset();
 			for (int index = 0; index < references.count(); index++){
 				multiReferenceAttributePtr->InsertValue(references.at(index).toStdString());
+			}
+		}
+		else if (multiFactoryAttributePtr != NULL){
+			multiFactoryAttributePtr->Reset();
+			for (int index = 0; index < references.count(); index++){
+				multiFactoryAttributePtr->InsertValue(references.at(index).toStdString());
 			}
 		}
 	}
@@ -491,7 +541,10 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 
 		icomp::CBoolAttribute* boolAttribute = dynamic_cast<icomp::CBoolAttribute*>(attributePtr);
 		if (boolAttribute != NULL){
-			boolAttribute->SetValue(editor->property("text").toBool());
+			I_ASSERT(comboEditor != NULL);
+
+			int index = comboEditor->currentIndex();
+			boolAttribute->SetValue((index == 0) ? true: false);
 		}
 
 		icomp::CStringAttribute* stringAttribute = dynamic_cast<icomp::CStringAttribute*>(attributePtr);

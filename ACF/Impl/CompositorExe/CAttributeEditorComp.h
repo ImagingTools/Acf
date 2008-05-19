@@ -27,8 +27,8 @@ public:
 
 	enum
 	{
-		Dependency = 0x1,
-		MultipleDependency,
+		Reference = 0x1,
+		MultipleReference,
 		Attribute,
 		SelectableAttribute,
 		MultipleAttribute
@@ -67,7 +67,7 @@ protected:
 	virtual void OnGuiCreated();
 
 signals:
-	void selectedDependencyInterface(const QString& interfaceId);
+	void selectedReferenceInterface(const QString& interfaceId);
 	void selectedPropertyType(const QString& propertyType);
 
 private:
