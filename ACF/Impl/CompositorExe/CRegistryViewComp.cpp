@@ -474,10 +474,11 @@ void CRegistryViewComp::CRegistryScene::keyPressEvent(QKeyEvent* keyEvent)
 	case Qt::Key_Plus:
 		m_parent.ScaleView(pow((double)2, 0.5));  
 		break;
-
 	case Qt::Key_Minus:
 		m_parent.ScaleView(pow((double)2, -0.5));  
-
+		break;
+	case Qt::Key_Delete:
+		m_parent.OnRemoveComponent();  
 		break;
 	}
 }
