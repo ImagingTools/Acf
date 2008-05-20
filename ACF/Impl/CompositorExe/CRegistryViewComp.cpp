@@ -181,6 +181,12 @@ void CRegistryViewComp::OnRetranslate()
 				tr("&Abort Registry"), 
 				tr("Abort registry execution"),
 				QIcon(":/Resources/Icons/player_stop.png"));
+	m_renameComponentCommand.SetVisuals(
+				tr("&Rename Component"), 
+				tr("&Rename Component"), 
+				tr("Rename selected component"),
+				QIcon(":/Resources/Icons/.png"));
+	
 }
 
 

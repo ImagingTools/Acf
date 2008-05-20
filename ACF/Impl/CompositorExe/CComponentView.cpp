@@ -42,35 +42,16 @@ CComponentView::CComponentView(
 	I_ASSERT(registryPtr != NULL);
 	I_ASSERT(elementInfoPtr != NULL);
 
-	m_contextMenu = new QMenu();
-	m_contextMenu->setTitle(tr("Component settings"));
-
-	QAction* exportAction = new QAction(tr("&Export"), m_contextMenu);
-	exportAction->setCheckable(true);
-	connect(exportAction, SIGNAL( toggled(bool)), this, SLOT(OnExportChanged(bool)));
-
-	QAction* renameAction = new QAction(tr("&Rename"), m_contextMenu);
-	connect(renameAction, SIGNAL( activated()), this, SLOT(OnRename()));
-
-//	m_contextMenu->actions().at(0)->setChecked(exported);
-
 	CalcExportedInteraces();
 
 	setRect(CalculateRect());
 
-	m_contextMenu->addAction(renameAction);
-	m_contextMenu->addAction(exportAction);
-
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-
-	update();
 }
 
 
 CComponentView::~CComponentView()
 {
-	delete m_contextMenu;
-
 	foreach(CComponentConnector* connector, m_connectors){
 		connector->SetSourceComponent(NULL);
 		connector->SetDestinationComponent(NULL);
@@ -146,19 +127,6 @@ QRectF CComponentView::GetInnerRect()const
 }
 
 
-// protected slots:
-
-void CComponentView::OnExportChanged(bool state)
-{
-	setRect(CalculateRect());
-}
-
-
-void CComponentView::OnRename()
-{
-}
-
-
 // protected members
 
 QRect CComponentView::CalculateRect() const
@@ -215,20 +183,12 @@ void CComponentView::CalcExportedInteraces()
 
 // reimplemented (QGraphicsRectItem)
 
-void CComponentView::contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
-{
-	QAction* a = m_contextMenu->exec(event->screenPos());
-
-	QGraphicsRectItem::contextMenuEvent(event);
-}
-
-
 void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	QRectF mainRect = rect();
-	mainRect.adjust(0,0,-10,-10);
+	mainRect.adjust(0, 0, -10, -10);
 	QRectF shadowRect = mainRect;
-	shadowRect.adjust(10,10,10,10);
+	shadowRect.adjust(10, 10, 10, 10);
 	
 	if (isSelected()){
 		painter->fillRect(shadowRect, QColor(10, 242, 126, 50));
@@ -245,7 +205,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 
 	if (!m_exportedInterfacesList.empty()){
 		painter->save();
-		QRectF exportRect = mainRect.adjusted(mainRect.width()-45,20, -20, 45-mainRect.height());
+		QRectF exportRect = mainRect.adjusted(mainRect.width() - 45, 20, -20, 45 - mainRect.height());
 		painter->fillRect(exportRect, QBrush(Qt::magenta));
 		
 		QPen pen(Qt::magenta,2);
@@ -254,13 +214,13 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 		painter->setPen(pen);
 		
 		painter->setRenderHints(QPainter::Antialiasing);
-		painter->drawLine(exportRect.right(), exportRect.top()+6, exportRect.right()+15, exportRect.top()+6);
-		painter->drawLine(exportRect.right()+15, exportRect.top()+6, exportRect.right()+10, exportRect.top()+3);
-		painter->drawLine(exportRect.right()+15, exportRect.top()+6, exportRect.right()+10, exportRect.top()+9);
+		painter->drawLine(exportRect.right(), exportRect.top() + 6, exportRect.right() + 15, exportRect.top() + 6);
+		painter->drawLine(exportRect.right() + 15, exportRect.top() + 6, exportRect.right() + 10, exportRect.top() + 3);
+		painter->drawLine(exportRect.right() + 15, exportRect.top() + 6, exportRect.right() + 10, exportRect.top() + 9);
 
-		painter->drawLine(exportRect.right(), exportRect.top()+18, exportRect.right()+15, exportRect.top()+18);
-		painter->drawLine(exportRect.right()+15, exportRect.top()+18, exportRect.right()+10, exportRect.top()+21);
-		painter->drawLine(exportRect.right()+15, exportRect.top()+18, exportRect.right()+10, exportRect.top()+15);
+		painter->drawLine(exportRect.right(), exportRect.top() + 18, exportRect.right() + 15, exportRect.top() + 18);
+		painter->drawLine(exportRect.right() + 15, exportRect.top() + 18, exportRect.right() + 10, exportRect.top()+ 21);
+		painter->drawLine(exportRect.right() + 15, exportRect.top() + 18, exportRect.right() + 10, exportRect.top() + 15);
 
 		painter->restore();
 	}
@@ -321,10 +281,8 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 			emit positionChanged(this, newPos);
 			
 			return QVariant(newPos);
-
 	}
 
 	return QGraphicsRectItem::itemChange(change, value);
 }
-
 

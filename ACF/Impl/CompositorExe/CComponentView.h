@@ -39,10 +39,6 @@ public:
 
 	QRectF GetInnerRect() const;
 
-protected slots:
-	void OnExportChanged(bool state);
-	void OnRename();
-
 signals:
 	void selectionChanged(CComponentView*, bool);
 	void positionChanged(CComponentView*, const QPoint& point);
@@ -53,7 +49,6 @@ protected:
 	void CalcExportedInteraces();
 
 	// reimplemented (QGraphicsRectItem)
-	virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
@@ -63,7 +58,6 @@ private:
 	const icomp::IRegistry& m_registry;
 	const icomp::IRegistry::ElementInfo& m_elementInfo;
 	QString m_componentName;
-	QMenu* m_contextMenu;
 
 	mutable int m_componentLabelHeight;
 	mutable int m_componentIdHeight;
