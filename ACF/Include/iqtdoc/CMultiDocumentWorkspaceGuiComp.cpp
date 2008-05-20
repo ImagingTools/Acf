@@ -104,30 +104,6 @@ void CMultiDocumentWorkspaceGuiComp::OnComponentCreated()
 
 // protected members
 
-bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
-{
-	if (event->type() == QEvent::Close){
-		const QWidget* widgetPtr = dynamic_cast<const QWidget*>(obj);
-		if (widgetPtr != NULL){
-			iqt::IGuiObject* guiObjectPtr = GetViewFromWidget(*widgetPtr);
-			if (guiObjectPtr != NULL){
-				SetActiveView(guiObjectPtr);
-
-				if (FileClose()){
-					return true;
-				}
-			}
-		}
-
-		event->ignore();
-
-		return true;
-	}
-
-	return false;
-}
-
-
 void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 {
 	typedef QMap<QString, int> NameFrequencies;
@@ -236,6 +212,32 @@ QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string
 	}
 
 	return retVal;
+}
+
+
+// reimplemented (QObject)
+
+bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Close){
+		const QWidget* widgetPtr = dynamic_cast<const QWidget*>(obj);
+		if (widgetPtr != NULL){
+			iqt::IGuiObject* guiObjectPtr = GetViewFromWidget(*widgetPtr);
+			if (guiObjectPtr != NULL){
+				SetActiveView(guiObjectPtr);
+
+				if (FileClose()){
+					return true;
+				}
+			}
+		}
+
+		event->ignore();
+
+		return true;
+	}
+
+	return false;
 }
 
 

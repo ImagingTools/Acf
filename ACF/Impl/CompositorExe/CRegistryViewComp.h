@@ -92,6 +92,12 @@ private:
 	bool ProcessDroppedData(const QMimeData& data);
 
 protected:
+	enum GrupId
+	{
+		GI_COMPONENT = 0x5430,
+		GI_CODEGEN,
+		GI_PREVIEW
+	};
 	class CCompositeItem: public QGraphicsRectItem
 	{
 	protected:

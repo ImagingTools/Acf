@@ -18,16 +18,23 @@
 
 
 CRegistryViewComp::CRegistryViewComp()
-:	m_selectedComponentPtr(NULL),
-	m_removeComponentCommand("&Remove Component", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR),
-	m_executeRegistryCommand("&Execute Registry", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR),
-	m_abortRegistryCommand("&Abort Registry", 100, idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR)
+:	m_selectedComponentPtr(NULL)
 {
+	int lightToolFlags = idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR;
+
 	m_removeComponentCommand.setEnabled(false);
+	m_removeComponentCommand.SetGroupId(GI_COMPONENT);
+	m_removeComponentCommand.SetStaticFlags(lightToolFlags);
 	m_renameComponentCommand.setEnabled(false);
+	m_renameComponentCommand.SetGroupId(GI_COMPONENT);
 	m_exportToCodeCommand.setEnabled(false);
+	m_exportToCodeCommand.SetGroupId(GI_CODEGEN);
 	m_executeRegistryCommand.setEnabled(false);
+	m_executeRegistryCommand.SetGroupId(GI_PREVIEW);
+	m_executeRegistryCommand.SetStaticFlags(lightToolFlags);
 	m_abortRegistryCommand.setEnabled(false);
+	m_abortRegistryCommand.SetGroupId(GI_PREVIEW);
+	m_abortRegistryCommand.SetStaticFlags(lightToolFlags);
 
 	m_registryMenu.InsertChild(&m_removeComponentCommand);
 	m_registryMenu.InsertChild(&m_renameComponentCommand);
@@ -164,13 +171,17 @@ void CRegistryViewComp::OnRetranslate()
 				tr("Set of commands manipulating registry"));
 	m_removeComponentCommand.SetVisuals(
 				tr("&Remove Component"), 
-				tr("&Remove Component"), 
+				tr("Remove"), 
 				tr("Remove the selected component from the registry"),
 				QIcon(":/Resources/Icons/delete_64.png"));
+	m_renameComponentCommand.SetVisuals(
+				tr("&Rename Component"), 
+				tr("Rename"), 
+				tr("Allow to assign new name to selected component"));
 	m_exportToCodeCommand.SetVisuals(
 				tr("&Export To Code..."),
 				tr("Export"),
-				tr("Removes selected component from registry"));
+				tr("Generates C++ code according this registry"));
 	m_executeRegistryCommand.SetVisuals(
 				tr("&Execute Registry"), 
 				tr("&Execute Registry"), 

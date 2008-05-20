@@ -72,7 +72,7 @@ protected:
 	virtual void OnGuiDestroyed();
 
 	// reimplemented (QObject)
-	bool eventFilter(QObject* obj, QEvent* event);
+	virtual bool eventFilter(QObject* obj, QEvent* event);
 
 	// abstract methods
 	/**

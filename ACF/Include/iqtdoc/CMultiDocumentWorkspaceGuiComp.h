@@ -50,8 +50,6 @@ public:
 	virtual void OnComponentCreated();
 
 protected:
-	virtual bool eventFilter(QObject* obj, QEvent* event);
-
 	/**
 		Update titles of views or all views of specified document.
 		\param	optional document object, if you want to update only views of single document.
@@ -75,6 +73,9 @@ protected:
 		\param	documentTypeIdPtr	optional ID of document type if only filter for single document type should be created.
 	*/
 	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL) const;
+
+	// reimplemented (QObject)
+	virtual bool eventFilter(QObject* obj, QEvent* event);
 
 	// reimplemented (idoc::CDocumentManagerBase)
 	virtual istd::CStringList GetOpenFileNames(const std::string* documentTypeIdPtr = NULL) const;
