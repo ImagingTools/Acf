@@ -40,6 +40,14 @@
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>5</hsizetype>
+           <vsizetype>4</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title" >
           <string>Image</string>
          </property>
@@ -70,7 +78,7 @@
               <property name="sizePolicy" >
                <sizepolicy>
                 <hsizetype>0</hsizetype>
-                <vsizetype>3</vsizetype>
+                <vsizetype>5</vsizetype>
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -161,6 +169,14 @@
       </layout>
      </widget>
      <widget class="QFrame" name="ImageViewFrame" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>1</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="frameShape" >
        <enum>QFrame::StyledPanel</enum>
       </property>

@@ -6,7 +6,6 @@
 #include "iser/CXmlFileWriteArchive.h"
 
 #include "icomp/TModelCompWrap.h"
-#include "icomp/TMakeComponentWrap.h"
 
 #include "isvn/TApplicationInfoWrap.h"
 
@@ -18,7 +17,7 @@
 #include "istdc/CComposedParamsSetComp.h"
 #include "istdc/CRegistryCodeSaverComp.h"
 
-#include "icam/CFileBitmapAcquisitionParams.h"
+#include "icam/CFileBitmapAcquisitionParamsComp.h"
 
 
 /**
@@ -36,7 +35,7 @@ typedef istdc::CRegistryCodeSaverComp RegistryCodeSaver;
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 
-typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<icam::IFileBitmapAcquisitionParams, icam::CFileBitmapAcquisitionParams> > FileBitmapAcquisitionParams;
+typedef icomp::TModelCompWrap<icam::CFileBitmapAcquisitionParamsComp> FileBitmapAcquisitionParams;
 
 
 } // namespace BasePck

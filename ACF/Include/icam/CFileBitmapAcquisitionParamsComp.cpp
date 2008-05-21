@@ -1,4 +1,4 @@
-#include "icam/CFileBitmapAcquisitionParams.h"
+#include "icam/CFileBitmapAcquisitionParamsComp.h"
 
 
 #include "iser/IArchive.h"
@@ -9,9 +9,21 @@ namespace icam
 {
 
 
+// reimplemented (icomp::IComponent)
+
+void CFileBitmapAcquisitionParamsComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_defaultDirAttrPtr.IsValid()){
+		m_directory = *m_defaultDirAttrPtr;
+	}
+}
+
+
 // reimplemented (icam::IFileBitmapAcquisitionParams)
 
-istd::CString CFileBitmapAcquisitionParams::GetDirectory() const
+istd::CString CFileBitmapAcquisitionParamsComp::GetDirectory() const
 {
 	return m_directory;
 }
@@ -19,7 +31,7 @@ istd::CString CFileBitmapAcquisitionParams::GetDirectory() const
 
 // reimplemented (iser::ISerializable)
 
-bool CFileBitmapAcquisitionParams::Serialize(iser::IArchive& archive)
+bool CFileBitmapAcquisitionParamsComp::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 

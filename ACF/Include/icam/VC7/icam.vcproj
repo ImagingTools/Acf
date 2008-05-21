@@ -128,14 +128,14 @@
 			Name="Source Files"
 			Filter="cpp">
 			<File
-				RelativePath="..\CFileBitmapAcquisitionParams.cpp">
+				RelativePath="..\CFileBitmapAcquisitionParamsComp.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
 			<File
-				RelativePath="..\CFileBitmapAcquisitionParams.h">
+				RelativePath="..\CFileBitmapAcquisitionParamsComp.h">
 			</File>
 			<File
 				RelativePath="..\IBitmapAcquisition.h">
