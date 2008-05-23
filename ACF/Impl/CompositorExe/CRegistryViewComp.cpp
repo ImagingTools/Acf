@@ -277,7 +277,13 @@ void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const Q
 	}
 
 	int gridSize = GetGrid();
-	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
+	QRectF boundingBox = m_compositeItem.childrenBoundingRect();
+	int width = ::ceil(boundingBox.width() / gridSize) * gridSize;
+	int height = ::ceil(boundingBox.height() / gridSize) * gridSize;
+	boundingBox.setWidth(width);
+	boundingBox.setHeight(height);
+
+	m_compositeItem.setRect(boundingBox.adjusted(-gridSize, -gridSize, gridSize, gridSize));
 }
 
 
