@@ -101,6 +101,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 	QWidget* widgetPtr = GetQtWidget();
 	if (widgetPtr != NULL){
 		QLayout* layoutPtr = new QVBoxLayout;
+		layoutPtr->setMargin(0);
 		widgetPtr->setLayout(layoutPtr);
 	}
 

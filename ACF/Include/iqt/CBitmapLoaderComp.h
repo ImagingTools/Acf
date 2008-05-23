@@ -69,12 +69,11 @@ protected:
 
 		QStringList files;
 		QStringList::Iterator filesIter;
-		QDir directory;
 		I_DWORD idStamp;
 	};
 
 private:
-	typedef ::std::map<const icam::IFileBitmapAcquisitionParams*, ParamsInfo> DirInfos;
+	typedef ::std::map<istd::CString, ParamsInfo> DirInfos;
 	DirInfos m_dirInfos;
 
 	I_DWORD m_lastIdStamp;

@@ -180,7 +180,7 @@ QRect CComponentView::CalculateRect() const
 	width = ::ceil(width / gridSize) * gridSize;
 	height = ::ceil(height / gridSize) * gridSize;
 
-	return QRect(rect().left(), rect().top(), width, height);
+	return QRect(pos().x(), pos().y(), width, height);
 }
 
 

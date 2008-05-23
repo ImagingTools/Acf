@@ -48,7 +48,7 @@ public:
 
 	CRegistryViewComp();
 
-	bool TryCreateComponent(const icomp::CComponentAddress& address);
+	bool TryCreateComponent(const icomp::CComponentAddress& address, const imath::CVector2d& position);
 	double GetGrid() const;
 
 	// reimplemented (idoc::ICommandsProvider)
@@ -85,7 +85,7 @@ private:
 				const icomp::IRegistry::ElementInfo* elementInfoPtr,
 				const std::string& role);
 
-	bool ProcessDroppedData(const QMimeData& data);
+	bool ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* event);
 	void ConnectReferences(const QString& componentRole);
 
 protected:

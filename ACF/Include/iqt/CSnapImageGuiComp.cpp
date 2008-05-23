@@ -40,7 +40,7 @@ void CSnapImageGuiComp::on_LiveImageButton_toggled(bool checked)
 void CSnapImageGuiComp::on_SaveImageButton_clicked()
 {
 	if (m_bitmapLoaderCompPtr.IsValid() && m_bitmapCompPtr.IsValid()){
-		if (m_bitmapLoaderCompPtr->SaveToFile(*m_bitmapCompPtr, "") != iser::IFileLoader::StateOk){
+		if (m_bitmapLoaderCompPtr->SaveToFile(*m_bitmapCompPtr, "") == iser::IFileLoader::StateFailed){
 			QMessageBox::information(
 						NULL,
 						QObject::tr("Error"),

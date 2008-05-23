@@ -110,23 +110,17 @@ int CBitmapLoaderComp::DoSyncProcess(const iproc::IParamsSet* paramsPtr, const i
 	I_ASSERT(m_parameterIdAttrPtr.IsValid());	// obligatory attribute
 	I_ASSERT(m_maxCachedDirectoriesAttrPtr.IsValid());	// obligatory attribute
 
+	istd::CString filesPath = *m_defaultDirAttrPtr;
 	const icam::IFileBitmapAcquisitionParams* loaderParamsPtr = NULL;
 	if (paramsPtr != NULL){
 		loaderParamsPtr = dynamic_cast<const icam::IFileBitmapAcquisitionParams*>(paramsPtr->GetParameter((*m_parameterIdAttrPtr).ToString()));
+		filesPath = loaderParamsPtr->GetDirectory();
 	}
+	QDir directory(iqt::GetQString(filesPath));
 
-	ParamsInfo& info = m_dirInfos[loaderParamsPtr];
-	if (info.files.isEmpty()){
-		if (loaderParamsPtr != NULL){
-			info.directory = iqt::GetQString(loaderParamsPtr->GetDirectory());
-		}
-		else{
-			info.directory = iqt::GetQString(*m_defaultDirAttrPtr);
-		}
-	}
-
+	ParamsInfo& info = m_dirInfos[filesPath];
 	if (info.filesIter == info.files.end()){
-		info.files = info.directory.entryList(QDir::Files | QDir::Readable);
+		info.files = directory.entryList(QDir::Files | QDir::Readable);
 		info.filesIter = info.files.begin();
 	}
 
@@ -134,7 +128,7 @@ int CBitmapLoaderComp::DoSyncProcess(const iproc::IParamsSet* paramsPtr, const i
 
 	int retVal = TS_INVALID;
 	if (info.filesIter != info.files.end()){
-		istd::CString fileName = iqt::GetCString(info.directory.absoluteFilePath(*info.filesIter));
+		istd::CString fileName = iqt::GetCString(directory.absoluteFilePath(*info.filesIter));
 		info.filesIter++;
 
 		if (outputPtr != NULL){

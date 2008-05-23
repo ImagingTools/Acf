@@ -2,9 +2,8 @@
 #define istd_TChangeNotifier_included
 
 
-#include "istd/istd.h"
-
 #include "istd/IChangeable.h"
+#include "istd/TPointer.h"
 
 
 namespace istd
@@ -15,21 +14,21 @@ namespace istd
 	Help class which provides the automatic update mechanism of the model.
 */
 template <class Changeable>
-class TChangeNotifier   
+class TChangeNotifier: public istd::TPointer<Changeable>
 {
 public:
+	typedef istd::TPointer<Changeable> BaseClass;
+
 	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 	virtual  ~TChangeNotifier();
 
-	void SetChangeable(Changeable* changeablePtr);
+	void SetPtr(Changeable* changeablePtr);
 	void Reset();
-	bool IsValid() const;
 	const Changeable* operator->() const;
 	Changeable* operator->();
 	operator Changeable*() const;
 
 private:
-	Changeable* m_changeablePtr;
 	int m_changeFlags;
 	istd::IPolymorphic* m_updateParamsPtr;
 };
@@ -37,12 +36,12 @@ private:
 
 template <class Changeable>
 TChangeNotifier<Changeable>::TChangeNotifier(Changeable* changeablePtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
-:	m_changeablePtr(changeablePtr),
+:	BaseClass(changeablePtr),
 	m_changeFlags(changeFlags),
 	m_updateParamsPtr(updateParamsPtr)
 {
-	if (m_changeablePtr != NULL){
-		m_changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
+	if (changeablePtr != NULL){
+		changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
 	}
 }
 
@@ -56,14 +55,14 @@ TChangeNotifier<Changeable>::~TChangeNotifier()
 
 
 template <class Changeable>
-void TChangeNotifier<Changeable>::SetChangeable(Changeable* changeablePtr)
+void TChangeNotifier<Changeable>::SetPtr(Changeable* changeablePtr)
 {
 	Reset();
 
-	m_changeablePtr = changeablePtr;
+	BaseClass::SetPtr(changeablePtr);
 
-	if (m_changeablePtr != NULL){
-		m_changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
+	if (changeablePtr != NULL){
+		changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
 	}
 }
 
@@ -71,45 +70,40 @@ void TChangeNotifier<Changeable>::SetChangeable(Changeable* changeablePtr)
 template <class Changeable>
 inline void TChangeNotifier<Changeable>::Reset()
 {
-	if (m_changeablePtr != NULL){
-		m_changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
+	Changeable* changeablePtr = GetPtr();
 
-		m_changeablePtr = NULL;
+	if (changeablePtr != NULL){
+		changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
+
+		BaseClass::Reset();
 	}
-}
-
-
-template <class Changeable>
-inline bool TChangeNotifier<Changeable>::IsValid() const
-{
-	return (m_changeablePtr != NULL);
 }
 
 
 template <class Changeable>
 inline const Changeable* TChangeNotifier<Changeable>::operator->() const
 {
-	I_ASSERT(m_changeablePtr != NULL);
+	I_ASSERT(IsValid());
 
-	return m_changeablePtr;
+	return GetPtr();
 }
 
 
 template <class Changeable>
 inline Changeable* TChangeNotifier<Changeable>::operator->()
 {
-	I_ASSERT(m_changeablePtr != NULL);
+	I_ASSERT(IsValid());
 
-	return m_changeablePtr;
+	return GetPtr();
 }
 
 
 template <class Changeable>
 inline TChangeNotifier<Changeable>::operator Changeable*() const
 {
-	I_ASSERT(m_changeablePtr != NULL);
+	I_ASSERT(IsValid());
 
-	return m_changeablePtr;
+	return GetPtr();
 }
 
 

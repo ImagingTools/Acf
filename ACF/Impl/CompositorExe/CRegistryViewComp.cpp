@@ -52,7 +52,7 @@ CRegistryViewComp::CRegistryViewComp()
 }
 
 
-bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& address)
+bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& address, const imath::CVector2d& position)
 {
 	bool retVal = false;
 	QString componentName = QInputDialog::getText(GetWidget(), tr("Application Compositor"), tr("Component name"), QLineEdit::Normal, "",&retVal);
@@ -61,6 +61,10 @@ bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& addre
 		if (registryPtr.IsValid()){
 			icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->InsertElementInfo(componentName.toStdString(), address);
 			if (elementInfoPtr != NULL){
+				icomp::IRegistryGeometryProvider* providerPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr.GetPtr());
+				if (providerPtr != NULL){
+					providerPtr->SetComponentPosition(componentName.toStdString(), position);
+				}
 				ConnectReferences(componentName);
 				return true;
 			}
@@ -610,14 +614,19 @@ void CRegistryViewComp::OnExecutionTimerTick()
 }
 
 
-bool CRegistryViewComp::ProcessDroppedData(const QMimeData& data)
+bool CRegistryViewComp::ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* event)
 {
 	QByteArray byteData = data.data("component");
 	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
 
 	icomp::CComponentAddress address;
 
-	return address.Serialize(archive) && TryCreateComponent(address);
+	imath::CVector2d position(0, 0);
+	if (event != NULL){
+		position = iqt::GetCVector2d(event->pos());
+	}
+
+	return address.Serialize(archive) && TryCreateComponent(address, position);
 }
 
 
@@ -799,7 +808,7 @@ void CRegistryViewComp::CRegistryScene::dragEnterEvent(QGraphicsSceneDragDropEve
 void CRegistryViewComp::CRegistryScene::dropEvent(QGraphicsSceneDragDropEvent* event)
 {
 	const QMimeData* dataPtr = event->mimeData();
-	if ((dataPtr != NULL) && m_parent.ProcessDroppedData(*dataPtr)){
+	if ((dataPtr != NULL) && m_parent.ProcessDroppedData(*dataPtr, event)){
 		event->acceptProposedAction();
 	}
 	else{

@@ -25,6 +25,14 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <widget class="QFrame" name="frame" >
+      <property name="sizePolicy" >
+       <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>1</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="frameShape" >
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -68,6 +76,14 @@
             </property>
             <item>
              <widget class="QPushButton" name="SnapImageButton" >
+              <property name="sizePolicy" >
+               <sizepolicy>
+                <hsizetype>5</hsizetype>
+                <vsizetype>0</vsizetype>
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text" >
                <string>Snap</string>
               </property>
@@ -98,6 +114,14 @@
           </item>
           <item>
            <widget class="QPushButton" name="SaveImageButton" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text" >
              <string>Save...</string>
             </property>
@@ -121,7 +145,7 @@
           <item>
            <widget class="QFrame" name="ParamsFrame" >
             <property name="frameShape" >
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow" >
              <enum>QFrame::Raised</enum>
@@ -138,6 +162,14 @@
           </item>
           <item>
            <widget class="QPushButton" name="LoadParamsButton" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text" >
              <string>Load...</string>
             </property>
@@ -145,6 +177,14 @@
           </item>
           <item>
            <widget class="QPushButton" name="SaveParamsButton" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text" >
              <string>Save...</string>
             </property>
@@ -171,9 +211,9 @@
      <widget class="QFrame" name="ImageViewFrame" >
       <property name="sizePolicy" >
        <sizepolicy>
-        <hsizetype>1</hsizetype>
+        <hsizetype>3</hsizetype>
         <vsizetype>5</vsizetype>
-        <horstretch>0</horstretch>
+        <horstretch>5</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
