@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDesktopWidget>
+#include <QMetaType>
 
 #include "iser/CXmlFileWriteArchive.h"
 
@@ -15,6 +16,8 @@
 
 void CRegistryPreviewComp::OnComponentCreated()
 {
+	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+
 	BaseClass::OnComponentCreated();
 
 	QFont font = qApp->font();
@@ -121,7 +124,7 @@ void CRegistryPreviewComp::AbortRegistry()
 
 // protected slots
 
-void CRegistryPreviewComp::OnFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void CRegistryPreviewComp::OnFinished(int exitCode, ExitStatus exitStatus)
 {
 	QFile::remove(m_tempFileName);
 }
