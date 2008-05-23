@@ -33,6 +33,12 @@ public:
 	virtual const istd::CString& GetLastLoadFileName() const;
 	virtual const istd::CString& GetLastSaveFileName() const;
 
+protected:
+	/**
+		Get working version info.
+	*/
+	virtual const iser::IVersionInfo* GetVersionInfo() const;
+
 private:
 	I_REF(iser::IVersionInfo, m_versionInfoCompPtr);
 };
@@ -86,7 +92,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 		return StateFailed;
 	}
 
-	WriteArchive archive(filePath, m_versionInfoCompPtr.GetPtr());
+	WriteArchive archive(filePath, GetVersionInfo());
 	I_ASSERT(archive.IsStoring());
 
 	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
@@ -116,6 +122,15 @@ const istd::CString& TFileSerializerComp<ReadArchive, WriteArchive>::GetLastSave
 	static istd::CString emptyPath;
 
 	return emptyPath;
+}
+
+
+// protected methods
+
+template <class ReadArchive, class WriteArchive>
+const iser::IVersionInfo* TFileSerializerComp<ReadArchive, WriteArchive>::GetVersionInfo() const
+{
+	return m_versionInfoCompPtr.GetPtr();
 }
 
 

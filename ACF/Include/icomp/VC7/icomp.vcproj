@@ -245,6 +245,9 @@
 				RelativePath="..\IRegistryElement.h">
 			</File>
 			<File
+				RelativePath="..\IRegistryGeometryProvider.h">
+			</File>
+			<File
 				RelativePath="..\TAttributeStaticInfo.h">
 			</File>
 			<File

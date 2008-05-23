@@ -6,39 +6,83 @@
 // public methods
 
 
-// reimplemented (IRegistryGeometryProvider)
-
-QPoint CRegistryModelComp::GetComponentPosition(const istd::CString& componentRole) const
+bool CRegistryModelComp::SerializeComponentsLayout(iser::IArchive& archive)
 {
-	QPoint retVal;
+	static iser::CArchiveTag positionMapTag("PositionMap", "Map of component name to its positions");
+	static iser::CArchiveTag elementTag("Element", "Map element");
 
-	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentRole);
-	if (elementIter != m_elementsPositionMap.end()){
-		retVal = elementIter->second;
+	bool retVal = true;
+
+	int positionsCount = m_elementsPositionMap.size();
+
+	retVal = retVal && archive.BeginMultiTag(positionMapTag, elementTag, positionsCount);
+
+	if (!retVal){
+		return false;
 	}
+
+	if (!archive.IsStoring()){
+		for (int i = 0; i < positionsCount; ++i){
+			retVal = retVal && archive.BeginTag(elementTag);
+			
+			std::string componentName;
+			imath::CVector2d position;
+
+			retVal = retVal && SerializeComponentPosition(archive, componentName, position);
+				
+			retVal = retVal && archive.EndTag(elementTag);
+
+			if (!retVal){
+				return false;
+			}
+
+			m_elementsPositionMap[componentName] = position;
+		}
+	}
+	else{
+		for (		ElementsPositionMap::const_iterator index = m_elementsPositionMap.begin(); 
+					index != m_elementsPositionMap.end();
+					index++){
+			
+			retVal = retVal && archive.BeginTag(elementTag);
+			
+			std::string componentName = index->first;
+			imath::CVector2d position = index->second;
+
+			retVal = retVal && SerializeComponentPosition(archive, componentName, position);
+
+			retVal = retVal && archive.EndTag(elementTag);
+		}
+	
+	}
+
+	retVal = retVal && archive.EndTag(positionMapTag);
 
 	return retVal;
 }
 
 
-void CRegistryModelComp::SetComponentPosition(const istd::CString& componentRole, const QPoint& point)
+// reimplemented (icomp::IRegistryGeometryProvider)
+
+imath::CVector2d CRegistryModelComp::GetComponentPosition(const std::string& componentName) const
 {
-/*	bool isChangeNeed = false;
-	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentRole);
-	if (elementIter == m_elementsPositionMap.end()){
-		isChangeNeed = true;
+	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentName);
+	if (elementIter != m_elementsPositionMap.end()){
+		return elementIter->second;
 	}
 	else{
-		if(elementIter->second != point){
-			isChangeNeed = true;
-		}
-	}	
+		return imath::CVector2d(0, 0);
+	}
+}
 
-	if (isChangeNeed){
+
+void CRegistryModelComp::SetComponentPosition(const std::string& componentName, const imath::CVector2d& position)
+{
+	if (position != GetComponentPosition(componentName)){
 		istd::CChangeNotifier changePtr(this, CF_POSITION);
-*/
-		m_elementsPositionMap[componentRole]  = point;
-//	}
+
+		m_elementsPositionMap[componentName]  = position;
+	}
 }
 
 
@@ -52,83 +96,25 @@ void CRegistryModelComp::OnComponentCreated()
 }
 
 
-// reimplemented (iser::ISerializable)
+// protected methods
 
-bool CRegistryModelComp::Serialize(iser::IArchive& archive)
+bool CRegistryModelComp::SerializeComponentPosition(iser::IArchive& archive, std::string& componentName, imath::CVector2d& position)
 {
-	bool retVal = BaseClass2::Serialize(archive);
-
-	if (retVal){
-		static iser::CArchiveTag positionsTag("ElementPositions", "List of component element positions");
-		static iser::CArchiveTag positionTag("ElementPosition", "Element Position");
-
-		int positionsCount = m_elementsPositionMap.size();
-
-		if (!archive.BeginMultiTag(positionsTag, positionTag, positionsCount)){
-			return retVal;
-		}
-
-		if (!archive.IsStoring()){
-			for (int i = 0; i < positionsCount; ++i){
-				retVal = retVal && archive.BeginTag(positionTag);
-				
-				istd::CString componentRole;
-				int x;
-				int y;
-
-				retVal = retVal && SerializeComponentPosition(archive, componentRole, x, y);
-					
-				retVal = retVal && archive.EndTag(positionTag);
-
-				if (retVal){
-					m_elementsPositionMap[componentRole] = QPoint(x, y);
-				}
-			}
-		}
-		else{
-			for (		ElementsPositionMap::const_iterator index = m_elementsPositionMap.begin(); 
-						index != m_elementsPositionMap.end();
-						index++){
-				
-				retVal = retVal && archive.BeginTag(positionTag);
-				
-				istd::CString componentRole = index->first;
-				int x = index->second.x();
-				int y = index->second.y();
-
-				retVal = retVal && SerializeComponentPosition(archive, componentRole, x, y);
-
-				retVal = retVal && archive.EndTag(positionTag);
-			}
-		
-		}
-
-		retVal = retVal && archive.EndTag(positionsTag);
-	}
-
-	return retVal;
-}
-
-
-// private methods
-
-bool CRegistryModelComp::SerializeComponentPosition(iser::IArchive& archive, istd::CString& componentRole, int& x, int& y)
-{
-	static iser::CArchiveTag componentRoleTag("ComponentRole", "Component Role");
-	static iser::CArchiveTag componentXTag("X", "X");
-	static iser::CArchiveTag componentYTag("Y", "Y");
+	static iser::CArchiveTag nameTag("ComponentName", "Name of component");
+	static iser::CArchiveTag positionXTag("X", "X position of component");
+	static iser::CArchiveTag positionYTag("Y", "Y position of component");
 	
-	bool retVal = archive.BeginTag(componentRoleTag);
-	retVal = retVal && archive.Process(componentRole);
-	retVal = retVal && archive.EndTag(componentRoleTag);
+	bool retVal = archive.BeginTag(nameTag);
+	retVal = retVal && archive.Process(componentName);
+	retVal = retVal && archive.EndTag(nameTag);
 
-	retVal = retVal && archive.BeginTag(componentXTag);
-	retVal = retVal && archive.Process(x);
-	retVal = retVal && archive.EndTag(componentXTag);
+	retVal = retVal && archive.BeginTag(positionXTag);
+	retVal = retVal && archive.Process(position[0]);
+	retVal = retVal && archive.EndTag(positionXTag);
 
-	retVal = retVal && archive.BeginTag(componentYTag);
-	retVal = retVal && archive.Process(y);
-	retVal = retVal && archive.EndTag(componentYTag);
+	retVal = retVal && archive.BeginTag(positionXTag);
+	retVal = retVal && archive.Process(position[1]);
+	retVal = retVal && archive.EndTag(positionXTag);
 
 	return retVal;
 }

@@ -3,6 +3,7 @@
 
 #include "istd/CString.h"
 
+#include "iser/ISerializable.h"
 #include "iser/CMemoryWriteArchive.h"
 
 
@@ -71,6 +72,21 @@ bool CMemoryReadArchive::ProcessData(void* data, int size)
 	m_readPosition += size;
 
 	return true;
+}
+
+
+// static methods
+
+bool CMemoryReadArchive::CloneObjectByArchive(const ISerializable& source, ISerializable& result)
+{
+	bool retVal = true;
+	CMemoryWriteArchive stored;
+	retVal = retVal && const_cast<ISerializable&>(source).Serialize(stored);
+
+	CMemoryReadArchive restore(stored);
+	retVal = retVal && result.Serialize(restore);
+
+	return retVal;
 }
 
 

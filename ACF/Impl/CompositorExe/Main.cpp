@@ -18,6 +18,7 @@
 #include "CPackageOverviewComp.h"
 #include "CAttributeEditorComp.h"
 #include "CRegistryPreviewComp.h"
+#include "CRegistryLoaderComp.h"
 
 
 int main(int argc, char *argv[])
@@ -119,7 +120,7 @@ int main(int argc, char *argv[])
 	viewFactoryComp.SetRef("RegistryCodeSaver", &codeSaverComp);
 	viewFactoryComp.SetRef("RegistryPreview", &registryPreviewComp);
 
-	icomp::TSimComponentWrap<istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> > registryLoaderComp;
+	icomp::TSimComponentWrap<CRegistryLoaderComp> registryLoaderComp;
 	registryLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;

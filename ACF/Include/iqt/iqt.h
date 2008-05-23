@@ -40,7 +40,7 @@ extern istd::CIndex2d GetCIndex2d(const QSize& size);
 extern QPoint GetQPoint(const istd::CIndex2d& position);
 extern istd::CIndex2d GetCIndex2d(const QPoint& position);
 extern QPointF GetQPointF(const imath::CVector2d& position);
-extern imath::CVector2d GetCIndex2d(const QPointF& position);
+extern imath::CVector2d GetCVector2d(const QPointF& position);
 
 
 } // namespace iqt

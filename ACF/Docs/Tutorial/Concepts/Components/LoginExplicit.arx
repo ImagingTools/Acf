@@ -186,39 +186,4 @@
   </ExportedInterfaces>
   <ExportedComponents count="0">
   </ExportedComponents>
-  <ElementPositions count="3">
-    <ElementPosition>
-      <ComponentRole>
-        Application
-      </ComponentRole>
-      <X>
-        -300
-      </X>
-      <Y>
-        -237
-      </Y>
-    </ElementPosition>
-    <ElementPosition>
-      <ComponentRole>
-        Login
-      </ComponentRole>
-      <X>
-        -337
-      </X>
-      <Y>
-        -112
-      </Y>
-    </ElementPosition>
-    <ElementPosition>
-      <ComponentRole>
-        Splash
-      </ComponentRole>
-      <X>
-        -137
-      </X>
-      <Y>
-        -112
-      </Y>
-    </ElementPosition>
-  </ElementPositions>
 </Acf>

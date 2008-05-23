@@ -63,7 +63,7 @@ public:
 	virtual void OnRetranslate();
 
 public slots:
-	void SetCenterOn(const QString& componentRole);
+	void SetCenterOn(const std::string& componentRole);
 	void UpdateConnectors();
 	void OnExecutionTimerTick();
 

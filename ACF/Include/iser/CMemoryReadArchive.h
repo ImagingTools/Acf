@@ -11,6 +11,7 @@ namespace iser
 {
 
 
+class ISerializable;
 class CMemoryWriteArchive;
 
 
@@ -40,6 +41,12 @@ public:
 
 	// reimplemented (iser::IArchive)
 	virtual bool ProcessData(void* data, int size);
+
+	// static methods
+	/**
+		Clone serializable objects using \c iser::CMemoryWriteArchive and \c iser::CMemoryReadArchive archives.
+	*/
+	static bool CloneObjectByArchive(const ISerializable& source, ISerializable& result);
 	
 protected:
 	const I_BYTE* m_bufferPtr;

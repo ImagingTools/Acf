@@ -1,3 +1,5 @@
+#include "CRegistryViewComp.h"
+
 #include <QPainter>
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -7,10 +9,10 @@
 
 #include <math.h>
 
-#include "IRegistryGeometryProvider.h"
-#include "CRegistryViewComp.h"
+#include "icomp/IRegistryGeometryProvider.h"
 #include "CComponentView.h"
 #include "CComponentConnector.h"
+#include "CRegistryModelComp.h"
 
 #include "iser/CMemoryReadArchive.h"
 #include "iser/CMemoryWriteArchive.h"
@@ -19,6 +21,8 @@
 CRegistryViewComp::CRegistryViewComp()
 :	m_selectedComponentPtr(NULL)
 {
+	SetUpdateFilter(~CRegistryModelComp::CF_POSITION);
+
 	int lightToolFlags = idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR;
 
 	m_removeComponentCommand.setEnabled(false);
@@ -99,9 +103,10 @@ void CRegistryViewComp::UpdateEditor()
 			if (elementInfoPtr != NULL){
 				CComponentView* viewPtr = CreateComponentView(registryPtr, elementInfoPtr, elementId);
 
-				IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<IRegistryGeometryProvider*>(registryPtr);
-				if (geomeometryProviderPtr != NULL){			
-					viewPtr->setPos(geomeometryProviderPtr->GetComponentPosition(elementId));
+				icomp::IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
+				if (geomeometryProviderPtr != NULL){
+					imath::CVector2d position = geomeometryProviderPtr->GetComponentPosition(elementId);
+					viewPtr->setPos(int(position.GetX() + 0.5), int(position.GetY() + 0.5));
 				}
 
 				if (		m_selectedComponentPtr != NULL && 
@@ -200,7 +205,7 @@ void CRegistryViewComp::OnRetranslate()
 
 // public slots:
 
-void CRegistryViewComp::SetCenterOn(const QString& componentRole)
+void CRegistryViewComp::SetCenterOn(const std::string& componentName)
 {
 	QGraphicsView* viewPtr = GetQtWidget();
 	if (viewPtr != NULL){
@@ -208,7 +213,7 @@ void CRegistryViewComp::SetCenterOn(const QString& componentRole)
 		foreach(QGraphicsItem* item, items){
 			CComponentView* itemViewPtr = dynamic_cast<CComponentView*>(item);
 			if (itemViewPtr != NULL){
-				if (componentRole == itemViewPtr->GetComponentName()){
+				if (componentName == itemViewPtr->GetComponentName()){
 					viewPtr->centerOn(itemViewPtr);
 
 					return;
@@ -262,9 +267,9 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool is
 
 void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition)
 {
-	IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<IRegistryGeometryProvider*>(GetObjectPtr());
+	icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(GetObjectPtr());
 	if (geometryProviderPtr != NULL){
-		geometryProviderPtr->SetComponentPosition(iqt::GetCString(view->GetComponentName()), newPosition);
+		geometryProviderPtr->SetComponentPosition(view->GetComponentName(), imath::CVector2d(newPosition.x(), newPosition.y()));
 	}
 
 	int gridSize = GetGrid();
@@ -283,7 +288,7 @@ void CRegistryViewComp::OnRemoveComponent()
 			m_scenePtr->removeItem(m_selectedComponentPtr);
 			m_removeComponentCommand.setEnabled(false);
 
-			registryPtr->RemoveElementInfo(m_selectedComponentPtr->GetComponentName().toStdString());
+			registryPtr->RemoveElementInfo(m_selectedComponentPtr->GetComponentName());
 
 			m_selectedComponentPtr = NULL;
 		}
@@ -296,14 +301,93 @@ void CRegistryViewComp::OnRenameComponent()
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
 		if (m_selectedComponentPtr != NULL){
-			QString oldName = m_selectedComponentPtr->GetComponentName();
+			const std::string& oldName = m_selectedComponentPtr->GetComponentName();
+
+			imath::CVector2d position(0, 0);
+			icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
+			if (geometryProviderPtr != NULL){
+				position = geometryProviderPtr->GetComponentPosition(oldName);
+			}
+
+			const icomp::IRegistry::ElementInfo& oldInfo = m_selectedComponentPtr->GetElementInfo();
 
 			bool isOk = false;
-			QString newName = QInputDialog::getText(NULL, tr("ACF Compositor"), tr("New component name"), QLineEdit::Normal, oldName, &isOk);
-			if (isOk && !newName.isEmpty()){
-				const icomp::IRegistry::ElementInfo& elementInfo = m_selectedComponentPtr->GetElementInfo();
+			std::string newName = QInputDialog::getText(
+						NULL,
+						tr("ACF Compositor"),
+						tr("New component name"),
+						QLineEdit::Normal,
+						iqt::GetQString(oldName),
+						&isOk).toStdString();
+			if (isOk && !newName.empty() && (oldName != newName) && oldInfo.elementPtr.IsValid()){
+				const icomp::IRegistry::ElementInfo* newInfoPtr = registryPtr->InsertElementInfo(newName, oldInfo.address, true);
 
-				// TODO: implement rename
+				if (newInfoPtr != NULL){
+					I_ASSERT(newInfoPtr->elementPtr.IsValid());	// InsertElementInfo has to return NULL if element cannot be created with option ensureElementCreated = true
+
+					if (iser::CMemoryReadArchive::CloneObjectByArchive(*oldInfo.elementPtr, *newInfoPtr->elementPtr)){
+						icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
+						for (		icomp::IRegistry::Ids::iterator compIdIter = elementIds.begin();
+									compIdIter != elementIds.end();
+									++compIdIter){
+							const std::string& componentId = *compIdIter;
+							const icomp::IRegistry::ElementInfo* infoPtr = registryPtr->GetElementInfo(componentId);
+							if (infoPtr == NULL){
+								continue;
+							}
+							const icomp::IRegistryElement* elementPtr = infoPtr->elementPtr.GetPtr();
+							if (elementPtr == NULL){
+								continue;
+							}
+
+							icomp::IRegistryElement::Ids attrIds = elementPtr->GetAttributeIds();
+
+							for (		icomp::IRegistryElement::Ids::iterator attrIdIter = attrIds.begin();
+										attrIdIter != attrIds.end();
+										++attrIdIter){
+								const std::string& attributeId = *attrIdIter;
+								const icomp::IRegistryElement::AttributeInfo* attrInfoPtr = elementPtr->GetAttributeInfo(attributeId);
+								if (attrInfoPtr == NULL){
+									continue;
+								}
+
+								iser::ISerializable* attributePtr = attrInfoPtr->attributePtr.GetPtr();
+								icomp::TSingleAttribute<std::string>* singleAttrPtr = dynamic_cast<icomp::TSingleAttribute<std::string>*>(attributePtr);
+								icomp::TMultiAttribute<std::string>* multiAttrPtr = dynamic_cast<icomp::TMultiAttribute<std::string>*>(attributePtr);
+
+								if (		(dynamic_cast<icomp::CReferenceAttribute*>(attributePtr) != NULL) ||
+											(dynamic_cast<icomp::CFactoryAttribute*>(attributePtr) != NULL)){
+									if (singleAttrPtr->GetValue() == oldName){
+										singleAttrPtr->SetValue(newName);
+									}
+								}
+
+								if (		(dynamic_cast<icomp::CMultiReferenceAttribute*>(attributePtr) != NULL) ||
+											(dynamic_cast<icomp::CMultiFactoryAttribute*>(attributePtr) != NULL)){
+									int valuesCount = multiAttrPtr->GetValuesCount();
+									for (int i = 0; i < valuesCount; ++i){
+										if (multiAttrPtr->GetValueAt(i) == oldName){
+											multiAttrPtr->SetValueAt(i, newName);
+										}
+									}
+								}
+							}
+						}
+
+						registryPtr->RemoveElementInfo(oldName);
+
+						if (geometryProviderPtr != NULL){
+							geometryProviderPtr->SetComponentPosition(newName, position);
+						}
+
+						m_selectedComponentPtr->setPos(position.GetX(), position.GetY());
+						m_selectedComponentPtr->SetElementInfo(newInfoPtr);
+
+						return;
+					}
+
+					registryPtr->RemoveElementInfo(newName);
+				}
 			}
 		}
 	}
@@ -397,7 +481,7 @@ void CRegistryViewComp::CreateConnector(CComponentView& sourceView, const std::s
 	QList<QGraphicsItem*> items = m_compositeItem.children();
 	foreach(QGraphicsItem* item, items){
 		CComponentView* referenceViewPtr = dynamic_cast<CComponentView*>(item);
-		if (referenceViewPtr != NULL && referenceViewPtr->GetComponentName() == referenceComponentId.c_str()){
+		if ((referenceViewPtr != NULL) && (referenceViewPtr->GetComponentName() == referenceComponentId)){
 			CComponentConnector* connector = new CComponentConnector(this, &sourceView, referenceViewPtr, &m_compositeItem, m_scenePtr);
 
 			connector->Adjust();

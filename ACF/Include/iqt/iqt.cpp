@@ -79,7 +79,7 @@ QPointF GetQPointF(const imath::CVector2d& position)
 }
 
 
-imath::CVector2d GetCIndex2d(const QPointF& position)
+imath::CVector2d GetCVector2d(const QPointF& position)
 {
 	return imath::CVector2d(position.x(), position.y());
 }

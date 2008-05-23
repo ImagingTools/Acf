@@ -88,9 +88,15 @@ bool CFileWriteArchive::EndTag(const CArchiveTag& tag)
 
 bool CFileWriteArchive::ProcessData(void* data, int size)
 {
-	if (data != NULL && size > 0){
-		m_stream.write((char*)data, size);
+	if (size <= 0){
+		return true;
 	}
+
+	if (data == NULL){
+		return false;
+	}
+
+	m_stream.write((char*)data, size);
 
 	return !m_stream.fail();
 }

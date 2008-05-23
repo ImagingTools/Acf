@@ -73,9 +73,15 @@ bool CFileReadArchive::EndTag(const CArchiveTag& tag)
 
 bool CFileReadArchive::ProcessData(void* data, int size)
 {
-	if (data != NULL && size > 0){
-		m_stream.read((char*)data, size);
+	if (size <= 0){
+		return true;
 	}
+
+	if (data == NULL){
+		return false;
+	}
+
+	m_stream.read((char*)data, size);
 
 	return !m_stream.fail();
 }

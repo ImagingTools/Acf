@@ -5,16 +5,15 @@
 #include <QPoint>
 
 
+#include "icomp/IRegistryGeometryProvider.h"
 #include "icomp/CRegistry.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
 
-#include "IRegistryGeometryProvider.h"
-
 
 class CRegistryModelComp:	public icomp::CComponentBase,
 							public icomp::CRegistry,
-							virtual public IRegistryGeometryProvider
+							virtual public icomp::IRegistryGeometryProvider
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -27,26 +26,25 @@ public:
 
 	enum ChangeFlags
 	{
-		CF_POSITION = 0x1
+		CF_POSITION = 0x20000
 	};
 
-	// reimplemented (IRegistryGeometryProvider)
-	virtual QPoint GetComponentPosition(const istd::CString& componentRole) const;
-	virtual void SetComponentPosition(const istd::CString& componentRole, const QPoint& point);
+	virtual bool SerializeComponentsLayout(iser::IArchive& archive);
+
+	// reimplemented (icomp::IRegistryGeometryProvider)
+	virtual imath::CVector2d GetComponentPosition(const std::string& componentRole) const;
+	virtual void SetComponentPosition(const std::string& componentRole, const imath::CVector2d& point);
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-
-private:
-	bool SerializeComponentPosition(iser::IArchive& archive, istd::CString& componentRole, int& x, int& y);
+protected:
+	bool SerializeComponentPosition(iser::IArchive& archive, std::string& componentName, imath::CVector2d& position);
 
 private:
 	I_REF(icomp::CPackageStaticInfo, m_staticInfoCompPtr);
 
-	typedef std::map<istd::CString, QPoint> ElementsPositionMap;
+	typedef std::map<std::string, imath::CVector2d> ElementsPositionMap;
 
 	ElementsPositionMap m_elementsPositionMap;
 };

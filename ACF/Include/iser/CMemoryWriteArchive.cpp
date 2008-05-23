@@ -43,7 +43,11 @@ void CMemoryWriteArchive::Reset()
 
 bool CMemoryWriteArchive::ProcessData(void* data, int size)
 {
-	if (data == NULL || size <= 0){
+	if (size <= 0){
+		return true;
+	}
+
+	if (data == NULL){
 		return false;
 	}
 

@@ -24,14 +24,22 @@ public:
 				const CRegistryViewComp* registryViewPtr,
 				const icomp::IRegistry* registryPtr,
 				const icomp::IRegistry::ElementInfo* elementInfoPtr, 
-				const QString& componentName, 
+				const std::string& componentName, 
 				QGraphicsItem* parent = NULL, 
 				QGraphicsScene * scene = NULL);
 
 	virtual ~CComponentView();
 
+	/**
+		Get registry element info associated with this object.
+	*/
 	const icomp::IRegistry::ElementInfo& GetElementInfo() const;
-	QString GetComponentName() const;
+	/**
+		Set registry element info associated with this object.
+		\param	elementInfoPtr	pointer to element info object. It cannot be NULL.
+	*/
+	void SetElementInfo(const icomp::IRegistry::ElementInfo* elementInfoPtr);
+	const std::string& GetComponentName() const;
 
 	void AddConnector(CComponentConnector* connector);
 	void RemoveConnector(const CComponentConnector* connector);
@@ -56,8 +64,8 @@ private:
 	const CRegistryViewComp& m_registryView;
 
 	const icomp::IRegistry& m_registry;
-	const icomp::IRegistry::ElementInfo& m_elementInfo;
-	QString m_componentName;
+	std::string m_componentName;
+	const icomp::IRegistry::ElementInfo* m_elementInfoPtr;
 
 	mutable int m_componentLabelHeight;
 	mutable int m_componentIdHeight;

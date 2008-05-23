@@ -27,24 +27,22 @@ CComponentView::CComponentView(
 			const CRegistryViewComp* registryViewPtr,
 			const icomp::IRegistry* registryPtr,
 			const icomp::IRegistry::ElementInfo* elementInfoPtr, 
-			const QString& componentName,
+			const std::string& componentName,
 			QGraphicsItem* parent, 
 			QGraphicsScene* scene) 
 :	QGraphicsRectItem(parent, scene),
 	m_registryView(*registryViewPtr),
 	m_registry(*registryPtr),
-	m_elementInfo(*elementInfoPtr),
 	m_componentName(componentName),
 	m_componentLabelFontSize(14),
 	m_componentIdFontSize(10)
 {
 	I_ASSERT(registryViewPtr != NULL);
 	I_ASSERT(registryPtr != NULL);
-	I_ASSERT(elementInfoPtr != NULL);
+
+	SetElementInfo(elementInfoPtr);
 
 	CalcExportedInteraces();
-
-	setRect(CalculateRect());
 
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
 }
@@ -62,11 +60,23 @@ CComponentView::~CComponentView()
 
 const icomp::IRegistry::ElementInfo& CComponentView::GetElementInfo() const
 {
-	return m_elementInfo;
+	I_ASSERT(m_elementInfoPtr != NULL);
+
+	return *m_elementInfoPtr;
 }
 
 
-QString CComponentView::GetComponentName() const
+void CComponentView::SetElementInfo(const icomp::IRegistry::ElementInfo* elementInfoPtr)
+{
+	I_ASSERT(elementInfoPtr != NULL);
+
+	m_elementInfoPtr = elementInfoPtr;
+
+	setRect(CalculateRect());
+}
+
+
+const std::string& CComponentView::GetComponentName() const
 {
 	return m_componentName;
 }
@@ -131,12 +141,14 @@ QRectF CComponentView::GetInnerRect()const
 
 QRect CComponentView::CalculateRect() const
 {
+	I_ASSERT(m_elementInfoPtr != NULL);
+
 	QFont labelFont("Verdana");
 	labelFont.setBold(true);
 	labelFont.setPixelSize(m_componentLabelFontSize);
 	QFontMetrics fontInfo(labelFont);
 
-	int width = fontInfo.width(m_componentName) + 20;
+	int width = fontInfo.width(iqt::GetQString(m_componentName)) + 20;
 	int height = fontInfo.height() + 10;
 	m_componentLabelHeight = height;
 
@@ -147,7 +159,7 @@ QRect CComponentView::CalculateRect() const
 	m_componentIdHeight = fontInfo2.height() + 10;
 
 	height += m_componentIdHeight;
-	QString componentPath = QString(m_elementInfo.address.GetPackageId().c_str()) + QString(".") + m_elementInfo.address.GetComponentId().c_str();
+	QString componentPath = QString(m_elementInfoPtr->address.GetPackageId().c_str()) + QString(".") + m_elementInfoPtr->address.GetComponentId().c_str();
 
 	width = qMax(width, fontInfo2.width(componentPath) + 20);
 
@@ -166,15 +178,13 @@ void CComponentView::CalcExportedInteraces()
 {
 	using icomp::IRegistry::ExportedInterfacesMap::const_iterator;
 
-	std::string componentId = m_componentName.toStdString();
-
 	m_exportedInterfacesList.clear();
 
 	const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = m_registry.GetExportedInterfacesMap();
 	for (		const_iterator iter = interfacesMap.begin();
 				iter != interfacesMap.end();
 				++iter){
-		if (iter->second == componentId){
+		if (iter->second == m_componentName){
 			m_exportedInterfacesList.push_back(iter->first.c_str());
 		}
 	}
@@ -185,6 +195,8 @@ void CComponentView::CalcExportedInteraces()
 
 void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+	I_ASSERT(m_elementInfoPtr != NULL);
+
 	QRectF mainRect = rect();
 	mainRect.adjust(0, 0, -10, -10);
 	QRectF shadowRect = mainRect;
@@ -234,7 +246,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 	labelFont.setBold(true);
 	labelFont.setPixelSize(m_componentLabelFontSize);
 	painter->setFont(labelFont);
-	painter->drawText(mainRect,Qt::AlignLeft | Qt::TextSingleLine, m_componentName);
+	painter->drawText(mainRect, Qt::AlignLeft | Qt::TextSingleLine, m_componentName.c_str());
 
 	mainRect.moveTop(mainRect.height() + mainRect.top());
 	mainRect.setHeight(m_componentIdHeight);
@@ -244,7 +256,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 
 	painter->drawText(	mainRect, 
 						Qt::AlignLeft | Qt::TextSingleLine, 
-						QString(m_elementInfo.address.GetPackageId().c_str()) + QString(".") + m_elementInfo.address.GetComponentId().c_str());
+						QString(m_elementInfoPtr->address.GetPackageId().c_str()) + QString(".") + m_elementInfoPtr->address.GetComponentId().c_str());
 	
 	painter->restore();
 }

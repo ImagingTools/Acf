@@ -156,6 +156,9 @@
 				RelativePath="..\CPackageOverviewComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CRegistryLoaderComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CRegistryModelComp.cpp">
 			</File>
 			<File
@@ -244,6 +247,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\CRegistryLoaderComp.h">
+			</File>
+			<File
 				RelativePath="..\CRegistryModelComp.h">
 			</File>
 			<File
@@ -253,7 +259,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -262,7 +269,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -292,9 +300,6 @@
 			</File>
 			<File
 				RelativePath="..\IAttributeSelectionObserver.h">
-			</File>
-			<File
-				RelativePath="..\IRegistryGeometryProvider.h">
 			</File>
 			<File
 				RelativePath="..\IRegistryPreview.h">
