@@ -56,11 +56,27 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 
 // protected methods
 
-void CPackageOverviewComp::GenerateComponentTree()
+void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 {
 	if (!m_generalStaticInfoPtr.IsValid()){
 		return;
 	}
+
+	PackagesList->clear();
+
+	m_rootLocalItem = new QTreeWidgetItem();
+	m_rootLocalItem->setText(0, tr("Local Components"));
+	PackagesList->addTopLevelItem(m_rootLocalItem);
+	m_rootLocalItem->setExpanded(true);
+	QFont font = qApp->font();
+	font.setBold(true);
+	m_rootLocalItem->setFont(0, font);
+
+	m_rootComposedItem = new QTreeWidgetItem();
+	m_rootComposedItem->setText(0,tr("Composed Components"));
+	PackagesList->addTopLevelItem(m_rootComposedItem);
+	m_rootComposedItem->setExpanded(true);
+	m_rootComposedItem->setFont(0, font);
 
 	const icomp::CPackageStaticInfo::SubcomponentInfos& subcomponentInfos = m_generalStaticInfoPtr->GetSubcomponentInfos();
 	int subcomponentsCount = subcomponentInfos.GetElementsCount();
@@ -71,14 +87,19 @@ void CPackageOverviewComp::GenerateComponentTree()
 		I_ASSERT(packageInfoPtr != NULL);
 
 		if (packageInfoPtr != NULL){
-			QTreeWidgetItem* packageItemPtr = new QTreeWidgetItem();
-			packageItemPtr->setText(0, packageId.c_str());
-			packageItemPtr->setForeground(0, Qt::darkBlue);
-			packageItemPtr->setForeground(1, Qt::darkBlue);
+			istd::TDelPtr<QTreeWidgetItem> packageItemPtr(new QTreeWidgetItem());
 
-			GeneratePackageTree(packageId, *packageInfoPtr, *packageItemPtr);
+			GeneratePackageTree(packageId, *packageInfoPtr, filter, *packageItemPtr);
 
-			m_rootLocalItem->addChild(packageItemPtr);
+			if (packageItemPtr->childCount() > 0){
+				packageItemPtr->setText(0, packageId.c_str());
+				packageItemPtr->setForeground(0, Qt::darkBlue);
+				packageItemPtr->setForeground(1, Qt::darkBlue);
+
+				packageItemPtr->setToolTip(0, iqt::GetQString(packageInfoPtr->GetDescription()));
+
+				m_rootLocalItem->addChild(packageItemPtr.PopPtr());
+			}
 		}
 	}
 }
@@ -86,14 +107,11 @@ void CPackageOverviewComp::GenerateComponentTree()
 
 void CPackageOverviewComp::HighlightComponents(const QString& interfaceId)
 {
-	QTreeWidget* widgetPtr = GetQtWidget();
-	I_ASSERT(widgetPtr);
-
-	if (widgetPtr->topLevelItemCount() == 0){
+	if (PackagesList->topLevelItemCount() == 0){
 		return;
 	}
 
-	for (QTreeWidgetItemIterator treeIter(widgetPtr); *treeIter != NULL; ++treeIter){
+	for (QTreeWidgetItemIterator treeIter(PackagesList); *treeIter != NULL; ++treeIter){
 		QTreeWidgetItem* itemPtr = *treeIter;
 
 		QTreeWidgetItem* parentItem = itemPtr->parent();
@@ -132,7 +150,7 @@ void CPackageOverviewComp::HighlightComponents(const QString& interfaceId)
 
 // protected slots
 
-void CPackageOverviewComp::OnItemCollapsed(QTreeWidgetItem* item)
+void CPackageOverviewComp::on_PackagesList_itemCollapsed(QTreeWidgetItem* item)
 {
 	if (item != NULL && item->childCount() > 0){
 		item->setIcon(0, QIcon(s_closedIcon));
@@ -140,11 +158,23 @@ void CPackageOverviewComp::OnItemCollapsed(QTreeWidgetItem* item)
 }
 
 
-void CPackageOverviewComp::OnItemExpanded(QTreeWidgetItem* item)
+void CPackageOverviewComp::on_PackagesList_itemExpanded(QTreeWidgetItem* item)
 {
 	if (item != NULL && item->childCount() > 0){
 		item->setIcon(0, QIcon(s_openIcon));
 	}
+}
+
+
+void CPackageOverviewComp::on_FilterEdit_textChanged(const QString& text)
+{
+	GenerateComponentTree(text);
+}
+
+
+void CPackageOverviewComp::on_ResetFilterButton_clicked()
+{
+	FilterEdit->clear();
 }
 
 
@@ -153,6 +183,7 @@ void CPackageOverviewComp::OnItemExpanded(QTreeWidgetItem* item)
 void CPackageOverviewComp::GeneratePackageTree(
 			const std::string& packageId,
 			const icomp::CPackageStaticInfo& packageInfo,
+			const QString& filter,
 			QTreeWidgetItem& root)
 {
 	// create the component list:
@@ -164,14 +195,22 @@ void CPackageOverviewComp::GeneratePackageTree(
 		const icomp::IComponentStaticInfo* componentInfoPtr = subcomponentInfos.GetValueAt(i);
 		I_ASSERT(componentInfoPtr != NULL);
 
+		if (!filter.isEmpty()){
+			QString keywords = " " + iqt::GetQString(componentInfoPtr->GetKeywords());
+			if (!keywords.contains(" " + filter, Qt::CaseInsensitive)){
+				continue;
+			}
+		}
+
 		icomp::CComponentAddress address(packageId, componentId);
 		PackageComponentItem* componentItem = new PackageComponentItem(&root, address);
+		componentItem->setToolTip(0, iqt::GetQString(componentInfoPtr->GetDescription()));
 		root.addChild(componentItem);
 	}
 
-	root.setExpanded(true);
-
 	HighlightComponents(QString());
+
+	root.setExpanded(true);
 }
 
 
@@ -199,9 +238,6 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(eventObject);
 	I_ASSERT(sourceWidgetPtr != NULL);
 
-	QTreeWidget* treeWidgetPtr = GetQtWidget();
-	I_ASSERT(treeWidgetPtr);
-
 	switch (event->type()){
 	case QEvent::MouseButtonPress:
 		{
@@ -209,7 +245,7 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 			I_ASSERT(mouseEvent != NULL);
 
 			if (mouseEvent->button() == Qt::LeftButton){
-				QModelIndex modelIndex = treeWidgetPtr->indexAt(mouseEvent->pos());
+				QModelIndex modelIndex = PackagesList->indexAt(mouseEvent->pos());
 				QTreeWidgetItem* pressedItemPtr = reinterpret_cast<QTreeWidgetItem*>(modelIndex.internalPointer());
 				if (pressedItemPtr != NULL){
 					PackageComponentItem* selectedItemPtr = dynamic_cast<PackageComponentItem*>(pressedItemPtr);
@@ -243,46 +279,19 @@ void CPackageOverviewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	QTreeWidget* widgetPtr = GetQtWidget();
-	I_ASSERT(widgetPtr);
-	
-	connect(widgetPtr, 
-		SIGNAL(itemCollapsed(QTreeWidgetItem*)), 
-		this, 
-		SLOT(OnItemCollapsed(QTreeWidgetItem*)));
-
-	connect(widgetPtr, 
-		SIGNAL(itemExpanded(QTreeWidgetItem*)), 
-		this, 
-		SLOT(OnItemExpanded(QTreeWidgetItem*)));
-
 	// set up the tree view:
-	widgetPtr->setColumnCount(2);
+	PackagesList->setColumnCount(2);
 	QStringList labels;
 	labels << tr("Component") << tr("Group");
-	widgetPtr->setHeaderLabels(labels);
-	widgetPtr->setItemDelegate(new CItemDelegate());
+	PackagesList->setHeaderLabels(labels);
+	PackagesList->setItemDelegate(new CItemDelegate());
 
-	widgetPtr->header()->setResizeMode(QHeaderView::ResizeToContents);
-	widgetPtr->header()->hide();
+	PackagesList->header()->setResizeMode(QHeaderView::ResizeToContents);
+	PackagesList->header()->hide();
 
-	widgetPtr->setIndentation(15);
+	PackagesList->setIndentation(15);
 
-	m_rootLocalItem = new QTreeWidgetItem();
-	m_rootLocalItem->setText(0, tr("Local Components"));
-	widgetPtr->addTopLevelItem(m_rootLocalItem);
-	m_rootLocalItem->setExpanded(true);
-	QFont font = qApp->font();
-	font.setBold(true);
-	m_rootLocalItem->setFont(0, font);
-
-	m_rootComposedItem = new QTreeWidgetItem();
-	m_rootComposedItem->setText(0,tr("Composed Components"));
-	widgetPtr->addTopLevelItem(m_rootComposedItem);
-	m_rootComposedItem->setExpanded(true);
-	m_rootComposedItem->setFont(0, font);
-
-	widgetPtr->viewport()->installEventFilter(this);
+	PackagesList->viewport()->installEventFilter(this);
 
 	GenerateComponentTree();
 }
@@ -292,3 +301,5 @@ void CPackageOverviewComp::OnGuiCreated()
 
 QString CPackageOverviewComp::s_closedIcon = ":/Resources/Icons/dirclosed-16.png";
 QString CPackageOverviewComp::s_openIcon = ":/Resources/Icons/diropen-16.png";
+
+

@@ -7,21 +7,26 @@
 #include <QDrag>
 
 
-#include "iqt/TGuiComponentBase.h"
+#include "istd/TDelPtr.h"
 
-#include "icomp/IRegistry.h"
 #include "icomp/CPackageStaticInfo.h"
+#include "icomp/CComponentAddress.h"
+
+#include "iqt/TDesignerGuiCompBase.h"
 
 #include "IAttributeSelectionObserver.h"
 
+#include "Generated/ui_CPackageOverviewComp.h"
 
-class CPackageOverviewComp: public iqt::TGuiComponentBase<QTreeWidget>,
-							public IAttributeSelectionObserver
+
+class CPackageOverviewComp:
+			public iqt::TDesignerGuiCompBase<Ui::CPackageOverviewComp>,
+			public IAttributeSelectionObserver
 {
     Q_OBJECT
 
 public:
-	typedef iqt::TGuiComponentBase<QTreeWidget> BaseClass;
+	typedef iqt::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp)
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver)
@@ -40,17 +45,20 @@ public:
 	virtual void OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr);
 
 protected:
-	void GenerateComponentTree();
+	void GenerateComponentTree(const QString& filter = "");
  	void HighlightComponents(const QString& interfaceId);
 
 protected slots:
-	void OnItemCollapsed(QTreeWidgetItem* item);
-	void OnItemExpanded(QTreeWidgetItem* item);
+	void on_PackagesList_itemCollapsed(QTreeWidgetItem* item);
+	void on_PackagesList_itemExpanded(QTreeWidgetItem* item);
+	void on_FilterEdit_textChanged(const QString& text);
+	void on_ResetFilterButton_clicked();
 
 protected:
 	void GeneratePackageTree(
 				const std::string& packageId,
 				const icomp::CPackageStaticInfo& packageInfo,
+				const QString& filter,
 				QTreeWidgetItem& root);
 
 	const icomp::IComponentStaticInfo* GetItemStaticInfo(const QTreeWidgetItem& item) const;
