@@ -45,6 +45,7 @@ CComponentView::CComponentView(
 	SetElementInfo(elementInfoPtr);
 
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setCursor(Qt::ArrowCursor);
 }
 
 
@@ -308,4 +309,5 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 
 	return QGraphicsRectItem::itemChange(change, value);
 }
+
 

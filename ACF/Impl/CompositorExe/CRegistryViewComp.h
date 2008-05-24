@@ -29,14 +29,17 @@
 #include "CComponentView.h"
 
 
-class CRegistryViewComp:	public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, 
-								imod::TSingleModelObserverBase<icomp::IRegistry> >,
-							public idoc::ICommandsProvider
+class CRegistryViewComp:
+			public iqt::TGuiObserverWrap<
+						iqt::TGuiComponentBase<QGraphicsView>, 
+						imod::TSingleModelObserverBase<icomp::IRegistry> >,
+			public idoc::ICommandsProvider
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, 
+	typedef iqt::TGuiObserverWrap<
+				iqt::TGuiComponentBase<QGraphicsView>, 
 				imod::TSingleModelObserverBase<icomp::IRegistry> > BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryViewComp)
@@ -95,6 +98,7 @@ protected:
 		GI_CODEGEN,
 		GI_PREVIEW
 	};
+
 	class CCompositeItem: public QGraphicsRectItem
 	{
 	protected:
