@@ -91,11 +91,11 @@ double CRange::GetClipped(double value) const
 }
 
 
-double CRange::GetMappedTo(double inputValue, const istd::CRange& otherRange) const
+double CRange::GetMappedTo(double value, const istd::CRange& otherRange) const
 {
-	I_ASSERT(IsInside(inputValue));
+	I_ASSERT(IsInside(value));
 
-	return otherRange.GetMinValue() + (inputValue - GetMinValue()) * (otherRange.GetLength() / GetLength());
+	return otherRange.GetMinValue() + (value - GetMinValue()) * (otherRange.GetLength() / GetLength());
 }
 
 

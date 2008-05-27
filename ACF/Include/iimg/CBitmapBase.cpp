@@ -87,8 +87,18 @@ bool CBitmapBase::SetColorAt(const istd::CIndex2d& position, const icmm::CVarCol
 			return false;
 		}
 
-		double componentValue = color.GetElement(i);
-		pixelPtr[i] = I_BYTE(componentValue * 255);
+		int componentValue = int(color.GetElement(i) * 255);
+		if (componentValue >= 0){
+			if (componentValue <= 255){
+				pixelPtr[i] = I_BYTE(componentValue);
+			}
+			else{
+				pixelPtr[i] = 255;
+			}
+		}
+		else{
+			pixelPtr[i] = 0;
+		}
 	}
 
 	for (int i = commonComponentsCount; i < componentsCount; ++i){

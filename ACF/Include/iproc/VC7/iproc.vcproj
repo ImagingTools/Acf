@@ -162,6 +162,9 @@
 				RelativePath="..\CProcessingElementBase.h">
 			</File>
 			<File
+				RelativePath="..\IElementSelector.h">
+			</File>
+			<File
 				RelativePath="..\IJob.h">
 			</File>
 			<File
@@ -169,6 +172,9 @@
 			</File>
 			<File
 				RelativePath="..\IOperatorManager.h">
+			</File>
+			<File
+				RelativePath="..\IParamsManager.h">
 			</File>
 			<File
 				RelativePath="..\IParamsSet.h">

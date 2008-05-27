@@ -12,7 +12,7 @@ namespace istd
 /**
 	\ingroup istd
 
-	Implementation of a abstract range of two value.
+	Implementation of a abstract range defined by two values - minimum and maximum.
 */
 class CRange
 {
@@ -99,10 +99,33 @@ public:
 	double GetClipped(double value) const;
 
 	/**
-		Returns the value, that corresponds the input value \c inputValue in the other range \c otherRange.
-		\note \c inputValue must be in current range.
+		Get value based on 'alpha' factor.
+		\param	alpha	alpha factor. If it is 0, minimum range value will be returned.
+						If it is 1, maximum range value will be returned.
+						Rest values are linear interpolated.
 	*/
-	double GetMappedTo(double inputValue, const istd::CRange& otherRange) const;
+	double GetValueFromAlpha(double alpha) const;
+
+	/**
+		Get value based on 'alpha' factor.
+		\param	alpha	alpha factor. If it is 0, minimum range value will be returned.
+						If it is 1, maximum range value will be returned.
+						Rest values are linear interpolated.
+	*/
+	double GetAlphaFromValue(double value) const;
+
+	/**
+		Returns the value, that corresponds the input value \c inputValue in the other range \c otherRange.
+							It is the same as \c otherRange.GetValueFromAlpha(GetAlphaFromValue(value)).
+		\param	value		value definde in this range.
+							If it is equal to minimum value in this range,
+							it will be mapped to minimum value of \c otherRange.
+							If it is equal to maximum value in this range,
+							it will be mapped to maximum value of \c otherRange.
+							Rest values are linear interpolated.
+							\note This value must be in current range.
+	*/
+	double GetMappedTo(double value, const istd::CRange& otherRange) const;
 
 	CRange& operator=(const CRange& range);
 	bool operator==(const CRange& range) const;
@@ -143,6 +166,18 @@ inline double CRange::GetMaxValue() const
 inline double CRange::GetLength() const
 {
 	return IsValid()? m_maxValue - m_minValue: 0;
+}
+
+
+inline double CRange::GetValueFromAlpha(double alpha) const
+{
+	return GetMinValue() + alpha * GetLength();
+}
+
+
+inline double CRange::GetAlphaFromValue(double value) const
+{
+	return (value - GetMinValue()) / GetLength();
 }
 
 
