@@ -26,9 +26,15 @@ public:
 	enum ManagerFlags{
 		MF_COUNT_FIXED = 1,
 		MF_NAME_FIXED = 2,
-		MF_NO_DELETE = 4
+		MF_NO_DELETE = 4,
 		MF_NO_INSERT = 8
 	};
+
+	/**
+		Get control flags of this manager.
+		\sa ManagerFlags.
+	*/
+	virtual int GetManagerFlags() const = 0;
 
 	/**
 		Get number of managed set.

@@ -53,9 +53,19 @@ public:
 	~TPointerVector();
 
 	/**
+		Check if there is element stored in this set.
+	*/
+	bool IsEmpty() const;
+
+	/**
 		Get number of stored elements.
 	*/
 	int GetCount() const;
+
+	/**
+		Set number of elements.
+	*/
+	void SetCount(int count);
 
 	/**
 		Remove all elements.
@@ -106,6 +116,23 @@ private:
 };
 
 
+// inline methods
+
+
+template <typename Pointer, class AccessAdapter>
+inline bool TPointerVector<Pointer, AccessAdapter>::IsEmpty() const
+{
+	return m_elements.empty();
+}
+
+
+template <typename Pointer, class AccessAdapter>
+inline int TPointerVector<Pointer, AccessAdapter>::GetCount() const
+{
+	return int(m_elements.size());
+}
+
+
 // public methods
 
 template <typename Pointer, class AccessAdapter>
@@ -116,9 +143,9 @@ TPointerVector<Pointer, AccessAdapter>::~TPointerVector()
 
 
 template <typename Pointer, class AccessAdapter>
-int TPointerVector<Pointer, AccessAdapter>::GetCount() const
+void TPointerVector<Pointer, AccessAdapter>::SetCount(int count)
 {
-	return int(m_elements.size());
+	m_elements.resize(count);
 }
 
 
