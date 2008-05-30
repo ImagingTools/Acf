@@ -31,6 +31,8 @@ public:
 		I_ASSIGN(m_paramsManagerCompPtr, "ParamsManager", "Manager of parameter set used to realize selection", true, "ParamsManager")
 	I_END_COMPONENT
 
+	CSelectableParamsSetComp();
+
 	// reimplemented (iprm::IParamsSet)
 	virtual const iser::ISerializable* GetParameter(const std::string& id) const;
 	virtual iser::ISerializable* GetEditableParameter(const std::string& id);

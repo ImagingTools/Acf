@@ -1,6 +1,9 @@
 #include "iqt/CSelectionParamGuiComp.h"
 
 
+#include "iqt/CSignalBlocker.h"
+
+
 namespace iqt
 {
 
@@ -21,6 +24,8 @@ void CSelectionParamGuiComp::UpdateEditor()
 	if (!IsGuiCreated()){
 		return;
 	}
+
+	iqt::CSignalBlocker blocker(SelectionCB);
 
 	SelectionCB->clear();
 

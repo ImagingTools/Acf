@@ -24,6 +24,16 @@ public:
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
 protected:
+	class UpdateBlocker
+	{
+	public:
+		UpdateBlocker(TGuiObserverWrap<Gui, Observer>* parentPtr);
+		~UpdateBlocker();
+
+	private:
+		TGuiObserverWrap<Gui, Observer>& m_parent;
+	};
+
 	/**
 		Sets update flags for the editor. 
 		GUI editor will ignore all update events, which not matches the previously set filter.
@@ -50,6 +60,11 @@ protected:
 	*/
 	virtual void OnGuiModelDetached();
 
+	/**
+		Check if GUI updating is blocked.
+	*/
+	bool IsUpdateBlocked() const;
+
 	// pseudo-reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiShown();
 	virtual void OnGuiHidden();
@@ -64,7 +79,7 @@ protected:
 	virtual void SetReadOnly(bool state);
 
 private:
-	bool m_ignoreUpdates;
+	int m_ignoreUpdatesCounter;
 	bool m_isReadOnly;
 	int m_updateFilter;
 };
@@ -74,7 +89,7 @@ private:
 
 template <class Gui, class Observer>
 TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
-:	m_ignoreUpdates(false), m_isReadOnly(false), m_updateFilter(0)
+:	m_ignoreUpdatesCounter(0), m_isReadOnly(false), m_updateFilter(0)
 {
 }
 
@@ -138,12 +153,10 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 	I_ASSERT(IsGuiCreated());
 	I_ASSERT(IsModelAttached(NULL));
 
-	if (!m_ignoreUpdates){
-		m_ignoreUpdates = true;
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blocker(this);
 
 		UpdateEditor();
-
-		m_ignoreUpdates = false;
 	}
 }
 
@@ -154,6 +167,13 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelDetached()
 	if (!m_isReadOnly && IsModelAttached(NULL)){
 		UpdateModel();
 	}
+}
+
+
+template <class Gui, class Observer>
+bool TGuiObserverWrap<Gui, Observer>::IsUpdateBlocked() const
+{
+	return (m_ignoreUpdatesCounter > 0);
 }
 
 
@@ -218,12 +238,10 @@ void TGuiObserverWrap<Gui, Observer>::AfterUpdate(imod::IModel* modelPtr, int up
 		skipUpdate = ((m_updateFilter & updateFlags) == 0);
 	}
 
-	if (!m_ignoreUpdates && IsGuiCreated() && !skipUpdate){
-		m_ignoreUpdates = true;
+	if (!IsUpdateBlocked() && IsGuiCreated() && !skipUpdate){
+		UpdateBlocker blocker(this);
 
 		UpdateEditor();
-
-		m_ignoreUpdates = false;
 	}
 }
 
@@ -241,6 +259,23 @@ template <class Gui, class Observer>
 void TGuiObserverWrap<Gui, Observer>::SetReadOnly(bool state)
 {
 	m_isReadOnly = state;
+}
+
+
+// public methods of embedded class UpdateBlocker
+
+template <class Gui, class Observer>
+TGuiObserverWrap<Gui, Observer>::UpdateBlocker::UpdateBlocker(TGuiObserverWrap<Gui, Observer>* parentPtr)
+:	m_parent(*parentPtr)
+{
+	++m_parent.m_ignoreUpdatesCounter;
+}
+
+
+template <class Gui, class Observer>
+TGuiObserverWrap<Gui, Observer>::UpdateBlocker::~UpdateBlocker()
+{
+	--m_parent.m_ignoreUpdatesCounter;
 }
 
 

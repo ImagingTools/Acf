@@ -5,13 +5,16 @@
 
 #include "iprm/IParamsSet.h"
 
+#include "iqt/CSignalBlocker.h"
+
 
 namespace iqt
 {
 
 
 CParamsManagerGuiComp::CParamsManagerGuiComp()
-:	m_lastConnectedModelPtr(NULL)
+:	m_lastConnectedModelPtr(NULL),
+	m_managerObserver(this)
 {
 }
 
@@ -25,7 +28,27 @@ void CParamsManagerGuiComp::UpdateModel() const
 
 void CParamsManagerGuiComp::UpdateEditor()
 {
-	UpdateTree();
+	if (IsGuiCreated() && !IsUpdateBlocked()){
+		UpdateBlocker updateBlocker(this);
+
+		const iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+		if (selectionPtr != NULL){
+			int selected = selectionPtr->GetSelectedOptionIndex();
+
+			iqt::CSignalBlocker signalBlocker(ParamsTree);
+
+			if (selected < ParamsTree->topLevelItemCount()){
+				ParamsTree->clearSelection();
+
+				QTreeWidgetItem* selectedItemPtr = ParamsTree->topLevelItem(selected);
+				if ((selectedItemPtr != NULL) && !selectedItemPtr->isSelected()){
+					selectedItemPtr->setSelected(true);
+
+					UpdateParamsView(selected);
+				}
+			}
+		}
+	}
 }
 
 
@@ -33,7 +56,7 @@ void CParamsManagerGuiComp::UpdateEditor()
 
 void CParamsManagerGuiComp::on_AddButton_clicked()
 {
-	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(GetObjectPtr(), CF_PARAMS_ADD);
+	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(m_paramsManagerCompPtr.GetPtr(), CF_PARAMS_ADD);
 	if (objectPtr.IsValid()){
 		int selectedIndex = GetSelectedIndex();
 		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
@@ -45,7 +68,7 @@ void CParamsManagerGuiComp::on_AddButton_clicked()
 
 void CParamsManagerGuiComp::on_RemoveButton_clicked()
 {
-	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(GetObjectPtr(), CF_PARAMS_REMOVE);
+	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(m_paramsManagerCompPtr.GetPtr(), CF_PARAMS_REMOVE);
 	if (objectPtr.IsValid()){
 		int selectedIndex = GetSelectedIndex();
 		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
@@ -59,30 +82,24 @@ void CParamsManagerGuiComp::on_RemoveButton_clicked()
 
 void CParamsManagerGuiComp::on_ParamsTree_itemSelectionChanged()
 {
-	UpdateActions();
-
-	if (!m_paramsObserverCompPtr.IsValid()){
+	if (IsUpdateBlocked()){
 		return;
 	}
 
-	EnsureParamsGuiDetached();
+	UpdateBlocker updateBlocker(this);
+
+	UpdateActions();
 
 	int selectedIndex = GetSelectedIndex();
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if ((objectPtr != NULL) && (selectedIndex >= 0)){
-		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
 
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(selectedIndex));
-		if (modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
-			m_lastConnectedModelPtr = modelPtr;
-		}
+	UpdateParamsView(selectedIndex);
 
-		if (		(selectedIndex >= 0) &&
-					m_selectionParamCompPtr.IsValid() &&
-					(selectedIndex < m_selectionParamCompPtr->GetOptionsCount()) &&
-					(selectedIndex != m_selectionParamCompPtr->GetSelectedOptionIndex())){
-			m_selectionParamCompPtr->SetSelectedOptionIndex(selectedIndex);
-		}
+	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	if (		(selectedIndex >= 0) &&
+				(selectionPtr != NULL) &&
+				(selectedIndex < selectionPtr->GetOptionsCount()) &&
+				(selectedIndex != selectionPtr->GetSelectedOptionIndex())){
+		selectionPtr->SetSelectedOptionIndex(selectedIndex);
 	}
 }
 
@@ -93,48 +110,70 @@ void CParamsManagerGuiComp::UpdateActions()
 {
 	I_ASSERT(IsGuiCreated());
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int flags = objectPtr->GetManagerFlags();
+	if (m_paramsManagerCompPtr.IsValid()){
+		int flags = m_paramsManagerCompPtr->GetManagerFlags();
 
-		AddButton->setVisible((flags & iprm::IParamsManager::MF_NO_INSERT) == 0);
-		RemoveButton->setVisible((flags & iprm::IParamsManager::MF_NO_DELETE) == 0);
+		AddButton->setEnabled((flags & iprm::IParamsManager::MF_NO_INSERT) == 0);
+		RemoveButton->setEnabled((flags & iprm::IParamsManager::MF_NO_DELETE) == 0);
 	}
 }
 
 
 void CParamsManagerGuiComp::UpdateTree()
 {
-	I_ASSERT(IsGuiCreated());
+	if (!IsGuiCreated()){
+		return;
+	}
+
+	UpdateBlocker updateBlocker(this);
 
 	ParamsTree->clear();
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int flags = objectPtr->GetManagerFlags();
+	if (m_paramsManagerCompPtr.IsValid()){
+		int flags = m_paramsManagerCompPtr->GetManagerFlags();
 
 		Qt::ItemFlags itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 		if ((flags & iprm::IParamsManager::MF_NAME_FIXED) == 0){
 			itemFlags |= Qt::ItemIsEditable;
 		}
 
-		int setsCount = objectPtr->GetSetsCount();
+		int setsCount = m_paramsManagerCompPtr->GetSetsCount();
 
+		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 		int selectedIndex = -1;
-		if (m_selectionParamCompPtr.IsValid()){
-			selectedIndex = m_selectionParamCompPtr->GetSelectedOptionIndex();
+		if (selectionPtr != NULL){
+			selectedIndex = selectionPtr->GetSelectedOptionIndex();
 		}
 
 		for (int i = 0; i < setsCount; ++i){
-			const istd::CString& name = objectPtr->GetSetName(i);
+			const istd::CString& name = m_paramsManagerCompPtr->GetSetName(i);
 			QTreeWidgetItem* paramsSetItemPtr = new QTreeWidgetItem();
 			paramsSetItemPtr->setText(0, iqt::GetQString(name));
 			paramsSetItemPtr->setData(0, Qt::UserRole, i);
 			paramsSetItemPtr->setFlags(itemFlags);
 			ParamsTree->addTopLevelItem(paramsSetItemPtr);
 
-			if (i == selectedIndex){
-				paramsSetItemPtr->setSelected(true);
+			paramsSetItemPtr->setSelected(i == selectedIndex);
+		}
+
+		UpdateParamsView(selectedIndex);
+	}
+}
+
+
+void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
+{
+	iqt::CSignalBlocker blocker(ParamsFrame);
+
+	EnsureParamsGuiDetached();
+
+	if (m_paramsManagerCompPtr.IsValid() && (selectedIndex >= 0)){
+		I_ASSERT(selectedIndex < m_paramsManagerCompPtr->GetSetsCount());
+
+		if (m_paramsObserverCompPtr.IsValid()){
+			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(m_paramsManagerCompPtr->GetParamsSet(selectedIndex));
+			if ((modelPtr != NULL) && modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
+				m_lastConnectedModelPtr = modelPtr;
 			}
 		}
 	}
@@ -146,9 +185,13 @@ int CParamsManagerGuiComp::GetSelectedIndex() const
 	I_ASSERT(IsGuiCreated());
 
 	int retVal = -1;
-	QTreeWidgetItem* itemPtr = ParamsTree->currentItem();
-	if (itemPtr != NULL){
-		retVal = itemPtr->data(0, Qt::UserRole).toInt();
+	QList<QTreeWidgetItem*> items = ParamsTree->selectedItems();
+	if (!items.empty()){
+		QTreeWidgetItem* itemPtr = items.first();
+
+		if (itemPtr != NULL){
+			retVal = itemPtr->data(0, Qt::UserRole).toInt();
+		}
 	}
 
 	return retVal;
@@ -177,9 +220,8 @@ void CParamsManagerGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int flags = objectPtr->GetManagerFlags();
+	if (m_paramsManagerCompPtr.IsValid()){
+		int flags = m_paramsManagerCompPtr->GetManagerFlags();
 		if ((flags & iprm::IParamsManager::MF_COUNT_FIXED) != 0){
 			AddButton->setVisible(false);
 			RemoveButton->setVisible(false);
@@ -205,6 +247,44 @@ void CParamsManagerGuiComp::OnGuiModelDetached()
 	EnsureParamsGuiDetached();
 
 	BaseClass::OnGuiModelAttached();
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CParamsManagerGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_paramsManagerModelCompPtr.IsValid()){
+		m_paramsManagerModelCompPtr->AttachObserver(&m_managerObserver);
+	}
+}
+
+
+void CParamsManagerGuiComp::OnComponentDestroyed()
+{
+	if (m_paramsManagerModelCompPtr.IsValid() && m_paramsManagerModelCompPtr->IsAttached(&m_managerObserver)){
+		m_paramsManagerModelCompPtr->DetachObserver(&m_managerObserver);
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// public methods of embedded class ManagerObserver
+
+CParamsManagerGuiComp::ManagerObserver::ManagerObserver(CParamsManagerGuiComp* parentPtr)
+:	m_parent(*parentPtr)
+{
+}
+
+
+// protected methods of embedded class ManagerObserver
+
+void CParamsManagerGuiComp::ManagerObserver::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	m_parent.UpdateTree();
 }
 
 

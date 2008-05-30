@@ -40,7 +40,10 @@ void CFileAcquisitionParamsGuiComp::UpdateEditor()
 
 void CFileAcquisitionParamsGuiComp::on_BrowseButton_clicked()
 {
-	DirEdit->setText(QFileDialog::getExistingDirectory(GetQtWidget(), tr("Select image directory"), DirEdit->text()));
+	QString dir = QFileDialog::getExistingDirectory(GetQtWidget(), tr("Select image directory"), DirEdit->text());
+	if (!dir.isEmpty()){
+		DirEdit->setText(dir);
+	}
 }
 
 

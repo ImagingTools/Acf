@@ -35,12 +35,23 @@
    </item>
    <item row="0" column="0" colspan="2" >
     <widget class="QTreeWidget" name="ParamsTree" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="rootIsDecorated" >
+      <bool>false</bool>
+     </property>
      <property name="columnCount" >
       <number>1</number>
      </property>
      <column>
       <property name="text" >
-       <string>Parameters</string>
+       <string>List</string>
       </property>
      </column>
     </widget>
@@ -48,11 +59,19 @@
    <item row="2" column="0" colspan="2" >
     <widget class="QFrame" name="ParamsFrame" >
      <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow" >
       <enum>QFrame::Raised</enum>
      </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+     </layout>
     </widget>
    </item>
   </layout>

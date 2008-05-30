@@ -8,6 +8,12 @@ namespace iprm
 {
 
 
+CSelectableParamsSetComp::CSelectableParamsSetComp()
+:	m_selectedIndex(0)
+{
+}
+
+
 // reimplemented (iprm::IParamsSet)
 
 const iser::ISerializable* CSelectableParamsSetComp::GetParameter(const std::string& id) const

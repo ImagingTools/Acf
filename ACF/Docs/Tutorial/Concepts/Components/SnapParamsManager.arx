@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="13">
+  <ElementsList count="15">
     <Element>
       <Id>
         Application
@@ -191,6 +191,24 @@
     </Element>
     <Element>
       <Id>
+        FileSnapGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        FileAcquisitionParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         ImageDialogLoader
       </Id>
       <PackageId>
@@ -314,19 +332,57 @@
     </Element>
     <Element>
       <Id>
-        SelectableParamGui
+        ParamsManagerGui
       </Id>
       <PackageId>
         QtPck
       </PackageId>
       <ComponentId>
-        SelectionParamGui
+        ParamsManagerGui
       </ComponentId>
       <Data>
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="0">
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              ParamsGui
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                SnapParamsGui
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsManager
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ParamsManager
+              </Value>
+            </Data>
+          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -492,7 +548,7 @@
                 true
               </IsEnabled>
               <Value>
-                SelectableParamGui
+                ParamsManagerGui
               </Value>
             </Data>
           </AttributeInfo>
@@ -649,6 +705,66 @@
                 true
               </IsEnabled>
               <Values count="0">
+              </Values>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SnapParamsGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        ComposedParamsSetGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Editors
+            </Id>
+            <Type>
+              class icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  FileSnapGui
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Ids
+            </Id>
+            <Type>
+              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  FileBitmapAcquisition
+                </Value>
               </Values>
             </Data>
           </AttributeInfo>
