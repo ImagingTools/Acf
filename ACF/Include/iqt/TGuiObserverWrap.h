@@ -234,7 +234,7 @@ void TGuiObserverWrap<Gui, Observer>::AfterUpdate(imod::IModel* modelPtr, int up
 	Observer::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
 
 	bool skipUpdate = false;
-	if (m_updateFilter){
+	if (m_updateFilter && updateFlags){
 		skipUpdate = ((m_updateFilter & updateFlags) == 0);
 	}
 

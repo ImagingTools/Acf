@@ -502,13 +502,6 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 
 		return;
 	}
-	else if(index.column() == ValueColumn && propertyMining == MultipleReference){
-//		QStringList components = m_parent.m_componentViewPtr->componentsForReference(dependecySource);
-//		comboEditor->addItems(m_parent.m_componentViewPtr->componentsForReference(dependecySource));
-//		comboEditor->lineEdit()->setText(index.data().toString());
-
-		return;
-	}	
 
 	QItemDelegate::setEditorData(editor, index);
 }
