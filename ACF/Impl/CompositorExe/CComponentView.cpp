@@ -290,8 +290,7 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 				else{
 					connector->setZValue(0);
 				}
-
-				connector->setSelected(value.toBool());
+				connector->update();
 			}
 			emit selectionChanged(this, value.toBool());
 			break;

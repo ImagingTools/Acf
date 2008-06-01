@@ -208,10 +208,10 @@ QRectF CComponentConnector::boundingRect() const
 	}
 
 	double penWidth = 1.0;
-	double extra = (penWidth + GP_RADIUS2) / 2.0;
+	double extra = penWidth + GP_RADIUS2;
 
 	QRectF rect = m_connectionLine.boundingRect();
-	rect.unite(QRectF(m_touchPoint, QSize(1, 1)));
+	rect = rect.unite(QRectF(m_touchPoint, QSize(1, 1)));
 
 	return rect.adjusted(-extra, -extra, extra, extra);
 }
@@ -235,25 +235,37 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	painter->save();
 
 	painter->setRenderHints(QPainter::Antialiasing, isSelected());
-	QColor color = isSelected() ? Qt::red : Qt::darkBlue;
-	QPen pen(color, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-	painter->setPen(pen);
-	painter->drawPolyline(m_connectionLine);
+
+	QColor referenceColor = Qt::darkBlue;
+	double referencePenWidth = 0;
+
+	if (m_sourceComponent->isSelected()){
+		referenceColor = QColor(0, 200, 100, 255);
+		referencePenWidth = 2;
+	}
+
+	painter->setPen(QPen(referenceColor, referencePenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->drawLine(m_touchPoint, m_touchPoint + iqt::GetQPointF(circleDirection));
 	
 	painter->save();
 	painter->setRenderHints(QPainter::Antialiasing, true);
 	
-	painter->drawLine(m_touchPoint, m_touchPoint + iqt::GetQPointF(circleDirection));
 	QRectF circleRect2(circlePoint.x() - GP_RADIUS2, circlePoint.y() - GP_RADIUS2, GP_RADIUS2 * 2, GP_RADIUS2 * 2);
 	painter->drawArc(circleRect2, (degree + 45) * 16, 270 * 16);
 
-	painter->save();
+	QColor interfaceColor = Qt::darkBlue;
+	double interfacePenWidth = 0;
 
-	painter->setBrush(color);
+	if (m_destComponent->isSelected()){
+		interfaceColor = QColor(0, 200, 100, 255);
+		interfacePenWidth = 2;
+	}
+
+	painter->setPen(QPen(interfaceColor, interfacePenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->setBrush(interfaceColor);
 	QRectF circleRect(circlePoint.x() - GP_RADIUS, circlePoint.y() - GP_RADIUS, GP_RADIUS * 2, GP_RADIUS * 2);
 	painter->drawEllipse(circleRect);
-
-	painter->restore();
+	painter->drawPolyline(m_connectionLine);
 
 	painter->restore();
 
