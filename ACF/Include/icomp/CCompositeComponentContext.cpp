@@ -97,7 +97,7 @@ bool CCompositeComponentContext::CreateSubcomponentInfo(
 			ComponentPtr& componentPtr) const
 {
 	const IRegistry::ElementInfo* elementInfoPtr = m_registry.GetElementInfo(componentId);
-	if (elementInfoPtr != NULL && elementInfoPtr->elementPtr.IsValid()){
+	if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
 		const IRegistryElement& registryElement = *elementInfoPtr->elementPtr;
 
 		// try to create composed component

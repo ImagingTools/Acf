@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
 					componentId = argv[++index];
 				}
 				else if (option == "packageFile"){
-					loader.RegisterPackageFile(argv[++index], "", false);
+					loader.RegisterPackageFile(argv[++index], false);
 
 					useDefaultRegistries = false;
 				}
 				else if (option == "packageDir"){
-					loader.RegisterPackagesDir(argv[++index], "", false);
+					loader.RegisterPackagesDir(argv[++index], false);
 
 					useDefaultRegistries = false;
 				}
@@ -85,7 +85,10 @@ int main(int argc, char *argv[])
 	// register default package path
 	if (useDefaultRegistries){
 		if (!loader.LoadConfigFile("PackagesConfig.xml")){
-			loader.RegisterPackagesDir("", "", false);
+			QDir applicationDir = QCoreApplication::applicationDirPath();
+			if (!loader.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
+				loader.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()), false);
+			}
 		}
 	}
 

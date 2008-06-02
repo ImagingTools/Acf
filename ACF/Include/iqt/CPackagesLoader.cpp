@@ -1,7 +1,7 @@
 #include "iqt/CPackagesLoader.h"
 
 
-#include <QFileInfo>
+// Qt includes
 #include <QDir>
 #include <QCoreApplication>
 #include <QMessageBox>
@@ -16,51 +16,55 @@ namespace iqt
 {
 
 
-bool CPackagesLoader::RegisterPackageFile(const istd::CString& file, const istd::CString& baseDir, bool beQuiet)
+bool CPackagesLoader::RegisterPackageFile(const istd::CString& file, bool beQuiet)
 {
-	CDllFunctionsProvider& provider = GetProviderRef(file, baseDir, beQuiet);
-	if (provider.IsValid()){
-		icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.GetFunction(I_PACKAGE_EXPORT_FUNCTION_NAME);
-		if (getInfoPtr != NULL){
-			icomp::IComponentStaticInfo* infoPtr = getInfoPtr();
-			if (infoPtr != NULL){
-				QFileInfo fileInfo(GetQString(file));
-				return RegisterSubcomponentInfo(fileInfo.baseName().toStdString(), infoPtr);
+	QFileInfo fileInfo(iqt::GetQString(file));
+
+	if (fileInfo.isFile()){
+		CDllFunctionsProvider& provider = GetProviderRef(fileInfo, beQuiet);
+		if (provider.IsValid()){
+			icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.GetFunction(I_PACKAGE_EXPORT_FUNCTION_NAME);
+			if (getInfoPtr != NULL){
+				icomp::IComponentStaticInfo* infoPtr = getInfoPtr();
+				if (infoPtr != NULL){
+					return RegisterSubcomponentInfo(fileInfo.baseName().toStdString(), infoPtr);
+				}
 			}
 		}
+	}
+	else{
+		// TODO: implement loading of composite components
 	}
 
 	return false;
 }
 
 
-bool CPackagesLoader::RegisterPackagesDir(const istd::CString& subDir, const istd::CString& baseDir, bool beQuiet)
+bool CPackagesLoader::RegisterPackagesDir(const istd::CString& path, bool beQuiet)
 {
 	bool retVal = true;
 
-	QDir packagesDir(GetQString(baseDir));
-	packagesDir.cd(GetQString(subDir));
+	QDir packagesDir(GetQString(path));
 
 	QStringList filters;
 	filters.append("*.arp");
-	QStringList filesInfo = packagesDir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
+	QStringList filesInfo = packagesDir.entryList(filters, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 	for (		QStringList::iterator iter = filesInfo.begin();
 				iter != filesInfo.end();
 				++iter){
-		istd::CString filePath = GetCString(*iter);
+		istd::CString filePath = GetCString(packagesDir.absoluteFilePath(*iter));
 
-		retVal = RegisterPackageFile(filePath, GetCString(packagesDir.absolutePath()), beQuiet) && retVal;
+		retVal = RegisterPackageFile(filePath, beQuiet) && retVal;
 	}
 
 	return retVal;
 }
 
 
-bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile, const istd::CString& baseDir)
+bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile)
 {
-	QDir packagesDir(GetQString(baseDir));
-	QFileInfo fileInfo = packagesDir.absoluteFilePath(GetQString(configFile));
-	istd::CString newBaseDir = GetCString(fileInfo.absoluteDir().absolutePath());
+	QFileInfo fileInfo = GetQString(configFile);
+	QDir baseDir = fileInfo.absoluteDir();
 
 	iser::CXmlFileReadArchive archive(GetCString(fileInfo.absoluteFilePath()));
 
@@ -80,7 +84,7 @@ bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile, const istd
 		istd::CString dirPath;
 		retVal = retVal && archive.Process(dirPath);
 		if (retVal){
-			RegisterPackagesDir(dirPath, newBaseDir, false);
+			RegisterPackagesDir(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(dirPath))), false);
 		}
 
 		retVal = retVal && archive.EndTag(dirPathTag);
@@ -102,7 +106,7 @@ bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile, const istd
 		istd::CString filePath;
 		retVal = retVal && archive.Process(filePath);
 		if (retVal){
-			RegisterPackageFile(filePath, newBaseDir, false);
+			RegisterPackageFile(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(filePath))), false);
 		}
 
 		retVal = retVal && archive.EndTag(filePathTag);
@@ -116,10 +120,9 @@ bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile, const istd
 
 // protected methods
 
-CDllFunctionsProvider& CPackagesLoader::GetProviderRef(const istd::CString& file, const istd::CString& baseDir, bool beQuiet)
+CDllFunctionsProvider& CPackagesLoader::GetProviderRef(const QFileInfo& fileInfo, bool beQuiet)
 {
-	QDir applicationDir(GetQString(baseDir));
-	QString absolutePath = applicationDir.absoluteFilePath(GetQString(file));
+	QString absolutePath = fileInfo.absoluteFilePath();
 
 	DllCacheMap::iterator iter = m_dllCacheMap.find(absolutePath);
 	if (iter != m_dllCacheMap.end()){
@@ -136,7 +139,7 @@ CDllFunctionsProvider& CPackagesLoader::GetProviderRef(const istd::CString& file
 		QMessageBox::warning(
 					NULL,
 					QObject::tr("Error"),
-					QObject::tr("Cannot register components from registry\n%1").arg(GetQString(file)));
+					QObject::tr("Cannot register components from registry\n%1").arg(fileInfo.fileName()));
 	}
 
 	return *providerPtr;

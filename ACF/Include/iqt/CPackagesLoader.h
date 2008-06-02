@@ -2,6 +2,9 @@
 #define iqt_CPackagesLoader_included
 
 
+// Qt includes
+#include <QFileInfo>
+
 #include "istd/TDelPtr.h"
 
 #include "icomp/CPackageStaticInfo.h"
@@ -19,12 +22,12 @@ namespace iqt
 class CPackagesLoader: public icomp::CPackageStaticInfo
 {
 public:
-	bool RegisterPackageFile(const istd::CString& file, const istd::CString& baseDir = "", bool beQuiet = true);
-	bool RegisterPackagesDir(const istd::CString& subDir, const istd::CString& baseDir = "", bool beQuiet = true);
-	bool LoadConfigFile(const istd::CString& configFile, const istd::CString& baseDir = "");
+	bool RegisterPackageFile(const istd::CString& file, bool beQuiet = true);
+	bool RegisterPackagesDir(const istd::CString& subDir, bool beQuiet = true);
+	bool LoadConfigFile(const istd::CString& configFile);
 
 protected:
-	CDllFunctionsProvider& GetProviderRef(const istd::CString& file, const istd::CString& baseDir, bool beQuiet = true);
+	CDllFunctionsProvider& GetProviderRef(const QFileInfo& fileInfo, bool beQuiet = true);
 
 private:
 	typedef istd::TDelPtr<CDllFunctionsProvider> FunctionsProviderPtr;
