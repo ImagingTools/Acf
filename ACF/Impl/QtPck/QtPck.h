@@ -28,6 +28,7 @@
 
 #include "iqtsig/CSamplingParamsGuiComp.h"
 #include "iqtsig/CSampleAcquisitionGuiComp.h"
+#include "iqtsig/CScriptSampleAcquisitionComp.h"
 
 
 /**
@@ -57,6 +58,7 @@ typedef iqt::CParamsManagerGuiComp ParamsManagerGui;
 typedef iqt::CSelectionParamGuiComp SelectionParamGui;
 typedef iqtsig::CSamplingParamsGuiComp SamplingParamsGui;
 typedef iqtsig::CSampleAcquisitionGuiComp SampleAcquisitionGui;
+typedef iqtsig::CScriptSampleAcquisitionComp ScriptSampleAcquisition;
 
 
 } // namespace QtPck

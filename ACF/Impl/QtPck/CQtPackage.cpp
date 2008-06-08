@@ -43,6 +43,7 @@ I_EXPORT_COMPONENT(ParamsManagerGui, "Allow to manage parameter set", "Model Obs
 I_EXPORT_COMPONENT(SelectionParamGui, "Single selection parameter from list of options", "Model Observer Parameters Set Selection Options List GUI Qt");
 I_EXPORT_COMPONENT(SamplingParamsGui, "Sampling parameters", "Interval Sample Sampling Model Parameters GUI Qt");
 I_EXPORT_COMPONENT(SampleAcquisitionGui, "Sample acquisition GUI", "Sample Sampling Acquisition GUI Qt");
+I_EXPORT_COMPONENT(ScriptSampleAcquisition, "Test sample acquisition based on QtScript", "Test Sample Sampling Acquisition Script QtScript Qt");
 
 
 } // namespace QtPck

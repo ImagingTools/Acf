@@ -18,10 +18,12 @@ namespace iproc
 	Wrapper of \c iproc::TIAssyncProcessor for simple synchrone processor implementations.
 	Synchrone processors process its data direct while method \c BeginTask is called.
 */
-template <class Base, class Input, class Output>
+template <class Base>
 class TSyncProcessorWrap: public Base
 {
 public:
+	typedef Base BaseClass;
+
 	TSyncProcessorWrap();
 
 	// pseudo-reimplemented (iproc::TIAssyncProcessor)
@@ -30,8 +32,8 @@ public:
 	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const;
 	virtual int BeginTask(
 				const iprm::IParamsSet* paramsPtr,
-				const typename TIAssyncProcessor<Input, Output>::InputType* inputPtr,
-				typename TIAssyncProcessor<Input, Output>::OutputType* outputPtr);
+				const typename BaseClass::InputType* inputPtr,
+				typename BaseClass::OutputType* outputPtr);
 	virtual int WaitTaskFinished(
 					int taskId = -1,
 					double timeoutTime = -1,
@@ -48,8 +50,8 @@ protected:
 	*/
 	virtual int DoSyncProcess(
 				const iprm::IParamsSet* paramsPtr,
-				const typename TIAssyncProcessor<Input, Output>::InputType* inputPtr,
-				typename TIAssyncProcessor<Input, Output>::OutputType* outputPtr) = 0;
+				const typename BaseClass::InputType* inputPtr,
+				typename BaseClass::OutputType* outputPtr) = 0;
 
 private:
 	typedef std::map<int, int> TaskToStateMap;
@@ -61,8 +63,8 @@ private:
 
 // public methods
 
-template <class Base, class Input, class Output>
-TSyncProcessorWrap<Base, Input, Output>::TSyncProcessorWrap()
+template <class Base>
+TSyncProcessorWrap<Base>::TSyncProcessorWrap()
 :	m_nextTaskId(0)
 {
 }
@@ -70,32 +72,32 @@ TSyncProcessorWrap<Base, Input, Output>::TSyncProcessorWrap()
 
 // pseudo-reimplemented (iproc::TIAssyncProcessor)
 
-template <class Base, class Input, class Output>
-int TSyncProcessorWrap<Base, Input, Output>::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
+template <class Base>
+int TSyncProcessorWrap<Base>::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
 {
 	return PS_READY;
 }
 
 
-template <class Base, class Input, class Output>
-void TSyncProcessorWrap<Base, Input, Output>::ResetAllTasks()
+template <class Base>
+void TSyncProcessorWrap<Base>::ResetAllTasks()
 {
 	m_taskToStateMap.clear();
 }
 
 
-template <class Base, class Input, class Output>
-bool TSyncProcessorWrap<Base, Input, Output>::AreParamsAccepted(const iprm::IParamsSet* /*paramsPtr*/) const
+template <class Base>
+bool TSyncProcessorWrap<Base>::AreParamsAccepted(const iprm::IParamsSet* /*paramsPtr*/) const
 {
 	return true;
 }
 
 
-template <class Base, class Input, class Output>
-int TSyncProcessorWrap<Base, Input, Output>::BeginTask(
+template <class Base>
+int TSyncProcessorWrap<Base>::BeginTask(
 			const iprm::IParamsSet* paramsPtr,
-			const typename TIAssyncProcessor<Input, Output>::InputType* inputPtr,
-			typename TIAssyncProcessor<Input, Output>::OutputType* outputPtr)
+			const typename BaseClass::InputType* inputPtr,
+			typename BaseClass::OutputType* outputPtr)
 {
 	int retVal = m_nextTaskId;
 	m_taskToStateMap[retVal] = DoSyncProcess(paramsPtr, inputPtr, outputPtr);
@@ -106,8 +108,8 @@ int TSyncProcessorWrap<Base, Input, Output>::BeginTask(
 }
 
 
-template <class Base, class Input, class Output>
-int TSyncProcessorWrap<Base, Input, Output>::WaitTaskFinished(
+template <class Base>
+int TSyncProcessorWrap<Base>::WaitTaskFinished(
 			int taskId,
 			double /*timeoutTime*/,
 			bool /*killOnTimeout*/)
@@ -139,8 +141,8 @@ int TSyncProcessorWrap<Base, Input, Output>::WaitTaskFinished(
 }
 
 
-template <class Base, class Input, class Output>
-int TSyncProcessorWrap<Base, Input, Output>::GetReadyTask()
+template <class Base>
+int TSyncProcessorWrap<Base>::GetReadyTask()
 {
 	if (!m_taskToStateMap.empty()){
 		return m_taskToStateMap.begin()->first;
@@ -151,8 +153,8 @@ int TSyncProcessorWrap<Base, Input, Output>::GetReadyTask()
 }
 
 
-template <class Base, class Input, class Output>
-int TSyncProcessorWrap<Base, Input, Output>::GetTaskState(int taskId) const
+template <class Base>
+int TSyncProcessorWrap<Base>::GetTaskState(int taskId) const
 {
 	int retVal = TS_NONE;
 
@@ -177,8 +179,8 @@ int TSyncProcessorWrap<Base, Input, Output>::GetTaskState(int taskId) const
 }
 
 
-template <class Base, class Input, class Output>
-void TSyncProcessorWrap<Base, Input, Output>::InitProcessor(const iprm::IParamsSet* /*paramsPtr*/)
+template <class Base>
+void TSyncProcessorWrap<Base>::InitProcessor(const iprm::IParamsSet* /*paramsPtr*/)
 {
 }
 

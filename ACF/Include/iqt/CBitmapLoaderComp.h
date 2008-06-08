@@ -27,7 +27,7 @@ namespace iqt
 */
 class CBitmapLoaderComp: public icomp::CComponentBase,
 			virtual public iser::IFileLoader,
-			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition, icam::IBitmapAcquisition::InputType, icam::IBitmapAcquisition::OutputType>
+			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -57,7 +57,7 @@ public:
 	virtual const istd::CString& GetLastLoadFileName() const;
 	virtual const istd::CString& GetLastSaveFileName() const;
 
-	// reimplemented (iproc::TSyncProcessorWrap<isys::ITimer, iimg::IBitmap>)
+	// reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 	virtual int DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
 
 	// reimplemented (icam::IBitmapAcquisition)

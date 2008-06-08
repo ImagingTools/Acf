@@ -103,7 +103,7 @@ const istd::CString& CBitmapLoaderComp::GetLastSaveFileName() const
 }
 
 
-// reimplemented (iproc::TSyncProcessorWrap<isys::ITimer, iimg::IBitmap>)
+// reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
 int CBitmapLoaderComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
