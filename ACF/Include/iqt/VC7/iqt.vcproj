@@ -229,7 +229,7 @@
 				RelativePath="..\CLoginGuiComp.cpp">
 			</File>
 			<File
-				RelativePath="..\CPackagesLoader.cpp">
+				RelativePath="..\CPackagesLoaderComp.cpp">
 			</File>
 			<File
 				RelativePath="..\CParamsManagerGuiComp.cpp">
@@ -656,7 +656,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\CPackagesLoader.h">
+				RelativePath="..\CPackagesLoaderComp.h">
 			</File>
 			<File
 				RelativePath="..\CParamsManagerGuiComp.h">

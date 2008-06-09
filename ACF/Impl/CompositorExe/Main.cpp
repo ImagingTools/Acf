@@ -7,8 +7,6 @@
 #include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
 
-#include "iqt/CPackagesLoader.h"
-
 #include "iser/CXmlFileReadArchive.h"
 #include "iser/CXmlFileWriteArchive.h"
 
@@ -45,7 +43,7 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentWrap<icomp::TMakeComponentWrap<icomp::CPackageStaticInfo, iqt::CPackagesLoader> > packagesLoaderComp;
+	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;
 	packagesLoaderComp.InitComponent();
 
 	std::string registryFile;

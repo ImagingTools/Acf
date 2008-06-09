@@ -10,19 +10,23 @@
 #include "ibase/IApplication.h"
 
 #include "icomp/TComponentWrap.h"
-#include "icomp/CXmlRegistriesManager.h"
+#include "icomp/TSimComponentWrap.h"
+#include "icomp/TMakeComponentWrap.h"
 #include "icomp/CCompositeComponentContext.h"
 #include "icomp/CCompositeComponent.h"
 #include "icomp/CRegistryElement.h"
 
-#include "iqt/CPackagesLoader.h"
+#include "iqt/CPackagesLoaderComp.h"
+
+#include "BasePck/BasePck.h"
 
 
 int main(int argc, char *argv[])
 {
 	QApplication::setStyle("plastique");
 
-	iqt::CPackagesLoader loader;
+	icomp::TSimComponentWrap<iqt::CPackagesLoaderComp> packagesLoaderComp;
+	packagesLoaderComp.InitComponent();
 
 	std::string registryFile = "default.acfr";
 	bool showApplicationInfo = false;
@@ -61,17 +65,17 @@ int main(int argc, char *argv[])
 					componentId = argv[++index];
 				}
 				else if (option == "packageFile"){
-					loader.RegisterPackageFile(argv[++index], false);
+					packagesLoaderComp.RegisterPackageFile(argv[++index], false);
 
 					useDefaultRegistries = false;
 				}
 				else if (option == "packageDir"){
-					loader.RegisterPackagesDir(argv[++index], false);
+					packagesLoaderComp.RegisterPackagesDir(argv[++index], false);
 
 					useDefaultRegistries = false;
 				}
 				else if (option == "config"){
-					loader.LoadConfigFile(argv[++index]);
+					packagesLoaderComp.LoadConfigFile(argv[++index]);
 
 					useDefaultRegistries = false;
 				}
@@ -84,22 +88,29 @@ int main(int argc, char *argv[])
 
 	// register default package path
 	if (useDefaultRegistries){
-		if (!loader.LoadConfigFile("PackagesConfig.xml")){
+		if (!packagesLoaderComp.LoadConfigFile("PackagesConfig.xml")){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
-			if (!loader.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
-				loader.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()), false);
+			if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
+				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()), false);
 			}
 		}
 	}
 
 	int retVal = 0;
 
-	icomp::CXmlRegistriesManager registriesManager(&loader);
-	const icomp::IRegistry* registryPtr = registriesManager.GetRegistryFromFile(registryFile.c_str());
-	if (registryPtr != NULL){
-		icomp::CRegistryElement dummyElement(&loader);
+	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> registryLoaderComp;
+	registryLoaderComp.InitComponent();
 
-		icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &registriesManager);
+	icomp::TSimComponentWrap<BasePck::RegistriesManager> registriesManagerComp;
+	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
+	registriesManagerComp.SetRef("ComponentsFactory", &packagesLoaderComp);
+	registriesManagerComp.InitComponent();
+
+	const icomp::IRegistry* registryPtr = registriesManagerComp.GetRegistryFromFile(registryFile.c_str());
+	if (registryPtr != NULL){
+		icomp::CRegistryElement dummyElement(&packagesLoaderComp);
+
+		icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &registriesManagerComp);
 		icomp::TComponentWrap<icomp::CCompositeComponent> composite(&compositeContext);
 
 		ibase::IApplication* applicationPtr = composite.GetComponentInterface<ibase::IApplication>(componentId);

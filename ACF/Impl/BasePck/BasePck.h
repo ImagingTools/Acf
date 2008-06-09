@@ -6,6 +6,7 @@
 #include "iser/CXmlFileWriteArchive.h"
 
 #include "icomp/TModelCompWrap.h"
+#include "icomp/CRegistriesManagerComp.h"
 
 #include "isvn/TApplicationInfoWrap.h"
 
@@ -31,6 +32,8 @@
 namespace BasePck
 {
 
+
+typedef icomp::CRegistriesManagerComp RegistriesManager;
 
 typedef istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
 typedef isvn::TApplicationInfoWrap<istdc::CApplicationInfoComp> ApplicationInfo;

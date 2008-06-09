@@ -148,10 +148,10 @@
 				RelativePath="..\CCompositeComponentContext.cpp">
 			</File>
 			<File
-				RelativePath="..\CFileRegistriesManagerBase.cpp">
+				RelativePath="..\CPackageStaticInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\CPackageStaticInfo.cpp">
+				RelativePath="..\CRegistriesManagerComp.cpp">
 			</File>
 			<File
 				RelativePath="..\CRegistry.cpp">
@@ -161,9 +161,6 @@
 			</File>
 			<File
 				RelativePath="..\CSimComponentContextBase.cpp">
-			</File>
-			<File
-				RelativePath="..\CXmlRegistriesManager.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -191,9 +188,6 @@
 				RelativePath="..\CFactoryAttribute.h">
 			</File>
 			<File
-				RelativePath="..\CFileRegistriesManagerBase.h">
-			</File>
-			<File
 				RelativePath="..\CMultiFactoryAttribute.h">
 			</File>
 			<File
@@ -206,6 +200,9 @@
 				RelativePath="..\CReferenceAttribute.h">
 			</File>
 			<File
+				RelativePath="..\CRegistriesManagerComp.h">
+			</File>
+			<File
 				RelativePath="..\CRegistry.h">
 			</File>
 			<File
@@ -213,9 +210,6 @@
 			</File>
 			<File
 				RelativePath="..\CSimComponentContextBase.h">
-			</File>
-			<File
-				RelativePath="..\CXmlRegistriesManager.h">
 			</File>
 			<File
 				RelativePath="..\export.h">

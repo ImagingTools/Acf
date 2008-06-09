@@ -1,4 +1,4 @@
-#include "icomp/CFileRegistriesManagerBase.h"
+#include "icomp/CRegistriesManagerComp.h"
 
 
 #include <string>
@@ -16,7 +16,7 @@ namespace icomp
 {
 
 
-const IRegistry* CFileRegistriesManagerBase::GetRegistryFromFile(const istd::CString& path) const
+const IRegistry* CRegistriesManagerComp::GetRegistryFromFile(const istd::CString& path) const
 {
 	istd::CString correctedPath = path;
 
@@ -32,10 +32,9 @@ const IRegistry* CFileRegistriesManagerBase::GetRegistryFromFile(const istd::CSt
 	}
 
 	istd::TDelPtr<IRegistry>& mapValue = m_registriesMap[correctedPath];
-	iser::IArchive* archivePtr = CreateArchive(correctedPath);
-	if (archivePtr != NULL){
-		istd::TDelPtr<IRegistry> newRegistryPtr(new CRegistry(&m_componentsFactory));
-		if (newRegistryPtr->Serialize(*archivePtr)){
+	if (m_registryLoaderCompPtr.IsValid() && m_componentsFactoryCompPtr.IsValid()){
+		istd::TDelPtr<IRegistry> newRegistryPtr(new CRegistry(m_componentsFactoryCompPtr.GetPtr()));
+		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == iser::IFileLoader::StateOk){
 			mapValue.TakeOver(newRegistryPtr);
 			m_invRegistriesMap[mapValue.GetPtr()] = correctedPath;
 
@@ -49,7 +48,7 @@ const IRegistry* CFileRegistriesManagerBase::GetRegistryFromFile(const istd::CSt
 
 // reimplemented (icomp::IRegistriesManager)
 
-const IRegistry* CFileRegistriesManagerBase::GetRegistry(
+const IRegistry* CRegistriesManagerComp::GetRegistry(
 			const icomp::CComponentAddress& address,
 			const IRegistry* contextPtr) const
 {
@@ -73,15 +72,6 @@ const IRegistry* CFileRegistriesManagerBase::GetRegistry(
 	path += istd::CString(address.GetComponentId());
 
 	return GetRegistryFromFile(path);
-}
-
-
-// protected methods
-
-CFileRegistriesManagerBase::CFileRegistriesManagerBase(const IComponentStaticInfo* factoryPtr)
-:	m_componentsFactory(*factoryPtr)
-{
-	I_ASSERT(factoryPtr != NULL);
 }
 
 

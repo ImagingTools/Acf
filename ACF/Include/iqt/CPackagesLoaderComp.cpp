@@ -1,4 +1,4 @@
-#include "iqt/CPackagesLoader.h"
+#include "iqt/CPackagesLoaderComp.h"
 
 
 // Qt includes
@@ -16,7 +16,7 @@ namespace iqt
 {
 
 
-bool CPackagesLoader::RegisterPackageFile(const istd::CString& file, bool beQuiet)
+bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file, bool beQuiet)
 {
 	QFileInfo fileInfo(iqt::GetQString(file));
 
@@ -40,7 +40,7 @@ bool CPackagesLoader::RegisterPackageFile(const istd::CString& file, bool beQuie
 }
 
 
-bool CPackagesLoader::RegisterPackagesDir(const istd::CString& path, bool beQuiet)
+bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path, bool beQuiet)
 {
 	bool retVal = true;
 
@@ -61,7 +61,7 @@ bool CPackagesLoader::RegisterPackagesDir(const istd::CString& path, bool beQuie
 }
 
 
-bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile)
+bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 {
 	QFileInfo fileInfo = GetQString(configFile);
 	QDir baseDir = fileInfo.absoluteDir();
@@ -120,7 +120,7 @@ bool CPackagesLoader::LoadConfigFile(const istd::CString& configFile)
 
 // protected methods
 
-CDllFunctionsProvider& CPackagesLoader::GetProviderRef(const QFileInfo& fileInfo, bool beQuiet)
+CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& fileInfo, bool beQuiet)
 {
 	QString absolutePath = fileInfo.absoluteFilePath();
 

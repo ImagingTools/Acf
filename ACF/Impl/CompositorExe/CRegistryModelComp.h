@@ -48,7 +48,7 @@ protected:
 	bool SerializeNote(iser::IArchive& archive, std::string& componentName, istd::CString& note);
 
 private:
-	I_REF(icomp::CPackageStaticInfo, m_staticInfoCompPtr);
+	I_REF(icomp::IComponentStaticInfo, m_staticInfoCompPtr);
 
 	typedef std::map<std::string, imath::CVector2d> ElementsPositionMap;
 	typedef std::map<std::string, istd::CString> ElementsNoteMap;

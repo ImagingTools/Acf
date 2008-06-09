@@ -23,6 +23,7 @@ namespace QtPck
 
 I_EXPORT_PACKAGE("Qt", "Standard Qt package", "Qt Standard");
 
+I_EXPORT_COMPONENT(PackagesLoader, "Load and cache packages from files", "Component Cache Package Load File");
 I_EXPORT_COMPONENT(LoginGui, "Gui used to user login", "User Login Qt GUI");
 I_EXPORT_COMPONENT(GuiApplication, "Main entry point for window based Qt application", "Application Main Entry Start Begin Qt");
 I_EXPORT_COMPONENT(SplashScreen, "Splash screen", "Splash Screen Start Begin Qt GUI");

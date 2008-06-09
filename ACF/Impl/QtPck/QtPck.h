@@ -5,6 +5,7 @@
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
 
+#include "iqt/CPackagesLoaderComp.h"
 #include "iqt/CLoginGuiComp.h"
 #include "iqt/CApplicationComp.h"
 #include "iqt/CSplashScreenGuiComp.h"
@@ -38,6 +39,7 @@ namespace QtPck
 {
 
 
+typedef iqt::CPackagesLoaderComp PackagesLoader;
 typedef iqt::CLoginGuiComp LoginGui;
 typedef iqt::CApplicationComp GuiApplication;
 typedef iqt::CSplashScreenGuiComp SplashScreen;

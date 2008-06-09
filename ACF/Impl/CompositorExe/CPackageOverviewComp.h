@@ -89,7 +89,7 @@ private:
 		icomp::CComponentAddress m_address;
 	};
 
-	I_REF(icomp::CPackageStaticInfo, m_generalStaticInfoPtr);
+	I_REF(icomp::CComponentStaticInfoBase, m_generalStaticInfoPtr);
 
 	QTreeWidgetItem* m_rootLocalItem;
 	QTreeWidgetItem* m_rootComposedItem;
