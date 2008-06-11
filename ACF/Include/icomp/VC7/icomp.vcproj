@@ -130,6 +130,9 @@
 			Name="Source Files"
 			Filter="cpp">
 			<File
+				RelativePath="..\CBaseComponentStaticInfo.cpp">
+			</File>
+			<File
 				RelativePath="..\CComponentAddress.cpp">
 			</File>
 			<File
@@ -151,10 +154,10 @@
 				RelativePath="..\CCompositeComponentStaticInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\CPackageStaticInfo.cpp">
+				RelativePath="..\CCompositePackageStaticInfo.cpp">
 			</File>
 			<File
-				RelativePath="..\CRegistriesManagerComp.cpp">
+				RelativePath="..\CPackageStaticInfo.cpp">
 			</File>
 			<File
 				RelativePath="..\CRegistry.cpp">
@@ -169,6 +172,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CBaseComponentStaticInfo.h">
+			</File>
 			<File
 				RelativePath="..\CComponentAddress.h">
 			</File>
@@ -191,6 +197,9 @@
 				RelativePath="..\CCompositeComponentStaticInfo.h">
 			</File>
 			<File
+				RelativePath="..\CCompositePackageStaticInfo.h">
+			</File>
+			<File
 				RelativePath="..\CFactoryAttribute.h">
 			</File>
 			<File
@@ -204,9 +213,6 @@
 			</File>
 			<File
 				RelativePath="..\CReferenceAttribute.h">
-			</File>
-			<File
-				RelativePath="..\CRegistriesManagerComp.h">
 			</File>
 			<File
 				RelativePath="..\CRegistry.h">
@@ -252,9 +258,6 @@
 			</File>
 			<File
 				RelativePath="..\TAttributeStaticInfo.h">
-			</File>
-			<File
-				RelativePath="..\TBaseComponentStaticInfo.h">
 			</File>
 			<File
 				RelativePath="..\TComponentRegistrator.h">

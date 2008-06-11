@@ -25,20 +25,14 @@ int main(int argc, char *argv[])
 {
 	QApplication::setStyle("plastique");
 
-	icomp::TSimComponentWrap<iqt::CPackagesLoaderComp> packagesLoaderComp;
-	icomp::TSimComponentWrap<BasePck::RegistriesManager> registriesManagerComp;
-
-	packagesLoaderComp.SetRef("RegistriesManager", &registriesManagerComp);
-	packagesLoaderComp.InitComponent();
-
 	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> registryLoaderComp;
 	registryLoaderComp.InitComponent();
 
-	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
-	registriesManagerComp.SetRef("ComponentsFactory", &packagesLoaderComp);
-	registriesManagerComp.InitComponent();
+	icomp::TSimComponentWrap<iqt::CPackagesLoaderComp> packagesLoaderComp;
+	packagesLoaderComp.SetRef("RegistryLoader", &registryLoaderComp);
+	packagesLoaderComp.InitComponent();
 
-	std::string registryFile = "default.acfr";
+	std::string registryFile = "default.arx";
 	bool showApplicationInfo = false;
 	bool useDefaultRegistries = true;
 	std::string componentId;
@@ -108,11 +102,11 @@ int main(int argc, char *argv[])
 
 	int retVal = 0;
 
-	const icomp::IRegistry* registryPtr = registriesManagerComp.GetRegistryFromFile(registryFile.c_str());
+	const icomp::IRegistry* registryPtr = packagesLoaderComp.GetRegistryFromFile(registryFile.c_str());
 	if (registryPtr != NULL){
 		icomp::CRegistryElement dummyElement(&packagesLoaderComp);
 
-		icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &registriesManagerComp);
+		icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &packagesLoaderComp);
 		icomp::TComponentWrap<icomp::CCompositeComponent> composite(&compositeContext);
 
 		ibase::IApplication* applicationPtr = composite.GetComponentInterface<ibase::IApplication>(componentId);

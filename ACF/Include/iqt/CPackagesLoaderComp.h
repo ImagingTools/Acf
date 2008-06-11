@@ -4,15 +4,21 @@
 
 // Qt includes
 #include <QFileInfo>
+#include <QDir>
+
+// STL includes
+#include <map>
 
 #include "istd/TDelPtr.h"
+
+#include "iser/IFileLoader.h"
 
 #include "icomp/IRegistriesManager.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
+#include "icomp/CCompositePackageStaticInfo.h"
 
 #include "iqt/CDllFunctionsProvider.h"
-#include "iqt/CCompositePackageStaticInfo.h"
 
 
 namespace iqt
@@ -22,20 +28,25 @@ namespace iqt
 /**
 	Loads component packages from dynamic link libraries.
 */
-class CPackagesLoaderComp: public icomp::CComponentBase, public icomp::CPackageStaticInfo
+class CPackagesLoaderComp: public icomp::CComponentBase, public icomp::CPackageStaticInfo, virtual public icomp::IRegistriesManager
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CPackagesLoaderComp)
 		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo)
-		I_REGISTER_INTERFACE(icomp::CComponentStaticInfoBase)
-		I_ASSIGN(m_registriesManagerCompPtr, "RegistriesManager", "Manger of registries used to load composite components", false, "RegistriesManager");
+		I_REGISTER_INTERFACE(icomp::IRegistriesManager)
+		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader")
 	I_END_COMPONENT
 
 	bool RegisterPackageFile(const istd::CString& file, bool beQuiet = true);
 	bool RegisterPackagesDir(const istd::CString& subDir, bool beQuiet = true);
 	bool LoadConfigFile(const istd::CString& configFile);
+
+	const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
+
+	// reimplemented (icomp::IRegistriesManager)
+	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;
 
 protected:
 	CDllFunctionsProvider& GetProviderRef(const QFileInfo& fileInfo, bool beQuiet = true);
@@ -46,12 +57,26 @@ private:
 
 	DllCacheMap m_dllCacheMap;
 
-	typedef istd::TDelPtr<CCompositePackageStaticInfo> CompositePackageInfoPtr;
-	typedef std::map<istd::CString, CompositePackageInfoPtr> CompositePackagesMap;
+	struct CompositePackageInfo
+	{
+		istd::TDelPtr<icomp::CCompositePackageStaticInfo> staticInfoPtr;
+		QDir directory;
+	};
+	/**
+		Map package ID to structure CompositePackageInfo.
+	*/
+	typedef std::map<std::string, CompositePackageInfo> CompositePackagesMap;
 
 	CompositePackagesMap m_compositePackagesMap;
 
-	I_REF(icomp::IRegistriesManager, m_registriesManagerCompPtr);
+	typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;
+	typedef std::map<istd::CString, RegistryPtr> RegistriesMap;
+	typedef std::map<const icomp::IRegistry*, QFileInfo> InvRegistriesMap;
+
+	mutable RegistriesMap m_registriesMap;
+	mutable InvRegistriesMap m_invRegistriesMap;
+
+	I_REF(iser::IFileLoader, m_registryLoaderCompPtr);
 };
 
 

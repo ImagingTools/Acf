@@ -22,8 +22,9 @@ class IRegistriesManager: virtual public istd::IPolymorphic
 public:
 	/**
 		Get access to stored registry.
+		\param	address		adress of registry treated as composed component.
 	*/
-	virtual const IRegistry* GetRegistry(const icomp::CComponentAddress& address, const IRegistry* contextPtr) const = 0;
+	virtual const IRegistry* GetRegistry(const icomp::CComponentAddress& address) const = 0;
 };
 
 

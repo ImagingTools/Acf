@@ -15,7 +15,7 @@
 #include "icomp/TMultiFactoryMember.h"
 #include "icomp/TAttributeStaticInfo.h"
 #include "icomp/TComponentStaticInfo.h"
-#include "icomp/TBaseComponentStaticInfo.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 
@@ -77,7 +77,7 @@ private:
 	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
 		BaseClass::InitStaticInfo(componentPtr);\
-		static icomp::TBaseComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(NULL));\
+		static icomp::CBaseComponentStaticInfo staticInfo(&BaseClass::InitStaticInfo(NULL));\
 		static bool isStaticInitialized = false;\
 		if (isStaticInitialized && (componentPtr == NULL)){\
 			return staticInfo;\

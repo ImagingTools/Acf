@@ -2,14 +2,16 @@
 
 
 // Qt includes
+#include <QObject>
 #include <QDir>
 #include <QCoreApplication>
 #include <QMessageBox>
-#include <QObject>
+#include <QFileInfo>
 
 #include "iser/CXmlFileReadArchive.h"
 
 #include "icomp/export.h"
+#include "icomp/CRegistry.h"
 
 
 namespace iqt
@@ -32,16 +34,33 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file, bool be
 			}
 		}
 	}
-	else if (m_registriesManagerCompPtr.IsValid()){
-		CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(GetCString(fileInfo.absoluteFilePath()));
+	else if (fileInfo.isDir()){
+		std::string packageId = fileInfo.baseName().toStdString();
+		CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(packageId);
 		if (foundIter == m_compositePackagesMap.end()){
-			CompositePackageInfoPtr& packageInfoPtr = m_compositePackagesMap[GetCString(fileInfo.absoluteFilePath())];
-			CCompositePackageStaticInfo* infoPtr = new CCompositePackageStaticInfo(
-						fileInfo.absoluteDir(),
-						m_registriesManagerCompPtr.GetPtr());
-			packageInfoPtr.SetPtr(infoPtr);
+			CompositePackageInfo& packageInfo = m_compositePackagesMap[packageId];
 
-			return RegisterSubcomponentInfo(fileInfo.baseName().toStdString(), infoPtr);
+			icomp::IComponentStaticInfo::Ids componentIds;
+
+			QStringList filters;
+			filters.append("*.arx");
+			QDir packageDir(fileInfo.absoluteFilePath());
+			QStringList componentFiles = packageDir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
+			for (		QStringList::iterator iter = componentFiles.begin();
+						iter != componentFiles.end();
+						++iter){
+				QFileInfo componentFileInfo(*iter);
+				componentIds.insert(componentFileInfo.baseName().toStdString());
+			}
+
+			icomp::CCompositePackageStaticInfo* infoPtr = new icomp::CCompositePackageStaticInfo(
+						packageId,
+						componentIds,
+						this);
+			packageInfo.staticInfoPtr.SetPtr(infoPtr);
+			packageInfo.directory = packageDir;
+
+			return RegisterSubcomponentInfo(packageId, infoPtr);
 		}
 	}
 
@@ -124,6 +143,47 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 	retVal = retVal && archive.EndTag(packageFilesTag);
 
 	return retVal;
+}
+
+
+const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CString& path) const
+{
+	QFileInfo fileInfo(iqt::GetQString(path));
+	istd::CString correctedPath = iqt::GetCString(fileInfo.absoluteFilePath());
+
+	RegistriesMap::const_iterator iter = m_registriesMap.find(correctedPath);
+
+	if (iter != m_registriesMap.end()){
+		return iter->second.GetPtr();
+	}
+
+	RegistryPtr& mapValue = m_registriesMap[correctedPath];
+	if (m_registryLoaderCompPtr.IsValid()){
+		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry(this));
+		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == iser::IFileLoader::StateOk){
+			mapValue.TakeOver(newRegistryPtr);
+			m_invRegistriesMap[mapValue.GetPtr()] = fileInfo;
+
+			return mapValue.GetPtr();
+		}
+	}
+
+	return NULL;
+}
+
+
+// reimplemented (icomp::IRegistriesManager)
+
+const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponentAddress& address) const
+{
+	CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(address.GetPackageId());
+	if (foundIter != m_compositePackagesMap.end()){
+		QString filePath = foundIter->second.directory.absoluteFilePath(QString(address.GetComponentId().c_str()) + ".arx");
+
+		return GetRegistryFromFile(GetCString(filePath));
+	}
+
+	return NULL;
 }
 
 

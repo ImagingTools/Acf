@@ -3,7 +3,7 @@
 
 
 #include "icomp/TComponentWrap.h"
-#include "icomp/TBaseComponentStaticInfo.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -11,10 +11,10 @@ namespace icomp
 
 
 template <class Component>
-class TComponentStaticInfo: public TBaseComponentStaticInfo<Component>
+class TComponentStaticInfo: public CBaseComponentStaticInfo
 {
 public:
-	typedef TBaseComponentStaticInfo<Component> BaseClass;
+	typedef CBaseComponentStaticInfo BaseClass;
 
 	TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr = NULL);
 

@@ -101,7 +101,7 @@ bool CCompositeComponentContext::CreateSubcomponentInfo(
 		const IRegistryElement& registryElement = *elementInfoPtr->elementPtr;
 
 		// try to create composed component
-		const IRegistry* subRegistryPtr = m_registriesManager.GetRegistry(elementInfoPtr->address, &m_registry);
+		const icomp::IRegistry* subRegistryPtr = m_registriesManager.GetRegistry(elementInfoPtr->address);
 		if (subRegistryPtr != NULL){
 			if (!contextPtr.IsValid()){
 				contextPtr = new CCompositeComponentContext(

@@ -1,28 +1,26 @@
-#include "iqt/CCompositePackageStaticInfo.h"
+#include "icomp/CCompositePackageStaticInfo.h"
 
 
 #include "icomp/CComponentAddress.h"
 
 
-namespace iqt
+namespace icomp
 {
 
 
-CCompositePackageStaticInfo::CCompositePackageStaticInfo(const QDir& packageDir, const icomp::IRegistriesManager* registriesManagerPtr)
-:	m_registriesManager(*registriesManagerPtr)
+CCompositePackageStaticInfo::CCompositePackageStaticInfo(
+			const std::string& packageId,
+			const Ids& componentIds,
+			const icomp::IRegistriesManager* registriesManagerPtr)
+
+:	m_packageId(packageId), m_registriesManager(*registriesManagerPtr)
 {
 	I_ASSERT(registriesManagerPtr != NULL);
 
-	m_packageId = QFileInfo(packageDir.absolutePath()).baseName().toStdString();
-
-	QStringList filters;
-	filters.append("*.arx");
-	QStringList componentsInfo = packageDir.entryList(filters, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
-	for (		QStringList::iterator iter = componentsInfo.begin();
-				iter != componentsInfo.end();
+	for (		Ids::const_iterator iter = componentIds.begin();
+				iter != componentIds.end();
 				++iter){
-		QFileInfo componentFileInfo(*iter);
-		m_subcomponentInfos.InsertLocal(componentFileInfo.baseName().toStdString(), ComponentInfo());
+		m_subcomponentInfos.InsertLocal(*iter, ComponentInfo());
 	}
 }
 
@@ -68,7 +66,7 @@ const icomp::IComponentStaticInfo* CCompositePackageStaticInfo::GetSubcomponent(
 		if (!infoPtr->isInitialized){
 			icomp::CComponentAddress address(m_packageId, subcomponentId);
 
-			const icomp::IRegistry* registryPtr = m_registriesManager.GetRegistry(address, NULL);
+			const icomp::IRegistry* registryPtr = m_registriesManager.GetRegistry(address);
 			if (registryPtr != NULL){
 				infoPtr->componentInfoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(registryPtr));
 			}
@@ -114,6 +112,6 @@ istd::CString CCompositePackageStaticInfo::GetKeywords() const
 }
 
 
-}//namespace iqt
+}//namespace icomp
 
 

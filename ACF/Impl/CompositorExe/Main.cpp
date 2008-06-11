@@ -43,18 +43,12 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentWrap<BasePck::RegistriesManager> registriesManagerComp;
-
-	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;
-	packagesLoaderComp.SetRef("RegistriesManager", &registriesManagerComp);
-	packagesLoaderComp.InitComponent();
-
 	icomp::TSimComponentWrap<CRegistryLoaderComp> registryLoaderComp;
 	registryLoaderComp.InitComponent();
 
-	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
-	registriesManagerComp.SetRef("ComponentsFactory", &packagesLoaderComp);
-	registriesManagerComp.InitComponent();
+	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;
+	packagesLoaderComp.SetRef("RegistryLoader", &registryLoaderComp);
+	packagesLoaderComp.InitComponent();
 
 	std::string registryFile;
 	bool useDefaultRegistries = true;

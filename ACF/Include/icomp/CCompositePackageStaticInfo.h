@@ -1,8 +1,6 @@
-#ifndef iqt_CCompositePackageStaticInfo_included
-#define iqt_CCompositePackageStaticInfo_included
+#ifndef icomp_CCompositePackageStaticInfo_included
+#define icomp_CCompositePackageStaticInfo_included
 
-
-#include <QDir>
 
 #include "istd/TCascadedMap.h"
 #include "istd/TDelPtr.h"
@@ -11,17 +9,18 @@
 #include "icomp/IRegistriesManager.h"
 #include "icomp/CCompositeComponentStaticInfo.h"
 
-#include "iqt/iqt.h"
 
-
-namespace iqt
+namespace icomp
 {
 
 
 class CCompositePackageStaticInfo: public icomp::IComponentStaticInfo
 {
 public:
-	CCompositePackageStaticInfo(const QDir& packageDir, const icomp::IRegistriesManager* registriesManagerPtr);
+	CCompositePackageStaticInfo(
+				const std::string& packageId,
+				const Ids& componentIds,
+				const icomp::IRegistriesManager* registriesManagerPtr);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual icomp::IComponent* CreateComponent(const icomp::IComponentContext* contextPtr) const;
@@ -52,9 +51,9 @@ private:
 };
 
 
-}//namespace iqt
+}//namespace icomp
 
 
-#endif //!iqt_CCompositePackageStaticInfo_included
+#endif //!icomp_CCompositePackageStaticInfo_included
 
 
