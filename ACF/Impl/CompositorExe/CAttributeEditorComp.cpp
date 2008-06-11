@@ -96,6 +96,7 @@ QStringList CAttributeEditorComp::GetAvailableComponents(const QString& interfac
 void CAttributeEditorComp::OnGuiModelDetached()
 {
 	AttributeTree->clear();
+	InterfacesTree->clear();
 
 	BaseClass::OnGuiModelDetached();
 }
@@ -115,10 +116,11 @@ void CAttributeEditorComp::UpdateEditor()
 	}
 
 	AttributeTree->clear();
+	InterfacesTree->clear();
 
 	const icomp::IComponentStaticInfo& elementStaticInfo = registryElementPtr->GetComponentStaticInfo();
 	const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = elementStaticInfo.GetAttributeInfos();
-	
+
 	for (int staticAttributeIndex = 0; staticAttributeIndex < staticAttributes.GetElementsCount(); staticAttributeIndex++){
 		const std::string& attributeId = staticAttributes.GetKeyAt(staticAttributeIndex);
 		const icomp::IAttributeStaticInfo* staticAttributeInfPtr = staticAttributes.GetValueAt(staticAttributeIndex);
@@ -266,6 +268,18 @@ void CAttributeEditorComp::UpdateEditor()
 	}
 
 	AttributeTree->resizeColumnToContents(0);
+
+	const icomp::IComponentStaticInfo::InterfaceExtractors extractors = elementStaticInfo.GetInterfaceExtractors();
+
+	for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
+		const std::string& interfaceId = extractors.GetKeyAt(extractorIndex);
+		QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
+
+		itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+		itemPtr->setText(0, interfaceId.c_str());
+
+		InterfacesTree->addTopLevelItem(itemPtr);
+	}
 }
 
 

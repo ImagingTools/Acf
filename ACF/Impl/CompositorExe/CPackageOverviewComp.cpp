@@ -64,20 +64,6 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 
 	PackagesList->clear();
 
-	m_rootLocalItem = new QTreeWidgetItem();
-	m_rootLocalItem->setText(0, tr("Local Components"));
-	PackagesList->addTopLevelItem(m_rootLocalItem);
-	m_rootLocalItem->setExpanded(true);
-	QFont font = qApp->font();
-	font.setBold(true);
-	m_rootLocalItem->setFont(0, font);
-
-	m_rootComposedItem = new QTreeWidgetItem();
-	m_rootComposedItem->setText(0,tr("Composed Components"));
-	PackagesList->addTopLevelItem(m_rootComposedItem);
-	m_rootComposedItem->setExpanded(true);
-	m_rootComposedItem->setFont(0, font);
-
 	icomp::IComponentStaticInfo::Ids subcomponentIds = m_generalStaticInfoPtr->GetSubcomponentIds();
 
 	for (		icomp::IComponentStaticInfo::Ids::const_iterator iter = subcomponentIds.begin();
@@ -102,7 +88,7 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 
 				packageItemPtr->setToolTip(0, iqt::GetQString(packageInfoPtr->GetDescription()));
 
-				m_rootLocalItem->addChild(packageItemPtr.PopPtr());
+				PackagesList->addTopLevelItem(packageItemPtr.PopPtr());
 			}
 		}
 	}

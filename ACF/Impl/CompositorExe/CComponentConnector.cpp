@@ -33,6 +33,7 @@ CComponentConnector::CComponentConnector(
 	SetDestinationComponent(destComponent);
 	
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setZValue(1);
 }
 
 

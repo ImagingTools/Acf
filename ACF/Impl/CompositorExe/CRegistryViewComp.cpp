@@ -208,12 +208,12 @@ void CRegistryViewComp::OnRetranslate()
 				tr("&Export Component"), 
 				tr("&Export Component"), 
 				tr("Export component"),
-				QIcon(":/Resources/Icons/.png"));
+				QIcon(":/Resources/Icons/Export.png"));
 	m_exportInterfaceCommand.SetVisuals(
 				tr("&Export Inteface(s)"), 
 				tr("&Export Interface(s)"), 
 				tr("Export interface(s)"),
-				QIcon(":/Resources/Icons/.png"));
+				QIcon(":/Resources/Icons/Export.png"));
 	m_exportToCodeCommand.SetVisuals(
 				tr("&Export To Code..."),
 				tr("Export"),

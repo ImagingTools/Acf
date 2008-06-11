@@ -91,9 +91,6 @@ private:
 
 	I_REF(icomp::IComponentStaticInfo, m_generalStaticInfoPtr);
 
-	QTreeWidgetItem* m_rootLocalItem;
-	QTreeWidgetItem* m_rootComposedItem;
-
 	static QString s_closedIcon;
 	static QString s_openIcon;
 };

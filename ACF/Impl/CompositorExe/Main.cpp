@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.SetRef("ApplicationInfo", &applicationInfo);
+	application.SetDoubleAttr("SplashTime", 3);
 	application.EnsureInitialized(argc, argv);
 
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;

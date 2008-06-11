@@ -11,5 +11,6 @@
         <file>Resources/Icons/player_stop.png</file>
         <file>Resources/Icons/close_a_128.png</file>
         <file>Resources/Icons/back_128.png</file>
+        <file>Resources/Icons/Export.png</file>
     </qresource>
 </RCC>

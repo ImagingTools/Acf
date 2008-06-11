@@ -1,26 +1,21 @@
+// Qt includes
 #include <QPainter>
-#include <QPaintEvent>
-#include <QResizeEvent>
-#include <QLabel>
 #include <QFont>
-#include <QMenu> 
-#include <QDrag>
-#include <QMessageBox>
 #include <QFontMetrics>
 #include <QStyleOptionGraphicsItem>
-#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsScene>
 #include <QApplication>
-
-
-#include "CComponentView.h"
-#include "CComponentConnector.h"
-#include "CRegistryViewComp.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
+#include "icomp/CCompositeComponentStaticInfo.h"
+
 #include "iqt/iqt.h"
+
+#include "CComponentView.h"
+#include "CComponentConnector.h"
+#include "CRegistryViewComp.h"
 
 
 CComponentView::CComponentView(
@@ -213,6 +208,8 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 {
 	I_ASSERT(m_elementInfoPtr != NULL);
 
+	painter->setRenderHints(QPainter::Antialiasing, true);
+
 	QRectF mainRect = rect();
 
 	mainRect.adjust(0, 0, -10, -10);
@@ -231,27 +228,23 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 	}
 
 	painter->drawRect(mainRect);
+	if (m_elementInfoPtr->elementPtr.IsValid()){
+		const icomp::IComponentStaticInfo& info = m_elementInfoPtr->elementPtr->GetComponentStaticInfo();
+		if (dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info) != NULL){
+			QRectF compositeRect = mainRect;
+			compositeRect.adjust(2, 2, -2, -2);
+			painter->drawRect(compositeRect);
+		}
+	}
 
 	if (!m_exportedInterfacesList.empty()){
-		painter->save();
-		QRectF exportRect = mainRect.adjusted(mainRect.width() - 45, 20, -20, 45 - mainRect.height());
-		painter->fillRect(exportRect, QBrush(Qt::magenta));
-		
-		QPen pen(Qt::magenta, 2);
-		pen.setJoinStyle(Qt::RoundJoin);
-		pen.setCapStyle(Qt::RoundCap);
-		painter->setPen(pen);
-		
-		painter->setRenderHints(QPainter::Antialiasing);
-		painter->drawLine(exportRect.right(), exportRect.top() + 6, exportRect.right() + 15, exportRect.top() + 6);
-		painter->drawLine(exportRect.right() + 15, exportRect.top() + 6, exportRect.right() + 10, exportRect.top() + 3);
-		painter->drawLine(exportRect.right() + 15, exportRect.top() + 6, exportRect.right() + 10, exportRect.top() + 9);
-
-		painter->drawLine(exportRect.right(), exportRect.top() + 18, exportRect.right() + 15, exportRect.top() + 18);
-		painter->drawLine(exportRect.right() + 15, exportRect.top() + 18, exportRect.right() + 10, exportRect.top()+ 21);
-		painter->drawLine(exportRect.right() + 15, exportRect.top() + 18, exportRect.right() + 10, exportRect.top() + 15);
-
-		painter->restore();
+		int minSideSize = istd::Min(mainRect.width(), mainRect.height());
+		painter->drawPixmap(
+					mainRect.width() - int(minSideSize * 0.8),
+					int(minSideSize * 0.2),
+					int(minSideSize * 0.6),
+					int(minSideSize * 0.6),
+					QIcon(":/Resources/Icons/Export.png").pixmap(128, 128));
 	}
 
 	mainRect.adjust(10, 10, 0, 0);
@@ -283,13 +276,7 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 {
 	switch(change){
 		case QGraphicsItem::ItemSelectedChange:
-			foreach(CComponentConnector* connector, m_connectors){
-				if (value.toBool()){
-					connector->setZValue(0);
-				}
-				else{
-					connector->setZValue(0);
-				}
+			foreach (CComponentConnector* connector, m_connectors){
 				connector->update();
 			}
 			emit selectionChanged(this, value.toBool());
