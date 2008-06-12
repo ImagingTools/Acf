@@ -396,8 +396,7 @@ void CAttributeEditorComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	QWidget* widgetPtr = GetQtWidget();
-	I_ASSERT(widgetPtr);
+	m_treeWidgetFilter.SetPtr(new iqt::CTreeWidgetFilter(AttributeTree));
 
 	AttributeTree->setItemDelegate(&m_attributeItemDelegate);
 	ExportTree->setItemDelegate(&m_attributeItemDelegate);
@@ -721,34 +720,14 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 
 void CAttributeEditorComp::AttributeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
-	painter->save();
-	painter->translate(5, 0);
 	QItemDelegate::paint(painter, option, index);
-	painter->restore();
-
-	painter->save();
 
 	QRect rect = option.rect;
-	painter->setPen(QPen(Qt::darkGray, 0, Qt::DotLine));
-	painter->drawLine(rect.topLeft(), rect.bottomLeft());
-	if (index.column() == ValueColumn){
+	painter->setPen(QPen(Qt::darkGray, 0, Qt::SolidLine));
+	if (index.column() == NameColumn){
 		painter->drawLine(rect.topRight(), rect.bottomRight());
 	}
 
-	painter->setPen(Qt::darkGray);
 	painter->drawLine(rect.bottomLeft(), rect.bottomRight());
-	painter->restore();
-
-	if (option.state & QStyle::State_Selected){
-		QRect updateRect = option.rect;
-		updateRect.setWidth(5);
-		updateRect.setHeight(updateRect.height() - 1);
-		if (option.state & QStyle::State_Active){
-			painter->fillRect(updateRect, option.palette.highlight());
-		}
-		else{
-			painter->fillRect(updateRect, option.palette.window());
-		}
-	}
 }
 

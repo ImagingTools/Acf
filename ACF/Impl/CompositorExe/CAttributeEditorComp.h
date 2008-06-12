@@ -1,11 +1,16 @@
 #ifndef CAttributeEditorComp_included
 #define CAttributeEditorComp_included
 
+
 #include <QtGui/QWidget>
 #include <QtGui/QComboBox>
 #include <QItemDelegate>
 
+
+#include "istd/TDelPtr.h"
+
 #include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqt/CTreeWidgetFilter.h"
 
 #include "icomp/IRegistryElement.h"
 
@@ -88,6 +93,7 @@ private:
 
 	typedef std::map<std::string, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
+	istd::TDelPtr<iqt::CTreeWidgetFilter> m_treeWidgetFilter;
 
 	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 };
