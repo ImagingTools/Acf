@@ -144,7 +144,7 @@ QRect CComponentView::CalculateRect() const
 {
 	I_ASSERT(m_elementInfoPtr != NULL);
 
-	const int margins = 20;
+	const int margin = 10;
 
 	QFont labelFont(qApp->font());
 	labelFont.setBold(true);
@@ -155,8 +155,8 @@ QRect CComponentView::CalculateRect() const
 	labelFont.setPixelSize(m_componentIdFontSize);
 	QFontMetrics fontInfo2(labelFont2);
 
-	int width = margins;
-	int height = margins;
+	int width = margin * 2;
+	int height = margin * 2;
 
 	QString componentPath = QString(m_elementInfoPtr->address.GetPackageId().c_str()) + QString(".") + m_elementInfoPtr->address.GetComponentId().c_str();
 	width += qMax(fontInfo.width(iqt::GetQString(m_componentName)), fontInfo2.width(componentPath));
@@ -171,7 +171,7 @@ QRect CComponentView::CalculateRect() const
 	double gridSize = m_registryView.GetGrid();
 
 	if (!m_exportedInterfacesList.empty()){
-		width += 50;
+		width += height - margin;
 	}
 
 	const int shadowOffset = 10;
@@ -232,7 +232,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 		const icomp::IComponentStaticInfo& info = m_elementInfoPtr->elementPtr->GetComponentStaticInfo();
 		if (dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info) != NULL){
 			QRectF compositeRect = mainRect;
-			compositeRect.adjust(2, 2, -2, -2);
+			compositeRect.adjust(4, 4, -4, -4);
 			painter->drawRect(compositeRect);
 		}
 	}

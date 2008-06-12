@@ -84,15 +84,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="4">
-    <Interface>
-      <InterfaceId>
-        class ibase::IApplication
-      </InterfaceId>
-      <ComponentId>
-        SnapApplication
-      </ComponentId>
-    </Interface>
+  <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
         class imod::IModelEditor

@@ -29,7 +29,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
+    <widget class="QTabWidget" name="MainTab" >
      <property name="tabPosition" >
       <enum>QTabWidget::South</enum>
      </property>
@@ -60,6 +60,9 @@
         <widget class="QTreeWidget" name="AttributeTree" >
          <property name="frameShape" >
           <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="editTriggers" >
+          <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors" >
           <bool>true</bool>
@@ -244,6 +247,15 @@
          <property name="frameShape" >
           <enum>QFrame::NoFrame</enum>
          </property>
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
+         </property>
          <column>
           <property name="text" >
            <string>Property</string>
@@ -279,6 +291,15 @@
         <widget class="QTreeWidget" name="InterfacesTree" >
          <property name="frameShape" >
           <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="alternatingRowColors" >
+          <bool>true</bool>
+         </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <property name="itemsExpandable" >
+          <bool>false</bool>
          </property>
          <column>
           <property name="text" >

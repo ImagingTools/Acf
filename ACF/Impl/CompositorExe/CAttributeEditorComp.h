@@ -30,7 +30,8 @@ public:
 		MultipleReference,
 		Attribute,
 		SelectableAttribute,
-		MultipleAttribute
+		MultipleAttribute,
+		Export
 	};
 
 	enum AttributeColumns
@@ -60,15 +61,14 @@ public:
 	virtual void UpdateModel() const;
 
 protected slots:
-	void OnItemSelected();
+	void on_AttributeTree_itemSelectionChanged();
+	void on_AttributeTree_itemChanged(QTreeWidgetItem* item, int column);
 
 protected:
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 
 private:
-	friend class AttributeItemDelegate;
-
 	class AttributeItemDelegate: public QItemDelegate
 	{
 	public:
@@ -83,6 +83,8 @@ private:
 	private:
 		CAttributeEditorComp& m_parent;
 	};
+
+	AttributeItemDelegate m_attributeItemDelegate;
 
 	typedef std::map<std::string, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
