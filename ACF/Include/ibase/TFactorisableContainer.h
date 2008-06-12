@@ -144,6 +144,10 @@ void TFactorisableContainer<InterfaceClass>::RegisterItemFactory(istd::TIFactory
 template <class InterfaceClass>
 bool TFactorisableContainer<InterfaceClass>::Serialize(iser::IArchive& archive)
 {
+	if (!archive.IsStoring()){
+		Reset();
+	}
+
 	int itemCount = GetItemCount();
 
 	static iser::CArchiveTag itemsTag("Items", "List of items");

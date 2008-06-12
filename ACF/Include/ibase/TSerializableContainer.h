@@ -41,6 +41,10 @@ protected:
 template <typename ItemClass, typename ContainerClass>
 bool TSerializableContainer<ItemClass, ContainerClass>::Serialize(iser::IArchive& archive)
 {
+	if (!archive.IsStoring()){
+		Reset();
+	}
+
 	int itemCount = GetItemCount();
 
 	static iser::CArchiveTag itemsTag("Items", "List of items");
