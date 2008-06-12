@@ -29,13 +29,10 @@ QString CSettingsArchiveBase::CreateKey(bool replaceMultiple) const
 		TagInfo& tagInfo = *index;
 		if (tagInfo.count > 0 && replaceMultiple){
 			tagInfo.tagId = QString::number(tagInfo.count).toStdString();
-
-			registryKey += QString::number(tagInfo.count--);
-		}
-		else{
-			registryKey += iqt::GetQString(tagInfo.tagId);
 		}
 
+		registryKey += iqt::GetQString(tagInfo.tagId);
+	
 		registryKey += "/";
 	}
 

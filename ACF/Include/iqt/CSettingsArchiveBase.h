@@ -25,13 +25,15 @@ protected:
 protected:
 	struct TagInfo
 	{
-		TagInfo(const std::string& tagId, int count)
+		TagInfo(const std::string& tagId, int count = 0, const std::string& subTagId = std::string())
 		{
 			this->tagId = tagId;
 			this->count = count;
+			this->subTagId = subTagId;
 		}
 	
 		std::string tagId;
+		std::string subTagId;
 		int count;
 	};
 

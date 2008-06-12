@@ -1,3 +1,4 @@
+
 #include "iqt/CSettingsReadArchive.h"
 
 #include <QStringList>
@@ -23,21 +24,28 @@ CSettingsReadArchive::CSettingsReadArchive(	const QString& organizationName,
 
 bool CSettingsReadArchive::BeginTag(const iser::CArchiveTag& tag)
 {
-	m_openTagsList.push_back(TagInfo(tag.GetId(), 0));
+	if (!m_openTagsList.empty()){
+		TagInfo& multiTag = m_openTagsList.back();
+		if (multiTag.subTagId == tag.GetId()){
+			multiTag.count--;
+		}
+	}
+	
+	m_openTagsList.push_back(TagInfo(tag.GetId()));
 
 	return true;
 }
 
 
-bool CSettingsReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
+bool CSettingsReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
-	m_openTagsList.push_back(TagInfo(tag.GetId(), count));
+	m_openTagsList.push_back(TagInfo(tag.GetId(), 0, subTag.GetId()));
 
 	QString registryKey = CreateKey(false);
 
 	count = BaseClass2::value(registryKey).toInt();
 
-	m_openTagsList.back().count = count;
+	m_openTagsList.back().count = count + 1;
 
 	return true;
 }
@@ -48,8 +56,7 @@ bool CSettingsReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 	I_ASSERT(!m_openTagsList.empty());
 
 	TagInfo& currentTag = m_openTagsList.back();
-	
-	if (currentTag.count == 0){		
+	if (currentTag.count <= 1){		
 		m_openTagsList.pop_back();
 	}
 	

@@ -23,15 +23,22 @@ CSettingsWriteArchive::CSettingsWriteArchive(const QString& organizationName,
 
 bool CSettingsWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 {
-	m_openTagsList.push_back(TagInfo(tag.GetId(), 0));
+	if (!m_openTagsList.empty()){
+		TagInfo& multiTag = m_openTagsList.back();
+		if (multiTag.subTagId == tag.GetId()){
+			multiTag.count--;
+		}
+	}
+	
+	m_openTagsList.push_back(TagInfo(tag.GetId()));
 
 	return true;
 }
 
 
-bool CSettingsWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
+bool CSettingsWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
-	m_openTagsList.push_back(TagInfo(tag.GetId(), count));
+	m_openTagsList.push_back(TagInfo(tag.GetId(), count + 1, subTag.GetId()));
 
 	QString registryKey = CreateKey(false);
 
@@ -46,7 +53,7 @@ bool CSettingsWriteArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 	I_ASSERT(!m_openTagsList.empty());
 
 	TagInfo& currentTag = m_openTagsList.back();
-	if (currentTag.count == 0){		
+	if (currentTag.count <= 1){		
 		m_openTagsList.pop_back();
 	}
 
