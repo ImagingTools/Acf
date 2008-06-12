@@ -12,7 +12,9 @@ namespace iqt
 // reimplemented (istd::IFileNameProvider)
 
 istd::CString CFileNameProviderGuiComp::GetFileName() const
-{
+{ 
+	I_ASSERT(IsGuiCreated());
+
 	return iqt::GetCString(FileNameEdit->text());
 }
 

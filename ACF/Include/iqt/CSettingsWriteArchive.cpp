@@ -62,7 +62,7 @@ bool CSettingsWriteArchive::Process(std::string& value)
 
 	QString registryKey = CreateKey();
 
-	BaseClass2::setValue(CreateKey(), QString(value.c_str()));
+	BaseClass2::setValue(registryKey, QString(value.c_str()));
 
 	return true;
 }
