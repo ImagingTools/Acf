@@ -52,7 +52,7 @@ void CDockWidgetGuiComp::OnGuiCreated()
 		dockWidgetPtr->setWindowTitle(iqt::GetQString(m_dockTitleAttrPtr->GetValue()));
 	}
 
-	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(dockWidgetPtr)){
+	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(NULL)){
 		QWidget* slaveWidgetPtr = m_slaveGuiCompPtr->GetWidget();
 		if (slaveWidgetPtr != NULL){
 			dockWidgetPtr->setWidget(slaveWidgetPtr);
@@ -62,6 +62,16 @@ void CDockWidgetGuiComp::OnGuiCreated()
 	dockWidgetPtr->setFeatures(	QDockWidget::DockWidgetMovable | 
 								QDockWidget::DockWidgetFloatable | 
 								QDockWidget::DockWidgetClosable);
+}
+
+
+void CDockWidgetGuiComp::OnGuiDestroyed()
+{
+	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->IsGuiCreated()){
+		m_slaveGuiCompPtr->DestroyGui();
+	}
+
+	BaseClass::OnGuiDestroyed();
 }
 
 
