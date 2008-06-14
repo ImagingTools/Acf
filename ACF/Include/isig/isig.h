@@ -1,5 +1,5 @@
-#ifndef iprm_included
-#define iprm_included
+#ifndef isig_included
+#define isig_included
 
 
 #include "istd/istd.h"
@@ -12,12 +12,12 @@
 
 	Contains interfaces and implementations of flexible parameter concept.
 */
-namespace iprm
+namespace isig
 {
 
 
 } // namespace iprm
 
 
-#endif // !iprm_included
+#endif // !isig_included
 
