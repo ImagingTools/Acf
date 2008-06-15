@@ -9,69 +9,65 @@
 
 namespace imebase
 {
+
+
+/**
+	Context for data processing
+*/
+class CMeContext
+{
+public:
+	CMeContext(const CMeAddr& address, int id, bool isOutput, isig::ISamplesContainer* containerPtr);
+	~CMeContext();
+
 	/**
-		Context for data processing
+		Register this context to MEiDS
 	*/
-	class CMeContext
-	{
-	public:
-		CMeContext();
-		~CMeContext();
+	bool Register(double interval);
+	void Unregister();
 
-		/**
-			Register this context to MEiDS
-		*/
-		bool Register(CMeAddr addr, int dir);
-		void Unregister(void);
+	int GetId()  const;
 
-		/**
-			Set/Get parameters.
-		*/
-		CMeAddr& GetAddress(void);
-		void SetSamplesContainer(void* container);
-		bool SetBufferSize(int size);
-		int GetBufferSize(void)  const;
-		bool SetId(int Id);
-		int GetId(void)  const;
+	/**
+		Check buffer status.
+	*/
+	int GetCount()  const;
+	bool IsDone();
+	/**
+		Wait for task to end. If time out return false.
+		\param	timeout	time out in seconds.
+	*/
+	bool Wait(double timeout);
 
-		/**
-			Check buffer status.
-		*/
-		int GetCount(void)  const;
-		bool IsDone(void);
-		/**
-			Wait for task to end. If time out return false.
-		*/
-		bool Wait(double Timeout /*in secounds*/);
+	void CopyToContainer();
+	void CopyFromContainer();
 
-		/**
-			Get pointer to data
-		*/
-		const int* GetBufferPointer(void) const;
+protected:
+	bool ConfigInputStream(double interval);
+	bool ConfigOutputStream(double interval);
 
-		void copyToContainer(void);
-		void copyFromContainer(void);
+	bool StartStream();
 
-	private:
-		static int cbAIFunc(int device, int subdevice, int count, void* context, int error);
-		static int cbAOFunc(int device, int subdevice, int count, void* context, int error);
+	// static methods
+	static int __stdcall cbAIFunc(int device, int subdevice, int count, void* context, int error);
+	static int __stdcall cbAOFunc(int device, int subdevice, int count, void* context, int error);
 
-	public:
+private:
+	QMutex m_activeTaskMutex;
 
-	private:
-		QMutex mutexKeyLock;
-		bool keyLock;
-		QMutex mutex;
-		int taskId;
-		int bufferCount;
-		int bufferSize;
-		int* hwBuffer;
+	CMeAddr m_address;
+	int m_id;
+	int m_bufferCount;
+	std::vector<int> m_hwBuffer;
+	bool m_isOutput;
 
-		isig::ISamplesContainer* samplesContainer;
-		CMeAddr address;
-	};
+	isig::ISamplesContainer& m_samplesContainer;
+};
+
 
 } // namespace imebase
 
 
 #endif // !imebase_CMeContext_included
+
+

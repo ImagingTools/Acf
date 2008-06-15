@@ -42,6 +42,7 @@ public:
 	virtual int GetSelectedOptionIndex() const;
 	virtual bool SetSelectedOptionIndex(int index);
 	virtual const istd::CString& GetOptionName(int index) const;
+	virtual ISelectionParam* GetActiveSubselection() const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);

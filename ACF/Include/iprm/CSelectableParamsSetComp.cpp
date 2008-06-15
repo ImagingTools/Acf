@@ -96,6 +96,12 @@ const istd::CString& CSelectableParamsSetComp::GetOptionName(int index) const
 
 
 
+ISelectionParam* CSelectableParamsSetComp::GetActiveSubselection(int /*index*/) const
+{
+	return NULL;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CSelectableParamsSetComp::Serialize(iser::IArchive& archive)

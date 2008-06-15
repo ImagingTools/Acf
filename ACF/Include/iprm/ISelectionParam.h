@@ -37,6 +37,12 @@ public:
 		Get name of specified option.
 	*/
 	virtual const istd::CString& GetOptionName(int index) const = 0;
+
+	/**
+		Get subselection for specified option.
+		Please note, that returned options tree belongs to selection data model.
+	*/
+	virtual ISelectionParam* GetActiveSubselection() const = 0;
 };
 
 

@@ -14,8 +14,8 @@ namespace imebase
 		~CMeBase();
 
 		CMeList& GetMeList(int direction);
-		CMeList& GetMeInputList(void);
-		CMeList& GetMeOutputList(void);
+		CMeList& GetMeInputList();
+		CMeList& GetMeOutputList();
 		bool CheckAddress(CMeAddr address, int direction) const;
 
 	private:

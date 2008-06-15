@@ -43,7 +43,7 @@ CMeBase::CMeBase()
 				break;
 			addressDevice.subdevice = index;
 			meQueryNumberRanges(deviceIndex, index, ME_UNIT_ANY, &addressDevice.channel);
-			MeOutputList.append(addressDevice);
+			MeInputList.append(addressDevice);
 		}
 	}
 }
@@ -70,13 +70,13 @@ imebase::CMeList& CMeBase::GetMeList(int direction)
 }
 
 
-imebase::CMeList& CMeBase::GetMeInputList(void)
+imebase::CMeList& CMeBase::GetMeInputList()
 {
 	return MeInputList;
 }
 
 
-imebase::CMeList& CMeBase::GetMeOutputList(void)
+imebase::CMeList& CMeBase::GetMeOutputList()
 {
 	return MeOutputList;
 }

@@ -210,16 +210,16 @@
 			Filter="cpp;cxx;c;def"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath="..\CChannelSelectionNode.cpp">
+			</File>
+			<File
 				RelativePath="..\CMeBase.cpp">
 			</File>
 			<File
 				RelativePath="..\CMeContext.cpp">
 			</File>
 			<File
-				RelativePath="..\CMeilhausSimpleAIComp.cpp">
-			</File>
-			<File
-				RelativePath="..\CMeilhausSimpleAOComp.cpp">
+				RelativePath="..\CMeilhausSimpleComp.cpp">
 			</File>
 			<File
 				RelativePath="..\main.cpp">
@@ -230,19 +230,22 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
+				RelativePath="..\CChannelSelectionNode.h">
+			</File>
+			<File
 				RelativePath="..\CMeBase.h">
 			</File>
 			<File
 				RelativePath="..\CMeContext.h">
 			</File>
 			<File
-				RelativePath="..\CMeilhausSimpleAIComp.h">
-			</File>
-			<File
-				RelativePath="..\CMeilhausSimpleAOComp.h">
+				RelativePath="..\CMeilhausSimpleComp.h">
 			</File>
 			<File
 				RelativePath="..\imebase.h">
+			</File>
+			<File
+				RelativePath="..\IMeilhausAccess.h">
 			</File>
 			<File
 				RelativePath="..\MePck.h">

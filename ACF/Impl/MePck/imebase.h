@@ -17,29 +17,33 @@
 
 namespace imebase
 {
-	/**
-		Logical address of hardware endpoint.
-	*/
-	class CMeAddr
-	{
-	public:
-		int device;
-		int subdevice;
-		int channel;
-	};
 
-	/**
-		Direction of endpont.
-	*/
-	enum EMeDirection
-	{
-		input,
-		output
-	};
+	
+/**
+	Logical address of hardware endpoint.
+*/
+class CMeAddr
+{
+public:
+	int device;
+	int subdevice;
+	int channel;
+};
 
-	typedef QList<CMeAddr> CMeList;
+/**
+	Direction of endpont.
+*/
+enum EMeDirection
+{
+	input,
+	output
+};
 
-	typedef QVector<double> imebase_Buffer;
+typedef QList<CMeAddr> CMeList;
+
+typedef QVector<double> imebase_Buffer;
+
+
 } // namespace imebase
 
 

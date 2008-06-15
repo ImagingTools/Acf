@@ -1,215 +1,303 @@
-#include "imebase.h"
 #include "CMeContext.h"
 
 
-using namespace imebase;
-
-CMeContext::CMeContext()
+namespace imebase
 {
-	taskId = -1;
-	bufferCount = 0;
-	bufferSize = 0;
-	hwBuffer = NULL;
-	keyLock = false;
-	samplesContainer = NULL;
+
+
+CMeContext::CMeContext(const CMeAddr& address, int id, bool isOutput, isig::ISamplesContainer* containerPtr)
+:	m_address(address),
+	m_isOutput(isOutput),
+	m_id(id),
+	m_samplesContainer(*containerPtr)
+{
+	I_ASSERT(containerPtr != NULL);
+
+	m_hwBuffer.resize(m_samplesContainer.GetSamplesCount());
+
+	m_bufferCount = 0;
 }
+
 
 CMeContext::~CMeContext()
 {
-	if (hwBuffer){
-		Unregister();
-		delete[] hwBuffer;
-	}
+	Unregister();
 }
 
-bool CMeContext::Register(CMeAddr addr, int dir)
-{
-	mutexKeyLock.lock();
-	if ((taskId <= -1) || (!hwBuffer)){
-		mutexKeyLock.unlock();
-		return false;
-	}
 
-	address = addr;
+bool CMeContext::Register(double interval)
+{
+	meIOResetSubdevice(m_address.device, m_address.subdevice, 0);
 
 	meIOStreamCB_t func;
-	switch (dir){
-		case input:
-			func = (meIOStreamCB_t)CMeContext::cbAIFunc;
-			mutex.lock();
-			break;
-		case output:
-			func = (meIOStreamCB_t)CMeContext::cbAOFunc;
-			if (!IsDone()){
-				int aCount = bufferSize;
-				meIOStreamWrite(addr.device, addr.subdevice, ME_WRITE_MODE_PRELOAD, hwBuffer, &aCount, 0);
-				bufferCount += aCount;
-				if (!IsDone())
-					mutex.lock();
-			}
-			break;
-		default:
+
+	if (m_isOutput){
+		if (!ConfigOutputStream(interval)){
 			return false;
+		}
+
+		func = cbAOFunc;
+		int aCount = int(m_hwBuffer.size());
+		meIOStreamWrite(m_address.device, m_address.subdevice, ME_WRITE_MODE_PRELOAD, &m_hwBuffer[0], &aCount, 0);
+		m_bufferCount += aCount;
+		if (!IsDone()){
+			m_activeTaskMutex.lock();
+		}
+	}
+	else{
+		if (!ConfigInputStream(interval)){
+			return false;
+		}
+
+		func = cbAIFunc;
+		m_activeTaskMutex.lock();
 	}
 
-	bool ret = true;
-	if (!IsDone())
-		ret = (0 == meIOStreamSetCallbacks(addr.device, addr.subdevice, NULL, NULL, func, this, func, this, 0));
-	keyLock = ret;
-	mutexKeyLock.unlock();
+	bool retVal = true;
+	if (!IsDone()){
+		retVal = (meIOStreamSetCallbacks(m_address.device, m_address.subdevice, NULL, NULL, func, this, func, this, 0) == 0);
+	}
+
+	retVal = retVal && StartStream();
+
+	return retVal;
+}
+
+
+void CMeContext::Unregister()
+{
+	meIOStreamSetCallbacks(m_address.device, m_address.subdevice, NULL, NULL, NULL, NULL, NULL, NULL, 0);
+
+	if (m_activeTaskMutex.tryLock()){
+		m_activeTaskMutex.unlock();
+	}
+}
+
+
+int CMeContext::GetId() const
+{
+	return m_id;
+}
+
+
+int CMeContext::GetCount() const
+{
+	return m_bufferCount;
+}
+
+
+bool CMeContext::IsDone()
+{
+	return int(m_hwBuffer.size()) == m_bufferCount;
+}
+
+
+bool CMeContext::Wait(double timeout)
+{
+	bool ret = m_activeTaskMutex.tryLock(int(timeout * 1000));
+	if (ret){
+		m_activeTaskMutex.unlock();
+	}
 
 	return ret;
 }
 
-void CMeContext::Unregister(void)
+
+void CMeContext::CopyToContainer()
 {
-	if (hwBuffer)
-		meIOStreamSetCallbacks(address.device, address.subdevice, NULL, NULL, NULL, NULL, NULL, NULL, 0);
-	if (mutex.tryLock())
-		mutex.unlock();
+	int unit;
+	double minVoltage, maxVoltage;
+	int maxData;
+
+	meQueryRangeInfo(m_address.device, m_address.subdevice, 0, &unit, &minVoltage, &maxVoltage, &maxData);
+
+	int samplesCount = m_samplesContainer.GetSamplesCount();
+	I_ASSERT(samplesCount == int(m_hwBuffer.size()));
+
+	for (int index=0; index < samplesCount; index++){
+		double value;
+		meUtilityDigitalToPhysical(minVoltage, maxVoltage, maxData, m_hwBuffer[index], ME_EXTENSION_TYPE_NONE, 0, &value);
+
+		m_samplesContainer.SetSample(index, value);
+	}
+
 }
 
-bool CMeContext::SetBufferSize(int size)
-{
-	I_ASSERT(size < 0);
 
-	if (keyLock)
+void CMeContext::CopyFromContainer()
+{
+	int unit;
+	double minVoltage;
+	double maxVoltage;
+	int maxData;
+
+	meQueryRangeInfo(m_address.device, m_address.subdevice, 0, &unit, &minVoltage, &maxVoltage, &maxData);
+
+	int samplesCount = m_samplesContainer.GetSamplesCount();
+	I_ASSERT(samplesCount == int(m_hwBuffer.size()));
+
+	for (int index = 0; index < samplesCount; index++){
+		double sample = m_samplesContainer.GetSample(index);
+
+		meUtilityPhysicalToDigital(minVoltage, maxVoltage, maxData, sample, &m_hwBuffer[index]);
+	}
+}
+
+
+// protected methods
+
+bool CMeContext::ConfigInputStream(double interval)
+{
+	int interval_high;
+	int interval_low;
+	double intervalMsecs = interval * 1000;
+
+	if (meIOStreamTimeToTicks(
+				m_address.device,
+				m_address.subdevice,
+				ME_TIMER_CONV_START,
+				&intervalMsecs,
+				&interval_low,
+				&interval_high,
+				ME_VALUE_NOT_USED) != 0){
 		return false;
+	}
 
-	if (hwBuffer)
-		delete[] hwBuffer;
-	hwBuffer = new int[size];
-	if (hwBuffer)
-		bufferSize = size;
-	else
-		bufferSize = 0;
-	bufferCount = 0;
-	return true;
+	meIOStreamConfig_t configList;
+	configList.iChannel = m_address.channel;
+	configList.iStreamConfig = 0;
+	configList.iRef = ME_REF_AI_GROUND;
+	configList.iFlags = ME_IO_STREAM_CONFIG_NO_FLAGS;
+
+	meIOStreamTrigger_t trigger;
+	trigger.iAcqStartTrigType = ME_TRIG_TYPE_SW;
+	trigger.iAcqStartTrigEdge = ME_VALUE_NOT_USED;
+	trigger.iAcqStartTrigChan = ME_TRIG_CHAN_DEFAULT;
+	trigger.iAcqStartTicksLow = 66;
+	trigger.iAcqStartTicksHigh = 0;
+	trigger.iScanStartTrigType = ME_TRIG_TYPE_FOLLOW;
+	trigger.iScanStartTicksLow = 0;
+	trigger.iScanStartTicksHigh = 0;
+	trigger.iConvStartTrigType = ME_TRIG_TYPE_TIMER;
+	trigger.iConvStartTicksLow = interval_low;
+	trigger.iConvStartTicksHigh = interval_high;
+	trigger.iScanStopTrigType = ME_TRIG_TYPE_NONE;
+	trigger.iScanStopCount = 1024;
+	trigger.iAcqStopTrigType = ME_TRIG_TYPE_FOLLOW;
+	trigger.iAcqStopCount = 0;
+	trigger.iFlags = ME_VALUE_NOT_USED;
+
+	return (meIOStreamConfig(m_address.device, m_address.subdevice, &configList, 1, &trigger, 1024, 0) == 0);
 }
 
-CMeAddr& CMeContext::GetAddress(void)
-{
-	return address;
-}
 
-int CMeContext::GetBufferSize(void)  const
+bool CMeContext::ConfigOutputStream(double interval)
 {
-	return bufferSize;
-}
+	int interval_high;
+	int interval_low;
+	double intervalMsecs = interval * 1000;
 
-const int* CMeContext::GetBufferPointer(void) const
-{
-	return hwBuffer;
-}
-
-
-bool CMeContext::SetId(int Id)
-{
-	if (keyLock)
+	if (meIOStreamTimeToTicks(
+				m_address.device,
+				m_address.subdevice,
+				ME_TIMER_CONV_START,
+				&intervalMsecs,
+				&interval_low,
+				&interval_high,
+				ME_VALUE_NOT_USED) != 0){
 		return false;
-	taskId = Id;
-	return true;
+	}
+
+	meIOStreamConfig_t configList;
+	configList.iChannel = m_address.channel;
+	configList.iStreamConfig = 0;
+	configList.iRef = ME_REF_AO_GROUND;
+	configList.iFlags = ME_IO_STREAM_CONFIG_NO_FLAGS;
+
+	meIOStreamTrigger_t trigger;
+	trigger.iAcqStartTrigType = ME_TRIG_TYPE_SW;
+	trigger.iAcqStartTrigEdge = ME_VALUE_NOT_USED;
+	trigger.iAcqStartTrigChan = ME_TRIG_CHAN_DEFAULT;
+	trigger.iAcqStartTicksLow = 0;
+	trigger.iAcqStartTicksHigh = 0;
+	trigger.iScanStartTrigType = ME_TRIG_TYPE_FOLLOW;
+	trigger.iScanStartTicksLow = 0;
+	trigger.iScanStartTicksHigh = 0;
+	trigger.iConvStartTrigType = ME_TRIG_TYPE_TIMER;
+	trigger.iConvStartTicksLow = interval_low;
+	trigger.iConvStartTicksHigh = interval_high;
+	trigger.iScanStopTrigType = ME_TRIG_TYPE_NONE;
+	trigger.iScanStopCount = 0;
+	trigger.iAcqStopTrigType = ME_TRIG_TYPE_NONE;
+	trigger.iAcqStopCount = 0;
+	trigger.iFlags = ME_IO_STREAM_CONFIG_WRAPAROUND;
+
+	return (meIOStreamConfig(m_address.device, m_address.subdevice, &configList, 1, &trigger, 0, 0) == 0);
 }
 
-int CMeContext::GetId(void)  const
+
+bool CMeContext::StartStream()
 {
-	return taskId;
+	meIOStreamStart_t startList;
+	startList.iDevice = m_address.device;
+	startList.iSubdevice = m_address.subdevice;
+	startList.iStartMode = ME_START_MODE_NONBLOCKING;
+	startList.iTimeOut = 0;
+	startList.iFlags = 0;
+
+	return (meIOStreamStart(&startList, 1, 0) == 0);
 }
 
-int CMeContext::GetCount(void)  const
-{
-	return bufferCount;
-}
 
-bool CMeContext::IsDone(void)
-{
-	return bufferSize && (bufferSize == bufferCount);
-}
-
-bool CMeContext::Wait(double Timeout /*in secounds*/)
-{
-	bool ret = mutex.tryLock(Timeout * 1000);
-	if (ret)
-		mutex.unlock();
-	return ret;
-}
+// protected static methods
 
 int CMeContext::cbAIFunc(int device, int subdevice, int count, void* context, int /*error*/)
 {
-	CMeContext* itself = (CMeContext *)context;
-	int aCount = itself->bufferSize - itself->bufferCount;
-	if (aCount > count)
+	CMeContext* itself = (CMeContext*)context;
+	int aCount = int(itself->m_hwBuffer.size()) - itself->m_bufferCount;
+	if (aCount > count){
 		aCount = count;
+	}
 
 	if (aCount){
-		meIOStreamRead(device, subdevice, ME_READ_MODE_NONBLOCKING, itself->hwBuffer + itself->bufferCount, &aCount, 0);
-		itself->bufferCount += aCount;
+		meIOStreamRead(device, subdevice, ME_READ_MODE_NONBLOCKING, &itself->m_hwBuffer[itself->m_bufferCount], &aCount, 0);
+		itself->m_bufferCount += aCount;
 	}
 
 	if (itself->IsDone()){
-		itself->mutex.unlock();
+		itself->m_activeTaskMutex.unlock();
 		return 1;
 	}
 
 	return 0;
 }
+
 
 int CMeContext::cbAOFunc(int device, int subdevice, int /*count*/, void* context, int /*error*/)
 {
 	CMeContext* itself = (CMeContext *)context;
 	if (itself->IsDone()){
-		itself->mutex.tryLock();
-			itself->mutex.unlock();
+		itself->m_activeTaskMutex.tryLock();
+			itself->m_activeTaskMutex.unlock();
 		return 1;
 	}
 
-	int aCount = itself->bufferSize - itself->bufferCount;
+	int aCount = int(itself->m_hwBuffer.size()) - itself->m_bufferCount;
 
 	if (aCount){
-		meIOStreamWrite(device, subdevice, ME_WRITE_MODE_NONBLOCKING, itself->hwBuffer + itself->bufferCount, &aCount, 0);
-		itself->bufferCount += aCount;
+		meIOStreamWrite(device, subdevice, ME_WRITE_MODE_NONBLOCKING, &itself->m_hwBuffer[itself->m_bufferCount], &aCount, 0);
+		itself->m_bufferCount += aCount;
 	}
 
 	if (itself->IsDone()){
-		itself->mutex.tryLock();
-			itself->mutex.unlock();
+		itself->m_activeTaskMutex.tryLock();
+			itself->m_activeTaskMutex.unlock();
 		return 1;
 	}
 	return 0;
 }
 
-void CMeContext::SetSamplesContainer(void* container)
-{
-	samplesContainer = (isig::ISamplesContainer*)container;
-}
 
-void CMeContext::copyToContainer(void)
-{
-	int unit;
-	double VMin, VMax;
-	int MaxData;
+} // namespace imebase
 
-	samplesContainer->ResetContainer();
-	samplesContainer->SetSamplesCount(bufferSize);
-	meQueryRangeInfo(address.device, address.subdevice, 0, &unit, &VMin, &VMax, &MaxData);
 
-	for (int index=0; index < bufferSize; index++){
-		double value;
-		meUtilityDigitalToPhysical(VMin, VMax, MaxData, *(hwBuffer+index), ME_EXTENSION_TYPE_NONE, 0, &value);
-		samplesContainer->SetSample(index, value);
-	}
-
-}
-
-void CMeContext::copyFromContainer(void)
-{
-	int unit;
-	double VMin, VMax;
-	int MaxData;
-
-	meQueryRangeInfo(address.device, address.subdevice, 0, &unit, &VMin, &VMax, &MaxData);
-
-	for (int index=0; index < bufferSize; index++){
-		meUtilityPhysicalToDigital(VMin, VMax, MaxData, samplesContainer->GetSample(index), hwBuffer+index);
-	}
-}
