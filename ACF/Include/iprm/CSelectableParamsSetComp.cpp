@@ -96,7 +96,7 @@ const istd::CString& CSelectableParamsSetComp::GetOptionName(int index) const
 
 
 
-ISelectionParam* CSelectableParamsSetComp::GetActiveSubselection(int /*index*/) const
+ISelectionParam* CSelectableParamsSetComp::GetActiveSubselection() const
 {
 	return NULL;
 }
