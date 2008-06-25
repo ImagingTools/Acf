@@ -138,9 +138,6 @@
 				RelativePath="..\CMessage.h">
 			</File>
 			<File
-				RelativePath="..\CMsbDWord.h">
-			</File>
-			<File
 				RelativePath="..\IApplication.h">
 			</File>
 			<File
@@ -175,6 +172,9 @@
 			</File>
 			<File
 				RelativePath="..\TMessageContainerWrap.h">
+			</File>
+			<File
+				RelativePath="..\TMsbWord.h">
 			</File>
 			<File
 				RelativePath="..\TNamedWrap.h">
