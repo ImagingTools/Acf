@@ -140,155 +140,15 @@ void CAttributeEditorComp::UpdateEditor()
 		const iser::ISerializable* attributePtr = NULL;
 
 		QTreeWidgetItem* attributeItemPtr = new QTreeWidgetItem();
-		attributeItemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
-
-		const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = registryElementPtr->GetAttributeInfo(attributeId);
-		if ((attributeInfoPtr != NULL) && !attributeInfoPtr->exportId.empty()){
-			attributeItemPtr->setIcon(NameColumn, QIcon(":/Resources/Icons/Export.png"));
-			hasExport = true;
-		}
-
-		if ((attributeInfoPtr != NULL) && attributeInfoPtr->attributePtr.IsValid()){
-			attributePtr = attributeInfoPtr->attributePtr.GetPtr();
-			attributeItemPtr->setCheckState(NameColumn, Qt::Checked);
-		}
-		else{
-			attributePtr = staticAttributeInfPtr->GetAttributeDefaultValue();
-			attributeItemPtr->setCheckState(NameColumn, Qt::Unchecked);
-		}
-
-		QString attributeName = attributeId.c_str();
-		attributeItemPtr->setText(NameColumn, attributeName);
-		attributeItemPtr->setData(ValueColumn, AttributeId, attributeName);
-		AttributeTree->addTopLevelItem(attributeItemPtr);
-
 		QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem();
-		exportItemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
-		exportItemPtr->setText(NameColumn, attributeName);
-		exportItemPtr->setText(ValueColumn, (attributeInfoPtr != NULL)? attributeInfoPtr->exportId.c_str(): "");
-		exportItemPtr->setData(ValueColumn, AttributeId, attributeName);
-		exportItemPtr->setData(ValueColumn, AttributeMining, Export);
+
+		bool exportFlag;
+		SetAttributeToItems(attributeId, *staticAttributeInfPtr, *attributeItemPtr, *exportItemPtr, &exportFlag);
+
+		hasExport = hasExport || exportFlag;
+
+		AttributeTree->addTopLevelItem(attributeItemPtr);
 		ExportTree->addTopLevelItem(exportItemPtr);
-
-		const icomp::CBoolAttribute* boolAttribute = dynamic_cast<const icomp::CBoolAttribute*>(attributePtr);
-		if (boolAttribute != NULL){
-			attributeItemPtr->setText(ValueColumn, boolAttribute->GetValue() ? tr("true"): tr("false"));
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Attribute);
-
-			continue;
-		}
-
-		const icomp::CDoubleAttribute* doubleAttribute = dynamic_cast<const icomp::CDoubleAttribute*>(attributePtr);
-		if (doubleAttribute != NULL){
-			attributeItemPtr->setText(ValueColumn, QString("%1").arg(doubleAttribute->GetValue()));
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Attribute);
-
-			continue;
-		}
-
-		const icomp::CIntAttribute* intAttribute = dynamic_cast<const icomp::CIntAttribute*>(attributePtr);
-		if (intAttribute != NULL){
-			attributeItemPtr->setText(ValueColumn, QString("%1").arg(intAttribute->GetValue()));
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Attribute);
-
-			continue;
-		}
-
-		const icomp::CStringAttribute* stringAttribute = dynamic_cast<const icomp::CStringAttribute*>(attributePtr);
-		if (stringAttribute != NULL){
-			attributeItemPtr->setText(ValueColumn, iqt::GetQString(stringAttribute->GetValue()));
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Attribute);		
-
-			continue;
-		}
-
-		const icomp::CMultiStringAttribute* stringListAttribute = dynamic_cast<const icomp::CMultiStringAttribute*>(attributePtr);
-		if (stringListAttribute != NULL){
-			QString stringList;
-
-			for (int index = 0; index < stringListAttribute->GetValuesCount(); index++){
-				stringList += iqt::GetQString(stringListAttribute->GetValueAt(index)) + ";";
-			}	
-				
-			attributeItemPtr->setText(ValueColumn, stringList);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleAttribute);		
-
-			continue;
-		}
-
-		const icomp::CMultiIntAttribute* intListAttribute = dynamic_cast<const icomp::CMultiIntAttribute*>(attributePtr);
-		if (intListAttribute != NULL){
-			QString stringList;
-
-			for (int index = 0; index < intListAttribute->GetValuesCount(); index++){
-				stringList += QString("%1").arg(intListAttribute->GetValueAt(index)) + ";";
-			}	
-
-			attributeItemPtr->setText(ValueColumn, stringList);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleAttribute);		
-
-			continue;
-		}
-
-		const icomp::CMultiDoubleAttribute* doubleListAttribute = dynamic_cast<const icomp::CMultiDoubleAttribute*>(attributePtr);
-		if (doubleListAttribute != NULL){
-			QString stringList;
-
-			for (int index = 0; index < doubleListAttribute->GetValuesCount(); index++){
-				stringList += QString("%1").arg(doubleListAttribute->GetValueAt(index)) + ";";
-			}	
-
-			attributeItemPtr->setText(ValueColumn, stringList);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleAttribute);		
-
-			continue;
-		}
-
-		const icomp::CReferenceAttribute* referencePtr = dynamic_cast<const icomp::CReferenceAttribute*>(attributePtr);
-		if (referencePtr != NULL){		
-			attributeItemPtr->setText(ValueColumn, iqt::GetQString(referencePtr->GetValue()));
-			attributeItemPtr->setData(ValueColumn, AttributeId, attributeName);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Reference);
-
-			continue;
-		}
-			
-		const icomp::CMultiReferenceAttribute* multiReferencePtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(attributePtr);
-		if (multiReferencePtr != NULL){
-			QString dependecyString;
-			for (int referenceIndex = 0; referenceIndex < multiReferencePtr->GetValuesCount(); referenceIndex++){
-				QString referenceName = iqt::GetQString(multiReferencePtr->GetValueAt(referenceIndex));
-				dependecyString += referenceName  + ";";
-			}
-
-			attributeItemPtr->setText(ValueColumn, dependecyString);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleReference);
-
-			continue;
-		}
-
-		const icomp::CFactoryAttribute* factoryPtr = dynamic_cast<const icomp::CFactoryAttribute*>(attributePtr);
-		if (factoryPtr != NULL){		
-			attributeItemPtr->setText(ValueColumn, iqt::GetQString(factoryPtr->GetValue()));
-			attributeItemPtr->setData(ValueColumn, AttributeId, attributeName);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, Reference);
-
-			continue;
-		}
-			
-		const icomp::CMultiFactoryAttribute* multiFactoryPtr = dynamic_cast<const icomp::CMultiFactoryAttribute*>(attributePtr);
-		if (multiFactoryPtr != NULL){
-			QString dependecyString;
-			for (int referenceIndex = 0; referenceIndex < multiFactoryPtr->GetValuesCount(); referenceIndex++){
-				QString referenceName = iqt::GetQString(multiFactoryPtr->GetValueAt(referenceIndex));
-				dependecyString += referenceName  + ";";
-			}
-
-			attributeItemPtr->setText(ValueColumn, dependecyString);
-			attributeItemPtr->setData(ValueColumn, AttributeMining, MultipleReference);
-
-			continue;
-		}
 	}
 
 	MainTab->setTabIcon(1, hasExport? QIcon(":/Resources/Icons/Export.png"): QIcon());
@@ -390,6 +250,171 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 
 // protected methods
 
+bool CAttributeEditorComp::SetAttributeToItems(
+			const std::string& attributeId,
+			const icomp::IAttributeStaticInfo& staticInfo,
+			QTreeWidgetItem& attributeItem,
+			QTreeWidgetItem& exportItem,
+			bool* hasExportPtr)
+{
+	icomp::IRegistryElement* registryElementPtr = GetObjectPtr();
+	if (registryElementPtr == NULL){
+		return false;
+	}
+
+	bool isAttributeCorrect = true;
+
+	const iser::ISerializable* attributePtr = NULL;
+
+	attributeItem.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsUserCheckable);
+
+	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = registryElementPtr->GetAttributeInfo(attributeId);
+	if ((attributeInfoPtr != NULL) && !attributeInfoPtr->exportId.empty()){
+		attributeItem.setIcon(NameColumn, QIcon(":/Resources/Icons/Export.png"));
+		if (hasExportPtr != NULL){
+			*hasExportPtr = true;
+		}
+	}
+
+	if ((attributeInfoPtr != NULL) && attributeInfoPtr->attributePtr.IsValid()){
+		attributePtr = attributeInfoPtr->attributePtr.GetPtr();
+		attributeItem.setCheckState(NameColumn, Qt::Checked);
+	}
+	else{
+		attributePtr = staticInfo.GetAttributeDefaultValue();
+		attributeItem.setCheckState(NameColumn, Qt::Unchecked);
+	}
+
+	QString attributeName = attributeId.c_str();
+	attributeItem.setText(NameColumn, attributeName);
+	attributeItem.setData(ValueColumn, AttributeId, attributeName);
+
+	exportItem.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+	exportItem.setText(NameColumn, attributeName);
+	exportItem.setText(ValueColumn, (attributeInfoPtr != NULL)? attributeInfoPtr->exportId.c_str(): "");
+	exportItem.setData(ValueColumn, AttributeId, attributeName);
+	exportItem.setData(ValueColumn, AttributeMining, Export);
+
+	QString text;
+	int meaning;
+
+	if ((attributePtr != NULL) && DecodeAttribute(*attributePtr, text, meaning)){
+		isAttributeCorrect =
+					(meaning == Attribute) ||
+					((attributeInfoPtr != NULL) && (attributeInfoPtr->attributePtr.IsValid() || !attributeInfoPtr->exportId.empty())) ||
+					!staticInfo.IsObligatory();
+
+		attributeItem.setBackgroundColor(0, isAttributeCorrect? Qt::white: Qt::red);
+		attributeItem.setText(ValueColumn, text);
+		attributeItem.setData(ValueColumn, AttributeMining, meaning);
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CAttributeEditorComp::DecodeAttribute(const iser::ISerializable& attribute, QString& text, int& meaning)
+{
+	const icomp::CBoolAttribute* boolAttribute = dynamic_cast<const icomp::CBoolAttribute*>(&attribute);
+	if (boolAttribute != NULL){
+		text = boolAttribute->GetValue() ? tr("true"): tr("false");
+		meaning = Attribute;
+
+		return true;
+	}
+
+	const icomp::CDoubleAttribute* doubleAttribute = dynamic_cast<const icomp::CDoubleAttribute*>(&attribute);
+	if (doubleAttribute != NULL){
+		text = QString::number(doubleAttribute->GetValue());
+		meaning = Attribute;
+
+		return true;
+	}
+
+	const icomp::CIntAttribute* intAttribute = dynamic_cast<const icomp::CIntAttribute*>(&attribute);
+	if (intAttribute != NULL){
+		text = QString::number(intAttribute->GetValue());
+		meaning = Attribute;
+
+		return true;
+	}
+
+	const icomp::CStringAttribute* stringAttribute = dynamic_cast<const icomp::CStringAttribute*>(&attribute);
+	if (stringAttribute != NULL){
+		text = iqt::GetQString(stringAttribute->GetValue());
+		meaning = Attribute;
+
+		return true;
+	}
+
+	const icomp::CMultiStringAttribute* stringListAttribute = dynamic_cast<const icomp::CMultiStringAttribute*>(&attribute);
+	if (stringListAttribute != NULL){
+		text.clear();
+
+		for (int index = 0; index < stringListAttribute->GetValuesCount(); index++){
+			text += iqt::GetQString(stringListAttribute->GetValueAt(index)) + ";";
+		}	
+			
+		meaning = MultipleAttribute;
+
+		return true;
+	}
+
+	const icomp::CMultiIntAttribute* intListAttribute = dynamic_cast<const icomp::CMultiIntAttribute*>(&attribute);
+	if (intListAttribute != NULL){
+		text.clear();
+
+		for (int index = 0; index < intListAttribute->GetValuesCount(); index++){
+			text += QString::number(intListAttribute->GetValueAt(index)) + ";";
+		}	
+
+		meaning = MultipleAttribute;
+
+		return true;
+	}
+
+	const icomp::CMultiDoubleAttribute* doubleListAttribute = dynamic_cast<const icomp::CMultiDoubleAttribute*>(&attribute);
+	if (doubleListAttribute != NULL){
+		text.clear();
+
+		for (int index = 0; index < doubleListAttribute->GetValuesCount(); index++){
+			text += QString("%1").arg(doubleListAttribute->GetValueAt(index)) + ";";
+		}	
+
+		meaning = MultipleAttribute;
+
+		return true;
+	}
+
+	const icomp::TSingleAttribute<std::string>* idPtr = dynamic_cast<const icomp::TSingleAttribute<std::string>*>(&attribute);
+	if (idPtr != NULL){		
+		text = idPtr->GetValue().c_str();
+
+		meaning = Reference;
+
+		return true;
+	}
+
+	const icomp::TMultiAttribute<std::string>* multiIdPtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(&attribute);
+	if (multiIdPtr != NULL){
+		QString dependecyString;
+
+		int idsCount = multiIdPtr->GetValuesCount();
+		for (int idIndex = 0; idIndex < idsCount; idIndex++){
+			text += iqt::GetQString(multiIdPtr->GetValueAt(idIndex))  + ";";
+		}
+
+		meaning = MultipleReference;
+
+		return true;
+	}
+
+	return false;
+}
+
+
 // reimplemented (CGuiComponentBase)
 
 void CAttributeEditorComp::OnGuiCreated()
@@ -437,7 +462,9 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 				(propertyMining == MultipleReference) ||
 				(propertyMining == SelectableAttribute)){
 		QComboBox* comboEditor = new QComboBox(parent);
+		QString text = index.data().toString();
 		comboEditor->setEditable(true);
+		comboEditor->setEditText(text);
 		return comboEditor;
 	} 
 

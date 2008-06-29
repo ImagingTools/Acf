@@ -22,7 +22,7 @@ public:
 
 	I_BEGIN_COMPONENT(CComposedParamsSetComp)
 		I_REGISTER_INTERFACE(IParamsSet)
-		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", true)
+		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false)
 		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true)
 		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true)
 	I_END_COMPONENT

@@ -21,10 +21,10 @@
         ApplicationInfo
       </ComponentName>
       <X>
-        -425
+        537
       </X>
       <X>
-        -287
+        -212
       </X>
     </Element>
     <Element>
@@ -32,7 +32,7 @@
         CompositeTemplate
       </ComponentName>
       <X>
-        -100
+        -50
       </X>
       <X>
         -412
@@ -54,10 +54,10 @@
         DocumentLoader
       </ComponentName>
       <X>
-        375
+        225
       </X>
       <X>
-        -487
+        -412
       </X>
     </Element>
     <Element>
@@ -120,10 +120,10 @@
         Info
       </ComponentName>
       <X>
-        312
+        212
       </X>
       <X>
-        -62
+        -87
       </X>
     </Element>
     <Element>
@@ -175,7 +175,7 @@
         Workspace
       </ComponentName>
       <X>
-        0
+        -25
       </X>
       <X>
         -287

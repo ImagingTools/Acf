@@ -52,8 +52,6 @@ void* CCompositeComponent::GetInterface(const type_info& interfaceType, const st
 }
 
 
-// protected methods
-
 // static methods
 
 void CCompositeComponent::SplitComponentId(const std::string& fullId, std::string& componentId, std::string& restId)

@@ -32,6 +32,11 @@ public:
 		\sa IsValid()
 	*/
 	virtual void SetComponentStaticInfo(const IComponentStaticInfo* factoryPtr);
+	/**
+		Get component factory (static info).
+		\sa SetComponentStaticInfo and IsValid()
+	*/
+	virtual const IComponentStaticInfo* GetComponentStaticInfo() const;
 
 	// reimplemented (icomp::IRegistry)
 	virtual Ids GetElementIds() const;
@@ -62,6 +67,14 @@ private:
 
 	const IComponentStaticInfo* m_componentsFactoryPtr;
 };
+
+
+// inline methods
+
+inline const IComponentStaticInfo* CRegistry::GetComponentStaticInfo() const
+{
+	return m_componentsFactoryPtr;
+}
 
 
 }//namespace icomp

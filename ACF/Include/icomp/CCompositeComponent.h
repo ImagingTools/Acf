@@ -20,7 +20,7 @@ public:
 	// reimplemented (icomp::IComponent)
 	virtual void* GetInterface(const type_info& interfaceType, const std::string& subId = "");
 
-protected:
+	// static methods
 	/**
 		Split complete component ID to real component ID and subcomponent ID.
 	*/

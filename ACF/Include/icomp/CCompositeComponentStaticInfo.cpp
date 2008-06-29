@@ -28,7 +28,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(const IRegistry& re
 				++subcomponentIter){
 		const std::string& subcomponentId = subcomponentIter->first;
 		const std::string& elementId = subcomponentIter->second;
-		const IRegistry::ElementInfo* elementInfoPtr =registry.GetElementInfo(elementId);
+		const IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(elementId);
 		if ((elementInfoPtr == NULL) || !elementInfoPtr->elementPtr.IsValid()){
 			continue;
 		}
@@ -45,7 +45,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(const IRegistry& re
 				elementIter != elementIds.end();
 				++elementIter){
 		const std::string& elementId = *elementIter;
-		const IRegistry::ElementInfo* elementInfoPtr =registry.GetElementInfo(elementId);
+		const IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(elementId);
 		if ((elementInfoPtr == NULL) || !elementInfoPtr->elementPtr.IsValid()){
 			continue;
 		}

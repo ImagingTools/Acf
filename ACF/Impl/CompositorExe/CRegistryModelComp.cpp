@@ -3,6 +3,9 @@
 #include "istd/TChangeNotifier.h"
 
 
+#include "icomp/CCompositeComponent.h"
+
+
 // public methods
 
 
@@ -59,6 +62,58 @@ bool CRegistryModelComp::SerializeComponentsLayout(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(positionMapTag);
 
 	return retVal;
+}
+
+
+int CRegistryModelComp::CheckAttributeConsistency(const icomp::IRegistryElement& element, const std::string& attributeId)
+{
+	const icomp::IComponentStaticInfo& elementStaticInfo = element.GetComponentStaticInfo();
+	const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = elementStaticInfo.GetAttributeInfos();
+	const icomp::IComponentStaticInfo::AttributeInfos::ValueType* attrStaticInfoPtrPtr = staticAttributes.FindElement(attributeId);
+	if (attrStaticInfoPtrPtr == NULL){
+		return CS_UNKNOWN;
+	}
+	I_ASSERT(*attrStaticInfoPtrPtr != NULL);
+
+	const icomp::IAttributeStaticInfo& attrStaticInfo = **attrStaticInfoPtrPtr;
+	const type_info& attrType = attrStaticInfo.GetAttributeType();
+
+	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = element.GetAttributeInfo(attributeId);
+
+	if (		(attrType == typeid(icomp::CReferenceAttribute)) ||
+				(attrType == typeid(icomp::CMultiReferenceAttribute)) ||
+				(attrType == typeid(icomp::CFactoryAttribute)) ||
+				(attrType == typeid(icomp::CMultiFactoryAttribute))){
+		if ((attributeInfoPtr == NULL) || !attributeInfoPtr->attributePtr.IsValid()){
+			if (attrStaticInfo.IsObligatory() && attributeInfoPtr->exportId.empty()){
+				return CS_INVALID;
+			}
+			else if (attributeInfoPtr->exportId.empty()){
+				return CS_OPTIONAL;
+			}
+			else{
+				return CS_OK;
+			}
+		}
+
+		const icomp::TSingleAttribute<std::string>* idPtr = dynamic_cast<const icomp::TSingleAttribute<std::string>*>(attributeInfoPtr->attributePtr.GetPtr());
+		if (idPtr != NULL){		
+			const icomp::CReferenceAttribute* referencePtr = dynamic_cast<const icomp::CReferenceAttribute*>(attributeInfoPtr->attributePtr.GetPtr());
+			if ((referencePtr != NULL) && (attrType != typeid(icomp::CReferenceAttribute))){
+				return CS_INVALID;
+			}
+
+			std::string componentId;
+			std::string restId;
+			icomp::CCompositeComponent::SplitComponentId(idPtr->GetValue().c_str(), componentId, restId);
+
+			if (GetElementInfo(componentId) == NULL){
+				return CS_INVALID;
+			}
+		}
+	}
+
+	return CS_OK;
 }
 
 

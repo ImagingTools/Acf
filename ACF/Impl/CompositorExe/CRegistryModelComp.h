@@ -31,6 +31,15 @@ public:
 
 	virtual bool SerializeComponentsLayout(iser::IArchive& archive);
 
+	enum ConsistencyState
+	{
+		CS_UNKNOWN,
+		CS_OK,
+		CS_OPTIONAL,
+		CS_INVALID
+	};
+	int CheckAttributeConsistency(const icomp::IRegistryElement& element, const std::string& attributeId);
+
 	// reimplemented (icomp::IRegistryGeometryProvider)
 	virtual imath::CVector2d GetComponentPosition(const std::string& componentRole) const;
 	virtual void SetComponentPosition(const std::string& componentRole, const imath::CVector2d& point);

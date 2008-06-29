@@ -29,8 +29,7 @@ public:
 		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "Attribute selection observer", false, "AttributeSelectionObserver")
 	I_END_COMPONENT
 
-	enum
-	{
+	enum AttrMeaning{
 		Reference = 0x1,
 		MultipleReference,
 		Attribute,
@@ -70,6 +69,14 @@ protected slots:
 	void on_AttributeTree_itemChanged(QTreeWidgetItem* item, int column);
 
 protected:
+	bool SetAttributeToItems(
+				const std::string& attributeId,
+				const icomp::IAttributeStaticInfo& staticInfo,
+				QTreeWidgetItem& attributeItem,
+				QTreeWidgetItem& exportItem,
+				bool* hasExportPtr);
+	bool DecodeAttribute(const iser::ISerializable& attribute, QString& text, int& meaning);
+
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 
