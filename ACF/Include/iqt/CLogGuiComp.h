@@ -1,5 +1,5 @@
-#ifndef CLogGuiComp_included
-#define CLogGuiComp_included
+#ifndef iqt_CLogGuiComp_included
+#define iqt_CLogGuiComp_included
 
 
 #include <QMutex>
@@ -105,6 +105,5 @@ private:
 } // namespace iqt
 
 
-#endif // CLogGuiComp_included
-
+#endif // !iqt_CLogGuiComp_included
 
