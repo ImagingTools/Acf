@@ -83,14 +83,17 @@ int CFireGrabAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, c
 	if (status == FCE_NOERROR){
 		if (outputPtr != NULL){
 			istd::CIndex2d size = GetBitmapSize(paramsPtr);
-			if (!size.IsSizeEmpty() && (int(frameInfo.Length) >= size.GetProductVolume()) && outputPtr->CreateBitmap(size)){
-				I_ASSERT(outputPtr->GetLineBytesCount() >= size.GetX());
+			if (!size.IsSizeEmpty() && (int(frameInfo.Length) >= size.GetProductVolume())){
+				istd::TChangeNotifier<iimg::IBitmap> bitmapPtr(outputPtr);
+				if (bitmapPtr->CreateBitmap(size)){
+					I_ASSERT(outputPtr->GetLineBytesCount() >= size.GetX());
 
-				for (int y = 0; y < size.GetY(); ++y){
-					memcpy(outputPtr->GetLinePtr(y), frameInfo.pData + y * size.GetX(), size.GetY());
+					for (int y = 0; y < size.GetY(); ++y){
+						memcpy(outputPtr->GetLinePtr(y), frameInfo.pData + y * size.GetX(), size.GetY());
+					}
+
+					retVal = TS_OK;
 				}
-
-				retVal = TS_OK;
 			}
 		}
 		else{
