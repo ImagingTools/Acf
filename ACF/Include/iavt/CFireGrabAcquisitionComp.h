@@ -7,6 +7,8 @@
 #include <fgcamera.h>
 
 
+#include "ibase/TMessageProducerWrap.h"
+
 #include "iproc/TSyncProcessorWrap.h"
 
 #include "icam/IBitmapAcquisition.h"
@@ -24,7 +26,7 @@ namespace iavt
 	Bitmap loader component implementing interfaces \c iser::IFileLoader and \c icam::IBitmapAcquisition.
 */
 class CFireGrabAcquisitionComp:
-			public icomp::CComponentBase,
+			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
 			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 {
 public:
@@ -34,14 +36,26 @@ public:
 		I_REGISTER_INTERFACE(icam::IBitmapAcquisition)
 	I_END_COMPONENT
 
+	enum MessageId
+	{
+		MI_CANNOT_INIT = 0x2ef3210,
+		MI_NO_NODES,
+		MI_CANNOT_CONNECT,
+		MI_CANNOT_OPEN,
+		MI_CANNOT_START
+	};
+
 	CFireGrabAcquisitionComp();
-	virtual ~CFireGrabAcquisitionComp();
 
 	// reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 	virtual int DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
 
 	// reimplemented (icam::IBitmapAcquisition)
 	virtual istd::CIndex2d GetBitmapSize(const iprm::IParamsSet* paramsPtr) const;
+
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 private:
 	enum

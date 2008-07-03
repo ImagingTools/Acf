@@ -8,10 +8,10 @@
 
 #include "iwin/CCriticalSection.h"
 
+#include "ibase/IMessageConsumer.h"
 #include "ibase/THierarchicalBase.h"
 #include "ibase/TEnableableWrap.h"
 #include "ibase/TNamedWrap.h"
-#include "ibase/TMessageContainerWrap.h"
 
 
 namespace iproc
@@ -31,12 +31,17 @@ public :
 	COperatorBase();
 	virtual ~COperatorBase();
 
+	enum MessageId
+	{
+		MI_GENERAL = 0x1af2330
+	};
+
 	virtual bool IsAborted() const;
 	virtual void SetProcessingState(int processingState);
 	virtual void AddError(const istd::CString& description);
 	virtual void AddWarning(const istd::CString& description);
-	virtual void SetLogPtr(ibase::IMessageContainer* logPtr);
-	virtual ibase::IMessageContainer* GetLogPtr() const;
+	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr);
+	virtual ibase::IMessageConsumer* GetLogPtr() const;
 
 	// reimplemented (iproc::IOperator)
 	virtual StateInfo GetProcessingState() const;
@@ -50,7 +55,7 @@ public :
 protected:
 	double m_progress;
 
-	ibase::IMessageContainer* m_logPtr;
+	ibase::IMessageConsumer* m_logPtr;
 
 private:
 	StateInfo m_state;

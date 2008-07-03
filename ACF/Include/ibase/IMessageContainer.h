@@ -2,11 +2,12 @@
 #define ibase_IMessageContainer_included
 
 
+#include "istd/TIHierarchical.h"
+
 #include "iser/ISerializable.h"
 
 #include "ibase/IMessage.h"
-
-#include "istd/TIHierarchical.h"
+#include "ibase/IMessageConsumer.h"
 
 
 namespace ibase
@@ -16,7 +17,7 @@ namespace ibase
 /**
 	Common interface for an message container.
 */
-class IMessageContainer: virtual public iser::ISerializable
+class IMessageContainer: virtual public IMessageConsumer, virtual public iser::ISerializable
 {
 public:
 	typedef std::vector<const ibase::IMessage*> Messages;
@@ -53,13 +54,6 @@ public:
 		This function returns messages in the container. 
 	*/
 	virtual Messages GetMessages() const = 0;
-
-	/**
-		Adds a message item to the container. 
-		Please note, that the message container takes controll over the message item, 
-		so you cannot destroy this object manually.
-	*/
-	virtual void AddMessage(ibase::IMessage* message) = 0;
 
 	/**
 		Remove all message items from container.

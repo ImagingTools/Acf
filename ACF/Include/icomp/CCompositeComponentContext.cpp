@@ -122,7 +122,7 @@ bool CCompositeComponentContext::CreateSubcomponentInfo(
 		}
 		else{	// create real component
 			if (!contextPtr.IsValid()){
-				contextPtr.SetPtr(new CComponentContext(&registryElement, this));
+				contextPtr.SetPtr(new CComponentContext(&registryElement, this, componentId));
 			}
 
 			if (contextPtr.IsValid()){

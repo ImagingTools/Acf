@@ -32,6 +32,7 @@ public:
 	typedef iqt::TDesignerGuiCompBase<Ui::CLogGuiComp> BaseClass;
 
 	I_BEGIN_COMPONENT(CLogGuiComp)
+		I_REGISTER_INTERFACE(ibase::IMessageConsumer)
 		I_REGISTER_INTERFACE(ibase::IMessageContainer)
 		I_ASSIGN(m_fileLoaderCompPtr, "Serializer", "Serializer for log export", false, "Serializer")
 		I_ASSIGN(m_maxMessageCountAttrPtr, "MaxMessageCount", "Maximal number of messages", false, 1000)

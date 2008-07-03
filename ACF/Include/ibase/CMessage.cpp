@@ -16,8 +16,9 @@ CMessage::CMessage()
 }
 
 
-CMessage::CMessage(MessageCategory category, const istd::CString& text, const istd::CString& source)
-	:m_category(category),
+CMessage::CMessage(MessageCategory category, int id, const istd::CString& text, const istd::CString& source)
+:	m_category(category),
+	m_id(id),
 	m_text(text),
 	m_source(source)
 {
@@ -54,6 +55,12 @@ const isys::IDateTime& CMessage::GetTimeStamp() const
 CMessage::MessageCategory CMessage::GetCategory() const
 {
 	return m_category;
+}
+
+
+int CMessage::GetId() const
+{
+	return m_id;
 }
 
 

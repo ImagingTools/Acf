@@ -24,7 +24,9 @@ class IRegistryElement;
 class CComponentContext: virtual public IComponentContext
 {
 public:
-	CComponentContext(const IRegistryElement* elementPtr, const IComponentContext* parentPtr = NULL);
+	CComponentContext(const IRegistryElement* elementPtr, const IComponentContext* parentPtr = NULL, const std::string& contextId = "");
+
+	const std::string& GetContextId() const;
 
 	// reimplemented (icomp::IComponentContext)
 	virtual const IRegistryElement& GetRegistryElement() const;
@@ -40,7 +42,16 @@ private:
 
 	typedef std::map< std::string, const iser::ISerializable* > AttributeMap;
 	AttributeMap m_attributeMap;
+	std::string m_contextId;
 };
+
+
+// inline methods
+
+inline const std::string& CComponentContext::GetContextId() const
+{
+	return m_contextId;
+}
 
 
 }//namespace icomp

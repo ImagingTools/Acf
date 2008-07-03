@@ -4,6 +4,7 @@
 #include <memory.h>
 
 // Qt includes
+#include <QObject>
 #include <QFileInfo>
 #include <QByteArray>
 #include <QImageReader>
@@ -19,54 +20,8 @@ namespace iavt
 
 
 CFireGrabAcquisitionComp::CFireGrabAcquisitionComp()
-:	m_nodesCount(0)
+:	m_nodesCount(0), m_isCameraValid(false)
 {
-	// Init module
-	UINT32 status = FGInitModule(NULL);
-
-	// Get list of connected nodes
-	if (status == FCE_NOERROR){
-		status = FGGetNodeList(m_nodeInfos, MAX_NODES_COUNT, &m_nodesCount);
-
-		// Connect with node
-		if ((status == FCE_NOERROR) && (m_nodesCount > 0)){
-			status = m_camera.Connect(&m_nodeInfos[0].Guid);
-
-			// Start DMA logic
-			if (status == FCE_NOERROR){
-				status = m_camera.OpenCapture();
-
-				// Start image device
-				if (status == FCE_NOERROR){
-					status = m_camera.StartDevice();
-
-					if (status == FCE_NOERROR){
-						m_isCameraValid = true;
-
-						return;
-					}
-
-					m_camera.StopDevice();
-				}
-				m_camera.CloseCapture();
-			}
-			m_camera.Disconnect();
-		}
-		FGExitModule();
-	}
-
-	m_isCameraValid = false;
-}
-
-
-CFireGrabAcquisitionComp::~CFireGrabAcquisitionComp()
-{
-	if (m_isCameraValid){
-		m_camera.StopDevice();
-		m_camera.CloseCapture();
-		m_camera.Disconnect();
-		FGExitModule();
-	}
 }
 
 
@@ -121,6 +76,83 @@ istd::CIndex2d CFireGrabAcquisitionComp::GetBitmapSize(const iprm::IParamsSet* /
 	}
 
 	return istd::CIndex2d(-1, -1);	// unknown size
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CFireGrabAcquisitionComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	// Init module
+	UINT32 status = FGInitModule(NULL);
+
+	// Get list of connected nodes
+	if (status == FCE_NOERROR){
+		status = FGGetNodeList(m_nodeInfos, MAX_NODES_COUNT, &m_nodesCount);
+
+		// Connect with node
+		if ((status == FCE_NOERROR) && (m_nodesCount > 0)){
+			status = m_camera.Connect(&m_nodeInfos[0].Guid);
+
+			// Start DMA logic
+			if (status == FCE_NOERROR){
+				status = m_camera.OpenCapture();
+
+				// Start image device
+				if (status == FCE_NOERROR){
+					status = m_camera.StartDevice();
+
+					if (status == FCE_NOERROR){
+						m_isCameraValid = true;
+
+						return;
+					}
+					else{
+						SendErrorMessage(MI_CANNOT_START, iqt::GetCString(QObject::tr("Cannot start grab")));
+					}
+
+					m_camera.StopDevice();
+				}
+				else{
+					SendErrorMessage(MI_CANNOT_OPEN, iqt::GetCString(QObject::tr("Cannot open capture device")));
+				}
+
+				m_camera.CloseCapture();
+			}
+			else{
+				SendErrorMessage(MI_CANNOT_CONNECT, iqt::GetCString(QObject::tr("Cannot connect to camera node")));
+			}
+
+			m_camera.Disconnect();
+		}
+		else{
+			SendErrorMessage(MI_NO_NODES, iqt::GetCString(QObject::tr("No camera nodes")));
+		}
+
+		FGExitModule();
+	}
+	else{
+		SendErrorMessage(MI_CANNOT_INIT, iqt::GetCString(QObject::tr("Cannot init Fire Grab module")));
+	}
+
+	m_isCameraValid = false;
+}
+
+
+void CFireGrabAcquisitionComp::OnComponentDestroyed()
+{
+	if (m_isCameraValid){
+		m_camera.StopDevice();
+		m_camera.CloseCapture();
+		m_camera.Disconnect();
+		FGExitModule();
+
+		m_isCameraValid = false;
+	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

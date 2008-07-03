@@ -44,7 +44,7 @@ void COperatorBase::AddError(const istd::CString& description)
 	isys::CSectionBlocker lock(&m_mutex);
 
 	if (m_logPtr != NULL){
-		m_logPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Error, description, GetName()));
+		m_logPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Error, MI_GENERAL, description, GetName()));
 	}
 }
 
@@ -54,12 +54,12 @@ void COperatorBase::AddWarning(const istd::CString& description)
 	isys::CSectionBlocker lock(&m_mutex);
 
 	if (m_logPtr != NULL){
-		m_logPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Warning, description, GetName()));
+		m_logPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Warning, MI_GENERAL, description, GetName()));
 	}
 }
 
 
-void COperatorBase::SetLogPtr(ibase::IMessageContainer* logPtr)
+void COperatorBase::SetLogPtr(ibase::IMessageConsumer* logPtr)
 {
 	isys::CSectionBlocker lock(&m_mutex);
 
@@ -67,7 +67,7 @@ void COperatorBase::SetLogPtr(ibase::IMessageContainer* logPtr)
 }
 
 
-ibase::IMessageContainer* COperatorBase::GetLogPtr() const
+ibase::IMessageConsumer* COperatorBase::GetLogPtr() const
 {
 	return m_logPtr;
 }

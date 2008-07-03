@@ -44,6 +44,11 @@ public:
 	virtual MessageCategory GetCategory() const = 0;
 
 	/**
+		Get binary ID of the message using to automatical identification of this message type.
+	*/
+	virtual int GetId() const = 0;
+
+	/**
 		Get the text of the message.
 	*/
 	virtual istd::CString GetText() const = 0;

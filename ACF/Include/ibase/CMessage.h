@@ -15,7 +15,7 @@ class CMessage: virtual public ibase::IMessage
 {
 public:
 	CMessage();
-	CMessage(MessageCategory category, const istd::CString& text, const istd::CString& source);
+	CMessage(MessageCategory category, int id, const istd::CString& text, const istd::CString& source);
 
 	virtual void SetCategory(MessageCategory category);
 	virtual void SetText(const istd::CString& text);
@@ -24,6 +24,7 @@ public:
 	// reimplemented (ibase::IMessage)
 	virtual const isys::IDateTime& GetTimeStamp() const;
 	virtual MessageCategory GetCategory() const;
+	virtual int GetId() const;
 	virtual istd::CString GetText() const;
 	virtual istd::CString GetSource() const;
 
@@ -32,6 +33,7 @@ public:
 
 protected:
 	IMessage::MessageCategory m_category;
+	int m_id;
 	istd::CString m_text;
 	istd::CString m_source;
 

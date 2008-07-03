@@ -156,6 +156,9 @@
 				RelativePath="..\IMessage.h">
 			</File>
 			<File
+				RelativePath="..\IMessageConsumer.h">
+			</File>
+			<File
 				RelativePath="..\IMessageContainer.h">
 			</File>
 			<File
@@ -178,6 +181,9 @@
 			</File>
 			<File
 				RelativePath="..\TMessageContainerWrap.h">
+			</File>
+			<File
+				RelativePath="..\TMessageProducerWrap.h">
 			</File>
 			<File
 				RelativePath="..\TMsbWord.h">

@@ -22,8 +22,8 @@ public:
 	virtual bool IsPaused() const = 0;
 	virtual bool IsFinished() const = 0;
 	virtual double GetProcessingTime() const = 0;
-	virtual void SetLogPtr(ibase::IMessageContainer* logPtr) = 0; 
-	virtual ibase::IMessageContainer* GetLogPtr() const = 0; 
+	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr) = 0; 
+	virtual ibase::IMessageConsumer* GetLogPtr() const = 0; 
 	virtual void AddProgressHandler(iproc::IProgressEventHandler* progressHandlerPtr) = 0;
 };
 

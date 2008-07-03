@@ -1,6 +1,9 @@
 #include "iproc/CHierarchicalOperator.h"
 
 
+#include "ibase/TMessageContainerWrap.h"
+
+
 namespace iproc
 {		
 

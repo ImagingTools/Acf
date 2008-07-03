@@ -10,7 +10,7 @@ namespace iproc
 
 // reimplemented (iproc::IProcessingController)
 
-void CProcessingControllerBase::SetLogPtr(ibase::IMessageContainer* logPtr)
+void CProcessingControllerBase::SetLogPtr(ibase::IMessageConsumer* logPtr)
 {
 	iproc::COperatorBase* operatorPtr = dynamic_cast<iproc::COperatorBase*>(GetObjectPtr());
 	if (operatorPtr != NULL){
@@ -19,7 +19,7 @@ void CProcessingControllerBase::SetLogPtr(ibase::IMessageContainer* logPtr)
 }
 
 
-ibase::IMessageContainer* CProcessingControllerBase::GetLogPtr() const
+ibase::IMessageConsumer* CProcessingControllerBase::GetLogPtr() const
 {
 	iproc::COperatorBase* operatorPtr = dynamic_cast<iproc::COperatorBase*>(GetObjectPtr());
 	if (operatorPtr != NULL){

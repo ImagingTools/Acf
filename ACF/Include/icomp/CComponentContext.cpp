@@ -9,8 +9,8 @@ namespace icomp
 {
 
 
-CComponentContext::CComponentContext(const IRegistryElement* elementPtr, const IComponentContext* parentPtr)
-:	m_registryElement(*elementPtr), m_parentPtr(parentPtr)
+CComponentContext::CComponentContext(const IRegistryElement* elementPtr, const IComponentContext* parentPtr, const std::string& contextId)
+:	m_registryElement(*elementPtr), m_parentPtr(parentPtr), m_contextId(contextId)
 {
 }
 

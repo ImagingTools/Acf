@@ -16,10 +16,12 @@
 namespace ibase
 {		
 
-template <class BaseClass>
-class TMessageContainerWrap: public ibase::THierarchicalBase<BaseClass, ibase::IHierarchicalMessageContainer>
+template <class Base>
+class TMessageContainerWrap: public ibase::THierarchicalBase<Base, ibase::IHierarchicalMessageContainer>
 {
 public:
+	typedef Base BaseClass;
+
 	TMessageContainerWrap();
 	virtual ~TMessageContainerWrap();
 
@@ -33,8 +35,10 @@ public:
 	virtual void SetMaxLiveTime(int maxLiveTime = -1);
 	virtual int GetWorstCategory() const;
 	virtual ibase::IMessageContainer::Messages GetMessages() const;
-	virtual void AddMessage(ibase::IMessage* message);
 	virtual void ClearMessages();
+
+	// pseudo-reimplemented (ibase::IMessageConsumer)
+	virtual void AddMessage(ibase::IMessage* message);
 
 	// pseudo-reimplemented (IHierarchicalMessageContainer)
 	virtual int GetChildsCount() const;
@@ -60,8 +64,8 @@ private:
 
 // public methods
 
-template <class BaseClass>
-TMessageContainerWrap<BaseClass>::TMessageContainerWrap()
+template <class Base>
+TMessageContainerWrap<Base>::TMessageContainerWrap()
 	:m_maxCategory(0),
 	m_maxMessageCount(-1),
 	m_maxLiveTime(-1)
@@ -69,15 +73,15 @@ TMessageContainerWrap<BaseClass>::TMessageContainerWrap()
 }
 
 
-template <class BaseClass>
-TMessageContainerWrap<BaseClass>::~TMessageContainerWrap()
+template <class Base>
+TMessageContainerWrap<Base>::~TMessageContainerWrap()
 {
 	ClearMessages();
 }
 
 
-template <class BaseClass>
-void TMessageContainerWrap<BaseClass>::AddChildContainer(ibase::IHierarchicalMessageContainer* childContainerPtr)
+template <class Base>
+void TMessageContainerWrap<Base>::AddChildContainer(ibase::IHierarchicalMessageContainer* childContainerPtr)
 {
 	I_ASSERT(childContainerPtr != NULL);
 
@@ -87,8 +91,8 @@ void TMessageContainerWrap<BaseClass>::AddChildContainer(ibase::IHierarchicalMes
 
 // pseudo-reimplemented (iser::ISerializable)
 
-template <class BaseClass>
-bool TMessageContainerWrap<BaseClass>::Serialize(iser::IArchive& archive)
+template <class Base>
+bool TMessageContainerWrap<Base>::Serialize(iser::IArchive& archive)
 {
 	if (!archive.IsStoring()){
 		return false;
@@ -122,22 +126,22 @@ bool TMessageContainerWrap<BaseClass>::Serialize(iser::IArchive& archive)
 
 // pseudo-reimplemented (ibase::IMessageContainer)
 
-template <class BaseClass>
-void TMessageContainerWrap<BaseClass>::SetMaxMessageCount(int maxMessageCount)
+template <class Base>
+void TMessageContainerWrap<Base>::SetMaxMessageCount(int maxMessageCount)
 {
 	m_maxMessageCount = maxMessageCount;
 }
 
 
-template <class BaseClass>
-void TMessageContainerWrap<BaseClass>::SetMaxLiveTime(int maxLiveTime)
+template <class Base>
+void TMessageContainerWrap<Base>::SetMaxLiveTime(int maxLiveTime)
 {
 	m_maxLiveTime = maxLiveTime;
 }
 
 
-template <class BaseClass>
-int TMessageContainerWrap<BaseClass>::GetWorstCategory() const
+template <class Base>
+int TMessageContainerWrap<Base>::GetWorstCategory() const
 {
 	int worstCategory = m_maxCategory;
 	int childCount = GetChildsCount();
@@ -153,8 +157,8 @@ int TMessageContainerWrap<BaseClass>::GetWorstCategory() const
 }
 
 
-template <class BaseClass>
-ibase::IMessageContainer::Messages TMessageContainerWrap<BaseClass>::GetMessages() const
+template <class Base>
+ibase::IMessageContainer::Messages TMessageContainerWrap<Base>::GetMessages() const
 {
 	Messages messages;
 
@@ -178,8 +182,8 @@ ibase::IMessageContainer::Messages TMessageContainerWrap<BaseClass>::GetMessages
 }
 
 
-template <class BaseClass>
-void TMessageContainerWrap<BaseClass>::AddMessage(ibase::IMessage* messagePtr)
+template <class Base>
+void TMessageContainerWrap<Base>::AddMessage(ibase::IMessage* messagePtr)
 {
 	I_ASSERT(messagePtr != NULL);
 
@@ -203,8 +207,8 @@ void TMessageContainerWrap<BaseClass>::AddMessage(ibase::IMessage* messagePtr)
 }
 
 
-template <class BaseClass>
-void TMessageContainerWrap<BaseClass>::ClearMessages()
+template <class Base>
+void TMessageContainerWrap<Base>::ClearMessages()
 {
 	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, Reset);
 	
@@ -216,15 +220,15 @@ void TMessageContainerWrap<BaseClass>::ClearMessages()
 
 // pseudo-reimplemented (istd::IHierarchical)
 
-template <class BaseClass>
-int TMessageContainerWrap<BaseClass>::GetChildsCount() const
+template <class Base>
+int TMessageContainerWrap<Base>::GetChildsCount() const
 {
 	return m_childContainers.size();
 }
 
 
-template <class BaseClass>
-ibase::IHierarchicalMessageContainer* TMessageContainerWrap<BaseClass>::GetChild(int index) const
+template <class Base>
+ibase::IHierarchicalMessageContainer* TMessageContainerWrap<Base>::GetChild(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_childContainers.size()));
@@ -235,8 +239,8 @@ ibase::IHierarchicalMessageContainer* TMessageContainerWrap<BaseClass>::GetChild
 
 // protected static methods
 
-template <class BaseClass>
-int TMessageContainerWrap<BaseClass>::SubstractMask(int category)
+template <class Base>
+int TMessageContainerWrap<Base>::SubstractMask(int category)
 {
 	category = category & ~ibase::IMessage::DebugMask;
 	category = category & ~ibase::IMessage::SystemMask;
@@ -254,4 +258,5 @@ typedef ibase::TMessageContainerWrap<ibase::IMessageContainer> CMessageContainer
 
 
 #endif // !ibase_TMessageContainerWrap_included
+
 
