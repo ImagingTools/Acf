@@ -141,9 +141,6 @@
 				RelativePath="..\IBitmapAcquisition.h">
 			</File>
 			<File
-				RelativePath="..\IBitmapProcessor.h">
-			</File>
-			<File
 				RelativePath="..\icam.h">
 			</File>
 			<File

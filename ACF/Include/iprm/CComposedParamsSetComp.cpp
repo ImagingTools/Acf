@@ -13,8 +13,6 @@ namespace iprm
 
 const iser::ISerializable* CComposedParamsSetComp::GetParameter(const std::string& id) const
 {
-	I_ASSERT(m_slaveParamsCompPtr.IsValid());	// isObligatory was set to true
-
 	ParamsMap::const_iterator iter = m_paramsMap.find(id);
 	if (iter != m_paramsMap.end()){
 		return iter->second;

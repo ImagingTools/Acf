@@ -145,6 +145,21 @@ bool CBitmap::CopyImageFrom(const IRasterImage& image)
 
 		return true;
 	}
+	else{
+		const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&image);
+		if (bitmapPtr != NULL){
+			istd::CChangeNotifier notifier(this);
+			istd::CIndex2d size = bitmapPtr->GetImageSize();
+			if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
+				int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
+				for (int y = 0; y < size.GetY(); ++y){
+					::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
+				}
+
+				return true;
+			}
+		}
+	}
 
 	return false;
 }

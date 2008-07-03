@@ -131,10 +131,43 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp">
+			<File
+				RelativePath="..\CImageManipulation.cpp">
+			</File>
+			<File
+				RelativePath="..\CMovingAverageProcessorComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CProcessedAcquisitionComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CRectangularFilterCompBase.cpp">
+			</File>
+			<File
+				RelativePath="..\CRectangularFilterParams.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CImageManipulation.h">
+			</File>
+			<File
+				RelativePath="..\CMovingAverageProcessorComp.h">
+			</File>
+			<File
+				RelativePath="..\CProcessedAcquisitionComp.h">
+			</File>
+			<File
+				RelativePath="..\CRectangularFilterCompBase.h">
+			</File>
+			<File
+				RelativePath="..\CRectangularFilterParams.h">
+			</File>
+			<File
+				RelativePath="..\IBitmapProcessor.h">
+			</File>
 			<File
 				RelativePath="..\iipr.h">
 			</File>

@@ -3,8 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="i2d"
-	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
-	>
+	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}">
 	<Platforms>
 		<Platform
 			Name="Win32"/>
@@ -228,12 +227,33 @@
 		<Filter
 			Name="Source Files"
 			Filter="cpp">
+			<File
+				RelativePath="..\CCircle.cpp">
+			</File>
+			<File
+				RelativePath="..\CRectangle.cpp">
+			</File>
+			<File
+				RelativePath="..\CTransform.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
 			<File
+				RelativePath="..\CCircle.h">
+			</File>
+			<File
+				RelativePath="..\CRectangle.h">
+			</File>
+			<File
+				RelativePath="..\CTransform.h">
+			</File>
+			<File
 				RelativePath="..\i2d.h">
+			</File>
+			<File
+				RelativePath="..\IObject2d.h">
 			</File>
 		</Filter>
 	</Files>

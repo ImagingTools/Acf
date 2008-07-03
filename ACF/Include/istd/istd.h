@@ -41,6 +41,46 @@ inline typename const T& Max(const T& value1, const T& value2)
 }
 
 
+/**
+	Check odd value.
+*/
+template <typename T> 
+inline bool IsOdd(const T& value)
+{
+	return (value & 0x1);
+}
+
+
+/**
+	Returns the next odd value.
+*/
+template<typename T> 
+inline int GetNextOdd(const T& value)
+{
+	return value + !IsOdd(value);
+}
+
+
+/**
+	Returns the previous odd value.
+*/
+template<typename T> 
+inline int GetPrevOdd(const T& value)
+{
+	return value - !IsOdd(value);
+}
+
+
+/**
+	Check even value.
+*/
+template <typename T> 
+inline bool IsEven(const T& value)
+{
+	return !IsOdd(value);
+}
+
+
 class CGroupRegistrator
 {
 public:

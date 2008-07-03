@@ -19,7 +19,6 @@
 */
 namespace iipr
 {
-
 } // namespace iipr
 
 

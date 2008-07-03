@@ -1,5 +1,5 @@
-#ifndef icam_IBitmapProcessor_included
-#define icam_IBitmapProcessor_included
+#ifndef iipr_IBitmapProcessor_included
+#define iipr_IBitmapProcessor_included
 
 
 #include "iimg/IBitmap.h"
@@ -7,7 +7,7 @@
 #include "iproc/TIAssyncProcessor.h"
 
 
-namespace icam
+namespace iipr
 {
 
 
@@ -20,9 +20,9 @@ public:
 };
 
 
-} // namespace icam
+} // namespace iipr
 
 
-#endif // !icam_IBitmapProcessor_included
+#endif // !iipr_IBitmapProcessor_included
 
 

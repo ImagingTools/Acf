@@ -7,7 +7,8 @@
 #include "imath/TVector.h"
 
 
-namespace imath{
+namespace imath
+{
 
 
 class CVector2d: public TVector<2>
