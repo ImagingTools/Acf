@@ -10,7 +10,7 @@ namespace iipr
 
 // reimplemented (iipr::CRectangularFilterBase)
 
-void CMovingAverageProcessorComp::DoBufferFilter(
+bool CMovingAverageProcessorComp::ProcessImage(
 			const CRectangularFilterParams& params,
 			const iimg::IBitmap& inputImage,
 			iimg::IBitmap& outputImage)
@@ -24,11 +24,17 @@ void CMovingAverageProcessorComp::DoBufferFilter(
 	int kernelHalfWidth = params.GetSize().GetX() / 2;
 	int kernelHalfHeight = params.GetSize().GetY() / 2;
 
-	for (int iterationIndex = 0; iterationIndex < params.GetIterationsCount(); ++iterationIndex){
+	iimg::CGeneralBitmap inputBuffer;
+
+	inputBuffer.CopyImageFrom(inputImage);
+
+	int iterationsCount = params.GetIterationsCount();
+
+	for (int iterationIndex = 0; iterationIndex < iterationsCount; iterationIndex++){
 		for (int lineIndex = 0; lineIndex < imageHeight; ++lineIndex){
 			double meanValue = 0;
 
-			I_BYTE* beginImagePtr = (I_BYTE*)inputImage.GetLinePtr(lineIndex);
+			I_BYTE* beginImagePtr = (I_BYTE*)inputBuffer.GetLinePtr(lineIndex);
 			for (int x = 0; x < kernelWidth; ++x){
 				meanValue += beginImagePtr[x];
 			}
@@ -42,7 +48,7 @@ void CMovingAverageProcessorComp::DoBufferFilter(
 
 			while (endKernelPtr < endBufferPtr){
 				meanValue += (*endKernelPtr++ - *beginKernelPtr++);
-				*outputImageBufferPtr++ = I_BYTE(meanValue/kernelWidth);
+				*outputImageBufferPtr++ = I_BYTE(meanValue / kernelWidth);
 			}
 		}
 
@@ -72,7 +78,13 @@ void CMovingAverageProcessorComp::DoBufferFilter(
 				endKernelPtr += lineDifference, beginKernelPtr += lineDifference, outputImageBufferPtr += lineDifference;
 			}
 		}
+
+		if (iterationsCount > 1 && iterationIndex != (iterationsCount - 1)){
+			inputBuffer.CopyImageFrom(outputImage);
+		}
 	}
+
+	return true;
 }
 
 

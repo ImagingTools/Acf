@@ -10,7 +10,7 @@ namespace iipr
 
 
 CRectangularFilterParams::CRectangularFilterParams()
-	:m_iterationsCount(1),
+	:m_iterationsCount(10),
 	m_filterSize(15, 15)
 {
 }
