@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="9">
+  <PositionMap count="10">
     <Element>
       <ComponentName>
         BitmapLoader
@@ -35,7 +35,7 @@
         300
       </X>
       <X>
-        162
+        112
       </X>
     </Element>
     <Element>
@@ -47,6 +47,17 @@
       </X>
       <X>
         -112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FilterParamsGui
+      </ComponentName>
+      <X>
+        312
+      </X>
+      <X>
+        237
       </X>
     </Element>
     <Element>

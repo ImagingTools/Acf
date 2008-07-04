@@ -560,7 +560,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 			comboEditor->lineEdit()->setText(valuesString);
 		}
 	}
-	else if (propertyMining == Attribute){
+	else if (propertyMining == Attribute || propertyMining == MultipleAttribute){
 		icomp::CIntAttribute* intAttribute = dynamic_cast<icomp::CIntAttribute*>(attributePtr);
 		if (intAttribute != NULL){
 			int value = intAttribute->GetValue();

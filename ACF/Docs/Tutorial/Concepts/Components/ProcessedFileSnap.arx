@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="9">
+  <ElementsList count="10">
     <Element>
       <Id>
         BitmapLoader
@@ -68,6 +68,24 @@
       </PackageId>
       <ComponentId>
         RectangularFilterParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        FilterParamsGui
+      </Id>
+      <PackageId>
+        QtIprPck
+      </PackageId>
+      <ComponentId>
+        RectangularFilterParamsGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -359,9 +377,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   FileSnapParamGui
+                </Value>
+                <Value>
+                  FilterParamsGui
                 </Value>
               </Values>
             </Data>
@@ -380,9 +401,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   FileBitmapAcquisition
+                </Value>
+                <Value>
+                  FilterParams
                 </Value>
               </Values>
             </Data>

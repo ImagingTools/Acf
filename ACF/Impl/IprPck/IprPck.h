@@ -2,6 +2,8 @@
 #define IprPck_included
 
 
+#include "imod/TModelWrap.h"
+
 #include "icomp/TMakeComponentWrap.h"
 
 #include "iipr/CMovingAverageProcessorComp.h"
@@ -18,7 +20,7 @@ namespace IprPck
 
 
 	typedef iipr::CMovingAverageProcessorComp MovingAverageProcessor;
-	typedef icomp::TMakeComponentWrap<iser::ISerializable, iipr::CRectangularFilterParams> RectangularFilterParams;
+	typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CRectangularFilterParams> > RectangularFilterParams;
 	typedef iipr::CProcessedAcquisitionComp ProcessedCamera;
 
 
