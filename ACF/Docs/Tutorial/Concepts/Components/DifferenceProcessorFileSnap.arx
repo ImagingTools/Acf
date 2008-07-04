@@ -4,7 +4,80 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="10">
+  <ElementsList count="11">
+    <Element>
+      <Id>
+        AverageParams
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        RectangularFilterParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        AverageParamsGui
+      </Id>
+      <PackageId>
+        QtIprPck
+      </PackageId>
+      <ComponentId>
+        RectangularFilterParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        AverageProcessor
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        MovingAverageProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                FilterParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         BitmapLoader
@@ -37,7 +110,64 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="5">
+          <AttributeInfo>
+            <Id>
+              Alpha
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                1
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Beta
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;double&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                1
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Gamma
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                0
+              </Value>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               ParamsId
@@ -54,6 +184,25 @@
               </IsEnabled>
               <Value>
                 FilterParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveProcessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageProcessor
               </Value>
             </Data>
           </AttributeInfo>
@@ -87,42 +236,6 @@
       </PackageId>
       <ComponentId>
         FileAcquisitionParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FilterParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        LocalDifferenceFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FilterParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        RectangularFilterParamsGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -316,7 +429,7 @@
                   FileSnapParam
                 </Value>
                 <Value>
-                  FilterParams
+                  AverageParams
                 </Value>
               </Values>
             </Data>
@@ -382,7 +495,7 @@
                   FileSnapParamGui
                 </Value>
                 <Value>
-                  FilterParamsGui
+                  AverageParamsGui
                 </Value>
               </Values>
             </Data>

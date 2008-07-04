@@ -20,7 +20,7 @@ public:
 protected:		
 	// reimplemented (iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>)
 	virtual bool ProcessImage(
-				const CRectangularFilterParams& params,
+				const CRectangularFilterParams* paramsPtr,
 				const iimg::IBitmap& inputImage,
 				iimg::IBitmap& outputImage);
 };

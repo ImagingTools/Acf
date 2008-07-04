@@ -41,7 +41,7 @@ protected:
 
 	// abstract methods
 	virtual bool ProcessImage(
-				const ParameterType& parameter, 
+				const ParameterType* parameterPtr, 
 				const iimg::IBitmap& inputImage,
 				iimg::IBitmap& outputImage) = 0;
 
@@ -79,17 +79,14 @@ int TImageProcessorCompBase<ParameterType>::DoSyncProcess(
 		}
 	}
 
-	const ParameterType* processorParamsPtr = 
-		dynamic_cast<const ParameterType*>(paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
-	if (processorParamsPtr == NULL){
-		return BaseClass2::TS_INVALID;
-	}
-
 	// create output image:
 	outputPtr->CopyImageFrom(*inputPtr);
 
+	const ParameterType* processorParamsPtr = 
+		dynamic_cast<const ParameterType*>(paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
+	
 	// do image processing:
-	if (!ProcessImage(*processorParamsPtr, *inputPtr, *outputPtr)){
+	if (!ProcessImage(processorParamsPtr, *inputPtr, *outputPtr)){
 		return BaseClass2::TS_INVALID;
 	}
 	

@@ -132,6 +132,12 @@
 			Name="Source Files"
 			Filter="cpp">
 			<File
+				RelativePath="..\CLocalDifferenceFilterParams.cpp">
+			</File>
+			<File
+				RelativePath="..\CLocalDifferenceProcessorComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CMovingAverageProcessorComp.cpp">
 			</File>
 			<File
@@ -144,6 +150,12 @@
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CLocalDifferenceFilterParams.h">
+			</File>
+			<File
+				RelativePath="..\CLocalDifferenceProcessorComp.h">
+			</File>
 			<File
 				RelativePath="..\CMovingAverageProcessorComp.h">
 			</File>

@@ -7,7 +7,7 @@
 
 
 /**
-	\defgroup Barcode Barcode Recognition
+	\defgroup CBarcode CBarcode Recognition
 	\ingroup ACF
 
 	Contains classes for barcode recognition

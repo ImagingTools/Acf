@@ -4,7 +4,40 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="12">
+  <PositionMap count="15">
+    <Element>
+      <ComponentName>
+        AverageParams
+      </ComponentName>
+      <X>
+        25
+      </X>
+      <X>
+        -87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AverageParamsGui
+      </ComponentName>
+      <X>
+        312
+      </X>
+      <X>
+        237
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AverageProcessor
+      </ComponentName>
+      <X>
+        -225
+      </X>
+      <X>
+        437
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         BitmapLoader

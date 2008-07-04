@@ -8,27 +8,31 @@ namespace iipr
 {
 
 
-// reimplemented (iipr::CRectangularFilterBase)
+// reimplemented (iipr::TImageProcessorCompBase)
 
 bool CMovingAverageProcessorComp::ProcessImage(
-			const CRectangularFilterParams& params,
+			const CRectangularFilterParams* paramsPtr,
 			const iimg::IBitmap& inputImage,
 			iimg::IBitmap& outputImage)
 {
+	if (paramsPtr == NULL){
+		return false;
+	}
+
 	int imageHeight = inputImage.GetImageSize().GetY();
 	int imageWidth = inputImage.GetImageSize().GetX();
 
-	int kernelWidth = params.GetSize().GetX();
-	int kernelHeight = params.GetSize().GetY();
+	int kernelWidth = paramsPtr->GetSize().GetX();
+	int kernelHeight = paramsPtr->GetSize().GetY();
 
-	int kernelHalfWidth = params.GetSize().GetX() / 2;
-	int kernelHalfHeight = params.GetSize().GetY() / 2;
+	int kernelHalfWidth = paramsPtr->GetSize().GetX() / 2;
+	int kernelHalfHeight = paramsPtr->GetSize().GetY() / 2;
 
 	iimg::CGeneralBitmap inputBuffer;
 
 	inputBuffer.CopyImageFrom(inputImage);
 
-	int iterationsCount = params.GetIterationsCount();
+	int iterationsCount = paramsPtr->GetIterationsCount();
 
 	for (int iterationIndex = 0; iterationIndex < iterationsCount; iterationIndex++){
 		for (int lineIndex = 0; lineIndex < imageHeight; ++lineIndex){
