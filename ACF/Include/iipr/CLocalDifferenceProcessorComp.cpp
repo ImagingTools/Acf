@@ -76,7 +76,7 @@ bool CLocalDifferenceProcessorComp::ProcessImage(
 				outputValue = 255;
 			}
 
-			*outputImagePtr = I_BYTE(outputValue & 0xff);
+			*outputImagePtr = I_BYTE(outputValue);
 		}
 	}
 	

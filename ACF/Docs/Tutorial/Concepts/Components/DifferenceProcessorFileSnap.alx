@@ -32,10 +32,10 @@
         AverageProcessor
       </ComponentName>
       <X>
-        -225
+        -250
       </X>
       <X>
-        437
+        362
       </X>
     </Element>
     <Element>
@@ -54,10 +54,10 @@
         DifferenceProcessor
       </ComponentName>
       <X>
-        -275
+        0
       </X>
       <X>
-        312
+        462
       </X>
     </Element>
     <Element>
