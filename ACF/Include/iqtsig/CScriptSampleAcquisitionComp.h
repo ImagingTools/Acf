@@ -1,5 +1,5 @@
-#ifndef iqtisig_CScriptSampleAcquisitionComp_included
-#define iqtisig_CScriptSampleAcquisitionComp_included
+#ifndef iqtsig_CScriptSampleAcquisitionComp_included
+#define iqtsig_CScriptSampleAcquisitionComp_included
 
 
 #include <QtScript>
@@ -59,6 +59,6 @@ private:
 } // namespace iqtsig
 
 
-#endif // !iqtisig_CScriptSampleAcquisitionComp_included
+#endif // !iqtsig_CScriptSampleAcquisitionComp_included
 
 

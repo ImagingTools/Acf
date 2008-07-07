@@ -127,6 +127,9 @@
 				RelativePath="..\CCircle.cpp">
 			</File>
 			<File
+				RelativePath="..\CLine2d.cpp">
+			</File>
+			<File
 				RelativePath="..\CRectangle.cpp">
 			</File>
 			<File
@@ -138,6 +141,9 @@
 			Filter="h">
 			<File
 				RelativePath="..\CCircle.h">
+			</File>
+			<File
+				RelativePath="..\CLine2d.h">
 			</File>
 			<File
 				RelativePath="..\CRectangle.h">

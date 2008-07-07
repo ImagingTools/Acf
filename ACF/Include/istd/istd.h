@@ -95,6 +95,20 @@ inline bool IsEven(const T& value)
 }
 
 
+/**
+	Returns \c true, if the value \c value is in intervall (value1, value2) or (value2, value1).
+*/
+template <typename T> 
+inline bool IsBeetween(const T& value, const T& value1, const  T& value2)
+{
+	if (value > Min(value1, value2) && value < Max(value1, value2)){
+		return true;
+	}
+
+	return false;
+}
+
+
 class CGroupRegistrator
 {
 public:

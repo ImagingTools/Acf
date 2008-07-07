@@ -4,7 +4,7 @@
 
 #include "imath/imath.h"
 
-#include "istd/IPolymorphic.h"
+#include "iser/ISerializable.h"
 
 
 namespace imath
@@ -23,7 +23,7 @@ class CRectangle;
 /**
 	Common interface for describing the 2D-objects.
 */
-class IObject2d: virtual public istd::IPolymorphic
+class IObject2d: virtual public iser::ISerializable
 {
 public:
 	typedef imath::CVector2d CPoint;

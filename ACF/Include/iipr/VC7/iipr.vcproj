@@ -132,6 +132,9 @@
 			Name="Source Files"
 			Filter="cpp">
 			<File
+				RelativePath="..\CImageProjection.cpp">
+			</File>
+			<File
 				RelativePath="..\CLocalDifferenceFilterParams.cpp">
 			</File>
 			<File
@@ -150,6 +153,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CImageProjection.h">
+			</File>
 			<File
 				RelativePath="..\CLocalDifferenceFilterParams.h">
 			</File>

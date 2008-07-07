@@ -2,11 +2,14 @@
 #define icam_IExposureParams_included
 
 
+#include "istd/IPolymorphic.h"
+
+
 namespace icam
 {
 
 
-class ExposureParams
+class IExposureParams: virtual public istd::IPolymorphic
 {
 public:
 	/**

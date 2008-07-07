@@ -51,7 +51,16 @@ const CRectangle& CRectangle::operator = (const CRectangle& ref)
 }
 
 
-bool CRectangle::IsInside(const CPoint& point) const
+bool CRectangle::Contains(const CPoint& point) const
+{
+	return	(point.GetX() >= GetLeft()) && 
+			(point.GetX() < GetRight()) && 
+			(point.GetY() >= GetTop()) && 
+			(point.GetY() < GetBottom());
+}
+
+
+bool CRectangle::Contains(const istd::CIndex2d& point) const
 {
 	return	(point.GetX() >= GetLeft()) && 
 			(point.GetX() < GetRight()) && 
@@ -87,12 +96,18 @@ bool CRectangle::IsEmpty() const
 }
 
 
+bool CRectangle::IsValid() const
+{
+	return (GetRight() >= GetLeft()) && (GetBottom() >= GetTop());
+}
+
+
 bool CRectangle::IsIntersectedBy(const CRectangle& other) const
 {
-	return	IsInside(other.GetTopLeft()) || 
-			IsInside(other.GetBottomLeft()) || 
-			IsInside(other.GetTopRight()) || 
-			IsInside(other.GetBottomRight()) ;
+	return	Contains(other.GetTopLeft()) || 
+			Contains(other.GetBottomLeft()) || 
+			Contains(other.GetTopRight()) || 
+			Contains(other.GetBottomRight()) ;
 }
 
 

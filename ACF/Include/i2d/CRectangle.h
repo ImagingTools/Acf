@@ -7,14 +7,14 @@
 #include "iser/ISerializable.h"
 
 #include "istd/CRange.h"
+#include "istd/CIndex2d.h"
 
 
 namespace i2d
 {	
 
 
-class CRectangle:	virtual public i2d::IObject2d, 
-					virtual public iser::ISerializable
+class CRectangle: virtual public i2d::IObject2d
 {
 public :
 	CRectangle();
@@ -24,11 +24,13 @@ public :
 
 	const CRectangle& operator = (const CRectangle& other);
 
-	bool IsInside(const CPoint& pt) const;
+	bool Contains(const CPoint& point) const;
+	bool Contains(const istd::CIndex2d& point) const;
 	bool IsInsideOf(const CRectangle& rect) const;
 	double GetWidth() const;
 	double GetHeight() const;
 	bool IsEmpty() const;
+	bool IsValid() const;
 
 	bool IsIntersectedBy(const CRectangle& other) const;
 	CRectangle GetIntersection(const CRectangle& other) const;
