@@ -35,23 +35,6 @@ CVector2d CVector2d::GetNormalized(double length) const
 }
 
 
-bool CVector2d::Serialize(iser::IArchive& archive)
-{
-	static iser::CArchiveTag xTag("X", "X");
-
-	bool retVal = archive.BeginTag(xTag);
-	retVal = retVal && archive.Process(m_elements[0]);
-	retVal = retVal && archive.EndTag(xTag);
-
-	static iser::CArchiveTag yTag("Y", "Y");
-	retVal = retVal && archive.BeginTag(yTag);
-	retVal = retVal && archive.Process(m_elements[1]);
-	retVal = retVal && archive.EndTag(yTag);
-
-	return retVal;
-}
-
-
 } // namespace imath
 
 

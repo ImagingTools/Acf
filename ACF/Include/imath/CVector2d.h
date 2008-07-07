@@ -88,8 +88,6 @@ public:
 	CVector2d& operator-=(const TVector<2>& vector);
 	CVector2d& operator*=(double scalar);
 	CVector2d& operator/=(double scalar);
-
-	bool Serialize(iser::IArchive& archive);
 };
 
 
