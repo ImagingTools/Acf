@@ -12,6 +12,7 @@
 #include "iproc/TSyncProcessorWrap.h"
 
 #include "icam/IBitmapAcquisition.h"
+#include "icam/IExposureInfo.h"
 
 #include "icomp/CComponentBase.h"
 
@@ -23,10 +24,11 @@ namespace iavt
 
 
 /**
-	Bitmap loader component implementing interfaces \c iser::IFileLoader and \c icam::IBitmapAcquisition.
+	AVT based camera component implementing interfaces \c icam::IBitmapAcquisition and \c icam::IExposureInfo for exposure control support.
 */
 class CFireGrabAcquisitionComp:
 			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
+			virtual public icam::IExposureInfo,
 			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 {
 public:
@@ -34,6 +36,8 @@ public:
 
 	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp)
 		I_REGISTER_INTERFACE(icam::IBitmapAcquisition)
+		I_REGISTER_INTERFACE(icam::IExposureInfo)
+		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParamsId")
 	I_END_COMPONENT
 
 	enum MessageId
@@ -53,11 +57,18 @@ public:
 	// reimplemented (icam::IBitmapAcquisition)
 	virtual istd::CIndex2d GetBitmapSize(const iprm::IParamsSet* paramsPtr) const;
 
+	// reimplemented (icam::IExposureInfo)
+	virtual istd::CRange GetShutterTimeRange() const;
+	virtual istd::CRange GetDelayTimeRange() const;
+	virtual istd::CRange GetEenDelayRange() const;
+
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
 private:
+	I_ATTR(istd::CString, m_exposureParamsIdAttrPtr);
+
 	enum
 	{
 		MAX_NODES_COUNT = 16

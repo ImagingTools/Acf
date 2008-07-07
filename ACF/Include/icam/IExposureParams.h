@@ -2,25 +2,21 @@
 #define icam_IExposureParams_included
 
 
-#include "istd/IPolymorphic.h"
+#include "iser/ISerializable.h"
+
+#include "icam/IExposureInfo.h"
 
 
 namespace icam
 {
 
 
-class IExposureParams: virtual public istd::IPolymorphic
+class IExposureParams: virtual public IExposureInfo, virtual public iser::ISerializable
 {
 public:
 	/**
-		Get range of posible shutter time (exposure time) values.
-		\return	range of shutter time, or empty range is this time cannot be controlled.
-	*/
-	virtual istd::CRange GetShutterTimeRange() const = 0;
-
-	/**
 		Get shutter time (exposure time).
-		\return	shutter time in seconds.
+		\return	shutter time in seconds or negative value if this value isn't active.
 	*/
 	virtual double GetShutterTime() const = 0;
 
@@ -32,16 +28,9 @@ public:
 	virtual bool SetShutterTime(double time) = 0;
 
 	/**
-		Get range of posible delay time values.
-		Delay time is time between trigger and exposure begin.
-		\return	range of delay time, or empty range is this time cannot be controlled.
-	*/
-	virtual istd::CRange GetDelayTimeRange() const = 0;
-
-	/**
 		Get delay time.
 		Delay time is time between trigger and exposure begin.
-		\return	delay time in seconds.
+		\return	delay time in seconds or negative value if this value isn't active.
 	*/
 	virtual double GetDelayTime() const = 0;
 
@@ -54,14 +43,8 @@ public:
 	virtual bool SetDelayTime(double time) = 0;
 
 	/**
-		Get range of posible exposure enabled (EEN) signal delay time values.
-		\return	range of delay time, or empty range is this time cannot be controlled.
-	*/
-	virtual istd::CRange GetEenDelayRange() const = 0;
-
-	/**
 		Get exposure enabled (EEN) signal delay time.
-		\return	delay time in seconds.
+		\return	delay time in seconds or negative value if this value isn't active.
 	*/
 	virtual double GetEenDelay() const = 0;
 
@@ -70,7 +53,7 @@ public:
 		\param	time	exposure enabled (EEN) signal delay time in seconds.
 		\return	true, if success.
 	*/
-	virtual bool GetEenDelayRange(double time) = 0;
+	virtual bool SetEenDelayRange(double time) = 0;
 };
 
 

@@ -23,6 +23,7 @@
 #include "isig/CGeneralSamplingParamsComp.h"
 
 #include "icam/CFileBitmapAcquisitionParamsComp.h"
+#include "icam/CExposureParamsComp.h"
 
 
 /**
@@ -46,6 +47,7 @@ typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 typedef icomp::TModelCompWrap<isig::CGeneralSamplingParamsComp> GeneralSamplingParams;
 
 typedef icomp::TModelCompWrap<icam::CFileBitmapAcquisitionParamsComp> FileBitmapAcquisitionParams;
+typedef icomp::TModelCompWrap<icam::CExposureParamsComp> ExposureParams;
 
 
 } // namespace BasePck

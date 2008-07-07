@@ -128,12 +128,18 @@
 			Name="Source Files"
 			Filter="cpp">
 			<File
+				RelativePath="..\CExposureParamsComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CFileBitmapAcquisitionParamsComp.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h">
+			<File
+				RelativePath="..\CExposureParamsComp.h">
+			</File>
 			<File
 				RelativePath="..\CFileBitmapAcquisitionParamsComp.h">
 			</File>
@@ -142,6 +148,9 @@
 			</File>
 			<File
 				RelativePath="..\icam.h">
+			</File>
+			<File
+				RelativePath="..\IExposureInfo.h">
 			</File>
 			<File
 				RelativePath="..\IExposureParams.h">

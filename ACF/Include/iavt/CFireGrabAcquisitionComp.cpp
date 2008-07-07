@@ -14,6 +14,8 @@
 
 #include "iprm/IParamsSet.h"
 
+#include "icam/IExposureParams.h"
+
 
 namespace iavt
 {
@@ -30,6 +32,17 @@ CFireGrabAcquisitionComp::CFireGrabAcquisitionComp()
 int CFireGrabAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
 	int retVal = TS_INVALID;
+
+	if (paramsPtr != NULL && m_exposureParamsIdAttrPtr.IsValid()){
+		const icam::IExposureParams* exposureParamsPtr = dynamic_cast<const icam::IExposureParams*>(
+					paramsPtr->GetParameter((*m_exposureParamsIdAttrPtr).ToString()));
+		if (exposureParamsPtr != NULL){
+			double shutterTime = exposureParamsPtr->GetShutterTime();
+			if (shutterTime >= 0){
+				m_camera.SetParameter(FGP_SHUTTER, UINT32(shutterTime * 1000000));
+			}
+		}
+	}
 
 	FGFRAME frameInfo;
 	UINT32 status = m_camera.GetFrame(&frameInfo, 5000);
@@ -76,6 +89,26 @@ istd::CIndex2d CFireGrabAcquisitionComp::GetBitmapSize(const iprm::IParamsSet* /
 	}
 
 	return istd::CIndex2d(-1, -1);	// unknown size
+}
+
+
+// reimplemented (icam::IExposureInfo)
+
+istd::CRange CFireGrabAcquisitionComp::GetShutterTimeRange() const
+{
+	return istd::CRange(0.000001, 0.004095);
+}
+
+
+istd::CRange CFireGrabAcquisitionComp::GetDelayTimeRange() const
+{
+	return istd::CRange(-1, -1);
+}
+
+
+istd::CRange CFireGrabAcquisitionComp::GetEenDelayRange() const
+{
+	return istd::CRange(-1, -1);
 }
 
 
