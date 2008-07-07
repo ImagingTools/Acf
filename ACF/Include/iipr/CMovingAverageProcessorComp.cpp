@@ -32,59 +32,52 @@ bool CMovingAverageProcessorComp::ProcessImage(
 
 	inputBuffer.CopyImageFrom(inputImage);
 
-	int iterationsCount = paramsPtr->GetIterationsCount();
+	for (int lineIndex = 0; lineIndex < imageHeight; ++lineIndex){
+		double meanValue = 0;
 
-	for (int iterationIndex = 0; iterationIndex < iterationsCount; iterationIndex++){
-		for (int lineIndex = 0; lineIndex < imageHeight; ++lineIndex){
-			double meanValue = 0;
-
-			I_BYTE* beginImagePtr = (I_BYTE*)inputBuffer.GetLinePtr(lineIndex);
-			for (int x = 0; x < kernelWidth; ++x){
-				meanValue += beginImagePtr[x];
-			}
-
-			I_BYTE* outputImageBufferPtr = (I_BYTE*)outputImage.GetLinePtr(lineIndex) + kernelHalfWidth + 1;
-			*(outputImageBufferPtr - 1) = I_BYTE(meanValue / kernelWidth);
-
-			I_BYTE* beginKernelPtr = beginImagePtr;
-			I_BYTE* endKernelPtr = beginImagePtr + kernelWidth;
-			I_BYTE* endBufferPtr = beginImagePtr + imageWidth;
-
-			while (endKernelPtr < endBufferPtr){
-				meanValue += (*endKernelPtr++ - *beginKernelPtr++);
-				*outputImageBufferPtr++ = I_BYTE(meanValue / kernelWidth);
-			}
+		I_BYTE* beginImagePtr = (I_BYTE*)inputBuffer.GetLinePtr(lineIndex);
+		for (int x = 0; x < kernelWidth; ++x){
+			meanValue += beginImagePtr[x];
 		}
 
-		iimg::CGeneralBitmap tempBitmap;
-		tempBitmap.CopyImageFrom(outputImage);
+		I_BYTE* outputImageBufferPtr = (I_BYTE*)outputImage.GetLinePtr(lineIndex) + kernelHalfWidth + 1;
+		*(outputImageBufferPtr - 1) = I_BYTE(meanValue / kernelWidth);
 
-		int lineDifference = tempBitmap.GetLinesDifference();
+		I_BYTE* beginKernelPtr = beginImagePtr;
+		I_BYTE* endKernelPtr = beginImagePtr + kernelWidth;
+		I_BYTE* endBufferPtr = beginImagePtr + imageWidth;
 
-		for (int x = 0; x < imageWidth; ++x){	
-			double meanValue = 0;
-			I_BYTE* beginImagePtr = ((I_BYTE*)tempBitmap.GetLinePtr(0)) + x;
+		while (endKernelPtr < endBufferPtr){
+			meanValue += (*endKernelPtr++ - *beginKernelPtr++);
+			*outputImageBufferPtr++ = I_BYTE(meanValue / kernelWidth);
+		}
+	}
 
-			for (int y = 0; y < kernelHeight; ++y){
-				meanValue += beginImagePtr[y * lineDifference];
-			}
+	iimg::CGeneralBitmap tempBitmap;
+	tempBitmap.CopyImageFrom(outputImage);
 
-			*((I_BYTE*)(outputImage.GetLinePtr(kernelHalfHeight)) + x) = I_BYTE(meanValue / kernelHeight);
+	int lineDifference = tempBitmap.GetLinesDifference();
 
-			I_BYTE* outputImageBufferPtr = (I_BYTE*)(outputImage.GetLinePtr(kernelHalfHeight + 1)) + x;
-			I_BYTE* beginKernelPtr = beginImagePtr;
-			I_BYTE* endKernelPtr = beginImagePtr + kernelHeight * lineDifference;
-			I_BYTE* endBufferPtr = beginImagePtr + imageHeight * lineDifference;
+	for (int x = 0; x < imageWidth; ++x){	
+		double meanValue = 0;
+		I_BYTE* beginImagePtr = ((I_BYTE*)tempBitmap.GetLinePtr(0)) + x;
 
-			while (endKernelPtr < endBufferPtr){
-				meanValue += (*endKernelPtr - *beginKernelPtr);
-				*outputImageBufferPtr = I_BYTE(meanValue / kernelHeight);
-				endKernelPtr += lineDifference, beginKernelPtr += lineDifference, outputImageBufferPtr += lineDifference;
-			}
+		for (int y = 0; y < kernelHeight; ++y){
+			meanValue += beginImagePtr[y * lineDifference];
 		}
 
-		if (iterationsCount > 1 && iterationIndex != (iterationsCount - 1)){
-			inputBuffer.CopyImageFrom(outputImage);
+		*((I_BYTE*)(outputImage.GetLinePtr(kernelHalfHeight)) + x) = I_BYTE(meanValue / kernelHeight);
+
+		I_BYTE* outputImageBufferPtr = (I_BYTE*)(outputImage.GetLinePtr(kernelHalfHeight + 1)) + x;
+		I_BYTE* beginKernelPtr = beginImagePtr;
+		I_BYTE* endKernelPtr = beginImagePtr + kernelHeight * lineDifference;
+		I_BYTE* endBufferPtr = beginImagePtr + imageHeight * lineDifference;
+
+		while (endKernelPtr < endBufferPtr){
+			meanValue += (*endKernelPtr - *beginKernelPtr);
+			*outputImageBufferPtr = I_BYTE(meanValue / kernelHeight);
+
+			endKernelPtr += lineDifference, beginKernelPtr += lineDifference, outputImageBufferPtr += lineDifference;
 		}
 	}
 

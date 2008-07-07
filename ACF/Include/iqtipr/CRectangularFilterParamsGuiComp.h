@@ -34,7 +34,6 @@ public:
 protected slots:
 	void on_FilterHeightSlider_valueChanged(int value);
 	void on_FilterWidthSlider_valueChanged(int value);
-	void on_IterationsSlider_valueChanged(int value);
 };
 
 

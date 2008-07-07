@@ -22,14 +22,10 @@ public:
 	virtual const ibase::CSize& GetSize() const;
 	virtual void SetSize(const ibase::CSize& filterSize);
 
-	virtual int GetIterationsCount() const;
-	virtual void SetIterationsCount(int iterationsCount);
-
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 private:
 	ibase::CSize m_filterSize;
-	int m_iterationsCount;
 };
 
 

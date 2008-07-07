@@ -6,7 +6,8 @@
 #include "iipr/CLocalDifferenceFilterParams.h"
 
 
-namespace iipr{
+namespace iipr
+{
 	
 
 /**

@@ -6,7 +6,8 @@
 #include "iipr/CRectangularFilterParams.h"
 
 
-namespace iipr{
+namespace iipr
+{
 	
 
 /**

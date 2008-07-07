@@ -31,13 +31,6 @@ void CRectangularFilterParamsGuiComp::UpdateModel() const
 
 				objectPtr->SetSize(filterSize);
 			}
-
-			int iterationsCount = IterationsSpin->value();
-			if (iterationsCount != objectPtr->GetIterationsCount()){
-				istd::CChangeNotifier notifier(objectPtr);
-
-				objectPtr->SetIterationsCount(iterationsCount);
-			}
 		}
 	}
 }
@@ -51,7 +44,6 @@ void CRectangularFilterParamsGuiComp::UpdateEditor()
 
 		FilterWidthSpin->setValue(filterSize.GetX());
 		FilterHeightSpin->setValue(filterSize.GetY());
-		IterationsSpin->setValue(objectPtr->GetIterationsCount());
 	}
 }
 
@@ -65,12 +57,6 @@ void CRectangularFilterParamsGuiComp::on_FilterHeightSlider_valueChanged(int /*v
 
 
 void CRectangularFilterParamsGuiComp::on_FilterWidthSlider_valueChanged(int /*value*/)
-{
-	UpdateModel();
-}
-
-
-void CRectangularFilterParamsGuiComp::on_IterationsSlider_valueChanged(int /*value*/)
 {
 	UpdateModel();
 }

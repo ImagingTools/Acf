@@ -6,6 +6,7 @@
 #include "icomp/TMakeComponentWrap.h"
 
 #include "iqtipr/CRectangularFilterParamsGuiComp.h"
+#include "iqtipr/CIterativeProcessorParamsGuiComp.h"
 
 
 /**
@@ -16,6 +17,7 @@ namespace QtIprPck
 
 
 typedef iqtipr::CRectangularFilterParamsGuiComp RectangularFilterParamsGui;
+typedef iqtipr::CIterativeProcessorParamsGuiComp IterationParamsGui;
 
 
 } // namespace QtIprPck

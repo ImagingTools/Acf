@@ -29,7 +29,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(TImageProcessorCompBase)
 		I_REGISTER_INTERFACE(iipr::IBitmapProcessor)
 		I_ASSIGN(m_paramsIdAttrPtr, "ParamsId", "ID of processor parameter", true, "ParamsId");
-		I_ASSIGN(m_slaveProcessorPtr, "SlaveProcessor", "Slave image processor", false, "SlaveProcessor");
+		I_ASSIGN(m_preprocessorCompPtr, "Preprocessor", "Image preprocessing operator", false, "Preprocessor");
 	I_END_COMPONENT
 
 protected:
@@ -47,7 +47,7 @@ protected:
 
 private:
 	I_ATTR(istd::CString, m_paramsIdAttrPtr);
-	I_REF(iipr::IBitmapProcessor, m_slaveProcessorPtr);
+	I_REF(iipr::IBitmapProcessor, m_preprocessorCompPtr);
 };
 
 
@@ -69,10 +69,10 @@ int TImageProcessorCompBase<ParameterType>::DoSyncProcess(
 
 	iimg::CGeneralBitmap outputBitmap;
 
-	if (m_slaveProcessorPtr.IsValid()){
-		int taskId = m_slaveProcessorPtr->BeginTask(paramsPtr, inputPtr, &outputBitmap);
+	if (m_preprocessorCompPtr.IsValid()){
+		int taskId = m_preprocessorCompPtr->BeginTask(paramsPtr, inputPtr, &outputBitmap);
 		if (taskId >= 0){
-			int retVal = m_slaveProcessorPtr->WaitTaskFinished(taskId);
+			int retVal = m_preprocessorCompPtr->WaitTaskFinished(taskId);
 			if (retVal == TS_OK){
 				inputPtr = &outputBitmap;
 			}

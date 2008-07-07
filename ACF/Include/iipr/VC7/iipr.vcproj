@@ -135,6 +135,12 @@
 				RelativePath="..\CImageProjection.cpp">
 			</File>
 			<File
+				RelativePath="..\CIterativeProcessorComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CIterativeProcessorParams.cpp">
+			</File>
+			<File
 				RelativePath="..\CLocalDifferenceFilterParams.cpp">
 			</File>
 			<File
@@ -155,6 +161,12 @@
 			Filter="h">
 			<File
 				RelativePath="..\CImageProjection.h">
+			</File>
+			<File
+				RelativePath="..\CIterativeProcessorComp.h">
+			</File>
+			<File
+				RelativePath="..\CIterativeProcessorParams.h">
 			</File>
 			<File
 				RelativePath="..\CLocalDifferenceFilterParams.h">

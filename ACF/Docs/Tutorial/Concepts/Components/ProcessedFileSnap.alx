@@ -4,13 +4,46 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="12">
+  <PositionMap count="19">
+    <Element>
+      <ComponentName>
+        AverageParams
+      </ComponentName>
+      <X>
+        500
+      </X>
+      <X>
+        -37
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AverageParamsGui
+      </ComponentName>
+      <X>
+        312
+      </X>
+      <X>
+        237
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AverageProcessor
+      </ComponentName>
+      <X>
+        -75
+      </X>
+      <X>
+        512
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         BitmapLoader
       </ComponentName>
       <X>
-        0
+        -225
       </X>
       <X>
         337
@@ -21,10 +54,10 @@
         DifferenceProcessor
       </ComponentName>
       <X>
-        -275
+        250
       </X>
       <X>
-        312
+        387
       </X>
     </Element>
     <Element>
@@ -65,10 +98,10 @@
         FilterParams
       </ComponentName>
       <X>
-        -50
+        -175
       </X>
       <X>
-        -112
+        -137
       </X>
     </Element>
     <Element>
@@ -91,6 +124,50 @@
       </X>
       <X>
         87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        IterationParams
+      </ComponentName>
+      <X>
+        500
+      </X>
+      <X>
+        62
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        IterationParamsGui
+      </ComponentName>
+      <X>
+        562
+      </X>
+      <X>
+        237
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        IterativeParams
+      </ComponentName>
+      <X>
+        500
+      </X>
+      <X>
+        87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        IterativeProcessor
+      </ComponentName>
+      <X>
+        12
+      </X>
+      <X>
+        387
       </X>
     </Element>
     <Element>

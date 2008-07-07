@@ -4,7 +4,80 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="10">
+  <ElementsList count="14">
+    <Element>
+      <Id>
+        AverageParams
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        RectangularFilterParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        AverageParamsGui
+      </Id>
+      <PackageId>
+        QtIprPck
+      </PackageId>
+      <ComponentId>
+        RectangularFilterParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        AverageProcessor
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        MovingAverageProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         BitmapLoader
@@ -37,13 +110,13 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
-              ParamsId
+              Alpha
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              class icomp::TSingleAttribute&lt;int&gt;
             </Type>
             <ExportId>
               
@@ -53,7 +126,64 @@
                 true
               </IsEnabled>
               <Value>
-                FilterParams
+                3
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Beta
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;double&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                0.5
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Gamma
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                128
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Preprocessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                IterativeProcessor
               </Value>
             </Data>
           </AttributeInfo>
@@ -87,42 +217,6 @@
       </PackageId>
       <ComponentId>
         FileAcquisitionParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FilterParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        LocalDifferenceFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FilterParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        RectangularFilterParamsGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -228,6 +322,98 @@
     </Element>
     <Element>
       <Id>
+        IterationParams
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        IterativeProcessorParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        IterationParamsGui
+      </Id>
+      <PackageId>
+        QtIprPck
+      </PackageId>
+      <ComponentId>
+        IterationParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        IterativeProcessor
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        IterationProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                IterationParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveProcessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageProcessor
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         ProcessedCamera
       </Id>
       <PackageId>
@@ -256,7 +442,7 @@
                 true
               </IsEnabled>
               <Value>
-                DifferenceProcessor
+                IterativeProcessor
               </Value>
             </Data>
           </AttributeInfo>
@@ -311,12 +497,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   FileSnapParam
                 </Value>
                 <Value>
-                  FilterParams
+                  AverageParams
+                </Value>
+                <Value>
+                  IterationParams
                 </Value>
               </Values>
             </Data>
@@ -335,12 +524,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   FileBitmapAcquisition
                 </Value>
                 <Value>
-                  FilterParams
+                  AverageParams
+                </Value>
+                <Value>
+                  IterationParams
                 </Value>
               </Values>
             </Data>
@@ -377,12 +569,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   FileSnapParamGui
                 </Value>
                 <Value>
-                  FilterParamsGui
+                  AverageParamsGui
+                </Value>
+                <Value>
+                  IterationParamsGui
                 </Value>
               </Values>
             </Data>
@@ -401,12 +596,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   FileBitmapAcquisition
                 </Value>
                 <Value>
-                  FilterParams
+                  AverageParams
+                </Value>
+                <Value>
+                  IterationParams
                 </Value>
               </Values>
             </Data>
