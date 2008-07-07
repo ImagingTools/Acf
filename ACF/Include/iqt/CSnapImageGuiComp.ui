@@ -13,11 +13,20 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>0</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="leftMargin" >
+    <number>0</number>
+   </property>
+   <property name="topMargin" >
+    <number>0</number>
+   </property>
+   <property name="rightMargin" >
+    <number>0</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>0</number>
    </property>
    <item>
     <widget class="QSplitter" name="splitter" >
@@ -26,32 +35,37 @@
      </property>
      <widget class="QFrame" name="frame" >
       <property name="sizePolicy" >
-       <sizepolicy>
-        <hsizetype>5</hsizetype>
-        <vsizetype>5</vsizetype>
+       <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
         <horstretch>1</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
       <property name="frameShape" >
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow" >
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
        </property>
        <item>
         <widget class="QGroupBox" name="groupBox" >
          <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>5</hsizetype>
-           <vsizetype>4</vsizetype>
+          <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -60,26 +74,42 @@
           <string>Image</string>
          </property>
          <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
           </property>
+          <property name="leftMargin" >
+           <number>9</number>
+          </property>
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" >
-            <property name="margin" >
+            <property name="spacing" >
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="leftMargin" >
+             <number>0</number>
+            </property>
+            <property name="topMargin" >
+             <number>0</number>
+            </property>
+            <property name="rightMargin" >
+             <number>0</number>
+            </property>
+            <property name="bottomMargin" >
              <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="SnapImageButton" >
               <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>5</hsizetype>
-                <vsizetype>0</vsizetype>
+               <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -92,9 +122,7 @@
             <item>
              <widget class="QToolButton" name="LiveImageButton" >
               <property name="sizePolicy" >
-               <sizepolicy>
-                <hsizetype>0</hsizetype>
-                <vsizetype>5</vsizetype>
+               <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -103,7 +131,7 @@
                <string>...</string>
               </property>
               <property name="icon" >
-               <iconset resource="../iqtdoc/iqtdoc.qrc" >:/Icons/Resources/Icons/reload_128.png</iconset>
+               <iconset/>
               </property>
               <property name="checkable" >
                <bool>true</bool>
@@ -115,9 +143,7 @@
           <item>
            <widget class="QPushButton" name="SaveImageButton" >
             <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>5</hsizetype>
-              <vsizetype>0</vsizetype>
+             <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -136,11 +162,20 @@
           <string>Parameters</string>
          </property>
          <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
           <property name="spacing" >
            <number>6</number>
+          </property>
+          <property name="leftMargin" >
+           <number>9</number>
+          </property>
+          <property name="topMargin" >
+           <number>9</number>
+          </property>
+          <property name="rightMargin" >
+           <number>9</number>
+          </property>
+          <property name="bottomMargin" >
+           <number>9</number>
           </property>
           <item>
            <widget class="QFrame" name="ParamsFrame" >
@@ -151,11 +186,20 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
              <property name="spacing" >
               <number>6</number>
+             </property>
+             <property name="leftMargin" >
+              <number>0</number>
+             </property>
+             <property name="topMargin" >
+              <number>0</number>
+             </property>
+             <property name="rightMargin" >
+              <number>0</number>
+             </property>
+             <property name="bottomMargin" >
+              <number>0</number>
              </property>
             </layout>
            </widget>
@@ -163,9 +207,7 @@
           <item>
            <widget class="QPushButton" name="LoadParamsButton" >
             <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>5</hsizetype>
-              <vsizetype>0</vsizetype>
+             <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -178,9 +220,7 @@
           <item>
            <widget class="QPushButton" name="SaveParamsButton" >
             <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>5</hsizetype>
-              <vsizetype>0</vsizetype>
+             <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -210,9 +250,7 @@
      </widget>
      <widget class="QFrame" name="ImageViewFrame" >
       <property name="sizePolicy" >
-       <sizepolicy>
-        <hsizetype>3</hsizetype>
-        <vsizetype>5</vsizetype>
+       <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
         <horstretch>5</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -224,11 +262,20 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
+       </property>
+       <property name="leftMargin" >
+        <number>0</number>
+       </property>
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
        </property>
       </layout>
      </widget>
