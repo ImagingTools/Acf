@@ -53,7 +53,6 @@ TChangeNotifier<Changeable>::~TChangeNotifier()
 }
 
 
-
 template <class Changeable>
 void TChangeNotifier<Changeable>::SetPtr(Changeable* changeablePtr)
 {

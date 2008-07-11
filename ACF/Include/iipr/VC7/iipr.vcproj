@@ -192,6 +192,9 @@
 			<File
 				RelativePath="..\TImageProcessorCompBase.h">
 			</File>
+			<File
+				RelativePath="..\TMorphoProcessorComp.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

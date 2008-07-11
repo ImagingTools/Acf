@@ -286,9 +286,9 @@ void CPackageOverviewComp::OnGuiCreated()
 	BaseClass::OnGuiCreated();
 
 	// set up the tree view:
-	PackagesList->setColumnCount(2);
+	PackagesList->setColumnCount(1);
 	QStringList labels;
-	labels << tr("Component") << tr("Group");
+	labels << tr("Component");
 	PackagesList->setHeaderLabels(labels);
 	PackagesList->setItemDelegate(new CItemDelegate());
 

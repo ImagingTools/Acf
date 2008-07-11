@@ -6,6 +6,7 @@
 
 #include "icomp/TMakeComponentWrap.h"
 
+#include "iipr/TMorphoProcessorComp.h"
 #include "iipr/CMovingAverageProcessorComp.h"
 #include "iipr/CRectangularFilterParams.h"
 #include "iipr/CProcessedAcquisitionComp.h"
@@ -29,6 +30,9 @@ typedef iipr::CLocalDifferenceProcessorComp LocalDifferenceProcessor;
 typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CLocalDifferenceFilterParams> > LocalDifferenceFilterParams;
 typedef iipr::CIterativeProcessorComp IterationProcessor;
 typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CIterativeProcessorParams> > IterativeProcessorParams;
+
+typedef iipr::CMorphoMaxOperatorComp MorphoMaxOperator;
+typedef iipr::CMorphoMinOperatorComp MorphoMinOperator;
 
 
 } // namespace IprPck

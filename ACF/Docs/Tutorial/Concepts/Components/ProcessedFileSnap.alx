@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="19">
+  <PositionMap count="22">
     <Element>
       <ComponentName>
         AverageParams
@@ -32,10 +32,10 @@
         AverageProcessor
       </ComponentName>
       <X>
-        -75
+        275
       </X>
       <X>
-        512
+        337
       </X>
     </Element>
     <Element>
@@ -54,7 +54,7 @@
         DifferenceProcessor
       </ComponentName>
       <X>
-        250
+        300
       </X>
       <X>
         387
@@ -168,6 +168,39 @@
       </X>
       <X>
         387
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        MaxOperator
+      </ComponentName>
+      <X>
+        262
+      </X>
+      <X>
+        487
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        MedOperator
+      </ComponentName>
+      <X>
+        37
+      </X>
+      <X>
+        487
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        MinOperator
+      </ComponentName>
+      <X>
+        62
+      </X>
+      <X>
+        487
       </X>
     </Element>
     <Element>
