@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="14">
+  <PositionMap count="18">
     <Element>
       <ComponentName>
         Application
@@ -57,7 +57,51 @@
         150
       </X>
       <X>
-        62
+        87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ComposedParamsSet
+      </ComponentName>
+      <X>
+        -137
+      </X>
+      <X>
+        -12
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ComposedParamsSetGui
+      </ComponentName>
+      <X>
+        -387
+      </X>
+      <X>
+        -87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ExposureParams
+      </ComponentName>
+      <X>
+        -112
+      </X>
+      <X>
+        87
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ExposureParamsGui
+      </ComponentName>
+      <X>
+        -362
+      </X>
+      <X>
+        87
       </X>
     </Element>
     <Element>

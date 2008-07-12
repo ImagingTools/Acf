@@ -81,7 +81,7 @@ double CExposureParamsComp::GetEenDelay() const
 }
 
 
-bool CExposureParamsComp::SetEenDelayRange(double time)
+bool CExposureParamsComp::SetEenDelay(double time)
 {
 	istd::CRange range = GetEenDelayRange();
 	if (range.IsInside(time)){

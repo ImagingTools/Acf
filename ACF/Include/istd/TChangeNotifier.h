@@ -56,12 +56,14 @@ TChangeNotifier<Changeable>::~TChangeNotifier()
 template <class Changeable>
 void TChangeNotifier<Changeable>::SetPtr(Changeable* changeablePtr)
 {
-	Reset();
+	if (changeablePtr != GetPtr()){
+		Reset();
 
-	BaseClass::SetPtr(changeablePtr);
+		BaseClass::SetPtr(changeablePtr);
 
-	if (changeablePtr != NULL){
-		changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
+		if (changeablePtr != NULL){
+			changeablePtr->BeginChanges(m_changeFlags, m_updateParamsPtr);
+		}
 	}
 }
 

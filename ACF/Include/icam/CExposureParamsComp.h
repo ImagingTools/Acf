@@ -34,7 +34,7 @@ public:
 	virtual double GetDelayTime() const;
 	virtual bool SetDelayTime(double time);
 	virtual double GetEenDelay() const;
-	virtual bool SetEenDelayRange(double time);
+	virtual bool SetEenDelay(double time);
 
 	// reimplemented (icam::IExposureInfo)
 	virtual istd::CRange GetShutterTimeRange() const;

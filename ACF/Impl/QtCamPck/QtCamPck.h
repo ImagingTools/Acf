@@ -4,6 +4,7 @@
 
 #include "iqtcam/CFileAcquisitionComp.h"
 #include "iqtcam/CSnapImageGuiComp.h"
+#include "iqtcam/CExposureParamsGuiComp.h"
 
 
 /**
@@ -15,6 +16,7 @@ namespace QtCamPck
 
 typedef iqtcam::CFileAcquisitionComp FileAcquisition;
 typedef iqtcam::CSnapImageGuiComp SnapImageGui;
+typedef iqtcam::CExposureParamsGuiComp ExposureParamsGui;
 
 
 } // namespace QtCamPck

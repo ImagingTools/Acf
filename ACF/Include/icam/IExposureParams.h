@@ -53,7 +53,7 @@ public:
 		\param	time	exposure enabled (EEN) signal delay time in seconds.
 		\return	true, if success.
 	*/
-	virtual bool SetEenDelayRange(double time) = 0;
+	virtual bool SetEenDelay(double time) = 0;
 };
 
 
