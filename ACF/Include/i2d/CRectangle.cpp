@@ -42,6 +42,16 @@ CRectangle::CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight)
 }
 
 
+CRectangle::CRectangle(const ibase::CSize& size)
+{
+	m_horizontalRange.SetMinValue(0.0);
+	m_horizontalRange.SetMaxValue(size.GetX());
+
+	m_verticalRange.SetMinValue(0.0);
+	m_verticalRange.SetMaxValue(size.GetY());
+}
+
+
 const CRectangle& CRectangle::operator = (const CRectangle& ref)
 {
 	m_verticalRange = ref.m_verticalRange;

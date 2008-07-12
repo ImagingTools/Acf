@@ -311,7 +311,7 @@
                 true
               </IsEnabled>
               <Value>
-                MinOperator
+                AverageProcessor
               </Value>
             </Data>
           </AttributeInfo>
@@ -369,7 +369,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
               ParamsId
@@ -386,6 +386,25 @@
               </IsEnabled>
               <Value>
                 AverageParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Preprocessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                MaxOperator
               </Value>
             </Data>
           </AttributeInfo>

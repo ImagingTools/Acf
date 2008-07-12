@@ -14,8 +14,54 @@ CSize::CSize()
 
 
 CSize::CSize(int width, int height)
-	:BaseClass(width, height)
+:	BaseClass(width, height)
 {
+}
+
+
+CSize::CSize(const istd::CIndex2d& index)
+:	BaseClass(index)
+{
+}
+
+
+CSize CSize::operator+(const CSize& size)
+{
+	CSize retVal(*this);
+
+	retVal.SetX(GetX() + size.GetX());
+	retVal.SetY(GetY() + size.GetY());
+
+	return retVal;
+}
+
+
+CSize CSize::operator-(const CSize& size)
+{
+	CSize retVal(*this);
+
+	retVal.SetX(GetX() - size.GetX());
+	retVal.SetY(GetY() - size.GetY());
+
+	return retVal;
+}
+
+
+CSize& CSize::operator+=(const CSize& size)
+{
+	SetX(GetX() + size.GetX());
+	SetY(GetY() + size.GetY());
+
+	return *this;
+}
+
+
+CSize& CSize::operator-=(const CSize& size)
+{
+	SetX(GetX() - size.GetX());
+	SetY(GetY() - size.GetY());
+
+	return *this;
 }
 
 

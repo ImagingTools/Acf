@@ -1,5 +1,5 @@
-#ifndef iimg_TBitmapIterator_included
-#define iimg_TBitmapIterator_included
+#ifndef iimg_TBitmapIterator2d_included
+#define iimg_TBitmapIterator2d_included
 
 
 #include "iimg/IBitmap.h"
@@ -13,7 +13,7 @@ namespace iimg
 	Help class for iteration through bitmap pixels. 
 */
 template <typename PixelType>
-class TBitmapIterator
+class TBitmapIterator2d
 {
 public:
 	typedef PixelType ValueType;
@@ -24,17 +24,17 @@ public:
 	class XIterator
 	{
 	public:
-		XIterator(TBitmapIterator& iterator);
-		TBitmapIterator operator++(int);
-		TBitmapIterator& operator++();
-		TBitmapIterator operator--(int);
-		TBitmapIterator& operator--();
-		TBitmapIterator& operator+=(int difference);
-		TBitmapIterator& operator-=(int difference);
-		TBitmapIterator operator+(int difference);
-		TBitmapIterator operator-(int difference);
+		XIterator(TBitmapIterator2d& iterator);
+		TBitmapIterator2d operator++(int);
+		TBitmapIterator2d& operator++();
+		TBitmapIterator2d operator--(int);
+		TBitmapIterator2d& operator--();
+		TBitmapIterator2d& operator+=(int difference);
+		TBitmapIterator2d& operator-=(int difference);
+		TBitmapIterator2d operator+(int difference);
+		TBitmapIterator2d operator-(int difference);
 	private:
-		TBitmapIterator& m_iterator;
+		TBitmapIterator2d& m_iterator;
 	};
 
 	/**
@@ -43,37 +43,37 @@ public:
 	class YIterator
 	{
 	public:
-		YIterator(TBitmapIterator& iterator);
-		TBitmapIterator operator++(int);
-		TBitmapIterator& operator++();
-		TBitmapIterator operator--(int);
-		TBitmapIterator& operator--();
-		TBitmapIterator& operator+=(int difference);
-		TBitmapIterator& operator-=(int difference);
-		TBitmapIterator operator+(int difference);
-		TBitmapIterator operator-(int difference);
+		YIterator(TBitmapIterator2d& iterator);
+		TBitmapIterator2d operator++(int);
+		TBitmapIterator2d& operator++();
+		TBitmapIterator2d operator--(int);
+		TBitmapIterator2d& operator--();
+		TBitmapIterator2d& operator+=(int difference);
+		TBitmapIterator2d& operator-=(int difference);
+		TBitmapIterator2d operator+(int difference);
+		TBitmapIterator2d operator-(int difference);
 	private:
-		TBitmapIterator& m_iterator;
+		TBitmapIterator2d& m_iterator;
 	};
 
 	/**
 		Construct image iterator from a bitmap.
 	*/
-	TBitmapIterator(const iimg::IBitmap* bitmapPtr);
+	TBitmapIterator2d(const iimg::IBitmap* bitmapPtr);
 
 	/**
 		Construct image iterator from another interator.
 	*/
-	TBitmapIterator(const TBitmapIterator& iterator);
+	TBitmapIterator2d(const TBitmapIterator2d& iterator);
 
 	/**
 		Access operator
 	*/
 	ValueType& operator*() const;
 
-	bool operator < (const TBitmapIterator& iterator);
-	bool operator > (const TBitmapIterator& iterator);
-	bool operator == (const TBitmapIterator& iterator);
+	bool operator < (const TBitmapIterator2d& iterator);
+	bool operator > (const TBitmapIterator2d& iterator);
+	bool operator == (const TBitmapIterator2d& iterator);
 
 	/**
 		Returns \c true if the index is valid in the image domain.
@@ -105,7 +105,7 @@ private:
 
 
 template <typename PixelType>
-TBitmapIterator<PixelType>::TBitmapIterator(const iimg::IBitmap* bitmapPtr)
+TBitmapIterator2d<PixelType>::TBitmapIterator2d(const iimg::IBitmap* bitmapPtr)
 :	x(*this),
 	y(*this)
 {
@@ -123,7 +123,7 @@ TBitmapIterator<PixelType>::TBitmapIterator(const iimg::IBitmap* bitmapPtr)
 
 
 template <typename PixelType>
-TBitmapIterator<PixelType>::TBitmapIterator(const TBitmapIterator& iterator)
+TBitmapIterator2d<PixelType>::TBitmapIterator2d(const TBitmapIterator2d& iterator)
 :	m_imageBufferBeginPtr(iterator.m_imageBufferBeginPtr),
 	m_imageBufferEndPtr(iterator.m_imageBufferEndPtr),
 	m_imageBufferPtr(iterator.m_imageBufferPtr),
@@ -136,7 +136,7 @@ TBitmapIterator<PixelType>::TBitmapIterator(const TBitmapIterator& iterator)
 
 
 template <typename PixelType>
-inline typename TBitmapIterator<PixelType>::ValueType& TBitmapIterator<PixelType>::operator*() const
+inline typename TBitmapIterator2d<PixelType>::ValueType& TBitmapIterator2d<PixelType>::operator*() const
 {
 	I_ASSERT(IsValid());
 		
@@ -145,7 +145,7 @@ inline typename TBitmapIterator<PixelType>::ValueType& TBitmapIterator<PixelType
 
 
 template <typename PixelType>
-inline bool TBitmapIterator<PixelType>::IsValid() const
+inline bool TBitmapIterator2d<PixelType>::IsValid() const
 {
 	return	((m_imageBufferPtr >= m_imageBufferBeginPtr) &&
 			(m_imageBufferPtr < m_imageBufferEndPtr));
@@ -153,21 +153,21 @@ inline bool TBitmapIterator<PixelType>::IsValid() const
 
 
 template <typename PixelType>
-inline void TBitmapIterator<PixelType>::MoveTo(int x, int y)
+inline void TBitmapIterator2d<PixelType>::MoveTo(int x, int y)
 {
 	m_imageBufferPtr = const_cast<PixelType*>(m_imageBufferBeginPtr) + x + y * m_linesDifference;
 }
 
 
 template <typename PixelType>
-inline void TBitmapIterator<PixelType>::MoveTo(const istd::CIndex2d& index)
+inline void TBitmapIterator2d<PixelType>::MoveTo(const istd::CIndex2d& index)
 {
 	MoveTo(index.GetX(), index.GetY());
 }
 
 
 template <typename PixelType>
-inline bool TBitmapIterator<PixelType>::operator < (const TBitmapIterator& iterator)
+inline bool TBitmapIterator2d<PixelType>::operator < (const TBitmapIterator2d& iterator)
 {
 	I_ASSERT(m_imageBufferBeginPtr == iterator.m_imageBufferBeginPtr);
 
@@ -176,7 +176,7 @@ inline bool TBitmapIterator<PixelType>::operator < (const TBitmapIterator& itera
 
 
 template <typename PixelType>
-inline bool TBitmapIterator<PixelType>::operator > (const TBitmapIterator& iterator)
+inline bool TBitmapIterator2d<PixelType>::operator > (const TBitmapIterator2d& iterator)
 {
 	I_ASSERT(m_imageBufferBeginPtr == iterator.m_imageBufferBeginPtr);
 
@@ -185,7 +185,7 @@ inline bool TBitmapIterator<PixelType>::operator > (const TBitmapIterator& itera
 
 
 template <typename PixelType>
-inline bool TBitmapIterator<PixelType>::operator == (const TBitmapIterator& iterator)
+inline bool TBitmapIterator2d<PixelType>::operator == (const TBitmapIterator2d& iterator)
 {
 	I_ASSERT(m_imageBufferBeginPtr == iterator.m_imageBufferBeginPtr);
 
@@ -196,16 +196,16 @@ inline bool TBitmapIterator<PixelType>::operator == (const TBitmapIterator& iter
 // public methods of embedded class XIterator
 
 template <typename PixelType>
-TBitmapIterator<PixelType>::XIterator::XIterator(TBitmapIterator& iterator)
+TBitmapIterator2d<PixelType>::XIterator::XIterator(TBitmapIterator2d& iterator)
 :	m_iterator(iterator)
 {
 }
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operator++(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::XIterator::operator++(int difference)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator2d<PixelType> temp(m_iterator);
 	
 	m_iterator.m_imageBufferPtr++;
 
@@ -214,7 +214,7 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operator++()
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::XIterator::operator++()
 {
 	m_iterator.m_imageBufferPtr++;
 
@@ -223,9 +223,9 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operator--(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::XIterator::operator--(int difference)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator2d<PixelType> temp(m_iterator);
 	
 	m_iterator.m_imageBufferPtr--;
 
@@ -234,7 +234,7 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operator--()
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::XIterator::operator--()
 {
 	m_iterator.m_imageBufferPtr--;
 
@@ -243,7 +243,7 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operator+=(int difference)
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::XIterator::operator+=(int difference)
 {
 	m_iterator.m_imageBufferPtr += difference;
 
@@ -252,7 +252,7 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operator-=(int difference)
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::XIterator::operator-=(int difference)
 {
 	m_iterator.m_imageBufferPtr -= difference;
 
@@ -261,9 +261,9 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::XIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operator-(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::XIterator::operator-(int difference)
 {
-	TBitmapIterator<PixelType> output(m_iterator);
+	TBitmapIterator2d<PixelType> output(m_iterator);
 
 	output.m_imageBufferPtr -= difference;
 
@@ -272,9 +272,9 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operator+(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::XIterator::operator+(int difference)
 {
-	TBitmapIterator<PixelType> output(m_iterator);
+	TBitmapIterator2d<PixelType> output(m_iterator);
 
 	output.m_imageBufferPtr += difference;
 
@@ -285,15 +285,15 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::XIterator::operato
 // public methods of embedded class YIterator
 
 template <typename PixelType>
-TBitmapIterator<PixelType>::YIterator::YIterator(TBitmapIterator& iterator)
+TBitmapIterator2d<PixelType>::YIterator::YIterator(TBitmapIterator2d& iterator)
 :	m_iterator(iterator)
 {
 }
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operator++(int)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::YIterator::operator++(int)
 {
-	TBitmapIterator<PixelType> temp = m_iterator;
+	TBitmapIterator2d<PixelType> temp = m_iterator;
 
 	m_iterator.m_imageBufferPtr += m_iterator.m_linesDifference;
 
@@ -302,7 +302,7 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operator++()
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::YIterator::operator++()
 {
 	m_iterator.m_imageBufferPtr += m_iterator.m_linesDifference;
 
@@ -311,9 +311,9 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operator--(int)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::YIterator::operator--(int)
 {
-	TBitmapIterator<PixelType> temp = m_iterator;
+	TBitmapIterator2d<PixelType> temp = m_iterator;
 
 	m_iterator.m_imageBufferPtr -= m_iterator.m_linesDifference;
 
@@ -322,7 +322,7 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operator--()
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::YIterator::operator--()
 {
 	m_iterator.m_imageBufferPtr -= m_iterator.m_linesDifference;
 
@@ -331,7 +331,7 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operator+=(int difference)
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::YIterator::operator+=(int difference)
 {
 	m_iterator.m_imageBufferPtr += (difference * m_iterator.m_linesDifference);
 
@@ -340,7 +340,7 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operator-=(int difference)
+inline TBitmapIterator2d<PixelType>& TBitmapIterator2d<PixelType>::YIterator::operator-=(int difference)
 {
 	m_iterator.m_imageBufferPtr -= (difference * m_iterator.m_linesDifference);
 
@@ -349,9 +349,9 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::YIterator::operat
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operator-(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::YIterator::operator-(int difference)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator2d<PixelType> temp(m_iterator);
 
 	temp.m_imageBufferPtr -= difference;
 
@@ -360,9 +360,9 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operato
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operator+(int difference)
+inline TBitmapIterator2d<PixelType> TBitmapIterator2d<PixelType>::YIterator::operator+(int difference)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator2d<PixelType> temp(m_iterator);
 
 	temp.m_imageBufferPtr += difference;
 
@@ -373,5 +373,5 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::YIterator::operato
 } // namespace iimg
 
 
-#endif // !iimg_TBitmapIterator_included
+#endif // !iimg_TBitmapIterator2d_included
 

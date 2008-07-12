@@ -18,6 +18,12 @@ public:
 
 	CSize();
 	CSize(int width, int height);
+	CSize(const istd::CIndex2d& index);
+
+	CSize operator+(const CSize& size);
+	CSize operator-(const CSize& size);
+	CSize& operator+=(const CSize& size);
+	CSize& operator-=(const CSize& size);
 
 	bool IsNull() const;
 	

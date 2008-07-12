@@ -5,7 +5,7 @@
 #include <functional>
 
 
-#include "iimg/TBitmapIterator.h"
+#include "iimg/TBitmapIterator2d.h"
 
 #include "iipr/TImageProcessorCompBase.h"
 #include "iipr/CRectangularFilterParams.h"
@@ -79,14 +79,14 @@ bool TMorphoProcessorComp<PixelType, CompareFunction>::ProcessImage(
 	int imageHeight = inputImage.GetImageSize().GetY();
 
 	for (int y = 0; y < imageHeight; y++){
-		iimg::TBitmapIterator<I_BYTE> inputIterator(&inputImage);
-		iimg::TBitmapIterator<I_BYTE> outputIterator(&outputImage);
+		iimg::TBitmapIterator2d<I_BYTE> inputIterator(&inputImage);
+		iimg::TBitmapIterator2d<I_BYTE> outputIterator(&outputImage);
 
 		inputIterator.MoveTo(kernelHalfWidth, y);
 		outputIterator.MoveTo(kernelHalfWidth, y);
 
 		for (int x = kernelHalfWidth; x < imageWidth - kernelHalfWidth; x++){
-			iimg::TBitmapIterator<I_BYTE> kernelIterator = inputIterator;
+			iimg::TBitmapIterator2d<I_BYTE> kernelIterator = inputIterator;
 			PixelType outputValue = *kernelIterator;
 
 			kernelIterator.x -= kernelHalfWidth;
@@ -109,14 +109,14 @@ bool TMorphoProcessorComp<PixelType, CompareFunction>::ProcessImage(
 	tempBitmap.CopyImageFrom(outputImage);
 
 	for (int x = 0; x < imageWidth; x++){
-		iimg::TBitmapIterator<PixelType> inputIterator(&tempBitmap);
-		iimg::TBitmapIterator<PixelType> outputIterator(&outputImage);
+		iimg::TBitmapIterator2d<PixelType> inputIterator(&tempBitmap);
+		iimg::TBitmapIterator2d<PixelType> outputIterator(&outputImage);
 
 		inputIterator.MoveTo(x, kernelHalfHeight);
 		outputIterator.MoveTo(x, kernelHalfHeight);
 
 		for (int y = kernelHalfHeight; y < imageHeight - kernelHalfHeight; y++){
-			iimg::TBitmapIterator<PixelType> kernelIterator = inputIterator;
+			iimg::TBitmapIterator2d<PixelType> kernelIterator = inputIterator;
 		
 			PixelType outputValue = *kernelIterator;
 

@@ -137,6 +137,9 @@
 			<File
 				RelativePath="..\CGeneralBitmap.cpp">
 			</File>
+			<File
+				RelativePath="..\CHistogram.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -148,6 +151,9 @@
 				RelativePath="..\CGeneralBitmap.h">
 			</File>
 			<File
+				RelativePath="..\CHistogram.h">
+			</File>
+			<File
 				RelativePath="..\IBitmap.h">
 			</File>
 			<File
@@ -157,7 +163,7 @@
 				RelativePath="..\IRasterImage.h">
 			</File>
 			<File
-				RelativePath="..\TBitmapIterator.h">
+				RelativePath="..\TBitmapIterator2d.h">
 			</File>
 		</Filter>
 	</Files>

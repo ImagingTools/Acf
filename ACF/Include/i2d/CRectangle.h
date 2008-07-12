@@ -7,6 +7,8 @@
 
 #include "iser/ISerializable.h"
 
+#include "ibase/CSize.h"
+
 #include "i2d/IObject2d.h"
 
 
@@ -21,6 +23,7 @@ public :
 	CRectangle(double top, double left, double bottom, double right);
 	CRectangle(const CRectangle& rect);
 	CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight);
+	CRectangle(const ibase::CSize& size);
 
 	const CRectangle& operator = (const CRectangle& other);
 
