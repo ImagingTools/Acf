@@ -412,10 +412,10 @@
         ImageLoader
       </Id>
       <PackageId>
-        QtPck
+        QtCamPck
       </PackageId>
       <ComponentId>
-        BitmapLoader
+        FileAcquisition
       </ComponentId>
       <Data>
         <IsEnabled>

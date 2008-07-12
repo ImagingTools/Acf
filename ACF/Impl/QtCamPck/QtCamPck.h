@@ -2,6 +2,8 @@
 #define QtCamPck_included
 
 
+#include "iqtcam/CFileAcquisitionComp.h"
+#include "iqtcam/CSnapImageGuiComp.h"
 
 
 /**
@@ -9,6 +11,12 @@
 */
 namespace QtCamPck
 {
+
+
+typedef iqtcam::CFileAcquisitionComp FileAcquisition;
+typedef iqtcam::CSnapImageGuiComp SnapImageGui;
+
+
 } // namespace QtCamPck
 
 

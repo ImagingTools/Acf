@@ -1,5 +1,5 @@
-#ifndef iqt_CSnapImageGuiComp_included
-#define iqt_CSnapImageGuiComp_included
+#ifndef iqtcam_CSnapImageGuiComp_included
+#define iqtcam_CSnapImageGuiComp_included
 
 
 // Qt includes
@@ -19,19 +19,21 @@
 #include "iqt/IGuiObject.h"
 #include "iqt/TDesignerGuiCompBase.h"
 
-#include "iqt/Generated/ui_CSnapImageGuiComp.h"
+#include "iqtcam/iqtcam.h"
+
+#include "iqtcam/Generated/ui_CSnapImageGuiComp.h"
 
 
-namespace iqt
+namespace iqtcam
 {
 
 
-class CSnapImageGuiComp: public TDesignerGuiCompBase<Ui::CSnapImageGuiComp, QWidget>
+class CSnapImageGuiComp: public iqt::TDesignerGuiCompBase<Ui::CSnapImageGuiComp, QWidget>
 {
 	Q_OBJECT
 
 public:
-	typedef TDesignerGuiCompBase<Ui::CSnapImageGuiComp, QWidget> BaseClass;
+	typedef iqt::TDesignerGuiCompBase<Ui::CSnapImageGuiComp, QWidget> BaseClass;
 
 	I_BEGIN_COMPONENT(CSnapImageGuiComp)
 		I_ASSIGN(m_bitmapCompPtr, "Bitmap", "Bitmap will be shown", true, "Bitmap");
@@ -89,9 +91,9 @@ private:
 };
 
 
-} // namespace iqt
+} // namespace iqtcam
 
 
-#endif // !iqt_CSnapImageGuiComp_included
+#endif // !iqtcam_CSnapImageGuiComp_included
 
 

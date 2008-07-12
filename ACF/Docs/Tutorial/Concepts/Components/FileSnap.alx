@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="13">
+  <PositionMap count="14">
     <Element>
       <ComponentName>
         Application
@@ -47,6 +47,17 @@
       </X>
       <X>
         -237
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FileAcquisition
+      </ComponentName>
+      <X>
+        112
+      </X>
+      <X>
+        37
       </X>
     </Element>
     <Element>

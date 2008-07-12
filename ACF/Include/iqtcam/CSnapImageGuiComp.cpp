@@ -1,11 +1,11 @@
-#include "iqt/CSnapImageGuiComp.h"
+#include "iqtcam/CSnapImageGuiComp.h"
 
 
 // Qt includes
 #include <QMessageBox>
 
 
-namespace iqt
+namespace iqtcam
 {
 
 
@@ -166,6 +166,6 @@ void CSnapImageGuiComp::OnGuiDestroyed()
 }
 
 
-} // namespace iqt
+} // namespace iqtcam
 
 

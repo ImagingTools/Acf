@@ -13,9 +13,7 @@
 #include "iqt/CIconProviderComp.h" 
 #include "iqt/CFileDialogSerializerComp.h"
 #include "iqt/CBitmap.h"
-#include "iqt/CBitmapLoaderComp.h"
 #include "iqt/CDockWidgetGuiComp.h"
-#include "iqt/CSnapImageGuiComp.h"
 #include "iqt/CComposedParamsSetGuiComp.h"
 #include "iqt/CFileAcquisitionParamsGuiComp.h"
 #include "iqt/CParamsManagerGuiComp.h"
@@ -54,9 +52,7 @@ typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
 typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iimg::IBitmap, iqt::CBitmap> > Bitmap;
 typedef iqt2d::CImageViewComp ImageView;
-typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CDockWidgetGuiComp DockWidgetGui;
-typedef iqt::CSnapImageGuiComp SnapImageGui;
 typedef iqt::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqt::CFileAcquisitionParamsGuiComp FileAcquisitionParamsGui;
 typedef iqt::CParamsManagerGuiComp ParamsManagerGui;

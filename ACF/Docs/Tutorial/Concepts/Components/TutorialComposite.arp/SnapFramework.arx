@@ -140,10 +140,10 @@
         BitmapLoader
       </Id>
       <PackageId>
-        QtPck
+        QtCamPck
       </PackageId>
       <ComponentId>
-        BitmapLoader
+        FileAcquisition
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -297,7 +297,7 @@
         SnapGui
       </Id>
       <PackageId>
-        QtPck
+        QtCamPck
       </PackageId>
       <ComponentId>
         SnapImageGui

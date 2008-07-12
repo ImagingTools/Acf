@@ -1,4 +1,4 @@
-#include "iqt/CBitmapLoaderComp.h"
+#include "iqtcam/CFileAcquisitionComp.h"
 
 
 // Qt includes
@@ -14,11 +14,11 @@
 #include "iqt/IQImageProvider.h"
 
 
-namespace iqt
+namespace iqtcam
 {
 
 
-CBitmapLoaderComp::CBitmapLoaderComp()
+CFileAcquisitionComp::CFileAcquisitionComp()
 :	m_lastIdStamp(0)
 {
 }
@@ -26,13 +26,13 @@ CBitmapLoaderComp::CBitmapLoaderComp()
 
 // reimplemented (iser::IFileLoader)
 
-bool CBitmapLoaderComp::IsOperationSupported(
+bool CFileAcquisitionComp::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* filePathPtr,
 			bool forLoading,
 			bool forSaving) const
 {
-	if ((dataObjectPtr != NULL) && (dynamic_cast<const IQImageProvider*>(dataObjectPtr) == NULL)){
+	if ((dataObjectPtr != NULL) && (dynamic_cast<const iqt::IQImageProvider*>(dataObjectPtr) == NULL)){
 		return false;
 	}
 
@@ -53,16 +53,16 @@ bool CBitmapLoaderComp::IsOperationSupported(
 }
 
 
-int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
+int CFileAcquisitionComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	IQImageProvider* bitmapPtr = dynamic_cast<IQImageProvider*>(&data);
+	iqt::IQImageProvider* bitmapPtr = dynamic_cast<iqt::IQImageProvider*>(&data);
 
 	if (bitmapPtr != NULL){
 		istd::CChangeNotifier notifier(&data);
 
 		QImage image;
 		if (image.load(iqt::GetQString(filePath))){
-			const_cast<CBitmapLoaderComp*>(this)->SetLastLoadFileName(filePath);
+			const_cast<CFileAcquisitionComp*>(this)->SetLastLoadFileName(filePath);
 
 			bitmapPtr->CopyImageFrom(image);
 
@@ -74,14 +74,14 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 }
 
 
-int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
+int CFileAcquisitionComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	const IQImageProvider* bitmapPtr = dynamic_cast<const IQImageProvider*>(&data);
+	const iqt::IQImageProvider* bitmapPtr = dynamic_cast<const iqt::IQImageProvider*>(&data);
 
 	if (bitmapPtr != NULL){
 		const QImage& image = bitmapPtr->GetQImage();
 		if (image.save(iqt::GetQString(filePath))){
-			const_cast<CBitmapLoaderComp*>(this)->SetLastSaveFileName(filePath);
+			const_cast<CFileAcquisitionComp*>(this)->SetLastSaveFileName(filePath);
 
 			return StateOk;
 		}
@@ -91,13 +91,13 @@ int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CSt
 }
 
 
-const istd::CString& CBitmapLoaderComp::GetLastLoadFileName() const
+const istd::CString& CFileAcquisitionComp::GetLastLoadFileName() const
 {
 	return m_lastLoadFileName;
 }
 
 
-const istd::CString& CBitmapLoaderComp::GetLastSaveFileName() const
+const istd::CString& CFileAcquisitionComp::GetLastSaveFileName() const
 {
 	return m_lastSaveFileName;
 }
@@ -105,7 +105,7 @@ const istd::CString& CBitmapLoaderComp::GetLastSaveFileName() const
 
 // reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
-int CBitmapLoaderComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
+int CFileAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
 	I_ASSERT(m_defaultDirAttrPtr.IsValid());	// obligatory attribute
 	I_ASSERT(m_parameterIdAttrPtr.IsValid());	// obligatory attribute
@@ -178,7 +178,7 @@ int CBitmapLoaderComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const is
 
 // reimplemented (icam::IBitmapAcquisition)
 
-istd::CIndex2d CBitmapLoaderComp::GetBitmapSize(const iprm::IParamsSet* /*paramsPtr*/) const
+istd::CIndex2d CFileAcquisitionComp::GetBitmapSize(const iprm::IParamsSet* /*paramsPtr*/) const
 {
 	return istd::CIndex2d(-1, -1);	// unknown size
 }
@@ -186,12 +186,12 @@ istd::CIndex2d CBitmapLoaderComp::GetBitmapSize(const iprm::IParamsSet* /*params
 
 // public methods of embedded class ParamsInfo
 
-CBitmapLoaderComp::ParamsInfo::ParamsInfo()
+CFileAcquisitionComp::ParamsInfo::ParamsInfo()
 {
 	filesIter = files.end();
 }
 
 
-} // namespace iqt
+} // namespace iqtcam
 
 
