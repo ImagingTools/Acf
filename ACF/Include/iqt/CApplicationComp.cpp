@@ -80,7 +80,12 @@ int CApplicationComp::Execute(int argc, char** argv)
 		}
 
 		if (mainWidgetPtr != NULL){
-			mainWidgetPtr->show();
+			if (m_showMaximizedAttrPtr.IsValid() && m_showMaximizedAttrPtr->GetValue()){
+				mainWidgetPtr->showMaximized();
+			}
+			else{
+				mainWidgetPtr->show();
+			}
 
 			// start application loop:
 			retVal = m_applicationPtr->exec();

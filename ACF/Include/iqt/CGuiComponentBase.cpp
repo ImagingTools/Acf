@@ -109,8 +109,11 @@ bool CGuiComponentBase::DestroyGui()
 }
 
 
-void CGuiComponentBase::OnTryClose(bool* /*ignoredPtr*/)
+void CGuiComponentBase::OnTryClose(bool* ignoredPtr)
 {
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
 }
 
 
