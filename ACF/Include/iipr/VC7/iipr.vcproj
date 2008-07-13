@@ -190,6 +190,18 @@
 				RelativePath="..\iipr.h">
 			</File>
 			<File
+				RelativePath="..\ISearchModel.h">
+			</File>
+			<File
+				RelativePath="..\ISearchParams.h">
+			</File>
+			<File
+				RelativePath="..\ISearchProcessor.h">
+			</File>
+			<File
+				RelativePath="..\ISearchResult.h">
+			</File>
+			<File
 				RelativePath="..\TImageProcessorCompBase.h">
 			</File>
 			<File

@@ -42,6 +42,6 @@ void CCriticalSection::Leave()
 }
 
 
-} // namespace qwin
+} // namespace iwin
 
 

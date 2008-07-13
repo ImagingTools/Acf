@@ -16,7 +16,6 @@ namespace iipr
 */
 class IBitmapProcessor: virtual public iproc::TIAssyncProcessor<iimg::IBitmap, iimg::IBitmap>
 {
-public:
 };
 
 
@@ -24,5 +23,4 @@ public:
 
 
 #endif // !iipr_IBitmapProcessor_included
-
 
