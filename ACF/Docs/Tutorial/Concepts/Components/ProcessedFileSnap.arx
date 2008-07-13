@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="16">
+  <ElementsList count="11">
     <Element>
       <Id>
         AverageParams
@@ -38,43 +38,6 @@
           true
         </IsEnabled>
         <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        AverageProcessor
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        MovingAverageProcessor
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="1">
-          <AttributeInfo>
-            <Id>
-              ParamsId
-            </Id>
-            <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                AverageParams
-              </Value>
-            </Data>
-          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -228,24 +191,6 @@
     </Element>
     <Element>
       <Id>
-        InvertProcessor
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        InverOperator
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
         IterationParams
       </Id>
       <PackageId>
@@ -282,178 +227,10 @@
     </Element>
     <Element>
       <Id>
-        IterativeProcessor
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        IterationProcessor
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="2">
-          <AttributeInfo>
-            <Id>
-              ParamsId
-            </Id>
-            <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                IterationParams
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              SlaveProcessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                MinOperator
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        MaxOperator
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        MorphoMaxOperator
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="2">
-          <AttributeInfo>
-            <Id>
-              ParamsId
-            </Id>
-            <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                AverageParams
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Preprocessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                InvertProcessor
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        MinOperator
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        MorphoMinOperator
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="2">
-          <AttributeInfo>
-            <Id>
-              ParamsId
-            </Id>
-            <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                AverageParams
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Preprocessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                MaxOperator
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
         ProcessedCamera
       </Id>
       <PackageId>
-        IprPck
+        TutorialComposite
       </PackageId>
       <ComponentId>
         ProcessedCamera
@@ -465,7 +242,7 @@
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
-              ImageProcessor
+              Log
             </Id>
             <Type>
               class icomp::CReferenceAttribute
@@ -478,7 +255,7 @@
                 true
               </IsEnabled>
               <Value>
-                IterativeProcessor
+                Framework
               </Value>
             </Data>
           </AttributeInfo>

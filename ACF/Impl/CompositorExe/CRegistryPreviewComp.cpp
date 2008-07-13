@@ -40,7 +40,7 @@ void CRegistryPreviewComp::OnComponentDestroyed()
 	if (IsRunning()){
 		kill();
 
-		if (waitForFinished()){
+		if (waitForFinished(5000)){
 			QFile::remove(m_tempFileName);
 		}
 	}
@@ -119,7 +119,7 @@ bool CRegistryPreviewComp::IsRunning() const
 void CRegistryPreviewComp::AbortRegistry()
 {
 	QProcess::terminate();
-	if (!waitForFinished()){
+	if (!waitForFinished(5000)){
 		kill();
 	}
 }

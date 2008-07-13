@@ -3,6 +3,7 @@
 
 
 #include "QtPck/QtPck.h"
+#include "QtCamPck/QtCamPck.h"
 #include "BasePck/BasePck.h"
 
 
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentsFactory<QtPck::ImageView> viewFactoryComp;
 	viewFactoryComp.SetBoolAttr("AllowWidgetResize", true);
 
-	icomp::TSimComponentWrap<QtPck::BitmapLoader> bitmapLoaderComp;
+	icomp::TSimComponentWrap<QtCamPck::FileAcquisition> bitmapLoaderComp;
 	bitmapLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;

@@ -2,6 +2,8 @@
 #define iipr_TImageProcessorCompBase_included
 
 
+#include "ibase/TMessageProducerWrap.h"
+
 #include "iproc/TSyncProcessorWrap.h"
 
 #include "icomp/CComponentBase.h"
@@ -9,6 +11,8 @@
 #include "iimg/CGeneralBitmap.h"
 
 #include "iipr/IBitmapProcessor.h"
+
+#include "iwin/CTimer.h"
 
 
 namespace iipr
@@ -19,11 +23,11 @@ namespace iipr
 	Basic implementation for a simple bitmap processor.
 */
 template <class ParameterType>
-class TImageProcessorCompBase:	public icomp::CComponentBase,
+class TImageProcessorCompBase:	public ibase::TMessageProducerWrap<icomp::CComponentBase>,
 								public iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
 	typedef iproc::TSyncProcessorWrap<iipr::IBitmapProcessor> BaseClass2;
 
 	I_BEGIN_BASE_COMPONENT(TImageProcessorCompBase)
@@ -59,6 +63,8 @@ int TImageProcessorCompBase<ParameterType>::DoSyncProcess(
 			const iimg::IBitmap* inputPtr,
 			iimg::IBitmap* outputPtr)
 {
+	iwin::CTimer timer;
+
 	if (inputPtr == NULL || outputPtr == NULL){
 		return BaseClass2::TS_INVALID;
 	}
@@ -90,6 +96,9 @@ int TImageProcessorCompBase<ParameterType>::DoSyncProcess(
 		return BaseClass2::TS_INVALID;
 	}
 	
+	double processingTime = timer.GetElapsed();
+	SendInfoMessage(0, istd::CString("Processed in ") + istd::CString::FromNumber(processingTime * 1000) + "ms");
+
 	return BaseClass2::TS_OK;
 }
 
