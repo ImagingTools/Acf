@@ -33,7 +33,7 @@ public:
 	CScriptSampleAcquisitionComp();
 
 	// reimplemented (iproc::TSyncProcessorWrap<isig::ISamplesProcessor>)
-	virtual int DoSyncProcess(
+	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
 				const isig::ISamplesContainer* inputPtr,
 				isig::ISamplesContainer* outputPtr);

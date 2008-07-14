@@ -105,7 +105,7 @@ const istd::CString& CFileAcquisitionComp::GetLastSaveFileName() const
 
 // reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
-int CFileAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
+int CFileAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
 	I_ASSERT(m_defaultDirAttrPtr.IsValid());	// obligatory attribute
 	I_ASSERT(m_parameterIdAttrPtr.IsValid());	// obligatory attribute

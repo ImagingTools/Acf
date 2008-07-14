@@ -150,7 +150,7 @@
 				RelativePath="..\icam.h">
 			</File>
 			<File
-				RelativePath="..\IExposureInfo.h">
+				RelativePath="..\IExposureConstraints.h">
 			</File>
 			<File
 				RelativePath="..\IExposureParams.h">

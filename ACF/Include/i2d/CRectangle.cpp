@@ -15,47 +15,38 @@ CRectangle::CRectangle()
 }
 
 
-CRectangle::CRectangle(double top, double left, double bottom, double right)
+CRectangle::CRectangle(double left, double top, double right, double bottom)
+:	m_horizontalRange(left, right),
+	m_verticalRange(top, bottom)
 {
-	m_verticalRange.SetMinValue(top);
-	m_verticalRange.SetMaxValue(bottom);
-
-	m_horizontalRange.SetMinValue(left);
-	m_horizontalRange.SetMaxValue(right);
 }
 
 
 CRectangle::CRectangle(const CRectangle& ref)
-	:m_verticalRange(ref.m_verticalRange),
+:	m_verticalRange(ref.m_verticalRange),
 	m_horizontalRange(ref.m_horizontalRange)
 {
 }
 
 
 CRectangle::CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight)
+:	m_horizontalRange(topLeft.GetX(), bottomRight.GetX()),
+	m_verticalRange(topLeft.GetY(), bottomRight.GetY())
 {
-	m_horizontalRange.SetMinValue(topLeft.GetX());
-	m_horizontalRange.SetMaxValue(bottomRight.GetX());
-
-	m_verticalRange.SetMinValue(topLeft.GetY());
-	m_verticalRange.SetMaxValue(bottomRight.GetY());
 }
 
 
-CRectangle::CRectangle(const ibase::CSize& size)
+CRectangle::CRectangle(const istd::CIndex2d& size)
+:	m_horizontalRange(0.0, size.GetX()),
+	m_verticalRange(0.0, size.GetY())
 {
-	m_horizontalRange.SetMinValue(0.0);
-	m_horizontalRange.SetMaxValue(size.GetX());
-
-	m_verticalRange.SetMinValue(0.0);
-	m_verticalRange.SetMaxValue(size.GetY());
 }
 
 
-const CRectangle& CRectangle::operator = (const CRectangle& ref)
+const CRectangle& CRectangle::operator=(const CRectangle& ref)
 {
-	m_verticalRange = ref.m_verticalRange;
 	m_horizontalRange = ref.m_horizontalRange;
+	m_verticalRange = ref.m_verticalRange;
 
 	return *this;
 }
@@ -63,28 +54,19 @@ const CRectangle& CRectangle::operator = (const CRectangle& ref)
 
 bool CRectangle::Contains(const CVector2d& point) const
 {
-	return	(point.GetX() >= GetLeft()) && 
-			(point.GetX() < GetRight()) && 
-			(point.GetY() >= GetTop()) && 
-			(point.GetY() < GetBottom());
+	return m_horizontalRange.Contains(point.GetX()) && m_verticalRange.Contains(point.GetY());
 }
 
 
 bool CRectangle::Contains(const istd::CIndex2d& point) const
 {
-	return	(point.GetX() >= GetLeft()) && 
-			(point.GetX() < GetRight()) && 
-			(point.GetY() >= GetTop()) && 
-			(point.GetY() < GetBottom());
+	return m_horizontalRange.Contains(point.GetX()) && m_verticalRange.Contains(point.GetY());
 }
 
 
-bool CRectangle::IsInsideOf(const CRectangle& rect) const
+bool CRectangle::Contains(const CRectangle& rect) const
 {
-	return		(rect.GetLeft() < GetLeft()) && 
-				(rect.GetRight() > GetRight()) && 
-				(rect.GetTop() < GetTop()) && 
-				(rect.GetBottom() > GetBottom());
+	return m_horizontalRange.Contains(rect.m_horizontalRange) && m_verticalRange.Contains(rect.m_verticalRange);
 }
 
 
@@ -128,7 +110,7 @@ CRectangle CRectangle::GetIntersection(const CRectangle& other) const
 	double outputRight = istd::Max(other.GetRight(), GetRight());
 	double outputBottom = istd::Max(other.GetBottom(), GetBottom());
 
-	return CRectangle(outputLeft, outputRight, outputTop, outputBottom);
+	return CRectangle(outputLeft, outputTop, outputRight, outputBottom);
 }
 
 
@@ -139,19 +121,7 @@ CRectangle CRectangle::GetUnion(const CRectangle& other) const
 	double outputRight = istd::Min(other.GetRight(), GetRight());
 	double outputBottom = istd::Min(other.GetBottom(), GetBottom());
 
-	return CRectangle(outputLeft, outputRight, outputTop, outputBottom);
-}
-
-
-double CRectangle::GetTop() const
-{
-	return m_verticalRange.GetMinValue();
-}
-
-
-double CRectangle::GetBottom() const
-{
-	return m_verticalRange.GetMaxValue();
+	return CRectangle(outputLeft, outputTop, outputRight, outputBottom);
 }
 
 
@@ -161,9 +131,21 @@ double CRectangle::GetLeft() const
 }
 
 
+double CRectangle::GetTop() const
+{
+	return m_verticalRange.GetMinValue();
+}
+
+
 double CRectangle::GetRight() const
 {
 	return m_horizontalRange.GetMaxValue();
+}
+
+
+double CRectangle::GetBottom() const
+{
+	return m_verticalRange.GetMaxValue();
 }
 
 

@@ -2,6 +2,7 @@
 
 
 #include "istd/TChangeNotifier.h"
+#include "istd/CRange.h"
 
 #include "iser/CArchiveTag.h"
 
@@ -18,116 +19,86 @@ CExposureParamsComp::CExposureParamsComp()
 
 // reimplemented (icam::IExposureParams)
 
+const IExposureConstraints* CExposureParamsComp::GetConstraints() const
+{
+	return m_exposureConstraintsCompPtr.GetPtr();
+}
+
+
 double CExposureParamsComp::GetShutterTime() const
 {
-	if (*m_enableShutterTimeAttrPtr){
-		return m_shutterTime;
-	}
-	else{
-		return -1;
-	}
+	return m_shutterTime;
 }
 
 
 bool CExposureParamsComp::SetShutterTime(double time)
 {
-	istd::CRange range = GetShutterTimeRange();
-	if (range.IsInside(time)){
+	if (m_exposureConstraintsCompPtr.IsValid()){
+		istd::CRange range = m_exposureConstraintsCompPtr->GetShutterTimeRange();
+
+		if (!range.Contains(time)){
+			return false;
+		}
+	}
+
+	if (time != m_shutterTime){
 		istd::CChangeNotifier notifier(this);
 
 		m_shutterTime = time;
-
-		return true;
 	}
-	
-	return false;
+
+	return true;
 }
 
 
 double CExposureParamsComp::GetDelayTime() const
 {
-	if (*m_enableDelayTimeAttrPtr){
-		return m_delayTime;
-	}
-	else{
-		return -1;
-	}
+	return m_delayTime;
 }
 
 
 bool CExposureParamsComp::SetDelayTime(double time)
 {
-	istd::CRange range = GetDelayTimeRange();
-	if (range.IsInside(time)){
+	if (m_exposureConstraintsCompPtr.IsValid()){
+		istd::CRange range = m_exposureConstraintsCompPtr->GetDelayTimeRange();
+
+		if (!range.Contains(time)){
+			return false;
+		}
+	}
+
+	if (time != m_delayTime){
 		istd::CChangeNotifier notifier(this);
 
 		m_delayTime = time;
-
-		return true;
 	}
 	
-	return false;
+	return true;
 }
 
 
 double CExposureParamsComp::GetEenDelay() const
 {
-	if (*m_enableEenDelayTimeAttrPtr){
-		return m_eenDelayTime;
-	}
-	else{
-		return -1;
-	}
+	return m_eenDelayTime;
 }
 
 
 bool CExposureParamsComp::SetEenDelay(double time)
 {
-	istd::CRange range = GetEenDelayRange();
-	if (range.IsInside(time)){
+	if (m_exposureConstraintsCompPtr.IsValid()){
+		istd::CRange range = m_exposureConstraintsCompPtr->GetEenDelayRange();
+		if (!range.Contains(time)){
+			return false;
+		}
+	}
+
+	if (time != m_eenDelayTime){
 		istd::CChangeNotifier notifier(this);
 
 		m_eenDelayTime = time;
-
-		return true;
 	}
-	
-	return false;
-}
 
-
-// reimplemented (icam::IExposureInfo)
-
-istd::CRange CExposureParamsComp::GetShutterTimeRange() const
-{
-	if (m_exposureInfoCompPtr.IsValid() && *m_enableShutterTimeAttrPtr){
-		return m_exposureInfoCompPtr->GetShutterTimeRange();
-	}
-	else{
-		return istd::CRange(-1, -1);
-	}
-}
-
-
-istd::CRange CExposureParamsComp::GetDelayTimeRange() const
-{
-	if (m_exposureInfoCompPtr.IsValid() && *m_enableDelayTimeAttrPtr){
-		return m_exposureInfoCompPtr->GetDelayTimeRange();
-	}
-	else{
-		return istd::CRange(-1, -1);
-	}
-}
-
-
-istd::CRange CExposureParamsComp::GetEenDelayRange() const
-{
-	if (m_exposureInfoCompPtr.IsValid() && *m_enableEenDelayTimeAttrPtr){
-		return m_exposureInfoCompPtr->GetEenDelayRange();
-	}
-	else{
-		return istd::CRange(-1, -1);
-	}
+	return true;
 }
 
 

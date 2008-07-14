@@ -20,7 +20,7 @@
 #include "iprm/CParamsManagerComp.h"
 #include "iprm/CComposedParamsSetComp.h"
 
-#include "isig/CGeneralSamplingParamsComp.h"
+#include "isig/CSamplingParamsComp.h"
 
 #include "icam/CFileBitmapAcquisitionParamsComp.h"
 #include "icam/CExposureParamsComp.h"
@@ -44,7 +44,7 @@ typedef icomp::TModelCompWrap<iprm::CComposedParamsSetComp> ComposedParamsSet;
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 
-typedef icomp::TModelCompWrap<isig::CGeneralSamplingParamsComp> GeneralSamplingParams;
+typedef icomp::TModelCompWrap<isig::CSamplingParamsComp> SamplingParams;
 
 typedef icomp::TModelCompWrap<icam::CFileBitmapAcquisitionParamsComp> FileBitmapAcquisitionParams;
 typedef icomp::TModelCompWrap<icam::CExposureParamsComp> ExposureParams;

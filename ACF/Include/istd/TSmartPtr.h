@@ -28,7 +28,7 @@ public:
 	PointerType* GetPtr();
 	const PointerType* operator->() const;
 	PointerType* operator->();
-	TSmartPtr& operator = (const TSmartPtr& otherCounter);
+	TSmartPtr& operator=(const TSmartPtr& otherCounter);
 	bool IsValid() const;
 
 protected:
@@ -138,7 +138,7 @@ inline PointerType* TSmartPtr<PointerType>::operator->()
 
 
 template <typename PointerType>
-TSmartPtr<PointerType>& TSmartPtr<PointerType>::operator = (const TSmartPtr<PointerType>& other)
+TSmartPtr<PointerType>& TSmartPtr<PointerType>::operator=(const TSmartPtr<PointerType>& other)
 {
 	Detach();
 

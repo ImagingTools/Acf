@@ -7,8 +7,6 @@
 
 #include "iser/ISerializable.h"
 
-#include "ibase/CSize.h"
-
 #include "i2d/IObject2d.h"
 
 
@@ -20,16 +18,16 @@ class CRectangle: virtual public IObject2d
 {
 public :
 	CRectangle();
-	CRectangle(double top, double left, double bottom, double right);
+	CRectangle(double left, double top, double right, double bottom);
 	CRectangle(const CRectangle& rect);
 	CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight);
-	CRectangle(const ibase::CSize& size);
+	explicit CRectangle(const istd::CIndex2d& size);
 
-	const CRectangle& operator = (const CRectangle& other);
+	const CRectangle& operator=(const CRectangle& other);
 
 	bool Contains(const CVector2d& point) const;
 	bool Contains(const istd::CIndex2d& point) const;
-	bool IsInsideOf(const CRectangle& rect) const;
+	bool Contains(const CRectangle& rect) const;
 	double GetWidth() const;
 	double GetHeight() const;
 	bool IsEmpty() const;
@@ -39,10 +37,10 @@ public :
 	CRectangle GetIntersection(const CRectangle& other) const;
 	CRectangle GetUnion(const CRectangle& other) const;
 
-	double GetTop() const;
-	double GetBottom() const;
 	double GetLeft() const;
+	double GetTop() const;
 	double GetRight() const;
+	double GetBottom() const;
 
 	CVector2d GetTopLeft() const;
 	CVector2d GetBottomLeft() const;

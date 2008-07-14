@@ -29,7 +29,7 @@ CFireGrabAcquisitionComp::CFireGrabAcquisitionComp()
 
 // reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
-int CFireGrabAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
+int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
 	int retVal = TS_INVALID;
 
@@ -92,7 +92,7 @@ istd::CIndex2d CFireGrabAcquisitionComp::GetBitmapSize(const iprm::IParamsSet* /
 }
 
 
-// reimplemented (icam::IExposureInfo)
+// reimplemented (icam::IExposureConstraints)
 
 istd::CRange CFireGrabAcquisitionComp::GetShutterTimeRange() const
 {

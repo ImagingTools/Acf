@@ -1,16 +1,18 @@
-#ifndef icam_IExposureInfo_included
-#define icam_IExposureInfo_included
+#ifndef icam_IExposureConstraints_included
+#define icam_IExposureConstraints_included
 
 
 #include "istd/IPolymorphic.h"
 #include "istd/CRange.h"
+
+#include "icam/icam.h"
 
 
 namespace icam
 {
 
 
-class IExposureInfo: virtual public istd::IPolymorphic
+class IExposureConstraints: virtual public istd::IPolymorphic
 {
 public:
 	/**
@@ -37,6 +39,6 @@ public:
 } // namespace icam
 
 
-#endif // !icam_IExposureInfo_included
+#endif // !icam_IExposureConstraints_included
 
 

@@ -8,7 +8,7 @@
 
 #include "iimg/IBitmap.h"
 
-#include "iproc/TIAssyncProcessor.h"
+#include "iproc/TIProcessor.h"
 
 
 namespace icam
@@ -17,9 +17,9 @@ namespace icam
 
 /**
 	Bitmap acquisition processor.
-	This processor use as \c iproc::TIAssyncProcessor template parameter Input optional isys::ITimer object to indicate trigger time of acquision.
+	This processor use as \c iproc::TIProcessor template parameter Input optional isys::ITimer object to indicate trigger time of acquision.
 */
-class IBitmapAcquisition: virtual public iproc::TIAssyncProcessor<isys::ITimer, iimg::IBitmap>
+class IBitmapAcquisition: virtual public iproc::TIProcessor<isys::ITimer, iimg::IBitmap>
 {
 public:
 	/**

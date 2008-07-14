@@ -27,14 +27,15 @@ class CMeilhausSimpleComp:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CMeilhausSimpleComp)
-		I_REGISTER_INTERFACE(isig::ISamplesProcessor)
-		I_REGISTER_INTERFACE(IMeilhausAccess)
+	I_BEGIN_COMPONENT(CMeilhausSimpleComp);
+		I_REGISTER_INTERFACE(isig::ISamplesProcessor);
+		I_REGISTER_INTERFACE(IMeilhausAccess);
+		I_REGISTER_INTERFACE(isig::ISamplingConstraints);
 
 		I_ASSIGN(m_isOutputAttrPtr, "IsOutput", "If true this processor operate in output mode, otherwise input mode", true, false);
 		I_ASSIGN(m_addressParamIdAttrPtr, "AddressParamId", "ID of channel address in parameter set", true, "ChannelAddress");
 		I_ASSIGN(m_samplingParamsIdAttrPtr, "SamplingParamsId", "ID of sampling parameters in parameter set", true, "SamplingParams");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	CMeilhausSimpleComp();
 
@@ -48,14 +49,18 @@ public:
 				bool forOutput = true,
 				const iprm::IParamsSet* paramsSetPtr = NULL) const;
 
-	// reimplemented (iproc::TIAssyncProcessor)
+	// reimplemented (iproc::TIProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
 	virtual void ResetAllTasks();
 	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const;
+	virtual int DoProcessing(
+				const iprm::IParamsSet* paramsPtr,
+				const isig::ISamplesContainer* inputPtr,
+				isig::ISamplesContainer* outputPtr);
 	virtual int BeginTask(
 				const iprm::IParamsSet* paramsPtr,
-				const InputType* inputPtr,
-				OutputType* outputPtr);
+				const isig::ISamplesContainer* inputPtr,
+				isig::ISamplesContainer* outputPtr);
 	virtual int WaitTaskFinished(
 				int taskId = -1,
 				double timeoutTime = -1,
@@ -66,6 +71,8 @@ public:
 
 	// reimplemented (imebase::IMeilhausAccess)
 	virtual bool CreateSelectionTree(CChannelSelectionNode& result) const;
+
+	// reimplemented (isig::ISamplingConstraints)
 	virtual istd::CRange GetIntervalRange() const;
 	virtual bool IsSamplingModeSupported(int mode) const;
 

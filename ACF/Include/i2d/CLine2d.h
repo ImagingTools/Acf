@@ -11,6 +11,9 @@ namespace i2d
 {	
 
 
+class CRectangle;
+
+
 class CLine2d: virtual public IObject2d
 {
 public:
@@ -21,12 +24,33 @@ public:
 	CLine2d operator=(const CLine2d& inl);
 
 	const CVector2d& GetPoint1() const;
+	void SetPoint1(const CVector2d& point);
 	const CVector2d& GetPoint2() const;
+	void SetPoint2(const CVector2d& point);
 	double GetSlope() const;
 	double GetIntercept() const;
 	bool IsParalell(const CLine2d& inLine) const;
 	bool IsIntersectedBy(const CLine2d& inLine, CVector2d* intersectionPtr = NULL) const;
 	CVector2d GetIntersection(const CLine2d& inLine) const;
+
+	/**
+		Get difference vector from point 1 to point 2.
+	*/
+	CVector2d GetDiffVector() const;
+
+	/**
+		Get part of line intersecting specified rectangle.
+	*/
+	CLine2d GetClipped(const CRectangle& rect) const;
+
+	/**
+		Get Y position of cutting this line by specified horizontal line.
+	*/
+	double GetCutXPos(double linePosY) const;
+	/**
+		Get X position of cutting this line by specified vertical line.
+	*/
+	double GetCutYPos(double linePosX) const;
 
 	// reimplemented (IObject2d)
 	virtual CVector2d GetCenter() const;
@@ -41,7 +65,45 @@ private:
 };
 	
 
+// inline methods
+
+inline CVector2d CLine2d::GetDiffVector() const
+{
+	return m_point2 - m_point1;
+}
+
+
+inline const CVector2d& CLine2d::GetPoint1() const
+{
+	return m_point1;
+}
+
+
+inline const CVector2d& CLine2d::GetPoint2() const
+{
+	return m_point2;
+}
+
+
+inline double CLine2d::GetCutXPos(double linePosY) const
+{
+	CVector2d diff = GetDiffVector();
+
+	return (linePosY - m_point1.GetY()) * diff.GetX() / diff.GetY() + m_point1.GetX();
+}
+
+
+
+inline double CLine2d::GetCutYPos(double linePosX) const
+{
+	CVector2d diff = GetDiffVector();
+
+	return (linePosX - m_point1.GetX()) * diff.GetY() / diff.GetX() + m_point1.GetY();
+}
+
+
+
 } // namespace i2d
 
 
-#endif // i2d_CLine2d_included
+#endif // !i2d_CLine2d_included

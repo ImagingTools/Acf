@@ -7,7 +7,7 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "iproc/TIAssyncProcessor.h"
+#include "iproc/TIProcessor.h"
 
 
 namespace iproc
@@ -15,8 +15,9 @@ namespace iproc
 
 
 /**
-	Wrapper of \c iproc::TIAssyncProcessor for simple synchrone processor implementations.
-	Synchrone processors process its data direct while method \c BeginTask is called.
+	Wrapper of \c iproc::TIProcessor for simple synchrone processor implementations.
+	Assynchrone processing with \c BeginTask and \c WaitTaskFinished is redirected to simple synchrone processing by method \c DoProcessing.
+	All you have to implement from whole interface \c iproc::TIProcessor is method \c DoProcessing.
 */
 template <class Base>
 class TSyncProcessorWrap: public Base
@@ -26,7 +27,7 @@ public:
 
 	TSyncProcessorWrap();
 
-	// pseudo-reimplemented (iproc::TIAssyncProcessor)
+	// pseudo-reimplemented (iproc::TIProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
 	virtual void ResetAllTasks();
 	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const;
@@ -41,17 +42,6 @@ public:
 	virtual int GetReadyTask();
 	virtual int GetTaskState(int taskId = -1) const;
 	virtual void InitProcessor(const iprm::IParamsSet* paramsPtr);
-
-protected:
-	// abstract methods
-	/**
-		Do synchronized processing.
-		\return					state of processing task \sa TaskState.
-	*/
-	virtual int DoSyncProcess(
-				const iprm::IParamsSet* paramsPtr,
-				const typename BaseClass::InputType* inputPtr,
-				typename BaseClass::OutputType* outputPtr) = 0;
 
 private:
 	typedef std::map<int, int> TaskToStateMap;
@@ -70,7 +60,7 @@ TSyncProcessorWrap<Base>::TSyncProcessorWrap()
 }
 
 
-// pseudo-reimplemented (iproc::TIAssyncProcessor)
+// pseudo-reimplemented (iproc::TIProcessor)
 
 template <class Base>
 int TSyncProcessorWrap<Base>::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
@@ -100,7 +90,7 @@ int TSyncProcessorWrap<Base>::BeginTask(
 			typename BaseClass::OutputType* outputPtr)
 {
 	int retVal = m_nextTaskId;
-	m_taskToStateMap[retVal] = DoSyncProcess(paramsPtr, inputPtr, outputPtr);
+	m_taskToStateMap[retVal] = DoProcessing(paramsPtr, inputPtr, outputPtr);
 
 	m_nextTaskId = (m_nextTaskId + 1) & 0x7fff;
 

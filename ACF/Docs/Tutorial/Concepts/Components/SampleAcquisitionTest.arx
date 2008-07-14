@@ -208,7 +208,7 @@
         BasePck
       </PackageId>
       <ComponentId>
-        GeneralSamplingParams
+        SamplingParams
       </ComponentId>
       <Data>
         <IsEnabled>

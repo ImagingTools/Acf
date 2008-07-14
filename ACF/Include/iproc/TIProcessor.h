@@ -1,5 +1,5 @@
-#ifndef iproc_TIAssyncProcessor_included
-#define iproc_TIAssyncProcessor_included
+#ifndef iproc_TIProcessor_included
+#define iproc_TIProcessor_included
 
 
 #include "iprm/IParamsSet.h"
@@ -10,7 +10,9 @@ namespace iproc
 
 
 /**
-	Template interface for all assynchrone processors.
+	Template interface for all synchrone and assynchrone processors.
+	Synchrone processors are blocking and can process single task. Thats why is not necessary to use task ID.
+	Synchrone processing is provide by method DoProcessing.
 	Assynchrone processors can process many tasks parallel. Each task is identified using its ID.
 	New assynchrone processing task can be started using method \c BeginTask and finish using \c WaitTaskFinished or \c ResetAllTasks.
 	Each task has its input object, output object and parameter set.
@@ -18,7 +20,7 @@ namespace iproc
 	\param	Output	type of output object.
 */
 template <class Input, class Output>
-class TIAssyncProcessor: virtual public istd::IPolymorphic
+class TIProcessor: virtual public istd::IPolymorphic
 {
 public:
 	typedef Input InputType;
@@ -90,6 +92,15 @@ public:
 	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const = 0;
 
 	/**
+		Do synchronized processing.
+		\return		state of processing task \sa TaskState.
+	*/
+	virtual int DoProcessing(
+				const iprm::IParamsSet* paramsPtr,
+				const Input* inputPtr,
+				Output* outputPtr) = 0;
+
+	/**
 		Begin new task for this processor and add them to queue.
 		If this method success, new task is added into the queue.
 							To remove it from queue you have to call \c WaitTaskFinished or \c ResetAllTasks.
@@ -152,6 +163,6 @@ public:
 } // namespace iproc
 
 
-#endif // !iproc_TIAssyncProcessor_included
+#endif // !iproc_TIProcessor_included
 
 

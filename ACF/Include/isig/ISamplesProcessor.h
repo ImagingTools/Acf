@@ -4,7 +4,7 @@
 
 #include "istd/CRange.h"
 
-#include "iproc/TIAssyncProcessor.h"
+#include "iproc/TIProcessor.h"
 
 #include "isig/ISamplesContainer.h"
 
@@ -16,7 +16,7 @@ namespace isig
 /**
 	Common interface for receiving, sending and processing sampled 1-D data.
 */
-class ISamplesProcessor: virtual public iproc::TIAssyncProcessor<ISamplesContainer, ISamplesContainer>
+class ISamplesProcessor: virtual public iproc::TIProcessor<ISamplesContainer, ISamplesContainer>
 {
 public:
 	/**

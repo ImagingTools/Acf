@@ -36,7 +36,7 @@ public:
 
 protected:		
 	// reimplemented (iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>)
-	virtual int DoSyncProcess(
+	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
 				const iimg::IBitmap* inputPtr,
 				iimg::IBitmap* outputPtr);

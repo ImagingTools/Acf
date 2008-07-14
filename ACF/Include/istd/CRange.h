@@ -71,12 +71,12 @@ public:
 		Returns \c true, if value is in range between \c top and \c bottom.
 		This range must be valid.
 	*/
-	bool IsInside(double value) const;
+	bool Contains(double value) const;
 
 	/**
 		Returns \c true, if this range is inside of the \c otherRange.
 	*/
-	bool IsRangeInside(const CRange& range) const;
+	bool Contains(const CRange& range) const;
 
 	/**
 		Gets intersection with the \c otherRange.
@@ -166,6 +166,23 @@ inline double CRange::GetMaxValue() const
 inline double CRange::GetLength() const
 {
 	return IsValid()? m_maxValue - m_minValue: 0;
+}
+
+
+inline bool CRange::Contains(double value) const
+{
+	I_ASSERT(IsValid());
+
+	return (m_minValue <= value) && (m_maxValue >= value);
+}
+
+
+inline bool CRange::Contains(const CRange& range) const
+{
+	I_ASSERT(IsValid());
+	I_ASSERT(range.IsValid());
+
+	return (m_minValue <= range.m_minValue) && (m_maxValue >= range.m_maxValue);
 }
 
 

@@ -10,7 +10,7 @@ namespace iipr
 
 // reimplemented (iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>)
 
-int CIterativeProcessorComp::DoSyncProcess(
+int CIterativeProcessorComp::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
 			const iimg::IBitmap* inputPtr,
 			iimg::IBitmap* outputPtr)

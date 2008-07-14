@@ -32,10 +32,10 @@
         ChannelAddress
       </ComponentName>
       <X>
-        -150
+        -275
       </X>
       <X>
-        37
+        212
       </X>
     </Element>
     <Element>
@@ -43,10 +43,10 @@
         ChannelAddressGui
       </ComponentName>
       <X>
-        -812
+        -512
       </X>
       <X>
-        37
+        212
       </X>
     </Element>
     <Element>
@@ -54,10 +54,10 @@
         HardwareAcquisition
       </ComponentName>
       <X>
-        162
+        -412
       </X>
       <X>
-        37
+        87
       </X>
     </Element>
     <Element>
@@ -87,10 +87,10 @@
         ParamsSet
       </ComponentName>
       <X>
-        -287
+        -62
       </X>
       <X>
-        -87
+        87
       </X>
     </Element>
     <Element>
@@ -98,10 +98,10 @@
         ParamsSetGui
       </ComponentName>
       <X>
-        -737
+        -787
       </X>
       <X>
-        -87
+        87
       </X>
     </Element>
     <Element>
@@ -120,10 +120,10 @@
         SamplingFramework
       </ComponentName>
       <X>
-        -187
+        -487
       </X>
       <X>
-        -237
+        -162
       </X>
     </Element>
     <Element>
@@ -131,10 +131,10 @@
         SamplingParams
       </ComponentName>
       <X>
-        -387
+        -275
       </X>
       <X>
-        37
+        -37
       </X>
     </Element>
     <Element>
@@ -142,10 +142,10 @@
         SamplingParamsGui
       </ComponentName>
       <X>
-        -625
+        -525
       </X>
       <X>
-        37
+        -37
       </X>
     </Element>
     <Element>

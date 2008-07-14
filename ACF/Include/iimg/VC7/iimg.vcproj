@@ -168,6 +168,9 @@
 			<File
 				RelativePath="..\TBitmapIterator2d.h">
 			</File>
+			<File
+				RelativePath="..\TPixelConversion.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

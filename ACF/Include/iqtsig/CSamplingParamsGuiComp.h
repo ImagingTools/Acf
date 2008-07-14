@@ -33,6 +33,9 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 
+	// reimplemented (iqt::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+
 protected slots:
 	void on_IntervalSB_valueChanged(double value);
 	void on_ModeCB_currentIndexChanged(int index);

@@ -198,7 +198,7 @@
         <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
-              ExposureInfo
+              ExposureConstraints
             </Id>
             <Type>
               class icomp::CReferenceAttribute

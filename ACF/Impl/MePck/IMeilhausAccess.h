@@ -5,6 +5,8 @@
 #include "istd/IPolymorphic.h"
 #include "istd/CRange.h"
 
+#include "isig/ISamplingConstraints.h"
+
 
 namespace imebase
 {
@@ -13,12 +15,10 @@ namespace imebase
 class CChannelSelectionNode;
 
 
-class IMeilhausAccess: public istd::IPolymorphic
+class IMeilhausAccess: public isig::ISamplingConstraints
 {
 public:
 	virtual bool CreateSelectionTree(CChannelSelectionNode& result) const = 0;
-	virtual istd::CRange GetIntervalRange() const = 0;
-	virtual bool IsSamplingModeSupported(int mode) const = 0;
 };
 
 

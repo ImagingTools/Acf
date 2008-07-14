@@ -35,23 +35,6 @@ void CRange::SetMaxValue(double maxValue)
 }
 
 
-bool CRange::IsInside(double value) const
-{
-	I_ASSERT(IsValid());
-
-	return (m_minValue <= value) && (m_maxValue >= value);
-}
-
-
-bool CRange::IsRangeInside(const CRange& range) const
-{
-	I_ASSERT(IsValid());
-	I_ASSERT(range.IsValid());
-
-	return (m_minValue <= range.m_minValue) && (m_maxValue >= range.m_maxValue);
-}
-
-
 CRange CRange::GetIntersection(const CRange& otherRange) const
 {
 	return CRange(istd::Max(GetMinValue(), otherRange.GetMinValue()), istd::Min(GetMaxValue(), otherRange.GetMaxValue()));
@@ -80,7 +63,7 @@ double CRange::GetNearestInRange(double value) const
 
 double CRange::GetClipped(double value) const
 {
-	if (!IsInside(value)){
+	if (!Contains(value)){
 		double distanceMin = fabs(value - m_minValue);
 		double distanceMax = fabs(value - m_maxValue);
 
@@ -93,8 +76,6 @@ double CRange::GetClipped(double value) const
 
 double CRange::GetMappedTo(double value, const istd::CRange& otherRange) const
 {
-	I_ASSERT(IsInside(value));
-
 	return otherRange.GetMinValue() + (value - GetMinValue()) * (otherRange.GetLength() / GetLength());
 }
 

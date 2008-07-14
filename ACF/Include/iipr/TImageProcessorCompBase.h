@@ -38,7 +38,7 @@ public:
 
 protected:
 	// reimplemented (iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>)
-	virtual int DoSyncProcess(
+	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
 				const iimg::IBitmap* inputPtr,
 				iimg::IBitmap* outputPtr);
@@ -58,7 +58,7 @@ private:
 // protected methods
 
 template <class ParameterType>
-int TImageProcessorCompBase<ParameterType>::DoSyncProcess(
+int TImageProcessorCompBase<ParameterType>::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
 			const iimg::IBitmap* inputPtr,
 			iimg::IBitmap* outputPtr)

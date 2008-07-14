@@ -58,7 +58,7 @@ public:
 	virtual const istd::CString& GetLastSaveFileName() const;
 
 	// reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
-	virtual int DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
+	virtual int DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
 
 	// reimplemented (icam::IBitmapAcquisition)
 	virtual istd::CIndex2d GetBitmapSize(const iprm::IParamsSet* paramsPtr) const;

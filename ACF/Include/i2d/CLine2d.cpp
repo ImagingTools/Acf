@@ -1,6 +1,8 @@
 #include "i2d/CLine2d.h"
 
 
+#include "istd/TChangeNotifier.h"
+
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -37,7 +39,27 @@ CLine2d::CLine2d(const CLine2d& line)
 }
 
 
-CLine2d CLine2d::operator = (const CLine2d& inl)
+void CLine2d::SetPoint1(const CVector2d& point)
+{
+	if (point != m_point1){
+		istd::CChangeNotifier notifier(this);
+
+		m_point1 = point;
+	}
+}
+
+
+void CLine2d::SetPoint2(const CVector2d& point)
+{
+	if (point != m_point2){
+		istd::CChangeNotifier notifier(this);
+
+		m_point2 = point;
+	}
+}
+
+
+CLine2d CLine2d::operator=(const CLine2d& inl)
 {
 	m_point1 = inl.m_point1;
 	m_point2 = inl.m_point2;
@@ -46,19 +68,7 @@ CLine2d CLine2d::operator = (const CLine2d& inl)
 }
 
 
-inline const CVector2d& CLine2d::GetPoint1() const
-{
-	return m_point1;
-}
-
-
-inline const CVector2d& CLine2d::GetPoint2() const
-{
-	return m_point2;
-}
-
-
-inline double CLine2d::GetSlope() const
+double CLine2d::GetSlope() const
 {
 	double y1 = m_point1.GetY();
 	double y2 = m_point2.GetY();
@@ -73,7 +83,7 @@ inline double CLine2d::GetSlope() const
 }
 
 
-inline double CLine2d::GetIntercept() const
+double CLine2d::GetIntercept() const
 {
 	double y1 = m_point1.GetY();
 	double y2 = m_point2.GetY();
@@ -124,6 +134,68 @@ CVector2d CLine2d::GetIntersection(const CLine2d& line) const
 
 
 
+CLine2d CLine2d::GetClipped(const CRectangle& rect) const
+{
+	static CLine2d emptyLine(CVector2d(0, 0), CVector2d(0, 0));
+
+	CLine2d retVal = *this;
+
+	bool isLeftOut1 = (retVal.m_point1.GetX() <= rect.GetLeft());
+	bool isLeftOut2 = (retVal.m_point2.GetX() <= rect.GetLeft());
+
+	if (isLeftOut1 != isLeftOut2){
+		CVector2d& cutPoint = isLeftOut1? retVal.m_point1: retVal.m_point2;
+
+		cutPoint.SetX(rect.GetLeft());
+		cutPoint.SetY(GetCutYPos(rect.GetLeft()));
+	}
+	else if (isLeftOut1 && isLeftOut2){
+		return emptyLine;
+	}
+
+	bool isTopOut1 = (retVal.m_point1.GetY() <= rect.GetTop());
+	bool isTopOut2 = (retVal.m_point2.GetY() <= rect.GetTop());
+
+	if (isTopOut1 != isTopOut2){
+		CVector2d& cutPoint = isLeftOut1? retVal.m_point1: retVal.m_point2;
+
+		cutPoint.SetX(GetCutXPos(rect.GetTop()));
+		cutPoint.SetY(rect.GetTop());
+	}
+	else if (isTopOut1 && isTopOut2){
+		return emptyLine;
+	}
+
+	bool isRightOut1 = (retVal.m_point1.GetX() >= rect.GetRight());
+	bool isRightOut2 = (retVal.m_point2.GetX() >= rect.GetRight());
+
+	if (isRightOut1 != isRightOut2){
+		CVector2d& cutPoint = isLeftOut1? retVal.m_point1: retVal.m_point2;
+
+		cutPoint.SetX(rect.GetRight());
+		cutPoint.SetY(GetCutYPos(rect.GetRight()));
+	}
+	else if (isRightOut1 && isRightOut2){
+		return emptyLine;
+	}
+
+	bool isBottomOut1 = (retVal.m_point1.GetY() >= rect.GetBottom());
+	bool isBottomOut2 = (retVal.m_point2.GetY() >= rect.GetBottom());
+
+	if (isBottomOut1 != isBottomOut2){
+		CVector2d& cutPoint = isLeftOut1? retVal.m_point1: retVal.m_point2;
+
+		cutPoint.SetX(GetCutXPos(rect.GetBottom()));
+		cutPoint.SetY(rect.GetBottom());
+	}
+	else if (isBottomOut1 && isBottomOut2){
+		return emptyLine;
+	}
+
+	return retVal;
+}
+
+
 // reimplemented (IObject2d)
 
 CVector2d CLine2d::GetCenter() const
@@ -139,7 +211,7 @@ CRectangle CLine2d::GetBoundingBox() const
 	double right = istd::Max(m_point1.GetX(), m_point2.GetX());
 	double bottom = istd::Max(m_point1.GetY(), m_point2.GetY());
 
-	return CRectangle(top, left, bottom, right);
+	return CRectangle(left, top, right, bottom);
 }
 
 

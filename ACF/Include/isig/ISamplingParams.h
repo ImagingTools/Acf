@@ -13,6 +13,9 @@ namespace isig
 {
 
 
+class ISamplingConstraints;
+
+
 /**
 	Sampler parameters.
 */
@@ -27,7 +30,10 @@ public:
 		SM_LAST = SM_SYNCHRONIZED
 	};
 
-	virtual istd::CRange GetIntervalRange() const = 0;
+	/**
+		Get access to constraints information about possible value ranges.
+	*/
+	virtual const ISamplingConstraints* GetConstraints() const = 0;
 
 	/**
 		Get sampling interval in seconds.
@@ -37,11 +43,6 @@ public:
 		Set sampling interval in seconds.
 	*/
 	virtual void SetInterval(double value) = 0;
-
-	/**
-		Check if specified sampling mode is supported.
-	*/
-	virtual bool IsSamplingModeSupported(int mode) const = 0;
 
 	/**
 		Get mode of sampling.

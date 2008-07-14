@@ -16,7 +16,7 @@ CScriptSampleAcquisitionComp::CScriptSampleAcquisitionComp()
 
 // reimplemented (iproc::TSyncProcessorWrap<isig::ISamplesProcessor>)
 
-int CScriptSampleAcquisitionComp::DoSyncProcess(
+int CScriptSampleAcquisitionComp::DoProcessing(
 			const iprm::IParamsSet* /*paramsPtr*/,
 			const isig::ISamplesContainer* /*inputPtr*/,
 			isig::ISamplesContainer* outputPtr)

@@ -4,16 +4,21 @@
 
 #include "iser/ISerializable.h"
 
-#include "icam/IExposureInfo.h"
+#include "icam/icam.h"
 
 
 namespace icam
 {
 
 
-class IExposureParams: virtual public IExposureInfo, virtual public iser::ISerializable
+class IExposureConstraints;
+
+
+class IExposureParams: virtual public iser::ISerializable
 {
 public:
+	virtual const IExposureConstraints* GetConstraints() const = 0;
+
 	/**
 		Get shutter time (exposure time).
 		\return	shutter time in seconds or negative value if this value isn't active.

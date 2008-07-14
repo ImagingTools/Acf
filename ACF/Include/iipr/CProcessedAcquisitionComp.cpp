@@ -25,7 +25,7 @@ istd::CIndex2d CProcessedAcquisitionComp::GetBitmapSize(const iprm::IParamsSet* 
 
 // reimplemented iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 
-int CProcessedAcquisitionComp::DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr)
+int CProcessedAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr)
 {
 	if (!m_slaveAcquisitionCompPtr.IsValid()){
 		return TS_INVALID;

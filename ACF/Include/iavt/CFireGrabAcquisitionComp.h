@@ -12,7 +12,7 @@
 #include "iproc/TSyncProcessorWrap.h"
 
 #include "icam/IBitmapAcquisition.h"
-#include "icam/IExposureInfo.h"
+#include "icam/IExposureConstraints.h"
 
 #include "icomp/CComponentBase.h"
 
@@ -24,11 +24,11 @@ namespace iavt
 
 
 /**
-	AVT based camera component implementing interfaces \c icam::IBitmapAcquisition and \c icam::IExposureInfo for exposure control support.
+	AVT based camera component implementing interfaces \c icam::IBitmapAcquisition and \c icam::IExposureConstraints for exposure control support.
 */
 class CFireGrabAcquisitionComp:
 			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
-			virtual public icam::IExposureInfo,
+			virtual public icam::IExposureConstraints,
 			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 {
 public:
@@ -36,7 +36,7 @@ public:
 
 	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp)
 		I_REGISTER_INTERFACE(icam::IBitmapAcquisition)
-		I_REGISTER_INTERFACE(icam::IExposureInfo)
+		I_REGISTER_INTERFACE(icam::IExposureConstraints)
 		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParamsId")
 	I_END_COMPONENT
 
@@ -52,12 +52,12 @@ public:
 	CFireGrabAcquisitionComp();
 
 	// reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
-	virtual int DoSyncProcess(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
+	virtual int DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* inputPtr, iimg::IBitmap* outputPtr);
 
 	// reimplemented (icam::IBitmapAcquisition)
 	virtual istd::CIndex2d GetBitmapSize(const iprm::IParamsSet* paramsPtr) const;
 
-	// reimplemented (icam::IExposureInfo)
+	// reimplemented (icam::IExposureConstraints)
 	virtual istd::CRange GetShutterTimeRange() const;
 	virtual istd::CRange GetDelayTimeRange() const;
 	virtual istd::CRange GetEenDelayRange() const;

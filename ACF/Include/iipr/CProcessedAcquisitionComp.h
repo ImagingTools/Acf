@@ -32,7 +32,7 @@ public:
 
 protected:
 	// reimplemented iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
-	virtual int DoSyncProcess(
+	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
 				const isys::ITimer* inputPtr,
 				iimg::IBitmap* outputPtr);

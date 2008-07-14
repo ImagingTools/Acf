@@ -3,6 +3,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "icam/IExposureConstraints.h"
+
 
 namespace iqtcam
 {
@@ -24,9 +26,12 @@ void CExposureParamsGuiComp::OnGuiModelAttached()
 
 	const icam::IExposureParams* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		isShutterTimeSupported = !objectPtr->GetShutterTimeRange().IsEmpty();
-		isDelayTimeSupported = !objectPtr->GetDelayTimeRange().IsEmpty();
-		isEenDelayTimeSupported = !objectPtr->GetEenDelayRange().IsEmpty();
+		const icam::IExposureConstraints* constraintsPtr = objectPtr->GetConstraints();
+		if (constraintsPtr != NULL){
+			isShutterTimeSupported = !constraintsPtr->GetShutterTimeRange().IsEmpty();
+			isDelayTimeSupported = !constraintsPtr->GetDelayTimeRange().IsEmpty();
+			isEenDelayTimeSupported = !constraintsPtr->GetEenDelayRange().IsEmpty();
+		}
 	}
 
 	ShutterTimeLabel->setVisible(isShutterTimeSupported);

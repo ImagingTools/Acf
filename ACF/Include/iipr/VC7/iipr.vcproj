@@ -141,6 +141,9 @@
 				RelativePath="..\CIterativeProcessorParams.cpp">
 			</File>
 			<File
+				RelativePath="..\CLineProjectionProcessor.cpp">
+			</File>
+			<File
 				RelativePath="..\CLocalDifferenceFilterParams.cpp">
 			</File>
 			<File
@@ -151,6 +154,9 @@
 			</File>
 			<File
 				RelativePath="..\CProcessedAcquisitionComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CProjectionData.cpp">
 			</File>
 			<File
 				RelativePath="..\CRectangularFilterParams.cpp">
@@ -169,6 +175,9 @@
 				RelativePath="..\CIterativeProcessorParams.h">
 			</File>
 			<File
+				RelativePath="..\CLineProjectionProcessor.h">
+			</File>
+			<File
 				RelativePath="..\CLocalDifferenceFilterParams.h">
 			</File>
 			<File
@@ -179,6 +188,9 @@
 			</File>
 			<File
 				RelativePath="..\CProcessedAcquisitionComp.h">
+			</File>
+			<File
+				RelativePath="..\CProjectionData.h">
 			</File>
 			<File
 				RelativePath="..\CRectangularFilterParams.h">
@@ -200,6 +212,15 @@
 			</File>
 			<File
 				RelativePath="..\ISearchResult.h">
+			</File>
+			<File
+				RelativePath="..\ILineProjectionProcessor.h">
+			</File>
+			<File
+				RelativePath="..\IProjectionConstraints.h">
+			</File>
+			<File
+				RelativePath="..\IProjectionParams.h">
 			</File>
 			<File
 				RelativePath="..\TImageProcessorCompBase.h">

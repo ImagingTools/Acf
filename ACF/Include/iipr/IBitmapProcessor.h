@@ -4,7 +4,7 @@
 
 #include "iimg/IBitmap.h"
 
-#include "iproc/TIAssyncProcessor.h"
+#include "iproc/TIProcessor.h"
 
 
 namespace iipr
@@ -14,7 +14,7 @@ namespace iipr
 /**
 	Bitmap conversion processor.
 */
-class IBitmapProcessor: virtual public iproc::TIAssyncProcessor<iimg::IBitmap, iimg::IBitmap>
+class IBitmapProcessor: virtual public iproc::TIProcessor<iimg::IBitmap, iimg::IBitmap>
 {
 };
 

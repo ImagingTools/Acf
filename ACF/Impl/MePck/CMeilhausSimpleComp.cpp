@@ -32,7 +32,7 @@ int CMeilhausSimpleComp::GetMaximalSamplesCount(bool /*forInput*/, bool /*forOut
 }
 
 
-// reimplemented (iproc::TIAssyncProcessor)
+// reimplemented (iproc::TIProcessor)
 
 int CMeilhausSimpleComp::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
 {
@@ -54,6 +54,21 @@ bool CMeilhausSimpleComp::AreParamsAccepted(const iprm::IParamsSet* paramsPtr) c
 	CMeAddr address;
 	return		GetChannelAddress(paramsPtr, address) &&
 				(GetSamplingParams(paramsPtr) != 0);
+}
+
+
+int CMeilhausSimpleComp::DoProcessing(
+			const iprm::IParamsSet* paramsPtr,
+			const isig::ISamplesContainer* inputPtr,
+			isig::ISamplesContainer* outputPtr)
+{
+	int taskId = BeginTask(paramsPtr, inputPtr, outputPtr);
+
+	if (taskId < 0){
+		return TS_INVALID;
+	}
+
+	return WaitTaskFinished(taskId);
 }
 
 
@@ -112,71 +127,6 @@ int CMeilhausSimpleComp::WaitTaskFinished(int taskId, double timeoutTime, bool k
 	}
 	else
 		ret = this->WaitSingleTaskFinished(taskId, timeoutTime, killOnTimeout);
-	return ret;
-}
-
-
-int CMeilhausSimpleComp::WaitSingleTaskFinished(int taskId, double timeoutTime, bool killOnTimeout)
-{
-	for (int index = 0; index < m_activeTaskList.size(); index++) {
-		CMeContext* entry = m_activeTaskList.at(index);
-		if (entry->GetId() == taskId){
-			if (timeoutTime < 0){
-				timeoutTime = entry->GetInterval() + 1;
-			}
-
-			if (entry->Wait(timeoutTime)){
-				if (!*m_isOutputAttrPtr){
-					entry->CopyToContainer();
-				}
-
-				delete entry;
-				m_activeTaskList.removeAt(index);
-
-				return TS_OK;
-			}
-			else{
-				if (killOnTimeout){
-					delete entry;
-					m_activeTaskList.removeAt(index);
-
-					return TS_INVALID;
-				}
-				else{
-					return TS_WAIT;
-				}
-			}
-
-			break;
-		}
-	}
-
-	I_CRITICAL();
-
-	return TS_NONE;//Not on list!
-}
-
-
-int CMeilhausSimpleComp::WaitAllTasksFinished(double timeoutTime, bool killOnTimeout)
-{
-	if (m_activeTaskList.isEmpty()){
-		return TS_OK;
-	}
-
-	int ret = TS_OK;
-	double localTimeout = timeoutTime;
-	QTime stopper;
-	stopper.start();
-	for (int index = 0; index < m_activeTaskList.size(); index++) {
-		CMeContext* entry = m_activeTaskList.at(index);
-		int lret = WaitSingleTaskFinished(entry->GetId(), localTimeout, killOnTimeout);
-		if (TS_OK != lret){
-			ret = lret;
-		}
-		localTimeout -= (double)stopper.elapsed() / 1000;
-		if (localTimeout < 0)
-			localTimeout = 0;
-	}
 	return ret;
 }
 
@@ -266,6 +216,8 @@ bool CMeilhausSimpleComp::CreateSelectionTree(CChannelSelectionNode& result) con
 }
 
 
+// reimplemented (isig::ISamplingConstraints)
+
 istd::CRange CMeilhausSimpleComp::GetIntervalRange() const
 {// Maximum speed is 500kHz, minimum 1Hz.
 	return istd::CRange(0.000002, 1.000000);
@@ -282,6 +234,8 @@ bool CMeilhausSimpleComp::IsSamplingModeSupported(int mode) const
 	}
 }
 
+
+// protected methods
 
 int CMeilhausSimpleComp::PullNextTaskId()
 {
@@ -320,6 +274,71 @@ const isig::ISamplingParams* CMeilhausSimpleComp::GetSamplingParams(const iprm::
 	std::string samplingId = (*m_samplingParamsIdAttrPtr).ToString();
 
 	return dynamic_cast<const isig::ISamplingParams*>(paramsPtr->GetParameter(samplingId));
+}
+
+
+int CMeilhausSimpleComp::WaitAllTasksFinished(double timeoutTime, bool killOnTimeout)
+{
+	if (m_activeTaskList.isEmpty()){
+		return TS_OK;
+	}
+
+	int ret = TS_OK;
+	double localTimeout = timeoutTime;
+	QTime stopper;
+	stopper.start();
+	for (int index = 0; index < m_activeTaskList.size(); index++) {
+		CMeContext* entry = m_activeTaskList.at(index);
+		int lret = WaitSingleTaskFinished(entry->GetId(), localTimeout, killOnTimeout);
+		if (TS_OK != lret){
+			ret = lret;
+		}
+		localTimeout -= (double)stopper.elapsed() / 1000;
+		if (localTimeout < 0)
+			localTimeout = 0;
+	}
+	return ret;
+}
+
+
+int CMeilhausSimpleComp::WaitSingleTaskFinished(int taskId, double timeoutTime, bool killOnTimeout)
+{
+	for (int index = 0; index < m_activeTaskList.size(); index++) {
+		CMeContext* entry = m_activeTaskList.at(index);
+		if (entry->GetId() == taskId){
+			if (timeoutTime < 0){
+				timeoutTime = entry->GetInterval() + 1;
+			}
+
+			if (entry->Wait(timeoutTime)){
+				if (!*m_isOutputAttrPtr){
+					entry->CopyToContainer();
+				}
+
+				delete entry;
+				m_activeTaskList.removeAt(index);
+
+				return TS_OK;
+			}
+			else{
+				if (killOnTimeout){
+					delete entry;
+					m_activeTaskList.removeAt(index);
+
+					return TS_INVALID;
+				}
+				else{
+					return TS_WAIT;
+				}
+			}
+
+			break;
+		}
+	}
+
+	I_CRITICAL();
+
+	return TS_NONE;//Not on list!
 }
 
 

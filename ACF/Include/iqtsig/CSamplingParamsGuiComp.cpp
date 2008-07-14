@@ -3,6 +3,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "isig/ISamplingConstraints.h"
+
 
 namespace iqtsig
 {
@@ -25,14 +27,33 @@ void CSamplingParamsGuiComp::UpdateEditor()
 }
 
 
+// reimplemented (iqt::TGuiObserverWrap)
+
+void CSamplingParamsGuiComp::OnGuiModelAttached()
+{
+	I_ASSERT(IsGuiCreated());
+	isig::ISamplingParams* objectPtr = GetObjectPtr();
+	I_ASSERT(objectPtr != NULL);
+
+	istd::CRange range(0, 0.1);
+
+	const isig::ISamplingConstraints* constraintsPtr = objectPtr->GetConstraints();
+	if (constraintsPtr != NULL){
+		range = constraintsPtr->GetIntervalRange();
+	}
+
+	IntervalSB->setMinimum(range.GetMinValue() * 1000);
+	IntervalSB->setMaximum(range.GetMaxValue() * 1000);
+}
+
+
 // protected slots
 
 void CSamplingParamsGuiComp::on_IntervalSB_valueChanged(double value)
 {
 	isig::ISamplingParams* objectPtr = GetObjectPtr();
 	if (IsGuiCreated() && (objectPtr != NULL)){
-		istd::CRange intervalRange = objectPtr->GetIntervalRange();
-		double interval = intervalRange.GetNearestInRange(value * 0.001);
+		double interval = value * 0.001;
 		if (fabs(interval - objectPtr->GetInterval()) > I_EPSILON){
 			istd::CChangeNotifier notifier(objectPtr);
 
@@ -45,13 +66,21 @@ void CSamplingParamsGuiComp::on_IntervalSB_valueChanged(double value)
 void CSamplingParamsGuiComp::on_ModeCB_currentIndexChanged(int index)
 {
 	isig::ISamplingParams* objectPtr = GetObjectPtr();
-	if (IsGuiCreated() && (objectPtr != NULL)){
-		bool isSupported = objectPtr->IsSamplingModeSupported(index);
-		if (isSupported && (index != objectPtr->GetSamplingMode())){
-			istd::CChangeNotifier notifier(objectPtr);
+	if (!IsGuiCreated() || (objectPtr == NULL)){
+		return;
+	}
 
-			objectPtr->SetSamplingMode(index);
+	if (index != objectPtr->GetSamplingMode()){
+		const isig::ISamplingConstraints* constraintsPtr = objectPtr->GetConstraints();
+		if (constraintsPtr != NULL){
+			if (!constraintsPtr->IsSamplingModeSupported(index)){
+				return;
+			}
 		}
+
+		istd::CChangeNotifier notifier(objectPtr);
+
+		objectPtr->SetSamplingMode(index);
 	}
 }
 

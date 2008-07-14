@@ -68,7 +68,7 @@ bool CMeasurementRange::IsOk(double value) const
 {
 	I_ASSERT(IsValid());
 
-	return m_warningRange.IsInside(value) && m_errorRange.IsInside(value);
+	return m_warningRange.Contains(value) && m_errorRange.Contains(value);
 }
 
 
@@ -76,7 +76,7 @@ bool CMeasurementRange::IsWarning(double value) const
 {
 	I_ASSERT(IsValid());
 
-	return m_warningRange.IsInside(value);
+	return m_warningRange.Contains(value);
 }
 
 
