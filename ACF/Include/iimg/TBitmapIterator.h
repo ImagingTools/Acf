@@ -41,8 +41,8 @@ public:
 	TBitmapIterator& operator--();
 	TBitmapIterator& operator+=(int difference);
 	TBitmapIterator& operator-=(int difference);
-	TBitmapIterator operator+(int difference);
-	TBitmapIterator operator-(int difference);
+	TBitmapIterator operator+(int difference) const;
+	TBitmapIterator operator-(int difference) const;
 
 	/**
 		Returns \c true if the index is valid in the image domain.
@@ -161,7 +161,7 @@ inline bool TBitmapIterator<PixelType>::operator == (const TBitmapIterator& iter
 template <typename PixelType>
 inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator++(int)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator<PixelType> temp(*this);
 	
 	IncreaseIndex();
 
@@ -181,7 +181,7 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::operator++()
 template <typename PixelType>
 inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator--(int)
 {
-	TBitmapIterator<PixelType> temp(m_iterator);
+	TBitmapIterator<PixelType> temp(*this);
 	
 	DecreaseIndex();
 
@@ -217,9 +217,9 @@ inline TBitmapIterator<PixelType>& TBitmapIterator<PixelType>::operator-=(int di
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator-(int difference)
+inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator-(int difference) const
 {
-	TBitmapIterator<PixelType> output(m_iterator);
+	TBitmapIterator<PixelType> output(*this);
 
 	output.Move(-difference);
 
@@ -228,9 +228,9 @@ inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator-(int diff
 
 
 template <typename PixelType>
-inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator+(int difference)
+inline TBitmapIterator<PixelType> TBitmapIterator<PixelType>::operator+(int difference) const
 {
-	TBitmapIterator<PixelType> output(m_iterator);
+	TBitmapIterator<PixelType> output(*this);
 
 	output.Move(difference);
 
