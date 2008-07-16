@@ -72,7 +72,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="2">
+        <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
               Log
@@ -89,25 +89,6 @@
               </IsEnabled>
               <Value>
                 
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Preprocessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                GaussianFilter
               </Value>
             </Data>
           </AttributeInfo>
@@ -184,7 +165,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
               Log
@@ -223,25 +204,6 @@
               </Value>
             </Data>
           </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Preprocessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                InvertProcessor
-              </Value>
-            </Data>
-          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -259,7 +221,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
               Log
@@ -292,25 +254,6 @@
               </IsEnabled>
               <Value>
                 AverageParams
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Preprocessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                MaxOperator
               </Value>
             </Data>
           </AttributeInfo>

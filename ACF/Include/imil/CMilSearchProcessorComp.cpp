@@ -15,9 +15,10 @@ namespace imil
 
 // reimplemented (iproc::TSyncProcessorWrap<iipr::ISearchProcessor>)
 
-int CMilSearchProcessorComp::DoSyncProcess(	const iprm::IParamsSet* paramsPtr,
-										   const iimg::IBitmap* inputPtr,
-										   iipr::ISearchResultSet* outputPtr)
+int CMilSearchProcessorComp::DoProcessing(
+			const iprm::IParamsSet* paramsPtr,
+			const iimg::IBitmap* inputPtr,
+			iipr::ISearchResultSet* outputPtr)
 {
 	iwin::CTimer timer;
 

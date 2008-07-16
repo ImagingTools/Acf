@@ -115,6 +115,9 @@
 				RelativePath="..\CMilSearchParams.cpp">
 			</File>
 			<File
+				RelativePath="..\CMilSearchParamsGuiComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CMilSearchProcessorComp.cpp">
 			</File>
 		</Filter>
@@ -130,6 +133,27 @@
 			</File>
 			<File
 				RelativePath="..\CMilSearchParams.h">
+			</File>
+			<File
+				RelativePath="..\CMilSearchParamsGuiComp.h">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CMilSearchProcessorComp.h">
@@ -148,10 +172,37 @@
 			Name="Generated Files"
 			Filter="moc;h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}">
+			<File
+				RelativePath="..\generated\moc_CMilSearchParamsGuiComp.cpp">
+			</File>
+			<File
+				RelativePath="..\generated\ui_CMilSearchParamsGuiComp.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Forms"
 			Filter="">
+			<File
+				RelativePath="..\CMilSearchParamsGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

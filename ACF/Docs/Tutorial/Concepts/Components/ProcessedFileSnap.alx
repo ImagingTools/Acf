@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="25">
+  <PositionMap count="26">
     <Element>
       <ComponentName>
         AverageParams
@@ -76,7 +76,7 @@
         FileAcquisition
       </ComponentName>
       <X>
-        75
+        150
       </X>
       <X>
         287
@@ -124,6 +124,17 @@
       </X>
       <X>
         237
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FireAcquisition
+      </ComponentName>
+      <X>
+        62
+      </X>
+      <X>
+        387
       </X>
     </Element>
     <Element>

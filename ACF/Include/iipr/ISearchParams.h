@@ -64,18 +64,14 @@ public:
 	/** 
 		Reset params and set all to their default values.
 	*/
-	virtual void ResetParams() const = 0;
+	virtual void ResetParams() = 0;
 
 	virtual double GetMinScore() const = 0;
 	virtual void SetMinScore(double minScore) = 0;
-	virtual double GetStartAngle() const = 0;
-	virtual void SetStartAngle(double minAngle) = 0;
-	virtual double GetEndAngle() const = 0;
-	virtual void SetEndAngle(double maxAngle) = 0;
-	virtual double GetMinScale() const = 0;
-	virtual void SetMinScale(double minScale) = 0;
-	virtual double GetMaxScale() const = 0;
-	virtual void SetMaxScale(double maxScale) = 0;
+	virtual const istd::CRange& GetAngleRange() const = 0;
+	virtual void SetAngleRange(const istd::CRange& angleRange) = 0;
+	virtual const istd::CRange& GetScaleRange() const = 0;
+	virtual void SetScaleRange(const istd::CRange& scaleRange) = 0;
 	virtual int GetMatchesCount() const = 0;
 	virtual void SetMatchesCount(int matchesCount) = 0;
 };
@@ -85,6 +81,4 @@ public:
 
 
 #endif // !iipr_IISearchParams_included
-
-
 

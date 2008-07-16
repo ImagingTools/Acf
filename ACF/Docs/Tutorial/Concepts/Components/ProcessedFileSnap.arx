@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="12">
+  <ElementsList count="13">
     <Element>
       <Id>
         AverageParams
@@ -86,6 +86,24 @@
       </PackageId>
       <ComponentId>
         FileAcquisitionParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        FireAcquisition
+      </Id>
+      <PackageId>
+        AvtPck
+      </PackageId>
+      <ComponentId>
+        FireGrabAcquisition
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -292,7 +310,7 @@
                 true
               </IsEnabled>
               <Value>
-                FileAcquisition
+                FireAcquisition
               </Value>
             </Data>
           </AttributeInfo>
