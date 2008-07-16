@@ -4,254 +4,16 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="12">
+  <ElementsList count="6">
     <Element>
       <Id>
-        AverageParams
+        GaussianFilter
       </Id>
       <PackageId>
         IprPck
       </PackageId>
       <ComponentId>
-        RectangularFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        AverageParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        RectangularFilterParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FileAcquisition
-      </Id>
-      <PackageId>
-        QtCamPck
-      </PackageId>
-      <ComponentId>
-        FileAcquisition
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FileSnapParam
-      </Id>
-      <PackageId>
-        BasePck
-      </PackageId>
-      <ComponentId>
-        FileBitmapAcquisitionParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        FileSnapParamGui
-      </Id>
-      <PackageId>
-        QtPck
-      </PackageId>
-      <ComponentId>
-        FileAcquisitionParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        Framework
-      </Id>
-      <PackageId>
-        TutorialComposite
-      </PackageId>
-      <ComponentId>
-        SnapFramework
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="4">
-          <AttributeInfo>
-            <Id>
-              BitmapAcquisition
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                ProcessedCamera
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ParamsLoader
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                ParamsLoader
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ParamsSet
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                SnapParams
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ParamsSetGui
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                SnapParamsGui
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        GaussianParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        GaussianFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        IterationParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        IterativeProcessorParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        IterationParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        IterationParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        ProcessedCamera
-      </Id>
-      <PackageId>
-        TutorialComposite
-      </PackageId>
-      <ComponentId>
-        ProcessedCamera
+        GaussianFilter
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -266,6 +28,22 @@
               class icomp::CReferenceAttribute
             </Type>
             <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
               
             </ExportId>
             <Data>
@@ -273,13 +51,50 @@
                 true
               </IsEnabled>
               <Value>
-                Framework
+                GaussianParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        InvertProcessor
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        InvertOperator
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SlaveCamera
+              Preprocessor
             </Id>
             <Type>
               class icomp::CReferenceAttribute
@@ -292,7 +107,7 @@
                 true
               </IsEnabled>
               <Value>
-                FileAcquisition
+                GaussianFilter
               </Value>
             </Data>
           </AttributeInfo>
@@ -301,13 +116,13 @@
     </Element>
     <Element>
       <Id>
-        SnapParams
+        IterativeProcessor
       </Id>
       <PackageId>
-        BasePck
+        IprPck
       </PackageId>
       <ComponentId>
-        ComposedParamsSet
+        IterationProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -316,10 +131,10 @@
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
-              Parameters
+              ParamsId
             </Id>
             <Type>
-              class icomp::CMultiReferenceAttribute
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -328,28 +143,17 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
-                <Value>
-                  FileSnapParam
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
-                </Value>
-                <Value>
-                  GaussianParams
-                </Value>
-              </Values>
+              <Value>
+                IterationParams
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              ParametersId
+              SlaveProcessor
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              class icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -358,20 +162,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
-                <Value>
-                  FileBitmapAcquisition
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
-                </Value>
-                <Value>
-                  GaussianParams
-                </Value>
-              </Values>
+              <Value>
+                MinOperator
+              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -379,13 +172,160 @@
     </Element>
     <Element>
       <Id>
-        SnapParamsGui
+        MaxOperator
       </Id>
       <PackageId>
-        QtPck
+        IprPck
       </PackageId>
       <ComponentId>
-        ComposedParamsSetGui
+        MorphoMaxOperator
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Preprocessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                InvertProcessor
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        MinOperator
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        MorphoMinOperator
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Preprocessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                MaxOperator
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        ProcessedCamera
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        ProcessedCamera
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -394,10 +334,10 @@
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
-              Editors
+              ImageProcessor
             </Id>
             <Type>
-              class icomp::CMultiReferenceAttribute
+              class icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -406,51 +346,32 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
-                <Value>
-                  FileSnapParamGui
-                </Value>
-                <Value>
-                  AverageParamsGui
-                </Value>
-                <Value>
-                  IterationParamsGui
-                </Value>
-              </Values>
+              <Value>
+                IterativeProcessor
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              Ids
+              SlaveCamera
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              class icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              SlaveCamera
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Values count="3">
-                <Value>
-                  FileBitmapAcquisition
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
-                </Value>
-              </Values>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="3">
+  <ExportedInterfaces count="4">
     <Interface>
       <InterfaceId>
         class ibase::IApplication
@@ -465,6 +386,14 @@
       </InterfaceId>
       <ComponentId>
         Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class icam::IBitmapAcquisition
+      </InterfaceId>
+      <ComponentId>
+        ProcessedCamera
       </ComponentId>
     </Interface>
     <Interface>

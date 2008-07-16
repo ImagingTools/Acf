@@ -4,9 +4,9 @@
 
 #include "iimg/IBitmap.h"
 
-#include "iproc/TIAssyncProcessor.h"
+#include "iproc/TIProcessor.h"
 
-#include "iipr/ISearchResult.h"
+#include "iipr/ISearchResultSet.h"
 
 
 namespace iipr
@@ -16,12 +16,12 @@ namespace iipr
 /**
 	Interface for the shape based pattern matching processor.
 */
-class ISearchProcessor: virtual public iproc::TIAssyncProcessor<iimg::IBitmap, iipr::ISearchResult>
+class ISearchProcessor: virtual public iproc::TIProcessor<iimg::IBitmap, iipr::ISearchResultSet>
 {
 };
 
 
-} // namespace qstd
+} // namespace iipr
 
 
 #endif // !iipr_ISearchProcessor_included

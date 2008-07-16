@@ -31,7 +31,7 @@ CMilEngine::~CMilEngine()
 }
 
 
-MIL_ID CMilEngine::GetMilSystem() const
+MIL_ID CMilEngine::GetSystemId() const
 {
 	I_ASSERT(s_milSystemId != M_NULL);
 

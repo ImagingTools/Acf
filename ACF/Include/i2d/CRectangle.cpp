@@ -1,5 +1,6 @@
 #include "i2d/CRectangle.h"
 
+
 #include "i2d/CVector2d.h"
 
 #include "iser/IArchive.h"
@@ -103,7 +104,19 @@ bool CRectangle::IsIntersectedBy(const CRectangle& other) const
 }
 
 
+
 CRectangle CRectangle::GetIntersection(const CRectangle& other) const
+{
+	double outputLeft = istd::Max(other.GetLeft(), GetLeft());
+	double outputTop = istd::Max(other.GetTop(), GetTop());
+	double outputRight = istd::Min(other.GetRight(), GetRight());
+	double outputBottom = istd::Min(other.GetBottom(), GetBottom());
+
+	return CRectangle(outputLeft, outputTop, outputRight, outputBottom);
+}
+
+
+CRectangle CRectangle::GetUnion(const CRectangle& other) const
 {
 	double outputLeft = istd::Min(other.GetLeft(), GetLeft());
 	double outputTop = istd::Min(other.GetTop(), GetTop());
@@ -113,15 +126,21 @@ CRectangle CRectangle::GetIntersection(const CRectangle& other) const
 	return CRectangle(outputLeft, outputTop, outputRight, outputBottom);
 }
 
-
-CRectangle CRectangle::GetUnion(const CRectangle& other) const
+	
+void CRectangle::Expand(double left, double right, double top, double bottom)
 {
-	double outputLeft = istd::Max(other.GetLeft(), GetLeft());
-	double outputTop = istd::Max(other.GetTop(), GetTop());
-	double outputRight = istd::Min(other.GetRight(), GetRight());
-	double outputBottom = istd::Min(other.GetBottom(), GetBottom());
+	m_horizontalRange = istd::CRange(GetLeft() - left, GetRight() + right);
+	m_verticalRange = istd::CRange(GetTop() - top, GetBottom() + bottom);
+}
 
-	return CRectangle(outputLeft, outputTop, outputRight, outputBottom);
+
+CRectangle CRectangle::GetExpanded(double left, double right, double top, double bottom) const
+{
+	i2d::CRectangle retVal(*this);
+
+	retVal.Expand(left, right, top, bottom);
+
+	return retVal;
 }
 
 

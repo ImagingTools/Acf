@@ -37,7 +37,7 @@ public:
 	/**	
 		Gets the model image.
 	*/
-	virtual iimg::IBitmap& GetImage() const = 0;
+	virtual const iimg::IBitmap& GetImage() const = 0;
 };
 
 

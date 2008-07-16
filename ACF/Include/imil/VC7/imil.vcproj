@@ -108,6 +108,15 @@
 			<File
 				RelativePath="..\CMilEngine.cpp">
 			</File>
+			<File
+				RelativePath="..\CMilSearchModel.cpp">
+			</File>
+			<File
+				RelativePath="..\CMilSearchParams.cpp">
+			</File>
+			<File
+				RelativePath="..\CMilSearchProcessorComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -115,6 +124,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\CMilEngine.h">
+			</File>
+			<File
+				RelativePath="..\CMilSearchModel.h">
+			</File>
+			<File
+				RelativePath="..\CMilSearchParams.h">
+			</File>
+			<File
+				RelativePath="..\CMilSearchProcessorComp.h">
 			</File>
 			<File
 				RelativePath="..\imil.h">

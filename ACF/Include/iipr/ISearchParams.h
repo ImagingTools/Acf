@@ -61,6 +61,11 @@ public:
 	*/
 	virtual const iimg::IBitmap& GetModelImage() const = 0;
 
+	/** 
+		Reset params and set all to their default values.
+	*/
+	virtual void ResetParams() const = 0;
+
 	virtual double GetMinScore() const = 0;
 	virtual void SetMinScore(double minScore) = 0;
 	virtual double GetStartAngle() const = 0;

@@ -20,14 +20,10 @@ public:
 	virtual i2d::CRectangle GetModelRegion(const i2d::CTransform* calibrationPtr = NULL) const;
 	virtual double GetMinScore() const;
 	virtual void SetMinScore(double minScore);
-	virtual double GetStartAngle() const;
-	virtual void SetStartAngle(double minAngle);
-	virtual double GetEndAngle() const;
-	virtual void SetEndAngle(double maxAngle);
-	virtual double GetMinScale() const;
-	virtual void SetMinScale(double minScale);
-	virtual double GetMaxScale() const;
-	virtual void SetMaxScale(double maxScale);
+	virtual const istd::CRange& GetAngleRange() const;
+	virtual void SetAngleRange(const istd::CRange& angleRange);
+	virtual const istd::CRange& GetScaleRange() const;
+	virtual void SetScaleRange(const istd::CRange& scaleRange);
 	virtual int GetMatchesCount() const;
 	virtual void SetMatchesCount(int matchesCount);
 
@@ -42,10 +38,8 @@ protected:
 	i2d::CRectangle m_modelRegion;
 	const i2d::CTransform* m_calibrationPtr;
 	double m_minScore;
-	double m_startAngle;
-	double m_endAngle;
-	double m_minScale;
-	double m_maxScale;
+	istd::CRange m_angleRange;
+	istd::CRange m_scaleRange;
 	int m_matchesCount;
 	double m_timeout;
 };

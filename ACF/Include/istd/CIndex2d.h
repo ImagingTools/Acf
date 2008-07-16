@@ -21,6 +21,11 @@ public:
 	void SetX(int value);
 	int GetY() const;
 	void SetY(int value);
+
+	bool operator<(const CIndex2d& index) const;
+	bool operator>(const CIndex2d& index) const;
+	bool operator<=(const CIndex2d& index) const;
+	bool operator>=(const CIndex2d& index) const;
 };
 
 
@@ -59,6 +64,40 @@ inline int CIndex2d::GetY() const
 inline void CIndex2d::SetY(int value)
 {
 	SetAt(1, value);
+}
+
+
+inline bool CIndex2d::operator<(const CIndex2d& index) const
+{
+	if (GetY() < index.GetY()){
+		return true;
+	}
+	else if(GetY() > index.GetY()){
+		return false;
+	}
+	else if (GetX() < index.GetX()){
+		return true;
+	}
+
+	return false;
+}
+
+
+inline bool CIndex2d::operator>(const CIndex2d& index) const
+{
+	return (!operator<(index) && !operator==(index));
+}
+
+
+inline bool CIndex2d::operator<=(const CIndex2d& index) const
+{
+	return (operator<(index) || operator==(index));
+}
+
+
+inline bool CIndex2d::operator>=(const CIndex2d& index) const
+{
+	return (!operator<(index) || operator==(index));
 }
 
 

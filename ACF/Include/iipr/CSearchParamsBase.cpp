@@ -63,66 +63,34 @@ void CSearchParamsBase::SetMinScore(double minScore)
 }
 
 
-double CSearchParamsBase::GetStartAngle() const
+const istd::CRange& CSearchParamsBase::GetAngleRange() const
 {
-	return m_startAngle;
+	return m_angleRange;
 }
 
 
-void CSearchParamsBase::SetStartAngle(double startAngle)
+void CSearchParamsBase::SetAngleRange(const istd::CRange& angleRange)
 {
-	if (m_startAngle != startAngle){
+	if (m_angleRange != angleRange){
 		istd::CChangeNotifier changeNotifier(this);
 
-		m_startAngle = startAngle;
+		m_angleRange = angleRange;
 	}
 }
 
 
-double CSearchParamsBase::GetEndAngle() const
+const istd::CRange& CSearchParamsBase::GetScaleRange() const
 {
-	return m_endAngle;
+	return m_scaleRange;
 }
 
 
-void CSearchParamsBase::SetEndAngle(double endAngle)
+void CSearchParamsBase::SetScaleRange(const istd::CRange& scaleRange)
 {
-	if (m_endAngle != endAngle){
+	if (m_scaleRange != scaleRange){
 		istd::CChangeNotifier changeNotifier(this);
 
-		m_endAngle = endAngle;
-	}
-}
-
-
-double CSearchParamsBase::GetMinScale() const
-{
-	return m_minScale;
-}
-
-
-void CSearchParamsBase::SetMinScale(double minScale)
-{
-	if (m_minScale != minScale){
-		istd::CChangeNotifier changeNotifier(this);
-
-		m_minScale = minScale;
-	}
-}
-
-
-double CSearchParamsBase::GetMaxScale() const
-{
-	return m_maxScale;
-}
-
-
-void CSearchParamsBase::SetMaxScale(double maxScale)
-{
-	if (m_maxScale != maxScale){
-		istd::CChangeNotifier changeNotifier(this);
-
-		m_maxScale = maxScale;
+		m_scaleRange = scaleRange;
 	}
 }
 
@@ -147,14 +115,19 @@ void CSearchParamsBase::SetMatchesCount(int matchesCount)
 
 bool CSearchParamsBase::Serialize(iser::IArchive & archive)
 {
+	double startAngle = m_angleRange.GetMinValue();
+	double endAngle = m_angleRange.GetMaxValue();
+	double minScale = m_scaleRange.GetMinValue();
+	double maxScale = m_scaleRange.GetMaxValue();
+
 	static iser::CArchiveTag startAngleTag("StartAngle", "Minimum angle");
 	bool retVal = archive.BeginTag(startAngleTag);
-	retVal = retVal && archive.Process(m_startAngle);
+	retVal = retVal && archive.Process(startAngle);
 	retVal = retVal && archive.EndTag(startAngleTag);
 
 	static iser::CArchiveTag endAngleTag("EndAngle", "Maximum angle");
 	retVal = retVal && archive.BeginTag(endAngleTag);
-	retVal = retVal && archive.Process(m_endAngle);
+	retVal = retVal && archive.Process(endAngle);
 	retVal = retVal && archive.EndTag(endAngleTag);
 
 	static iser::CArchiveTag minScoreTag("MinScore", "Minimum match score");
@@ -164,12 +137,12 @@ bool CSearchParamsBase::Serialize(iser::IArchive & archive)
 
 	static iser::CArchiveTag minScaleTag("MinScale", "Minimum scale");
 	retVal = retVal && archive.BeginTag(minScaleTag);
-	retVal = retVal && archive.Process(m_minScale);
+	retVal = retVal && archive.Process(minScale);
 	retVal = retVal && archive.EndTag(minScaleTag);
 
 	static iser::CArchiveTag maxScaleTag("MaxScale", "Maximum scale");
 	retVal = retVal && archive.BeginTag(maxScaleTag);
-	retVal = retVal && archive.Process(m_maxScale);
+	retVal = retVal && archive.Process(maxScale);
 	retVal = retVal && archive.EndTag(maxScaleTag);
 
 	static iser::CArchiveTag matchesCountTag("MatchesCount", "Minimum model matches count");
@@ -191,6 +164,11 @@ bool CSearchParamsBase::Serialize(iser::IArchive & archive)
 	retVal = retVal && archive.BeginTag(modelRegionTag);
 	retVal = retVal && m_modelRegion.Serialize(archive);
 	retVal = retVal && archive.EndTag(modelRegionTag);
+
+	if (!archive.IsStoring()){
+		m_angleRange = istd::CRange(startAngle, endAngle);
+		m_scaleRange = istd::CRange(minScale, maxScale);
+	}
 
 	return retVal;
 }

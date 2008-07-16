@@ -141,6 +141,9 @@
 				RelativePath="..\CExtremumCaliperProcessor.cpp">
 			</File>
 			<File
+				RelativePath="..\CGaussian2dFilterParams.cpp">
+			</File>
+			<File
 				RelativePath="..\CImageProjection.cpp">
 			</File>
 			<File
@@ -173,6 +176,9 @@
 			<File
 				RelativePath="..\CSearchParamsBase.cpp">
 			</File>
+			<File
+				RelativePath="..\CSearchResultSet.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -185,6 +191,9 @@
 			</File>
 			<File
 				RelativePath="..\CExtremumCaliperProcessor.h">
+			</File>
+			<File
+				RelativePath="..\CGaussian2dFilterParams.h">
 			</File>
 			<File
 				RelativePath="..\CImageProjection.h">
@@ -218,6 +227,9 @@
 			</File>
 			<File
 				RelativePath="..\CSearchParamsBase.h">
+			</File>
+			<File
+				RelativePath="..\CSearchResultSet.h">
 			</File>
 			<File
 				RelativePath="..\IBitmapProcessor.h">
@@ -256,10 +268,25 @@
 				RelativePath="..\ISearchProcessor.h">
 			</File>
 			<File
-				RelativePath="..\ISearchResult.h">
+				RelativePath="..\ISearchResultSet.h">
+			</File>
+			<File
+				RelativePath="..\TConvolutionProcessorComp.h">
+			</File>
+			<File
+				RelativePath="..\TGaussianKernel2d.h">
+			</File>
+			<File
+				RelativePath="..\TGaussianProcessorComp.h">
 			</File>
 			<File
 				RelativePath="..\TImageProcessorCompBase.h">
+			</File>
+			<File
+				RelativePath="..\TKernel2d.h">
+			</File>
+			<File
+				RelativePath="..\TLocalNeighborhood.h">
 			</File>
 			<File
 				RelativePath="..\TMorphoProcessorComp.h">

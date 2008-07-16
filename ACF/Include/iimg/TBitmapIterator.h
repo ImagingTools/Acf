@@ -2,6 +2,8 @@
 #define iimg_TBitmapIterator_included
 
 
+#include "i2d/CRectangle.h"
+
 #include "iimg/IBitmap.h"
 
 
@@ -20,7 +22,7 @@ public:
 	/**
 		Construct image iterator from a bitmap.
 	*/
-	TBitmapIterator(const iimg::IBitmap* bitmapPtr);
+	TBitmapIterator(const iimg::IBitmap* bitmapPtr, const i2d::CRectangle* regionPtr = NULL);
 
 	/**
 		Construct image iterator from another interator.
@@ -50,6 +52,11 @@ public:
 	bool IsValid() const;
 
 	/**
+		Returns \c true, if the index is out of the iteration boudaries.
+	*/
+	bool AtEnd() const;
+
+	/**
 		Move iterator to the position (x, y).
 	*/
 	void MoveTo(int x, int y);
@@ -66,36 +73,47 @@ private:
 
 private:
 	const PixelType* m_imageBufferBeginPtr;
+	const PixelType* m_imageBufferEndPtr;
 	PixelType* m_imageBufferPtr;
 	int m_linesDifference;
-	int m_imageWidth;
-	int m_imageHeight;
+	istd::CIndex2d m_startIndex;
 	istd::CIndex2d m_index;
+	istd::CIndex2d m_endIndex;
 };
 
 
-
 template <typename PixelType>
-TBitmapIterator<PixelType>::TBitmapIterator(const iimg::IBitmap* bitmapPtr)
+TBitmapIterator<PixelType>::TBitmapIterator(const iimg::IBitmap* bitmapPtr, const i2d::CRectangle* regionPtr)
 {
 	I_ASSERT(bitmapPtr != NULL);
 
-	m_imageBufferPtr = (PixelType*)(bitmapPtr->GetLinePtr(0));
-	m_imageBufferBeginPtr = m_imageBufferPtr;
+	i2d::CRectangle imageRegion(bitmapPtr->GetImageSize());
+	if (regionPtr != NULL){
+		imageRegion = regionPtr->GetIntersection(imageRegion);
+	}
+
+	int imageHeight = bitmapPtr->GetImageSize().GetY();
 	m_linesDifference = bitmapPtr->GetLinesDifference();
-	m_imageWidth = bitmapPtr->GetImageSize().GetX();
-	m_imageHeight = bitmapPtr->GetImageSize().GetY();
+	m_imageBufferBeginPtr = (PixelType*)bitmapPtr->GetLinePtr(0);
+	m_imageBufferEndPtr = m_imageBufferBeginPtr + imageHeight * m_linesDifference;
+
+	m_imageBufferPtr = const_cast<PixelType*>(m_imageBufferBeginPtr) + int(imageRegion.GetTop()) * m_linesDifference + int(imageRegion.GetLeft());
+	
+	m_endIndex = istd::CIndex2d(int(imageRegion.GetWidth()), int(imageRegion.GetHeight()));
+	m_index = istd::CIndex2d(int(imageRegion.GetLeft()), int(imageRegion.GetTop()));
+	m_startIndex = m_index;
 }
 
 
 template <typename PixelType>
 TBitmapIterator<PixelType>::TBitmapIterator(const TBitmapIterator& iterator)
 :	m_imageBufferBeginPtr(iterator.m_imageBufferBeginPtr),
+	m_imageBufferEndPtr(iterator.m_imageBufferEndPtr),
 	m_imageBufferPtr(iterator.m_imageBufferPtr),
 	m_linesDifference(iterator.m_linesDifference),
-	m_imageWidth(iterator.m_imageWidth),
-	m_imageHeight(iterator.m_imageHeight),
-	m_index(iterator.m_index)
+	m_endIndex(iterator.m_endIndex),
+	m_index(iterator.m_index),
+	m_startIndex(iterator.m_startIndex)
 {
 }
 
@@ -112,8 +130,15 @@ inline typename TBitmapIterator<PixelType>::ValueType& TBitmapIterator<PixelType
 template <typename PixelType>
 inline bool TBitmapIterator<PixelType>::IsValid() const
 {
-	return	((m_index.GetX() >= 0 &&  m_index.GetX() < m_imageWidth) &&
-			(m_index.GetY() >= 0 &&  m_index.GetY() < m_imageHeight));
+	return (m_imageBufferPtr >= m_imageBufferBeginPtr && 
+			m_imageBufferPtr < m_imageBufferEndPtr);
+}
+
+
+template <typename PixelType>
+inline bool TBitmapIterator<PixelType>::AtEnd() const
+{
+	return (m_index < m_startIndex || m_index >= m_endIndex);
 }
 
 
@@ -246,17 +271,17 @@ inline void TBitmapIterator<PixelType>::Move(int difference)
 	int currentX = m_index.GetX();
 	int currentY = m_index.GetY();
 
-	int dx = difference % m_imageWidth;
-	int dy = difference / m_imageWidth;
+	int dx = difference % m_linesDifference;
+	int dy = difference / m_linesDifference;
 
 	currentX += dx;
 
-	if (currentX >= m_imageWidth){
-		currentX %= m_imageWidth;
+	if (currentX >= m_linesDifference){
+		currentX %= m_linesDifference;
 		++dy;
 	}
 	else if(currentX < 0){
-		currentX = m_imageWidth + currentX;
+		currentX = m_linesDifference + currentX;
 		--dy;
 	}
 
@@ -275,8 +300,8 @@ inline void TBitmapIterator<PixelType>::IncreaseIndex()
 	int currentX = m_index.GetX();
 	++currentX;
 
-	if (currentX >= m_imageWidth){
-		currentX %= m_imageWidth;
+	if (currentX >= m_endIndex.GetX()){
+		currentX %= m_endIndex.GetX();
 
 		m_index.SetY(m_index.GetY() + 1);
 	}
@@ -294,7 +319,7 @@ inline void TBitmapIterator<PixelType>::DecreaseIndex()
 	--currentX;
 
 	if (currentX < 0){
-		currentX = m_imageWidth + currentX;
+		currentX = m_endIndex.GetX() + currentX;
 
 		m_index.SetY(m_index.GetY() - 1);
 	}

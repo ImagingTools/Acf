@@ -1,6 +1,8 @@
 #include "iipr/CIterativeProcessorParams.h"
 
 
+#include "istd/TChangeNotifier.h"
+
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -25,7 +27,11 @@ void CIterativeProcessorParams::SetIterationsCount(int iterationsCount)
 {
 	I_ASSERT(iterationsCount > 0);
 
-	m_iterationsCount = iterationsCount;
+	if (m_iterationsCount != iterationsCount){
+		istd::CChangeNotifier changeNotifier(this);
+
+		m_iterationsCount = iterationsCount;
+	}
 }
 
 

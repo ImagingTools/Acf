@@ -67,7 +67,7 @@ CSize& CSize::operator-=(const CSize& size)
 
 bool CSize::IsNull() const
 {
-	return (GetX() == GetY());
+	return (GetX() == 0 || GetY() == 0);
 }
 
 

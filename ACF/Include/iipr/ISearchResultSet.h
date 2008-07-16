@@ -1,5 +1,5 @@
-#ifndef iipr_ISearchResult_included
-#define iipr_ISearchResult_included
+#ifndef iipr_ISearchResultSet_included
+#define iipr_ISearchResultSet_included
 
 
 #include "iipr/iipr.h"
@@ -18,7 +18,7 @@ namespace iipr
 /**	
 	Interface for search results container.
 */
-class ISearchResult: virtual public istd::IPolymorphic
+class ISearchResultSet: virtual public istd::IPolymorphic
 {
 public:
 	/*
@@ -66,5 +66,5 @@ public:
 } // namespace iipr
 
 
-#endif // !iipr_ISearchResult_included
+#endif // !iipr_ISearchResultSet_included
 

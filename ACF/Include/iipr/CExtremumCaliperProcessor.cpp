@@ -179,4 +179,3 @@ int CExtremumCaliperProcessor::DoProcessing(
 
 } // namespace iipr
 
-

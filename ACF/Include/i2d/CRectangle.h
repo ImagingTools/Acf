@@ -23,7 +23,7 @@ public :
 	CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight);
 	explicit CRectangle(const istd::CIndex2d& size);
 
-	const CRectangle& operator=(const CRectangle& other);
+	const CRectangle& operator=(const CRectangle& rectangle);
 
 	bool Contains(const CVector2d& point) const;
 	bool Contains(const istd::CIndex2d& point) const;
@@ -33,9 +33,11 @@ public :
 	bool IsEmpty() const;
 	bool IsValid() const;
 
-	bool IsIntersectedBy(const CRectangle& other) const;
-	CRectangle GetIntersection(const CRectangle& other) const;
-	CRectangle GetUnion(const CRectangle& other) const;
+	bool IsIntersectedBy(const CRectangle& rectangle) const;
+	CRectangle GetIntersection(const CRectangle& rectangle) const;
+	CRectangle GetUnion(const CRectangle& rectangle) const;
+	void Expand(double left, double right, double top, double bottom);
+	CRectangle GetExpanded(double left, double right, double top, double bottom) const;
 
 	double GetLeft() const;
 	double GetTop() const;

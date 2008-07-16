@@ -13,7 +13,7 @@
         500
       </X>
       <X>
-        -62
+        -37
       </X>
     </Element>
     <Element>
@@ -76,10 +76,10 @@
         FileAcquisition
       </ComponentName>
       <X>
-        75
+        50
       </X>
       <X>
-        287
+        237
       </X>
     </Element>
     <Element>
@@ -87,10 +87,10 @@
         FileSnapParam
       </ComponentName>
       <X>
-        -62
+        -112
       </X>
       <X>
-        -37
+        -12
       </X>
     </Element>
     <Element>
@@ -139,13 +139,13 @@
     </Element>
     <Element>
       <ComponentName>
-        GaussianParams
+        GaussianFilter
       </ComponentName>
       <X>
-        237
+        275
       </X>
       <X>
-        -162
+        312
       </X>
     </Element>
     <Element>
@@ -153,10 +153,10 @@
         InvertProcessor
       </ComponentName>
       <X>
-        75
+        275
       </X>
       <X>
-        387
+        437
       </X>
     </Element>
     <Element>
@@ -197,10 +197,10 @@
         IterativeProcessor
       </ComponentName>
       <X>
-        -362
+        -187
       </X>
       <X>
-        312
+        337
       </X>
     </Element>
     <Element>
@@ -208,10 +208,10 @@
         MaxOperator
       </ComponentName>
       <X>
-        -112
+        37
       </X>
       <X>
-        562
+        437
       </X>
     </Element>
     <Element>
@@ -230,7 +230,7 @@
         MinOperator
       </ComponentName>
       <X>
-        -262
+        -187
       </X>
       <X>
         437
@@ -252,10 +252,10 @@
         ProcessedCamera
       </ComponentName>
       <X>
-        -212
+        -187
       </X>
       <X>
-        287
+        237
       </X>
     </Element>
     <Element>
@@ -266,7 +266,7 @@
         237
       </X>
       <X>
-        -37
+        -12
       </X>
     </Element>
     <Element>

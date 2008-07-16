@@ -18,7 +18,7 @@ public:
 	CMilEngine();
 	~CMilEngine();
 
-	MIL_ID GetMilSystem() const;
+	MIL_ID GetSystemId() const;
 
 private:
 	static inat::CCriticalSection s_criticalSection;

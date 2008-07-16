@@ -15,7 +15,10 @@
 #include "iipr/CIterativeProcessorComp.h"
 #include "iipr/CIterativeProcessorParams.h"
 #include "iipr/TUnaryTransformProcessorComp.h"
+#include "iipr/TGaussianProcessorComp.h"
+#include "iipr/CGaussian2dFilterParams.h"
 #include "iipr/CCaliperParams.h"
+
 
 /**
 	system-undependent image processing package.
@@ -31,12 +34,13 @@ typedef iipr::CLocalDifferenceProcessorComp LocalDifferenceProcessor;
 typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CLocalDifferenceFilterParams> > LocalDifferenceFilterParams;
 typedef iipr::CIterativeProcessorComp IterationProcessor;
 typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CIterativeProcessorParams> > IterativeProcessorParams;
-
 typedef iipr::CMorphoMaxOperatorComp MorphoMaxOperator;
 typedef iipr::CMorphoMinOperatorComp MorphoMinOperator;
-typedef iipr::CInvertOperatorComp InverOperator;
-
+typedef iipr::CInvertOperatorComp InvertOperator;
+typedef iipr::CGaussianFilterComp GaussianFilter;
+typedef icomp::TMakeComponentWrap<iser::ISerializable, imod::TModelWrap<iipr::CGaussian2dFilterParams> > GaussianFilterParams;
 typedef icomp::TMakeComponentWrap<iipr::ICaliperParams, imod::TModelWrap<iipr::CCaliperParams> > CaliperParams;
+
 
 } // namespace IprPck
 
