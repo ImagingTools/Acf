@@ -14,8 +14,6 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "icam/IExposureParams.h"
-
 
 namespace iavt
 {
@@ -33,14 +31,21 @@ int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, co
 {
 	int retVal = TS_INVALID;
 
+	const icam::IExposureParams* exposureParamsPtr = NULL;
+
 	if (paramsPtr != NULL && m_exposureParamsIdAttrPtr.IsValid()){
-		const icam::IExposureParams* exposureParamsPtr = dynamic_cast<const icam::IExposureParams*>(
+		exposureParamsPtr = dynamic_cast<const icam::IExposureParams*>(
 					paramsPtr->GetParameter((*m_exposureParamsIdAttrPtr).ToString()));
-		if (exposureParamsPtr != NULL){
-			double shutterTime = exposureParamsPtr->GetShutterTime();
-			if (shutterTime >= 0){
-				m_camera.SetParameter(FGP_SHUTTER, UINT32(shutterTime * 1000000));
-			}
+	}
+
+	if (m_defaultExposureParamsCompPtr.IsValid()){
+		exposureParamsPtr = m_defaultExposureParamsCompPtr.GetPtr();
+	}
+
+	if (exposureParamsPtr != NULL){
+		double shutterTime = exposureParamsPtr->GetShutterTime();
+		if (shutterTime >= 0){
+			m_camera.SetParameter(FGP_SHUTTER, UINT32(shutterTime * 1000000));
 		}
 	}
 

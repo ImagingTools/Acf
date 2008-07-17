@@ -13,6 +13,8 @@
 
 #include "icam/IBitmapAcquisition.h"
 #include "icam/IExposureConstraints.h"
+#include "icam/IExposureParams.h"
+
 
 #include "icomp/CComponentBase.h"
 
@@ -37,6 +39,7 @@ public:
 	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp)
 		I_REGISTER_INTERFACE(icam::IBitmapAcquisition)
 		I_REGISTER_INTERFACE(icam::IExposureConstraints)
+		I_ASSIGN(m_defaultExposureParamsCompPtr, "DefaultExposureParams", "Default exposure parameters will be used if no parameters are found", false, "DefaultExposureParams");
 		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParams")
 	I_END_COMPONENT
 
@@ -67,6 +70,7 @@ public:
 	virtual void OnComponentDestroyed();
 
 private:
+	I_REF(icam::IExposureParams, m_defaultExposureParamsCompPtr);
 	I_ATTR(istd::CString, m_exposureParamsIdAttrPtr);
 
 	enum
