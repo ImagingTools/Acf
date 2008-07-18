@@ -215,23 +215,23 @@ bool CRectangle::Serialize(iser::IArchive& archive)
 	double left = m_horizontalRange.GetMinValue();
 	double right = m_horizontalRange.GetMinValue();
 
-	static iser::CArchiveTag topTag("Top", "Top");
+	static iser::CArchiveTag topTag("Top", "Rectangle top edge position");
 
 	bool retVal = archive.BeginTag(topTag);
 	retVal = retVal && archive.Process(top);
 	retVal = retVal && archive.EndTag(topTag);
 
-	static iser::CArchiveTag bottomTag("Bottom", "Bottom");
+	static iser::CArchiveTag bottomTag("Bottom", "Rectangle bottom edge position");
 	retVal = retVal && archive.BeginTag(bottomTag);
 	retVal = retVal && archive.Process(bottom);
 	retVal = retVal && archive.EndTag(bottomTag);
 
-	static iser::CArchiveTag leftTag("Left", "Left");
+	static iser::CArchiveTag leftTag("Left", "Rectangle left edge position");
 	retVal = retVal && archive.BeginTag(leftTag);
 	retVal = retVal && archive.Process(left);
 	retVal = retVal && archive.EndTag(leftTag);
 
-	static iser::CArchiveTag rightTag("Right", "Right");
+	static iser::CArchiveTag rightTag("Right", "Rectangle right edge position");
 	retVal = retVal && archive.BeginTag(rightTag);
 	retVal = retVal && archive.Process(right);
 	retVal = retVal && archive.EndTag(rightTag);

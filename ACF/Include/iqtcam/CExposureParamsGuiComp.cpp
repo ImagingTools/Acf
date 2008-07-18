@@ -76,6 +76,8 @@ void CExposureParamsGuiComp::UpdateModel() const
 {
 	icam::IExposureParams* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
+		UpdateBlocker blocker(const_cast<CExposureParamsGuiComp*>(this));
+
 		double tolerance = 0.9e-6;
 
 		istd::CChangeNotifier notifier(NULL);

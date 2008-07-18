@@ -37,36 +37,32 @@ void CSelectionParamGuiComp::UpdateEditor()
 
 	iqt::CSignalBlocker blocker(SelectionFrame);
 
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blocker(this);
+	m_comboBoxes.Reset();
 
-		m_comboBoxes.Reset();
+	for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+				selectionPtr != NULL;
+				selectionPtr = selectionPtr->GetActiveSubselection()){
+		QComboBox* switchBoxPtr = new QComboBox(NULL);
+		m_comboBoxes.PushBack(switchBoxPtr);
+		QLayout* layoutPtr = SelectionFrame->layout();
+		if (layoutPtr != NULL){
+			layoutPtr->addWidget(switchBoxPtr);
+		}
 
-		for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
-					selectionPtr != NULL;
-					selectionPtr = selectionPtr->GetActiveSubselection()){
-			QComboBox* switchBoxPtr = new QComboBox(NULL);
-			m_comboBoxes.PushBack(switchBoxPtr);
-			QLayout* layoutPtr = SelectionFrame->layout();
-			if (layoutPtr != NULL){
-				layoutPtr->addWidget(switchBoxPtr);
-			}
+		QObject::connect(switchBoxPtr, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSelectionChanged(int)));
 
-			QObject::connect(switchBoxPtr, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSelectionChanged(int)));
+		int optionsCont = selectionPtr->GetOptionsCount();
 
-			int optionsCont = selectionPtr->GetOptionsCount();
+		for (int i = 0; i < optionsCont; ++i){
+			const istd::CString& name = selectionPtr->GetOptionName(i);
 
-			for (int i = 0; i < optionsCont; ++i){
-				const istd::CString& name = selectionPtr->GetOptionName(i);
+			switchBoxPtr->addItem(iqt::GetQString(name));
+		}
 
-				switchBoxPtr->addItem(iqt::GetQString(name));
-			}
+		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 
-			int selectedIndex = selectionPtr->GetSelectedOptionIndex();
-
-			if (selectedIndex >= 0){
-				switchBoxPtr->setCurrentIndex(selectedIndex);
-			}
+		if (selectedIndex >= 0){
+			switchBoxPtr->setCurrentIndex(selectedIndex);
 		}
 	}
 }

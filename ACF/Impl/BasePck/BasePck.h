@@ -18,6 +18,8 @@
 #include "istdc/CRegistryCodeSaverComp.h"
 
 #include "i2d/CLine2d.h"
+#include "i2d/CCircle.h"
+#include "i2d/CRectangle.h"
 
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
@@ -52,7 +54,9 @@ typedef icomp::TModelCompWrap<isig::CSamplingParamsComp> SamplingParams;
 typedef icomp::TModelCompWrap<icam::CFileBitmapAcquisitionParamsComp> FileBitmapAcquisitionParams;
 typedef icomp::TModelCompWrap<icam::CExposureParamsComp> ExposureParams;
 
-typedef icomp::TMakeComponentWrap<imod::TModelWrap<i2d::CLine2d>, i2d::IObject2d, iser::ISerializable> Line;
+typedef icomp::TMakeComponentWrap<imod::TModelWrap<i2d::CLine2d>, i2d::CLine2d, i2d::IObject2d, iser::ISerializable> Line;
+typedef icomp::TMakeComponentWrap<imod::TModelWrap<i2d::CCircle>, i2d::CCircle, i2d::IObject2d, iser::ISerializable> Circle;
+typedef icomp::TMakeComponentWrap<imod::TModelWrap<i2d::CRectangle>, i2d::CRectangle, i2d::IObject2d, iser::ISerializable> Rectangle;
 
 
 } // namespace BasePck

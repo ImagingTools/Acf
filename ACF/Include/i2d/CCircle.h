@@ -23,6 +23,9 @@ public:
 	virtual CVector2d GetCenter() const;
 	virtual CRectangle GetBoundingBox() const;
 
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 protected:
 	double m_radius;
 	CVector2d m_center;

@@ -121,8 +121,6 @@ void CAttributeEditorComp::UpdateEditor()
 		return;
 	}
 
-	UpdateBlocker blocker(this);
-
 	AttributeTree->clear();
 	InterfacesTree->clear();
 	ExportTree->clear();

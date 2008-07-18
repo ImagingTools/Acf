@@ -75,6 +75,10 @@ void TSceneExtenderCompBase<Base>::AddItemsToScene(ISceneProvider* providerPtr, 
 			}
 		}
 	}
+
+	if (m_slaveExtenderCompPtr.IsValid()){
+		m_slaveExtenderCompPtr->AddItemsToScene(providerPtr, flags);
+	}
 }
 
 
@@ -82,6 +86,10 @@ template <class Base>
 void TSceneExtenderCompBase<Base>::RemoveItemsFromScene(ISceneProvider* providerPtr)
 {
 	I_ASSERT(providerPtr != NULL);
+
+	if (m_slaveExtenderCompPtr.IsValid()){
+		m_slaveExtenderCompPtr->RemoveItemsFromScene(providerPtr);
+	}
 
 	ShapesMap::iterator iter = m_shapesMap.find(providerPtr);
 	if (iter != m_shapesMap.end()){

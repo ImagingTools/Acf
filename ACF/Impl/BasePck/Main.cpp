@@ -20,6 +20,8 @@ I_EXPORT_COMPONENT(SamplingParams, "Sampling params based on fixed boundary valu
 I_EXPORT_COMPONENT(FileBitmapAcquisitionParams, "Parameters for bitmap acquisition from file", "File Directory Bitmap Acquisition Snap Parameters");
 I_EXPORT_COMPONENT(ExposureParams, "Parameters for exposure parameter control", "Exposure Shutter Delay Time EEN Bitmap Acquisition Snap Parameters");
 I_EXPORT_COMPONENT(Line, "Line 2D object", "Line 2D Object Parameter");
+I_EXPORT_COMPONENT(Circle, "Circle 2D object", "Circle 2D Object Parameter");
+I_EXPORT_COMPONENT(Rectangle, "Rectangle (orthogonal to axis) object", "Rectangle Orthogonal 2D Object Parameter");
 
 
 } // namespace BasePck

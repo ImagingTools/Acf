@@ -112,6 +112,12 @@
 				RelativePath="..\CImageViewComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CLine2dParamsGuiComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CLine2dShape.cpp">
+			</File>
+			<File
 				RelativePath="..\CSceneConnectorGuiComp.cpp">
 			</File>
 			<File
@@ -147,6 +153,12 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\CLine2dParamsGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\CLine2dShape.h">
+			</File>
+			<File
 				RelativePath="..\CSceneConnectorGuiComp.h">
 			</File>
 			<File
@@ -156,7 +168,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -165,7 +178,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -197,12 +211,36 @@
 				RelativePath="..\generated\moc_CSceneProviderComp.cpp">
 			</File>
 			<File
+				RelativePath="..\generated\ui_CLine2dParamsGuiComp.h">
+			</File>
+			<File
 				RelativePath="..\generated\ui_CSceneConnectorGuiComp.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Forms"
 			Filter="">
+			<File
+				RelativePath="..\CLine2dParamsGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="..\CSceneConnectorGuiComp.ui">
 				<FileConfiguration

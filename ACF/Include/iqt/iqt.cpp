@@ -85,5 +85,17 @@ i2d::CVector2d GetCVector2d(const QPointF& position)
 }
 
 
+QRectF GetQRectF(const i2d::CRectangle& rect)
+{
+	return QRectF(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());
+}
+
+
+i2d::CRectangle GetCRectangle(const QRectF& rect)
+{
+	return i2d::CRectangle(rect.left(), rect.top(), rect.right(), rect.bottom());
+}
+
+
 } // namespace iqt
 

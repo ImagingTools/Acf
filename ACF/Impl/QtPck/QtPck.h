@@ -23,6 +23,7 @@
 #include "iqt2d/CSceneConnectorGuiComp.h"
 #include "iqt2d/CSceneProviderComp.h"
 #include "iqt2d/CImageViewComp.h"
+#include "iqt2d/CLine2dParamsGuiComp.h"
 
 #include "iqtprm/CComposedParamsSetGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
@@ -57,6 +58,7 @@ typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmap, iimg::IBit
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
 typedef iqt2d::CSceneProviderComp SceneProvider;
 typedef iqt2d::CImageViewComp ImageView;
+typedef iqt2d::CLine2dParamsGuiComp Line2dParamsGui;
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;
 typedef iqt::CDockWidgetGuiComp DockWidgetGui;
