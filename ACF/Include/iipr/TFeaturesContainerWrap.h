@@ -20,7 +20,7 @@ class TFeaturesContainerWrap: public BaseClass
 public:
 	// pseudo-reimplemented (iipr::IFeaturesConsumer)
 	virtual void ResetFeatures();
-	virtual bool AddFeature(const IFeature* featurePtr);
+	virtual bool AddFeature(const iipr::IFeature* featurePtr);
 
 	// pseudo-reimplemented (iipr::IFeaturesContainer)
 	virtual iipr::IFeaturesContainer::Features GetFeatures() const;

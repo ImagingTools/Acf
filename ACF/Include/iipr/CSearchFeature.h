@@ -14,7 +14,7 @@ namespace iipr
 /**
 	Implementation of IFeature interface for pattern search features.
 */
-class CSearchFeature: virtual public IFeature
+class CSearchFeature: virtual public iipr::IFeature
 {
 public:
 	CSearchFeature(const i2d::CVector2d& position, const i2d::CVector2d& scale, double angle, double score);

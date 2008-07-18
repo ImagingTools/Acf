@@ -43,11 +43,6 @@ int CMilSearchProcessorComp::DoProcessing(
 		return TS_INVALID;
 	}
 
-	iipr::CSearchResultSet* resultSetPtr = dynamic_cast<iipr::CSearchResultSet*>(outputPtr);
-	if (resultSetPtr == NULL){
-		return TS_INVALID;
-	}
-
 	i2d::CRectangle searchAoi = milParamsPtr->GetSearchRegion();
 	i2d::CRectangle bitmapRect = i2d::CRectangle(0,0,inputPtr->GetImageSize().GetX(), inputPtr->GetImageSize().GetY());
 	searchAoi = bitmapRect.GetIntersection(searchAoi);
@@ -129,8 +124,10 @@ int CMilSearchProcessorComp::DoProcessing(
 	MmodFree(milResult);
 
 	// set search duration:
-
-	resultSetPtr->SetTime(timer.GetElapsed() * 1000);
+	iipr::CSearchResultSet* resultSetPtr = dynamic_cast<iipr::CSearchResultSet*>(outputPtr);
+	if (resultSetPtr != NULL){
+		resultSetPtr->SetTime(timer.GetElapsed() * 1000);
+	}
 
 	return TS_OK;
 }
