@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ElementsList count="2">
+    <Element>
+      <Id>
+        Camera
+      </Id>
+      <PackageId>
+        AvtPck
+      </PackageId>
+      <ComponentId>
+        FireGrabAcquisition
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              DefaultExposureParams
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ExposureParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        ExposureParams
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        ExposureParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              DefaultShutterTime
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;double&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                2e-005
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+  </ElementsList>
+  <ExportedInterfaces count="5">
+    <Interface>
+      <InterfaceId>
+        class ibase::IApplication
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class ibase::IApplicationInfo
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class icam::IBitmapAcquisition
+      </InterfaceId>
+      <ComponentId>
+        Camera
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class icam::IExposureConstraints
+      </InterfaceId>
+      <ComponentId>
+        Camera
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iser::IVersionInfo
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+  </ExportedInterfaces>
+  <ExportedComponents count="0">
+  </ExportedComponents>
+</Acf>

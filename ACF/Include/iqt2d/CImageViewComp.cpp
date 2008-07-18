@@ -217,6 +217,22 @@ const idoc::IHierarchicalCommand* CImageViewComp::GetCommands() const
 }
 
 
+// reimplemented (iqt2d::ISceneProvider)
+
+int CImageViewComp::GetSceneId() const
+{
+	I_ASSERT(m_sceneIdAttrPtr.IsValid());
+
+	return *m_sceneIdAttrPtr;
+}
+
+
+QGraphicsScene* CImageViewComp::GetScene() const
+{
+	return m_scenePtr;
+}
+
+
 // reimplemented (icomp::IComponent)
 
 void CImageViewComp::OnComponentCreated()

@@ -29,7 +29,7 @@ CFireGrabAcquisitionComp::CFireGrabAcquisitionComp()
 
 int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
 {
-	int retVal = TS_INVALID;
+	I_ASSERT(m_singleShootAttrPtr.IsValid());	// isObligatory is true
 
 	const icam::IExposureParams* exposureParamsPtr = NULL;
 
@@ -48,6 +48,12 @@ int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, co
 			m_camera.SetParameter(FGP_SHUTTER, UINT32(shutterTime * 1000000));
 		}
 	}
+
+	if (*m_singleShootAttrPtr && (m_camera.StartDevice() != FCE_NOERROR)){
+		return TS_INVALID;
+	}
+
+	int retVal = TS_INVALID;
 
 	FGFRAME frameInfo;
 	UINT32 status = m_camera.GetFrame(&frameInfo, 5000);
@@ -123,6 +129,8 @@ void CFireGrabAcquisitionComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
+	I_ASSERT(m_singleShootAttrPtr.IsValid());	// isObligatory is true
+
 	// Init module
 	UINT32 status = FGInitModule(NULL);
 
@@ -140,6 +148,30 @@ void CFireGrabAcquisitionComp::OnComponentCreated()
 
 				// Start image device
 				if (status == FCE_NOERROR){
+					if (m_externTriggerAttrPtr.IsValid()){
+						UINT32 triggerValue = MAKETRIGGER((*m_externTriggerAttrPtr)? 1: 0, 1, 0, 0, 0);
+
+						if (m_camera.SetParameter(FGP_TRIGGER, triggerValue) != FCE_NOERROR){
+							SendErrorMessage(MI_CANNOT_SET_TRIGGER, iqt::GetCString(QObject::tr("Cannot set trigger mode")));
+						}
+					}
+
+					if (*m_singleShootAttrPtr){
+						if (m_camera.SetParameter(FGP_BURSTCOUNT, 1) == FCE_NOERROR){
+							m_isCameraValid = true;
+
+							return;
+						}
+						else{
+							SendErrorMessage(MI_CANNOT_SET_SINGLE_SHOT, iqt::GetCString(QObject::tr("Cannot set single shot mode")));
+						}
+					}
+					else{
+						if (m_camera.SetParameter(FGP_BURSTCOUNT, BC_INFINITE) != FCE_NOERROR){
+							SendErrorMessage(MI_CANNOT_SET_CONTINUOUS, iqt::GetCString(QObject::tr("Cannot set continuous mode")));
+						}
+					}
+
 					status = m_camera.StartDevice();
 
 					if (status == FCE_NOERROR){

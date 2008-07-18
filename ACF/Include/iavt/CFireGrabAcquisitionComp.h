@@ -36,12 +36,14 @@ class CFireGrabAcquisitionComp:
 public:
 	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
 
-	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp)
-		I_REGISTER_INTERFACE(icam::IBitmapAcquisition)
-		I_REGISTER_INTERFACE(icam::IExposureConstraints)
+	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp);
+		I_REGISTER_INTERFACE(icam::IBitmapAcquisition);
+		I_REGISTER_INTERFACE(icam::IExposureConstraints);
 		I_ASSIGN(m_defaultExposureParamsCompPtr, "DefaultExposureParams", "Default exposure parameters will be used if no parameters are found", false, "DefaultExposureParams");
-		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParams")
-	I_END_COMPONENT
+		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParams");
+		I_ASSIGN(m_singleShootAttrPtr, "UseSingleShoot", "If it is true, only one shot will be done", true, true);
+		I_ASSIGN(m_externTriggerAttrPtr, "UseExternTrigger", "If it is true extern trigger will be used", false, false);
+	I_END_COMPONENT;
 
 	enum MessageId
 	{
@@ -49,7 +51,10 @@ public:
 		MI_NO_NODES,
 		MI_CANNOT_CONNECT,
 		MI_CANNOT_OPEN,
-		MI_CANNOT_START
+		MI_CANNOT_START,
+		MI_CANNOT_SET_SINGLE_SHOT,
+		MI_CANNOT_SET_CONTINUOUS,
+		MI_CANNOT_SET_TRIGGER
 	};
 
 	CFireGrabAcquisitionComp();
@@ -72,6 +77,8 @@ public:
 private:
 	I_REF(icam::IExposureParams, m_defaultExposureParamsCompPtr);
 	I_ATTR(istd::CString, m_exposureParamsIdAttrPtr);
+	I_ATTR(bool, m_singleShootAttrPtr);
+	I_ATTR(bool, m_externTriggerAttrPtr);
 
 	enum
 	{

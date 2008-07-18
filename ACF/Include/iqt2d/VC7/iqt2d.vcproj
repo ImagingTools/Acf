@@ -111,6 +111,9 @@
 			<File
 				RelativePath="..\CImageViewComp.cpp">
 			</File>
+			<File
+				RelativePath="..\CSceneConnectorGuiComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -143,7 +146,16 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\CSceneConnectorGuiComp.h">
+			</File>
+			<File
 				RelativePath="..\iqt2d.h">
+			</File>
+			<File
+				RelativePath="..\ISceneExtender.h">
+			</File>
+			<File
+				RelativePath="..\ISceneProvider.h">
 			</File>
 		</Filter>
 		<Filter
@@ -163,6 +175,27 @@
 		<Filter
 			Name="Forms"
 			Filter="">
+			<File
+				RelativePath="..\CSceneConnectorGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

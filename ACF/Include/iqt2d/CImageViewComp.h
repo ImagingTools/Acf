@@ -14,11 +14,12 @@
 #include "iqt/TGuiComponentBase.h"
 #include "iqt/TGuiObserverWrap.h"
 
-#include "iqt2d/CImageItem.h"
-
 #include "idoc/ICommandsProvider.h"
 
 #include "iqt/CHierarchicalCommand.h"
+
+#include "iqt2d/CImageItem.h"
+#include "iqt2d/ISceneProvider.h"
 
 
 namespace iqt2d
@@ -27,7 +28,8 @@ namespace iqt2d
 
 class CImageViewComp: 
 			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QGraphicsView>, imod::TSingleModelObserverBase<iimg::IBitmap> >,
-			public idoc::ICommandsProvider
+			virtual public idoc::ICommandsProvider,
+			virtual public ISceneProvider
 {
 	Q_OBJECT
 
@@ -39,6 +41,7 @@ public:
 	I_BEGIN_COMPONENT(CImageViewComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
 		I_ASSIGN(m_allowWidgetResizeAttrPtr, "AllowWidgetResize", "Allow resize of QWidet object (should be disabled if this GUI size is managed by layout)", true, false)
+		I_ASSIGN(m_sceneIdAttrPtr, "SceneId", "ID allowing identifying this scene", true, 0);
 	I_END_COMPONENT
 
 	enum FitMode{
@@ -58,6 +61,10 @@ public:
 
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+
+	// reimplemented (iqt2d::ISceneProvider)
+	virtual int GetSceneId() const;
+	virtual QGraphicsScene* GetScene() const;
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
@@ -109,6 +116,7 @@ private:
 	iqt::CHierarchicalCommand m_resetZoomCommand;
 
 	I_ATTR(bool, m_allowWidgetResizeAttrPtr);
+	I_ATTR(int, m_sceneIdAttrPtr);
 };
 
 
