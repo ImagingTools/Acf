@@ -55,16 +55,16 @@ bool CModelBase::AttachObserver(IObserver* observerPtr)
 
 void CModelBase::DetachObserver(IObserver* observerPtr)
 {
-	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		if (m_observers.at(observerIndex) == observerPtr){
+	for (int detachIndex = 0; detachIndex < int(m_observers.size()); detachIndex++){
+		if (m_observers.at(detachIndex) == observerPtr){
 			observerPtr->OnDetached(this);
 			break;
 		}
 	}
 
-	for (observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		if (m_observers.at(observerIndex) == observerPtr){
-			m_observers.erase(m_observers.begin() + observerIndex);
+	for (int eraseIndex = 0; eraseIndex < int(m_observers.size()); eraseIndex++){
+		if (m_observers.at(eraseIndex) == observerPtr){
+			m_observers.erase(m_observers.begin() + eraseIndex);
 			return;
 		}
 	}

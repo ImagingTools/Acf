@@ -52,7 +52,7 @@ protected:
 				const QDir& outputDir,
 				const QString& subDir,
 				const QStringList& filters,
-				CopyFileFunc copyFunc = CopyBinFile,
+				CopyFileFunc copyFunc = &CDistributeDialog::CopyBinFile,
 				int recursionDepth = MAX_RECURSION_DEPTH) const;
 
 	/**
@@ -77,7 +77,7 @@ protected:
 				const QDir& inputDir,
 				const QDir& outputDir,
 				const QStringList& filters,
-				CopyFileFunc copyFunc = CopyBinFile,
+				CopyFileFunc copyFunc = &CopyBinFile,
 				int recursionDepth = MAX_RECURSION_DEPTH) const;
 	bool CopyBinFile(const QString& inputFileName, const QString& outputFileName) const;
 	bool CopySourceFile(const QString& inputFileName, const QString& outputFileName) const;

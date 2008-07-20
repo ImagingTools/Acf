@@ -4,7 +4,6 @@
 	Version="8,00"
 	Name="iwin"
 	ProjectGUID="{633B67F7-B154-4A80-A651-1111D5EDF583}"
-	RootNamespace="iwin"
 	>
 	<Platforms>
 		<Platform
@@ -16,9 +15,10 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ACFDIR)\Lib\$(ConfigurationName)VC8"
+			OutputDirectory="../../../Lib/$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -40,23 +40,27 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="./iwin/ReleaseVC8/iwin.tlb"
+				TypeLibraryName="./iwin/ReleaseVC7/iwin.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="0"
+				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="../../"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="2"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -90,9 +94,10 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ACFDIR)\Lib\$(ConfigurationName)VC8"
+			OutputDirectory="../../../Lib/$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -114,7 +119,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="./iwin/DebugVC8/iwin.tlb"
+				TypeLibraryName="./iwin/DebugVC7/iwin.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -122,14 +127,18 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="../../"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
+				StringPooling="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
+				BrowseInformation="1"
+				WarningLevel="4"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -170,7 +179,15 @@
 			Filter="cpp"
 			>
 			<File
-				RelativePath="..\CWinTimer.cpp"
+				RelativePath="..\CCriticalSection.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CDllFunctionsProvider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CTimer.cpp"
 				>
 			</File>
 		</Filter>
@@ -179,11 +196,23 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\CWinTimer.h"
+				RelativePath="..\CCriticalSection.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDllFunctionsProvider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTimer.h"
 				>
 			</File>
 			<File
 				RelativePath="..\iwin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TComPtr.h"
 				>
 			</File>
 		</Filter>

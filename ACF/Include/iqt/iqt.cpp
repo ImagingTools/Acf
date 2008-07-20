@@ -9,13 +9,21 @@ namespace iqt
 
 QString GetQString(const istd::CString& string)
 {
+#ifdef NO_QT_STL_SUPPORT
+	return QString::fromUtf16((const I_WORD*)string.c_str());
+#else
 	return QString::fromStdWString(string);
+#endif
 }
 
 
 istd::CString GetCString(const QString& string)
 {
+#ifdef NO_QT_STL_SUPPORT
+	return istd::CString((const wchar_t*)string.utf16());
+#else
 	return istd::CString(string.toStdWString());
+#endif
 }
 
 

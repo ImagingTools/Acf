@@ -81,8 +81,8 @@ protected:
 	bool GetChannelAddress(const iprm::IParamsSet* paramsPtr, CMeAddr& result) const;
 	const isig::ISamplingParams* GetSamplingParams(const iprm::IParamsSet* paramsPtr) const;
 
-	virtual WaitAllTasksFinished(double timeoutTime, bool killOnTimeout);
-	virtual WaitSingleTaskFinished(int taskId, double timeoutTime, bool killOnTimeout);
+	virtual int WaitAllTasksFinished(double timeoutTime, bool killOnTimeout);
+	virtual int WaitSingleTaskFinished(int taskId, double timeoutTime, bool killOnTimeout);
 
 private:
 	I_ATTR(bool, m_isOutputAttrPtr);

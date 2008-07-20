@@ -132,36 +132,36 @@ bool CDistributeDialog::CopyAllFiles()
 	docsFilter << "*.doc" << "*.pdf";
 
 	if (areSourcesEnabled){
-		retVal = CopyFileTree(acfDirectory, distributeDirectory, allSourcesFilter, CopySourceFile, 0) && retVal;
+		retVal = CopyFileTree(acfDirectory, distributeDirectory, allSourcesFilter, &CDistributeDialog::CopySourceFile, 0) && retVal;
 
-		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Include", allSourcesFilter, CopySourceFile, 1) && retVal;
+		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Include", allSourcesFilter, &CDistributeDialog::CopySourceFile, 1) && retVal;
 		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Include", projectsFilter + resourcesFilter) && retVal;
 
-		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Impl", allSourcesFilter, CopySourceFile, 1) && retVal;
+		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Impl", allSourcesFilter, &CDistributeDialog::CopySourceFile, 1) && retVal;
 		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Impl", projectsFilter + resourcesFilter) && retVal;
 	}
 	else{
-		retVal = CopyFileTree(acfDirectory, distributeDirectory, openSourcesFilter, CopySourceFile, 0) && retVal;
-		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Include", openSourcesFilter, CopySourceFile, 1) && retVal;
+		retVal = CopyFileTree(acfDirectory, distributeDirectory, openSourcesFilter, &CDistributeDialog::CopySourceFile, 0) && retVal;
+		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Include", openSourcesFilter, &CDistributeDialog::CopySourceFile, 1) && retVal;
 	}
 
 	// copy special files
 	retVal = CopyFileTree(acfDirectory, distributeDirectory, specialsFilter) && retVal;
 
 	// copy libraries
-	retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Lib", libsFilter, CopyBinFile, 1) && retVal;
+	retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Lib", libsFilter, &CDistributeDialog::CopyBinFile, 1) && retVal;
 
 	// copy bin files
-	retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Bin", binsFilter, CopyBinFile, areTutorialsEnabled? 2: 1) && retVal;
+	retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Bin", binsFilter, &CDistributeDialog::CopyBinFile, areTutorialsEnabled? 2: 1) && retVal;
 
 	if (areDocsEnabled){
 		// copy documentation files
 		if (areTutorialsEnabled){
-			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", allSourcesFilter, CopySourceFile, 3) && retVal;
-			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", projectsFilter, CopyBinFile, 3) && retVal;
+			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", allSourcesFilter, &CDistributeDialog::CopySourceFile, 3) && retVal;
+			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", projectsFilter, &CDistributeDialog::CopyBinFile, 3) && retVal;
 		}
 
-		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs", docsFilter, CopyBinFile, 4) && retVal;
+		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs", docsFilter, &CDistributeDialog::CopyBinFile, 4) && retVal;
 	}
 
 	return retVal;

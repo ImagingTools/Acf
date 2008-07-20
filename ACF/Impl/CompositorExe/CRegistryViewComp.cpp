@@ -120,10 +120,10 @@ void CRegistryViewComp::UpdateEditor()
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
 		icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
-		for (		icomp::IRegistry::Ids::iterator index = elementIds.begin();
-					index != elementIds.end();
-					index++){
-			const std::string& elementId = *index;
+		for (		icomp::IRegistry::Ids::iterator iter = elementIds.begin();
+					iter != elementIds.end();
+					iter++){
+			const std::string& elementId = *iter;
 			const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementId);
 			if (elementInfoPtr != NULL){
 				CComponentView* viewPtr = CreateComponentView(registryPtr, elementInfoPtr, elementId);
@@ -645,10 +645,10 @@ void CRegistryViewComp::UpdateConnectors()
 
 		icomp::IRegistryElement::Ids attributeIds = elementInfo.elementPtr->GetAttributeIds();
 
-		for (		icomp::IRegistryElement::Ids::const_iterator index = attributeIds.begin(); 
-					index != attributeIds.end(); 
-					index++){
-			std::string attributeId = *index;
+		for (		icomp::IRegistryElement::Ids::const_iterator iter = attributeIds.begin(); 
+					iter != attributeIds.end(); 
+					iter++){
+			std::string attributeId = *iter;
 
 			const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = elementInfo.elementPtr->GetAttributeInfo(attributeId);
 			if (attributeInfoPtr != NULL){
@@ -726,11 +726,11 @@ void CRegistryViewComp::ConnectReferences(const QString& componentRole)
 
 	icomp::IRegistry::Ids componentIds = registryPtr->GetElementIds();
 
-	for (		icomp::IRegistry::Ids::const_iterator index = componentIds.begin();
-				index != componentIds.end();
-				index++){
+	for (		icomp::IRegistry::Ids::const_iterator iter = componentIds.begin();
+				iter != componentIds.end();
+				iter++){
 
-		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*index);
+		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*iter);
 		I_ASSERT(elementInfoPtr != NULL);
 		I_ASSERT(elementInfoPtr->elementPtr.IsValid());
 
@@ -786,10 +786,8 @@ bool CRegistryViewComp::HasExportedInterfaces(const CComponentView& componentVie
 {
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
-		using icomp::IRegistry::ExportedInterfacesMap::const_iterator;
-
 		const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = registryPtr->GetExportedInterfacesMap();
-		for (		const_iterator iter = interfacesMap.begin();
+		for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator iter = interfacesMap.begin();
 					iter != interfacesMap.end();
 					++iter){
 			if (iter->second == componentView.GetComponentName()){

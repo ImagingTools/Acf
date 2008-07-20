@@ -194,9 +194,14 @@ static const double I_BIG_EPSILON = 1.0e-8;
 		\li	istd::ErrorLevel	error message priority, should not happened but e.g. wrong using of parameters can cause it.
 		\li	istd::CriticalLevel	maximal message priority, for application states which should never occured.
 */
-#define I_TRACE(level, groupId, message) if (istd::CheckTraceEnabled(level, groupId)){static istd::CGroupRegistrator registrator(groupId); istd::SendTraceMessage(level, groupId, message, __FILE__, __LINE__);}
-#define I_TRACE_ONCE(level, groupId, message){\
-	static active = true;\
+#define I_TRACE(level, groupId, message) \
+if (istd::CheckTraceEnabled(level, groupId)){\
+	static istd::CGroupRegistrator registrator(groupId);\
+	istd::SendTraceMessage(level, groupId, message, __FILE__, __LINE__);\
+}
+#define I_TRACE_ONCE(level, groupId, message) \
+{\
+	static bool active = true;\
 	if (active){\
 		I_TRACE(level, groupId, message);\
 		active = false;\

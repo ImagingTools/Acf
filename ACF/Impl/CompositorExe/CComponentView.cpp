@@ -187,12 +187,10 @@ QRect CComponentView::CalculateRect() const
 
 void CComponentView::CalcExportedInteraces()
 {
-	using icomp::IRegistry::ExportedInterfacesMap::const_iterator;
-
 	m_exportedInterfacesList.clear();
 
 	const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = m_registry.GetExportedInterfacesMap();
-	for (		const_iterator iter = interfacesMap.begin();
+	for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator iter = interfacesMap.begin();
 				iter != interfacesMap.end();
 				++iter){
 		if (iter->second == m_componentName){
