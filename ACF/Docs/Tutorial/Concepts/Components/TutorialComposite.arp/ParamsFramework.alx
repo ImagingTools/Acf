@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="37">
+  <PositionMap count="38">
     <Element>
       <ComponentName>
         Application
@@ -183,6 +183,17 @@
     </Element>
     <Element>
       <ComponentName>
+        ParamsEditorGui
+      </ComponentName>
+      <X>
+        162
+      </X>
+      <X>
+        -112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         ParamsGray
       </ComponentName>
       <X>
@@ -244,7 +255,7 @@
         287
       </X>
       <X>
-        12
+        62
       </X>
     </Element>
     <Element>
@@ -255,7 +266,7 @@
         37
       </X>
       <X>
-        12
+        62
       </X>
     </Element>
     <Element>
@@ -285,10 +296,10 @@
         SceneGui
       </ComponentName>
       <X>
-        -125
+        -175
       </X>
       <X>
-        12
+        62
       </X>
     </Element>
     <Element>
