@@ -124,12 +124,16 @@ bool CDistributeDialog::CopyAllFiles()
 	libsFilter << "Acf*.lib" << "Acf*.pdb";
 
 	QStringList binsFilter;
-	binsFilter << "*.dll" << "*.exe";
+	binsFilter << "*.dll" << "*.exe" << "*.arp";
 
 	QStringList docsFilter;
 	docsFilter << "*.html" << "*.htm";
 	docsFilter << "*.bmp" << "*.png" << "*.jpg";
 	docsFilter << "*.doc" << "*.pdf";
+
+	QStringList registriesFilter;
+	registriesFilter << "*.arx" << "*.alx";
+	registriesFilter << "*.xml";
 
 	if (areSourcesEnabled){
 		retVal = CopyFileTree(acfDirectory, distributeDirectory, allSourcesFilter, &CDistributeDialog::CopySourceFile, 0) && retVal;
@@ -159,6 +163,7 @@ bool CDistributeDialog::CopyAllFiles()
 		if (areTutorialsEnabled){
 			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", allSourcesFilter, &CDistributeDialog::CopySourceFile, 3) && retVal;
 			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", projectsFilter, &CDistributeDialog::CopyBinFile, 3) && retVal;
+			retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs/Tutorial", registriesFilter, &CDistributeDialog::CopyBinFile, 4) && retVal;
 		}
 
 		retVal = CopySubFileTree(acfDirectory, distributeDirectory, "Docs", docsFilter, &CDistributeDialog::CopyBinFile, 4) && retVal;
