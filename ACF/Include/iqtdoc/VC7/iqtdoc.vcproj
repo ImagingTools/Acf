@@ -111,6 +111,9 @@
 				RelativePath="..\CMainWindowGuiComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CModelEditorGuiComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CMultiDocumentWorkspaceGuiComp.cpp">
 			</File>
 		</Filter>
@@ -163,6 +166,9 @@
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CModelEditorGuiComp.h">
 			</File>
 			<File
 				RelativePath="..\CMultiDocumentWorkspaceGuiComp.h">

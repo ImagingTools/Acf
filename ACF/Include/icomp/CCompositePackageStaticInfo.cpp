@@ -59,7 +59,7 @@ icomp::IComponentStaticInfo::Ids CCompositePackageStaticInfo::GetSubcomponentIds
 }
 
 
-const icomp::IComponentStaticInfo* CCompositePackageStaticInfo::GetSubcomponent(const std::string& subcomponentId) const
+const icomp::IComponentStaticInfo* CCompositePackageStaticInfo::GetSubcomponentInfo(const std::string& subcomponentId) const
 {
 	ComponentInfo* infoPtr = m_subcomponentInfos.FindLocalElement(subcomponentId);
 	if (infoPtr != NULL){

@@ -51,14 +51,14 @@ IComponentStaticInfo::Ids CBaseComponentStaticInfo::GetSubcomponentIds() const
 }
 
 
-const IComponentStaticInfo* CBaseComponentStaticInfo::GetSubcomponent(const std::string& subcomponentId) const
+const IComponentStaticInfo* CBaseComponentStaticInfo::GetSubcomponentInfo(const std::string& subcomponentId) const
 {
-	const IComponentStaticInfo* retVal = BaseClass::GetSubcomponent(subcomponentId);
+	const IComponentStaticInfo* retVal = BaseClass::GetSubcomponentInfo(subcomponentId);
 	if (retVal != NULL){
 		return retVal;
 	}
 	else if (m_baseComponentPtr != NULL){
-		return m_baseComponentPtr->GetSubcomponent(subcomponentId);
+		return m_baseComponentPtr->GetSubcomponentInfo(subcomponentId);
 	}
 	else{
 		return NULL;

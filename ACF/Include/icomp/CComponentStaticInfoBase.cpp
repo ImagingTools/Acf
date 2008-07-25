@@ -17,7 +17,7 @@ IComponentStaticInfo::Ids CComponentStaticInfoBase::GetSubcomponentIds() const
 }
 
 
-const IComponentStaticInfo* CComponentStaticInfoBase::GetSubcomponent(const std::string& subcomponentId) const
+const IComponentStaticInfo* CComponentStaticInfoBase::GetSubcomponentInfo(const std::string& subcomponentId) const
 {
 	const SubcomponentInfos::ValueType* retVal = m_subcomponentInfos.FindElement(subcomponentId);
 	if (retVal != NULL){

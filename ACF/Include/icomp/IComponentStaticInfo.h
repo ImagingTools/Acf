@@ -62,7 +62,7 @@ public:
 		\param	subcomponentId	ID of subcomponent.
 								\sa	GetSubcomponentIds().
 	*/
-	virtual const IComponentStaticInfo* GetSubcomponent(const std::string& subcomponentId) const = 0;
+	virtual const IComponentStaticInfo* GetSubcomponentInfo(const std::string& subcomponentId) const = 0;
 
 	/**
 		Register interface ID for this static component info.

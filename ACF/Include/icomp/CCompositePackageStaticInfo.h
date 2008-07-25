@@ -27,7 +27,7 @@ public:
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual Ids GetSubcomponentIds() const;
-	virtual const icomp::IComponentStaticInfo* GetSubcomponent(const std::string& subcomponentId) const;
+	virtual const icomp::IComponentStaticInfo* GetSubcomponentInfo(const std::string& subcomponentId) const;
 	virtual bool RegisterInterfaceExtractor(const std::string& interfaceId, InterfaceExtractorPtr extractorPtr);
 	virtual bool RegisterAttributeInfo(const std::string& attributeId, const icomp::IAttributeStaticInfo* attributeInfoPtr);
 	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);

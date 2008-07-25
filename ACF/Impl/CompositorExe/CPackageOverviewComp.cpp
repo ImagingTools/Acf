@@ -71,7 +71,7 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 				++iter){
 		const std::string& packageId = *iter;
 
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponent(packageId);
+		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponentInfo(packageId);
 		if (packageInfoPtr == NULL){
 			continue;
 		}
@@ -198,7 +198,7 @@ void CPackageOverviewComp::GeneratePackageTree(
 				iter != subcomponentIds.end();
 				++iter){
 		const std::string& componentId = *iter;
-		const icomp::IComponentStaticInfo* componentInfoPtr = packageInfo.GetSubcomponent(componentId);
+		const icomp::IComponentStaticInfo* componentInfoPtr = packageInfo.GetSubcomponentInfo(componentId);
 		if (componentInfoPtr == NULL){
 			continue;
 		}
@@ -225,9 +225,9 @@ const icomp::IComponentStaticInfo* CPackageOverviewComp::GetItemStaticInfo(const
 	const PackageComponentItem* componentItemPtr = dynamic_cast<const PackageComponentItem*>(&item);
 	if ((componentItemPtr != NULL) && (m_generalStaticInfoPtr.IsValid())){
 		const icomp::CComponentAddress& address = componentItemPtr->GetAddress();
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponent(address.GetPackageId());
+		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponentInfo(address.GetPackageId());
 		if (packageInfoPtr != NULL){
-			return packageInfoPtr->GetSubcomponent(address.GetComponentId());
+			return packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
 		}
 	}
 
