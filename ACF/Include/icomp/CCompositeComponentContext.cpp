@@ -31,18 +31,7 @@ CCompositeComponentContext::CCompositeComponentContext(
 
 CCompositeComponentContext::~CCompositeComponentContext()
 {
-	m_stopCreating = true;
-
-	for (		ComponentMap::iterator iter = m_componentMap.begin();
-				iter != m_componentMap.end();
-				++iter){
-		ComponentInfo& info = iter->second;
-		if (info.componentPtr.IsValid()){
-			info.componentPtr->SetComponentContext(NULL);
-
-			info.isInitialized = false;
-		}
-	}
+	PrepareToDestroy();
 }
 
 
@@ -134,6 +123,28 @@ bool CCompositeComponentContext::CreateSubcomponentInfo(
 	}
 
 	return componentPtr.IsValid();
+}
+
+
+void CCompositeComponentContext::PrepareToDestroy()
+{
+	m_stopCreating = true;
+
+	for (		ComponentMap::iterator iter = m_componentMap.begin();
+				iter != m_componentMap.end();
+				++iter){
+		ComponentInfo& info = iter->second;
+		if (info.componentPtr.IsValid()){
+			info.componentPtr->SetComponentContext(NULL);
+
+			info.isInitialized = false;
+		}
+
+		CCompositeComponentContext* compositeContextPtr = dynamic_cast<CCompositeComponentContext*>(info.contextPtr.GetPtr());
+		if (compositeContextPtr != NULL){
+			compositeContextPtr->PrepareToDestroy();
+		}
+	}
 }
 
 

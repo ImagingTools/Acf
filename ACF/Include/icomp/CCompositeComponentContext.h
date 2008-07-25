@@ -54,6 +54,8 @@ protected:
 
 	bool CreateSubcomponentInfo(const std::string& componentId, ContextPtr& contextPtr, ComponentPtr& result) const;
 
+	void PrepareToDestroy();
+
 private:
 	struct ComponentInfo
 	{
