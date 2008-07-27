@@ -62,7 +62,9 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 			modelPtr->AttachObserver(observerPtr);
 		}
 
-		guiPtr->CreateGui(widgetPtr);
+		if (guiPtr != NULL){
+			guiPtr->CreateGui(widgetPtr);
+		}
 	}
 }
 
@@ -85,7 +87,9 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 			modelPtr->DetachObserver(observerPtr);
 		}
 
-		guiPtr->DestroyGui();
+		if (guiPtr != NULL){
+			guiPtr->DestroyGui();
+		}
 	}
 
 	BaseClass::OnGuiModelDetached();
