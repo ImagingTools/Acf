@@ -133,6 +133,9 @@
 			<File
 				RelativePath="..\CFileBitmapAcquisitionParamsComp.cpp">
 			</File>
+			<File
+				RelativePath="..\CSnapBitmapSupplierComp.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -144,7 +147,13 @@
 				RelativePath="..\CFileBitmapAcquisitionParamsComp.h">
 			</File>
 			<File
+				RelativePath="..\CSnapBitmapSupplierComp.h">
+			</File>
+			<File
 				RelativePath="..\IBitmapAcquisition.h">
+			</File>
+			<File
+				RelativePath="..\IBitmapSupplier.h">
 			</File>
 			<File
 				RelativePath="..\icam.h">

@@ -189,7 +189,13 @@
 				RelativePath="..\IProgressInfo.h">
 			</File>
 			<File
+				RelativePath="..\ISupplier.h">
+			</File>
+			<File
 				RelativePath="..\TIProcessor.h">
+			</File>
+			<File
+				RelativePath="..\TSupplierCompWrap.h">
 			</File>
 			<File
 				RelativePath="..\TSyncProcessorWrap.h">
