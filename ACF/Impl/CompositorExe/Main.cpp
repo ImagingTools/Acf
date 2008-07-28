@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.SetRef("ApplicationInfo", &applicationInfo);
+	application.SetBoolAttr("ShowMaximized", true);
 	application.SetDoubleAttr("SplashTime", 1);
 	application.EnsureInitialized(argc, argv);
 
