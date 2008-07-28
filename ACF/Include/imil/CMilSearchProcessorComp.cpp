@@ -41,26 +41,32 @@ int CMilSearchProcessorComp::DoProcessing(
 	}
 
 	if (milParamsPtr == NULL){
-		return TS_INVALID;		
-	}
+		SendErrorMessage(0, "Invalid parameter type");
 
-	const imil::CMilSearchModel* milModelPtr = dynamic_cast<const imil::CMilSearchModel*>(&milParamsPtr->GetModel()); 
-	if (milModelPtr == NULL || !milModelPtr->IsValid()){
 		return TS_INVALID;
 	}
 
-	i2d::CRectangle searchAoi = milParamsPtr->GetSearchRegion();
-	i2d::CRectangle bitmapRect = i2d::CRectangle(0,0,inputPtr->GetImageSize().GetX(), inputPtr->GetImageSize().GetY());
-	searchAoi = bitmapRect.GetIntersection(searchAoi);
-	if (searchAoi.IsEmpty()){
+	const imil::CMilSearchModel* searchModelPtr = dynamic_cast<const imil::CMilSearchModel*>(&milParamsPtr->GetModel()); 
+	if (searchModelPtr == NULL || !searchModelPtr->IsValid()){
+		SendErrorMessage(0, "Invalid model or model type");
+
 		return TS_INVALID;
 	}
 
-	int regionWidth = int(searchAoi.GetWidth());
-	int regionHeight = int(searchAoi.GetHeight());
-	int bitsOffset = int(searchAoi.GetTop() * inputPtr->GetLineBytesCount() + searchAoi.GetLeft());
+	i2d::CRectangle searchRegion = milParamsPtr->GetSearchRegion();
+	i2d::CRectangle bitmapRect = i2d::CRectangle(0, 0, inputPtr->GetImageSize().GetX(), inputPtr->GetImageSize().GetY());
+	searchRegion = bitmapRect.GetIntersection(searchRegion);
+	if (searchRegion.IsEmpty()){
+		SendErrorMessage(0, "Search region is empty");
 
-	// Create MIL-image region from the user defined AOI:
+		return TS_INVALID;
+	}
+
+	int regionWidth = int(searchRegion.GetWidth());
+	int regionHeight = int(searchRegion.GetHeight());
+	int bitsOffset = int(searchRegion.GetTop() * inputPtr->GetLineBytesCount() + searchRegion.GetLeft());
+
+	// Create MIL-image region from the user defined region:
 	MIL_ID milImage = MbufCreate2d(
 		m_engine.GetSystemId(), 
 		regionWidth, 
@@ -73,22 +79,26 @@ int CMilSearchProcessorComp::DoProcessing(
 		M_NULL);
 	
 	if (milImage == M_NULL){
+		SendErrorMessage(0, "MIL image could not be created");
+
 		return TS_INVALID;
 	}
 
 	// Ensure model preproccesing:
-	(const_cast<imil::CMilSearchParams*>(milParamsPtr))->EnsurePreprocessing();
+	searchModelPtr->EnsurePreprocessing(*milParamsPtr);
 
-	// Allocate a result buffer:
+	// Allocate the result buffer:
 	MIL_ID milResult = MmodAllocResult(m_engine.GetSystemId(), M_DEFAULT, M_NULL);
 	if (milResult == M_NULL){
+		SendErrorMessage(0, "MIL result could not be created");
+
 		MbufFree(milImage);
 
 		return false;
 	}
 
 	// Find the model:
-	MmodFind(milModelPtr->GetContextId(), milImage, milResult);
+	MmodFind(searchModelPtr->GetContextId(), milImage, milResult);
 
 	long numResults;
 
@@ -111,8 +121,8 @@ int CMilSearchProcessorComp::DoProcessing(
 			MmodGetResult(milResult, resultIndex, M_SCALE, &scaleX);
 			MmodGetResult(milResult, resultIndex, M_SCORE, &score);
 
-			posy += searchAoi.GetTop();
-			posx += searchAoi.GetLeft();
+			posy += searchRegion.GetTop();
+			posx += searchRegion.GetLeft();
 
 			i2d::CVector2d position(posx, posy);
 			i2d::CVector2d scale(scaleX, scaleX);	

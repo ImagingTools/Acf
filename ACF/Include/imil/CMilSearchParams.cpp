@@ -17,12 +17,6 @@ CMilSearchParams::CMilSearchParams()
 }
 
 
-void CMilSearchParams::EnsurePreprocessing(bool forcePreprocessing)
-{
-	m_searchModel.EnsurePreprocessing(*this, forcePreprocessing);
-}
-
-
 double CMilSearchParams::GetTimeout() const
 {
 	return m_timeout;

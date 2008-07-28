@@ -7,6 +7,7 @@
 
 #include "iqtipr/CRectangularFilterParamsGuiComp.h"
 #include "iqtipr/CIterativeProcessorParamsGuiComp.h"
+#include "iqtipr/CSearchGuiComp.h"
 
 
 /**
@@ -18,6 +19,7 @@ namespace QtIprPck
 
 typedef iqtipr::CRectangularFilterParamsGuiComp RectangularFilterParamsGui;
 typedef iqtipr::CIterativeProcessorParamsGuiComp IterationParamsGui;
+typedef iqtipr::CSearchGuiComp SearchResultsVisualizer;
 
 
 } // namespace QtIprPck

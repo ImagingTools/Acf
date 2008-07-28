@@ -2,9 +2,7 @@
 #define iqt2d_CLine2dShape_included
 
 
-#include <QGraphicsRectItem>
-
-#include "istd/CIndex2d.h"
+#include <QGraphicsLineItem>
 
 #include "imod/TSingleModelObserverBase.h"
 
@@ -17,13 +15,9 @@ namespace iqt2d
 {
 
 
-class CLine2dShape: public QGraphicsItem, public imod::TSingleModelObserverBase<i2d::CLine2d>
+class CLine2dShape: public QGraphicsLineItem, public imod::TSingleModelObserverBase<i2d::CLine2d>
 {
 public:
-	// reimplemented (QGraphicsRectItem)
-	virtual QRectF boundingRect() const;
-	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
-
 	// reimplemented (imod::IObserver)
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 };

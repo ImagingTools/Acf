@@ -13,6 +13,7 @@ I_EXPORT_PACKAGE("QtIpr", "Standard Qt image processing package", "Qt Image Proc
 
 I_EXPORT_COMPONENT(RectangularFilterParamsGui, "Rectangular filter params", "Filter Parameter Qt Image Processing");
 I_EXPORT_COMPONENT(IterationParamsGui, "Iterative processor params", "Filter Parameter Qt Image Processing");
+I_EXPORT_COMPONENT(SearchResultsVisualizer, "Visualizer for search results", "Model Search Qt Image Processing");
 
 
 } // namespace QtIprPck

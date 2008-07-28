@@ -168,6 +168,30 @@ double CRectangle::GetBottom() const
 }
 
 
+void CRectangle::SetLeft(double left)
+{
+	m_horizontalRange.SetMinValue(left);
+}
+
+
+void CRectangle::SetTop(double top)
+{
+	m_verticalRange.SetMinValue(top);
+}
+
+
+void CRectangle::SetRight(double right)
+{
+	m_horizontalRange.SetMaxValue(right);
+}
+
+
+void CRectangle::SetBottom(double bottom)
+{
+	m_verticalRange.SetMaxValue(bottom);
+}
+
+
 CVector2d CRectangle::GetTopLeft() const
 {
 	return CVector2d(m_horizontalRange.GetMinValue(), m_verticalRange.GetMinValue()); 

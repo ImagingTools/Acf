@@ -118,6 +118,12 @@
 				RelativePath="..\CLine2dShape.cpp">
 			</File>
 			<File
+				RelativePath="..\CRectangleParamsGuiComp.cpp">
+			</File>
+			<File
+				RelativePath="..\CRectangleShape.cpp">
+			</File>
+			<File
 				RelativePath="..\CSceneConnectorGuiComp.cpp">
 			</File>
 			<File
@@ -159,7 +165,8 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
@@ -168,13 +175,20 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
 						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
 						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
 				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CLine2dShape.h">
+			</File>
+			<File
+				RelativePath="..\CRectangleParamsGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\CRectangleShape.h">
 			</File>
 			<File
 				RelativePath="..\CSceneConnectorGuiComp.h">
@@ -243,6 +257,29 @@
 			Filter="">
 			<File
 				RelativePath="..\CLine2dParamsGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CRectangleParamsGuiComp.ui">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool

@@ -44,6 +44,11 @@ public :
 	double GetRight() const;
 	double GetBottom() const;
 
+	void SetLeft(double left);
+	void SetTop(double top);
+	void SetRight(double right);
+	void SetBottom(double bottom);
+
 	CVector2d GetTopLeft() const;
 	CVector2d GetBottomLeft() const;
 	CVector2d GetTopRight() const;

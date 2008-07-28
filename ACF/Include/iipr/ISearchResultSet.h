@@ -5,7 +5,7 @@
 #include "iipr/iipr.h"
 
 
-#include "iipr/IFeaturesConsumer.h"
+#include "iipr/IFeaturesContainer.h"
 
 #include "i2d/CTransform.h"
 #include "i2d/CVector2d.h"
@@ -18,7 +18,7 @@ namespace iipr
 /**	
 	Interface for search results container.
 */
-class ISearchResultSet: virtual public iipr::IFeaturesConsumer
+class ISearchResultSet: virtual public iipr::IFeaturesContainer
 {
 public:
 	/*

@@ -33,9 +33,8 @@ public:
 	I_END_COMPONENT
 
 protected:
-	typedef ProcessorInterface ProcessorInterfaceType;
 	I_ATTR(istd::CString, m_paramsIdAttrPtr);
-	I_TREF(ProcessorInterfaceType, m_preprocessorCompPtr);
+	I_TREF(ProcessorInterface, m_preprocessorCompPtr);
 };
 
 

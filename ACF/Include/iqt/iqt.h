@@ -8,12 +8,15 @@
 #include <QPoint>
 #include <QPointF>
 #include <QRectF>
+#include <QLine>
+#include <QLineF>
 
 #include "istd/CString.h"
 #include "istd/CIndex2d.h"
 
 #include "i2d/CVector2d.h"
 #include "i2d/CRectangle.h"
+#include "i2d/CLine2d.h"
 
 
 /**
@@ -46,6 +49,10 @@ extern QPointF GetQPointF(const i2d::CVector2d& position);
 extern i2d::CVector2d GetCVector2d(const QPointF& position);
 extern QRectF GetQRectF(const i2d::CRectangle& rect);
 extern i2d::CRectangle GetCRectangle(const QRectF& rect);
+extern i2d::CLine2d GetCLine2d(const QLine& line);
+extern QLine GetQLine(const i2d::CLine2d& line);
+extern i2d::CLine2d GetCLine2d(const QLineF& line);
+extern QLineF GetQLineF(const i2d::CLine2d& line);
 
 
 } // namespace iqt

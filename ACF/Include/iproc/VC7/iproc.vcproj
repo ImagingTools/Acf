@@ -162,9 +162,6 @@
 				RelativePath="..\CProcessingElementBase.h">
 			</File>
 			<File
-				RelativePath="..\IElementSelector.h">
-			</File>
-			<File
 				RelativePath="..\IJob.h">
 			</File>
 			<File

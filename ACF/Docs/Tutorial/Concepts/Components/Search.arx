@@ -4,43 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="13">
-    <Element>
-      <Id>
-        AverageParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        RectangularFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        AverageParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        RectangularFilterParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
+  <ElementsList count="6">
     <Element>
       <Id>
         FileAcquisition
@@ -55,7 +19,53 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="0">
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              NameFilters
+            </Id>
+            <Type>
+              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="3">
+                <Value>
+                  *.png
+                </Value>
+                <Value>
+                  *.bmp
+                </Value>
+                <Value>
+                  *.jpg
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParameterId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                FileBitmapAcquisition
+              </Value>
+            </Data>
+          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -97,37 +107,19 @@
     </Element>
     <Element>
       <Id>
-        FireAcquisition
-      </Id>
-      <PackageId>
-        AvtPck
-      </PackageId>
-      <ComponentId>
-        FireGrabAcquisition
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
         Framework
       </Id>
       <PackageId>
         TutorialComposite
       </PackageId>
       <ComponentId>
-        SnapFramework
+        SearchFramework
       </ComponentId>
       <Data>
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="4">
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               BitmapAcquisition
@@ -143,26 +135,7 @@
                 true
               </IsEnabled>
               <Value>
-                ProcessedCamera
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ParamsLoader
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                ParamsLoader
+                FileAcquisition
               </Value>
             </Data>
           </AttributeInfo>
@@ -209,116 +182,6 @@
     </Element>
     <Element>
       <Id>
-        GaussianParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        GaussianFilterParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        IterationParams
-      </Id>
-      <PackageId>
-        IprPck
-      </PackageId>
-      <ComponentId>
-        IterativeProcessorParams
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        IterationParamsGui
-      </Id>
-      <PackageId>
-        QtIprPck
-      </PackageId>
-      <ComponentId>
-        IterationParamsGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="0">
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        ProcessedCamera
-      </Id>
-      <PackageId>
-        TutorialComposite
-      </PackageId>
-      <ComponentId>
-        ProcessedCamera
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <AttributeInfoMap count="2">
-          <AttributeInfo>
-            <Id>
-              Log
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                Framework
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              SlaveCamera
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                FileAcquisition
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
         SnapParams
       </Id>
       <PackageId>
@@ -346,18 +209,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
+              <Values count="1">
                 <Value>
                   FileSnapParam
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
-                </Value>
-                <Value>
-                  GaussianParams
                 </Value>
               </Values>
             </Data>
@@ -376,18 +230,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
+              <Values count="1">
                 <Value>
                   FileBitmapAcquisition
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
-                </Value>
-                <Value>
-                  GaussianParams
                 </Value>
               </Values>
             </Data>
@@ -424,15 +269,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="1">
                 <Value>
                   FileSnapParamGui
-                </Value>
-                <Value>
-                  AverageParamsGui
-                </Value>
-                <Value>
-                  IterationParamsGui
                 </Value>
               </Values>
             </Data>
@@ -451,15 +290,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="1">
                 <Value>
                   FileBitmapAcquisition
-                </Value>
-                <Value>
-                  AverageParams
-                </Value>
-                <Value>
-                  IterationParams
                 </Value>
               </Values>
             </Data>

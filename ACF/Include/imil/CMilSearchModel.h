@@ -29,7 +29,7 @@ public:
 
 	void ReleaseMilContext();
 	MIL_ID GetContextId() const;
-	void EnsurePreprocessing(const imil::CMilSearchParams& params, bool preprocess = false);
+	void EnsurePreprocessing(const imil::CMilSearchParams& params, bool preprocess = false) const;
 
 	// reimplemented (iipr::ISearchModel)
 	virtual bool IsValid() const;

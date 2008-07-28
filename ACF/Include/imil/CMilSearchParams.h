@@ -1,5 +1,5 @@
-#ifndef imil_CMilSearchParams_h
-#define imil_CMilSearchParams_h
+#ifndef imil_CMilSearchParams_included
+#define imil_CMilSearchParams_included
 
 
 #include "iipr/CSearchParamsBase.h"
@@ -52,8 +52,6 @@ public:
 	};
 	
 	CMilSearchParams();
-
-	virtual void EnsurePreprocessing(bool forcePreprocessing = false);
 
 	virtual double GetTimeout() const; 
 	virtual void SetTimeout(double timeout);
@@ -129,12 +127,8 @@ private:
 };
 
 
-
 } // namespace imil
 
 
-
-#endif //!imil_CMilSearchParams_h
-
-
+#endif //!imil_CMilSearchParams_included
 

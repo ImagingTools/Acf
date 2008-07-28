@@ -105,5 +105,30 @@ i2d::CRectangle GetCRectangle(const QRectF& rect)
 }
 
 
+i2d::CLine2d GetCLine2d(const QLine& line)
+{
+	return i2d::CLine2d(line.x1(), line.y1(), line.x2(), line.y2());
+}
+
+
+QLine GetQLine(const i2d::CLine2d& line)
+{
+	return QLine(line.GetPoint1().GetX(), line.GetPoint1().GetY(), line.GetPoint2().GetX(), line.GetPoint2().GetY());
+}
+
+
+i2d::CLine2d GetCLine2d(const QLineF& line)
+{
+	return i2d::CLine2d(line.x1(), line.y1(), line.x2(), line.y2());
+}
+
+
+QLineF GetQLineF(const i2d::CLine2d& line)
+{
+	return QLineF(line.GetPoint1().GetX(), line.GetPoint1().GetY(), line.GetPoint2().GetX(), line.GetPoint2().GetY());
+}
+
+
+
 } // namespace iqt
 

@@ -47,7 +47,7 @@ MIL_ID CMilSearchModel::GetContextId() const
 }
 
 
-void CMilSearchModel::EnsurePreprocessing(const imil::CMilSearchParams& paramsPtr, bool preprocess)
+void CMilSearchModel::EnsurePreprocessing(const imil::CMilSearchParams& paramsPtr, bool preprocess) const
 {
 	int modelNumber = paramsPtr.GetMatchesCount();
 	if (modelNumber == -1){
@@ -260,5 +260,4 @@ bool CMilSearchModel::Serialize(iser::IArchive& archive)
 
 
 } // namespace imil
-
 

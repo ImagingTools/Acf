@@ -76,4 +76,3 @@ int CSnapBitmapSupplierComp::ProduceObject(I_DWORD objectId, istd::TDelPtr<iimg:
 
 } // namespace icam
 
-
