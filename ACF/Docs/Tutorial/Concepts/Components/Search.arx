@@ -152,7 +152,7 @@
               </IsEnabled>
               <Values count="1">
                 <Value>
-                  SearchGui
+                  SearchParamsGui
                 </Value>
               </Values>
             </Data>
@@ -183,13 +183,13 @@
     </Element>
     <Element>
       <Id>
-        SearchGui
+        SearchParams
       </Id>
       <PackageId>
         MilPck
       </PackageId>
       <ComponentId>
-        MilSearchParamsGui
+        MilSearchParams
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -201,13 +201,13 @@
     </Element>
     <Element>
       <Id>
-        SearchParams
+        SearchParamsGui
       </Id>
       <PackageId>
-        MilPck
+        QtIprPck
       </PackageId>
       <ComponentId>
-        MilSearchParams
+        SearchParamsGui
       </ComponentId>
       <Data>
         <IsEnabled>
