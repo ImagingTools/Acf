@@ -14,6 +14,8 @@ namespace i2d
 
 
 CLine2d::CLine2d()
+	:m_point1(0, 0),
+	m_point2(0, 0)
 {
 }
 
@@ -131,7 +133,6 @@ CVector2d CLine2d::GetIntersection(const CLine2d& line) const
 
 	return intersectionPoint;
 }
-
 
 
 CLine2d CLine2d::GetClipped(const CRectangle& rect) const

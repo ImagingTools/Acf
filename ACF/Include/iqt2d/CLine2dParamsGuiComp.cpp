@@ -50,7 +50,7 @@ void CLine2dParamsGuiComp::OnGuiModelDetached()
 void CLine2dParamsGuiComp::UpdateModel() const
 {
 	i2d::CLine2d* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
+	if (objectPtr != NULL && !IsUpdateBlocked()){
 		UpdateBlocker blocker(const_cast<CLine2dParamsGuiComp*>(this));
 
 		istd::CChangeNotifier notifier(NULL);
@@ -78,7 +78,7 @@ void CLine2dParamsGuiComp::UpdateEditor()
 		Point1XSB->setValue(point1.GetX());
 		Point1YSB->setValue(point1.GetY());
 
-		const i2d::CVector2d& point2 = objectPtr->GetPoint1();
+		const i2d::CVector2d& point2 = objectPtr->GetPoint2();
 		Point2XSB->setValue(point2.GetX());
 		Point2YSB->setValue(point2.GetY());
 	}
