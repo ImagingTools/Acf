@@ -40,19 +40,21 @@ public:
 		I_ASSIGN_MULTI_0(m_observersCompPtr, "Editors", "List of GUI's for parameters edition", true);
 		I_ASSIGN_MULTI_0(m_extendersCompPtr, "Editors", "List of GUI's for parameters edition", false);
 		I_ASSIGN_MULTI_0(m_idsAttrPtr, "Ids", "List of parameter ID's according to defined editors", true);
+		I_ASSIGN_MULTI_0(m_namesAttrPtr, "Names", "List of of gui names", false);
+		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
+		I_ASSIGN(m_designTypeAttrPtr, "DesignType", "Type of design:\n* 0 - simple\n* 1 - tool box", true, false);
 I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 
-	// reimplemented (iqt::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
+	// reimplemented (imod::IObserver)
+	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnDetached(imod::IModel* modelPtr);
 
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
 
 	// reimplemented (iqt2d::ISceneExtender)
 	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);
@@ -64,6 +66,9 @@ private:
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIREF(iqt2d::ISceneExtender, m_extendersCompPtr);
 	I_MULTIATTR(istd::CString, m_idsAttrPtr);
+	I_MULTIATTR(istd::CString, m_namesAttrPtr);
+	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);
+	I_ATTR(int, m_designTypeAttrPtr);
 };
 
 
