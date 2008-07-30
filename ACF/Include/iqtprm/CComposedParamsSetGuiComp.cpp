@@ -14,6 +14,11 @@
 namespace iqtprm
 {
 
+CComposedParamsSetGuiComp::CComposedParamsSetGuiComp()
+:	m_currentGuiIndex(-1)
+{
+}
+
 
 // reimplemented (imod::IModelEditor)
 
@@ -120,7 +125,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 				if (guiPtr != NULL){
 					QWidget* panelPtr = new QWidget(toolBoxPtr);
 					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-					panelLayoutPtr->setContentsMargins(0, 0, 0, 0);
+					panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
 					QString name;
 					if (i < m_namesAttrPtr.GetCount()){
 						name = iqt::GetQString(m_namesAttrPtr[i]);
@@ -136,7 +141,11 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 				}
 			}
 
+			QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
+
 			layoutPtr->addWidget(toolBoxPtr);
+
+			m_currentGuiIndex = 0;
 		}
 		else{
 			int elementsCount = m_guisCompPtr.GetCount();
@@ -147,6 +156,8 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 					guiPtr->CreateGui(widgetPtr);
 				}
 			}
+
+			m_currentGuiIndex = -1;
 		}
 	}
 
@@ -160,13 +171,9 @@ void CComposedParamsSetGuiComp::AddItemsToScene(iqt2d::ISceneProvider* providerP
 {
 	I_ASSERT(providerPtr != NULL);
 
-	int elementsCount = m_extendersCompPtr.GetCount();
-	for (int i = 0; i < elementsCount; ++i){
-		iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[i];
-		if (extenderPtr != NULL){
-			extenderPtr->AddItemsToScene(providerPtr, flags);
-		}
-	}
+	m_connectedSceneFlags[providerPtr] = flags;
+
+	AttachToScene(providerPtr, flags);
 }
 
 
@@ -174,11 +181,82 @@ void CComposedParamsSetGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* prov
 {
 	I_ASSERT(providerPtr != NULL);
 
+	m_connectedSceneFlags.erase(providerPtr);
+}
+
+
+// protected methods
+
+void CComposedParamsSetGuiComp::AttachToScene(iqt2d::ISceneProvider* providerPtr, int flags)
+{
 	int elementsCount = m_extendersCompPtr.GetCount();
-	for (int i = 0; i < elementsCount; ++i){
-		iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[i];
-		if (extenderPtr != NULL){
-			extenderPtr->RemoveItemsFromScene(providerPtr);
+
+	if (m_currentGuiIndex >= 0){
+		if (m_currentGuiIndex < elementsCount){
+			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[m_currentGuiIndex];
+			if (extenderPtr != NULL){
+				extenderPtr->AddItemsToScene(providerPtr, flags);
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < elementsCount; ++i){
+			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[i];
+			if (extenderPtr != NULL){
+				extenderPtr->AddItemsToScene(providerPtr, flags);
+			}
+		}
+	}
+}
+
+
+void CComposedParamsSetGuiComp::DetachFromScene(iqt2d::ISceneProvider* providerPtr)
+{
+	I_ASSERT(providerPtr != NULL);
+
+	int elementsCount = m_extendersCompPtr.GetCount();
+
+	if (m_currentGuiIndex >= 0){
+		if (m_currentGuiIndex < elementsCount){
+			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[m_currentGuiIndex];
+			if (extenderPtr != NULL){
+				extenderPtr->RemoveItemsFromScene(providerPtr);
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < elementsCount; ++i){
+			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[i];
+			if (extenderPtr != NULL){
+				extenderPtr->RemoveItemsFromScene(providerPtr);
+			}
+		}
+	}
+}
+
+
+// protected slots
+
+void CComposedParamsSetGuiComp::OnEditorChanged(int index)
+{
+	if (index != m_currentGuiIndex){
+		for (		ConnectedSceneFlags::const_iterator iter = m_connectedSceneFlags.begin();
+					iter != m_connectedSceneFlags.end();
+					++iter){
+			iqt2d::ISceneProvider* providerPtr = iter->first;
+
+			DetachFromScene(providerPtr);
+		}
+
+		m_currentGuiIndex = index;
+
+		for (		ConnectedSceneFlags::const_iterator iter = m_connectedSceneFlags.begin();
+					iter != m_connectedSceneFlags.end();
+					++iter){
+			iqt2d::ISceneProvider* providerPtr = iter->first;
+			int flags = iter->second;
+
+			AttachToScene(providerPtr, flags);
 		}
 	}
 }

@@ -30,18 +30,15 @@ CImageShape::CImageShape()
 
 void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
-	QGraphicsScene* scenePtr = scene();
-	if (scenePtr != NULL){
-		const iqt::IQImageProvider* providerPtr = dynamic_cast<const iqt::IQImageProvider*>(GetObjectPtr());
-		if (providerPtr != NULL){
-			m_bitmap = QPixmap::fromImage(providerPtr->GetQImage(), Qt::AutoColor);
-		}
-		else{
-			m_bitmap = QPixmap();
-		}
-
-		update();
+	const iqt::IQImageProvider* providerPtr = dynamic_cast<const iqt::IQImageProvider*>(GetObjectPtr());
+	if (providerPtr != NULL){
+		m_bitmap = QPixmap::fromImage(providerPtr->GetQImage(), Qt::AutoColor);
 	}
+	else{
+		m_bitmap = QPixmap();
+	}
+
+	update();
 }
 
 

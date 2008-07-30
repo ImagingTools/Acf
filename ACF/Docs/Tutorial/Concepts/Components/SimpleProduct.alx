@@ -4,13 +4,13 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="6">
+  <PositionMap count="8">
     <Element>
       <ComponentName>
         Bitmap
       </ComponentName>
       <X>
-        -37
+        112
       </X>
       <X>
         362
@@ -43,7 +43,7 @@
         IdManager
       </ComponentName>
       <X>
-        187
+        312
       </X>
       <X>
         362
@@ -54,7 +54,7 @@
         ImageTask
       </ComponentName>
       <X>
-        -75
+        75
       </X>
       <X>
         212
@@ -65,10 +65,32 @@
         ImageTaskGui
       </ComponentName>
       <X>
-        162
+        287
       </X>
       <X>
         212
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        LineTestTask
+      </ComponentName>
+      <X>
+        187
+      </X>
+      <X>
+        -112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        LineTestTaskGui
+      </ComponentName>
+      <X>
+        312
+      </X>
+      <X>
+        -112
       </X>
     </Element>
   </PositionMap>

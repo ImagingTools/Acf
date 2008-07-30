@@ -73,7 +73,7 @@
    <item row="0" column="3" >
     <widget class="QLabel" name="Point1UnitLabel" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -131,7 +131,7 @@
    <item row="1" column="3" >
     <widget class="QLabel" name="Point2UnitLabel" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Maximum" >
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>

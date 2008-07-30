@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="6">
+  <ElementsList count="8">
     <Element>
       <Id>
         Bitmap
@@ -89,9 +89,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   ImageTaskGui
+                </Value>
+                <Value>
+                  LineTestTaskGui
                 </Value>
               </Values>
             </Data>
@@ -110,9 +113,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   Image
+                </Value>
+                <Value>
+                  Line
                 </Value>
               </Values>
             </Data>
@@ -131,9 +137,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   Image
+                </Value>
+                <Value>
+                  Line Test
                 </Value>
               </Values>
             </Data>
@@ -152,9 +161,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   ImageTask
+                </Value>
+                <Value>
+                  LineTestTask
                 </Value>
               </Values>
             </Data>
@@ -267,6 +279,61 @@
               </IsEnabled>
               <Value>
                 IdManager
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        LineTestTask
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        Line
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        LineTestTaskGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        Line2dParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              SlaveSceneExtender
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ImageTaskGui
               </Value>
             </Data>
           </AttributeInfo>

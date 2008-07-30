@@ -39,9 +39,15 @@ void CSnapBitmapSupplierGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* pro
 
 void CSnapBitmapSupplierGuiComp::UpdateModel() const
 {
+}
+
+
+void CSnapBitmapSupplierGuiComp::UpdateEditor()
+{
 	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
 	if (supplierPtr != NULL){
-		imod::IModel* bitmapModelPtr = dynamic_cast<imod::IModel*>(const_cast<iimg::IBitmap*>(GetCurrentBitmap()));
+		const iimg::IBitmap* bitmapPtr = GetCurrentBitmap();
+		imod::IModel* bitmapModelPtr = dynamic_cast<imod::IModel*>(const_cast<iimg::IBitmap*>(bitmapPtr));
 
 		const ShapesMap& shapesMap = GetShapesMap();
 		for (		ShapesMap::const_iterator iter = shapesMap.begin();
@@ -65,6 +71,15 @@ void CSnapBitmapSupplierGuiComp::UpdateModel() const
 				}
 			}
 		}
+
+		if (IsGuiCreated()){
+			istd::CIndex2d bitmapSize(0, 0);
+			if (bitmapPtr != NULL){
+				bitmapSize = bitmapPtr->GetImageSize();
+			}
+
+			SizeLabel->setText(tr("(%1 x %2)").arg(bitmapSize.GetX()).arg(bitmapSize.GetY()));
+		}
 	}
 
 	if (IsGuiCreated()){
@@ -73,11 +88,6 @@ void CSnapBitmapSupplierGuiComp::UpdateModel() const
 
 		SaveImageButton->setVisible(hasBitmap && m_bitmapLoaderCompPtr.IsValid());
 	}
-}
-
-
-void CSnapBitmapSupplierGuiComp::UpdateEditor()
-{
 }
 
 
@@ -157,15 +167,12 @@ bool CSnapBitmapSupplierGuiComp::SnapImage()
 	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
 	I_DWORD objectId;
 	if (		(supplierPtr != NULL) &&
-				m_bitmapLoaderCompPtr.IsValid() &&
 				m_idManagerCompPtr.IsValid() &&
 				m_idManagerCompPtr->SkipToNextId(objectId)){
-		const iimg::IBitmap* bitmapPtr = supplierPtr->GetBitmap(objectId);
-		if (bitmapPtr != NULL){
-			supplierPtr->EnsureWorkFinished(objectId);
+		supplierPtr->BeginNextObject(objectId);
+		supplierPtr->EnsureWorkFinished(objectId);
 
-			return supplierPtr->GetWorkStatus(objectId) < iproc::ISupplier::WS_ERROR;
-		}
+		return supplierPtr->GetWorkStatus(objectId) < iproc::ISupplier::WS_ERROR;
 	}
 
 	return false;

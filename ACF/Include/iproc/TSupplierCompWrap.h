@@ -152,7 +152,6 @@ const typename TSupplierCompWrap<SupplierInterface, Product>::WorkInfo* TSupplie
 {
 	StoredInfoMap::iterator foundIter = m_storedInfoMap.find(objectId);
 	if (foundIter != m_storedInfoMap.end()){
-		I_DWORD objectId = foundIter->first;
 		WorkInfo& workInfo = foundIter->second;
 
 		if (ensureFinished && !workInfo.isDone){

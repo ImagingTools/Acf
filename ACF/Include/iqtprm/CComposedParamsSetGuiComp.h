@@ -28,6 +28,8 @@ class CComposedParamsSetGuiComp:
 			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> >,
 			public iqt2d::ISceneExtender
 {
+	Q_OBJECT
+
 public:
 	typedef iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> > BaseClass;
 
@@ -45,6 +47,8 @@ public:
 		I_ASSIGN(m_designTypeAttrPtr, "DesignType", "Type of design:\n* 0 - simple\n* 1 - tool box", true, false);
 I_END_COMPONENT;
 
+	CComposedParamsSetGuiComp();
+
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
@@ -60,6 +64,13 @@ I_END_COMPONENT;
 	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);
 	virtual void RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr);
 
+protected:
+	void AttachToScene(iqt2d::ISceneProvider* providerPtr, int flags);
+	void DetachFromScene(iqt2d::ISceneProvider* providerPtr);
+
+protected slots:
+	void OnEditorChanged(int index);
+
 private:
 	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
 	I_MULTIREF(iqt::IGuiObject, m_guisCompPtr);
@@ -69,6 +80,11 @@ private:
 	I_MULTIATTR(istd::CString, m_namesAttrPtr);
 	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);
 	I_ATTR(int, m_designTypeAttrPtr);
+
+	int m_currentGuiIndex;
+
+	typedef std::map<iqt2d::ISceneProvider*, int> ConnectedSceneFlags;	// maps connected scene provider to connection flags
+	ConnectedSceneFlags m_connectedSceneFlags;
 };
 
 

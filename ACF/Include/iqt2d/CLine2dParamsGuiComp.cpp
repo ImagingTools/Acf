@@ -45,6 +45,58 @@ void CLine2dParamsGuiComp::OnGuiModelDetached()
 }
 
 
+// reimplemented (imod::IObserver)
+
+bool CLine2dParamsGuiComp::OnAttached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnAttached(modelPtr)){
+		const ShapesMap& shapesMap = GetShapesMap();
+		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+					iter != shapesMap.end();
+					++iter){
+			const Shapes& shapes = iter->second;
+			int shapesCount = shapes.GetCount();
+			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
+				iqt2d::CLine2dShape* shapePtr = dynamic_cast<iqt2d::CLine2dShape*>(shapes.GetAt(shapeIndex));
+				if (shapePtr != NULL){
+					modelPtr->AttachObserver(shapePtr);
+				}
+			}
+		}
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
+bool CLine2dParamsGuiComp::OnDetached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnDetached(modelPtr)){
+		const ShapesMap& shapesMap = GetShapesMap();
+		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+					iter != shapesMap.end();
+					++iter){
+			const Shapes& shapes = iter->second;
+			int shapesCount = shapes.GetCount();
+			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
+				iqt2d::CLine2dShape* shapePtr = dynamic_cast<iqt2d::CLine2dShape*>(shapes.GetAt(shapeIndex));
+				if (shapePtr != NULL){
+					modelPtr->DetachObserver(shapePtr);
+				}
+			}
+		}
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
 // reimplemented (imod::IModelEditor)
 
 void CLine2dParamsGuiComp::UpdateModel() const
@@ -89,13 +141,16 @@ void CLine2dParamsGuiComp::UpdateEditor()
 
 void CLine2dParamsGuiComp::CreateShapes(int /*sceneId*/, bool /*inactiveOnly*/, Shapes& result)
 {
-	imod::IModel* modelPtr = GetModelPtr();
-	if (modelPtr != NULL){
-		istd::TDelPtr<CLine2dShape> shapePtr(new CLine2dShape());
-		if (shapePtr.IsValid()){
-			if (modelPtr->AttachObserver(shapePtr.GetPtr())){
-				result.PushBack(shapePtr.PopPtr());
-			}
+	I_ASSERT(m_lineZValueAttrPtr.IsValid());	// this attribute is obligatory
+
+	CLine2dShape* shapePtr = new CLine2dShape();
+	if (shapePtr != NULL){
+		shapePtr->setZValue(*m_lineZValueAttrPtr);
+		result.PushBack(shapePtr);
+
+		imod::IModel* modelPtr = GetModelPtr();
+		if (modelPtr != NULL){
+			modelPtr->AttachObserver(shapePtr);
 		}
 	}
 }
