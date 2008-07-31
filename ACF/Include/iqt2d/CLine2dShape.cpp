@@ -75,8 +75,7 @@ QVariant CLine2dShape::itemChange(GraphicsItemChange change, const QVariant& val
 	m_ignoreUpdate = true;
 	i2d::CLine2d* linePtr = GetObjectPtr();
 	if (linePtr != NULL && change == ItemPositionChange){
-		i2d::CVector2d newPosition = iqt::GetCVector2d((value.toPointF()));
-		i2d::CVector2d offset = newPosition - iqt::GetCVector2d(pos());
+		i2d::CVector2d offset = iqt::GetCVector2d(value.toPointF() - pos());
 
 		linePtr->SetPoint1(linePtr->GetPoint1() + offset);
 		linePtr->SetPoint2(linePtr->GetPoint2() + offset);

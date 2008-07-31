@@ -6,6 +6,7 @@
 namespace AvtPck
 {
 
+I_EXPORT_DEFAULT_SERVICES
 
 I_EXPORT_PACKAGE("AvtPck", "Standard Applied Vision Technologies (AVT) hardware package based on Qt", "AVT Applied Vision Technologies Qt Standard");
 

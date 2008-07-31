@@ -118,6 +118,9 @@
 				RelativePath="..\CDateTime.cpp">
 			</File>
 			<File
+				RelativePath="..\CDefaultServicesProvider.cpp">
+			</File>
+			<File
 				RelativePath="..\CDirList.cpp">
 			</File>
 			<File
@@ -217,6 +220,9 @@
 			</File>
 			<File
 				RelativePath="..\CDateTime.h">
+			</File>
+			<File
+				RelativePath="..\CDefaultServicesProvider.h">
 			</File>
 			<File
 				RelativePath="..\CDirList.h">

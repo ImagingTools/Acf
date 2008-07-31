@@ -1,6 +1,9 @@
 #include "istd/CStaticServicesProvider.h"
 
 
+#include <typeinfo>
+
+
 namespace istd
 {
 
@@ -13,7 +16,9 @@ void CStaticServicesProvider::SetParent(const IServicesProvider* parentPtr)
 
 bool CStaticServicesProvider::RegisterService(const type_info& serviceId, void* servicePtr)
 {
-	std::pair<Services::iterator, bool> status = m_registeredServices.insert(Services::value_type(&serviceId, servicePtr));
+	std::string serviceTypeName = std::string(serviceId.name());
+
+	std::pair<Services::iterator, bool> status = m_registeredServices.insert(std::make_pair(serviceTypeName, servicePtr));
 
 	return status.second;
 }
@@ -21,10 +26,13 @@ bool CStaticServicesProvider::RegisterService(const type_info& serviceId, void* 
 
 void* CStaticServicesProvider::GetService(const type_info& serviceId)
 {
-	Services::const_iterator iter = m_registeredServices.find(&serviceId);
+	Services::const_iterator iter = m_registeredServices.find(std::string(serviceId.name()));
 
 	if (iter != m_registeredServices.end()){
 		return iter->second;
+	}
+	else if(m_parentPtr != NULL){
+		return m_parentPtr->GetService(serviceId);
 	}
 
 	return NULL;

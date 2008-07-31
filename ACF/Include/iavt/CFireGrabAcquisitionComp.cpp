@@ -10,6 +10,8 @@
 #include <QImageReader>
 #include <QStringList>
 
+#include "iqt/iqt.h"
+
 #include "istd/TChangeNotifier.h"
 
 #include "iprm/IParamsSet.h"

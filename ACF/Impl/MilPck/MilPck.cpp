@@ -7,6 +7,8 @@ namespace MilPck
 {
 
 
+I_EXPORT_DEFAULT_SERVICES
+
 I_EXPORT_PACKAGE("Mil", "MIL Package", "MIL");
 
 I_EXPORT_COMPONENT(MilSearchParamsGui, "Search params GUI", "Search parameter GUI MIL");

@@ -20,10 +20,14 @@
 
 #include "BasePck/BasePck.h"
 
+#include "iqt/CDefaultServicesProvider.h"
+
 
 int main(int argc, char *argv[])
 {
 	QApplication::setStyle("plastique");
+
+	iqt::CDefaultServicesProvider::RegisterServices();
 
 	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> registryLoaderComp;
 	registryLoaderComp.InitComponent();

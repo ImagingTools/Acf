@@ -6,7 +6,7 @@
 
 
 #include <map>
-
+#include <string>
 
 #include "istd/IServicesProvider.h"
 
@@ -48,11 +48,11 @@ protected:
 
 private:
 	/**
-	Lock of constructor.
+		Lock of constructor.
 	*/
 	CStaticServicesProvider(){}
 
-	typedef std::map<const type_info*, void*> Services;
+	typedef std::map<std::string, void*> Services;
 
 	static Services m_registeredServices;
 	static Provider m_providerInstance;

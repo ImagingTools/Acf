@@ -25,6 +25,12 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file, bool be
 	if (fileInfo.isFile()){
 		CDllFunctionsProvider& provider = GetProviderRef(fileInfo, beQuiet);
 		if (provider.IsValid()){
+			// register services:
+			icomp::RegisterServicesFunc registerServicesInfoPtr = (icomp::RegisterServicesFunc)provider.GetFunction(I_EXPORT_SERVICES_FUNCTION_NAME);
+			if (registerServicesInfoPtr != NULL){
+				registerServicesInfoPtr(&istd::CStaticServicesProvider::GetProviderInstance());
+			}
+
 			icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.GetFunction(I_PACKAGE_EXPORT_FUNCTION_NAME);
 			if (getInfoPtr != NULL){
 				icomp::IComponentStaticInfo* infoPtr = getInfoPtr();

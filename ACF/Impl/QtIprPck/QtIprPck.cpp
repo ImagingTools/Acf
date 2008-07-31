@@ -2,12 +2,16 @@
 
 #include "icomp/export.h"
 
+#include "iqt/CDefaultServicesProvider.h"
+
 #include "QtIprPck.h"
 
 
 namespace QtIprPck
 {
 
+
+I_EXPORT_SERVICES_PROVIDER(iqt::CDefaultServicesProvider);
 
 I_EXPORT_PACKAGE("QtIpr", "Standard Qt image processing package", "Qt Image Processing");
 

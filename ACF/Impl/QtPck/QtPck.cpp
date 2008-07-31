@@ -2,6 +2,8 @@
 
 #include "icomp/export.h"
 
+#include "iqt/CDefaultServicesProvider.h"
+
 #include "QtPck.h"
 
 
@@ -11,12 +13,15 @@ static struct StaticInit
 	{
 		Q_INIT_RESOURCE(iqtdoc);
 	}
+
 } instance;
 
 
 namespace QtPck
 {
 
+
+I_EXPORT_SERVICES_PROVIDER(iqt::CDefaultServicesProvider);
 
 I_EXPORT_PACKAGE("Qt", "Standard Qt package", "Qt Standard");
 
@@ -51,3 +56,5 @@ I_EXPORT_COMPONENT(SettingsSerializer, "Load and save objects using QSettings as
 
 
 } // namespace QtPck
+
+
