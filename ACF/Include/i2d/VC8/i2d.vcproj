@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="i2d"
 	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
+	RootNamespace="i2d"
 	>
 	<Platforms>
 		<Platform
@@ -175,11 +176,19 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CAnnulus.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCircle.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CLine2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPosition2d.cpp"
 				>
 			</File>
 			<File
@@ -200,11 +209,19 @@
 			Filter="h"
 			>
 			<File
+				RelativePath="..\CAnnulus.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CCircle.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CLine2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPosition2d.h"
 				>
 			</File>
 			<File

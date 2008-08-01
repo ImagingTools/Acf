@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="iproc"
 	ProjectGUID="{9BA2C3D2-9483-483F-9019-8C6B027C58C6}"
+	RootNamespace="iproc"
 	>
 	<Platforms>
 		<Platform
@@ -196,6 +197,10 @@
 				RelativePath="..\CProcessingElementBase.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CTestIdManagerComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -222,7 +227,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTestIdManagerComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IElementSelector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IIdManager.h"
 				>
 			</File>
 			<File
@@ -258,7 +271,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ISupplier.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TIProcessor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TSupplierCompWrap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TSyncProcessorCompBase.h"
 				>
 			</File>
 			<File

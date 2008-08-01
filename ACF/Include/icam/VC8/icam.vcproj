@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="icam"
 	ProjectGUID="{4CE30ACB-6EA3-4AB0-87BA-84D0CBB47A7B}"
+	RootNamespace="icam"
 	>
 	<Platforms>
 		<Platform
@@ -184,6 +185,10 @@
 				RelativePath="..\CFileBitmapAcquisitionParamsComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CSnapBitmapSupplierComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -198,7 +203,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSnapBitmapSupplierComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IBitmapAcquisition.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IBitmapSupplier.h"
 				>
 			</File>
 			<File

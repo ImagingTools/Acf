@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\Config\VC8\QtUIForm.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -27,6 +30,9 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Designer Form"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -94,6 +100,9 @@
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
@@ -155,11 +164,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CIterativeProcessorParamsGuiComp.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CRectangularFilterParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSearchGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSearchParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSearchResultShape.cpp"
 				>
 			</File>
 		</Filter>
@@ -168,6 +193,32 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+			</File>
 			<File
 				RelativePath="..\CIterativeProcessorParamsGuiComp.h"
 				>
@@ -221,6 +272,62 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\CSearchGuiComp.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CSearchParamsGuiComp.h"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CSearchResultShape.h"
+				>
+			</File>
+			<File
 				RelativePath="..\iqtipr.h"
 				>
 			</File>
@@ -238,11 +345,27 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
+				RelativePath="..\generated\moc_CCaliperBasedPositionSupplierGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CIterativeProcessorParamsGuiComp.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\generated\moc_CRectangularFilterParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CSearchGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CSearchParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CCaliperBasedPositionSupplierGuiComp.h"
 				>
 			</File>
 			<File
@@ -253,61 +376,37 @@
 				RelativePath="..\generated\ui_CRectangularFilterParamsGuiComp.h"
 				>
 			</File>
+			<File
+				RelativePath="..\generated\ui_CSearchGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CSearchParamsGuiComp.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Forms"
 			>
 			<File
+				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CIterativeProcessorParamsGuiComp.ui"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CRectangularFilterParamsGuiComp.ui"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Uic&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
-						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CSearchGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CSearchParamsGuiComp.ui"
+				>
 			</File>
 		</Filter>
 	</Files>

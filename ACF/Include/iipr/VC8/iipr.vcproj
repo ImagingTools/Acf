@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="iipr"
 	ProjectGUID="{BA5F16D2-D1F0-45C4-B54E-7CE894550C21}"
+	RootNamespace="iipr"
 	>
 	<Platforms>
 		<Platform
@@ -179,6 +180,10 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CCaliperBasedPositionSupplierComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCaliperFeature.cpp"
 				>
 			</File>
@@ -196,6 +201,10 @@
 			</File>
 			<File
 				RelativePath="..\CGaussian2dFilterParams.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CHeaviestFeatureConsumer.cpp"
 				>
 			</File>
 			<File
@@ -247,7 +256,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSearchParamsBase.cpp"
+				RelativePath="..\CSearchParams.cpp"
 				>
 			</File>
 			<File
@@ -259,6 +268,10 @@
 			Name="Header Files"
 			Filter="h"
 			>
+			<File
+				RelativePath="..\CCaliperBasedPositionSupplierComp.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CCaliperFeature.h"
 				>
@@ -277,6 +290,10 @@
 			</File>
 			<File
 				RelativePath="..\CGaussian2dFilterParams.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CHeaviestFeatureConsumer.h"
 				>
 			</File>
 			<File
@@ -328,7 +345,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSearchParamsBase.h"
+				RelativePath="..\CSearchParams.h"
 				>
 			</File>
 			<File
@@ -357,6 +374,10 @@
 			</File>
 			<File
 				RelativePath="..\IFeaturesContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFeaturesSupplier.h"
 				>
 			</File>
 			<File
@@ -389,6 +410,10 @@
 			</File>
 			<File
 				RelativePath="..\ISearchResultSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IVector2dSupplier.h"
 				>
 			</File>
 			<File

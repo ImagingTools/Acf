@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="Qt Designer"
+	Version="8,00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="QT Designer Form"
+			DisplayName="QT Form"
+			CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+			Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
+			AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+			FileExtensions="*.ui"
+			ExecutionDescription="Uic&apos;ing $(InputFileName)..."
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>
