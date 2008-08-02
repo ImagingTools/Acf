@@ -47,10 +47,10 @@ TGaussianKernel2d<PixelType, KernelType>::TGaussianKernel2d(double sigma1,
 // protected methods
 
 template <typename PixelType, typename KernelType> 
-void TGaussianKernel2d<PixelType, KernelType>::CreateKernel(double sigma1, double sigma2, double /*angle*/)
+void TGaussianKernel2d<PixelType, KernelType>::CreateKernel(double /*sigma1*/, double /*sigma2*/, double /*angle*/)
 {
-	I_ASSERT(sigma1 != 0);
-	I_ASSERT(sigma2 != 0);
+//	I_ASSERT(sigma1 != 0);
+//	I_ASSERT(sigma2 != 0);
 
 	m_values.resize(25, std::make_pair(0, KernelType(1)));
 	m_kernelSize = ibase::CSize(5, 5);
