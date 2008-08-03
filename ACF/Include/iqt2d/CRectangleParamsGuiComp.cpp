@@ -39,7 +39,7 @@ void CRectangleParamsGuiComp::OnGuiModelDetached()
 void CRectangleParamsGuiComp::UpdateModel() const
 {
 	i2d::CRectangle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
+	if (objectPtr != NULL && !IsUpdateBlocked()){
 		UpdateBlocker blocker(const_cast<CRectangleParamsGuiComp*>(this));
 
 		istd::CChangeNotifier notifier(NULL);
@@ -79,16 +79,72 @@ void CRectangleParamsGuiComp::UpdateEditor()
 }
 
 
+// reimplemented (imod::IObserver)
+
+bool CRectangleParamsGuiComp::OnAttached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnAttached(modelPtr)){
+		const ShapesMap& shapesMap = GetShapesMap();
+		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+					iter != shapesMap.end();
+					++iter){
+			const Shapes& shapes = iter->second;
+			int shapesCount = shapes.GetCount();
+			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
+				iqt2d::CRectangleShape* shapePtr = dynamic_cast<iqt2d::CRectangleShape*>(shapes.GetAt(shapeIndex));
+				if (shapePtr != NULL){
+					modelPtr->AttachObserver(shapePtr);
+				}
+			}
+		}
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
+bool CRectangleParamsGuiComp::OnDetached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnDetached(modelPtr)){
+		const ShapesMap& shapesMap = GetShapesMap();
+		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+					iter != shapesMap.end();
+					++iter){
+			const Shapes& shapes = iter->second;
+			int shapesCount = shapes.GetCount();
+			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
+				iqt2d::CRectangleShape* shapePtr = dynamic_cast<iqt2d::CRectangleShape*>(shapes.GetAt(shapeIndex));
+				if (shapePtr != NULL){
+					modelPtr->DetachObserver(shapePtr);
+				}
+			}
+		}
+
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
 void CRectangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool /*inactiveOnly*/, Shapes& result)
 {
 	imod::IModel* modelPtr = GetModelPtr();
 	if (modelPtr != NULL){
-		istd::TDelPtr<CRectangleShape> shapePtr(new CRectangleShape());
-		if (shapePtr.IsValid()){
-			if (modelPtr->AttachObserver(shapePtr.GetPtr())){
-				result.PushBack(shapePtr.PopPtr());
+		CRectangleShape* shapePtr = new CRectangleShape();
+		if (shapePtr != NULL){
+			shapePtr->setZValue(3);
+			result.PushBack(shapePtr);
+
+			imod::IModel* modelPtr = GetModelPtr();
+			if (modelPtr != NULL){
+				modelPtr->AttachObserver(shapePtr);
 			}
 		}
 	}

@@ -54,9 +54,15 @@ public :
 	CVector2d GetTopRight() const;
 	CVector2d GetBottomRight() const;
 
+	void SetTopLeft(const CVector2d& topLeft);
+	void SetBottomLeft(const CVector2d& bottomLeft);
+	void SetTopRight(const CVector2d& topRight);
+	void SetBottomRight(const CVector2d& bottomRight);
+
 	// reimplemented (IObject2d)
 	virtual CVector2d GetCenter() const;
 	virtual CRectangle GetBoundingBox() const;
+	virtual void MoveTo(const CVector2d& position);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);

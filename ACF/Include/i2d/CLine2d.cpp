@@ -222,6 +222,15 @@ CRectangle CLine2d::GetBoundingBox() const
 }
 
 
+void CLine2d::MoveTo(const CVector2d& position)
+{
+	i2d::CVector2d offset = position - GetCenter();
+
+	SetPoint1(GetPoint1() + offset);
+	SetPoint2(GetPoint2() + offset);
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CLine2d::Serialize(iser::IArchive& archive)

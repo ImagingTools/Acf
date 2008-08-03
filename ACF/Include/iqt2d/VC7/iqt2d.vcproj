@@ -261,6 +261,24 @@
 			</File>
 			<File
 				RelativePath="..\CRectangleShape.h">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CSceneConnectorGuiComp.h">
@@ -298,6 +316,9 @@
 				RelativePath="..\ISceneProvider.h">
 			</File>
 			<File
+				RelativePath="..\TObjectShapeBase.h">
+			</File>
+			<File
 				RelativePath="..\TSceneExtenderCompBase.h">
 			</File>
 			<File
@@ -325,6 +346,9 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CRectangleParamsGuiComp.cpp">
+			</File>
+			<File
+				RelativePath="..\generated\moc_CRectangleShape.cpp">
 			</File>
 			<File
 				RelativePath="..\generated\moc_CSceneProviderComp.cpp">

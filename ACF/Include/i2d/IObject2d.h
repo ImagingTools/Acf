@@ -30,6 +30,11 @@ public:
 		Returns the bounding box of this 2D-object.
 	*/
 	virtual CRectangle GetBoundingBox() const = 0;
+
+	/**
+		Move object to position \c position.
+	*/
+	virtual void MoveTo(const CVector2d& position) = 0;
 };
 
 

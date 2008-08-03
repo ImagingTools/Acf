@@ -53,6 +53,12 @@ CRectangle CPosition2d::GetBoundingBox() const
 }
 
 
+void CPosition2d::MoveTo(const CVector2d& position)
+{
+	SetCenter(position);
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CPosition2d::Serialize(iser::IArchive& archive)

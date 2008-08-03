@@ -4,13 +4,13 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="8">
+  <PositionMap count="11">
     <Element>
       <ComponentName>
         Bitmap
       </ComponentName>
       <X>
-        112
+        100
       </X>
       <X>
         362
@@ -21,10 +21,21 @@
         Camera
       </ComponentName>
       <X>
-        -387
+        -362
       </X>
       <X>
         62
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FileCamera
+      </ComponentName>
+      <X>
+        -350
+      </X>
+      <X>
+        212
       </X>
     </Element>
     <Element>
@@ -43,10 +54,10 @@
         IdManager
       </ComponentName>
       <X>
-        312
+        150
       </X>
       <X>
-        362
+        -287
       </X>
     </Element>
     <Element>
@@ -54,7 +65,7 @@
         ImageTask
       </ComponentName>
       <X>
-        75
+        87
       </X>
       <X>
         212
@@ -65,10 +76,10 @@
         ImageTaskGui
       </ComponentName>
       <X>
-        287
+        375
       </X>
       <X>
-        212
+        -287
       </X>
     </Element>
     <Element>
@@ -76,7 +87,7 @@
         LineTestTask
       </ComponentName>
       <X>
-        187
+        112
       </X>
       <X>
         -112
@@ -87,7 +98,29 @@
         LineTestTaskGui
       </ComponentName>
       <X>
-        312
+        250
+      </X>
+      <X>
+        -112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        RectangleTestTask
+      </ComponentName>
+      <X>
+        -187
+      </X>
+      <X>
+        -112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        RectangleTestTaskGui
+      </ComponentName>
+      <X>
+        475
       </X>
       <X>
         -112

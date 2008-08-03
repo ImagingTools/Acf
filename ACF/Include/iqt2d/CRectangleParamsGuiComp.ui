@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>259</width>
+    <width>223</width>
     <height>115</height>
    </rect>
   </property>
@@ -46,8 +46,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
      <property name="maximum" >
-      <double>1000.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -72,8 +75,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
      <property name="maximum" >
-      <double>1000.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -98,8 +104,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
      <property name="maximum" >
-      <double>1000.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -124,8 +133,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
      <property name="maximum" >
-      <double>1000.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
    </item>

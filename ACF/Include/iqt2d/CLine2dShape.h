@@ -2,11 +2,9 @@
 #define iqt2d_CLine2dShape_included
 
 
-#include "imod/TSingleModelObserverBase.h"
-
 #include "i2d/CLine2d.h"
 
-#include "iqt2d/TShapeBase.h"
+#include "iqt2d/TObjectShapeBase.h"
 #include "iqt2d/CGripShape.h"
 
 
@@ -14,14 +12,11 @@ namespace iqt2d
 {
 
 
-class CLine2dShape: 
-			public TShapeBase<QGraphicsLineItem>, 
-			public imod::TSingleModelObserverBase<i2d::CLine2d>
+class CLine2dShape: public TObjectShapeBase<QGraphicsLineItem>
 {
 	Q_OBJECT
 public:
-	typedef TShapeBase<QGraphicsLineItem> BaseClass;
-	typedef imod::TSingleModelObserverBase<i2d::CLine2d> BaseClass2;
+	typedef TObjectShapeBase<QGraphicsLineItem> BaseClass;
 
 	CLine2dShape();
 
@@ -32,18 +27,12 @@ protected slots:
 	virtual void OnPosition1Changed(const QPointF& point1);
 	virtual void OnPosition2Changed(const QPointF& point2);
 
-protected:
-	// reimplemented (QGraphicsItem) 
-	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
-	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
-
 private:
 	void UpdateGripPositions();
 
 private:
 	CGripShape m_pointGrip1;
 	CGripShape m_pointGrip2;
-	QPointF m_lastPosition;
 };
 
 

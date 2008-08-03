@@ -1,6 +1,8 @@
 #include "i2d/CRectangle.h"
 
 
+#include "istd/TChangeNotifier.h"
+
 #include "i2d/CVector2d.h"
 
 #include "iser/IArchive.h"
@@ -129,6 +131,8 @@ CRectangle CRectangle::GetUnion(const CRectangle& other) const
 	
 void CRectangle::Expand(double left, double right, double top, double bottom)
 {
+	istd::CChangeNotifier changePtr(this);
+
 	m_horizontalRange = istd::CRange(GetLeft() - left, GetRight() + right);
 	m_verticalRange = istd::CRange(GetTop() - top, GetBottom() + bottom);
 }
@@ -170,25 +174,41 @@ double CRectangle::GetBottom() const
 
 void CRectangle::SetLeft(double left)
 {
-	m_horizontalRange.SetMinValue(left);
+	if (GetLeft() != left){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMinValue(left);
+	}
 }
 
 
 void CRectangle::SetTop(double top)
 {
-	m_verticalRange.SetMinValue(top);
+	if (GetTop() != top){
+		istd::CChangeNotifier changePtr(this);
+
+		m_verticalRange.SetMinValue(top);
+	}
 }
 
 
 void CRectangle::SetRight(double right)
 {
-	m_horizontalRange.SetMaxValue(right);
+	if (GetRight() != right){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMaxValue(right);
+	}
 }
 
 
 void CRectangle::SetBottom(double bottom)
 {
-	m_verticalRange.SetMaxValue(bottom);
+	if (GetBottom() != bottom){
+			istd::CChangeNotifier changePtr(this);
+
+		m_verticalRange.SetMaxValue(bottom);
+	}
 }
 
 
@@ -216,6 +236,50 @@ CVector2d CRectangle::GetBottomRight() const
 }
 
 
+void CRectangle::SetTopLeft(const CVector2d& topLeft)
+{
+	if (GetTopLeft() != topLeft){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMinValue(topLeft.GetX());
+		m_verticalRange.SetMinValue(topLeft.GetY());
+	}
+}
+
+
+void CRectangle::SetBottomLeft(const CVector2d& bottomLeft)
+{
+	if (GetBottomLeft() != bottomLeft){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMinValue(bottomLeft.GetX());
+		m_verticalRange.SetMaxValue(bottomLeft.GetY());
+	}
+}	
+
+
+void CRectangle::SetTopRight(const CVector2d& topRight)
+{
+	if (GetTopRight() != topRight){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMaxValue(topRight.GetX());
+		m_verticalRange.SetMinValue(topRight.GetY());
+	}
+}
+
+
+void CRectangle::SetBottomRight(const CVector2d& bottomRight)
+{
+	if (GetBottomRight() != bottomRight){
+		istd::CChangeNotifier changePtr(this);
+
+		m_horizontalRange.SetMaxValue(bottomRight.GetX());
+		m_verticalRange.SetMaxValue(bottomRight.GetY());
+	}
+}
+
+
 // reimplemented (IObject2d)
 
 CVector2d CRectangle::GetCenter() const
@@ -227,6 +291,18 @@ CVector2d CRectangle::GetCenter() const
 CRectangle CRectangle::GetBoundingBox() const
 {
 	return *this;
+}
+
+
+void CRectangle::MoveTo(const CVector2d& position)
+{
+	i2d::CVector2d offset = position - GetCenter();
+
+	m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + offset.GetY());
+	m_verticalRange.SetMaxValue(m_verticalRange.GetMaxValue() + offset.GetY());
+
+	m_horizontalRange.SetMinValue(m_horizontalRange.GetMinValue() + offset.GetX());
+	m_horizontalRange.SetMaxValue(m_horizontalRange.GetMaxValue() + offset.GetX());
 }
 
 

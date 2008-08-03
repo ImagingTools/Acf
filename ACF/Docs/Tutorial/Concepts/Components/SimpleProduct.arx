@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="8">
+  <ElementsList count="11">
     <Element>
       <Id>
         Bitmap
@@ -62,6 +62,43 @@
     </Element>
     <Element>
       <Id>
+        FileCamera
+      </Id>
+      <PackageId>
+        QtCamPck
+      </PackageId>
+      <ComponentId>
+        FileAcquisition
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              DefaultDir
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                D:\Images\barcode\data matrix
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         Framework
       </Id>
       <PackageId>
@@ -89,12 +126,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   ImageTaskGui
                 </Value>
                 <Value>
                   LineTestTaskGui
+                </Value>
+                <Value>
+                  RectangleTestTaskGui
                 </Value>
               </Values>
             </Data>
@@ -113,12 +153,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   Image
                 </Value>
                 <Value>
                   Line
+                </Value>
+                <Value>
+                  Rectangle
                 </Value>
               </Values>
             </Data>
@@ -137,12 +180,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   Image
                 </Value>
                 <Value>
                   Line Test
+                </Value>
+                <Value>
+                  Rectangle Test
                 </Value>
               </Values>
             </Data>
@@ -161,12 +207,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   ImageTask
                 </Value>
                 <Value>
                   LineTestTask
+                </Value>
+                <Value>
+                  RectangleTestTask
                 </Value>
               </Values>
             </Data>
@@ -222,7 +271,7 @@
                 true
               </IsEnabled>
               <Value>
-                Camera
+                FileCamera
               </Value>
             </Data>
           </AttributeInfo>
@@ -312,6 +361,61 @@
       </PackageId>
       <ComponentId>
         Line2dParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              SlaveSceneExtender
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ImageTaskGui
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        RectangleTestTask
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        Rectangle
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        RectangleTestTaskGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        RectangleParamsGui
       </ComponentId>
       <Data>
         <IsEnabled>
