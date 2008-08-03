@@ -10,7 +10,7 @@
         Bitmap
       </ComponentName>
       <X>
-        100
+        112
       </X>
       <X>
         362
@@ -54,7 +54,7 @@
         FileCamera
       </ComponentName>
       <X>
-        -350
+        -337
       </X>
       <X>
         212
@@ -87,7 +87,7 @@
         ImageTask
       </ComponentName>
       <X>
-        87
+        75
       </X>
       <X>
         212

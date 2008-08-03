@@ -15,6 +15,7 @@ namespace iqt2d
 class CCircleShape: public TObjectShapeBase<QGraphicsEllipseItem>
 {
 	Q_OBJECT
+
 public:
 	typedef TObjectShapeBase<QGraphicsEllipseItem> BaseClass;
 

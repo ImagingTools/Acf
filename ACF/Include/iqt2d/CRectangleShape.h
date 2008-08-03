@@ -16,8 +16,8 @@ namespace iqt2d
 
 class CRectangleShape: public TObjectShapeBase<QGraphicsRectItem>
 {
-public:
 	Q_OBJECT
+
 public:
 	typedef TObjectShapeBase<QGraphicsRectItem> BaseClass;
 
