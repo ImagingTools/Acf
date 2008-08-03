@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="11">
+  <ElementsList count="13">
     <Element>
       <Id>
         Bitmap
@@ -54,6 +54,61 @@
               </IsEnabled>
               <Value>
                 Framework
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        CircleTestTask
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        Circle
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        CircleTestTaskGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        CircleParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              SlaveSceneExtender
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                RectangleTestTaskGui
               </Value>
             </Data>
           </AttributeInfo>
@@ -126,7 +181,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="4">
                 <Value>
                   ImageTaskGui
                 </Value>
@@ -135,6 +190,9 @@
                 </Value>
                 <Value>
                   RectangleTestTaskGui
+                </Value>
+                <Value>
+                  CircleTestTaskGui
                 </Value>
               </Values>
             </Data>
@@ -153,7 +211,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="4">
                 <Value>
                   Image
                 </Value>
@@ -162,6 +220,9 @@
                 </Value>
                 <Value>
                   Rectangle
+                </Value>
+                <Value>
+                  Circle
                 </Value>
               </Values>
             </Data>
@@ -180,7 +241,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="4">
                 <Value>
                   Image
                 </Value>
@@ -189,6 +250,9 @@
                 </Value>
                 <Value>
                   Rectangle Test
+                </Value>
+                <Value>
+                  Circle Test
                 </Value>
               </Values>
             </Data>
@@ -207,7 +271,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="4">
                 <Value>
                   ImageTask
                 </Value>
@@ -216,6 +280,9 @@
                 </Value>
                 <Value>
                   RectangleTestTask
+                </Value>
+                <Value>
+                  CircleTestTask
                 </Value>
               </Values>
             </Data>

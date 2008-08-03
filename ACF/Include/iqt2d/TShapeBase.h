@@ -176,7 +176,7 @@ void TShapeBase<GraphicsItemClass>::OnPositionChanged(const QPointF& /*position*
 template <class GraphicsItemClass>
 QVariant TShapeBase<GraphicsItemClass>::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
 {
-	if (change == BaseClass::ItemPositionChange) {
+	if (change == BaseClass::ItemPositionHasChanged) {
 		OnPositionChanged(value.toPointF());
 	}
 

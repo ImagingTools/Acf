@@ -48,9 +48,18 @@ TObjectShapeBase<GraphicsItemClass>::TObjectShapeBase(bool isEditable, QGraphics
 	:BaseClass(parentPtr),
 	m_isEditable(isEditable)
 {
+	SetPen(InactiveColor, QPen(Qt::darkGreen, 0));
+	SetPen(EditableColor, QPen(Qt::green, 0));
+	SetPen(SelectedColor, QPen(Qt::yellow, 0));
+
 	if (isEditable){
 		setFlags(ItemIsMovable | ItemIsSelectable);
 		setCursor(QCursor(Qt::ArrowCursor)); 
+
+		SwitchColorSheme(EditableColor);
+	}
+	else{
+		SwitchColorSheme(InactiveColor);
 	}
 }
 

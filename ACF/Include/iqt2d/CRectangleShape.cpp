@@ -24,19 +24,8 @@ CRectangleShape::CRectangleShape(bool isEditable)
 	connect(&m_bottomLeftGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnBottomLeftChanged(const QPointF&)));
 	connect(&m_bottomRightGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnBottomRightChanged(const QPointF&)));
 	
-	SetPen(InactiveColor, QPen(Qt::darkGreen, 0));
-	SetPen(EditableColor, QPen(Qt::green, 0));
-	SetPen(SelectedColor, QPen(Qt::yellow, 0));
-
 	m_bottomLeftGrip.SetLabelPosition(CGripShape::LabelBottom);
 	m_bottomRightGrip.SetLabelPosition(CGripShape::LabelBottom);
-
-	if (isEditable){
-		SwitchColorSheme(EditableColor);
-	}
-	else{
-		SwitchColorSheme(InactiveColor);
-	}
 }
 
 

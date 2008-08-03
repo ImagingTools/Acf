@@ -25,6 +25,7 @@
 #include "iqt2d/CImageViewComp.h"
 #include "iqt2d/CLine2dParamsGuiComp.h"
 #include "iqt2d/CRectangleParamsGuiComp.h"
+#include "iqt2d/CCircleParamsGuiComp.h"
 
 #include "iqtprm/CComposedParamsSetGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
@@ -63,6 +64,7 @@ typedef iqt2d::CSceneProviderComp SceneProvider;
 typedef iqt2d::CImageViewComp ImageView;
 typedef iqt2d::CLine2dParamsGuiComp Line2dParamsGui;
 typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
+typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;
 typedef iqt::CDockWidgetGuiComp DockWidgetGui;
