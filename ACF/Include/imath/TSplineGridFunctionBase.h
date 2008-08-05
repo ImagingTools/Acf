@@ -103,6 +103,8 @@ inline double TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetDe
 template <class Argument, class Result, class Fulcrums, class Degree>
 bool TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetValueAt(const Argument& argument, Result& result) const
 {
+	result.Clear();
+
 	if (EnsureCacheValid()){
 		FulcrumIndex index = FindIndices(argument);
 
