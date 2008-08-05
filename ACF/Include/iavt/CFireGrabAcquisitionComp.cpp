@@ -58,7 +58,7 @@ int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, co
 	UINT32 status = m_camera.GetFrame(&frameInfo, 5000);
 
 	// ... Here you can processs image data in Frame.pData
-	if (status == FCE_NOERROR){
+	if (status == FCE_NOERROR && ((frameInfo.Flags & FGF_INVALID) == 0)){
 		if (outputPtr != NULL){
 			istd::CIndex2d size = GetBitmapSize(paramsPtr);
 			if (!size.IsSizeEmpty() && (int(frameInfo.Length) >= size.GetProductVolume())){
@@ -148,10 +148,19 @@ void CFireGrabAcquisitionComp::OnComponentCreated()
 				// Start image device
 				if (status == FCE_NOERROR){
 					if (m_externTriggerAttrPtr.IsValid()){
-						UINT32 triggerValue = MAKETRIGGER((*m_externTriggerAttrPtr)? 1: 0, 1, 0, 0, 0);
+						int triggerOn = *m_externTriggerAttrPtr ? 1: 0;
+
+						UINT32 triggerValue = MAKETRIGGER(triggerOn, 1, 0, 0, 0);
 
 						if (m_camera.SetParameter(FGP_TRIGGER, triggerValue) != FCE_NOERROR){
 							SendErrorMessage(MI_CANNOT_SET_TRIGGER, "Cannot set trigger mode");
+						}
+
+						UINT32 setValue;
+						if (m_camera.GetParameter(FGP_TRIGGER, &setValue) == FCE_NOERROR){
+							if (setValue != triggerValue){
+								SendErrorMessage(MI_CANNOT_SET_TRIGGER, "Cannot set trigger mode");
+							}
 						}
 					}
 
