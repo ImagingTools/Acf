@@ -2,6 +2,10 @@
 #define iqt2d_TObjectShapeBase_included
 
 
+// Qt includes
+#include <QGraphicsSceneMouseEvent>
+
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "imod/TSingleModelObserverBase.h"
@@ -33,7 +37,7 @@ protected:
 
 	// reimplemented (QGraphicsItem) 
 	virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value);
-	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 private:
 	QPointF m_lastPosition;
@@ -132,11 +136,13 @@ QVariant TObjectShapeBase<GraphicsItemClass>::itemChange(QGraphicsItem::Graphics
 
 
 template <class GraphicsItemClass>
-void TObjectShapeBase<GraphicsItemClass>::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void TObjectShapeBase<GraphicsItemClass>::mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr)
 {
-	BaseClass::mouseReleaseEvent(event);
+	BaseClass::mouseReleaseEvent(eventPtr);
 
-	m_lastPosition = QPointF(0, 0);
+	if (eventPtr->button() == Qt::LeftButton){
+		m_lastPosition = QPointF(0, 0);
+	}
 }
 
 
