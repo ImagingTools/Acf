@@ -17,7 +17,7 @@ namespace iqt2d
 // public methods
 
 CCircleShape::CCircleShape(bool isEditable)
-	:BaseClass(isEditable),
+:	BaseClass(isEditable),
 	m_leftGrip(this),
 	m_rightGrip(this),
 	m_topGrip(this),

@@ -77,7 +77,7 @@ void TSceneExtenderCompBase<Base>::AddItemsToScene(ISceneProvider* providerPtr, 
 	}
 
 	if (m_slaveExtenderCompPtr.IsValid()){
-		m_slaveExtenderCompPtr->AddItemsToScene(providerPtr, flags);
+		m_slaveExtenderCompPtr->AddItemsToScene(providerPtr, (flags | SF_BACKGROUND) & ~SF_DIRECT);
 	}
 }
 
