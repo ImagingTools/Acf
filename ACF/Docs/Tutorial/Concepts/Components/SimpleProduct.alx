@@ -10,10 +10,10 @@
         AnnulusTestTask
       </ComponentName>
       <X>
-        950
+        900
       </X>
       <X>
-        12
+        -37
       </X>
     </Element>
     <Element>
@@ -21,10 +21,10 @@
         AnnulusTestTaskGui
       </ComponentName>
       <X>
-        937
+        887
       </X>
       <X>
-        -112
+        -287
       </X>
     </Element>
     <Element>
@@ -32,10 +32,10 @@
         Bitmap
       </ComponentName>
       <X>
-        325
+        -12
       </X>
       <X>
-        162
+        212
       </X>
     </Element>
     <Element>
@@ -54,10 +54,10 @@
         CircleTestTask
       </ComponentName>
       <X>
-        725
+        675
       </X>
       <X>
-        12
+        -37
       </X>
     </Element>
     <Element>
@@ -65,10 +65,10 @@
         CircleTestTaskGui
       </ComponentName>
       <X>
-        712
+        662
       </X>
       <X>
-        -112
+        -287
       </X>
     </Element>
     <Element>
@@ -76,10 +76,10 @@
         FileCamera
       </ComponentName>
       <X>
-        -100
+        -137
       </X>
       <X>
-        162
+        112
       </X>
     </Element>
     <Element>
@@ -87,10 +87,10 @@
         Framework
       </ComponentName>
       <X>
-        -250
+        -475
       </X>
       <X>
-        12
+        -162
       </X>
     </Element>
     <Element>
@@ -98,10 +98,10 @@
         IdManager
       </ComponentName>
       <X>
-        -175
+        -87
       </X>
       <X>
-        -112
+        -412
       </X>
     </Element>
     <Element>
@@ -109,10 +109,10 @@
         ImageTask
       </ComponentName>
       <X>
-        112
+        -75
       </X>
       <X>
-        162
+        -37
       </X>
     </Element>
     <Element>
@@ -120,10 +120,10 @@
         ImageTaskGui
       </ComponentName>
       <X>
-        50
+        -87
       </X>
       <X>
-        -112
+        -287
       </X>
     </Element>
     <Element>
@@ -131,10 +131,10 @@
         LineTestTask
       </ComponentName>
       <X>
-        312
+        212
       </X>
       <X>
-        12
+        -37
       </X>
     </Element>
     <Element>
@@ -142,10 +142,10 @@
         LineTestTaskGui
       </ComponentName>
       <X>
-        300
+        187
       </X>
       <X>
-        -112
+        -287
       </X>
     </Element>
     <Element>
@@ -153,10 +153,10 @@
         RectangleTestTask
       </ComponentName>
       <X>
-        487
+        412
       </X>
       <X>
-        12
+        -37
       </X>
     </Element>
     <Element>
@@ -164,10 +164,10 @@
         RectangleTestTaskGui
       </ComponentName>
       <X>
-        475
+        400
       </X>
       <X>
-        -112
+        -287
       </X>
     </Element>
   </PositionMap>
