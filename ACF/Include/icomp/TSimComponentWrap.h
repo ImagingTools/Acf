@@ -52,9 +52,14 @@ void TSimComponentWrap<Base>::InitComponent()
 
 
 template <class Base>
-const IComponent* TSimComponentWrap<Base>::GetParentComponent(bool /*ownerOnly*/) const
+const IComponent* TSimComponentWrap<Base>::GetParentComponent(bool ownerOnly) const
 {
-	return const_cast<TSimComponentWrap<Base>* >(this);
+	if (ownerOnly){
+		return NULL;
+	}
+	else{
+		return const_cast<TSimComponentWrap<Base>* >(this);
+	}
 }
 
 

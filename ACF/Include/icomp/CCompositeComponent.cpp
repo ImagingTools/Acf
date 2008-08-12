@@ -202,9 +202,6 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			}
 
 			if (subContextPtr.IsValid()){
-				CCompositeComponentContext* compositeContextPtr = dynamic_cast<CCompositeComponentContext*>(subContextPtr.GetPtr());
-				I_ASSERT(compositeContextPtr != NULL);
-
 				subComponentPtr.SetPtr(new TComponentWrap<CCompositeComponent>);
 				if (subComponentPtr.IsValid()){
 					subComponentPtr->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
