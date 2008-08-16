@@ -244,7 +244,7 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetLayerPosition(int 
 	I_ASSERT(layerIndex >= 0);
 	I_ASSERT(layerIndex < int(positions.size()));
 
-	istd::CChangeNotifier notifier(this, CF_SORT_LAYERS);
+	istd::CChangeNotifier notifier(this, CF_SORT_LAYERS | CF_MODEL);
 
 	positions[layerIndex] = position;
 }

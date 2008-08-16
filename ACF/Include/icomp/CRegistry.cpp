@@ -159,7 +159,7 @@ void CRegistry::ExportElementInterface(const std::string& elementId, bool doExpo
 			}
 		}
 
-		istd::CChangeNotifier changePtr(this, CF_COMPONENT_EXPORTED);
+		istd::CChangeNotifier changePtr(this, CF_COMPONENT_EXPORTED | CF_MODEL);
 	}
 }
 

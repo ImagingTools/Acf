@@ -8,12 +8,6 @@ namespace iipr
 {
 
 
-iprm::IParamsSet* CCaliperBasedPositionSupplierComp::GetParamsSet() const
-{
-	return m_paramsSetCompPtr.GetPtr();
-}
-
-
 // reimplemented (iipr::IVector2dSupplier)
 
 const i2d::CVector2d* CCaliperBasedPositionSupplierComp::GetVector2d(I_DWORD objectId) const
@@ -24,28 +18,6 @@ const i2d::CVector2d* CCaliperBasedPositionSupplierComp::GetVector2d(I_DWORD obj
 	}
 
 	return NULL;
-}
-
-
-// reimplemented (iser::ISerializable)
-
-bool CCaliperBasedPositionSupplierComp::Serialize(iser::IArchive& archive)
-{
-	if (m_paramsSetCompPtr.IsValid()){
-		return m_paramsSetCompPtr->Serialize(archive);
-	}
-
-	return true;
-}
-
-
-I_DWORD CCaliperBasedPositionSupplierComp::GetMinimalVersion(int versionId) const
-{
-	if (m_paramsSetCompPtr.IsValid()){
-		return m_paramsSetCompPtr->GetMinimalVersion(versionId);
-	}
-
-	return BaseClass::GetMinimalVersion(versionId);
 }
 
 
@@ -60,9 +32,11 @@ int CCaliperBasedPositionSupplierComp::ProduceObject(I_DWORD objectId, i2d::CVec
 				m_caliperProcessorCompPtr.IsValid()){
 		const iimg::IBitmap* bitmapPtr = m_bitmapSupplierCompPtr->GetBitmap(objectId);
 		if (bitmapPtr != NULL){
+			iprm::IParamsSet* paramsSetPtr = GetParamsSet();
+
 			iipr::CProjectionData projection;
 			int projectionState = m_lineProjectionProcessorCompPtr->DoProcessing(
-						m_paramsSetCompPtr.GetPtr(),
+						paramsSetPtr,
 						bitmapPtr,
 						&projection);
 
@@ -72,7 +46,7 @@ int CCaliperBasedPositionSupplierComp::ProduceObject(I_DWORD objectId, i2d::CVec
 
 			CHeaviestFeatureConsumer consumer;
 			int caliperState = m_caliperProcessorCompPtr->DoProcessing(
-							m_paramsSetCompPtr.GetPtr(),
+							paramsSetPtr,
 							&projection,
 							&consumer);
 
@@ -87,7 +61,7 @@ int CCaliperBasedPositionSupplierComp::ProduceObject(I_DWORD objectId, i2d::CVec
 
 			imath::CVarVector position = m_lineProjectionProcessorCompPtr->GetBitmapPosition(
 						featurePtr->GetPosition(),
-						m_paramsSetCompPtr.GetPtr());
+						paramsSetPtr);
 			if (position.GetElementsCount() < 2){
 				return WS_CRITICAL;
 			}

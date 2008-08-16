@@ -48,9 +48,9 @@ public:
 		WS_CRITICAL
 	};
 
-	enum UpdateFlags
+	enum ChangeFlags
 	{
-		UF_SUPPLIER_RESULTS = 0x20000
+		CF_SUPPLIER_RESULTS = 0x20000
 	};
 
 	/**

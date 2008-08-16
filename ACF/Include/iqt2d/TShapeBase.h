@@ -213,18 +213,17 @@ template <class GraphicsItemClass>
 void TShapeBase<GraphicsItemClass>::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	// remove selected flag to prevent the drawing of the cruel rubber band:
-	const QStyleOptionGraphicsItem* clearedOption = option;
 
-	if (option != NULL){
+	if ((option != NULL) && ((option->state & QStyle::State_Selected) != 0)){
 		QStyleOptionGraphicsItem newOption = *option;
-		if (option != NULL){
-			newOption.state = option->state & ~QStyle::State_Selected;
-			
-			clearedOption = &newOption;
-		}
-	}
 
-	BaseClass::paint(painter, clearedOption, widget);
+		newOption.state &= ~QStyle::State_Selected;
+
+		BaseClass::paint(painter, &newOption, widget);
+	}
+	else{
+		BaseClass::paint(painter, option, widget);
+	}
 }
 
 

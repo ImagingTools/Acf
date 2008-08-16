@@ -22,7 +22,7 @@ public:
 	TCachedUpdateManagerWrap();
 
 	// reimplemented (istd::IChangeable)
-	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 
 protected:
 	/**

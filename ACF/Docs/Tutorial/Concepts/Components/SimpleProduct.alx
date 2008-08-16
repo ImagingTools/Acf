@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="15">
+  <PositionMap count="23">
     <Element>
       <ComponentName>
         AnnulusTestTask
@@ -32,10 +32,65 @@
         Bitmap
       </ComponentName>
       <X>
-        -12
+        -337
       </X>
       <X>
-        212
+        312
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        Caliper
+      </ComponentName>
+      <X>
+        987
+      </X>
+      <X>
+        312
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperLineGui
+      </ComponentName>
+      <X>
+        1162
+      </X>
+      <X>
+        -662
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperParamsSet
+      </ComponentName>
+      <X>
+        962
+      </X>
+      <X>
+        62
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperParamsSetGui
+      </ComponentName>
+      <X>
+        1137
+      </X>
+      <X>
+        -537
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperPramsSet
+      </ComponentName>
+      <X>
+        1137
+      </X>
+      <X>
+        62
       </X>
     </Element>
     <Element>
@@ -76,10 +131,10 @@
         FileCamera
       </ComponentName>
       <X>
-        -137
+        -362
       </X>
       <X>
-        112
+        -37
       </X>
     </Element>
     <Element>
@@ -101,7 +156,7 @@
         -87
       </X>
       <X>
-        -412
+        -437
       </X>
     </Element>
     <Element>
@@ -112,7 +167,7 @@
         -75
       </X>
       <X>
-        -37
+        187
       </X>
     </Element>
     <Element>
@@ -124,6 +179,17 @@
       </X>
       <X>
         -287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        LineProjection
+      </ComponentName>
+      <X>
+        1262
+      </X>
+      <X>
+        312
       </X>
     </Element>
     <Element>
@@ -146,6 +212,28 @@
       </X>
       <X>
         -287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        PositionTask
+      </ComponentName>
+      <X>
+        1125
+      </X>
+      <X>
+        187
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        PositionTaskGui
+      </ComponentName>
+      <X>
+        1112
+      </X>
+      <X>
+        -412
       </X>
     </Element>
     <Element>

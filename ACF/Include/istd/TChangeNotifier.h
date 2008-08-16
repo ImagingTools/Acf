@@ -19,7 +19,7 @@ class TChangeNotifier: public istd::TPointer<Changeable>
 public:
 	typedef istd::TPointer<Changeable> BaseClass;
 
-	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
+	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = IChangeable::CF_MODEL, istd::IPolymorphic* updateParamsPtr = NULL);
 	virtual  ~TChangeNotifier();
 
 	void SetPtr(Changeable* changeablePtr);

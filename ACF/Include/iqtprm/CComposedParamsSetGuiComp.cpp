@@ -181,6 +181,8 @@ void CComposedParamsSetGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* prov
 {
 	I_ASSERT(providerPtr != NULL);
 
+	DetachFromScene(providerPtr);
+
 	m_connectedSceneFlags.erase(providerPtr);
 }
 

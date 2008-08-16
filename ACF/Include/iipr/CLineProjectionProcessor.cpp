@@ -49,16 +49,18 @@ bool ProjectionFunction(
 		double axis2Delta = delta.GetY() / delta.GetX();
 		double axis2Position = axis2Delta * (axis1Begin - beginPoint.GetX() + 0.5) + beginPoint.GetY() + 0.5;
 
-		for (int axis1Offset = axis1Begin * addressDiffs[0]; axis1Offset < axis1End * addressDiffs[0]; axis1Offset += addressDiffs[0]){
+		for (int axis1Index = axis1Begin; axis1Index < axis1End; ++axis1Index, axis2Position += axis2Delta){
+			const I_BYTE* firstLinePixelAddress = firstPixelAddress + (axis1Index * addressDiffs[0]);
+
 			int axis2Index = int(axis2Position);
 			PixelConversion::CalcPixelType value;
 			if (axis2Index <= 0){
-				value = conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(firstPixelAddress[axis1Offset]));
+				value = conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(firstLinePixelAddress));
 			}
 			else{
 				if (axis2Index >= axisSizes[1]){
 					int axis2Offset = (axisSizes[1] - 1) * addressDiffs[1];
-					value = conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(firstPixelAddress[axis1Offset + axis2Offset]));
+					value = conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(firstLinePixelAddress + axis2Offset));
 				}
 				else{
 					double alpha = axis2Position - axis2Index;
@@ -66,14 +68,14 @@ bool ProjectionFunction(
 					I_ASSERT(alpha <= 1);
 
 					int axis2Offset = axis2Index * addressDiffs[1];
-					const I_BYTE* linePtr = (firstPixelAddress + axis1Offset + axis2Offset);
+					const I_BYTE* linePtr = (firstLinePixelAddress + axis2Offset);
 					value =	PixelConversion::CalcPixelType(
-								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr + axis1Offset)) * alpha +
-								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr + axis1Offset - addressDiffs[1])) * (1 - alpha));
+								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr)) * alpha +
+								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr - addressDiffs[1])) * (1 - alpha));
 				}
 			}
+
 			*(projectionPtr++) = conversion.GetDest(value);
-			axis2Position += axis2Delta;
 		}
 
 		istd::CRange axis1CutLineRange(projectionLine.GetPoint1().GetX(), projectionLine.GetPoint2().GetX());
@@ -106,12 +108,12 @@ bool CLineProjectionProcessor::DoAutosizeProjection(
 		return false;
 	}
 
-	istd::CIndex2d addressDiffs(bitmap.GetLinesDifference(), bytesPerPixel);
+	istd::CIndex2d addressDiffs(bytesPerPixel, bitmap.GetLinesDifference());
 	const I_BYTE* firstPixelAddress = (const I_BYTE*)bitmap.GetLinePtr(0);
 	i2d::CLine2d transformedLine = projectionLine;
 	i2d::CVector2d diffVector = projectionLine.GetDiffVector();
 
-	if (fabs(diffVector.GetX()) > fabs(diffVector.GetY())){	// switch X and Y axis
+	if (fabs(diffVector.GetY()) > fabs(diffVector.GetX())){	// switch X and Y axis
 		axisSizes = istd::CIndex2d(axisSizes[1], axisSizes[0]);
 		addressDiffs = istd::CIndex2d(addressDiffs[1], addressDiffs[0]);
 		transformedLine.SetPoint1(i2d::CVector2d(

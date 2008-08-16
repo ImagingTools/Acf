@@ -15,11 +15,11 @@ namespace imod
 class IUndoManager: virtual public istd::IChangeable
 {
 public:
-	enum UpdateFlags{
+	enum ChangeFlags{
 		/**
 			Used to avoid adding of changes to undo list.
 		*/
-		UF_NO_UNDO = 0x400
+		CF_NO_UNDO = 0x400
 	};
 
 	/**

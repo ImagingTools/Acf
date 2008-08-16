@@ -4,6 +4,7 @@
 
 #include "imod/TModelWrap.h"
 
+#include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
 
 #include "iipr/TMorphoProcessorComp.h"
@@ -53,7 +54,7 @@ typedef icomp::TMakeComponentWrap<
 			iipr::IFeaturesContainer,
 			iser::ISerializable,
 			imod::IModel> SearchResults;
-typedef iipr::CCaliperBasedPositionSupplierComp CaliperBasedPositionSupplier;
+typedef icomp::TModelCompWrap<iipr::CCaliperBasedPositionSupplierComp> CaliperBasedPositionSupplier;
 
 
 } // namespace IprPck

@@ -29,17 +29,10 @@ public:
 	I_BEGIN_COMPONENT(CSnapBitmapSupplierComp);
 		I_ASSIGN(m_bitmapCompFact, "BitmapFactory", "Use to create bitmap object", true, "BitmapFactory");
 		I_ASSIGN(m_bitmapAcquisitionCompPtr, "BitmapAcquisition", "Bitmap acquision object for image snap", true, "BitmapAcquisition");
-		I_ASSIGN(m_paramsSetCompPtr, "ParamsSet", "Parameters set for bitmap acquisition", false, "ParamsSet");
 	I_END_COMPONENT;
-
-	iprm::IParamsSet* GetParamsSet() const;
 
 	// reimplemented (icam::IBitmapSupplier)
 	virtual const iimg::IBitmap* GetBitmap(I_DWORD objectId) const;
-
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
 
 protected:
 	// reimplemented (iproc::TSupplierCompWrap)
@@ -49,8 +42,6 @@ private:
 	I_FACT(iimg::IBitmap, m_bitmapCompFact);
 
 	I_REF(icam::IBitmapAcquisition, m_bitmapAcquisitionCompPtr);
-
-	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
 };
 
 

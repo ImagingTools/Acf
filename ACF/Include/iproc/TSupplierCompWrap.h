@@ -9,6 +9,9 @@
 #include "istd/TChangeNotifier.h"
 #include "istd/CStaticServicesProvider.h"
 
+#include "imod/IModel.h"
+#include "imod/CSingleModelObserverBase.h"
+
 #include "icomp/CComponentBase.h"
 
 #include "isys/ITimer.h"
@@ -22,23 +25,36 @@ namespace iproc
 	Wrapper implementation of interface iproc::ISupplier with preparation for component implementation.
 */
 template <class SupplierInterface, class Product>
-class TSupplierCompWrap: public icomp::CComponentBase, virtual public SupplierInterface
+class TSupplierCompWrap: public icomp::CComponentBase, virtual public SupplierInterface, protected imod::CSingleModelObserverBase
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
+	typedef CSingleModelObserverBase BaseClass2;
 
 	I_BEGIN_BASE_COMPONENT(TSupplierCompWrap);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(ISupplier);
 		I_REGISTER_INTERFACE(SupplierInterface);
 		I_ASSIGN(m_recentObjectListSizeAttrPtr, "RecentObjectListSize", "Size of list storing recent processed tagged objects, if it is disabled only one object will stored", false, 10);
+		I_ASSIGN(m_paramsSetCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
+		I_ASSIGN(m_paramsSetModelCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
 	I_END_COMPONENT;
+
+	iprm::IParamsSet* GetParamsSet() const;
 
 	// pseudo-reimplemented (iproc::ISupplier)
 	virtual void BeginNextObject(I_DWORD objectId);
 	virtual void EnsureWorkFinished(I_DWORD objectId);
 	virtual int GetWorkStatus(I_DWORD objectId) const;
 	virtual double GetWorkDurationTime(I_DWORD objectId) const;
+
+	// pseudo-reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
+
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 protected:
 	struct WorkInfo
@@ -56,6 +72,18 @@ protected:
 	const WorkInfo* GetWorkInfo(I_DWORD objectId, bool ensureFinished) const;
 
 	/**
+		Remove all cached and produced objects.
+	*/
+	void ResetProducedObjects();
+
+	// reimplemented (imod::CSingleModelObserverBase)
+	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	// pseudo-reimplemented (istd::IChangeable)
+	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+
+	// abstract methods
+	/**
 		Produce single object.
 		\return	work status. \sa iproc::ISupplier::WorkStatus
 	*/
@@ -69,10 +97,19 @@ private:
 	mutable RecentIdList m_recentIdList;
 
 	I_ATTR(int, m_recentObjectListSizeAttrPtr);
+	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
+	I_REF(imod::IModel, m_paramsSetModelCompPtr);
 };
 
 
 // public methods
+
+template <class SupplierInterface, class Product>
+iprm::IParamsSet* TSupplierCompWrap<SupplierInterface, Product>::GetParamsSet() const
+{
+	return m_paramsSetCompPtr.GetPtr();
+}
+
 
 // pseudo-reimplemented (iproc::ISupplier)
 
@@ -143,6 +180,54 @@ double TSupplierCompWrap<SupplierInterface, Product>::GetWorkDurationTime(I_DWOR
 }
 
 
+// reimplemented (iser::ISerializable)
+
+template <class SupplierInterface, class Product>
+bool TSupplierCompWrap<SupplierInterface, Product>::Serialize(iser::IArchive& archive)
+{
+	if (m_paramsSetCompPtr.IsValid()){
+		return m_paramsSetCompPtr->Serialize(archive);
+	}
+
+	return true;
+}
+
+
+template <class SupplierInterface, class Product>
+I_DWORD TSupplierCompWrap<SupplierInterface, Product>::GetMinimalVersion(int versionId) const
+{
+	if (m_paramsSetCompPtr.IsValid()){
+		return m_paramsSetCompPtr->GetMinimalVersion(versionId);
+	}
+
+	return SupplierInterface::GetMinimalVersion(versionId);
+}
+
+
+// reimplemented (icomp::IComponent)
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_paramsSetModelCompPtr.IsValid()){
+		m_paramsSetModelCompPtr->AttachObserver(this);
+	}
+}
+
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
+{
+	if (m_paramsSetModelCompPtr.IsValid()){
+		m_paramsSetModelCompPtr->DetachObserver(this);
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
 // protected methods
 
 template <class SupplierInterface, class Product>
@@ -162,7 +247,7 @@ const typename TSupplierCompWrap<SupplierInterface, Product>::WorkInfo* TSupplie
 				beforeTime = timerPtr->GetElapsed();
 			}
 
-			istd::CChangeNotifier notifier(const_cast<TSupplierCompWrap<SupplierInterface, Product>*>(this));
+			istd::CChangeNotifier notifier(const_cast<TSupplierCompWrap<SupplierInterface, Product>*>(this), CF_SUPPLIER_RESULTS);
 
 			workInfo.status = ProduceObject(objectId, workInfo.product);
 
@@ -177,6 +262,38 @@ const typename TSupplierCompWrap<SupplierInterface, Product>::WorkInfo* TSupplie
 	}
 
 	return NULL;
+}
+
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::ResetProducedObjects()
+{
+	m_storedInfoMap.clear();
+	m_recentIdList.clear();
+}
+
+
+// reimplemented (imod::CSingleModelObserverBase)
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
+	ResetProducedObjects();
+
+	BaseClass2::OnUpdate(updateFlags, updateParamsPtr);
+}
+
+
+// pseudo-reimplemented (istd::IChangeable)
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+{
+	if ((changeFlags & CF_MODEL) != 0){
+		ResetProducedObjects();
+	}
+
+	SupplierInterface::OnEndChanges(changeFlags, changeParamsPtr);
 }
 
 

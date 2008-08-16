@@ -34,8 +34,8 @@ public:
 	virtual istd::IChangeable* GetSlavePtr() const;
 
 	// reimplemented (istd::IChangeable)
-	virtual void BeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 	
 private:
 	istd::IChangeable* m_slavePtr;

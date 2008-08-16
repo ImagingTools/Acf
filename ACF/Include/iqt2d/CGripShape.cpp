@@ -28,7 +28,7 @@ CGripShape::CGripShape(QGraphicsItem* parentPtr)
 	setRect(-5, -5, 10, 10);
 
 	setFlags(ItemIsSelectable | ItemIsMovable | ItemIgnoresTransformations);
-	setCursor(QCursor(Qt::ArrowCursor)); 
+	setCursor(QCursor(Qt::CrossCursor)); 
 
 	// setup label item:
 	QFont font = m_labelItem.font();

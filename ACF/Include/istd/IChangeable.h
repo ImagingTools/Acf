@@ -20,8 +20,16 @@ namespace istd
 class IChangeable: virtual public IPolymorphic  
 {
 public:
-	enum UpdateFlags{
-		AcfInternal = 0x1
+	enum ChangeFlags{
+		/**
+			Internal ACF flag.
+			Indicate that internal update is done.
+		*/
+		CF_ACF_INTERNAL = 0x1,
+		/**
+			Indicate that data model is changed.
+		*/
+		CF_MODEL = 0x2
 	};
 	
 	/**
@@ -30,7 +38,7 @@ public:
 		corresponded parameters in EndChanges().
 		\sa EndChanges()
 	*/
-	virtual void BeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 
 	/**
 		Ends the change transaction. 
@@ -38,7 +46,7 @@ public:
 		corresponded parameters in BeginChanges().
 		\sa BeginChanges()
 	*/
-	virtual void EndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 
 protected:
 	/**
