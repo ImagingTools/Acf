@@ -21,7 +21,7 @@ bool FeaturesExtraction(
 			bool isBackward,
 			bool isRisedEdgeSupported,
 			bool isDropppedEdgeSupported,
-			const istd::CRange& ignoreIntensityRange,
+			double weightThreshold,
 			const istd::CRange& proportionRange,
 			const PixelConversion& conversion,
 			IFeaturesConsumer& results)
@@ -33,6 +33,7 @@ bool FeaturesExtraction(
 
 	results.ResetFeatures();
 
+	double workThreshold = weightThreshold * conversion.whiteIntensity;
 	int index = -1;
 	int nextIndex = isBackward? bitmapSize.GetX() - 1: 0;
 	int indexDiff = isBackward? -1: 1;
@@ -53,24 +54,30 @@ bool FeaturesExtraction(
 			double pixelIntensity = conversion.GetIntensity(pixel);
 			double nextPixelIntensity = conversion.GetIntensity(nextPixel);
 			if (nextPixelIntensity < pixelIntensity){
-				if (isRisedEdgeSupported && (risedCount > 0) && (pixelIntensity > ignoreIntensityRange.GetMaxValue())){
-					double prevDelta = pixelIntensity - conversion.GetIntensity(prevPixel);
-					I_ASSERT(prevDelta >= 0);
+				if (isRisedEdgeSupported && (risedCount > 0)){
+					if (pixelIntensity > workThreshold){
+						double prevDelta = pixelIntensity - conversion.GetIntensity(prevPixel);
+						I_ASSERT(prevDelta >= 0);
 
-					double nextDelta = pixelIntensity - nextPixelIntensity;
-					I_ASSERT(nextDelta >= 0);
-					I_ASSERT(nextDelta + prevDelta > 0);
+						double nextDelta = pixelIntensity - nextPixelIntensity;
+						I_ASSERT(nextDelta >= 0);
+						I_ASSERT(nextDelta + prevDelta > 0);
 
-					double shift = prevDelta / (nextDelta + prevDelta);
+						double deltaSum = (nextDelta + prevDelta);
+						I_ASSERT(deltaSum >= 0);
 
-					double position = proportionRange.GetValueFromAlpha((index + shift) / bitmapSize.GetX());
-					I_ASSERT(position >= 0 - I_EPSILON);
-					I_ASSERT(position <= 1 + I_EPSILON);
+						double shift = prevDelta / deltaSum;
 
-					bool isReady = false;
-					if (		results.AddFeature(new CCaliperFeature(pixelIntensity * conversion.GetWeight(pixel), position), &isReady) ||
-								isReady){
-						return isReady;
+						double position = proportionRange.GetValueFromAlpha((index + shift) / bitmapSize.GetX());
+						I_ASSERT(position >= 0 - I_EPSILON);
+						I_ASSERT(position <= 1 + I_EPSILON);
+
+						bool isReady = false;
+						double featureWeight = pixelIntensity / conversion.whiteIntensity * 0.5;
+						if (		!results.AddFeature(new CCaliperFeature(featureWeight, position), &isReady) ||
+									isReady){
+							return isReady;
+						}
 					}
 				}
 
@@ -78,24 +85,30 @@ bool FeaturesExtraction(
 				droppedCount++;
 			}
 			else{
-				if (isDropppedEdgeSupported && (droppedCount > 0) && (pixelIntensity < ignoreIntensityRange.GetMinValue())){
-					double prevDelta = conversion.GetIntensity(prevPixel) - pixelIntensity;
-					I_ASSERT(prevDelta >= 0);
+				if (isDropppedEdgeSupported && (droppedCount > 0)){
+					if (pixelIntensity < -workThreshold){
+						double prevDelta = conversion.GetIntensity(prevPixel) - pixelIntensity;
+						I_ASSERT(prevDelta >= 0);
 
-					double nextDelta = nextPixelIntensity - pixelIntensity;
-					I_ASSERT(nextDelta >= 0);
-					I_ASSERT(nextDelta + prevDelta > 0);
+						double nextDelta = nextPixelIntensity - pixelIntensity;
+						I_ASSERT(nextDelta >= 0);
+						I_ASSERT(nextDelta + prevDelta > 0);
 
-					double shift = prevDelta / (nextDelta + prevDelta);
+						double deltaSum = (nextDelta + prevDelta);
+						I_ASSERT(deltaSum >= 0);
 
-					double position = proportionRange.GetValueFromAlpha((index + shift) / bitmapSize.GetX());
-					I_ASSERT(position >= 0 - I_EPSILON);
-					I_ASSERT(position <= 1 + I_EPSILON);
+						double shift = prevDelta / deltaSum;
 
-					bool isReady = false;
-					if (		results.AddFeature(new CCaliperFeature(pixelIntensity * conversion.GetWeight(pixel), position), &isReady) ||
-								isReady){
-						return isReady;
+						double position = proportionRange.GetValueFromAlpha((index + shift) / bitmapSize.GetX());
+						I_ASSERT(position >= 0 - I_EPSILON);
+						I_ASSERT(position <= 1 + I_EPSILON);
+
+						bool isReady = false;
+						double featureWeight = pixelIntensity / conversion.whiteIntensity * 0.5;
+						if (		!results.AddFeature(new CCaliperFeature(featureWeight, position), &isReady) ||
+									isReady){
+							return isReady;
+						}
 					}
 				}
 
@@ -135,7 +148,7 @@ bool CExtremumCaliperProcessor::DoExtremumCaliper(const CProjectionData& source,
 				isBackward,
 				(polarityMode != ICaliperParams::PM_DROPPED),
 				(polarityMode != ICaliperParams::PM_RISED),
-				istd::CRange(128 - weightThreshold * 128, 128 + weightThreshold * 128),
+				weightThreshold,
 				proportionRange,
 				conversion,
 				results);

@@ -68,10 +68,10 @@ bool ProjectionFunction(
 					I_ASSERT(alpha <= 1);
 
 					int axis2Offset = axis2Index * addressDiffs[1];
-					const I_BYTE* linePtr = (firstLinePixelAddress + axis2Offset);
+					const I_BYTE* pixelPtr = (firstLinePixelAddress + axis2Offset);
 					value =	PixelConversion::CalcPixelType(
-								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr)) * alpha +
-								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(linePtr - addressDiffs[1])) * (1 - alpha));
+								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(pixelPtr)) * alpha +
+								conversion.GetCalc(*(const PixelConversion::SourcePixelType*)(pixelPtr - addressDiffs[1])) * (1 - alpha));
 				}
 			}
 
@@ -130,14 +130,14 @@ bool CLineProjectionProcessor::DoAutosizeProjection(
 		firstPixelAddress += addressDiffs[0] * (axisSizes[0] - 1);
 		addressDiffs[0] = -addressDiffs[0];
 		transformedLine.SetPoint1(i2d::CVector2d(
-					-transformedLine.GetPoint1().GetX(),
+					axisSizes[0] - transformedLine.GetPoint1().GetX(),
 					transformedLine.GetPoint1().GetY()));
 		transformedLine.SetPoint2(i2d::CVector2d(
-					-transformedLine.GetPoint2().GetX(),
+					axisSizes[0] - transformedLine.GetPoint2().GetX(),
 					transformedLine.GetPoint2().GetY()));
 	}
 
-	i2d::CLine2d clippedLine = projectionLine.GetClipped(i2d::CRectangle(axisSizes));
+	i2d::CLine2d clippedLine = transformedLine.GetClipped(i2d::CRectangle(axisSizes));
 
 	iimg::CGrayGrayPixelConversion conversion;
 	return ProjectionFunction(

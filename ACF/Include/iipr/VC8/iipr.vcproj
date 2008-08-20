@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCaliperParamsComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CExtremumCaliperProcessor.cpp"
 				>
 			</File>
@@ -278,6 +282,10 @@
 			</File>
 			<File
 				RelativePath="..\CCaliperParams.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCaliperParamsComp.h"
 				>
 			</File>
 			<File

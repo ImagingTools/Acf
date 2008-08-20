@@ -289,6 +289,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtprm", "..\..\..\Include\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtproc", "..\..\..\Include\iqtproc\VC7\iqproc.vcproj", "{089A5102-5A2B-43FB-917A-BE3FEBD9445A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -483,6 +487,10 @@ Global
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Debug.Build.0 = Debug|Win32
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Release.ActiveCfg = Release|Win32
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Release.Build.0 = Release|Win32
+		{089A5102-5A2B-43FB-917A-BE3FEBD9445A}.Debug.ActiveCfg = Debug|Win32
+		{089A5102-5A2B-43FB-917A-BE3FEBD9445A}.Debug.Build.0 = Debug|Win32
+		{089A5102-5A2B-43FB-917A-BE3FEBD9445A}.Release.ActiveCfg = Release|Win32
+		{089A5102-5A2B-43FB-917A-BE3FEBD9445A}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

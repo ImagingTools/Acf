@@ -29,7 +29,7 @@ class TSupplierCompWrap: public icomp::CComponentBase, virtual public SupplierIn
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
-	typedef CSingleModelObserverBase BaseClass2;
+	typedef imod::CSingleModelObserverBase BaseClass2;
 
 	I_BEGIN_BASE_COMPONENT(TSupplierCompWrap);
 		I_REGISTER_INTERFACE(iser::ISerializable);
@@ -64,6 +64,11 @@ protected:
 		double durationTime;
 		bool isDone;
 	};
+
+	/**
+		Check if object ID is beeing processed or processing is started yet.
+	*/
+	bool IsIdKnown(I_DWORD objectId) const;
 
 	/**
 		Get complete product optional using object ID.
@@ -229,6 +234,13 @@ void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
 
 
 // protected methods
+
+template <class SupplierInterface, class Product>
+bool TSupplierCompWrap<SupplierInterface, Product>::IsIdKnown(I_DWORD objectId) const
+{
+	return m_storedInfoMap.find(objectId) != m_storedInfoMap.end();
+}
+
 
 template <class SupplierInterface, class Product>
 const typename TSupplierCompWrap<SupplierInterface, Product>::WorkInfo* TSupplierCompWrap<SupplierInterface, Product>::GetWorkInfo(

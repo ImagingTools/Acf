@@ -35,6 +35,9 @@ public:
 	// reimplemented (iipr::IVector2dSupplier)
 	virtual const i2d::CVector2d* GetVector2d(I_DWORD objectId) const;
 
+	// reimplemented (iproc::ISupplier)
+	virtual void BeginNextObject(I_DWORD objectId);
+
 protected:
 	// reimplemented (iproc::TSupplierCompWrap)
 	virtual int ProduceObject(I_DWORD objectId, i2d::CVector2d& result) const;

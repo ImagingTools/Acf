@@ -109,6 +109,9 @@
 				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CCaliperParamsGuiComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CIterativeProcessorParamsGuiComp.cpp">
 			</File>
 			<File
@@ -130,6 +133,29 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.h">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Moc&apos;ing $(InputPath)..."
+						CommandLine="$(QTDIR)\bin\moc.exe  &quot;$(InputPath)&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
+						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CCaliperParamsGuiComp.h">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
@@ -265,6 +291,9 @@
 				RelativePath="..\generated\moc_CCaliperBasedPositionSupplierGuiComp.cpp">
 			</File>
 			<File
+				RelativePath="..\generated\moc_CCaliperParamsGuiComp.cpp">
+			</File>
+			<File
 				RelativePath="..\generated\moc_CIterativeProcessorParamsGuiComp.cpp">
 			</File>
 			<File
@@ -278,6 +307,9 @@
 			</File>
 			<File
 				RelativePath="..\generated\ui_CCaliperBasedPositionSupplierGuiComp.h">
+			</File>
+			<File
+				RelativePath="..\generated\ui_CCaliperParamsGuiComp.h">
 			</File>
 			<File
 				RelativePath="..\generated\ui_CIterativeProcessorParamsGuiComp.h">
@@ -297,6 +329,29 @@
 			Filter="">
 			<File
 				RelativePath="..\CCaliperBasedPositionSupplierGuiComp.ui">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Uic&apos;ing $(InputFileName)..."
+						CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;
+"
+						AdditionalDependencies="$(QTDIR)\bin\uic.exe"
+						Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\CCaliperParamsGuiComp.ui">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool

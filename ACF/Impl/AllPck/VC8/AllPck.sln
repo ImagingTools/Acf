@@ -226,6 +226,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MilPck", "..\..\MilPck\VC8\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtprm", "..\..\..\Include\iqtprm\VC8\iqtprm.vcproj", "{B11EFB14-C129-4F69-8143-8127D45770BF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtproc", "..\..\..\Include\iqtproc\VC8\iqtproc.vcproj", "{67FB72B1-029B-4152-9267-B91970E6EC6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -420,6 +422,10 @@ Global
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Debug|Win32.Build.0 = Debug|Win32
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Release|Win32.ActiveCfg = Release|Win32
 		{B11EFB14-C129-4F69-8143-8127D45770BF}.Release|Win32.Build.0 = Release|Win32
+		{67FB72B1-029B-4152-9267-B91970E6EC6D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67FB72B1-029B-4152-9267-B91970E6EC6D}.Debug|Win32.Build.0 = Debug|Win32
+		{67FB72B1-029B-4152-9267-B91970E6EC6D}.Release|Win32.ActiveCfg = Release|Win32
+		{67FB72B1-029B-4152-9267-B91970E6EC6D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

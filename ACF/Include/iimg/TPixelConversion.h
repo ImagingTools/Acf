@@ -17,6 +17,8 @@ public:
 	typedef DestPixel DestPixelType;
 	typedef CalcPixel CalcPixelType;
 
+	TPixelConversion();
+
 	DestPixel operator()(const SourcePixel& pixel) const;
 
 	CalcPixel GetCalc(const SourcePixel& pixel) const;
@@ -36,10 +38,19 @@ public:
 		This value is used for grayscale algorithms to operate with pixels with additional than intensity information.
 	*/
 	double GetIntensity(const CalcPixel& pixel) const;
+
+	double whiteIntensity;
 };
 
 
 // inline methods
+
+template <typename SourcePixel, typename DestPixel, typename CalcPixel>
+inline TPixelConversion<SourcePixel, DestPixel, CalcPixel>::TPixelConversion()
+:	whiteIntensity(1)
+{
+}
+
 
 template <typename SourcePixel, typename DestPixel, typename CalcPixel>
 inline typename DestPixel TPixelConversion<SourcePixel, DestPixel, CalcPixel>::operator()(const SourcePixel& pixel) const
@@ -73,6 +84,13 @@ template <typename SourcePixel, typename DestPixel, typename CalcPixel>
 inline double TPixelConversion<SourcePixel, DestPixel, CalcPixel>::GetIntensity(const CalcPixel& pixel) const
 {
 	return double(pixel);
+}
+
+
+template <>
+inline TPixelConversion<I_BYTE, I_BYTE, I_BYTE>::TPixelConversion()
+:	whiteIntensity(255)
+{
 }
 
 

@@ -21,6 +21,20 @@ const i2d::CVector2d* CCaliperBasedPositionSupplierComp::GetVector2d(I_DWORD obj
 }
 
 
+// reimplemented (iproc::ISupplier)
+
+void CCaliperBasedPositionSupplierComp::BeginNextObject(I_DWORD objectId)
+{
+	if (!IsIdKnown(objectId)){
+		BaseClass::BeginNextObject(objectId);
+
+		if (m_bitmapSupplierCompPtr.IsValid()){
+			m_bitmapSupplierCompPtr->BeginNextObject(objectId);
+		}
+	}
+}
+
+
 // protected methods
 
 // reimplemented (iproc::TSupplierCompWrap)

@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include <QToolBox>
+#include <QTabWidget>
 
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
@@ -147,6 +148,38 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 
 			m_currentGuiIndex = 0;
 		}
+		else if (*m_designTypeAttrPtr == 2){
+			widgetPtr->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
+			QTabWidget* tabWidgetPtr = new QTabWidget(widgetPtr);
+			int elementsCount = m_guisCompPtr.GetCount();
+			for (int i = 0; i < elementsCount; ++i){
+				iqt::IGuiObject* guiPtr = m_guisCompPtr[i];
+
+				if (guiPtr != NULL){
+					QWidget* panelPtr = new QWidget(tabWidgetPtr);
+					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
+					QString name;
+					if (i < m_namesAttrPtr.GetCount()){
+						name = iqt::GetQString(m_namesAttrPtr[i]);
+					}
+
+					guiPtr->CreateGui(panelPtr);
+
+					tabWidgetPtr->addTab(panelPtr, name);
+
+					QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+					panelLayoutPtr->addItem(spacerPtr);
+				}
+			}
+
+			QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
+
+			layoutPtr->addWidget(tabWidgetPtr);
+
+			m_currentGuiIndex = 0;
+		}
 		else{
 			int elementsCount = m_guisCompPtr.GetCount();
 			for (int i = 0; i < elementsCount; ++i){
@@ -191,9 +224,11 @@ void CComposedParamsSetGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* prov
 
 void CComposedParamsSetGuiComp::AttachToScene(iqt2d::ISceneProvider* providerPtr, int flags)
 {
+	I_ASSERT(m_showAllShapesAttrPtr.IsValid());
+
 	int elementsCount = m_extendersCompPtr.GetCount();
 
-	if (m_currentGuiIndex >= 0){
+	if ((m_currentGuiIndex >= 0) && !*m_showAllShapesAttrPtr){
 		if (m_currentGuiIndex < elementsCount){
 			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[m_currentGuiIndex];
 			if (extenderPtr != NULL){
@@ -218,7 +253,7 @@ void CComposedParamsSetGuiComp::DetachFromScene(iqt2d::ISceneProvider* providerP
 
 	int elementsCount = m_extendersCompPtr.GetCount();
 
-	if (m_currentGuiIndex >= 0){
+	if ((m_currentGuiIndex >= 0) && !*m_showAllShapesAttrPtr){
 		if (m_currentGuiIndex < elementsCount){
 			iqt2d::ISceneExtender* extenderPtr = m_extendersCompPtr[m_currentGuiIndex];
 			if (extenderPtr != NULL){

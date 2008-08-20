@@ -11,28 +11,6 @@ namespace iqtcam
 {
 
 
-// reimplemented (iqt2d::ISceneExtender)
-
-void CSnapBitmapSupplierGuiComp::AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags)
-{
-	BaseClass::AddItemsToScene(providerPtr, flags);
-
-	if (m_paramsSetExtenderCompPtr.IsValid()){
-		m_paramsSetExtenderCompPtr->AddItemsToScene(providerPtr, flags);
-	}
-}
-
-
-void CSnapBitmapSupplierGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr)
-{
-	if (m_paramsSetExtenderCompPtr.IsValid()){
-		m_paramsSetExtenderCompPtr->RemoveItemsFromScene(providerPtr);
-	}
-
-	BaseClass::RemoveItemsFromScene(providerPtr);
-}
-
-
 // reimplemented (imod::IModelEditor)
 
 void CSnapBitmapSupplierGuiComp::UpdateModel() const
@@ -93,7 +71,7 @@ void CSnapBitmapSupplierGuiComp::UpdateEditor()
 
 void CSnapBitmapSupplierGuiComp::on_SnapImageButton_clicked()
 {
-	SnapImage();
+	DoTest();
 }
 
 
@@ -114,33 +92,13 @@ void CSnapBitmapSupplierGuiComp::on_SaveImageButton_clicked()
 
 void CSnapBitmapSupplierGuiComp::on_LoadParamsButton_clicked()
 {
-	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
-	if (supplierPtr != NULL){
-		iprm::IParamsSet* paramsPtr = supplierPtr->GetParamsSet();
-		if (		(paramsPtr != NULL) &&
-					(m_paramsLoaderCompPtr->LoadFromFile(*paramsPtr, "") == iser::IFileLoader::StateFailed)){
-			QMessageBox::information(
-						NULL,
-						QObject::tr("Error"),
-						QObject::tr("Cannot load parameters"));
-		}
-	}
+	LoadParams();
 }
 
 
 void CSnapBitmapSupplierGuiComp::on_SaveParamsButton_clicked()
 {
-	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
-	if (supplierPtr != NULL){
-		iprm::IParamsSet* paramsPtr = supplierPtr->GetParamsSet();
-		if (		(paramsPtr != NULL) &&
-					(m_paramsLoaderCompPtr->SaveToFile(*paramsPtr, "") == iser::IFileLoader::StateFailed)){
-			QMessageBox::information(
-						NULL,
-						QObject::tr("Error"),
-						QObject::tr("Cannot save parameters"));
-		}
-	}
+	SaveParams();
 }
 
 
@@ -149,10 +107,11 @@ void CSnapBitmapSupplierGuiComp::on_SaveParamsButton_clicked()
 const iimg::IBitmap* CSnapBitmapSupplierGuiComp::GetCurrentBitmap() const
 {
 	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
+	iproc::IIdManager* idManagerPtr = GetIdManager();
 	I_DWORD objectId;
 	if (		(supplierPtr != NULL) &&
-				m_idManagerCompPtr.IsValid() &&
-				m_idManagerCompPtr->GetCurrentId(objectId)){
+				(idManagerPtr != NULL) &&
+				idManagerPtr->GetCurrentId(objectId)){
 		return supplierPtr->GetBitmap(objectId);
 	}
 
@@ -160,20 +119,13 @@ const iimg::IBitmap* CSnapBitmapSupplierGuiComp::GetCurrentBitmap() const
 }
 
 
-bool CSnapBitmapSupplierGuiComp::SnapImage()
+// reimplemented (iqtproc::TSupplierGuiCompBase)
+
+QWidget* CSnapBitmapSupplierGuiComp::GetParamsWidget() const
 {
-	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
-	I_DWORD objectId;
-	if (		(supplierPtr != NULL) &&
-				m_idManagerCompPtr.IsValid() &&
-				m_idManagerCompPtr->SkipToNextId(objectId)){
-		supplierPtr->BeginNextObject(objectId);
-		supplierPtr->EnsureWorkFinished(objectId);
+	I_ASSERT(IsGuiCreated());
 
-		return supplierPtr->GetWorkStatus(objectId) < iproc::ISupplier::WS_ERROR;
-	}
-
-	return false;
+	return ParamsFrame;
 }
 
 
@@ -203,48 +155,10 @@ void CSnapBitmapSupplierGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
-	I_ASSERT(supplierPtr != NULL);	// model must be attached
+	ParamsGB->setVisible(AreParamsEditable() || IsLoadParamsSupported());
 
-	iprm::IParamsSet* paramsPtr = const_cast<iprm::IParamsSet*>(supplierPtr->GetParamsSet());
-	imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(paramsPtr);
-
-	bool areParamsEditable = false;
-	if ((paramsModelPtr != NULL) && m_paramsSetGuiCompPtr.IsValid() && m_paramsSetObserverCompPtr.IsValid()){
-		paramsModelPtr->AttachObserver(m_paramsSetObserverCompPtr.GetPtr());
-		m_paramsSetGuiCompPtr->CreateGui(ParamsFrame);
-
-		areParamsEditable = true;
-	}
-
-	ParamsGB->setVisible(
-				(paramsPtr != NULL) &&
-				(areParamsEditable || m_paramsLoaderCompPtr.IsValid()));
-	LoadParamsButton->setVisible(m_paramsLoaderCompPtr.IsValid());
-	SaveParamsButton->setVisible(m_paramsLoaderCompPtr.IsValid());
-	ParamsFrame->setVisible(areParamsEditable);
-}
-
-
-void CSnapBitmapSupplierGuiComp::OnGuiModelDetached()
-{
-	icam::CSnapBitmapSupplierComp* supplierPtr = GetObjectPtr();
-	I_ASSERT(supplierPtr != NULL);	// model must be attached
-
-	iprm::IParamsSet* paramsPtr = const_cast<iprm::IParamsSet*>(supplierPtr->GetParamsSet());
-	imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(paramsPtr);
-
-	if (		m_paramsSetObserverCompPtr.IsValid() &&
-				(paramsModelPtr != NULL) &&
-				paramsModelPtr->IsAttached(m_paramsSetObserverCompPtr.GetPtr())){
-		paramsModelPtr->DetachObserver(m_paramsSetObserverCompPtr.GetPtr());
-	}
-
-	if (m_paramsSetGuiCompPtr.IsValid() && m_paramsSetGuiCompPtr->IsGuiCreated()){
-		m_paramsSetGuiCompPtr->DestroyGui();
-	}
-
-	BaseClass::OnGuiModelDetached();
+	LoadParamsButton->setVisible(IsLoadParamsSupported());
+	SaveParamsButton->setVisible(IsSaveParamsSupported());
 }
 
 

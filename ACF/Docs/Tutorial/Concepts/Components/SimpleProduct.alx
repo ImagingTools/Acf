@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="23">
+  <PositionMap count="29">
     <Element>
       <ComponentName>
         AnnulusTestTask
@@ -55,6 +55,28 @@
       </ComponentName>
       <X>
         1162
+      </X>
+      <X>
+        -662
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperParams
+      </ComponentName>
+      <X>
+        537
+      </X>
+      <X>
+        112
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CaliperParamsGui
+      </ComponentName>
+      <X>
+        900
       </X>
       <X>
         -662
@@ -139,6 +161,28 @@
     </Element>
     <Element>
       <ComponentName>
+        FilePathParam
+      </ComponentName>
+      <X>
+        -100
+      </X>
+      <X>
+        387
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FilePathParamGui
+      </ComponentName>
+      <X>
+        -437
+      </X>
+      <X>
+        -462
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         Framework
       </ComponentName>
       <X>
@@ -157,6 +201,28 @@
       </X>
       <X>
         -437
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ImageParamsSet
+      </ComponentName>
+      <X>
+        -87
+      </X>
+      <X>
+        287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ImageParamsSetGui
+      </ComponentName>
+      <X>
+        -437
+      </X>
+      <X>
+        -287
       </X>
     </Element>
     <Element>

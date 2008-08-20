@@ -18,7 +18,7 @@
 #include "iipr/TUnaryTransformProcessorComp.h"
 #include "iipr/TGaussianProcessorComp.h"
 #include "iipr/CGaussian2dFilterParams.h"
-#include "iipr/CCaliperParams.h"
+#include "iipr/CCaliperParamsComp.h"
 #include "iipr/CExtremumCaliperProcessorComp.h"
 #include "iipr/CLineProjectionProcessorComp.h"
 #include "iipr/CSearchResultSet.h"
@@ -44,7 +44,7 @@ typedef iipr::CMorphoMinOperatorComp MorphoMinOperator;
 typedef iipr::CInvertOperatorComp InvertOperator;
 typedef iipr::CGaussianFilterComp GaussianFilter;
 typedef icomp::TMakeComponentWrap<imod::TModelWrap<iipr::CGaussian2dFilterParams>, iser::ISerializable> GaussianFilterParams;
-typedef icomp::TMakeComponentWrap<imod::TModelWrap<iipr::CCaliperParams>, iipr::ICaliperParams, iser::ISerializable> CaliperParams;
+typedef icomp::TModelCompWrap<iipr::CCaliperParamsComp> CaliperParams;
 typedef iipr::CExtremumCaliperProcessorComp ExtremumCaliperProcessor;
 typedef iipr::CLineProjectionProcessorComp LineProjectionProcessor;
 typedef icomp::TMakeComponentWrap<
