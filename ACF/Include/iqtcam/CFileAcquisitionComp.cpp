@@ -105,7 +105,7 @@ const istd::CString& CFileAcquisitionComp::GetLastSaveFileName() const
 
 // reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
-int CFileAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
+int CFileAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const istd::IPolymorphic* /*inputPtr*/, istd::IChangeable* outputPtr)
 {
 	I_ASSERT(m_defaultDirAttrPtr.IsValid());	// obligatory attribute
 	I_ASSERT(m_parameterIdAttrPtr.IsValid());	// obligatory attribute
@@ -151,6 +151,9 @@ int CFileAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const 
 		if (outputPtr != NULL){
 			int loadState = LoadFromFile(*outputPtr, fileName);
 			retVal = (loadState == StateOk)? TS_OK: TS_INVALID;
+		}
+		else{
+			retVal = TS_OK;
 		}
 	}
 

@@ -36,7 +36,7 @@ public:
 
 	/**
 		Set parameter ID used to extract line object from parameter set.
-		It is only needed while using general processing interface iproc::TIProcessor.
+		It is only needed while using general processing interface iproc::IProcessor.
 	*/
 	void SetLineParamId(const std::string& id);
 
@@ -50,11 +50,11 @@ public:
 				const imath::CVarVector& projectionPosition,
 				const iprm::IParamsSet* paramsPtr) const;
 
-	// reimplemented (iproc::TIProcessor)
+	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const iimg::IBitmap* inputPtr,
-				CProjectionData* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
 	// reimplemented (iipr::IProjectionConstraints)
 	virtual istd::CRange GetLineWidthRange() const;

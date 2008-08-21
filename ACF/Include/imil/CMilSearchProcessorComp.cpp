@@ -17,28 +17,28 @@ namespace imil
 
 // public methods
 
-// reimplemented (iproc::TSyncProcessorWrap<iipr::ISearchProcessor>)
+// reimplemented (iproc::IProcessor)
 
 int CMilSearchProcessorComp::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const iimg::IBitmap* inputPtr,
-			iipr::IFeaturesConsumer* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
-	iwin::CTimer timer;
-
-	if (inputPtr == NULL || outputPtr == NULL){
-		return PS_INVALID;
+	if (outputPtr == NULL){
+		return TS_OK;
 	}
 
-	istd::TChangeNotifier<iipr::IFeaturesConsumer> changePtr(outputPtr);
-	I_ASSERT(changePtr.IsValid());
+	const iimg::IBitmap* inputBitmapPtr = dynamic_cast<const iimg::IBitmap*>(inputPtr);
+	iipr::IFeaturesConsumer* outputConsumerPtr = dynamic_cast<iipr::IFeaturesConsumer*>(outputPtr);
 
-	changePtr->ResetFeatures();
-
-	const CMilSearchParams* milParamsPtr = NULL;
-	if (m_searchParamsIdAttrPtr.IsValid()){
-		milParamsPtr = dynamic_cast<const CMilSearchParams*>(paramsPtr->GetParameter(m_searchParamsIdAttrPtr->GetValue().ToString()));
+	if (		(inputBitmapPtr == NULL) ||
+				(outputConsumerPtr == NULL) ||
+				(paramsPtr == NULL) ||
+				!m_searchParamsIdAttrPtr.IsValid()){
+		return TS_INVALID;
 	}
+
+	const CMilSearchParams* milParamsPtr = dynamic_cast<const CMilSearchParams*>(paramsPtr->GetParameter(m_searchParamsIdAttrPtr->GetValue().ToString()));
 
 	if (milParamsPtr == NULL){
 		SendErrorMessage(0, "Invalid parameter type");
@@ -46,46 +46,64 @@ int CMilSearchProcessorComp::DoProcessing(
 		return TS_INVALID;
 	}
 
-	const imil::CMilSearchModel& searchModel = milParamsPtr->GetModel(); 
+	return DoSearch(*milParamsPtr, *inputBitmapPtr, *outputConsumerPtr)? TS_OK: TS_INVALID;
+}
+
+
+// protected methods
+
+bool CMilSearchProcessorComp::DoSearch(
+			const CMilSearchParams& params,
+			const iimg::IBitmap& bitmap,
+			iipr::IFeaturesConsumer& result)
+{
+	iwin::CTimer timer;
+
+	istd::TChangeNotifier<iipr::IFeaturesConsumer> consumerPtr(&result);
+	I_ASSERT(consumerPtr.IsValid());
+
+	consumerPtr->ResetFeatures();
+
+	const imil::CMilSearchModel& searchModel = params.GetModel(); 
 	if (!searchModel.IsValid()){
 		SendErrorMessage(0, "Invalid model or model type");
 
-		return TS_INVALID;
+		return false;
 	}
 
-	i2d::CRectangle searchRegion = milParamsPtr->GetSearchRegion();
-	i2d::CRectangle bitmapRect = i2d::CRectangle(0, 0, inputPtr->GetImageSize().GetX(), inputPtr->GetImageSize().GetY());
+	i2d::CRectangle searchRegion = params.GetSearchRegion();
+	i2d::CRectangle bitmapRect = i2d::CRectangle(0, 0, bitmap.GetImageSize().GetX(), bitmap.GetImageSize().GetY());
 	searchRegion = bitmapRect.GetIntersection(searchRegion);
 	if (searchRegion.IsEmpty()){
 		SendErrorMessage(0, "Search region is empty");
 
-		return TS_INVALID;
+		return false;
 	}
 
 	int regionWidth = int(searchRegion.GetWidth());
 	int regionHeight = int(searchRegion.GetHeight());
-	int bitsOffset = int(searchRegion.GetTop() * inputPtr->GetLineBytesCount() + searchRegion.GetLeft());
+	int bitsOffset = int(searchRegion.GetTop() * bitmap.GetLineBytesCount() + searchRegion.GetLeft());
 
 	// Create MIL-image region from the user defined region:
 	MIL_ID milImage = MbufCreate2d(
-		m_engine.GetSystemId(), 
-		regionWidth, 
-		regionHeight, 
-		8, 
-		M_IMAGE + M_PROC, 
-		M_HOST_ADDRESS | M_PITCH_BYTE, 
-		inputPtr->GetLineBytesCount(), 
-		(char*)inputPtr->GetLinePtr(0) + bitsOffset, 
-		M_NULL);
+				m_engine.GetSystemId(), 
+				regionWidth, 
+				regionHeight, 
+				8, 
+				M_IMAGE + M_PROC, 
+				M_HOST_ADDRESS | M_PITCH_BYTE, 
+				bitmap.GetLineBytesCount(), 
+				(char*)bitmap.GetLinePtr(0) + bitsOffset, 
+				M_NULL);
 	
 	if (milImage == M_NULL){
 		SendErrorMessage(0, "MIL image could not be created");
 
-		return TS_INVALID;
+		return false;
 	}
 
 	// Ensure model preproccesing:
-	searchModel.EnsurePreprocessing(*milParamsPtr);
+	searchModel.EnsurePreprocessing(params);
 
 	// Allocate the result buffer:
 	MIL_ID milResult = MmodAllocResult(m_engine.GetSystemId(), M_DEFAULT, M_NULL);
@@ -128,7 +146,7 @@ int CMilSearchProcessorComp::DoProcessing(
 
 			angle = (fmod(1 + angle / 180.0, 2) - 1)  * I_PI;
 
-			changePtr->AddFeature(new iipr::CSearchFeature(position, scale, angle, score));
+			consumerPtr->AddFeature(new iipr::CSearchFeature(position, scale, angle, score));
 		}
 	}
 
@@ -139,12 +157,12 @@ int CMilSearchProcessorComp::DoProcessing(
 	MmodFree(milResult);
 
 	// set search duration:
-	iipr::CSearchResultSet* resultSetPtr = dynamic_cast<iipr::CSearchResultSet*>(outputPtr);
+	iipr::CSearchResultSet* resultSetPtr = dynamic_cast<iipr::CSearchResultSet*>(&result);
 	if (resultSetPtr != NULL){
 		resultSetPtr->SetTime(timer.GetElapsed() * 1000);
 	}
 
-	return TS_OK;
+	return true;
 }
 
 

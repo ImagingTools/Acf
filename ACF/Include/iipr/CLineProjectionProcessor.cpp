@@ -183,18 +183,24 @@ imath::CVarVector CLineProjectionProcessor::GetBitmapPosition(
 }
 
 
-// reimplemented (iproc::TIProcessor)
+// reimplemented (iproc::IProcessor)
 
 int CLineProjectionProcessor::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const iimg::IBitmap* inputPtr,
-			CProjectionData* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
 	if (outputPtr == NULL){
 		return TS_OK;
 	}
 
-	if ((inputPtr == NULL) || (paramsPtr == NULL) || m_lineParamId.empty()){
+	const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(inputPtr);
+	CProjectionData* projectionPtr = dynamic_cast<CProjectionData*>(outputPtr);
+
+	if (		(bitmapPtr == NULL) ||
+				(projectionPtr == NULL) ||
+				(paramsPtr == NULL) ||
+				m_lineParamId.empty()){
 		return TS_INVALID;
 	}
 
@@ -203,7 +209,7 @@ int CLineProjectionProcessor::DoProcessing(
 		return TS_INVALID;
 	}
 
-	return DoAutosizeProjection(*inputPtr, *linePtr, *outputPtr)? TS_OK: TS_INVALID;
+	return DoAutosizeProjection(*bitmapPtr, *linePtr, *projectionPtr)? TS_OK: TS_INVALID;
 }
 
 

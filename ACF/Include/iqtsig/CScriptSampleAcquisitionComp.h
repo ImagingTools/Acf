@@ -8,8 +8,6 @@
 
 #include "iproc/TSyncProcessorWrap.h"
 
-#include "isig/ISamplesProcessor.h"
-
 #include "iqtsig/iqtsig.h"
 
 
@@ -17,13 +15,15 @@ namespace iqtsig
 {
 
 
-class CScriptSampleAcquisitionComp: public icomp::CComponentBase, virtual public iproc::TSyncProcessorWrap<isig::ISamplesProcessor>
+class CScriptSampleAcquisitionComp:
+			public icomp::CComponentBase,
+			public iproc::CSyncProcessorBase
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CScriptSampleAcquisitionComp)
-		I_REGISTER_INTERFACE(isig::ISamplesProcessor)
+		I_REGISTER_INTERFACE(iproc::IProcessor)
 		I_ASSIGN(m_minValueAttrPtr, "MinValue", "Minimal value of sample", true, 0.0);
 		I_ASSIGN(m_maxValueAttrPtr, "MaxValue", "Maximal value of sample", true, 100.0);
 		I_ASSIGN(m_samplesCountAttrPtr, "SamplesCount", "Number of samples processed in single step", false, 100);
@@ -32,13 +32,15 @@ public:
 
 	CScriptSampleAcquisitionComp();
 
-	// reimplemented (iproc::TSyncProcessorWrap<isig::ISamplesProcessor>)
+	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const isig::ISamplesContainer* inputPtr,
-				isig::ISamplesContainer* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
-	// reimplemented (isig::ISamplesProcessor)
+	// reimplemented (isig::ISamplingConstraints)
+	virtual istd::CRange GetIntervalRange() const;
+	virtual bool IsSamplingModeSupported(int mode) const;
 	virtual istd::CRange GetValueRange(bool forInput = true, bool forOutput = true, const iprm::IParamsSet* paramsSetPtr = 0) const;
 	virtual int GetMaximalSamplesCount(bool forInput = true, bool forOutput = true, const iprm::IParamsSet* paramsSetPtr = 0) const;
 

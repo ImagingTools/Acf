@@ -21,7 +21,7 @@ public:
 	/**
 		Get access to constraints information about possible value ranges.
 	*/
-	virtual const IProjectionConstraints* GetConstraints() = 0;
+	virtual const IProjectionConstraints* GetConstraints() const = 0;
 
 	/**
 		Get width of projection line.

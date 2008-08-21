@@ -94,7 +94,7 @@ bool CSampleAcquisitionGuiComp::AcquireSample()
 
 		int taskId = m_sampleAcquisitionCompPtr->BeginTask(m_paramsSetCompPtr.GetPtr(), NULL, &m_samples);
 		if (taskId >= 0){
-			return m_sampleAcquisitionCompPtr->WaitTaskFinished(taskId, timeout) != isig::ISamplesProcessor::TS_INVALID;
+			return m_sampleAcquisitionCompPtr->WaitTaskFinished(taskId, timeout) != iproc::IProcessor::TS_INVALID;
 		}
 	}
 

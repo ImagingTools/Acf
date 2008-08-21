@@ -26,7 +26,10 @@ bool CFireGrabAcquisitionComp::IsCameraValid() const
 
 // reimplemented (iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>)
 
-int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, const isys::ITimer* /*inputPtr*/, iimg::IBitmap* outputPtr)
+int CFireGrabAcquisitionComp::DoProcessing(
+			const iprm::IParamsSet* paramsPtr,
+			const istd::IPolymorphic* /*inputPtr*/,
+			istd::IChangeable* outputPtr)
 {
 	I_ASSERT(m_singleShootAttrPtr.IsValid());	// isObligatory is true
 
@@ -62,12 +65,12 @@ int CFireGrabAcquisitionComp::DoProcessing(const iprm::IParamsSet* paramsPtr, co
 		if (outputPtr != NULL){
 			istd::CIndex2d size = GetBitmapSize(paramsPtr);
 			if (!size.IsSizeEmpty() && (int(frameInfo.Length) >= size.GetProductVolume())){
-				istd::TChangeNotifier<iimg::IBitmap> bitmapPtr(outputPtr);
-				if (bitmapPtr->CreateBitmap(size)){
-					I_ASSERT(outputPtr->GetLineBytesCount() >= size.GetX());
+				istd::TChangeNotifier<iimg::IBitmap> bitmapPtr(dynamic_cast<iimg::IBitmap*>(outputPtr));
+				if (bitmapPtr.IsValid() && bitmapPtr->CreateBitmap(size)){
+					I_ASSERT(bitmapPtr->GetLineBytesCount() >= size.GetX());
 
 					for (int y = 0; y < size.GetY(); ++y){
-						memcpy(outputPtr->GetLinePtr(y), frameInfo.pData + y * size.GetX(), size.GetX());
+						memcpy(bitmapPtr->GetLinePtr(y), frameInfo.pData + y * size.GetX(), size.GetX());
 					}
 
 					retVal = TS_OK;

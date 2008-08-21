@@ -2,27 +2,21 @@
 #define iipr_CProcessedAcquisitionComp_included
 
 
-#include "icomp/CComponentBase.h"
-
-#include "iproc/TSyncProcessorWrap.h"
+#include "iproc/TSyncProcessorCompBase.h"
 
 #include "icam/IBitmapAcquisition.h"
-#include "iipr/IBitmapProcessor.h"
 
 
 namespace iipr
 {
 
 
-class CProcessedAcquisitionComp:
-			public icomp::CComponentBase,
-			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
+class CProcessedAcquisitionComp: public iproc::TSyncProcessorCompBase<icam::IBitmapAcquisition>
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef iproc::TSyncProcessorCompBase<icam::IBitmapAcquisition> BaseClass;
 
 	I_BEGIN_COMPONENT(CProcessedAcquisitionComp);
-		I_REGISTER_INTERFACE(icam::IBitmapAcquisition);
 		I_ASSIGN(m_slaveAcquisitionCompPtr, "SlaveCamera", "Camera for real image acquisition", true, "SlaveCamera");
 		I_ASSIGN(m_processorCompPtr, "ImageProcessor", "Image processor", false, "ImageProcessor");
 	I_END_COMPONENT
@@ -34,12 +28,12 @@ protected:
 	// reimplemented iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const isys::ITimer* inputPtr,
-				iimg::IBitmap* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
 private:
 	I_REF(icam::IBitmapAcquisition, m_slaveAcquisitionCompPtr);
-	I_REF(iipr::IBitmapProcessor, m_processorCompPtr);
+	I_REF(iproc::IProcessor, m_processorCompPtr);
 };
 
 

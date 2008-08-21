@@ -8,45 +8,46 @@ namespace iipr
 {
 
 
-// reimplemented (iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>)
+// reimplemented (iproc::IProcessor)
 
 int CIterativeProcessorComp::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const iimg::IBitmap* inputPtr,
-			iimg::IBitmap* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
 	if (outputPtr == NULL){
-		return BaseClass2::TS_INVALID;
+		return TS_OK;
 	}
 
-	if (!m_paramsIdAttrPtr.IsValid()){
-		return BaseClass2::TS_INVALID;
+	const iimg::IBitmap* inputBitmapPtr = dynamic_cast<const iimg::IBitmap*>(inputPtr);
+	iimg::IBitmap* outputBitmapPtr = dynamic_cast<iimg::IBitmap*>(outputPtr);
+
+	if (		(inputBitmapPtr == NULL) ||
+				(outputBitmapPtr == NULL) ||
+				(paramsPtr == NULL) ||
+				!m_paramsIdAttrPtr.IsValid()){
+		return TS_INVALID;
 	}
 
 	int retVal = TS_INVALID;
 
-	const CIterativeProcessorParams* processorParamsPtr = 
-		dynamic_cast<const CIterativeProcessorParams*>(paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
-	if (processorParamsPtr != NULL && m_slaveProcessorCompPtr.IsValid()){
+	const CIterativeProcessorParams* processorParamsPtr = dynamic_cast<const CIterativeProcessorParams*>(
+				paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
+	if ((processorParamsPtr != NULL) && m_slaveProcessorCompPtr.IsValid()){
 		int iterationsCount = processorParamsPtr->GetIterationsCount();
 
-		if (iterationsCount == 1){
-			return ProcessSlave(paramsPtr, inputPtr, outputPtr);
-		}
-			
-		iimg::CGeneralBitmap inputBitmap;
-		if (!inputBitmap.CopyImageFrom(*inputPtr)){
-			return TS_INVALID;
-		}
+		iimg::CGeneralBitmap bufferBitmap;
 
 		for (int iterationIndex = 0; iterationIndex < iterationsCount; iterationIndex++){
-			retVal = ProcessSlave(paramsPtr, &inputBitmap, outputPtr);
+			retVal = ProcessSlave(paramsPtr, inputBitmapPtr, outputBitmapPtr);
 			if (retVal != TS_OK){
 				return retVal;
 			}
 
-			if (iterationIndex < (iterationsCount - 1)){
-				inputBitmap.CopyImageFrom(*outputPtr);
+			if (iterationIndex < iterationsCount - 1){
+				bufferBitmap.CopyImageFrom(*outputBitmapPtr);
+
+				inputBitmapPtr = &bufferBitmap;
 			}
 		}
 	}

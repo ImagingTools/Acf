@@ -10,10 +10,10 @@
         AverageFilter
       </ComponentName>
       <X>
-        25
+        137
       </X>
       <X>
-        337
+        462
       </X>
     </Element>
     <Element>
@@ -153,10 +153,10 @@
         GaussianFilter
       </ComponentName>
       <X>
-        275
+        575
       </X>
       <X>
-        312
+        462
       </X>
     </Element>
     <Element>
@@ -164,10 +164,10 @@
         InvertProcessor
       </ComponentName>
       <X>
-        275
+        387
       </X>
       <X>
-        437
+        462
       </X>
     </Element>
     <Element>
@@ -208,10 +208,10 @@
         IterativeProcessor
       </ComponentName>
       <X>
-        -187
+        137
       </X>
       <X>
-        337
+        312
       </X>
     </Element>
     <Element>
@@ -219,10 +219,10 @@
         MaxOperator
       </ComponentName>
       <X>
-        37
+        -100
       </X>
       <X>
-        437
+        462
       </X>
     </Element>
     <Element>
@@ -241,10 +241,10 @@
         MinOperator
       </ComponentName>
       <X>
-        -187
+        -325
       </X>
       <X>
-        437
+        462
       </X>
     </Element>
     <Element>
@@ -263,10 +263,10 @@
         ProcessedCamera
       </ComponentName>
       <X>
-        -187
+        100
       </X>
       <X>
-        237
+        162
       </X>
     </Element>
     <Element>

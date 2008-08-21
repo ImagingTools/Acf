@@ -14,8 +14,7 @@ namespace icam
 
 
 /**
-	Bitmap acquisition processor.
-	This processor use as \c iproc::TIProcessor template parameter Input optional isys::ITimer object to indicate trigger time of acquision.
+	Bitmap supplier allowing to access of produced bitmap.
 */
 class IBitmapSupplier: virtual public iproc::ISupplier
 {

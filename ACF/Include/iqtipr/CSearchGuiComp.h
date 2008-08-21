@@ -9,7 +9,9 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "iipr/ISearchProcessor.h"
+#include "iproc/IProcessor.h"
+
+#include "iipr/IFeaturesConsumer.h"
 
 #include "icam/IBitmapAcquisition.h"
 
@@ -59,7 +61,7 @@ private:
 
 private:
 	I_ATTR(istd::CString, m_unitNameAttrPtr);
-	I_REF(iipr::ISearchProcessor, m_searchProcessorCompPtr);
+	I_REF(iproc::IProcessor, m_searchProcessorCompPtr);
 	I_REF(imod::IModel, m_searchResultsModelCompPtr);
 	I_REF(iipr::IFeaturesConsumer, m_searchResultsCompPtr);
 	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);

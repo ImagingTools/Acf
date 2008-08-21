@@ -10,8 +10,6 @@
 
 #include "iimg/CGeneralBitmap.h"
 
-#include "iipr/IBitmapProcessor.h"
-
 #include "iwin/CTimer.h"
 
 
@@ -23,17 +21,17 @@ namespace iipr
 	Basic implementation for a simple bitmap processor.
 */
 template <class ParameterType>
-class TImageProcessorCompBase: public iproc::TSyncProcessorCompBase<iipr::IBitmapProcessor>
+class TImageProcessorCompBase: public iproc::CSyncProcessorCompBase
 {
 public:
-	typedef iproc::TSyncProcessorCompBase<iipr::IBitmapProcessor> BaseClass;
+	typedef iproc::CSyncProcessorCompBase BaseClass;
 
 protected:
-	// reimplemented (iproc::TSyncProcessorWrap<iipr::IBitmapProcessor>)
+	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const iimg::IBitmap* inputPtr,
-				iimg::IBitmap* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
 	// abstract methods
 	virtual bool ProcessImage(
@@ -48,46 +46,49 @@ protected:
 template <class ParameterType>
 int TImageProcessorCompBase<ParameterType>::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const iimg::IBitmap* inputPtr,
-			iimg::IBitmap* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
+	if (outputPtr == NULL){
+		return TS_OK;
+	}
+
+	const iimg::IBitmap* inputBitmapPtr = dynamic_cast<const iimg::IBitmap*>(inputPtr);
+	iimg::IBitmap* outputBitmapPtr = dynamic_cast<iimg::IBitmap*>(outputPtr);
+
+	if (		(inputBitmapPtr == NULL) ||
+				(outputBitmapPtr == NULL) ||
+				(paramsPtr == NULL) ||
+				!m_paramsIdAttrPtr.IsValid()){
+		return TS_INVALID;
+	}
+
 	iwin::CTimer timer;
 
-	if (inputPtr == NULL || outputPtr == NULL){
-		return BaseClass2::TS_INVALID;
-	}
-
-	if (!m_paramsIdAttrPtr.IsValid()){
-		return BaseClass2::TS_INVALID;
-	}
-
-	iimg::CGeneralBitmap outputBitmap;
+	iimg::CGeneralBitmap bufferBitmap;
 
 	if (m_preprocessorCompPtr.IsValid()){
-		int taskId = m_preprocessorCompPtr->BeginTask(paramsPtr, inputPtr, &outputBitmap);
-		if (taskId >= 0){
-			int retVal = m_preprocessorCompPtr->WaitTaskFinished(taskId);
-			if (retVal == TS_OK){
-				inputPtr = &outputBitmap;
-			}
+		int retVal = m_preprocessorCompPtr->DoProcessing(paramsPtr, inputBitmapPtr, &bufferBitmap);
+		if (retVal == TS_OK){
+			inputBitmapPtr = &bufferBitmap;
 		}
 	}
 
 	// create output image:
-	outputPtr->CopyImageFrom(*inputPtr);
+	outputBitmapPtr->CopyImageFrom(*inputBitmapPtr);
 
-	const ParameterType* processorParamsPtr = 
-		dynamic_cast<const ParameterType*>(paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
+	const ParameterType* processorParamsPtr = dynamic_cast<const ParameterType*>(
+				paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
 	
 	// do image processing:
-	if (!ProcessImage(processorParamsPtr, *inputPtr, *outputPtr)){
-		return BaseClass2::TS_INVALID;
+	if (!ProcessImage(processorParamsPtr, *inputBitmapPtr, *outputBitmapPtr)){
+		return TS_INVALID;
 	}
 	
 	double processingTime = timer.GetElapsed();
 	SendInfoMessage(0, istd::CString("Processed in ") + istd::CString::FromNumber(processingTime * 1000) + "ms");
 
-	return BaseClass2::TS_OK;
+	return TS_OK;
 }
 
 

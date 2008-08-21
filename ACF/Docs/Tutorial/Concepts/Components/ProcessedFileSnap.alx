@@ -10,7 +10,7 @@
         AverageParams
       </ComponentName>
       <X>
-        500
+        587
       </X>
       <X>
         -62
@@ -21,10 +21,10 @@
         AverageParamsGui
       </ComponentName>
       <X>
-        312
+        275
       </X>
       <X>
-        237
+        312
       </X>
     </Element>
     <Element>
@@ -76,7 +76,7 @@
         FileAcquisition
       </ComponentName>
       <X>
-        75
+        87
       </X>
       <X>
         287
@@ -87,7 +87,7 @@
         FileSnapParam
       </ComponentName>
       <X>
-        -62
+        -50
       </X>
       <X>
         -37
@@ -98,7 +98,7 @@
         FileSnapParamGui
       </ComponentName>
       <X>
-        300
+        462
       </X>
       <X>
         112
@@ -131,7 +131,7 @@
         FireAcquisition
       </ComponentName>
       <X>
-        62
+        50
       </X>
       <X>
         387
@@ -153,7 +153,7 @@
         GaussianParams
       </ComponentName>
       <X>
-        237
+        225
       </X>
       <X>
         -162
@@ -175,10 +175,10 @@
         IterationParams
       </ComponentName>
       <X>
-        500
+        587
       </X>
       <X>
-        62
+        37
       </X>
     </Element>
     <Element>
@@ -186,10 +186,10 @@
         IterationParamsGui
       </ComponentName>
       <X>
-        562
+        475
       </X>
       <X>
-        237
+        212
       </X>
     </Element>
     <Element>
@@ -263,7 +263,7 @@
         ProcessedCamera
       </ComponentName>
       <X>
-        -212
+        -200
       </X>
       <X>
         287
@@ -285,7 +285,7 @@
         SnapParamsGui
       </ComponentName>
       <X>
-        75
+        87
       </X>
       <X>
         162

@@ -6,6 +6,8 @@
 
 #include "iser/ISerializable.h"
 
+#include "iprm/IParamsSet.h"
+
 #include "isig/isig.h"
 
 
@@ -29,6 +31,17 @@ public:
 		\sa	isig::ISamplingParams::SamplingMode
 	*/
 	virtual bool IsSamplingModeSupported(int mode) const = 0;
+
+	/**
+		Get range of possible/representable sample values.
+	*/
+	virtual istd::CRange GetValueRange(bool forInput = true, bool forOutput = true, const iprm::IParamsSet* paramsSetPtr = NULL) const = 0;
+
+	/**
+		Get maximal number of samples can be received/send at one time.
+		\return	number of samples can be processed at one time in single sample container, or -1 if there is no restrictions.
+	*/
+	virtual int GetMaximalSamplesCount(bool forInput = true, bool forOutput = true, const iprm::IParamsSet* paramsSetPtr = NULL) const = 0;
 };
 
 

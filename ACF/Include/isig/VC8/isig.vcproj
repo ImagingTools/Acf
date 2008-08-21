@@ -202,10 +202,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ISamplesProcessor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ISamplingConstraints.h"
 				>
 			</File>

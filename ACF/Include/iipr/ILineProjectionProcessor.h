@@ -6,7 +6,7 @@
 
 #include "i2d/CLine2d.h"
 
-#include "iproc/TIProcessor.h"
+#include "iproc/IProcessor.h"
 
 #include "iimg/IBitmap.h"
 
@@ -20,7 +20,7 @@ namespace iipr
 class IProjectionParams;
 
 
-class ILineProjectionProcessor: virtual public iproc::TIProcessor<iimg::IBitmap, CProjectionData>
+class ILineProjectionProcessor: virtual public iproc::IProcessor
 {
 public:
 	/**

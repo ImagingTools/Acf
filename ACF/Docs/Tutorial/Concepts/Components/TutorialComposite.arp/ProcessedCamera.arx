@@ -138,11 +138,8 @@
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Value>
-                
-              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -197,7 +194,7 @@
                 true
               </IsEnabled>
               <Value>
-                AverageFilter
+                MinOperator
               </Value>
             </Data>
           </AttributeInfo>
@@ -231,11 +228,8 @@
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Value>
-                
-              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -367,7 +361,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="4">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
         class ibase::IApplication
@@ -387,6 +381,14 @@
     <Interface>
       <InterfaceId>
         class icam::IBitmapAcquisition
+      </InterfaceId>
+      <ComponentId>
+        ProcessedCamera
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iproc::IProcessor
       </InterfaceId>
       <ComponentId>
         ProcessedCamera

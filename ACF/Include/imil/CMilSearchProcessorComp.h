@@ -2,17 +2,13 @@
 #define imil_CMilSearchProcessorComp_included
 
 
-#include "imil/imil.h"
-
 #include "ibase/TMessageProducerWrap.h"
 
-#include "icomp/CComponentBase.h"
+#include "iipr/IFeaturesConsumer.h"
 
-#include "iproc/TSyncProcessorWrap.h"
+#include "iproc/TSyncProcessorCompBase.h"
 
 #include "iimg/IBitmap.h"
-
-#include "iipr/ISearchProcessor.h"
 
 #include "imil/CMilSearchParams.h"
 #include "imil/CMilSearchModel.h"
@@ -23,22 +19,26 @@ namespace imil
 {
 
 
-class CMilSearchProcessorComp:	public ibase::TMessageProducerWrap<icomp::CComponentBase>,
-								public iproc::TSyncProcessorWrap<iipr::ISearchProcessor>
+class CMilSearchProcessorComp: public ibase::TMessageProducerWrap<iproc::CSyncProcessorCompBase>
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<iproc::CSyncProcessorCompBase> BaseClass;
 
 	I_BEGIN_COMPONENT(CMilSearchProcessorComp)
-		I_REGISTER_INTERFACE(iipr::ISearchProcessor);
 		I_ASSIGN(m_searchParamsIdAttrPtr, "ParamsId", "Search params id", false, "ParamsId");
 	I_END_COMPONENT
 
-	// reimplemented (iproc::TSyncProcessorWrap<iipr::ISearchProcessor>)
+	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const iimg::IBitmap* inputPtr,
-				iipr::IFeaturesConsumer* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
+
+protected:
+	virtual bool DoSearch(
+				const CMilSearchParams& params,
+				const iimg::IBitmap& bitmap,
+				iipr::IFeaturesConsumer& result);
 
 private:
 	imil::CMilEngine m_engine;

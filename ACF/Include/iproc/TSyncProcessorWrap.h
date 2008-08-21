@@ -7,7 +7,7 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "iproc/TIProcessor.h"
+#include "iproc/IProcessor.h"
 
 
 namespace iproc
@@ -15,9 +15,9 @@ namespace iproc
 
 
 /**
-	Wrapper of \c iproc::TIProcessor for simple synchrone processor implementations.
+	Wrapper of \c iproc::IProcessor for simple synchrone processor implementations.
 	Assynchrone processing with \c BeginTask and \c WaitTaskFinished is redirected to simple synchrone processing by method \c DoProcessing.
-	All you have to implement from whole interface \c iproc::TIProcessor is method \c DoProcessing.
+	All you have to implement from whole interface \c iproc::IProcessor is method \c DoProcessing.
 */
 template <class Base>
 class TSyncProcessorWrap: public Base
@@ -27,14 +27,17 @@ public:
 
 	TSyncProcessorWrap();
 
-	// pseudo-reimplemented (iproc::TIProcessor)
+	// pseudo-reimplemented (iproc::IProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
 	virtual void ResetAllTasks();
-	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const;
+	virtual bool AreParamsAccepted(
+				const iprm::IParamsSet* paramsPtr,
+				const istd::IPolymorphic* inputPtr,
+				const istd::IChangeable* outputPtr) const;
 	virtual int BeginTask(
 				const iprm::IParamsSet* paramsPtr,
-				const typename BaseClass::InputType* inputPtr,
-				typename BaseClass::OutputType* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 	virtual int WaitTaskFinished(
 					int taskId = -1,
 					double timeoutTime = -1,
@@ -60,7 +63,7 @@ TSyncProcessorWrap<Base>::TSyncProcessorWrap()
 }
 
 
-// pseudo-reimplemented (iproc::TIProcessor)
+// pseudo-reimplemented (iproc::IProcessor)
 
 template <class Base>
 int TSyncProcessorWrap<Base>::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
@@ -77,7 +80,10 @@ void TSyncProcessorWrap<Base>::ResetAllTasks()
 
 
 template <class Base>
-bool TSyncProcessorWrap<Base>::AreParamsAccepted(const iprm::IParamsSet* /*paramsPtr*/) const
+bool TSyncProcessorWrap<Base>::AreParamsAccepted(
+			const iprm::IParamsSet* /*paramsPtr*/,
+			const istd::IPolymorphic* /*inputPtr*/,
+			const istd::IChangeable* /*outputPtr*/) const
 {
 	return true;
 }
@@ -86,8 +92,8 @@ bool TSyncProcessorWrap<Base>::AreParamsAccepted(const iprm::IParamsSet* /*param
 template <class Base>
 int TSyncProcessorWrap<Base>::BeginTask(
 			const iprm::IParamsSet* paramsPtr,
-			const typename BaseClass::InputType* inputPtr,
-			typename BaseClass::OutputType* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
 	int retVal = m_nextTaskId;
 	m_taskToStateMap[retVal] = DoProcessing(paramsPtr, inputPtr, outputPtr);
@@ -173,6 +179,11 @@ template <class Base>
 void TSyncProcessorWrap<Base>::InitProcessor(const iprm::IParamsSet* /*paramsPtr*/)
 {
 }
+
+
+// global typdefs
+
+typedef TSyncProcessorWrap<IProcessor> CSyncProcessorBase;
 
 
 } // namespace iproc

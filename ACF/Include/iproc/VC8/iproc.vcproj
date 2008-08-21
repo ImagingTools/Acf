@@ -263,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IProcessor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IProgressEventHandler.h"
 				>
 			</File>
@@ -272,10 +276,6 @@
 			</File>
 			<File
 				RelativePath="..\ISupplier.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TIProcessor.h"
 				>
 			</File>
 			<File

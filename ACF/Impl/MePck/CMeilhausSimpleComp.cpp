@@ -18,21 +18,7 @@ CMeilhausSimpleComp::CMeilhausSimpleComp()
 }
 
 
-// reimplemented (isig::ISamplesProcessor)
-
-istd::CRange CMeilhausSimpleComp::GetValueRange(bool /*forInput*/, bool /*forOutput*/, const iprm::IParamsSet* /*paramsSetPtr*/) const
-{
-	return istd::CRange(-10, 9.996);
-}
-
-
-int CMeilhausSimpleComp::GetMaximalSamplesCount(bool /*forInput*/, bool /*forOutput*/, const iprm::IParamsSet* /*paramsSetPtr*/) const
-{
-	return 1024;
-}
-
-
-// reimplemented (iproc::TIProcessor)
+// reimplemented (iproc::IProcessor)
 
 int CMeilhausSimpleComp::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
 {
@@ -49,8 +35,19 @@ void CMeilhausSimpleComp::ResetAllTasks()
 }
 
 
-bool CMeilhausSimpleComp::AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const
+bool CMeilhausSimpleComp::AreParamsAccepted(
+			const iprm::IParamsSet* paramsPtr,
+			const istd::IPolymorphic* inputPtr,
+			const istd::IChangeable* outputPtr) const
 {
+	if ((inputPtr != NULL) && (dynamic_cast<const isig::ISamplesContainer*>(inputPtr) == NULL)){
+		return false;
+	}
+
+	if ((outputPtr != NULL) && (dynamic_cast<const isig::ISamplesContainer*>(outputPtr) == NULL)){
+		return false;
+	}
+
 	CMeAddr address;
 	return		GetChannelAddress(paramsPtr, address) &&
 				(GetSamplingParams(paramsPtr) != 0);
@@ -59,8 +56,8 @@ bool CMeilhausSimpleComp::AreParamsAccepted(const iprm::IParamsSet* paramsPtr) c
 
 int CMeilhausSimpleComp::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const isig::ISamplesContainer* inputPtr,
-			isig::ISamplesContainer* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
 	int taskId = BeginTask(paramsPtr, inputPtr, outputPtr);
 
@@ -74,9 +71,12 @@ int CMeilhausSimpleComp::DoProcessing(
 
 int CMeilhausSimpleComp::BeginTask(
 			const iprm::IParamsSet* paramsPtr,
-			const isig::ISamplesContainer* inputPtr,
-			isig::ISamplesContainer* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
+	const isig::ISamplesContainer* inputContainerPtr = dynamic_cast<const isig::ISamplesContainer*>(inputPtr);
+	isig::ISamplesContainer* outputContainerPtr = dynamic_cast<isig::ISamplesContainer*>(outputPtr);
+
 	CMeAddr address;
 	if (!GetChannelAddress(paramsPtr, address)){
 		return -1;
@@ -89,22 +89,22 @@ int CMeilhausSimpleComp::BeginTask(
 
 	CMeContext* context = NULL;
 	if (*m_isOutputAttrPtr){
-		if (inputPtr == NULL){
+		if (inputContainerPtr == NULL){
 			return -1;
 		}
 
-		context = new CMeContext(address, PullNextTaskId(), *m_isOutputAttrPtr, const_cast<isig::ISamplesContainer*>(inputPtr));
+		context = new CMeContext(address, PullNextTaskId(), *m_isOutputAttrPtr, const_cast<isig::ISamplesContainer*>(inputContainerPtr));
 
 		context->CopyFromContainer();
 	}
 	else{
-		if (outputPtr == NULL){
+		if (outputContainerPtr == NULL){
 			return -1;
 		}
 
-		outputPtr->SetSamplesCount(1024);
+		outputContainerPtr->SetSamplesCount(1024);
 
-		context = new CMeContext(address, PullNextTaskId(), *m_isOutputAttrPtr, outputPtr);
+		context = new CMeContext(address, PullNextTaskId(), *m_isOutputAttrPtr, outputContainerPtr);
 	}
 
 	if (!context->Register(samplingParamsPtr->GetInterval())){
@@ -232,6 +232,18 @@ bool CMeilhausSimpleComp::IsSamplingModeSupported(int mode) const
 	else{
 		return mode == isig::ISamplingParams::SM_SINGLE;
 	}
+}
+
+
+istd::CRange CMeilhausSimpleComp::GetValueRange(bool /*forInput*/, bool /*forOutput*/, const iprm::IParamsSet* /*paramsSetPtr*/) const
+{
+	return istd::CRange(-10, 9.996);
+}
+
+
+int CMeilhausSimpleComp::GetMaximalSamplesCount(bool /*forInput*/, bool /*forOutput*/, const iprm::IParamsSet* /*paramsSetPtr*/) const
+{
+	return 1024;
 }
 
 

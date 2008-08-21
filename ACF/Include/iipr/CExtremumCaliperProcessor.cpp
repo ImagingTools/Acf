@@ -177,18 +177,24 @@ bool CExtremumCaliperProcessor::DoCaliper(
 }
 
 
-// reimplemented (iproc::TIProcessor)
+// reimplemented (iproc::IProcessor)
 
 int CExtremumCaliperProcessor::DoProcessing(
 			const iprm::IParamsSet* paramsPtr,
-			const CProjectionData* inputPtr,
-			IFeaturesConsumer* outputPtr)
+			const istd::IPolymorphic* inputPtr,
+			istd::IChangeable* outputPtr)
 {
 	if (outputPtr == NULL){
 		return TS_OK;
 	}
 
-	if ((inputPtr == NULL) || (paramsPtr == NULL) || m_caliperParamsId.empty()){
+	const CProjectionData* projectionPtr = dynamic_cast<const CProjectionData*>(inputPtr);
+	IFeaturesConsumer* consumerPtr = dynamic_cast<IFeaturesConsumer*>(outputPtr);
+
+	if (		(projectionPtr == NULL) ||
+				(consumerPtr == NULL) ||
+				(paramsPtr == NULL) ||
+				m_caliperParamsId.empty()){
 		return TS_INVALID;
 	}
 
@@ -197,7 +203,7 @@ int CExtremumCaliperProcessor::DoProcessing(
 		return TS_INVALID;
 	}
 
-	return DoExtremumCaliper(*inputPtr, *caliperParamsPtr, *outputPtr)? TS_OK: TS_INVALID;
+	return DoExtremumCaliper(*projectionPtr, *caliperParamsPtr, *consumerPtr)? TS_OK: TS_INVALID;
 }
 
 

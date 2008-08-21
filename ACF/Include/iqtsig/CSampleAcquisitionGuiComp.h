@@ -13,7 +13,8 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "isig/ISamplesProcessor.h"
+#include "iproc/IProcessor.h"
+
 #include "isig/CSamplesContainer.h"
 
 #include "iqt/IGuiObject.h"
@@ -70,7 +71,7 @@ protected:
 	virtual void OnGuiDestroyed();
 
 private:
-	I_REF(isig::ISamplesProcessor, m_sampleAcquisitionCompPtr);
+	I_REF(iproc::IProcessor, m_sampleAcquisitionCompPtr);
 
 	I_REF(iser::IFileLoader, m_sampleLoaderCompPtr);
 	I_REF(iser::IFileLoader, m_paramsLoaderCompPtr);

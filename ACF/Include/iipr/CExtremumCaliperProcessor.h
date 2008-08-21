@@ -32,7 +32,7 @@ public:
 
 	/**
 		Set parameter ID used to extract caliper parameter object from parameter set.
-		It is only needed while using general processing interface iproc::TIProcessor.
+		It is only needed while using general processing interface iproc::IProcessor.
 	*/
 	void SetCaliperParamId(const std::string& id);
 
@@ -42,11 +42,11 @@ public:
 				const ICaliperParams* paramsPtr,
 				IFeaturesConsumer& results);
 
-	// reimplemented (iproc::TIProcessor)
+	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const CProjectionData* inputPtr,
-				IFeaturesConsumer* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
 private:
 	std::string m_caliperParamsId;

@@ -3,6 +3,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "isig/ISamplesContainer.h"
+
 
 namespace iqtsig
 {
@@ -14,12 +16,12 @@ CScriptSampleAcquisitionComp::CScriptSampleAcquisitionComp()
 }
 
 
-// reimplemented (iproc::TSyncProcessorWrap<isig::ISamplesProcessor>)
+// reimplemented (iproc::IProcessor)
 
 int CScriptSampleAcquisitionComp::DoProcessing(
 			const iprm::IParamsSet* /*paramsPtr*/,
-			const isig::ISamplesContainer* /*inputPtr*/,
-			isig::ISamplesContainer* outputPtr)
+			const istd::IPolymorphic* /*inputPtr*/,
+			istd::IChangeable* outputPtr)
 {
 	if (outputPtr == NULL){
 		return TS_OK;
@@ -31,17 +33,20 @@ int CScriptSampleAcquisitionComp::DoProcessing(
 	QString functionScript = iqt::GetQString(*m_defaultScriptAttrPtr);
 	m_scriptEngine.evaluate(functionScript);
 
-	istd::CChangeNotifier notifier(outputPtr);
+	istd::TChangeNotifier<isig::ISamplesContainer> containerPtr(dynamic_cast<isig::ISamplesContainer*>(outputPtr));
+	if (!containerPtr.IsValid()){
+		return TS_INVALID;
+	}
 
 	int samplesCount;
 	if (m_samplesCountAttrPtr.IsValid()){
 		samplesCount = *m_samplesCountAttrPtr;
-		if (!outputPtr->SetSamplesCount(samplesCount)){
+		if (!containerPtr->SetSamplesCount(samplesCount)){
 			return TS_INVALID;
 		}
 	}
 	else{
-		samplesCount = outputPtr->GetSamplesCount();
+		samplesCount = containerPtr->GetSamplesCount();
 	}
 
 	QScriptValue calcCtor = m_scriptEngine.evaluate("Calc");
@@ -57,14 +62,26 @@ int CScriptSampleAcquisitionComp::DoProcessing(
 			return TS_INVALID;
 		}
 
-		outputPtr->SetSample(i, sample);
+		containerPtr->SetSample(i, sample);
 	}
 
 	return TS_OK;
 }
 
 
-// reimplemented (isig::ISamplesProcessor)
+// reimplemented (isig::ISamplingConstraints)
+
+istd::CRange CScriptSampleAcquisitionComp::GetIntervalRange() const
+{
+	return istd::CRange(0.001, 1);
+}
+
+
+bool CScriptSampleAcquisitionComp::IsSamplingModeSupported(int /*mode*/) const
+{
+	return true;
+}
+
 
 istd::CRange CScriptSampleAcquisitionComp::GetValueRange(bool /*forInput*/, bool /*forOutput*/, const iprm::IParamsSet* /*paramsSetPtr*/) const
 {

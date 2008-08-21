@@ -361,10 +361,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IBitmapProcessor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ICaliperParams.h"
 				>
 			</File>
@@ -397,6 +393,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IMultidimensionalFilterConstraints.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IMultidimensionalFilterParams.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IProjectionConstraints.h"
 				>
 			</File>
@@ -410,10 +414,6 @@
 			</File>
 			<File
 				RelativePath="..\ISearchParams.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ISearchProcessor.h"
 				>
 			</File>
 			<File

@@ -1,5 +1,5 @@
-#ifndef iproc_TIProcessor_included
-#define iproc_TIProcessor_included
+#ifndef iproc_IProcessor_included
+#define iproc_IProcessor_included
 
 
 #include "iprm/IParamsSet.h"
@@ -10,7 +10,7 @@ namespace iproc
 
 
 /**
-	Template interface for all synchrone and assynchrone processors.
+	Interface for all synchrone and assynchrone processors.
 	Synchrone processors are blocking and can process single task. Thats why is not necessary to use task ID.
 	Synchrone processing is provide by method DoProcessing.
 	Assynchrone processors can process many tasks parallel. Each task is identified using its ID.
@@ -19,13 +19,9 @@ namespace iproc
 	\param	Input	type of input object.
 	\param	Output	type of output object.
 */
-template <class Input, class Output>
-class TIProcessor: virtual public istd::IPolymorphic
+class IProcessor: virtual public istd::IPolymorphic
 {
 public:
-	typedef Input InputType;
-	typedef Output OutputType;
-
 	/**
 		State of processing.
 	*/
@@ -88,8 +84,14 @@ public:
 
 	/**
 		Check if specified parameter set is accepted for this processor.
+		\param	inputPtr	optional input object typically being source object used to processing.
+		\param	outputPtr	optional output object storing processing result.
+		\return				task ID or -1 if it was not possible to add new task.
 	 */
-	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const = 0;
+	virtual bool AreParamsAccepted(
+				const iprm::IParamsSet* paramsPtr,
+				const istd::IPolymorphic* inputPtr,
+				const istd::IChangeable* outputPtr) const = 0;
 
 	/**
 		Do synchronized processing.
@@ -97,8 +99,8 @@ public:
 	*/
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const Input* inputPtr,
-				Output* outputPtr) = 0;
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr) = 0;
 
 	/**
 		Begin new task for this processor and add them to queue.
@@ -115,7 +117,10 @@ public:
 							It can be NULL.
 		\return				task ID or -1 if it was not possible to add new task.
 	*/
-	virtual int BeginTask(const iprm::IParamsSet* paramsPtr, const InputType* inputPtr, OutputType* outputPtr) = 0;
+	virtual int BeginTask(
+				const iprm::IParamsSet* paramsPtr,
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr) = 0;
 
 	/**
 		Wait for task is finished.
@@ -163,6 +168,6 @@ public:
 } // namespace iproc
 
 
-#endif // !iproc_TIProcessor_included
+#endif // !iproc_IProcessor_included
 
 

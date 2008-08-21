@@ -14,8 +14,7 @@ namespace iipr
 
 
 /**
-	Bitmap acquisition processor.
-	This processor use as \c iproc::TIProcessor template parameter Input optional isys::ITimer object to indicate trigger time of acquision.
+	2D vector or position supplier.
 */
 class IVector2dSupplier: virtual public iproc::ISupplier
 {

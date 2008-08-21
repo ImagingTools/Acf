@@ -3,10 +3,12 @@
 
 #include "iprm/ISelectionParam.h"
 
-#include "isig/ISamplesProcessor.h"
-#include "isig/ISamplingParams.h"
+#include "iproc/IProcessor.h"
 
 #include "icomp/CComponentBase.h"
+
+#include "isig/ISamplingParams.h"
+#include "isig/ISamplingConstraints.h"
 
 #include "IMeilhausAccess.h"
 #include "CMeContext.h"
@@ -21,14 +23,14 @@ namespace imebase
 */
 class CMeilhausSimpleComp:
 			public icomp::CComponentBase,
-			virtual public isig::ISamplesProcessor,
+			virtual public iproc::IProcessor,
 			virtual public IMeilhausAccess
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMeilhausSimpleComp);
-		I_REGISTER_INTERFACE(isig::ISamplesProcessor);
+		I_REGISTER_INTERFACE(iproc::IProcessor);
 		I_REGISTER_INTERFACE(IMeilhausAccess);
 		I_REGISTER_INTERFACE(isig::ISamplingConstraints);
 
@@ -39,28 +41,21 @@ public:
 
 	CMeilhausSimpleComp();
 
-	// reimplemented (isig::ISamplesProcessor)
-	virtual istd::CRange GetValueRange(
-				bool forInput = true,
-				bool forOutput = true,
-				const iprm::IParamsSet* paramsSetPtr = NULL) const;
-	virtual int GetMaximalSamplesCount(
-				bool forInput = true,
-				bool forOutput = true,
-				const iprm::IParamsSet* paramsSetPtr = NULL) const;
-
-	// reimplemented (iproc::TIProcessor)
+	// reimplemented (iproc::IProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
 	virtual void ResetAllTasks();
-	virtual bool AreParamsAccepted(const iprm::IParamsSet* paramsPtr) const;
+	virtual bool AreParamsAccepted(
+				const iprm::IParamsSet* paramsPtr,
+				const istd::IPolymorphic* inputPtr,
+				const istd::IChangeable* outputPtr) const;
 	virtual int DoProcessing(
 				const iprm::IParamsSet* paramsPtr,
-				const isig::ISamplesContainer* inputPtr,
-				isig::ISamplesContainer* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 	virtual int BeginTask(
 				const iprm::IParamsSet* paramsPtr,
-				const isig::ISamplesContainer* inputPtr,
-				isig::ISamplesContainer* outputPtr);
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 	virtual int WaitTaskFinished(
 				int taskId = -1,
 				double timeoutTime = -1,
@@ -75,6 +70,15 @@ public:
 	// reimplemented (isig::ISamplingConstraints)
 	virtual istd::CRange GetIntervalRange() const;
 	virtual bool IsSamplingModeSupported(int mode) const;
+	virtual istd::CRange GetValueRange(
+				bool forInput = true,
+				bool forOutput = true,
+				const iprm::IParamsSet* paramsSetPtr = NULL) const;
+	virtual int GetMaximalSamplesCount(
+				bool forInput = true,
+				bool forOutput = true,
+				const iprm::IParamsSet* paramsSetPtr = NULL) const;
+
 
 protected:
 	int PullNextTaskId();
