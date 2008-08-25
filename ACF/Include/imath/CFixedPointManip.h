@@ -1,8 +1,8 @@
-#ifndef imath_CRoundedValueManip_included
-#define imath_CRoundedValueManip_included
+#ifndef imath_CFixedPointManip_included
+#define imath_CFixedPointManip_included
 
 
-#include "imath/TIValueManip.h"
+#include "imath/CDoubleManip.h"
 
 
 namespace imath
@@ -12,9 +12,11 @@ namespace imath
 /**
 	Implementation of \c imath::IDoubleManip interface for fixed point arithmentic.
 */
-class CFixedPointManip: virtual public IDoubleManip
+class CFixedPointManip: public CDoubleManip
 {
 public:
+	typedef CDoubleManip BaseClass;
+
 	enum RoundingType
 	{
 		/**
@@ -53,16 +55,6 @@ public:
 	 */
 	void SetRoundingType(RoundingType roundingType);
 
-	/**
-		Get point character.
-	 */
-	char GetPointChar() const;
-
-	/**
-		Set point character.
-	 */
-	void SetPointChar(char pointChar);
-
 	// reimplemented (imath::TIValueManip)
 	virtual double GetRounded(const double& value) const;
 	virtual bool IsEqual(const double& value1, const double& value2) const;
@@ -80,14 +72,12 @@ protected:
 	virtual double GetNormalValue(I_SDWORD intValue) const;
 
 	std::string GetString(const double& value, int precision) const;
-	bool GetParsedUnrounded(const std::string& text, double& result) const;
 
 	static double NormalRoundFuntion(double value);
 
 private:
 	int m_precision;
 	RoundingType m_roundingType;
-	char m_pointChar;
 
 	static RoundingFuntionPtr m_roundingFuntionsPtr[RT_LAST + 1];
 
@@ -106,18 +96,6 @@ inline int CFixedPointManip::GetPrecision() const
 inline CFixedPointManip::RoundingType CFixedPointManip::GetRoundingType() const
 {
 	return m_roundingType;
-}
-
-
-inline char CFixedPointManip::GetPointChar() const
-{
-	return m_pointChar;
-}
-
-
-inline void CFixedPointManip::SetPointChar(char pointChar)
-{
-	m_pointChar = pointChar;
 }
 
 
@@ -178,6 +156,6 @@ inline double CFixedPointManip::GetNormalValue(I_SDWORD intValue) const
 } // namespace imath
 
 
-#endif // !imath_CRoundedValueManip_included
+#endif // !imath_CFixedPointManip_included
 
 

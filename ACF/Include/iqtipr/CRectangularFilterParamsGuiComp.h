@@ -2,7 +2,7 @@
 #define iqt_CRectangularFilterParamsGuiComp_included
 
 
-#include "iipr/CRectangularFilterParams.h"
+#include "iipr/IMultidimensionalFilterParams.h"
 
 #include "iqt/TDesignerGuiObserverCompBase.h"
 
@@ -15,14 +15,14 @@ namespace iqtipr
 
 class CRectangularFilterParamsGuiComp: public iqt::TDesignerGuiObserverCompBase<
 			Ui::CRectangularFilterParamsGuiComp,
-			iipr::CRectangularFilterParams>
+			iipr::IMultidimensionalFilterParams>
 {
 	Q_OBJECT
 
 public:
 	typedef iqt::TDesignerGuiObserverCompBase<
 				Ui::CRectangularFilterParamsGuiComp,
-				iipr::CRectangularFilterParams> BaseClass;
+				iipr::IMultidimensionalFilterParams> BaseClass;
 
 	I_BEGIN_COMPONENT(CRectangularFilterParamsGuiComp)
 	I_END_COMPONENT
@@ -31,9 +31,12 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor();
 
+protected:
+	void UpdateLabel(const imath::CVarVector& filterLengths);
+
 protected slots:
-	void on_FilterHeightSlider_valueChanged(int value);
 	void on_FilterWidthSlider_valueChanged(int value);
+	void on_FilterHeightSlider_valueChanged(int value);
 };
 
 

@@ -2,9 +2,8 @@
 
 
 // Qt includes
-#include <QFileDialog>
+#include <QString>
 
-// ACF includes
 #include "istd/TChangeNotifier.h"
 
 
@@ -19,17 +18,19 @@ void CRectangularFilterParamsGuiComp::UpdateModel() const
 	if (!IsUpdateBlocked()){
 		UpdateBlocker blocker(const_cast<CRectangularFilterParamsGuiComp*>(this));
 
-		iipr::CRectangularFilterParams* objectPtr = GetObjectPtr();
+		iipr::IMultidimensionalFilterParams* objectPtr = GetObjectPtr();
 		if (objectPtr != NULL){
-			int filterWidth = FilterWidthSpin->value();
-			int filterHeight = FilterHeightSpin->value();
+			imath::CVarVector filterLengths(2);
 
-			ibase::CSize filterSize(filterWidth, filterHeight);
+			filterLengths[0] = FilterWidthSlider->value() * 2 + 1;
+			filterLengths[1] = FilterHeightSlider->value() * 2 + 1;
 
-			if (filterSize != objectPtr->GetSize()){
+			if (filterLengths != objectPtr->GetFilterLengths()){
 				istd::CChangeNotifier notifier(objectPtr);
 
-				objectPtr->SetSize(filterSize);
+				objectPtr->SetFilterLengths(filterLengths);
+
+				const_cast<CRectangularFilterParamsGuiComp&>(*this).UpdateLabel(filterLengths);
 			}
 		}
 	}
@@ -38,25 +39,68 @@ void CRectangularFilterParamsGuiComp::UpdateModel() const
 
 void CRectangularFilterParamsGuiComp::UpdateEditor()
 {
-	iipr::CRectangularFilterParams* objectPtr = GetObjectPtr();
+	iipr::IMultidimensionalFilterParams* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		const ibase::CSize& filterSize = objectPtr->GetSize();
+		const imath::CVarVector& filterLengths = objectPtr->GetFilterLengths();
 
-		FilterWidthSpin->setValue(filterSize.GetX());
-		FilterHeightSpin->setValue(filterSize.GetY());
+		UpdateLabel(filterLengths);
+
+		int filterDimensionsCount = filterLengths.GetElementsCount();
+
+		if (filterDimensionsCount >= 1){
+			FilterWidthSlider->setValue(int(filterLengths[0] * 0.5 - 0.25));
+
+			FilterWidthLabel->setVisible(true);
+			FilterWidthSlider->setVisible(true);
+			FilterWidthValueLabel->setVisible(true);
+		}
+		else{
+			FilterWidthLabel->setVisible(false);
+			FilterWidthSlider->setVisible(false);
+			FilterWidthValueLabel->setVisible(false);
+		}
+
+		if (filterDimensionsCount >= 2){
+			FilterHeightSlider->setValue(int(filterLengths[1] * 0.5 - 0.25));
+
+			FilterHeightLabel->setVisible(true);
+			FilterHeightSlider->setVisible(true);
+			FilterHeightValueLabel->setVisible(true);
+		}
+		else{
+			FilterHeightLabel->setVisible(false);
+			FilterHeightSlider->setVisible(false);
+			FilterHeightValueLabel->setVisible(false);
+		}
+	}
+}
+
+
+// protected methods
+
+void CRectangularFilterParamsGuiComp::UpdateLabel(const imath::CVarVector& filterLengths)
+{
+	int filterDimensionsCount = filterLengths.GetElementsCount();
+
+	if (filterDimensionsCount >= 1){
+		FilterWidthValueLabel->setText(QString::number(int(filterLengths[0] + 0.5)));
+	}
+
+	if (filterDimensionsCount >= 2){
+		FilterHeightValueLabel->setText(QString::number(int(filterLengths[1] + 0.5)));
 	}
 }
 
 
 // protected slots
 
-void CRectangularFilterParamsGuiComp::on_FilterHeightSlider_valueChanged(int /*value*/)
+void CRectangularFilterParamsGuiComp::on_FilterWidthSlider_valueChanged(int /*value*/)
 {
 	UpdateModel();
 }
 
 
-void CRectangularFilterParamsGuiComp::on_FilterWidthSlider_valueChanged(int /*value*/)
+void CRectangularFilterParamsGuiComp::on_FilterHeightSlider_valueChanged(int /*value*/)
 {
 	UpdateModel();
 }

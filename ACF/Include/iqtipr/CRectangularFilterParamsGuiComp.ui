@@ -26,7 +26,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QLabel" name="label" >
+    <widget class="QLabel" name="FilterWidthLabel" >
      <property name="text" >
       <string>Filter Width</string>
      </property>
@@ -35,31 +35,18 @@
    <item row="0" column="1" >
     <widget class="QSlider" name="FilterWidthSlider" >
      <property name="minimum" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="maximum" >
-      <number>200</number>
+      <number>50</number>
      </property>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" >
-    <widget class="QSpinBox" name="FilterWidthSpin" >
-     <property name="minimum" >
-      <number>1</number>
-     </property>
-     <property name="maximum" >
-      <number>200</number>
-     </property>
-     <property name="singleStep" >
-      <number>2</number>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0" >
-    <widget class="QLabel" name="label_3" >
+    <widget class="QLabel" name="FilterHeightLabel" >
      <property name="text" >
       <string>Filter Height</string>
      </property>
@@ -68,96 +55,32 @@
    <item row="1" column="1" >
     <widget class="QSlider" name="FilterHeightSlider" >
      <property name="minimum" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="maximum" >
-      <number>200</number>
+      <number>50</number>
      </property>
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
+   <item row="0" column="2" >
+    <widget class="QLabel" name="FilterWidthValueLabel" >
+     <property name="text" >
+      <string>1</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="2" >
-    <widget class="QSpinBox" name="FilterHeightSpin" >
-     <property name="minimum" >
-      <number>1</number>
-     </property>
-     <property name="maximum" >
-      <number>200</number>
-     </property>
-     <property name="singleStep" >
-      <number>2</number>
+    <widget class="QLabel" name="FilterHeightValueLabel" >
+     <property name="text" >
+      <string>1</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>FilterHeightSpin</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>FilterHeightSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>442</x>
-     <y>37</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>378</x>
-     <y>37</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>FilterHeightSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>FilterHeightSpin</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>284</x>
-     <y>35</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>448</x>
-     <y>35</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>FilterWidthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>FilterWidthSpin</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>376</x>
-     <y>13</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>449</x>
-     <y>13</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>FilterWidthSpin</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>FilterWidthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>463</x>
-     <y>13</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>402</x>
-     <y>14</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -244,15 +244,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultidimensionalFilterParamsComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CProcessedAcquisitionComp.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CProjectionData.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CRectangularFilterParams.cpp"
 				>
 			</File>
 			<File
@@ -337,15 +337,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultidimensionalFilterParamsComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CProcessedAcquisitionComp.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CProjectionData.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CRectangularFilterParams.h"
 				>
 			</File>
 			<File

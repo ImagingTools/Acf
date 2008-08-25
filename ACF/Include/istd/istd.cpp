@@ -15,12 +15,12 @@ namespace istd
 
 // public methods of class CGroupRegistrator
 
-CGroupRegistrator::CGroupRegistrator(const char* filePath)
+CGroupRegistrator::CGroupRegistrator(const char* groupId)
 {
 	ITrace* tracePtr = GetService<ITrace>();
 
 	if (tracePtr != NULL){
-		tracePtr->RegisterGroupId(filePath);
+		tracePtr->RegisterGroupId(groupId);
 	}
 }
 

@@ -7,13 +7,13 @@
 
 #include "iimg/TBitmapIterator2d.h"
 
+#include "iipr/IMultidimensionalFilterParams.h"
 #include "iipr/TImageProcessorCompBase.h"
-#include "iipr/CRectangularFilterParams.h"
 
 
 namespace iipr
 {
-	
+
 
 class MinimumFunction: public std::binary_function<I_BYTE, I_BYTE, I_BYTE>
 {
@@ -39,15 +39,15 @@ public:
 	Implementation of general morphological operator.
 */
 template <typename PixelType, class CompareFunction> 
-class TMorphoProcessorComp: public iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>
+class TMorphoProcessorComp: public iipr::TImageProcessorCompBase<IMultidimensionalFilterParams>
 {
 public:
-	typedef iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams> BaseClass;
+	typedef iipr::TImageProcessorCompBase<IMultidimensionalFilterParams> BaseClass;
 
 protected:		
-	// reimplemented (iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>)
+	// reimplemented (iipr::TImageProcessorCompBase<iipr::IMultidimensionalFilterParams>)
 	virtual bool ProcessImage(
-				const iipr::CRectangularFilterParams* paramsPtr,
+				const IMultidimensionalFilterParams* paramsPtr,
 				const iimg::IBitmap& inputImage,
 				iimg::IBitmap& outputImage);
 
@@ -56,11 +56,11 @@ private:
 };
 
 
-// reimplemented (iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>)
+// reimplemented (iipr::TImageProcessorCompBase<iipr::IMultidimensionalFilterParams>)
 
 template <typename PixelType, class CompareFunction> 
 bool TMorphoProcessorComp<PixelType, CompareFunction>::ProcessImage(
-			const iipr::CRectangularFilterParams* paramsPtr,
+			const IMultidimensionalFilterParams* paramsPtr,
 			const iimg::IBitmap& inputImage,
 			iimg::IBitmap& outputImage)
 {
@@ -68,14 +68,17 @@ bool TMorphoProcessorComp<PixelType, CompareFunction>::ProcessImage(
 		return false;
 	}
 
+	imath::CVarVector filterLengths = paramsPtr->GetFilterLengths();
+	int filterDimensionsCount = filterLengths.GetElementsCount();
+	if (filterDimensionsCount < 1){
+		return false;
+	}
+
 	bool retVal = true;
-	
-	int kernelWidth = paramsPtr->GetSize().GetX();
-	int kernelHalfWidth = kernelWidth / 2;
+
+	int kernelHalfWidth = int(filterLengths[0] * 0.5 - 0.5);
+	int kernelHalfHeight = (filterDimensionsCount < 2)? kernelHalfWidth: int(filterLengths[1] * 0.5 - 0.5);
 	int imageWidth = inputImage.GetImageSize().GetX();
-	
-	int kernelHeight = paramsPtr->GetSize().GetY();
-	int kernelHalfHeight = kernelHeight / 2;
 	int imageHeight = inputImage.GetImageSize().GetY();
 
 	for (int y = 0; y < imageHeight; y++){
@@ -117,7 +120,7 @@ bool TMorphoProcessorComp<PixelType, CompareFunction>::ProcessImage(
 
 		for (int y = kernelHalfHeight; y < imageHeight - kernelHalfHeight; y++){
 			iimg::TBitmapIterator2d<PixelType> kernelIterator = inputIterator;
-		
+
 			PixelType outputValue = *kernelIterator;
 
 			kernelIterator.y -= kernelHalfHeight;

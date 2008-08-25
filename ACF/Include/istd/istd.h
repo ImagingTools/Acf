@@ -56,46 +56,6 @@ inline typename const T& Max4(const T& value1, const T& value2, const T& value3,
 
 
 /**
-	Check odd value.
-*/
-template <typename T> 
-inline bool IsOdd(const T& value)
-{
-	return (value & 0x1);
-}
-
-
-/**
-	Returns the next odd value.
-*/
-template<typename T> 
-inline int GetNextOdd(const T& value)
-{
-	return value + !IsOdd(value);
-}
-
-
-/**
-	Returns the previous odd value.
-*/
-template<typename T> 
-inline int GetPrevOdd(const T& value)
-{
-	return value - !IsOdd(value);
-}
-
-
-/**
-	Check even value.
-*/
-template <typename T> 
-inline bool IsEven(const T& value)
-{
-	return !IsOdd(value);
-}
-
-
-/**
 	Returns \c true, if the value \c value is in intervall (value1, value2) or (value2, value1).
 */
 template <typename T> 
@@ -112,7 +72,7 @@ inline bool IsBeetween(const T& value, const T& value1, const  T& value2)
 class CGroupRegistrator
 {
 public:
-	CGroupRegistrator(const char* filePath);
+	CGroupRegistrator(const char* groupId);
 };
 
 

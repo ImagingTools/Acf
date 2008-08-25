@@ -194,7 +194,7 @@
                 true
               </IsEnabled>
               <Value>
-                MinOperator
+                MaxOperator
               </Value>
             </Data>
           </AttributeInfo>

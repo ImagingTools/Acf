@@ -23,6 +23,7 @@ public:
 				int precision = 1,
 				RoundingType roundingType = RT_NORMAL,
 				double scaleFactor = 1.0,
+				double offset = 0.0,
 				const istd::CRange& range = istd::CRange(
 							std::numeric_limits<double>::min(),
 							std::numeric_limits<double>::max()));
@@ -31,6 +32,8 @@ public:
 	void SetRange(const istd::CRange& range);
 	double GetScaleFactor() const;
 	void SetScaleFactor(double value);
+	double GetOffset() const;
+	void SetOffset(double value);
 
 	// overloaded (imath::CFixedPointManip)
 	void SetPrecision(int precision);
@@ -46,6 +49,7 @@ protected:
 private:
 	istd::CRange m_range;
 	double m_scaleFactor;
+	double m_offset;
 
 	int m_scaledPrecision;
 };
@@ -76,6 +80,18 @@ inline void CComplexDoubleManip::SetScaleFactor(double value)
 	m_scaleFactor = value;
 
 	m_scaledPrecision = GetPrecision() - int(::log10(m_scaleFactor));
+}
+
+
+inline double CComplexDoubleManip::GetOffset() const
+{
+	return m_offset;
+}
+
+
+inline void CComplexDoubleManip::SetOffset(double value)
+{
+	m_offset = value;
 }
 
 

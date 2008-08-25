@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDoubleManip.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFixedPointManip.cpp"
 				>
 			</File>
@@ -197,6 +201,10 @@
 			</File>
 			<File
 				RelativePath="..\CDouble.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDoubleManip.h"
 				>
 			</File>
 			<File

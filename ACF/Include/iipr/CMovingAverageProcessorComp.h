@@ -2,8 +2,8 @@
 #define iipr_CMovingAverageProcessorComp_included
 
 
+#include "iipr/IMultidimensionalFilterParams.h"
 #include "iipr/TImageProcessorCompBase.h"
-#include "iipr/CRectangularFilterParams.h"
 
 
 namespace iipr
@@ -13,15 +13,15 @@ namespace iipr
 /**
 	Implementation of moving average operator.
 */
-class CMovingAverageProcessorComp: public iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>
+class CMovingAverageProcessorComp: public iipr::TImageProcessorCompBase<IMultidimensionalFilterParams>
 {
 public:
-	typedef iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams> BaseClass;
+	typedef iipr::TImageProcessorCompBase<IMultidimensionalFilterParams> BaseClass;
 
 protected:		
-	// reimplemented (iipr::TImageProcessorCompBase<iipr::CRectangularFilterParams>)
+	// reimplemented (iipr::TImageProcessorCompBase<iipr::IMultidimensionalFilterParams>)
 	virtual bool ProcessImage(
-				const CRectangularFilterParams* paramsPtr,
+				const IMultidimensionalFilterParams* paramsPtr,
 				const iimg::IBitmap& inputImage,
 				iimg::IBitmap& outputImage);
 };

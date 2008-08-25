@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
 
 #include "imath/TVector.h"
 
@@ -636,8 +637,8 @@ bool TVarVector<Element>::Serialize(iser::IArchive& archive)
 
 	int elementsCount = GetElementsCount();
 
-	static CArchiveTag elementsTag("Elements", "List of vector element");
-	static CArchiveTag elementTag("Element", "Single vector element");
+	static iser::CArchiveTag elementsTag("Elements", "List of vector element");
+	static iser::CArchiveTag elementTag("Element", "Single vector element");
 
 	retVal = retVal && archive.BeginMultiTag(elementsTag, elementTag, elementsCount);
 

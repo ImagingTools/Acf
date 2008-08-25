@@ -9,8 +9,12 @@ CComplexDoubleManip::CComplexDoubleManip(
 			int precision,
 			RoundingType roundingType,
 			double scaleFactor,
+			double offset,
 			const istd::CRange& range)
-:	BaseClass(precision, roundingType), m_scaleFactor(scaleFactor), m_range(range)
+:	BaseClass(precision, roundingType),
+	m_scaleFactor(scaleFactor),
+	m_range(range),
+	m_offset(offset)
 {
 }
 
@@ -19,16 +23,16 @@ CComplexDoubleManip::CComplexDoubleManip(
 
 std::string CComplexDoubleManip::GetString(const double& value) const
 {
-	return BaseClass::GetString(GetRounded(value) * m_scaleFactor, m_scaledPrecision);
+	return BaseClass::GetString(GetRounded(value) * m_scaleFactor + m_offset, m_scaledPrecision);
 }
 
 
 bool CComplexDoubleManip::GetParsed(const std::string& text, double& result) const
 {
-	bool retVal = GetParsedUnrounded(text, result);
+	bool retVal = CDoubleManip::GetParsed(text, result);
 
 	if (retVal){
-		result = GetRounded(result / m_scaleFactor);
+		result = GetRounded(result / m_scaleFactor - m_offset);
 	}
 
 	return retVal;

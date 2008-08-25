@@ -3,6 +3,11 @@
 
 
 #include "istd/IPolymorphic.h"
+#include "istd/CRange.h"
+
+#include "imath/TIValueManip.h"
+
+#include "iipr/iipr.h"
 
 
 namespace iipr
@@ -23,11 +28,10 @@ public:
 	virtual istd::CRange GetFilterLengthRange(int dimension) const = 0;
 
 	/**
-		Check if filter length for specified dimension is integral.
-		If this length is integral filter length value will be rounded to interger value.
+		Return number manipulator object for filter length value.
 	*/
-	virtual bool IsFilterLengthIntegral(int dimension) const = 0;
-}
+	virtual const imath::IDoubleManip& GetFilterLengthManip(int dimension) const = 0;
+};
 
 
 } // namespace iipr

@@ -9,7 +9,7 @@ namespace imath{
 
 
 CFixedPointManip::CFixedPointManip(int precision, RoundingType roundingType)
-	:	m_pointChar('.'), m_roundingType(roundingType)
+:	m_roundingType(roundingType)
 {
 	SetPrecision(precision);
 }
@@ -28,16 +28,17 @@ void CFixedPointManip::SetRoundingType(RoundingType roundingType)
 }
 
 
+// reimplemented (imath::TIValueManip)
+
 std::string CFixedPointManip::GetString(const double& value) const
 {
 	return GetString(value, m_precision);
 }
 
 
-
 bool CFixedPointManip::GetParsed(const std::string& text, double& result) const
 {
-	bool retVal = GetParsedUnrounded(text, result);
+	bool retVal = BaseClass::GetParsed(text, result);
 
 	if (retVal){
 		result = GetRounded(result);
@@ -62,7 +63,7 @@ std::string CFixedPointManip::GetString(const double& value, int /*precision*/) 
 			rotatedString.push_back('0' + char(intAbsValue % 10));
 			intAbsValue /= 10;
 		}
-		rotatedString.push_back(m_pointChar);
+		rotatedString.push_back(GetPointChar());
 	}
 	else{
 		for (int i = 0; i < -m_precision; ++i){
@@ -91,58 +92,6 @@ std::string CFixedPointManip::GetString(const double& value, int /*precision*/) 
 }
 
 
-
-bool CFixedPointManip::GetParsedUnrounded(const std::string& text, double& result) const
-{
-	double sign = 0.0;
-	double divider = 0.0;
-	I_SDWORD intValueResult = 0;
-
-	int stringLength = int(text.size());
-	for (int i = 0; i < stringLength; ++i){
-		char c = text[i];
-		if (::isdigit(c)){
-			divider *= 10;
-
-			intValueResult = intValueResult * 10 + c - '0';
-		}
-		else if (c == m_pointChar){
-			if (divider != 0){
-				return false;
-			}
-
-			divider = 1.0;
-		}
-		else if (c == '-'){
-			if (sign != 0.0){
-				return false;	// two minus or plus signs are not allowed
-			}
-
-			sign = -1.0;
-		}
-		else if (c == '+'){
-			if (sign != 0.0){
-				return false;	// two minus or plus signs are not allowed
-			}
-
-			sign = 1.0;
-		}
-	}
-
-	if (sign == 0.0){
-		sign = 1.0;
-	}
-
-	if (divider == 0.0){
-		divider = 1.0;
-	}
-
-	result = intValueResult * sign / divider;
-
-	return true;
-}
-
-
 // static protected methods
 
 double CFixedPointManip::NormalRoundFuntion(double value)
@@ -160,6 +109,5 @@ CFixedPointManip::RoundingFuntionPtr CFixedPointManip::m_roundingFuntionsPtr[RT_
 
 
 } // namespace imath
-
 
 
