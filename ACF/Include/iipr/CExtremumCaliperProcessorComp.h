@@ -20,6 +20,7 @@ public:
 	typedef CExtremumCaliperProcessor BaseClass2;
 
 	I_BEGIN_COMPONENT(CExtremumCaliperProcessorComp);
+		I_REGISTER_INTERFACE(iproc::IProcessor);
 		I_REGISTER_INTERFACE(ICaliperProcessor);
 		I_ASSIGN(m_caliperParamsIdAttrPtr, "CaliperParamsId", "ID of caliper parameters in parameter set", true, "CaliperParams");
 	I_END_COMPONENT;

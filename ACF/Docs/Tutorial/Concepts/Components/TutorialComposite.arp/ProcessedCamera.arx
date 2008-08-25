@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="7">
+  <ElementsList count="8">
     <Element>
       <Id>
         AverageFilter
@@ -39,6 +39,43 @@
           <AttributeInfo>
             <Id>
               ParamsId
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AverageParams
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        DerivativeFilter
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        RectDerivativeProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              FilterParamsId
             </Id>
             <Type>
               class icomp::TSingleAttribute&lt;class istd::CString&gt;
@@ -194,7 +231,7 @@
                 true
               </IsEnabled>
               <Value>
-                MaxOperator
+                DerivativeFilter
               </Value>
             </Data>
           </AttributeInfo>

@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="28">
+  <PositionMap count="30">
     <Element>
       <ComponentName>
         AverageFilter
@@ -58,6 +58,28 @@
       </X>
       <X>
         337
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        DeriavativeFilter
+      </ComponentName>
+      <X>
+        487
+      </X>
+      <X>
+        312
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        DerivativeFilter
+      </ComponentName>
+      <X>
+        512
+      </X>
+      <X>
+        312
       </X>
     </Element>
     <Element>

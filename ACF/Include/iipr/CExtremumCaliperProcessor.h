@@ -28,13 +28,13 @@ public:
 	/**
 		Get parameter ID used to extract caliper parameter object from parameter set.
 	*/
-	const std::string& GetCaliperParamId() const;
+	const std::string& GetCaliperParamsId() const;
 
 	/**
 		Set parameter ID used to extract caliper parameter object from parameter set.
 		It is only needed while using general processing interface iproc::IProcessor.
 	*/
-	void SetCaliperParamId(const std::string& id);
+	void SetCaliperParamsId(const std::string& id);
 
 	// reimplemented (iipr::ICaliperProcessor)
 	virtual bool DoCaliper(
@@ -55,13 +55,13 @@ private:
 
 // inline methods
 
-inline const std::string& CExtremumCaliperProcessor::GetCaliperParamId() const
+inline const std::string& CExtremumCaliperProcessor::GetCaliperParamsId() const
 {
 	return m_caliperParamsId;
 }
 
 
-inline void CExtremumCaliperProcessor::SetCaliperParamId(const std::string& id)
+inline void CExtremumCaliperProcessor::SetCaliperParamsId(const std::string& id)
 {
 	m_caliperParamsId = id;
 }

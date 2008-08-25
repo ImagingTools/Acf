@@ -35,6 +35,7 @@ public:
 		I_ASSIGN(m_dimensionsCountAttrPtr, "DimensionsCount", "Number of filter dimensions (will be used if no constraints set)", true, 2);
 		I_ASSIGN(m_minFilterLengthAttrPtr, "MinFilterLength", "Minimal length of filter for all dimensions (will be used if no constraints set)", true, 1);
 		I_ASSIGN(m_maxFilterLengthAttrPtr, "MaxFilterLength", "Maximal length of filter for all dimensions (will be used if no constraints set)", true, 10);
+		I_ASSIGN_MULTI_0(m_filterLengthsAttrPtr, "FilterLengths", "Default values of filter lengths", false);
 		I_ASSIGN(m_constraintsCompPtr, "Constraints", "Constraints object describing possible parameter values", false, "FilterConstraints");
 	I_END_COMPONENT;
 
@@ -62,6 +63,7 @@ private:
 	I_ATTR(int, m_dimensionsCountAttrPtr);
 	I_ATTR(double, m_minFilterLengthAttrPtr);
 	I_ATTR(double, m_maxFilterLengthAttrPtr);
+	I_MULTIATTR(double, m_filterLengthsAttrPtr);
 	I_REF(IMultidimensionalFilterConstraints, m_constraintsCompPtr);
 };
 

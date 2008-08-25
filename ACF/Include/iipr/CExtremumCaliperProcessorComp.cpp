@@ -12,7 +12,7 @@ void CExtremumCaliperProcessorComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	I_ASSERT(m_caliperParamsIdAttrPtr.IsValid());	// isObligatory was set 'true'
-	SetCaliperParamId((*m_caliperParamsIdAttrPtr).ToString());
+	SetCaliperParamsId((*m_caliperParamsIdAttrPtr).ToString());
 }
 
 

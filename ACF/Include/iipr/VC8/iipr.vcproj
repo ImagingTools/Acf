@@ -267,6 +267,14 @@
 				RelativePath="..\CSearchResultSet.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CRectDerivativeProcessor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CRectDerivativeProcessorComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -358,6 +366,14 @@
 			</File>
 			<File
 				RelativePath="..\CSearchResultSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRectDerivativeProcessor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRectDerivativeProcessorComp.h"
 				>
 			</File>
 			<File

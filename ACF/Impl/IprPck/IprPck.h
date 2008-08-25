@@ -23,6 +23,7 @@
 #include "iipr/CLineProjectionProcessorComp.h"
 #include "iipr/CSearchResultSet.h"
 #include "iipr/CCaliperBasedPositionSupplierComp.h"
+#include "iipr/CRectDerivativeProcessorComp.h"
 
 
 /**
@@ -55,6 +56,7 @@ typedef icomp::TMakeComponentWrap<
 			iser::ISerializable,
 			imod::IModel> SearchResults;
 typedef icomp::TModelCompWrap<iipr::CCaliperBasedPositionSupplierComp> CaliperBasedPositionSupplier;
+typedef iipr::CRectDerivativeProcessorComp RectDerivativeProcessor;
 
 
 } // namespace IprPck

@@ -97,7 +97,15 @@ void CMultidimensionalFilterParamsComp::OnComponentCreated()
 	const IMultidimensionalFilterConstraints* constraintsPtr = GetConstraints();
 	I_ASSERT(constraintsPtr != NULL);
 
-	m_filterLengts.SetElementsCount(constraintsPtr->GetFilterDimensionsCount(), 1);
+	int count = constraintsPtr->GetFilterDimensionsCount();
+	m_filterLengts.SetElementsCount(count, 1);
+
+	if (m_filterLengthsAttrPtr.IsValid()){
+		int commonCount = istd::Min(count, m_filterLengthsAttrPtr.GetCount());
+		for (int i = 0; i < commonCount; ++i){
+			m_filterLengts[i] = m_filterLengthsAttrPtr[i];
+		}
+	}
 }
 
 
