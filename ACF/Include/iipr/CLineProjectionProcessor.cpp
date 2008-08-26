@@ -7,6 +7,7 @@
 
 #include "iimg/TPixelConversion.h"
 
+#include "iipr/IFeature.h"
 #include "iipr/CProjectionData.h"
 
 
@@ -156,6 +157,25 @@ bool CLineProjectionProcessor::DoAutosizeProjection(
 }
 
 
+// reimplemented (iipr::IFeaturesMapper)
+
+imath::CVarVector CLineProjectionProcessor::GetImagePosition(
+			const IFeature& feature,
+			const iprm::IParamsSet* paramsPtr) const
+{
+	const imath::CVarVector& projectionPosition = feature.GetPosition();
+
+	if ((projectionPosition.GetElementsCount() >= 1) && (paramsPtr != NULL) && !m_lineParamId.empty()){
+		const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(paramsPtr->GetParameter(m_lineParamId));
+		if (linePtr != NULL){
+			return linePtr->GetPositionFromAlpha(projectionPosition[0]);
+		}
+	}
+
+	return imath::CVarVector();
+}
+
+
 // reimplemented (iipr::ILineProjectionProcessor)
 
 bool CLineProjectionProcessor::DoProjection(
@@ -165,21 +185,6 @@ bool CLineProjectionProcessor::DoProjection(
 			CProjectionData& results)
 {
 	return DoAutosizeProjection(bitmap, projectionLine, results);
-}
-
-
-imath::CVarVector CLineProjectionProcessor::GetBitmapPosition(
-			const imath::CVarVector& projectionPosition,
-			const iprm::IParamsSet* paramsPtr) const
-{
-	if ((projectionPosition.GetElementsCount() >= 1) && (paramsPtr != NULL) && !m_lineParamId.empty()){
-		const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(paramsPtr->GetParameter(m_lineParamId));
-		if (linePtr != NULL){
-			return linePtr->GetPositionFromAlpha(projectionPosition[0]);
-		}
-	}
-
-	return imath::CVarVector();
 }
 
 

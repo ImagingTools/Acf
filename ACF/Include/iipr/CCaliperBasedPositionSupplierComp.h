@@ -6,13 +6,13 @@
 
 #include "iprm/IParamsSet.h"
 
+#include "iproc/IProcessor.h"
 #include "iproc/TSupplierCompWrap.h"
 
 #include "icam/IBitmapSupplier.h"
 
 #include "iipr/IVector2dSupplier.h"
-#include "iipr/ILineProjectionProcessor.h"
-#include "iipr/ICaliperProcessor.h"
+#include "iipr/IFeaturesMapper.h"
 
 
 namespace iipr
@@ -26,9 +26,8 @@ public:
 
 	I_BEGIN_COMPONENT(CCaliperBasedPositionSupplierComp);
 		I_REGISTER_INTERFACE(CCaliperBasedPositionSupplierComp);
-
 		I_ASSIGN(m_bitmapSupplierCompPtr, "BitmapSupplier", "Provide image to analyse", true, "BitmapSupplier");
-		I_ASSIGN(m_lineProjectionProcessorCompPtr, "ProjectionProcessor", "Calculate projection from image", true, "ProjectionProcessor");
+		I_ASSIGN(m_featuresMapperCompPtr, "FeaturesMapper", "Calculate position from caliper extracted features", true, "FeaturesMapper");
 		I_ASSIGN(m_caliperProcessorCompPtr, "CaliperProcessor", "Calculate position from projection", true, "CaliperProcessor");
 	I_END_COMPONENT;
 
@@ -45,8 +44,8 @@ protected:
 private:
 	I_REF(icam::IBitmapSupplier, m_bitmapSupplierCompPtr);
 
-	I_REF(iipr::ILineProjectionProcessor, m_lineProjectionProcessorCompPtr);
-	I_REF(iipr::ICaliperProcessor, m_caliperProcessorCompPtr);
+	I_REF(iipr::IFeaturesMapper, m_featuresMapperCompPtr);
+	I_REF(iproc::IProcessor, m_caliperProcessorCompPtr);
 };
 
 

@@ -397,6 +397,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IFeaturesMapper.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IFeaturesSupplier.h"
 				>
 			</File>

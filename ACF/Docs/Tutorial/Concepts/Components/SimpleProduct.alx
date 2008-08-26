@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="29">
+  <PositionMap count="34">
     <Element>
       <ComponentName>
         AnnulusTestTask
@@ -40,13 +40,46 @@
     </Element>
     <Element>
       <ComponentName>
+        Buffer
+      </ComponentName>
+      <X>
+        812
+      </X>
+      <X>
+        387
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        Buffer1
+      </ComponentName>
+      <X>
+        1037
+      </X>
+      <X>
+        387
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        Buffer2
+      </ComponentName>
+      <X>
+        1287
+      </X>
+      <X>
+        387
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         Caliper
       </ComponentName>
       <X>
-        987
+        1412
       </X>
       <X>
-        312
+        487
       </X>
     </Element>
     <Element>
@@ -128,6 +161,17 @@
     </Element>
     <Element>
       <ComponentName>
+        CasadedCaliper
+      </ComponentName>
+      <X>
+        1150
+      </X>
+      <X>
+        287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         CircleTestTask
       </ComponentName>
       <X>
@@ -146,6 +190,17 @@
       </X>
       <X>
         -287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        Derivative
+      </ComponentName>
+      <X>
+        1137
+      </X>
+      <X>
+        487
       </X>
     </Element>
     <Element>
@@ -252,10 +307,10 @@
         LineProjection
       </ComponentName>
       <X>
-        1262
+        862
       </X>
       <X>
-        312
+        487
       </X>
     </Element>
     <Element>

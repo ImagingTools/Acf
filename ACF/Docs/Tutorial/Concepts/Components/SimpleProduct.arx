@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="27">
+  <ElementsList count="31">
     <Element>
       <Id>
         AnnulusTestTask
@@ -69,6 +69,42 @@
       </PackageId>
       <ComponentId>
         Bitmap
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Buffer1
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        ProjectionData
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Buffer2
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        ProjectionData
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -365,6 +401,75 @@
     </Element>
     <Element>
       <Id>
+        CasadedCaliper
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        CascadedProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Buffers
+            </Id>
+            <Type>
+              class icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="2">
+                <Value>
+                  Buffer1
+                </Value>
+                <Value>
+                  Buffer2
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Processors
+            </Id>
+            <Type>
+              class icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="3">
+                <Value>
+                  LineProjection
+                </Value>
+                <Value>
+                  Derivative
+                </Value>
+                <Value>
+                  Caliper
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         CircleTestTask
       </Id>
       <PackageId>
@@ -415,6 +520,24 @@
               </Value>
             </Data>
           </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Derivative
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        RectDerivativeProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -1100,7 +1223,26 @@
                 true
               </IsEnabled>
               <Value>
-                Caliper
+                CasadedCaliper
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              FeaturesMapper
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                LineProjection
               </Value>
             </Data>
           </AttributeInfo>
@@ -1120,25 +1262,6 @@
               </IsEnabled>
               <Value>
                 CaliperParamsSet
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ProjectionProcessor
-            </Id>
-            <Type>
-              class icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                LineProjection
               </Value>
             </Data>
           </AttributeInfo>

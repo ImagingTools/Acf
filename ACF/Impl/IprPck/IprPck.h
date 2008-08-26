@@ -24,6 +24,7 @@
 #include "iipr/CSearchResultSet.h"
 #include "iipr/CCaliperBasedPositionSupplierComp.h"
 #include "iipr/CRectDerivativeProcessorComp.h"
+#include "iipr/CProjectionData.h"
 
 
 /**
@@ -54,9 +55,17 @@ typedef icomp::TMakeComponentWrap<
 			iipr::IFeaturesConsumer,
 			iipr::IFeaturesContainer,
 			iser::ISerializable,
+			istd::IChangeable,
 			imod::IModel> SearchResults;
 typedef icomp::TModelCompWrap<iipr::CCaliperBasedPositionSupplierComp> CaliperBasedPositionSupplier;
 typedef iipr::CRectDerivativeProcessorComp RectDerivativeProcessor;
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<iipr::CProjectionData>,
+			iipr::CProjectionData,
+			iser::ISerializable,
+			istd::IChangeable,
+			imod::IModel> ProjectionData;
+
 
 
 } // namespace IprPck

@@ -117,10 +117,9 @@ bool CRectDerivativeProcessor::DoBitmapProcessing(
 			double rightWeight = sumLastAlpha;
 			for (int x = -sumOffset; x < projectionWidth; ++x){
 				if (x <= projectionWidth - sumOffset){
-					rightWeight += 1;
-
 					if (x < projectionWidth - sumOffset){
 						rightSum += sourceLinePtr[x + sumOffset + 1] * sumLastAlpha + sourceLinePtr[x + sumOffset] * (1 - sumLastAlpha);
+						rightWeight += 1;
 					}
 					else{
 						rightSum += sourceLinePtr[x + sumOffset] * (1 - sumLastAlpha);

@@ -20,10 +20,15 @@ void CRectangularFilterParamsGuiComp::UpdateModel() const
 
 		iipr::IMultidimensionalFilterParams* objectPtr = GetObjectPtr();
 		if (objectPtr != NULL){
-			imath::CVarVector filterLengths(2);
+			imath::CVarVector filterLengths = objectPtr->GetFilterLengths();
 
-			filterLengths[0] = FilterWidthSlider->value() * 2 + 1;
-			filterLengths[1] = FilterHeightSlider->value() * 2 + 1;
+			if (filterLengths.GetElementsCount() >= 1){
+				filterLengths[0] = FilterWidthSlider->value() * 2 + 1;
+			}
+
+			if (filterLengths.GetElementsCount() >= 2){
+				filterLengths[1] = FilterHeightSlider->value() * 2 + 1;
+			}
 
 			if (filterLengths != objectPtr->GetFilterLengths()){
 				istd::CChangeNotifier notifier(objectPtr);

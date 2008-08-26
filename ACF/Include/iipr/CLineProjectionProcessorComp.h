@@ -20,8 +20,10 @@ public:
 	typedef CLineProjectionProcessor BaseClass2;
 
 	I_BEGIN_COMPONENT(CLineProjectionProcessorComp);
+		I_REGISTER_INTERFACE(iproc::IProcessor);
 		I_REGISTER_INTERFACE(ILineProjectionProcessor);
 		I_REGISTER_INTERFACE(IProjectionConstraints);
+		I_REGISTER_INTERFACE(IFeaturesMapper);
 		I_ASSIGN(m_lineParamIdAttrPtr, "LineParamId", "ID of line parameter in parameter set", true, "LineParam");
 	I_END_COMPONENT
 

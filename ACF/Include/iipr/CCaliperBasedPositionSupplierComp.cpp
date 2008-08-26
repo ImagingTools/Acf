@@ -42,29 +42,19 @@ void CCaliperBasedPositionSupplierComp::BeginNextObject(I_DWORD objectId)
 int CCaliperBasedPositionSupplierComp::ProduceObject(I_DWORD objectId, i2d::CVector2d& result) const
 {
 	if (		m_bitmapSupplierCompPtr.IsValid() &&
-				m_lineProjectionProcessorCompPtr.IsValid() &&
+				m_featuresMapperCompPtr.IsValid() &&
 				m_caliperProcessorCompPtr.IsValid()){
 		const iimg::IBitmap* bitmapPtr = m_bitmapSupplierCompPtr->GetBitmap(objectId);
 		if (bitmapPtr != NULL){
 			iprm::IParamsSet* paramsSetPtr = GetParamsSet();
 
-			iipr::CProjectionData projection;
-			int projectionState = m_lineProjectionProcessorCompPtr->DoProcessing(
-						paramsSetPtr,
-						bitmapPtr,
-						&projection);
-
-			if (projectionState != iipr::ILineProjectionProcessor::TS_OK){
-				return WS_ERROR;
-			}
-
 			CHeaviestFeatureConsumer consumer;
 			int caliperState = m_caliperProcessorCompPtr->DoProcessing(
 							paramsSetPtr,
-							&projection,
+							bitmapPtr,
 							&consumer);
 
-			if (caliperState != iipr::ILineProjectionProcessor::TS_OK){
+			if (caliperState != iproc::IProcessor::TS_OK){
 				return WS_ERROR;
 			}
 
@@ -73,8 +63,8 @@ int CCaliperBasedPositionSupplierComp::ProduceObject(I_DWORD objectId, i2d::CVec
 				return WS_ERROR;
 			}
 
-			imath::CVarVector position = m_lineProjectionProcessorCompPtr->GetBitmapPosition(
-						featurePtr->GetPosition(),
+			imath::CVarVector position = m_featuresMapperCompPtr->GetImagePosition(
+						*featurePtr,
 						paramsSetPtr);
 			if (position.GetElementsCount() < 2){
 				return WS_CRITICAL;

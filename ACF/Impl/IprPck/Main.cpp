@@ -27,6 +27,7 @@ I_EXPORT_COMPONENT(LineProjectionProcessor, "Line projection implementation for 
 I_EXPORT_COMPONENT(SearchResults, "Search results", "Model Search Feature Extraction");
 I_EXPORT_COMPONENT(CaliperBasedPositionSupplier, "supplier implementation returning position found using caliper tool", "Model Caliper Position Processing Supplier");
 I_EXPORT_COMPONENT(RectDerivativeProcessor, "Calculate derivative of projection using rectangular kernel", "Projection Derivative Processor Filter Rectangular Kernel");
+I_EXPORT_COMPONENT(ProjectionData, "Projection data model", "Projection Data Image Bitmap Model");
 
 
 } // namespace IprPck

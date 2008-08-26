@@ -8,6 +8,7 @@
 
 #include "iipr/ILineProjectionProcessor.h"
 #include "iipr/IProjectionConstraints.h"
+#include "iipr/IFeaturesMapper.h"
 
 
 namespace iipr
@@ -16,6 +17,7 @@ namespace iipr
 
 class CLineProjectionProcessor:
 			public iproc::TSyncProcessorWrap<ILineProjectionProcessor>,
+			virtual public IFeaturesMapper,
 			virtual public IProjectionConstraints
 {
 public:
@@ -40,15 +42,17 @@ public:
 	*/
 	void SetLineParamId(const std::string& id);
 
+	// reimplemented (iipr::IFeaturesMapper)
+	virtual imath::CVarVector GetImagePosition(
+				const IFeature& feature,
+				const iprm::IParamsSet* paramsPtr) const;
+
 	// reimplemented (iipr::ILineProjectionProcessor)
 	virtual bool DoProjection(
 				const iimg::IBitmap& bitmap,
 				const i2d::CLine2d& projectionLine,
 				const IProjectionParams* paramsPtr,
 				CProjectionData& results);
-	virtual imath::CVarVector GetBitmapPosition(
-				const imath::CVarVector& projectionPosition,
-				const iprm::IParamsSet* paramsPtr) const;
 
 	// reimplemented (iproc::IProcessor)
 	virtual int DoProcessing(
