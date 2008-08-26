@@ -765,7 +765,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 			QString valueString = editor->property("text").toString();
 			QStringList values = valueString.split(';', QString::SkipEmptyParts);
 
-			intListAttribute->Reset();
+			doubleListAttribute->Reset();
 			for (int index = 0; index < values.count(); index++){
 				doubleListAttribute->InsertValue(values.at(index).toDouble());
 			}
