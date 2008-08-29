@@ -240,6 +240,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TVarMatrix.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TVarVector.h"
 				>
 			</File>

@@ -109,6 +109,11 @@ public:
 	const Element& GetAt(const IndexType& index) const;
 
 	/**
+		Get reference to element stored at specified index.
+	*/
+	Element& GetAtRef(const IndexType& index);
+
+	/**
 		Set element at specified index.
 	*/
 	void SetAt(const IndexType& index, const Element& value);
@@ -190,6 +195,18 @@ inline int TArray<Element, Dimensions>::GetSize(int dimension) const
 
 template <class Element, int Dimensions>
 inline typename const Element& TArray<Element, Dimensions>::GetAt(const IndexType& index) const
+{
+	I_ASSERT(index.IsInside(m_sizes));
+
+	int elementIndex = GetElementIndex(index);
+	I_ASSERT(elementIndex < int(m_elements.size()));
+
+	return m_elements[elementIndex];
+}
+
+
+template <class Element, int Dimensions>
+inline Element& TArray<Element, Dimensions>::GetAtRef(const IndexType& index)
 {
 	I_ASSERT(index.IsInside(m_sizes));
 

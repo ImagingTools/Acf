@@ -16,6 +16,7 @@ public:
 
 	CIndex2d();
 	CIndex2d(int x, int y);
+	CIndex2d(const TIndex<2>& index);
 
 	int GetX() const;
 	void SetX(int value);
@@ -26,6 +27,8 @@ public:
 	bool operator>(const CIndex2d& index) const;
 	bool operator<=(const CIndex2d& index) const;
 	bool operator>=(const CIndex2d& index) const;
+
+	CIndex2d& operator=(const TIndex<2>& index);
 };
 
 
@@ -40,6 +43,12 @@ inline CIndex2d::CIndex2d(int x, int y)
 {
 	SetAt(0, x);
 	SetAt(1, y);
+}
+
+
+inline CIndex2d::CIndex2d(const TIndex<2>& index)
+:	BaseClass(index)
+{
 }
 
 
@@ -98,6 +107,14 @@ inline bool CIndex2d::operator<=(const CIndex2d& index) const
 inline bool CIndex2d::operator>=(const CIndex2d& index) const
 {
 	return (!operator<(index) || operator==(index));
+}
+
+
+inline CIndex2d& CIndex2d::operator=(const TIndex<2>& index)
+{
+	BaseClass::operator=(index);
+
+	return *this;
 }
 
 
