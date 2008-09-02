@@ -32,7 +32,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iipr::IValueSupplier)
-	virtual imath::CVarVector GetValue(I_DWORD objectId) const;
+	virtual imath::CVarVector GetValue(I_DWORD objectId, int index = -1, int valueTypeId = VTI_AUTO) const;
 
 	// reimplemented (iproc::ISupplier)
 	virtual void BeginNextObject(I_DWORD objectId);

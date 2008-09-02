@@ -10,7 +10,7 @@ namespace iipr
 
 // reimplemented (iipr::IValueSupplier)
 
-imath::CVarVector CCaliperBasedPositionSupplierComp::GetValue(I_DWORD objectId) const
+imath::CVarVector CCaliperBasedPositionSupplierComp::GetValue(I_DWORD objectId, int /*index*/, int /*valueTypeId*/) const
 {
 	const WorkInfo* infoPtr = GetWorkInfo(objectId, true);
 	if ((infoPtr != NULL) && (infoPtr->status == WS_OK)){
