@@ -5,6 +5,8 @@
 
 #include "iqt2d/CLine2dShape.h"
 
+#include "iqt/CSignalBlocker.h"
+
 
 namespace iqt2d
 {
@@ -127,11 +129,18 @@ void CLine2dParamsGuiComp::UpdateEditor()
 	i2d::CLine2d* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& point1 = objectPtr->GetPoint1();
+
+		iqt::CSignalBlocker block(Point1XSB);
 		Point1XSB->setValue(point1.GetX());
+	
+		iqt::CSignalBlocker block2(Point1YSB);
 		Point1YSB->setValue(point1.GetY());
 
 		const i2d::CVector2d& point2 = objectPtr->GetPoint2();
+		iqt::CSignalBlocker block3(Point2XSB);
 		Point2XSB->setValue(point2.GetX());
+
+		iqt::CSignalBlocker block4(Point2YSB);
 		Point2YSB->setValue(point2.GetY());
 	}
 }

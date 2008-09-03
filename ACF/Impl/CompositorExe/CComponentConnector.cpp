@@ -279,6 +279,8 @@ void CComponentConnector::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 	setSelected(true);
 	
 	update();
+
+	BaseClass::hoverEnterEvent(event);
 }
 
 
@@ -287,6 +289,8 @@ void CComponentConnector::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 	setSelected(false);
 
 	update();
+
+	BaseClass::hoverLeaveEvent(event);
 }
 
 

@@ -5,6 +5,8 @@
 
 #include "iqt2d/CCircleShape.h"
 
+#include "iqt/CSignalBlocker.h"
+
 
 namespace iqt2d
 {
@@ -123,6 +125,11 @@ void CCircleParamsGuiComp::UpdateEditor()
 	i2d::CCircle* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
+
+		iqt::CSignalBlocker block(XSpin);
+		iqt::CSignalBlocker block2(YSpin);
+		iqt::CSignalBlocker block3(RadiusSpin);
+
 		XSpin->setValue(center.GetX());
 		YSpin->setValue(center.GetY());
 
