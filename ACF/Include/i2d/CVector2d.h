@@ -6,6 +6,8 @@
 
 #include "imath/TVector.h"
 
+#include "i2d/i2d.h"
+
 
 namespace i2d
 {

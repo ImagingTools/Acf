@@ -125,6 +125,20 @@ istd::CRange CFireGrabAcquisitionComp::GetEenDelayRange() const
 }
 
 
+// reimplemented (icam::ITriggerConstraints)
+
+bool CFireGrabAcquisitionComp::IsTriggerSupported() const
+{
+	return true;
+}
+
+
+bool CFireGrabAcquisitionComp::IsTriggerModeSupported(int triggerMode) const
+{
+	return (triggerMode >= icam::ITriggerParams::TM_DEFAULT) && (triggerMode <= icam::ITriggerParams::TM_NEGATIVE_LEVEL);
+}
+
+
 // reimplemented (icomp::IComponent)
 
 void CFireGrabAcquisitionComp::OnComponentCreated()
@@ -247,27 +261,35 @@ bool CFireGrabAcquisitionComp::CheckParameter(UINT16 parameterId, UINT32 setValu
 }
 
 
-void CFireGrabAcquisitionComp::InitializeTriggerParams(const iavt::IAvtTriggerParams& triggerParams)
+void CFireGrabAcquisitionComp::InitializeTriggerParams(const icam::ITriggerParams& triggerParams)
 {
 	bool isTriggerEnabled = triggerParams.IsTriggerEnabled();
 	int triggerMode = triggerParams.GetTriggerMode();
-	int triggerPolarity = triggerParams.GetTriggerPolarity();
 
 	UINT32 triggerValue;
 	if (m_camera.GetParameter(FGP_TRIGGER, &triggerValue) == FCE_NOERROR){
-		int triggerOn = isTriggerEnabled ? 1 : 0;
-		int polarity = (triggerPolarity == iavt::IAvtTriggerParams::FallingPolarity) ? 0 : 1;
+		int triggerOn = isTriggerEnabled? 1: 0;
 
+		int polarity = 0;
 		int mode = -1;
+
 		switch (triggerMode){
-		case iavt::IAvtTriggerParams::EdgeMode:
+		case icam::ITriggerParams::TM_RISING_EDGE:
 			mode = 0;
+			polarity = 1;
 			break;
-		case iavt::IAvtTriggerParams::LevelMode:
+
+		case icam::ITriggerParams::TM_FALLING_EDGE:
+			mode = 0;
+			polarity = 0;
+			break;
+
+		case icam::ITriggerParams::TM_POSITIVE_LEVEL:
 			mode = 1;
 			break;
-		case iavt::IAvtTriggerParams::BulkMode:
-			mode = 15;
+
+		case icam::ITriggerParams::TM_NEGATIVE_LEVEL:
+			mode = 1;
 			break;
 		}
 

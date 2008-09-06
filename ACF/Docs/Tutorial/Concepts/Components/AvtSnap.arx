@@ -111,7 +111,7 @@
                 true
               </IsEnabled>
               <Value>
-                false
+                true
               </Value>
             </Data>
           </AttributeInfo>
@@ -398,7 +398,7 @@
                 true
               </IsEnabled>
               <Value>
-                490
+                1024
               </Value>
             </Data>
           </AttributeInfo>
@@ -417,7 +417,7 @@
                 true
               </IsEnabled>
               <Value>
-                340
+                1280
               </Value>
             </Data>
           </AttributeInfo>
@@ -470,7 +470,7 @@
         AvtPck
       </PackageId>
       <ComponentId>
-        AvtTriggerParams
+        TriggerParams
       </ComponentId>
       <Data>
         <IsEnabled>

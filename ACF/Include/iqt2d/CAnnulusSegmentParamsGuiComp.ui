@@ -1,12 +1,12 @@
 <ui version="4.0" >
- <class>CAnnulusParamsGuiComp</class>
- <widget class="QWidget" name="CAnnulusParamsGuiComp" >
+ <class>CAnnulusSegmentParamsGuiComp</class>
+ <widget class="QWidget" name="CAnnulusSegmentParamsGuiComp" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>231</width>
-    <height>83</height>
+    <width>344</width>
+    <height>108</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -84,7 +84,7 @@
     </widget>
    </item>
    <item row="1" column="0" >
-    <widget class="QLabel" name="InnerRadiusLabel" >
+    <widget class="QLabel" name="RadiiLabel" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
        <horstretch>0</horstretch>
@@ -138,6 +138,58 @@
      </property>
      <property name="text" >
       <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <widget class="QLabel" name="AnglesLabel" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text" >
+      <string>Angles</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QDoubleSpinBox" name="BeginAngleSB" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
+     <property name="maximum" >
+      <double>10000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2" >
+    <widget class="QDoubleSpinBox" name="EndAngleSB" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimum" >
+      <double>-10000.000000000000000</double>
+     </property>
+     <property name="maximum" >
+      <double>10000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>°</string>
      </property>
     </widget>
    </item>

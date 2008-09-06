@@ -1,11 +1,12 @@
 #include "iqt2d/CAnnulusShape.h"
 
 
-#include <QPen>
+// Qt includes
 #include <QBrush>
-#include <QCursor>
 
 #include "istd/TChangeNotifier.h"
+
+#include "i2d/CAnnulus.h"
 
 #include "iqt/CSignalBlocker.h"
 
@@ -59,18 +60,13 @@ CAnnulusShape::CAnnulusShape(bool isEditable)
 
 void CAnnulusShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
-	i2d::CAnnulus* annulusPtr = dynamic_cast<i2d::CAnnulus*>(GetObjectPtr());
-	if (annulusPtr != NULL){
-		QPainterPath path;
-		
-		path.moveTo(iqt::GetQPointF(annulusPtr->GetCenter()));
-		path.addEllipse(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()));
-		path.addEllipse(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()));
+	QPainterPath path;
 
-		setPath(path);
+	CalcVisualization(path);
 
-		UpdateGripPositions();
-	}
+	setPath(path);
+
+	UpdateGripPositions();
 }
 
 
@@ -94,7 +90,7 @@ void CAnnulusShape::OnOuterGripPositionChanged(const QPointF& point)
 }
 
 
-// private methods
+// protected methods
 
 void CAnnulusShape::UpdateGripPositions()
 {
@@ -125,6 +121,17 @@ void CAnnulusShape::UpdateGripPositions()
 
 		iqt::CSignalBlocker block8(&m_bottomOuterGrip);
 		m_bottomOuterGrip.setPos(center.x(), center.y() + annulusPtr->GetOuterRadius());
+	}
+}
+
+
+void CAnnulusShape::CalcVisualization(QPainterPath& result)
+{
+	i2d::CAnnulus* annulusPtr = dynamic_cast<i2d::CAnnulus*>(GetObjectPtr());
+	if (annulusPtr != NULL){
+		result.moveTo(iqt::GetQPointF(annulusPtr->GetCenter()));
+		result.addEllipse(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()));
+		result.addEllipse(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()));
 	}
 }
 

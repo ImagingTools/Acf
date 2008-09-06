@@ -2,8 +2,6 @@
 #define iqt2d_CAnnulusShape_included
 
 
-#include "i2d/CAnnulus.h"
-
 #include "iqt2d/TObjectShapeBase.h"
 #include "iqt2d/CGripShape.h"
 
@@ -28,8 +26,9 @@ protected slots:
 	virtual void OnInnerGripPositionChanged(const QPointF& point);
 	virtual void OnOuterGripPositionChanged(const QPointF& point);
 
-private:
-	void UpdateGripPositions();
+protected:
+	virtual void UpdateGripPositions();
+	virtual void CalcVisualization(QPainterPath& result);
 
 private:
 	CGripShape m_topInnerGrip;

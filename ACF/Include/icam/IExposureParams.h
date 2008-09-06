@@ -17,6 +17,9 @@ class IExposureConstraints;
 class IExposureParams: virtual public iser::ISerializable
 {
 public:
+	/**
+		Get constrints describing allowed value ranges.
+	*/
 	virtual const IExposureConstraints* GetConstraints() const = 0;
 
 	/**

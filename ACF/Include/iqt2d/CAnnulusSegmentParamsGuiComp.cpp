@@ -1,11 +1,9 @@
-#include "iqt2d/CAnnulusParamsGuiComp.h"
+#include "iqt2d/CAnnulusSegmentParamsGuiComp.h"
 
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt2d/CAnnulusShape.h"
-
-#include "iqt/CSignalBlocker.h"
+#include "iqt2d/CAnnulusSegmentShape.h"
 
 
 namespace iqt2d
@@ -14,7 +12,7 @@ namespace iqt2d
 
 // reimplemented (imod::IObserver)
 
-bool CAnnulusParamsGuiComp::OnAttached(imod::IModel* modelPtr)
+bool CAnnulusSegmentParamsGuiComp::OnAttached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnAttached(modelPtr)){
 		const ShapesMap& shapesMap = GetShapesMap();
@@ -39,7 +37,7 @@ bool CAnnulusParamsGuiComp::OnAttached(imod::IModel* modelPtr)
 }
 
 
-bool CAnnulusParamsGuiComp::OnDetached(imod::IModel* modelPtr)
+bool CAnnulusSegmentParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnDetached(modelPtr)){
 		const ShapesMap& shapesMap = GetShapesMap();
@@ -66,11 +64,11 @@ bool CAnnulusParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 
 // reimplemented (imod::IModelEditor)
 
-void CAnnulusParamsGuiComp::UpdateModel() const
+void CAnnulusSegmentParamsGuiComp::UpdateModel() const
 {
-	i2d::CAnnulus* objectPtr = GetObjectPtr();
+	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CAnnulusParamsGuiComp*>(this));
+		UpdateBlocker blocker(const_cast<CAnnulusSegmentParamsGuiComp*>(this));
 
 		istd::CChangeNotifier notifier(NULL);
 
@@ -91,36 +89,46 @@ void CAnnulusParamsGuiComp::UpdateModel() const
 			notifier.SetPtr(objectPtr);
 			objectPtr->SetOuterRadius(outerRadius);
 		}
+
+		double beginAngle = imath::GetRadianFromDegree(BeginAngleSB->value());
+		if (beginAngle = objectPtr->GetBeginAngle()){
+			notifier.SetPtr(objectPtr);
+			objectPtr->SetBeginAngle(beginAngle);
+		}
+
+		double endAngle = imath::GetRadianFromDegree(EndAngleSB->value());
+		if (endAngle = objectPtr->GetEndAngle()){
+			notifier.SetPtr(objectPtr);
+			objectPtr->SetEndAngle(endAngle);
+		}
 	}
 }
 
 
-void CAnnulusParamsGuiComp::UpdateEditor()
+void CAnnulusSegmentParamsGuiComp::UpdateEditor()
 {
-	i2d::CAnnulus* objectPtr = GetObjectPtr();
+	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		iqt::CSignalBlocker block(XSpin);
-		iqt::CSignalBlocker block2(YSpin);
-		iqt::CSignalBlocker block3(InnerRadiusSpin);
-		iqt::CSignalBlocker block4(OuterRadiusSpin);
-
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 		XSpin->setValue(center.GetX());
 		YSpin->setValue(center.GetY());
 
 		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
 		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
+
+		BeginAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetBeginAngle()));
+		EndAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetEndAngle()));
 	}
 }
 
 
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
-void CAnnulusParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
+void CAnnulusSegmentParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
 {
 	I_ASSERT(m_annulusZValueAttrPtr.IsValid());	// this attribute is obligatory
 
-	CAnnulusShape* shapePtr = new CAnnulusShape(!inactiveOnly);
+	CAnnulusSegmentShape* shapePtr = new CAnnulusSegmentShape(!inactiveOnly);
 	if (shapePtr != NULL){
 		shapePtr->setZValue(*m_annulusZValueAttrPtr);
 		result.PushBack(shapePtr);
@@ -137,7 +145,7 @@ void CAnnulusParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Sha
 
 // reimplemented (iqt::CGuiComponentBase)
 
-void CAnnulusParamsGuiComp::OnGuiCreated()
+void CAnnulusSegmentParamsGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
@@ -145,6 +153,8 @@ void CAnnulusParamsGuiComp::OnGuiCreated()
 	QObject::connect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 	QObject::connect(InnerRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 	QObject::connect(OuterRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(BeginAngleSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(EndAngleSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 
 	if (m_unitNameAttrPtr.IsValid()){
 		PositionUnitLabel->setVisible(true);
@@ -157,12 +167,14 @@ void CAnnulusParamsGuiComp::OnGuiCreated()
 }
 
 
-void CAnnulusParamsGuiComp::OnGuiDestroyed()
+void CAnnulusSegmentParamsGuiComp::OnGuiDestroyed()
 {
 	QObject::disconnect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 	QObject::disconnect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 	QObject::disconnect(InnerRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 	QObject::disconnect(OuterRadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(BeginAngleSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(EndAngleSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
 
 	BaseClass::OnGuiDestroyed();
 }
@@ -170,7 +182,7 @@ void CAnnulusParamsGuiComp::OnGuiDestroyed()
 
 // protected slots
 
-void CAnnulusParamsGuiComp::OnParamsChanged(double /*value*/)
+void CAnnulusSegmentParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	UpdateModel();
 }

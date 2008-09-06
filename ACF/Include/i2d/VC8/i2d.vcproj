@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CAnnulusSegment.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCircle.cpp"
 				>
 			</File>
@@ -210,6 +214,10 @@
 			>
 			<File
 				RelativePath="..\CAnnulus.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CAnnulusSegment.h"
 				>
 			</File>
 			<File

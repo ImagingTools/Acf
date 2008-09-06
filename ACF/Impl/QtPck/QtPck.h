@@ -27,6 +27,7 @@
 #include "iqt2d/CRectangleParamsGuiComp.h"
 #include "iqt2d/CCircleParamsGuiComp.h"
 #include "iqt2d/CAnnulusParamsGuiComp.h"
+#include "iqt2d/CAnnulusSegmentParamsGuiComp.h"
 
 #include "iqtprm/CComposedParamsSetGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
@@ -68,6 +69,7 @@ typedef iqt2d::CLine2dParamsGuiComp Line2dParamsGui;
 typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
 typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;
 typedef iqt2d::CAnnulusParamsGuiComp AnnulusParamsGui;
+typedef iqt2d::CAnnulusSegmentParamsGuiComp AnnulusSegmentParamsGui;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;

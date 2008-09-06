@@ -4,7 +4,40 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="34">
+  <PositionMap count="37">
+    <Element>
+      <ComponentName>
+        AnnulusSegmentParamsGui
+      </ComponentName>
+      <X>
+        1087
+      </X>
+      <X>
+        -287
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AnnulusSegmentTestTask
+      </ComponentName>
+      <X>
+        1087
+      </X>
+      <X>
+        -37
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        AnnulusSegmentTestTaskGui
+      </ComponentName>
+      <X>
+        1075
+      </X>
+      <X>
+        -287
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         AnnulusTestTask
@@ -340,7 +373,7 @@
         PositionTask
       </ComponentName>
       <X>
-        1125
+        1275
       </X>
       <X>
         187
@@ -351,7 +384,7 @@
         PositionTaskGui
       </ComponentName>
       <X>
-        1112
+        1300
       </X>
       <X>
         -412

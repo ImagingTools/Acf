@@ -4,7 +4,62 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="31">
+  <ElementsList count="33">
+    <Element>
+      <Id>
+        AnnulusSegmentTestTask
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        AnnulusSegment
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        AnnulusSegmentTestTaskGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        AnnulusSegmentParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              SlaveSceneExtender
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                AnnulusTestTaskGui
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         AnnulusTestTask
@@ -662,7 +717,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="7">
                 <Value>
                   ImageTaskGui
                 </Value>
@@ -677,6 +732,9 @@
                 </Value>
                 <Value>
                   AnnulusTestTaskGui
+                </Value>
+                <Value>
+                  AnnulusSegmentTestTaskGui
                 </Value>
                 <Value>
                   PositionTaskGui
@@ -698,7 +756,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="7">
                 <Value>
                   Image
                 </Value>
@@ -713,6 +771,9 @@
                 </Value>
                 <Value>
                   Annulus
+                </Value>
+                <Value>
+                  AnnulusSegment
                 </Value>
                 <Value>
                   Position
@@ -734,7 +795,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="7">
                 <Value>
                   Image
                 </Value>
@@ -749,6 +810,9 @@
                 </Value>
                 <Value>
                   Annulus Test
+                </Value>
+                <Value>
+                  Annulus Segment Test
                 </Value>
                 <Value>
                   Position Test
@@ -770,7 +834,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="7">
                 <Value>
                   ImageTask
                 </Value>
@@ -785,6 +849,9 @@
                 </Value>
                 <Value>
                   AnnulusTestTask
+                </Value>
+                <Value>
+                  AnnulusSegmentTestTask
                 </Value>
                 <Value>
                   PositionTask

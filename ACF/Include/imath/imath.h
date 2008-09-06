@@ -16,6 +16,9 @@
 */
 
 
+static const double I_PI = 3.1415926;
+
+
 /**
 	Package with mathematical functions and algebraical primitives.
 	This package is system independent.
@@ -25,12 +28,6 @@
 */
 namespace imath
 {
-
-
-} // namespace imath
-
-
-static const double I_PI = 3.1415926;
 
 
 inline double GetRadianFromDegree(double degree)
@@ -44,6 +41,8 @@ inline double GetDegreeFromRadian(double radian)
 	return radian * 180.0 / I_PI;
 }
 
+
+} // namespace imath
 
 
 #endif // !imath_included

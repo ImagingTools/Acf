@@ -54,7 +54,7 @@
         Camera
       </ComponentName>
       <X>
-        187
+        175
       </X>
       <X>
         87
@@ -65,7 +65,7 @@
         ComposedParamsSet
       </ComponentName>
       <X>
-        -100
+        -87
       </X>
       <X>
         -12
@@ -76,7 +76,7 @@
         ComposedParamsSetGui
       </ComponentName>
       <X>
-        -350
+        -337
       </X>
       <X>
         -87
@@ -98,7 +98,7 @@
         ExposureParamsGui
       </ComponentName>
       <X>
-        -350
+        -337
       </X>
       <X>
         87
@@ -164,7 +164,7 @@
         ImageAOI
       </ComponentName>
       <X>
-        387
+        375
       </X>
       <X>
         187

@@ -17,7 +17,7 @@ public:
 	typedef i2d::CPosition2d BaseClass;
 
 	CAnnulus();
-	CAnnulus(double innerRadius, double outerRadius, const i2d::CVector2d& center);
+	CAnnulus(const i2d::CVector2d& center, double innerRadius, double outerRadius);
 
 	bool IsValid() const;
 

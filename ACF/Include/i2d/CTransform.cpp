@@ -18,7 +18,8 @@ CTransform::CTransform()
 
 CTransform::CTransform(const CVector2d& translation, const CVector2d& scale, double angle)
 {
-	angle = I_PI / 180 * angle;
+	angle = imath::GetRadianFromDegree(angle);
+
 	double sina = sin(angle);
     double cosa = cos(angle);
 
@@ -42,7 +43,8 @@ CVector2d CTransform::ApplyTo(const CVector2d& point) const
 
 CTransform& CTransform::Rotate(double angle)
 {
-	angle = I_PI / 180 * angle;
+	angle = imath::GetRadianFromDegree(angle);
+
 	double sina = sin(angle);
     double cosa = cos(angle);
 

@@ -18,8 +18,8 @@ CAnnulus::CAnnulus()
 }
 
 
-CAnnulus::CAnnulus(double innerRadius, double outerRadius, const i2d::CVector2d& center)
-	:BaseClass(center),
+CAnnulus::CAnnulus(const i2d::CVector2d& center, double innerRadius, double outerRadius)
+:	BaseClass(center),
 	m_radiusRange(innerRadius, outerRadius)
 {
 	I_ASSERT(IsValid());

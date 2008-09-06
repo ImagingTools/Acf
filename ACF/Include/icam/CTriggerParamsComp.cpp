@@ -1,4 +1,4 @@
-#include "iavt/CAvtTriggerParamsComp.h"
+#include "icam/CTriggerParamsComp.h"
 
 
 #include "istd/TChangeNotifier.h"
@@ -7,27 +7,32 @@
 #include "iser/CArchiveTag.h"
 
 
-namespace iavt
+namespace icam
 {
 
 
-CAvtTriggerParamsComp::CAvtTriggerParamsComp()
+CTriggerParamsComp::CTriggerParamsComp()
 	:m_isTriggerEnabled(false),
-	m_triggerMode(EdgeMode),
-	m_triggerPolarity(RisingPolarity)
+	m_triggerMode(TM_RISING_EDGE)
 {
 }
 
 
-// reimplemented (iavt::IAvtTriggerParams)
+// reimplemented (icam::ITriggerParams)
 
-bool CAvtTriggerParamsComp::IsTriggerEnabled() const
+const ITriggerConstraints* CTriggerParamsComp::GetConstraints() const
+{
+	return m_triggerConstraintsCompPtr.GetPtr();
+}
+
+
+bool CTriggerParamsComp::IsTriggerEnabled() const
 {
 	return m_isTriggerEnabled;
 }
 
 
-void CAvtTriggerParamsComp::SetTriggerEnabled(bool isEnabled)
+void CTriggerParamsComp::SetTriggerEnabled(bool isEnabled)
 {
 	if (m_isTriggerEnabled != isEnabled){
 		istd::CChangeNotifier changePtr(this);
@@ -37,13 +42,13 @@ void CAvtTriggerParamsComp::SetTriggerEnabled(bool isEnabled)
 }
 
 
-int CAvtTriggerParamsComp::GetTriggerMode() const
+int CTriggerParamsComp::GetTriggerMode() const
 {
 	return m_triggerMode;
 }
 
 
-void CAvtTriggerParamsComp::SetTriggerMode(int triggerMode)
+void CTriggerParamsComp::SetTriggerMode(int triggerMode)
 {
 	if (m_triggerMode!= triggerMode){
 		istd::CChangeNotifier changePtr(this);
@@ -53,25 +58,9 @@ void CAvtTriggerParamsComp::SetTriggerMode(int triggerMode)
 }
 
 
-int CAvtTriggerParamsComp::GetTriggerPolarity() const
-{
-	return m_triggerPolarity;
-}
-
-
-void CAvtTriggerParamsComp::SetTriggerPolarity(int triggerPolarity)
-{
-	if (m_triggerPolarity!= triggerPolarity){
-		istd::CChangeNotifier changePtr(this);
-
-		m_triggerPolarity = triggerPolarity;
-	}
-}
-
-
 // reimplemented (iser::ISerializable)
 
-bool CAvtTriggerParamsComp::Serialize(iser::IArchive& archive)
+bool CTriggerParamsComp::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag isTriggerEnabledTag("TriggerEnabled", "Is external trigger enabled");
 
@@ -84,18 +73,13 @@ bool CAvtTriggerParamsComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.Process(m_triggerMode);
 	retVal = retVal && archive.EndTag(bottomTag);
 
-	static iser::CArchiveTag leftTag("TriggerPolarity", "Trigger polarity");
-	retVal = retVal && archive.BeginTag(leftTag);
-	retVal = retVal && archive.Process(m_triggerPolarity);
-	retVal = retVal && archive.EndTag(leftTag);
-
 	return retVal;
 }
 
 
 // reimplemented (icomp::IComponent)
 
-void CAvtTriggerParamsComp::OnComponentCreated()
+void CTriggerParamsComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
@@ -106,13 +90,9 @@ void CAvtTriggerParamsComp::OnComponentCreated()
 	if (m_triggerModeAttrPtr.IsValid()){
 		m_triggerMode = *m_triggerModeAttrPtr;
 	}
-
-	if (m_triggerPolarityAttrPtr.IsValid()){
-		m_triggerPolarity = *m_triggerPolarityAttrPtr;
-	}
 }
 
 
-} // namespace iavt
+} // namespace icam
 
 

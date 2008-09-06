@@ -1,32 +1,32 @@
-#ifndef iqt2d_CAnnulusParamsGuiComp_included
-#define iqt2d_CAnnulusParamsGuiComp_included
+#ifndef iqt2d_CAnnulusSegmentParamsGuiComp_included
+#define iqt2d_CAnnulusSegmentParamsGuiComp_included
 
 
-#include "i2d/CAnnulus.h"
+#include "i2d/CAnnulusSegment.h"
 
 #include "iqt/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/TSceneExtenderCompBase.h"
 
-#include "iqt2d/Generated/ui_CAnnulusParamsGuiComp.h"
+#include "iqt2d/Generated/ui_CAnnulusSegmentParamsGuiComp.h"
 
 
 namespace iqt2d
 {
 
 
-class CAnnulusParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
-			Ui::CAnnulusParamsGuiComp,
-			i2d::CAnnulus> >
+class CAnnulusSegmentParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+			Ui::CAnnulusSegmentParamsGuiComp,
+			i2d::CAnnulusSegment> >
 {
 	Q_OBJECT
 
 public:
 	typedef iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
-				Ui::CAnnulusParamsGuiComp,
-				i2d::CAnnulus> > BaseClass;
+				Ui::CAnnulusSegmentParamsGuiComp,
+				i2d::CAnnulusSegment> > BaseClass;
 
-	I_BEGIN_COMPONENT(CAnnulusParamsGuiComp);
+	I_BEGIN_COMPONENT(CAnnulusSegmentParamsGuiComp);
 		I_ASSIGN(m_unitNameAttrPtr, "UnitName", "Name of geometric units e.g. mm", false, "mm");
 		I_ASSIGN(m_annulusZValueAttrPtr, "AnnulusZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT;
@@ -59,6 +59,6 @@ private:
 } // namespace iqt2d
 
 
-#endif // !iqt2d_CAnnulusParamsGuiComp_included
+#endif // !iqt2d_CAnnulusSegmentParamsGuiComp_included
 
 

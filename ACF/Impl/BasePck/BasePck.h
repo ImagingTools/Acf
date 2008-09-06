@@ -22,6 +22,7 @@
 #include "i2d/CLine2d.h"
 #include "i2d/CRectangle.h"
 #include "i2d/CAnnulus.h"
+#include "i2d/CAnnulusSegment.h"
 
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
@@ -101,6 +102,13 @@ typedef icomp::TMakeComponentWrap<
 			i2d::IObject2d,
 			iser::ISerializable,
 			imod::IModel> Annulus;
+
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<i2d::CAnnulusSegment>,
+			i2d::CAnnulus,
+			i2d::IObject2d,
+			iser::ISerializable,
+			imod::IModel> AnnulusSegment;
 
 typedef icomp::TModelCompWrap<ibase::CRectangleComp> AttributedRectangle;
 

@@ -229,7 +229,7 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 	const QPointF& circlePoint = m_connectionLine.first();
 	i2d::CVector2d circleDirection(circlePoint.x() - m_touchPoint.x(), circlePoint.y() - m_touchPoint.y());
-	int degree = 360 - circleDirection.GetAngle() * 180 / I_PI;
+	int degree = 360 - imath::GetRadianFromDegree(circleDirection.GetAngle());
 	circleDirection.Normalize(GP_OFFSET - GP_RADIUS2);
 
 	// drawing:

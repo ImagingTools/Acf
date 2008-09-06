@@ -6,19 +6,19 @@
 #include <basetype.h>
 #include <fgcamera.h>
 
-
 #include "ibase/TMessageProducerWrap.h"
+
+#include "i2d/CRectangle.h"
 
 #include "iproc/TSyncProcessorWrap.h"
 
 #include "icam/IBitmapAcquisition.h"
 #include "icam/IExposureConstraints.h"
+#include "icam/ITriggerConstraints.h"
 #include "icam/IExposureParams.h"
-
+#include "icam/ITriggerParams.h"
 
 #include "icomp/CComponentBase.h"
-
-#include "iavt/IAvtTriggerParams.h"
 
 
 namespace iavt
@@ -31,6 +31,7 @@ namespace iavt
 class CFireGrabAcquisitionComp:
 			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
 			virtual public icam::IExposureConstraints,
+			virtual public icam::ITriggerConstraints,
 			virtual public iproc::TSyncProcessorWrap<icam::IBitmapAcquisition>
 {
 public:
@@ -39,6 +40,7 @@ public:
 	I_BEGIN_COMPONENT(CFireGrabAcquisitionComp);
 		I_REGISTER_INTERFACE(icam::IBitmapAcquisition);
 		I_REGISTER_INTERFACE(icam::IExposureConstraints);
+		I_REGISTER_INTERFACE(icam::ITriggerConstraints);
 		I_ASSIGN(m_defaultExposureParamsCompPtr, "DefaultExposureParams", "Default exposure parameters will be used if no parameters are found", false, "DefaultExposureParams");
 		I_ASSIGN(m_exposureParamsIdAttrPtr, "ExposureParamsId", "Id used to get exposure parameters from the parameter set", false, "ExposureParams");
 		I_ASSIGN(m_triggerParamsCompPtr, "TriggerParams", "Trigger parameters that will be used", false, "TriggerParams");
@@ -77,6 +79,10 @@ public:
 	virtual istd::CRange GetDelayTimeRange() const;
 	virtual istd::CRange GetEenDelayRange() const;
 
+	// reimplemented (icam::ITriggerConstraints)
+	virtual bool IsTriggerSupported() const;
+	virtual bool IsTriggerModeSupported(int triggerMode) const;
+
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
@@ -90,7 +96,7 @@ protected:
 	/**
 		Initialize device with the trigger params.
 	*/
-	void InitializeTriggerParams(const iavt::IAvtTriggerParams& triggerParams);
+	void InitializeTriggerParams(const icam::ITriggerParams& triggerParams);
 
 	/**
 		Initialize image region.
@@ -99,9 +105,9 @@ protected:
 	
 private:
 	I_REF(icam::IExposureParams, m_defaultExposureParamsCompPtr);
-	I_ATTR(istd::CString, m_exposureParamsIdAttrPtr);
-	I_REF(iavt::IAvtTriggerParams, m_triggerParamsCompPtr);
+	I_REF(icam::ITriggerParams, m_triggerParamsCompPtr);
 	I_REF(i2d::IObject2d, m_imageRegionParamsCompPtr);
+	I_ATTR(istd::CString, m_exposureParamsIdAttrPtr);
 
 	I_ATTR(bool, m_singleShootAttrPtr);
 
