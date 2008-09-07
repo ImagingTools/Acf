@@ -474,7 +474,7 @@ TVarArray<Element>::Iterator::Iterator(TVarArray* arrayPtr)
 	}
 }
 
-typedef TVarArray<> CVarArray;
+typedef TVarArray<double> CVarArray;
 
 
 } // namespace istd
