@@ -13,9 +13,15 @@
 #include "idoc/CSingleDocumentTemplateComp.h"
 #include "idoc/CCompositeDocumentTemplateComp.h"
 
-#include "istdc/TFileSerializerComp.h"
-#include "istdc/CApplicationInfoComp.h"
-#include "istdc/CRegistryCodeSaverComp.h"
+#include "ibase/TFileSerializerComp.h"
+#include "ibase/CApplicationInfoComp.h"
+#include "ibase/CRegistryCodeSaverComp.h"
+#include "ibase/CRectangleComp.h"
+
+#include "iprm/CSelectableParamsSetComp.h"
+#include "iprm/CParamsManagerComp.h"
+#include "iprm/CComposedParamsSetComp.h"
+#include "iprm/CFileNameParamComp.h"
 
 #include "i2d/CPosition2d.h"
 #include "i2d/CCircle.h"
@@ -23,21 +29,6 @@
 #include "i2d/CRectangle.h"
 #include "i2d/CAnnulus.h"
 #include "i2d/CAnnulusSegment.h"
-
-#include "iprm/CSelectableParamsSetComp.h"
-#include "iprm/CParamsManagerComp.h"
-#include "iprm/CComposedParamsSetComp.h"
-
-#include "isig/CSamplingParamsComp.h"
-
-#include "iproc/CTestIdManagerComp.h"
-#include "iproc/CCascadedProcessorComp.h"
-
-#include "icam/CFileBitmapAcquisitionParamsComp.h"
-#include "icam/CExposureParamsComp.h"
-#include "icam/CSnapBitmapSupplierComp.h"
-
-#include "ibase/CRectangleComp.h"
 
 
 /**
@@ -47,26 +38,17 @@ namespace BasePck
 {
 
 
-typedef istdc::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
-typedef isvn::TApplicationInfoWrap<istdc::CApplicationInfoComp> ApplicationInfo;
-typedef istdc::CRegistryCodeSaverComp RegistryCodeSaver;
+typedef ibase::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
+typedef isvn::TApplicationInfoWrap<ibase::CApplicationInfoComp> ApplicationInfo;
+typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;
 typedef icomp::TModelCompWrap<iprm::CComposedParamsSetComp> ComposedParamsSet;
+typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
-
-typedef icomp::TModelCompWrap<isig::CSamplingParamsComp> SamplingParams;
-
-typedef icomp::TModelCompWrap<icam::CFileBitmapAcquisitionParamsComp> FileBitmapAcquisitionParams;
-typedef icomp::TModelCompWrap<icam::CExposureParamsComp> ExposureParams;
-typedef icomp::TModelCompWrap<icam::CSnapBitmapSupplierComp> SnapBitmapSupplier;
-
-typedef iproc::CTestIdManagerComp TestIdManager;
-typedef iproc::CCascadedProcessorComp CascadedProcessor;
-
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<i2d::CPosition2d>,
 			i2d::CPosition2d,

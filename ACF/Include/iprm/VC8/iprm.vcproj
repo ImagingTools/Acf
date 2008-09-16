@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileNameParamComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CParamsManagerComp.cpp"
 				>
 			</File>
@@ -202,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileNameParamComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CParamsManagerComp.h"
 				>
 			</File>
@@ -211,6 +219,10 @@
 			</File>
 			<File
 				RelativePath="..\CSelectableParamsSetComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFileNameParam.h"
 				>
 			</File>
 			<File

@@ -14,10 +14,8 @@
 #include "iqt/CFileDialogSerializerComp.h"
 #include "iqt/CBitmap.h"
 #include "iqt/CDockWidgetGuiComp.h"
-#include "iqt/CFileAcquisitionParamsGuiComp.h"
 #include "iqt/CSelectionParamGuiComp.h"
 #include "iqt/CTabContainerGuiComp.h"
-#include "iqt/CFileNameProviderGuiComp.h"
 #include "iqt/CSettingsSerializerComp.h"
 
 #include "iqt2d/CSceneConnectorGuiComp.h"
@@ -29,6 +27,7 @@
 #include "iqt2d/CAnnulusParamsGuiComp.h"
 #include "iqt2d/CAnnulusSegmentParamsGuiComp.h"
 
+#include "iqtprm/CFileNameParamGuiComp.h"
 #include "iqtprm/CComposedParamsSetGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
 
@@ -36,10 +35,6 @@
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CMainWindowGuiComp.h"
 #include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
-
-#include "iqtsig/CSamplingParamsGuiComp.h"
-#include "iqtsig/CSampleAcquisitionGuiComp.h"
-#include "iqtsig/CScriptSampleAcquisitionComp.h"
 
 
 /**
@@ -73,14 +68,11 @@ typedef iqt2d::CAnnulusSegmentParamsGuiComp AnnulusSegmentParamsGui;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;
+typedef iqtprm::CFileNameParamGuiComp FileNameParamGui;
+
 typedef iqt::CDockWidgetGuiComp DockWidgetGui;
-typedef iqt::CFileAcquisitionParamsGuiComp FileAcquisitionParamsGui;
 typedef iqt::CSelectionParamGuiComp SelectionParamGui;
-typedef iqtsig::CSamplingParamsGuiComp SamplingParamsGui;
-typedef iqtsig::CSampleAcquisitionGuiComp SampleAcquisitionGui;
-typedef iqtsig::CScriptSampleAcquisitionComp ScriptSampleAcquisition;
 typedef iqt::CTabContainerGuiComp TabContainer;
-typedef iqt::CFileNameProviderGuiComp FileNameProviderGui;
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 
 

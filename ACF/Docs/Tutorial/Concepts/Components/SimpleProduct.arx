@@ -459,7 +459,7 @@
         CasadedCaliper
       </Id>
       <PackageId>
-        BasePck
+        IacfBasePck
       </PackageId>
       <ComponentId>
         CascadedProcessor
@@ -641,7 +641,7 @@
         BasePck
       </PackageId>
       <ComponentId>
-        FileBitmapAcquisitionParams
+        FileNameParam
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -678,7 +678,7 @@
         QtPck
       </PackageId>
       <ComponentId>
-        FileAcquisitionParamsGui
+        FileNameParamGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -867,7 +867,7 @@
         IdManager
       </Id>
       <PackageId>
-        BasePck
+        IacfBasePck
       </PackageId>
       <ComponentId>
         TestIdManager
@@ -1023,7 +1023,7 @@
         ImageTask
       </Id>
       <PackageId>
-        BasePck
+        IacfBasePck
       </PackageId>
       <ComponentId>
         SnapBitmapSupplier

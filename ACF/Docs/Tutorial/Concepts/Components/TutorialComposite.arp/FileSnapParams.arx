@@ -13,7 +13,7 @@
         BasePck
       </PackageId>
       <ComponentId>
-        FileBitmapAcquisitionParams
+        FileNameParam
       </ComponentId>
       <Data>
         <IsEnabled>

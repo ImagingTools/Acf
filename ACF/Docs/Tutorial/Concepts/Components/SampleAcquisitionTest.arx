@@ -205,7 +205,7 @@
         SamplingParams
       </Id>
       <PackageId>
-        BasePck
+        MePck
       </PackageId>
       <ComponentId>
         SamplingParams

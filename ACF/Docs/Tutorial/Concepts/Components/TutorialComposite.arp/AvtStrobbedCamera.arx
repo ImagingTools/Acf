@@ -63,7 +63,7 @@
         ExposureParams
       </Id>
       <PackageId>
-        BasePck
+        IacfBasePck
       </PackageId>
       <ComponentId>
         ExposureParams

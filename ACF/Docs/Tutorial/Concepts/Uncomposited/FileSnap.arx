@@ -86,7 +86,7 @@
         BasePck
       </PackageId>
       <ComponentId>
-        FileBitmapAcquisitionParams
+        FileNameParam
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -104,7 +104,7 @@
         QtPck
       </PackageId>
       <ComponentId>
-        FileAcquisitionParamsGui
+        FileNameParamGui
       </ComponentId>
       <Data>
         <IsEnabled>

@@ -177,11 +177,19 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CApplicationInfoComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMessage.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CRectangleComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryCodeSaverComp.cpp"
 				>
 			</File>
 			<File
@@ -194,11 +202,19 @@
 			Filter="h"
 			>
 			<File
+				RelativePath="..\CApplicationInfoComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CMessage.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CRectangleComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryCodeSaverComp.h"
 				>
 			</File>
 			<File
@@ -238,6 +254,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TComposedFactoryComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TContainer.h"
 				>
 			</File>
@@ -247,6 +267,10 @@
 			</File>
 			<File
 				RelativePath="..\TFactorisableContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TFileSerializerComp.h"
 				>
 			</File>
 			<File
@@ -271,6 +295,10 @@
 			</File>
 			<File
 				RelativePath="..\TSerializableContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TSingleFactoryComp.h"
 				>
 			</File>
 		</Filter>
