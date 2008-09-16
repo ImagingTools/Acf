@@ -4,7 +4,7 @@
 
 #include "iproc/ISupplier.h"
 
-#include "iipr/IFeaturesContaner.h"
+#include "iipr/IFeaturesContainer.h"
 
 
 namespace iipr

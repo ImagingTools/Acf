@@ -195,6 +195,9 @@
 				RelativePath="..\CRectDerivativeProcessorComp.cpp">
 			</File>
 			<File
+				RelativePath="..\CSearchBasedFeaturesSupplierComp.cpp">
+			</File>
+			<File
 				RelativePath="..\CSearchFeature.cpp">
 			</File>
 			<File
@@ -266,6 +269,9 @@
 			</File>
 			<File
 				RelativePath="..\CRectDerivativeProcessorComp.h">
+			</File>
+			<File
+				RelativePath="..\CSearchBasedFeaturesSupplierComp.h">
 			</File>
 			<File
 				RelativePath="..\CSearchFeature.h">

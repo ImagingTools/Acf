@@ -487,7 +487,7 @@ bool CDocumentManagerBase::SerializeRecentFileList(iser::IArchive& archive)
 				retVal = retVal && archive.EndTag(filePathTag);
 
 				if (retVal){
-					recentFileList.insert(filePath);
+					recentFileList.push_front(filePath);
 				}
 			}
 
@@ -504,6 +504,12 @@ bool CDocumentManagerBase::SerializeRecentFileList(iser::IArchive& archive)
 	return retVal;
 }
 
+	
+int CDocumentManagerBase::GetMaxRecentFilesCount() const
+{
+	return 10;
+}
+
 
 // private methods
 
@@ -514,16 +520,28 @@ void CDocumentManagerBase::UpdateRecentFileList(const istd::CString& requestedFi
 
 		FileList& recentFileList = m_recentFilesMap[documentTypeId];
 
-		recentFileList.insert(requestedFilePath);
+		FileList::iterator foundFileIter = std::find(recentFileList.begin(), recentFileList.end(), requestedFilePath);
+
+		// move current file item to the top of the list:
+		if (foundFileIter != recentFileList.end()){
+			recentFileList.erase(foundFileIter);
+		}
+
+		recentFileList.push_front(requestedFilePath);
+
+		if (int(recentFileList.size()) > GetMaxRecentFilesCount()){
+			recentFileList.pop_back();
+		}
 	}
 	else{
 		RecentFilesMap::iterator recentFileListIter = m_recentFilesMap.find(documentTypeId);
 		if (recentFileListIter != m_recentFilesMap.end()){
-			FileList::iterator recentFileIter = recentFileListIter->second.find(requestedFilePath);
-			if (recentFileIter != recentFileListIter->second.end()){
+			FileList& fileList = recentFileListIter->second;
+			FileList::iterator recentFileIter = std::find(fileList.begin(), fileList.end(), requestedFilePath);
+			if (recentFileIter != fileList.end()){
 				istd::CChangeNotifier changeNotifier(this, RecentFileListChanged);
 		
-				recentFileListIter->second.erase(recentFileIter);
+				fileList.erase(recentFileIter);
 			}
 		}
 	}

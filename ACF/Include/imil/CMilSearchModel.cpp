@@ -172,7 +172,7 @@ const iimg::IBitmap& CMilSearchModel::GetImage() const
 }
 
 
-bool CMilSearchModel::Create(const iimg::IBitmap& modelImage, const iipr::ISearchParams* paramsPtr)
+bool CMilSearchModel::CreateFromImage(const iimg::IBitmap& modelImage, const iipr::ISearchParams* paramsPtr)
 {
 	bool isModelCreated = IsValid();
 

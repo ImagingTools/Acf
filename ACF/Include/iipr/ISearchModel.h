@@ -22,7 +22,7 @@ public:
 	/**
 		Creates search model from the image. 
 	*/
-	virtual bool Create(const iimg::IBitmap& modelImage, const iipr::ISearchParams* params) = 0;
+	virtual bool CreateFromImage(const iimg::IBitmap& modelImage, const iipr::ISearchParams* params) = 0;
 
 	/**
 		Returns a \c true, if the model was created and is ready for use, otherwise a \c false.

@@ -58,7 +58,7 @@ protected:
 	typedef istd::TDelPtr<imod::IUndoManager> UndoManagerPtr;
 	typedef istd::TDelPtr<istd::IPolymorphic> ViewPtr;
 	typedef std::list<ViewPtr> Views;
-	typedef std::set<istd::CString> FileList;
+	typedef std::list<istd::CString> FileList;
 	typedef std::map<std::string, FileList> RecentFilesMap;
 
 	struct DocumentInfo
@@ -111,6 +111,11 @@ protected:
 		Serialize recent file list
 	*/
 	virtual bool SerializeRecentFileList(iser::IArchive& archive);
+
+	/**
+		Get the maximal count of item in the recent file list.
+	*/
+	virtual int GetMaxRecentFilesCount() const;
 
 	// abstract methods
 	

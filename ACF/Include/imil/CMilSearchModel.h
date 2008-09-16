@@ -35,7 +35,7 @@ public:
 	virtual bool IsValid() const;
 	virtual void ResetModel();
 	virtual const iimg::IBitmap& GetImage() const;
-	bool Create(const iimg::IBitmap& modelImage, const iipr::ISearchParams* params);
+	bool CreateFromImage(const iimg::IBitmap& modelImage, const iipr::ISearchParams* params);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive & archive);

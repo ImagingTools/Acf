@@ -358,15 +358,15 @@ bool CMilSearchParams::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.Process(lastLevel);
 	retVal = retVal && archive.EndTag(downsamplingRangeMaxTag);
 
+	// serialize model from the image:
 	static iser::CArchiveTag modelTag("Model", "Search model");
 	retVal = retVal && archive.BeginTag(modelTag);
 
-	// serialize model from the image:
 	retVal = m_searchModel.Serialize(archive);
 
 	// if we read, so we must create the model from the model image:
 	if (!archive.IsStoring() && retVal){
-		m_searchModel.Create(m_searchModel.GetImage(), this);
+		m_searchModel.CreateFromImage(m_searchModel.GetImage(), this);
 	}
 	retVal = retVal && archive.EndTag(modelTag);
 
