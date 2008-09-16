@@ -1,0 +1,585 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ElementsList count="9">
+    <Element>
+      <Id>
+        Bitmap
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        Bitmap
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        MILSearchParamsGui
+      </Id>
+      <PackageId>
+        MilPck
+      </PackageId>
+      <ComponentId>
+        MilSearchParamsGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        MilSearchParams
+      </Id>
+      <PackageId>
+        MilPck
+      </PackageId>
+      <ComponentId>
+        MilSearchParams
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        MilSearchProcessor
+      </Id>
+      <PackageId>
+        MilPck
+      </PackageId>
+      <ComponentId>
+        MilSearchProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        ParamsSetGui
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        ComposedParamsSetGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="4">
+          <AttributeInfo>
+            <Id>
+              DesignType
+            </Id>
+            <Type>
+              class icomp::TSingleAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                2
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Editors
+            </Id>
+            <Type>
+              class icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  MILSearchParamsGui
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Ids
+            </Id>
+            <Type>
+              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  MILSearchParams
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Names
+            </Id>
+            <Type>
+              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="2">
+                <Value>
+                  General
+                </Value>
+                <Value>
+                  Advanced
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SearchBasedTask
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        SearchBasedFeaturesSupplier
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              BitmapSupplier
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              BitmapSupplier
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                BitmapSupplier
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsSet
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                SearchParamsSet
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SearchProcessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                MilSearchProcessor
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SearchGui
+      </Id>
+      <PackageId>
+        QtIprPck
+      </PackageId>
+      <ComponentId>
+        SearchGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="6">
+          <AttributeInfo>
+            <Id>
+              Bitmap
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Bitmap
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              BitmapAcquisition
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              BitmapSupplier
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                BitmapAcquisition
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsSet
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                SearchParamsSet
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParamsSetGui
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ParamsSetGui
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SearchProcessor
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                MilSearchProcessor
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SearchResults
+            </Id>
+            <Type>
+              class icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                SearchResults
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SearchParamsSet
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        ComposedParamsSet
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Parameters
+            </Id>
+            <Type>
+              class icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  MilSearchParams
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ParametersId
+            </Id>
+            <Type>
+              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  MILSearchParams
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SearchResults
+      </Id>
+      <PackageId>
+        IprPck
+      </PackageId>
+      <ComponentId>
+        SearchResults
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+  </ElementsList>
+  <ExportedInterfaces count="14">
+    <Interface>
+      <InterfaceId>
+        class ibase::IApplication
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class ibase::IApplicationInfo
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class ibase::IMessageConsumer
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class ibase::IMessageContainer
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iipr::CSearchBasedFeaturesSupplierComp
+      </InterfaceId>
+      <ComponentId>
+        SearchBasedTask
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iipr::IFeaturesSupplier
+      </InterfaceId>
+      <ComponentId>
+        SearchBasedTask
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class imod::IModel
+      </InterfaceId>
+      <ComponentId>
+        SearchParamsSet
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iprm::IParamsSet
+      </InterfaceId>
+      <ComponentId>
+        SearchParamsSet
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iproc::ISupplier
+      </InterfaceId>
+      <ComponentId>
+        SearchBasedTask
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iqt2d::ISceneExtender
+      </InterfaceId>
+      <ComponentId>
+        SearchGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iqt::IGuiObject
+      </InterfaceId>
+      <ComponentId>
+        SearchGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iser::ISerializable
+      </InterfaceId>
+      <ComponentId>
+        SearchBasedTask
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class iser::IVersionInfo
+      </InterfaceId>
+      <ComponentId>
+        Framework
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        class istd::IChangeable
+      </InterfaceId>
+      <ComponentId>
+        SearchParamsSet
+      </ComponentId>
+    </Interface>
+  </ExportedInterfaces>
+  <ExportedComponents count="0">
+  </ExportedComponents>
+</Acf>
