@@ -73,12 +73,12 @@ int main(int argc, char *argv[])
 					componentId = argv[++index];
 				}
 				else if (option == "packageFile"){
-					packagesLoaderComp.RegisterPackageFile(argv[++index], false);
+					packagesLoaderComp.RegisterPackageFile(argv[++index]);
 
 					useDefaultRegistries = false;
 				}
 				else if (option == "packageDir"){
-					packagesLoaderComp.RegisterPackagesDir(argv[++index], false);
+					packagesLoaderComp.RegisterPackagesDir(argv[++index]);
 
 					useDefaultRegistries = false;
 				}
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 		if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(registryDir.absoluteFilePath("PackagesConfig.xml")))){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
 			if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
-				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()), false);
+				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
 			}
 		}
 	}

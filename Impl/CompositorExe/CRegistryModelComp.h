@@ -8,14 +8,17 @@
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
 
+#include "ibase/TMessageProducerWrap.h"
 
-class CRegistryModelComp:	public icomp::CComponentBase,
-							public icomp::CRegistry,
-							virtual public icomp::IRegistryGeometryProvider,
-							virtual public icomp::IRegistryNotesProvider
+
+class CRegistryModelComp:
+			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
+			public icomp::CRegistry,
+			virtual public icomp::IRegistryGeometryProvider,
+			virtual public icomp::IRegistryNotesProvider
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
 	typedef icomp::CRegistry BaseClass2;
 
 	I_BEGIN_COMPONENT(CRegistryModelComp)
@@ -27,6 +30,11 @@ public:
 	{
 		CF_POSITION = 0x20000,
 		CF_NOTE = 0x40000
+	};
+
+	enum MessageId
+	{
+		MI_CANNOT_CREATE_ELEMENT = 650
 	};
 
 	virtual bool SerializeComponentsLayout(iser::IArchive& archive);
@@ -51,6 +59,12 @@ public:
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
+
+	// reimplemented (icomp::IRegistry)
+	virtual ElementInfo* InsertElementInfo(
+				const std::string& elementId,
+				const icomp::CComponentAddress& address,
+				bool ensureElementCreated = true);
 
 protected:
 	bool SerializeComponentPosition(iser::IArchive& archive, std::string& componentName, i2d::CVector2d& position);

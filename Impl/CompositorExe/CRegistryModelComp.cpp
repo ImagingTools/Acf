@@ -1,9 +1,11 @@
 #include "CRegistryModelComp.h"
 
+
 #include "istd/TChangeNotifier.h"
 
-
 #include "icomp/CCompositeComponent.h"
+
+#include "iqt/iqt.h"
 
 
 // public methods
@@ -185,6 +187,28 @@ void CRegistryModelComp::OnComponentCreated()
 	if (m_staticInfoCompPtr.IsValid()){
 		SetComponentStaticInfo(m_staticInfoCompPtr.GetPtr());
 	}
+}
+
+
+// reimplemented (icomp::IRegistry)
+
+CRegistryModelComp::ElementInfo* CRegistryModelComp::InsertElementInfo(
+			const std::string& elementId,
+			const icomp::CComponentAddress& address,
+			bool ensureElementCreated)
+{
+	ElementInfo* retVal = BaseClass2::InsertElementInfo(elementId, address, ensureElementCreated);
+
+	if (retVal == NULL){
+		SendErrorMessage(
+					MI_CANNOT_CREATE_ELEMENT,
+					iqt::GetCString(QObject::tr("Cannot create %1 (%2: %3)").
+								arg(elementId.c_str()).
+								arg(address.GetPackageId().c_str()).
+								arg(address.GetComponentId().c_str())));
+	}
+
+	return retVal;
 }
 
 

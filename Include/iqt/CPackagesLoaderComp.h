@@ -15,9 +15,12 @@
 
 #include "icomp/IRegistry.h"
 #include "icomp/IRegistriesManager.h"
+#include "icomp/CRegistry.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
 #include "icomp/CCompositePackageStaticInfo.h"
+
+#include "ibase/TMessageProducerWrap.h"
 
 #include "iqt/CDllFunctionsProvider.h"
 
@@ -29,10 +32,19 @@ namespace iqt
 /**
 	Loads component packages from dynamic link libraries.
 */
-class CPackagesLoaderComp: public icomp::CComponentBase, public icomp::CPackageStaticInfo, virtual public icomp::IRegistriesManager
+class CPackagesLoaderComp:
+			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
+			public icomp::CPackageStaticInfo,
+			virtual public icomp::IRegistriesManager
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
+
+	enum MessageId
+	{
+		MI_CANNOT_REGISTER = 650,
+		MI_CANNOT_CREATE_ELEMENT
+	};
 
 	I_BEGIN_COMPONENT(CPackagesLoaderComp)
 		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo)
@@ -40,8 +52,8 @@ public:
 		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader")
 	I_END_COMPONENT
 
-	bool RegisterPackageFile(const istd::CString& file, bool beQuiet = true);
-	bool RegisterPackagesDir(const istd::CString& subDir, bool beQuiet = true);
+	bool RegisterPackageFile(const istd::CString& file);
+	bool RegisterPackagesDir(const istd::CString& subDir);
 	bool LoadConfigFile(const istd::CString& configFile);
 
 	const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
@@ -50,7 +62,24 @@ public:
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;
 
 protected:
-	CDllFunctionsProvider& GetProviderRef(const QFileInfo& fileInfo, bool beQuiet = true);
+	class LogingRegistry: public icomp::CRegistry
+	{
+	public:
+		typedef icomp::CRegistry BaseClass;
+
+		LogingRegistry(CPackagesLoaderComp* parentPtr);
+
+		// reimplemented (icomp::IRegistry)
+		virtual ElementInfo* InsertElementInfo(
+					const std::string& elementId,
+					const icomp::CComponentAddress& address,
+					bool ensureElementCreated = true);
+
+	private:
+		CPackagesLoaderComp& m_parent;
+	};
+
+	CDllFunctionsProvider& GetProviderRef(const QFileInfo& fileInfo);
 
 private:
 	typedef istd::TDelPtr<CDllFunctionsProvider> FunctionsProviderPtr;

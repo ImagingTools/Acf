@@ -80,7 +80,6 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		return NULL;
 	}
 
-
 	istd::TChangeNotifier<icomp::IRegistry> changePtr(this, CF_COMPONENT_ADDED);
 
 	ElementInfo& newElement = m_componentsMap[elementId];
@@ -248,15 +247,15 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 				return false;
 			}
 
-			ElementInfo* newInfoPtr = InsertElementInfo(elementId, address, false);
-			if (newInfoPtr == NULL){
-				return false;
-			}
-
 			bool isEnabled = false;
 			retVal = retVal && archive.BeginTag(isEnabledTag);
 			retVal = retVal && archive.Process(isEnabled);
 			retVal = retVal && archive.EndTag(isEnabledTag);
+
+			ElementInfo* newInfoPtr = InsertElementInfo(elementId, address, isEnabled && !archive.IsTagSkippingSupported());
+			if (newInfoPtr == NULL){
+				return false;
+			}
 
 			if (isEnabled && newInfoPtr->elementPtr.IsValid()){
 				retVal = retVal && newInfoPtr->elementPtr->Serialize(archive);

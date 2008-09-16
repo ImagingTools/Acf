@@ -32,6 +32,15 @@ int main(int argc, char *argv[])
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();
 
+	icomp::TSimComponentWrap<QtPck::Log> log;
+	log.InitComponent();
+
+	icomp::TSimComponentWrap<QtPck::DockWidgetGui> lockDockComp;
+	lockDockComp.SetRef("SlaveGui", &log);
+	lockDockComp.SetIntAttr("DockArea", 2);
+	lockDockComp.SetStringAttr("DockTitle", "Log");
+	lockDockComp.InitComponent();
+
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.SetRef("ApplicationInfo", &applicationInfo);
 	application.SetBoolAttr("ShowMaximized", true);
@@ -50,6 +59,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;
 	packagesLoaderComp.SetRef("RegistryLoader", &registryLoaderComp);
+	packagesLoaderComp.SetRef("Log", &log);
 	packagesLoaderComp.InitComponent();
 
 	std::string registryFile;
@@ -72,12 +82,12 @@ int main(int argc, char *argv[])
 			}
 			else if (index < argc - 1){
 				if (option == "packageFile"){
-					packagesLoaderComp.RegisterPackageFile(argv[++index], false);
+					packagesLoaderComp.RegisterPackageFile(argv[++index]);
 
 					useDefaultRegistries = false;
 				}
 				else if (option == "packageDir"){
-					packagesLoaderComp.RegisterPackagesDir(argv[++index], false);
+					packagesLoaderComp.RegisterPackagesDir(argv[++index]);
 
 					useDefaultRegistries = false;
 				}
@@ -98,7 +108,7 @@ int main(int argc, char *argv[])
 		if (!packagesLoaderComp.LoadConfigFile("PackagesConfig.xml")){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
 			if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
-				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()), false);
+				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
 			}
 		}
 	}
@@ -118,6 +128,7 @@ int main(int argc, char *argv[])
 	// registry model
 	icomp::TSimComponentsFactory<icomp::TModelCompWrap<CRegistryModelComp> > modelFactoryComp;
 	modelFactoryComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
+	modelFactoryComp.SetRef("Log", &log);
 
 	// registry preview
 	icomp::TSimComponentWrap<CRegistryPreviewComp> registryPreviewComp;
@@ -161,6 +172,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.SetRef("DocumentManager", &workspaceComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &packageOverviewDockComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &attributeEditorDockComp);
+	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
 	mainWindowComp.InitComponent();
 
 	application.SetRef("MainGui", &mainWindowComp);

@@ -11,19 +11,18 @@
 #include "iser/CXmlFileReadArchive.h"
 
 #include "icomp/export.h"
-#include "icomp/CRegistry.h"
 
 
 namespace iqt
 {
 
 
-bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file, bool beQuiet)
+bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 {
 	QFileInfo fileInfo(iqt::GetQString(file));
 
 	if (fileInfo.isFile()){
-		CDllFunctionsProvider& provider = GetProviderRef(fileInfo, beQuiet);
+		CDllFunctionsProvider& provider = GetProviderRef(fileInfo);
 		if (provider.IsValid()){
 			// register services:
 			icomp::RegisterServicesFunc registerServicesInfoPtr = (icomp::RegisterServicesFunc)provider.GetFunction(I_EXPORT_SERVICES_FUNCTION_NAME);
@@ -74,7 +73,7 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file, bool be
 }
 
 
-bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path, bool beQuiet)
+bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path)
 {
 	bool retVal = true;
 
@@ -88,7 +87,7 @@ bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path, bool be
 				++iter){
 		istd::CString filePath = GetCString(packagesDir.absoluteFilePath(*iter));
 
-		retVal = RegisterPackageFile(filePath, beQuiet) && retVal;
+		retVal = RegisterPackageFile(filePath) && retVal;
 	}
 
 	return retVal;
@@ -118,7 +117,7 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 		istd::CString dirPath;
 		retVal = retVal && archive.Process(dirPath);
 		if (retVal){
-			RegisterPackagesDir(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(dirPath))), false);
+			RegisterPackagesDir(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(dirPath))));
 		}
 
 		retVal = retVal && archive.EndTag(dirPathTag);
@@ -140,7 +139,7 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 		istd::CString filePath;
 		retVal = retVal && archive.Process(filePath);
 		if (retVal){
-			RegisterPackageFile(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(filePath))), false);
+			RegisterPackageFile(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(filePath))));
 		}
 
 		retVal = retVal && archive.EndTag(filePathTag);
@@ -165,7 +164,7 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CSt
 
 	RegistryPtr& mapValue = m_registriesMap[correctedPath];
 	if (m_registryLoaderCompPtr.IsValid()){
-		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new icomp::CRegistry(this));
+		istd::TDelPtr<icomp::IRegistry> newRegistryPtr(new LogingRegistry(const_cast<CPackagesLoaderComp*>(this)));
 		if (m_registryLoaderCompPtr->LoadFromFile(*newRegistryPtr, correctedPath) == iser::IFileLoader::StateOk){
 			mapValue.TakeOver(newRegistryPtr);
 			m_invRegistriesMap[mapValue.GetPtr()] = fileInfo;
@@ -195,7 +194,7 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponent
 
 // protected methods
 
-CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& fileInfo, bool beQuiet)
+CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& fileInfo)
 {
 	QString absolutePath = fileInfo.absoluteFilePath();
 
@@ -210,14 +209,44 @@ CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& file
 	providerPtr.SetPtr(new CDllFunctionsProvider(GetCString(absolutePath)));
 	I_ASSERT(providerPtr.IsValid());
 
-	if (!providerPtr->IsValid() && !beQuiet){
-		QMessageBox::warning(
-					NULL,
-					QObject::tr("Error"),
-					QObject::tr("Cannot register components from registry\n%1").arg(fileInfo.fileName()));
+	if (!providerPtr->IsValid()){
+		SendErrorMessage(
+					MI_CANNOT_REGISTER,
+					iqt::GetCString(QObject::tr("Cannot register components from registry\n%1").arg(fileInfo.fileName())));
 	}
 
 	return *providerPtr;
+}
+
+
+// public methods of embedded class LogingRegistry
+
+CPackagesLoaderComp::LogingRegistry::LogingRegistry(CPackagesLoaderComp* parentPtr)
+:	BaseClass(parentPtr), m_parent(*parentPtr)
+{
+	I_ASSERT(parentPtr != NULL);
+}
+
+
+// reimplemented (icomp::IRegistry)
+
+CPackagesLoaderComp::LogingRegistry::ElementInfo* CPackagesLoaderComp::LogingRegistry::InsertElementInfo(
+			const std::string& elementId,
+			const icomp::CComponentAddress& address,
+			bool ensureElementCreated)
+{
+	ElementInfo* retVal = BaseClass::InsertElementInfo(elementId, address, ensureElementCreated);
+
+	if (retVal == NULL){
+		m_parent.SendErrorMessage(
+					MI_CANNOT_CREATE_ELEMENT,
+					iqt::GetCString(QObject::tr("Cannot create %1 (%2: %3)").
+								arg(elementId.c_str()).
+								arg(address.GetPackageId().c_str()).
+								arg(address.GetComponentId().c_str())));
+	}
+
+	return retVal;
 }
 
 
