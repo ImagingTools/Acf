@@ -38,6 +38,7 @@ protected slots:
 private:
 	QLabel m_startLabel;
 	QString m_tempFileName;
+	QProcess m_process;
 };
 
 

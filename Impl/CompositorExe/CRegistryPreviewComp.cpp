@@ -88,7 +88,8 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 		QFileInfo fileInfo(acfApplicationPath);
 		if (fileInfo.exists()){
-			QProcess::start(acfApplicationPath, QStringList() << m_tempFileName);
+			m_process.setWorkingDirectory(applicationDir.path());
+			m_process.start(acfApplicationPath, QStringList() << m_tempFileName);
 			if (waitForStarted()){
 				retVal = true;
 			}
