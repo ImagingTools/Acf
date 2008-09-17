@@ -42,8 +42,8 @@ public:
 	enum
 	{
 		TimeColumn = 0,
-		TextColumn = 1,
-		SourceColumn = 2
+		SourceColumn = 1,
+		MessageColumn = 2
 	};
 
 public:

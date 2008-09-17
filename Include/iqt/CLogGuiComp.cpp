@@ -31,7 +31,8 @@ void CLogGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	LogView->header()->setResizeMode(QHeaderView::Stretch);
+
+	LogView->header()->setStretchLastSection(true);
 
 	ExportButton->setVisible(m_fileLoaderCompPtr.IsValid());
 
@@ -87,14 +88,18 @@ void CLogGuiComp::OnAddMessage(ibase::IMessage* messagePtr)
 
 	QString date = dateTime.toString();
 	messageItemPtr->setText(TimeColumn, date);
-	messageItemPtr->setText(TextColumn, iqt::GetQString(messagePtr->GetText()));
+	messageItemPtr->setText(MessageColumn, iqt::GetQString(messagePtr->GetText()));
 	messageItemPtr->setText(SourceColumn, iqt::GetQString(messagePtr->GetSource()));
+
+	messageItemPtr->setToolTip(TimeColumn, iqt::GetQString(messagePtr->GetText()));
+	messageItemPtr->setToolTip(MessageColumn, iqt::GetQString(messagePtr->GetText()));
+	messageItemPtr->setToolTip(SourceColumn, iqt::GetQString(messagePtr->GetText()));
 
 	QColor messageColor = GetMessageColor(*messagePtr);
 
 	messageItemPtr->setBackgroundColor(TimeColumn, messageColor);
 	messageItemPtr->setBackgroundColor(SourceColumn, messageColor);
-	messageItemPtr->setBackgroundColor(TextColumn, messageColor);
+	messageItemPtr->setBackgroundColor(MessageColumn, messageColor);
 
 	LogView->addTopLevelItem(messageItemPtr);
 	if (NeedToBeHidden(*messagePtr)){
