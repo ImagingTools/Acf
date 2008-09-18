@@ -1,32 +1,32 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iwin", "..\..\..\Include\iwin\VC8\iwin.vcproj", "{633B67F7-B154-4A80-A651-1111D5EDF583}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iwin", "..\..\Include\iwin\VC8\iwin.vcproj", "{633B67F7-B154-4A80-A651-1111D5EDF583}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "istd", "..\..\..\Include\istd\VC8\istd.vcproj", "{126B67F7-B779-4A80-A651-1111D5EDF583}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "istd", "..\..\Include\istd\VC8\istd.vcproj", "{126B67F7-B779-4A80-A651-1111D5EDF583}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "isys", "..\..\..\Include\isys\VC8\isys.vcproj", "{633B67F7-B154-4A80-A651-0243D5EDF583}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "isys", "..\..\Include\isys\VC8\isys.vcproj", "{633B67F7-B154-4A80-A651-0243D5EDF583}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icmm", "..\..\..\Include\icmm\VC8\icmm.vcproj", "{FE2B4D42-47B8-4656-9A43-36C8CBF6B09D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icmm", "..\..\Include\icmm\VC8\icmm.vcproj", "{FE2B4D42-47B8-4656-9A43-36C8CBF6B09D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imath", "..\..\..\Include\imath\VC8\imath.vcproj", "{7F855A37-4741-472A-82B5-5F57C4B6F2D1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imath", "..\..\Include\imath\VC8\imath.vcproj", "{7F855A37-4741-472A-82B5-5F57C4B6F2D1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iser", "..\..\..\Include\iser\VC8\iser.vcproj", "{6DFD9DED-F84C-43C5-953A-9713464D7D15}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iser", "..\..\Include\iser\VC8\iser.vcproj", "{6DFD9DED-F84C-43C5-953A-9713464D7D15}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ibase", "..\..\..\Include\ibase\VC8\ibase.vcproj", "{C30159C1-C8F9-49F4-AE32-C014F87B12BD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ibase", "..\..\Include\ibase\VC8\ibase.vcproj", "{C30159C1-C8F9-49F4-AE32-C014F87B12BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idb", "..\..\..\Include\idb\VC8\idb.vcproj", "{136B67F7-B779-5A80-A651-1111D5EDF583}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idb", "..\..\Include\idb\VC8\idb.vcproj", "{136B67F7-B779-5A80-A651-1111D5EDF583}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imeas", "..\..\..\Include\imeas\VC8\imeas.vcproj", "{621B67F7-B779-3A80-B651-1111D5EDF583}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imeas", "..\..\Include\imeas\VC8\imeas.vcproj", "{621B67F7-B779-3A80-B651-1111D5EDF583}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icomp", "..\..\..\Include\icomp\VC8\icomp.vcproj", "{F3A159CA-14B5-4800-8039-0157CF31EA27}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icomp", "..\..\Include\icomp\VC8\icomp.vcproj", "{F3A159CA-14B5-4800-8039-0157CF31EA27}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ixln", "..\..\..\Include\ixln\VC8\ixln.vcproj", "{D5379D78-3D01-491F-B477-EC8F2A35ED2E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ixln", "..\..\Include\ixln\VC8\ixln.vcproj", "{D5379D78-3D01-491F-B477-EC8F2A35ED2E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqt", "..\..\..\Include\iqt\VC8\iqt.vcproj", "{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqt", "..\..\Include\iqt\VC8\iqt.vcproj", "{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imod", "..\..\..\Include\imod\VC8\imod.vcproj", "{AA16B362-CE5A-48C6-9322-42620FE1006D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imod", "..\..\Include\imod\VC8\imod.vcproj", "{AA16B362-CE5A-48C6-9322-42620FE1006D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfStd", "..\..\AcfStd\VC8\AcfStd.vcproj", "{AA94C676-48A9-4FCF-BC0F-96B0E910F463}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfStd", "..\AcfStd\VC8\AcfStd.vcproj", "{AA94C676-48A9-4FCF-BC0F-96B0E910F463}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33} = {DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33}
 		{7F855A37-4741-472A-82B5-5F57C4B6F2D1} = {7F855A37-4741-472A-82B5-5F57C4B6F2D1}
@@ -43,19 +43,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfStd", "..\..\AcfStd\VC8\
 		{126B67F7-B779-4A80-A651-1111D5EDF583} = {126B67F7-B779-4A80-A651-1111D5EDF583}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfWin", "..\..\AcfWin\VC8\AcfWin.vcproj", "{6161AE88-6ED6-4843-A5AB-4B6288511D5E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfWin", "..\AcfWin\VC8\AcfWin.vcproj", "{6161AE88-6ED6-4843-A5AB-4B6288511D5E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{633B67F7-B154-4A80-A651-1111D5EDF583} = {633B67F7-B154-4A80-A651-1111D5EDF583}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "inat", "..\..\..\Include\inat\VC8\inat.vcproj", "{91007D75-2F2B-4B26-A1BB-260181E8DAF3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "inat", "..\..\Include\inat\VC8\inat.vcproj", "{91007D75-2F2B-4B26-A1BB-260181E8DAF3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Acf.exe", "..\..\AcfExe\VC8\Acf.vcproj", "{BD73E1BC-3B21-4F42-8F7F-A1950C98E852}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Acf.exe", "..\AcfExe\VC8\Acf.vcproj", "{BD73E1BC-3B21-4F42-8F7F-A1950C98E852}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compositor.exe", "..\..\CompositorExe\VC8\Compositor.vcproj", "{6BD89B26-013F-4F41-87B7-14D632CCFEFF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compositor.exe", "..\CompositorExe\VC8\Compositor.vcproj", "{6BD89B26-013F-4F41-87B7-14D632CCFEFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
 		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65} = {BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}
@@ -68,7 +68,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compositor.exe", "..\..\Com
 		{126B67F7-B779-4A80-A651-1111D5EDF583} = {126B67F7-B779-4A80-A651-1111D5EDF583}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtPck", "..\..\QtPck\VC8\QtPck.vcproj", "{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtPck", "..\QtPck\VC8\QtPck.vcproj", "{80A7AA84-5640-40CB-9BB3-544B07CC6E0A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
 		{B11EFB14-C129-4F69-8143-8127D45770BF} = {B11EFB14-C129-4F69-8143-8127D45770BF}
@@ -78,13 +78,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtPck", "..\..\QtPck\VC8\Qt
 		{F3A159CA-14B5-4800-8039-0157CF31EA27} = {F3A159CA-14B5-4800-8039-0157CF31EA27}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i2d", "..\..\..\Include\i2d\VC8\i2d.vcproj", "{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "i2d", "..\..\Include\i2d\VC8\i2d.vcproj", "{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtdoc", "..\..\..\Include\iqtdoc\VC8\iqtdoc.vcproj", "{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtdoc", "..\..\Include\iqtdoc\VC8\iqtdoc.vcproj", "{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idoc", "..\..\..\Include\idoc\VC8\idoc.vcproj", "{CEB219AC-442A-4B4C-8324-719352C0922B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idoc", "..\..\Include\idoc\VC8\idoc.vcproj", "{CEB219AC-442A-4B4C-8324-719352C0922B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfDist.exe", "..\..\AcfDist\VC8\AcfDist.vcproj", "{7CB86E2F-8CFB-402D-B4D1-011210279964}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfDist.exe", "..\AcfDist\VC8\AcfDist.vcproj", "{7CB86E2F-8CFB-402D-B4D1-011210279964}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
 	EndProjectSection
@@ -120,7 +120,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_LibsReady", "_LibsReady.vc
 		{DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33} = {DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfQt", "..\..\AcfQt\VC8\AcfQt.vcproj", "{B2B47BD3-CACC-40A8-8B4E-F06F8EA242C4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfQt", "..\AcfQt\VC8\AcfQt.vcproj", "{B2B47BD3-CACC-40A8-8B4E-F06F8EA242C4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BB74CB53-2F9B-44E3-BE32-CBA4E6325C65} = {BB74CB53-2F9B-44E3-BE32-CBA4E6325C65}
 		{F9F47984-52CC-4D6B-9079-FC7DD1009C6E} = {F9F47984-52CC-4D6B-9079-FC7DD1009C6E}
@@ -129,23 +129,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcfQt", "..\..\AcfQt\VC8\Ac
 		{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59} = {FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasePck", "..\..\BasePck\VC8\BasePck.vcproj", "{030936A8-23C4-45EE-8E3D-196FF4D405C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasePck", "..\BasePck\VC8\BasePck.vcproj", "{030936A8-23C4-45EE-8E3D-196FF4D405C6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A3BB8D04-552D-4FD4-B799-18187FB17C2C} = {A3BB8D04-552D-4FD4-B799-18187FB17C2C}
 		{AA94C676-48A9-4FCF-BC0F-96B0E910F463} = {AA94C676-48A9-4FCF-BC0F-96B0E910F463}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iimg", "..\..\..\Include\iimg\VC8\iimg.vcproj", "{DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iimg", "..\..\Include\iimg\VC8\iimg.vcproj", "{DBED1B2F-3F60-4CA1-AF11-1E7FE7763E33}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqt2d", "..\..\..\Include\iqt2d\VC8\iqt2d.vcproj", "{F9F47984-52CC-4D6B-9079-FC7DD1009C6E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqt2d", "..\..\Include\iqt2d\VC8\iqt2d.vcproj", "{F9F47984-52CC-4D6B-9079-FC7DD1009C6E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "isvn", "..\..\..\Include\isvn\VC8\isvn.vcproj", "{0D703E92-06CF-45F0-AB74-3691C4C160C5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "isvn", "..\..\Include\isvn\VC8\isvn.vcproj", "{0D703E92-06CF-45F0-AB74-3691C4C160C5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iprm", "..\..\..\Include\iprm\VC8\iprm.vcproj", "{9ABA7CB2-C8DB-4704-BC43-537BD9AD82D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iprm", "..\..\Include\iprm\VC8\iprm.vcproj", "{9ABA7CB2-C8DB-4704-BC43-537BD9AD82D7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinPck", "..\..\WinPck\VC8\WinPck.vcproj", "{27AD0792-A6CC-4AA2-BFF6-F547E69E9C23}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinPck", "..\WinPck\VC8\WinPck.vcproj", "{27AD0792-A6CC-4AA2-BFF6-F547E69E9C23}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtprm", "..\..\..\Include\iqtprm\VC8\iqtprm.vcproj", "{B11EFB14-C129-4F69-8143-8127D45770BF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iqtprm", "..\..\Include\iqtprm\VC8\iqtprm.vcproj", "{B11EFB14-C129-4F69-8143-8127D45770BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
