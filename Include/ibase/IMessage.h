@@ -22,14 +22,22 @@ namespace ibase
 class IMessage: virtual public iser::ISerializable
 {
 public:
-	enum MessageCategory{
-		Info,
-		Warning,
-		Error,
-		Critical,
-		DebugMask = 128,
-		SystemMask = 256,
-		UserMask = 512
+	enum MessageCategory
+	{
+		MC_INFO,
+		MC_WARNING,
+		MC_ERROR,
+		MC_CRITICAL
+	};
+
+	/**
+		Additionaly message flags.
+	*/
+	enum MessageFlags
+	{
+		MF_DEBUG = 0x1,
+		MF_SYSTEM = 0x2,
+		MF_USER = 0x4
 	};
 
 	/**
@@ -57,6 +65,12 @@ public:
 		Get the source of the message.
 	*/
 	virtual istd::CString GetSource() const = 0;
+
+	/**
+		Get flags of the message.
+		\sa MessageFlags
+	*/
+	virtual int GetFlags() const = 0;
 };
 
 

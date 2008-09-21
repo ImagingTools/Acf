@@ -45,9 +45,6 @@ public:
 	virtual ibase::IHierarchicalMessageContainer* GetChild(int index) const;
 
 protected:
-	static int SubstractMask(int category);
-
-protected:
 	typedef istd::TPointerVector<ibase::IMessage> MessageList;
 	MessageList m_messages;
 
@@ -200,7 +197,7 @@ void TMessageContainerWrap<Base>::AddMessage(ibase::IMessage* messagePtr)
 
 	m_messages.PushBack(messagePtr);
 
-	int messageCategory = SubstractMask(messagePtr->GetCategory());
+	int messageCategory = messagePtr->GetCategory();
 	if (messageCategory > m_maxCategory){
 		m_maxCategory = messageCategory;
 	}
@@ -238,18 +235,6 @@ ibase::IHierarchicalMessageContainer* TMessageContainerWrap<Base>::GetChild(int 
 
 
 // protected static methods
-
-template <class Base>
-int TMessageContainerWrap<Base>::SubstractMask(int category)
-{
-	category = category & ~ibase::IMessage::DebugMask;
-	category = category & ~ibase::IMessage::SystemMask;
-	category = category & ~ibase::IMessage::UserMask;
-
-	return category;
-}
-
-
 
 typedef ibase::TMessageContainerWrap<ibase::IMessageContainer> CMessageContainer;
 

@@ -13,10 +13,10 @@ namespace iqt
 
 CLogGuiComp::CLogGuiComp()
 {
-	m_categoryNameMap[0] = tr("Info");
-	m_categoryNameMap[1] = tr("Warning");
-	m_categoryNameMap[2] = tr("Error");
-	m_categoryNameMap[3] = tr("Critical");
+	m_categoryNameMap[ibase::IMessage::MC_INFO] = tr("Info");
+	m_categoryNameMap[ibase::IMessage::MC_WARNING] = tr("Warning");
+	m_categoryNameMap[ibase::IMessage::MC_ERROR] = tr("Error");
+	m_categoryNameMap[ibase::IMessage::MC_CRITICAL] = tr("Critical");
 
 	connect(this, SIGNAL(EmitAddMessage(ibase::IMessage*)), this, SLOT(OnAddMessage(ibase::IMessage*)), Qt::QueuedConnection);
 	connect(this, SIGNAL(EmitRemoveMessage(ibase::IMessage*)), this, SLOT(OnRemoveMessage(ibase::IMessage*)), Qt::QueuedConnection);
@@ -163,18 +163,18 @@ QColor CLogGuiComp::GetMessageColor(const ibase::IMessage& message) const
 {
 	QColor messageColor(0,0,0,0);
 
-	int category = SubstractMask(message.GetCategory());
+	int category = message.GetCategory();
 
 	switch(category){
-		case ibase::IMessage::Warning:
+		case ibase::IMessage::MC_WARNING:
 			messageColor = QColor(235, 235, 0);
 			break;
 
-		case ibase::IMessage::Error:
+		case ibase::IMessage::MC_ERROR:
 			messageColor = QColor(255, 0, 255, 128);
 			break;
 
-		case ibase::IMessage::Critical:
+		case ibase::IMessage::MC_CRITICAL:
 			messageColor = QColor(255, 0, 0);
 			break;
 	}
@@ -182,12 +182,12 @@ QColor CLogGuiComp::GetMessageColor(const ibase::IMessage& message) const
 	return messageColor;
 }
 
-	
+
 bool CLogGuiComp::NeedToBeHidden(const ibase::IMessage& message) const
 {
 	int currentCategory = CategorySlider->value();
 
-	int itemCategory = SubstractMask(message.GetCategory());
+	int itemCategory = message.GetCategory();
 	if (itemCategory < currentCategory){
 		return true;
 	}

@@ -93,28 +93,28 @@ bool TMessageProducerWrap<Base>::SendMessage(IMessage::MessageCategory category,
 template <class Base>
 bool TMessageProducerWrap<Base>::SendInfoMessage(int id, const istd::CString& message) const
 {
-	return SendMessage(ibase::IMessage::Info, id, message);
+	return SendMessage(ibase::IMessage::MC_INFO, id, message);
 }
 
 
 template <class Base>
 bool TMessageProducerWrap<Base>::SendWarningMessage(int id, const istd::CString& message) const
 {
-	return SendMessage(ibase::IMessage::Warning, id, message);
+	return SendMessage(ibase::IMessage::MC_WARNING, id, message);
 }
 
 
 template <class Base>
 bool TMessageProducerWrap<Base>::SendErrorMessage(int id, const istd::CString& message) const
 {
-	return SendMessage(ibase::IMessage::Error, id, message);
+	return SendMessage(ibase::IMessage::MC_ERROR, id, message);
 }
 
 
 template <class Base>
 bool TMessageProducerWrap<Base>::SendCriticalMessage(int id, const istd::CString& message) const
 {
-	return SendMessage(ibase::IMessage::Critical, id, message);
+	return SendMessage(ibase::IMessage::MC_CRITICAL, id, message);
 }
 
 

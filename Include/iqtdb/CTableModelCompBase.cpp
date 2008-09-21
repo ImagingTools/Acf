@@ -79,7 +79,7 @@ void CTableModelCompBase::AddSqlMessage(const QSqlError& error, const QString& s
 {
 	QString lastError = error.text();
 	if (m_logCompPtr.IsValid()){
-		m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Warning, iqt::GetCString(lastError), iqt::GetCString(source)));
+		m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::MC_WARNING, iqt::GetCString(lastError), iqt::GetCString(source)));
 	}
 }
 

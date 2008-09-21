@@ -35,7 +35,7 @@ bool CDatabaseConnectorComp::ConnectToDatabase()
 	if (!retVal){
 		QString lastError = m_database.lastError().text(); 
 		if (m_logCompPtr.IsValid()){
-			m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::Critical, iqt::GetCString(lastError), iqt::GetCString(tr("Database Connector"))));
+			m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::MC_CRITICAL, iqt::GetCString(lastError), iqt::GetCString(tr("Database Connector"))));
 		}
 	}
 
