@@ -32,6 +32,7 @@ public:
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual const istd::CString& GetLastLoadFileName() const;
 	virtual const istd::CString& GetLastSaveFileName() const;
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false);
 
 protected:
 	/**
@@ -122,6 +123,13 @@ const istd::CString& TFileSerializerComp<ReadArchive, WriteArchive>::GetLastSave
 	static istd::CString emptyPath;
 
 	return emptyPath;
+}
+
+
+template <class ReadArchive, class WriteArchive>
+bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/)
+{
+	return false;
 }
 
 

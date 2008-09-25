@@ -75,6 +75,12 @@ const istd::CString& CSettingsSerializerComp::GetLastSaveFileName() const
 }
 	  
 
+bool CSettingsSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/)
+{
+	return false;
+}
+
+
 } // namespace iqt
 
 

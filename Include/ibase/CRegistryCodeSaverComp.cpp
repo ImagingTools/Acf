@@ -82,6 +82,21 @@ const istd::CString& CRegistryCodeSaverComp::GetLastSaveFileName() const
 }
 
 
+bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, bool doAppend)
+{
+	if (!doAppend){
+		result.clear();
+	}
+
+	result.push_back("h");
+	result.push_back("hpp");
+	result.push_back("c");
+	result.push_back("cpp");
+
+	return true;
+}
+
+
 } // namespace ibase
 
 

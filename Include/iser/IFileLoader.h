@@ -27,7 +27,6 @@ public:
 		StateFailed
 	};
 
-
 	/**
 		Returns \c true if object \c dataObject can be loaded/saved.
 		\param	dataObjectPtr	optional pointer to data object should be loaded/stored.
@@ -66,6 +65,11 @@ public:
 		\returns serialization state. \sa SerializationState
 	*/
 	virtual const istd::CString& GetLastSaveFileName() const = 0;
+
+	/**
+		Get file extensions supported by this loader.
+	*/
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) = 0;
 };
 
 

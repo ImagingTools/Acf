@@ -83,6 +83,12 @@ const istd::CString& CFileDialogSerializerComp::GetLastSaveFileName() const
 }
 
 
+bool CFileDialogSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/)
+{
+	return false;
+}
+
+
 // protected methods
 
 QString CFileDialogSerializerComp::GetOpenFileName(const istd::CString& filePath) const

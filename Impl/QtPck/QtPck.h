@@ -7,6 +7,7 @@
 
 #include "iqt/CPackagesLoaderComp.h"
 #include "iqt/CBitmap.h"
+#include "iqt/CBitmapLoaderComp.h"
 #include "iqt/CSettingsSerializerComp.h"
 
 #include "iqtgui/CLoginGuiComp.h"
@@ -47,6 +48,7 @@ namespace QtPck
 
 typedef iqt::CPackagesLoaderComp PackagesLoader;
 typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmap, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable> > Bitmap;
+typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 
 typedef iqtgui::CLoginGuiComp LoginGui;

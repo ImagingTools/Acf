@@ -63,6 +63,18 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 }
 
 
+bool CRegistryLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend)
+{
+	if (!doAppend){
+		result.clear();
+	}
+
+	result.push_back("arx");
+
+	return true;
+}
+
+
 // protected methods
 
 istd::CString CRegistryLoaderComp::GetLayoutPath(const istd::CString& registryPath) const

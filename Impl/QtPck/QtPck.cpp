@@ -38,6 +38,7 @@ I_EXPORT_COMPONENT(MainWindowGui, "Main Qt application window", "Main Window Sta
 I_EXPORT_COMPONENT(MultiDocWorkspaceGui, "Multi document workspace", "Workspace Document Model View Observer MVC GUI Qt");
 
 I_EXPORT_COMPONENT(Bitmap, "QImage based bitmap implementation", "QImage Image Bitmap Qt");
+I_EXPORT_COMPONENT(BitmapLoader, "Loader loading bitmaps using Qt standard implementations", "Image Bitmap Qt File Loader");
 I_EXPORT_COMPONENT(SceneConnector, "Display scane provider, scene extender and connect it", "Scene Connector Provider Extender Display Console GUI Qt");
 I_EXPORT_COMPONENT(SceneProvider, "Standard scene provider", "Scene Provider Extender Display Console GUI Qt");
 I_EXPORT_COMPONENT(ImageView, "Display bitmap using observer pattern", "Image Bitmap Display Viewer Observer Qt");

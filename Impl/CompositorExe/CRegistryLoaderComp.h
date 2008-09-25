@@ -24,6 +24,7 @@ public:
 	// reimplemented (iser::IFileLoader)
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false);
 
 protected:
 	istd::CString GetLayoutPath(const istd::CString& registryPath) const;

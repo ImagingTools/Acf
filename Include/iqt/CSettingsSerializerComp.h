@@ -15,6 +15,9 @@ namespace iqt
 {
 
 
+/**
+	Store and load parameter as global settings.
+*/
 class CSettingsSerializerComp: public icomp::CComponentBase, virtual public iser::IFileLoader
 {
 public:
@@ -35,6 +38,7 @@ public:
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual const istd::CString& GetLastLoadFileName() const;
 	virtual const istd::CString& GetLastSaveFileName() const;
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false);
 
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
