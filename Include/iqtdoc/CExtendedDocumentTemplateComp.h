@@ -7,8 +7,8 @@
 #include "idoc/ICommandsProvider.h"
 #include "idoc/CSingleDocumentTemplateComp.h"
 
-#include "iqt/IGuiObject.h"
-#include "iqt/CHierarchicalCommand.h"
+#include "iqtgui/IGuiObject.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "iqtdoc/iqtdoc.h"
 
@@ -52,9 +52,9 @@ protected slots:
 
 private:
 	I_ATTR(istd::CString, m_aboutCommandTextAttrPtr);
-	I_REF(iqt::IGuiObject, m_aboutGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_aboutGuiCompPtr);
 
-	iqt::CHierarchicalCommand m_globalMenuCommands;
+	iqtgui::CHierarchicalCommand m_globalMenuCommands;
 	istd::CString m_aboutCommandText;
 };
 

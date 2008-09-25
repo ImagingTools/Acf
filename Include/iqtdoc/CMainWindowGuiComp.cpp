@@ -53,7 +53,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 }
 
 
-// reimplemented (iqt::IGuiObject)
+// reimplemented (iqtgui::IGuiObject)
 
 void CMainWindowGuiComp::OnTryClose(bool* ignoredPtr)
 {
@@ -264,15 +264,15 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 
 
 
-int CMainWindowGuiComp::CreateToolbar(const iqt::CHierarchicalCommand& command, QToolBar& result, int prevGroupId) const
+int CMainWindowGuiComp::CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId) const
 {
 	int childsCount = command.GetChildsCount();
 
 	std::map<int, istd::TPointer<QActionGroup> > groups;
 
 	for (int i = 0; i < childsCount; ++i){
-		iqt::CHierarchicalCommand* hierarchicalPtr = const_cast<iqt::CHierarchicalCommand*>(
-					dynamic_cast<const iqt::CHierarchicalCommand*>(command.GetChild(i)));
+		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
+					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
 
 		if (hierarchicalPtr != NULL){
 			int groupId = hierarchicalPtr->GetGroupId();
@@ -359,8 +359,8 @@ void CMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow)
 {
 	if (m_mainWindowComponentsPtr.IsValid()){
 		for (int componentIndex = 0; componentIndex < m_mainWindowComponentsPtr.GetCount(); componentIndex++){
-			iqt::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
-			iqt::IGuiObject* guiPtr =  dynamic_cast<iqt::IGuiObject*>(mainWindowComponentPtr);
+			iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
+			iqtgui::IGuiObject* guiPtr =  dynamic_cast<iqtgui::IGuiObject*>(mainWindowComponentPtr);
 			if (mainWindowComponentPtr != NULL && guiPtr != NULL && guiPtr->CreateGui(NULL)){
 				mainWindowComponentPtr->AddToMainWindow(mainWindow);
 			}
@@ -512,7 +512,7 @@ void CMainWindowGuiComp::UpdateRecentFileMenu()
 				continue;
 			}
 
-			iqt::CHierarchicalCommand* recentGroupCommandPtr = foundCommandIter->second.GetPtr();
+			iqtgui::CHierarchicalCommand* recentGroupCommandPtr = foundCommandIter->second.GetPtr();
 			I_ASSERT(recentGroupCommandPtr != NULL);
 
 			recentGroupCommandPtr->ResetChilds();
@@ -543,7 +543,7 @@ void CMainWindowGuiComp::CreateRecentMenu()
 				if (ids.size() == 1){
 					QString recentListTitle = QString(tr("Recent Files"));
 		
-					iqt::CHierarchicalCommand* fileListCommandPtr = new iqt::CHierarchicalCommand(iqt::GetCString(recentListTitle));
+					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
 					if (fileListCommandPtr != NULL){
 						m_fileCommand.InsertChild(fileListCommandPtr, false);
 
@@ -555,7 +555,7 @@ void CMainWindowGuiComp::CreateRecentMenu()
 									iter != ids.end();
 									++iter){
 						QString recentListTitle = QString(tr("Recent ")) + (*iter).c_str() + QString(tr(" Files"));
-						iqt::CHierarchicalCommand* fileListCommandPtr = new iqt::CHierarchicalCommand(iqt::GetCString(recentListTitle));
+						iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
 						if (fileListCommandPtr != NULL){
 							m_fileCommand.InsertChild(fileListCommandPtr, false);
 
@@ -569,7 +569,7 @@ void CMainWindowGuiComp::CreateRecentMenu()
 }
 
 
-// reimplemented (iqt::TGuiComponentBase)
+// reimplemented (iqtgui::TGuiComponentBase)
 
 void CMainWindowGuiComp::OnGuiCreated()
 {
@@ -628,8 +628,8 @@ void CMainWindowGuiComp::OnGuiDestroyed()
 		
 	if (m_mainWindowComponentsPtr.IsValid()){
 		for (int componentIndex = 0; componentIndex < m_mainWindowComponentsPtr.GetCount(); componentIndex++){
-			iqt::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
-			iqt::IGuiObject* guiPtr =  dynamic_cast<iqt::IGuiObject*>(mainWindowComponentPtr);
+			iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
+			iqtgui::IGuiObject* guiPtr =  dynamic_cast<iqtgui::IGuiObject*>(mainWindowComponentPtr);
 			if (mainWindowComponentPtr != NULL && guiPtr != NULL && guiPtr->IsGuiCreated()){
 				guiPtr->DestroyGui();
 			}

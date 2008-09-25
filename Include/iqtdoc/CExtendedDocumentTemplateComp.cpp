@@ -53,8 +53,8 @@ void CExtendedDocumentTemplateComp::OnComponentCreated()
 
 	I_ASSERT(m_aboutCommandTextAttrPtr.IsValid());
 	if (m_aboutGuiCompPtr.IsValid()){
-		iqt::CHierarchicalCommand* aboutMenuPtr = new iqt::CHierarchicalCommand("&Help");
-		iqt::CHierarchicalCommand* aboutCommandPtr = new iqt::CHierarchicalCommand(m_aboutCommandText);
+		iqtgui::CHierarchicalCommand* aboutMenuPtr = new iqtgui::CHierarchicalCommand("&Help");
+		iqtgui::CHierarchicalCommand* aboutCommandPtr = new iqtgui::CHierarchicalCommand(m_aboutCommandText);
 
 		connect(aboutCommandPtr, SIGNAL(activated()), this, SLOT(OnAboutCommand()));
 

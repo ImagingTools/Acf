@@ -419,7 +419,7 @@ void CAttributeEditorComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	m_treeWidgetFilter.SetPtr(new iqt::CTreeWidgetFilter(AttributeTree));
+	m_treeWidgetFilter.SetPtr(new iqtgui::CTreeWidgetFilter(AttributeTree));
 
 	AttributeTree->setItemDelegate(&m_attributeItemDelegate);
 	ExportTree->setItemDelegate(&m_attributeItemDelegate);

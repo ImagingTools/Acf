@@ -12,7 +12,7 @@
 #include "icomp/IComponentStaticInfo.h"
 #include "icomp/CComponentAddress.h"
 
-#include "iqt/TDesignerGuiCompBase.h"
+#include "iqtgui/TDesignerGuiCompBase.h"
 
 #include "IAttributeSelectionObserver.h"
 
@@ -20,13 +20,13 @@
 
 
 class CPackageOverviewComp:
-			public iqt::TDesignerGuiCompBase<Ui::CPackageOverviewComp>,
+			public iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp>,
 			public IAttributeSelectionObserver
 {
     Q_OBJECT
 
 public:
-	typedef iqt::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
+	typedef iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp)
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver)

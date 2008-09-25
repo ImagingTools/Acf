@@ -9,23 +9,23 @@
 
 #include "idoc/ICommandsProvider.h"
 
-#include "iqt/TGuiComponentBase.h"
-#include "iqt/TGuiObserverWrap.h"
-#include "iqt/CHierarchicalCommand.h"
+#include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TGuiObserverWrap.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "IText.h"
 
 
 class CTextEditorComp:
-			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QTextEdit>, imod::TSingleModelObserverBase<IText> >,
+			public iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QTextEdit>, imod::TSingleModelObserverBase<IText> >,
 			public idoc::ICommandsProvider
 {
 
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiObserverWrap<
-				iqt::TGuiComponentBase<QTextEdit>,
+	typedef iqtgui::TGuiObserverWrap<
+				iqtgui::TGuiComponentBase<QTextEdit>,
 				imod::TSingleModelObserverBase<IText> > BaseClass;
 
 	I_BEGIN_COMPONENT(CTextEditorComp)
@@ -53,10 +53,10 @@ protected:
 	virtual void OnRetranslate();
 
 private:
-	iqt::CHierarchicalCommand m_rootCommand;
-	iqt::CHierarchicalCommand m_editorCommand;
-	iqt::CHierarchicalCommand m_lowercaseCommand;
-	iqt::CHierarchicalCommand m_uppercaseCommand;
+	iqtgui::CHierarchicalCommand m_rootCommand;
+	iqtgui::CHierarchicalCommand m_editorCommand;
+	iqtgui::CHierarchicalCommand m_lowercaseCommand;
+	iqtgui::CHierarchicalCommand m_uppercaseCommand;
 };
 
 

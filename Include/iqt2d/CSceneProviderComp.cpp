@@ -270,11 +270,11 @@ void CSceneProviderComp::OnContextMenuEvent(QContextMenuEvent* /*event*/)
 
 void CSceneProviderComp::CreateContextMenu()
 {
-	iqt::CHierarchicalCommand* imageMenuPtr = new iqt::CHierarchicalCommand("&Image");
+	iqtgui::CHierarchicalCommand* imageMenuPtr = new iqtgui::CHierarchicalCommand("&Image");
 
-	iqt::CHierarchicalCommand* autoFitToViewCommandPtr = new iqt::CHierarchicalCommand("&Auto Fit");
-	autoFitToViewCommandPtr->SetStaticFlags(iqt::CHierarchicalCommand::CF_ONOFF | 
-											iqt::CHierarchicalCommand::CF_GLOBAL_MENU);
+	iqtgui::CHierarchicalCommand* autoFitToViewCommandPtr = new iqtgui::CHierarchicalCommand("&Auto Fit");
+	autoFitToViewCommandPtr->SetStaticFlags(iqtgui::CHierarchicalCommand::CF_ONOFF | 
+											iqtgui::CHierarchicalCommand::CF_GLOBAL_MENU);
 	connect(autoFitToViewCommandPtr, SIGNAL(toggled(bool)), this, SLOT(OnAutoFit(bool)));
 	imageMenuPtr->InsertChild(autoFitToViewCommandPtr, true);
 
@@ -283,7 +283,7 @@ void CSceneProviderComp::CreateContextMenu()
 
 	I_ASSERT(m_allowWidgetResizeAttrPtr.IsValid());	// this attribute is obligatory
 	if (*m_allowWidgetResizeAttrPtr){
-		iqt::CHierarchicalCommand* fitToImageCommandPtr = new iqt::CHierarchicalCommand("&Fit View To Image");
+		iqtgui::CHierarchicalCommand* fitToImageCommandPtr = new iqtgui::CHierarchicalCommand("&Fit View To Image");
 		connect(fitToImageCommandPtr, SIGNAL( activated()), this, SLOT(OnFitToShapes()));
 		imageMenuPtr->InsertChild(fitToImageCommandPtr, true);
 	}

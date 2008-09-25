@@ -4,7 +4,7 @@
 
 #include "iprm/IFileNameParam.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqtprm/Generated/ui_CFileNameParamGuiComp.h"
 
@@ -13,14 +13,14 @@ namespace iqtprm
 {
 
 
-class CFileNameParamGuiComp: public iqt::TDesignerGuiObserverCompBase<
+class CFileNameParamGuiComp: public iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CFileNameParamGuiComp,
 			iprm::IFileNameParam>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TDesignerGuiObserverCompBase<
+	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CFileNameParamGuiComp,
 				iprm::IFileNameParam> BaseClass;
 

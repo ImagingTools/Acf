@@ -1,0 +1,36 @@
+#ifndef iqtgui_TDesignerGuiObserverCompBase_included
+#define iqtgui_TDesignerGuiObserverCompBase_included
+
+
+#include "imod/TSingleModelObserverBase.h"
+
+#include "iqtgui/TGuiObserverWrap.h"
+#include "iqtgui/TDesignerGuiCompBase.h"
+
+
+namespace iqtgui
+{
+
+
+/**
+	Base class for all Qt GUI componentes.
+ */
+template <class UI, class Model, class WidgetType = QWidget>
+class TDesignerGuiObserverCompBase: public TGuiObserverWrap<TDesignerGuiCompBase<UI, WidgetType>, imod::TSingleModelObserverBase<Model> >
+{
+public:
+	typedef TGuiObserverWrap<TDesignerGuiCompBase<UI, WidgetType>, imod::TSingleModelObserverBase<Model> > BaseClass;
+
+	I_BEGIN_BASE_COMPONENT(TDesignerGuiObserverCompBase)
+		I_REGISTER_INTERFACE(imod::IModelEditor)
+		I_REGISTER_INTERFACE(imod::IObserver)
+	I_END_COMPONENT
+};
+
+
+} // namespace iqtgui
+
+
+#endif // !iqtgui_TDesignerGuiObserverCompBase_included
+
+

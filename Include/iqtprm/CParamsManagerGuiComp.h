@@ -5,7 +5,7 @@
 #include "iprm/IParamsManager.h"
 #include "iprm/ISelectionParam.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqtprm/Generated/ui_CParamsManagerGuiComp.h"
 
@@ -14,14 +14,14 @@ namespace iqtprm
 {
 
 
-class CParamsManagerGuiComp: public iqt::TDesignerGuiObserverCompBase<
+class CParamsManagerGuiComp: public iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CParamsManagerGuiComp,
 			iprm::ISelectionParam>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TDesignerGuiObserverCompBase<
+	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CParamsManagerGuiComp,
 				iprm::ISelectionParam> BaseClass;
 
@@ -69,7 +69,7 @@ protected:
 	int GetSelectedIndex() const;
 	void EnsureParamsGuiDetached();
 
-	// reimplemented (iqt::TGuiObserverWrap)
+	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelShown();
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
@@ -79,7 +79,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 private:
-	I_REF(iqt::IGuiObject, m_paramsGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_paramsGuiCompPtr);
 	I_REF(imod::IObserver, m_paramsObserverCompPtr);
 	I_REF(iprm::IParamsManager, m_paramsManagerCompPtr);
 	I_REF(imod::IModel, m_paramsManagerModelCompPtr);

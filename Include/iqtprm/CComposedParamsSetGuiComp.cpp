@@ -117,7 +117,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 			QToolBox* toolBoxPtr = new QToolBox(widgetPtr);
 			int elementsCount = m_guisCompPtr.GetCount();
 			for (int i = 0; i < elementsCount; ++i){
-				iqt::IGuiObject* guiPtr = m_guisCompPtr[i];
+				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
 				if (guiPtr != NULL){
 					QWidget* panelPtr = new QWidget(toolBoxPtr);
@@ -150,7 +150,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 			QTabWidget* tabWidgetPtr = new QTabWidget(widgetPtr);
 			int elementsCount = m_guisCompPtr.GetCount();
 			for (int i = 0; i < elementsCount; ++i){
-				iqt::IGuiObject* guiPtr = m_guisCompPtr[i];
+				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
 				if (guiPtr != NULL){
 					QWidget* panelPtr = new QWidget(tabWidgetPtr);
@@ -179,7 +179,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 		else{
 			int elementsCount = m_guisCompPtr.GetCount();
 			for (int i = 0; i < elementsCount; ++i){
-				iqt::IGuiObject* guiPtr = m_guisCompPtr[i];
+				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
 				if (guiPtr != NULL){
 					guiPtr->CreateGui(widgetPtr);

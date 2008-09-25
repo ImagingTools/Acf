@@ -34,7 +34,7 @@ void CModelEditorGuiComp::OnComponentDestroyed()
 }
 
 
-// reimplemented (iqt::IGuiObject)
+// reimplemented (iqtgui::IGuiObject)
 
 bool CModelEditorGuiComp::IsGuiCreated() const
 {

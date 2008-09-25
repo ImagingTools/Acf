@@ -8,15 +8,15 @@
 // ACF includes
 #include "ibase/IMessageContainer.h"
 
-#include "iqt/TGuiComponentBase.h"
+#include "iqtgui/TGuiComponentBase.h"
 
 
-class CLogClientGuiComp: public iqt::TGuiComponentBase<QWidget>
+class CLogClientGuiComp: public iqtgui::TGuiComponentBase<QWidget>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiComponentBase<QWidget> BaseClass;
+	typedef iqtgui::TGuiComponentBase<QWidget> BaseClass;
 
 	I_BEGIN_COMPONENT(CLogClientGuiComp)
 		I_ASSIGN(m_intervallAttrPtr, "AddIntervall", "Time intervall for adding a message", true, 0.5)
@@ -38,7 +38,7 @@ protected:
 
 private:
 	I_REF(ibase::IMessageContainer, m_logCompPtr)
-	I_REF(iqt::IGuiObject, m_logGuiCompPtr)
+	I_REF(iqtgui::IGuiObject, m_logGuiCompPtr)
 	I_ATTR(double, m_intervallAttrPtr)
 
 private:

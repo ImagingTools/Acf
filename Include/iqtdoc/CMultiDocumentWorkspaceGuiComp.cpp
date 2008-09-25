@@ -88,7 +88,7 @@ void CMultiDocumentWorkspaceGuiComp::CloseAllViews()
 }
 
 
-// reimplemented (iqt::IGuiObject)
+// reimplemented (iqtgui::IGuiObject)
 
 void CMultiDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 {
@@ -146,7 +146,7 @@ void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 			const ViewPtr& viewPtr = *viewIter;
 			I_ASSERT(viewPtr.IsValid());
 
-			const iqt::IGuiObject* guiObjectPtr = dynamic_cast<const iqt::IGuiObject*>(viewPtr.GetPtr());
+			const iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<const iqtgui::IGuiObject*>(viewPtr.GetPtr());
 			if (guiObjectPtr != NULL){
 				QWidget* widgetPtr = guiObjectPtr->GetWidget();
 				I_ASSERT(widgetPtr != NULL);
@@ -158,7 +158,7 @@ void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 }
 
 
-iqt::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWidget& widget) const
+iqtgui::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWidget& widget) const
 {
 	int documentInfosCount = GetDocumentsCount();
 	for (int i = 0; i < documentInfosCount; ++i){
@@ -167,7 +167,7 @@ iqt::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWidget
 		for (		Views::const_iterator viewIter = info.views.begin();
 					viewIter != info.views.end();
 					++viewIter){
-			iqt::IGuiObject* guiObjectPtr = dynamic_cast<iqt::IGuiObject*>(viewIter->GetPtr());
+			iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewIter->GetPtr());
 			if (guiObjectPtr != NULL){
 				if (guiObjectPtr->GetWidget() == &widget){
 					return guiObjectPtr;
@@ -234,7 +234,7 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
 	if (event->type() == QEvent::Close){
 		const QWidget* widgetPtr = dynamic_cast<const QWidget*>(obj);
 		if (widgetPtr != NULL){
-			iqt::IGuiObject* guiObjectPtr = GetViewFromWidget(*widgetPtr);
+			iqtgui::IGuiObject* guiObjectPtr = GetViewFromWidget(*widgetPtr);
 			if (guiObjectPtr != NULL){
 				SetActiveView(guiObjectPtr);
 
@@ -283,7 +283,7 @@ istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const std::string&
 
 void CMultiDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewPtr)
 {
-	iqt::IGuiObject* guiObjectPtr = dynamic_cast<iqt::IGuiObject*>(viewPtr);
+	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
 	QWorkspace* workspacePtr = GetQtWidget();
 	if ((guiObjectPtr != NULL) && (workspacePtr != NULL)){
 		if (guiObjectPtr->CreateGui(workspacePtr)){
@@ -394,7 +394,7 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 
 void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QWidget* window)
 {
-	iqt::IGuiObject* guiObjectPtr = (window != NULL) ? GetViewFromWidget(*window): NULL;
+	iqtgui::IGuiObject* guiObjectPtr = (window != NULL) ? GetViewFromWidget(*window): NULL;
 
 	SetActiveView(guiObjectPtr);
 }	

@@ -18,12 +18,13 @@
 
 #include "idoc/IDocumentManager.h"
 
-#include "iqt/IMainWindowComponent.h"
-#include "iqt/IToolBarManager.h"
-#include "iqt/IDockManager.h"
 #include "iqt/ITranslationManager.h"
-#include "iqt/TGuiComponentBase.h"
-#include "iqt/CHierarchicalCommand.h"
+
+#include "iqtgui/IMainWindowComponent.h"
+#include "iqtgui/IToolBarManager.h"
+#include "iqtgui/IDockManager.h"
+#include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "iqtdoc/IWorkspaceController.h"
 
@@ -33,21 +34,21 @@ namespace iqtdoc
 
 
 class CMainWindowGuiComp:
-			public iqt::TGuiComponentBase<QMainWindow>,
+			public iqtgui::TGuiComponentBase<QMainWindow>,
 			public imod::TSingleModelObserverBase<idoc::IDocumentManager>,
-			public iqt::IDockManager,
-			public iqt::IToolBarManager
+			public iqtgui::IDockManager,
+			public iqtgui::IToolBarManager
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiComponentBase<QMainWindow> BaseClass;
+	typedef iqtgui::TGuiComponentBase<QMainWindow> BaseClass;
 	typedef imod::TSingleModelObserverBase<idoc::IDocumentManager> BaseClass2;
 
 	I_BEGIN_COMPONENT(CMainWindowGuiComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
-		I_REGISTER_INTERFACE(iqt::IDockManager)
-		I_REGISTER_INTERFACE(iqt::IToolBarManager)
+		I_REGISTER_INTERFACE(iqtgui::IDockManager)
+		I_REGISTER_INTERFACE(iqtgui::IToolBarManager)
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
 		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
 		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace")
@@ -68,16 +69,16 @@ public:
 
 	CMainWindowGuiComp();
 
-	// reimplemented (iqt::IGuiObject)
+	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
-	// reimplemented (iqt::IToolBarManager)
+	// reimplemented (iqtgui::IToolBarManager)
 	virtual void SetToolBarsVisible(bool isVisible = true);
 	virtual int GetToolBarCount() const ;
 	virtual	void AddToolBar(QToolBar* widgetPtr);
 	virtual void RemoveToolBar(QToolBar* widgetPtr);
 
-	// reimplemented (iqt::IDockManager)
+	// reimplemented (iqtgui::IDockManager)
 	virtual	void AddDockWidget(int flags, QDockWidget* widget);
 	virtual void RemoveDockWidget(QDockWidget* widget);
 
@@ -94,8 +95,8 @@ protected:
 	virtual void OnDropEvent(QDropEvent* dropEventPtr);
 
 	template <class MenuType>
-	void CreateMenu(const iqt::CHierarchicalCommand& command, MenuType& result) const;
-	int CreateToolbar(const iqt::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
+	void CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const;
+	int CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
 
 	void SetupMainWindow(QMainWindow& mainWindow);
 	void SetupNewCommand();
@@ -148,35 +149,35 @@ private:
 	istd::TDelPtr<QMenuBar> m_menuBarPtr;
 	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
 
-	iqt::CHierarchicalCommand m_fileCommand;
-	iqt::CHierarchicalCommand m_editCommand;
-	iqt::CHierarchicalCommand m_viewCommand;
-	iqt::CHierarchicalCommand m_windowCommand;
-	iqt::CHierarchicalCommand m_helpCommand;
+	iqtgui::CHierarchicalCommand m_fileCommand;
+	iqtgui::CHierarchicalCommand m_editCommand;
+	iqtgui::CHierarchicalCommand m_viewCommand;
+	iqtgui::CHierarchicalCommand m_windowCommand;
+	iqtgui::CHierarchicalCommand m_helpCommand;
 
 	// file menu group
-	iqt::CHierarchicalCommand m_newCommand;
-	iqt::CHierarchicalCommand m_openCommand;
-	iqt::CHierarchicalCommand m_saveCommand;
-	iqt::CHierarchicalCommand m_saveAsCommand;
-	iqt::CHierarchicalCommand m_quitCommand;
+	iqtgui::CHierarchicalCommand m_newCommand;
+	iqtgui::CHierarchicalCommand m_openCommand;
+	iqtgui::CHierarchicalCommand m_saveCommand;
+	iqtgui::CHierarchicalCommand m_saveAsCommand;
+	iqtgui::CHierarchicalCommand m_quitCommand;
 	// edit menu group
-	iqt::CHierarchicalCommand m_undoCommand;
-	iqt::CHierarchicalCommand m_redoCommand;
+	iqtgui::CHierarchicalCommand m_undoCommand;
+	iqtgui::CHierarchicalCommand m_redoCommand;
 	// view menu group
-	iqt::CHierarchicalCommand m_fullScreenCommand;
+	iqtgui::CHierarchicalCommand m_fullScreenCommand;
 	// window menu group
-	iqt::CHierarchicalCommand m_cascadeCommand;
-	iqt::CHierarchicalCommand m_tileHorizontallyCommand;
-	iqt::CHierarchicalCommand m_tileVerticallyCommand;
-	iqt::CHierarchicalCommand m_closeAllDocumentsCommand;
+	iqtgui::CHierarchicalCommand m_cascadeCommand;
+	iqtgui::CHierarchicalCommand m_tileHorizontallyCommand;
+	iqtgui::CHierarchicalCommand m_tileVerticallyCommand;
+	iqtgui::CHierarchicalCommand m_closeAllDocumentsCommand;
 	// help menu group
-	iqt::CHierarchicalCommand m_aboutCommand;
+	iqtgui::CHierarchicalCommand m_aboutCommand;
 
-	class NewDocumentCommand: public iqt::CHierarchicalCommand
+	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
 	{
 	public:
-		typedef iqt::CHierarchicalCommand BaseClass;
+		typedef iqtgui::CHierarchicalCommand BaseClass;
 
 		NewDocumentCommand(CMainWindowGuiComp* parentPtr, const std::string& documentTypeId): m_parent(*parentPtr), m_documentTypeId(documentTypeId){}
 
@@ -193,10 +194,10 @@ private:
 		std::string m_documentTypeId;
 	};
 
-	class RecentFileCommand: public iqt::CHierarchicalCommand
+	class RecentFileCommand: public iqtgui::CHierarchicalCommand
 	{
 	public:
-		typedef iqt::CHierarchicalCommand BaseClass;
+		typedef iqtgui::CHierarchicalCommand BaseClass;
 
 		RecentFileCommand(CMainWindowGuiComp* parentPtr, const QString& fileName)
 			:m_parent(*parentPtr), m_fileName(fileName)
@@ -242,19 +243,19 @@ private:
 	istd::IPolymorphic* m_activeViewPtr;
 	istd::IChangeable* m_activeDocumentPtr;
 
-	iqt::CHierarchicalCommand m_fixedCommands;
+	iqtgui::CHierarchicalCommand m_fixedCommands;
 
-	iqt::CHierarchicalCommand m_menuCommands;
+	iqtgui::CHierarchicalCommand m_menuCommands;
 
-	typedef std::map<std::string, istd::TDelPtr<iqt::CHierarchicalCommand> >  RecentFileCommandMap;
+	typedef std::map<std::string, istd::TDelPtr<iqtgui::CHierarchicalCommand> >  RecentFileCommandMap;
 	RecentFileCommandMap m_recentFilesCommands;
 
-	I_REF(iqt::IGuiObject, m_workspaceCompPtr);
+	I_REF(iqtgui::IGuiObject, m_workspaceCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(iqtdoc::IWorkspaceController, m_workspaceControllerCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
-	I_MULTIREF(iqt::IMainWindowComponent, m_mainWindowComponentsPtr);
+	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(bool, m_useIconTextAttrPtr);
 };
@@ -263,7 +264,7 @@ private:
 // public template methods
 
 template <class MenuType>
-void CMainWindowGuiComp::CreateMenu(const iqt::CHierarchicalCommand& command, typename MenuType& result) const
+void CMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& command, typename MenuType& result) const
 {
 	int prevGroupId = idoc::ICommand::GI_NONE;
 
@@ -273,8 +274,8 @@ void CMainWindowGuiComp::CreateMenu(const iqt::CHierarchicalCommand& command, ty
 
 	for (int i = 0; i < childsCount; ++i){
 		QString text = command.text();
-		iqt::CHierarchicalCommand* hierarchicalPtr = const_cast<iqt::CHierarchicalCommand*>(
-					dynamic_cast<const iqt::CHierarchicalCommand*>(command.GetChild(i)));
+		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
+					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
 
 		if (hierarchicalPtr != NULL){
 			QString text2 = hierarchicalPtr->text();

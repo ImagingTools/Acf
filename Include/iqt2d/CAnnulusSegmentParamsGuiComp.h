@@ -4,7 +4,7 @@
 
 #include "i2d/CAnnulusSegment.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/TSceneExtenderCompBase.h"
 
@@ -15,14 +15,14 @@ namespace iqt2d
 {
 
 
-class CAnnulusSegmentParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+class CAnnulusSegmentParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CAnnulusSegmentParamsGuiComp,
 			i2d::CAnnulusSegment> >
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+	typedef iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CAnnulusSegmentParamsGuiComp,
 				i2d::CAnnulusSegment> > BaseClass;
 

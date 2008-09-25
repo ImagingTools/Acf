@@ -8,7 +8,7 @@
 
 #include "idoc/CDocumentManagerBase.h"
 
-#include "iqt/TGuiComponentBase.h"
+#include "iqtgui/TGuiComponentBase.h"
 
 #include "iqtdoc/IWorkspaceController.h"
 
@@ -21,14 +21,14 @@ namespace iqtdoc
 	This class is a Qt-based workspace implementation of a document manager.
 */
 class CMultiDocumentWorkspaceGuiComp:
-			public iqt::TGuiComponentBase<QWorkspace>, 
+			public iqtgui::TGuiComponentBase<QWorkspace>, 
 			public idoc::CDocumentManagerBase,
 			public iqtdoc::IWorkspaceController
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiComponentBase<QWorkspace> BaseClass;
+	typedef iqtgui::TGuiComponentBase<QWorkspace> BaseClass;
 	typedef idoc::CDocumentManagerBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
@@ -46,7 +46,7 @@ public:
 	virtual void Cascade();
 	virtual void CloseAllViews();
 
-	// reimplemented (iqt::IGuiObject)
+	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
 	// reimplemented (icomp::IComponent)
@@ -64,7 +64,7 @@ protected:
 		\param	widget	Qt widget representing view.
 		\return	associated view or NULL if nothing is found.
 	*/
-	iqt::IGuiObject* GetViewFromWidget(const QWidget& widget) const;
+	iqtgui::IGuiObject* GetViewFromWidget(const QWidget& widget) const;
 
 	/**
 		Creates signal/slot connnections for the implementation.

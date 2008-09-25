@@ -4,7 +4,7 @@
 
 #include "i2d/CLine2d.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/TSceneExtenderCompBase.h"
 
@@ -15,14 +15,14 @@ namespace iqt2d
 {
 
 
-class CLine2dParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+class CLine2dParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CLine2dParamsGuiComp,
 			i2d::CLine2d> >
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+	typedef iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CLine2dParamsGuiComp,
 				i2d::CLine2d> > BaseClass;
 
@@ -31,7 +31,7 @@ public:
 		I_ASSIGN(m_lineZValueAttrPtr, "LineZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT;
 
-	// reimplemented (iqt::TGuiObserverWrap)
+	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
 

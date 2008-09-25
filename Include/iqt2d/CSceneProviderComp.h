@@ -9,12 +9,12 @@
 #include "imod/TSingleModelObserverBase.h"
 #include "imod/IModel.h"
 
-#include "iqt/TGuiComponentBase.h"
-#include "iqt/TGuiObserverWrap.h"
+#include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TGuiObserverWrap.h"
 
 #include "idoc/ICommandsProvider.h"
 
-#include "iqt/CHierarchicalCommand.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "iqt2d/ISceneProvider.h"
 
@@ -24,14 +24,14 @@ namespace iqt2d
 
 
 class CSceneProviderComp: 
-			public iqt::TGuiComponentBase<QGraphicsView>,
+			public iqtgui::TGuiComponentBase<QGraphicsView>,
 			virtual public idoc::ICommandsProvider,
 			virtual public ISceneProvider
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiComponentBase<QGraphicsView> BaseClass;
+	typedef iqtgui::TGuiComponentBase<QGraphicsView> BaseClass;
 
 	I_BEGIN_COMPONENT(CSceneProviderComp);
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
@@ -83,7 +83,7 @@ protected:
 	void CreateContextMenu();
 	void ScaleView(double scaleFactor);
 
-	iqt::CHierarchicalCommand& GetCommandsRootRef();
+	iqtgui::CHierarchicalCommand& GetCommandsRootRef();
 
 	// reimplemented (iqt::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -102,9 +102,9 @@ private:
 	bool m_isFullScreenMode;
 	bool m_isZoomIgnored;
 
-	iqt::CHierarchicalCommand m_editorCommand;
-	iqt::CHierarchicalCommand m_fitToViewCommand;
-	iqt::CHierarchicalCommand m_resetZoomCommand;
+	iqtgui::CHierarchicalCommand m_editorCommand;
+	iqtgui::CHierarchicalCommand m_fitToViewCommand;
+	iqtgui::CHierarchicalCommand m_resetZoomCommand;
 
 	I_ATTR(bool, m_allowWidgetResizeAttrPtr);
 	I_ATTR(int, m_sceneIdAttrPtr);
@@ -114,7 +114,7 @@ private:
 
 // inline protected methods
 
-inline iqt::CHierarchicalCommand& CSceneProviderComp::GetCommandsRootRef()
+inline iqtgui::CHierarchicalCommand& CSceneProviderComp::GetCommandsRootRef()
 {
 	return m_editorCommand;
 }

@@ -12,7 +12,7 @@ namespace iqt2d
 {
 
 
-// reimplemented (iqt::TGuiObserverWrap)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
 void CLine2dParamsGuiComp::OnGuiModelAttached()
 {

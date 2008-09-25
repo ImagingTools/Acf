@@ -9,8 +9,8 @@
 
 #include "istd/TDelPtr.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
-#include "iqt/CTreeWidgetFilter.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/CTreeWidgetFilter.h"
 
 #include "icomp/IRegistryElement.h"
 
@@ -19,12 +19,12 @@
 #include "IAttributeSelectionObserver.h"
 
 
-class CAttributeEditorComp: public iqt::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement>
+class CAttributeEditorComp: public iqtgui::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement>
 {
     Q_OBJECT
 
 public:
-	typedef iqt::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement> BaseClass;
+	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, icomp::IRegistryElement> BaseClass;
 	I_BEGIN_COMPONENT(CAttributeEditorComp)
 		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "Attribute selection observer", false, "AttributeSelectionObserver")
 	I_END_COMPONENT
@@ -104,7 +104,7 @@ private:
 
 	typedef std::map<std::string, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
-	istd::TDelPtr<iqt::CTreeWidgetFilter> m_treeWidgetFilter;
+	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_treeWidgetFilter;
 
 	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 };

@@ -7,7 +7,7 @@
 
 #include "icomp/CComponentBase.h"
 
-#include "iqt/IGuiObject.h"
+#include "iqtgui/IGuiObject.h"
 
 #include "iqt2d/ISceneExtender.h"
 
@@ -24,7 +24,7 @@ namespace iqtdoc
 */
 class CModelEditorGuiComp:
 			public icomp::CComponentBase,
-			virtual public iqt::IGuiObject,
+			virtual public iqtgui::IGuiObject,
 			virtual public imod::IModelEditor,
 			virtual public iqt2d::ISceneExtender
 {
@@ -32,7 +32,7 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CModelEditorGuiComp)
-		I_REGISTER_INTERFACE(iqt::IGuiObject)
+		I_REGISTER_INTERFACE(iqtgui::IGuiObject)
 		I_REGISTER_INTERFACE(imod::IModelEditor)
 		I_REGISTER_INTERFACE(iqt2d::ISceneExtender)
 		I_ASSIGN(m_slaveEditorCompPtr, "SlaveEditorGui", "Slave GUI object will be connected to model", true, "SlaveEditor");
@@ -48,7 +48,7 @@ public:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-	// reimplemented (iqt::IGuiObject)
+	// reimplemented (iqtgui::IGuiObject)
 	virtual bool IsGuiCreated() const;
 	virtual bool CreateGui(QWidget* parentPtr);
 	virtual bool DestroyGui();
@@ -66,7 +66,7 @@ public:
 	virtual void RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr);
 
 private:
-	I_REF(iqt::IGuiObject, m_slaveGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);
 	I_REF(imod::IObserver, m_slaveObserverCompPtr);
 	I_REF(imod::IModelEditor, m_slaveEditorCompPtr);
 	I_REF(iqt2d::ISceneExtender, m_slaveExtenderCompPtr);

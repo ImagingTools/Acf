@@ -23,7 +23,7 @@
 
 int main(int argc, char *argv[])
 {
-	Q_INIT_RESOURCE(iqtdoc);
+	Q_INIT_RESOURCE(iqtgui);
 
 	QApplication::setStyle("plastique");
 

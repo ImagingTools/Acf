@@ -2,8 +2,8 @@
 #define iqt2d_CSceneConnectorGuiComp_included
 
 
-#include "iqt/IGuiObject.h"
-#include "iqt/TDesignerGuiCompBase.h"
+#include "iqtgui/IGuiObject.h"
+#include "iqtgui/TDesignerGuiCompBase.h"
 
 #include "iqt2d/ISceneProvider.h"
 #include "iqt2d/ISceneExtender.h"
@@ -15,10 +15,10 @@ namespace iqt2d
 {
 
 
-class CSceneConnectorGuiComp: public iqt::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget>
+class CSceneConnectorGuiComp: public iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget>
 {
 public:
-	typedef iqt::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget> BaseClass;
+	typedef iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget> BaseClass;
 
 	I_BEGIN_COMPONENT(CSceneConnectorGuiComp)
 		I_ASSIGN(m_sceneGuiCompPtr, "SceneGui", "Gui providing scene information", true, "SceneGui");
@@ -33,9 +33,9 @@ protected:
 	virtual void OnGuiDestroyed();
 
 private:
-	I_REF(iqt::IGuiObject, m_sceneGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_sceneGuiCompPtr);
 	I_REF(ISceneProvider, m_sceneProviderCompPtr);
-	I_REF(iqt::IGuiObject, m_extenderGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_extenderGuiCompPtr);
 	I_REF(ISceneExtender, m_extenderCompPtr);
 };
 

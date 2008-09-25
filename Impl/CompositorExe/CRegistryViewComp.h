@@ -21,9 +21,9 @@
 
 #include "idoc/ICommandsProvider.h"
 
-#include "iqt/TGuiComponentBase.h"
-#include "iqt/TGuiObserverWrap.h"
-#include "iqt/CHierarchicalCommand.h"
+#include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TGuiObserverWrap.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "IRegistryPreview.h"
 #include "CComponentView.h"
@@ -31,16 +31,16 @@
 
 
 class CRegistryViewComp:
-			public iqt::TGuiObserverWrap<
-						iqt::TGuiComponentBase<QGraphicsView>, 
+			public iqtgui::TGuiObserverWrap<
+						iqtgui::TGuiComponentBase<QGraphicsView>, 
 						imod::TSingleModelObserverBase<icomp::IRegistry> >,
 			public idoc::ICommandsProvider
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiObserverWrap<
-				iqt::TGuiComponentBase<QGraphicsView>, 
+	typedef iqtgui::TGuiObserverWrap<
+				iqtgui::TGuiComponentBase<QGraphicsView>, 
 				imod::TSingleModelObserverBase<icomp::IRegistry> > BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryViewComp)
@@ -142,17 +142,17 @@ private:
 	CCompositeItem m_compositeItem;
 	CComponentView* m_selectedComponentPtr;
 
-	iqt::CHierarchicalCommand m_registryCommand;
-	iqt::CHierarchicalCommand m_registryMenu;
-	iqt::CHierarchicalCommand m_removeComponentCommand;
-	iqt::CHierarchicalCommand m_renameComponentCommand;
-	iqt::CHierarchicalCommand m_exportToCodeCommand;
-	iqt::CHierarchicalCommand m_executeRegistryCommand;
-	iqt::CHierarchicalCommand m_abortRegistryCommand;
-	iqt::CHierarchicalCommand m_addNoteCommand;
-	iqt::CHierarchicalCommand m_removeNoteCommand;
-	iqt::CHierarchicalCommand m_exportComponentCommand;
-	iqt::CHierarchicalCommand m_exportInterfaceCommand;
+	iqtgui::CHierarchicalCommand m_registryCommand;
+	iqtgui::CHierarchicalCommand m_registryMenu;
+	iqtgui::CHierarchicalCommand m_removeComponentCommand;
+	iqtgui::CHierarchicalCommand m_renameComponentCommand;
+	iqtgui::CHierarchicalCommand m_exportToCodeCommand;
+	iqtgui::CHierarchicalCommand m_executeRegistryCommand;
+	iqtgui::CHierarchicalCommand m_abortRegistryCommand;
+	iqtgui::CHierarchicalCommand m_addNoteCommand;
+	iqtgui::CHierarchicalCommand m_removeNoteCommand;
+	iqtgui::CHierarchicalCommand m_exportComponentCommand;
+	iqtgui::CHierarchicalCommand m_exportInterfaceCommand;
 
 	QTimer m_executionObserverTimer;
 };

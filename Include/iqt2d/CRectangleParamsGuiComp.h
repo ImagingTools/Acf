@@ -4,7 +4,7 @@
 
 #include "i2d/CRectangle.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/TSceneExtenderCompBase.h"
 
@@ -15,14 +15,14 @@ namespace iqt2d
 {
 
 
-class CRectangleParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+class CRectangleParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CRectangleParamsGuiComp,
 			i2d::CRectangle> >
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+	typedef iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CRectangleParamsGuiComp,
 				i2d::CRectangle> > BaseClass;
 
@@ -30,7 +30,7 @@ public:
 		I_ASSIGN(m_rectZValueAttrPtr, "RectZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT
 
-	// reimplemented (iqt::TGuiObserverWrap)
+	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
 

@@ -11,9 +11,9 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "iqt/IGuiObject.h"
-#include "iqt/TGuiObserverWrap.h"
-#include "iqt/TGuiComponentBase.h"
+#include "iqtgui/IGuiObject.h"
+#include "iqtgui/TGuiObserverWrap.h"
+#include "iqtgui/TGuiComponentBase.h"
 
 #include "iqt2d/ISceneExtender.h"
 
@@ -25,13 +25,13 @@ namespace iqtprm
 
 
 class CComposedParamsSetGuiComp:
-			public iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> >,
+			public iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> >,
 			public iqt2d::ISceneExtender
 {
 	Q_OBJECT
 
 public:
-	typedef iqt::TGuiObserverWrap<iqt::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> > BaseClass;
+	typedef iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> > BaseClass;
 
 	I_BEGIN_COMPONENT(CComposedParamsSetGuiComp);
 		I_REGISTER_INTERFACE(imod::IObserver);
@@ -74,7 +74,7 @@ protected slots:
 
 private:
 	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
-	I_MULTIREF(iqt::IGuiObject, m_guisCompPtr);
+	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIREF(iqt2d::ISceneExtender, m_extendersCompPtr);
 	I_MULTIATTR(istd::CString, m_idsAttrPtr);

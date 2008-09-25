@@ -6,17 +6,18 @@
 #include "icomp/TMakeComponentWrap.h"
 
 #include "iqt/CPackagesLoaderComp.h"
-#include "iqt/CLoginGuiComp.h"
-#include "iqt/CApplicationComp.h"
-#include "iqt/CSplashScreenGuiComp.h"
-#include "iqt/CLogGuiComp.h"
-#include "iqt/CIconProviderComp.h" 
-#include "iqt/CFileDialogSerializerComp.h"
 #include "iqt/CBitmap.h"
-#include "iqt/CDockWidgetGuiComp.h"
-#include "iqt/CSelectionParamGuiComp.h"
-#include "iqt/CTabContainerGuiComp.h"
 #include "iqt/CSettingsSerializerComp.h"
+
+#include "iqtgui/CLoginGuiComp.h"
+#include "iqtgui/CApplicationComp.h"
+#include "iqtgui/CSplashScreenGuiComp.h"
+#include "iqtgui/CLogGuiComp.h"
+#include "iqtgui/CIconProviderComp.h" 
+#include "iqtgui/CFileDialogSerializerComp.h"
+#include "iqtgui/CDockWidgetGuiComp.h"
+#include "iqtgui/CSelectionParamGuiComp.h"
+#include "iqtgui/CTabContainerGuiComp.h"
 
 #include "iqt2d/CSceneConnectorGuiComp.h"
 #include "iqt2d/CSceneProviderComp.h"
@@ -45,17 +46,18 @@ namespace QtPck
 
 
 typedef iqt::CPackagesLoaderComp PackagesLoader;
-typedef iqt::CLoginGuiComp LoginGui;
-typedef iqt::CApplicationComp GuiApplication;
-typedef iqt::CSplashScreenGuiComp SplashScreen;
-typedef icomp::TModelCompWrap<iqt::CLogGuiComp> Log;
-typedef iqt::CIconProviderComp IconProvider;
-typedef iqt::CFileDialogSerializerComp FileDialogSerializer;
-typedef iqtdoc::CModelEditorGuiComp ModelEditorGui;
-typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
-typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
-typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmap, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable> > Bitmap;
+typedef iqt::CSettingsSerializerComp SettingsSerializer;
+
+typedef iqtgui::CLoginGuiComp LoginGui;
+typedef iqtgui::CApplicationComp GuiApplication;
+typedef iqtgui::CSplashScreenGuiComp SplashScreen;
+typedef icomp::TModelCompWrap<iqtgui::CLogGuiComp> Log;
+typedef iqtgui::CIconProviderComp IconProvider;
+typedef iqtgui::CFileDialogSerializerComp FileDialogSerializer;
+typedef iqtgui::CDockWidgetGuiComp DockWidgetGui;
+typedef iqtgui::CSelectionParamGuiComp SelectionParamGui;
+typedef iqtgui::CTabContainerGuiComp TabContainer;
 
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
 typedef iqt2d::CSceneProviderComp SceneProvider;
@@ -70,10 +72,10 @@ typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;
 typedef iqtprm::CFileNameParamGuiComp FileNameParamGui;
 
-typedef iqt::CDockWidgetGuiComp DockWidgetGui;
-typedef iqt::CSelectionParamGuiComp SelectionParamGui;
-typedef iqt::CTabContainerGuiComp TabContainer;
-typedef iqt::CSettingsSerializerComp SettingsSerializer;
+typedef iqtdoc::CModelEditorGuiComp ModelEditorGui;
+typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
+typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
+typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 
 
 } // namespace QtPck

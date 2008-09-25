@@ -4,7 +4,7 @@
 
 #include "i2d/CCircle.h"
 
-#include "iqt/TDesignerGuiObserverCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/TSceneExtenderCompBase.h"
 
@@ -15,14 +15,14 @@ namespace iqt2d
 {
 
 
-class CCircleParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+class CCircleParamsGuiComp: public iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CCircleParamsGuiComp,
 			i2d::CCircle> >
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TSceneExtenderCompBase<iqt::TDesignerGuiObserverCompBase<
+	typedef iqt2d::TSceneExtenderCompBase<iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CCircleParamsGuiComp,
 				i2d::CCircle> > BaseClass;
 
@@ -31,7 +31,7 @@ public:
 		I_ASSIGN(m_circleZValueAttrPtr, "CircleZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT;
 
-	// reimplemented (iqt::TGuiObserverWrap)
+	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
 

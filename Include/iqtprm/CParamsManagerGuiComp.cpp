@@ -208,7 +208,7 @@ void CParamsManagerGuiComp::EnsureParamsGuiDetached()
 }
 
 
-// reimplemented (iqt::TGuiObserverWrap)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
 void CParamsManagerGuiComp::OnGuiModelShown()
 {
