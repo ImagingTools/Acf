@@ -110,7 +110,7 @@ const istd::CString& CBitmapLoaderComp::GetLastSaveFileName() const
 }
 
 
-bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend)
+bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();

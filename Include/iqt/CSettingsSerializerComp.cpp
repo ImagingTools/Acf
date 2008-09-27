@@ -75,7 +75,7 @@ const istd::CString& CSettingsSerializerComp::GetLastSaveFileName() const
 }
 	  
 
-bool CSettingsSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/)
+bool CSettingsSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/) const
 {
 	return false;
 }

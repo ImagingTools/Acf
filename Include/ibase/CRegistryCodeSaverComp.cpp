@@ -82,7 +82,7 @@ const istd::CString& CRegistryCodeSaverComp::GetLastSaveFileName() const
 }
 
 
-bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, bool doAppend)
+bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();

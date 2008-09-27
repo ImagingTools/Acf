@@ -35,7 +35,7 @@ public:
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual const istd::CString& GetLastLoadFileName() const;
 	virtual const istd::CString& GetLastSaveFileName() const;
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false);
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
 
 protected:
 	virtual QString GetOpenFileName(const istd::CString& filePath) const;

@@ -69,7 +69,7 @@ public:
 	/**
 		Get file extensions supported by this loader.
 	*/
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) = 0;
+	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const = 0;
 };
 
 

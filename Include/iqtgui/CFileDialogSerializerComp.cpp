@@ -83,7 +83,7 @@ const istd::CString& CFileDialogSerializerComp::GetLastSaveFileName() const
 }
 
 
-bool CFileDialogSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/)
+bool CFileDialogSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/) const
 {
 	return false;
 }
