@@ -40,12 +40,12 @@ void CTimer::Start()
 
 double CTimer::GetElapsed() const
 {
-	I_ASSERT(sizeof(long long) == sizeof(LARGE_INTEGER));
+	I_ASSERT(sizeof(unsigned long long) == sizeof(LARGE_INTEGER));
 
-	long long endCounter;
+	unsigned long long endCounter;
 	::QueryPerformanceCounter((LARGE_INTEGER*)&endCounter);
 
-	return (endCounter - m_startCounter) / double(s_timerFrequence);
+	return (long long)(endCounter - m_startCounter) / double(s_timerFrequence);
 }
 
 
@@ -79,7 +79,7 @@ double CTimer::GetTimerResolution() const
 
 // static attributes
 
-long long CTimer::s_timerFrequence;
+unsigned long long CTimer::s_timerFrequence;
 bool CTimer::s_isTimerFrequenceValid = (::QueryPerformanceFrequency((LARGE_INTEGER*)&CTimer::s_timerFrequence) != 0);
 
 

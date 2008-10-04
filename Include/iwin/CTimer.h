@@ -25,6 +25,9 @@ public:
 
 	double GetTimeTo(const CTimer& timer) const;
 
+	unsigned long long GetNativeRepresentation() const;
+	void SetNativeRepresentation(unsigned long long value);
+
 	// reimplemented (isys::ITimer)
 	virtual void Start();
 	virtual double GetElapsed() const;
@@ -36,9 +39,23 @@ private:
 	long long m_startCounter;
 
 	// static attributes
-	static long long s_timerFrequence;
+	static unsigned long long s_timerFrequence;
 	static bool s_isTimerFrequenceValid;
 };
+
+
+// inline methods
+
+inline unsigned long long CTimer::GetNativeRepresentation() const
+{
+	return m_startCounter;
+}
+
+
+inline void CTimer::SetNativeRepresentation(unsigned long long value)
+{
+	m_startCounter = value;
+}
 
 
 } // namespace iwin
