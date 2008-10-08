@@ -3,6 +3,7 @@
 
 
 #include "iqt/CTimer.h"
+#include "iqt/CApplicationEnvironment.h"
 
 
 namespace iqt
@@ -19,6 +20,7 @@ public:
 
 private:
 	static iqt::CTimer s_timer;
+	static iqt::CApplicationEnvironment s_applicationEnvironment;
 };
 
 

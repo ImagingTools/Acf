@@ -1,5 +1,5 @@
-#ifndef iqt_IQtBitmap_included
-#define iqt_IQtBitmap_included
+#ifndef iqt_IQImageProvider_included
+#define iqt_IQImageProvider_included
 
 
 // Qt includes
@@ -25,6 +25,6 @@ public:
 } // namespace iqt
 
 
-#endif // !iqt_IQtBitmap_included
+#endif // !iqt_IQImageProvider_included
 
 
