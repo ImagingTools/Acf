@@ -32,7 +32,8 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_saveCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_undoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
+	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
+	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
 {
 	m_menuBarPtr = NULL;
 	m_standardToolBarPtr = NULL;
@@ -45,6 +46,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_undoCommand, SIGNAL(activated()), this, SLOT(OnUndo()));
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
 	connect(&m_fullScreenCommand, SIGNAL(activated()), this, SLOT(OnFullScreen()));
+	connect(&m_showToolBarsCommand, SIGNAL(activated()), this, SLOT(OnShowToolbars()));
 	connect(&m_cascadeCommand, SIGNAL(activated()), this, SLOT(OnCascade()));
 	connect(&m_tileHorizontallyCommand, SIGNAL(activated()), this, SLOT(OnTileHorizontally()));
 	connect(&m_tileVerticallyCommand, SIGNAL(activated()), this, SLOT(OnTile()));
@@ -69,24 +71,57 @@ void CMainWindowGuiComp::OnTryClose(bool* ignoredPtr)
 
 // reimplemented (IToolBarManager)
 
-void CMainWindowGuiComp::SetToolBarsVisible(bool /*isVisible*/)
+void CMainWindowGuiComp::SetToolBarsVisible(bool isVisible)
 {
+	QMainWindow* mainWindowPtr = GetQtWidget();
+	I_ASSERT(mainWindowPtr != NULL);
+
+	if (mainWindowPtr != NULL){
+		for (int toolbarIndex = 0; toolbarIndex < m_toolBarsList.GetCount(); toolbarIndex++){
+			QToolBar* toolbarPtr = m_toolBarsList.GetAt(toolbarIndex);
+
+			if (!isVisible){
+				mainWindowPtr->removeToolBar(toolbarPtr);
+			}
+			else{
+				toolbarPtr->show();
+
+				mainWindowPtr->addToolBar(toolbarPtr);
+			}
+		}
+	}
 }
 
 
 int CMainWindowGuiComp::GetToolBarCount() const
 {
-	return 1;
+	return m_toolBarsList.GetCount();
 }
 
 
-void CMainWindowGuiComp::AddToolBar(QToolBar* /*widgetPtr*/)
+void CMainWindowGuiComp::AddToolBar(int flags, QToolBar* widgetPtr)
 {
+	QMainWindow* mainWindowPtr = GetQtWidget();
+	I_ASSERT(mainWindowPtr != NULL);
+
+	if (mainWindowPtr != NULL){
+		mainWindowPtr->addToolBar((Qt::ToolBarArea)flags, widgetPtr);
+
+		m_toolBarsList.PushBack(widgetPtr);
+	}
 }
 
 
-void CMainWindowGuiComp::RemoveToolBar(QToolBar* /*widgetPtr*/)
+void CMainWindowGuiComp::RemoveToolBar(QToolBar* widgetPtr)
 {
+	QMainWindow* mainWindowPtr = GetQtWidget();
+	I_ASSERT(mainWindowPtr != NULL);
+
+	if (mainWindowPtr != NULL){
+		mainWindowPtr->removeToolBar(widgetPtr);
+
+		m_toolBarsList.Remove(widgetPtr);
+	}
 }
 
 
@@ -142,6 +177,7 @@ void CMainWindowGuiComp::OnComponentCreated()
 
 		m_viewCommand.SetPriority(90);
 		m_viewCommand.InsertChild(&m_fullScreenCommand, false);
+		m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
 
 		m_windowCommand.SetPriority(120);
 		m_cascadeCommand.SetGroupId(GI_WINDOW);
@@ -254,6 +290,7 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 				if (documentTemplatePtr != NULL){
 					idoc::IDocumentTemplate::Ids availableDocumentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(iqt::GetCString(filePath));
 					if (!availableDocumentIds.empty()){
+
 						OnOpenFile(filePath);
 					}
 				}
@@ -371,6 +408,8 @@ void CMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow)
 
 	if (HasDocumentTemplate()){
 		mainWindow.addToolBar(Qt::TopToolBarArea, m_standardToolBarPtr.GetPtr());
+
+		m_toolBarsList.PushBack(m_standardToolBarPtr.GetPtr(), false);
 	}
 }
 
@@ -617,6 +656,8 @@ void CMainWindowGuiComp::OnGuiCreated()
 	mainWindowPtr->setAcceptDrops(true);
 
 	mainWindowPtr->installEventFilter(this);
+
+	m_showToolBarsCommand.setChecked(true);
 }
 
 
@@ -672,6 +713,7 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_redoCommand.setShortcut(tr("Ctrl+Shift+Z"));
 	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_fullScreenCommand.setShortcut(tr("F11"));
+	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show/Hide toolbars"));
 	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
 	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
 	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
@@ -892,6 +934,12 @@ void CMainWindowGuiComp::OnFullScreen()
 		m_standardToolBarPtr->hide();
 		parentWidgetPtr->showFullScreen();
 	}
+}
+
+
+void CMainWindowGuiComp::OnShowToolbars()
+{
+	SetToolBarsVisible(m_showToolBarsCommand.isChecked());
 }
 
 

@@ -44,14 +44,16 @@ bool CSimpleDateTime::SetCurrentTime()
 
 	__time64_t t;
 	_time64(&t);
-	std::tm* currentTime = _localtime64(&t);
 
-	m_components[TC_YEAR] = currentTime->tm_year + 1900;
-	m_components[TC_MONTH] = currentTime->tm_mon + 1;
-	m_components[TC_DAY] = currentTime->tm_mday;
-	m_components[TC_HOUR] = currentTime->tm_hour;
-	m_components[TC_MINUTE] = currentTime->tm_min;
-	m_components[TC_SECOND] = currentTime->tm_sec;
+	std::tm currentTime;
+	_localtime64_s(&currentTime, &t);
+
+	m_components[TC_YEAR] = currentTime.tm_year + 1900;
+	m_components[TC_MONTH] = currentTime.tm_mon + 1;
+	m_components[TC_DAY] = currentTime.tm_mday;
+	m_components[TC_HOUR] = currentTime.tm_hour;
+	m_components[TC_MINUTE] = currentTime.tm_min;
+	m_components[TC_SECOND] = currentTime.tm_sec;
 	m_components[TC_MICROSECOND] = 0;
 
 	return false;

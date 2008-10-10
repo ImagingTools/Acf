@@ -75,7 +75,7 @@ public:
 	// reimplemented (iqtgui::IToolBarManager)
 	virtual void SetToolBarsVisible(bool isVisible = true);
 	virtual int GetToolBarCount() const ;
-	virtual	void AddToolBar(QToolBar* widgetPtr);
+	virtual	void AddToolBar(int flags, QToolBar* widgetPtr);
 	virtual void RemoveToolBar(QToolBar* widgetPtr);
 
 	// reimplemented (iqtgui::IDockManager)
@@ -135,6 +135,7 @@ protected slots:
 	void OnUndo();
 	void OnRedo();
 	void OnFullScreen();
+	void OnShowToolbars();
 	void OnAbout();
 	void OnLanguageSelected(QAction* a); 
 	void OnStyleSelected(QAction* a);
@@ -166,6 +167,7 @@ private:
 	iqtgui::CHierarchicalCommand m_redoCommand;
 	// view menu group
 	iqtgui::CHierarchicalCommand m_fullScreenCommand;
+	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
 	// window menu group
 	iqtgui::CHierarchicalCommand m_cascadeCommand;
 	iqtgui::CHierarchicalCommand m_tileHorizontallyCommand;
@@ -258,6 +260,8 @@ private:
 	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(bool, m_useIconTextAttrPtr);
+
+	istd::TOptPointerVector<QToolBar> m_toolBarsList;
 };
 
 

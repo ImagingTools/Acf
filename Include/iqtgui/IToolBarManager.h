@@ -35,7 +35,7 @@ public:
 	/**
 		Add a toolbar.
 	*/
-	virtual	void AddToolBar(QToolBar* widgetPtr) = 0;
+	virtual	void AddToolBar(int flags, QToolBar* widgetPtr) = 0;
 
 	/**
 		Remove the given toolbar.

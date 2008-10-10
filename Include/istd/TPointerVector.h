@@ -6,6 +6,7 @@
 
 
 #include <vector>
+#include <algorithm>
 
 
 namespace istd
@@ -95,6 +96,11 @@ public:
 		Remove element at specified index.
 	*/
 	void RemoveAt(int index);
+
+	/**
+		Remove element \c elementPtr.
+	*/
+	void Remove(Pointer* elementPtr);
 
 	/**
 		Pop element at specified index.
@@ -215,6 +221,22 @@ void TPointerVector<Pointer, AccessAdapter>::RemoveAt(int index)
 	AccessAdapter::Delete(*delIter);
 
 	m_elements.erase(delIter);
+}
+
+	
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::Remove(Pointer* elementPtr)
+{
+	int elementsCount = GetCount();
+
+	for (int elementIndex = 0; elementIndex < elementsCount; elementIndex++){
+		Elements::iterator delIter = (m_elements.begin() + elementIndex);
+		if (AccessAdapter::GetPtr(*delIter) == elementPtr){
+			RemoveAt(elementIndex);
+
+			return;
+		}
+	}
 }
 
 
