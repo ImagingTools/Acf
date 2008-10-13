@@ -2,11 +2,8 @@
 #define istd_INamed_included
 
 
-#include "istd/istd.h"
-
-
-#include "istd/CString.h"
 #include "istd/IChangeable.h"
+#include "istd/CString.h"
 
 
 namespace istd
@@ -14,18 +11,18 @@ namespace istd
 
 
 /**
-	Interface for a named object
+	Interface for a object containing its name.
 */
 class INamed: virtual public istd::IChangeable  
 {
 public:
 	/**
-		Gets the object name.
+		Get the object name.
 	*/
 	virtual const istd::CString& GetName() const = 0;
 
 	/**
-		Sets the object name.
+		Set the object name.
 	*/
 	virtual void SetName(const istd::CString& name) = 0;
 };
@@ -34,4 +31,4 @@ public:
 } // namespace istd
 
 
-#endif // istd_INamed_included
+#endif // !istd_INamed_included

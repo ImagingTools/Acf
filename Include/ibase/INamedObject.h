@@ -2,9 +2,6 @@
 #define ibase_INamedObject_included
 
 
-#include "ibase/ibase.h"
-
-
 #include "istd/INamed.h"
 
 #include "ibase/IObject.h"
