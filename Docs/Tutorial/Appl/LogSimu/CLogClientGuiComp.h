@@ -18,11 +18,11 @@ class CLogClientGuiComp: public iqtgui::TGuiComponentBase<QWidget>, public QThre
 public:
 	typedef iqtgui::TGuiComponentBase<QWidget> BaseClass;
 
-	I_BEGIN_COMPONENT(CLogClientGuiComp)
-		I_ASSIGN(m_intervallAttrPtr, "AddIntervall", "Time intervall for adding a message", true, 0.5)
-		I_ASSIGN(m_logCompPtr, "Log", "Log", true, "Log")
-		I_ASSIGN(m_logGuiCompPtr, "Log", "Log GUI", true, "LogGui")
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CLogClientGuiComp);
+		I_ASSIGN(m_intervallAttrPtr, "AddIntervall", "Time intervall for adding a message", true, 0.5);
+		I_ASSIGN(m_logCompPtr, "Log", "Log", true, "Log");
+		I_ASSIGN(m_logGuiCompPtr, "Log", "Log GUI", true, "LogGui");
+	I_END_COMPONENT;
 
 	enum MessageId
 	{
