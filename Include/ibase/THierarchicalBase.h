@@ -18,7 +18,7 @@ namespace ibase
 	Template based implementation of a heriarchical object. 
 	This class is a pseudo-implementation of istd::IHierarchical interface.
 */
-template <class Base, class Interface = Base::InterfaceType>
+template <class Base, class Interface = typename Base::InterfaceType>
 class THierarchicalBase: public istd::TChangeDelegator<Base>
 {
 public:
@@ -29,6 +29,7 @@ public:
 	virtual void SetParentPtr(Interface* parentPtr);
 
 	// pseudo-reimplemented (istd::TIHierarchical<Interface>)
+	virtual int GetHierarchicalFlags() const;
 	virtual int GetChildsCount() const;
 	virtual Interface* GetChild(int index) const;
 	virtual Interface* GetParent() const;
@@ -60,6 +61,13 @@ void THierarchicalBase<Base, Interface>::SetParentPtr(Interface* parentPtr)
 
 
 // peudeo-reimplemented (istd::TIHierarchical<Interface>)
+
+template <class Base, class Interface>
+int THierarchicalBase<Base, Interface>::GetHierarchicalFlags() const
+{
+	return HF_CHILDS_SUPPORTED | HF_PARENT_SUPPORTED;
+}
+
 
 template <class Base, class Interface>
 int THierarchicalBase<Base, Interface>::GetChildsCount() const

@@ -6,9 +6,9 @@
 
 #include "imod/CMultiModelObserverBase.h"
 
-#include "iprm/IParamsSet.h"
-
 #include "icomp/CComponentBase.h"
+
+#include "iprm/IParamsSet.h"
 
 
 namespace iprm

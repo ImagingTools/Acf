@@ -63,6 +63,35 @@ void CComposedParamsSetComp::OnComponentCreated()
 }
 
 
+// reimplemented (istd::IHierarchical)
+
+int CComposedParamsSetComp::GetHierarchicalFlags() const
+{
+	return HF_CHILDS_SUPPORTED;
+}
+
+
+int CComposedParamsSetComp::GetChildsCount() const
+{
+	return m_parametersCompPtr.GetCount();
+}
+
+
+istd::IPolymorphic* CComposedParamsSetComp::GetChild(int index) const
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < m_parametersCompPtr.GetCount());
+
+	return m_parametersCompPtr[index];
+}
+
+
+istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
+{
+	return NULL;
+}
+
+
 } // namespace iprm
 
 

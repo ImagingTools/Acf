@@ -2,9 +2,11 @@
 #define iprm_CComposedParamsSetComp_included
 
 
-#include "iprm/CParamsSet.h"
+#include "istd/TIHierarchical.h"
 
 #include "icomp/CComponentBase.h"
+
+#include "iprm/CParamsSet.h"
 
 
 namespace iprm
@@ -15,7 +17,10 @@ namespace iprm
 	Implementation of interface IParamsSet as component.
 	This implementation allows to register list of objects as editable parameters and list of slave parameter sets.
 */
-class CComposedParamsSetComp: public icomp::CComponentBase, public CParamsSet
+class CComposedParamsSetComp:
+			public icomp::CComponentBase,
+			public CParamsSet,
+			virtual public istd::IHierarchical
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -34,6 +39,12 @@ public:
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
+
+	// reimplemented (istd::IHierarchical)
+	virtual int GetHierarchicalFlags() const;
+	virtual int GetChildsCount() const;
+	virtual istd::IPolymorphic* GetChild(int index) const;
+	virtual istd::IPolymorphic* GetParent() const;
 
 private:
 	I_MULTIREF(IParamsSet, m_slaveParamsCompPtr);

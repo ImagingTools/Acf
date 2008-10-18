@@ -17,7 +17,7 @@ namespace ibase
 {		
 
 template <class Base>
-class TMessageContainerWrap: public ibase::THierarchicalBase<Base, ibase::IHierarchicalMessageContainer>
+class TMessageContainerWrap: public ibase::THierarchicalBase<Base>
 {
 public:
 	typedef Base BaseClass;
@@ -238,7 +238,7 @@ ibase::IHierarchicalMessageContainer* TMessageContainerWrap<Base>::GetChild(int 
 
 // protected static methods
 
-typedef ibase::TMessageContainerWrap<ibase::IMessageContainer> CMessageContainer;
+typedef ibase::TMessageContainerWrap<ibase::IHierarchicalMessageContainer> CMessageContainer;
 
 
 } // namespace ibase
