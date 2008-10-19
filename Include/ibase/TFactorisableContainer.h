@@ -60,6 +60,7 @@ public:
 
 protected:
 	virtual InterfaceClass* CreateElement(const std::string& itemKey);
+	virtual void OnElementCreated(InterfaceClass* elementPtr);
 
 	// reimplemented (ibase::TContainer)
 	virtual bool SerializeItem(ItemClass& item, iser::IArchive& archive);
@@ -208,6 +209,8 @@ InterfaceClass* TFactorisableContainer<InterfaceClass>::CreateElement(const std:
 		if (polymorphicPtr != NULL){
 			InterfaceClass* interfacePtr = dynamic_cast<InterfaceClass*>(polymorphicPtr);
 			if (interfacePtr != NULL){
+				OnElementCreated(interfacePtr);
+
 				return interfacePtr;
 			}
 			else{
@@ -219,6 +222,12 @@ InterfaceClass* TFactorisableContainer<InterfaceClass>::CreateElement(const std:
 	}
 	
 	return NULL;
+}
+
+
+template <class InterfaceClass>
+void TFactorisableContainer<InterfaceClass>::OnElementCreated(InterfaceClass* elementPtr)
+{
 }
 
 

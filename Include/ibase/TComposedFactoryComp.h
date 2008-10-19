@@ -48,8 +48,9 @@ void TComposedFactoryComp<Interface>::OnComponentCreated()
 }
 
 
-
 } // namespace ibase
 
 
 #endif // !istdc_TComposedFactoryComp_included
+
+
