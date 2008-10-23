@@ -15,12 +15,13 @@ bool CFileDialogSerializerComp::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* filePathPtr,
 			bool forLoading,
-			bool forSaving) const
+			bool forSaving,
+			bool beQuiet) const
 {
 	if (filePathPtr != NULL){
-		const iser::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(*filePathPtr));
+		const iser::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(*filePathPtr), beQuiet);
 		if (loaderPtr != NULL){
-			return IsOperationSupported(dataObjectPtr, filePathPtr, forLoading, forSaving);
+			return loaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, forLoading, forSaving, beQuiet);
 		}
 		return false;
 	}
@@ -35,6 +36,10 @@ bool CFileDialogSerializerComp::IsOperationSupported(
 		}
 	}
 
+	if (!beQuiet){
+		SendInfoMessage(MI_NONE_SUPPORTS, "None registered serializer supports specified type");
+	}
+
 	return false;
 }
 
@@ -46,7 +51,7 @@ int CFileDialogSerializerComp::LoadFromFile(istd::IChangeable& data, const istd:
 		return StateAborted;
 	}
 
-	iser::IFileLoader* loaderPtr = GetLoaderFor(openFileName);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(openFileName, false);
 	if (loaderPtr != NULL){
 		return loaderPtr->LoadFromFile(data, iqt::GetCString(openFileName));
 	}
@@ -62,7 +67,7 @@ int CFileDialogSerializerComp::SaveToFile(const istd::IChangeable& data, const i
 		return StateAborted;
 	}
 
-	iser::IFileLoader* loaderPtr = GetLoaderFor(saveFileName);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(saveFileName, false);
 	if (loaderPtr != NULL){
 		return loaderPtr->SaveToFile(data, iqt::GetCString(saveFileName));
 	}
@@ -71,21 +76,21 @@ int CFileDialogSerializerComp::SaveToFile(const istd::IChangeable& data, const i
 }
 
 
-const istd::CString& CFileDialogSerializerComp::GetLastLoadFileName() const
+bool CFileDialogSerializerComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
 {
-	return m_lastOpenFileName;
-}
+	if (!doAppend){
+		result.clear();
+	}
 
+	int loadersCount = m_serializersCompPtr.GetCount();
+	for (int i = 0; i < loadersCount; i++){
+		const iser::IFileLoader* loaderPtr = m_serializersCompPtr[i];
+		if (loaderPtr != NULL){
+			loaderPtr->GetFileExtensions(result, true);
+		}
+	}
 
-const istd::CString& CFileDialogSerializerComp::GetLastSaveFileName() const
-{
-	return m_lastSaveFileName;
-}
-
-
-bool CFileDialogSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/) const
-{
-	return false;
+	return true;
 }
 
 
@@ -110,8 +115,6 @@ QString CFileDialogSerializerComp::GetOpenFileName(const istd::CString& filePath
 
 		openFileName = QFileDialog::getOpenFileName(NULL, QObject::tr("Select a file to open"), m_lastOpenPath, fileFilter); 
 	}
-
-	m_lastOpenFileName = iqt::GetCString(openFileName);
 
 	QFileInfo fileInfo(openFileName);
 	m_lastOpenPath = fileInfo.absolutePath();
@@ -139,8 +142,6 @@ QString CFileDialogSerializerComp::GetSaveFileName(const istd::CString& filePath
 													fileFilter); 
 	}
 
-	m_lastSaveFileName = iqt::GetCString(saveFileName);
-
 	QFileInfo fileInfo(saveFileName);
 	m_lastSavePath = fileInfo.absolutePath();
 
@@ -148,7 +149,7 @@ QString CFileDialogSerializerComp::GetSaveFileName(const istd::CString& filePath
 }
 
 
-iser::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePath) const
+iser::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePath, bool beQuiet) const
 {
 	QFileInfo fileInfo(filePath);
 
@@ -160,6 +161,10 @@ iser::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePa
 		if (fileFilter.contains(fileExtension)){
 			return m_serializersCompPtr[index];
 		}
+	}
+
+	if (!beQuiet){
+		SendInfoMessage(MI_NONE_SUPPORTS, "None registered serializer supports specified file");
 	}
 
 	return NULL;

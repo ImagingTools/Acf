@@ -2,22 +2,28 @@
 #define iqtgui_CFileDialogSerializerComp_included
 
 
-#include "iqtgui/iqtgui.h"
-
-
 #include "iser/IFileLoader.h"
 
+#include "ibase/TMessageProducerWrap.h"
+
 #include "icomp/CComponentBase.h"
+
+#include "iqtgui/iqtgui.h"
 
 
 namespace iqtgui
 {
 
 
-class CFileDialogSerializerComp: public icomp::CComponentBase, virtual public iser::IFileLoader
+class CFileDialogSerializerComp: public ibase::TMessageProducerWrap<icomp::CComponentBase>, virtual public iser::IFileLoader
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
+
+	enum MessageId
+	{
+		MI_NONE_SUPPORTS = 0xf8e0
+	};
 
 	I_BEGIN_COMPONENT(CFileDialogSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
@@ -30,25 +36,21 @@ public:
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
 				bool forLoading = true,
-				bool forSaving = true) const;
+				bool forSaving = true,
+				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual const istd::CString& GetLastLoadFileName() const;
-	virtual const istd::CString& GetLastSaveFileName() const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
 
 protected:
 	virtual QString GetOpenFileName(const istd::CString& filePath) const;
 	virtual QString GetSaveFileName(const istd::CString& filePath) const;
 
-	iser::IFileLoader* GetLoaderFor(const QString& filePath) const;
+	iser::IFileLoader* GetLoaderFor(const QString& filePath, bool beQuiet) const;
 
 private:
 	I_MULTIREF(iser::IFileLoader, m_serializersCompPtr);
 	I_MULTIATTR(istd::CString, m_fileFiltersAttrPtr);
-
-	mutable istd::CString m_lastOpenFileName;
-	mutable istd::CString m_lastSaveFileName;
 
 	mutable QString m_lastOpenPath;
 	mutable QString m_lastSavePath;

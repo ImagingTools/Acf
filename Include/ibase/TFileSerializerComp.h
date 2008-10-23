@@ -6,20 +6,25 @@
 
 #include "icomp/CComponentBase.h"
 
+#include "ibase/TMessageProducerWrap.h"
+
 
 namespace ibase
 {
 
 
 template <class ReadArchive, class WriteArchive>
-class TFileSerializerComp: public icomp::CComponentBase, public iser::IFileLoader
+class TFileSerializerComp:
+			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
+			public iser::IFileLoader
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
 
 	I_BEGIN_COMPONENT(TFileSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
+		I_ASSIGN_MULTI_0(m_extensionsAttrPtr, "Extensions", "List of supported file extensions", false);
 	I_END_COMPONENT
 
 	// reimplemented (iser::IFileLoader)
@@ -27,11 +32,10 @@ public:
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
 				bool forLoading = true,
-				bool forSaving = true) const;
+				bool forSaving = true,
+				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual const istd::CString& GetLastLoadFileName() const;
-	virtual const istd::CString& GetLastSaveFileName() const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
 
 protected:
@@ -42,6 +46,7 @@ protected:
 
 private:
 	I_REF(iser::IVersionInfo, m_versionInfoCompPtr);
+	I_MULTIATTR(istd::CString, m_extensionsAttrPtr);
 };
 
 
@@ -54,9 +59,14 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* /*filePathPtr*/,
 			bool /*forLoading*/,
-			bool /*forSaving*/) const
+			bool /*forSaving*/,
+			bool beQuiet) const
 {
 	if ((dataObjectPtr != NULL) && (dynamic_cast<const iser::ISerializable*>(dataObjectPtr) == NULL)){
+		if (!beQuiet){
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, "Object is not serializable");
+		}
+
 		return false;
 	}
 
@@ -67,68 +77,65 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const
 {
-	if (!IsOperationSupported(&data, &filePath, true, false)){
-		return StateFailed;
+	if (IsOperationSupported(&data, &filePath, true, false, false)){
+		ReadArchive archive(filePath);
+		I_ASSERT(!archive.IsStoring());
+
+		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
+		I_ASSERT(serializablePtr != NULL);
+
+		if (serializablePtr->Serialize(archive)){
+			return StateOk;
+		}
+		else{
+			SendInfoMessage(MI_CANNOT_LOAD, "Cannot serialize object from file");
+		}
 	}
 
-	ReadArchive archive(filePath);
-	I_ASSERT(!archive.IsStoring());
-
-	iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
-	I_ASSERT(serializablePtr != NULL);
-
-	if (serializablePtr->Serialize(archive)){
-		return StateOk;
-	}
-	else{
-		return StateFailed;
-	}
+	return StateFailed;
 }
 
 
 template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const
 {
-	if (!IsOperationSupported(&data, &filePath, false, true)){
-		return StateFailed;
+	if (IsOperationSupported(&data, &filePath, false, true, false)){
+		WriteArchive archive(filePath, GetVersionInfo());
+		I_ASSERT(archive.IsStoring());
+
+		const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
+		I_ASSERT(serializablePtr != NULL);
+
+		if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
+			return StateOk;
+		}
+		else{
+			SendInfoMessage(MI_CANNOT_SAVE, "Cannot serialize object to file");
+		}
 	}
 
-	WriteArchive archive(filePath, GetVersionInfo());
-	I_ASSERT(archive.IsStoring());
-
-	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
-	I_ASSERT(serializablePtr != NULL);
-
-	if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
-		return StateOk;
-	}
-	else{
-		return StateFailed;
-	}
+	return StateFailed;
 }
 
 
 template <class ReadArchive, class WriteArchive>
-const istd::CString& TFileSerializerComp<ReadArchive, WriteArchive>::GetLastLoadFileName() const
+bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& result, bool doAppend) const
 {
-	static istd::CString emptyPath;
+	if (m_extensionsAttrPtr.IsValid()){
+		if (!doAppend){
+			result.clear();
+		}
 
-	return emptyPath;
-}
+		int extensionsCount = m_extensionsAttrPtr.GetCount();
+		for (int i = 0; i < extensionsCount; ++i){
+			const istd::CString& extension = m_extensionsAttrPtr[i];
 
+			result.push_back(extension);
+		}
 
-template <class ReadArchive, class WriteArchive>
-const istd::CString& TFileSerializerComp<ReadArchive, WriteArchive>::GetLastSaveFileName() const
-{
-	static istd::CString emptyPath;
+		return true;
+	}
 
-	return emptyPath;
-}
-
-
-template <class ReadArchive, class WriteArchive>
-bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/) const
-{
 	return false;
 }
 

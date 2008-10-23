@@ -4,9 +4,10 @@
 
 #include "iser/IFileLoader.h"
 
-#include "ibase/IApplicationInfo.h"
-
 #include "icomp/CComponentBase.h"
+
+#include "ibase/IApplicationInfo.h"
+#include "ibase/TMessageProducerWrap.h"
 
 #include "iqt/iqt.h"
 
@@ -18,10 +19,12 @@ namespace iqt
 /**
 	Store and load parameter as global settings.
 */
-class CSettingsSerializerComp: public icomp::CComponentBase, virtual public iser::IFileLoader
+class CSettingsSerializerComp:
+			public ibase::TMessageProducerWrap<icomp::CComponentBase>,
+			virtual public iser::IFileLoader
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageProducerWrap<icomp::CComponentBase> BaseClass;
 
 	I_BEGIN_COMPONENT(CSettingsSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
@@ -33,11 +36,10 @@ public:
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
 				bool forLoading = true,
-				bool forSaving = true) const;
+				bool forSaving = true,
+				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual const istd::CString& GetLastLoadFileName() const;
-	virtual const istd::CString& GetLastSaveFileName() const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
 
 private:

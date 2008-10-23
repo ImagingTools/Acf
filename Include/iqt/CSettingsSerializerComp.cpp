@@ -15,10 +15,15 @@ bool CSettingsSerializerComp::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* /*filePathPtr*/,
 			bool /*forLoading*/,
-			bool /*forSaving*/) const
+			bool /*forSaving*/,
+			bool beQuiet) const
 {
-	if (dataObjectPtr != NULL){
-		return dynamic_cast<const iser::ISerializable*>(dataObjectPtr) != NULL;
+	if ((dataObjectPtr != NULL) && (dynamic_cast<const iser::ISerializable*>(dataObjectPtr) == NULL)){
+		if (!beQuiet){
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, "Object is not serializable");
+		}
+
+		return false;
 	}
 
 	return true;
@@ -27,15 +32,23 @@ bool CSettingsSerializerComp::IsOperationSupported(
 
 int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(&data);
-	if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
-		istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationName();
-		istd::CString companyName = m_applicationInfoCompPtr->GetCompanyName();
+	if (IsOperationSupported(&data, NULL, true, false, false)){
+		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(&data);
+		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
+			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationName();
+			istd::CString companyName = m_applicationInfoCompPtr->GetCompanyName();
 
-		CSettingsReadArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
+			CSettingsReadArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
 
-		if (serializeblePtr->Serialize(archive)){
-			return StateOk;
+			if (serializeblePtr->Serialize(archive)){
+				return StateOk;
+			}
+			else{
+				SendInfoMessage(MI_CANNOT_LOAD, "Cannot serialize object from file");
+			}
+		}
+		else{
+			SendInfoMessage(MI_CANNOT_LOAD, "No application info needed to load from settings");
 		}
 	}
 
@@ -45,35 +58,29 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::C
 
 int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));
-	if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
-		istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationName();
-		istd::CString companyName = m_applicationInfoCompPtr->GetCompanyName();
+	if (IsOperationSupported(&data, NULL, false, true, false)){
+		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));
+		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
+			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationName();
+			istd::CString companyName = m_applicationInfoCompPtr->GetCompanyName();
 
-		CSettingsWriteArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
+			CSettingsWriteArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
 
-		if (serializeblePtr->Serialize(archive)){
-			return StateOk;
+			if (serializeblePtr->Serialize(archive)){
+				return StateOk;
+			}
+			else{
+				SendInfoMessage(MI_CANNOT_SAVE, "Cannot serialize object to file");
+			}
+		}
+		else{
+			SendInfoMessage(MI_CANNOT_LOAD, "No application info needed to save to settings");
 		}
 	}
 
 	return StateFailed;
 }
 
-
-const istd::CString& CSettingsSerializerComp::GetLastLoadFileName() const
-{
-	static istd::CString emptyName;
-
-	return emptyName;
-}
-
-
-const istd::CString& CSettingsSerializerComp::GetLastSaveFileName() const
-{
-	return CSettingsSerializerComp::GetLastLoadFileName();
-}
-	  
 
 bool CSettingsSerializerComp::GetFileExtensions(istd::CStringList& /*result*/, bool /*doAppend*/) const
 {

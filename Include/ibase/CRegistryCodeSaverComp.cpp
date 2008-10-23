@@ -14,7 +14,8 @@ bool CRegistryCodeSaverComp::IsOperationSupported(
 		const istd::IChangeable* dataObjectPtr,
 		const istd::CString* /*filePathPtr*/,
 		bool /*forLoading*/,
-		bool forSaving) const
+		bool forSaving,
+		bool /*beQuiet*/) const
 {
 	if (dynamic_cast<const icomp::IRegistry*>(dataObjectPtr) == NULL){
 		return false;
@@ -65,20 +66,6 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const istd
 	}
 
 	return StateFailed;
-}
-
-
-const istd::CString& CRegistryCodeSaverComp::GetLastLoadFileName() const
-{
-	static istd::CString empty;
-
-	return empty;
-}
-
-
-const istd::CString& CRegistryCodeSaverComp::GetLastSaveFileName() const
-{
-	return m_lastSaveFileName;
 }
 
 
