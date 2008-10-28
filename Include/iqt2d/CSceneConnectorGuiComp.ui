@@ -114,8 +114,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../iqtdoc/iqtdoc.qrc" />
- </resources>
+ <resources/>
  <connections/>
 </ui>

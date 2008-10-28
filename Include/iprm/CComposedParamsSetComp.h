@@ -26,12 +26,14 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef CParamsSet BaseClass2;
 
-	I_BEGIN_COMPONENT(CComposedParamsSetComp)
-		I_REGISTER_INTERFACE(IParamsSet)
-		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false)
-		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true)
-		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CComposedParamsSetComp);
+		I_REGISTER_INTERFACE(istd::IHierarchical);
+		I_REGISTER_INTERFACE(iser::ISerializable);
+		I_REGISTER_INTERFACE(IParamsSet);
+		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false);
+		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true);
+		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true);
+	I_END_COMPONENT;
 
 	// reimplemented (iprm::IParamsSet)
 	virtual const iser::ISerializable* GetParameter(const std::string& id) const;
