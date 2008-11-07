@@ -1,7 +1,7 @@
-#define QTDIR GetEnv("QTDIR")
 #define XERCESDIR GetEnv("XERCESDIR")
 #define XALANDIR GetEnv("XALANDIR")
 #define ZLIBDIR GetEnv("ZLIBDIR")
+#define QTDIR GetEnv("QTDIR")
 
 [Setup]
 AppVerName=ACF-Test
@@ -11,25 +11,20 @@ AppPublisherURL=http://www.imagingtools.de/
 AppName=ACF
 
 DefaultDirName={pf}\ImagingTools\ACF
-WizardImageFile=..\Docs\Images\InstallerImage.png
-WizardSmallImageFile=..\Docs\Images\Logo\Logo_64x64.png
-SetupIconFile=..\Docs\Images\Logo\Logo_64x64.bmp
+WizardImageFile=..\Docs\Images\InstallerImage.bmp
+WizardSmallImageFile=..\Docs\Images\Logo\Logo_128x128.bmp
+SetupIconFile=..\Docs\Images\Logo\Logo_128x128.bmp
 AlwaysShowDirOnReadyPage=True
 DefaultGroupName=ImagingTools\ACF
 DisableProgramGroupPage=True
-UninstallDisplayIcon=..\Docs\Images\Logo\Logo_64x64.png
+UninstallDisplayIcon=..\Docs\Images\Logo\Logo_128x128.bmp
 UninstallDisplayName=ACF
 OutputDir=.\Setup
-LicenseFile=..\license.txt
+LicenseFile=..\GNU.txt
+InfoAfterFile=InfoAfter.txt
 
 [Files]
-Source: .\Temp\*; DestDir: {app}; Components: acfComp
-
-Source: ..\ACFDIR.envVariable; DestDir: {app}\ExtLib\Qt; DestName: QTDIR.envVariable; Components: qtComp
-
-Source: {#QTDIR}\Bin\Qt*4.dll; DestDir: {app}\ExtLib\Bin; Components: qtComp
-Source: {#QTDIR}\Lib\Qt*4.lib; DestDir: {app}\ExtLib\Qt\Lib; Components: qtComp
-Source: {#QTDIR}\Include\*; DestDir: {app}\ExtLib\Qt\Include; Flags: recursesubdirs; Components: qtComp
+Source: Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
 
 Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
 Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp
@@ -38,6 +33,8 @@ Source: {#XALANDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xalanComp
 Source: {#XALANDIR}\*; DestDir: {app}\ExtLib\Xalan; Flags: recursesubdirs; Excludes: *.dll; Components: xalanComp
 
 Source: {#ZLIBDIR}\*; DestDir: {app}\ExtLib\Zlib; Flags: recursesubdirs; Excludes: *.dll; Components: zlibComp
+
+Source: {#QTDIR}\bin\Qt*4.dll; DestDir: {app}\ExtLib\Bin; Components: qtComp
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -57,22 +54,25 @@ en.CustomType=Custom installation
 de.CustomType=Ausgewählte Komponenten
 pl.CustomType=Wybrane komponenty
 
+en.QtBinaries=Qt binaries
+de.QtBinaries=Qt binäre Datei
+pl.QtBinaries=Pliki binarne Qt
+
 [Types]
 Name: minimalType; Description: {cm:MinimalType}
 Name: fullType; Description: {cm:FullType}
-Name: customType; Description: {cm:CustomType}
+Name: customType; Description: {cm:CustomType}; Flags: iscustom
 
 [Components]
-Name: acfComp; Description: ACF; Types: fullType minimalType customType
-Name: qtComp; Description: Qt; Types: fullType customType
+Name: acfComp; Description: ACF; Types: minimalType fullType customType
 Name: xercesComp; Description: Xerces; Types: fullType customType
 Name: xalanComp; Description: Xalan; Types: fullType customType
 Name: zlibComp; Description: ZLib; Types: fullType customType
+Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 
 [Registry]
-Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: ACFDIR; ValueData: {app}; ValueType: string; Components: acfComp
-Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: QTDIR; ValueData: {app}\ExtLib\Qt; ValueType: string; Components: qtComp
-Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XERCESDIR; ValueData: {app}\ExtLib\Xerces; ValueType: string; Components: xercesComp
-Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XALANDIR; ValueData: {app}\ExtLib\Xalan; ValueType: string; Components: xalanComp
-Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: ZLIBDIR; ValueData: {app}\ExtLib\Zlib; ValueType: string; Components: zlibComp
+Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: ACFDIR; ValueData: {app}; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XERCESDIR; ValueData: {app}\ExtLib\Xerces; ValueType: string; Flags: uninsdeletevalue; Components: xercesComp
+Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XALANDIR; ValueData: {app}\ExtLib\Xalan; ValueType: string; Flags: uninsdeletevalue; Components: xalanComp
+Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: ZLIBDIR; ValueData: {app}\ExtLib\Zlib; ValueType: string; Flags: uninsdeletevalue; Components: zlibComp
 
