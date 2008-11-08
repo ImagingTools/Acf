@@ -47,6 +47,11 @@ public:
 	double GetMinValue() const;
 
 	/**
+		Get reference to the bottom value.	
+	*/
+	double& GetMinValueRef();
+
+	/**
 		Set the bottom value.	
 	*/
 	void SetMinValue(double minValue);
@@ -55,6 +60,11 @@ public:
 		Get the top value.	
 	*/
 	double GetMaxValue() const;
+
+	/**
+		Get reference to the top value.	
+	*/
+	double& GetMaxValueRef();
 
 	/**
 		Set the top value.	
@@ -157,7 +167,19 @@ inline double CRange::GetMinValue() const
 }
 
 
+inline double& CRange::GetMinValueRef()
+{
+	return m_minValue;
+}
+
+
 inline double CRange::GetMaxValue() const
+{
+	return m_maxValue;
+}
+
+
+inline double& CRange::GetMaxValueRef()
 {
 	return m_maxValue;
 }
