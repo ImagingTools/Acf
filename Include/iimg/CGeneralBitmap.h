@@ -11,6 +11,9 @@ namespace iimg
 {
 
 
+/**
+	Standard device- and platform-independent bitmap definition.
+*/
 class CGeneralBitmap: public CBitmapBase
 {
 public:
