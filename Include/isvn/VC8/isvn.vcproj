@@ -24,11 +24,14 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Remove version files"
-				CommandLine="if exist ../UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ../Generated\AcfVersion.h&#x0D;&#x0A;del /Q ../../../Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;del /Q ../UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
+				AdditionalDependencies=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -90,6 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="if not exist ..\UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ..\UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -103,11 +107,14 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Remove version files"
-				CommandLine="if exist ../UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ../Generated\AcfVersion.h&#x0D;&#x0A;del /Q ../../../Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;del /Q ../UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
+				AdditionalDependencies=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -170,6 +177,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="if not exist ..\UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ..\UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -183,11 +191,14 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description="Remove version files"
-				CommandLine="if exist ../UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ../Generated\AcfVersion.h&#x0D;&#x0A;del /Q ../../../Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;del /Q ../UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				Description=""
+				CommandLine=""
+				AdditionalDependencies=""
+				Outputs=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -249,6 +260,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="if not exist ..\UpdateVersionFlag.txt goto SkipAll&#x0D;&#x0A;del /Q ..\UpdateVersionFlag.txt&#x0D;&#x0A;:SkipAll&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -269,7 +281,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generate SVN version file"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\Generated\AcfVersion.h&#x0D;&#x0A;"
-						AdditionalDependencies="..\Generated\AcfVersion.h"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\Generated\AcfVersion.h"
 					/>
 				</FileConfiguration>
@@ -280,7 +292,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generate SVN version file"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\Generated\AcfVersion.h&#x0D;&#x0A;"
-						AdditionalDependencies="..\Generated\AcfVersion.h"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\Generated\AcfVersion.h"
 					/>
 				</FileConfiguration>
@@ -291,7 +303,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generate SVN version file"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\Generated\AcfVersion.h&#x0D;&#x0A;"
-						AdditionalDependencies="..\Generated\AcfVersion.h"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\Generated\AcfVersion.h"
 					/>
 				</FileConfiguration>
@@ -306,7 +318,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generating ACF version info"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
 					/>
 				</FileConfiguration>
@@ -317,7 +329,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generating ACF version info"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
 					/>
 				</FileConfiguration>
@@ -328,7 +340,7 @@
 						Name="VCCustomBuildTool"
 						Description="Generating ACF version info"
 						CommandLine="SubWCRev ../../.. $(InputPath) ..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
+						AdditionalDependencies="..\UpdateVersionFlag.txt"
 						Outputs="..\..\..\Partitura\AcfVoce.arp\VersionInfo.arx"
 					/>
 				</FileConfiguration>
