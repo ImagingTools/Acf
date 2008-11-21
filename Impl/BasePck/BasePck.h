@@ -8,8 +8,6 @@
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
 
-#include "isvn/TApplicationInfoWrap.h"
-
 #include "idoc/CSingleDocumentTemplateComp.h"
 #include "idoc/CCompositeDocumentTemplateComp.h"
 
@@ -41,7 +39,7 @@ namespace BasePck
 
 typedef ibase::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
 typedef ibase::CInstantiatorComp Instantiator;
-typedef isvn::TApplicationInfoWrap<ibase::CApplicationInfoComp> ApplicationInfo;
+typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
@@ -95,6 +93,7 @@ typedef icomp::TMakeComponentWrap<
 			imod::IModel> AnnulusSegment;
 
 typedef icomp::TModelCompWrap<ibase::CRectangleComp> AttributedRectangle;
+
 
 } // namespace BasePck
 

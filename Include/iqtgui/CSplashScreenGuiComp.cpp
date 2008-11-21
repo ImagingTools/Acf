@@ -14,12 +14,17 @@ void CSplashScreenGuiComp::OnGuiShown()
 
 	if (m_applicationInfoCompPtr.IsValid()){
 		if (m_showAcfVersionAttrPtr.IsValid() && *m_showAcfVersionAttrPtr){
-			I_DWORD acfVersion = m_applicationInfoCompPtr->GetVersion(iser::IVersionInfo::FrameworkVersionId);
-			acfVersionText = m_applicationInfoCompPtr->EncodeVersionName(acfVersion, iser::IVersionInfo::FrameworkVersionId);
+			I_DWORD version;
+			if (m_applicationInfoCompPtr->GetVersionNumber(iser::IVersionInfo::FrameworkVersionId, version)){
+				acfVersionText = m_applicationInfoCompPtr->GetEncodedVersionName(iser::IVersionInfo::FrameworkVersionId, version);
+			}
 		}
+
 		if (m_showProductVersionAttrPtr.IsValid()){
-			I_DWORD acfVersion = m_applicationInfoCompPtr->GetVersion(iser::IVersionInfo::UserVersionId);
-			productVersionText = m_applicationInfoCompPtr->EncodeVersionName(acfVersion, iser::IVersionInfo::UserVersionId);
+			I_DWORD version;
+			if (m_applicationInfoCompPtr->GetVersionNumber(iser::IVersionInfo::UserVersionId, version)){
+				productVersionText = m_applicationInfoCompPtr->GetEncodedVersionName(iser::IVersionInfo::UserVersionId, version);
+			}
 		}
 	}
 

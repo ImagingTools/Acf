@@ -39,7 +39,7 @@ public:
 	bool AddId(int versionId, const istd::CString& description = "");
 
 	// reimplemented (iser::IVersionInfo)
-	virtual I_DWORD GetVersion(int versionId) const;
+	virtual bool GetVersionNumber(int versionId, I_DWORD& result) const;
 	virtual istd::CString GetVersionIdDescription(int versionId) const;
 	virtual VersionIds GetVersionIds() const;
 

@@ -39,7 +39,7 @@ public:
 	/**
 		Encode version number to human readable form.
 	*/
-	virtual istd::CString EncodeVersionName(I_DWORD version, int versionId = UserVersionId) const = 0;
+	virtual istd::CString GetEncodedVersionName(int versionId, I_DWORD versionNumber) const = 0;
 };
 
 

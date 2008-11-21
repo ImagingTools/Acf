@@ -6,12 +6,22 @@
 #include <QString>
 #include <QDir>
 
+// ACF includes
 #include "istd/CString.h"
+#include "ibase/IApplicationInfo.h"
 
 
 class CCopyProcessor
 {
 public:
+	enum CopyMode
+	{
+		CM_BINARY,
+		CM_LICENSE,
+		CM_SUBSTITUTION
+	};
+
+	CCopyProcessor(ibase::IApplicationInfo* applicationInfoPtr);
 	/**
 		Copy all files as described in config.
 	*/
@@ -55,10 +65,13 @@ protected:
 				int& counter) const;
 	bool CopyBinFile(const QString& inputFileName, const QString& outputFileName) const;
 	bool CopySourceFile(const QString& inputFileName, const QString& outputFileName) const;
+	bool CopyFileWithSubstitution(const QString& inputFileName, const QString& outputFileName) const;
+
 	bool CheckIfExcluded(const QString& fileName, const QStringList& excludeFilters) const;
 
 private:
 	istd::CString m_licenseFileName;
+	ibase::IApplicationInfo* m_applicationInfoPtr;
 };
 
 

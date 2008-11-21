@@ -8,7 +8,7 @@
     ../License.txt
   </License>
 
-  <Copy count="9">
+  <Copy count="10">
     <Rule>
       <SourceDir>
         ..
@@ -250,6 +250,27 @@
       </Mode>
       <Depth>
         10
+      </Depth>
+    </Rule>
+    <Rule>
+      <SourceDir>
+        .
+      </SourceDir>
+      <DestDir>
+        TempExcl
+      </DestDir>
+      <Filters count="1">
+        <Filter>
+          *.iss
+        </Filter>
+      </Filters>
+      <Excludes count ="0">
+      </Excludes>
+      <Mode>
+        2
+      </Mode>
+      <Depth>
+        0
       </Depth>
     </Rule>
   </Copy>

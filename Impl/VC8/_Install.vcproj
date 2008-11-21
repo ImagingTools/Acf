@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8,00"
+	Name="_Install"
+	ProjectGUID="{9FAE5B8E-EF09-4632-ADEB-5A4DDBE39436}"
+	RootNamespace="_Install"
+	Keyword="MakeFileProj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Install|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="Release"
+			ConfigurationType="10"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				ExcludedFromBuild="true"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				Description="Create Installation..."
+				CommandLine="cd ../../Install&#x0D;&#x0A;if not exist Temp goto DelTempSkip&#x0D;&#x0A;rmdir /Q /S Temp&#x0D;&#x0A;:DelTempSkip&#x0D;&#x0A;&#x0D;&#x0A;if not exist TempExcl goto DelTempExclSkip&#x0D;&#x0A;rmdir /Q /S TempExcl&#x0D;&#x0A;:DelTempExclSkip&#x0D;&#x0A;&#x0D;&#x0A;echo Copying files to Temp directory...&#x0D;&#x0A;&quot;../bin/ReleaseVC8/AcfDist.exe&quot; DistConfig.xml&#x0D;&#x0A;&#x0D;&#x0A;echo Appending subversion information...&#x0D;&#x0A;SubWCRev .. TempExcl/acf.iss TempExcl/acf-ext.iss&#x0D;&#x0A;&#x0D;&#x0A;echo Createing installation file...&#x0D;&#x0A;iscc.exe /Q TempExcl\acf-ext.iss&#x0D;&#x0A;&#x0D;&#x0A;echo Removing Temp directory...&#x0D;&#x0A;rmdir /Q /S Temp&#x0D;&#x0A;rmdir /Q /S TempExcl&#x0D;&#x0A;&#x0D;&#x0A;echo Installation done&#x0D;&#x0A;"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

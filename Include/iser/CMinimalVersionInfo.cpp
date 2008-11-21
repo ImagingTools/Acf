@@ -38,16 +38,18 @@ bool CMinimalVersionInfo::AddId(int versionId, const istd::CString& description)
 
 // reimplemented (iser::IVersionInfo)
 
-I_DWORD CMinimalVersionInfo::GetVersion(int versionId) const
+bool CMinimalVersionInfo::GetVersionNumber(int versionId, I_DWORD& result) const
 {
 	Versions::const_iterator iter = m_versions.find(versionId);
 	if (m_versions.find(versionId) != m_versions.end()){
 		const Info& info = iter->second;
 
-		return info.version;
+		result = info.version;
+
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 
 

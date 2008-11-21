@@ -11,15 +11,33 @@ namespace iser
 {
 
 
+/**
+	Implementation of version designed to be automaticaly created during reading of ACF header.
+	\sa iser::CReadArchiveBase.
+*/
 class CReaderVersionInfo: virtual public IVersionInfo
 {
 public:
+	/**
+		Remove all stored version infos.
+	*/
 	void Reset();
+	/**
+		Insert new version id with its actual version number and its description.
+		\sa iser::IVersionInfo.
+		\param	id			ID of version info.
+		\param	version		version number for specified version info ID.
+		\param	description	description of role of specified version info.
+	*/
 	bool InsertVersionId(int id, I_DWORD version, const std::string& description);
+	/**
+		Remove single version info.
+		\param	id	ID of version info.
+	*/
 	bool RemoveVersionId(int id);
 
 	// reimplemented (iser::IVersionInfo)
-	virtual I_DWORD GetVersion(int versionId = IVersionInfo::UserVersionId) const;
+	virtual bool GetVersionNumber(int versionId, I_DWORD& result) const;
 	virtual istd::CString GetVersionIdDescription(int versionId) const;
 	virtual VersionIds GetVersionIds() const;
 

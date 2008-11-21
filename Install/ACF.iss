@@ -4,27 +4,27 @@
 #define QTDIR GetEnv("QTDIR")
 
 [Setup]
-AppVerName=ACF-Test
+AppVerName=ACF$WCMIXED? <Dirty>:$$WCMODS:<local>$
 AppVersion=0.6
 AppPublisher=ImagingTools
 AppPublisherURL=http://www.imagingtools.de/
 AppName=ACF
 
 DefaultDirName={pf}\ImagingTools\ACF
-WizardImageFile=..\Docs\Images\InstallerImage.bmp
-WizardSmallImageFile=..\Docs\Images\Logo\Logo_128x128.bmp
-SetupIconFile=..\Docs\Images\Logo\Logo_128x128.bmp
+WizardImageFile=..\..\Docs\Images\InstallerImage.bmp
+WizardSmallImageFile=..\..\Docs\Images\Logo\Logo_128x128.bmp
+SetupIconFile=..\..\Docs\Images\Logo\Logo_128x128.bmp
 AlwaysShowDirOnReadyPage=True
 DefaultGroupName=ImagingTools\ACF
 DisableProgramGroupPage=True
-UninstallDisplayIcon=..\Docs\Images\Logo\Logo_128x128.bmp
+UninstallDisplayIcon=..\..\Docs\Images\Logo\Logo_128x128.bmp
 UninstallDisplayName=ACF
-OutputDir=.\Setup
-LicenseFile=..\GNU.txt
-InfoAfterFile=InfoAfter.txt
+OutputDir=..\Setup
+LicenseFile=..\..\GNU.txt
+InfoAfterFile=..\InfoAfter.txt
 
 [Files]
-Source: Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
+Source: ..\Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
 
 Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
 Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp
@@ -75,4 +75,3 @@ Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environ
 Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XERCESDIR; ValueData: {app}\ExtLib\Xerces; ValueType: string; Flags: uninsdeletevalue; Components: xercesComp
 Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: XALANDIR; ValueData: {app}\ExtLib\Xalan; ValueType: string; Flags: uninsdeletevalue; Components: xalanComp
 Root: HKLM; Subkey: SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\; ValueName: ZLIBDIR; ValueData: {app}\ExtLib\Zlib; ValueType: string; Flags: uninsdeletevalue; Components: zlibComp
-

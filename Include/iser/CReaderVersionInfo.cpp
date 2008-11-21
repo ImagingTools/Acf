@@ -29,11 +29,18 @@ bool CReaderVersionInfo::RemoveVersionId(int id)
 
 // reimplemented (iser::IVersionInfo)
 
-I_DWORD CReaderVersionInfo::GetVersion(int versionId) const
+bool CReaderVersionInfo::GetVersionNumber(int versionId, I_DWORD& result) const
 {
 	const VersionIdElement& element = GetVersionIdElement(versionId);
 
-	return element.version;
+	if (&element != &s_element){
+		result = element.version;
+
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 

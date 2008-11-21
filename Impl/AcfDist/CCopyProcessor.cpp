@@ -18,6 +18,12 @@
 
 // public methods
 
+CCopyProcessor::CCopyProcessor(ibase::IApplicationInfo* applicationInfoPtr)
+:	m_applicationInfoPtr(applicationInfoPtr)
+{
+}
+
+
 bool CCopyProcessor::ProcessConfigFile(const istd::CString configFilePath)
 {
 	bool retVal = true;
@@ -109,12 +115,28 @@ bool CCopyProcessor::ProcessConfigFile(const istd::CString configFilePath)
 		std::cout << "Copying " << sourceDir.ToString() << " to " << destDir.ToString() << "..." << std::endl;
 
 		int counter = 0;
+		CopyFileFunc copyFunc = NULL;
+
+		switch (mode){
+		case CM_LICENSE:
+			copyFunc = &CCopyProcessor::CopySourceFile;
+			break;
+
+		case CM_SUBSTITUTION:
+			copyFunc = &CCopyProcessor::CopyFileWithSubstitution;
+			break;
+
+		default:
+			copyFunc = &CCopyProcessor::CopyBinFile;
+			break;
+		}
+
 		if (CopyFileTree(
 					iqt::GetQString(sourceDir),
 					iqt::GetQString(destDir),
 					filters,
 					excludeFilters,
-					(mode == 1)? &CCopyProcessor::CopySourceFile: &CCopyProcessor::CopyBinFile,
+					copyFunc,
 					depth,
 					counter)){
 			std::cout << "Success";
@@ -267,6 +289,59 @@ bool CCopyProcessor::CopySourceFile(const QString& inputFileName, const QString&
 	}
 
 	licenseFile.close();
+	inputFile.close();
+	outputFile.close();
+
+	return true;
+}
+
+
+bool CCopyProcessor::CopyFileWithSubstitution(const QString& inputFileName, const QString& outputFileName) const
+{
+	QFile inputFile(inputFileName);
+	QFile outputFile(outputFileName);
+	if (		!inputFile.open(QIODevice::ReadOnly | QIODevice::Text) ||
+				!outputFile.open(QIODevice::WriteOnly  | QIODevice::Text)){
+		return false;
+	}
+
+	QTextStream inputStream(&inputFile);
+	QTextStream outputStream(&outputFile);
+
+	while (!inputStream.atEnd()) {
+		QString line = inputStream.readLine();
+		static const QString acfVersionPrefix("$AcfVersion:");
+		int versionBeginIndex = line.indexOf(acfVersionPrefix);
+		if (versionBeginIndex >= 0){
+			if (m_applicationInfoPtr != NULL){
+				int versionEndIndex = line.indexOf("$", versionBeginIndex + acfVersionPrefix.size());
+				if (versionEndIndex >= 0){
+					QString versionIdString = line.mid(
+								versionBeginIndex + acfVersionPrefix.size(),
+								versionEndIndex - versionBeginIndex - acfVersionPrefix.size());
+					bool isNumOk;
+					int versionId = versionIdString.toInt(&isNumOk);
+					I_DWORD versionNumber;
+					if (isNumOk && m_applicationInfoPtr->GetVersionNumber(versionId, versionNumber)){
+						QString version = iqt::GetQString(m_applicationInfoPtr->GetEncodedVersionName(versionId, versionNumber));
+						line.replace(versionBeginIndex, versionEndIndex - versionBeginIndex + 1, version);
+					}
+					else{
+						std::cout << "Cannot get version number in file " << inputFileName.toStdString() << std::endl;
+					}
+				}
+				else{
+					std::cout << "Cannot find end of version tag in file " << inputFileName.toStdString() << std::endl;
+				}
+			}
+			else{
+				std::cout << "Application info not available during processing file " << inputFileName.toStdString() << std::endl;
+			}
+		}
+
+		outputStream << line << endl;
+	}
+
 	inputFile.close();
 	outputFile.close();
 

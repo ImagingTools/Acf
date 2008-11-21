@@ -13,19 +13,19 @@ int main(int argc, char *argv[])
 	QApplication::setStyle("cleanlooks");
 
 	if (argc == 2){
-		CCopyProcessor processor;
+		CCopyProcessor processor(NULL);
 
 		if (processor.ProcessConfigFile(argv[1])){
-			std::cout << "All files copied correctly";
+			std::cout << "All files copied correctly" << std::endl;
 		}
 		else{
-			std::cout << "There are some errors";
+			std::cout << "There are some errors" << std::endl;
 
 			return 1;
 		}
 	}
 	else{
-		std::cout << "Usage: AcfDist.exe configurationFile";
+		std::cout << "Usage: AcfDist.exe configurationFile" << std::endl;
 	}
 
 	return 0;

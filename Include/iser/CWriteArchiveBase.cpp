@@ -18,8 +18,9 @@ bool CWriteArchiveBase::IsStoring() const
 
 I_DWORD CWriteArchiveBase::GetVersion(int versionId) const
 {
-	if (m_versionInfoPtr != NULL){
-		return m_versionInfoPtr->GetVersion(versionId);
+	I_DWORD retVal;
+	if ((m_versionInfoPtr != NULL) && m_versionInfoPtr->GetVersionNumber(versionId, retVal)){
+		return retVal;
 	}
 
 	return I_DWORD(IVersionInfo::UnknownVersion);
@@ -76,12 +77,14 @@ bool CWriteArchiveBase::SerializeAcfHeader()
 
 		retVal = retVal && BeginTag(s_versionIdTag);
 		int id = *iter;
+		I_IF_DEBUG(I_DWORD dummyVersion;I_ASSERT(m_versionInfoPtr->GetVersionNumber(id, dummyVersion)));	// all known IDs must have its version.
 		retVal = retVal && Process(id);
 		retVal = retVal && EndTag(s_versionIdTag);
 
 		retVal = retVal && BeginTag(s_versionNumberTag);
-		I_DWORD version = m_versionInfoPtr->GetVersion(id);
-		retVal = retVal && Process(version);
+		I_DWORD versionNumber;
+		m_versionInfoPtr->GetVersionNumber(id, versionNumber);
+		retVal = retVal && Process(versionNumber);
 		retVal = retVal && EndTag(s_versionNumberTag);
 
 		retVal = retVal && BeginTag(s_versionDescriptionTag);
