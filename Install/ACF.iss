@@ -4,7 +4,7 @@
 #define QTDIR GetEnv("QTDIR")
 
 [Setup]
-AppVerName=ACF$WCMIXED? <Dirty>:$$WCMODS:<local>$
+AppVerName=ACF$WCMIXED? <Dirty>:$$WCMODS? <Local>:$
 AppVersion=0.6
 AppPublisher=ImagingTools
 AppPublisherURL=http://www.imagingtools.de/
