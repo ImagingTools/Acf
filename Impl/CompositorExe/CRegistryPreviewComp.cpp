@@ -27,7 +27,7 @@ void CRegistryPreviewComp::OnComponentCreated()
 	m_startLabel.setText(QApplication::tr("Registry is starting... Please wait just a moment!"));
 	m_startLabel.setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
 
-	connect(	this, 
+	connect(	&m_process, 
 				SIGNAL(finished(int, QProcess::ExitStatus)), 
 				this, 
 				SLOT(OnFinished(int, QProcess::ExitStatus)), 
@@ -38,9 +38,9 @@ void CRegistryPreviewComp::OnComponentCreated()
 void CRegistryPreviewComp::OnComponentDestroyed()
 {
 	if (IsRunning()){
-		kill();
+		m_process.kill();
 
-		if (waitForFinished(5000)){
+		if (m_process.waitForFinished(5000)){
 			QFile::remove(m_tempFileName);
 		}
 	}
@@ -90,7 +90,7 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 		if (fileInfo.exists()){
 			m_process.setWorkingDirectory(applicationDir.path());
 			m_process.start(acfApplicationPath, QStringList() << m_tempFileName);
-			if (waitForStarted()){
+			if (m_process.waitForStarted()){
 				retVal = true;
 			}
 		}
@@ -109,7 +109,7 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 bool CRegistryPreviewComp::IsRunning() const
 {
-	if (QProcess::state() == QProcess::Running){
+	if (m_process.state() == QProcess::Running){
 		return true;
 	}
 
@@ -119,16 +119,16 @@ bool CRegistryPreviewComp::IsRunning() const
 
 void CRegistryPreviewComp::AbortRegistry()
 {
-	QProcess::terminate();
-	if (!waitForFinished(5000)){
-		kill();
+	m_process.terminate();
+	if (!m_process.waitForFinished(5000)){
+		m_process.kill();
 	}
 }
 
 
 // protected slots
 
-void CRegistryPreviewComp::OnFinished(int exitCode, ExitStatus exitStatus)
+void CRegistryPreviewComp::OnFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
 	QFile::remove(m_tempFileName);
 }

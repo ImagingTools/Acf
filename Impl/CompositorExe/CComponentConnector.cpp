@@ -25,6 +25,7 @@ CComponentConnector::CComponentConnector(
 	I_ASSERT(registryViewPtr != NULL);
 
 	setAcceptedMouseButtons(0);
+	setAcceptsHoverEvents(true);
 
 	m_destComponent = NULL;
 	m_sourceComponent = NULL;
@@ -274,23 +275,23 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 }
 
 
-void CComponentConnector::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+void CComponentConnector::hoverEnterEvent(QGraphicsSceneHoverEvent* eventPtr)
 {
 	setSelected(true);
 	
 	update();
 
-	BaseClass::hoverEnterEvent(event);
+	BaseClass::hoverEnterEvent(eventPtr);
 }
 
 
-void CComponentConnector::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+void CComponentConnector::hoverLeaveEvent(QGraphicsSceneHoverEvent* eventPtr)
 {
 	setSelected(false);
 
 	update();
 
-	BaseClass::hoverLeaveEvent(event);
+	BaseClass::hoverLeaveEvent(eventPtr);
 }
 
 

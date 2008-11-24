@@ -16,16 +16,7 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>0</number>
    </property>
    <item>
@@ -44,16 +35,7 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>0</number>
-       </property>
-       <property name="topMargin" >
-        <number>0</number>
-       </property>
-       <property name="rightMargin" >
-        <number>0</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin" >
         <number>0</number>
        </property>
        <item>
@@ -62,7 +44,7 @@
           <enum>QFrame::NoFrame</enum>
          </property>
          <property name="editTriggers" >
-          <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::NoEditTriggers</set>
+          <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
          </property>
          <property name="alternatingRowColors" >
           <bool>true</bool>
@@ -94,16 +76,7 @@
           <property name="spacing" >
            <number>6</number>
           </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin" >
            <number>9</number>
           </property>
           <item>
@@ -111,16 +84,7 @@
             <property name="spacing" >
              <number>6</number>
             </property>
-            <property name="leftMargin" >
-             <number>0</number>
-            </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
@@ -156,16 +120,7 @@
             <property name="spacing" >
              <number>6</number>
             </property>
-            <property name="leftMargin" >
-             <number>0</number>
-            </property>
-            <property name="topMargin" >
-             <number>0</number>
-            </property>
-            <property name="rightMargin" >
-             <number>0</number>
-            </property>
-            <property name="bottomMargin" >
+            <property name="margin" >
              <number>0</number>
             </property>
             <item>
@@ -224,22 +179,10 @@
        <string>Export</string>
       </attribute>
       <layout class="QGridLayout" >
-       <property name="leftMargin" >
+       <property name="margin" >
         <number>0</number>
        </property>
-       <property name="topMargin" >
-        <number>0</number>
-       </property>
-       <property name="rightMargin" >
-        <number>0</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>0</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>6</number>
-       </property>
-       <property name="verticalSpacing" >
+       <property name="spacing" >
         <number>6</number>
        </property>
        <item row="0" column="0" >
@@ -275,16 +218,7 @@
        <string>Interfaces</string>
       </attribute>
       <layout class="QVBoxLayout" >
-       <property name="leftMargin" >
-        <number>0</number>
-       </property>
-       <property name="topMargin" >
-        <number>0</number>
-       </property>
-       <property name="rightMargin" >
-        <number>0</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin" >
         <number>0</number>
        </property>
        <item>

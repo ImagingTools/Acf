@@ -13,28 +13,21 @@
    <string/>
   </property>
   <property name="windowIcon" >
-   <iconset/>
+   <iconset>
+    <normaloff/>
+   </iconset>
   </property>
   <layout class="QVBoxLayout" >
    <property name="spacing" >
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>0</number>
    </property>
    <item>
     <widget class="QTreeWidget" name="LogView" >
      <property name="editTriggers" >
-      <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::NoEditTriggers</set>
+      <set>QAbstractItemView::CurrentChanged|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
      </property>
      <property name="showDropIndicator" stdset="0" >
       <bool>true</bool>
@@ -70,16 +63,7 @@
      <property name="spacing" >
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin" >
       <number>0</number>
      </property>
      <item>
@@ -117,7 +101,7 @@
        <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -134,7 +118,9 @@
         <string>Clear</string>
        </property>
        <property name="icon" >
-        <iconset/>
+        <iconset>
+         <normaloff/>
+        </iconset>
        </property>
       </widget>
      </item>
@@ -144,7 +130,9 @@
         <string>Export...</string>
        </property>
        <property name="icon" >
-        <iconset/>
+        <iconset>
+         <normaloff/>
+        </iconset>
        </property>
       </widget>
      </item>

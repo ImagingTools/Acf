@@ -11,7 +11,7 @@
 #include "IRegistryPreview.h"
 
 
-class CRegistryPreviewComp:	public QProcess,
+class CRegistryPreviewComp:	public QObject,
 							public icomp::CComponentBase,
 							public IRegistryPreview
 {
