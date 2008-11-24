@@ -1,9 +1,6 @@
 #include "iser/CTextReadArchiveBase.h"
 
 
-#include <strstream>
-
-
 namespace iser
 {
 

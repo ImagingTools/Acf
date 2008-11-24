@@ -2,6 +2,9 @@
 #define iser_CTextReadArchiveBase_included
 
 
+// STL includes
+#include <strstream>
+
 #include "iser/CReadArchiveBase.h"
 
 

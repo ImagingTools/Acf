@@ -2,6 +2,9 @@
 #define iser_CTextWriteArchiveBase_included
 
 
+// STL includes
+#include <strstream>
+
 #include "iser/CWriteArchiveBase.h"
 
 

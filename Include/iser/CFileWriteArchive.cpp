@@ -49,7 +49,9 @@ bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
 	TagStackElement& element = m_tagStack.back();
 
 	element.tagBinaryId = tag.GetBinaryId();
-	element.endFieldPosition = (tag.IsTagSkippingUsed() && m_supportTagSkipping)? m_stream.tellp(): 0;
+	element.endFieldPosition = (tag.IsTagSkippingUsed() && m_supportTagSkipping)?
+				I_DWORD(m_stream.tellp()):
+				I_DWORD(0);
 
 	I_DWORD dummyPos = 0;
 	retVal = retVal && Process(dummyPos);

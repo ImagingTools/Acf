@@ -1,9 +1,6 @@
 #include "iser/CTextWriteArchiveBase.h"
 
 
-#include <strstream>
-
-
 namespace iser
 {
 
