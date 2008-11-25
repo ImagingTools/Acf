@@ -149,6 +149,22 @@ double CRange::GetClipped(double value) const
 	return value;
 }
 
+	
+istd::CRange CRange::GetClipped(const istd::CRange& range) const
+{
+	istd::CRange clippedRange = range;
+
+	if (!Contains(range.GetMinValue())){
+		clippedRange.SetMinValue(m_minValue);
+	}
+	
+	if (!Contains(range.GetMaxValue())){
+		clippedRange.SetMaxValue(m_maxValue);
+	}
+
+	return clippedRange;
+}
+
 
 double CRange::GetMappedTo(double value, const istd::CRange& range) const
 {

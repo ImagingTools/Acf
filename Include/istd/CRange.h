@@ -138,6 +138,11 @@ public:
 	double GetClipped(double value) const;
 
 	/**
+		Get range clipped to the current range.
+	*/
+	istd::CRange GetClipped(const istd::CRange& range) const;
+
+	/**
 		Get value based on 'alpha' factor.
 		\param	alpha	alpha factor. If it is 0, minimum range value will be returned.
 						If it is 1, maximum range value will be returned.
