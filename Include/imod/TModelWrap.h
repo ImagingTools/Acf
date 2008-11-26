@@ -24,11 +24,22 @@ public:
 	typedef istd::TUpdateManagerWrap<Base> BaseClass;
 	typedef imod::CModelBase BaseClass2;
 
+	void SetBaseObject(const Base& baseObject);
+
 protected:
 	// pseudo-reimplemented (istd::IChangeable)
 	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 };
+
+
+// public methods
+
+template <class Base>
+void TModelWrap<Base>::SetBaseObject(const Base& baseObject)
+{
+	Base::operator=(baseObject);
+}
 
 
 // protected methods

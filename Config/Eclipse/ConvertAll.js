@@ -2,7 +2,7 @@ var projectExt = "vcproj"
 var projectExp = new RegExp(".*\." + projectExt + "$");
 
 
-function ProcessFolder(shell, folder, subPath, parentFolder, parentSubPath)
+function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentSubPath)
 {
 	var retVal = new String;
 
@@ -12,7 +12,9 @@ function ProcessFolder(shell, folder, subPath, parentFolder, parentSubPath)
 			var file = fileIter.item();
 
 			if (projectExp.exec(file.Name)){
-				var outputFile = parentFolder + "/Ecl";
+				templateDir = fileSystem.GetFile("%ACFDIR%/Config/Eclipse/ProjTemplDir");
+
+				var outputFile = parentFolder + "\Ecl";
 				var mdCommand = "md " + outputFile;
 				WScript.Echo("Running: " + mdCommand);
 				shell.Run(mdCommand);
@@ -27,7 +29,7 @@ function ProcessFolder(shell, folder, subPath, parentFolder, parentSubPath)
 	var subFolderIter = new Enumerator(folder.SubFolders);
 	for (; !subFolderIter.atEnd(); subFolderIter.moveNext()){
 		var childFile = subFolderIter.item();
-		retVal += ProcessFolder(shell, childFile, subPath + "/" + childFile.Name, folder, subPath);
+		retVal += ProcessFolder(fileSystem, shell, childFile, subPath + "/" + childFile.Name, folder, subPath);
 	}
 	
 	return retVal;
@@ -37,7 +39,7 @@ function ProcessFolder(shell, folder, subPath, parentFolder, parentSubPath)
 var fileSystem = WScript.CreateObject("Scripting.FileSystemObject");
 var fullPath = fileSystem.GetParentFolderName(WScript.ScriptFullName);
 var shell = WScript.CreateObject("WScript.Shell");
-var message = ProcessFolder(shell, fileSystem.GetFolder(fullPath), "", null, null);
+var message = ProcessFolder(fileSystem, shell, fileSystem.GetFolder(fullPath), "", null, null);
 if (message.length > 0){
 	WScript.Echo("Following projects was converted:\n\n" + message);
 }
