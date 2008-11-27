@@ -25,8 +25,8 @@ InfoAfterFile=..\InfoAfter.txt
 
 [Files]
 Source: ..\Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
-Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\Debug; Flags: recursesubdirs; Components: acfComp
-Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\Release; Flags: recursesubdirs; Components: acfComp
+Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\DebugVC8; Flags: recursesubdirs; Components: acfComp
+Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\ReleaseVC8; Flags: recursesubdirs; Components: acfComp
 
 Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
 Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp
