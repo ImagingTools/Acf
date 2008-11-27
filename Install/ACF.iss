@@ -10,14 +10,14 @@ AppPublisher=ImagingTools
 AppPublisherURL=http://www.imagingtools.de/
 AppName=ACF
 
-DefaultDirName={pf}\ImagingTools\ACF
+DefaultDirName={sd}\ImagingTools\ACF
 WizardImageFile=..\..\Docs\Images\InstallerImage.bmp
 WizardSmallImageFile=..\..\Docs\Images\Logo\Logo_128x128.bmp
-SetupIconFile=..\..\Docs\Images\Logo\Logo_128x128.bmp
+SetupIconFile=..\..\Docs\Images\Logo\Logo.ico
 AlwaysShowDirOnReadyPage=True
 DefaultGroupName=ImagingTools\ACF
 DisableProgramGroupPage=True
-UninstallDisplayIcon=..\..\Docs\Images\Logo\Logo_128x128.bmp
+UninstallDisplayIcon=..\..\Docs\Images\Logo\Logo.ico
 UninstallDisplayName=ACF
 OutputDir=..\Setup
 LicenseFile=..\..\GNU.txt
@@ -25,6 +25,8 @@ InfoAfterFile=..\InfoAfter.txt
 
 [Files]
 Source: ..\Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
+Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\Debug; Flags: recursesubdirs; Components: acfComp
+Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\Release; Flags: recursesubdirs; Components: acfComp
 
 Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
 Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp

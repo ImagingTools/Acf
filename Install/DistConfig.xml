@@ -5,7 +5,7 @@
     </VersionInfos>
   </AcfHeader>
   <License>
-    ../License.txt
+    ../Header.txt
   </License>
 
   <Copy count="10">
@@ -93,9 +93,12 @@
           *.txt
         </Filter>
       </Filters>
-      <Excludes count ="1">
+      <Excludes count ="2">
         <Filter>
           Install
+        </Filter>
+        <Filter>
+          Header.txt
         </Filter>
       </Excludes>
       <Mode>
