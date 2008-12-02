@@ -83,7 +83,7 @@ bool CTextWriteArchiveBase::ProcessData(void* dataPtr, int size)
 {
 	I_BYTE* data = (I_BYTE*)dataPtr;
 
-	std::ostrstream stream;
+	std::ostringstream stream;
 
 	stream << std::hex;
 

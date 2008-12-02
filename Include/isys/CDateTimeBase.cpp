@@ -2,11 +2,7 @@
 
 
 // STL includes
-#ifdef _MSC_VER
-#include <strstream>
-#else
-#include <stringstream>
-#endif
+#include <sstream>
 
 #include "iser/IArchive.h"
 
@@ -48,7 +44,7 @@ bool CDateTimeBase::SerializeComponents(iser::IArchive& archive, TimeComponent f
 
 std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 {
-	std::ostrstream stream;
+	std::ostringstream stream;
 
 	for (int i = fromComponent; i <= toComponent; ++i){
 		stream << GetComponent(i);
@@ -74,7 +70,7 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 
 bool CDateTimeBase::FromString(const std::string& text, int fromComponent, int toComponent)
 {
-	std::istrstream stream(text.c_str(), int(text.size()));
+	std::istringstream stream(text.c_str(), int(text.size()));
 
 	for (int i = fromComponent; i <= toComponent; ++i){
 		int value;

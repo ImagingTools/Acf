@@ -3,11 +3,7 @@
 
 
 // STL includes
-#ifdef _MSC_VER
-#include <strstream>
-#else
-#include <stringstream>
-#endif
+#include <sstream>
 
 #include "iser/CWriteArchiveBase.h"
 
@@ -57,7 +53,7 @@ bool CTextWriteArchiveBase::ProcessInternal(const Type& value)
 {
 	bool retVal = true;
 
-	std::ostrstream stream;
+	std::ostringstream stream;
 
 	stream << value << std::ends;
 

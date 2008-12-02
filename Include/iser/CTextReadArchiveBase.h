@@ -3,11 +3,7 @@
 
 
 // STL includes
-#ifdef _MSC_VER
-#include <strstream>
-#else
-#include <stringstream>
-#endif
+#include <sstream>
 
 #include "iser/CReadArchiveBase.h"
 
@@ -52,7 +48,7 @@ bool CTextReadArchiveBase::ProcessInternal(Type& value)
 	std::string elementText;
 
 	if (Process(elementText) && !elementText.empty()){
-		std::istrstream stream(elementText.c_str());
+		std::istringstream stream(elementText.c_str());
 
 		stream >> value;
 

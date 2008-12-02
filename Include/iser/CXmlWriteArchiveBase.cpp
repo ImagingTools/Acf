@@ -2,11 +2,7 @@
 
 
 // STL includes
-#ifdef _MSC_VER
-#include <strstream>
-#else
-#include <stringstream>
-#endif
+#include <sstream>
 
 
 namespace iser
@@ -29,7 +25,7 @@ bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 
 bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& /*subTag*/, int& count)
 {
-	std::ostrstream stream;
+	std::ostringstream stream;
 	stream << count << std::ends;
 
 	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + " count=\"" + stream.str() + "\">\n");

@@ -2,11 +2,7 @@
 
 
 // STL includes
-#ifdef _MSC_VER
-#include <strstream>
-#else
-#include <stringstream>
-#endif
+#include <sstream>
 
 
 namespace iser
@@ -44,7 +40,7 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 
-	std::istrstream stream(tagText.c_str());
+	std::istringstream stream(tagText.c_str());
 
 	stream >> count;
 
