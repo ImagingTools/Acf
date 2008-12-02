@@ -90,7 +90,7 @@ public:
 	/**
 		Set element at specified index.
 	*/
-	void SetElementAt(int index, typename const ElementType& element);
+	void SetElementAt(int index, const ElementType& element);
 
 	/**
 		Remove element at specified index.
@@ -173,7 +173,7 @@ void TPointerVector<Pointer, AccessAdapter>::SetCount(int count)
 template <typename Pointer, class AccessAdapter>
 void TPointerVector<Pointer, AccessAdapter>::Reset()
 {
-	for (		Elements::iterator iter = m_elements.begin();
+	for (		typename Elements::iterator iter = m_elements.begin();
 				iter != m_elements.end();
 				++iter){
 		AccessAdapter::Delete(*iter);
@@ -184,7 +184,7 @@ void TPointerVector<Pointer, AccessAdapter>::Reset()
 
 
 template <typename Pointer, class AccessAdapter>
-typename Pointer* TPointerVector<Pointer, AccessAdapter>::GetAt(int index) const
+Pointer* TPointerVector<Pointer, AccessAdapter>::GetAt(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
@@ -194,7 +194,7 @@ typename Pointer* TPointerVector<Pointer, AccessAdapter>::GetAt(int index) const
 
 
 template <typename Pointer, class AccessAdapter>
-typename const TPointerVector<Pointer, AccessAdapter>::ElementType& TPointerVector<Pointer, AccessAdapter>::GetElementAt(int index) const
+const typename TPointerVector<Pointer, AccessAdapter>::ElementType& TPointerVector<Pointer, AccessAdapter>::GetElementAt(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
@@ -216,7 +216,7 @@ void TPointerVector<Pointer, AccessAdapter>::RemoveAt(int index)
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));
 
-	Elements::iterator delIter = (m_elements.begin() + index);
+	typename Elements::iterator delIter = (m_elements.begin() + index);
 
 	AccessAdapter::Delete(*delIter);
 
@@ -230,7 +230,7 @@ void TPointerVector<Pointer, AccessAdapter>::Remove(Pointer* elementPtr)
 	int elementsCount = GetCount();
 
 	for (int elementIndex = 0; elementIndex < elementsCount; elementIndex++){
-		Elements::iterator delIter = (m_elements.begin() + elementIndex);
+		typename Elements::iterator delIter = (m_elements.begin() + elementIndex);
 		if (AccessAdapter::GetPtr(*delIter) == elementPtr){
 			RemoveAt(elementIndex);
 
@@ -241,7 +241,7 @@ void TPointerVector<Pointer, AccessAdapter>::Remove(Pointer* elementPtr)
 
 
 template <typename Pointer, class AccessAdapter>
-typename Pointer* TPointerVector<Pointer, AccessAdapter>::PopAt(int index)
+Pointer* TPointerVector<Pointer, AccessAdapter>::PopAt(int index)
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_elements.size()));

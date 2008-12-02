@@ -40,7 +40,7 @@ public:
 	/**
 		Access to object pointed by internal pointer.
 	*/
-	typename const Attribute::ValueType& operator[](int index) const;
+	const typename Attribute::ValueType& operator[](int index) const;
 
 private:
 	const Attribute* m_attributePtr;
@@ -116,7 +116,7 @@ int TMultiAttributePtr<Attribute>::GetCount() const
 
 
 template <typename Attribute>
-typename const Attribute::ValueType& TMultiAttributePtr<Attribute>::operator[](int index) const
+const typename Attribute::ValueType& TMultiAttributePtr<Attribute>::operator[](int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetCount());

@@ -13,8 +13,8 @@ CComplexDoubleManip::CComplexDoubleManip(
 			const istd::CRange& range)
 :	BaseClass(precision, roundingType),
 	m_scaleFactor(scaleFactor),
-	m_range(range),
-	m_offset(offset)
+	m_offset(offset),
+	m_range(range)
 {
 }
 

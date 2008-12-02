@@ -243,7 +243,7 @@ inline bool TFastVector<MaxSize, Element>::SetElementsCount(int count, const Ele
 
 
 template <int MaxSize, class Element>
-inline typename const Element& TFastVector<MaxSize, Element>::GetElement(int i) const
+inline const Element& TFastVector<MaxSize, Element>::GetElement(int i) const
 {
 	I_ASSERT(i >= 0);
 	I_ASSERT(i < m_elementsCount);
@@ -253,7 +253,7 @@ inline typename const Element& TFastVector<MaxSize, Element>::GetElement(int i) 
 
 
 template <int MaxSize, class Element>
-inline typename Element& TFastVector<MaxSize, Element>::GetElementRef(int i)
+inline Element& TFastVector<MaxSize, Element>::GetElementRef(int i)
 {
 	I_ASSERT(i >= 0);
 	I_ASSERT(i < m_elementsCount);

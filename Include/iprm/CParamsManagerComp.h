@@ -9,6 +9,7 @@
 
 #include "icomp/CComponentBase.h"
 
+#include "iprm/IParamsSet.h"
 #include "iprm/IParamsManager.h"
 
 

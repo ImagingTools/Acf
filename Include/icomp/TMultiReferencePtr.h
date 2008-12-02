@@ -21,6 +21,7 @@ class TMultiReferencePtr: public TMultiAttributePtr<CMultiReferenceAttribute>, p
 {
 public:
 	typedef TMultiAttributePtr<CMultiReferenceAttribute> BaseClass;
+	typedef TInterfaceManipBase<Interface> BaseClass2;
 	typedef Interface InterfaceType;
 
 	TMultiReferencePtr();
@@ -78,7 +79,7 @@ bool TMultiReferencePtr<Interface>::IsValid() const
 
 
 template <class Interface>
-typename Interface* TMultiReferencePtr<Interface>::operator[](int index) const
+Interface* TMultiReferencePtr<Interface>::operator[](int index) const
 {
 	I_ASSERT(index >= 0);
 
@@ -121,11 +122,11 @@ bool TMultiReferencePtr<Interface>::EnsureInitialized() const
 
 				std::string baseId;
 				std::string subId;
-				SplitId(componentId, baseId, subId);
+				BaseClass2::SplitId(componentId, baseId, subId);
 
 				IComponent* componentPtr = parentPtr->GetSubcomponent(componentId);
 
-				m_components[i] = ExtractInterface(componentPtr, subId);
+				m_components[i] = BaseClass2::ExtractInterface(componentPtr, subId);
 			}
 
 			m_isInitialized = retVal;

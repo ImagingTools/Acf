@@ -76,7 +76,7 @@ protected:
 		Remove referenced object.
 		Warning: internal pointer will be not changed.
 	*/
-	virtual void Detach();
+	void Detach();
 
 private:
 	bool m_releaseFlag;
@@ -125,7 +125,7 @@ inline void TOptDelPtr<Type, DelArray>::SetPtr(Type* ptr, bool releaseFlag)
 
 
 template <class Type, bool DelArray>
-inline typename Type* TOptDelPtr<Type, DelArray>::PopPtr()
+inline Type* TOptDelPtr<Type, DelArray>::PopPtr()
 {
 	Type* slavePtr = BaseClass::GetPtr();
 	BaseClass::SetPtr(NULL);

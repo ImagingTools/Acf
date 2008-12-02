@@ -47,9 +47,9 @@ protected:
 	virtual I_SDWORD GetInternalValue(double value) const;
 
 private:
-	istd::CRange m_range;
 	double m_scaleFactor;
 	double m_offset;
+	istd::CRange m_range;
 
 	int m_scaledPrecision;
 };

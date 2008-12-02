@@ -18,7 +18,7 @@ namespace idoc
 
 
 CDocumentManagerBase::CDocumentManagerBase()
-:	m_activeViewPtr(NULL), m_documentTemplatePtr(NULL)
+:	m_documentTemplatePtr(NULL), m_activeViewPtr(NULL)
 {
 }
 

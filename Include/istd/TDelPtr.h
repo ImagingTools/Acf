@@ -141,7 +141,7 @@ inline void TDelPtr<Type, DelArray>::SetPtr(Type* ptr)
 
 
 template <class Type, bool DelArray>
-inline typename Type* TDelPtr<Type, DelArray>::PopPtr()
+inline Type* TDelPtr<Type, DelArray>::PopPtr()
 {
 	Type* slavePtr = BaseClass::GetPtr();
 	BaseClass::SetPtr(NULL);

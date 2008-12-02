@@ -175,3 +175,5 @@ private:
 
 
 #endif // idoc_CDocumentManagerBase_included
+
+

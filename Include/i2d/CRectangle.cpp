@@ -19,8 +19,8 @@ CRectangle::CRectangle()
 
 
 CRectangle::CRectangle(const CRectangle& ref)
-:	m_verticalRange(ref.m_verticalRange),
-	m_horizontalRange(ref.m_horizontalRange)
+:	m_horizontalRange(ref.m_horizontalRange),
+	m_verticalRange(ref.m_verticalRange)
 {
 }
 

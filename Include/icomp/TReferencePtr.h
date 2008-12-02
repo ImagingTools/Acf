@@ -21,6 +21,7 @@ class TReferencePtr: public TSingleAttributePtr<CReferenceAttribute>, public TIn
 {
 public:
 	typedef TSingleAttributePtr<CReferenceAttribute> BaseClass;
+	typedef TInterfaceManipBase<Interface> BaseClass2;
 	typedef Interface InterfaceType;
 
 	TReferencePtr();
@@ -87,7 +88,7 @@ bool TReferencePtr<Interface>::IsValid() const
 
 
 template <class Interface>
-typename Interface* TReferencePtr<Interface>::GetPtr() const
+Interface* TReferencePtr<Interface>::GetPtr() const
 {
 	EnsureInitialized();
 
@@ -96,7 +97,7 @@ typename Interface* TReferencePtr<Interface>::GetPtr() const
 
 
 template <class Interface>
-typename Interface* TReferencePtr<Interface>::operator->() const
+Interface* TReferencePtr<Interface>::operator->() const
 {
 	EnsureInitialized();
 	I_ASSERT(m_componentPtr != NULL);
@@ -106,7 +107,7 @@ typename Interface* TReferencePtr<Interface>::operator->() const
 
 
 template <class Interface>
-typename Interface& TReferencePtr<Interface>::operator*() const
+Interface& TReferencePtr<Interface>::operator*() const
 {
 	EnsureInitialized();
 	I_ASSERT(m_componentPtr != NULL);
@@ -137,11 +138,11 @@ bool TReferencePtr<Interface>::EnsureInitialized() const
 
 			std::string baseId;
 			std::string subId;
-			SplitId(componentId, baseId, subId);
+			BaseClass2::SplitId(componentId, baseId, subId);
 
 			IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
 
-			m_componentPtr = ExtractInterface(componentPtr, subId);
+			m_componentPtr = BaseClass2::ExtractInterface(componentPtr, subId);
 
 			m_isInitialized = true;
 		}

@@ -1,7 +1,12 @@
 #include "iser/CXmlWriteArchiveBase.h"
 
 
+// STL includes
+#ifdef _MSC_VER
 #include <strstream>
+#else
+#include <stringstream>
+#endif
 
 
 namespace iser

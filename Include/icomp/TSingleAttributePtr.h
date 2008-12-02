@@ -53,10 +53,10 @@ public:
 	/**
 		Access to object pointed by internal pointer.
 	*/
-	typename const Attribute::ValueType& operator*() const;
+	const typename Attribute::ValueType& operator*() const;
 
 protected:
-	void SetAttribute(const Attribute* m_attributePtr);
+	void SetAttribute(const Attribute* attributePtr);
 
 private:
 	const Attribute* m_attributePtr;
@@ -127,14 +127,14 @@ const Attribute* TSingleAttributePtr<Attribute>::GetAttributePtr() const
 
 
 template <typename Attribute>
-typename const Attribute* TSingleAttributePtr<Attribute>::operator->() const
+const Attribute* TSingleAttributePtr<Attribute>::operator->() const
 {
 	return m_attributePtr;
 }
 
 
 template <typename Attribute>
-typename const Attribute::ValueType& TSingleAttributePtr<Attribute>::operator*() const
+const typename Attribute::ValueType& TSingleAttributePtr<Attribute>::operator*() const
 {
 	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
 
@@ -145,7 +145,7 @@ typename const Attribute::ValueType& TSingleAttributePtr<Attribute>::operator*()
 // protected methods
 
 template <typename Attribute>
-void TSingleAttributePtr<Attribute>::SetAttribute(const Attribute* m_attributePtr)
+void TSingleAttributePtr<Attribute>::SetAttribute(const Attribute* attributePtr)
 {
 	m_attributePtr = attributePtr;
 }

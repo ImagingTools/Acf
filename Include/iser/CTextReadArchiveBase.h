@@ -3,7 +3,11 @@
 
 
 // STL includes
+#ifdef _MSC_VER
 #include <strstream>
+#else
+#include <stringstream>
+#endif
 
 #include "iser/CReadArchiveBase.h"
 

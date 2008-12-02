@@ -34,9 +34,9 @@ public:
 	virtual const iser::ISerializable* GetAttribute(const std::string& attributeId, int* definitionLevelPtr = NULL) const;
 
 private:
-	const IComponentContext* m_parentPtr;
-
 	const IRegistryElement& m_registryElement;
+
+	const IComponentContext* m_parentPtr;
 
 	typedef std::map< std::string, const iser::ISerializable* > AttributeMap;
 	AttributeMap m_attributeMap;

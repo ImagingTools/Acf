@@ -56,7 +56,7 @@ TChangeNotifier<Changeable>::~TChangeNotifier()
 template <class Changeable>
 void TChangeNotifier<Changeable>::SetPtr(Changeable* changeablePtr)
 {
-	if (changeablePtr != GetPtr()){
+	if (changeablePtr != BaseClass::GetPtr()){
 		Reset();
 
 		BaseClass::SetPtr(changeablePtr);
@@ -71,7 +71,7 @@ void TChangeNotifier<Changeable>::SetPtr(Changeable* changeablePtr)
 template <class Changeable>
 inline void TChangeNotifier<Changeable>::Reset()
 {
-	Changeable* changeablePtr = GetPtr();
+	Changeable* changeablePtr = BaseClass::GetPtr();
 
 	if (changeablePtr != NULL){
 		changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
@@ -86,7 +86,7 @@ inline const Changeable* TChangeNotifier<Changeable>::operator->() const
 {
 	I_ASSERT(IsValid());
 
-	return GetPtr();
+	return BaseClass::GetPtr();
 }
 
 
@@ -95,7 +95,7 @@ inline Changeable* TChangeNotifier<Changeable>::operator->()
 {
 	I_ASSERT(IsValid());
 
-	return GetPtr();
+	return BaseClass::GetPtr();
 }
 
 
@@ -104,7 +104,7 @@ inline TChangeNotifier<Changeable>::operator Changeable*() const
 {
 	I_ASSERT(IsValid());
 
-	return GetPtr();
+	return BaseClass::GetPtr();
 }
 
 

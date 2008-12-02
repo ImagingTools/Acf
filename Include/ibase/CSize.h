@@ -35,3 +35,5 @@ public:
 
 
 #endif // !ibase_CSize_included
+
+

@@ -36,8 +36,8 @@ private:
 	std::string m_id;
 	std::string m_description;
 	const Attribute* m_defaultValuePtr;
-	const std::type_info& m_relatedInterfaceType;
 	bool m_isObligatory;
+	const std::type_info& m_relatedInterfaceType;
 };
 
 

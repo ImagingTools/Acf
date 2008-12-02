@@ -112,11 +112,11 @@ inline TComposedColor<Size>::TComposedColor(const imath::TVarVector<double>& vec
 {
 	int commonSize = istd::Min(vector.GetElementsCount(), Size);
 	for (int copyIndex = 0; copyIndex < commonSize; ++copyIndex){
-		m_elements[copyIndex] = vector[copyIndex];
+		BaseClass::m_elements[copyIndex] = vector[copyIndex];
 	}
 
 	for (int resetIndex = commonSize; resetIndex < Size; ++resetIndex){
-		m_elements[resetIndex] = 0.0;
+		BaseClass::m_elements[resetIndex] = 0.0;
 	}
 }
 
@@ -132,7 +132,7 @@ template <int Size>
 inline bool TComposedColor<Size>::IsNormalized() const
 {
 	for (int i = 0; i < Size; ++i){
-		double component = m_elements[i];
+		double component = BaseClass::m_elements[i];
 
 		if ((component < 0) && (component > 1)){
 			return false;
@@ -149,7 +149,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator+(const TComposedColor
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] + color.m_elements[i];
+		retVal[i] = BaseClass::m_elements[i] + color[i];
 	}
 
 	return retVal;
@@ -162,7 +162,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator-(const TComposedColor
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] - color.m_elements[i];
+		retVal[i] = BaseClass::m_elements[i] - color[i];
 	}
 
 	return retVal;
@@ -175,7 +175,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator*(const TComposedColor
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] * color.m_elements[i];
+		retVal[i] = BaseClass::m_elements[i] * color[i];
 	}
 
 	return retVal;
@@ -188,7 +188,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator/(const TComposedColor
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] / color.m_elements[i];
+		retVal[i] = BaseClass::m_elements[i] / color[i];
 	}
 
 	return retVal;
@@ -201,7 +201,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator*(double value) const
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] * value;
+		retVal[i] = BaseClass::m_elements[i] * value;
 	}
 
 	return retVal;
@@ -214,7 +214,7 @@ inline TComposedColor<Size> TComposedColor<Size>::operator/(double value) const
 	TComposedColor<Size> retVal;
 
 	for (int i = 0; i < Size; ++i){
-		retVal.m_elements[i] = m_elements[i] / value;
+		retVal[i] = BaseClass::m_elements[i] / value;
 	}
 
 	return retVal;
@@ -225,7 +225,7 @@ template <int Size>
 inline const TComposedColor<Size>& TComposedColor<Size>::operator=(const TComposedColor<Size>& color)
 {
 	for (int i = 0; i < Size; ++i){
-		m_elements[i] = color.m_elements[i];
+		BaseClass::m_elements[i] = color[i];
 	}
 
 	return *this;
@@ -235,7 +235,9 @@ inline const TComposedColor<Size>& TComposedColor<Size>::operator=(const TCompos
 template <int Size>
 inline const TComposedColor<Size>& TComposedColor<Size>::operator=(double colorValue)
 {
-	memset(m_elements, 0.0, sizeof(double) * Size);
+	memset(&BaseClass::m_elements[0], 0.0, sizeof(double) * Size);
+
+	BaseClass::m_elements[0] = colorValue;
 
 	return *this;
 }
@@ -263,7 +265,7 @@ template <int Size>
 inline const TComposedColor<Size>& TComposedColor<Size>::operator*=(const TComposedColor<Size>& color)
 {
 	for (int index = 0; index < Size; ++index){
-		m_elements[index] *= color.m_elements[index];
+		BaseClass::m_elements[index] *= color[index];
 	}
 
 	return *this;
@@ -274,7 +276,7 @@ template <int Size>
 inline const TComposedColor<Size>& TComposedColor<Size>::operator/=(const TComposedColor<Size>& color)
 {
 	for (int index = 0; index < Size; ++index){
-		m_elements[index] /= color.m_elements[index];
+		BaseClass::m_elements[index] /= color[index];
 	}
 
 	return *this;
@@ -305,7 +307,7 @@ template <int Size>
 void TComposedColor<Size>::GetRounded(const imath::IDoubleManip& manipulator, TComposedColor<Size>& result)
 {
 	for (int i = 0; i < Size; ++i){
-		result.m_elements[i] = manipulator.GetRounded(m_elements[i]);
+		result[i] = manipulator.GetRounded(BaseClass::m_elements[i]);
 	}
 }
 
@@ -314,7 +316,7 @@ template <int Size>
 bool TComposedColor<Size>::IsRoundedEqual(const TComposedColor<Size>& color, const imath::IDoubleManip& manipulator) const
 {
 	for (int i = 0; i < Size; ++i){
-		if (!manipulator.IsEqual(m_elements[i], color.m_elements[i])){
+		if (!manipulator.IsEqual(BaseClass::m_elements[i], color[i])){
 			return false;
 		}
 	}
@@ -327,12 +329,12 @@ template <int Size>
 void TComposedColor<Size>::Normalize()
 {
 	for (int i = 0; i < Size; ++i){
-		if (m_elements[i] < 0.0){
-			m_elements[i] = 0.0;
+		if (BaseClass::m_elements[i] < 0.0){
+			BaseClass::m_elements[i] = 0.0;
 		}
 
-		if (m_elements[i] > 1.0){
-			m_elements[i] = 1.0;
+		if (BaseClass::m_elements[i] > 1.0){
+			BaseClass::m_elements[i] = 1.0;
 		}
 	}
 }
@@ -357,7 +359,7 @@ bool TComposedColor<Size>::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag colorComponentsTag("ColorComponents", "List of color components");
 	static iser::CArchiveTag componentTag("Component", "Single component");
 
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 
 	retVal = retVal && archive.BeginMultiTag(colorComponentsTag, componentTag, elementsCount);
 
@@ -367,7 +369,7 @@ bool TComposedColor<Size>::Serialize(iser::IArchive& archive)
 
     for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(componentTag);
-		retVal = retVal && archive.Process(m_elements[i]);
+		retVal = retVal && archive.Process(BaseClass::m_elements[i]);
 		retVal = retVal && archive.EndTag(componentTag);
 	}
 

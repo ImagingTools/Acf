@@ -175,7 +175,7 @@ inline bool TVarArray<Element>::SetDimensionsCount(int count)
 
 
 template <class Element>
-inline typename const TVarArray<Element>::SizesType& TVarArray<Element>::GetSizes() const
+inline const typename TVarArray<Element>::SizesType& TVarArray<Element>::GetSizes() const
 {
 	return m_sizes;
 }
@@ -192,7 +192,7 @@ inline int TVarArray<Element>::GetSize(int dimension) const
 
 
 template <class Element>
-inline typename const Element& TVarArray<Element>::GetAt(const IndexType& index) const
+inline const typename Element& TVarArray<Element>::GetAt(const IndexType& index) const
 {
 	I_ASSERT(index.IsInside(m_sizes));
 
@@ -225,7 +225,7 @@ typename TVarArray<Element>::Iterator TVarArray<Element>::Begin() const
 
 
 template <class Element>
-typename const TVarArray<Element>::Iterator& TVarArray<Element>::End() const
+const typename TVarArray<Element>::Iterator& TVarArray<Element>::End() const
 {
 	return s_endIterator;
 }

@@ -270,7 +270,7 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetFulcrumPosition(co
 
 
 template <class Argument, class Result, class Fulcrums>
-typename const TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FulcrumType&
+const typename TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FulcrumType&
 			TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::GetFulcrumAtIndex(const FulcrumIndex& index) const
 {
 	return m_fulcrums.GetAt(index);

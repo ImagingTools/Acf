@@ -1,7 +1,12 @@
 #include "isys/CDateTimeBase.h"
 
 
+// STL includes
+#ifdef _MSC_VER
 #include <strstream>
+#else
+#include <stringstream>
+#endif
 
 #include "iser/IArchive.h"
 

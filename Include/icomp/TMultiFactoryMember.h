@@ -22,7 +22,8 @@ template <class Interface>
 class TMultiFactoryMember: public TMultiAttributePtr<CMultiFactoryAttribute>, public TInterfaceManipBase<Interface>
 {
 public:
-	typedef TSingleAttributePtr<CFactoryAttribute> BaseClass;
+	typedef TMultiAttributePtr<CFactoryAttribute> BaseClass;
+	typedef TInterfaceManipBase<Interface> BaseClass2;
 	typedef Interface InterfaceType;
 
 	TMultiFactoryMember();
@@ -73,7 +74,7 @@ bool TMultiFactoryMember<Interface>::IsValid() const
 
 
 template <class Interface>
-typename Interface* TMultiFactoryMember<Interface>::CreateInstance(int index) const
+Interface* TMultiFactoryMember<Interface>::CreateInstance(int index) const
 {
 	if ((m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
 		const IComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
@@ -82,12 +83,12 @@ typename Interface* TMultiFactoryMember<Interface>::CreateInstance(int index) co
 
 			std::string baseId;
 			std::string subId;
-			SplitId(componentId, baseId, subId);
+			BaseClass2::SplitId(componentId, baseId, subId);
 			I_ASSERT(subId.empty());	// explicit subelement ID are not implemented correctly
 
 			IComponent* newComponnentPtr = parentPtr->CreateSubcomponent(baseId);
 			if (newComponnentPtr != NULL){
-				Interface* retVal = ExtractInterface(newComponnentPtr);
+				Interface* retVal = BaseClass2::ExtractInterface(newComponnentPtr);
 				if (retVal != NULL){
 					return retVal;
 				}

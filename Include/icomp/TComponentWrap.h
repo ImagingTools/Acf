@@ -45,7 +45,7 @@ TComponentWrap<Component>::~TComponentWrap()
 		parentPtr->OnSubcomponentDeleted(this);
 	}
 
-	SetComponentContext(NULL, NULL, false);
+	BaseClass::SetComponentContext(NULL, NULL, false);
 }
 
 
@@ -57,16 +57,16 @@ void TComponentWrap<Component>::SetComponentContext(
 			const IComponent* parentPtr,
 			bool isParentOwner)
 {
-	if (GetComponentContext() != NULL){
-		OnComponentDestroyed();
+	if (BaseClass::GetComponentContext() != NULL){
+		BaseClass::OnComponentDestroyed();
 	}
 
-	Component::SetComponentContext(contextPtr, parentPtr, isParentOwner);
+	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
 
 	if (contextPtr != NULL){
-		Component::InitStaticInfo(this);
+		BaseClass::InitStaticInfo(this);
 
-		OnComponentCreated();
+		BaseClass::OnComponentCreated();
 	}
 }
 

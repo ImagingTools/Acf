@@ -219,7 +219,7 @@ inline int TVarVector<Element>::GetElementsCount() const
 
 
 template <class Element>
-inline bool TVarVector<Element>::SetElementsCount(int size, const Element& value = Element())
+inline bool TVarVector<Element>::SetElementsCount(int size, const Element& value)
 {
 	I_ASSERT(size >= 0);
 
@@ -230,14 +230,14 @@ inline bool TVarVector<Element>::SetElementsCount(int size, const Element& value
 
 
 template <class Element>
-inline typename const Element& TVarVector<Element>::GetElement(int i) const
+inline const Element& TVarVector<Element>::GetElement(int i) const
 {
 	return operator[](i);
 }
 
 
 template <class Element>
-inline typename Element& TVarVector<Element>::GetElementRef(int i)
+inline Element& TVarVector<Element>::GetElementRef(int i)
 {
 	return operator[](i);
 }

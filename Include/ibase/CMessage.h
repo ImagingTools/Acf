@@ -2,13 +2,15 @@
 #define ibase_CMessage_included
 
 
+#include "istd/CString.h"
+
 #include "ibase/IMessage.h"
 
 #include "isys/CSimpleDateTime.h"
 
 
 namespace ibase
-{		
+{
 
 
 class CMessage: virtual public ibase::IMessage
@@ -34,10 +36,10 @@ public:
 
 protected:
 	IMessage::MessageCategory m_category;
-	int m_flags;
 	int m_id;
 	istd::CString m_text;
 	istd::CString m_source;
+	int m_flags;
 
 	isys::CSimpleDateTime m_time;
 };

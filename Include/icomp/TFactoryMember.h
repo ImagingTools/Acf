@@ -23,6 +23,7 @@ class TFactoryMember: public TSingleAttributePtr<CFactoryAttribute>, public TInt
 {
 public:
 	typedef TSingleAttributePtr<CFactoryAttribute> BaseClass;
+	typedef TInterfaceManipBase<Interface> BaseClass2;
 	typedef Interface InterfaceType;
 
 	TFactoryMember();
@@ -73,7 +74,7 @@ bool TFactoryMember<Interface>::IsValid() const
 
 
 template <class Interface>
-typename Interface* TFactoryMember<Interface>::CreateInstance() const
+Interface* TFactoryMember<Interface>::CreateInstance() const
 {
 	if ((m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
 		const IComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
@@ -82,12 +83,12 @@ typename Interface* TFactoryMember<Interface>::CreateInstance() const
 
 			std::string baseId;
 			std::string subId;
-			SplitId(componentId, baseId, subId);
+			BaseClass2::SplitId(componentId, baseId, subId);
 			I_ASSERT(subId.empty());	// explicit subelement ID are not implemented correctly
 
 			IComponent* newComponnentPtr = parentPtr->CreateSubcomponent(baseId);
 			if (newComponnentPtr != NULL){
-				Interface* retVal = ExtractInterface(newComponnentPtr);
+				Interface* retVal = BaseClass2::ExtractInterface(newComponnentPtr);
 				if (retVal != NULL){
 					return retVal;
 				}

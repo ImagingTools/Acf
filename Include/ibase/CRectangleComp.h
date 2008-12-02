@@ -41,3 +41,5 @@ private:
 
 
 #endif // !ibase_CRectangleComp_included
+
+

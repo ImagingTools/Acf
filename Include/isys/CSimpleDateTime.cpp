@@ -42,11 +42,17 @@ bool CSimpleDateTime::SetCurrentTime()
 {
 	_tzset();
 
+#ifdef _MSC_VER
 	__time64_t t;
 	_time64(&t);
 
 	std::tm currentTime;
 	_localtime64_s(&currentTime, &t);
+#else
+	time_t t;
+	time(&t);
+	std::tm currentTime = *localtime(&t);
+#endif
 
 	m_components[TC_YEAR] = currentTime.tm_year + 1900;
 	m_components[TC_MONTH] = currentTime.tm_mon + 1;
@@ -71,7 +77,11 @@ double CSimpleDateTime::ToCTime() const
 	tmTime.tm_min = m_components[TC_MINUTE];
 	tmTime.tm_sec = m_components[TC_SECOND];
 
+#ifdef _MSC_VER
 	return double(_mktime64(&tmTime));
+#else
+	return double(mktime(&tmTime));
+#endif
 }
 
 

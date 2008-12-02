@@ -177,7 +177,7 @@ inline bool TArray<Element, Dimensions>::SetDimensionsCount(int count)
 
 
 template <class Element, int Dimensions>
-inline typename const TArray<Element, Dimensions>::SizesType& TArray<Element, Dimensions>::GetSizes() const
+inline const typename TArray<Element, Dimensions>::SizesType& TArray<Element, Dimensions>::GetSizes() const
 {
 	return m_sizes;
 }
@@ -194,7 +194,7 @@ inline int TArray<Element, Dimensions>::GetSize(int dimension) const
 
 
 template <class Element, int Dimensions>
-inline typename const Element& TArray<Element, Dimensions>::GetAt(const IndexType& index) const
+inline const typename Element& TArray<Element, Dimensions>::GetAt(const IndexType& index) const
 {
 	I_ASSERT(index.IsInside(m_sizes));
 
@@ -239,7 +239,7 @@ typename TArray<Element, Dimensions>::Iterator TArray<Element, Dimensions>::Begi
 
 
 template <class Element, int Dimensions>
-typename const TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::End() const
+const typename TArray<Element, Dimensions>::Iterator& TArray<Element, Dimensions>::End() const
 {
 	return s_endIterator;
 }

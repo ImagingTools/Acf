@@ -25,7 +25,7 @@ protected:
 // protected methods
 
 template <class Interface>
-typename Interface* TInterfaceManipBase<Interface>::ExtractInterface(IComponent* componentPtr, const std::string& subId = "") const
+Interface* TInterfaceManipBase<Interface>::ExtractInterface(IComponent* componentPtr, const std::string& subId) const
 {
 	if (componentPtr != NULL){
 		return static_cast<Interface*>(componentPtr->GetInterface(typeid(Interface), subId));

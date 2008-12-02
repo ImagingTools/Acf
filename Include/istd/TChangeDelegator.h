@@ -38,7 +38,7 @@ TChangeDelegator<Base>::TChangeDelegator()
 template <class Base>
 TChangeDelegator<Base>::TChangeDelegator(IChangeable* slavePtr)
 {
-	SetSlavePtr(slavePtr);
+	BaseClass::SetSlavePtr(slavePtr);
 }
 
 

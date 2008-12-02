@@ -12,6 +12,8 @@
 #include "icomp/IComponent.h"
 #include "icomp/IComponentContext.h"
 #include "icomp/CRegistryElement.h"
+#include "icomp/TSingleAttribute.h"
+#include "icomp/TMultiAttribute.h"
 
 
 namespace icomp
