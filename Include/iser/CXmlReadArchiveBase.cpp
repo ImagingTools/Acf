@@ -40,7 +40,7 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 
-	std::istringstream stream(tagText.c_str());
+	std::istringstream stream(tagText);
 
 	stream >> count;
 

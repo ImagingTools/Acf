@@ -95,7 +95,7 @@ bool CTextReadArchiveBase::ProcessData(void* dataPtr, int size)
 	bool retVal = Process(text);
 
 	if (retVal){
-		std::istringstream stream(text.c_str());
+		std::istringstream stream(text);
 
 		stream >> std::hex;
 

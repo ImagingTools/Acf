@@ -48,7 +48,7 @@ bool CTextReadArchiveBase::ProcessInternal(Type& value)
 	std::string elementText;
 
 	if (Process(elementText) && !elementText.empty()){
-		std::istringstream stream(elementText.c_str());
+		std::istringstream stream(elementText);
 
 		stream >> value;
 

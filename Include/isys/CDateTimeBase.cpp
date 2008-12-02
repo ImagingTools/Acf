@@ -70,7 +70,7 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 
 bool CDateTimeBase::FromString(const std::string& text, int fromComponent, int toComponent)
 {
-	std::istringstream stream(text.c_str(), int(text.size()));
+	std::istringstream stream(text);
 
 	for (int i = fromComponent; i <= toComponent; ++i){
 		int value;
