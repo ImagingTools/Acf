@@ -2,6 +2,36 @@ var projectExt = "vcproj"
 var projectExp = new RegExp(".*\." + projectExt + "$");
 
 
+function TransformDocument(shell, inputPath, outputPath, templatePath, logicalPath, beQuiet, isTest)
+{
+	var retVal = "";
+
+	var xalanCommand = "%XALANDIR%/Bin/Xalan.exe";
+	xalanCommand +=
+				" -p SourcePath '" + logicalPath + "'" +
+				" -o " + outputPath + " " +
+				" " + inputPath +
+				" " + templatePath;
+	xalanCommand = shell.ExpandEnvironmentStrings(xalanCommand);
+
+	if (!beQuiet){
+		WScript.Echo("Running: " + xalanCommand);
+	}
+	var errorCode = shell.Run(xalanCommand, 0, true)
+	if (errorCode != 0){
+		WScript.Echo("Error Running: " + xalanCommand + "\n" + "Error code =" + errorCode);
+		if (isTest){
+			retVal += " ";
+		}
+	}
+	else{
+		retVal += outputPath + "\n";
+	}
+	
+	return retVal;
+}
+
+
 function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentSubPath, projectPrefix, beQuiet, isTest)
 {
 	var retVal = new String;
@@ -18,36 +48,32 @@ function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentS
 		            WScript.Echo("Copy template from " + templatePath + " to folder: " + outputDir);
 		        }
 
-				fileSystem.CopyFolder(templatePath, outputDir);
-
-//		        WScript.Echo("Creating folder: " + outputDir);
-//				fileSystem.CreateFolder(outputDir);
-
-                var eclipseProjectFile = outputDir + "/" + ".project";
-
-				var xalanCommand = "%XALANDIR%/Bin/Xalan.exe";
-
-				xalanCommand +=
-				            " -p SourcePath '" + projectPrefix + parentSubPath + "'" +
-				            " -o " + eclipseProjectFile + " " +
-				            " " + folder + "/" + file.Name +
-				            " %ACFDIR%/Config/Eclipse/VC2Ecl.xslt";
-				            
-				xalanCommand = shell.ExpandEnvironmentStrings(xalanCommand);
-
-				if (!beQuiet){
-    				WScript.Echo("Running: " + xalanCommand);
-    			}
-				var errorCode = shell.Run(xalanCommand, 0, true)
-				if (errorCode != 0){
-    				WScript.Echo("Error Running: " + xalanCommand + "\n" + "Error code =" + errorCode);
-    				if (isTest){
-    				    retVal += " ";
-    				}
+				if (!fileSystem.FolderExists(outputDir)){
+					fileSystem.CopyFolder(templatePath, outputDir);
 				}
-				else{
-    				retVal += outputDir + "\n";
+
+				try{
+					fileSystem.CopyFile(templatePath + "\\.cproject", outputDir + "\\", false);
 				}
+				catch(e){
+				}
+				
+				retVal += TransformDocument(
+							shell,
+							folder + "/" + file.Name,
+							outputDir + "/" + ".project",
+							"%ACFDIR%/Config/Eclipse/VC2Ecl.xslt",
+							projectPrefix + parentSubPath,
+							beQuiet,
+							isTest);
+				retVal += TransformDocument(
+							shell,
+							folder + "/" + file.Name,
+							outputDir + "/" + ".cproject",
+							"%ACFDIR%/Config/Eclipse/VC2EclC.xslt",
+							projectPrefix + parentSubPath,
+							beQuiet,
+							isTest);
 			}
 		}
 	}
