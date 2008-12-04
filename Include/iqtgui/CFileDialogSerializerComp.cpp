@@ -186,3 +186,5 @@ iser::IFileLoader* CFileDialogSerializerComp::GetLoaderFor(const QString& filePa
 
 
 } // namespace iqtgui
+
+

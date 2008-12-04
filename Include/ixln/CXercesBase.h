@@ -25,10 +25,11 @@ protected:
 	static void AddXercescRef();
 	static void RemXercescRef();
 
-	xercesc::DOMDocument* m_documentPtr;
 	xercesc::DOMNode* m_nodePtr;
+	xercesc::DOMDocument* m_documentPtr;
 
-	static const std::wstring s_text;
+	typedef std::basic_string<XMLCh> XmlString;
+	static const XmlString s_text;
 
 private:
 	static int s_xercescInstanceCount;

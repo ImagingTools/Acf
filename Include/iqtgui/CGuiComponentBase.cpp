@@ -116,33 +116,36 @@ bool CGuiComponentBase::eventFilter(QObject* obj, QEvent* event)
 	}
 
 	switch (event->type()){
-		case QEvent::Close:
-			bool ignoreClose;
-			OnTryClose(&ignoreClose);
-			if (ignoreClose){
-				event->ignore();
+	case QEvent::Close:
+		bool ignoreClose;
+		OnTryClose(&ignoreClose);
+		if (ignoreClose){
+			event->ignore();
 
-				return true;
-			}
-			break;
+			return true;
+		}
+		break;
 
-		case QEvent::Show:
-			if (!m_isGuiShown){
-				m_isGuiShown = true;
-				OnGuiShown();
-			}
-			break;
+	case QEvent::Show:
+		if (!m_isGuiShown){
+			m_isGuiShown = true;
+			OnGuiShown();
+		}
+		break;
 
-		case QEvent::Hide:
-			if (m_isGuiShown){
-				m_isGuiShown = false;
-				OnGuiHidden();
-			}
-			break;
+	case QEvent::Hide:
+		if (m_isGuiShown){
+			m_isGuiShown = false;
+			OnGuiHidden();
+		}
+		break;
 
-		case QEvent::LanguageChange:
-			OnRetranslate();
-			break;
+	case QEvent::LanguageChange:
+		OnRetranslate();
+		break;
+
+	default:
+		break;
 	}
 
 	return false;

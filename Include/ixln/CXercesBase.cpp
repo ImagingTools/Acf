@@ -42,7 +42,7 @@ void CXercesBase::RemXercescRef()
 // static attributes
 
 int CXercesBase::s_xercescInstanceCount = 0;
-const std::wstring CXercesBase::s_text = L"#text";
+const CXercesBase::XmlString CXercesBase::s_text = (const XMLCh*)L"#text";
 
 
 } // namespace ixln

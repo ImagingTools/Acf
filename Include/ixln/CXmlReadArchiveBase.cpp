@@ -34,8 +34,8 @@ bool CXmlReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 	}
 
     xercesc::DOMNode* foundNode = NULL;
-    wchar_t* tagName = xercesc::XMLString::transcode(tag.GetId().c_str());
-    std::wstring strTagName = tagName;
+    XMLCh* tagName = xercesc::XMLString::transcode(tag.GetId().c_str());
+    XmlString strTagName = tagName;
 
     xercesc::DOMElement* currentElement = NULL;
 	if (m_nodePtr->getNodeType() == xercesc::DOMNode::ELEMENT_NODE) {
@@ -74,7 +74,7 @@ bool CXmlReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser
 
     count = 0;
 
-	wchar_t* tagName = xercesc::XMLString::transcode(subTag.GetId().c_str());
+	XMLCh* tagName = xercesc::XMLString::transcode(subTag.GetId().c_str());
     
 	xercesc::DOMElement* currentElement = NULL;
 	if (m_nodePtr->getNodeType() == xercesc::DOMNode::ELEMENT_NODE){
@@ -89,7 +89,7 @@ bool CXmlReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser
 			xercesc::DOMNode* childPtr = nodeList->item(i);
 			if (			(childPtr != NULL) &&
 							(childPtr->getNodeType() == xercesc::DOMNode::ELEMENT_NODE) &&
-							(istd::CString(childPtr->getNodeName()) == tagName)){
+							(XmlString(childPtr->getNodeName()) == tagName)){
 				++count;
 			}
 		}
@@ -130,7 +130,7 @@ bool CXmlReadArchiveBase::Process(std::string& data)
 		return false;
 	}
 
-    char* transcodedText = xercesc::XMLString::transcode(text.c_str());
+    char* transcodedText = xercesc::XMLString::transcode((const XMLCh*)text.c_str());
 
 	data = text.ToString();
 
@@ -151,7 +151,7 @@ bool CXmlReadArchiveBase::Process(istd::CString& data)
 	xercesc::DOMNode* dataNode = m_nodePtr->getFirstChild();
 	if (dataNode != NULL){
 		if (dataNode->getNodeName() == s_text){
-			data = dataNode->getNodeValue();
+			data = (const wchar_t*)dataNode->getNodeValue();
 
 			m_nodePtr->removeChild(dataNode);
 
@@ -162,7 +162,7 @@ bool CXmlReadArchiveBase::Process(istd::CString& data)
 		return true;
 	}
 
-	if ((dataNode != NULL) && (dataNode->getNodeName() == GetElementSeparator().c_str())){
+	if ((dataNode != NULL) && ((const wchar_t*)dataNode->getNodeName() == GetElementSeparator().c_str())){
 		m_nodePtr->removeChild(dataNode);
 	}
 
@@ -201,7 +201,7 @@ void CXmlReadArchiveBase::Init(xercesc::InputSource& inputSource)
 
 	if (m_documentPtr != NULL){
 		m_nodePtr = m_documentPtr->getFirstChild();
-		if (m_nodePtr == NULL || xercesc::XMLString::compareIString(m_nodePtr->getNodeName(), istd::CString(s_acfRootTag.GetId()).c_str()) != 0){
+		if (m_nodePtr == NULL || xercesc::XMLString::compareIString(m_nodePtr->getNodeName(), (const XMLCh*)istd::CString(s_acfRootTag.GetId()).c_str()) != 0){
 			m_documentPtr->release();
 			m_documentPtr = NULL;
 			m_nodePtr = NULL;

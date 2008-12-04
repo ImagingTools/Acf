@@ -41,7 +41,7 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 	QTreeWidgetItem* treeItemPtr = new QTreeWidgetItem;
 	if (treeItemPtr != NULL){
 		QDateTime dateTime;
-		dateTime = QDateTime::fromTime_t(message.GetTimeStamp().ToCTime());
+		dateTime = QDateTime::fromTime_t(uint(message.GetTimeStamp().ToCTime()));
 
 		QString date = dateTime.toString();
 		treeItemPtr->setText(TimeColumn, date);

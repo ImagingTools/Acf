@@ -18,8 +18,6 @@ public:
 					const std::string& filePath,
 					const iser::IVersionInfo* versionInfoPtr = NULL,
 					bool serializeHeader = true);
-private:
-	std::wstring m_fileName;
 };
 
 

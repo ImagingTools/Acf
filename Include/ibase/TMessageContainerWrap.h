@@ -20,7 +20,7 @@ template <class Base>
 class TMessageContainerWrap: public ibase::THierarchicalBase<Base>
 {
 public:
-	typedef Base BaseClass;
+	typedef ibase::THierarchicalBase<Base> BaseClass;
 
 	TMessageContainerWrap();
 	virtual ~TMessageContainerWrap();
@@ -97,7 +97,7 @@ bool TMessageContainerWrap<Base>::Serialize(iser::IArchive& archive)
 
 	bool retVal = true;
 
-	Messages messages = GetMessages();
+	ibase::IMessageContainer::Messages messages = GetMessages();
 	int messageCount = messages.size();
 
 	static iser::CArchiveTag messagesTag("Messages", "List of messages");
@@ -159,7 +159,7 @@ int TMessageContainerWrap<Base>::GetWorstCategory() const
 template <class Base>
 ibase::IMessageContainer::Messages TMessageContainerWrap<Base>::GetMessages() const
 {
-	Messages messages;
+	ibase::IMessageContainer::Messages messages;
 
 	for (int messageIndex = 0; messageIndex < m_messages.GetCount(); messageIndex++){
 		const IMessage* messagePtr = m_messages.GetAt(messageIndex);
@@ -189,13 +189,19 @@ void TMessageContainerWrap<Base>::AddMessage(ibase::IMessage* messagePtr)
 	if (m_maxMessageCount >= 0){
 		if (m_messages.GetCount() + 1 > m_maxMessageCount && m_maxMessageCount > 0){
 			ibase::IMessage* removeMessagePtr = m_messages.GetAt(0);
-			istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, MessageRemoved, removeMessagePtr);
+			istd::TChangeNotifier<ibase::IMessageContainer> changePtr(
+						this,
+						ibase::IMessageContainer::MessageRemoved,
+						removeMessagePtr);
 
 			m_messages.RemoveAt(0);
 		}
 	}
 
-	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, MessageAdded, messagePtr);
+	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(
+				this,
+				ibase::IMessageContainer::MessageAdded,
+				messagePtr);
 
 	m_messages.PushBack(messagePtr);
 
@@ -209,7 +215,7 @@ void TMessageContainerWrap<Base>::AddMessage(ibase::IMessage* messagePtr)
 template <class Base>
 void TMessageContainerWrap<Base>::ClearMessages()
 {
-	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, Reset);
+	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, ibase::IMessageContainer::Reset);
 	
 	m_messages.Reset();
 

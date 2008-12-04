@@ -14,11 +14,10 @@ CFileXmlWriteArchive::CFileXmlWriteArchive(
 					bool serializeHeader)
 :	BaseClass(versionInfoPtr)
 {
-	wchar_t* tmpData = xercesc::XMLString::transcode(filePath.c_str());
-	m_fileName = tmpData;
+	XMLCh* tmpData = xercesc::XMLString::transcode(filePath.c_str());
+	Init(new xercesc::LocalFileFormatTarget(tmpData));
 	xercesc::XMLString::release(&tmpData);
 
-	Init(new xercesc::LocalFileFormatTarget(m_fileName.c_str()));
 
 	if (serializeHeader){
 		SerializeAcfHeader();

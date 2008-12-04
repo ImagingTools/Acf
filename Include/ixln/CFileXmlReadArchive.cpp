@@ -11,11 +11,10 @@ namespace ixln
 
 CFileXmlReadArchive::CFileXmlReadArchive(const std::string& filePath, bool serializeHeader)
 {
-	wchar_t* tmpData = xercesc::XMLString::transcode(filePath.c_str());
-	m_fileName = tmpData;
+	XMLCh* tmpData = xercesc::XMLString::transcode(filePath.c_str());
+	xercesc::LocalFileInputSource inputSource(tmpData);
 	xercesc::XMLString::release(&tmpData);
 
-	xercesc::LocalFileInputSource inputSource(m_fileName.c_str());
 	Init(inputSource);
 
 	if (serializeHeader){

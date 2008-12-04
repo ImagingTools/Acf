@@ -59,13 +59,13 @@ bool CXmlWriteArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 	if (IsCommentEnabled()){
 		std::string fullDescription = "Tag comment: " + tag.GetComment();
 
-	    wchar_t* tagComment = xercesc::XMLString::transcode(fullDescription.c_str());
+	    XMLCh* tagComment = xercesc::XMLString::transcode(fullDescription.c_str());
 		xercesc::DOMComment* commentElement = m_documentPtr->createComment(tagComment);
 		m_nodePtr->appendChild(commentElement);
 		xercesc::XMLString::release(&tagComment);
 	}
 
-    wchar_t* tagName = xercesc::XMLString::transcode(tag.GetId().c_str());
+    XMLCh* tagName = xercesc::XMLString::transcode(tag.GetId().c_str());
     xercesc::DOMElement* element = m_documentPtr->createElement(tagName);
 	m_nodePtr->appendChild(element);
 
@@ -115,11 +115,13 @@ bool CXmlWriteArchiveBase::Process(istd::CString& data)
 		m_isFirstParamInTag = false;
 	}
 	else{
-    	xercesc::DOMElement* elementPtr = m_documentPtr->createElement(GetElementSeparator().c_str());
-        m_nodePtr->appendChild(elementPtr);
+		const istd::CString& separator = GetElementSeparator();
+		xercesc::DOMElement* elementPtr = m_documentPtr->createElement((const XMLCh*)separator.c_str());
+		m_nodePtr->appendChild(elementPtr);
     }
-    xercesc::DOMText* textPtr = m_documentPtr->createTextNode(data.c_str());
-    m_nodePtr->appendChild(textPtr);
+
+	xercesc::DOMText* textNodePtr = m_documentPtr->createTextNode((const XMLCh*)data.c_str());
+    m_nodePtr->appendChild(textNodePtr);
 
     return true;
 }
@@ -142,7 +144,7 @@ void CXmlWriteArchiveBase::Init(xercesc::XMLFormatTarget* formTarget)
 	I_ASSERT(!m_formTargetPtr.IsValid());
 	I_ASSERT(formTarget != NULL);
 
-	xercesc::DOMImplementation* impl = xercesc::DOMImplementationRegistry::getDOMImplementation(L"LS");
+	xercesc::DOMImplementation* impl = xercesc::DOMImplementationRegistry::getDOMImplementation((const XMLCh*)L"LS");
 
 	m_isFlushed = false;
 	m_writerPtr = ((xercesc::DOMImplementationLS*)impl)->createDOMWriter();
@@ -159,7 +161,9 @@ void CXmlWriteArchiveBase::Init(xercesc::XMLFormatTarget* formTarget)
 	m_documentPtr = impl->createDocument();
 
 	if (m_documentPtr != NULL){
-		xercesc::DOMElement* element = m_documentPtr->createElement(istd::CString(s_acfRootTag.GetId()).c_str());
+		static istd::CString rootIdString(s_acfRootTag.GetId());
+
+		xercesc::DOMElement* element = m_documentPtr->createElement((const XMLCh*)rootIdString.c_str());
 		m_documentPtr->appendChild(element);
 		m_nodePtr = element;
 	}
