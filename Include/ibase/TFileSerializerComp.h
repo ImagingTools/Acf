@@ -75,7 +75,7 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 
 
 template <class ReadArchive, class WriteArchive>
-int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const
+int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
 	if (IsOperationSupported(&data, &filePath, true, false, false)){
 		ReadArchive archive(filePath);
@@ -97,7 +97,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 
 
 template <class ReadArchive, class WriteArchive>
-int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const
+int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
 	if (IsOperationSupported(&data, &filePath, false, true, false)){
 		WriteArchive archive(filePath, GetVersionInfo());

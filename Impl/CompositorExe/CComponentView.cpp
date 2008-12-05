@@ -178,10 +178,10 @@ QRect CComponentView::CalculateRect() const
 	width += shadowOffset;
 	height += shadowOffset;
 
-	width = ::ceil(width / gridSize) * gridSize;
-	height = ::ceil(height / gridSize) * gridSize;
+	width = int(::ceil(width / gridSize) * gridSize);
+	height = int(::ceil(height / gridSize) * gridSize);
 
-	return QRect(pos().x(), pos().y(), width, height);
+	return QRect(int(pos().x()), int(pos().y()), width, height);
 }
 
 
@@ -236,9 +236,9 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 	}
 
 	if (!m_exportedInterfacesList.empty()){
-		int minSideSize = istd::Min(mainRect.width(), mainRect.height());
+		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
 		painter->drawPixmap(
-					mainRect.width() - int(minSideSize * 0.8),
+					int(mainRect.width() - minSideSize * 0.8),
 					int(minSideSize * 0.2),
 					int(minSideSize * 0.6),
 					int(minSideSize * 0.6),
@@ -273,19 +273,20 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& value)
 {
 	switch(change){
-		case QGraphicsItem::ItemSelectedChange:
-			foreach (CComponentConnector* connector, m_connectors){
-				connector->update();
-			}
-			emit selectionChanged(this, value.toBool());
-			break;
+	case QGraphicsItem::ItemSelectedChange:
+		foreach (CComponentConnector* connector, m_connectors){
+			connector->update();
+		}
+		emit selectionChanged(this, value.toBool());
+		break;
 
-		case QGraphicsItem::ItemPositionChange:
+	case QGraphicsItem::ItemPositionChange:
+		{
 			QSizeF size = CalculateRect().size();
 			QPoint newPos = value.toPoint();
 			double gridSize = m_registryView.GetGrid();
-			newPos.setX(::floor((newPos.x() + size.width() * 0.5) / gridSize + 0.5) * gridSize - size.width() * 0.5);
-			newPos.setY(::floor((newPos.y() + size.height() * 0.5) / gridSize + 0.5) * gridSize - size.height() * 0.5);
+			newPos.setX(int(::ceil((newPos.x() + size.width() * 0.5) / gridSize + 0.5) * gridSize - size.width() * 0.5));
+			newPos.setY(int(::ceil((newPos.y() + size.height() * 0.5) / gridSize + 0.5) * gridSize - size.height() * 0.5));
 
 			foreach (CComponentConnector* connector, m_connectors){
 				connector->Adjust();
@@ -294,6 +295,10 @@ QVariant CComponentView::itemChange(GraphicsItemChange change, const QVariant& v
 			emit positionChanged(this, newPos);
 			
 			return QVariant(newPos);
+		}
+
+	default:
+		break;
 	}
 
 	return QGraphicsRectItem::itemChange(change, value);

@@ -167,3 +167,5 @@ inline double CRegistryViewComp::GetGrid() const
 
 
 #endif // !CRegistryViewComp_included
+
+

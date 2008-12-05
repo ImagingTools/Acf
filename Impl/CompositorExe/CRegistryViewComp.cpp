@@ -320,10 +320,10 @@ void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const Q
 		geometryProviderPtr->SetComponentPosition(view->GetComponentName(), i2d::CVector2d(newPosition.x(), newPosition.y()));
 	}
 
-	int gridSize = GetGrid();
+	double gridSize = GetGrid();
 	QRectF boundingBox = m_compositeItem.childrenBoundingRect();
-	int width = ::ceil(boundingBox.width() / gridSize) * gridSize;
-	int height = ::ceil(boundingBox.height() / gridSize) * gridSize;
+	int width = int(::ceil(boundingBox.width() / gridSize) * gridSize);
+	int height = int(::ceil(boundingBox.height() / gridSize) * gridSize);
 	boundingBox.setWidth(width);
 	boundingBox.setHeight(height);
 
@@ -336,8 +336,6 @@ void CRegistryViewComp::OnRemoveComponent()
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
 		if (m_selectedComponentPtr != NULL){
-			const icomp::IRegistry::ElementInfo& elementInfo = m_selectedComponentPtr->GetElementInfo();
-
 			m_selectedComponentPtr->RemoveAllConnectors();
 			m_scenePtr->removeItem(m_selectedComponentPtr);
 			m_removeComponentCommand.setEnabled(false);
@@ -533,7 +531,6 @@ void CRegistryViewComp::OnRemoveNote()
 void CRegistryViewComp::ResetScene()
 {
 	QList<QGraphicsItem*> items = m_scenePtr->items();
-	int itemsCount = items.count();
 	foreach(QGraphicsItem* itemPtr, items){
 		if (itemPtr == &m_compositeItem){
 			continue;
@@ -589,21 +586,21 @@ CComponentView* CRegistryViewComp::CreateComponentView(
 	CComponentView* componentViewPtr = new CComponentView(this, registryPtr, elementInfoPtr, role.c_str(), &m_compositeItem, m_scenePtr);
 
 	connect(componentViewPtr, 
-		SIGNAL(selectionChanged(CComponentView*, bool)),
-		this,
-		SLOT(OnComponentViewSelected(CComponentView*, bool)));
+				SIGNAL(selectionChanged(CComponentView*, bool)),
+				this,
+				SLOT(OnComponentViewSelected(CComponentView*, bool)));
 
 	connect(componentViewPtr, 
-		SIGNAL(positionChanged(CComponentView*, const QPoint&)),
-		this,
-		SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
-		Qt::QueuedConnection);
+				SIGNAL(positionChanged(CComponentView*, const QPoint&)),
+				this,
+				SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
+				Qt::QueuedConnection);
 
 	int itemsCount = m_scenePtr->items().count();
 
 	componentViewPtr->setZValue(itemsCount);
 
-	int gridSize = GetGrid();
+	double gridSize = GetGrid();
 	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
 
 	return componentViewPtr;
@@ -825,17 +822,22 @@ void CRegistryViewComp::UpdateExportInterfaceCommand()
 
 QVariant CRegistryViewComp::CCompositeItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-		switch(change){
-		case QGraphicsItem::ItemSelectedChange:
-			break;
+	switch(change){
+	case QGraphicsItem::ItemSelectedChange:
+		break;
 
-		case QGraphicsItem::ItemPositionChange:
+	case QGraphicsItem::ItemPositionChange:
+		{
 			QPoint newPos = value.toPoint();
 			newPos.rx() = newPos.rx() - (newPos.rx() % 25);
 			newPos.ry() = newPos.ry() - (newPos.ry() % 25);
 
 			return QVariant(newPos);
 		}
+
+	default:
+		break;
+	}
 
 	return QGraphicsRectItem::itemChange(change, value);
 }
@@ -904,11 +906,15 @@ void CRegistryViewComp::CRegistryScene::drawBackground(QPainter* painter, const 
 	painter->setPen(pen);
 
 	for (double x = sceneRect.left(); x < sceneRect.right(); x += gridSize){
-		painter->drawLine(x,sceneRect.top(), x, sceneRect.bottom());
+		painter->drawLine(
+					QPointF(x, sceneRect.top()),
+					QPointF(x, sceneRect.bottom()));
 	}
 
 	for (double y = sceneRect.top(); y < sceneRect.bottom(); y += gridSize){
-		painter->drawLine(sceneRect.left(),y, sceneRect.right(), y);
+		painter->drawLine(
+					QPointF(sceneRect.left(), y),
+					QPointF(sceneRect.right(), y));
 	}
 
 	painter->restore();
@@ -917,7 +923,7 @@ void CRegistryViewComp::CRegistryScene::drawBackground(QPainter* painter, const 
 
 void CRegistryViewComp::CRegistryScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 {
-	QStringList& formats = event->mimeData()->formats();
+	const QStringList& formats = event->mimeData()->formats();
 	if (!formats.isEmpty() && (formats.first() == "component")){
 		event->acceptProposedAction();
 	}

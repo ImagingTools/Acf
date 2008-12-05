@@ -94,8 +94,6 @@ QRectF CComponentNoteView::boundingRect() const
 		return QRectF();
 	}
 
-	double penWidth = 1.0;
-
 	QRectF rect = m_connectionLine.boundingRect();
 	rect.unite(QRectF(m_touchPoint, QSize(1, 1)));
 

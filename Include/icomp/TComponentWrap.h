@@ -2,6 +2,7 @@
 #define icomp_TComponentWrap_included
 
 
+#include "icomp/IComponent.h"
 #include "icomp/IComponentContext.h"
 
 

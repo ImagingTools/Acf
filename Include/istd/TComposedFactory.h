@@ -29,8 +29,10 @@ public:
 	*/
 	bool RegisterFactory(FactoryInterface* factoryPtr, bool releaseFlag = false);
 
+	// reimplemented (istd::IFactoryInfo)
+	virtual IFactoryInfo::KeyList GetFactoryKeys() const;
+
 	// reimplemented (istd::TIFactory)
-	virtual KeyList GetFactoryKeys() const;
 	virtual InterfaceType* CreateInstance(const std::string& keyId = "") const;
 
 protected:
@@ -59,10 +61,10 @@ bool TComposedFactory<InterfaceType>::RegisterFactory(FactoryInterface* factoryP
 }
 
 	
-// reimplemented (istd::TIFactory)
+// reimplemented (istd::IFactoryInfo)
 
 template <class InterfaceType>
-typename TComposedFactory<InterfaceType>::KeyList TComposedFactory<InterfaceType>::GetFactoryKeys() const
+IFactoryInfo::KeyList TComposedFactory<InterfaceType>::GetFactoryKeys() const
 {
 	KeyList retVal;
 	for (		FactoryList::const_iterator iter = m_factoryList.begin();
@@ -78,6 +80,8 @@ typename TComposedFactory<InterfaceType>::KeyList TComposedFactory<InterfaceType
 	return retVal;
 }
 
+
+// reimplemented (istd::TIFactory)
 
 template <class InterfaceType>
 InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const std::string& keyId) const

@@ -2,14 +2,7 @@
 #define istd_TIFactory_included
 
 
-#include "istd/istd.h"
-
-
-#include <string>
-#include <vector>
-
-
-#include "istd/IPolymorphic.h"
+#include "istd/IFactoryInfo.h"
 
 
 namespace istd
@@ -20,16 +13,10 @@ namespace istd
 	Common interface for a factory implementation.	
 */
 template <class Interface>
-class TIFactory: virtual public istd::IPolymorphic  
+class TIFactory: virtual public IFactoryInfo  
 {
 public:
 	typedef Interface InterfaceType;
-	typedef std::vector<std::string> KeyList;
-
-	/**
-		Returns all posible keys for this factory.
-	*/
-	virtual KeyList GetFactoryKeys() const = 0;
 
 	/**
 		Create an instance of the object, mapped to the keyId \c keyId.

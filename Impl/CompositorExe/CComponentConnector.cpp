@@ -101,10 +101,8 @@ void CComponentConnector::Adjust()
 	double middleX = (istd::Max(sourceRect.left(), destRect.left()) + istd::Min(sourceRect.right(), destRect.right())) * 0.5;
 	double middleY = (istd::Max(sourceRect.top(), destRect.top()) + istd::Min(sourceRect.bottom(), destRect.bottom())) * 0.5;
 
-	double sourceMidX = (sourceRect.left() + sourceRect.right()) * 0.5;
 	double sourceMidY = (sourceRect.top() + sourceRect.bottom()) * 0.5;
 	double destMidX = (destRect.left() + destRect.right()) * 0.5;
-	double destMidY = (destRect.top() + destRect.bottom()) * 0.5;
 
 	double gridSize = m_registryView.GetGrid();
 
@@ -230,7 +228,7 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 	const QPointF& circlePoint = m_connectionLine.first();
 	i2d::CVector2d circleDirection(circlePoint.x() - m_touchPoint.x(), circlePoint.y() - m_touchPoint.y());
-	int degree = 360 - imath::GetDegreeFromRadian(circleDirection.GetAngle());
+	int degree = 360 - int(imath::GetDegreeFromRadian(circleDirection.GetAngle()));
 	circleDirection.Normalize(GP_OFFSET - GP_RADIUS2);
 
 	// drawing:

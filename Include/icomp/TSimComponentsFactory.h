@@ -25,8 +25,10 @@ public:
 
 	TSimComponentsFactory();
 
+	// reimplemented (istd::IFactoryInfo)
+	virtual istd::IFactoryInfo::KeyList GetFactoryKeys() const;
+
 	// reimplemented (istd::TIFactory<icomp::IComponent>)
-	virtual KeyList GetFactoryKeys() const;
 	virtual icomp::IComponent* CreateInstance(const std::string& keyId = "") const;
 
 private:
@@ -43,14 +45,16 @@ TSimComponentsFactory<Base>::TSimComponentsFactory()
 }
 
 
-// reimplemented (istd::TIFactory<icomp::IComponent>)
+// reimplemented (istd::IFactoryInfo)
 
 template <class Base>
-istd::TIFactory<icomp::IComponent>::KeyList TSimComponentsFactory<Base>::GetFactoryKeys() const
+istd::IFactoryInfo::KeyList TSimComponentsFactory<Base>::GetFactoryKeys() const
 {
 	return m_factoryKeys;
 }
 
+
+// reimplemented (istd::TIFactory<icomp::IComponent>)
 
 template <class Base>
 icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const std::string& keyId) const

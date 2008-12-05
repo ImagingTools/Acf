@@ -10,78 +10,78 @@
 	</xsl:template>
 
 	<xsl:template match = "VisualStudioProject">
-		<xsl:element name = "projectDescription">
-				<xsl:element name = "name">
-					<xsl:value-of select = "@Name" />
-				</xsl:element>
-				<xsl:element name = "comment"/>
-				<xsl:element name = "project"/>
-				<xsl:element name = "buildSpec">
-					<xsl:element name = "buildCommand">
-						<xsl:element name = "name">org.eclipse.cdt.managedbuilder.core.genmakebuilder</xsl:element>
-						<xsl:element name = "triggers">clean,full,incremental,</xsl:element>
-						<xsl:element name = "arguments">
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">?name?</xsl:element>
-								<xsl:element name = "value"></xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.append_environment</xsl:element>
-								<xsl:element name = "value">true</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.buildArguments</xsl:element>
-								<xsl:element name = "value"></xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.buildCommand</xsl:element>
-								<xsl:element name = "value">make</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.buildLocation</xsl:element>
-								<xsl:element name = "value">${workspace_loc:/iser/Debug}</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.contents</xsl:element>
-								<xsl:element name = "value">org.eclipse.cdt.make.core.activeConfigSettings</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.enableAutoBuild</xsl:element>
-								<xsl:element name = "value">false</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.enableCleanBuild</xsl:element>
-								<xsl:element name = "value">true</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.enableFullBuild</xsl:element>
-								<xsl:element name = "value">true</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.stopOnError</xsl:element>
-								<xsl:element name = "value">true</xsl:element>
-							</xsl:element>
-							<xsl:element name = "dictionary">
-								<xsl:element name = "key">org.eclipse.cdt.make.core.useDefaultBuildCmd</xsl:element>
-								<xsl:element name = "value">true</xsl:element>
-							</xsl:element>
-						</xsl:element>
-					</xsl:element>
-					<xsl:element name = "buildCommand">
-						<xsl:element name = "name">org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</xsl:element>
-						<xsl:element name = "arguments"></xsl:element>
-					</xsl:element>
-				</xsl:element>
-				<xsl:element name = "natures">
-					<xsl:element name = "nature">org.eclipse.cdt.core.ccnature</xsl:element>
-					<xsl:element name = "nature">org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</xsl:element>
-					<xsl:element name = "nature">org.eclipse.cdt.managedbuilder.core.managedBuildNature</xsl:element>
-					<xsl:element name = "nature">org.eclipse.cdt.core.cnature</xsl:element>
-				</xsl:element>
-				<xsl:element name = "linkedResources">
-					<xsl:apply-templates/>
-				</xsl:element>
-			</xsl:element>
+		<projectDescription>
+			<name>iqtdoc</name>
+			<comment></comment>
+			<projects>
+			</projects>
+			<buildSpec>
+				<buildCommand>
+					<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+					<triggers>clean,full,incremental,</triggers>
+					<arguments>
+						<dictionary>
+							<key>?name?</key>
+							<value></value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.append_environment</key>
+							<value>true</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.buildArguments</key>
+							<value></value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.buildCommand</key>
+							<value>make</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.buildLocation</key>
+							<value>${workspace_loc:/<xsl:value-of select="//VisualStudioProject/@Name"/>/Debug}</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.contents</key>
+							<value>org.eclipse.cdt.make.core.activeConfigSettings</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.enableAutoBuild</key>
+							<value>false</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.enableCleanBuild</key>
+							<value>true</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.enableFullBuild</key>
+							<value>true</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.stopOnError</key>
+							<value>true</value>
+						</dictionary>
+						<dictionary>
+							<key>org.eclipse.cdt.make.core.useDefaultBuildCmd</key>
+							<value>true</value>
+						</dictionary>
+					</arguments>
+				</buildCommand>
+				<buildCommand>
+					<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+					<arguments>
+					</arguments>
+				</buildCommand>
+			</buildSpec>
+			<natures>
+				<nature>org.eclipse.cdt.core.ccnature</nature>
+				<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+				<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+				<nature>org.eclipse.cdt.core.cnature</nature>
+			</natures>
+			<linkedResources>
+				<xsl:apply-templates/>
+			</linkedResources>
+		</projectDescription>
 	</xsl:template>
 
 	<xsl:template match = "File">

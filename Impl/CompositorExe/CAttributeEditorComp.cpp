@@ -135,8 +135,6 @@ void CAttributeEditorComp::UpdateEditor()
 		const icomp::IAttributeStaticInfo* staticAttributeInfPtr = staticAttributes.GetValueAt(staticAttributeIndex);
 		I_ASSERT(staticAttributeInfPtr != NULL);
 
-		const iser::ISerializable* attributePtr = NULL;
-
 		QTreeWidgetItem* attributeItemPtr = new QTreeWidgetItem();
 		QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem();
 

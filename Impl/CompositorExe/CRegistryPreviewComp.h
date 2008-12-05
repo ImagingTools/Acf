@@ -43,3 +43,5 @@ private:
 
 
 #endif // !CRegistryPreviewComp_included
+
+

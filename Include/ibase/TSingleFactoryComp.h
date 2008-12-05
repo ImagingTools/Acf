@@ -26,8 +26,10 @@ public:
 
 	TSingleFactoryComp();
 
+	// reimplemented (istd::IFactoryInfo)
+	IFactoryInfo::KeyList GetFactoryKeys() const;
+
 	// reimplemented (istd::TIFactory)
-	KeyList GetFactoryKeys() const;
 	Interface* CreateInstance(const std::string& keyId) const;
 
 private:
@@ -42,8 +44,10 @@ TSingleFactoryComp<Interface, Implementation>::TSingleFactoryComp()
 }
 
 
+// reimplemented (istd::IFactoryInfo)
+
 template <class Interface, class Implementation>
-typename istd::TIFactory<Interface>::KeyList TSingleFactoryComp<Interface, Implementation>::GetFactoryKeys() const
+IFactoryInfo::KeyList TSingleFactoryComp<Interface, Implementation>::GetFactoryKeys() const
 {
 	KeyList retVal;
 
@@ -54,6 +58,8 @@ typename istd::TIFactory<Interface>::KeyList TSingleFactoryComp<Interface, Imple
 	return retVal;
 }
 
+
+// reimplemented (istd::TIFactory)
 
 template <class Interface, class Implementation>
 Interface* TSingleFactoryComp<Interface, Implementation>::CreateInstance(const std::string& keyId) const

@@ -239,8 +239,6 @@ const icomp::IComponentStaticInfo* CPackageOverviewComp::GetItemStaticInfo(const
 
 bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 {
-	int componentInfoAddress = 0;
-
 	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(eventObject);
 	I_ASSERT(sourceWidgetPtr != NULL);
 
@@ -273,6 +271,10 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 				}
 			}
 		}
+		break;
+
+	default:
+		break;
 	}
 
 	return false;
