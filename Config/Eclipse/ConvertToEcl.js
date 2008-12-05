@@ -44,21 +44,15 @@ function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentS
 
 			if (projectExp.exec(file.Name)){
 				var outputDir = parentFolder + "/Ecl";
-				var templatePath = shell.ExpandEnvironmentStrings("%ACFDIR%/Config/Eclipse/ProjTemplDir");
-				if (!beQuiet){
-		            WScript.Echo("Copy template from " + templatePath + " to folder: " + outputDir);
-		        }
 
 				if (!fileSystem.FolderExists(outputDir)){
-					fileSystem.CopyFolder(templatePath, outputDir);
+					if (!beQuiet){
+						WScript.Echo("Create folder " + outputDir);
+					}
+
+					fileSystem.CreateFolder(outputDir);
 				}
 
-				try{
-					fileSystem.CopyFile(templatePath + "\\.cproject", outputDir + "\\", false);
-				}
-				catch(e){
-				}
-				
 				retVal += TransformDocument(
 							shell,
 							folder + "/" + file.Name,
