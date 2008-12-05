@@ -1015,6 +1015,11 @@
 		</cproject>
 	</xsl:template>
 
+	<!--Implementation of imported helper stylesheet-->
+
+	<xsl:template name = "InsertSourceFile">
+	</xsl:template>
+
 	<xsl:template name = "InsertValue">
 		<xsl:param name="Path"/>
 		<xsl:element name = "listOptionValue">

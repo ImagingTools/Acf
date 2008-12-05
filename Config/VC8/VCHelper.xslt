@@ -1,5 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <xsl:stylesheet xmlns:xsl = "http://www.w3.org/1999/XSL/Transform" version = "1.0" >
+	<xsl:param name = "SourcePath">..</xsl:param>
+
 	<xsl:template match = "Tool" mode="IncludePath">
 		<xsl:call-template name = "ParsePathList">
 			<xsl:with-param name = "ToParse" select="@AdditionalIncludeDirectories"/>
@@ -84,6 +86,48 @@
 		<xsl:if test="(string-length($CorrectedPath) > 0) and ($Mode!='EnvOnly' or contains($CorrectedPath, '$'))">
 			<xsl:call-template name = "InsertValue">
 				<xsl:with-param name = "Path" select="$CorrectedPath"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match = "File" mode="Sources">
+		<xsl:variable name = "FilePath">
+			<xsl:value-of select = "substring-after(@RelativePath,'..\')"/>
+		</xsl:variable>
+		<xsl:variable name = "FileName">
+			<xsl:choose>
+				<xsl:when test = "contains(@RelativePath,'generated\')">
+					<xsl:value-of select = "substring-after(@RelativePath,'generated\')"/>
+				</xsl:when>
+				<xsl:when test = "starts-with(@RelativePath,'..\')">
+					<xsl:value-of select = "substring-after(@RelativePath,'..\')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select = "@RelativePath"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name = "GroupName">
+			<xsl:choose>
+				<xsl:when test = "contains(@RelativePath,'generated\')">
+					Generated
+				</xsl:when>
+				<xsl:when test = "contains(@RelativePath,'.h')">
+					Headers
+				</xsl:when>
+				<xsl:when test = "contains(@RelativePath,'.cpp')">
+					Sources
+				</xsl:when>
+				<xsl:otherwise>
+					Garbages
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:if test = "starts-with(@RelativePath, '..\')">
+			<xsl:call-template name = "InsertSourceFile">
+				<xsl:with-param name = "Name" select="$FileName"/>
+				<xsl:with-param name = "FilePath" select="concat($SourcePath, '/', $FilePath)"/>
+				<xsl:with-param name = "GroupName" select="normalize-space($GroupName)"/>
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
