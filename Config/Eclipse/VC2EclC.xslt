@@ -9,9 +9,27 @@
 	<xsl:template match = "*">
 		<xsl:apply-templates/>
 	</xsl:template>
-
+	
 	<xsl:template match = "VisualStudioProject">
-		<xsl:processing-instruction name="fileVersion">4.0.0</xsl:processing-instruction>
+		<xsl:processing-instruction name = "fileVersion">4.0.0</xsl:processing-instruction>
+
+		<xsl:variable name = "ProjectType">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'">exe</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">sharedLib</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">staticLib</xsl:when>
+				<xsl:otherwise>otherConfig</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name = "ProjectExtension">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'"></xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">arp</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">a</xsl:when>
+				<xsl:otherwise>otherConfig</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
 		<cproject>
 			<storageModule moduleId="org.eclipse.cdt.core.settings">
@@ -25,7 +43,7 @@
 						</extensions>
 					</storageModule>
 					<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-						<configuration artifactExtension="a" artifactName="{//VisualStudioProject/@Name}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+						<configuration artifactExtension="{$ProjectExtension}" artifactName="{//VisualStudioProject/@Name}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.{$ProjectType}" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.{$ProjectType}" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
 							<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810." name="/" resourcePath="">
 								<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.1008760913" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug">
 									<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.debug.8749873" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.debug"/>
@@ -38,11 +56,10 @@
 										<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.566164796" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 										<option id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.1871241693" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 										<option id="gnu.cpp.compiler.option.include.paths.1785923813" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-											<xsl:call-template name="ParseInclude">
+											<xsl:call-template name = "ParsePathList">
 												<xsl:with-param name = "ToParse" select="$ExtraIncludes"/>
-												<xsl:with-param name = "Id" select="11000"/>
 											</xsl:call-template>
-											<xsl:apply-templates select="Configurations/Configuration[1]"/>
+											<xsl:apply-templates mode ="IncludePath" select="Configurations/Configuration[2]"/>
 										</option>
 										<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.680789169" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 									</tool>
@@ -54,6 +71,12 @@
 									</tool>
 									<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.521752256" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
 									<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.2127389662" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
+										<option id="gnu.cpp.link.option.paths.1364357560" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+											<xsl:apply-templates mode="LinkerPath" select="Configurations/Configuration[2]"/>
+										</option>
+										<option id="gnu.cpp.link.option.libs.545652829" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+											<xsl:apply-templates mode="LinkerLib" select="Configurations/Configuration[2]"/>
+										</option>
 										<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.586701827" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 											<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 											<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -507,7 +530,7 @@
 						</extensions>
 					</storageModule>
 					<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-						<configuration artifactName="{//VisualStudioProject/@Name}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
+						<configuration artifactExtension="{$ProjectExtension}" artifactName="{//VisualStudioProject/@Name}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.{$ProjectType}" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.{$ProjectType}" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
 							<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623." name="/" resourcePath="">
 								<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1841956315" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 									<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1364020964" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
@@ -520,11 +543,10 @@
 										<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.1395972722" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 										<option id="gnu.cpp.compiler.mingw.exe.release.option.debugging.level.1333996377" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 										<option id="gnu.cpp.compiler.option.include.paths.1128053261" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-											<xsl:call-template name="ParseInclude">
+											<xsl:call-template name = "ParsePathList">
 												<xsl:with-param name = "ToParse" select="$ExtraIncludes"/>
-												<xsl:with-param name = "Id" select="13000"/>
 											</xsl:call-template>
-											<xsl:apply-templates select="Configurations/Configuration[1]"/>
+											<xsl:apply-templates mode ="IncludePath" select="Configurations/Configuration[1]"/>
 										</option>
 										<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.882795384" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 									</tool>
@@ -536,6 +558,12 @@
 									</tool>
 									<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.1881846249" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
 									<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.168717483" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release">
+										<option id="gnu.cpp.link.option.paths.384370928" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+											<xsl:apply-templates mode="LinkerPath" select="Configurations/Configuration[1]"/>
+										</option>
+										<option id="gnu.cpp.link.option.libs.545652829" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+											<xsl:apply-templates mode="LinkerLib" select="Configurations/Configuration[1]"/>
+										</option>
 										<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.630924128" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 											<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 											<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -985,73 +1013,94 @@
 		</cproject>
 	</xsl:template>
 
-	<xsl:template match = "Tool">
-		<xsl:call-template name="ParseEnvInclude">
+	<xsl:template match = "Tool" mode="IncludePath">
+		<xsl:call-template name = "ParsePathList">
 			<xsl:with-param name = "ToParse" select="@AdditionalIncludeDirectories"/>
-			<xsl:with-param name = "Id" select="20000"/>
+			<xsl:with-param name = "Mode" select="'EnvOnly'"/>
 		</xsl:call-template>
 	</xsl:template>
 
-	<xsl:template name = "ParseEnvInclude">
+	<xsl:template match = "Tool" mode="LinkerPath">
+		<xsl:call-template name = "ParsePathList">
+			<xsl:with-param name = "ToParse" select="@AdditionalLibraryDirectories"/>
+			<xsl:with-param name = "Mode" select="'EnvOnly'"/>
+		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template match = "Tool" mode="LinkerLib">
+		<xsl:call-template name = "ParsePathList">
+			<xsl:with-param name = "ToParse" select="@AdditionalDependencies"/>
+			<xsl:with-param name = "Mode" select="'Lib'"/>
+			<xsl:with-param name = "Separator" select="' '"/>
+		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name = "ParsePathList">
+		<!--Three modes are supported: 'Normal', 'EnvOnly' and 'Lib'-->
 		<xsl:param name = "ToParse"/>
-		<xsl:param name = "Id">2234</xsl:param>
+		<xsl:param name = "Mode" select="'Normal'"/>
+		<xsl:param name = "Separator" select="';'"/>
+
 		<xsl:if test="string-length($ToParse)>1">
-			<xsl:if test="not(contains($ToParse,';'))">
-				<xsl:if test="contains($ToParse, '$')">
-					<xsl:call-template name="InsertInclude">
-						<xsl:with-param name = "IncString" select="$ToParse"/>
-						<xsl:with-param name = "Id" select="$Id"/>
+			<xsl:choose>
+				<xsl:when test="contains($ToParse, $Separator)">
+					<xsl:variable name = "incString" select="substring-before($ToParse, $Separator)"/>
+					<xsl:call-template name = "InsertListValue">
+						<xsl:with-param name = "ToInsert" select="$incString"/>
+						<xsl:with-param name = "Mode" select="$Mode"/>
 					</xsl:call-template>
-				</xsl:if>
-			</xsl:if>
-			<xsl:if test="contains($ToParse,';')">
-				<xsl:variable name="incString" select="substring-before($ToParse, ';')"/>
-				<xsl:if test="contains($incString, '$')">
-					<xsl:call-template name="InsertInclude">
-						<xsl:with-param name = "IncString" select="$incString"/>
-						<xsl:with-param name = "Id" select="$Id"/>
+					<xsl:call-template name = "ParsePathList">
+						<xsl:with-param name = "ToParse" select="substring-after($ToParse, $Separator)"/>
+						<xsl:with-param name = "Mode" select="$Mode"/>
+						<xsl:with-param name = "Separator" select="$Separator"/>
 					</xsl:call-template>
-				</xsl:if>
-				<xsl:call-template name="ParseEnvInclude">
-					<xsl:with-param name = "ToParse" select="substring-after($ToParse, ';')"/>
-					<xsl:with-param name = "Id" select="$Id + 1"/>
-				</xsl:call-template>
-			</xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name = "InsertListValue">
+						<xsl:with-param name = "ToInsert" select="$ToParse"/>
+						<xsl:with-param name = "Mode" select="$Mode"/>
+					</xsl:call-template>
+			</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template name = "ParseInclude">
-		<xsl:param name = "ToParse"/>
-		<xsl:param name = "Id">10000</xsl:param>
-		<xsl:if test="string-length($ToParse)>1">
-			<xsl:if test="not(contains($ToParse,';'))">
-				<xsl:call-template name="InsertInclude">
-					<xsl:with-param name = "IncString" select="$ToParse"/>
-					<xsl:with-param name = "Id" select="$Id"/>
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="contains($ToParse,';')">
-				<xsl:variable name="incString" select="substring-before($ToParse, ';')"/>
-				<xsl:call-template name="InsertInclude">
-					<xsl:with-param name = "IncString" select="$ToParse"/>
-					<xsl:with-param name = "Id" select="$Id"/>
-				</xsl:call-template>
-				<xsl:call-template name="ParseInclude">
-					<xsl:with-param name = "ToParse" select="substring-after($ToParse, ';')"/>
-					<xsl:with-param name = "Id" select="$Id + 1"/>
-				</xsl:call-template>
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
+	<xsl:template name = "InsertListValue">
+		<xsl:param name = "ToInsert"/>
+		<xsl:param name = "Mode" select="'Normal'"/>
 
-	<xsl:template name = "InsertInclude">
-		<xsl:param name = "IncString"/>
-		<xsl:param name = "Id">30000</xsl:param>
-		<xsl:element name="listOptionValue">
-			<xsl:attribute name="builtIn">false</xsl:attribute>
-			<xsl:attribute name="value">
-				<xsl:value-of select="translate($IncString, '()\', '{}/')"/>
-			</xsl:attribute>
-		</xsl:element>
+		<xsl:variable name = "CorrectedPath">
+			<xsl:choose>
+				<xsl:when test = "$Mode='Lib'">
+					<xsl:choose>
+						<xsl:when test="contains($ToInsert, '.lib')">
+							<xsl:value-of select="translate(concat('lib', substring-before($ToInsert, '.lib'), '.a'), '()\', '{}/')"/>
+						</xsl:when>
+						<xsl:when test="contains($ToInsert, '.dll')">
+							<xsl:value-of select="translate(concat('lib', substring-before($ToInsert, '.lib'), '.prl'), '()\', '{}/')"/>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="contains($ToInsert, 'VC8')">
+							<xsl:value-of select="translate(concat(substring-before($ToInsert, 'VC8'), 'Ecl' ,substring-after($ToInsert, 'VC8')), '()\', '{}/')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="translate($ToInsert, '()\', '{}/')"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:if test="(string-length($CorrectedPath) > 0) and ($Mode!='EnvOnly' or contains($CorrectedPath, '$'))">
+			<xsl:element name = "listOptionValue">
+				<xsl:attribute name = "builtIn">false</xsl:attribute>
+				<xsl:attribute name = "value">
+					<xsl:value-of select="$CorrectedPath"/>
+				</xsl:attribute>
+			</xsl:element>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet> 

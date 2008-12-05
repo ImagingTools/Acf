@@ -2,7 +2,7 @@
 <projectDescription>
 <name>_LibsReady</name>
 <comment/>
-<project/>
+<projects/>
 <buildSpec>
 <buildCommand>
 <name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
@@ -26,7 +26,7 @@
 </dictionary>
 <dictionary>
 <key>org.eclipse.cdt.make.core.buildLocation</key>
-<value>${workspace_loc:/iser/Debug}</value>
+<value>${workspace_loc:/_LibsReady/Debug}</value>
 </dictionary>
 <dictionary>
 <key>org.eclipse.cdt.make.core.contents</key>

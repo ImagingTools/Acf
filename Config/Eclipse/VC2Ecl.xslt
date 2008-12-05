@@ -11,7 +11,7 @@
 
 	<xsl:template match = "VisualStudioProject">
 		<projectDescription>
-			<name>iqtdoc</name>
+			<name><xsl:value-of select="//VisualStudioProject/@Name"/></name>
 			<comment></comment>
 			<projects>
 			</projects>
