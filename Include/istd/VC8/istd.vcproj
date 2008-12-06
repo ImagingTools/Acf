@@ -240,10 +240,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPoint2d.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CRandomNumber.h"
 				>
 			</File>
