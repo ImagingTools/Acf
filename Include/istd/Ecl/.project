@@ -137,11 +137,6 @@
 <locationURI>ACFPath/Include/istd/CIndex2d.h</locationURI>
 </link>
 <link>
-<name>Headers/CPoint2d.h</name>
-<type>1</type>
-<locationURI>ACFPath/Include/istd/CPoint2d.h</locationURI>
-</link>
-<link>
 <name>Headers/CRandomNumber.h</name>
 <type>1</type>
 <locationURI>ACFPath/Include/istd/CRandomNumber.h</locationURI>

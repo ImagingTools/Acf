@@ -7,8 +7,6 @@
 
 	<xsl:template match = "*">
 		<xsl:param name = "UserParam" select="''"/>
-		
-		Bla
 		<xsl:apply-templates>
 			<xsl:with-param name="UserParam" select="$UserParam"/>
 		</xsl:apply-templates>
@@ -269,7 +267,7 @@
 				<xsl:text> */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = </xsl:text>
 				<xsl:value-of select="$Name"/>
 				<xsl:text>; path = </xsl:text>
-				<xsl:value-of select="$FilePath"/>
+				<xsl:value-of select="translate($FilePath, '\', '/')"/>
 				<xsl:text>; sourceTree = SOURCE_ROOT; };
 </xsl:text>
 			</xsl:when>

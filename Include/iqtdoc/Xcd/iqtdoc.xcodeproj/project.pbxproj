@@ -36,9 +36,9 @@
 		123456860ED2E572006EC826 /* CMultiDocumentWorkspaceGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMultiDocumentWorkspaceGuiComp.h; path = ../CMultiDocumentWorkspaceGuiComp.h; sourceTree = SOURCE_ROOT; };
 		123456870ED2E572006EC826 /* iqtdoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqtdoc.h; path = ../iqtdoc.h; sourceTree = SOURCE_ROOT; };
 		123456880ED2E572006EC826 /* IWorkspaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IWorkspaceController.h; path = ../IWorkspaceController.h; sourceTree = SOURCE_ROOT; };
-		123456890ED2E572006EC826 /* moc_CExtendedDocumentTemplateComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CExtendedDocumentTemplateComp.cpp; path = ../generated\moc_CExtendedDocumentTemplateComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456900ED2E572006EC826 /* moc_CMainWindowGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CMainWindowGuiComp.cpp; path = ../generated\moc_CMainWindowGuiComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456910ED2E572006EC826 /* moc_CMultiDocumentWorkspaceGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CMultiDocumentWorkspaceGuiComp.cpp; path = ../generated\moc_CMultiDocumentWorkspaceGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456890ED2E572006EC826 /* moc_CExtendedDocumentTemplateComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CExtendedDocumentTemplateComp.cpp; path = ../generated/moc_CExtendedDocumentTemplateComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456900ED2E572006EC826 /* moc_CMainWindowGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CMainWindowGuiComp.cpp; path = ../generated/moc_CMainWindowGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456910ED2E572006EC826 /* moc_CMultiDocumentWorkspaceGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CMultiDocumentWorkspaceGuiComp.cpp; path = ../generated/moc_CMultiDocumentWorkspaceGuiComp.cpp; sourceTree = SOURCE_ROOT; };
 
 	/* End PBXFileReference section */
 

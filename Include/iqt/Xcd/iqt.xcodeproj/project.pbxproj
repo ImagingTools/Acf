@@ -101,8 +101,8 @@
 		123457190ED2E572006EC826 /* IQImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IQImageProvider.h; path = ../IQImageProvider.h; sourceTree = SOURCE_ROOT; };
 		123457200ED2E572006EC826 /* iqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqt.h; path = ../iqt.h; sourceTree = SOURCE_ROOT; };
 		123457210ED2E572006EC826 /* ITranslationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ITranslationManager.h; path = ../ITranslationManager.h; sourceTree = SOURCE_ROOT; };
-		123457220ED2E572006EC826 /* moc_CDirList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CDirList.cpp; path = ../generated\moc_CDirList.cpp; sourceTree = SOURCE_ROOT; };
-		123457230ED2E572006EC826 /* moc_CFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileList.cpp; path = ../generated\moc_CFileList.cpp; sourceTree = SOURCE_ROOT; };
+		123457220ED2E572006EC826 /* moc_CDirList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CDirList.cpp; path = ../generated/moc_CDirList.cpp; sourceTree = SOURCE_ROOT; };
+		123457230ED2E572006EC826 /* moc_CFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileList.cpp; path = ../generated/moc_CFileList.cpp; sourceTree = SOURCE_ROOT; };
 
 	/* End PBXFileReference section */
 
