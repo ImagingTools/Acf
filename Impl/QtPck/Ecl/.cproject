@@ -44,7 +44,7 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.2127389662" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
 <option id="gnu.cpp.link.option.paths.1364357560" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="&quot;${QTDIR}/lib&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${ACFDIR}/Lib/${ConfigurationName}Ecl&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${ACFDIR}/Lib/${ConfigurationName}$CompilerCode&quot;"/>
 </option>
 <option id="gnu.cpp.link.option.libs.545652829" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="libAcfStd.a"/>
@@ -540,7 +540,7 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.168717483" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release">
 <option id="gnu.cpp.link.option.paths.384370928" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="&quot;${QTDIR}/lib&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${ACFDIR}/Lib/${ConfigurationName}Ecl&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${ACFDIR}/Lib/${ConfigurationName}$CompilerCode&quot;"/>
 </option>
 <option id="gnu.cpp.link.option.libs.545652829" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="libAcfStd.a"/>
