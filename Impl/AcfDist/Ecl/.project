@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <projectDescription>
-<name>AcfDist.exe</name>
+<name>AcfDist</name>
 <comment/>
 <projects/>
 <buildSpec>
@@ -26,7 +26,7 @@
 </dictionary>
 <dictionary>
 <key>org.eclipse.cdt.make.core.buildLocation</key>
-<value>${workspace_loc:/AcfDist.exe/Debug}</value>
+<value>${workspace_loc:/AcfDist/Debug}</value>
 </dictionary>
 <dictionary>
 <key>org.eclipse.cdt.make.core.contents</key>
