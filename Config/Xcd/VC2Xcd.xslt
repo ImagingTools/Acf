@@ -245,7 +245,14 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/Witold/Work/Projects/Development/ACF/**";
+				HEADER_SEARCH_PATHS = (
+					"../..",
+					/Library/Frameworks/QtCore.framework/Headers,
+					/Library/Frameworks/QtGui.framework/Headers,
+					/Library/Frameworks/QtNetwork.framework/Headers,
+					/Library/Frameworks/QtScript.framework/Headers,
+					/Library/Frameworks/QtXml.framework/Headers,
+				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
@@ -260,7 +267,14 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/Witold/Work/Projects/Development/ACF/**";
+				HEADER_SEARCH_PATHS = (
+					"../..",
+					/Library/Frameworks/QtCore.framework/Headers,
+					/Library/Frameworks/QtGui.framework/Headers,
+					/Library/Frameworks/QtNetwork.framework/Headers,
+					/Library/Frameworks/QtScript.framework/Headers,
+					/Library/Frameworks/QtXml.framework/Headers,
+				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
