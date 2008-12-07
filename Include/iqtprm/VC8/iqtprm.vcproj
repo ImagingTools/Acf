@@ -277,23 +277,23 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CComposedParamsSetGuiComp.cpp"
+				RelativePath="..\Generated\moc_CComposedParamsSetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CFileNameParamGuiComp.cpp"
+				RelativePath="..\Generated\moc_CFileNameParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CParamsManagerGuiComp.cpp"
+				RelativePath="..\Generated\moc_CParamsManagerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CFileNameParamGuiComp.h"
+				RelativePath="..\Generated\ui_CFileNameParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CParamsManagerGuiComp.h"
+				RelativePath="..\Generated\ui_CParamsManagerGuiComp.h"
 				>
 			</File>
 		</Filter>

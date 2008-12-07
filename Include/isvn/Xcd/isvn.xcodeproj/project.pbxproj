@@ -20,7 +20,7 @@
 		123456790ED2E572006EC826 /* AcfVersion.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AcfVersion.txt; path = ../AcfVersion.txt; sourceTree = SOURCE_ROOT; };
 		123456800ED2E572006EC826 /* VersionInfoTemplate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VersionInfoTemplate.xml; path = ../VersionInfoTemplate.xml; sourceTree = SOURCE_ROOT; };
 		123456810ED2E572006EC826 /* TApplicationInfoWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TApplicationInfoWrap.h; path = ../TApplicationInfoWrap.h; sourceTree = SOURCE_ROOT; };
-		123456820ED2E572006EC826 /* AcfVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AcfVersion.h; path = ../generated/AcfVersion.h; sourceTree = SOURCE_ROOT; };
+		123456820ED2E572006EC826 /* AcfVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AcfVersion.h; path = ../Generated/AcfVersion.h; sourceTree = SOURCE_ROOT; };
 
 /* End PBXFileReference section */
 

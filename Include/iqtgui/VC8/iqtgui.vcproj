@@ -747,39 +747,39 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CDockWidgetGuiComp.cpp"
+				RelativePath="..\Generated\moc_CDockWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CHierarchicalCommand.cpp"
+				RelativePath="..\Generated\moc_CHierarchicalCommand.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CLogGuiComp.cpp"
+				RelativePath="..\Generated\moc_CLogGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CSelectionParamGuiComp.cpp"
+				RelativePath="..\Generated\moc_CSelectionParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\qrc_iqtgui.cpp"
+				RelativePath="..\Generated\qrc_iqtgui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CLogGuiComp.h"
+				RelativePath="..\Generated\ui_CLogGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CLoginGuiComp.h"
+				RelativePath="..\Generated\ui_CLoginGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSelectionParamGuiComp.h"
+				RelativePath="..\Generated\ui_CSelectionParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSplashScreenGuiComp.h"
+				RelativePath="..\Generated\ui_CSplashScreenGuiComp.h"
 				>
 			</File>
 		</Filter>

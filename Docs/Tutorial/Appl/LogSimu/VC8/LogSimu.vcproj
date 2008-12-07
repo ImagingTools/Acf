@@ -254,7 +254,7 @@
 			Filter="moc;h;cpp"
 			>
 			<File
-				RelativePath="..\generated\moc_CLogClientGuiComp.cpp"
+				RelativePath="..\Generated\moc_CLogClientGuiComp.cpp"
 				>
 			</File>
 		</Filter>

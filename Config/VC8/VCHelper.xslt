@@ -113,8 +113,8 @@
 		</xsl:variable>
 		<xsl:variable name = "FileName">
 			<xsl:choose>
-				<xsl:when test = "contains(@RelativePath,'generated\')">
-					<xsl:value-of select = "substring-after(@RelativePath,'generated\')"/>
+				<xsl:when test = "contains(@RelativePath,'Generated\')">
+					<xsl:value-of select = "substring-after(@RelativePath,'Generated\')"/>
 				</xsl:when>
 				<xsl:when test = "starts-with(@RelativePath,'..\')">
 					<xsl:value-of select = "substring-after(@RelativePath,'..\')"/>
@@ -126,7 +126,7 @@
 		</xsl:variable>
 		<xsl:variable name = "GroupName">
 			<xsl:choose>
-				<xsl:when test = "contains(@RelativePath,'generated\')">
+				<xsl:when test = "contains(@RelativePath,'Generated\')">
 					Generated
 				</xsl:when>
 				<xsl:when test = "contains(@RelativePath,'.h')">

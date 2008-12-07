@@ -281,15 +281,15 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CExtendedDocumentTemplateComp.cpp"
+				RelativePath="..\Generated\moc_CExtendedDocumentTemplateComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CMainWindowGuiComp.cpp"
+				RelativePath="..\Generated\moc_CMainWindowGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CMultiDocumentWorkspaceGuiComp.cpp"
+				RelativePath="..\Generated\moc_CMultiDocumentWorkspaceGuiComp.cpp"
 				>
 			</File>
 		</Filter>
