@@ -32,8 +32,6 @@
 		223457000ED2E572006EC826 /* IAttributeSelectionObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457000ED2E572006EC826 /* IAttributeSelectionObserver.h */; };
 		223457010ED2E572006EC826 /* IComponentNote.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457010ED2E572006EC826 /* IComponentNote.h */; };
 		223457020ED2E572006EC826 /* IRegistryPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457020ED2E572006EC826 /* IRegistryPreview.h */; };
-		223457030ED2E572006EC826 /* CAttributeEditorComp.ui in Garbages */ = {isa = PBXBuildFile; fileRef = 123457030ED2E572006EC826 /* CAttributeEditorComp.ui */; };
-		223457040ED2E572006EC826 /* CPackageOverviewComp.ui in Garbages */ = {isa = PBXBuildFile; fileRef = 123457040ED2E572006EC826 /* CPackageOverviewComp.ui */; };
 		223457050ED2E572006EC826 /* moc_CAttributeEditorComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457050ED2E572006EC826 /* moc_CAttributeEditorComp.cpp */; };
 		223457060ED2E572006EC826 /* moc_CComponentView.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457060ED2E572006EC826 /* moc_CComponentView.cpp */; };
 		223457070ED2E572006EC826 /* moc_CPackageOverviewComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457070ED2E572006EC826 /* moc_CPackageOverviewComp.cpp */; };
@@ -42,7 +40,6 @@
 		223457100ED2E572006EC826 /* qrc_Compositor.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457100ED2E572006EC826 /* qrc_Compositor.cpp */; };
 		223457110ED2E572006EC826 /* ui_CAttributeEditorComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123457110ED2E572006EC826 /* ui_CAttributeEditorComp.h */; };
 		223457120ED2E572006EC826 /* ui_CPackageOverviewComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123457120ED2E572006EC826 /* ui_CPackageOverviewComp.h */; };
-		223457130ED2E572006EC826 /* Compositor.qrc in Garbages */ = {isa = PBXBuildFile; fileRef = 123457130ED2E572006EC826 /* Compositor.qrc */; };
 
 /* End PBXBuildFile section */
 
