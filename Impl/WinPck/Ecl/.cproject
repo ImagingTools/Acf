@@ -12,7 +12,7 @@
 </extensions>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<configuration artifactExtension="a" artifactName="WinPck" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+<configuration artifactExtension="arp" artifactName="WinPck" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
 <folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.127139810." name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.1008760913" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug">
 <targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.debug.8749873" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.debug"/>
@@ -490,7 +490,7 @@
 </extensions>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<configuration artifactExtension="a" artifactName="WinPck" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
+<configuration artifactExtension="arp" artifactName="WinPck" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
 <folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.755417623." name="/" resourcePath="">
 <toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1841956315" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 <targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1364020964" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>

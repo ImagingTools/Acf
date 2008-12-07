@@ -65,11 +65,5 @@
 <nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 <nature>org.eclipse.cdt.core.cnature</nature>
 </natures>
-<linkedResources>
-<link>
-<name>Sources/Empty.cpp</name>
-<type>1</type>
-<locationURI>ACFPath/Impl/WinPck/Empty.cpp</locationURI>
-</link>
-</linkedResources>
+<linkedResources/>
 </projectDescription>
