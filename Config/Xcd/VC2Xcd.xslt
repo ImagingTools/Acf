@@ -375,7 +375,7 @@
 							<xsl:text>\n</xsl:text>
 						</xsl:when>
 						<xsl:when test="contains($Name, '.qrc')">
-							<xsl:text>qrc -o ../Generated/</xsl:text>
+							<xsl:text>rcc -o ../Generated/</xsl:text>
 							<xsl:value-of select="concat('qrc_', substring-before($Name, '.'), '.cpp')"/>
 							<xsl:text> </xsl:text>
 							<xsl:value-of select="$FilePath"/>

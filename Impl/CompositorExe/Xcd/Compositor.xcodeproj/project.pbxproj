@@ -285,7 +285,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "uic -o ../Generated/ui_CAttributeEditorComp.h ../CAttributeEditorComp.ui\nuic -o ../Generated/ui_CPackageOverviewComp.h ../CPackageOverviewComp.ui\nqrc -o ../Generated/qrc_Compositor.cpp ../Compositor.qrc\n";
+			shellScript = "uic -o ../Generated/ui_CAttributeEditorComp.h ../CAttributeEditorComp.ui\nuic -o ../Generated/ui_CPackageOverviewComp.h ../CPackageOverviewComp.ui\nrcc -o ../Generated/qrc_Compositor.cpp ../Compositor.qrc\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
