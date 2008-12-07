@@ -12,16 +12,19 @@
 		223456800ED2E572006EC826 /* CFileNameParamGuiComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CFileNameParamGuiComp.cpp */; };
 		223456810ED2E572006EC826 /* CParamsManagerGuiComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CParamsManagerGuiComp.cpp */; };
 		223456820ED2E572006EC826 /* CComposedParamsSetGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* CComposedParamsSetGuiComp.h */; };
-		223456830ED2E572006EC826 /* CFileNameParamGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CFileNameParamGuiComp.h */; };
-		223456840ED2E572006EC826 /* CParamsManagerGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CParamsManagerGuiComp.h */; };
-		223456850ED2E572006EC826 /* iqtprm.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* iqtprm.h */; };
-		223456860ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */; };
-		223456870ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */; };
-		223456880ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */; };
-		223456890ED2E572006EC826 /* ui_CFileNameParamGuiComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */; };
-		223456900ED2E572006EC826 /* ui_CParamsManagerGuiComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123456900ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */; };
-		223456910ED2E572006EC826 /* CFileNameParamGuiComp.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456910ED2E572006EC826 /* CFileNameParamGuiComp.ui */; };
-		223456920ED2E572006EC826 /* CParamsManagerGuiComp.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456920ED2E572006EC826 /* CParamsManagerGuiComp.ui */; };
+		223456830ED2E572006EC826 /* CComposedParamsSetGuiComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CComposedParamsSetGuiComp.moc */; };
+		223456840ED2E572006EC826 /* CFileNameParamGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CFileNameParamGuiComp.h */; };
+		223456850ED2E572006EC826 /* CFileNameParamGuiComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* CFileNameParamGuiComp.moc */; };
+		223456860ED2E572006EC826 /* CParamsManagerGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* CParamsManagerGuiComp.h */; };
+		223456870ED2E572006EC826 /* CParamsManagerGuiComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* CParamsManagerGuiComp.moc */; };
+		223456880ED2E572006EC826 /* iqtprm.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* iqtprm.h */; };
+		223456890ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */; };
+		223456900ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456900ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */; };
+		223456910ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456910ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */; };
+		223456920ED2E572006EC826 /* ui_CFileNameParamGuiComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123456920ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */; };
+		223456930ED2E572006EC826 /* ui_CParamsManagerGuiComp.h in Generated */ = {isa = PBXBuildFile; fileRef = 123456930ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */; };
+		223456940ED2E572006EC826 /* CFileNameParamGuiComp.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456940ED2E572006EC826 /* CFileNameParamGuiComp.ui */; };
+		223456950ED2E572006EC826 /* CParamsManagerGuiComp.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456950ED2E572006EC826 /* CParamsManagerGuiComp.ui */; };
 
 /* End PBXBuildFile section */
 
@@ -31,16 +34,19 @@
 		123456800ED2E572006EC826 /* CFileNameParamGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.cpp; path = ../CFileNameParamGuiComp.cpp; sourceTree = SOURCE_ROOT; };
 		123456810ED2E572006EC826 /* CParamsManagerGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.cpp; path = ../CParamsManagerGuiComp.cpp; sourceTree = SOURCE_ROOT; };
 		123456820ED2E572006EC826 /* CComposedParamsSetGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CComposedParamsSetGuiComp.h; path = ../CComposedParamsSetGuiComp.h; sourceTree = SOURCE_ROOT; };
-		123456830ED2E572006EC826 /* CFileNameParamGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.h; path = ../CFileNameParamGuiComp.h; sourceTree = SOURCE_ROOT; };
-		123456840ED2E572006EC826 /* CParamsManagerGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.h; path = ../CParamsManagerGuiComp.h; sourceTree = SOURCE_ROOT; };
-		123456850ED2E572006EC826 /* iqtprm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqtprm.h; path = ../iqtprm.h; sourceTree = SOURCE_ROOT; };
-		123456860ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CComposedParamsSetGuiComp.cpp; path = ../Generated/moc_CComposedParamsSetGuiComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456870ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileNameParamGuiComp.cpp; path = ../Generated/moc_CFileNameParamGuiComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456880ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CParamsManagerGuiComp.cpp; path = ../Generated/moc_CParamsManagerGuiComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456890ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CFileNameParamGuiComp.h; path = ../Generated/ui_CFileNameParamGuiComp.h; sourceTree = SOURCE_ROOT; };
-		123456900ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CParamsManagerGuiComp.h; path = ../Generated/ui_CParamsManagerGuiComp.h; sourceTree = SOURCE_ROOT; };
-		123456910ED2E572006EC826 /* CFileNameParamGuiComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.ui; path = ../CFileNameParamGuiComp.ui; sourceTree = SOURCE_ROOT; };
-		123456920ED2E572006EC826 /* CParamsManagerGuiComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.ui; path = ../CParamsManagerGuiComp.ui; sourceTree = SOURCE_ROOT; };
+		123456830ED2E572006EC826 /* CComposedParamsSetGuiComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CComposedParamsSetGuiComp.moc; path = ../CComposedParamsSetGuiComp.moc; sourceTree = SOURCE_ROOT; };
+		123456840ED2E572006EC826 /* CFileNameParamGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.h; path = ../CFileNameParamGuiComp.h; sourceTree = SOURCE_ROOT; };
+		123456850ED2E572006EC826 /* CFileNameParamGuiComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.moc; path = ../CFileNameParamGuiComp.moc; sourceTree = SOURCE_ROOT; };
+		123456860ED2E572006EC826 /* CParamsManagerGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.h; path = ../CParamsManagerGuiComp.h; sourceTree = SOURCE_ROOT; };
+		123456870ED2E572006EC826 /* CParamsManagerGuiComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.moc; path = ../CParamsManagerGuiComp.moc; sourceTree = SOURCE_ROOT; };
+		123456880ED2E572006EC826 /* iqtprm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqtprm.h; path = ../iqtprm.h; sourceTree = SOURCE_ROOT; };
+		123456890ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CComposedParamsSetGuiComp.cpp; path = ../Generated/moc_CComposedParamsSetGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456900ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileNameParamGuiComp.cpp; path = ../Generated/moc_CFileNameParamGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456910ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CParamsManagerGuiComp.cpp; path = ../Generated/moc_CParamsManagerGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456920ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CFileNameParamGuiComp.h; path = ../Generated/ui_CFileNameParamGuiComp.h; sourceTree = SOURCE_ROOT; };
+		123456930ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CParamsManagerGuiComp.h; path = ../Generated/ui_CParamsManagerGuiComp.h; sourceTree = SOURCE_ROOT; };
+		123456940ED2E572006EC826 /* CFileNameParamGuiComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileNameParamGuiComp.ui; path = ../CFileNameParamGuiComp.ui; sourceTree = SOURCE_ROOT; };
+		123456950ED2E572006EC826 /* CParamsManagerGuiComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CParamsManagerGuiComp.ui; path = ../CParamsManagerGuiComp.ui; sourceTree = SOURCE_ROOT; };
 
 /* End PBXFileReference section */
 
@@ -91,8 +97,8 @@
 		C6A0FF2B0290797F04C91782 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
-				123456910ED2E572006EC826 /* CFileNameParamGuiComp.ui */,
-				123456920ED2E572006EC826 /* CParamsManagerGuiComp.ui */,
+				123456940ED2E572006EC826 /* CFileNameParamGuiComp.ui */,
+				123456950ED2E572006EC826 /* CParamsManagerGuiComp.ui */,
 
 			);
 			name = Forms;
@@ -101,11 +107,11 @@
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				123456860ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */,
-				123456870ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */,
-				123456880ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */,
-				123456890ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */,
-				123456900ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */,
+				123456890ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp */,
+				123456900ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp */,
+				123456910ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp */,
+				123456920ED2E572006EC826 /* ui_CFileNameParamGuiComp.h */,
+				123456930ED2E572006EC826 /* ui_CParamsManagerGuiComp.h */,
 
 			);
 			name = Generated;
@@ -122,6 +128,9 @@
 		EA9856A60EEABE5300C738EF /* Garbages */ = {
 			isa = PBXGroup;
 			children = (
+				123456830ED2E572006EC826 /* CComposedParamsSetGuiComp.moc */,
+				123456850ED2E572006EC826 /* CFileNameParamGuiComp.moc */,
+				123456870ED2E572006EC826 /* CParamsManagerGuiComp.moc */,
 
 			);
 			name = Garbages;
@@ -131,9 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				123456820ED2E572006EC826 /* CComposedParamsSetGuiComp.h */,
-				123456830ED2E572006EC826 /* CFileNameParamGuiComp.h */,
-				123456840ED2E572006EC826 /* CParamsManagerGuiComp.h */,
-				123456850ED2E572006EC826 /* iqtprm.h */,
+				123456840ED2E572006EC826 /* CFileNameParamGuiComp.h */,
+				123456860ED2E572006EC826 /* CParamsManagerGuiComp.h */,
+				123456880ED2E572006EC826 /* iqtprm.h */,
 
 			);
 			name = Header;
@@ -147,11 +156,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				223456820ED2E572006EC826 /* CComposedParamsSetGuiComp.h in Headers */,
-				223456830ED2E572006EC826 /* CFileNameParamGuiComp.h in Headers */,
-				223456840ED2E572006EC826 /* CParamsManagerGuiComp.h in Headers */,
-				223456850ED2E572006EC826 /* iqtprm.h in Headers */,
-				223456890ED2E572006EC826 /* ui_CFileNameParamGuiComp.h in Headers */,
-				223456900ED2E572006EC826 /* ui_CParamsManagerGuiComp.h in Headers */,
+				223456840ED2E572006EC826 /* CFileNameParamGuiComp.h in Headers */,
+				223456860ED2E572006EC826 /* CParamsManagerGuiComp.h in Headers */,
+				223456880ED2E572006EC826 /* iqtprm.h in Headers */,
+				223456920ED2E572006EC826 /* ui_CFileNameParamGuiComp.h in Headers */,
+				223456930ED2E572006EC826 /* ui_CParamsManagerGuiComp.h in Headers */,
 
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,16 +211,22 @@
 			files = (
 			);
 			inputPaths = (
+				../CComposedParamsSetGuiComp.h,
+				../CFileNameParamGuiComp.h,
+				../CParamsManagerGuiComp.h,
 				../CFileNameParamGuiComp.ui,
 				../CParamsManagerGuiComp.ui,
 			);
 			outputPaths = (
+				../Generated/moc_CComposedParamsSetGuiComp.cpp,
+				../Generated/moc_CFileNameParamGuiComp.cpp,
+				../Generated/moc_CParamsManagerGuiComp.cpp,
 				../Generated/ui_CFileNameParamGuiComp.h,
 				../Generated/ui_CParamsManagerGuiComp.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "uic -o ../Generated/ui_CFileNameParamGuiComp.h ../CFileNameParamGuiComp.ui\nuic -o ../Generated/ui_CParamsManagerGuiComp.h ../CParamsManagerGuiComp.ui\n";
+			shellScript = "moc -o ../Generated/moc_CComposedParamsSetGuiComp.cpp ../CComposedParamsSetGuiComp.h\nmoc -o ../Generated/moc_CFileNameParamGuiComp.cpp ../CFileNameParamGuiComp.h\nmoc -o ../Generated/moc_CParamsManagerGuiComp.cpp ../CParamsManagerGuiComp.h\nuic -o ../Generated/ui_CFileNameParamGuiComp.h ../CFileNameParamGuiComp.ui\nuic -o ../Generated/ui_CParamsManagerGuiComp.h ../CParamsManagerGuiComp.ui\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -223,9 +238,9 @@
 				223456790ED2E572006EC826 /* CComposedParamsSetGuiComp.cpp in Sources */,
 				223456800ED2E572006EC826 /* CFileNameParamGuiComp.cpp in Sources */,
 				223456810ED2E572006EC826 /* CParamsManagerGuiComp.cpp in Sources */,
-				223456860ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp in Sources */,
-				223456870ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp in Sources */,
-				223456880ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp in Sources */,
+				223456890ED2E572006EC826 /* moc_CComposedParamsSetGuiComp.cpp in Sources */,
+				223456900ED2E572006EC826 /* moc_CFileNameParamGuiComp.cpp in Sources */,
+				223456910ED2E572006EC826 /* moc_CParamsManagerGuiComp.cpp in Sources */,
 
 			);
 			runOnlyForDeploymentPostprocessing = 0;

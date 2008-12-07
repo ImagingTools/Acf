@@ -35,23 +35,25 @@
 		223457030ED2E572006EC826 /* CDateTime.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457030ED2E572006EC826 /* CDateTime.h */; };
 		223457040ED2E572006EC826 /* CDefaultServicesProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457040ED2E572006EC826 /* CDefaultServicesProvider.h */; };
 		223457050ED2E572006EC826 /* CDirList.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457050ED2E572006EC826 /* CDirList.h */; };
-		223457060ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457060ED2E572006EC826 /* CDllFunctionsProvider.h */; };
-		223457070ED2E572006EC826 /* CFileList.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457070ED2E572006EC826 /* CFileList.h */; };
-		223457080ED2E572006EC826 /* CPackagesLoaderComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457080ED2E572006EC826 /* CPackagesLoaderComp.h */; };
-		223457090ED2E572006EC826 /* CReflectedBitmapBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457090ED2E572006EC826 /* CReflectedBitmapBase.h */; };
-		223457100ED2E572006EC826 /* CSettingsArchiveBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457100ED2E572006EC826 /* CSettingsArchiveBase.h */; };
-		223457110ED2E572006EC826 /* CSettingsReadArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457110ED2E572006EC826 /* CSettingsReadArchive.h */; };
-		223457120ED2E572006EC826 /* CSettingsSerializerComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457120ED2E572006EC826 /* CSettingsSerializerComp.h */; };
-		223457130ED2E572006EC826 /* CSettingsWriteArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457130ED2E572006EC826 /* CSettingsWriteArchive.h */; };
-		223457140ED2E572006EC826 /* CSignalBlocker.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457140ED2E572006EC826 /* CSignalBlocker.h */; };
-		223457150ED2E572006EC826 /* CTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457150ED2E572006EC826 /* CTimer.h */; };
-		223457160ED2E572006EC826 /* CXmlFileReadArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457160ED2E572006EC826 /* CXmlFileReadArchive.h */; };
-		223457170ED2E572006EC826 /* CXmlFileWriteArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457170ED2E572006EC826 /* CXmlFileWriteArchive.h */; };
-		223457180ED2E572006EC826 /* IQImageProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457180ED2E572006EC826 /* IQImageProvider.h */; };
-		223457190ED2E572006EC826 /* iqt.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457190ED2E572006EC826 /* iqt.h */; };
-		223457200ED2E572006EC826 /* ITranslationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457200ED2E572006EC826 /* ITranslationManager.h */; };
-		223457210ED2E572006EC826 /* moc_CDirList.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457210ED2E572006EC826 /* moc_CDirList.cpp */; };
-		223457220ED2E572006EC826 /* moc_CFileList.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457220ED2E572006EC826 /* moc_CFileList.cpp */; };
+		223457060ED2E572006EC826 /* CDirList.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123457060ED2E572006EC826 /* CDirList.moc */; };
+		223457070ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457070ED2E572006EC826 /* CDllFunctionsProvider.h */; };
+		223457080ED2E572006EC826 /* CFileList.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457080ED2E572006EC826 /* CFileList.h */; };
+		223457090ED2E572006EC826 /* CFileList.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123457090ED2E572006EC826 /* CFileList.moc */; };
+		223457100ED2E572006EC826 /* CPackagesLoaderComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457100ED2E572006EC826 /* CPackagesLoaderComp.h */; };
+		223457110ED2E572006EC826 /* CReflectedBitmapBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457110ED2E572006EC826 /* CReflectedBitmapBase.h */; };
+		223457120ED2E572006EC826 /* CSettingsArchiveBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457120ED2E572006EC826 /* CSettingsArchiveBase.h */; };
+		223457130ED2E572006EC826 /* CSettingsReadArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457130ED2E572006EC826 /* CSettingsReadArchive.h */; };
+		223457140ED2E572006EC826 /* CSettingsSerializerComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457140ED2E572006EC826 /* CSettingsSerializerComp.h */; };
+		223457150ED2E572006EC826 /* CSettingsWriteArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457150ED2E572006EC826 /* CSettingsWriteArchive.h */; };
+		223457160ED2E572006EC826 /* CSignalBlocker.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457160ED2E572006EC826 /* CSignalBlocker.h */; };
+		223457170ED2E572006EC826 /* CTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457170ED2E572006EC826 /* CTimer.h */; };
+		223457180ED2E572006EC826 /* CXmlFileReadArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457180ED2E572006EC826 /* CXmlFileReadArchive.h */; };
+		223457190ED2E572006EC826 /* CXmlFileWriteArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457190ED2E572006EC826 /* CXmlFileWriteArchive.h */; };
+		223457200ED2E572006EC826 /* IQImageProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457200ED2E572006EC826 /* IQImageProvider.h */; };
+		223457210ED2E572006EC826 /* iqt.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457210ED2E572006EC826 /* iqt.h */; };
+		223457220ED2E572006EC826 /* ITranslationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123457220ED2E572006EC826 /* ITranslationManager.h */; };
+		223457230ED2E572006EC826 /* moc_CDirList.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457230ED2E572006EC826 /* moc_CDirList.cpp */; };
+		223457240ED2E572006EC826 /* moc_CFileList.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123457240ED2E572006EC826 /* moc_CFileList.cpp */; };
 
 /* End PBXBuildFile section */
 
@@ -84,23 +86,25 @@
 		123457030ED2E572006EC826 /* CDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDateTime.h; path = ../CDateTime.h; sourceTree = SOURCE_ROOT; };
 		123457040ED2E572006EC826 /* CDefaultServicesProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDefaultServicesProvider.h; path = ../CDefaultServicesProvider.h; sourceTree = SOURCE_ROOT; };
 		123457050ED2E572006EC826 /* CDirList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDirList.h; path = ../CDirList.h; sourceTree = SOURCE_ROOT; };
-		123457060ED2E572006EC826 /* CDllFunctionsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDllFunctionsProvider.h; path = ../CDllFunctionsProvider.h; sourceTree = SOURCE_ROOT; };
-		123457070ED2E572006EC826 /* CFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileList.h; path = ../CFileList.h; sourceTree = SOURCE_ROOT; };
-		123457080ED2E572006EC826 /* CPackagesLoaderComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CPackagesLoaderComp.h; path = ../CPackagesLoaderComp.h; sourceTree = SOURCE_ROOT; };
-		123457090ED2E572006EC826 /* CReflectedBitmapBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CReflectedBitmapBase.h; path = ../CReflectedBitmapBase.h; sourceTree = SOURCE_ROOT; };
-		123457100ED2E572006EC826 /* CSettingsArchiveBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsArchiveBase.h; path = ../CSettingsArchiveBase.h; sourceTree = SOURCE_ROOT; };
-		123457110ED2E572006EC826 /* CSettingsReadArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsReadArchive.h; path = ../CSettingsReadArchive.h; sourceTree = SOURCE_ROOT; };
-		123457120ED2E572006EC826 /* CSettingsSerializerComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsSerializerComp.h; path = ../CSettingsSerializerComp.h; sourceTree = SOURCE_ROOT; };
-		123457130ED2E572006EC826 /* CSettingsWriteArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsWriteArchive.h; path = ../CSettingsWriteArchive.h; sourceTree = SOURCE_ROOT; };
-		123457140ED2E572006EC826 /* CSignalBlocker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSignalBlocker.h; path = ../CSignalBlocker.h; sourceTree = SOURCE_ROOT; };
-		123457150ED2E572006EC826 /* CTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTimer.h; path = ../CTimer.h; sourceTree = SOURCE_ROOT; };
-		123457160ED2E572006EC826 /* CXmlFileReadArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CXmlFileReadArchive.h; path = ../CXmlFileReadArchive.h; sourceTree = SOURCE_ROOT; };
-		123457170ED2E572006EC826 /* CXmlFileWriteArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CXmlFileWriteArchive.h; path = ../CXmlFileWriteArchive.h; sourceTree = SOURCE_ROOT; };
-		123457180ED2E572006EC826 /* IQImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IQImageProvider.h; path = ../IQImageProvider.h; sourceTree = SOURCE_ROOT; };
-		123457190ED2E572006EC826 /* iqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqt.h; path = ../iqt.h; sourceTree = SOURCE_ROOT; };
-		123457200ED2E572006EC826 /* ITranslationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ITranslationManager.h; path = ../ITranslationManager.h; sourceTree = SOURCE_ROOT; };
-		123457210ED2E572006EC826 /* moc_CDirList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CDirList.cpp; path = ../Generated/moc_CDirList.cpp; sourceTree = SOURCE_ROOT; };
-		123457220ED2E572006EC826 /* moc_CFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileList.cpp; path = ../Generated/moc_CFileList.cpp; sourceTree = SOURCE_ROOT; };
+		123457060ED2E572006EC826 /* CDirList.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDirList.moc; path = ../CDirList.moc; sourceTree = SOURCE_ROOT; };
+		123457070ED2E572006EC826 /* CDllFunctionsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDllFunctionsProvider.h; path = ../CDllFunctionsProvider.h; sourceTree = SOURCE_ROOT; };
+		123457080ED2E572006EC826 /* CFileList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileList.h; path = ../CFileList.h; sourceTree = SOURCE_ROOT; };
+		123457090ED2E572006EC826 /* CFileList.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CFileList.moc; path = ../CFileList.moc; sourceTree = SOURCE_ROOT; };
+		123457100ED2E572006EC826 /* CPackagesLoaderComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CPackagesLoaderComp.h; path = ../CPackagesLoaderComp.h; sourceTree = SOURCE_ROOT; };
+		123457110ED2E572006EC826 /* CReflectedBitmapBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CReflectedBitmapBase.h; path = ../CReflectedBitmapBase.h; sourceTree = SOURCE_ROOT; };
+		123457120ED2E572006EC826 /* CSettingsArchiveBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsArchiveBase.h; path = ../CSettingsArchiveBase.h; sourceTree = SOURCE_ROOT; };
+		123457130ED2E572006EC826 /* CSettingsReadArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsReadArchive.h; path = ../CSettingsReadArchive.h; sourceTree = SOURCE_ROOT; };
+		123457140ED2E572006EC826 /* CSettingsSerializerComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsSerializerComp.h; path = ../CSettingsSerializerComp.h; sourceTree = SOURCE_ROOT; };
+		123457150ED2E572006EC826 /* CSettingsWriteArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSettingsWriteArchive.h; path = ../CSettingsWriteArchive.h; sourceTree = SOURCE_ROOT; };
+		123457160ED2E572006EC826 /* CSignalBlocker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSignalBlocker.h; path = ../CSignalBlocker.h; sourceTree = SOURCE_ROOT; };
+		123457170ED2E572006EC826 /* CTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTimer.h; path = ../CTimer.h; sourceTree = SOURCE_ROOT; };
+		123457180ED2E572006EC826 /* CXmlFileReadArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CXmlFileReadArchive.h; path = ../CXmlFileReadArchive.h; sourceTree = SOURCE_ROOT; };
+		123457190ED2E572006EC826 /* CXmlFileWriteArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CXmlFileWriteArchive.h; path = ../CXmlFileWriteArchive.h; sourceTree = SOURCE_ROOT; };
+		123457200ED2E572006EC826 /* IQImageProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IQImageProvider.h; path = ../IQImageProvider.h; sourceTree = SOURCE_ROOT; };
+		123457210ED2E572006EC826 /* iqt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqt.h; path = ../iqt.h; sourceTree = SOURCE_ROOT; };
+		123457220ED2E572006EC826 /* ITranslationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ITranslationManager.h; path = ../ITranslationManager.h; sourceTree = SOURCE_ROOT; };
+		123457230ED2E572006EC826 /* moc_CDirList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CDirList.cpp; path = ../Generated/moc_CDirList.cpp; sourceTree = SOURCE_ROOT; };
+		123457240ED2E572006EC826 /* moc_CFileList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CFileList.cpp; path = ../Generated/moc_CFileList.cpp; sourceTree = SOURCE_ROOT; };
 
 /* End PBXFileReference section */
 
@@ -176,8 +180,8 @@
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				123457210ED2E572006EC826 /* moc_CDirList.cpp */,
-				123457220ED2E572006EC826 /* moc_CFileList.cpp */,
+				123457230ED2E572006EC826 /* moc_CDirList.cpp */,
+				123457240ED2E572006EC826 /* moc_CFileList.cpp */,
 
 			);
 			name = Generated;
@@ -194,6 +198,8 @@
 		EA9856A60EEABE5300C738EF /* Garbages */ = {
 			isa = PBXGroup;
 			children = (
+				123457060ED2E572006EC826 /* CDirList.moc */,
+				123457090ED2E572006EC826 /* CFileList.moc */,
 
 			);
 			name = Garbages;
@@ -209,21 +215,21 @@
 				123457030ED2E572006EC826 /* CDateTime.h */,
 				123457040ED2E572006EC826 /* CDefaultServicesProvider.h */,
 				123457050ED2E572006EC826 /* CDirList.h */,
-				123457060ED2E572006EC826 /* CDllFunctionsProvider.h */,
-				123457070ED2E572006EC826 /* CFileList.h */,
-				123457080ED2E572006EC826 /* CPackagesLoaderComp.h */,
-				123457090ED2E572006EC826 /* CReflectedBitmapBase.h */,
-				123457100ED2E572006EC826 /* CSettingsArchiveBase.h */,
-				123457110ED2E572006EC826 /* CSettingsReadArchive.h */,
-				123457120ED2E572006EC826 /* CSettingsSerializerComp.h */,
-				123457130ED2E572006EC826 /* CSettingsWriteArchive.h */,
-				123457140ED2E572006EC826 /* CSignalBlocker.h */,
-				123457150ED2E572006EC826 /* CTimer.h */,
-				123457160ED2E572006EC826 /* CXmlFileReadArchive.h */,
-				123457170ED2E572006EC826 /* CXmlFileWriteArchive.h */,
-				123457180ED2E572006EC826 /* IQImageProvider.h */,
-				123457190ED2E572006EC826 /* iqt.h */,
-				123457200ED2E572006EC826 /* ITranslationManager.h */,
+				123457070ED2E572006EC826 /* CDllFunctionsProvider.h */,
+				123457080ED2E572006EC826 /* CFileList.h */,
+				123457100ED2E572006EC826 /* CPackagesLoaderComp.h */,
+				123457110ED2E572006EC826 /* CReflectedBitmapBase.h */,
+				123457120ED2E572006EC826 /* CSettingsArchiveBase.h */,
+				123457130ED2E572006EC826 /* CSettingsReadArchive.h */,
+				123457140ED2E572006EC826 /* CSettingsSerializerComp.h */,
+				123457150ED2E572006EC826 /* CSettingsWriteArchive.h */,
+				123457160ED2E572006EC826 /* CSignalBlocker.h */,
+				123457170ED2E572006EC826 /* CTimer.h */,
+				123457180ED2E572006EC826 /* CXmlFileReadArchive.h */,
+				123457190ED2E572006EC826 /* CXmlFileWriteArchive.h */,
+				123457200ED2E572006EC826 /* IQImageProvider.h */,
+				123457210ED2E572006EC826 /* iqt.h */,
+				123457220ED2E572006EC826 /* ITranslationManager.h */,
 
 			);
 			name = Header;
@@ -243,21 +249,21 @@
 				223457030ED2E572006EC826 /* CDateTime.h in Headers */,
 				223457040ED2E572006EC826 /* CDefaultServicesProvider.h in Headers */,
 				223457050ED2E572006EC826 /* CDirList.h in Headers */,
-				223457060ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */,
-				223457070ED2E572006EC826 /* CFileList.h in Headers */,
-				223457080ED2E572006EC826 /* CPackagesLoaderComp.h in Headers */,
-				223457090ED2E572006EC826 /* CReflectedBitmapBase.h in Headers */,
-				223457100ED2E572006EC826 /* CSettingsArchiveBase.h in Headers */,
-				223457110ED2E572006EC826 /* CSettingsReadArchive.h in Headers */,
-				223457120ED2E572006EC826 /* CSettingsSerializerComp.h in Headers */,
-				223457130ED2E572006EC826 /* CSettingsWriteArchive.h in Headers */,
-				223457140ED2E572006EC826 /* CSignalBlocker.h in Headers */,
-				223457150ED2E572006EC826 /* CTimer.h in Headers */,
-				223457160ED2E572006EC826 /* CXmlFileReadArchive.h in Headers */,
-				223457170ED2E572006EC826 /* CXmlFileWriteArchive.h in Headers */,
-				223457180ED2E572006EC826 /* IQImageProvider.h in Headers */,
-				223457190ED2E572006EC826 /* iqt.h in Headers */,
-				223457200ED2E572006EC826 /* ITranslationManager.h in Headers */,
+				223457070ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */,
+				223457080ED2E572006EC826 /* CFileList.h in Headers */,
+				223457100ED2E572006EC826 /* CPackagesLoaderComp.h in Headers */,
+				223457110ED2E572006EC826 /* CReflectedBitmapBase.h in Headers */,
+				223457120ED2E572006EC826 /* CSettingsArchiveBase.h in Headers */,
+				223457130ED2E572006EC826 /* CSettingsReadArchive.h in Headers */,
+				223457140ED2E572006EC826 /* CSettingsSerializerComp.h in Headers */,
+				223457150ED2E572006EC826 /* CSettingsWriteArchive.h in Headers */,
+				223457160ED2E572006EC826 /* CSignalBlocker.h in Headers */,
+				223457170ED2E572006EC826 /* CTimer.h in Headers */,
+				223457180ED2E572006EC826 /* CXmlFileReadArchive.h in Headers */,
+				223457190ED2E572006EC826 /* CXmlFileWriteArchive.h in Headers */,
+				223457200ED2E572006EC826 /* IQImageProvider.h in Headers */,
+				223457210ED2E572006EC826 /* iqt.h in Headers */,
+				223457220ED2E572006EC826 /* ITranslationManager.h in Headers */,
 
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,12 +314,16 @@
 			files = (
 			);
 			inputPaths = (
+				../CDirList.h,
+				../CFileList.h,
 			);
 			outputPaths = (
+				../Generated/moc_CDirList.cpp,
+				../Generated/moc_CFileList.cpp,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "moc -o ../Generated/moc_CDirList.cpp ../CDirList.h\nmoc -o ../Generated/moc_CFileList.cpp ../CFileList.h\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -342,8 +352,8 @@
 				223456960ED2E572006EC826 /* CXmlFileReadArchive.cpp in Sources */,
 				223456970ED2E572006EC826 /* CXmlFileWriteArchive.cpp in Sources */,
 				223456980ED2E572006EC826 /* iqt.cpp in Sources */,
-				223457210ED2E572006EC826 /* moc_CDirList.cpp in Sources */,
-				223457220ED2E572006EC826 /* moc_CFileList.cpp in Sources */,
+				223457230ED2E572006EC826 /* moc_CDirList.cpp in Sources */,
+				223457240ED2E572006EC826 /* moc_CFileList.cpp in Sources */,
 
 			);
 			runOnlyForDeploymentPostprocessing = 0;
