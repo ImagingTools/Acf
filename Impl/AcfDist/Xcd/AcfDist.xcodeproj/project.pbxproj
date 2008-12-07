@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D2AAC046055464E500DB518D /* libacfdist_exe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libacfdist_exe.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC046055464E500DB518D /* libacfdist.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libacfdist.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		123456790ED2E572006EC826 /* CCopyProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCopyProcessor.cpp; path = ../CCopyProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		123456800ED2E572006EC826 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = ../Main.cpp; sourceTree = SOURCE_ROOT; };
 		123456810ED2E572006EC826 /* CCopyProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCopyProcessor.h; path = ../CCopyProcessor.h; sourceTree = SOURCE_ROOT; };
@@ -33,7 +33,7 @@
 		/* End PBXFrameworksBuildPhase section */
 
 		/* Begin PBXGroup section */
-		08FB7794FE84155DC02AAC07 /* acfdist_exe */ = {
+		08FB7794FE84155DC02AAC07 /* acfdist */ = {
 		isa = PBXGroup;
 		children = (
 		EAB5AC950ED2E587006EC826 /* Header */,
@@ -43,7 +43,7 @@
 		C6A0FF2B0290797F04C91782 /* Documentation */,
 		1AB674ADFE9D54B511CA2CBB /* Products */,
 		);
-		name = acfdist_exe;
+		name = acfdist;
 		sourceTree = "<group>";
 		};
 		08FB7795FE84155DC02AAC07 /* Source */ = {
@@ -59,7 +59,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC046055464E500DB518D /* libacfdist_exe.a */,
+				D2AAC046055464E500DB518D /* libacfdist.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,9 +111,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC045055464E500DB518D /* acfdist_exe */ = {
+		D2AAC045055464E500DB518D /* acfdist */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "acfdist_exe" */;
+			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "acfdist" */;
 			buildPhases = (
 				D2AAC043055464E500DB518D /* Headers */,
 				D2AAC044055464E500DB518D /* Sources */,
@@ -123,9 +123,9 @@
 			);
 			dependencies = (
 			);
-			name = acfdist_exe;
-			productName = acfdist_exe;
-			productReference = D2AAC046055464E500DB518D /* libacfdist_exe.a */;
+			name = acfdist;
+			productName = acfdist;
+			productReference = D2AAC046055464E500DB518D /* libacfdist.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -133,14 +133,14 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "acfdist_exe" */;
+			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "acfdist" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
-			mainGroup = 08FB7794FE84155DC02AAC07 /* acfdist_exe */;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* acfdist */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC045055464E500DB518D /* acfdist_exe */,
+				D2AAC045055464E500DB518D /* acfdist */,
 			);
 		};
 /* End PBXProject section */
@@ -168,7 +168,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = acfdist_exe;
+				PRODUCT_NAME = acfdist;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -179,7 +179,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = acfdist_exe;
+				PRODUCT_NAME = acfdist;
 			};
 			name = Release;
 		};
@@ -212,7 +212,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "acfdist_exe" */ = {
+		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "acfdist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91EC08733DB70010E9CD /* Debug */,
@@ -221,7 +221,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "acfdist_exe" */ = {
+		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "acfdist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Debug */,
