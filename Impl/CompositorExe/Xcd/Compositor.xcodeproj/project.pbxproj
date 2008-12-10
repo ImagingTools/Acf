@@ -7,14 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA3DF4D30EED7708009D0C37 /* Compositor.qrc in Sources */ = {isa = PBXBuildFile; fileRef = 123457180ED2E572006EC826 /* Compositor.qrc */; };
-		EA3DF4DF0EED7853009D0C37 /* CAttributeEditorComp.ui in Sources */ = {isa = PBXBuildFile; fileRef = 123457080ED2E572006EC826 /* CAttributeEditorComp.ui */; };
-		EA3DF4E00EED7853009D0C37 /* CPackageOverviewComp.ui in Sources */ = {isa = PBXBuildFile; fileRef = 123457090ED2E572006EC826 /* CPackageOverviewComp.ui */; };
-		EA3DF4E10EED785A009D0C37 /* CAttributeEditorComp.moc in Sources */ = {isa = PBXBuildFile; fileRef = 123456910ED2E572006EC826 /* CAttributeEditorComp.moc */; };
-		EA3DF4E20EED785A009D0C37 /* CComponentView.moc in Sources */ = {isa = PBXBuildFile; fileRef = 123456960ED2E572006EC826 /* CComponentView.moc */; };
-		EA3DF4E30EED785A009D0C37 /* CPackageOverviewComp.moc in Sources */ = {isa = PBXBuildFile; fileRef = 123456980ED2E572006EC826 /* CPackageOverviewComp.moc */; };
-		EA3DF4E40EED785A009D0C37 /* CRegistryPreviewComp.moc in Sources */ = {isa = PBXBuildFile; fileRef = 123457020ED2E572006EC826 /* CRegistryPreviewComp.moc */; };
-		EA3DF4E50EED785A009D0C37 /* CRegistryViewComp.moc in Sources */ = {isa = PBXBuildFile; fileRef = 123457040ED2E572006EC826 /* CRegistryViewComp.moc */; };
 		EA6646920EED30CB006773C7 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* Main.cpp */; };
 		EA6646930EED30E0006773C7 /* CRegistryPreviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* CRegistryPreviewComp.cpp */; };
 		EA6646940EED30E1006773C7 /* CPackageOverviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CPackageOverviewComp.cpp */; };
@@ -26,14 +18,7 @@
 		EA66469A0EED30E4006773C7 /* CComponentNote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CComponentNote.cpp */; };
 		EA66469B0EED30E4006773C7 /* CRegistryLoaderComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* CRegistryLoaderComp.cpp */; };
 		EA66469C0EED30E4006773C7 /* CAttributeEditorComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CAttributeEditorComp.cpp */; };
-		EA66478E0EED4516006773C7 /* libacfqt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5A98260EEC349900FD019A /* libacfqt.a */; };
-		EA6647900EED4561006773C7 /* libacfstd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5A98630EEC34A800FD019A /* libacfstd.a */; };
-		EA6647B50EED496B006773C7 /* Qt3Support.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A40EED496B006773C7 /* Qt3Support.framework */; };
-		EA6647B60EED496B006773C7 /* QtAssistant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A50EED496B006773C7 /* QtAssistant.framework */; };
 		EA6647B70EED496B006773C7 /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A60EED496B006773C7 /* QtCore.framework */; };
-		EA6647B80EED496B006773C7 /* QtDBus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A70EED496B006773C7 /* QtDBus.framework */; };
-		EA6647B90EED496B006773C7 /* QtDesigner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A80EED496B006773C7 /* QtDesigner.framework */; };
-		EA6647BA0EED496B006773C7 /* QtDesignerComponents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647A90EED496B006773C7 /* QtDesignerComponents.framework */; };
 		EA6647BB0EED496B006773C7 /* QtGui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647AA0EED496B006773C7 /* QtGui.framework */; };
 		EA6647BC0EED496B006773C7 /* QtHelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647AB0EED496B006773C7 /* QtHelp.framework */; };
 		EA6647BD0EED496B006773C7 /* QtNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647AC0EED496B006773C7 /* QtNetwork.framework */; };
@@ -41,10 +26,9 @@
 		EA6647BF0EED496B006773C7 /* QtScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647AE0EED496B006773C7 /* QtScript.framework */; };
 		EA6647C00EED496B006773C7 /* QtSql.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647AF0EED496B006773C7 /* QtSql.framework */; };
 		EA6647C10EED496B006773C7 /* QtSvg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647B00EED496B006773C7 /* QtSvg.framework */; };
-		EA6647C20EED496B006773C7 /* QtTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647B10EED496B006773C7 /* QtTest.framework */; };
-		EA6647C30EED496B006773C7 /* QtWebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647B20EED496B006773C7 /* QtWebKit.framework */; };
 		EA6647C40EED496B006773C7 /* QtXml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647B30EED496B006773C7 /* QtXml.framework */; };
-		EA6647C50EED496B006773C7 /* QtXmlPatterns.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA6647B40EED496B006773C7 /* QtXmlPatterns.framework */; };
+		EABA3C980EEFF383009058A6 /* libacfqt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABA3C960EEFF383009058A6 /* libacfqt.a */; };
+		EABA3C990EEFF383009058A6 /* libacfstd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABA3C970EEFF383009058A6 /* libacfstd.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -82,37 +66,6 @@
 			script = "uic -o ${INPUT_FILE_DIR}/Generated/ui_${INPUT_FILE_BASE}.h $INPUT_FILE_PATH";
 		};
 /* End PBXBuildRule section */
-
-/* Begin PBXContainerItemProxy section */
-		EA5A98250EEC349900FD019A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5A980A0EEC349900FD019A /* AcfQt.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D;
-			remoteInfo = acfqt;
-		};
-		EA5A98620EEC34A800FD019A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5A98270EEC34A800FD019A /* AcfStd.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D;
-			remoteInfo = acfstd;
-		};
-		EA5A986C0EEC350700FD019A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5A980A0EEC349900FD019A /* AcfQt.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC045055464E500DB518D;
-			remoteInfo = acfqt;
-		};
-		EA5A986E0EEC350700FD019A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5A98270EEC34A800FD019A /* AcfStd.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC045055464E500DB518D;
-			remoteInfo = acfstd;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		123456790ED2E572006EC826 /* CAttributeEditorComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAttributeEditorComp.cpp; path = ../CAttributeEditorComp.cpp; sourceTree = SOURCE_ROOT; };
@@ -155,8 +108,6 @@
 		123457160ED2E572006EC826 /* ui_CAttributeEditorComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CAttributeEditorComp.h; path = ../Generated/ui_CAttributeEditorComp.h; sourceTree = SOURCE_ROOT; };
 		123457170ED2E572006EC826 /* ui_CPackageOverviewComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CPackageOverviewComp.h; path = ../Generated/ui_CPackageOverviewComp.h; sourceTree = SOURCE_ROOT; };
 		123457180ED2E572006EC826 /* Compositor.qrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compositor.qrc; path = ../Compositor.qrc; sourceTree = SOURCE_ROOT; };
-		EA5A980A0EEC349900FD019A /* AcfQt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AcfQt.xcodeproj; path = ../../AcfQt/Xcd/AcfQt.xcodeproj; sourceTree = SOURCE_ROOT; };
-		EA5A98270EEC34A800FD019A /* AcfStd.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AcfStd.xcodeproj; path = ../../AcfStd/Xcd/AcfStd.xcodeproj; sourceTree = SOURCE_ROOT; };
 		EA5A98680EEC34FD00FD019A /* Compositor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Compositor; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6647A40EED496B006773C7 /* Qt3Support.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Qt3Support.framework; path = /Library/Frameworks/Qt3Support.framework; sourceTree = "<absolute>"; };
 		EA6647A50EED496B006773C7 /* QtAssistant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtAssistant.framework; path = /Library/Frameworks/QtAssistant.framework; sourceTree = "<absolute>"; };
@@ -176,6 +127,8 @@
 		EA6647B30EED496B006773C7 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = /Library/Frameworks/QtXml.framework; sourceTree = "<absolute>"; };
 		EA6647B40EED496B006773C7 /* QtXmlPatterns.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXmlPatterns.framework; path = /Library/Frameworks/QtXmlPatterns.framework; sourceTree = "<absolute>"; };
 		EA66486F0EED551F006773C7 /* Compositor_Test_Export.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Compositor_Test_Export.txt; sourceTree = "<group>"; };
+		EABA3C960EEFF383009058A6 /* libacfqt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libacfqt.a; path = ../../../Lib/DebugXcd/libacfqt.a; sourceTree = SOURCE_ROOT; };
+		EABA3C970EEFF383009058A6 /* libacfstd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libacfstd.a; path = ../../../Lib/DebugXcd/libacfstd.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,14 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA66478E0EED4516006773C7 /* libacfqt.a in Frameworks */,
-				EA6647900EED4561006773C7 /* libacfstd.a in Frameworks */,
-				EA6647B50EED496B006773C7 /* Qt3Support.framework in Frameworks */,
-				EA6647B60EED496B006773C7 /* QtAssistant.framework in Frameworks */,
 				EA6647B70EED496B006773C7 /* QtCore.framework in Frameworks */,
-				EA6647B80EED496B006773C7 /* QtDBus.framework in Frameworks */,
-				EA6647B90EED496B006773C7 /* QtDesigner.framework in Frameworks */,
-				EA6647BA0EED496B006773C7 /* QtDesignerComponents.framework in Frameworks */,
 				EA6647BB0EED496B006773C7 /* QtGui.framework in Frameworks */,
 				EA6647BC0EED496B006773C7 /* QtHelp.framework in Frameworks */,
 				EA6647BD0EED496B006773C7 /* QtNetwork.framework in Frameworks */,
@@ -198,10 +144,9 @@
 				EA6647BF0EED496B006773C7 /* QtScript.framework in Frameworks */,
 				EA6647C00EED496B006773C7 /* QtSql.framework in Frameworks */,
 				EA6647C10EED496B006773C7 /* QtSvg.framework in Frameworks */,
-				EA6647C20EED496B006773C7 /* QtTest.framework in Frameworks */,
-				EA6647C30EED496B006773C7 /* QtWebKit.framework in Frameworks */,
 				EA6647C40EED496B006773C7 /* QtXml.framework in Frameworks */,
-				EA6647C50EED496B006773C7 /* QtXmlPatterns.framework in Frameworks */,
+				EABA3C980EEFF383009058A6 /* libacfqt.a in Frameworks */,
+				EABA3C990EEFF383009058A6 /* libacfstd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,10 +156,10 @@
 		08FB7794FE84155DC02AAC07 /* compositor */ = {
 			isa = PBXGroup;
 			children = (
+				EABA3C960EEFF383009058A6 /* libacfqt.a */,
+				EABA3C970EEFF383009058A6 /* libacfstd.a */,
 				EA66486E0EED54FB006773C7 /* Export FIle */,
 				EA6647A10EED48A5006773C7 /* QT Libs */,
-				EA5A98270EEC34A800FD019A /* AcfStd.xcodeproj */,
-				EA5A980A0EEC349900FD019A /* AcfQt.xcodeproj */,
 				EAB5AC950ED2E587006EC826 /* Header */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				EA9856A50EEABE3D00C738EF /* Generated */,
@@ -259,22 +204,6 @@
 				123457090ED2E572006EC826 /* CPackageOverviewComp.ui */,
 			);
 			name = Forms;
-			sourceTree = "<group>";
-		};
-		EA5A980B0EEC349900FD019A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EA5A98260EEC349900FD019A /* libacfqt.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		EA5A98280EEC34A800FD019A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EA5A98630EEC34A800FD019A /* libacfstd.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		EA6647A10EED48A5006773C7 /* QT Libs */ = {
@@ -380,8 +309,6 @@
 				EA66471C0EED3A69006773C7 /* PBXBuildRule */,
 			);
 			dependencies = (
-				EA5A986D0EEC350700FD019A /* PBXTargetDependency */,
-				EA5A986F0EEC350700FD019A /* PBXTargetDependency */,
 			);
 			name = Compositor;
 			productName = Compositor;
@@ -398,39 +325,12 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* compositor */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = EA5A980B0EEC349900FD019A /* Products */;
-					ProjectRef = EA5A980A0EEC349900FD019A /* AcfQt.xcodeproj */;
-				},
-				{
-					ProductGroup = EA5A98280EEC34A800FD019A /* Products */;
-					ProjectRef = EA5A98270EEC34A800FD019A /* AcfStd.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				EA5A98670EEC34FD00FD019A /* Compositor */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		EA5A98260EEC349900FD019A /* libacfqt.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libacfqt.a;
-			remoteRef = EA5A98250EEC349900FD019A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EA5A98630EEC34A800FD019A /* libacfstd.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libacfstd.a;
-			remoteRef = EA5A98620EEC34A800FD019A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EA5A98650EEC34FD00FD019A /* Sources */ = {
@@ -448,31 +348,10 @@
 				EA66469A0EED30E4006773C7 /* CComponentNote.cpp in Sources */,
 				EA66469B0EED30E4006773C7 /* CRegistryLoaderComp.cpp in Sources */,
 				EA66469C0EED30E4006773C7 /* CAttributeEditorComp.cpp in Sources */,
-				EA3DF4E10EED785A009D0C37 /* CAttributeEditorComp.moc in Sources */,
-				EA3DF4E20EED785A009D0C37 /* CComponentView.moc in Sources */,
-				EA3DF4E30EED785A009D0C37 /* CPackageOverviewComp.moc in Sources */,
-				EA3DF4E40EED785A009D0C37 /* CRegistryPreviewComp.moc in Sources */,
-				EA3DF4E50EED785A009D0C37 /* CRegistryViewComp.moc in Sources */,
-				EA3DF4D30EED7708009D0C37 /* Compositor.qrc in Sources */,
-				EA3DF4DF0EED7853009D0C37 /* CAttributeEditorComp.ui in Sources */,
-				EA3DF4E00EED7853009D0C37 /* CPackageOverviewComp.ui in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		EA5A986D0EEC350700FD019A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = acfqt;
-			targetProxy = EA5A986C0EEC350700FD019A /* PBXContainerItemProxy */;
-		};
-		EA5A986F0EEC350700FD019A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = acfstd;
-			targetProxy = EA5A986E0EEC350700FD019A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB91F008733DB70010E9CD /* Debug */ = {
@@ -504,6 +383,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					../../../Include,
 					../..,
 					/Library/Frameworks/QtCore.framework/Headers,
 					/Library/Frameworks/QtGui.framework/Headers,
@@ -527,11 +407,25 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					../../../Include,
+					../..,
+					/Library/Frameworks/QtCore.framework/Headers,
+					/Library/Frameworks/QtGui.framework/Headers,
+					/Library/Frameworks/QtNetwork.framework/Headers,
+					/Library/Frameworks/QtScript.framework/Headers,
+					/Library/Frameworks/QtXml.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../Lib/$(CONFIGURATION)Xcd",
+					"\"$(SRCROOT)/../../../Lib/DebugXcd\"",
+				);
 				MACH_O_TYPE = mh_execute;
 				OBJROOT = "$(SYMROOT)";
 				OTHER_CFLAGS = "-fvisibility=default";
 				PREBINDING = NO;
+				PRELINK_LIBS = "";
 				PRODUCT_NAME = Compositor;
 				SYMROOT = build;
 				WARNING_LDFLAGS = "-no_arch_warnings";
@@ -548,10 +442,24 @@
 				EXECUTABLE_EXTENSION = app;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					../../../Include,
+					../..,
+					/Library/Frameworks/QtCore.framework/Headers,
+					/Library/Frameworks/QtGui.framework/Headers,
+					/Library/Frameworks/QtNetwork.framework/Headers,
+					/Library/Frameworks/QtScript.framework/Headers,
+					/Library/Frameworks/QtXml.framework/Headers,
+				);
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"../../../Lib/$(CONFIGURATION)Xcd",
+					"\"$(SRCROOT)/../../../Lib/DebugXcd\"",
+				);
 				MACH_O_TYPE = mh_execute;
 				OBJROOT = "$(SYMROOT)";
 				PREBINDING = NO;
+				PRELINK_LIBS = "";
 				PRODUCT_NAME = Compositor;
 				SYMROOT = build;
 				ZERO_LINK = NO;
