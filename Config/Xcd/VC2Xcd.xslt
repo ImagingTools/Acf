@@ -5,6 +5,8 @@
 	<xsl:output method = "text" indent="yes" encoding="utf-8"/>
 	<xsl:strip-space elements="*"/>
 
+	<xsl:param name = "ExtraIncludes"></xsl:param>
+
 	<xsl:template match = "*">
 		<xsl:param name = "UserParam" select="''"/>
 		<xsl:apply-templates>
@@ -13,7 +15,49 @@
 	</xsl:template>
 
 	<xsl:template match = "VisualStudioProject">
-		<xsl:variable name="LowercaseName" select="translate(//VisualStudioProject/@Name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.', 'abcdefghijklmnopqrstuvwxyz_')"/>
+		<xsl:variable name="ProductName">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">
+					<xsl:value-of select="translate(//VisualStudioProject/@Name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.', 'abcdefghijklmnopqrstuvwxyz_')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="translate(//VisualStudioProject/@Name, '.', '_')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name = "ProductPrefix">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">lib</xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name = "ProductExtension">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'">app</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">arp</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">a</xsl:when>
+				<xsl:otherwise></xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name = "ProductType">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'">"com.apple.product-type.tool"</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">"com.apple.product-type.library.dynamic"</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">"com.apple.product-type.library.static"</xsl:when>
+				<xsl:otherwise>"com.apple.product-type.library.static"</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="ProductFileName">
+			<xsl:value-of select="$ProductPrefix"/><xsl:value-of select="$ProductName"/>.<xsl:value-of select="$ProductExtension"/>
+		</xsl:variable>
+		<xsl:variable name = "OutputDir">
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'">"../../../Bin/$(CONFIGURATION)Xcd"</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">"../../../Bin/$(CONFIGURATION)Xcd"</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">"../../../Lib/$(CONFIGURATION)Xcd"</xsl:when>
+				<xsl:otherwise>$(BUILD_DIR)/$(CONFIGURATION)</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:text>// !$*UTF8*$!
 {
 	archiveVersion = 1;
@@ -33,8 +77,13 @@
 </xsl:text>
 <xsl:apply-templates mode="Sources" select="Files/Filter/*">
 	<xsl:with-param name="UserParam" select="'PBXFileReference'"/>
-</xsl:apply-templates>		D2AAC046055464E500DB518D /* lib<xsl:value-of select="$LowercaseName"/>.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = lib<xsl:value-of select="$LowercaseName"/>.a; sourceTree = BUILT_PRODUCTS_DIR; };
-<xsl:text>/* End PBXFileReference section */
+</xsl:apply-templates>
+<xsl:text>		D2AAC046055464E500DB518D /* </xsl:text>
+<xsl:value-of select="$ProductFileName"/>
+<xsl:text> */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = </xsl:text>
+<xsl:value-of select="$ProductFileName"/>
+<xsl:text>; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D289987405E68DCB004EDB86 /* Frameworks */ = {
@@ -47,7 +96,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08FB7794FE84155DC02AAC07 /* </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text> */ = {
+		08FB7794FE84155DC02AAC07 /* </xsl:text><xsl:value-of select="$ProductName"/><xsl:text> */ = {
 			isa = PBXGroup;
 			children = (
 				EAB5AC950ED2E587006EC826 /* Header */,
@@ -58,7 +107,7 @@
 				EA9856A60EEABE5300C738EF /* Garbages */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
-			name = </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>;
+			name = </xsl:text><xsl:value-of select="$ProductName"/><xsl:text>;
 			sourceTree = "&lt;group&gt;";
 		};
 		EAB5AC950ED2E587006EC826 /* Header */ = {
@@ -128,7 +177,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC046055464E500DB518D /* lib</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>.a */,
+				D2AAC046055464E500DB518D /* </xsl:text><xsl:value-of select="$ProductFileName"/><xsl:text> */,
 			);
 			name = Products;
 			sourceTree = "&lt;group&gt;";
@@ -141,18 +190,18 @@
 			buildActionMask = 2147483647;
 			files = (
 </xsl:text>
-<xsl:apply-templates mode="Sources" select="Files/Filter/*">
-	<xsl:with-param name="UserParam" select="'Group.Headers'"/>
-</xsl:apply-templates>
-<xsl:text>			);
+				<xsl:apply-templates mode="Sources" select="Files/Filter/*">
+					<xsl:with-param name="UserParam" select="'Group.Headers'"/>
+				</xsl:apply-templates>
+				<xsl:text>			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC045055464E500DB518D /* </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text> */ = {
+		D2AAC045055464E500DB518D /* </xsl:text><xsl:value-of select="$ProductName"/><xsl:text> */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>" */;
+			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "</xsl:text><xsl:value-of select="$ProductName"/><xsl:text>" */;
 			buildPhases = (
 				EA6981130EEBF38E00FE4110 /* ShellScript */,
 				D2AAC043055464E500DB518D /* Headers */,
@@ -163,24 +212,24 @@
 			);
 			dependencies = (
 			);
-			name = </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>;
-			productName = </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>;
-			productReference = D2AAC046055464E500DB518D /* lib</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>.a */;
-			productType = "com.apple.product-type.library.static";
+			name = </xsl:text><xsl:value-of select="$ProductName"/><xsl:text>;
+			productName = </xsl:text><xsl:value-of select="$ProductName"/><xsl:text>;
+			productReference = D2AAC046055464E500DB518D /* </xsl:text><xsl:value-of select="$ProductFileName"/><xsl:text> */;
+			productType = </xsl:text><xsl:value-of select="$ProductType"/><xsl:text>;
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>" */;
+			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "</xsl:text><xsl:value-of select="$ProductName"/><xsl:text>" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
-			mainGroup = 08FB7794FE84155DC02AAC07 /* </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text> */;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* </xsl:text><xsl:value-of select="$ProductName"/><xsl:text> */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC045055464E500DB518D /* </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text> */,
+				D2AAC045055464E500DB518D /* </xsl:text><xsl:value-of select="$ProductName"/><xsl:text> */,
 			);
 		};
 /* End PBXProject section */
@@ -234,14 +283,16 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
+				CONFIGURATION_BUILD_DIR = </xsl:text><xsl:value-of select="$OutputDir"/><xsl:text>;
+				EXECUTABLE_EXTENSION = "</xsl:text><xsl:value-of select="$ProductExtension"/><xsl:text>";
+				EXECUTABLE_PREFIX = "</xsl:text><xsl:value-of select="$ProductPrefix"/><xsl:text>";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>;
+				PRODUCT_NAME = </xsl:text><xsl:value-of select="$ProductName"/><xsl:text>;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -251,11 +302,13 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
+				CONFIGURATION_BUILD_DIR = </xsl:text><xsl:value-of select="$OutputDir"/><xsl:text>;
+				EXECUTABLE_EXTENSION = "</xsl:text><xsl:value-of select="$ProductExtension"/><xsl:text>";
+				EXECUTABLE_PREFIX = "</xsl:text><xsl:value-of select="$ProductPrefix"/><xsl:text>";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = </xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>;
+				PRODUCT_NAME = </xsl:text><xsl:value-of select="$ProductName"/><xsl:text>;
 			};
 			name = Release;
 		};
@@ -267,13 +320,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../..",
-					/Library/Frameworks/QtCore.framework/Headers,
-					/Library/Frameworks/QtGui.framework/Headers,
-					/Library/Frameworks/QtNetwork.framework/Headers,
-					/Library/Frameworks/QtScript.framework/Headers,
-					/Library/Frameworks/QtXml.framework/Headers,
-				);
+</xsl:text>
+<xsl:call-template name = "ParsePathList">
+	<xsl:with-param name = "ToParse" select="$ExtraIncludes"/>
+</xsl:call-template>
+<xsl:apply-templates mode ="IncludePath" select="Configurations/Configuration[2]"/>
+<xsl:text>				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
@@ -291,13 +343,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../..",
-					/Library/Frameworks/QtCore.framework/Headers,
-					/Library/Frameworks/QtGui.framework/Headers,
-					/Library/Frameworks/QtNetwork.framework/Headers,
-					/Library/Frameworks/QtScript.framework/Headers,
-					/Library/Frameworks/QtXml.framework/Headers,
-				);
+</xsl:text>
+<xsl:call-template name = "ParsePathList">
+	<xsl:with-param name = "ToParse" select="$ExtraIncludes"/>
+</xsl:call-template>
+<xsl:apply-templates mode ="IncludePath" select="Configurations/Configuration[1]"/>
+<xsl:text>				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
@@ -306,7 +357,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>" */ = {
+		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "</xsl:text><xsl:value-of select="$ProductName"/><xsl:text>" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91EC08733DB70010E9CD /* Debug */,
@@ -315,7 +366,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "</xsl:text><xsl:value-of select="$LowercaseName"/><xsl:text>" */ = {
+		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "</xsl:text><xsl:value-of select="$ProductName"/><xsl:text>" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Debug */,
@@ -469,5 +520,13 @@
 	</xsl:template>
 
 	<xsl:template name = "InsertValue">
+		<xsl:param name="Path"/>
+
+		<xsl:if test="not(contains($Path, 'QTDIR'))">
+			<xsl:text>					</xsl:text>
+			<xsl:value-of select="$Path"/>
+			<xsl:text>,
+</xsl:text>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
