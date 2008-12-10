@@ -35,7 +35,7 @@ public:
 	virtual void Reset();
 
 	// reimplemented (istd::IContainerInfo)
-	virtual int GetItemCount() const;
+	virtual int GetItemsCount() const;
 	virtual bool IsEmpty() const;
 	virtual bool IsIndexValid(int index) const;
 
@@ -139,7 +139,7 @@ void TContainer<ItemClass, ContainerClass>::Reset()
 // reimplemented (istd::IContainerInfo)
 
 template <typename ItemClass, typename ContainerClass>
-int TContainer<ItemClass, ContainerClass>::GetItemCount() const
+int TContainer<ItemClass, ContainerClass>::GetItemsCount() const
 {
 	return int(m_items.size());
 }

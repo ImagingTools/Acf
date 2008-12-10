@@ -2,7 +2,8 @@
 #define imath_CComplexDoubleManip_included
 
 
-#include <math.h>
+// STL includes
+#include <cmath>
 #include <limits>
 
 #include "istd/CRange.h"

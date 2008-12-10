@@ -2,10 +2,12 @@
 #define imath_TFastVector_included
 
 
+// STL includes
 #include <cmath>
 #include <memory.h>
 
 #include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
 
 #include "imath/TVector.h"
 
@@ -376,7 +378,7 @@ inline Element TFastVector<MaxSize, Element>::GetLength2() const
 template <int MaxSize, class Element>
 inline Element TFastVector<MaxSize, Element>::GetLength() const
 {
-	return ::sqrt(GetLength2());
+	return std::sqrt(GetLength2());
 }
 
 
@@ -390,7 +392,7 @@ inline Element TFastVector<MaxSize, Element>::GetDistance2(const TFastVector<Max
 template <int MaxSize, class Element>
 inline Element TFastVector<MaxSize, Element>::GetDistance(const TFastVector<MaxSize, Element>& vector) const
 {
-	return ::sqrt(GetDistance2(vector));
+	return std::sqrt(GetDistance2(vector));
 }
 
 
@@ -467,7 +469,7 @@ bool TFastVector<MaxSize, Element>::operator<=(const TFastVector<MaxSize, Elemen
 		}
 	}
 
-	return m_elementsCount =< vector.m_elementsCount;
+	return m_elementsCount <= vector.m_elementsCount;
 }
 
 
@@ -673,8 +675,8 @@ bool TFastVector<MaxSize, Element>::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
-	static CArchiveTag elementsTag("Elements", "List of vector element");
-	static CArchiveTag elementTag("Element", "Single vector element");
+	static iser::CArchiveTag elementsTag("Elements", "List of vector element");
+	static iser::CArchiveTag elementTag("Element", "Single vector element");
 
 	retVal = retVal && archive.BeginMultiTag(elementsTag, elementTag, m_elementsCount);
 

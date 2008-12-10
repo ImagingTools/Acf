@@ -66,13 +66,13 @@ bool TComposedFactory<InterfaceType>::RegisterFactory(FactoryInterface* factoryP
 template <class InterfaceType>
 IFactoryInfo::KeyList TComposedFactory<InterfaceType>::GetFactoryKeys() const
 {
-	KeyList retVal;
-	for (		FactoryList::const_iterator iter = m_factoryList.begin();
+	IFactoryInfo::KeyList retVal;
+	for (		typename FactoryList::const_iterator iter = m_factoryList.begin();
 				iter != m_factoryList.end();
 				++iter){
 		const FactoryPtr& factoryPtr = *iter;
 
-		KeyList factoryKeys = factoryPtr->GetFactoryKeys();
+		IFactoryInfo::KeyList factoryKeys = factoryPtr->GetFactoryKeys();
 
 		retVal.insert(retVal.end(), factoryKeys.begin(), factoryKeys.end());
 	}
@@ -86,7 +86,7 @@ IFactoryInfo::KeyList TComposedFactory<InterfaceType>::GetFactoryKeys() const
 template <class InterfaceType>
 InterfaceType* TComposedFactory<InterfaceType>::CreateInstance(const std::string& keyId) const
 {
-	for (		FactoryList::const_iterator iter = m_factoryList.begin();
+	for (		typename FactoryList::const_iterator iter = m_factoryList.begin();
 				iter != m_factoryList.end();
 				++iter){
 		const FactoryPtr& factoryPtr = *iter;

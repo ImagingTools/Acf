@@ -2,6 +2,8 @@
 #define imath_TVarVector_included
 
 
+// STL includes
+#include <cmath>
 #include <vector>
 
 #include "iser/IArchive.h"
@@ -338,7 +340,7 @@ inline Element TVarVector<Element>::GetLength2() const
 template <class Element>
 inline Element TVarVector<Element>::GetLength() const
 {
-	return ::sqrt(GetLength2());
+	return std::sqrt(GetLength2());
 }
 
 
@@ -352,7 +354,7 @@ inline Element TVarVector<Element>::GetDistance2(const TVarVector<Element>& vect
 template <class Element>
 inline Element TVarVector<Element>::GetDistance(const TVarVector<Element>& vector) const
 {
-	return ::sqrt(GetDistance2(vector));
+	return std::sqrt(GetDistance2(vector));
 }
 
 

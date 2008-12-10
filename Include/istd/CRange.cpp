@@ -1,6 +1,8 @@
 #include "istd/CRange.h"
 
-#include <math.h>
+
+// STL includes
+#include <cmath>
 
 
 namespace istd

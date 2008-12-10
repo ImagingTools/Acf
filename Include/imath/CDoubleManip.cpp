@@ -1,7 +1,8 @@
 #include "imath/CDoubleManip.h"
 
 
-#include <math.h>
+// STL includes
+#include <cmath>
 #include <sstream>
 
 

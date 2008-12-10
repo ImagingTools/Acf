@@ -1,11 +1,16 @@
+#include "CComponentNoteView.h"
+
+
+// STL includes
+#include <cmath>
+
+// Qt includes
 #include <QPainter>
-#include <math.h>
 
-
+// ACF includes
 #include "i2d/CVector2d.h"
 
 #include "CComponentView.h"
-#include "CComponentNoteView.h"
 #include "CRegistryViewComp.h"
 
 

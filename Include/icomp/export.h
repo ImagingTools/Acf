@@ -12,19 +12,14 @@ namespace icomp
 {
 
 
-#ifdef WIN32
-	#define I_FUNCTION_EXPORT _declspec(dllexport)
-	#define I_BEFORE_EXPORT_FUNCTION
-	#define I_AFTER_EXPORT_FUNCTION
+#if defined _MSC_VER
+	#define I_FUNCTION_EXPORT __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+#elif defined __GNUC__
+	#define I_FUNCTION_EXPORT __attribute__ ((visibility("default")))
 #else
-	#ifdef LINUX
-		#define I_FUNCTION_EXPORT
-	#else
-		#define I_FUNCTION_EXPORT
-	#endif
-#define I_BEFORE_EXPORT_FUNCTION #pragma export on
-	#define I_AFTER_EXPORT_FUNCTION #pragma export off
+	#define I_FUNCTION_EXPORT
 #endif
+
 
 #ifdef _DEBUG
 	#define I_PACKAGE_EXPORT_FUNCTION GetPackageInfoDebug

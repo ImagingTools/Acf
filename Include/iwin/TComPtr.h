@@ -132,7 +132,7 @@ inline void TComPtr<Type>::SetPtr(Type* ptr, bool addRef)
 
 
 template <class Type>
-inline typename Type* TComPtr<Type>::PopPtr()
+inline Type* TComPtr<Type>::PopPtr()
 {
 	Type* slavePtr = BaseClass::GetPtr();
 	BaseClass::SetPtr(NULL);
@@ -149,7 +149,7 @@ void TComPtr<Type>::TakeOver(TComPtr& sourcePtr)
 
 
 template <class Type>
-inline typename Type** TComPtr<Type>::operator&()
+inline Type** TComPtr<Type>::operator&()
 {
 	return &BaseClass::GetPtrRef();
 }

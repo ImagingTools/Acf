@@ -100,7 +100,7 @@ InterfaceClass* TFactorisableContainer<InterfaceClass>::AddElement(const std::st
 template <class InterfaceClass>
 InterfaceClass* TFactorisableContainer<InterfaceClass>::GetElement(int elementIndex) const
 {
-	if (elementIndex < BaseClass::GetItemCount() && elementIndex >= 0){
+	if (elementIndex < BaseClass::GetItemsCount() && elementIndex >= 0){
 		return const_cast<InterfaceClass*>(BaseClass::GetAt(elementIndex).first.GetPtr());
 	}
 
@@ -111,7 +111,7 @@ InterfaceClass* TFactorisableContainer<InterfaceClass>::GetElement(int elementIn
 template <class InterfaceClass>
 int TFactorisableContainer<InterfaceClass>::GetElementIndex(const InterfaceClass& elementRef) const
 {
-	for (int itemIndex = 0; itemIndex < GetItemCount(); itemIndex++){
+	for (int itemIndex = 0; itemIndex < BaseClass::GetItemsCount(); itemIndex++){
 		InterfaceClass* elementPtr = GetElement(itemIndex);
 		if (elementPtr == &elementRef){
 			return itemIndex;
@@ -125,7 +125,7 @@ int TFactorisableContainer<InterfaceClass>::GetElementIndex(const InterfaceClass
 template <class InterfaceClass>
 std::string TFactorisableContainer<InterfaceClass>::GetElementKey(int elementIndex) const
 {
-	if (elementIndex < BaseClass::GetItemCount() &&  elementIndex >= 0){
+	if (elementIndex < BaseClass::GetItemsCount() &&  elementIndex >= 0){
 		return BaseClass::GetAt(elementIndex).second;
 	}
 
@@ -149,7 +149,7 @@ bool TFactorisableContainer<InterfaceClass>::Serialize(iser::IArchive& archive)
 		this->Reset();
 	}
 
-	int itemCount = BaseClass::GetItemCount();
+	int itemCount = BaseClass::GetItemsCount();
 
 	static iser::CArchiveTag itemsTag("Items", "List of items");
 	static iser::CArchiveTag itemTag("Item", "Item");
@@ -164,7 +164,7 @@ bool TFactorisableContainer<InterfaceClass>::Serialize(iser::IArchive& archive)
 		std::string itemKey;
 
 		if (archive.IsStoring()){
-			itemKey = GetAt(index).second;
+			itemKey = BaseClass::GetAt(index).second;
 		}
 
 		static iser::CArchiveTag keyTag("ItemKey", "Factory key of the item");
@@ -186,7 +186,7 @@ bool TFactorisableContainer<InterfaceClass>::Serialize(iser::IArchive& archive)
 			}
 		}
 				
-		ItemClass& containerItem = GetAt(index);
+		ItemClass& containerItem = BaseClass::GetAt(index);
 
 		retVal = retVal && archive.BeginTag(itemTag);
 		retVal = retVal && SerializeItem(containerItem, archive);

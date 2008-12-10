@@ -1,5 +1,10 @@
 #include "CRegistryViewComp.h"
 
+
+// STL includes
+#include <cmath>
+
+// Qt includes
 #include <QPainter>
 #include <QPaintEvent>
 #include <QMouseEvent>
@@ -7,11 +12,9 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-#include <math.h>
-
+// ACF includes
 #include "icomp/IRegistryGeometryProvider.h"
 #include "icomp/IRegistryNotesProvider.h"
-
 #include "iser/CMemoryReadArchive.h"
 #include "iser/CMemoryWriteArchive.h"
 

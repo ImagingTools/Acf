@@ -37,10 +37,12 @@ class TFulcrumGridFunctionBase:
 {
 public:
 	typedef istd::TCachedUpdateManagerWrap<iser::ISerializable> BaseClass;
+	typedef TIMathFunction<Argument, Result> BaseClass2;
 
 	typedef typename Fulcrums::ElementType FulcrumType;
 	typedef typename Fulcrums::IndexType FulcrumIndex;
 	typedef typename Fulcrums::SizesType FulcrumSizes;
+	typedef typename TIMathFunction<Argument, Result>::ArgumentType ArgumentType;
 
 	enum ChangeFlags
 	{
@@ -134,11 +136,11 @@ protected:
 		\return				biggest layer index, which position is smaller or equal than specified value
 							or -1 if this value is smaller than first layer position.
 	*/
-	int FindIndex(int dimension, double value) const;
+	int FindLayerIndex(int dimension, double value) const;
 	/**
 		Find indices of cuboid containing specified argument value.
 	*/
-	FulcrumIndex FindIndices(const ArgumentType& argument) const;
+	typename Fulcrums::IndexType FindIndices(const ArgumentType& argument) const;
 
 	// reimplemented (istd::TCachedUpdateManagerWrap)
 	virtual bool CalculateCache(int changeFlags);
@@ -306,7 +308,7 @@ int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::InsertLayer(int dimens
 		if (layerIndex >= 0){
 			prevPosition = positions[layerIndex];
 		}
-		if (layerIndex < GetSize(dimension) - 1){
+		if (layerIndex < GetLayersCount(dimension) - 1){
 			nextPosition = positions[layerIndex + 1];
 		}
 	}
@@ -325,7 +327,7 @@ int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::InsertLayer(int dimens
 	int oldLayersCount = int(positions.size());
 	I_ASSERT(oldLayersCount == m_fulcrums.GetSize(dimension));
 
-	for (		Fulcrums::Iterator destIter = newFulcrums.Begin();
+	for (		typename Fulcrums::Iterator destIter = newFulcrums.Begin();
 				destIter != newFulcrums.End();
 				++destIter){
 		ArgumentType sourceIndex = destIter;
@@ -368,7 +370,7 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::RemoveLayer(int dimen
 
 	LayerPositions& positions = m_layers[dimension];
 
-	for (		Fulcrums::Iterator destIter = newFulcrums.Begin();
+	for (		typename Fulcrums::Iterator destIter = newFulcrums.Begin();
 				destIter != newFulcrums.End();
 				++destIter){
 		FulcrumIndex sourceIndex = destIter;
@@ -446,7 +448,7 @@ bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::Serialize(iser::IArch
 
 	retVal = retVal && archive.BeginTag(fulcrumsTag);
 
-	for (		Fulcrums::Iterator iter = m_fulcrums.Begin();
+	for (		typename Fulcrums::Iterator iter = m_fulcrums.Begin();
 				iter != m_fulcrums.End();
 				++iter){
 		FulcrumType& point = *iter;
@@ -476,7 +478,7 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SortFulcrums()
 
 
 template <class Argument, class Result, class Fulcrums>
-int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FindIndex(int dimension, double value) const
+int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FindLayerIndex(int dimension, double value) const
 {
 	I_ASSERT(dimension >= 0);
 	I_ASSERT(dimension < GetDimensionsCount());
@@ -504,7 +506,7 @@ int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FindIndex(int dimensio
 
 
 template <class Argument, class Result, class Fulcrums>
-typename TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FulcrumIndex
+typename Fulcrums::IndexType
 			TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FindIndices(const ArgumentType& argument) const
 {
 	int dimensionsCount = GetDimensionsCount();
@@ -512,7 +514,7 @@ typename TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::FulcrumIndex
 	FulcrumIndex retVal(dimensionsCount);
 
 	for (int i = 0; i < dimensionsCount; ++i){
-		retVal[i] = FindIndex(i, argument[i]);
+		retVal[i] = FindLayerIndex(i, argument[i]);
 	}
 
 	return retVal;

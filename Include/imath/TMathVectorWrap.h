@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
 
 #include "imath/imath.h"
 
@@ -144,9 +145,9 @@ inline TMathVectorWrap<Base>::TMathVectorWrap(const Base& vector)
 template <typename Base>
 inline void TMathVectorWrap<Base>::Clear()
 {
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	for (int i = 0; i < elementsCount; ++i){
-		SetElement(i, 0.0);
+		BaseClass::SetElement(i, 0.0);
 	}
 }
 
@@ -154,9 +155,9 @@ inline void TMathVectorWrap<Base>::Clear()
 template <typename Base>
 inline void TMathVectorWrap<Base>::Translate(const TMathVectorWrap<Base>& vector)
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		GetElementRef(i) += vector.GetElement(i);
+		BaseClass::GetElementRef(i) += vector.GetElement(i);
 	}
 }
 
@@ -187,9 +188,9 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetDotProduct(const TMa
 {
 	typename Base::ElementType retVal = 0.0;
 
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		retVal +=  GetElement(i) * vector.GetElement(i);
+		retVal +=  BaseClass::GetElement(i) * vector.GetElement(i);
 	}
 
 	return retVal;
@@ -206,7 +207,7 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetLength2() const
 template <typename Base>
 inline typename Base::ElementType TMathVectorWrap<Base>::GetLength() const
 {
-	return ::sqrt(GetLength2());
+	return std::sqrt(GetLength2());
 }
 
 
@@ -220,7 +221,7 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetDistance2(const TMat
 template <typename Base>
 inline typename Base::ElementType TMathVectorWrap<Base>::GetDistance(const TMathVectorWrap<Base>& vector) const
 {
-	return ::sqrt(GetDistance2(vector));
+	return std::sqrt(GetDistance2(vector));
 }
 
 
@@ -229,13 +230,13 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetDistance(const TMath
 template <typename Base>
 inline bool TMathVectorWrap<Base>::operator==(const TMathVectorWrap<Base>& vector) const
 {
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	if (elementsCount != vector.GetElementsCount()){
 		return false;
 	}
 
 	for (int i = 0; i < elementsCount; ++i){
-		if (GetElement(i) != vector.GetElement(i)){
+		if (BaseClass::GetElement(i) != vector.GetElement(i)){
 			return false;
 		}
 	}
@@ -253,9 +254,9 @@ inline bool TMathVectorWrap<Base>::operator!=(const TMathVectorWrap<Base>& vecto
 template <typename Base>
 bool TMathVectorWrap<Base>::operator<(const TMathVectorWrap<Base>& vector) const
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		typename Base::ElementType firstElement = GetElement(i);
+		typename Base::ElementType firstElement = BaseClass::GetElement(i);
 		typename Base::ElementType secondElement = vector.GetElement(i);
 
 		if (firstElement > secondElement){
@@ -266,16 +267,16 @@ bool TMathVectorWrap<Base>::operator<(const TMathVectorWrap<Base>& vector) const
 		}
 	}
 
-	return GetElementsCount() < vector.GetElementsCount();
+	return BaseClass::GetElementsCount() < vector.GetElementsCount();
 }
 
 
 template <typename Base>
 bool TMathVectorWrap<Base>::operator>(const TMathVectorWrap<Base>& vector) const
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		typename Base::ElementType firstElement = GetElement(i);
+		typename Base::ElementType firstElement = BaseClass::GetElement(i);
 		typename Base::ElementType secondElement = vector.GetElement(i);
 
 		if (firstElement > secondElement){
@@ -286,16 +287,16 @@ bool TMathVectorWrap<Base>::operator>(const TMathVectorWrap<Base>& vector) const
 		}
 	}
 
-	return GetElementsCount() > vector.GetElementsCount();
+	return BaseClass::GetElementsCount() > vector.GetElementsCount();
 }
 
 
 template <typename Base>
 bool TMathVectorWrap<Base>::operator<=(const TMathVectorWrap<Base>& vector) const
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		typename Base::ElementType firstElement = GetElement(i);
+		typename Base::ElementType firstElement = BaseClass::GetElement(i);
 		typename Base::ElementType secondElement = vector.GetElement(i);
 
 		if (firstElement > secondElement){
@@ -306,16 +307,16 @@ bool TMathVectorWrap<Base>::operator<=(const TMathVectorWrap<Base>& vector) cons
 		}
 	}
 
-	return GetElementsCount() <= vector.GetElementsCount();
+	return BaseClass::GetElementsCount() <= vector.GetElementsCount();
 }
 
 
 template <typename Base>
 bool TMathVectorWrap<Base>::operator>=(const TMathVectorWrap<Base>& vector) const
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		typename Base::ElementType firstElement = GetElement(i);
+		typename Base::ElementType firstElement = BaseClass::GetElement(i);
 		typename Base::ElementType secondElement = vector.GetElement(i);
 
 		if (firstElement > secondElement){
@@ -326,7 +327,7 @@ bool TMathVectorWrap<Base>::operator>=(const TMathVectorWrap<Base>& vector) cons
 		}
 	}
 
-	return GetElementsCount() >= vector.GetElementsCount();
+	return BaseClass::GetElementsCount() >= vector.GetElementsCount();
 }
 
 
@@ -342,9 +343,9 @@ inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator=(const TMathVector
 template <typename Base>
 inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator+=(const TMathVectorWrap<Base>& vector)
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		GetElementRef(i) += vector.GetElement(i);
+		BaseClass::GetElementRef(i) += vector.GetElement(i);
 	}
 
 	return *this;
@@ -354,9 +355,9 @@ inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator+=(const TMathVecto
 template <typename Base>
 inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator-=(const TMathVectorWrap<Base>& vector)
 {
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		GetElementRef(i) -= vector.GetElement(i);
+		BaseClass::GetElementRef(i) -= vector.GetElement(i);
 	}
 
 	return *this;
@@ -366,9 +367,9 @@ inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator-=(const TMathVecto
 template <typename Base>
 inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator*=(typename Base::ElementType scalar)
 {
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	for (int i = 0; i < elementsCount; ++i){
-		GetElementRef(i) *= scalar;
+		BaseClass::GetElementRef(i) *= scalar;
 	}
 
 	return *this;
@@ -378,9 +379,9 @@ inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator*=(typename Base::E
 template <typename Base>
 inline TMathVectorWrap<Base>& TMathVectorWrap<Base>::operator/=(typename Base::ElementType scalar)
 {
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	for (int i = 0; i < elementsCount; ++i){
-		GetElementRef(i) /= scalar;
+		BaseClass::GetElementRef(i) /= scalar;
 	}
 
 	return *this;
@@ -392,10 +393,10 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator-() const
 {
 	TMathVectorWrap<Base> retVal;
 
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	retVal.SetElementsCount(elementsCount);
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.SetElement(i, -GetElement(i));
+		retVal.SetElement(i, -BaseClass::GetElement(i));
 	}
 
 	return *this;
@@ -407,10 +408,10 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator+(const TMathVectorW
 {
 	TMathVectorWrap<Base> retVal;
 
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	retVal.SetElementsCount(elementsCount);
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.SetElement(i, GetElement(i) + vector.GetElement(i));
+		retVal.SetElement(i, BaseClass::GetElement(i) + vector.GetElement(i));
 	}
 
 	return retVal;
@@ -422,10 +423,10 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator-(const TMathVectorW
 {
 	TMathVectorWrap<Base> retVal;
 
-	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+	int elementsCount = istd::Min(BaseClass::GetElementsCount(), vector.GetElementsCount());
 	retVal.SetElementsCount(elementsCount);
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.SetElement(i, GetElement(i) - vector.GetElement(i));
+		retVal.SetElement(i, BaseClass::GetElement(i) - vector.GetElement(i));
 	}
 
 	return retVal;
@@ -437,10 +438,10 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator*(typename Base::Ele
 {
 	TMathVectorWrap<Base> retVal;
 
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	retVal.SetElementsCount(elementsCount);
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.SetElement(i, GetElement(i) * scalar);
+		retVal.SetElement(i, BaseClass::GetElement(i) * scalar);
 	}
 
 	return *this;
@@ -452,10 +453,10 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator/(typename Base::Ele
 {
 	TMathVectorWrap<Base> retVal;
 
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 	retVal.SetElementsCount(elementsCount);
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.SetElement(i, GetElement(i) / scalar);
+		retVal.SetElement(i, BaseClass::GetElement(i) / scalar);
 	}
 
 	return *this;
@@ -472,9 +473,9 @@ bool TMathVectorWrap<Base>::Normalize(typename Base::ElementType length)
     typename Base::ElementType proportion = isLength / length;
 
 	if (::fabs(proportion) > I_BIG_EPSILON){
-		int elementsCount = GetElementsCount();
+		int elementsCount = BaseClass::GetElementsCount();
 		for (int i = 0; i < elementsCount; ++i){
-			SetElement(i, GetElement(i) / proportion);
+			BaseClass::SetElement(i, BaseClass::GetElement(i) / proportion);
         }
 
 		return true;
@@ -493,10 +494,10 @@ bool TMathVectorWrap<Base>::GetNormalized(TMathVectorWrap<Base>& result, typenam
     typename Base::ElementType proportion = isLength / length;
 
 	if (::fabs(proportion) > I_BIG_EPSILON){
-		int elementsCount = GetElementsCount();
+		int elementsCount = BaseClass::GetElementsCount();
 		result.SetElementsCount(elementsCount);
 		for (int i = 0; i < elementsCount; ++i){
-			result.SetElement(i, GetElement(i) / proportion);
+			result.SetElement(i, BaseClass::GetElement(i) / proportion);
         }
 
 		return true;
@@ -512,10 +513,10 @@ bool TMathVectorWrap<Base>::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
-	int elementsCount = GetElementsCount();
+	int elementsCount = BaseClass::GetElementsCount();
 
-	static CArchiveTag elementsTag("Elements", "List of vector element");
-	static CArchiveTag elementTag("Element", "Single vector element");
+	static iser::CArchiveTag elementsTag("Elements", "List of vector element");
+	static iser::CArchiveTag elementTag("Element", "Single vector element");
 
 	retVal = retVal && archive.BeginMultiTag(elementsTag, elementTag, elementsCount);
 
@@ -524,12 +525,12 @@ bool TMathVectorWrap<Base>::Serialize(iser::IArchive& archive)
 	}
 
 	if (!archive.IsStoring()){
-		SetElementsCount(elementsCount);
+		BaseClass::SetElementsCount(elementsCount);
 	}
 
     for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(elementTag);
-		retVal = retVal && archive.Process(GetElementRef(i));
+		retVal = retVal && archive.Process(BaseClass::GetElementRef(i));
 		retVal = retVal && archive.EndTag(elementTag);
 	}
 

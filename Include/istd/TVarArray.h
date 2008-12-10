@@ -192,7 +192,7 @@ inline int TVarArray<Element>::GetSize(int dimension) const
 
 
 template <class Element>
-inline const typename Element& TVarArray<Element>::GetAt(const IndexType& index) const
+inline const Element& TVarArray<Element>::GetAt(const IndexType& index) const
 {
 	I_ASSERT(index.IsInside(m_sizes));
 
@@ -359,7 +359,7 @@ const Element& TVarArray<Element>::Iterator::operator*() const
 
 
 template <class Element>
-typename Element& TVarArray<Element>::Iterator::operator*()
+Element& TVarArray<Element>::Iterator::operator*()
 {
 	I_ASSERT(m_arrayPtr != NULL);
 	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));

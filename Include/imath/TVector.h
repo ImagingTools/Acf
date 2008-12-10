@@ -2,6 +2,7 @@
 #define imath_TVector_included
 
 
+// STL includes
 #include <cmath>
 
 #include "iser/IArchive.h"
@@ -272,7 +273,7 @@ inline Element TVector<Size, Element>::GetLength2() const
 template <int Size, class Element>
 inline Element TVector<Size, Element>::GetLength() const
 {
-	return ::sqrt(GetLength2());
+	return std::sqrt(GetLength2());
 }
 
 
@@ -286,7 +287,7 @@ inline Element TVector<Size, Element>::GetDistance2(const TVector<Size, Element>
 template <int Size, class Element>
 inline Element TVector<Size, Element>::GetDistance(const TVector<Size, Element>& vector) const
 {
-	return ::sqrt(GetDistance2(vector));
+	return std::sqrt(GetDistance2(vector));
 }
 
 

@@ -194,7 +194,7 @@ inline int TArray<Element, Dimensions>::GetSize(int dimension) const
 
 
 template <class Element, int Dimensions>
-inline const typename Element& TArray<Element, Dimensions>::GetAt(const IndexType& index) const
+inline const Element& TArray<Element, Dimensions>::GetAt(const IndexType& index) const
 {
 	I_ASSERT(index.IsInside(m_sizes));
 
@@ -370,7 +370,7 @@ const Element& TArray<Element, Dimensions>::Iterator::operator*() const
 
 
 template <class Element, int Dimensions>
-typename Element& TArray<Element, Dimensions>::Iterator::operator*()
+Element& TArray<Element, Dimensions>::Iterator::operator*()
 {
 	I_ASSERT(m_arrayPtr != NULL);
 	I_ASSERT(IsInside(m_arrayPtr->GetSizes()));

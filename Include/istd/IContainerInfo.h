@@ -18,7 +18,7 @@ public:
 	/**
 		Returns number of elements in the container.
 	*/
-	virtual int GetItemCount() const = 0;
+	virtual int GetItemsCount() const = 0;
 
 	/**
 		Returns a \c true if container is empty, otherwise a \c false.

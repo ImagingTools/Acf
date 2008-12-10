@@ -35,8 +35,8 @@ public:
 		Iterator& operator=(const Iterator& iter);
 
 	private:
-		int m_position;
 		const CFastBinaryIndex* m_indexPtr;
+		int m_position;
 	};
 
 	/**

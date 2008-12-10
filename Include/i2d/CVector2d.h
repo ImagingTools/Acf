@@ -2,7 +2,8 @@
 #define i2d_CVector2d_included
 
 
-#include <math.h>
+// STL includes
+#include <cmath>
 
 #include "imath/TVector.h"
 

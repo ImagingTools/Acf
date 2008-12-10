@@ -1,6 +1,9 @@
 #include "iimg/CHistogram.h"
 
 
+// STL includes
+#include <cmath>
+
 #include "ibase/CSize.h"
 
 
@@ -216,7 +219,7 @@ double CHistogram::GetDataVariance(int intervallFrom, int intervallTo) const
 		begIter++;
 	}
 	
-	return sqrt(dataVariance);
+	return std::sqrt(dataVariance);
 }
 
 

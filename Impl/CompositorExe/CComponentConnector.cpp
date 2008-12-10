@@ -1,13 +1,17 @@
+#include "CComponentConnector.h"
+
+
+// STL includes
+#include <cmath>
+
+// Qt includes
 #include <QPainter>
-#include <math.h>
 
-
+// ACF includes
 #include "i2d/CVector2d.h"
-
 #include "iqt/iqt.h"
 
 #include "CComponentView.h"
-#include "CComponentConnector.h"
 #include "CRegistryViewComp.h"
 
 

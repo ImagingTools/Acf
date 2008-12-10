@@ -2,6 +2,9 @@
 #define imath_TVarMatrix_included
 
 
+// STL includes
+#include <cmath>
+
 #include "istd/TArray.h"
 #include "istd/CIndex2d.h"
 
@@ -465,7 +468,7 @@ double TVarMatrix<Element>::GetEuclideanNorm2() const
 template <class Element>
 double TVarMatrix<Element>::GetEuclideanNorm() const
 {
-	return sqrt(GetEuclideanNorm2());
+	return std::sqrt(GetEuclideanNorm2());
 }
 
 
@@ -515,7 +518,7 @@ bool TVarMatrix<Element>::GetTriangleDecomposed(
 
 		double element0 = result[istd::CIndex2d(hhIndex, hhIndex)];
 
-		double hhLength = (element0 >= 0)? sqrt(hhNorm): -sqrt(hhNorm);
+		double hhLength = (element0 >= 0)? std::sqrt(hhNorm): -sqrt(hhNorm);
 
 		double hhVector0 = element0 + hhLength;
 		double hhVectorNorm2 = hhNorm + hhVector0 * hhVector0 - element0 * element0;
