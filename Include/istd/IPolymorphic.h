@@ -14,7 +14,7 @@ namespace istd
 
 	Base interface for all used interfaces and implementations
 */
-class __attribute__((visibility("hidden"))) IPolymorphic
+class IPolymorphic
 {
 public:
 	virtual ~IPolymorphic()
