@@ -41,7 +41,7 @@ template <class Base>
 void TLoggerCompWrap<Base>::OnComponentCreated()
 {
 	if (m_logCompPtr.IsValid()){
-		SetLogPtr(m_logCompPtr.GetPtr());
+		this->SetLogPtr(m_logCompPtr.GetPtr());
 	}
 
 	BaseClass::OnComponentCreated();
