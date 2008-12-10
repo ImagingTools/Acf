@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA283C2E0EF00E830044F226 /* moc_CAttributeEditorComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C260EF00E830044F226 /* moc_CAttributeEditorComp.cpp */; };
+		EA283C2F0EF00E830044F226 /* moc_CComponentView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C270EF00E830044F226 /* moc_CComponentView.cpp */; };
+		EA283C300EF00E830044F226 /* moc_CPackageOverviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C280EF00E830044F226 /* moc_CPackageOverviewComp.cpp */; };
+		EA283C310EF00E830044F226 /* moc_CRegistryPreviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C290EF00E830044F226 /* moc_CRegistryPreviewComp.cpp */; };
+		EA283C320EF00E830044F226 /* moc_CRegistryViewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C2A0EF00E830044F226 /* moc_CRegistryViewComp.cpp */; };
+		EA283C330EF00E830044F226 /* qrc_Compositor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA283C2B0EF00E830044F226 /* qrc_Compositor.cpp */; };
 		EA6646920EED30CB006773C7 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* Main.cpp */; };
 		EA6646930EED30E0006773C7 /* CRegistryPreviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* CRegistryPreviewComp.cpp */; };
 		EA6646940EED30E1006773C7 /* CPackageOverviewComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CPackageOverviewComp.cpp */; };
@@ -63,15 +69,15 @@
 		123457070ED2E572006EC826 /* IRegistryPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IRegistryPreview.h; path = ../IRegistryPreview.h; sourceTree = SOURCE_ROOT; };
 		123457080ED2E572006EC826 /* CAttributeEditorComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CAttributeEditorComp.ui; path = ../CAttributeEditorComp.ui; sourceTree = SOURCE_ROOT; };
 		123457090ED2E572006EC826 /* CPackageOverviewComp.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CPackageOverviewComp.ui; path = ../CPackageOverviewComp.ui; sourceTree = SOURCE_ROOT; };
-		123457100ED2E572006EC826 /* moc_CAttributeEditorComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CAttributeEditorComp.cpp; path = ../Generated/moc_CAttributeEditorComp.cpp; sourceTree = SOURCE_ROOT; };
-		123457110ED2E572006EC826 /* moc_CComponentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CComponentView.cpp; path = ../Generated/moc_CComponentView.cpp; sourceTree = SOURCE_ROOT; };
-		123457120ED2E572006EC826 /* moc_CPackageOverviewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CPackageOverviewComp.cpp; path = ../Generated/moc_CPackageOverviewComp.cpp; sourceTree = SOURCE_ROOT; };
-		123457130ED2E572006EC826 /* moc_CRegistryPreviewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CRegistryPreviewComp.cpp; path = ../Generated/moc_CRegistryPreviewComp.cpp; sourceTree = SOURCE_ROOT; };
-		123457140ED2E572006EC826 /* moc_CRegistryViewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CRegistryViewComp.cpp; path = ../Generated/moc_CRegistryViewComp.cpp; sourceTree = SOURCE_ROOT; };
-		123457150ED2E572006EC826 /* qrc_Compositor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qrc_Compositor.cpp; path = ../Generated/qrc_Compositor.cpp; sourceTree = SOURCE_ROOT; };
-		123457160ED2E572006EC826 /* ui_CAttributeEditorComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CAttributeEditorComp.h; path = ../Generated/ui_CAttributeEditorComp.h; sourceTree = SOURCE_ROOT; };
-		123457170ED2E572006EC826 /* ui_CPackageOverviewComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CPackageOverviewComp.h; path = ../Generated/ui_CPackageOverviewComp.h; sourceTree = SOURCE_ROOT; };
 		123457180ED2E572006EC826 /* Compositor.qrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Compositor.qrc; path = ../Compositor.qrc; sourceTree = SOURCE_ROOT; };
+		EA283C260EF00E830044F226 /* moc_CAttributeEditorComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CAttributeEditorComp.cpp; path = ../Generated/moc_CAttributeEditorComp.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C270EF00E830044F226 /* moc_CComponentView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CComponentView.cpp; path = ../Generated/moc_CComponentView.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C280EF00E830044F226 /* moc_CPackageOverviewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CPackageOverviewComp.cpp; path = ../Generated/moc_CPackageOverviewComp.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C290EF00E830044F226 /* moc_CRegistryPreviewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CRegistryPreviewComp.cpp; path = ../Generated/moc_CRegistryPreviewComp.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C2A0EF00E830044F226 /* moc_CRegistryViewComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CRegistryViewComp.cpp; path = ../Generated/moc_CRegistryViewComp.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C2B0EF00E830044F226 /* qrc_Compositor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = qrc_Compositor.cpp; path = ../Generated/qrc_Compositor.cpp; sourceTree = SOURCE_ROOT; };
+		EA283C2C0EF00E830044F226 /* ui_CAttributeEditorComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_CAttributeEditorComp.h; path = ../Generated/ui_CAttributeEditorComp.h; sourceTree = SOURCE_ROOT; };
+		EA283C2D0EF00E830044F226 /* ui_CPackageOverviewComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_CPackageOverviewComp.h; path = ../Generated/ui_CPackageOverviewComp.h; sourceTree = SOURCE_ROOT; };
 		EA5A98680EEC34FD00FD019A /* Compositor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Compositor; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA6647A40EED496B006773C7 /* Qt3Support.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Qt3Support.framework; path = /Library/Frameworks/Qt3Support.framework; sourceTree = "<absolute>"; };
 		EA6647A50EED496B006773C7 /* QtAssistant.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtAssistant.framework; path = /Library/Frameworks/QtAssistant.framework; sourceTree = "<absolute>"; };
@@ -205,14 +211,14 @@
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				123457100ED2E572006EC826 /* moc_CAttributeEditorComp.cpp */,
-				123457110ED2E572006EC826 /* moc_CComponentView.cpp */,
-				123457120ED2E572006EC826 /* moc_CPackageOverviewComp.cpp */,
-				123457130ED2E572006EC826 /* moc_CRegistryPreviewComp.cpp */,
-				123457140ED2E572006EC826 /* moc_CRegistryViewComp.cpp */,
-				123457150ED2E572006EC826 /* qrc_Compositor.cpp */,
-				123457160ED2E572006EC826 /* ui_CAttributeEditorComp.h */,
-				123457170ED2E572006EC826 /* ui_CPackageOverviewComp.h */,
+				EA283C260EF00E830044F226 /* moc_CAttributeEditorComp.cpp */,
+				EA283C270EF00E830044F226 /* moc_CComponentView.cpp */,
+				EA283C280EF00E830044F226 /* moc_CPackageOverviewComp.cpp */,
+				EA283C290EF00E830044F226 /* moc_CRegistryPreviewComp.cpp */,
+				EA283C2A0EF00E830044F226 /* moc_CRegistryViewComp.cpp */,
+				EA283C2B0EF00E830044F226 /* qrc_Compositor.cpp */,
+				EA283C2C0EF00E830044F226 /* ui_CAttributeEditorComp.h */,
+				EA283C2D0EF00E830044F226 /* ui_CPackageOverviewComp.h */,
 			);
 			name = Generated;
 			sourceTree = "<group>";
@@ -343,6 +349,12 @@
 				EA66469A0EED30E4006773C7 /* CComponentNote.cpp in Sources */,
 				EA66469B0EED30E4006773C7 /* CRegistryLoaderComp.cpp in Sources */,
 				EA66469C0EED30E4006773C7 /* CAttributeEditorComp.cpp in Sources */,
+				EA283C2E0EF00E830044F226 /* moc_CAttributeEditorComp.cpp in Sources */,
+				EA283C2F0EF00E830044F226 /* moc_CComponentView.cpp in Sources */,
+				EA283C300EF00E830044F226 /* moc_CPackageOverviewComp.cpp in Sources */,
+				EA283C310EF00E830044F226 /* moc_CRegistryPreviewComp.cpp in Sources */,
+				EA283C320EF00E830044F226 /* moc_CRegistryViewComp.cpp in Sources */,
+				EA283C330EF00E830044F226 /* qrc_Compositor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
