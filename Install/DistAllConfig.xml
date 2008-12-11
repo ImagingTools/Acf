@@ -40,7 +40,7 @@
       <DestDir>
         Temp/Include
       </DestDir>
-      <Filters count="9">
+      <Filters count="11">
         <Filter>
           Makefile
         </Filter>
@@ -58,6 +58,12 @@
         </Filter>
         <Filter>
           *.vcproj
+        </Filter>
+        <Filter>
+          *.ui
+        </Filter>
+        <Filter>
+          *.moc
         </Filter>
         <Filter>
           *.h

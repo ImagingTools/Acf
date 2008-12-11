@@ -76,8 +76,8 @@ void CTextEditorComp::OnGuiCreated()
 
 	connect(textEditPtr, SIGNAL(DataChanged()), this, SLOT(OnTextChanged()));
 
-	if (m_useFoldingAttrPtr.IsValid() && *m_useFoldingAttrPtr){
-		textEditPtr->setFolding(CTextEditor::BoxedFoldStyle); 
+	if (m_useFoldingAttrPtr.IsValid()){
+		textEditPtr->SetFoldingEnabled(*m_useFoldingAttrPtr); 
 	}
 
 	OnRetranslate();

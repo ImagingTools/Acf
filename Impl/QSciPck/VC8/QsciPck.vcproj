@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmain.lib QtCore4.lib QtGui4.lib QtXml4.lib QtSql4.lib QScintilla.lib QtNetwork4.lib QtScript4.lib iqsci.lib"
+				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmain.lib QtCore4.lib QtGui4.lib QtXml4.lib QtSql4.lib QScintilla.lib QtNetwork4.lib QtScript4.lib "
 				OutputFile="$(OutDir)\$(ProjectName).arp"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC8&quot;"
 				GenerateDebugInformation="false"
@@ -142,7 +142,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtSqld4.lib QtNetworkd4.lib QtScriptd4.lib QScintilla.lib iqsci.lib"
+				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtSqld4.lib QtNetworkd4.lib QtScriptd4.lib QScintilla.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC8&quot;"
 				GenerateDebugInformation="true"

@@ -30,6 +30,10 @@ public:
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
 
+public slots:
+	virtual void SetFoldingEnabled(bool useFoldingEnabled);
+	virtual void SetLineNumberEnabled(bool useFoldingEnabled);
+
 protected slots:
 	virtual void OnSelectionChanged();
 	virtual void OnTextChanged();
@@ -42,8 +46,16 @@ signals:
 private:
 	iqtgui::CHierarchicalCommand m_rootCommand;
 	iqtgui::CHierarchicalCommand m_editorCommand;
+	iqtgui::CHierarchicalCommand m_viewCommand;
+	iqtgui::CHierarchicalCommand m_languageCommand;
 	iqtgui::CHierarchicalCommand m_lowercaseCommand;
 	iqtgui::CHierarchicalCommand m_uppercaseCommand;
+
+	// view commands
+	iqtgui::CHierarchicalCommand m_useIdentGuideCommand;
+	iqtgui::CHierarchicalCommand m_useFoldingCommand;
+	iqtgui::CHierarchicalCommand m_showLineNumberCommand;
+
 };
 
 
