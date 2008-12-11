@@ -64,7 +64,7 @@ private:
 template <class Service>
 bool CStaticServicesProvider::RegisterService(Service* servicePtr)
 {
-	static istd::CClassInfo info(typeid(Service));
+	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Service>();
 
 	return RegisterService(info, servicePtr);
 }
@@ -75,7 +75,7 @@ bool CStaticServicesProvider::RegisterService(Service* servicePtr)
 template <typename Service>
 Service* GetService()
 {
-	static istd::CClassInfo info(typeid(Service));
+	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Service>();
 
 	return static_cast<Service*>(CStaticServicesProvider::GetService(info));
 }

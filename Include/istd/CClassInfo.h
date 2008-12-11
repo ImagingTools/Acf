@@ -36,7 +36,7 @@ public:
 	template <class C>
 	bool IsType() const;
 
-	CClassInfo& operator=(const type_info& info);
+	CClassInfo& operator=(const std::type_info& info);
 	CClassInfo& operator=(const CClassInfo& info);
 	bool operator==(const CClassInfo& info) const;
 	bool operator!=(const CClassInfo& info) const;
@@ -57,7 +57,7 @@ public:
 	/**
 		Get class name from RTTI.
 	*/
-	static std::string GetName(const type_info& info);
+	static std::string GetName(const std::type_info& info);
 	/**
 		Get class name of polymorphic object.
 	*/
@@ -71,7 +71,7 @@ public:
 private:
 	static int ParseToNumber(const char* buffer, int maxLength, int& nextPosition);
 
-	const type_info* m_infoPtr;
+	const std::type_info* m_infoPtr;
 };
 
 
@@ -83,7 +83,7 @@ inline CClassInfo::CClassInfo()
 }
 
 
-inline CClassInfo::CClassInfo(const type_info& info)
+inline CClassInfo::CClassInfo(const std::type_info& info)
 :	m_infoPtr(&info)
 {
 }
@@ -116,7 +116,7 @@ inline bool CClassInfo::IsType() const
 }
 
 
-inline CClassInfo& CClassInfo::operator=(const type_info& info)
+inline CClassInfo& CClassInfo::operator=(const std::type_info& info)
 {
 	m_infoPtr = &info;
 

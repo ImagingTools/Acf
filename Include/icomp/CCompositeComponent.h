@@ -2,8 +2,11 @@
 #define icomp_CCompositeComponent_included
 
 
+// STL includes
 #include <map>
 #include <string>
+
+#include "istd/CClassInfo.h"
 
 #include "icomp/IComponentContext.h"
 #include "icomp/CComponentBase.h"

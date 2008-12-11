@@ -5,7 +5,7 @@ namespace istd
 {
 
 
-std::string CClassInfo::GetName(const type_info& info)
+std::string CClassInfo::GetName(const std::type_info& info)
 {
 	return GetUndecoratedName(info.name());
 }

@@ -102,7 +102,7 @@ const iser::ISerializable* TAttributeStaticInfo<Attribute>::GetAttributeDefaultV
 template <class Attribute>
 const istd::CClassInfo& TAttributeStaticInfo<Attribute>::GetAttributeType() const
 {
-	static istd::CClassInfo info(typeid(Attribute));
+	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Attribute>();
 
 	return info;
 }

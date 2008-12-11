@@ -2,6 +2,14 @@
 #define icomp_TInterfaceManipBase_included
 
 
+// STL includes
+#include <string>
+
+#include "istd/CClassInfo.h"
+
+#include "icomp/IComponent.h"
+
+
 namespace icomp
 {
 
@@ -28,7 +36,7 @@ template <class Interface>
 Interface* TInterfaceManipBase<Interface>::ExtractInterface(IComponent* componentPtr, const std::string& subId) const
 {
 	if (componentPtr != NULL){
-		static istd::CClassInfo info(typeid(Interface));
+		static istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
 
 		return static_cast<Interface*>(componentPtr->GetInterface(info, subId));
 	}
