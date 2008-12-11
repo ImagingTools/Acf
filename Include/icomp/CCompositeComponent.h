@@ -24,7 +24,7 @@ public:
 	CCompositeComponent();
 
 	// reimplemented (icomp::IComponent)
-	virtual void* GetInterface(const std::type_info& interfaceType, const std::string& subId = "");
+	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId = "");
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 	virtual IComponent* GetSubcomponent(const std::string& componentId) const;
@@ -81,7 +81,9 @@ private:
 template <class InterfaceType>
 InterfaceType* CCompositeComponent::GetComponentInterface(const std::string& subId)
 {
-	return static_cast<InterfaceType*>(GetInterface(typeid(InterfaceType), subId));
+	static istd::CClassInfo info(typeid(InterfaceType));
+
+	return static_cast<InterfaceType*>(GetInterface(info, subId));
 }
 
 

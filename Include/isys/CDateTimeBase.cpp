@@ -62,8 +62,6 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 		}
 	}
 
-	stream << std::ends;
-
 	return stream.str();
 }
 

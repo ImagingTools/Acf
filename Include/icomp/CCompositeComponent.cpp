@@ -1,6 +1,8 @@
 #include "icomp/CCompositeComponent.h"
 
 
+#include "istd/CClassInfo.h"
+
 #include "icomp/IRegistry.h"
 #include "icomp/IRegistriesManager.h"
 #include "icomp/CCompositeComponentContext.h"
@@ -18,7 +20,7 @@ CCompositeComponent::CCompositeComponent()
 
 // reimplemented (icomp::IComponent)
 
-void* CCompositeComponent::GetInterface(const std::type_info& interfaceType, const std::string& subId)
+void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId)
 {
 	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext());
 	if (contextPtr == NULL){
@@ -30,7 +32,7 @@ void* CCompositeComponent::GetInterface(const std::type_info& interfaceType, con
 	if (subId.empty()){
 		const IRegistry::ExportedInterfacesMap& interfaceInfos = registry.GetExportedInterfacesMap();
 
-		IRegistry::ExportedInterfacesMap::const_iterator iter = interfaceInfos.find(interfaceType.name());
+		IRegistry::ExportedInterfacesMap::const_iterator iter = interfaceInfos.find(interfaceType);
 		if (iter != interfaceInfos.end()){
 			std::string componentId;
 			std::string restId;
@@ -47,7 +49,7 @@ void* CCompositeComponent::GetInterface(const std::type_info& interfaceType, con
 		std::string restId;
 		SplitComponentId(subId, componentId, restId);
 
-		const IRegistry::ExportedInterfacesMap& subcomponentMap = registry.GetExportedComponentsMap();
+		const IRegistry::ExportedComponentsMap& subcomponentMap = registry.GetExportedComponentsMap();
 
 		IRegistry::ExportedComponentsMap::const_iterator iter = subcomponentMap.find(componentId);
 		if (iter != subcomponentMap.end()){

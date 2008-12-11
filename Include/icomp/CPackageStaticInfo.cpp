@@ -29,7 +29,7 @@ const CPackageStaticInfo::AttributeInfos& CPackageStaticInfo::GetAttributeInfos(
 }
 
 
-bool CPackageStaticInfo::RegisterInterfaceExtractor(const std::string& /*interfaceId*/, InterfaceExtractorPtr /*extractorPtr*/)
+bool CPackageStaticInfo::RegisterInterfaceExtractor(const istd::CClassInfo& /*interfaceId*/, InterfaceExtractorPtr /*extractorPtr*/)
 {
 	return false;
 }

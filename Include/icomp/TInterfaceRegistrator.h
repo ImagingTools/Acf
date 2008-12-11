@@ -28,7 +28,9 @@ protected:
 template <class Interface>
 TInterfaceRegistrator<Interface>::TInterfaceRegistrator(icomp::IComponentStaticInfo& staticInfo)
 {
-	staticInfo.RegisterInterfaceExtractor(typeid(Interface).name(), TInterfaceRegistrator<Interface>::InterfaceExtractor);
+	static istd::CClassInfo info(typeid(Interface));
+
+	staticInfo.RegisterInterfaceExtractor(info, TInterfaceRegistrator<Interface>::InterfaceExtractor);
 }
 
 

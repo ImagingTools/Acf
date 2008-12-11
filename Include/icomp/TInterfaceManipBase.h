@@ -28,7 +28,9 @@ template <class Interface>
 Interface* TInterfaceManipBase<Interface>::ExtractInterface(IComponent* componentPtr, const std::string& subId) const
 {
 	if (componentPtr != NULL){
-		return static_cast<Interface*>(componentPtr->GetInterface(typeid(Interface), subId));
+		static istd::CClassInfo info(typeid(Interface));
+
+		return static_cast<Interface*>(componentPtr->GetInterface(info, subId));
 	}
 	else{
 		return NULL;

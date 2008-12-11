@@ -28,9 +28,9 @@ const IComponent* CComponentBase::GetParentComponent(bool ownerOnly) const
 }
 
 
-void* CComponentBase::GetInterface(const std::type_info& interfaceType, const std::string& /*subId*/)
+void* CComponentBase::GetInterface(const istd::CClassInfo& interfaceType, const std::string& /*subId*/)
 {
-	if (interfaceType == typeid(void*)){
+	if (!interfaceType.IsValid()){
 		return this;
 	}
 
@@ -41,7 +41,7 @@ void* CComponentBase::GetInterface(const std::type_info& interfaceType, const st
 
 		const IComponentStaticInfo::InterfaceExtractors& extractors = staticInfo.GetInterfaceExtractors();
 
-		int index = extractors.FindIndex(interfaceType.name());
+		int index = extractors.FindIndex(interfaceType);
 
 		if (index >= 0){
 			IComponentStaticInfo::InterfaceExtractorPtr extractorPtr = extractors.GetValueAt(index);

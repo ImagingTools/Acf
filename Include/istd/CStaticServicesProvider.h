@@ -2,13 +2,12 @@
 #define istd_CStaticServicesProvider_included
 
 
-#include "istd/istd.h"
-
-
+// STL includes
 #include <map>
 #include <string>
 
 #include "istd/IServicesProvider.h"
+#include "istd/CClassInfo.h"
 
 
 namespace istd
@@ -29,13 +28,13 @@ public:
 	/**
 		Register service for specified ID.
 	*/
-	static bool RegisterService(const std::type_info& serviceId, void* servicePtr);
+	static bool RegisterService(const istd::CClassInfo& serviceId, void* servicePtr);
 	/**
 		Register service for specified ID.
 	*/
 	template <class Service>
 	static bool RegisterService(Service* servicePtr);
-	static void* GetService(const std::type_info& serviceId);
+	static void* GetService(const istd::CClassInfo& serviceId);
 	static IServicesProvider& GetProviderInstance();
 
 protected:
@@ -43,7 +42,7 @@ protected:
 	{
 	public:
 		// reimplemented (istd::IServicesProvider)
-		virtual void* GetService(const std::type_info& serviceId) const;
+		virtual void* GetService(const istd::CClassInfo& serviceId) const;
 	};
 
 private:
@@ -52,7 +51,7 @@ private:
 	*/
 	CStaticServicesProvider(){}
 
-	typedef std::map<std::string, void*> Services;
+	typedef std::map<istd::CClassInfo, void*> Services;
 
 	static Services m_registeredServices;
 	static Provider m_providerInstance;
@@ -65,7 +64,9 @@ private:
 template <class Service>
 bool CStaticServicesProvider::RegisterService(Service* servicePtr)
 {
-	return RegisterService(typeid(Service), servicePtr);
+	static istd::CClassInfo info(typeid(Service));
+
+	return RegisterService(info, servicePtr);
 }
 
 
@@ -74,7 +75,9 @@ bool CStaticServicesProvider::RegisterService(Service* servicePtr)
 template <typename Service>
 Service* GetService()
 {
-	return static_cast<Service*>(CStaticServicesProvider::GetService(typeid(Service)));
+	static istd::CClassInfo info(typeid(Service));
+
+	return static_cast<Service*>(CStaticServicesProvider::GetService(info));
 }
 
 

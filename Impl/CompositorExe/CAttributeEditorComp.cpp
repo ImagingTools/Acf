@@ -7,7 +7,6 @@
 #include <QLineEdit>
 
 // ACF includes
-#include "istd/CClassInfo.h"
 #include "icomp/CRegistryElement.h" 
 
 #include "CRegistryViewComp.h"
@@ -18,18 +17,18 @@
 CAttributeEditorComp::CAttributeEditorComp()
 :	m_attributeItemDelegate(*this)
 {
-	m_attributeTypesMap[typeid(icomp::CBoolAttribute).name()] = tr("Boolean");
-	m_attributeTypesMap[typeid(icomp::CDoubleAttribute).name()] = tr("Real number");
-	m_attributeTypesMap[typeid(icomp::CIntAttribute).name()] = tr("Integer number");
-	m_attributeTypesMap[typeid(icomp::CStringAttribute).name()] = tr("String");
-	m_attributeTypesMap[typeid(icomp::CMultiBoolAttribute).name()] = tr("Boolean list");
-	m_attributeTypesMap[typeid(icomp::CMultiDoubleAttribute).name()] = tr("Real number list");
-	m_attributeTypesMap[typeid(icomp::CMultiIntAttribute).name()] = tr("Integer number list");
-	m_attributeTypesMap[typeid(icomp::CMultiStringAttribute).name()] = tr("String list");
-	m_attributeTypesMap[typeid(icomp::CReferenceAttribute).name()] = tr("Reference");
-	m_attributeTypesMap[typeid(icomp::CMultiReferenceAttribute).name()] = tr("Multiple reference");
-	m_attributeTypesMap[typeid(icomp::CFactoryAttribute).name()] = tr("Factory");
-	m_attributeTypesMap[typeid(icomp::CMultiFactoryAttribute).name()] = tr("Multiple factory");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CBoolAttribute>()] = tr("Boolean");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CDoubleAttribute>()] = tr("Real number");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CIntAttribute>()] = tr("Integer number");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CStringAttribute>()] = tr("String");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiBoolAttribute>()] = tr("Boolean list");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiDoubleAttribute>()] = tr("Real number list");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiIntAttribute>()] = tr("Integer number list");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiStringAttribute>()] = tr("String list");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>()] = tr("Reference");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiReferenceAttribute>()] = tr("Multiple reference");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CFactoryAttribute>()] = tr("Factory");
+	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiFactoryAttribute>()] = tr("Multiple factory");
 }
 
 
@@ -66,7 +65,7 @@ const icomp::IAttributeStaticInfo* CAttributeEditorComp::GetStaticAttributeInfo(
 }
 
 	
-QStringList CAttributeEditorComp::GetAvailableComponents(const QString& interfaceId) const
+QStringList CAttributeEditorComp::GetAvailableComponents(const istd::CClassInfo& interfaceInfo) const
 {
 	QStringList availableComponents;
 
@@ -85,7 +84,7 @@ QStringList CAttributeEditorComp::GetAvailableComponents(const QString& interfac
 
 				const icomp::IComponentStaticInfo& staticInfo = elementInfoPtr->elementPtr.GetPtr()->GetComponentStaticInfo();
 				icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = staticInfo.GetInterfaceExtractors();
-				const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceId.toStdString().c_str());
+				const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceInfo);
 				if (extractorPtr != NULL){
 					availableComponents.push_back(iqt::GetQString(*index));
 				}
@@ -159,11 +158,11 @@ void CAttributeEditorComp::UpdateEditor()
 	const icomp::IComponentStaticInfo::InterfaceExtractors extractors = elementStaticInfo.GetInterfaceExtractors();
 
 	for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
-		const std::string& interfaceId = extractors.GetKeyAt(extractorIndex);
+		const istd::CClassInfo& interfaceInfo = extractors.GetKeyAt(extractorIndex);
 		QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
 
 		itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		itemPtr->setText(0, istd::CClassInfo::GetUndecoratedName(interfaceId).c_str());
+		itemPtr->setText(0, interfaceInfo.GetName().c_str());
 
 		InterfacesTree->addTopLevelItem(itemPtr);
 	}
@@ -192,7 +191,7 @@ void CAttributeEditorComp::on_AttributeTree_itemSelectionChanged()
 		QString attributeId = attributeItemPtr->data(ValueColumn, AttributeId).toString();
 		attributeStaticInfoPtr = GetStaticAttributeInfo(attributeId);
 		if (attributeStaticInfoPtr != NULL){		
-			AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(attributeStaticInfoPtr->GetAttributeType().name());
+			AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(attributeStaticInfoPtr->GetAttributeType());
 			if (foundTypeName != m_attributeTypesMap.end()){
 				QString attributeType = foundTypeName->second;
 				if (!attributeType.isEmpty()){
@@ -494,7 +493,7 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 	if (propertyMining == Attribute){
 		QString attributeId = index.data(AttributeId).toString();
 		const icomp::IAttributeStaticInfo* attributeInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
-		if (attributeInfoPtr != NULL && attributeInfoPtr->GetAttributeType() == typeid(icomp::CBoolAttribute)){
+		if (attributeInfoPtr != NULL && attributeInfoPtr->GetAttributeType().IsType<icomp::CBoolAttribute>()){
 			QComboBox* comboEditor = new QComboBox(parent);
 			comboEditor->addItem(tr("true"));
 			comboEditor->addItem(tr("false"));
@@ -551,8 +550,8 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 		const icomp::IAttributeStaticInfo* attributeStaticInfoPtr = m_parent.GetStaticAttributeInfo(attributeName);
 		I_ASSERT(attributeStaticInfoPtr != NULL);
 
-		QString interfaceId = attributeStaticInfoPtr->GetRelatedInterfaceType().name();
-		QStringList availableComponents = m_parent.GetAvailableComponents(interfaceId);
+		const istd::CClassInfo& interfaceInfo = attributeStaticInfoPtr->GetRelatedInterfaceType();
+		QStringList availableComponents = m_parent.GetAvailableComponents(interfaceInfo);
 
 		comboEditor->addItems(availableComponents);
 

@@ -48,15 +48,18 @@ public:
 	virtual bool RemoveElementInfo(const std::string& elementId);
 	virtual const ExportedInterfacesMap& GetExportedInterfacesMap() const;
 	virtual const ExportedComponentsMap& GetExportedComponentsMap() const;
-	virtual void ExportElementInterface(const std::string& elementId, bool doExport = true);
+	virtual void SetElementExported(
+				const std::string& elementId,
+				const istd::CClassInfo& exportInterfaceInfo,
+				bool state);
 	
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	bool SerializeComponents(iser::IArchive& archive);
-	bool SerializeExportedInterfaces(iser::IArchive& archive);
-	bool SerializeExportedComponents(iser::IArchive& archive);
+	virtual bool SerializeComponents(iser::IArchive& archive);
+	virtual bool SerializeExportedInterfaces(iser::IArchive& archive);
+	virtual bool SerializeExportedComponents(iser::IArchive& archive);
 
 private:
 	typedef std::map< std::string, ElementInfo> ComponentsMap;

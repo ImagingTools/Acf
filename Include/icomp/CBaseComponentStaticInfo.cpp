@@ -31,6 +31,21 @@ const IComponentStaticInfo::InterfaceExtractors& CBaseComponentStaticInfo::GetIn
 }
 
 
+const istd::CClassInfo* CBaseComponentStaticInfo::FindInterfaceInfo(const std::string& interfaceId) const
+{
+	int interfacesCount = m_interfaceExtractors.GetElementsCount();
+	for (int i = 0; i < interfacesCount; ++i){
+		const istd::CClassInfo& interfaceInfo = m_interfaceExtractors.GetKeyAt(i);
+
+		if (interfaceInfo.GetName() == interfaceId){
+			return &interfaceInfo;
+		}
+	}
+
+	return BaseClass::FindInterfaceInfo(interfaceId);
+}
+
+
 const IComponentStaticInfo::AttributeInfos& CBaseComponentStaticInfo::GetAttributeInfos() const
 {
 	return m_attributeInfos;
@@ -66,7 +81,7 @@ const IComponentStaticInfo* CBaseComponentStaticInfo::GetSubcomponentInfo(const 
 }
 
 
-bool CBaseComponentStaticInfo::RegisterInterfaceExtractor(const std::string& interfaceId, InterfaceExtractorPtr extractorPtr)
+bool CBaseComponentStaticInfo::RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr)
 {
 	return m_interfaceExtractors.InsertLocal(interfaceId, extractorPtr);
 }

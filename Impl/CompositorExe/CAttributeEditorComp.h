@@ -8,6 +8,7 @@
 
 
 #include "istd/TDelPtr.h"
+#include "istd/CClassInfo.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CTreeWidgetFilter.h"
@@ -55,7 +56,7 @@ public:
 
 	const icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const QString& attributeId) const;
 	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const QString& attributeId) const;
-	QStringList GetAvailableComponents(const QString& interfaceId) const;
+	QStringList GetAvailableComponents(const istd::CClassInfo& interfaceInfo) const;
 
 	// reimplemented (TGuiObserverWrap)
 	virtual void OnGuiModelDetached();
@@ -102,7 +103,7 @@ private:
 
 	AttributeItemDelegate m_attributeItemDelegate;
 
-	typedef std::map<std::string, QString> AttributeTypesMap;
+	typedef std::map<istd::CClassInfo, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
 	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_treeWidgetFilter;
 

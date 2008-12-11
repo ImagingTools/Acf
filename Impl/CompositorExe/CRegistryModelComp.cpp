@@ -2,6 +2,7 @@
 
 
 #include "istd/TChangeNotifier.h"
+#include "istd/CClassInfo.h"
 
 #include "icomp/CCompositeComponent.h"
 
@@ -78,14 +79,14 @@ int CRegistryModelComp::CheckAttributeConsistency(const icomp::IRegistryElement&
 	I_ASSERT(*attrStaticInfoPtrPtr != NULL);
 
 	const icomp::IAttributeStaticInfo& attrStaticInfo = **attrStaticInfoPtrPtr;
-	const std::type_info& attrType = attrStaticInfo.GetAttributeType();
+	const istd::CClassInfo& attrType = attrStaticInfo.GetAttributeType();
 
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = element.GetAttributeInfo(attributeId);
 
-	if (		(attrType == typeid(icomp::CReferenceAttribute)) ||
-				(attrType == typeid(icomp::CMultiReferenceAttribute)) ||
-				(attrType == typeid(icomp::CFactoryAttribute)) ||
-				(attrType == typeid(icomp::CMultiFactoryAttribute))){
+	if (		(attrType == istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>()) ||
+				(attrType == istd::CClassInfo::GetInfo<icomp::CMultiReferenceAttribute>()) ||
+				(attrType == istd::CClassInfo::GetInfo<icomp::CFactoryAttribute>()) ||
+				(attrType == istd::CClassInfo::GetInfo<icomp::CMultiFactoryAttribute>())){
 		if ((attributeInfoPtr == NULL) || !attributeInfoPtr->attributePtr.IsValid()){
 			if (attrStaticInfo.IsObligatory() && attributeInfoPtr->exportId.empty()){
 				return CS_INVALID;
@@ -101,7 +102,7 @@ int CRegistryModelComp::CheckAttributeConsistency(const icomp::IRegistryElement&
 		const icomp::TSingleAttribute<std::string>* idPtr = dynamic_cast<const icomp::TSingleAttribute<std::string>*>(attributeInfoPtr->attributePtr.GetPtr());
 		if (idPtr != NULL){		
 			const icomp::CReferenceAttribute* referencePtr = dynamic_cast<const icomp::CReferenceAttribute*>(attributeInfoPtr->attributePtr.GetPtr());
-			if ((referencePtr != NULL) && (attrType != typeid(icomp::CReferenceAttribute))){
+			if ((referencePtr != NULL) && (attrType != istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>())){
 				return CS_INVALID;
 			}
 

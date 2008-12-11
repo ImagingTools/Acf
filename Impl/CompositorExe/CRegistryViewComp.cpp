@@ -458,7 +458,7 @@ void CRegistryViewComp::OnExportInterface()
 
 			bool doExport = !HasExportedInterfaces(*m_selectedComponentPtr);
 
-			registryPtr->ExportElementInterface(componentRole, doExport);
+			registryPtr->SetElementExported(componentRole, istd::CClassInfo(), doExport);
 		}
 	}
 }

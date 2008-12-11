@@ -38,19 +38,19 @@ CPackageOverviewComp::CPackageOverviewComp()
 void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr)
 {
 	if (attributeStaticInfoPtr != NULL){		
-		bool isReference = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CReferenceAttribute));
-		bool isMultiReference = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CMultiReferenceAttribute));
-		bool isFactory = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CFactoryAttribute));
-		bool isMultiFactory = (attributeStaticInfoPtr->GetAttributeType() == typeid(icomp::CMultiFactoryAttribute));
+		bool isReference = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CReferenceAttribute>());
+		bool isMultiReference = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CMultiReferenceAttribute>());
+		bool isFactory = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CFactoryAttribute>());
+		bool isMultiFactory = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CMultiFactoryAttribute>());
 
 		if (isReference || isMultiReference || isFactory || isMultiFactory){
-			HighlightComponents(attributeStaticInfoPtr->GetRelatedInterfaceType().name());
+			HighlightComponents(attributeStaticInfoPtr->GetRelatedInterfaceType());
 
 			return;
 		}
 	}
 
-	HighlightComponents(QString());
+	HighlightComponents();
 }
 
 
@@ -93,11 +93,11 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 		}
 	}
 
-	HighlightComponents(QString());
+	HighlightComponents();
 }
 
 
-void CPackageOverviewComp::HighlightComponents(const QString& interfaceId)
+void CPackageOverviewComp::HighlightComponents(const istd::CClassInfo& interfaceInfo)
 {
 	int topLevelItemCount = PackagesList->topLevelItemCount();
 	if (topLevelItemCount == 0){
@@ -129,9 +129,9 @@ void CPackageOverviewComp::HighlightComponents(const QString& interfaceId)
 		const icomp::IComponentStaticInfo* staticInfoPtr = GetItemStaticInfo(*itemPtr);
 
 		QIcon itemIcon;
-		if ((staticInfoPtr != NULL) && !interfaceId.isEmpty()){
+		if ((staticInfoPtr != NULL) && interfaceInfo.IsValid()){
 			icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = staticInfoPtr->GetInterfaceExtractors();
-			const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceId.toStdString().c_str());
+			const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceInfo);
 			if (extractorPtr != NULL){
 				itemIcon = QIcon(QString::fromUtf8(":/Resources/Icons/ok-16.png"));
 

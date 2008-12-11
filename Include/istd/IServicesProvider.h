@@ -2,9 +2,8 @@
 #define istd_IServicesProvider_included
 
 
-#include <typeinfo>
-
 #include "istd/IPolymorphic.h"
+#include "istd/CClassInfo.h"
 
 
 namespace istd
@@ -21,7 +20,7 @@ public:
 	Get pointer to service implementation.
 	If implementation for specified ID is not available, it returns NULL.
 	*/
-	virtual void* GetService(const std::type_info& serviceId) const = 0;
+	virtual void* GetService(const istd::CClassInfo& serviceId) const = 0;
 };
 
 

@@ -6,6 +6,7 @@
 
 #include "istd/IPolymorphic.h"
 #include "istd/TCascadedMap.h"
+#include "istd/CClassInfo.h"
 
 #include "icomp/IComponent.h"
 #include "icomp/IAttributeStaticInfo.h"
@@ -28,7 +29,13 @@ class IComponentStaticInfo: virtual public istd::IPolymorphic
 public:
 	typedef void* (*InterfaceExtractorPtr)(IComponent* componentPtr);
 
-	typedef istd::TCascadedMap< std::string, InterfaceExtractorPtr> InterfaceExtractors;
+	/**
+		Map from class type to interface extractor implementation.
+	*/
+	typedef istd::TCascadedMap<istd::CClassInfo, InterfaceExtractorPtr> InterfaceExtractors;
+	/**
+		Map from attribute name string to attribute static info object.
+	*/
 	typedef istd::TCascadedMap< std::string, const IAttributeStaticInfo*> AttributeInfos;
 	typedef std::set< std::string > Ids;
 
@@ -42,6 +49,11 @@ public:
 		Returns the interface ID with the index @c index.
 	*/
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const = 0;
+
+	/**
+		Returns the interface type info.
+	*/
+	virtual const istd::CClassInfo* FindInterfaceInfo(const std::string& interfaceId) const = 0;
 
 	/**
 		Get number of attributes.
@@ -65,7 +77,7 @@ public:
 		This interface ID is used for static check
 		if this component can be used to resolve reference dependecy of second one.
 	*/
-	virtual bool RegisterInterfaceExtractor(const std::string& interfaceId, InterfaceExtractorPtr extractorPtr) = 0;
+	virtual bool RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr) = 0;
 
 	/**
 		Register static attribute info.

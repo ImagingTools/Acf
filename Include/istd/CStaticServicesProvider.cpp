@@ -11,19 +11,17 @@ void CStaticServicesProvider::SetParent(const IServicesProvider* parentPtr)
 }
 
 
-bool CStaticServicesProvider::RegisterService(const std::type_info& serviceId, void* servicePtr)
+bool CStaticServicesProvider::RegisterService(const istd::CClassInfo& serviceId, void* servicePtr)
 {
-	std::string serviceTypeName = std::string(serviceId.name());
-
-	std::pair<Services::iterator, bool> status = m_registeredServices.insert(std::make_pair(serviceTypeName, servicePtr));
+	std::pair<Services::iterator, bool> status = m_registeredServices.insert(std::make_pair(serviceId, servicePtr));
 
 	return status.second;
 }
 
 
-void* CStaticServicesProvider::GetService(const std::type_info& serviceId)
+void* CStaticServicesProvider::GetService(const istd::CClassInfo& serviceId)
 {
-	Services::const_iterator iter = m_registeredServices.find(std::string(serviceId.name()));
+	Services::const_iterator iter = m_registeredServices.find(serviceId);
 
 	if (iter != m_registeredServices.end()){
 		return iter->second;
@@ -46,7 +44,7 @@ IServicesProvider& CStaticServicesProvider::GetProviderInstance()
 
 // reimplemented (istd::IServicesProvider)
 
-void* CStaticServicesProvider::Provider::GetService(const std::type_info& serviceId) const
+void* CStaticServicesProvider::Provider::GetService(const istd::CClassInfo& serviceId) const
 {
 	return CStaticServicesProvider::GetService(serviceId);
 }

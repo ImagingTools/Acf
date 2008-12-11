@@ -3,6 +3,7 @@
 
 
 #include "istd/TSingleFactory.h"
+#include "istd/CClassInfo.h"
 
 #include "icomp/IComponent.h"
 #include "icomp/TComponentWrap.h"
@@ -41,7 +42,7 @@ private:
 template <class Base>
 TSimComponentsFactory<Base>::TSimComponentsFactory()
 {
-	m_factoryKeys.push_back(typeid(Base).name());
+	m_factoryKeys.push_back(istd::CClassInfo::GetName<Base>());
 }
 
 

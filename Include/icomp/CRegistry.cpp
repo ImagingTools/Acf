@@ -125,40 +125,42 @@ const IRegistry::ExportedComponentsMap& CRegistry::GetExportedComponentsMap() co
 }
 
 
-void CRegistry::ExportElementInterface(const std::string& elementId, bool doExport)
+void CRegistry::SetElementExported(
+			const std::string& elementId,
+			const istd::CClassInfo& exportInterfaceInfo,
+			bool state)
 {
 	const ElementInfo* elementInfoPtr = GetElementInfo(elementId);
 	if (elementInfoPtr != NULL && elementInfoPtr->elementPtr.IsValid()){
+		istd::CChangeNotifier changePtr(this, CF_COMPONENT_EXPORTED | CF_MODEL);
 
-		if (doExport){
+		if (state){
 			const icomp::IComponentStaticInfo& staticInfo = elementInfoPtr->elementPtr.GetPtr()->GetComponentStaticInfo();
 
 			icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = staticInfo.GetInterfaceExtractors();
 
-			for (int interfaceIndex= 0; interfaceIndex < interfaceExtractors.GetElementsCount(); interfaceIndex++){
-				const std::string& intefaceId = interfaceExtractors.GetKeyAt(interfaceIndex);
+			for (int i = 0; i < interfaceExtractors.GetElementsCount(); i++){
+				const istd::CClassInfo& interfaceInfo = interfaceExtractors.GetKeyAt(i);
 
-				m_exportedInterfacesMap[intefaceId] = elementId;
-			}
-		}
-		else{
-			bool isDone = false;
-			while(!isDone){
-				isDone = true;
-				for (		ExportedInterfacesMap::iterator index = m_exportedInterfacesMap.begin();
-							index != m_exportedInterfacesMap.end();
-							index++){
-					if (index->second == elementId){
-						m_exportedInterfacesMap.erase(index);
-
-						isDone = false;
-						break;
-					}
+				if (!exportInterfaceInfo.IsValid() || (interfaceInfo == exportInterfaceInfo)){
+					m_exportedInterfacesMap[interfaceInfo] = elementId;
 				}
 			}
 		}
+		else{
+			for (		ExportedInterfacesMap::iterator index = m_exportedInterfacesMap.begin();
+						index != m_exportedInterfacesMap.end();){
+				if (!exportInterfaceInfo.IsValid() || (index->first == exportInterfaceInfo)){
+					if (index->second == elementId){
+						index = m_exportedInterfacesMap.erase(index);
 
-		istd::CChangeNotifier changePtr(this, CF_COMPONENT_EXPORTED | CF_MODEL);
+						continue;
+					}
+				}
+
+				++index;
+			}
+		}
 	}
 }
 
@@ -167,14 +169,15 @@ void CRegistry::ExportElementInterface(const std::string& elementId, bool doExpo
 
 bool CRegistry::Serialize(iser::IArchive& archive)
 {
+	istd::CChangeNotifier changePtr(archive.IsStoring()? NULL: this);
+
+	if (!archive.IsStoring() && (m_componentsFactoryPtr == NULL)){
+		return false;
+	}
 
 	bool retVal =	SerializeComponents(archive) &&
 					SerializeExportedInterfaces(archive) &&
 					SerializeExportedComponents(archive);
-
-	if (!archive.IsStoring() && retVal){
-		istd::CChangeNotifier changePtr(this);
-	}
 
 	return retVal;
 }
@@ -252,13 +255,21 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 			retVal = retVal && archive.Process(isEnabled);
 			retVal = retVal && archive.EndTag(isEnabledTag);
 
-			ElementInfo* newInfoPtr = InsertElementInfo(elementId, address, isEnabled && !archive.IsTagSkippingSupported());
+			ElementInfo* newInfoPtr = InsertElementInfo(elementId, address, isEnabled);
 			if (newInfoPtr == NULL){
 				return false;
 			}
 
-			if (isEnabled && newInfoPtr->elementPtr.IsValid()){
-				retVal = retVal && newInfoPtr->elementPtr->Serialize(archive);
+			if (isEnabled){
+				if (newInfoPtr->elementPtr.IsValid()){
+					retVal = retVal && newInfoPtr->elementPtr->Serialize(archive);
+				}
+				else{
+					// TODO: add some error handling for skipped registry elements...
+					if (!archive.IsTagSkippingSupported()){	// if element couldn't be created and tag couldn't be skipped, we cannot continue...
+						return false;
+					}
+				}
 			}
 
 			retVal = retVal && archive.EndTag(dataTag);
@@ -295,7 +306,8 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 			retVal = retVal && archive.BeginTag(interfaceTag);
 
 			retVal = retVal && archive.BeginTag(interfaceIdTag);
-			retVal = retVal && archive.Process(const_cast< std::string&>(iter->first));
+			std::string interfaceId = iter->first.GetName();
+			retVal = retVal && archive.Process(interfaceId);
 			retVal = retVal && archive.EndTag(interfaceIdTag);
 
 			retVal = retVal && archive.BeginTag(componentIdTag);
@@ -306,6 +318,7 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 		}
 	}
 	else{
+		I_ASSERT(m_componentsFactoryPtr != NULL);
 		for (int i = 0; i < count; ++i){
 			retVal = retVal && archive.BeginTag(interfaceTag);
 
@@ -319,7 +332,16 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 			retVal = retVal && archive.Process(componentId);
 			retVal = retVal && archive.EndTag(componentIdTag);
 
-			m_exportedInterfacesMap[interfaceId] = componentId;
+			const istd::CClassInfo* interfaceInfoPtr = m_componentsFactoryPtr->FindInterfaceInfo(interfaceId);
+			if (interfaceInfoPtr != NULL){
+				m_exportedInterfacesMap[*interfaceInfoPtr] = componentId;
+			}
+			else{
+				// TODO: add some error handling for reading interface export when no info exists...
+				if (!archive.IsTagSkippingSupported()){
+					return false;
+				}
+			}
 
 			retVal = retVal && archive.EndTag(interfaceTag);
 		}

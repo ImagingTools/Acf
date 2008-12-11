@@ -75,9 +75,9 @@ public:
 	template <class Attribute>
 	bool SetSingleAttr(const std::string& attributeId, const Attribute& attribute)
 	{
-		I_ASSERT(IsAttributeTypeCorrect(attributeId, typeid(TSingleAttribute< Attribute >)));
+		I_ASSERT(IsAttributeTypeCorrect<TSingleAttribute<Attribute> >(attributeId));
 
-		return SetAttr(attributeId, new TSingleAttribute< Attribute >(attribute));
+		return SetAttr(attributeId, new TSingleAttribute<Attribute>(attribute));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public:
 	template <class Attribute>
 	bool InsertMultiAttr(const std::string& attributeId, const Attribute& attribute)
 	{
-		I_ASSERT(IsAttributeTypeCorrect(attributeId, typeid(TMultiAttribute< Attribute >)));
+		I_ASSERT(IsAttributeTypeCorrect<TMultiAttribute<Attribute> >(attributeId));
 
 		TMultiAttribute<Attribute>* multiAttrPtr = NULL;
 
@@ -126,7 +126,8 @@ protected:
 	/**
 		Check if attribute type is corrected.
 	*/
-	bool IsAttributeTypeCorrect(const std::string& attributeId, const std::type_info& attributeType);
+	template <class AttrType>
+	bool IsAttributeTypeCorrect(const std::string& attributeId);
 
 	typedef std::map<std::string, IComponent*> ComponentsMap;
 	ComponentsMap m_componentsMap;
@@ -137,6 +138,23 @@ protected:
 private:
 	CRegistryElement m_registryElement;
 };
+
+
+// protected methods
+
+template <class AttrType>
+bool CSimComponentContextBase::IsAttributeTypeCorrect(const std::string& attributeId)
+{
+	const IComponentStaticInfo& componentInfo = m_registryElement.GetComponentStaticInfo();
+	const IComponentStaticInfo::AttributeInfos& attrInfos = componentInfo.GetAttributeInfos();
+	const IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr = attrInfos.FindElement(attributeId);
+
+	if ((attrInfoPtr != NULL) && (*attrInfoPtr != NULL)){
+		return (*attrInfoPtr)->GetAttributeType().IsType<AttrType>();
+	}
+
+	return false;
+}
 
 
 }//namespace icomp

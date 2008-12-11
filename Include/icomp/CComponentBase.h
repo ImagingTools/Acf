@@ -2,6 +2,8 @@
 #define icomp_CComponentBase_included
 
 
+#include "istd/CClassInfo.h"
+
 #include "icomp/IComponent.h"
 #include "icomp/IComponentStaticInfo.h"
 #include "icomp/TInterfaceRegistrator.h"
@@ -38,7 +40,7 @@ public:
 
 	// reimplemented (icomp::IComponent)
 	virtual const IComponent* GetParentComponent(bool ownerOnly = false) const;
-	virtual void* GetInterface(const std::type_info& interfaceType, const std::string& subId = "");
+	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId = "");
 	virtual const IComponentContext* GetComponentContext() const;
 	virtual void SetComponentContext(
 				const icomp::IComponentContext* contextPtr,
@@ -195,7 +197,7 @@ inline bool CComponentBase::IsComponentActive() const
 	Used to assign value for single parameter (attribute, reference or factory).
 */
 #define I_ASSIGN_BASE(member, id, description, isObligatory)\
-	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, &typeid(member##_Type::InterfaceType));\
+	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, istd::CClassInfo::GetInfo<member##_Type::InterfaceType>());\
 	if (componentPtr != NULL){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}
@@ -247,7 +249,7 @@ inline bool CComponentBase::IsComponentActive() const
 	Used to assign value for single parameter with template type (attribute, reference or factory).
 */
 #define I_TASSIGN_BASE(member, id, description, isObligatory)\
-	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, &typeid(typename member##_Type::InterfaceType));\
+	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
 	if (componentPtr != NULL){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}

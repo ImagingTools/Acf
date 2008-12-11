@@ -48,7 +48,7 @@ bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent
 
 bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IComponent* componentPtr)
 {
-	I_ASSERT(IsAttributeTypeCorrect(referenceId, typeid(CMultiReferenceAttribute)));
+	I_ASSERT(IsAttributeTypeCorrect<CMultiReferenceAttribute>(referenceId));
 
 	CMultiReferenceAttribute* multiAttrPtr = NULL;
 
@@ -164,22 +164,6 @@ const iser::ISerializable* CSimComponentContextBase::GetAttribute(const std::str
 	}
 
 	return NULL;
-}
-
-
-// protected methods
-
-bool CSimComponentContextBase::IsAttributeTypeCorrect(const std::string& attributeId, const std::type_info& attributeType)
-{
-	const IComponentStaticInfo& componentInfo = m_registryElement.GetComponentStaticInfo();
-	const IComponentStaticInfo::AttributeInfos& attrInfos = componentInfo.GetAttributeInfos();
-	const IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr = attrInfos.FindElement(attributeId);
-
-	if ((attrInfoPtr != NULL) && (*attrInfoPtr != NULL)){
-		return std::string((*attrInfoPtr)->GetAttributeType().name()) == attributeType.name();
-	}
-
-	return false;
 }
 
 

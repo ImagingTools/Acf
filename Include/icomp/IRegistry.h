@@ -7,6 +7,7 @@
 #include <map>
 
 #include "istd/TDelPtr.h"
+#include "istd/CClassInfo.h"
 
 #include "iser/ISerializable.h"
 
@@ -44,9 +45,9 @@ public:
 	};
 
 	/**
-		Map assigning interface ID to component ID exporting this interface.
+		Map assigning interface ID (undecorated) to component ID exporting this interface.
 	*/
-	typedef std::map< std::string, std::string> ExportedInterfacesMap;
+	typedef std::map<istd::CClassInfo, std::string> ExportedInterfacesMap;
 
 	/**
 		Map assigning exported sub-component names to internal subcomponent ID's.
@@ -88,9 +89,15 @@ public:
 	virtual const ExportedComponentsMap& GetExportedComponentsMap() const = 0;
 
 	/**
-		Export interface(s) of component \elementId. If \c doExport is \c false, the existing export will be removed.
+		Enable or disable exporting single or all interfaces of component.
+		\param	elementId			ID of element in registry.
+		\param	exportInterfaceInfo	specify interface. If it is invalid, all interfaces will be taken.
+		\param	state				the export state. If \c false, the existing export will be removed.
 	*/
-	virtual void ExportElementInterface(const std::string& elementId, bool doExport = true) = 0;
+	virtual void SetElementExported(
+				const std::string& elementId,
+				const istd::CClassInfo& exportInterfaceInfo = istd::CClassInfo(),
+				bool state = true) = 0;
 };
 
 

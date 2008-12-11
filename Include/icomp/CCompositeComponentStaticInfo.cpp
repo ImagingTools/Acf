@@ -17,7 +17,8 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(const IRegistry& re
 	for (		IRegistry::ExportedInterfacesMap::const_iterator interfaceIter = interfacesMap.begin();
 				interfaceIter != interfacesMap.end();
 				++interfaceIter){
-		const std::string& interfaceId = interfaceIter->first;
+		const istd::CClassInfo& interfaceId = interfaceIter->first;
+
 		RegisterInterfaceExtractor(interfaceId, NULL);
 	}
 

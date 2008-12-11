@@ -26,7 +26,7 @@ bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 bool CXmlWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& /*subTag*/, int& count)
 {
 	std::ostringstream stream;
-	stream << count << std::ends;
+	stream << count;
 
 	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + " count=\"" + stream.str() + "\">\n");
 

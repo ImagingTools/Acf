@@ -102,7 +102,7 @@ template <typename NumberType>
 CString CString::FromNumber(NumberType number)
 {
 	std::ostringstream stringStream;
-	stringStream << number << std::ends;
+	stringStream << number;
 
 	return stringStream.str();
 }

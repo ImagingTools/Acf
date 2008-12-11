@@ -55,7 +55,7 @@ bool CTextWriteArchiveBase::ProcessInternal(const Type& value)
 
 	std::ostringstream stream;
 
-	stream << value << std::ends;
+	stream << value;
 
 	std::string str(stream.str());
 

@@ -46,7 +46,7 @@ public:
 
 protected:
 	void GenerateComponentTree(const QString& filter = "");
- 	void HighlightComponents(const QString& interfaceId);
+	void HighlightComponents(const istd::CClassInfo& interfaceInfo = istd::CClassInfo());
 
 protected slots:
 	void on_PackagesList_itemCollapsed(QTreeWidgetItem* item);

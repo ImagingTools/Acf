@@ -2,6 +2,8 @@
 #define icomp_TAttributeStaticInfo_included
 
 
+#include "istd/CClassInfo.h"
+
 #include "icomp/IRealAttributeStaticInfo.h"
 
 
@@ -19,7 +21,7 @@ public:
 				const std::string& description,
 				const Attribute* defaultValuePtr,
 				bool isObligatory,
-				const std::type_info* relatedInterfaceTypePtr);
+				const istd::CClassInfo& relatedInterfaceInfo);
 
 	// reimplemented (icomp::IRealAttributeStaticInfo)
 	virtual const std::string& GetAttributeId() const;
@@ -28,8 +30,8 @@ public:
 	virtual iser::ISerializable* CreateAttribute() const;
 	virtual const std::string& GetAttributeDescription() const;
 	virtual const iser::ISerializable* GetAttributeDefaultValue() const;
-	virtual const std::type_info& GetAttributeType() const;
-	virtual const std::type_info& GetRelatedInterfaceType() const;
+	virtual const istd::CClassInfo& GetAttributeType() const;
+	virtual const istd::CClassInfo& GetRelatedInterfaceType() const;
 	virtual bool IsObligatory() const;
 
 private:
@@ -37,7 +39,7 @@ private:
 	std::string m_description;
 	const Attribute* m_defaultValuePtr;
 	bool m_isObligatory;
-	const std::type_info& m_relatedInterfaceType;
+	istd::CClassInfo m_relatedInterfaceType;
 };
 
 
@@ -50,12 +52,12 @@ TAttributeStaticInfo<Attribute>::TAttributeStaticInfo(
 			const std::string& description,
 			const Attribute* defaultValuePtr,
 			bool isObligatory,
-			const std::type_info* relatedInterfaceTypePtr)
+			const istd::CClassInfo& relatedInterfaceInfo)
 :	m_id(id),
 	m_description(description),
 	m_defaultValuePtr(defaultValuePtr),
 	m_isObligatory(isObligatory),
-	m_relatedInterfaceType(*relatedInterfaceTypePtr)
+	m_relatedInterfaceType(relatedInterfaceInfo)
 {
 	staticInfo.RegisterAttributeInfo(id, this);
 }
@@ -98,14 +100,16 @@ const iser::ISerializable* TAttributeStaticInfo<Attribute>::GetAttributeDefaultV
 
 
 template <class Attribute>
-const std::type_info& TAttributeStaticInfo<Attribute>::GetAttributeType() const
+const istd::CClassInfo& TAttributeStaticInfo<Attribute>::GetAttributeType() const
 {
-	return typeid(Attribute);
+	static istd::CClassInfo info(typeid(Attribute));
+
+	return info;
 }
 
 
 template <class Attribute>
-const std::type_info& TAttributeStaticInfo<Attribute>::GetRelatedInterfaceType() const
+const istd::CClassInfo& TAttributeStaticInfo<Attribute>::GetRelatedInterfaceType() const
 {
 	return m_relatedInterfaceType;
 }

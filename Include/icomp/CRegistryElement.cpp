@@ -151,7 +151,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 			}
 
 			retVal = retVal && archive.BeginTag(attributeTypeTag);
-			std::string attributeType = istd::CClassInfo::GetName(staticInfoPtr->GetAttributeType());
+			std::string attributeType = staticInfoPtr->GetAttributeType().GetName();
 			retVal = retVal && archive.Process(attributeType);
 			retVal = retVal && archive.EndTag(attributeTypeTag);
 
@@ -197,7 +197,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 				retVal = retVal && archive.Process(attributeType);
 				retVal = retVal && archive.EndTag(attributeTypeTag);
 
-				if (attributeType == istd::CClassInfo::GetName(staticInfoPtr->GetAttributeType())){
+				if (attributeType == staticInfoPtr->GetAttributeType().GetName()){
 					retVal = retVal && archive.BeginTag(exportIdTag);
 					std::string exportId;
 					retVal = retVal && archive.Process(exportId);
