@@ -4,7 +4,7 @@
 
 // STL includes
 #include <string>
-#include <typeinfo.h>
+#include <typeinfo>
 
 #include "istd/IPolymorphic.h"
 
@@ -20,7 +20,7 @@ class CClassInfo
 {
 public:
 	CClassInfo();
-	CClassInfo(const type_info& info);
+	CClassInfo(const std::type_info& info);
 
 	/**
 		Check if this class info object is valid.

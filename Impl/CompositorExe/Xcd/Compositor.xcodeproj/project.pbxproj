@@ -42,14 +42,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = EA2842CC0EF026D50044F226 /* AcfStd.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D /* libacfstd.a */;
+			remoteGlobalIDString = D2AAC046055464E500DB518D;
 			remoteInfo = acfstd;
 		};
 		EA2842DC0EF026EE0044F226 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EA2842D80EF026EE0044F226 /* AcfQt.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC046055464E500DB518D /* libacfqt.a */;
+			remoteGlobalIDString = D2AAC046055464E500DB518D;
 			remoteInfo = acfqt;
 		};
 /* End PBXContainerItemProxy section */
