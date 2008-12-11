@@ -79,6 +79,9 @@ protected:
 	virtual QWidget* InitWidgetToParent(QWidget* parentPtr) = 0;
 
 private:
+	void MakeAutoSlotConnection();
+
+private:
 	QWidget* m_widgetPtr;
 	bool m_isGuiShown;
 };
