@@ -1,6 +1,8 @@
 #include "icomp/CRegistryElement.h"
 
 
+#include "istd/CClassInfo.h"
+
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -149,7 +151,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 			}
 
 			retVal = retVal && archive.BeginTag(attributeTypeTag);
-			std::string attributeType = staticInfoPtr->GetAttributeType().name();
+			std::string attributeType = istd::CClassInfo::GetName(staticInfoPtr->GetAttributeType());
 			retVal = retVal && archive.Process(attributeType);
 			retVal = retVal && archive.EndTag(attributeTypeTag);
 
@@ -195,7 +197,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 				retVal = retVal && archive.Process(attributeType);
 				retVal = retVal && archive.EndTag(attributeTypeTag);
 
-				if (attributeType == staticInfoPtr->GetAttributeType().name()){
+				if (attributeType == istd::CClassInfo::GetName(staticInfoPtr->GetAttributeType())){
 					retVal = retVal && archive.BeginTag(exportIdTag);
 					std::string exportId;
 					retVal = retVal && archive.Process(exportId);

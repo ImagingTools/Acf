@@ -25,7 +25,7 @@
               MainGui
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -44,7 +44,7 @@
               SplashScreen
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -81,7 +81,7 @@
               DefaultText
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -136,7 +136,7 @@
               DocumentFactory
             </Id>
             <Type>
-              class icomp::CFactoryAttribute
+              icomp::CFactoryAttribute
             </Type>
             <ExportId>
               
@@ -155,7 +155,7 @@
               DocumentLoader
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -174,7 +174,7 @@
               FileExtensions
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -195,7 +195,7 @@
               FileFilters
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -216,7 +216,7 @@
               IsEditSupported
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;bool&gt;
+              icomp::TSingleAttribute&lt;bool&gt;
             </Type>
             <ExportId>
               
@@ -235,7 +235,7 @@
               IsNewSupported
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;bool&gt;
+              icomp::TSingleAttribute&lt;bool&gt;
             </Type>
             <ExportId>
               
@@ -254,7 +254,7 @@
               ViewFactory
             </Id>
             <Type>
-              class icomp::CFactoryAttribute
+              icomp::CFactoryAttribute
             </Type>
             <ExportId>
               
@@ -291,7 +291,7 @@
               DocumentManager
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -310,7 +310,7 @@
               Workspace
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -347,7 +347,7 @@
               CopyrightText
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -366,7 +366,7 @@
               ImagePath
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -385,7 +385,7 @@
               ProductName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -404,7 +404,7 @@
               ProductType
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -459,7 +459,7 @@
               DocumentTemplate
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -480,7 +480,7 @@
   <ExportedInterfaces count="1 ">
     <Interface>
       <InterfaceId>
-        class ibase::IApplication
+        ibase::IApplication
       </InterfaceId>
       <ComponentId>
         Application

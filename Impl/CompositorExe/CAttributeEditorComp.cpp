@@ -1,10 +1,15 @@
+#include "CAttributeEditorComp.h"
+
+
+// Qt includes
 #include <QHeaderView>
 #include <QListWidget>
 #include <QLineEdit>
 
+// ACF includes
+#include "istd/CClassInfo.h"
 #include "icomp/CRegistryElement.h" 
 
-#include "CAttributeEditorComp.h"
 #include "CRegistryViewComp.h"
 
 
@@ -158,7 +163,7 @@ void CAttributeEditorComp::UpdateEditor()
 		QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
 
 		itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		itemPtr->setText(0, interfaceId.c_str());
+		itemPtr->setText(0, istd::CClassInfo::GetUndecoratedName(interfaceId).c_str());
 
 		InterfacesTree->addTopLevelItem(itemPtr);
 	}

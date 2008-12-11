@@ -25,7 +25,7 @@
               MainGui
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -44,7 +44,7 @@
               SplashScreen
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -99,7 +99,7 @@
               CopyrightText
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -118,7 +118,7 @@
               ImagePath
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -137,7 +137,7 @@
               ProductName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -156,7 +156,7 @@
               ProductType
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -177,7 +177,7 @@
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
-        class ibase::IApplication
+        ibase::IApplication
       </InterfaceId>
       <ComponentId>
         Application

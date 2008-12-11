@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CClassInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCrcCalculator.cpp"
 				>
 			</File>
@@ -225,6 +229,10 @@
 			</File>
 			<File
 				RelativePath="..\CChangeDelegator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CClassInfo.h"
 				>
 			</File>
 			<File
