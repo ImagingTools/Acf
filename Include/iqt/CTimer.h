@@ -25,6 +25,17 @@ public:
 
 	double GetTimeTo(const CTimer& timer) const;
 
+	/**
+		Dummie implementation, provided only for compatibility with iwin::CTimer.
+		Please don't use!
+	*/
+	unsigned long long GetNativeRepresentation() const;
+	/**
+		Dummie implementation, provided only for compatibility with iwin::CTimer.
+		Please don't use!
+	*/
+	void SetNativeRepresentation(unsigned long long value);
+
 	// reimplemented (isys::ITimer)
 	virtual void Start();
 	virtual double GetElapsed() const;

@@ -27,6 +27,18 @@ double CTimer::GetTimeTo(const CTimer& timer) const
 }
 
 
+unsigned long long CTimer::GetNativeRepresentation() const
+{
+	return 0;
+}
+
+
+void SetNativeRepresentation(unsigned long long value)
+{
+	I_CRITICAL();	// not implemented yet!
+}
+
+
 // reimplemented (isys::ITimer)
 
 void CTimer::Start()
