@@ -17,7 +17,6 @@ public:
 	const SubcomponentInfos& GetSubcomponentInfos() const;
 
 	// reimplemented (icomp::IComponentStaticInfo)
-	virtual const istd::CClassInfo* FindInterfaceInfo(const std::string& interfaceId) const;
 	virtual Ids GetSubcomponentIds() const;
 	virtual const IComponentStaticInfo* GetSubcomponentInfo(const std::string& subcomponentId) const;
 	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);

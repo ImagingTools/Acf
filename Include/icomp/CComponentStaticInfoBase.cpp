@@ -5,25 +5,7 @@ namespace icomp
 {
 
 
-// reimplemented (icomp::IPackageStaticInfo)
-
-const istd::CClassInfo* CComponentStaticInfoBase::FindInterfaceInfo(const std::string& interfaceId) const
-{
-	int subcomponentsCount = m_subcomponentInfos.GetElementsCount();
-
-	for (int i = 0; i < subcomponentsCount; ++i){
-		const IComponentStaticInfo* componentInfoPtr = m_subcomponentInfos.GetValueAt(i);
-		if (componentInfoPtr != NULL){
-			const istd::CClassInfo* interfaceInfoPtr = componentInfoPtr->FindInterfaceInfo(interfaceId);
-			if (interfaceInfoPtr != NULL){
-				return interfaceInfoPtr;
-			}
-		}
-	}
-
-	return NULL;
-}
-
+// reimplemented (icomp::IComponentStaticInfo)
 
 IComponentStaticInfo::Ids CComponentStaticInfoBase::GetSubcomponentIds() const
 {

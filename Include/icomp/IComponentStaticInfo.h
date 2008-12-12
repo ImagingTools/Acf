@@ -51,11 +51,6 @@ public:
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const = 0;
 
 	/**
-		Returns the interface type info.
-	*/
-	virtual const istd::CClassInfo* FindInterfaceInfo(const std::string& interfaceId) const = 0;
-
-	/**
 		Get number of attributes.
 	*/
 	virtual const AttributeInfos& GetAttributeInfos() const = 0;

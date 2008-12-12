@@ -20,7 +20,8 @@ class CClassInfo
 {
 public:
 	CClassInfo();
-	CClassInfo(const std::type_info& info);
+	explicit CClassInfo(const std::type_info& info);
+	explicit CClassInfo(const std::string& name);
 
 	/**
 		Check if this class info object is valid.
@@ -31,7 +32,7 @@ public:
 		Get undecorated and platform undependent class name.
 		This name has format "namespace::class_name", for example "iser::ISerializable".
 	*/
-	std::string GetName() const;
+	const std::string& GetName() const;
 
 	template <class C>
 	bool IsType() const;
@@ -71,54 +72,51 @@ public:
 private:
 	static int ParseToNumber(const char* buffer, int maxLength, int& nextPosition);
 
-	const std::type_info* m_infoPtr;
+	std::string m_name;
 };
 
 
 // inline methods
 
 inline CClassInfo::CClassInfo()
-:	m_infoPtr(NULL)
 {
 }
 
 
 inline CClassInfo::CClassInfo(const std::type_info& info)
-:	m_infoPtr(&info)
+:	m_name(GetName(info))
+{
+}
+
+
+inline CClassInfo::CClassInfo(const std::string& name)
+:	m_name(name)
 {
 }
 
 
 inline bool CClassInfo::IsValid() const
 {
-	return (m_infoPtr != NULL);
+	return !m_name.empty();
 }
 
 
-inline std::string CClassInfo::GetName() const
+inline const std::string& CClassInfo::GetName() const
 {
-	if (m_infoPtr != NULL){
-		return GetName(*m_infoPtr);
-	}
-
-	return "<undef_type>";
+	return m_name;
 }
 
 
 template <class C>
 inline bool CClassInfo::IsType() const
 {
-	if (m_infoPtr != NULL){
-		return *m_infoPtr == typeid(C);
-	}
-
-	return false;
+	return m_name == GetName(typeid(C));
 }
 
 
 inline CClassInfo& CClassInfo::operator=(const std::type_info& info)
 {
-	m_infoPtr = &info;
+	m_name = GetName(info);
 
 	return *this;
 }
@@ -126,7 +124,7 @@ inline CClassInfo& CClassInfo::operator=(const std::type_info& info)
 
 inline CClassInfo& CClassInfo::operator=(const CClassInfo& info)
 {
-	m_infoPtr = info.m_infoPtr;
+	m_name = info.m_name;
 
 	return *this;
 }
@@ -134,45 +132,25 @@ inline CClassInfo& CClassInfo::operator=(const CClassInfo& info)
 
 inline bool CClassInfo::operator==(const CClassInfo& info) const
 {
-	if ((m_infoPtr != NULL) && (info.m_infoPtr != NULL)){
-		return *m_infoPtr == *info.m_infoPtr;
-	}
-	else{
-		return m_infoPtr == m_infoPtr;
-	}
+	return m_name == info.m_name;
 }
 
 
 inline bool CClassInfo::operator!=(const CClassInfo& info) const
 {
-	if ((m_infoPtr != NULL) && (info.m_infoPtr != NULL)){
-		return *m_infoPtr != *info.m_infoPtr;
-	}
-	else{
-		return m_infoPtr != m_infoPtr;
-	}
+	return m_name != info.m_name;
 }
 
 
 inline bool CClassInfo::operator<(const CClassInfo& info) const
 {
-	if ((m_infoPtr != NULL) && (info.m_infoPtr != NULL)){
-		return m_infoPtr->before(*info.m_infoPtr) != 0;
-	}
-	else{
-		return m_infoPtr < m_infoPtr;
-	}
+	return m_name < info.m_name;
 }
 
 
 inline bool CClassInfo::operator>(const CClassInfo& info) const
 {
-	if ((m_infoPtr != NULL) && (info.m_infoPtr != NULL)){
-		return m_infoPtr->before(*info.m_infoPtr) == 0;
-	}
-	else{
-		return m_infoPtr > m_infoPtr;
-	}
+	return m_name > info.m_name;
 }
 
 

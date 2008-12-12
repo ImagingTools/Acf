@@ -336,16 +336,8 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 			retVal = retVal && archive.Process(componentId);
 			retVal = retVal && archive.EndTag(componentIdTag);
 
-			const istd::CClassInfo* interfaceInfoPtr = m_componentsFactoryPtr->FindInterfaceInfo(interfaceId);
-			if (interfaceInfoPtr != NULL){
-				m_exportedInterfacesMap[*interfaceInfoPtr] = componentId;
-			}
-			else{
-				// TODO: add some error handling for reading interface export when no info exists...
-				if (!archive.IsTagSkippingSupported()){
-					return false;
-				}
-			}
+			istd::CClassInfo interfaceInfo(interfaceId);
+			m_exportedInterfacesMap[interfaceInfo] = componentId;
 
 			retVal = retVal && archive.EndTag(interfaceTag);
 		}

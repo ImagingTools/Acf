@@ -41,12 +41,6 @@ const icomp::IComponentStaticInfo::InterfaceExtractors& CCompositePackageStaticI
 }
 
 
-const istd::CClassInfo* CCompositePackageStaticInfo::FindInterfaceInfo(const std::string& /*interfaceId*/) const
-{
-	return NULL;
-}
-
-
 const icomp::IComponentStaticInfo::AttributeInfos& CCompositePackageStaticInfo::GetAttributeInfos() const
 {
 	static AttributeInfos empty;

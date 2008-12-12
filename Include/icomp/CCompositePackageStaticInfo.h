@@ -25,7 +25,6 @@ public:
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual icomp::IComponent* CreateComponent() const;
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
-	virtual const istd::CClassInfo* FindInterfaceInfo(const std::string& interfaceId) const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual Ids GetSubcomponentIds() const;
 	virtual const icomp::IComponentStaticInfo* GetSubcomponentInfo(const std::string& subcomponentId) const;
