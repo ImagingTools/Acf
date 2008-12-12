@@ -25,7 +25,7 @@
               ApplicationName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -44,7 +44,7 @@
               CompanyName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -63,7 +63,7 @@
               KnownVersionNames
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -84,7 +84,7 @@
               KnownVersions
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;int&gt;
+              icomp::TMultiAttribute&lt;int&gt;
             </Type>
             <ExportId>
               
@@ -105,7 +105,7 @@
               SlaveApplicationInfo
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               SlaveApplicationInfo
@@ -124,7 +124,7 @@
               VersionId
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;int&gt;
+              icomp::TSingleAttribute&lt;int&gt;
             </Type>
             <ExportId>
               
@@ -143,7 +143,7 @@
               VersionIdDesc
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               
@@ -162,7 +162,7 @@
               VersionNumber
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;int&gt;
+              icomp::TSingleAttribute&lt;int&gt;
             </Type>
             <ExportId>
               
@@ -199,7 +199,7 @@
               ApplicationName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               ApplicationName
@@ -218,7 +218,7 @@
               CompanyName
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               CompanyName
@@ -237,7 +237,7 @@
               IsExtensionUsed
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;bool&gt;
+              icomp::TSingleAttribute&lt;bool&gt;
             </Type>
             <ExportId>
               IsExtensionUsed
@@ -256,7 +256,7 @@
               KnownVersionNames
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;class istd::CString&gt;
+              icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               KnownVersionNames
@@ -274,7 +274,7 @@
               KnownVersions
             </Id>
             <Type>
-              class icomp::TMultiAttribute&lt;int&gt;
+              icomp::TMultiAttribute&lt;int&gt;
             </Type>
             <ExportId>
               KnownVersions
@@ -292,7 +292,7 @@
               SlaveApplicationInfo
             </Id>
             <Type>
-              class icomp::CReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -311,7 +311,7 @@
               VersionId
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;int&gt;
+              icomp::TSingleAttribute&lt;int&gt;
             </Type>
             <ExportId>
               VersionId
@@ -330,7 +330,7 @@
               VersionIdDesc
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;class istd::CString&gt;
+              icomp::TSingleAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
               VersionIdDescription
@@ -349,7 +349,7 @@
               VersionNumber
             </Id>
             <Type>
-              class icomp::TSingleAttribute&lt;int&gt;
+              icomp::TSingleAttribute&lt;int&gt;
             </Type>
             <ExportId>
               VersionNumber
@@ -370,7 +370,7 @@
   <ExportedInterfaces count="2">
     <Interface>
       <InterfaceId>
-        class ibase::IApplicationInfo
+        ibase::IApplicationInfo
       </InterfaceId>
       <ComponentId>
         ApplicationInfo
@@ -378,7 +378,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        class iser::IVersionInfo
+        iser::IVersionInfo
       </InterfaceId>
       <ComponentId>
         ApplicationInfo
