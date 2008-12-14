@@ -88,7 +88,7 @@ inline CClassInfo::CClassInfo(const std::type_info& info)
 
 
 inline CClassInfo::CClassInfo(const std::string& name)
-:	m_name(name)
+:	m_name(GetUndecoratedName(name))
 {
 }
 
