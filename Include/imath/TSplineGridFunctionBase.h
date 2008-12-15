@@ -130,7 +130,7 @@ Result TSplineGridFunctionBase<Argument, Result, Fulcrums, Degree>::GetValueAt(c
 {
 	typename BaseClass::ResultType retVal;
 
-	BaseClass::GetValueAt(argument, retVal);
+	GetValueAt(argument, retVal);
 
 	return retVal;
 }
