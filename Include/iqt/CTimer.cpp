@@ -33,7 +33,7 @@ unsigned long long CTimer::GetNativeRepresentation() const
 }
 
 
-void CTimer::SetNativeRepresentation(unsigned long long value)
+void CTimer::SetNativeRepresentation(unsigned long long/* value*/)
 {
 	I_CRITICAL();	// not implemented yet!
 }
