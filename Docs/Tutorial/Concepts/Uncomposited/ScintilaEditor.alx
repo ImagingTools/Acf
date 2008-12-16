@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="8">
+  <PositionMap count="9">
     <Element>
       <ComponentName>
         Application
@@ -13,7 +13,7 @@
         200
       </X>
       <X>
-        237
+        227
       </X>
     </Element>
     <Element>
@@ -32,10 +32,10 @@
         DocumentLoader
       </ComponentName>
       <X>
-        712
+        808
       </X>
       <X>
-        612
+        357
       </X>
     </Element>
     <Element>
@@ -43,10 +43,21 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        750
+        692
       </X>
       <X>
-        462
+        464
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        Info
+      </ComponentName>
+      <X>
+        473
+      </X>
+      <X>
+        216
       </X>
     </Element>
     <Element>
@@ -54,10 +65,10 @@
         MainWindow
       </ComponentName>
       <X>
-        475
+        416
       </X>
       <X>
-        237
+        347
       </X>
     </Element>
     <Element>
@@ -65,10 +76,10 @@
         Splash
       </ComponentName>
       <X>
-        225
+        223
       </X>
       <X>
-        387
+        336
       </X>
     </Element>
     <Element>
@@ -76,10 +87,10 @@
         ViewFactory
       </ComponentName>
       <X>
-        487
+        485
       </X>
       <X>
-        437
+        434
       </X>
     </Element>
     <Element>
@@ -90,7 +101,7 @@
         662
       </X>
       <X>
-        237
+        218
       </X>
     </Element>
   </PositionMap>
