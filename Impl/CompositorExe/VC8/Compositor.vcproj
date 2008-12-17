@@ -262,6 +262,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CRegistryViewComp.cpp"
 				>
 			</File>
@@ -327,6 +331,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryView.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CRegistryViewComp.h"
 				>
 			</File>
@@ -376,6 +388,10 @@
 			</File>
 			<File
 				RelativePath="..\Generated\moc_CRegistryPreviewComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CRegistryView.cpp"
 				>
 			</File>
 			<File

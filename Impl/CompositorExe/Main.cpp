@@ -154,6 +154,7 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<QtPck::MultiDocWorkspaceGui> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.SetRef("ApplicationInfo", &applicationInfo);
+	workspaceComp.SetBoolAttr("ShowViewMaximized", true);
 	workspaceComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::DockWidgetGui> attributeEditorDockComp;

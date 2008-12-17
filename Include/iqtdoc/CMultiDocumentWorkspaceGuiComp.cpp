@@ -1,6 +1,7 @@
 #include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
 
 
+// Qt includes
 #include <QEvent>
 #include <QFileDialog>
 #include <QMap>
@@ -8,6 +9,7 @@
 #include <QFileInfo>
 
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "idoc/IDocumentTemplate.h"
@@ -29,12 +31,13 @@ namespace iqtdoc
 
 void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
 {
-	QWorkspace* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
 	if (workspacePtr == NULL){
 		return;
 	}
 
-	QWidgetList widgets = workspacePtr->windowList();
+	QList<QMdiSubWindow *> widgets = workspacePtr->subWindowList();
 
 	int workspaceHeight = workspacePtr->height();
 	int workspaceWidth = workspacePtr->width();
@@ -42,7 +45,7 @@ void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
 	
 	int y = 0;
 	for (int viewIndex = 0; viewIndex < widgets.count(); viewIndex++){
-		QWidget* widgetPtr = widgets.at(viewIndex);
+		QMdiSubWindow* widgetPtr = widgets.at(viewIndex);
 		widgetPtr->showNormal();									
 		if (widgetPtr->parentWidget() != NULL){
 			int preferredHeight = widgetPtr->minimumHeight() + widgetPtr->parentWidget()->baseSize().height();
@@ -57,34 +60,57 @@ void CMultiDocumentWorkspaceGuiComp::TileHorizontally()
 
 void CMultiDocumentWorkspaceGuiComp::Tile()
 {
-	QWorkspace* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
 	if (workspacePtr == NULL){
 		return;
 	}
 
-	workspacePtr->tile();
+	workspacePtr->tileSubWindows();
 }
 
 
 void CMultiDocumentWorkspaceGuiComp::Cascade()
 {
-	QWorkspace* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
 	if (workspacePtr == NULL){
 		return;
 	}
 
-	workspacePtr->cascade();
+	workspacePtr->cascadeSubWindows();
 }
 
 
 void CMultiDocumentWorkspaceGuiComp::CloseAllViews()
 {
-	QWorkspace* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
 	if (workspacePtr == NULL){
 		return;
 	}
 
-	workspacePtr->closeAllWindows();
+	workspacePtr->closeAllSubWindows();
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::SetWorkspaceMode(int mode)
+{
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
+	if (workspacePtr == NULL){
+		return;
+	}
+
+	if (mode == SubWindowMode){
+		workspacePtr->setViewMode(QMdiArea::SubWindowView);
+	}
+	else if (mode == TabbedMode){
+		workspacePtr->setViewMode(QMdiArea::TabbedView);
+	}
+	else{
+		I_CRITICAL();
+	}
 }
 
 
@@ -182,7 +208,7 @@ iqtgui::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWid
 
 void CMultiDocumentWorkspaceGuiComp::CreateConnections()
 {
-	connect(GetWidget(), SIGNAL(windowActivated(QWidget*)), this, SLOT(OnWindowActivated(QWidget*)));
+	connect(GetWidget(), SIGNAL( subWindowActivated(QMdiSubWindow*)), this, SLOT(OnWindowActivated(QMdiSubWindow*)));
 }
 
 
@@ -284,15 +310,22 @@ istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const std::string&
 void CMultiDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewPtr)
 {
 	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
-	QWorkspace* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();
 	if ((guiObjectPtr != NULL) && (workspacePtr != NULL)){
 		if (guiObjectPtr->CreateGui(workspacePtr)){
 			QWidget* widgetPtr = guiObjectPtr->GetWidget();
 			I_ASSERT(widgetPtr != NULL);
 
 			widgetPtr->installEventFilter(this);
-			workspacePtr->addWindow(widgetPtr);
-			widgetPtr->show();
+			QMdiSubWindow* subWindow = workspacePtr->addSubWindow(widgetPtr);
+			I_ASSERT(subWindow != NULL);
+
+			if (m_showMaximizedAttrPtr.IsValid() && *m_showMaximizedAttrPtr){
+				subWindow->showMaximized();
+			}
+			else{
+				subWindow->show();
+			}
 
 			SetActiveView(viewPtr);
 		}
@@ -344,13 +377,12 @@ void CMultiDocumentWorkspaceGuiComp::OnUpdate(imod::IModel* modelPtr, int update
 
 void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 {
-	CreateConnections();
+	BaseClass::OnGuiCreated();
 
-	if (m_scrollingEnabledAttrPtr.IsValid()){
-		QWorkspace* workspacePtr = GetQtWidget();
-	
-		workspacePtr->setScrollBarsEnabled(m_scrollingEnabledAttrPtr->GetValue());
-	}
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
+
+	CreateConnections();
 
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
@@ -392,7 +424,7 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 
 // protected slots
 
-void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QWidget* window)
+void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QMdiSubWindow* window)
 {
 	iqtgui::IGuiObject* guiObjectPtr = (window != NULL) ? GetViewFromWidget(*window): NULL;
 

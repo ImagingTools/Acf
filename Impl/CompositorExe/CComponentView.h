@@ -12,7 +12,7 @@
 
 
 class CComponentConnector;
-class CRegistryViewComp;
+class CRegistryView;
 
 
 class CComponentView: public QObject, public QGraphicsRectItem
@@ -21,7 +21,7 @@ class CComponentView: public QObject, public QGraphicsRectItem
 
 public:
 	CComponentView(
-				const CRegistryViewComp* registryViewPtr,
+				const CRegistryView* registryViewPtr,
 				const icomp::IRegistry* registryPtr,
 				const icomp::IRegistry::ElementInfo* elementInfoPtr, 
 				const std::string& componentName, 
@@ -60,7 +60,7 @@ protected:
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
 
 private:
-	const CRegistryViewComp& m_registryView;
+	const CRegistryView& m_registryView;
 
 	const icomp::IRegistry& m_registry;
 	std::string m_componentName;

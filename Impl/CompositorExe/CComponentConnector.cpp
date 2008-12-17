@@ -12,13 +12,13 @@
 #include "iqt/iqt.h"
 
 #include "CComponentView.h"
-#include "CRegistryViewComp.h"
+#include "CRegistryView.h"
 
 
 // public methods
 
 CComponentConnector::CComponentConnector(
-			const CRegistryViewComp* registryViewPtr,
+			const CRegistryView* registryViewPtr,
 			CComponentView* sourceComponent, 
 			CComponentView* destComponent,
 			QGraphicsItem *parent)

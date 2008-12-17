@@ -6,7 +6,7 @@
 
 
 class CComponentView;
-class CRegistryViewComp;
+class CRegistryView;
 
 
 class CComponentConnector: public QGraphicsItem
@@ -22,7 +22,7 @@ public:
 	};
 
     CComponentConnector(
-				const CRegistryViewComp* registryViewPtr,
+				const CRegistryView* registryViewPtr,
 				CComponentView *sourceComponent, 
 				CComponentView *destComponent, 
 				QGraphicsItem *parent = NULL);
@@ -49,7 +49,7 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-	const CRegistryViewComp& m_registryView;
+	const CRegistryView& m_registryView;
 
     CComponentView* m_sourceComponent;
 	CComponentView* m_destComponent;

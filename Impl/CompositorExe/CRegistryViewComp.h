@@ -2,15 +2,11 @@
 #define CRegistryViewComp_included
 
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsSceneDragDropEvent>
-#include <QGraphicsItemGroup>
-#include <QDrag>
-#include <QMimeData>
+// Qt includes
 #include <QTimer>
 
 
+// ACF includes
 #include "iser/IFileLoader.h"
 
 #include "imod/TSingleModelObserverBase.h"
@@ -25,14 +21,15 @@
 #include "iqtgui/TGuiObserverWrap.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
+
+// Compositor includes
 #include "IRegistryPreview.h"
-#include "CComponentView.h"
-#include "CComponentNoteView.h"
+#include "CRegistryView.h"
 
 
 class CRegistryViewComp:
 			public iqtgui::TGuiObserverWrap<
-						iqtgui::TGuiComponentBase<QGraphicsView>, 
+						iqtgui::TGuiComponentBase<CRegistryView>, 
 						imod::TSingleModelObserverBase<icomp::IRegistry> >,
 			public idoc::ICommandsProvider
 {
@@ -40,7 +37,7 @@ class CRegistryViewComp:
 
 public:
 	typedef iqtgui::TGuiObserverWrap<
-				iqtgui::TGuiComponentBase<QGraphicsView>, 
+				iqtgui::TGuiComponentBase<CRegistryView>, 
 				imod::TSingleModelObserverBase<icomp::IRegistry> > BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryViewComp)
@@ -54,7 +51,6 @@ public:
 	CRegistryViewComp();
 
 	bool TryCreateComponent(const icomp::CComponentAddress& address, const i2d::CVector2d& position);
-	static double GetGrid();
 
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
@@ -66,11 +62,6 @@ public:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnRetranslate();
-
-public slots:
-	void SetCenterOn(const std::string& componentRole);
-	void UpdateConnectors();
-	void OnExecutionTimerTick();
 
 protected slots:
 	void OnComponentViewSelected(CComponentView* view, bool selected);
@@ -84,17 +75,11 @@ protected slots:
 	void OnAbort();
 	void OnAddNote();
 	void OnRemoveNote();
+	bool ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
+	void UpdateConnectors();
+	void OnExecutionTimerTick();
 
 private:
-	void ResetScene();
-	void ScaleView(double scaleFactor);
-	void CreateConnector(CComponentView& sourceView, const std::string& referenceComponentId);
-	CComponentView* CreateComponentView(
-				const icomp::IRegistry* registryPtr,
-				const icomp::IRegistry::ElementInfo* elementInfoPtr,
-				const std::string& role);
-
-	bool ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* event);
 	void ConnectReferences(const QString& componentRole);
 	bool HasExportedInterfaces(const CComponentView& componentView) const;
 	void UpdateExportInterfaceCommand();
@@ -107,40 +92,11 @@ protected:
 		GI_PREVIEW
 	};
 
-	class CCompositeItem: public QGraphicsRectItem
-	{
-	protected:
-		// reimplemented (QGraphicsRectItem)
-		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0); 
-		virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
-	};
-
-	class CRegistryScene: public QGraphicsScene
-	{
-	public:
-		CRegistryScene(CRegistryViewComp& parent);
-
-	protected:
-		// reimplemented (QGraphicsScene)
-		virtual void keyPressEvent(QKeyEvent* keyEvent);
-		virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
-		virtual void drawBackground(QPainter* painter, const QRectF & rect);
-		virtual void dragEnterEvent(QGraphicsSceneDragDropEvent * event);
-		virtual void dropEvent(QGraphicsSceneDragDropEvent * event);
-		virtual void dragMoveEvent(QGraphicsSceneDragDropEvent * event);
-
-	private:
-		CRegistryViewComp& m_parent;
-	};
-
 private:
 	I_MULTIREF(imod::IObserver, m_registryElementObserversCompPtr);
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
 
-	CRegistryScene* m_scenePtr;
-	CCompositeItem m_compositeItem;
-	CComponentView* m_selectedComponentPtr;
 
 	iqtgui::CHierarchicalCommand m_registryCommand;
 	iqtgui::CHierarchicalCommand m_registryMenu;
@@ -156,14 +112,6 @@ private:
 
 	QTimer m_executionObserverTimer;
 };
-
-
-// inline methods
-
-inline double CRegistryViewComp::GetGrid()
-{
-	return 25;
-}
 
 
 #endif // !CRegistryViewComp_included

@@ -33,11 +33,13 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_undoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
+	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
+	m_workspaceModeCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU),
+	m_tabbedCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF | idoc::ICommand::CF_EXCLUSIVE),
+	m_subWindowCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF | idoc::ICommand::CF_EXCLUSIVE),
+	m_menuBarPtr(NULL),
+	m_standardToolBarPtr(NULL)
 {
-	m_menuBarPtr = NULL;
-	m_standardToolBarPtr = NULL;
-
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
 	connect(&m_saveCommand, SIGNAL(activated()), this, SLOT(OnSave()));
@@ -52,6 +54,11 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_tileVerticallyCommand, SIGNAL(activated()), this, SLOT(OnTile()));
 	connect(&m_closeAllDocumentsCommand, SIGNAL(activated()), this, SLOT(OnCloseAllWindows()));
 	connect(&m_aboutCommand, SIGNAL(activated()), this, SLOT(OnAbout()));
+
+	m_subWindowCommand.setChecked(true);
+	connect(&m_subWindowCommand, SIGNAL(activated()), this, SLOT(OnWorkspaceModeChanged()));
+	connect(&m_tabbedCommand, SIGNAL(activated()), this, SLOT(OnWorkspaceModeChanged()));
+	
 }
 
 
@@ -178,6 +185,10 @@ void CMainWindowGuiComp::OnComponentCreated()
 		m_viewCommand.SetPriority(90);
 		m_viewCommand.InsertChild(&m_fullScreenCommand, false);
 		m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
+		m_viewCommand.InsertChild(&m_workspaceModeCommand, false);
+
+		m_workspaceModeCommand.InsertChild(&m_subWindowCommand, false);
+		m_workspaceModeCommand.InsertChild(&m_tabbedCommand, false);
 
 		m_windowCommand.SetPriority(120);
 		m_cascadeCommand.SetGroupId(GI_WINDOW);
@@ -693,12 +704,14 @@ void CMainWindowGuiComp::OnRetranslate()
 		parentWidgetPtr = GetWidget();
 	}
 
+	// Main commands
 	m_fileCommand.SetName(iqt::GetCString(tr("&File")));
 	m_editCommand.SetName(iqt::GetCString(tr("&Edit")));
 	m_viewCommand.SetName(iqt::GetCString(tr("&View")));
 	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
 	m_helpCommand.SetName(iqt::GetCString(tr("&Help")));
 
+	// File commands
 	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), GetIcon("new"));
 	m_newCommand.setShortcut(tr("Ctrl+N"));
 	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), GetIcon("open"));
@@ -711,9 +724,17 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_undoCommand.setShortcut(tr("Ctrl+Z"));
 	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), GetIcon("redo"));
 	m_redoCommand.setShortcut(tr("Ctrl+Shift+Z"));
+	
+	// View commands
 	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_fullScreenCommand.setShortcut(tr("F11"));
 	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show/Hide toolbars"));
+	
+	m_workspaceModeCommand.SetVisuals(tr("&Workspace Mode"), tr("Workspace Mode"), tr("Switch workspace mode"));
+	m_subWindowCommand.SetVisuals(tr("&MDI View"), tr("MDI View"), tr("Use sub-windows mode."));
+	m_tabbedCommand.SetVisuals(tr("&Tabbed View"), tr("Tabbed View"), tr("Use tabbed mode."));
+	
+	// Window commands
 	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
 	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
 	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
@@ -995,6 +1016,21 @@ void CMainWindowGuiComp::OnTile()
 		m_workspaceControllerCompPtr->Tile();
 	}
 }
+
+
+void CMainWindowGuiComp::OnWorkspaceModeChanged()
+{
+	if (m_workspaceControllerCompPtr.IsValid()){
+		bool subWindowEnabled = m_subWindowCommand.isChecked();
+		bool tabbedEnabled = m_tabbedCommand.isChecked();
+		I_ASSERT(subWindowEnabled != tabbedEnabled);
+
+		int workspaceMode = subWindowEnabled ? iqtdoc::IWorkspaceController::SubWindowMode : iqtdoc::IWorkspaceController::TabbedMode;
+
+		m_workspaceControllerCompPtr->SetWorkspaceMode(workspaceMode);
+	}
+}
+
 
 
 // public methods of embedded class ActiveUndoManager

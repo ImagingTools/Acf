@@ -145,6 +145,7 @@ protected slots:
 	void OnCascade(); 
 	void OnTileHorizontally(); 
 	void OnTile(); 
+	void OnWorkspaceModeChanged();
 
 private:
 	istd::TDelPtr<QMenuBar> m_menuBarPtr;
@@ -238,6 +239,10 @@ private:
 	// view menu group
 	iqtgui::CHierarchicalCommand m_fullScreenCommand;
 	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
+	iqtgui::CHierarchicalCommand m_workspaceModeCommand;
+	iqtgui::CHierarchicalCommand m_subWindowCommand;
+	iqtgui::CHierarchicalCommand m_tabbedCommand;
+
 	// window menu group
 	iqtgui::CHierarchicalCommand m_cascadeCommand;
 	iqtgui::CHierarchicalCommand m_tileHorizontallyCommand;

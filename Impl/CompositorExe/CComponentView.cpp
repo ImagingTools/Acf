@@ -15,11 +15,11 @@
 
 #include "CComponentView.h"
 #include "CComponentConnector.h"
-#include "CRegistryViewComp.h"
+#include "CRegistryView.h"
 
 
 CComponentView::CComponentView(
-			const CRegistryViewComp* registryViewPtr,
+			const CRegistryView* registryViewPtr,
 			const icomp::IRegistry* registryPtr,
 			const icomp::IRegistry::ElementInfo* elementInfoPtr, 
 			const std::string& componentName,

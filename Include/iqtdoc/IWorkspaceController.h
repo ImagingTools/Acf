@@ -16,6 +16,15 @@ class IWorkspaceController: public istd::IPolymorphic
 {
 public:
 	/**
+		Holds the way sub-windows are displayed.
+	*/
+	enum WorkspaceMode
+	{
+		SubWindowMode,
+		TabbedMode
+	};
+
+	/**
 		Do vertical tiling of all views in the workspace area.
 	*/
 	virtual void TileHorizontally() = 0;
@@ -34,6 +43,12 @@ public:
 		Close all views in the workspace area.
 	*/
 	virtual void CloseAllViews() = 0;
+
+	/**
+		Sets the mode for arrange sub-windows in the workspace.
+		\sa WorkspaceMode
+	*/
+	virtual void SetWorkspaceMode(int mode) = 0;
 };
 
 

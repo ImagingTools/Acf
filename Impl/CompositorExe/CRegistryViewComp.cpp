@@ -1,16 +1,11 @@
 #include "CRegistryViewComp.h"
 
 
-// STL includes
-#include <cmath>
-
 // Qt includes
-#include <QPainter>
-#include <QPaintEvent>
-#include <QMouseEvent>
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+
 
 // ACF includes
 #include "icomp/IRegistryGeometryProvider.h"
@@ -18,13 +13,14 @@
 #include "iser/CMemoryReadArchive.h"
 #include "iser/CMemoryWriteArchive.h"
 
+
+// Compositor includes
 #include "CComponentView.h"
 #include "CComponentConnector.h"
 #include "CRegistryModelComp.h"
 
 
 CRegistryViewComp::CRegistryViewComp()
-:	m_selectedComponentPtr(NULL)
 {
 	SetUpdateFilter(~CRegistryModelComp::CF_POSITION);
 
@@ -69,10 +65,6 @@ CRegistryViewComp::CRegistryViewComp()
 	m_registryMenu.InsertChild(&m_addNoteCommand);
 	m_registryMenu.InsertChild(&m_removeNoteCommand);
 	m_registryCommand.InsertChild(&m_registryMenu);
-
-	m_scenePtr = new CRegistryScene(*this);
-
-	m_scenePtr->setFocus();
 }
 
 
@@ -113,12 +105,12 @@ const idoc::IHierarchicalCommand* CRegistryViewComp::GetCommands() const
 
 void CRegistryViewComp::UpdateEditor()
 {
-	QGraphicsView* viewPtr = GetQtWidget();
+	CRegistryView* viewPtr = GetQtWidget();
 	if (viewPtr == NULL){
 		return;
 	}
 
-	ResetScene();
+	viewPtr->ResetScene();
 
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
@@ -129,17 +121,30 @@ void CRegistryViewComp::UpdateEditor()
 			const std::string& elementId = *iter;
 			const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementId);
 			if (elementInfoPtr != NULL){
-				CComponentView* viewPtr = CreateComponentView(registryPtr, elementInfoPtr, elementId);
+				CComponentView* componentViewPtr = viewPtr->CreateComponentView(registryPtr, elementInfoPtr, elementId);
+				I_ASSERT(componentViewPtr != NULL);
 
+				connect(componentViewPtr, 
+					SIGNAL(selectionChanged(CComponentView*, bool)),
+					this,
+					SLOT(OnComponentViewSelected(CComponentView*, bool)));
+
+				connect(componentViewPtr, 
+					SIGNAL(positionChanged(CComponentView*, const QPoint&)),
+					this,
+					SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
+					Qt::QueuedConnection);
+				
 				icomp::IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
 				if (geomeometryProviderPtr != NULL){
 					i2d::CVector2d position = geomeometryProviderPtr->GetComponentPosition(elementId);
-					viewPtr->setPos(int(position.GetX() + 0.5), int(position.GetY() + 0.5));
+					componentViewPtr->setPos(int(position.GetX() + 0.5), int(position.GetY() + 0.5));
 				}
 
-				if (		m_selectedComponentPtr != NULL && 
-							viewPtr->GetComponentName() == m_selectedComponentPtr->GetComponentName()){
-					viewPtr->setSelected(true);
+				const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
+				if (		selectedComponentPtr != NULL && 
+							componentViewPtr->GetComponentName() == selectedComponentPtr->GetComponentName()){
+					componentViewPtr->setSelected(true);
 				}	
 			}
 		}
@@ -162,8 +167,6 @@ void CRegistryViewComp::OnGuiCreated()
 
 	OnRetranslate();
 
-	I_ASSERT(m_scenePtr != NULL);
-
 	connect(&m_removeComponentCommand, SIGNAL( activated()), this, SLOT(OnRemoveComponent()));
 	connect(&m_renameComponentCommand, SIGNAL( activated()), this, SLOT(OnRenameComponent()));
 	connect(&m_exportToCodeCommand, SIGNAL( activated()), this, SLOT(OnExportToCode()));
@@ -174,23 +177,19 @@ void CRegistryViewComp::OnGuiCreated()
 	connect(&m_exportComponentCommand, SIGNAL( activated()), this, SLOT(OnExportComponent()));
 	connect(&m_exportInterfaceCommand, SIGNAL( activated()), this, SLOT(OnExportInterface()));
 
-	QGraphicsView* viewPtr = GetQtWidget();
-	if (viewPtr != NULL){
-		viewPtr->setDragMode(QGraphicsView::ScrollHandDrag);
-		viewPtr->setScene(m_scenePtr);
-		viewPtr->setCacheMode(QGraphicsView::CacheBackground);
-		viewPtr->setFrameShape(QFrame::NoFrame);
-		viewPtr->setAcceptDrops(true);
-		
-		m_compositeItem.setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-	
-		m_scenePtr->addItem(&m_compositeItem);
-	}
-
 	if (m_registryPreviewCompPtr.IsValid()){
 		connect(&m_executionObserverTimer, SIGNAL(timeout()), this, SLOT(OnExecutionTimerTick()));
 
 		m_executionObserverTimer.start(500);
+	}
+
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr != NULL){
+		connect(viewPtr, 
+					SIGNAL(DropDataEventEntered(const QMimeData&, QGraphicsSceneDragDropEvent*)), 
+					this, 
+					SLOT(ProcessDroppedData(const QMimeData&, QGraphicsSceneDragDropEvent*)));
 	}
 }
 
@@ -249,34 +248,21 @@ void CRegistryViewComp::OnRetranslate()
 }
 
 
-// public slots:
-
-void CRegistryViewComp::SetCenterOn(const std::string& componentName)
-{
-	QGraphicsView* viewPtr = GetQtWidget();
-	if (viewPtr != NULL){
-		QList<QGraphicsItem*> items = m_scenePtr->items();
-		foreach(QGraphicsItem* item, items){
-			CComponentView* itemViewPtr = dynamic_cast<CComponentView*>(item);
-			if (itemViewPtr != NULL){
-				if (componentName == itemViewPtr->GetComponentName()){
-					viewPtr->centerOn(itemViewPtr);
-
-					return;
-				}
-			}
-		}
-	}
-}
-
-
 // protected slots
 
-void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool isSelected)
+void CRegistryViewComp::OnComponentViewSelected(CComponentView* componentViewPtr, bool isSelected)
 {
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
+	const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
+	
 	// detach last model from its observers:
-	if (m_selectedComponentPtr != NULL){
-		const icomp::IRegistry::ElementInfo& elementInfo = m_selectedComponentPtr->GetElementInfo();
+	if (selectedComponentPtr != NULL){
+		const icomp::IRegistry::ElementInfo& elementInfo = selectedComponentPtr->GetElementInfo();
 
 		imod::IModel* registryElementModelPtr = dynamic_cast<imod::IModel*>(elementInfo.elementPtr.GetPtr());
 		if (registryElementModelPtr != NULL){
@@ -285,10 +271,10 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool is
 	}
 
 	if (isSelected){
-		m_selectedComponentPtr = viewPtr;
+		viewPtr->SetSelectedComponent(componentViewPtr);
 
-		if (viewPtr != NULL && m_registryElementObserversCompPtr.IsValid()){
-			const icomp::IRegistry::ElementInfo& elementInfo = m_selectedComponentPtr->GetElementInfo();
+		if (componentViewPtr != NULL && m_registryElementObserversCompPtr.IsValid()){
+			const icomp::IRegistry::ElementInfo& elementInfo = componentViewPtr->GetElementInfo();
 
 			for (int observerIndex = 0; observerIndex < m_registryElementObserversCompPtr.GetCount(); observerIndex++){
 				imod::IObserver* observerPtr = m_registryElementObserversCompPtr[observerIndex];
@@ -302,7 +288,7 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool is
 		}
 	}
 	else{
-		m_selectedComponentPtr = NULL;
+		viewPtr->SetSelectedComponent(NULL);
 	}
 
 	m_removeComponentCommand.setEnabled(isSelected);
@@ -318,45 +304,58 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* viewPtr, bool is
 
 void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const QPoint& newPosition)
 {
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
 	icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(GetObjectPtr());
 	if (geometryProviderPtr != NULL){
 		geometryProviderPtr->SetComponentPosition(view->GetComponentName(), i2d::CVector2d(newPosition.x(), newPosition.y()));
 	}
 
-	double gridSize = GetGrid();
-	QRectF boundingBox = m_compositeItem.childrenBoundingRect();
-	int width = int(::ceil(boundingBox.width() / gridSize) * gridSize);
-	int height = int(::ceil(boundingBox.height() / gridSize) * gridSize);
-	boundingBox.setWidth(width);
-	boundingBox.setHeight(height);
-
-	m_compositeItem.setRect(boundingBox.adjusted(-gridSize, -gridSize, gridSize, gridSize));
+	viewPtr->UpdateCompositeGeometry();
 }
 
 
 void CRegistryViewComp::OnRemoveComponent()
 {
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
-		if (m_selectedComponentPtr != NULL){
-			m_selectedComponentPtr->RemoveAllConnectors();
-			m_scenePtr->removeItem(m_selectedComponentPtr);
+		const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
+
+		if (selectedComponentPtr != NULL){
 			m_removeComponentCommand.setEnabled(false);
 
-			registryPtr->RemoveElementInfo(m_selectedComponentPtr->GetComponentName());
-
-			m_selectedComponentPtr = NULL;
+			registryPtr->RemoveElementInfo(selectedComponentPtr->GetComponentName());
 		}
+
+		viewPtr->RemoveSelectedComponent();
 	}
 }
 
 
 void CRegistryViewComp::OnRenameComponent()
 {
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
-		if (m_selectedComponentPtr != NULL){
-			const std::string& oldName = m_selectedComponentPtr->GetComponentName();
+		CComponentView* selectedComponentPtr = const_cast<CComponentView*>(viewPtr->GetSelectedComponent());
+
+		if (selectedComponentPtr != NULL){
+			const std::string& oldName = selectedComponentPtr->GetComponentName();
 
 			i2d::CVector2d position(0, 0);
 			icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
@@ -364,7 +363,7 @@ void CRegistryViewComp::OnRenameComponent()
 				position = geometryProviderPtr->GetComponentPosition(oldName);
 			}
 
-			const icomp::IRegistry::ElementInfo& oldInfo = m_selectedComponentPtr->GetElementInfo();
+			const icomp::IRegistry::ElementInfo& oldInfo = selectedComponentPtr->GetElementInfo();
 
 			bool isOk = false;
 			std::string newName = QInputDialog::getText(
@@ -435,8 +434,8 @@ void CRegistryViewComp::OnRenameComponent()
 							geometryProviderPtr->SetComponentPosition(newName, position);
 						}
 
-						m_selectedComponentPtr->setPos(position.GetX(), position.GetY());
-						m_selectedComponentPtr->SetElementInfo(newInfoPtr);
+						selectedComponentPtr->setPos(position.GetX(), position.GetY());
+						selectedComponentPtr->SetElementInfo(newInfoPtr);
 
 						return;
 					}
@@ -451,12 +450,19 @@ void CRegistryViewComp::OnRenameComponent()
 
 void CRegistryViewComp::OnExportInterface()
 {
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+	
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
-		if (m_selectedComponentPtr != NULL){
-			const std::string& componentRole = m_selectedComponentPtr->GetComponentName();
+		const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
+		if (selectedComponentPtr != NULL){
+			const std::string& componentRole = selectedComponentPtr->GetComponentName();
 
-			bool doExport = !HasExportedInterfaces(*m_selectedComponentPtr);
+			bool doExport = !HasExportedInterfaces(*selectedComponentPtr);
 
 			registryPtr->SetElementExported(componentRole, istd::CClassInfo(), doExport);
 		}
@@ -515,11 +521,18 @@ void CRegistryViewComp::OnAbort()
 
 void CRegistryViewComp::OnAddNote()
 {
-	I_ASSERT(m_selectedComponentPtr != NULL);
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+	
+	const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();	
+	I_ASSERT(selectedComponentPtr != NULL);
 
 	icomp::IRegistryNotesProvider* providerPtr = dynamic_cast<icomp::IRegistryNotesProvider*>(GetObjectPtr());
 	if (providerPtr != NULL){
-		providerPtr->SetComponentNote(m_selectedComponentPtr->GetComponentName(), istd::CString());
+		providerPtr->SetComponentNote(selectedComponentPtr->GetComponentName(), istd::CString());
 	}
 }
 
@@ -529,125 +542,35 @@ void CRegistryViewComp::OnRemoveNote()
 }
 
 
-// private members
-
-void CRegistryViewComp::ResetScene()
+bool CRegistryViewComp::ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr)
 {
-	QList<QGraphicsItem*> items = m_scenePtr->items();
-	foreach(QGraphicsItem* itemPtr, items){
-		if (itemPtr == &m_compositeItem){
-			continue;
-		}
+	QByteArray byteData = data.data("component");
+	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
 
-		m_scenePtr->removeItem(itemPtr);
+	icomp::CComponentAddress address;
+
+	i2d::CVector2d position(0, 0);
+	if (eventPtr != NULL){
+		position = iqt::GetCVector2d(eventPtr->pos());
 	}
-}
 
-
-void CRegistryViewComp::ScaleView(double scaleFactor)
-{
-	QGraphicsView* viewPtr = GetQtWidget();
-	if (viewPtr != NULL){
-		QMatrix sceneMatrix = viewPtr->matrix();
-		QMatrix scaleMatrix;
-		scaleMatrix.scale(scaleFactor,scaleFactor);
-
-		sceneMatrix *= scaleMatrix;
-		if (sceneMatrix.m11() < 0.3 || sceneMatrix.m11() > 5){
-			return;
-		}
-
-		viewPtr->setMatrix(sceneMatrix);
-		if (m_selectedComponentPtr != NULL){
-			viewPtr->centerOn(m_selectedComponentPtr);
-		}
-
-		viewPtr->viewport()->update();
-	}
-}
-
-
-void CRegistryViewComp::CreateConnector(CComponentView& sourceView, const std::string& referenceComponentId)
-{
-	QList<QGraphicsItem*> items = m_compositeItem.children();
-	foreach(QGraphicsItem* item, items){
-		CComponentView* referenceViewPtr = dynamic_cast<CComponentView*>(item);
-		if ((referenceViewPtr != NULL) && (referenceViewPtr->GetComponentName() == referenceComponentId)){
-			CComponentConnector* connector = new CComponentConnector(this, 
-						&sourceView, 
-						referenceViewPtr, 
-						&m_compositeItem);
-
-			connector->Adjust();
-		}
-	}
-}
-
-
-CComponentView* CRegistryViewComp::CreateComponentView(
-			const icomp::IRegistry* registryPtr,
-			const icomp::IRegistry::ElementInfo* elementInfoPtr,
-			const std::string& role)
-{
-	CComponentView* componentViewPtr = new CComponentView(this, 
-				registryPtr, 
-				elementInfoPtr, 
-				role.c_str(), 
-				&m_compositeItem);
-
-	connect(componentViewPtr, 
-				SIGNAL(selectionChanged(CComponentView*, bool)),
-				this,
-				SLOT(OnComponentViewSelected(CComponentView*, bool)));
-
-	connect(componentViewPtr, 
-				SIGNAL(positionChanged(CComponentView*, const QPoint&)),
-				this,
-				SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
-				Qt::QueuedConnection);
-
-	int itemsCount = m_scenePtr->items().count();
-
-	componentViewPtr->setZValue(itemsCount);
-
-	double gridSize = GetGrid();
-	m_compositeItem.setRect(m_compositeItem.childrenBoundingRect().adjusted(-gridSize, -gridSize, gridSize, gridSize));
-
-	return componentViewPtr;
+	return address.Serialize(archive) && TryCreateComponent(address, position);
 }
 
 
 void CRegistryViewComp::UpdateConnectors()
 {
-	QList<QGraphicsItem*> items = m_compositeItem.children();
-	foreach(QGraphicsItem* item, items){
-		CComponentView* viewPtr = dynamic_cast<CComponentView*>(item);
-		if (viewPtr != NULL){
-			viewPtr->RemoveAllConnectors();
-		}
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
 	}
 
-	bool isDone = false;
-	while (!isDone){
-		isDone = true;
-		QList<QGraphicsItem*> items = m_compositeItem.children();
-		foreach(QGraphicsItem* item, items){
-			CComponentConnector* connectorPtr = dynamic_cast<CComponentConnector*>(item);
-			if (connectorPtr != NULL){
-				m_scenePtr->removeItem(connectorPtr);
-				isDone = false;
-				break;
-			}
-		}
-	}
+	viewPtr->RemoveAllConnectors();
 
-	items = m_compositeItem.children();
+	CRegistryView::ComponentViewList componentViews = viewPtr->GetComponentViews();
 
-	foreach(QGraphicsItem* item, items){
-		CComponentView* componentItemPtr = dynamic_cast<CComponentView*>(item);
-		if (componentItemPtr == NULL){
-			continue;
-		}
+	foreach(CComponentView* componentItemPtr, componentViews){
 		const icomp::IRegistry::ElementInfo& elementInfo = componentItemPtr->GetElementInfo();
 
 		icomp::IRegistryElement::Ids attributeIds = elementInfo.elementPtr->GetAttributeIds();
@@ -664,7 +587,7 @@ void CRegistryViewComp::UpdateConnectors()
 				if (referenceAttributePtr != NULL){		
 					const std::string& componentId = referenceAttributePtr->GetValue();
 				
-					CreateConnector(*componentItemPtr, componentId);
+					viewPtr->CreateConnector(*componentItemPtr, componentId);
 				}
 	
 				const icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<icomp::CMultiReferenceAttribute*>(attributePtr);
@@ -672,7 +595,7 @@ void CRegistryViewComp::UpdateConnectors()
 					for (int referenceIndex = 0; referenceIndex < multiReferenceAttributePtr->GetValuesCount(); referenceIndex++){
 						const std::string& componentId = multiReferenceAttributePtr->GetValueAt(referenceIndex);
 						
-						CreateConnector(*componentItemPtr, componentId);
+						viewPtr->CreateConnector(*componentItemPtr, componentId);
 					}
 				}
 
@@ -680,7 +603,7 @@ void CRegistryViewComp::UpdateConnectors()
 				if (factoryAttributePtr != NULL){		
 					const std::string& componentId = factoryAttributePtr->GetValue();
 				
-					CreateConnector(*componentItemPtr, componentId);
+					viewPtr->CreateConnector(*componentItemPtr, componentId);
 				}
 	
 				const icomp::CMultiFactoryAttribute* multiFactoryAttributePtr = dynamic_cast<icomp::CMultiFactoryAttribute*>(attributePtr);
@@ -688,7 +611,7 @@ void CRegistryViewComp::UpdateConnectors()
 					for (int referenceIndex = 0; referenceIndex < multiFactoryAttributePtr->GetValuesCount(); referenceIndex++){
 						const std::string& componentId = multiFactoryAttributePtr->GetValueAt(referenceIndex);
 						
-						CreateConnector(*componentItemPtr, componentId);
+						viewPtr->CreateConnector(*componentItemPtr, componentId);
 					}
 				}
 			}
@@ -708,21 +631,7 @@ void CRegistryViewComp::OnExecutionTimerTick()
 }
 
 
-bool CRegistryViewComp::ProcessDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* event)
-{
-	QByteArray byteData = data.data("component");
-	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
-
-	icomp::CComponentAddress address;
-
-	i2d::CVector2d position(0, 0);
-	if (event != NULL){
-		position = iqt::GetCVector2d(event->pos());
-	}
-
-	return address.Serialize(archive) && TryCreateComponent(address, position);
-}
-
+// private methods
 
 void CRegistryViewComp::ConnectReferences(const QString& componentRole)
 {
@@ -809,7 +718,14 @@ bool CRegistryViewComp::HasExportedInterfaces(const CComponentView& componentVie
 
 void CRegistryViewComp::UpdateExportInterfaceCommand()
 {
-	if (m_selectedComponentPtr && HasExportedInterfaces(*m_selectedComponentPtr)){
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
+	const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
+	if ((selectedComponentPtr != NULL) && HasExportedInterfaces(*selectedComponentPtr)){
 		m_exportInterfaceCommand.SetVisuals(
 				tr("&Remove Inteface Export"), 
 				tr("&Remove Inteface Export"), 
@@ -825,136 +741,4 @@ void CRegistryViewComp::UpdateExportInterfaceCommand()
 	}
 }
 
-
-// protected methods of embedded class CRegistryViewComp::CCompositeItem
-
-// reimplemented (QGraphicsRectItem)
-
-QVariant CRegistryViewComp::CCompositeItem::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-	int gridSize = CRegistryViewComp::GetGrid();
-
-	switch(change){
-	case QGraphicsItem::ItemSelectedChange:
-		break;
-
-	case QGraphicsItem::ItemPositionChange:
-		{
-			QPoint newPos = value.toPoint();
-/*			newPos.rx() = newPos.rx() - (newPos.rx() % gridSize);
-			newPos.ry() = newPos.ry() - (newPos.ry() % gridSize);
-*/
-			return QVariant(newPos);
-		}
-
-	default:
-		break;
-	}
-
-	return QGraphicsRectItem::itemChange(change, value);
-}
-
-
-void CRegistryViewComp::CCompositeItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
-	QPen pen;
-	pen.setColor(Qt::darkBlue);
-
-	painter->save();
-	if (isSelected()){
-		painter->setRenderHint(QPainter::Antialiasing);
-		pen.setColor(Qt::red);
-	}
-	painter->setPen(pen);
-	painter->drawRect(rect());
-
-	painter->restore();
-}
-
-
-// public methods of embedded class CRegistryScene
-
-CRegistryViewComp::CRegistryScene::CRegistryScene(CRegistryViewComp& parent)
-	:m_parent(parent)
-{
-}
-
-
-// protected methods of embedded class CRegistryScene
-
-// reimplemented (QGraphicsScene)
-
-void CRegistryViewComp::CRegistryScene::keyPressEvent(QKeyEvent* keyEvent)
-{
-	switch(keyEvent->key()){
-	case Qt::Key_Plus:
-		m_parent.ScaleView(pow((double)2, 0.5)); 
-		break;
-	case Qt::Key_Minus:
-		m_parent.ScaleView(pow((double)2, -0.5));
-		break;
-	}
-}
-
-
-void CRegistryViewComp::CRegistryScene::wheelEvent(QGraphicsSceneWheelEvent* event)
-{
-    m_parent.ScaleView(pow((double)2, event->delta() / 240.0));
-}
-
-
-void CRegistryViewComp::CRegistryScene::drawBackground(QPainter* painter, const QRectF & rect)
-{
-	QRectF sceneRect =  this->sceneRect().unite(rect);
-
-	painter->save();
-	painter->fillRect(sceneRect, QBrush(Qt::white));
-
-	const double gridSize = m_parent.GetGrid();
-	QPen pen(Qt::gray);
-	pen.setStyle(Qt::DotLine);
-
-	painter->fillRect(this->sceneRect(), QBrush(Qt::white));
-	painter->setPen(pen);
-
-	for (double x = sceneRect.left(); x < sceneRect.right(); x += gridSize){
-		painter->drawLine(
-					QPointF(x, sceneRect.top()),
-					QPointF(x, sceneRect.bottom()));
-	}
-
-	for (double y = sceneRect.top(); y < sceneRect.bottom(); y += gridSize){
-		painter->drawLine(
-					QPointF(sceneRect.left(), y),
-					QPointF(sceneRect.right(), y));
-	}
-
-	painter->restore();
-}
-
-
-void CRegistryViewComp::CRegistryScene::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
-{
-	const QStringList& formats = event->mimeData()->formats();
-	if (!formats.isEmpty() && (formats.first() == "component")){
-		event->acceptProposedAction();
-	}
-}
-
-
-void CRegistryViewComp::CRegistryScene::dropEvent(QGraphicsSceneDragDropEvent* event)
-{
-	const QMimeData* dataPtr = event->mimeData();
-	if ((dataPtr != NULL) && m_parent.ProcessDroppedData(*dataPtr, event)){
-		event->acceptProposedAction();
-	}
-	else{
-		event->ignore();
-	}
-}
-
-
-void CRegistryViewComp::CRegistryScene::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
-{
-}
 

@@ -2,8 +2,12 @@
 #define iqtdoc_CMultiDocumentWorkspaceGuiComp_included
 
 
-#include <QWorkspace>
+// Qt includes
+#include <QMdiArea>
+#include <QMdiSubWindow>
 
+
+// ACF includes
 #include "ibase/IApplicationInfo.h"
 
 #include "idoc/CDocumentManagerBase.h"
@@ -21,20 +25,20 @@ namespace iqtdoc
 	This class is a Qt-based workspace implementation of a document manager.
 */
 class CMultiDocumentWorkspaceGuiComp:
-			public iqtgui::TGuiComponentBase<QWorkspace>, 
+			public iqtgui::TGuiComponentBase<QMdiArea>, 
 			public idoc::CDocumentManagerBase,
 			public iqtdoc::IWorkspaceController
 {
 	Q_OBJECT
 
 public:
-	typedef iqtgui::TGuiComponentBase<QWorkspace> BaseClass;
+	typedef iqtgui::TGuiComponentBase<QMdiArea> BaseClass;
 	typedef idoc::CDocumentManagerBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentManager)
 		I_REGISTER_INTERFACE(iqtdoc::IWorkspaceController)
-		I_ASSIGN(m_scrollingEnabledAttrPtr, "ScrollingWorkspace", "Enable scrolling of workspace area", true, false)
+		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true)
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list", true, 10)
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate")
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo")
@@ -45,6 +49,7 @@ public:
 	virtual void Tile();
 	virtual void Cascade();
 	virtual void CloseAllViews();
+	virtual void SetWorkspaceMode(int mode);
 
 	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
@@ -98,7 +103,7 @@ protected:
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
 protected slots:
-	void OnWindowActivated(QWidget* window);
+	void OnWindowActivated(QMdiSubWindow* window);
 
 private:
 	template <class Archive> 
@@ -108,7 +113,7 @@ private:
 
 private:
 	I_ATTR(int, m_maxRecentFilesCountAttrPtr);
-	I_ATTR(bool, m_scrollingEnabledAttrPtr);
+	I_ATTR(bool, m_showMaximizedAttrPtr);
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 
