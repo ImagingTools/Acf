@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 #include <QApplication>
 
+
+// ACF includes
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -13,6 +15,8 @@
 
 #include "iqt/iqt.h"
 
+
+// Compositor includes
 #include "CComponentView.h"
 #include "CComponentConnector.h"
 #include "CRegistryView.h"

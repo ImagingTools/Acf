@@ -1,8 +1,11 @@
+// Qt includes
 #include <QMessageBox>
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
 
+
+// ACF includes
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
@@ -13,6 +16,8 @@
 #include "QtPck/QtPck.h"
 #include "BasePck/BasePck.h"
 
+
+// Compositor includes
 #include "CRegistryModelComp.h"
 #include "CRegistryViewComp.h"
 #include "CPackageOverviewComp.h"

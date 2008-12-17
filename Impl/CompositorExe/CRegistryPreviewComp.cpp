@@ -1,5 +1,7 @@
 #include "CRegistryPreviewComp.h"
 
+
+// Qt includes
 #include <QTemporaryFile>
 #include <QApplication>
 #include <QDir>
@@ -8,6 +10,8 @@
 #include <QDesktopWidget>
 #include <QMetaType>
 
+
+// ACF includes
 #include "iser/CXmlFileWriteArchive.h"
 
 

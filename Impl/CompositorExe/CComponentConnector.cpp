@@ -4,13 +4,17 @@
 // STL includes
 #include <cmath>
 
+
 // Qt includes
 #include <QPainter>
+
 
 // ACF includes
 #include "i2d/CVector2d.h"
 #include "iqt/iqt.h"
 
+
+// Compositor includes
 #include "CComponentView.h"
 #include "CRegistryView.h"
 

@@ -7,9 +7,12 @@
 #include <QDir>
 #include <QMessageBox>
 
+
 // ACF includes
 #include "iqt/iqt.h"
 
+
+// Compositor includes
 #include "CRegistryModelComp.h"
 
 
