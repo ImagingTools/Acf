@@ -184,7 +184,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileDialogSerializerComp.cpp"
+				RelativePath="..\CFileDialogLoaderComp.cpp"
 				>
 			</File>
 			<File
@@ -246,7 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileDialogSerializerComp.h"
+				RelativePath="..\CFileDialogLoaderComp.h"
 				>
 			</File>
 			<File

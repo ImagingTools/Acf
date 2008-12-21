@@ -23,8 +23,7 @@ namespace iqt
 bool CBitmapLoaderComp::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* filePathPtr,
-			bool forLoading,
-			bool forSaving,
+			int flags,
 			bool beQuiet) const
 {
 	if ((dataObjectPtr != NULL) && (dynamic_cast<const iqt::IQImageProvider*>(dataObjectPtr) == NULL)){
@@ -50,7 +49,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 			}
 		}
 
-		if (forLoading && !forSaving){
+		if ((flags & QF_NO_SAVING) != 0){
 			if (!info.exists()){
 				if (!beQuiet){
 					SendInfoMessage(MI_FILE_NOT_EXIST, iqt::GetCString(QObject::tr("Image file %1 not exist").arg(qtFilePath)));
@@ -70,7 +69,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 		}
 	}
 
-	return true;
+	return ((flags & QF_ANONYMOUS_ONLY) == 0);
 }
 
 
@@ -81,11 +80,7 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 	if (bitmapPtr != NULL){
 		istd::CChangeNotifier notifier(&data);
 
-		const istd::CString& usedFilePath = (!filePath.IsEmpty() || !m_defaultFilePathAttrPtr.IsValid())?
-					filePath:
-					*m_defaultFilePathAttrPtr;
-
-		QString qtFilePath = iqt::GetQString(usedFilePath);
+		QString qtFilePath = iqt::GetQString(filePath);
 
 		QImage image;
 		if (image.load(qtFilePath)){
@@ -134,15 +129,24 @@ bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppe
 		result.clear();
 	}
 
-	int extensionsCount = m_fileExtensionsAttrPtr.GetCount();
-
-	for (int i = 0; i < extensionsCount; ++i){
-		const istd::CString& extension = m_fileExtensionsAttrPtr[i];
-
-		result.push_back(extension);
-	}
+	result.push_back("bmp");
+	result.push_back("png");
+	result.push_back("jpg");
 
 	return true;
+}
+
+
+istd::CString CBitmapLoaderComp::GetTypeDescription(const istd::CString* extensionPtr) const
+{
+	if (		(extensionPtr == NULL) ||
+				extensionPtr->IsEqualNoCase("bmp") ||
+				extensionPtr->IsEqualNoCase("png") ||
+				extensionPtr->IsEqualNoCase("jpg")){
+		return iqt::GetCString(QObject::tr("Bitmap"));
+	}
+
+	return "";
 }
 
 

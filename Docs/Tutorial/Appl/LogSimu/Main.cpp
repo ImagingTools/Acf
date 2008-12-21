@@ -23,17 +23,18 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> serializerComp;
-	serializerComp.InitComponent();
+	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> logSerializerComp;
+	logSerializerComp.InsertMultiAttr("FileExtensions", istd::CString("xml"));
+	logSerializerComp.InsertMultiAttr("TypeDescriptions", istd::CString("Log File"));
+	logSerializerComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::FileDialogSerializer> fileDialogSerializerComp;
-	fileDialogSerializerComp.InsertMultiRef("Serializers", &serializerComp);
-	fileDialogSerializerComp.InsertMultiAttr("FileFilters", istd::CString("Log Files (*.xml)"));
-	fileDialogSerializerComp.InitComponent();
+	icomp::TSimComponentWrap<QtPck::FileDialogLoader> fileDialogLoaderComp;
+	fileDialogLoaderComp.InsertMultiRef("Loaders", &logSerializerComp);
+	fileDialogLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::Log> log;
 	log.SetIntAttr("MaxMessageCount", 10000);
-	log.SetRef("Serializer", &fileDialogSerializerComp);
+	log.SetRef("Exporter", &fileDialogLoaderComp);
 	log.InitComponent();
 
 	icomp::TSimComponentWrap<CLogClientGuiComp> logClientGui;

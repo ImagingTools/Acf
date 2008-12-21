@@ -55,6 +55,8 @@ int CApplicationComp::Execute(int argc, char** argv)
 			I_ASSERT(splashWidgetPtr != NULL);
 
 			splashWidgetPtr->show();
+
+			m_applicationPtr->processEvents();
 		}
 
 		m_mainGuiCompPtr->CreateGui(NULL);

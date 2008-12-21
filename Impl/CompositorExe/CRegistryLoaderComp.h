@@ -2,18 +2,16 @@
 #define CRegistryLoaderComp_included
 
 
-#include "ibase/TLoggerCompWrap.h"
-
 #include "BasePck/BasePck.h"
 
 
 /**
 	Special registry loader supporting of loading layout data.
 */
-class CRegistryLoaderComp: public ibase::TLoggerCompWrap<BasePck::XmlFileSerializer>
+class CRegistryLoaderComp: public BasePck::XmlFileSerializer
 {
 public:
-	typedef ibase::TLoggerCompWrap<BasePck::XmlFileSerializer> BaseClass;
+	typedef BasePck::XmlFileSerializer BaseClass;
 
 	enum MessageId
 	{
@@ -25,9 +23,16 @@ public:
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:
 	istd::CString GetLayoutPath(const istd::CString& registryPath) const;
+
+	// reimplemented (ibase::TFileSerializerComp)
+	virtual void OnReadError(
+				const iser::CXmlFileReadArchive& archive,
+				const istd::IChangeable& data,
+				const istd::CString& filePath) const;
 };
 
 

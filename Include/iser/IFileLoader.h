@@ -38,20 +38,42 @@ public:
 	};
 
 	/**
+		Describe detailed options of query.
+	*/
+	enum QueryFlags
+	{
+		/**
+			No loading operation should be considered.
+		*/
+		QF_NO_LOADING = 0x0001,
+		/**
+			No saveing operation should be considered.
+		*/
+		QF_NO_SAVING = 0x0002,
+		/**
+			Only operations with specified file name should be considered.
+		*/
+		QF_NAMED_ONLY = 0x0004,
+		/**
+			Only operations without specified file name (anonymous) should be considered.
+		*/
+		QF_ANONYMOUS_ONLY = 0x0008
+	};
+
+	/**
 		Returns \c true if object \c dataObject can be loaded/saved.
 		\param	dataObjectPtr	optional pointer to data object should be loaded/stored.
 								It can be NULL if any object is meant.
 		\param	filePathPtr		optional pointer to file should be loaded/stored.
 								It can be NULL if any file is meant.
-		\param	forLoading		true, if this question is related to loading.
-		\param	forSaving		true, if this question is related to saveing.
+								If it points at empty string, anonymous loading is mean.
+		\param	flags			combination of flags defined in QueryFlags.
 		\param	beQuiet			if true, no user message output is allowed.
 	*/
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				bool forLoading = true,
-				bool forSaving = true,
+				int flags = 0,
 				bool beQuiet = true) const = 0;
 
 	/**
@@ -70,6 +92,10 @@ public:
 		Get file extensions supported by this loader.
 	*/
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const = 0;
+	/**
+		Get description of object type associated with single extension.
+	*/
+	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const = 0;
 };
 
 

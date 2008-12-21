@@ -24,19 +24,20 @@ public:
 	I_BEGIN_COMPONENT(TFileSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
-		I_ASSIGN_MULTI_0(m_extensionsAttrPtr, "Extensions", "List of supported file extensions", false);
+		I_ASSIGN_MULTI_0(m_fileExtensionsAttrPtr, "FileExtensions", "List of supported file extensions", false);
+		I_ASSIGN_MULTI_0(m_typeDescriptionsAttrPtr, "TypeDescriptions", "List of descriptions for each extension", false);
 	I_END_COMPONENT
 
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				bool forLoading = true,
-				bool forSaving = true,
+				int flags = 0,
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:
 	/**
@@ -44,9 +45,15 @@ protected:
 	*/
 	virtual const iser::IVersionInfo* GetVersionInfo() const;
 
+	/**
+		Called if read error is occured.
+	*/
+	virtual void OnReadError(const ReadArchive& archive, const istd::IChangeable& data, const istd::CString& filePath) const;
+
 private:
 	I_REF(iser::IVersionInfo, m_versionInfoCompPtr);
-	I_MULTIATTR(istd::CString, m_extensionsAttrPtr);
+	I_MULTIATTR(istd::CString, m_fileExtensionsAttrPtr);
+	I_MULTIATTR(istd::CString, m_typeDescriptionsAttrPtr);
 };
 
 
@@ -58,8 +65,7 @@ template <class ReadArchive, class WriteArchive>
 bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
 			const istd::CString* /*filePathPtr*/,
-			bool /*forLoading*/,
-			bool /*forSaving*/,
+			int flags,
 			bool beQuiet) const
 {
 	if ((dataObjectPtr != NULL) && (dynamic_cast<const iser::ISerializable*>(dataObjectPtr) == NULL)){
@@ -70,14 +76,14 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 		return false;
 	}
 
-	return true;
+	return ((flags & QF_ANONYMOUS_ONLY) == 0);
 }
 
 
 template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (IsOperationSupported(&data, &filePath, true, false, false)){
+	if (IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
 		ReadArchive archive(filePath);
 		I_ASSERT(!archive.IsStoring());
 
@@ -88,7 +94,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 			return StateOk;
 		}
 		else{
-			SendInfoMessage(MI_CANNOT_LOAD, "Cannot serialize object from file");
+			OnReadError(archive, data, filePath);
 		}
 	}
 
@@ -99,7 +105,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (IsOperationSupported(&data, &filePath, false, true, false)){
+	if (IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
 		WriteArchive archive(filePath, GetVersionInfo());
 		I_ASSERT(archive.IsStoring());
 
@@ -121,22 +127,38 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 template <class ReadArchive, class WriteArchive>
 bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& result, bool doAppend) const
 {
-	if (m_extensionsAttrPtr.IsValid()){
-		if (!doAppend){
-			result.clear();
-		}
-
-		int extensionsCount = m_extensionsAttrPtr.GetCount();
-		for (int i = 0; i < extensionsCount; ++i){
-			const istd::CString& extension = m_extensionsAttrPtr[i];
-
-			result.push_back(extension);
-		}
-
-		return true;
+	if (!doAppend){
+		result.clear();
 	}
 
-	return false;
+	int extensionsCount = istd::Min(m_fileExtensionsAttrPtr.GetCount(), m_typeDescriptionsAttrPtr.GetCount());
+	for (int i = 0; i < extensionsCount; ++i){
+		const istd::CString& extension = m_fileExtensionsAttrPtr[i];
+
+		result.push_back(extension);
+	}
+
+	return true;
+}
+
+
+template <class ReadArchive, class WriteArchive>
+istd::CString TFileSerializerComp<ReadArchive, WriteArchive>::GetTypeDescription(const istd::CString* extensionPtr) const
+{
+	if (extensionPtr != NULL){
+		int extensionsCount = istd::Min(m_fileExtensionsAttrPtr.GetCount(), m_typeDescriptionsAttrPtr.GetCount());
+		for (int extIndex = 0; extIndex < extensionsCount; extIndex++){
+			if (m_fileExtensionsAttrPtr[extIndex] == *extensionPtr){
+				return m_typeDescriptionsAttrPtr[extIndex];
+			}
+		}
+	}
+
+	if (m_typeDescriptionsAttrPtr.GetCount() > 0){
+		return m_typeDescriptionsAttrPtr[0];
+	}
+
+	return "";
 }
 
 
@@ -146,6 +168,13 @@ template <class ReadArchive, class WriteArchive>
 const iser::IVersionInfo* TFileSerializerComp<ReadArchive, WriteArchive>::GetVersionInfo() const
 {
 	return m_versionInfoCompPtr.GetPtr();
+}
+
+
+template <class ReadArchive, class WriteArchive>
+void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(const ReadArchive& /*archive*/, const istd::IChangeable& /*data*/, const istd::CString& filePath) const
+{
+	this->SendInfoMessage(MI_CANNOT_LOAD, istd::CString("Cannot load object from file ") + filePath);
 }
 
 

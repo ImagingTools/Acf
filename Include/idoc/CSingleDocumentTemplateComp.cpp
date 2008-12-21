@@ -7,7 +7,7 @@ namespace idoc
 
 // reimplemented (idoc::IDocumentTemplate)
 
-iser::IFileLoader* CSingleDocumentTemplateComp::GetFileLoader(const std::string& documentTypeId, bool /*forSaving*/) const
+iser::IFileLoader* CSingleDocumentTemplateComp::GetFileLoader(const std::string& documentTypeId) const
 {
 	if (IsDocumentTypeSupported(documentTypeId)){
 		return m_fileLoaderCompPtr.GetPtr();
@@ -58,25 +58,8 @@ void CSingleDocumentTemplateComp::OnComponentCreated()
 	I_ASSERT(m_documentTypeIdAttrPtr.IsValid());
 	SetDocumentTypeId((*m_documentTypeIdAttrPtr).ToString());
 
-	istd::CStringList fileFilters;
-	if (m_fileFiltersAttrPtr.IsValid()){
-		for (int index = 0; index < m_fileFiltersAttrPtr.GetCount(); index++){
-			istd::CString filter = m_fileFiltersAttrPtr[index];
-			fileFilters.push_back(filter);		
-		}
-	}
-	SetFileFilters(fileFilters);
-
 	I_ASSERT(m_defaultDirectoryAttrPtr.IsValid());
 	SetDefaultDirectory(*m_defaultDirectoryAttrPtr);
-
-	istd::CStringList fileExtensions;
-	if (m_fileExtensionsAttrPtr.IsValid()){
-		for (int index = 0; index < m_fileExtensionsAttrPtr.GetCount(); index++){
-			fileExtensions.push_back(m_fileExtensionsAttrPtr[index]);		
-		}
-	}
-	SetFileExtensions(fileExtensions);
 
 	int featureFlags = 0;
 	if (m_isNewSupportedAttrPtr.IsValid() && m_isNewSupportedAttrPtr->GetValue()){

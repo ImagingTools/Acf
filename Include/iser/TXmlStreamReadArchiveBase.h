@@ -15,6 +15,8 @@ class TXmlStreamReadArchiveBase: public CXmlReadArchiveBase
 public:
 	typedef CXmlReadArchiveBase BaseClass;
 
+	int GetLastReadLine() const;
+
 protected:
 	TXmlStreamReadArchiveBase(const iser::CArchiveTag& rootTag = s_acfRootTag);
 
@@ -29,14 +31,25 @@ protected:
 	StreamClass m_stream;
 	char m_lastReadChar;
 	bool m_useLastReadChar;
+
+	int m_lastReadLine;
 };
+
+
+template <class StreamClass>
+int TXmlStreamReadArchiveBase<StreamClass>::GetLastReadLine() const
+{
+	return m_lastReadLine;
+}
 
 
 // protected methods
 
 template <class StreamClass>
 TXmlStreamReadArchiveBase<StreamClass>::TXmlStreamReadArchiveBase(const iser::CArchiveTag& rootTag)
-:	BaseClass(rootTag), m_useLastReadChar(false)
+:	BaseClass(rootTag),
+	m_useLastReadChar(false),
+	m_lastReadLine(0)
 {
 }
 
@@ -57,6 +70,10 @@ bool TXmlStreamReadArchiveBase<StreamClass>::ReadToDelimeter(
 
 	if (!m_useLastReadChar){
 		m_stream.get(m_lastReadChar);
+
+		if (m_lastReadChar == '\n'){
+			++m_lastReadLine;
+		}
 	}
 
 	while (!m_stream.fail()){
@@ -98,6 +115,10 @@ bool TXmlStreamReadArchiveBase<StreamClass>::ReadToDelimeter(
 		}
 
 		m_stream.get(m_lastReadChar);
+
+		if (m_lastReadChar == '\n'){
+			++m_lastReadLine;
+		}
 	}
 
 	return false;

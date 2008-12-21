@@ -8,14 +8,14 @@
 #include <QMessageBox>
 #include <QFileInfo>
 
-
-// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "idoc/IDocumentTemplate.h"
 
 #include "iqt/CSettingsWriteArchive.h"
 #include "iqt/CSettingsReadArchive.h"
+
+#include "iqtgui/CFileDialogLoaderComp.h"
 
 #include "iser/CXmlFileWriteArchive.h"
 #include "iser/CXmlFileReadArchive.h"
@@ -218,34 +218,31 @@ QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string
 
 	const idoc::IDocumentTemplate* templatePtr = GetDocumentTemplate();
 	if (templatePtr != NULL){
-		istd::CStringList filters = templatePtr->GetFileFilters(documentTypeIdPtr);
+		idoc::IDocumentTemplate::Ids docTypeIds = templatePtr->GetDocumentTypeIds();
 
-		if (filters.size() > 1){
-			QString extText;
-			istd::CStringList extensions = templatePtr->GetFileExtensions(documentTypeIdPtr);
+		QString allExt;
+		int filtersCount = 0;
 
-			for (		istd::CStringList::iterator extIter = extensions.begin();
-						extIter != extensions.end();
-						++extIter){
-				if (!extText.isEmpty()){
-					extText += "; ";
-				}
-
-				extText += "*." + iqt::GetQString(*extIter);
+		if (documentTypeIdPtr != NULL){
+			iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*documentTypeIdPtr);
+			if (loaderPtr != NULL){
+				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
 			}
-
-			if (!extText.isEmpty()){
-				retVal = tr("All known documents (%1)").arg(extText);
+		}
+		else{
+			for (		idoc::IDocumentTemplate::Ids::const_iterator docTypeIter = docTypeIds.begin();
+						docTypeIter != docTypeIds.end();
+						++docTypeIter){
+				iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*docTypeIter);
+				if (loaderPtr != NULL){
+					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
+				}
 			}
 		}
 
-		for (		istd::CStringList::iterator filterIter = filters.begin();
-					filterIter != filters.end();
-					++filterIter){
-			if (!retVal.isEmpty()){
-				retVal += "\n";
-			}
-			retVal += iqt::GetQString(*filterIter);
+		if (filtersCount > 1){
+			retVal += "\n";
+			retVal += tr("All known documents (%1)").arg(allExt);
 		}
 	}
 
@@ -426,7 +423,13 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 
 void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QMdiSubWindow* window)
 {
-	iqtgui::IGuiObject* guiObjectPtr = (window != NULL) ? GetViewFromWidget(*window): NULL;
+	iqtgui::IGuiObject* guiObjectPtr = NULL;
+	if (window != NULL){
+		QWidget* widgetPtr = window->widget();
+		if (widgetPtr != NULL){
+			guiObjectPtr = GetViewFromWidget(*widgetPtr);
+		}
+	}
 
 	SetActiveView(guiObjectPtr);
 }	
@@ -443,4 +446,5 @@ void CMultiDocumentWorkspaceGuiComp::UpdateLastDirectory(const QString& filePath
 
 
 } // namespace iqtdoc
+
 

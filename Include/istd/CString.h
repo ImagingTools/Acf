@@ -74,6 +74,8 @@ public:
 
 	CString ToUpper() const;
 	CString ToLower() const;
+
+	bool IsEqualNoCase(const CString& str) const;
 	
 	template <typename NumberType>
 	static CString FromNumber(NumberType number);
@@ -105,6 +107,12 @@ CString CString::FromNumber(NumberType number)
 	stringStream << number;
 
 	return stringStream.str();
+}
+
+
+inline bool CString::IsEqualNoCase(const CString& str) const
+{
+	return ToUpper() == str.ToUpper();
 }
 
 

@@ -24,9 +24,7 @@ public:
 	I_BEGIN_COMPONENT(CSingleDocumentTemplateComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentTemplate)
 		I_ASSIGN(m_documentTypeIdAttrPtr, "DocumentTypeId", "ID of supported document", true, "Default");
-		I_ASSIGN_MULTI_1(m_fileFiltersAttrPtr, "FileFilters", "File filters for this document", true, "Document Files (*.*)")
 		I_ASSIGN(m_defaultDirectoryAttrPtr, "DefaultDirectory", "Default file directory for open file dialog", true, ".")
-		I_ASSIGN_MULTI_1(m_fileExtensionsAttrPtr, "FileExtensions", "The list of possible file extensions for the document", true, "*.*")
 		I_ASSIGN(m_documentCompFact, "DocumentFactory", "Document factory", true, "DocumentFactory")
 		I_ASSIGN(m_modelCompFact, "DocumentFactory", "Document factory", true, "DocumentFactory")
 		I_ASSIGN(m_viewCompFact, "ViewFactory", "Create of document GUI", true, "ViewFactory")
@@ -36,7 +34,7 @@ public:
 	I_END_COMPONENT
 
 	// reimplemented (idoc::IDocumentTemplate)
-	virtual iser::IFileLoader* GetFileLoader(const std::string& documentTypeId, bool forSaving = false) const;
+	virtual iser::IFileLoader* GetFileLoader(const std::string& documentTypeId) const;
 	virtual istd::IChangeable* CreateDocument(const std::string& documentTypeId) const;
 	virtual istd::IPolymorphic* CreateView(
 				const std::string& documentTypeId,
@@ -50,9 +48,7 @@ private:
 	I_ATTR(bool, m_isNewSupportedAttrPtr);
 	I_ATTR(bool, m_isEditSupportedAttrPtr);
 	I_ATTR(istd::CString, m_documentTypeIdAttrPtr);
-	I_MULTIATTR(istd::CString, m_fileFiltersAttrPtr);
 	I_ATTR(istd::CString, m_defaultDirectoryAttrPtr);
-	I_MULTIATTR(istd::CString, m_fileExtensionsAttrPtr);
 	I_FACT(istd::IChangeable, m_documentCompFact);
 	I_FACT(imod::IModel, m_modelCompFact);
 	I_FACT(imod::IObserver, m_viewCompFact);

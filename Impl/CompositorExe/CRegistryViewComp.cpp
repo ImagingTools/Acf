@@ -259,7 +259,7 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* componentViewPtr
 	}
 
 	const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();
-	
+
 	// detach last model from its observers:
 	if (selectedComponentPtr != NULL){
 		const icomp::IRegistry::ElementInfo& elementInfo = selectedComponentPtr->GetElementInfo();

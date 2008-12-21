@@ -35,21 +35,9 @@ void CSingleDocumentTemplateBase::SetDocumentTypeId(const std::string& documentT
 }
 
 
-void CSingleDocumentTemplateBase::SetFileFilters(const istd::CStringList& fileFilters)
-{
-	m_fileFilters = fileFilters;
-}
-
-
 void CSingleDocumentTemplateBase::SetDefaultDirectory(const istd::CString& defaultDirectory)
 {
 	m_defaultDirectory = defaultDirectory;
-}
-
-
-void CSingleDocumentTemplateBase::SetFileExtensions(const istd::CStringList& fileExtensions)
-{	
-	m_fileExtensions = fileExtensions;
 }
 
 
@@ -87,17 +75,21 @@ IDocumentTemplate::Ids CSingleDocumentTemplateBase::GetViewTypeIds(const std::st
 
 IDocumentTemplate::Ids CSingleDocumentTemplateBase::GetDocumentTypeIdsForFile(const istd::CString& filePath) const
 {
-	isys::IFileSystem* fileSystemPtr = istd::GetService<isys::IFileSystem>();
-	if (fileSystemPtr != NULL){
-		istd::CString fileExtension = fileSystemPtr->GetExtension(filePath);
-		istd::CStringList::const_iterator findIter = std::find(m_fileExtensions.begin(), m_fileExtensions.end(), fileExtension);
+	IDocumentTemplate::Ids retVal;
 
-		if (findIter == m_fileExtensions.end()){
-			return Ids();
+	Ids docTypeIds = GetDocumentTypeIds();
+	for (		Ids::const_iterator iter = docTypeIds.begin();
+				iter != docTypeIds.end();
+				++iter){
+		const std::string& id = *iter;
+
+		iser::IFileLoader* loaderPtr = GetFileLoader(*iter);
+		if (loaderPtr->IsOperationSupported(NULL, &filePath)){
+			retVal.push_back(id);
 		}
 	}
 
-	return GetDocumentTypeIds();
+	return retVal;
 }
 
 
@@ -116,26 +108,6 @@ imod::IUndoManager* CSingleDocumentTemplateBase::CreateUndoManager(const std::st
 	}
 
 	return NULL;
-}
-
-
-istd::CStringList CSingleDocumentTemplateBase::GetFileFilters(const std::string* documentTypeIdPtr) const
-{
-	if ((documentTypeIdPtr == NULL) || IsDocumentTypeSupported(*documentTypeIdPtr)){
-		return m_fileFilters;
-	}
-
-	return istd::CStringList();
-}
-
-
-istd::CStringList CSingleDocumentTemplateBase::GetFileExtensions(const std::string* documentTypeIdPtr) const
-{
-	if ((documentTypeIdPtr == NULL) || IsDocumentTypeSupported(*documentTypeIdPtr)){
-		return m_fileExtensions;
-	}
-
-	return istd::CStringList();
 }
 
 

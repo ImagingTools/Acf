@@ -42,7 +42,7 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	const IAttributeStaticInfo* GetAttributeStaticInfo(const std::string& attributeId) const;
+	virtual const IAttributeStaticInfo* GetAttributeStaticInfo(const std::string& attributeId) const;
 
 private:
 	const IComponentStaticInfo& m_staticInfo;

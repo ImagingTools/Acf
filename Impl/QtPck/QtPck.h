@@ -15,7 +15,7 @@
 #include "iqtgui/CSplashScreenGuiComp.h"
 #include "iqtgui/CLogGuiComp.h"
 #include "iqtgui/CIconProviderComp.h" 
-#include "iqtgui/CFileDialogSerializerComp.h"
+#include "iqtgui/CFileDialogLoaderComp.h"
 #include "iqtgui/CDockWidgetGuiComp.h"
 #include "iqtgui/CFreeWidgetGuiComp.h"
 #include "iqtgui/CSelectionParamGuiComp.h"
@@ -57,7 +57,7 @@ typedef iqtgui::CApplicationComp GuiApplication;
 typedef iqtgui::CSplashScreenGuiComp SplashScreen;
 typedef icomp::TModelCompWrap<iqtgui::CLogGuiComp> Log;
 typedef iqtgui::CIconProviderComp IconProvider;
-typedef iqtgui::CFileDialogSerializerComp FileDialogSerializer;
+typedef iqtgui::CFileDialogLoaderComp FileDialogLoader;
 typedef iqtgui::CDockWidgetGuiComp DockWidgetGui;
 typedef iqtgui::CFreeWidgetGuiComp FreeWidgetGui;
 typedef iqtgui::CSelectionParamGuiComp SelectionParamGui;

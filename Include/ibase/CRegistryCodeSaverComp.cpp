@@ -13,15 +13,14 @@ namespace ibase
 bool CRegistryCodeSaverComp::IsOperationSupported(
 		const istd::IChangeable* dataObjectPtr,
 		const istd::CString* /*filePathPtr*/,
-		bool /*forLoading*/,
-		bool forSaving,
+		int flags,
 		bool /*beQuiet*/) const
 {
 	if (dynamic_cast<const icomp::IRegistry*>(dataObjectPtr) == NULL){
 		return false;
 	}
 
-	return forSaving;
+	return (flags & QF_NO_SAVING) == 0;
 }
 
 
@@ -81,6 +80,20 @@ bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, bool d
 	result.push_back("cpp");
 
 	return true;
+}
+
+
+istd::CString CRegistryCodeSaverComp::GetTypeDescription(const istd::CString* extensionPtr) const
+{
+	if (		(extensionPtr == NULL) ||
+				extensionPtr->IsEqualNoCase("h") ||
+				extensionPtr->IsEqualNoCase("hpp") ||
+				extensionPtr->IsEqualNoCase("c") ||
+				extensionPtr->IsEqualNoCase("cpp")){
+		return "QSF registry file";
+	}
+
+	return "";
 }
 
 

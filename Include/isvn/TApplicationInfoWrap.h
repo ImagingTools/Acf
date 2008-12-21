@@ -16,10 +16,10 @@ public:
 	typedef Base BaseClass;
 
 	// pseudo-reimplemented (ibase::IApplicationInfo)
-	virtual istd::CString EncodeVersionName(I_DWORD version, int versionId = UserVersionId) const;
+	virtual istd::CString GetEncodedVersionName(int versionId, I_DWORD versionNumber) const;
 
 	// pseudo-reimplemented (iser::IVersionInfo)
-	virtual I_DWORD GetVersion(int versionId = UserVersionId) const;
+	virtual bool GetVersionNumber(int versionId, I_DWORD& result) const;
 	virtual istd::CString GetVersionIdDescription(int versionId) const;
 	virtual iser::IVersionInfo::VersionIds GetVersionIds() const;
 };
@@ -30,11 +30,11 @@ public:
 // pseudo-reimplemented (ibase::IApplicationInfo)
 
 template <class Base>
-istd::CString TApplicationInfoWrap<Base>::EncodeVersionName(I_DWORD version, int versionId) const
+istd::CString TApplicationInfoWrap<Base>::GetEncodedVersionName(int versionId, I_DWORD versionNumber) const
 {
-	istd::CString retVal = BaseClass::EncodeVersionName(version, versionId);
+	istd::CString retVal = BaseClass::GetEncodedVersionName(versionId, versionNumber);
 
-	if ((RS_DIRTY_FLAG != 0) && (versionId == FrameworkVersionId) && (version == RS_USE_VERSION)){
+	if ((RS_DIRTY_FLAG != 0) && (versionId == FrameworkVersionId) && (versionNumber == RS_USE_VERSION)){
 		return retVal + "´";
 	}
 
@@ -45,13 +45,15 @@ istd::CString TApplicationInfoWrap<Base>::EncodeVersionName(I_DWORD version, int
 // pseudo-reimplemented (iser::IVersionInfo)
 
 template <class Base>
-I_DWORD TApplicationInfoWrap<Base>::GetVersion(int versionId) const
+bool TApplicationInfoWrap<Base>::GetVersionNumber(int versionId, I_DWORD& result) const
 {
 	if (versionId == FrameworkVersionId){
-		return RS_USE_VERSION;
+		result = RS_USE_VERSION;
+
+		return true;
 	}
 	else{
-		return BaseClass::GetVersion(versionId);
+		return BaseClass::GetVersionNumber(versionId, result);
 	}
 }
 

@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QFileInfo>
+#include <QAction>
 
 
 namespace iqtdoc
@@ -28,18 +29,34 @@ const idoc::IHierarchicalCommand* CExtendedDocumentTemplateComp::GetCommands() c
 
 idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsForFile(const istd::CString& filePath) const
 {
-	QString path = iqt::GetQString(filePath);
-	istd::CStringList extensions = GetFileExtensions();
-	for (		istd::CStringList::const_iterator iter = extensions.begin();
-				iter != extensions.end();
+	idoc::IDocumentTemplate::Ids retVal;
+
+	idoc::IDocumentTemplate::Ids allIds = GetDocumentTypeIds();
+
+	QString qtFilePath = iqt::GetQString(filePath);
+
+	for (		IDocumentTemplate::Ids::const_iterator iter = allIds.begin();
+				iter != allIds.end();
 				++iter){
-		QString extension = iqt::GetQString(*iter);
-		if (path.endsWith(extension, Qt::CaseInsensitive)){
-			return GetDocumentTypeIds();
+		const std::string& id = *iter;
+
+		istd::CStringList extensions;
+		iser::IFileLoader* loaderPtr = GetFileLoader(id);
+		if ((loaderPtr != NULL) && loaderPtr->GetFileExtensions(extensions)){
+			for (		istd::CStringList::const_iterator iter = extensions.begin();
+						iter != extensions.end();
+						++iter){
+				QString extension = iqt::GetQString(*iter);
+				if (qtFilePath.endsWith(extension, Qt::CaseInsensitive)){
+					retVal.push_back(id);
+
+					break;
+				}
+			}
 		}
 	}
 
-	return idoc::IDocumentTemplate::Ids();
+	return retVal;
 }
 
 
@@ -55,6 +72,7 @@ void CExtendedDocumentTemplateComp::OnComponentCreated()
 	if (m_aboutGuiCompPtr.IsValid()){
 		iqtgui::CHierarchicalCommand* aboutMenuPtr = new iqtgui::CHierarchicalCommand("&Help");
 		iqtgui::CHierarchicalCommand* aboutCommandPtr = new iqtgui::CHierarchicalCommand(m_aboutCommandText);
+		aboutCommandPtr->setMenuRole(QAction::AboutRole);
 
 		connect(aboutCommandPtr, SIGNAL(activated()), this, SLOT(OnAboutCommand()));
 

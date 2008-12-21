@@ -26,9 +26,7 @@ public:
 	const std::string& GetDocumentTypeId() const;
 	virtual void SetSupportedFeatures(int featureFlags);
 	virtual void SetDocumentTypeId(const std::string& documentTypeId);
-	virtual void SetFileFilters(const istd::CStringList& fileFilters);
 	virtual void SetDefaultDirectory(const istd::CString& defaultDirectory);
-	virtual void SetFileExtensions(const istd::CStringList& fileExtensions);
 
 	// reimplemented (idoc::IDocumentTemplate)
 	virtual bool IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const;
@@ -36,8 +34,6 @@ public:
 	virtual Ids GetViewTypeIds(const std::string& documentTypeId) const;
 	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
 	imod::IUndoManager* CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const;
-	virtual istd::CStringList GetFileFilters(const std::string* documentTypeIdPtr = NULL) const;
-	virtual istd::CStringList GetFileExtensions(const std::string* documentTypeIdPtr = NULL) const;
 	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
 
 protected:
@@ -47,9 +43,7 @@ protected:
 	idoc::IDocumentManager* m_documentManagerPtr;
 
 private:
-	istd::CStringList m_fileFilters;
 	istd::CString m_defaultDirectory;
-	istd::CStringList m_fileExtensions;
 
 	std::string m_documentTypeId;
 	std::string m_viewTypeId;

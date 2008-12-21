@@ -5,9 +5,11 @@ namespace iqtgui
 {
 
 
+// protected methods
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
-void CSplashScreenGuiComp::OnGuiShown()
+void CSplashScreenGuiComp::OnGuiCreated()
 {
 	istd::CString acfVersionText;
 	istd::CString productVersionText;

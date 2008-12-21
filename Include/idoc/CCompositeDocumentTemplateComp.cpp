@@ -67,13 +67,13 @@ IDocumentTemplate::Ids CCompositeDocumentTemplateComp::GetDocumentTypeIdsForFile
 }
 
 
-iser::IFileLoader* CCompositeDocumentTemplateComp::GetFileLoader(const std::string& documentTypeId, bool forSaving) const
+iser::IFileLoader* CCompositeDocumentTemplateComp::GetFileLoader(const std::string& documentTypeId) const
 {
 	IdToTemplateMap::const_iterator iter = m_idToTemplateMap.find(documentTypeId);
 	if (iter != m_idToTemplateMap.end()){
 		I_ASSERT(iter->second != NULL);
 
-		return iter->second->GetFileLoader(documentTypeId, forSaving);
+		return iter->second->GetFileLoader(documentTypeId);
 	}
 	else{
 		return NULL;
@@ -123,66 +123,6 @@ imod::IUndoManager* CCompositeDocumentTemplateComp::CreateUndoManager(const std:
 	else{
 		return NULL;
 	}
-}
-
-
-istd::CStringList CCompositeDocumentTemplateComp::GetFileFilters(const std::string* documentTypeIdPtr) const
-{
-	istd::CStringList retVal;
-
-	if (documentTypeIdPtr != NULL){
-		IdToTemplateMap::const_iterator iter = m_idToTemplateMap.find(*documentTypeIdPtr);
-		if (iter != m_idToTemplateMap.end()){
-			I_ASSERT(iter->second != NULL);
-
-			return iter->second->GetFileFilters(documentTypeIdPtr);
-		}
-		else{
-			return retVal;
-		}
-	}
-
-	int slavesCount = m_slaveTemplatesCompPtr.GetCount();
-	for (int i = 0; i < slavesCount; ++i){
-		const IDocumentTemplate* slavePtr = m_slaveTemplatesCompPtr[i];
-		if (slavePtr != NULL){
-			istd::CStringList filters = slavePtr->GetFileFilters(NULL);
-
-			retVal.insert(retVal.end(), filters.begin(), filters.end());
-		}
-	}
-
-	return retVal;
-}
-
-
-istd::CStringList CCompositeDocumentTemplateComp::GetFileExtensions(const std::string* documentTypeIdPtr) const
-{
-	istd::CStringList retVal;
-
-	if (documentTypeIdPtr != NULL){
-		IdToTemplateMap::const_iterator iter = m_idToTemplateMap.find(*documentTypeIdPtr);
-		if (iter != m_idToTemplateMap.end()){
-			I_ASSERT(iter->second != NULL);
-
-			return iter->second->GetFileExtensions(documentTypeIdPtr);
-		}
-		else{
-			return retVal;
-		}
-	}
-
-	int slavesCount = m_slaveTemplatesCompPtr.GetCount();
-	for (int i = 0; i < slavesCount; ++i){
-		const IDocumentTemplate* slavePtr = m_slaveTemplatesCompPtr[i];
-		if (slavePtr != NULL){
-			istd::CStringList filters = slavePtr->GetFileExtensions(NULL);
-
-			retVal.insert(retVal.end(), filters.begin(), filters.end());
-		}
-	}
-
-	return retVal;
 }
 
 

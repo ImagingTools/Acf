@@ -32,8 +32,9 @@ public:
 		I_ASSIGN(m_copyrightTextAttrPtr, "CopyrightText", "Optional copyright text", false, "(C) Copyright 2008 CompanyName\n\nAll rights reseved")
 	I_END_COMPONENT
 
+protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiShown();
+	virtual void OnGuiCreated();
 
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);

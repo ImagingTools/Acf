@@ -255,6 +255,11 @@ void CMainWindowGuiComp::OnActiveViewChanged()
 
 void CMainWindowGuiComp::OnActiveDocumentChanged()
 {
+	imod::IModel* oldModelPtr = m_activeUndoManager.GetModelPtr();
+	if (oldModelPtr != NULL){
+		oldModelPtr->DetachObserver(&m_activeUndoManager);
+	}
+
 	idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
 	if (documentManagerPtr != NULL){
 		imod::IModel* activeUndoManagerModelPtr = dynamic_cast<imod::IModel*>(documentManagerPtr->GetUndoManagerForDocument(m_activeDocumentPtr));

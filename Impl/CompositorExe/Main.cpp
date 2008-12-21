@@ -28,11 +28,16 @@
 
 int main(int argc, char *argv[])
 {
+	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
+	application.SetBoolAttr("ShowMaximized", true);
+	application.SetDoubleAttr("SplashTime", 1.5);
+	application.EnsureInitialized(argc, argv);
+
 	Q_INIT_RESOURCE(iqtgui);
 
 	QApplication::setStyle("plastique");
 
-	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
+	icomp::TSimComponentWrap<BasePck::ApplicationInfoExt> applicationInfo;
 	applicationInfo.SetStringAttr("ApplicationName", "ACF Compositor");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();
@@ -45,12 +50,6 @@ int main(int argc, char *argv[])
 	lockDockComp.SetIntAttr("DockArea", 2);
 	lockDockComp.SetStringAttr("DockTitle", "Log");
 	lockDockComp.InitComponent();
-
-	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
-	application.SetRef("ApplicationInfo", &applicationInfo);
-	application.SetBoolAttr("ShowMaximized", true);
-	application.SetDoubleAttr("SplashTime", 1);
-	application.EnsureInitialized(argc, argv);
 
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
@@ -150,8 +149,6 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
 	documentTemplateComp.SetRef("DocumentLoader", &registryLoaderComp);
-	documentTemplateComp.InsertMultiAttr("FileFilters", istd::CString("Component registry files (*.arx)"));
-	documentTemplateComp.InsertMultiAttr("FileExtensions", istd::CString("arx"));
 	documentTemplateComp.SetBoolAttr("IsEditSupported", true);
 	documentTemplateComp.SetBoolAttr("IsNewSupported", true);
 	documentTemplateComp.InitComponent();
@@ -182,6 +179,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
 	mainWindowComp.InitComponent();
 
+	application.SetRef("ApplicationInfo", &applicationInfo);
 	application.SetRef("MainGui", &mainWindowComp);
 	application.SetRef("SplashScreen", &splashScreenGui);
 	application.InitComponent();

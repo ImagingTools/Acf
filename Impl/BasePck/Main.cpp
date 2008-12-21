@@ -15,7 +15,8 @@ I_EXPORT_COMPONENT(XmlFileSerializer, "Simple file serializer using XML format",
 I_EXPORT_COMPONENT(BinaryFileSerializer, "Simple file serializer for binary files", "Binary File Serializer Archive Format");
 I_EXPORT_COMPONENT(TextFileSerializer, "Simple file serializer for text files", "Text File Serializer Format");
 I_EXPORT_COMPONENT(Instantiator, "Access specified components forcing to create its instances", "Instance Init Create Free Components");
-I_EXPORT_COMPONENT(ApplicationInfo, "Simple application info based of SVN version", "Application Info SVN SubVersion Version");
+I_EXPORT_COMPONENT(ApplicationInfo, "Simple application info", "Application Info Version");
+I_EXPORT_COMPONENT(ApplicationInfoExt, "Application info with ACF information based of SVN version", "Application Info ACF SVN SubVersion Version");
 I_EXPORT_COMPONENT(SelectableParamsSet, "Composed set of parameters", "Model Parameters Set Selection Options List");
 I_EXPORT_COMPONENT(ParamsManager, "Manager of parameters set", "Model Parameters Set Manager");
 I_EXPORT_COMPONENT(ComposedParamsSet, "Composed set of parameters", "Parameters Set List Composition Composed");

@@ -2,16 +2,13 @@
 #include "icomp/TSimComponentsFactory.h"
 
 
-#include "BasePck/BasePck.h"
 #include "QtPck/QtPck.h"
-
-#include "TutorialPck/TutorialPck.h"
+#include "BasePck/BasePck.h"
 
 
 int main(int argc, char *argv[])
 {
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
-	application.SetDoubleAttr("SplashTime", 1.5);
 	application.EnsureInitialized(argc, argv);
 
 	Q_INIT_RESOURCE(iqtgui);
@@ -20,7 +17,7 @@ int main(int argc, char *argv[])
 	applicationInfo.SetIntAttr("VersionNumber", 1000);
 	applicationInfo.InsertMultiAttr("KnownVersions", 1000);
 	applicationInfo.InsertMultiAttr("KnownVersionNames", istd::CString("1.0.0"));
-	applicationInfo.SetStringAttr("ApplicationName", "DocView");
+	applicationInfo.SetStringAttr("ApplicationName", "ImageView");
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
@@ -30,22 +27,20 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentsFactory<BasePck::TextDocument> modelFactoryComp;
-	modelFactoryComp.SetStringAttr("DefaultText", "Ahoj przygodo!");
+	icomp::TSimComponentsFactory<QtPck::Bitmap> modelFactoryComp;
+	icomp::TSimComponentsFactory<QtPck::ImageView> viewFactoryComp;
+	viewFactoryComp.SetBoolAttr("AllowWidgetResize", true);
 
-	icomp::TSimComponentsFactory<TutorialPck::TextEditor> viewFactoryComp;
-
-	icomp::TSimComponentWrap<BasePck::BinaryFileSerializer> serializerComp;
-	serializerComp.InsertMultiAttr("FileExtensions", istd::CString("bin"));
-	serializerComp.InsertMultiAttr("TypeDescriptions", istd::CString("Binary text files"));
-	serializerComp.InitComponent();
+	icomp::TSimComponentWrap<QtPck::BitmapLoader> bitmapLoaderComp;
+	bitmapLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;
+	documentTemplateComp.SetRef("AboutGui", &splashScreenGui);
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
-	documentTemplateComp.SetRef("DocumentLoader", &serializerComp);
-	documentTemplateComp.SetBoolAttr("IsEditSupported", true);
-	documentTemplateComp.SetBoolAttr("IsNewSupported", true);
+	documentTemplateComp.SetRef("DocumentLoader", &bitmapLoaderComp);
+	documentTemplateComp.SetBoolAttr("IsEditSupported", false);
+	documentTemplateComp.SetBoolAttr("IsNewSupported", false);
 	documentTemplateComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::MultiDocWorkspaceGui> workspaceComp;

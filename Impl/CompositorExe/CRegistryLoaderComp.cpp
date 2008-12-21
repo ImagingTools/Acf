@@ -78,6 +78,16 @@ bool CRegistryLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAp
 }
 
 
+istd::CString CRegistryLoaderComp::GetTypeDescription(const istd::CString* extensionPtr) const
+{
+	if ((extensionPtr == NULL) || extensionPtr->IsEqualNoCase("arx")){
+		return iqt::GetCString(QObject::tr("QSF registry file"));
+	}
+
+	return "";
+}
+
+
 // protected methods
 
 istd::CString CRegistryLoaderComp::GetLayoutPath(const istd::CString& registryPath) const
@@ -86,6 +96,21 @@ istd::CString CRegistryLoaderComp::GetLayoutPath(const istd::CString& registryPa
 	QString layoutPath = fileInfo.dir().absoluteFilePath(fileInfo.completeBaseName() + ".alx");
 
 	return iqt::GetCString(layoutPath);
+}
+
+
+// reimplemented (ibase::TFileSerializerComp)
+
+void CRegistryLoaderComp::OnReadError(
+			const iser::CXmlFileReadArchive& archive,
+			const istd::IChangeable& data,
+			const istd::CString& filePath) const
+{
+	int lastReadLine = archive.GetLastReadLine();
+
+	QString message = QObject::tr("Cannot load object from file %1 (Line: %2)").arg(iqt::GetQString(filePath)).arg(lastReadLine);
+
+	SendInfoMessage(MI_CANNOT_LOAD, iqt::GetCString(message));
 }
 
 

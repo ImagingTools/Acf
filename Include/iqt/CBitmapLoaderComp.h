@@ -38,20 +38,18 @@ public:
 
 	I_BEGIN_COMPONENT(CBitmapLoaderComp);
 	I_REGISTER_INTERFACE(iser::IFileLoader);
-		I_ASSIGN(m_defaultFilePathAttrPtr, "DefaultFilePath", "Default file name used if no path is specified", false, "DefaultImage.png");
-		I_ASSIGN_MULTI_3(m_fileExtensionsAttrPtr, "FileExtensions", "List of bitmap file extensions like 'bmp'", false, "png", "bmp", "jpg");
 	I_END_COMPONENT;
 
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				bool forLoading = true,
-				bool forSaving = true,
+				int flags = 0,
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:
 	bool IsOperationSupportedIntern(
@@ -60,10 +58,6 @@ protected:
 				bool forLoading,
 				bool forSaving,
 				bool useLog) const;
-
-private:
-	I_ATTR(istd::CString, m_defaultFilePathAttrPtr);
-	I_MULTIATTR(istd::CString, m_fileExtensionsAttrPtr);
 };
 
 

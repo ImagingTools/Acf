@@ -33,6 +33,8 @@
 #include "i2d/CAnnulus.h"
 #include "i2d/CAnnulusSegment.h"
 
+#include "isvn/TApplicationInfoWrap.h"
+
 
 /**
 	Base system-undependent general package.
@@ -46,6 +48,7 @@ typedef ibase::TFileSerializerComp<iser::CFileReadArchive, iser::CFileWriteArchi
 typedef ibase::CTextFileLoaderComp TextFileSerializer;
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
+typedef isvn::TApplicationInfoWrap<ApplicationInfo> ApplicationInfoExt;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;

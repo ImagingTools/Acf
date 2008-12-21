@@ -31,7 +31,7 @@ I_EXPORT_COMPONENT(GuiApplication, "Main entry point for window based Qt applica
 I_EXPORT_COMPONENT(SplashScreen, "Splash screen", "Splash Screen Start Begin Qt GUI");
 I_EXPORT_COMPONENT(Log, "Applcation log as simple list", "Log Info List Qt GUI");
 I_EXPORT_COMPONENT(IconProvider, "Icon provider", "Icons Qt GUI"); 
-I_EXPORT_COMPONENT(FileDialogSerializer, "File dialog serializer", "File Serialization Serializer Dialog GUI Qt"); 
+I_EXPORT_COMPONENT(FileDialogLoader, "File dialog loader", "File Loader Serialization Serializer Dialog GUI Qt"); 
 I_EXPORT_COMPONENT(ModelEditorGui, "Connection between GUI and model components", "Model Observer Editor GUI Connection Connector Qt");
 I_EXPORT_COMPONENT(ExtendedDocumentTemplate, "Extended serialized document template", "Serialized Document Template Qt");
 I_EXPORT_COMPONENT(MainWindowGui, "Main Qt application window", "Main Window Start Begin GUI Qt");

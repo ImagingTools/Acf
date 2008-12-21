@@ -16,23 +16,23 @@ namespace ibase
 // reimplemented (iser::IFileLoader)
 
 bool CTextFileLoaderComp::IsOperationSupported(
-		const istd::IChangeable* dataObjectPtr,
-		const istd::CString* filePathPtr,
-		bool forLoading,
-		bool/* forSaving*/,
-		bool /*beQuiet*/) const
+			const istd::IChangeable* dataObjectPtr,
+			const istd::CString* filePathPtr,
+			int flags,
+			bool /*beQuiet*/) const
 {
-	if (dynamic_cast<const ITextDocument*>(dataObjectPtr) == NULL){
+	if ((filePathPtr != NULL) && filePathPtr->IsEmpty()){
 		return false;
 	}
 
-	return true;
+	return		(dynamic_cast<const ITextDocument*>(dataObjectPtr) != NULL) &&
+				((flags & QF_ANONYMOUS_ONLY) == 0);
 }
 
 
 int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (!IsOperationSupported(&data, &filePath, true, false, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
 		return StateFailed;
 	}
 
@@ -68,7 +68,7 @@ int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 
 int CTextFileLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (!IsOperationSupported(&data, &filePath, false, true, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
 		return StateFailed;
 	}
 
@@ -100,13 +100,31 @@ bool CTextFileLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAp
 		result.clear();
 	}
 
-	if (m_fileExtensionsAttrPtr.IsValid()){
-		for (int extIndex = 0; extIndex < m_fileExtensionsAttrPtr.GetCount(); extIndex++){
-			result.push_back(m_fileExtensionsAttrPtr[extIndex]);
-		}
+	int extensionsCount = istd::Min(m_fileExtensionsAttrPtr.GetCount(), m_typeDescriptionsAttrPtr.GetCount());
+	for (int extIndex = 0; extIndex < extensionsCount; extIndex++){
+		result.push_back(m_fileExtensionsAttrPtr[extIndex]);
 	}
 
 	return true;
+}
+
+
+istd::CString CTextFileLoaderComp::GetTypeDescription(const istd::CString* extensionPtr) const
+{
+	if (extensionPtr != NULL){
+		int extensionsCount = istd::Min(m_fileExtensionsAttrPtr.GetCount(), m_typeDescriptionsAttrPtr.GetCount());
+		for (int extIndex = 0; extIndex < extensionsCount; extIndex++){
+			if (m_fileExtensionsAttrPtr[extIndex] == *extensionPtr){
+				return m_typeDescriptionsAttrPtr[extIndex];
+			}
+		}
+	}
+
+	if (m_typeDescriptionsAttrPtr.GetCount() > 0){
+		return m_typeDescriptionsAttrPtr[0];
+	}
+
+	return "";
 }
 
 

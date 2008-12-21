@@ -4,9 +4,7 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "istd/CClassInfo.h"
-
 #include "icomp/CCompositeComponent.h"
-
 #include "iqt/iqt.h"
 
 
@@ -248,3 +246,5 @@ bool CRegistryModelComp::SerializeNote(iser::IArchive& archive, std::string& com
 
 	return retVal;
 }
+
+

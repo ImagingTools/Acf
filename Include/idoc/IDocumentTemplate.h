@@ -76,7 +76,7 @@ public:
 		\param	documentTypeId	type ID of document will be loaded/saved.
 		\param	forSaving		if it is true, document saving is meant, otherwise document loading.
 	*/
-	virtual iser::IFileLoader* GetFileLoader(const std::string& documentTypeId, bool forSaving = false) const = 0;
+	virtual iser::IFileLoader* GetFileLoader(const std::string& documentTypeId) const = 0;
 
 	/**
 		Creates a document instance for document type \c documentTypeId.
@@ -98,22 +98,6 @@ public:
 		\param	documentPtr	pointer to document object.
 	*/
 	virtual imod::IUndoManager* CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const = 0;
-
-	/**
-		Get list of file filters supported by this document template.
-		\param	documentTypeIdPtr	optional specification of document ID
-								for which list of filters should be returned.
-								If it is NULL, all filters will be returned.
-	*/
-	virtual istd::CStringList GetFileFilters(const std::string* documentTypeIdPtr = NULL) const = 0;
-
-	/**
-		Returns registered file extensions for this document template.
-		\param	documentTypeIdPtr	optional specification of document ID
-								for which list of possible extensions should be returned.
-								If it is NULL, all possible extensions will be returned.
-	*/
-	virtual istd::CStringList GetFileExtensions(const std::string* documentTypeIdPtr = NULL) const = 0;
 
 	/**
 		Return default directory for specified document type.

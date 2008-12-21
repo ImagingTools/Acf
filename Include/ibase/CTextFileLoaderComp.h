@@ -20,21 +20,23 @@ public:
 	I_BEGIN_COMPONENT(CTextFileLoaderComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
 		I_ASSIGN_MULTI_1(m_fileExtensionsAttrPtr, "FileExtensions", "List of possible file extensions", false, "txt");
+		I_ASSIGN_MULTI_1(m_typeDescriptionsAttrPtr, "TypeDescriptions", "List of descriptions for each extension", false, "Text file");
 	I_END_COMPONENT
 
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				bool forLoading = true,
-				bool forSaving = true,
+				int flags = 0,
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 private:
 	I_MULTIATTR(istd::CString, m_fileExtensionsAttrPtr);
+	I_MULTIATTR(istd::CString, m_typeDescriptionsAttrPtr);
 };
 
 
