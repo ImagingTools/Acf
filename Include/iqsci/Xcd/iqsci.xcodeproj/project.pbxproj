@@ -8,26 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		223456790ED2E572006EC826 /* CTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CTextEditor.cpp */; };
-		223456800ED2E572006EC826 /* CTextEditorComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CTextEditorComp.cpp */; };
+		223456800ED2E572006EC826 /* CTextEditorGuiComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CTextEditorGuiComp.cpp */; };
 		223456810ED2E572006EC826 /* CTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CTextEditor.h */; };
 		223456820ED2E572006EC826 /* CTextEditor.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* CTextEditor.moc */; };
-		223456830ED2E572006EC826 /* CTextEditorComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CTextEditorComp.h */; };
-		223456840ED2E572006EC826 /* CTextEditorComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CTextEditorComp.moc */; };
+		223456830ED2E572006EC826 /* CTextEditorGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CTextEditorGuiComp.h */; };
+		223456840ED2E572006EC826 /* CTextEditorGuiComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CTextEditorGuiComp.moc */; };
 		223456850ED2E572006EC826 /* iqsci.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* iqsci.h */; };
 		223456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */; };
-		223456870ED2E572006EC826 /* generated\moc_CTextEditorComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* generated\moc_CTextEditorComp.cpp */; };
+		223456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */; };
+		223456880ED2E572006EC826 /* generated\ui_CTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */; };
+		223456890ED2E572006EC826 /* CTextEditor.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* CTextEditor.ui */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123456790ED2E572006EC826 /* CTextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditor.cpp; path = ../CTextEditor.cpp; sourceTree = SOURCE_ROOT; };
-		123456800ED2E572006EC826 /* CTextEditorComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorComp.cpp; path = ../CTextEditorComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456800ED2E572006EC826 /* CTextEditorGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorGuiComp.cpp; path = ../CTextEditorGuiComp.cpp; sourceTree = SOURCE_ROOT; };
 		123456810ED2E572006EC826 /* CTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditor.h; path = ../CTextEditor.h; sourceTree = SOURCE_ROOT; };
 		123456820ED2E572006EC826 /* CTextEditor.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditor.moc; path = ../CTextEditor.moc; sourceTree = SOURCE_ROOT; };
-		123456830ED2E572006EC826 /* CTextEditorComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorComp.h; path = ../CTextEditorComp.h; sourceTree = SOURCE_ROOT; };
-		123456840ED2E572006EC826 /* CTextEditorComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorComp.moc; path = ../CTextEditorComp.moc; sourceTree = SOURCE_ROOT; };
+		123456830ED2E572006EC826 /* CTextEditorGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorGuiComp.h; path = ../CTextEditorGuiComp.h; sourceTree = SOURCE_ROOT; };
+		123456840ED2E572006EC826 /* CTextEditorGuiComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorGuiComp.moc; path = ../CTextEditorGuiComp.moc; sourceTree = SOURCE_ROOT; };
 		123456850ED2E572006EC826 /* iqsci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqsci.h; path = ../iqsci.h; sourceTree = SOURCE_ROOT; };
 		123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\moc_CTextEditor.cpp; path = ../generated/moc_CTextEditor.cpp; sourceTree = SOURCE_ROOT; };
-		123456870ED2E572006EC826 /* generated\moc_CTextEditorComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\moc_CTextEditorComp.cpp; path = ../generated/moc_CTextEditorComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\moc_CTextEditorGuiComp.cpp; path = ../generated/moc_CTextEditorGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\ui_CTextEditor.h; path = ../generated/ui_CTextEditor.h; sourceTree = SOURCE_ROOT; };
+		123456890ED2E572006EC826 /* CTextEditor.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditor.ui; path = ../CTextEditor.ui; sourceTree = SOURCE_ROOT; };
 		D2AAC046055464E500DB518D /* libiqsci.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiqsci.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -60,8 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				123456810ED2E572006EC826 /* CTextEditor.h */,
-				123456830ED2E572006EC826 /* CTextEditorComp.h */,
+				123456830ED2E572006EC826 /* CTextEditorGuiComp.h */,
 				123456850ED2E572006EC826 /* iqsci.h */,
+				123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -70,9 +75,9 @@
 			isa = PBXGroup;
 			children = (
 				123456790ED2E572006EC826 /* CTextEditor.cpp */,
-				123456800ED2E572006EC826 /* CTextEditorComp.cpp */,
+				123456800ED2E572006EC826 /* CTextEditorGuiComp.cpp */,
 				123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */,
-				123456870ED2E572006EC826 /* generated\moc_CTextEditorComp.cpp */,
+				123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -80,6 +85,7 @@
 		C6A0FF2B0290797F04C91782 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
+				123456890ED2E572006EC826 /* CTextEditor.ui */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
@@ -102,7 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				123456820ED2E572006EC826 /* CTextEditor.moc */,
-				123456840ED2E572006EC826 /* CTextEditorComp.moc */,
+				123456840ED2E572006EC826 /* CTextEditorGuiComp.moc */,
 			);
 			name = Garbages;
 			sourceTree = "<group>";
@@ -123,8 +129,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				223456810ED2E572006EC826 /* CTextEditor.h in Headers */,
-				223456830ED2E572006EC826 /* CTextEditorComp.h in Headers */,
+				223456830ED2E572006EC826 /* CTextEditorGuiComp.h in Headers */,
 				223456850ED2E572006EC826 /* iqsci.h in Headers */,
+				223456880ED2E572006EC826 /* generated\ui_CTextEditor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,15 +182,17 @@
 			);
 			inputPaths = (
 				../CTextEditor.h,
-				../CTextEditorComp.h,
+				../CTextEditorGuiComp.h,
+				../CTextEditor.ui,
 			);
 			outputPaths = (
 				../Generated/moc_CTextEditor.cpp,
-				../Generated/moc_CTextEditorComp.cpp,
+				../Generated/moc_CTextEditorGuiComp.cpp,
+				../Generated/ui_CTextEditor.h,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "moc -o ../Generated/moc_CTextEditor.cpp ../CTextEditor.h\nmoc -o ../Generated/moc_CTextEditorComp.cpp ../CTextEditorComp.h\n";
+			shellScript = "moc -o ../Generated/moc_CTextEditor.cpp ../CTextEditor.h\nmoc -o ../Generated/moc_CTextEditorGuiComp.cpp ../CTextEditorGuiComp.h\nuic -o ../Generated/ui_CTextEditor.h ../CTextEditor.ui\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -193,9 +202,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				223456790ED2E572006EC826 /* CTextEditor.cpp in Sources */,
-				223456800ED2E572006EC826 /* CTextEditorComp.cpp in Sources */,
+				223456800ED2E572006EC826 /* CTextEditorGuiComp.cpp in Sources */,
 				223456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp in Sources */,
-				223456870ED2E572006EC826 /* generated\moc_CTextEditorComp.cpp in Sources */,
+				223456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

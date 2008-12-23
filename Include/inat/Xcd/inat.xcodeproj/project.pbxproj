@@ -9,15 +9,17 @@
 /* Begin PBXBuildFile section */
 		223456790ED2E572006EC826 /* CCriticalSection.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CCriticalSection.h */; };
 		223456800ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CDllFunctionsProvider.h */; };
-		223456810ED2E572006EC826 /* inat.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* inat.h */; };
-		223456820ED2E572006EC826 /* TComPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* TComPtr.h */; };
+		223456810ED2E572006EC826 /* CTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CTimer.h */; };
+		223456820ED2E572006EC826 /* inat.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* inat.h */; };
+		223456830ED2E572006EC826 /* TComPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* TComPtr.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123456790ED2E572006EC826 /* CCriticalSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCriticalSection.h; path = ../CCriticalSection.h; sourceTree = SOURCE_ROOT; };
 		123456800ED2E572006EC826 /* CDllFunctionsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDllFunctionsProvider.h; path = ../CDllFunctionsProvider.h; sourceTree = SOURCE_ROOT; };
-		123456810ED2E572006EC826 /* inat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inat.h; path = ../inat.h; sourceTree = SOURCE_ROOT; };
-		123456820ED2E572006EC826 /* TComPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TComPtr.h; path = ../TComPtr.h; sourceTree = SOURCE_ROOT; };
+		123456810ED2E572006EC826 /* CTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTimer.h; path = ../CTimer.h; sourceTree = SOURCE_ROOT; };
+		123456820ED2E572006EC826 /* inat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inat.h; path = ../inat.h; sourceTree = SOURCE_ROOT; };
+		123456830ED2E572006EC826 /* TComPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TComPtr.h; path = ../TComPtr.h; sourceTree = SOURCE_ROOT; };
 		D2AAC046055464E500DB518D /* libinat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libinat.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -51,8 +53,9 @@
 			children = (
 				123456790ED2E572006EC826 /* CCriticalSection.h */,
 				123456800ED2E572006EC826 /* CDllFunctionsProvider.h */,
-				123456810ED2E572006EC826 /* inat.h */,
-				123456820ED2E572006EC826 /* TComPtr.h */,
+				123456810ED2E572006EC826 /* CTimer.h */,
+				123456820ED2E572006EC826 /* inat.h */,
+				123456830ED2E572006EC826 /* TComPtr.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -109,8 +112,9 @@
 			files = (
 				223456790ED2E572006EC826 /* CCriticalSection.h in Headers */,
 				223456800ED2E572006EC826 /* CDllFunctionsProvider.h in Headers */,
-				223456810ED2E572006EC826 /* inat.h in Headers */,
-				223456820ED2E572006EC826 /* TComPtr.h in Headers */,
+				223456810ED2E572006EC826 /* CTimer.h in Headers */,
+				223456820ED2E572006EC826 /* inat.h in Headers */,
+				223456830ED2E572006EC826 /* TComPtr.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

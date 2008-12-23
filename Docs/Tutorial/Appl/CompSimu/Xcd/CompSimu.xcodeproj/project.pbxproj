@@ -7,20 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		223456790ED2E572006EC826 /* CGzXmlReadArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CGzXmlReadArchive.cpp */; };
-		223456800ED2E572006EC826 /* CGzXmlWriteArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CGzXmlWriteArchive.cpp */; };
-		223456810ED2E572006EC826 /* CGzXmlReadArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CGzXmlReadArchive.h */; };
-		223456820ED2E572006EC826 /* CGzXmlWriteArchive.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* CGzXmlWriteArchive.h */; };
-		223456830ED2E572006EC826 /* izlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* izlib.h */; };
+		223456790ED2E572006EC826 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		123456790ED2E572006EC826 /* CGzXmlReadArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGzXmlReadArchive.cpp; path = ../CGzXmlReadArchive.cpp; sourceTree = SOURCE_ROOT; };
-		123456800ED2E572006EC826 /* CGzXmlWriteArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGzXmlWriteArchive.cpp; path = ../CGzXmlWriteArchive.cpp; sourceTree = SOURCE_ROOT; };
-		123456810ED2E572006EC826 /* CGzXmlReadArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGzXmlReadArchive.h; path = ../CGzXmlReadArchive.h; sourceTree = SOURCE_ROOT; };
-		123456820ED2E572006EC826 /* CGzXmlWriteArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CGzXmlWriteArchive.h; path = ../CGzXmlWriteArchive.h; sourceTree = SOURCE_ROOT; };
-		123456830ED2E572006EC826 /* izlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = izlib.h; path = ../izlib.h; sourceTree = SOURCE_ROOT; };
-		D2AAC046055464E500DB518D /* libizlib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libizlib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		123456790ED2E572006EC826 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../main.cpp; sourceTree = SOURCE_ROOT; };
+		D2AAC046055464E500DB518D /* CompSimu_exe.app */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = CompSimu_exe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +26,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08FB7794FE84155DC02AAC07 /* izlib */ = {
+		08FB7794FE84155DC02AAC07 /* CompSimu_exe */ = {
 			isa = PBXGroup;
 			children = (
 				EAB5AC950ED2E587006EC826 /* Header */,
@@ -45,15 +37,12 @@
 				EA9856A60EEABE5300C738EF /* Garbages */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
-			name = izlib;
+			name = CompSimu_exe;
 			sourceTree = "<group>";
 		};
 		EAB5AC950ED2E587006EC826 /* Header */ = {
 			isa = PBXGroup;
 			children = (
-				123456810ED2E572006EC826 /* CGzXmlReadArchive.h */,
-				123456820ED2E572006EC826 /* CGzXmlWriteArchive.h */,
-				123456830ED2E572006EC826 /* izlib.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -61,8 +50,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				123456790ED2E572006EC826 /* CGzXmlReadArchive.cpp */,
-				123456800ED2E572006EC826 /* CGzXmlWriteArchive.cpp */,
+				123456790ED2E572006EC826 /* main.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -98,7 +86,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC046055464E500DB518D /* libizlib.a */,
+				D2AAC046055464E500DB518D /* CompSimu_exe.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,18 +98,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				223456810ED2E572006EC826 /* CGzXmlReadArchive.h in Headers */,
-				223456820ED2E572006EC826 /* CGzXmlWriteArchive.h in Headers */,
-				223456830ED2E572006EC826 /* izlib.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC045055464E500DB518D /* izlib */ = {
+		D2AAC045055464E500DB518D /* CompSimu_exe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "izlib" */;
+			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "CompSimu_exe" */;
 			buildPhases = (
 				EA6981130EEBF38E00FE4110 /* ShellScript */,
 				D2AAC043055464E500DB518D /* Headers */,
@@ -132,24 +117,24 @@
 			);
 			dependencies = (
 			);
-			name = izlib;
-			productName = izlib;
-			productReference = D2AAC046055464E500DB518D /* libizlib.a */;
-			productType = "com.apple.product-type.library.static";
+			name = CompSimu_exe;
+			productName = CompSimu_exe;
+			productReference = D2AAC046055464E500DB518D /* CompSimu_exe.app */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "izlib" */;
+			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "CompSimu_exe" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
-			mainGroup = 08FB7794FE84155DC02AAC07 /* izlib */;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* CompSimu_exe */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC045055464E500DB518D /* izlib */,
+				D2AAC045055464E500DB518D /* CompSimu_exe */,
 			);
 		};
 /* End PBXProject section */
@@ -176,8 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				223456790ED2E572006EC826 /* CGzXmlReadArchive.cpp in Sources */,
-				223456800ED2E572006EC826 /* CGzXmlWriteArchive.cpp in Sources */,
+				223456790ED2E572006EC826 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,16 +173,16 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "a";
-				EXECUTABLE_PREFIX = "lib";
+				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
+				EXECUTABLE_EXTENSION = "app";
+				EXECUTABLE_PREFIX = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = izlib;
+				PRODUCT_NAME = CompSimu_exe;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -208,13 +192,13 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "a";
-				EXECUTABLE_PREFIX = "lib";
+				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
+				EXECUTABLE_EXTENSION = "app";
+				EXECUTABLE_PREFIX = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = izlib;
+				PRODUCT_NAME = CompSimu_exe;
 			};
 			name = Release;
 		};
@@ -226,13 +210,17 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					../../../../../Include,
+					../../../../../Impl,
 					../..,
 					/Library/Frameworks/QtCore.framework/Headers,
 					/Library/Frameworks/QtGui.framework/Headers,
 					/Library/Frameworks/QtNetwork.framework/Headers,
 					/Library/Frameworks/QtScript.framework/Headers,
 					/Library/Frameworks/QtXml.framework/Headers,
-					"${ZLIBDIR}/include",
+					"${ACFDIR}/Include",
+					"${ACFDIR}/Impl",
+					"${QScintilla}/include",
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
@@ -251,13 +239,17 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					../../../../../Include,
+					../../../../../Impl,
 					../..,
 					/Library/Frameworks/QtCore.framework/Headers,
 					/Library/Frameworks/QtGui.framework/Headers,
 					/Library/Frameworks/QtNetwork.framework/Headers,
 					/Library/Frameworks/QtScript.framework/Headers,
 					/Library/Frameworks/QtXml.framework/Headers,
-					"${ZLIBDIR}/include",
+					"${ACFDIR}/Include",
+					"${ACFDIR}/Impl",
+					"${QScintilla}/include",
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
@@ -267,7 +259,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "izlib" */ = {
+		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "CompSimu_exe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91EC08733DB70010E9CD /* Debug */,
@@ -276,7 +268,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "izlib" */ = {
+		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "CompSimu_exe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Debug */,
