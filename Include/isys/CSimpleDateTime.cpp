@@ -42,6 +42,8 @@ bool CSimpleDateTime::SetCurrentTime()
 {
 #ifdef WIN32
 	_tzset();
+#elif defined(__linux__)
+	tzset();
 #endif
 
 #ifdef _MSC_VER

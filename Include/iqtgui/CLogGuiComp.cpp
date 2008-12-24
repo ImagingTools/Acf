@@ -18,8 +18,10 @@ CLogGuiComp::CLogGuiComp()
 	m_categoryNameMap[ibase::IMessage::MC_ERROR] = tr("Error");
 	m_categoryNameMap[ibase::IMessage::MC_CRITICAL] = tr("Critical");
 
+	qRegisterMetaType<QVariant>("QVariant");
+
 	connect(this, SIGNAL(EmitAddMessage(QTreeWidgetItem*)), this, SLOT(OnAddMessage(QTreeWidgetItem*)), Qt::QueuedConnection);
-	connect(this, SIGNAL(EmitRemoveMessage(int)), this, SLOT(OnRemoveMessage(int)), Qt::QueuedConnection);
+	connect(this, SIGNAL(EmitRemoveMessage(QVariant)), this, SLOT(OnRemoveMessage(QVariant)), Qt::QueuedConnection);
 	connect(this, SIGNAL(EmitReset()), this, SLOT(OnReset()), Qt::QueuedConnection);
 }
 
@@ -51,8 +53,8 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 		treeItemPtr->setToolTip(TimeColumn, iqt::GetQString(message.GetText()));
 		treeItemPtr->setToolTip(MessageColumn, iqt::GetQString(message.GetText()));
 		treeItemPtr->setToolTip(SourceColumn, iqt::GetQString(message.GetText()));
-		treeItemPtr->setData(0, MessageId, int(&message));
-		treeItemPtr->setData(0, MessageCategory, message.GetCategory());
+		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue((void*)&message));
+		treeItemPtr->setData(0, DR_CATEGORY, message.GetCategory());
 
 		QColor messageColor;
 		switch (message.GetCategory()){
@@ -86,7 +88,9 @@ void CLogGuiComp::UpdateItemState(QTreeWidgetItem& item) const
 {
 	int currentCategory = CategorySlider->value();
 
-	item.setHidden(item.data(0, MessageCategory).toInt() < currentCategory);
+	int itemCategory = item.data(0, DR_CATEGORY).toInt();
+
+	item.setHidden(itemCategory < currentCategory);
 }
 
 
@@ -126,7 +130,7 @@ void CLogGuiComp::OnBeginChanges(int changeFlags, istd::IPolymorphic* changePara
 	if (changeFlags & ibase::IMessageContainer::MessageRemoved){
 		ibase::IMessage* messagePtr = dynamic_cast<ibase::IMessage*>(changeParamsPtr);
 		if (messagePtr != NULL){
-			emit EmitRemoveMessage(int(messagePtr));
+			emit EmitRemoveMessage(QVariant::fromValue((void*)messagePtr));
 		}
 	}
 
@@ -163,13 +167,13 @@ void CLogGuiComp::OnAddMessage(QTreeWidgetItem* itemPtr)
 }
 
 
-void CLogGuiComp::OnRemoveMessage(int id)
+void CLogGuiComp::OnRemoveMessage(QVariant messageId)
 {
 	for (int itemIndex = 0; itemIndex < LogView->topLevelItemCount(); itemIndex++){
 		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
 		I_ASSERT(itemPtr != NULL);
 
-		if (itemPtr->data(0, MessageId).toInt() == id){
+		if (itemPtr->data(0, DR_MESSAGE_ID) == messageId){
 			delete LogView->takeTopLevelItem(itemIndex);
 
 			break;

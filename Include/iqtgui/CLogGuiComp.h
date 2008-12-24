@@ -45,6 +45,10 @@ public:
 
 	CLogGuiComp();
 
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+
+protected:
 	enum Column
 	{
 		TimeColumn = 0,
@@ -52,16 +56,12 @@ public:
 		MessageColumn = 2
 	};
 
-	enum Role
+	enum DataRole
 	{
-		MessageId = Qt::UserRole,
-		MessageCategory
+		DR_MESSAGE_ID = Qt::UserRole,
+		DR_CATEGORY
 	};
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
-protected:
 	/**
 		Create GUI item corresponding to specified message.
 	*/
@@ -77,7 +77,7 @@ protected:
 
 protected slots:
 	void OnAddMessage(QTreeWidgetItem* itemPtr);
-	void OnRemoveMessage(int id);
+	void OnRemoveMessage(QVariant messageId);
 	void OnReset();
 
 	void on_ClearButton_clicked();
@@ -86,7 +86,7 @@ protected slots:
 
 signals:
 	void EmitAddMessage(QTreeWidgetItem* itemPtr);
-	void EmitRemoveMessage(int);
+	void EmitRemoveMessage(QVariant);
 	void EmitReset();
 
 private:

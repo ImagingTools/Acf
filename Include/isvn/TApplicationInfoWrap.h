@@ -73,7 +73,7 @@ istd::CString TApplicationInfoWrap<Base>::GetVersionIdDescription(int versionId)
 template <class Base>
 iser::IVersionInfo::VersionIds TApplicationInfoWrap<Base>::GetVersionIds() const
 {
-	VersionIds retVal = BaseClass::GetVersionIds();
+	iser::IVersionInfo::VersionIds retVal = BaseClass::GetVersionIds();
 
 	retVal.insert(iser::IVersionInfo::FrameworkVersionId);
 
