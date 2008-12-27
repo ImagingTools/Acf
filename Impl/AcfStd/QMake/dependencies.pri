@@ -1,0 +1,13 @@
+CONFIG += lib_bundle
+INCLUDEPATH = ../../../Include
+SUBDIRS += ../../../Include/istd/QMake
+SUBDIRS += ../../../Include/iser/QMake
+SUBDIRS += ../../../Include/imod/QMake
+SUBDIRS += ../../../Include/imath/QMake
+SUBDIRS += ../../../Include/iimg/QMake
+SUBDIRS += ../../../Include/idoc/QMake
+SUBDIRS += ../../../Include/icomp/QMake
+SUBDIRS += ../../../Include/icmm/QMake
+SUBDIRS += ../../../Include/ibase/QMake
+SUBDIRS += ../../../Include/i2d/QMake
+LIBS += istd iser imod imath iimg idoc icomp icmm ibase i2d

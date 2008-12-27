@@ -1,0 +1,63 @@
+TARGET = iqt
+TEMPLATE = lib
+CONFIG += staticlib
+CONFIG -= qt
+
+CONFIG(debug, debug|release) {
+	DESTDIR = ../../../Lib/DebugQMake
+}
+CONFIG(release, debug|release) {
+	DESTDIR = ../../../Lib/ReleaseQMake
+}
+
+UI_DIR = ../Generated
+MOC_DIR = ../Generated
+RCC_DIR = ../Generated
+
+QT += 
+
+
+INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
+
+HEADERS += ../CApplicationEnvironment.h
+HEADERS += ../CBitmap.h
+HEADERS += ../CBitmapLoaderComp.h
+HEADERS += ../CCriticalSection.h
+HEADERS += ../CDateTime.h
+HEADERS += ../CDefaultServicesProvider.h
+HEADERS += ../CDirList.h
+HEADERS += ../CDllFunctionsProvider.h
+HEADERS += ../CFileList.h
+HEADERS += ../CPackagesLoaderComp.h
+HEADERS += ../CReflectedBitmapBase.h
+HEADERS += ../CSettingsArchiveBase.h
+HEADERS += ../CSettingsReadArchive.h
+HEADERS += ../CSettingsSerializerComp.h
+HEADERS += ../CSettingsWriteArchive.h
+HEADERS += ../CSignalBlocker.h
+HEADERS += ../CTimer.h
+HEADERS += ../CXmlFileReadArchive.h
+HEADERS += ../CXmlFileWriteArchive.h
+HEADERS += ../IQImageProvider.h
+HEADERS += ../iqt.h
+HEADERS += ../ITranslationManager.h
+SOURCES += ../CApplicationEnvironment.cpp
+SOURCES += ../CBitmap.cpp
+SOURCES += ../CBitmapLoaderComp.cpp
+SOURCES += ../CCriticalSection.cpp
+SOURCES += ../CDateTime.cpp
+SOURCES += ../CDefaultServicesProvider.cpp
+SOURCES += ../CDirList.cpp
+SOURCES += ../CDllFunctionsProvider.cpp
+SOURCES += ../CFileList.cpp
+SOURCES += ../CPackagesLoaderComp.cpp
+SOURCES += ../CReflectedBitmapBase.cpp
+SOURCES += ../CSettingsArchiveBase.cpp
+SOURCES += ../CSettingsReadArchive.cpp
+SOURCES += ../CSettingsSerializerComp.cpp
+SOURCES += ../CSettingsWriteArchive.cpp
+SOURCES += ../CSignalBlocker.cpp
+SOURCES += ../CTimer.cpp
+SOURCES += ../CXmlFileReadArchive.cpp
+SOURCES += ../CXmlFileWriteArchive.cpp
+SOURCES += ../iqt.cpp
