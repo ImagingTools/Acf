@@ -57,10 +57,11 @@ CONFIG += staticlib
 			</xsl:when>
 		</xsl:choose>
 		<xsl:text>
-debug {
+CONFIG(debug, debug|release) {
 </xsl:text>
 		<xsl:if test="contains(Configurations/Configuration[2]/@OutputDirectory, '$(ConfigurationName)VC8')">
-			<xsl:text>	DESTDIR = </xsl:text><xsl:value-of select="concat(substring-before(Configurations/Configuration[2]/@OutputDirectory, '$(ConfigurationName)VC8'), 'DebugQMake')"/>
+			<xsl:text>	DESTDIR = </xsl:text>
+			<xsl:value-of select="concat(substring-before(Configurations/Configuration[2]/@OutputDirectory, '$(ConfigurationName)VC8'), 'DebugQMake')"/>
 			<xsl:text>
 </xsl:text>
 		</xsl:if>
@@ -77,7 +78,7 @@ debug {
 </xsl:text>
 		</xsl:if>
 		<xsl:text>}
-release {
+CONFIG(release, debug|release) {
 </xsl:text>
 		<xsl:if test="contains(Configurations/Configuration[1]/@OutputDirectory, '$(ConfigurationName)VC8')">
 			<xsl:text>	DESTDIR = </xsl:text><xsl:value-of select="concat(substring-before(Configurations/Configuration[2]/@OutputDirectory, '$(ConfigurationName)VC8'), 'ReleaseQMake')"/>
@@ -185,6 +186,16 @@ QT += </xsl:text>
 		<xsl:param name = "UserParam" select="''"/>
 		<xsl:variable name="SmallName" select="translate($Path, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.', 'abcdefghijklmnopqrstuvwxyz_')"/>
 
+		<xsl:variable name="CorrectedPath">
+			<xsl:if test="contains($Path, '$(ConfigurationName)')">
+				<xsl:value-of select = "substring-before($Path, '$(ConfigurationName)')"/>
+				<xsl:value-of select = "$UserParam"/>
+			</xsl:if>
+			<xsl:if test = "not(contains($Path, '$(ConfigurationName)'))">
+				<xsl:value-of select = "$Path"/>
+			</xsl:if>
+		</xsl:variable>
+
 		<xsl:choose>
 			<xsl:when test = "$Mode='ProjIncludes'">
 				<xsl:text>include(</xsl:text>
@@ -213,20 +224,16 @@ QT += </xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
-			<xsl:otherwise>
-				<xsl:if test = "not(contains($Path, '(QTDIR)') or contains($Path, 'Generated'))">
-					<xsl:if test = "$Mode='LinkerPath'">
-						<xsl:text>-L</xsl:text>
-					</xsl:if>
-					<xsl:if test="contains($Path, '$(ConfigurationName)')">
-						<xsl:value-of select = "substring-before($Path, '$(ConfigurationName)')"/>
-						<xsl:value-of select = "$UserParam"/>
-					</xsl:if>
-					<xsl:if test = "not(contains($Path, '$(ConfigurationName)'))">
-						<xsl:value-of select = "$Path"/>
-					</xsl:if>
+			<xsl:when test = "$Mode='LinkerPath'">
+				<xsl:if test = "not(contains($Path, '(QTDIR)'))">
+					<xsl:text>-L</xsl:text>
+					<xsl:value-of select = "$CorrectedPath"/>
 					<xsl:text> </xsl:text>
 				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select = "$CorrectedPath"/>
+				<xsl:text> </xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
