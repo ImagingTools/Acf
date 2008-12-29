@@ -354,6 +354,8 @@ int TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::InsertLayer(int dimens
 
 	positions.insert(positions.begin() + layerIndex + 1, position);
 	m_fulcrums = newFulcrums;
+	
+	return layerIndex;
 }
 
 
