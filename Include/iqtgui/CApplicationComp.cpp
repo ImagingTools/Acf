@@ -33,7 +33,10 @@ bool CApplicationComp::EnsureInitialized(int argc, char** argv)
 		}
 
 		m_applicationPtr->setStyle(appStyle.c_str());
-		m_applicationPtr->setWindowIcon(QIcon(":/Icons/acfLogo"));
+		QIcon icon;
+		icon.addFile(":/Icons/acfLogoSmall");
+		icon.addFile(":/Icons/acfLogo3d");
+		m_applicationPtr->setWindowIcon(icon);
 	}
 
 	return true;
