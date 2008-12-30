@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		223456790ED2E572006EC826 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* Main.cpp */; };
+		223456790ED2E572006EC826 /* CmpstrPck.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CmpstrPck.cpp */; };
+		223456800ED2E572006EC826 /* CmpstrPck.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CmpstrPck.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		123456790ED2E572006EC826 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Main.cpp; path = ../Main.cpp; sourceTree = SOURCE_ROOT; };
-		D2AAC046055464E500DB518D /* Compositor.app */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = Compositor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		123456790ED2E572006EC826 /* CmpstrPck.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CmpstrPck.cpp; path = ../CmpstrPck.cpp; sourceTree = SOURCE_ROOT; };
+		123456800ED2E572006EC826 /* CmpstrPck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CmpstrPck.h; path = ../CmpstrPck.h; sourceTree = SOURCE_ROOT; };
+		D2AAC046055464E500DB518D /* CmpstrPck.arp */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = CmpstrPck.arp; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,7 +28,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08FB7794FE84155DC02AAC07 /* Compositor */ = {
+		08FB7794FE84155DC02AAC07 /* CmpstrPck */ = {
 			isa = PBXGroup;
 			children = (
 				EAB5AC950ED2E587006EC826 /* Header */,
@@ -37,12 +39,13 @@
 				EA9856A60EEABE5300C738EF /* Garbages */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
-			name = Compositor;
+			name = CmpstrPck;
 			sourceTree = "<group>";
 		};
 		EAB5AC950ED2E587006EC826 /* Header */ = {
 			isa = PBXGroup;
 			children = (
+				123456800ED2E572006EC826 /* CmpstrPck.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -50,7 +53,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				123456790ED2E572006EC826 /* Main.cpp */,
+				123456790ED2E572006EC826 /* CmpstrPck.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -86,7 +89,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC046055464E500DB518D /* Compositor.app */,
+				D2AAC046055464E500DB518D /* CmpstrPck.arp */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -98,15 +101,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				223456800ED2E572006EC826 /* CmpstrPck.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC045055464E500DB518D /* Compositor */ = {
+		D2AAC045055464E500DB518D /* CmpstrPck */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "Compositor" */;
+			buildConfigurationList = 1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "CmpstrPck" */;
 			buildPhases = (
 				EA6981130EEBF38E00FE4110 /* ShellScript */,
 				D2AAC043055464E500DB518D /* Headers */,
@@ -117,24 +121,24 @@
 			);
 			dependencies = (
 			);
-			name = Compositor;
-			productName = Compositor;
-			productReference = D2AAC046055464E500DB518D /* Compositor.app */;
-			productType = "com.apple.product-type.tool";
+			name = CmpstrPck;
+			productName = CmpstrPck;
+			productReference = D2AAC046055464E500DB518D /* CmpstrPck.arp */;
+			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "Compositor" */;
+			buildConfigurationList = 1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "CmpstrPck" */;
 			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 1;
-			mainGroup = 08FB7794FE84155DC02AAC07 /* Compositor */;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* CmpstrPck */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC045055464E500DB518D /* Compositor */,
+				D2AAC045055464E500DB518D /* CmpstrPck */,
 			);
 		};
 /* End PBXProject section */
@@ -161,7 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				223456790ED2E572006EC826 /* Main.cpp in Sources */,
+				223456790ED2E572006EC826 /* CmpstrPck.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +178,7 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "app";
+				EXECUTABLE_EXTENSION = "arp";
 				EXECUTABLE_PREFIX = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -182,7 +186,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = Compositor;
+				PRODUCT_NAME = CmpstrPck;
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -193,12 +197,12 @@
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "app";
+				EXECUTABLE_EXTENSION = "arp";
 				EXECUTABLE_PREFIX = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
-				PRODUCT_NAME = Compositor;
+				PRODUCT_NAME = CmpstrPck;
 			};
 			name = Release;
 		};
@@ -210,14 +214,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"${ACFDIR}/Include",
-					"${ACFDIR}/Impl",
+					../../../Include,
 					"${QTDIR}/include",
 					"${QTDIR}/include/QtCore",
 					"${QTDIR}/include/QtGui",
 					"${QTDIR}/include/QtXml",
 					"${QTDIR}/include/QtScript",
-					..,
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
@@ -236,14 +238,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"${ACFDIR}/Include",
-					"${ACFDIR}/Impl",
+					../../../Include,
 					"${QTDIR}/include",
 					"${QTDIR}/include/QtCore",
 					"${QTDIR}/include/QtGui",
 					"${QTDIR}/include/QtXml",
 					"${QTDIR}/include/QtScript",
-					..,
 				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
@@ -253,7 +253,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "Compositor" */ = {
+		1DEB91EB08733DB70010E9CD /* Build configuration list for PBXNativeTarget "CmpstrPck" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91EC08733DB70010E9CD /* Debug */,
@@ -262,7 +262,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "Compositor" */ = {
+		1DEB91EF08733DB70010E9CD /* Build configuration list for PBXProject "CmpstrPck" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB91F008733DB70010E9CD /* Debug */,
