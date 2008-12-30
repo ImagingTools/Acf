@@ -15,32 +15,32 @@ namespace icmpstr
 {
 
 
-class CRegistryPreviewComp:	public QObject,
-							public icomp::CComponentBase,
-							public IRegistryPreview
+class CRegistryPreviewComp:
+			public QObject,
+			public icomp::CComponentBase,
+			public IRegistryPreview
 {
 	Q_OBJECT
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryPreviewComp)
-		I_REGISTER_INTERFACE(IRegistryPreview)
+		I_REGISTER_INTERFACE(icmpstr::IRegistryPreview)
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-	// reimplemented (IRegistryPreview)
+	// reimplemented (icmpstr::IRegistryPreview)
 	virtual bool StartRegistry(const icomp::IRegistry& registry);
 	virtual bool IsRunning() const;
 	virtual void AbortRegistry();
 
 protected slots:
-	void OnFinished(int exitCode, QProcess::ExitStatus exitStatus);
+	void OnStateChanged(QProcess::ProcessState state);
 
 private:
-	QLabel m_startLabel;
 	QString m_tempFileName;
 	QProcess m_process;
 };

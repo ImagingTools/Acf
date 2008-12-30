@@ -27,16 +27,10 @@ void CRegistryPreviewComp::OnComponentCreated()
 
 	BaseClass::OnComponentCreated();
 
-	QFont font = qApp->font();
-	font.setPointSize(12);
-	m_startLabel.setFont(font);
-	m_startLabel.setText(QApplication::tr("Registry is starting... Please wait just a moment!"));
-	m_startLabel.setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowStaysOnTopHint);
-
 	connect(	&m_process, 
-				SIGNAL(finished(int, QProcess::ExitStatus)), 
+				SIGNAL(stateChanged(QProcess::ProcessState)), 
 				this, 
-				SLOT(OnFinished(int, QProcess::ExitStatus)), 
+				SLOT(OnFinished(QProcess::ProcessState)), 
 				Qt::QueuedConnection);
 }
 
@@ -55,7 +49,7 @@ void CRegistryPreviewComp::OnComponentDestroyed()
 }
 
 
-// reimplemented (IRegistryPreview)
+// reimplemented (icmpstr::IRegistryPreview)
 
 bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 {
@@ -65,51 +59,28 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 	m_tempFileName.clear();
 
-	QDesktopWidget* desktopWidget = QApplication::desktop();
-	if (desktopWidget != NULL){
-		m_startLabel.move(desktopWidget->availableGeometry().center() - QPoint(m_startLabel.width() / 2, m_startLabel.height() / 2));
-	}
-
-	m_startLabel.show();
-
-	bool retVal = true;
-
 	QDir tempDir = QDir::temp();
-	if (tempDir.exists()){
-		m_tempFileName = tempDir.absoluteFilePath("registry_preview.arx");
-
-		iser::CXmlFileWriteArchive archive(m_tempFileName.toStdString());
-
-		retVal = (const_cast<icomp::IRegistry&>(registry)).Serialize(archive);
-	}
-	else{
-		retVal = false;
+	if (!tempDir.exists()){
+		return false;
 	}
 
-	if (retVal){
-		static QString acfExeFile = "Acf";
+	m_tempFileName = tempDir.absoluteFilePath("registry_preview.arx");
 
-		QDir applicationDir(QCoreApplication::applicationDirPath());
-		QString acfApplicationPath = applicationDir.absoluteFilePath(acfExeFile);
+	iser::CXmlFileWriteArchive archive(m_tempFileName.toStdString());
 
-		QFileInfo fileInfo(acfApplicationPath);
-		if (fileInfo.exists()){
-			m_process.setWorkingDirectory(applicationDir.path());
-			m_process.start(acfApplicationPath, QStringList() << m_tempFileName);
-			if (m_process.waitForStarted()){
-				retVal = true;
-			}
-		}
-		else{
-			QMessageBox::critical(NULL, tr("ACF Compositor"), tr("Acf.exe was not found! The registry preview cannot be started!"));
-
-			retVal = false;
-		}
+	if (!(const_cast<icomp::IRegistry&>(registry)).Serialize(archive)){
+		return false;
 	}
 
-	m_startLabel.hide();
-	
-	return retVal;
+	static QString acfExeFile = "Acf";
+
+	QDir applicationDir(QCoreApplication::applicationDirPath());
+	QString acfApplicationPath = applicationDir.absoluteFilePath(acfExeFile);
+
+	m_process.setWorkingDirectory(applicationDir.path());
+	m_process.start(acfApplicationPath, QStringList() << m_tempFileName);
+
+	return m_process.waitForStarted();
 }
 
 
@@ -134,9 +105,11 @@ void CRegistryPreviewComp::AbortRegistry()
 
 // protected slots
 
-void CRegistryPreviewComp::OnFinished(int exitCode, QProcess::ExitStatus /*exitStatus*/)
+void CRegistryPreviewComp::OnStateChanged(QProcess::ProcessState state)
 {
-	QFile::remove(m_tempFileName);
+	if (state == QProcess::NotRunning){
+		QFile::remove(m_tempFileName);
+	}
 }
 
 

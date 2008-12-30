@@ -99,7 +99,6 @@ private:
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
 
-
 	iqtgui::CHierarchicalCommand m_registryCommand;
 	iqtgui::CHierarchicalCommand m_registryMenu;
 	iqtgui::CHierarchicalCommand m_removeComponentCommand;
