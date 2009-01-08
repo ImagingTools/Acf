@@ -8,8 +8,6 @@
 
 
 // ACF includes
-#include "ibase/IApplicationInfo.h"
-
 #include "idoc/ICommandsProvider.h"
 #include "idoc/CDocumentManagerBase.h"
 
@@ -39,9 +37,7 @@ public:
 		I_REGISTER_INTERFACE(idoc::IDocumentManager);
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
-		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list", true, 10);
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
-		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 	I_END_COMPONENT;
 
 	enum GroupId
@@ -99,7 +95,6 @@ protected:
 	virtual bool eventFilter(QObject* obj, QEvent* event);
 
 	// reimplemented (idoc::CDocumentManagerBase)
-	virtual int GetMaxRecentFilesCount() const;
 	virtual istd::CStringList GetOpenFileNames(const std::string* documentTypeIdPtr = NULL) const;
 	virtual istd::CString GetSaveFileName(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
@@ -125,9 +120,6 @@ protected slots:
 	void OnWorkspaceModeChanged();
 
 private:
-	template <class Archive> 
-	bool SerializeRecentFiles();
-
 	void UpdateLastDirectory(const QString& filePath) const;
 
 	iqtgui::CHierarchicalCommand m_commands;
@@ -143,32 +135,13 @@ private:
 	iqtgui::CHierarchicalCommand m_subWindowCommand;
 	iqtgui::CHierarchicalCommand m_tabbedCommand;
 
-	I_ATTR(int, m_maxRecentFilesCountAttrPtr);
 	I_ATTR(bool, m_showMaximizedAttrPtr);
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
-	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 
 	mutable QString m_lastDirectory;
 
 	int m_viewsCount;
 };
-
-
-template <class Archive> 
-bool CMultiDocumentWorkspaceGuiComp::SerializeRecentFiles()
-{
-	istd::CString applicationName = "ACF Application";
-	istd::CString companyName = "ImagingTools";
-
-	if (m_applicationInfoCompPtr.IsValid()){ 
-		applicationName = m_applicationInfoCompPtr->GetApplicationName();
-		companyName = m_applicationInfoCompPtr->GetCompanyName();
-	}
-
-	Archive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
-	
-	return SerializeRecentFileList(archive);
-}
 
 
 } // namespace iqtdoc

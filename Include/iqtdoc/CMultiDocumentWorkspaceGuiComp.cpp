@@ -12,9 +12,6 @@
 
 #include "idoc/IDocumentTemplate.h"
 
-#include "iqt/CSettingsWriteArchive.h"
-#include "iqt/CSettingsReadArchive.h"
-
 #include "iqtgui/CFileDialogLoaderComp.h"
 
 #include "iser/CXmlFileWriteArchive.h"
@@ -338,16 +335,6 @@ bool CMultiDocumentWorkspaceGuiComp::QueryDocumentClose(const DocumentInfo& info
 }
 
 
-int CMultiDocumentWorkspaceGuiComp::GetMaxRecentFilesCount() const
-{
-	if (m_maxRecentFilesCountAttrPtr.IsValid()){
-		return *m_maxRecentFilesCountAttrPtr;
-	}
-
-	return BaseClass2::GetMaxRecentFilesCount();
-}
-
-
 // reimplemented (imod::CMultiModelObserverBase)
 
 void CMultiDocumentWorkspaceGuiComp::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
@@ -385,8 +372,6 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 		}
 	}
 
-	SerializeRecentFiles<iqt::CSettingsReadArchive>();
-
 	OnRetranslate();
 }
 
@@ -394,8 +379,6 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 void CMultiDocumentWorkspaceGuiComp::OnGuiDestroyed()
 {
 	CloseAllDocuments();
-
-	SerializeRecentFiles<iqt::CSettingsWriteArchive>();
 }
 
 

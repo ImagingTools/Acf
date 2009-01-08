@@ -43,11 +43,21 @@ public:
 		Reset list of childs.
 	*/
 	void ResetChilds();
+
 	/**
 		Insert command to child list.
 		Please note, this pointer is not owned by this container and will not be removed.
+		\param	commandPtr	pointer to child command instance. It cannot be NULL.
+		\param	releaseFlag	if true, command instance will be automatically removed.
+		\param	index		index position of command to be inserted. Negative value indicate end of collection.
+							Please note, that position can be other in merged tree.
 	*/
-	void InsertChild(CHierarchicalCommand* commandPtr, bool releaseFlag = false);
+	void InsertChild(CHierarchicalCommand* commandPtr, bool releaseFlag = false, int index = -1);
+
+	/**
+		Remove child at specified index.
+	*/
+	void RemoveChild(int index);
 
 	/**
 		Joint the second root as links.

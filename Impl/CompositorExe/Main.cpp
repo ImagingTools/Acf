@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	packagesLoaderComp.SetRef("Log", &log);
 	packagesLoaderComp.InitComponent();
 
-	std::string registryFile;
+	istd::CString registryFile;
 	bool useDefaultRegistries = true;
 	for (int index = 1; index < argc; index++){
 		std::string argument = argv[index];
@@ -168,6 +168,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &packageOverviewDockComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &attributeEditorDockComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
+	mainWindowComp.SetRef("ApplicationInfo", &applicationInfo);
 	mainWindowComp.InitComponent();
 
 	application.SetRef("ApplicationInfo", &applicationInfo);
@@ -176,11 +177,11 @@ int main(int argc, char *argv[])
 	application.InitComponent();
 
 	if (!registryFile.empty()){
-		if (!workspaceComp.OpenDocument(registryFile, true, "")){
+		if (!workspaceComp.FileOpen(NULL, &registryFile)){
 			QMessageBox::information(
 						NULL,
 						QObject::tr("Error"),
-						QObject::tr("Cannot load registry\n%1").arg(registryFile.c_str()));
+						QObject::tr("Cannot load registry\n%1").arg(iqt::GetQString(registryFile)));
 		}
 	}
 

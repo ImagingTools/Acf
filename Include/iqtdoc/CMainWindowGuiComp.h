@@ -10,11 +10,12 @@
 #include <QToolBar>
 #include <QAction>
 #include <QActionGroup>
-#include <QStatusBar>
 
 #include "imod/IModel.h"
 #include "imod/IUndoManager.h"
 #include "imod/TSingleModelObserverBase.h"
+
+#include "ibase/IApplicationInfo.h"
 
 #include "idoc/IDocumentManager.h"
 #include "idoc/ICommandsProvider.h"
@@ -54,8 +55,10 @@ public:
 		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace")
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false)
 		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager")
+		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16)
 		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false)
+		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
 	I_END_COMPONENT
 
 	enum GroupId
@@ -85,15 +88,16 @@ public:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
+	// reimplemented (imod::IObserver)
+	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnDetached(imod::IModel* modelPtr);
+
 protected:
 	virtual void OnActiveViewChanged();
 	virtual void OnActiveDocumentChanged();
-	virtual void OnRecentFileListChanged();
 	virtual void OnDragEnterEvent(QDragEnterEvent* dragEnterEventPtr);
 	virtual void OnDropEvent(QDropEvent* dropEventPtr);
 
-	template <class MenuType>
-	void CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const;
 	int CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
 
 	void SetupMainWindow(QMainWindow& mainWindow);
@@ -103,11 +107,19 @@ protected:
 	void UpdateFixedCommands();
 	void UpdateUndoMenu();
 	void UpdateMenuActions();
-	void UpdateRecentFileMenu();
-	void CreateRecentMenu();
 
 	void OnNewDocument(const std::string& documentTypeId);
-	void OnOpenFile(const QString& fileName);
+	void OnOpenFile(const istd::CString& fileName);
+
+	virtual bool SerializeRecentFileList(iser::IArchive& archive);
+	virtual void UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap);
+	virtual void RemoveFromRecentFileList(const istd::CString& filePath);
+
+	// protected template methods
+	template <class MenuType>
+	void CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const;
+	template <class Archive> 
+	bool SerializeRecentFiles();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -142,11 +154,6 @@ private:
 	istd::TDelPtr<QMenuBar> m_menuBarPtr;
 	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
 
-	iqtgui::CHierarchicalCommand m_fileCommand;
-	iqtgui::CHierarchicalCommand m_editCommand;
-	iqtgui::CHierarchicalCommand m_viewCommand;
-	iqtgui::CHierarchicalCommand m_helpCommand;
-
 	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
 	{
 	public:
@@ -172,23 +179,22 @@ private:
 	public:
 		typedef iqtgui::CHierarchicalCommand BaseClass;
 
-		RecentFileCommand(CMainWindowGuiComp* parentPtr, const QString& fileName)
-			:m_parent(*parentPtr), m_fileName(fileName)
+		RecentFileCommand(CMainWindowGuiComp* parentPtr, const istd::CString& fileName)
+		:	m_parent(*parentPtr)
 		{
-			setText(m_fileName);
+			SetName(fileName);
 		}
 
 		// reimplemented (idoc::ICommand)
 		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
 		{
-			m_parent.OnOpenFile(m_fileName);
+			m_parent.OnOpenFile(GetName());
 
 			return true;
 		}
 
 	private:
 		CMainWindowGuiComp& m_parent;
-		QString m_fileName;
 	};
 
 	friend class NewDocumentCommand;
@@ -217,6 +223,12 @@ private:
 	istd::IChangeable* m_activeDocumentPtr;
 
 	iqtgui::CHierarchicalCommand m_menuCommands;
+
+	iqtgui::CHierarchicalCommand m_fileCommand;
+	iqtgui::CHierarchicalCommand m_editCommand;
+	iqtgui::CHierarchicalCommand m_viewCommand;
+	iqtgui::CHierarchicalCommand m_helpCommand;
+
 	// file menu group
 	iqtgui::CHierarchicalCommand m_newCommand;
 	iqtgui::CHierarchicalCommand m_openCommand;
@@ -234,23 +246,26 @@ private:
 
 	iqtgui::CHierarchicalCommand m_fixedCommands;
 
-	typedef std::map<std::string, istd::TDelPtr<iqtgui::CHierarchicalCommand> >  RecentFileCommandMap;
-	RecentFileCommandMap m_recentFilesCommands;
+	typedef istd::TDelPtr<iqtgui::CHierarchicalCommand> RecentGroupCommandPtr;
+	typedef std::map<std::string, RecentGroupCommandPtr> RecentFilesMap;
+	RecentFilesMap m_recentFilesMap;
 
 	I_REF(iqtgui::IGuiObject, m_workspaceCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(idoc::ICommandsProvider, m_documentManagerCommandsCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
+	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(bool, m_useIconTextAttrPtr);
+	I_ATTR(int, m_maxRecentFilesCountAttrPtr);
 
 	istd::TOptPointerVector<QToolBar> m_toolBarsList;
 };
 
 
-// public template methods
+// protected template methods
 
 template <class MenuType>
 void CMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const
@@ -303,6 +318,23 @@ void CMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& command,
 			}
 		}
 	}
+}
+
+
+template <class Archive> 
+bool CMainWindowGuiComp::SerializeRecentFiles()
+{
+	istd::CString applicationName = "ACF Application";
+	istd::CString companyName = "ImagingTools";
+
+	if (m_applicationInfoCompPtr.IsValid()){ 
+		applicationName = m_applicationInfoCompPtr->GetApplicationName();
+		companyName = m_applicationInfoCompPtr->GetCompanyName();
+	}
+
+	Archive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
+
+	return SerializeRecentFileList(archive);
 }
 
 

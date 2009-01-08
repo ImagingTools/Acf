@@ -23,60 +23,6 @@ CDocumentManagerBase::CDocumentManagerBase()
 }
 
 
-istd::IChangeable* CDocumentManagerBase::OpenDocument(const istd::CString& filePath, bool createView, const std::string& viewTypeId)
-{
-	if (filePath.IsEmpty() || (m_documentTemplatePtr == NULL)){
-		return NULL;
-	}
-
-	DocumentInfo* existingInfoPtr = GetDocumentInfoFromPath(filePath);
-	if (existingInfoPtr != NULL){
-		I_ASSERT(existingInfoPtr->documentPtr.IsValid());
-
-		if (createView){
-			istd::IPolymorphic* viewPtr = m_documentTemplatePtr->CreateView(
-						existingInfoPtr->documentTypeId,
-						existingInfoPtr->documentPtr.GetPtr(),
-						viewTypeId);
-			if (viewPtr != NULL){
-				existingInfoPtr->views.push_back(ViewPtr());
-				existingInfoPtr->views.back().SetPtr(viewPtr);
-
-				OnViewRegistered(viewPtr);
-			}
-		}
-
-		return existingInfoPtr->documentPtr.GetPtr();
-	}
-
-	IDocumentTemplate::Ids documentIds = m_documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
-
-	if (!documentIds.empty()){
-		const std::string& documentTypeId = documentIds.front();
-		istd::TDelPtr<DocumentInfo> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
-		if (infoPtr.IsValid()){
-			I_ASSERT(infoPtr->documentPtr.IsValid());
-
-			infoPtr->filePath = filePath;
-			infoPtr->documentTypeId = documentTypeId;
-			iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(documentTypeId);
-			if (loaderPtr != NULL){
-				bool isLoaded = (loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk);
-				UpdateRecentFileList(filePath, documentTypeId, isLoaded);
-				
-				if (isLoaded){
-					RegisterDocument(infoPtr.GetPtr());
-
-					return infoPtr.PopPtr()->documentPtr.GetPtr();
-				}
-			}
-		}
-	}
-
-	return NULL;
-}
-
-
 void CDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
 {
 	m_documentTemplatePtr = documentTemplatePtr;
@@ -179,25 +125,47 @@ istd::IChangeable* CDocumentManagerBase::FileNew(const std::string& documentType
 }
 
 
-bool CDocumentManagerBase::FileOpen(const std::string* documentTypeIdPtr, const istd::CString* fileNamePtr, bool createView, const std::string& viewTypeId)
+bool CDocumentManagerBase::FileOpen(
+			const std::string* documentTypeIdPtr,
+			const istd::CString* fileNamePtr,
+			bool createView,
+			const std::string& viewTypeId,
+			FileToTypeMap* loadedMapPtr)
 {
 	bool retVal = true;
 
-	if (fileNamePtr == NULL){
-		istd::CStringList files = GetOpenFileNames(documentTypeIdPtr);
-		for (int fileIndex = 0; fileIndex < int(files.size()); fileIndex++){
-			retVal = (OpenDocument(files.at(fileIndex), createView, viewTypeId) != NULL) && retVal;
-		}
+	istd::CStringList files;
+
+	if (fileNamePtr != NULL){
+		files.push_back(*fileNamePtr);
 	}
 	else{
-		retVal = (OpenDocument(*fileNamePtr, createView, viewTypeId) != NULL);
+		files = GetOpenFileNames(documentTypeIdPtr);
+	}
+
+	for (		istd::CStringList::const_iterator iter = files.begin();
+				iter != files.end();
+				++iter){
+		const istd::CString& fileName = *iter;
+
+		std::string documentTypeId;
+		if (OpenDocument(fileName, createView, viewTypeId, documentTypeId)){
+			if (loadedMapPtr != NULL){
+				loadedMapPtr->operator[](fileName) = documentTypeId;
+			}
+		}
+		else{
+			retVal = false;
+		}
 	}
 
 	return retVal;
 }
 
 
-bool CDocumentManagerBase::FileSave(bool requestFileName)
+bool CDocumentManagerBase::FileSave(
+			bool requestFileName,
+			FileToTypeMap* savedMapPtr)
 {
 	if (m_documentTemplatePtr == NULL){
 		return false;
@@ -239,8 +207,8 @@ bool CDocumentManagerBase::FileSave(bool requestFileName)
 			infoPtr->isDirty = false;
 		}
 
-		if (requestFileName){
-			UpdateRecentFileList(infoPtr->filePath, infoPtr->documentTypeId, true);
+		if (savedMapPtr != NULL){
+			savedMapPtr->operator[](filePath) = infoPtr->documentTypeId;
 		}
 
 		return true;
@@ -291,27 +259,63 @@ bool CDocumentManagerBase::FileClose()
 }
 
 
-istd::CStringList CDocumentManagerBase::GetRecentFileList(const std::string& documentTypeId) const
+// protected methods
+
+istd::IChangeable* CDocumentManagerBase::OpenDocument(
+			const istd::CString& filePath,
+			bool createView,
+			const std::string& viewTypeId,
+			std::string& documentTypeId)
 {
-	static istd::CStringList emptyRecentFileList;
-
-	RecentFilesMap::const_iterator recentFileIter = m_recentFilesMap.find(documentTypeId);
-	if (recentFileIter != m_recentFilesMap.end()){
-		istd::CStringList recentFileList;
-
-		for (		FileList::const_iterator index = recentFileIter->second.begin();
-					index != recentFileIter->second.end();
-					index++){
-			recentFileList.push_back(*index);
-		}
-		return recentFileList;
+	if (filePath.IsEmpty() || (m_documentTemplatePtr == NULL)){
+		return NULL;
 	}
 
-	return emptyRecentFileList;
+	DocumentInfo* existingInfoPtr = GetDocumentInfoFromPath(filePath);
+	if (existingInfoPtr != NULL){
+		I_ASSERT(existingInfoPtr->documentPtr.IsValid());
+
+		if (createView){
+			istd::IPolymorphic* viewPtr = m_documentTemplatePtr->CreateView(
+						existingInfoPtr->documentTypeId,
+						existingInfoPtr->documentPtr.GetPtr(),
+						viewTypeId);
+			if (viewPtr != NULL){
+				existingInfoPtr->views.push_back(ViewPtr());
+				existingInfoPtr->views.back().SetPtr(viewPtr);
+
+				OnViewRegistered(viewPtr);
+			}
+		}
+
+		documentTypeId = existingInfoPtr->documentTypeId;
+
+		return existingInfoPtr->documentPtr.GetPtr();
+	}
+
+	IDocumentTemplate::Ids documentIds = m_documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
+
+	if (!documentIds.empty()){
+		documentTypeId = documentIds.front();
+		istd::TDelPtr<DocumentInfo> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
+		if (infoPtr.IsValid()){
+			I_ASSERT(infoPtr->documentPtr.IsValid());
+
+			infoPtr->filePath = filePath;
+			infoPtr->documentTypeId = documentTypeId;
+			iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(documentTypeId);
+			if (		(loaderPtr != NULL) &&
+						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk)){
+				RegisterDocument(infoPtr.GetPtr());
+
+				return infoPtr.PopPtr()->documentPtr.GetPtr();
+			}
+		}
+	}
+
+	return NULL;
 }
 
-
-// protected methods
 
 void CDocumentManagerBase::CloseAllDocuments()
 {
@@ -435,95 +439,6 @@ bool CDocumentManagerBase::RegisterDocument(DocumentInfo* infoPtr)
 }
 
 
-bool CDocumentManagerBase::SerializeRecentFileList(iser::IArchive& archive)
-{
-	int documentTypeIdsCount = m_recentFilesMap.size();
-
-	static iser::CArchiveTag recentFilesTag("RecentFileList", "List of application's recent files");
-	static iser::CArchiveTag documentTypeIdsTag("DocumentIds", "List of document ID's");
-	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
-	static iser::CArchiveTag fileListTag("FileList", "List of recent files");
-	static iser::CArchiveTag filePathTag("FilePath", "File path");
-
-	bool retVal = archive.BeginTag(recentFilesTag);
-	retVal = retVal && archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
-
-	if (archive.IsStoring()){
-		for (		RecentFilesMap::const_iterator index = m_recentFilesMap.begin();
-					index != m_recentFilesMap.end();
-					index++){
-
-			std::string documentTypeId = index->first;
-			I_ASSERT(!documentTypeId.empty())
-
-			retVal = retVal && archive.BeginTag(documentTypeIdTag);
-			retVal = retVal && archive.Process(documentTypeId);
-			retVal = retVal && archive.EndTag(documentTypeIdTag);
-
-			const FileList& recentFileList = index->second;
-
-			int filesCount = recentFileList.size();
-			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
-
-			for (		FileList::const_iterator fileIndex = recentFileList.begin();
-						fileIndex != recentFileList.end();
-						fileIndex++){
-				istd::CString filePath = *fileIndex;
-
-				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
-				retVal = retVal && archive.EndTag(filePathTag);
-			}
-
-			retVal = retVal && archive.EndTag(fileListTag);
-		}
-	}
-	else{
-		for (int typeIndex = 0; typeIndex < documentTypeIdsCount; typeIndex++){
-			std::string documentTypeId;
-
-			retVal = retVal && archive.BeginTag(documentTypeIdTag);
-			retVal = retVal && archive.Process(documentTypeId);
-			retVal = retVal && archive.EndTag(documentTypeIdTag);
-			I_ASSERT(!documentTypeId.empty())
-
-			FileList& recentFileList = m_recentFilesMap[documentTypeId];
-
-			int filesCount = 0;
-			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
-
-			for (int fileIndex = 0; fileIndex < filesCount; fileIndex++){
-				istd::CString filePath;
-
-				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
-				retVal = retVal && archive.EndTag(filePathTag);
-
-				if (retVal){
-					recentFileList.push_back(filePath);
-				}
-			}
-
-			retVal = retVal && archive.EndTag(fileListTag);
-		}
-
-		istd::CChangeNotifier changeNotifier(this, RecentFileListChanged);
-	}
-
-	retVal = retVal && archive.EndTag(documentTypeIdsTag);
-
-	retVal = retVal && archive.EndTag(recentFilesTag);
-
-	return retVal;
-}
-
-	
-int CDocumentManagerBase::GetMaxRecentFilesCount() const
-{
-	return 10;
-}
-
-
 void CDocumentManagerBase::OnViewRegistered(istd::IPolymorphic* /*viewPtr*/)
 {
 }
@@ -531,43 +446,6 @@ void CDocumentManagerBase::OnViewRegistered(istd::IPolymorphic* /*viewPtr*/)
 
 void CDocumentManagerBase::OnViewRemoved(istd::IPolymorphic* /*viewPtr*/)
 {
-}
-
-
-// private methods
-
-void CDocumentManagerBase::UpdateRecentFileList(const istd::CString& requestedFilePath, const std::string& documentTypeId, bool wasSuccess)
-{
-	if (wasSuccess){
-		istd::CChangeNotifier changeNotifier(this, RecentFileListChanged);
-
-		FileList& recentFileList = m_recentFilesMap[documentTypeId];
-
-		FileList::iterator foundFileIter = std::find(recentFileList.begin(), recentFileList.end(), requestedFilePath);
-
-		// move current file item to the top of the list:
-		if (foundFileIter != recentFileList.end()){
-			recentFileList.erase(foundFileIter);
-		}
-
-		recentFileList.push_front(requestedFilePath);
-
-		if (int(recentFileList.size()) > GetMaxRecentFilesCount()){
-			recentFileList.pop_back();
-		}
-	}
-	else{
-		RecentFilesMap::iterator recentFileListIter = m_recentFilesMap.find(documentTypeId);
-		if (recentFileListIter != m_recentFilesMap.end()){
-			FileList& fileList = recentFileListIter->second;
-			FileList::iterator recentFileIter = std::find(fileList.begin(), fileList.end(), requestedFilePath);
-			if (recentFileIter != fileList.end()){
-				istd::CChangeNotifier changeNotifier(this, RecentFileListChanged);
-		
-				fileList.erase(recentFileIter);
-			}
-		}
-	}
 }
 
 

@@ -43,9 +43,20 @@ void CHierarchicalCommand::ResetChilds()
 }
 
 
-void CHierarchicalCommand::InsertChild(CHierarchicalCommand* commandPtr, bool releaseFlag)
+void CHierarchicalCommand::InsertChild(CHierarchicalCommand* commandPtr, bool releaseFlag, int index)
 {
-	m_childs.PushBack(commandPtr, releaseFlag);
+	if ((index >= 0) && (index < m_childs.GetCount())){
+		m_childs.InsertAt(index, commandPtr, releaseFlag);
+	}
+	else{
+		m_childs.PushBack(commandPtr, releaseFlag);
+	}
+}
+
+
+void CHierarchicalCommand::RemoveChild(int index)
+{
+	m_childs.RemoveAt(index);
 }
 
 

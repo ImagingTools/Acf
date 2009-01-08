@@ -1,19 +1,21 @@
 #include "iqtdoc/CMainWindowGuiComp.h"
 
 
-#include <QStatusBar>
 #include <QMessageBox>
-#include <QFrame>
-#include <QStyle>
-#include <QStyleFactory>
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QUrl>
+#include <QFileInfo>
+#include <QStatusBar>
+#include <QStyle>
 
 #include "imod/IObserver.h"
 
 #include "idoc/ICommandsProvider.h"
+
+#include "iqt/CSettingsWriteArchive.h"
+#include "iqt/CSettingsReadArchive.h"
 
 
 namespace iqtdoc
@@ -148,37 +150,7 @@ void CMainWindowGuiComp::OnComponentCreated()
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
 	
-	if (m_documentManagerCompPtr.IsValid()){
-		SetupNewCommand();
-
-		m_fileCommand.SetPriority(30);
-		m_openCommand.SetGroupId(GI_DOCUMENT);
-		m_fileCommand.InsertChild(&m_openCommand, false);
-		m_saveCommand.SetGroupId(GI_DOCUMENT);
-		m_fileCommand.InsertChild(&m_saveCommand, false);
-		m_saveAsCommand.SetGroupId(GI_DOCUMENT);
-		m_fileCommand.InsertChild(&m_saveAsCommand, false);
-
-		CreateRecentMenu();
-
-		m_quitCommand.SetGroupId(GI_APPLICATION);
-		m_fileCommand.InsertChild(&m_quitCommand, false);
-	
-		m_editCommand.SetPriority(60);
-		m_undoCommand.SetGroupId(GI_UNDO);
-		m_editCommand.InsertChild(&m_undoCommand, false);
-		m_redoCommand.SetGroupId(GI_UNDO);
-		m_editCommand.InsertChild(&m_redoCommand, false);
-
-		m_viewCommand.SetPriority(90);
-		m_viewCommand.InsertChild(&m_fullScreenCommand, false);
-		m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
-
-		m_helpCommand.SetPriority(150);
-		m_helpCommand.InsertChild(&m_aboutCommand, false);
-
-		UpdateFixedCommands();
-	}
+	SerializeRecentFiles<iqt::CSettingsReadArchive>();
 }
 
 
@@ -195,6 +167,88 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 	}
 
 	BaseClass::OnComponentDestroyed();
+}
+
+
+// reimplemented (imod::IObserver)
+
+bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
+{
+	bool retVal = BaseClass2::OnAttached(modelPtr);
+
+	if (retVal){
+		const idoc::IDocumentManager* managerPtr = GetObjectPtr();
+		if (managerPtr != NULL){
+			SetupNewCommand();
+
+			m_fileCommand.SetPriority(30);
+			m_openCommand.SetGroupId(GI_DOCUMENT);
+			m_fileCommand.InsertChild(&m_openCommand, false);
+			m_saveCommand.SetGroupId(GI_DOCUMENT);
+			m_fileCommand.InsertChild(&m_saveCommand, false);
+			m_saveAsCommand.SetGroupId(GI_DOCUMENT);
+			m_fileCommand.InsertChild(&m_saveAsCommand, false);
+
+			const idoc::IDocumentTemplate* templatePtr = managerPtr->GetDocumentTemplate();
+			if (templatePtr != NULL){
+				idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
+				for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
+							iter != ids.end();
+							++iter){
+					const std::string& documentTypeId = *iter;
+
+					RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+
+					QString recentListTitle = (ids.size() > 1)?
+								tr("Recent %1 Files").arg(documentTypeId.c_str()):
+								tr("Recent Files");
+					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
+
+					if (fileListCommandPtr != NULL){
+						fileListCommandPtr->SetPriority(130);
+
+						groupCommandPtr.SetPtr(fileListCommandPtr);
+
+						m_fileCommand.InsertChild(fileListCommandPtr, false);
+					}
+				}
+			}
+
+			m_quitCommand.SetGroupId(GI_APPLICATION);
+			m_fileCommand.InsertChild(&m_quitCommand, false);
+		
+			m_editCommand.SetPriority(60);
+			m_undoCommand.SetGroupId(GI_UNDO);
+			m_editCommand.InsertChild(&m_undoCommand, false);
+			m_redoCommand.SetGroupId(GI_UNDO);
+			m_editCommand.InsertChild(&m_redoCommand, false);
+
+			m_viewCommand.SetPriority(90);
+			m_viewCommand.InsertChild(&m_fullScreenCommand, false);
+			m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
+
+			m_helpCommand.SetPriority(150);
+			m_helpCommand.InsertChild(&m_aboutCommand, false);
+
+			UpdateFixedCommands();
+		}
+	}
+
+	return retVal;
+}
+
+
+bool CMainWindowGuiComp::OnDetached(imod::IModel* modelPtr)
+{
+	bool retVal = BaseClass2::OnDetached(modelPtr);
+
+	if (retVal){
+		SerializeRecentFiles<iqt::CSettingsWriteArchive>();
+
+		m_recentFilesMap.clear();
+	}
+
+	return retVal;
 }
 
 
@@ -231,12 +285,6 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 }
 
 
-void CMainWindowGuiComp::OnRecentFileListChanged()
-{
-	UpdateRecentFileMenu();
-}
-
-
 void CMainWindowGuiComp::OnDragEnterEvent(QDragEnterEvent* dragEnterEventPtr)
 {
 	if (dragEnterEventPtr->mimeData()->hasFormat("text/uri-list")){
@@ -252,12 +300,12 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 		QList<QUrl> files = mimeData->urls();
 
 		for (int fileIndex = 0; fileIndex < files.count(); fileIndex++){
-			QString filePath = files.at(fileIndex).toLocalFile();
-			
+			istd::CString filePath = iqt::GetCString(files.at(fileIndex).toLocalFile());
+
 			if (m_documentManagerCompPtr.IsValid()){
 				const idoc::IDocumentTemplate* documentTemplatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
 				if (documentTemplatePtr != NULL){
-					idoc::IDocumentTemplate::Ids availableDocumentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(iqt::GetCString(filePath));
+					idoc::IDocumentTemplate::Ids availableDocumentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
 					if (!availableDocumentIds.empty()){
 
 						OnOpenFile(filePath);
@@ -420,7 +468,6 @@ void CMainWindowGuiComp::UpdateFixedCommands()
 	}
 
 	// fill menu bar with main commands
-
 	m_fixedCommands.InsertChild(&m_fileCommand, false);
 	if (editMenuActive){
 		m_fixedCommands.InsertChild(&m_editCommand, false);
@@ -448,6 +495,10 @@ void CMainWindowGuiComp::UpdateUndoMenu()
 
 void CMainWindowGuiComp::UpdateMenuActions()
 {
+	if (!IsGuiCreated()){
+		return;
+	}
+
 	bool isDocumentActive = (m_activeDocumentPtr != NULL);
 
 	m_saveCommand.SetEnabled(isDocumentActive);
@@ -501,85 +552,6 @@ void CMainWindowGuiComp::UpdateMenuActions()
 
 	m_standardToolBarPtr->clear();
 	CreateToolbar(m_menuCommands, *m_standardToolBarPtr);
-}
-
-
-void CMainWindowGuiComp::UpdateRecentFileMenu()
-{
-	idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
-	I_ASSERT(documentManagerPtr != NULL);
-	if (documentManagerPtr != NULL){
-		const idoc::IDocumentTemplate* templatePtr = documentManagerPtr->GetDocumentTemplate();
-		if (templatePtr == NULL){
-			return;
-		}
-
-		idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-
-		for (		idoc::IDocumentTemplate::Ids::const_iterator index = ids.begin();
-					index != ids.end();
-					index++){
-			std::string documentTypeId = (*index);
-
-			RecentFileCommandMap::iterator foundCommandIter = m_recentFilesCommands.find(documentTypeId);
-			if (foundCommandIter == m_recentFilesCommands.end()){
-				continue;
-			}
-
-			iqtgui::CHierarchicalCommand* recentGroupCommandPtr = foundCommandIter->second.GetPtr();
-			I_ASSERT(recentGroupCommandPtr != NULL);
-
-			recentGroupCommandPtr->ResetChilds();
-
-			istd::CStringList recentFileList = documentManagerPtr->GetRecentFileList(documentTypeId);
-
-			for (int fileIndex = 0; fileIndex < int(recentFileList.size()); fileIndex++){
-				QString filePath = iqt::GetQString(recentFileList.at(fileIndex));
-				
-				RecentFileCommand* recentFileCommand = new RecentFileCommand(this, filePath);
-
-				recentGroupCommandPtr->InsertChild(recentFileCommand, true);
-			}
-		}
-	}
-
-	UpdateMenuActions();
-}
-
-
-void CMainWindowGuiComp::CreateRecentMenu()
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-		if (templatePtr != NULL){
-			idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-			if (!ids.empty()){
-				if (ids.size() == 1){
-					QString recentListTitle = QString(tr("Recent Files"));
-		
-					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
-					if (fileListCommandPtr != NULL){
-						m_fileCommand.InsertChild(fileListCommandPtr, false);
-
-						m_recentFilesCommands[ids.front()] = fileListCommandPtr;
-					}
-				}
-				else{
-					for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
-									iter != ids.end();
-									++iter){
-						QString recentListTitle = QString(tr("Recent ")) + (*iter).c_str() + QString(tr(" Files"));
-						iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
-						if (fileListCommandPtr != NULL){
-							m_fileCommand.InsertChild(fileListCommandPtr, false);
-
-							m_recentFilesCommands[*iter] = fileListCommandPtr;
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 
@@ -702,13 +674,6 @@ void CMainWindowGuiComp::OnRetranslate()
 
 void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
 {
-	if ((updateFlags & idoc::IDocumentManager::RecentFileListChanged) != 0){
-		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
-		if (documentManagerPtr != NULL){
-			OnRecentFileListChanged();
-		}
-	}
-
 	if ((updateFlags & idoc::IDocumentManager::ViewActivationChanged) != 0){
 		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
 		if (documentManagerPtr != NULL){
@@ -798,7 +763,14 @@ void CMainWindowGuiComp::OnOpen()
 void CMainWindowGuiComp::OnSave()
 {
 	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->FileSave()){
+		idoc::IDocumentManager::FileToTypeMap fileMap;
+
+		if (m_documentManagerCompPtr->FileSave(false, &fileMap)){
+			UpdateRecentFileList(fileMap);
+
+			UpdateMenuActions();
+		}
+		else{
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 	}
@@ -808,7 +780,14 @@ void CMainWindowGuiComp::OnSave()
 void CMainWindowGuiComp::OnSaveAs()
 {
 	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->FileSave(true)){
+		idoc::IDocumentManager::FileToTypeMap fileMap;
+
+		if (m_documentManagerCompPtr->FileSave(true)){
+			UpdateRecentFileList(fileMap);
+
+			UpdateMenuActions();
+		}
+		else{
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 	}
@@ -827,14 +806,165 @@ void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
 }
 
 
-void CMainWindowGuiComp::OnOpenFile(const QString& fileName)
+void CMainWindowGuiComp::OnOpenFile(const istd::CString& fileName)
 {
 	if (m_documentManagerCompPtr.IsValid()){
-		istd::CString documentFile = iqt::GetCString(fileName);
-		bool result = m_documentManagerCompPtr->FileOpen(NULL, &documentFile);
-		if (!result){
+		idoc::IDocumentManager::FileToTypeMap fileMap;
+
+		if (m_documentManagerCompPtr->FileOpen(NULL, &fileName, true, "", &fileMap)){
+			UpdateRecentFileList(fileMap);
+		}
+		else{
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
-			return;
+
+			RemoveFromRecentFileList(istd::CString(fileName));
+		}
+
+		UpdateMenuActions();
+	}
+}
+
+
+bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
+{
+	int documentTypeIdsCount = m_recentFilesMap.size();
+
+	static iser::CArchiveTag recentFilesTag("RecentFileList", "List of application's recent files");
+	static iser::CArchiveTag documentTypeIdsTag("DocumentIds", "List of document ID's");
+	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
+	static iser::CArchiveTag fileListTag("FileList", "List of recent files");
+	static iser::CArchiveTag filePathTag("FilePath", "File path");
+
+	bool retVal = archive.BeginTag(recentFilesTag);
+	retVal = retVal && archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
+
+	if (archive.IsStoring()){
+		for (		RecentFilesMap::const_iterator index = m_recentFilesMap.begin();
+					index != m_recentFilesMap.end();
+					index++){
+			std::string documentTypeId = index->first;
+			I_ASSERT(!documentTypeId.empty());
+
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			const RecentGroupCommandPtr& groupCommandPtr = index->second;
+
+			int filesCount = groupCommandPtr.IsValid()? groupCommandPtr->GetChildsCount(): 0;
+			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
+
+			for (int i = filesCount - 1; i >= 0; --i){
+				I_ASSERT(groupCommandPtr.IsValid());
+
+				idoc::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+				istd::CString filePath = (commandPtr != NULL)? commandPtr->GetName(): "";
+
+				retVal = retVal && archive.BeginTag(filePathTag);
+				retVal = retVal && archive.Process(filePath);					
+				retVal = retVal && archive.EndTag(filePathTag);
+			}
+
+			retVal = retVal && archive.EndTag(fileListTag);
+		}
+	}
+	else{
+		for (int typeIndex = 0; typeIndex < documentTypeIdsCount; typeIndex++){
+			std::string documentTypeId;
+
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			if (documentTypeId.empty()){
+				return false;
+			}
+
+			RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+
+			if (groupCommandPtr.IsValid()){
+				groupCommandPtr->ResetChilds();
+			}
+
+			int filesCount = 0;
+			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
+
+			for (int fileIndex = 0; fileIndex < filesCount; fileIndex++){
+				istd::CString filePath;
+				retVal = retVal && archive.BeginTag(filePathTag);
+				retVal = retVal && archive.Process(filePath);					
+				retVal = retVal && archive.EndTag(filePathTag);
+
+				if (retVal && !filePath.IsEmpty()){
+					idoc::IDocumentManager::FileToTypeMap fileMap;
+
+					fileMap[filePath] = documentTypeId;
+
+					UpdateRecentFileList(fileMap);
+				}
+			}
+
+			retVal = retVal && archive.EndTag(fileListTag);
+		}
+
+		UpdateMenuActions();
+	}
+
+	retVal = retVal && archive.EndTag(documentTypeIdsTag);
+
+	retVal = retVal && archive.EndTag(recentFilesTag);
+
+	return retVal;
+}
+
+	
+void CMainWindowGuiComp::UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap)
+{
+	for (		idoc::IDocumentManager::FileToTypeMap::const_iterator iter = fileToTypeMap.begin();
+				iter != fileToTypeMap.end();
+				++iter){
+		QFileInfo fileInfo(iqt::GetQString(iter->first));
+
+		istd::CString filePath = iqt::GetCString(fileInfo.absoluteFilePath());
+		const std::string documentTypeId = iter->second;
+
+		RemoveFromRecentFileList(filePath);
+
+		RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+
+		if (groupCommandPtr.IsValid()){
+			RecentFileCommand* commandPtr = new RecentFileCommand(this, filePath);
+			groupCommandPtr->InsertChild(commandPtr, true, 0);
+
+			int childsCount = groupCommandPtr->GetChildsCount();
+			if ((childsCount > 0) && (childsCount > *m_maxRecentFilesCountAttrPtr)){
+				groupCommandPtr->RemoveChild(childsCount - 1);
+			}
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::RemoveFromRecentFileList(const istd::CString& filePath)
+{
+	for (		RecentFilesMap::iterator iter = m_recentFilesMap.begin();
+				iter != m_recentFilesMap.end();
+				++iter){
+		RecentGroupCommandPtr& groupCommandPtr = iter->second;
+
+		if (!groupCommandPtr.IsValid()){
+			continue;
+		}
+
+		int childsCount = groupCommandPtr->GetChildsCount();
+
+		for (int i = 0; i < childsCount; ++i){
+			const idoc::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+			if ((commandPtr != NULL) && (commandPtr->GetName() == filePath)){
+				groupCommandPtr->RemoveChild(i);
+				--childsCount;
+				--i;
+			}
 		}
 	}
 }
@@ -842,11 +972,16 @@ void CMainWindowGuiComp::OnOpenFile(const QString& fileName)
 
 void CMainWindowGuiComp::OnOpenDocument(const std::string* documentTypeIdPtr)
 {
+	idoc::IDocumentManager::FileToTypeMap fileMap;
+
 	if (m_documentManagerCompPtr.IsValid()){
-		bool result = m_documentManagerCompPtr->FileOpen(documentTypeIdPtr);
-		if (!result){
+		if (m_documentManagerCompPtr->FileOpen(documentTypeIdPtr, NULL, true, "", &fileMap)){
+			UpdateRecentFileList(fileMap);
+
+			UpdateMenuActions();
+		}
+		else{
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
-			return;
 		}
 	}
 }
@@ -893,13 +1028,14 @@ void CMainWindowGuiComp::OnFullScreen()
 		return;
 	}
 
+	QStatusBar* barPtr = mainWidgetPtr->statusBar();
 	if (parentWidgetPtr->isFullScreen()){
 		parentWidgetPtr->showMaximized();
 		m_standardToolBarPtr->show();
-		mainWidgetPtr->statusBar()->show();
+		barPtr->show();
 	}
 	else{
-		mainWidgetPtr->statusBar()->hide();
+		barPtr->hide();
 		m_standardToolBarPtr->hide();
 		parentWidgetPtr->showFullScreen();
 	}
@@ -930,7 +1066,8 @@ void CMainWindowGuiComp::OnStyleSelected(QAction* actionPtr)
 {
 	qApp->setStyle(actionPtr->text());
 
-	QApplication::setPalette(QApplication::style()->standardPalette());
+	QStyle* appStylePtr = QApplication::style();
+	QApplication::setPalette(appStylePtr->standardPalette());
 }
 
 

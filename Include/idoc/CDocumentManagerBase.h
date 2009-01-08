@@ -35,8 +35,6 @@ public:
 
 	CDocumentManagerBase();
 
-	virtual istd::IChangeable* OpenDocument(const istd::CString& filePath, bool createView, const std::string& viewTypeId);
-
 	void SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr);
 
 	// reimplemented (idoc::IDocumentManager)
@@ -49,18 +47,22 @@ public:
 	virtual istd::IChangeable* GetDocumentFromView(const istd::IPolymorphic& view) const;
 	virtual std::string GetDocumentTypeId(const istd::IChangeable& document) const;
 	virtual istd::IChangeable* FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "");
-	virtual bool FileOpen(const std::string* documentTypeIdPtr, const istd::CString* fileNamePtr = NULL, bool createView = true, const std::string& viewTypeId = "");
-	virtual bool FileSave(bool requestFileName = false);
+	virtual bool FileOpen(
+				const std::string* documentTypeIdPtr,
+				const istd::CString* fileNamePtr = NULL,
+				bool createView = true,
+				const std::string& viewTypeId = "",
+				FileToTypeMap* loadedMapPtr = NULL);
+	virtual bool FileSave(
+				bool requestFileName = false,
+				FileToTypeMap* savedMapPtr = NULL);
 	virtual bool FileClose();
-	virtual istd::CStringList GetRecentFileList(const std::string& documentTypeId) const;
 
 protected:
 	typedef istd::TDelPtr<istd::IChangeable> DocumentPtr;
 	typedef istd::TDelPtr<imod::IUndoManager> UndoManagerPtr;
 	typedef istd::TDelPtr<istd::IPolymorphic> ViewPtr;
 	typedef std::list<ViewPtr> Views;
-	typedef std::list<istd::CString> FileList;
-	typedef std::map<std::string, FileList> RecentFilesMap;
 
 	struct DocumentInfo: public imod::CSingleModelObserverBase
 	{
@@ -91,6 +93,20 @@ protected:
 		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 	};
 
+	/**
+		Open single document using its file path.
+		\param	filePath		file path.
+		\param	createView		if true, instance of view will be created.
+		\param	viewTypeId		optional view type ID should be created.
+		\param	documentTypeId	output parameter returning loaded ducument type ID.
+		\return	instance of created document or NULL if error is occured.
+	*/
+	virtual istd::IChangeable* OpenDocument(
+				const istd::CString& filePath,
+				bool createView,
+				const std::string& viewTypeId,
+				std::string& documentTypeId);
+
 	void CloseAllDocuments();
 
 	DocumentInfo& GetDocumentInfo(int index) const;
@@ -119,16 +135,6 @@ protected:
 		Register (attach) created document as new working document.
 	*/
 	bool RegisterDocument(DocumentInfo* documentPtr);
-
-	/**
-		Serialize recent file list
-	*/
-	virtual bool SerializeRecentFileList(iser::IArchive& archive);
-
-	/**
-		Get the maximal count of item in the recent file list.
-	*/
-	virtual int GetMaxRecentFilesCount() const;
 
 	/**
 		Called after view is registered.
@@ -164,15 +170,12 @@ private:
 	*/
 	void UpdateRecentFileList(const istd::CString& requestedFilePath, const std::string& documentTypeId, bool wasSuccess);
 
-private:
 	typedef istd::TPointerVector<DocumentInfo> DocumentInfos;
 
 	const IDocumentTemplate* m_documentTemplatePtr;
 	DocumentInfos m_documentInfos;
 
 	istd::IPolymorphic* m_activeViewPtr;
-
-	RecentFilesMap m_recentFilesMap;
 };
 
 

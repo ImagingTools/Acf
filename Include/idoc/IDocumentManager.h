@@ -2,7 +2,8 @@
 #define idoc_IDocumentManager_included
 
 
-#include <vector>
+#include <string>
+#include <map>
 
 #include "istd/IChangeable.h"
 #include "istd/CString.h"
@@ -26,9 +27,13 @@ public:
 		DocumentCreated = 0x20,
 		DocumentRemoved = 0x40,
 		DocumentCountChanged = 0x80,
-		ViewActivationChanged = 0x100,
-		RecentFileListChanged = 0x200
+		ViewActivationChanged = 0x100
 	};
+
+	/**
+		Map from file path to ducument type ID's.
+	*/
+	typedef std::map<istd::CString, std::string> FileToTypeMap;
 
 	/**
 		Return main document template used by this manager.
@@ -79,26 +84,30 @@ public:
 
 	/**
 		Opens document(s) from the file list. 
-		\param	documentTypeIdPtr	optional ID of document type. If it null, document type will be found automatically.
+		\param	documentTypeIdPtr	optional ID of document type. If it is NULL, document type will be found automatically.
+		\param	fileNamePtr			file name.
 		\param	createView			if true, view will be automatically created.
 		\param	viewTypeId			ID of view type, if it will be created.
+		\param	loadedMapPtr		optional list of loaded files and its document type ID's.
 	*/
-	virtual bool FileOpen(const std::string* documentTypeIdPtr = NULL, const istd::CString* fileNamePtr = NULL, bool createView = true, const std::string& viewTypeId = "") = 0;
+	virtual bool FileOpen(
+				const std::string* documentTypeIdPtr = NULL,
+				const istd::CString* fileNamePtr = NULL,
+				bool createView = true,
+				const std::string& viewTypeId = "",
+				FileToTypeMap* loadedMapPtr = NULL) = 0;
 
 	/**
 		Save active document. 
 	*/
-	virtual bool FileSave(bool requestFileName = false) = 0;
+	virtual bool FileSave(
+				bool requestFileName = false,
+				FileToTypeMap* savedMapPtr = NULL) = 0;
 
 	/**
 		Close current view. 
 	*/
 	virtual bool FileClose() = 0;
-
-	/**
-		Get the recent file list for a given document type.
-	*/
-	virtual istd::CStringList GetRecentFileList(const std::string& documentTypeId) const = 0;
 };
 
 
