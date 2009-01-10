@@ -49,6 +49,8 @@ private:
 	UndoList m_redoList;
 
 	UndoArchivePtr m_beginStateArchivePtr;
+
+	int m_updateNestingCount;
 };
 
 

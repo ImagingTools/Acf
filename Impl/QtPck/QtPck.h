@@ -37,6 +37,7 @@
 #include "iqtdoc/CModelEditorGuiComp.h"
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CMainWindowGuiComp.h"
+#include "iqtdoc/CSingleDocumentWorkspaceGuiComp.h"
 #include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
 
 
@@ -79,6 +80,7 @@ typedef iqtprm::CFileNameParamGuiComp FileNameParamGui;
 typedef iqtdoc::CModelEditorGuiComp ModelEditorGui;
 typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
+typedef icomp::TModelCompWrap<iqtdoc::CSingleDocumentWorkspaceGuiComp> SingleDocWorkspaceGui;
 typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 
 

@@ -190,6 +190,10 @@
 				RelativePath="..\CMultiDocumentWorkspaceGuiComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CSingleDocumentWorkspaceGuiComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -222,6 +226,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiDocumentWorkspaceGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CSingleDocumentWorkspaceGuiComp.h"
 				>
 			</File>
 			<File

@@ -196,6 +196,7 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 							iter != ids.end();
 							++iter){
 					const std::string& documentTypeId = *iter;
+					I_ASSERT(!documentTypeId.empty());
 
 					RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
 
@@ -443,7 +444,7 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 	}
 
 	idoc::IDocumentTemplate::Ids documentTypeIds = templatePtr->GetDocumentTypeIds();
-	if (!documentTypeIds.size()){
+	if (documentTypeIds.empty()){
 		return false;
 	}
 
@@ -748,6 +749,7 @@ void CMainWindowGuiComp::OnNew()
 	idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
 	if (!ids.empty()){
 		const std::string& documentTypeId = ids.front();
+		I_ASSERT(!documentTypeId.empty());
 
 		OnNewDocument(documentTypeId);
 	}
@@ -797,8 +799,7 @@ void CMainWindowGuiComp::OnSaveAs()
 void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
 {
 	if (m_documentManagerCompPtr.IsValid()){
-		istd::IChangeable* documentPtr = m_documentManagerCompPtr->FileNew(documentFactoryId);
-		if (documentPtr == NULL){
+		if (!m_documentManagerCompPtr->FileNew(documentFactoryId)){
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
 			return;
 		}
@@ -927,6 +928,7 @@ void CMainWindowGuiComp::UpdateRecentFileList(const idoc::IDocumentManager::File
 
 		istd::CString filePath = iqt::GetCString(fileInfo.absoluteFilePath());
 		const std::string documentTypeId = iter->second;
+		I_ASSERT(!documentTypeId.empty());
 
 		RemoveFromRecentFileList(filePath);
 

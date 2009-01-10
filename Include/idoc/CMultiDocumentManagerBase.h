@@ -1,5 +1,5 @@
-#ifndef idoc_CDocumentManagerBase_included
-#define idoc_CDocumentManagerBase_included
+#ifndef idoc_CMultiDocumentManagerBase_included
+#define idoc_CMultiDocumentManagerBase_included
 
 
 // STL includes
@@ -13,8 +13,6 @@
 
 #include "iser/IArchive.h"
 
-#include "imod/IModel.h"
-#include "imod/TMultiModelObserverBase.h"
 #include "imod/CSingleModelObserverBase.h"
 
 #include "idoc/IDocumentManager.h"
@@ -27,26 +25,24 @@ namespace idoc
 class IDocumentTemplate;
 
 
-class CDocumentManagerBase: public idoc::IDocumentManager,
-							public imod::TMultiModelObserverBase<imod::IModel>
+class CMultiDocumentManagerBase: virtual public idoc::IDocumentManager
 {
 public:
-	typedef imod::TMultiModelObserverBase<imod::IModel> BaseClass;
-
-	CDocumentManagerBase();
+	CMultiDocumentManagerBase();
 
 	void SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr);
 
 	// reimplemented (idoc::IDocumentManager)
 	virtual const idoc::IDocumentTemplate* GetDocumentTemplate() const;
-	imod::IUndoManager* GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const;
+	virtual imod::IUndoManager* GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const;
 	virtual int GetDocumentsCount() const;
-	virtual istd::IChangeable& GetDocumentFromIndex(int index) const;
+	virtual istd::IChangeable& GetDocumentFromIndex(int index, DocumentInfo* documentInfoPtr) const;
+	virtual int GetViewsCount(int documentIndex) const;
+	virtual istd::IPolymorphic* GetViewFromIndex(int documentIndex, int viewIndex) const;
 	virtual istd::IPolymorphic* GetActiveView() const;
-	virtual void SetActiveView(istd::IPolymorphic* viewPtr);
 	virtual istd::IChangeable* GetDocumentFromView(const istd::IPolymorphic& view) const;
 	virtual std::string GetDocumentTypeId(const istd::IChangeable& document) const;
-	virtual istd::IChangeable* FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "");
+	virtual bool FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "");
 	virtual bool FileOpen(
 				const std::string* documentTypeIdPtr,
 				const istd::CString* fileNamePtr = NULL,
@@ -56,7 +52,7 @@ public:
 	virtual bool FileSave(
 				bool requestFileName = false,
 				FileToTypeMap* savedMapPtr = NULL);
-	virtual bool FileClose();
+	virtual void FileClose(bool* ignoredPtr = NULL);
 
 protected:
 	typedef istd::TDelPtr<istd::IChangeable> DocumentPtr;
@@ -64,34 +60,35 @@ protected:
 	typedef istd::TDelPtr<istd::IPolymorphic> ViewPtr;
 	typedef std::list<ViewPtr> Views;
 
-	struct DocumentInfo: public imod::CSingleModelObserverBase
+	struct SingleDocumentData: public DocumentInfo, public imod::CSingleModelObserverBase
 	{
-		DocumentInfo(
-					CDocumentManagerBase* parentPtr,
+		SingleDocumentData(
+					CMultiDocumentManagerBase* parentPtr,
 					const std::string& documentTypeId,
 					istd::IChangeable* documentPtr,
 					imod::IUndoManager* undoManagerPtr)
-		:	isDirty(false)
 		{
 			this->parentPtr = parentPtr;
 			this->documentTypeId = documentTypeId;
 			this->documentPtr.SetPtr(documentPtr);
 			this->undoManagerPtr.SetPtr(undoManagerPtr);
+			isDirty = false;
 		}
 
-		CDocumentManagerBase* parentPtr;
-		istd::CString filePath;
-		std::string documentTypeId;
+		CMultiDocumentManagerBase* parentPtr;
 		DocumentPtr documentPtr;
 		UndoManagerPtr undoManagerPtr;
 		Views views;
-
-		bool isDirty;
 
 	protected:
 		// reimplemented (imod::CSingleModelObserverBase)
 		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 	};
+
+	/**
+		Indicate that some view is active now.
+	*/
+	virtual void SetActiveView(istd::IPolymorphic* viewPtr);
 
 	/**
 		Open single document using its file path.
@@ -109,45 +106,44 @@ protected:
 
 	void CloseAllDocuments();
 
-	DocumentInfo& GetDocumentInfo(int index) const;
+	SingleDocumentData& GetSingleDocumentData(int index) const;
 
 	/**
 		Get document info assigned to active view.
 	*/
-	DocumentInfo* GetActiveDocumentInfo() const;
+	SingleDocumentData* GetActiveDocumentInfo() const;
 
 	/**
 		Get document info assigned to specified view.
 	*/
-	DocumentInfo* GetDocumentInfoFromView(const istd::IPolymorphic& view) const;
+	SingleDocumentData* GetDocumentInfoFromView(const istd::IPolymorphic& view) const;
 
 	/**
 		Get document info assigned to specified file.
 	*/
-	DocumentInfo* GetDocumentInfoFromPath(const istd::CString& filePath) const;
+	SingleDocumentData* GetDocumentInfoFromPath(const istd::CString& filePath) const;
 
 	/**
 		Create instance of specified document without attaching to this manager.
 	*/
-	DocumentInfo* CreateDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId) const;
+	SingleDocumentData* CreateDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId) const;
 
 	/**
 		Register (attach) created document as new working document.
 	*/
-	bool RegisterDocument(DocumentInfo* documentPtr);
+	bool RegisterDocument(SingleDocumentData* documentPtr);
+
+	// abstract methods
 
 	/**
 		Called after view is registered.
 	*/
-	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
-
+	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr) = 0;
 	/**
 		Called before view is removed.
 	*/
-	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
+	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr) = 0;
 
-	// abstract methods
-	
 	/**
 		Gets open file names.
 	*/
@@ -160,17 +156,13 @@ protected:
 
 	/**
 		Query user if this document can be closed.
-		\return	true, if document can be closed.
+		\param	info		document info of document will be closed.
+		\param	ignoredPtr	optional return flag indicating that user ignored this close operation.
 	*/
-	virtual bool QueryDocumentClose(const DocumentInfo& info) = 0;
+	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr) = 0;
 
 private:
-	/**
-		Do updated of recent file list with the new file \c requestedFilePath.
-	*/
-	void UpdateRecentFileList(const istd::CString& requestedFilePath, const std::string& documentTypeId, bool wasSuccess);
-
-	typedef istd::TPointerVector<DocumentInfo> DocumentInfos;
+	typedef istd::TPointerVector<SingleDocumentData> DocumentInfos;
 
 	const IDocumentTemplate* m_documentTemplatePtr;
 	DocumentInfos m_documentInfos;
@@ -182,6 +174,6 @@ private:
 } // namespace idoc
 
 
-#endif // idoc_CDocumentManagerBase_included
+#endif // idoc_CMultiDocumentManagerBase_included
 
 

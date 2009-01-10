@@ -126,15 +126,14 @@ void CRegistryViewComp::UpdateEditor()
 				I_ASSERT(componentViewPtr != NULL);
 
 				connect(componentViewPtr, 
-					SIGNAL(selectionChanged(CComponentView*, bool)),
-					this,
-					SLOT(OnComponentViewSelected(CComponentView*, bool)));
+							SIGNAL(selectionChanged(CComponentView*, bool)),
+							this,
+							SLOT(OnComponentViewSelected(CComponentView*, bool)));
 
 				connect(componentViewPtr, 
-					SIGNAL(positionChanged(CComponentView*, const QPoint&)),
-					this,
-					SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)),
-					Qt::QueuedConnection);
+							SIGNAL(positionChanged(CComponentView*, const QPoint&)),
+							this,
+							SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)));
 				
 				icomp::IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
 				if (geomeometryProviderPtr != NULL){

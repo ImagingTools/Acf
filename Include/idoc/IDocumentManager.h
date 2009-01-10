@@ -30,6 +30,13 @@ public:
 		ViewActivationChanged = 0x100
 	};
 
+	struct DocumentInfo
+	{
+		istd::CString filePath;
+		std::string documentTypeId;
+		bool isDirty;
+	};
+
 	/**
 		Map from file path to ducument type ID's.
 	*/
@@ -52,8 +59,20 @@ public:
 
 	/**
 		Get document at specified index.
+		\param	index			index of document.
+		\param	documentInfoPtr	optional return value.
 	*/
-	virtual istd::IChangeable& GetDocumentFromIndex(int index) const = 0;
+	virtual istd::IChangeable& GetDocumentFromIndex(int index, DocumentInfo* documentInfoPtr) const = 0;
+
+	/**
+		Get number of view for specified document.
+	*/
+	virtual int GetViewsCount(int documentIndex) const = 0;
+
+	/**
+		Get single view using its and document indices.
+	*/
+	virtual istd::IPolymorphic* GetViewFromIndex(int documentIndex, int viewIndex) const = 0;
 
 	/**
 		Return the active document. 
@@ -79,8 +98,9 @@ public:
 		\param	documentTypeId	ID of document type.
 		\param	createView		if true, view will be automatically created.
 		\param	viewTypeId		ID of view type, if it will be created.
+		\return	true, if success.
 	*/
-	virtual istd::IChangeable* FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "") = 0;
+	virtual bool FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "") = 0;
 
 	/**
 		Opens document(s) from the file list. 
@@ -105,9 +125,10 @@ public:
 				FileToTypeMap* savedMapPtr = NULL) = 0;
 
 	/**
-		Close current view. 
+		Close current view.
+		\param	ignoredPtr	optional return flag indicating that closing was aborted by user.
 	*/
-	virtual bool FileClose() = 0;
+	virtual void FileClose(bool* ignoredPtr = NULL) = 0;
 };
 
 

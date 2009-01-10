@@ -9,7 +9,7 @@
 
 // ACF includes
 #include "idoc/ICommandsProvider.h"
-#include "idoc/CDocumentManagerBase.h"
+#include "idoc/CMultiDocumentManagerBase.h"
 
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/CHierarchicalCommand.h"
@@ -24,14 +24,14 @@ namespace iqtdoc
 */
 class CMultiDocumentWorkspaceGuiComp:
 			public iqtgui::TGuiComponentBase<QMdiArea>, 
-			public idoc::CDocumentManagerBase,
+			public idoc::CMultiDocumentManagerBase,
 			public idoc::ICommandsProvider
 {
 	Q_OBJECT
 
 public:
 	typedef iqtgui::TGuiComponentBase<QMdiArea> BaseClass;
-	typedef idoc::CDocumentManagerBase BaseClass2;
+	typedef idoc::CMultiDocumentManagerBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp);
 		I_REGISTER_INTERFACE(idoc::IDocumentManager);
@@ -94,15 +94,12 @@ protected:
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* obj, QEvent* event);
 
-	// reimplemented (idoc::CDocumentManagerBase)
+	// reimplemented (idoc::CMultiDocumentManagerBase)
 	virtual istd::CStringList GetOpenFileNames(const std::string* documentTypeIdPtr = NULL) const;
 	virtual istd::CString GetSaveFileName(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
-	virtual bool QueryDocumentClose(const DocumentInfo& info);
-
-	// reimplemented (imod::CMultiModelObserverBase)
-	void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr);
 
 	// reimplemented (iqt:CGuiComponentBase)
 	virtual void OnGuiCreated();	

@@ -35,7 +35,8 @@ I_EXPORT_COMPONENT(FileDialogLoader, "File dialog loader", "File Loader Serializ
 I_EXPORT_COMPONENT(ModelEditorGui, "Connection between GUI and model components", "Model Observer Editor GUI Connection Connector Qt");
 I_EXPORT_COMPONENT(ExtendedDocumentTemplate, "Extended serialized document template", "Serialized Document Template Qt");
 I_EXPORT_COMPONENT(MainWindowGui, "Main Qt application window", "Main Window Start Begin GUI Qt");
-I_EXPORT_COMPONENT(MultiDocWorkspaceGui, "Multi document workspace", "Workspace Document Model View Observer MVC GUI Qt");
+I_EXPORT_COMPONENT(SingleDocWorkspaceGui, "Single document workspace", "Workspace Single SDI Document Model View Observer MVC GUI Qt");
+I_EXPORT_COMPONENT(MultiDocWorkspaceGui, "Multi document workspace", "Workspace Multi MDI Document Model View Observer MVC GUI Qt");
 
 I_EXPORT_COMPONENT(Bitmap, "QImage based bitmap implementation", "QImage Image Bitmap Qt");
 I_EXPORT_COMPONENT(BitmapLoader, "Loader loading bitmaps using Qt standard implementations", "Image Bitmap Qt File Loader");

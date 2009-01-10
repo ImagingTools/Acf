@@ -1,4 +1,4 @@
-#include "idoc/CDocumentManagerBase.h"
+#include "idoc/CMultiDocumentManagerBase.h"
 
 
 // STL includes
@@ -6,9 +6,8 @@
 
 #include "istd/TChangeNotifier.h"
 
+#include "imod/IModel.h"
 #include "imod/IModelEditor.h"
-
-#include "iser/CArchiveTag.h"
 
 #include "idoc/IDocumentTemplate.h"
 
@@ -17,13 +16,13 @@ namespace idoc
 {		
 
 
-CDocumentManagerBase::CDocumentManagerBase()
+CMultiDocumentManagerBase::CMultiDocumentManagerBase()
 :	m_documentTemplatePtr(NULL), m_activeViewPtr(NULL)
 {
 }
 
 
-void CDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
+void CMultiDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
 {
 	m_documentTemplatePtr = documentTemplatePtr;
 }
@@ -31,17 +30,17 @@ void CDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* document
 
 // reimplemented (idoc::IDocumentManager)
 
-const idoc::IDocumentTemplate* CDocumentManagerBase::GetDocumentTemplate() const
+const idoc::IDocumentTemplate* CMultiDocumentManagerBase::GetDocumentTemplate() const
 {
 	return m_documentTemplatePtr;
 }
 
 
-imod::IUndoManager* CDocumentManagerBase::GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const
+imod::IUndoManager* CMultiDocumentManagerBase::GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		const DocumentInfo& info = GetDocumentInfo(i);
+		const SingleDocumentData& info = GetSingleDocumentData(i);
 		
 		if(info.documentPtr == documentPtr){
 			return info.undoManagerPtr.GetPtr();
@@ -52,42 +51,68 @@ imod::IUndoManager* CDocumentManagerBase::GetUndoManagerForDocument(const istd::
 }
 
 
-int CDocumentManagerBase::GetDocumentsCount() const
+int CMultiDocumentManagerBase::GetDocumentsCount() const
 {
 	return m_documentInfos.GetCount();
 }
 
 
-istd::IChangeable& CDocumentManagerBase::GetDocumentFromIndex(int index) const
+istd::IChangeable& CMultiDocumentManagerBase::GetDocumentFromIndex(int index, DocumentInfo* documentInfoPtr) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < m_documentInfos.GetCount());
-	I_ASSERT(m_documentInfos.GetAt(index) != NULL);
-	I_ASSERT(m_documentInfos.GetAt(index)->documentPtr.IsValid());
 
-	return *(m_documentInfos.GetAt(index)->documentPtr);
+	SingleDocumentData* infoPtr = m_documentInfos.GetAt(index);
+	I_ASSERT(infoPtr != NULL);
+	I_ASSERT(infoPtr->documentPtr.IsValid());
+
+	if (documentInfoPtr != NULL){
+		*documentInfoPtr = *infoPtr;
+	}
+
+	return *(infoPtr->documentPtr);
 }
 
 
-istd::IPolymorphic* CDocumentManagerBase::GetActiveView() const
+int CMultiDocumentManagerBase::GetViewsCount(int documentIndex) const
+{
+	I_ASSERT(documentIndex >= 0);
+	I_ASSERT(documentIndex < m_documentInfos.GetCount());
+
+	SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
+	I_ASSERT(infoPtr != NULL);
+
+	return int(infoPtr->views.size());
+}
+
+
+istd::IPolymorphic* CMultiDocumentManagerBase::GetViewFromIndex(int documentIndex, int viewIndex) const
+{
+	I_ASSERT(documentIndex >= 0);
+	I_ASSERT(documentIndex < m_documentInfos.GetCount());
+	I_ASSERT(viewIndex < GetViewsCount(documentIndex));
+
+	SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
+	I_ASSERT(infoPtr != NULL);
+
+	Views::iterator iter = infoPtr->views.begin();
+	for (int i = 0; i < viewIndex; ++i){
+		++iter;
+	}
+
+	return iter->GetPtr();
+}
+
+
+istd::IPolymorphic* CMultiDocumentManagerBase::GetActiveView() const
 {
 	return m_activeViewPtr;
 }
 
 
-void CDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
+istd::IChangeable* CMultiDocumentManagerBase::GetDocumentFromView(const istd::IPolymorphic& view) const
 {
-	if (m_activeViewPtr != viewPtr){
-		istd::CChangeNotifier changePtr(this, ViewActivationChanged);
-
-		m_activeViewPtr = viewPtr;
-	}
-}
-
-
-istd::IChangeable* CDocumentManagerBase::GetDocumentFromView(const istd::IPolymorphic& view) const
-{
-	const DocumentInfo* infoPtr = GetDocumentInfoFromView(view);
+	const SingleDocumentData* infoPtr = GetDocumentInfoFromView(view);
 	if (infoPtr != NULL){
 		I_ASSERT(infoPtr != NULL);
 		I_ASSERT(infoPtr->documentPtr.IsValid());
@@ -99,11 +124,11 @@ istd::IChangeable* CDocumentManagerBase::GetDocumentFromView(const istd::IPolymo
 }
 
 
-std::string CDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable& document) const
+std::string CMultiDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable& document) const
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+		SingleDocumentData& info = GetSingleDocumentData(i);
 
 		if (info.documentPtr == &document){
 			return info.documentTypeId;
@@ -114,18 +139,18 @@ std::string CDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable& doc
 }
 
 
-istd::IChangeable* CDocumentManagerBase::FileNew(const std::string& documentTypeId, bool createView, const std::string& viewTypeId)
+bool CMultiDocumentManagerBase::FileNew(const std::string& documentTypeId, bool createView, const std::string& viewTypeId)
 {
-	istd::TDelPtr<DocumentInfo> newInfoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
+	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
 	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.GetPtr())){
-		return newInfoPtr.PopPtr()->documentPtr.GetPtr();
+		return true;
 	}
 
-	return NULL;
+	return false;
 }
 
 
-bool CDocumentManagerBase::FileOpen(
+bool CMultiDocumentManagerBase::FileOpen(
 			const std::string* documentTypeIdPtr,
 			const istd::CString* fileNamePtr,
 			bool createView,
@@ -163,7 +188,7 @@ bool CDocumentManagerBase::FileOpen(
 }
 
 
-bool CDocumentManagerBase::FileSave(
+bool CMultiDocumentManagerBase::FileSave(
 			bool requestFileName,
 			FileToTypeMap* savedMapPtr)
 {
@@ -171,7 +196,7 @@ bool CDocumentManagerBase::FileSave(
 		return false;
 	}
 
-	DocumentInfo* infoPtr = GetActiveDocumentInfo();
+	SingleDocumentData* infoPtr = GetActiveDocumentInfo();
 	if (infoPtr == NULL){
 		return false;
 	}
@@ -218,17 +243,18 @@ bool CDocumentManagerBase::FileSave(
 }
 
 
-bool CDocumentManagerBase::FileClose()
+void CMultiDocumentManagerBase::FileClose(bool* ignoredPtr)
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+		SingleDocumentData& info = GetSingleDocumentData(i);
 
 		Views::iterator findIter = std::find(info.views.begin(), info.views.end(), m_activeViewPtr);
 		if (findIter != info.views.end()){
 			if (info.isDirty){
-				if (!QueryDocumentClose(info)){
-					return false;
+				QueryDocumentClose(info, ignoredPtr);
+				if ((ignoredPtr != NULL) && *ignoredPtr){
+					break;
 				}
 			}
 
@@ -250,18 +276,24 @@ bool CDocumentManagerBase::FileClose()
 
 				m_documentInfos.RemoveAt(i);
 			}
-
-			return true;
 		}
 	}
-
-	return false;
 }
 
 
 // protected methods
 
-istd::IChangeable* CDocumentManagerBase::OpenDocument(
+void CMultiDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
+{
+	if (m_activeViewPtr != viewPtr){
+		istd::CChangeNotifier changePtr(this, ViewActivationChanged);
+
+		m_activeViewPtr = viewPtr;
+	}
+}
+
+
+istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 			const istd::CString& filePath,
 			bool createView,
 			const std::string& viewTypeId,
@@ -271,7 +303,7 @@ istd::IChangeable* CDocumentManagerBase::OpenDocument(
 		return NULL;
 	}
 
-	DocumentInfo* existingInfoPtr = GetDocumentInfoFromPath(filePath);
+	SingleDocumentData* existingInfoPtr = GetDocumentInfoFromPath(filePath);
 	if (existingInfoPtr != NULL){
 		I_ASSERT(existingInfoPtr->documentPtr.IsValid());
 
@@ -297,7 +329,7 @@ istd::IChangeable* CDocumentManagerBase::OpenDocument(
 
 	if (!documentIds.empty()){
 		documentTypeId = documentIds.front();
-		istd::TDelPtr<DocumentInfo> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
+		istd::TDelPtr<SingleDocumentData> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
 		if (infoPtr.IsValid()){
 			I_ASSERT(infoPtr->documentPtr.IsValid());
 
@@ -317,7 +349,7 @@ istd::IChangeable* CDocumentManagerBase::OpenDocument(
 }
 
 
-void CDocumentManagerBase::CloseAllDocuments()
+void CMultiDocumentManagerBase::CloseAllDocuments()
 {
 	istd::CChangeNotifier notifierPtr(this, DocumentCountChanged | DocumentRemoved);
 
@@ -325,19 +357,19 @@ void CDocumentManagerBase::CloseAllDocuments()
 }
 
 
-CDocumentManagerBase::DocumentInfo& CDocumentManagerBase::GetDocumentInfo(int index) const
+CMultiDocumentManagerBase::SingleDocumentData& CMultiDocumentManagerBase::GetSingleDocumentData(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetDocumentsCount());
 
-	DocumentInfo* retVal = const_cast<DocumentInfo*>(m_documentInfos.GetAt(index));
+	SingleDocumentData* retVal = const_cast<SingleDocumentData*>(m_documentInfos.GetAt(index));
 	I_ASSERT(retVal != NULL);
 
 	return *retVal;
 }
 
 
-CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetActiveDocumentInfo() const
+CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetActiveDocumentInfo() const
 {
 	const istd::IPolymorphic* viewPtr = GetActiveView();
 	if (viewPtr != NULL){
@@ -348,11 +380,11 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetActiveDocumentInfo(
 }
 
 
-CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumentInfoFromView(const istd::IPolymorphic& view) const
+CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDocumentInfoFromView(const istd::IPolymorphic& view) const
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+		SingleDocumentData& info = GetSingleDocumentData(i);
 
 		Views::iterator findIter = std::find(info.views.begin(), info.views.end(), &view);
 		if (findIter != info.views.end()){
@@ -364,11 +396,11 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumentInfoFromVie
 }
 
 
-CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumentInfoFromPath(const istd::CString& filePath) const
+CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDocumentInfoFromPath(const istd::CString& filePath) const
 {
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+		SingleDocumentData& info = GetSingleDocumentData(i);
 
 		if (info.filePath == filePath){
 			return &info;
@@ -379,13 +411,13 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::GetDocumentInfoFromPat
 }
 
 
-CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::CreateDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId) const
+CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::CreateDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId) const
 {
 	if (m_documentTemplatePtr != NULL){
 		istd::IChangeable* documentPtr = m_documentTemplatePtr->CreateDocument(documentTypeId);
 
-		istd::TDelPtr<DocumentInfo> infoPtr(new DocumentInfo(
-					const_cast<CDocumentManagerBase*>(this),
+		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
+					const_cast<CMultiDocumentManagerBase*>(this),
 					documentTypeId,
 					documentPtr,
 					m_documentTemplatePtr->CreateUndoManager(documentTypeId, documentPtr)));
@@ -417,7 +449,7 @@ CDocumentManagerBase::DocumentInfo* CDocumentManagerBase::CreateDocument(const s
 }
 
 
-bool CDocumentManagerBase::RegisterDocument(DocumentInfo* infoPtr)
+bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 {
 	I_ASSERT(infoPtr != NULL);
 
@@ -439,21 +471,11 @@ bool CDocumentManagerBase::RegisterDocument(DocumentInfo* infoPtr)
 }
 
 
-void CDocumentManagerBase::OnViewRegistered(istd::IPolymorphic* /*viewPtr*/)
-{
-}
-
-
-void CDocumentManagerBase::OnViewRemoved(istd::IPolymorphic* /*viewPtr*/)
-{
-}
-
-
-// protected methods of embedded class DocumentInfo
+// protected methods of embedded class SingleDocumentData
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CDocumentManagerBase::DocumentInfo::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
 	if (!isDirty){
 		istd::CChangeNotifier notifier(parentPtr);

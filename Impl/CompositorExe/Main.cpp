@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "");
-	splashScreenGui.SetStringAttr("ProductType", "ACF Tool");
+	splashScreenGui.SetStringAttr("ProductType", "Mini");
 	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
@@ -144,10 +144,8 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetBoolAttr("IsNewSupported", true);
 	documentTemplateComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::MultiDocWorkspaceGui> workspaceComp;
+	icomp::TSimComponentWrap<QtPck::SingleDocWorkspaceGui> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
-	workspaceComp.SetRef("ApplicationInfo", &applicationInfo);
-	workspaceComp.SetBoolAttr("ShowViewMaximized", true);
 	workspaceComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::DockWidgetGui> attributeEditorDockComp;

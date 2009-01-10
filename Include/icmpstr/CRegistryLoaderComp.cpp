@@ -8,6 +8,8 @@
 #include <QMessageBox>
 
 
+#include "istd/TChangeNotifier.h"
+
 #include "icmpstr/CRegistryModelComp.h"
 
 
@@ -19,6 +21,8 @@ namespace icmpstr
 
 int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
+	istd::CChangeNotifier notifier(&data);
+
 	int retVal = BaseClass::LoadFromFile(data, filePath);
 
 	if (retVal == StateOk){

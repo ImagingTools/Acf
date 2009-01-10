@@ -111,7 +111,7 @@ void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 
 	int documentsCount = GetDocumentsCount();
 	for (int i = 0; i < documentsCount; ++i){
-		const DocumentInfo& info = GetDocumentInfo(i);
+		const SingleDocumentData& info = GetSingleDocumentData(i);
 
 		QString titleName = info.filePath.IsEmpty()?
 					tr("<no name>"):
@@ -154,7 +154,7 @@ iqtgui::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWid
 {
 	int documentInfosCount = GetDocumentsCount();
 	for (int i = 0; i < documentInfosCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+		SingleDocumentData& info = GetSingleDocumentData(i);
 
 		for (		Views::const_iterator viewIter = info.views.begin();
 					viewIter != info.views.end();
@@ -236,7 +236,10 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
 			if (guiObjectPtr != NULL){
 				SetActiveView(guiObjectPtr);
 
-				if (FileClose()){
+				bool isCloseIgnored = false;
+				FileClose(&isCloseIgnored);
+
+				if (!isCloseIgnored){
 					return true;
 				}
 			}
@@ -251,7 +254,7 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
 }
 
 
-// reimplemented (idoc::CDocumentManagerBase)
+// reimplemented (idoc::CMultiDocumentManagerBase)
 
 istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFileNames(const std::string* documentTypeIdPtr) const
 {
@@ -317,33 +320,32 @@ void CMultiDocumentWorkspaceGuiComp::OnViewRemoved(istd::IPolymorphic* /*viewPtr
 }
 
 
-bool CMultiDocumentWorkspaceGuiComp::QueryDocumentClose(const DocumentInfo& info)
+void CMultiDocumentWorkspaceGuiComp::QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr)
 {
 	QFileInfo fileInfo(iqt::GetQString(info.filePath));
+	int buttons = QMessageBox::Yes | QMessageBox::No;
+
+	if (ignoredPtr != NULL){
+		buttons |= QMessageBox::Cancel;
+	}
+
 	int response = QMessageBox::information(
 				NULL,
 				QObject::tr("Close document"),
 				QObject::tr("Do you want to save your changes made in document\n%1").arg(fileInfo.fileName()),
-				QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+				buttons,
 				QMessageBox::Yes);
 
 	if (response == QMessageBox::Yes){
-		return FileSave();
+		bool wasSaved = FileSave();
+
+		if (ignoredPtr != NULL){
+			*ignoredPtr = !wasSaved;
+		}
 	}
-
-	return response == QMessageBox::No;
-}
-
-
-// reimplemented (imod::CMultiModelObserverBase)
-
-void CMultiDocumentWorkspaceGuiComp::OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-	BaseClass2::OnUpdate(modelPtr, updateFlags, updateParamsPtr);
-
-	UpdateAllTitles();
-
-	// TODO: implement support for modify flag.
+	else if ((ignoredPtr != NULL) && (response == QMessageBox::Cancel)){
+		*ignoredPtr = true;
+	}
 }
 
 
@@ -359,16 +361,14 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 	CreateConnections();
 
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		DocumentInfo& info = GetDocumentInfo(i);
+	for (int docIndex = 0; docIndex < documentsCount; ++docIndex){
+		int viewsCount = GetViewsCount(docIndex);
 
-		for (		Views::const_iterator viewIter = info.views.begin();
-					viewIter != info.views.end();
-					++viewIter){
-				const ViewPtr& viewPtr = *viewIter;
-				I_ASSERT(viewPtr.IsValid());
+		for (int viewIndex = 0; viewIndex < viewsCount; ++viewIndex){
+			istd::IPolymorphic* viewPtr = GetViewFromIndex(docIndex, viewIndex);
+			I_ASSERT(viewPtr != NULL);
 
-				OnViewRegistered(viewPtr.GetPtr());
+			OnViewRegistered(viewPtr);
 		}
 	}
 
