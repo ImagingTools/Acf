@@ -331,39 +331,39 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CAttributeEditorComp.cpp"
+				RelativePath="..\Generated\moc_CAttributeEditorComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CComponentView.cpp"
+				RelativePath="..\Generated\moc_CComponentView.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CPackageOverviewComp.cpp"
+				RelativePath="..\Generated\moc_CPackageOverviewComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CRegistryPreviewComp.cpp"
+				RelativePath="..\Generated\moc_CRegistryPreviewComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CRegistryView.cpp"
+				RelativePath="..\Generated\moc_CRegistryView.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CRegistryViewComp.cpp"
+				RelativePath="..\Generated\moc_CRegistryViewComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\qrc_icmpstr.cpp"
+				RelativePath="..\Generated\qrc_icmpstr.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAttributeEditorComp.h"
+				RelativePath="..\Generated\ui_CAttributeEditorComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CPackageOverviewComp.h"
+				RelativePath="..\Generated\ui_CPackageOverviewComp.h"
 				>
 			</File>
 		</Filter>

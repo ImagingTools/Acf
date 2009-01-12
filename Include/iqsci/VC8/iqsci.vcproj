@@ -216,15 +216,15 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CTextEditor.cpp"
+				RelativePath="..\Generated\moc_CTextEditor.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CTextEditorGuiComp.cpp"
+				RelativePath="..\Generated\moc_CTextEditorGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CTextEditor.h"
+				RelativePath="..\Generated\ui_CTextEditor.h"
 				>
 			</File>
 		</Filter>

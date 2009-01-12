@@ -14,9 +14,9 @@
 		223456830ED2E572006EC826 /* CTextEditorGuiComp.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CTextEditorGuiComp.h */; };
 		223456840ED2E572006EC826 /* CTextEditorGuiComp.moc in Garbages */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CTextEditorGuiComp.moc */; };
 		223456850ED2E572006EC826 /* iqsci.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* iqsci.h */; };
-		223456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */; };
-		223456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */; };
-		223456880ED2E572006EC826 /* generated\ui_CTextEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */; };
+		223456860ED2E572006EC826 /* moc_CTextEditor.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* moc_CTextEditor.cpp */; };
+		223456870ED2E572006EC826 /* moc_CTextEditorGuiComp.cpp in Generated */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* moc_CTextEditorGuiComp.cpp */; };
+		223456880ED2E572006EC826 /* ui_CTextEditor.h in Generated */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* ui_CTextEditor.h */; };
 		223456890ED2E572006EC826 /* CTextEditor.ui in Forms */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* CTextEditor.ui */; };
 /* End PBXBuildFile section */
 
@@ -28,9 +28,9 @@
 		123456830ED2E572006EC826 /* CTextEditorGuiComp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorGuiComp.h; path = ../CTextEditorGuiComp.h; sourceTree = SOURCE_ROOT; };
 		123456840ED2E572006EC826 /* CTextEditorGuiComp.moc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditorGuiComp.moc; path = ../CTextEditorGuiComp.moc; sourceTree = SOURCE_ROOT; };
 		123456850ED2E572006EC826 /* iqsci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iqsci.h; path = ../iqsci.h; sourceTree = SOURCE_ROOT; };
-		123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\moc_CTextEditor.cpp; path = ../generated/moc_CTextEditor.cpp; sourceTree = SOURCE_ROOT; };
-		123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\moc_CTextEditorGuiComp.cpp; path = ../generated/moc_CTextEditorGuiComp.cpp; sourceTree = SOURCE_ROOT; };
-		123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = generated\ui_CTextEditor.h; path = ../generated/ui_CTextEditor.h; sourceTree = SOURCE_ROOT; };
+		123456860ED2E572006EC826 /* moc_CTextEditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CTextEditor.cpp; path = ../Generated/moc_CTextEditor.cpp; sourceTree = SOURCE_ROOT; };
+		123456870ED2E572006EC826 /* moc_CTextEditorGuiComp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_CTextEditorGuiComp.cpp; path = ../Generated/moc_CTextEditorGuiComp.cpp; sourceTree = SOURCE_ROOT; };
+		123456880ED2E572006EC826 /* ui_CTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui_CTextEditor.h; path = ../Generated/ui_CTextEditor.h; sourceTree = SOURCE_ROOT; };
 		123456890ED2E572006EC826 /* CTextEditor.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTextEditor.ui; path = ../CTextEditor.ui; sourceTree = SOURCE_ROOT; };
 		D2AAC046055464E500DB518D /* libiqsci.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiqsci.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -66,7 +66,6 @@
 				123456810ED2E572006EC826 /* CTextEditor.h */,
 				123456830ED2E572006EC826 /* CTextEditorGuiComp.h */,
 				123456850ED2E572006EC826 /* iqsci.h */,
-				123456880ED2E572006EC826 /* generated\ui_CTextEditor.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -76,8 +75,6 @@
 			children = (
 				123456790ED2E572006EC826 /* CTextEditor.cpp */,
 				123456800ED2E572006EC826 /* CTextEditorGuiComp.cpp */,
-				123456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp */,
-				123456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -100,6 +97,9 @@
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
 			isa = PBXGroup;
 			children = (
+				123456860ED2E572006EC826 /* moc_CTextEditor.cpp */,
+				123456870ED2E572006EC826 /* moc_CTextEditorGuiComp.cpp */,
+				123456880ED2E572006EC826 /* ui_CTextEditor.h */,
 			);
 			name = Generated;
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 				223456810ED2E572006EC826 /* CTextEditor.h in Headers */,
 				223456830ED2E572006EC826 /* CTextEditorGuiComp.h in Headers */,
 				223456850ED2E572006EC826 /* iqsci.h in Headers */,
-				223456880ED2E572006EC826 /* generated\ui_CTextEditor.h in Headers */,
+				223456880ED2E572006EC826 /* ui_CTextEditor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,8 +203,8 @@
 			files = (
 				223456790ED2E572006EC826 /* CTextEditor.cpp in Sources */,
 				223456800ED2E572006EC826 /* CTextEditorGuiComp.cpp in Sources */,
-				223456860ED2E572006EC826 /* generated\moc_CTextEditor.cpp in Sources */,
-				223456870ED2E572006EC826 /* generated\moc_CTextEditorGuiComp.cpp in Sources */,
+				223456860ED2E572006EC826 /* moc_CTextEditor.cpp in Sources */,
+				223456870ED2E572006EC826 /* moc_CTextEditorGuiComp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
