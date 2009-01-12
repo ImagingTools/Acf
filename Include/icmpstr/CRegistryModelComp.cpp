@@ -122,11 +122,11 @@ int CRegistryModelComp::CheckAttributeConsistency(const icomp::IRegistryElement&
 }
 
 
-// reimplemented (icomp::IRegistryGeometryProvider)
+// reimplemented (icmpstr::IRegistryEditController)
 
-i2d::CVector2d CRegistryModelComp::GetComponentPosition(const std::string& componentRole) const
+i2d::CVector2d CRegistryModelComp::GetComponentPosition(const std::string& componentName) const
 {
-	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentRole);
+	ElementsPositionMap::const_iterator elementIter = m_elementsPositionMap.find(componentName);
 	if (elementIter != m_elementsPositionMap.end()){
 		return elementIter->second;
 	}
@@ -136,23 +136,21 @@ i2d::CVector2d CRegistryModelComp::GetComponentPosition(const std::string& compo
 }
 
 
-void CRegistryModelComp::SetComponentPosition(const std::string& componentRole, const i2d::CVector2d& position)
+void CRegistryModelComp::SetComponentPosition(const std::string& componentName, const i2d::CVector2d& position)
 {
-	if (position != GetComponentPosition(componentRole)){
+	if (position != GetComponentPosition(componentName)){
 		istd::CChangeNotifier changePtr(this, CF_POSITION);
 
-		m_elementsPositionMap[componentRole]  = position;
+		m_elementsPositionMap[componentName]  = position;
 	}
 }
 
 
-// reimplemented (icomp::IRegistryNotesProvider)
-
-istd::CString CRegistryModelComp::GetComponentNote(const std::string& componentRole) const
+istd::CString CRegistryModelComp::GetComponentNote(const std::string& componentName) const
 {
 	static istd::CString emptyNote;
 
-	ElementsNoteMap::const_iterator noteIter = m_elementsNoteMap.find(componentRole);
+	ElementsNoteMap::const_iterator noteIter = m_elementsNoteMap.find(componentName);
 	if (noteIter != m_elementsNoteMap.end()){
 		return noteIter->second;
 	}
@@ -161,26 +159,24 @@ istd::CString CRegistryModelComp::GetComponentNote(const std::string& componentR
 }
 
 
-void CRegistryModelComp::SetComponentNote(const std::string& componentRole, const istd::CString& componentNote)
+void CRegistryModelComp::SetComponentNote(const std::string& componentName, const istd::CString& componentNote)
 {	
-	if (componentNote != GetComponentNote(componentRole)){
+	if (componentNote != GetComponentNote(componentName)){
 		istd::CChangeNotifier changePtr(this, CF_NOTE);
 
-		m_elementsNoteMap[componentRole]  = componentNote;
+		if (componentNote.IsEmpty()){
+			ElementsNoteMap::iterator noteIter = m_elementsNoteMap.find(componentName);
+			if (noteIter != m_elementsNoteMap.end()){
+				istd::CChangeNotifier changePtr(this, CF_NOTE);
+
+				m_elementsNoteMap.erase(noteIter);
+			}
+		}
+		else{
+			m_elementsNoteMap[componentName]  = componentNote;
+		}
 	}
 }
-
-
-void CRegistryModelComp::RemoveComponentNote(const std::string& componentRole)
-{
-	ElementsNoteMap::iterator noteIter = m_elementsNoteMap.find(componentRole);
-	if (noteIter != m_elementsNoteMap.end()){
-		istd::CChangeNotifier changePtr(this, CF_NOTE);
-
-		m_elementsNoteMap.erase(noteIter);
-	}
-}
-
 
 
 // reimplemented (icomp::IComponent)

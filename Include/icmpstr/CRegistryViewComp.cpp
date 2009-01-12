@@ -11,9 +11,7 @@
 #include "iser/CMemoryReadArchive.h"
 #include "iser/CMemoryWriteArchive.h"
 
-#include "icomp/IRegistryGeometryProvider.h"
-#include "icomp/IRegistryNotesProvider.h"
-
+#include "icmpstr/IRegistryEditController.h"
 #include "icmpstr/CComponentView.h"
 #include "icmpstr/CComponentConnector.h"
 #include "icmpstr/CRegistryModelComp.h"
@@ -80,7 +78,7 @@ bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& addre
 		if (registryPtr.IsValid()){
 			icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->InsertElementInfo(componentName.toStdString(), address);
 			if (elementInfoPtr != NULL){
-				icomp::IRegistryGeometryProvider* providerPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr.GetPtr());
+				IRegistryEditController* providerPtr = dynamic_cast<IRegistryEditController*>(registryPtr.GetPtr());
 				if (providerPtr != NULL){
 					providerPtr->SetComponentPosition(componentName.toStdString(), position);
 				}
@@ -137,7 +135,7 @@ void CRegistryViewComp::UpdateEditor()
 							this,
 							SLOT(OnComponentPositionChanged(CComponentView*, const QPoint&)));
 				
-				icomp::IRegistryGeometryProvider* geomeometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
+				IRegistryEditController* geomeometryProviderPtr = dynamic_cast<IRegistryEditController*>(registryPtr);
 				if (geomeometryProviderPtr != NULL){
 					i2d::CVector2d position = geomeometryProviderPtr->GetComponentPosition(elementId);
 					componentViewPtr->setPos(int(position.GetX() + 0.5), int(position.GetY() + 0.5));
@@ -312,7 +310,7 @@ void CRegistryViewComp::OnComponentPositionChanged(CComponentView* view, const Q
 		return;
 	}
 
-	icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(GetObjectPtr());
+	IRegistryEditController* geometryProviderPtr = dynamic_cast<IRegistryEditController*>(GetObjectPtr());
 	if (geometryProviderPtr != NULL){
 		geometryProviderPtr->SetComponentPosition(view->GetComponentName(), i2d::CVector2d(newPosition.x(), newPosition.y()));
 	}
@@ -360,7 +358,7 @@ void CRegistryViewComp::OnRenameComponent()
 			const std::string& oldName = selectedComponentPtr->GetComponentName();
 
 			i2d::CVector2d position(0, 0);
-			icomp::IRegistryGeometryProvider* geometryProviderPtr = dynamic_cast<icomp::IRegistryGeometryProvider*>(registryPtr);
+			IRegistryEditController* geometryProviderPtr = dynamic_cast<IRegistryEditController*>(registryPtr);
 			if (geometryProviderPtr != NULL){
 				position = geometryProviderPtr->GetComponentPosition(oldName);
 			}
@@ -534,7 +532,7 @@ void CRegistryViewComp::OnAddNote()
 	const CComponentView* selectedComponentPtr = viewPtr->GetSelectedComponent();	
 	I_ASSERT(selectedComponentPtr != NULL);
 
-	icomp::IRegistryNotesProvider* providerPtr = dynamic_cast<icomp::IRegistryNotesProvider*>(GetObjectPtr());
+	IRegistryEditController* providerPtr = dynamic_cast<IRegistryEditController*>(GetObjectPtr());
 	if (providerPtr != NULL){
 		providerPtr->SetComponentNote(selectedComponentPtr->GetComponentName(), istd::CString());
 	}

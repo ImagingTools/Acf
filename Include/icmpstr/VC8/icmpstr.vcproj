@@ -306,6 +306,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IRegistryEditController.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IRegistryPreview.h"
 				>
 			</File>

@@ -2,15 +2,13 @@
 #define CRegistryModelComp_included
 
 
-#include "icomp/IRegistryGeometryProvider.h"
-#include "icomp/IRegistryNotesProvider.h"
 #include "icomp/CRegistry.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
 
 #include "ibase/TLoggerCompWrap.h"
 
-#include "icmpstr/icmpstr.h"
+#include "icmpstr/IRegistryEditController.h"
 
 
 namespace icmpstr
@@ -20,8 +18,7 @@ namespace icmpstr
 class CRegistryModelComp:
 			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
 			public icomp::CRegistry,
-			virtual public icomp::IRegistryGeometryProvider,
-			virtual public icomp::IRegistryNotesProvider
+			virtual public IRegistryEditController
 {
 public:
 	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
@@ -54,14 +51,11 @@ public:
 	};
 	int CheckAttributeConsistency(const icomp::IRegistryElement& element, const std::string& attributeId);
 
-	// reimplemented (icomp::IRegistryGeometryProvider)
-	virtual i2d::CVector2d GetComponentPosition(const std::string& componentRole) const;
-	virtual void SetComponentPosition(const std::string& componentRole, const i2d::CVector2d& point);
-
-	// reimplemented (icomp::IRegistryNotesProvider)
-	virtual istd::CString GetComponentNote(const std::string& componentRole) const;
-	virtual void SetComponentNote(const std::string& componentRole, const istd::CString& componentNote);
-	virtual void RemoveComponentNote(const std::string& componentRole);
+	// reimplemented (icmpstr::IRegistryEditController)
+	virtual i2d::CVector2d GetComponentPosition(const std::string& componentName) const;
+	virtual void SetComponentPosition(const std::string& componentName, const i2d::CVector2d& point);
+	virtual istd::CString GetComponentNote(const std::string& componentName) const;
+	virtual void SetComponentNote(const std::string& componentName, const istd::CString& componentNote);
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
