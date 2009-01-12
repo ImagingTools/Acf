@@ -9,12 +9,73 @@
 /* Begin PBXBuildFile section */
 		223456790ED2E572006EC826 /* CmpstrPck.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CmpstrPck.cpp */; };
 		223456800ED2E572006EC826 /* CmpstrPck.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CmpstrPck.h */; };
+		EAD9AA310F1B5E9700B8B727 /* libacfstd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA300F1B5E9500B8B727 /* libacfstd.a */; };
+		EAD9AA8E0F1B69C400B8B727 /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA890F1B69C400B8B727 /* QtCore.framework */; };
+		EAD9AA8F0F1B69C400B8B727 /* QtGui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA8A0F1B69C400B8B727 /* QtGui.framework */; };
+		EAD9AA900F1B69C400B8B727 /* QtNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA8B0F1B69C400B8B727 /* QtNetwork.framework */; };
+		EAD9AA910F1B69C400B8B727 /* QtScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA8C0F1B69C400B8B727 /* QtScript.framework */; };
+		EAD9AA920F1B69C400B8B727 /* QtXml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA8D0F1B69C400B8B727 /* QtXml.framework */; };
+		EAD9AA940F1B69F000B8B727 /* libicmpstr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA5B0F1B678200B8B727 /* libicmpstr.a */; };
+		EAD9AA9F0F1B6A3100B8B727 /* libacfqt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAD9AA9E0F1B6A2E00B8B727 /* libacfqt.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EAD9AA2F0F1B5E9500B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9A9F40F1B5E9400B8B727 /* AcfStd.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC046055464E500DB518D /* libacfstd.a */;
+			remoteInfo = acfstd;
+		};
+		EAD9AA320F1B5EA300B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9A9F40F1B5E9400B8B727 /* AcfStd.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D /* acfstd */;
+			remoteInfo = acfstd;
+		};
+		EAD9AA5A0F1B678200B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9AA530F1B678200B8B727 /* icmpstr.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC046055464E500DB518D /* libicmpstr.a */;
+			remoteInfo = icmpstr;
+		};
+		EAD9AA5D0F1B692D00B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9AA530F1B678200B8B727 /* icmpstr.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D /* icmpstr */;
+			remoteInfo = icmpstr;
+		};
+		EAD9AA9D0F1B6A2E00B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9AA990F1B6A2E00B8B727 /* AcfQt.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC046055464E500DB518D /* libacfqt.a */;
+			remoteInfo = acfqt;
+		};
+		EAD9AAA00F1B6A3D00B8B727 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EAD9AA990F1B6A2E00B8B727 /* AcfQt.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC045055464E500DB518D /* acfqt */;
+			remoteInfo = acfqt;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		123456790ED2E572006EC826 /* CmpstrPck.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CmpstrPck.cpp; path = ../CmpstrPck.cpp; sourceTree = SOURCE_ROOT; };
 		123456800ED2E572006EC826 /* CmpstrPck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CmpstrPck.h; path = ../CmpstrPck.h; sourceTree = SOURCE_ROOT; };
-		D2AAC046055464E500DB518D /* CmpstrPck.arp */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = CmpstrPck.arp; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC046055464E500DB518D /* CmpstrPck.arp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = CmpstrPck.arp; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAD9A9F40F1B5E9400B8B727 /* AcfStd.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AcfStd.xcodeproj; path = ../../AcfStd/Xcd/AcfStd.xcodeproj; sourceTree = SOURCE_ROOT; };
+		EAD9AA530F1B678200B8B727 /* icmpstr.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = icmpstr.xcodeproj; path = ../../../Include/icmpstr/Xcd/icmpstr.xcodeproj; sourceTree = SOURCE_ROOT; };
+		EAD9AA890F1B69C400B8B727 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = "../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib/QtCore.framework"; sourceTree = SOURCE_ROOT; };
+		EAD9AA8A0F1B69C400B8B727 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = "../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib/QtGui.framework"; sourceTree = SOURCE_ROOT; };
+		EAD9AA8B0F1B69C400B8B727 /* QtNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtNetwork.framework; path = "../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib/QtNetwork.framework"; sourceTree = SOURCE_ROOT; };
+		EAD9AA8C0F1B69C400B8B727 /* QtScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtScript.framework; path = "../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib/QtScript.framework"; sourceTree = SOURCE_ROOT; };
+		EAD9AA8D0F1B69C400B8B727 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = "../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib/QtXml.framework"; sourceTree = SOURCE_ROOT; };
+		EAD9AA990F1B6A2E00B8B727 /* AcfQt.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AcfQt.xcodeproj; path = ../../AcfQt/Xcd/AcfQt.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -22,6 +83,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAD9AA310F1B5E9700B8B727 /* libacfstd.a in Frameworks */,
+				EAD9AA8E0F1B69C400B8B727 /* QtCore.framework in Frameworks */,
+				EAD9AA8F0F1B69C400B8B727 /* QtGui.framework in Frameworks */,
+				EAD9AA900F1B69C400B8B727 /* QtNetwork.framework in Frameworks */,
+				EAD9AA910F1B69C400B8B727 /* QtScript.framework in Frameworks */,
+				EAD9AA920F1B69C400B8B727 /* QtXml.framework in Frameworks */,
+				EAD9AA940F1B69F000B8B727 /* libicmpstr.a in Frameworks */,
+				EAD9AA9F0F1B6A3100B8B727 /* libacfqt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -31,6 +100,14 @@
 		08FB7794FE84155DC02AAC07 /* CmpstrPck */ = {
 			isa = PBXGroup;
 			children = (
+				EAD9AA890F1B69C400B8B727 /* QtCore.framework */,
+				EAD9AA8A0F1B69C400B8B727 /* QtGui.framework */,
+				EAD9AA8B0F1B69C400B8B727 /* QtNetwork.framework */,
+				EAD9AA8C0F1B69C400B8B727 /* QtScript.framework */,
+				EAD9AA8D0F1B69C400B8B727 /* QtXml.framework */,
+				EAD9A9F40F1B5E9400B8B727 /* AcfStd.xcodeproj */,
+				EAD9AA990F1B6A2E00B8B727 /* AcfQt.xcodeproj */,
+				EAD9AA530F1B678200B8B727 /* icmpstr.xcodeproj */,
 				EAB5AC950ED2E587006EC826 /* Header */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6A0FF2B0290797F04C91782 /* Forms */,
@@ -42,14 +119,6 @@
 			name = CmpstrPck;
 			sourceTree = "<group>";
 		};
-		EAB5AC950ED2E587006EC826 /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				123456800ED2E572006EC826 /* CmpstrPck.h */,
-			);
-			name = Header;
-			sourceTree = "<group>";
-		};
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,18 +127,19 @@
 			name = Source;
 			sourceTree = "<group>";
 		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC046055464E500DB518D /* CmpstrPck.arp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C6A0FF2B0290797F04C91782 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Forms;
-			sourceTree = "<group>";
-		};
-		EA9856AA0EEABE3D00C738EF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
@@ -86,10 +156,41 @@
 			name = Garbages;
 			sourceTree = "<group>";
 		};
-		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+		EA9856AA0EEABE3D00C738EF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC046055464E500DB518D /* CmpstrPck.arp */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		EAB5AC950ED2E587006EC826 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				123456800ED2E572006EC826 /* CmpstrPck.h */,
+			);
+			name = Header;
+			sourceTree = "<group>";
+		};
+		EAD9A9F50F1B5E9400B8B727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAD9AA300F1B5E9500B8B727 /* libacfstd.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAD9AA540F1B678200B8B727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAD9AA5B0F1B678200B8B727 /* libicmpstr.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAD9AA9A0F1B6A2E00B8B727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EAD9AA9E0F1B6A2E00B8B727 /* libacfqt.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,6 +221,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				EAD9AA330F1B5EA300B8B727 /* PBXTargetDependency */,
+				EAD9AA5E0F1B692D00B8B727 /* PBXTargetDependency */,
+				EAD9AAA10F1B6A3D00B8B727 /* PBXTargetDependency */,
 			);
 			name = CmpstrPck;
 			productName = CmpstrPck;
@@ -136,12 +240,50 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* CmpstrPck */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = EAD9AA9A0F1B6A2E00B8B727 /* Products */;
+					ProjectRef = EAD9AA990F1B6A2E00B8B727 /* AcfQt.xcodeproj */;
+				},
+				{
+					ProductGroup = EAD9A9F50F1B5E9400B8B727 /* Products */;
+					ProjectRef = EAD9A9F40F1B5E9400B8B727 /* AcfStd.xcodeproj */;
+				},
+				{
+					ProductGroup = EAD9AA540F1B678200B8B727 /* Products */;
+					ProjectRef = EAD9AA530F1B678200B8B727 /* icmpstr.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D2AAC045055464E500DB518D /* CmpstrPck */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		EAD9AA300F1B5E9500B8B727 /* libacfstd.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libacfstd.a;
+			remoteRef = EAD9AA2F0F1B5E9500B8B727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EAD9AA5B0F1B678200B8B727 /* libicmpstr.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libicmpstr.a;
+			remoteRef = EAD9AA5A0F1B678200B8B727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EAD9AA9E0F1B6A2E00B8B727 /* libacfqt.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libacfqt.a;
+			remoteRef = EAD9AA9D0F1B6A2E00B8B727 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		EA6981130EEBF38E00FE4110 /* ShellScript */ = {
@@ -171,20 +313,42 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		EAD9AA330F1B5EA300B8B727 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = acfstd;
+			targetProxy = EAD9AA320F1B5EA300B8B727 /* PBXContainerItemProxy */;
+		};
+		EAD9AA5E0F1B692D00B8B727 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = icmpstr;
+			targetProxy = EAD9AA5D0F1B692D00B8B727 /* PBXContainerItemProxy */;
+		};
+		EAD9AAA10F1B6A3D00B8B727 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = acfqt;
+			targetProxy = EAD9AAA00F1B6A3D00B8B727 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		1DEB91EC08733DB70010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "arp";
-				EXECUTABLE_PREFIX = "";
 				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_EXTENSION = arp;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CmpstrPck;
 				ZERO_LINK = YES;
@@ -194,13 +358,17 @@
 		1DEB91ED08733DB70010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				CONFIGURATION_BUILD_DIR = "../../../Bin/$(CONFIGURATION)Xcd";
-				EXECUTABLE_EXTENSION = "arp";
-				EXECUTABLE_PREFIX = "";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_EXTENSION = arp;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../../Downloads/qt-mac-opensource-src-4.4.3/lib\"",
+				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CmpstrPck;
 			};

@@ -355,9 +355,6 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	QMdiArea* workspacePtr = GetQtWidget();
-	I_ASSERT(workspacePtr != NULL);
-
 	CreateConnections();
 
 	int documentsCount = GetDocumentsCount();
