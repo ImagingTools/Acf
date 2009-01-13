@@ -30,7 +30,7 @@ void CRegistryPreviewComp::OnComponentCreated()
 	connect(	&m_process, 
 				SIGNAL(stateChanged(QProcess::ProcessState)), 
 				this, 
-				SLOT(OnFinished(QProcess::ProcessState)), 
+				SLOT(OnStateChanged(QProcess::ProcessState)), 
 				Qt::QueuedConnection);
 }
 

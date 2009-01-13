@@ -3,7 +3,6 @@
 
 
 #include "icmm/icmm.h"
-#include "iproc/iproc.h"
 
 
 /**
@@ -15,7 +14,6 @@
 	\li istd
 	\li iser
 	\li	icmm
-	\li	iproc
 */
 namespace iimg
 {
