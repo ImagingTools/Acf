@@ -22,7 +22,7 @@ public:
 		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN_MULTI_0(m_slaveLoadersCompPtr, "SlaveLoaders", "List of slave loaders", true);
 		I_ASSIGN(m_commonDescriptionAttrPtr, "CommonDescription", "Optional common description of this file type", false, "Composed");
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(

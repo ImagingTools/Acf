@@ -25,7 +25,7 @@ public:
 		I_REGISTER_INTERFACE(ISceneExtender);
 		I_ASSIGN(m_slaveExtenderCompPtr, "SlaveSceneExtender", "Scene extender will be used to provide background shapes", false, "SlaveSceneExtender");
 		I_ASSIGN_MULTI_0(m_idFiltersAttrPtr, "SceneIdFilters", "Optional scene ID filters allowing to ignore some scene providers", false);
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (iqt2d::ISceneExtender)
 	virtual void AddItemsToScene(ISceneProvider* providerPtr, int flags);

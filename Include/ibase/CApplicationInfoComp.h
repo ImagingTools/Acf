@@ -28,7 +28,7 @@ public:
 		I_ASSIGN_MULTI_0(m_knownVersionNamesAttrPtr, "KnownVersionNames", "Names of known versions", false);
 		I_ASSIGN(m_isExtensionUsedAttrPtr, "IsExtensionUsed", "Enable using of automatic calculated minor version information at the end of encoded version string", true, true);
 		I_ASSIGN(m_slaveVersionInfoCompPtr, "SlaveApplicationInfo", "Slave application and version info used to get undefinded infos", false, "SlaveApplicationInfo");
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (ibase::IApplicationInfo)
 	virtual istd::CString GetCompanyName() const;

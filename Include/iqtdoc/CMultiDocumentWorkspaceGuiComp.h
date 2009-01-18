@@ -38,7 +38,7 @@ public:
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	enum GroupId
 	{

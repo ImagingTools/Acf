@@ -19,7 +19,7 @@ public:
 
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
-	I_END_COMPONENT;
+	I_END_COMPONENT
 	
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();

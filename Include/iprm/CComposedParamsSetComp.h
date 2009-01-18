@@ -33,7 +33,7 @@ public:
 		I_ASSIGN_MULTI_0(m_slaveParamsCompPtr, "SlaveSets", "List of slave parameter sets", false);
 		I_ASSIGN_MULTI_0(m_parametersCompPtr, "Parameters", "Parameters", true);
 		I_ASSIGN_MULTI_0(m_parametersIdAttrPtr, "ParametersId", "ID of each paremeter in 'Parameters'", true);
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (iprm::IParamsSet)
 	virtual const iser::ISerializable* GetParameter(const std::string& id) const;

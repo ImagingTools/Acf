@@ -26,7 +26,7 @@ public:
 
 	I_BEGIN_COMPONENT(CRegistryPreviewComp)
 		I_REGISTER_INTERFACE(icmpstr::IRegistryPreview)
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();

@@ -22,7 +22,7 @@ public:
 	I_BEGIN_COMPONENT(CFreeWidgetGuiComp);
 		I_ASSIGN(m_slaveGuiCompPtr, "SlaveGui", "Slave GUI for this window", true, "SlaveGui");
 		I_ASSIGN(m_titleAttrPtr, "Title", "Specify the window title ", true, "Free Window");
-	I_END_COMPONENT;
+	I_END_COMPONENT
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
