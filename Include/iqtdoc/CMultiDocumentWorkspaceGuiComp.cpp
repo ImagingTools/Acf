@@ -35,6 +35,7 @@ CMultiDocumentWorkspaceGuiComp::CMultiDocumentWorkspaceGuiComp()
 	m_commands.InsertChild(&m_windowCommand, false);
 	m_windowCommand.SetPriority(120);
 	m_cascadeCommand.SetGroupId(GI_WINDOW);
+	m_windowCommand.InsertChild(&m_workspaceModeCommand, false);
 	m_windowCommand.InsertChild(&m_cascadeCommand, false);
 	m_tileHorizontallyCommand.SetGroupId(GI_WINDOW);
 	m_windowCommand.InsertChild(&m_tileHorizontallyCommand, false);
@@ -43,7 +44,6 @@ CMultiDocumentWorkspaceGuiComp::CMultiDocumentWorkspaceGuiComp()
 	m_closeAllDocumentsCommand.SetGroupId(GI_DOCUMENT);
 	m_windowCommand.InsertChild(&m_closeAllDocumentsCommand, false);
 	m_workspaceModeCommand.SetGroupId(GI_VIEW);
-	m_windowCommand.InsertChild(&m_workspaceModeCommand, false);
 
 	connect(&m_cascadeCommand, SIGNAL(activated()), this, SLOT(OnCascade()));
 	connect(&m_tileHorizontallyCommand, SIGNAL(activated()), this, SLOT(OnTileHorizontally()));
