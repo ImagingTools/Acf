@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDocumentManagerListener.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMultiDocumentManagerBase.cpp"
 				>
 			</File>
@@ -206,6 +210,10 @@
 			>
 			<File
 				RelativePath="..\CCompositeDocumentTemplateComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDocumentManagerListener.h"
 				>
 			</File>
 			<File

@@ -12,6 +12,7 @@
 
 #include "idoc/CSingleDocumentTemplateComp.h"
 #include "idoc/CCompositeDocumentTemplateComp.h"
+#include "idoc/CDocumentManagerListener.h"
 
 #include "ibase/CComposedLoaderComp.h"
 #include "ibase/CTextFileLoaderComp.h"
@@ -20,6 +21,8 @@
 #include "ibase/CRegistryCodeSaverComp.h"
 #include "ibase/CRectangleComp.h"
 #include "ibase/CTextDocumentComp.h"
+#include "ibase/CModelProxyComp.h"
+#include "ibase/CModelBinderComp.h"
 #include "ibase/TFileSerializerComp.h"
 
 #include "iprm/CSelectableParamsSetComp.h"
@@ -52,6 +55,8 @@ typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef isvn::TApplicationInfoWrap<ApplicationInfo> ApplicationInfoExt;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
+typedef ibase::CModelProxyComp ModelProxy;
+typedef ibase::CModelBinderComp ModelBinder;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;
@@ -60,6 +65,12 @@ typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<idoc::CDocumentManagerListener>, 
+			imod::IModelSelection, 
+			imod::IObserver,
+			imod::IModel> DocumentManagerListener;
+
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<i2d::CPosition2d>,
 			i2d::CPosition2d,

@@ -56,7 +56,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -78,6 +78,22 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              FreeComponent
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              FreeComponents
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               MainGui
             </Id>
             <Type>
@@ -93,6 +109,22 @@
               <Value>
                 MainGui
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ShowMaximized
+            </Id>
+            <Type>
+              icomp::TSingleAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              ShowMaximized
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -475,13 +507,53 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="1">
+  <ExportedInterfaces count="6">
     <Interface>
       <InterfaceId>
         ibase::IApplication
       </InterfaceId>
       <ComponentId>
         App
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        idoc::ICommandsProvider
+      </InterfaceId>
+      <ComponentId>
+        Workspace
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        idoc::IDocumentManager
+      </InterfaceId>
+      <ComponentId>
+        Workspace
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        imod::IModel
+      </InterfaceId>
+      <ComponentId>
+        Workspace
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iqtgui::IGuiObject
+      </InterfaceId>
+      <ComponentId>
+        Workspace
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        istd::IChangeable
+      </InterfaceId>
+      <ComponentId>
+        Workspace
       </ComponentId>
     </Interface>
   </ExportedInterfaces>

@@ -16,7 +16,7 @@ class CApplicationInfoComp: public icomp::CComponentBase, virtual public ibase::
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CApplicationInfoComp);
+	I_BEGIN_COMPONENT(CApplicationInfoComp)
 		I_REGISTER_INTERFACE(ibase::IApplicationInfo);
 		I_REGISTER_INTERFACE(iser::IVersionInfo);
 		I_ASSIGN(m_versionIdAttrPtr, "VersionId", "Version ID", false, 1024);

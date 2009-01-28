@@ -33,12 +33,12 @@ class CSceneProviderComp:
 public:
 	typedef iqtgui::TGuiComponentBase<QGraphicsView> BaseClass;
 
-	I_BEGIN_COMPONENT(CSceneProviderComp);
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
-		I_REGISTER_INTERFACE(ISceneProvider);
-		I_ASSIGN(m_allowWidgetResizeAttrPtr, "AllowWidgetResize", "Allow resize of QWidet object (should be disabled if this GUI size is managed by layout)", true, false);
-		I_ASSIGN(m_sceneIdAttrPtr, "SceneId", "ID allowing identifying this scene", true, 0);
-		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);
+	I_BEGIN_COMPONENT(CSceneProviderComp)
+		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
+		I_REGISTER_INTERFACE(ISceneProvider)
+		I_ASSIGN(m_allowWidgetResizeAttrPtr, "AllowWidgetResize", "Allow resize of QWidet object (should be disabled if this GUI size is managed by layout)", true, false)
+		I_ASSIGN(m_sceneIdAttrPtr, "SceneId", "ID allowing identifying this scene", true, 0)
+		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false)
 	I_END_COMPONENT
 
 	enum FitMode{

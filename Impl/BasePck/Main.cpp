@@ -18,12 +18,18 @@ I_EXPORT_COMPONENT(TextFileSerializer, "Simple file serializer for text files", 
 I_EXPORT_COMPONENT(Instantiator, "Access specified components forcing to create its instances", "Instance Init Create Free Components");
 I_EXPORT_COMPONENT(ApplicationInfo, "Simple application info", "Application Info Version");
 I_EXPORT_COMPONENT(ApplicationInfoExt, "Application info with ACF information based of SVN version", "Application Info ACF SVN SubVersion Version");
+I_EXPORT_COMPONENT(ModelProxy, "Model proxy", "Model Proxy");
+I_EXPORT_COMPONENT(ModelBinder, "Model binder", "Model Observer Bind Binder");
+
 I_EXPORT_COMPONENT(SelectableParamsSet, "Composed set of parameters", "Model Parameters Set Selection Options List");
 I_EXPORT_COMPONENT(ParamsManager, "Manager of parameters set", "Model Parameters Set Manager");
 I_EXPORT_COMPONENT(ComposedParamsSet, "Composed set of parameters", "Parameters Set List Composition Composed");
 I_EXPORT_COMPONENT(FileNameParam, "Parameters for bitmap acquisition from file", "File Directory Bitmap Acquisition Snap Parameters");
+
 I_EXPORT_COMPONENT(SingleDocumentTemplate, "Single document template for only one type of documents", "Single Document Template MVC");
 I_EXPORT_COMPONENT(CompositeDocumentTemplate, "Composite document template supporting more type of documents. It delegates document functionality to set of slave templates", "Composite Document Template MVC");
+I_EXPORT_COMPONENT(DocumentManagerListener, "Document workspace controller.", "Model Proxy Composite Document Template MVC");
+
 I_EXPORT_COMPONENT(Line, "Line 2D object", "Line 2D Object Parameter");
 I_EXPORT_COMPONENT(Position2d, "Position 2D object", "Position 2D Object Parameter");
 I_EXPORT_COMPONENT(Circle, "Circle 2D object", "Circle Position Radius 2D Object Parameter");

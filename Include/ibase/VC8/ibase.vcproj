@@ -193,6 +193,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CModelBinderComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CModelProxyComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CRectangleComp.cpp"
 				>
 			</File>
@@ -231,6 +239,14 @@
 			</File>
 			<File
 				RelativePath="..\CMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CModelBinderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CModelProxyComp.h"
 				>
 			</File>
 			<File

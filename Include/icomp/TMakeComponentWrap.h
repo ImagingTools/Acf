@@ -29,7 +29,7 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef Base BaseClass2;
 
-	I_BEGIN_COMPONENT(TMakeComponentWrap);
+	I_BEGIN_COMPONENT(TMakeComponentWrap)
 		I_REGISTER_INTERFACE(Interface1);
 		I_REGISTER_INTERFACE(Interface2);
 		I_REGISTER_INTERFACE(Interface3);

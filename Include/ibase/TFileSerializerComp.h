@@ -21,7 +21,7 @@ class TFileSerializerComp:
 public:
 	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
 
-	I_BEGIN_COMPONENT(TFileSerializerComp);
+	I_BEGIN_COMPONENT(TFileSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 		I_ASSIGN_MULTI_0(m_fileExtensionsAttrPtr, "FileExtensions", "List of supported file extensions", false);

@@ -46,11 +46,11 @@ public:
 		MI_CANNOT_CREATE_ELEMENT
 	};
 
-	I_BEGIN_COMPONENT(CPackagesLoaderComp);
-		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo);
-		I_REGISTER_INTERFACE(icomp::IRegistriesManager);
-		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader");
-		I_ASSIGN(m_configFilePathAttrPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "PackagesConfig.xml");
+	I_BEGIN_COMPONENT(CPackagesLoaderComp)
+		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo)
+		I_REGISTER_INTERFACE(icomp::IRegistriesManager)
+		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader")
+		I_ASSIGN(m_configFilePathAttrPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "PackagesConfig.xml")
 	I_END_COMPONENT
 
 	bool RegisterPackageFile(const istd::CString& file);

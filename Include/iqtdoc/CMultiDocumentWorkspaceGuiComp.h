@@ -33,9 +33,9 @@ public:
 	typedef iqtgui::TGuiComponentBase<QMdiArea> BaseClass;
 	typedef idoc::CMultiDocumentManagerBase BaseClass2;
 
-	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp);
-		I_REGISTER_INTERFACE(idoc::IDocumentManager);
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
+	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
+		I_REGISTER_INTERFACE(idoc::IDocumentManager)
+		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 	I_END_COMPONENT

@@ -28,8 +28,8 @@ public:
 	typedef iqtgui::TGuiComponentBase<QWidget> BaseClass;
 	typedef idoc::CSingleDocumentManagerBase BaseClass2;
 
-	I_BEGIN_COMPONENT(CSingleDocumentWorkspaceGuiComp);
-		I_REGISTER_INTERFACE(idoc::IDocumentManager);
+	I_BEGIN_COMPONENT(CSingleDocumentWorkspaceGuiComp)
+		I_REGISTER_INTERFACE(idoc::IDocumentManager)
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 	I_END_COMPONENT;
 
