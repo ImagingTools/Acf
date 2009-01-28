@@ -31,11 +31,6 @@ public:
 };
 
 
-CPackageOverviewComp::CPackageOverviewComp()
-	: BaseClass()
-{
-}
-
 
 // reimplemented (IAttributeSelectionObserver)
 
@@ -60,7 +55,7 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 
 // protected methods
 
-void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
+void CPackageOverviewComp::GenerateComponentTree(const QString& filter, bool expandComponents)
 {
 	if (!m_generalStaticInfoPtr.IsValid()){
 		return;
@@ -92,7 +87,9 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter)
 
 				packageItemPtr->setToolTip(0, iqt::GetQString(packageInfoPtr->GetDescription()));
 
-				PackagesList->addTopLevelItem(packageItemPtr.PopPtr());
+				QTreeWidgetItem* packageItem = packageItemPtr.PopPtr();
+				PackagesList->addTopLevelItem(packageItem);
+				packageItem->setExpanded(expandComponents);
 			}
 		}
 	}
@@ -177,7 +174,7 @@ void CPackageOverviewComp::on_PackagesList_itemExpanded(QTreeWidgetItem* item)
 
 void CPackageOverviewComp::on_FilterEdit_textChanged(const QString& text)
 {
-	GenerateComponentTree(text);
+	GenerateComponentTree(text, true);
 }
 
 
@@ -208,8 +205,29 @@ void CPackageOverviewComp::GeneratePackageTree(
 		}
 
 		if (!filter.isEmpty()){
-			QString keywords = " " + iqt::GetQString(componentInfoPtr->GetKeywords());
-			if (!keywords.contains(" " + filter, Qt::CaseInsensitive)){
+			QString keywordString = iqt::GetQString(componentInfoPtr->GetKeywords());
+			QStringList keywords = keywordString.split(QChar(' '), QString::SkipEmptyParts,  Qt::CaseInsensitive);
+			QStringList filterKeywords = filter.split(QChar(' '), QString::SkipEmptyParts,  Qt::CaseInsensitive);
+
+			bool containsFilter = true;
+			for(int filterIndex = 0; filterIndex < filterKeywords.count(); filterIndex++){
+				QString filter = filterKeywords[filterIndex];
+				bool filterFound = false;
+				for(int keywordIndex = 0; keywordIndex < keywords.count(); keywordIndex++){
+					QString keyword = keywords[keywordIndex];
+					if (keyword.contains(filter, Qt::CaseInsensitive)){
+						filterFound = true;
+						break;
+					}
+				}
+
+				if (!filterFound){
+					containsFilter = false;
+					break;
+				}
+			}
+
+			if (!containsFilter){
 				continue;
 			}
 		}
@@ -219,8 +237,6 @@ void CPackageOverviewComp::GeneratePackageTree(
 		componentItem->setToolTip(0, iqt::GetQString(componentInfoPtr->GetDescription()));
 		root.addChild(componentItem);
 	}
-
-	root.setExpanded(true);
 }
 
 

@@ -42,14 +42,12 @@ public:
 		ComponentStaticInfo = Qt::UserRole
 	};
 
-    CPackageOverviewComp();
-
 public:
 	// reimplemented (IAttributeSelectionObserver)
 	virtual void OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr);
 
 protected:
-	void GenerateComponentTree(const QString& filter = "");
+	void GenerateComponentTree(const QString& filter = "", bool expandComponents = false);
 	void HighlightComponents(const istd::CClassInfo& interfaceInfo = istd::CClassInfo());
 
 protected slots:
