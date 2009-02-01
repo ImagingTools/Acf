@@ -17,6 +17,7 @@
 #include "iqtgui/CIconProviderComp.h" 
 #include "iqtgui/CFileDialogLoaderComp.h"
 #include "iqtgui/CDockWidgetGuiComp.h"
+#include "iqtgui/CToolBarWidgetGuiComp.h"
 #include "iqtgui/CFreeWidgetGuiComp.h"
 #include "iqtgui/CSelectionParamGuiComp.h"
 #include "iqtgui/CTabContainerGuiComp.h"
@@ -61,6 +62,7 @@ typedef icomp::TModelCompWrap<iqtgui::CLogGuiComp> Log;
 typedef iqtgui::CIconProviderComp IconProvider;
 typedef iqtgui::CFileDialogLoaderComp FileDialogLoader;
 typedef iqtgui::CDockWidgetGuiComp DockWidgetGui;
+typedef iqtgui::CToolBarWidgetGuiComp ToolBarWidgetGui;
 typedef iqtgui::CFreeWidgetGuiComp FreeWidgetGui;
 typedef iqtgui::CSelectionParamGuiComp SelectionParamGui;
 typedef iqtgui::CTabContainerGuiComp TabContainer;

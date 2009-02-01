@@ -71,80 +71,6 @@ void CMainWindowGuiComp::OnTryClose(bool* ignoredPtr)
 }
 
 
-// reimplemented (IToolBarManager)
-
-void CMainWindowGuiComp::SetToolBarsVisible(bool isVisible)
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	I_ASSERT(mainWindowPtr != NULL);
-
-	if (mainWindowPtr != NULL){
-		for (int toolbarIndex = 0; toolbarIndex < m_toolBarsList.GetCount(); toolbarIndex++){
-			QToolBar* toolbarPtr = m_toolBarsList.GetAt(toolbarIndex);
-
-			if (!isVisible){
-				mainWindowPtr->removeToolBar(toolbarPtr);
-			}
-			else{
-				toolbarPtr->show();
-
-				mainWindowPtr->addToolBar(toolbarPtr);
-			}
-		}
-	}
-}
-
-
-int CMainWindowGuiComp::GetToolBarCount() const
-{
-	return m_toolBarsList.GetCount();
-}
-
-
-void CMainWindowGuiComp::AddToolBar(int flags, QToolBar* widgetPtr)
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	I_ASSERT(mainWindowPtr != NULL);
-
-	if (mainWindowPtr != NULL){
-		mainWindowPtr->addToolBar((Qt::ToolBarArea)flags, widgetPtr);
-
-		m_toolBarsList.PushBack(widgetPtr);
-	}
-}
-
-
-void CMainWindowGuiComp::RemoveToolBar(QToolBar* widgetPtr)
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	I_ASSERT(mainWindowPtr != NULL);
-
-	if (mainWindowPtr != NULL){
-		mainWindowPtr->removeToolBar(widgetPtr);
-
-		m_toolBarsList.Remove(widgetPtr);
-	}
-}
-
-
-// reimplemented (IDockManager)
-
-void CMainWindowGuiComp::AddDockWidget(int flags, QDockWidget* dockWidgetPtr)
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	I_ASSERT(mainWindowPtr != NULL);
-
-	dockWidgetPtr->show();
-
-	mainWindowPtr->addDockWidget((Qt::DockWidgetArea)flags, dockWidgetPtr);
-}
-
-
-void CMainWindowGuiComp::RemoveDockWidget(QDockWidget* /*widgetPtr*/)
-{
-}
-
-
 // reimplemented (icomp::IComponent)
 
 void CMainWindowGuiComp::OnComponentCreated()
@@ -375,6 +301,28 @@ int CMainWindowGuiComp::CreateToolbar(const iqtgui::CHierarchicalCommand& comman
 }
 
 
+void CMainWindowGuiComp::SetToolBarsVisible(bool isVisible)
+{
+	QMainWindow* mainWindowPtr = GetQtWidget();
+	I_ASSERT(mainWindowPtr != NULL);
+
+	if (mainWindowPtr != NULL){
+		for (int toolbarIndex = 0; toolbarIndex < m_toolBarsList.GetCount(); toolbarIndex++){
+			QToolBar* toolbarPtr = m_toolBarsList.GetAt(toolbarIndex);
+
+			if (!isVisible){
+				mainWindowPtr->removeToolBar(toolbarPtr);
+			}
+			else{
+				toolbarPtr->show();
+
+				mainWindowPtr->addToolBar(toolbarPtr);
+			}
+		}
+	}
+}
+
+
 void CMainWindowGuiComp::SetupNewCommand()
 {
 	if (!m_documentManagerCompPtr.IsValid()){
@@ -597,12 +545,13 @@ void CMainWindowGuiComp::OnGuiCreated()
 		}
 	}
 
-	SetupMainWindowComponents(*mainWindowPtr);
 
 	OnRetranslate();
 
 	UpdateMenuActions();
 	UpdateUndoMenu();
+	
+	SetupMainWindowComponents(*mainWindowPtr);
 
 	// TODO: Get desktop resolution and calculate the right initial size of the main window.
 	QSize size(800, 600);

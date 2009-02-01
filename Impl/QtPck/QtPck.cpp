@@ -53,6 +53,7 @@ I_EXPORT_COMPONENT(ComposedParamsSetGui, "Allow to edit set of parameter using s
 I_EXPORT_COMPONENT(FileNameParamGui, "File acquisition parameter editor", "Model Observer File Acquisition Snap Camera Parameter Editor GUI Qt");
 I_EXPORT_COMPONENT(ParamsManagerGui, "Allow to manage parameter set", "Model Observer Parameters Set Manager GUI Qt");
 I_EXPORT_COMPONENT(DockWidgetGui, "Allows to use GUI object as docked views", "View Dock Document GUI Qt");
+I_EXPORT_COMPONENT(ToolBarWidgetGui, "Allows to use GUI object as part of a tool bar", "View Dock Document GUI Qt Toolbar");
 I_EXPORT_COMPONENT(FreeWidgetGui, "Display selected GUI object in separated window", "Free Main Window Separated GUI Qt");
 I_EXPORT_COMPONENT(SelectionParamGui, "Single selection parameter from list of options", "Model Observer Parameters Set Selection Options List GUI Qt");
 I_EXPORT_COMPONENT(TabContainer, "Tab container for Qt widgets", "Qt Tab Widget GUI");

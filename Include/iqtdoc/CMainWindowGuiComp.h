@@ -23,8 +23,6 @@
 #include "iqt/ITranslationManager.h"
 
 #include "iqtgui/IMainWindowComponent.h"
-#include "iqtgui/IToolBarManager.h"
-#include "iqtgui/IDockManager.h"
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
@@ -35,9 +33,7 @@ namespace iqtdoc
 
 class CMainWindowGuiComp:
 			public iqtgui::TGuiComponentBase<QMainWindow>,
-			public imod::TSingleModelObserverBase<idoc::IDocumentManager>,
-			public iqtgui::IDockManager,
-			public iqtgui::IToolBarManager
+			public imod::TSingleModelObserverBase<idoc::IDocumentManager>
 {
 	Q_OBJECT
 
@@ -47,8 +43,6 @@ public:
 
 	I_BEGIN_COMPONENT(CMainWindowGuiComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
-		I_REGISTER_INTERFACE(iqtgui::IDockManager)
-		I_REGISTER_INTERFACE(iqtgui::IToolBarManager)
 		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if about action is triggered", false, "AboutGui")
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
 		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
@@ -75,16 +69,6 @@ public:
 	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
-	// reimplemented (iqtgui::IToolBarManager)
-	virtual void SetToolBarsVisible(bool isVisible = true);
-	virtual int GetToolBarCount() const ;
-	virtual	void AddToolBar(int flags, QToolBar* widgetPtr);
-	virtual void RemoveToolBar(QToolBar* widgetPtr);
-
-	// reimplemented (iqtgui::IDockManager)
-	virtual	void AddDockWidget(int flags, QDockWidget* widget);
-	virtual void RemoveDockWidget(QDockWidget* widget);
-
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
@@ -100,6 +84,7 @@ protected:
 	virtual void OnDropEvent(QDropEvent* dropEventPtr);
 
 	int CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
+	void SetToolBarsVisible(bool isVisible = true);
 
 	void SetupMainWindow(QMainWindow& mainWindow);
 	void SetupNewCommand();
