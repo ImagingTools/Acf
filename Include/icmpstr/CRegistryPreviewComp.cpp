@@ -13,6 +13,9 @@
 #include "iser/CXmlFileWriteArchive.h"
 
 
+Q_DECLARE_METATYPE(QProcess::ProcessState);
+
+
 namespace icmpstr
 {
 
@@ -24,6 +27,7 @@ namespace icmpstr
 void CRegistryPreviewComp::OnComponentCreated()
 {
 	qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
+	qRegisterMetaType<QProcess::ProcessState>();
 
 	BaseClass::OnComponentCreated();
 
