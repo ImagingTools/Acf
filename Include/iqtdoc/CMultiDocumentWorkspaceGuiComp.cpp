@@ -87,8 +87,8 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
 	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
 	m_workspaceModeCommand.SetVisuals(tr("&Workspace Mode"), tr("Workspace Mode"), tr("Switch workspace mode"));
-	m_subWindowCommand.SetVisuals(tr("&MDI View"), tr("MDI View"), tr("Use sub-windows mode"));
-	m_tabbedCommand.SetVisuals(tr("&Tabbed View"), tr("Tabbed View"), tr("Use tabbed mode"));
+	m_subWindowCommand.SetVisuals(tr("&Multiple Documents"), tr("Multiple Documents"), tr("Show each window in own frame"));
+	m_tabbedCommand.SetVisuals(tr("&Tabbed Documents"), tr("Tabbed Documents"), tr("Show windows in tabbed frame"));
 }
 
 
