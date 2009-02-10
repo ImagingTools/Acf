@@ -94,7 +94,9 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 	m_fixedCommands.ResetChilds();
 
 	if (m_documentManagerModelCompPtr.IsValid()){
-		m_documentManagerModelCompPtr->DetachObserver(this);
+		if (m_documentManagerModelCompPtr->IsAttached(this)){
+			m_documentManagerModelCompPtr->DetachObserver(this);
+		}
 	}
 
 	BaseClass::OnComponentDestroyed();
