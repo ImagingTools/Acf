@@ -4,6 +4,7 @@
 
 #include <QWidget>
 
+#include "iqtgui/TControlledWidgetWrap.h"
 #include "iqtgui/CGuiComponentBase.h"
 
 
@@ -50,7 +51,7 @@ QWidget* TGuiComponentBase<WidgetType>::InitWidgetToParent(QWidget* parentPtr)
 {
 	I_ASSERT(!IsGuiCreated());
 
-	WidgetType* widgetPtr = new WidgetType(parentPtr);
+	WidgetType* widgetPtr = new TControlledWidgetWrap<WidgetType>(*this, parentPtr);
 
 	return widgetPtr;
 }

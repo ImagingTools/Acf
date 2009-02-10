@@ -5,6 +5,8 @@
 #include <QEvent>
 #include <QMetaMethod>
 
+#include <iostream>
+
 
 namespace iqtgui
 {
