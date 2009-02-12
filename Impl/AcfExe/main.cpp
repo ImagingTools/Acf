@@ -15,10 +15,7 @@
 #include "icomp/CRegistryElement.h"
 #include "ibase/IApplication.h"
 #include "iqt/CDefaultServicesProvider.h"
-
-// ACF packages includes
-#include "BasePck/BasePck.h"
-#include "QtPck/QtPck.h"
+#include "icomp/CComponentAccessor.h"
 
 
 int main(int argc, char *argv[])
@@ -27,16 +24,12 @@ int main(int argc, char *argv[])
 
 	iqt::CDefaultServicesProvider::RegisterServices();
 
-	icomp::TSimComponentWrap<BasePck::XmlFileSerializer> registryLoaderComp;
-	registryLoaderComp.InitComponent();
-
-	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;
-	packagesLoaderComp.SetRef("RegistryLoader", &registryLoaderComp);
-	packagesLoaderComp.InitComponent();
+	istd::CString packageFile;
+	istd::CString packageDir;
+	istd::CString configFile;
 
 	std::string registryFile = "default.arx";
 	bool showApplicationInfo = false;
-	bool useDefaultRegistries = true;
 	std::string componentId;
 	bool waitOnEnd = false;
 
@@ -71,19 +64,13 @@ int main(int argc, char *argv[])
 					componentId = argv[++index];
 				}
 				else if (option == "packageFile"){
-					packagesLoaderComp.RegisterPackageFile(argv[++index]);
-
-					useDefaultRegistries = false;
+					packageFile = argv[++index];
 				}
 				else if (option == "packageDir"){
-					packagesLoaderComp.RegisterPackagesDir(argv[++index]);
-
-					useDefaultRegistries = false;
+					packageDir = argv[++index];
 				}
 				else if (option == "config"){
-					packagesLoaderComp.LoadConfigFile(argv[++index]);
-
-					useDefaultRegistries = false;
+					configFile = argv[++index];
 				}
 			}
 		}
@@ -92,53 +79,32 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	// register default package path
-	if (useDefaultRegistries){
-		QDir registryDir = QFileInfo(registryFile.c_str()).dir();
-
-		if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(registryDir.absoluteFilePath("PackagesConfig.xml")))){
-			QDir applicationDir = QCoreApplication::applicationDirPath();
-			if (!packagesLoaderComp.LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("PackagesConfig.xml")))){
-				packagesLoaderComp.RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
-			}
-		}
-	}
-
 	int retVal = 0;
 
-	const icomp::IRegistry* registryPtr = packagesLoaderComp.GetRegistryFromFile(registryFile.c_str());
-	if (registryPtr != NULL){
-		icomp::CRegistryElement dummyElement(&packagesLoaderComp);
+	icomp::CComponentAccessor componentAccessor(registryFile, packageFile, packageDir, configFile);
 
-		icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, &packagesLoaderComp, NULL);
-		icomp::TComponentWrap<icomp::CCompositeComponent> composite;
-		composite.SetComponentContext(&compositeContext, NULL, false);
-
-		ibase::IApplication* applicationPtr = composite.GetComponentInterface<ibase::IApplication>(componentId);
-		if (applicationPtr == NULL){
+	ibase::IApplication* applicationPtr = componentAccessor.GetComponentInterface<ibase::IApplication>(componentId);
+	if (applicationPtr == NULL){
 			std::cout << "Application interface cannot be found" << std::endl;
 
 			retVal = -1;
-		}
-		else if (showApplicationInfo){
+	}
+	
+	else if (showApplicationInfo){
 			std::cout << applicationPtr->GetHelpText().ToString();
 
 			retVal = 0;
-		}
-		else{
-			retVal = applicationPtr->Execute(argc, argv);
-		}
 	}
 	else{
-		std::cout << QString("Registry %1 cannot be loaded").arg(registryFile.c_str()).toStdString() << std::endl;
-
-		retVal = -1;
+		retVal = applicationPtr->Execute(argc, argv);
 	}
 
-	if (waitOnEnd){
-		QApplication a(argc, argv);
+	if (applicationPtr != NULL){
+		if (waitOnEnd){
+			QApplication a(argc, argv);
 
-		QMessageBox::information(NULL, "Wait on end", "Application is finished");
+			QMessageBox::information(NULL, "Wait on end", "Application is finished");
+		}
 	}
 
 	return retVal;

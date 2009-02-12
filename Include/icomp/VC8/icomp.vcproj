@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CComponentAccessor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComponentAddress.cpp"
 				>
 			</File>
@@ -237,6 +241,10 @@
 			>
 			<File
 				RelativePath="..\CBaseComponentStaticInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComponentAccessor.h"
 				>
 			</File>
 			<File
@@ -341,6 +349,14 @@
 			</File>
 			<File
 				RelativePath="..\IRegistryElement.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IRegistryLoader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IRegistryLoaderProvider.h"
 				>
 			</File>
 			<File

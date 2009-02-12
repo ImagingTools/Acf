@@ -5,6 +5,7 @@
 #include "iqt/CTimer.h"
 #include "iqt/CApplicationEnvironment.h"
 #include "iqt/CCriticalSection.h"
+#include "iqt/CDefaultRegistryLoaderProvider.h"
 
 
 namespace iqt
@@ -23,6 +24,7 @@ private:
 	static iqt::CTimer s_timer;
 	static iqt::CApplicationEnvironment s_applicationEnvironment;
 	static iqt::CCriticalSection s_criticalSection;
+	static iqt::CDefaultRegistryLoaderProvider s_registryLoaderProvider;
 };
 
 

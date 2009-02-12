@@ -15,6 +15,7 @@
 
 #include "icomp/IRegistry.h"
 #include "icomp/IRegistriesManager.h"
+#include "icomp/IRegistryLoader.h"
 #include "icomp/CRegistry.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CComponentBase.h"
@@ -35,7 +36,8 @@ namespace iqt
 class CPackagesLoaderComp:
 			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
 			public icomp::CPackageStaticInfo,
-			virtual public icomp::IRegistriesManager
+			virtual public icomp::IRegistriesManager,
+			virtual public icomp::IRegistryLoader
 {
 public:
 	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
@@ -49,6 +51,7 @@ public:
 	I_BEGIN_COMPONENT(CPackagesLoaderComp)
 		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo)
 		I_REGISTER_INTERFACE(icomp::IRegistriesManager)
+		I_REGISTER_INTERFACE(icomp::IRegistryLoader)
 		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader")
 		I_ASSIGN(m_configFilePathAttrPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "PackagesConfig.xml")
 	I_END_COMPONENT
@@ -57,7 +60,13 @@ public:
 	bool RegisterPackagesDir(const istd::CString& subDir);
 	bool LoadConfigFile(const istd::CString& configFile);
 
-	const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
+	// reimplemented (icomp::IRegistryLoader)
+	virtual bool ConfigureEnvironment(
+				const istd::CString& registryFile,
+				const istd::CString& packageFile = istd::CString(),
+				const istd::CString& packageDir = istd::CString(),
+				const istd::CString& configFile= istd::CString());
+	virtual const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();

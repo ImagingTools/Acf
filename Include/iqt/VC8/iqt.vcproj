@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDefaultRegistryLoaderProvider.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CDefaultServicesProvider.cpp"
 				>
 			</File>
@@ -279,6 +283,10 @@
 			</File>
 			<File
 				RelativePath="..\CDateTime.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDefaultRegistryLoaderProvider.h"
 				>
 			</File>
 			<File
