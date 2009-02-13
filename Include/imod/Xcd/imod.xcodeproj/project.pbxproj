@@ -9,43 +9,49 @@
 /* Begin PBXBuildFile section */
 		223456790ED2E572006EC826 /* CModelBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456790ED2E572006EC826 /* CModelBase.cpp */; };
 		223456800ED2E572006EC826 /* CModelChangeObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456800ED2E572006EC826 /* CModelChangeObserver.cpp */; };
-		223456810ED2E572006EC826 /* CMultiModelObserverBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CMultiModelObserverBase.cpp */; };
-		223456820ED2E572006EC826 /* CSerializedUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* CSerializedUndoManager.cpp */; };
-		223456830ED2E572006EC826 /* CSingleModelObserverBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CSingleModelObserverBase.cpp */; };
-		223456840ED2E572006EC826 /* CModelBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CModelBase.h */; };
-		223456850ED2E572006EC826 /* CModelChangeObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* CModelChangeObserver.h */; };
-		223456860ED2E572006EC826 /* CMultiModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* CMultiModelObserverBase.h */; };
-		223456870ED2E572006EC826 /* CSerializedUndoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* CSerializedUndoManager.h */; };
-		223456880ED2E572006EC826 /* CSingleModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* CSingleModelObserverBase.h */; };
-		223456890ED2E572006EC826 /* imod.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* imod.h */; };
-		223456900ED2E572006EC826 /* IModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456900ED2E572006EC826 /* IModel.h */; };
-		223456910ED2E572006EC826 /* IModelEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456910ED2E572006EC826 /* IModelEditor.h */; };
-		223456920ED2E572006EC826 /* IObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456920ED2E572006EC826 /* IObserver.h */; };
-		223456930ED2E572006EC826 /* IUndoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456930ED2E572006EC826 /* IUndoManager.h */; };
-		223456940ED2E572006EC826 /* TModelWrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456940ED2E572006EC826 /* TModelWrap.h */; };
-		223456950ED2E572006EC826 /* TMultiModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456950ED2E572006EC826 /* TMultiModelObserverBase.h */; };
-		223456960ED2E572006EC826 /* TSingleModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456960ED2E572006EC826 /* TSingleModelObserverBase.h */; };
+		223456810ED2E572006EC826 /* CModelProxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456810ED2E572006EC826 /* CModelProxy.cpp */; };
+		223456820ED2E572006EC826 /* CMultiModelObserverBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456820ED2E572006EC826 /* CMultiModelObserverBase.cpp */; };
+		223456830ED2E572006EC826 /* CSerializedUndoManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456830ED2E572006EC826 /* CSerializedUndoManager.cpp */; };
+		223456840ED2E572006EC826 /* CSingleModelObserverBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123456840ED2E572006EC826 /* CSingleModelObserverBase.cpp */; };
+		223456850ED2E572006EC826 /* CModelBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456850ED2E572006EC826 /* CModelBase.h */; };
+		223456860ED2E572006EC826 /* CModelChangeObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456860ED2E572006EC826 /* CModelChangeObserver.h */; };
+		223456870ED2E572006EC826 /* CModelProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456870ED2E572006EC826 /* CModelProxy.h */; };
+		223456880ED2E572006EC826 /* CMultiModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456880ED2E572006EC826 /* CMultiModelObserverBase.h */; };
+		223456890ED2E572006EC826 /* CSerializedUndoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456890ED2E572006EC826 /* CSerializedUndoManager.h */; };
+		223456900ED2E572006EC826 /* CSingleModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456900ED2E572006EC826 /* CSingleModelObserverBase.h */; };
+		223456910ED2E572006EC826 /* imod.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456910ED2E572006EC826 /* imod.h */; };
+		223456920ED2E572006EC826 /* IModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456920ED2E572006EC826 /* IModel.h */; };
+		223456930ED2E572006EC826 /* IModelEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456930ED2E572006EC826 /* IModelEditor.h */; };
+		223456940ED2E572006EC826 /* IModelSelection.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456940ED2E572006EC826 /* IModelSelection.h */; };
+		223456950ED2E572006EC826 /* IObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456950ED2E572006EC826 /* IObserver.h */; };
+		223456960ED2E572006EC826 /* IUndoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456960ED2E572006EC826 /* IUndoManager.h */; };
+		223456970ED2E572006EC826 /* TModelWrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456970ED2E572006EC826 /* TModelWrap.h */; };
+		223456980ED2E572006EC826 /* TMultiModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456980ED2E572006EC826 /* TMultiModelObserverBase.h */; };
+		223456990ED2E572006EC826 /* TSingleModelObserverBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456990ED2E572006EC826 /* TSingleModelObserverBase.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123456790ED2E572006EC826 /* CModelBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelBase.cpp; path = ../CModelBase.cpp; sourceTree = SOURCE_ROOT; };
 		123456800ED2E572006EC826 /* CModelChangeObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelChangeObserver.cpp; path = ../CModelChangeObserver.cpp; sourceTree = SOURCE_ROOT; };
-		123456810ED2E572006EC826 /* CMultiModelObserverBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMultiModelObserverBase.cpp; path = ../CMultiModelObserverBase.cpp; sourceTree = SOURCE_ROOT; };
-		123456820ED2E572006EC826 /* CSerializedUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSerializedUndoManager.cpp; path = ../CSerializedUndoManager.cpp; sourceTree = SOURCE_ROOT; };
-		123456830ED2E572006EC826 /* CSingleModelObserverBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSingleModelObserverBase.cpp; path = ../CSingleModelObserverBase.cpp; sourceTree = SOURCE_ROOT; };
-		123456840ED2E572006EC826 /* CModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelBase.h; path = ../CModelBase.h; sourceTree = SOURCE_ROOT; };
-		123456850ED2E572006EC826 /* CModelChangeObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelChangeObserver.h; path = ../CModelChangeObserver.h; sourceTree = SOURCE_ROOT; };
-		123456860ED2E572006EC826 /* CMultiModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMultiModelObserverBase.h; path = ../CMultiModelObserverBase.h; sourceTree = SOURCE_ROOT; };
-		123456870ED2E572006EC826 /* CSerializedUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSerializedUndoManager.h; path = ../CSerializedUndoManager.h; sourceTree = SOURCE_ROOT; };
-		123456880ED2E572006EC826 /* CSingleModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSingleModelObserverBase.h; path = ../CSingleModelObserverBase.h; sourceTree = SOURCE_ROOT; };
-		123456890ED2E572006EC826 /* imod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imod.h; path = ../imod.h; sourceTree = SOURCE_ROOT; };
-		123456900ED2E572006EC826 /* IModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IModel.h; path = ../IModel.h; sourceTree = SOURCE_ROOT; };
-		123456910ED2E572006EC826 /* IModelEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IModelEditor.h; path = ../IModelEditor.h; sourceTree = SOURCE_ROOT; };
-		123456920ED2E572006EC826 /* IObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObserver.h; path = ../IObserver.h; sourceTree = SOURCE_ROOT; };
-		123456930ED2E572006EC826 /* IUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IUndoManager.h; path = ../IUndoManager.h; sourceTree = SOURCE_ROOT; };
-		123456940ED2E572006EC826 /* TModelWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TModelWrap.h; path = ../TModelWrap.h; sourceTree = SOURCE_ROOT; };
-		123456950ED2E572006EC826 /* TMultiModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TMultiModelObserverBase.h; path = ../TMultiModelObserverBase.h; sourceTree = SOURCE_ROOT; };
-		123456960ED2E572006EC826 /* TSingleModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TSingleModelObserverBase.h; path = ../TSingleModelObserverBase.h; sourceTree = SOURCE_ROOT; };
+		123456810ED2E572006EC826 /* CModelProxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelProxy.cpp; path = ../CModelProxy.cpp; sourceTree = SOURCE_ROOT; };
+		123456820ED2E572006EC826 /* CMultiModelObserverBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMultiModelObserverBase.cpp; path = ../CMultiModelObserverBase.cpp; sourceTree = SOURCE_ROOT; };
+		123456830ED2E572006EC826 /* CSerializedUndoManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSerializedUndoManager.cpp; path = ../CSerializedUndoManager.cpp; sourceTree = SOURCE_ROOT; };
+		123456840ED2E572006EC826 /* CSingleModelObserverBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSingleModelObserverBase.cpp; path = ../CSingleModelObserverBase.cpp; sourceTree = SOURCE_ROOT; };
+		123456850ED2E572006EC826 /* CModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelBase.h; path = ../CModelBase.h; sourceTree = SOURCE_ROOT; };
+		123456860ED2E572006EC826 /* CModelChangeObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelChangeObserver.h; path = ../CModelChangeObserver.h; sourceTree = SOURCE_ROOT; };
+		123456870ED2E572006EC826 /* CModelProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CModelProxy.h; path = ../CModelProxy.h; sourceTree = SOURCE_ROOT; };
+		123456880ED2E572006EC826 /* CMultiModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMultiModelObserverBase.h; path = ../CMultiModelObserverBase.h; sourceTree = SOURCE_ROOT; };
+		123456890ED2E572006EC826 /* CSerializedUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSerializedUndoManager.h; path = ../CSerializedUndoManager.h; sourceTree = SOURCE_ROOT; };
+		123456900ED2E572006EC826 /* CSingleModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSingleModelObserverBase.h; path = ../CSingleModelObserverBase.h; sourceTree = SOURCE_ROOT; };
+		123456910ED2E572006EC826 /* imod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imod.h; path = ../imod.h; sourceTree = SOURCE_ROOT; };
+		123456920ED2E572006EC826 /* IModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IModel.h; path = ../IModel.h; sourceTree = SOURCE_ROOT; };
+		123456930ED2E572006EC826 /* IModelEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IModelEditor.h; path = ../IModelEditor.h; sourceTree = SOURCE_ROOT; };
+		123456940ED2E572006EC826 /* IModelSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IModelSelection.h; path = ../IModelSelection.h; sourceTree = SOURCE_ROOT; };
+		123456950ED2E572006EC826 /* IObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IObserver.h; path = ../IObserver.h; sourceTree = SOURCE_ROOT; };
+		123456960ED2E572006EC826 /* IUndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IUndoManager.h; path = ../IUndoManager.h; sourceTree = SOURCE_ROOT; };
+		123456970ED2E572006EC826 /* TModelWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TModelWrap.h; path = ../TModelWrap.h; sourceTree = SOURCE_ROOT; };
+		123456980ED2E572006EC826 /* TMultiModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TMultiModelObserverBase.h; path = ../TMultiModelObserverBase.h; sourceTree = SOURCE_ROOT; };
+		123456990ED2E572006EC826 /* TSingleModelObserverBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TSingleModelObserverBase.h; path = ../TSingleModelObserverBase.h; sourceTree = SOURCE_ROOT; };
 		D2AAC046055464E500DB518D /* libimod.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libimod.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -74,24 +80,39 @@
 			name = imod;
 			sourceTree = "<group>";
 		};
+		EAB5AC950ED2E587006EC826 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				123456850ED2E572006EC826 /* CModelBase.h */,
+				123456860ED2E572006EC826 /* CModelChangeObserver.h */,
+				123456870ED2E572006EC826 /* CModelProxy.h */,
+				123456880ED2E572006EC826 /* CMultiModelObserverBase.h */,
+				123456890ED2E572006EC826 /* CSerializedUndoManager.h */,
+				123456900ED2E572006EC826 /* CSingleModelObserverBase.h */,
+				123456910ED2E572006EC826 /* imod.h */,
+				123456920ED2E572006EC826 /* IModel.h */,
+				123456930ED2E572006EC826 /* IModelEditor.h */,
+				123456940ED2E572006EC826 /* IModelSelection.h */,
+				123456950ED2E572006EC826 /* IObserver.h */,
+				123456960ED2E572006EC826 /* IUndoManager.h */,
+				123456970ED2E572006EC826 /* TModelWrap.h */,
+				123456980ED2E572006EC826 /* TMultiModelObserverBase.h */,
+				123456990ED2E572006EC826 /* TSingleModelObserverBase.h */,
+			);
+			name = Header;
+			sourceTree = "<group>";
+		};
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				123456790ED2E572006EC826 /* CModelBase.cpp */,
 				123456800ED2E572006EC826 /* CModelChangeObserver.cpp */,
-				123456810ED2E572006EC826 /* CMultiModelObserverBase.cpp */,
-				123456820ED2E572006EC826 /* CSerializedUndoManager.cpp */,
-				123456830ED2E572006EC826 /* CSingleModelObserverBase.cpp */,
+				123456810ED2E572006EC826 /* CModelProxy.cpp */,
+				123456820ED2E572006EC826 /* CMultiModelObserverBase.cpp */,
+				123456830ED2E572006EC826 /* CSerializedUndoManager.cpp */,
+				123456840ED2E572006EC826 /* CSingleModelObserverBase.cpp */,
 			);
 			name = Source;
-			sourceTree = "<group>";
-		};
-		1AB674ADFE9D54B511CA2CBB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D2AAC046055464E500DB518D /* libimod.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C6A0FF2B0290797F04C91782 /* Forms */ = {
@@ -99,6 +120,13 @@
 			children = (
 			);
 			name = Forms;
+			sourceTree = "<group>";
+		};
+		EA9856AA0EEABE3D00C738EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		EA9856A50EEABE3D00C738EF /* Generated */ = {
@@ -115,31 +143,12 @@
 			name = Garbages;
 			sourceTree = "<group>";
 		};
-		EA9856AA0EEABE3D00C738EF /* Resources */ = {
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				D2AAC046055464E500DB518D /* libimod.a */,
 			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		EAB5AC950ED2E587006EC826 /* Header */ = {
-			isa = PBXGroup;
-			children = (
-				123456840ED2E572006EC826 /* CModelBase.h */,
-				123456850ED2E572006EC826 /* CModelChangeObserver.h */,
-				123456860ED2E572006EC826 /* CMultiModelObserverBase.h */,
-				123456870ED2E572006EC826 /* CSerializedUndoManager.h */,
-				123456880ED2E572006EC826 /* CSingleModelObserverBase.h */,
-				123456890ED2E572006EC826 /* imod.h */,
-				123456900ED2E572006EC826 /* IModel.h */,
-				123456910ED2E572006EC826 /* IModelEditor.h */,
-				123456920ED2E572006EC826 /* IObserver.h */,
-				123456930ED2E572006EC826 /* IUndoManager.h */,
-				123456940ED2E572006EC826 /* TModelWrap.h */,
-				123456950ED2E572006EC826 /* TMultiModelObserverBase.h */,
-				123456960ED2E572006EC826 /* TSingleModelObserverBase.h */,
-			);
-			name = Header;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,19 +158,21 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				223456840ED2E572006EC826 /* CModelBase.h in Headers */,
-				223456850ED2E572006EC826 /* CModelChangeObserver.h in Headers */,
-				223456860ED2E572006EC826 /* CMultiModelObserverBase.h in Headers */,
-				223456870ED2E572006EC826 /* CSerializedUndoManager.h in Headers */,
-				223456880ED2E572006EC826 /* CSingleModelObserverBase.h in Headers */,
-				223456890ED2E572006EC826 /* imod.h in Headers */,
-				223456900ED2E572006EC826 /* IModel.h in Headers */,
-				223456910ED2E572006EC826 /* IModelEditor.h in Headers */,
-				223456920ED2E572006EC826 /* IObserver.h in Headers */,
-				223456930ED2E572006EC826 /* IUndoManager.h in Headers */,
-				223456940ED2E572006EC826 /* TModelWrap.h in Headers */,
-				223456950ED2E572006EC826 /* TMultiModelObserverBase.h in Headers */,
-				223456960ED2E572006EC826 /* TSingleModelObserverBase.h in Headers */,
+				223456850ED2E572006EC826 /* CModelBase.h in Headers */,
+				223456860ED2E572006EC826 /* CModelChangeObserver.h in Headers */,
+				223456870ED2E572006EC826 /* CModelProxy.h in Headers */,
+				223456880ED2E572006EC826 /* CMultiModelObserverBase.h in Headers */,
+				223456890ED2E572006EC826 /* CSerializedUndoManager.h in Headers */,
+				223456900ED2E572006EC826 /* CSingleModelObserverBase.h in Headers */,
+				223456910ED2E572006EC826 /* imod.h in Headers */,
+				223456920ED2E572006EC826 /* IModel.h in Headers */,
+				223456930ED2E572006EC826 /* IModelEditor.h in Headers */,
+				223456940ED2E572006EC826 /* IModelSelection.h in Headers */,
+				223456950ED2E572006EC826 /* IObserver.h in Headers */,
+				223456960ED2E572006EC826 /* IUndoManager.h in Headers */,
+				223456970ED2E572006EC826 /* TModelWrap.h in Headers */,
+				223456980ED2E572006EC826 /* TMultiModelObserverBase.h in Headers */,
+				223456990ED2E572006EC826 /* TSingleModelObserverBase.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,9 +238,10 @@
 			files = (
 				223456790ED2E572006EC826 /* CModelBase.cpp in Sources */,
 				223456800ED2E572006EC826 /* CModelChangeObserver.cpp in Sources */,
-				223456810ED2E572006EC826 /* CMultiModelObserverBase.cpp in Sources */,
-				223456820ED2E572006EC826 /* CSerializedUndoManager.cpp in Sources */,
-				223456830ED2E572006EC826 /* CSingleModelObserverBase.cpp in Sources */,
+				223456810ED2E572006EC826 /* CModelProxy.cpp in Sources */,
+				223456820ED2E572006EC826 /* CMultiModelObserverBase.cpp in Sources */,
+				223456830ED2E572006EC826 /* CSerializedUndoManager.cpp in Sources */,
+				223456840ED2E572006EC826 /* CSingleModelObserverBase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,18 +251,17 @@
 		1DEB91EC08733DB70010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
 				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
+				EXECUTABLE_EXTENSION = "a";
+				EXECUTABLE_PREFIX = "lib";
 				COPY_PHASE_STRIP = NO;
-				EXECUTABLE_EXTENSION = a;
-				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_THREADSAFE_STATICS = NO;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = imod;
 				ZERO_LINK = YES;
@@ -260,14 +271,13 @@
 		1DEB91ED08733DB70010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_EXTENSION = a;
-				EXECUTABLE_PREFIX = lib;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_THREADSAFE_STATICS = NO;
+				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
+				EXECUTABLE_EXTENSION = "a";
+				EXECUTABLE_PREFIX = "lib";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = imod;
 			};
@@ -277,11 +287,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../;
+				HEADER_SEARCH_PATHS = (
+					../../,
+				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
@@ -298,7 +310,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../;
+				HEADER_SEARCH_PATHS = (
+					../../,
+				);
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};
