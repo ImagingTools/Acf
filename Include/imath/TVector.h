@@ -206,7 +206,7 @@ template <int Size, class Element>
 inline void TVector<Size, Element>::Clear()
 {
 	for (int i = 0; i < Size; ++i){
-		m_elements[i] = 0.0;
+		m_elements[i] = 0;
 	}
 }
 
