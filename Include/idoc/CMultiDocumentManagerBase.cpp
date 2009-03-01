@@ -139,10 +139,18 @@ std::string CMultiDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable
 }
 
 
-bool CMultiDocumentManagerBase::FileNew(const std::string& documentTypeId, bool createView, const std::string& viewTypeId)
+bool CMultiDocumentManagerBase::FileNew(
+			const std::string& documentTypeId, 
+			bool createView, 
+			const std::string& viewTypeId,
+			istd::IChangeable** newDocumentPtr)
 {
 	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
 	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
+		if (newDocumentPtr != NULL){
+			*newDocumentPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1)->documentPtr.GetPtr();
+		}
+
 		return true;
 	}
 

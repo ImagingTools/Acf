@@ -113,7 +113,11 @@ std::string CSingleDocumentManagerBase::GetDocumentTypeId(const istd::IChangeabl
 }
 
 
-bool CSingleDocumentManagerBase::FileNew(const std::string& documentTypeId, bool createView, const std::string& viewTypeId)
+bool CSingleDocumentManagerBase::FileNew(
+			const std::string& documentTypeId, 
+			bool createView, 
+			const std::string& viewTypeId,
+			istd::IChangeable** newDocumentPtr)
 {
 	istd::CChangeNotifier changePtr(this, DocumentCountChanged | DocumentCreated);
 
@@ -122,10 +126,22 @@ bool CSingleDocumentManagerBase::FileNew(const std::string& documentTypeId, bool
 	FileClose(&isCloseIgnored);
 
 	if (isCloseIgnored){
+		if (newDocumentPtr != NULL){
+			*newDocumentPtr = m_documentPtr.GetPtr();
+		}
+
 		return true;
 	}
 
-	return NewDocument(documentTypeId, createView, viewTypeId);
+	if (NewDocument(documentTypeId, createView, viewTypeId)){
+		if (newDocumentPtr != NULL){
+			*newDocumentPtr = m_documentPtr.GetPtr();
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -308,7 +324,10 @@ bool CSingleDocumentManagerBase::OpenDocument(
 }
 
 
-bool CSingleDocumentManagerBase::NewDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId)
+bool CSingleDocumentManagerBase::NewDocument(
+			const std::string& documentTypeId, 
+			bool createView, 
+			const std::string& viewTypeId)
 {
 	if (m_documentTemplatePtr != NULL){
 		istd::TDelPtr<istd::IChangeable> documentPtr(m_documentTemplatePtr->CreateDocument(documentTypeId));

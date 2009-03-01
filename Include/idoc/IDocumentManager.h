@@ -100,7 +100,11 @@ public:
 		\param	viewTypeId		ID of view type, if it will be created.
 		\return	true, if success.
 	*/
-	virtual bool FileNew(const std::string& documentTypeId, bool createView = true, const std::string& viewTypeId = "") = 0;
+	virtual bool FileNew(
+				const std::string& documentTypeId, 
+				bool createView = true, 
+				const std::string& viewTypeId = "",
+				istd::IChangeable** newDocumentPtr = NULL) = 0;
 
 	/**
 		Opens document(s) from the file list. 
