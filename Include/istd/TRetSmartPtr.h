@@ -100,7 +100,7 @@ TRetSmartPtr<Type>::TRetSmartPtr(const TRetSmartPtr<Type>& other)
 template <class Type>
 bool TRetSmartPtr<Type>::IsValid() const
 {
-	return (m_counterPtr != NULL) && (m_counterPtr->m_objectPtr != NULL);
+	return (m_counterPtr != NULL) && (m_counterPtr->GetPtr() != NULL);
 }
 
 
@@ -132,9 +132,9 @@ template <class Type>
 inline const Type* TRetSmartPtr<Type>::operator->() const
 {
 	I_ASSERT(m_counterPtr != NULL);
-	I_ASSERT(m_counterPtr->m_objectPtr != NULL);
+	I_ASSERT(m_counterPtr->GetPtr() != NULL);
 
-	return m_counterPtr->m_objectPtr;
+	return m_counterPtr->GetPtr();
 }
 
 
@@ -142,9 +142,9 @@ template <class Type>
 inline Type* TRetSmartPtr<Type>::operator->()
 {
 	I_ASSERT(m_counterPtr != NULL);
-	I_ASSERT(m_counterPtr->m_objectPtr != NULL);
+	I_ASSERT(m_counterPtr->GetPtr() != NULL);
 
-	return m_counterPtr->m_objectPtr;
+	return m_counterPtr->GetPtr();
 }
 
 
