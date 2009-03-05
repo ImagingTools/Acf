@@ -48,6 +48,11 @@ public:
 	*/
 	const QDialogButtonBox* GetButtonBoxPtr() const;
 
+	/**
+		Returns pointer to the connected GUI object.
+	*/
+	const iqtgui::IGuiObject* GetGuiPtr() const;
+
 private:
 	QDialogButtonBox* m_buttonsBox;
 	iqtgui::IGuiObject* m_guiObjectPtr;
@@ -59,6 +64,12 @@ private:
 inline const QDialogButtonBox* CGuiComponentDialog::GetButtonBoxPtr() const
 {
 	return m_buttonsBox;
+}
+
+	
+inline const iqtgui::IGuiObject* CGuiComponentDialog::GetGuiPtr() const
+{
+	return m_guiObjectPtr;
 }
 
 
