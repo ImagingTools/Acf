@@ -323,11 +323,16 @@ void CMultiDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewPt
 }
 
 
-void CMultiDocumentWorkspaceGuiComp::OnViewRemoved(istd::IPolymorphic* /*viewPtr*/)
+void CMultiDocumentWorkspaceGuiComp::OnViewRemoved(istd::IPolymorphic* viewPtr)
 {
 	--m_viewsCount;
 
 	OnViewsCountChanged();
+
+	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
+	if (guiObjectPtr != NULL){
+		guiObjectPtr->DestroyGui();
+	}
 }
 
 
