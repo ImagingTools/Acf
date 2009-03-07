@@ -58,6 +58,8 @@ I_EXPORT_COMPONENT(FreeWidgetGui, "Display selected GUI object in separated wind
 I_EXPORT_COMPONENT(SelectionParamGui, "Single selection parameter from list of options", "Model Observer Parameters Set Selection Options List GUI Qt");
 I_EXPORT_COMPONENT(TabContainer, "Tab container for Qt widgets", "Qt Tab Widget GUI");
 I_EXPORT_COMPONENT(AboutGui, "About GUI for the application", "Qt Help About Widget GUI");
+I_EXPORT_COMPONENT(TabbedMultiViewGui, "Multi view editor component", "Qt Widget GUI Observer View Model");
+
 I_EXPORT_COMPONENT(SettingsSerializer, "Load and save objects using QSettings as storage", "Qt QSettings Registry Serializer Loader Saver");
 
 

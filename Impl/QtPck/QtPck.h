@@ -22,6 +22,7 @@
 #include "iqtgui/CSelectionParamGuiComp.h"
 #include "iqtgui/CTabContainerGuiComp.h"
 #include "iqtgui/CAboutWidgetGuiComp.h"
+#include "iqtgui/CTabbedMultiViewGuiComp.h"
 
 #include "iqt2d/CSceneConnectorGuiComp.h"
 #include "iqt2d/CSceneProviderComp.h"
@@ -67,6 +68,7 @@ typedef iqtgui::CFreeWidgetGuiComp FreeWidgetGui;
 typedef iqtgui::CSelectionParamGuiComp SelectionParamGui;
 typedef iqtgui::CTabContainerGuiComp TabContainer;
 typedef iqtgui::CAboutWidgetGuiComp AboutGui;
+typedef iqtgui::CTabbedMultiViewGuiComp TabbedMultiViewGui;
 
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
 typedef iqt2d::CSceneProviderComp SceneProvider;

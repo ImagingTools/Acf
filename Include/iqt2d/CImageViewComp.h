@@ -16,7 +16,7 @@ namespace iqt2d
 	Show observed bitmap on the scene.
 	This class extends standard scene provider to provide background bitmap object.
 */
-class CImageViewComp:  public iqtgui::TGuiObserverWrap<CSceneProviderComp, CImageShape>
+class CImageViewComp: public iqtgui::TGuiObserverWrap<CSceneProviderComp, CImageShape>
 {
 public:
 	typedef iqtgui::TGuiObserverWrap<CSceneProviderComp, CImageShape> BaseClass;

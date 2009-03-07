@@ -228,6 +228,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTabbedMultiViewGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTabContainerGuiComp.cpp"
 				>
 			</File>
@@ -337,6 +341,14 @@
 			</File>
 			<File
 				RelativePath="..\CSplashScreenGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTabbedMultiViewGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTabbedMultiViewGuiComp.moc"
 				>
 			</File>
 			<File
@@ -688,6 +700,10 @@
 			</File>
 			<File
 				RelativePath="..\Generated\moc_CSelectionParamGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CTabbedMultiViewGuiComp.cpp"
 				>
 			</File>
 			<File
