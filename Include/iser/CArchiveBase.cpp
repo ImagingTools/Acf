@@ -22,6 +22,14 @@ bool CArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& /*su
 	return retVal;
 }
 
+	
+const iser::CArchiveTag& CArchiveBase::GetAcfRootTag()
+{
+	static iser::CArchiveTag retVal("Acf", "Root tag of ACF");
+	
+	return retVal;
+}
+
 
 // static attributes
 
