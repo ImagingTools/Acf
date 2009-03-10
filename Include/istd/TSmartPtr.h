@@ -21,7 +21,7 @@ public:
 	typedef TRetSmartPtr<Type> BaseClass;
 
 	TSmartPtr();
-	TSmartPtr(const TRetSmartPtr<Type>& pointer);
+	TSmartPtr(const TSmartPtr& pointer);
 	explicit TSmartPtr(Type* pointer);
 	~TSmartPtr();
 
@@ -54,7 +54,7 @@ TSmartPtr<Type>::TSmartPtr()
 
 
 template <class Type>
-TSmartPtr<Type>::TSmartPtr(const TRetSmartPtr<Type>& pointer)
+TSmartPtr<Type>::TSmartPtr(const TSmartPtr& pointer)
 :	BaseClass(pointer)
 {
 	if (m_counterPtr != NULL){
