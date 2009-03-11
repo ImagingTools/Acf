@@ -127,11 +127,12 @@ public:
 	const Element& operator[](const IndexType& index) const;
 	Element& operator[](const IndexType& index);
 
-protected:
 	/**
 		Get index of element in one dimensional array.
 	*/
 	int GetElementIndex(const IndexType& index) const;
+
+protected:
 	/**
 		Update size of elements to size changes.
 	*/
@@ -247,8 +248,6 @@ inline Element& TVarArray<Element>::operator[](const IndexType& index)
 	return m_elements[elementIndex];
 }
 
-
-// inline protected methods
 
 template <class Element>
 inline int TVarArray<Element>::GetElementIndex(const IndexType& index) const
