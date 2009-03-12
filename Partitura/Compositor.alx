@@ -4,16 +4,27 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="19">
+  <PositionMap count="20">
+    <Element>
+      <ComponentName>
+        App
+      </ComponentName>
+      <X>
+        -1343
+      </X>
+      <X>
+        -645
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         Application
       </ComponentName>
       <X>
-        -725
+        -1336
       </X>
       <X>
-        -828
+        -640
       </X>
     </Element>
     <Element>
@@ -21,10 +32,10 @@
         AttributeDock
       </ComponentName>
       <X>
-        -1885
+        -1971
       </X>
       <X>
-        -512
+        -498
       </X>
     </Element>
     <Element>
@@ -32,10 +43,10 @@
         AttributeEditor
       </ComponentName>
       <X>
-        -1967
+        -2001
       </X>
       <X>
-        -251
+        -317
       </X>
     </Element>
     <Element>
@@ -54,10 +65,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        -924
+        -1078
       </X>
       <X>
-        -293
+        -315
       </X>
     </Element>
     <Element>
@@ -65,10 +76,10 @@
         Info
       </ComponentName>
       <X>
-        -699
+        -680
       </X>
       <X>
-        -680
+        -661
       </X>
     </Element>
     <Element>
@@ -76,10 +87,10 @@
         Log
       </ComponentName>
       <X>
-        -1516
+        -1488
       </X>
       <X>
-        -98
+        -70
       </X>
     </Element>
     <Element>
@@ -87,10 +98,10 @@
         LogDock
       </ComponentName>
       <X>
-        -2111
+        -2127
       </X>
       <X>
-        -99
+        -95
       </X>
     </Element>
     <Element>
@@ -98,10 +109,10 @@
         MainGui
       </ComponentName>
       <X>
-        -1208
+        -1201
       </X>
       <X>
-        -690
+        -683
       </X>
     </Element>
     <Element>
@@ -109,10 +120,10 @@
         PackageOverview
       </ComponentName>
       <X>
-        -1802
+        -1774
       </X>
       <X>
-        -350
+        -322
       </X>
     </Element>
     <Element>
@@ -120,10 +131,10 @@
         PackageOverviewDock
       </ComponentName>
       <X>
-        -1669
+        -1787
       </X>
       <X>
-        -513
+        -495
       </X>
     </Element>
     <Element>
@@ -134,7 +145,7 @@
         -1502
       </X>
       <X>
-        -381
+        -421
       </X>
     </Element>
     <Element>
@@ -142,10 +153,10 @@
         Preview
       </ComponentName>
       <X>
-        -881
+        -933
       </X>
       <X>
-        -16
+        -4
       </X>
     </Element>
     <Element>
@@ -153,10 +164,10 @@
         Registry
       </ComponentName>
       <X>
-        -1387
+        -1359
       </X>
       <X>
-        -250
+        -222
       </X>
     </Element>
     <Element>
@@ -164,10 +175,10 @@
         RegistryEditor
       </ComponentName>
       <X>
-        -889
+        -917
       </X>
       <X>
-        -154
+        -126
       </X>
     </Element>
     <Element>
@@ -175,10 +186,10 @@
         RegistryLoader
       </ComponentName>
       <X>
-        -1191
+        -1163
       </X>
       <X>
-        -100
+        -72
       </X>
     </Element>
     <Element>
@@ -186,10 +197,10 @@
         SplashScreen
       </ComponentName>
       <X>
-        -379
+        -359
       </X>
       <X>
-        -680
+        -660
       </X>
     </Element>
     <Element>
@@ -197,10 +208,10 @@
         Workspace
       </ComponentName>
       <X>
-        -921
+        -913
       </X>
       <X>
-        -517
+        -509
       </X>
     </Element>
     <Element>
