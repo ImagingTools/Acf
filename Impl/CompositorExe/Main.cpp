@@ -31,6 +31,10 @@ int main(int argc, char *argv[])
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();
 
+	icomp::TSimComponentWrap<QtPck::ApplicationSettingsProvider> applicationSettingsProvider;
+	applicationSettingsProvider.SetRef("ApplicationInfo", &applicationInfo);
+	applicationSettingsProvider.InitComponent();
+
 	icomp::TSimComponentWrap<QtPck::Log> log;
 	log.InitComponent();
 
@@ -171,6 +175,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
 	mainWindowComp.SetRef("ApplicationInfo", &applicationInfo);
 	mainWindowComp.SetRef("AboutGui", &aboutGuiComp);
+	mainWindowComp.SetRef("SettingsProvider", &applicationSettingsProvider);
 	mainWindowComp.InitComponent();
 
 	application.SetRef("ApplicationInfo", &applicationInfo);
