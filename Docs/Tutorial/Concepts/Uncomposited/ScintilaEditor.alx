@@ -4,16 +4,27 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="9">
+  <PositionMap count="10">
+    <Element>
+      <ComponentName>
+        App
+      </ComponentName>
+      <X>
+        -7
+      </X>
+      <X>
+        71
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         Application
       </ComponentName>
       <X>
-        198
+        -6
       </X>
       <X>
-        227
+        27
       </X>
     </Element>
     <Element>
@@ -21,10 +32,10 @@
         DocumentFactory
       </ComponentName>
       <X>
-        604
+        469
       </X>
       <X>
-        354
+        -5
       </X>
     </Element>
     <Element>
@@ -32,10 +43,10 @@
         DocumentLoader
       </ComponentName>
       <X>
-        1149
+        485
       </X>
       <X>
-        357
+        96
       </X>
     </Element>
     <Element>
@@ -43,10 +54,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        844
+        240
       </X>
       <X>
-        243
+        71
       </X>
     </Element>
     <Element>
@@ -54,10 +65,10 @@
         Info
       </ComponentName>
       <X>
-        -62
+        34
       </X>
       <X>
-        228
+        136
       </X>
     </Element>
     <Element>
@@ -65,10 +76,10 @@
         MainWindow
       </ComponentName>
       <X>
-        525
+        -209
       </X>
       <X>
-        222
+        0
       </X>
     </Element>
     <Element>
@@ -76,10 +87,10 @@
         Splash
       </ComponentName>
       <X>
-        243
+        -164
       </X>
       <X>
-        357
+        117
       </X>
     </Element>
     <Element>
@@ -87,10 +98,10 @@
         ViewFactory
       </ComponentName>
       <X>
-        858
+        254
       </X>
       <X>
-        355
+        -46
       </X>
     </Element>
     <Element>
@@ -98,10 +109,10 @@
         Workspace
       </ComponentName>
       <X>
-        516
+        -198
       </X>
       <X>
-        80
+        -95
       </X>
     </Element>
   </PositionMap>

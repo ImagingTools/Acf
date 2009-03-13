@@ -4,6 +4,7 @@
 // QScinitlla includes
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexerpostscript.h>
 
 
 // Qt includes
@@ -42,6 +43,9 @@ CTextEditor::CTextEditor(QWidget* parentWidget/* = NULL*/)
 		m_scintilla->setFrameStyle(QFrame::NoFrame);
 	}
 
+	m_scintilla->setUtf8(true);
+	m_scintilla->setMarginWidth(1, 0);
+
 	m_lowercaseCommand.SetEnabled(false);
 	m_uppercaseCommand.SetEnabled(false);
 	m_editorCommand.InsertChild(&m_lowercaseCommand, false);
@@ -55,11 +59,7 @@ CTextEditor::CTextEditor(QWidget* parentWidget/* = NULL*/)
 	connect(m_scintilla, SIGNAL(textChanged()), this, SLOT(OnTextChanged()));
 	connect(m_scintilla, SIGNAL(selectionChanged()), this, SLOT(OnSelectionChanged()));
 	
-	QsciLexerCPP* lexerPtr = new QsciLexerCPP(this);
-	lexerPtr->setDefaultFont(QFont("Courier", 10));
-	lexerPtr->setFoldCompact(true);
-
-	m_scintilla->setLexer(lexerPtr);
+	RegisterLexers();
 
 	// add view commands
 	m_viewCommand.InsertChild(&m_useIdentGuideCommand, false);
@@ -134,6 +134,17 @@ void CTextEditor::SetLineNumberEnabled(bool showLineNumber)
 }
 
 
+void CTextEditor::SetLanguage(const QString& language)
+{
+	I_ASSERT(m_scintilla != NULL);
+
+	LexerMap::iterator foundIt = m_languages.find(language);
+	if (foundIt != m_languages.end()){
+		m_scintilla->setLexer(foundIt->second);
+	}
+}
+
+
 // protected slots
 
 void CTextEditor::OnSelectionChanged()
@@ -152,8 +163,10 @@ void CTextEditor::OnTextChanged()
 	QString linesString = QString("%1").arg(m_scintilla->lines());
 	I_ASSERT(m_scintilla != NULL);
 
-	m_scintilla->setMarginWidth(1, linesString);
-	m_scintilla->setMarginWidth(1, istd::Max(20, m_scintilla->marginWidth(1)));
+	if (m_scintilla->marginLineNumbers(1)){
+		m_scintilla->setMarginWidth(1, linesString);
+		m_scintilla->setMarginWidth(1, istd::Max(20, m_scintilla->marginWidth(1)));
+	}
 }
 
 
@@ -197,6 +210,22 @@ void CTextEditor::OnToUppercase()
 	OnSelectionChanged();
 
 	OnTextChanged();
+}
+
+
+// private methods
+
+void CTextEditor::RegisterLexers()
+{
+	QsciLexerCPP* cppLexerPtr = new QsciLexerCPP(this);
+	cppLexerPtr->setDefaultFont(QFont("Courier", 10));
+	cppLexerPtr->setFoldCompact(true);
+
+	m_languages[cppLexerPtr->language()] = cppLexerPtr;
+
+	QsciLexerPostScript* psLexerPtr = new QsciLexerPostScript(this);
+
+	m_languages[psLexerPtr->language()] = psLexerPtr;
 }
 
 

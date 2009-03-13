@@ -3,17 +3,19 @@
 
 
 // ACF includes
+#include "istd/TDelPtr.h"
+
 #include "idoc/ICommandsProvider.h"
 
 #include "iqtgui/CHierarchicalCommand.h"
 
 
 // Project includes
-
 #include "iqsci/Generated/ui_CTextEditor.h"
 
 
 class QsciScintilla;
+class QsciLexer;
 
 
 namespace iqsci
@@ -38,8 +40,9 @@ public:
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;
 
 public slots:
-	virtual void SetFoldingEnabled(bool useFoldingEnabled);
-	virtual void SetLineNumberEnabled(bool useFoldingEnabled);
+	void SetFoldingEnabled(bool useFoldingEnabled);
+	void SetLineNumberEnabled(bool useFoldingEnabled);
+	void SetLanguage(const QString& language);
 
 protected slots:
 	virtual void OnSelectionChanged();
@@ -49,6 +52,14 @@ protected slots:
 
 signals:
 	void DataChanged();
+
+private:
+	typedef std::map<QString, QsciLexer* > LexerMap;
+
+	LexerMap m_languages;
+
+private:
+	void RegisterLexers();
 
 private:
 	enum MenuFlags
