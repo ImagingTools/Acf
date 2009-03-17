@@ -19,6 +19,12 @@ public:
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual IComponent* CreateComponent() const;
+	virtual const istd::CString& GetDescription() const;
+	virtual const istd::CString& GetKeywords() const;
+
+private:
+	istd::CString m_description;
+	istd::CString m_keywords;
 };
 
 

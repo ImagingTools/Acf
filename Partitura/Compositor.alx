@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          807
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="20">
@@ -21,10 +32,10 @@
         Application
       </ComponentName>
       <X>
-        -1336
+        -1334
       </X>
       <X>
-        -640
+        -638
       </X>
     </Element>
     <Element>
@@ -32,10 +43,10 @@
         AttributeDock
       </ComponentName>
       <X>
-        -1971
+        -1969
       </X>
       <X>
-        -498
+        -496
       </X>
     </Element>
     <Element>
@@ -43,10 +54,10 @@
         AttributeEditor
       </ComponentName>
       <X>
-        -2001
+        -1999
       </X>
       <X>
-        -317
+        -315
       </X>
     </Element>
     <Element>
@@ -65,10 +76,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        -1078
+        -1076
       </X>
       <X>
-        -315
+        -313
       </X>
     </Element>
     <Element>
@@ -87,10 +98,10 @@
         Log
       </ComponentName>
       <X>
-        -1488
+        -1486
       </X>
       <X>
-        -70
+        -68
       </X>
     </Element>
     <Element>
@@ -98,10 +109,10 @@
         LogDock
       </ComponentName>
       <X>
-        -2127
+        -2125
       </X>
       <X>
-        -95
+        -93
       </X>
     </Element>
     <Element>
@@ -120,10 +131,10 @@
         PackageOverview
       </ComponentName>
       <X>
-        -1774
+        -1772
       </X>
       <X>
-        -322
+        -320
       </X>
     </Element>
     <Element>
@@ -131,10 +142,10 @@
         PackageOverviewDock
       </ComponentName>
       <X>
-        -1787
+        -1785
       </X>
       <X>
-        -495
+        -493
       </X>
     </Element>
     <Element>
@@ -142,10 +153,10 @@
         PackagesLoader
       </ComponentName>
       <X>
-        -1502
+        -1500
       </X>
       <X>
-        -421
+        -419
       </X>
     </Element>
     <Element>
@@ -153,10 +164,10 @@
         Preview
       </ComponentName>
       <X>
-        -933
+        -931
       </X>
       <X>
-        -4
+        -2
       </X>
     </Element>
     <Element>
@@ -164,10 +175,10 @@
         Registry
       </ComponentName>
       <X>
-        -1359
+        -1357
       </X>
       <X>
-        -222
+        -220
       </X>
     </Element>
     <Element>
@@ -175,10 +186,10 @@
         RegistryEditor
       </ComponentName>
       <X>
-        -917
+        -915
       </X>
       <X>
-        -126
+        -124
       </X>
     </Element>
     <Element>
@@ -186,10 +197,10 @@
         RegistryLoader
       </ComponentName>
       <X>
-        -1163
+        -1161
       </X>
       <X>
-        -72
+        -70
       </X>
     </Element>
     <Element>

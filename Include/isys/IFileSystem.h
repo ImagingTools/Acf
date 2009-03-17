@@ -2,12 +2,10 @@
 #define isys_IFileSystem_included
 
 
-#include "isys/isys.h"
-
-
-#include <string>
-
 #include "istd/IPolymorphic.h"
+#include "istd/CString.h"
+
+#include "isys/isys.h"
 
 
 namespace isys
@@ -29,10 +27,13 @@ public:
 	*/
 	virtual istd::CString GetFileName(const istd::CString& filePath) const = 0;
 	/**
-		Get extension of specified file path.
-		For example for "C:\Test\blah.txt" it should return "txt".
+		Check if file path has specified extension.
 	*/
-	virtual istd::CString GetExtension(const istd::CString& filePath) const = 0;
+	virtual bool HasExtension(const istd::CString& filePath, const istd::CString& extension) const = 0;
+	/**
+		Check if some file is present.
+	*/
+	virtual bool IsPresent(const istd::CString& filePath) const = 0;
 };
 
 

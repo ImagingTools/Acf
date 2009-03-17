@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<CmpstrPck::RegistryLoader> registryLoaderComp;
 	registryLoaderComp.SetRef("Log", &log);
+	registryLoaderComp.SetRef("VersionInfo", &applicationInfo);
 	registryLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::PackagesLoader> packagesLoaderComp;

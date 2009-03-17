@@ -93,12 +93,12 @@ public:
 	/**
 		Get human readable description of this component.
 	*/
-	virtual istd::CString GetDescription() const = 0;
+	virtual const istd::CString& GetDescription() const = 0;
 
 	/**
 		Get keywords for this component.
 	*/
-	virtual istd::CString GetKeywords() const = 0;
+	virtual const istd::CString& GetKeywords() const = 0;
 };
 
 

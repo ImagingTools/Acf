@@ -1,0 +1,34 @@
+#ifndef iqt_CFileSystem_included
+#define iqt_CFileSystem_included
+
+
+#include "isys/IFileSystem.h"
+
+#include "iqt/iqt.h"
+
+
+namespace iqt
+{
+
+
+/**
+	Implementation of file system information based on QT.
+	This implementation is part of standard services if you use QT-based components.
+*/
+class CFileSystem: virtual public isys::IFileSystem
+{
+public:
+	// reimplemented (isys::IFileSystem)
+	virtual istd::CString GetNormalizedPath(const istd::CString& path) const;
+	virtual istd::CString GetFileName(const istd::CString& filePath) const;
+	virtual bool HasExtension(const istd::CString& filePath, const istd::CString& extension) const;
+	virtual bool IsPresent(const istd::CString& filePath) const;
+};
+
+
+} // namespace iqt
+
+
+#endif // !iqt_CFileSystem_included
+
+

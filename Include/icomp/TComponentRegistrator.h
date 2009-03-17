@@ -28,8 +28,8 @@ public:
 				const istd::CString& keywords);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
-	virtual istd::CString GetDescription() const;
-	virtual istd::CString GetKeywords() const;
+	virtual const istd::CString& GetDescription() const;
+	virtual const istd::CString& GetKeywords() const;
 
 private:
 	istd::CString m_description;
@@ -56,14 +56,14 @@ TComponentRegistrator<Component>::TComponentRegistrator(
 //	reimplemented (icomp::IComponentStaticInfo)
 
 template <class Component>
-istd::CString TComponentRegistrator<Component>::GetDescription() const
+const istd::CString& TComponentRegistrator<Component>::GetDescription() const
 {
 	return m_description;
 }
 
 
 template <class Component>
-istd::CString TComponentRegistrator<Component>::GetKeywords() const
+const istd::CString& TComponentRegistrator<Component>::GetKeywords() const
 {
 	return m_keywords;
 }

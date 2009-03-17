@@ -98,6 +98,16 @@ public:
 				const std::string& elementId,
 				const istd::CClassInfo& exportInterfaceInfo = istd::CClassInfo(),
 				bool state = true) = 0;
+
+	/**
+		Get human readable description of this registry.
+	*/
+	virtual const istd::CString& GetDescription() const = 0;
+
+	/**
+		Get keywords for this registry used for search.
+	*/
+	virtual const istd::CString& GetKeywords() const = 0;
 };
 
 

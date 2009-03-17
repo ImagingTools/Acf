@@ -31,8 +31,8 @@ public:
 	virtual bool RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr);
 	virtual bool RegisterAttributeInfo(const std::string& attributeId, const icomp::IAttributeStaticInfo* attributeInfoPtr);
 	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
-	virtual istd::CString GetDescription() const;
-	virtual istd::CString GetKeywords() const;
+	virtual const istd::CString& GetDescription() const;
+	virtual const istd::CString& GetKeywords() const;
 
 private:
 	struct ComponentInfo

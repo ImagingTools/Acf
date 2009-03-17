@@ -100,15 +100,15 @@ bool CCompositePackageStaticInfo::RegisterSubcomponentInfo(const std::string& /*
 }
 
 
-istd::CString CCompositePackageStaticInfo::GetDescription() const
+const istd::CString& CCompositePackageStaticInfo::GetDescription() const
 {
-	return "";
+	return istd::CString::GetEmpty();
 }
 
 
-istd::CString CCompositePackageStaticInfo::GetKeywords() const
+const istd::CString& CCompositePackageStaticInfo::GetKeywords() const
 {
-	return "";
+	return istd::CString::GetEmpty();
 }
 
 

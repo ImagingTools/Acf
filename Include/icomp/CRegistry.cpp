@@ -34,6 +34,26 @@ void CRegistry::SetComponentStaticInfo(const IComponentStaticInfo* factoryPtr)
 }
 
 
+void CRegistry::SetDescription(const istd::CString& description)
+{
+	if (description != m_description){
+		istd::CChangeNotifier notifier(this);
+
+		m_description = description;
+	}
+}
+
+
+void CRegistry::SetKeywords(const istd::CString& keywords)
+{
+	if (keywords != m_keywords){
+		istd::CChangeNotifier notifier(this);
+
+		m_keywords = keywords;
+	}
+}
+
+
 // reimplemented (icomp::IRegistry)
 
 IRegistry::Ids CRegistry::GetElementIds() const
@@ -169,19 +189,48 @@ void CRegistry::SetElementExported(
 }
 
 
+const istd::CString& CRegistry::GetDescription() const
+{
+	return m_description;
+}
+
+
+const istd::CString& CRegistry::GetKeywords() const
+{
+	return m_keywords;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CRegistry::Serialize(iser::IArchive& archive)
 {
 	istd::CChangeNotifier changePtr(archive.IsStoring()? NULL: this);
 
-	if (!archive.IsStoring() && (m_componentsFactoryPtr == NULL)){
+	bool isStoring = archive.IsStoring();
+	if (!isStoring && (m_componentsFactoryPtr == NULL)){
 		return false;
 	}
 
 	bool retVal =	SerializeComponents(archive) &&
 					SerializeExportedInterfaces(archive) &&
 					SerializeExportedComponents(archive);
+
+	if (archive.GetVersion(iser::IVersionInfo::FrameworkVersionId) >= 807){
+		static iser::CArchiveTag descriptionTag("Description", "Human readable description");
+		retVal = retVal && archive.BeginTag(descriptionTag);
+		retVal = retVal && archive.Process(m_description);
+		retVal = retVal && archive.EndTag(descriptionTag);
+
+		static iser::CArchiveTag keywordsTag("Keywords", "Human readable keywords");
+		retVal = retVal && archive.BeginTag(keywordsTag);
+		retVal = retVal && archive.Process(m_keywords);
+		retVal = retVal && archive.EndTag(keywordsTag);
+	}
+	else if (!isStoring){
+		m_description = "";
+		m_keywords = "";
+	}
 
 	return retVal;
 }

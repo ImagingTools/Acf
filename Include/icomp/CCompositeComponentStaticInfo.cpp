@@ -72,6 +72,9 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(const IRegistry& re
 			}
 		}
 	}
+
+	m_description = registry.GetDescription();
+	m_keywords = registry.GetKeywords();
 }
 
 
@@ -82,6 +85,18 @@ IComponent* CCompositeComponentStaticInfo::CreateComponent() const
 	TComponentWrap<CCompositeComponent>* componentPtr = new TComponentWrap<CCompositeComponent>();
 
 	return componentPtr;
+}
+
+
+const istd::CString& CCompositeComponentStaticInfo::GetDescription() const
+{
+	return m_description;
+}
+
+
+const istd::CString& CCompositeComponentStaticInfo::GetKeywords() const
+{
+	return m_keywords;
 }
 
 

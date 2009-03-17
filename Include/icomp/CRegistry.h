@@ -38,6 +38,9 @@ public:
 	*/
 	virtual const IComponentStaticInfo* GetComponentStaticInfo() const;
 
+	virtual void SetDescription(const istd::CString& description);
+	virtual void SetKeywords(const istd::CString& keywords);
+
 	// reimplemented (icomp::IRegistry)
 	virtual Ids GetElementIds() const;
 	virtual ElementInfo* InsertElementInfo(
@@ -52,6 +55,8 @@ public:
 				const std::string& elementId,
 				const istd::CClassInfo& exportInterfaceInfo,
 				bool state);
+	virtual const istd::CString& GetDescription() const;
+	virtual const istd::CString& GetKeywords() const;
 	
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -69,6 +74,9 @@ private:
 	ExportedComponentsMap m_exportedComponentsMap;
 
 	const IComponentStaticInfo* m_componentsFactoryPtr;
+
+	istd::CString m_description;
+	istd::CString m_keywords;
 };
 
 

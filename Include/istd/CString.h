@@ -76,7 +76,11 @@ public:
 	CString ToLower() const;
 
 	bool IsEqualNoCase(const CString& str) const;
-	
+
+	// static methods
+	static const istd::CString& GetEmpty();
+
+	// template static methods
 	template <typename NumberType>
 	static CString FromNumber(NumberType number);
 

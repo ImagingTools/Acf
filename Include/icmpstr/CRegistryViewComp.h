@@ -110,6 +110,7 @@ private:
 	iqtgui::CHierarchicalCommand m_removeNoteCommand;
 	iqtgui::CHierarchicalCommand m_exportComponentCommand;
 	iqtgui::CHierarchicalCommand m_exportInterfaceCommand;
+	iqtgui::CHierarchicalCommand m_propertiesCommand;
 
 	QTimer m_executionObserverTimer;
 };

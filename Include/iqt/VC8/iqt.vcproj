@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileSystem.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackagesLoaderComp.cpp"
 				>
 			</File>
@@ -319,6 +323,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileList.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSystem.h"
 				>
 			</File>
 			<File

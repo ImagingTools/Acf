@@ -39,6 +39,8 @@ CRegistryViewComp::CRegistryViewComp()
 	m_exportInterfaceCommand.setEnabled(false);
 	m_exportInterfaceCommand.SetGroupId(GI_COMPONENT);
 	m_exportInterfaceCommand.setShortcut(QKeySequence(Qt::CTRL + Qt::Key_E));
+	m_propertiesCommand.SetGroupId(GI_COMPONENT);
+	m_propertiesCommand.setShortcut(QKeySequence(Qt::ALT + Qt::Key_Enter));
 	m_exportToCodeCommand.setEnabled(false);
 	m_exportToCodeCommand.SetGroupId(GI_CODEGEN);
 	m_executeRegistryCommand.setEnabled(false);
@@ -60,6 +62,7 @@ CRegistryViewComp::CRegistryViewComp()
 	m_registryMenu.InsertChild(&m_renameComponentCommand);
 	m_registryMenu.InsertChild(&m_exportComponentCommand);
 	m_registryMenu.InsertChild(&m_exportInterfaceCommand);
+	m_registryMenu.InsertChild(&m_propertiesCommand);
 	m_registryMenu.InsertChild(&m_exportToCodeCommand);
 	m_registryMenu.InsertChild(&m_executeRegistryCommand);
 	m_registryMenu.InsertChild(&m_abortRegistryCommand);
@@ -220,6 +223,11 @@ void CRegistryViewComp::OnRetranslate()
 				tr("&Export Inteface(s)"), 
 				tr("&Export Interface(s)"), 
 				tr("Export interface(s)"),
+				QIcon(":/Resources/Icons/Export.png"));
+	m_propertiesCommand.SetVisuals(
+				tr("&Properties"), 
+				tr("&Properties"), 
+				tr("Edit registry properties"),
 				QIcon(":/Resources/Icons/Export.png"));
 	m_exportToCodeCommand.SetVisuals(
 				tr("&Export To Code..."),

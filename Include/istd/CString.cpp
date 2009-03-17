@@ -245,4 +245,14 @@ void CString::ConvertToChar() const
 
 
 
+// static methods
+
+const istd::CString& CString::GetEmpty()
+{
+	static istd::CString retVal;
+
+	return retVal;
+}
+
+
 } // namespace istd

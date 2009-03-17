@@ -2,9 +2,13 @@
 #define istdc_TFileSerializerComp_included
 
 
+#include "istd/CStaticServicesProvider.h"
+
 #include "iser/IFileLoader.h"
 
 #include "icomp/CComponentBase.h"
+
+#include "isys/IFileSystem.h"
 
 #include "ibase/TLoggerCompWrap.h"
 
@@ -85,20 +89,31 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 		return false;
 	}
 
-	if ((filePathPtr != NULL) && m_fileExtensionsAttrPtr.IsValid()){
-		int extensionsCount = m_fileExtensionsAttrPtr.GetCount();
-		for (int i = 0; i < extensionsCount; ++i){
-			const istd::CString& extension = m_fileExtensionsAttrPtr[i];
-			if (filePathPtr->substr(filePathPtr->length() - extension.length() - 1) == istd::CString(".") + extension.ToLower()){
-				return true;
+	if (filePathPtr != NULL){
+		if ((flags & QF_NO_SAVING) != 0){
+			isys::IFileSystem* fileSystemPtr = istd::GetService<isys::IFileSystem>();
+			if (fileSystemPtr != NULL){
+				if (!fileSystemPtr->IsPresent(*filePathPtr)){
+					return false;
+				}
 			}
 		}
 
-		if (!beQuiet){
-			SendInfoMessage(MI_BAD_EXTENSION, "File extension is not supported");
-		}
+		if (m_fileExtensionsAttrPtr.IsValid()){
+			int extensionsCount = m_fileExtensionsAttrPtr.GetCount();
+			for (int i = 0; i < extensionsCount; ++i){
+				const istd::CString& extension = m_fileExtensionsAttrPtr[i];
+				if (filePathPtr->substr(filePathPtr->length() - extension.length() - 1) == istd::CString(".") + extension.ToLower()){
+					return true;
+				}
+			}
 
-		return false;
+			if (!beQuiet){
+				SendInfoMessage(MI_BAD_EXTENSION, "File extension is not supported");
+			}
+
+			return false;
+		}
 	}
 
 	return true;
