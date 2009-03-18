@@ -17,12 +17,12 @@
 
 int main(int argc, char *argv[])
 {
+	Q_INIT_RESOURCE(iqtgui);
+	Q_INIT_RESOURCE(icmpstr);
+
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.SetDoubleAttr("SplashTime", 1.5);
 	application.EnsureInitialized(argc, argv);
-
-	Q_INIT_RESOURCE(iqtgui);
-	Q_INIT_RESOURCE(icmpstr);
 
 	QApplication::setStyle("plastique");
 
@@ -35,6 +35,14 @@ int main(int argc, char *argv[])
 	applicationSettingsProvider.SetRef("ApplicationInfo", &applicationInfo);
 	applicationSettingsProvider.InitComponent();
 
+	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
+	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
+	splashScreenGui.SetStringAttr("ProductName", "");
+	splashScreenGui.SetStringAttr("ProductType", "Mini");
+	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
+	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
+	splashScreenGui.InitComponent();
+
 	icomp::TSimComponentWrap<QtPck::Log> log;
 	log.InitComponent();
 
@@ -43,14 +51,6 @@ int main(int argc, char *argv[])
 	lockDockComp.SetIntAttr("DockArea", 2);
 	lockDockComp.SetStringAttr("DockTitle", "Log");
 	lockDockComp.InitComponent();
-
-	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
-	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
-	splashScreenGui.SetStringAttr("ProductName", "");
-	splashScreenGui.SetStringAttr("ProductType", "Mini");
-	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
-	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
-	splashScreenGui.InitComponent();
 
 	icomp::TSimComponentWrap<CmpstrPck::RegistryLoader> registryLoaderComp;
 	registryLoaderComp.SetRef("Log", &log);

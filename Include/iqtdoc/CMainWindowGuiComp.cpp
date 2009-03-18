@@ -521,8 +521,8 @@ void CMainWindowGuiComp::OnRestoreSettings(const QSettings& settings)
 	QMainWindow* mainWindowPtr = GetQtWidget();
 	I_ASSERT(mainWindowPtr != NULL);
 
-	QByteArray windowState = settings.value("MainWindow/State", windowState).toByteArray();
-	QByteArray windowGeometry = settings.value("MainWindow/Geometry", windowState).toByteArray();
+	QByteArray windowState = settings.value("MainWindow/State").toByteArray();
+	QByteArray windowGeometry = settings.value("MainWindow/Geometry").toByteArray();
 
 	mainWindowPtr->restoreState(windowState);
 	mainWindowPtr->restoreGeometry(windowGeometry);
