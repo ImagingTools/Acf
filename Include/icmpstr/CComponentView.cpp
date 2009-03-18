@@ -241,10 +241,10 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*
 		mainRect.adjust(mainRect.height(), 0, 0, 0);
 
 		painter->drawPixmap(
-					int(mainRect.height() * 0.1),
-					int(mainRect.height() * 0.1),
-					int(mainRect.height() * 0.8),
-					int(mainRect.height() * 0.8),
+					int(mainRect.height() * 0.05),
+					int(mainRect.height() * 0.05),
+					int(mainRect.height() * 0.9),
+					int(mainRect.height() * 0.9),
 					m_image);
 	}
 
@@ -260,7 +260,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*
 	if (!m_exportedInterfacesList.empty()){
 		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
 		painter->drawPixmap(
-					int(mainRect.width() - minSideSize * 0.8),
+					int(mainRect.right() - minSideSize * 0.8),
 					int(minSideSize * 0.2),
 					int(minSideSize * 0.6),
 					int(minSideSize * 0.6),
