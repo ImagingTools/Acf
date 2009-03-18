@@ -63,6 +63,7 @@ public:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
 
 protected slots:

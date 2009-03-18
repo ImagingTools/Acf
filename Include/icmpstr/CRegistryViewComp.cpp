@@ -204,6 +204,18 @@ void CRegistryViewComp::OnGuiCreated()
 }
 
 
+void CRegistryViewComp::OnGuiDestroyed()
+{
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr != NULL){
+		viewPtr->ResetScene();
+	}
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
 void CRegistryViewComp::OnRetranslate()
 {
 	BaseClass::OnRetranslate();
