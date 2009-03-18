@@ -2,10 +2,12 @@
 #define CComponentView_included
 
 
+// QT includes
 #include <QGraphicsRectItem>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QPaintEvent>
+#include <QIcon>
 
 
 #include "icomp/IRegistry.h"
@@ -81,6 +83,8 @@ private:
 	QList<CComponentConnector*> m_connectors;
 
 	QStringList m_exportedInterfacesList;
+
+	QPixmap m_image;
 };
 
 

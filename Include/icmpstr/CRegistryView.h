@@ -11,8 +11,8 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
 
+#include "icomp/IRegistriesManager.h"
 
-// Compositor includes
 #include "icmpstr/CComponentView.h"
 
 
@@ -52,6 +52,10 @@ public:
 	void UpdateCompositeGeometry();
 	void ResetScene();
 	void ScaleView(double scaleFactor);
+	QIcon GetIcon(const icomp::CComponentAddress& address) const;
+
+	const icomp::IRegistriesManager* GetPackagesManager() const;
+	void SetPackagesManager(const icomp::IRegistriesManager* managerPtr);
 
 signals:
 	void DropDataEventEntered(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
@@ -94,6 +98,7 @@ private:
 	CCompositeItem m_compositeItem;
 	CRegistryScene* m_scenePtr;
 	CComponentView* m_selectedComponentPtr;
+	const icomp::IRegistriesManager* m_packagesManagerPtr;
 };
 
 
@@ -102,6 +107,18 @@ private:
 inline double CRegistryView::GetGrid()
 {
 	return 25;
+}
+
+
+inline const icomp::IRegistriesManager* CRegistryView::GetPackagesManager() const
+{
+	return m_packagesManagerPtr;
+}
+
+
+inline void CRegistryView::SetPackagesManager(const icomp::IRegistriesManager* managerPtr)
+{
+	m_packagesManagerPtr = managerPtr;
 }
 
 

@@ -73,6 +73,7 @@ public:
 
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;
+	virtual istd::CString GetPackageDirPath(const std::string& packageId) const;
 
 protected:
 	class LogingRegistry: public icomp::CRegistry
@@ -106,10 +107,15 @@ private:
 		QDir directory;
 	};
 	/**
+		Map package ID to package file path.
+	*/
+	typedef std::map<std::string, istd::CString> NormalPackagesMap;
+	/**
 		Map package ID to structure CompositePackageInfo.
 	*/
 	typedef std::map<std::string, CompositePackageInfo> CompositePackagesMap;
 
+	NormalPackagesMap m_normalPackagesMap;
 	CompositePackagesMap m_compositePackagesMap;
 
 	typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;

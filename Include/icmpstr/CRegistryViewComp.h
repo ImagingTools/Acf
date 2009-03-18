@@ -48,6 +48,7 @@ public:
 		I_ASSIGN_MULTI_0(m_registryElementObserversCompPtr, "RegistryElementObservers", "Registry element observers", false)
 		I_ASSIGN(m_registryCodeSaverCompPtr, "RegistryCodeSaver", "Export registry to C++ code file", false, "RegistryCodeSaver")
 		I_ASSIGN(m_registryPreviewCompPtr, "RegistryPreview", "Executes preview of the registry", false, "RegistryPreview")
+		I_ASSIGN(m_packagesManagerCompPtr, "PackagesManager", "Packages manager used to provide icon paths", true, "PackagesManager")
 	I_END_COMPONENT
 
 	CRegistryViewComp();
@@ -100,6 +101,7 @@ private:
 	I_MULTIREF(imod::IObserver, m_registryElementObserversCompPtr);
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
+	I_REF(icomp::IRegistriesManager, m_packagesManagerCompPtr);
 
 	iqtgui::CHierarchicalCommand m_registryCommand;
 	iqtgui::CHierarchicalCommand m_registryMenu;

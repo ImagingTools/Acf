@@ -10,6 +10,7 @@
 #include "istd/TDelPtr.h"
 
 #include "icomp/IComponentStaticInfo.h"
+#include "icomp/IRegistriesManager.h"
 #include "icomp/CComponentAddress.h"
 
 #include "iqtgui/TDesignerGuiCompBase.h"
@@ -34,7 +35,8 @@ public:
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp)
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver)
-		I_ASSIGN(m_generalStaticInfoPtr, "StaticComponentInfo", "Static Component Info", true, "StaticComponentInfo")
+		I_ASSIGN(m_generalStaticInfoCompPtr, "StaticComponentInfo", "Static Component Info", true, "StaticComponentInfo")
+		I_ASSIGN(m_packagesManagerCompPtr, "PackagesManager", "Packages manager used to provide icon paths", true, "PackagesManager")
 	I_END_COMPONENT
 
 	enum
@@ -91,7 +93,8 @@ private:
 		icomp::CComponentAddress m_address;
 	};
 
-	I_REF(icomp::IComponentStaticInfo, m_generalStaticInfoPtr);
+	I_REF(icomp::IComponentStaticInfo, m_generalStaticInfoCompPtr);
+	I_REF(icomp::IRegistriesManager, m_packagesManagerCompPtr);
 
 	static QString s_closedIcon;
 	static QString s_openIcon;

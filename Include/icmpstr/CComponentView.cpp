@@ -76,6 +76,8 @@ void CComponentView::SetElementInfo(const icomp::IRegistry::ElementInfo* element
 		setToolTip(iqt::GetQString(staticInfo.GetDescription()));
 	}
 
+	m_image = m_registryView.GetIcon(m_elementInfoPtr->address).pixmap(128, 128);
+
 	setRect(CalculateRect());
 }
 
@@ -177,6 +179,10 @@ QRect CComponentView::CalculateRect() const
 		width += height - margin;
 	}
 
+	if (!m_image.isNull()){
+		width += height;
+	}
+
 	const int shadowOffset = 10;
 	width += shadowOffset;
 	height += shadowOffset;
@@ -214,6 +220,7 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*
 	QRectF mainRect = rect();
 
 	mainRect.adjust(0, 0, -10, -10);
+
 	QRectF shadowRect = mainRect;
 	shadowRect.adjust(10, 10, 10, 10);
 	
@@ -229,6 +236,18 @@ void CComponentView::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*
 	}
 
 	painter->drawRect(mainRect);
+
+	if (!m_image.isNull() && (mainRect.width() > mainRect.height())){
+		mainRect.adjust(mainRect.height(), 0, 0, 0);
+
+		painter->drawPixmap(
+					int(mainRect.height() * 0.1),
+					int(mainRect.height() * 0.1),
+					int(mainRect.height() * 0.8),
+					int(mainRect.height() * 0.8),
+					m_image);
+	}
+
 	if (m_elementInfoPtr->elementPtr.IsValid()){
 		const icomp::IComponentStaticInfo& info = m_elementInfoPtr->elementPtr->GetComponentStaticInfo();
 		if (dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info) != NULL){

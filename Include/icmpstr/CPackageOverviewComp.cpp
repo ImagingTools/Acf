@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QHeaderView>
 #include <QItemDelegate>
+#include <QDir>
 
 #include "istd/CString.h"
 
@@ -57,20 +58,20 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 
 void CPackageOverviewComp::GenerateComponentTree(const QString& filter, bool expandComponents)
 {
-	if (!m_generalStaticInfoPtr.IsValid()){
+	if (!m_generalStaticInfoCompPtr.IsValid()){
 		return;
 	}
 
 	PackagesList->clear();
 
-	icomp::IComponentStaticInfo::Ids subcomponentIds = m_generalStaticInfoPtr->GetSubcomponentIds();
+	icomp::IComponentStaticInfo::Ids subcomponentIds = m_generalStaticInfoCompPtr->GetSubcomponentIds();
 
 	for (		icomp::IComponentStaticInfo::Ids::const_iterator iter = subcomponentIds.begin();
 				iter != subcomponentIds.end();
 				++iter){
 		const std::string& packageId = *iter;
 
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponentInfo(packageId);
+		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoCompPtr->GetSubcomponentInfo(packageId);
 		if (packageInfoPtr == NULL){
 			continue;
 		}
@@ -148,7 +149,7 @@ void CPackageOverviewComp::HighlightComponents(const istd::CClassInfo& interface
 
 		// set result icon to component item:
 		if (parentItemPtr != NULL){
-			itemPtr->setIcon(0, itemIcon);
+			itemPtr->setIcon(1, itemIcon);
 		}
 	}
 }
@@ -195,6 +196,16 @@ void CPackageOverviewComp::GeneratePackageTree(
 	// create the component list:
 	icomp::IComponentStaticInfo::Ids subcomponentIds = packageInfo.GetSubcomponentIds();
 
+	QDir packageDir;
+	bool hasPackageInfo = false;
+	if (m_packagesManagerCompPtr.IsValid()){
+		istd::CString packageInfoPath = m_packagesManagerCompPtr->GetPackageDirPath(packageId);
+		if (!packageInfoPath.IsEmpty()){
+			hasPackageInfo = true;
+			packageDir.setPath(iqt::GetQString(packageInfoPath) + ".info");
+		}
+	}
+
 	for (		icomp::IComponentStaticInfo::Ids::const_iterator iter = subcomponentIds.begin();
 				iter != subcomponentIds.end();
 				++iter){
@@ -235,6 +246,11 @@ void CPackageOverviewComp::GeneratePackageTree(
 		icomp::CComponentAddress address(packageId, componentId);
 		PackageComponentItem* componentItem = new PackageComponentItem(&root, address);
 		componentItem->setToolTip(0, iqt::GetQString(componentInfoPtr->GetDescription()));
+
+		if (hasPackageInfo){
+			componentItem->setIcon(0, QIcon(packageDir.absoluteFilePath((componentId + ".small.png").c_str())));
+		}
+
 		root.addChild(componentItem);
 	}
 }
@@ -243,9 +259,9 @@ void CPackageOverviewComp::GeneratePackageTree(
 const icomp::IComponentStaticInfo* CPackageOverviewComp::GetItemStaticInfo(const QTreeWidgetItem& item) const
 {
 	const PackageComponentItem* componentItemPtr = dynamic_cast<const PackageComponentItem*>(&item);
-	if ((componentItemPtr != NULL) && (m_generalStaticInfoPtr.IsValid())){
+	if ((componentItemPtr != NULL) && (m_generalStaticInfoCompPtr.IsValid())){
 		const icomp::CComponentAddress& address = componentItemPtr->GetAddress();
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoPtr->GetSubcomponentInfo(address.GetPackageId());
+		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoCompPtr->GetSubcomponentInfo(address.GetPackageId());
 		if (packageInfoPtr != NULL){
 			return packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
 		}
@@ -308,7 +324,7 @@ void CPackageOverviewComp::OnGuiCreated()
 	BaseClass::OnGuiCreated();
 
 	// set up the tree view:
-	PackagesList->setColumnCount(1);
+	PackagesList->setColumnCount(2);
 	QStringList labels;
 	labels << tr("Component");
 	PackagesList->setHeaderLabels(labels);

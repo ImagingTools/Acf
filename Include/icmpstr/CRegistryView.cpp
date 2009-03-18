@@ -6,6 +6,7 @@
 
 // Qt includes
 #include <QVarLengthArray>
+#include <QDir>
 
 #include "icmpstr/CComponentView.h"
 #include "icmpstr/CComponentConnector.h"
@@ -16,8 +17,9 @@ namespace icmpstr
 
 
 CRegistryView::CRegistryView(QWidget* parent/* = NULL*/)
-	:BaseClass(parent),
-	m_selectedComponentPtr(NULL)
+:	BaseClass(parent),
+	m_selectedComponentPtr(NULL),
+	m_packagesManagerPtr(NULL)
 {
 	m_scenePtr = new CRegistryScene(*this);
 
@@ -59,7 +61,8 @@ CComponentView* CRegistryView::CreateComponentView(
 			const icomp::IRegistry::ElementInfo* elementInfoPtr,
 			const std::string& role)
 {
-	CComponentView* componentViewPtr = new CComponentView(this, 
+	CComponentView* componentViewPtr = new CComponentView(
+				this, 
 				registryPtr, 
 				elementInfoPtr, 
 				role.c_str(), 
@@ -205,6 +208,21 @@ void CRegistryView::ScaleView(double scaleFactor)
 	}
 	
 	viewport()->update();
+}
+
+
+QIcon CRegistryView::GetIcon(const icomp::CComponentAddress& address) const
+{
+	if (m_packagesManagerPtr != NULL){
+		istd::CString packageInfoPath = m_packagesManagerPtr->GetPackageDirPath(address.GetPackageId());
+		if (!packageInfoPath.IsEmpty()){
+			QDir packageDir(iqt::GetQString(packageInfoPath) + ".info");
+
+			return QIcon(packageDir.absoluteFilePath((address.GetComponentId() + ".big.png").c_str()));
+		}
+	}
+
+	return QIcon();
 }
 
 

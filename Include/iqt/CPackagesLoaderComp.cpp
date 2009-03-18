@@ -34,7 +34,11 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 			if (getInfoPtr != NULL){
 				icomp::IComponentStaticInfo* infoPtr = getInfoPtr();
 				if (infoPtr != NULL){
-					return RegisterSubcomponentInfo(fileInfo.baseName().toStdString(), infoPtr);
+					std::string packageName(fileInfo.baseName().toStdString());
+
+					m_normalPackagesMap[packageName] = iqt::GetCString(fileInfo.absoluteFilePath());
+
+					return RegisterSubcomponentInfo(packageName, infoPtr);
 				}
 			}
 		}
@@ -240,14 +244,30 @@ void CPackagesLoaderComp::OnComponentCreated()
 
 const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponentAddress& address) const
 {
-	CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(address.GetPackageId());
-	if (foundIter != m_compositePackagesMap.end()){
-		QString filePath = foundIter->second.directory.absoluteFilePath(QString(address.GetComponentId().c_str()) + ".arx");
+	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(address.GetPackageId());
+	if (foundCompositeIter != m_compositePackagesMap.end()){
+		QString filePath = foundCompositeIter->second.directory.absoluteFilePath(QString(address.GetComponentId().c_str()) + ".arx");
 
 		return GetRegistryFromFile(GetCString(filePath));
 	}
 
 	return NULL;
+}
+
+
+istd::CString CPackagesLoaderComp::GetPackageDirPath(const std::string& packageId) const
+{
+	NormalPackagesMap::const_iterator foundNormalIter = m_normalPackagesMap.find(packageId);
+	if (foundNormalIter != m_normalPackagesMap.end()){
+		return foundNormalIter->second;
+	}
+
+	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(packageId);
+	if (foundCompositeIter != m_compositePackagesMap.end()){
+		return iqt::GetCString(foundCompositeIter->second.directory.absolutePath());
+	}
+
+	return istd::CString::GetEmpty();
 }
 
 

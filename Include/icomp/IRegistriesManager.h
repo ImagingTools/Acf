@@ -5,6 +5,7 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
+#include "istd/CString.h"
 
 #include "icomp/icomp.h"
 
@@ -23,8 +24,15 @@ public:
 	/**
 		Get access to stored registry.
 		\param	address		adress of registry treated as composed component.
+		\return				registry object or NULL if specified composite component is not registered.
 	*/
-	virtual const IRegistry* GetRegistry(const icomp::CComponentAddress& address) const = 0;
+	virtual const IRegistry* GetRegistry(const CComponentAddress& address) const = 0;
+	/**
+		Get directory path of component package.
+		\param	address		adress of component.
+		\return				package dir path or empty string if specified package is not registered.
+	*/
+	virtual istd::CString GetPackageDirPath(const std::string& packageId) const = 0;
 };
 
 

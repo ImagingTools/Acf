@@ -200,6 +200,7 @@ void CRegistryViewComp::OnGuiCreated()
 					SIGNAL(DropDataEventEntered(const QMimeData&, QGraphicsSceneDragDropEvent*)), 
 					this, 
 					SLOT(ProcessDroppedData(const QMimeData&, QGraphicsSceneDragDropEvent*)));
+		viewPtr->SetPackagesManager(m_packagesManagerCompPtr.GetPtr());
 	}
 }
 

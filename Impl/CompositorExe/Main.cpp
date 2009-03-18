@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<CmpstrPck::PackageOverview> packageOverviewComp;
 	packageOverviewComp.SetRef("StaticComponentInfo", &packagesLoaderComp);
+	packageOverviewComp.SetRef("PackagesManager", &packagesLoaderComp);
 	packageOverviewComp.InitComponent();
 
 	// attribute editor:
@@ -139,6 +140,7 @@ int main(int argc, char *argv[])
 	viewFactoryComp.InsertMultiRef("RegistryElementObservers", &attributeEditorComp);
 	viewFactoryComp.SetRef("RegistryCodeSaver", &codeSaverComp);
 	viewFactoryComp.SetRef("RegistryPreview", &registryPreviewComp);
+	viewFactoryComp.SetRef("PackagesManager", &packagesLoaderComp);
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
@@ -196,4 +198,5 @@ int main(int argc, char *argv[])
 
 	return application.Execute(argc, argv);
 }
+
 
