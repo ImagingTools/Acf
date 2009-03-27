@@ -23,6 +23,9 @@ public:
 	virtual istd::CString GetFileName(const istd::CString& filePath) const;
 	virtual bool HasExtension(const istd::CString& filePath, const istd::CString& extension) const;
 	virtual bool IsPresent(const istd::CString& filePath) const;
+
+	// static members
+	static istd::CString GetEnrolledPath(const istd::CString& path);
 };
 
 
