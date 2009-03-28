@@ -16,15 +16,9 @@ class TLoggerWrap: public Base
 public:
 	TLoggerWrap();
 
-	/**
-		Install log.
-	*/
-	void SetLogPtr(ibase::IMessageConsumer* logPtr);
-	
-	/**
-		Get log.
-	*/
-	ibase::IMessageConsumer* GetLogPtr() const;
+	// pseudo-reimplemented (ibase::ILoggable)
+	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr);
+	virtual ibase::IMessageConsumer* GetLogPtr() const;
 
 protected:
 	/**
@@ -85,6 +79,8 @@ TLoggerWrap<Base>::TLoggerWrap()
 {
 }
 
+
+// pseudo-reimplemented (ibase::ILoggable)
 
 template <class Base>
 inline void TLoggerWrap<Base>::SetLogPtr(ibase::IMessageConsumer* logPtr)
