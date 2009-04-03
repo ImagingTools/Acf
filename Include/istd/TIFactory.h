@@ -27,6 +27,7 @@ public:
 };
 
 
+typedef TIFactory<void> IVoidFactory;
 typedef TIFactory<istd::IPolymorphic> IFactory;
 
 

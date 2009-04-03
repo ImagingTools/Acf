@@ -22,6 +22,7 @@ public:
 
 	TSmartPtr();
 	TSmartPtr(const TSmartPtr& pointer);
+	TSmartPtr(const TRetSmartPtr& pointer);
 	explicit TSmartPtr(Type* pointer);
 	~TSmartPtr();
 
@@ -55,6 +56,16 @@ TSmartPtr<Type>::TSmartPtr()
 
 template <class Type>
 TSmartPtr<Type>::TSmartPtr(const TSmartPtr& pointer)
+:	BaseClass(pointer)
+{
+	if (m_counterPtr != NULL){
+		m_counterPtr->OnAttached();
+	}
+}
+
+
+template <class Type>
+TSmartPtr<Type>::TSmartPtr(const TRetSmartPtr& pointer)
 :	BaseClass(pointer)
 {
 	if (m_counterPtr != NULL){

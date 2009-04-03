@@ -7,6 +7,8 @@
 #include <string>
 
 #include "istd/IServicesProvider.h"
+#include "istd/TIFactory.h"
+#include "istd/TSmartPtr.h"
 #include "istd/CClassInfo.h"
 
 
@@ -28,13 +30,23 @@ public:
 	/**
 		Register service for specified ID.
 	*/
-	static bool RegisterService(const istd::CClassInfo& serviceId, void* servicePtr);
+	static bool RegisterService(const istd::CClassInfo& info, void* servicePtr);
+	/**
+		Register factory for specified ID.
+	*/
+	static bool RegisterFactory(const istd::CClassInfo& info, const IVoidFactory* factoryPtr);
 	/**
 		Register service for specified ID.
 	*/
 	template <class Service>
 	static bool RegisterService(Service* servicePtr);
-	static void* GetService(const istd::CClassInfo& serviceId);
+	/**
+		Register service for specified ID.
+	*/
+	template <class Interface>
+	static bool RegisterFactory(const TIFactory<Interface>* factoryPtr);
+	static void* GetService(const istd::CClassInfo& info);
+	static void* CreateService(const istd::CClassInfo& info);
 	static IServicesProvider& GetProviderInstance();
 
 protected:
@@ -42,7 +54,8 @@ protected:
 	{
 	public:
 		// reimplemented (istd::IServicesProvider)
-		virtual void* GetService(const istd::CClassInfo& serviceId) const;
+		virtual void* GetService(const istd::CClassInfo& info) const;
+		virtual void* CreateService(const istd::CClassInfo& info) const;
 	};
 
 private:
@@ -52,8 +65,10 @@ private:
 	CStaticServicesProvider(){}
 
 	typedef std::map<istd::CClassInfo, void*> Services;
+	typedef std::map<istd::CClassInfo, const IVoidFactory*> Factories;
 
 	static Services s_registeredServices;
+	static Factories s_registeredFactories;
 	static Provider s_providerInstance;
 	static const IServicesProvider* s_parentPtr;
 };
@@ -70,6 +85,15 @@ bool CStaticServicesProvider::RegisterService(Service* servicePtr)
 }
 
 
+template <class Interface>
+bool CStaticServicesProvider::RegisterFactory(const TIFactory<Interface>* factoryPtr)
+{
+	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
+
+	return RegisterFactory(info, reinterpret_cast<const IVoidFactory*>(factoryPtr));
+}
+
+
 // public template functions
 
 template <typename Service>
@@ -78,6 +102,17 @@ Service* GetService()
 	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Service>();
 
 	return static_cast<Service*>(CStaticServicesProvider::GetService(info));
+}
+
+
+template <typename Service>
+TRetSmartPtr<Service> CreateService()
+{
+	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Service>();
+
+	void* instancePtr = CStaticServicesProvider::CreateService(info);
+
+	return TSmartPtr<Service>(static_cast<Service*>(instancePtr));
 }
 
 
