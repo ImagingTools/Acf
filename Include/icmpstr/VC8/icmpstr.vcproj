@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CComponentHelpFileProvider.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComponentNote.cpp"
 				>
 			</File>
@@ -235,6 +239,10 @@
 			</File>
 			<File
 				RelativePath="..\CComponentConnector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComponentHelpFileProvider.h"
 				>
 			</File>
 			<File

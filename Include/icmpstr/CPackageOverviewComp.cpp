@@ -198,9 +198,9 @@ void CPackageOverviewComp::GeneratePackageTree(
 	QDir packageDir;
 	bool hasPackageInfo = false;
 	if (m_packagesManagerCompPtr.IsValid()){
-		QString packageInfoPath = iqt::GetQString(m_packagesManagerCompPtr->GetPackageDirPath(packageId));
-		if (!packageInfoPath.isEmpty()){
-			packageDir.setPath(packageInfoPath + ".info");
+		QString packageDirPath = iqt::GetQString(m_packagesManagerCompPtr->GetPackageDirPath(packageId));
+		if (!packageDirPath.isEmpty()){
+			packageDir.setPath(packageDirPath + ".info");
 			if (packageDir.exists()){
 				hasPackageInfo = true;
 			}

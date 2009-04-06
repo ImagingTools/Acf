@@ -1,0 +1,123 @@
+#include "icmpstr/CComponentHelpFileProvider.h"
+
+
+// QT includes
+#include <QFileInfo>
+#include <QDir>
+
+#include "iqt/iqt.h"
+
+
+namespace icmpstr
+{
+
+
+// reimplemented (idoc::IHelpFileProvider)
+
+double CComponentHelpFileProvider::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+{
+	icomp::CComponentAddress address;
+
+	if (ExtractComponentAddress(contextText, contextObjectPtr, address)){
+		istd::CString filePath = GetInfoFilePath(address);
+
+		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
+			return 1.0;
+		}
+
+		filePath = GetSlaveFilePath(address);
+
+		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
+			return 0.5;
+		}
+	}
+
+	if (m_classHelpProviderCompPtr.IsValid()){
+		return m_classHelpProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
+	}
+
+	return 0;
+}
+
+
+istd::CString CComponentHelpFileProvider::GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+{
+	icomp::CComponentAddress address;
+
+	if (ExtractComponentAddress(contextText, contextObjectPtr, address)){
+		istd::CString filePath = GetInfoFilePath(address);
+
+		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
+			return filePath;
+		}
+
+		filePath = GetSlaveFilePath(address);
+
+		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
+			return filePath;
+		}
+	}
+
+	if (m_classHelpProviderCompPtr.IsValid()){
+		return m_classHelpProviderCompPtr->GetHelpFilePath(contextText, contextObjectPtr);
+	}
+
+	return "";
+}
+
+
+// protected methods
+
+istd::CString CComponentHelpFileProvider::GetInfoFilePath(const icomp::CComponentAddress& componentAddress) const
+{
+	if (m_packagesLoaderManagerCompPtr.IsValid()){
+		QString packageDirPath = iqt::GetQString(m_packagesLoaderManagerCompPtr->GetPackageDirPath(componentAddress.GetPackageId()));
+		if (!packageDirPath.isEmpty()){
+			QDir packageDir(packageDirPath + ".info");
+			if (packageDir.exists()){
+				return iqt::GetCString(packageDir.absoluteFilePath((componentAddress.GetComponentId() + ".descr.html").c_str()));
+			}
+		}
+	}
+
+	return "";
+}
+
+
+istd::CString CComponentHelpFileProvider::GetSlaveFilePath(const icomp::CComponentAddress& componentAddress) const
+{
+	if (m_packagesLoaderInfoCompPtr.IsValid() && m_classHelpProviderCompPtr.IsValid()){
+		const icomp::IComponentStaticInfo* packageInfoPtr = m_packagesLoaderInfoCompPtr->GetSubcomponentInfo(componentAddress.GetPackageId());
+		if (packageInfoPtr != NULL){
+			const icomp::IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(componentAddress.GetComponentId());
+			if (componentInfoPtr != NULL){
+				istd::CClassInfo classInfo(*componentInfoPtr);
+
+				return m_classHelpProviderCompPtr->GetHelpFilePath("", &classInfo);
+			}
+		}
+	}
+
+	return "";
+}
+
+
+bool CComponentHelpFileProvider::ExtractComponentAddress(
+			const istd::CString& /*contextText*/,
+			const istd::IPolymorphic* contextObjectPtr,
+			icomp::CComponentAddress& result) const
+{
+	const icomp::CComponentAddress* addressPtr = dynamic_cast<const icomp::CComponentAddress*>(contextObjectPtr);
+	if (addressPtr != NULL){
+		result = *addressPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+} // namespace icmpstr
+
+
