@@ -24,6 +24,8 @@
 		223456930ED2E572006EC826 /* idoc.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456930ED2E572006EC826 /* idoc.h */; };
 		223456940ED2E572006EC826 /* IDocumentManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456940ED2E572006EC826 /* IDocumentManager.h */; };
 		223456950ED2E572006EC826 /* IDocumentTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456950ED2E572006EC826 /* IDocumentTemplate.h */; };
+		223456960ED2E572006EC826 /* IHelpFileProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456960ED2E572006EC826 /* IHelpFileProvider.h */; };
+		223456970ED2E572006EC826 /* IHelpViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = 123456970ED2E572006EC826 /* IHelpViewer.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		123456930ED2E572006EC826 /* idoc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = idoc.h; path = ../idoc.h; sourceTree = SOURCE_ROOT; };
 		123456940ED2E572006EC826 /* IDocumentManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IDocumentManager.h; path = ../IDocumentManager.h; sourceTree = SOURCE_ROOT; };
 		123456950ED2E572006EC826 /* IDocumentTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IDocumentTemplate.h; path = ../IDocumentTemplate.h; sourceTree = SOURCE_ROOT; };
+		123456960ED2E572006EC826 /* IHelpFileProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IHelpFileProvider.h; path = ../IHelpFileProvider.h; sourceTree = SOURCE_ROOT; };
+		123456970ED2E572006EC826 /* IHelpViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IHelpViewer.h; path = ../IHelpViewer.h; sourceTree = SOURCE_ROOT; };
 		D2AAC046055464E500DB518D /* libidoc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libidoc.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -86,6 +90,8 @@
 				123456930ED2E572006EC826 /* idoc.h */,
 				123456940ED2E572006EC826 /* IDocumentManager.h */,
 				123456950ED2E572006EC826 /* IDocumentTemplate.h */,
+				123456960ED2E572006EC826 /* IHelpFileProvider.h */,
+				123456970ED2E572006EC826 /* IHelpViewer.h */,
 			);
 			name = Header;
 			sourceTree = "<group>";
@@ -157,6 +163,8 @@
 				223456930ED2E572006EC826 /* idoc.h in Headers */,
 				223456940ED2E572006EC826 /* IDocumentManager.h in Headers */,
 				223456950ED2E572006EC826 /* IDocumentTemplate.h in Headers */,
+				223456960ED2E572006EC826 /* IHelpFileProvider.h in Headers */,
+				223456970ED2E572006EC826 /* IHelpViewer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +245,10 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_DEBUG=1",
+					
+				);
 				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
 				EXECUTABLE_EXTENSION = "a";
 				EXECUTABLE_PREFIX = "lib";
@@ -257,6 +268,9 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					
+				);
 				CONFIGURATION_BUILD_DIR = "../../../Lib/$(CONFIGURATION)Xcd";
 				EXECUTABLE_EXTENSION = "a";
 				EXECUTABLE_PREFIX = "lib";
@@ -272,7 +286,10 @@
 			buildSettings = {
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "_DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_DEBUG=1",
+					
+				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -292,6 +309,9 @@
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					
+				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
