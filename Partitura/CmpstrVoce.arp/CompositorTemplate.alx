@@ -54,10 +54,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        -418
+        -416
       </X>
       <X>
-        -414
+        -412
       </X>
     </Element>
     <Element>
@@ -120,7 +120,7 @@
         PackagesLoader
       </ComponentName>
       <X>
-        -368
+        -366
       </X>
       <X>
         50
@@ -175,10 +175,10 @@
         Registry
       </ComponentName>
       <X>
-        -379
+        -377
       </X>
       <X>
-        -200
+        -198
       </X>
     </Element>
     <Element>
@@ -186,7 +186,7 @@
         RegistryEditor
       </ComponentName>
       <X>
-        -96
+        -94
       </X>
       <X>
         49
@@ -197,10 +197,10 @@
         RegistryLoader
       </ComponentName>
       <X>
-        -659
+        -657
       </X>
       <X>
-        -197
+        -195
       </X>
     </Element>
   </PositionMap>

@@ -16,7 +16,7 @@ namespace iser
 class CXmlWriteArchiveBase: public CTextWriteArchiveBase, public CXmlDocumentInfoBase
 {
 public:
-	typedef iser::CTextWriteArchiveBase BaseClass;
+	typedef CTextWriteArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const CArchiveTag& tag);
@@ -27,7 +27,7 @@ public:
 	using BaseClass::Process;
 
 protected:
-	CXmlWriteArchiveBase(const IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag);
+	CXmlWriteArchiveBase(const IVersionInfo* versionInfoPtr, const CArchiveTag& rootTag);
 
 	bool Flush();
 	bool MakeIndent();
@@ -38,7 +38,7 @@ protected:
 	virtual bool WriteString(const std::string& value) = 0;
 
 private:
-	iser::CArchiveTag m_rootTag;
+	CArchiveTag m_rootTag;
 
 	int m_indent;
 	bool m_isHeaderSerialized;

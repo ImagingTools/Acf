@@ -21,19 +21,19 @@ public:
 	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
 
-	static const iser::CArchiveTag& GetAcfRootTag();
+	static const CArchiveTag& GetAcfRootTag();
 
 protected:
 	CArchiveBase(){}
 
 	// list of standard tags used to serialize header
-	static iser::CArchiveTag s_acfRootTag;
-	static iser::CArchiveTag s_headerTag;
-	static iser::CArchiveTag s_versionInfosTag;
-	static iser::CArchiveTag s_versionInfoTag;
-	static iser::CArchiveTag s_versionIdTag;
-	static iser::CArchiveTag s_versionNumberTag;
-	static iser::CArchiveTag s_versionDescriptionTag;
+	static CArchiveTag s_acfRootTag;
+	static CArchiveTag s_headerTag;
+	static CArchiveTag s_versionInfosTag;
+	static CArchiveTag s_versionInfoTag;
+	static CArchiveTag s_versionIdTag;
+	static CArchiveTag s_versionNumberTag;
+	static CArchiveTag s_versionDescriptionTag;
 
 private:
 	/**

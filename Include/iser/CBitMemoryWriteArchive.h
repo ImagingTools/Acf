@@ -15,10 +15,10 @@ namespace iser
 /**
 	This is an archive implementation which provides bitwise write of data.
 */
-class CBitMemoryWriteArchive: public iser::CMemoryWriteArchive
+class CBitMemoryWriteArchive: public CMemoryWriteArchive
 {
 public:
-	typedef iser::CMemoryWriteArchive BaseClass;
+	typedef CMemoryWriteArchive BaseClass;
 
 	CBitMemoryWriteArchive(const IVersionInfo* versionInfoPtr = NULL, bool serializeHeader = true);
 

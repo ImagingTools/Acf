@@ -1,4 +1,4 @@
-#include "icmpstr/CComponentHelpFileProvider.h"
+#include "icmpstr/CComponentHelpFileProviderComp.h"
 
 
 // QT includes
@@ -14,7 +14,7 @@ namespace icmpstr
 
 // reimplemented (idoc::IHelpFileProvider)
 
-double CComponentHelpFileProvider::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+double CComponentHelpFileProviderComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
 {
 	icomp::CComponentAddress address;
 
@@ -40,7 +40,7 @@ double CComponentHelpFileProvider::GetHelpQuality(const istd::CString& contextTe
 }
 
 
-istd::CString CComponentHelpFileProvider::GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+istd::CString CComponentHelpFileProviderComp::GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
 {
 	icomp::CComponentAddress address;
 
@@ -68,7 +68,7 @@ istd::CString CComponentHelpFileProvider::GetHelpFilePath(const istd::CString& c
 
 // protected methods
 
-istd::CString CComponentHelpFileProvider::GetInfoFilePath(const icomp::CComponentAddress& componentAddress) const
+istd::CString CComponentHelpFileProviderComp::GetInfoFilePath(const icomp::CComponentAddress& componentAddress) const
 {
 	if (m_packagesLoaderManagerCompPtr.IsValid()){
 		QString packageDirPath = iqt::GetQString(m_packagesLoaderManagerCompPtr->GetPackageDirPath(componentAddress.GetPackageId()));
@@ -84,7 +84,7 @@ istd::CString CComponentHelpFileProvider::GetInfoFilePath(const icomp::CComponen
 }
 
 
-istd::CString CComponentHelpFileProvider::GetSlaveFilePath(const icomp::CComponentAddress& componentAddress) const
+istd::CString CComponentHelpFileProviderComp::GetSlaveFilePath(const icomp::CComponentAddress& componentAddress) const
 {
 	if (m_packagesLoaderInfoCompPtr.IsValid() && m_classHelpProviderCompPtr.IsValid()){
 		const icomp::IComponentStaticInfo* packageInfoPtr = m_packagesLoaderInfoCompPtr->GetSubcomponentInfo(componentAddress.GetPackageId());
@@ -92,6 +92,10 @@ istd::CString CComponentHelpFileProvider::GetSlaveFilePath(const icomp::CCompone
 			const icomp::IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(componentAddress.GetComponentId());
 			if (componentInfoPtr != NULL){
 				istd::CClassInfo classInfo(*componentInfoPtr);
+
+				while (classInfo.IsTemplateClass()){
+					classInfo = classInfo.GetTemplateParam();
+				}
 
 				return m_classHelpProviderCompPtr->GetHelpFilePath("", &classInfo);
 			}
@@ -102,7 +106,7 @@ istd::CString CComponentHelpFileProvider::GetSlaveFilePath(const icomp::CCompone
 }
 
 
-bool CComponentHelpFileProvider::ExtractComponentAddress(
+bool CComponentHelpFileProviderComp::ExtractComponentAddress(
 			const istd::CString& /*contextText*/,
 			const istd::IPolymorphic* contextObjectPtr,
 			icomp::CComponentAddress& result) const

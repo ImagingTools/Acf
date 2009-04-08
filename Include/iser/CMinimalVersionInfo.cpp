@@ -8,7 +8,7 @@ namespace iser
 {
 
 
-CMinimalVersionInfo::CMinimalVersionInfo(const iser::ISerializable* serializablePtr, bool addStandardIds)
+CMinimalVersionInfo::CMinimalVersionInfo(const ISerializable* serializablePtr, bool addStandardIds)
 :	m_serializable(*serializablePtr)
 {
 	I_ASSERT(serializablePtr != NULL);

@@ -11,6 +11,7 @@
 #include "icmpstr/CRegistryModelComp.h"
 #include "icmpstr/CRegistryPreviewComp.h"
 #include "icmpstr/CRegistryViewComp.h"
+#include "icmpstr/CComponentHelpFileProviderComp.h"
 
 
 /**
@@ -27,6 +28,7 @@ typedef icmpstr::CRegistryLoaderComp RegistryLoader;
 typedef icomp::TModelCompWrap<icmpstr::CRegistryModelComp> RegistryModel;
 typedef icmpstr::CRegistryPreviewComp RegistryPreview;
 typedef icmpstr::CRegistryViewComp RegistryView;
+typedef icmpstr::CComponentHelpFileProviderComp ComponentHelpFileProvider;
 
 
 } // namespace CmpstrPck

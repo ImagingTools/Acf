@@ -65,14 +65,16 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 
 	istd::TDelPtr<IRegistryElement> registryPtr;
 
-	const IComponentStaticInfo* packageInfoPtr = m_componentsFactoryPtr->GetSubcomponentInfo(address.GetPackageId());
-	if (packageInfoPtr != NULL){
-		const IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
-		if (componentInfoPtr != NULL){
-			icomp::CRegistryElement* registryElementPtr = new CRegistryElement(componentInfoPtr);
-			registryElementPtr->SetSlavePtr(this);
+	if (m_componentsFactoryPtr != NULL){
+		const IComponentStaticInfo* packageInfoPtr = m_componentsFactoryPtr->GetSubcomponentInfo(address.GetPackageId());
+		if (packageInfoPtr != NULL){
+			const IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
+			if (componentInfoPtr != NULL){
+				icomp::CRegistryElement* registryElementPtr = new CRegistryElement(componentInfoPtr);
+				registryElementPtr->SetSlavePtr(this);
 
-			registryPtr.SetPtr(registryElementPtr);
+				registryPtr.SetPtr(registryElementPtr);
+			}
 		}
 	}
 

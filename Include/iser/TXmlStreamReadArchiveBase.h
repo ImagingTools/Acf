@@ -18,7 +18,7 @@ public:
 	int GetLastReadLine() const;
 
 protected:
-	TXmlStreamReadArchiveBase(const iser::CArchiveTag& rootTag = s_acfRootTag);
+	TXmlStreamReadArchiveBase(const CArchiveTag& rootTag = s_acfRootTag);
 
 	// reimplemented (iser::CXmlReadArchiveBase)
 	virtual bool ReadToDelimeter(
@@ -46,7 +46,7 @@ int TXmlStreamReadArchiveBase<StreamClass>::GetLastReadLine() const
 // protected methods
 
 template <class StreamClass>
-TXmlStreamReadArchiveBase<StreamClass>::TXmlStreamReadArchiveBase(const iser::CArchiveTag& rootTag)
+TXmlStreamReadArchiveBase<StreamClass>::TXmlStreamReadArchiveBase(const CArchiveTag& rootTag)
 :	BaseClass(rootTag),
 	m_useLastReadChar(false),
 	m_lastReadLine(0)

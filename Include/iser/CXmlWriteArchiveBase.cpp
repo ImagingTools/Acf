@@ -76,7 +76,7 @@ bool CXmlWriteArchiveBase::Process(istd::CString& value)
 
 // protected methods
 
-CXmlWriteArchiveBase::CXmlWriteArchiveBase(const IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag)
+CXmlWriteArchiveBase::CXmlWriteArchiveBase(const IVersionInfo* versionInfoPtr, const CArchiveTag& rootTag)
 :	BaseClass(versionInfoPtr),
 	m_rootTag(rootTag),
 	m_indent(0),

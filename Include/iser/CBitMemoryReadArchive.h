@@ -15,10 +15,10 @@ namespace iser
 /**
 	This class provides bitwise access to the byte data.
 */
-class CBitMemoryReadArchive: public iser::CMemoryReadArchive
+class CBitMemoryReadArchive: public CMemoryReadArchive
 {
 public:
-	typedef iser::CMemoryReadArchive BaseClass;
+	typedef CMemoryReadArchive BaseClass;
 
 	/**
 		Constructs a bit stream from a vector of bytes. 

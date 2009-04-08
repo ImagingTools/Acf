@@ -371,7 +371,7 @@ bool CAttributeEditorComp::DecodeAttribute(const iser::ISerializable& attribute,
 
 		for (int index = 0; index < stringListAttribute->GetValuesCount(); index++){
 			text += EncodeToEdit(iqt::GetQString(stringListAttribute->GetValueAt(index))) + ";";
-		}	
+		}
 			
 		meaning = MultipleAttribute;
 
@@ -384,7 +384,7 @@ bool CAttributeEditorComp::DecodeAttribute(const iser::ISerializable& attribute,
 
 		for (int index = 0; index < intListAttribute->GetValuesCount(); index++){
 			text += QString::number(intListAttribute->GetValueAt(index)) + ";";
-		}	
+		}
 
 		meaning = MultipleAttribute;
 
@@ -397,7 +397,7 @@ bool CAttributeEditorComp::DecodeAttribute(const iser::ISerializable& attribute,
 
 		for (int index = 0; index < doubleListAttribute->GetValuesCount(); index++){
 			text += QString::number(doubleListAttribute->GetValueAt(index)) + ";";
-		}	
+		}
 
 		meaning = MultipleAttribute;
 

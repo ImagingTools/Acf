@@ -172,7 +172,8 @@ bool CXmlReadArchiveBase::Process(istd::CString& data)
 
 // protected methods
 
-CXmlReadArchiveBase::CXmlReadArchiveBase()
+CXmlReadArchiveBase::CXmlReadArchiveBase(const iser::CArchiveTag& rootTag)
+:	m_rootTag(rootTag)
 {
 	m_builder = NULL;
 	m_isValid = true;
@@ -201,7 +202,7 @@ void CXmlReadArchiveBase::Init(xercesc::InputSource& inputSource)
 
 	if (m_documentPtr != NULL){
 		m_nodePtr = m_documentPtr->getFirstChild();
-		if (m_nodePtr == NULL || xercesc::XMLString::compareIString(m_nodePtr->getNodeName(), (const XMLCh*)istd::CString(s_acfRootTag.GetId()).c_str()) != 0){
+		if (m_nodePtr == NULL || xercesc::XMLString::compareIString(m_nodePtr->getNodeName(), (const XMLCh*)istd::CString(m_rootTag.GetId()).c_str()) != 0){
 			m_documentPtr->release();
 			m_documentPtr = NULL;
 			m_nodePtr = NULL;

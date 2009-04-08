@@ -10,10 +10,10 @@ namespace iser
 {
 
 
-class CXmlReadArchiveBase: public iser::CTextReadArchiveBase, public CXmlDocumentInfoBase
+class CXmlReadArchiveBase: public CTextReadArchiveBase, public CXmlDocumentInfoBase
 {
 public:
-	typedef iser::CReadArchiveBase BaseClass;
+	typedef CReadArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const CArchiveTag& tag);
@@ -24,7 +24,7 @@ public:
 	using BaseClass::Process;
 
 protected:
-	CXmlReadArchiveBase(const iser::CArchiveTag& rootTag);
+	CXmlReadArchiveBase(const CArchiveTag& rootTag);
 
 	virtual bool SerializeXmlHeader();
 
@@ -44,7 +44,7 @@ protected:
 				char* foundDelimeterPtr = NULL) = 0;
 
 private:
-	iser::CArchiveTag m_rootTag;
+	CArchiveTag m_rootTag;
 };
 
 

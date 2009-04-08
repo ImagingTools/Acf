@@ -16,7 +16,7 @@ public:
 
 	/**	Construct archive for specified file.
 	 */
-	explicit CFileXmlReadArchive(const std::string& filePath, bool serializeHeader = true);
+	explicit CFileXmlReadArchive(const istd::CString& filePath, bool serializeHeader = true, const iser::CArchiveTag& rootTag = s_acfRootTag);
 };
 
 

@@ -21,11 +21,11 @@ class CXmlFileWriteArchive: public TXmlStreamWriteArchiveBase<std::ofstream>
 public:
 	typedef TXmlStreamWriteArchiveBase<std::ofstream> BaseClass;
 
-	CXmlFileWriteArchive(
+	explicit CXmlFileWriteArchive(
 				const istd::CString& filePath,
 				const IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
-				const iser::CArchiveTag& rootTag = s_acfRootTag);
+				const CArchiveTag& rootTag = s_acfRootTag);
 };
 
 

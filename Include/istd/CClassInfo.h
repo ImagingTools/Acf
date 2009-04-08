@@ -35,6 +35,20 @@ public:
 	*/
 	const std::string& GetName() const;
 
+	/**
+		Check if this class information represents template class.
+	*/
+	bool IsTemplateClass() const;
+	/**
+		Get number of template parameters if this class is template class.
+		\return	number of parameters of negative value, if this class is not a template.
+	*/
+	int GetTemplateParamsCount() const;
+	/**
+		Get class info of some template parameter if this class is template.
+	*/
+	CClassInfo GetTemplateParam(int paramIndex = 0) const;
+
 	template <class C>
 	bool IsType() const;
 

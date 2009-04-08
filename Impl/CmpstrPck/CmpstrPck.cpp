@@ -30,6 +30,7 @@ I_EXPORT_COMPONENT(RegistryLoader, "Loader for registries including component la
 I_EXPORT_COMPONENT(RegistryModel, "Model reprentation of registry with additinal layout information stored separated to model", "Registry Model Layout");
 I_EXPORT_COMPONENT(RegistryPreview, "Preview of registry object in separated application context", "Registry Preview ACF Application");
 I_EXPORT_COMPONENT(RegistryView, "Registry editor using graphical component diagram", "Registry Editor Observer Diagram Components Qt GUI");
+I_EXPORT_COMPONENT(ComponentHelpFileProvider, "Provide file path of html help for component using its address", "Help File Provider Component Address Qt");
 
 
 } // namespace CmpstrPck

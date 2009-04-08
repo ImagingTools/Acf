@@ -22,7 +22,7 @@ public:
 	CXmlStringWriteArchive(
 				const IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
-				const iser::CArchiveTag& rootTag = s_acfRootTag);
+				const CArchiveTag& rootTag = s_acfRootTag);
 
 
 	virtual std::string GetString() const;

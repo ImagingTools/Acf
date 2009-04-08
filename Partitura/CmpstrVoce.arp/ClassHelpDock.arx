@@ -1,10 +1,74 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          752
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="3">
+  <ElementsList count="4">
+    <Element>
+      <Id>
+        ComponentHelpFileProvider
+      </Id>
+      <PackageId>
+        CmpstrPck
+      </PackageId>
+      <ComponentId>
+        ComponentHelpFileProvider
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              ClassHelpProvider
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                DoxygenHelpFileProvider
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              PackagesLoader
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              PackagesLoader
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         DoxygenHelpFileProvider
@@ -144,7 +208,7 @@
                 true
               </IsEnabled>
               <Value>
-                DoxygenHelpFileProvider
+                ComponentHelpFileProvider
               </Value>
             </Data>
           </AttributeInfo>
@@ -180,10 +244,4 @@
   </ExportedInterfaces>
   <ExportedComponents count="0">
   </ExportedComponents>
-  <Description>
-    
-  </Description>
-  <Keywords>
-    
-  </Keywords>
 </Acf>

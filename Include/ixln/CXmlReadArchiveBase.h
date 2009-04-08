@@ -35,7 +35,7 @@ public:
 	virtual bool Process(istd::CString& data);
 
 protected:
-	CXmlReadArchiveBase();
+	CXmlReadArchiveBase(const iser::CArchiveTag& rootTag);
 
 	void Init(xercesc::InputSource& inputSource);
     void Reset();
@@ -44,6 +44,8 @@ private:
 	bool m_isValid;
 
     xercesc::DOMBuilder* m_builder;
+
+	iser::CArchiveTag m_rootTag;
 };
 
 

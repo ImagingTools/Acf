@@ -93,7 +93,7 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 
 // protected methods
 
-CXmlReadArchiveBase::CXmlReadArchiveBase(const iser::CArchiveTag& rootTag)
+CXmlReadArchiveBase::CXmlReadArchiveBase(const CArchiveTag& rootTag)
 :	m_rootTag(rootTag)
 {
 }

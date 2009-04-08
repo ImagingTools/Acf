@@ -21,7 +21,7 @@ public:
 	virtual ~TXmlStreamWriteArchiveBase();
 
 protected:
-	TXmlStreamWriteArchiveBase(const IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag);
+	TXmlStreamWriteArchiveBase(const IVersionInfo* versionInfoPtr, const CArchiveTag& rootTag);
 
 	// reimplemented (iser::CXmlWriteArchiveBase)
 	virtual bool WriteString(const std::string& value);
@@ -43,7 +43,7 @@ TXmlStreamWriteArchiveBase<StreamClass>::~TXmlStreamWriteArchiveBase()
 // protected methods
 
 template <class StreamClass>
-TXmlStreamWriteArchiveBase<StreamClass>::TXmlStreamWriteArchiveBase(const IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag)
+TXmlStreamWriteArchiveBase<StreamClass>::TXmlStreamWriteArchiveBase(const IVersionInfo* versionInfoPtr, const CArchiveTag& rootTag)
 :	BaseClass(versionInfoPtr, rootTag)
 {
 }

@@ -1,10 +1,21 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          752
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="16">
+  <PositionMap count="17">
     <Element>
       <ComponentName>
         Application
@@ -40,6 +51,17 @@
     </Element>
     <Element>
       <ComponentName>
+        ComponentHelpFileProvider
+      </ComponentName>
+      <X>
+        229
+      </X>
+      <X>
+        233
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         DocumentTemplate
       </ComponentName>
       <X>
@@ -54,10 +76,10 @@
         DoxygenHelpFileProvider
       </ComponentName>
       <X>
-        230
+        227
       </X>
       <X>
-        222
+        366
       </X>
     </Element>
     <Element>
@@ -134,7 +156,7 @@
         241
       </X>
       <X>
-        -9
+        -1
       </X>
     </Element>
     <Element>
@@ -145,7 +167,7 @@
         241
       </X>
       <X>
-        105
+        116
       </X>
     </Element>
     <Element>

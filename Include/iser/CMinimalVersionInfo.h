@@ -28,7 +28,7 @@ public:
 		\param	serializablePtr	pointer to serializable parent object for which minimal needed version will be calculated.
 		\param	addStandardIds	if it is true, standard ID will be registered.
 	*/
-	CMinimalVersionInfo(const iser::ISerializable* serializablePtr, bool addStandardIds = true);
+	CMinimalVersionInfo(const ISerializable* serializablePtr, bool addStandardIds = true);
 
 	/**
 		Add new version ID.
@@ -54,7 +54,7 @@ private:
 
 	Versions m_versions;
 
-	const iser::ISerializable& m_serializable;
+	const ISerializable& m_serializable;
 };
 
 

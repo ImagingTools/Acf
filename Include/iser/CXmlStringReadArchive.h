@@ -19,7 +19,7 @@ class CXmlStringReadArchive: public TXmlStreamReadArchiveBase<std::istringstream
 public:
 	typedef TXmlStreamReadArchiveBase<std::istringstream> BaseClass;
 
-	CXmlStringReadArchive(const std::string& inputString, bool serializeHeader = true, const iser::CArchiveTag& rootTag = s_acfRootTag);
+	CXmlStringReadArchive(const std::string& inputString, bool serializeHeader = true, const CArchiveTag& rootTag = s_acfRootTag);
 };
 
 

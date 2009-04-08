@@ -1,5 +1,5 @@
-#ifndef icmpstr_CComponentHelpFileProvider_included
-#define icmpstr_CComponentHelpFileProvider_included
+#ifndef icmpstr_CComponentHelpFileProviderComp_included
+#define icmpstr_CComponentHelpFileProviderComp_included
 
 
 #include "icomp/IComponentStaticInfo.h"
@@ -14,14 +14,14 @@ namespace icmpstr
 {
 
 
-class CComponentHelpFileProvider:
+class CComponentHelpFileProviderComp:
 			public icomp::CComponentBase,
 			virtual public idoc::IHelpFileProvider
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CComponentHelpFileProvider);
+	I_BEGIN_COMPONENT(CComponentHelpFileProviderComp);
 		I_REGISTER_INTERFACE(idoc::IHelpFileProvider);
 		I_ASSIGN(m_classHelpProviderCompPtr, "ClassHelpProvider", "Slave help file provider for class info objects", true, "ClassHelpProvider");
 		I_ASSIGN(m_packagesLoaderInfoCompPtr, "PackagesLoader", "Packages loader used to get component info", true, "PackagesLoader");
@@ -48,6 +48,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !icmpstr_CComponentHelpFileProvider_included
+#endif // !icmpstr_CComponentHelpFileProviderComp_included
 
 

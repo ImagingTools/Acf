@@ -229,7 +229,59 @@ namespace istd
 {
 
 
-// public methods
+bool CClassInfo::IsTemplateClass() const
+{
+	std::string::size_type ltPos = m_name.find_first_of('<');
+	if (ltPos != std::string::npos){
+		std::string::size_type gtPos = m_name.find_last_of('>');
+		if ((gtPos != std::string::npos) && (ltPos < gtPos)){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+int CClassInfo::GetTemplateParamsCount() const
+{
+	std::string::size_type beginPos = m_name.find_first_of('<');
+	if (beginPos != std::string::npos){
+		std::string::size_type gtPos = m_name.find_last_of('>');
+		if ((gtPos != std::string::npos) && (beginPos < gtPos)){
+			int counter;
+			for (counter = 0; (beginPos = m_name.find_first_of(',', beginPos)) != std::string::npos; ++counter);
+
+			return counter;
+		}
+	}
+
+	return -1;
+}
+
+
+CClassInfo CClassInfo::GetTemplateParam(int paramIndex) const
+{
+	std::string::size_type beginPos = m_name.find_first_of('<');
+	if (beginPos != std::string::npos){
+		std::string::size_type gtPos = m_name.find_last_of('>');
+		if ((gtPos != std::string::npos) && (beginPos < gtPos)){
+			int counter;
+			for (counter = 0; counter < paramIndex; ++counter){
+				beginPos = m_name.find_first_of(',', beginPos);
+
+				if ((beginPos == std::string::npos) || (beginPos < gtPos)){
+					return CClassInfo();
+				}
+			}
+
+			return CClassInfo(m_name.substr(beginPos + 1, gtPos - beginPos - 1));
+		}
+	}
+
+	return CClassInfo();
+}
+
 
 std::string CClassInfo::GetName(const std::type_info& info)
 {

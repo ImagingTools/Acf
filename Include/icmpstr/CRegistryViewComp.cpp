@@ -312,6 +312,10 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentView* componentViewPtr
 					}
 				}
 			}
+
+			if (m_quickHelpViewerCompPtr.IsValid()){
+				m_quickHelpViewerCompPtr->ShowHelp(elementInfo.address.GetPackageId() + "/" + elementInfo.address.GetComponentId(), &elementInfo.address);
+			}
 		}
 	}
 	else{

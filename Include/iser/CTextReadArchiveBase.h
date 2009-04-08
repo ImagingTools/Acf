@@ -12,10 +12,10 @@ namespace iser
 {
 
 
-class CTextReadArchiveBase: public iser::CReadArchiveBase
+class CTextReadArchiveBase: public CReadArchiveBase
 {
 public:
-	typedef iser::CReadArchiveBase BaseClass;
+	typedef CReadArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
 	using BaseClass::Process;

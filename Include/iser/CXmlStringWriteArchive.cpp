@@ -8,7 +8,7 @@ namespace iser
 CXmlStringWriteArchive::CXmlStringWriteArchive(
 			const IVersionInfo* versionInfoPtr,
 			bool serializeHeader,
-			const iser::CArchiveTag& rootTag)
+			const CArchiveTag& rootTag)
 :	BaseClass(versionInfoPtr, rootTag)
 {
 	SerializeXmlHeader();

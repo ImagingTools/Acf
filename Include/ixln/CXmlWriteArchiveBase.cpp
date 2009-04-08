@@ -129,12 +129,13 @@ bool CXmlWriteArchiveBase::Process(istd::CString& data)
 
 // protected methods
 
-CXmlWriteArchiveBase::CXmlWriteArchiveBase(const iser::IVersionInfo* versionInfoPtr)
-:	BaseClass(versionInfoPtr)
+CXmlWriteArchiveBase::CXmlWriteArchiveBase(const iser::IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag)
+:	BaseClass(versionInfoPtr),
+	m_rootTag(rootTag),
+    m_writerPtr(NULL),
+    m_isFlushed(false),
+	m_isFirstParamInTag(true)
 {
-    m_writerPtr = NULL;
-    m_isFlushed = false;
-	m_isFirstParamInTag = true;
 }
 
 
@@ -161,7 +162,7 @@ void CXmlWriteArchiveBase::Init(xercesc::XMLFormatTarget* formTarget)
 	m_documentPtr = impl->createDocument();
 
 	if (m_documentPtr != NULL){
-		static istd::CString rootIdString(s_acfRootTag.GetId());
+		static istd::CString rootIdString(m_rootTag.GetId());
 
 		xercesc::DOMElement* element = m_documentPtr->createElement((const XMLCh*)rootIdString.c_str());
 		m_documentPtr->appendChild(element);

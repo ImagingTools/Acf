@@ -39,7 +39,7 @@ public:
 	virtual bool Process(istd::CString& data);
 
 protected:
-	CXmlWriteArchiveBase(const iser::IVersionInfo* versionInfoPtr);
+	CXmlWriteArchiveBase(const iser::IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag);
 
 	void Init(xercesc::XMLFormatTarget* formTarget);
 	void Reset();
@@ -50,6 +50,8 @@ private:
 
 	xercesc::DOMWriter* m_writerPtr;
 	istd::TDelPtr<xercesc::XMLFormatTarget> m_formTargetPtr;
+
+	iser::CArchiveTag m_rootTag;
 };
 
 

@@ -16,7 +16,7 @@ class CXmlFileReadArchive: public TXmlStreamReadArchiveBase<std::ifstream>
 public:
 	typedef TXmlStreamReadArchiveBase<std::ifstream> BaseClass;
 
-	CXmlFileReadArchive(const istd::CString& filePath, bool serializeHeader = true, const iser::CArchiveTag& rootTag = s_acfRootTag);
+	explicit CXmlFileReadArchive(const istd::CString& filePath, bool serializeHeader = true, const CArchiveTag& rootTag = s_acfRootTag);
 };
 
 

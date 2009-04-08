@@ -23,9 +23,9 @@ bool CArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& /*su
 }
 
 	
-const iser::CArchiveTag& CArchiveBase::GetAcfRootTag()
+const CArchiveTag& CArchiveBase::GetAcfRootTag()
 {
-	static iser::CArchiveTag retVal("Acf", "Root tag of ACF");
+	static CArchiveTag retVal("Acf", "Root tag of ACF");
 	
 	return retVal;
 }
@@ -33,13 +33,13 @@ const iser::CArchiveTag& CArchiveBase::GetAcfRootTag()
 
 // static attributes
 
-iser::CArchiveTag CArchiveBase::s_acfRootTag("Acf", "Root tag of ACF");
-iser::CArchiveTag CArchiveBase::s_headerTag("AcfHeader", "Header of ACF archive");
-iser::CArchiveTag CArchiveBase::s_versionInfosTag("VersionInfos", "List of version infos");
-iser::CArchiveTag CArchiveBase::s_versionInfoTag("Version", "Version info");
-iser::CArchiveTag CArchiveBase::s_versionIdTag("Id", "Version ID");
-iser::CArchiveTag CArchiveBase::s_versionNumberTag("Number", "Version number");
-iser::CArchiveTag CArchiveBase::s_versionDescriptionTag("Description", "Version description");
+CArchiveTag CArchiveBase::s_acfRootTag("Acf", "Root tag of ACF");
+CArchiveTag CArchiveBase::s_headerTag("AcfHeader", "Header of ACF archive");
+CArchiveTag CArchiveBase::s_versionInfosTag("VersionInfos", "List of version infos");
+CArchiveTag CArchiveBase::s_versionInfoTag("Version", "Version info");
+CArchiveTag CArchiveBase::s_versionIdTag("Id", "Version ID");
+CArchiveTag CArchiveBase::s_versionNumberTag("Number", "Version number");
+CArchiveTag CArchiveBase::s_versionDescriptionTag("Description", "Version description");
 
 
 } // namespace iser
