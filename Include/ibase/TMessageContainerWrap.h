@@ -242,8 +242,6 @@ ibase::IHierarchicalMessageContainer* TMessageContainerWrap<Base>::GetChild(int 
 }
 
 
-// protected static methods
-
 typedef ibase::TMessageContainerWrap<ibase::IHierarchicalMessageContainer> CMessageContainer;
 
 

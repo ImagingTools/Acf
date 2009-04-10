@@ -10,11 +10,29 @@ namespace istd
 
 
 /**
+	\internal
+	Internal data accessor.
+*/
+template <class Type>
+class DefaultAccessor
+{
+public:
+	static void Delete(Type* ptr)
+	{
+		I_ASSERT(ptr != NULL);
+		if (ptr != NULL){
+			delete ptr;
+		}
+	}
+};
+
+
+/**
 	Implementation of reduced a smart pointer used as return parameters.
 	This is a part of smart pointer concept.
 	\sa istd::TSmartPtr
 */
-template <class Type>
+template <class Type, class AccessAdapter = DefaultAccessor<Type> >
 class TRetSmartPtr
 {
 public:
@@ -68,7 +86,7 @@ protected:
 			I_ASSERT(m_count > 0);
 
 			if (--m_count <= 0){
-				delete m_objectPtr;
+				AccessAdapter::Delete(m_objectPtr);
 
 				delete this;
 			}
@@ -90,22 +108,22 @@ protected:
 
 // public methods
 
-template <class Type>
-TRetSmartPtr<Type>::TRetSmartPtr(const TRetSmartPtr<Type>& other)
+template <class Type, class AccessAdapter>
+TRetSmartPtr<Type, AccessAdapter>::TRetSmartPtr(const TRetSmartPtr& other)
 :	m_counterPtr(other.m_counterPtr)
 {
 }
 
 
-template <class Type>
-bool TRetSmartPtr<Type>::IsValid() const
+template <class Type, class AccessAdapter>
+bool TRetSmartPtr<Type, AccessAdapter>::IsValid() const
 {
 	return (m_counterPtr != NULL) && (m_counterPtr->GetPtr() != NULL);
 }
 
 
-template <class Type>
-inline const Type* TRetSmartPtr<Type>::GetPtr() const
+template <class Type, class AccessAdapter>
+inline const Type* TRetSmartPtr<Type, AccessAdapter>::GetPtr() const
 {
 	if (m_counterPtr != NULL){
 		return m_counterPtr->GetPtr();
@@ -116,8 +134,8 @@ inline const Type* TRetSmartPtr<Type>::GetPtr() const
 }
 
 
-template <class Type>
-inline Type* TRetSmartPtr<Type>::GetPtr()
+template <class Type, class AccessAdapter>
+inline Type* TRetSmartPtr<Type, AccessAdapter>::GetPtr()
 {
 	if (m_counterPtr != NULL){
 		return m_counterPtr->GetPtr();
@@ -128,8 +146,8 @@ inline Type* TRetSmartPtr<Type>::GetPtr()
 }
 
 
-template <class Type>
-inline const Type* TRetSmartPtr<Type>::operator->() const
+template <class Type, class AccessAdapter>
+inline const Type* TRetSmartPtr<Type, AccessAdapter>::operator->() const
 {
 	I_ASSERT(m_counterPtr != NULL);
 	I_ASSERT(m_counterPtr->GetPtr() != NULL);
@@ -138,8 +156,8 @@ inline const Type* TRetSmartPtr<Type>::operator->() const
 }
 
 
-template <class Type>
-inline Type* TRetSmartPtr<Type>::operator->()
+template <class Type, class AccessAdapter>
+inline Type* TRetSmartPtr<Type, AccessAdapter>::operator->()
 {
 	I_ASSERT(m_counterPtr != NULL);
 	I_ASSERT(m_counterPtr->GetPtr() != NULL);
@@ -150,8 +168,8 @@ inline Type* TRetSmartPtr<Type>::operator->()
 
 // protected methods
 
-template <class Type>
-TRetSmartPtr<Type>::TRetSmartPtr()
+template <class Type, class AccessAdapter>
+TRetSmartPtr<Type, AccessAdapter>::TRetSmartPtr()
 {
 }
 

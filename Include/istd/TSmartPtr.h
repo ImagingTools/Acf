@@ -14,16 +14,16 @@ namespace istd
 	This implementation uses internal counter object. Internal counter object is used to
 	count of instances of smart pointers and will be shared by all its copies.
 */
-template <class Type>
-class TSmartPtr: public TRetSmartPtr<Type>
+template <class Type, class Accessor = DefaultAccessor<Type> >
+class TSmartPtr: public TRetSmartPtr<Type, Accessor>
 {
 public:
-	typedef TRetSmartPtr<Type> BaseClass;
+	typedef TRetSmartPtr<Type, Accessor> BaseClass;
 
 	TSmartPtr();
-	TSmartPtr(const TSmartPtr& pointer);
-	TSmartPtr(const TRetSmartPtr& pointer);
 	explicit TSmartPtr(Type* pointer);
+	TSmartPtr(const TRetSmartPtr& pointer);
+	TSmartPtr(const TSmartPtr& pointer);
 	~TSmartPtr();
 
 	/**
@@ -47,49 +47,49 @@ protected:
 };
 
 
-template <class Type>
-TSmartPtr<Type>::TSmartPtr()
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>::TSmartPtr()
 {
 	m_counterPtr = NULL;
 }
 
 
-template <class Type>
-TSmartPtr<Type>::TSmartPtr(const TSmartPtr& pointer)
-:	BaseClass(pointer)
-{
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
-	}
-}
-
-
-template <class Type>
-TSmartPtr<Type>::TSmartPtr(const TRetSmartPtr& pointer)
-:	BaseClass(pointer)
-{
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
-	}
-}
-
-
-template <class Type>
-TSmartPtr<Type>::TSmartPtr(Type* pointer)
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>::TSmartPtr(Type* pointer)
 {
 	m_counterPtr = new Counter(pointer);
 }
 
 
-template <class Type>
-TSmartPtr<Type>::~TSmartPtr()
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>::TSmartPtr(const TRetSmartPtr& pointer)
+:	BaseClass(pointer)
+{
+	if (m_counterPtr != NULL){
+		m_counterPtr->OnAttached();
+	}
+}
+
+
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>::TSmartPtr(const TSmartPtr& pointer)
+:	BaseClass(pointer)
+{
+	if (m_counterPtr != NULL){
+		m_counterPtr->OnAttached();
+	}
+}
+
+
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>::~TSmartPtr()
 {
 	Detach();
 }
 
 
-template <class Type>
-void TSmartPtr<Type>::Reset()
+template <class Type, class Accessor>
+void TSmartPtr<Type, Accessor>::Reset()
 {
 	if (m_counterPtr != NULL){
 		m_counterPtr->OnDetached();
@@ -99,8 +99,8 @@ void TSmartPtr<Type>::Reset()
 }
 
 
-template <class Type>
-inline void TSmartPtr<Type>::SetPtr(Type* pointer)
+template <class Type, class Accessor>
+inline void TSmartPtr<Type, Accessor>::SetPtr(Type* pointer)
 {
 	Detach();
 
@@ -108,8 +108,8 @@ inline void TSmartPtr<Type>::SetPtr(Type* pointer)
 }
 
 
-template <class Type>
-TSmartPtr<Type>& TSmartPtr<Type>::operator=(const TSmartPtr<Type>& other)
+template <class Type, class Accessor>
+TSmartPtr<Type, Accessor>& TSmartPtr<Type, Accessor>::operator=(const TSmartPtr& other)
 {
 	Detach();
 
@@ -125,8 +125,8 @@ TSmartPtr<Type>& TSmartPtr<Type>::operator=(const TSmartPtr<Type>& other)
 
 // protected methods
 
-template <class Type>
-void TSmartPtr<Type>::Detach()
+template <class Type, class Accessor>
+void TSmartPtr<Type, Accessor>::Detach()
 {
 	if (m_counterPtr != NULL){
 		m_counterPtr->OnDetached();
