@@ -1,3 +1,3 @@
-copy "../../Include/isvn/Generated/AcfVersion.h" "../../Impl/Fix"
-copy "../../Partitura/AcfVoce.arp/VersionInfo.arx" "../../Impl/Fix"
+copy /Y "..\..\Include\isvn\Generated\AcfVersion.h" "..\..\Impl\Fix\"
+copy /Y "..\..\Partitura\AcfVoce.arp\VersionInfo.arx" "..\..\Impl\Fix\"
 pause
