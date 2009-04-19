@@ -36,7 +36,7 @@ int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 		return StateFailed;
 	}
 
-	std::wifstream fileStream(filePath.ToString().c_str(), std::ios::in);
+	std::basic_ifstream<wchar_t> fileStream(filePath.ToString().c_str(), std::ios::in);
 	if (!fileStream.is_open()){
 		return StateFailed;
 	}
@@ -72,7 +72,7 @@ int CTextFileLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 		return StateFailed;
 	}
 
-	std::wofstream fileStream(filePath.ToString().c_str(), std::ios::out);
+	std::basic_ofstream<wchar_t> fileStream(filePath.ToString().c_str(), std::ios::out);
 	if (!fileStream.is_open()){
 		return StateFailed;
 	}

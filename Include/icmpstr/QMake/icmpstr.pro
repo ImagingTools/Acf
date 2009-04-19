@@ -1,28 +1,26 @@
-TARGET = Compositor
-TEMPLATE = app
+TARGET = icmpstr
+TEMPLATE = lib
+CONFIG += staticlib
 
 CONFIG(debug, debug|release) {
-	DESTDIR = ../../../Bin/DebugQMake
-	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
-	LIBS += AcfStd iqt 
+	DESTDIR = ../../../Lib/DebugQMake
 }
 CONFIG(release, debug|release) {
-	DESTDIR = ../../../Bin/ReleaseQMake
-	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
-	LIBS += AcfStd iqt 
+	DESTDIR = ../../../Lib/ReleaseQMake
 }
 
 UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += main core gui xml sql network 
+QT += 
 
 
-INCLUDEPATH += "$(ACFDIR)/Include" "$(ACFDIR)/Impl" "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtScript" .. 
+INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
 
 HEADERS += ../CAttributeEditorComp.h
 HEADERS += ../CComponentConnector.h
+HEADERS += ../CComponentHelpFileProviderComp.h
 HEADERS += ../CComponentNote.h
 HEADERS += ../CComponentNoteView.h
 HEADERS += ../CComponentView.h
@@ -33,10 +31,13 @@ HEADERS += ../CRegistryPreviewComp.h
 HEADERS += ../CRegistryView.h
 HEADERS += ../CRegistryViewComp.h
 HEADERS += ../IAttributeSelectionObserver.h
+HEADERS += ../icmpstr.h
 HEADERS += ../IComponentNote.h
+HEADERS += ../IRegistryEditController.h
 HEADERS += ../IRegistryPreview.h
 SOURCES += ../CAttributeEditorComp.cpp
 SOURCES += ../CComponentConnector.cpp
+SOURCES += ../CComponentHelpFileProviderComp.cpp
 SOURCES += ../CComponentNote.cpp
 SOURCES += ../CComponentNoteView.cpp
 SOURCES += ../CComponentView.cpp
@@ -46,8 +47,7 @@ SOURCES += ../CRegistryModelComp.cpp
 SOURCES += ../CRegistryPreviewComp.cpp
 SOURCES += ../CRegistryView.cpp
 SOURCES += ../CRegistryViewComp.cpp
-SOURCES += ../Main.cpp
-SOURCES += ../generated\moc_CRegistryView.cpp
 FORMS += ../CAttributeEditorComp.ui
 FORMS += ../CPackageOverviewComp.ui
-RESOURCES += ../Compositor.qrc
+FORMS += ../CRegistryPropertiesDialog.ui
+RESOURCES += ../icmpstr.qrc

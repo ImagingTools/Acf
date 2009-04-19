@@ -368,18 +368,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IDockManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\IGuiObject.h"
 				>
 			</File>
@@ -392,15 +380,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IQImageProvider.h"
-				>
-			</File>
-			<File
 				RelativePath="..\iqtgui.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IToolBarManager.h"
 				>
 			</File>
 			<File
@@ -691,7 +671,7 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CAboutWidgetGuiComp.cpp"
+				RelativePath="..\Generated\moc_CAboutWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -711,11 +691,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CTabbedMultiViewGuiComp.cpp"
+				RelativePath="..\Generated\moc_CTabbedMultiViewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CToolBarWidgetGuiComp.cpp"
+				RelativePath="..\Generated\moc_CToolBarWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -723,7 +703,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAboutWidgetGuiComp.h"
+				RelativePath="..\Generated\ui_CAboutWidgetGuiComp.h"
 				>
 			</File>
 			<File

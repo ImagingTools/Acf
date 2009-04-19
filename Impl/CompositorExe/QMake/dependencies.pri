@@ -1,5 +1,4 @@
 CONFIG += lib_bundle
-CONFIG += no_lflags_merge
 
 INCLUDEPATH = ../../../Include
 
@@ -9,4 +8,4 @@ CONFIG(debug, debug|release) {
 CONFIG(release, debug|release) {
 	LIBS += -L../../../Lib/ReleaseQMake
 }
-LIBS += istd iser imod imath iimg idoc icomp icmm ibase i2d
+LIBS += AcfStd AcfQt icmpstr

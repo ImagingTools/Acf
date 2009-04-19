@@ -34,6 +34,8 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 :	m_activeUndoManager(*this),
 	m_activeViewPtr(NULL),
 	m_activeDocumentPtr(NULL),
+	m_menuBarPtr(NULL),
+	m_standardToolBarPtr(NULL),
 	m_menuCommands("Global"),
 	m_newCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_openCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
@@ -41,9 +43,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_undoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_menuBarPtr(NULL),
-	m_standardToolBarPtr(NULL)
+	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
 {
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));

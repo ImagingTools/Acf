@@ -45,11 +45,11 @@ istd::CStringList CApplicationEnvironment::GetApplicationArguments() const
 
 istd::CString CApplicationEnvironment::GetModulePath(bool useApplicationModule /*= false*/, bool onlyDirectory /*= false*/) const
 {
-	CHAR moduleFileName[MAX_PATH] = {0};
+	WCHAR moduleFileName[MAX_PATH] = {0};
 
 	HINSTANCE moduleBasePtr = useApplicationModule ? NULL : (HINSTANCE)&__ImageBase;
 
-	::GetModuleFileName(moduleBasePtr, moduleFileName, MAX_PATH);
+	::GetModuleFileNameW(moduleBasePtr, moduleFileName, MAX_PATH);
 
 	if (onlyDirectory){
 		for (int i = MAX_PATH - 1; i >= 0; i--)   {   

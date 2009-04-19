@@ -142,9 +142,6 @@ protected slots:
 	void OnStyleSelected(QAction* a);
 
 private:
-	istd::TDelPtr<QMenuBar> m_menuBarPtr;
-	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
-
 	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
 	{
 	public:
@@ -212,6 +209,9 @@ private:
 
 	istd::IPolymorphic* m_activeViewPtr;
 	istd::IChangeable* m_activeDocumentPtr;
+
+	istd::TDelPtr<QMenuBar> m_menuBarPtr;
+	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
 
 	iqtgui::CHierarchicalCommand m_menuCommands;
 

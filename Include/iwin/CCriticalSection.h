@@ -2,11 +2,11 @@
 #define iwin_CCriticalSection_included
 
 
-#include <windows.h>
-
 #include "isys/ICriticalSection.h"
 
 #include "iwin/iwin.h"
+
+#include <windows.h>
 
 
 namespace iwin

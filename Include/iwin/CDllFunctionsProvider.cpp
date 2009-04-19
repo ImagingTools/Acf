@@ -33,7 +33,7 @@ bool CDllFunctionsProvider::OpenDll(const istd::CString& dllPath)
 {
 	Reset();
 
-	m_handler = ::LoadLibrary(dllPath.ToString().c_str());
+	m_handler = ::LoadLibraryW(dllPath.c_str());
 
 	return IsValid();
 }
@@ -50,7 +50,7 @@ bool CDllFunctionsProvider::IsValid() const
 void* CDllFunctionsProvider::GetFunction(const std::string& id) const
 {
 	if (IsValid()){
-		return ::GetProcAddress(m_handler, id.c_str());
+		return (void*)::GetProcAddress(m_handler, id.c_str());
 	}
 	else{
 		return NULL;

@@ -6,6 +6,7 @@
 	<xsl:strip-space elements="*"/>
 
 	<xsl:param name = "SpecialCharReplace" select = "'()/'"/>
+
 	<xsl:param name = "ExtraIncludes"></xsl:param>
 	<xsl:param name = "ProjectIncludes"></xsl:param>
 
@@ -50,10 +51,32 @@ TARGET_EXT = arp
 				</xsl:if>
 			</xsl:when>
 			<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">
-				<xsl:text>
+			<xsl:choose>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='1'">
+					<xsl:text>
+TEMPLATE = app
+DEFINES += QT_DLL
+</xsl:text>
+				</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='2'">
+					<xsl:text>
+TEMPLATE = lib
+CONFIG += dll
+</xsl:text>
+				</xsl:when>
+				<xsl:when test="Configurations/Configuration/@ConfigurationType='4'">
+					<xsl:text>
 TEMPLATE = lib
 CONFIG += staticlib
 </xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>
+TEMPLATE = lib
+CONFIG += staticlib
+</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
 			</xsl:when>
 		</xsl:choose>
 		<xsl:text>

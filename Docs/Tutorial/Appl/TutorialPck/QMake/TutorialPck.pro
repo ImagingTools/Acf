@@ -5,12 +5,12 @@ CONFIG += dll
 
 TARGET_EXT = arp
 
-debug {
+CONFIG(debug, debug|release) {
 	DESTDIR = ../../../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
 	LIBS += AcfStd AcfQt 
 }
-release {
+CONFIG(release, debug|release) {
 	DESTDIR = ../../../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
 	LIBS += AcfStd AcfQt 
@@ -23,7 +23,7 @@ RCC_DIR = ../Generated
 QT += main core gui xml sql network 
 
 
-INCLUDEPATH += ../.. ../../../../../Include 
+INCLUDEPATH += ../.. ../../../../../Include "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
 
 HEADERS += ../TutorialPck.h
 SOURCES += ../Main.cpp

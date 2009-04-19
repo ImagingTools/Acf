@@ -131,10 +131,10 @@ bool CXmlWriteArchiveBase::Process(istd::CString& data)
 
 CXmlWriteArchiveBase::CXmlWriteArchiveBase(const iser::IVersionInfo* versionInfoPtr, const iser::CArchiveTag& rootTag)
 :	BaseClass(versionInfoPtr),
-	m_rootTag(rootTag),
-    m_writerPtr(NULL),
     m_isFlushed(false),
-	m_isFirstParamInTag(true)
+	m_isFirstParamInTag(true),
+	m_writerPtr(NULL),
+	m_rootTag(rootTag)
 {
 }
 

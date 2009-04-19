@@ -1,12 +1,12 @@
 TARGET = ImageViewSimu_exe
 TEMPLATE = app
 
-debug {
+CONFIG(debug, debug|release) {
 	DESTDIR = ../../../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
 	LIBS += AcfStd AcfQt 
 }
-release {
+CONFIG(release, debug|release) {
 	DESTDIR = ../../../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
 	LIBS += AcfStd AcfQt 
@@ -19,6 +19,6 @@ RCC_DIR = ../Generated
 QT += main core gui 
 
 
-INCLUDEPATH += .. ../.. "$(ACFDIR)/Impl" "$(ACFDIR)/Include" 
+INCLUDEPATH += .. ../.. "$(ACFDIR)/Impl" "$(ACFDIR)/Include" "$(QTDIR)/Include" "$(QTDIR)/Include/QtCore" "$(QTDIR)/Include/QtGui" "$(QTDIR)/Include/QtScript" 
 
 SOURCES += ../Main.cpp

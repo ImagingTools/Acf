@@ -66,7 +66,7 @@ function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentS
 				retVal += TransformDocument(
 							shell,
 							folder + "/" + file.Name,
-							outputDir + "/QMake.pro",
+							outputDir + "/" + projectName + ".pro",
 							"%ACFDIR%/Config/QMake/FromVC.xslt",
 							projectPrefix,
 							includes,

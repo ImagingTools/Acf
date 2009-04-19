@@ -54,6 +54,7 @@ HEADERS += ../TOptDelPtr.h
 HEADERS += ../TOptPointerVector.h
 HEADERS += ../TPointer.h
 HEADERS += ../TPointerVector.h
+HEADERS += ../TRetSmartPtr.h
 HEADERS += ../TSingleFactory.h
 HEADERS += ../TSmartPtr.h
 HEADERS += ../TUpdateManagerWrap.h

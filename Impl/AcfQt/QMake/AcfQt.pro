@@ -15,6 +15,7 @@ RCC_DIR = ../Generated
 
 QT += 
 
+include(dependencies.pri)
 
 INCLUDEPATH += ../../ 
 

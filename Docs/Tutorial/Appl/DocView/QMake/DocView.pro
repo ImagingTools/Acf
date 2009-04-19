@@ -2,10 +2,10 @@ TARGET = DocView
 TEMPLATE = lib
 CONFIG += staticlib
 
-debug {
+CONFIG(debug, debug|release) {
 	DESTDIR = ../../../../../Lib/DebugQMake
 }
-release {
+CONFIG(release, debug|release) {
 	DESTDIR = ../../../../../Lib/ReleaseQMake
 }
 
@@ -16,7 +16,7 @@ RCC_DIR = ../Generated
 QT += 
 
 
-INCLUDEPATH += .. ../../../../../Include "$(ACFDIR)/Include" 
+INCLUDEPATH += .. ../../../../../Include "$(QTDIR)/Include" "$(QTDIR)/Include/QtCore" "$(QTDIR)/Include/QtGui" "$(ACFDIR)/Include" 
 
 HEADERS += ../CTextEditorComp.h
 SOURCES += ../CTextEditorComp.cpp

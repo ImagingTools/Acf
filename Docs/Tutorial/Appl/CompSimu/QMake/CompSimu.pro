@@ -1,12 +1,12 @@
-TARGET = DocViewSimu_exe
+TARGET = CompSimu_exe
 TEMPLATE = app
 
-debug {
+CONFIG(debug, debug|release) {
 	DESTDIR = ../../../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
 	LIBS += AcfStd AcfQt 
 }
-release {
+CONFIG(release, debug|release) {
 	DESTDIR = ../../../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
 	LIBS += AcfStd AcfQt 
@@ -19,6 +19,6 @@ RCC_DIR = ../Generated
 QT += main core gui 
 
 
-INCLUDEPATH += .. "$(ACFDIR)/Include" "$(ACFDIR)/Impl" ../.. "$(QScintilla)/include" 
+INCLUDEPATH += .. "$(QTDIR)/Include" "$(QTDIR)/Include/QtCore" "$(QTDIR)/Include/QtGui" "$(QTDIR)/Include/QtScript" "$(ACFDIR)/Include" "$(ACFDIR)/Impl" ../.. "$(QScintilla)/include" 
 
-SOURCES += ../Main.cpp
+SOURCES += ../main.cpp

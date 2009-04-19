@@ -18,13 +18,18 @@ QT +=
 
 INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtSql" "$(QTDIR)/include/QtOpenGL" "$(QTDIR)/include/QtNetwork" "$(QTDIR)/include/ActiveQt" "$(QTDIR)/include/QtAssistant" "$(QTDIR)/include/QtSvg" 
 
+HEADERS += ../CDoxygenHelpFileProviderComp.h
 HEADERS += ../CExtendedDocumentTemplateComp.h
+HEADERS += ../CHtmlHelpViewerComp.h
 HEADERS += ../CMainWindowGuiComp.h
 HEADERS += ../CModelEditorGuiComp.h
 HEADERS += ../CMultiDocumentWorkspaceGuiComp.h
+HEADERS += ../CSingleDocumentWorkspaceGuiComp.h
 HEADERS += ../iqtdoc.h
-HEADERS += ../IWorkspaceController.h
+SOURCES += ../CDoxygenHelpFileProviderComp.cpp
 SOURCES += ../CExtendedDocumentTemplateComp.cpp
+SOURCES += ../CHtmlHelpViewerComp.cpp
 SOURCES += ../CMainWindowGuiComp.cpp
 SOURCES += ../CModelEditorGuiComp.cpp
 SOURCES += ../CMultiDocumentWorkspaceGuiComp.cpp
+SOURCES += ../CSingleDocumentWorkspaceGuiComp.cpp

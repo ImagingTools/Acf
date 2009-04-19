@@ -19,5 +19,4 @@ QT +=
 INCLUDEPATH += ../../ 
 
 HEADERS += ../IDatabaseConnector.h
-HEADERS += ../IDatabaseTableModelProvider.h
 HEADERS += ../idb.h

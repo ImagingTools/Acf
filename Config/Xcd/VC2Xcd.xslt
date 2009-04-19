@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl = "http://www.w3.org/1999/XSL/Transform" version = "1.0" >
-	<xsl:import href="C:/Work/Projects/Development/ACF/Config/VC8/VCHelper.xslt"/>
+	<xsl:import href="../VC8/VCHelper.xslt"/>
 
 	<xsl:output method = "text" indent="yes" encoding="utf-8"/>
 	<xsl:strip-space elements="*"/>
 
+	<xsl:param name = "SpecialCharReplace" select = "'{}/'"/>
+
 	<xsl:param name = "ExtraIncludes"></xsl:param>
 	<xsl:param name = "Defines"></xsl:param>
 	<xsl:param name = "RootPath">../../..</xsl:param>
-
-	<xsl:param name = "SpecialCharReplace" select = "'{}/'"/>
 
 	<xsl:template match = "*">
 		<xsl:param name = "UserParam" select="''"/>
