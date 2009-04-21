@@ -32,6 +32,11 @@ class CPackageOverviewComp:
     Q_OBJECT
 
 public:
+	enum
+	{
+		KeywordColumn = 0
+	};
+
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp)

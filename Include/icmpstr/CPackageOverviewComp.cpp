@@ -94,6 +94,13 @@ void CPackageOverviewComp::GenerateComponentTree(const QString& filter, bool exp
 		}
 	}
 
+	// sort keywords alphabetically:
+	QAbstractItemModel* keywordsListModelPtr = KeywordsList->model();
+	I_ASSERT(keywordsListModelPtr != NULL);
+	if (keywordsListModelPtr != NULL){
+		keywordsListModelPtr->sort(KeywordColumn);
+	}
+
 	HighlightComponents();
 }
 
