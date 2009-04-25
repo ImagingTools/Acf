@@ -14,8 +14,6 @@ namespace isys
 
 
 /**
-	\ingroup isys
-
 	Interface for access of some system dependent features and infos.
 */
 class IApplicationEnvironment: virtual public istd::IPolymorphic

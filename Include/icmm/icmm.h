@@ -6,17 +6,6 @@
 
 
 /**
-\defgroup icmm Color Management
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	Contains color management classes.
 	This package is system undependent.
 	This package use following ACF packages:

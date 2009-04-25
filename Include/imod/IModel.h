@@ -16,7 +16,7 @@ class IObserver;
 
 
 /**
-	\ingroup imod
+	\ingroup ModelObserver
 
 	Common interface for model objects, that supports Model/Observer design pattern.
 	\sa IObserver

@@ -10,8 +10,6 @@ namespace idb
 
 
 /**
-	\ingroup idb
-
 	IDatabaseConnector interface provides conrol of a database connection.
 */
 class IDatabaseConnector: virtual public istd::IPolymorphic

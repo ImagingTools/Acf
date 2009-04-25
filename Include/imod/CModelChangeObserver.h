@@ -12,8 +12,6 @@ namespace imod
 
 
 /**
-	\ingroup istd
-
 	This class catchs the updating methods of a given model and marks it as dirty.
 	To clear this flag you must call SetDirty(false) manually.
 */

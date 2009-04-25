@@ -14,8 +14,6 @@ namespace iqt
 
 
 /**
-	\ingroup iqt
-
 	An timer implementation for Qt library.
 */
 class CTimer: virtual public isys::ITimer

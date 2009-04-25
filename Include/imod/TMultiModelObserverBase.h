@@ -13,7 +13,7 @@ namespace imod
 
 
 /**
-	\ingroup imod
+	\ingroup ModelObserver
 
 	Basic implementation of an multiple model observer.
 /*/

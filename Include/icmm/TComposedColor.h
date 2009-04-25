@@ -22,7 +22,7 @@ namespace icmm
 	Generic color implementation.
 */
 template <int Size>
-class TComposedColor: public imath::TVector<Size>, public iser::ISerializable
+class TComposedColor: public imath::TVector<Size>, virtual public iser::ISerializable
 {
 public:
 	typedef imath::TVector<Size> BaseClass;

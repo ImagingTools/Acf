@@ -6,9 +6,6 @@
 
 
 /**
-	\defgroup image Image definition and processing
-	\ingroup ACF
-
 	Contains the system indenendent definitions of image and related themes.
 	This package use following ACF packages:
 	\li istd

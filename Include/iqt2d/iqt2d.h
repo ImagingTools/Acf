@@ -6,9 +6,6 @@
 
 
 /**
-	\defgroup iqt2d Qt Basics
-	\ingroup ACF
-
 	This package contains Qt based implementations for 2D graphic objects.
 */
 

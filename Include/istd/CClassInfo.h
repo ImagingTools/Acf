@@ -14,6 +14,8 @@ namespace istd
 
 
 /**
+	\ingroup Main
+
 	Represents platform independent type info and provide set of static class manipulation functions.
 */
 class CClassInfo: virtual public istd::IPolymorphic

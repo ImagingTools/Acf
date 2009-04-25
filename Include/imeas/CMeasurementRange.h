@@ -13,8 +13,6 @@ namespace imeas
 
 
 /**
-	\ingroup imeas
-
 	Implementation of a measurement range.
 */
 class CMeasurementRange

@@ -3,17 +3,6 @@
 
 
 /**
-\defgroup imeas Measurement
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	\namespace imeas
 	\brief This namespace contains classes for measurement system implementations
 */

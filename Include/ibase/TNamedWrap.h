@@ -16,8 +16,6 @@ namespace ibase
 
 
 /**
-	\ingroup ibase
-
 	Template based implementation of a named object. 
 	This class is a pseudo-implementation of istd::INamed interface.
 */

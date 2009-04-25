@@ -6,17 +6,14 @@
 
 
 /**
-\defgroup iser Serialization
-\ingroup ACF
-@{
+	\defgroup Persistence Persistence concept.
+	\ingroup ACF
 */
-
-/** 
-@} 
-*/
-
 
 /**
+	\ingroup Main
+	\ingroup Persistence
+
 	Contains general persistence mechanism with basic archives implementations.
 	This package is system undependent.
 	This package use following ACF packages:

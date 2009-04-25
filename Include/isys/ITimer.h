@@ -13,7 +13,7 @@ namespace isys
 
 
 /**
-	\ingroup isys
+	\ingroup Main
 
 	Common interface for timer implementations.
 */

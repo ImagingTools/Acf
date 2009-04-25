@@ -15,8 +15,10 @@ class IArchive;
 
 
 /**
+	\ingroup Persistence
+
 	Common class for all classes which objects can be archived or restored from archive.
- */
+*/
 class ISerializable: virtual public istd::IChangeable
 {
 public:

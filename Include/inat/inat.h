@@ -10,18 +10,7 @@
 
 
 /**
-\defgroup inat Native System
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-/**
-	\namespace inat
-	\brief This namespace contains implementations for the compile-time native plattform
+	This namespace contains implementations for the compile-time native plattform
 */
 namespace inat
 {

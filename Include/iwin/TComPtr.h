@@ -14,7 +14,7 @@ namespace iwin
 
 
 /**
-	Pointer wrapper providing automatic deleting pointed object during destruction.
+	Pointer wrapper providing access to Windows COM objects.
 */
 template <class Type>
 class TComPtr: public istd::TPointer<Type>

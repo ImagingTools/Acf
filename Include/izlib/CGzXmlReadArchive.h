@@ -15,7 +15,13 @@ namespace izlib
 
 
 /**
-	Archive implmentation writing compressed XML file.
+	\ingroup Persistence
+
+	ZLIB compressed implementation of simple archive reading from XML file.
+	This imlementation doesn't use any external parser, it uses ZLIB library for file decompressing.
+	It uses only single pass and is very fast, but it doesn't support of tags skipping and
+	it needs \c counter attribute indicating number of subtags for each mutli tag node.
+	Compressed XML file in this format can be created using \c izlib::CGzXmlWriteArchive.
 */
 class CGzXmlReadArchive: public iser::CXmlReadArchiveBase 
 {

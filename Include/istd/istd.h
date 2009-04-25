@@ -6,8 +6,17 @@
 
 
 /**
-	\defgroup istd Standard
+	\defgroup Main Main concepts and implementations
 	\ingroup ACF
+
+	If you can learn how to use ACF you should begin with elements defined in this module.
+*/
+
+
+/**
+	\ingroup Main
+
+	Standard Standard, plattform independent implementations.
 
 	Contains the standard, system indenendent primitives and basic implementations.
 */
@@ -15,7 +24,11 @@ namespace istd
 {
 
 
-// define own min function to avoid conflicts between STL and M$ macros
+/*
+	Define own min function to avoid conflicts between STL and Microsoft macros.
+
+	\ingroup Main
+*/
 template <typename T>
 inline const T& Min(const T& value1, const T& value2)
 {
@@ -28,7 +41,11 @@ inline const T& Min(const T& value1, const T& value2)
 }
 
 
-// define own max function to avoid conflicts between STL and M$ macros
+/**
+	Define own max function to avoid conflicts between STL and Microsoft macros.
+
+	\ingroup Main
+*/
 template <typename T>
 inline const T& Max(const T& value1, const T& value2)
 {

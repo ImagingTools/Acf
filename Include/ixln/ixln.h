@@ -6,17 +6,6 @@
 
 
 /**
-\defgroup ixln Xalan/Xerces
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	Contains archives based on XALAN library.
 	This package use following ACF packages:
 	\li	istd

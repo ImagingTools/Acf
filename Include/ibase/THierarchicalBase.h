@@ -13,8 +13,6 @@ namespace ibase
 
 
 /**
-	\ingroup ibase
-
 	Template based implementation of a heriarchical object. 
 	This class is a pseudo-implementation of istd::TIHierarchical template interface.
 */

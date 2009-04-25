@@ -11,7 +11,7 @@ namespace imod
 {
 
 /**
-	\ingroup imod
+	\ingroup ModelObserver
 
 	Common interface for an model editor.
 */

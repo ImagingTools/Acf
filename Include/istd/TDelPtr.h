@@ -10,6 +10,8 @@ namespace istd
 
 
 /**
+	\ingroup Main
+
 	Pointer wrapper providing automatic deleting pointed object during destruction.
 */
 template <class Type, bool DelArray = false>

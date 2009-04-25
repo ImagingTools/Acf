@@ -6,20 +6,16 @@
 
 
 /**
-\defgroup imath Mathematics
-\ingroup ACF
-@{
+	\ingroup Main
+
+	Mathematical constant value PI.
 */
-
-/** 
-@} 
-*/
-
-
 static const double I_PI = 3.1415926;
 
 
 /**
+	\ingroup Main
+
 	Package with mathematical functions and algebraical primitives.
 	This package is system independent.
 	This package use following ACF packages:

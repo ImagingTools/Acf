@@ -12,7 +12,7 @@ namespace iwin
 
 
 /**
-	\ingroup iwin
+	\ingroup Windows
 
 	An timer implementation for the Windows plattform
 */

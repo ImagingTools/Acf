@@ -17,6 +17,11 @@ namespace ibase
 {
 
 
+/**
+	\ingroup Persistence
+
+	Template implementation of file serializer using loading and storing archive implementation.
+*/
 template <class ReadArchive, class WriteArchive>
 class TFileSerializerComp:
 			public ibase::TLoggerCompWrap<icomp::CComponentBase>,

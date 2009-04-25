@@ -13,6 +13,11 @@ namespace iwin
 {
 
 
+/**
+	\ingroup Windows
+
+	Realization of critical section on Windows.
+*/
 class CCriticalSection: virtual public isys::ICriticalSection
 {
 public:

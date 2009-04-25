@@ -12,6 +12,8 @@ namespace istd
 
 
 /**
+	\ingroup Main
+
 	Multidimensional array with fixed number of dimensions.
 */
 template <class Element, int Dimensions>

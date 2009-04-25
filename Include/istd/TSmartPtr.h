@@ -10,6 +10,8 @@ namespace istd
 
 
 /**
+	\ingroup Main
+
 	Implementation of a smart pointer.
 	This implementation uses internal counter object. Internal counter object is used to
 	count of instances of smart pointers and will be shared by all its copies.

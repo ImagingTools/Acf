@@ -10,7 +10,7 @@ namespace iqt
 
 
 /**
-	\ingroup iqt
+	Qt-based implementation of application environment information.
 */
 class CApplicationEnvironment: virtual public isys::IApplicationEnvironment
 {

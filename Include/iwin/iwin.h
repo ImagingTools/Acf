@@ -3,14 +3,12 @@
 
 
 /**
-\defgroup iwin Windows System
-\ingroup ACF
+	\defgroup Windows Windows System
+	Realization of operating system specified tasks on Microsoft Windows.
+	\ingroup ACF
 @{
 */
 
-/** 
-@} 
-*/
 
 /**
 	\namespace iwin
@@ -20,6 +18,11 @@ namespace iwin
 {
 	
 } // namespace iwin
+
+
+/**
+@}
+*/
 
 
 #endif // !iwin_included

@@ -7,9 +7,6 @@
 
 
 /**
-	\defgroup ParamConcept Flexible parameter concept
-	\ingroup ACF
-
 	Contains interfaces and implementations of flexible parameter concept.
 */
 namespace iprm

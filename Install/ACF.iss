@@ -78,7 +78,7 @@ Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 [Icons]
 Name: {group}\Compositor; Filename: {app}\Bin\ReleaseVC8\Acf.exe; Parameters: {app}\Partitura\Compositor.arx; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
 Name: "{group}\Compositor Mini"; Filename: {app}\Bin\ReleaseVC8\Compositor.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
-Name: "{group}\API Documentation"; Filename: {app}\Docs\Doxygen\ACF\Generated\html\index.html; Components: acfComp
+Name: "{group}\API Documentation"; Filename: {app}\Docs\TechnicalDoc\index.html; Components: acfComp
 
 [Registry]
 Root: HKLM; Subkey: "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment\\"; ValueName: ACFDIR; ValueData: {app}; ValueType: string; Flags: uninsdeletevalue; Components: acfComp

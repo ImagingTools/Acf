@@ -24,7 +24,7 @@
         105
       </X>
       <X>
-        -255
+        -253
       </X>
     </Element>
     <Element>
@@ -57,7 +57,7 @@
         123
       </X>
       <X>
-        -20
+        -18
       </X>
     </Element>
     <Element>
@@ -109,10 +109,10 @@
         VersionInfo
       </ComponentName>
       <X>
-        -354
+        -352
       </X>
       <X>
-        -23
+        -21
       </X>
     </Element>
   </PositionMap>

@@ -7,17 +7,6 @@
 
 
 /**
-\defgroup ibase Basic Implementations
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	This namespace containes basic implementations of standard primitives.
 	This package is system independent.
 	This package use following ACF packages:

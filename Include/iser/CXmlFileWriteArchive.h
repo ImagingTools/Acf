@@ -13,8 +13,12 @@ namespace iser
 
 
 /**
+	\ingroup Persistence
+
 	Simple implementation of archive for writing in XML format.
-	This implementation doesn't use any parser.
+	This implementation doesn't use any external parser.
+	It creates \c counter attribute indicating number of subtags for each mutli tag node.
+	XML file in this format are needed by \c iser::CXmlFileReadArchive.
 */
 class CXmlFileWriteArchive: public TXmlStreamWriteArchiveBase<std::ofstream>
 {

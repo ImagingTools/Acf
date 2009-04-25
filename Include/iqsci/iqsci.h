@@ -3,17 +3,6 @@
 
 
 /**
-\defgroup iqsci QScintilla Components
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	This namespace contains class wrapper for QScintilla framework.
 */
 namespace iqsci

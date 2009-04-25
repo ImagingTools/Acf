@@ -20,17 +20,6 @@
 
 
 /**
-\defgroup iqt Qt Basics
-\ingroup ACF
-@{
-*/
-
-/** 
-@} 
-*/
-
-
-/**
 	This namespace contains standard classes based on Qt.
 */
 namespace iqt

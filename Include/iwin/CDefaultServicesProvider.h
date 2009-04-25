@@ -10,7 +10,7 @@ namespace iwin
 
 
 /**
-	Default services provider for winfows plattform
+	Default services provider for Windows plattform
  */
 class CDefaultServicesProvider
 {

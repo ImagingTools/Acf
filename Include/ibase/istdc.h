@@ -7,9 +7,6 @@
 
 
 /**
-	\defgroup ibase Standard Components
-	\ingroup ACF
-
 	Contains the standard, system indenendent components.
 */
 namespace ibase

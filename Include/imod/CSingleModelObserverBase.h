@@ -13,7 +13,7 @@ class IModel;
 
 
 /**
-	\ingroup imod
+	\ingroup ModelObserver
 
 	Basic implementation for a single model observer.
 	Derrived implementations can reimplement simplified OnUpdate method to be notified about model changes.

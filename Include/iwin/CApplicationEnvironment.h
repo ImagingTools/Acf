@@ -10,7 +10,7 @@ namespace iwin
 
 
 /**
-	\ingroup iwin
+	\ingroup Windows
 */
 class CApplicationEnvironment: virtual public isys::IApplicationEnvironment
 {

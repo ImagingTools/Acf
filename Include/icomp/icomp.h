@@ -6,17 +6,8 @@
 
 
 /**
-\defgroup icomp Component Framework
-\ingroup ACF
-@{
-*/
+	\ingroup Main
 
-/** 
-@} 
-*/
-
-
-/**
 	Package with interfaces and class used for components concept.
 	This package is system independent.
 	This package use following ACF packages:

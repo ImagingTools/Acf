@@ -14,6 +14,11 @@ namespace iser
 {
 
 
+/**
+	\ingroup Persistence
+
+	Provides access to version information.
+*/
 class IVersionInfo: virtual public istd::IPolymorphic
 {
 public:

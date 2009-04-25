@@ -13,6 +13,8 @@ namespace iser
 
 /**
 	Simple implementation for reading of a XML from a string.
+	This imlementation uses only single pass and is very fast,
+	but it needs \c counter attribute idicating number of subtags for each mutli tag node.
 */
 class CXmlStringReadArchive: public TXmlStreamReadArchiveBase<std::istringstream> 
 {

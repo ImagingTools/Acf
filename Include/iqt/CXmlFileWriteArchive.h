@@ -16,6 +16,12 @@ namespace iqt
 {
 
 
+/**
+	\ingroup Persistence
+
+	Qt-based implementation of archive for writing in XML format.
+	Please note that it doesn't create \c counter attribute needed by \c iser::CXmlFileReadArchive.
+*/
 class CXmlFileWriteArchive: public iser::CWriteArchiveBase, public iser::CXmlDocumentInfoBase
 {
 public:

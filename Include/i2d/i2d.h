@@ -6,9 +6,6 @@
 
 
 /**
-	\defgroup i2d 2D objects.
-	\ingroup ACF
-
 	Contains the 2D objects.
 	This package is system independent.
 	This package use following ACF packages:
