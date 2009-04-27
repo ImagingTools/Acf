@@ -106,7 +106,7 @@ const IRegistry::ElementInfo* CRegistry::GetElementInfo(const std::string& eleme
 bool CRegistry::RemoveElementInfo(const std::string& elementId)
 {
 	// remove interfaces exported by this component:
-	SetElementExported(elementId, istd::CClassInfo(), false);
+	SetElementInterfaceExported(elementId, istd::CClassInfo(), false);
 
 	istd::TChangeNotifier<icomp::IRegistry> changePtr(this, CF_COMPONENT_REMOVED);
 
@@ -130,7 +130,7 @@ const IRegistry::ExportedComponentsMap& CRegistry::GetExportedComponentsMap() co
 }
 
 
-void CRegistry::SetElementExported(
+void CRegistry::SetElementInterfaceExported(
 			const std::string& elementId,
 			const istd::CClassInfo& exportInterfaceInfo,
 			bool state)
@@ -170,6 +170,19 @@ void CRegistry::SetElementExported(
 				}
 			}
 		}
+	}
+}
+
+
+void CRegistry::SetElementExported(
+			const std::string& exportId,
+			const std::string& elementId)
+{
+	if (!elementId.empty()){
+		m_exportedComponentsMap[exportId] = elementId;
+	}
+	else{
+		m_exportedComponentsMap.erase(exportId);
 	}
 }
 

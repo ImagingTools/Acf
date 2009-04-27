@@ -224,7 +224,7 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 		const std::string& componentName = interfaceIter->second;
 
 		NextLine(stream);
-		stream << "registry.SetElementExported(";
+		stream << "registry.SetElementInterfaceExported(";
 		NextLine(stream);
 		stream << "\t\t\t\"" << componentName << "\",";
 		NextLine(stream);

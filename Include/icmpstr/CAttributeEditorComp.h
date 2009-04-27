@@ -44,7 +44,8 @@ public:
 		Attribute,
 		SelectableAttribute,
 		MultipleAttribute,
-		Export
+		AttributeExport,
+		ComponentExport
 	};
 
 	enum AttributeColumns
@@ -63,8 +64,8 @@ public:
 	CAttributeEditorComp();
 
 	icomp::IRegistryElement* GetRegistryElement() const;
-	icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const QString& attributeId) const;
-	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const QString& attributeId) const;
+	icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const std::string& attributeId) const;
+	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const std::string& attributeId) const;
 	QStringList GetAvailableComponents(const istd::CClassInfo& interfaceInfo) const;
 
 	// reimplemented (TGuiObserverWrap)

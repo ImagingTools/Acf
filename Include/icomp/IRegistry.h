@@ -100,10 +100,19 @@ public:
 		\param	exportInterfaceInfo	specify interface. If it is invalid, all interfaces will be taken.
 		\param	state				the export state. If \c false, the existing export will be removed.
 	*/
-	virtual void SetElementExported(
+	virtual void SetElementInterfaceExported(
 				const std::string& elementId,
 				const istd::CClassInfo& exportInterfaceInfo = istd::CClassInfo(),
 				bool state = true) = 0;
+
+	/**
+		Set element to be exported.
+		\param	exportId		ID of exported name, or NULL if this export should be removed.
+		\param	elementId		ID of element or its subelement (with dot separated) or empty string, if this export should be removed.
+	*/
+	virtual void SetElementExported(
+				const std::string& exportId,
+				const std::string& elementId) = 0;
 
 	/**
 		Get human readable description of this registry.

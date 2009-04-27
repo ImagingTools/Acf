@@ -48,10 +48,13 @@ public:
 	virtual bool RemoveElementInfo(const std::string& elementId);
 	virtual const ExportedInterfacesMap& GetExportedInterfacesMap() const;
 	virtual const ExportedComponentsMap& GetExportedComponentsMap() const;
-	virtual void SetElementExported(
+	virtual void SetElementInterfaceExported(
 				const std::string& elementId,
 				const istd::CClassInfo& exportInterfaceInfo,
 				bool state);
+	virtual void SetElementExported(
+				const std::string& exportId,
+				const std::string& elementId);
 	virtual const istd::CString& GetDescription() const;
 	virtual void SetDescription(const istd::CString& description);
 	virtual const istd::CString& GetKeywords() const;

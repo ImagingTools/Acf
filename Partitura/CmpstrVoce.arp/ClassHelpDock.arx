@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          882
+          887
         </Number>
         <Description>
           ACF
@@ -242,7 +242,15 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="0">
+  <ExportedComponents count="1">
+    <Component>
+      <ExportedId>
+        HelpFileProvider
+      </ExportedId>
+      <ComponentId>
+        ComponentHelpFileProvider
+      </ComponentId>
+    </Component>
   </ExportedComponents>
   <Description>
     
