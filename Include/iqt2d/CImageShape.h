@@ -10,6 +10,8 @@
 
 #include "iimg/IBitmap.h"
 
+#include "icmm/IColorTransformation.h"
+
 #include "iqt2d/iqt2d.h"
 
 
@@ -20,7 +22,7 @@ namespace iqt2d
 class CImageShape: public QGraphicsItem, public imod::TSingleModelObserverBase<iimg::IBitmap>
 {
 public:
-	CImageShape();
+	CImageShape(const icmm::IColorTransformation* colorTransformationPtr = NULL);
 
 	istd::CIndex2d GetSize() const;
 
@@ -35,10 +37,15 @@ public:
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 
 private:
+	void SetLookupTableToImage(QImage& image, const icmm::IColorTransformation& colorTransformation);
+
+private:
 	bool m_isBackgroundGridUsed;
 	QPixmap m_backgroundPixmap;
 
 	QPixmap m_bitmap;
+
+	const icmm::IColorTransformation* m_colorTransformationPtr;
 };
 
 

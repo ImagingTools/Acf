@@ -272,7 +272,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TColorGradient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TComposedColor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TComposedColorGradient.h"
 				>
 			</File>
 		</Filter>

@@ -4,6 +4,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QPainter>
 
+
 #include "iqt/IQImageProvider.h"
 
 
@@ -13,8 +14,9 @@ namespace iqt2d
 
 // public methods
 
-CImageShape::CImageShape()
-:	m_isBackgroundGridUsed(false)
+CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPtr)
+:	m_isBackgroundGridUsed(false),
+	m_colorTransformationPtr(colorTransformationPtr)
 {
 	m_backgroundPixmap = QPixmap(16, 16);
 		
@@ -32,7 +34,12 @@ void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, i
 {
 	const iqt::IQImageProvider* providerPtr = dynamic_cast<const iqt::IQImageProvider*>(GetObjectPtr());
 	if (providerPtr != NULL){
-		m_bitmap = QPixmap::fromImage(providerPtr->GetQImage(), Qt::AutoColor);
+		QImage image = providerPtr->GetQImage();
+		if (m_colorTransformationPtr != NULL){
+			SetLookupTableToImage(image, *m_colorTransformationPtr);
+		}
+		
+		m_bitmap = QPixmap::fromImage(image, Qt::AutoColor);
 	}
 	else{
 		m_bitmap = QPixmap();
@@ -73,6 +80,33 @@ void CImageShape::paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWi
 
 	p->drawPixmap(option->exposedRect, m_bitmap, option->exposedRect);
 }
+
+
+// private methods
+
+void CImageShape::SetLookupTableToImage(QImage& image, const icmm::IColorTransformation& colorTransformation)
+{
+	if (image.isGrayscale()){
+		QVector<QRgb> rgbTable;
+		for (int colorIndex = 0; colorIndex < 256; colorIndex++){
+			icmm::CVarColor argumentColor;	
+			argumentColor.SetElementsCount(1);
+			argumentColor.SetElement(0, colorIndex / 255.0);
+
+			icmm::CVarColor result = colorTransformation.GetValueAt(argumentColor);
+			if (result.GetElementsCount() == 3){
+				rgbTable.append(qRgb(result[0] * 255, result[1] * 255, result[2] * 255));
+			}
+			else{
+				rgbTable.append(qRgb(colorIndex, colorIndex, colorIndex));
+			}
+		}
+
+		image.setNumColors(256);
+		image.setColorTable(rgbTable);
+	}
+}
+
 
 
 } // namespace iqt2d
