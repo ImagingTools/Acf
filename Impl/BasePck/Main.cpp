@@ -41,6 +41,8 @@ I_EXPORT_COMPONENT(AnnulusSegment, "Segment of annulus object", "Annulus Segment
 I_EXPORT_COMPONENT(AttributedRectangle, "Rectangle component with attributes", "Rectangle 2D Object Parameter");
 I_EXPORT_COMPONENT(TextDocument, "Simple text document", "Text Document");
 
+I_EXPORT_COMPONENT(SampledFunction2d, "Sampled function with 2-dimensional input", "Function Sample");
+
 
 } // namespace BasePck
 

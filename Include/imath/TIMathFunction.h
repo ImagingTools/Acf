@@ -1,5 +1,5 @@
-#ifndef imat_TIMathFunction_included
-#define imat_TIMathFunction_included
+#ifndef imath_TIMathFunction_included
+#define imath_TIMathFunction_included
 
 
 #include "istd/IPolymorphic.h"
@@ -41,6 +41,6 @@ typedef TIMathFunction<double, double> IDoubleFunction;
 } // namespace imath
 
 
-#endif // !imat_TIMathFunction_included
+#endif // !imath_TIMathFunction_included
 
 

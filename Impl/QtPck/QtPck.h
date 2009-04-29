@@ -7,6 +7,7 @@
 
 #include "iqt/CPackagesLoaderComp.h"
 #include "iqt/CBitmap.h"
+#include "iqt/CBitmapFunction.h"
 #include "iqt/CBitmapLoaderComp.h"
 #include "iqt/CSettingsSerializerComp.h"
 #include "iqt/CApplicationSettingsProviderComp.h"
@@ -35,6 +36,8 @@
 #include "iqt2d/CAnnulusParamsGuiComp.h"
 #include "iqt2d/CAnnulusSegmentParamsGuiComp.h"
 
+#include "iqt3d/CSurfaceViewComp.h"
+
 #include "iqtprm/CFileNameParamGuiComp.h"
 #include "iqtprm/CComposedParamsSetGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
@@ -57,6 +60,7 @@ namespace QtPck
 
 typedef iqt::CPackagesLoaderComp PackagesLoader;
 typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmap, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable> > Bitmap;
+typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmapFunction, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable, imath::ISampledFunction2d> > BitmapFunction;
 typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
@@ -84,6 +88,8 @@ typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
 typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;
 typedef iqt2d::CAnnulusParamsGuiComp AnnulusParamsGui;
 typedef iqt2d::CAnnulusSegmentParamsGuiComp AnnulusSegmentParamsGui;
+
+typedef iqt3d::CSurfaceViewComp SurfaceView;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;

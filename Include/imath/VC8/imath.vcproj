@@ -190,6 +190,10 @@
 				RelativePath="..\CFixedPointManip.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CSampledFunction2d.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -212,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSampledFunction2d.h"
+				>
+			</File>
+			<File
 				RelativePath="..\imath.h"
 				>
 			</File>
@@ -225,6 +233,10 @@
 			</File>
 			<File
 				RelativePath="..\TIMathFunction.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TISampledFunction.h"
 				>
 			</File>
 			<File

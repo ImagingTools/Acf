@@ -188,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CBitmapFunction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CBitmapLoaderComp.cpp"
 				>
 			</File>
@@ -287,6 +291,10 @@
 			</File>
 			<File
 				RelativePath="..\CBitmap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CBitmapFunction.h"
 				>
 			</File>
 			<File

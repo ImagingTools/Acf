@@ -41,6 +41,8 @@
 
 #include "isvn/TApplicationInfoWrap.h"
 
+#include "imath/CSampledFunction2d.h"
+
 
 /**
 	Base system-undependent general package.
@@ -121,6 +123,12 @@ typedef icomp::TMakeComponentWrap<
 typedef icomp::TModelCompWrap<ibase::CRectangleComp> AttributedRectangle;
 
 typedef icomp::TModelCompWrap<ibase::CTextDocumentComp> TextDocument;
+
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<imath::CSampledFunction2d>,
+			imath::ISampledFunction2d,
+			istd::IChangeable,
+			imod::IModel> SampledFunction2d;
 
 
 } // namespace BasePck

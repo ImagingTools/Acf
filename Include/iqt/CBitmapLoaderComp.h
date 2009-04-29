@@ -20,7 +20,7 @@ namespace iqt
 
 
 /**
-	Bitmap loader component implementing interfaces \c iser::IFileLoader and \c icam::IBitmapAcquisition.
+	Bitmap loader component implementing interfaces \c iser::IFileLoader.
 */
 class CBitmapLoaderComp:
 			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
