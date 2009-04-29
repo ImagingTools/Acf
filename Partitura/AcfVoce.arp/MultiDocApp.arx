@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          860
+          895
         </Number>
         <Description>
           ACF
@@ -497,7 +497,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="7">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -515,6 +515,22 @@
               <Value>
                 ApplicationInfo
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              CopyrightText
+            </Id>
+            <Type>
+              icomp::TSingleAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              CopyrightText
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

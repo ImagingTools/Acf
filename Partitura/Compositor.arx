@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          860
+          895
         </Number>
         <Description>
           ACF
@@ -30,7 +30,7 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="12">
           <AttributeInfo>
             <Id>
               AboutDescriptionText
@@ -87,6 +87,26 @@ All rights reserved
               </IsEnabled>
               <Value>
                 ImagingTools
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              CopyrightText
+            </Id>
+            <Type>
+              icomp::TSingleAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Copyright 2009 ImagingTools
+This tool is a part of ACF project
               </Value>
             </Data>
           </AttributeInfo>
@@ -194,7 +214,7 @@ All rights reserved
                 true
               </IsEnabled>
               <Value>
-                ACF Tool
+                Maxi
               </Value>
             </Data>
           </AttributeInfo>

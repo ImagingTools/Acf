@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          860
+          895
         </Number>
         <Description>
           ACF
@@ -76,7 +76,7 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        -479
+        -477
       </X>
       <X>
         272
@@ -109,7 +109,7 @@
         SettingsProvider
       </ComponentName>
       <X>
-        -201
+        -199
       </X>
       <X>
         272
@@ -123,7 +123,7 @@
         571
       </X>
       <X>
-        -1
+        0
       </X>
     </Element>
     <Element>
@@ -142,7 +142,7 @@
         Workspace
       </ComponentName>
       <X>
-        -487
+        -485
       </X>
       <X>
         123

@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "");
 	splashScreenGui.SetStringAttr("ProductType", "Mini");
-	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
+	splashScreenGui.SetStringAttr("CopyrightText", "Copyright 2009 ImagingTools\nThis tool is a part of ACF project");
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
