@@ -93,7 +93,7 @@ public:
 	/**
 		Get file extensions supported by this loader.
 	*/
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const = 0;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const = 0;
 	/**
 		Get description of object type associated with single extension.
 	*/

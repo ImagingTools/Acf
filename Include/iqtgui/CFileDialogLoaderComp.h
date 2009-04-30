@@ -43,7 +43,7 @@ public:
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 	// reimplemented (iser::IFileLoaderInfo)
@@ -58,12 +58,12 @@ public:
 		\param	result	input/output list of filters with description separated with next line character.
 		\return			number of filters.
 	*/
-	static int AppendLoaderFilterList(const iser::IFileLoader& loader, QString& allExt, QString& result);
+	static int AppendLoaderFilterList(const iser::IFileLoader& loader, int flags, QString& allExt, QString& result);
 
 protected:
 	virtual QString GetFileName(const istd::CString& filePath, bool isSaving, int& selectionIndex) const;
 
-	iser::IFileLoader* GetLoaderFor(const QString& filePath, int selectionIndex, bool beQuiet) const;
+	iser::IFileLoader* GetLoaderFor(const QString& filePath, int selectionIndex, int flags, bool beQuiet) const;
 
 private:
 	I_MULTIREF(iser::IFileLoader, m_loadersCompPtr);

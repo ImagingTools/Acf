@@ -57,7 +57,7 @@ int CComposedLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 }
 
 
-bool CComposedLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool CComposedLoaderComp::GetFileExtensions(istd::CStringList& result, int flags, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();
@@ -69,7 +69,7 @@ bool CComposedLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAp
 	for (int i = 0; i < slavesCount; ++i){
 		iser::IFileLoader* loaderPtr = m_slaveLoadersCompPtr[i];
 		if (loaderPtr != NULL){
-			retVal = loaderPtr->GetFileExtensions(result, true) | retVal;
+			retVal = loaderPtr->GetFileExtensions(result, flags, true) | retVal;
 		}
 	}
 

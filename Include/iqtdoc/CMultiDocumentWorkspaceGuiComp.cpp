@@ -178,7 +178,7 @@ void CMultiDocumentWorkspaceGuiComp::CreateConnections()
 }
 
 
-QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string* documentTypeIdPtr) const
+QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string* documentTypeIdPtr, int flags) const
 {
 	QString retVal;
 
@@ -192,7 +192,7 @@ QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string
 		if (documentTypeIdPtr != NULL){
 			iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*documentTypeIdPtr);
 			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
+				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
 			}
 		}
 		else{
@@ -201,7 +201,7 @@ QString CMultiDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string
 						++docTypeIter){
 				iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*docTypeIter);
 				if (loaderPtr != NULL){
-					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
+					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
 				}
 			}
 		}

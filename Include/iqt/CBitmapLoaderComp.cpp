@@ -39,7 +39,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 		QFileInfo info(qtFilePath);
 
 		istd::CStringList extensions;
-		if (GetFileExtensions(extensions)){
+		if (GetFileExtensions(extensions, flags)){
 			if (find(extensions.begin(), extensions.end(), iqt::GetCString(info.suffix())) == extensions.end()){
 				if (!beQuiet){
 					SendInfoMessage(MI_BAD_EXTENSION, iqt::GetCString(QObject::tr("Bad image file extension %1").arg(info.suffix())));
@@ -123,7 +123,7 @@ int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CSt
 }
 
 
-bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, int /*flags*/, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();

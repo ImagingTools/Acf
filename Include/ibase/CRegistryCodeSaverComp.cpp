@@ -59,14 +59,16 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const istd
 }
 
 
-bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, int flags, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();
 	}
 
-	result.push_back("c");
-	result.push_back("cpp");
+	if ((flags & QF_NO_SAVING) == 0){
+		result.push_back("c");
+		result.push_back("cpp");
+	}
 
 	return true;
 }

@@ -59,7 +59,7 @@ protected:
 		Creates the filter for the file selection dialog.
 		\param	documentTypeIdPtr	optional ID of document type if only filter for single document type should be created.
 	*/
-	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL) const;
+	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL, int flags = 0) const;
 
 	// reimplemented (idoc::CSingleDocumentManagerBase)
 	virtual istd::CString GetOpenFileName(const std::string* documentTypeIdPtr = NULL) const;

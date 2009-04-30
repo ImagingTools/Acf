@@ -39,7 +39,7 @@ public:
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 private:

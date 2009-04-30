@@ -95,7 +95,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 }
 
 
-bool CRegistryLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool CRegistryLoaderComp::GetFileExtensions(istd::CStringList& result, int /*flags*/, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();

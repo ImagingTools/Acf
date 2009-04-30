@@ -51,7 +51,7 @@ public:
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
-	virtual bool GetFileExtensions(istd::CStringList& result, bool doAppend = false) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:
@@ -180,7 +180,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 
 
 template <class ReadArchive, class WriteArchive>
-bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool TFileSerializerComp<ReadArchive, WriteArchive>::GetFileExtensions(istd::CStringList& result, int /*flags*/, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();

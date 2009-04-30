@@ -85,7 +85,7 @@ void CSingleDocumentWorkspaceGuiComp::UpdateTitle()
 }
 
 
-QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string* documentTypeIdPtr) const
+QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string* documentTypeIdPtr, int flags) const
 {
 	QString retVal;
 
@@ -99,7 +99,7 @@ QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::strin
 		if (documentTypeIdPtr != NULL){
 			iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*documentTypeIdPtr);
 			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
+				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
 			}
 		}
 		else{
@@ -108,7 +108,7 @@ QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::strin
 						++docTypeIter){
 				iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*docTypeIter);
 				if (loaderPtr != NULL){
-					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, allExt, retVal);
+					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
 				}
 			}
 		}
@@ -127,7 +127,7 @@ QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::strin
 
 istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFileName(const std::string* documentTypeIdPtr) const
 {
-	QString filter = CreateFileDialogFilter(documentTypeIdPtr);
+	QString filter = CreateFileDialogFilter(documentTypeIdPtr, iser::IFileLoader::QF_NO_SAVING);
 
 	QStringList files = QFileDialog::getOpenFileNames(NULL, tr("Open Files..."), m_lastDirectory, filter);
 
@@ -143,7 +143,7 @@ istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFileName(const std::string
 
 istd::CString CSingleDocumentWorkspaceGuiComp::GetSaveFileName(const std::string& documentTypeId) const
 {
-	QString filter = CreateFileDialogFilter(&documentTypeId);
+	QString filter = CreateFileDialogFilter(&documentTypeId, iser::IFileLoader::QF_NO_LOADING);
 
 	QString filePath = QFileDialog::getSaveFileName(NULL, tr("Save..."), m_lastDirectory, filter);
 

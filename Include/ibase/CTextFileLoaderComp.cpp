@@ -94,7 +94,7 @@ int CTextFileLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 }
 
 
-bool CTextFileLoaderComp::GetFileExtensions(istd::CStringList& result, bool doAppend) const
+bool CTextFileLoaderComp::GetFileExtensions(istd::CStringList& result, int /*flags*/, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();
