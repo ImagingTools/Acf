@@ -21,7 +21,7 @@ class CReflectedBitmapBase: public istd::TCachedUpdateManagerWrap<iimg::CGeneral
 {
 public:
 	enum ChangeFlags{
-		CF_BLOCK_BITMAP_CONVERSION = 0x2000
+		CF_BLOCK_BITMAP_CONVERSION = 0x200000
 	};
 
 	// reimplemented (iqt::IQImageProvider)

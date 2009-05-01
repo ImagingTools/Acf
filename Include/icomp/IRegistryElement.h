@@ -33,7 +33,7 @@ public:
 		/**
 			Indicate that data model is changed.
 		*/
-		CF_ATTRIBUTE_CHANGED = 0x2000
+		CF_ATTRIBUTE_CHANGED = 0x8000
 	};
 
 	/**

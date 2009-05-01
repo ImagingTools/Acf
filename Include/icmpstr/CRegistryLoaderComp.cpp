@@ -70,7 +70,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 
 	const CRegistryModelComp* registryModelPtr = dynamic_cast<const CRegistryModelComp*>(&data);
 	if (registryModelPtr != NULL){
-		iser::CXmlFileWriteArchive registryArchive(filePath);
+		iser::CXmlFileWriteArchive registryArchive(filePath, GetVersionInfo());
 		I_ASSERT(registryArchive.IsStoring());
 
 		if (!const_cast<CRegistryModelComp*>(registryModelPtr)->SerializeRegistry(registryArchive)){
@@ -81,7 +81,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 			return StateFailed;
 		}
 
-		iser::CXmlFileWriteArchive layoutArchive(GetLayoutPath(filePath));
+		iser::CXmlFileWriteArchive layoutArchive(GetLayoutPath(filePath), GetVersionInfo());
 		I_ASSERT(layoutArchive.IsStoring());
 
 		if (!const_cast<CRegistryModelComp*>(registryModelPtr)->SerializeComponentsLayout(layoutArchive)){

@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          752
+          904
         </Number>
         <Description>
           ACF
@@ -251,22 +251,6 @@
         <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
-              QuickHelpViewer
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              QuickHelpViewer
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               PackagesManager
             </Id>
             <Type>
@@ -282,6 +266,22 @@
               <Value>
                 PackagesLoader
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              QuickHelpViewer
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              QuickHelpViewer
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -417,4 +417,10 @@
   </ExportedInterfaces>
   <ExportedComponents count="0">
   </ExportedComponents>
+  <Description>
+    
+  </Description>
+  <Keywords>
+    
+  </Keywords>
 </Acf>

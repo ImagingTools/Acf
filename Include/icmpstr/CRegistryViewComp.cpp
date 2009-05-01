@@ -417,6 +417,8 @@ void CRegistryViewComp::OnComponentPositionChanged(CComponentSceneItem* view, co
 
 void CRegistryViewComp::OnRemoveComponent()
 {
+	istd::CChangeNotifier notifier(this);
+
 	CRegistryView* viewPtr = GetQtWidget();
 	I_ASSERT(viewPtr != NULL);
 	if (viewPtr == NULL){
@@ -440,6 +442,8 @@ void CRegistryViewComp::OnRemoveComponent()
 
 void CRegistryViewComp::OnRenameComponent()
 {
+	istd::CChangeNotifier notifier(this);
+
 	CRegistryView* viewPtr = GetQtWidget();
 	I_ASSERT(viewPtr != NULL);
 	if (viewPtr == NULL){
@@ -559,6 +563,8 @@ void CRegistryViewComp::OnProperties()
 	dialog.KeywordsEdit->setText(iqt::GetQString(registryPtr->GetKeywords()));
 
 	if (dialog.exec() == QDialog::Accepted){
+		istd::CChangeNotifier notifier(registryPtr);
+
 		registryPtr->SetDescription(iqt::GetCString(dialog.DescriptionEdit->text()));
 		registryPtr->SetKeywords(iqt::GetCString(dialog.KeywordsEdit->text()));
 	}
