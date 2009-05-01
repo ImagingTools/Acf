@@ -74,7 +74,15 @@ CRegistryViewComp::CRegistryViewComp()
 bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& address, const i2d::CVector2d& position)
 {
 	bool retVal = false;
-	QString componentName = QInputDialog::getText(GetWidget(), tr("Application Compositor"), tr("Component name"), QLineEdit::Normal, "",&retVal);
+	
+	QString componentName = QInputDialog::getText(
+				GetWidget(), 
+				tr("Application Compositor"), 
+				tr("Component name"), 
+				QLineEdit::Normal, 
+				iqt::GetQString(address.GetComponentId()),
+				&retVal);
+	
 	if (retVal && !componentName.isEmpty()){
 		istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_COMPONENT_ADDED);
 		if (registryPtr.IsValid()){

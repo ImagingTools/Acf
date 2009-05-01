@@ -7,6 +7,8 @@
 #include <QApplication>
 #include <QHeaderView>
 #include <QItemDelegate>
+#include <QBitmap>
+#include <QPushButton>
 
 #include "istd/CString.h"
 
@@ -311,6 +313,39 @@ const icomp::IComponentStaticInfo* CPackageOverviewComp::GetItemStaticInfo(const
 }
 
 
+QPixmap CPackageOverviewComp::CreateComponentDragPixmap(const icomp::CComponentAddress &address) const
+{
+	QPushButton componentLabel(NULL);
+	componentLabel.setFlat(true);
+	QFont font = componentLabel.font();
+	font.setBold(true);
+	componentLabel.setFont(font);
+	componentLabel.setText(iqt::GetQString(address.GetPackageId()) + "." + iqt::GetQString(address.GetComponentId()));
+	componentLabel.setIcon(GetComponentIcon(address));
+	componentLabel.adjustSize();
+
+	QPixmap pixmap = QPixmap::grabWidget(&componentLabel);
+	pixmap.setMask(pixmap.createHeuristicMask());
+
+	return pixmap;
+}
+
+
+QIcon CPackageOverviewComp::GetComponentIcon(const icomp::CComponentAddress& componentAddress) const
+{
+	if (m_packagesManagerCompPtr.IsValid()){
+		istd::CString packageInfoPath = m_packagesManagerCompPtr->GetPackageDirPath(componentAddress.GetPackageId());
+		if (!packageInfoPath.IsEmpty()){
+			QDir packageDir(iqt::GetQString(packageInfoPath) + ".info");
+
+			return QIcon(packageDir.absoluteFilePath((componentAddress.GetComponentId() + ".small.png").c_str()));
+		}
+	}
+
+	return QIcon();
+}
+
+
 // reimplemented (QObject)
 
 bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
@@ -318,25 +353,26 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(eventObject);
 	I_ASSERT(sourceWidgetPtr != NULL);
 
+	QTreeWidget* treeWidgetPtr = NULL;
+	if (PackagesList->isVisibleTo(GetWidget())){
+		treeWidgetPtr = PackagesList;
+	}
+
+	if (KeywordsList->isVisibleTo(GetWidget())){
+		treeWidgetPtr = KeywordsList;
+	}
+
 	switch (event->type()){
 	case QEvent::MouseButtonPress:
 		{
 			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
 			I_ASSERT(mouseEvent != NULL);
 
-			if (mouseEvent->button() == Qt::LeftButton){
+			if (mouseEvent->button() == Qt::LeftButton && treeWidgetPtr != NULL){
 				PackageComponentItem* selectedItemPtr = NULL;
 
-				QModelIndex packagesModelIndex = PackagesList->indexAt(mouseEvent->pos());
-				QModelIndex keywordsModelIndex = KeywordsList->indexAt(mouseEvent->pos());
-
-				if (packagesModelIndex.isValid()){
-					selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(packagesModelIndex.internalPointer()));
-				}
-				
-				if ((selectedItemPtr == NULL) && keywordsModelIndex.isValid()){
-					selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(keywordsModelIndex.internalPointer()));
-				}
+				QModelIndex componentModelIndex = treeWidgetPtr->indexAt(mouseEvent->pos());
+				selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(componentModelIndex.internalPointer()));
 
 				if (selectedItemPtr != NULL){
 					QMimeData* mimeData = new QMimeData;
@@ -350,6 +386,8 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 
 						QDrag *drag = new QDrag(sourceWidgetPtr);
 						drag->setMimeData(mimeData);
+						drag->setPixmap(CreateComponentDragPixmap(address));
+						drag->setHotSpot(QPoint(drag->pixmap().width()/2, drag->pixmap().height()));
 						drag->start(Qt::MoveAction);
 					}
 				}

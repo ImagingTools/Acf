@@ -35,6 +35,18 @@ void CSampledFunction2d::Create(int width, int height, double defaultValue)
 }
 
 
+void CSampledFunction2d::Create(double* dataPtr, int width, int height)
+{
+	Create(width, height);
+
+	for (		SamplesContainer::Iterator index = m_samplesContainer.Begin();
+				index != m_samplesContainer.End();
+				index++){
+		*index = *dataPtr++;
+	}
+}
+
+
 void CSampledFunction2d::SetSampleValue(const ElementIndex& index, double value)
 {
 	I_IF_DEBUG(

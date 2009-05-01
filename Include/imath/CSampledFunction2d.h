@@ -21,6 +21,7 @@ public:
 
 	void Reset();
 	void Create(int width = -1, int height = -1, double defaultValue = 0);
+	void Create(double* dataPtr, int width, int height);
 	void SetSampleValue(const ElementIndex& index, double value);
 	
 	// reimplemented (ISampledFunction2d)

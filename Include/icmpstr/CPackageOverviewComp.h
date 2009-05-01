@@ -73,6 +73,16 @@ protected:
 
 	const icomp::IComponentStaticInfo* GetItemStaticInfo(const QTreeWidgetItem& item) const;
 
+	/**
+		Create the drag preview for the component.
+	*/
+	QPixmap CreateComponentDragPixmap(const icomp::CComponentAddress &address) const;
+
+	/**
+		Get icon for a given component.
+	*/
+	QIcon GetComponentIcon(const icomp::CComponentAddress& componentAddress)const;
+
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* eventObject, QEvent* event);
 
