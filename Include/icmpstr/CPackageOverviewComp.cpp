@@ -9,7 +9,10 @@
 #include <QItemDelegate>
 #include <QBitmap>
 #include <QPushButton>
+#include <QPainter>
 
+
+// ACF includes
 #include "istd/CString.h"
 
 #include "iser/CMemoryReadArchive.h"
@@ -319,13 +322,24 @@ QPixmap CPackageOverviewComp::CreateComponentDragPixmap(const icomp::CComponentA
 	componentLabel.setFlat(true);
 	QFont font = componentLabel.font();
 	font.setBold(true);
+	font.setPointSize(12);
 	componentLabel.setFont(font);
-	componentLabel.setText(iqt::GetQString(address.GetPackageId()) + "." + iqt::GetQString(address.GetComponentId()));
+	componentLabel.setText(iqt::GetQString(address.GetPackageId()) + "/" + iqt::GetQString(address.GetComponentId()));
+	componentLabel.setIconSize(QSize(64, 64));
 	componentLabel.setIcon(GetComponentIcon(address));
 	componentLabel.adjustSize();
 
 	QPixmap pixmap = QPixmap::grabWidget(&componentLabel);
-	pixmap.setMask(pixmap.createHeuristicMask());
+	QPalette palette = componentLabel.palette();
+
+	pixmap.setMask(pixmap.createMaskFromColor(palette.color(QPalette::Window), Qt::MaskInColor));
+	
+	QPainter painter(&pixmap);
+	painter.setPen(Qt::DashDotLine);
+	QRectF mainRect = pixmap.rect();
+	mainRect.adjust(0, 0, -1, -1);
+	painter.drawRect(mainRect);
+	painter.end();
 
 	return pixmap;
 }
