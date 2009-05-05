@@ -315,6 +315,8 @@ bool CSingleDocumentManagerBase::OpenDocument(
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*m_documentPtr, filePath) == iser::IFileLoader::StateOk)){
 				m_filePath = filePath;
+				documentNotifier.Reset();
+
 				m_isDirty = false;
 
 				return true;

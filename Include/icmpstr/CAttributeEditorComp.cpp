@@ -916,9 +916,6 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 		return;
 	}
 
-	IElementSelectionInfo* selectionInfoPtr = m_parent.GetObjectPtr();
-	I_ASSERT(selectionInfoPtr != NULL);
-
 	QComboBox* comboEditor = dynamic_cast<QComboBox*>(editor);
 
 	// set single reference data
