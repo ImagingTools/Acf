@@ -5,7 +5,6 @@
 #include "iser/CArchiveTag.h"
 
 #include "icomp/IComponentStaticInfo.h"
-#include "icomp/CRegistryElement.h"
 
 #include "istd/TChangeNotifier.h"
 
@@ -63,20 +62,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		return NULL;
 	}
 
-	istd::TDelPtr<IRegistryElement> registryPtr;
-
-	if (m_componentsFactoryPtr != NULL){
-		const IComponentStaticInfo* packageInfoPtr = m_componentsFactoryPtr->GetSubcomponentInfo(address.GetPackageId());
-		if (packageInfoPtr != NULL){
-			const IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
-			if (componentInfoPtr != NULL){
-				icomp::CRegistryElement* registryElementPtr = new CRegistryElement(componentInfoPtr);
-				registryElementPtr->SetSlavePtr(this);
-
-				registryPtr.SetPtr(registryElementPtr);
-			}
-		}
-	}
+	istd::TDelPtr<IRegistryElement> registryPtr(CreateRegistryElement(address));
 
 	if (ensureElementCreated && !registryPtr.IsValid()){
 		return NULL;
@@ -269,6 +255,28 @@ I_DWORD CRegistry::GetMinimalVersion(int versionId) const
 
 
 // protected methods
+
+icomp::IRegistryElement* CRegistry::CreateRegistryElement(const icomp::CComponentAddress& address) const
+{
+	if (m_componentsFactoryPtr != NULL){
+		const IComponentStaticInfo* packageInfoPtr = m_componentsFactoryPtr->GetSubcomponentInfo(address.GetPackageId());
+		if (packageInfoPtr != NULL){
+			const IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
+			if (componentInfoPtr != NULL){
+				Element* registryElementPtr = new Element;
+				if (registryElementPtr != NULL){
+					registryElementPtr->Initialize(componentInfoPtr);
+					registryElementPtr->SetSlavePtr(const_cast<CRegistry*>(this));
+
+					return registryElementPtr;
+				}
+			}
+		}
+	}
+
+	return NULL;
+}
+
 
 bool CRegistry::SerializeComponents(iser::IArchive& archive)
 {

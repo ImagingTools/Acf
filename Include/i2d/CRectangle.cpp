@@ -278,17 +278,17 @@ const CRectangle& CRectangle::operator=(const CRectangle& rect)
 }
 
 
+CRectangle CRectangle::GetBoundingBox() const
+{
+	return *this;
+}
+
+
 // reimplemented (IObject2d)
 
 CVector2d CRectangle::GetCenter() const
 {
 	return (GetTopLeft() + GetBottomRight()) * 0.5;
-}
-
-
-CRectangle CRectangle::GetBoundingBox() const
-{
-	return *this;
 }
 
 

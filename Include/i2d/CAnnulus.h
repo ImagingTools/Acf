@@ -30,7 +30,6 @@ public:
 	CCircle GetInnerCircle() const;
 	CCircle GetOuterCircle() const;
 
-	// reimplemented (i2d::IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 
 	// reimplemented (iser::ISerializable)

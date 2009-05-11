@@ -27,7 +27,6 @@ public:
 	double GetEndAngle() const;
 	void SetEndAngle(double angle);
 
-	// reimplemented (i2d::IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 
 	// reimplemented (iser::ISerializable)

@@ -12,8 +12,8 @@ namespace icomp
 
 
 CSimComponentContextBase::CSimComponentContextBase(const IComponentStaticInfo* infoPtr)
-:	m_registryElement(infoPtr)
 {
+	m_registryElement.Initialize(infoPtr);
 }
 
 

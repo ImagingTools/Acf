@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CGeometricalRegistryElement.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CNote.cpp"
 				>
 			</File>
@@ -251,6 +255,10 @@
 			</File>
 			<File
 				RelativePath="..\CComponentSceneItem.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CGeometricalRegistryElement.h"
 				>
 			</File>
 			<File

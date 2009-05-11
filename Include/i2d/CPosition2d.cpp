@@ -43,16 +43,6 @@ CVector2d CPosition2d::GetCenter() const
 }
 
 
-CRectangle CPosition2d::GetBoundingBox() const
-{
-	return CRectangle(
-				m_center.GetX(), 
-				m_center.GetY(), 
-				m_center.GetX(), 
-				m_center.GetY()); 
-}
-
-
 void CPosition2d::MoveTo(const CVector2d& position)
 {
 	SetCenter(position);

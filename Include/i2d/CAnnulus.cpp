@@ -76,8 +76,6 @@ CCircle CAnnulus::GetOuterCircle() const
 }
 
 
-// reimplemented (i2d::IObject2d)
-
 CRectangle CAnnulus::GetBoundingBox() const
 {
 	double outerRadius = m_radiusRange.GetMaxValue();

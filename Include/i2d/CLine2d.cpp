@@ -203,14 +203,6 @@ CLine2d CLine2d::GetClipped(const CRectangle& rect) const
 }
 
 
-// reimplemented (IObject2d)
-
-CVector2d CLine2d::GetCenter() const
-{
-	return GetBoundingBox().GetCenter();
-}
-
-
 CRectangle CLine2d::GetBoundingBox() const
 {
 	double left = istd::Min(m_point1.GetX(), m_point2.GetX());
@@ -219,6 +211,14 @@ CRectangle CLine2d::GetBoundingBox() const
 	double bottom = istd::Max(m_point1.GetY(), m_point2.GetY());
 
 	return CRectangle(left, top, right - left, bottom - top);
+}
+
+
+// reimplemented (IObject2d)
+
+CVector2d CLine2d::GetCenter() const
+{
+	return GetBoundingBox().GetCenter();
 }
 
 

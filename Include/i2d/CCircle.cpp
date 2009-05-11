@@ -35,8 +35,6 @@ void CCircle::SetRadius(double radius)
 }
 
 
-// reimplemented (IObject2d)
-
 CRectangle CCircle::GetBoundingBox() const
 {
 	return CRectangle(

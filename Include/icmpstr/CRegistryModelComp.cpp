@@ -261,6 +261,31 @@ bool CRegistryModelComp::SerializeNote(iser::IArchive& archive, std::string& /*c
 }
 
 
+// reimplemented (icomp::CRegistry)
+
+icomp::IRegistryElement* CRegistryModelComp::CreateRegistryElement(const icomp::CComponentAddress& address) const
+{
+	const icomp::IComponentStaticInfo* componentsFactoryPtr = GetComponentStaticInfo();
+	if (componentsFactoryPtr != NULL){
+		const icomp::IComponentStaticInfo* packageInfoPtr = componentsFactoryPtr->GetSubcomponentInfo(address.GetPackageId());
+		if (packageInfoPtr != NULL){
+			const icomp::IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
+			if (componentInfoPtr != NULL){
+				Element* registryElementPtr = new Element;
+				if (registryElementPtr != NULL){
+					registryElementPtr->Initialize(componentInfoPtr, address);
+					registryElementPtr->SetSlavePtr(const_cast<CRegistryModelComp*>(this));
+
+					return registryElementPtr;
+				}
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
 } // namespace icmpstr
 
 

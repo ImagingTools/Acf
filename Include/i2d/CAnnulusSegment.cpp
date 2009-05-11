@@ -62,8 +62,6 @@ void CAnnulusSegment::SetEndAngle(double angle)
 }
 
 
-// reimplemented (i2d::IObject2d)
-
 CRectangle CAnnulusSegment::GetBoundingBox() const
 {
 	return BaseClass::GetBoundingBox();	// TODO: implement more exact bounding box of annulus segment

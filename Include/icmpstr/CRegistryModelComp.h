@@ -9,6 +9,7 @@
 #include "ibase/TLoggerCompWrap.h"
 
 #include "icmpstr/IRegistryEditController.h"
+#include "icmpstr/CGeometricalRegistryElement.h"
 
 
 namespace icmpstr
@@ -71,8 +72,13 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
+	typedef imod::TModelWrap<istd::TChangeDelegator<CGeometricalRegistryElement> > Element;
+
 	bool SerializeComponentPosition(iser::IArchive& archive, std::string& componentName, i2d::CVector2d& position);
 	bool SerializeNote(iser::IArchive& archive, std::string& componentName, istd::CString& note);
+
+	// reimplemented (icomp::CRegistry)
+	virtual icomp::IRegistryElement* CreateRegistryElement(const icomp::CComponentAddress& address) const;
 
 private:
 	I_REF(icomp::IComponentStaticInfo, m_staticInfoCompPtr);

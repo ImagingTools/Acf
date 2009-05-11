@@ -14,10 +14,17 @@ namespace icomp
 {
 
 
-CRegistryElement::CRegistryElement(const IComponentStaticInfo* infoPtr)
-:	m_staticInfo(*infoPtr)
+CRegistryElement::CRegistryElement()
+:	m_staticInfoPtr(NULL)
+{
+}
+
+
+void CRegistryElement::Initialize(const IComponentStaticInfo* infoPtr)
 {
 	I_ASSERT(infoPtr != NULL);
+
+	m_staticInfoPtr = infoPtr;
 }
 
 
@@ -83,7 +90,9 @@ bool CRegistryElement::RemoveAttribute(const std::string& attributeId)
 
 const IComponentStaticInfo& CRegistryElement::GetComponentStaticInfo() const
 {
-	return m_staticInfo;
+	I_ASSERT(m_staticInfoPtr != NULL);
+
+	return *m_staticInfoPtr;
 }
 
 
@@ -245,7 +254,9 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 
 const IAttributeStaticInfo* CRegistryElement::GetAttributeStaticInfo(const std::string& attributeId) const
 {
-	const IComponentStaticInfo::AttributeInfos& infos = m_staticInfo.GetAttributeInfos();
+	I_ASSERT(m_staticInfoPtr != NULL);
+
+	const IComponentStaticInfo::AttributeInfos& infos = m_staticInfoPtr->GetAttributeInfos();
 
 	int attributeIndex = infos.FindIndex(attributeId);
 

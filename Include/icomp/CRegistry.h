@@ -2,7 +2,12 @@
 #define icomp_CRegistry_included
 
 
+#include "istd/TChangeDelegator.h"
+
+#include "imod/TModelWrap.h"
+
 #include "icomp/IRegistry.h"
+#include "icomp/CRegistryElement.h"
 
 
 namespace icomp
@@ -65,6 +70,9 @@ public:
 	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
 
 protected:
+	typedef imod::TModelWrap<istd::TChangeDelegator<CRegistryElement> > Element;
+
+	virtual icomp::IRegistryElement* CreateRegistryElement(const icomp::CComponentAddress& address) const;
 	virtual bool SerializeComponents(iser::IArchive& archive);
 	virtual bool SerializeExportedInterfaces(iser::IArchive& archive);
 	virtual bool SerializeExportedComponents(iser::IArchive& archive);

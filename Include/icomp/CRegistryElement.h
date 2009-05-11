@@ -5,11 +5,7 @@
 #include <map>
 #include <string>
 
-#include "istd/TChangeDelegator.h"
-
 #include "icomp/IRegistryElement.h"
-
-#include "imod/TModelWrap.h"
 
 
 namespace icomp
@@ -19,14 +15,20 @@ namespace icomp
 class IAttributeStaticInfo;
 
 
-class CRegistryElement: public imod::TModelWrap<istd::TChangeDelegator<IRegistryElement> >
+class CRegistryElement: virtual public IRegistryElement
 {
 public:
 	/**
-		Create this component registry info and initialize it with static info.
+		Create this component registry.
+		This registry must be initilize using method Initialize().
+	*/
+	CRegistryElement();
+
+	/**
+		Initialize registry with static info.
 		\param	infoPtr		pointer to static info object. It cannot be NULL.
 	*/
-	CRegistryElement(const IComponentStaticInfo* infoPtr);
+	void Initialize(const IComponentStaticInfo* infoPtr);
 
 	virtual AttributeInfo* GetAttributeInfo(const std::string& attributeId);
 
@@ -45,7 +47,7 @@ protected:
 	virtual const IAttributeStaticInfo* GetAttributeStaticInfo(const std::string& attributeId) const;
 
 private:
-	const IComponentStaticInfo& m_staticInfo;
+	const IComponentStaticInfo* m_staticInfoPtr;
 
 	typedef std::map< std::string, AttributeInfo> AttributeInfoMap;
 	AttributeInfoMap m_attributeInfos;

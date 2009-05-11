@@ -20,7 +20,6 @@ public:
 	double GetRadius() const;
 	void SetRadius(double radius);
 
-	// reimplemented (IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 
 	// reimplemented (iser::ISerializable)
