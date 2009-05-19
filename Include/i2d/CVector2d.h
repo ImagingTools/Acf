@@ -78,7 +78,7 @@ public:
 	/**
 		Return normalized vector with the same direction and specified length.
 	 */
-	CVector2d GetNormalized(double length) const;
+	CVector2d GetNormalized(double length = 1.0) const;
 
 	CVector2d operator-() const;
 

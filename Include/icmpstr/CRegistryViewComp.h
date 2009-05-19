@@ -17,6 +17,7 @@
 
 #include "idoc/ICommandsProvider.h"
 #include "idoc/IHelpViewer.h"
+#include "idoc/IMainWindowCommands.h"
 
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/TGuiObserverWrap.h"
@@ -52,6 +53,7 @@ public:
 		I_ASSIGN(m_registryPreviewCompPtr, "RegistryPreview", "Executes preview of the registry", false, "RegistryPreview");
 		I_ASSIGN(m_packagesManagerCompPtr, "PackagesManager", "Packages manager used to provide icon paths", true, "PackagesManager");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
+		I_ASSIGN(m_mainWindowCompPtr, "MainWindow", "Access to main window command", false, "MainWindow");
 	I_END_COMPONENT;
 
 	CRegistryViewComp();
@@ -116,6 +118,7 @@ private:
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
 	I_REF(icomp::IRegistriesManager, m_packagesManagerCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
+	I_REF(idoc::IMainWindowCommands, m_mainWindowCompPtr);
 
 	iqtgui::CHierarchicalCommand m_registryCommand;
 	iqtgui::CHierarchicalCommand m_registryMenu;

@@ -15,6 +15,8 @@
 
 #include "icomp/IRegistriesManager.h"
 
+#include "idoc/IMainWindowCommands.h"
+
 #include "icmpstr/CComponentSceneItem.h"
 
 
@@ -32,17 +34,21 @@ public:
 
 	CRegistryView(QWidget* parent = NULL);
 
-	void CreateConnector(CComponentSceneItem& sourceView, const std::string& referenceComponentId, bool isFactory = false);
+	void CreateConnector(
+				CComponentSceneItem& sourceView,
+				const std::string& referenceComponentId,
+				const std::string& attributeId,
+				bool isFactory = false);
 
 	CComponentSceneItem* CreateComponentView(
 				icomp::IRegistry* registryPtr,
 				const icomp::IRegistry::ElementInfo* elementInfoPtr,
 				const std::string& role);
 
-	static double GetGrid();
-
 	CComponentSceneItem* GetSelectedComponent() const;
 	void SetSelectedComponent(CComponentSceneItem* selectedComponentPtr);
+
+	const icomp::IRegistriesManager* GetPackagesManager() const;
 
 	void RemoveSelectedComponent();
 	void RemoveAllConnectors();
@@ -56,7 +62,12 @@ public:
 	void ScaleView(double scaleFactor);
 	QIcon GetIcon(const icomp::CComponentAddress& address) const;
 
-	void Init(const icomp::IRegistriesManager* managerPtr, icomp::IRegistry* registryPtr);
+	void Init(const icomp::IRegistriesManager* managerPtr, icomp::IRegistry* registryPtr, idoc::IMainWindowCommands* commandsPtr);
+
+	virtual idoc::IMainWindowCommands* GetMainWindowCommands() const;
+
+	// static methods
+	static double GetGrid();
 
 signals:
 	void DropDataEventEntered(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
@@ -103,12 +114,21 @@ private:
 	CComponentSceneItem* m_selectedComponentPtr;
 	icomp::IRegistry* m_registryPtr;
 	const icomp::IRegistriesManager* m_packagesManagerPtr;
+	idoc::IMainWindowCommands* m_mainWindowCommandsPtr;
 
 	istd::CChangeNotifier m_mousePressingNotifier;
 };
 
 
 // inline methods
+
+inline const icomp::IRegistriesManager* CRegistryView::GetPackagesManager() const
+{
+	return m_packagesManagerPtr;
+}
+
+
+// static methods
 
 inline double CRegistryView::GetGrid()
 {

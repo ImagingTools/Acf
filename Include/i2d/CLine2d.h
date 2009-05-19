@@ -73,16 +73,39 @@ public:
 	bool IsParalell(const CLine2d& inLine) const;
 
 	/**
-		Check if two lines has intersection.
-		\param	line			second line.
-		\param	intersectionPtr	optional object will be set to intersection pointer.
+		Check if two lines intersect.
+		\param	line	second line.
+		\return	true, if this line has common point.
 	*/
-	bool IsIntersectedBy(const CLine2d& line, CVector2d* intersectionPtr = NULL) const;
+	bool IsIntersectedBy(const CLine2d& line) const;
 
 	/**
 		Get intersecition position of two lines.
+		\param	line	second line.
+		\param	result	object will be set to intersection point.
+		\return	true if lines intersects and intersection could be calculated.
 	*/
-	CVector2d GetIntersection(const CLine2d& inLine) const;
+	bool GetIntersection(const CLine2d& line, CVector2d& result) const;
+
+	/**
+		Get intersecition position of extended lines.
+		As extended line are mean mathematical lines going over specified line points.
+		\param	line	second line.
+		\param	result	object will be set to intersection point.
+		\return	true if extended intersection could be calculated.
+	*/
+	bool GetExtendedIntersection(const CLine2d& line, CVector2d& result) const;
+
+	/**
+		Get distance from nearest point of this line to specified position.
+	*/
+	double GetDistance(const CVector2d& position) const;
+
+	/**
+		Get distance from nearest point of extended line to specified position.
+		As extended line are mean mathematical lines going over specified line points.
+	*/
+	double GetExtendedDistance(const CVector2d& position) const;
 
 	/**
 		Get position of point using normed 'alpha' value.

@@ -6,6 +6,7 @@
 
 // Qt includes
 #include <QPainter>
+#include <QPainterPath>
 
 #include "i2d/CVector2d.h"
 
@@ -197,9 +198,26 @@ int CComponentConnector::type() const
 QPainterPath CComponentConnector::shape() const
 {
 	QPainterPath path;
-	path.addRect(boundingRect());
+	path.addPolygon(m_connectionLine);
 
 	return path;
+}
+
+
+bool CComponentConnector::contains(const QPointF& point) const
+{
+	i2d::CVector2d position = iqt::GetCVector2d(point);
+	int nodesCount = m_connectionLine.count();
+	for (int i = 1; i < nodesCount; ++i){
+		i2d::CLine2d segment(iqt::GetCVector2d(m_connectionLine.at(i - 1)), iqt::GetCVector2d(m_connectionLine.at(i)));
+
+		if (segment.GetDistance(position) < 2){
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 
@@ -244,6 +262,12 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
 	QColor referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? Qt::darkYellow: Qt::darkBlue;
 	double referencePenWidth = 0;
+	double interfacePenWidth = 0;
+
+	if (isSelected()){
+		referencePenWidth = 2;
+		interfacePenWidth = 2;
+	}
 
 	if (m_sourceComponent->isSelected()){
 		referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
@@ -260,7 +284,6 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	painter->drawArc(circleRect2, (degree + 45) * 16, 270 * 16);
 
 	QColor interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? Qt::darkYellow: Qt::darkBlue;
-	double interfacePenWidth = 0;
 
 	if (m_destComponent->isSelected()){
 		interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
@@ -284,26 +307,32 @@ void CComponentConnector::paint(QPainter *painter, const QStyleOptionGraphicsIte
 	painter->restore();
 }
 
-
+/*
 void CComponentConnector::hoverEnterEvent(QGraphicsSceneHoverEvent* eventPtr)
 {
-	setSelected(true);
-	
-	update();
-
-	BaseClass::hoverEnterEvent(eventPtr);
+	if (contains(eventPtr->pos())){
+		setZValue(0.5);
+		setSelected(true);
+		
+		update();
+		
+		BaseClass::hoverEnterEvent(eventPtr);
+	}
 }
 
 
 void CComponentConnector::hoverLeaveEvent(QGraphicsSceneHoverEvent* eventPtr)
 {
-	setSelected(false);
+	if (isSelected()){
+		setZValue(1);
+		setSelected(false);
 
-	update();
+		update();
 
-	BaseClass::hoverLeaveEvent(eventPtr);
+		BaseClass::hoverLeaveEvent(eventPtr);
+	}
 }
-
+*/
 
 } // namespace icmpstr
 

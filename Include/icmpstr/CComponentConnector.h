@@ -51,13 +51,14 @@ public:
 	// reimplemented (QGraphicsItem)
     virtual int type() const;
 	virtual QPainterPath shape() const;
+	virtual bool contains(const QPointF& point) const;
     
 protected:
 	// reimplemented (QGraphicsItem)
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+//    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+//	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
 	const CRegistryView& m_registryView;

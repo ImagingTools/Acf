@@ -1,41 +1,30 @@
-#ifndef idoc_CDocumentManagerBase_included
-#define idoc_CDocumentManagerBase_included
+#ifndef idoc_CSingleDocumentManagerBase_included
+#define idoc_CSingleDocumentManagerBase_included
 
 
 // STL includes
-#include <set>
-#include <map>
-#include <list>
+#include <string>
 
-#include "istd/TIFactory.h"
-#include "istd/TPointerVector.h"
 #include "istd/TDelPtr.h"
+#include "istd/CString.h"
 
 #include "iser/IArchive.h"
 
 #include "imod/CSingleModelObserverBase.h"
 
-#include "idoc/IDocumentManager.h"
+#include "idoc/CDocumentManagerBase.h"
 
 
 namespace idoc
 {
 
 
-class IDocumentTemplate;
-
-
 class CSingleDocumentManagerBase:
-			virtual public idoc::IDocumentManager,
+			public idoc::CDocumentManagerBase,
 			protected imod::CSingleModelObserverBase
 {
 public:
-	CSingleDocumentManagerBase();
-
-	void SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr);
-
 	// reimplemented (idoc::IDocumentManager)
-	virtual const idoc::IDocumentTemplate* GetDocumentTemplate() const;
 	virtual imod::IUndoManager* GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const;
 	virtual int GetDocumentsCount() const;
 	virtual istd::IChangeable& GetDocumentFromIndex(int index, DocumentInfo* documentInfoPtr) const;
@@ -113,8 +102,6 @@ protected:
 	virtual void QueryDocumentClose(bool* ignoredPtr) = 0;
 
 private:
-	const IDocumentTemplate* m_documentTemplatePtr;
-
 	istd::CString m_filePath;
 	std::string m_documentTypeId;
 	std::string m_viewTypeId;
@@ -129,6 +116,6 @@ private:
 } // namespace idoc
 
 
-#endif // idoc_CDocumentManagerBase_included
+#endif // idoc_CSingleDocumentManagerBase_included
 
 

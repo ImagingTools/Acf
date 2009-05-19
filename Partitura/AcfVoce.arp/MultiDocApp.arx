@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          895
+          887
         </Number>
         <Description>
           ACF
@@ -378,7 +378,7 @@
               icomp::CMultiReferenceAttribute
             </Type>
             <ExportId>
-              MainWindowCopoments
+              MainWindowComponents
             </ExportId>
             <Data>
               <IsEnabled>
@@ -692,21 +692,13 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="6">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
         ibase::IApplication
       </InterfaceId>
       <ComponentId>
         App
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        idoc::ICommandsProvider
-      </InterfaceId>
-      <ComponentId>
-        Workspace
       </ComponentId>
     </Interface>
     <Interface>
@@ -719,15 +711,15 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        imod::IModel
+        idoc::IMainWindowCommands
       </InterfaceId>
       <ComponentId>
-        Workspace
+        MainGui
       </ComponentId>
     </Interface>
     <Interface>
       <InterfaceId>
-        iqtgui::IGuiObject
+        imod::IModel
       </InterfaceId>
       <ComponentId>
         Workspace

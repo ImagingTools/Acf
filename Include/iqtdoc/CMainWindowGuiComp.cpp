@@ -190,6 +190,33 @@ bool CMainWindowGuiComp::OnDetached(imod::IModel* modelPtr)
 }
 
 
+
+// reimplemented (idoc::IMainWindowCommands)
+
+bool CMainWindowGuiComp::OpenFile(const istd::CString& fileName)
+{
+	bool retVal = false;
+
+	if (m_documentManagerCompPtr.IsValid()){
+		idoc::IDocumentManager::FileToTypeMap fileMap;
+
+		retVal = m_documentManagerCompPtr->FileOpen(NULL, &fileName, true, "", &fileMap);
+		if (retVal){
+			UpdateRecentFileList(fileMap);
+		}
+		else{
+			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
+
+			RemoveFromRecentFileList(istd::CString(fileName));
+		}
+
+		UpdateMenuActions();
+	}
+
+	return retVal;
+}
+
+
 // protected methods
 
 void CMainWindowGuiComp::OnActiveViewChanged()
@@ -252,7 +279,7 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 					idoc::IDocumentTemplate::Ids availableDocumentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
 					if (!availableDocumentIds.empty()){
 
-						OnOpenFile(filePath);
+						OpenFile(filePath);
 					}
 				}
 			}
@@ -787,25 +814,6 @@ void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
 			return;
 		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnOpenFile(const istd::CString& fileName)
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		idoc::IDocumentManager::FileToTypeMap fileMap;
-
-		if (m_documentManagerCompPtr->FileOpen(NULL, &fileName, true, "", &fileMap)){
-			UpdateRecentFileList(fileMap);
-		}
-		else{
-			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
-
-			RemoveFromRecentFileList(istd::CString(fileName));
-		}
-
-		UpdateMenuActions();
 	}
 }
 

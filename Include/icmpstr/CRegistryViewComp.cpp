@@ -680,7 +680,7 @@ void CRegistryViewComp::UpdateConnectors()
 				if (referenceAttributePtr != NULL){		
 					const std::string& componentId = referenceAttributePtr->GetValue();
 				
-					viewPtr->CreateConnector(*componentItemPtr, componentId);
+					viewPtr->CreateConnector(*componentItemPtr, componentId, attributeId);
 				}
 	
 				const icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<icomp::CMultiReferenceAttribute*>(attributePtr);
@@ -688,7 +688,7 @@ void CRegistryViewComp::UpdateConnectors()
 					for (int referenceIndex = 0; referenceIndex < multiReferenceAttributePtr->GetValuesCount(); referenceIndex++){
 						const std::string& componentId = multiReferenceAttributePtr->GetValueAt(referenceIndex);
 						
-						viewPtr->CreateConnector(*componentItemPtr, componentId);
+						viewPtr->CreateConnector(*componentItemPtr, componentId, attributeId);
 					}
 				}
 
@@ -696,7 +696,7 @@ void CRegistryViewComp::UpdateConnectors()
 				if (factoryAttributePtr != NULL){		
 					const std::string& componentId = factoryAttributePtr->GetValue();
 				
-					viewPtr->CreateConnector(*componentItemPtr, componentId, true);
+					viewPtr->CreateConnector(*componentItemPtr, componentId, attributeId, true);
 				}
 	
 				const icomp::CMultiFactoryAttribute* multiFactoryAttributePtr = dynamic_cast<icomp::CMultiFactoryAttribute*>(attributePtr);
@@ -704,7 +704,7 @@ void CRegistryViewComp::UpdateConnectors()
 					for (int referenceIndex = 0; referenceIndex < multiFactoryAttributePtr->GetValuesCount(); referenceIndex++){
 						const std::string& componentId = multiFactoryAttributePtr->GetValueAt(referenceIndex);
 						
-						viewPtr->CreateConnector(*componentItemPtr, componentId, true);
+						viewPtr->CreateConnector(*componentItemPtr, componentId, attributeId, true);
 					}
 				}
 			}
@@ -752,7 +752,7 @@ void CRegistryViewComp::OnGuiModelAttached()
 				this,
 				SLOT(ProcessDroppedData(const QMimeData&, QGraphicsSceneDragDropEvent*)));
 
-	viewPtr->Init(m_packagesManagerCompPtr.GetPtr(), registryPtr);
+	viewPtr->Init(m_packagesManagerCompPtr.GetPtr(), registryPtr, m_mainWindowCompPtr.GetPtr());
 }
 
 
@@ -761,7 +761,7 @@ void CRegistryViewComp::OnGuiModelDetached()
 	CRegistryView* viewPtr = GetQtWidget();
 	I_ASSERT(viewPtr != NULL);
 
-	viewPtr->Init(NULL, NULL);
+	viewPtr->Init(NULL, NULL, NULL);
 
 	BaseClass::OnGuiModelDetached();
 }

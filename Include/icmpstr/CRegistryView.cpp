@@ -41,7 +41,11 @@ CRegistryView::CRegistryView(QWidget* parent/* = NULL*/)
 }
 
 
-void CRegistryView::CreateConnector(CComponentSceneItem& sourceView, const std::string& referenceComponentId, bool isFactory)
+void CRegistryView::CreateConnector(
+			CComponentSceneItem& sourceView,
+			const std::string& referenceComponentId,
+			const std::string& attributeId,
+			bool isFactory)
 {
 	std::string baseId;
 	std::string subId;
@@ -65,6 +69,10 @@ void CRegistryView::CreateConnector(CComponentSceneItem& sourceView, const std::
 						referenceViewPtr, 
 						connectFlags,
 						&m_compositeItem);
+
+			connector->setToolTip(isFactory?
+						tr("Factory of '%1'").arg(attributeId.c_str()):
+						tr("Reference of '%1'").arg(attributeId.c_str()));
 
 			connector->Adjust();
 		}
@@ -242,12 +250,19 @@ QIcon CRegistryView::GetIcon(const icomp::CComponentAddress& address) const
 }
 
 
-void CRegistryView::Init(const icomp::IRegistriesManager* managerPtr, icomp::IRegistry* registryPtr)
+void CRegistryView::Init(const icomp::IRegistriesManager* managerPtr, icomp::IRegistry* registryPtr, idoc::IMainWindowCommands* commandsPtr)
 {
 	m_mousePressingNotifier.Reset();
 
 	m_registryPtr = registryPtr;
 	m_packagesManagerPtr = managerPtr;
+	m_mainWindowCommandsPtr = commandsPtr;
+}
+
+
+idoc::IMainWindowCommands* CRegistryView::GetMainWindowCommands() const
+{
+	return m_mainWindowCommandsPtr;
 }
 
 

@@ -102,36 +102,105 @@ double CLine2d::GetIntercept() const
 
 bool CLine2d::IsParalell(const CLine2d& line) const
 {
-	return !IsIntersectedBy(line, false);
+	CVector2d diff = GetDiffVector();
+	CVector2d lineDiff = line.GetDiffVector();
+
+	double scale = fabs(diff.GetCrossProductZ(lineDiff));
+
+	return (fabs(scale) < I_EPSILON);
 }
 
 
-bool CLine2d::IsIntersectedBy(const CLine2d& line, CVector2d* intersectionPtr) const
+bool CLine2d::IsIntersectedBy(const CLine2d& line) const
 {
-	CVector2d a = m_point2 - m_point1;
-	CVector2d b = line.m_point2 - line.m_point1;
-	CVector2d c = line.m_point1 - m_point1;
+	CVector2d diff = GetDiffVector();
 
-	double scale = fabs(a.GetCrossProductZ(b));
-	if (fabs(scale) < I_EPSILON){
-		return false;
+	if ((diff.GetDotProduct(line.m_point1 - m_point1) > 0) == (diff.GetDotProduct(line.m_point2 - m_point1) > 0)){
+		return false;	// both points of second line lie on the same side of the first one
 	}
 
-	if (intersectionPtr != NULL){
-		*intersectionPtr =  m_point1 + a * ((c.GetCrossProductZ(b) * a.GetCrossProductZ(b)) / (scale * scale));
+	CVector2d lineDiff = line.GetDiffVector();
+
+	if ((lineDiff.GetDotProduct(m_point1 - line.m_point1) > 0) == (lineDiff.GetDotProduct(m_point2 - line.m_point1) > 0)){
+		return false;	// both points of first line lie on the same side of the second one
 	}
 
 	return true;
 }
 
 
-CVector2d CLine2d::GetIntersection(const CLine2d& line) const
+bool CLine2d::GetIntersection(const CLine2d& line, CVector2d& result) const
 {
-	CVector2d intersectionPoint;
+	CVector2d diff = GetDiffVector();
 
-	IsIntersectedBy(line, &intersectionPoint);
+	if ((diff.GetDotProduct(line.m_point1 - m_point1) > 0) == (diff.GetDotProduct(line.m_point2 - m_point1) > 0)){
+		return false;	// both points of second line lie on the same side of the first one
+	}
 
-	return intersectionPoint;
+	CVector2d lineDiff = line.GetDiffVector();
+
+	if ((lineDiff.GetDotProduct(m_point1 - line.m_point1) > 0) == (lineDiff.GetDotProduct(m_point2 - line.m_point1) > 0)){
+		return false;	// both points of first line lie on the same side of the second one
+	}
+
+	double scale = fabs(diff.GetCrossProductZ(lineDiff));
+	if (fabs(scale) > I_EPSILON){
+		CVector2d point1Diff = line.m_point1 - m_point1;
+
+		result = m_point1 + diff * ((point1Diff.GetCrossProductZ(lineDiff) * diff.GetCrossProductZ(lineDiff)) / (scale * scale));
+	}
+	else{
+		result = (m_point1 + m_point2 + line.m_point1 + line.m_point2) * 0.25;
+	}
+
+	return true;
+}
+
+
+bool CLine2d::GetExtendedIntersection(const CLine2d& line, CVector2d& result) const
+{
+	CVector2d diff = GetDiffVector();
+	CVector2d lineDiff = line.GetDiffVector();
+
+	double scale = fabs(diff.GetCrossProductZ(lineDiff));
+	if (fabs(scale) < I_EPSILON){
+		return false;
+	}
+
+	CVector2d point1Diff = line.m_point1 - m_point1;
+
+	result = m_point1 + diff * ((point1Diff.GetCrossProductZ(lineDiff) * diff.GetCrossProductZ(lineDiff)) / (scale * scale));
+
+	return true;
+}
+
+
+double CLine2d::GetDistance(const CVector2d& position) const
+{
+	CVector2d diff = GetDiffVector();
+	double diffLength = diff.GetLength();
+
+	CVector2d point1Diff = position - m_point1;
+	double dotProduct = point1Diff.GetDotProduct(diff);
+	if (dotProduct < 0){	// if the first point is the nearest
+		return m_point1.GetDistance(position);
+	}
+	if (dotProduct > diffLength * diffLength){	// if the second point is the nearest
+		return m_point2.GetDistance(position);
+	}
+
+	return fabs(diff.GetCrossProductZ(point1Diff) / diffLength);	// return distance to the line
+}
+
+
+double CLine2d::GetExtendedDistance(const CVector2d& position) const
+{
+	CVector2d diff = GetDiffVector();
+	double diffLength = diff.GetLength();
+
+	CVector2d point1Diff = position - m_point1;
+
+	return fabs(diff.GetCrossProductZ(point1Diff) / diffLength);	// return distance to the line
 }
 
 

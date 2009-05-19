@@ -19,6 +19,7 @@
 
 #include "idoc/IDocumentManager.h"
 #include "idoc/ICommandsProvider.h"
+#include "idoc/IMainWindowCommands.h"
 
 #include "iqt/ITranslationManager.h"
 
@@ -34,7 +35,8 @@ namespace iqtdoc
 
 class CMainWindowGuiComp:
 			public iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMainWindow> >,
-			public imod::TSingleModelObserverBase<idoc::IDocumentManager>
+			public imod::TSingleModelObserverBase<idoc::IDocumentManager>,
+			virtual public idoc::IMainWindowCommands
 {
 	Q_OBJECT
 
@@ -42,20 +44,21 @@ public:
 	typedef iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMainWindow> > BaseClass;
 	typedef imod::TSingleModelObserverBase<idoc::IDocumentManager> BaseClass2;
 
-	I_BEGIN_COMPONENT(CMainWindowGuiComp)
-		I_REGISTER_INTERFACE(imod::IObserver)
-		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if about action is triggered", false, "AboutGui")
-		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
-		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", true, "DocumentManager")
-		I_ASSIGN(m_documentManagerCommandsCompPtr, "DocumentManager", "Document manager", false, "DocumentManager")
-		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace")
-		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false)
-		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager")
+	I_BEGIN_COMPONENT(CMainWindowGuiComp);
+		I_REGISTER_INTERFACE(imod::IObserver);
+		I_REGISTER_INTERFACE(idoc::IMainWindowCommands);
+		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if about action is triggered", false, "AboutGui");
+		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", true, "DocumentManager");
+		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", true, "DocumentManager");
+		I_ASSIGN(m_documentManagerCommandsCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
+		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace");
+		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false);
+		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager");
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
-		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16)
-		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false)
+		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16);
+		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false);
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	enum GroupId
 	{
@@ -78,6 +81,9 @@ public:
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
+	// reimplemented (idoc::IMainWindowCommands)
+	virtual bool OpenFile(const istd::CString& fileName);
+
 protected:
 	virtual void OnActiveViewChanged();
 	virtual void OnActiveDocumentChanged();
@@ -96,7 +102,6 @@ protected:
 	void UpdateMenuActions();
 
 	void OnNewDocument(const std::string& documentTypeId);
-	void OnOpenFile(const istd::CString& fileName);
 
 	virtual bool SerializeRecentFileList(iser::IArchive& archive);
 	virtual void UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap);
@@ -176,7 +181,7 @@ private:
 		// reimplemented (idoc::ICommand)
 		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
 		{
-			m_parent.OnOpenFile(GetName());
+			m_parent.OpenFile(GetName());
 
 			return true;
 		}

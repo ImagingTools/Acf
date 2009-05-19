@@ -21,10 +21,10 @@
         Application
       </ComponentName>
       <X>
-        236
+        470
       </X>
       <X>
-        -54
+        -73
       </X>
     </Element>
     <Element>
@@ -65,10 +65,10 @@
         CompositorTemplate
       </ComponentName>
       <X>
-        511
+        452
       </X>
       <X>
-        209
+        210
       </X>
     </Element>
     <Element>
@@ -175,10 +175,10 @@
         QuickHelpDock
       </ComponentName>
       <X>
-        387
+        375
       </X>
       <X>
-        81
+        66
       </X>
     </Element>
     <Element>

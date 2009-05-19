@@ -73,6 +73,7 @@ protected:
 	// reimplemented (QGraphicsRectItem)
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value);
+	virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 	class RegistryObserver: public imod::TSingleModelObserverBase<icomp::IRegistry>
 	{

@@ -3,37 +3,26 @@
 
 
 // STL includes
-#include <set>
-#include <map>
 #include <list>
 
-#include "istd/TIFactory.h"
 #include "istd/TPointerVector.h"
 #include "istd/TDelPtr.h"
 
-#include "iser/IArchive.h"
-
 #include "imod/CSingleModelObserverBase.h"
 
-#include "idoc/IDocumentManager.h"
+#include "idoc/CDocumentManagerBase.h"
 
 
 namespace idoc
 {
 
 
-class IDocumentTemplate;
-
-
-class CMultiDocumentManagerBase: virtual public idoc::IDocumentManager
+class CMultiDocumentManagerBase: public idoc::CDocumentManagerBase
 {
 public:
 	CMultiDocumentManagerBase();
 
-	void SetDocumentTemplate(const idoc::IDocumentTemplate* documentTemplatePtr);
-
 	// reimplemented (idoc::IDocumentManager)
-	virtual const idoc::IDocumentTemplate* GetDocumentTemplate() const;
 	virtual imod::IUndoManager* GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const;
 	virtual int GetDocumentsCount() const;
 	virtual istd::IChangeable& GetDocumentFromIndex(int index, DocumentInfo* documentInfoPtr) const;
@@ -168,7 +157,6 @@ protected:
 private:
 	typedef istd::TPointerVector<SingleDocumentData> DocumentInfos;
 
-	const IDocumentTemplate* m_documentTemplatePtr;
 	DocumentInfos m_documentInfos;
 
 	istd::IPolymorphic* m_activeViewPtr;

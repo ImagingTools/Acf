@@ -8,10 +8,12 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QApplication>
+#include <QDir>
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
+#include "icomp/CCompositeComponent.h"
 #include "icomp/CCompositeComponentStaticInfo.h"
 
 #include "icmpstr/CComponentConnector.h"
@@ -335,6 +337,25 @@ QVariant CComponentSceneItem::itemChange(GraphicsItemChange change, const QVaria
 	}
 
 	return QGraphicsRectItem::itemChange(change, value);
+}
+
+
+void CComponentSceneItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	I_ASSERT(eventPtr != NULL);
+	I_ASSERT(m_elementInfoPtr != NULL);
+	I_ASSERT(m_elementInfoPtr->elementPtr.IsValid());
+
+	const icomp::IRegistriesManager* managerPtr = m_registryView.GetPackagesManager();
+	idoc::IMainWindowCommands* mainWindowPtr = m_registryView.GetMainWindowCommands();
+	const icomp::IComponentStaticInfo& info = m_elementInfoPtr->elementPtr->GetComponentStaticInfo();
+	const icomp::CCompositeComponentStaticInfo* compositeInfoPtr = dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info);
+	if ((managerPtr != NULL) && (compositeInfoPtr != NULL) && (mainWindowPtr != NULL)){
+		QDir packageDir(iqt::GetQString(managerPtr->GetPackageDirPath(m_elementInfoPtr->address.GetPackageId())));
+		QString filePath = packageDir.absoluteFilePath((m_elementInfoPtr->address.GetComponentId() + ".arx").c_str());
+
+		mainWindowPtr->OpenFile(iqt::GetCString(filePath));
+	}
 }
 
 

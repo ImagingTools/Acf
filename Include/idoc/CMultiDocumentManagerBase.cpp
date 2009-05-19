@@ -17,24 +17,12 @@ namespace idoc
 
 
 CMultiDocumentManagerBase::CMultiDocumentManagerBase()
-:	m_documentTemplatePtr(NULL), m_activeViewPtr(NULL)
+:	m_activeViewPtr(NULL)
 {
-}
-
-
-void CMultiDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
-{
-	m_documentTemplatePtr = documentTemplatePtr;
 }
 
 
 // reimplemented (idoc::IDocumentManager)
-
-const idoc::IDocumentTemplate* CMultiDocumentManagerBase::GetDocumentTemplate() const
-{
-	return m_documentTemplatePtr;
-}
-
 
 imod::IUndoManager* CMultiDocumentManagerBase::GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const
 {
@@ -200,7 +188,8 @@ bool CMultiDocumentManagerBase::FileSave(
 			bool requestFileName,
 			FileToTypeMap* savedMapPtr)
 {
-	if (m_documentTemplatePtr == NULL){
+	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
+	if (documentTemplatePtr == NULL){
 		return false;
 	}
 
@@ -231,7 +220,7 @@ bool CMultiDocumentManagerBase::FileSave(
 		}
 	}
 
-	const iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(infoPtr->documentTypeId);
+	const iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(infoPtr->documentTypeId);
 	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk){
 		if ((infoPtr->filePath != filePath) || infoPtr->isDirty){
 			istd::CChangeNotifier notifierPtr(this);
@@ -309,7 +298,8 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 			const std::string& viewTypeId,
 			std::string& documentTypeId)
 {
-	if (filePath.IsEmpty() || (m_documentTemplatePtr == NULL)){
+	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
+	if (filePath.IsEmpty() || (documentTemplatePtr == NULL)){
 		return NULL;
 	}
 
@@ -318,7 +308,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 		I_ASSERT(existingInfoPtr->documentPtr.IsValid());
 
 		if (createView){
-			istd::IPolymorphic* viewPtr = m_documentTemplatePtr->CreateView(
+			istd::IPolymorphic* viewPtr = documentTemplatePtr->CreateView(
 						existingInfoPtr->documentTypeId,
 						existingInfoPtr->documentPtr.GetPtr(),
 						viewTypeId);
@@ -335,7 +325,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 		return existingInfoPtr->documentPtr.GetPtr();
 	}
 
-	IDocumentTemplate::Ids documentIds = m_documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
+	IDocumentTemplate::Ids documentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
 
 	if (!documentIds.empty()){
 		documentTypeId = documentIds.front();
@@ -345,7 +335,10 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 			infoPtr->filePath = filePath;
 			infoPtr->documentTypeId = documentTypeId;
-			iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(documentTypeId);
+
+			istd::CChangeNotifier documentNotifier(infoPtr->documentPtr.GetPtr(), imod::IUndoManager::CF_NO_UNDO);
+
+			iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk)){
 				RegisterDocument(infoPtr.GetPtr());
@@ -423,14 +416,15 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDoc
 
 CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::CreateDocument(const std::string& documentTypeId, bool createView, const std::string& viewTypeId) const
 {
-	if (m_documentTemplatePtr != NULL){
-		istd::IChangeable* documentPtr = m_documentTemplatePtr->CreateDocument(documentTypeId);
+	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
+	if (documentTemplatePtr != NULL){
+		istd::IChangeable* documentPtr = documentTemplatePtr->CreateDocument(documentTypeId);
 
 		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
 					const_cast<CMultiDocumentManagerBase*>(this),
 					documentTypeId,
 					documentPtr,
-					m_documentTemplatePtr->CreateUndoManager(documentTypeId, documentPtr)));
+					documentTemplatePtr->CreateUndoManager(documentTypeId, documentPtr)));
 
 		if (infoPtr->documentPtr.IsValid()){
 			imod::IModel* documentModelPtr = dynamic_cast<imod::IModel*>(documentPtr);
@@ -439,7 +433,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 			}
 
 			if (createView){
-				istd::IPolymorphic* viewPtr = m_documentTemplatePtr->CreateView(
+				istd::IPolymorphic* viewPtr = documentTemplatePtr->CreateView(
 							documentTypeId,
 							infoPtr->documentPtr.GetPtr(),
 							viewTypeId);

@@ -152,7 +152,7 @@ This tool is a part of ACF project
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              MainWindowCopoments
+              MainWindowComponents
             </Id>
             <Type>
               icomp::CMultiReferenceAttribute
@@ -348,7 +348,7 @@ This tool is a part of ACF project
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="4">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               Log
@@ -365,6 +365,25 @@ This tool is a part of ACF project
               </IsEnabled>
               <Value>
                 LogDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MainWindow
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Application
               </Value>
             </Data>
           </AttributeInfo>
