@@ -135,6 +135,7 @@ bool CMultiDocumentManagerBase::FileNew(
 {
 	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
 	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
+		newInfoPtr->isDirty = false;
 		if (newDocumentPtr != NULL){
 			*newDocumentPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1)->documentPtr.GetPtr();
 		}
@@ -328,6 +329,8 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 	IDocumentTemplate::Ids documentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
 
 	if (!documentIds.empty()){
+		istd::CChangeNotifier changePtr(this, DocumentCountChanged | DocumentCreated);
+
 		documentTypeId = documentIds.front();
 		istd::TDelPtr<SingleDocumentData> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
 		if (infoPtr.IsValid()){
@@ -342,6 +345,10 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk)){
 				RegisterDocument(infoPtr.GetPtr());
+
+				documentNotifier.Reset();
+
+				infoPtr->isDirty = false;
 
 				return infoPtr.PopPtr()->documentPtr.GetPtr();
 			}
@@ -458,8 +465,6 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 	I_ASSERT(infoPtr != NULL);
 
 	istd::CChangeNotifier changePtr(this, DocumentCountChanged | DocumentCreated);
-
-	infoPtr->isDirty = false;
 
 	m_documentInfos.PushBack(infoPtr);
 
