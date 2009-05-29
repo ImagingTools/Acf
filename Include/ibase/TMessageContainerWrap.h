@@ -4,13 +4,13 @@
 
 #include "istd/TPointerVector.h"
 #include "istd/TChangeNotifier.h"
-#include "ibase/THierarchicalBase.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
 #include "ibase/IMessage.h"
 #include "ibase/IMessageContainer.h"
+#include "ibase/THierarchicalBase.h"
 
 
 namespace ibase
@@ -98,7 +98,7 @@ bool TMessageContainerWrap<Base>::Serialize(iser::IArchive& archive)
 	bool retVal = true;
 
 	ibase::IMessageContainer::Messages messages = GetMessages();
-	int messageCount = messages.size();
+	int messageCount = int(messages.size());
 
 	static iser::CArchiveTag messagesTag("Messages", "List of messages");
 	static iser::CArchiveTag messageTag("Message", "Message");
@@ -228,7 +228,7 @@ void TMessageContainerWrap<Base>::ClearMessages()
 template <class Base>
 int TMessageContainerWrap<Base>::GetChildsCount() const
 {
-	return m_childContainers.size();
+	return int(m_childContainers.size());
 }
 
 

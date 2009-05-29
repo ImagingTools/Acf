@@ -29,7 +29,7 @@ protected:
 		\param	message			message text will be send.
 		\param	messageSource	source of the message
 	*/
-	virtual bool SendLogMessage(ibase::IMessage::MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource) const;
+	virtual bool SendLogMessage(ibase::IMessage::MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource, int flags = 0) const;
 
 	/**
 		Send info message to log.
@@ -38,7 +38,7 @@ protected:
 		\param	message			message text will be send.
 		\param	messageSource	source of the message
 	*/
-	bool SendInfoMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString()) const;
+	bool SendInfoMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString(), int flags = 0) const;
 
 	/**
 		Send warning message to log.
@@ -47,7 +47,7 @@ protected:
 		\param	message			message text will be send.
 		\param	messageSource	source of the message
 	*/
-	bool SendWarningMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString()) const;
+	bool SendWarningMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString(), int flags = 0) const;
 
 	/**
 		Send error message to log.
@@ -56,7 +56,7 @@ protected:
 		\param	message			message text will be send.
 		\param	messageSource	source of the message
 	*/
-	bool SendErrorMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString()) const;
+	bool SendErrorMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString(), int flags = 0) const;
 
 	/**
 		Send critical message to log.
@@ -65,7 +65,7 @@ protected:
 		\param	message			message text will be send.
 		\param	messageSource	optional human readable description of message source.
 	*/
-	bool SendCriticalMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString()) const;
+	bool SendCriticalMessage(int id, const istd::CString& message, const istd::CString& messageSource = istd::CString(), int flags = 0) const;
 
 private:
 	ibase::IMessageConsumer* m_logPtr;
@@ -100,10 +100,15 @@ inline ibase::IMessageConsumer* TLoggerWrap<Base>::GetLogPtr() const
 // protected methods
 
 template <class Base>
-bool TLoggerWrap<Base>::SendLogMessage(ibase::IMessage::MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource) const
+bool TLoggerWrap<Base>::SendLogMessage(
+			ibase::IMessage::MessageCategory category,
+			int id,
+			const istd::CString& message,
+			const istd::CString& messageSource,
+			int flags) const
 {
 	if (m_logPtr != NULL){
-		m_logPtr->AddMessage(new ibase::CMessage(category, id, message, messageSource));
+		m_logPtr->AddMessage(new ibase::CMessage(category, id, message, messageSource, flags));
 	
 		return true;
 	}
@@ -113,30 +118,30 @@ bool TLoggerWrap<Base>::SendLogMessage(ibase::IMessage::MessageCategory category
 
 
 template <class Base>
-bool TLoggerWrap<Base>::SendInfoMessage(int id, const istd::CString& message, const istd::CString& messageSource) const
+bool TLoggerWrap<Base>::SendInfoMessage(int id, const istd::CString& message, const istd::CString& messageSource, int flags) const
 {
-	return SendLogMessage(ibase::IMessage::MC_INFO, id, message, messageSource);
+	return SendLogMessage(ibase::IMessage::MC_INFO, id, message, messageSource, flags);
 }
 
 
 template <class Base>
-bool TLoggerWrap<Base>::SendWarningMessage(int id, const istd::CString& message, const istd::CString& messageSource) const
+bool TLoggerWrap<Base>::SendWarningMessage(int id, const istd::CString& message, const istd::CString& messageSource, int flags) const
 {
-	return SendLogMessage(ibase::IMessage::MC_WARNING, id, message, messageSource);
+	return SendLogMessage(ibase::IMessage::MC_WARNING, id, message, messageSource, flags);
 }
 
 
 template <class Base>
-bool TLoggerWrap<Base>::SendErrorMessage(int id, const istd::CString& message, const istd::CString& messageSource) const
+bool TLoggerWrap<Base>::SendErrorMessage(int id, const istd::CString& message, const istd::CString& messageSource, int flags) const
 {
-	return SendLogMessage(ibase::IMessage::MC_ERROR, id, message, messageSource);
+	return SendLogMessage(ibase::IMessage::MC_ERROR, id, message, messageSource, flags);
 }
 
 
 template <class Base>
-bool TLoggerWrap<Base>::SendCriticalMessage(int id, const istd::CString& message, const istd::CString& messageSource) const
+bool TLoggerWrap<Base>::SendCriticalMessage(int id, const istd::CString& message, const istd::CString& messageSource, int flags) const
 {
-	return SendLogMessage(ibase::IMessage::MC_CRITICAL, id, message, messageSource);
+	return SendLogMessage(ibase::IMessage::MC_CRITICAL, id, message, messageSource, flags);
 }
 
 
