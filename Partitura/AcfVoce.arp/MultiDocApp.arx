@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          887
+          935
         </Number>
         <Description>
           ACF
@@ -692,7 +692,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="7">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
         ibase::IApplication
@@ -707,14 +707,6 @@
       </InterfaceId>
       <ComponentId>
         ApplicationInfo
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        idoc::IDocumentManager
-      </InterfaceId>
-      <ComponentId>
-        Workspace
       </ComponentId>
     </Interface>
     <Interface>
@@ -741,16 +733,16 @@
         ApplicationInfo
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        istd::IChangeable
-      </InterfaceId>
+  </ExportedInterfaces>
+  <ExportedComponents count="1">
+    <Component>
+      <ExportedId>
+        Workspace
+      </ExportedId>
       <ComponentId>
         Workspace
       </ComponentId>
-    </Interface>
-  </ExportedInterfaces>
-  <ExportedComponents count="0">
+    </Component>
   </ExportedComponents>
   <Description>
     Framework for multi-document applications

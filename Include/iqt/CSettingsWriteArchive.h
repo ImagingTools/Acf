@@ -20,9 +20,10 @@ public:
 	typedef iser::CTextWriteArchiveBase BaseClass;
 	typedef iqt::CSettingsArchiveBase BaseClass2;
 
-	CSettingsWriteArchive(	const QString& organizationName,
-							const QString& applicationName,
-							const iser::IVersionInfo* versionInfoPtr = NULL);
+	CSettingsWriteArchive(
+				const QString& organizationName,
+				const QString& applicationName,
+				const iser::IVersionInfo* versionInfoPtr = NULL);
 
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const iser::CArchiveTag& tag);

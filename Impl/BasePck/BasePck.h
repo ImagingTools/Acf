@@ -12,7 +12,7 @@
 
 #include "idoc/CSingleDocumentTemplateComp.h"
 #include "idoc/CCompositeDocumentTemplateComp.h"
-#include "idoc/CDocumentManagerListener.h"
+#include "idoc/CDocumentManagerListenerComp.h"
 
 #include "ibase/CComposedLoaderComp.h"
 #include "ibase/CTextFileLoaderComp.h"
@@ -73,11 +73,7 @@ typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<idoc::CDocumentManagerListener>, 
-			imod::IModelSelection, 
-			imod::IObserver,
-			imod::IModel> DocumentManagerListener;
+typedef icomp::TModelCompWrap<idoc::CDocumentManagerListenerComp> DocumentManagerListener;
 
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<i2d::CPosition2d>,

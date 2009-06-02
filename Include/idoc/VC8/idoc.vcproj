@@ -188,7 +188,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDocumentManagerListener.cpp"
+				RelativePath="..\CDocumentManagerListenerComp.cpp"
 				>
 			</File>
 			<File
@@ -225,7 +225,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDocumentManagerListener.h"
+				RelativePath="..\CDocumentManagerListenerComp.h"
 				>
 			</File>
 			<File

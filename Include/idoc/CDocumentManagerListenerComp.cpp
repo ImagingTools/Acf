@@ -1,4 +1,4 @@
-#include "idoc/CDocumentManagerListener.h"
+#include "idoc/CDocumentManagerListenerComp.h"
 
 
 #include "istd/TChangeNotifier.h"
@@ -10,7 +10,7 @@ namespace idoc
 
 // public methods
 
-CDocumentManagerListener::CDocumentManagerListener()
+CDocumentManagerListenerComp::CDocumentManagerListenerComp()
 	:m_currentDocumentModelPtr(NULL)
 {
 }
@@ -18,13 +18,13 @@ CDocumentManagerListener::CDocumentManagerListener()
 
 // reimplemented (imod::IModelSelection)
 
-imod::IModel* CDocumentManagerListener::GetSelectedModel() const
+imod::IModel* CDocumentManagerListenerComp::GetSelectedModel() const
 {
 	return m_currentDocumentModelPtr;
 }
 
 
-void CDocumentManagerListener::SetSelectedModel(imod::IModel* modelPtr)
+void CDocumentManagerListenerComp::SetSelectedModel(imod::IModel* modelPtr)
 {
 	if (modelPtr != m_currentDocumentModelPtr){
 		istd::CChangeNotifier changePtr(this);
@@ -36,7 +36,7 @@ void CDocumentManagerListener::SetSelectedModel(imod::IModel* modelPtr)
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CDocumentManagerListener::OnUpdate(int updateFlags, istd::IPolymorphic* /* updateParamsPtr*/)
+void CDocumentManagerListenerComp::OnUpdate(int updateFlags, istd::IPolymorphic* /* updateParamsPtr*/)
 {
 	idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
 	if (documentManagerPtr == NULL){
@@ -56,9 +56,14 @@ void CDocumentManagerListener::OnUpdate(int updateFlags, istd::IPolymorphic* /* 
 			documentPtr = documentManagerPtr->GetDocumentFromView(*activeViewPtr);
 		}
 
-		imod::IModel* documentModelPtr = dynamic_cast<imod::IModel*>(documentPtr);
+		istd::IPolymorphic* modelSourcePtr = documentPtr;
+		if (m_useModelFromViewAttrPtr.IsValid()  && *m_useModelFromViewAttrPtr){
+			modelSourcePtr = activeViewPtr;
+		}
 
-		SetSelectedModel(documentModelPtr);
+		imod::IModel* newModelPtr = dynamic_cast<imod::IModel*>(modelSourcePtr);
+
+		SetSelectedModel(newModelPtr);
 	}
 }
 

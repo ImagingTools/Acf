@@ -348,6 +348,10 @@ void CRegistryViewComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
+	if (!m_registryElementObserversCompPtr.IsValid()){
+		return;
+	}
+
 	for (int observerIndex = 0; observerIndex < m_registryElementObserversCompPtr.GetCount(); observerIndex++){
 		imod::IObserver* observerPtr = m_registryElementObserversCompPtr[observerIndex];
 		if (observerPtr != NULL){
@@ -359,10 +363,12 @@ void CRegistryViewComp::OnComponentCreated()
 
 void CRegistryViewComp::OnComponentDestroyed()
 {
-	for (int observerIndex = 0; observerIndex < m_registryElementObserversCompPtr.GetCount(); observerIndex++){
-		imod::IObserver* observerPtr = m_registryElementObserversCompPtr[observerIndex];
-		if (observerPtr != NULL){
-			DetachObserver(observerPtr);
+	if (m_registryElementObserversCompPtr.IsValid()){
+		for (int observerIndex = 0; observerIndex < m_registryElementObserversCompPtr.GetCount(); observerIndex++){
+			imod::IObserver* observerPtr = m_registryElementObserversCompPtr[observerIndex];
+			if (observerPtr != NULL){
+				DetachObserver(observerPtr);
+			}
 		}
 	}
 

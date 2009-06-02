@@ -10,9 +10,10 @@ namespace iqt
 
 // public methods
 
-CSettingsWriteArchive::CSettingsWriteArchive(const QString& organizationName, 
-											 const QString& productName,
-											 const iser::IVersionInfo* versionInfoPtr)
+CSettingsWriteArchive::CSettingsWriteArchive(
+			const QString& organizationName, 
+			const QString& productName,
+			const iser::IVersionInfo* versionInfoPtr)
 	:BaseClass(versionInfoPtr),
 	BaseClass2(organizationName, productName)
 {
@@ -38,6 +39,8 @@ bool CSettingsWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 
 bool CSettingsWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
+	I_ASSERT(!tag.GetId().empty());
+
 	m_openTagsList.push_back(TagInfo(tag.GetId(), count + 1, subTag.GetId()));
 
 	QString registryKey = CreateKey(false);
@@ -84,4 +87,5 @@ bool CSettingsWriteArchive::Process(istd::CString& value)
 
 
 } // namespace iqt
+
 

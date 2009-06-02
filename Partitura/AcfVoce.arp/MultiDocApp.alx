@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          887
+          935
         </Number>
         <Description>
           ACF
@@ -32,7 +32,7 @@
         App
       </ComponentName>
       <X>
-        52
+        81
       </X>
       <X>
         0
@@ -98,10 +98,10 @@
         MainGui
       </ComponentName>
       <X>
-        78
+        79
       </X>
       <X>
-        122
+        121
       </X>
     </Element>
     <Element>
@@ -142,10 +142,10 @@
         Workspace
       </ComponentName>
       <X>
-        -485
+        -473
       </X>
       <X>
-        123
+        118
       </X>
     </Element>
   </PositionMap>
