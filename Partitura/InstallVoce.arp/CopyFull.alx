@@ -7,15 +7,15 @@
           0
         </Id>
         <Number>
-          915
+          936
         </Number>
         <Description>
-          ACF
+          ACF'
         </Description>
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="38">
+  <PositionMap count="42">
     <Element>
       <ComponentName>
         Application
@@ -54,7 +54,7 @@
         CopyBins
       </ComponentName>
       <X>
-        -586
+        -585
       </X>
       <X>
         -158
@@ -205,10 +205,21 @@
     </Element>
     <Element>
       <ComponentName>
+        CopyImplResources
+      </ComponentName>
+      <X>
+        -124
+      </X>
+      <X>
+        -160
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         CopyImplSources
       </ComponentName>
       <X>
-        -269
+        -270
       </X>
       <X>
         106
@@ -216,13 +227,35 @@
     </Element>
     <Element>
       <ComponentName>
+        CopyInclResources
+      </ComponentName>
+      <X>
+        141
+      </X>
+      <X>
+        102
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         CopyIncludeOther
       </ComponentName>
       <X>
-        -486
+        -485
       </X>
       <X>
         108
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyIncludeResources
+      </ComponentName>
+      <X>
+        141
+      </X>
+      <X>
+        102
       </X>
     </Element>
     <Element>
@@ -300,6 +333,17 @@
       </X>
       <X>
         -242
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyResources
+      </ComponentName>
+      <X>
+        141
+      </X>
+      <X>
+        102
       </X>
     </Element>
     <Element>
