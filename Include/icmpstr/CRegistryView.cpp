@@ -266,6 +266,7 @@ idoc::IMainWindowCommands* CRegistryView::GetMainWindowCommands() const
 }
 
 
+
 // protected methods
 
 // reimplemented (QWidget)

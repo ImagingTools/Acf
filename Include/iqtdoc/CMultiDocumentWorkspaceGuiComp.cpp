@@ -8,14 +8,18 @@
 #include <QMessageBox>
 #include <QFileInfo>
 
+
 #include "istd/TChangeNotifier.h"
 
 #include "idoc/IDocumentTemplate.h"
 
-#include "iqtgui/CFileDialogLoaderComp.h"
-
 #include "iser/CXmlFileWriteArchive.h"
 #include "iser/CXmlFileReadArchive.h"
+
+
+#include "iqtgui/CFileDialogLoaderComp.h"
+
+#include "iqtdoc/IPrintable.h"
 
 
 namespace iqtdoc

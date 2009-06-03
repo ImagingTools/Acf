@@ -134,6 +134,11 @@ public:
 		\param	ignoredPtr	optional return flag indicating that closing was aborted by user.
 	*/
 	virtual void FileClose(bool* ignoredPtr = NULL) = 0;
+
+	/**
+		Print current document.
+	*/
+	virtual void FilePrint() const = 0;
 };
 
 

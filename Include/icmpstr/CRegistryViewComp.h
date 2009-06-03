@@ -23,6 +23,8 @@
 #include "iqtgui/TGuiObserverWrap.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
+#include "iqtdoc/IPrintable.h"
+
 #include "icmpstr/IRegistryPreview.h"
 #include "icmpstr/CRegistryView.h"
 
@@ -36,6 +38,7 @@ class CRegistryViewComp:
 						iqtgui::TGuiComponentBase<CRegistryView>, 
 						imod::TSingleModelObserverBase<icomp::IRegistry> >,
 			virtual public imod::TModelWrap<IElementSelectionInfo>,
+			virtual public iqtdoc::IPrintable,
 			virtual public idoc::ICommandsProvider
 {
 	Q_OBJECT
@@ -59,6 +62,9 @@ public:
 	CRegistryViewComp();
 
 	bool TryCreateComponent(const icomp::CComponentAddress& address, const i2d::CVector2d& position);
+
+	// reimplemented (iqtdoc::IPrintable)
+	virtual void Print(QPrinter* printerPtr) const;
 
 	// reimplemented (idoc::ICommandsProvider)
 	virtual const idoc::IHierarchicalCommand* GetCommands() const;

@@ -12,6 +12,8 @@
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
+#include "iqtdoc/TQtDocumentManagerWrap.h"
+
 
 namespace iqtdoc
 {
@@ -22,7 +24,7 @@ namespace iqtdoc
 */
 class CSingleDocumentWorkspaceGuiComp:
 			public iqtgui::TGuiComponentBase<QWidget>, 
-			public idoc::CSingleDocumentManagerBase
+			public iqtdoc::TQtDocumentManagerWrap<idoc::CSingleDocumentManagerBase>
 {
 public:
 	typedef iqtgui::TGuiComponentBase<QWidget> BaseClass;

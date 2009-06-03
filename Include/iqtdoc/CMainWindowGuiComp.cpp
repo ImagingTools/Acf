@@ -49,6 +49,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
 	connect(&m_saveCommand, SIGNAL(activated()), this, SLOT(OnSave()));
 	connect(&m_saveAsCommand, SIGNAL(activated()), this, SLOT(OnSaveAs()));
+	connect(&m_printCommand, SIGNAL(activated()), this, SLOT(OnPrint()));
 	connect(&m_quitCommand, SIGNAL(activated()), this, SLOT(OnQuit()));
 	connect(&m_undoCommand, SIGNAL(activated()), this, SLOT(OnUndo()));
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
@@ -122,6 +123,8 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 			m_fileCommand.InsertChild(&m_saveCommand, false);
 			m_saveAsCommand.SetGroupId(GI_DOCUMENT);
 			m_fileCommand.InsertChild(&m_saveAsCommand, false);
+			m_printCommand.SetGroupId(GI_DOCUMENT);
+			m_fileCommand.InsertChild(&m_printCommand, false);
 
 			const idoc::IDocumentTemplate* templatePtr = managerPtr->GetDocumentTemplate();
 			if (templatePtr != NULL){
@@ -488,6 +491,7 @@ void CMainWindowGuiComp::UpdateMenuActions()
 
 	m_saveCommand.SetEnabled(isDocumentActive);
 	m_saveAsCommand.SetEnabled(isDocumentActive);
+	m_printCommand.SetEnabled(isDocumentActive);
 
 	if (m_menuBarPtr == NULL){
 		return;
@@ -666,6 +670,8 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), GetIcon("save"));
 	m_saveCommand.setShortcut(tr("Ctrl+S"));
 	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
+	m_printCommand.setShortcut(tr("Ctrl+P"));
+	m_printCommand.SetVisuals(tr("&Print..."), tr("Print"), tr("Prints current document"), GetIcon("print"));
 	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), GetIcon("exit"));
 	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), GetIcon("undo"));
 	m_undoCommand.setShortcut(tr("Ctrl+Z"));
@@ -803,6 +809,14 @@ void CMainWindowGuiComp::OnSaveAs()
 		else{
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnPrint()
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		m_documentManagerCompPtr->FilePrint();
 	}
 }
 

@@ -17,6 +17,8 @@
 #include "iqtgui/TRestorableGuiWrap.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
+#include "iqtdoc/TQtDocumentManagerWrap.h"
+
 
 namespace iqtdoc
 {
@@ -27,7 +29,7 @@ namespace iqtdoc
 */
 class CMultiDocumentWorkspaceGuiComp:
 			public iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMdiArea> >, 
-			public idoc::CMultiDocumentManagerBase,
+			public iqtdoc::TQtDocumentManagerWrap<idoc::CMultiDocumentManagerBase>,
 			public idoc::ICommandsProvider
 {
 	Q_OBJECT

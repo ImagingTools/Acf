@@ -104,6 +104,32 @@ bool CRegistryViewComp::TryCreateComponent(const icomp::CComponentAddress& addre
 }
 
 
+// reimplemented (iqtdoc::IPrintable)
+
+void CRegistryViewComp::Print(QPrinter* printerPtr) const
+{
+	CRegistryView* viewPtr = GetQtWidget();
+	I_ASSERT(viewPtr != NULL);
+	if (viewPtr == NULL){
+		return;
+	}
+
+	QPrinter* realPrinterPtr = printerPtr;
+	QPrinter defaultPrinter(QPrinter::HighResolution);
+	defaultPrinter.setPageSize(QPrinter::A4);
+	defaultPrinter.setOrientation(QPrinter::Landscape);
+
+	if (realPrinterPtr == NULL){
+		realPrinterPtr = &defaultPrinter;
+	}
+
+	QPainter painter(realPrinterPtr);
+
+	 // print, fitting the viewport contents into a full page
+	viewPtr->render(&painter);
+}
+
+
 // reimplemented (idoc::ICommandsProvider)
 
 const idoc::IHierarchicalCommand* CRegistryViewComp::GetCommands() const
