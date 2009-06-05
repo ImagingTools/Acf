@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "040704b0"
         BEGIN
-            VALUE "Comments", "Boom Boom, MotherFucker, Booooooom"
+            VALUE "Comments", "Boom Boom, MotherF*, Booooooom"
             VALUE "CompanyName", "ImagingTools GbR"
             VALUE "FileDescription", "ACF Compositor"
             VALUE "FileVersion", "1, 0, 0, 1"
