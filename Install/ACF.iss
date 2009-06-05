@@ -84,8 +84,8 @@ Name: zlibComp; Description: ZLib; Types: fullType customType
 Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 
 [Icons]
-Name: {group}\Compositor; Filename: {app}\Bin\ReleaseVC8\Acf.exe; Parameters: {app}\Partitura\Compositor.arx; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
-Name: "{group}\Compositor Mini"; Filename: {app}\Bin\ReleaseVC8\Compositor.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
+Name: "{group}\Compositor"; Filename: {app}\Bin\ReleaseVC8\Compositor.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
+Name: "{group}\Compositor Mini"; Filename: {app}\Bin\ReleaseVC8\CompositorMini.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
 Name: "{group}\API Documentation"; Filename: {app}\Docs\TechnicalDoc\index.html; Components: acfComp
 
 [Tasks]

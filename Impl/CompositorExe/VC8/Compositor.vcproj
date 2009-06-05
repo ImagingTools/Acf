@@ -239,10 +239,6 @@
 			>
 		</File>
 		<File
-			RelativePath=".\icon1.ico"
-			>
-		</File>
-		<File
 			RelativePath="..\..\..\Docs\Images\Logo\Logo.ico"
 			>
 		</File>

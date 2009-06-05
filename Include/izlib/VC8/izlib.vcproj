@@ -29,10 +29,16 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
 				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -97,10 +103,16 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
 				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
