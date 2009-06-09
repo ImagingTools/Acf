@@ -57,8 +57,6 @@ protected:
 				ComponentPtr& subComponentPtr,
 				bool isOwned) const;
 
-	void PrepareToDestroy();
-
 private:
 	struct ComponentInfo
 	{
