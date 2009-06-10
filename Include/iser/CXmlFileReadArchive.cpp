@@ -6,7 +6,8 @@ namespace iser
 
 
 CXmlFileReadArchive::CXmlFileReadArchive(const istd::CString& filePath, bool serializeHeader, const CArchiveTag& rootTag)
-:	BaseClass(rootTag)
+:	BaseClass(rootTag),
+	m_filePath(filePath)
 {
 	m_stream.open(filePath.ToString().c_str(), std::fstream::in);
 
@@ -15,6 +16,21 @@ CXmlFileReadArchive::CXmlFileReadArchive(const istd::CString& filePath, bool ser
 	if (serializeHeader){
 		SerializeAcfHeader();
 	}
+}
+
+
+// protected methods
+
+// reimplemented (istd::ILogger)
+
+void CXmlFileReadArchive::DecorateMessage(
+			MessageCategory /*category*/,
+			int /*id*/,
+			int /*flags*/,
+			istd::CString& message,
+			istd::CString& /*messageSource*/) const
+{
+	message = m_filePath + "(" + istd::CString::FromNumber(m_lastReadLine) + ") : " + message;
 }
 
 

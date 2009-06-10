@@ -288,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ILogger.h"
+				>
+			</File>
+			<File
 				RelativePath="..\INamed.h"
 				>
 			</File>

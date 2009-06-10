@@ -27,6 +27,14 @@ protected:
 				bool skipDelimeter = true,
 				char* foundDelimeterPtr = NULL);
 
+	// reimplemented (istd::ILogger)
+	virtual void DecorateMessage(
+				MessageCategory category,
+				int id,
+				int flags,
+				istd::CString& message,
+				istd::CString& messageSource) const;
+
 protected:
 	StreamClass m_stream;
 	char m_lastReadChar;
@@ -122,6 +130,22 @@ bool TXmlStreamReadArchiveBase<StreamClass>::ReadToDelimeter(
 	}
 
 	return false;
+}
+
+
+// reimplemented (istd::ILogger)
+
+template <class StreamClass>
+void TXmlStreamReadArchiveBase<StreamClass>::DecorateMessage(
+			MessageCategory category,
+			int id,
+			int flags,
+			istd::CString& message,
+			istd::CString& messageSource) const
+{
+	BaseClass::DecorateMessage(category, id, flags, message, messageSource);
+
+	message += istd::CString(" (Last parsed line: ") + istd::CString::FromNumber(m_lastReadLine) + ")";
 }
 
 

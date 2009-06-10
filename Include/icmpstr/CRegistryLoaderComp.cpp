@@ -29,7 +29,7 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 
 	CRegistryModelComp* registryModelPtr = dynamic_cast<CRegistryModelComp*>(&data);
 	if (registryModelPtr != NULL){
-		iser::CXmlFileReadArchive registryArchive(filePath);
+		ReadArchiveEx registryArchive(filePath, this);
 		I_ASSERT(!registryArchive.IsStoring());
 
 		if (!registryModelPtr->SerializeRegistry(registryArchive)){
@@ -42,7 +42,7 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 			return StateFailed;
 		}
 
-		iser::CXmlFileReadArchive layoutArchive(GetLayoutPath(filePath));
+		ReadArchiveEx layoutArchive(GetLayoutPath(filePath), this);
 		I_ASSERT(!layoutArchive.IsStoring());
 
 		if (!registryModelPtr->SerializeComponentsLayout(layoutArchive)){
@@ -70,7 +70,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 
 	const CRegistryModelComp* registryModelPtr = dynamic_cast<const CRegistryModelComp*>(&data);
 	if (registryModelPtr != NULL){
-		iser::CXmlFileWriteArchive registryArchive(filePath, GetVersionInfo());
+		WriteArchiveEx registryArchive(filePath, GetVersionInfo(), this);
 		I_ASSERT(registryArchive.IsStoring());
 
 		if (!const_cast<CRegistryModelComp*>(registryModelPtr)->SerializeRegistry(registryArchive)){
@@ -81,7 +81,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::C
 			return StateFailed;
 		}
 
-		iser::CXmlFileWriteArchive layoutArchive(GetLayoutPath(filePath), GetVersionInfo());
+		WriteArchiveEx layoutArchive(GetLayoutPath(filePath), GetVersionInfo(), this);
 		I_ASSERT(layoutArchive.IsStoring());
 
 		if (!const_cast<CRegistryModelComp*>(registryModelPtr)->SerializeComponentsLayout(layoutArchive)){
@@ -142,7 +142,7 @@ void CRegistryLoaderComp::OnReadError(
 {
 	int lastReadLine = archive.GetLastReadLine();
 
-	QString message = QObject::tr("Cannot load object from file %1 (Line: %2)").arg(iqt::GetQString(filePath)).arg(lastReadLine);
+	QString message = QObject::tr("%1(%2) : Cannot load object").arg(iqt::GetQString(filePath)).arg(lastReadLine);
 
 	SendInfoMessage(MI_CANNOT_LOAD, iqt::GetCString(message));
 }

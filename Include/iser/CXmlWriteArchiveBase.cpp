@@ -11,6 +11,12 @@ namespace iser
 
 // reimplemented (iser::IArchive)
 
+bool CXmlWriteArchiveBase::IsTagSkippingSupported() const
+{
+	return true;
+}
+
+
 bool CXmlWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 {
 	bool retVal = MakeIndent() && WriteString("<" + tag.GetId() + ">\n");

@@ -37,7 +37,7 @@ public:
 	};
 
 	I_BEGIN_COMPONENT(TFileSerializerComp);
-		I_REGISTER_INTERFACE(iser::IFileLoader)
+		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 		I_ASSIGN_MULTI_0(m_fileExtensionsAttrPtr, "FileExtensions", "List of supported file extensions", false);
 		I_ASSIGN_MULTI_0(m_typeDescriptionsAttrPtr, "TypeDescriptions", "List of descriptions for each extension", false);
@@ -55,6 +55,72 @@ public:
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:
+	class ReadArchiveEx: public ReadArchive
+	{
+	public:
+		ReadArchiveEx(const istd::CString& filePath, const TFileSerializerComp* loggerPtr)
+		:	ReadArchive(filePath),
+			m_loggerPtr(loggerPtr)
+		{
+		}
+
+	protected:
+		// reimplemented (istd::ILogger)
+		virtual bool IsLogConsumed() const
+		{
+			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed();
+		}
+		virtual bool SendLogMessage(MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource, int flags = 0) const
+		{
+			if (m_loggerPtr != NULL){
+				istd::CString correctedMessage = message;
+				istd::CString correctedMessageSource = messageSource;
+
+				DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
+
+				return m_loggerPtr->SendLogMessage(category, id, correctedMessage, correctedMessageSource, flags);
+			}
+
+			return false;
+		}
+
+	private:
+		const TFileSerializerComp* m_loggerPtr;
+	};
+
+	class WriteArchiveEx: public WriteArchive
+	{
+	public:
+		WriteArchiveEx(const istd::CString& filePath, const iser::IVersionInfo* infoPtr, const TFileSerializerComp* loggerPtr)
+		:	WriteArchive(filePath, infoPtr),
+			m_loggerPtr(loggerPtr)
+		{
+		}
+
+	protected:
+		// reimplemented (istd::ILogger)
+		virtual bool IsLogConsumed() const
+		{
+			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed();
+		}
+		virtual bool SendLogMessage(MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource, int flags = 0) const
+		{
+			if (m_loggerPtr != NULL){
+				istd::CString correctedMessage = message;
+				istd::CString correctedMessageSource = messageSource;
+
+				DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
+
+				return m_loggerPtr->SendLogMessage(category, id, correctedMessage, correctedMessageSource, flags);
+			}
+
+			return false;
+		}
+
+	private:
+		const TFileSerializerComp* m_loggerPtr;
+	};
+
 	/**
 		Get working version info.
 	*/
@@ -135,7 +201,8 @@ template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
 	if (IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
-		ReadArchive archive(filePath);
+		ReadArchiveEx archive(filePath, this);
+
 		I_ASSERT(!archive.IsStoring());
 
 		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
@@ -157,7 +224,7 @@ template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
 	if (IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
-		WriteArchive archive(filePath, GetVersionInfo());
+		WriteArchiveEx archive(filePath, GetVersionInfo(), this);
 		I_ASSERT(archive.IsStoring());
 
 		const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);

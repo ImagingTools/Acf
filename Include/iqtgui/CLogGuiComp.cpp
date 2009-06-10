@@ -13,10 +13,10 @@ namespace iqtgui
 
 CLogGuiComp::CLogGuiComp()
 {
-	m_categoryNameMap[ibase::IMessage::MC_INFO] = tr("Info");
-	m_categoryNameMap[ibase::IMessage::MC_WARNING] = tr("Warning");
-	m_categoryNameMap[ibase::IMessage::MC_ERROR] = tr("Error");
-	m_categoryNameMap[ibase::IMessage::MC_CRITICAL] = tr("Critical");
+	m_categoryNameMap[istd::ILogger::MC_INFO] = tr("Info");
+	m_categoryNameMap[istd::ILogger::MC_WARNING] = tr("Warning");
+	m_categoryNameMap[istd::ILogger::MC_ERROR] = tr("Error");
+	m_categoryNameMap[istd::ILogger::MC_CRITICAL] = tr("Critical");
 
 	qRegisterMetaType<QVariant>("QVariant");
 
@@ -58,15 +58,15 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 
 		QColor messageColor;
 		switch (message.GetCategory()){
-		case ibase::IMessage::MC_WARNING:
+		case istd::ILogger::MC_WARNING:
 			messageColor = QColor(235, 235, 0);
 			break;
 
-		case ibase::IMessage::MC_ERROR:
+		case istd::ILogger::MC_ERROR:
 			messageColor = QColor(255, 0, 255, 128);
 			break;
 
-		case ibase::IMessage::MC_CRITICAL:
+		case istd::ILogger::MC_CRITICAL:
 			messageColor = QColor(255, 0, 0);
 			break;
 

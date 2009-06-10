@@ -20,12 +20,12 @@ public:
 	/**
 		Install log.
 	*/
-	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr) = 0;
+	virtual void SetLogPtr(IMessageConsumer* logPtr) = 0;
 	
 	/**
 		Get log.
 	*/
-	virtual ibase::IMessageConsumer* GetLogPtr() const = 0;
+	virtual IMessageConsumer* GetLogPtr() const = 0;
 };
 
 

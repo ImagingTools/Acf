@@ -2,11 +2,12 @@
 #define ibase_CMessage_included
 
 
+#include "istd/ILogger.h"
 #include "istd/CString.h"
 
-#include "ibase/IMessage.h"
-
 #include "isys/CSimpleDateTime.h"
+
+#include "ibase/IMessage.h"
 
 
 namespace ibase
@@ -17,15 +18,19 @@ class CMessage: virtual public ibase::IMessage
 {
 public:
 	CMessage();
-	CMessage(MessageCategory category, int id, const istd::CString& text, const istd::CString& source, int flags = 0);
+	CMessage(	istd::ILogger::MessageCategory category,
+				int id,
+				const istd::CString& text,
+				const istd::CString& source,
+				int flags = 0);
 
-	virtual void SetCategory(MessageCategory category);
+	virtual void SetCategory(istd::ILogger::MessageCategory category);
 	virtual void SetText(const istd::CString& text);
 	virtual void SetSource(const istd::CString& source);
 
 	// reimplemented (ibase::IMessage)
 	virtual const isys::IDateTime& GetTimeStamp() const;
-	virtual MessageCategory GetCategory() const;
+	virtual istd::ILogger::MessageCategory GetCategory() const;
 	virtual int GetId() const;
 	virtual istd::CString GetText() const;
 	virtual istd::CString GetSource() const;
@@ -35,7 +40,7 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	IMessage::MessageCategory m_category;
+	istd::ILogger::MessageCategory m_category;
 	int m_id;
 	istd::CString m_text;
 	istd::CString m_source;
@@ -55,7 +60,7 @@ inline const isys::IDateTime& CMessage::GetTimeStamp() const
 }
 
 
-inline CMessage::MessageCategory CMessage::GetCategory() const
+inline istd::ILogger::MessageCategory CMessage::GetCategory() const
 {
 	return m_category;
 }

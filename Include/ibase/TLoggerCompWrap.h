@@ -25,8 +25,13 @@ public:
 	virtual void OnComponentCreated();
 
 protected:
-	// reimplemented (TLoggerWrap)
-	virtual bool SendLogMessage(IMessage::MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource) const;
+	// reimplemented (istd::ILogger)
+	virtual void DecorateMessage(
+				MessageCategory category,
+				int id,
+				int flags,
+				istd::CString& message,
+				istd::CString& messageSource) const;
 
 private:
 	I_REF(ibase::IMessageConsumer, m_logCompPtr);
@@ -50,19 +55,27 @@ void TLoggerCompWrap<Base>::OnComponentCreated()
 
 // protected methods
 
-template <class Base>
-bool TLoggerCompWrap<Base>::SendLogMessage(IMessage::MessageCategory category, int id, const istd::CString& message, const istd::CString& /*messageSource*/) const
-{
-	istd::CString messageSource = "<unknown>";
+// reimplemented (istd::ILogger)
 
-	if (m_logCompPtr.IsValid()){
-		const icomp::CComponentContext* contextPtr = dynamic_cast<const icomp::CComponentContext*>(BaseClass::GetComponentContext());
-		if (contextPtr != NULL){
+template <class Base>
+void TLoggerCompWrap<Base>::DecorateMessage(
+			MessageCategory category,
+			int id,
+			int flags,
+			istd::CString& message,
+			istd::CString& messageSource) const
+{
+	BaseClass::DecorateMessage(category, id, flags, message, messageSource);
+
+	const icomp::CComponentContext* contextPtr = dynamic_cast<const icomp::CComponentContext*>(BaseClass::GetComponentContext());
+	if (contextPtr != NULL){
+		if (messageSource.empty()){
 			messageSource = contextPtr->GetContextId();
 		}
+		else{
+			messageSource = istd::CString(contextPtr->GetContextId()) + " (" + messageSource + ")";
+		}
 	}
-
-	return BaseClass::SendLogMessage(category, id, message, messageSource);
 }
 
 

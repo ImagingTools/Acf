@@ -25,7 +25,7 @@ void CLogClientGuiComp::run()
 		int category = rand() % 4;
 
 		if(m_logCompPtr.IsValid()){
-			m_logCompPtr->AddMessage(new ibase::CMessage(ibase::IMessage::MessageCategory(category), MI_TEST_MESSAGE, "Test message", "Test source"));
+			m_logCompPtr->AddMessage(new ibase::CMessage(istd::ILogger::MessageCategory(category), MI_TEST_MESSAGE, "Test message", "Test source"));
 		}
 
 		QThread::msleep(timeIntervall);

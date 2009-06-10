@@ -314,6 +314,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ILoggable.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IMessage.h"
 				>
 			</File>

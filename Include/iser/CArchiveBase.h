@@ -2,6 +2,8 @@
 #define iser_CArchiveBase_included
 
 
+#include "istd/ILogger.h"
+
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -14,7 +16,9 @@ namespace iser
 	Base implementation of iser::IArchive interface.
 	It provides standard implementation of some methods and standard tags.
 */
-class CArchiveBase: virtual public IArchive
+class CArchiveBase:
+			virtual public IArchive,
+			virtual protected istd::ILogger
 {
 public:
 	// reimplemented (iser::IArchive)

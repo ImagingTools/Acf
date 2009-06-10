@@ -10,12 +10,21 @@ namespace iser
 {
 
 
-class CXmlReadArchiveBase: public CTextReadArchiveBase, public CXmlDocumentInfoBase
+class CXmlReadArchiveBase:
+			public CTextReadArchiveBase,
+			public CXmlDocumentInfoBase
 {
 public:
 	typedef CReadArchiveBase BaseClass;
 
+	enum MessageId
+	{
+		MI_TAG_ERROR = 0x3f320a0,
+		MI_TAG_SKIPPED
+	};
+
 	// reimplemented (iser::IArchive)
+	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const CArchiveTag& tag);
@@ -25,6 +34,13 @@ public:
 
 protected:
 	CXmlReadArchiveBase(const CArchiveTag& rootTag);
+
+	/**
+		Extended implementation of EndTag() with additional flag signalizing that tag is skipped.
+		\param	tag				serializing tag should be ended.
+		\param	wasTagSkipped	if tag is skipped it will be set, otherwise state is not changed.
+	*/
+	bool InternEndTag(const CArchiveTag& tag, bool& wasTagSkipped);
 
 	virtual bool SerializeXmlHeader();
 

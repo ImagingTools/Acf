@@ -33,7 +33,7 @@ void CFileWriteArchive::Flush()
 
 bool CFileWriteArchive::IsTagSkippingSupported() const
 {
-	return true;
+	return m_supportTagSkipping;
 }
 
 

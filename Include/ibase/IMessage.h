@@ -2,14 +2,14 @@
 #define ibase_IMessage_included
 
 
-#include "ibase/ibase.h"
-
-
-#include "isys/IDateTime.h"
-
+#include "istd/ILogger.h"
 #include "istd/CString.h"
 
 #include "iser/ISerializable.h"
+
+#include "isys/IDateTime.h"
+
+#include "ibase/ibase.h"
 
 
 namespace ibase
@@ -17,29 +17,12 @@ namespace ibase
 
 
 /**
-	Common interface for an message
+	Common interface for an message.
+	\sa istd::ILogger
 */
 class IMessage: virtual public iser::ISerializable
 {
 public:
-	enum MessageCategory
-	{
-		MC_INFO,
-		MC_WARNING,
-		MC_ERROR,
-		MC_CRITICAL
-	};
-
-	/**
-		Additionaly message flags.
-	*/
-	enum MessageFlags
-	{
-		MF_DEBUG = 0x1,
-		MF_SYSTEM = 0x2,
-		MF_USER = 0x4
-	};
-
 	/**
 		Get time stamp of the message.
 	*/
@@ -49,7 +32,7 @@ public:
 		Get category of the message.
 		\sa MessageCategory
 	*/
-	virtual MessageCategory GetCategory() const = 0;
+	virtual istd::ILogger::MessageCategory GetCategory() const = 0;
 
 	/**
 		Get binary ID of the message using to automatical identification of this message type.
@@ -68,7 +51,7 @@ public:
 
 	/**
 		Get flags of the message.
-		\sa MessageFlags
+		\sa istd::ILogger::MessageFlags
 	*/
 	virtual int GetFlags() const = 0;
 };

@@ -131,7 +131,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag attributeIdTag("Id", "Attribute ID");
 	static iser::CArchiveTag attributeTypeTag("Type", "Type of attribute");
 	static iser::CArchiveTag exportIdTag("ExportId", "ID used for export");
-	static iser::CArchiveTag dataTag("Data", "ID used for export");
+	static iser::CArchiveTag dataTag("Data", "ID used for export", true);
 	static iser::CArchiveTag isEnabledTag("IsEnabled", "Is attribute enabled");
 
 	bool retVal = true;
@@ -225,15 +225,16 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 
 					AttributeInfo* infoPtr = InsertAttributeInfo(attributeId, isEnabled);
 
-					if (infoPtr == NULL){
-						return false;
+					if (infoPtr != NULL){
+						infoPtr->exportId = exportId;
+
+						if (isEnabled){
+							I_ASSERT(infoPtr->attributePtr.IsValid());
+							retVal = retVal && infoPtr->attributePtr->Serialize(archive);
+						}
 					}
-
-					infoPtr->exportId = exportId;
-
-					if (isEnabled){
-						I_ASSERT(infoPtr->attributePtr.IsValid());
-						retVal = retVal && infoPtr->attributePtr->Serialize(archive);
+					else if (!archive.IsTagSkippingSupported()){
+						return false;
 					}
 
 					retVal = retVal && archive.EndTag(dataTag);

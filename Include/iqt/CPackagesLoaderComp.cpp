@@ -216,7 +216,7 @@ bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFile)
 const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CString& path) const
 {
 	QFileInfo fileInfo(iqt::GetQString(path));
-	istd::CString correctedPath = iqt::GetCString(fileInfo.absoluteFilePath());
+	istd::CString correctedPath = iqt::GetCString(fileInfo.canonicalFilePath());
 
 	RegistriesMap::const_iterator iter = m_registriesMap.find(correctedPath);
 

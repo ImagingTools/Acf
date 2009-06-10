@@ -16,7 +16,12 @@ CMessage::CMessage()
 }
 
 
-CMessage::CMessage(MessageCategory category, int id, const istd::CString& text, const istd::CString& source, int flags)
+CMessage::CMessage(
+			istd::ILogger::MessageCategory category,
+			int id,
+			const istd::CString& text,
+			const istd::CString& source,
+			int flags)
 :	m_category(category),
 	m_id(id),
 	m_text(text),
@@ -27,7 +32,7 @@ CMessage::CMessage(MessageCategory category, int id, const istd::CString& text, 
 }
 
 
-void CMessage::SetCategory(MessageCategory category)
+void CMessage::SetCategory(istd::ILogger::MessageCategory category)
 {
 	m_category = category;
 }
@@ -57,7 +62,7 @@ bool CMessage::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(categoryTag);
 
 	if (!archive.IsStoring()){
-		m_category = ibase::IMessage::MessageCategory(category);
+		m_category = istd::ILogger::MessageCategory(category);
 	}
 
 	static iser::CArchiveTag textTag("Text", "Message text");

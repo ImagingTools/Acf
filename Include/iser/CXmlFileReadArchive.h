@@ -26,6 +26,18 @@ public:
 	typedef TXmlStreamReadArchiveBase<std::ifstream> BaseClass;
 
 	explicit CXmlFileReadArchive(const istd::CString& filePath, bool serializeHeader = true, const CArchiveTag& rootTag = s_acfRootTag);
+
+protected:
+	// reimplemented (istd::ILogger)
+	virtual void DecorateMessage(
+				MessageCategory category,
+				int id,
+				int flags,
+				istd::CString& message,
+				istd::CString& messageSource) const;
+
+private:
+	istd::CString m_filePath;
 };
 
 

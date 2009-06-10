@@ -19,6 +19,7 @@ public:
 	typedef CTextWriteArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
+	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const CArchiveTag& tag);
