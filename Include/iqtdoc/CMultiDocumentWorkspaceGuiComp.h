@@ -105,8 +105,8 @@ protected:
 
 	// reimplemented (idoc::CMultiDocumentManagerBase)
 	virtual void CloseAllDocuments();
-	virtual istd::CStringList GetOpenFileNames(const std::string* documentTypeIdPtr = NULL) const;
-	virtual istd::CString GetSaveFileName(const std::string& documentTypeId) const;
+	virtual istd::CStringList GetOpenFilePaths(const std::string* documentTypeIdPtr = NULL) const;
+	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
 	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr);

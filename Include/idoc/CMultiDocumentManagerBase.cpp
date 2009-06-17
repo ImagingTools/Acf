@@ -165,7 +165,7 @@ bool CMultiDocumentManagerBase::FileOpen(
 		files.push_back(*fileNamePtr);
 	}
 	else{
-		files = GetOpenFileNames(documentTypeIdPtr);
+		files = GetOpenFilePaths(documentTypeIdPtr);
 	}
 
 	for (		istd::CStringList::const_iterator iter = files.begin();
@@ -209,7 +209,7 @@ bool CMultiDocumentManagerBase::FileSave(
 	requestFileName  = requestFileName || filePath.IsEmpty();
 
 	if (requestFileName){
-		filePath = GetSaveFileName(infoPtr->documentTypeId);
+		filePath = GetSaveFilePath(infoPtr->documentTypeId);
 		if (filePath.IsEmpty()){
 			return true;
 		}

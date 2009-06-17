@@ -25,6 +25,12 @@ bool CInterfaceManipBase::SplitId(const std::string& complexId, std::string& bas
 }
 
 
+std::string CInterfaceManipBase::JoinId(const std::string& baseId, const std::string& subId)
+{
+	return baseId + "/" + subId;
+}
+
+
 }//namespace icomp
 
 

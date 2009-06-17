@@ -64,8 +64,8 @@ protected:
 	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL, int flags = 0) const;
 
 	// reimplemented (idoc::CSingleDocumentManagerBase)
-	virtual istd::CString GetOpenFileName(const std::string* documentTypeIdPtr = NULL) const;
-	virtual istd::CString GetSaveFileName(const std::string& documentTypeId) const;
+	virtual istd::CString GetOpenFilePath(const std::string* documentTypeIdPtr = NULL) const;
+	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
 	virtual void QueryDocumentClose(bool* ignoredPtr);

@@ -19,6 +19,10 @@ public:
 		Split component ID into separated ID's.
 	*/
 	static bool SplitId(const std::string& complexId, std::string& baseId, std::string& subId);
+	/**
+		Join base component ID and sub ID into composed component ID.
+	*/
+	static std::string JoinId(const std::string& baseId, const std::string& subId);
 
 protected:
 	/**

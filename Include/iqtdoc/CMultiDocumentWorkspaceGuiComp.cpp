@@ -306,7 +306,7 @@ void CMultiDocumentWorkspaceGuiComp::CloseAllDocuments()
 }
 
 
-istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFileNames(const std::string* documentTypeIdPtr) const
+istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFilePaths(const std::string* documentTypeIdPtr) const
 {
 	QString filter = CreateFileDialogFilter(documentTypeIdPtr);
 
@@ -320,7 +320,7 @@ istd::CStringList CMultiDocumentWorkspaceGuiComp::GetOpenFileNames(const std::st
 }
 
 
-istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFileName(const std::string& documentTypeId) const
+istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFilePath(const std::string& documentTypeId) const
 {
 	QString filter = CreateFileDialogFilter(&documentTypeId);
 

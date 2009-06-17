@@ -142,7 +142,7 @@ bool CSingleDocumentManagerBase::FileOpen(
 		fileName = *fileNamePtr;
 	}
 	else{
-		fileName = GetOpenFileName(documentTypeIdPtr);
+		fileName = GetOpenFilePath(documentTypeIdPtr);
 	}
 
 	if (!fileName.IsEmpty()){
@@ -175,7 +175,7 @@ bool CSingleDocumentManagerBase::FileSave(
 	requestFileName  = requestFileName || filePath.IsEmpty();
 
 	if (requestFileName){
-		filePath = GetSaveFileName(m_documentTypeId);
+		filePath = GetSaveFilePath(m_documentTypeId);
 
 		if (filePath.IsEmpty()){
 			return true;

@@ -6,7 +6,8 @@
 #include <QListWidget>
 #include <QLineEdit>
 
-#include "icomp/CRegistryElement.h" 
+#include "icomp/CRegistryElement.h"
+#include "icomp/CInterfaceManipBase.h"
 
 #include "icmpstr/CRegistryViewComp.h"
 
@@ -274,6 +275,8 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 	ComponentsTree->addTopLevelItem(componentRootPtr);
 
 	MainTab->setTabIcon(TI_ATTRIBUTES, isCorrect? QIcon(): QIcon(":/Resources/Icons/close_a_128.png"));
+
+	UpdateExportIcon();
 }
 
 
@@ -377,6 +380,8 @@ void CAttributeEditorComp::on_InterfacesTree_itemChanged(QTreeWidgetItem* item, 
 		const std::string& elementName = selectionInfoPtr->GetSelectedElementName();
 		bool isSelected = (item->checkState(column) == Qt::Checked);
 		registryPtr->SetElementInterfaceExported(elementName, istd::CClassInfo(interfaceName.toStdString()), isSelected);
+
+		UpdateExportIcon();
 	}
 }
 
@@ -607,7 +612,7 @@ void CAttributeEditorComp::CreateComponentsTree(
 				++subIter){
 		const std::string& subcomponentId = *subIter;
 
-		std::string fullId = elementId + "/" + subcomponentId;
+		std::string fullId = icomp::CInterfaceManipBase::JoinId(elementId, subcomponentId);
 
 		QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
 
@@ -654,11 +659,63 @@ QStringList CAttributeEditorComp::GetCompatibleSubcomponents(
 
 		const icomp::IComponentStaticInfo* subcomponentInfoPtr = elementStaticInfo.GetSubcomponentInfo(subcomponentId);
 		if (subcomponentInfoPtr != NULL){
-			retVal += GetCompatibleSubcomponents(elementId + "/" + subcomponentId, *subcomponentInfoPtr, interfaceInfo);
+			retVal += GetCompatibleSubcomponents(icomp::CInterfaceManipBase::JoinId(elementId, subcomponentId), *subcomponentInfoPtr, interfaceInfo);
 		}
 	}
 
 	return retVal;
+}
+
+
+void CAttributeEditorComp::UpdateExportIcon()
+{
+	QIcon interfacesIcon;
+	QIcon componentsIcon;
+
+	const icomp::IRegistryElement* elementPtr = GetRegistryElement();
+	const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
+
+	if ((selectionInfoPtr != NULL) && (elementPtr != NULL)){
+		const icomp::IComponentStaticInfo& elementStaticInfo = elementPtr->GetComponentStaticInfo();
+
+		const icomp::IRegistry* registryPtr = selectionInfoPtr->GetSelectedRegistry();
+		if (registryPtr != NULL){
+			const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = registryPtr->GetExportedInterfacesMap();
+
+			const icomp::IComponentStaticInfo::InterfaceExtractors extractors = elementStaticInfo.GetInterfaceExtractors();
+
+			for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
+				const istd::CClassInfo& interfaceInfo = extractors.GetKeyAt(extractorIndex);
+
+				icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceInfo);
+				if (foundExportIter != interfacesMap.end()){
+					interfacesIcon = QIcon(":/Resources/Icons/Export.png");
+
+					break;
+				}
+			}
+
+			const std::string& elementName = selectionInfoPtr->GetSelectedElementName();
+
+			icomp::IRegistry::ExportedComponentsMap componentsMap = registryPtr->GetExportedComponentsMap();
+
+			for (icomp::IRegistry::ExportedComponentsMap::const_iterator componentIter = componentsMap.begin();
+						componentIter != componentsMap.end();
+						++componentIter){
+				std::string componentId;
+				std::string restId;
+				icomp::CInterfaceManipBase::SplitId(componentIter->second, componentId, restId);
+				if (componentId == elementName){
+					componentsIcon = QIcon(":/Resources/Icons/Export.png");
+
+					break;
+				}
+			}
+		}
+	}
+
+	MainTab->setTabIcon(TI_INTERFACES, interfacesIcon);
+	MainTab->setTabIcon(TI_EXPORTS, componentsIcon);
 }
 
 
@@ -921,6 +978,8 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 			if (!exportId.empty()){
 				registryPtr->SetElementExported(exportId, attributeName);
 			}
+
+			m_parent.UpdateExportIcon();
 		}
 
 		return;

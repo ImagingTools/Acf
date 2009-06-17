@@ -125,7 +125,7 @@ QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::strin
 
 // reimplemented (idoc::CSingleDocumentManagerBase)
 
-istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFileName(const std::string* documentTypeIdPtr) const
+istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFilePath(const std::string* documentTypeIdPtr) const
 {
 	QString filter = CreateFileDialogFilter(documentTypeIdPtr, iser::IFileLoader::QF_NO_SAVING);
 
@@ -141,7 +141,7 @@ istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFileName(const std::string
 }
 
 
-istd::CString CSingleDocumentWorkspaceGuiComp::GetSaveFileName(const std::string& documentTypeId) const
+istd::CString CSingleDocumentWorkspaceGuiComp::GetSaveFilePath(const std::string& documentTypeId) const
 {
 	QString filter = CreateFileDialogFilter(&documentTypeId, iser::IFileLoader::QF_NO_LOADING);
 

@@ -42,6 +42,7 @@ public:
 	{
 		TI_GENERAL,
 		TI_ATTRIBUTES,
+		TI_INTERFACES,
 		TI_EXPORTS
 	};
 
@@ -114,6 +115,8 @@ protected:
 				const std::string& elementId,
 				const icomp::IComponentStaticInfo& elementStaticInfo,
 				const istd::CClassInfo& interfaceInfo) const;
+
+	void UpdateExportIcon();
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();

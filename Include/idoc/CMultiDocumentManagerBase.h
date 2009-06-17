@@ -150,12 +150,12 @@ protected:
 	/**
 		Gets open file names.
 	*/
-	virtual istd::CStringList GetOpenFileNames(const std::string* documentTypeIdPtr = NULL) const  = 0;
+	virtual istd::CStringList GetOpenFilePaths(const std::string* documentTypeIdPtr = NULL) const  = 0;
 
 	/**
 		Gets save file name.
 	*/
-	virtual istd::CString GetSaveFileName(const std::string& documentTypeId) const = 0;
+	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const = 0;
 
 	/**
 		Query user if this document can be closed.
