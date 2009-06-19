@@ -12,6 +12,7 @@
 #include "iqt/CSettingsSerializerComp.h"
 #include "iqt/CApplicationSettingsProviderComp.h"
 #include "iqt/CCopyProcessorComp.h"
+#include "iqt/CFolderMonitorComp.h"
 
 #include "iqtgui/CLoginGuiComp.h"
 #include "iqtgui/CApplicationComp.h"
@@ -60,12 +61,24 @@ namespace QtPck
 
 
 typedef iqt::CPackagesLoaderComp PackagesLoader;
-typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmap, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable> > Bitmap;
-typedef icomp::TModelCompWrap<icomp::TMakeComponentWrap<iqt::CBitmapSurface, iimg::IBitmap, iimg::IRasterImage, iser::ISerializable, imath::ISampledFunction2d> > BitmapSurface;
+typedef icomp::TModelCompWrap<
+			icomp::TMakeComponentWrap<
+						iqt::CBitmap,
+						iimg::IBitmap,
+						iimg::IRasterImage,
+						iser::ISerializable> > Bitmap;
+typedef icomp::TModelCompWrap<
+			icomp::TMakeComponentWrap<
+						iqt::CBitmapSurface,
+						iimg::IBitmap,
+						iimg::IRasterImage,
+						iser::ISerializable,
+						imath::ISampledFunction2d> > BitmapSurface;
 typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CCopyProcessorComp CopyProcessor;
+typedef iqt::CFolderMonitorComp FolderMonitor;
 
 typedef iqtgui::CLoginGuiComp LoginGui;
 typedef iqtgui::CApplicationComp GuiApplication;

@@ -50,7 +50,12 @@ void CTabContainerGuiComp::OnGuiCreated()
 				continue;
 			}
 
-			int addTabIndex = widgetPtr->addTab(guiPtr->GetWidget(), tabName);
+			QWidget* pageWidget = new QWidget(widgetPtr);
+			QVBoxLayout* pageLayout = new QVBoxLayout(pageWidget);
+
+			pageLayout->addWidget(guiPtr->GetWidget());
+
+			int addTabIndex = widgetPtr->addTab(pageWidget, tabName);
 
 			if (m_iconsProviderCompPtr.IsValid()){
 				int iconCount = m_iconsProviderCompPtr->GetIconCount();			

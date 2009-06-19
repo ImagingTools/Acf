@@ -232,6 +232,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFolderMonitorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackagesLoaderComp.cpp"
 				>
 			</File>
@@ -346,6 +350,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFolderMonitorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFolderMonitorComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackagesLoaderComp.h"
 				>
 			</File>
@@ -413,6 +425,10 @@
 			</File>
 			<File
 				RelativePath="..\Generated\moc_CFileList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CFolderMonitorComp.cpp"
 				>
 			</File>
 		</Filter>

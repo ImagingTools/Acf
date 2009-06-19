@@ -69,6 +69,7 @@ I_EXPORT_COMPONENT(LayoutGui, "Allows create layouted UI", "Qt Widget GUI Layout
 I_EXPORT_COMPONENT(SettingsSerializer, "Load and save objects using QSettings as storage", "Qt QSettings Registry Serializer Loader Saver");
 I_EXPORT_COMPONENT(ApplicationSettingsProvider, "Provider for the global application settings", "Qt QSettings Registry Saver");
 I_EXPORT_COMPONENT(CopyProcessor, "Copy files from one directory to another one", "Qt Copy File Dir Filter Installation Tool");
+I_EXPORT_COMPONENT(FolderMonitor, "This component observes changes in a given file folder", "Qt File Dir Filter Observer");
 
 
 } // namespace QtPck

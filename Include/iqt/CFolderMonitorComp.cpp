@@ -1,0 +1,245 @@
+#include "iqt/CFolderMonitorComp.h"
+
+
+// Qt includes
+#include <QDir>
+#include <QApplication>
+
+
+// ACF includes
+#include "istd/TChangeNotifier.h"
+
+#include "isys/CSectionBlocker.h"
+
+#include "iqt/CTimer.h"
+
+
+namespace iqt
+{
+
+
+CFolderMonitorComp::CFolderMonitorComp()
+	:m_notificationFrequency(10),
+	m_poolingFrequency(60),
+	m_finishThread(false)
+{
+}
+
+// reimplemented (isys::IFolderMonitor)
+
+void CFolderMonitorComp::SetFolderPath(const istd::CString& folderPath)
+{	
+	isys::CSectionBlocker block(&m_lock);
+
+	if (folderPath != GetFolderPath()){
+		if (!m_folderPath.isEmpty()){
+			m_fileSystemWatcher.removePath(m_folderPath);
+		}
+
+		m_folderPath = iqt::GetQString(folderPath);
+		QDir folderDir(m_folderPath);
+	
+		m_directoryFiles = folderDir.entryInfoList(QDir::Dirs | QDir::Files);
+		m_fileSystemWatcher.addPath(m_folderPath);
+	}
+}
+
+
+istd::CString CFolderMonitorComp::GetFolderPath() const
+{
+	return iqt::GetCString(m_folderPath);
+}
+
+
+istd::CStringList CFolderMonitorComp::GetChangedFileItems(int changeFlags) const
+{
+	istd::CStringList changedFilesList;
+	if ((changeFlags & FilesAdded) != 0){
+		istd::CStringList addedFiles = iqt::GetCStringList(m_folderChanges.addedFiles);
+		changedFilesList.insert(changedFilesList.end(), addedFiles.begin(), addedFiles.end()); 
+	}
+
+	if ((changeFlags & FilesRemoved) != 0){
+		istd::CStringList removedFiles = iqt::GetCStringList(m_folderChanges.removedFiles);
+		changedFilesList.insert(changedFilesList.end(), removedFiles.begin(), removedFiles.end()); 
+	}
+
+	if ((changeFlags & FilesModified) != 0){
+		istd::CStringList modifiedFiles = iqt::GetCStringList(m_folderChanges.modifiedFiles);
+		changedFilesList.insert(changedFilesList.end(), modifiedFiles.begin(), modifiedFiles.end()); 
+	}
+
+	if ((changeFlags & FilesAttributeChanged) != 0){
+		istd::CStringList attributeChangedFiles = iqt::GetCStringList(m_folderChanges.attributeChangedFiles);
+		changedFilesList.insert(changedFilesList.end(), attributeChangedFiles.begin(), attributeChangedFiles.end()); 
+	}
+
+	return changedFilesList;
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CFolderMonitorComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_defaultPathAttrPtr.IsValid()){
+		SetFolderPath(*m_defaultPathAttrPtr);
+	}
+
+	if (m_notificationFrequencyAttrPtr.IsValid()){
+		m_notificationFrequency = *m_notificationFrequencyAttrPtr;
+	}
+
+	if (m_poolingFrequencyAttrPtr.IsValid()){
+		m_poolingFrequency = *m_poolingFrequencyAttrPtr;
+	}
+
+	if (m_fileFilterExpressionsAttrPtr.IsValid()){
+		for (int filterIndex = 0; filterIndex < m_fileFilterExpressionsAttrPtr.GetCount(); filterIndex++){
+			m_fileFilterExpressions.push_back(iqt::GetQString(m_fileFilterExpressionsAttrPtr[filterIndex]));
+		}
+	}
+
+	connect(&m_fileSystemWatcher, SIGNAL(directoryChanged(const QString&)), this, SLOT(OnDirectoryChanged(const QString&)));
+	connect(this,
+				SIGNAL(FolderChanged(const QStringList&, const QStringList&, const QStringList&, const QStringList&)),
+				this,
+				SLOT(OnFolderChanged(const QStringList&, const QStringList&, const QStringList&, const QStringList&)),
+				Qt::QueuedConnection);
+
+	// start 
+	BaseClass2::start();
+}
+
+
+void CFolderMonitorComp::OnComponentDestroyed()
+{
+	m_finishThread = true;
+
+	// wait for 30 seconds for finishing of thread: 
+	iqt::CTimer timer;
+	while (timer.GetElapsed() < 30 && BaseClass2::isRunning()){
+		QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+	}
+
+	if (BaseClass2::isRunning()){
+		BaseClass2::terminate();
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// protected methods
+
+// reimplemented (QThread)
+
+void CFolderMonitorComp::run()
+{
+	iqt::CTimer fullUpdateTimer;
+	iqt::CTimer directoryChangesUpdateTimer;
+	
+	while (!m_finishThread){
+		QDir folderDir(m_folderPath);
+
+		bool needFullDirectoryUpdate = (fullUpdateTimer.GetElapsed() >= m_poolingFrequency);
+		bool needDirectoryChangesUpdate = (directoryChangesUpdateTimer.GetElapsed() >= m_notificationFrequency);
+		bool needUpdate = ((needDirectoryChangesUpdate && !m_directoryChangesConfirmed)  || needFullDirectoryUpdate);
+		if (!needUpdate){
+			msleep(50);
+
+			continue;
+		}
+
+		QFileInfoList currentFiles = folderDir.entryInfoList(m_fileFilterExpressions, QDir::AllEntries);
+
+		QStringList addedFiles;
+		QStringList removedFiles;
+		QStringList modifiedFiles;
+		QStringList attributeChangedFiles;
+
+		// check for changes:
+		for (int fileIndex = 0; fileIndex < int(m_directoryFiles.count()); fileIndex++){
+			QFileInfo fileInfo = m_directoryFiles[fileIndex];
+			if (!fileInfo.exists()){
+				removedFiles.push_back(fileInfo.absoluteFilePath());
+				SendInfoMessage(0, iqt::GetCString(fileInfo.absoluteFilePath() + " was removed"));
+			}
+		}
+
+		for (int currentFileIndex = 0; currentFileIndex < int(currentFiles.count()); currentFileIndex++){
+			const QFileInfo& currentFileInfo = currentFiles[currentFileIndex];
+			bool newFile = true;
+			for (int fileIndex = 0; fileIndex < int(m_directoryFiles.count()); fileIndex++){
+				const QFileInfo& fileInfo = m_directoryFiles[fileIndex];
+				if (currentFileInfo == fileInfo){
+					newFile = false;
+					break;
+				}
+			}
+
+			if (newFile){
+				addedFiles.push_back(currentFileInfo.absoluteFilePath());
+				SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was added"));
+			}
+		}
+
+		m_directoryFiles = currentFiles;
+
+		Q_EMIT FolderChanged(addedFiles, removedFiles, modifiedFiles, attributeChangedFiles);
+
+		m_directoryChangesConfirmed = true;
+		fullUpdateTimer.Start();
+		directoryChangesUpdateTimer.Start();
+	}
+}
+
+
+// private slots
+
+void CFolderMonitorComp::OnDirectoryChanged(const QString&/* directoryPath*/)
+{
+	m_directoryChangesConfirmed = false;
+}
+
+
+void CFolderMonitorComp::OnFolderChanged(
+			const QStringList& addedFiles,
+			const QStringList& removedFiles,
+			const QStringList& modifiedFiles,
+			const QStringList& attributeChangedFiles)
+{
+	m_folderChanges.addedFiles = addedFiles;
+	m_folderChanges.removedFiles = removedFiles;
+	m_folderChanges.modifiedFiles = modifiedFiles;
+	m_folderChanges.attributeChangedFiles = attributeChangedFiles;
+
+	int changeFlags = CF_MODEL;
+
+	if (!addedFiles.isEmpty()){
+		changeFlags |= FilesAdded;
+	}
+
+	if (!removedFiles.isEmpty()){
+		changeFlags |= FilesRemoved;
+	}
+
+	if (!modifiedFiles.isEmpty()){
+		changeFlags |= FilesModified;
+	}
+
+	if (!attributeChangedFiles.isEmpty()){
+		changeFlags |= FilesAttributeChanged;
+	}
+
+	istd::CChangeNotifier changePtr(this, changeFlags, &m_folderChanges);
+
+	changePtr.Reset();
+}
+
+
+} // namespace iqt
+
+
