@@ -103,11 +103,7 @@ void CFolderMonitorComp::OnComponentCreated()
 	}
 
 	connect(&m_fileSystemWatcher, SIGNAL(directoryChanged(const QString&)), this, SLOT(OnDirectoryChanged(const QString&)));
-	connect(this,
-				SIGNAL(FolderChanged(const QStringList&, const QStringList&, const QStringList&, const QStringList&)),
-				this,
-				SLOT(OnFolderChanged(const QStringList&, const QStringList&, const QStringList&, const QStringList&)),
-				Qt::QueuedConnection);
+	connect(this, SIGNAL(FolderChanged(int)), this, SLOT(OnFolderChanged(int)), Qt::QueuedConnection);
 
 	// start 
 	BaseClass2::start();
@@ -188,7 +184,32 @@ void CFolderMonitorComp::run()
 
 		m_directoryFiles = currentFiles;
 
-		Q_EMIT FolderChanged(addedFiles, removedFiles, modifiedFiles, attributeChangedFiles);
+		isys::CSectionBlocker block(&m_lock);
+
+		m_folderChanges.addedFiles = addedFiles;
+		m_folderChanges.removedFiles = removedFiles;
+		m_folderChanges.modifiedFiles = modifiedFiles;
+		m_folderChanges.attributeChangedFiles = attributeChangedFiles;
+
+		int changeFlags = CF_MODEL;
+
+		if (!addedFiles.isEmpty()){
+			changeFlags |= FilesAdded;
+		}
+
+		if (!removedFiles.isEmpty()){
+			changeFlags |= FilesRemoved;
+		}
+
+		if (!modifiedFiles.isEmpty()){
+			changeFlags |= FilesModified;
+		}
+
+		if (!attributeChangedFiles.isEmpty()){
+			changeFlags |= FilesAttributeChanged;
+		}
+
+		Q_EMIT FolderChanged(changeFlags);
 
 		m_directoryChangesConfirmed = true;
 		fullUpdateTimer.Start();
@@ -205,34 +226,9 @@ void CFolderMonitorComp::OnDirectoryChanged(const QString&/* directoryPath*/)
 }
 
 
-void CFolderMonitorComp::OnFolderChanged(
-			const QStringList& addedFiles,
-			const QStringList& removedFiles,
-			const QStringList& modifiedFiles,
-			const QStringList& attributeChangedFiles)
+void CFolderMonitorComp::OnFolderChanged(int changeFlags)
 {
-	m_folderChanges.addedFiles = addedFiles;
-	m_folderChanges.removedFiles = removedFiles;
-	m_folderChanges.modifiedFiles = modifiedFiles;
-	m_folderChanges.attributeChangedFiles = attributeChangedFiles;
-
-	int changeFlags = CF_MODEL;
-
-	if (!addedFiles.isEmpty()){
-		changeFlags |= FilesAdded;
-	}
-
-	if (!removedFiles.isEmpty()){
-		changeFlags |= FilesRemoved;
-	}
-
-	if (!modifiedFiles.isEmpty()){
-		changeFlags |= FilesModified;
-	}
-
-	if (!attributeChangedFiles.isEmpty()){
-		changeFlags |= FilesAttributeChanged;
-	}
+	isys::CSectionBlocker block(&m_lock);
 
 	istd::CChangeNotifier changePtr(this, changeFlags, &m_folderChanges);
 

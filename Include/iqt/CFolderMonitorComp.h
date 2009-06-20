@@ -74,18 +74,10 @@ protected:
 
 private slots:
 	void OnDirectoryChanged(const QString& directoryPath);
-	void OnFolderChanged(
-				const QStringList& addedFiles,
-				const QStringList& removedFiles,
-				const QStringList& modifiedFiles,
-				const QStringList& attributeChangedFiles);
+	void OnFolderChanged(int changeFlags);
 
 Q_SIGNALS:
-	void FolderChanged(
-				const QStringList& addedFiles,
-				const QStringList& removedFiles,
-				const QStringList& modifiedFiles,
-				const QStringList& attributeChangedFiles);
+	void FolderChanged(int changeFlags);
 
 private:
 	I_ATTR(int, m_notificationFrequencyAttrPtr);
