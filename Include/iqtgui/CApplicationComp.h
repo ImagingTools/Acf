@@ -32,9 +32,9 @@ public:
 		I_ASSIGN(m_styleSheetAttrPtr, "StyleSheet", "Style sheet for the GUI", false, "")
 	I_END_COMPONENT
 
-	bool EnsureInitialized(int argc, char** argv);
 
 	// reimplemented (ibase::IApplication)
+	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
 

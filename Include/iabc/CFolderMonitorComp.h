@@ -1,8 +1,8 @@
-#ifndef iqt_CFolderMonitorComp_included
-#define iqt_CFolderMonitorComp_included
+#ifndef iabc_CFolderMonitorComp_included
+#define iabc_CFolderMonitorComp_included
 
 
-#include "iqt/iqt.h"
+#include "iabc/iabc.h"
 
 
 // Qt includes
@@ -22,7 +22,7 @@
 #include "iqt/CCriticalSection.h"
 
 
-namespace iqt
+namespace iabc
 {
 
 
@@ -104,9 +104,9 @@ private:
 };
 
 
-} // namespace iqt
+} // namespace iabc
 
 
-#endif // !iqt_CFolderMonitorComp_included
+#endif // !iabc_CFolderMonitorComp_included
 
 

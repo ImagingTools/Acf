@@ -15,7 +15,9 @@ namespace iqtgui
 {
 
 
-bool CApplicationComp::EnsureInitialized(int argc, char** argv)
+// reimplemented (ibase::IApplication)
+
+bool CApplicationComp::InitializeApplication(int argc, char** argv)
 {
 	if (!m_applicationPtr.IsValid()){
 		std::string appStyle;
@@ -47,13 +49,11 @@ bool CApplicationComp::EnsureInitialized(int argc, char** argv)
 }
 
 
-// reimplemented (ibase::IApplication)
-
 int CApplicationComp::Execute(int argc, char** argv)
 {
 	int retVal = -1;
 
-	if (EnsureInitialized(argc, argv)){
+	if (InitializeApplication(argc, argv)){
 		iqt::CTimer timer;
 
 		m_applicationPtr->setPalette(QApplication::style()->standardPalette());

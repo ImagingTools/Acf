@@ -1,0 +1,81 @@
+#ifndef iabc_CServiceApplicationComp_included
+#define iabc_CServiceApplicationComp_included
+
+
+// Qt includes
+#include "QtService.h"
+
+
+// ACF includes
+#include "iabc/iabc.h"
+
+
+#include "ibase/IApplication.h"
+#include "ibase/TLoggerCompWrap.h"
+
+#include "icomp/TSingleAttribute.h"
+#include "icomp/CComponentBase.h"
+
+
+namespace iabc
+{
+
+
+class CServiceApplicationComp:
+			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::IApplication
+{
+public:
+	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+
+	I_BEGIN_COMPONENT(CServiceApplicationComp)
+		I_REGISTER_INTERFACE(ibase::IApplication)
+		I_ASSIGN(m_applicationCompPtr, "ApplicationInstance", "Service application object", true, "Application");
+		I_ASSIGN(m_serviceDescriptionAttrPtr, "SeriviceDescription", "Service description", true, "This services provides...");
+		I_ASSIGN(m_serviceNameAttrPtr, "ServiceName", "The name of the service", true, "MyService");
+	I_END_COMPONENT
+
+	// reimplemented (ibase::IApplication)
+	virtual bool InitializeApplication(int argc, char** argv);
+	virtual int Execute(int argc, char** argv);
+	virtual istd::CString GetHelpText() const;
+
+protected:
+	class CService: public QtServiceBase
+	{
+	public:
+		typedef QtServiceBase BaseClass;
+
+		CService(CServiceApplicationComp& parent,
+					ibase::IApplication& application,
+					int argc,
+					char **argv,
+					const QString &name);
+
+	protected:
+		// reimplemented (QtServiceBase)
+		virtual void start();
+		virtual void createApplication(int &argc, char **argv);
+		virtual int executeApplication();
+
+	private:
+		CServiceApplicationComp& m_parent;
+		ibase::IApplication& m_application;
+		int m_argc;
+		char** m_argv;
+	};
+
+private:
+	I_REF(ibase::IApplication, m_applicationCompPtr);
+	I_ATTR(istd::CString, m_serviceDescriptionAttrPtr);
+	I_ATTR(istd::CString, m_serviceNameAttrPtr);
+
+	istd::TDelPtr<CService> m_servicePtr;
+};
+
+
+} // namespace iabc
+
+
+#endif // iabc_CServiceApplicationComp_included
+

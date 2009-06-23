@@ -1,4 +1,4 @@
-#include "iqt/CFolderMonitorComp.h"
+#include "iabc/CFolderMonitorComp.h"
 
 
 // Qt includes
@@ -14,7 +14,7 @@
 #include "iqt/CTimer.h"
 
 
-namespace iqt
+namespace iabc
 {
 
 
@@ -236,6 +236,6 @@ void CFolderMonitorComp::OnFolderChanged(int changeFlags)
 }
 
 
-} // namespace iqt
+} // namespace iabc
 
 

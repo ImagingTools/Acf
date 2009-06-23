@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
 	application.SetDoubleAttr("SplashTime", 1.5);
-	application.EnsureInitialized(argc, argv);
+	application.InitializeApplication(argc, argv);
 
 	QApplication::setStyle("plastique");
 

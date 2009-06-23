@@ -17,12 +17,17 @@ class IApplication: virtual public istd::IPolymorphic
 {
 public:
 	/**
-	* Starts execution loop of the application.
+		Create and initialize the appliocation object.
+	*/
+	virtual bool InitializeApplication(int argc, char** argv) = 0;
+
+	/**
+		Starts execution loop of the application.
 	*/
 	virtual int Execute(int argc, char** argv) = 0;
 
 	/**
-	* Gets the command line arguments of this application.
+		Gets the command line arguments of this application.
 	*/
 	virtual istd::CString GetHelpText() const = 0;
 };

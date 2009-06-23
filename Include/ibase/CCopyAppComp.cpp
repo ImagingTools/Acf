@@ -7,6 +7,12 @@ namespace ibase
 
 // reimplemented (ibase::IApplication)
 
+bool CCopyAppComp::InitializeApplication(int argc, char** argv)
+{
+	return true;
+}
+
+
 int CCopyAppComp::Execute(int argc, char** argv)
 {
 	if (!m_objectCompPtr.IsValid()){

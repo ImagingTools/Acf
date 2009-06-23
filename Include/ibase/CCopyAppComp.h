@@ -30,6 +30,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::IApplication)
+	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
 
