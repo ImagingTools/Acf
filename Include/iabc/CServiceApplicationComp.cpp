@@ -70,6 +70,9 @@ int CServiceApplicationComp::Execute(int argc, char** argv)
 		}
 
 		// service is installed and can be started. ALL Possible parameters are in the argv[0] string defined.
+
+
+		
 		argc = 1;
 		m_servicePtr.SetPtr(new CService(*this, *m_applicationCompPtr.GetPtr(), argc, argv, serviceName));
 
@@ -115,22 +118,17 @@ CServiceApplicationComp::CService::CService(
 
 void CServiceApplicationComp::CService::start()
 {
-	m_parent.SendInfoMessage(0, "CServiceApplicationComp::CService::start() entered");
 }
 
 
 void CServiceApplicationComp::CService::createApplication(int& argc, char** argv)
 {
 	m_application.InitializeApplication(argc, argv);
-
-	m_parent.SendInfoMessage(0, "CServiceApplicationComp::CService::createApplication() entered");
 }
 
 
 int CServiceApplicationComp::CService::executeApplication()
 {
-	m_parent.SendInfoMessage(0, "CServiceApplicationComp::CService::executeApplication() entered");
-
 	return m_application.Execute(m_argc, m_argv);
 }
 
