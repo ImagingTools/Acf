@@ -11,6 +11,20 @@ namespace iabc
 {
 
 
+// public methods
+
+QStringList CServiceApplicationComp::GetApplicationArguments(int argc, char** argv) const
+{
+	QStringList applicationArguments;
+
+	for (int argIndex = 0; argIndex < argc; argIndex++){
+		applicationArguments.push_back(QString().fromLocal8Bit(argv[argIndex]));
+	}
+	
+	return applicationArguments;
+}
+
+
 // reimplemented (ibase::IApplication)
 
 bool CServiceApplicationComp::InitializeApplication(int/* argc*/, char** /* argv*/)
@@ -55,9 +69,22 @@ int CServiceApplicationComp::Execute(int argc, char** argv)
 				instalArguments[i] = argvData[i - 3].data();
 			}
 
-			m_servicePtr.SetPtr(new CService(*this, *m_applicationCompPtr.GetPtr(), argc + 3, instalArguments.data(), serviceName));
+			m_servicePtr.SetPtr(new CService(
+						*this,
+						*m_applicationCompPtr.GetPtr(),
+						argc + 3,
+						instalArguments.data(),
+						serviceName));
+			
 			m_servicePtr->setServiceDescription(iqt::GetQString(*m_serviceDescriptionAttrPtr));
 
+			QtServiceController::StartupType serviceStartUp = QtServiceController::AutoStartup;
+			if (m_manualStartupAttrPtr.IsValid() && *m_manualStartupAttrPtr){
+				serviceStartUp = QtServiceController::ManualStartup;
+			}
+			m_servicePtr->setStartupType(serviceStartUp);
+
+			// start service installing:
 			int retVal = m_servicePtr->exec();
 			if (retVal == 0){
 				QMessageBox::information(
@@ -69,12 +96,14 @@ int CServiceApplicationComp::Execute(int argc, char** argv)
 			return retVal;
 		}
 
-		// service is installed and can be started. ALL Possible parameters are in the argv[0] string defined.
+		SendInfoMessage(0, istd::CString("Application arguments: ") + iqt::GetCString(GetApplicationArguments(argc, argv).join(" ")));
 
-
-		
-		argc = 1;
-		m_servicePtr.SetPtr(new CService(*this, *m_applicationCompPtr.GetPtr(), argc, argv, serviceName));
+		m_servicePtr.SetPtr(new CService(
+					*this,
+					*m_applicationCompPtr.GetPtr(),
+					argc,
+					argv,
+					serviceName));
 
 		return m_servicePtr->exec();
 	}
@@ -99,16 +128,16 @@ istd::CString CServiceApplicationComp::GetHelpText() const
 CServiceApplicationComp::CService::CService(
 			CServiceApplicationComp& parent,
 			ibase::IApplication& application,
-			int argc,
-			char **argv,
+			int serviceArgc,
+			char** serviceArgv,
 			const QString &name)
-	:QtServiceBase(argc, argv, name),
+	:QtServiceBase(serviceArgc, serviceArgv, name),
 	m_parent(parent),
-	m_application(application),
-	m_argc(argc),
-	m_argv(argv)
+	m_application(application)
 {
-	setServiceFlags(QtServiceBase::CanBeSuspended | QtServiceBase::CannotBeStopped);
+	m_applicationArguments = m_parent.GetApplicationArguments(serviceArgc, serviceArgv);
+
+	setServiceFlags(QtServiceBase::CanBeSuspended);
 }
 
 
@@ -121,19 +150,36 @@ void CServiceApplicationComp::CService::start()
 }
 
 
-void CServiceApplicationComp::CService::createApplication(int& argc, char** argv)
+void CServiceApplicationComp::CService::createApplication(int&/*argc*/, char** /* argv*/)
 {
-	m_application.InitializeApplication(argc, argv);
+	QVector<char*> argv = GetApplicationArguments();
+
+	m_application.InitializeApplication(argv.count(), argv.data());
 }
 
 
 int CServiceApplicationComp::CService::executeApplication()
 {
-	return m_application.Execute(m_argc, m_argv);
+	QVector<char*> argv = GetApplicationArguments();
+
+	return m_application.Execute(argv.count(), argv.data());
+}
+
+
+// private methods of embedded class CService
+
+QVector<char*> CServiceApplicationComp::CService::GetApplicationArguments() const
+{
+	QVector<char*> argv(m_applicationArguments.count());
+
+	for (int argIndex = 0; argIndex < m_applicationArguments.count(); argIndex++){
+		argv[argIndex] = m_applicationArguments[argIndex].toLocal8Bit().data();
+	}
+
+	return argv;
 }
 
 
 } // namespace iabc
-
 
 

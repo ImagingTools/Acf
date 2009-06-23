@@ -33,7 +33,10 @@ public:
 		I_ASSIGN(m_applicationCompPtr, "ApplicationInstance", "Service application object", true, "Application");
 		I_ASSIGN(m_serviceDescriptionAttrPtr, "SeriviceDescription", "Service description", true, "This services provides...");
 		I_ASSIGN(m_serviceNameAttrPtr, "ServiceName", "The name of the service", true, "MyService");
+		I_ASSIGN(m_manualStartupAttrPtr, "ManualStartup", "If enabled, the service is registered with manual start up", false, false);
 	I_END_COMPONENT
+
+	QStringList GetApplicationArguments(int argc, char** argv) const;
 
 	// reimplemented (ibase::IApplication)
 	virtual bool InitializeApplication(int argc, char** argv);
@@ -48,8 +51,8 @@ protected:
 
 		CService(CServiceApplicationComp& parent,
 					ibase::IApplication& application,
-					int argc,
-					char **argv,
+					int serviceArgc,
+					char** serviceArgv,
 					const QString &name);
 
 	protected:
@@ -59,16 +62,19 @@ protected:
 		virtual int executeApplication();
 
 	private:
+		QVector<char*> GetApplicationArguments() const;
+
+	private:
 		CServiceApplicationComp& m_parent;
 		ibase::IApplication& m_application;
-		int m_argc;
-		char** m_argv;
+		QStringList m_applicationArguments;
 	};
 
 private:
 	I_REF(ibase::IApplication, m_applicationCompPtr);
 	I_ATTR(istd::CString, m_serviceDescriptionAttrPtr);
 	I_ATTR(istd::CString, m_serviceNameAttrPtr);
+	I_ATTR(bool, m_manualStartupAttrPtr);
 
 	istd::TDelPtr<CService> m_servicePtr;
 };
