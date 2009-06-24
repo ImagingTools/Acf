@@ -1,5 +1,5 @@
-#ifndef CConnectorShape_included
-#define CConnectorShape_included
+#ifndef icmpstr_CConnectorShape_included
+#define icmpstr_CConnectorShape_included
 
 
 #include <QGraphicsItem>
@@ -65,6 +65,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CConnectorShape_included
+#endif // !icmpstr_CConnectorShape_included
 
 

@@ -1,5 +1,5 @@
-#ifndef IAttributeSelectionObserver_included
-#define IAttributeSelectionObserver_included
+#ifndef icmpstr_IAttributeSelectionObserver_included
+#define icmpstr_IAttributeSelectionObserver_included
 
 
 #include "istd/CString.h"

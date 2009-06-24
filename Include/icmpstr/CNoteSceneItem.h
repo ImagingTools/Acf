@@ -1,5 +1,5 @@
-#ifndef CNoteSceneItem_included
-#define CNoteSceneItem_included
+#ifndef icmpstr_CNoteSceneItem_included
+#define icmpstr_CNoteSceneItem_included
 
 
 #include <QGraphicsItemGroup>
@@ -53,5 +53,5 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CNoteSceneItem_included
+#endif // !icmpstr_CNoteSceneItem_included
 

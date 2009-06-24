@@ -1,5 +1,5 @@
-#ifndef CRegistryViewComp_included
-#define CRegistryViewComp_included
+#ifndef icmpstr_CRegistryViewComp_included
+#define icmpstr_CRegistryViewComp_included
 
 
 // Qt includes
@@ -144,6 +144,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CRegistryViewComp_included
+#endif // !icmpstr_CRegistryViewComp_included
 
 

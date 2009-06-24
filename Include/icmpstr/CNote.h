@@ -1,5 +1,5 @@
-#ifndef CNote_included
-#define CNote_included
+#ifndef icmpstr_CNote_included
+#define icmpstr_CNote_included
 
 
 #include "icmpstr/IComponentNote.h"
@@ -31,5 +31,5 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CNote_included
+#endif // !icmpstr_CNote_included
 

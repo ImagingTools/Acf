@@ -1,5 +1,5 @@
-#ifndef CRegistryPreviewComp_included
-#define CRegistryPreviewComp_included
+#ifndef icmpstr_CRegistryPreviewComp_included
+#define icmpstr_CRegistryPreviewComp_included
 
 
 #include <QProcess>
@@ -49,6 +49,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CRegistryPreviewComp_included
+#endif // !icmpstr_CRegistryPreviewComp_included
 
 

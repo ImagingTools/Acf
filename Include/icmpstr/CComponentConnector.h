@@ -1,5 +1,5 @@
-#ifndef CComponentConnector_included
-#define CComponentConnector_included
+#ifndef icmpstr_CComponentConnector_included
+#define icmpstr_CComponentConnector_included
 
 
 #include <QGraphicsItem>
@@ -76,6 +76,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CComponentConnector_included
+#endif // !icmpstr_CComponentConnector_included
 
 

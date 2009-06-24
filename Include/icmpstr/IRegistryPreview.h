@@ -1,5 +1,5 @@
-#ifndef IRegistryPreview_included
-#define IRegistryPreview_included
+#ifndef icmpstr_IRegistryPreview_included
+#define icmpstr_IRegistryPreview_included
 
 
 #include "icomp/IRegistry.h"
@@ -34,5 +34,5 @@ public:
 } // namespace icmpstr
 
 
-#endif // !IRegistryPreview_included
+#endif // !icmpstr_IRegistryPreview_included
 

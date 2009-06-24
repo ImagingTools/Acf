@@ -1,5 +1,5 @@
-#ifndef CRegistryView_included
-#define CRegistryView_included
+#ifndef icmpstr_CRegistryView_included
+#define icmpstr_CRegistryView_included
 
 
 // STL includes
@@ -139,6 +139,6 @@ inline double CRegistryView::GetGrid()
 } // namespace icmpstr
 
 
-#endif // !CRegistryView_included
+#endif // !icmpstr_CRegistryView_included
 
 

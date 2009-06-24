@@ -1,13 +1,15 @@
-#ifndef CPackageOverviewComp_included
-#define CPackageOverviewComp_included
+#ifndef icmpstr_CPackageOverviewComp_included
+#define icmpstr_CPackageOverviewComp_included
 
 
+// Qt includes
 #include <QTreeWidget>
 #include <QMimeData>
 #include <QDrag>
 #include <QDir>
 
 
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "icomp/IComponentStaticInfo.h"
@@ -61,7 +63,7 @@ protected:
 protected slots:
 	void on_PackagesList_itemCollapsed(QTreeWidgetItem* item);
 	void on_PackagesList_itemExpanded(QTreeWidgetItem* item);
-	void on_FilterEdit_textChanged(const QString& text);
+	void on_FilterEdit_textEdited(const QString& text);
 	void on_ResetFilterButton_clicked();
 
 protected:
@@ -70,8 +72,8 @@ protected:
 				const icomp::IComponentStaticInfo& packageInfo,
 				const QString& filter,
 				QTreeWidgetItem& root);
-
 	const icomp::IComponentStaticInfo* GetItemStaticInfo(const QTreeWidgetItem& item) const;
+	bool IsInterfaceSupportedByComponent(const istd::CClassInfo& interfaceInfo, const QTreeWidgetItem& item) const;
 
 	/**
 		Create the drag preview for the component.
@@ -82,6 +84,8 @@ protected:
 		Get icon for a given component.
 	*/
 	QIcon GetComponentIcon(const icomp::CComponentAddress& componentAddress)const;
+
+	QIcon GetIconFromPath(const QString& iconPath) const;
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* eventObject, QEvent* event);
@@ -94,18 +98,28 @@ private:
 	{
 	public:
 		PackageComponentItem(
+					CPackageOverviewComp& parent,
 					QTreeWidgetItem* parentItemPtr,
 					const icomp::CComponentAddress& address,
 					const icomp::IComponentStaticInfo& staticInfo,
 					const QDir* packageDirPtr);
+
+		bool IsInterfaceSupported(const istd::CClassInfo& interfaceInfo) const;
 
 		const icomp::CComponentAddress& GetAddress() const
 		{
 			return m_address;
 		}
 
+		const icomp::IComponentStaticInfo& GetStaticInfo() const
+		{
+			return m_staticInfo;
+		}
+
 	private:
 		icomp::CComponentAddress m_address;
+		const icomp::IComponentStaticInfo& m_staticInfo;
+		CPackageOverviewComp& m_parent;
 	};
 
 	I_REF(icomp::IComponentStaticInfo, m_generalStaticInfoCompPtr);
@@ -115,11 +129,14 @@ private:
 	QIcon m_openIcon;
 	QIcon m_validIcon;
 	QIcon m_invalidIcon;
+
+	typedef QHash<QString, QIcon> IconCache;
+	mutable IconCache m_iconCache;
 };
 
 
 } // namespace icmpstr
 
 
-#endif // !CPackageOverviewComp_included
+#endif // !icmpstr_CPackageOverviewComp_included
 

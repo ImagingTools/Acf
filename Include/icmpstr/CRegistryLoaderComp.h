@@ -1,5 +1,5 @@
-#ifndef CRegistryLoaderComp_included
-#define CRegistryLoaderComp_included
+#ifndef icmpstr_CRegistryLoaderComp_included
+#define icmpstr_CRegistryLoaderComp_included
 
 
 #include "iser/CXmlFileReadArchive.h"
@@ -49,6 +49,6 @@ protected:
 } // namespace icmpstr
 
 
-#endif // !CRegistryLoaderComp_included
+#endif // !icmpstr_CRegistryLoaderComp_included
 
 

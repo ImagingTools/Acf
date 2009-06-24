@@ -1,5 +1,5 @@
-#ifndef IComponentNote_included
-#define IComponentNote_included
+#ifndef icmpstr_IComponentNote_included
+#define icmpstr_IComponentNote_included
 
 
 #include "iser/ISerializable.h"

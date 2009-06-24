@@ -1,5 +1,5 @@
-#ifndef CComponentSceneItem_included
-#define CComponentSceneItem_included
+#ifndef icmpstr_CComponentSceneItem_included
+#define icmpstr_CComponentSceneItem_included
 
 
 // Qt includes
@@ -114,6 +114,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // CComponentSceneItem_included
+#endif // icmpstr_CComponentSceneItem_included
 
 

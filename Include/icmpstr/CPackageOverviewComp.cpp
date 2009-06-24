@@ -139,25 +139,19 @@ void CPackageOverviewComp::HighlightComponents(const istd::CClassInfo& interface
 
 		QTreeWidgetItem* parentItemPtr = itemPtr->parent();
 
-		const icomp::IComponentStaticInfo* staticInfoPtr = GetItemStaticInfo(*itemPtr);
-
 		QIcon itemIcon;
-		if ((staticInfoPtr != NULL) && interfaceInfo.IsValid()){
-			icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = staticInfoPtr->GetInterfaceExtractors();
-			const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceInfo);
-			if (extractorPtr != NULL){
-				itemIcon = m_validIcon;
+		if (IsInterfaceSupportedByComponent(interfaceInfo, *itemPtr)){
+			itemIcon = m_validIcon;
 
-				// if parent item is closed we must expand it:
-				if (parentItemPtr != NULL){
-					parentItemPtr->setExpanded(true);
-				}
-			}
-			else{
-				itemIcon = m_invalidIcon;
+			// if parent item is closed we must expand it:
+			if (parentItemPtr != NULL){
+				parentItemPtr->setExpanded(true);
 			}
 		}
-
+		else{
+			itemIcon = m_invalidIcon;
+		}
+	
 		// set result icon to component item:
 		if (parentItemPtr != NULL){
 			itemPtr->setIcon(1, itemIcon);
@@ -184,7 +178,7 @@ void CPackageOverviewComp::on_PackagesList_itemExpanded(QTreeWidgetItem* item)
 }
 
 
-void CPackageOverviewComp::on_FilterEdit_textChanged(const QString& text)
+void CPackageOverviewComp::on_FilterEdit_textEdited(const QString& text)
 {
 	GenerateComponentTree(text, true);
 }
@@ -291,10 +285,10 @@ void CPackageOverviewComp::GeneratePackageTree(
 			}
 			I_ASSERT(keywordItemPtr != NULL);
 
-			keywordItemPtr->addChild(new PackageComponentItem(keywordItemPtr, address, *componentInfoPtr, hasPackageInfo? &packageDir: NULL));
+			keywordItemPtr->addChild(new PackageComponentItem(*this, keywordItemPtr, address, *componentInfoPtr, hasPackageInfo? &packageDir: NULL));
 		}
 
-		PackageComponentItem* componentItem = new PackageComponentItem(&root, address, *componentInfoPtr, hasPackageInfo? &packageDir: NULL);
+		PackageComponentItem* componentItem = new PackageComponentItem(*this, &root, address, *componentInfoPtr, hasPackageInfo? &packageDir: NULL);
 
 		root.addChild(componentItem);
 	}
@@ -304,15 +298,22 @@ void CPackageOverviewComp::GeneratePackageTree(
 const icomp::IComponentStaticInfo* CPackageOverviewComp::GetItemStaticInfo(const QTreeWidgetItem& item) const
 {
 	const PackageComponentItem* componentItemPtr = dynamic_cast<const PackageComponentItem*>(&item);
-	if ((componentItemPtr != NULL) && (m_generalStaticInfoCompPtr.IsValid())){
-		const icomp::CComponentAddress& address = componentItemPtr->GetAddress();
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_generalStaticInfoCompPtr->GetSubcomponentInfo(address.GetPackageId());
-		if (packageInfoPtr != NULL){
-			return packageInfoPtr->GetSubcomponentInfo(address.GetComponentId());
-		}
+	if (componentItemPtr != NULL){
+		return &componentItemPtr->GetStaticInfo();
 	}
 
 	return NULL;
+}
+
+
+bool CPackageOverviewComp::IsInterfaceSupportedByComponent(const istd::CClassInfo& interfaceInfo, const QTreeWidgetItem& item) const
+{
+	const PackageComponentItem* componentItemPtr = dynamic_cast<const PackageComponentItem*>(&item);
+	if (componentItemPtr != NULL){
+		return componentItemPtr->IsInterfaceSupported(interfaceInfo);
+	}
+
+	return false;
 }
 
 
@@ -352,11 +353,27 @@ QIcon CPackageOverviewComp::GetComponentIcon(const icomp::CComponentAddress& com
 		if (!packageInfoPath.IsEmpty()){
 			QDir packageDir(iqt::GetQString(packageInfoPath) + ".info");
 
-			return QIcon(packageDir.absoluteFilePath((componentAddress.GetComponentId() + ".small.png").c_str()));
+			return GetIconFromPath(packageDir.absoluteFilePath((componentAddress.GetComponentId() + ".small.png").c_str()));
 		}
 	}
-
 	return QIcon();
+}
+
+
+QIcon CPackageOverviewComp::GetIconFromPath(const QString& iconPath) const
+{
+	QIcon icon;
+
+	if (m_iconCache.contains(iconPath)){
+		return m_iconCache.value(iconPath);
+	}
+	else{
+		icon = QIcon(QPixmap(iconPath));
+
+		m_iconCache[iconPath] = icon;
+	}
+
+	return icon;
 }
 
 
@@ -423,10 +440,10 @@ void CPackageOverviewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	m_closedIcon = QIcon(":/Resources/Icons/dirclosed-16.png");
-	m_openIcon = QIcon(":/Resources/Icons/diropen-16.png");
-	m_validIcon = QIcon(":/Resources/Icons/ok-16.png");
-	m_invalidIcon = QIcon(":/Resources/Icons/close_a_128.png");
+	m_closedIcon = QIcon(QPixmap(":/Resources/Icons/dirclosed-16.png"));
+	m_openIcon = QIcon(QPixmap(":/Resources/Icons/diropen-16.png"));
+	m_validIcon = QIcon(QPixmap(":/Resources/Icons/ok-16.png"));
+	m_invalidIcon = QIcon(QPixmap(":/Resources/Icons/close_a_128.png"));
 
 	// set up the tree view:
 	PackagesList->setColumnCount(2);
@@ -462,11 +479,15 @@ void CPackageOverviewComp::OnGuiCreated()
 // public methods of embedded class 
 
 CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
+			CPackageOverviewComp& parent,
 			QTreeWidgetItem* parentItemPtr,
 			const icomp::CComponentAddress& address,
 			const icomp::IComponentStaticInfo& staticInfo,
 			const QDir* packageDirPtr)
-:	QTreeWidgetItem(parentItemPtr), m_address(address)
+:	QTreeWidgetItem(parentItemPtr),
+	m_parent(parent),
+	m_address(address),
+	m_staticInfo(staticInfo)
 {
 	setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 	setText(0, iqt::GetQString(address.GetComponentId()));
@@ -479,9 +500,18 @@ CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
 
 	if (packageDirPtr != NULL){
 		QString iconPath = packageDirPtr->absoluteFilePath((address.GetComponentId() + ".small.png").c_str());
-		
-		setIcon(0, QIcon(iconPath));
+
+		setIcon(0, m_parent.GetIconFromPath(iconPath));
 	}
+}
+
+
+bool CPackageOverviewComp::PackageComponentItem::IsInterfaceSupported(const istd::CClassInfo& interfaceInfo) const
+{	
+	const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = m_staticInfo.GetInterfaceExtractors();
+	const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceInfo);
+
+	return (extractorPtr != NULL);
 }
 
 

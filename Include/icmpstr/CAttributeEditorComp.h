@@ -1,5 +1,5 @@
-#ifndef CAttributeEditorComp_included
-#define CAttributeEditorComp_included
+#ifndef icmpstr_CAttributeEditorComp_included
+#define icmpstr_CAttributeEditorComp_included
 
 
 #include <QtGui/QWidget>
@@ -155,5 +155,5 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CAttributeEditorComp_included
+#endif // !icmpstr_CAttributeEditorComp_included
 

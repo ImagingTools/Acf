@@ -1,5 +1,5 @@
-#ifndef CRegistryModelComp_included
-#define CRegistryModelComp_included
+#ifndef icmpstr_CRegistryModelComp_included
+#define icmpstr_CRegistryModelComp_included
 
 
 #include "icomp/CRegistry.h"
@@ -95,5 +95,5 @@ private:
 } // namespace icmpstr
 
 
-#endif // !CRegistryModelComp_included
+#endif // !icmpstr_CRegistryModelComp_included
 
