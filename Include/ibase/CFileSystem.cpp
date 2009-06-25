@@ -1,0 +1,57 @@
+#include "ibase/CFileSystem.h"
+
+
+namespace ibase
+{
+
+
+// reimplemented (isys::IFileSystem)
+
+istd::CString CFileSystem::GetNormalizedPath(const istd::CString& path) const
+{
+	return path;	// TODO: correct CFileSystem::GetNormalizedPath dummy implementation
+}
+
+
+istd::CString CFileSystem::GetFileName(const istd::CString& filePath) const
+{
+	istd::CString::size_type slashPos = filePath.rfind('/');
+	istd::CString::size_type backSlashPos = filePath.rfind('\\');
+
+	if (slashPos != istd::CString::npos){
+		if (backSlashPos != istd::CString::npos){
+			return filePath.substr(istd::Max(slashPos, backSlashPos) + 1);
+		}
+		else{
+			return filePath.substr(slashPos + 1);
+		}
+	}
+	else{
+		if (backSlashPos != istd::CString::npos){
+			return filePath.substr(backSlashPos + 1);
+		}
+		else{
+			return filePath;
+		}
+	}
+}
+
+
+bool CFileSystem::HasExtension(const istd::CString& filePath, const istd::CString& extension) const
+{
+	istd::CString::size_type extensionSize = extension.size();
+	istd::CString::size_type filePathSize = filePath.size();
+
+	return (filePathSize > extensionSize + 1) && (filePath.substr(filePathSize - extensionSize - 1) == istd::CString(".") + extension);
+}
+
+
+bool CFileSystem::IsPresent(const istd::CString& filePath) const
+{
+	return true;	// TODO: correct CFileSystem::IsPresent dummy implementation
+}
+
+
+} // namespace ibase
+
+
