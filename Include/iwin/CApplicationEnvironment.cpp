@@ -102,6 +102,12 @@ CApplicationEnvironment::EnvironmentVariables CApplicationEnvironment::GetEnviro
 }
 
 
+void CApplicationEnvironment::SetEnvironmentVariableValue(const istd::CString& variableName, const istd::CString& value)
+{
+	::SetEnvironmentVariable(variableName.ToString().c_str(), value.ToString().c_str());
+}
+
+
 } // namespace iwin
 
 

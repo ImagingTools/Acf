@@ -50,6 +50,13 @@ public:
 		The key of the EnvironmentVariables map is the name of the environment variable.
 	*/
 	virtual EnvironmentVariables GetEnvironmentVariables() const = 0;
+
+	/**
+		Set/Add the value of a system variable to the current process.
+		\param variableName Name of the system variable
+		\param variableValue Value of the system variable
+	*/
+	virtual void SetEnvironmentVariableValue(const istd::CString& variableName, const istd::CString& value) = 0;
 };
 
 

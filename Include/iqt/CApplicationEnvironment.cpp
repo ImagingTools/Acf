@@ -66,6 +66,13 @@ CApplicationEnvironment::EnvironmentVariables CApplicationEnvironment::GetEnviro
 }
 
 
+void CApplicationEnvironment::SetEnvironmentVariableValue(const istd::CString&/* variableName*/, const istd::CString&/* value*/)
+{
+	// not implemented yet.
+	I_CRITICAL();
+}
+
+
 } // namespace iqt
 
 

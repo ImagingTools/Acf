@@ -1,6 +1,10 @@
 #include "ibase/CFileSystem.h"
 
 
+// STD includes
+#include <sys/types.h>
+
+
 namespace ibase
 {
 
@@ -48,7 +52,7 @@ bool CFileSystem::HasExtension(const istd::CString& filePath, const istd::CStrin
 
 bool CFileSystem::IsPresent(const istd::CString& filePath) const
 {
-	return true;	// TODO: correct CFileSystem::IsPresent dummy implementation
+	return (_waccess(filePath.c_str(), 0) == 0);
 }
 
 
