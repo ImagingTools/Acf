@@ -3,6 +3,7 @@
 
 // STL includes
 #include <sstream>
+#include <iomanip>
 
 #include "iser/IArchive.h"
 
@@ -47,7 +48,7 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 	std::ostringstream stream;
 
 	for (int i = fromComponent; i <= toComponent; ++i){
-		stream << GetComponent(i);
+		stream << std::setfill('0') << std::setw(2) << GetComponent(i);
 
 		if (i < toComponent){
 			if (i < TC_HOUR){
