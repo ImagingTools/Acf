@@ -37,7 +37,6 @@ public:
 	I_BEGIN_COMPONENT(CTabbedMultiViewGuiComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
 		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
-		I_ASSIGN_MULTI_0(m_editorsCompPtr, "Editors", "Editors", true)
 		I_ASSIGN_MULTI_0(m_observersCompPtr, "Editors", "Editors", true)
 	I_END_COMPONENT
 

@@ -37,7 +37,9 @@ void CBitmapSurface::OnEndChanges(int changeFlags, istd::IPolymorphic* changePar
 
 void CBitmapSurface::CreateSurfaceFromBitmap()
 {
-	I_ASSERT(!GetQImageRef().isNull());
+	if(GetQImageRef().isNull()){
+		return;
+	}
 
 	BaseClass2::Create(GetImageSize().GetX(), GetImageSize().GetY());
 

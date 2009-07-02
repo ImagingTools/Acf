@@ -46,10 +46,10 @@ bool CTabbedMultiViewGuiComp::OnDetached(imod::IModel* modelPtr)
 
 const idoc::IHierarchicalCommand* CTabbedMultiViewGuiComp::GetCommands() const
 {
-	if (m_editorsCompPtr.IsValid()){
-		int observerCount = m_editorsCompPtr.GetCount();
+	if (m_observersCompPtr.IsValid()){
+		int observerCount = m_observersCompPtr.GetCount();
 		for (int observerIndex = 0; observerIndex < observerCount; observerIndex++){
-			idoc::ICommandsProvider* commandsProviderPtr = dynamic_cast<idoc::ICommandsProvider*>(m_editorsCompPtr[observerIndex]);
+			idoc::ICommandsProvider* commandsProviderPtr = dynamic_cast<idoc::ICommandsProvider*>(m_observersCompPtr[observerIndex]);
 			if (commandsProviderPtr != NULL){
 				const idoc::IHierarchicalCommand* commandPtr = commandsProviderPtr->GetCommands();
 				if (commandPtr != NULL){
