@@ -25,6 +25,7 @@ public:
 		I_REGISTER_INTERFACE(IMessageConsumer);
 		I_ASSIGN(m_minPriorityAttrPtr, "MinCategory", "Minimal category of message to print it out", true, 0);
 		I_ASSIGN(m_isDotEnabledAttrPtr, "ShowDots", "If it's true, dot will be shown for each ignored message", true, false);
+		I_ASSIGN(m_useTimeStampAttrPtr, "UseTimeStamp", "Use time stamp for the messsages", false, true)
 	I_END_COMPONENT;
 
 	CStreamLogCompBase();
@@ -61,6 +62,7 @@ protected:
 private:
 	I_ATTR(int, m_minPriorityAttrPtr);
 	I_ATTR(bool, m_isDotEnabledAttrPtr);
+	I_ATTR(bool, m_useTimeStampAttrPtr);
 
 	bool m_isLastDotShown;
 };
