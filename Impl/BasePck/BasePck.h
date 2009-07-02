@@ -40,8 +40,6 @@
 #include "i2d/CAnnulus.h"
 #include "i2d/CAnnulusSegment.h"
 
-#include "isvn/TApplicationInfoWrap.h"
-
 #include "imath/CSampledFunction2d.h"
 
 
@@ -58,7 +56,6 @@ typedef ibase::CComposedLoaderComp ComposedLoader;
 typedef ibase::CTextFileLoaderComp TextFileSerializer;
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
-typedef isvn::TApplicationInfoWrap<ApplicationInfo> ApplicationInfoExt;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 typedef ibase::CModelProxyComp ModelProxy;
 typedef ibase::CModelBinderComp ModelBinder;

@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
 	Q_INIT_RESOURCE(iqtgui);
 
-	icomp::TSimComponentWrap<BasePck::ApplicationInfoExt> applicationInfo;
+	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.SetIntAttr("VersionNumber", 1000);
 	applicationInfo.InsertMultiAttr("KnownVersions", 1000);
 	applicationInfo.InsertMultiAttr("KnownVersionNames", istd::CString("1.0.0"));

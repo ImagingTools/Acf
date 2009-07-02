@@ -7,7 +7,7 @@
 		<CustomBuildRule
 			Name="Arxc"
 			DisplayName="ARX Compiler"
-			CommandLine="if exist $(ACFDIR)\Bin\$(ConfigurationName)VC8\QtCored4.dll goto SkipQtCore&#x0D;&#x0A;copy /Y &quot;$(QTDIR)\bin\Qt*4.dll&quot; $(ACFDIR)\Bin\$(ConfigurationName)VC8&#x0D;&#x0A;:SkipQtCore&#x0D;&#x0A;$(ACFDIR)/Bin/$(ConfigurationName)VC8/Arxc.exe $(InputPath) -o $(InputDir)Generated/C$(InputName).cpp [AllOptions] [AdditionalOptions]"
+			CommandLine="$(ACFDIR)/Bin/$(ConfigurationName)VC8/Arxc.exe $(InputPath) -o $(InputDir)Generated/C$(InputName).cpp [AllOptions] [AdditionalOptions]"
 			Outputs="$(InputDir)Generated/C$(InputName).cpp"
 			AdditionalDependencies="$(ACFDIR)/Bin/$(ConfigurationName)VC8/Arxc.exe"
 			FileExtensions="*.arx"
@@ -28,8 +28,9 @@
 		<CustomBuildRule
 			Name="Copy"
 			DisplayName="Copy files"
-			CommandLine="copy $(InputPath) [$OutputDir]\$(InputName)"
+			CommandLine="xcopy /Y [$InputDir]\$(InputName) [$OutputDir]\"
 			Outputs="[$OutputDir]\$(InputName)"
+			AdditionalDependencies="[$InputDir]\$(InputName)"
 			FileExtensions="*.copy"
 			ExecutionDescription="Copying file $(InputName)"
 			>
@@ -39,6 +40,14 @@
 					DisplayName="Output Directory"
 					Description="Specify output directory"
 					DefaultValue="$(OutputDir)"
+				/>
+				<StringProperty
+					Name="InputDir"
+					DisplayName="Input Directory"
+					Description="Optional input directory, if *.copy file should be used as dummy only"
+					DefaultValue="$(InputDir)"
+					Delimited="true"
+					Inheritable="true"
 				/>
 			</Properties>
 		</CustomBuildRule>

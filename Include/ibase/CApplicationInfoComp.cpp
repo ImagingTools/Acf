@@ -1,6 +1,9 @@
 #include "ibase/CApplicationInfoComp.h"
 
 
+#include "istd/Generated/AcfVersion.h"
+
+
 namespace ibase
 {
 
@@ -45,32 +48,36 @@ istd::CString CApplicationInfoComp::GetApplicationPath() const
 
 istd::CString CApplicationInfoComp::GetEncodedVersionName(int versionId, I_DWORD versionNumber) const
 {
+	istd::CString retVal = "0";
+
 	if (m_versionIdAttrPtr.IsValid() && (versionId == *m_versionIdAttrPtr)){
 		I_DWORD lastBellowNumber = 0;
-		istd::CString lastBellowText = "0";
-
 		int knownVersionsCount = istd::Min(m_knownVersionsAttrPtr.GetCount(), m_knownVersionNamesAttrPtr.GetCount());
 		for (int i = 0; i < knownVersionsCount; ++i){
 			I_DWORD knownNumber = I_DWORD(m_knownVersionsAttrPtr[i]);
 
 			if ((knownNumber <= versionNumber) && (knownNumber > lastBellowNumber)){
 				lastBellowNumber = knownNumber;
-				lastBellowText = m_knownVersionNamesAttrPtr[i];
+				retVal = m_knownVersionNamesAttrPtr[i];
 			}
 		}
 
 		if (m_isExtensionUsedAttrPtr.IsValid() && *m_isExtensionUsedAttrPtr){
-			lastBellowText += istd::CString(".") + istd::CString::FromNumber(int(versionNumber - lastBellowNumber));
+			retVal += istd::CString(".") + istd::CString::FromNumber(int(versionNumber - lastBellowNumber));
 		}
-
-		return lastBellowText;
 	}
 	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetEncodedVersionName(versionId, versionNumber);
+		retVal = m_slaveVersionInfoCompPtr->GetEncodedVersionName(versionId, versionNumber);
 	}
 	else{
-		return istd::CString("<") + istd::CString::FromNumber(versionNumber) + ">";
+		retVal = istd::CString("<") + istd::CString::FromNumber(versionNumber) + ">";
 	}
+
+	if ((istd::RS_DIRTY_FLAG != 0) && (versionId == iser::IVersionInfo::FrameworkVersionId) && (versionNumber == istd::RS_USE_VERSION)){
+		retVal += "'";
+	}
+
+	return retVal;
 }
 
 
@@ -87,6 +94,12 @@ bool CApplicationInfoComp::GetVersionNumber(int versionId, I_DWORD& result) cons
 		return m_slaveVersionInfoCompPtr->GetVersionNumber(versionId, result);
 	}
 	else{
+		if (versionId == iser::IVersionInfo::FrameworkVersionId){
+			result = istd::RS_USE_VERSION;
+
+			return true;
+		}
+
 		return false;
 	}
 }

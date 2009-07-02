@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\Config\VC8\Acf.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -24,7 +27,17 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				ExcludedFromBuild="true"
+			/>
+			<Tool
+				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="Copy"
+				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				InputDir="$(QTDIR)\bin"
+			/>
+			<Tool
+				Name="Arxc"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -34,9 +47,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copy Qt Dll&apos;s needed for Arxc"
-				CommandLine="if exist ..\..\Bin\$(ConfigurationName)VC8\QtCored4.dll goto SkipQtCore&#x0D;&#x0A;copy /Y &quot;$(QTDIR)\bin\Qt*4.dll&quot; ..\..\Bin\$(ConfigurationName)VC8&#x0D;&#x0A;:SkipQtCore&#x0D;&#x0A;"
-				ExcludedFromBuild="true"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -48,7 +60,17 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				ExcludedFromBuild="true"
+			/>
+			<Tool
+				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="Copy"
+				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				InputDir="$(QTDIR)\bin"
+			/>
+			<Tool
+				Name="Arxc"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -58,14 +80,34 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copy Qt Dll&apos;s needed for Arxc"
-				CommandLine="if exist ..\..\Bin\$(ConfigurationName)VC8\QtCored4.dll goto SkipQtCore&#x0D;&#x0A;copy /Y &quot;$(QTDIR)\bin\Qt*4.dll&quot; ..\..\Bin\$(ConfigurationName)VC8&#x0D;&#x0A;:SkipQtCore&#x0D;&#x0A;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="Other"
+			>
+			<File
+				RelativePath=".\QtCore4.dll.copy"
+				>
+			</File>
+			<File
+				RelativePath=".\QtCored4.dll.copy"
+				>
+			</File>
+			<File
+				RelativePath=".\QtGui4.dll.copy"
+				>
+			</File>
+			<File
+				RelativePath=".\QtGuid4.dll.copy"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle("plastique");
 
-	icomp::TSimComponentWrap<BasePck::ApplicationInfoExt> applicationInfo;
+	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.SetStringAttr("ApplicationName", "ACF Compositor");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();

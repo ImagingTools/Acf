@@ -17,7 +17,6 @@ I_EXPORT_COMPONENT(ComposedLoader, "Composed loader delegating loading and savin
 I_EXPORT_COMPONENT(TextFileSerializer, "Simple file serializer for text files", "Text File Serializer Format");
 I_EXPORT_COMPONENT(Instantiator, "Access specified components forcing to create its instances", "Instance Init Create Free Components");
 I_EXPORT_COMPONENT(ApplicationInfo, "Simple application info", "Application Info Version");
-I_EXPORT_COMPONENT(ApplicationInfoExt, "Application info with ACF information based of SVN version", "Application Info ACF SVN SubVersion Version");
 I_EXPORT_COMPONENT(RegistryCodeSaver, "Stores registry as C++ code", "Code C++ File Loader Store Save Registry Compile");
 I_EXPORT_COMPONENT(ModelProxy, "Model proxy", "Model Proxy");
 I_EXPORT_COMPONENT(ModelBinder, "Model binder", "Model Observer Bind Binder");

@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	icomp::TSimComponentWrap<BasePck::ApplicationInfoExt> applicationInfo;
+	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.SetStringAttr("ApplicationName", "ARX Compiler");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();

@@ -19,13 +19,21 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../../Bin/$(ConfigurationName)VC8"
+			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Copy"
+				OutputDir=""
+				InputDir="..\..\..\Bin\info"
+			/>
+			<Tool
+				Name="SubVersionTransform"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -102,13 +110,21 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../../Bin/$(ConfigurationName)VC8"
+			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="Copy"
+				OutputDir=""
+				InputDir="..\..\..\Bin\info"
+			/>
+			<Tool
+				Name="SubVersionTransform"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -239,6 +255,14 @@
 			</File>
 			<File
 				RelativePath="..\Generated\CCompositor.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Other"
+			>
+			<File
+				RelativePath="..\Default.xpc.copy"
 				>
 			</File>
 		</Filter>
