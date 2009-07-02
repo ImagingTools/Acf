@@ -7,10 +7,10 @@
           0
         </Id>
         <Number>
-          936
+          971
         </Number>
         <Description>
-          ACF'
+          ACF
         </Description>
       </Version>
     </VersionInfos>
@@ -800,7 +800,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="5">
+              <Values count="8">
                 <Value>
                   *.ui
                 </Value>
@@ -815,6 +815,15 @@
                 </Value>
                 <Value>
                   *.sln
+                </Value>
+                <Value>
+                  *.arx
+                </Value>
+                <Value>
+                  *.xtrsvn
+                </Value>
+                <Value>
+                  *.copy
                 </Value>
               </Values>
             </Data>

@@ -1,16 +1,15 @@
 #include "CExample.h"
 
 
-namespace itut
+namespace myNamespace
 {
 
 
-CExample::CExample(const icomp::IComponentContext* contextPtr)
-:	BaseClass(contextPtr)
+CExample::CExample()
 {
 }
 
 
-} // namespace itut
+} // namespace myNamespace
 
 
