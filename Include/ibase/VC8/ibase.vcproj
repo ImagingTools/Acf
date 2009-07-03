@@ -30,7 +30,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Copy"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Arxc"
 			/>
 			<Tool
 				Name="SubVersionTransform"
@@ -97,6 +103,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="del /Q ..\*.flgsvn&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -112,7 +119,13 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="Copy"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Arxc"
 			/>
 			<Tool
 				Name="SubVersionTransform"
@@ -178,6 +191,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="del /Q ..\*.flgsvn&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
