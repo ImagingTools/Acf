@@ -32,8 +32,8 @@
 				Name="SubVersionTransform"
 			/>
 			<Tool
-				Name="Copy"
-				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				Name="DeployCopy"
+				OutputDir="..\..\..\Bin\$(ConfigurationName)VC8"
 				InputDir="$(QTDIR)\bin"
 			/>
 			<Tool
@@ -47,7 +47,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
@@ -65,8 +64,8 @@
 				Name="SubVersionTransform"
 			/>
 			<Tool
-				Name="Copy"
-				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				Name="DeployCopy"
+				OutputDir="..\..\..\Bin\$(ConfigurationName)VC8"
 				InputDir="$(QTDIR)\bin"
 			/>
 			<Tool
@@ -80,7 +79,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 		</Configuration>
