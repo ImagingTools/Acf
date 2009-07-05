@@ -11,16 +11,18 @@ namespace iimg
 {
 
 
-CHistogram::CHistogram()
+CHistogram::CHistogram(int histogramDepth)
+	:m_histogramDepth(histogramDepth)
 {
-	Reset();
+	ResetHistogram();
 }
 
 
 
-CHistogram::CHistogram(const iimg::IBitmap& input, const i2d::CRectangle* areaPtr)
+CHistogram::CHistogram(const iimg::IBitmap& input, int histogramDepth, const i2d::CRectangle* areaPtr)
+	:m_histogramDepth(histogramDepth)
 {
-	Reset();
+	ResetHistogram();
 
 	CalculateFromBitmap(input, areaPtr);
 }
@@ -28,7 +30,7 @@ CHistogram::CHistogram(const iimg::IBitmap& input, const i2d::CRectangle* areaPt
 
 void CHistogram::CalculateFromBitmap(const iimg::IBitmap& input, const i2d::CRectangle* areaPtr)
 {
-	Reset();
+	ResetHistogram();
 
 	ibase::CSize inputSize(input.GetImageSize());
 	inputSize = inputSize - ibase::CSize(1, 1);
@@ -75,15 +77,15 @@ CHistogram::CounterType& CHistogram::operator[](int index)
 }
 
 
-bool CHistogram::IsValid() const
+bool CHistogram::IsHistogramValid() const
 {
 	return m_isValid;
 }
 
 
-void CHistogram::Reset()
+void CHistogram::ResetHistogram()
 {
-	m_histogramData.resize(256, 0);
+	m_histogramData.resize(m_histogramDepth, 0);
 
 	m_isValid = true;
 }

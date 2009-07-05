@@ -44,6 +44,7 @@ I_EXPORT_COMPONENT(TextDocument, "Simple text document", "Text Document");
 
 I_EXPORT_COMPONENT(SampledFunction2d, "Sampled function with 2-dimensional input", "Function Sample");
 
+I_EXPORT_COMPONENT(Histogram, "Histogram ", "Image Histogram");
 
 } // namespace BasePck
 

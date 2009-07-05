@@ -17,18 +17,18 @@ namespace iimg
 /**	
 	Implementation of image histogram.
 */
-class CHistogram: public istd::IPolymorphic
+class CHistogram: virtual public istd::IChangeable
 {
 public:
 	typedef float CounterType;
 	typedef std::vector<CounterType> HistogramData;
 	typedef std::pair<int /*index*/, CounterType /*value*/> HistogramItem;
 
-	CHistogram();
-	CHistogram(const iimg::IBitmap& input, const i2d::CRectangle* areaPtr = NULL);
+	CHistogram(int histogramDepth = 256);
+	CHistogram(const iimg::IBitmap& input, int histogramDepth = 256, const i2d::CRectangle* areaPtr = NULL);
 
-	bool IsValid() const;
-	void Reset();
+	bool IsHistogramValid() const;
+	void ResetHistogram();
 
 	void CalculateFromBitmap(const iimg::IBitmap& input, const i2d::CRectangle* areaPtr = NULL);
 	CounterType& operator[](int index);
@@ -51,6 +51,8 @@ public:
 private:
 	HistogramData m_histogramData;
 	bool m_isValid;
+
+	int m_histogramDepth;
 };
 
 

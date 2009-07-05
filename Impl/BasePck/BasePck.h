@@ -42,6 +42,8 @@
 
 #include "imath/CSampledFunction2d.h"
 
+#include "iimg/CHistogram.h"
+
 
 /**
 	Base system-undependent general package.
@@ -124,6 +126,11 @@ typedef icomp::TMakeComponentWrap<
 			imath::ISampledFunction2d,
 			istd::IChangeable,
 			imod::IModel> SampledFunction2d;
+
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<iimg::CHistogram>,
+			istd::IChangeable,
+			imod::IModel> Histogram;
 
 
 } // namespace BasePck

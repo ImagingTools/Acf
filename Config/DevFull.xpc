@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ConfigFiles count ="6">
+    <FilePath>
+      ../../Config/AcfFull.xpc
+    </FilePath>
+    <FilePath>
+      ../../../IACF/Config/IacfFull.xpc
+    </FilePath>
+    <FilePath>
+      ../../../Products/Gmg/Pdf2Pdf/Config/Gmg.xpc
+    </FilePath>
+    <FilePath>
+      ../../../Products/Gmg/ProfileEditor/Config/Gmg.xpc
+    </FilePath>
+    <FilePath>
+      ../../../Products/ImagingTools/Ipes/Config/Ipes.xpc
+    </FilePath>
+    <FilePath>
+      ../../../Products/TUBerlin/PersonaCounter/Config/Tu.xpc
+    </FilePath>
+  </ConfigFiles>
+  <PackageDirs count="0">
+  </PackageDirs>
+  <PackageFiles count="0">
+  </PackageFiles>
+</Acf>
