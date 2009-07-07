@@ -329,12 +329,11 @@ void CSceneProviderComp::OnGuiCreated()
 	viewPtr->setScene(m_scenePtr);
 	viewPtr->setMouseTracking(true);
 	viewPtr->setDragMode(QGraphicsView::ScrollHandDrag);
-	viewPtr->setCacheMode(QGraphicsView::CacheBackground);
 
 	viewPtr->installEventFilter(this);
 	m_scenePtr->installEventFilter(this);
 	
-	m_scenePtr->setBackgroundBrush(QBrush(QColor(193, 196, 180, 255)));
+	m_scenePtr->setBackgroundBrush(QBrush(QColor(128, 128, 128)));
 
 	if (m_useAntialiasingAttrPtr.IsValid() && *m_useAntialiasingAttrPtr){
 		viewPtr->setRenderHints(QPainter::Antialiasing);
