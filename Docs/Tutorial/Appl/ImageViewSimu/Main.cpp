@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
-	application.EnsureInitialized(argc, argv);
+	application.InitializeApplication(argc, argv);
 
 	Q_INIT_RESOURCE(iqtgui);
 

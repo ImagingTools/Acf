@@ -115,9 +115,6 @@ void CTextEditorComp::OnToUppercase()
 }
 
 
-
-
-
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CTextEditorComp::OnGuiCreated()

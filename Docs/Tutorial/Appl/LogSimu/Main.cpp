@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	QApplication::setStyle("plastique");
 
 	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
-	application.EnsureInitialized(argc, argv);
+	application.InitializeApplication(argc, argv);
 
 	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
