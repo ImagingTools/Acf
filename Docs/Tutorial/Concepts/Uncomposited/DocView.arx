@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          860
+          983
         </Number>
         <Description>
           ACF
@@ -627,7 +627,7 @@
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
-        int,bool,signed char,short,long double&lt;long,int,char,signed char,unsigned short,int&gt;
+        ibase::IApplication
       </InterfaceId>
       <ComponentId>
         Application
