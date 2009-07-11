@@ -227,7 +227,7 @@ void CSceneProviderComp::OnComponentCreated()
 
 // protected methods
 
-void CSceneProviderComp::OnResize(QResizeEvent* /*event*/)
+void CSceneProviderComp::OnResize(QResizeEvent* /*eventPtr*/)
 {
 	if (m_fitMode == ScaleToFit){
 		OnFitToView();
@@ -235,13 +235,13 @@ void CSceneProviderComp::OnResize(QResizeEvent* /*event*/)
 }
 
 
-void CSceneProviderComp::OnWheelEvent(QGraphicsSceneWheelEvent* event)
+void CSceneProviderComp::OnWheelEvent(QGraphicsSceneWheelEvent* eventPtr)
 {
-	ScaleView(pow((double)2, event->delta() / 240.0));
+	ScaleView(pow((double)2, eventPtr->delta() / 240.0));
 }
 
 
-void CSceneProviderComp::OnMouseDoubleClickEvent(QMouseEvent* /*event*/)
+void CSceneProviderComp::OnMouseDoubleClickEvent(QMouseEvent* /*eventPtr*/)
 {
 	if (m_isFullScreenMode){
 		SwitchFullScreen();
@@ -249,12 +249,12 @@ void CSceneProviderComp::OnMouseDoubleClickEvent(QMouseEvent* /*event*/)
 }
 
 
-void CSceneProviderComp::OnMouseMoveEvent(QMouseEvent* /*event*/)
+void CSceneProviderComp::OnMouseMoveEvent(QMouseEvent* /*eventPtr*/)
 {
 }
 
 
-void CSceneProviderComp::OnKeyReleaseEvent(QKeyEvent* event)
+void CSceneProviderComp::OnKeyReleaseEvent(QKeyEvent* eventPtr)
 {
 	QGraphicsView* viewPtr = GetQtWidget();
 	I_ASSERT(viewPtr != NULL);
@@ -262,7 +262,7 @@ void CSceneProviderComp::OnKeyReleaseEvent(QKeyEvent* event)
 		return;
 	}
 
-	switch(event->key()){
+	switch(eventPtr->key()){
 		case Qt::Key_Plus:
 			OnZoomIncrement();
 			break;
@@ -278,7 +278,7 @@ void CSceneProviderComp::OnKeyReleaseEvent(QKeyEvent* event)
 }
 
 
-void CSceneProviderComp::OnContextMenuEvent(QContextMenuEvent* /*event*/)
+void CSceneProviderComp::OnContextMenuEvent(QContextMenuEvent* /*eventPtr*/)
 {
 }
 
@@ -363,7 +363,7 @@ void CSceneProviderComp::OnGuiCreated()
 
 // reimplemented (QObject)
 
-bool CSceneProviderComp::eventFilter(QObject* obj, QEvent* event)
+bool CSceneProviderComp::eventFilter(QObject* obj, QEvent* eventPtr)
 {
 	if (!IsGuiCreated()){
 		return false;
@@ -379,21 +379,21 @@ bool CSceneProviderComp::eventFilter(QObject* obj, QEvent* event)
 		return false;
 	}
 
-	switch(event->type()){
+	switch(eventPtr->type()){
 		case QEvent::MouseButtonDblClick:
 		case QEvent::GraphicsSceneMouseDoubleClick:
-			OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(event));
+			OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(eventPtr));
 			break;
 		case QEvent::KeyRelease:
-			OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(event));
+			OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(eventPtr));
 			break;
 
 		case QEvent::Resize:
-			OnResize(dynamic_cast<QResizeEvent*>(event));
+			OnResize(dynamic_cast<QResizeEvent*>(eventPtr));
 			break;
 
 		case QEvent::GraphicsSceneWheel:
-			OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(event));
+			OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr));
 			break;
 
 		default:
