@@ -378,7 +378,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSceneControllerGuiComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CSceneProviderGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSceneProviderGuiComp.moc"
 				>
 			</File>
 			<File
@@ -423,55 +431,47 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\CSceneControllerGuiComp.moc"
+				RelativePath="..\generated\moc_CAnnulusParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CSceneProviderGuiComp.moc"
+				RelativePath="..\generated\moc_CAnnulusSegmentParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CAnnulusParamsGuiComp.cpp"
+				RelativePath="..\generated\moc_CAnnulusSegmentShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CAnnulusSegmentParamsGuiComp.cpp"
+				RelativePath="..\generated\moc_CAnnulusShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CAnnulusSegmentShape.cpp"
+				RelativePath="..\generated\moc_CCircleParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CAnnulusShape.cpp"
+				RelativePath="..\generated\moc_CCircleShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CCircleParamsGuiComp.cpp"
+				RelativePath="..\generated\moc_CGripShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CCircleShape.cpp"
+				RelativePath="..\generated\moc_CLine2dParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CGripShape.cpp"
+				RelativePath="..\generated\moc_CLine2dShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CLine2dParamsGuiComp.cpp"
+				RelativePath="..\generated\moc_CRectangleParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CLine2dShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\moc_CRectangleParamsGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\moc_CRectangleShape.cpp"
+				RelativePath="..\generated\moc_CRectangleShape.cpp"
 				>
 			</File>
 			<File
@@ -479,15 +479,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CSceneProviderComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\generated\moc_CSceneProviderGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CAnnulusParamsGuiComp.h"
+				RelativePath="..\generated\ui_CAnnulusParamsGuiComp.h"
 				>
 			</File>
 			<File
@@ -499,15 +495,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CLine2dParamsGuiComp.h"
+				RelativePath="..\generated\ui_CLine2dParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CRectangleParamsGuiComp.h"
+				RelativePath="..\generated\ui_CRectangleParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CSceneConnectorGuiComp.h"
+				RelativePath="..\generated\ui_CSceneConnectorGuiComp.h"
 				>
 			</File>
 			<File
