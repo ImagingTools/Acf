@@ -418,6 +418,7 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 	stream << "#include \"icomp/TSingleAttribute.h\"" << std::endl;
 	stream << "#include \"icomp/TMultiAttribute.h\"" << std::endl;
 	stream << "#include \"icomp/CRegistryElement.h\"" << std::endl;
+	stream << "#include \"icomp/CCompositePackageStaticInfo.h\"" << std::endl;
 
 	Ids packageIds = ExtractPackageIds(addresses);
 	if (!packageIds.empty()){

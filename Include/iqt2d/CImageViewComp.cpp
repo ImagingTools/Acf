@@ -27,6 +27,12 @@ void CImageViewComp::UpdateModel() const
 
 void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 {
+	istd::CIndex2d imageSize = GetSize();
+
+	QGraphicsScene* scenePtr = GetScene();
+	if (scenePtr != NULL){
+		scenePtr->setSceneRect(QRect(0, 0, imageSize.GetX(), imageSize.GetY()));
+	}
 }
 
 
