@@ -7,7 +7,7 @@ namespace ibase
 
 // reimplemented (ibase::IApplication)
 
-bool CCopyAppComp::InitializeApplication(int argc, char** argv)
+bool CCopyAppComp::InitializeApplication(int /*argc*/, char** /*argv*/)
 {
 	return true;
 }
@@ -15,16 +15,8 @@ bool CCopyAppComp::InitializeApplication(int argc, char** argv)
 
 int CCopyAppComp::Execute(int argc, char** argv)
 {
-	if (!m_objectCompPtr.IsValid()){
+	if (!m_fileCopyCompPtr.IsValid()){
 		return 1;
-	}
-
-	if (!m_inputLoaderCompPtr.IsValid()){
-		return 2;
-	}
-
-	if (!m_outputLoaderCompPtr.IsValid()){
-		return 3;
 	}
 
 	istd::CString inputFilePath;
@@ -47,30 +39,8 @@ int CCopyAppComp::Execute(int argc, char** argv)
 		}
 	}
 
-	if (outputFilePath.IsEmpty()){
-		istd::CStringList extensions;
-		m_outputLoaderCompPtr->GetFileExtensions(extensions);
-
-		if (extensions.empty()){
-			return 10;
-		}
-
-		istd::CString::size_type pointPos = inputFilePath.rfind('.');
-
-		if (pointPos != istd::CString::npos){
-			outputFilePath = inputFilePath.substr(0, pointPos + 1) + extensions.front();
-		}
-		else{
-			outputFilePath = inputFilePath + extensions.front();
-		}
-	}
-
-	if (m_inputLoaderCompPtr->LoadFromFile(*m_objectCompPtr, inputFilePath) != iser::IFileLoader::StateOk){
+	if (!m_fileCopyCompPtr->CopyFile(inputFilePath, outputFilePath)){
 		return 20;
-	}
-
-	if (m_outputLoaderCompPtr->SaveToFile(*m_objectCompPtr, outputFilePath) != iser::IFileLoader::StateOk){
-		return 21;
 	}
 
 	return 0;
@@ -80,19 +50,6 @@ int CCopyAppComp::Execute(int argc, char** argv)
 istd::CString CCopyAppComp::GetHelpText() const
 {
 	return "General ACF copy application. Usage: <application> InputFilePath [-o OutputFilePath]";
-}
-
-
-// reimplemented (ibase::IFileConvertCopy)
-
-bool CCopyAppComp::CopyFile(const istd::CString& inputFilePath, const istd::CString& outputFilePath) const
-{
-	if (!m_inputLoaderCompPtr.IsValid() || !m_outputLoaderCompPtr.IsValid()){
-		return false;
-	}
-
-	return		(m_inputLoaderCompPtr->LoadFromFile(*m_objectCompPtr, inputFilePath) == iser::IFileLoader::StateOk) &&
-				(m_outputLoaderCompPtr->SaveToFile(*m_objectCompPtr, outputFilePath) == iser::IFileLoader::StateOk);
 }
 
 

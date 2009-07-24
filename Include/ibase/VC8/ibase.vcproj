@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileCopyOverLoaderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileSystem.cpp"
 				>
 			</File>
@@ -287,6 +291,10 @@
 			</File>
 			<File
 				RelativePath="..\CCopyAppComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileCopyOverLoaderComp.h"
 				>
 			</File>
 			<File

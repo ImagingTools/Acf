@@ -17,23 +17,21 @@ namespace ibase
 
 
 /**
-	General file copy or transformation.
-	This implementation uses general file loader, saver and any object instance.
-	It implements ibase::IApplication and can be also used as standalone application.
+	General file transformation application.
+	This implementation uses some slave ibase::IFileConvertCopy implementation to provide copy operation.
+	It implements ibase::IApplication and can be used as standalone application.
 */
 class CCopyAppComp:
 			public icomp::CComponentBase,
-			virtual public IApplication,
-			virtual public IFileConvertCopy
+			virtual public IApplication
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CCopyAppComp);
 		I_REGISTER_INTERFACE(IApplication);
-		I_ASSIGN(m_objectCompPtr, "Object", "Object used as representation of copied data", true, "Object");
-		I_ASSIGN(m_inputLoaderCompPtr, "InputLoader", "input file loader", true, "InputLoader");
-		I_ASSIGN(m_outputLoaderCompPtr, "OutputLoader", "output file loader", true, "OutputLoader");
+
+		I_ASSIGN(m_fileCopyCompPtr, "FileCopy", "Provide copy of single file", true, "FileCopy");
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::IApplication)
@@ -41,13 +39,8 @@ public:
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
 
-	// reimplemented (ibase::IFileConvertCopy)
-	virtual bool CopyFile(const istd::CString& inputFilePath, const istd::CString& outputFilePath) const;
-
 private:
-	I_REF(istd::IChangeable, m_objectCompPtr);
-	I_REF(iser::IFileLoader, m_inputLoaderCompPtr);
-	I_REF(iser::IFileLoader, m_outputLoaderCompPtr);
+	I_REF(IFileConvertCopy, m_fileCopyCompPtr);
 };
 
 

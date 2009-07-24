@@ -76,10 +76,14 @@ int main(int argc, char *argv[])
 	registryComp.SetRef("Log", &log);
 	registryComp.InitComponent();
 
+	icomp::TSimComponentWrap<BasePck::FileCopyOverLoader> fileCopyComp;
+	fileCopyComp.SetRef("Object", &registryComp);
+	fileCopyComp.SetRef("InputLoader", &registryLoaderComp);
+	fileCopyComp.SetRef("OutputLoader", &codeSaverComp);
+	fileCopyComp.InitComponent();
+
 	icomp::TSimComponentWrap<BasePck::CopyApp> applicationComp;
-	applicationComp.SetRef("Object", &registryComp);
-	applicationComp.SetRef("InputLoader", &registryLoaderComp);
-	applicationComp.SetRef("OutputLoader", &codeSaverComp);
+	applicationComp.SetRef("FileCopy", &fileCopyComp);
 	applicationComp.InitComponent();
 
 	return applicationComp.Execute(argc, argv);
