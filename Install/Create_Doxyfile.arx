@@ -74,10 +74,10 @@
         DoxyfileCopy
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>

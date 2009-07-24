@@ -10,10 +10,9 @@
 
 #include "icomp/CComponentBase.h"
 
-#include "ibase/IApplicationInfo.h"
 #include "ibase/TLoggerCompWrap.h"
 
-#include "iqt/iqt.h"
+#include "iqt/CFileInfoCopyComp.h"
 
 
 namespace iqt
@@ -33,26 +32,16 @@ public:
 	{
 		MI_END_STATUS = 0xa830,
 		MI_NO_INPUT,
-		MI_NO_OUTPUT,
-		MI_FILE_INFO,
-		MI_INPUT_OPEN,
-		MI_OUTPUT_OPEN,
-		MI_LICENSE_OPEN,
-		MI_BAD_TAG
+		MI_NO_OUTPUT
 	};
 
 	I_BEGIN_COMPONENT(CCopyProcessorComp);
-		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Provide information about versions for substitution", false, "VersionInfo");
-
+		I_ASSIGN(m_fileCopyCompPtr, "FileCopy", "Provide copy of single file", true, "FileCopy");
 		I_ASSIGN(m_inputPathAttrPtr, "InputDir", "Path of input file or directory", true, ".");
 		I_ASSIGN(m_outputPathAttrPtr, "OutputDir", "Path of input file or directory", true, "./Copy");
 		I_ASSIGN_MULTI_1(m_filtersAttrPtr, "Filters", "List of file filters will be copied", true, "*");
 		I_ASSIGN_MULTI_0(m_excludeFiltersAttrPtr, "ExcludeFilters", "List of file filters will be exclude from copy", false);
 		I_ASSIGN(m_recursionDepthAttrPtr, "RecursionDepth", "Depth of recursion", true, 0);
-		I_ASSIGN(m_licensePathAttrPtr, "LicensePath", "Path of license file will be included at begin of copied file", false, "License.txt");
-		I_ASSIGN(m_useSubstitutionAttrPtr, "UseSubstitution", "If enebled strings like $AcfVersion:n$ will be substituted", true, false);
-		I_ASSIGN_MULTI_0(m_userSubstitutionTagsAttrPtr, "UserSubstitutionTags", "List of user defined substitution tags will be replaced with specified values", false);
-		I_ASSIGN_MULTI_0(m_userSubstitutionValuesAttrPtr, "UserSubstitutionValues", "List of user substitution values according to specified user tags", false);
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IComponent)
@@ -85,23 +74,19 @@ protected:
 				const QStringList& excludeFilters,
 				int recursionDepth,
 				int& counter) const;
-	bool CopyFile(const QString& inputFileName, const QString& outputFileName) const;
 
+	/**
+		Check if some file should be excluded from processing.
+	*/
 	bool CheckIfExcluded(const QString& fileName, const QStringList& excludeFilters) const;
-	bool ProcessSubstitutionTag(const QString& tag, QString& result) const;
 
 private:
-	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
-
+	I_REF(ibase::IFileConvertCopy, m_fileCopyCompPtr);
 	I_ATTR(istd::CString, m_inputPathAttrPtr);
 	I_ATTR(istd::CString, m_outputPathAttrPtr);
 	I_MULTIATTR(istd::CString, m_filtersAttrPtr);
 	I_MULTIATTR(istd::CString, m_excludeFiltersAttrPtr);
 	I_ATTR(int, m_recursionDepthAttrPtr);
-	I_ATTR(istd::CString, m_licensePathAttrPtr);
-	I_ATTR(bool, m_useSubstitutionAttrPtr);
-	I_MULTIATTR(istd::CString, m_userSubstitutionTagsAttrPtr);
-	I_MULTIATTR(istd::CString, m_userSubstitutionValuesAttrPtr);
 };
 
 

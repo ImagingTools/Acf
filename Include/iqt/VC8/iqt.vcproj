@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileInfoCopyComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileList.cpp"
 				>
 			</File>
@@ -329,6 +333,10 @@
 			</File>
 			<File
 				RelativePath="..\CDllFunctionsProvider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileInfoCopyComp.h"
 				>
 			</File>
 			<File

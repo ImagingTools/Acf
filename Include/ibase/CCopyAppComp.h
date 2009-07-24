@@ -9,15 +9,22 @@
 #include "icomp/CComponentBase.h"
 
 #include "ibase/IApplication.h"
+#include "ibase/IFileConvertCopy.h"
 
 
 namespace ibase
 {
 
 
+/**
+	General file copy or transformation.
+	This implementation uses general file loader, saver and any object instance.
+	It implements ibase::IApplication and can be also used as standalone application.
+*/
 class CCopyAppComp:
 			public icomp::CComponentBase,
-			virtual public IApplication
+			virtual public IApplication,
+			virtual public IFileConvertCopy
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -33,6 +40,9 @@ public:
 	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
+
+	// reimplemented (ibase::IFileConvertCopy)
+	virtual bool CopyFile(const istd::CString& inputFilePath, const istd::CString& outputFilePath) const;
 
 private:
 	I_REF(istd::IChangeable, m_objectCompPtr);

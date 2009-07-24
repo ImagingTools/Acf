@@ -21,10 +21,10 @@
         CopyArpInfo
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -165,10 +165,10 @@
         CopyBins
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -426,10 +426,10 @@
         CopyLibs
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>

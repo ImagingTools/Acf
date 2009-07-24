@@ -11,6 +11,7 @@
 #include "iqt/CBitmapLoaderComp.h"
 #include "iqt/CSettingsSerializerComp.h"
 #include "iqt/CApplicationSettingsProviderComp.h"
+#include "iqt/CFileInfoCopyComp.h"
 #include "iqt/CCopyProcessorComp.h"
 
 #include "iqtgui/CLoginGuiComp.h"
@@ -77,6 +78,7 @@ typedef icomp::TModelCompWrap<
 typedef iqt::CBitmapLoaderComp BitmapLoader;
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
+typedef iqt::CFileInfoCopyComp FileInfoCopy;
 typedef iqt::CCopyProcessorComp CopyProcessor;
 
 typedef iqtgui::CLoginGuiComp LoginGui;

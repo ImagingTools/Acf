@@ -83,6 +83,19 @@ istd::CString CCopyAppComp::GetHelpText() const
 }
 
 
+// reimplemented (ibase::IFileConvertCopy)
+
+bool CCopyAppComp::CopyFile(const istd::CString& inputFilePath, const istd::CString& outputFilePath) const
+{
+	if (!m_inputLoaderCompPtr.IsValid() || !m_outputLoaderCompPtr.IsValid()){
+		return false;
+	}
+
+	return		(m_inputLoaderCompPtr->LoadFromFile(*m_objectCompPtr, inputFilePath) == iser::IFileLoader::StateOk) &&
+				(m_outputLoaderCompPtr->SaveToFile(*m_objectCompPtr, outputFilePath) == iser::IFileLoader::StateOk);
+}
+
+
 } // namespace ibase
 
 

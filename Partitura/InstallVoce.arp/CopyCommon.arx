@@ -21,10 +21,10 @@
         CopyBinInfo
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -149,10 +149,10 @@
         CopyConfig
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -261,10 +261,10 @@
         CopyDocs
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -444,10 +444,10 @@
         CopyImpl
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -588,10 +588,10 @@
         CopyIncludes
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -735,10 +735,10 @@
         CopyInstallInfo
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -863,10 +863,10 @@
         CopyInstallationScript
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -1039,10 +1039,10 @@
         CopyPartitura
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -1167,10 +1167,10 @@
         CopyRoot
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -1292,10 +1292,10 @@
         CopyTexts
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -1475,10 +1475,10 @@
         CopyTutorialOther
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -1637,10 +1637,10 @@
         CopyTutorialSources
       </Id>
       <PackageId>
-        QtPck
+        InstallVoce
       </PackageId>
       <ComponentId>
-        CopyProcessor
+        CopyInfoProcessor
       </ComponentId>
       <Data>
         <IsEnabled>
