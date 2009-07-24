@@ -21,7 +21,7 @@
         Application
       </Id>
       <PackageId>
-        AcfVoce
+        AcfGuiVoce
       </PackageId>
       <ComponentId>
         MultiDocApp
@@ -647,7 +647,7 @@ This tool is a part of ACF project
         LogDock
       </Id>
       <PackageId>
-        AcfVoce
+        AcfGuiVoce
       </PackageId>
       <ComponentId>
         LogDock

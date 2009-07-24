@@ -21,7 +21,7 @@
         App
       </Id>
       <PackageId>
-        AcfVoce
+        AcfGuiVoce
       </PackageId>
       <ComponentId>
         MultiDocApp

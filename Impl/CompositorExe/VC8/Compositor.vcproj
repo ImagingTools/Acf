@@ -28,15 +28,21 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="DeployCopy"
-				OutputDir=""
-				InputDir="..\..\..\Bin\info"
-			/>
-			<Tool
 				Name="SubVersionTransform"
 			/>
 			<Tool
+				Name="FileConvertCopy"
+				RegistryFile="$(ACFDIR)\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+				ConfigFile="$(ACFDIR)\Config\AcfBaseOnly.xpc"
+				OutputDir="$(InputDir)\..\Generated"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="DeployCopy"
+				OutputDir=""
+				InputDir="..\..\..\Bin\info"
 			/>
 			<Tool
 				Name="Arxc"
@@ -80,6 +86,7 @@
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC8&quot;"
+				AssemblyLinkResource="$(IntDir)Compositor.res"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
@@ -119,15 +126,21 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="DeployCopy"
-				OutputDir=""
-				InputDir="..\..\..\Bin\info"
-			/>
-			<Tool
 				Name="SubVersionTransform"
 			/>
 			<Tool
+				Name="FileConvertCopy"
+				RegistryFile="$(ACFDIR)\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+				ConfigFile="$(ACFDIR)\Config\AcfBaseOnly.xpc"
+				OutputDir="$(InputDir)\..\Generated"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="DeployCopy"
+				OutputDir=""
+				InputDir="..\..\..\Bin\info"
 			/>
 			<Tool
 				Name="Arxc"
@@ -171,6 +184,7 @@
 				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC8&quot;"
+				AssemblyLinkResource="$(IntDir)Compositor.res"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 			/>
@@ -238,7 +252,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Compositor.rc"
+				RelativePath=".\Compositor.rc.xtracf"
 				>
 			</File>
 			<File
@@ -255,6 +269,10 @@
 			</File>
 			<File
 				RelativePath="..\Generated\CCompositor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\Compositor.rc"
 				>
 			</File>
 		</Filter>

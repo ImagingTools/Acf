@@ -84,5 +84,44 @@
 				/>
 			</Properties>
 		</CustomBuildRule>
+		<CustomBuildRule
+			Name="FileConvertCopy"
+			DisplayName="ACF file convertion copy"
+			CommandLine="$(ACFDIR)\Bin\$(ConfigurationName)VC8\Acf.exe [$RegistryFile] -config [$ConfigFile] -input $(InputPath) -o [$OutputDir]\$(InputName)"
+			Outputs="[$OutputDir]\$(InputName)"
+			AdditionalDependencies="$(ACFDIR)\Bin\$(ConfigurationName)VC8\Acf.exe;[$RegistryFile];[$ConfigFile];"
+			FileExtensions="*.xtracf"
+			ExecutionDescription="Converting File With ACF transformation..."
+			>
+			<Properties>
+				<StringProperty
+					Name="RegistryFile"
+					DisplayName="Application Registry File"
+					Category="Environment"
+					Description="ACF registry file with exported interface ibase::IApplication"
+					DefaultValue="$(ACFDIR)\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+					Delimited="true"
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="ConfigFile"
+					DisplayName="Packages Configuration File"
+					Category="Environment"
+					Description="ACF packages configuration file"
+					DefaultValue="$(ACFDIR)\Config\AcfBaseOnly.xpc"
+					Delimited="true"
+					Inheritable="true"
+				/>
+				<StringProperty
+					Name="OutputDir"
+					DisplayName="Output Directory"
+					Category="Environment"
+					Description="Specify output directory were transformed files will be placed"
+					DefaultValue="$(OutputDir)"
+					Delimited="true"
+					Inheritable="true"
+				/>
+			</Properties>
+		</CustomBuildRule>
 	</Rules>
 </VisualStudioToolFile>

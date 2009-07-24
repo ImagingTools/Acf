@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	QApplication::setStyle("plastique");
 
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
-	applicationInfo.SetStringAttr("ApplicationName", "ACF Compositor");
+	applicationInfo.SetStringAttr("ApplicationName", "ACF CompositorMini");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.InitComponent();
 
@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 
 	istd::CString configFile;
 	istd::CString registryFile;
-	bool useDefaultRegistries = true;
 	for (int index = 1; index < argc; index++){
 		std::string argument = argv[index];
 		if (!argument.empty() && (argument[0] == '-')){
@@ -73,7 +72,7 @@ int main(int argc, char *argv[])
 			if ((option == "h") || (option == "help")){
 				QMessageBox::information(NULL, QObject::tr("Parameter help"), QObject::tr(
 							"Usage"
-							"\tCompositor.exe [registryName] {options}      - registry editor"
+							"\tCompositorMini.exe [registryName] {options}      - registry editor"
 							"\t-h or -help              - showing this help"
 							"\t-config configFile       - load config file"));
 

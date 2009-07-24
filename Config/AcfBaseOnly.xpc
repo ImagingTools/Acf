@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ConfigFiles count ="0">
+  </ConfigFiles>
+  <PackageDirs count="0">
+  </PackageDirs>
+  <PackageFiles count="3">
+    <FilePath>
+      ../Bin/$(ConfigurationName)/BasePck.arp
+    </FilePath>
+    <FilePath>
+      ../Bin/$(ConfigurationName)/QtPck.arp
+    </FilePath>
+    <FilePath>
+      ../Partitura/AcfVoce.arp
+    </FilePath>
+  </PackageFiles>
+</Acf>

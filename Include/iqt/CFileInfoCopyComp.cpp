@@ -104,6 +104,7 @@ bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& resu
 	static const QString acfProductNameTag("AcfProductName");
 	static const QString acfVersionTag("AcfVersion");
 	static const QString acfRawVersionTag("AcfRawVersion");
+	static const QString acfRcVersionTag("AcfRcVersion");
 	static const QString acfTimestampTag("AcfTimestamp");
 
 	int separatorIndex = tag.indexOf(":");
@@ -132,6 +133,19 @@ bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& resu
 						m_applicationInfoCompPtr.IsValid() &&
 						m_applicationInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
 				result = QString::number(versionNumber);
+
+				return true;
+			}
+		}
+		else if (paramTag == acfRcVersionTag){
+			bool isNumOk;
+			int versionId = parameter.toInt(&isNumOk);
+			I_DWORD versionNumber;
+			if (		isNumOk &&
+						m_applicationInfoCompPtr.IsValid() &&
+						m_applicationInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetEncodedVersionName(versionId, versionNumber));
+				result.replace(".", ", ");
 
 				return true;
 			}
