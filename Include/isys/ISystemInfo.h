@@ -36,7 +36,7 @@ public:
 	virtual int GetProcessorId(int processorIndex) const = 0;
 
 	/**
-		Returns \c true if there are network adapter(s) isntalled.
+		Returns \c true if there are network adapter(s) installed.
 	*/
 	virtual bool IsNetworkAdapterInstalled(int* adapterCountPtr = NULL) const = 0;
 

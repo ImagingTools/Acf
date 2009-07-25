@@ -367,10 +367,6 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	for (		Ids::const_iterator packageInstanceIter = realPackageIds.begin();
 				packageInstanceIter != realPackageIds.end();
 				++packageInstanceIter){
-		if (packageInstanceIter != realPackageIds.begin()){
-			stream << std::endl;
-		}
-
 		const std::string& packageId = *packageInstanceIter;
 
 		std::string packageName = GetPackageName(packageId);

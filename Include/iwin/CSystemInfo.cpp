@@ -49,14 +49,14 @@ CSystemInfo::NetworkAdapters CSystemInfo::GetNetworkAdapters()
     DWORD dwBufLen = sizeof(adapterInfo);
     
 	DWORD dwStatus = GetAdaptersInfo(adapterInfo, &dwBufLen);
-	if(dwStatus != ERROR_SUCCESS){
+	if (dwStatus != ERROR_SUCCESS){
         return adapters;
 	}
 
     PIP_ADAPTER_INFO adapterInfoPtr = adapterInfo;
     char szBuffer[256];
-    while(adapterInfoPtr != NULL){
-        if(adapterInfoPtr->Type == MIB_IF_TYPE_ETHERNET){
+    while (adapterInfoPtr != NULL){
+        if (adapterInfoPtr->Type == MIB_IF_TYPE_ETHERNET){
 			sprintf_s(szBuffer, sizeof(szBuffer), "%.2x-%.2x-%.2x-%.2x-%.2x-%.2x"
                         , adapterInfoPtr->Address[0]
                         , adapterInfoPtr->Address[1]
