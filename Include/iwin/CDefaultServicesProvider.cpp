@@ -10,6 +10,7 @@
 #include "iwin/CApplicationEnvironment.h"
 #include "iwin/CCriticalSection.h"
 #include "iwin/CSystemEnvironment.h"
+#include "iwin/CSystemInfo.h"
 
 
 namespace iwin
@@ -32,6 +33,9 @@ void CDefaultServicesProvider::RegisterServices()
 
 	static istd::TSingleFactory<isys::ITimer, iwin::CTimer> timerFactory("");
 	istd::CStaticServicesProvider::RegisterFactory(&timerFactory);
+
+	static istd::TSingleFactory<isys::ISystemInfo, iwin::CSystemInfo> systemInfoFactory("");
+	istd::CStaticServicesProvider::RegisterFactory(&systemInfoFactory);
 }
 
 

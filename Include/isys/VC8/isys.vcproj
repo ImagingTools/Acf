@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="isys"
 	ProjectGUID="{633B67F7-B154-4A80-A651-0243D5EDF583}"
+	RootNamespace="isys"
 	>
 	<Platforms>
 		<Platform
@@ -186,6 +187,10 @@
 				RelativePath="..\CSystemEnvironmentBase.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CSystemInfoBase.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -205,6 +210,10 @@
 			</File>
 			<File
 				RelativePath="..\CSystemEnvironmentBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSystemInfoBase.h"
 				>
 			</File>
 			<File
@@ -237,6 +246,10 @@
 			</File>
 			<File
 				RelativePath="..\ISystemEnvironment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\ISystemInfo.h"
 				>
 			</File>
 			<File

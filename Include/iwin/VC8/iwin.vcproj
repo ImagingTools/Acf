@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="iwin"
 	ProjectGUID="{633B67F7-B154-4A80-A651-1111D5EDF583}"
+	RootNamespace="iwin"
 	>
 	<Platforms>
 		<Platform
@@ -197,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSystemInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTimer.cpp"
 				>
 			</File>
@@ -223,6 +228,10 @@
 			</File>
 			<File
 				RelativePath="..\CSystemEnvironment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSystemInfo.h"
 				>
 			</File>
 			<File
