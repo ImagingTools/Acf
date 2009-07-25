@@ -1,5 +1,8 @@
 #include "isys/CSystemInfoBase.h"
 
+#include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
+
 
 namespace isys
 {
@@ -55,7 +58,46 @@ bool CSystemInfoBase::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
-	return true;
+	static iser::CArchiveTag computerNameTag("ComputerName", "ComputerName");
+	retVal = retVal && archive.BeginTag(computerNameTag);
+	retVal = retVal && archive.Process(m_computerName);
+	retVal = retVal && archive.EndTag(computerNameTag);
+
+	static iser::CArchiveTag processorIdsTag("ProcessorIds", "ProcessorIds");
+	static iser::CArchiveTag processorIdTag("ProcessorId", "ProcessorId");
+	int processorsCount = m_processorIds.size();
+
+	retVal = retVal && archive.BeginMultiTag(processorIdsTag, processorIdTag, processorsCount);
+	if (!archive.IsStoring()){
+		m_processorIds.resize(processorsCount);
+	}
+
+	for (int processorIndex = 0; processorIndex < processorsCount; processorIndex++){
+		retVal = retVal && archive.BeginTag(processorIdTag);
+		retVal = retVal && archive.Process(m_processorIds[processorIndex]);
+		retVal = retVal && archive.EndTag(processorIdTag);
+	}
+
+	retVal = retVal && archive.EndTag(processorIdsTag);
+
+	static iser::CArchiveTag networkAdaptersTag("NetworkAdapters", "NetworkAdapters");
+	static iser::CArchiveTag networkAdapterTag("NetworkAdapter", "NetworkAdapter");
+	int networkAdaptersCount = m_networkAdapters.size();
+
+	retVal = retVal && archive.BeginMultiTag(networkAdaptersTag, networkAdapterTag, networkAdaptersCount);
+	if (!archive.IsStoring()){
+		m_networkAdapters.resize(networkAdaptersCount);
+	}
+
+	for (int processorIndex = 0; processorIndex < processorsCount; processorIndex++){
+		retVal = retVal && archive.BeginTag(networkAdapterTag);
+		retVal = retVal && archive.Process(m_networkAdapters[processorIndex]);
+		retVal = retVal && archive.EndTag(networkAdapterTag);
+	}
+
+	retVal = retVal && archive.EndTag(networkAdaptersTag);
+
+	return retVal;
 }
 
 
