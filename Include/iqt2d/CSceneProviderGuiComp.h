@@ -5,6 +5,8 @@
 // Qt includes
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsSceneResizeEvent>
+#include <QGraphicsSceneWheelEvent>
 
 
 #include "iqtgui/TDesignerGuiCompBase.h"
@@ -43,7 +45,7 @@ public:
 		I_ASSIGN(m_sceneIdAttrPtr, "SceneId", "ID allowing identifying this scene", true, 0)
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false)
 		I_ASSIGN(m_fitModeAttrPtr, "FitMode", "Set fit mode for the scene\n 0 - no fit\n 1 - scale contents to fit view area", false, false)		
-		I_ASSIGN(m_sceneControllerCompPtr, "SceneController", "Scene controller", false, "SceneController");		
+		I_ASSIGN(m_sceneControllerGuiCompPtr, "SceneController", "Scene controller", false, "SceneController");		
 	I_END_COMPONENT;
 
 	enum FitMode{
@@ -78,12 +80,12 @@ public slots:
 	void OnAutoFit(bool isAutoScale);
 
 protected:
-	virtual void OnResize(QResizeEvent* event);
-	virtual void OnWheelEvent(QGraphicsSceneWheelEvent* event);
-	virtual void OnKeyReleaseEvent(QKeyEvent* event);
-	virtual void OnContextMenuEvent(QContextMenuEvent* event);
-	virtual void OnMouseDoubleClickEvent(QMouseEvent* event);
-	virtual void OnMouseMoveEvent(QMouseEvent* event);
+	virtual void OnResize(QResizeEvent* eventPtr);
+	virtual void OnWheelEvent(QGraphicsSceneWheelEvent* eventPtr);
+	virtual void OnKeyReleaseEvent(QKeyEvent* eventPtr);
+	virtual void OnContextMenuEvent(QContextMenuEvent* eventPtr);
+	virtual void OnMouseDoubleClickEvent(QMouseEvent* eventPtr);
+	virtual void OnMouseMoveEvent(QMouseEvent* eventPtr);
 
 	void CreateContextMenu();
 	void ScaleView(double scaleFactor);
@@ -95,7 +97,7 @@ protected:
 	virtual void OnGuiDestroyed();
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* obj, QEvent* event);
+	virtual bool eventFilter(QObject* obj, QEvent* eventPtr);
 
 signals:
 	void zoomChanged(double);
@@ -112,7 +114,7 @@ private:
 	iqtgui::CHierarchicalCommand m_fitToViewCommand;
 	iqtgui::CHierarchicalCommand m_resetZoomCommand;
 
-	I_REF(iqt2d::ISceneController, m_sceneControllerCompPtr)
+	I_REF(iqtgui::IGuiObject, m_sceneControllerGuiCompPtr)
 
 	I_ATTR(bool, m_allowWidgetResizeAttrPtr);
 	I_ATTR(int, m_sceneIdAttrPtr);

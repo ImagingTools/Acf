@@ -15,8 +15,7 @@ namespace iqt2d
 
 
 class CSceneControllerGuiComp:
-			public iqtgui::TDesignerGuiCompBase<Ui::CSceneControllerGuiComp>,
-			virtual public iqt2d::ISceneController	
+			public iqtgui::TDesignerGuiCompBase<Ui::CSceneControllerGuiComp>
 {
 	Q_OBJECT
 
@@ -25,13 +24,9 @@ public:
 
 	I_BEGIN_COMPONENT(CSceneControllerGuiComp);
 		I_REGISTER_INTERFACE(iqt2d::ISceneController);
-		I_ASSIGN(m_sceneRestrictionsCompPtr, "SceneRestrictions", "Scene manipulation restrictions", false, "SceneRestrictions");		
+		I_ASSIGN(m_sceneRestrictionsCompPtr, "SceneRestrictions", "Scene manipulation restrictions", false, "SceneRestrictions");
+		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "Scene provider", true, "SceneProvider");
 	I_END_COMPONENT;
-
-	CSceneControllerGuiComp();
-
-	// reimplemented (iqt2d::ISceneController)
-	virtual void RegisterSceneProvider(const ISceneProvider* sceneProviderPtr);
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
@@ -46,9 +41,8 @@ protected slots:
 	void OnRotateLeft();
 
 private:
-	const iqt2d::ISceneProvider* m_sceneProviderPtr;
-	
 	I_REF(iqt2d::ISceneRestrictions, m_sceneRestrictionsCompPtr);
+	I_REF(iqt2d::ISceneProvider, m_sceneProviderCompPtr);
 };
 
 

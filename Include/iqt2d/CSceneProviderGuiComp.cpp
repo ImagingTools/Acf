@@ -2,11 +2,8 @@
 
 
 #include <QApplication>
-#include <QGraphicsScene>
-#include <QGraphicsSceneWheelEvent>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QGraphicsProxyWidget>
 #include <QVBoxLayout>
 
 
@@ -200,6 +197,10 @@ QGraphicsScene* CSceneProviderGuiComp::GetScene() const
 
 int CSceneProviderGuiComp::GetSceneRestrictionsFlags() const
 {
+	if (m_fitMode == ScaleToFit){
+		return (SR_ALL);
+	}
+
 	return SR_NONE;
 }
 
@@ -323,30 +324,22 @@ void CSceneProviderGuiComp::OnGuiCreated()
 	QString backgroundColorString = QString("background-color: rgb(%1,%2,%3)").arg(backgroundColor.red()).arg(backgroundColor.green()).arg(backgroundColor.blue());
 
 	// try to place the scene controller:
-	if (m_sceneControllerCompPtr.IsValid()){
-		iqtgui::IGuiObject* guiPtr = dynamic_cast<iqtgui::IGuiObject*>(m_sceneControllerCompPtr.GetPtr());
-		if (guiPtr != NULL){
-			guiPtr->CreateGui(ControllerFrame);
-			QPalette viewPalette = SceneView->palette();
-			viewPalette.setColor(QPalette::Window, SceneView->backgroundBrush().color());
+	if (m_sceneControllerGuiCompPtr.IsValid()){
+		m_sceneControllerGuiCompPtr->CreateGui(ControllerFrame);
+		QPalette viewPalette = SceneView->palette();
+		viewPalette.setColor(QPalette::Window, SceneView->backgroundBrush().color());
 
-			ControllerFrame->setStyleSheet(backgroundColorString);
-			GetWidget()->setStyleSheet(backgroundColorString);
-			guiPtr->GetWidget()->setStyleSheet(backgroundColorString);
-		}
-
-		m_sceneControllerCompPtr->RegisterSceneProvider(this);
+		ControllerFrame->setStyleSheet(backgroundColorString);
+		GetWidget()->setStyleSheet(backgroundColorString);
+		m_sceneControllerGuiCompPtr->GetWidget()->setStyleSheet(backgroundColorString);
 	}
 } 
 
 
 void CSceneProviderGuiComp::OnGuiDestroyed()
 {
-	if (m_sceneControllerCompPtr.IsValid()){
-		iqtgui::IGuiObject* guiPtr = dynamic_cast<iqtgui::IGuiObject*>(m_sceneControllerCompPtr.GetPtr());
-		if (guiPtr != NULL){
-			guiPtr->DestroyGui();
-		}
+	if (m_sceneControllerGuiCompPtr.IsValid()){
+		m_sceneControllerGuiCompPtr->DestroyGui();
 	}
 
 	BaseClass::OnGuiDestroyed();
@@ -358,11 +351,11 @@ void CSceneProviderGuiComp::OnGuiDestroyed()
 bool CSceneProviderGuiComp::eventFilter(QObject* obj, QEvent* eventPtr)
 {
 	if (!IsGuiCreated()){
-		return false;
+		return QObject::eventFilter(obj, eventPtr);
 	}
 
 	if (obj != SceneView && obj != m_scenePtr){
-		return false;
+		return QObject::eventFilter(obj, eventPtr);
 	}
 
 	switch(eventPtr->type()){
@@ -381,12 +374,9 @@ bool CSceneProviderGuiComp::eventFilter(QObject* obj, QEvent* eventPtr)
 		case QEvent::GraphicsSceneWheel:
 			OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr));
 			break;
-
-		default:
-			break;
 	}
 
-	return false;
+	return QObject::eventFilter(obj, eventPtr);
 }
 
 
