@@ -31,6 +31,7 @@ void CLayoutGuiComp::OnGuiCreated()
 
 	QSplitter* splitterPtr = NULL;
 	QLayout* layoutPtr = new QVBoxLayout(GetWidget());
+	layoutPtr->setMargin(0);
 
 	if (m_layoutOrientationAttrPtr.IsValid()){
 		switch (*m_layoutOrientationAttrPtr){
@@ -61,7 +62,6 @@ void CLayoutGuiComp::OnGuiCreated()
 void CLayoutGuiComp::OnGuiDestroyed()
 {
 	I_ASSERT(m_slaveWidgetsCompPtr.IsValid());
-
 	if (m_slaveWidgetsCompPtr.IsValid()){
 		int slaveWidgetsCount = m_slaveWidgetsCompPtr.GetCount();
 		for (int widgetIndex = 0; widgetIndex < slaveWidgetsCount; widgetIndex++){
