@@ -19,7 +19,7 @@ public:
 	CAnnulus();
 	CAnnulus(const i2d::CVector2d& center, double innerRadius, double outerRadius);
 
-	bool IsValid() const;
+	bool IsAnnulusValid() const;
 
 	double GetInnerRadius() const;
 	void SetInnerRadius(double innerRadius);

@@ -115,13 +115,13 @@ bool CLine2d::IsIntersectedBy(const CLine2d& line) const
 {
 	CVector2d diff = GetDiffVector();
 
-	if ((diff.GetDotProduct(line.m_point1 - m_point1) > 0) == (diff.GetDotProduct(line.m_point2 - m_point1) > 0)){
+	if ((diff.GetCrossProductZ(line.m_point1 - m_point1) > 0) == (diff.GetCrossProductZ(line.m_point2 - m_point1) > 0)){
 		return false;	// both points of second line lie on the same side of the first one
 	}
 
 	CVector2d lineDiff = line.GetDiffVector();
 
-	if ((lineDiff.GetDotProduct(m_point1 - line.m_point1) > 0) == (lineDiff.GetDotProduct(m_point2 - line.m_point1) > 0)){
+	if ((lineDiff.GetCrossProductZ(m_point1 - line.m_point1) > 0) == (lineDiff.GetCrossProductZ(m_point2 - line.m_point1) > 0)){
 		return false;	// both points of first line lie on the same side of the second one
 	}
 
@@ -133,13 +133,13 @@ bool CLine2d::GetIntersection(const CLine2d& line, CVector2d& result) const
 {
 	CVector2d diff = GetDiffVector();
 
-	if ((diff.GetDotProduct(line.m_point1 - m_point1) > 0) == (diff.GetDotProduct(line.m_point2 - m_point1) > 0)){
+	if ((diff.GetCrossProductZ(line.m_point1 - m_point1) > 0) == (diff.GetCrossProductZ(line.m_point2 - m_point1) > 0)){
 		return false;	// both points of second line lie on the same side of the first one
 	}
 
 	CVector2d lineDiff = line.GetDiffVector();
 
-	if ((lineDiff.GetDotProduct(m_point1 - line.m_point1) > 0) == (lineDiff.GetDotProduct(m_point2 - line.m_point1) > 0)){
+	if ((lineDiff.GetCrossProductZ(m_point1 - line.m_point1) > 0) == (lineDiff.GetCrossProductZ(m_point2 - line.m_point1) > 0)){
 		return false;	// both points of first line lie on the same side of the second one
 	}
 

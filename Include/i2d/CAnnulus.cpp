@@ -22,11 +22,11 @@ CAnnulus::CAnnulus(const i2d::CVector2d& center, double innerRadius, double oute
 :	BaseClass(center),
 	m_radiusRange(innerRadius, outerRadius)
 {
-	I_ASSERT(IsValid());
+	I_ASSERT(IsAnnulusValid());
 }
 
 
-bool CAnnulus::IsValid() const
+bool CAnnulus::IsAnnulusValid() const
 {
 	return m_radiusRange.IsValid();
 }

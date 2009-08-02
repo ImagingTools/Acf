@@ -114,7 +114,7 @@ public:
 	/**
 		Set this range to be union of two ranges.
 	*/
-	void Union(const CRange& range);
+	void Unite(const CRange& range);
 
 	/**
 		Get expanded range using the second \c range.

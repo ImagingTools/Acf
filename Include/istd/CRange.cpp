@@ -93,7 +93,7 @@ CRange CRange::GetUnion(const CRange& range) const
 }
 
 
-void CRange::Union(const CRange& range)
+void CRange::Unite(const CRange& range)
 {
 	if (!range.IsEmpty()){
 		if (IsEmpty()){

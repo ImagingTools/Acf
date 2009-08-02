@@ -8,6 +8,7 @@
 #include "iser/ISerializable.h"
 
 #include "i2d/IObject2d.h"
+#include "i2d/CLine2d.h"
 
 
 namespace i2d
@@ -59,12 +60,28 @@ public :
 	double GetWidth() const;
 	double GetHeight() const;
 
-	bool IsIntersectedBy(const CRectangle& rect) const;
+	/**
+		Returns \c true, if this rectangle is intersected by the other rectangle \c rect.
+	*/
+	bool IsIntersectedBy(const CRectangle& rect) const;		
+
+	/**
+		Returns \c true, if this rectangle is intersected by the line \c rect.
+	*/
+	bool IsIntersectedBy(const CLine2d& line) const;
+
+	/**
+		Get resulting rectangle of the intersection of this rectangle with \c rect.
+	*/
 	CRectangle GetIntersection(const CRectangle& rect) const;
-	void Intersection(const CRectangle& rect);
+
+	/**
+		Get resulting line of the intersection of this rectangle with the line \c line.
+	*/
+	CLine2d GetIntersection(const CLine2d& line) const;
 
 	CRectangle GetUnion(const CRectangle& rect) const;
-	void Union(const CRectangle& rect);
+	void Unite(const CRectangle& rect);
 
 	CRectangle GetExpanded(const CRectangle& rect) const;
 	void Expand(const CRectangle& rect);

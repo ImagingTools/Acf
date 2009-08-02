@@ -77,7 +77,6 @@ bool CAnnulusSegment::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag beginAngleTag("BeginAngle", "First angle of segment");
 	static iser::CArchiveTag endAngleTag("BeginAngle", "First angle of segment");
 
-
 	if (archive.IsStoring()){
 		double beginAngle = GetBeginAngle();
 		double endAngle = GetEndAngle();

@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CQuadrangle.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CRectangle.cpp"
 				>
 			</File>
@@ -229,6 +233,10 @@
 			</File>
 			<File
 				RelativePath="..\CPosition2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CQuadrangle.h"
 				>
 			</File>
 			<File

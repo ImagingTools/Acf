@@ -14,6 +14,9 @@ namespace i2d
 class CRectangle;
 
 
+/**
+	Definition of a line in 2D-space.
+*/
 class CLine2d: virtual public IObject2d
 {
 public:
@@ -21,7 +24,15 @@ public:
 	CLine2d(const CVector2d& p1, const CVector2d& p2);
 	CLine2d(double x1, double y1, double x2, double y2);
 	CLine2d(const CLine2d& line);
-	CLine2d operator=(const CLine2d& inl);
+
+	CLine2d operator = (const CLine2d& line);
+	bool operator == (const CLine2d& line) const;
+	bool operator != (const CLine2d& line) const;
+
+	/**
+		Returns \c true, if the line has a length equal 0.
+	*/
+	bool IsNull() const;
 
 	/**
 		Get value of first line point.
@@ -70,7 +81,7 @@ public:
 	/**
 		Check if this line is parallel to another one.
 	*/
-	bool IsParalell(const CLine2d& inLine) const;
+	bool IsParalell(const CLine2d& line) const;
 
 	/**
 		Check if two lines intersect.
@@ -148,6 +159,24 @@ private:
 	
 
 // inline methods
+
+inline bool CLine2d::operator == (const CLine2d& line) const
+{
+	return ((m_point1 == line.m_point1) && (m_point2 == line.m_point2));
+}
+
+
+inline bool CLine2d::operator != (const CLine2d& line) const
+{
+	return !operator == (line);
+}
+
+
+inline bool CLine2d::IsNull() const
+{
+	return (m_point1 == m_point2);
+}
+
 
 inline CVector2d CLine2d::GetDiffVector() const
 {

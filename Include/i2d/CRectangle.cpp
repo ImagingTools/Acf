@@ -229,6 +229,16 @@ bool CRectangle::IsIntersectedBy(const CRectangle& rect) const
 }
 
 
+bool CRectangle::IsIntersectedBy(const CLine2d& line) const
+{
+	i2d::CLine2d topLine(m_horizontalRange.GetMinValue(), m_verticalRange.GetMinValue(), m_horizontalRange.GetMaxValue(), m_verticalRange.GetMinValue());
+	i2d::CLine2d bottomLine(m_horizontalRange.GetMinValue(), m_verticalRange.GetMaxValue(), m_horizontalRange.GetMaxValue(), m_verticalRange.GetMaxValue());
+	i2d::CLine2d leftLine(m_horizontalRange.GetMinValue(), m_verticalRange.GetMinValue(), m_horizontalRange.GetMinValue(), m_verticalRange.GetMaxValue());
+	i2d::CLine2d rightLine(m_horizontalRange.GetMaxValue(), m_verticalRange.GetMinValue(), m_horizontalRange.GetMaxValue(), m_verticalRange.GetMaxValue());
+
+	return (line.IsIntersectedBy(topLine) || line.IsIntersectedBy(bottomLine) || line.IsIntersectedBy(leftLine) || line.IsIntersectedBy(rightLine)); 
+}
+
 
 CRectangle CRectangle::GetIntersection(const CRectangle& rect) const
 {
@@ -241,6 +251,12 @@ CRectangle CRectangle::GetIntersection(const CRectangle& rect) const
 }
 
 
+CLine2d CRectangle::GetIntersection(const CLine2d& line) const
+{
+	return line;
+}
+
+
 CRectangle CRectangle::GetUnion(const CRectangle& rect) const
 {
 	double outputLeft = istd::Min(rect.GetLeft(), GetLeft());
@@ -249,6 +265,21 @@ CRectangle CRectangle::GetUnion(const CRectangle& rect) const
 	double outputBottom = istd::Max(rect.GetBottom(), GetBottom());
 
 	return CRectangle(outputLeft, outputTop, outputRight - outputLeft, outputBottom - outputTop);
+}
+
+
+void CRectangle::Unite(const CRectangle& rect)
+{
+	istd::CChangeNotifier changePtr(this);
+
+	double outputLeft = istd::Min(rect.GetLeft(), GetLeft());
+	double outputTop = istd::Min(rect.GetTop(), GetTop());
+	double outputRight = istd::Max(rect.GetRight(), GetRight());
+	double outputBottom = istd::Max(rect.GetBottom(), GetBottom());
+
+
+	m_horizontalRange = istd::CRange(outputLeft, outputRight);
+	m_verticalRange = istd::CRange(outputTop, outputBottom);
 }
 
 
@@ -338,3 +369,5 @@ bool CRectangle::Serialize(iser::IArchive& archive)
 
 	
 } // namespace i2d
+
+

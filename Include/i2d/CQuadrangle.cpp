@@ -1,0 +1,152 @@
+#include "i2d/CQuadrangle.h"
+
+
+#include "istd/TChangeNotifier.h"
+
+#include "i2d/CVector2d.h"
+
+#include "iser/IArchive.h"
+#include "iser/CArchiveTag.h"
+
+
+namespace i2d
+{	
+
+
+CQuadrangle::CQuadrangle()
+{
+}
+
+
+CQuadrangle::CQuadrangle(const CQuadrangle& quadrangle)
+:	m_firstDiagonal(quadrangle.m_firstDiagonal),
+	m_secondDiagonal(quadrangle.m_secondDiagonal)
+{
+}
+
+
+CQuadrangle::CQuadrangle(const i2d::CLine2d& firstDiagonal, const i2d::CLine2d& secondDiagonal)
+:	m_firstDiagonal(firstDiagonal),
+	m_secondDiagonal(secondDiagonal)
+{
+}
+
+
+CQuadrangle& CQuadrangle::operator = (const CQuadrangle& quadrangle)
+{
+	istd::CChangeNotifier changePtr(this);
+
+	m_firstDiagonal = quadrangle.m_firstDiagonal;
+	m_secondDiagonal = quadrangle.m_secondDiagonal;
+
+	return *this;
+}
+
+
+bool CQuadrangle::operator == (const CQuadrangle& quadrangle) const
+{
+	return ((m_firstDiagonal == quadrangle.m_firstDiagonal) && (m_secondDiagonal == quadrangle.m_secondDiagonal));
+}
+
+
+bool CQuadrangle::operator != (const CQuadrangle& quadrangle) const
+{
+	return !operator == (quadrangle);
+}
+
+
+bool CQuadrangle::IsQuadrangleValid() const
+{
+	return m_firstDiagonal.IsIntersectedBy(m_secondDiagonal);
+}
+
+
+bool CQuadrangle::IsQuadrangleEmpty() const
+{
+	return m_firstDiagonal == m_secondDiagonal || m_firstDiagonal.IsNull() || m_secondDiagonal.IsNull();
+}
+
+
+CRectangle CQuadrangle::GetBoundingBox() const
+{
+	return m_firstDiagonal.GetBoundingBox().GetUnion(m_secondDiagonal.GetBoundingBox());
+}
+
+
+const i2d::CLine2d& CQuadrangle::GetFirstDiagonal() const
+{
+	return m_firstDiagonal;
+}
+
+
+void CQuadrangle::SetFirstDiagonal(const i2d::CLine2d& firstDiagonal)
+{
+	if (m_firstDiagonal != firstDiagonal){
+		istd::CChangeNotifier changePtr(this);
+		
+		m_firstDiagonal = firstDiagonal;
+	}
+}
+
+
+const i2d::CLine2d& CQuadrangle::GetSecondDiagonal() const
+{
+	return m_secondDiagonal;
+}
+
+
+void CQuadrangle::SetSecondDiagonal(const i2d::CLine2d& secondDiagonal)
+{
+	if (m_secondDiagonal != secondDiagonal){
+		istd::CChangeNotifier changePtr(this);
+		
+		m_secondDiagonal = secondDiagonal;
+	}
+}
+
+
+// reimplemented (IObject2d)
+
+CVector2d CQuadrangle::GetCenter() const
+{
+	CVector2d intersectionPoint;
+	if (m_firstDiagonal.GetIntersection(m_firstDiagonal, intersectionPoint)){
+		return intersectionPoint;
+	}
+
+	I_CRITICAL();
+
+	return CVector2d();
+}
+
+
+void CQuadrangle::MoveTo(const CVector2d& position)
+{
+	istd::CChangeNotifier changePtr(this);
+
+	m_firstDiagonal.MoveTo(position);
+	m_secondDiagonal.MoveTo(position);
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CQuadrangle::Serialize(iser::IArchive& archive)
+{
+	static iser::CArchiveTag firstDiagonalTag("FirstDiagonal", "FirstDiagonal");
+	bool retVal = archive.BeginTag(firstDiagonalTag);
+	retVal = retVal && m_firstDiagonal.Serialize(archive);
+	retVal = retVal && archive.EndTag(firstDiagonalTag);
+
+	static iser::CArchiveTag secondDiagonalTag("SecondDiagonal", "SecondDiagonal");
+	retVal = retVal && archive.BeginTag(secondDiagonalTag);
+	retVal = retVal && m_secondDiagonal.Serialize(archive);
+	retVal = retVal && archive.EndTag(secondDiagonalTag);
+	
+	return retVal;
+}
+
+	
+} // namespace i2d
+
+

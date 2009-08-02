@@ -18,8 +18,6 @@ CTransform::CTransform()
 
 CTransform::CTransform(const CVector2d& translation, const CVector2d& scale, double angle)
 {
-	angle = imath::GetRadianFromDegree(angle);
-
 	double sina = sin(angle);
     double cosa = cos(angle);
 
@@ -41,10 +39,23 @@ CVector2d CTransform::ApplyTo(const CVector2d& point) const
 }
 
 
+CLine2d CTransform::ApplyTo(const CLine2d& line) const
+{
+	i2d::CVector2d vector1 = line.GetPoint1() - line.GetCenter();
+	i2d::CVector2d vector2 = line.GetPoint2() - line.GetCenter();
+
+	vector1 = ApplyTo(vector1);
+	vector2 = ApplyTo(vector2);
+
+	vector1 += line.GetCenter();
+	vector2 += line.GetCenter();
+
+	return i2d::CLine2d(vector1, vector2);
+}
+
+
 CTransform& CTransform::Rotate(double angle)
 {
-	angle = imath::GetRadianFromDegree(angle);
-
 	double sina = sin(angle);
     double cosa = cos(angle);
 
@@ -92,7 +103,6 @@ CTransform& CTransform::Translate(double dx, double dy)
 
 	return *this;
 }
-
 
 
 CTransform CTransform::GetRotated(double angle) const

@@ -2,22 +2,22 @@
 #define	i2d_CTransform_included
 
 
-#include "istd/IPolymorphic.h"
-
 #include "i2d/CVector2d.h"
+#include "i2d/CLine2d.h"
 
 
 namespace i2d
 {	
 
 
-class CTransform: virtual public istd::IPolymorphic
+class CTransform
 {
 public:
 	CTransform();
 	CTransform(const CVector2d& translation, const CVector2d& scale, double angle);
 
 	CVector2d ApplyTo(const CVector2d& point) const;
+	CLine2d ApplyTo(const CLine2d& line) const;
 
 	CTransform& Rotate(double angle);
 	CTransform& Scale(const CVector2d& scale);

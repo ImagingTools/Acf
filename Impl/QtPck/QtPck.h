@@ -37,6 +37,7 @@
 #include "iqt2d/CCircleParamsGuiComp.h"
 #include "iqt2d/CAnnulusParamsGuiComp.h"
 #include "iqt2d/CAnnulusSegmentParamsGuiComp.h"
+#include "iqt2d/CQuadrangleParamsGuiComp.h"
 #include "iqt2d/CSceneControllerGuiComp.h"
 
 #include "iqt3d/CSurfaceViewComp.h"
@@ -104,6 +105,7 @@ typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
 typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;
 typedef iqt2d::CAnnulusParamsGuiComp AnnulusParamsGui;
 typedef iqt2d::CAnnulusSegmentParamsGuiComp AnnulusSegmentParamsGui;
+typedef iqt2d::CQuadrangleParamsGuiComp QuadrangleParamsGui;
 typedef iqt2d::CSceneControllerGuiComp SceneControllerGui;
 
 typedef iqt3d::CSurfaceViewComp SurfaceView;

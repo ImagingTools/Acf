@@ -29,9 +29,8 @@ CVector2d CVector2d::GetNormalized(double length) const
     if (GetNormalized(retVal, length)){
 		return retVal;
     }
-	else{
-        return CVector2d(length, 0.0);
-	}
+
+	return CVector2d(length, 0.0);
 }
 
 

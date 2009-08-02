@@ -40,6 +40,7 @@
 #include "i2d/CRectangle.h"
 #include "i2d/CAnnulus.h"
 #include "i2d/CAnnulusSegment.h"
+#include "i2d/CQuadrangle.h"
 
 #include "imath/CSampledFunction2d.h"
 
@@ -118,6 +119,13 @@ typedef icomp::TMakeComponentWrap<
 			i2d::IObject2d,
 			iser::ISerializable,
 			imod::IModel> AnnulusSegment;
+
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<i2d::CQuadrangle>,
+			i2d::CQuadrangle,
+			i2d::IObject2d,
+			iser::ISerializable,
+			imod::IModel> Quadrangle;
 
 typedef icomp::TModelCompWrap<ibase::CRectangleComp> AttributedRectangle;
 

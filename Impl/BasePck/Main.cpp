@@ -40,6 +40,7 @@ I_EXPORT_COMPONENT(Circle, "Circle 2D object", "Circle Position Radius 2D Object
 I_EXPORT_COMPONENT(Rectangle, "Rectangle (orthogonal to axis) object", "Rectangle Orthogonal 2D Object Parameter");
 I_EXPORT_COMPONENT(Annulus, "Annulus object", "Annulus 2D Object Parameter");
 I_EXPORT_COMPONENT(AnnulusSegment, "Segment of annulus object", "Annulus Segment 2D Object Parameter");
+I_EXPORT_COMPONENT(Quadrangle, "Quadrangle object", "Quadrangle 2D Object Parameter");
 I_EXPORT_COMPONENT(AttributedRectangle, "Rectangle component with attributes", "Rectangle 2D Object Parameter");
 I_EXPORT_COMPONENT(TextDocument, "Simple text document", "Text Document");
 
