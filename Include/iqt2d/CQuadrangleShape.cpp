@@ -51,7 +51,12 @@ void CQuadrangleShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags
 			setPen(QPen(Qt::red, 0));
 		}
 		else{
-			setPen(GetPen(EditableColor));
+			if (IsEditable()){
+				setPen(GetPen(EditableColor));
+			}
+			else{
+				setPen(GetPen(InactiveColor));
+			}
 		}
 
 		path.moveTo(iqt::GetQPointF(firstDiag.GetPoint1()));
@@ -65,7 +70,6 @@ void CQuadrangleShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags
 
 		path.moveTo(iqt::GetQPointF(secondDiag.GetPoint2()));
 		path.lineTo(iqt::GetQPointF(firstDiag.GetPoint1()));
-
 
 		setPath(path);
 

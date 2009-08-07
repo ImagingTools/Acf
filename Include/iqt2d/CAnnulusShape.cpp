@@ -16,7 +16,7 @@ namespace iqt2d
 // public methods
 
 CAnnulusShape::CAnnulusShape(bool isEditable)
-	:BaseClass(isEditable),
+:	BaseClass(isEditable),
 	m_leftInnerGrip(this),
 	m_rightInnerGrip(this),
 	m_topInnerGrip(this),
@@ -51,6 +51,17 @@ CAnnulusShape::CAnnulusShape(bool isEditable)
 	SetBrush(SelectedColor, QBrush(QColor(255, 255, 0, 32)));
 
 	SwitchColorSheme(InactiveColor);
+
+	if (!isEditable){
+		m_leftOuterGrip.setParentItem(NULL);
+		m_rightOuterGrip.setParentItem(NULL);
+		m_topOuterGrip.setParentItem(NULL);
+		m_bottomOuterGrip.setParentItem(NULL);
+		m_leftInnerGrip.setParentItem(NULL);
+		m_rightInnerGrip.setParentItem(NULL);
+		m_topInnerGrip.setParentItem(NULL);
+		m_bottomInnerGrip.setParentItem(NULL);
+	}
 }
 
 
