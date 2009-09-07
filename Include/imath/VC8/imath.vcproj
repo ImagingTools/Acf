@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CNormalHistogram.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSampledFunction2d.cpp"
 				>
 			</File>
@@ -211,6 +215,10 @@
 			</File>
 			<File
 				RelativePath="..\CFixedPointManip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CNormalHistogram.h"
 				>
 			</File>
 			<File
