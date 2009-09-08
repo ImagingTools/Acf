@@ -21,13 +21,14 @@ public:
 
 	void Reset();
 	void Create(int width, int height, double defaultValue = 0);
-	void SetSampleValue(const ElementIndex& index, double value);
+	void SetSampleValue(const ArgumentType& index, double value);
 	
 	// reimplemented (ISampledFunction2d)
-	virtual bool CreateFunction(double* dataPtr, int width, int height);
+	virtual bool CreateFunction(double* dataPtr, const ArgumentType& sizes);
 	virtual int GetSamplesCount() const;
-	virtual istd::CRange GetIntervalRange(int dimensionIndex) const;
-	virtual istd::CRange GetValueRange(int dimensionIndex) const;
+	virtual int GetGridSize(int dimensionIndex) const;
+	virtual istd::CRange GetLogicalRange(int dimensionIndex) const;
+	virtual istd::CRange GetResultValueRange(int dimensionIndex, int resultDimension = -1) const;
 
 	// reimplemented (TIMathFunction)
 	virtual bool GetValueAt(const ArgumentType& argument, ResultType& result) const;

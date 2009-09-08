@@ -184,4 +184,10 @@ CRange& CRange::operator=(const CRange& range)
 }
 
 
+// static attributes
+
+CRange CRange::s_null(0, 0);
+CRange CRange::s_invalid(0, -1);
+
+
 } // namespace istd

@@ -175,9 +175,23 @@ public:
 	bool operator==(const CRange& range) const;
 	bool operator!=(const CRange& range) const;
 
+	// static methods
+	/**
+		Return null range.
+	*/
+	static const CRange& GetNull();
+	/**
+		Return invalid range.
+	*/
+	static const CRange& GetInvalid();
+
 private:
 	double m_minValue;
 	double m_maxValue;
+
+	// static attributes
+	static CRange s_null;
+	static CRange s_invalid;
 };
 
 
@@ -263,6 +277,20 @@ inline bool CRange::operator==(const CRange& range) const
 inline bool CRange::operator!=(const CRange& range) const
 {
 	return (m_maxValue != range.m_maxValue) || (m_minValue != range.m_minValue);
+}
+
+
+// static methods
+
+inline const CRange& CRange::GetNull()
+{
+	return s_null;
+}
+
+
+inline const CRange& CRange::GetInvalid()
+{
+	return s_invalid;
 }
 
 

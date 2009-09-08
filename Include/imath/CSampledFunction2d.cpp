@@ -43,10 +43,10 @@ void CSampledFunction2d::Create(int width, int height, double defaultValue)
 }
 
 
-void CSampledFunction2d::SetSampleValue(const ElementIndex& index, double value)
+void CSampledFunction2d::SetSampleValue(const ArgumentType& index, double value)
 {
 	I_IF_DEBUG(
-		ElementIndex boundary;
+		ArgumentType boundary;
 		boundary.SetAt(0, m_samplesContainer.GetSize(0));
 		boundary.SetAt(1, m_samplesContainer.GetSize(1));)
 	I_ASSERT(index.IsInside(boundary));
@@ -57,14 +57,14 @@ void CSampledFunction2d::SetSampleValue(const ElementIndex& index, double value)
 
 // reimplemented (ISampledFunction2d)
 
-bool CSampledFunction2d::CreateFunction(double* dataPtr, int width, int height)
+bool CSampledFunction2d::CreateFunction(double* dataPtr, const ArgumentType& sizes)
 {
-	Create(width, height);
+	Create(sizes[0], sizes[1]);
 
 	SamplesContainer::Iterator beginIter = m_samplesContainer.Begin();
 	double* functionDataPtr = &(*beginIter);
 	
-	memcpy(functionDataPtr, dataPtr, sizeof(double) * width * height);
+	memcpy(functionDataPtr, dataPtr, sizeof(double) * sizes[0] * sizes[1]);
 
 	return true;
 }
@@ -76,13 +76,19 @@ int CSampledFunction2d::GetSamplesCount() const
 }
 
 
-istd::CRange CSampledFunction2d::GetIntervalRange(int dimensionIndex) const
+istd::CRange CSampledFunction2d::GetLogicalRange(int dimensionIndex) const
 {
 	return istd::CRange(0, m_samplesContainer.GetSize(dimensionIndex));
 }
 
 
-istd::CRange CSampledFunction2d::GetValueRange(int /*dimensionIndex*/) const
+int CSampledFunction2d::GetGridSize(int dimensionIndex) const
+{
+	return m_samplesContainer.GetSize(dimensionIndex);
+}
+
+
+istd::CRange CSampledFunction2d::GetResultValueRange(int /*dimensionIndex*/, int /*resultDimension*/) const
 {
 	return istd::CRange(0, 1.0);
 }
@@ -92,7 +98,7 @@ istd::CRange CSampledFunction2d::GetValueRange(int /*dimensionIndex*/) const
 
 bool CSampledFunction2d::GetValueAt(const ArgumentType& argument, ResultType& result) const
 {
-	ElementIndex boundary;
+	ArgumentType boundary;
 	boundary.SetAt(0, m_samplesContainer.GetSize(0));
 	boundary.SetAt(1, m_samplesContainer.GetSize(1));
 

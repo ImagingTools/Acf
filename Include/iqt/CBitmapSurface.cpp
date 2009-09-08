@@ -61,7 +61,7 @@ void CBitmapSurface::CreateSurfaceFromBitmap()
 				}
 			}
 
-			ElementIndex index;
+			ArgumentType index;
 			index.SetAt(0, x);
 			index.SetAt(1, y);
 			BaseClass2::SetSampleValue(index, functionValue);

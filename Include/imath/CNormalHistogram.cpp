@@ -125,6 +125,58 @@ double CNormalHistogram::GetAproxQuantileValue(double quantile) const
 }
 
 
+// reimplemented (imath::TISampledFunction)
+
+bool CNormalHistogram::CreateFunction(double* dataPtr, const ArgumentType& sizes)
+{
+	m_elementsSum = 0;
+
+	int elementsCount = sizes[0];
+	m_elements.resize(elementsCount);
+
+	for (int i = 0; i < elementsCount; ++i){
+		int element = int(dataPtr[i]);
+
+		m_elements[i] = element;
+		m_elementsSum += element;
+	}
+
+	return true;
+}
+
+
+int CNormalHistogram::GetSamplesCount() const
+{
+	return GetElementsCount();
+}
+
+
+int CNormalHistogram::GetGridSize(int dimensionIndex) const
+{
+	if (dimensionIndex == 0){
+		return GetElementsCount();
+	}
+
+	return 0;
+}
+
+
+istd::CRange CNormalHistogram::GetLogicalRange(int dimensionIndex) const
+{
+	if (dimensionIndex == 0){
+		return m_valueRange;
+	}
+
+	return istd::CRange::GetNull();
+}
+
+
+istd::CRange CNormalHistogram::GetResultValueRange(int /*dimensionIndex*/, int /*resultDimension*/) const
+{
+	return istd::CRange::GetInvalid();
+}
+
+
 // protected methods
 
 void CNormalHistogram::CalcElementsSum() const

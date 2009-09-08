@@ -5,10 +5,9 @@
 // STL includes
 #include <vector>
 
-#include "istd/IChangeable.h"
 #include "istd/CRange.h"
 
-#include "imath/imath.h"
+#include "imath/TISampledFunction.h"
 
 
 namespace imath
@@ -18,7 +17,7 @@ namespace imath
 /**
 	Describe model of normal (non-cumulative) histogram.
 */
-class CNormalHistogram: public istd::IChangeable
+class CNormalHistogram: public ISampledFunction
 {
 public:
 	CNormalHistogram();
@@ -42,6 +41,13 @@ public:
 	bool AddValue(double value);
 	int GetQuantileIndex(double quantile) const;
 	double GetAproxQuantileValue(double quantile) const;
+
+	// reimplemented (imath::TISampledFunction)
+	virtual bool CreateFunction(double* dataPtr, const ArgumentType& sizes);
+	virtual int GetSamplesCount() const;
+	virtual int GetGridSize(int dimensionIndex) const;
+	virtual istd::CRange GetLogicalRange(int dimensionIndex) const;
+	virtual istd::CRange GetResultValueRange(int dimensionIndex, int resultDimension = -1) const;
 
 protected:
 	void CalcElementsSum() const;

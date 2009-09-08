@@ -16,25 +16,22 @@ namespace imath
 /**
 	Interface for a resampled function with a regular grid design.
 */
-template <int InputDimensions, int OutputDimensions>
+template <int ArgumentDimensions, int ResultDimensions>
 class TISampledFunction: 
 			virtual public imath::TIMathFunction<
-						istd::TIndex<InputDimensions>, 
-						imath::TVector<OutputDimensions> >,
+						istd::TIndex<ArgumentDimensions>, 
+						imath::TVector<ResultDimensions> >,
 			virtual public istd::IChangeable
 {
 public:
 	typedef imath::TIMathFunction<
-				istd::TIndex<InputDimensions>, 
-				imath::TVector<OutputDimensions> > BaseClass;
-
-	typedef istd::TIndex<InputDimensions> ElementIndex;
-	typedef imath::TVector<OutputDimensions> ResultValue;
+				istd::TIndex<ArgumentDimensions>, 
+				imath::TVector<ResultDimensions> > BaseClass;
 
 	/**
 		Create function from input data.
 	*/
-	virtual bool CreateFunction(double* dataPtr, int width, int height) = 0;
+	virtual bool CreateFunction(double* dataPtr, const ArgumentType& sizes) = 0;
 
 	/**
 		Get number of samples stored in this container.
@@ -42,14 +39,24 @@ public:
 	virtual int GetSamplesCount() const = 0;
 
 	/**
-		Get function definition intervall for the given axis.
+		Get number of samples for specified dimension.
 	*/
-	virtual istd::CRange GetIntervalRange(int dimensionIndex) const = 0;
+	virtual int GetGridSize(int dimensionIndex) const = 0;
 
 	/**
-		Get function value range for the given axis.
+		Get logical grid position range for specified dimension.
+		Logical position describes 
 	*/
-	virtual istd::CRange GetValueRange(int dimensionIndex) const = 0;
+	virtual istd::CRange GetLogicalRange(int dimensionIndex) const = 0;
+
+	/**
+		Get range of result value for the given axis.
+		Optionally some result dimension can be also specified.
+		@param	dimensionIndex	index of argument dimension.
+		@param	resultDimension	optional index of result dimension, it can be negative if all dimensions are meaned.
+		@return	range of possible values, or invalid range if it is unknown.
+	*/
+	virtual istd::CRange GetResultValueRange(int dimensionIndex, int resultDimension = -1) const = 0;
 
 	/**
 		Get the number of argument components.
@@ -63,17 +70,17 @@ public:
 };
 
 
-template <int InputDimensions, int OutputDimensions>
-inline int TISampledFunction<InputDimensions, OutputDimensions>::GetArgumentDimensionality() const
+template <int ArgumentDimensions, int ResultDimensions>
+inline int TISampledFunction<ArgumentDimensions, ResultDimensions>::GetArgumentDimensionality() const
 {
-	return InputDimensions;
+	return ArgumentDimensions;
 }
 	
 
-template <int InputDimensions, int OutputDimensions>
-inline int TISampledFunction<InputDimensions, OutputDimensions>::GetResultDimensionality() const
+template <int ArgumentDimensions, int ResultDimensions>
+inline int TISampledFunction<ArgumentDimensions, ResultDimensions>::GetResultDimensionality() const
 {
-	return OutputDimensions;
+	return ResultDimensions;
 }
 
 

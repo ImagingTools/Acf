@@ -30,11 +30,8 @@ void CSurfaceViewComp::UpdateEditor(int /*updateFlags*/)
 		I_ASSERT(objectPtr->GetArgumentDimensionality() == 2);
 		I_ASSERT(objectPtr->GetResultDimensionality() == 1);
 
-		istd::CRange xAxisRange = objectPtr->GetIntervalRange(0);
-		istd::CRange yAxisRange = objectPtr->GetIntervalRange(1);
-
-		int width = xAxisRange.GetLength();
-		int height = yAxisRange.GetLength();
+		int width = objectPtr->GetGridSize(0);
+		int height = objectPtr->GetGridSize(1);
 
 		if ((width * height) <= 0){
 			return;
@@ -45,13 +42,16 @@ void CSurfaceViewComp::UpdateEditor(int /*updateFlags*/)
 			dataPtr[y] = new double[width];
 
 			for (int x = 0; x < width; x++){
-				imath::ISampledFunction2d::ElementIndex index;
+				imath::ISampledFunction2d::ArgumentType index;
 				index.SetAt(0, x);
 				index.SetAt(1, y);
 
 				dataPtr[y][x] = objectPtr->GetValueAt(index).GetElement(0);
 			}
 		}
+
+		istd::CRange xAxisRange = objectPtr->GetLogicalRange(0);
+		istd::CRange yAxisRange = objectPtr->GetLogicalRange(1);
 
 		m_surfacePlotPtr->loadFromData(
 				dataPtr,
