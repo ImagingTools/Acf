@@ -5,19 +5,20 @@
 // Qt includes
 #include <QWidget>
 
+
+// ACF includes
 #include "istd/CString.h"
 
-#include "imod/TSingleModelObserverBase.h"
+#include "iser/IFileLoader.h"
 
 #include "iprm/IParamsSet.h"
 
-#include "iqtgui/IGuiObject.h"
-#include "iqtgui/TGuiObserverWrap.h"
-#include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iqt2d/ISceneExtender.h"
 
 #include "iqtprm/iqtprm.h"
+#include "iqtprm/Generated/ui_CComposedParamsSetGuiComp.h"
 
 
 namespace iqtprm
@@ -25,22 +26,21 @@ namespace iqtprm
 
 
 class CComposedParamsSetGuiComp:
-			public iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> >,
+			public iqtgui::TDesignerGuiObserverCompBase<Ui::CComposedParamsSetGuiComp, iprm::IParamsSet>,
 			public iqt2d::ISceneExtender
 {
 	Q_OBJECT
 
 public:
-	typedef iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QWidget>, imod::TSingleModelObserverBase<iprm::IParamsSet> > BaseClass;
+	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CComposedParamsSetGuiComp, iprm::IParamsSet> BaseClass;
 
 	I_BEGIN_COMPONENT(CComposedParamsSetGuiComp)
-		I_REGISTER_INTERFACE(imod::IObserver)
-		I_REGISTER_INTERFACE(imod::IModelEditor)
 		I_REGISTER_INTERFACE(iqt2d::ISceneExtender)
 		I_ASSIGN_MULTI_0(m_editorsCompPtr, "Editors", "List of GUI's for parameters edition", true)
 		I_ASSIGN_MULTI_0(m_guisCompPtr, "Editors", "List of GUI's for parameters edition", true)
 		I_ASSIGN_MULTI_0(m_observersCompPtr, "Editors", "List of GUI's for parameters edition", true)
 		I_ASSIGN_MULTI_0(m_extendersCompPtr, "Editors", "List of GUI's for parameters edition", false)
+		I_ASSIGN(m_paramsLoaderCompPtr, "ParamsLoader", "Loader for the parameter set", false, "ParamsLoader")
 		I_ASSIGN_MULTI_0(m_idsAttrPtr, "Ids", "List of parameter ID's according to defined editors", true)
 		I_ASSIGN_MULTI_0(m_namesAttrPtr, "Names", "List of of gui names", false)
 		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false)
@@ -71,12 +71,15 @@ protected:
 
 protected slots:
 	void OnEditorChanged(int index);
+	void on_LoadParamsButton_clicked();
+	void on_SaveParamsButton_clicked();
 
 private:
 	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIREF(iqt2d::ISceneExtender, m_extendersCompPtr);
+	I_REF(iser::IFileLoader, m_paramsLoaderCompPtr);
 	I_MULTIATTR(istd::CString, m_idsAttrPtr);
 	I_MULTIATTR(istd::CString, m_namesAttrPtr);
 	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);

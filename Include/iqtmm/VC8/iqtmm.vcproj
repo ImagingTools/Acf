@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="iqtprm"
-	ProjectGUID="{B11EFB14-C129-4F69-8143-8127D45770BF}"
-	RootNamespace="iqtprm"
+	Name="iqtmm"
+	ProjectGUID="{FBA91AC7-8419-4318-8BD7-ADFB8D4400FF}"
+	RootNamespace="imm"
 	Keyword="Qt4VSv1.0"
 	>
 	<Platforms>
@@ -15,6 +15,9 @@
 	<ToolFiles>
 		<ToolFile
 			RelativePath="..\..\..\Config\VC8\QtUIForm.rules"
+		/>
+		<ToolFile
+			RelativePath="..\..\..\Config\VC8\Acf.rules"
 		/>
 	</ToolFiles>
 	<Configurations>
@@ -38,6 +41,18 @@
 				Name="QT Designer Form"
 			/>
 			<Tool
+				Name="Arxc"
+			/>
+			<Tool
+				Name="DeployCopy"
+			/>
+			<Tool
+				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
 				Name="QT Moc Metafile"
 			/>
 			<Tool
@@ -51,8 +66,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
-				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\phonon&quot;"
+				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="2"
@@ -110,6 +125,18 @@
 				Name="QT Designer Form"
 			/>
 			<Tool
+				Name="Arxc"
+			/>
+			<Tool
+				Name="DeployCopy"
+			/>
+			<Tool
+				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
 				Name="QT Moc Metafile"
 			/>
 			<Tool
@@ -124,8 +151,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
-				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\phonon&quot;"
+				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
@@ -174,15 +201,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\CComposedParamsSetGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileNameParamGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsManagerGuiComp.cpp"
+				RelativePath="..\CVideoWidgetGuiComp.cpp"
 				>
 			</File>
 		</Filter>
@@ -192,31 +211,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\CComposedParamsSetGuiComp.h"
+				RelativePath="..\CVideoWidgetGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CComposedParamsSetGuiComp.moc"
+				RelativePath="..\CVideoWidgetGuiComp.moc"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileNameParamGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileNameParamGuiComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsManagerGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsManagerGuiComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\iqtprm.h"
+				RelativePath="..\iqtmm.h"
 				>
 			</File>
 		</Filter>
@@ -233,41 +236,13 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\Generated\moc_CComposedParamsSetGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\moc_CFileNameParamGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\moc_CParamsManagerGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\ui_CFileNameParamGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\ui_CParamsManagerGuiComp.h"
+				RelativePath="..\generated\moc_CVideoWidgetGuiComp.cpp"
 				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Forms"
 			>
-			<File
-				RelativePath="..\CComposedParamsSetGuiComp.ui"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileNameParamGuiComp.ui"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsManagerGuiComp.ui"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

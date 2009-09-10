@@ -99,95 +99,96 @@ bool CComposedParamsSetGuiComp::OnDetached(imod::IModel* modelPtr)
 
 void CComposedParamsSetGuiComp::OnGuiCreated()
 {
-	QWidget* widgetPtr = GetQtWidget();
-	if (widgetPtr != NULL){
-		QLayout* layoutPtr = NULL;
-		if (*m_useHorizontalLayoutAttrPtr){
-			layoutPtr = new QHBoxLayout(widgetPtr);
-		}
-		else{
-			layoutPtr = new QVBoxLayout(widgetPtr);
-		}
+	QLayout* layoutPtr = NULL;
+	if (*m_useHorizontalLayoutAttrPtr){
+		layoutPtr = new QHBoxLayout(ParamsFrame);
+	}
+	else{
+		layoutPtr = new QVBoxLayout(ParamsFrame);
+	}
 
-		layoutPtr->setMargin(0);
+	if (!m_paramsLoaderCompPtr.IsValid()){
+		LoaderFrame->hide();
+	}
 
-		if (*m_designTypeAttrPtr == 1){
-			widgetPtr->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+	layoutPtr->setMargin(0);
 
-			QToolBox* toolBoxPtr = new QToolBox(widgetPtr);
-			int elementsCount = m_guisCompPtr.GetCount();
-			for (int i = 0; i < elementsCount; ++i){
-				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+	if (*m_designTypeAttrPtr == 1){
+		ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
-				if (guiPtr != NULL){
-					QWidget* panelPtr = new QWidget(toolBoxPtr);
-					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-					panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
-					QString name;
-					if (i < m_namesAttrPtr.GetCount()){
-						name = iqt::GetQString(m_namesAttrPtr[i]);
-					}
+		QToolBox* toolBoxPtr = new QToolBox(ParamsFrame);
+		int elementsCount = m_guisCompPtr.GetCount();
+		for (int i = 0; i < elementsCount; ++i){
+			iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
-					guiPtr->CreateGui(panelPtr);
-
-					toolBoxPtr->addItem(panelPtr, name);
-
-					QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-					panelLayoutPtr->addItem(spacerPtr);
+			if (guiPtr != NULL){
+				QWidget* panelPtr = new QWidget(ParamsFrame);
+				QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
+				panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
+				QString name;
+				if (i < m_namesAttrPtr.GetCount()){
+					name = iqt::GetQString(m_namesAttrPtr[i]);
 				}
+
+				guiPtr->CreateGui(panelPtr);
+
+				toolBoxPtr->addItem(panelPtr, name);
+
+				QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+				panelLayoutPtr->addItem(spacerPtr);
 			}
-
-			QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
-
-			layoutPtr->addWidget(toolBoxPtr);
-
-			m_currentGuiIndex = 0;
 		}
-		else if (*m_designTypeAttrPtr == 2){
-			widgetPtr->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
-			QTabWidget* tabWidgetPtr = new QTabWidget(widgetPtr);
-			int elementsCount = m_guisCompPtr.GetCount();
-			for (int i = 0; i < elementsCount; ++i){
-				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+		QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
 
-				if (guiPtr != NULL){
-					QWidget* panelPtr = new QWidget(tabWidgetPtr);
-					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-					QString name;
-					if (i < m_namesAttrPtr.GetCount()){
-						name = iqt::GetQString(m_namesAttrPtr[i]);
-					}
+		layoutPtr->addWidget(toolBoxPtr);
 
-					guiPtr->CreateGui(panelPtr);
+		m_currentGuiIndex = 0;
+	}
+	else if (*m_designTypeAttrPtr == 2){
+		ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
 
-					tabWidgetPtr->addTab(panelPtr, name);
+		QTabWidget* tabWidgetPtr = new QTabWidget(ParamsFrame);
+		int elementsCount = m_guisCompPtr.GetCount();
+		for (int i = 0; i < elementsCount; ++i){
+			iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
-					QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-					panelLayoutPtr->addItem(spacerPtr);
+			if (guiPtr != NULL){
+				QWidget* panelPtr = new QWidget(tabWidgetPtr);
+				QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
+				QString name;
+				if (i < m_namesAttrPtr.GetCount()){
+					name = iqt::GetQString(m_namesAttrPtr[i]);
 				}
+
+				guiPtr->CreateGui(panelPtr);
+
+				tabWidgetPtr->addTab(panelPtr, name);
+
+				QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+				panelLayoutPtr->addItem(spacerPtr);
 			}
-
-			QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
-
-			layoutPtr->addWidget(tabWidgetPtr);
-
-			m_currentGuiIndex = 0;
 		}
-		else{
-			int elementsCount = m_guisCompPtr.GetCount();
-			for (int i = 0; i < elementsCount; ++i){
-				iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
 
-				if (guiPtr != NULL){
-					guiPtr->CreateGui(widgetPtr);
-				}
+		QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
+
+		layoutPtr->addWidget(tabWidgetPtr);
+
+		m_currentGuiIndex = 0;
+	}
+	else{
+		int elementsCount = m_guisCompPtr.GetCount();
+		for (int i = 0; i < elementsCount; ++i){
+			iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+
+			if (guiPtr != NULL){
+				guiPtr->CreateGui(ParamsFrame);
 			}
-
-			m_currentGuiIndex = -1;
 		}
+
+		m_currentGuiIndex = -1;
 	}
 
 	BaseClass::OnGuiCreated();
@@ -291,6 +292,24 @@ void CComposedParamsSetGuiComp::OnEditorChanged(int index)
 
 			AttachToScene(providerPtr, flags);
 		}
+	}
+}
+
+
+void CComposedParamsSetGuiComp::on_LoadParamsButton_clicked()
+{
+	iprm::IParamsSet* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->LoadFromFile(*objectPtr);
+	}
+}
+
+
+void CComposedParamsSetGuiComp::on_SaveParamsButton_clicked()
+{
+	iprm::IParamsSet* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->SaveToFile(*objectPtr);
 	}
 }
 
