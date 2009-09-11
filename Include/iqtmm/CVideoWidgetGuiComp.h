@@ -7,30 +7,41 @@
 
 
 // ACF includes
+#include "iqtmm/IMediaObject.h"
+
+#include "imod/TSingleModelObserverBase.h"
+
 #include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TGuiObserverWrap.h"
 
 
 namespace iqtmm
 {
 
 
-class CVideoWidgetGuiComp: public iqtgui::TGuiComponentBase<Phonon::VideoWidget>
+class CVideoWidgetGuiComp:
+	public iqtgui::TGuiObserverWrap<
+				iqtgui::TGuiComponentBase<Phonon::VideoWidget>, 
+				imod::TSingleModelObserverBase<iqtmm::IMediaObject> >
+
 {
 	Q_OBJECT
 public:
-	typedef iqtgui::TGuiComponentBase<Phonon::VideoWidget> BaseClass;
+	typedef iqtgui::TGuiObserverWrap<
+				iqtgui::TGuiComponentBase<Phonon::VideoWidget>, 
+				imod::TSingleModelObserverBase<iqtmm::IMediaObject> > BaseClass;
 
-	I_BEGIN_COMPONENT(CVideoWidgetGuiComp)
-		I_ASSIGN(m_videoPathAttrPtr, "VideoPath", "VideoPath", true, "");
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CVideoWidgetGuiComp);
+		I_REGISTER_INTERFACE(imod::IObserver);
+	I_END_COMPONENT();
 
-protected:
-	// reimplemented (CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
+	// reimplemented (imod::IModelEditor)
+	virtual void UpdateEditor(int updateFlags = 0);
+	virtual void UpdateModel() const;
 
-private:
-	I_ATTR(istd::CString, m_videoPathAttrPtr);
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
 };
 
 

@@ -3,10 +3,9 @@
 
 
 #include "istd/istd.h"
-#include "istd/ibase.h"
-#include "istd/iqt.h"
-#include "istd/iqtgui.h"
-
+#include "ibase/ibase.h"
+#include "iqt/iqt.h"
+#include "iqtgui/iqtgui.h"
 
 
 /**

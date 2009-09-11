@@ -7,26 +7,45 @@ namespace iqtmm
 
 // public methods
 
-// reimplemented (CGuiComponentBase)
 
-void CVideoWidgetGuiComp::OnGuiCreated()
+// reimplemented (imod::IModelEditor)
+
+void CVideoWidgetGuiComp::UpdateEditor(int/* updateFlags*/)
 {
-	BaseClass::OnGuiCreated();
-
-	if (m_videoPathAttrPtr.IsValid()){
-		Phonon::MediaObject* mediaPtr = new Phonon::MediaObject(this);
-		mediaPtr->setCurrentSource(iqt::GetQString(*m_videoPathAttrPtr));
-
-		Phonon::createPath(mediaPtr, GetQtWidget());
-
-		mediaPtr->play();
-	}	
 }
 
 
-void CVideoWidgetGuiComp::OnGuiDestroyed()
+void CVideoWidgetGuiComp::UpdateModel() const
 {
-	BaseClass::OnGuiDestroyed();
+}
+
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CVideoWidgetGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	Phonon::MediaObject* mediaObjectPtr = dynamic_cast<Phonon::MediaObject*>(GetObjectPtr());
+
+	if (mediaObjectPtr != NULL){
+		Phonon::createPath(mediaObjectPtr, GetQtWidget());
+
+		mediaObjectPtr->play();
+	}
+}
+
+
+void CVideoWidgetGuiComp::OnGuiModelDetached()
+{
+	Phonon::MediaObject* mediaObjectPtr = dynamic_cast<Phonon::MediaObject*>(GetObjectPtr());
+
+	if (mediaObjectPtr != NULL){
+		mediaObjectPtr->stop();
+	}
+
+	BaseClass::OnGuiModelDetached();
+
 }
 
 
