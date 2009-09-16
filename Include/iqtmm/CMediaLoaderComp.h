@@ -1,5 +1,5 @@
-#ifndef iqtmm_CMediaObjectLoaderComp_included
-#define iqtmm_CMediaObjectLoaderComp_included
+#ifndef iqtmm_CMediaLoaderComp_included
+#define iqtmm_CMediaLoaderComp_included
 
 
 // ACF includes
@@ -16,18 +16,21 @@ namespace iqtmm
 {
 
 
-class CMediaObjectLoaderComp: public ibase::TLoggerCompWrap<icomp::CComponentBase>, virtual public iser::IFileLoader
+class CMediaLoaderComp:
+			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			virtual public iser::IFileLoader
 {
 public:
 	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
 
-	I_BEGIN_COMPONENT(CMediaObjectLoaderComp)
+	I_BEGIN_COMPONENT(CMediaLoaderComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader);
+		I_ASSIGN(m_autoPlayAttrPtr, "AutoPlay", "If enabled, movie will be automatically played after loading", true, false);
 	I_END_COMPONENT
 
 	enum MessageId
 	{
-		MI_BAD_EXTENSION = 0xa7d0,
+		MI_BAD_EXTENSION = 0xa7e0,
 		MI_FILE_NOT_EXIST,
 		MI_BAD_FORMAT
 	};
@@ -42,11 +45,14 @@ public:
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const;
 	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
+
+private:
+	I_ATTR(bool, m_autoPlayAttrPtr);
 };
 
 
 } // namespace iqtmm
 
 
-#endif // !iqtmm_CMediaObjectLoaderComp_included
+#endif // !iqtmm_CMediaLoaderComp_included
 

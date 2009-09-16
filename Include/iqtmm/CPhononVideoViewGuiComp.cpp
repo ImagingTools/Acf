@@ -1,0 +1,168 @@
+#include "iqtmm/CPhononVideoViewGuiComp.h"
+
+
+// Qt includes
+#include <QUrl>
+
+#include <istd/TChangeNotifier.h>
+
+
+namespace iqtmm
+{
+
+
+// public methods
+
+// reimplemented (iqtgui::CGuiComponentBase)
+
+void CPhononVideoViewGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	Phonon::createPath(&m_mediaObject, GetQtWidget());
+}
+
+
+void CPhononVideoViewGuiComp::OnGuiDestroyed()
+{
+	CloseMedium();
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
+// reimplemented (imm::IMediaController)
+
+istd::CString CPhononVideoViewGuiComp::GetOpenedMediumUrl() const
+{
+	return iqt::GetCString(m_mediaObject.currentSource().url().path());
+}
+
+
+bool CPhononVideoViewGuiComp::OpenMediumUrl(const istd::CString& url, bool autoPlay)
+{
+	istd::CChangeNotifier notifier(this, CF_STATUS);
+
+	m_mediaObject.setCurrentSource(iqt::GetQString(url));
+
+	if (autoPlay){
+		m_mediaObject.play();
+	}
+
+	return true;
+}
+
+
+void CPhononVideoViewGuiComp::CloseMedium()
+{
+	istd::CChangeNotifier notifier(this, CF_STATUS);
+
+	m_mediaObject.stop();
+	m_mediaObject.clearQueue();
+}
+
+
+bool CPhononVideoViewGuiComp::IsPlaying() const
+{
+	Phonon::State state = m_mediaObject.state();
+
+	return (state == Phonon::PlayingState) || (state == Phonon::BufferingState);
+}
+
+
+bool CPhononVideoViewGuiComp::SetPlaying(bool state)
+{
+	if (state != IsPlaying()){
+		istd::CChangeNotifier notifier(this, CF_STATUS);
+
+		if (state){
+			m_mediaObject.play();
+		}
+		else{
+			m_mediaObject.pause();
+		}
+	}
+
+	return (IsPlaying() == state);
+}
+
+
+double CPhononVideoViewGuiComp::GetMediumLength() const
+{
+	return m_mediaObject.totalTime() * 0.001;
+}
+
+
+double CPhononVideoViewGuiComp::GetCurrentPosition() const
+{
+	return m_mediaObject.currentTime() * 0.001;
+}
+
+
+bool CPhononVideoViewGuiComp::SetCurrentPosition(double position)
+{
+	if (fabs(position - GetCurrentPosition()) < I_BIG_EPSILON){
+		return true;
+	}
+
+	if (m_mediaObject.isSeekable()){
+		istd::CChangeNotifier notifier(this, CF_POSITION);
+
+		m_mediaObject.seek(qint64(position * 1000));
+
+		return true;
+	}
+
+	return false;
+}
+
+
+// reimplemented (imm::IVideoInfo)
+
+int CPhononVideoViewGuiComp::GetFramesCount() const
+{
+	return int(GetMediumLength() * *m_framesPerSecondAttrPtr);
+}
+
+
+double CPhononVideoViewGuiComp::GetFrameTimeDiff() const
+{
+	return 1.0 / *m_framesPerSecondAttrPtr;
+}
+
+
+istd::CIndex2d CPhononVideoViewGuiComp::GetFrameSize() const
+{
+	return istd::CIndex2d::GetInvalid();
+}
+
+
+double CPhononVideoViewGuiComp::GetPixelAspectRatio() const
+{
+	return 1;
+}
+
+
+// reimplemented (imm::IVideoController)
+
+int CPhononVideoViewGuiComp::GetCurrentFrame() const
+{
+	return int(GetCurrentPosition() * *m_framesPerSecondAttrPtr + 0.5);
+}
+
+
+bool CPhononVideoViewGuiComp::SetCurrentFrame(int frameIndex)
+{
+	return SetCurrentPosition(frameIndex / *m_framesPerSecondAttrPtr);
+}
+
+
+bool CPhononVideoViewGuiComp::GrabFrame(iimg::IBitmap& /*result*/, int /*frameIndex*/) const
+{
+	return false;
+}
+
+
+} // namespace iqtmm
+
+
