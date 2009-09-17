@@ -36,7 +36,7 @@ public:
 
 	// reimplemented (imm::IMediaController)
 	virtual istd::CString GetOpenedMediumUrl() const;
-	virtual bool OpenMediumUrl(const istd::CString& url, bool autoPlay = false);
+	virtual bool OpenMediumUrl(const istd::CString& url, bool autoPlay = true);
 	virtual void CloseMedium();
 	virtual bool IsPlaying() const;
 	virtual bool SetPlaying(bool state = true);

@@ -29,7 +29,7 @@ public:
 	/**
 		Open some media file.
 	*/
-	virtual bool OpenMediumUrl(const istd::CString& url, bool autoPlay = false) = 0;
+	virtual bool OpenMediumUrl(const istd::CString& url, bool autoPlay = true) = 0;
 
 	/**
 		Close this media player.
