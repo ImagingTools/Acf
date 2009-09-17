@@ -231,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFilePersistenceComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileSystem.cpp"
 				>
 			</File>
@@ -301,6 +305,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileCopyOverLoaderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilePersistenceComp.h"
 				>
 			</File>
 			<File

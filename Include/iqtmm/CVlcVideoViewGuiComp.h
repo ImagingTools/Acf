@@ -1,37 +1,40 @@
-#ifndef iqtmm_CPhononVideoViewGuiComp_included
-#define iqtmm_CPhononVideoViewGuiComp_included
+#ifndef iqtmm_CVlcVideoViewGuiComp_included
+#define iqtmm_CVlcVideoViewGuiComp_included
 
 
 // Qt includes
-#include <Phonon>
+#include <QAxWidget>
 
 #include "imm/IVideoController.h"
 
 #include "iqtgui/TGuiComponentBase.h"
+
+#include "iqtmm/Wrapped/axvlc.h"
 
 
 namespace iqtmm
 {
 
 
-class CPhononVideoViewGuiComp:
-			public iqtgui::TGuiComponentBase<Phonon::VideoWidget>,
+class CVlcVideoViewGuiComp:
+			public iqtgui::TGuiComponentBase<AXVLC::VLCPlugin2>,
 			virtual public imm::IVideoController
 {
-	Q_OBJECT
 public:
-	typedef iqtgui::TGuiComponentBase<Phonon::VideoWidget> BaseClass;
+	typedef iqtgui::TGuiComponentBase<AXVLC::VLCPlugin2> BaseClass;
 
-	I_BEGIN_COMPONENT(CPhononVideoViewGuiComp);
+	I_BEGIN_COMPONENT(CVlcVideoViewGuiComp);
 		I_REGISTER_INTERFACE(imm::IMediaController);
 		I_REGISTER_INTERFACE(imm::IVideoInfo);
 		I_REGISTER_INTERFACE(imm::IVideoController);
 		I_ASSIGN(m_framesPerSecondAttrPtr, "FramesPerSecond", "Default number of frames per second if this info is unavailable from video", true, 25.0);
 	I_END_COMPONENT();
 
+	CVlcVideoViewGuiComp();
+
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
+	void OnGuiCreated();
+	void OnGuiDestroyed();
 
 	// reimplemented (imm::IMediaController)
 	virtual istd::CString GetOpenedMediumUrl() const;
@@ -55,7 +58,10 @@ public:
 	virtual bool GrabFrame(iimg::IBitmap& result, int frameIndex = -1) const;
 
 private:
-	Phonon::MediaObject m_mediaObject;
+	AXVLC::IVLCInput* m_vlcInputPtr;
+	AXVLC::IVLCPlaylist* m_playlistPtr;
+
+	istd::CString m_currentUrl;
 
 	I_ATTR(double, m_framesPerSecondAttrPtr);
 };
@@ -64,5 +70,5 @@ private:
 } // namespace iqtmm
 
 
-#endif // !iqtmm_CPhononVideoViewGuiComp_included
+#endif // !iqtmm_CVlcVideoViewGuiComp_included
 

@@ -20,6 +20,7 @@ I_EXPORT_COMPONENT(ApplicationInfo, "Simple application info", "Application Info
 I_EXPORT_COMPONENT(RegistryCodeSaver, "Stores registry as C++ code", "Code C++ File Loader Store Save Registry Compile");
 I_EXPORT_COMPONENT(ModelProxy, "Model proxy", "Model Proxy");
 I_EXPORT_COMPONENT(ModelBinder, "Model binder", "Model Observer Bind Binder");
+I_EXPORT_COMPONENT(FilePersistence, "Allows object persistence using files", "Persistence File Free Create Store Restore Load Save");
 I_EXPORT_COMPONENT(ConsoleLog, "Simple log on windows console", "Log Windows Message Consumer");
 I_EXPORT_COMPONENT(TextFileLog, "Simple text file log", "Log Message Consumer");
 I_EXPORT_COMPONENT(FileCopyOverLoader, "General file copy or transform using loaders and any object", "File Copy Compile Transform Loader Saver");

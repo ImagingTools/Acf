@@ -23,6 +23,7 @@
 #include "ibase/CTextDocumentComp.h"
 #include "ibase/CModelProxyComp.h"
 #include "ibase/CModelBinderComp.h"
+#include "ibase/CFilePersistenceComp.h"
 #include "ibase/TFileSerializerComp.h"
 #include "ibase/CConsoleLogComp.h"
 #include "ibase/CTextFileLogComp.h"
@@ -63,6 +64,7 @@ typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 typedef ibase::CModelProxyComp ModelProxy;
 typedef ibase::CModelBinderComp ModelBinder;
+typedef ibase::CFilePersistenceComp FilePersistence;
 typedef ibase::CConsoleLogComp ConsoleLog;
 typedef ibase::CTextFileLogComp TextFileLog;
 typedef ibase::CFileCopyOverLoaderComp FileCopyOverLoader;

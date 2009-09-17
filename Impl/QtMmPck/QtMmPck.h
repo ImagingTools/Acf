@@ -5,6 +5,7 @@
 #include "icomp/TModelCompWrap.h"
 
 #include "iqtmm/CPhononVideoViewGuiComp.h"
+#include "iqtmm/CVlcVideoViewGuiComp.h"
 #include "iqtmm/CMediaLoaderComp.h"
 
 
@@ -16,6 +17,7 @@ namespace QtMmPck
 
 
 typedef iqtmm::CPhononVideoViewGuiComp PhononVideoView;
+typedef iqtmm::CVlcVideoViewGuiComp VlcVideoView;
 typedef iqtmm::CMediaLoaderComp MediaLoader;
 
 
