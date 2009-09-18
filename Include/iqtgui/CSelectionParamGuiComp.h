@@ -28,8 +28,8 @@ public:
 				Ui::CSelectionParamGuiComp,
 				iprm::ISelectionParam> BaseClass;
 
-	I_BEGIN_COMPONENT(CSelectionParamGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CSelectionParamGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
