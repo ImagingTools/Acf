@@ -16,7 +16,7 @@ void CFileNameParamComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	if (m_defaultDirAttrPtr.IsValid()){
-		m_directory = *m_defaultDirAttrPtr;
+		m_path = *m_defaultDirAttrPtr;
 	}
 }
 
@@ -31,13 +31,13 @@ int CFileNameParamComp::GetPathType() const
 
 const istd::CString& CFileNameParamComp::GetPath() const
 {
-	return m_directory;
+	return m_path;
 }
 
 
-void CFileNameParamComp::SetPath(const istd::CString& directory)
+void CFileNameParamComp::SetPath(const istd::CString& path)
 {
-	m_directory = directory;
+	m_path = path;
 }
 
 
@@ -47,10 +47,10 @@ bool CFileNameParamComp::Serialize(iser::IArchive& archive)
 {
 	bool retVal = true;
 
-	static iser::CArchiveTag directoryTag("Directory", "File directory of images");
-	retVal = retVal && archive.BeginTag(directoryTag);
-	retVal = retVal && archive.Process(m_directory);
-	retVal = retVal && archive.EndTag(directoryTag);
+	static iser::CArchiveTag pathTag("Path", "File path");
+	retVal = retVal && archive.BeginTag(pathTag);
+	retVal = retVal && archive.Process(m_path);
+	retVal = retVal && archive.EndTag(pathTag);
 
 	return retVal;
 }

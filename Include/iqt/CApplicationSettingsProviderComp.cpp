@@ -15,7 +15,7 @@ CApplicationSettingsProviderComp::CApplicationSettingsProviderComp()
 
 // reimplemented (icomp::IRegistryLoaderProvider)
 
-QSettings& CApplicationSettingsProviderComp::GetApplicationSettings() const
+QSettings& CApplicationSettingsProviderComp::GetSettings() const
 {
 	I_ASSERT(m_settingsPtr.IsValid());
 

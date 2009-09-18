@@ -32,13 +32,13 @@ public:
 	// reimplemented (iprm::IFileNameParam)
 	virtual int GetPathType() const;
 	virtual const istd::CString& GetPath() const;
-	virtual void SetPath(const istd::CString& directory);
+	virtual void SetPath(const istd::CString& path);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
 private:
-	istd::CString m_directory;
+	istd::CString m_path;
 
 	I_ATTR(istd::CString, m_defaultDirAttrPtr);
 	I_ATTR(bool, m_isFileAttrPtr);

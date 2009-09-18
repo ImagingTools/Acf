@@ -28,7 +28,7 @@ public:
 	CApplicationSettingsProviderComp();
 
 	// reimplemented (iqt::ISettingsProvider)
-	virtual QSettings& GetApplicationSettings() const;
+	virtual QSettings& GetSettings() const;
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();

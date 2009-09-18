@@ -8,7 +8,7 @@ namespace iqt
 	
 // reimplemented (icomp::IRegistryLoaderProvider)
 
-QSettings& CIniSettingsProviderComp::GetApplicationSettings() const
+QSettings& CIniSettingsProviderComp::GetSettings() const
 {
 	I_ASSERT(m_settingsPtr.IsValid());
 

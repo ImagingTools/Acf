@@ -20,7 +20,7 @@ namespace iqt
 class ISettingsProvider: virtual public istd::IPolymorphic
 {
 public:
-	virtual QSettings& GetApplicationSettings() const = 0;
+	virtual QSettings& GetSettings() const = 0;
 };
 
 

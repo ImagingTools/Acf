@@ -44,7 +44,7 @@ bool TRestorableGuiWrap<Gui>::CreateGui(QWidget* parentPtr)
 	bool retVal = BaseClass::CreateGui(parentPtr);
 
 	if (m_settingsProviderCompPtr.IsValid()){
-		OnRestoreSettings(m_settingsProviderCompPtr->GetApplicationSettings());
+		OnRestoreSettings(m_settingsProviderCompPtr->GetSettings());
 	}
 
 	return retVal;
@@ -55,7 +55,7 @@ template <class Gui>
 bool TRestorableGuiWrap<Gui>::DestroyGui()
 {
 	if (m_settingsProviderCompPtr.IsValid()){
-		OnSaveSettings(m_settingsProviderCompPtr->GetApplicationSettings());
+		OnSaveSettings(m_settingsProviderCompPtr->GetSettings());
 	}
 
 	return BaseClass::DestroyGui();

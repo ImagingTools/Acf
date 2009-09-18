@@ -23,7 +23,7 @@ public:
 
 	virtual int GetPathType() const = 0;
 	virtual const istd::CString& GetPath() const = 0;
-	virtual void SetPath(const istd::CString& directory) = 0;
+	virtual void SetPath(const istd::CString& path) = 0;
 };
 
 
