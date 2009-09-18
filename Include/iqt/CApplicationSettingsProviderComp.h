@@ -6,7 +6,7 @@
 
 #include "ibase/IApplicationInfo.h"
 
-#include "iqt/IApplicationSettingsProvider.h"
+#include "iqt/ISettingsProvider.h"
 
 
 namespace iqt
@@ -15,19 +15,19 @@ namespace iqt
 
 class CApplicationSettingsProviderComp: 
 			public icomp::CComponentBase,
-			public iqt::IApplicationSettingsProvider
+			public iqt::ISettingsProvider
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CApplicationSettingsProviderComp)
-		I_REGISTER_INTERFACE(iqt::IApplicationSettingsProvider)
+		I_REGISTER_INTERFACE(iqt::ISettingsProvider)
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 	I_END_COMPONENT
 
 	CApplicationSettingsProviderComp();
 
-	// reimplemented (iqt::IApplicationSettingsProvider)
+	// reimplemented (iqt::ISettingsProvider)
 	virtual QSettings& GetApplicationSettings() const;
 
 	// reimplemented (icomp::IComponent)

@@ -11,7 +11,7 @@
 #include "idoc/ICommandsProvider.h"
 #include "idoc/CMultiDocumentManagerBase.h"
 
-#include "iqt/IApplicationSettingsProvider.h"
+#include "iqt/ISettingsProvider.h"
 
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/TRestorableGuiWrap.h"

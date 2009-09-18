@@ -1,5 +1,5 @@
-#ifndef iqt_IApplicationSettingsProvider_included
-#define iqt_IApplicationSettingsProvider_included
+#ifndef iqt_ISettingsProvider_included
+#define iqt_ISettingsProvider_included
 
 
 #include "iqt/iqt.h"
@@ -17,7 +17,7 @@ namespace iqt
 /**
 	Interface for access the application settings object.
 */
-class IApplicationSettingsProvider: virtual public istd::IPolymorphic
+class ISettingsProvider: virtual public istd::IPolymorphic
 {
 public:
 	virtual QSettings& GetApplicationSettings() const = 0;
@@ -27,4 +27,4 @@ public:
 } // namespace iqt
 
 
-#endif // !iqt_IApplicationSettingsProvider_included
+#endif // !iqt_ISettingsProvider_included

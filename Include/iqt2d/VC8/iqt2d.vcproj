@@ -358,10 +358,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ISceneController.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ISceneExtender.h"
 				>
 			</File>

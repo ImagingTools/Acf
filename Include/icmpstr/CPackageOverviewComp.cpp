@@ -187,6 +187,8 @@ void CPackageOverviewComp::on_FilterEdit_textEdited(const QString& text)
 void CPackageOverviewComp::on_ResetFilterButton_clicked()
 {
 	FilterEdit->clear();
+
+	GenerateComponentTree();
 }
 
 

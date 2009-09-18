@@ -16,7 +16,6 @@
 #include "iqtgui/CHierarchicalCommand.h"
 
 #include "iqt2d/ISceneProvider.h"
-#include "iqt2d/ISceneController.h"
 #include "iqt2d/ISceneRestrictions.h"
 
 #include "iqt2d/Generated/Ui_CSceneProviderGuiComp.h"

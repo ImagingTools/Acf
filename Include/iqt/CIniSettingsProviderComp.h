@@ -1,0 +1,49 @@
+#ifndef iqt_CIniSettingsProviderComp_included
+#define iqt_CIniSettingsProviderComp_included
+
+
+#include "istd/CString.h"
+
+#include "icomp/CComponentBase.h"
+
+#include "iqt/ISettingsProvider.h"
+
+
+namespace iqt
+{
+
+
+/**
+	Provides settings from INI file.
+*/
+class CIniSettingsProviderComp: 
+			public icomp::CComponentBase,
+			public iqt::ISettingsProvider
+{
+public:
+	typedef icomp::CComponentBase BaseClass;
+
+	I_BEGIN_COMPONENT(CIniSettingsProviderComp);
+		I_REGISTER_INTERFACE(iqt::ISettingsProvider);
+		I_ASSIGN(m_iniFilePathAttrPtr, "IniFilePath", "Path to INI file", true, "Default.ini");
+	I_END_COMPONENT;
+
+	// reimplemented (iqt::ISettingsProvider)
+	virtual QSettings& GetApplicationSettings() const;
+
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+	
+private:
+	I_ATTR(istd::CString, m_iniFilePathAttrPtr);
+
+	istd::TDelPtr<QSettings> m_settingsPtr;
+};
+
+
+} // namespace iqt
+
+
+#endif // !iqt_CIniSettingsProviderComp_included
+
+

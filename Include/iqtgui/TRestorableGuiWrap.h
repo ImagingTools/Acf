@@ -2,7 +2,7 @@
 #define iqtgui_TRestorableGuiWrap_included
 
 
-#include "iqt/IApplicationSettingsProvider.h"
+#include "iqt/ISettingsProvider.h"
 
 
 namespace iqtgui
@@ -32,7 +32,7 @@ protected:
 	virtual bool DestroyGui();
 
 private:
-	I_REF(iqt::IApplicationSettingsProvider, m_settingsProviderCompPtr);
+	I_REF(iqt::ISettingsProvider, m_settingsProviderCompPtr);
 };
 
 

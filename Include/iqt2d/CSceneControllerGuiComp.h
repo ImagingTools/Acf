@@ -5,8 +5,8 @@
 #include "iqtgui/TDesignerGuiCompBase.h"
 
 
-#include "iqt2d/ISceneController.h"
 #include "iqt2d/ISceneRestrictions.h"
+#include "iqt2d/ISceneProvider.h"
 #include "iqt2d/Generated/ui_CSceneControllerGuiComp.h"
 
 
@@ -23,7 +23,6 @@ public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CSceneControllerGuiComp> BaseClass;
 
 	I_BEGIN_COMPONENT(CSceneControllerGuiComp);
-		I_REGISTER_INTERFACE(iqt2d::ISceneController);
 		I_ASSIGN(m_sceneRestrictionsCompPtr, "SceneRestrictions", "Scene manipulation restrictions", false, "SceneRestrictions");
 		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "Scene provider", true, "SceneProvider");
 	I_END_COMPONENT;

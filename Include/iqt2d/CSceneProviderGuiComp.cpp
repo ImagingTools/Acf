@@ -329,9 +329,15 @@ void CSceneProviderGuiComp::OnGuiCreated()
 		QPalette viewPalette = SceneView->palette();
 		viewPalette.setColor(QPalette::Window, SceneView->backgroundBrush().color());
 
+		BottomFrame->setStyleSheet(backgroundColorString);
 		ControllerFrame->setStyleSheet(backgroundColorString);
 		GetWidget()->setStyleSheet(backgroundColorString);
 		m_sceneControllerGuiCompPtr->GetWidget()->setStyleSheet(backgroundColorString);
+
+		BottomFrame->setVisible(true);
+	}
+	else{
+		BottomFrame->setVisible(false);
 	}
 } 
 

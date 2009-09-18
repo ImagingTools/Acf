@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CIniSettingsProviderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackagesLoaderComp.cpp"
 				>
 			</File>
@@ -352,6 +356,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CIniSettingsProviderComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackagesLoaderComp.h"
 				>
 			</File>
@@ -392,15 +400,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IApplicationSettingsProvider.h"
-				>
-			</File>
-			<File
 				RelativePath="..\IQImageProvider.h"
 				>
 			</File>
 			<File
 				RelativePath="..\iqt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\ISettingsProvider.h"
 				>
 			</File>
 			<File
