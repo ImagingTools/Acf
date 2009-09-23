@@ -26,7 +26,7 @@ namespace icomp
 class IRegistry: virtual public iser::ISerializable
 {
 public:
-	typedef std::set< std::string> Ids;
+	typedef std::set<std::string> Ids;
 	typedef istd::TDelPtr<IRegistryElement> ElementPtr;
 
 	/**

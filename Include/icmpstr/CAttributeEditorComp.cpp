@@ -262,6 +262,9 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 		InterfacesTree->addTopLevelItem(itemPtr);
 	}
 
+	I_DWORD elementFlags = elementPtr->GetElementFlags();
+	AutoInstanceCB->setChecked((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0);
+
 	const std::string& elementId = selectionInfoPtr->GetSelectedElementName();
 	QTreeWidgetItem* componentRootPtr = new QTreeWidgetItem();
 	componentRootPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
@@ -382,6 +385,24 @@ void CAttributeEditorComp::on_InterfacesTree_itemChanged(QTreeWidgetItem* item, 
 		registryPtr->SetElementInterfaceExported(elementName, istd::CClassInfo(interfaceName.toStdString()), isSelected);
 
 		UpdateExportIcon();
+	}
+}
+
+
+void CAttributeEditorComp::on_AutoInstanceCB_toggled(bool checked)
+{
+	istd::TChangeNotifier<icomp::IRegistryElement> elementPtr(GetRegistryElement(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
+
+	if (elementPtr.IsValid()){
+		I_DWORD flags = elementPtr->GetElementFlags();
+
+		flags = checked?
+					(flags | icomp::IRegistryElement::EF_AUTO_INSTANCE):
+					(flags & ~icomp::IRegistryElement::EF_AUTO_INSTANCE);
+
+		istd::CChangeNotifier registryNotifier(GetRegistry(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
+
+		elementPtr->SetElementFlags(flags);
 	}
 }
 

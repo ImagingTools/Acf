@@ -256,6 +256,7 @@ void CComponentSceneItem::paint(QPainter* painter, const QStyleOptionGraphicsIte
 					m_image);
 	}
 
+	int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
 	if (m_elementInfoPtr->elementPtr.IsValid()){
 		const icomp::IComponentStaticInfo& info = m_elementInfoPtr->elementPtr->GetComponentStaticInfo();
 		if (dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info) != NULL){
@@ -263,10 +264,19 @@ void CComponentSceneItem::paint(QPainter* painter, const QStyleOptionGraphicsIte
 			compositeRect.adjust(4, 4, -4, -4);
 			painter->drawRect(compositeRect);
 		}
+
+		I_DWORD elementFlags = m_elementInfoPtr->elementPtr->GetElementFlags();
+		if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
+			painter->drawPixmap(
+						int(mainRect.right() - minSideSize * 0.4),
+						int(minSideSize * 0.6),
+						int(minSideSize * 0.3),
+						int(minSideSize * 0.3),
+						QIcon(":/Resources/Icons/Anchor_64.png").pixmap(128, 128));
+		}
 	}
 
 	if (!m_exportedInterfacesList.empty()){
-		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
 		painter->drawPixmap(
 					int(mainRect.right() - minSideSize * 0.4),
 					int(minSideSize * 0.1),

@@ -43,6 +43,7 @@ public:
 		TI_GENERAL,
 		TI_ATTRIBUTES,
 		TI_INTERFACES,
+		TI_FLAGS,
 		TI_EXPORTS
 	};
 
@@ -91,6 +92,7 @@ protected slots:
 	void on_AttributeTree_itemChanged(QTreeWidgetItem* item, int column);
 	void on_InterfacesTree_itemSelectionChanged();
 	void on_InterfacesTree_itemChanged(QTreeWidgetItem* item, int column);
+	void on_AutoInstanceCB_toggled(bool checked);
 
 protected:
 	bool SetAttributeToItems(

@@ -12,5 +12,6 @@
         <file>Resources/Icons/close_a_128.png</file>
         <file>Resources/Icons/back_128.png</file>
         <file>Resources/Icons/Export.png</file>
+        <file>Resources/Icons/Anchor_64.png</file>
     </qresource>
 </RCC>

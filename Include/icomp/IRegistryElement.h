@@ -29,11 +29,20 @@ public:
 	typedef std::set< std::string> Ids;
 	typedef istd::TDelPtr<iser::ISerializable> AttributePtr;
 
-	enum ChangeFlags{
+	enum ChangeFlags
+	{
 		/**
 			Indicate that data model is changed.
 		*/
 		CF_ATTRIBUTE_CHANGED = 0x8000
+	};
+
+	enum ElementFlags
+	{
+		/**
+			Indicate that instance of this element should be automatically created.
+		*/
+		EF_AUTO_INSTANCE = 0x0001
 	};
 
 	/**
@@ -44,6 +53,17 @@ public:
 		AttributePtr attributePtr;
 		std::string exportId;
 	};
+
+	/**
+		Get flags of this registry element.
+		\sa	ElementFlags
+	*/
+	virtual I_DWORD GetElementFlags() const = 0;
+	/**
+		Set flags of this registry element.
+		\sa	ElementFlags
+	*/
+	virtual void SetElementFlags(I_DWORD flags) = 0;
 
 	/**
 		Get access to component static info object.

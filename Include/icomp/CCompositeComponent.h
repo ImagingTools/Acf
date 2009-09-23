@@ -3,6 +3,7 @@
 
 
 // STL includes
+#include <set>
 #include <map>
 #include <string>
 
@@ -28,6 +29,10 @@ public:
 
 	// reimplemented (icomp::IComponent)
 	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId = "");
+	virtual void SetComponentContext(
+				const icomp::IComponentContext* contextPtr,
+				const IComponent* parentPtr,
+				bool isParentOwner);
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 	virtual IComponent* GetSubcomponent(const std::string& componentId) const;
@@ -72,10 +77,13 @@ private:
 	};
 
 	typedef std::map< std::string, ComponentInfo > ComponentMap;
+	typedef std::set<std::string> Ids;
 
 	mutable ComponentMap m_componentMap;
 
 	bool m_blockCreating;
+
+	Ids m_autoInitElementIds;
 };
 
 

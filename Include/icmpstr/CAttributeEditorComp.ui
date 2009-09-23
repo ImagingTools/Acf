@@ -325,6 +325,33 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="FlagsTab" >
+      <attribute name="title" >
+       <string>Flags</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3" >
+       <item>
+        <widget class="QCheckBox" name="AutoInstanceCB" >
+         <property name="text" >
+          <string>Automatically create instance</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer" >
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0" >
+          <size>
+           <width>20</width>
+           <height>215</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="ComponentTab" >
       <attribute name="title" >
        <string>Components</string>

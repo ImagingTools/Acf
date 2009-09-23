@@ -1,6 +1,7 @@
 #include "icomp/CRegistryElement.h"
 
 
+#include "istd/TChangeNotifier.h"
 #include "istd/CClassInfo.h"
 
 #include "iser/IArchive.h"
@@ -15,7 +16,8 @@ namespace icomp
 
 
 CRegistryElement::CRegistryElement()
-:	m_staticInfoPtr(NULL)
+:	m_staticInfoPtr(NULL),
+	m_elementFlags(0)
 {
 }
 
@@ -40,6 +42,44 @@ IRegistryElement::AttributeInfo* CRegistryElement::GetAttributeInfo(const std::s
 
 
 // reimplemented (icomp::IRegistryElement)
+
+I_DWORD CRegistryElement::GetElementFlags() const
+{
+	return m_elementFlags;
+}
+
+
+void CRegistryElement::SetElementFlags(I_DWORD flags)
+{
+	if (flags != m_elementFlags){
+		istd::CChangeNotifier notifier(this);
+
+		m_elementFlags = flags;
+	}
+}
+
+
+const IComponentStaticInfo& CRegistryElement::GetComponentStaticInfo() const
+{
+	I_ASSERT(m_staticInfoPtr != NULL);
+
+	return *m_staticInfoPtr;
+}
+
+
+IRegistryElement::Ids CRegistryElement::GetAttributeIds() const
+{
+	Ids retVal;
+
+	for (		AttributeInfoMap::const_iterator iter = m_attributeInfos.begin();
+				iter != m_attributeInfos.end();
+				++iter){
+		retVal.insert(iter->first);
+	}
+
+	return retVal;
+}
+
 
 IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(const std::string& attributeId, bool createAttribute)
 {
@@ -80,36 +120,6 @@ iser::ISerializable* CRegistryElement::CreateAttribute(const std::string& attrib
 }
 
 
-bool CRegistryElement::RemoveAttribute(const std::string& attributeId)
-{
-	return m_attributeInfos.erase(attributeId) > 0;
-}
-
-
-// reimplemented (icomp::IRegistryElement)
-
-const IComponentStaticInfo& CRegistryElement::GetComponentStaticInfo() const
-{
-	I_ASSERT(m_staticInfoPtr != NULL);
-
-	return *m_staticInfoPtr;
-}
-
-
-IRegistryElement::Ids CRegistryElement::GetAttributeIds() const
-{
-	Ids retVal;
-
-	for (		AttributeInfoMap::const_iterator iter = m_attributeInfos.begin();
-				iter != m_attributeInfos.end();
-				++iter){
-		retVal.insert(iter->first);
-	}
-
-	return retVal;
-}
-
-
 const IRegistryElement::AttributeInfo* CRegistryElement::GetAttributeInfo(const std::string& attributeId) const
 {
 	AttributeInfoMap::const_iterator iter = m_attributeInfos.find(attributeId);
@@ -122,10 +132,19 @@ const IRegistryElement::AttributeInfo* CRegistryElement::GetAttributeInfo(const 
 }
 
 
+bool CRegistryElement::RemoveAttribute(const std::string& attributeId)
+{
+	istd::CChangeNotifier notifier(this);
+
+	return m_attributeInfos.erase(attributeId) > 0;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CRegistryElement::Serialize(iser::IArchive& archive)
 {
+	static iser::CArchiveTag flagsTag("Flags", "Flags of registry element");
 	static iser::CArchiveTag attributeInfosTag("AttributeInfoMap", "List of attribute infos");
 	static iser::CArchiveTag attributeInfoTag("AttributeInfo", "Attribute info", true);
 	static iser::CArchiveTag attributeIdTag("Id", "Attribute ID");
@@ -135,6 +154,21 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag isEnabledTag("IsEnabled", "Is attribute enabled");
 
 	bool retVal = true;
+
+	bool isStoring = archive.IsStoring();
+
+	const iser::IVersionInfo& info = archive.GetVersionInfo();
+	I_DWORD versionNumber = 0xffffffff;
+	info.GetVersionNumber(iser::IVersionInfo::FrameworkVersionId, versionNumber);
+
+	if (versionNumber >= 1052){
+		retVal = retVal && archive.BeginTag(flagsTag);
+		retVal = retVal && archive.Process(m_elementFlags);
+		retVal = retVal && archive.EndTag(flagsTag);
+	}
+	else if (!isStoring){
+		m_elementFlags = 0;
+	}
 
 	int attributesCount = int(m_attributeInfos.size());
 	retVal = retVal && archive.BeginMultiTag(attributeInfosTag, attributeInfoTag, attributesCount);

@@ -72,6 +72,36 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 }
 
 
+void CCompositeComponent::SetComponentContext(
+			const icomp::IComponentContext* contextPtr,
+			const IComponent* parentPtr,
+			bool isParentOwner)
+{
+	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
+
+	m_autoInitElementIds.clear();
+
+	const CCompositeComponentContext* compositeContextPtr = dynamic_cast<const CCompositeComponentContext*>(contextPtr);
+	if (compositeContextPtr != NULL){
+		const IRegistry& registry = compositeContextPtr->GetRegistry();
+
+		IRegistry::Ids elementIds = registry.GetElementIds();
+		for (		IRegistry::Ids::const_iterator iter = elementIds.begin();
+					iter != elementIds.end();
+					++iter){
+			const std::string& elementId = *iter;
+			const IRegistry::ElementInfo* infoPtr = registry.GetElementInfo(elementId);
+			I_ASSERT(infoPtr);	// ID must be valid, becouse it was taken using icomp::IRegistry::GetElementIds()!
+
+			I_DWORD flags = infoPtr->elementPtr->GetElementFlags();
+			if ((flags & IRegistryElement::EF_AUTO_INSTANCE) != 0){
+				m_autoInitElementIds.insert(elementId);
+			}
+		}
+	}
+}
+
+
 void CCompositeComponent::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
@@ -116,6 +146,17 @@ IComponent* CCompositeComponent::GetSubcomponent(const std::string& componentId)
 			CreateSubcomponentInfo(componentId, componentInfo.contextPtr, componentInfo.componentPtr, true);
 
 			componentInfo.isInitialized = true;
+		}
+
+		while (!m_autoInitElementIds.empty()){
+			std::string autoInitId = *m_autoInitElementIds.begin();
+
+			ComponentInfo& autoInitInfo = m_componentMap[autoInitId];
+			if (!autoInitInfo.isInitialized){
+				CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, autoInitInfo.componentPtr, true);
+
+				autoInitInfo.isInitialized = true;
+			}
 		}
 
 		return componentInfo.componentPtr.GetPtr();

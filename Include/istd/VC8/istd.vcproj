@@ -30,19 +30,22 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="DeployCopy"
+				Name="SubVersionTransform"
+				AdditionalDependencies="..\svnflag"
+				OutputDir="..\Generated"
+				SubVersionPath="..\..\.."
+			/>
+			<Tool
+				Name="FileConvertCopy"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Arxc"
+				Name="DeployCopy"
 			/>
 			<Tool
-				Name="SubVersionTransform"
-				AdditionalDependencies="..\svnflag"
-				OutputDir="..\Generated"
-				SubVersionPath="..\..\.."
+				Name="Arxc"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -120,19 +123,22 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="DeployCopy"
+				Name="SubVersionTransform"
+				AdditionalDependencies="..\svnflag"
+				OutputDir="..\Generated"
+				SubVersionPath="..\..\.."
+			/>
+			<Tool
+				Name="FileConvertCopy"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Arxc"
+				Name="DeployCopy"
 			/>
 			<Tool
-				Name="SubVersionTransform"
-				AdditionalDependencies="..\svnflag"
-				OutputDir="..\Generated"
-				SubVersionPath="..\..\.."
+				Name="Arxc"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -429,6 +435,14 @@
 			>
 			<File
 				RelativePath="..\AcfVersion.h.xtrsvn"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Generated Files"
+			>
+			<File
+				RelativePath="..\generated\AcfVersion.h"
 				>
 			</File>
 		</Filter>
