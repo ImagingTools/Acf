@@ -34,13 +34,13 @@ namespace iqt
 	Loads component packages from dynamic link libraries.
 */
 class CPackagesLoaderComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			public icomp::CPackageStaticInfo,
 			virtual public icomp::IRegistriesManager,
 			virtual public icomp::IRegistryLoader
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

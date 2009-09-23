@@ -24,11 +24,11 @@ namespace iqt
 	Copy of text files with some tags substitution and optional license attachment.
 */
 class CFileInfoCopyComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			virtual public ibase::IFileConvertCopy
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

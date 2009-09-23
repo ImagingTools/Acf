@@ -15,11 +15,11 @@ namespace icbox
 
 
 class CMemoryBankSerializerComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			virtual public iser::IFileLoader
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

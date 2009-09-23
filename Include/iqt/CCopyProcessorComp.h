@@ -22,10 +22,10 @@ namespace iqt
 	Copy files from one directory to another one.
 	This component is part of installation concept. It is designed to use it as free component.
 */
-class CCopyProcessorComp: public ibase::TLoggerCompWrap<icomp::CComponentBase>
+class CCopyProcessorComp: public ibase::CLoggerComponentBase
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

@@ -31,7 +31,7 @@ namespace iabc
 */
 class CFolderMonitorComp:
 			public QThread,
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			virtual public isys::IFolderMonitor
 {
 	Q_OBJECT
@@ -46,7 +46,7 @@ public:
 		QStringList attributeChangedFiles;
 	};
 
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 	typedef QThread BaseClass2;
 
 	I_BEGIN_COMPONENT(CFolderMonitorComp);

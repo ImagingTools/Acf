@@ -17,12 +17,12 @@ namespace icmpstr
 
 
 class CRegistryModelComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			public icomp::CRegistry,
 			virtual public IRegistryEditController
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 	typedef icomp::CRegistry BaseClass2;
 
 	I_BEGIN_COMPONENT(CRegistryModelComp);

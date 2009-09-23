@@ -17,12 +17,12 @@ namespace iqtgui
 
 
 class CFileDialogLoaderComp: 
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>, 
+			public ibase::CLoggerComponentBase, 
 			virtual public iser::IFileLoader,
 			virtual public iser::IFileLoaderInfo
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

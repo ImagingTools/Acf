@@ -25,7 +25,7 @@ void CFileNameParamComp::OnComponentCreated()
 
 int CFileNameParamComp::GetPathType() const
 {
-	return (*m_isFileAttrPtr)? PT_FILE: (*m_isDirAttrPtr)? PT_DIRECTORY: PT_UNKNOWN;
+	return *m_pathTypeAttrPtr;
 }
 
 

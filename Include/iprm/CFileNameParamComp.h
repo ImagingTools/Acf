@@ -22,8 +22,7 @@ public:
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(IFileNameParam);
 		I_ASSIGN(m_defaultDirAttrPtr, "DefaultPath", "Default path of file or directory", false, ".");
-		I_ASSIGN(m_isFileAttrPtr, "IsFile", "Path is for files only", true, false);
-		I_ASSIGN(m_isDirAttrPtr, "IsDirectory", "Path is for directories only", true, false);
+		I_ASSIGN(m_pathTypeAttrPtr, "PathType", "Type of path: 0 - unknown, 1 - PT_FILE, 2 - PT_DIRECTORY, 3 - PT_URL", true, 0);
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IComponent)
@@ -41,7 +40,7 @@ private:
 	istd::CString m_path;
 
 	I_ATTR(istd::CString, m_defaultDirAttrPtr);
-	I_ATTR(bool, m_isFileAttrPtr);
+	I_ATTR(bool, m_pathTypeAttrPtr);
 	I_ATTR(bool, m_isDirAttrPtr);
 };
 

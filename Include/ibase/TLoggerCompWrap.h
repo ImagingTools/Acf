@@ -79,6 +79,9 @@ void TLoggerCompWrap<Base>::DecorateMessage(
 }
 
 
+typedef TLoggerCompWrap<icomp::CComponentBase> CLoggerComponentBase;
+
+
 } // namespace ibase
 
 

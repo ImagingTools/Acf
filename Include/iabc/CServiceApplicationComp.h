@@ -24,12 +24,12 @@ namespace iabc
 
 class CServiceApplicationComp:
 			public QObject,
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			public ibase::IApplication
 {
 	Q_OBJECT
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CServiceApplicationComp)
 		I_REGISTER_INTERFACE(ibase::IApplication)

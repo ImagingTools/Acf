@@ -20,11 +20,11 @@ namespace iqt
 	Store and load parameter as global settings.
 */
 class CSettingsSerializerComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			virtual public iser::IFileLoader
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CSettingsSerializerComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader)

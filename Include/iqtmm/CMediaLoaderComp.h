@@ -17,11 +17,11 @@ namespace iqtmm
 
 
 class CMediaLoaderComp:
-			public ibase::TLoggerCompWrap<icomp::CComponentBase>,
+			public ibase::CLoggerComponentBase,
 			virtual public iser::IFileLoader
 {
 public:
-	typedef ibase::TLoggerCompWrap<icomp::CComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMediaLoaderComp)
 		I_REGISTER_INTERFACE(iser::IFileLoader);
