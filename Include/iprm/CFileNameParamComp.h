@@ -40,8 +40,7 @@ private:
 	istd::CString m_path;
 
 	I_ATTR(istd::CString, m_defaultDirAttrPtr);
-	I_ATTR(bool, m_pathTypeAttrPtr);
-	I_ATTR(bool, m_isDirAttrPtr);
+	I_ATTR(int, m_pathTypeAttrPtr);
 };
 
 
