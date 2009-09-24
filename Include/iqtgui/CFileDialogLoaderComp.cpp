@@ -1,6 +1,7 @@
 #include "iqtgui/CFileDialogLoaderComp.h"
 
 
+// Qt includes
 #include <QObject>
 #include <QAction>
 #include <QFileDialog>
@@ -105,15 +106,23 @@ istd::CString CFileDialogLoaderComp::GetTypeDescription(const istd::CString* /*e
 
 // reimplemented (iser::IFileLoaderInfo)
 
-istd::CString CFileDialogLoaderComp::GetLastLoadFileName() const
+istd::CString CFileDialogLoaderComp::GetLastFilePath(OperationType operationType, PathType pathType) const
 {
-	return iqt::GetCString(m_lastOpenPath);
-}
+	switch (operationType){
+	case OT_LOAD:
+		return GetPathForType(m_lastOpenInfo, pathType);
 
+	case OT_SAVE:
+		return GetPathForType(m_lastSaveInfo, pathType);
 
-istd::CString CFileDialogLoaderComp::GetLastSaveFileName() const
-{
-	return iqt::GetCString(m_lastSavePath);
+	default:
+		if (!m_lastOpenInfo.filePath().isEmpty()){
+			return GetPathForType(m_lastOpenInfo, pathType);
+		}
+		else{
+			return GetPathForType(m_lastOpenInfo, pathType);
+		}
+	}
 }
 
 
@@ -181,6 +190,21 @@ int CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileLoader& loade
 
 // protected methods
 
+istd::CString CFileDialogLoaderComp::GetPathForType(const QFileInfo& fileInfo, PathType pathType) const
+{
+	switch (pathType){
+	case OT_FILENAME:
+		return iqt::GetCString(fileInfo.fileName());
+
+	case OT_DIR:
+		return iqt::GetCString(fileInfo.absolutePath());
+
+	default:
+		return iqt::GetCString(fileInfo.absoluteFilePath());
+	}
+}
+
+
 QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool isSaving, int& selectionIndex) const
 {
 	selectionIndex = -1;
@@ -209,7 +233,7 @@ QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool i
 			retVal = QFileDialog::getSaveFileName(
 						NULL,
 						QObject::tr("Enter file name"), 
-						m_lastSavePath,
+						m_lastSaveInfo.absolutePath(),
 						filterList,
 						&selectedFilter); 
 		}
@@ -217,7 +241,7 @@ QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool i
 			retVal = QFileDialog::getOpenFileName(
 						NULL,
 						QObject::tr("Select a file to open"),
-						m_lastOpenPath,
+						m_lastOpenInfo.absolutePath(),
 						filterList,
 						&selectedFilter);
 		}
@@ -229,10 +253,10 @@ QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool i
 
 	QFileInfo fileInfo(retVal);
 	if (isSaving){
-		m_lastSavePath = fileInfo.absolutePath();
+		m_lastSaveInfo = fileInfo;
 	}
 	else{
-		m_lastOpenPath = fileInfo.absolutePath();
+		m_lastOpenInfo = fileInfo;
 	}
 
 	return retVal;

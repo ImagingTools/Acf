@@ -3,7 +3,6 @@
 
 #include "istd/CClassInfo.h"
 
-#include "icomp/IRegistry.h"
 #include "icomp/IRegistriesManager.h"
 #include "icomp/CCompositeComponentContext.h"
 

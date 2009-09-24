@@ -2,6 +2,11 @@
 #define iqtgui_CFileDialogSerializerComp_included
 
 
+// Qt includes
+#include <QFileInfo>
+
+#include "istd/CString.h"
+
 #include "iser/IFileLoader.h"
 #include "iser/IFileLoaderInfo.h"
 
@@ -47,8 +52,7 @@ public:
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 	// reimplemented (iser::IFileLoaderInfo)
-	virtual istd::CString GetLastLoadFileName() const;
-	virtual istd::CString GetLastSaveFileName() const;
+	virtual istd::CString GetLastFilePath(OperationType operationType = OT_UNKNOWN, PathType pathType = PT_COMPLETE) const;
 
 	// static methods
 	/**
@@ -61,6 +65,7 @@ public:
 	static int AppendLoaderFilterList(const iser::IFileLoader& loader, int flags, QString& allExt, QString& result);
 
 protected:
+	istd::CString GetPathForType(const QFileInfo& fileInfo, PathType pathType) const;
 	virtual QString GetFileName(const istd::CString& filePath, bool isSaving, int& selectionIndex) const;
 
 	iser::IFileLoader* GetLoaderFor(const QString& filePath, int selectionIndex, int flags, bool beQuiet) const;
@@ -68,8 +73,8 @@ protected:
 private:
 	I_MULTIREF(iser::IFileLoader, m_loadersCompPtr);
 
-	mutable QString m_lastOpenPath;
-	mutable QString m_lastSavePath;
+	mutable QFileInfo m_lastOpenInfo;
+	mutable QFileInfo m_lastSaveInfo;
 };
 	  
 

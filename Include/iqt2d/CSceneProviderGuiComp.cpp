@@ -98,25 +98,27 @@ void CSceneProviderGuiComp::OnZoomDecrement()
 
 void CSceneProviderGuiComp::SwitchFullScreen()
 {
-	if (SceneView->isFullScreen()){
+	if (CompleteFrame->isFullScreen()){
 		if (m_savedParentWidgetPtr != NULL){
-			SceneView->setParent(m_savedParentWidgetPtr);
-			m_savedParentWidgetPtr->layout()->addWidget(SceneView);
+			CompleteFrame->setParent(m_savedParentWidgetPtr);
+			m_savedParentWidgetPtr->layout()->addWidget(CompleteFrame);
 		}
 		
 		m_savedParentWidgetPtr = NULL;
 
-		SceneView->showNormal();
+		BottomFrame->setVisible(m_sceneControllerGuiCompPtr.IsValid());
+
+		CompleteFrame->showNormal();
 
 		SceneView->setMatrix(m_savedViewTransform);
 	}
-
 	else{
-		m_savedParentWidgetPtr = SceneView->parentWidget();
+		m_savedParentWidgetPtr = CompleteFrame->parentWidget();
 		m_savedViewTransform = SceneView->matrix();
-		SceneView->setParent(NULL);
+		CompleteFrame->setParent(NULL);
 
-		SceneView->showFullScreen();
+		BottomFrame->setVisible(false);
+		CompleteFrame->showFullScreen();
 
 		OnFitToView();
 	}

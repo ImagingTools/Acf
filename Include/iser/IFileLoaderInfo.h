@@ -13,20 +13,29 @@ namespace iser
 
 
 /**
-	Provilde some information about file loader state.
+	Provide some information about file loader state.
 */
 class IFileLoaderInfo: virtual public istd::IPolymorphic
 {
 public:
+	enum OperationType
+	{
+		OT_UNKNOWN,
+		OT_LOAD,
+		OT_SAVE
+	};
+
+	enum PathType
+	{
+		PT_COMPLETE,
+		OT_FILENAME,
+		OT_DIR
+	};
+
 	/**
 		Returns the last opened file name.
 	*/
-	virtual istd::CString GetLastLoadFileName() const = 0;
-
-	/**
-		Returns the last saved file name.
-	*/
-	virtual istd::CString GetLastSaveFileName() const = 0;
+	virtual istd::CString GetLastFilePath(OperationType operationType = OT_UNKNOWN, PathType pathType = PT_COMPLETE) const = 0;
 };
 
 

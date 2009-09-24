@@ -9,6 +9,7 @@
 
 #include "istd/CClassInfo.h"
 
+#include "icomp/IRegistry.h"
 #include "icomp/IComponentContext.h"
 #include "icomp/CComponentBase.h"
 
@@ -77,13 +78,12 @@ private:
 	};
 
 	typedef std::map< std::string, ComponentInfo > ComponentMap;
-	typedef std::set<std::string> Ids;
 
 	mutable ComponentMap m_componentMap;
 
 	bool m_blockCreating;
 
-	mutable Ids m_autoInitElementIds;
+	mutable IRegistry::Ids m_autoInitElementIds;
 };
 
 
