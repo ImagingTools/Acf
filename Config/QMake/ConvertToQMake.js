@@ -39,7 +39,7 @@ function ProcessFolder(fileSystem, shell, folder, subPath, parentFolder, parentS
 {
 	var retVal = new String;
 
-	if (parentFolder != null){
+	if ((parentFolder != null) && (folder.Name.match("VC8") != null)){
 		var fileIter = new Enumerator(folder.files);
 		for (; !fileIter.atEnd(); fileIter.moveNext()){
 			var file = fileIter.item();
