@@ -27,7 +27,7 @@ void CCompositeComponent::BeginAutoInitBlock()
 bool CCompositeComponent::EndAutoInitBlock()
 {
 	I_ASSERT(m_isAutoInitBlockCount > 0);
-	if (m_isAutoInitBlockCount-- <= 0){
+	if (--m_isAutoInitBlockCount <= 0){
 		return EnsureAutoInitComponentsCreated();
 	}
 
@@ -124,6 +124,8 @@ void CCompositeComponent::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	m_blockCreating = false;
+
+	EnsureAutoInitComponentsCreated();
 }
 
 
@@ -163,8 +165,6 @@ IComponent* CCompositeComponent::GetSubcomponent(const std::string& componentId)
 			CreateSubcomponentInfo(componentId, componentInfo.contextPtr, componentInfo.componentPtr, true);
 
 			componentInfo.isInitialized = true;
-
-			EnsureAutoInitComponentsCreated();
 		}
 
 		return componentInfo.componentPtr.GetPtr();

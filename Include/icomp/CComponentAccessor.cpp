@@ -12,7 +12,8 @@ namespace icomp
 CComponentAccessor::CComponentAccessor(
 			const istd::CString& registryFile,
 			const istd::CString& configFile)
-:	m_registryFile(registryFile)
+:	m_registryFile(registryFile),
+	m_isAutoInitBlocked(false)
 {
 	if (m_registryFile.IsEmpty()){
 		m_registryFile = "default.arx";
@@ -32,6 +33,10 @@ CComponentAccessor::CComponentAccessor(
 				if (registryPtr != NULL){
 					static icomp::CRegistryElement dummyElement;
 					dummyElement.Initialize(staticInfoPtr);
+
+
+					m_composite.BeginAutoInitBlock();
+					m_isAutoInitBlocked = true;
 
 					static icomp::CCompositeComponentContext compositeContext(&dummyElement, registryPtr, registriesManagerPtr, NULL);
 					m_composite.SetComponentContext(&compositeContext, NULL, false);

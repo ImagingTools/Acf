@@ -28,13 +28,23 @@ private:
 	istd::CString m_registryFile;
 
 	icomp::TComponentWrap<icomp::CCompositeComponent> m_composite;
+
+	bool m_isAutoInitBlocked;
 };
 
 
 template <class InterfaceType>
 InterfaceType* CComponentAccessor::GetComponentInterface(const std::string& componentId)
 {
-	return m_composite.GetComponentInterface<InterfaceType>(componentId);
+	InterfaceType* interfacePtr = m_composite.GetComponentInterface<InterfaceType>(componentId);
+
+	if ((interfacePtr != NULL) && m_isAutoInitBlocked){
+		m_composite.EndAutoInitBlock();
+
+		m_isAutoInitBlocked = false;
+	}
+
+	return interfacePtr;
 }
 
 
