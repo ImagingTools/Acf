@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1037
+          1057
         </Number>
         <Description>
           ACF
@@ -30,26 +30,10 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="2">
-          <AttributeInfo>
-            <Id>
-              FreeComponent
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                FilePersistence
-              </Value>
-            </Data>
-          </AttributeInfo>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
               MainGui
@@ -86,6 +70,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
@@ -125,6 +112,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          1
+        </Flags>
         <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
@@ -200,6 +190,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>
@@ -218,6 +211,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>

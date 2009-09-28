@@ -28,6 +28,15 @@ public:
 
 	CCompositeComponent();
 
+	/**
+		Begin of blocking of automatic component initialization.
+	*/
+	void BeginAutoInitBlock();
+	/**
+		End of blocking of automatic component initialization.
+	*/
+	bool EndAutoInitBlock();
+
 	// reimplemented (icomp::IComponent)
 	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId = "");
 	virtual void SetComponentContext(
@@ -63,6 +72,8 @@ protected:
 				ComponentPtr& subComponentPtr,
 				bool isOwned) const;
 
+	bool EnsureAutoInitComponentsCreated() const;
+
 private:
 	struct ComponentInfo
 	{
@@ -83,7 +94,8 @@ private:
 
 	bool m_blockCreating;
 
-	mutable IRegistry::Ids m_autoInitElementIds;
+	mutable IRegistry::Ids m_autoInitComponentIds;
+	int m_isAutoInitBlockCount;
 };
 
 

@@ -134,14 +134,14 @@ bool CGuiComponentBase::eventFilter(QObject* obj, QEvent* event)
 			m_isGuiShown = true;
 			OnGuiShown();
 		}
-		break;
+		return true;
 
 	case QEvent::Hide:
 		if (m_isGuiShown){
 			m_isGuiShown = false;
 			OnGuiHidden();
 		}
-		break;
+		return true;
 
 	case QEvent::LanguageChange:
 		OnRetranslate();

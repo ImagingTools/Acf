@@ -7,10 +7,10 @@
           0
         </Id>
         <Number>
-          983
+          1057
         </Number>
         <Description>
-          ACF'
+          ACF
         </Description>
       </Version>
     </VersionInfos>
@@ -30,7 +30,10 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="2">
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -45,25 +48,6 @@
               <IsEnabled>
                 false
               </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              FreeComponent
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                DoxyfileCopy
-              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -83,6 +67,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          1
+        </Flags>
         <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
@@ -217,6 +204,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
@@ -273,6 +263,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>

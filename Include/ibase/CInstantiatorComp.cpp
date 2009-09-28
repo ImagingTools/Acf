@@ -15,8 +15,6 @@ void CInstantiatorComp::OnComponentCreated()
 	for (int i = 0; i < elementsCount; ++i){
 		m_instancesAttrPtr[i];
 	}
-
-	m_freeComponentCompPtr.IsValid();
 }
 
 

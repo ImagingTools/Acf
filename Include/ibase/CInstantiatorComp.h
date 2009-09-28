@@ -19,7 +19,6 @@ public:
 
 	I_BEGIN_COMPONENT(CInstantiatorComp)
 		I_ASSIGN_MULTI_0(m_instancesAttrPtr, "Instances", "List of instances will be created during instantiator is created", false)
-		I_ASSIGN(m_freeComponentCompPtr, "FreeComponent", "Free component initialization", false, "FreeComponent")
 	I_END_COMPONENT
 
 	// reimplemented (icomp::IComponent)
@@ -27,7 +26,6 @@ public:
 
 private:
 	I_MULTIREF(void*, m_instancesAttrPtr);
-	I_REF(void*, m_freeComponentCompPtr);
 };
 
 

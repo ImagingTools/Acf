@@ -12,8 +12,26 @@ namespace icomp
 
 
 CCompositeComponent::CCompositeComponent()
-:	m_blockCreating(true)
+:	m_blockCreating(true),
+	m_isAutoInitBlockCount(0)
 {
+}
+
+
+void CCompositeComponent::BeginAutoInitBlock()
+{
+	++m_isAutoInitBlockCount;
+}
+
+
+bool CCompositeComponent::EndAutoInitBlock()
+{
+	I_ASSERT(m_isAutoInitBlockCount > 0);
+	if (m_isAutoInitBlockCount-- <= 0){
+		return EnsureAutoInitComponentsCreated();
+	}
+
+	return false;
 }
 
 
@@ -78,7 +96,7 @@ void CCompositeComponent::SetComponentContext(
 {
 	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
 
-	m_autoInitElementIds.clear();
+	m_autoInitComponentIds.clear();
 
 	const CCompositeComponentContext* compositeContextPtr = dynamic_cast<const CCompositeComponentContext*>(contextPtr);
 	if (compositeContextPtr != NULL){
@@ -94,7 +112,7 @@ void CCompositeComponent::SetComponentContext(
 
 			I_DWORD flags = infoPtr->elementPtr->GetElementFlags();
 			if ((flags & IRegistryElement::EF_AUTO_INSTANCE) != 0){
-				m_autoInitElementIds.insert(elementId);
+				m_autoInitComponentIds.insert(elementId);
 			}
 		}
 	}
@@ -146,18 +164,7 @@ IComponent* CCompositeComponent::GetSubcomponent(const std::string& componentId)
 
 			componentInfo.isInitialized = true;
 
-			while (!m_autoInitElementIds.empty()){
-				std::string autoInitId = *m_autoInitElementIds.begin();
-
-				m_autoInitElementIds.erase(m_autoInitElementIds.begin());
-
-				ComponentInfo& autoInitInfo = m_componentMap[autoInitId];
-				if (!autoInitInfo.isInitialized){
-					CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, autoInitInfo.componentPtr, true);
-
-					autoInitInfo.isInitialized = true;
-				}
-			}
+			EnsureAutoInitComponentsCreated();
 		}
 
 		return componentInfo.componentPtr.GetPtr();
@@ -276,6 +283,25 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 	}
 
 	return subComponentPtr.IsValid();
+}
+
+
+bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
+{
+	while ((m_isAutoInitBlockCount <= 0) && !m_autoInitComponentIds.empty()){
+		std::string autoInitId = *m_autoInitComponentIds.begin();
+
+		m_autoInitComponentIds.erase(m_autoInitComponentIds.begin());
+
+		ComponentInfo& autoInitInfo = m_componentMap[autoInitId];
+		if (!autoInitInfo.isInitialized){
+			CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, autoInitInfo.componentPtr, true);
+
+			autoInitInfo.isInitialized = true;
+		}
+	}
+
+	return m_autoInitComponentIds.empty();
 }
 
 

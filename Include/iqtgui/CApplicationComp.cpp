@@ -8,11 +8,27 @@
 #include <QTextStream>
 #include <QFile>
 
+#include "icomp/CCompositeComponent.h"
 #include "iqt/CTimer.h"
 
 
 namespace iqtgui
 {
+
+
+// reimplemented (icomp::IComponent)
+
+void CApplicationComp::OnComponentCreated()
+{
+	icomp::IComponent* parentPtr = const_cast<icomp::IComponent*>(GetParentComponent(true));
+	icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
+
+	if (compositePtr != NULL){
+		compositePtr->BeginAutoInitBlock();
+	}
+
+	BaseClass::OnComponentCreated();
+}
 
 
 // reimplemented (iqtgui::IGuiApplication)
@@ -61,6 +77,13 @@ bool CApplicationComp::InitializeApplication(int argc, char** argv)
 		}
 
 		m_applicationPtr->setWindowIcon(icon);
+
+		icomp::IComponent* parentPtr = const_cast<icomp::IComponent*>(GetParentComponent(true));
+		icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
+
+		if (compositePtr != NULL){
+			compositePtr->EndAutoInitBlock();
+		}
 	}
 
 	return true;
@@ -123,8 +146,6 @@ int CApplicationComp::Execute(int argc, char** argv)
 		if (mainWidgetPtr != NULL){
 			mainWidgetPtr->show();
 		}
-
-		m_freeComponentCompPtr.IsValid();
 
 		if (mainWidgetPtr != NULL){
 			// start application loop:
