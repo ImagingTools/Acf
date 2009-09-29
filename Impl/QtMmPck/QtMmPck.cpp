@@ -15,6 +15,8 @@ I_EXPORT_PACKAGE("QtMm", "Qt multimedia package", "Qt Media Multimedia");
 
 I_EXPORT_COMPONENT(PhononVideoView, "Video widget based on Phonon library", "Phonon Qt Widget GUI Video Media Multimedia Play");
 I_EXPORT_COMPONENT(MediaLoader, "Loader for multimedia files", "Qt Video Medium Multimedia File Loader Play");
+I_EXPORT_COMPONENT(FrameSequenceViewer, "Frame sequence viewer", "Frame Sequence Qt Video Medium Multimedia File Loader Play");
+I_EXPORT_COMPONENT(PlaybackController, "Simple playback controller", "Play Controller Frame Sequence Qt Video Medium Multimedia File Loader Play");
 
 
 } // namespace QtMmPck

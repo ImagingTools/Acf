@@ -6,6 +6,8 @@
 
 #include "iqtmm/CPhononVideoViewGuiComp.h"
 #include "iqtmm/CMediaLoaderComp.h"
+#include "iqtmm/CFrameSequenceViewerGuiComp.h"
+#include "iqtmm/CPlaybackControllerGuiComp.h"
 
 
 /**
@@ -17,6 +19,8 @@ namespace QtMmPck
 
 typedef iqtmm::CPhononVideoViewGuiComp PhononVideoView;
 typedef iqtmm::CMediaLoaderComp MediaLoader;
+typedef icomp::TModelCompWrap<iqtmm::CFrameSequenceViewerGuiComp> FrameSequenceViewer;
+typedef iqtmm::CPlaybackControllerGuiComp PlaybackController;
 
 
 } // namespace QtMmPck
