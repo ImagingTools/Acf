@@ -31,6 +31,7 @@ public:
 		I_ASSIGN(m_styleSheetAttrPtr, "StyleSheet", "Style sheet for the GUI", false, "");
 		I_ASSIGN(m_iconPathAttrPtr, "IconPath", "file path for the application icon", false, "");
 		I_ASSIGN(m_titleFormatAttrPtr, "TitleFormat", "Describe format of title bar, use %1 as application name and %2 as company name", true, "%1");
+		I_ASSIGN(m_frameSpaceSizeAttrPtr, "FrameSpaceSize", "Number of pixels will be added on the all window sides", false, 9);
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IComponent)
@@ -55,6 +56,7 @@ private:
 	I_ATTR(istd::CString, m_styleSheetAttrPtr);
 	I_ATTR(istd::CString, m_iconPathAttrPtr);
 	I_ATTR(istd::CString, m_titleFormatAttrPtr);
+	I_ATTR(int, m_frameSpaceSizeAttrPtr);
 
 	istd::TDelPtr<QApplication> m_applicationPtr;
 };

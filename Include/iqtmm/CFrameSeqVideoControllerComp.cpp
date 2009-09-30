@@ -163,9 +163,9 @@ bool CFrameSeqVideoControllerComp::SetCurrentFrame(int frameIndex)
 	if (frameIndex != m_currentFrameIndex){
 		istd::CChangeNotifier notifier(this, CF_POSITION);
 
-		m_isFrameLoaded = LoadCurrentFrame();
-
 		m_currentFrameIndex = frameIndex;
+
+		m_isFrameLoaded = LoadCurrentFrame();
 	}
 
 	return m_isFrameLoaded;

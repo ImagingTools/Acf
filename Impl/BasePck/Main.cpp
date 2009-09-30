@@ -33,7 +33,11 @@ I_EXPORT_COMPONENT(FileNameParam, "Parameters for bitmap acquisition from file",
 
 I_EXPORT_COMPONENT(SingleDocumentTemplate, "Single document template for only one type of documents", "Single Document Template MVC");
 I_EXPORT_COMPONENT(CompositeDocumentTemplate, "Composite document template supporting more type of documents. It delegates document functionality to set of slave templates", "Composite Document Template MVC");
-I_EXPORT_COMPONENT(DocumentManagerListener, "Document workspace controller.", "Model Proxy Composite Document Template MVC");
+I_EXPORT_COMPONENT(DocumentManagerListener, "Document workspace controller", "Model Proxy Composite Document Template MVC");
+
+I_EXPORT_COMPONENT(ComposedAuthorizationVerifier, "Allows to combine many authorization versifiers.", "Authorization Verifier Composition Right Security");
+I_EXPORT_COMPONENT(FixedAuthorisationVerifier, "Authorization verifier with fixed rights", "Simple Authorization Verifier Fixed Right Security");
+I_EXPORT_COMPONENT(StaticUserLogin, "Authorization verifier delegating authorisation request depent on logged user", "User Login Authorization Verifier Right Security");
 
 I_EXPORT_COMPONENT(Line, "Line 2D object", "Line 2D Object Parameter");
 I_EXPORT_COMPONENT(Position2d, "Position 2D object", "Position 2D Object Parameter");

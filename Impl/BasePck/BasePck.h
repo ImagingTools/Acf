@@ -30,6 +30,10 @@
 #include "ibase/CFileCopyOverLoaderComp.h"
 #include "ibase/CCopyAppComp.h"
 
+#include "isec/CComposedAuthorizationVerifierComp.h"
+#include "isec/CFixedAuthorisationVerifierComp.h"
+#include "isec/CStaticUserLoginComp.h"
+
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
 #include "iprm/CComposedParamsSetComp.h"
@@ -78,6 +82,10 @@ typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 typedef icomp::TModelCompWrap<idoc::CDocumentManagerListenerComp> DocumentManagerListener;
+
+typedef icomp::TModelCompWrap<isec::CComposedAuthorizationVerifierComp> ComposedAuthorizationVerifier;
+typedef icomp::TModelCompWrap<isec::CFixedAuthorisationVerifierComp> FixedAuthorisationVerifier;
+typedef isec::CStaticUserLoginComp StaticUserLogin;
 
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<i2d::CPosition2d>,

@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1069
+          1070
         </Number>
         <Description>
           ACF
@@ -195,7 +195,26 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              FrameSpaceSize
+            </Id>
+            <Type>
+              icomp::TSingleAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                9
+              </Value>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               MainGui

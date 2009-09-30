@@ -13,6 +13,9 @@ namespace isec
 {
 
 
+/**
+	Allows to connect many authorisation versifiers into one.
+*/
 class CComposedAuthorizationVerifierComp:
 			public icomp::CComponentBase,
 			virtual public IAuthorizationVerifier,

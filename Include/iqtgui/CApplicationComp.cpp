@@ -7,6 +7,7 @@
 #include <QStyle>
 #include <QTextStream>
 #include <QFile>
+#include <QVBoxLayout>
 
 #include "icomp/CCompositeComponent.h"
 #include "iqt/CTimer.h"
@@ -117,9 +118,16 @@ int CApplicationComp::Execute(int argc, char** argv)
 
 		QWidget* mainWidgetPtr = NULL;
 		if (m_mainGuiCompPtr.IsValid()){
-			// create application's main widget:
-			m_mainGuiCompPtr->CreateGui(NULL);
-			mainWidgetPtr = m_mainGuiCompPtr->GetWidget();
+			if (m_frameSpaceSizeAttrPtr.IsValid()){
+				mainWidgetPtr = new QWidget();
+				new QVBoxLayout(mainWidgetPtr);
+				// create application's main widget:
+				m_mainGuiCompPtr->CreateGui(mainWidgetPtr);
+			}
+			else{
+				m_mainGuiCompPtr->CreateGui(NULL);
+				mainWidgetPtr = m_mainGuiCompPtr->GetWidget();
+			}
 
 			if (m_applicationInfoCompPtr.IsValid()){
 				QString format = iqt::GetQString(*m_titleFormatAttrPtr);

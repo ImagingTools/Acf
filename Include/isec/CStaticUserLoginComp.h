@@ -12,6 +12,10 @@ namespace isec
 {
 
 
+/**
+	Authorization verifier delegating authorisation request depent on logged user.
+	List of user and passwords is defined statically.
+*/
 class CStaticUserLoginComp:
 			public icomp::CComponentBase,
 			virtual public IAuthorizationVerifier,
