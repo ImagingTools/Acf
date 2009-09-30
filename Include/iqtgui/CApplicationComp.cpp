@@ -120,7 +120,10 @@ int CApplicationComp::Execute(int argc, char** argv)
 		if (m_mainGuiCompPtr.IsValid()){
 			if (m_frameSpaceSizeAttrPtr.IsValid()){
 				mainWidgetPtr = new QWidget();
-				new QVBoxLayout(mainWidgetPtr);
+				QVBoxLayout* frameLayout = new QVBoxLayout(mainWidgetPtr);
+
+				frameLayout->setMargin(*m_frameSpaceSizeAttrPtr);
+
 				// create application's main widget:
 				m_mainGuiCompPtr->CreateGui(mainWidgetPtr);
 			}

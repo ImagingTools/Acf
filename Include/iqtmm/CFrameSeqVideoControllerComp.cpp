@@ -216,7 +216,7 @@ bool CFrameSeqVideoControllerComp::LoadCurrentFrame()
 }
 
 
-// private slots:
+// private slots
 
 void CFrameSeqVideoControllerComp::OnTimerTick()
 {
