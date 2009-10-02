@@ -77,11 +77,11 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 #ifdef _DEBUG
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1400
-			return "DebugVC9";
+		return "DebugVC9";
 		#elif _MSC_VER >= 1300
-			return "DebugVC9";
+		return "DebugVC8";
 		#else
-			return "DebugVC";
+		return "DebugVC";
 		#endif
 	#else // _MSC_VER
 		return "DebugXCD";
@@ -89,16 +89,29 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 #else // _DEBUG
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1400
-			return "ReleaseVC9";
+		return "ReleaseVC9";
 		#elif _MSC_VER >= 1300
-			return "ReleaseVC8";
+		return "ReleaseVC8";
 		#else
-			return "ReleaseVC";
+		return "ReleaseVC";
 		#endif
 	#else // _MSC_VER
 		return "ReleaseXCD";
 	#endif // _MSC_VER
 #endif // _DEBUG
+	}
+	else if (varName == "CompilerName"){
+#ifdef _MSC_VER
+	#if _MSC_VER >= 1400
+		return "VC9";
+	#elif _MSC_VER >= 1300
+		return "VC8";
+	#else
+		return "VC";
+	#endif
+#else // _MSC_VER
+		return "XCD";
+#endif // _MSC_VER
 	}
 
 	QString varNameExt = varName + "=";

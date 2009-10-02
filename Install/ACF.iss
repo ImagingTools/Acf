@@ -2,6 +2,7 @@
 #define XALANDIR GetEnv("XALANDIR")
 #define ZLIBDIR GetEnv("ZLIBDIR")
 #define QTDIR GetEnv("QTDIR")
+#define EXTLIBDIR GetEnv("EXTLIBDIR")
 
 [Setup]
 AppVerName=$AcfProductName$ $AcfVersion:0$
@@ -9,7 +10,7 @@ AppVersion=$AcfVersion:0$
 AppPublisher=ImagingTools
 AppPublisherURL=http://www.imagingtools.de/
 AppName=ACF
-OutputBaseFilename=Setup_$AcfProductName$_v$AcfVersion:0$
+OutputBaseFilename=Setup_$AcfProductName$_v$AcfVersion:0$_$CompilerName$
 
 DefaultDirName={pf}\ImagingTools\$AcfProductName$_v$AcfVersion:0$
 WizardImageFile=..\..\Docs\Images\InstallerImage.bmp
@@ -25,10 +26,10 @@ LicenseFile=$LicensePath$
 
 [Files]
 Source: ..\Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
-Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\DebugVC8; Flags: recursesubdirs; Components: acfComp
-Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\ReleaseVC8; Flags: recursesubdirs; Components: acfComp
-Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\DebugVC8; Flags: recursesubdirs; Components: acfComp
-Source: ..\Microsoft.VC80.CRT\*; DestDir: {app}\Bin\ReleaseVC8; Flags: recursesubdirs; Components: acfComp
+Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\Debug$CompilerName$; Flags: recursesubdirs; Components: acfComp
+Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\Release$CompilerName$; Flags: recursesubdirs; Components: acfComp
+Source: {#EXTLIBDIR}\Microsoft\Redist\Debug$CompilerName$\*; DestDir: {app}\Bin\Debug$CompilerName$; Flags: recursesubdirs; Components: acfComp
+Source: {#EXTLIBDIR}\Microsoft\Redist\Release$CompilerName$\*; DestDir: {app}\Bin\Release$CompilerName$; Flags: recursesubdirs; Components: acfComp
 
 Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
 Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp
@@ -84,8 +85,8 @@ Name: zlibComp; Description: ZLib; Types: fullType customType
 Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 
 [Icons]
-Name: "{group}\Compositor"; Filename: {app}\Bin\ReleaseVC8\Compositor.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
-Name: "{group}\Compositor Mini"; Filename: {app}\Bin\ReleaseVC8\CompositorMini.exe; WorkingDir: {app}\Bin\ReleaseVC8; Components: acfComp
+Name: "{group}\Compositor"; Filename: {app}\Bin\Release$CompilerName$\Compositor.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
+Name: "{group}\Compositor Mini"; Filename: {app}\Bin\Release$CompilerName$\CompositorMini.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
 Name: "{group}\API Documentation"; Filename: {app}\Docs\TechnicalDoc\index.html; Components: acfComp
 
 [Tasks]
@@ -94,7 +95,7 @@ Name: AddAcfPath; Description: {cm:AddAcfPath}; Flags: checkedonce; Components: 
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "Path"; ValueData: "{olddata};{app}\ExtLib\Bin"; Flags: createvalueifdoesntexist; Tasks: AddExtPath
-Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "Path"; ValueData: "{olddata};{app}\Bin\ReleaseVC8"; Flags: createvalueifdoesntexist; Tasks: AddAcfPath
+Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "Path"; ValueData: "{olddata};{app}\Bin\Release$CompilerName$"; Flags: createvalueifdoesntexist; Tasks: AddAcfPath
 Root: HKCU; Subkey: "Environment"; ValueName: ACFDIR; ValueData: {app}; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
 Root: HKCU; Subkey: "Environment"; ValueName: XERCESDIR; ValueData: {app}\ExtLib\Xerces; ValueType: string; Flags: uninsdeletevalue; Components: xercesComp
 Root: HKCU; Subkey: "Environment"; ValueName: XALANDIR; ValueData: {app}\ExtLib\Xalan; ValueType: string; Flags: uninsdeletevalue; Components: xalanComp
@@ -104,5 +105,5 @@ Root: HKLM; Subkey: "SOFTWARE\\Classes\\.arx"; ValueType: string; ValueData: arx
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueData: "ACF Registry"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: EditFlags; ValueData: 0; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: BrowserFlags; ValueData: 8; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
-Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Open\\command"; ValueData: "{app}\\Bin\\ReleaseVC8\\Compositor.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
-Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Run\\command"; ValueData: "{app}\\Bin\\ReleaseVC8\\Acf.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Open\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Compositor.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Run\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Acf.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp

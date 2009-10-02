@@ -2,10 +2,10 @@ echo off
 
 echo Preparing ACF framework
 
-copy /Y %QTDIR%\bin\*.dll ..\Bin\ReleaseVC8
-copy /Y %QTDIR%\bin\*.dll ..\Bin\DebugVC8
-copy /Y ..\Bin\Info\*.xpc ..\Bin\ReleaseVC8
-copy /Y ..\Bin\Info\*.xpc ..\Bin\DebugVC8
+copy /Y %QTDIR%\bin\*.dll ..\Bin\Release%COMPILER_EXT%
+copy /Y %QTDIR%\bin\*.dll ..\Bin\Debug%COMPILER_EXT%
+copy /Y ..\Bin\Info\*.xpc ..\Bin\Release%COMPILER_EXT%
+copy /Y ..\Bin\Info\*.xpc ..\Bin\Debug%COMPILER_EXT%
 
 echo Preparing ACF framework done
 

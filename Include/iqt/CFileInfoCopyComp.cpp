@@ -175,6 +175,13 @@ bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& resu
 				return true;
 			}
 		}
+
+		QString variable = CFileSystem::FindVariableValue(tag);
+		if (!variable.isEmpty()){
+			result = variable;
+
+			return true;
+		}
 	}
 
 	return false;

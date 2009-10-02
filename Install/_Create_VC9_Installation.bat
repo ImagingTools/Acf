@@ -10,7 +10,10 @@ echo Removing old temporary scripts...
 rmdir /Q /S TempExcl
 :DelTempExclSkip
 
-set COMPILER_EXT=VC8
+mkdir Temp
+mkdir TempExcl
+
+set COMPILER_EXT=VC9
 
 call Rebuild.bat
 

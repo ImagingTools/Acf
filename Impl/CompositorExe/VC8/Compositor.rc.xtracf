@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "040704b0"
         BEGIN
-            VALUE "Comments", "Internal build version ($AcfRawVersion:0$), build on $AcfTimestamp$"
+            VALUE "Comments", "Internal build version ($AcfRawVersion:0$), build on $AcfTimestamp$ (VC8)"
             VALUE "CompanyName", "ImagingTools GbR"
             VALUE "FileDescription", "ACF Compositor"
             VALUE "FileVersion", "$AcfRcVersion:0$"
