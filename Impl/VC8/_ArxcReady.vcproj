@@ -29,15 +29,18 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
 				Name="SubVersionTransform"
 			/>
 			<Tool
-				Name="DeployCopy"
-				OutputDir="..\..\..\Bin\$(ConfigurationName)VC8"
-				InputDir="$(QTDIR)\bin"
+				Name="Arxc"
 			/>
 			<Tool
-				Name="Arxc"
+				Name="DeployCopy"
+				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				InputDir="$(QTDIR)\bin"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -61,15 +64,18 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
 				Name="SubVersionTransform"
 			/>
 			<Tool
-				Name="DeployCopy"
-				OutputDir="..\..\..\Bin\$(ConfigurationName)VC8"
-				InputDir="$(QTDIR)\bin"
+				Name="Arxc"
 			/>
 			<Tool
-				Name="Arxc"
+				Name="DeployCopy"
+				OutputDir="..\..\Bin\$(ConfigurationName)VC8"
+				InputDir="$(QTDIR)\bin"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
