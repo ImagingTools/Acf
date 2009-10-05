@@ -33,7 +33,7 @@
 			<Tool
 				Name="FileConvertCopy"
 				RegistryFile="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
-				ConfigFile="..\..\..\Config\AcfBaseOnly.xpc"
+				ConfigFile="..\..\..\Config\BaseOnly.xpc"
 				OutputDir="$(InputDir)\..\Generated"
 			/>
 			<Tool
@@ -46,7 +46,7 @@
 			/>
 			<Tool
 				Name="Arxc"
-				ConfigFile="$(ACFDIR)/Config/AcfCore.xpc"
+				ConfigFile="$(ACFDIR)/Config/Core.xpc"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -131,7 +131,7 @@
 			<Tool
 				Name="FileConvertCopy"
 				RegistryFile="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
-				ConfigFile="..\..\..\Config\AcfBaseOnly.xpc"
+				ConfigFile="..\..\..\Config\BaseOnly.xpc"
 				OutputDir="$(InputDir)\..\Generated"
 			/>
 			<Tool
@@ -144,7 +144,7 @@
 			/>
 			<Tool
 				Name="Arxc"
-				ConfigFile="$(ACFDIR)/Config/AcfCore.xpc"
+				ConfigFile="$(ACFDIR)/Config/Core.xpc"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"

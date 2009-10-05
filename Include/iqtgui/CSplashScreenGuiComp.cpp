@@ -87,7 +87,7 @@ void CSplashScreenGuiComp::OnGuiCreated()
 	}
 	CopyrightLabel->setVisible(m_copyrightTextAttrPtr.IsValid());
 
-	QSplashScreen* splashScreenPtr = dynamic_cast<QSplashScreen*>(GetWidget());
+	QSplashScreen* splashScreenPtr = GetQtWidget();
 	if (m_imagePathAttrPtr.IsValid() && (splashScreenPtr != NULL)){
 		QPixmap image(iqt::GetQString(*m_imagePathAttrPtr));
 		splashScreenPtr->setPixmap(image);

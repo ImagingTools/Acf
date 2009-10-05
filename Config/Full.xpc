@@ -6,7 +6,7 @@
   </AcfHeader>
   <ConfigFiles count ="1">
     <FilePath>
-      ./AcfCore.xpc
+      ./Core.xpc
     </FilePath>
   </ConfigFiles>
   <PackageDirs count="2">

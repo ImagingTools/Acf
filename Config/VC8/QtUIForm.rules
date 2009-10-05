@@ -31,7 +31,7 @@
 		<CustomBuildRule
 			Name="QT Moc Metafile"
 			DisplayName="QT Moc"
-			CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot; &quot;$(InputDir)/$(InputName).h&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+			CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot; &quot;$(InputDir)/$(InputName).h&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot; -D_WIN32"
 			Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
 			AdditionalDependencies="$(QTDIR)\bin\moc.exe;&quot;$(InputDir)/$(InputName).h&quot;"
 			FileExtensions="*.moc"
