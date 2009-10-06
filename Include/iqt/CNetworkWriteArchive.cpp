@@ -35,6 +35,8 @@ CNetworkWriteArchive::CNetworkWriteArchive(
 CNetworkWriteArchive::~CNetworkWriteArchive()
 {
 	Flush();
+
+	m_socket.disconnectFromHost();
 }
 
 

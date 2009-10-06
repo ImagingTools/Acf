@@ -40,7 +40,7 @@ bool CDockWidgetGuiComp::AddToMainWindow(QMainWindow& mainWindow)
 
 	QDockWidget* dockWidgetPtr = GetQtWidget();
 	if (dockWidgetPtr != NULL){
-		mainWindow.addDockWidget(area, dockWidgetPtr);
+		mainWindow.addDockWidget(area, dockWidgetPtr, orientation);
 
 		return true;
 	}
