@@ -4,27 +4,30 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ConfigFiles count ="7">
+  <ConfigFiles count ="8">
     <FilePath>
-      ../../Config/Full.xpc
+      Full.xpc
     </FilePath>
     <FilePath>
-      ../../../IACF/Config/Full.xpc
+      ../../IACF/Config/Full.xpc
     </FilePath>
     <FilePath>
-      ../../../Products/Gmg/Pdf2Pdf/Config/Core.xpc
+      ../../Products/Gmg/Pdf2Pdf/Config/Core.xpc
     </FilePath>
     <FilePath>
-      ../../../Products/Gmg/ProfileEditor/Config/Core.xpc
+      ../../Products/Gmg/ProfileEditor/Config/Core.xpc
     </FilePath>
     <FilePath>
-      ../../../Products/ImagingTools/Ipes/Config/Core.xpc
+      ../../Products/ImagingTools/Ipes/Config/Core.xpc
     </FilePath>
     <FilePath>
-      ../../../Products/TUBerlin/PersonaCounter/Config/Full.xpc
+      ../../Products/ImagingTools/BarKod/Config/Core.xpc
     </FilePath>
     <FilePath>
-      ../../../Products/Superwise/Config/Full.xpc
+      ../../Products/TUBerlin/PersonaCounter/Config/Full.xpc
+    </FilePath>
+    <FilePath>
+      ../../Products/Superwise/Config/Full.xpc
     </FilePath>
   </ConfigFiles>
   <PackageDirs count="0">

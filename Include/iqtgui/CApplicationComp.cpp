@@ -158,7 +158,27 @@ int CApplicationComp::Execute(int argc, char** argv)
 		}
 
 		if (mainWidgetPtr != NULL){
-			mainWidgetPtr->show();
+			int uiStartMode = 0;
+			if (m_uiStartModeAttrPtr.IsValid()){
+				uiStartMode = *m_uiStartModeAttrPtr;
+			}
+
+			switch (uiStartMode){
+				case 0:
+					mainWidgetPtr->show();
+					break;
+				case 1:
+					mainWidgetPtr->showFullScreen();
+					break;
+				case 2:
+					mainWidgetPtr->showMinimized();
+					break;
+				case 3:
+					mainWidgetPtr->showMaximized();
+					break;
+				default:
+					mainWidgetPtr->show();
+			}
 		}
 
 		if (mainWidgetPtr != NULL){

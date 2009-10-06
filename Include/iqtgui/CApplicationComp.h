@@ -37,6 +37,7 @@ public:
 		I_ASSIGN(m_iconPathAttrPtr, "IconPath", "file path for the application icon", false, "");
 		I_ASSIGN(m_titleFormatAttrPtr, "TitleFormat", "Describe format of title bar, use %1 as application name and %2 as company name", true, "%1");
 		I_ASSIGN(m_frameSpaceSizeAttrPtr, "FrameSpaceSize", "Number of pixels will be added on the all window sides", false, 9);
+		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
 	I_END_COMPONENT;
 
 	// reimplemented (icomp::IComponent)
@@ -62,6 +63,7 @@ private:
 	I_ATTR(istd::CString, m_iconPathAttrPtr);
 	I_ATTR(istd::CString, m_titleFormatAttrPtr);
 	I_ATTR(int, m_frameSpaceSizeAttrPtr);
+	I_ATTR(int, m_uiStartModeAttrPtr);
 
 	istd::TDelPtr<QApplication> m_applicationPtr;
 };
