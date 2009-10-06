@@ -1,2 +1,2 @@
-cd ../..
-./Config/VC9/ConvertFromVC8.js -q
+cd ..\..
+Config\VC9\ConvertFromVC8.js -q
