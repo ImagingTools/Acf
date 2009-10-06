@@ -14,8 +14,9 @@ CNetworkWriteArchive::CNetworkWriteArchive(
 			int port,
 			const QString& userName,
 			const QString& password,
-			const iser::IVersionInfo* versionInfoPtr)
-	:BaseClass(versionInfoPtr),
+			const iser::IVersionInfo* versionInfoPtr,
+			bool serializeHeader)
+	:BaseClass(versionInfoPtr, serializeHeader),
 	m_userName(userName),
 	m_password(password)
 {
@@ -31,31 +32,36 @@ CNetworkWriteArchive::CNetworkWriteArchive(
 }
 
 
-// reimplemented (iser::IArchive)
-
-bool CNetworkWriteArchive::ProcessData(void* dataPtr, int size)
+CNetworkWriteArchive::~CNetworkWriteArchive()
 {
-	if (size <= 0){
-		return true;
-	}
+	Flush();
+}
 
-	if (dataPtr == NULL){
-		return false;
-	}
 
-	if (m_socket.state() != QAbstractSocket::ConnectedState){
-		return false;
-	}
-
+bool CNetworkWriteArchive::Flush()
+{
 	QDataStream dataStream(&m_socket);
 
-	dataStream.writeBytes(reinterpret_cast<char*>(dataPtr), size);
+	dataStream << GetBufferSize();
+	dataStream.writeBytes(reinterpret_cast<const char*>(GetBuffer()), GetBufferSize());
 	
 	if (!m_socket.waitForBytesWritten()){
 		return false;
 	}
 
 	return m_socket.flush();
+}
+
+
+// reimplemented (iser::IArchive)
+
+bool CNetworkWriteArchive::ProcessData(void* dataPtr, int size)
+{
+	if (m_socket.state() != QAbstractSocket::ConnectedState){
+		return false;
+	}
+
+	return BaseClass::ProcessData(dataPtr, size);
 }
 
 

@@ -9,7 +9,6 @@
 #include "istd/TChangeNotifier.h"
 
 #include "iser/CMemoryReadArchive.h"
-#include "iser/CMemoryWriteArchive.h"
 
 #include "ibase/IApplication.h"
 

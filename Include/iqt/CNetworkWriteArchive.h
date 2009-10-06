@@ -8,25 +8,30 @@
 
 
 // ACF includes
-#include "iser/CBinaryWriteArchiveBase.h"
+#include "iser/CMemoryWriteArchive.h"
 
 
 namespace iqt
 {
 
 
-class CNetworkWriteArchive: public QObject, public iser::CBinaryWriteArchiveBase
+class CNetworkWriteArchive: public QObject, public iser::CMemoryWriteArchive
 {
 	Q_OBJECT
 public:
-	typedef iser::CBinaryWriteArchiveBase BaseClass;
+	typedef iser::CMemoryWriteArchive BaseClass;
 
 	CNetworkWriteArchive(
 				const QHostAddress& hostAddress,
 				int port,
 				const QString& userName = QString(),
 				const QString& password = QString(),
-				const iser::IVersionInfo* versionInfoPtr = NULL);
+				const iser::IVersionInfo* versionInfoPtr = NULL,
+				bool serializeHeader = true);
+
+	~CNetworkWriteArchive();
+
+	virtual bool Flush();
 
 	// reimplemented (iser::IArchive)
 	virtual bool ProcessData(void* dataPtr, int size);
