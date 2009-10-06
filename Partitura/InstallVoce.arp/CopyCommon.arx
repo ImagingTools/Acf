@@ -1362,7 +1362,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="8">
                 <Value>
                   Install
                 </Value>
@@ -1373,7 +1373,13 @@
                   Subversion
                 </Value>
                 <Value>
+                  VC7
+                </Value>
+                <Value>
                   VC8
+                </Value>
+                <Value>
+                  VC9
                 </Value>
                 <Value>
                   Xcd
