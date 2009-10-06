@@ -28,6 +28,16 @@ void CFileListProviderComp::OnComponentCreated()
 }
 
 
+void CFileListProviderComp::OnComponentDestroyed()
+{
+	if (m_dirParamModelCompPtr.IsValid() && m_dirParamModelCompPtr->IsAttached(this)){
+		m_dirParamModelCompPtr->DetachObserver(this);
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
 // reimplemented (ibase::IFileListProvider)
 
 const istd::CStringList& CFileListProviderComp::GetFileList() const

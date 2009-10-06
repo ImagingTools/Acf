@@ -45,6 +45,7 @@ public:
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 	// reimplemented (ibase::IFileListProvider)
 	virtual const istd::CStringList& GetFileList() const;
@@ -58,8 +59,8 @@ private:
 	I_REF(imod::IModel, m_dirParamModelCompPtr);
 	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 	I_MULTIATTR(istd::CString, m_filtersAttrPtr);
-	I_REF(int, m_minRecurDepthAttrPtr);
-	I_REF(int, m_maxRecurDepthAttrPtr);
+	I_ATTR(int, m_minRecurDepthAttrPtr);
+	I_ATTR(int, m_maxRecurDepthAttrPtr);
 
 	istd::CStringList m_fileList;
 };
