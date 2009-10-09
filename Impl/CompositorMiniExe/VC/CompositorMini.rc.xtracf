@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\VC8\resource.h"
+#include "..\VC\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -43,14 +43,14 @@ BEGIN
     BEGIN
         BLOCK "040704b0"
         BEGIN
-            VALUE "Comments", "Internal build version ($AcfRawVersion:0$), build on $AcfTimestamp$"
+            VALUE "Comments", "Internal build version ($AcfRawVersion:0$), build on $AcfTimestamp$ ($CompilerName$)"
             VALUE "CompanyName", "ImagingTools GbR"
-            VALUE "FileDescription", "ACF CompositorMini"
+            VALUE "FileDescription", "ACF Compositor Mini"
             VALUE "FileVersion", "$AcfRcVersion:0$"
             VALUE "InternalName", "CompositorMini"
             VALUE "LegalCopyright", "Copyright (C) 2009 ImagingTools GbR"
             VALUE "OriginalFilename", "CompositorMini.exe"
-            VALUE "ProductName", "ACF CompositorMini"
+            VALUE "ProductName", "ACF Compositor Mini"
             VALUE "ProductVersion", "$AcfRcVersion:0$"
         END
     END
@@ -68,7 +68,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "..\\..\\..\\Docs\\Images\\Logo\\Logo.ico"
+IDI_ICON1               ICON                    "..\\VC\\Logo.ico"
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 

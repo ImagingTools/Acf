@@ -233,7 +233,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\resource.h"
+				RelativePath="..\VC\resource.h"
 				>
 			</File>
 		</Filter>
@@ -252,11 +252,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Compositor.rc.xtracf"
+				RelativePath="..\VC\Compositor.rc.xtracf"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\Docs\Images\Logo\Logo.ico"
+				RelativePath="..\VC\Logo.ico"
 				>
 			</File>
 		</Filter>

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../iqtgui/iqtgui.qrc">
-    <normaloff>:/Icons/AcfLogoSmall</normaloff>:/Icons/AcfLogoSmall</iconset>
+    <normaloff>:/Icons/AcfLogo.svg</normaloff>:/Icons/AcfLogo.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>

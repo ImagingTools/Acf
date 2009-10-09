@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1102
+          1107
         </Number>
         <Description>
           ACF
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="10">
+        <AttributeInfoMap count="11">
           <AttributeInfo>
             <Id>
               AboutDescriptionText
@@ -138,6 +138,25 @@ This tool is a part of ACF project
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              IconPath
+            </Id>
+            <Type>
+              icomp::TSingleAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                :/Icons/CompositorIcon.svg
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               LogoPath
             </Id>
             <Type>
@@ -151,7 +170,7 @@ This tool is a part of ACF project
                 true
               </IsEnabled>
               <Value>
-                :/Icons/CompositorLogoBig
+                :/Icons/CompositorLogo.svg
               </Value>
             </Data>
           </AttributeInfo>

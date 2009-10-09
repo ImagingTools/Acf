@@ -428,7 +428,7 @@ bool CAttributeEditorComp::SetAttributeToItems(
 
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = elementPtr->GetAttributeInfo(attributeId);
 	if ((attributeInfoPtr != NULL) && !attributeInfoPtr->exportId.empty()){
-		attributeItem.setIcon(NameColumn, QIcon(":/Icons/Export"));
+		attributeItem.setIcon(NameColumn, QIcon(":/Icons/Export.svg"));
 		if (hasExportPtr != NULL){
 			*hasExportPtr = true;
 		}
@@ -710,7 +710,7 @@ void CAttributeEditorComp::UpdateExportIcon()
 
 				icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceInfo);
 				if (foundExportIter != interfacesMap.end()){
-					interfacesIcon = QIcon(":/Icons/Export");
+					interfacesIcon = QIcon(":/Icons/Export.svg");
 
 					break;
 				}
@@ -727,7 +727,7 @@ void CAttributeEditorComp::UpdateExportIcon()
 				std::string restId;
 				icomp::CInterfaceManipBase::SplitId(componentIter->second, componentId, restId);
 				if (componentId == elementName){
-					componentsIcon = QIcon(":/Icons/Export");
+					componentsIcon = QIcon(":/Icons/Export.svg");
 
 					break;
 				}

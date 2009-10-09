@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1102
+          1107
         </Number>
         <Description>
           ACF
@@ -43,10 +43,10 @@
         BitmapLoader
       </ComponentName>
       <X>
-        -852
+        -657
       </X>
       <X>
-        -623
+        -544
       </X>
     </Element>
     <Element>
@@ -54,10 +54,10 @@
         ComposedImageLoader
       </ComponentName>
       <X>
-        -608
+        -609
       </X>
       <X>
-        -543
+        -508
       </X>
     </Element>
     <Element>

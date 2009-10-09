@@ -14,7 +14,8 @@ namespace iqt2d
 // public methods
 
 CSceneProviderGuiComp::CSceneProviderGuiComp()
-:	m_isFullScreenMode(true),
+:	m_fitMode(FM_NONE),
+	m_isFullScreenMode(true),
 	m_isZoomIgnored(false),
 	m_fitToViewCommand("&Fit Contents To View"),
 	m_resetZoomCommand("&Reset Zoom"),

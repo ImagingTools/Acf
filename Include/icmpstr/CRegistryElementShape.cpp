@@ -72,6 +72,23 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 					m_image);
 	}
 
+	I_DWORD elementFlags = objectPtr->GetElementFlags();
+	if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
+		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
+
+		QRectF iconRect(
+					mainRect.right() - minSideSize * 0.5,
+					minSideSize * 0.5,
+					minSideSize * 0.4,
+					minSideSize * 0.4);
+		QRectF worldIconRect = painterPtr->worldTransform().mapRect(iconRect);
+		QSize iconSize(istd::Min(256, int(worldIconRect.width())), istd::Min(256, int(worldIconRect.height())));
+		painterPtr->drawPixmap(
+					iconRect,
+					QIcon(":/Icons/AutoInit.svg").pixmap(iconSize),
+					QRectF(0, 0, iconSize.width(), iconSize.height()));
+	}
+
 	const icomp::IComponentStaticInfo& info = objectPtr->GetComponentStaticInfo();
 	if (dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(&info) != NULL){
 		QRectF compositeRect = mainRect;
@@ -81,12 +98,18 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 
 	if (!m_exportedInterfacesList.empty()){
 		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
+
+		QRectF iconRect(
+					mainRect.right() - minSideSize * 0.5,
+					minSideSize * 0.1,
+					minSideSize * 0.4,
+					minSideSize * 0.4);
+		QRectF worldIconRect = painterPtr->worldTransform().mapRect(iconRect);
+		QSize iconSize(istd::Min(256, int(worldIconRect.width())), istd::Min(256, int(worldIconRect.height())));
 		painterPtr->drawPixmap(
-					int(mainRect.right() - minSideSize * 0.4),
-					int(minSideSize * 0.1),
-					int(minSideSize * 0.3),
-					int(minSideSize * 0.3),
-					QIcon(":/Icons/Export").pixmap(128, 128));
+					iconRect,
+					QIcon(":/Icons/Export.svg").pixmap(iconSize),
+					QRectF(0, 0, iconSize.width(), iconSize.height()));
 	}
 
 	mainRect.adjust(10, 10, 0, 0);

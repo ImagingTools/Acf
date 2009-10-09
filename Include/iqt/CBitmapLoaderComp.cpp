@@ -131,10 +131,15 @@ bool CBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, int /*flags
 		result.clear();
 	}
 
-	result.push_back("bmp");
-	result.push_back("png");
-	result.push_back("jpg");
-	result.push_back("jpeg");
+	QList<QByteArray> formatList = QImageReader::supportedImageFormats();
+
+	for (		QList<QByteArray>::const_iterator iter = formatList.begin();
+				iter != formatList.end();
+				++iter){
+		const QByteArray& format = *iter;
+
+		result.push_back(iqt::GetCString(QString(format)));
+	}
 
 	return true;
 }

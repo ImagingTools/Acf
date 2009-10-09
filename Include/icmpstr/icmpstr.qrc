@@ -6,8 +6,9 @@
     <file alias="Ok">Resources/Icons/ok_64.png</file>
     <file alias="Invalid">Resources/Icons/close_a_128.png</file>
     <file alias="Back">Resources/Icons/back_128.png</file>
-    <file alias="Export">Resources/Icons/Export.png</file>
-    <file alias="Anchor">Resources/Icons/Anchor_64.png</file>
-    <file alias="CompositorLogoBig">Resources/Icons/CompositorLogo3d.png</file>
+    <file alias="Export.svg">Resources/Icons/Export.svg</file>
+    <file alias="AutoInit.svg">Resources/Icons/Anchor.svg</file>
+    <file alias="CompositorLogo.svg">Resources/Icons/CompositorLogo.svg</file>
+    <file alias="CompositorIcon.svg">Resources/Icons/CompositorIcon.svg</file>
   </qresource>
 </RCC>

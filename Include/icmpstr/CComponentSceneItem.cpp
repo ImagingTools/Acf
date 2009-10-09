@@ -267,22 +267,32 @@ void CComponentSceneItem::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
 		I_DWORD elementFlags = m_elementInfoPtr->elementPtr->GetElementFlags();
 		if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
+			QRectF iconRect(
+						mainRect.right() - minSideSize * 0.5,
+						minSideSize * 0.5,
+						minSideSize * 0.4,
+						minSideSize * 0.4);
+			QRectF worldIconRect = painter->worldTransform().mapRect(iconRect);
+			QSize iconSize(istd::Min(256, int(worldIconRect.width())), istd::Min(256, int(worldIconRect.height())));
 			painter->drawPixmap(
-						int(mainRect.right() - minSideSize * 0.4),
-						int(minSideSize * 0.6),
-						int(minSideSize * 0.3),
-						int(minSideSize * 0.3),
-						QIcon(":/Icons/Anchor").pixmap(128, 128));
+						iconRect,
+						QIcon(":/Icons/AutoInit.svg").pixmap(iconSize),
+						QRectF(0, 0, iconSize.width(), iconSize.height()));
 		}
 	}
 
 	if (!m_exportedInterfacesList.empty()){
+		QRectF iconRect(
+					mainRect.right() - minSideSize * 0.5,
+					minSideSize * 0.1,
+					minSideSize * 0.4,
+					minSideSize * 0.4);
+		QRectF worldIconRect = painter->worldTransform().mapRect(iconRect);
+		QSize iconSize(istd::Min(256, int(worldIconRect.width())), istd::Min(256, int(worldIconRect.height())));
 		painter->drawPixmap(
-					int(mainRect.right() - minSideSize * 0.4),
-					int(minSideSize * 0.1),
-					int(minSideSize * 0.3),
-					int(minSideSize * 0.3),
-					QIcon(":/Icons/Export").pixmap(128, 128));
+					iconRect,
+					QIcon(":/Icons/Export.svg").pixmap(iconSize),
+					QRectF(0, 0, iconSize.width(), iconSize.height()));
 	}
 
 	mainRect.adjust(10, 10, 0, 0);
