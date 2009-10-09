@@ -13,9 +13,35 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="Logo.svg"
+   sodipodi:docname="AcfLogo.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="181.61072"
+     inkscape:cy="54.054689"
+     inkscape:document-units="px"
+     inkscape:current-layer="svg2"
+     showgrid="true"
+     inkscape:snap-global="false"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1134"
+     inkscape:window-x="0"
+     inkscape:window-y="26">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3176"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
   <defs
      id="defs4">
     <inkscape:perspective
@@ -47,32 +73,6 @@
        inkscape:vp_x="0 : 495 : 1"
        sodipodi:type="inkscape:persp3d" />
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="181.61072"
-     inkscape:cy="54.054689"
-     inkscape:document-units="px"
-     inkscape:current-layer="g3293"
-     showgrid="true"
-     inkscape:snap-global="false"
-     showguides="false"
-     inkscape:guide-bbox="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1134"
-     inkscape:window-x="0"
-     inkscape:window-y="26">
-    <inkscape:grid
-       type="xygrid"
-       id="grid3176"
-       visible="true"
-       enabled="true" />
-  </sodipodi:namedview>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -116,7 +116,7 @@
         <path
            id="path3309"
            d="M 305.254,31.63 C 319.015,31.63 330.17,19.951 330.17,5.545 C 330.17,-8.861 319.015,-20.54 305.254,-20.54 C 291.493,-20.54 280.339,-8.861 280.339,5.546 C 280.339,19.953 291.494,31.63 305.254,31.63 z"
-           style="fill:#99ccff;fill-opacity:1;stroke:#000000;stroke-width:20" />
+           style="fill:#7ca6cf;fill-opacity:1;stroke:#000000;stroke-width:20" />
       </g>
       <g
          id="g3311"
