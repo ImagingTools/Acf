@@ -27,7 +27,7 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 
 			int framesCount = objectPtr->GetFramesCount();
 			if (framesCount > 1){
-				PositionSlider->setMaximum(framesCount);
+				PositionSlider->setMaximum(framesCount - 1);
 				PositionSlider->setEnabled(true);
 			}
 			else{
@@ -118,7 +118,14 @@ void CPlaybackControllerGuiComp::OnTimerTick()
 		if (framesCount > 0){
 			int currentFrameIndex = objectPtr->GetCurrentFrame();
 			I_ASSERT(currentFrameIndex < framesCount);
-			objectPtr->SetCurrentFrame((currentFrameIndex + 1) % framesCount);
+			int nextCurrentFrameIndex = RepeatButton->isChecked() ? (currentFrameIndex + 1) % framesCount : currentFrameIndex + 1;
+			if (nextCurrentFrameIndex < framesCount){
+				objectPtr->SetCurrentFrame(nextCurrentFrameIndex);
+			}
+			else{
+				objectPtr->SetPlaying(false);
+				objectPtr->SetCurrentFrame(0);
+			}
 		}
 	}
 }

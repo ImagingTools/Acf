@@ -6,7 +6,7 @@ namespace iqt
 {
 	
 	
-// reimplemented (icomp::IRegistryLoaderProvider)
+// reimplemented (iqt::ISettingsProvider)
 
 QSettings& CIniSettingsProviderComp::GetSettings() const
 {

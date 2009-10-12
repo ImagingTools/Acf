@@ -43,6 +43,29 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QPushButton" name="RepeatButton" >
+     <property name="text" >
+      <string/>
+     </property>
+     <property name="icon" >
+      <iconset resource="../iqtgui/iqtgui.qrc" >
+       <normaloff>:/Icons/Redo</normaloff>:/Icons/Redo</iconset>
+     </property>
+     <property name="iconSize" >
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="checkable" >
+      <bool>true</bool>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources>
