@@ -2,11 +2,11 @@
 #define iqtgui_CLayoutGuiComp_included
 
 
-#include "iqtgui.h"
+// Qt includes
+#include <QWidget>
 
 
-#include <QTabWidget>
-
+// ACF includes
 #include "iqtgui/TGuiComponentBase.h"
 
 #include "iqtgui/IIconProvider.h"
