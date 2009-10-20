@@ -111,19 +111,19 @@ void CGuiComponentBase::OnGuiDestroyed()
 
 // reimplemented (QObject)
 
-bool CGuiComponentBase::eventFilter(QObject* obj, QEvent* event)
+bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
 	QWidget* widgetPtr = GetWidget();
-	if (obj != widgetPtr || widgetPtr == NULL){
+	if ((sourcePtr != widgetPtr) || (widgetPtr == NULL)){
 		return false;
 	}
 
-	switch (event->type()){
+	switch (eventPtr->type()){
 	case QEvent::Close:
 		bool ignoreClose;
 		OnTryClose(&ignoreClose);
 		if (ignoreClose){
-			event->ignore();
+			eventPtr->ignore();
 
 			return true;
 		}

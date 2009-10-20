@@ -126,7 +126,7 @@ protected:
 	virtual void OnGuiDestroyed();
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* obj, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
 signals:
 	void zoomChanged(double);

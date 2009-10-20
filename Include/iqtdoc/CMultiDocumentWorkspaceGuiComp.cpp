@@ -231,10 +231,10 @@ void CMultiDocumentWorkspaceGuiComp::OnViewsCountChanged()
 
 // reimplemented (QObject)
 
-bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
+bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	if (event->type() == QEvent::Close){
-		const QWidget* widgetPtr = dynamic_cast<const QWidget*>(obj);
+	if (eventPtr->type() == QEvent::Close){
+		const QWidget* widgetPtr = dynamic_cast<const QWidget*>(sourcePtr);
 		if (widgetPtr != NULL){
 			iqtgui::IGuiObject* guiObjectPtr = GetViewFromWidget(*widgetPtr);
 			if (guiObjectPtr != NULL){
@@ -249,12 +249,12 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* obj, QEvent* event)
 			}
 		}
 
-		event->ignore();
+		eventPtr->ignore();
 
 		return true;
 	}
 
-	return false;
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

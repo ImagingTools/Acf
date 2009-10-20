@@ -34,7 +34,6 @@ HEADERS += ../IContainerInfo.h
 HEADERS += ../IDuplicatable.h
 HEADERS += ../IEnableable.h
 HEADERS += ../IFactoryInfo.h
-HEADERS += ../IFileSystemObserver.h
 HEADERS += ../ILogger.h
 HEADERS += ../INamed.h
 HEADERS += ../IPolymorphic.h

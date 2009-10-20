@@ -31,7 +31,7 @@ public:
 		Constructs a list of directories in a given root directory \c root.
 		All filters which are installed in \c root, are applied.
 		\sa Create()
-		\param	minRecursionDepth	minimal recursion depth.
+		\param	minRecursionDepth	minimal recursion depth. If it is 0, root will be included.
 		\param	maxRecursionDepth	maximal recursion depth, if negative no depth is specified.
 	*/
 	CDirList(	QObject* parent,
@@ -42,7 +42,7 @@ public:
 	/**
 		\overload
 		Several filters can be applied to the QDir object before call of this function.
-		\param	minRecursionDepth	minimal recursion depth.
+		\param	minRecursionDepth	minimal recursion depth. If it is 0, root will be included.
 		\param	maxRecursionDepth	maximal recursion depth, if negative no depth is specified.
 	*/
 	bool Create(const QDir& root,

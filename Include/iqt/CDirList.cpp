@@ -48,10 +48,6 @@ bool CDirList::Create(
 		return false;
 	}
 
-	if (minRecursionDepth == 0){
-		push_back(rootPath);
-	}
-	
 	DoSearch(root, minRecursionDepth, maxRecursionDepth);
 
 	return true;
@@ -65,28 +61,28 @@ void CDirList::DoSearch(
 			int minRecursionDepth,
 			int maxRecursionDepth)
 {
-	QStringList entries = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+	if (minRecursionDepth <= 0){
+		QString rootPath = root.absolutePath();
 
+		push_back(rootPath);
+
+		emit currentDir(rootPath);
+	}
+
+	if (maxRecursionDepth == 0){
+		return;
+	}
+
+	QStringList entries = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
 	for (		QStringList::const_iterator iter = entries.begin();
 				iter != entries.end();
 				++iter){
 		const QString& subDirName = *iter;
 
-		QString subDirPath = root.absoluteFilePath(subDirName);
+		QDir subDir = root;
+		subDir.setPath(root.absoluteFilePath(subDirName));
 
-		if (minRecursionDepth <= 0){
-			push_back(subDirPath);
-
-			emit currentDir(subDirPath);
-		}
-
-		if (maxRecursionDepth != 0){
-			QDir subDir = root;
-
-			subDir.setPath(subDirPath);
-			
-			DoSearch(subDir, minRecursionDepth - 1, maxRecursionDepth - 1);
-		}
+		DoSearch(subDir, minRecursionDepth - 1, maxRecursionDepth - 1);
 	}
 }
 

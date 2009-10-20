@@ -32,25 +32,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
 				Name="Arxc"
 			/>
 			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Moc Metafile"
-			/>
-			<Tool
-				Name="Copy"
+				Name="DeployCopy"
 			/>
 			<Tool
 				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -113,25 +116,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
 				Name="Arxc"
 			/>
 			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Moc Metafile"
-			/>
-			<Tool
-				Name="Copy"
+				Name="DeployCopy"
 			/>
 			<Tool
 				Name="SubVersionTransform"
+			/>
+			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -200,6 +206,10 @@
 			</File>
 			<File
 				RelativePath="..\CApplicationComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CComposedGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -282,6 +292,10 @@
 			</File>
 			<File
 				RelativePath="..\CApplicationComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComposedGuiComp.h"
 				>
 			</File>
 			<File

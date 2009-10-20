@@ -19,6 +19,7 @@
 #include "iqtgui/CLoginGuiComp.h"
 #include "iqtgui/CApplicationComp.h"
 #include "iqtgui/CSplashScreenGuiComp.h"
+#include "iqtgui/CComposedGuiComp.h"
 #include "iqtgui/CLogGuiComp.h"
 #include "iqtgui/CIconProviderComp.h" 
 #include "iqtgui/CFileDialogLoaderComp.h"
@@ -84,12 +85,13 @@ typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CIniSettingsProviderComp IniSettingsProvider;
 typedef iqt::CFileInfoCopyComp FileInfoCopy;
 typedef iqt::CCopyProcessorComp CopyProcessor;
-typedef iqt::CFileListProviderComp FileListProvider;
+typedef icomp::TModelCompWrap<iqt::CFileListProviderComp> FileListProvider;
 
 typedef iqtgui::CLoginGuiComp LoginGui;
 typedef iqtgui::CApplicationComp GuiApplication;
 typedef iqtgui::CSplashScreenGuiComp SplashScreen;
 typedef icomp::TModelCompWrap<iqtgui::CLogGuiComp> Log;
+typedef iqtgui::CComposedGuiComp ComposedGui;
 typedef iqtgui::CIconProviderComp IconProvider;
 typedef iqtgui::CFileDialogLoaderComp FileDialogLoader;
 typedef iqtgui::CDockWidgetGuiComp DockWidgetGui;

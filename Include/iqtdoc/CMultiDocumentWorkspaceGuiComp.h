@@ -97,7 +97,7 @@ protected:
 	void OnViewsCountChanged();
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* obj, QEvent* event);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
 	// reimplemented (TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings);

@@ -88,7 +88,7 @@ protected:
 	QIcon GetIconFromPath(const QString& iconPath) const;
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* eventObject, QEvent* event);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();

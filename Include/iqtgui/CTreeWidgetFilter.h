@@ -30,7 +30,7 @@ public:
 
 protected:
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* obj, QEvent* event);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
 private:
 	QTreeWidget& m_slave;

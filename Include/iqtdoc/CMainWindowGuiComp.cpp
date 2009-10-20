@@ -736,22 +736,26 @@ void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateP
 
 // reimplemented (QObject)
 
-bool CMainWindowGuiComp::eventFilter(QObject* /*sourcePtr*/, QEvent* eventPtr)
+bool CMainWindowGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
 	if (eventPtr->type() == QEvent::DragEnter){
 		QDragEnterEvent* dragEnterEventPtr = dynamic_cast<QDragEnterEvent*>(eventPtr);
 		I_ASSERT(dragEnterEventPtr != NULL);
 
 		OnDragEnterEvent(dragEnterEventPtr);
+
+		return true;
 	}
 	else if(eventPtr->type() == QEvent::Drop){
 		QDropEvent* dropEventPtr = dynamic_cast<QDropEvent*>(eventPtr);
 		I_ASSERT(dropEventPtr != NULL);
 
 		OnDropEvent(dropEventPtr);
+
+		return true;
 	}
 
-	return false;
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

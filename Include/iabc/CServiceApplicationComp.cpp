@@ -136,7 +136,7 @@ istd::CString CServiceApplicationComp::GetHelpText() const
 
 // reimplemented (QObject)
 	
-bool CServiceApplicationComp::eventFilter(QObject* sourceObject, QEvent* eventPtr)
+bool CServiceApplicationComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
 	I_ASSERT(m_applicationCompPtr.IsValid());
 	iqtgui::IGuiApplication* guiAppPtr = dynamic_cast<iqtgui::IGuiApplication*>(m_applicationCompPtr.GetPtr());
@@ -147,7 +147,7 @@ bool CServiceApplicationComp::eventFilter(QObject* sourceObject, QEvent* eventPt
 			I_ASSERT(widgetPtr != NULL);
 
 			// prevent closing of the main widget:
-			if ((widgetPtr == sourceObject) && eventPtr->type() == QEvent::Close){
+			if ((widgetPtr == sourcePtr) && eventPtr->type() == QEvent::Close){
 				eventPtr->ignore();
 
 				widgetPtr->hide();

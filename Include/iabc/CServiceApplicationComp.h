@@ -50,7 +50,7 @@ public:
 	virtual istd::CString GetHelpText() const;
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* sourceObject, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
 protected Q_SLOTS:
 	void OnTrayIconActivated(QSystemTrayIcon::ActivationReason reason);

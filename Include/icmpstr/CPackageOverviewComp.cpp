@@ -381,9 +381,9 @@ QIcon CPackageOverviewComp::GetIconFromPath(const QString& iconPath) const
 
 // reimplemented (QObject)
 
-bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
+bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(eventObject);
+	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(sourcePtr);
 	I_ASSERT(sourceWidgetPtr != NULL);
 
 	QTreeWidget* treeWidgetPtr = NULL;
@@ -395,10 +395,10 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 		treeWidgetPtr = KeywordsList;
 	}
 
-	switch (event->type()){
+	switch (eventPtr->type()){
 	case QEvent::MouseButtonPress:
 		{
-			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
 			I_ASSERT(mouseEvent != NULL);
 
 			if (mouseEvent->button() == Qt::LeftButton && treeWidgetPtr != NULL){
@@ -432,7 +432,7 @@ bool CPackageOverviewComp::eventFilter(QObject* eventObject, QEvent* event)
 		break;
 	}
 
-	return false;
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

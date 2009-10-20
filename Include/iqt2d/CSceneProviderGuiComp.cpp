@@ -408,35 +408,34 @@ void CSceneProviderGuiComp::OnGuiDestroyed()
 
 // reimplemented (QObject)
 
-bool CSceneProviderGuiComp::eventFilter(QObject* obj, QEvent* eventPtr)
+bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	if (!IsGuiCreated()){
-		return QObject::eventFilter(obj, eventPtr);
+	if ((sourcePtr != SceneView) && (sourcePtr != m_scenePtr)){
+		return BaseClass::eventFilter(sourcePtr, eventPtr);
 	}
 
-	if (obj != SceneView && obj != m_scenePtr){
-		return QObject::eventFilter(obj, eventPtr);
+	if (IsGuiCreated()){
+		switch(eventPtr->type()){
+			case QEvent::MouseButtonDblClick:
+			case QEvent::GraphicsSceneMouseDoubleClick:
+				OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(eventPtr));
+				return true;
+
+			case QEvent::KeyRelease:
+				OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(eventPtr));
+				break;
+
+			case QEvent::Resize:
+				OnResize(dynamic_cast<QResizeEvent*>(eventPtr));
+				break;
+
+			case QEvent::GraphicsSceneWheel:
+				OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr));
+				return true;
+		}
 	}
 
-	switch(eventPtr->type()){
-		case QEvent::MouseButtonDblClick:
-		case QEvent::GraphicsSceneMouseDoubleClick:
-			OnMouseDoubleClickEvent(dynamic_cast<QMouseEvent*>(eventPtr));
-			break;
-		case QEvent::KeyRelease:
-			OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(eventPtr));
-			break;
-
-		case QEvent::Resize:
-			OnResize(dynamic_cast<QResizeEvent*>(eventPtr));
-			break;
-
-		case QEvent::GraphicsSceneWheel:
-			OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr));
-			break;
-	}
-
-	return QObject::eventFilter(obj, eventPtr);
+	return false;
 }
 
 
