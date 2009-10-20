@@ -926,9 +926,6 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 			int propertyMining,
 			QWidget& editor) const
 {
-	icomp::IRegistryElement* elementPtr = m_parent.GetRegistryElement();
-	I_ASSERT(elementPtr != NULL);
-
 	const iser::ISerializable* attributePtr = NULL;
 
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = m_parent.GetRegistryAttribute(attributeId);
