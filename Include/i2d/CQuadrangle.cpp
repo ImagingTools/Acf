@@ -122,8 +122,10 @@ void CQuadrangle::MoveTo(const CVector2d& position)
 {
 	istd::CChangeNotifier changePtr(this);
 
-	m_firstDiagonal.MoveTo(position);
-	m_secondDiagonal.MoveTo(position);
+	CVector2d delta = position - GetCenter();
+
+	m_firstDiagonal.MoveTo(delta + m_firstDiagonal.GetCenter());
+	m_secondDiagonal.MoveTo(delta + m_secondDiagonal.GetCenter());
 }
 
 
