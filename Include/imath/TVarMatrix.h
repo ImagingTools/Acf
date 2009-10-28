@@ -8,7 +8,7 @@
 #include "istd/TArray.h"
 #include "istd/CIndex2d.h"
 
-#include "imath/imath.h"
+#include "imath/TVarVector.h"
 
 
 namespace imath
@@ -36,6 +36,11 @@ public:
 		Create matrix with specified size.
 	*/
 	TVarMatrix<Element>(istd::CIndex2d size);
+
+	/**
+		Create matrix from vector.
+	*/
+	TVarMatrix<Element>(const TVarVector<Element>& vector, bool isTransposed = false);
 
 	/**
 		Set all matrix cells to zero.
@@ -141,6 +146,15 @@ public:
 		Solve linear Least Square Problem for equation Ax = y, where A is a N * M matrix, N >= M.
 	 */
 	bool GetSolvedLSP(const TVarMatrix<Element>& vector, TVarMatrix<Element>& result, Element minHhNorm = I_BIG_EPSILON) const;
+
+	/**
+		Get single column as vector.
+	*/
+	void GetColumnVector(int columnIndex, TVarVector<Element>& result);
+	/**
+		Get single row as vector.
+	*/
+	void GetRowVector(int rowIndex, TVarVector<Element>& result);
 
 	bool Serialize(iser::IArchive& archive);
 
@@ -250,6 +264,18 @@ template <class Element>
 TVarMatrix<Element>::TVarMatrix(istd::CIndex2d size)
 {
 	SetSizes(size);
+}
+
+
+template <class Element>
+TVarMatrix<Element>::TVarMatrix<Element>(const TVarVector<Element>& vector, bool isTransposed)
+{
+	if (isTransposed){
+		DeepCopy(vector.GetElements(), istd::CIndex2d(vector.GetElementsCount(), 1));
+	}
+	else{
+		DeepCopy(vector.GetElements(), istd::CIndex2d(1, vector.GetElementsCount()));
+	}
 }
 
 
@@ -609,6 +635,36 @@ bool TVarMatrix<Element>::GetSolvedLSP(const TVarMatrix<Element>& vector, TVarMa
 	}
 
 	return false;
+}
+
+
+template <class Element>
+void TVarMatrix<Element>::GetColumnVector(int columnIndex, TVarVector<Element>& result)
+{
+	I_ASSERT(columnIndex < m_sizes[0]);
+
+	result.SetElementsCount(m_sizes[1]);
+
+	istd::CIndex2d index(columnIndex, 0);
+
+	for (; index[1] < m_sizes[1]; ++index[1]){
+		result[index[1]] = GetAt(index);
+	}
+}
+
+
+template <class Element>
+void TVarMatrix<Element>::GetRowVector(int rowIndex, TVarVector<Element>& result);
+{
+	I_ASSERT(rowIndex < m_sizes[1]);
+
+	result.SetElementsCount(m_sizes[0]);
+
+	istd::CIndex2d index(0, rowIndex);
+
+	for (; index[0] < m_sizes[0]; ++index[0]){
+		result[index[0]] = GetAt(index);
+	}
 }
 
 

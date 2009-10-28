@@ -123,7 +123,7 @@ inline bool CVarColor::IsNormalized() const
 	int elementsCount = GetElementsCount();
 
 	for (int i = 0; i < elementsCount; ++i){
-		double component = m_elements[i];
+		double component = GetElement(i);
 
 		if ((component < 0) && (component > 1)){
 			return false;
@@ -181,7 +181,7 @@ inline CVarColor CVarColor::operator*(double value) const
 	CVarColor retVal(elementsCount);
 
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.m_elements[i] = m_elements[i] * value;
+		retVal.SetElement(i, GetElement(i) * value);
 	}
 
 	return retVal;
@@ -195,7 +195,7 @@ inline CVarColor CVarColor::operator/(double value) const
 	CVarColor retVal(elementsCount);
 
 	for (int i = 0; i < elementsCount; ++i){
-		retVal.m_elements[i] = m_elements[i] / value;
+		retVal.SetElement(i, GetElement(i) / value);
 	}
 
 	return retVal;

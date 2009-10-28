@@ -89,9 +89,11 @@ const CVarColor& CVarColor::operator=(const CVarColor& color)
 
 const CVarColor& CVarColor::operator+=(const CVarColor& color)
 {
+	Elements& elements = BaseClass::GetElementsRef();
+
 	int elementsCount = istd::Min(GetElementsCount(), color.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		m_elements[i] += color.m_elements[i];
+		elements[i] += color.GetElement(i);
 	}
 
 	return *this;
@@ -100,9 +102,11 @@ const CVarColor& CVarColor::operator+=(const CVarColor& color)
 
 const CVarColor& CVarColor::operator-=(const CVarColor& color)
 {
+	Elements& elements = BaseClass::GetElementsRef();
+
 	int elementsCount = istd::Min(GetElementsCount(), color.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		m_elements[i] -= color.m_elements[i];
+		elements[i] -= color.GetElement(i);
 	}
 
 	return *this;
@@ -111,9 +115,11 @@ const CVarColor& CVarColor::operator-=(const CVarColor& color)
 
 const CVarColor& CVarColor::operator*=(const CVarColor& color)
 {
+	Elements& elements = BaseClass::GetElementsRef();
+
 	int elementsCount = istd::Min(GetElementsCount(), color.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		m_elements[i] *= color.m_elements[i];
+		elements[i] *= color.GetElement(i);
 	}
 
 	return *this;
@@ -122,9 +128,11 @@ const CVarColor& CVarColor::operator*=(const CVarColor& color)
 
 const CVarColor& CVarColor::operator/=(const CVarColor& color)
 {
+	Elements& elements = BaseClass::GetElementsRef();
+
 	int elementsCount = istd::Min(GetElementsCount(), color.GetElementsCount());
 	for (int i = 0; i < elementsCount; ++i){
-		m_elements[i] /= color.m_elements[i];
+		elements[i] /= color.GetElement(i);
 	}
 
 	return *this;

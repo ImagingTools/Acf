@@ -22,6 +22,7 @@ class TVector
 {
 public:
 	typedef Element ElementType;
+    typedef Element Elements[Size];
 
 	/**
 		Create an uninitialized point.
@@ -51,6 +52,15 @@ public:
 		Set all coordinates to zero.
 	*/
 	void Clear();
+
+	/**
+		Get read-only access to internal element container.
+	*/
+	const typename TVector<Size, Element>::Elements& GetElements() const;
+	/**
+		Get access to internal element container.
+	*/
+	typename TVector<Size, Element>::Elements& GetElementsRef();
 
 	/**
 		Translate the point.
@@ -158,7 +168,7 @@ public:
 	static bool SetElementsCount(int count);
 
 protected:
-    Element m_elements[Size];
+    Elements m_elements;
 };
 
 
@@ -208,6 +218,20 @@ inline void TVector<Size, Element>::Clear()
 	for (int i = 0; i < Size; ++i){
 		m_elements[i] = 0;
 	}
+}
+
+
+template <int Size, class Element>
+inline const typename TVector<Size, Element>::Elements& TVector<Size, Element>::GetElements() const
+{
+	return m_elements;
+}
+
+
+template <int Size, class Element>
+inline typename TVector<Size, Element>::Elements& TVector<Size, Element>::GetElementsRef()
+{
+	return m_elements;
 }
 
 

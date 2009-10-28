@@ -136,6 +136,8 @@ public:
 	Element& operator[](const IndexType& index);
 
 protected:
+	typedef std::vector<Element> Elements;
+
 	/**
 		Get index of element in one dimensional array.
 	*/
@@ -145,8 +147,9 @@ protected:
 	*/
 	void UpdateElementsSize();
 
+	void DeepCopy(const Elements& elements, const SizesType& sizes);
+
 private:
-	typedef std::vector<Element> Elements;
 	Elements m_elements;
 
 	SizesType m_sizes;
@@ -343,6 +346,16 @@ void TArray<Element, Dimensions>::UpdateElementsSize()
 	}
 
 	m_elements.resize(cumulatedSizes);
+}
+
+
+template <class Element, int Dimensions>
+void TArray<Element, Dimensions>::DeepCopy(const Elements& elements, const SizesType& sizes)
+{
+	I_ASSERT(elements.size() == sizes[0] * sizes[1]);
+
+	m_elements = elements;
+	m_sizes = sizes;
 }
 
 

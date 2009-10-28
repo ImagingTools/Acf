@@ -22,6 +22,7 @@ class TVarVector
 {
 public:
 	typedef Element ElementType;
+	typedef std::vector<Element> Elements;
 
 	/**
 		Create the vector without components.
@@ -91,6 +92,15 @@ public:
 		\param	expansionValue	if actual vector has more elements than \c vector, rest will be replaced with this value.
 	*/
 	void SetElementsFrom(const TVarVector& vector, const Element& expansionValue = Element());
+
+	/**
+		Get read-only access to internal element container.
+	*/
+	const Elements& GetElements() const;
+	/**
+		Get access to internal element container.
+	*/
+	Elements& GetElementsRef();
 
 	/**
 		Translate the point.
@@ -182,9 +192,7 @@ public:
 	const Element& operator[](int i) const;
 	Element& operator[](int i);
 
-protected:
-	typedef std::vector<Element> Elements;
-
+private:
 	Elements m_elements;
 };
 
@@ -266,6 +274,20 @@ inline void TVarVector<Element>::Clear()
 	for (int i = 0; i < elementsCount; ++i){
 		m_elements[i] = 0;
 	}
+}
+
+
+template <class Element>
+inline typename const TVarVector<Element>::Elements& TVarVector<Element>::GetElements() const
+{
+	return m_elements;
+}
+
+
+template <class Element>
+inline typename TVarVector<Element>::Elements& TVarVector<Element>::GetElementsRef()
+{
+	return m_elements;
 }
 
 
@@ -549,7 +571,7 @@ inline TVarVector<Element> TVarVector<Element>::operator/(Element scalar) const
 
 
 template <class Element>
-const Element& TVarVector<Element>::operator[](int i) const
+inline const Element& TVarVector<Element>::operator[](int i) const
 {
 	I_ASSERT(i >= 0);
 	I_ASSERT(i < GetElementsCount());
@@ -559,7 +581,7 @@ const Element& TVarVector<Element>::operator[](int i) const
 
 
 template <class Element>
-Element& TVarVector<Element>::operator[](int i)
+inline Element& TVarVector<Element>::operator[](int i)
 {
 	I_ASSERT(i >= 0);
 	I_ASSERT(i < GetElementsCount());
