@@ -60,6 +60,14 @@ public:
 		Get translated point.
 	 */
 	CVector2d GetTranslated(const imath::TVector<2>& vector);
+	/**
+		Get horizontal translated point.
+	*/
+	CVector2d GetHorizontalTranslated(double offsetX) const;
+	/**
+		Get vertical translated point.
+	*/
+	CVector2d GetVerticalTranslated(double offsetY) const;
 
 	/**
 		Return Z coordinate of two vectors cross product.
@@ -141,6 +149,18 @@ inline void CVector2d::SetY(double y)
 inline CVector2d CVector2d::GetTranslated(const imath::TVector<2>& vector)
 {
 	return *this + vector;
+}
+
+
+inline CVector2d CVector2d::GetHorizontalTranslated(double offsetX) const
+{
+	return CVector2d(GetX() + offsetX, GetY());
+}
+
+
+inline CVector2d CVector2d::GetVerticalTranslated(double offsetY) const
+{
+	return CVector2d(GetX(), GetY() + offsetY);
 }
 
 
