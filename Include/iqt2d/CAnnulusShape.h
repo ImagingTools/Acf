@@ -21,16 +21,15 @@ public:
 
 	CAnnulusShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 protected slots:
-	virtual void OnInnerGripPositionChanged(const QPointF& point);
-	virtual void OnOuterGripPositionChanged(const QPointF& point);
+	virtual void OnInnerGripPositionChanged(const i2d::CVector2d& point);
+	virtual void OnOuterGripPositionChanged(const i2d::CVector2d& point);
 
 protected:
-	virtual void UpdateGripPositions();
-	virtual void CalcVisualization(QPainterPath& result);
+	virtual void CalcVisualization(const i2d::CAnnulus& annulus);
+
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const i2d::CAnnulus& annulus);
 
 private:
 	CGripShape m_leftInnerGrip;

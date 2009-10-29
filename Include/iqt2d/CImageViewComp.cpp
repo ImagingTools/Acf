@@ -14,7 +14,6 @@ namespace iqt2d
 
 CImageViewComp::CImageViewComp()
 {
-	SetFrameVisible();
 }
 
 
@@ -31,7 +30,7 @@ void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 
 	QGraphicsScene* scenePtr = GetScene();
 	if (scenePtr != NULL){
-		scenePtr->setSceneRect(QRect(0, 0, imageSize.GetX(), imageSize.GetY()));
+		scenePtr->setSceneRect(boundingRect());
 
 		SetFittedScale(GetFitMode());
 	}
@@ -45,6 +44,9 @@ void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 void CImageViewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
+
+	SetFrameVisible(*m_isFrameVisibleAttrPtr);
+	SetPositionMode(*m_imagePositionModeAttrPtr);
 
 	QGraphicsScene* scenePtr = GetScene();
 	if (scenePtr != NULL){

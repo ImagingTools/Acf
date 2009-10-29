@@ -23,6 +23,8 @@ public:
 
 	I_BEGIN_COMPONENT(CImageViewComp)
 		I_REGISTER_INTERFACE(imod::IObserver)
+		I_ASSIGN(m_isFrameVisibleAttrPtr, "IsImageFrameVisible", "If true, image frame will be visible", true, false);
+		I_ASSIGN(m_imagePositionModeAttrPtr, "ImagePositionMode", "Mode of image position:\n 0 - corner\n 1 - center", true, 0);
 	I_END_COMPONENT
 
 	CImageViewComp();
@@ -35,6 +37,10 @@ protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
+
+private:
+	I_ATTR(bool, m_isFrameVisibleAttrPtr);
+	I_ATTR(int, m_imagePositionModeAttrPtr);
 };
 
 

@@ -7,6 +7,9 @@
 #include <QCursor>
 
 
+#include "iqt/CSignalBlocker.h"
+
+
 namespace iqt2d
 {
 
@@ -17,6 +20,8 @@ CGripShape::CGripShape(QGraphicsItem* parentPtr, const ISceneProvider* providerP
 :	BaseClass(true, providerPtr),
 	m_labelItem(this)
 {
+	I_ASSERT(parentPtr != NULL);
+
 	setParentItem(parentPtr);
 
 	SetPen(InactiveColor, QPen(QBrush(QColor(0, 0, 192)), 0));
@@ -45,6 +50,27 @@ CGripShape::CGripShape(QGraphicsItem* parentPtr, const ISceneProvider* providerP
 
 	SwitchColorSheme(InactiveColor);
 	SetLabelPosition(LabelTop);
+}
+
+
+i2d::CVector2d CGripShape::GetPosition() const
+{
+	if (parentItem() != NULL){
+		return iqt::GetCVector2d(pos() + parentItem()->pos());
+	}
+	else{
+		return i2d::CVector2d(0, 0);
+	}
+}
+
+
+void CGripShape::SetPosition(const i2d::CVector2d& position)
+{
+	if (parentItem() != NULL){
+		iqt::CSignalBlocker blocker(this);
+
+		setPos(iqt::GetQPointF(position) - parentItem()->pos());
+	}
 }
 
 
@@ -81,9 +107,10 @@ void CGripShape::SetLabelPosition(int labelArea)
 
 // reimplemented (TShapeBase<QGraphicsEllipseItem>)
 
-void CGripShape::OnPositionChanged(const QPointF& position)
+void CGripShape::OnPositionChanged(const QPointF& /*position*/)
 {
-	m_labelItem.setText(QString("%1 %2").arg(position.x(), 0, 'f', 2).arg(position.y(), 0, 'f', 2));
+	i2d::CVector2d position = GetPosition();
+	m_labelItem.setText(QString("%1 %2").arg(position.GetX(), 0, 'f', 2).arg(position.GetY(), 0, 'f', 2));
 
 	emit PositionChanged(position);
 }

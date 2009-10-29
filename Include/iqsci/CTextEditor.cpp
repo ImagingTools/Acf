@@ -11,9 +11,7 @@
 #include <QTextEdit>
 #include <QApplication>
 
-
-// ACF includes
-#include "iqt/CSignalBlocker.h"
+#include "iqsci/iqsci.h"
 
 
 namespace iqsci

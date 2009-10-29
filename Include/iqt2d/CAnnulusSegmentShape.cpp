@@ -5,8 +5,6 @@
 
 #include "i2d/CAnnulusSegment.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -19,19 +17,19 @@ CAnnulusSegmentShape::CAnnulusSegmentShape(bool isEditable, const ISceneProvider
 	m_beginAngleGrip(this),
 	m_endAngleGrip(this)
 {
-	connect(&m_beginAngleGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnAngleGripPositionChanged(const QPointF&)));
-	connect(&m_endAngleGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnAngleGripPositionChanged(const QPointF&)));
+	connect(&m_beginAngleGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnAngleGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_endAngleGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnAngleGripPositionChanged(const i2d::CVector2d&)));
 }
 
 
 // protected slots
 
-void CAnnulusSegmentShape::OnAngleGripPositionChanged(const QPointF& /*point*/)
+void CAnnulusSegmentShape::OnAngleGripPositionChanged(const i2d::CVector2d& /*point*/)
 {
 	i2d::CAnnulusSegment* annulusPtr = dynamic_cast<i2d::CAnnulusSegment*>(GetObjectPtr());
 	if (annulusPtr != NULL){
-		double beginAngle = (iqt::GetCVector2d(m_beginAngleGrip.pos()) - annulusPtr->GetCenter()).GetAngle();
-		double endAngle = (iqt::GetCVector2d(m_endAngleGrip.pos()) - annulusPtr->GetCenter()).GetAngle();
+		double beginAngle = (GetPosFromLocal(m_beginAngleGrip.pos()) - annulusPtr->GetCenter()).GetAngle();
+		double endAngle = (GetPosFromLocal(m_endAngleGrip.pos()) - annulusPtr->GetCenter()).GetAngle();
 
 		if (endAngle < beginAngle){
 			endAngle += 2 * I_PI;
@@ -48,56 +46,68 @@ void CAnnulusSegmentShape::OnAngleGripPositionChanged(const QPointF& /*point*/)
 
 // reimplemented (iqt2d::CAnnulusShape)
 
-void CAnnulusSegmentShape::UpdateGripPositions()
+void CAnnulusSegmentShape::CalcVisualization(const i2d::CAnnulus& annulus)
 {
-	BaseClass::UpdateGripPositions();
+	i2d::CAnnulusSegment* segmentPtr = dynamic_cast<i2d::CAnnulusSegment*>(GetObjectPtr());
+	if (segmentPtr != NULL){
+		double radius1 = annulus.GetInnerRadius();
+		double radius2 = annulus.GetOuterRadius();
 
-	i2d::CAnnulusSegment* annulusPtr = dynamic_cast<i2d::CAnnulusSegment*>(GetObjectPtr());
-	if (annulusPtr != NULL){
-		double middleRadius = (annulusPtr->GetInnerRadius() + annulusPtr->GetOuterRadius()) * 0.5;
+		QPointF relativeCenter = GetLocalFromPos(annulus.GetCenter());
 
-		QPointF center = iqt::GetQPointF(annulusPtr->GetCenter());
+		double beginAngle = segmentPtr->GetBeginAngle();
+		double endAngle = segmentPtr->GetEndAngle();
+		double endLength = endAngle - beginAngle;
 
-		i2d::CVector2d beginAnglePos;
-		beginAnglePos.Init(annulusPtr->GetBeginAngle(), middleRadius);
+		QRectF rect1(relativeCenter.x() - radius1, relativeCenter.y() - radius1, radius1 * 2, radius1 * 2);
+		QRectF rect2(relativeCenter.x() - radius2, relativeCenter.y() - radius2, radius2 * 2, radius2 * 2);
 
-		iqt::CSignalBlocker block1(&m_beginAngleGrip);
-		m_beginAngleGrip.setPos(center + iqt::GetQPointF(beginAnglePos));
+		QPainterPath path;
 
-		i2d::CVector2d endAnglePos;
-		endAnglePos.Init(annulusPtr->GetEndAngle(), middleRadius);
+		path.moveTo(relativeCenter);
+		if ((endLength >= 0) && (endLength < 2 * I_PI)){
+			path.arcTo(rect2,
+						-imath::GetDegreeFromRadian(beginAngle),
+						-imath::GetDegreeFromRadian(endLength));
+			path.arcTo(rect1,
+						-imath::GetDegreeFromRadian(endAngle),
+						imath::GetDegreeFromRadian(endLength));
+		}
+		path.lineTo(relativeCenter);
 
-		iqt::CSignalBlocker block2(&m_endAngleGrip);
-		m_endAngleGrip.setPos(center + iqt::GetQPointF(endAnglePos));
+		path.addEllipse(rect1);
+		if (endLength < 2 * I_PI){
+			path.addEllipse(rect1);
+			path.addEllipse(rect2);
+		}
+		path.addEllipse(rect2);
+
+		setPath(path);
+	}
+	else{
+		BaseClass::CalcVisualization(annulus);
 	}
 }
 
 
-void CAnnulusSegmentShape::CalcVisualization(QPainterPath& result)
+// reimplemented (iqt2d::TObjectShapeBase)
+
+void CAnnulusSegmentShape::UpdateGraphicsItem(const i2d::CAnnulus& annulus)
 {
-	i2d::CAnnulusSegment* annulusPtr = dynamic_cast<i2d::CAnnulusSegment*>(GetObjectPtr());
-	if (annulusPtr != NULL){
-		double beginAngle = annulusPtr->GetBeginAngle();
-		double endAngle = annulusPtr->GetEndAngle();
-		double endLength = endAngle - beginAngle;
+	BaseClass::UpdateGraphicsItem(annulus);
 
-		result.moveTo(iqt::GetQPointF(annulusPtr->GetCenter()));
-		if ((endLength >= 0) && (endLength < 2 * I_PI)){
-			result.arcTo(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()),
-						-imath::GetDegreeFromRadian(beginAngle),
-						-imath::GetDegreeFromRadian(endLength));
-			result.arcTo(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()),
-						-imath::GetDegreeFromRadian(endAngle),
-						imath::GetDegreeFromRadian(endLength));
-		}
-		result.lineTo(iqt::GetQPointF(annulusPtr->GetCenter()));
+	i2d::CAnnulusSegment* annulusSegmentPtr = dynamic_cast<i2d::CAnnulusSegment*>(GetObjectPtr());
+	if (annulusSegmentPtr != NULL){
+		const i2d::CVector2d& center = annulus.GetCenter();
+		double middleRadius = (annulus.GetInnerRadius() + annulus.GetOuterRadius()) * 0.5;
 
-		result.addEllipse(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()));
-		if (endLength < 2 * I_PI){
-			result.addEllipse(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()));
-			result.addEllipse(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()));
-		}
-		result.addEllipse(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()));
+		i2d::CVector2d beginAnglePos;
+		beginAnglePos.Init(annulusSegmentPtr->GetBeginAngle(), middleRadius);
+		m_beginAngleGrip.SetPosition(center + beginAnglePos);
+
+		i2d::CVector2d endAnglePos;
+		endAnglePos.Init(annulusSegmentPtr->GetEndAngle(), middleRadius);
+		m_endAngleGrip.SetPosition(center + endAnglePos);
 	}
 }
 

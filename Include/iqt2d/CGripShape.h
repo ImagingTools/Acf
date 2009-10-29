@@ -27,6 +27,9 @@ public:
 
 	CGripShape(QGraphicsItem* parentPtr = NULL, const ISceneProvider* providerPtr = NULL);
 
+	i2d::CVector2d GetPosition() const;
+	void SetPosition(const i2d::CVector2d& position);
+
 	/**
 		Set label position relative to the grip point.
 		\sa LabelPosition
@@ -34,7 +37,7 @@ public:
 	void SetLabelPosition(int labelArea);
 
 signals:
-	void PositionChanged(const QPointF& position);
+	void PositionChanged(const i2d::CVector2d& position);
 
 protected:
 	// reimplemented (TShapeBase<QGraphicsEllipseItem>)

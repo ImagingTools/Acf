@@ -7,8 +7,6 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -23,10 +21,10 @@ CCircleShape::CCircleShape(bool isEditable, const ISceneProvider* providerPtr)
 	m_topGrip(this, providerPtr),
 	m_bottomGrip(this, providerPtr)
 {
-	connect(&m_leftGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnGripPositionChanged(const QPointF&)));
-	connect(&m_rightGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnGripPositionChanged(const QPointF&)));
-	connect(&m_topGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnGripPositionChanged(const QPointF&)));
-	connect(&m_bottomGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnGripPositionChanged(const QPointF&)));
+	connect(&m_leftGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_rightGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_topGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_bottomGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnGripPositionChanged(const i2d::CVector2d&)));
 
 	m_leftGrip.SetLabelPosition(CGripShape::LabelLeft);
 	m_rightGrip.SetLabelPosition(CGripShape::LabelRight);
@@ -42,50 +40,35 @@ CCircleShape::CCircleShape(bool isEditable, const ISceneProvider* providerPtr)
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CCircleShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	i2d::CCircle* circlePtr = GetObjectPtr();
-	if (circlePtr != NULL){
-		setRect(iqt::GetQRectF(circlePtr->GetBoundingBox()));
-
-		UpdateGripPositions();
-	}
-}
-
-
 // protected slots
 
-void CCircleShape::OnGripPositionChanged(const QPointF& point)
+void CCircleShape::OnGripPositionChanged(const i2d::CVector2d& point)
 {
 	i2d::CCircle* circlePtr = GetObjectPtr();
 	if (circlePtr != NULL){
-		circlePtr->SetRadius(iqt::GetCVector2d(point).GetDistance(circlePtr->GetCenter()));
+		circlePtr->SetRadius(point.GetDistance(circlePtr->GetCenter()));
 	}
 }
 
 
-// private methods
+// protected methods
 
-void CCircleShape::UpdateGripPositions()
+// reimplemented (iqt2d::TObjectShapeBase)
+
+void CCircleShape::UpdateGraphicsItem(const i2d::CCircle& circle)
 {
-	i2d::CCircle* circlePtr = GetObjectPtr();
-	if (circlePtr != NULL){
-		QPointF center = iqt::GetQPointF(circlePtr->GetCenter());
+	const i2d::CVector2d& center = circle.GetCenter();
+	double radius = circle.GetRadius();
 
-		iqt::CSignalBlocker block(&m_leftGrip);
-		m_leftGrip.setPos(center.x() - circlePtr->GetRadius(), center.y());
+	m_leftGrip.SetPosition(center.GetHorizontalTranslated(-radius));
+	m_rightGrip.SetPosition(center.GetHorizontalTranslated(radius));
+	m_topGrip.SetPosition(center.GetVerticalTranslated(-radius));
+	m_bottomGrip.SetPosition(center.GetVerticalTranslated(radius));
 
-		iqt::CSignalBlocker block2(&m_rightGrip);
-		m_rightGrip.setPos(center.x() + circlePtr->GetRadius(), center.y());
+	QPointF relativeCenter = GetLocalFromPos(center);
+	QRectF relativeRect(relativeCenter.x() - radius, relativeCenter.y() - radius, radius * 2, radius * 2);
 
-		iqt::CSignalBlocker block3(&m_topGrip);
-		m_topGrip.setPos(center.x(), center.y() - circlePtr->GetRadius());
-
-		iqt::CSignalBlocker block4(&m_bottomGrip);
-		m_bottomGrip.setPos(center.x(), center.y() + circlePtr->GetRadius());
-	}
+	setRect(relativeRect);
 }
 
 

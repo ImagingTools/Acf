@@ -31,6 +31,21 @@ protected:
 	// reimplemented (TShapeBase)
 	virtual void OnSelectionChanged(bool isSelected);
 	virtual void OnPositionChanged(const QPointF& position);
+
+	// reimplemented (QGraphicsItem) 
+	virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value);
+	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr);
+
+	// reimplemented (imod::IObserver)
+	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	// abstract methods
+	virtual void UpdateGraphicsItem(const ObjectClass& object) = 0;
+
+private:
+	QPointF m_lastPosition;
+
+	bool m_isShapeUpdateBlocked;
 };
 
 
@@ -38,7 +53,8 @@ protected:
 
 template <class GraphicsItemClass, class ObjectClass>
 TObjectShapeBase<GraphicsItemClass, ObjectClass>::TObjectShapeBase(bool isEditable, const ISceneProvider* providerPtr)
-:	BaseClass(isEditable, providerPtr)
+:	BaseClass(isEditable, providerPtr),
+	m_isShapeUpdateBlocked(false)
 {
 	BaseClass::SetPen(BaseClass::InactiveColor, QPen(Qt::darkGreen, 0));
 	BaseClass::SetPen(BaseClass::EditableColor, QPen(Qt::green, 0));
@@ -82,12 +98,58 @@ void TObjectShapeBase<GraphicsItemClass, ObjectClass>::OnPositionChanged(const Q
 {
 	i2d::IObject2d* objectPtr = BaseClass2::GetObjectPtr();
 	if (objectPtr != NULL){
+		QPointF offset = position - m_lastPosition;
+
 		istd::CChangeNotifier changePtr(objectPtr, i2d::IObject2d::CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
 
-		objectPtr->MoveTo(iqt::GetCVector2d(position));
+		objectPtr->MoveTo(iqt::GetCVector2d(offset) + objectPtr->GetCenter());
+
+		m_lastPosition = position;
 	}
 
 	BaseClass::OnPositionChanged(position);
+}
+
+
+template <class GraphicsItemClass, class ObjectClass>
+QVariant TObjectShapeBase<GraphicsItemClass, ObjectClass>::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
+{
+	if (!m_isShapeUpdateBlocked){
+		return BaseClass::itemChange(change, value);
+	}
+
+	return value;
+}
+
+
+template <class GraphicsItemClass, class ObjectClass>
+void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	BaseClass::mouseReleaseEvent(eventPtr);
+
+	if (eventPtr->button() == Qt::LeftButton){
+		m_lastPosition = pos();
+	}
+}
+
+
+// reimplemented (imod::IObserver)
+
+template <class GraphicsItemClass, class ObjectClass>
+void TObjectShapeBase<GraphicsItemClass, ObjectClass>::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	I_ASSERT(!m_isShapeUpdateBlocked);
+
+	ObjectClass* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		m_isShapeUpdateBlocked = true;
+
+		UpdateGraphicsItem(*objectPtr);
+
+		m_isShapeUpdateBlocked = false;
+
+		update();
+	}
 }
 
 

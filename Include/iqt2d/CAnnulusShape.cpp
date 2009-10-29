@@ -6,8 +6,6 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -26,15 +24,15 @@ CAnnulusShape::CAnnulusShape(bool isEditable, const ISceneProvider* providerPtr)
 	m_topOuterGrip(this, providerPtr),
 	m_bottomOuterGrip(this, providerPtr)
 {
-	connect(&m_leftInnerGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnInnerGripPositionChanged(const QPointF&)));
-	connect(&m_rightInnerGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnInnerGripPositionChanged(const QPointF&)));
-	connect(&m_topInnerGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnInnerGripPositionChanged(const QPointF&)));
-	connect(&m_bottomInnerGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnInnerGripPositionChanged(const QPointF&)));
+	connect(&m_leftInnerGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnInnerGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_rightInnerGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnInnerGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_topInnerGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnInnerGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_bottomInnerGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnInnerGripPositionChanged(const i2d::CVector2d&)));
 
-	connect(&m_leftOuterGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnOuterGripPositionChanged(const QPointF&)));
-	connect(&m_rightOuterGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnOuterGripPositionChanged(const QPointF&)));
-	connect(&m_topOuterGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnOuterGripPositionChanged(const QPointF&)));
-	connect(&m_bottomOuterGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnOuterGripPositionChanged(const QPointF&)));
+	connect(&m_leftOuterGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnOuterGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_rightOuterGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnOuterGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_topOuterGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnOuterGripPositionChanged(const i2d::CVector2d&)));
+	connect(&m_bottomOuterGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnOuterGripPositionChanged(const i2d::CVector2d&)));
 
 	m_leftOuterGrip.SetLabelPosition(CGripShape::LabelLeft);
 	m_rightOuterGrip.SetLabelPosition(CGripShape::LabelRight);
@@ -65,83 +63,63 @@ CAnnulusShape::CAnnulusShape(bool isEditable, const ISceneProvider* providerPtr)
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CAnnulusShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	QPainterPath path;
-
-	CalcVisualization(path);
-
-	setPath(path);
-
-	UpdateGripPositions();
-}
-
-
 // protected slots
 
-void CAnnulusShape::OnInnerGripPositionChanged(const QPointF& point)
+void CAnnulusShape::OnInnerGripPositionChanged(const i2d::CVector2d& point)
 {
 	i2d::CAnnulus* annulusPtr = GetObjectPtr();
 	if (annulusPtr != NULL){
-		annulusPtr->SetInnerRadius(iqt::GetCVector2d(point).GetDistance(annulusPtr->GetCenter()));
+		annulusPtr->SetInnerRadius(point.GetDistance(annulusPtr->GetCenter()));
 	}
 }
 
 
-void CAnnulusShape::OnOuterGripPositionChanged(const QPointF& point)
+void CAnnulusShape::OnOuterGripPositionChanged(const i2d::CVector2d& point)
 {
 	i2d::CAnnulus* annulusPtr = GetObjectPtr();
 	if (annulusPtr != NULL){
-		annulusPtr->SetOuterRadius(iqt::GetCVector2d(point).GetDistance(annulusPtr->GetCenter()));
+		annulusPtr->SetOuterRadius(point.GetDistance(annulusPtr->GetCenter()));
 	}
 }
 
 
 // protected methods
 
-void CAnnulusShape::UpdateGripPositions()
+void CAnnulusShape::CalcVisualization(const i2d::CAnnulus& annulus)
 {
-	i2d::CAnnulus* annulusPtr = GetObjectPtr();
-	if (annulusPtr != NULL){
-		QPointF center = iqt::GetQPointF(annulusPtr->GetCenter());
+	QPainterPath path;
 
-		iqt::CSignalBlocker block(&m_leftInnerGrip);
-		m_leftInnerGrip.setPos(center.x() - annulusPtr->GetInnerRadius(), center.y());
+	double radius1 = annulus.GetInnerRadius();
+	double radius2 = annulus.GetOuterRadius();
 
-		iqt::CSignalBlocker block2(&m_rightInnerGrip);
-		m_rightInnerGrip.setPos(center.x() + annulusPtr->GetInnerRadius(), center.y());
+	QPointF relativeCenter = GetLocalFromPos(annulus.GetCenter());
 
-		iqt::CSignalBlocker block3(&m_topInnerGrip);
-		m_topInnerGrip.setPos(center.x(), center.y() - annulusPtr->GetInnerRadius());
+	path.moveTo(relativeCenter);
+	path.addEllipse(relativeCenter, radius1, radius1);
+	path.addEllipse(relativeCenter, radius2, radius2);
 
-		iqt::CSignalBlocker block4(&m_bottomInnerGrip);
-		m_bottomInnerGrip.setPos(center.x(), center.y() + annulusPtr->GetInnerRadius());
-
-		iqt::CSignalBlocker block5(&m_leftOuterGrip);
-		m_leftOuterGrip.setPos(center.x() - annulusPtr->GetOuterRadius(), center.y());
-
-		iqt::CSignalBlocker block6(&m_rightOuterGrip);
-		m_rightOuterGrip.setPos(center.x() + annulusPtr->GetOuterRadius(), center.y());
-
-		iqt::CSignalBlocker block7(&m_topOuterGrip);
-		m_topOuterGrip.setPos(center.x(), center.y() - annulusPtr->GetOuterRadius());
-
-		iqt::CSignalBlocker block8(&m_bottomOuterGrip);
-		m_bottomOuterGrip.setPos(center.x(), center.y() + annulusPtr->GetOuterRadius());
-	}
+	setPath(path);
 }
 
 
-void CAnnulusShape::CalcVisualization(QPainterPath& result)
+// reimplemented (iqt2d::TObjectShapeBase)
+
+void CAnnulusShape::UpdateGraphicsItem(const i2d::CAnnulus& annulus)
 {
-	i2d::CAnnulus* annulusPtr = GetObjectPtr();
-	if (annulusPtr != NULL){
-		result.moveTo(iqt::GetQPointF(annulusPtr->GetCenter()));
-		result.addEllipse(iqt::GetQRectF(annulusPtr->GetInnerCircle().GetBoundingBox()));
-		result.addEllipse(iqt::GetQRectF(annulusPtr->GetOuterCircle().GetBoundingBox()));
-	}
+	const i2d::CVector2d& center = annulus.GetCenter();
+	double radius1 = annulus.GetInnerRadius();
+	double radius2 = annulus.GetOuterRadius();
+
+	m_leftInnerGrip.SetPosition(center.GetHorizontalTranslated(-radius1));
+	m_rightInnerGrip.SetPosition(center.GetHorizontalTranslated(radius1));
+	m_topInnerGrip.SetPosition(center.GetVerticalTranslated(-radius1));
+	m_bottomInnerGrip.SetPosition(center.GetVerticalTranslated(radius1));
+	m_leftOuterGrip.SetPosition(center.GetHorizontalTranslated(-radius2));
+	m_rightOuterGrip.SetPosition(center.GetHorizontalTranslated(radius2));
+	m_topOuterGrip.SetPosition(center.GetVerticalTranslated(-radius2));
+	m_bottomOuterGrip.SetPosition(center.GetVerticalTranslated(radius2));
+
+	CalcVisualization(annulus);
 }
 
 

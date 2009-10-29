@@ -65,6 +65,15 @@ public:
 	const ISceneProvider* GetSceneProvider() const;
 	
 protected:
+	/**
+		Map position from local graphics item coordinates.
+	*/
+	i2d::CVector2d GetPosFromLocal(const QPointF& position) const;
+	/**
+		Map position from local graphics item coordinates.
+	*/
+	QPointF GetLocalFromPos(const i2d::CVector2d& position) const;
+
 	virtual void OnSelectionChanged(bool isSelected);
 	virtual void OnPositionChanged(const QPointF& position);
 
@@ -196,6 +205,20 @@ const ISceneProvider* TShapeBase<GraphicsItemClass>::GetSceneProvider() const
 
 // protected methods
 	
+template <class GraphicsItemClass>
+i2d::CVector2d TShapeBase<GraphicsItemClass>::GetPosFromLocal(const QPointF& position) const
+{
+	return iqt::GetCVector2d(mapToScene(position));
+}
+
+
+template <class GraphicsItemClass>
+QPointF TShapeBase<GraphicsItemClass>::GetLocalFromPos(const i2d::CVector2d& position) const
+{
+	return mapFromScene(iqt::GetQPointF(position));
+}
+
+
 template <class GraphicsItemClass>
 void TShapeBase<GraphicsItemClass>::OnSelectionChanged(bool isSelected)
 {

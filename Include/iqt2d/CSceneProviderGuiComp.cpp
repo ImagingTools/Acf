@@ -411,8 +411,23 @@ void CSceneProviderGuiComp::OnGuiCreated()
 	SceneView->setScene(m_scenePtr);
 	SceneView->setMouseTracking(true);
 	SceneView->setDragMode(QGraphicsView::ScrollHandDrag);
-	if (*m_backgroundModeAttrPtr == BM_SOLID){
+	switch (*m_backgroundModeAttrPtr){
+	case BM_SOLID:
 		SceneView->setBackgroundBrush(QBrush(QColor(128, 128, 128)));
+		break;
+
+	case BM_CHECKERBOARD:
+		{
+			QPixmap backgroundPixmap(16, 16);
+
+			QPainter p(&backgroundPixmap);
+			p.fillRect(0, 0, 8, 8, QBrush(qRgb(200,200,200)));
+			p.fillRect(0, 8, 8, 8, QBrush(Qt::white));
+			p.fillRect(8, 0, 8, 8, QBrush(Qt::white));
+			p.fillRect(8, 8, 8, 8, QBrush(qRgb(200,200,200)));
+			SceneView->setBackgroundBrush(QBrush(backgroundPixmap));
+		}
+		break;
 	}
 	SceneView->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 	SceneView->installEventFilter(this);
@@ -499,16 +514,9 @@ bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 // public methods of embedded class CScene
 
 CSceneProviderGuiComp::CScene::CScene(CSceneProviderGuiComp* parentPtr)
-:	m_parent(*parentPtr),
-	m_backgroundPixmap(16, 16)
+:	m_parent(*parentPtr)
 {
 	I_ASSERT(parentPtr != NULL);
-
-	QPainter p(&m_backgroundPixmap);
-	p.fillRect(0, 0, 8, 8, QBrush(qRgb(200,200,200)));
-	p.fillRect(0, 8, 8, 8, QBrush(Qt::white));
-	p.fillRect(8, 0, 8, 8, QBrush(Qt::white));
-	p.fillRect(8, 8, 8, 8, QBrush(qRgb(200,200,200)));
 }
 
 
@@ -540,14 +548,6 @@ void CSceneProviderGuiComp::CScene::drawBackground(QPainter* painter, const QRec
 
 			painter->setPen(QPen(qRgb(224, 224, 255)));
 			painter->drawLines(lines.data(), lines.size());
-		}
-		break;
-
-	case BM_CHECKERBOARD:
-		{
-			painter->setMatrixEnabled(false);
-
-			painter->drawTiledPixmap(sceneRect(), m_backgroundPixmap);
 		}
 		break;
 

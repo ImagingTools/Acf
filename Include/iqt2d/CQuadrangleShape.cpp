@@ -3,8 +3,6 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -19,10 +17,10 @@ CQuadrangleShape::CQuadrangleShape(bool isEditable, const ISceneProvider* provid
 	m_secondDiagGrip1(this, providerPtr),
 	m_secondDiagGrip2(this, providerPtr)
 {
-	connect(&m_firstDiagGrip1, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnFirstDiagGrip1Changed(const QPointF&)));
-	connect(&m_firstDiagGrip2, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnFirstDiagGrip2Changed(const QPointF&)));
-	connect(&m_secondDiagGrip1, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnSecondDiagGrip1Changed(const QPointF&)));
-	connect(&m_secondDiagGrip2, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnSecondDiagGrip2Changed(const QPointF&)));
+	connect(&m_firstDiagGrip1, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnFirstDiagGrip1Changed(const i2d::CVector2d&)));
+	connect(&m_firstDiagGrip2, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnFirstDiagGrip2Changed(const i2d::CVector2d&)));
+	connect(&m_secondDiagGrip1, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnSecondDiagGrip1Changed(const i2d::CVector2d&)));
+	connect(&m_secondDiagGrip2, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnSecondDiagGrip2Changed(const i2d::CVector2d&)));
 	
 	m_firstDiagGrip2.SetLabelPosition(CGripShape::LabelBottom);
 	m_secondDiagGrip2.SetLabelPosition(CGripShape::LabelBottom);
@@ -36,51 +34,9 @@ CQuadrangleShape::CQuadrangleShape(bool isEditable, const ISceneProvider* provid
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CQuadrangleShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
-	if (quadranglePtr != NULL){
-		i2d::CLine2d  firstDiag = quadranglePtr->GetFirstDiagonal();
-		i2d::CLine2d  secondDiag = quadranglePtr->GetSecondDiagonal();
-
-		QPainterPath path;
-
-		if (!quadranglePtr->IsQuadrangleValid()){
-			setPen(QPen(Qt::red, 0));
-		}
-		else{
-			if (IsEditable()){
-				setPen(GetPen(EditableColor));
-			}
-			else{
-				setPen(GetPen(InactiveColor));
-			}
-		}
-
-		path.moveTo(iqt::GetQPointF(firstDiag.GetPoint1()));
-		path.lineTo(iqt::GetQPointF(secondDiag.GetPoint1()));
-	
-		path.moveTo(iqt::GetQPointF(secondDiag.GetPoint1()));
-		path.lineTo(iqt::GetQPointF(firstDiag.GetPoint2()));
-
-		path.moveTo(iqt::GetQPointF(firstDiag.GetPoint2()));
-		path.lineTo(iqt::GetQPointF(secondDiag.GetPoint2()));
-
-		path.moveTo(iqt::GetQPointF(secondDiag.GetPoint2()));
-		path.lineTo(iqt::GetQPointF(firstDiag.GetPoint1()));
-
-		setPath(path);
-
-		UpdateGripPositions();
-	}
-}
-
-
 // protected slots
 
-void CQuadrangleShape::OnFirstDiagGrip1Changed(const QPointF& point)
+void CQuadrangleShape::OnFirstDiagGrip1Changed(const i2d::CVector2d& point)
 {
 	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
 	if (quadranglePtr != NULL){
@@ -88,7 +44,7 @@ void CQuadrangleShape::OnFirstDiagGrip1Changed(const QPointF& point)
 		bool wasValid = quadranglePtr->IsQuadrangleValid();
 
 		i2d::CLine2d firstDiag = quadranglePtr->GetFirstDiagonal();
-		firstDiag.SetPoint1(iqt::GetCVector2d(point));
+		firstDiag.SetPoint1(point);
 
 		quadranglePtr->SetFirstDiagonal(firstDiag);
 
@@ -100,7 +56,7 @@ void CQuadrangleShape::OnFirstDiagGrip1Changed(const QPointF& point)
 }
 
 
-void CQuadrangleShape::OnFirstDiagGrip2Changed(const QPointF& point)
+void CQuadrangleShape::OnFirstDiagGrip2Changed(const i2d::CVector2d& point)
 {
 	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
 	if (quadranglePtr != NULL){
@@ -108,7 +64,7 @@ void CQuadrangleShape::OnFirstDiagGrip2Changed(const QPointF& point)
 		bool wasValid = quadranglePtr->IsQuadrangleValid();
 
 		i2d::CLine2d firstDiag = quadranglePtr->GetFirstDiagonal();
-		firstDiag.SetPoint2(iqt::GetCVector2d(point));
+		firstDiag.SetPoint2(point);
 
 		quadranglePtr->SetFirstDiagonal(firstDiag);
 
@@ -120,7 +76,7 @@ void CQuadrangleShape::OnFirstDiagGrip2Changed(const QPointF& point)
 }
 
 
-void CQuadrangleShape::OnSecondDiagGrip1Changed(const QPointF& point)
+void CQuadrangleShape::OnSecondDiagGrip1Changed(const i2d::CVector2d& point)
 {
 	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
 	if (quadranglePtr != NULL){
@@ -128,7 +84,7 @@ void CQuadrangleShape::OnSecondDiagGrip1Changed(const QPointF& point)
 		bool wasValid = quadranglePtr->IsQuadrangleValid();
 
 		i2d::CLine2d secondDiag = quadranglePtr->GetSecondDiagonal();
-		secondDiag.SetPoint1(iqt::GetCVector2d(point));
+		secondDiag.SetPoint1(point);
 
 		quadranglePtr->SetSecondDiagonal(secondDiag);
 
@@ -140,7 +96,7 @@ void CQuadrangleShape::OnSecondDiagGrip1Changed(const QPointF& point)
 }
 
 
-void CQuadrangleShape::OnSecondDiagGrip2Changed(const QPointF& point)
+void CQuadrangleShape::OnSecondDiagGrip2Changed(const i2d::CVector2d& point)
 {
 	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
 	if (quadranglePtr != NULL){
@@ -148,7 +104,7 @@ void CQuadrangleShape::OnSecondDiagGrip2Changed(const QPointF& point)
 		bool wasValid = quadranglePtr->IsQuadrangleValid();
 
 		i2d::CLine2d secondDiag = quadranglePtr->GetSecondDiagonal();
-		secondDiag.SetPoint2(iqt::GetCVector2d(point));
+		secondDiag.SetPoint2(point);
 
 		quadranglePtr->SetSecondDiagonal(secondDiag);
 
@@ -160,24 +116,41 @@ void CQuadrangleShape::OnSecondDiagGrip2Changed(const QPointF& point)
 }
 
 
-// private methods
+// protected methods
 
-void CQuadrangleShape::UpdateGripPositions()
+// reimplemented (iqt2d::TObjectShapeBase)
+
+void CQuadrangleShape::UpdateGraphicsItem(const i2d::CQuadrangle& quadrangle)
 {
-	i2d::CQuadrangle* quadranglePtr = GetObjectPtr();
-	if (quadranglePtr != NULL){
-		iqt::CSignalBlocker block(&m_firstDiagGrip1);
-		m_firstDiagGrip1.setPos(iqt::GetQPointF(quadranglePtr->GetFirstDiagonal().GetPoint1()));
+	i2d::CLine2d  firstDiag = quadrangle.GetFirstDiagonal();
+	i2d::CLine2d  secondDiag = quadrangle.GetSecondDiagonal();
 
-		iqt::CSignalBlocker block2(&m_firstDiagGrip2);
-		m_firstDiagGrip2.setPos(iqt::GetQPointF(quadranglePtr->GetFirstDiagonal().GetPoint2()));
+	m_firstDiagGrip1.SetPosition(firstDiag.GetPoint1());
+	m_firstDiagGrip2.SetPosition(firstDiag.GetPoint2());
+	m_secondDiagGrip1.SetPosition(secondDiag.GetPoint1());
+	m_secondDiagGrip2.SetPosition(secondDiag.GetPoint2());
 
-		iqt::CSignalBlocker block3(&m_secondDiagGrip1);
-		m_secondDiagGrip1.setPos(iqt::GetQPointF(quadranglePtr->GetSecondDiagonal().GetPoint1()));
+	QPainterPath path;
 
-		iqt::CSignalBlocker block4(&m_secondDiagGrip2);
-		m_secondDiagGrip2.setPos(iqt::GetQPointF(quadranglePtr->GetSecondDiagonal().GetPoint2()));
+	if (!quadrangle.IsQuadrangleValid()){
+		setPen(QPen(Qt::red, 0));
 	}
+	else{
+		if (IsEditable()){
+			setPen(GetPen(EditableColor));
+		}
+		else{
+			setPen(GetPen(InactiveColor));
+		}
+	}
+
+	path.moveTo(GetLocalFromPos(firstDiag.GetPoint1()));
+	path.lineTo(GetLocalFromPos(secondDiag.GetPoint1()));
+	path.lineTo(GetLocalFromPos(firstDiag.GetPoint2()));
+	path.lineTo(GetLocalFromPos(secondDiag.GetPoint2()));
+	path.lineTo(GetLocalFromPos(firstDiag.GetPoint1()));
+
+	setPath(path);
 }
 
 

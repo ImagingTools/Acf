@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1107
+          1136
         </Number>
         <Description>
           ACF
@@ -308,7 +308,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="9">
+        <AttributeInfoMap count="10">
           <AttributeInfo>
             <Id>
               AboutGui
@@ -383,6 +383,22 @@
               <Value>
                 16
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              IsCopyPathVisible
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              IsCopyPathVisible
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

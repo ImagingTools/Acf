@@ -14,26 +14,24 @@ namespace iqt2d
 {
 
 
-class CRectangleShape: public TObjectShapeBase<QGraphicsRectItem, i2d::CRectangle>
+class CRectangleShape: public TObjectShapeBase<QGraphicsPathItem, i2d::CRectangle>
 {
 	Q_OBJECT
 
 public:
-	typedef TObjectShapeBase<QGraphicsRectItem, i2d::CRectangle> BaseClass;
+	typedef TObjectShapeBase<QGraphicsPathItem, i2d::CRectangle> BaseClass;
 
 	CRectangleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 protected slots:
-	virtual void OnTopLeftChanged(const QPointF& point);
-	virtual void OnTopRightChanged(const QPointF& point);
-	virtual void OnBottomLeftChanged(const QPointF& point);
-	virtual void OnBottomRightChanged(const QPointF& point);
+	virtual void OnTopLeftChanged(const i2d::CVector2d& point);
+	virtual void OnTopRightChanged(const i2d::CVector2d& point);
+	virtual void OnBottomLeftChanged(const i2d::CVector2d& point);
+	virtual void OnBottomRightChanged(const i2d::CVector2d& point);
 
-private:
-	void UpdateGripPositions();
+protected:
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const i2d::CRectangle& rect);
 
 private:
 	CGripShape m_topLeftGrip;

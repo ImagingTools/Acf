@@ -22,12 +22,41 @@ namespace iqt2d
 class CImageShape: public QGraphicsItem, public imod::TSingleModelObserverBase<iimg::IBitmap>
 {
 public:
+	enum PositionMode
+	{
+		/**
+			Left top corner will be associated with position (0, 0).
+		*/
+		PM_CORNER_LT,
+		/**
+			Center of bitmap will be associated with position (0, 0).
+		*/
+		PM_CENTER
+	};
+
 	CImageShape(const icmm::IColorTransformation* colorTransformationPtr = NULL);
 
 	istd::CIndex2d GetSize() const;
 
+	/**
+		Check if frame is visible.
+		The otlining frame is used to show real image borders.
+	*/
 	bool IsFrameVisible() const;
+	/**
+		Turn frame visibility on/off.
+		The otlining frame is used to show real image borders.
+	*/
 	void SetFrameVisible(bool state = true);
+
+	/**
+		Get position mode defined as PositionMode.
+	*/
+	int GetPositionMode() const;
+	/**
+		Set position mode defined as PositionMode.
+	*/
+	void SetPositionMode(int mode);
 
 	// reimplemented (QGraphicsItem)
 	virtual QRectF boundingRect() const;
@@ -41,6 +70,8 @@ private:
 
 private:
 	bool m_isFrameVisible;
+	int m_positionMode;
+
 	QPixmap m_backgroundPixmap;
 
 	QPixmap m_bitmap;
@@ -67,6 +98,22 @@ inline void CImageShape::SetFrameVisible(bool state)
 {
 	if (state != m_isFrameVisible){
 		m_isFrameVisible = state;
+
+		update();
+	}
+}
+
+
+inline int CImageShape::GetPositionMode() const
+{
+	return m_positionMode;
+}
+
+
+inline void CImageShape::SetPositionMode(int mode)
+{
+	if (mode != m_positionMode){
+		m_positionMode = mode;
 
 		update();
 	}

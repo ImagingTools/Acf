@@ -19,6 +19,7 @@ namespace iqt2d
 
 CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPtr)
 :	m_isFrameVisible(false),
+	m_positionMode(PM_CORNER_LT),
 	m_colorTransformationPtr(colorTransformationPtr)
 {
 }
@@ -53,20 +54,27 @@ void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, i
 
 QRectF CImageShape::boundingRect() const
 {
-	QRect imageRect(QPoint(0, 0), m_bitmap.size());
+	QRectF imageRect(QPoint(0, 0), m_bitmap.size());
 
-	return QRectF(imageRect);
+	QRectF retVal(imageRect);
+
+	if (m_positionMode == PM_CENTER){
+		QPointF center = retVal.center();
+		retVal.adjust(-center.x(), -center.y(), -center.x(), -center.y());
+	}
+
+	return retVal;
 }
 
 
-void CImageShape::paint(QPainter* p, const QStyleOptionGraphicsItem* option, QWidget* /*widget*/)
+void CImageShape::paint(QPainter* p, const QStyleOptionGraphicsItem* /*option*/, QWidget* /*widget*/)
 {
-	QRect imageRect(QPoint(0, 0), m_bitmap.size());
+	QRectF imageRect = boundingRect();
 	if (imageRect.isEmpty()){
 		return;
 	}
 
-	p->drawPixmap(option->exposedRect, m_bitmap, option->exposedRect);
+	p->drawPixmap(imageRect.topLeft(), m_bitmap);
 
 	if (m_isFrameVisible){
 		p->setPen(QPen(Qt::black, 2));

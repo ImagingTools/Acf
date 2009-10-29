@@ -22,12 +22,12 @@ class CVisualRegistryScenographerComp;
 /**
 	Visualization of geometrical registry elements.
 */
-class CRegistryElementShape: public iqt2d::TObjectShapeBase<QGraphicsItem, CVisualRegistryElement>
+class CRegistryElementShape: public iqt2d::TObjectShapeBase<QGraphicsRectItem, CVisualRegistryElement>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TObjectShapeBase<QGraphicsItem, CVisualRegistryElement> BaseClass;
+	typedef iqt2d::TObjectShapeBase<QGraphicsRectItem, CVisualRegistryElement> BaseClass;
 
 	CRegistryElementShape(const CVisualRegistryScenographerComp* registryViewPtr, const iqt2d::ISceneProvider* providerPtr = NULL);
 
@@ -36,12 +36,9 @@ public:
 	// reimplemented (QGraphicsItem)
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter* painterPtr, const QStyleOptionGraphicsItem* stylePtr, QWidget* widgetPtr);
-	virtual bool contains(const QPointF& point) const;
-	virtual bool collidesWithPath(const QPainterPath& path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 signals:
 	void RectChanged(QRectF rect);
@@ -71,6 +68,9 @@ protected:
 		CRegistryElementShape& m_parent;
 	};
 
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const CVisualRegistryElement& element);
+
 	// reimplemented (TShapeBase)
 	virtual void OnSelectionChanged(bool isSelected);
 
@@ -78,8 +78,6 @@ private:
 	const CVisualRegistryScenographerComp& m_registryView;
 
 	RegistryObserver m_registryObserver;
-
-	QRectF m_realBox;
 
 	QStringList m_exportedInterfacesList;
 

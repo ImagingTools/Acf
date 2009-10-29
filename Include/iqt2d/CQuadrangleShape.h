@@ -23,17 +23,15 @@ public:
 
 	CQuadrangleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 protected slots:
-	virtual void OnFirstDiagGrip1Changed(const QPointF& point);
-	virtual void OnFirstDiagGrip2Changed(const QPointF& point);
-	virtual void OnSecondDiagGrip1Changed(const QPointF& point);
-	virtual void OnSecondDiagGrip2Changed(const QPointF& point);
+	virtual void OnFirstDiagGrip1Changed(const i2d::CVector2d& point);
+	virtual void OnFirstDiagGrip2Changed(const i2d::CVector2d& point);
+	virtual void OnSecondDiagGrip1Changed(const i2d::CVector2d& point);
+	virtual void OnSecondDiagGrip2Changed(const i2d::CVector2d& point);
 
-private:
-	void UpdateGripPositions();
+protected:
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const i2d::CQuadrangle& quadrangle);
 
 private:
 	CGripShape m_firstDiagGrip1;

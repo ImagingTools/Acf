@@ -3,8 +3,6 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -19,10 +17,10 @@ CRectangleShape::CRectangleShape(bool isEditable, const ISceneProvider* provider
 	m_bottomLeftGrip(this, providerPtr),
 	m_bottomRightGrip(this, providerPtr)
 {
-	connect(&m_topLeftGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnTopLeftChanged(const QPointF&)));
-	connect(&m_topRightGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnTopRightChanged(const QPointF&)));
-	connect(&m_bottomLeftGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnBottomLeftChanged(const QPointF&)));
-	connect(&m_bottomRightGrip, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnBottomRightChanged(const QPointF&)));
+	connect(&m_topLeftGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnTopLeftChanged(const i2d::CVector2d&)));
+	connect(&m_topRightGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnTopRightChanged(const i2d::CVector2d&)));
+	connect(&m_bottomLeftGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnBottomLeftChanged(const i2d::CVector2d&)));
+	connect(&m_bottomRightGrip, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnBottomRightChanged(const i2d::CVector2d&)));
 	
 	m_bottomLeftGrip.SetLabelPosition(CGripShape::LabelBottom);
 	m_bottomRightGrip.SetLabelPosition(CGripShape::LabelBottom);
@@ -36,76 +34,65 @@ CRectangleShape::CRectangleShape(bool isEditable, const ISceneProvider* provider
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CRectangleShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	i2d::CRectangle* rectPtr = GetObjectPtr();
-	if (rectPtr != NULL){
-		setRect(iqt::GetQRectF(*rectPtr));
-
-		UpdateGripPositions();
-	}
-}
-
-
 // protected slots
 
-void CRectangleShape::OnTopLeftChanged(const QPointF& point)
+void CRectangleShape::OnTopLeftChanged(const i2d::CVector2d& point)
 {
 	i2d::CRectangle* rectPtr = GetObjectPtr();
 	if (rectPtr != NULL){
-		rectPtr->SetTopLeft(iqt::GetCVector2d(point));
+		rectPtr->SetTopLeft(point);
 	}
 
 }
 
 
-void CRectangleShape::OnTopRightChanged(const QPointF& point)
+void CRectangleShape::OnTopRightChanged(const i2d::CVector2d& point)
 {
 	i2d::CRectangle* rectPtr = GetObjectPtr();
 	if (rectPtr != NULL){
-		rectPtr->SetTopRight(iqt::GetCVector2d(point));
+		rectPtr->SetTopRight(point);
 	}
 }
 
 
-void CRectangleShape::OnBottomLeftChanged(const QPointF& point)
+void CRectangleShape::OnBottomLeftChanged(const i2d::CVector2d& point)
 {
 	i2d::CRectangle* rectPtr = GetObjectPtr();
 	if (rectPtr != NULL){
-		rectPtr->SetBottomLeft(iqt::GetCVector2d(point));
+		rectPtr->SetBottomLeft(point);
 	}
 }
 
 
-void CRectangleShape::OnBottomRightChanged(const QPointF& point)
+void CRectangleShape::OnBottomRightChanged(const i2d::CVector2d& point)
 {
 	i2d::CRectangle* rectPtr = GetObjectPtr();
 	if (rectPtr != NULL){
-		rectPtr->SetBottomRight(iqt::GetCVector2d(point));
+		rectPtr->SetBottomRight(point);
 	}
 }
 
 
-// private methods
+// protected methods
 
-void CRectangleShape::UpdateGripPositions()
+// reimplemented (iqt2d::TObjectShapeBase)
+
+void CRectangleShape::UpdateGraphicsItem(const i2d::CRectangle& rect)
 {
-	i2d::CRectangle* rectPtr = GetObjectPtr();
-	if (rectPtr != NULL){
-		iqt::CSignalBlocker block(&m_topLeftGrip);
-		m_topLeftGrip.setPos(iqt::GetQPointF(rectPtr->GetTopLeft()));
+	m_topLeftGrip.SetPosition(rect.GetTopLeft());
+	m_topRightGrip.SetPosition(rect.GetTopRight());
+	m_bottomLeftGrip.SetPosition(rect.GetBottomLeft());
+	m_bottomRightGrip.SetPosition(rect.GetBottomRight());
 
-		iqt::CSignalBlocker block2(&m_topRightGrip);
-		m_topRightGrip.setPos(iqt::GetQPointF(rectPtr->GetTopRight()));
+	QPainterPath path;
 
-		iqt::CSignalBlocker block3(&m_bottomLeftGrip);
-		m_bottomLeftGrip.setPos(iqt::GetQPointF(rectPtr->GetBottomLeft()));
+	path.moveTo(GetLocalFromPos(rect.GetTopLeft()));
+	path.lineTo(GetLocalFromPos(rect.GetTopRight()));
+	path.lineTo(GetLocalFromPos(rect.GetBottomRight()));
+	path.lineTo(GetLocalFromPos(rect.GetBottomLeft()));
+	path.lineTo(GetLocalFromPos(rect.GetTopLeft()));
 
-		iqt::CSignalBlocker block4(&m_bottomRightGrip);
-		m_bottomRightGrip.setPos(iqt::GetQPointF(rectPtr->GetBottomRight()));
-	}
+	setPath(path);
 }
 
 

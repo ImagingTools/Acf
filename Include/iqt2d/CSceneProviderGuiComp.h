@@ -126,7 +126,6 @@ protected:
 
 	private:
 		CSceneProviderGuiComp& m_parent;
-		QPixmap m_backgroundPixmap;
 	};
 
 	virtual void OnResize(QResizeEvent* eventPtr);

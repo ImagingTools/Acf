@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1073
+          1131
         </Number>
         <Description>
           ACF
@@ -115,7 +115,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="8">
           <AttributeInfo>
             <Id>
               AllowWidgetResize
@@ -134,6 +134,25 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              BackgroundMode
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                1
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               FitMode
             </Id>
             <Type>
@@ -146,6 +165,25 @@
               <IsEnabled>
                 false
               </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ImagePositionMode
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                1
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -219,6 +257,14 @@
   <ExportedInterfaces count="9">
     <Interface>
       <InterfaceId>
+        i2d::ISceneController
+      </InterfaceId>
+      <ComponentId>
+        ImageView
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
         idoc::ICommandsProvider
       </InterfaceId>
       <ComponentId>
@@ -252,14 +298,6 @@
     <Interface>
       <InterfaceId>
         iqt2d::ISceneProvider
-      </InterfaceId>
-      <ComponentId>
-        ImageView
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        i2d::ISceneController
       </InterfaceId>
       <ComponentId>
         ImageView

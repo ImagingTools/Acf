@@ -20,15 +20,13 @@ public:
 
 	CLine2dShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 protected slots:
-	virtual void OnPosition1Changed(const QPointF& point1);
-	virtual void OnPosition2Changed(const QPointF& point2);
+	virtual void OnPosition1Changed(const i2d::CVector2d& point);
+	virtual void OnPosition2Changed(const i2d::CVector2d& point);
 
-private:
-	void UpdateGripPositions();
+protected:
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const i2d::CLine2d& line);
 
 private:
 	CGripShape m_pointGrip1;

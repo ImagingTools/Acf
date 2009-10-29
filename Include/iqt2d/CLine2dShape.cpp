@@ -7,8 +7,6 @@
 
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqt2d
 {
@@ -21,8 +19,8 @@ CLine2dShape::CLine2dShape(bool isEditable, const ISceneProvider* providerPtr)
 	m_pointGrip1(this, providerPtr),
 	m_pointGrip2(this, providerPtr)
 {
-	connect(&m_pointGrip1, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnPosition1Changed(const QPointF&)));
-	connect(&m_pointGrip2, SIGNAL(PositionChanged(const QPointF&)), this, SLOT(OnPosition2Changed(const QPointF&)));
+	connect(&m_pointGrip1, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnPosition1Changed(const i2d::CVector2d&)));
+	connect(&m_pointGrip2, SIGNAL(PositionChanged(const i2d::CVector2d&)), this, SLOT(OnPosition2Changed(const i2d::CVector2d&)));
 
 	if (!isEditable){
 		m_pointGrip1.setParentItem(NULL);
@@ -31,50 +29,35 @@ CLine2dShape::CLine2dShape(bool isEditable, const ISceneProvider* providerPtr)
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CLine2dShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	i2d::CLine2d* linePtr = GetObjectPtr();
-	if (linePtr != NULL){
-		setLine(iqt::GetQLineF(*linePtr));
-
-		UpdateGripPositions();
-	}
-}
-
-
 // protected slots
 
-void CLine2dShape::OnPosition1Changed(const QPointF& point1)
+void CLine2dShape::OnPosition1Changed(const i2d::CVector2d& point)
 {
 	i2d::CLine2d* linePtr = GetObjectPtr();
 	if (linePtr != NULL){
-		linePtr->SetPoint1(iqt::GetCVector2d(point1));
+		linePtr->SetPoint1(point);
 	}
 }
 
 
-void CLine2dShape::OnPosition2Changed(const QPointF& point2)
+void CLine2dShape::OnPosition2Changed(const i2d::CVector2d& point)
 {
 	i2d::CLine2d* linePtr = GetObjectPtr();
 	if (linePtr != NULL){
-		linePtr->SetPoint2(iqt::GetCVector2d(point2));
+		linePtr->SetPoint2(point);
 	}
 }
 
 
-// private methods
+// protected methods
 
-void CLine2dShape::UpdateGripPositions()
+// reimplemented (iqt2d::TObjectShapeBase)
+void CLine2dShape::UpdateGraphicsItem(const i2d::CLine2d& line)
 {
-	i2d::CLine2d* linePtr = GetObjectPtr();
-	if (linePtr != NULL){
-		iqt::CSignalBlocker block(&m_pointGrip1);
-		m_pointGrip1.setPos(iqt::GetQPointF(linePtr->GetPoint1()));
-		iqt::CSignalBlocker block2(&m_pointGrip2);
-		m_pointGrip2.setPos(iqt::GetQPointF(linePtr->GetPoint2()));
-	}
+	m_pointGrip1.SetPosition(line.GetPoint1());
+	m_pointGrip2.SetPosition(line.GetPoint2());
+
+	setLine(QLineF(GetLocalFromPos(line.GetPoint1()), GetLocalFromPos(line.GetPoint2())));
 }
 
 

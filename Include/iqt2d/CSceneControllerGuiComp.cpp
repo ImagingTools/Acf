@@ -8,8 +8,6 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CSignalBlocker.h"
-
 #include "iqt2d/ISceneProvider.h"
 
 

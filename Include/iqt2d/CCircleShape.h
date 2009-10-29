@@ -21,14 +21,12 @@ public:
 
 	CCircleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 protected slots:
-	virtual void OnGripPositionChanged(const QPointF& point);
+	virtual void OnGripPositionChanged(const i2d::CVector2d& point);
 
 private:
-	void UpdateGripPositions();
+	// reimplemented (iqt2d::TObjectShapeBase)
+	void UpdateGraphicsItem(const i2d::CCircle& circle);
 
 private:
 	CGripShape m_leftGrip;
