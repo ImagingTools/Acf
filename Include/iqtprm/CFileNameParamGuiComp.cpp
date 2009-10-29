@@ -52,11 +52,12 @@ void CFileNameParamGuiComp::UpdateEditor(int /*updateFlags*/)
 {
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		QString filePath = iqt::GetQString(objectPtr->GetPath());
-		
-		SetPathToEditor(filePath);
-
 		int pathType = objectPtr->GetPathType();
+
+		QString newPath = iqt::GetQString(objectPtr->GetPath());
+		if (newPath != DirEdit->currentText()){
+			SetPathToEditor(newPath);
+		}
 
 		DirectoryLabel->setVisible(pathType == iprm::IFileNameParam::PT_DIRECTORY);
 		PathLabel->setVisible(pathType == iprm::IFileNameParam::PT_FILE);
