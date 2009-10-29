@@ -11,6 +11,7 @@
 #include <QStatusBar>
 #include <QStyle>
 #include <QSettings>
+#include <QClipboard>
 
 
 // ACF includes
@@ -41,7 +42,8 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_undoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
 	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF)
+	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
+	m_copyPathToClippboardCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU)
 {
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
@@ -53,6 +55,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
 	connect(&m_fullScreenCommand, SIGNAL(activated()), this, SLOT(OnFullScreen()));
 	connect(&m_showToolBarsCommand, SIGNAL(activated()), this, SLOT(OnShowToolbars()));
+	connect(&m_copyPathToClippboardCommand, SIGNAL(activated()), this, SLOT(OnCopyPathToClippboard()));
 	connect(&m_aboutCommand, SIGNAL(activated()), this, SLOT(OnAbout()));
 }
 
@@ -91,6 +94,7 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 	m_editCommand.ResetChilds();
 	m_viewCommand.ResetChilds();
 	m_helpCommand.ResetChilds();
+	m_toolsCommand.ResetChilds();
 	m_fixedCommands.ResetChilds();
 
 	if (m_documentManagerModelCompPtr.IsValid()){
@@ -162,6 +166,12 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 			m_viewCommand.SetPriority(90);
 			m_viewCommand.InsertChild(&m_fullScreenCommand, false);
 			m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
+
+			m_toolsCommand.SetPriority(140);
+
+			if (*m_isCopyPathVisibleAttrPtr){
+				m_toolsCommand.InsertChild(&m_copyPathToClippboardCommand, false);
+			}
 
 			m_helpCommand.SetPriority(150);
 
@@ -462,6 +472,9 @@ void CMainWindowGuiComp::UpdateFixedCommands()
 	}
 
 	m_fixedCommands.InsertChild(&m_viewCommand, false);
+	if (*m_isCopyPathVisibleAttrPtr){
+		m_fixedCommands.InsertChild(&m_toolsCommand, false);
+	}
 	m_fixedCommands.InsertChild(&m_helpCommand, false);
 }
 
@@ -511,6 +524,7 @@ void CMainWindowGuiComp::UpdateMenuActions()
 	m_openCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_OPEN) != 0);
 	m_saveCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_SAVE) != 0);
 	m_saveAsCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_SAVE_AS) != 0);
+	m_copyPathToClippboardCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_KNOWN_PATH) != 0);
 	m_printCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_PRINT) != 0);
 
 	if (m_documentManagerCommandsCompPtr.IsValid()){
@@ -673,6 +687,7 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_fileCommand.SetName(iqt::GetCString(tr("&File")));
 	m_editCommand.SetName(iqt::GetCString(tr("&Edit")));
 	m_viewCommand.SetName(iqt::GetCString(tr("&View")));
+	m_toolsCommand.SetName(iqt::GetCString(tr("&Tools")));
 	m_helpCommand.SetName(iqt::GetCString(tr("&Help")));
 
 	// File commands
@@ -694,7 +709,10 @@ void CMainWindowGuiComp::OnRetranslate()
 	// View commands
 	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_fullScreenCommand.setShortcut(tr("F11"));
-	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show/Hide toolbars"));
+	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show and hide toolbars"));
+
+	// Tools commands
+	m_copyPathToClippboardCommand.SetVisuals(tr("&Copy Document Path"), tr("Copy Path"), tr("Copy current document path to system clippboard"));
 
 	// Help commands
 	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), QIcon(":/Icons/About"));
@@ -1073,6 +1091,20 @@ void CMainWindowGuiComp::OnShowToolbars()
 }
 
 
+void CMainWindowGuiComp::OnCopyPathToClippboard()
+{
+	if ((m_activeViewPtr != NULL) && m_documentManagerCompPtr.IsValid()){
+		idoc::IDocumentManager::DocumentInfo info;
+		if (m_documentManagerCompPtr->GetDocumentFromView(*m_activeViewPtr, &info) != NULL){
+			QClipboard* clipboardPtr = QApplication::clipboard();
+			if (clipboardPtr != NULL){
+				clipboardPtr->setText(iqt::GetQString(info.filePath));
+			}
+		}
+	}
+}
+
+
 void CMainWindowGuiComp::OnAbout()
 {
 	if (m_aboutGuiCompPtr.IsValid()){
@@ -1080,23 +1112,6 @@ void CMainWindowGuiComp::OnAbout()
 
 		aboutDialog.exec();
 	}
-}
-
-
-void CMainWindowGuiComp::OnLanguageSelected(QAction* actionPtr) 
-{
-	if (m_translationManagerCompPtr.IsValid()){
-		m_translationManagerCompPtr->SetSelectedLanguage(actionPtr->text());
-	}
-}
-
-
-void CMainWindowGuiComp::OnStyleSelected(QAction* actionPtr) 
-{
-	qApp->setStyle(actionPtr->text());
-
-	QStyle* appStylePtr = QApplication::style();
-	QApplication::setPalette(appStylePtr->standardPalette());
 }
 
 

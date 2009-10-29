@@ -80,6 +80,10 @@ int CDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymorphic* vie
 		}
 	}
 
+	if (!docInfo.filePath.IsEmpty()){
+		retVal |= OF_KNOWN_PATH;
+	}
+
 	return retVal;
 }
 

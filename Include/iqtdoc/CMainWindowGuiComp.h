@@ -53,11 +53,11 @@ public:
 		I_ASSIGN(m_documentManagerCommandsCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
 		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Document workspace", true, "Workspace");
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false);
-		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager");
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 		I_ASSIGN(m_isMenuVisibleAttrPtr, "IsMenuVisible", "If true, menu bar will be visible", true, true);
 		I_ASSIGN(m_isToolbarVisibleAttrPtr, "IsToolbarVisible", "If true, tool bar will be visible", true, true);
 		I_ASSIGN(m_isNestingEnabledAttrPtr, "IsNestingEnabled", "If true, docking nesting is enabled,\nmore than one docking widget is allowed on the same size", true, false);
+		I_ASSIGN(m_isCopyPathVisibleAttrPtr, "IsCopyPathVisible", "If true, operation Tools/CopyDocumentPath will be visible", true, false);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16);
 		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false);
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
@@ -143,9 +143,8 @@ protected slots:
 	void OnRedo();
 	void OnFullScreen();
 	void OnShowToolbars();
+	void OnCopyPathToClippboard();
 	void OnAbout();
-	void OnLanguageSelected(QAction* a); 
-	void OnStyleSelected(QAction* a);
 
 private:
 	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
@@ -224,6 +223,7 @@ private:
 	iqtgui::CHierarchicalCommand m_fileCommand;
 	iqtgui::CHierarchicalCommand m_editCommand;
 	iqtgui::CHierarchicalCommand m_viewCommand;
+	iqtgui::CHierarchicalCommand m_toolsCommand;
 	iqtgui::CHierarchicalCommand m_helpCommand;
 
 	// file menu group
@@ -239,6 +239,8 @@ private:
 	// view menu group
 	iqtgui::CHierarchicalCommand m_fullScreenCommand;
 	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
+	// tools menu group
+	iqtgui::CHierarchicalCommand m_copyPathToClippboardCommand;
 	// help menu group
 	iqtgui::CHierarchicalCommand m_aboutCommand;
 
@@ -252,12 +254,12 @@ private:
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(idoc::ICommandsProvider, m_documentManagerCommandsCompPtr);
-	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsPtr);
 	I_ATTR(bool, m_isMenuVisibleAttrPtr);
 	I_ATTR(bool, m_isToolbarVisibleAttrPtr);
 	I_ATTR(bool, m_isNestingEnabledAttrPtr);
+	I_ATTR(bool, m_isCopyPathVisibleAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(bool, m_useIconTextAttrPtr);
 	I_ATTR(int, m_maxRecentFilesCountAttrPtr);

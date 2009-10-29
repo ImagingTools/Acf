@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1107
+          1136
         </Number>
         <Description>
           ACF
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="12">
           <AttributeInfo>
             <Id>
               AboutDescriptionText
@@ -152,6 +152,25 @@ This tool is a part of ACF project
               </IsEnabled>
               <Value>
                 :/Icons/CompositorIcon.svg
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              IsCopyPathVisible
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                true
               </Value>
             </Data>
           </AttributeInfo>
