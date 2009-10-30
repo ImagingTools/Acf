@@ -49,11 +49,20 @@ public:
 	virtual void OnComponentCreated();
 
 protected:
-	enum Column
+	enum ColumnType
 	{
-		TimeColumn = 0,
-		SourceColumn = 1,
-		MessageColumn = 2
+		CT_ICON,
+		CT_TIME,
+		CT_SOURCE,
+		CT_MESSAGE
+	};
+
+	enum MessageMode
+	{
+		MM_INFO = istd::ILogger::MC_INFO,
+		MM_WARNING = istd::ILogger::MC_WARNING,
+		MM_ERROR = istd::ILogger::MC_ERROR,
+		MM_ALL = istd::ILogger::MC_CRITICAL
 	};
 
 	enum DataRole
@@ -75,16 +84,16 @@ protected:
 	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
-protected slots:
+protected Q_SLOTS:
 	void OnAddMessage(QTreeWidgetItem* itemPtr);
 	void OnRemoveMessage(QVariant messageId);
 	void OnReset();
+	void OnMessageModeChanged();
 
-	void on_ClearButton_clicked();
-	void on_ExportButton_clicked();
-	void on_CategorySlider_valueChanged(int category);
+	void OnClearAction();
+	void OnExportAction();
 
-signals:
+Q_SIGNALS:
 	void EmitAddMessage(QTreeWidgetItem* itemPtr);
 	void EmitRemoveMessage(QVariant);
 	void EmitReset();
@@ -96,6 +105,8 @@ private:
 	typedef QMap<int, QString> CategoryNameMap;
 
 	CategoryNameMap m_categoryNameMap;
+
+	int m_currentMessageMode;
 };
 
 

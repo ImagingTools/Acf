@@ -2,6 +2,9 @@
   <qresource prefix="/Icons" >
     <file alias="ZoomReset" >Resources/Icons/hand_128.png</file>
     <file alias="ZoomIn" >Resources/Icons/Zoom in.png</file>
+    <file alias="Info" >Resources/Icons/dialog-information.png</file>
+    <file alias="Error" >Resources/Icons/dialog-error.png</file>
+    <file alias="Warning" >Resources/Icons/dialog-warning.png</file>
     <file alias="ZoomOut" >Resources/Icons/Zoom out.png</file>
     <file alias="Log" >Resources/Icons/Log.png</file>
     <file alias="SnapImage" >Resources/Icons/SnapImage.png</file>
@@ -13,6 +16,8 @@
     <file alias="Exit" >Resources/Icons/exit.png</file>
     <file alias="Undo" >Resources/Icons/reload_left_128.png</file>
     <file alias="Redo" >Resources/Icons/reload_128.png</file>
+    <file alias="Export" >Resources/Icons/document-save.png</file>
+    <file alias="Clear" >Resources/Icons/edit-clear.png</file>
     <file alias="RotateLeft.svg" >Resources/Icons/RotateLeft.svg</file>
     <file alias="RotateRight.svg" >Resources/Icons/RotateRight.svg</file>
     <file alias="About" >Resources/Icons/info_128.png</file>

@@ -1,17 +1,70 @@
 #include "iqtgui/CLogGuiComp.h"
 
 
+// Qt includes
 #include <QHeaderView>
 #include <QDateTime>
+#include <QToolBar>
+#include <QItemDelegate>
+#include <QPainter>
 
 
 namespace iqtgui
 {
 
 
+class ItemDelegate: public QItemDelegate
+{
+public:
+	typedef QItemDelegate BaseClass;
+
+	ItemDelegate(QObject* parent);
+		
+	// reimplemented (QItemDelegate)
+	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+	virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
+};
+
+
+// public methods of local class ItemDelegate
+
+ItemDelegate::ItemDelegate(QObject* parent)
+	:BaseClass(parent)
+{
+}
+
+
+// reimplemented (QItemDelegate)
+
+QSize ItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index ) const
+{
+	QSize size = QItemDelegate::sizeHint(option, index);
+
+	size.setHeight(20);
+
+	return size;
+}
+
+
+void ItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	QItemDelegate::paint(painter, option, index);
+
+	QRect rect = option.rect;
+	painter->setPen(QPen(Qt::darkGray, 0, Qt::SolidLine));
+	if (index.column() != 3){
+		painter->drawLine(rect.topRight(), rect.bottomRight());
+	}
+
+	painter->drawLine(rect.bottomLeft(), rect.bottomRight());
+}
+
+
+
 // public methods
 
 CLogGuiComp::CLogGuiComp()
+	:m_currentMessageMode(MM_ALL)
 {
 	m_categoryNameMap[istd::ILogger::MC_INFO] = tr("Info");
 	m_categoryNameMap[istd::ILogger::MC_WARNING] = tr("Warning");
@@ -46,38 +99,36 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 		dateTime = QDateTime::fromTime_t(uint(message.GetTimeStamp().ToCTime()));
 
 		QString date = dateTime.toString();
-		treeItemPtr->setText(TimeColumn, date);
-		treeItemPtr->setText(MessageColumn, iqt::GetQString(message.GetText()));
-		treeItemPtr->setText(SourceColumn, iqt::GetQString(message.GetSource()));
 
-		treeItemPtr->setToolTip(TimeColumn, iqt::GetQString(message.GetText()));
-		treeItemPtr->setToolTip(MessageColumn, iqt::GetQString(message.GetText()));
-		treeItemPtr->setToolTip(SourceColumn, iqt::GetQString(message.GetText()));
+		treeItemPtr->setText(CT_TIME, date);
+		treeItemPtr->setText(CT_MESSAGE, iqt::GetQString(message.GetText()));
+		treeItemPtr->setText(CT_SOURCE, iqt::GetQString(message.GetSource()));
+
+		treeItemPtr->setToolTip(CT_TIME, iqt::GetQString(message.GetText()));
+		treeItemPtr->setToolTip(CT_MESSAGE, iqt::GetQString(message.GetText()));
+		treeItemPtr->setToolTip(CT_SOURCE, iqt::GetQString(message.GetText()));
 		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue((void*)&message));
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetCategory());
 
-		QColor messageColor;
+		QIcon messageIcon;
 		switch (message.GetCategory()){
 		case istd::ILogger::MC_WARNING:
-			messageColor = QColor(235, 235, 0);
+			messageIcon = QIcon(":/Icons/Warning");
 			break;
 
 		case istd::ILogger::MC_ERROR:
-			messageColor = QColor(255, 0, 255, 128);
-			break;
-
 		case istd::ILogger::MC_CRITICAL:
-			messageColor = QColor(255, 0, 0);
+			messageIcon = QIcon(":/Icons/Error");
 			break;
 
-		default:
-			messageColor = QColor(0,0,0,0);
+		case istd::ILogger::MC_INFO:
+			messageIcon = QIcon(":/Icons/Info");
 			break;
 		}
 
-		treeItemPtr->setBackgroundColor(TimeColumn, messageColor);
-		treeItemPtr->setBackgroundColor(SourceColumn, messageColor);
-		treeItemPtr->setBackgroundColor(MessageColumn, messageColor);
+		QPixmap pixmap = messageIcon.pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
+
+		treeItemPtr->setIcon(CT_ICON, pixmap);
 	}
 
 	return treeItemPtr;
@@ -86,11 +137,9 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 
 void CLogGuiComp::UpdateItemState(QTreeWidgetItem& item) const
 {
-	int currentCategory = CategorySlider->value();
-
 	int itemCategory = item.data(0, DR_CATEGORY).toInt();
 
-	item.setHidden(itemCategory < currentCategory);
+	item.setHidden(itemCategory < m_currentMessageMode);
 }
 
 
@@ -100,9 +149,11 @@ void CLogGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+	LogView->header()->setResizeMode(QHeaderView::ResizeToContents);
 	LogView->header()->setStretchLastSection(true);
-
-	ExportButton->setVisible(m_fileLoaderCompPtr.IsValid());
+	LogView->setItemDelegate(new ItemDelegate(this));
+	LogView->header()->hide();
+	LogView->header()->resizeSection(CT_ICON, 20);
 
 	Messages messages = GetMessages();
 	for (		Messages::const_iterator iter = messages.begin();
@@ -115,6 +166,51 @@ void CLogGuiComp::OnGuiCreated()
 				OnAddMessage(itemPtr);
 			}
 		}
+	}
+
+	QToolBar* toolBar = new QToolBar(ToolBarFrame);
+	if (ToolBarFrame->layout()){
+		ToolBarFrame->layout()->addWidget(toolBar);
+	}
+
+	QActionGroup* actionGroup = new QActionGroup(this);
+	actionGroup->setExclusive(true);
+
+	QAction* infoAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Info")), tr("Info"), ToolBarFrame);
+	infoAction->setCheckable(true);
+	infoAction->setData(MM_INFO);
+	connect(infoAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	actionGroup->addAction(infoAction);
+	infoAction->setChecked(true);
+
+	QAction* warningAction = new QAction(QIcon(":/Icons/Warning"), tr("Warning"), ToolBarFrame);
+	warningAction->setCheckable(true);
+	warningAction->setData(MM_WARNING);
+	connect(warningAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	actionGroup->addAction(warningAction);
+
+	QAction* errorAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Error")), tr("Error"), ToolBarFrame);
+	errorAction->setCheckable(true);
+	errorAction->setData(MM_WARNING);
+	connect(errorAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	actionGroup->addAction(errorAction);
+
+	QAction* clearAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Clear")), tr("Clear"), ToolBarFrame);
+	connect(clearAction, SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
+
+	toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+	toolBar->setIconSize(QSize(16, 16));
+	toolBar->addAction(infoAction);
+	toolBar->addAction(warningAction);
+	toolBar->addAction(errorAction);
+	toolBar->addAction(clearAction);
+	toolBar->insertSeparator(clearAction);
+
+	if (m_fileLoaderCompPtr.IsValid()){
+		QAction* exportAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Export")), tr("Export..."), ToolBarFrame);
+		connect(exportAction, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);		
+		toolBar->addAction(exportAction);
+		toolBar->insertSeparator(exportAction);
 	}
 }
 
@@ -188,31 +284,36 @@ void CLogGuiComp::OnReset()
 }
 
 
-void CLogGuiComp::on_ClearButton_clicked()
+void CLogGuiComp::OnMessageModeChanged()
 {
-	ClearMessages();
-}
-
-
-void CLogGuiComp::on_ExportButton_clicked()
-{
-	if (m_fileLoaderCompPtr.IsValid()){
-		m_fileLoaderCompPtr->SaveToFile(*this, istd::CString());
+	QAction* actionPtr = dynamic_cast<QAction*> (sender());
+	if (actionPtr != NULL){
+		m_currentMessageMode = actionPtr->data().toInt();
+	
 	}
-}
 
-
-void CLogGuiComp::on_CategorySlider_valueChanged(int category)
-{
 	for (int itemIndex = 0; itemIndex < LogView->topLevelItemCount(); itemIndex++){
 		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
 		I_ASSERT(itemPtr != NULL);
 
 		UpdateItemState(*itemPtr);
 	}
-
-	CategoryLabel->setText(m_categoryNameMap[category]);
 }
+
+
+void CLogGuiComp::OnClearAction()
+{
+	ClearMessages();
+}
+
+
+void CLogGuiComp::OnExportAction()
+{
+	if (m_fileLoaderCompPtr.IsValid()){
+		m_fileLoaderCompPtr->SaveToFile(*this, istd::CString());
+	}
+}
+
 
 
 } // namespace iqtgui
