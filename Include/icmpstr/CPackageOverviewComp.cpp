@@ -10,6 +10,7 @@
 #include <QBitmap>
 #include <QPushButton>
 #include <QPainter>
+#include <QMenu>
 
 
 // ACF includes
@@ -189,6 +190,24 @@ void CPackageOverviewComp::on_ResetFilterButton_clicked()
 	FilterEdit->clear();
 
 	GenerateComponentTree();
+}
+
+
+void CPackageOverviewComp::OnContextMenuRequested(const QPoint& menuPoint)
+{
+	I_ASSERT(IsGuiCreated());
+
+	QPoint localPoint;
+	localPoint = PackagesList->viewport()->mapToGlobal(menuPoint);
+
+	QAction actionCollapseAll(tr("&Collapse All"), this);
+	connect(&actionCollapseAll, SIGNAL(triggered()), PackagesList, SLOT(collapseAll()), Qt::QueuedConnection);
+	QAction actionExpandAll(tr("&Expand All"), this);
+    connect(&actionExpandAll, SIGNAL(triggered()), PackagesList, SLOT(expandAll()), Qt::QueuedConnection);
+	QList<QAction*> actionList;
+	actionList << &actionCollapseAll << &actionExpandAll;
+
+	QMenu::exec(actionList, localPoint);
 }
 
 
@@ -461,6 +480,13 @@ void CPackageOverviewComp::OnGuiCreated()
 	PackagesList->setIndentation(15);
 
 	PackagesList->viewport()->installEventFilter(this);
+
+	PackagesList->setContextMenuPolicy( Qt::CustomContextMenu);
+
+	connect(PackagesList, 
+				SIGNAL(customContextMenuRequested(const QPoint&)),
+				this, 
+				SLOT(OnContextMenuRequested(const QPoint&)));
 
 	KeywordsList->setColumnCount(2);
 	KeywordsList->setHeaderLabels(labels);

@@ -66,6 +66,8 @@ protected slots:
 	void on_FilterEdit_textEdited(const QString& text);
 	void on_ResetFilterButton_clicked();
 
+	void OnContextMenuRequested(const QPoint& menuPoint);
+
 protected:
 	void GeneratePackageTree(
 				const std::string& packageId,
