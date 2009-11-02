@@ -28,7 +28,7 @@ istd::CString CFileSystem::GetFileName(const istd::CString& filePath) const
 {
 	QFileInfo fileInfo(iqt::GetQString(filePath));
 
-	return iqt::GetCString(fileInfo.absoluteFilePath());
+	return iqt::GetCString(fileInfo.fileName());
 }
 
 
