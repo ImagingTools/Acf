@@ -26,6 +26,12 @@ void CFileNameParamGuiComp::OnGuiCreated()
 	UrlLabel->setVisible(false);
 	BrowseButton->setVisible(false);
 
+	if (m_pathLabelAttrPtr.IsValid()){
+		DirectoryLabel->setText(iqt::GetQString(*m_pathLabelAttrPtr));
+		PathLabel->setText(iqt::GetQString(*m_pathLabelAttrPtr));
+		UrlLabel->setText(iqt::GetQString(*m_pathLabelAttrPtr));
+	}
+
 	BaseClass::OnGuiCreated();
 }
 

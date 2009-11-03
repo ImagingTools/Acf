@@ -30,6 +30,7 @@ public:
 				iprm::IFileNameParam> BaseClass;
 
 	I_BEGIN_COMPONENT(CFileNameParamGuiComp)
+		I_ASSIGN(m_pathLabelAttrPtr, "PathLabel", "Label for the file editor", false, "Directory");
 	I_END_COMPONENT
 
 	// reimplemented (iqtgui::CGuiComponentBase)
@@ -53,6 +54,8 @@ private:
 
 private:
 	mutable QDirModel m_directoryModel;
+
+	I_ATTR(istd::CString, m_pathLabelAttrPtr);
 };
 
 
