@@ -138,7 +138,12 @@ void CFolderMonitorComp::run()
 			continue;
 		}
 
-		QFileInfoList currentFiles = folderDir.entryInfoList(m_fileFilterExpressions, QDir::AllEntries);
+		QDir::Filters itemFilter = QDir::AllEntries;
+		if (m_observingItemsAttrPtr.IsValid()){
+			itemFilter = QDir::Filters(*m_observingItemsAttrPtr);
+		}
+
+		QFileInfoList currentFiles = folderDir.entryInfoList(m_fileFilterExpressions, itemFilter);
 
 		QStringList addedFiles;
 		QStringList removedFiles;
@@ -156,18 +161,21 @@ void CFolderMonitorComp::run()
 
 		for (int currentFileIndex = 0; currentFileIndex < int(currentFiles.count()); currentFileIndex++){
 			const QFileInfo& currentFileInfo = currentFiles[currentFileIndex];
-			bool newFile = true;
-			for (int fileIndex = 0; fileIndex < int(m_directoryFiles.count()); fileIndex++){
-				const QFileInfo& fileInfo = m_directoryFiles[fileIndex];
-				if (currentFileInfo == fileInfo){
-					newFile = false;
-					break;
-				}
-			}
 
-			if (newFile){
+			QFileInfoList::iterator foundFileIter = qFind(m_directoryFiles.begin(), m_directoryFiles.end(), currentFileInfo);
+			if (foundFileIter == m_directoryFiles.end()){
 				addedFiles.push_back(currentFileInfo.absoluteFilePath());
 				SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was added"));
+			}
+			else{
+				if (foundFileIter->lastModified() != currentFileInfo.lastModified()){
+					modifiedFiles.push_back(currentFileInfo.absoluteFilePath());
+					SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was modified"));
+				}
+				if (foundFileIter->permissions() != currentFileInfo.permissions()){
+					attributeChangedFiles.push_back(currentFileInfo.absoluteFilePath());
+					SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " has attribute changed"));
+				}
 			}
 		}
 

@@ -13,12 +13,14 @@ namespace iqtgui
 {
 
 
-#define ICON_SECTION_SIZE 20
-
-
 class ItemDelegate: public QItemDelegate
 {
 public:
+	enum
+	{
+		DS_ICON_SIZE = 20
+	};
+
 	typedef QItemDelegate BaseClass;
 
 	ItemDelegate(QObject* parent);
@@ -43,7 +45,7 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelInd
 {
 	QSize size = QItemDelegate::sizeHint(option, index);
 
-	size.setHeight(ICON_SECTION_SIZE);
+	size.setHeight(ItemDelegate::DS_ICON_SIZE);
 
 	return size;
 }
@@ -158,7 +160,7 @@ void CLogGuiComp::OnGuiCreated()
 	LogView->header()->hide();
 
 	LogView->header()->setResizeMode(CT_ICON, QHeaderView::Fixed);
-	LogView->header()->resizeSection(CT_ICON, ICON_SECTION_SIZE);
+	LogView->header()->resizeSection(CT_ICON, ItemDelegate::DS_ICON_SIZE);
 
 	Messages messages = GetMessages();
 	for (		Messages::const_iterator iter = messages.begin();

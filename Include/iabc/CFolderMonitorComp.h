@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QTimer>
 #include <QThread>
+#include <QDir>
 
 
 // ACF includes
@@ -41,6 +42,23 @@ class CFolderMonitorComp:
 	Q_OBJECT
 
 public:
+	enum ObserveItems
+	{
+		OI_DIR = QDir::Dirs,
+		OI_FILES = QDir::Files,
+		OI_DRIVES = QDir::Drives,
+		OI_ALL = QDir::AllEntries
+	};
+
+	enum ObserveChanges
+	{
+		OC_ADD = 0x1,
+		OC_REMOVE = 0x2,
+		OC_MODIFIED = 0x4,
+		OC_ATTR_CHANGED = 0x4,
+		OC_ALL = 0xff
+	};
+
 	class FileSystemChanges: public istd::IPolymorphic
 	{
 	public:
@@ -57,6 +75,8 @@ public:
 		I_REGISTER_INTERFACE(ibase::IFolderMonitor);
 		I_ASSIGN(m_notificationFrequencyAttrPtr, "NotificationFrequency", "Minimal time range for the folder check after the change notification", false, 10);
 		I_ASSIGN(m_poolingFrequencyAttrPtr, "PoolingFrequency", "Minimal frequency for pooling of changes in seconds", false, 60);
+		I_ASSIGN(m_observingItemsAttrPtr, "ObserveItems", "Select the item types to be observed.1 - Directories\n2 - Files\n3 - Drives", false, OI_ALL);
+		I_ASSIGN(m_observingChangesAttrPtr, "ObserveChanges", "Select change types to be observed", false, OC_ALL);
 		I_ASSIGN_MULTI_0(m_fileFilterExpressionsAttrPtr, "FileFilters", "File filters for the folder (as regular expression)", false);
 		I_ASSIGN(m_fileNameParamCompPtr, "FolderPath", "Specify folder to observe.", true, "FolderPath");
 	I_END_COMPONENT;
@@ -92,6 +112,8 @@ private:
 private:
 	I_ATTR(int, m_notificationFrequencyAttrPtr);
 	I_ATTR(int, m_poolingFrequencyAttrPtr);
+	I_ATTR(int, m_observingItemsAttrPtr);
+	I_ATTR(int, m_observingChangesAttrPtr);
 	I_ATTR(istd::CString, m_defaultPathAttrPtr);
 	I_MULTIATTR(istd::CString, m_fileFilterExpressionsAttrPtr)
 	I_REF(iprm::IFileNameParam, m_fileNameParamCompPtr);
