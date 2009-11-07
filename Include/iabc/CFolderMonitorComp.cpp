@@ -150,31 +150,48 @@ void CFolderMonitorComp::run()
 		QStringList modifiedFiles;
 		QStringList attributeChangedFiles;
 
+		int observingFlags = OC_ALL;
+
+		if (m_observingChangesAttrPtr.IsValid()){
+			observingFlags = *m_observingChangesAttrPtr;
+		}
+
 		// check for changes:
-		for (int fileIndex = 0; fileIndex < int(m_directoryFiles.count()); fileIndex++){
-			QFileInfo fileInfo = m_directoryFiles[fileIndex];
-			if (!fileInfo.exists()){
-				removedFiles.push_back(fileInfo.absoluteFilePath());
-				SendInfoMessage(0, iqt::GetCString(fileInfo.absoluteFilePath() + " was removed"));
+
+		if ((observingFlags & OC_REMOVE) != 0){
+			for (int fileIndex = 0; fileIndex < int(m_directoryFiles.count()); fileIndex++){
+				QFileInfo fileInfo = m_directoryFiles[fileIndex];
+				if (!fileInfo.exists()){
+					removedFiles.push_back(fileInfo.absoluteFilePath());
+					SendInfoMessage(0, iqt::GetCString(fileInfo.absoluteFilePath() + " was removed"));
+				}
 			}
 		}
 
-		for (int currentFileIndex = 0; currentFileIndex < int(currentFiles.count()); currentFileIndex++){
-			const QFileInfo& currentFileInfo = currentFiles[currentFileIndex];
+		if (observingFlags != OC_REMOVE){
+			for (int currentFileIndex = 0; currentFileIndex < int(currentFiles.count()); currentFileIndex++){
+				const QFileInfo& currentFileInfo = currentFiles[currentFileIndex];
 
-			QFileInfoList::iterator foundFileIter = qFind(m_directoryFiles.begin(), m_directoryFiles.end(), currentFileInfo);
-			if (foundFileIter == m_directoryFiles.end()){
-				addedFiles.push_back(currentFileInfo.absoluteFilePath());
-				SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was added"));
-			}
-			else{
-				if (foundFileIter->lastModified() != currentFileInfo.lastModified()){
-					modifiedFiles.push_back(currentFileInfo.absoluteFilePath());
-					SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was modified"));
+				QFileInfoList::iterator foundFileIter = qFind(m_directoryFiles.begin(), m_directoryFiles.end(), currentFileInfo);
+				if (foundFileIter == m_directoryFiles.end()){
+					if ((observingFlags & OC_ADD) != 0){
+						addedFiles.push_back(currentFileInfo.absoluteFilePath());
+						SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was added"));
+					}
 				}
-				if (foundFileIter->permissions() != currentFileInfo.permissions()){
-					attributeChangedFiles.push_back(currentFileInfo.absoluteFilePath());
-					SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " has attribute changed"));
+				else{
+					if (foundFileIter->lastModified() != currentFileInfo.lastModified()){
+						if ((observingFlags & OC_MODIFIED) != 0){
+							modifiedFiles.push_back(currentFileInfo.absoluteFilePath());
+							SendInfoMessage(0, iqt::GetCString(currentFileInfo.absoluteFilePath() + " was modified"));
+						}
+					}
+					if (foundFileIter->permissions() != currentFileInfo.permissions()){
+						if ((observingFlags & OC_ATTR_CHANGED) != 0){
+							attributeChangedFiles.push_back(currentFileInfo.absoluteFilePath());
+							SendInfoMessage(0, istd::CString("Attributes of") + iqt::GetCString(currentFileInfo.absoluteFilePath() + " have been changed"));
+						}
+					}
 				}
 			}
 		}

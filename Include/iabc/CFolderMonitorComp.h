@@ -55,8 +55,8 @@ public:
 		OC_ADD = 0x1,
 		OC_REMOVE = 0x2,
 		OC_MODIFIED = 0x4,
-		OC_ATTR_CHANGED = 0x4,
-		OC_ALL = 0xff
+		OC_ATTR_CHANGED = 0x8,
+		OC_ALL = OC_ADD | OC_REMOVE | OC_MODIFIED | OC_ATTR_CHANGED
 	};
 
 	class FileSystemChanges: public istd::IPolymorphic
@@ -75,8 +75,8 @@ public:
 		I_REGISTER_INTERFACE(ibase::IFolderMonitor);
 		I_ASSIGN(m_notificationFrequencyAttrPtr, "NotificationFrequency", "Minimal time range for the folder check after the change notification", false, 10);
 		I_ASSIGN(m_poolingFrequencyAttrPtr, "PoolingFrequency", "Minimal frequency for pooling of changes in seconds", false, 60);
-		I_ASSIGN(m_observingItemsAttrPtr, "ObserveItems", "Select the item types to be observed.1 - Directories\n2 - Files\n3 - Drives", false, OI_ALL);
-		I_ASSIGN(m_observingChangesAttrPtr, "ObserveChanges", "Select change types to be observed", false, OC_ALL);
+		I_ASSIGN(m_observingItemsAttrPtr, "ObserveItems", "Select the item types to be observed.\n1 - Directories\n2 - Files\n4 - Drives", false, OI_ALL);
+		I_ASSIGN(m_observingChangesAttrPtr, "ObserveChanges", "Select change types to be observed.\n1 - Added\n2 - Removed\n4 - Modified\n8 - Changes in attributes", false, OC_ALL);
 		I_ASSIGN_MULTI_0(m_fileFilterExpressionsAttrPtr, "FileFilters", "File filters for the folder (as regular expression)", false);
 		I_ASSIGN(m_fileNameParamCompPtr, "FolderPath", "Specify folder to observe.", true, "FolderPath");
 	I_END_COMPONENT;
