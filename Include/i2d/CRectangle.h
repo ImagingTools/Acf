@@ -87,6 +87,8 @@ public :
 	void Expand(const CRectangle& rect);
 
 	const CRectangle& operator=(const CRectangle& rect);
+	bool operator==(const CRectangle& rect) const;
+	bool operator!=(const CRectangle& rect) const;
 
 	virtual CRectangle GetBoundingBox() const;
 

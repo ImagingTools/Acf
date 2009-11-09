@@ -309,6 +309,18 @@ const CRectangle& CRectangle::operator=(const CRectangle& rect)
 }
 
 
+bool CRectangle::operator==(const CRectangle& rect) const
+{
+	return ((m_horizontalRange == rect.m_horizontalRange) && (m_verticalRange == rect.m_verticalRange));
+}
+	
+
+bool CRectangle::operator!=(const CRectangle& rect) const
+{
+	return !operator==(rect);
+}
+
+
 CRectangle CRectangle::GetBoundingBox() const
 {
 	return *this;
