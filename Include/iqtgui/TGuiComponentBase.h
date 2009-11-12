@@ -2,8 +2,11 @@
 #define iqtgui_TGuiComponentBase_included
 
 
+// Qt includes
 #include <QWidget>
 
+
+// ACF includes
 #include "iqtgui/TControlledWidgetWrap.h"
 #include "iqtgui/CGuiComponentBase.h"
 

@@ -40,7 +40,7 @@ void CFileListProviderComp::OnComponentDestroyed()
 
 // reimplemented (ibase::IFileListProvider)
 
-const istd::CStringList& CFileListProviderComp::GetFileList() const
+istd::CStringList CFileListProviderComp::GetFileList() const
 {
 	return m_fileList;
 }

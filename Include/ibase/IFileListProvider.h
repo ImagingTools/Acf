@@ -18,7 +18,7 @@ public:
 	/**
 		Get list of files.
 	*/
-	virtual const istd::CStringList& GetFileList() const = 0;
+	virtual istd::CStringList GetFileList() const = 0;
 };
 
 

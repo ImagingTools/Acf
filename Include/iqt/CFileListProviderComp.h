@@ -48,7 +48,7 @@ public:
 	virtual void OnComponentDestroyed();
 
 	// reimplemented (ibase::IFileListProvider)
-	virtual const istd::CStringList& GetFileList() const;
+	virtual istd::CStringList GetFileList() const;
 
 protected:
 	// reimplemented (imod::CSingleModelObserverBase)

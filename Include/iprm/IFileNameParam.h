@@ -11,6 +11,9 @@ namespace iprm
 {
 
 
+/**
+	Common interface for a file system item settings.
+*/
 class IFileNameParam: virtual public iser::ISerializable
 {
 public:
@@ -22,8 +25,20 @@ public:
 		PT_URL
 	};
 
+	/**
+		Get type of provided path.
+		\sa PathType
+	*/
 	virtual int GetPathType() const = 0;
+
+	/**
+		Get path.
+	*/
 	virtual const istd::CString& GetPath() const = 0;
+
+	/**
+		Set path.
+	*/
 	virtual void SetPath(const istd::CString& path) = 0;
 };
 
