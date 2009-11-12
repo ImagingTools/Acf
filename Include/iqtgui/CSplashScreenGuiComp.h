@@ -2,8 +2,11 @@
 #define iqtgui_CSplashScreen_included
 
 
+// Qt includes
 #include <QSplashScreen>
 
+
+// ACF includes
 #include "ibase/IApplicationInfo.h"
 
 #include "icomp/TAttribute.h"

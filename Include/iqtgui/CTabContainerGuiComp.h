@@ -2,11 +2,11 @@
 #define iqtgui_CTabContainerGuiComp_included
 
 
-#include "iqtgui.h"
-
-
+// Qt includes
 #include <QTabWidget>
 
+
+// ACF includes
 #include "iqtgui/TGuiComponentBase.h"
 
 #include "iqtgui/IIconProvider.h"
@@ -16,6 +16,11 @@ namespace iqtgui
 {
 
 
+/**
+	Component to create the tab widget, that shows the specified sub-UI-component in its tab page.
+	You can control some settings of the tabs such icons, title, orientation or tab visualization.
+	Optionally, you can specify the corner widget, which will be placed beside of the last tab.
+*/
 class CTabContainerGuiComp: public iqtgui::TGuiComponentBase<QTabWidget> 
 {
 public:

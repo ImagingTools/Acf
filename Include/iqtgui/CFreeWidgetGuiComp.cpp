@@ -1,6 +1,7 @@
 #include "iqtgui/CFreeWidgetGuiComp.h"
 
-#include <QMainWindow>
+
+// Qt includes
 #include <QVBoxLayout>
 
 

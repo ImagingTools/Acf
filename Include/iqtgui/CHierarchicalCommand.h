@@ -2,9 +2,12 @@
 #define iqtgui_CHierarchicalCommand_included
 
 
+// Qt includes
 #include <QAction>
 #include <QString>
 
+
+// ACF includes
 #include "istd/TOptPointerVector.h"
 
 #include "ibase/TNamedWrap.h"
@@ -25,13 +28,17 @@ namespace iqtgui
 */
 class CHierarchicalCommand:
 			public QAction,
-			public ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedWrap<idoc::IHierarchicalCommand> > >
+			public ibase::TEnableableWrap<
+						ibase::THierarchicalBase<
+									ibase::TNamedWrap<idoc::IHierarchicalCommand> > >
 {
 	Q_OBJECT
 
 public:
 	typedef QAction BaseClass;
-	typedef ibase::TEnableableWrap< ibase::THierarchicalBase< ibase::TNamedWrap<idoc::IHierarchicalCommand> > > BaseClass2;
+	typedef ibase::TEnableableWrap<
+					ibase::THierarchicalBase<
+								ibase::TNamedWrap<idoc::IHierarchicalCommand> > > BaseClass2;
 
 	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL);
 
