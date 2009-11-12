@@ -207,6 +207,14 @@
 				RelativePath="..\iabc.h"
 				>
 			</File>
+			<File
+				RelativePath="..\IDirectoryMonitor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IDirectoryMonitorParams.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"

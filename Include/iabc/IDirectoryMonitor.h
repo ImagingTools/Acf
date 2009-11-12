@@ -1,24 +1,23 @@
-#ifndef ibase_IFolderMonitor_included
-#define ibase_IFolderMonitor_included
+#ifndef iabc_IDirectoryMonitor_included
+#define iabc_IDirectoryMonitor_included
 
-
-#include "ibase/ibase.h"
 
 #include "istd/IChangeable.h"
 #include "istd/CString.h"
 
+#include "ibase/IFileListProvider.h"
 
 
-namespace ibase
+namespace iabc
 {
 
 
 /**
 	Interface for a folder monitor.
-	Observers of this interface are notified about all changes made in the monitored folder such as removing or adding files,
-	changes in file contents or in file attributes.
+	Observers of this interface are notified about all changes made in all monitored directories, 
+	such as removing or adding files, changes in file contents or file attributes.
 */
-class IFolderMonitor: virtual public istd::IChangeable
+class IDirectoryMonitor: virtual public ibase::IFileListProvider
 {
 public:
 	enum ChangeFlags
@@ -37,7 +36,9 @@ public:
 };
 
 
-} // namespace ibase
+} // namespace iabc
 
 
-#endif // !ibase_IFolderMonitor_included
+#endif // !iabc_IDirectoryMonitor_included
+
+
