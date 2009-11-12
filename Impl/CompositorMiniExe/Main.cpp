@@ -10,8 +10,9 @@
 #include "icomp/TModelCompWrap.h"
 
 // ACF packages includes
-#include "QtPck/QtPck.h"
 #include "BasePck/BasePck.h"
+#include "QtPck/QtPck.h"
+#include "QtGuiPck/QtGuiPck.h"
 #include "CmpstrPck/CmpstrPck.h"
 
 
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(iqtgui);
 	Q_INIT_RESOURCE(icmpstr);
 
-	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
+	icomp::TSimComponentWrap<QtGuiPck::GuiApplication> application;
 	application.SetDoubleAttr("SplashTime", 1.5);
 	application.InitializeApplication(argc, argv);
 
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
 	applicationSettingsProvider.SetRef("ApplicationInfo", &applicationInfo);
 	applicationSettingsProvider.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
+	icomp::TSimComponentWrap<QtGuiPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../Docs/Images/CompositorSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "");
 	splashScreenGui.SetStringAttr("ProductType", "Mini");
@@ -43,10 +44,10 @@ int main(int argc, char *argv[])
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::Log> log;
+	icomp::TSimComponentWrap<QtGuiPck::Log> log;
 	log.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::DockWidgetGui> lockDockComp;
+	icomp::TSimComponentWrap<QtGuiPck::DockWidgetGui> lockDockComp;
 	lockDockComp.SetRef("SlaveGui", &log);
 	lockDockComp.SetIntAttr("DockArea", 2);
 	lockDockComp.SetStringAttr("DockTitle", "Log");
@@ -124,26 +125,26 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetBoolAttr("IsNewSupported", true);
 	documentTemplateComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::SingleDocWorkspaceGui> workspaceComp;
+	icomp::TSimComponentWrap<QtGuiPck::SingleDocWorkspaceGui> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::DockWidgetGui> attributeEditorDockComp;
+	icomp::TSimComponentWrap<QtGuiPck::DockWidgetGui> attributeEditorDockComp;
 	attributeEditorDockComp.SetRef("SlaveGui", &attributeEditorComp);
 	attributeEditorDockComp.SetIntAttr("DockArea", 0);
 	attributeEditorDockComp.SetStringAttr("DockTitle", "Selected component");
 	attributeEditorDockComp.InitComponent();
 	
-	icomp::TSimComponentWrap<QtPck::DockWidgetGui> packageOverviewDockComp;
+	icomp::TSimComponentWrap<QtGuiPck::DockWidgetGui> packageOverviewDockComp;
 	packageOverviewDockComp.SetRef("SlaveGui", &packageOverviewComp);
 	packageOverviewDockComp.SetStringAttr("DockTitle", "Packages");
 	packageOverviewDockComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::AboutGui> aboutGuiComp;
+	icomp::TSimComponentWrap<QtGuiPck::AboutGui> aboutGuiComp;
 	aboutGuiComp.SetRef("ApplicationInfo", &applicationInfo);
 	aboutGuiComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::MainWindowGui> mainWindowComp;
+	icomp::TSimComponentWrap<QtGuiPck::MainWindowGui> mainWindowComp;
 	mainWindowComp.SetIntAttr("IconSize", 16);
 	mainWindowComp.SetRef("Workspace", &workspaceComp);
 	mainWindowComp.SetRef("DocumentManager", &workspaceComp);

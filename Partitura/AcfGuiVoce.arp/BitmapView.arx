@@ -103,7 +103,7 @@
         ImageView
       </Id>
       <PackageId>
-        QtPck
+        QtViewPck
       </PackageId>
       <ComponentId>
         ImageView

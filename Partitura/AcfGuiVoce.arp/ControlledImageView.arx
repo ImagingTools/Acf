@@ -21,7 +21,7 @@
         ImageView
       </Id>
       <PackageId>
-        QtPck
+        QtViewPck
       </PackageId>
       <ComponentId>
         ImageView
@@ -141,7 +141,7 @@
         SceneControllerGui
       </Id>
       <PackageId>
-        QtPck
+        QtViewPck
       </PackageId>
       <ComponentId>
         SceneControllerGui

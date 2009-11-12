@@ -71,7 +71,7 @@
         PackageOverviewDock
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         DockWidgetGui

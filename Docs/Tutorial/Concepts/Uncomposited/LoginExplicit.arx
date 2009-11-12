@@ -21,7 +21,7 @@
         Application
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         GuiApplication
@@ -77,7 +77,7 @@
         Login
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         LoginGui
@@ -95,7 +95,7 @@
         Splash
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         SplashScreen

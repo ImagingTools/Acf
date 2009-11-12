@@ -103,7 +103,7 @@
         DirParamGui
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         FileNameParamGui
@@ -183,7 +183,7 @@
         GuiApplication
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         GuiApplication

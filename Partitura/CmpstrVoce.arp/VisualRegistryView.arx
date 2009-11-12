@@ -21,7 +21,7 @@
         SceneProvider
       </Id>
       <PackageId>
-        QtPck
+        QtViewPck
       </PackageId>
       <ComponentId>
         SceneProvider

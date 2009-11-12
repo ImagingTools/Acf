@@ -1,14 +1,17 @@
+// ACF includes
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 
-
-#include "QtPck/QtPck.h"
+// ACF package includes
 #include "BasePck/BasePck.h"
+#include "QtPck/QtPck.h"
+#include "QtGuiPck/QtGuiPck.h"
+#include "QtViewPck/QtViewPck.h"
 
 
 int main(int argc, char *argv[])
 {
-	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
+	icomp::TSimComponentWrap<QtGuiPck::GuiApplication> application;
 	application.InitializeApplication(argc, argv);
 
 	Q_INIT_RESOURCE(iqtgui);
@@ -20,7 +23,7 @@ int main(int argc, char *argv[])
 	applicationInfo.SetStringAttr("ApplicationName", "ImageView");
 	applicationInfo.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
+	icomp::TSimComponentWrap<QtGuiPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
 	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
@@ -28,7 +31,8 @@ int main(int argc, char *argv[])
 	splashScreenGui.InitComponent();
 
 	icomp::TSimComponentsFactory<QtPck::Bitmap> modelFactoryComp;
-	icomp::TSimComponentsFactory<QtPck::ImageView> viewFactoryComp;
+
+	icomp::TSimComponentsFactory<QtViewPck::ImageView> viewFactoryComp;
 	viewFactoryComp.SetBoolAttr("AllowWidgetResize", true);
 
 	icomp::TSimComponentWrap<QtPck::BitmapLoader> bitmapLoaderComp;
@@ -43,11 +47,11 @@ int main(int argc, char *argv[])
 	documentTemplateComp.SetBoolAttr("IsNewSupported", false);
 	documentTemplateComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::MultiDocWorkspaceGui> workspaceComp;
+	icomp::TSimComponentWrap<QtGuiPck::MultiDocWorkspaceGui> workspaceComp;
 	workspaceComp.SetRef("DocumentTemplate", &documentTemplateComp);
 	workspaceComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::MainWindowGui> mainWindowComp;
+	icomp::TSimComponentWrap<QtGuiPck::MainWindowGui> mainWindowComp;
 	mainWindowComp.SetRef("Workspace", &workspaceComp);
 	mainWindowComp.SetRef("DocumentManager", &workspaceComp);
 	mainWindowComp.InitComponent();

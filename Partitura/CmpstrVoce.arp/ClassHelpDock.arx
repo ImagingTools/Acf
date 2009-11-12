@@ -127,7 +127,7 @@
         QuickHelpDock
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         DockWidgetGui
@@ -202,7 +202,7 @@
         QuickHelpViewer
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         HtmlHelpViewer

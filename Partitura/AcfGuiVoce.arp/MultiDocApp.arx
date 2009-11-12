@@ -21,7 +21,7 @@
         AboutGui
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         AboutGui
@@ -93,7 +93,7 @@
         App
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         GuiApplication
@@ -296,7 +296,7 @@
         MainGui
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         MainWindowGui
@@ -538,7 +538,7 @@
         SplashScreen
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         SplashScreen
@@ -658,7 +658,7 @@
         Workspace
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         MultiDocWorkspaceGui

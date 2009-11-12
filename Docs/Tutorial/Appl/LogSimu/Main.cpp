@@ -1,8 +1,13 @@
+// Qt includes
+#include <QApplication>
+
+// ACF includes
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 
+// ACF package includes
 #include "BasePck/BasePck.h"
-#include "QtPck/QtPck.h"
+#include "QtGuiPck/QtGuiPck.h"
 
 #include "CLogClientGuiComp.h"
 
@@ -13,10 +18,10 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle("plastique");
 
-	icomp::TSimComponentWrap<QtPck::GuiApplication> application;
+	icomp::TSimComponentWrap<QtGuiPck::GuiApplication> application;
 	application.InitializeApplication(argc, argv);
 
-	icomp::TSimComponentWrap<QtPck::SplashScreen> splashScreenGui;
+	icomp::TSimComponentWrap<QtGuiPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
 	splashScreenGui.SetStringAttr("ProductName", "Log");
 	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
@@ -28,11 +33,11 @@ int main(int argc, char *argv[])
 	logSerializerComp.InsertMultiAttr("TypeDescriptions", istd::CString("Log File"));
 	logSerializerComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::FileDialogLoader> fileDialogLoaderComp;
+	icomp::TSimComponentWrap<QtGuiPck::FileDialogLoader> fileDialogLoaderComp;
 	fileDialogLoaderComp.InsertMultiRef("Loaders", &logSerializerComp);
 	fileDialogLoaderComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::Log> log;
+	icomp::TSimComponentWrap<QtGuiPck::Log> log;
 	log.SetIntAttr("MaxMessageCount", 10000);
 	log.SetRef("Exporter", &fileDialogLoaderComp);
 	log.InitComponent();

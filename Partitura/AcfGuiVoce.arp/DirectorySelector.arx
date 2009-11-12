@@ -77,7 +77,7 @@
         DirectoryGui
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         FileNameParamGui

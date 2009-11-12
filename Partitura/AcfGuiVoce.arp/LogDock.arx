@@ -21,7 +21,7 @@
         Log
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         Log
@@ -42,7 +42,7 @@
         LogDock
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         DockWidgetGui
