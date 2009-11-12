@@ -1,5 +1,5 @@
-#ifndef icam_IBitmapAcquisition_included
-#define icam_IBitmapAcquisition_included
+#ifndef iproc_IBitmapAcquisition_included
+#define iproc_IBitmapAcquisition_included
 
 
 #include "istd/CIndex2d.h"
@@ -11,7 +11,7 @@
 #include "iproc/IProcessor.h"
 
 
-namespace icam
+namespace iproc
 {
 
 
@@ -31,9 +31,9 @@ public:
 };
 
 
-} // namespace icam
+} // namespace iproc
 
 
-#endif // !icam_IBitmapAcquisition_included
+#endif // !iproc_IBitmapAcquisition_included
 
 

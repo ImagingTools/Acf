@@ -1,5 +1,5 @@
-#ifndef icam_IBitmapSupplier_included
-#define icam_IBitmapSupplier_included
+#ifndef iproc_IBitmapSupplier_included
+#define iproc_IBitmapSupplier_included
 
 
 #include "istd/CIndex2d.h"
@@ -9,7 +9,7 @@
 #include "iproc/ISupplier.h"
 
 
-namespace icam
+namespace iproc
 {
 
 
@@ -28,8 +28,8 @@ public:
 };
 
 
-} // namespace icam
+} // namespace iproc
 
 
-#endif // !icam_IBitmapSupplier_included
+#endif // !iproc_IBitmapSupplier_included
 

@@ -75,6 +75,9 @@ I_EXPORT_COMPONENT(AboutGui, "About GUI for the application", "Qt Help About Wid
 I_EXPORT_COMPONENT(TabbedMultiViewGui, "Multi view editor component", "Qt Widget GUI Observer View Model");
 I_EXPORT_COMPONENT(LayoutGui, "Allows create layouted UI", "Qt Widget GUI Layout");
 
+I_EXPORT_COMPONENT(ProgressManagerGui, "Progress manager GUI using progress bar widget to visualize progress", "Progress Manager Qt GUI");
+I_EXPORT_COMPONENT(AcquisitionProcessorGui, "Processor acquisition GUI", "Acquisition Processor Parameter GUI View");
+
 
 } // namespace QtPck
 

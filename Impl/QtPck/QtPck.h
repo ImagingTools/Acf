@@ -58,6 +58,9 @@
 #include "iqtdoc/CHtmlHelpViewerComp.h"
 #include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
+#include "iqtproc/CProgressManagerGuiComp.h"
+#include "iqtproc/CAcquisitonProcessorGuiComp.h"
+
 
 /**
 	Standard Qt package.
@@ -129,6 +132,9 @@ typedef icomp::TModelCompWrap<iqtdoc::CSingleDocumentWorkspaceGuiComp> SingleDoc
 typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
 typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
 typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
+
+typedef iqtproc::CProgressManagerGuiComp ProgressManagerGui;
+typedef iqtproc::CAcquisitonProcessorGuiComp AcquisitionProcessorGui;
 
 
 } // namespace QtPck
