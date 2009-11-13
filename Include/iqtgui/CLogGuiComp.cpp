@@ -151,7 +151,7 @@ void CLogGuiComp::OnGuiCreated()
 
 	QAction* errorAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Error")), tr("Error"), ToolBarFrame);
 	errorAction->setCheckable(true);
-	errorAction->setData(MM_WARNING);
+	errorAction->setData(MM_ERROR);
 	connect(errorAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(errorAction);
 
@@ -216,10 +216,10 @@ void CLogGuiComp::OnAddMessage(QTreeWidgetItem* itemPtr)
 {	
 	I_ASSERT(itemPtr != NULL);
 
-	UpdateItemState(*itemPtr);
-
 	// add message item to the list
 	LogView->addTopLevelItem(itemPtr);
+
+	UpdateItemState(*itemPtr);
 }
 
 
