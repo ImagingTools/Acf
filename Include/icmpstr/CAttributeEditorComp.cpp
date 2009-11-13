@@ -794,16 +794,6 @@ CAttributeEditorComp::AttributeItemDelegate::AttributeItemDelegate(CAttributeEdi
 
 // reimplemented (QItemDelegate)
 
-QSize CAttributeEditorComp::AttributeItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index ) const
-{
-	QSize size = QItemDelegate::sizeHint(option, index);
-
-	size.setHeight(20);
-
-	return size;
-}
-
-
 QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	if (index.column() != ValueColumn){
@@ -834,14 +824,14 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 		}
 	} 
 
-	return QItemDelegate::createEditor(parent, option, index);
+	return BaseClass::createEditor(parent, option, index);
 }
 
 
 void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
 	if (index.column() != ValueColumn){
-		QItemDelegate::setEditorData(editor, index);
+		BaseClass::setEditorData(editor, index);
 	}
 
 	int propertyMining = index.data(AttributeMining).toInt();
@@ -863,7 +853,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
 	if (index.column() != ValueColumn){
-		QItemDelegate::setModelData(editor, model, index);
+		BaseClass::setModelData(editor, model, index);
 	}
 
 	int propertyMining = index.data(AttributeMining).toInt();
@@ -878,20 +868,6 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 	else{
 		SetAttributeValueData(attributeName, propertyMining, *editor);
 	}
-}
-
-
-void CAttributeEditorComp::AttributeItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-	QItemDelegate::paint(painter, option, index);
-
-	QRect rect = option.rect;
-	painter->setPen(QPen(Qt::darkGray, 0, Qt::SolidLine));
-	if (index.column() == NameColumn){
-		painter->drawLine(rect.topRight(), rect.bottomRight());
-	}
-
-	painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 }
 
 

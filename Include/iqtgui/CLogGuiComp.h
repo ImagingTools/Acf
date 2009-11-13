@@ -2,9 +2,12 @@
 #define iqtgui_CLogGuiComp_included
 
 
+// Qt includes
 #include <QMutex>
 #include <QMap>
 
+
+// ACF includes
 #include "ibase/IMessageContainer.h"
 #include "ibase/TMessageContainerWrap.h"
 

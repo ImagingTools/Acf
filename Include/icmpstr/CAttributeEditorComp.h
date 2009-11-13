@@ -2,12 +2,14 @@
 #define icmpstr_CAttributeEditorComp_included
 
 
+// Qt includes
 #include <QtGui/QWidget>
 #include <QtGui/QComboBox>
 #include <QtGui/QIcon>
 #include <QItemDelegate>
 
 
+// ACF includes
 #include "istd/TDelPtr.h"
 #include "istd/CClassInfo.h"
 
@@ -15,6 +17,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CTreeWidgetFilter.h"
+#include "iqtgui/CItemDelegate.h"
 
 #include "icomp/IRegistryElement.h"
 
@@ -129,17 +132,17 @@ protected:
 	static QString EncodeToEdit(const QString& text);
 
 private:
-	class AttributeItemDelegate: public QItemDelegate
+	class AttributeItemDelegate: public iqtgui::CItemDelegate
 	{
 	public:
+		typedef iqtgui::CItemDelegate BaseClass;
+
 		AttributeItemDelegate(CAttributeEditorComp& parent);
 		
 		// reimplemented (QItemDelegate)
-		virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
 		virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 		virtual void setEditorData(QWidget* editor, const QModelIndex& index ) const;
 		virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
-		virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
 
 	protected:
 		bool SetComponentExportEditor(const std::string& attributeId, QWidget& editor) const;

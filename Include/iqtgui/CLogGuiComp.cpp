@@ -5,65 +5,15 @@
 #include <QHeaderView>
 #include <QDateTime>
 #include <QToolBar>
-#include <QItemDelegate>
 #include <QPainter>
+
+
+// ACF includes
+#include "iqtgui/CItemDelegate.h"
 
 
 namespace iqtgui
 {
-
-
-class ItemDelegate: public QItemDelegate
-{
-public:
-	enum
-	{
-		DS_ICON_SIZE = 20
-	};
-
-	typedef QItemDelegate BaseClass;
-
-	ItemDelegate(QObject* parent);
-		
-	// reimplemented (QItemDelegate)
-	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const;
-};
-
-
-// public methods of local class ItemDelegate
-
-ItemDelegate::ItemDelegate(QObject* parent)
-	:BaseClass(parent)
-{
-}
-
-
-// reimplemented (QItemDelegate)
-
-QSize ItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index ) const
-{
-	QSize size = QItemDelegate::sizeHint(option, index);
-
-	size.setHeight(ItemDelegate::DS_ICON_SIZE);
-
-	return size;
-}
-
-
-void ItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
-{
-	QItemDelegate::paint(painter, option, index);
-
-	QRect rect = option.rect;
-	painter->setPen(QPen(Qt::darkGray, 0, Qt::SolidLine));
-	if (index.column() != 3){
-		painter->drawLine(rect.topRight(), rect.bottomRight());
-	}
-
-	painter->drawLine(rect.bottomLeft(), rect.bottomRight());
-}
-
 
 
 // public methods
@@ -156,11 +106,14 @@ void CLogGuiComp::OnGuiCreated()
 
 	LogView->header()->setResizeMode(QHeaderView::ResizeToContents);
 	LogView->header()->setStretchLastSection(true);
-	LogView->setItemDelegate(new ItemDelegate(this));
+
+	iqtgui::CItemDelegate* itemDelegate = new iqtgui::CItemDelegate(20, this);
+	LogView->setItemDelegate(itemDelegate);
+
 	LogView->header()->hide();
 
 	LogView->header()->setResizeMode(CT_ICON, QHeaderView::Fixed);
-	LogView->header()->resizeSection(CT_ICON, ItemDelegate::DS_ICON_SIZE);
+	LogView->header()->resizeSection(CT_ICON, itemDelegate->GetItemHeight());
 
 	Messages messages = GetMessages();
 	for (		Messages::const_iterator iter = messages.begin();

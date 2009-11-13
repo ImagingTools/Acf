@@ -241,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CItemDelegate.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CLayoutGuiComp.cpp"
 				>
 			</File>
@@ -354,6 +358,10 @@
 			</File>
 			<File
 				RelativePath="..\CIconProviderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CItemDelegate.h"
 				>
 			</File>
 			<File
