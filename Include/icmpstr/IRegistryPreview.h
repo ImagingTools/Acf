@@ -2,6 +2,8 @@
 #define icmpstr_IRegistryPreview_included
 
 
+#include "istd/IChangeable.h"
+
 #include "icomp/IRegistry.h"
 
 #include "icmpstr/icmpstr.h"
@@ -11,7 +13,7 @@ namespace icmpstr
 {
 
 
-class IRegistryPreview: virtual public istd::IPolymorphic
+class IRegistryPreview: virtual public istd::IChangeable
 {
 public:
 	/**

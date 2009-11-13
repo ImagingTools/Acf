@@ -7,10 +7,10 @@
           0
         </Id>
         <Number>
-          932
+          1177
         </Number>
         <Description>
-          ACF'
+          ACF
         </Description>
       </Version>
     </VersionInfos>
@@ -131,10 +131,10 @@
         Preview
       </ComponentName>
       <X>
-        367
+        -140
       </X>
       <X>
-        -22
+        -148
       </X>
     </Element>
     <Element>
@@ -186,10 +186,10 @@
         RegistryCodeSaver
       </ComponentName>
       <X>
-        23
+        184
       </X>
       <X>
-        162
+        154
       </X>
     </Element>
     <Element>
@@ -197,10 +197,10 @@
         RegistryEditor
       </ComponentName>
       <X>
-        1
+        193
       </X>
       <X>
-        -25
+        -30
       </X>
     </Element>
     <Element>

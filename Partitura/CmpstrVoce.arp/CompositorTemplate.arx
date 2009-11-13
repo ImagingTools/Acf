@@ -7,10 +7,10 @@
           0
         </Id>
         <Number>
-          932
+          1177
         </Number>
         <Description>
-          ACF'
+          ACF
         </Description>
       </Version>
     </VersionInfos>
@@ -30,6 +30,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
@@ -143,6 +146,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
@@ -215,7 +221,29 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="0">
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              RegistryLoader
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                PackagesLoader
+              </Value>
+            </Data>
+          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -233,6 +261,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
@@ -286,6 +317,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
@@ -323,6 +357,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
@@ -446,6 +483,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>

@@ -106,7 +106,9 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 
 	QDir baseDir = fileInfo.absoluteDir();
 
-	iser::CXmlFileReadArchive archive(GetCString(fileInfo.absoluteFilePath()));
+	m_configFilePath = GetCString(fileInfo.absoluteFilePath());
+
+	iser::CXmlFileReadArchive archive(m_configFilePath);
 
 	bool retVal = true;
 
@@ -188,13 +190,13 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 
 // reimplemented (icomp::IRegistryLoader)
 
-bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFile)
+bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFilePath)
 {
 	bool useDefaultRegistries = true;
 	bool retVal = true;
 
-	if (!configFile.IsEmpty()){
-		retVal = retVal && LoadConfigFile(configFile);
+	if (!configFilePath.IsEmpty()){
+		retVal = retVal && LoadConfigFile(configFilePath);
 
 		useDefaultRegistries = false;
 	}
@@ -210,6 +212,12 @@ bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFile)
 	}
 
 	return retVal;
+}
+
+
+istd::CString CPackagesLoaderComp::GetConfigFilePath() const
+{
+	return m_configFilePath;
 }
 
 

@@ -10,6 +10,8 @@
 #include <QDesktopWidget>
 #include <QMetaType>
 
+#include "istd/TChangeNotifier.h"
+
 #include "iser/CXmlFileWriteArchive.h"
 
 
@@ -22,6 +24,12 @@ namespace icmpstr
 
 // public methods
 
+CRegistryPreviewComp::CRegistryPreviewComp()
+:	m_isRunning(false)
+{
+}
+
+
 // reimplemented (icomp::IComponent)
 
 void CRegistryPreviewComp::OnComponentCreated()
@@ -30,6 +38,15 @@ void CRegistryPreviewComp::OnComponentCreated()
 	qRegisterMetaType<QProcess::ProcessState>();
 
 	BaseClass::OnComponentCreated();
+
+	m_tempFileName.clear();
+
+	QDir tempDir = QDir::temp();
+	if (tempDir.exists()){
+		m_tempFileName = tempDir.absoluteFilePath("registry_preview.arx");
+	}
+
+	m_isRunning = false;
 
 	connect(	&m_process, 
 				SIGNAL(stateChanged(QProcess::ProcessState)), 
@@ -44,10 +61,10 @@ void CRegistryPreviewComp::OnComponentDestroyed()
 	if (IsRunning()){
 		m_process.kill();
 
-		if (m_process.waitForFinished(5000)){
-			QFile::remove(m_tempFileName);
-		}
+		m_process.waitForFinished(5000);
 	}
+
+	QFile::remove(m_tempFileName);
 
 	BaseClass::OnComponentDestroyed();
 }
@@ -57,18 +74,9 @@ void CRegistryPreviewComp::OnComponentDestroyed()
 
 bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 {
-	if (IsRunning()){
+	if (IsRunning() || m_tempFileName.isEmpty()){
 		return false;
 	}
-
-	m_tempFileName.clear();
-
-	QDir tempDir = QDir::temp();
-	if (!tempDir.exists()){
-		return false;
-	}
-
-	m_tempFileName = tempDir.absoluteFilePath("registry_preview.arx");
 
 	iser::CXmlFileWriteArchive archive(m_tempFileName.toStdString());
 
@@ -76,13 +84,25 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 		return false;
 	}
 
-	static QString acfExeFile = "Acf";
+	QString acfExeFile = iqt::GetQString(*m_commandAttrPtr);
 
 	QDir applicationDir(QCoreApplication::applicationDirPath());
 	QString acfApplicationPath = applicationDir.absoluteFilePath(acfExeFile);
 
 	m_process.setWorkingDirectory(applicationDir.path());
-	m_process.start(acfApplicationPath, QStringList() << m_tempFileName);
+
+	QStringList parameters;
+	parameters << m_tempFileName;
+
+	if (m_registryLoaderCompPtr.IsValid()){
+		istd::CString configFilePath = m_registryLoaderCompPtr->GetConfigFilePath();
+		if (!configFilePath.IsEmpty()){
+			parameters << "-config";
+			parameters << iqt::GetQString(configFilePath);
+		}
+	}
+
+	m_process.start(acfApplicationPath, parameters);
 
 	return m_process.waitForStarted();
 }
@@ -90,11 +110,7 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 
 bool CRegistryPreviewComp::IsRunning() const
 {
-	if (m_process.state() == QProcess::Running){
-		return true;
-	}
-
-	return false;
+	return m_isRunning;
 }
 
 
@@ -111,9 +127,9 @@ void CRegistryPreviewComp::AbortRegistry()
 
 void CRegistryPreviewComp::OnStateChanged(QProcess::ProcessState state)
 {
-	if (state == QProcess::NotRunning){
-		QFile::remove(m_tempFileName);
-	}
+	istd::CChangeNotifier notifier(this);
+
+	m_isRunning = (state == QProcess::Running);
 }
 
 

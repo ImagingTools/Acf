@@ -14,7 +14,16 @@ namespace icomp
 class IRegistryLoader: virtual public istd::IPolymorphic
 {
 public:
-	virtual bool ConfigureEnvironment(const istd::CString& configFile = istd::CString()) = 0;
+	/**
+		Configure environment for specified file path.
+		If this file path is invalid or empty, standard configuration file will be used.
+	*/
+	virtual bool ConfigureEnvironment(const istd::CString& configFilePath = istd::CString()) = 0;
+	/**
+		Get file path of real used config file.
+		If no config file was used, it returns empty string.
+	*/
+	virtual istd::CString GetConfigFilePath() const = 0;
 
 	/**
 		Get an ACF registry from a given file.

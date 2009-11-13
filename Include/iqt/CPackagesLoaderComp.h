@@ -61,7 +61,8 @@ public:
 	bool LoadConfigFile(const istd::CString& configFile);
 
 	// reimplemented (icomp::IRegistryLoader)
-	virtual bool ConfigureEnvironment(const istd::CString& configFile = istd::CString());
+	virtual bool ConfigureEnvironment(const istd::CString& configFilePath = istd::CString());
+	virtual istd::CString GetConfigFilePath() const;
 	virtual const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
 
 	// reimplemented (icomp::CComponentBase)
@@ -125,6 +126,8 @@ private:
 
 	typedef std::set<istd::CString> UsedFilesList;
 	mutable UsedFilesList m_usedFilesList;
+
+	istd::CString m_configFilePath;
 
 	I_REF(iser::IFileLoader, m_registryLoaderCompPtr);
 	I_ATTR(istd::CString, m_configFilePathAttrPtr);
