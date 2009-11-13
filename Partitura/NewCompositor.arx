@@ -257,7 +257,7 @@ This tool is a part of ACF project
                 true
               </IsEnabled>
               <Value>
-                ../../Docs/Images/CompositorSplashScreen.png
+                :/Icons/CompositorSplashScreen
               </Value>
             </Data>
           </AttributeInfo>
