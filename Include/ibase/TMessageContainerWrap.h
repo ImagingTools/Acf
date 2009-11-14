@@ -16,6 +16,10 @@
 namespace ibase
 {		
 
+
+/**
+	Basic implementation of a message container.
+*/
 template <class Base>
 class TMessageContainerWrap: public ibase::THierarchicalBase<Base>
 {

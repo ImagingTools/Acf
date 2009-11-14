@@ -11,6 +11,11 @@ namespace ibase
 {		
 
 
+/**
+	Implementation of a rectangle as a component.
+	It gives the possibility to define a rectangle model vie component attributes.
+
+*/
 class CRectangleComp: public icomp::CComponentBase, public i2d::CRectangle
 {
 public:

@@ -11,6 +11,9 @@ namespace ibase
 {
 
 
+/**
+	Loader component, which delegates the persistence functionality to its slave loaders.
+*/
 class CComposedLoaderComp:
 			public icomp::CComponentBase,
 			virtual public iser::IFileLoader

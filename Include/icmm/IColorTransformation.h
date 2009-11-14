@@ -12,6 +12,7 @@ namespace icmm
 
 
 /**
+	Basic interface for a color transformation.
 */
 class IColorTransformation: virtual public imath::TIMathFunction<icmm::CVarColor, icmm::CVarColor>
 {

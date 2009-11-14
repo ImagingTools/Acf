@@ -1,5 +1,5 @@
-#ifndef istdc_TComposedFactoryComp_included
-#define istdc_TComposedFactoryComp_included
+#ifndef ibase_TComposedFactoryComp_included
+#define ibase_TComposedFactoryComp_included
 
 
 #include "istd/TComposedFactory.h"
@@ -51,6 +51,6 @@ void TComposedFactoryComp<Interface>::OnComponentCreated()
 } // namespace ibase
 
 
-#endif // !istdc_TComposedFactoryComp_included
+#endif // !ibase_TComposedFactoryComp_included
 
 

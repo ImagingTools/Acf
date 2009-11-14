@@ -10,10 +10,21 @@
 namespace ibase
 {
 
+
+/**
+	Simple interface for a text document.
+*/
 class ITextDocument: virtual public iser::ISerializable
 {
 public:
+	/**
+		Get document text.
+	*/
 	virtual istd::CString GetText() const = 0;
+
+	/**
+		Set document text.
+	*/
 	virtual void SetText(const istd::CString& text) = 0;
 };
 

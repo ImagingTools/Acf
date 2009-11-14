@@ -11,6 +11,9 @@ namespace ibase
 {
 
 
+/**
+	Component for providing of application info such as program version, creator, owner etc.
+*/
 class CApplicationInfoComp: public icomp::CComponentBase, virtual public ibase::IApplicationInfo
 {
 public:

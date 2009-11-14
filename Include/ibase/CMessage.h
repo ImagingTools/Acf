@@ -14,6 +14,9 @@ namespace ibase
 {
 
 
+/**
+	Basic implementation of the ibase::IMessage interface
+*/
 class CMessage: virtual public ibase::IMessage
 {
 public:
@@ -94,3 +97,5 @@ inline int CMessage::GetFlags() const
 
 
 #endif // !ibase_CMessage_included
+
+

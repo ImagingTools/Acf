@@ -14,6 +14,9 @@ namespace ibase
 {
 
 
+/**
+	Simple implementation of a text document model.
+*/
 class CTextDocumentComp: public icomp::CComponentBase, virtual public ibase::ITextDocument
 {
 public:

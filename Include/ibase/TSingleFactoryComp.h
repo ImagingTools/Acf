@@ -1,5 +1,5 @@
-#ifndef istdc_TSingleFactoryComp_included
-#define istdc_TSingleFactoryComp_included
+#ifndef ibase_TSingleFactoryComp_included
+#define ibase_TSingleFactoryComp_included
 
 
 #include "istd/TSingleFactory.h"
@@ -75,4 +75,4 @@ Interface* TSingleFactoryComp<Interface, Implementation>::CreateInstance(const s
 } // namespace ibase
 
 
-#endif // !istdc_TSingleFactoryComp_included
+#endif // !ibase_TSingleFactoryComp_included

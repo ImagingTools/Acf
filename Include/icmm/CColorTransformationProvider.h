@@ -12,8 +12,9 @@ namespace icmm
 
 
 /**
+	Static provider of available color transformations.
 */
-class CColorTransformationProvider: public istd::IPolymorphic
+class CColorTransformationProvider: virtual public istd::IPolymorphic
 {
 public:
 	enum ColorType

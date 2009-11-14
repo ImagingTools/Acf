@@ -14,8 +14,8 @@ namespace ibase
 
 
 /**
-* Common implementation for an abstract serializable container. 
-* Derived class must only reimplement the SerializeItem(). 
+	Common implementation for an abstract serializable container. 
+	Derived class must only reimplement the SerializeItem(). 
 */
 template <typename ItemClass, typename ContainerClass = std::vector<ItemClass> >
 class TSerializableContainer: public TContainer<ItemClass, ContainerClass>, virtual public iser::ISerializable
@@ -79,3 +79,5 @@ bool TSerializableContainer<ItemClass, ContainerClass>::Serialize(iser::IArchive
 
 
 #endif // !ibase_TSerializableContainer_included
+
+

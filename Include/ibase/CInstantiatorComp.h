@@ -11,6 +11,7 @@ namespace ibase
 
 /**
 	This help component simply instanciate set of dependent components during its instantiation.
+	\depricated
 */
 class CInstantiatorComp: public icomp::CComponentBase
 {

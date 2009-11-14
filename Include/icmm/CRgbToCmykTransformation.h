@@ -10,6 +10,7 @@ namespace icmm
 
 
 /**
+	Implementation of RGB-to-CMYK color transformation.
 */
 class CRgbToCmykTransformation: public icmm::IColorTransformation
 {

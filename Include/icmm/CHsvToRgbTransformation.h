@@ -10,6 +10,7 @@ namespace icmm
 
 
 /**
+	Implementation of HSV-to-RGB color transformation.
 */
 class CHsvToRgbTransformation: public icmm::IColorTransformation
 {

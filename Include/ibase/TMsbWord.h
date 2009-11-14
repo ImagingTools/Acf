@@ -120,3 +120,4 @@ typedef TMsbWord<2> CMsbWord;
 
 #endif // !ibase_TMsbWord_included
 
+
