@@ -55,6 +55,7 @@ private:
 	QIcon GetFileIcon(const QString& filePath) const;
 	void OnPathEdited(const QString& path) const;
 	QString GetPathFromEditor() const;
+	bool IsLabelNeeded() const;
 
 private:
 	I_ATTR(istd::CString, m_pathLabelAttrPtr);

@@ -87,9 +87,11 @@ void CFileNameParamGuiComp::UpdateEditor(int /*updateFlags*/)
 			SetPathToEditor(newPath);
 		}
 
-		DirectoryLabel->setVisible(pathType == iprm::IFileNameParam::PT_DIRECTORY && !(*m_pathLabelAttrPtr).IsEmpty());
-		PathLabel->setVisible(pathType == iprm::IFileNameParam::PT_FILE && !(*m_pathLabelAttrPtr).IsEmpty());
-		UrlLabel->setVisible(pathType == iprm::IFileNameParam::PT_URL && !(*m_pathLabelAttrPtr).IsEmpty());
+		if (IsLabelNeeded()){
+			DirectoryLabel->setVisible(pathType == iprm::IFileNameParam::PT_DIRECTORY);
+			PathLabel->setVisible(pathType == iprm::IFileNameParam::PT_FILE);
+			UrlLabel->setVisible(pathType == iprm::IFileNameParam::PT_URL);
+		}
 		BrowseButton->setVisible((pathType == iprm::IFileNameParam::PT_DIRECTORY) || (pathType == iprm::IFileNameParam::PT_FILE));
 	}
 	else{
@@ -282,6 +284,12 @@ QString CFileNameParamGuiComp::GetPathFromEditor() const
 	}
 
 	return QString();
+}
+
+
+bool CFileNameParamGuiComp::IsLabelNeeded() const
+{
+	return (m_pathLabelAttrPtr.IsValid() && !(*m_pathLabelAttrPtr).IsEmpty());
 }
 
 
