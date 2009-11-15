@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1141
+          1181
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="10">
+  <ElementsList count="11">
     <Element>
       <Id>
         Application
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="13">
           <AttributeInfo>
             <Id>
               AboutDescriptionText
@@ -157,6 +157,25 @@ This tool is a part of ACF project
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              IsCopyPathVisible
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                true
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               LogoPath
             </Id>
             <Type>
@@ -219,7 +238,7 @@ This tool is a part of ACF project
                 true
               </IsEnabled>
               <Value>
-                
+                ACF Product
               </Value>
             </Data>
           </AttributeInfo>
@@ -239,6 +258,25 @@ This tool is a part of ACF project
               </IsEnabled>
               <Value>
                 Server
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SettingsGui
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Settings
               </Value>
             </Data>
           </AttributeInfo>
@@ -340,7 +378,26 @@ This tool is a part of ACF project
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="5">
+          <AttributeInfo>
+            <Id>
+              ConfigFilePath
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Settings/ConfigFile
+              </Value>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               Log
@@ -357,6 +414,25 @@ This tool is a part of ACF project
               </IsEnabled>
               <Value>
                 LogDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              PreviewCommandFile
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Settings/PreviewCommandFile
               </Value>
             </Data>
           </AttributeInfo>
@@ -717,6 +793,65 @@ This tool is a part of ACF project
               </IsEnabled>
               <Value>
                 DocumentManagerListener
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        Settings
+      </Id>
+      <PackageId>
+        CmpstrVoce
+      </PackageId>
+      <ComponentId>
+        CompositorSettings
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                LogDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              VersionInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Application
               </Value>
             </Data>
           </AttributeInfo>
