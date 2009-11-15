@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1181
+          1196
         </Number>
         <Description>
           ACF
@@ -42,7 +42,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -114,7 +114,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -218,7 +218,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="2">
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               ApplicationName
@@ -244,6 +244,22 @@
             </Type>
             <ExportId>
               Company
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveApplicationInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              SlaveApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -336,7 +352,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -535,7 +551,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -575,7 +591,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>

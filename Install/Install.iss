@@ -1,6 +1,3 @@
-#define XERCESDIR GetEnv("XERCESDIR")
-#define XALANDIR GetEnv("XALANDIR")
-#define ZLIBDIR GetEnv("ZLIBDIR")
 #define QTDIR GetEnv("QTDIR")
 #define EXTLIBDIR GetEnv("EXTLIBDIR")
 
@@ -33,14 +30,6 @@ Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\Debug$CompilerName$; Flags: recur
 Source: ..\Temp\Bin\Info\*; DestDir: {app}\Bin\Release$CompilerName$; Flags: recursesubdirs; Components: acfComp
 Source: {#EXTLIBDIR}\Microsoft\Redist\Debug$CompilerName$\*; DestDir: {app}\Bin\Debug$CompilerName$; Flags: recursesubdirs; Components: acfComp
 Source: {#EXTLIBDIR}\Microsoft\Redist\Release$CompilerName$\*; DestDir: {app}\Bin\Release$CompilerName$; Flags: recursesubdirs; Components: acfComp
-
-Source: {#XERCESDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xercesComp
-Source: {#XERCESDIR}\*; DestDir: {app}\ExtLib\Xerces; Flags: recursesubdirs; Excludes: *.dll; Components: xercesComp
-
-Source: {#XALANDIR}\Lib\*.dll; DestDir: {app}\ExtLib\Bin; Components: xalanComp
-Source: {#XALANDIR}\*; DestDir: {app}\ExtLib\Xalan; Flags: recursesubdirs; Excludes: *.dll; Components: xalanComp
-
-Source: {#ZLIBDIR}\*; DestDir: {app}\ExtLib\Zlib; Flags: recursesubdirs; Excludes: *.dll; Components: zlibComp
 
 Source: {#QTDIR}\lib\Qt*4.dll; DestDir: {app}\ExtLib\Bin; Components: qtComp
 Source: {#QTDIR}\lib\Qt*4.dll.manifest; DestDir: {app}\ExtLib\Bin; Components: qtComp
@@ -86,31 +75,23 @@ Name: customType; Description: {cm:CustomType}; Flags: iscustom
 
 [Components]
 Name: acfComp; Description: ACF; Types: minimalType fullType customType
-Name: xercesComp; Description: Xerces; Types: fullType customType
-Name: xalanComp; Description: Xalan; Types: fullType customType
-Name: zlibComp; Description: ZLib; Types: fullType customType
 Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 
 [Icons]
-Name: "{group}\Compositor"; Filename: {app}\Bin\Release$CompilerName$\Compositor.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
 Name: "{group}\Compositor Mini"; Filename: {app}\Bin\Release$CompilerName$\CompositorMini.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
 Name: "{group}\API Documentation"; Filename: {app}\Docs\TechnicalDoc\index.html; Components: acfComp
 
 [Tasks]
-Name: AddExtPath; Description: {cm:AddExtPath}; Flags: checkedonce; Components: xercesComp xalanComp zlibComp qtComp
+Name: AddExtPath; Description: {cm:AddExtPath}; Flags: checkedonce; Components: qtComp
 Name: AddAcfPath; Description: {cm:AddAcfPath}; Flags: checkedonce; Components: acfComp
 
 [Registry]
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "Path"; ValueData: "{olddata};{app}\ExtLib\Bin"; Flags: createvalueifdoesntexist; Tasks: AddExtPath
 Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "Path"; ValueData: "{olddata};{app}\Bin\Release$CompilerName$"; Flags: createvalueifdoesntexist; Tasks: AddAcfPath
 Root: HKCU; Subkey: "Environment"; ValueName: ACFDIR; ValueData: {app}; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
-Root: HKCU; Subkey: "Environment"; ValueName: XERCESDIR; ValueData: {app}\ExtLib\Xerces; ValueType: string; Flags: uninsdeletevalue; Components: xercesComp
-Root: HKCU; Subkey: "Environment"; ValueName: XALANDIR; ValueData: {app}\ExtLib\Xalan; ValueType: string; Flags: uninsdeletevalue; Components: xalanComp
-Root: HKCU; Subkey: "Environment"; ValueName: ZLIBDIR; ValueData: {app}\ExtLib\Zlib; ValueType: string; Flags: uninsdeletevalue; Components: zlibComp
 
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\.arx"; ValueType: string; ValueData: arx_auto_file; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueData: "ACF Registry"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: EditFlags; ValueData: 0; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: BrowserFlags; ValueData: 8; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
-Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Open\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Compositor.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\Run\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Acf.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
