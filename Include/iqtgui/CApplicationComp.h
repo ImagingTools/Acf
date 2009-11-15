@@ -66,6 +66,8 @@ private:
 	I_ATTR(int, m_uiStartModeAttrPtr);
 
 	istd::TDelPtr<QApplication> m_applicationPtr;
+
+	istd::TDelPtr<QWidget> m_mainWidgetPtr;
 };
 
 

@@ -116,33 +116,33 @@ int CApplicationComp::Execute(int argc, char** argv)
 			m_applicationPtr->processEvents();
 		}
 
-		QWidget* mainWidgetPtr = NULL;
 		if (m_mainGuiCompPtr.IsValid()){
 			if (m_frameSpaceSizeAttrPtr.IsValid()){
-				mainWidgetPtr = new QWidget();
-				QVBoxLayout* frameLayout = new QVBoxLayout(mainWidgetPtr);
+				m_mainWidgetPtr.SetPtr(new QWidget());
+				QVBoxLayout* frameLayout = new QVBoxLayout(m_mainWidgetPtr.GetPtr());
 
 				frameLayout->setMargin(*m_frameSpaceSizeAttrPtr);
 
 				// create application's main widget:
-				m_mainGuiCompPtr->CreateGui(mainWidgetPtr);
+				m_mainGuiCompPtr->CreateGui(m_mainWidgetPtr.GetPtr());
 			}
 			else{
 				m_mainGuiCompPtr->CreateGui(NULL);
-				mainWidgetPtr = m_mainGuiCompPtr->GetWidget();
+				
+				m_mainWidgetPtr.SetPtr(m_mainGuiCompPtr->GetWidget());
 			}
 
 			if (m_applicationInfoCompPtr.IsValid()){
 				QString format = iqt::GetQString(*m_titleFormatAttrPtr);
 				QString applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName());
 				QString companyName = iqt::GetQString(m_applicationInfoCompPtr->GetCompanyName());
-				mainWidgetPtr->setWindowTitle(format.arg(applicationName).arg(companyName));
+				m_mainWidgetPtr->setWindowTitle(format.arg(applicationName).arg(companyName));
 			}
 			else{
-				mainWidgetPtr->setWindowTitle(QObject::tr("ACF application"));
+				m_mainWidgetPtr->setWindowTitle(QObject::tr("ACF application"));
 			}
 
-			mainWidgetPtr->setWindowIcon(m_applicationPtr->windowIcon());
+			m_mainWidgetPtr->setWindowIcon(m_applicationPtr->windowIcon());
 		}
 
 		if (useSplashScreen){
@@ -157,7 +157,7 @@ int CApplicationComp::Execute(int argc, char** argv)
 			m_splashScreenCompPtr->DestroyGui();
 		}
 
-		if (mainWidgetPtr != NULL){
+		if (m_mainWidgetPtr.IsValid()){
 			int uiStartMode = 0;
 			if (m_uiStartModeAttrPtr.IsValid()){
 				uiStartMode = *m_uiStartModeAttrPtr;
@@ -165,23 +165,23 @@ int CApplicationComp::Execute(int argc, char** argv)
 
 			switch (uiStartMode){
 				case 0:
-					mainWidgetPtr->show();
+					m_mainWidgetPtr->show();
 					break;
 				case 1:
-					mainWidgetPtr->showFullScreen();
+					m_mainWidgetPtr->showFullScreen();
 					break;
 				case 2:
-					mainWidgetPtr->showMinimized();
+					m_mainWidgetPtr->showMinimized();
 					break;
 				case 3:
-					mainWidgetPtr->showMaximized();
+					m_mainWidgetPtr->showMaximized();
 					break;
 				default:
-					mainWidgetPtr->show();
+					m_mainWidgetPtr->show();
 			}
 		}
 
-		if (mainWidgetPtr != NULL){
+		if (m_mainWidgetPtr.IsValid()){
 			// start application loop:
 			retVal = m_applicationPtr->exec();
 
