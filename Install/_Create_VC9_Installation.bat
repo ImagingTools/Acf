@@ -17,7 +17,7 @@ set COMPILER_EXT=VC9
 
 call Rebuild.bat
 
-call Prepare_ACF.bat
+call CopyDlls.bat
 
 call Create_TechnicalDoc.bat
 
