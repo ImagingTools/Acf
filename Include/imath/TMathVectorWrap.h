@@ -15,7 +15,7 @@ namespace imath
 
 
 /**
-	Implementation of fixed-size mathematical vector with specified type of elements.
+	Implementation of mathematical vector with carthesian operations over elements container (vector).
 */
 template <typename Base>
 class TMathVectorWrap: public Base

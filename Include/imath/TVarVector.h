@@ -153,6 +153,11 @@ public:
 	Element GetDistance(const TVarVector<Element>& vector) const;
 
 	/**
+		Get simple sum of all elements.
+	*/
+	Element GetElementsSum() const;
+
+	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
 		\return	true, if normalization successed.
@@ -605,6 +610,19 @@ void TVarVector<Element>::SetElementsFrom(const TVarVector& vector, const Elemen
 	for (int i = minElements; i < elementsCount; ++i){
 		SetElement(i, expansionValue);
 	}
+}
+
+
+template <class Element>
+Element TVarVector<Element>::GetElementsSum() const
+{
+	Element retVal = 0;
+
+	for (int i = 0; i < m_elementsCount; ++i){
+        retVal += m_elements[i];
+    }
+
+	return retVal;
 }
 
 

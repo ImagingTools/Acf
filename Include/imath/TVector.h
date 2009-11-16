@@ -113,6 +113,11 @@ public:
 	Element GetDistance(const TVector<Size, Element>& vector) const;
 
 	/**
+		Get simple sum of all elements.
+	*/
+	Element GetElementsSum() const;
+
+	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
 		\return	true, if normalization successed.
@@ -546,6 +551,19 @@ inline bool TVector<Size, Element>::SetElementsCount(int count)
 
 
 // public methods
+
+template <int Size, class Element>
+Element TVector<Size, Element>::GetElementsSum() const
+{
+	Element retVal = 0;
+
+	for (int i = 0; i < Size; ++i){
+        retVal += m_elements[i];
+    }
+
+	return retVal;
+}
+
 
 template <int Size, class Element>
 bool TVector<Size, Element>::Normalize(Element length)

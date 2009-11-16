@@ -154,6 +154,11 @@ public:
 	Element GetDistance(const TFastVector<MaxSize, Element>& vector) const;
 
 	/**
+		Get simple sum of all elements.
+	*/
+	Element GetElementsSum() const;
+
+	/**
 		Normalize vector to specified length.
 		\param	length	new vector length.
 		\return	true, if normalization successed.
@@ -685,6 +690,19 @@ Element& TFastVector<MaxSize, Element>::operator[](int i)
 
 
 // public methods
+
+template <int MaxSize, class Element>
+Element TFastVector<MaxSize, Element>::GetElementsSum() const
+{
+	Element retVal = 0;
+
+	for (int i = 0; i < m_elementsCount; ++i){
+        retVal += m_elements[i];
+    }
+
+	return retVal;
+}
+
 
 template <int MaxSize, class Element>
 bool TFastVector<MaxSize, Element>::Normalize(Element length)
