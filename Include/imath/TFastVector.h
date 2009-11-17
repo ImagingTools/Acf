@@ -172,6 +172,15 @@ public:
 	bool GetNormalized(TFastVector<MaxSize, Element>& result, Element length = 1.0) const;
 
 	/**
+		Get vector with minimal elements values.
+	*/
+	void GetMinimal(const TFastVector<MaxSize, Element>& vector, TFastVector<MaxSize, Element>& result) const;
+	/**
+		Get vector with maximal elements values.
+	*/
+	void GetMaximal(const TFastVector<MaxSize, Element>& vector, TFastVector<MaxSize, Element>& result) const;
+
+	/**
 		Serialize this vector to specified archive.
 	*/
 	bool Serialize(iser::IArchive& archive);
@@ -730,6 +739,32 @@ bool TFastVector<MaxSize, Element>::GetNormalized(TFastVector<MaxSize, Element>&
 	result = *this;
 
 	return result.Normalize(length);
+}
+
+
+template <int MaxSize, class Element>
+void TFastVector<MaxSize, Element>::GetMinimal(const TFastVector<MaxSize, Element>& vector, TFastVector<MaxSize, Element>& result) const
+{
+	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+
+	result.SetElementsCount(elementsCount);
+
+	for (int i = 0; i < elementsCount; ++i){
+		result.SetElement(i, istd::Min(GetElement(i), vector.GetElement(i)));
+	}
+}
+
+
+template <int MaxSize, class Element>
+void TFastVector<MaxSize, Element>::GetMaximal(const TFastVector<MaxSize, Element>& vector, TFastVector<MaxSize, Element>& result) const
+{
+	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+
+	result.SetElementsCount(elementsCount);
+
+	for (int i = 0; i < elementsCount; ++i){
+		result.SetElement(i, istd::Max(GetElement(i), vector.GetElement(i)));
+	}
 }
 
 

@@ -131,6 +131,15 @@ public:
 	bool GetNormalized(TVector<Size, Element>& result, Element length = 1.0) const;
 
 	/**
+		Get vector with minimal elements values.
+	*/
+	void GetMinimal(const TVector<Size, Element>& vector, TVector<Size, Element>& result) const;
+	/**
+		Get vector with maximal elements values.
+	*/
+	void GetMaximal(const TVector<Size, Element>& vector, TVector<Size, Element>& result) const;
+
+	/**
 		Serialize this vector to specified archive.
 	*/
 	bool Serialize(iser::IArchive& archive);
@@ -601,6 +610,24 @@ bool TVector<Size, Element>::GetNormalized(TVector<Size, Element>& result, Eleme
     }
 	else{
 		return false;
+	}
+}
+
+
+template <int Size, class Element>
+void TVector<Size, Element>::GetMinimal(const TVector<Size, Element>& vector, TVector<Size, Element>& result) const
+{
+	for (int i = 0; i < Size; ++i){
+		result.SetElement(i, istd::Min(GetElement(i), vector.GetElement(i)));
+	}
+}
+
+
+template <int Size, class Element>
+void TVector<Size, Element>::GetMaximal(const TVector<Size, Element>& vector, TVector<Size, Element>& result) const
+{
+	for (int i = 0; i < Size; ++i){
+		result.SetElement(i, istd::Max(GetElement(i), vector.GetElement(i)));
 	}
 }
 

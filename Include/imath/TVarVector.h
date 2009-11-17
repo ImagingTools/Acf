@@ -171,6 +171,15 @@ public:
 	bool GetNormalized(TVarVector<Element>& result, Element length = 1.0) const;
 
 	/**
+		Get vector with minimal elements values.
+	*/
+	void GetMinimal(const TVarVector<Element>& vector, TVarVector<Element>& result) const;
+	/**
+		Get vector with maximal elements values.
+	*/
+	void GetMaximal(const TVarVector<Element>& vector, TVarVector<Element>& result) const;
+
+	/**
 		Serialize this vector to specified archive.
 	*/
 	bool Serialize(iser::IArchive& archive);
@@ -644,6 +653,32 @@ bool TVarVector<Element>::Normalize(Element length)
     }
 	else{
 		return false;
+	}
+}
+
+
+template <class Element>
+void TVarVector<Element>::GetMinimal(const TVarVector<Element>& vector, TVarVector<Element>& result) const
+{
+	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+
+	result.SetElementsCount(elementsCount);
+
+	for (int i = 0; i < elementsCount; ++i){
+		result.SetElement(i, istd::Min(GetElement(i), vector.GetElement(i)));
+	}
+}
+
+
+template <class Element>
+void TVarVector<Element>::GetMaximal(const TVarVector<Element>& vector, TVarVector<Element>& result) const
+{
+	int elementsCount = istd::Min(GetElementsCount(), vector.GetElementsCount());
+
+	result.SetElementsCount(elementsCount);
+
+	for (int i = 0; i < elementsCount; ++i){
+		result.SetElement(i, istd::Max(GetElement(i), vector.GetElement(i)));
 	}
 }
 
