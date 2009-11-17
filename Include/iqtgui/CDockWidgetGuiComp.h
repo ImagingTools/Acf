@@ -15,6 +15,9 @@ namespace iqtgui
 {
 
 
+/**
+	Wrapper for docking windows for main window.
+*/
 class CDockWidgetGuiComp: public iqtgui::TGuiComponentBase<QDockWidget>, public iqtgui::IMainWindowComponent
 {
 	Q_OBJECT

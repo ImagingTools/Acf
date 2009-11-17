@@ -37,6 +37,7 @@ I_EXPORT_COMPONENT(TabContainer, "Tab container for Qt widgets", "Qt Tab Widget 
 I_EXPORT_COMPONENT(AboutGui, "About GUI for the application", "Qt Help About Widget GUI");
 I_EXPORT_COMPONENT(TabbedMultiViewGui, "Multi view editor component", "Qt Widget GUI Observer View Model");
 I_EXPORT_COMPONENT(LayoutGui, "Allows create layouted UI", "Qt Widget GUI Layout");
+I_EXPORT_COMPONENT(FilePersistenceGui, "Show load and save button for specified object persistence", "Qt Widget GUI Layout Persistence Load Save Object Loader");
 I_EXPORT_COMPONENT(LoginGui, "Gui used to user login", "User Login Qt GUI");
 
 I_EXPORT_COMPONENT(FileNameParamGui, "File acquisition parameter editor", "Model Observer File Acquisition Snap Camera Parameter Editor GUI Qt");

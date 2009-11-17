@@ -19,6 +19,7 @@
 #include "iqtgui/CAboutWidgetGuiComp.h"
 #include "iqtgui/CTabbedMultiViewGuiComp.h"
 #include "iqtgui/CLayoutGuiComp.h"
+#include "iqtgui/CFilePersistenceGuiComp.h"
 #include "iqtgui/CLoginGuiComp.h"
 
 #include "iqtprm/CFileNameParamGuiComp.h"
@@ -42,7 +43,6 @@ namespace QtGuiPck
 {
 
 
-typedef iqtgui::CLoginGuiComp LoginGui;
 typedef iqtgui::CApplicationComp GuiApplication;
 typedef iqtgui::CSplashScreenGuiComp SplashScreen;
 typedef icomp::TModelCompWrap<iqtgui::CLogGuiComp> Log;
@@ -57,6 +57,8 @@ typedef iqtgui::CTabContainerGuiComp TabContainer;
 typedef iqtgui::CAboutWidgetGuiComp AboutGui;
 typedef iqtgui::CTabbedMultiViewGuiComp TabbedMultiViewGui;
 typedef iqtgui::CLayoutGuiComp LayoutGui;
+typedef iqtgui::CFilePersistenceGuiComp FilePersistenceGui;
+typedef iqtgui::CLoginGuiComp LoginGui;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;

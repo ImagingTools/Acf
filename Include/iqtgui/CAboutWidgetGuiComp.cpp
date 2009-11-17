@@ -5,9 +5,9 @@ namespace iqtgui
 {
 
 
-// public methods
+// protected methods
 
-// reimplemented (CGuiComponentBase)
+// reimplemented (iqtgui::CGuiComponentBase)
 
 void CAboutWidgetGuiComp::OnGuiCreated()
 {
