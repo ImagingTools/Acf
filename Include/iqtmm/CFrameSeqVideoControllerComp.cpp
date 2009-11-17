@@ -18,6 +18,49 @@ CFrameSeqVideoControllerComp::CFrameSeqVideoControllerComp()
 }
 
 
+// reimplemented (iproc::IBitmapAcquisition)
+
+istd::CIndex2d CFrameSeqVideoControllerComp::GetBitmapSize(const iprm::IParamsSet* /*paramsPtr*/) const
+{
+	return GetFrameSize();
+}
+
+
+// reimplemented (iproc::IProcessor)
+
+int CFrameSeqVideoControllerComp::DoProcessing(
+			const iprm::IParamsSet* /*paramsPtr*/,
+			const istd::IPolymorphic* /*inputPtr*/,
+			istd::IChangeable* outputPtr)
+{
+	if (outputPtr == NULL){
+		return TS_OK;
+	}
+
+	iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(outputPtr);
+	if (bitmapPtr != NULL){
+		if (m_isFrameLoaded){
+			const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(m_frameDataCompPtr.GetPtr());
+			if ((imagePtr != NULL) && bitmapPtr->CopyImageFrom(*imagePtr)){
+				return true;
+			}
+		}
+
+		if (m_frameLoaderCompPtr.IsValid() && (m_currentFrameIndex < m_fileList.count())){
+			QString fileName = m_fileList[m_currentFrameIndex];
+
+			istd::CChangeNotifier notifier(bitmapPtr);
+
+			if (m_frameLoaderCompPtr->LoadFromFile(*bitmapPtr, iqt::GetCString(fileName)) == iser::IFileLoader::StateOk){
+				return TS_OK;
+			}
+		}
+	}
+
+	return TS_INVALID;
+}
+
+
 // reimplemented (imm::IMediaController)
 
 istd::CString CFrameSeqVideoControllerComp::GetOpenedMediumUrl() const
@@ -146,33 +189,6 @@ bool CFrameSeqVideoControllerComp::SetCurrentFrame(int frameIndex)
 	}
 
 	return m_isFrameLoaded;
-}
-
-
-bool CFrameSeqVideoControllerComp::GrabFrame(iimg::IBitmap& result, int frameIndex) const
-{
-	if (frameIndex < 0){
-		frameIndex = m_currentFrameIndex;
-	}
-
-	if (m_isFrameLoaded && (frameIndex == m_currentFrameIndex)){
-		const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(m_frameDataCompPtr.GetPtr());
-		if ((imagePtr != NULL) && result.CopyImageFrom(*imagePtr)){
-			return true;
-		}
-	}
-
-	if (m_frameLoaderCompPtr.IsValid() && (frameIndex < m_fileList.count())){
-		QString fileName = m_fileList[frameIndex];
-
-		istd::CChangeNotifier notifier(&result);
-
-		int loadState = m_frameLoaderCompPtr->LoadFromFile(result, iqt::GetCString(fileName));
-
-		return (loadState == iser::IFileLoader::StateOk);
-	}
-
-	return false;
 }
 
 

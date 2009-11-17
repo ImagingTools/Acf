@@ -186,12 +186,6 @@ bool CPhononVideoViewGuiComp::SetCurrentFrame(int frameIndex)
 }
 
 
-bool CPhononVideoViewGuiComp::GrabFrame(iimg::IBitmap& /*result*/, int /*frameIndex*/) const
-{
-	return false;
-}
-
-
 // protected methods
 
 void CPhononVideoViewGuiComp::EnsureSync() const

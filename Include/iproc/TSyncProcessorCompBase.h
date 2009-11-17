@@ -29,11 +29,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(TSyncProcessorCompBase)
 		I_REGISTER_INTERFACE(Interface)
 		I_REGISTER_INTERFACE(iproc::IProcessor)
-		I_ASSIGN(m_paramsIdAttrPtr, "ParamsId", "ID of processor parameter", true, "ParamsId");
 	I_END_COMPONENT
-
-protected:
-	I_ATTR(istd::CString, m_paramsIdAttrPtr);
 };
 
 

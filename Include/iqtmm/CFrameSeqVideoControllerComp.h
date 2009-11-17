@@ -12,6 +12,9 @@
 
 #include "icomp/CComponentBase.h"
 
+#include "iproc/IBitmapAcquisition.h"
+#include "iproc/TSyncProcessorCompBase.h"
+
 #include "imm/IVideoController.h"
 
 #include "iqt/CFileList.h"
@@ -26,14 +29,14 @@ namespace iqtmm
 */
 class CFrameSeqVideoControllerComp:
 			public QObject,
-			public icomp::CComponentBase,
+			public iproc::TSyncProcessorCompBase<iproc::IBitmapAcquisition>,
 			virtual public imm::IVideoController,
 			protected imod::CSingleModelObserverBase
 {
 	Q_OBJECT
 
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef iproc::TSyncProcessorCompBase<iproc::IBitmapAcquisition> BaseClass;
 
 	I_BEGIN_COMPONENT(CFrameSeqVideoControllerComp);
 		I_REGISTER_INTERFACE(istd::IChangeable);
@@ -46,6 +49,15 @@ public:
 	I_END_COMPONENT();
 
 	CFrameSeqVideoControllerComp();
+
+	// reimplemented (iproc::IBitmapAcquisition)
+	virtual istd::CIndex2d GetBitmapSize(const iprm::IParamsSet* paramsPtr) const;
+
+	// reimplemented (iproc::IProcessor)
+	virtual int DoProcessing(
+				const iprm::IParamsSet* paramsPtr,
+				const istd::IPolymorphic* inputPtr,
+				istd::IChangeable* outputPtr);
 
 	// reimplemented (imm::IMediaController)
 	virtual istd::CString GetOpenedMediumUrl() const;
@@ -67,7 +79,6 @@ public:
 	// reimplemented (imm::IVideoController)
 	virtual int GetCurrentFrame() const;
 	virtual bool SetCurrentFrame(int frameIndex);
-	virtual bool GrabFrame(iimg::IBitmap& result, int frameIndex = -1) const;
 
 protected:
 	bool LoadCurrentFrame();

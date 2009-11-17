@@ -57,7 +57,6 @@ public:
 	// reimplemented (imm::IVideoController)
 	virtual int GetCurrentFrame() const;
 	virtual bool SetCurrentFrame(int frameIndex);
-	virtual bool GrabFrame(iimg::IBitmap& result, int frameIndex = -1) const;
 
 protected:
 	void EnsureSync() const;
