@@ -24,6 +24,7 @@ public:
 
 	I_BEGIN_COMPONENT(CTextDocumentComp)
 		I_REGISTER_INTERFACE(iser::ISerializable);
+		I_REGISTER_INTERFACE(ibase::ITextDocument);
 		I_ASSIGN(m_defaultTextAttrPtr, "DefaultText", "Default text", false, "Hallo World!")
 	I_END_COMPONENT
 
