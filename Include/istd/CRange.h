@@ -18,7 +18,7 @@ class CRange
 {
 public:
 	/**
-		Constructs an empty range object. IsValid() will return \c false for this object.
+		Constructs an empty range object. IsEmpty() will return \c true for this object.
 	*/
 	CRange();
 	/**
@@ -112,9 +112,17 @@ public:
 	*/
 	CRange GetUnion(const CRange& range) const;
 	/**
+		Get union with the second \c range.
+	*/
+	CRange GetUnion(double value) const;
+	/**
 		Set this range to be union of two ranges.
 	*/
 	void Unite(const CRange& range);
+	/**
+		Set this range to be union of two ranges.
+	*/
+	void Unite(double value);
 
 	/**
 		Get expanded range using the second \c range.

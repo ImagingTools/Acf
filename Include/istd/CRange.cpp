@@ -79,27 +79,35 @@ void CRange::Intersection(const CRange& range)
 
 CRange CRange::GetUnion(const CRange& range) const
 {
-	if (range.IsEmpty()){
-		return *this;
-	}
-	else{
-		if (IsEmpty()){
-			return range;
-		}
-		else{
+	if (range.IsValid()){
+		if (IsValid()){
 			return CRange(Min(m_minValue, range.m_minValue), Max(m_maxValue, range.m_maxValue));
 		}
+		else{
+			return range;
+		}
+	}
+	else{
+		return *this;
+	}
+}
+
+
+CRange CRange::GetUnion(double value) const
+{
+	if (IsValid()){
+		return CRange(Min(m_minValue, value), Max(m_maxValue, value));
+	}
+	else{
+		return CRange(value, value);
 	}
 }
 
 
 void CRange::Unite(const CRange& range)
 {
-	if (!range.IsEmpty()){
-		if (IsEmpty()){
-			*this = range;
-		}
-		else{
+	if (range.IsValid()){
+		if (IsValid()){
 			if (range.m_minValue < m_minValue){
 				m_minValue = range.m_minValue;
 			}
@@ -108,6 +116,27 @@ void CRange::Unite(const CRange& range)
 				m_maxValue = range.m_maxValue;
 			}
 		}
+		else{
+			*this = range;
+		}
+	}
+}
+
+
+void CRange::Unite(double value)
+{
+	if (IsValid()){
+		if (value < m_minValue){
+			m_minValue = value;
+		}
+
+		if (value > m_maxValue){
+			m_maxValue = value;
+		}
+	}
+	else{
+		m_minValue = value;
+		m_maxValue = value;
 	}
 }
 
