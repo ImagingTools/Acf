@@ -300,7 +300,7 @@ istd::CString CPackagesLoaderComp::GetPackageDirPath(const std::string& packageI
 
 CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& fileInfo)
 {
-	QString absolutePath = fileInfo.absoluteFilePath();
+	QString absolutePath = fileInfo.canonicalFilePath();
 
 	DllCacheMap::iterator iter = m_dllCacheMap.find(absolutePath);
 	if (iter != m_dllCacheMap.end()){
@@ -316,7 +316,7 @@ CDllFunctionsProvider& CPackagesLoaderComp::GetProviderRef(const QFileInfo& file
 	if (!providerPtr->IsValid()){
 		SendErrorMessage(
 					MI_CANNOT_REGISTER,
-					iqt::GetCString(QObject::tr("Cannot register components from registry %1").arg(fileInfo.fileName())));
+					iqt::GetCString(QObject::tr("Cannot register components from package %1").arg(fileInfo.fileName())));
 	}
 
 	return *providerPtr;
