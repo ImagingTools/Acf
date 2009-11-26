@@ -63,11 +63,11 @@ bool CComposedParamsSetGuiComp::OnAttached(imod::IModel* modelPtr)
 	for (int i = 0; i < elementsCount; ++i){
 		const istd::CString& paramId = m_idsAttrPtr[i];
 
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
+		imod::IModel* parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
 
-		if ((modelPtr != NULL) && (observerPtr != NULL)){
-			modelPtr->AttachObserver(observerPtr);
+		if ((parameterModelPtr != NULL) && (observerPtr != NULL)){
+			parameterModelPtr->AttachObserver(observerPtr);
 		}
 	}
 
@@ -84,11 +84,11 @@ bool CComposedParamsSetGuiComp::OnDetached(imod::IModel* modelPtr)
 	for (int i = 0; i < elementsCount; ++i){
 		const istd::CString& paramId = m_idsAttrPtr[i];
 
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
+		imod::IModel* parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
 
-		if ((modelPtr != NULL) && (observerPtr != NULL) && modelPtr->IsAttached(observerPtr)){
-			modelPtr->DetachObserver(observerPtr);
+		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
+			parameterModelPtr->DetachObserver(observerPtr);
 		}
 	}
 
