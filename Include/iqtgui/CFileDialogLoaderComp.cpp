@@ -174,7 +174,7 @@ int CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileLoader& loade
 				allExt += ";";
 			}
 
-			allExt += "*." + iqt::GetQString(extension);
+			allExt += "*." + iqt::GetQString(extension).toLower();
 		}
 	}
 
@@ -268,7 +268,7 @@ iser::IFileLoader* CFileDialogLoaderComp::GetLoaderFor(const QString& filePath, 
 	iser::IFileLoader* retVal = NULL;
 
 	QFileInfo fileInfo(filePath);
-	QString fileExtension = QString("*.") + fileInfo.suffix();
+	QString fileExtension = (QString("*.") + fileInfo.suffix()).toLower();
 
 	int filtersSum = 0;
 	int loadersCount = m_loadersCompPtr.GetCount();
