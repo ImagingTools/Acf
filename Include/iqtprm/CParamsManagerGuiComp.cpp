@@ -2,6 +2,7 @@
 
 
 #include "istd/TChangeNotifier.h"
+#include "istd/CChangeDelegator.h"
 
 #include "iprm/IParamsSet.h"
 
@@ -13,6 +14,8 @@
 namespace iqtprm
 {
 
+
+// public methods
 
 CParamsManagerGuiComp::CParamsManagerGuiComp()
 :	m_lastConnectedModelPtr(NULL)
@@ -27,8 +30,14 @@ void CParamsManagerGuiComp::UpdateModel() const
 }
 
 
-void CParamsManagerGuiComp::UpdateEditor(int /*updateFlags*/)
+void CParamsManagerGuiComp::UpdateEditor(int updateFlags)
 {
+	// if the set was removed, the model was already detached from all observers,
+	// so we must reset our temporary model pointer:
+	if ((updateFlags & iprm::IParamsManager::CF_SET_REMOVED) != 0 && ((updateFlags & istd::CChangeDelegator::CF_DELEGATED) != 0)){
+		m_lastConnectedModelPtr = NULL;
+	}
+
 	if (IsGuiCreated() && !IsUpdateBlocked()){
 		UpdateBlocker updateBlocker(this);
 
@@ -41,8 +50,8 @@ void CParamsManagerGuiComp::UpdateEditor(int /*updateFlags*/)
 
 void CParamsManagerGuiComp::on_AddButton_clicked()
 {
-	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(GetObjectPtr(), CF_PARAMS_ADD);
-	if (objectPtr.IsValid()){
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
 		int selectedIndex = GetSelectedIndex();
 		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
 
@@ -53,8 +62,8 @@ void CParamsManagerGuiComp::on_AddButton_clicked()
 
 void CParamsManagerGuiComp::on_RemoveButton_clicked()
 {
-	istd::TChangeNotifier<iprm::IParamsManager> objectPtr(GetObjectPtr(), CF_PARAMS_REMOVE);
-	if (objectPtr.IsValid()){
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
 		int selectedIndex = GetSelectedIndex();
 		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
 
@@ -85,6 +94,26 @@ void CParamsManagerGuiComp::on_ParamsTree_itemSelectionChanged()
 				(selectedIndex < selectionPtr->GetOptionsCount()) &&
 				(selectedIndex != selectionPtr->GetSelectedOptionIndex())){
 		selectionPtr->SetSelectedOptionIndex(selectedIndex);
+	}
+}
+
+void CParamsManagerGuiComp::on_ParamsTree_itemChanged(QTreeWidgetItem* item, int column)
+{
+	if (IsUpdateBlocked()){
+		return;
+	}
+
+	if (column != 0){
+		return;
+	}
+
+	UpdateBlocker updateBlocker(this);
+
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int setIndex = item->data(0, Qt::UserRole).toInt();
+
+		objectPtr->SetSetName(setIndex, iqt::GetCString(item->text(0)));
 	}
 }
 
@@ -132,15 +161,15 @@ void CParamsManagerGuiComp::UpdateTree()
 			selectedIndex = selectionPtr->GetSelectedOptionIndex();
 		}
 
-		for (int i = 0; i < setsCount; ++i){
-			const istd::CString& name = objectPtr->GetSetName(i);
+		for (int paramSetIndex = 0; paramSetIndex < setsCount; ++paramSetIndex){
+			const istd::CString& name = objectPtr->GetSetName(paramSetIndex);
 			QTreeWidgetItem* paramsSetItemPtr = new QTreeWidgetItem();
 			paramsSetItemPtr->setText(0, iqt::GetQString(name));
-			paramsSetItemPtr->setData(0, Qt::UserRole, i);
+			paramsSetItemPtr->setData(0, Qt::UserRole, paramSetIndex);
 			paramsSetItemPtr->setFlags(itemFlags);
 			ParamsTree->addTopLevelItem(paramsSetItemPtr);
 
-			paramsSetItemPtr->setSelected(i == selectedIndex);
+			paramsSetItemPtr->setSelected(paramSetIndex == selectedIndex);
 		}
 
 		UpdateParamsView(selectedIndex);
@@ -162,10 +191,15 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 
 		if (m_paramsObserverCompPtr.IsValid()){
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(selectedIndex));
-			if ((modelPtr != NULL) && modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
-				m_lastConnectedModelPtr = modelPtr;
 
-				paramsFrameVisible = true;
+			if (modelPtr != NULL){
+				I_ASSERT(!modelPtr->IsAttached(m_paramsObserverCompPtr.GetPtr()));
+				
+				if (modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
+					m_lastConnectedModelPtr = modelPtr;
+
+					paramsFrameVisible = true;
+				}
 			}
 		}
 	}
@@ -195,7 +229,9 @@ int CParamsManagerGuiComp::GetSelectedIndex() const
 void CParamsManagerGuiComp::EnsureParamsGuiDetached()
 {
 	if ((m_lastConnectedModelPtr != NULL) && m_paramsObserverCompPtr.IsValid()){
-		m_lastConnectedModelPtr->DetachObserver(m_paramsObserverCompPtr.GetPtr());
+		if (m_lastConnectedModelPtr->IsAttached(m_paramsObserverCompPtr.GetPtr())){
+			m_lastConnectedModelPtr->DetachObserver(m_paramsObserverCompPtr.GetPtr());
+		}
 	}
 
 	m_lastConnectedModelPtr = NULL;

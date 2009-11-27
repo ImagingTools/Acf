@@ -7,7 +7,7 @@
 
 
 // ACF includes
-#include "istd/TPointerVector.h"
+#include "istd/TSmartPtr.h"
 
 #include "icomp/CComponentBase.h"
 
@@ -65,9 +65,15 @@ private:
 	I_ATTR(istd::CString, m_defaultSetNameCompPtr);
 	I_FACT(IParamsSet, m_paramSetsFactPtr);
 
-	istd::TPointerVector<IParamsSet> m_paramSets;
-	typedef std::vector<istd::CString> Names;
-	Names m_names;
+	struct ParamSet
+	{
+		istd::TSmartPtr<IParamsSet> paramSetPtr;
+		istd::CString name;
+	};
+
+	typedef std::vector<ParamSet> ParamSets;
+
+	ParamSets m_paramSets;
 
 	int m_selectedIndex;
 };

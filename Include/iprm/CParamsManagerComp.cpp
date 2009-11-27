@@ -24,7 +24,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 		istd::CChangeNotifier notifier(this);
 
-		m_paramSets.SetCount(count - fixedSetsCount);
+		m_paramSets.resize(count - fixedSetsCount);
 	}
 	else if (count > actualSetsCount){
 		if (!m_paramSetsFactPtr.IsValid()){
@@ -40,11 +40,13 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 			istd::CChangeNotifier notifier(this);
 
-			m_paramSets.PushBack(newParamsSetPtr);
+			ParamSet paramsSet;
+			paramsSet.paramSetPtr.SetPtr(newParamsSetPtr);
+			paramsSet.name = *m_defaultSetNameCompPtr;
+
+			m_paramSets.push_back(paramsSet);
 		}
 	}
-
-	m_names.resize(istd::Max(count - m_fixedSetNamesCompPtr.GetCount(), 0), *m_defaultSetNameCompPtr);
 
 	return true;
 }
@@ -62,7 +64,7 @@ int CParamsManagerComp::GetManagerFlags() const
 		retVal |= MF_NO_INSERT;
 	}
 
-	if (m_paramSets.IsEmpty()){
+	if (m_paramSets.empty()){
 		retVal |= MF_NO_DELETE;
 	}
 
@@ -72,7 +74,7 @@ int CParamsManagerComp::GetManagerFlags() const
 
 int CParamsManagerComp::GetSetsCount() const
 {
-	return m_fixedParamSetsCompPtr.GetCount() + m_paramSets.GetCount();
+	return m_fixedParamSetsCompPtr.GetCount() + m_paramSets.size();
 }
 
 
@@ -94,17 +96,18 @@ bool CParamsManagerComp::InsertSet(int index)
 
 	istd::CString defaultSetName = m_defaultSetNameCompPtr.IsValid() ? *m_defaultSetNameCompPtr: "unnamed";
 
+	ParamSet paramSet;
+	
+	paramSet.paramSetPtr.SetPtr(newParamsSetPtr);
+	paramSet.name = defaultSetName;
+
 	if (index >= 0){
 		int insertIndex = index - fixedParamsCount;
 
-		m_paramSets.InsertElementAt(insertIndex, newParamsSetPtr);
-
-		m_names.insert(m_names.begin() + insertIndex, defaultSetName);
+		m_paramSets.insert(m_paramSets.begin() + insertIndex, paramSet);
 	}
 	else{
-		m_paramSets.PushBack(newParamsSetPtr);
-
-		m_names.push_back(defaultSetName);
+		m_paramSets.push_back(paramSet);
 	}
 
 	return true;
@@ -123,13 +126,12 @@ bool CParamsManagerComp::RemoveSet(int index)
 	
 	int removeIndex = index - fixedParamsCount;
 
-	imod::IModel* paramsSetModelPtr = dynamic_cast<imod::IModel*>(m_paramSets.GetAt(removeIndex));
+	imod::IModel* paramsSetModelPtr = dynamic_cast<imod::IModel*>(m_paramSets[removeIndex].paramSetPtr.GetPtr());
 	if (paramsSetModelPtr != NULL){
 		paramsSetModelPtr->DetachAllObservers();
 	}
 
-	m_paramSets.RemoveAt(removeIndex);
-	m_names.erase(m_names.begin() + removeIndex);
+	m_paramSets.erase(m_paramSets.begin() + removeIndex);
 
 	m_selectedIndex = index - 1;
 
@@ -146,7 +148,7 @@ IParamsSet* CParamsManagerComp::GetParamsSet(int index) const
 		return m_fixedParamSetsCompPtr[index];
 	}
 
-	return m_paramSets.GetAt(index - fixedCount);
+	return const_cast<IParamsSet*>(m_paramSets[index - fixedCount].paramSetPtr.GetPtr());
 }
 
 
@@ -159,8 +161,8 @@ const istd::CString& CParamsManagerComp::GetSetName(int index) const
 		return m_fixedSetNamesCompPtr[index];
 	}
 
-	if (index < fixedCount + int(m_names.size())){
-		return m_names[index - fixedCount];
+	if (index < fixedCount + int(m_paramSets.size())){
+		return m_paramSets[index - fixedCount].name;
 	}
 
 	return *m_defaultSetNameCompPtr;
@@ -176,13 +178,11 @@ bool CParamsManagerComp::SetSetName(int index, const istd::CString& name)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED);
+	if (m_paramSets[index - fixedCount].name != name){
+		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED);
 
-	if (index >= fixedCount + int(m_names.size())){
-		m_names.resize(index - fixedCount + 1, *m_defaultSetNameCompPtr);
+		m_paramSets[index - fixedCount].name = name;
 	}
-
-	m_names[index - fixedCount] = name;
 
 	return true;
 }

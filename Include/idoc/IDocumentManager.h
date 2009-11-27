@@ -21,13 +21,17 @@ namespace idoc
 class IDocumentManager: virtual public istd::IChangeable
 {
 public:
+
+	/**
+		Possible changes in the mananger data model.
+	*/
 	enum ChangeFlags
 	{
-		DocumentRenamed = 0x10,
-		DocumentCreated = 0x20,
-		DocumentRemoved = 0x40,
-		DocumentCountChanged = 0x80,
-		ViewActivationChanged = 0x100
+		DocumentRenamed = 0x10000,
+		DocumentCreated = 0x20000,
+		DocumentRemoved = 0x40000,
+		DocumentCountChanged = 0x80000,
+		ViewActivationChanged = 0x100000
 	};
 
 	struct DocumentInfo

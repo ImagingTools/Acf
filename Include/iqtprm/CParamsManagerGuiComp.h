@@ -47,6 +47,7 @@ protected slots:
 	void on_AddButton_clicked();
 	void on_RemoveButton_clicked();
 	void on_ParamsTree_itemSelectionChanged();
+	void on_ParamsTree_itemChanged(QTreeWidgetItem* item, int column);
 
 protected:
 	void UpdateActions();
