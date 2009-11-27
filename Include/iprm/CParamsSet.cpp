@@ -7,13 +7,16 @@
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
+#include "imod/CModelBase.h"
+
 
 namespace iprm
 {
 
 
 CParamsSet::CParamsSet(const IParamsSet* slaveSetPtr)
-:	m_slaveSetPtr(slaveSetPtr)
+	:m_slaveSetPtr(slaveSetPtr),
+	m_paramsObserver(*this)
 {
 }
 
@@ -27,7 +30,7 @@ bool CParamsSet::SetEditableParameter(const std::string& id, iser::ISerializable
 
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
 			if (modelPtr != NULL){
-				modelPtr->AttachObserver(this);
+				modelPtr->AttachObserver(&m_paramsObserver);
 			}
 
 			return true;
@@ -161,19 +164,30 @@ I_DWORD CParamsSet::GetMinimalVersion(int versionId) const
 }
 
 
-// private methods
 
-// reimplemented (imod::IObserver)
+// public methods of embedded class ParamsObserver
 
-void CParamsSet::BeforeUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+CParamsSet::ParamsObserver::ParamsObserver(CParamsSet& parent)
+	:m_parent(parent)
 {
-	BeginChanges(updateFlags | istd::CChangeDelegator::CF_DELEGATED, updateParamsPtr);
 }
 
 
-void CParamsSet::AfterUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+// private methods of embedded class ParamsObserver
+
+// reimplemented (imod::IObserver)
+
+void CParamsSet::ParamsObserver::BeforeUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	EndChanges(updateFlags | istd::CChangeDelegator::CF_DELEGATED, updateParamsPtr);
+	m_parent.BeginChanges(updateFlags | istd::CChangeDelegator::CF_DELEGATED, updateParamsPtr);
+}
+
+
+void CParamsSet::ParamsObserver::AfterUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
+	imod::CModelBase* myModel = dynamic_cast<imod::CModelBase*>(&m_parent);
+
+	m_parent.EndChanges(updateFlags | istd::CChangeDelegator::CF_DELEGATED, updateParamsPtr);
 }
 
 

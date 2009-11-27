@@ -88,7 +88,7 @@ bool CParamsManagerComp::InsertSet(int index)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this);
+	istd::CChangeNotifier notifier(this, CF_SET_INSERTED);
 
 	if (index >= 0){
 		m_paramSets.InsertElementAt(index - fixedParamsCount, newParamsSetPtr);
@@ -108,6 +108,8 @@ bool CParamsManagerComp::RemoveSet(int index)
 	if (index < fixedParamsCount){
 		return false;
 	}
+
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED);
 
 	m_paramSets.RemoveAt(index - fixedParamsCount);
 
@@ -154,6 +156,8 @@ bool CParamsManagerComp::SetSetName(int index, const istd::CString& name)
 		return false;
 	}
 
+	istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED);
+
 	if (index >= fixedCount + int(m_names.size())){
 		m_names.resize(index - fixedCount + 1, *m_defaultSetNameCompPtr);
 	}
@@ -161,6 +165,49 @@ bool CParamsManagerComp::SetSetName(int index, const istd::CString& name)
 	m_names[index - fixedCount] = name;
 
 	return true;
+}
+
+
+// reimplemented (iprm::ISelectionParam)
+
+int CParamsManagerComp::GetOptionsCount() const
+{
+	return GetSetsCount();
+}
+
+
+int CParamsManagerComp::GetSelectedOptionIndex() const
+{
+	return m_selectedIndex;
+}
+
+
+bool CParamsManagerComp::SetSelectedOptionIndex(int index)
+{
+	if ((index >= 0) && (index < GetOptionsCount())){
+		if (index != m_selectedIndex){
+			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED);
+
+			m_selectedIndex = index;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
+const istd::CString& CParamsManagerComp::GetOptionName(int index) const
+{
+	return GetSetName(index);
+}
+
+
+
+ISelectionParam* CParamsManagerComp::GetActiveSubselection() const
+{
+	return NULL;
 }
 
 
@@ -179,7 +226,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.BeginMultiTag(paramsSetListTag, paramsSetTag, paramsCount);
 
 	bool isStoring = archive.IsStoring();
-	if (isStoring){
+	if (!isStoring){
 		if (!retVal || !SetSetsCount(paramsCount)){
 			return false;
 		}
@@ -220,6 +267,11 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	}
 
 	retVal = retVal && archive.EndTag(paramsSetListTag);
+
+	static iser::CArchiveTag selectedIndexTag("Selected", "Selected index");
+	retVal = retVal && archive.BeginTag(selectedIndexTag);
+	retVal = retVal && archive.Process(m_selectedIndex);
+	retVal = retVal && archive.EndTag(selectedIndexTag);
 
 	return retVal;
 }

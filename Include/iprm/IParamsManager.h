@@ -4,7 +4,7 @@
 
 #include "istd/CString.h"
 
-#include "iser/ISerializable.h"
+#include "iprm/ISelectionParam.h"
 
 
 namespace iprm
@@ -17,7 +17,7 @@ class IParamsSet;
 /**
 	Manager of parameters set.
 */
-class IParamsManager: public iser::ISerializable
+class IParamsManager: virtual public iprm::ISelectionParam
 {
 public:
 	/**
@@ -28,6 +28,17 @@ public:
 		MF_NAME_FIXED = 2,
 		MF_NO_INSERT = 4,
 		MF_NO_DELETE = 8
+	};
+
+	/**
+		Possible changes of the manager's data model.
+	*/
+	enum ChangeFlags
+	{
+		CF_SET_INSERTED = 0x10000,
+		CF_SET_REMOVED = 0x20000,
+		CF_SET_NAME_CHANGED = 0x40000,
+		CF_SELECTION_CHANGED = 0x80000
 	};
 
 	/**

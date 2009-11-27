@@ -2,11 +2,14 @@
 #define iprm_CParamsSet_included
 
 
+// STL includes
 #include <map>
 
-#include "imod/CMultiModelObserverBase.h"
 
-#include "icomp/CComponentBase.h"
+// ACF includes
+#include "istd/TChangeDelegator.h"
+
+#include "imod/CMultiModelObserverBase.h"
 
 #include "iprm/IParamsSet.h"
 
@@ -16,15 +19,11 @@ namespace iprm
 
 
 /**
-	Implementation of interface IParamsSet as component.
-	This implementation allows to register list of objects as editable parameters and list of slave parameter sets.
+	Basic implementation of interface IParamsSet.
 */
-class CParamsSet: virtual public IParamsSet, private imod::CMultiModelObserverBase
+class CParamsSet: virtual public iprm::IParamsSet
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
-	typedef imod::CMultiModelObserverBase BaseClass2;
-
 	CParamsSet(const IParamsSet* slaveSetPtr = NULL);
 
 	virtual bool SetEditableParameter(const std::string& id, iser::ISerializable* parameterPtr);
@@ -44,9 +43,24 @@ protected:
 	ParamsMap& GetParamsMapRef();
 
 private:
-	// reimplemented (imod::IObserver)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	/**
+		Class to observe the changes of the single parameters.
+	*/
+	class ParamsObserver: public imod::CMultiModelObserverBase
+	{
+	public:
+		ParamsObserver(CParamsSet& parent);
+
+	private:
+		// reimplemented (imod::IObserver)
+		virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+		virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	private:
+		CParamsSet& m_parent;
+	};
+
+	ParamsObserver m_paramsObserver;
 
 	ParamsMap m_paramsMap;
 

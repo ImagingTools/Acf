@@ -48,6 +48,10 @@ public:
 	virtual istd::IPolymorphic* GetChild(int index) const;
 	virtual istd::IPolymorphic* GetParent() const;
 
+protected:
+	iprm::IParamsSet* GetSlaveParamsSet(int index) const;
+	int GetSlaveParamsSetCount() const;
+
 private:
 	I_MULTIREF(IParamsSet, m_slaveParamsCompPtr);
 	I_MULTIREF(iser::ISerializable, m_parametersCompPtr);

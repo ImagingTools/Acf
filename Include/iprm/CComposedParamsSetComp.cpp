@@ -92,6 +92,31 @@ istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
 }
 
 
+// protected methods
+
+iprm::IParamsSet* CComposedParamsSetComp::GetSlaveParamsSet(int index) const
+{
+	if (!m_slaveParamsCompPtr.IsValid()){
+		return NULL;
+	}
+
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < GetSlaveParamsSetCount());
+
+	return m_slaveParamsCompPtr[index];
+}
+
+
+int CComposedParamsSetComp::GetSlaveParamsSetCount() const
+{
+	if (!m_slaveParamsCompPtr.IsValid()){
+		return 0;
+	}
+
+	return m_slaveParamsCompPtr.GetCount();
+}
+
+
 } // namespace iprm
 
 

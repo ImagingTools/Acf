@@ -49,6 +49,13 @@ public:
 	virtual const istd::CString& GetSetName(int index) const;
 	virtual bool SetSetName(int index, const istd::CString& name);
 
+	// reimplemented (iprm::ISelectionParam)
+	virtual int GetOptionsCount() const;
+	virtual int GetSelectedOptionIndex() const;
+	virtual bool SetSelectedOptionIndex(int index);
+	virtual const istd::CString& GetOptionName(int index) const;
+	virtual ISelectionParam* GetActiveSubselection() const;
+
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
@@ -61,6 +68,8 @@ private:
 	istd::TPointerVector<IParamsSet> m_paramSets;
 	typedef std::vector<istd::CString> Names;
 	Names m_names;
+
+	int m_selectedIndex;
 };
 
 
