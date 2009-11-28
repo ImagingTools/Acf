@@ -40,6 +40,46 @@ istd::CString CFileSystem::GetFileName(const istd::CString& filePath) const
 	}
 }
 
+istd::CString CFileSystem::GetBaseFileName(const istd::CString& filePath) const
+{
+	istd::CString fileName = GetFileName(filePath);
+
+	istd::CString::size_type dotPos = fileName.find('.');
+
+	if (dotPos != istd::CString::npos){
+		return fileName.substr(0, dotPos);
+	}
+
+	return fileName;
+}
+
+
+istd::CString CFileSystem::GetDirPath(const istd::CString& filePath) const
+{
+	istd::CString::size_type slashPos = filePath.rfind('/');
+	istd::CString::size_type backSlashPos = filePath.rfind('\\');
+
+	if (slashPos != istd::CString::npos){
+		if (backSlashPos != istd::CString::npos){
+			return filePath.substr(0, istd::Max(slashPos, backSlashPos));
+		}
+		else{
+			return filePath.substr(0, slashPos);
+		}
+	}
+	else{
+		if (backSlashPos != istd::CString::npos){
+			return filePath.substr(0, backSlashPos);
+		}
+		else{
+			return filePath;
+		}
+	}
+
+	return filePath;
+}
+
+
 
 bool CFileSystem::HasExtension(const istd::CString& filePath, const istd::CString& extension) const
 {

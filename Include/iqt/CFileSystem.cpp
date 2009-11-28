@@ -32,6 +32,22 @@ istd::CString CFileSystem::GetFileName(const istd::CString& filePath) const
 }
 
 
+istd::CString CFileSystem::GetBaseFileName(const istd::CString& filePath) const
+{
+	QFileInfo fileInfo(iqt::GetQString(filePath));
+
+	return iqt::GetCString(fileInfo.baseName());
+}
+
+
+istd::CString CFileSystem::GetDirPath(const istd::CString& filePath) const
+{
+	QFileInfo fileInfo(iqt::GetQString(filePath));
+
+	return iqt::GetCString(fileInfo.canonicalPath());
+}
+
+
 bool CFileSystem::HasExtension(const istd::CString& filePath, const istd::CString& extension) const
 {
 	return iqt::GetQString(filePath).endsWith(iqt::GetQString(extension));

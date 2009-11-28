@@ -21,6 +21,8 @@ public:
 	// reimplemented (isys::IFileSystem)
 	virtual istd::CString GetNormalizedPath(const istd::CString& path) const;
 	virtual istd::CString GetFileName(const istd::CString& filePath) const;
+	virtual istd::CString GetBaseFileName(const istd::CString& filePath) const;
+	virtual istd::CString GetDirPath(const istd::CString& filePath) const;
 	virtual bool HasExtension(const istd::CString& filePath, const istd::CString& extension) const;
 	virtual bool IsPresent(const istd::CString& filePath) const;
 

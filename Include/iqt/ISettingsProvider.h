@@ -2,17 +2,19 @@
 #define iqt_ISettingsProvider_included
 
 
-#include "iqt/iqt.h"
-
-
+// Qt includes
 #include <QSettings>
 
+
+// ACF includes
 #include "istd/IPolymorphic.h"
 
+#include "iqt/iqt.h"
 
 
 namespace iqt
 {
+
 
 /**
 	Interface for access the application settings object.
@@ -28,3 +30,5 @@ public:
 
 
 #endif // !iqt_ISettingsProvider_included
+
+
