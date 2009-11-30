@@ -42,8 +42,6 @@ protected:
 		CModelChangeObserver& m_parent;
 	};
 
-	friend class Observer;
-
 private:
 	bool m_isDirty;
 

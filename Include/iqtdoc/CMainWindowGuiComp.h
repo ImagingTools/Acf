@@ -184,8 +184,6 @@ private:
 		CMainWindowGuiComp& m_parent;
 	};
 
-	friend class NewDocumentCommand;
-
 	class ActiveUndoManager: public imod::TSingleModelObserverBase<imod::IUndoManager>
 	{
 	public:
