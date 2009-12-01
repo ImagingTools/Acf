@@ -2,11 +2,13 @@
 #define istd_TPointerVector_included
 
 
-#include "istd/istd.h"
-
-
+// STL includes 
 #include <vector>
 #include <algorithm>
+
+
+// ACF includes
+#include "istd/istd.h"
 
 
 namespace istd
@@ -51,6 +53,14 @@ class TPointerVector
 public:
 	typedef typename AccessAdapter::ElementType ElementType;
 
+	enum
+	{
+		/**
+			Invalid index in the vector
+		*/
+		InvalidIndex = -1
+	};
+
 	TPointerVector();
 	TPointerVector(const TPointerVector&);
 
@@ -77,9 +87,10 @@ public:
 	void Reset();
 
 	/**
-		Check if some element is stored in this vector.
+		Check if some element is stored in this vector and return the index of the element,
+		if anyone exists, otherwise return \c InvalidIndex.
 	*/
-	bool HasElement(const Pointer* elementPtr) const;
+	int HasElement(const Pointer* elementPtr) const;
 
 	/**
 		Get pointer at specified index.
@@ -194,18 +205,18 @@ void TPointerVector<Pointer, AccessAdapter>::Reset()
 
 
 template <typename Pointer, class AccessAdapter>
-bool TPointerVector<Pointer, AccessAdapter>::HasElement(const Pointer* elementPtr) const
+int TPointerVector<Pointer, AccessAdapter>::HasElement(const Pointer* elementPtr) const
 {
 	int elementsCount = GetCount();
 
 	for (int elementIndex = 0; elementIndex < elementsCount; elementIndex++){
 		typename Elements::const_iterator delIter = (m_elements.begin() + elementIndex);
 		if (AccessAdapter::GetPtr(*delIter) == elementPtr){
-			return true;
+			return elementIndex;
 		}
 	}
 
-	return false;
+	return InvalidIndex;
 }
 
 
@@ -294,7 +305,7 @@ void TPointerVector<Pointer, AccessAdapter>::InsertElementAt(int index, const El
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index <= GetCount());
-	I_ASSERT(!HasElement(AccessAdapter::GetPtr(element)));
+	I_ASSERT(HasElement(AccessAdapter::GetPtr(element)) == InvalidIndex);
 
 	m_elements.insert(m_elements.begin() + index, element);
 }
@@ -304,4 +315,5 @@ void TPointerVector<Pointer, AccessAdapter>::InsertElementAt(int index, const El
 
 
 #endif // !istd_TPointerVector_included
+
 
