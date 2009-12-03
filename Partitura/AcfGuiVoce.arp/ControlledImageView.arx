@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1073
+          1229
         </Number>
         <Description>
           ACF
@@ -196,7 +196,15 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="4">
+  <ExportedInterfaces count="6">
+    <Interface>
+      <InterfaceId>
+        i2d::ISceneController
+      </InterfaceId>
+      <ComponentId>
+        ImageView
+      </ComponentId>
+    </Interface>
     <Interface>
       <InterfaceId>
         idoc::ICommandsProvider
@@ -216,6 +224,14 @@
     <Interface>
       <InterfaceId>
         iqt2d::ISceneProvider
+      </InterfaceId>
+      <ComponentId>
+        ImageView
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iqtdoc::IPrintable
       </InterfaceId>
       <ComponentId>
         ImageView
