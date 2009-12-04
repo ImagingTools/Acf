@@ -16,8 +16,6 @@
 #include "iqt2d/CQuadrangleParamsGuiComp.h"
 #include "iqt2d/CSceneControllerGuiComp.h"
 
-#include "iqt3d/CSurfaceViewComp.h"
-
 
 /**
 	Qt scene visualization package.
@@ -36,8 +34,6 @@ typedef iqt2d::CAnnulusParamsGuiComp AnnulusParamsGui;
 typedef iqt2d::CAnnulusSegmentParamsGuiComp AnnulusSegmentParamsGui;
 typedef iqt2d::CQuadrangleParamsGuiComp QuadrangleParamsGui;
 typedef iqt2d::CSceneControllerGuiComp SceneControllerGui;
-
-typedef iqt3d::CSurfaceViewComp SurfaceView;
 
 
 } // namespace QtViewPck

@@ -34,8 +34,6 @@ I_EXPORT_COMPONENT(AnnulusSegmentParamsGui, "Annulus segment parameter GUI displ
 I_EXPORT_COMPONENT(QuadrangleParamsGui, "Quadrangle parameter GUI displaying a quadrangle object using scene", "Quadrangle Parameters Observer Display GUI Qt");
 I_EXPORT_COMPONENT(SceneControllerGui, "Scene controller allowing to control scale and other scene properties", "Observer Display GUI Qt Scene Controller Zoom Rotate");
 
-I_EXPORT_COMPONENT(SurfaceView, "3D-View component", "Model Observer Parameter GUI Qt 3D Surface");
-
 
 } // namespace QtViewPck
 
