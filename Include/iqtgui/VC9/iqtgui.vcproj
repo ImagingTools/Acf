@@ -225,6 +225,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFilePersistenceGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFreeWidgetGuiComp.cpp"
 				>
 			</File>
@@ -328,6 +332,14 @@
 			</File>
 			<File
 				RelativePath="..\CFileDialogLoaderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilePersistenceGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilePersistenceGuiComp.moc"
 				>
 			</File>
 			<File
@@ -676,6 +688,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CFilePersistenceGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CHierarchicalCommand.cpp"
 				>
 			</File>
@@ -704,6 +720,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\ui_CFilePersistenceGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\ui_CLogGuiComp.h"
 				>
 			</File>
@@ -725,6 +745,10 @@
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilePersistenceGuiComp.ui"
 				>
 			</File>
 			<File
