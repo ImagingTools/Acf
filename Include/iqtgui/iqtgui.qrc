@@ -43,6 +43,7 @@
     <file alias="Wizard" >Resources/Icons/wizard_128.png</file>
     <file alias="Internet" >Resources/Icons/world_128.png</file>
     <file alias="Edit" >Resources/Icons/write_128.png</file>
+    <file alias="StateUnknown" >Resources/Icons/StateUnknown.png</file>
     <file alias="StateInvalid" >Resources/Icons/StateInvalid.png</file>
     <file alias="StateWarning" >Resources/Icons/StateWarning.png</file>
     <file alias="StateOk" >Resources/Icons/StateOk.png</file>
