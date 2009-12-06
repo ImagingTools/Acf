@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1206
+          1241
         </Number>
         <Description>
           ACF
@@ -390,7 +390,7 @@
               icomp::TAttribute&lt;int&gt;
             </Type>
             <ExportId>
-              
+              IconSize
             </ExportId>
             <Data>
               <IsEnabled>
