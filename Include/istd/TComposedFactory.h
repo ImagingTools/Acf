@@ -13,7 +13,7 @@ namespace istd
 
 
 /**
-	Standard implementation of a factory.
+	Standard generic implementation of the composed factory.
 */
 template <class InterfaceType>
 class TComposedFactory: virtual public TIFactory<InterfaceType>
