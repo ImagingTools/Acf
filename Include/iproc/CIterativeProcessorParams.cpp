@@ -39,7 +39,7 @@ void CIterativeProcessorParams::SetIterationsCount(int iterationsCount)
 
 bool CIterativeProcessorParams::Serialize(iser::IArchive& archive)
 {
-	static iser::CArchiveTag iterationsCountTag("Iterations", "Number of filter iterations");
+	static iser::CArchiveTag iterationsCountTag("Iterations", "Number of processing iterations");
 	bool retVal = archive.BeginTag(iterationsCountTag);
 	retVal = retVal && archive.Process(m_iterationsCount);
 	retVal = retVal && archive.EndTag(iterationsCountTag);
