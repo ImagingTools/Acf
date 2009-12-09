@@ -278,6 +278,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSystemEnvironment.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTimer.cpp"
 				>
 			</File>
@@ -413,6 +417,10 @@
 			</File>
 			<File
 				RelativePath="..\CSignalBlocker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSystemEnvironment.h"
 				>
 			</File>
 			<File

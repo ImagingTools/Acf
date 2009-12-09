@@ -8,6 +8,7 @@
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
+#include "istd/INamed.h"
 #include "istd/TChangeNotifier.h"
 
 
@@ -69,6 +70,9 @@ bool TNamedWrap<BaseClass>::SerializeName(iser::IArchive& archive)
 
 	return retVal;
 }
+
+
+typedef ibase::TNamedWrap<istd::INamed> CNamed;
 
 
 } // namespace ibase

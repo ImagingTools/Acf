@@ -25,6 +25,7 @@ I_EXPORT_COMPONENT(ConsoleLog, "Simple log on windows console", "Log Windows Mes
 I_EXPORT_COMPONENT(TextFileLog, "Simple text file log", "Log Message Consumer");
 I_EXPORT_COMPONENT(FileCopyOverLoader, "General file copy or transform using loaders and any object", "File Copy Compile Transform Loader Saver");
 I_EXPORT_COMPONENT(CopyApp, "Copy application transforming files", "File Copy Compile Transform Application");
+I_EXPORT_COMPONENT(Uuid, "Unique identifier", "Unique Identifier");
 
 I_EXPORT_COMPONENT(SelectableParamsSet, "Composed set of parameters", "Model Parameters Set Selection Options List");
 I_EXPORT_COMPONENT(ParamsManager, "Manager of parameters set", "Model Parameters Set Manager");

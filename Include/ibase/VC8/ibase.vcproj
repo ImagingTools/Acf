@@ -282,6 +282,10 @@
 				RelativePath="..\CTextFileLogComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CUuidComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -357,6 +361,10 @@
 			</File>
 			<File
 				RelativePath="..\CTextFileLogComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CUuidComp.h"
 				>
 			</File>
 			<File
