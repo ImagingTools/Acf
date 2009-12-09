@@ -52,6 +52,12 @@ public:
 	*/
 	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 
+	/**
+		Copy this object from another one.
+		Default implementation in istd::IChangeable do nothing.
+	*/
+	virtual bool CopyFrom(const IChangeable& object);
+
 protected:
 	/**
 		Callback function for begin change event.
@@ -79,6 +85,12 @@ inline void IChangeable::EndChanges(int changeFlags, istd::IPolymorphic* changeP
 	if ((changeFlags & CF_ABORTED) == 0){
 		OnEndChanges(changeFlags, changeParamsPtr);
 	}
+}
+
+
+inline bool IChangeable::CopyFrom(const IChangeable& /*object*/)
+{
+	return false;
 }
 
 

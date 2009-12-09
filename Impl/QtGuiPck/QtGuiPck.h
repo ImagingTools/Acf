@@ -34,6 +34,7 @@
 
 #include "iqtproc/CProgressManagerGuiComp.h"
 #include "iqtproc/CAcquisitonProcessorGuiComp.h"
+#include "iqtproc/CIterativeProcessorParamsGuiComp.h"
 
 
 /**
@@ -72,6 +73,7 @@ typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
 
 typedef iqtproc::CProgressManagerGuiComp ProgressManagerGui;
 typedef iqtproc::CAcquisitonProcessorGuiComp AcquisitionProcessorGui;
+typedef iqtproc::CIterativeProcessorParamsGuiComp IterationParamsGui;
 
 
 } // namespace QtGuiPck

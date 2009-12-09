@@ -36,7 +36,7 @@ void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, i
 		providerPtr = qtBitmapPtr.GetPtr();
 		iimg::IBitmap* bitmapPtr = GetObjectPtr();
 
-		qtBitmapPtr->CopyImageFrom(*bitmapPtr);
+		qtBitmapPtr->CopyFrom(*bitmapPtr);
 	}
 
 	QImage image = providerPtr->GetQImage();

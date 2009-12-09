@@ -23,9 +23,10 @@ public:
 
 	enum SupportedFeatures
 	{
-		SF_PLAY = 0x1,
-		SF_SEEK = 0x2,
-		SF_AUTO_PLAY = 0x4
+		SF_OPEN_MEDIA = 0x1,
+		SF_PLAY = 0x2,
+		SF_SEEK = 0x4,
+		SF_AUTO_PLAY = 0x8
 	};
 
 	/**

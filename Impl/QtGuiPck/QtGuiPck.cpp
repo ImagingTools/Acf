@@ -52,6 +52,7 @@ I_EXPORT_COMPONENT(HtmlHelpViewer, "Help viewer showing html document", "Help Vi
 
 I_EXPORT_COMPONENT(ProgressManagerGui, "Progress manager GUI using progress bar widget to visualize progress", "Progress Manager Qt GUI");
 I_EXPORT_COMPONENT(AcquisitionProcessorGui, "Processor acquisition GUI", "Acquisition Processor Parameter GUI View");
+I_EXPORT_COMPONENT(IterationParamsGui, "Iterative processor params", "Filter Parameter Qt Processing");
 
 
 } // namespace QtGuiPck

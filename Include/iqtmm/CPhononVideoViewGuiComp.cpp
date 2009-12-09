@@ -136,7 +136,7 @@ bool CPhononVideoViewGuiComp::SetCurrentPosition(double position)
 
 int CPhononVideoViewGuiComp::GetSupportedFeatures() const
 {
-	int flags = SF_PLAY | SF_AUTO_PLAY;
+	int flags = SF_OPEN_MEDIA | SF_PLAY | SF_AUTO_PLAY;
 
 	if (m_mediaObject.isSeekable()){
 		flags = flags | SF_SEEK;

@@ -61,7 +61,7 @@ protected:
 	virtual void NotifyAfterUpdate(int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
 
 private:
-	CModelBase(const CModelBase&);
+	CModelBase(const CModelBase& modelBase);
 
 	typedef std::vector<IObserver*> Observers;
 	Observers m_observers;

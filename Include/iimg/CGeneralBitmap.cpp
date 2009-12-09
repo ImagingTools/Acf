@@ -129,9 +129,9 @@ int CGeneralBitmap::GetComponentsCount() const
 }
 
 
-bool CGeneralBitmap::CopyImageFrom(const IRasterImage& image)
+bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
 {
-	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&image);
+	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
 	if (bitmapPtr != NULL){
 		istd::CIndex2d size = bitmapPtr->GetImageSize();
 		if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){

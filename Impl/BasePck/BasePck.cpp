@@ -57,6 +57,8 @@ I_EXPORT_COMPONENT(Histogram, "Histogram ", "Image Histogram");
 
 I_EXPORT_COMPONENT(TestIdManager, "Implementation of ID manager generating ID's for test", "ID Manager Test Supplier");
 I_EXPORT_COMPONENT(CascadedProcessor, "Sequence processing using slave processors", "Processor Sequence Buffer Cascade");
+I_EXPORT_COMPONENT(IterativeProcessor, "Iterative Processor", "Iterative Loop Sequence Processing");
+I_EXPORT_COMPONENT(IterativeProcessorParams, "Iterative Processor Params", "Iterative Filter Processing Parameter");
 
 
 } // namespace BasePck

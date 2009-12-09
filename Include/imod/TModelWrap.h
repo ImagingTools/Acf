@@ -2,7 +2,7 @@
 #define imod_TModelWrap_included
 
 
-#include "istd/TUpdateManagerWrap.h"
+#include "iser/TCopySerializedWrap.h"
 
 #include "imod/CModelBase.h"
 
@@ -18,10 +18,10 @@ namespace imod
 	\ingroup ModelObserver
 */
 template <class Base>
-class TModelWrap: public istd::TUpdateManagerWrap<Base>, public imod::CModelBase
+class TModelWrap: public iser::TCopySerializedWrap<Base>, public imod::CModelBase
 {
 public:
-	typedef istd::TUpdateManagerWrap<Base> BaseClass;
+	typedef iser::TCopySerializedWrap<Base> BaseClass;
 	typedef imod::CModelBase BaseClass2;
 
 	void SetBaseObject(const Base& baseObject);

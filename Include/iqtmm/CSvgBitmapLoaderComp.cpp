@@ -91,7 +91,7 @@ int CSvgBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStr
 			}
 		}
 
-		if (imagePtr->CopyImageFrom(m_lastBitmap)){
+		if (imagePtr->CopyFrom(m_lastBitmap)){
 			return StateOk;
 		}
 		else{

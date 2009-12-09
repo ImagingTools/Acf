@@ -17,8 +17,7 @@ class IVideoController: virtual public IMediaController, virtual public IVideoIn
 public:
 	enum SupportedFeatures
 	{
-		SF_GRAB_CURRENT = 0x100,
-		SF_GRAB_ANY = 0x200
+		SF_GRAB_ANY = 0x100
 	};
 
 	/**

@@ -115,9 +115,8 @@ void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updatePa
 
 // private methods
 
-CModelBase::CModelBase(const CModelBase&)
+CModelBase::CModelBase(const CModelBase& /*modelBase*/)
 {
-
 }
 
 

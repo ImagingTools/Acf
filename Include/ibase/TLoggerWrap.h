@@ -101,7 +101,7 @@ private:
 
 template <class Base>
 TLoggerWrap<Base>::TLoggerWrap()
-	:m_logPtr(NULL)
+:	m_logPtr(NULL)
 {
 }
 

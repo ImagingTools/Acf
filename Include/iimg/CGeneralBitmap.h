@@ -31,7 +31,7 @@ public:
 	virtual void ResetImage();
 	virtual istd::CIndex2d GetImageSize() const;
 	virtual int GetComponentsCount() const;
-	virtual bool CopyImageFrom(const IRasterImage& image);
+	virtual bool CopyFrom(const istd::IChangeable& object);
 
 private:
 	istd::TOptDelPtr<I_BYTE, true> m_buffer;

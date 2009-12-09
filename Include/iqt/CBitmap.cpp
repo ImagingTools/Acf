@@ -134,9 +134,9 @@ int CBitmap::GetComponentsCount() const
 }
 
 
-bool CBitmap::CopyImageFrom(const IRasterImage& image)
+bool CBitmap::CopyFrom(const istd::IChangeable& object)
 {
-	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&image);
+	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&object);
 
 	if (bitmapPtr != NULL){
 		istd::CChangeNotifier notifier(this);
@@ -146,7 +146,7 @@ bool CBitmap::CopyImageFrom(const IRasterImage& image)
 		return true;
 	}
 	else{
-		const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&image);
+		const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
 		if (bitmapPtr != NULL){
 			istd::CChangeNotifier notifier(this);
 			istd::CIndex2d size = bitmapPtr->GetImageSize();

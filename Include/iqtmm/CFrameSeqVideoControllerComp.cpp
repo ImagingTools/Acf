@@ -40,8 +40,8 @@ int CFrameSeqVideoControllerComp::DoProcessing(
 	iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(outputPtr);
 	if (bitmapPtr != NULL){
 		if (m_isFrameLoaded){
-			const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(m_frameDataCompPtr.GetPtr());
-			if ((imagePtr != NULL) && bitmapPtr->CopyImageFrom(*imagePtr)){
+			const istd::IChangeable* imagePtr = m_frameDataCompPtr.GetPtr();
+			if ((imagePtr != NULL) && bitmapPtr->CopyFrom(*imagePtr)){
 				return true;
 			}
 		}
@@ -140,7 +140,7 @@ bool CFrameSeqVideoControllerComp::SetCurrentPosition(double position)
 
 int CFrameSeqVideoControllerComp::GetSupportedFeatures() const
 {
-	return SF_PLAY | SF_SEEK;
+	return SF_OPEN_MEDIA | SF_PLAY | SF_SEEK;
 }
 
 

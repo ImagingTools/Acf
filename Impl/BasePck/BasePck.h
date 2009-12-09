@@ -55,6 +55,8 @@
 
 #include "iproc/CTestIdManagerComp.h"
 #include "iproc/CCascadedProcessorComp.h"
+#include "iproc/CIterativeProcessorComp.h"
+#include "iproc/CIterativeProcessorParams.h"
 
 
 /**
@@ -161,6 +163,8 @@ typedef icomp::TMakeComponentWrap<
 
 typedef iproc::CTestIdManagerComp TestIdManager;
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
+typedef iproc::CIterativeProcessorComp IterativeProcessor;
+typedef icomp::TMakeComponentWrap<imod::TModelWrap<iproc::CIterativeProcessorParams>, iser::ISerializable> IterativeProcessorParams;
 
 
 } // namespace BasePck
