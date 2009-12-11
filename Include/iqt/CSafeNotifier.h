@@ -13,31 +13,52 @@ namespace iqt
 {
 
 
+class NotificationTarget;
+
+
 /**
 	Implementation of model changes notification between different threads.
 */
-class CSafeNotifier: public QObject, public istd::CChangeDelegator
+class CSafeNotifier
+{
+public:
+	explicit CSafeNotifier(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	~CSafeNotifier();
+
+private:
+	NotificationTarget* m_notificationTarget;
+};
+
+
+/**
+	\internal
+
+	Help class to realize the post-processing of istd::IChangeable::EndChanges()
+*/
+class NotificationTarget: protected QObject, protected istd::CChangeDelegator
 {
 	Q_OBJECT
-public:
+
+	friend class CSafeNotifier;
+
+protected:
 	typedef istd::CChangeDelegator BaseClass;
 
-	explicit CSafeNotifier(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	NotificationTarget(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+
+	void Reset();
 
 	// reimplemented (istd::IChangeable)
-	virtual void BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
-
 protected Q_SLOTS:
-	void DoBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 	void DoEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
-signals:
-	void EmitBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+Q_SIGNALS:
 	void EmitEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
 private:
-	istd::CChangeNotifier m_notifier;
+	int m_changeFlags;
+	istd::IPolymorphic* m_changeParamsPtr;
 };
 
 

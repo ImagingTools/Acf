@@ -1,54 +1,59 @@
 #include "iqt/CSafeNotifier.h"
 
 
+#include <QApplication>
+
+
 namespace iqt
 {
 
 
-CSafeNotifier::CSafeNotifier(istd::IChangeable* slavePtr,  int changeFlags, istd::IPolymorphic* changeParamsPtr)
+	
+NotificationTarget::NotificationTarget(istd::IChangeable* slavePtr, int changeFlags, istd::IPolymorphic* changeParamsPtr)
 	:BaseClass(slavePtr),
-	m_notifier(NULL, changeFlags, changeParamsPtr)
+	m_changeFlags(changeFlags),
+	m_changeParamsPtr(changeParamsPtr)
 {
-	connect(
-				this,
-				SIGNAL(EmitBeginChanges(int, istd::IPolymorphic*)),
-				this, 
-				SLOT(DoBeginChanges(int, istd::IPolymorphic*)),
-				Qt::QueuedConnection);
-	connect(
-				this,
-				SIGNAL(EmitEndChanges(int, istd::IPolymorphic*)),
-				this, 
-				SLOT(DoEndChanges(int, istd::IPolymorphic*)),
-				Qt::QueuedConnection);
+	moveToThread(QApplication::instance()->thread());
 
-	m_notifier.SetPtr(this);
+	connect(this, SIGNAL(EmitEndChanges(int, istd::IPolymorphic*)), this, SLOT(DoEndChanges(int, istd::IPolymorphic*)));
+
+	BaseClass::BeginChanges(changeFlags, changeParamsPtr);
+}
+
+
+void NotificationTarget::Reset()
+{
+	EndChanges(m_changeFlags, m_changeParamsPtr);
 }
 
 
 // reimplemented (istd::IChangeable)
 
-void CSafeNotifier::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	Q_EMIT EmitBeginChanges(changeFlags, changeParamsPtr);
-}
-
-
-void CSafeNotifier::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void NotificationTarget::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	Q_EMIT EmitEndChanges(changeFlags, changeParamsPtr);
 }
 
-
 // protected slots:
-void CSafeNotifier::DoBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	BaseClass::BeginChanges(changeFlags, changeParamsPtr);
-}
 
-void CSafeNotifier::DoEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void NotificationTarget::DoEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	BaseClass::EndChanges(changeFlags, changeParamsPtr);
+}
+
+
+CSafeNotifier::CSafeNotifier(istd::IChangeable* slavePtr,  int changeFlags, istd::IPolymorphic* changeParamsPtr)
+{
+	m_notificationTarget = new NotificationTarget(slavePtr, changeFlags, changeParamsPtr);
+}
+
+
+CSafeNotifier::~CSafeNotifier()
+{
+	m_notificationTarget->Reset();
+
+	m_notificationTarget->deleteLater();
 }
 
 
