@@ -19,7 +19,7 @@ CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IComponentStaticInfo* b
 
 IComponent* CBaseComponentStaticInfo::CreateComponent() const
 {
-	I_CRITICAL();	// trying to create abstract base component.
+	I_CRITICAL();	// trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten
 
 	return NULL;
 }

@@ -10,7 +10,7 @@ namespace iqt
 
 	
 NotificationTarget::NotificationTarget(istd::IChangeable* slavePtr, int changeFlags, istd::IPolymorphic* changeParamsPtr)
-	:BaseClass(slavePtr),
+:	BaseClass(slavePtr),
 	m_changeFlags(changeFlags),
 	m_changeParamsPtr(changeParamsPtr)
 {

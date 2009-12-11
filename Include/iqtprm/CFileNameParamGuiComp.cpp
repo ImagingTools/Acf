@@ -46,7 +46,7 @@ void CFileNameParamGuiComp::OnGuiCreated()
 	// add "cd up" button:
 	QToolButton* cdUpButton = new QToolButton(lineEdit);
 	cdUpButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	cdUpButton->setIcon(QIcon(":/Icons/Up"));
+	cdUpButton->setIcon(QIcon(":/Icons/UpDir"));
 	connect(cdUpButton, SIGNAL(clicked()), this, SLOT(OnDirectoryUp()));
 
 	lineEdit->AddWidget(cdUpButton, Qt::AlignRight);
