@@ -14,7 +14,7 @@
       ../Bin/$(ConfigurationName)/Tutorial
     </Dir>
     <Dir>
-      ../Docs/Tutorial/Concepts/Components
+      ../Docs/Tutorial/Partitura
     </Dir>
   </PackageDirs>
   <PackageFiles count="0">
