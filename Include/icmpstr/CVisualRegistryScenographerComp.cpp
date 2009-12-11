@@ -322,12 +322,12 @@ void CVisualRegistryScenographerComp::DoRetranslate()
 				tr("&Execute Registry"), 
 				tr("&Execute Registry"), 
 				tr("Start registry execution"),
-				QIcon(":/Icons/PlayerPlay"));
+				QIcon(":/Icons/Play.svg"));
 	m_abortRegistryCommand.SetVisuals(
 				tr("&Abort Registry"), 
 				tr("&Abort Registry"), 
 				tr("Abort registry execution"),
-				QIcon(":/Icons/PlayerStop"));
+				QIcon(":/Icons/Stop.svg"));
 	m_addNoteCommand.SetVisuals(
 				tr("&Add Note"), 
 				tr("&Add Note"), 

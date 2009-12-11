@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,7 +14,7 @@
    height="320"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.47 r22583"
    sodipodi:docname="Settings.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
@@ -69,9 +70,9 @@
       <stop
          id="stop3174"
          offset="0.24137931"
-         style="stop-color:#6874d4;stop-opacity:1;" />
+         style="stop-color:#7e88da;stop-opacity:1;" />
       <stop
-         style="stop-color:#292b64;stop-opacity:1;"
+         style="stop-color:#3e4198;stop-opacity:1;"
          offset="1"
          id="stop3170" />
     </linearGradient>
@@ -153,7 +154,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-34.661516"
+     inkscape:cx="-507.51866"
      inkscape:cy="4.2221009"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -161,7 +162,8 @@
      inkscape:window-width="1150"
      inkscape:window-height="906"
      inkscape:window-x="-16"
-     inkscape:window-y="136" />
+     inkscape:window-y="136"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>

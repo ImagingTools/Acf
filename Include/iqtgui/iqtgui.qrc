@@ -31,9 +31,9 @@
     <file alias="Copy" >Resources/Icons/copy_128.png</file>
     <file alias="Paste" >Resources/Icons/paste_128.png</file>
     <file alias="Delete" >Resources/Icons/delete_128.png</file>
-    <file alias="PlayerPlay" >Resources/Icons/player_play.png</file>
-    <file alias="PlayerStop" >Resources/Icons/player_stop.png</file>
-    <file alias="PlayerPause" >Resources/Icons/player_pause.png</file>
+    <file alias="Play.svg" >Resources/Icons/Play.svg</file>
+    <file alias="Stop.svg" >Resources/Icons/Stop.svg</file>
+    <file alias="Pause.svg" >Resources/Icons/Pause.svg</file>
     <file alias="Sandglass" >Resources/Icons/sandglass_128.png</file>
     <file alias="TrashEmpty" >Resources/Icons/trash_128.png</file>
     <file alias="UpDir" >Resources/Icons/up_128.png</file>
@@ -47,8 +47,6 @@
     <file alias="StateOk.svg" >Resources/Icons/StateOk.svg</file>
     <file alias="StateWarning.svg" >Resources/Icons/StateWarning.svg</file>
     <file alias="StateInvalid.svg" >Resources/Icons/StateInvalid.svg</file>
-    <file alias="Play" >Resources/Icons/Play.png</file>
-    <file alias="Pause" >Resources/Icons/Pause.png</file>
     <file alias="Restart" >Resources/Icons/Restart.png</file>
     <file alias="Reset" >Resources/Icons/Reset.png</file>
   </qresource>
