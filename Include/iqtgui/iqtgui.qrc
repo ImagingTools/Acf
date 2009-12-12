@@ -15,9 +15,9 @@
     <file alias="New" >Resources/Icons/document_128.png</file>
     <file alias="Open" >Resources/Icons/folder_128.png</file>
     <file alias="Save" >Resources/Icons/diskette_128.png</file>
-    <file alias="Exit" >Resources/Icons/exit.png</file>
-    <file alias="Undo" >Resources/Icons/reload_left_128.png</file>
-    <file alias="Redo" >Resources/Icons/reload_128.png</file>
+    <file alias="Shutdown.svg" >Resources/Icons/Shutdown.svg</file>
+    <file alias="Undo.svg" >Resources/Icons/Undo.svg</file>
+    <file alias="Redo.svg" >Resources/Icons/Redo.svg</file>
     <file alias="Export" >Resources/Icons/document-save.png</file>
     <file alias="Clear" >Resources/Icons/edit-clear.png</file>
     <file alias="RotateLeft.svg" >Resources/Icons/RotateLeft.svg</file>
@@ -26,11 +26,11 @@
     <file alias="About" >Resources/Icons/info_128.png</file>
     <file alias="Snap" >Resources/Icons/camera_128.png</file>
     <file alias="Add" >Resources/Icons/add_128.png</file>
-    <file alias="Cancel" >Resources/Icons/cancel_128.png</file>
+    <file alias="Cancel.svg" >Resources/Icons/Cancel.svg</file>
     <file alias="Close" >Resources/Icons/close_b_128.png</file>
     <file alias="Copy" >Resources/Icons/copy_128.png</file>
     <file alias="Paste" >Resources/Icons/paste_128.png</file>
-    <file alias="Delete" >Resources/Icons/delete_128.png</file>
+    <file alias="Delete.svg" >Resources/Icons/Delete.svg</file>
     <file alias="Play.svg" >Resources/Icons/Play.svg</file>
     <file alias="Stop.svg" >Resources/Icons/Stop.svg</file>
     <file alias="Pause.svg" >Resources/Icons/Pause.svg</file>

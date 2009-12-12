@@ -305,7 +305,7 @@ void CVisualRegistryScenographerComp::DoRetranslate()
 				tr("&Remove Component"), 
 				tr("Remove"), 
 				tr("Remove the selected component from the registry"),
-				QIcon(":/Icons/Delete"));
+				QIcon(":/Icons/Delete.svg"));
 	m_renameComponentCommand.SetVisuals(
 				tr("&Rename Component"), 
 				tr("Rename"), 

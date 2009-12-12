@@ -50,7 +50,7 @@
      </property>
      <property name="icon" >
       <iconset resource="../iqtgui/iqtgui.qrc" >
-       <normaloff>:/Icons/Redo</normaloff>:/Icons/Redo</iconset>
+       <normaloff>:/Icons/Restart</normaloff>:/Icons/Restart</iconset>
      </property>
      <property name="iconSize" >
       <size>
