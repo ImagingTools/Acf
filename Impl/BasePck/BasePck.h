@@ -30,6 +30,7 @@
 #include "ibase/CFileCopyOverLoaderComp.h"
 #include "ibase/CCopyAppComp.h"
 #include "ibase/CUuidComp.h"
+#include "ibase/CObjectQueueComp.h"
 
 #include "isec/CComposedAuthorizationVerifierComp.h"
 #include "isec/CFixedAuthorisationVerifierComp.h"
@@ -81,6 +82,7 @@ typedef ibase::CTextFileLogComp TextFileLog;
 typedef ibase::CFileCopyOverLoaderComp FileCopyOverLoader;
 typedef ibase::CCopyAppComp CopyApp;
 typedef icomp::TModelCompWrap<ibase::CUuidComp> Uuid;
+typedef ibase::CObjectQueueComp ObjectQueue;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;

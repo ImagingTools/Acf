@@ -15,60 +15,28 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="3">
+  <ElementsList count="5">
     <Element>
       <Id>
-        GuiApplication
+        FilePersistence
       </Id>
       <PackageId>
-        QtGuiPck
+        BasePck
       </PackageId>
       <ComponentId>
-        GuiApplication
+        FilePersistence
       </ComponentId>
       <Data>
         <IsEnabled>
           true
         </IsEnabled>
         <Flags>
-          0
+          1
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              FrameSpaceSize
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;int&gt;
-            </Type>
-            <ExportId>
-              FrameSpaceSize
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              MainGui
+              FileLoader
             </Id>
             <Type>
               icomp::CReferenceAttribute
@@ -81,35 +49,16 @@
                 true
               </IsEnabled>
               <Value>
-                MainWindowGui
+                SettingsSerializer
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              StyleSheet
+              Object
             </Id>
             <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              StyleSheet
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                :/Style/Resources/Style/ApolloStyle.ass
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              TitleFormat
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -119,87 +68,13 @@
                 true
               </IsEnabled>
               <Value>
-                %1 by %2
+                UrlParam
               </Value>
             </Data>
           </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        LayoutSettingsProvider
-      </Id>
-      <PackageId>
-        QtPck
-      </PackageId>
-      <ComponentId>
-        ApplicationSettingsProvider
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        MainWindowGui
-      </Id>
-      <PackageId>
-        QtGuiPck
-      </PackageId>
-      <ComponentId>
-        MainWindowGui
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="6">
-          <AttributeInfo>
-            <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              IsMenuVisible
+              RestoreonBegin
             </Id>
             <Type>
               icomp::TAttribute&lt;bool&gt;
@@ -212,13 +87,13 @@
                 true
               </IsEnabled>
               <Value>
-                false
+                true
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              IsToolbarVisible
+              StoreOnEnd
             </Id>
             <Type>
               icomp::TAttribute&lt;bool&gt;
@@ -231,19 +106,101 @@
                 true
               </IsEnabled>
               <Value>
-                false
+                true
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        ModelBinder
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        ModelBinder
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          1
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              Model
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                UrlParam
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              MainWindowComponents
+              Observers
             </Id>
             <Type>
               icomp::CMultiReferenceAttribute
             </Type>
             <ExportId>
-              MainWindowComponents
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  UrlParamGui
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        SettingsSerializer
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        SettingsSerializer
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              ApplicationInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -253,32 +210,13 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SettingsProvider
+              Log
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                LayoutSettingsProvider
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              Workspace
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              MainView
+              Log
             </ExportId>
             <Data>
               <IsEnabled>
@@ -289,47 +227,132 @@
         </AttributeInfoMap>
       </Data>
     </Element>
+    <Element>
+      <Id>
+        UrlParam
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        FileNameParam
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              DefaultPath
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              DefaultUrl
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              PathType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                3
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        UrlParamGui
+      </Id>
+      <PackageId>
+        QtGuiPck
+      </PackageId>
+      <ComponentId>
+        FileNameParamGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="0">
+        </AttributeInfoMap>
+      </Data>
+    </Element>
   </ElementsList>
-  <ExportedInterfaces count="2">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
-        ibase::IApplication
+        imod::IModel
       </InterfaceId>
       <ComponentId>
-        GuiApplication
+        UrlParam
       </ComponentId>
     </Interface>
     <Interface>
       <InterfaceId>
-        iqt::ISettingsProvider
+        iprm::IFileNameParam
       </InterfaceId>
       <ComponentId>
-        LayoutSettingsProvider
+        UrlParam
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iqtgui::IGuiObject
+      </InterfaceId>
+      <ComponentId>
+        UrlParamGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iser::ISerializable
+      </InterfaceId>
+      <ComponentId>
+        UrlParam
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        istd::IChangeable
+      </InterfaceId>
+      <ComponentId>
+        UrlParam
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="2">
-    <Component>
-      <ExportedId>
-        BasePath
-      </ExportedId>
-      <ComponentId>
-        Parameters/BasePath
-      </ComponentId>
-    </Component>
-    <Component>
-      <ExportedId>
-        ClassPath
-      </ExportedId>
-      <ComponentId>
-        Parameters/ClassPath
-      </ComponentId>
-    </Component>
+  <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    Base frame of standalone applications without documents
+    Persistent directory selector
   </Description>
   <Keywords>
-    Application Frame Standalone
+    Directory File
   </Keywords>
 </Acf>

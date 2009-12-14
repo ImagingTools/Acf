@@ -170,6 +170,16 @@ void CFileNameParamGuiComp::OnDirectoryUp()
 
 void CFileNameParamGuiComp::SetPathToEditor(const QString& path) const
 {
+	iprm::IFileNameParam* objectPtr = GetObjectPtr();
+	if (objectPtr == NULL){
+		return;
+	}
+
+	int pathType = objectPtr->GetPathType();
+	if (pathType == iprm::IFileNameParam::PT_URL){
+		return;
+	}
+
 	I_ASSERT(DirEdit->isEditable());
 	
 	iqt::CSignalBlocker blocker(DirEdit);
