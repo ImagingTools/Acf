@@ -71,9 +71,9 @@ void CSceneProviderGuiComp::Print(QPrinter* printerPtr) const
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CSceneProviderGuiComp::GetCommands() const
+const ibase::IHierarchicalCommand* CSceneProviderGuiComp::GetCommands() const
 {
 	return &m_editorCommand;
 }

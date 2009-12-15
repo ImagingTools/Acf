@@ -17,9 +17,9 @@ CExtendedDocumentTemplateComp::CExtendedDocumentTemplateComp()
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CExtendedDocumentTemplateComp::GetCommands() const
+const ibase::IHierarchicalCommand* CExtendedDocumentTemplateComp::GetCommands() const
 {
 	return &m_globalMenuCommands;
 }

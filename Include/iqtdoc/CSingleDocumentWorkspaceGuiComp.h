@@ -6,7 +6,7 @@
 #include <QWidget>
 
 // ACF includes
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 #include "idoc/CSingleDocumentManagerBase.h"
 
 #include "iqtgui/TGuiComponentBase.h"

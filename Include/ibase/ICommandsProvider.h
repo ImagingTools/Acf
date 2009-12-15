@@ -1,13 +1,13 @@
-#ifndef idoc_ICommandsProvider_included
-#define idoc_ICommandsProvider_included
+#ifndef ibase_ICommandsProvider_included
+#define ibase_ICommandsProvider_included
 
 
 #include "istd/IPolymorphic.h"
 
-#include "idoc/ICommand.h"
+#include "ibase/ICommand.h"
 
 
-namespace idoc
+namespace ibase
 {
 
 
@@ -23,9 +23,9 @@ public:
 };
 
 
-} // namespace idoc
+} // namespace ibase
 
 
-#endif // !idoc_ICommandsProvider_included
+#endif // !ibase_ICommandsProvider_included
 
 

@@ -6,8 +6,8 @@
 
 CTextEditorComp::CTextEditorComp()
 :	m_editorCommand("&Text"),
-	m_lowercaseCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_uppercaseCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR)
+	m_lowercaseCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_uppercaseCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
 {
 	m_lowercaseCommand.SetEnabled(false);
 	m_uppercaseCommand.SetEnabled(false);
@@ -50,9 +50,9 @@ void CTextEditorComp::UpdateEditor(int /*updateFlags*/)
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CTextEditorComp::GetCommands() const
+const ibase::IHierarchicalCommand* CTextEditorComp::GetCommands() const
 {
 	return &m_rootCommand;
 }

@@ -15,7 +15,7 @@
 #include "icomp/IRegistryElement.h"
 #include "icomp/CRegistry.h"
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 #include "idoc/IHelpViewer.h"
 #include "idoc/IMainWindowCommands.h"
 
@@ -39,7 +39,7 @@ class CRegistryViewComp:
 						imod::TSingleModelObserverBase<icomp::IRegistry> >,
 			virtual public imod::TModelWrap<IElementSelectionInfo>,
 			virtual public iqtdoc::IPrintable,
-			virtual public idoc::ICommandsProvider
+			virtual public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -49,7 +49,7 @@ public:
 				imod::TSingleModelObserverBase<icomp::IRegistry> > BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryViewComp);
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(iqtdoc::IPrintable);
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_ASSIGN_MULTI_0(m_registryElementObserversCompPtr, "RegistryElementObservers", "Registry element observers", false);
@@ -67,8 +67,8 @@ public:
 	// reimplemented (iqtdoc::IPrintable)
 	virtual void Print(QPrinter* printerPtr) const;
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimplemented (icmpstr::IElementSelectionInfo)
 	virtual icomp::IRegistry* GetSelectedRegistry() const;

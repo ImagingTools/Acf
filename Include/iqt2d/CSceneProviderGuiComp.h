@@ -11,7 +11,7 @@
 
 #include "iqtgui/TDesignerGuiCompBase.h"
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 
 #include "i2d/ISceneController.h"
 
@@ -31,7 +31,7 @@ namespace iqt2d
 class CSceneProviderGuiComp: 
 			public iqtgui::TDesignerGuiCompBase<Ui::CSceneProviderGuiComp>,
 			virtual public iqtdoc::IPrintable,
-			virtual public idoc::ICommandsProvider,
+			virtual public ibase::ICommandsProvider,
 			virtual public ISceneProvider,
 			virtual public i2d::ISceneController
 {
@@ -62,7 +62,7 @@ public:
 
 	I_BEGIN_COMPONENT(CSceneProviderGuiComp);
 		I_REGISTER_INTERFACE(iqtdoc::IPrintable);
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(ISceneProvider);
 		I_REGISTER_INTERFACE(i2d::ISceneController);
 		I_ASSIGN(m_allowWidgetResizeAttrPtr, "AllowWidgetResize", "Allow resize of QWidet object (should be disabled if this GUI size is managed by layout)", true, false);
@@ -86,8 +86,8 @@ public:
 	// reimplemented (iqtdoc::IPrintable)
 	virtual void Print(QPrinter* printerPtr) const;
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimplemented (iqt2d::ISceneProvider)
 	virtual int GetSceneId() const;

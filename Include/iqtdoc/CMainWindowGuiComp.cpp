@@ -15,7 +15,7 @@
 // ACF includes
 #include "imod/IObserver.h"
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 
 #include "iqt/CSettingsWriteArchive.h"
 #include "iqt/CSettingsReadArchive.h"
@@ -31,16 +31,13 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 :	m_activeUndoManager(*this),
 	m_activeViewPtr(NULL),
 	m_activeDocumentPtr(NULL),
-	m_menuCommands("Global"),
-	m_newCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_openCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_saveCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_undoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_redoCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR),
-	m_fullScreenCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_showToolBarsCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF),
-	m_copyPathToClippboardCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU),
-	m_settingsCommand("", 200, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_TOOLBAR)
+	m_newCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_openCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_saveCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_undoCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_redoCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_fullScreenCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
+	m_copyPathToClippboardCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU)
 {
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
@@ -51,10 +48,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_undoCommand, SIGNAL(activated()), this, SLOT(OnUndo()));
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
 	connect(&m_fullScreenCommand, SIGNAL(activated()), this, SLOT(OnFullScreen()));
-	connect(&m_showToolBarsCommand, SIGNAL(activated()), this, SLOT(OnShowToolbars()));
 	connect(&m_copyPathToClippboardCommand, SIGNAL(activated()), this, SLOT(OnCopyPathToClippboard()));
-	connect(&m_settingsCommand, SIGNAL(activated()), this, SLOT(OnSettings()));
-	connect(&m_aboutCommand, SIGNAL(activated()), this, SLOT(OnAbout()));
 }
 
 
@@ -76,10 +70,6 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 {
 	m_fileCommand.ResetChilds();
 	m_editCommand.ResetChilds();
-	m_viewCommand.ResetChilds();
-	m_toolsCommand.ResetChilds();
-	m_helpCommand.ResetChilds();
-	m_fixedCommands.ResetChilds();
 
 	if (m_documentManagerModelCompPtr.IsValid()){
 		if (m_documentManagerModelCompPtr->IsAttached(this)){
@@ -100,6 +90,9 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 	if (retVal){
 		const idoc::IDocumentManager* managerPtr = GetObjectPtr();
 		if (managerPtr != NULL){
+			m_fileCommand.ResetChilds();
+			m_editCommand.ResetChilds();
+
 			SetupNewCommand();
 
 			m_fileCommand.SetPriority(30);
@@ -112,63 +105,43 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 			m_printCommand.SetGroupId(GI_DOCUMENT);
 			m_fileCommand.InsertChild(&m_printCommand, false);
 
-			const idoc::IDocumentTemplate* templatePtr = managerPtr->GetDocumentTemplate();
-			if (templatePtr != NULL){
-				idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-				for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
-							iter != ids.end();
-							++iter){
-					const std::string& documentTypeId = *iter;
-					I_ASSERT(!documentTypeId.empty());
+			const idoc::IDocumentManager* managerPtr = GetObjectPtr();
+			if (managerPtr != NULL){
+				const idoc::IDocumentTemplate* templatePtr = managerPtr->GetDocumentTemplate();
+				if (templatePtr != NULL){
+					idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
+					for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
+						iter != ids.end();
+						++iter){
+							const std::string& documentTypeId = *iter;
+							I_ASSERT(!documentTypeId.empty());
 
-					RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+							RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
 
-					QString recentListTitle = (ids.size() > 1)?
+							QString recentListTitle = (ids.size() > 1)?
 								tr("Recent %1 Files").arg(documentTypeId.c_str()):
-								tr("Recent Files");
-					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
+							tr("Recent Files");
+							iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
 
-					if (fileListCommandPtr != NULL){
-						fileListCommandPtr->SetPriority(130);
+							if (fileListCommandPtr != NULL){
+								fileListCommandPtr->SetPriority(130);
 
-						groupCommandPtr.SetPtr(fileListCommandPtr);
+								groupCommandPtr.SetPtr(fileListCommandPtr);
 
-						m_fileCommand.InsertChild(fileListCommandPtr, false);
+								m_fileCommand.InsertChild(fileListCommandPtr, false);
+							}
 					}
 				}
 			}
 
 			m_quitCommand.SetGroupId(GI_APPLICATION);
 			m_fileCommand.InsertChild(&m_quitCommand, false);
-		
+
 			m_editCommand.SetPriority(60);
 			m_undoCommand.SetGroupId(GI_UNDO);
 			m_editCommand.InsertChild(&m_undoCommand, false);
 			m_redoCommand.SetGroupId(GI_UNDO);
 			m_editCommand.InsertChild(&m_redoCommand, false);
-
-			m_viewCommand.SetPriority(90);
-			m_viewCommand.InsertChild(&m_fullScreenCommand, false);
-			m_viewCommand.InsertChild(&m_showToolBarsCommand, false);
-
-			m_toolsCommand.SetPriority(120);
-
-			if (*m_isCopyPathVisibleAttrPtr){
-				m_toolsCommand.InsertChild(&m_copyPathToClippboardCommand, false);
-			}
-
-			if (m_settingsGuiCompPtr.IsValid()){
-				m_settingsCommand.SetGroupId(GI_SETTINGS);
-				m_toolsCommand.InsertChild(&m_settingsCommand, false);
-			}
-
-			m_helpCommand.SetPriority(150);
-
-			if (m_aboutGuiCompPtr.IsValid()){
-				m_helpCommand.InsertChild(&m_aboutCommand, false);
-			}
-
-			UpdateFixedCommands();
 		}
 	}
 
@@ -210,7 +183,7 @@ bool CMainWindowGuiComp::OpenFile(const istd::CString& fileName)
 			RemoveFromRecentFileList(istd::CString(fileName));
 		}
 
-		UpdateMenuActions();
+		BaseClass::UpdateMenuActions();
 	}
 
 	return retVal;
@@ -221,7 +194,7 @@ bool CMainWindowGuiComp::OpenFile(const istd::CString& fileName)
 
 void CMainWindowGuiComp::OnActiveViewChanged()
 {
-	UpdateMenuActions();
+	BaseClass::UpdateMenuActions();
 }
 
 
@@ -252,7 +225,7 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 		return;
 	}
 
-	UpdateMenuActions();
+	BaseClass::UpdateMenuActions();
 }
 
 
@@ -283,70 +256,6 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 					}
 				}
 			}
-		}
-	}
-}
-
-
-
-int CMainWindowGuiComp::CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId) const
-{
-	int childsCount = command.GetChildsCount();
-
-	std::map<int, istd::TPointer<QActionGroup> > groups;
-
-	for (int i = 0; i < childsCount; ++i){
-		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
-					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
-
-		if (hierarchicalPtr != NULL){
-			int groupId = hierarchicalPtr->GetGroupId();
-			int flags = hierarchicalPtr->GetStaticFlags();
-
-			if ((flags & idoc::ICommand::CF_TOOLBAR) != 0){
-				if (hierarchicalPtr->GetChildsCount() > 0){
-					QMenu* newMenuPtr = new QMenu(&result);
-					if (newMenuPtr != NULL){
-						newMenuPtr->setTitle(iqt::GetQString(hierarchicalPtr->GetName()));
-
-						CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
-
-						newMenuPtr->setIcon(hierarchicalPtr->icon());
-						result.addAction(newMenuPtr->menuAction());
-					}
-				}
-				else{
-					if ((groupId != prevGroupId) && (prevGroupId != idoc::ICommand::GI_NONE)){
-						result.addSeparator();
-					}
-
-					result.addAction(hierarchicalPtr);
-				}
-
-				if (groupId != idoc::ICommand::GI_NONE){
-					prevGroupId = groupId;
-				}
-			}
-			else if (hierarchicalPtr->GetChildsCount() > 0){
-				prevGroupId = CreateToolbar(*hierarchicalPtr, result, prevGroupId);
-			}
-		}
-	}
-
-	return prevGroupId;
-}
-
-
-void CMainWindowGuiComp::SetToolBarsVisible(bool isVisible)
-{
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	I_ASSERT(mainWindowPtr != NULL);
-
-	if (mainWindowPtr != NULL){
-		for (int toolbarIndex = 0; toolbarIndex < m_toolBarsList.GetCount(); toolbarIndex++){
-			QToolBar* toolbarPtr = m_toolBarsList.GetAt(toolbarIndex);
-
-			toolbarPtr->setVisible(isVisible);
 		}
 	}
 }
@@ -395,18 +304,6 @@ void CMainWindowGuiComp::SetupNewCommand()
 }
 
 
-void CMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow)
-{
-	if (HasDocumentTemplate()){
-		mainWindow.addToolBar(Qt::TopToolBarArea, m_standardToolBarPtr.GetPtr());
-
-		m_toolBarsList.PushBack(m_standardToolBarPtr.GetPtr(), false);
-	}
-
-	mainWindow.setMenuBar(m_menuBarPtr.GetPtr());
-}
-
-
 bool CMainWindowGuiComp::HasDocumentTemplate() const
 {
 	if (!m_documentManagerCompPtr.IsValid()){
@@ -427,13 +324,15 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 }
 
 
-void CMainWindowGuiComp::UpdateFixedCommands()
+// reimplemented (iqtgui::CSimpleMainWindowGuiComp)
+
+void CMainWindowGuiComp::UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixedCommands)
 {
-	m_fixedCommands.ResetChilds();
+	BaseClass::UpdateFixedCommands(fixedCommands);
 
 	// fill menu bar with main commands
 	if (m_documentManagerCompPtr.IsValid()){
-		m_fixedCommands.InsertChild(&m_fileCommand, false);
+		fixedCommands.InsertChild(&m_fileCommand, false, 0);
 
 		if (m_activeDocumentPtr != NULL){
 			if (m_documentManagerCompPtr.IsValid()){
@@ -441,17 +340,29 @@ void CMainWindowGuiComp::UpdateFixedCommands()
 					
 				const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
 				if ((templatePtr != NULL) && templatePtr->IsFeatureSupported(idoc::IDocumentTemplate::Edit, documentTypeId)){
-					m_fixedCommands.InsertChild(&m_editCommand, false);
+					fixedCommands.InsertChild(&m_editCommand, false, 1);
 				}
 			}
 		}
 	}
+}
 
-	m_fixedCommands.InsertChild(&m_viewCommand, false);
+
+void CMainWindowGuiComp::UpdateViewCommands(iqtgui::CHierarchicalCommand& viewCommand)
+{
+	BaseClass::UpdateViewCommands(viewCommand);
+
+	viewCommand.InsertChild(&m_fullScreenCommand, false);
+}
+
+
+void CMainWindowGuiComp::UpdateToolsCommands(iqtgui::CHierarchicalCommand& toolsCommand)
+{
+	BaseClass::UpdateToolsCommands(toolsCommand);
+
 	if (*m_isCopyPathVisibleAttrPtr){
-		m_fixedCommands.InsertChild(&m_toolsCommand, false);
+		toolsCommand.InsertChild(&m_copyPathToClippboardCommand, false);
 	}
-	m_fixedCommands.InsertChild(&m_helpCommand, false);
 }
 
 
@@ -465,21 +376,9 @@ void CMainWindowGuiComp::UpdateUndoMenu()
 }
 
 
-void CMainWindowGuiComp::UpdateMenuActions()
+void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCommands)
 {
-	if (!IsGuiCreated()){
-		return;
-	}
-
-	if (!m_menuBarPtr.IsValid() && !m_standardToolBarPtr.IsValid()){
-		return;
-	}
-
-	m_menuCommands.ResetChilds();
-
-	UpdateFixedCommands();
-
-	m_menuCommands.JoinLinkFrom(&m_fixedCommands);
+	BaseClass::UpdateMenuActions(menuCommands);
 
 	int allowedOperationFlags = 0;
 
@@ -487,11 +386,11 @@ void CMainWindowGuiComp::UpdateMenuActions()
 		allowedOperationFlags = m_documentManagerCompPtr->GetAllowedOperationFlags();
 
 		const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-		const idoc::ICommandsProvider* templateProviderPtr = CompCastPtr<idoc::ICommandsProvider>(templatePtr);
+		const ibase::ICommandsProvider* templateProviderPtr = CompCastPtr<ibase::ICommandsProvider>(templatePtr);
 		if (templateProviderPtr != NULL){
-			const idoc::IHierarchicalCommand* commandsPtr = templateProviderPtr->GetCommands();
+			const ibase::IHierarchicalCommand* commandsPtr = templateProviderPtr->GetCommands();
 			if (commandsPtr != NULL){
-				m_menuCommands.JoinLinkFrom(commandsPtr);
+				menuCommands.JoinLinkFrom(commandsPtr);
 			}
 		}
 	}
@@ -504,55 +403,25 @@ void CMainWindowGuiComp::UpdateMenuActions()
 	m_printCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_PRINT) != 0);
 
 	if (m_documentManagerCommandsCompPtr.IsValid()){
-		const idoc::IHierarchicalCommand* commandsPtr = m_documentManagerCommandsCompPtr->GetCommands();
+		const ibase::IHierarchicalCommand* commandsPtr = m_documentManagerCommandsCompPtr->GetCommands();
 		if (commandsPtr != NULL){
-			m_menuCommands.JoinLinkFrom(commandsPtr);
+			menuCommands.JoinLinkFrom(commandsPtr);
 		}
 	}
 
-	const idoc::ICommandsProvider* viewProviderPtr = CompCastPtr<idoc::ICommandsProvider>(m_activeViewPtr);
+	const ibase::ICommandsProvider* viewProviderPtr = CompCastPtr<ibase::ICommandsProvider>(m_activeViewPtr);
 	if (viewProviderPtr != NULL){
-		const idoc::IHierarchicalCommand* commandsPtr = viewProviderPtr->GetCommands();
+		const ibase::IHierarchicalCommand* commandsPtr = viewProviderPtr->GetCommands();
 		if (commandsPtr != NULL){
-			m_menuCommands.JoinLinkFrom(commandsPtr);
+			menuCommands.JoinLinkFrom(commandsPtr);
 		}
 	}
 
-	const idoc::ICommandsProvider* documentProviderPtr = CompCastPtr<idoc::ICommandsProvider>(m_activeDocumentPtr);
+	const ibase::ICommandsProvider* documentProviderPtr = CompCastPtr<ibase::ICommandsProvider>(m_activeDocumentPtr);
 	if (documentProviderPtr != NULL){
-		const idoc::IHierarchicalCommand* commandsPtr = documentProviderPtr->GetCommands();
+		const ibase::IHierarchicalCommand* commandsPtr = documentProviderPtr->GetCommands();
 		if (commandsPtr != NULL){
-			m_menuCommands.JoinLinkFrom(commandsPtr);
-		}
-	}
-
-	if (m_menuBarPtr.IsValid()){
-		m_menuBarPtr->clear();
-		CreateMenu(m_menuCommands, *m_menuBarPtr);
-	}
-
-	if (m_standardToolBarPtr.IsValid()){
-		m_standardToolBarPtr->clear();
-		CreateToolbar(m_menuCommands, *m_standardToolBarPtr);
-		m_standardToolBarPtr->setVisible(true);
-	}
-}
-
-
-// reimplemented (iqtgui::CSimpleMainWindowGuiComp)
-
-void CMainWindowGuiComp::AddMainComponent(iqtgui::IMainWindowComponent* componentPtr)
-{
-	BaseClass::AddMainComponent(componentPtr);
-
-	QMainWindow* mainWindowPtr = GetQtWidget();
-	if (mainWindowPtr != NULL){
-		iqtgui::IGuiObject* guiPtr =  dynamic_cast<iqtgui::IGuiObject*>(componentPtr);
-		if (guiPtr != NULL){
-			QToolBar* toolBarComponentPtr = dynamic_cast<QToolBar*>(guiPtr->GetWidget());
-			if (toolBarComponentPtr != NULL){
-				m_toolBarsList.PushBack(toolBarComponentPtr, false);
-			}
+			menuCommands.JoinLinkFrom(commandsPtr);
 		}
 	}
 }
@@ -562,6 +431,8 @@ void CMainWindowGuiComp::AddMainComponent(iqtgui::IMainWindowComponent* componen
 
 void CMainWindowGuiComp::OnGuiCreated()
 {
+	OnRetranslate();
+
 	BaseClass::OnGuiCreated();
 
 	QMainWindow* mainWindowPtr = GetQtWidget();
@@ -569,61 +440,24 @@ void CMainWindowGuiComp::OnGuiCreated()
 		return;
 	}
 
-	I_ASSERT(m_isMenuVisibleAttrPtr.IsValid());	// is obligatory attribute
-	if (*m_isMenuVisibleAttrPtr){
-		m_menuBarPtr.SetPtr(new QMenuBar(mainWindowPtr));
-	}
-
-	I_ASSERT(m_isToolbarVisibleAttrPtr.IsValid());	// is obligatory attribute
-	if (*m_isToolbarVisibleAttrPtr){
-		m_standardToolBarPtr.SetPtr(new QToolBar(mainWindowPtr));
-		m_standardToolBarPtr->setWindowTitle(tr("Standard"));
-		m_standardToolBarPtr->setObjectName("Standard");
-	}
-
-	if (m_useIconTextAttrPtr.IsValid() && m_useIconTextAttrPtr->GetValue()){
-		m_standardToolBarPtr->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-	}
-
-	OnRetranslate();
-
-	UpdateMenuActions();
 	UpdateUndoMenu();
 	
-	SetupMainWindowComponents(*mainWindowPtr);
-
 	mainWindowPtr->setAcceptDrops(true);
 
 	mainWindowPtr->installEventFilter(this);
-
-	m_showToolBarsCommand.setChecked(true);
-
-	if (m_settingsGuiCompPtr.IsValid()){
-		m_settingsDialogPtr.SetPtr(new iqtgui::CGuiComponentDialog(m_settingsGuiCompPtr.GetPtr(), 0, true, mainWindowPtr)); 
-		m_settingsDialogPtr->setWindowIcon(QIcon(":/Icons/Settings.svg"));
-		m_settingsDialogPtr->setWindowTitle(tr("Settings"));
-	}
-
-	if (m_aboutGuiCompPtr.IsValid()){
-		m_aboutDialogPtr.SetPtr(new iqtgui::CGuiComponentDialog(m_aboutGuiCompPtr.GetPtr(), 0, true, mainWindowPtr)); 
-	}
 }
 
 
 void CMainWindowGuiComp::OnGuiDestroyed()
 {
-	m_menuBarPtr.Reset();
-	m_standardToolBarPtr.Reset();
-
-	m_settingsDialogPtr.Reset(); 
-	m_aboutDialogPtr.Reset(); 
-
 	BaseClass::OnGuiDestroyed();
 }
 
 
 void CMainWindowGuiComp::OnRetranslate()
 {
+	BaseClass::OnRetranslate();
+
 	I_ASSERT(GetWidget() != NULL);
 
 	QWidget* parentWidgetPtr = GetWidget()->parentWidget();
@@ -634,9 +468,6 @@ void CMainWindowGuiComp::OnRetranslate()
 	// Main commands
 	m_fileCommand.SetName(iqt::GetCString(tr("&File")));
 	m_editCommand.SetName(iqt::GetCString(tr("&Edit")));
-	m_viewCommand.SetName(iqt::GetCString(tr("&View")));
-	m_toolsCommand.SetName(iqt::GetCString(tr("&Tools")));
-	m_helpCommand.SetName(iqt::GetCString(tr("&Help")));
 
 	// File commands
 	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), QIcon(":/Icons/New"));
@@ -657,14 +488,9 @@ void CMainWindowGuiComp::OnRetranslate()
 	// View commands
 	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_fullScreenCommand.setShortcut(tr("F11"));
-	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show and hide toolbars"));
 
 	// Tools commands
 	m_copyPathToClippboardCommand.SetVisuals(tr("&Copy Document Path"), tr("Copy Path"), tr("Copy current document path to system clippboard"));
-	m_settingsCommand.SetVisuals(tr("&Settings"), tr("Settings"), tr("Show global application settings"), QIcon(":/Icons/Settings.svg"));
-
-	// Help commands
-	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), QIcon(":/Icons/About"));
 }
 
 
@@ -769,7 +595,7 @@ void CMainWindowGuiComp::OnSave()
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 
-		UpdateMenuActions();
+		BaseClass::UpdateMenuActions();
 	}
 }
 
@@ -786,7 +612,7 @@ void CMainWindowGuiComp::OnSaveAs()
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 
-		UpdateMenuActions();
+		BaseClass::UpdateMenuActions();
 	}
 }
 
@@ -842,7 +668,7 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 			for (int i = filesCount - 1; i >= 0; --i){
 				I_ASSERT(groupCommandPtr.IsValid());
 
-				idoc::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+				ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
 				istd::CString filePath = (commandPtr != NULL)? commandPtr->GetName(): "";
 
 				retVal = retVal && archive.BeginTag(filePathTag);
@@ -892,7 +718,7 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 			retVal = retVal && archive.EndTag(fileListTag);
 		}
 
-		UpdateMenuActions();
+		BaseClass::UpdateMenuActions();
 	}
 
 	retVal = retVal && archive.EndTag(documentTypeIdsTag);
@@ -945,7 +771,7 @@ void CMainWindowGuiComp::RemoveFromRecentFileList(const istd::CString& filePath)
 		int childsCount = groupCommandPtr->GetChildsCount();
 
 		for (int i = 0; i < childsCount; ++i){
-			const idoc::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+			const ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
 			if ((commandPtr != NULL) && (commandPtr->GetName() == filePath)){
 				groupCommandPtr->RemoveChild(i);
 				--childsCount;
@@ -968,7 +794,7 @@ void CMainWindowGuiComp::OnOpenDocument(const std::string* documentTypeIdPtr)
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
 		}
 
-		UpdateMenuActions();
+		BaseClass::UpdateMenuActions();
 	}
 }
 
@@ -1028,15 +854,8 @@ void CMainWindowGuiComp::OnFullScreen()
 
 		statusBarPtr->hide();
 		SetToolBarsVisible(false);
-		m_showToolBarsCommand.setChecked(false);
 		parentWidgetPtr->showFullScreen();
 	}
-}
-
-
-void CMainWindowGuiComp::OnShowToolbars()
-{
-	SetToolBarsVisible(m_showToolBarsCommand.isChecked());
 }
 
 
@@ -1050,22 +869,6 @@ void CMainWindowGuiComp::OnCopyPathToClippboard()
 				clipboardPtr->setText(iqt::GetQString(info.filePath));
 			}
 		}
-	}
-}
-
-
-void CMainWindowGuiComp::OnAbout()
-{
-	if (m_aboutDialogPtr.IsValid()){
-		m_aboutDialogPtr->exec();
-	}
-}
-
-
-void CMainWindowGuiComp::OnSettings()
-{
-	if (m_settingsDialogPtr.IsValid()){
-		m_settingsDialogPtr->exec();
 	}
 }
 

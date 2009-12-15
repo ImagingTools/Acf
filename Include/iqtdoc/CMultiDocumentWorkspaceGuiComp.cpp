@@ -29,9 +29,9 @@ namespace iqtdoc
 // public methods
 
 CMultiDocumentWorkspaceGuiComp::CMultiDocumentWorkspaceGuiComp()
-:	m_workspaceModeCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU),
-	m_subWindowCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF | idoc::ICommand::CF_EXCLUSIVE),
-	m_tabbedCommand("", 100, idoc::ICommand::CF_GLOBAL_MENU | idoc::ICommand::CF_ONOFF | idoc::ICommand::CF_EXCLUSIVE),
+:	m_workspaceModeCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU),
+	m_subWindowCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF | ibase::ICommand::CF_EXCLUSIVE),
+	m_tabbedCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF | ibase::ICommand::CF_EXCLUSIVE),
 	m_viewsCount(0)
 {
 	m_workspaceModeCommand.InsertChild(&m_subWindowCommand, false);
@@ -60,9 +60,9 @@ CMultiDocumentWorkspaceGuiComp::CMultiDocumentWorkspaceGuiComp()
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CMultiDocumentWorkspaceGuiComp::GetCommands() const
+const ibase::IHierarchicalCommand* CMultiDocumentWorkspaceGuiComp::GetCommands() const
 {
 	return &m_commands;
 }

@@ -14,7 +14,7 @@
 #include "ibase/THierarchicalBase.h"
 #include "ibase/TEnableableWrap.h"
 
-#include "idoc/ICommand.h"
+#include "ibase/ICommand.h"
 
 #include "iqtgui/iqtgui.h"
 
@@ -30,7 +30,7 @@ class CHierarchicalCommand:
 			public QAction,
 			public ibase::TEnableableWrap<
 						ibase::THierarchicalBase<
-									ibase::TNamedWrap<idoc::IHierarchicalCommand> > >
+									ibase::TNamedWrap<ibase::IHierarchicalCommand> > >
 {
 	Q_OBJECT
 
@@ -38,7 +38,7 @@ public:
 	typedef QAction BaseClass;
 	typedef ibase::TEnableableWrap<
 					ibase::THierarchicalBase<
-								ibase::TNamedWrap<idoc::IHierarchicalCommand> > > BaseClass2;
+								ibase::TNamedWrap<ibase::IHierarchicalCommand> > > BaseClass2;
 
 	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL);
 
@@ -70,7 +70,7 @@ public:
 		Joint the second root as links.
 		\param	rootPtr	pointer to root of commands tree. It cannot be NULL.
 	*/
-	void JoinLinkFrom(const idoc::IHierarchicalCommand* rootPtr);
+	void JoinLinkFrom(const ibase::IHierarchicalCommand* rootPtr);
 
 	/**
 		Set all visual elements of this command.
@@ -82,15 +82,15 @@ public:
 	*/
 	void SetVisuals(const QString& name, const QString& shortName, const QString& description, const QIcon& icon = QIcon());
 
-	// reimplemented (idoc::ICommand)
+	// reimplemented (ibase::ICommand)
 	virtual int GetPriority() const;
 	virtual int GetGroupId() const;
 	virtual int GetStaticFlags() const;
 	virtual bool Execute(istd::IPolymorphic* contextPtr);
 
-	// reimplemented (istd::TIHierarchical<idoc::ICommand>)
+	// reimplemented (istd::TIHierarchical<ibase::ICommand>)
 	virtual int GetChildsCount() const;
-	virtual idoc::ICommand* GetChild(int index) const;
+	virtual ibase::ICommand* GetChild(int index) const;
 
 	// reimplemented (istd::INamed)
 	virtual void SetName(const istd::CString& name);
@@ -107,7 +107,7 @@ protected:
 		\param	command	command will be used as search template.
 		\return	index of found child or negative value, if no child is found.
 	*/
-	int FindTheSameCommand(const idoc::IHierarchicalCommand& command) const;
+	int FindTheSameCommand(const ibase::IHierarchicalCommand& command) const;
 	/**
 		Find index where element with specified priority should be inserted.
 	*/

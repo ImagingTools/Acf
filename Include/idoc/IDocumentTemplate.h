@@ -14,7 +14,7 @@
 #include "imod/IObserver.h"
 #include "imod/IUndoManager.h"
 
-#include "idoc/ICommand.h"
+#include "ibase/ICommand.h"
 #include "idoc/IDocumentStateComparator.h"
 
 

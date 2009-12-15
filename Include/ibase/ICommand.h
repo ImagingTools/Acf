@@ -1,5 +1,5 @@
-#ifndef idoc_ICommand_included
-#define idoc_ICommand_included
+#ifndef ibase_ICommand_included
+#define ibase_ICommand_included
 
 
 #include "istd/INamed.h"
@@ -7,7 +7,7 @@
 #include "istd/TIHierarchical.h"
 
 
-namespace idoc
+namespace ibase
 {
 
 
@@ -92,9 +92,9 @@ public:
 typedef istd::TIHierarchical<ICommand> IHierarchicalCommand;
 
 
-} // namespace idoc
+} // namespace ibase
 
 
-#endif // !idoc_ICommand_included
+#endif // !ibase_ICommand_included
 
 

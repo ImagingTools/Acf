@@ -30,7 +30,7 @@ namespace icmpstr
 CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
 :	m_scenePtr(NULL)
 {
-	int lightToolFlags = idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR;
+	int lightToolFlags = ibase::IHierarchicalCommand::CF_GLOBAL_MENU | ibase::IHierarchicalCommand::CF_TOOLBAR;
 
 	m_removeComponentCommand.setEnabled(false);
 	m_removeComponentCommand.SetGroupId(GI_COMPONENT);
@@ -118,9 +118,9 @@ const QIcon* CVisualRegistryScenographerComp::GetIcon(const icomp::CComponentAdd
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CVisualRegistryScenographerComp::GetCommands() const
+const ibase::IHierarchicalCommand* CVisualRegistryScenographerComp::GetCommands() const
 {
 	return &m_registryCommand;
 }

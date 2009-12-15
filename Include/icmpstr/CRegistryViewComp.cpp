@@ -30,7 +30,7 @@ CRegistryViewComp::CRegistryViewComp()
 {
 	SetUpdateFilter(~i2d::IObject2d::CF_OBJECT_POSITION);
 
-	int lightToolFlags = idoc::IHierarchicalCommand::CF_GLOBAL_MENU | idoc::IHierarchicalCommand::CF_TOOLBAR;
+	int lightToolFlags = ibase::IHierarchicalCommand::CF_GLOBAL_MENU | ibase::IHierarchicalCommand::CF_TOOLBAR;
 
 	m_removeComponentCommand.setEnabled(false);
 	m_removeComponentCommand.SetGroupId(GI_COMPONENT);
@@ -129,9 +129,9 @@ void CRegistryViewComp::Print(QPrinter* printerPtr) const
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CRegistryViewComp::GetCommands() const
+const ibase::IHierarchicalCommand* CRegistryViewComp::GetCommands() const
 {
 	return &m_registryCommand;
 }

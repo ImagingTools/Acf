@@ -42,16 +42,16 @@ bool CTabbedMultiViewGuiComp::OnDetached(imod::IModel* modelPtr)
 }
 
 
-// reimplemented (idoc::ICommandsProvider)
+// reimplemented (ibase::ICommandsProvider)
 
-const idoc::IHierarchicalCommand* CTabbedMultiViewGuiComp::GetCommands() const
+const ibase::IHierarchicalCommand* CTabbedMultiViewGuiComp::GetCommands() const
 {
 	if (m_observersCompPtr.IsValid()){
 		int observerCount = m_observersCompPtr.GetCount();
 		for (int observerIndex = 0; observerIndex < observerCount; observerIndex++){
-			idoc::ICommandsProvider* commandsProviderPtr = CompCastPtr<idoc::ICommandsProvider>(m_observersCompPtr[observerIndex]);
+			ibase::ICommandsProvider* commandsProviderPtr = CompCastPtr<ibase::ICommandsProvider>(m_observersCompPtr[observerIndex]);
 			if (commandsProviderPtr != NULL){
-				const idoc::IHierarchicalCommand* commandPtr = commandsProviderPtr->GetCommands();
+				const ibase::IHierarchicalCommand* commandPtr = commandsProviderPtr->GetCommands();
 				if (commandPtr != NULL){
 					m_commands.JoinLinkFrom(commandPtr);
 				}

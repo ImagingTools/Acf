@@ -5,28 +5,22 @@
 // Qt includes
 #include <QMainWindow>
 #include <QDockWidget>
-#include <QMenu>
-#include <QMenuBar>
-#include <QToolBar>
-#include <QAction>
-#include <QActionGroup>
 
+
+// ACF includes
 #include "imod/IModel.h"
 #include "imod/IUndoManager.h"
 #include "imod/TSingleModelObserverBase.h"
 
 #include "ibase/IApplicationInfo.h"
+#include "ibase/ICommandsProvider.h"
 
 #include "idoc/IDocumentManager.h"
-#include "idoc/ICommandsProvider.h"
 #include "idoc/IMainWindowCommands.h"
 
 #include "iqt/ITranslationManager.h"
 
-#include "iqtgui/IMainWindowComponent.h"
 #include "iqtgui/CSimpleMainWindowGuiComp.h"
-#include "iqtgui/CHierarchicalCommand.h"
-#include "iqtgui/CGuiComponentDialog.h"
 
 
 namespace iqtdoc
@@ -48,25 +42,18 @@ public:
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_REGISTER_INTERFACE(idoc::IMainWindowCommands);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
-		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if 'About' action is triggered", false, "AboutGui");
-		I_ASSIGN(m_settingsGuiCompPtr, "SettingsGui", "Gui displayed if 'Settings' action is triggered", false, "SettingsGui");
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
 		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
 		I_ASSIGN(m_documentManagerCommandsCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
-		I_ASSIGN(m_isMenuVisibleAttrPtr, "IsMenuVisible", "If true, menu bar will be visible", true, true);
-		I_ASSIGN(m_isToolbarVisibleAttrPtr, "IsToolbarVisible", "If true, tool bar will be visible", true, true);
 		I_ASSIGN(m_isCopyPathVisibleAttrPtr, "IsCopyPathVisible", "If true, operation Tools/CopyDocumentPath will be visible", true, false);
-		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false);
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
 	I_END_COMPONENT;
 
 	enum GroupId
 	{
 		GI_APPLICATION = 0x200,
-		GI_WINDOW,
 		GI_DOCUMENT,
-		GI_UNDO,
-		GI_SETTINGS
+		GI_UNDO
 	};
 
 	CMainWindowGuiComp();
@@ -88,15 +75,9 @@ protected:
 	virtual void OnDragEnterEvent(QDragEnterEvent* dragEnterEventPtr);
 	virtual void OnDropEvent(QDropEvent* dropEventPtr);
 
-	int CreateToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = idoc::ICommand::GI_NONE) const;
-	void SetToolBarsVisible(bool isVisible = true);
-
 	void SetupNewCommand();
-	void SetupMainWindowComponents(QMainWindow& mainWindow);
 	bool HasDocumentTemplate() const;
-	void UpdateFixedCommands();
 	void UpdateUndoMenu();
-	void UpdateMenuActions();
 
 	void OnNewDocument(const std::string& documentTypeId);
 
@@ -105,13 +86,14 @@ protected:
 	virtual void RemoveFromRecentFileList(const istd::CString& filePath);
 
 	// protected template methods
-	template <class MenuType>
-	void CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const;
 	template <class Archive> 
 	bool SerializeRecentFiles();
 
 	// reimplemented (iqtgui::CSimpleMainWindowGuiComp)
-	virtual void AddMainComponent(iqtgui::IMainWindowComponent* componentPtr);
+	virtual void UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixedCommands);
+	virtual void UpdateViewCommands(iqtgui::CHierarchicalCommand& viewCommand);
+	virtual void UpdateToolsCommands(iqtgui::CHierarchicalCommand& toolsCommand);
+	virtual void UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCommands);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -124,7 +106,7 @@ protected:
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
-protected slots:
+protected Q_SLOTS:
 	void OnNew();
 	void OnOpen();
 	void OnSave();
@@ -135,10 +117,7 @@ protected slots:
 	void OnUndo();
 	void OnRedo();
 	void OnFullScreen();
-	void OnShowToolbars();
 	void OnCopyPathToClippboard();
-	void OnSettings();
-	void OnAbout();
 
 private:
 	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
@@ -148,7 +127,7 @@ private:
 
 		NewDocumentCommand(CMainWindowGuiComp* parentPtr, const std::string& documentTypeId): m_parent(*parentPtr), m_documentTypeId(documentTypeId){}
 
-		// reimplemented (idoc::ICommand)
+		// reimplemented (ibase::ICommand)
 		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
 		{
 			m_parent.OnNewDocument(m_documentTypeId);
@@ -172,7 +151,7 @@ private:
 			SetName(fileName);
 		}
 
-		// reimplemented (idoc::ICommand)
+		// reimplemented (ibase::ICommand)
 		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
 		{
 			m_parent.OpenFile(GetName());
@@ -207,16 +186,8 @@ private:
 	istd::IPolymorphic* m_activeViewPtr;
 	istd::IChangeable* m_activeDocumentPtr;
 
-	istd::TDelPtr<QMenuBar> m_menuBarPtr;
-	istd::TDelPtr<QToolBar> m_standardToolBarPtr;
-
-	iqtgui::CHierarchicalCommand m_menuCommands;
-
 	iqtgui::CHierarchicalCommand m_fileCommand;
 	iqtgui::CHierarchicalCommand m_editCommand;
-	iqtgui::CHierarchicalCommand m_viewCommand;
-	iqtgui::CHierarchicalCommand m_toolsCommand;
-	iqtgui::CHierarchicalCommand m_helpCommand;
 
 	// file menu group
 	iqtgui::CHierarchicalCommand m_newCommand;
@@ -230,35 +201,19 @@ private:
 	iqtgui::CHierarchicalCommand m_redoCommand;
 	// view menu group
 	iqtgui::CHierarchicalCommand m_fullScreenCommand;
-	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
 	// tools menu group
 	iqtgui::CHierarchicalCommand m_copyPathToClippboardCommand;
-	iqtgui::CHierarchicalCommand m_settingsCommand;
-	// help menu group
-	iqtgui::CHierarchicalCommand m_aboutCommand;
-
-	iqtgui::CHierarchicalCommand m_fixedCommands;
 
 	typedef istd::TDelPtr<iqtgui::CHierarchicalCommand> RecentGroupCommandPtr;
 	typedef std::map<std::string, RecentGroupCommandPtr> RecentFilesMap;
 	RecentFilesMap m_recentFilesMap;
 
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> m_settingsDialogPtr;
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> m_aboutDialogPtr;
-
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
-	I_REF(idoc::ICommandsProvider, m_documentManagerCommandsCompPtr);
-	I_ATTR(bool, m_isMenuVisibleAttrPtr);
-	I_ATTR(bool, m_isToolbarVisibleAttrPtr);
+	I_REF(ibase::ICommandsProvider, m_documentManagerCommandsCompPtr);
 	I_ATTR(bool, m_isCopyPathVisibleAttrPtr);
-	I_ATTR(bool, m_useIconTextAttrPtr);
 	I_ATTR(int, m_maxRecentFilesCountAttrPtr);
-	I_REF(iqtgui::IGuiObject, m_aboutGuiCompPtr);
-	I_REF(iqtgui::IGuiObject, m_settingsGuiCompPtr);
-
-	istd::TOptPointerVector<QToolBar> m_toolBarsList;
 
 	QByteArray m_beforeFullScreenGeometry;
 	QByteArray m_beforeFullScreenState;
@@ -266,60 +221,6 @@ private:
 
 
 // protected template methods
-
-template <class MenuType>
-void CMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result) const
-{
-	int prevGroupId = idoc::ICommand::GI_NONE;
-
-	int childsCount = command.GetChildsCount();
-
-	std::map<int, istd::TPointer<QActionGroup> > groups;
-
-	for (int i = 0; i < childsCount; ++i){
-		QString text = command.text();
-		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
-					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
-
-		if (hierarchicalPtr != NULL){
-			QString text2 = hierarchicalPtr->text();
-			int groupId = hierarchicalPtr->GetGroupId();
-			int flags = hierarchicalPtr->GetStaticFlags();
-
-			if ((groupId != prevGroupId) && (prevGroupId != idoc::ICommand::GI_NONE)){
-				result.addSeparator();
-			}
-
-			if (groupId != idoc::ICommand::GI_NONE){
-				prevGroupId = groupId;
-			}
-
-			if (hierarchicalPtr->GetChildsCount() > 0){
-				QMenu* newMenuPtr = new QMenu(&result);
-				newMenuPtr->setTitle(iqt::GetQString(hierarchicalPtr->GetName()));
-
-				CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
-
-				result.addMenu(newMenuPtr);
-			}
-			else if ((flags & idoc::ICommand::CF_GLOBAL_MENU) != 0){
-				if ((flags & idoc::ICommand::CF_EXCLUSIVE) != 0){
-					istd::TPointer<QActionGroup>& groupPtr = groups[hierarchicalPtr->GetGroupId()];
-					if (!groupPtr.IsValid()){
-						groupPtr.SetPtr(new QActionGroup(&result));
-						groupPtr->setExclusive(true);
-					}
-
-					groupPtr->addAction(hierarchicalPtr);
-					hierarchicalPtr->setCheckable(true);
-				}
-
-				result.addAction(hierarchicalPtr);
-			}
-		}
-	}
-}
-
 
 template <class Archive> 
 bool CMainWindowGuiComp::SerializeRecentFiles()

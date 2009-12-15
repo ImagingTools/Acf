@@ -8,7 +8,7 @@
 
 
 // ACF includes
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 #include "idoc/CMultiDocumentManagerBase.h"
 
 #include "iqt/ISettingsProvider.h"
@@ -30,7 +30,7 @@ namespace iqtdoc
 class CMultiDocumentWorkspaceGuiComp:
 			public iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMdiArea> >, 
 			public iqtdoc::TQtDocumentManagerWrap<idoc::CMultiDocumentManagerBase>,
-			public idoc::ICommandsProvider
+			public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -40,7 +40,7 @@ public:
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentManager)
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider)
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true)
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate")
 	I_END_COMPONENT
@@ -54,8 +54,8 @@ public:
 
 	CMultiDocumentWorkspaceGuiComp();
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);

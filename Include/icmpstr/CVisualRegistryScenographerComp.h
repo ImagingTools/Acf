@@ -21,7 +21,7 @@
 #include "icomp/IRegistriesManager.h"
 #include "icomp/CComponentBase.h"
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 #include "idoc/IHelpViewer.h"
 #include "idoc/IMainWindowCommands.h"
 
@@ -48,7 +48,7 @@ class CVisualRegistryScenographerComp:
 			public icomp::CComponentBase,
 			public imod::TSingleModelObserverBase<icomp::IRegistry>,
 			virtual public imod::TModelWrap<IElementSelectionInfo>,
-			virtual public idoc::ICommandsProvider
+			virtual public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -57,7 +57,7 @@ public:
 	typedef imod::TSingleModelObserverBase<icomp::IRegistry> BaseClass2;
 
 	I_BEGIN_COMPONENT(CVisualRegistryScenographerComp);
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_REGISTER_INTERFACE(imod::IModel);
 		I_ASSIGN(m_registryCodeSaverCompPtr, "RegistryCodeSaver", "Export registry to C++ code file", false, "RegistryCodeSaver");
@@ -76,8 +76,8 @@ public:
 
 	double GetGrid() const{return 25;}	// TODO: replace it with some geometrical info concept
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimplemented (icmpstr::IElementSelectionInfo)
 	virtual icomp::IRegistry* GetSelectedRegistry() const;

@@ -7,7 +7,7 @@
 
 #include "imod/TSingleModelObserverBase.h"
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/TGuiObserverWrap.h"
@@ -18,7 +18,7 @@
 
 class CTextEditorComp:
 			public iqtgui::TGuiObserverWrap<iqtgui::TGuiComponentBase<QTextEdit>, imod::TSingleModelObserverBase<ibase::ITextDocument> >,
-			public idoc::ICommandsProvider
+			public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -37,8 +37,8 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor(int updateFlags = 0);
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 protected slots:
 	void OnSelectionChanged();

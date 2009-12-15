@@ -4,7 +4,7 @@
 
 #include <QObject>
 
-#include "idoc/ICommandsProvider.h"
+#include "ibase/ICommandsProvider.h"
 #include "idoc/CSingleDocumentTemplateComp.h"
 
 #include "iqtgui/IGuiObject.h"
@@ -23,7 +23,7 @@ namespace iqtdoc
 class CExtendedDocumentTemplateComp:
 			public QObject,
 			public idoc::CSingleDocumentTemplateComp,
-			virtual public idoc::ICommandsProvider
+			virtual public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
@@ -33,14 +33,14 @@ public:
 	CExtendedDocumentTemplateComp();
 
 	I_BEGIN_COMPONENT(CExtendedDocumentTemplateComp)
-		I_REGISTER_INTERFACE(idoc::ICommandsProvider)
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider)
 		I_ASSIGN(m_aboutCommandTextAttrPtr, "AboutCommandText", "Text used in about menu", true, "Document");
 		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "GUI used inside about dialog box", false, "AboutGui");
 		I_ASSIGN(m_viewGuiCompFact, "ViewFactory", "Create of document GUI", true, "ViewFactory");
 	I_END_COMPONENT
 
-	// reimplemented (idoc::ICommandsProvider)
-	virtual const idoc::IHierarchicalCommand* GetCommands() const;
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimplemented (idoc::IDocumentTemplate)
 	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;

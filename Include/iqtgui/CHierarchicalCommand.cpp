@@ -60,7 +60,7 @@ void CHierarchicalCommand::RemoveChild(int index)
 }
 
 
-void CHierarchicalCommand::JoinLinkFrom(const idoc::IHierarchicalCommand* rootPtr)
+void CHierarchicalCommand::JoinLinkFrom(const ibase::IHierarchicalCommand* rootPtr)
 {
 	I_ASSERT(rootPtr != NULL);
 
@@ -111,7 +111,7 @@ void CHierarchicalCommand::SetVisuals(const QString& name, const QString& shortN
 }
 
 
-// reimplemented (idoc::ICommand)
+// reimplemented (ibase::ICommand)
 
 int CHierarchicalCommand::GetPriority() const
 {
@@ -152,7 +152,7 @@ int CHierarchicalCommand::GetChildsCount() const
 }
 
 
-idoc::ICommand* CHierarchicalCommand::GetChild(int index) const
+ibase::ICommand* CHierarchicalCommand::GetChild(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < m_childs.GetCount());
@@ -189,7 +189,7 @@ void CHierarchicalCommand::OnTriggered()
 
 // protected methods
 
-int CHierarchicalCommand::FindTheSameCommand(const idoc::IHierarchicalCommand& command) const
+int CHierarchicalCommand::FindTheSameCommand(const ibase::IHierarchicalCommand& command) const
 {
 	const istd::CString& elementName = command.GetName();
 
