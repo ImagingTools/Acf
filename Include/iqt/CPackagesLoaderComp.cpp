@@ -85,7 +85,9 @@ void CPackagesLoaderComp::OnComponentCreated()
 		if (!path.IsEmpty()){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
 
-			LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath(iqt::GetQString(path))), true);
+			QString enrolledPath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path));
+
+			LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath(enrolledPath)), true);
 		}
 	}
 }

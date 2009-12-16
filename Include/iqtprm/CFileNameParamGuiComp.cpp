@@ -11,6 +11,7 @@
 #include "istd/TChangeNotifier.h"
 
 #include "iqt/CSignalBlocker.h"
+#include "iqt/CFileSystem.h"
 
 #include "iqtgui/CExtLineEdit.h"
 
@@ -267,7 +268,7 @@ QIcon CFileNameParamGuiComp::GetFileIcon(const QString& filePath) const
 
 	QIcon fileIcon = QIcon(":/Icons/Warning");
 
-	QModelIndex index = m_directoryModel.index(filePath);
+	QModelIndex index = m_directoryModel.index(iqt::CFileSystem::GetEnrolledPath(filePath));
 	if (index.isValid()){
 		fileIcon = m_directoryModel.fileIcon(index);
 	}

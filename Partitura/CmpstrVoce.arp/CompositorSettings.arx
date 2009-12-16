@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          1269
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <ElementsList count="9">
@@ -38,7 +49,7 @@
                 true
               </IsEnabled>
               <Value>
-                Default.xpc
+                $(ACFSLNDIR)/Config/Full.xpc
               </Value>
             </Data>
           </AttributeInfo>
@@ -215,7 +226,7 @@
                 true
               </IsEnabled>
               <Value>
-                Acf
+                $(ACFDIR)/Bin/$(ConfigurationName)/Acf.exe
               </Value>
             </Data>
           </AttributeInfo>
