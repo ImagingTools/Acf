@@ -6,6 +6,8 @@
 
 #include "iimg/CBitmapBase.h"
 
+#include "ibase/IObjectSnap.h"
+
 #include "iqt/IQImageProvider.h"
 
 
@@ -16,7 +18,7 @@ namespace iqt
 /**
 	Bitmap implementation based on Qt QImage.
 */
-class CBitmap: public iimg::CBitmapBase, virtual public IQImageProvider
+class CBitmap: public iimg::CBitmapBase, virtual public IQImageProvider, virtual public ibase::IObjectSnap
 {
 public:
 	typedef iimg::CBitmapBase BaseClass;
@@ -29,6 +31,12 @@ public:
 	// reimplemented (iqt::IQImageProvider)
 	virtual const QImage& GetQImage() const;
 	virtual bool CopyImageFrom(const QImage& image);
+
+	// reimplemented (ibase::IObjectSnap)
+	virtual bool GetSnap(
+				const istd::IChangeable& data,
+				iimg::IBitmap& objectSnap,
+				const istd::CIndex2d& size) const;
 
 	// reimplemented (iimg::IBitmap)
 	virtual bool CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount = 8, int componentsCount = 1);

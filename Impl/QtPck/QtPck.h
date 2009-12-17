@@ -34,6 +34,7 @@ typedef icomp::TModelCompWrap<
 						iqt::CBitmap,
 						iimg::IBitmap,
 						iimg::IRasterImage,
+						ibase::IObjectSnap,
 						iser::ISerializable> > Bitmap;
 typedef icomp::TModelCompWrap<
 			icomp::TMakeComponentWrap<

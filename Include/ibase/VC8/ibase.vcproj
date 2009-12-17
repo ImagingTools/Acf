@@ -424,6 +424,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IObjectSnap.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ITextDocument.h"
 				>
 			</File>
