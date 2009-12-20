@@ -27,6 +27,14 @@ void CImageViewComp::UpdateModel() const
 void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 {
 	istd::CIndex2d imageSize = GetSize();
+	if (imageSize == istd::CIndex2d::GetZero()){
+		QGraphicsScene* scenePtr = GetScene();
+		if (scenePtr != NULL){
+			scenePtr->update();
+		}
+
+		return;
+	}
 
 	QGraphicsScene* scenePtr = GetScene();
 	if (scenePtr != NULL){

@@ -213,6 +213,10 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CBase64.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CBitManip.cpp"
 				>
 			</File>
@@ -261,6 +265,10 @@
 			Name="Header Files"
 			Filter="h"
 			>
+			<File
+				RelativePath="..\CBase64.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CBitManip.h"
 				>

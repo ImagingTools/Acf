@@ -1,6 +1,9 @@
 #include "iser/CTextWriteArchiveBase.h"
 
 
+#include "istd/CBase64.h"
+
+
 namespace iser
 {
 
@@ -81,29 +84,9 @@ bool CTextWriteArchiveBase::Process(double& value)
 
 bool CTextWriteArchiveBase::ProcessData(void* dataPtr, int size)
 {
-	I_BYTE* data = (I_BYTE*)dataPtr;
+	std::string encodedString = istd::CBase64::ConvertToBase64(dataPtr, size);
 
-	std::ostringstream stream;
-
-	stream << std::hex;
-
-	for (int i = 0; i < size; i++){
-		stream << data[i];
-
-		if (i < size - 1){
-			stream << " ";
-		}
-
-		if ((i % 32) == 31){
-			stream << std::endl;
-		}
-	}
-
-	stream << std::endl;
-
-	std::string str(stream.str());
-
-	return Process(str);
+	return Process(encodedString);
 }
 
 

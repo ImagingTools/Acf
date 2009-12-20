@@ -52,7 +52,7 @@ public:
 	bool IsValid() const;
 
 	/**
-		Returns \c true, if the index is out of the iteration boudaries.
+		Returns \c true, if the index is out of the iteration boundaries.
 	*/
 	bool AtEnd() const;
 
@@ -79,6 +79,7 @@ private:
 	istd::CIndex2d m_startIndex;
 	istd::CIndex2d m_index;
 	istd::CIndex2d m_endIndex;
+	int m_bytesPerPixel;
 };
 
 
@@ -102,6 +103,7 @@ TBitmapIterator<PixelType>::TBitmapIterator(const iimg::IBitmap* bitmapPtr, cons
 	m_endIndex = istd::CIndex2d(int(imageRegion.GetWidth()), int(imageRegion.GetHeight()));
 	m_index = istd::CIndex2d(int(imageRegion.GetLeft()), int(imageRegion.GetTop()));
 	m_startIndex = m_index;
+	m_bytesPerPixel = bitmapPtr->GetPixelBitsCount() / 8;
 }
 
 
@@ -145,7 +147,7 @@ inline bool TBitmapIterator<PixelType>::AtEnd() const
 template <typename PixelType>
 inline void TBitmapIterator<PixelType>::MoveTo(int x, int y)
 {
-	m_imageBufferPtr = const_cast<PixelType*>(m_imageBufferBeginPtr) + x + y * m_linesDifference;
+	m_imageBufferPtr = const_cast<PixelType*>(m_imageBufferBeginPtr) + x * m_bytesPerPixel + y * m_linesDifference;
 }
 
 

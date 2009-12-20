@@ -1,10 +1,17 @@
 #include "iqt/CXmlFileWriteArchive.h"
 
 
+// STL includes
 #include <sstream>
 
+
+// Qt includes
 #include <QDomNodeList>
 #include <QTextStream>
+
+
+// ACF includes
+#include "istd/CBase64.h"
 
 
 namespace iqt
@@ -190,17 +197,9 @@ bool CXmlFileWriteArchive::Process(istd::CString& value)
 
 bool CXmlFileWriteArchive::ProcessData(void* dataPtr, int size)
 {
-	std::ostringstream stream;
-	stream << std::hex;
+	std::string encodedString = istd::CBase64::ConvertToBase64(dataPtr, size);
 
-	for (int i = 0; i < size; i++){
-		stream << *((I_BYTE*)dataPtr + i);
-		if (i < size -1){
-			stream << " ";
-		}
-	}
-
-	return PushTextNode(QString::fromStdString(stream.str()));
+	return PushTextNode(QString::fromStdString(encodedString));
 }
 
 

@@ -1,6 +1,9 @@
 #include "iser/CTextReadArchiveBase.h"
 
 
+#include "istd/CBase64.h"
+
+
 namespace iser
 {
 
@@ -95,13 +98,10 @@ bool CTextReadArchiveBase::ProcessData(void* dataPtr, int size)
 	bool retVal = Process(text);
 
 	if (retVal){
-		std::istringstream stream(text);
+		std::vector<I_BYTE> decodedData = istd::CBase64::ConvertFromBase64(text);
+		I_ASSERT(size == int(decodedData.size()));
 
-		stream >> std::hex;
-
-		for (int i = 0; i < size; i++){
-			stream >> data[i];
-		}
+		memcpy(data, &decodedData[0], size);
 	}
 
 	return retVal;

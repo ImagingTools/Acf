@@ -1,10 +1,17 @@
 #include "iqt/CXmlFileReadArchive.h"
 
 
+// STL includes
 #include <sstream>
 
+
+// Qt includes
 #include <QDomNodeList>
 #include <QFile>
+
+
+// ACF includes
+#include "istd/CBase64.h"
 
 
 namespace iqt
@@ -281,15 +288,13 @@ bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
 {
 	QString text = PullTextNode();
 
-	std::istringstream stream(text.toStdString());
-	stream >> std::hex;
+	I_BYTE* data = (I_BYTE*)dataPtr;
 
-	for (int i = 0; i < size; i++){
-		I_WORD value;
-		stream >> value;
+	std::vector<I_BYTE> decodedData = istd::CBase64::ConvertFromBase64(text.toStdString());
 
-		*((I_BYTE*)dataPtr + i) = value;
-	}
+	I_ASSERT(size == int(decodedData.size()));
+
+	memcpy(data, &decodedData[0], size);
 
 	return !m_currentNode.isNull();
 }
