@@ -110,7 +110,7 @@ inline void TChangeNotifier<Changeable>::Abort()
 	Changeable* changeablePtr = BaseClass::GetPtr();
 
 	if (changeablePtr != NULL){
-		changeablePtr->EndChanges(m_changeFlags | istd::IChangeable::CF_ABORTED, m_updateParamsPtr);
+		changeablePtr->EndChanges(m_changeFlags | IChangeable::CF_ABORTED, m_updateParamsPtr);
 
 		BaseClass::Reset();
 	}
