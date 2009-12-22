@@ -63,16 +63,16 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 		QIcon messageIcon;
 		switch (message.GetCategory()){
 		case istd::ILogger::MC_WARNING:
-			messageIcon = QIcon(":/Icons/Warning");
+			messageIcon = QIcon(":/Icons/Warning.svg");
 			break;
 
 		case istd::ILogger::MC_ERROR:
 		case istd::ILogger::MC_CRITICAL:
-			messageIcon = QIcon(":/Icons/Error");
+			messageIcon = QIcon(":/Icons/Error.svg");
 			break;
 
 		case istd::ILogger::MC_INFO:
-			messageIcon = QIcon(":/Icons/Info");
+			messageIcon = QIcon(":/Icons/Info.svg");
 			break;
 		}
 
@@ -131,20 +131,20 @@ void CLogGuiComp::OnGuiCreated()
 	QActionGroup* actionGroup = new QActionGroup(this);
 	actionGroup->setExclusive(true);
 
-	QAction* infoAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Info")), tr("Info"), ToolBarFrame);
+	QAction* infoAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Info.svg")), tr("Info"), ToolBarFrame);
 	infoAction->setCheckable(true);
 	infoAction->setData(MM_INFO);
 	connect(infoAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(infoAction);
 	infoAction->setChecked(true);
 
-	QAction* warningAction = new QAction(QIcon(":/Icons/Warning"), tr("Warning"), ToolBarFrame);
+	QAction* warningAction = new QAction(QIcon(":/Icons/Warning.svg"), tr("Warning"), ToolBarFrame);
 	warningAction->setCheckable(true);
 	warningAction->setData(MM_WARNING);
 	connect(warningAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(warningAction);
 
-	QAction* errorAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Error")), tr("Error"), ToolBarFrame);
+	QAction* errorAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Error.svg")), tr("Error"), ToolBarFrame);
 	errorAction->setCheckable(true);
 	errorAction->setData(MM_ERROR);
 	connect(errorAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);

@@ -268,7 +268,7 @@ QIcon CFileNameParamGuiComp::GetFileIcon(const QString& filePath) const
 		return QIcon();
 	}
 
-	QIcon fileIcon = QIcon(":/Icons/Warning");
+	QIcon fileIcon = QIcon(":/Icons/Warning.svg");
 
 	QModelIndex index = m_directoryModel.index(iqt::CFileSystem::GetEnrolledPath(filePath));
 	if (index.isValid()){

@@ -1,13 +1,12 @@
 <RCC>
   <qresource prefix="/Icons" >
-    <file alias="CdUp" >Resources/Icons/cdtoparent.png</file>
     <file alias="UpDir.svg" >Resources/Icons/UpDir.svg</file>
     <file alias="ZoomReset" >Resources/Icons/hand_128.png</file>
     <file alias="ZoomIn.svg" >Resources/Icons/ZoomIn.svg</file>
     <file alias="ZoomOut.svg" >Resources/Icons/ZoomOut.svg</file>
-    <file alias="Info" >Resources/Icons/dialog-information.png</file>
-    <file alias="Error" >Resources/Icons/dialog-error.png</file>
-    <file alias="Warning" >Resources/Icons/dialog-warning.png</file>
+    <file alias="Info.svg" >Resources/Icons/Info.svg</file>
+    <file alias="Error.svg" >Resources/Icons/Error.svg</file>
+    <file alias="Warning.svg" >Resources/Icons/Warning.svg</file>
     <file alias="Log" >Resources/Icons/Log.png</file>
     <file alias="SnapImage" >Resources/Icons/SnapImage.png</file>
     <file alias="AcfLogo.svg" >../../Docs/Images/Logo/AcfLogo.svg</file>
@@ -27,7 +26,6 @@
     <file alias="Snap" >Resources/Icons/camera_128.png</file>
     <file alias="Add.svg" >Resources/Icons/Add.svg</file>
     <file alias="Cancel.svg" >Resources/Icons/Cancel.svg</file>
-    <file alias="Close" >Resources/Icons/close_b_128.png</file>
     <file alias="Copy" >Resources/Icons/copy_128.png</file>
     <file alias="Paste" >Resources/Icons/paste_128.png</file>
     <file alias="Delete.svg" >Resources/Icons/Delete.svg</file>
