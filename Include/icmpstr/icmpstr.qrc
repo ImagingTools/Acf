@@ -9,5 +9,6 @@
     <file alias="CompositorSplashScreen">Resources/Icons/CompositorSplashScreen.png</file>
     <file alias="CompositorLogo.svg">Resources/Icons/CompositorLogo.svg</file>
     <file alias="CompositorIcon.svg">Resources/Icons/CompositorIcon.svg</file>
-  </qresource>
+		<file alias="ExportToCode.svg">Resources/Icons/ExportToCode.svg</file>
+	</qresource>
 </RCC>

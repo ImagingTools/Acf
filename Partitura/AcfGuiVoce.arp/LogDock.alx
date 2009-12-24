@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1273
+          1284
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="17">
+  <PositionMap count="19">
     <Element>
       <ComponentName>
         Application
@@ -73,6 +73,17 @@
     </Element>
     <Element>
       <ComponentName>
+        FileDialogLoader
+      </ComponentName>
+      <X>
+        538
+      </X>
+      <X>
+        305
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         Log
       </ComponentName>
       <X>
@@ -87,10 +98,10 @@
         LogDock
       </ComponentName>
       <X>
-        468
+        758
       </X>
       <X>
-        157
+        -17
       </X>
     </Element>
     <Element>
@@ -201,6 +212,17 @@
       </X>
       <X>
         -213
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        XmlFileSerializer
+      </ComponentName>
+      <X>
+        966
+      </X>
+      <X>
+        303
       </X>
     </Element>
   </PositionMap>

@@ -136,19 +136,27 @@ void CLogGuiComp::OnGuiCreated()
 	infoAction->setData(MM_INFO);
 	connect(infoAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(infoAction);
-	infoAction->setChecked(true);
+	if (*m_defaultModeAttrPtr == 0){
+		infoAction->setChecked(true);
+	}
 
 	QAction* warningAction = new QAction(QIcon(":/Icons/Warning.svg"), tr("Warning"), ToolBarFrame);
 	warningAction->setCheckable(true);
 	warningAction->setData(MM_WARNING);
 	connect(warningAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(warningAction);
+	if (*m_defaultModeAttrPtr == 1){
+		warningAction->setChecked(true);
+	}
 
 	QAction* errorAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Error.svg")), tr("Error"), ToolBarFrame);
 	errorAction->setCheckable(true);
 	errorAction->setData(MM_ERROR);
 	connect(errorAction, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
 	actionGroup->addAction(errorAction);
+	if (*m_defaultModeAttrPtr == 2){
+		errorAction->setChecked(true);
+	}
 
 	QAction* clearAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Clear")), tr("Clear"), ToolBarFrame);
 	connect(clearAction, SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
@@ -162,7 +170,7 @@ void CLogGuiComp::OnGuiCreated()
 	toolBar->insertSeparator(clearAction);
 
 	if (m_fileLoaderCompPtr.IsValid()){
-		QAction* exportAction = new QAction(QIcon(QString::fromUtf8(":/Icons/Export")), tr("Export..."), ToolBarFrame);
+		QAction* exportAction = new QAction(QIcon(QString::fromUtf8(":/Icons/DocumentExport.svg")), tr("Export..."), ToolBarFrame);
 		connect(exportAction, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);		
 		toolBar->addAction(exportAction);
 		toolBar->insertSeparator(exportAction);
@@ -265,7 +273,7 @@ void CLogGuiComp::OnClearAction()
 void CLogGuiComp::OnExportAction()
 {
 	if (m_fileLoaderCompPtr.IsValid()){
-		m_fileLoaderCompPtr->SaveToFile(*this, istd::CString());
+		m_fileLoaderCompPtr->SaveToFile(*this);
 	}
 }
 

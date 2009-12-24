@@ -36,6 +36,7 @@ public:
 		I_REGISTER_INTERFACE(ibase::IMessageContainer);
 		I_ASSIGN(m_fileLoaderCompPtr, "Exporter", "File loader used for log export", false, "Exporter");
 		I_ASSIGN(m_maxMessageCountAttrPtr, "MaxMessageCount", "Maximal number of messages", false, 1000);
+		I_ASSIGN(m_defaultModeAttrPtr, "DefaultMode", "Default display mode,\n 0 - info,\n 1 - warning,\n 2 - error", true, 0);
 	I_END_COMPONENT;
 
 	CLogGuiComp();
@@ -96,6 +97,7 @@ Q_SIGNALS:
 private:
 	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 	I_ATTR(int, m_maxMessageCountAttrPtr);
+	I_ATTR(int, m_defaultModeAttrPtr);
 
 	int m_currentMessageMode;
 };

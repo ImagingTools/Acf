@@ -343,7 +343,8 @@ void CRegistryViewComp::OnRetranslate()
 	m_exportToCodeCommand.SetVisuals(
 				tr("&Export To Code..."),
 				tr("Export"),
-				tr("Generates C++ code according to this registry"));
+				tr("Generates C++ code according to this registry"),
+				QIcon(":/Icons/ExportToCode.svg"));
 	m_executeRegistryCommand.SetVisuals(
 				tr("&Execute Registry"), 
 				tr("&Execute Registry"), 

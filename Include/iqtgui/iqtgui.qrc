@@ -17,7 +17,7 @@
     <file alias="Shutdown.svg" >Resources/Icons/Shutdown.svg</file>
     <file alias="Undo.svg" >Resources/Icons/Undo.svg</file>
     <file alias="Redo.svg" >Resources/Icons/Redo.svg</file>
-    <file alias="Export" >Resources/Icons/document-save.png</file>
+    <file alias="DocumentExport.svg" >Resources/Icons/DocumentExport.svg</file>
     <file alias="Clear" >Resources/Icons/edit-clear.png</file>
     <file alias="RotateLeft.svg" >Resources/Icons/RotateLeft.svg</file>
     <file alias="RotateRight.svg" >Resources/Icons/RotateRight.svg</file>
