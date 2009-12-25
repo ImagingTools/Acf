@@ -124,7 +124,7 @@ void CRegistryViewComp::Print(QPrinter* printerPtr) const
 
 	QPainter painter(realPrinterPtr);
 
-	 // print, fitting the viewport contents into a full page
+	// print, fitting the viewport contents into a full page
 	viewPtr->render(&painter);
 }
 

@@ -49,7 +49,7 @@ CComponentSceneItem::CComponentSceneItem(
 
 	SetElementInfo(elementInfoPtr);
 
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
 	setCursor(Qt::ArrowCursor);
 
 	imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);

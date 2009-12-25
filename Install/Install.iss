@@ -32,11 +32,8 @@ Source: {#EXTLIBDIR}\Microsoft\Redist\Debug$CompilerName$\*; DestDir: {app}\Bin\
 Source: {#EXTLIBDIR}\Microsoft\Redist\Release$CompilerName$\*; DestDir: {app}\Bin\Release$CompilerName$; Flags: recursesubdirs; Components: acfComp
 
 Source: {#QTDIR}\lib\Qt*4.dll; DestDir: {app}\ExtLib\Bin; Components: qtComp
-Source: {#QTDIR}\lib\Qt*4.dll.manifest; DestDir: {app}\ExtLib\Bin; Components: qtComp
 Source: {#QTDIR}\plugins\imageformats\*.dll; DestDir: {app}\ExtLib\Bin\imageformats; Components: qtComp
-Source: {#QTDIR}\plugins\imageformats\*.dll.manifest; DestDir: {app}\ExtLib\Bin\imageformats; Components: qtComp
 Source: {#QTDIR}\plugins\iconengines\*.dll; DestDir: {app}\ExtLib\Bin\iconengines; Components: qtComp
-Source: {#QTDIR}\plugins\iconengines\*.dll.manifest; DestDir: {app}\ExtLib\Bin\iconengines; Components: qtComp
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl

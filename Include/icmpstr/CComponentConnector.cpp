@@ -43,7 +43,7 @@ CComponentConnector::CComponentConnector(
 	SetSourceComponent(sourceComponent);
 	SetDestinationComponent(destComponent);
 	
-	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
 	setZValue(1);
 }
 

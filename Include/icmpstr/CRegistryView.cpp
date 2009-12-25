@@ -39,7 +39,7 @@ CRegistryView::CRegistryView(QWidget* parent/* = NULL*/)
 	setAcceptDrops(true); 
 	
 	setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
-	m_compositeItem.setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+	m_compositeItem.setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
 	
 	m_scenePtr->addItem(&m_compositeItem);
 }
@@ -329,10 +329,11 @@ void CRegistryView::CCompositeItem::paint(QPainter* painter, const QStyleOptionG
 	painter->restore();
 }
 
- QRectF CRegistryView::CCompositeItem::boundingRect() const      
- {         
-	 return QGraphicsRectItem::boundingRect().adjusted(-1,-1,1,1);      
- }
+
+QRectF CRegistryView::CCompositeItem::boundingRect() const      
+{         
+	return QGraphicsRectItem::boundingRect().adjusted(-1,-1,1,1);      
+}
 
 
 // public methods of embedded class CRegistryScene
