@@ -388,6 +388,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ICommand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\ICommandsProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IFileConvertCopy.h"
 				>
 			</File>
