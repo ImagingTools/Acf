@@ -39,9 +39,6 @@ public:
 	virtual const iser::ISerializable* GetParameter(const std::string& id) const;
 	virtual iser::ISerializable* GetEditableParameter(const std::string& id);
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (istd::IHierarchical)
 	virtual int GetHierarchicalFlags() const;
 	virtual int GetChildsCount() const;
@@ -51,6 +48,9 @@ public:
 protected:
 	iprm::IParamsSet* GetSlaveParamsSet(int index) const;
 	int GetSlaveParamsSetCount() const;
+
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
 
 private:
 	I_MULTIREF(IParamsSet, m_slaveParamsCompPtr);

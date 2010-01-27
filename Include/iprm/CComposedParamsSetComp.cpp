@@ -72,23 +72,6 @@ iser::ISerializable* CComposedParamsSetComp::GetEditableParameter(const std::str
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CComposedParamsSetComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	int setsCount = istd::Min(m_parametersCompPtr.GetCount(), m_parametersIdAttrPtr.GetCount());
-
-	for (int i = 0; i < setsCount; ++i){
-		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
-		std::string id = m_parametersIdAttrPtr[i].ToString();
-
-		SetEditableParameter(id, paramPtr);
-	}
-}
-
-
 // reimplemented (istd::IHierarchical)
 
 int CComposedParamsSetComp::GetHierarchicalFlags() const
@@ -140,6 +123,23 @@ int CComposedParamsSetComp::GetSlaveParamsSetCount() const
 	}
 
 	return m_slaveParamsCompPtr.GetCount();
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CComposedParamsSetComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	int setsCount = istd::Min(m_parametersCompPtr.GetCount(), m_parametersIdAttrPtr.GetCount());
+
+	for (int i = 0; i < setsCount; ++i){
+		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
+		std::string id = m_parametersIdAttrPtr[i].ToString();
+
+		SetEditableParameter(id, paramPtr);
+	}
 }
 
 
