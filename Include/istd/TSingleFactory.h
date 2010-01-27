@@ -18,53 +18,54 @@ namespace istd
 /**
 	Template based object factory interface.
 */
-template <class Interface, class Implementation>
-class TSingleFactory: virtual public TIFactory<Interface>
+template <class Interface, class Implementation, class Key = std::string>
+class TSingleFactory: virtual public TIFactory<Interface, Key>
 {
 public:
 	typedef Implementation ImplementationType;
-	typedef TIFactory<Interface> FactoryInterface;
+	typedef TIFactory<Interface, Key> FactoryInterface;
 
-	explicit TSingleFactory(const std::string& keyId);
+	explicit TSingleFactory(const Key& key);
 
 	// reimplemented (istd::IFactoryInfo)
 	virtual IFactoryInfo::KeyList GetFactoryKeys() const;
 
 	// reimplemented (istd::TIFactory)
-	virtual Interface* CreateInstance(const std::string& keyId = "") const;
+	virtual Interface* CreateInstance(const Key* keyPtr = NULL) const;
 
 private:
-	std::string m_keyId;
+	Key m_key;
 };
 
 
 // public methods
 
-template <class Interface, class Implementation>
-TSingleFactory<Interface, Implementation>::TSingleFactory(const std::string& keyId)
-:	m_keyId(keyId)
+template <class Interface, class Implementation, class Key>
+TSingleFactory<Interface, Implementation, Key>::TSingleFactory(const Key& key)
+:	m_key(key)
 {
-
 }
 
 
-// reimplemented (istd::TIFactory)
+// reimplemented (istd::IFactoryInfo)
 
-template <class Interface, class Implementation>
-IFactoryInfo::KeyList TSingleFactory<Interface, Implementation>::GetFactoryKeys() const
+template <class Interface, class Implementation, class Key>
+IFactoryInfo::KeyList TSingleFactory<Interface, Implementation, Key>::GetFactoryKeys() const
 {
-	typename TIFactory<Interface>::KeyList retVal;
+	typename TIFactory<Interface, Key>::KeyList retVal;
 
-	retVal.push_back(m_keyId);
+	retVal.push_back(m_key);
 
 	return retVal;
 }
 
 
-template <class Interface, class Implementation>
-Interface* TSingleFactory<Interface, Implementation>::CreateInstance(const std::string& keyId) const
+// reimplemented (istd::TIFactory)
+
+template <class Interface, class Implementation, class Key>
+Interface* TSingleFactory<Interface, Implementation, Key>::CreateInstance(const Key* keyPtr) const
 {
-	if (keyId.empty() || (keyId == m_keyId)){
+	if ((keyPtr == NULL) || (*keyPtr == m_key)){
 		return new Implementation;
 	}
 

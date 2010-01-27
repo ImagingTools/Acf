@@ -31,8 +31,8 @@ public:
 	// reimplemented (istd::IFactoryInfo)
 	virtual istd::IFactoryInfo::KeyList GetFactoryKeys() const;
 
-	// reimplemented (istd::TIFactory<icomp::IComponent>)
-	virtual icomp::IComponent* CreateInstance(const std::string& keyId = "") const;
+	// reimplemented (istd::TIFactory<icomp::IComponent, std::string>)
+	virtual icomp::IComponent* CreateInstance(const std::string* keyPtr = NULL) const;
 
 private:
 	KeyList m_factoryKeys;
@@ -57,12 +57,12 @@ istd::IFactoryInfo::KeyList TSimComponentsFactory<Base>::GetFactoryKeys() const
 }
 
 
-// reimplemented (istd::TIFactory<icomp::IComponent>)
+// reimplemented (istd::TIFactory<icomp::IComponent, std::string>)
 
 template <class Base>
-icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const std::string& keyId) const
+icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const std::string* keyPtr) const
 {
-	if (keyId.empty() || (keyId == m_factoryKeys.back())){
+	if ((keyPtr == NULL) || (*keyPtr == m_factoryKeys.back())){
 		icomp::IComponent* retVal = new TComponentWrap<Base>();
 		if (retVal != NULL){
 			retVal->SetComponentContext(this, this, false);

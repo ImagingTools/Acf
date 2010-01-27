@@ -12,7 +12,7 @@ namespace istd
 /**
 	Common interface for a factory implementation.	
 */
-template <class Interface>
+template <class Interface, class Key = std::string>
 class TIFactory: virtual public IFactoryInfo  
 {
 public:
@@ -23,7 +23,7 @@ public:
 		\param	keyId		
 		\return			pointer to created object or NULL if it was not possible to create it or keyId does not exist.
 	*/
-	virtual Interface* CreateInstance(const std::string& keyId = "") const = 0;
+	virtual Interface* CreateInstance(const Key* keyPtr = NULL) const = 0;
 };
 
 
