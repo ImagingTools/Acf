@@ -286,7 +286,6 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 	static iser::CArchiveTag elementsListTag("ElementsList", "List of registry elements");
 	static iser::CArchiveTag elementTag("Element", "Description of single element");
 	static iser::CArchiveTag elementIdTag("Id", "ID of element in registry");
-	static iser::CArchiveTag elementTypeTag("Type", "Type of element");
 	static iser::CArchiveTag dataTag("Data", "Data of single element", true);
 	static iser::CArchiveTag isEnabledTag("IsEnabled", "It is true if this element is valid");
 
