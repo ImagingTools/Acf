@@ -183,13 +183,7 @@ const std::string& CRegistryViewComp::GetSelectedElementName() const
 
 const QIcon* CRegistryViewComp::GetSelectedElementIcon() const
 {
-	CRegistryView* viewPtr = GetQtWidget();
-	const icomp::CComponentAddress* addressPtr = GetSelectedElementAddress();
-	if ((viewPtr == NULL) || (addressPtr == NULL)){
-		return NULL;
-	}
-
-	return NULL;//&viewPtr->GetIcon(*addressPtr);
+	return &m_selectedIcon;
 }
 
 
@@ -414,11 +408,14 @@ void CRegistryViewComp::OnComponentViewSelected(CComponentSceneItem* componentVi
 
 	istd::CChangeNotifier notifier(this);
 
+	m_selectedIcon = QIcon();
+
 	if (isSelected){
 		viewPtr->SetSelectedComponent(componentViewPtr);
 
 		if (componentViewPtr != NULL){
 			const icomp::IRegistry::ElementInfo& elementInfo = componentViewPtr->GetElementInfo();
+			m_selectedIcon = viewPtr->GetIcon(elementInfo.address);
 
 			if (m_quickHelpViewerCompPtr.IsValid()){
 				m_quickHelpViewerCompPtr->ShowHelp(elementInfo.address.GetPackageId() + "/" + elementInfo.address.GetComponentId(), &elementInfo.address);

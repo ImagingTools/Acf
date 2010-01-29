@@ -140,6 +140,8 @@ private:
 	iqtgui::CHierarchicalCommand m_removeNoteCommand;
 	iqtgui::CHierarchicalCommand m_propertiesCommand;
 
+	QIcon m_selectedIcon;
+
 	QTimer m_executionObserverTimer;
 };
 

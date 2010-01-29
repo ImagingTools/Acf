@@ -71,7 +71,8 @@ public:
 	enum
 	{
 		AttributeMining = Qt::UserRole + 1,
-		AttributeId = Qt::UserRole + 2
+		AttributeId,
+		AttributeType
 	};
 
 public:
@@ -79,8 +80,9 @@ public:
 
 	icomp::IRegistry* GetRegistry() const;
 	icomp::IRegistryElement* GetRegistryElement() const;
-	icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const std::string& attributeId) const;
-	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const std::string& attributeId) const;
+	const std::string& GetRegistryElementName() const;
+	icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const std::string& id) const;
+	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const std::string& id) const;
 	QStringList GetCompatibleComponents(const istd::CClassInfo& interfaceInfo) const;
 	QStringList GetExportAliases(const std::string& attributeName) const;
 
@@ -100,7 +102,7 @@ protected slots:
 
 protected:
 	bool SetAttributeToItems(
-				const std::string& attributeId,
+				const std::string& id,
 				const icomp::IAttributeStaticInfo& staticInfo,
 				QTreeWidgetItem& attributeItem,
 				QTreeWidgetItem& exportItem,
@@ -146,12 +148,19 @@ private:
 
 	protected:
 		bool SetComponentExportEditor(const std::string& attributeId, QWidget& editor) const;
-		bool SetAttributeExportEditor(const std::string& attributeId, QWidget& editor) const;
-		bool SetAttributeValueEditor(const std::string& attributeId, int propertyMining, QWidget& editor) const;
+		bool SetAttributeExportEditor(const std::string& id, QWidget& editor) const;
+		bool SetAttributeValueEditor(const std::string& id, int propertyMining, QWidget& editor) const;
 
 		bool SetComponentExportData(const std::string& attributeId, const QWidget& editor) const;
-		bool SetAttributeExportData(const std::string& attributeId, const QWidget& editor) const;
-		bool SetAttributeValueData(const std::string& attributeId, int propertyMining, const QWidget& editor) const;
+		bool SetAttributeExportData(
+					const std::string& id,
+					const std::string& typeName,
+					const QWidget& editor) const;
+		bool SetAttributeValueData(
+					const std::string& id,
+					const std::string& typeName,
+					int propertyMining,
+					const QWidget& editor) const;
 
 	private:
 		CAttributeEditorComp& m_parent;
