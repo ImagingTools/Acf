@@ -827,9 +827,10 @@ void CVisualRegistryScenographerComp::ConnectReferences(const QString& component
 
 			const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = registryElementPtr->GetAttributeInfo(attributeId);
 			if (attributeInfoPtr == NULL && createAttribute){
-				icomp::IRegistryElement::AttributeInfo* newAttributeInfoPtr = registryElementPtr->InsertAttributeInfo(attributeId);
+				const std::string& attrType = staticAttributeInfoPtr->GetAttributeTypeName();
+				icomp::IRegistryElement::AttributeInfo* newAttributeInfoPtr = registryElementPtr->InsertAttributeInfo(attributeId, attrType);
 				if (newAttributeInfoPtr != NULL){
-					newAttributeInfoPtr->attributePtr.SetPtr(registryElementPtr->CreateAttribute(attributeId));
+					newAttributeInfoPtr->attributePtr.SetPtr(registryElementPtr->CreateAttribute(attrType));
 				}
 			}
 		}

@@ -98,7 +98,7 @@ public:
 			multiAttrPtr = dynamic_cast<TMultiAttribute<Attribute>*>(existingInfoPtr->attributePtr.GetPtr());
 		}
 		else{
-			IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(attributeId);
+			IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(attributeId, istd::CClassInfo::GetName<TMultiAttribute<Attribute> >());
 			if (newInfoPtr != NULL){
 				IRegistryElement::AttributePtr& attributePtr = newInfoPtr->attributePtr;
 				if (!attributePtr.IsValid()){
@@ -151,8 +151,9 @@ bool CSimComponentContextBase::IsAttributeTypeCorrect(const std::string& attribu
 	const IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr = attrInfos.FindElement(attributeId);
 
 	if ((attrInfoPtr != NULL) && (*attrInfoPtr != NULL)){
-		const istd::CClassInfo& attributeType = (*attrInfoPtr)->GetAttributeType();
-		return attributeType.IsType<AttrType>();
+		const std::string& attributeType = (*attrInfoPtr)->GetAttributeTypeName();
+
+		return attributeType == AttrType::GetTypeName();
 	}
 
 	return false;

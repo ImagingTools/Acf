@@ -40,10 +40,14 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+	// static methods
+	static const std::string& GetTypeName();
+
 protected:
 	Value m_value;
 
-	static const istd::CClassInfo s_classInfo;
+private:
+	static const std::string s_typeName;
 };
 
 
@@ -88,7 +92,7 @@ void TAttribute<Value>::SetValue(const Value& value)
 template <typename Value>
 const std::string& TAttribute<Value>::GetFactoryId() const
 {
-	return s_classInfo.GetName();
+	return s_typeName;
 }
 
 
@@ -110,10 +114,19 @@ bool TAttribute<Value>::Serialize(iser::IArchive& archive)
 }
 
 
-// static attributes
+// static methods
 
 template <typename Value>
-const istd::CClassInfo TAttribute<Value>::s_classInfo(typeid(TAttribute<Value>));
+const std::string& TAttribute<Value>::GetTypeName()
+{
+	return s_typeName;
+}
+
+
+// private static attributes
+
+template <typename Value>
+const std::string TAttribute<Value>::s_typeName(istd::CClassInfo::GetName<TAttribute<Value> >());
 
 
 // typedefs

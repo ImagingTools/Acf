@@ -159,7 +159,7 @@ private:
 
 	AttributeItemDelegate m_attributeItemDelegate;
 
-	typedef std::map<istd::CClassInfo, QString> AttributeTypesMap;
+	typedef std::map<std::string, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
 	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_treeWidgetFilter;
 

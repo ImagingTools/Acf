@@ -27,10 +27,9 @@ public:
 	virtual const std::string& GetAttributeId() const;
 
 	// reimplemented (icomp::IAttributeStaticInfo)
-	virtual iser::IObject* CreateAttribute() const;
 	virtual const std::string& GetAttributeDescription() const;
 	virtual const iser::IObject* GetAttributeDefaultValue() const;
-	virtual const istd::CClassInfo& GetAttributeType() const;
+	virtual const std::string& GetAttributeTypeName() const;
 	virtual const istd::CClassInfo& GetRelatedInterfaceType() const;
 	virtual bool IsObligatory() const;
 
@@ -75,17 +74,6 @@ const std::string& TAttributeStaticInfo<Attribute>::GetAttributeId() const
 // reimplemented (icomp::IAttributeStaticInfo)
 
 template <class Attribute>
-iser::IObject* TAttributeStaticInfo<Attribute>::CreateAttribute() const
-{
-	if (m_defaultValuePtr != NULL){
-		return new Attribute(*m_defaultValuePtr);
-	}
-	else{
-		return new Attribute();
-	}
-}
-
-template <class Attribute>
 const std::string& TAttributeStaticInfo<Attribute>::GetAttributeDescription() const
 {
 	return m_description;
@@ -100,11 +88,9 @@ const iser::IObject* TAttributeStaticInfo<Attribute>::GetAttributeDefaultValue()
 
 
 template <class Attribute>
-const istd::CClassInfo& TAttributeStaticInfo<Attribute>::GetAttributeType() const
+const std::string& TAttributeStaticInfo<Attribute>::GetAttributeTypeName() const
 {
-	static istd::CClassInfo info = istd::CClassInfo::GetInfo<Attribute>();
-
-	return info;
+	return Attribute::GetTypeName();
 }
 
 

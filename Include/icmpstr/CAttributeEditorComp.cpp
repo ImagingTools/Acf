@@ -21,18 +21,18 @@ namespace icmpstr
 CAttributeEditorComp::CAttributeEditorComp()
 :	m_attributeItemDelegate(*this)
 {
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CBoolAttribute>()] = tr("Boolean");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CDoubleAttribute>()] = tr("Real number");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CIntAttribute>()] = tr("Integer number");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CStringAttribute>()] = tr("String");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiBoolAttribute>()] = tr("Boolean list");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiDoubleAttribute>()] = tr("Real number list");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiIntAttribute>()] = tr("Integer number list");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiStringAttribute>()] = tr("String list");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>()] = tr("Reference");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiReferenceAttribute>()] = tr("Multiple reference");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CFactoryAttribute>()] = tr("Factory");
-	m_attributeTypesMap[istd::CClassInfo::GetInfo<icomp::CMultiFactoryAttribute>()] = tr("Multiple factory");
+	m_attributeTypesMap[icomp::CBoolAttribute::GetTypeName()] = tr("Boolean");
+	m_attributeTypesMap[icomp::CDoubleAttribute::GetTypeName()] = tr("Real number");
+	m_attributeTypesMap[icomp::CIntAttribute::GetTypeName()] = tr("Integer number");
+	m_attributeTypesMap[icomp::CStringAttribute::GetTypeName()] = tr("String");
+	m_attributeTypesMap[icomp::CMultiBoolAttribute::GetTypeName()] = tr("Boolean list");
+	m_attributeTypesMap[icomp::CMultiDoubleAttribute::GetTypeName()] = tr("Real number list");
+	m_attributeTypesMap[icomp::CMultiIntAttribute::GetTypeName()] = tr("Integer number list");
+	m_attributeTypesMap[icomp::CMultiStringAttribute::GetTypeName()] = tr("String list");
+	m_attributeTypesMap[icomp::CReferenceAttribute::GetTypeName()] = tr("Reference");
+	m_attributeTypesMap[icomp::CMultiReferenceAttribute::GetTypeName()] = tr("Multiple reference");
+	m_attributeTypesMap[icomp::CFactoryAttribute::GetTypeName()] = tr("Factory");
+	m_attributeTypesMap[icomp::CMultiFactoryAttribute::GetTypeName()] = tr("Multiple factory");
 }
 
 
@@ -335,7 +335,10 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 		std::string attributeId = item->text(NameColumn).toStdString();
 		const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = elementPtr->GetAttributeInfo(attributeId);
 		if (isEnabled){
-			elementPtr->InsertAttributeInfo(attributeId);
+			const icomp::IAttributeStaticInfo* staticInfoPtr = GetStaticAttributeInfo(attributeId);
+			if (staticInfoPtr != NULL){
+				elementPtr->InsertAttributeInfo(attributeId, staticInfoPtr->GetAttributeTypeName());
+			}
 		}
 		else{
 			if (attributeInfoPtr == NULL){
@@ -452,7 +455,7 @@ bool CAttributeEditorComp::SetAttributeToItems(
 	}
 
 	QString attributeType;
-	AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(staticInfo.GetAttributeType());
+	AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(staticInfo.GetAttributeTypeName());
 	if (foundTypeName != m_attributeTypesMap.end()){
 		attributeType = foundTypeName->second;
 		if (!attributeType.isEmpty() && !staticInfo.IsObligatory()){
@@ -815,7 +818,7 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 	if (propertyMining == Attribute){
 		std::string attributeId = index.data(AttributeId).toString().toStdString();
 		const icomp::IAttributeStaticInfo* attributeInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
-		if (attributeInfoPtr != NULL && attributeInfoPtr->GetAttributeType().IsType<icomp::CBoolAttribute>()){
+		if (attributeInfoPtr != NULL && attributeInfoPtr->GetAttributeTypeName() == icomp::CBoolAttribute::GetTypeName()){
 			QComboBox* comboEditor = new QComboBox(parent);
 			comboEditor->addItem(tr("true"));
 			comboEditor->addItem(tr("false"));
@@ -890,8 +893,12 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeExportEditor(const
 
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = m_parent.GetRegistryAttribute(attributeId);
 	if (attributeInfoPtr == NULL){
-		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId);
-		I_ASSERT(attributeInfoPtr != NULL);
+		const icomp::IAttributeStaticInfo* staticInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
+		if (staticInfoPtr == NULL){
+			return false;
+		}
+
+		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, staticInfoPtr->GetAttributeTypeName());
 		if (attributeInfoPtr == NULL){
 			return false;
 		}
@@ -1067,7 +1074,12 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeExportData(const s
 	icomp::IRegistryElement::AttributeInfo* attributeInfoPtr =
 				const_cast<icomp::IRegistryElement::AttributeInfo*>(elementPtr->GetAttributeInfo(attributeId));
 	if (attributeInfoPtr == NULL){
-		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId);
+		const icomp::IAttributeStaticInfo* staticInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
+		if (staticInfoPtr == NULL){
+			return false;
+		}
+
+		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, staticInfoPtr->GetAttributeTypeName());
 		if (attributeInfoPtr == NULL){
 			return false;
 		}
@@ -1087,14 +1099,17 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueData(const st
 		return false;
 	}
 
+	const icomp::IAttributeStaticInfo* attrStaticInfoPtr = m_parent.GetStaticAttributeInfo(attributeId);
+
 	icomp::IRegistryElement::AttributeInfo* attributeInfoPtr =
 				const_cast<icomp::IRegistryElement::AttributeInfo*>(elementPtr->GetAttributeInfo(attributeId));
 	if (attributeInfoPtr == NULL){
-		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId);
-		if (attributeInfoPtr != NULL){
-			attributeInfoPtr->attributePtr.SetPtr(elementPtr->CreateAttribute(attributeId));
+		if (attrStaticInfoPtr == NULL){
+			return false;
 		}
-		else{
+
+		attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, attrStaticInfoPtr->GetAttributeTypeName());
+		if (attributeInfoPtr == NULL){
 			return false;
 		}
 	}
@@ -1103,13 +1118,15 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueData(const st
 		icomp::IRegistryElement* elementPtr = m_parent.GetRegistryElement();
 		I_ASSERT(elementPtr != NULL);
 
-		attributeInfoPtr->attributePtr.SetPtr(elementPtr->CreateAttribute(attributeId));
+		attributeInfoPtr->attributePtr.SetPtr(elementPtr->CreateAttribute(attributeInfoPtr->attributeTypeName));
+
+		if (!attributeInfoPtr->attributePtr.IsValid()){
+			return false;
+		}
 	}
 
 	iser::ISerializable* attributePtr = attributeInfoPtr->attributePtr.GetPtr();
-	if (attributePtr == NULL){
-		return false;
-	}
+	I_ASSERT(attributePtr == NULL);
 
 	const QComboBox* comboEditor = dynamic_cast<const QComboBox*>(&editor);
 

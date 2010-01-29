@@ -46,15 +46,6 @@ public:
 	virtual bool SerializeComponentsLayout(iser::IArchive& archive);
 	virtual bool SerializeRegistry(iser::IArchive& archive);
 
-	enum ConsistencyState
-	{
-		CS_UNKNOWN,
-		CS_OK,
-		CS_OPTIONAL,
-		CS_INVALID
-	};
-	int CheckAttributeConsistency(const icomp::IRegistryElement& element, const std::string& attributeId);
-
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 

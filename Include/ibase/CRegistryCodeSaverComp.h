@@ -81,7 +81,7 @@ protected:
 	bool WriteAttribute(
 				const std::string& attributeId,
 				const std::string& attributeName,
-				const iser::ISerializable& attribute,
+				const iser::IObject& attribute,
 				std::ofstream& stream) const;
 
 	bool WriteRegistryClassDeclaration(

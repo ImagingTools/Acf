@@ -21,7 +21,7 @@ bool CSimComponentContextBase::SetAttr(const std::string& attributeId, const ise
 {
 	I_ASSERT(attributePtr != NULL);
 
-	IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(attributeId);
+	IRegistryElement::AttributeInfo* infoPtr = m_registryElement.InsertAttributeInfo(attributeId, attributePtr->GetFactoryId());
 	if (infoPtr != NULL){
 		infoPtr->attributePtr.SetPtr(const_cast<iser::IObject*>(attributePtr));
 
@@ -34,6 +34,7 @@ bool CSimComponentContextBase::SetAttr(const std::string& attributeId, const ise
 
 bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent* componentPtr)
 {
+	I_ASSERT(IsAttributeTypeCorrect<CReferenceAttribute>(referenceId));
 	I_ASSERT(componentPtr != NULL);
 
 	if (SetAttr(referenceId, new CReferenceAttribute(referenceId))){
@@ -57,7 +58,7 @@ bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IC
 		multiAttrPtr = dynamic_cast<CMultiReferenceAttribute*>(existingInfoPtr->attributePtr.GetPtr());
 	}
 	else{
-		IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(referenceId);
+		IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(referenceId, istd::CClassInfo::GetName<CMultiReferenceAttribute>());
 		if (newInfoPtr != NULL){
 			IRegistryElement::AttributePtr& attributePtr = newInfoPtr->attributePtr;
 			if (!attributePtr.IsValid()){
@@ -85,6 +86,7 @@ bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IC
 
 bool CSimComponentContextBase::SetFactory(const std::string& factoryId, const ComponentsFactory* factoryPtr)
 {
+	I_ASSERT(IsAttributeTypeCorrect<CFactoryAttribute>(factoryId));
 	I_ASSERT(factoryPtr != NULL);
 
 	if (SetAttr(factoryId, new CFactoryAttribute(factoryId))){

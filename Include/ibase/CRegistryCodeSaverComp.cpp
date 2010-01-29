@@ -714,7 +714,7 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 
 
 bool CRegistryCodeSaverComp::WriteComponentInfo(
-                        const icomp::IRegistry& /*registry*/,
+			const icomp::IRegistry& /*registry*/,
 			const std::string& componentId,
 			const icomp::IRegistry::ElementInfo& componentInfo,
 			std::ofstream& stream) const
@@ -776,21 +776,7 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 
 						NextLine(stream);
 						stream << "icomp::IRegistryElement::AttributeInfo* " << attributeInfoName << " = ";
-						stream << elementInfoName << "->elementPtr->InsertAttributeInfo(\"" << attributeId << "\");";
-
-						if (isAttributeValid){
-							NextLine(stream);
-							stream << "if (" << attributeInfoName << " != NULL){";
-
-							ChangeIndent(1);
-							NextLine(stream);
-							stream << attributeInfoName << "->attributePtr.SetPtr(";
-							stream << elementInfoName << "->elementPtr->CreateAttribute(\"" << attributeId << "\"));";
-
-							ChangeIndent(-1);
-							NextLine(stream);
-							stream << "}";
-						}
+						stream << elementInfoName << "->elementPtr->InsertAttributeInfo(\"" << attributeId << "\", \"" << attrInfoPtr->attributeTypeName << "\");";
 
 						NextLine(stream);
 						stream << "if (" << attributeInfoName << " != NULL){";
@@ -825,9 +811,12 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 bool CRegistryCodeSaverComp::WriteAttribute(
 			const std::string& attributeId,
 			const std::string& attributeInfoName,
-			const iser::ISerializable& attribute,
+			const iser::IObject& attribute,
 			std::ofstream& stream) const
 {
+	NextLine(stream);
+	stream << attributeInfoName << "->attributePtr.SetPtr(new " << attribute.GetFactoryId() << ");";
+
 	NextLine(stream);
 	stream << "I_ASSERT(" << attributeInfoName << "->attributePtr.IsValid());";
 	stream << std::endl;

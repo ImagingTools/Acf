@@ -38,8 +38,8 @@ public:
 	virtual void SetElementFlags(I_DWORD flags);
 	virtual const IComponentStaticInfo& GetComponentStaticInfo() const;
 	virtual Ids GetAttributeIds() const;
-	virtual AttributeInfo* InsertAttributeInfo(const std::string& attributeId);
-	virtual iser::IObject* CreateAttribute(const std::string& attributeId) const;
+	virtual AttributeInfo* InsertAttributeInfo(const std::string& attributeId, const std::string& attributeType);
+	virtual iser::IObject* CreateAttribute(const std::string& attributeType) const;
 	virtual const AttributeInfo* GetAttributeInfo(const std::string& attributeId) const;
 	virtual bool RemoveAttribute(const std::string& attributeId);
 

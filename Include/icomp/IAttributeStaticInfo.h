@@ -5,6 +5,7 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
+#include "istd/CClassInfo.h"
 
 #include "iser/IObject.h"
 
@@ -19,11 +20,6 @@ class IAttributeStaticInfo: virtual public istd::IPolymorphic
 {
 public:
 	/**
-		Create instance of this attribute.
-	 */
-	virtual iser::IObject* CreateAttribute() const = 0;
-
-	/**
 		Get description of this attribute.
 	 */
 	virtual const std::string& GetAttributeDescription() const = 0;
@@ -37,7 +33,7 @@ public:
 	/**
 		Return attribute type description.
 	 */
-	virtual const istd::CClassInfo& GetAttributeType() const = 0;
+	virtual const std::string& GetAttributeTypeName() const = 0;
 
 	/**
 		Get related interface type.

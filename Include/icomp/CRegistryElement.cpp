@@ -9,6 +9,12 @@
 
 #include "icomp/IAttributeStaticInfo.h"
 #include "icomp/IComponentStaticInfo.h"
+#include "icomp/TAttribute.h"
+#include "icomp/TMultiAttribute.h"
+#include "icomp/CReferenceAttribute.h"
+#include "icomp/CFactoryAttribute.h"
+#include "icomp/CMultiReferenceAttribute.h"
+#include "icomp/CMultiFactoryAttribute.h"
 
 
 namespace icomp
@@ -81,28 +87,75 @@ IRegistryElement::Ids CRegistryElement::GetAttributeIds() const
 }
 
 
-IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(const std::string& attributeId)
+IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(
+			const std::string& attributeId,
+			const std::string& attributeType)
 {
 	if (m_attributeInfos.find(attributeId) != m_attributeInfos.end()){
 		return NULL;
 	}
 
 	AttributeInfo& info = m_attributeInfos[attributeId];
+	info.attributeTypeName = attributeType;
 
 	return &info;
 }
 
 
-iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeId) const
+iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeType) const
 {
-	const IAttributeStaticInfo* staticInfoPtr = GetAttributeStaticInfo(attributeId);
-	if (staticInfoPtr == NULL){
-		I_TRACE_ONCE(istd::ErrorLevel, "Components", ("No attribute static info: " + attributeId).c_str());
+	static std::string boolAttrTypeName = istd::CClassInfo::GetName<icomp::CBoolAttribute>();
+	static std::string doubleAttrTypeName = istd::CClassInfo::GetName<icomp::CDoubleAttribute>();
+	static std::string intAttrTypeName = istd::CClassInfo::GetName<icomp::CIntAttribute>();
+	static std::string stringAttrTypeName = istd::CClassInfo::GetName<icomp::CStringAttribute>();
+	static std::string multiBoolAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiBoolAttribute>();
+	static std::string multiDoubleAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiDoubleAttribute>();
+	static std::string multiIntAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiIntAttribute>();
+	static std::string multiStringAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiStringAttribute>();
+	static std::string referenceAttrTypeName = istd::CClassInfo::GetName<icomp::CReferenceAttribute>();
+	static std::string multiReferenceAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiReferenceAttribute>();
+	static std::string factoryAttrTypeName = istd::CClassInfo::GetName<icomp::CFactoryAttribute>();
+	static std::string multiFactoryAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiFactoryAttribute>();
 
+	if (attributeType == boolAttrTypeName){
+		return new icomp::CBoolAttribute();
+	}
+	else if (attributeType == doubleAttrTypeName){
+		return new icomp::CDoubleAttribute();
+	}
+	else if (attributeType == intAttrTypeName){
+		return new icomp::CIntAttribute();
+	}
+	else if (attributeType == stringAttrTypeName){
+		return new icomp::CStringAttribute();
+	}
+	else if (attributeType == multiBoolAttrTypeName){
+		return new icomp::CMultiBoolAttribute();
+	}
+	else if (attributeType == multiDoubleAttrTypeName){
+		return new icomp::CMultiDoubleAttribute();
+	}
+	else if (attributeType == multiIntAttrTypeName){
+		return new icomp::CMultiIntAttribute();
+	}
+	else if (attributeType == multiStringAttrTypeName){
+		return new icomp::CMultiStringAttribute();
+	}
+	else if (attributeType == referenceAttrTypeName){
+		return new icomp::CReferenceAttribute();
+	}
+	else if (attributeType == multiReferenceAttrTypeName){
+		return new icomp::CMultiReferenceAttribute();
+	}
+	else if (attributeType == factoryAttrTypeName){
+		return new icomp::CFactoryAttribute();
+	}
+	else if (attributeType == multiFactoryAttrTypeName){
+		return new icomp::CMultiFactoryAttribute();
+	}
+	else{
 		return NULL;
 	}
-
-	return staticInfoPtr->CreateAttribute();
 }
 
 
@@ -194,7 +247,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 			}
 
 			bool isEnabled = info.attributePtr.IsValid();
-			std::string attributeType = isEnabled? info.attributePtr->GetFactoryId(): info.readAttributeType;
+			std::string attributeType = isEnabled? info.attributePtr->GetFactoryId(): info.attributeTypeName;
 
 			retVal = retVal && archive.BeginTag(attributeTypeTag);
 			retVal = retVal && archive.Process(attributeType);
@@ -248,7 +301,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 				retVal = retVal && archive.Process(attributeType);
 				retVal = retVal && archive.EndTag(attributeTypeTag);
 
-				if (attributeType == staticInfoPtr->GetAttributeType().GetName()){
+				if (attributeType == staticInfoPtr->GetAttributeTypeName()){
 					retVal = retVal && archive.BeginTag(exportIdTag);
 					std::string exportId;
 					retVal = retVal && archive.Process(exportId);
@@ -265,14 +318,14 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 						return false;
 					}
 
-					AttributeInfo* infoPtr = InsertAttributeInfo(attributeId);
+					AttributeInfo* infoPtr = InsertAttributeInfo(attributeId, attributeType);
 
 					if (infoPtr != NULL){
 						infoPtr->exportId = exportId;
-						infoPtr->readAttributeType = attributeType;
+						infoPtr->attributeTypeName = attributeType;
 
 						if (isEnabled){
-							iser::IObject* attributePtr = CreateAttribute(attributeId);
+							iser::IObject* attributePtr = CreateAttribute(attributeType);
 							if (attributePtr == NULL){
 								return false;
 							}

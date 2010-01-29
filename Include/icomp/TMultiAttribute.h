@@ -51,10 +51,18 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-protected:
-	std::vector<Value> m_values;
+	// static methods
+	static const std::string& GetTypeName();
 
-	static const istd::CClassInfo s_classInfo;
+protected:
+	struct Wrap
+	{
+		Value value;
+	};
+	std::vector<Wrap> m_values;
+
+private:
+	static const std::string s_typeName;
 };
 
 
@@ -77,7 +85,9 @@ template <typename Value>
 TMultiAttribute<Value>::TMultiAttribute(int elementsCount, Value* valuesPtr)
 {
 	for (int i = 0; i < elementsCount; ++i){
-		m_values.push_back(valuesPtr[i]);
+		Wrap wrap;
+		wrap.value = valuesPtr[i];
+		m_values.push_back(wrap);
 	}
 }
 
@@ -95,7 +105,7 @@ const Value& TMultiAttribute<Value>::GetValueAt(int index) const
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetValuesCount());
 
-	return m_values[index];
+	return m_values[index].value;
 }
 
 
@@ -105,14 +115,16 @@ void TMultiAttribute<Value>::SetValueAt(int index, const Value& value)
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetValuesCount());
 
-	m_values[index] = value;
+	m_values[index].value = value;
 }
 
 
 template <typename Value>
 void TMultiAttribute<Value>::InsertValue(const Value& value)
 {
-	m_values.push_back(value);
+	Wrap wrap;
+	wrap.value = value;
+	m_values.push_back(wrap);
 }
 
 
@@ -128,7 +140,7 @@ void TMultiAttribute<Value>::Reset()
 template <typename Value>
 const std::string& TMultiAttribute<Value>::GetFactoryId() const
 {
-	return s_classInfo.GetName();
+	return s_typeName;
 }
 
 
@@ -162,7 +174,7 @@ bool TMultiAttribute<Value>::Serialize(iser::IArchive& archive)
 
 	for (int i = 0; i < valuesCount; ++i){
 		retVal = retVal && archive.BeginTag(valueTag);
-		retVal = retVal && archive.Process(m_values[i]);
+		retVal = retVal && archive.Process(m_values[i].value);
 		retVal = retVal && archive.EndTag(valueTag);
 	}
 
@@ -172,10 +184,19 @@ bool TMultiAttribute<Value>::Serialize(iser::IArchive& archive)
 }
 
 
-// static attributes
+// static methods
 
 template <typename Value>
-const istd::CClassInfo TMultiAttribute<Value>::s_classInfo(typeid(TAttribute<Value>));
+const std::string& TMultiAttribute<Value>::GetTypeName()
+{
+	return s_typeName;
+}
+
+
+// private static attributes
+
+template <typename Value>
+const std::string TMultiAttribute<Value>::s_typeName(istd::CClassInfo::GetName<TMultiAttribute<Value> >());
 
 
 // typedefs

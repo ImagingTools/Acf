@@ -22,6 +22,15 @@ public:
 	CFactoryAttribute(){}
 	CFactoryAttribute(const CFactoryAttribute& attribute):BaseClass(attribute){}
 	explicit CFactoryAttribute(const std::string& value):BaseClass(value){}
+
+	// reimplemented (iser::IObject)
+	const std::string& GetFactoryId() const;
+
+	// static methods
+	static const std::string& GetTypeName();
+
+private:
+	static const std::string s_typeName;
 };
 
 

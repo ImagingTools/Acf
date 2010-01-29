@@ -55,7 +55,7 @@ public:
 	{
 		AttributePtr attributePtr;
 		std::string exportId;
-		mutable std::string readAttributeType;
+		std::string attributeTypeName;
 	};
 
 	/**
@@ -84,12 +84,12 @@ public:
 		\param	attributeId		unique ID of new attribute.
 		\param	createAttribute	if it is true, new attribute instance will be created.
 	*/
-	virtual AttributeInfo* InsertAttributeInfo(const std::string& attributeId) = 0;
+	virtual AttributeInfo* InsertAttributeInfo(const std::string& attributeId, const std::string& attributeType) = 0;
 
 	/**
 		Create attribute object for specified ID.
 	*/
-	virtual iser::IObject* CreateAttribute(const std::string& attributeId) const = 0;
+	virtual iser::IObject* CreateAttribute(const std::string& attributeType) const = 0;
 
 	/**
 		Get access to stored attribute info structure.

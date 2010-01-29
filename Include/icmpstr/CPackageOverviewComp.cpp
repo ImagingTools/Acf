@@ -41,11 +41,12 @@ public:
 
 void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr)
 {
-	if (attributeStaticInfoPtr != NULL){		
-		bool isReference = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CReferenceAttribute>());
-		bool isMultiReference = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CMultiReferenceAttribute>());
-		bool isFactory = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CFactoryAttribute>());
-		bool isMultiFactory = (attributeStaticInfoPtr->GetAttributeType().IsType<icomp::CMultiFactoryAttribute>());
+	if (attributeStaticInfoPtr != NULL){
+		const std::string attributeType = attributeStaticInfoPtr->GetAttributeTypeName();
+		bool isReference = (attributeType == icomp::CReferenceAttribute::GetTypeName());
+		bool isMultiReference = (attributeType == icomp::CMultiReferenceAttribute::GetTypeName());
+		bool isFactory = (attributeType == icomp::CFactoryAttribute::GetTypeName());
+		bool isMultiFactory = (attributeType == icomp::CMultiFactoryAttribute::GetTypeName());
 
 		if (isReference || isMultiReference || isFactory || isMultiFactory){
 			HighlightComponents(attributeStaticInfoPtr->GetRelatedInterfaceType());

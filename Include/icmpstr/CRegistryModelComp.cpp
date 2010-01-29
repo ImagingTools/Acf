@@ -76,58 +76,6 @@ bool CRegistryModelComp::SerializeRegistry(iser::IArchive& archive)
 }
 
 
-int CRegistryModelComp::CheckAttributeConsistency(const icomp::IRegistryElement& element, const std::string& attributeId)
-{
-	const icomp::IComponentStaticInfo& elementStaticInfo = element.GetComponentStaticInfo();
-	const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = elementStaticInfo.GetAttributeInfos();
-	const icomp::IComponentStaticInfo::AttributeInfos::ValueType* attrStaticInfoPtrPtr = staticAttributes.FindElement(attributeId);
-	if (attrStaticInfoPtrPtr == NULL){
-		return CS_UNKNOWN;
-	}
-	I_ASSERT(*attrStaticInfoPtrPtr != NULL);
-
-	const icomp::IAttributeStaticInfo& attrStaticInfo = **attrStaticInfoPtrPtr;
-	const istd::CClassInfo& attrType = attrStaticInfo.GetAttributeType();
-
-	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = element.GetAttributeInfo(attributeId);
-
-	if (		(attrType == istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>()) ||
-				(attrType == istd::CClassInfo::GetInfo<icomp::CMultiReferenceAttribute>()) ||
-				(attrType == istd::CClassInfo::GetInfo<icomp::CFactoryAttribute>()) ||
-				(attrType == istd::CClassInfo::GetInfo<icomp::CMultiFactoryAttribute>())){
-		if ((attributeInfoPtr == NULL) || !attributeInfoPtr->attributePtr.IsValid()){
-			if (attrStaticInfo.IsObligatory() && attributeInfoPtr->exportId.empty()){
-				return CS_INVALID;
-			}
-			else if (attributeInfoPtr->exportId.empty()){
-				return CS_OPTIONAL;
-			}
-			else{
-				return CS_OK;
-			}
-		}
-
-		const icomp::TAttribute<std::string>* idPtr = dynamic_cast<const icomp::TAttribute<std::string>*>(attributeInfoPtr->attributePtr.GetPtr());
-		if (idPtr != NULL){		
-			const icomp::CReferenceAttribute* referencePtr = dynamic_cast<const icomp::CReferenceAttribute*>(attributeInfoPtr->attributePtr.GetPtr());
-			if ((referencePtr != NULL) && (attrType != istd::CClassInfo::GetInfo<icomp::CReferenceAttribute>())){
-				return CS_INVALID;
-			}
-
-			std::string componentId;
-			std::string restId;
-			icomp::CInterfaceManipBase::SplitId(idPtr->GetValue().c_str(), componentId, restId);
-
-			if (GetElementInfo(componentId) == NULL){
-				return CS_INVALID;
-			}
-		}
-	}
-
-	return CS_OK;
-}
-
-
 // reimplemented (icmpstr::IRegistryEditController)
 
 i2d::CVector2d CRegistryModelComp::GetComponentPosition(const std::string& componentName) const

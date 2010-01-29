@@ -220,7 +220,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFactoryAttribute.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultFactoryAttribute.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiReferenceAttribute.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackageStaticInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CReferenceAttribute.cpp"
 				>
 			</File>
 			<File
