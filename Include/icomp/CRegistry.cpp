@@ -97,7 +97,15 @@ bool CRegistry::RemoveElementInfo(const std::string& elementId)
 	istd::TChangeNotifier<icomp::IRegistry> changePtr(this, CF_COMPONENT_REMOVED | CF_MODEL);
 
 	// remove interfaces exported by this component:
-	SetElementInterfaceExported(elementId, istd::CClassInfo(), false);
+	for (		ExportedInterfacesMap::iterator iter = m_exportedInterfacesMap.begin();
+				iter != m_exportedInterfacesMap.begin();){
+		if (iter->second == elementId){
+			iter = m_exportedInterfacesMap.erase(iter);
+		}
+		else{
+			++iter;
+		}
+	}
 
 	if (m_componentsMap.erase(elementId) <= 0){
 		return false;
@@ -124,40 +132,16 @@ void CRegistry::SetElementInterfaceExported(
 			const istd::CClassInfo& exportInterfaceInfo,
 			bool state)
 {
-	const ElementInfo* elementInfoPtr = GetElementInfo(elementId);
-	if (elementInfoPtr != NULL && elementInfoPtr->elementPtr.IsValid()){
-		istd::CChangeNotifier changePtr(this, CF_COMPONENT_EXPORTED | CF_MODEL);
+	I_ASSERT(!elementId.empty());
+	I_ASSERT(exportInterfaceInfo.IsValid());
 
-		if (state){
-			const icomp::IComponentStaticInfo& staticInfo = elementInfoPtr->elementPtr.GetPtr()->GetComponentStaticInfo();
-
-			icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = staticInfo.GetInterfaceExtractors();
-
-			for (int i = 0; i < interfaceExtractors.GetElementsCount(); i++){
-				const istd::CClassInfo& interfaceInfo = interfaceExtractors.GetKeyAt(i);
-
-				if (!exportInterfaceInfo.IsValid() || (interfaceInfo == exportInterfaceInfo)){
-					m_exportedInterfacesMap[interfaceInfo] = elementId;
-				}
-			}
-		}
-		else{
-			bool isDone = false;
-			while(!isDone){
-				isDone = true;
-				for (		ExportedInterfacesMap::iterator index = m_exportedInterfacesMap.begin();
-							index != m_exportedInterfacesMap.end();
-							index++){
-					if (!exportInterfaceInfo.IsValid() || (index->first == exportInterfaceInfo)){
-						if (index->second == elementId){
-							m_exportedInterfacesMap.erase(index);
-
-							isDone = false;
-							break;
-						}
-					}
-				}
-			}
+	if (state){
+		m_exportedInterfacesMap[exportInterfaceInfo] = elementId;
+	}
+	else{
+		ExportedInterfacesMap::iterator foundIter = m_exportedInterfacesMap.find(exportInterfaceInfo);
+		if ((foundIter != m_exportedInterfacesMap.end()) && (foundIter->second == elementId)){
+			m_exportedInterfacesMap.erase(foundIter);
 		}
 	}
 }

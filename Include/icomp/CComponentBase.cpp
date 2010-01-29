@@ -35,14 +35,11 @@ void* CComponentBase::GetInterface(const istd::CClassInfo& interfaceType, const 
 	}
 
 	if (m_contextPtr != NULL){
-		const IRegistryElement& registryElement = m_contextPtr->GetRegistryElement();
-
-		const IComponentStaticInfo& staticInfo = registryElement.GetComponentStaticInfo();
+		const IComponentStaticInfo& staticInfo = m_contextPtr->GetStaticInfo();
 
 		const IComponentStaticInfo::InterfaceExtractors& extractors = staticInfo.GetInterfaceExtractors();
 
 		int index = extractors.FindIndex(interfaceType);
-
 		if (index >= 0){
 			IComponentStaticInfo::InterfaceExtractorPtr extractorPtr = extractors.GetValueAt(index);
 

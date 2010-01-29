@@ -100,7 +100,7 @@ public:
 	/**
 		Enable or disable exporting single or all interfaces of component.
 		\param	elementId			ID of element in registry.
-		\param	exportInterfaceInfo	specify interface. If it is invalid, all interfaces will be taken.
+		\param	exportInterfaceInfo	specify interface. If must be invalid.
 		\param	state				the export state. If \c false, the existing export will be removed.
 	*/
 	virtual void SetElementInterfaceExported(

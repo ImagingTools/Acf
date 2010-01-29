@@ -78,8 +78,7 @@ const iser::IObject* CComponentContext::GetAttribute(const std::string& attribut
 		}
 	}
 
-	const IComponentStaticInfo& componentInfo = m_registryElement.GetComponentStaticInfo();
-	const IComponentStaticInfo::AttributeInfos& attributeInfos = componentInfo.GetAttributeInfos();
+	const IComponentStaticInfo::AttributeInfos& attributeInfos = m_staticInfo.GetAttributeInfos();
 	const IComponentStaticInfo::AttributeInfos::ValueType* attributePtr2 = attributeInfos.FindElement(attributeId);
 	if (attributePtr2 != NULL){
 		I_ASSERT(*attributePtr2 != NULL);
