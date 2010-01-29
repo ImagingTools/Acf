@@ -5,6 +5,7 @@
 #include <QDir>
 
 // ACF includes
+#include "istd/Generated/AcfVersion.h"
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.SetStringAttr("ApplicationName", "ACF CompositorMini");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
+	applicationInfo.SetIntAttr("VersionId", 0);
+	applicationInfo.SetIntAttr("VersionNumber", istd::RS_USE_VERSION);
+	applicationInfo.SetStringAttr("VersionIdDesc", "ACF");
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ApplicationSettingsProvider> applicationSettingsProvider;
