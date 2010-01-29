@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
 	applicationInfo.SetIntAttr("VersionId", 0);
 	applicationInfo.SetIntAttr("VersionNumber", istd::RS_USE_VERSION);
 	applicationInfo.SetStringAttr("VersionIdDesc", "ACF");
+	applicationInfo.InsertMultiAttr("KnownVersions", 0);
+	applicationInfo.InsertMultiAttr("KnownVersionNames", istd::CString("i"));
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ApplicationSettingsProvider> applicationSettingsProvider;
