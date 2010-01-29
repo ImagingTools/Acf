@@ -1125,8 +1125,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueData(const st
 		}
 	}
 
-	iser::ISerializable* attributePtr = attributeInfoPtr->attributePtr.GetPtr();
-	I_ASSERT(attributePtr == NULL);
+	iser::IObject* attributePtr = attributeInfoPtr->attributePtr.GetPtr();
+	I_ASSERT(attributePtr != NULL);
 
 	const QComboBox* comboEditor = dynamic_cast<const QComboBox*>(&editor);
 
