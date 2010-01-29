@@ -15,7 +15,18 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="9">
+    <Element>
+      <ComponentName>
+        AdminAuthorisationVerifier
+      </ComponentName>
+      <X>
+        -1009
+      </X>
+      <X>
+        274
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         Application
@@ -25,6 +36,28 @@
       </X>
       <X>
         -11
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        DefaultAuthorisationVerifier
+      </ComponentName>
+      <X>
+        -970
+      </X>
+      <X>
+        -95
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FixedAuthorisationVerifier
+      </ComponentName>
+      <X>
+        -937
+      </X>
+      <X>
+        93
       </X>
     </Element>
     <Element>
@@ -40,6 +73,17 @@
     </Element>
     <Element>
       <ComponentName>
+        MasterAuthorisationVerifier
+      </ComponentName>
+      <X>
+        -1280
+      </X>
+      <X>
+        274
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         Splash
       </ComponentName>
       <X>
@@ -47,6 +91,28 @@
       </X>
       <X>
         -136
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        StaticUserLogin
+      </ComponentName>
+      <X>
+        -647
+      </X>
+      <X>
+        92
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        UserAuthorisationVerifier
+      </ComponentName>
+      <X>
+        -1553
+      </X>
+      <X>
+        276
       </X>
     </Element>
   </PositionMap>
