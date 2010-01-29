@@ -7,6 +7,20 @@ namespace icomp
 
 // reimplemented (icomp::IComponentStaticInfo)
 
+int CComponentStaticInfoBase::GetComponentType() const
+{
+	return CT_NONE;
+}
+
+
+IComponent* CComponentStaticInfoBase::CreateComponent() const
+{
+	I_CRITICAL();	// trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten
+
+	return NULL;
+}
+
+
 IComponentStaticInfo::Ids CComponentStaticInfoBase::GetSubcomponentIds() const
 {
 	Ids retVal;

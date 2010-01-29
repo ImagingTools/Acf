@@ -19,6 +19,7 @@ public:
 	TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr = NULL);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
+	virtual int GetComponentType() const;
 	virtual IComponent* CreateComponent() const;
 };
 
@@ -33,6 +34,13 @@ TComponentStaticInfo<Component>::TComponentStaticInfo(const IComponentStaticInfo
 
 
 //	reimplemented (icomp::IComponentStaticInfo)
+
+template <class Component>
+int TComponentStaticInfo<Component>::GetComponentType() const
+{
+	return CT_REAL;
+}
+
 
 template <class Component>
 IComponent* TComponentStaticInfo<Component>::CreateComponent() const

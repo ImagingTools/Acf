@@ -27,6 +27,12 @@ CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 
 //	reimplemented (icomp::IComponentStaticInfo)
 
+int CCompositePackageStaticInfo::GetComponentType() const
+{
+	return CT_NONE;
+}
+
+
 icomp::IComponent* CCompositePackageStaticInfo::CreateComponent() const
 {
 	return NULL;

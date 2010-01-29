@@ -17,14 +17,6 @@ CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IComponentStaticInfo* b
 
 //	reimplemented (icomp::IComponentStaticInfo)
 
-IComponent* CBaseComponentStaticInfo::CreateComponent() const
-{
-	I_CRITICAL();	// trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten
-
-	return NULL;
-}
-
-
 const IComponentStaticInfo::InterfaceExtractors& CBaseComponentStaticInfo::GetInterfaceExtractors() const
 {
 	return m_interfaceExtractors;

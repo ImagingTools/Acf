@@ -80,11 +80,15 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(const IRegistry& re
 
 //	reimplemented (icomp::IComponentStaticInfo)
 
+int CCompositeComponentStaticInfo::GetComponentType() const
+{
+	return CT_COMPOSITE;
+}
+
+
 IComponent* CCompositeComponentStaticInfo::CreateComponent() const
 {
-	TComponentWrap<CCompositeComponent>* componentPtr = new TComponentWrap<CCompositeComponent>();
-
-	return componentPtr;
+	return new TComponentWrap<CCompositeComponent>();
 }
 
 

@@ -220,6 +220,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CEnvironmentManagerBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFactoryAttribute.cpp"
 				>
 			</File>
@@ -297,6 +301,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CEnvironmentManagerBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CFactoryAttribute.h"
 				>
 			</File>
@@ -353,7 +361,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IComponentEnvironmentManager.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IComponentStaticInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IPackagesManager.h"
 				>
 			</File>
 			<File

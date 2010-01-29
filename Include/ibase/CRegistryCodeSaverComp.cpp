@@ -196,6 +196,8 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << "#include \"icomp/CCompositeComponentStaticInfo.h\"";
 	NextLine(stream);
 	stream << "#include \"icomp/CPackageStaticInfo.h\"";
+	NextLine(stream);
+	stream << "#include \"icomp/CEnvironmentManagerBase.h\"";
 
 	stream << std::endl << std::endl;
 
@@ -340,7 +342,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << std::endl;
 
 	NextLine(stream);
-	stream << "class CFactory: public icomp::CPackageStaticInfo, virtual public icomp::IRegistriesManager";
+	stream << "class CFactory: public icomp::CEnvironmentManagerBase";
 	NextLine(stream);
 	stream << "{";
 	NextLine(stream);
@@ -355,8 +357,6 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << "// reimplemented (icomp::IRegistriesManager)";
 	NextLine(stream);
 	stream << "virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;";
-	NextLine(stream);
-	stream << "virtual istd::CString GetPackageDirPath(const std::string& packageId) const;";
 	stream << std::endl;
 
 	ChangeIndent(-1);
@@ -690,19 +690,6 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 	NextLine(stream);
 	stream << "return NULL;";
 
-	ChangeIndent(-1);
-	NextLine(stream);
-	stream << "}";
-
-	stream << std::endl << std::endl;
-
-	NextLine(stream);
-	stream << "istd::CString " << className << "::CFactory::GetPackageDirPath(const std::string& /*packageId*/) const";
-	NextLine(stream);
-	stream << "{";
-	ChangeIndent(1);
-	NextLine(stream);
-	stream << "return istd::CString();";
 	ChangeIndent(-1);
 	NextLine(stream);
 	stream << "}";

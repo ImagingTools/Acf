@@ -21,32 +21,6 @@ namespace iqt
 
 // reimplemented (icomp::IRegistryLoader)
 
-bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFilePath)
-{
-	bool retVal = true;
-
-	if (!configFilePath.IsEmpty()){
-		retVal = retVal && LoadConfigFile(configFilePath, true);
-	}
-	else{
-		if (!LoadConfigFile(iqt::GetCString("Default.xpc"), true)){
-			QDir applicationDir = QCoreApplication::applicationDirPath();
-			if (!LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("Default.xpc")), true)){
-				retVal = retVal && RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
-			}
-		}
-	}
-
-	return retVal;
-}
-
-
-istd::CString CPackagesLoaderComp::GetConfigFilePath() const
-{
-	return m_configFilePath;
-}
-
-
 const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CString& path) const
 {
 	QFileInfo fileInfo(iqt::GetQString(path));
@@ -73,23 +47,31 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CSt
 }
 
 
-// reimplemented (icomp::CComponentBase)
+// reimplemented (icomp::IComponentEnvironmentManager)
 
-void CPackagesLoaderComp::OnComponentCreated()
+bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFilePath)
 {
-	BaseClass::OnComponentCreated();
+	bool retVal = true;
 
-	if (m_configFilePathCompPtr.IsValid()){
-		istd::CString path = m_configFilePathCompPtr->GetPath();
-
-		if (!path.IsEmpty()){
+	if (!configFilePath.IsEmpty()){
+		retVal = retVal && LoadConfigFile(configFilePath, true);
+	}
+	else{
+		if (!LoadConfigFile(iqt::GetCString("Default.xpc"), true)){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
-
-			QString enrolledPath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path));
-
-			LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath(enrolledPath)), true);
+			if (!LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("Default.xpc")), true)){
+				retVal = retVal && RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
+			}
 		}
 	}
+
+	return retVal;
+}
+
+
+istd::CString CPackagesLoaderComp::GetConfigFilePath() const
+{
+	return m_configFilePath;
 }
 
 
@@ -121,6 +103,84 @@ istd::CString CPackagesLoaderComp::GetPackageDirPath(const std::string& packageI
 	}
 
 	return istd::CString::GetEmpty();
+}
+
+
+// reimplemented (icomp::IPackagesManager)
+
+CPackagesLoaderComp::ComponentAddresses CPackagesLoaderComp::GetComponentAddresses(int typeFlag) const
+{
+	ComponentAddresses retVal;
+
+	if ((typeFlag & CTF_REAL) != 0){
+		for (		NormalPackagesMap::const_iterator packageIter = m_normalPackagesMap.begin();
+					packageIter != m_normalPackagesMap.end();
+					++packageIter){
+			const std::string packageName = packageIter->first;
+
+			const IComponentStaticInfo* packageInfoPtr = GetSubcomponentInfo(packageName);
+			if (packageInfoPtr != NULL){
+				Ids componentIds = packageInfoPtr->GetSubcomponentIds();
+
+				icomp::CComponentAddress address;
+				address.SetPackageId(packageName);
+
+				for (		Ids::const_iterator componentIter = componentIds.begin();
+							componentIter != componentIds.begin();
+							++componentIter){
+					address.SetComponentId(*componentIter);
+
+					retVal.insert(address);
+				}
+			}
+		}
+	}
+
+	if ((typeFlag & CTF_COMPOSITE) != 0){
+		for (		CompositePackagesMap::const_iterator packageIter = m_compositePackagesMap.begin();
+					packageIter != m_compositePackagesMap.end();
+					++packageIter){
+			const std::string packageName = packageIter->first;
+
+			const IComponentStaticInfo* packageInfoPtr = GetSubcomponentInfo(packageName);
+			if (packageInfoPtr != NULL){
+				Ids componentIds = packageInfoPtr->GetSubcomponentIds();
+
+				icomp::CComponentAddress address;
+				address.SetPackageId(packageName);
+
+				for (		Ids::const_iterator componentIter = componentIds.begin();
+							componentIter != componentIds.begin();
+							++componentIter){
+					address.SetComponentId(*componentIter);
+
+					retVal.insert(address);
+				}
+			}
+		}
+	}
+
+	return retVal;
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CPackagesLoaderComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_configFilePathCompPtr.IsValid()){
+		istd::CString path = m_configFilePathCompPtr->GetPath();
+
+		if (!path.IsEmpty()){
+			QDir applicationDir = QCoreApplication::applicationDirPath();
+
+			QString enrolledPath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path));
+
+			LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath(enrolledPath)), true);
+		}
+	}
 }
 
 

@@ -3,7 +3,7 @@
 
 #include "istd/CClassInfo.h"
 
-#include "icomp/IRegistriesManager.h"
+#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CCompositeComponentContext.h"
 
 
@@ -227,43 +227,41 @@ void CCompositeComponent::CreateSubcomponentInfo(
 	const IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(componentId);
 	if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
 		const IRegistryElement& registryElement = *elementInfoPtr->elementPtr;
-		const IRegistriesManager& registriesManager = contextPtr->GetRegistriesManager();
 
-		// try to create composed component
-		const icomp::IRegistry* subRegistryPtr = registriesManager.GetRegistry(elementInfoPtr->address);
-		if (subRegistryPtr != NULL){
-			if (!subContextPtr.IsValid()){
-				subContextPtr.SetPtr(new CCompositeComponentContext(
-							&registryElement,
-							&registryElement.GetComponentStaticInfo(),
-							subRegistryPtr,
-							&registriesManager,
-							contextPtr));
-			}
+		const IComponentEnvironmentManager& envManager = contextPtr->GetEnvironmentManager();
+		const IComponentStaticInfo* componentInfoPtr = envManager.GetComponentStaticInfo(elementInfoPtr->address);
+		if (componentInfoPtr == NULL){
+			return;
+		}
 
-			if (subContextPtr.IsValid() && (subComponentPtr != NULL)){
-				subComponentPtr->SetPtr(new TComponentWrap<CCompositeComponent>);
-				if (subComponentPtr->IsValid()){
-					(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
+		if (!subContextPtr.IsValid()){
+			int componentType = componentInfoPtr->GetComponentType();
+			if (componentType == IComponentStaticInfo::CT_COMPOSITE){
+				// create composed component
+				const icomp::IRegistry* subRegistryPtr = envManager.GetRegistry(elementInfoPtr->address);
+				if (subRegistryPtr != NULL){
+					subContextPtr.SetPtr(new CCompositeComponentContext(
+								&registryElement,
+								componentInfoPtr,
+								subRegistryPtr,
+								&envManager,
+								contextPtr));
 				}
 			}
-		}
-		else{	// create real component
-			if (!subContextPtr.IsValid()){
+			else if (componentType == IComponentStaticInfo::CT_REAL){
+				// create real component
 				subContextPtr.SetPtr(new CComponentContext(
 							&registryElement,
-							&registryElement.GetComponentStaticInfo(),
+							componentInfoPtr,
 							contextPtr,
 							componentId));
 			}
+		}
 
-			if (subContextPtr.IsValid() && (subComponentPtr != NULL)){
-				const IComponentStaticInfo& elementStaticInfo = registryElement.GetComponentStaticInfo();
-
-				subComponentPtr->SetPtr(elementStaticInfo.CreateComponent());
-				if (subComponentPtr->IsValid()){
-					(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
-				}
+		if (subContextPtr.IsValid() && (subComponentPtr != NULL)){
+			subComponentPtr->SetPtr(componentInfoPtr->CreateComponent());
+			if (subComponentPtr->IsValid()){
+				(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
 			}
 		}
 	}

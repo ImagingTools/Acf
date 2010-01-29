@@ -240,8 +240,8 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              RegistryLoader
-            </Id>
+							EnvironmentManager
+						</Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>

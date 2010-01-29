@@ -13,11 +13,9 @@
 
 #include "iser/IFileLoader.h"
 
-#include "icomp/IRegistry.h"
-#include "icomp/IRegistriesManager.h"
 #include "icomp/IRegistryLoader.h"
 #include "icomp/CRegistry.h"
-#include "icomp/CPackageStaticInfo.h"
+#include "icomp/CEnvironmentManagerBase.h"
 #include "icomp/CComponentBase.h"
 #include "icomp/CCompositePackageStaticInfo.h"
 
@@ -37,8 +35,7 @@ namespace iqt
 */
 class CPackagesLoaderComp:
 			public ibase::CLoggerComponentBase,
-			public icomp::CPackageStaticInfo,
-			virtual public icomp::IRegistriesManager,
+			public icomp::CEnvironmentManagerBase,
 			virtual public icomp::IRegistryLoader
 {
 public:
@@ -50,25 +47,32 @@ public:
 		MI_CANNOT_CREATE_ELEMENT
 	};
 
-	I_BEGIN_COMPONENT(CPackagesLoaderComp)
-		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo)
-		I_REGISTER_INTERFACE(icomp::IRegistriesManager)
-		I_REGISTER_INTERFACE(icomp::IRegistryLoader)
-		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader")
-		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath")
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CPackagesLoaderComp);
+		I_REGISTER_INTERFACE(icomp::IRegistryLoader);
+		I_REGISTER_INTERFACE(icomp::IComponentEnvironmentManager);
+		I_REGISTER_INTERFACE(icomp::IComponentStaticInfo);
+		I_REGISTER_INTERFACE(icomp::IRegistriesManager);
+		I_REGISTER_INTERFACE(icomp::IPackagesManager);
+		I_ASSIGN(m_registryLoaderCompPtr, "RegistryLoader", "Loader used to read registry", true, "RegistryLoader");
+		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath");
+	I_END_COMPONENT;
 
 	// reimplemented (icomp::IRegistryLoader)
-	virtual bool ConfigureEnvironment(const istd::CString& configFilePath = istd::CString());
-	virtual istd::CString GetConfigFilePath() const;
 	virtual const icomp::IRegistry* GetRegistryFromFile(const istd::CString& path) const;
 
-	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	// reimplemented (icomp::IComponentEnvironmentManager)
+	virtual bool ConfigureEnvironment(const istd::CString& configFilePath = istd::CString());
+	virtual istd::CString GetConfigFilePath() const;
 
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;
 	virtual istd::CString GetPackageDirPath(const std::string& packageId) const;
+
+	// reimplemented (icomp::IPackagesManager)
+	virtual ComponentAddresses GetComponentAddresses(int typeFlag = CTF_ALL) const;
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 protected:
 	class LogingRegistry: public icomp::CRegistry

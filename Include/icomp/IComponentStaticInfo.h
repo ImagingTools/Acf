@@ -31,6 +31,13 @@ class IComponentStaticInfo: virtual public istd::IPolymorphic
 public:
 	typedef void* (*InterfaceExtractorPtr)(IComponent* componentPtr);
 
+	enum ComponentType
+	{
+		CT_NONE,
+		CT_REAL,
+		CT_COMPOSITE
+	};
+
 	/**
 		Map from class type to interface extractor implementation.
 	*/
@@ -40,6 +47,11 @@ public:
 	*/
 	typedef istd::TCascadedMap< std::string, const IAttributeStaticInfo*> AttributeInfos;
 	typedef std::set< std::string > Ids;
+
+	/**
+		Get information about component type.
+	*/
+	virtual int GetComponentType() const = 0;
 
 	/**
 		Create component instance.

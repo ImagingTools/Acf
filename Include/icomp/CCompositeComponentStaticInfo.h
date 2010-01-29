@@ -18,6 +18,7 @@ public:
 	CCompositeComponentStaticInfo(const IRegistry& registry);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
+	virtual int GetComponentType() const;
 	virtual IComponent* CreateComponent() const;
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;

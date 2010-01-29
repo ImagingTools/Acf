@@ -26,6 +26,7 @@ public:
 	CDefaultRegistryLoaderProvider();
 
 	// reimplemented (icomp::IRegistryLoaderProvider)
+	virtual icomp::IComponentEnvironmentManager* GetEnvironmentManager() const;
 	virtual icomp::IRegistryLoader* GetRegistryLoader() const;
 	
 private:
@@ -38,11 +39,16 @@ private:
 
 // public inline methods
 
-inline icomp::IRegistryLoader* CDefaultRegistryLoaderProvider::GetRegistryLoader() const
+inline icomp::IComponentEnvironmentManager* CDefaultRegistryLoaderProvider::GetEnvironmentManager() const
 {
 	return &m_packagesLoaderComp;
 }
 
+
+inline icomp::IRegistryLoader* CDefaultRegistryLoaderProvider::GetRegistryLoader() const
+{
+	return &m_packagesLoaderComp;
+}
 
 
 } // namespace iqt

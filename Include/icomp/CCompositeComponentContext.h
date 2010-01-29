@@ -11,6 +11,7 @@ namespace icomp
 
 class IRegistry;
 class IRegistriesManager;
+class IComponentEnvironmentManager;
 
 
 class CCompositeComponentContext: public CComponentContext
@@ -31,15 +32,15 @@ public:
 				const IRegistryElement* elementPtr,
 				const IComponentStaticInfo* staticInfoPtr,
 				const IRegistry* registryPtr,
-				const IRegistriesManager* registriesManagerPtr,
+				const IComponentEnvironmentManager* environmentManagerPtr,
 				const CCompositeComponentContext* parentPtr);
 
 	const IRegistry& GetRegistry() const;
-	const IRegistriesManager& GetRegistriesManager() const;
+	const IComponentEnvironmentManager& GetEnvironmentManager() const;
 
 private:
 	const IRegistry& m_registry;
-	const IRegistriesManager& m_registriesManager;
+	const IComponentEnvironmentManager& m_environmentManager;
 };
 
 
@@ -51,9 +52,9 @@ inline const IRegistry& CCompositeComponentContext::GetRegistry() const
 }
 
 
-inline const IRegistriesManager& CCompositeComponentContext::GetRegistriesManager() const
+inline const IComponentEnvironmentManager& CCompositeComponentContext::GetEnvironmentManager() const
 {
-	return m_registriesManager;
+	return m_environmentManager;
 }
 
 

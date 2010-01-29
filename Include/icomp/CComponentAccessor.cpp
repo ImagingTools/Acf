@@ -1,8 +1,10 @@
 #include "icomp/CComponentAccessor.h"
 
+
 #include "istd/CStaticServicesProvider.h"
 
 #include "icomp/IRegistryLoaderProvider.h"
+#include "icomp/IComponentEnvironmentManager.h"
 
 
 namespace icomp
@@ -21,14 +23,14 @@ CComponentAccessor::CComponentAccessor(
 
 	icomp::IRegistryLoaderProvider* registryLoaderProviderPtr = istd::GetService<icomp::IRegistryLoaderProvider>();
 	if (registryLoaderProviderPtr != NULL){
-		icomp::IRegistryLoader* registryLoaderPtr = registryLoaderProviderPtr->GetRegistryLoader();
-	
-		if (registryLoaderPtr != NULL){
-			registryLoaderPtr->ConfigureEnvironment(configFile);
+		IComponentEnvironmentManager* managerPtr = registryLoaderProviderPtr->GetEnvironmentManager();
 
-			const icomp::IComponentStaticInfo* staticInfoPtr = dynamic_cast<const icomp::IComponentStaticInfo*>(registryLoaderPtr);
-			const IRegistriesManager* registriesManagerPtr = dynamic_cast<const icomp::IRegistriesManager*>(registryLoaderPtr);
-			if ((registriesManagerPtr != NULL) && (staticInfoPtr != NULL)){
+		if (managerPtr != NULL){
+			managerPtr->ConfigureEnvironment(configFile);
+
+			const icomp::IComponentStaticInfo* staticInfoPtr = dynamic_cast<const icomp::IComponentStaticInfo*>(managerPtr);
+			const icomp::IRegistryLoader* registryLoaderPtr = registryLoaderProviderPtr->GetRegistryLoader();
+			if ((registryLoaderPtr != NULL) && (staticInfoPtr != NULL)){
 				const icomp::IRegistry* registryPtr = registryLoaderPtr->GetRegistryFromFile(m_registryFile.c_str());
 				if (registryPtr != NULL){
 					static icomp::CRegistryElement dummyElement;
@@ -38,7 +40,12 @@ CComponentAccessor::CComponentAccessor(
 					m_composite.BeginAutoInitBlock();
 					m_isAutoInitBlocked = true;
 
-					static icomp::CCompositeComponentContext compositeContext(&dummyElement, staticInfoPtr, registryPtr, registriesManagerPtr, NULL);
+					static icomp::CCompositeComponentContext compositeContext(
+								&dummyElement,
+								staticInfoPtr,
+								registryPtr,
+								managerPtr,
+								NULL);
 					m_composite.SetComponentContext(&compositeContext, NULL, false);
 				}
 			}

@@ -7,12 +7,6 @@ namespace icomp
 
 // reimplemented (icomp::IPackageStaticInfo)
 
-IComponent* CPackageStaticInfo::CreateComponent() const
-{
-	return NULL;
-}
-
-
 const CPackageStaticInfo::InterfaceExtractors& CPackageStaticInfo::GetInterfaceExtractors() const
 {
 	static InterfaceExtractors empty;

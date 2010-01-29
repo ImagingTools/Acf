@@ -19,6 +19,9 @@ namespace icomp
 {
 
 
+class IPackagesManager;
+
+
 class CCompositeComponent:
 			public CComponentBase,
 			public CInterfaceManipBase
@@ -26,10 +29,10 @@ class CCompositeComponent:
 public:
 	typedef CComponentBase BaseClass;
 
+	CCompositeComponent();
+
 	template <class InterfaceType>
 	InterfaceType* GetComponentInterface(const std::string& subId = "");
-
-	CCompositeComponent();
 
 	/**
 		Begin of blocking of automatic component initialization.
@@ -99,8 +102,10 @@ private:
 };
 
 
+// inline methods
+
 template <class InterfaceType>
-InterfaceType* CCompositeComponent::GetComponentInterface(const std::string& subId)
+inline InterfaceType* CCompositeComponent::GetComponentInterface(const std::string& subId)
 {
 	static istd::CClassInfo info(typeid(InterfaceType));
 
