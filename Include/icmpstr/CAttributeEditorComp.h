@@ -13,13 +13,14 @@
 #include "istd/TDelPtr.h"
 #include "istd/CClassInfo.h"
 
+#include "icomp/IMetaInfoManager.h"
+#include "icomp/IRegistryElement.h"
+
 #include "idoc/IHelpViewer.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CTreeWidgetFilter.h"
 #include "iqtgui/CItemDelegate.h"
-
-#include "icomp/IRegistryElement.h"
 
 #include "icmpstr/IAttributeSelectionObserver.h"
 #include "icmpstr/IElementSelectionInfo.h"
@@ -38,6 +39,7 @@ class CAttributeEditorComp: public iqtgui::TDesignerGuiObserverCompBase<Ui::CAtt
 public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CAttributeEditorComp, IElementSelectionInfo> BaseClass;
 	I_BEGIN_COMPONENT(CAttributeEditorComp);
+		I_ASSIGN(m_metaInfoManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
 		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "Attribute selection observer", false, "AttributeSelectionObserver");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Shows object info during selection using its type", false, "QuickHelpViewer");
 	I_END_COMPONENT;
@@ -81,6 +83,7 @@ public:
 	icomp::IRegistry* GetRegistry() const;
 	icomp::IRegistryElement* GetRegistryElement() const;
 	const std::string& GetRegistryElementName() const;
+	icomp::CComponentAddress GetComponentAddress() const;
 	icomp::IRegistryElement::AttributeInfo* GetRegistryAttribute(const std::string& id) const;
 	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const std::string& id) const;
 	QStringList GetCompatibleComponents(const istd::CClassInfo& interfaceInfo) const;
@@ -174,6 +177,7 @@ private:
 
 	QIcon m_exportIcon;
 
+	I_REF(icomp::IMetaInfoManager, m_metaInfoManagerCompPtr);
 	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 };

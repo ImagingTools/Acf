@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1234
+          1318
         </Number>
         <Description>
           ACF
@@ -240,8 +240,8 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-							EnvironmentManager
-						</Id>
+              EnvironmentManager
+            </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
@@ -552,10 +552,34 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="5">
+  <ExportedInterfaces count="7">
+    <Interface>
+      <InterfaceId>
+        ibase::ICommandsProvider
+      </InterfaceId>
+      <ComponentId>
+        DocumentTemplate
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        icomp::IComponentEnvironmentManager
+      </InterfaceId>
+      <ComponentId>
+        PackagesLoader
+      </ComponentId>
+    </Interface>
     <Interface>
       <InterfaceId>
         icomp::IComponentStaticInfo
+      </InterfaceId>
+      <ComponentId>
+        PackagesLoader
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        icomp::IMetaInfoManager
       </InterfaceId>
       <ComponentId>
         PackagesLoader
@@ -575,14 +599,6 @@
       </InterfaceId>
       <ComponentId>
         PackagesLoader
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        ibase::ICommandsProvider
-      </InterfaceId>
-      <ComponentId>
-        DocumentTemplate
       </ComponentId>
     </Interface>
     <Interface>

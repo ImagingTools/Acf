@@ -83,13 +83,22 @@ icomp::IRegistryElement::AttributeInfo* CAttributeEditorComp::GetRegistryAttribu
 
 const icomp::IAttributeStaticInfo* CAttributeEditorComp::GetStaticAttributeInfo(const std::string& id) const
 {
-	const icomp::IRegistryElement* elementPtr = GetRegistryElement();
-	if (elementPtr == NULL){
+	const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
+	if ((selectionInfoPtr == NULL) || !m_metaInfoManagerCompPtr.IsValid()){
 		return NULL;
 	}
 
-	const icomp::IComponentStaticInfo& elementStaticInfo = elementPtr->GetComponentStaticInfo();
-	const icomp::IComponentStaticInfo::AttributeInfos& staticAttributes = elementStaticInfo.GetAttributeInfos();
+	const icomp::CComponentAddress* addressPtr = selectionInfoPtr->GetSelectedElementAddress();
+	if (addressPtr == NULL){
+		return NULL;
+	}
+
+	const icomp::IComponentStaticInfo* componentInfoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(*addressPtr);
+	if (componentInfoPtr == NULL){
+		return NULL;
+	}
+
+	const icomp::IComponentStaticInfo::AttributeInfos& staticAttributes = componentInfoPtr->GetAttributeInfos();
 
 	const icomp::IComponentStaticInfo::AttributeInfos::ValueType* attrInfoPtr2 =
 				staticAttributes.FindElement(id);
@@ -105,32 +114,26 @@ const icomp::IAttributeStaticInfo* CAttributeEditorComp::GetStaticAttributeInfo(
 	
 QStringList CAttributeEditorComp::GetCompatibleComponents(const istd::CClassInfo& interfaceInfo) const
 {
-	IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
-	if (selectionInfoPtr == NULL){
-		return QStringList();
-	}
-
-	const icomp::IRegistry* registryPtr = selectionInfoPtr->GetSelectedRegistry();
-	if (registryPtr == NULL){
-		return QStringList();
-	}
-
 	QStringList retVal;
 
-	icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
-	for (		icomp::IRegistry::Ids::const_iterator index = elementIds.begin();
-				index != elementIds.end();
-				index++){
-		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*index);
-		I_ASSERT(elementInfoPtr != NULL);
-		I_ASSERT(elementInfoPtr->elementPtr.IsValid());
+	const icomp::IRegistry* registryPtr = GetRegistry();
+	if ((registryPtr != NULL) && m_metaInfoManagerCompPtr.IsValid()){
+		icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
+		for (		icomp::IRegistry::Ids::const_iterator index = elementIds.begin();
+					index != elementIds.end();
+					index++){
+			const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*index);
+			I_ASSERT(elementInfoPtr != NULL);	// element ID was taken from this registry, it must exist
 
-		const icomp::IComponentStaticInfo& staticInfo = elementInfoPtr->elementPtr.GetPtr()->GetComponentStaticInfo();
+			const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(elementInfoPtr->address);
 
-		retVal += GetCompatibleSubcomponents(
-					*index,
-					staticInfo,
-					interfaceInfo);
+			if (infoPtr != NULL){
+				retVal += GetCompatibleSubcomponents(
+							*index,
+							*infoPtr,
+							interfaceInfo);
+			}
+		}
 	}
 
 	return retVal;
@@ -191,30 +194,36 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 	const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
 	const icomp::IRegistryElement* elementPtr = GetRegistryElement();
 
-	bool isSelected = ((selectionInfoPtr != NULL) && (elementPtr != NULL));
-	MainTab->setVisible(isSelected);
+	if ((selectionInfoPtr == NULL) || (elementPtr == NULL)){
+		MainTab->setVisible(false);
 
-	if (!isSelected){
 		return;
+	}
+	else{
+		MainTab->setVisible(true);
 	}
 
 	AttributeTree->clear();
 	InterfacesTree->clear();
 	ComponentsTree->clear();
 
-	const icomp::IComponentStaticInfo& elementStaticInfo = elementPtr->GetComponentStaticInfo();
-	const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = elementStaticInfo.GetAttributeInfos();
+	bool isCorrect = true;
+	const std::string& elementId = selectionInfoPtr->GetSelectedElementName();
+	QTreeWidgetItem* componentRootPtr = new QTreeWidgetItem();
+	componentRootPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+	componentRootPtr->setText(NameColumn, tr("this"));
+	componentRootPtr->setData(ValueColumn, AttributeId, QString(elementId.c_str()));
+	componentRootPtr->setData(ValueColumn, AttributeMining, ComponentExport);
+	componentRootPtr->setText(ValueColumn, GetExportAliases(elementId).join(";"));
 
-	NameLabel->setText(selectionInfoPtr->GetSelectedElementName().c_str());
-	const QIcon* iconPtr = selectionInfoPtr->GetSelectedElementIcon();
-	if (iconPtr != NULL){
-		IconLabel->setPixmap(iconPtr->pixmap(128));
-	}
-
-	IconLabel->setVisible(iconPtr != NULL);
+	const icomp::IComponentStaticInfo* infoPtr = NULL;
 
 	const icomp::CComponentAddress* addressPtr = selectionInfoPtr->GetSelectedElementAddress();
 	if (addressPtr != NULL){
+		if (m_metaInfoManagerCompPtr.IsValid()){
+			infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(*addressPtr);
+		}
+
 		PackageIdLabel->setText(addressPtr->GetPackageId().c_str());
 		ComponentIdLabel->setText(addressPtr->GetComponentId().c_str());
 		PackageIdLabel->setVisible(true);
@@ -225,74 +234,77 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 		ComponentIdLabel->setVisible(false);
 	}
 
-	DescriptionLabel->setText(iqt::GetQString(elementStaticInfo.GetDescription()));
-	KeywordsLabel->setText(iqt::GetQString(elementStaticInfo.GetKeywords()));
+	if (infoPtr != NULL){
+		const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = infoPtr->GetAttributeInfos();
 
-	bool hasExport = false;
-	bool isCorrect = true;
-
-	for (int staticAttributeIndex = 0; staticAttributeIndex < staticAttributes.GetElementsCount(); staticAttributeIndex++){
-		const std::string& attributeId = staticAttributes.GetKeyAt(staticAttributeIndex);
-		const icomp::IAttributeStaticInfo* staticAttributeInfPtr = staticAttributes.GetValueAt(staticAttributeIndex);
-		I_ASSERT(staticAttributeInfPtr != NULL);
-
-		QTreeWidgetItem* attributeItemPtr = new QTreeWidgetItem();
-		QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem(attributeItemPtr);
-
-		bool exportFlag;
-		bool correctFlag;
-		SetAttributeToItems(attributeId, *staticAttributeInfPtr, *attributeItemPtr, *exportItemPtr, &exportFlag, &correctFlag);
-
-		hasExport = hasExport || exportFlag;
-		isCorrect = isCorrect && correctFlag;
-
-		AttributeTree->addTopLevelItem(attributeItemPtr);
-		attributeItemPtr->addChild(exportItemPtr);
-	}
-
-	AttributeTree->resizeColumnToContents(0);
-
-	const icomp::IComponentStaticInfo::InterfaceExtractors extractors = elementStaticInfo.GetInterfaceExtractors();
-
-	icomp::IRegistry::ExportedInterfacesMap interfacesMap;
-
-	const icomp::IRegistry* registryPtr = selectionInfoPtr->GetSelectedRegistry();
-	if (registryPtr != NULL){
-		interfacesMap = registryPtr->GetExportedInterfacesMap();
-	}
-
-	for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
-		const istd::CClassInfo& interfaceInfo = extractors.GetKeyAt(extractorIndex);
-		QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
-
-		itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
-		itemPtr->setText(0, interfaceInfo.GetName().c_str());
-
-		icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceInfo);
-		bool isInterfaceExported = false;
-		if (foundExportIter != interfacesMap.end()){
-			isInterfaceExported = (foundExportIter->second == selectionInfoPtr->GetSelectedElementName());
+		NameLabel->setText(elementId.c_str());
+		const QIcon* iconPtr = selectionInfoPtr->GetSelectedElementIcon();
+		if (iconPtr != NULL){
+			IconLabel->setPixmap(iconPtr->pixmap(128));
 		}
 
-		itemPtr->setCheckState(0, isInterfaceExported? Qt::Checked: Qt::Unchecked);
+		IconLabel->setVisible(iconPtr != NULL);
 
-		InterfacesTree->addTopLevelItem(itemPtr);
+		DescriptionLabel->setText(iqt::GetQString(infoPtr->GetDescription()));
+		KeywordsLabel->setText(iqt::GetQString(infoPtr->GetKeywords()));
+
+		bool hasExport = false;
+
+		for (int staticAttributeIndex = 0; staticAttributeIndex < staticAttributes.GetElementsCount(); staticAttributeIndex++){
+			const std::string& attributeId = staticAttributes.GetKeyAt(staticAttributeIndex);
+			const icomp::IAttributeStaticInfo* staticAttributeInfPtr = staticAttributes.GetValueAt(staticAttributeIndex);
+			I_ASSERT(staticAttributeInfPtr != NULL);
+
+			QTreeWidgetItem* attributeItemPtr = new QTreeWidgetItem();
+			QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem(attributeItemPtr);
+
+			bool exportFlag;
+			bool correctFlag;
+			SetAttributeToItems(attributeId, *staticAttributeInfPtr, *attributeItemPtr, *exportItemPtr, &exportFlag, &correctFlag);
+
+			hasExport = hasExport || exportFlag;
+			isCorrect = isCorrect && correctFlag;
+
+			AttributeTree->addTopLevelItem(attributeItemPtr);
+			attributeItemPtr->addChild(exportItemPtr);
+		}
+
+		AttributeTree->resizeColumnToContents(0);
+
+		const icomp::IComponentStaticInfo::InterfaceExtractors extractors = infoPtr->GetInterfaceExtractors();
+
+		icomp::IRegistry::ExportedInterfacesMap interfacesMap;
+
+		const icomp::IRegistry* registryPtr = selectionInfoPtr->GetSelectedRegistry();
+		if (registryPtr != NULL){
+			interfacesMap = registryPtr->GetExportedInterfacesMap();
+		}
+
+		for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
+			const istd::CClassInfo& interfaceInfo = extractors.GetKeyAt(extractorIndex);
+			QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
+
+			itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
+			itemPtr->setText(0, interfaceInfo.GetName().c_str());
+
+			icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceInfo);
+			bool isInterfaceExported = false;
+			if (foundExportIter != interfacesMap.end()){
+				isInterfaceExported = (foundExportIter->second == elementId);
+			}
+
+			itemPtr->setCheckState(0, isInterfaceExported? Qt::Checked: Qt::Unchecked);
+
+			InterfacesTree->addTopLevelItem(itemPtr);
+		}
+
+		I_DWORD elementFlags = elementPtr->GetElementFlags();
+		AutoInstanceCB->setChecked((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0);
+
+		CreateComponentsTree(elementId, *infoPtr, *componentRootPtr);
+
+		ComponentsTree->addTopLevelItem(componentRootPtr);
 	}
-
-	I_DWORD elementFlags = elementPtr->GetElementFlags();
-	AutoInstanceCB->setChecked((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0);
-
-	const std::string& elementId = selectionInfoPtr->GetSelectedElementName();
-	QTreeWidgetItem* componentRootPtr = new QTreeWidgetItem();
-	componentRootPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
-	componentRootPtr->setText(NameColumn, tr("this"));
-	componentRootPtr->setData(ValueColumn, AttributeId, QString(elementId.c_str()));
-	componentRootPtr->setData(ValueColumn, AttributeMining, ComponentExport);
-	componentRootPtr->setText(ValueColumn, GetExportAliases(elementId).join(";"));
-
-	CreateComponentsTree(elementId, elementStaticInfo, *componentRootPtr);
-
-	ComponentsTree->addTopLevelItem(componentRootPtr);
 
 	MainTab->setTabIcon(TI_ATTRIBUTES, isCorrect? QIcon(): QIcon(":/Icons/StateInvalid.svg"));
 

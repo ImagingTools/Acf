@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          904
+          1318
         </Number>
         <Description>
           ACF
@@ -30,6 +30,9 @@
         <IsEnabled>
           true
         </IsEnabled>
+        <Flags>
+          0
+        </Flags>
         <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
@@ -86,7 +89,10 @@
         <IsEnabled>
           true
         </IsEnabled>
-        <AttributeInfoMap count="2">
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               AttributeSelectionObserver
@@ -96,6 +102,22 @@
             </Type>
             <ExportId>
               AttributeSelectionObserver
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MetaInfoManager
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              MetaInfoManager
             </ExportId>
             <Data>
               <IsEnabled>

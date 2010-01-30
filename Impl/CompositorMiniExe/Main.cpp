@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
 	// attribute editor:
 	icomp::TSimComponentWrap<CmpstrPck::AttributeEditor> attributeEditorComp;
 	attributeEditorComp.SetRef("AttributeSelectionObserver", &packageOverviewComp);
+	attributeEditorComp.SetRef("MetaInfoManager", &packagesLoaderComp);
 	attributeEditorComp.InitComponent();
 
 	// registry model
