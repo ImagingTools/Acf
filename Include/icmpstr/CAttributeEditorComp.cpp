@@ -911,9 +911,6 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportEditor(const
 
 bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeExportEditor(const std::string& id, QWidget& editor) const
 {
-	icomp::IRegistryElement* elementPtr = m_parent.GetRegistryElement();
-	I_ASSERT(elementPtr != NULL);
-
 	std::string exportId;
 	const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = m_parent.GetRegistryAttribute(id);
 	if (attributeInfoPtr != NULL){
