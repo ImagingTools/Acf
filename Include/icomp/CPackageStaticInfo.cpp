@@ -24,7 +24,7 @@ CPackageStaticInfo::CPackageStaticInfo(
 
 const CPackageStaticInfo::InterfaceExtractors& CPackageStaticInfo::GetInterfaceExtractors() const
 {
-	static InterfaceExtractors empty;
+	static CascInterfaceExtractors empty;
 
 	return empty;
 }
@@ -32,7 +32,7 @@ const CPackageStaticInfo::InterfaceExtractors& CPackageStaticInfo::GetInterfaceE
 
 const CPackageStaticInfo::AttributeInfos& CPackageStaticInfo::GetAttributeInfos() const
 {
-	static AttributeInfos empty;
+	static CascAttributeInfos empty;
 
 	return empty;
 }

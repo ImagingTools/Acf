@@ -5,7 +5,7 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
-#include "istd/TCascadedMap.h"
+#include "istd/TIMap.h"
 #include "istd/CClassInfo.h"
 
 #include "icomp/IComponent.h"
@@ -41,12 +41,12 @@ public:
 	/**
 		Map from class type to interface extractor implementation.
 	*/
-	typedef istd::TCascadedMap<istd::CClassInfo, InterfaceExtractorPtr> InterfaceExtractors;
+	typedef istd::TIMap<istd::CClassInfo, InterfaceExtractorPtr> InterfaceExtractors;
 	/**
 		Map from attribute name string to attribute static info object.
 	*/
-	typedef istd::TCascadedMap< std::string, const IAttributeStaticInfo*> AttributeInfos;
-	typedef std::set< std::string > Ids;
+	typedef istd::TIMap<std::string, const IAttributeStaticInfo*> AttributeInfos;
+	typedef std::set<std::string> Ids;
 
 	/**
 		Get information about component type.

@@ -239,7 +239,7 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 	IconLabel->setVisible(iconPtr != NULL);
 
 	if (infoPtr != NULL){
-		const icomp::IComponentStaticInfo::AttributeInfos staticAttributes = infoPtr->GetAttributeInfos();
+		const icomp::IComponentStaticInfo::AttributeInfos& staticAttributes = infoPtr->GetAttributeInfos();
 
 		DescriptionLabel->setText(iqt::GetQString(infoPtr->GetDescription()));
 		KeywordsLabel->setText(iqt::GetQString(infoPtr->GetKeywords()));
@@ -267,7 +267,7 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 
 		AttributeTree->resizeColumnToContents(0);
 
-		const icomp::IComponentStaticInfo::InterfaceExtractors extractors = infoPtr->GetInterfaceExtractors();
+		const icomp::IComponentStaticInfo::InterfaceExtractors& extractors = infoPtr->GetInterfaceExtractors();
 
 		icomp::IRegistry::ExportedInterfacesMap interfacesMap;
 
@@ -697,7 +697,7 @@ QStringList CAttributeEditorComp::GetCompatibleSubcomponents(
 		retVal.push_back(iqt::GetQString(elementId.c_str()));
 	}
 	else{
-		icomp::IComponentStaticInfo::InterfaceExtractors interfaceExtractors = elementStaticInfo.GetInterfaceExtractors();
+		const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = elementStaticInfo.GetInterfaceExtractors();
 		const icomp::IComponentStaticInfo::InterfaceExtractorPtr* extractorPtr = interfaceExtractors.FindElement(interfaceInfo);
 		if (extractorPtr != NULL){
 			retVal.push_back(iqt::GetQString(elementId.c_str()));

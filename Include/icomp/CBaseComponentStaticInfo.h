@@ -31,8 +31,8 @@ public:
 private:
 	const IComponentStaticInfo* m_baseComponentPtr;
 
-	InterfaceExtractors m_interfaceExtractors;
-	AttributeInfos m_attributeInfos;
+	CascInterfaceExtractors m_interfaceExtractors;
+	CascAttributeInfos m_attributeInfos;
 };
 
 

@@ -2,6 +2,8 @@
 #define icomp_CComponentStaticInfoBase_included
 
 
+#include "istd/TCascadedMap.h"
+
 #include "icomp/IComponentStaticInfo.h"
 
 
@@ -26,6 +28,9 @@ public:
 	virtual const istd::CString& GetKeywords() const;
 
 protected:
+	typedef istd::TCascadedMap<istd::CClassInfo, InterfaceExtractorPtr> CascInterfaceExtractors;
+	typedef istd::TCascadedMap<std::string, const IAttributeStaticInfo*> CascAttributeInfos;
+
 	void ResetSubcomponentList();
 
 private:

@@ -5,8 +5,8 @@
 #include "istd/TCascadedMap.h"
 #include "istd/TDelPtr.h"
 
-#include "icomp/IComponentStaticInfo.h"
 #include "icomp/IComponentEnvironmentManager.h"
+#include "icomp/CComponentStaticInfoBase.h"
 #include "icomp/CCompositeComponentStaticInfo.h"
 
 
@@ -14,7 +14,7 @@ namespace icomp
 {
 
 
-class CCompositePackageStaticInfo: public icomp::IComponentStaticInfo
+class CCompositePackageStaticInfo: public icomp::CComponentStaticInfoBase
 {
 public:
 	CCompositePackageStaticInfo(
@@ -23,8 +23,6 @@ public:
 				const icomp::IComponentEnvironmentManager* managerPtr);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
-	virtual int GetComponentType() const;
-	virtual icomp::IComponent* CreateComponent() const;
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
 	virtual Ids GetSubcomponentIds() const;

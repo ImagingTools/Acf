@@ -28,21 +28,9 @@ CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 
 //	reimplemented (icomp::IComponentStaticInfo)
 
-int CCompositePackageStaticInfo::GetComponentType() const
-{
-	return CT_NONE;
-}
-
-
-icomp::IComponent* CCompositePackageStaticInfo::CreateComponent() const
-{
-	return NULL;
-}
-
-
 const icomp::IComponentStaticInfo::InterfaceExtractors& CCompositePackageStaticInfo::GetInterfaceExtractors() const
 {
-	static InterfaceExtractors empty;
+	static CascInterfaceExtractors empty;
 
 	return empty;
 }
@@ -50,7 +38,7 @@ const icomp::IComponentStaticInfo::InterfaceExtractors& CCompositePackageStaticI
 
 const icomp::IComponentStaticInfo::AttributeInfos& CCompositePackageStaticInfo::GetAttributeInfos() const
 {
-	static AttributeInfos empty;
+	static CascAttributeInfos empty;
 
 	return empty;
 }

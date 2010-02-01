@@ -398,6 +398,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TIMap.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TIndex.h"
 				>
 			</File>
