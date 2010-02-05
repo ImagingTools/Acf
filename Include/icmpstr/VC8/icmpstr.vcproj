@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryConsistInfoComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CRegistryElementShape.cpp"
 				>
 			</File>
@@ -288,6 +292,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryConsistInfoComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CRegistryElementShape.h"
 				>
 			</File>
@@ -357,6 +365,10 @@
 			</File>
 			<File
 				RelativePath="..\IElementSelectionInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IRegistryConsistInfo.h"
 				>
 			</File>
 			<File
