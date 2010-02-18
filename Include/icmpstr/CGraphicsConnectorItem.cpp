@@ -218,20 +218,12 @@ void CGraphicsConnectorItem::paint(QPainter *painter, const QStyleOptionGraphics
 	painter->setRenderHints(QPainter::Antialiasing, isSelected());
 
 	QColor referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? Qt::darkYellow: Qt::darkBlue;
-	double referencePenWidth = 0;
-	double interfacePenWidth = 0;
-
-	if (isSelected()){
-		referencePenWidth = 2;
-		interfacePenWidth = 2;
-	}
 
 	if (m_isSourceSelected){
 		referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
-		referencePenWidth = 2;
 	}
 
-	painter->setPen(QPen(referenceColor, referencePenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->setPen(QPen(referenceColor, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	painter->drawLine(m_touchPoint, m_touchPoint + iqt::GetQPointF(circleDirection));
 	
 	painter->save();
@@ -244,16 +236,15 @@ void CGraphicsConnectorItem::paint(QPainter *painter, const QStyleOptionGraphics
 
 	if (m_isDestSelected){
 		interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
-		interfacePenWidth = 2;
 	}
 
-	painter->setPen(QPen(interfaceColor, interfacePenWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->setPen(QPen(interfaceColor, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	painter->setBrush(interfaceColor);
 	QRectF circleRect(circlePoint.x() - GP_RADIUS, circlePoint.y() - GP_RADIUS, GP_RADIUS * 2, GP_RADIUS * 2);
 	painter->drawEllipse(circleRect);
 
 	if ((m_connectFlags & CF_EMBEDDED) != 0){
-		painter->setPen(QPen(interfaceColor, interfacePenWidth, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin));
+		painter->setPen(QPen(interfaceColor, 0, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin));
 	}
 
 	painter->setRenderHints(QPainter::Antialiasing, false);

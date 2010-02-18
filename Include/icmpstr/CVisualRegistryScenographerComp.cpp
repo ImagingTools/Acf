@@ -147,6 +147,14 @@ void CVisualRegistryScenographerComp::OnUpdate(int updateFlags, istd::IPolymorph
 		AddConnectorsToScene();
 	}
 
+	QList<QGraphicsItem*> items = m_scenePtr->items();
+	foreach(QGraphicsItem* itemPtr, items){
+		CRegistryElementShape* elementShapePtr = dynamic_cast<CRegistryElementShape*>(itemPtr);
+		if (elementShapePtr != NULL){
+			elementShapePtr->CheckConsistency();
+		}
+	}
+
 	UpdateComponentSelection();
 
 	m_isUpdating = false;

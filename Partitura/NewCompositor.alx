@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1343
+          1347
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="27">
+  <PositionMap count="11">
     <Element>
       <ComponentName>
         Application
@@ -25,28 +25,6 @@
       </X>
       <X>
         -38
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        AttributeDock
-      </ComponentName>
-      <X>
-        144
-      </X>
-      <X>
-        4
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        AttributeEditor
-      </ComponentName>
-      <X>
-        179
-      </X>
-      <X>
-        199
       </X>
     </Element>
     <Element>
@@ -95,28 +73,6 @@
     </Element>
     <Element>
       <ComponentName>
-        DocumentTemplate
-      </ComponentName>
-      <X>
-        -222
-      </X>
-      <X>
-        -107
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        DoxygenHelpFileProvider
-      </ComponentName>
-      <X>
-        218
-      </X>
-      <X>
-        221
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
         ElementInfoBinder
       </ComponentName>
       <X>
@@ -124,28 +80,6 @@
       </X>
       <X>
         -111.704
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Instantiator
-      </ComponentName>
-      <X>
-        251
-      </X>
-      <X>
-        -120
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Log
-      </ComponentName>
-      <X>
-        771
-      </X>
-      <X>
-        19
       </X>
     </Element>
     <Element>
@@ -161,39 +95,6 @@
     </Element>
     <Element>
       <ComponentName>
-        ModelBinder
-      </ComponentName>
-      <X>
-        -29
-      </X>
-      <X>
-        -204
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        NewCompositorTemplate
-      </ComponentName>
-      <X>
-        407
-      </X>
-      <X>
-        348
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        PackageOverview
-      </ComponentName>
-      <X>
-        -38
-      </X>
-      <X>
-        324
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
         PackageOverviewDock
       </ComponentName>
       <X>
@@ -205,39 +106,6 @@
     </Element>
     <Element>
       <ComponentName>
-        PackagesLoader
-      </ComponentName>
-      <X>
-        -475
-      </X>
-      <X>
-        299
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Preview
-      </ComponentName>
-      <X>
-        -332
-      </X>
-      <X>
-        32
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        QuickHelpDoc
-      </ComponentName>
-      <X>
-        228
-      </X>
-      <X>
-        112
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
         QuickHelpDock
       </ComponentName>
       <X>
@@ -245,50 +113,6 @@
       </X>
       <X>
         50
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        QuickHelpViewer
-      </ComponentName>
-      <X>
-        239
-      </X>
-      <X>
-        118
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Registry
-      </ComponentName>
-      <X>
-        -14
-      </X>
-      <X>
-        -264
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        RegistryEditor
-      </ComponentName>
-      <X>
-        -121
-      </X>
-      <X>
-        57
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        RegistryLoader
-      </ComponentName>
-      <X>
-        -680
-      </X>
-      <X>
-        -218
       </X>
     </Element>
     <Element>

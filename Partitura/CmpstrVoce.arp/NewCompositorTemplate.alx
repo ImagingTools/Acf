@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1343
+          1347
         </Number>
         <Description>
           ACF
@@ -15,40 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="21">
-    <Element>
-      <ComponentName>
-        Application
-      </ComponentName>
-      <X>
-        452
-      </X>
-      <X>
-        -97
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        AttributeDock
-      </ComponentName>
-      <X>
-        144
-      </X>
-      <X>
-        4
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        AttributeEditor
-      </ComponentName>
-      <X>
-        20
-      </X>
-      <X>
-        202
-      </X>
-    </Element>
+  <PositionMap count="8">
     <Element>
       <ComponentName>
         DocumentTemplate
@@ -58,61 +25,6 @@
       </X>
       <X>
         -380
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        DoxygenHelpFileProvider
-      </ComponentName>
-      <X>
-        218
-      </X>
-      <X>
-        221
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Log
-      </ComponentName>
-      <X>
-        771
-      </X>
-      <X>
-        19
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        LogDock
-      </ComponentName>
-      <X>
-        771
-      </X>
-      <X>
-        19
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        PackageOverview
-      </ComponentName>
-      <X>
-        59
-      </X>
-      <X>
-        326
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        PackageOverviewDock
-      </ComponentName>
-      <X>
-        267
-      </X>
-      <X>
-        313
       </X>
     </Element>
     <Element>
@@ -139,50 +51,6 @@
     </Element>
     <Element>
       <ComponentName>
-        QuickHelpDoc
-      </ComponentName>
-      <X>
-        228
-      </X>
-      <X>
-        112
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        QuickHelpDock
-      </ComponentName>
-      <X>
-        253
-      </X>
-      <X>
-        106
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        QuickHelpViewer
-      </ComponentName>
-      <X>
-        239
-      </X>
-      <X>
-        118
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Registry
-      </ComponentName>
-      <X>
-        -444
-      </X>
-      <X>
-        -199
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
         RegistryCodeSaver
       </ComponentName>
       <X>
@@ -194,13 +62,13 @@
     </Element>
     <Element>
       <ComponentName>
-        RegistryEditor
+        RegistryConsistInfo
       </ComponentName>
       <X>
-        1
+        -181.019
       </X>
       <X>
-        -25
+        -294.156
       </X>
     </Element>
     <Element>
@@ -223,17 +91,6 @@
       </X>
       <X>
         -210
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        VisualRegistryGui
-      </ComponentName>
-      <X>
-        42
-      </X>
-      <X>
-        -213
       </X>
     </Element>
     <Element>

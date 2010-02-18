@@ -29,13 +29,21 @@ class CRegistryElementShape: public iqt2d::TObjectShapeBase<QGraphicsRectItem, C
 public:
 	typedef iqt2d::TObjectShapeBase<QGraphicsRectItem, CVisualRegistryElement> BaseClass;
 
-	CRegistryElementShape(const CVisualRegistryScenographerComp* registryViewPtr, const iqt2d::ISceneProvider* providerPtr = NULL);
+	CRegistryElementShape(
+				const CVisualRegistryScenographerComp* registryViewPtr,
+				const iqt2d::ISceneProvider* providerPtr = NULL);
 
 	QRectF GetViewRect() const;
+
+	/**
+		Check consistency, if it is changed do update.
+	*/
+	void CheckConsistency();
 
 	// reimplemented (QGraphicsItem)
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter* painterPtr, const QStyleOptionGraphicsItem* stylePtr, QWidget* widgetPtr);
+	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
@@ -47,7 +55,7 @@ signals:
 protected:
 	enum
 	{
-		SIDE_OFFSET = 3,
+		SIDE_OFFSET = 4,
 		SHADOW_OFFSET = 10
 	};
 
@@ -82,6 +90,8 @@ private:
 	QStringList m_exportedInterfacesList;
 
 	QPointF m_lastClickPosition;
+
+	bool m_isConsistent;
 };
 
 

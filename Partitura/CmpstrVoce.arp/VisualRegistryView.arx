@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1346
+          1347
         </Number>
         <Description>
           ACF
@@ -170,7 +170,23 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="6">
+          <AttributeInfo>
+            <Id>
+              ConsistencyInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              ConsistencyInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               MetaInfoManager

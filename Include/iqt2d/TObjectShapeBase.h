@@ -34,6 +34,7 @@ protected:
 
 	// reimplemented (QGraphicsItem) 
 	virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value);
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent* eventPtr);
 	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 	// reimplemented (imod::IObserver)
@@ -46,6 +47,8 @@ private:
 	QPointF m_lastPosition;
 
 	bool m_isShapeUpdateBlocked;
+
+	istd::CChangeNotifier m_mousePressingNotifier;
 };
 
 
@@ -54,7 +57,8 @@ private:
 template <class GraphicsItemClass, class ObjectClass>
 TObjectShapeBase<GraphicsItemClass, ObjectClass>::TObjectShapeBase(bool isEditable, const ISceneProvider* providerPtr)
 :	BaseClass(isEditable, providerPtr),
-	m_isShapeUpdateBlocked(false)
+	m_isShapeUpdateBlocked(false),
+	m_mousePressingNotifier(NULL)
 {
 	BaseClass::SetPen(BaseClass::InactiveColor, QPen(Qt::darkGreen, 0));
 	BaseClass::SetPen(BaseClass::EditableColor, QPen(Qt::green, 0));
@@ -121,13 +125,24 @@ QVariant TObjectShapeBase<GraphicsItemClass, ObjectClass>::itemChange(QGraphicsI
 
 
 template <class GraphicsItemClass, class ObjectClass>
+void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mousePressEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	BaseClass::mousePressEvent(eventPtr);
+
+	if (IsEditable() && (eventPtr->button() == Qt::LeftButton)){
+		m_lastPosition = pos();
+
+		m_mousePressingNotifier.SetPtr(GetObjectPtr());
+	}
+}
+
+
+template <class GraphicsItemClass, class ObjectClass>
 void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr)
 {
 	BaseClass::mouseReleaseEvent(eventPtr);
 
-	if (eventPtr->button() == Qt::LeftButton){
-		m_lastPosition = pos();
-	}
+	m_mousePressingNotifier.Reset();
 }
 
 

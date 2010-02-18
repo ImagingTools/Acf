@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1343
+          1347
         </Number>
         <Description>
           ACF
@@ -116,7 +116,7 @@ See attached 'licese.txt' file for license informations
 (C) Copyright 2010 Witold Gantzke &amp; Kirill Lepskiy
 All rights reserved
 This tool is part of ACF Solutions project
-Please read attached License.txt file for license informations
+See attached file 'license.txt' for license informations
               </Value>
             </Data>
           </AttributeInfo>
@@ -324,7 +324,7 @@ Please read attached License.txt file for license informations
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
               AttributeSelectionObserver
@@ -341,6 +341,25 @@ Please read attached License.txt file for license informations
               </IsEnabled>
               <Value>
                 PackageOverviewDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ConsistencyInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                CompositorTemplate
               </Value>
             </Data>
           </AttributeInfo>

@@ -34,6 +34,7 @@
 #include "iqt2d/ISceneProvider.h"
 
 #include "icmpstr/IRegistryPreview.h"
+#include "icmpstr/IRegistryConsistInfo.h"
 
 
 namespace icmpstr
@@ -67,6 +68,7 @@ public:
 		I_ASSIGN(m_envManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
 		I_ASSIGN(m_mainWindowCompPtr, "MainWindow", "Access to main window command", false, "MainWindow");
+		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and attributes", false, "ConsistencyInfo");
 		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "Display view where the registry will be shown", true, "SceneProvider");
 	I_END_COMPONENT;
 
@@ -76,6 +78,7 @@ public:
 	const QFont& GetElementDetailFont() const;
 	
 	const icomp::IComponentEnvironmentManager* GetEnvironmentManager() const;
+	const IRegistryConsistInfo* GetRegistryConsistInfo() const;
 
 	double GetGrid() const{return 25;}	// TODO: replace it with some geometrical info concept
 
@@ -138,6 +141,7 @@ private:
 	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 	I_REF(idoc::IMainWindowCommands, m_mainWindowCompPtr);
+	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
 	I_REF(iqt2d::ISceneProvider, m_sceneProviderCompPtr);
 
 	iqtgui::CHierarchicalCommand m_registryCommand;
@@ -166,6 +170,12 @@ private:
 inline const icomp::IComponentEnvironmentManager* CVisualRegistryScenographerComp::GetEnvironmentManager() const
 {
 	return m_envManagerCompPtr.GetPtr();
+}
+
+
+inline const IRegistryConsistInfo* CVisualRegistryScenographerComp::GetRegistryConsistInfo() const
+{
+	return m_consistInfoCompPtr.GetPtr();
 }
 
 

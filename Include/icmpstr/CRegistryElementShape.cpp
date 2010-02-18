@@ -20,7 +20,8 @@ namespace icmpstr
 CRegistryElementShape::CRegistryElementShape(const CVisualRegistryScenographerComp* registryViewPtr, const iqt2d::ISceneProvider* providerPtr)
 :	BaseClass(true, providerPtr),
 	m_registryView(*registryViewPtr),
-	m_registryObserver(this)
+	m_registryObserver(this),
+	m_isConsistent(false)
 {
 	I_ASSERT(registryViewPtr != NULL);
 }
@@ -32,6 +33,31 @@ QRectF CRegistryElementShape::GetViewRect() const
 	retVal.moveCenter(pos());
 
 	return retVal;
+}
+
+
+void CRegistryElementShape::CheckConsistency()
+{
+	bool isConsistent = false;
+
+	const CVisualRegistryElement* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		const icomp::IRegistry* registryPtr = objectPtr->GetRegistry();
+		const IRegistryConsistInfo* infoPtr = m_registryView.GetRegistryConsistInfo();
+		if (infoPtr != NULL){
+			isConsistent = infoPtr->IsElementValid(
+						objectPtr->GetName(),
+						*registryPtr,
+						true,
+						false,
+						NULL);
+		}
+	}
+
+	if (isConsistent != m_isConsistent){
+		m_isConsistent = isConsistent;
+		update();
+	}
 }
 
 
@@ -76,8 +102,6 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 		else{
 			painterPtr->fillRect(mainRect, QColor(69, 185, 127, 255));
 		}
-
-		painterPtr->setPen(Qt::blue);
 	}
 	else{
 		painterPtr->fillRect(shadowRect, QColor(0, 0, 0, 30));
@@ -89,7 +113,13 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 			painterPtr->fillRect(mainRect, QColor(128, 128, 128, 255));
 		}
 
+	}
+
+	if (m_isConsistent){
 		painterPtr->setPen(Qt::black);
+	}
+	else{
+		painterPtr->setPen(Qt::red);
 	}
 
 	painterPtr->drawRect(mainRect);
@@ -145,6 +175,8 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 
 	std::string componentName = objectPtr->GetName();
 
+	mainRect.adjust(SIDE_OFFSET, 0, -SIDE_OFFSET, 0);
+
 	const QFont& nameFont = m_registryView.GetElementNameFont();
 	painterPtr->setFont(nameFont);
 	painterPtr->drawText(mainRect, componentName.c_str(), Qt::AlignTop | Qt::AlignLeft);
@@ -155,6 +187,14 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 				mainRect, 
 				QString(address.GetPackageId().c_str()) + QString("/") + address.GetComponentId().c_str(),
 				Qt::AlignBottom | Qt::AlignLeft);
+}
+
+
+void CRegistryElementShape::mouseMoveEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	BaseClass::mouseMoveEvent(eventPtr);
+
+	Q_EMIT RectChanged(GetViewRect());
 }
 
 
@@ -239,7 +279,7 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 	const std::string& componentName = element.GetName();
 	QString componentPath = QString(address.GetPackageId().c_str()) + QString("/") + address.GetComponentId().c_str();
 
-	int width = qMax(nameFontInfo.width(componentName.c_str()), detailFontInfo.width(componentPath));
+	int width = istd::Max(nameFontInfo.width(componentName.c_str()), detailFontInfo.width(componentPath)) + SIDE_OFFSET * 2;
 	int height = nameFontInfo.height() + detailFontInfo.height();
 
 	I_DWORD elementFlags = element.GetElementFlags();
