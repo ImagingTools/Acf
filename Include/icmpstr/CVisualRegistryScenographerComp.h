@@ -80,6 +80,12 @@ public:
 	const icomp::IComponentEnvironmentManager* GetEnvironmentManager() const;
 	const IRegistryConsistInfo* GetRegistryConsistInfo() const;
 
+	/**
+		Try to open the composite component's registry in a new window. 
+		If the element is a composite component the function returns \c true, otherwise a \c false.
+	*/
+	bool TryOpenComponent(const CVisualRegistryElement& registryElement) const;
+
 	// reimplemented (iqtgui::IDropConsumer)
 	virtual QStringList GetAcceptedMimeIds() const;
 	virtual void OnDropFinished(const QMimeData& data, QEvent* eventPtr);

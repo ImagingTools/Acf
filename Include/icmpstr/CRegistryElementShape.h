@@ -44,6 +44,7 @@ public:
 	virtual QRectF boundingRect() const;
 	virtual void paint(QPainter* painterPtr, const QStyleOptionGraphicsItem* stylePtr, QWidget* widgetPtr);
 	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* eventPtr);
+	virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);

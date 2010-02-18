@@ -421,7 +421,7 @@ See attached file 'license.txt' for license informations
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ConfigFilePath
@@ -457,6 +457,25 @@ See attached file 'license.txt' for license informations
               </IsEnabled>
               <Value>
                 LogDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MainWindow
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Application
               </Value>
             </Data>
           </AttributeInfo>

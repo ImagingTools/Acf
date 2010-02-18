@@ -170,7 +170,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="7">
           <AttributeInfo>
             <Id>
               ConsistencyInfo
@@ -180,6 +180,22 @@
             </Type>
             <ExportId>
               ConsistencyInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MainWindow
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              MainWindow
             </ExportId>
             <Data>
               <IsEnabled>

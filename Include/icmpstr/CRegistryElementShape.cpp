@@ -8,7 +8,10 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QApplication>
+#include <QDir>
 
+
+// ACF includes
 #include "icmpstr/CVisualRegistryScenographerComp.h"
 #include "icmpstr/CRegistryElementShape.h"
 
@@ -112,7 +115,6 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 		else{
 			painterPtr->fillRect(mainRect, QColor(128, 128, 128, 255));
 		}
-
 	}
 
 	if (m_isConsistent){
@@ -195,6 +197,17 @@ void CRegistryElementShape::mouseMoveEvent(QGraphicsSceneMouseEvent* eventPtr)
 	BaseClass::mouseMoveEvent(eventPtr);
 
 	Q_EMIT RectChanged(GetViewRect());
+}
+
+
+void CRegistryElementShape::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	CVisualRegistryElement* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL && m_registryView.TryOpenComponent(*objectPtr)){
+		eventPtr->accept();
+	}
+
+	BaseClass::mouseDoubleClickEvent(eventPtr);
 }
 
 

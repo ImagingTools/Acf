@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1347
+          1346
         </Number>
         <Description>
           ACF
@@ -482,7 +482,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ConsistencyInfo
@@ -500,6 +500,22 @@
               <Value>
                 RegistryConsistInfo
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MainWindow
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              MainWindow
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

@@ -88,7 +88,6 @@ bool CGraphicsConnectorItem::contains(const QPointF& point) const
 		i2d::CLine2d segment(iqt::GetCVector2d(m_connectionLine.at(i - 1)), iqt::GetCVector2d(m_connectionLine.at(i)));
 
 		if (segment.GetDistance(position) < 2){
-
 			return true;
 		}
 	}

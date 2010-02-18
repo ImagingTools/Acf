@@ -80,6 +80,27 @@ const QFont& CVisualRegistryScenographerComp::GetElementDetailFont() const
 }
 
 
+bool CVisualRegistryScenographerComp::TryOpenComponent(const CVisualRegistryElement& registryElement) const
+{
+	const icomp::IComponentEnvironmentManager* managerPtr = GetEnvironmentManager();
+	if ((managerPtr != NULL) && m_mainWindowCompPtr.IsValid()){
+		
+		const icomp::IComponentStaticInfo* metaInfoPtr = managerPtr->GetComponentMetaInfo(registryElement.GetAddress());
+
+		if (metaInfoPtr != NULL &&(metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE)){
+			QDir packageDir(iqt::GetQString(managerPtr->GetPackageDirPath(registryElement.GetAddress().GetPackageId())));
+			QString filePath = packageDir.absoluteFilePath((registryElement.GetAddress().GetComponentId() + ".arx").c_str());
+
+			m_mainWindowCompPtr->OpenFile(iqt::GetCString(filePath));
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 // reimplemented (iqtgui::IDropConsumer)
 
 QStringList CVisualRegistryScenographerComp::GetAcceptedMimeIds() const

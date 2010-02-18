@@ -21,21 +21,21 @@
         SceneProvider
       </ComponentName>
       <X>
-        -34
+        300
       </X>
       <X>
-        -216
+        200
       </X>
     </Element>
     <Element>
       <ComponentName>
-        VisualRegistryGui
+        VisualRegistryScenographer
       </ComponentName>
       <X>
-        -59
+        875
       </X>
       <X>
-        -429
+        574
       </X>
     </Element>
   </PositionMap>
