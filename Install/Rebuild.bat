@@ -9,7 +9,7 @@ echo Building ACF done
 
 echo Building ACF Tutorials
 
-cd ..\..\Docs\Tutorial\Appl\%COMPILER_EXT%
+cd ..\..\Docs\Tutorial\Impl\%COMPILER_EXT%
 vcbuild /r TutorialAcf.sln $All
 echo Building ACF Tutorials done
 
