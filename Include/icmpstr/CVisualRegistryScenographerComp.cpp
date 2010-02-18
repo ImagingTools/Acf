@@ -615,6 +615,8 @@ void CVisualRegistryScenographerComp::AddConnector(
 		return;
 	}
 
+	I_ASSERT(m_sceneProviderCompPtr.IsValid());
+
 	std::string baseId;
 	std::string subId;
 	bool isEmbedded = icomp::CInterfaceManipBase::SplitId(referenceComponentId, baseId, subId);
@@ -638,7 +640,7 @@ void CVisualRegistryScenographerComp::AddConnector(
 			connectFlags = connectFlags | CGraphicsConnectorItem::CF_FACTORY;
 		}
 
-		CGraphicsConnectorItem* connectorPtr = new CGraphicsConnectorItem(this, connectFlags);
+		CGraphicsConnectorItem* connectorPtr = new CGraphicsConnectorItem(*m_sceneProviderCompPtr.GetPtr(), connectFlags);
 
 		connectorPtr->setToolTip(isFactory?
 					tr("Factory of '%1'").arg(attributeId.c_str()):

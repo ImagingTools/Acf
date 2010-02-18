@@ -80,8 +80,6 @@ public:
 	const icomp::IComponentEnvironmentManager* GetEnvironmentManager() const;
 	const IRegistryConsistInfo* GetRegistryConsistInfo() const;
 
-	double GetGrid() const{return 25;}	// TODO: replace it with some geometrical info concept
-
 	// reimplemented (iqtgui::IDropConsumer)
 	virtual QStringList GetAcceptedMimeIds() const;
 	virtual void OnDropFinished(const QMimeData& data, QEvent* eventPtr);

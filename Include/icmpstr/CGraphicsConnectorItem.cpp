@@ -4,16 +4,18 @@
 // STL includes
 #include <cmath>
 
+
 // Qt includes
 #include <QPainter>
 #include <QPainterPath>
 
+
+// ACF includes
 #include "i2d/CVector2d.h"
 
 #include "iqt/iqt.h"
 
 #include "icmpstr/CRegistryElementShape.h"
-#include "icmpstr/CVisualRegistryScenographerComp.h"
 
 
 // public methods
@@ -23,19 +25,18 @@ namespace icmpstr
 
 
 CGraphicsConnectorItem::CGraphicsConnectorItem(
-			const CVisualRegistryScenographerComp* registryViewPtr,
+			const iqt2d::ISceneProvider& sceneProvider,
 			int connectFlags,
 			QGraphicsItem* parent)
 :	BaseClass(parent),
-	m_registryView(*registryViewPtr),
+	m_sceneProvider(sceneProvider),
 	m_connectFlags(connectFlags)
 {
-	I_ASSERT(registryViewPtr != NULL);
-
 	setAcceptedMouseButtons(0);
 	setAcceptsHoverEvents(true);
 
 	setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemSendsGeometryChanges);
+
 	setZValue(1);
 }
 
@@ -108,7 +109,8 @@ void CGraphicsConnectorItem::Adjust()
 	double sourceMidY = (m_sourceRect.top() + m_sourceRect.bottom()) * 0.5;
 	double destMidX = (m_destRect.left() + m_destRect.right()) * 0.5;
 
-	double gridSize = m_registryView.GetGrid();
+	double gridSize = 0;
+	m_sceneProvider.GetSceneAlignment(gridSize);
 
 	m_connectionLine.clear();
 	if (m_sourceRect.right() < m_destRect.left()){

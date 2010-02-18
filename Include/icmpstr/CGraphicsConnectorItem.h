@@ -2,8 +2,13 @@
 #define icmpstr_CGraphicsConnectorItem_included
 
 
+// Qt includes
 #include <QObject>
 #include <QGraphicsItem>
+
+
+// ACF includes
+#include "iqt2d/ISceneProvider.h"
 
 
 namespace icmpstr
@@ -11,7 +16,6 @@ namespace icmpstr
 
 
 class CComponentSceneItem;
-class CVisualRegistryScenographerComp;
 class CRegistryElementShape;
 
 
@@ -38,7 +42,7 @@ public:
 	};
 
     CGraphicsConnectorItem(
-				const CVisualRegistryScenographerComp* registryViewPtr,
+				const iqt2d::ISceneProvider& sceneProvider,
 				int connectFlags = 0,
 				QGraphicsItem* parent = NULL);
 
@@ -55,8 +59,6 @@ protected:
 	// reimplemented (QGraphicsItem)
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-//    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-//	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
 protected slots:
 	void OnSourceRectMoved(const QRectF& rect);
@@ -65,7 +67,7 @@ protected slots:
 	void OnDestSelected(bool state);
 
 private:
-	const CVisualRegistryScenographerComp& m_registryView;
+	const iqt2d::ISceneProvider& m_sceneProvider;
 
 	int m_connectFlags;
 
