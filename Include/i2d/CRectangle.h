@@ -90,8 +90,13 @@ public :
 	bool operator==(const CRectangle& rect) const;
 	bool operator!=(const CRectangle& rect) const;
 
-	virtual CRectangle GetBoundingBox() const;
+	CRectangle GetBoundingBox() const;
 
+	/**
+		Get the nearest point in the rectangle for the some given point.
+	*/
+	CVector2d GetNearestPointTo(const CVector2d& point) const;
+	
 	// reimplemented (IObject2d)
 	virtual CVector2d GetCenter() const;
 	virtual void MoveTo(const CVector2d& position);

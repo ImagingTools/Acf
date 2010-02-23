@@ -511,7 +511,7 @@ bool CVisualRegistryScenographerComp::OnDroppedData(const QMimeData& mimeData, Q
 
 	i2d::CVector2d position(0, 0);
 	if (eventPtr != NULL){
-		position = iqt::GetCVector2d(eventPtr->pos());
+		position = iqt::GetCVector2d(eventPtr->scenePos());
 	}
 
 	return address.Serialize(archive) && TryCreateComponent(address, position);
@@ -700,9 +700,10 @@ bool CVisualRegistryScenographerComp::TryCreateComponent(const icomp::CComponent
 		if (registryPtr.IsValid()){
 			icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->InsertElementInfo(componentName.toStdString(), address);
 			if (elementInfoPtr != NULL){
-				IRegistryEditController* providerPtr = dynamic_cast<IRegistryEditController*>(registryPtr.GetPtr());
-				if (providerPtr != NULL){
-					providerPtr->SetComponentPosition(componentName.toStdString(), position);
+
+				icmpstr::CVisualRegistryElement* elementPtr = dynamic_cast<icmpstr::CVisualRegistryElement*>(elementInfoPtr->elementPtr.GetPtr());
+				if (elementPtr != NULL){
+					elementPtr->MoveTo(position);
 				}
 
 				ConnectReferences(componentName);

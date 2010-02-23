@@ -101,6 +101,7 @@ public:
 	virtual int GetSceneId() const;
 	virtual QGraphicsScene* GetScene() const;
 	virtual bool GetSceneAlignment(double& distance) const;
+	virtual int GetSceneFlags() const;
 
 	// reimplemented (i2d::ISceneController)
 	virtual int GetSceneRestrictionFlags() const;

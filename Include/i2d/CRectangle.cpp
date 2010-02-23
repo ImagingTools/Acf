@@ -326,6 +326,12 @@ CRectangle CRectangle::GetBoundingBox() const
 	return *this;
 }
 
+	
+CVector2d CRectangle::GetNearestPointTo(const CVector2d& point) const
+{
+	return CVector2d(m_horizontalRange.GetNearestInside(point.GetX()), m_verticalRange.GetNearestInside(point.GetY()));
+}
+
 
 // reimplemented (IObject2d)
 

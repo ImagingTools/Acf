@@ -108,6 +108,23 @@ bool CSceneProviderGuiComp::GetSceneAlignment(double& distance) const
 }
 
 
+
+int CSceneProviderGuiComp::GetSceneFlags() const
+{
+	int sceneFlags = 0;
+
+	if (m_sceneWidthAttrPtr.IsValid() && m_sceneHeightAttrPtr.IsValid()){
+		sceneFlags = sceneFlags | SF_FIXED_SIZE;
+	}
+
+	if (*m_isAlignmentEnabledAttrPtr){
+		sceneFlags = sceneFlags | SF_ALIGNED;
+	}
+
+	return sceneFlags;
+}
+
+
 // reimplemented (i2d::ISceneController)
 
 int CSceneProviderGuiComp::GetSceneRestrictionFlags() const

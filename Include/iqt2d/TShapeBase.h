@@ -242,6 +242,24 @@ void TShapeBase<GraphicsItemClass>::OnPositionChanged(const QPointF& /*position*
 template <class GraphicsItemClass>
 QVariant TShapeBase<GraphicsItemClass>::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value)
 {
+	if (change == ItemPositionChange){
+		if (m_providerPtr != NULL && ((m_providerPtr->GetSceneFlags() & iqt2d::ISceneProvider::SF_FIXED_SIZE) != 0)){
+			QGraphicsScene* scenePtr = m_providerPtr->GetScene();
+
+			if (scenePtr != NULL){
+				QRectF sceneRect = scenePtr->sceneRect();
+				QRectF itemRect = boundingRect();
+
+				i2d::CRectangle innerRect = iqt::GetCRectangle(sceneRect.adjusted(itemRect.width() / 2, itemRect.height() / 2, -itemRect.width() / 2, -itemRect.height() / 2));
+				i2d::CVector2d innerPosition = iqt::GetCVector2d(value.toPointF());
+
+				innerPosition = innerRect.GetNearestPointTo(innerPosition);
+
+				return iqt::GetQPointF(innerPosition);
+			}
+		}
+	}
+	
 	if (change == BaseClass::ItemPositionHasChanged){
 		QPointF position = value.toPointF();
 
