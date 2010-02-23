@@ -10,7 +10,6 @@
 #include "i2d/CVector2d.h"
 
 #include "icmpstr/CComponentSceneItem.h"
-#include "icmpstr/CRegistryViewComp.h"
 
 
 namespace icmpstr
@@ -20,15 +19,11 @@ namespace icmpstr
 // public methods
 
 CNoteSceneItem::CNoteSceneItem(
-			const CRegistryViewComp* registryViewPtr,
 			CComponentSceneItem* parentComponent, 
 			QGraphicsItem *parent, 
 			QGraphicsScene *scene)
-:	BaseClass(parent, scene),
-	m_registryView(*registryViewPtr)
+:	BaseClass(parent, scene)
 {
-	I_ASSERT(registryViewPtr != NULL);
-
 	setAcceptedMouseButtons(0);
 
 	m_parentComponent = NULL;

@@ -182,19 +182,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CComponentConnector.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CComponentHelpFileProviderComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CComponentSceneItem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CComponentSceneItem.moc"
 				>
 			</File>
 			<File
@@ -281,10 +269,6 @@
 			</File>
 			<File
 				RelativePath="..\CComponentHelpFileProviderComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CComponentSceneItem.h"
 				>
 			</File>
 			<File
@@ -378,10 +362,6 @@
 			>
 			<File
 				RelativePath="..\generated\moc_CAttributeEditorComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\generated\moc_CComponentSceneItem.cpp"
 				>
 			</File>
 			<File

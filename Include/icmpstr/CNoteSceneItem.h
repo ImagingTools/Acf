@@ -10,7 +10,6 @@ namespace icmpstr
 
 
 class CComponentSceneItem;
-class CRegistryViewComp;
 
 
 class CNoteSceneItem: public QGraphicsItemGroup
@@ -19,7 +18,6 @@ public:
 	typedef QGraphicsItemGroup BaseClass;
 
     CNoteSceneItem(
-				const CRegistryViewComp* registryViewPtr,
 				CComponentSceneItem *parentComponent, 
 				QGraphicsItem *parent = NULL, 
 				QGraphicsScene *scene = NULL);
@@ -41,8 +39,6 @@ protected:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
 private:
-	const CRegistryViewComp& m_registryView;
-
     CComponentSceneItem* m_parentComponent;
 
 	QPolygonF m_connectionLine;
