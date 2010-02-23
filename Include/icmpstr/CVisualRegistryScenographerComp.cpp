@@ -144,6 +144,10 @@ void CVisualRegistryScenographerComp::OnUpdate(int updateFlags, istd::IPolymorph
 		}
 	}
 
+	if (m_scenePtr == NULL){
+		return;
+	}
+
 	m_isUpdating = true;
 
 	if (updateFlags != CVisualRegistryComp::CF_SELECTION){

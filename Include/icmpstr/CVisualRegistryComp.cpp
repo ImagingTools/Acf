@@ -11,8 +11,6 @@
 
 #include "icomp/CInterfaceManipBase.h"
 
-#include "icmpstr/CRegistryModelComp.h"
-
 
 // public methods
 
