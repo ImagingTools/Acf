@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="42">
+  <PositionMap count="41">
     <Element>
       <ComponentName>
         Application
@@ -36,17 +36,6 @@
       </X>
       <X>
         -5
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyArpInfo
-      </ComponentName>
-      <X>
-        -385
-      </X>
-      <X>
-        -160
       </X>
     </Element>
     <Element>

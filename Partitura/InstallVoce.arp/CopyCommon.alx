@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="32">
+  <PositionMap count="31">
     <Element>
       <ComponentName>
         Application
@@ -36,17 +36,6 @@
       </X>
       <X>
         -5
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyBinInfo
-      </ComponentName>
-      <X>
-        -548
-      </X>
-      <X>
-        -217
       </X>
     </Element>
     <Element>
