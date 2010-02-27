@@ -16,6 +16,9 @@ namespace iqtgui
 {
 
 
+/**
+	Component for construction of a tool bar with an inserted widget.
+*/
 class CToolBarWidgetGuiComp: 
 			public iqtgui::TGuiComponentBase<QToolBar>, 
 			public iqtgui::IMainWindowComponent

@@ -2,10 +2,12 @@
 #define iqtgui_TControlledWidgetWrap_included
 
 
+// Qt includes
 #include <QWidget>
 #include <QCloseEvent>
 
 
+// ACF includes
 #include "iqtgui/CGuiComponentBase.h"
 
 
@@ -14,7 +16,8 @@ namespace iqtgui
 
 
 /**
-	Base class for all Qt GUI componentes.
+	Wrapper for controlling the "close"-behaviour of the widget.
+	\sa TryClose()
  */
 template <class WidgetType>
 class TControlledWidgetWrap: public WidgetType

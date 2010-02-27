@@ -2,6 +2,7 @@
 #define iqtgui_CApplicationComp_included
 
 
+// ACF includes
 #include "ibase/IApplicationInfo.h"
 
 #include "icomp/TAttribute.h"

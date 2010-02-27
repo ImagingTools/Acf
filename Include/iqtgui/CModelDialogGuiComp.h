@@ -16,7 +16,6 @@ namespace iqtgui
 
 /**
 	Component for the dialog based model editing.
-
 */
 class CModelDialogGuiComp: public icomp::CComponentBase, virtual public iqtgui::IDialog
 {

@@ -2,8 +2,11 @@
 #define iqtgui_TDesignerGuiCompBase_included
 
 
+// Qt includes
 #include "qmetaobject.h"
 
+
+// ACF includes
 #include "iqtgui/TGuiComponentBase.h"
 
 
@@ -12,7 +15,7 @@ namespace iqtgui
 
 
 /**
-	Base class for all Qt GUI componentes.
+	Base class for all Qt GUI componentes, which use the Qt designer's UI.
  */
 template <class UI, class WidgetType = QWidget>
 class TDesignerGuiCompBase: public TGuiComponentBase<WidgetType>, public UI

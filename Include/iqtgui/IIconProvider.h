@@ -2,11 +2,12 @@
 #define iqtgui_IIconProvider_included
 
 
-#include "iqtgui/iqtgui.h"
-
-
+// Qt includes
 #include <QIcon>
 
+
+// ACF includes
+#include "iqtgui/iqtgui.h"
 
 #include "istd/IPolymorphic.h"
 
