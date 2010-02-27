@@ -40,6 +40,7 @@ protected:
 	virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value);
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* eventPtr);
 	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr);
+	virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr);
 
 	// reimplemented (imod::IObserver)
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
@@ -145,6 +146,15 @@ template <class GraphicsItemClass, class ObjectClass>
 void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mouseReleaseEvent(QGraphicsSceneMouseEvent* eventPtr)
 {
 	BaseClass::mouseReleaseEvent(eventPtr);
+
+	m_mousePressingNotifier.Reset();
+}
+
+
+template <class GraphicsItemClass, class ObjectClass>
+void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* eventPtr)
+{
+	BaseClass::mouseDoubleClickEvent(eventPtr);
 
 	m_mousePressingNotifier.Reset();
 }
