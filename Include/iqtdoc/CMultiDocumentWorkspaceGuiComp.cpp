@@ -457,11 +457,16 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 
 // protected slots
 
-void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QMdiSubWindow* window)
+void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QMdiSubWindow* /*window*/)
 {
+	QMdiArea* workspacePtr = GetQtWidget();
+	I_ASSERT(workspacePtr != NULL);
+
+	QMdiSubWindow* currentWindow = workspacePtr->currentSubWindow();
+
 	iqtgui::IGuiObject* guiObjectPtr = NULL;
-	if (window != NULL){
-		QWidget* widgetPtr = window->widget();
+	if (currentWindow != NULL){
+		QWidget* widgetPtr = currentWindow->widget();
 		if (widgetPtr != NULL){
 			guiObjectPtr = GetViewFromWidget(*widgetPtr);
 		}
