@@ -131,6 +131,7 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 
 	mainRect.adjust(SIDE_OFFSET, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
 
+	// draw component icon:
 	if (!m_icon.isNull() && (mainRect.width() > mainRect.height())){
 		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
 
@@ -144,41 +145,18 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 		mainRect.adjust(minSideSize + SIDE_OFFSET, 0, 0, 0);
 	}
 
-	I_DWORD elementFlags = objectPtr->GetElementFlags();
-	if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
-		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
-
-		QRectF iconRect(
-					mainRect.right() - minSideSize * 0.5,
-					mainRect.top() + minSideSize * 0.5,
-					minSideSize * 0.5,
-					minSideSize * 0.5);
-
-		QIcon(":/Icons/AutoInit.svg").paint(painterPtr, iconRect.toRect());
-	}
-
+	// draw composite indication rectangle:
 	if ((metaInfoPtr != NULL) && (metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE)){
+		painterPtr->setPen(Qt::black);
 		painterPtr->drawRect(mainRect);
 		mainRect.adjust(SIDE_OFFSET, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
-	}
-
-	if (!m_exportedInterfacesList.empty()){
-		int minSideSize = int(istd::Min(mainRect.width(), mainRect.height()));
-
-		QRectF iconRect(
-					mainRect.right() - minSideSize * 0.5,
-					mainRect.top(),
-					minSideSize * 0.5,
-					minSideSize * 0.5);
-		QIcon(":/Icons/Export.svg").paint(painterPtr, iconRect.toRect());
 	}
 
 	painterPtr->setPen(Qt::black);
 
 	std::string componentName = objectPtr->GetName();
 
-	mainRect.adjust(SIDE_OFFSET, 0, -SIDE_OFFSET, 0);
-
+	// draw component name:
 	const QFont& nameFont = m_registryView.GetElementNameFont();
 	painterPtr->setFont(nameFont);
 	painterPtr->drawText(mainRect, componentName.c_str(), Qt::AlignTop | Qt::AlignLeft);
@@ -189,6 +167,34 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 				mainRect,
 				m_addressString,
 				Qt::AlignBottom | Qt::AlignLeft);
+
+	int iconsCount = 0;
+
+	// draw export interfaces icon:
+	if (!m_exportedInterfacesList.empty()){
+		int sideOffset = SIDE_OFFSET * iconsCount++;
+		
+		QRectF iconRect(
+					mainRect.right() - ATTRIBUTE_ICON_SIZE * (iconsCount) - sideOffset,
+					mainRect.top(),
+					ATTRIBUTE_ICON_SIZE,
+					ATTRIBUTE_ICON_SIZE);
+		QIcon(":/Icons/Export.svg").paint(painterPtr, iconRect.toRect());
+	}
+
+	// draw element flags icon:
+	I_DWORD elementFlags = objectPtr->GetElementFlags();
+	if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
+		int sideOffset = SIDE_OFFSET * iconsCount++;
+		QRectF iconRect(
+					mainRect.right() - ATTRIBUTE_ICON_SIZE * (iconsCount) - sideOffset,
+					mainRect.top(),
+					ATTRIBUTE_ICON_SIZE,
+					ATTRIBUTE_ICON_SIZE);
+
+		QIcon(":/Icons/AutoInit.svg").paint(painterPtr, iconRect.toRect());
+	}
+
 }
 
 
@@ -284,9 +290,12 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 	int height = nameFontInfo.height() + detailFontInfo.height();
 
 	I_DWORD elementFlags = element.GetElementFlags();
-	if (		((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0) ||
-				(!m_exportedInterfacesList.empty())){
-		width += height * 0.5;
+	if (((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0)){
+		width += ATTRIBUTE_ICON_SIZE + SIDE_OFFSET;
+	}
+
+	if ((!m_exportedInterfacesList.empty())){
+		width += ATTRIBUTE_ICON_SIZE + SIDE_OFFSET;
 	}
 
 	if (!m_icon.isNull()){
