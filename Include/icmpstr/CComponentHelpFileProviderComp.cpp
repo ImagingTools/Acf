@@ -86,12 +86,27 @@ istd::CString CComponentHelpFileProviderComp::GetInfoFilePath(const icomp::CComp
 
 istd::CString CComponentHelpFileProviderComp::GetSlaveFilePath(const icomp::CComponentAddress& componentAddress) const
 {
-	if (m_packagesLoaderInfoCompPtr.IsValid() && m_classHelpProviderCompPtr.IsValid()){
-		const icomp::IComponentStaticInfo* packageInfoPtr = m_packagesLoaderInfoCompPtr->GetSubcomponentInfo(componentAddress.GetPackageId());
-		if (packageInfoPtr != NULL){
-			const icomp::IComponentStaticInfo* componentInfoPtr = packageInfoPtr->GetSubcomponentInfo(componentAddress.GetComponentId());
-			if (componentInfoPtr != NULL){
-				istd::CClassInfo classInfo(*componentInfoPtr);
+	if (m_metaInfoManagerCompPtr.IsValid()){
+		const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(componentAddress);
+		if (infoPtr != NULL){
+			istd::CString infoPath = m_metaInfoManagerCompPtr->GetComponentInfoPath(componentAddress);
+			if (!infoPath.IsEmpty()){
+				QDir infoDir(iqt::GetQString(infoPath));
+				QFileInfo fullDescrFileInfo(infoDir.filePath("FullDescription.html"));
+				if (fullDescrFileInfo.exists()){
+					return iqt::GetCString(fullDescrFileInfo.absoluteFilePath());
+				}
+
+				if (infoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE){
+					QFileInfo shortDescrFileInfo(infoDir.filePath("ShortDescription.html"));
+					if (shortDescrFileInfo.exists()){
+						return iqt::GetCString(shortDescrFileInfo.absoluteFilePath());
+					}
+				}
+			}
+
+			if (m_classHelpProviderCompPtr.IsValid()){
+				istd::CClassInfo classInfo(*infoPtr);
 
 				while (classInfo.IsTemplateClass()){
 					classInfo = classInfo.GetTemplateParam();
