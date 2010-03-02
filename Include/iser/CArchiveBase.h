@@ -16,8 +16,6 @@ namespace iser
 /**
 	Base implementation of iser::IArchive interface.
 	It provides standard implementation of some methods and standard tags.
-
-	\ingroup Persistence
 */
 class CArchiveBase:
 			virtual public IArchive,

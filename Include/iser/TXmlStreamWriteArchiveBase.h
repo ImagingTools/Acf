@@ -12,8 +12,6 @@ namespace iser
 
 /**
 	Base implementation of archive for writing in XML format using a stream implementation.
-
-	\ingroup Persistence
 */
 template <class StreamClass>
 class TXmlStreamWriteArchiveBase: public CXmlWriteArchiveBase

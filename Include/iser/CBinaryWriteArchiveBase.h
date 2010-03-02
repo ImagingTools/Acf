@@ -12,8 +12,6 @@ namespace iser
 
 /**
 	Base class for archive implementations writting data based on its binary representation.
-
-	\ingroup Persistence
 */
 class CBinaryWriteArchiveBase: public CWriteArchiveBase
 {

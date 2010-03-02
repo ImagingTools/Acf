@@ -14,6 +14,8 @@ namespace ibase
 
 /**
 	Wrapper provider of log-functionality for component based implementations.
+
+	\ingroup Helpers
 */
 template <class Base>
 class TLoggerCompWrap: public ibase::TLoggerWrap<Base>

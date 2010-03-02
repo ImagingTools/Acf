@@ -12,8 +12,6 @@ namespace iser
 
 /**
 	Base implementation of a reading archive for XML format using a stream implementation.
-
-	\ingroup Persistence
 */
 template <class StreamClass>
 class TXmlStreamReadArchiveBase: public CXmlReadArchiveBase

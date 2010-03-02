@@ -16,6 +16,8 @@ namespace ibase
 
 /**
 	Basic implementation of IEnabled interface.
+
+	\ingroup Helpers
 */
 template <class Base>
 class TEnableableWrap: virtual public Base

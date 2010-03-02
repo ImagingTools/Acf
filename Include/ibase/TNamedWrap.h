@@ -19,6 +19,8 @@ namespace ibase
 /**
 	Template based implementation of a named object. 
 	This class is a pseudo-implementation of istd::INamed interface.
+
+	\ingroup Helpers
 */
 template <class BaseClass>
 class TNamedWrap: virtual public BaseClass

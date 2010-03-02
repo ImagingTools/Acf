@@ -16,8 +16,6 @@ namespace iser
 
 /**
 	Common archive implementation of text-based storing archives.
-
-	\ingroup Persistence
 */
 class CTextWriteArchiveBase: public CWriteArchiveBase
 {

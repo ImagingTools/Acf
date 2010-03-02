@@ -13,8 +13,6 @@ namespace iser
 
 /**
 	Base class for XML storing archives.
-
-	\ingroup Persistence
 */
 class CXmlWriteArchiveBase: public CTextWriteArchiveBase, public CXmlDocumentInfoBase
 {

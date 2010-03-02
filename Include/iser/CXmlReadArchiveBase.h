@@ -13,8 +13,6 @@ namespace iser
 
 /**
 	Base class for XML based reading archives.
-
-	\ingroup Persistence
 */
 class CXmlReadArchiveBase:
 			public CTextReadArchiveBase,

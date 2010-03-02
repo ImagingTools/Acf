@@ -13,8 +13,6 @@ namespace iser
 
 /**
 	Basic implementation of an abstract archive for data reading.
-
-	\ingroup Persistence
 */
 class CReadArchiveBase: public CArchiveBase
 {

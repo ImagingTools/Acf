@@ -39,6 +39,13 @@ See \c Docs/Tutorial for tutorials.
 
 
 /**
+	\defgroup Helpers Set of helper classes.
+
+	\ingroup ACF
+*/
+
+
+/**
 	\defgroup Main Main concepts and implementations
 	If you can learn how to use ACF you should begin with elements defined in this module.
 

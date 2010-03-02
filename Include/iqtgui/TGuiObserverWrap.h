@@ -13,6 +13,8 @@ namespace iqtgui
 
 /**
 	Join functionality of \c iqtgui::IGuiObject interface and \c imod::IObserver.
+
+	\ingroup Helpers
 */
 template <class Gui, class Observer>
 class TGuiObserverWrap: public Gui, public Observer, virtual public imod::IModelEditor

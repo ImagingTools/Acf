@@ -19,9 +19,6 @@ namespace iser
 /**
 	Base class for all XML implementations for ACF documents.
 	This helper class can be used e.g. to implement XML archives.
-
-	\ingroup Persistence
-
 */
 class CXmlDocumentInfoBase
 {

@@ -16,8 +16,6 @@ namespace iser
 
 /**
 	Common archive implementation of text-based reading archives.
-
-	\ingroup Persistence
 */
 class CTextReadArchiveBase: public CReadArchiveBase
 {

@@ -17,6 +17,8 @@ namespace ibase
 	Class wrapper implementing interface istd::ILogger sending log messages over ibase::IMessageConsumer.
 	Access to interface ibase::IMessageConsumer must be registered by user.
 	To register it use interface ibase::ILoggable implemented by this wrapper.
+
+	\ingroup Helpers
 */
 template <class Base>
 class TLoggerWrap: virtual public Base, virtual public ILoggable, virtual public istd::ILogger

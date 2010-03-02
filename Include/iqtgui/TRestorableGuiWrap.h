@@ -12,6 +12,8 @@ namespace iqtgui
 
 /**
 	A wrapper for saving/restoring of GUI component states in the application settings.
+
+	\ingroup Helpers
 */
 template <class Gui>
 class TRestorableGuiWrap: public Gui
