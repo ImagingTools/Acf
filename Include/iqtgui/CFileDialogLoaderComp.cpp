@@ -28,10 +28,11 @@ bool CFileDialogLoaderComp::IsOperationSupported(
 	}
 
 	if (m_loadersCompPtr.IsValid()){
+		int correctedFlags = (flags | QF_NAMED_ONLY) & (~QF_ANONYMOUS_ONLY);
 		int loaderCount = m_loadersCompPtr.GetCount();
 		for (int index = 0; index < loaderCount; index++){
 			const iser::IFileLoader* slaveLoaderPtr = m_loadersCompPtr[index];
-			if ((slaveLoaderPtr != NULL) && slaveLoaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, flags | QF_NAMED_ONLY)){
+			if ((slaveLoaderPtr != NULL) && slaveLoaderPtr->IsOperationSupported(dataObjectPtr, NULL, correctedFlags)){
 				return true;
 			}
 		}
