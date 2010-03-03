@@ -57,8 +57,7 @@ protected:
 	enum
 	{
 		SIDE_OFFSET = 4,
-		SHADOW_OFFSET = 10,
-		ATTRIBUTE_ICON_SIZE = 16
+		SHADOW_OFFSET = 10
 	};
 
 	void CalcExportedInteraces(const CVisualRegistryElement& element);

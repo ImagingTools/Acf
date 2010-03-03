@@ -170,31 +170,30 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 
 	int iconsCount = 0;
 
+	QFontMetrics nameFontInfo(m_registryView.GetElementNameFont());
+	int attributeIconSize = nameFontInfo.height();
+
 	// draw export interfaces icon:
 	if (!m_exportedInterfacesList.empty()){
-		int sideOffset = SIDE_OFFSET * iconsCount++;
-		
 		QRectF iconRect(
-					mainRect.right() - ATTRIBUTE_ICON_SIZE * (iconsCount) - sideOffset,
+					mainRect.right() - (attributeIconSize + SIDE_OFFSET) * ++iconsCount,
 					mainRect.top(),
-					ATTRIBUTE_ICON_SIZE,
-					ATTRIBUTE_ICON_SIZE);
+					attributeIconSize,
+					attributeIconSize);
 		QIcon(":/Icons/Export.svg").paint(painterPtr, iconRect.toRect());
 	}
 
 	// draw element flags icon:
 	I_DWORD elementFlags = objectPtr->GetElementFlags();
 	if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
-		int sideOffset = SIDE_OFFSET * iconsCount++;
 		QRectF iconRect(
-					mainRect.right() - ATTRIBUTE_ICON_SIZE * (iconsCount) - sideOffset,
+					mainRect.right() - (attributeIconSize + SIDE_OFFSET) * ++iconsCount,
 					mainRect.top(),
-					ATTRIBUTE_ICON_SIZE,
-					ATTRIBUTE_ICON_SIZE);
+					attributeIconSize,
+					attributeIconSize);
 
 		QIcon(":/Icons/AutoInit.svg").paint(painterPtr, iconRect.toRect());
 	}
-
 }
 
 
@@ -286,21 +285,21 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 
 	const std::string& componentName = element.GetName();
 
-	int width = istd::Max(nameFontInfo.width(componentName.c_str()), detailFontInfo.width(m_addressString)) + SIDE_OFFSET * 2;
+	int titleWidth = nameFontInfo.width(componentName.c_str());
 	int height = nameFontInfo.height() + detailFontInfo.height();
+
+	int attributeIconSize = nameFontInfo.height();
 
 	I_DWORD elementFlags = element.GetElementFlags();
 	if (((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0)){
-		width += ATTRIBUTE_ICON_SIZE + SIDE_OFFSET;
+		titleWidth += attributeIconSize + SIDE_OFFSET;
 	}
 
 	if ((!m_exportedInterfacesList.empty())){
-		width += ATTRIBUTE_ICON_SIZE + SIDE_OFFSET;
+		titleWidth += attributeIconSize + SIDE_OFFSET;
 	}
 
-	if (!m_icon.isNull()){
-		width += height + SIDE_OFFSET;
-	}
+	int width = istd::Max(titleWidth, detailFontInfo.width(m_addressString)) + SIDE_OFFSET * 2;
 
 	const icomp::IComponentEnvironmentManager* managerPtr = m_registryView.GetEnvironmentManager();
 	if (managerPtr != NULL){
@@ -321,10 +320,14 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 	width += SIDE_OFFSET * 2;
 	height += SIDE_OFFSET * 2;
 
+	if (!m_icon.isNull()){
+		width += height + SIDE_OFFSET;
+	}
+
 	double gridSize;
 	const iqt2d::ISceneProvider* providerPtr = GetSceneProvider();
 	if ((providerPtr != NULL) && providerPtr->GetSceneAlignment(gridSize)){
-		width = ::ceil(width / (gridSize * 2)) * (gridSize * 2);
+		width = ::ceil(width / gridSize) * gridSize;
 		height = ::ceil(height / gridSize) * gridSize;
 	}
 
