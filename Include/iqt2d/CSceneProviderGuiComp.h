@@ -136,7 +136,7 @@ protected:
 		CScene(CSceneProviderGuiComp* parentPtr);
 
 	protected:
-		void DrawGrid(QPainter* painter, const QRectF& rect, bool useDot = false);
+		void DrawGrid(QPainter& painter, const QRectF& rect, bool useDot = false);
 
 		// reimplemented (QGraphicsScene)
 		virtual void drawBackground(QPainter* painter, const QRectF & rect);

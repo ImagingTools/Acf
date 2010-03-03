@@ -618,13 +618,17 @@ CSceneProviderGuiComp::CScene::CScene(CSceneProviderGuiComp* parentPtr)
 
 // protected methods of embedded class CScene
 
-void CSceneProviderGuiComp::CScene::DrawGrid(QPainter* painter, const QRectF& rect, bool useDot)  
+void CSceneProviderGuiComp::CScene::DrawGrid(QPainter& painter, const QRectF& rect, bool useDot)  
 {
 	QRectF gridRect = rect;
 	if (!sceneRect().isEmpty()){
-		QGraphicsScene::drawBackground(painter, rect);
-		
 		gridRect = sceneRect().intersected(rect);
+
+		painter.fillRect(rect, qApp->palette().button());
+		painter.fillRect(gridRect, qApp->palette().base());
+	}
+	else{
+		painter.fillRect(gridRect, qApp->palette().base());
 	}
 
 	int gridSize = *m_parent.m_gridSizeAttrPtr;
@@ -632,7 +636,6 @@ void CSceneProviderGuiComp::CScene::DrawGrid(QPainter* painter, const QRectF& re
 	QRect realRect = gridRect.toAlignedRect();
 
 	QColor gridColor = qApp->palette().highlight().color();
-	QColor shadowColor = qApp->palette().shadow().color();
 
 	int firstLeftGridLine = realRect.left() - (realRect.left() % gridSize);
 	int firstTopGridLine = realRect.top() - (realRect.top() % gridSize);
@@ -647,13 +650,17 @@ void CSceneProviderGuiComp::CScene::DrawGrid(QPainter* painter, const QRectF& re
 			lines.append(QLine(realRect.left(), y, realRect.right(), y));           
 		}
 
-		gridColor.setAlpha(64);
-		painter->setPen(gridColor);
-		painter->drawLines(lines.data(), lines.size());
+		gridColor.setAlpha(128);
+		QPen gridPen(gridColor);
+		gridPen.setWidthF(0.5);
+		painter.setPen(gridPen);
+
+		painter.save();
+		painter.setRenderHint(QPainter::Antialiasing);
+		painter.drawLines(lines.data(), lines.size());
+		painter.restore();
 	}
 	else{
-		painter->fillRect(sceneRect(), qApp->palette().window());
-
 		QPolygon points;
 		for (int x = firstLeftGridLine; x <= realRect.right(); x += gridSize){
 			for (int y = firstTopGridLine; y <= realRect.bottom(); y += gridSize){
@@ -661,14 +668,14 @@ void CSceneProviderGuiComp::CScene::DrawGrid(QPainter* painter, const QRectF& re
 			}
 		}
 
-		painter->setPen(gridColor);
-		painter->drawPoints(points);
+		painter.setPen(gridColor);
+		painter.drawPoints(points);
 	}
 
 	if (!sceneRect().isEmpty()){
-		painter->setPen(shadowColor);
+		painter.setPen(qApp->palette().shadow().color());
 
-		painter->drawRect(sceneRect());
+		painter.drawRect(sceneRect());
 	}
 }
 
@@ -679,11 +686,11 @@ void CSceneProviderGuiComp::CScene::drawBackground(QPainter* painter, const QRec
 {
 	switch (*m_parent.m_backgroundModeAttrPtr){
 		case BM_GRID:
-			DrawGrid(painter, rect, false);
+			DrawGrid(*painter, rect, false);
 			break;
 
 		case BM_DOT_GRID:
-			DrawGrid(painter, rect, true);
+			DrawGrid(*painter, rect, true);
 			break;
 
 		default:
