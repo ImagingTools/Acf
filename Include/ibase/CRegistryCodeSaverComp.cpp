@@ -1207,6 +1207,8 @@ std::string CRegistryCodeSaverComp::GetComponentName(const std::string& componen
 
 std::string CRegistryCodeSaverComp::GetStringLiteral(const istd::CString& text) const
 {
+	static const char* hexCiphers = "0123456789ABCDEF";
+
 	std::string retVal("L\"");
 
 	for (		istd::CString::const_iterator iter = text.begin();
@@ -1237,10 +1239,10 @@ std::string CRegistryCodeSaverComp::GetStringLiteral(const istd::CString& text) 
 		}
 		else if ((c >= 128) || (c < 32)){
 			retVal += "\\x";
-			retVal += char('0' + ((c >> 12) & 15));
-			retVal += char('0' + ((c >> 8) & 15));
-			retVal += char('0' + ((c >> 4) & 15));
-			retVal += char('0' + (c & 15));
+			retVal += hexCiphers[(c >> 12) & 15];
+			retVal += hexCiphers[(c >> 8) & 15];
+			retVal += hexCiphers[(c >> 4) & 15];
+			retVal += hexCiphers[c & 15];
 		}
 		else{
 			retVal += char(c);

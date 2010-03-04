@@ -16,8 +16,11 @@ void CXmlDocumentInfoBase::EncodeXml(const std::string& text, std::string& xmlTe
 		if (iter != s_charToEntityMap.end()){
 			xmlText += iter->second;
 		}
-		else{
+		else if ((c >= ' ') && (c <= '}')){
 			xmlText += c;
+		}
+		else{
+			xmlText = "&#" + istd::CString::FromNumber(int(c)).ToString() + ";";
 		}
 	}
 }
@@ -35,12 +38,18 @@ void CXmlDocumentInfoBase::DecodeXml(const std::string& xmlText, std::string& te
 			text += xmlText.substr(actPos, ampPos - actPos);
 
 			std::string::size_type semicolonPos = xmlText.find(';', actPos);
-			if (semicolonPos == std::string::npos){
+			if ((semicolonPos == std::string::npos) || (ampPos >= semicolonPos - 2)){
 				return;
 			}
-			EntityToChartMap::const_iterator entityIter = s_entityToChartMap.find(xmlText.substr(ampPos, semicolonPos - ampPos + 1));
-			if (entityIter != s_entityToChartMap.end()){
-				text += entityIter->second;
+
+			if (xmlText[ampPos + 1] == '#'){
+				text += char(istd::CString(xmlText.substr(ampPos + 2, semicolonPos - ampPos - 2)).ToNumber<int>());
+			}
+			else{
+				EntityToChartMap::const_iterator entityIter = s_entityToChartMap.find(xmlText.substr(ampPos, semicolonPos - ampPos + 1));
+				if (entityIter != s_entityToChartMap.end()){
+					text += entityIter->second;
+				}
 			}
 
 			actPos = semicolonPos + 1;
