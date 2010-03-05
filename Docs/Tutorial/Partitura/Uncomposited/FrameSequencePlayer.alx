@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1337
+          1393
         </Number>
         <Description>
           ACF
@@ -15,27 +15,16 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="11">
-    <Element>
-      <ComponentName>
-        BitmapLoader
-      </ComponentName>
-      <X>
-        -61
-      </X>
-      <X>
-        -133
-      </X>
-    </Element>
+  <PositionMap count="5">
     <Element>
       <ComponentName>
         DirModelBinder
       </ComponentName>
       <X>
-        -786
+        250
       </X>
       <X>
-        -2
+        425
       </X>
     </Element>
     <Element>
@@ -43,10 +32,10 @@
         DirParam
       </ComponentName>
       <X>
-        -536
+        550
       </X>
       <X>
-        93
+        500
       </X>
     </Element>
     <Element>
@@ -54,21 +43,10 @@
         DirParamGui
       </ComponentName>
       <X>
-        -532
+        550
       </X>
       <X>
-        -85
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        FileNameParam
-      </ComponentName>
-      <X>
-        401
-      </X>
-      <X>
-        -101
+        350
       </X>
     </Element>
     <Element>
@@ -76,10 +54,10 @@
         FrameSequenceViewer
       </ComponentName>
       <X>
-        -192
+        875
       </X>
       <X>
-        1
+        425
       </X>
     </Element>
     <Element>
@@ -87,54 +65,10 @@
         GuiApplication
       </ComponentName>
       <X>
-        -168
+        875
       </X>
       <X>
-        -279
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ImageView
-      </ComponentName>
-      <X>
-        271
-      </X>
-      <X>
-        -13
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ModelEditorGui
-      </ComponentName>
-      <X>
-        -173
-      </X>
-      <X>
-        188
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        PlaybackController
-      </ComponentName>
-      <X>
-        241
-      </X>
-      <X>
-        195
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        PlaybackControllerGui
-      </ComponentName>
-      <X>
-        224
-      </X>
-      <X>
-        174
+        200
       </X>
     </Element>
   </PositionMap>
