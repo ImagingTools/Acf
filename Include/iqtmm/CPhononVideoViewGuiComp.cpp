@@ -51,7 +51,7 @@ istd::CString CPhononVideoViewGuiComp::GetOpenedMediumUrl() const
 
 bool CPhononVideoViewGuiComp::OpenMediumUrl(const istd::CString& url, bool autoPlay)
 {
-	istd::CChangeNotifier notifier(this, CF_STATUS);
+	istd::CChangeNotifier notifier(this, CF_STATUS | CF_MEDIA_POSITION);
 
 	m_mediaObject.setCurrentSource(iqt::GetQString(url));
 

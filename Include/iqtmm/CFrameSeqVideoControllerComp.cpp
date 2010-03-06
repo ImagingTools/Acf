@@ -71,7 +71,7 @@ istd::CString CFrameSeqVideoControllerComp::GetOpenedMediumUrl() const
 
 bool CFrameSeqVideoControllerComp::OpenMediumUrl(const istd::CString& url, bool autoPlay)
 {
-	istd::CChangeNotifier notifier(this, CF_STATUS);
+	istd::CChangeNotifier notifier(this, CF_STATUS | CF_MEDIA_POSITION);
 
 	m_mediumUrl = url;
 
