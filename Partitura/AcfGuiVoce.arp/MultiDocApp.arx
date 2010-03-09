@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1360
+          1398
         </Number>
         <Description>
           ACF
@@ -324,7 +324,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="12">
           <AttributeInfo>
             <Id>
               AboutGui
@@ -426,6 +426,22 @@
             </Type>
             <ExportId>
               IsNestingEnabled
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              IsOpenContainingFolderVisible
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              IsOpenContainingFolderVisible
             </ExportId>
             <Data>
               <IsEnabled>

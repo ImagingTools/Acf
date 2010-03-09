@@ -46,6 +46,7 @@ public:
 		I_ASSIGN(m_documentManagerModelCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
 		I_ASSIGN(m_documentManagerCommandsCompPtr, "DocumentManager", "Document manager", false, "DocumentManager");
 		I_ASSIGN(m_isCopyPathVisibleAttrPtr, "IsCopyPathVisible", "If true, operation Tools/CopyDocumentPath will be visible", true, false);
+		I_ASSIGN(m_isOpenContainingFolderVisibleAttrPtr, "IsOpenContainingFolderVisible", "If true, operation Tools/Open Containing Folder will be visible", true, false);
 		I_ASSIGN(m_maxRecentFilesCountAttrPtr, "MaxRecentFiles", "Maximal size of recent file list for one document type", true, 10);
 	I_END_COMPONENT;
 
@@ -118,6 +119,7 @@ protected Q_SLOTS:
 	void OnRedo();
 	void OnFullScreen();
 	void OnCopyPathToClippboard();
+	void OnOpenDocumentFolder();
 
 private:
 	class NewDocumentCommand: public iqtgui::CHierarchicalCommand
@@ -203,6 +205,7 @@ private:
 	iqtgui::CHierarchicalCommand m_fullScreenCommand;
 	// tools menu group
 	iqtgui::CHierarchicalCommand m_copyPathToClippboardCommand;
+	iqtgui::CHierarchicalCommand m_openDocumentFolderCommand;
 
 	typedef istd::TDelPtr<iqtgui::CHierarchicalCommand> RecentGroupCommandPtr;
 	typedef std::map<std::string, RecentGroupCommandPtr> RecentFilesMap;
@@ -213,6 +216,7 @@ private:
 	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(ibase::ICommandsProvider, m_documentManagerCommandsCompPtr);
 	I_ATTR(bool, m_isCopyPathVisibleAttrPtr);
+	I_ATTR(bool, m_isOpenContainingFolderVisibleAttrPtr);
 	I_ATTR(int, m_maxRecentFilesCountAttrPtr);
 
 	QByteArray m_beforeFullScreenGeometry;

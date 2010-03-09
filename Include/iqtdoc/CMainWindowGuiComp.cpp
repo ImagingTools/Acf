@@ -7,9 +7,11 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QUrl>
+#include <QDir>
 #include <QFileInfo>
 #include <QStatusBar>
 #include <QClipboard>
+#include <QDesktopServices>
 
 
 // ACF includes
@@ -37,7 +39,8 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	m_undoCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
 	m_redoCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
 	m_fullScreenCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
-	m_copyPathToClippboardCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU)
+	m_copyPathToClippboardCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU),
+	m_openDocumentFolderCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU)
 {
 	connect(&m_newCommand, SIGNAL(activated()), this, SLOT(OnNew()));
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
@@ -49,6 +52,7 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
 	connect(&m_fullScreenCommand, SIGNAL(activated()), this, SLOT(OnFullScreen()));
 	connect(&m_copyPathToClippboardCommand, SIGNAL(activated()), this, SLOT(OnCopyPathToClippboard()));
+	connect(&m_openDocumentFolderCommand, SIGNAL(activated()), this, SLOT(OnOpenDocumentFolder()));
 }
 
 
@@ -363,6 +367,10 @@ void CMainWindowGuiComp::UpdateToolsCommands(iqtgui::CHierarchicalCommand& tools
 	if (*m_isCopyPathVisibleAttrPtr){
 		toolsCommand.InsertChild(&m_copyPathToClippboardCommand, false);
 	}
+
+	if (*m_isOpenContainingFolderVisibleAttrPtr){
+		toolsCommand.InsertChild(&m_openDocumentFolderCommand, false);
+	}
 }
 
 
@@ -400,6 +408,7 @@ void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCom
 	m_saveCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_SAVE) != 0);
 	m_saveAsCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_SAVE_AS) != 0);
 	m_copyPathToClippboardCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_KNOWN_PATH) != 0);
+	m_openDocumentFolderCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_KNOWN_PATH) != 0);
 	m_printCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_PRINT) != 0);
 
 	if (m_documentManagerCommandsCompPtr.IsValid()){
@@ -491,6 +500,7 @@ void CMainWindowGuiComp::OnRetranslate()
 
 	// Tools commands
 	m_copyPathToClippboardCommand.SetVisuals(tr("&Copy Document Path"), tr("Copy Path"), tr("Copy current document path to system clippboard"));
+	m_openDocumentFolderCommand.SetVisuals(tr("&Open Containing Folder"), tr("Open Containing Folder"), tr("Open folder containing the current document"));
 }
 
 
@@ -867,6 +877,20 @@ void CMainWindowGuiComp::OnCopyPathToClippboard()
 			QClipboard* clipboardPtr = QApplication::clipboard();
 			if (clipboardPtr != NULL){
 				clipboardPtr->setText(iqt::GetQString(info.filePath));
+			}
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::OnOpenDocumentFolder()
+{
+	if ((m_activeViewPtr != NULL) && m_documentManagerCompPtr.IsValid()){
+		idoc::IDocumentManager::DocumentInfo info;
+		if (m_documentManagerCompPtr->GetDocumentFromView(*m_activeViewPtr, &info) != NULL){
+			QFileInfo fileInfo(iqt::GetQString(info.filePath));
+			if (fileInfo.absoluteDir().exists()){
+				QDesktopServices::openUrl(fileInfo.absoluteDir().absolutePath());
 			}
 		}
 	}

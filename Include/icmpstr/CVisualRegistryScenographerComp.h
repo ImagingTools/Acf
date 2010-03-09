@@ -112,7 +112,7 @@ protected slots:
 	void OnAbort();
 	void OnAddNote();
 	void OnRemoveNote();
-	bool OnDroppedData(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
+	bool OnDropObject(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
 	void OnExecutionTimerTick();
 
 protected:

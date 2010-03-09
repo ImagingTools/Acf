@@ -112,7 +112,7 @@ void CVisualRegistryScenographerComp::OnDropFinished(const QMimeData& mimeData, 
 {
 	QGraphicsSceneDragDropEvent* sceneEventPtr = dynamic_cast<QGraphicsSceneDragDropEvent*>(eventPtr);
 	if (sceneEventPtr != NULL){
-		OnDroppedData(mimeData, sceneEventPtr);
+		OnDropObject(mimeData, sceneEventPtr);
 	}
 }
 
@@ -497,7 +497,7 @@ void CVisualRegistryScenographerComp::OnRemoveNote()
 }
 
 
-bool CVisualRegistryScenographerComp::OnDroppedData(const QMimeData& mimeData, QGraphicsSceneDragDropEvent* eventPtr)
+bool CVisualRegistryScenographerComp::OnDropObject(const QMimeData& mimeData, QGraphicsSceneDragDropEvent* eventPtr)
 {
 	QByteArray byteData = mimeData.data("component");
 	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
