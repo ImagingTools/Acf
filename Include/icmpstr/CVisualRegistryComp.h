@@ -10,7 +10,6 @@
 #include "icomp/CComponentBase.h"
 
 #include "ibase/TLoggerCompWrap.h"
-#include "ibase/TFactorisableContainer.h"
 
 #include "icmpstr/IElementSelectionInfo.h"
 #include "icmpstr/CVisualRegistryElement.h"
@@ -23,7 +22,6 @@ namespace icmpstr
 class CVisualRegistryComp:
 			public ibase::CLoggerComponentBase,
 			public icomp::CRegistry,
-			public ibase::TFactorisableContainer<iser::IObject>,
 			public icmpstr::IElementSelectionInfo
 {
 public:
