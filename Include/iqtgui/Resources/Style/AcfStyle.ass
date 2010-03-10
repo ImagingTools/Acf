@@ -118,16 +118,3 @@ QTabBar::tab:selected:left, QTabBar::tab:hover {
 QSplashScreen {
 	color: red;
 }
-
-QToolBar:vertical{
-	background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,
-								stop: 0 #f5f5f5, stop: 0.3 #f5f5f5,
-								stop: 0 #f0f0f0, stop: 0.7 #efefef);
-}
-
-QToolBar:horizontal{
-background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-								stop: 0 #f5f5f5, stop: 0.3 #f5f5f5,
-								stop: 0 #f0f0f0, stop: 0.7 #efefef);
-}
-
