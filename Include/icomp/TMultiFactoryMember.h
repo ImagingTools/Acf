@@ -22,7 +22,7 @@ template <class Interface>
 class TMultiFactoryMember: public TMultiAttributeMember<CMultiFactoryAttribute>, public CInterfaceManipBase
 {
 public:
-	typedef TMultiAttributeMember<CFactoryAttribute> BaseClass;
+	typedef TMultiAttributeMember<CMultiFactoryAttribute> BaseClass;
 	typedef CInterfaceManipBase BaseClass2;
 	typedef Interface InterfaceType;
 
