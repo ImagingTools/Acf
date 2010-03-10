@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>CPlaybackControllerGuiComp</class>
- <widget class="QWidget" name="CPlaybackControllerGuiComp" >
-  <property name="geometry" >
+ <widget class="QWidget" name="CPlaybackControllerGuiComp">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,59 +10,92 @@
     <height>50</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" >
-   <property name="margin" >
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="margin">
     <number>0</number>
    </property>
    <item>
-    <widget class="QPushButton" name="PlayButton" >
-     <property name="text" >
+    <widget class="QPushButton" name="PlayButton">
+     <property name="text">
       <string>Play</string>
      </property>
-     <property name="icon" >
-      <iconset resource="../iqtgui/iqtgui.qrc" >
+     <property name="icon">
+      <iconset>
        <normaloff>:/Icons/PlayerPlay</normaloff>:/Icons/PlayerPlay</iconset>
      </property>
-     <property name="iconSize" >
+     <property name="iconSize">
       <size>
        <width>24</width>
        <height>24</height>
       </size>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QSlider" name="PositionSlider" >
-     <property name="orientation" >
+    <widget class="QTimeEdit" name="TimeEdit">
+     <property name="maximumTime">
+      <time>
+       <hour>0</hour>
+       <minute>59</minute>
+       <second>59</second>
+      </time>
+     </property>
+     <property name="displayFormat">
+      <string>H:mm:ss.zzz</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSlider" name="PositionSlider">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="RepeatButton" >
-     <property name="text" >
+    <widget class="QSpinBox" name="FrameIndexSB">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximum">
+      <number>999999</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="RepeatButton">
+     <property name="text">
       <string/>
      </property>
-     <property name="icon" >
-      <iconset resource="../iqtgui/iqtgui.qrc" >
+     <property name="icon">
+      <iconset resource="../iqtgui/iqtgui.qrc">
        <normaloff>:/Icons/Restart</normaloff>:/Icons/Restart</iconset>
      </property>
-     <property name="iconSize" >
+     <property name="iconSize">
       <size>
        <width>24</width>
        <height>24</height>
       </size>
      </property>
-     <property name="checkable" >
+     <property name="checkable">
       <bool>true</bool>
      </property>
-     <property name="checked" >
+     <property name="checked">
       <bool>true</bool>
      </property>
     </widget>
@@ -69,7 +103,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../iqtgui/iqtgui.qrc" />
+  <include location="../iqtgui/iqtgui.qrc"/>
  </resources>
  <connections/>
 </ui>

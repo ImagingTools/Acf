@@ -29,11 +29,18 @@ public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CPlaybackControllerGuiComp, imm::IVideoController> BaseClass;
 
 	I_BEGIN_COMPONENT(CPlaybackControllerGuiComp);
+		I_ASSIGN(m_showPositionSliderAttrPtr, "ShowPositionSlider", "Shows and allows edit position slider", true, true);
+		I_ASSIGN(m_showTimePositionAttrPtr, "ShowTimePosition", "Shows and allows edit current time position", true, false);
+		I_ASSIGN(m_showFrameIndexAttrPtr, "ShowFrameIndex", "Shows and allows edit current frame index", true, false);
 	I_END_COMPONENT();
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;
+
+protected:
+	// reimplemented (iqtgui::CGuiComponentBase)
+	virtual void OnGuiCreated();
 
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
@@ -45,10 +52,16 @@ private slots:
 private Q_SLOTS:
 	void on_PlayButton_toggled(bool isToggled);
 	void on_PositionSlider_valueChanged(int position);
+	void on_FrameIndexSB_editingFinished();
+	void on_TimeEdit_editingFinished();
 
 private:
 	QTimer m_playTimer;
 	int m_currentFrameIndex;
+
+	I_ATTR(bool, m_showPositionSliderAttrPtr);
+	I_ATTR(bool, m_showTimePositionAttrPtr);
+	I_ATTR(bool, m_showFrameIndexAttrPtr);
 };
 
 

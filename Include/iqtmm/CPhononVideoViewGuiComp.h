@@ -33,10 +33,6 @@ public:
 
 	CPhononVideoViewGuiComp();
 
-	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-
 	// reimplemented (imm::IMediaController)
 	virtual istd::CString GetOpenedMediumUrl() const;
 	virtual bool OpenMediumUrl(const istd::CString& url, bool autoPlay = true);
@@ -60,6 +56,10 @@ public:
 
 protected:
 	void EnsureSync() const;
+
+	// reimplemented (iqtgui::CGuiComponentBase)
+	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 private:
 	Phonon::MediaObject m_mediaObject;

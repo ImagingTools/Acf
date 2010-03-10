@@ -21,24 +21,6 @@ CPhononVideoViewGuiComp::CPhononVideoViewGuiComp()
 }
 
 
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void CPhononVideoViewGuiComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
-	Phonon::createPath(&m_mediaObject, GetQtWidget());
-}
-
-
-void CPhononVideoViewGuiComp::OnGuiDestroyed()
-{
-	CloseMedium();
-
-	BaseClass::OnGuiDestroyed();
-}
-
-
 // reimplemented (imm::IMediaController)
 
 istd::CString CPhononVideoViewGuiComp::GetOpenedMediumUrl() const
@@ -199,6 +181,24 @@ void CPhononVideoViewGuiComp::EnsureSync() const
 			break;
 		}
 	}
+}
+
+
+// reimplemented (iqtgui::CGuiComponentBase)
+
+void CPhononVideoViewGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	Phonon::createPath(&m_mediaObject, GetQtWidget());
+}
+
+
+void CPhononVideoViewGuiComp::OnGuiDestroyed()
+{
+	CloseMedium();
+
+	BaseClass::OnGuiDestroyed();
 }
 
 
