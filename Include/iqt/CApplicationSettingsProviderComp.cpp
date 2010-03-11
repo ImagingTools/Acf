@@ -7,13 +7,13 @@ namespace iqt
 	
 	
 CApplicationSettingsProviderComp::CApplicationSettingsProviderComp()
-	:m_companyName("UnknownCompany"),
+:	m_companyName("UnknownCompany"),
 	m_applicationName("ACF Application")
 {
 }
 
 
-// reimplemented (icomp::IRegistryLoaderProvider)
+// reimplemented (iqt::ISettingsProvider)
 
 QSettings& CApplicationSettingsProviderComp::GetSettings() const
 {
