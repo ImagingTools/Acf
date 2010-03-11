@@ -132,8 +132,6 @@ void CPlaybackControllerGuiComp::on_PositionSlider_valueChanged(int position)
 {
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		UpdateBlocker block(this);
-
 		objectPtr->SetCurrentFrame(position);
 	}
 }
@@ -143,8 +141,6 @@ void CPlaybackControllerGuiComp::on_FrameIndexSB_editingFinished()
 {
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		UpdateBlocker block(this);
-
 		objectPtr->SetCurrentFrame(FrameIndexSB->value());
 	}
 }
@@ -154,8 +150,6 @@ void CPlaybackControllerGuiComp::on_TimeEdit_editingFinished()
 {
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		UpdateBlocker block(this);
-
 		QTime time = TimeEdit->time();
 		double t = (time.hour() * 60.0 + time.minute()) * 60 + time.second() + time.msec() * 0.001;
 		objectPtr->SetCurrentPosition(t);
