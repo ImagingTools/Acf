@@ -27,6 +27,7 @@ HEADERS += ../CSampledFunction2d.h
 HEADERS += ../imath.h
 HEADERS += ../TFastVector.h
 HEADERS += ../TFulcrumGridFunctionBase.h
+HEADERS += ../TISurjectFunction.h
 HEADERS += ../TIMathFunction.h
 HEADERS += ../TISampledFunction.h
 HEADERS += ../TIValueManip.h

@@ -29,6 +29,7 @@ HEADERS += ../CTransform.h
 HEADERS += ../CVector2d.h
 HEADERS += ../i2d.h
 HEADERS += ../IObject2d.h
+HEADERS += ../ISceneController.h
 SOURCES += ../CAnnulus.cpp
 SOURCES += ../CAnnulusSegment.cpp
 SOURCES += ../CCircle.cpp

@@ -20,10 +20,8 @@ UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += 
-
 
 INCLUDEPATH += ../../../Include "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
 
 HEADERS += ../BasePck.h
-SOURCES += ../Main.cpp
+SOURCES += ../BasePck.cpp

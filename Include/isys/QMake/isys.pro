@@ -27,7 +27,6 @@ HEADERS += ../IApplicationEnvironment.h
 HEADERS += ../ICriticalSection.h
 HEADERS += ../IDateTime.h
 HEADERS += ../IFileSystem.h
-HEADERS += ../IFolderMonitor.h
 HEADERS += ../IFunctionsProvider.h
 HEADERS += ../isys.h
 HEADERS += ../ISystemEnvironment.h

@@ -3,12 +3,12 @@ TEMPLATE = app
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ..\..\..\Bin\DebugQMake
-	LIBS += -L"$(ACFDIR)/Lib/DebugQMake -L"$(QScintilla)/Lib/DebugQMake 
+	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
 	LIBS += 
 }
 CONFIG(release, debug|release) {
 	DESTDIR = ..\..\..\Bin\ReleaseQMake
-	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake -L"$(QScintilla)/Lib/ReleaseQMake 
+	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
 	LIBS += 
 }
 
@@ -22,4 +22,5 @@ include(dependencies.pri)
 
 INCLUDEPATH += "$(ACFDIR)/Include" "$(ACFDIR)/Impl" "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtScript" 
 
+HEADERS += ../VC\resource.h
 SOURCES += ../main.cpp

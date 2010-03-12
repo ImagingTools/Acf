@@ -18,7 +18,3 @@ QT +=
 
 INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QWT3DDIR)/Include" 
 
-HEADERS += ../CSurfaceViewComp.h
-SOURCES += ../CSurfaceViewComp.cpp
-SOURCES += ../generated\moc_CSurfaceViewComp.cpp
-FORMS += ../CSurfaceViewComp.ui
