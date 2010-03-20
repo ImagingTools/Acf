@@ -184,7 +184,7 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 
 	if (registryPtr == NULL){
 		ElementInfoTab->setVisible(false);
-		RegistryInfoFrame->setVisible(false);
+		RegistryPropertiesFrame->setVisible(false);
 
 		return;
 	}
@@ -195,12 +195,12 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 	if ((selectionInfoPtr == NULL) || (elementPtr == NULL)){
 		ElementInfoTab->setVisible(false);
 
-		RegistryInfoFrame->setVisible(true);
+		RegistryPropertiesFrame->setVisible(true);
 
 		return;
 	}
 	else{
-		RegistryInfoFrame->setVisible(false);
+		RegistryPropertiesFrame->setVisible(false);
 
 		ElementInfoTab->setVisible(true);
 	}
@@ -747,7 +747,7 @@ void CAttributeEditorComp::OnGuiCreated()
 	BaseClass::OnGuiCreated();
 
 	ElementInfoTab->setVisible(false);
-	RegistryInfoFrame->setVisible(false);
+	RegistryPropertiesFrame->setVisible(false);
 
 	m_treeWidgetFilter.SetPtr(new iqtgui::CTreeWidgetFilter(AttributeTree));
 
