@@ -28,8 +28,6 @@ namespace icmpstr
 
 
 CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
-:	m_scenePtr(NULL),
-	m_isUpdating(false)
 {
 	int lightToolFlags = ibase::IHierarchicalCommand::CF_GLOBAL_MENU | ibase::IHierarchicalCommand::CF_TOOLBAR;
 
@@ -64,6 +62,14 @@ CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
 	m_registryMenu.InsertChild(&m_addNoteCommand);
 	m_registryMenu.InsertChild(&m_removeNoteCommand);
 	m_registryCommand.InsertChild(&m_registryMenu);
+
+	SetAcceptedMimeTypes(QStringList() << "component");
+
+	SetIgnoreChanges(i2d::IObject2d::CF_OBJECT_POSITION |
+				istd::IChangeable::CF_MODEL |
+				istd::IChangeable::CF_ACF_INTERNAL |
+				istd::CChangeDelegator::CF_DELEGATED |
+				icomp::IRegistryElement::CF_FLAGS_CHANGED);
 }
 
 
@@ -100,89 +106,11 @@ bool CVisualRegistryScenographerComp::TryOpenComponent(const CVisualRegistryElem
 }
 
 
-// reimplemented (iqtgui::IDropConsumer)
-
-QStringList CVisualRegistryScenographerComp::GetAcceptedMimeIds() const
-{
-	return QStringList() << "component";
-}
-
-
-void CVisualRegistryScenographerComp::OnDropFinished(const QMimeData& mimeData, QEvent* eventPtr)
-{
-	QGraphicsSceneDragDropEvent* sceneEventPtr = dynamic_cast<QGraphicsSceneDragDropEvent*>(eventPtr);
-	if (sceneEventPtr != NULL){
-		OnDropObject(mimeData, sceneEventPtr);
-	}
-}
-
-
 // reimplemented (ibase::ICommandsProvider)
 
 const ibase::IHierarchicalCommand* CVisualRegistryScenographerComp::GetCommands() const
 {
 	return &m_registryCommand;
-}
-
-
-// reimplemented (imod::CSingleModelObserverBase)
-
-void CVisualRegistryScenographerComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	if (updateFlags != 0){
-		static const int unimportantChanges =
-					i2d::IObject2d::CF_OBJECT_POSITION |
-					istd::IChangeable::CF_MODEL |
-					istd::IChangeable::CF_ACF_INTERNAL |
-					istd::CChangeDelegator::CF_DELEGATED |
-					icomp::IRegistryElement::CF_FLAGS_CHANGED;
-		int maskedFlags = (updateFlags & ~unimportantChanges);
-		if (maskedFlags == 0){
-			// some unimportant model changes
-			return;
-		}
-	}
-
-	if (m_scenePtr == NULL){
-		return;
-	}
-
-	m_isUpdating = true;
-
-	if (updateFlags != CVisualRegistryComp::CF_SELECTION){
-		QList<QGraphicsItem*> items = m_scenePtr->items();
-		foreach(QGraphicsItem* itemPtr, items){
-			m_scenePtr->removeItem(itemPtr);
-		}
-
-		icomp::IRegistry* registryPtr = GetObjectPtr();
-		if (registryPtr != NULL){
-			icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
-			for (		icomp::IRegistry::Ids::iterator iter = elementIds.begin();
-						iter != elementIds.end();
-						iter++){
-				const std::string& elementId = *iter;
-				const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementId);
-				if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
-					AddShapeToScene(elementInfoPtr->elementPtr.GetPtr());
-				}
-			}
-		}
-
-		AddConnectorsToScene();
-	}
-
-	QList<QGraphicsItem*> items = m_scenePtr->items();
-	foreach(QGraphicsItem* itemPtr, items){
-		CRegistryElementShape* elementShapePtr = dynamic_cast<CRegistryElementShape*>(itemPtr);
-		if (elementShapePtr != NULL){
-			elementShapePtr->CheckConsistency();
-		}
-	}
-
-	UpdateComponentSelection();
-
-	m_isUpdating = false;
 }
 
 
@@ -210,6 +138,10 @@ void CVisualRegistryScenographerComp::OnComponentCreated()
 		m_executionObserverTimer.start(500);
 	}
 
+	if (m_scenePtr != NULL){
+		connect(m_scenePtr, SIGNAL(selectionChanged()), this, SLOT(OnSelectionChanged()));
+	}
+
 	m_elementNameFont = qApp->font();
 	m_elementNameFont.setBold(true);
 	m_elementNameFont.setPointSize(12);
@@ -217,22 +149,7 @@ void CVisualRegistryScenographerComp::OnComponentCreated()
 	m_elementDetailFont = qApp->font();
 	m_elementDetailFont.setPointSize(8);
 
-	if (m_sceneProviderCompPtr.IsValid()){
-		I_ASSERT(m_scenePtr == NULL);
-		m_scenePtr = m_sceneProviderCompPtr->GetScene();
-
-		if (m_scenePtr != NULL){
-			connect(m_scenePtr, SIGNAL(selectionChanged()), this, SLOT(OnSelectionChanged()));
-		}
-	}
-
 	DoRetranslate();
-}
-
-
-void CVisualRegistryScenographerComp::OnComponentDestroyed()
-{
-	m_scenePtr = NULL;
 }
 
 
@@ -278,6 +195,61 @@ void CVisualRegistryScenographerComp::DoRetranslate()
 				tr("&Remove Note"), 
 				tr("Remove the note from selected component"),
 				QIcon(":/Resources/Icons/.png"));
+}
+
+
+// reimplemented (iqt2d::TScenographerCompBase)
+
+bool CVisualRegistryScenographerComp::OnDropObject(const QMimeData& mimeData, QGraphicsSceneDragDropEvent* eventPtr)
+{
+	QByteArray byteData = mimeData.data("component");
+	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
+
+	icomp::CComponentAddress address;
+
+	i2d::CVector2d position(0, 0);
+	if (eventPtr != NULL){
+		position = iqt::GetCVector2d(eventPtr->scenePos());
+	}
+
+	return address.Serialize(archive) && TryCreateComponent(address, position);
+}
+
+
+void CVisualRegistryScenographerComp::UpdateScene(int updateFlags)
+{
+	if (updateFlags != CVisualRegistryComp::CF_SELECTION){
+		QList<QGraphicsItem*> items = m_scenePtr->items();
+		foreach(QGraphicsItem* itemPtr, items){
+			m_scenePtr->removeItem(itemPtr);
+		}
+
+		icomp::IRegistry* registryPtr = GetObjectPtr();
+		if (registryPtr != NULL){
+			icomp::IRegistry::Ids elementIds = registryPtr->GetElementIds();
+			for (		icomp::IRegistry::Ids::iterator iter = elementIds.begin();
+						iter != elementIds.end();
+						iter++){
+				const std::string& elementId = *iter;
+				const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementId);
+				if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
+					AddShapeToScene(elementInfoPtr->elementPtr.GetPtr());
+				}
+			}
+		}
+
+		AddConnectorsToScene();
+	}
+
+	QList<QGraphicsItem*> items = m_scenePtr->items();
+	foreach(QGraphicsItem* itemPtr, items){
+		CRegistryElementShape* elementShapePtr = dynamic_cast<CRegistryElementShape*>(itemPtr);
+		if (elementShapePtr != NULL){
+			elementShapePtr->CheckConsistency();
+		}
+	}
+
+	UpdateComponentSelection();
 }
 
 
@@ -420,22 +392,6 @@ void CVisualRegistryScenographerComp::OnAddNote()
 void CVisualRegistryScenographerComp::OnRemoveNote()
 {
 	// TODO: implement registry notes
-}
-
-
-bool CVisualRegistryScenographerComp::OnDropObject(const QMimeData& mimeData, QGraphicsSceneDragDropEvent* eventPtr)
-{
-	QByteArray byteData = mimeData.data("component");
-	iser::CMemoryReadArchive archive(byteData.constData(), byteData.size());
-
-	icomp::CComponentAddress address;
-
-	i2d::CVector2d position(0, 0);
-	if (eventPtr != NULL){
-		position = iqt::GetCVector2d(eventPtr->scenePos());
-	}
-
-	return address.Serialize(archive) && TryCreateComponent(address, position);
 }
 
 
