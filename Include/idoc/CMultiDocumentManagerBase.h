@@ -5,6 +5,8 @@
 // STL includes
 #include <list>
 
+
+// ACF includes
 #include "istd/TPointerVector.h"
 #include "istd/TDelPtr.h"
 
@@ -142,6 +144,7 @@ protected:
 		Called after view is registered.
 	*/
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr) = 0;
+
 	/**
 		Called before view is removed.
 	*/

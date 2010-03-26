@@ -275,10 +275,10 @@ void CMultiDocumentManagerBase::FileClose(bool* ignoredPtr)
 			m_activeViewPtr = NULL;
 
 			if (info.views.empty()){	// last view was removed
-				int changeFlags = DocumentRemoved | DocumentCountChanged;
+				int changeFlags = CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
 				// if last document was closed, force view activation update:
 				if (m_documentInfos.GetCount() == 1){
-					changeFlags |= ViewActivationChanged;
+					changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
 				}
 
 				istd::CChangeNotifier notifier(this, changeFlags);
@@ -297,7 +297,7 @@ void CMultiDocumentManagerBase::FileClose(bool* ignoredPtr)
 void CMultiDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
 {
 	if (m_activeViewPtr != viewPtr){
-		istd::CChangeNotifier changePtr(this, ViewActivationChanged);
+		istd::CChangeNotifier changePtr(this, CF_VIEW_ACTIVATION_CHANGED);
 
 		m_activeViewPtr = viewPtr;
 	}
@@ -340,7 +340,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 	IDocumentTemplate::Ids documentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
 
 	if (!documentIds.empty()){
-		istd::CChangeNotifier changePtr(this, DocumentCountChanged | DocumentCreated);
+		istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED);
 
 		documentTypeId = documentIds.front();
 		istd::TDelPtr<SingleDocumentData> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId));
@@ -376,7 +376,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 void CMultiDocumentManagerBase::CloseAllDocuments()
 {
-	istd::CChangeNotifier notifierPtr(this, DocumentCountChanged | DocumentRemoved);
+	istd::CChangeNotifier notifierPtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_REMOVED);
 
 	m_documentInfos.Reset();
 }
@@ -480,7 +480,7 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 {
 	I_ASSERT(infoPtr != NULL);
 
-	istd::CChangeNotifier changePtr(this, DocumentCountChanged | DocumentCreated);
+	istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED);
 
 	m_documentInfos.PushBack(infoPtr);
 

@@ -2,8 +2,11 @@
 #define iqtdoc_CExtendedDocumentTemplateComp_included
 
 
+// Qt includes
 #include <QObject>
 
+
+// ACF includes
 #include "ibase/ICommandsProvider.h"
 #include "idoc/CSingleDocumentTemplateComp.h"
 

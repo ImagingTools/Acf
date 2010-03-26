@@ -45,8 +45,8 @@ void CDocumentManagerListenerComp::OnUpdate(int updateFlags, istd::IPolymorphic*
 	}
 
 	bool updateModel = 
-				(updateFlags & IDocumentManager::DocumentRemoved) != 0 || 
-				(updateFlags & IDocumentManager::ViewActivationChanged) != 0; 
+				(updateFlags & IDocumentManager::CF_DOCUMENT_REMOVED) != 0 || 
+				(updateFlags & IDocumentManager::CF_VIEW_ACTIVATION_CHANGED) != 0; 
 
 	if (updateModel){
 		istd::IChangeable* documentPtr = NULL;

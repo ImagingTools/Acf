@@ -1,6 +1,7 @@
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 
 
+// Qt includes
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QAction>

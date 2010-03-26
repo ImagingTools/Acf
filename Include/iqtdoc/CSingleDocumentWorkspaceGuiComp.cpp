@@ -7,6 +7,8 @@
 #include <QFileInfo>
 #include <QVBoxLayout>
 
+
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "idoc/IDocumentTemplate.h"
@@ -157,7 +159,7 @@ void CSingleDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewP
 {
 	I_ASSERT(viewPtr != NULL);
 
-	istd::CChangeNotifier changePtr(this, ViewActivationChanged);
+	istd::CChangeNotifier changePtr(this, CF_VIEW_ACTIVATION_CHANGED);
 
 	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
 	QWidget* widgetPtr = GetQtWidget();

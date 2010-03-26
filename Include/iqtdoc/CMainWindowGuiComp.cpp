@@ -508,7 +508,7 @@ void CMainWindowGuiComp::OnRetranslate()
 
 void CMainWindowGuiComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
 {
-	if ((updateFlags & idoc::IDocumentManager::ViewActivationChanged) != 0){
+	if ((updateFlags & idoc::IDocumentManager::CF_VIEW_ACTIVATION_CHANGED) != 0){
 		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
 		if (documentManagerPtr != NULL){
 			istd::IChangeable* documentPtr = NULL;

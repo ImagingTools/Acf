@@ -27,11 +27,11 @@ public:
 	*/
 	enum ChangeFlags
 	{
-		DocumentRenamed = 0x10000,
-		DocumentCreated = 0x20000,
-		DocumentRemoved = 0x40000,
-		DocumentCountChanged = 0x80000,
-		ViewActivationChanged = 0x100000
+		CF_DOCUMENT_RENAMED = 0x10000,
+		CF_DOCUMENT_CREATED = 0x20000,
+		CF_DOCUMENT_REMOVED = 0x40000,
+		CF_DOCUMENT_COUNT_CHANGED = 0x80000,
+		CF_VIEW_ACTIVATION_CHANGED = 0x100000
 	};
 
 	struct DocumentInfo
