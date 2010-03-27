@@ -20,6 +20,8 @@ namespace icomp
 class CRegistry: virtual public IRegistry
 {
 public:
+	CRegistry();
+
 	// reimplemented (icomp::IRegistry)
 	virtual Ids GetElementIds() const;
 	virtual ElementInfo* InsertElementInfo(
@@ -42,6 +44,8 @@ public:
 	virtual void SetDescription(const istd::CString& description);
 	virtual const istd::CString& GetKeywords() const;
 	virtual void SetKeywords(const istd::CString& keywords);
+	virtual int GetCategory() const;
+	virtual void SetCategory(int category);	
 	
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -69,6 +73,7 @@ private:
 
 	istd::CString m_description;
 	istd::CString m_keywords;
+	int m_category;
 };
 
 

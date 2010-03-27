@@ -57,8 +57,8 @@ namespace icomp
 		return &packageInfo;\
 	}
 
-#define I_EXPORT_COMPONENT(component, description, keywords) \
-	static icomp::TComponentRegistrator< component > component##_registrator(#component, packageInfo, description, keywords);\
+#define I_EXPORT_COMPONENT(component, description, keywords, category) \
+	static icomp::TComponentRegistrator<component> component##_registrator(#component, packageInfo, description, keywords, category);\
 
 typedef icomp::IComponentStaticInfo* (*GetPackageInfoFunc)();
 typedef void (*RegisterServicesFunc)(const istd::IServicesProvider*);

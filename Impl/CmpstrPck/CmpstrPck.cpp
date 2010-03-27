@@ -19,20 +19,67 @@ static struct StaticInit
 namespace CmpstrPck
 {
 
+	
+using namespace icomp;
+
 
 I_EXPORT_SERVICES_PROVIDER(iqt::CDefaultServicesProvider);
 
 I_EXPORT_PACKAGE("Cmpstr", "Compositor package", "Qt Compositor Tool");
 
-I_EXPORT_COMPONENT(AttributeEditor, "GUI used to edit attributes", "Observer Editor Attributes Qt GUI");
-I_EXPORT_COMPONENT(PackageOverview, "GUI showing all packages", "Observer Packages Qt GUI");
-I_EXPORT_COMPONENT(RegistryLoader, "Loader for registries including component layout in *.alx files", "Registry Loader Serializer Layout Components");
-I_EXPORT_COMPONENT(RegistryPreview, "Preview of registry object in separated application context", "Registry Preview ACF Application");
-I_EXPORT_COMPONENT(ComponentHelpFileProvider, "Provide file path of html help for component using its address", "Help File Provider Component Address Qt");
-I_EXPORT_COMPONENT(VisualRegistry, "Model of ACF registry with additional visual elements designed for Compositor", "Components ARX Model ACF Registry Visual Compositor");
-I_EXPORT_COMPONENT(VisualRegistryScenographer, "Visual registry editor", "Components ACF Registry Visual Compositor Observer Qt GUI");
-I_EXPORT_COMPONENT(RegistryConsistInfo, "Provides additional information about registries, its elements and attributes", "Registry Element Attribute Consistency Check Qt Compositor");
-I_EXPORT_COMPONENT(RegistryPropEditor, "Allows to edit global registry properties", "Registry Editor Qt GUI Compositor Description Keywords");
+I_EXPORT_COMPONENT(
+			AttributeEditor,
+			"GUI used to edit attributes",
+			"Observer Editor Attributes Qt GUI",
+			IComponentStaticInfo::CCT_GUI | IComponentStaticInfo::CCT_DATA_PRESENTATION);
+
+I_EXPORT_COMPONENT(
+			PackageOverview,
+			"GUI showing all packages",
+			"Observer Packages Qt GUI",
+			IComponentStaticInfo::CCT_GUI | IComponentStaticInfo::CCT_DATA_PRESENTATION);
+
+I_EXPORT_COMPONENT(
+			RegistryLoader,
+			"Loader for registries including component layout in *.alx files",
+			"Registry Loader Serializer Layout Components",
+			IComponentStaticInfo::CCT_GUI | IComponentStaticInfo::CCT_DATA_PRESENTATION);
+
+I_EXPORT_COMPONENT(
+			RegistryPreview,
+			"Preview of registry object in separated application context",
+			"Registry Preview ACF Application",
+			IComponentStaticInfo::CCT_GUI | IComponentStaticInfo::CCT_DATA_PRESENTATION);
+
+I_EXPORT_COMPONENT(
+			ComponentHelpFileProvider,
+			"Provide file path of html help for component using its address",
+			"Help File Provider Component Address Qt",
+			IComponentStaticInfo::CCT_SERVICE);
+
+I_EXPORT_COMPONENT(
+			VisualRegistry,
+			"Model of ACF registry with additional visual elements designed for Compositor", 
+			"Components ARX Model ACF Registry Visual Compositor",
+			IComponentStaticInfo::CCT_DATA);
+
+I_EXPORT_COMPONENT(
+			VisualRegistryScenographer,
+			"Visual registry editor",
+			"Components ACF Registry Visual Compositor Observer Qt GUI",
+			IComponentStaticInfo::CCT_DATA_PRESENTATION);
+
+I_EXPORT_COMPONENT(
+			RegistryConsistInfo,
+			"Provides additional information about registries, its elements and attributes",
+			"Registry Element Attribute Consistency Check Qt Compositor",
+			IComponentStaticInfo::CCT_DATA);
+
+I_EXPORT_COMPONENT(
+			RegistryPropEditor,
+			"Allows to edit global registry properties",
+			"Registry Editor Qt GUI Compositor Description Keywords",
+			IComponentStaticInfo::CCT_GUI | IComponentStaticInfo::CCT_DATA_PRESENTATION);
 
 
 } // namespace CmpstrPck

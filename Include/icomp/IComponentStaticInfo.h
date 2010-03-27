@@ -31,12 +31,83 @@ class IComponentStaticInfo: virtual public istd::IPolymorphic
 public:
 	typedef void* (*InterfaceExtractorPtr)(IComponent* componentPtr);
 
+	/**
+		Specify type of the component realization
+	*/
 	enum ComponentType
 	{
+		/**
+			Undefined.
+		*/
 		CT_NONE,
+
+		/**
+			Component is realized as a class and managed by the ACF registry package (arp).
+		*/
 		CT_REAL,
+
+		/**
+			Component is the composition of real or other composite components.
+		*/
 		CT_COMPOSITE
 	};
+
+	/**
+		Describes assignment of the component to a logical category.
+	*/
+	enum ComponentCategoryType
+	{
+		/**
+			Component is not assigned to any category.
+		*/
+		CCT_NONE = 0,
+
+		/**
+			Component serves for realization of the application logic or architecture.
+		*/
+		CCT_APPLICATION_LOGIC = 1,
+
+		/**
+			Component serves for realization of the multimedia services.
+		*/
+		CCT_MULTIMEDIA = 2,
+
+		/**
+			Component serves for realization of the data model used in the application logic.
+		*/
+		CCT_DATA = 4,
+
+		/**
+			Component serves for realization of the data model persistency.
+		*/
+		CCT_PERSISTENCY = 8,
+
+		/**
+			General graphical user interface component.
+		*/
+		CCT_GUI = 16,
+
+		/**
+			Data model presentation. Usually, this category is used with CCT_GUI.
+		*/
+		CCT_DATA_PRESENTATION = 32,
+
+		/**
+			Component serves for a general implementation of data processing.
+		*/
+		CCT_DATA_PROCESSING = 64,
+		
+		/**
+			Component realized the application's entry point.
+		*/
+		CCT_APPLICATION = 128,
+	
+		/**
+			Component realize a service. 
+		*/
+		CCT_SERVICE = 128
+	};
+
 
 	/**
 		Map from class type to interface extractor implementation.
