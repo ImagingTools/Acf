@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CComponentCategoryEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComponentHelpFileProviderComp.cpp"
 				>
 			</File>
@@ -257,6 +261,10 @@
 			>
 			<File
 				RelativePath="..\CAttributeEditorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComponentCategoryEncoder.h"
 				>
 			</File>
 			<File

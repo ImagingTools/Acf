@@ -4,6 +4,8 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
+#include "icmpstr/CComponentCategoryEncoder.h"
+
 
 // public methods
 	
@@ -26,7 +28,9 @@ void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
 
 	DescriptionEdit->setText(iqt::GetQString(registryPtr->GetDescription()));
 	KeywordsEdit->setText(iqt::GetQString(registryPtr->GetKeywords()));
-	m_categoryComboBox->SetItemsChecked(GetCategoryStringList(registryPtr->GetCategory()));
+	
+	CComponentCategoryEncoder encoder;
+	m_categoryComboBox->SetItemsChecked(encoder.GetCategoryNames(registryPtr->GetCategory()));
 
 	CreateOverview();
 }
@@ -52,18 +56,11 @@ void CRegistryPropEditorComp::OnGuiCreated()
 		groubBoxLayout->addWidget(m_categoryComboBox);
 	}
 
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_APPLICATION] = "Application";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_MULTIMEDIA] = "Multimedia";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_DATA] = "Data";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_PERSISTENCY] = "Persistency";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_GUI] = "Gui";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_DATA_PRESENTATION] = "Data Presentation";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_DATA_PROCESSING] = "Data Proceassing";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_APPLICATION_LOGIC] = "Application Logic";
-	m_categoriesMap[icomp::IComponentStaticInfo::CCT_SERVICE] = "Service";
+	CComponentCategoryEncoder encoder;
+	const CComponentCategoryEncoder::CategoriesMap& categoriesMap = encoder.GetCategoriesMap();
 
-	for (		CategoriesMap::const_iterator iterator = m_categoriesMap.begin();
-				iterator != m_categoriesMap.end();
+	for (		CComponentCategoryEncoder::CategoriesMap::const_iterator iterator = categoriesMap.begin();
+				iterator != categoriesMap.end();
 				iterator++){		
 		m_categoryComboBox->addItem(iterator.value(), false);
 	}
@@ -108,14 +105,8 @@ void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& categories)
 {
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
-		int category = icomp::IComponentStaticInfo::CCT_NONE;
-
-		for (int index = 0; index < categories.count(); index++){
-			int singleCategory = m_categoriesMap.key(categories[index], -1);
-			if (singleCategory != -1){
-				category |= singleCategory;
-			}
-		}
+		CComponentCategoryEncoder encoder;
+		int category = encoder.GetCategoryFromNames(categories);
 
 		if (category != registryPtr->GetCategory()){
 			istd::CChangeNotifier notifier(registryPtr);
@@ -184,23 +175,6 @@ void CRegistryPropEditorComp::CreateOverview()
 		}
 	}
 }
-
-
-QStringList CRegistryPropEditorComp::GetCategoryStringList(int category) const
-{
-	QStringList retVal;
-
-	for (		CategoriesMap::const_iterator iterator = m_categoriesMap.begin();
-				iterator != m_categoriesMap.end();
-				iterator++){		
-		if ((iterator.key() & category) != 0){
-			retVal.push_back(iterator.value());
-		}
-	}
-
-	return retVal;
-}
-
 
 
 } // namespace icmpstr

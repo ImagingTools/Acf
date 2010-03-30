@@ -60,6 +60,13 @@ protected:
 	};
 
 	void GenerateComponentTree();
+	void GenerateComponentToolBox();
+	void UpdateComponentsView();
+
+	/**
+		Get only component, that match to the filter criteria
+	*/
+	icomp::IMetaInfoManager::ComponentAddresses GetFilteredComponentAdresses() const;
 
 	bool IsInterfaceSupportedByComponent(const istd::CClassInfo& interfaceInfo, const QTreeWidgetItem& item) const;
 
@@ -113,6 +120,7 @@ private:
 		GM_NONE,
 		GM_PACKAGE,
 		GM_KEYWORD,
+		GM_CATEGORY,
 		GM_NAME
 	};
 
@@ -127,6 +135,11 @@ private:
 	QIcon m_realComponentIcon;
 	QIcon m_compositeComponentIcon;
 	QIcon m_mixedComponentIcon;
+
+	typedef std::map<int, istd::TDelPtr<QTreeWidget> > CategoryWidgetsMap;
+	CategoryWidgetsMap m_categoryWidgetsMap;
+
+	friend class CItemDelegate;
 };
 
 

@@ -184,6 +184,12 @@ public:
 		Get keywords for this component.
 	*/
 	virtual const istd::CString& GetKeywords() const = 0;
+
+	/**
+		Get category for this component.
+		\sa ComponentCategoryType
+	*/
+	virtual int GetCategory() const = 0;
 };
 
 

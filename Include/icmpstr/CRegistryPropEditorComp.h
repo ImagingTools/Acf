@@ -42,11 +42,6 @@ protected slots:
 private:
 	void CreateOverview();
 
-	QStringList GetCategoryStringList(int category) const;
-
-	typedef QMap<int, QString> CategoriesMap;
-	CategoriesMap m_categoriesMap;
-
 	iqtgui::CCheckableComboBox* m_categoryComboBox;
 };
 

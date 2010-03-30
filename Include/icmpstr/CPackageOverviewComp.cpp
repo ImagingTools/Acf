@@ -23,6 +23,8 @@
 
 #include "iqt/CSignalBlocker.h"
 
+#include "icmpstr/CComponentCategoryEncoder.h"
+
 
 namespace icmpstr
 {
@@ -31,13 +33,121 @@ namespace icmpstr
 class CItemDelegate: public QItemDelegate
 {
 public:
+	typedef QItemDelegate BaseClass;
+
+	enum Margin
+	{
+		SIDE_OFFSET = 4
+	};
+
+	CItemDelegate(const icomp::IMetaInfoManager& metaInfoManager)
+		:m_metaInfoManager(metaInfoManager)
+	{
+		m_componentNameFont.setPointSize(10);
+		m_componentNameFont.setBold(true);
+		m_componentDescriptionFont.setPointSize(8);	
+	}
+
+
+	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+	{
+		CPackageOverviewComp::PackageComponentItem* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
+		if (selectedItemPtr == NULL){
+			BaseClass::paint(painter, option, index);
+			
+			return;
+		}
+
+		painter->save();
+
+	 	QRect mainRect = option.rect;
+
+		if (option.state & QStyle::State_Selected){
+			painter->fillRect(mainRect, option.palette.highlight());
+		}
+		
+		// main margins
+		mainRect.adjust(0, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
+
+		if ((option.state & QStyle::State_Selected) == 0){
+			painter->setPen(QPen(option.palette.mid().color(), 0, Qt::DotLine));
+
+			painter->drawRoundedRect(mainRect, SIDE_OFFSET, SIDE_OFFSET);
+		}
+
+		painter->setPen(option.palette.text().color());
+
+		// draw icon:
+		int iconSize = mainRect.height() - SIDE_OFFSET;
+		QIcon componentIcon = selectedItemPtr->icon(0);
+		if (componentIcon.isNull()){
+			componentIcon =  QIcon(":/Icons/RealComponent.svg").pixmap(QSize(iconSize, iconSize), QIcon::Disabled);
+		}
+
+		if (!componentIcon.isNull()){
+			QRectF iconRect(
+						mainRect.left() + SIDE_OFFSET / 2,
+						mainRect.top() + SIDE_OFFSET / 2,
+						iconSize,
+						iconSize);
+
+			componentIcon.paint(painter, iconRect.toRect());
+			mainRect.adjust(mainRect.height() + SIDE_OFFSET, 0, 0, 0);
+		}
+
+		QString componentName = selectedItemPtr->text(0);
+		
+		QString componentDescription;		
+		const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManager.GetComponentMetaInfo(selectedItemPtr->GetAddress());
+		if (infoPtr != NULL){
+			componentDescription = iqt::GetQString(infoPtr->GetDescription());
+		}
+
+		painter->setFont(m_componentNameFont);
+		painter->drawText(mainRect, Qt::AlignTop | Qt::AlignLeft | Qt::TextSingleLine, componentName);
+
+		if (!componentDescription.isEmpty()){
+			painter->setFont(m_componentDescriptionFont);
+			painter->drawText(
+						mainRect,
+						Qt::AlignBottom | Qt::AlignLeft | Qt::TextSingleLine, componentDescription);
+		}
+
+		painter->restore();
+	}
+
+
 	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 	{
+		CPackageOverviewComp::PackageComponentItem* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
+		if (selectedItemPtr == NULL){
+			QSize size = QItemDelegate::sizeHint(option, index);
+
+			size.setHeight(25);
+
+
+			return size;
+		}
+
 		QSize size = QItemDelegate::sizeHint(option, index);
-		size.setHeight(20);
+
+		QFontMetrics nameFontMetrics(m_componentNameFont);
+		QFontMetrics descriptionFontMetrics(m_componentDescriptionFont);
+
+		int height = nameFontMetrics.height();
+		height += descriptionFontMetrics.height();
+		height += 3 * SIDE_OFFSET; // margin
+
+		size.setHeight(height);
 
 		return size;
 	}
+
+private:
+	QFont m_componentNameFont;
+	QFont m_componentDescriptionFont;
+
+	const icomp::IMetaInfoManager& m_metaInfoManager;
 };
 
 
@@ -75,7 +185,7 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 		}
 
 		if (FilterGB->isChecked()){
-			GenerateComponentTree();
+			UpdateComponentsView();
 		}
 	}
 }
@@ -85,14 +195,18 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 
 void CPackageOverviewComp::GenerateComponentTree()
 {
+	if (GroupByCB->currentIndex() == GM_CATEGORY){
+		return;
+	}
+
 	PackagesList->clear();
 	m_roots.clear();
 
 	if (!m_envManagerCompPtr.IsValid()){
 		return;
 	}
-
-	icomp::IMetaInfoManager::ComponentAddresses addresses = m_envManagerCompPtr->GetComponentAddresses();
+	
+	icomp::IMetaInfoManager::ComponentAddresses addresses = GetFilteredComponentAdresses();
 
 	for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
 				addressIter != addresses.end();
@@ -106,51 +220,6 @@ void CPackageOverviewComp::GenerateComponentTree()
 		if (metaInfoPtr != NULL){
 			QString keywordString = iqt::GetQString(metaInfoPtr->GetKeywords());
 			keywords << keywordString.split(QChar(' '), QString::SkipEmptyParts,  Qt::CaseInsensitive);
-		}
-
-		if (FilterGB->isChecked()){
-			bool isFilterMatched = true;
-
-			if (metaInfoPtr != NULL){
-				const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = metaInfoPtr->GetInterfaceExtractors();
-				for (		InterfaceFilter::const_iterator iterfaceIter = m_interfaceFilter.begin();
-							iterfaceIter != m_interfaceFilter.end();
-							++iterfaceIter){
-					const istd::CClassInfo& interfaceInfo = *iterfaceIter;
-
-					if (interfaceExtractors.FindElement(interfaceInfo) == NULL){
-						isFilterMatched = false;
-						break;
-					}
-				}
-			}
-
-			for (		QStringList::const_iterator filterIter = m_keywordsFilter.begin();
-						filterIter != m_keywordsFilter.end();
-						++filterIter){
-				const QString& filter = *filterIter;
-
-				bool filterFound = false;
-				for (		QStringList::const_iterator keywordIter = keywords.begin();
-							keywordIter != keywords.end();
-							++keywordIter){
-					const QString& keyword = *keywordIter;
-
-					if (keyword.contains(filter, Qt::CaseInsensitive)){
-						filterFound = true;
-						break;
-					}
-				}
-
-				if (!filterFound){
-					isFilterMatched = false;
-					break;
-				}
-			}
-
-			if (!isFilterMatched){
-				continue;
-			}
 		}
 
 		int keywordIndex = 1;
@@ -179,7 +248,6 @@ void CPackageOverviewComp::GenerateComponentTree()
 				groupId = elementName;
 				elementName = "Test";
 				break;
-
 			default:
 				groupId = address.GetPackageId();
 				elementName = address.GetComponentId();
@@ -248,6 +316,192 @@ void CPackageOverviewComp::GenerateComponentTree()
 }
 
 
+void CPackageOverviewComp::GenerateComponentToolBox()
+{
+	if (GroupByCB->currentIndex() != GM_CATEGORY){
+		return;
+	}
+
+	while(CategoryToolBox->count() > 0){
+		CategoryToolBox->removeItem(0);
+	}
+
+	m_categoryWidgetsMap.clear();
+
+	if (!m_envManagerCompPtr.IsValid()){
+		return;
+	}
+
+	icomp::IMetaInfoManager::ComponentAddresses addresses = GetFilteredComponentAdresses();
+
+	for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
+				addressIter != addresses.end();
+				++addressIter){
+		const icomp::CComponentAddress& address = *addressIter;
+		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+
+		int category = metaInfoPtr->GetCategory();
+		CComponentCategoryEncoder encoder;
+
+		CComponentCategoryEncoder::CategoriesList categories = encoder.GetSplitedCategories(category);
+
+		for (int categoryIndex = 0; categoryIndex < categories.count(); categoryIndex++){
+			int singleCategory = categories[categoryIndex];
+
+			QTreeWidget* categoryWidgetPtr = NULL;
+
+			CategoryWidgetsMap::iterator categoryWidgetIter = m_categoryWidgetsMap.find(singleCategory);
+
+			if (categoryWidgetIter == m_categoryWidgetsMap.end()){
+				QStringList categoryNames = encoder.GetCategoryNames(singleCategory);
+				I_ASSERT(!categoryNames.isEmpty());
+				if (categoryNames.isEmpty()){
+					continue;
+				}
+
+				istd::TDelPtr<QTreeWidget> treeWidgetPtr(new QTreeWidget(CategoryToolBox));
+				if (m_envManagerCompPtr.IsValid()){
+					treeWidgetPtr->setItemDelegate(new CItemDelegate(*m_envManagerCompPtr.GetPtr()));
+				}
+
+				treeWidgetPtr->header()->setResizeMode(0, QHeaderView::Stretch);
+				treeWidgetPtr->header()->hide();
+				treeWidgetPtr->setIndentation(15);
+				treeWidgetPtr->viewport()->installEventFilter(this);
+
+				CategoryToolBox->addItem(treeWidgetPtr.GetPtr(), categoryNames[0]);
+				categoryWidgetPtr = treeWidgetPtr.GetPtr();
+
+				m_categoryWidgetsMap[singleCategory] = treeWidgetPtr.PopPtr();
+			}
+			else{
+				categoryWidgetPtr = categoryWidgetIter->second.GetPtr();
+			}
+
+			I_ASSERT(categoryWidgetPtr != NULL);
+			if (categoryWidgetPtr != NULL){
+				std::string elementName = address.GetComponentId();
+
+				istd::CString infoPath = m_envManagerCompPtr->GetComponentInfoPath(address);
+
+				QIcon icon;
+				if (m_consistInfoCompPtr.IsValid()){
+					icon = m_consistInfoCompPtr->GetComponentIcon(address);
+				}
+
+				QDir packageDir(iqt::GetQString(infoPath));
+				PackageComponentItem* itemPtr = new PackageComponentItem(
+					*this,
+					address,
+					metaInfoPtr,
+					icon);
+
+				itemPtr->setText(0, elementName.c_str());
+
+				categoryWidgetPtr->addTopLevelItem(itemPtr);
+			}
+		}
+	}
+
+	// sort keywords alphabetically:
+	QAbstractItemModel* keywordsListModelPtr = PackagesList->model();
+	I_ASSERT(keywordsListModelPtr != NULL);
+	if (keywordsListModelPtr != NULL){
+		keywordsListModelPtr->sort(0);
+	}
+}
+
+
+void CPackageOverviewComp::UpdateComponentsView()
+{
+	int currentGroupIndex = GroupByCB->currentIndex();
+
+	PackagesList->setVisible((currentGroupIndex != GM_CATEGORY));
+	CategoryToolBox->setVisible((currentGroupIndex == GM_CATEGORY));
+
+	GenerateComponentTree();
+	
+	GenerateComponentToolBox();
+}
+
+
+icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredComponentAdresses() const
+{
+	icomp::IMetaInfoManager::ComponentAddresses filteredComponentAdresses;
+
+	if (!m_envManagerCompPtr.IsValid()){
+		return filteredComponentAdresses;
+	}
+	
+	icomp::IMetaInfoManager::ComponentAddresses addresses = m_envManagerCompPtr->GetComponentAddresses();
+
+	for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
+				addressIter != addresses.end();
+				++addressIter){
+		const icomp::CComponentAddress& address = *addressIter;
+		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+
+		QStringList keywords;
+		keywords << address.GetComponentId().c_str();
+
+		if (metaInfoPtr != NULL){
+			QString keywordString = iqt::GetQString(metaInfoPtr->GetKeywords());
+			keywords << keywordString.split(QChar(' '), QString::SkipEmptyParts,  Qt::CaseInsensitive);
+		}
+
+		if (FilterGB->isChecked()){
+			bool isFilterMatched = true;
+
+			if (metaInfoPtr != NULL){
+				const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = metaInfoPtr->GetInterfaceExtractors();
+				for (		InterfaceFilter::const_iterator iterfaceIter = m_interfaceFilter.begin();
+							iterfaceIter != m_interfaceFilter.end();
+							++iterfaceIter){
+					const istd::CClassInfo& interfaceInfo = *iterfaceIter;
+
+					if (interfaceExtractors.FindElement(interfaceInfo) == NULL){
+						isFilterMatched = false;
+						break;
+					}
+				}
+			}
+
+			for (		QStringList::const_iterator filterIter = m_keywordsFilter.begin();
+						filterIter != m_keywordsFilter.end();
+						++filterIter){
+				const QString& filter = *filterIter;
+
+				bool filterFound = false;
+				for (		QStringList::const_iterator keywordIter = keywords.begin();
+							keywordIter != keywords.end();
+							++keywordIter){
+					const QString& keyword = *keywordIter;
+
+					if (keyword.contains(filter, Qt::CaseInsensitive)){
+						filterFound = true;
+						break;
+					}
+				}
+
+				if (!filterFound){
+					isFilterMatched = false;
+					break;
+				}
+			}
+
+			if (!isFilterMatched){
+				continue;
+			}
+		}
+
+		filteredComponentAdresses.insert(address);
+	}
+
+	return filteredComponentAdresses;
+
+}
+
+
 // protected slots
 
 void CPackageOverviewComp::on_FilterEdit_editingFinished()
@@ -258,24 +512,24 @@ void CPackageOverviewComp::on_FilterEdit_editingFinished()
 		m_keywordsFilter = keywordsFilter;
 
 		if (FilterGB->isChecked()){
-			GenerateComponentTree();
+			UpdateComponentsView();
 		}
 	}
 }
 
 
-void CPackageOverviewComp::on_GroupByCB_currentIndexChanged(int /*index*/)
+void CPackageOverviewComp::on_GroupByCB_currentIndexChanged(int index)
 {
-	GenerateComponentTree();
+	PackagesList->setVisible((index != GM_CATEGORY));
+	CategoryToolBox->setVisible((index == GM_CATEGORY));
+
+	UpdateComponentsView();
 }
 
 
 void CPackageOverviewComp::on_PackagesList_customContextMenuRequested(const QPoint& menuPoint)
 {
 	I_ASSERT(IsGuiCreated());
-
-	QPoint localPoint;
-	localPoint = PackagesList->viewport()->mapToGlobal(menuPoint);
 
 	QAction actionCollapseAll(tr("&Collapse All"), this);
 	connect(&actionCollapseAll, SIGNAL(triggered()), PackagesList, SLOT(collapseAll()), Qt::QueuedConnection);
@@ -284,6 +538,8 @@ void CPackageOverviewComp::on_PackagesList_customContextMenuRequested(const QPoi
 	QList<QAction*> actionList;
 	actionList << &actionCollapseAll << &actionExpandAll;
 
+	QPoint localPoint = PackagesList->viewport()->mapToGlobal(menuPoint);
+
 	QMenu::exec(actionList, localPoint);
 }
 
@@ -291,7 +547,7 @@ void CPackageOverviewComp::on_PackagesList_customContextMenuRequested(const QPoi
 void CPackageOverviewComp::on_FilterGB_toggled(bool /*on*/)
 {
 	if (!m_interfaceFilter.empty() || !m_keywordsFilter.isEmpty()){
-		GenerateComponentTree();
+		UpdateComponentsView();
 	}
 }
 
@@ -310,7 +566,7 @@ void CPackageOverviewComp::on_InterfaceCB_currentIndexChanged(int index)
 		m_interfaceFilter = filter;
 
 		if (FilterGB->isChecked()){
-			GenerateComponentTree();
+			UpdateComponentsView();
 		}
 	}
 }
@@ -395,18 +651,24 @@ CPackageOverviewComp::RootInfo& CPackageOverviewComp::EnsureRoot(const std::stri
 bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
 	QWidget* sourceWidgetPtr = dynamic_cast<QWidget*>(sourcePtr);
-	I_ASSERT(sourceWidgetPtr != NULL);
+	QAbstractItemView* itemViewPtr = NULL;
+	if (sourceWidgetPtr != NULL){
+		itemViewPtr = dynamic_cast<QAbstractItemView*>(sourceWidgetPtr->parentWidget());
+		if (itemViewPtr == NULL){
+			return BaseClass::eventFilter(sourcePtr, eventPtr);
+		}
+	}
 
 	switch (eventPtr->type()){
-	case QEvent::MouseButtonPress:
+		case QEvent::MouseButtonPress:
 		{
 			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
 			I_ASSERT(mouseEvent != NULL);
 
-			if (mouseEvent->button() == Qt::LeftButton && PackagesList != NULL){
+			if (mouseEvent->button() == Qt::LeftButton && sourceWidgetPtr != NULL){
 				PackageComponentItem* selectedItemPtr = NULL;
 
-				QModelIndex componentModelIndex = PackagesList->indexAt(mouseEvent->pos());
+				QModelIndex componentModelIndex = itemViewPtr->indexAt(mouseEvent->pos());
 				selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(componentModelIndex.internalPointer()));
 
 				if (selectedItemPtr != NULL){
@@ -444,13 +706,15 @@ void CPackageOverviewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	m_realComponentIcon = QIcon(QPixmap(":/Icons/RealComponent.svg"));
-	m_compositeComponentIcon = QIcon(QPixmap(":/Icons/CompositeComponent.svg"));
-	m_mixedComponentIcon = QIcon(QPixmap(":/Icons/MixedComponent.svg"));
+	m_realComponentIcon = QIcon(":/Icons/RealComponent.svg");
+	m_compositeComponentIcon = QIcon(":/Icons/CompositeComponent.svg");
+	m_mixedComponentIcon = QIcon(":/Icons/MixedComponent.svg");
 
 	// set up the tree view:
 	PackagesList->setColumnCount(1);
-	PackagesList->setItemDelegate(new CItemDelegate());
+	if (m_envManagerCompPtr.IsValid()){
+		PackagesList->setItemDelegate(new CItemDelegate(*m_envManagerCompPtr.GetPtr()));
+	}
 
 	PackagesList->header()->setResizeMode(0, QHeaderView::Stretch);
 	PackagesList->header()->hide();
@@ -502,8 +766,9 @@ void CPackageOverviewComp::OnGuiCreated()
 		InterfaceCB->setVisible(false);
 	}
 
+//	CategoryToolBox->setStyleSheet("QToolBox::tab {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);border-radius: 5px;color: darkgray;}");
 
-	GenerateComponentTree();
+	UpdateComponentsView();
 }
 
 

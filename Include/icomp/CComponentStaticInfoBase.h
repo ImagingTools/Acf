@@ -26,6 +26,7 @@ public:
 	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr);
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;
+	virtual int GetCategory() const;
 
 protected:
 	typedef istd::TCascadedMap<istd::CClassInfo, InterfaceExtractorPtr> CascInterfaceExtractors;
@@ -55,6 +56,12 @@ inline const istd::CString& CComponentStaticInfoBase::GetDescription() const
 inline const istd::CString& CComponentStaticInfoBase::GetKeywords() const
 {
 	return istd::CString::GetEmpty();
+}
+
+
+inline int CComponentStaticInfoBase::GetCategory() const
+{
+	return CCT_NONE;
 }
 
 
