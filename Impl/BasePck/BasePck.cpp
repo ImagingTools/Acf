@@ -31,8 +31,8 @@ I_EXPORT_COMPONENT(
 			ComposedLoader,
 			"Composed loader delegating loading and saving to slave loaders",
 			"Composed File Loader Load Save Slave Delegating",
-			IComponentStaticInfo::CCT_PERSISTENCY)
-			;
+			IComponentStaticInfo::CCT_PERSISTENCY);
+
 I_EXPORT_COMPONENT(
 			TextFileSerializer,
 			"Simple file serializer for text files",
@@ -44,6 +44,7 @@ I_EXPORT_COMPONENT(
 			"Access specified components forcing to create its instances",
 			"Instance Init Create Free Components",
 			IComponentStaticInfo::CCT_NONE);
+
 I_EXPORT_COMPONENT(
 			ApplicationInfo,
 			"Simple application info",

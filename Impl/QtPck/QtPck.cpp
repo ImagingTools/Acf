@@ -47,7 +47,7 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			BitmapSurface,
 			"QImage based bitmap implementation with surface extension",
-			"Sampled Function QImage Image Bitmap Qt Surface",
+			"Sampled Function QImage Image Bitmap Qt Surface 3D",
 			IComponentStaticInfo::CCT_DATA);
 
 I_EXPORT_COMPONENT(
