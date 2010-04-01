@@ -40,16 +40,16 @@ void CTextFileLogComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	I_ASSERT(m_fileNameAttrPtr.IsValid());
+	I_ASSERT(m_fileNameCompPtr.IsValid());
 
-	if (m_fileNameAttrPtr.IsValid()){
+	if (m_fileNameCompPtr.IsValid()){
 		int fileMode = std::wofstream::out | std::wofstream::app;
 
 		if (m_isAppendAttrPtr.IsValid() && !*m_isAppendAttrPtr){
 			fileMode = std::wofstream::out;
 		}
 
-		m_outputFileStream.open((*m_fileNameAttrPtr).c_str(), fileMode);
+		m_outputFileStream.open((m_fileNameCompPtr->GetPath()).c_str(), fileMode);
 	}
 }
 

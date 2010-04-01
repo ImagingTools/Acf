@@ -2,11 +2,14 @@
 #define ibase_CTextFileLogComp_included
 
 
-#include "ibase/CStreamLogCompBase.h"
-
-
 // STL includes
 #include <fstream>
+
+
+// ACF includes
+#include "iprm/IFileNameParam.h"
+
+#include "ibase/CStreamLogCompBase.h"
 
 
 namespace ibase
@@ -22,7 +25,7 @@ public:
 	typedef CStreamLogCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CTextFileLogComp);
-		I_ASSIGN(m_fileNameAttrPtr, "LogFile", "Name of the log file", true, "Log.txt")
+		I_ASSIGN(m_fileNameCompPtr, "LogFile", "Name of the log file", true, "LogFile")
 		I_ASSIGN(m_isAppendAttrPtr, "AppendToExisting", "Don't overwrite existing log file", false, true)
 	I_END_COMPONENT;
 
@@ -36,7 +39,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 private:
-	I_ATTR(istd::CString, m_fileNameAttrPtr);
+	I_REF(iprm::IFileNameParam, m_fileNameCompPtr);
 	I_ATTR(bool, m_isAppendAttrPtr);
 
 	std::wofstream m_outputFileStream;
