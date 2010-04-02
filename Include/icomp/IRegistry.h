@@ -144,22 +144,10 @@ public:
 		Set keywords for this registry used for search.
 	*/
 	virtual void SetKeywords(const istd::CString& keywords) = 0;
-
-	/**
-		Get logical category for this registry.
-		\sa icomp::IComponentStaticInfo::ComponentCategoryType
-	*/
-	virtual int GetCategory() const = 0;
-
-	/**
-		Set logical category for this registry.
-		\sa icomp::IComponentStaticInfo::ComponentCategoryType
-	*/
-	virtual void SetCategory(int category) = 0;
 };
 
 
-}//namespace icomp
+} //namespace icomp
 
 
 #endif // !icomp_IRegistry_included

@@ -57,11 +57,25 @@ namespace icomp
 		return &packageInfo;\
 	}
 
-#define I_EXPORT_COMPONENT(component, description, keywords, category) \
-	static icomp::TComponentRegistrator<component> component##_registrator(#component, packageInfo, description, keywords, category);\
+#define I_EXPORT_COMPONENT(component, description, keywords) \
+	static icomp::TComponentRegistrator<component> component##_registrator(#component, packageInfo, description, keywords);\
 
 typedef icomp::IComponentStaticInfo* (*GetPackageInfoFunc)();
 typedef void (*RegisterServicesFunc)(const istd::IServicesProvider*);
+
+
+#define I_DATA_PERSISTENCE "\"Data Persistence\""
+#define I_DATA_PROCESSING "\"Data Processing\""
+#define I_SERVICE "Service"
+#define I_APPLICATION "Application"
+#define I_APPLICATION_LOGIC "\"Application Logic\""
+#define I_DATA_MODEL "\"Data Model\""
+#define I_GUI "GUI"
+#define I_DATA_VISUALIZATION "Visualization"
+#define I_PACKAGE "Package"
+#define I_IMAGINGTOOLS "ImagingTools"
+#define I_META_DESCRIPTION(category, tags, company, authors) "Category:"##category##" Tags:"##tags##" Company:"##company##" Authors:"##authors
+#define II_META_DESCRIPTION(category, tags) I_META_DESCRIPTION(category, tags, I_IMAGINGTOOLS, I_IMAGINGTOOLS)
 
 
 } // namespace icomp

@@ -31,7 +31,6 @@ public:
 	virtual IComponent* CreateComponent() const;
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;
-	virtual int GetCategory() const;
 
 protected:
 	class AttrAsOptionalDelegator: virtual public IAttributeStaticInfo

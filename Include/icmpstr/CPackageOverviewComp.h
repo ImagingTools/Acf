@@ -62,9 +62,10 @@ protected:
 	void GenerateComponentTree();
 	void GenerateComponentToolBox();
 	void UpdateComponentsView();
+	void UpdateComponentGroups();
 
 	/**
-		Get only component, that match to the filter criteria
+		Get component list, that match to the filter criteria.
 	*/
 	icomp::IMetaInfoManager::ComponentAddresses GetFilteredComponentAdresses() const;
 
@@ -118,10 +119,7 @@ private:
 	enum GruppingMode
 	{
 		GM_NONE,
-		GM_PACKAGE,
-		GM_KEYWORD,
-		GM_CATEGORY,
-		GM_NAME
+		GM_PACKAGE
 	};
 
 	typedef std::map<std::string, RootInfo> RootInfos;
@@ -136,7 +134,7 @@ private:
 	QIcon m_compositeComponentIcon;
 	QIcon m_mixedComponentIcon;
 
-	typedef std::map<int, QTreeWidget*> CategoryWidgetsMap;
+	typedef std::map<istd::CString, QTreeWidget*> CategoryWidgetsMap;
 	CategoryWidgetsMap m_categoryWidgetsMap;
 
 	friend class CItemDelegate;

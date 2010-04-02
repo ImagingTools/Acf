@@ -23,12 +23,6 @@ namespace icomp
 
 // public methods
 
-CRegistry::CRegistry()
-	:m_category(icomp::IComponentStaticInfo::CCT_NONE)
-{
-}
-
-
 // reimplemented (icomp::IRegistry)
 
 IRegistry::Ids CRegistry::GetElementIds() const
@@ -326,22 +320,6 @@ void CRegistry::SetKeywords(const istd::CString& keywords)
 }
 
 
-int CRegistry::GetCategory() const
-{
-	return m_category;
-}
-
-
-void CRegistry::SetCategory(int category)
-{
-	if (category != m_category){
-		istd::CChangeNotifier notifier(this);
-
-		m_category = category;
-	}
-}
-
-
 // reimplemented (iser::ISerializable)
 
 bool CRegistry::Serialize(iser::IArchive& archive)
@@ -365,10 +343,11 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 		retVal = retVal && archive.Process(m_keywords);
 		retVal = retVal && archive.EndTag(keywordsTag);
 
-		if(frameworkVersion >= 1422){
+		if(frameworkVersion >= 1422 && frameworkVersion < 1431){
 			static iser::CArchiveTag categoryTag("Category", "Logical category of the registry");
 			retVal = retVal && archive.BeginTag(categoryTag);
-			retVal = retVal && archive.Process(m_category);
+			int dummy;
+			retVal = retVal && archive.Process(dummy);
 			retVal = retVal && archive.EndTag(categoryTag);	
 		}
 	}

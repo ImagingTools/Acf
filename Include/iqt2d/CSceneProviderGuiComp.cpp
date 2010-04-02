@@ -445,15 +445,20 @@ bool CSceneProviderGuiComp::HasDropConsumerForFormat(const QStringList& formats)
 
 	for (int formatIndex = 0; formatIndex < formats.size(); formatIndex++){
 		for (int consumerIndex = 0; consumerIndex < m_dropConsumersCompPtr.GetCount(); consumerIndex++){
-			QStringList supportedIds = m_dropConsumersCompPtr[consumerIndex]->GetAcceptedMimeIds();
+			iqtgui::IDropConsumer* dropConsumerPtr = m_dropConsumersCompPtr[consumerIndex];
 
-			if (supportedIds.contains(formats[formatIndex])){
-				return true;
+			I_ASSERT(dropConsumerPtr != NULL);
+			if (dropConsumerPtr != NULL){
+				QStringList supportedIds = dropConsumerPtr->GetAcceptedMimeIds();
+
+				if (supportedIds.contains(formats[formatIndex])){
+					return true;
+				}
 			}
 		}
 	}
 	
-	return true;
+	return false;
 }
 
 

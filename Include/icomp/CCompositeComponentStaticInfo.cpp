@@ -94,7 +94,6 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 
 	m_description = registry.GetDescription();
 	m_keywords = registry.GetKeywords();
-	m_category = registry.GetCategory();
 }
 
 
@@ -121,12 +120,6 @@ const istd::CString& CCompositeComponentStaticInfo::GetDescription() const
 const istd::CString& CCompositeComponentStaticInfo::GetKeywords() const
 {
 	return m_keywords;
-}
-
-
-int CCompositeComponentStaticInfo::GetCategory() const
-{
-	return m_category;
 }
 
 

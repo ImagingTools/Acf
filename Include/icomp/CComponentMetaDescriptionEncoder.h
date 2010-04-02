@@ -1,12 +1,15 @@
-#ifndef icmpstr_CComponentMetaDescriptionEncoder_included
-#define icmpstr_CComponentMetaDescriptionEncoder_included
+#ifndef icomp_CComponentMetaDescriptionEncoder_included
+#define icomp_CComponentMetaDescriptionEncoder_included
 
+
+// STL includes
+#include <map>
 
 // ACF includes
 #include "istd/CString.h"
 
 
-namespace icmpstr
+namespace icomp
 {
 
 
@@ -26,17 +29,23 @@ public:
 	/**
 		Get value list for the given key.
 	*/
-	istd::CStringList GetValues(const istd::CString& key) const;
+	istd::CStringList GetValues(const istd::CString& key = istd::CString()) const;
 
 	/**
 		Set meta values for the given key.		
 	*/
-	void SetValues(const istd::CString& key, const istd::CStringList& values) const;
+	void SetValues(const istd::CString& key, const istd::CStringList& values);
 
 	/**
 		Get full meta description text.
 	*/
 	istd::CString GetMetaDescription() const;
+
+private:
+	void CalculateMetaValuesMap();
+
+	static void RemoveUnusedCharacters(istd::CString& string, const istd::CString& characters);
+	static istd::CStringList SplitString(istd::CString& string);
 
 private:
 	typedef std::map<istd::CString, istd::CStringList> MetaValuesMap;
@@ -47,9 +56,9 @@ private:
 };
 
 
-} // namespace icmpstr
+} // namespace icomp
 
 
-#endif // !icmpstr_CComponentMetaDescriptionEncoder_included
+#endif // !icomp_CComponentMetaDescriptionEncoder_included
 
 

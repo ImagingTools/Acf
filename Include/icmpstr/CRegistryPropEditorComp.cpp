@@ -28,10 +28,10 @@ void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
 
 	DescriptionEdit->setText(iqt::GetQString(registryPtr->GetDescription()));
 	KeywordsEdit->setText(iqt::GetQString(registryPtr->GetKeywords()));
-	
+	/*
 	CComponentCategoryEncoder encoder;
 	m_categoryComboBox->SetItemsChecked(encoder.GetCategoryNames(registryPtr->GetCategory()));
-
+*/
 	CreateOverview();
 }
 
@@ -49,7 +49,7 @@ void CRegistryPropEditorComp::OnGuiCreated()
 
 	OverviewTree->header()->setResizeMode(QHeaderView::ResizeToContents);
 	OverviewTree->setStyleSheet("QTreeView {background: palette(window)} QTreeView::branch {background: palette(window);} QTreeView::item {min-height: 25px}");
-
+/*
 	m_categoryComboBox = new iqtgui::CCheckableComboBox(CategoryGroupBox);
 	QLayout* groubBoxLayout = CategoryGroupBox->layout();
 	if (groubBoxLayout != NULL){
@@ -66,6 +66,8 @@ void CRegistryPropEditorComp::OnGuiCreated()
 	}
 
 	connect(m_categoryComboBox, SIGNAL(EmitActivatedItems(const QStringList&)), this, SLOT(OnCategoriesChanged(const QStringList&)));
+
+	*/
 }
 
 
@@ -102,7 +104,7 @@ void CRegistryPropEditorComp::on_KeywordsEdit_editingFinished()
 
 
 void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& categories)
-{
+{/*
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
 		CComponentCategoryEncoder encoder;
@@ -114,6 +116,7 @@ void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& categories)
 			registryPtr->SetCategory(category);
 		}
 	}
+	*/
 }
 
 

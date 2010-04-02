@@ -173,7 +173,9 @@ typedef icomp::TMakeComponentWrap<
 typedef iproc::CTestIdManagerComp TestIdManager;
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
 typedef iproc::CIterativeProcessorComp IterativeProcessor;
-typedef icomp::TMakeComponentWrap<imod::TModelWrap<iproc::CIterativeProcessorParams>, iser::ISerializable> IterativeProcessorParams;
+typedef icomp::TMakeComponentWrap<
+			imod::TModelWrap<iproc::CIterativeProcessorParams>, 
+			iser::ISerializable> IterativeProcessorParams;
 
 
 } // namespace BasePck

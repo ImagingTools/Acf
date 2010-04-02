@@ -25,19 +25,16 @@ public:
 				const std::string& componentId,
 				icomp::IComponentStaticInfo& staticInfo,
 				const istd::CString& description,
-				const istd::CString& keywords,
-				int category);
+				const istd::CString& keywords);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;
-	virtual int GetCategory() const;
 
 private:
 	std::string m_logicalName;
 	istd::CString m_description;
 	istd::CString m_keywords;
-	int m_category;
 };
 
 
@@ -48,12 +45,10 @@ TComponentRegistrator<Component>::TComponentRegistrator(
 			const std::string& componentId,
 			icomp::IComponentStaticInfo& staticInfo,
 			const istd::CString& description,
-			const istd::CString& keywords,
-			int category)
+			const istd::CString& keywords)
 :	BaseClass(&Component::InitStaticInfo(NULL)),
 	m_description(description),
-	m_keywords(keywords),
-	m_category(category)
+	m_keywords(keywords)
 {
 	staticInfo.RegisterSubcomponentInfo(componentId, this);
 }
@@ -72,13 +67,6 @@ template <class Component>
 const istd::CString& TComponentRegistrator<Component>::GetKeywords() const
 {
 	return m_keywords;
-}
-
-
-template <class Component>
-int TComponentRegistrator<Component>::GetCategory() const
-{
-	return m_category;
 }
 
 
