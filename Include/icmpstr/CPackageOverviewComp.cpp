@@ -25,8 +25,6 @@
 
 #include "iqt/CSignalBlocker.h"
 
-#include "icmpstr/CComponentCategoryEncoder.h"
-
 
 namespace icmpstr
 {

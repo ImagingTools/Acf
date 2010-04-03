@@ -25,32 +25,32 @@ using namespace icomp;
 
 I_EXPORT_SERVICES_PROVIDER(iqt::CDefaultServicesProvider);
 
-I_EXPORT_PACKAGE("Cmpstr", "Compositor package", "Qt Compositor Tool");
+I_EXPORT_PACKAGE("Cmpstr", "Compositor package", "Qt Compositor Tool ACF");
 
 I_EXPORT_COMPONENT(
 			AttributeEditor,
 			"GUI used to edit attributes",
-			"Observer Editor Attributes Qt GUI");
+			"Compositor Observer Editor Attributes Qt GUI");
 
 I_EXPORT_COMPONENT(
 			PackageOverview,
 			"GUI showing all packages",
-			"Observer Packages Qt GUI");
+			"Compositor Observer Packages Qt GUI");
 
 I_EXPORT_COMPONENT(
 			RegistryLoader,
 			"Loader for registries including component layout in *.alx files",
-			"Registry Loader Serializer Layout Components");
+			"Compositor Registry Loader Serializer Layout Components");
 
 I_EXPORT_COMPONENT(
 			RegistryPreview,
 			"Preview of registry object in separated application context",
-			"Registry Preview ACF Application");
+			"Compositor Registry Preview ACF Application");
 
 I_EXPORT_COMPONENT(
 			ComponentHelpFileProvider,
 			"Provide file path of html help for component using its address",
-			"Help File Provider Component Address Qt");
+			"Compositor Help File Provider Component Address Qt");
 
 I_EXPORT_COMPONENT(
 			VisualRegistry,

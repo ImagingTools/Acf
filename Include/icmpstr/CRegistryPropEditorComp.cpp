@@ -4,8 +4,6 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
-#include "icmpstr/CComponentCategoryEncoder.h"
-
 
 // public methods
 	

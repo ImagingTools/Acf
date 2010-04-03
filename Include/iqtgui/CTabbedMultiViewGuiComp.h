@@ -49,7 +49,6 @@ protected:
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 private:
-	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 
 	mutable iqtgui::CHierarchicalCommand m_commands;
