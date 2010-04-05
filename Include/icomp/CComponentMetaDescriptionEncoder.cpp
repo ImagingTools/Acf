@@ -1,9 +1,6 @@
 #include "icomp/CComponentMetaDescriptionEncoder.h"
 
 
-#include "istd/CRange.h"
-
-
 namespace icomp
 {
 

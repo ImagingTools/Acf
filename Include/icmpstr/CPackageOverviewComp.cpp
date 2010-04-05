@@ -40,48 +40,69 @@ public:
 		SIDE_OFFSET = 4
 	};
 
-	CItemDelegate(const icomp::IMetaInfoManager& metaInfoManager)
-		:m_metaInfoManager(metaInfoManager)
+	CItemDelegate()
 	{
 		m_componentNameFont.setPointSize(10);
 		m_componentNameFont.setBold(true);
-		m_componentDescriptionFont.setPointSize(8);	
-	}
+		m_componentDescriptionFont.setPointSize(8);
 
+		m_defaultComponentIcon = QIcon(":/Icons/CompositorIcon.svg").pixmap(QSize(64, 64), QIcon::Disabled);
+
+		QColor window = qApp->palette().midlight().color();
+		window.setAlpha(100);
+		QColor light = qApp->palette().mid().color();
+		light.setAlpha(20);
+	
+		QLinearGradient headerBackgroundGradient(0, 0, 0, CalculateItemHeight());
+		headerBackgroundGradient.setColorAt(0, window);
+		headerBackgroundGradient.setColorAt(0.5, light);
+		headerBackgroundGradient.setColorAt(0.51, light);
+		headerBackgroundGradient.setColorAt(1, window);
+		m_openRootItemBackground = headerBackgroundGradient;
+	}
 
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 	{
-		CPackageOverviewComp::PackageComponentItem* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
-		if (selectedItemPtr == NULL){
+		CPackageOverviewComp::PackageItemBase* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageItemBase*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
+		if (selectedItemPtr == NULL){ 
 			BaseClass::paint(painter, option, index);
 			
 			return;
 		}
 
-		painter->save();
-
 	 	QRect mainRect = option.rect;
 
-		if (option.state & QStyle::State_Selected){
-			painter->fillRect(mainRect, option.palette.highlight());
-		}
-		
+		painter->save();
+
+		CPackageOverviewComp::PackageItem* packageItemPtr = dynamic_cast<CPackageOverviewComp::PackageItem*>(selectedItemPtr);
+
 		// main margins
 		mainRect.adjust(0, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
 
-		if ((option.state & QStyle::State_Selected) == 0){
-			painter->setPen(QPen(option.palette.mid().color(), 0, Qt::DotLine));
-
-			painter->drawRoundedRect(mainRect, SIDE_OFFSET, SIDE_OFFSET);
+		QBrush itemBrush = QBrush(Qt::NoBrush);
+		if (option.state & QStyle::State_Selected){
+			itemBrush = qApp->palette().highlight();
+		}
+		else{
+			if (option.state & QStyle::State_Open && (packageItemPtr != NULL)){
+				itemBrush = option.palette.window();
+			}
 		}
 
+		painter->save();
+		painter->setBrush(itemBrush);
+
+		painter->setPen(QPen(option.palette.mid().color(), 0, Qt::DotLine));
+		painter->drawRoundedRect(mainRect, SIDE_OFFSET, SIDE_OFFSET);
+		painter->restore();
+	
 		painter->setPen(option.palette.text().color());
 
 		// draw icon:
 		int iconSize = mainRect.height() - SIDE_OFFSET;
 		QIcon componentIcon = selectedItemPtr->icon(0);
 		if (componentIcon.isNull()){
-			componentIcon =  QIcon(":/Icons/RealComponent.svg").pixmap(QSize(iconSize, iconSize), QIcon::Disabled);
+			componentIcon = m_defaultComponentIcon;
 		}
 
 		if (!componentIcon.isNull()){
@@ -97,11 +118,7 @@ public:
 
 		QString componentName = selectedItemPtr->text(0);
 		
-		QString componentDescription;		
-		const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManager.GetComponentMetaInfo(selectedItemPtr->GetAddress());
-		if (infoPtr != NULL){
-			componentDescription = iqt::GetQString(infoPtr->GetDescription());
-		}
+		QString componentDescription = selectedItemPtr->GetDescription();		
 
 		painter->setFont(m_componentNameFont);
 		painter->drawText(mainRect, Qt::AlignTop | Qt::AlignLeft | Qt::TextSingleLine, componentName);
@@ -119,35 +136,42 @@ public:
 
 	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 	{
-		CPackageOverviewComp::PackageComponentItem* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
+		CPackageOverviewComp::PackageItemBase* selectedItemPtr = dynamic_cast<CPackageOverviewComp::PackageItemBase*>(reinterpret_cast<QTreeWidgetItem*>(index.internalPointer()));
 		if (selectedItemPtr == NULL){
 			QSize size = QItemDelegate::sizeHint(option, index);
 
 			size.setHeight(25);
 
-
 			return size;
 		}
 
-		QSize size = QItemDelegate::sizeHint(option, index);
+		QSize size = BaseClass::sizeHint(option, index);
 
+		size.setHeight(CalculateItemHeight());
+
+		return size;
+	}
+
+private:
+	int CalculateItemHeight() const
+	{
 		QFontMetrics nameFontMetrics(m_componentNameFont);
 		QFontMetrics descriptionFontMetrics(m_componentDescriptionFont);
 
 		int height = nameFontMetrics.height();
 		height += descriptionFontMetrics.height();
-		height += 3 * SIDE_OFFSET; // margin
+		height += 2 * SIDE_OFFSET; // margin
 
-		size.setHeight(height);
-
-		return size;
+		return height;
 	}
 
 private:
 	QFont m_componentNameFont;
 	QFont m_componentDescriptionFont;
 
-	const icomp::IMetaInfoManager& m_metaInfoManager;
+	QIcon m_defaultComponentIcon;
+
+	QBrush m_openRootItemBackground;
 };
 
 
@@ -233,6 +257,17 @@ void CPackageOverviewComp::GenerateComponentTree()
 			icon = m_consistInfoCompPtr->GetComponentIcon(address);
 		}
 
+		if (icon.isNull() && metaInfoPtr != NULL){
+			switch (metaInfoPtr->GetComponentType()){
+				case icomp::IComponentStaticInfo::CT_COMPOSITE:
+					icon = m_compositeComponentIcon.pixmap(QSize(64, 64), QIcon::Disabled);
+					break;
+				case icomp::IComponentStaticInfo::CT_REAL:
+					icon = m_realComponentIcon.pixmap(QSize(64, 64), QIcon::Disabled);
+					break;
+			}
+		}
+
 		QDir packageDir(iqt::GetQString(infoPath));
 		PackageComponentItem* itemPtr = new PackageComponentItem(
 			*this,
@@ -241,8 +276,7 @@ void CPackageOverviewComp::GenerateComponentTree()
 			icon);
 		itemPtr->setText(0, elementName.c_str());
 
-		int componentType = metaInfoPtr->GetComponentType();
-		RootInfo& rootInfo = EnsureRoot(groupId, componentType);
+		RootInfo& rootInfo = EnsureRoot(groupId, address, metaInfoPtr);
 		I_ASSERT(rootInfo.itemPtr != NULL);
 
 		rootInfo.itemPtr->addChild(itemPtr);
@@ -329,9 +363,8 @@ void CPackageOverviewComp::GenerateComponentToolBox()
 
 			if (categoryWidgetIter == m_categoryWidgetsMap.end()){
 				categoryWidgetPtr = new QTreeWidget(CategoryToolBox);
-				if (m_envManagerCompPtr.IsValid()){
-					categoryWidgetPtr->setItemDelegate(new CItemDelegate(*m_envManagerCompPtr.GetPtr()));
-				}
+	
+				categoryWidgetPtr->setItemDelegate(new CItemDelegate());
 
 				categoryWidgetPtr->header()->setResizeMode(0, QHeaderView::Stretch);
 				categoryWidgetPtr->header()->hide();
@@ -588,6 +621,7 @@ QPixmap CPackageOverviewComp::CreateComponentDragPixmap(const icomp::CComponentA
 		componentLabel.setIconSize(QSize(64, 64));
 		componentLabel.setIcon(m_consistInfoCompPtr->GetComponentIcon(address));
 	}
+
 	componentLabel.adjustSize();
 
 	QPixmap pixmap = QPixmap::grabWidget(&componentLabel);
@@ -606,9 +640,14 @@ QPixmap CPackageOverviewComp::CreateComponentDragPixmap(const icomp::CComponentA
 }
 
 
-CPackageOverviewComp::RootInfo& CPackageOverviewComp::EnsureRoot(const std::string& path, int componentType)
+CPackageOverviewComp::RootInfo& CPackageOverviewComp::EnsureRoot(const std::string& path, const icomp::CComponentAddress& address, const icomp::IComponentStaticInfo* staticInfoPtr)
 {
 	RootInfo& rootInfo = m_roots[path];
+
+	int componentType = icomp::IComponentStaticInfo::CT_NONE; 
+	if (staticInfoPtr != NULL){
+		componentType = staticInfoPtr->GetComponentType();
+	}
 
 	switch (componentType){
 	case icomp::IComponentStaticInfo::CT_REAL:
@@ -634,10 +673,18 @@ CPackageOverviewComp::RootInfo& CPackageOverviewComp::EnsureRoot(const std::stri
 				elementName = path.substr(slashPos + 1);
 			}
 
-			RootInfo& groupRoot = EnsureRoot(groupName, componentType);
+			RootInfo& groupRoot = EnsureRoot(groupName, address, staticInfoPtr);
 			I_ASSERT(groupRoot.itemPtr != NULL);
 
-			rootInfo.itemPtr = new QTreeWidgetItem();
+			QString packageDescription;
+			if (m_envManagerCompPtr.IsValid()){
+				const icomp::IComponentStaticInfo* packageInfoPtr = m_envManagerCompPtr->GetPackageMetaInfo(address.GetPackageId());
+				if (packageInfoPtr != NULL){
+					packageDescription = iqt::GetQString(packageInfoPtr->GetDescription());
+				}
+			}
+
+			rootInfo.itemPtr = new PackageItem(*this, packageDescription, QIcon());
 			rootInfo.itemPtr->setText(0, elementName.c_str());
 			groupRoot.itemPtr->addChild(rootInfo.itemPtr);
 		}
@@ -713,14 +760,15 @@ void CPackageOverviewComp::OnGuiCreated()
 
 	// set up the tree view:
 	PackagesList->setColumnCount(1);
-	if (m_envManagerCompPtr.IsValid()){
-		PackagesList->setItemDelegate(new CItemDelegate(*m_envManagerCompPtr.GetPtr()));
-	}
+	PackagesList->setItemDelegate(new CItemDelegate());
 
 	PackagesList->header()->setResizeMode(0, QHeaderView::Stretch);
 	PackagesList->header()->hide();
-
 	PackagesList->setIndentation(15);
+
+	QPalette palette = qApp->palette();
+	palette.setBrush(QPalette::Highlight, palette.base());
+	PackagesList->setPalette(palette);
 
 	PackagesList->viewport()->installEventFilter(this);
 
@@ -767,7 +815,6 @@ void CPackageOverviewComp::OnGuiCreated()
 		InterfaceCB->setVisible(false);
 	}
 
-
 	UpdateComponentGroups();
 
 //	CategoryToolBox->setStyleSheet("QToolBox::tab {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #E1E1E1, stop: 0.4 #DDDDDD, stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);border-radius: 5px;color: darkgray;}");
@@ -776,14 +823,33 @@ void CPackageOverviewComp::OnGuiCreated()
 }
 
 
-// public methods of embedded class 
+// public methods of embedded class PackageItemBase
+
+CPackageOverviewComp::PackageItemBase::PackageItemBase(
+			CPackageOverviewComp& parent,
+			const QString& description,
+			const QIcon& icon)
+:	m_parent(parent),
+	m_description(description)
+{
+	setIcon(0, icon);
+}
+
+
+const QString& CPackageOverviewComp::PackageItemBase::GetDescription() const
+{
+	return m_description;
+}
+
+
+// public methods of embedded class PackageComponentItem
 
 CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
 			CPackageOverviewComp& parent,
 			const icomp::CComponentAddress& address,
 			const icomp::IComponentStaticInfo* staticInfoPtr,
 			const QIcon& icon)
-:	m_parent(parent),
+:	BaseClass(parent, (staticInfoPtr != NULL) ? iqt::GetQString(staticInfoPtr->GetDescription()) : QString(), icon),
 	m_address(address)
 {
 	QString toolTip = QObject::tr("Component %1.%2").arg(address.GetPackageId().c_str()).arg(address.GetComponentId().c_str());
@@ -792,14 +858,32 @@ CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
 		setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 
 		toolTip += "\n";
-		toolTip += iqt::GetQString(staticInfoPtr->GetDescription());
+
+		toolTip += m_description;
 	}
 	else{
 		setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsSelectable);
 	}
 
 	setToolTip(0, toolTip);
-	setIcon(0, icon);
+}
+
+
+const icomp::CComponentAddress& CPackageOverviewComp::PackageComponentItem::GetAddress() const
+{
+	return m_address;
+}
+
+
+// public methods of embedded class PackageItem
+
+CPackageOverviewComp::PackageItem::PackageItem(
+			CPackageOverviewComp& parent,
+			const QString& description,
+			const QIcon& icon)
+:	BaseClass(parent, description, icon)
+{
+	setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 
 

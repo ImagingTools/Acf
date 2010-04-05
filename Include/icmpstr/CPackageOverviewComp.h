@@ -76,7 +76,7 @@ protected:
 	*/
 	QPixmap CreateComponentDragPixmap(const icomp::CComponentAddress &address) const;
 
-	RootInfo& EnsureRoot(const std::string& path, int compType);
+	RootInfo& EnsureRoot(const std::string& path, const icomp::CComponentAddress& address, const icomp::IComponentStaticInfo* staticInfoPtr);
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
@@ -92,9 +92,28 @@ protected slots:
 	void on_InterfaceCB_currentIndexChanged(int index);
 
 private:
-	class PackageComponentItem: public QTreeWidgetItem
+
+	class PackageItemBase: public QTreeWidgetItem
 	{
 	public:
+		PackageItemBase(
+			CPackageOverviewComp& parent,
+			const QString& description,
+			const QIcon& icon = QIcon());
+
+		virtual const QString& GetDescription() const;
+
+	protected:
+		QString m_description;
+		CPackageOverviewComp& m_parent;
+	};
+
+
+	class PackageComponentItem: public PackageItemBase
+	{
+	public:
+		typedef PackageItemBase BaseClass;
+
 		PackageComponentItem(
 					CPackageOverviewComp& parent,
 					const icomp::CComponentAddress& address,
@@ -102,15 +121,22 @@ private:
 					const QIcon& icon);
 
 		bool IsInterfaceSupported(const istd::CClassInfo& interfaceInfo) const;
-
-		const icomp::CComponentAddress& GetAddress() const
-		{
-			return m_address;
-		}
+		const icomp::CComponentAddress& GetAddress() const;
 
 	private:
 		icomp::CComponentAddress m_address;
-		CPackageOverviewComp& m_parent;
+	};
+
+
+	class PackageItem: public PackageItemBase
+	{
+	public:
+		typedef PackageItemBase BaseClass;
+
+		PackageItem(
+					CPackageOverviewComp& parent,
+					const QString& description,
+					const QIcon& icon = QIcon());
 	};
 
 	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);

@@ -225,7 +225,7 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			IterativeProcessorParams,
 			"Iterative Processor Params",
-			"Iterative Filter Processor Parameter" IM_CATEGORY(I_DATA_PROCESSING I_DATA_MODEL) IM_TAG("Processing Model"));
+			"Iterative Filter Processor Parameter" IM_CATEGORY(I_DATA_PROCESSING I_DATA_MODEL) IM_TAG("Processing Model Parameter"));
 
 
 } // namespace BasePck

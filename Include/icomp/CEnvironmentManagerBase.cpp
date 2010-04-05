@@ -100,6 +100,13 @@ const IComponentStaticInfo* CEnvironmentManagerBase::GetComponentMetaInfo(const 
 }
 
 
+const IComponentStaticInfo* CEnvironmentManagerBase::GetPackageMetaInfo(const std::string& packageId) const
+{
+	return GetSubcomponentInfo(packageId);
+}
+
+
+
 } // namespace icomp
 
 

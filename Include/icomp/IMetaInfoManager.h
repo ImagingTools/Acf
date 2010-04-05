@@ -37,9 +37,17 @@ public:
 	/**
 		Get access to static info of some component.
 		\param	address	component address.
-		\return			static info of component or NULL, if no component type for specified address is found.
+		\return	static info of component or NULL, if no component type for specified address was found.
 	*/
 	virtual const IComponentStaticInfo* GetComponentMetaInfo(const CComponentAddress& address) const = 0;
+	
+	/**
+		Get access to static info of a package.
+		\param	package ID.
+		\return	static info of the package or NULL, if no package for specified ID was found.
+	*/
+	virtual const IComponentStaticInfo* GetPackageMetaInfo(const std::string& packageId) const = 0;
+
 };
 
 
