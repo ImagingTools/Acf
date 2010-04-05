@@ -100,12 +100,12 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			SelectableParamsSet,
 			"Composed set of parameters",
-			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Model"));
+			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
 
 I_EXPORT_COMPONENT(
 			ParamsManager,
 			"Manager of parameters set",
-			"Parameters Set Manager" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Model Composition"));
+			"Parameters Set Manager" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition"));
 
 I_EXPORT_COMPONENT(
 			ComposedParamsSet,
