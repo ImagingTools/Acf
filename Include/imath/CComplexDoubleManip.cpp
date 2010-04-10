@@ -5,6 +5,8 @@ namespace imath
 {
 
 
+// public methods
+
 CComplexDoubleManip::CComplexDoubleManip(
 			int precision,
 			RoundingType roundingType,
