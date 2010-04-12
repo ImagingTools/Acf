@@ -44,7 +44,7 @@ public:
 
 	// reimplemented (imath::TISampledFunction)
 	virtual bool CreateFunction(double* dataPtr, const ArgumentType& sizes);
-	virtual int GetSamplesCount() const;
+	virtual int GetTotalSamplesCount() const;
 	virtual int GetGridSize(int dimensionIndex) const;
 	virtual istd::CRange GetLogicalRange(int dimensionIndex) const;
 	virtual istd::CRange GetResultValueRange(int dimensionIndex, int resultDimension = -1) const;

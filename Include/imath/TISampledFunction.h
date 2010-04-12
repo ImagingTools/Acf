@@ -36,7 +36,7 @@ public:
 	/**
 		Get number of samples stored in this container.
 	*/
-	virtual int GetSamplesCount() const = 0;
+	virtual int GetTotalSamplesCount() const = 0;
 
 	/**
 		Get number of samples for specified dimension.

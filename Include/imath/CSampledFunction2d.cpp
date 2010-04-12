@@ -70,7 +70,7 @@ bool CSampledFunction2d::CreateFunction(double* dataPtr, const ArgumentType& siz
 }
 
 
-int CSampledFunction2d::GetSamplesCount() const
+int CSampledFunction2d::GetTotalSamplesCount() const
 {
 	return m_samplesContainer.GetSize(0) * m_samplesContainer.GetSize(1);
 }

@@ -145,7 +145,7 @@ bool CNormalHistogram::CreateFunction(double* dataPtr, const ArgumentType& sizes
 }
 
 
-int CNormalHistogram::GetSamplesCount() const
+int CNormalHistogram::GetTotalSamplesCount() const
 {
 	return GetElementsCount();
 }
