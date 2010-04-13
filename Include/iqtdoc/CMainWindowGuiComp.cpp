@@ -454,6 +454,17 @@ void CMainWindowGuiComp::OnGuiCreated()
 	mainWindowPtr->setAcceptDrops(true);
 
 	mainWindowPtr->installEventFilter(this);
+
+	// load the document from command line:
+	QStringList applicationArguments = QApplication::arguments();
+	if (applicationArguments.count() > 1 && m_documentManagerCompPtr.IsValid()){
+		istd::CString documentFileName = iqt::GetCString(applicationArguments[1]);
+		idoc::IDocumentManager::FileToTypeMap fileMap;
+
+		if (m_documentManagerCompPtr->FileOpen(NULL, &documentFileName, true, "", &fileMap)){
+			UpdateRecentFileList(fileMap);
+		}
+	}
 }
 
 

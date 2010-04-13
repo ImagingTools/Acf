@@ -18,10 +18,6 @@ class IAttributeStaticInfo;
 class CRegistryElement: virtual public IRegistryElement
 {
 public:
-	/**
-		Create this component registry.
-		This registry must be initilize using method Initialize().
-	*/
 	CRegistryElement();
 
 	virtual AttributeInfo* GetAttributeInfo(const std::string& attributeId);
