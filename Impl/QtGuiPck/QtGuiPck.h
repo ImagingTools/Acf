@@ -25,6 +25,7 @@
 #include "iqtgui/CModelDialogGuiComp.h"
 #include "iqtgui/CStatusBarWidgetComp.h"
 #include "iqtgui/CCommandsBinderComp.h"
+#include "iqtgui/CFileSystemExplorerGuiComp.h"
 
 #include "iqtprm/CFileNameParamGuiComp.h"
 #include "iqtprm/CComposedParamsSetGuiComp.h"
@@ -68,6 +69,7 @@ typedef iqtgui::CSimpleMainWindowGuiComp SimpleMainGui;
 typedef iqtgui::CDialogGuiComp DialogGui;
 typedef iqtgui::CModelDialogGuiComp ModelDialogGui;
 typedef iqtgui::CCommandsBinderComp CommandsBinder;
+typedef iqtgui::CFileSystemExplorerGuiComp FileSystemExplorerGui;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;

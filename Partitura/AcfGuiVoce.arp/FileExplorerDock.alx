@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="2">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          1447
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          173
+        </Number>
+        <Description>
+          ACF-Solutions
+        </Description>
+      </Version>
+    </VersionInfos>
+  </AcfHeader>
+  <PositionMap count="2">
+    <Element>
+      <ComponentName>
+        ExplorerDock
+      </ComponentName>
+      <X>
+        450
+      </X>
+      <X>
+        400
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FileSystemExplorerGui
+      </ComponentName>
+      <X>
+        775
+      </X>
+      <X>
+        400
+      </X>
+    </Element>
+  </PositionMap>
+</Acf>

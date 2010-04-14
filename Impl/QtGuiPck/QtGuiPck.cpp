@@ -130,6 +130,11 @@ I_EXPORT_COMPONENT(
 			"Qt GUI Menu Action" IM_CATEGORY(I_SERVICE) IM_TAG("Command Composition"));
 
 I_EXPORT_COMPONENT(
+			FileSystemExplorerGui,
+			"Component for file system visualization",
+			"Qt GUI File" IM_CATEGORY(I_GUI) IM_TAG("GUI"));
+
+I_EXPORT_COMPONENT(
 			FileNameParamGui,
 			"File name parameter editor",
 			"Model Observer File Directory Url Parameter" IM_TAG("GUI Editor"));
