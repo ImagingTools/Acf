@@ -51,10 +51,9 @@ public:
 
 	/**
 		Get access to produced vector object.
-		\param	objectId	ID of inspected object. \sa	iproc::ISupplier::BeginNextObject.
 		\return				if vector is accessible pointer to its instance, or NULL.
 	*/
-	virtual imath::CVarVector GetValue(I_DWORD objectId, int index = -1, int valueTypeId = VTI_AUTO) const = 0;
+	virtual imath::CVarVector GetValue(int index = -1, int valueTypeId = VTI_AUTO) const = 0;
 };
 
 

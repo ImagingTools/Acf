@@ -31,6 +31,7 @@ namespace iproc
 
 /**
 	Wrapper implementation of interface iproc::ISupplier with preparation for component implementation.
+	During component initalization you should call \c AddInputSupplier for all suppliers used by this component as a input.
 */
 template <class SupplierInterface, class Product>
 class TSupplierCompWrap:
@@ -46,16 +47,16 @@ public:
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(ISupplier);
 		I_REGISTER_INTERFACE(SupplierInterface);
-		I_ASSIGN(m_recentObjectListSizeAttrPtr, "RecentObjectListSize", "Size of list storing recent processed tagged objects, if it is disabled only one object will stored", false, 10);
 		I_ASSIGN(m_paramsSetCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
 		I_ASSIGN(m_paramsSetModelCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
 	I_END_COMPONENT;
 
 	// pseudo-reimplemented (iproc::ISupplier)
-	virtual void BeginNextObject(I_DWORD objectId);
-	virtual void EnsureWorkFinished(I_DWORD objectId);
-	virtual int GetWorkStatus(I_DWORD objectId) const;
-	virtual double GetWorkDurationTime(I_DWORD objectId) const;
+	virtual void InitNewWork();
+	virtual void EnsureWorkFinished();
+	virtual void ClearWorkResults();
+	virtual int GetWorkStatus() const;
+	virtual double GetWorkDurationTime() const;
 	virtual iprm::IParamsSet* GetModelParametersSet() const;
 
 	// pseudo-reimplemented (iser::ISerializable)
@@ -67,29 +68,23 @@ public:
 	virtual void OnComponentDestroyed();
 
 protected:
-	struct WorkInfo
-	{
-		Product product;
-		int status;
-		double durationTime;
-		bool isDone;
-	};
+	/**
+		Get current work product, if work was done correctly.
+	*/
+	const Product* GetWorkProduct() const;
 
 	/**
-		Check if object ID is beeing processed or processing is started yet.
+		Add some supplier to input supplier list.
 	*/
-	bool IsIdKnown(I_DWORD objectId) const;
-
+	void AddInputSupplier(ISupplier* supplierPtr);
 	/**
-		Get complete product optional using object ID.
-		\return	pointer to product instance if product is accessible, or NULL.
+		Remove supplier from input supplier list.
 	*/
-	const WorkInfo* GetWorkInfo(I_DWORD objectId, bool ensureFinished) const;
-
+	void RemoveInputSupplier(const ISupplier* supplierPtr);
 	/**
-		Remove all cached and produced objects.
+		Remove all suppliers from input supplier list.
 	*/
-	void ResetProducedObjects();
+	void RemoveAllInputSuppliers();
 
 	// reimplemented (imod::CSingleModelObserverBase)
 	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
@@ -102,18 +97,19 @@ protected:
 		Produce single object.
 		\return	work status. \sa iproc::ISupplier::WorkStatus
 	*/
-	virtual int ProduceObject(I_DWORD objectId, Product& result) const = 0;
+	virtual int ProduceObject(Product& result) const = 0;
 
 private:
-	typedef std::map<I_DWORD, WorkInfo> StoredInfoMap;
-	typedef std::list<I_DWORD> RecentIdList;
-
-	mutable StoredInfoMap m_storedInfoMap;
-	mutable RecentIdList m_recentIdList;
-
 	I_ATTR(int, m_recentObjectListSizeAttrPtr);
 	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
 	I_REF(imod::IModel, m_paramsSetModelCompPtr);
+
+	typedef std::set<ISupplier*> InputSuppliers;
+	InputSuppliers m_inputSuppliers;
+
+	Product m_product;
+	int m_workStatus;
+	double m_durationTime;
 };
 
 
@@ -129,69 +125,79 @@ iprm::IParamsSet* TSupplierCompWrap<SupplierInterface, Product>::GetModelParamet
 // pseudo-reimplemented (iproc::ISupplier)
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::BeginNextObject(I_DWORD objectId)
+void TSupplierCompWrap<SupplierInterface, Product>::InitNewWork()
 {
-	typename StoredInfoMap::const_iterator foundIter = m_storedInfoMap.find(objectId);
-	if (foundIter == m_storedInfoMap.end()){
-		m_recentIdList.push_back(objectId);
-		WorkInfo& workInfo = m_storedInfoMap[objectId];
+	if (m_workStatus != ISupplier::WS_INIT){
+		m_workStatus = ISupplier::WS_INIT;
+		m_durationTime = 0;
 
-		workInfo.status = ISupplier::WS_NONE;
-		workInfo.durationTime = -1;
-		workInfo.isDone = false;
+		for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
+					iter != m_inputSuppliers.end();
+					++iter){
+			ISupplier* supplierPtr = *iter;
+			if (supplierPtr != NULL){
+				supplierPtr->InitNewWork();
+			}
+		}
 	}
-
-	I_ASSERT(m_storedInfoMap.size() == m_recentIdList.size());
-
-	int recentObjectListSize = m_recentObjectListSizeAttrPtr.IsValid()?
-				istd::Max(*m_recentObjectListSizeAttrPtr, 1):
-				1;
-	I_ASSERT(recentObjectListSize >= 1);
-
-	while (int(m_recentIdList.size()) > recentObjectListSize){
-		I_ASSERT(m_storedInfoMap.find(m_recentIdList.front()) != m_storedInfoMap.end()); // object in recent list must exist in map
-
-		m_storedInfoMap.erase(m_recentIdList.front());
-		m_recentIdList.pop_front();
-
-		I_ASSERT(m_storedInfoMap.size() == m_recentIdList.size());
-	}
-
-	I_ASSERT(!m_storedInfoMap.empty());
-	I_ASSERT(!m_recentIdList.empty());
 }
 
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished(I_DWORD objectId)
+void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished()
 {
-	TSupplierCompWrap::BeginNextObject(objectId);
+	if (m_workStatus <= ISupplier::WS_INIT){
+		m_workStatus = ISupplier::WS_LOCKED;
 
-	TSupplierCompWrap::GetWorkInfo(objectId, true);
+		isys::ITimer* timerPtr = istd::GetService<isys::ITimer>();
+
+		double beforeTime = 0;
+		if (timerPtr != NULL){
+			beforeTime = timerPtr->GetElapsed();
+		}
+
+		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+
+		m_workStatus = ProduceObject(m_product);
+		I_ASSERT(m_workStatus >= WS_OK);	// No initial states are possible
+
+		if (timerPtr != NULL){
+			m_durationTime = timerPtr->GetElapsed() - beforeTime;
+		}
+	}
 }
 
 
 template <class SupplierInterface, class Product>
-int TSupplierCompWrap<SupplierInterface, Product>::GetWorkStatus(I_DWORD objectId) const
+void TSupplierCompWrap<SupplierInterface, Product>::ClearWorkResults()
 {
-	const WorkInfo* infoPtr = GetWorkInfo(objectId, true);
-	if (infoPtr != NULL){
-		return infoPtr->status;
-	}
+	if (m_workStatus != ISupplier::WS_NONE){
+		m_workStatus = ISupplier::WS_NONE;
+		m_durationTime = 0;
 
-	return ISupplier::WS_NONE;
+		for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
+					iter != m_inputSuppliers.end();
+					++iter){
+			ISupplier* supplierPtr = *iter;
+			if (supplierPtr != NULL){
+				supplierPtr->ClearWorkResults();
+			}
+		}
+	}
 }
 
 
 template <class SupplierInterface, class Product>
-double TSupplierCompWrap<SupplierInterface, Product>::GetWorkDurationTime(I_DWORD objectId) const
+int TSupplierCompWrap<SupplierInterface, Product>::GetWorkStatus() const
 {
-	const WorkInfo* infoPtr = GetWorkInfo(objectId, true);
-	if (infoPtr != NULL){
-		return infoPtr->durationTime;
-	}
+	return m_workStatus;
+}
 
-	return -1;
+
+template <class SupplierInterface, class Product>
+double TSupplierCompWrap<SupplierInterface, Product>::GetWorkDurationTime() const
+{
+	return m_durationTime;
 }
 
 
@@ -239,6 +245,8 @@ void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
 		m_paramsSetModelCompPtr->DetachObserver(this);
 	}
 
+	RemoveAllInputSuppliers();
+
 	BaseClass::OnComponentDestroyed();
 }
 
@@ -246,61 +254,46 @@ void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
 // protected methods
 
 template <class SupplierInterface, class Product>
-bool TSupplierCompWrap<SupplierInterface, Product>::IsIdKnown(I_DWORD objectId) const
+const Product* TSupplierCompWrap<SupplierInterface, Product>::GetWorkProduct() const
 {
-	return m_storedInfoMap.find(objectId) != m_storedInfoMap.end();
-}
+	const_cast< TSupplierCompWrap<SupplierInterface, Product>* >(this)->EnsureWorkFinished();
 
-
-template <class SupplierInterface, class Product>
-const typename TSupplierCompWrap<SupplierInterface, Product>::WorkInfo* TSupplierCompWrap<SupplierInterface, Product>::GetWorkInfo(
-			I_DWORD objectId,
-			bool ensureFinished) const
-{
-	typename StoredInfoMap::iterator foundIter = m_storedInfoMap.find(objectId);
-	if (foundIter != m_storedInfoMap.end()){
-		WorkInfo& workInfo = foundIter->second;
-
-		if (ensureFinished && !workInfo.isDone){
-			isys::ITimer* timerPtr = istd::GetService<isys::ITimer>();
-
-			double beforeTime = 0;
-			if (timerPtr != NULL){
-				beforeTime = timerPtr->GetElapsed();
-			}
-
-			istd::CChangeNotifier notifier(const_cast<TSupplierCompWrap<SupplierInterface, Product>*>(this), ISupplier::CF_SUPPLIER_RESULTS);
-
-			workInfo.status = ProduceObject(objectId, workInfo.product);
-
-			workInfo.isDone = true;
-
-			if (timerPtr != NULL){
-				workInfo.durationTime = timerPtr->GetElapsed() - beforeTime;
-			}
-		}
-
-		return &workInfo;
+	if ((m_workStatus == WS_OK) || (m_workStatus == WS_WARNING)){
+		return &m_product;
 	}
-
-	return NULL;
-}
-
-
-template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::ResetProducedObjects()
-{
-	m_storedInfoMap.clear();
-	m_recentIdList.clear();
+	else{
+		return NULL;
+	}
 }
 
 
 // reimplemented (imod::CSingleModelObserverBase)
 
 template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::AddInputSupplier(ISupplier* supplierPtr)
+{
+	m_inputSuppliers.insert(supplierPtr);
+}
+
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::RemoveInputSupplier(const ISupplier* supplierPtr)
+{
+	m_inputSuppliers.erase(supplierPtr);
+}
+
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::RemoveAllInputSuppliers()
+{
+	m_inputSuppliers.clear();
+}
+
+
+template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	ResetProducedObjects();
+	m_workStatus = ISupplier::WS_NONE;
 
 	BaseClass2::OnUpdate(updateFlags, updateParamsPtr);
 }
@@ -312,7 +305,7 @@ template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	if ((changeFlags & istd::IChangeable::CF_MODEL) != 0){
-		ResetProducedObjects();
+		m_workStatus = ISupplier::WS_NONE;
 	}
 
 	SupplierInterface::OnEndChanges(changeFlags, changeParamsPtr);

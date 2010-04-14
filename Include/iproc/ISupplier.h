@@ -29,6 +29,15 @@ public:
 		*/
 		WS_NONE,
 		/**
+			New work is initialized.
+		*/
+		WS_INIT,
+		/**
+			Supplier is locked.
+			This state can occured during processing.
+		*/
+		WS_LOCKED,
+		/**
 			Work was done correctly and no error occure.
 		*/
 		WS_OK,
@@ -58,30 +67,31 @@ public:
 	/**
 		Called to signalize to entering of new object.
 		Becouse of all produced object are accessible on demand and must be cached, there is needed signal to clear this cache.
-		\param	objectId	ID of inspected object.
-							This ID can be used to synchronize with other suppliers to ensure processing the same object.
 	*/
-	virtual void BeginNextObject(I_DWORD objectId) = 0;
+	virtual void InitNewWork() = 0;
 
 	/**
 		Ensure that all objects are produced.
-		\param	objectId	ID of inspected object. \sa	BeginNextObject.
 	*/
-	virtual void EnsureWorkFinished(I_DWORD objectId) = 0;
+	virtual void EnsureWorkFinished() = 0;
+
+	/**
+		Remove all stored work results.
+		This set also work state to \c WS_INIT.
+	*/
+	virtual void ClearWorkResults() = 0;
 
 	/**
 		Get status of last work.
-		\param	objectId	ID of inspected object. \sa	BeginNextObject.
 		\return	work status defined in iproc::ISupplier::WorkStatus.
 	*/
-	virtual int GetWorkStatus(I_DWORD objectId) const = 0;
+	virtual int GetWorkStatus() const = 0;
 
 	/**
 		Get duration time of work.
-		\param	objectId	ID of inspected object. \sa	BeginNextObject.
 		\return	time of duration or negative value if this time is unknown.
 	*/
-	virtual double GetWorkDurationTime(I_DWORD objectId) const = 0;
+	virtual double GetWorkDurationTime() const = 0;
 
 	/**
 		Get parameter set using by this supplier.

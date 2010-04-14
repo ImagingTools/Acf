@@ -208,11 +208,6 @@ I_EXPORT_COMPONENT(
 			"Histogram" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Image Model"));
 
 I_EXPORT_COMPONENT(
-			TestIdManager,
-			"Implementation of ID manager generating ID's for test",
-			"ID Manager Test Supplier"IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing"));
-
-I_EXPORT_COMPONENT(
 			CascadedProcessor,
 			"Sequence processing using slave processors",
 			"Processor Sequence Buffer Cascade" IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing Composition"));

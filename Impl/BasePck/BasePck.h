@@ -54,7 +54,6 @@
 
 #include "iimg/CHistogram.h"
 
-#include "iproc/CTestIdManagerComp.h"
 #include "iproc/CCascadedProcessorComp.h"
 #include "iproc/CIterativeProcessorComp.h"
 #include "iproc/CIterativeProcessorParams.h"
@@ -170,7 +169,6 @@ typedef icomp::TMakeComponentWrap<
 			istd::IChangeable,
 			imod::IModel> Histogram;
 
-typedef iproc::CTestIdManagerComp TestIdManager;
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
 typedef iproc::CIterativeProcessorComp IterativeProcessor;
 typedef icomp::TMakeComponentWrap<

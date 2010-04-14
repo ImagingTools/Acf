@@ -11,8 +11,6 @@
 
 #include "iprm/IParamsSet.h"
 
-#include "iproc/IIdManager.h"
-
 #include "iqtgui/IGuiObject.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
@@ -36,7 +34,6 @@ public:
 		I_ASSIGN(m_paramsSetGuiCompPtr, "ParamsSetGui", "Shows parameter set", false, "ParamsSetGui");
 		I_ASSIGN(m_paramsSetObserverCompPtr, "ParamsSetGui", "Shows parameter set", false, "ParamsSetGui");
 		I_ASSIGN(m_paramsSetExtenderCompPtr, "ParamsSetGui", "Shows parameter set", false, "ParamsSetGui");
-		I_ASSIGN(m_idManagerCompPtr, "IdManager", "ID manager used to generate next processing ID", false, "IdManager");
 	I_END_COMPONENT;
 
 	TSupplierGuiCompBase();
@@ -76,11 +73,6 @@ protected:
 	*/
 	bool DoTest();
 
-	/**
-		Return connected ID manager.
-	*/
-	iproc::IIdManager* GetIdManager() const;
-
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
@@ -100,7 +92,6 @@ private:
 	I_REF(iqtgui::IGuiObject, m_paramsSetGuiCompPtr);
 	I_REF(imod::IObserver, m_paramsSetObserverCompPtr);
 	I_REF(iqt2d::ISceneExtender, m_paramsSetExtenderCompPtr);
-	I_REF(iproc::IIdManager, m_idManagerCompPtr);
 
 	bool m_areParamsEditable;
 };
@@ -238,24 +229,14 @@ template <class UI, class Model, class WidgetType>
 bool TSupplierGuiCompBase<UI, Model, WidgetType>::DoTest()
 {
 	iproc::ISupplier* supplierPtr = BaseClass::GetObjectPtr();
-	I_DWORD objectId;
-	if (		(supplierPtr != NULL) &&
-				m_idManagerCompPtr.IsValid() &&
-				m_idManagerCompPtr->GetCurrentId(objectId)){
-		supplierPtr->BeginNextObject(objectId);
-		supplierPtr->EnsureWorkFinished(objectId);
+	if (supplierPtr != NULL){
+		supplierPtr->InitNewWork();
+		supplierPtr->EnsureWorkFinished();
 
-		return supplierPtr->GetWorkStatus(objectId) < iproc::ISupplier::WS_ERROR;
+		return supplierPtr->GetWorkStatus() < iproc::ISupplier::WS_ERROR;
 	}
 
 	return false;
-}
-
-
-template <class UI, class Model, class WidgetType>
-iproc::IIdManager* TSupplierGuiCompBase<UI, Model, WidgetType>::GetIdManager() const
-{
-	return m_idManagerCompPtr.GetPtr();
 }
 
 

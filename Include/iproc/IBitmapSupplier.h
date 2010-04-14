@@ -21,10 +21,9 @@ class IBitmapSupplier: virtual public iproc::ISupplier
 public:
 	/**
 		Get access to produced bitmap object.
-		\param	objectId	ID of inspected object. \sa	iproc::ISupplier::BeginNextObject.
 		\return	pointer to bitmap instance if this bitmap is accessible, or NULL.
 	*/
-	virtual const iimg::IBitmap* GetBitmap(I_DWORD objectId) const = 0;
+	virtual const iimg::IBitmap* GetBitmap() const = 0;
 };
 
 
