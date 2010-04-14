@@ -20,7 +20,8 @@ namespace istd
 class IChangeable: virtual public IPolymorphic  
 {
 public:
-	enum ChangeFlags{
+	enum ChangeFlags
+	{
 		/**
 			Internal ACF flag.
 			Indicate that internal update is done.
@@ -35,7 +36,27 @@ public:
 		*/
 		CF_ABORTED = 0x4
 	};
-	
+
+	/**
+		Flags for supported operations.
+		This flags can be combined.
+	*/
+	enum SupportedOperations
+	{
+		/**
+			Observing of this object via observer-observable pattern.
+		*/
+		SO_OBSERVE = 1,
+		/**
+			Copying from other object.
+		*/
+		SO_COPY = 2,
+		/**
+			Creating of copy of this object.
+		*/
+		SO_CLONE = 4
+	};
+
 	/**
 		Starts the change transaction. 
 		\note Please note that the \c changeFlags and \c changeParamsPtr must not be identical with the
@@ -53,10 +74,22 @@ public:
 	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
 
 	/**
+		Get set of flags for supported operations.
+		\sa SupportedOperations
+	*/
+	virtual int GetSupportedOperations() const;
+
+	/**
 		Copy this object from another one.
 		Default implementation in istd::IChangeable do nothing.
 	*/
 	virtual bool CopyFrom(const IChangeable& object);
+
+	/**
+		Make a copy of this object.
+		\return	new instance or NULL, if this operation is not supported.
+	*/
+	virtual IChangeable* CloneMe() const;
 
 protected:
 	/**
@@ -88,9 +121,21 @@ inline void IChangeable::EndChanges(int changeFlags, istd::IPolymorphic* changeP
 }
 
 
+inline int IChangeable::GetSupportedOperations() const
+{
+	return 0;
+}
+
+
 inline bool IChangeable::CopyFrom(const IChangeable& /*object*/)
 {
 	return false;
+}
+
+
+inline IChangeable* IChangeable::CloneMe() const
+{
+	return NULL;
 }
 
 

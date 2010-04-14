@@ -50,7 +50,11 @@ public:
 	virtual void ResetImage();
 	virtual istd::CIndex2d GetImageSize() const;
 	virtual int GetComponentsCount() const;
+
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const istd::IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 
 protected:
 	QImage::Format CalcQtFormat(int pixelBitsCount, int componentsCount) const;

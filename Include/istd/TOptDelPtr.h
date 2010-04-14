@@ -80,6 +80,28 @@ public:
 	*/
 	TOptDelPtr& operator=(Type* ptr);
 
+	/**
+		Set internal pointer using casted pointer of other type.
+		If casting is not possible, parameter object will be removed.
+		\param	releaseFlag	if true, pointed object will be automatically released.
+	*/
+	template <class SourceType>
+	bool SetCastedOrRemove(SourceType* ptr, bool releaseFlag = false)
+	{
+		Type* castedPtr = dynamic_cast<Type*>(ptr);
+
+		SetPtr(castedPtr, releaseFlag);
+
+		if (castedPtr != NULL){
+			return true;
+		}
+		else if (releaseFlag){
+			delete ptr;
+
+			return false;
+		}
+	}
+
 protected:
 	/**
 		Remove referenced object.

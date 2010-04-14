@@ -5,6 +5,7 @@
 #include <QColor>
 
 #include "istd/TChangeNotifier.h"
+#include "istd/TDelPtr.h"
 
 
 namespace iqt
@@ -152,6 +153,14 @@ int CBitmap::GetComponentsCount() const
 }
 
 
+// reimplemented (istd::IChangeable)
+
+int CBitmap::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+
 bool CBitmap::CopyFrom(const istd::IChangeable& object)
 {
 	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&object);
@@ -180,6 +189,18 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object)
 	}
 
 	return false;
+}
+
+
+istd::IChangeable* CBitmap::CloneMe() const
+{
+	istd::TDelPtr<CBitmap> clonePtr(new CBitmap);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

@@ -4,6 +4,7 @@
 #include <memory.h>
 
 #include "istd/TChangeNotifier.h"
+#include "istd/TDelPtr.h"
 
 
 
@@ -129,6 +130,14 @@ int CGeneralBitmap::GetComponentsCount() const
 }
 
 
+// reimplemented (istd::IChangeable)
+
+int CGeneralBitmap::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+
 bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
 {
 	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
@@ -145,6 +154,18 @@ bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
 	}
 
 	return false;
+}
+
+
+istd::IChangeable* CGeneralBitmap::CloneMe() const
+{
+	istd::TDelPtr<CGeneralBitmap> clonePtr(new CGeneralBitmap);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

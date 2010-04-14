@@ -2,6 +2,8 @@
 #define imod_TModelWrap_included
 
 
+#include "istd/TDelPtr.h"
+
 #include "iser/TCopySerializedWrap.h"
 
 #include "imod/CModelBase.h"
@@ -27,6 +29,10 @@ public:
 
 	void SetBaseObject(const Base& baseObject);
 
+	// pseudo-reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
+	virtual istd::IChangeable* CloneMe() const;
+
 protected:
 	// pseudo-reimplemented (istd::IChangeable)
 	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
@@ -40,6 +46,35 @@ template <class Base>
 void TModelWrap<Base>::SetBaseObject(const Base& baseObject)
 {
 	Base::operator=(baseObject);
+}
+
+
+// pseudo-reimplemented (istd::IChangeable)
+
+template <class Base>
+int TModelWrap<Base>::GetSupportedOperations() const
+{
+	int baseOperations = Base::GetSupportedOperations();
+
+	if ((baseOperations & SO_COPY) != 0){
+		return baseOperations | SO_CLONE | SO_OBSERVE;
+	}
+	else{
+		return baseOperations | SO_OBSERVE;
+	}
+}
+
+
+template <class Base>
+istd::IChangeable* TModelWrap<Base>::CloneMe() const
+{
+	istd::TDelPtr< TModelWrap<Base> > clonePtr(new TModelWrap<Base>());
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 
