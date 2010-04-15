@@ -97,9 +97,9 @@ public:
 		}
 		else if (releaseFlag){
 			delete ptr;
-
-			return false;
 		}
+
+		return false;
 	}
 
 protected:
