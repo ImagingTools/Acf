@@ -38,6 +38,27 @@ public:
 	*/
 	void SetPtr(Type* pointer);
 
+	/**
+		Set this pointer using casted pointer of other type.
+		If casting is not possible, object will be removed.
+	*/
+	template <class SourceType>
+	bool SetCastedOrRemove(SourceType* ptr)
+	{
+		Type* castedPtr = dynamic_cast<Type*>(ptr);
+
+		SetPtr(castedPtr);
+
+		if (castedPtr != NULL){
+			return true;
+		}
+		else{
+			delete ptr;
+
+			return false;
+		}
+	}
+
 	// operators
 	TSmartPtr& operator=(const TSmartPtr& otherCounter);
 
