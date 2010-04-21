@@ -101,7 +101,7 @@ void CRegistryPropEditorComp::on_KeywordsEdit_editingFinished()
 }
 
 
-void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& categories)
+void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& /*categories*/)
 {/*
 	icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr != NULL){
