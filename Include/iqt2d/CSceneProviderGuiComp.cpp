@@ -464,9 +464,6 @@ bool CSceneProviderGuiComp::HasDropConsumerForFormat(const QStringList& formats)
 
 void CSceneProviderGuiComp::DelegateDropEvent(const QMimeData& mimeData, QGraphicsSceneDragDropEvent* eventPtr)
 {
-	I_ASSERT(m_dropConsumersCompPtr.IsValid());
-	I_ASSERT(m_dropConsumersCompPtr.GetCount() > 0);
-
 	if (!m_dropConsumersCompPtr.IsValid() || m_dropConsumersCompPtr.GetCount() == 0){
 		return;
 	}
