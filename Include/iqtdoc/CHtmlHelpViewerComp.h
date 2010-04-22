@@ -26,7 +26,7 @@ public:
 
 	I_BEGIN_COMPONENT(CHtmlHelpViewerComp);
 		I_REGISTER_INTERFACE(idoc::IHelpViewer);
-		I_ASSIGN(m_helpFileProviderCompPtr, "HelpFileProvider", "Generate file path for doxygen files", true, "HelpFileProvider");
+		I_ASSIGN(m_helpFileProviderCompPtr, "HelpFileProvider", "Calculate path of html document", true, "HelpFileProvider");
 	I_END_COMPONENT;
 
 	// reimplemented (idoc::IHelpViewer)

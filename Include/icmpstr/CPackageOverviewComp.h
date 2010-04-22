@@ -13,6 +13,8 @@
 #include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CComponentAddress.h"
 
+#include "idoc/IHelpViewer.h"
+
 #include "iqtgui/TDesignerGuiCompBase.h"
 
 #include "icmpstr/IRegistryConsistInfo.h"
@@ -38,6 +40,7 @@ public:
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver);
 		I_ASSIGN(m_envManagerCompPtr, "EnvironmentManager", "Packages manager used to provide icon paths", true, "PackagesManager");
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and access to buffred icons", false, "ConsistencyInfo");
+		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
 	I_END_COMPONENT;
 
 	enum
@@ -88,6 +91,7 @@ protected slots:
 	void on_FilterEdit_editingFinished();
 	void on_GroupByCB_currentIndexChanged(int index);
 	void on_PackagesList_customContextMenuRequested(const QPoint& menuPoint);
+	void on_PackagesList_itemSelectionChanged();
 	void on_FilterGB_toggled(bool on);
 	void on_InterfaceCB_currentIndexChanged(int index);
 
@@ -97,9 +101,9 @@ private:
 	{
 	public:
 		PackageItemBase(
-			CPackageOverviewComp& parent,
-			const QString& description,
-			const QIcon& icon = QIcon());
+					CPackageOverviewComp& parent,
+					const QString& description,
+					const QIcon& icon = QIcon());
 
 		virtual const QString& GetDescription() const;
 
@@ -127,7 +131,6 @@ private:
 		icomp::CComponentAddress m_address;
 	};
 
-
 	class PackageItem: public PackageItemBase
 	{
 	public:
@@ -141,6 +144,7 @@ private:
 
 	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);
 	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
+	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 
 	enum GruppingMode
 	{

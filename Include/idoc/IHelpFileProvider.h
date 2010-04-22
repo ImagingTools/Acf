@@ -18,7 +18,7 @@ class IHelpFileProvider: virtual public istd::IPolymorphic
 public:
 	/**
 		Get quality of help information for specified context and/or object.
-		\return	qulity of help. It represented as value in range [0, 1].
+		\return	quality of help. It represented as value in range [0, 1].
 	*/
 	virtual double GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const = 0;
 	virtual istd::CString GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const = 0;

@@ -241,13 +241,13 @@ void CPackageOverviewComp::GenerateComponentTree()
 		std::string groupId;
 		std::string elementName = address.GetPackageId() + "/" + address.GetComponentId();
 		switch (GroupByCB->currentIndex()){
-				case GM_NONE:
-					break;
+		case GM_NONE:
+			break;
 
-				default:
-					groupId = address.GetPackageId();
-					elementName = address.GetComponentId();
-					break;
+		default:
+			groupId = address.GetPackageId();
+			elementName = address.GetComponentId();
+			break;
 		}
 
 		istd::CString infoPath = m_envManagerCompPtr->GetComponentInfoPath(address);
@@ -575,6 +575,21 @@ void CPackageOverviewComp::on_PackagesList_customContextMenuRequested(const QPoi
 	QPoint localPoint = PackagesList->viewport()->mapToGlobal(menuPoint);
 
 	QMenu::exec(actionList, localPoint);
+}
+
+
+void CPackageOverviewComp::on_PackagesList_itemSelectionChanged()
+{
+	QList<QTreeWidgetItem*> items = PackagesList->selectedItems();
+	if (items.count() > 0){
+		const PackageComponentItem* itemPtr = dynamic_cast<const PackageComponentItem*>(items.at(0));
+
+		if ((itemPtr != NULL) && m_quickHelpViewerCompPtr.IsValid()){
+			const icomp::CComponentAddress& address = itemPtr->GetAddress();
+
+			m_quickHelpViewerCompPtr->ShowHelp(address.GetPackageId() + "/" + address.GetComponentId(), &address);
+		}
+	}
 }
 
 
