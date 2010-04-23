@@ -90,8 +90,13 @@ public:
 		if (packageItemPtr != NULL){
 			painter->fillRect(mainRect, itemBrush);
 			if (option.state & QStyle::State_Open){
-				painter->drawLine(mainRect.left(), mainRect.bottom() - 1, mainRect.right() - 1, mainRect.bottom() - 1);
+				painter->setPen(Qt::black);
 			}
+			else{
+				painter->setPen(option.palette.mid().color());
+			}
+
+			painter->drawLine(mainRect.left(), mainRect.bottom() - 1, mainRect.right() - 1, mainRect.bottom() - 1);
 
 			mainRect.adjust(0, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
 		}

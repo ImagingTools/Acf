@@ -199,10 +199,10 @@
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
-        ibase::IApplication
+        ibase::IFileConvertCopy
       </InterfaceId>
       <ComponentId>
-        ExternalApplication
+        Converter
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
