@@ -511,11 +511,6 @@ void CPackageOverviewComp::on_PackagesList_itemSelectionChanged()
 	}
 }
 
-	
-void CPackageOverviewComp::on_PackagesList_itemCollapsed(QTreeWidgetItem* /*item*/)
-{
-}
-
 
 void CPackageOverviewComp::on_PackagesList_itemExpanded(QTreeWidgetItem* item)
 {
@@ -526,6 +521,12 @@ void CPackageOverviewComp::on_PackagesList_itemExpanded(QTreeWidgetItem* item)
 			itemPtr->setExpanded(false);
 		}
 	}
+}
+
+
+void CPackageOverviewComp::on_PackagesList_itemClicked(QTreeWidgetItem* item, int /*column*/)
+{
+	item->setExpanded(!item->isExpanded());
 }
 
 
