@@ -3,6 +3,7 @@
 
 // Qt includes
 #include <QProcess>
+#include <QMetaType>
 
 
 namespace iqt
@@ -13,9 +14,11 @@ namespace iqt
 
 CProcessExecutorComp::CProcessExecutorComp()
 {
-	connect(&m_applicationProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(OnError(QProcess::ProcessError)));
-	connect(&m_applicationProcess, SIGNAL(readyReadStandardError()), this, SLOT(OnReadyReadStandardError()));
-	connect(&m_applicationProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(OnReadyReadStandardOutput()));
+	qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
+
+	connect(&m_applicationProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(OnError(QProcess::ProcessError)), Qt::QueuedConnection);
+	connect(&m_applicationProcess, SIGNAL(readyReadStandardError()), this, SLOT(OnReadyReadStandardError()), Qt::QueuedConnection);
+	connect(&m_applicationProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(OnReadyReadStandardOutput()), Qt::QueuedConnection);
 }
 
 
@@ -52,6 +55,16 @@ int CProcessExecutorComp::Execute(const istd::CString& executablePath, const ist
 	m_applicationProcess.waitForFinished(-1);
 
 	return m_applicationProcess.exitCode();
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CProcessExecutorComp::OnComponentDestroyed()
+{
+	m_applicationProcess.kill();
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

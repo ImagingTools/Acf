@@ -32,9 +32,6 @@ bool CExternalFileConverterComp::CopyFile(
 
 	istd::CStringList arguments;
 
-	// insert default application path argument:
-	arguments.push_back(istd::CString::GetEmpty());
-
 	// setup command line arguments:
 	if (!m_processArgumentsAttrPtr.IsValid()){
 		arguments.push_back(inputFilePath);
@@ -43,8 +40,8 @@ bool CExternalFileConverterComp::CopyFile(
 	else{
 		istd::CString applicationArguments = *m_processArgumentsAttrPtr;
 
-		applicationArguments.Replace("%1", inputFilePath);
-		applicationArguments.Replace("%2", outputFilePath);
+		applicationArguments.Replace("$(Input)", inputFilePath);
+		applicationArguments.Replace("$(Output)", outputFilePath);
 
 		arguments = applicationArguments.Split(" ", false);
 	}

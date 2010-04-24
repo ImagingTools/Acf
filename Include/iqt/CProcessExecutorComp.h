@@ -41,6 +41,9 @@ public:
 
 	virtual int Execute(const istd::CString& executablePath, const istd::CStringList& processArguments);
 
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentDestroyed();
+
 protected Q_SLOTS:
 	void OnError(QProcess::ProcessError error);
 	void OnReadyReadStandardError();

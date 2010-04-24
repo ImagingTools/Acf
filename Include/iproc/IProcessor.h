@@ -145,11 +145,11 @@ public:
 	virtual int GetReadyTask() = 0;
 
 	/**
-		Get actual camera state.
-		Please note that image state will be only stored
-		till WaitSnapFinished() is called.
-		\param	frameId	frame ID number returned by AddSnap() method.
-						If it is -1 state of the last camera will be returned.
+		Get actual task state.
+		Please note that task state will be only stored
+		till WaitTaskFinished() is called.
+		\param	taskId	task ID number returned by BeginTask() method.
+						If it is -1 state of the last task will be returned.
 		\return					state of selected task or all tasks \sa TaskState.
 	*/
 	virtual int GetTaskState(int taskId = -1) const = 0;
