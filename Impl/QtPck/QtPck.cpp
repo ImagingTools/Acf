@@ -90,7 +90,7 @@ I_EXPORT_COMPONENT(
 			"System Clipboard Serializer Copy Paste" IM_TAG("Loader"));
 
 I_EXPORT_COMPONENT(
-			ExternalApp,
+			ProcessorExecutor,
 			"Execute an external application",
 			"Application External Process" IM_CATEGORY(I_APPLICATION) IM_TAG("Application"));
 

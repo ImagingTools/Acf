@@ -1,4 +1,4 @@
-#include "iqt/CExternalAppComp.h"
+#include "iqt/CProcessExecutorComp.h"
 
 
 // Qt includes
@@ -11,7 +11,7 @@ namespace iqt
 
 // public methods
 
-CExternalAppComp::CExternalAppComp()
+CProcessExecutorComp::CProcessExecutorComp()
 {
 	connect(&m_applicationProcess, SIGNAL(error(QProcess::ProcessError)), this, SLOT(OnError(QProcess::ProcessError)));
 	connect(&m_applicationProcess, SIGNAL(readyReadStandardError()), this, SLOT(OnReadyReadStandardError()));
@@ -19,58 +19,45 @@ CExternalAppComp::CExternalAppComp()
 }
 
 
-// reimplemented (ibase::IApplication)
-
-bool CExternalAppComp::InitializeApplication(int /*argc*/, char** /*argv*/)
+// reimplemented (ibase::IProcessExecutor)
+	
+void CProcessExecutorComp::SetEnvironment(const isys::IApplicationEnvironment& processEnvironment)
 {
-	return true;
+	if (m_applicationProcess.state() != QProcess::NotRunning){
+		SendErrorMessage(0, "Application path has wrong type. It must be a file path");
+
+		return;
+	}
+
+	isys::IApplicationEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
+
+	QProcessEnvironment qtProcessEvironment;
+
+	for (		isys::IApplicationEnvironment::EnvironmentVariables::const_iterator index = environmentVariables.begin();
+				index != environmentVariables.end();
+				index++){
+		qtProcessEvironment.insert(iqt::GetQString(index->first), iqt::GetQString(index->second));
+	}
+
+	m_applicationProcess.setProcessEnvironment(qtProcessEvironment);
+
+	m_applicationProcess.setWorkingDirectory(iqt::GetQString(processEnvironment.GetWorkingDirectory()));
 }
 
 
-int CExternalAppComp::Execute(int argc, char** argv)
+int CProcessExecutorComp::Execute(const istd::CString& executablePath, const istd::CStringList& processArguments)
 {
-	if (!m_applicationPathCompPtr.IsValid()){
-		SendErrorMessage(0, "Application path was not set.");
-	
-		return -1;
-	}
+	m_applicationProcess.start(iqt::GetQString(executablePath), iqt::GetQStringList(processArguments));
 
-	if (m_applicationPathCompPtr->GetPathType() != iprm::IFileNameParam::PT_FILE){
-		SendErrorMessage(0, "Application path has wrong type. It must be a file path");
-
-		return -1;
-	}
-
-	QString applicationPath = iqt::GetQString(m_applicationPathCompPtr->GetPath());
-	if (applicationPath.isEmpty()){
-		SendErrorMessage(0, "Application path is empty");
-
-		return -1;
-	}
-
-	QStringList arguments;
-	arguments.append(applicationPath);
-
-	for (int argIndex = 1; argIndex < argc; argIndex++){
-		arguments.append(argv[argc]);
-	}
-	
-	m_applicationProcess.start(applicationPath, arguments);
 	m_applicationProcess.waitForFinished(-1);
 
 	return m_applicationProcess.exitCode();
 }
 
 
-istd::CString CExternalAppComp::GetHelpText() const
-{
-	return istd::CString::GetEmpty();
-}
-
-
 // protected slots:
 
-void CExternalAppComp::OnError(QProcess::ProcessError error)
+void CProcessExecutorComp::OnError(QProcess::ProcessError error)
 {   
 	switch (error){
 		case QProcess::FailedToStart:
@@ -92,7 +79,7 @@ void CExternalAppComp::OnError(QProcess::ProcessError error)
 }
 
 
-void CExternalAppComp::OnReadyReadStandardError()
+void CProcessExecutorComp::OnReadyReadStandardError()
 {
 	istd::CString errorOutput = iqt::GetCString(m_applicationProcess.readAllStandardError());
 
@@ -100,7 +87,7 @@ void CExternalAppComp::OnReadyReadStandardError()
 }
 
 
-void CExternalAppComp::OnReadyReadStandardOutput()
+void CProcessExecutorComp::OnReadyReadStandardOutput()
 {
 	istd::CString infoOutput = iqt::GetCString(m_applicationProcess.readAllStandardOutput());
 

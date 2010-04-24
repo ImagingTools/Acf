@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="iqt"
 	ProjectGUID="{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 	RootNamespace="iqt"
@@ -226,10 +226,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CExternalAppComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CFileInfoCopyComp.cpp"
 				>
 			</File>
@@ -255,6 +251,10 @@
 			</File>
 			<File
 				RelativePath="..\CPackagesLoaderComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CProcessExecutorComp.cpp"
 				>
 			</File>
 			<File
@@ -368,10 +368,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CExternalAppComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CFileInfoCopyComp.h"
 				>
 			</File>
@@ -397,6 +393,10 @@
 			</File>
 			<File
 				RelativePath="..\CPackagesLoaderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CProcessExecutorComp.h"
 				>
 			</File>
 			<File
@@ -474,15 +474,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CExternalAppComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Generated\moc_CFileList.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\generated\moc_CNetworkWriteArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CProcessExecutorComp.cpp"
 				>
 			</File>
 			<File
@@ -498,15 +498,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CExternalAppComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CFileList.moc"
 				>
 			</File>
 			<File
 				RelativePath="..\CNetworkWriteArchive.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CProcessExecutorComp.moc"
 				>
 			</File>
 			<File

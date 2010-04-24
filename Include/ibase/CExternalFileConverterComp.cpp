@@ -12,7 +12,21 @@ bool CExternalFileConverterComp::CopyFile(
 			const istd::CString& outputFilePath,
 			const iprm::IParamsSet* /*paramsSetPtr*/) const
 {
-	if (!m_applicationCompPtr.IsValid()){
+	if (!m_executablePathCompPtr.IsValid()){
+		SendErrorMessage(0, "Path for an executable was not set");
+
+		return false;
+	}
+
+	if (m_executablePathCompPtr->GetPathType() != iprm::IFileNameParam::PT_FILE){
+		SendErrorMessage(0, "Wrong executable path type. Must be path to a file.");
+
+		return false;
+	}
+
+	if (!m_processExecuterCompPtr.IsValid()){
+		SendErrorMessage(0, "Process execution component was not set.");
+
 		return false;
 	}
 
@@ -22,12 +36,12 @@ bool CExternalFileConverterComp::CopyFile(
 	arguments.push_back(istd::CString::GetEmpty());
 
 	// setup command line arguments:
-	if (!m_applicationArgumentsAttrPtr.IsValid()){
+	if (!m_processArgumentsAttrPtr.IsValid()){
 		arguments.push_back(inputFilePath);
 		arguments.push_back(outputFilePath);
 	}
 	else{
-		istd::CString applicationArguments = *m_applicationArgumentsAttrPtr;
+		istd::CString applicationArguments = *m_processArgumentsAttrPtr;
 
 		applicationArguments.Replace("%1", inputFilePath);
 		applicationArguments.Replace("%2", outputFilePath);
@@ -35,14 +49,7 @@ bool CExternalFileConverterComp::CopyFile(
 		arguments = applicationArguments.Split(" ", false);
 	}
 
-	int argc = arguments.size();
-
-	istd::TDelPtr<char*> argv(new char*[argc]);
-	for (int argIndex = 0; argIndex < argc; argIndex++){
-		argv.GetPtr()[argIndex] = const_cast<char*>(arguments[argIndex].ToString().c_str());		
-	}
-
-	return (m_applicationCompPtr->Execute(argc, argv.GetPtr()) == 0);
+	return (m_processExecuterCompPtr->Execute(m_executablePathCompPtr->GetPath(), arguments) == 0);
 }
 
 

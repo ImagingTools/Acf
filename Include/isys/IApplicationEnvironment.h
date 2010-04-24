@@ -6,10 +6,11 @@
 #include <map>
 
 
-#include "isys/isys.h"
-
+// ACF includes
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
+
+#include "isys/isys.h"
 
 
 namespace isys
@@ -20,6 +21,8 @@ namespace isys
 	Interface for access of some system dependent features and infos.
 
 	\ingroup System
+
+	TODO: rename to IProcessEnvironment
 */
 class IApplicationEnvironment: virtual public istd::IPolymorphic
 {
