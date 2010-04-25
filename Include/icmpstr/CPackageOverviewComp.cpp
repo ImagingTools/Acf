@@ -60,9 +60,9 @@ public:
 
 		UpdateGradients(option);
 
-		painter->setRenderHint(QPainter::Antialiasing);
+		painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-	 	QRect mainRect = option.rect;
+		QRect mainRect = option.rect;
 
 		mainRect.adjust(SIDE_OFFSET, 0, 0, 0);
 
