@@ -60,6 +60,8 @@ public:
 
 		UpdateGradients(option);
 
+		painter->setRenderHint(QPainter::Antialiasing);
+
 	 	QRect mainRect = option.rect;
 
 		mainRect.adjust(SIDE_OFFSET, 0, 0, 0);
@@ -87,7 +89,7 @@ public:
 
 		painter->setBrush(itemBrush);
 
-		mainRect.adjust(0, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
+		mainRect.adjust(0, SIDE_OFFSET, -SIDE_OFFSET, 0);
 		
 		painter->setPen(QPen(option.palette.mid().color()));
 		
@@ -119,7 +121,8 @@ public:
 
 		painter->setFont(m_componentNameFont);
 		painter->drawText(mainRect, Qt::AlignTop | Qt::AlignLeft | Qt::TextSingleLine, componentName);
-
+		mainRect.adjust(0, SIDE_OFFSET / 2, 0, -SIDE_OFFSET / 2);
+	
 		if (!componentDescription.isEmpty()){
 			painter->setFont(m_componentDescriptionFont);
 			painter->drawText(
@@ -157,34 +160,36 @@ private:
 
 		int height = nameFontMetrics.height();
 		height += descriptionFontMetrics.height();
-		height += 4 * SIDE_OFFSET; // margin
+		height += 3 * SIDE_OFFSET; // margin
 
 		return height;
 	}
 
 	void UpdateGradients(const QStyleOptionViewItem& option) const
 	{
-		QColor startColor = option.palette.window().color();
-		startColor.setAlpha(50);
-		QColor endColor = option.palette.window().color();
-
-		QColor startColor2("#dadbde");
-		QColor endColor2("#f6f7fa");
+		QColor closeColor1 = option.palette.window().color();
+		closeColor1.setAlpha(200);
+		QColor closeColor2 = option.palette.window().color();
 
 		QRectF rect = option.rect;
 
+		QColor openColor1 = option.palette.dark().color();
+		openColor1.setAlpha(100);
+		QColor openColor2 = option.palette.dark().color();
+		openColor2.setAlpha(100);
+
 		QLinearGradient closedPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
-		closedPackageItemGradient.setColorAt(0, startColor);
-		closedPackageItemGradient.setColorAt(0.5, endColor);
-		closedPackageItemGradient.setColorAt(0.51, endColor);
-		closedPackageItemGradient.setColorAt(1, endColor);
+		closedPackageItemGradient.setColorAt(0.0, closeColor1);
+		closedPackageItemGradient.setColorAt(0.5, closeColor2);
+		closedPackageItemGradient.setColorAt(0.51, closeColor2);
+		closedPackageItemGradient.setColorAt(1.0, closeColor1);
 		m_closedPackageItemBrush = closedPackageItemGradient;
 
 		QLinearGradient openPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
-		openPackageItemGradient.setColorAt(0, endColor2);
-		openPackageItemGradient.setColorAt(0.5, startColor2);
-		openPackageItemGradient.setColorAt(0.51, startColor2);
-		openPackageItemGradient.setColorAt(1.0, endColor2);
+		openPackageItemGradient.setColorAt(0.0, openColor1);
+		openPackageItemGradient.setColorAt(0.5, openColor2);
+		openPackageItemGradient.setColorAt(0.51, openColor2);
+		openPackageItemGradient.setColorAt(1.0, openColor1);
 	
 		m_openPackageItemBrush = openPackageItemGradient;
 		m_selectedItemBrush =  QColor(10, 242, 126, 128);
@@ -661,12 +666,17 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 	}
 
 	switch (eventPtr->type()){
+		case QEvent::MouseButtonDblClick:
+			return true;
+
+			break;
+
 		case QEvent::MouseButtonPress:
 		{
 			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
 			I_ASSERT(mouseEvent != NULL);
 
-			if (mouseEvent->button() == Qt::LeftButton && sourceWidgetPtr != NULL){
+			if (mouseEvent->button() == Qt::LeftButton){
 				PackageComponentItem* selectedItemPtr = NULL;
 
 				QModelIndex componentModelIndex = itemViewPtr->indexAt(mouseEvent->pos());
@@ -689,6 +699,9 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 						drag->start(Qt::MoveAction);
 					}
 				}
+			}
+			else{
+				return true;
 			}
 		}
 		break;
@@ -725,6 +738,7 @@ void CPackageOverviewComp::OnGuiCreated()
 	PackagesList->setStyleSheet("QTreeView::branch {background: palette(base);}");
 
 	PackagesList->viewport()->installEventFilter(this);
+	PackagesList->installEventFilter(this);
 
 	InterfaceFilter knownInterfaces;
 	if (m_envManagerCompPtr.IsValid()){
