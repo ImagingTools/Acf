@@ -170,14 +170,14 @@ private:
 
 		QColor startColor = option.palette.mid().color();
 		QColor endColor = startColor;
-		startColor.setAlpha(50);
+		startColor.setAlpha(128);
 		endColor.setAlpha(200);
 
 		QLinearGradient normalPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
-		normalPackageItemGradient.setColorAt(0, startColor);
-		normalPackageItemGradient.setColorAt(0.45, startColor);
-		normalPackageItemGradient.setColorAt(0.5, endColor);
-		normalPackageItemGradient.setColorAt(0.9, startColor);
+		normalPackageItemGradient.setColorAt(0, QColor("#fafafa"));
+		normalPackageItemGradient.setColorAt(0.4, QColor("#f4f4f4"));
+		normalPackageItemGradient.setColorAt(0.5, QColor("#e7e7e7"));
+		normalPackageItemGradient.setColorAt(0.9, QColor("#fafafa"));
 		m_normalPackageItemBrush = normalPackageItemGradient;
 
 		QColor startColor3 = QColor(0, 202, 86, 192);
