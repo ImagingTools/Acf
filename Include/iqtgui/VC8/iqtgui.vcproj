@@ -293,6 +293,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CImagePropertyGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CImagePropertyGuiComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CItemDelegate.cpp"
 				>
 			</File>
@@ -450,6 +458,10 @@
 			</File>
 			<File
 				RelativePath="..\CIconProviderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CImagePropertyGuiComp.h"
 				>
 			</File>
 			<File
@@ -624,6 +636,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CImagePropertyGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CLogGuiComp.cpp"
 				>
 			</File>
@@ -685,6 +701,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystemExplorerGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CImagePropertyGuiComp.ui"
 				>
 			</File>
 			<File

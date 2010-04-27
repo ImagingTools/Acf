@@ -189,6 +189,11 @@ I_EXPORT_COMPONENT(
 			"Iterative processor params",
 			"Filter Parameter Qt Processing" IM_TAG("GUI Editor"));
 
+I_EXPORT_COMPONENT(
+			ImagePropertyGui,
+			"Image property viewer",
+			"Observer Display GUI Image Bitmap Property" IM_TAG("GUI"));
+
 
 } // namespace QtGuiPck
 
