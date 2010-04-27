@@ -63,7 +63,7 @@ public:
 		CPackageOverviewComp::PackageItem* packageItemPtr = dynamic_cast<CPackageOverviewComp::PackageItem*>(selectedItemPtr);
 
 	 	QRect mainRect = option.rect;
-		mainRect.adjust(SIDE_OFFSET, SIDE_OFFSET, -SIDE_OFFSET, -1);
+		mainRect.adjust(2 * SIDE_OFFSET, SIDE_OFFSET, 2 * -SIDE_OFFSET, -1);
 
 		if (packageItemPtr != NULL){
 			if (((option.state & QStyle::State_Selected) != 0) || ((option.state & QStyle::State_HasFocus) != 0)){
@@ -168,21 +168,25 @@ private:
 	{
 		QRectF rect = option.rect;
 
-		QColor startColor = option.palette.mid().color();
-		QColor endColor = startColor;
-		startColor.setAlpha(128);
-		endColor.setAlpha(200);
+		QColor startColor = QColor("#fafafa");
+		QColor midColor = QColor("#f4f4f4");
+		QColor endColor = QColor("#e7e7e7");
+
+		midColor.setAlpha(192);
+		startColor.setAlpha(192);
+		endColor.setAlpha(192);
 
 		QLinearGradient normalPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
-		normalPackageItemGradient.setColorAt(0, QColor("#fafafa"));
-		normalPackageItemGradient.setColorAt(0.4, QColor("#f4f4f4"));
-		normalPackageItemGradient.setColorAt(0.5, QColor("#e7e7e7"));
-		normalPackageItemGradient.setColorAt(0.9, QColor("#fafafa"));
+		normalPackageItemGradient.setColorAt(0, startColor);
+		normalPackageItemGradient.setColorAt(0.4, midColor);
+		normalPackageItemGradient.setColorAt(0.5, endColor);
+		normalPackageItemGradient.setColorAt(0.9, startColor);
 		m_normalPackageItemBrush = normalPackageItemGradient;
 
 		QColor startColor3 = QColor(0, 202, 86, 192);
 		QColor endColor3 = startColor3;
 		startColor3.setAlpha(40);
+		endColor3.setAlpha(220);
 
 		QLinearGradient selectedPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
 		selectedPackageItemGradient.setColorAt(0, startColor3);

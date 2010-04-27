@@ -178,10 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CAttributeEditorComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CComponentHelpFileProviderComp.cpp"
 				>
 			</File>
@@ -190,15 +186,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CGraphicsConnectorItem.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CPackageOverviewComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CPackageOverviewComp.moc"
 				>
 			</File>
 			<File
@@ -210,10 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRegistryElementShape.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CRegistryLoaderComp.cpp"
 				>
 			</File>
@@ -222,15 +206,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRegistryPreviewComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CRegistryPropEditorComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CRegistryPropEditorComp.moc"
 				>
 			</File>
 			<File
@@ -243,10 +219,6 @@
 			</File>
 			<File
 				RelativePath="..\CVisualRegistryScenographerComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CVisualRegistryScenographerComp.moc"
 				>
 			</File>
 		</Filter>
@@ -406,6 +378,38 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryPropEditorComp.ui"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Moc Files"
+			>
+			<File
+				RelativePath="..\CAttributeEditorComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CGraphicsConnectorItem.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CPackageOverviewComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryElementShape.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryPreviewComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryPropEditorComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CVisualRegistryScenographerComp.moc"
 				>
 			</File>
 		</Filter>
