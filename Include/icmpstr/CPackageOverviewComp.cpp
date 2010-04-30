@@ -185,8 +185,8 @@ private:
 
 		QColor startColor3 = QColor(0, 202, 86, 192);
 		QColor endColor3 = startColor3;
-		startColor3.setAlpha(40);
-		endColor3.setAlpha(220);
+		startColor3.setAlpha(80);
+		endColor3.setAlpha(164);
 
 		QLinearGradient selectedPackageItemGradient(rect.left(), rect.top(), rect.left(), rect.bottom());
 		selectedPackageItemGradient.setColorAt(0, startColor3);
