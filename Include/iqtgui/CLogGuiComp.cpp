@@ -63,22 +63,20 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
 		QIcon messageIcon;
 		switch (message.GetCategory()){
 		case istd::ILogger::MC_WARNING:
-			messageIcon = QIcon(":/Icons/Warning.svg");
+			messageIcon = m_warningIcon;
 			break;
 
 		case istd::ILogger::MC_ERROR:
 		case istd::ILogger::MC_CRITICAL:
-			messageIcon = QIcon(":/Icons/Error.svg");
+			messageIcon = m_errorIcon;
 			break;
 
 		case istd::ILogger::MC_INFO:
-			messageIcon = QIcon(":/Icons/Info.svg");
+			messageIcon = m_infoIcon;
 			break;
 		}
 
-		QPixmap pixmap = messageIcon.pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
-
-		treeItemPtr->setIcon(CT_ICON, pixmap);
+		treeItemPtr->setIcon(CT_ICON, messageIcon);
 	}
 
 	return treeItemPtr;
@@ -175,6 +173,10 @@ void CLogGuiComp::OnGuiCreated()
 		toolBar->addAction(exportAction);
 		toolBar->insertSeparator(exportAction);
 	}
+
+	m_infoIcon = QIcon(":/Icons/Info.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
+	m_warningIcon = QIcon(":/Icons/Warning.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
+	m_errorIcon = QIcon(":/Icons/Error.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
 }
 
 

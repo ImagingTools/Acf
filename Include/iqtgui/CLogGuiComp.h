@@ -99,6 +99,10 @@ private:
 	I_ATTR(int, m_maxMessageCountAttrPtr);
 	I_ATTR(int, m_defaultModeAttrPtr);
 
+	QIcon m_infoIcon;
+	QIcon m_warningIcon;
+	QIcon m_errorIcon;
+
 	int m_currentMessageMode;
 };
 
