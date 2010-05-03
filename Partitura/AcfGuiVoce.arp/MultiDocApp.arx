@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1481
+          1486
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          187
+          190
         </Number>
         <Description>
           ACF-Solutions
@@ -335,7 +335,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="12">
+        <AttributeInfoMap count="13">
           <AttributeInfo>
             <Id>
               AboutGui
@@ -528,6 +528,22 @@
               <Value>
                 SettingsProvider
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              UseIconText
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              UseIconText
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
