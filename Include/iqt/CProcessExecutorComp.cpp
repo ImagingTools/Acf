@@ -94,17 +94,21 @@ void CProcessExecutorComp::OnError(QProcess::ProcessError error)
 
 void CProcessExecutorComp::OnReadyReadStandardError()
 {
-	istd::CString errorOutput = iqt::GetCString(m_applicationProcess.readAllStandardError());
+	QString errorOutput = m_applicationProcess.readAllStandardError();
+	
+	errorOutput = errorOutput.simplified();
 
-	SendErrorMessage(0, errorOutput);
+	SendErrorMessage(0, iqt::GetCString(errorOutput));
 }
 
 
 void CProcessExecutorComp::OnReadyReadStandardOutput()
 {
-	istd::CString infoOutput = iqt::GetCString(m_applicationProcess.readAllStandardOutput());
+	QString standardOutput = m_applicationProcess.readAllStandardOutput();
 
-	SendInfoMessage(0, infoOutput);
+	standardOutput = standardOutput.simplified();
+
+	SendInfoMessage(0, iqt::GetCString(standardOutput));
 }
 
 
