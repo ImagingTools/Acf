@@ -13,6 +13,7 @@ namespace iqt
 // public methods
 
 CProcessExecutorComp::CProcessExecutorComp()
+	:m_isFailed(false)
 {
 	qRegisterMetaType<QProcess::ProcessError>("QProcess::ProcessError");
 
@@ -50,9 +51,15 @@ void CProcessExecutorComp::SetEnvironment(const isys::IApplicationEnvironment& p
 
 int CProcessExecutorComp::Execute(const istd::CString& executablePath, const istd::CStringList& processArguments)
 {
+	m_isFailed = false;
+
 	m_applicationProcess.start(iqt::GetQString(executablePath), iqt::GetQStringList(processArguments));
 
 	m_applicationProcess.waitForFinished(-1);
+
+	if (m_isFailed){
+		return -1;
+	}
 
 	return m_applicationProcess.exitCode();
 }
@@ -72,6 +79,8 @@ void CProcessExecutorComp::OnComponentDestroyed()
 
 void CProcessExecutorComp::OnError(QProcess::ProcessError error)
 {   
+	m_isFailed = true;
+
 	switch (error){
 		case QProcess::FailedToStart:
 			SendErrorMessage(0, "Process could not be started.");

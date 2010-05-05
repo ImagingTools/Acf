@@ -51,6 +51,8 @@ protected Q_SLOTS:
 
 private:
 	QProcess m_applicationProcess;
+
+	bool m_isFailed;
 };
 
 
