@@ -417,7 +417,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TComponentCopyWrap.h"
+				RelativePath="..\TComponentCloneWrap.h"
 				>
 			</File>
 			<File

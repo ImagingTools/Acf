@@ -99,6 +99,14 @@ istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
 }
 
 
+// reimplemented (istd::IChangeable)
+
+bool CComposedParamsSetComp::CopyFrom(const IChangeable& /*object*/)
+{
+	return false;
+}
+
+
 // protected methods
 
 iprm::IParamsSet* CComposedParamsSetComp::GetSlaveParamsSet(int index) const

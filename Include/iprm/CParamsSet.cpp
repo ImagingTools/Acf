@@ -189,6 +189,8 @@ bool CParamsSet::CopyFrom(const IChangeable& object)
 	}
 
 	// copy params into the target parameter set:
+	istd::CChangeNotifier notifier(this);
+
 	m_params.Reset();
 
 	while (!tempSet.m_params.IsEmpty()){
