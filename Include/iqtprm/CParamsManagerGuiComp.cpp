@@ -32,7 +32,7 @@ void CParamsManagerGuiComp::UpdateEditor(int updateFlags)
 {
 	// if the set was removed, the model was already detached from all observers,
 	// so we must reset our temporary model pointer:
-	if ((updateFlags & iprm::IParamsManager::CF_SET_REMOVED) != 0){
+	if ((updateFlags & iprm::IParamsManager::CF_SET_REMOVED) != 0 && (updateFlags & istd::CChangeDelegator::CF_DELEGATED) != 0){
 		m_lastConnectedModelPtr = NULL;
 	}
 	
@@ -84,8 +84,6 @@ void CParamsManagerGuiComp::on_ParamsTree_itemSelectionChanged()
 
 	int selectedIndex = GetSelectedIndex();
 
-	UpdateParamsView(selectedIndex);
-
 	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 	if (		(selectedIndex >= 0) &&
 				(selectionPtr != NULL) &&
@@ -93,7 +91,11 @@ void CParamsManagerGuiComp::on_ParamsTree_itemSelectionChanged()
 				(selectedIndex != selectionPtr->GetSelectedOptionIndex())){
 		selectionPtr->SetSelectedOptionIndex(selectedIndex);
 	}
+	else if(selectedIndex < 0){
+		UpdateParamsView(selectedIndex);
+	}
 }
+
 
 void CParamsManagerGuiComp::on_ParamsTree_itemChanged(QTreeWidgetItem* item, int column)
 {
