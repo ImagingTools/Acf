@@ -193,7 +193,6 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 				I_ASSERT(!modelPtr->IsAttached(m_paramsObserverCompPtr.GetPtr()));
 					
 				if (modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
-					qDebug("after AttachObserver: %d", selectedIndex);
 					m_lastConnectedModelPtr = modelPtr;
 
 					paramsFrameVisible = true;
