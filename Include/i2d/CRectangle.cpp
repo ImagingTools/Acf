@@ -213,13 +213,19 @@ bool CRectangle::Contains(const CRectangle& rect) const
 
 double CRectangle::GetWidth() const
 {
-	return double(GetRight() - GetLeft());
+	return GetRight() - GetLeft();
 }
 
 
 double CRectangle::GetHeight() const 
 {
-	return double(GetBottom() - GetTop());
+	return GetBottom() - GetTop();
+}
+
+
+CVector2d CRectangle::GetSize() const
+{
+	return CVector2d(GetRight() - GetLeft(), GetBottom() - GetTop());
 }
 
 

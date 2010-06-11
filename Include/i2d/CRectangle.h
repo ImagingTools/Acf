@@ -61,6 +61,11 @@ public :
 	double GetHeight() const;
 
 	/**
+		Get size of this rectangle.
+	*/
+	CVector2d GetSize() const;
+
+	/**
 		Returns \c true, if this rectangle is intersected by the other rectangle \c rect.
 	*/
 	bool IsIntersectedBy(const CRectangle& rect) const;		
