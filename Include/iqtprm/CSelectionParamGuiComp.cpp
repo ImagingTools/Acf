@@ -40,6 +40,12 @@ void CSelectionParamGuiComp::UpdateEditor(int /*updateFlags*/)
 		return;
 	}
 
+	if (IsUpdateBlocked()){
+		return;
+	}
+
+	UpdateBlocker block(this);
+
 	m_comboBoxes.Reset();
 
 	for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
