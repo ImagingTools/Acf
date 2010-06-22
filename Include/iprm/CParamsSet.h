@@ -26,6 +26,19 @@ namespace iprm
 class CParamsSet: virtual public IParamsSet
 {
 public:
+	struct ParameterInfo
+	{
+		ParameterInfo(const std::string& parameterId, iser::ISerializable* parameterPtr, bool releaseFlag = false)
+		{
+			this->parameterPtr.SetPtr(parameterPtr, releaseFlag);
+			this->parameterId = parameterId;
+		}
+
+		std::string parameterId;
+		istd::TOptDelPtr<iser::ISerializable> parameterPtr;
+	};
+	typedef istd::TPointerVector<ParameterInfo> ParameterInfos;
+
 	CParamsSet(const IParamsSet* slaveSetPtr = NULL);
 
 	/**
@@ -41,7 +54,16 @@ public:
 	*/
 	void SetSlaveSet(const IParamsSet* slaveSetPtr);
 
+	/**
+		Set editable parameter in this set.
+		Editable parameters are stored in set directly, the non editable in slave sets.
+	*/
 	virtual bool SetEditableParameter(const std::string& id, iser::ISerializable* parameterPtr, bool releaseFlag = false);
+
+	/**
+		Get access to all parameters.
+	*/
+	const ParameterInfos& GetParameterInfos() const;
 
 	// reimplemented (iprm::IParamsSet)
 	virtual const iser::ISerializable* GetParameter(const std::string& id) const;
@@ -55,20 +77,6 @@ public:
 	virtual bool CopyFrom(const IChangeable& object);
 
 protected:
-	struct ParameterInfo
-	{
-		ParameterInfo(const std::string& parameterId, iser::ISerializable* parameterPtr, bool releaseFlag = false)
-		{
-			this->parameterPtr.SetPtr(parameterPtr, releaseFlag);
-			this->parameterId = parameterId;
-		}
-
-		std::string parameterId;
-		istd::TOptDelPtr<iser::ISerializable> parameterPtr;
-	};
-
-	typedef istd::TPointerVector<ParameterInfo> Parameters;
-
 	const ParameterInfo* FindParameterInfo(const std::string& parameterId) const;
 
 private:
@@ -91,7 +99,7 @@ private:
 
 	ParamsObserver m_paramsObserver;
 
-	Parameters m_params;
+	ParameterInfos m_params;
 
 	const IParamsSet* m_slaveSetPtr;
 };

@@ -40,6 +40,12 @@ bool CParamsSet::SetEditableParameter(const std::string& id, iser::ISerializable
 }
 
 
+const CParamsSet::ParameterInfos& CParamsSet::GetParameterInfos() const
+{
+	return m_params;
+}
+
+
 // reimplemented (iprm::IParamsSet)
 
 const iser::ISerializable* CParamsSet::GetParameter(const std::string& id) const
