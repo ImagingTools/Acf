@@ -20,7 +20,7 @@ class CSingleModelObserverBase: virtual public IObserver
 {
 public:
 	CSingleModelObserverBase();
-	~CSingleModelObserverBase();
+	virtual ~CSingleModelObserverBase();
 
 	/**
 		Get access to observed model.
