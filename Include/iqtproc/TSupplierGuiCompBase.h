@@ -230,7 +230,7 @@ bool TSupplierGuiCompBase<UI, Model, WidgetType>::DoTest()
 {
 	iproc::ISupplier* supplierPtr = BaseClass::GetObjectPtr();
 	if (supplierPtr != NULL){
-		supplierPtr->InitNewWork();
+		supplierPtr->InitNewWork(true);
 		supplierPtr->EnsureWorkFinished();
 
 		return supplierPtr->GetWorkStatus() < iproc::ISupplier::WS_ERROR;

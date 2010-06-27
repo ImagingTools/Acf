@@ -66,9 +66,11 @@ public:
 
 	/**
 		Called to signalize to entering of new object.
-		Becouse of all produced object are accessible on demand and must be cached, there is needed signal to clear this cache.
+		Because of all produced object are accessible on demand and must be cached, there is needed signal to clear this cache.
+		\param	thisOnly	normally dependent suppliers will be initialized,
+							but if this flag is true only this single supplier will be initilized.
 	*/
-	virtual void InitNewWork() = 0;
+	virtual void InitNewWork(bool thisOnly = false) = 0;
 
 	/**
 		Ensure that all objects are produced.

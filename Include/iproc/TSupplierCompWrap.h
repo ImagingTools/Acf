@@ -12,7 +12,6 @@
 #include "istd/CStaticServicesProvider.h"
 
 #include "imod/IModel.h"
-#include "imod/CSingleModelObserverBase.h"
 
 #include "icomp/CComponentBase.h"
 
@@ -36,12 +35,10 @@ namespace iproc
 template <class SupplierInterface, class Product>
 class TSupplierCompWrap:
 			public ibase::CLoggerComponentBase,
-			private imod::CSingleModelObserverBase,
 			virtual public SupplierInterface
 {
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
-	typedef imod::CSingleModelObserverBase BaseClass2;
 
 	I_BEGIN_BASE_COMPONENT(TSupplierCompWrap);
 		I_REGISTER_INTERFACE(iser::ISerializable);
@@ -52,7 +49,7 @@ public:
 	I_END_COMPONENT;
 
 	// pseudo-reimplemented (iproc::ISupplier)
-	virtual void InitNewWork();
+	virtual void InitNewWork(bool thisOnly = false);
 	virtual void EnsureWorkFinished();
 	virtual void ClearWorkResults();
 	virtual int GetWorkStatus() const;
@@ -64,7 +61,6 @@ public:
 	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
 
 	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
 protected:
@@ -85,12 +81,6 @@ protected:
 		Remove all suppliers from input supplier list.
 	*/
 	void RemoveAllInputSuppliers();
-
-	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
-	// pseudo-reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
 	// abstract methods
 	/**
@@ -125,18 +115,20 @@ iprm::IParamsSet* TSupplierCompWrap<SupplierInterface, Product>::GetModelParamet
 // pseudo-reimplemented (iproc::ISupplier)
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::InitNewWork()
+void TSupplierCompWrap<SupplierInterface, Product>::InitNewWork(bool thisOnly)
 {
 	if (m_workStatus != ISupplier::WS_INIT){
 		m_workStatus = ISupplier::WS_INIT;
 		m_durationTime = 0;
 
-		for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
-					iter != m_inputSuppliers.end();
-					++iter){
-			ISupplier* supplierPtr = *iter;
-			if (supplierPtr != NULL){
-				supplierPtr->InitNewWork();
+		if (!thisOnly){
+			for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
+						iter != m_inputSuppliers.end();
+						++iter){
+				ISupplier* supplierPtr = *iter;
+				if (supplierPtr != NULL){
+					supplierPtr->InitNewWork();
+				}
 			}
 		}
 	}
@@ -228,23 +220,8 @@ I_DWORD TSupplierCompWrap<SupplierInterface, Product>::GetMinimalVersion(int ver
 // reimplemented (icomp::IComponent)
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_paramsSetModelCompPtr.IsValid()){
-		m_paramsSetModelCompPtr->AttachObserver(this);
-	}
-}
-
-
-template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
 {
-	if (m_paramsSetModelCompPtr.IsValid()){
-		m_paramsSetModelCompPtr->DetachObserver(this);
-	}
-
 	RemoveAllInputSuppliers();
 
 	BaseClass::OnComponentDestroyed();
@@ -267,8 +244,6 @@ const Product* TSupplierCompWrap<SupplierInterface, Product>::GetWorkProduct() c
 }
 
 
-// reimplemented (imod::CSingleModelObserverBase)
-
 template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::AddInputSupplier(ISupplier* supplierPtr)
 {
@@ -287,28 +262,6 @@ template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::RemoveAllInputSuppliers()
 {
 	m_inputSuppliers.clear();
-}
-
-
-template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-	m_workStatus = ISupplier::WS_NONE;
-
-	BaseClass2::OnUpdate(updateFlags, updateParamsPtr);
-}
-
-
-// pseudo-reimplemented (istd::IChangeable)
-
-template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	if ((changeFlags & istd::IChangeable::CF_MODEL) != 0){
-		m_workStatus = ISupplier::WS_NONE;
-	}
-
-	SupplierInterface::OnEndChanges(changeFlags, changeParamsPtr);
 }
 
 
