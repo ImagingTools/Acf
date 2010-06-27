@@ -16,7 +16,7 @@ namespace idoc
 class IHelpViewer: virtual public istd::IPolymorphic
 {
 public:
-	virtual void ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const = 0;
+	virtual void ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) = 0;
 };
 
 

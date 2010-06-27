@@ -30,7 +30,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (idoc::IHelpViewer)
-	virtual void ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const;
+	virtual void ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiShown();

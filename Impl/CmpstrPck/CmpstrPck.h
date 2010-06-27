@@ -14,6 +14,7 @@
 #include "icmpstr/CVisualRegistryScenographerComp.h"
 #include "icmpstr/CRegistryConsistInfoComp.h"
 #include "icmpstr/CRegistryPropEditorComp.h"
+#include "icmpstr/CQuickHelpViewerComp.h"
 
 
 /**
@@ -39,6 +40,7 @@ typedef icomp::TMakeComponentWrap<
 			imod::IModel> Registry;
 typedef icmpstr::CRegistryConsistInfoComp RegistryConsistInfo;
 typedef icmpstr::CRegistryPropEditorComp RegistryPropEditor;
+typedef icmpstr::CQuickHelpViewerComp QuickHelpViewer;
 
 
 } // namespace CmpstrPck

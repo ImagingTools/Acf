@@ -75,6 +75,11 @@ I_EXPORT_COMPONENT(
 			"Allows to edit global registry properties",
 			"Registry Description Keywords" IM_TAG("GUI Editor"));
 
+I_EXPORT_COMPONENT(
+			QuickHelpViewer,
+			"Show short description and allow to show technical documentation",
+			"Quick Help Technical Documentation" IM_TAG("GUI Help"));
+
 
 } // namespace CmpstrPck
 

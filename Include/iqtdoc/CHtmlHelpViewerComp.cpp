@@ -7,7 +7,7 @@ namespace iqtdoc
 
 // reimplemented (idoc::IHelpViewer)
 
-void CHtmlHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+void CHtmlHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
 {
 	QTextBrowser* editorPtr = GetQtWidget();
 	if (		(editorPtr != NULL) &&
