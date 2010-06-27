@@ -1,41 +1,41 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1337
+          1510
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          213
+        </Number>
+        <Description>
+          ACF-Solutions
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="19">
+  <PositionMap count="14">
     <Element>
       <ComponentName>
         Application
       </ComponentName>
       <X>
-        -271
+        275
       </X>
       <X>
-        -71
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ApplicationInfo
-      </ComponentName>
-      <X>
-        537
-      </X>
-      <X>
-        -212
+        650
       </X>
     </Element>
     <Element>
@@ -43,21 +43,10 @@
         BitmapLoader
       </ComponentName>
       <X>
-        -657
+        100
       </X>
       <X>
-        -544
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ComposedImageLoader
-      </ComponentName>
-      <X>
-        -609
-      </X>
-      <X>
-        -508
+        125
       </X>
     </Element>
     <Element>
@@ -65,10 +54,10 @@
         CompositeTemplate
       </ComponentName>
       <X>
-        -34
+        300
       </X>
       <X>
-        -396
+        250
       </X>
     </Element>
     <Element>
@@ -76,10 +65,10 @@
         DocumentFactory
       </ComponentName>
       <X>
-        137
+        875
       </X>
       <X>
-        -621
+        100
       </X>
     </Element>
     <Element>
@@ -87,10 +76,10 @@
         DocumentLoader
       </ComponentName>
       <X>
-        301
+        1000
       </X>
       <X>
-        -278
+        350
       </X>
     </Element>
     <Element>
@@ -98,10 +87,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        137
+        1000
       </X>
       <X>
-        -521
+        250
       </X>
     </Element>
     <Element>
@@ -109,21 +98,10 @@
         ImageFactory
       </ComponentName>
       <X>
-        -359
+        300
       </X>
       <X>
-        -646
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ImageLoader
-      </ComponentName>
-      <X>
-        -71
-      </X>
-      <X>
-        -558
+        25
       </X>
     </Element>
     <Element>
@@ -131,10 +109,10 @@
         ImageTemplate
       </ComponentName>
       <X>
-        -346
+        325
       </X>
       <X>
-        -546
+        125
       </X>
     </Element>
     <Element>
@@ -142,10 +120,10 @@
         ImageView
       </ComponentName>
       <X>
-        -134
+        600
       </X>
       <X>
-        -646
+        100
       </X>
     </Element>
     <Element>
@@ -153,10 +131,10 @@
         Info
       </ComponentName>
       <X>
-        223
+        950
       </X>
       <X>
-        -74
+        650
       </X>
     </Element>
     <Element>
@@ -164,10 +142,10 @@
         MainWindow
       </ComponentName>
       <X>
-        0
+        650
       </X>
       <X>
-        -146
+        525
       </X>
     </Element>
     <Element>
@@ -175,32 +153,10 @@
         Splash
       </ComponentName>
       <X>
-        -209
+        300
       </X>
       <X>
-        -271
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Splash1
-      </ComponentName>
-      <X>
-        -350
-      </X>
-      <X>
-        -87
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        SvgBitmapLoader
-      </ComponentName>
-      <X>
-        -875
-      </X>
-      <X>
-        -473
+        750
       </X>
     </Element>
     <Element>
@@ -208,10 +164,10 @@
         ViewFactory
       </ComponentName>
       <X>
-        387
+        1100
       </X>
       <X>
-        -621
+        100
       </X>
     </Element>
     <Element>
@@ -219,10 +175,10 @@
         Workspace
       </ComponentName>
       <X>
-        -9
+        300
       </X>
       <X>
-        -271
+        450
       </X>
     </Element>
   </PositionMap>
