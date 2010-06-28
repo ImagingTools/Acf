@@ -3,6 +3,9 @@
 
 // Qt includes
 #include <QProcess>
+#include <QFileInfo>
+
+#include "iqt/CSignalBlocker.h"
 
 
 namespace icmpstr
@@ -17,6 +20,10 @@ void CQuickHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd
 		return;
 	}
 
+	iqt::CSignalBlocker blocker(GetQtWidget());
+
+	m_descrFilePath = "";
+
 	bool hasDescrFile = false;
 	if (m_descriptionFileProviderCompPtr.IsValid()){
 		m_descrFilePath = m_descriptionFileProviderCompPtr->GetHelpFilePath(contextText, contextObjectPtr);
@@ -29,22 +36,56 @@ void CQuickHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd
 		}
 	}
 
-	bool isEditAvailable = m_docuEditorFileParamsCompPtr.IsValid() && !m_docuEditorFileParamsCompPtr->GetPath().IsEmpty();
+	bool isEditAvailable =
+				!m_descrFilePath.IsEmpty() &&
+				m_docuEditorFileParamsCompPtr.IsValid() &&
+				!m_docuEditorFileParamsCompPtr->GetPath().IsEmpty();
 	NewButton->setVisible(isEditAvailable);
 	EditButton->setVisible(isEditAvailable);
+	EditButton->setEnabled(!m_descrFilePath.IsEmpty() && QFileInfo(iqt::GetQString(m_descrFilePath)).isWritable());
 
 	DescriptionFrame->setVisible(hasDescrFile);
 	NoDescriptionFrame->setVisible(!hasDescrFile);
 
-	if (	m_technicalFileProviderCompPtr.IsValid() &&
-			(m_technicalFileProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr) > 0)){
-		m_techFilePath = m_descriptionFileProviderCompPtr->GetHelpFilePath(contextText, contextObjectPtr);
+	m_techFilePath = "";
 
-		ShowTechButton->setVisible(true);
+	if (m_metaInfoManagerCompPtr.IsValid() && m_technicalFileProviderCompPtr.IsValid()){
+		const icomp::CComponentAddress* addressPtr = dynamic_cast<const icomp::CComponentAddress*>(contextObjectPtr);
+		if (addressPtr != NULL){
+			const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(*addressPtr);
+			if (infoPtr != NULL){
+				istd::CClassInfo classInfo(*infoPtr);
+
+				while (classInfo.IsTemplateClass()){
+					classInfo = classInfo.GetTemplateParam();
+				}
+
+				if (classInfo.GetName() != "icomp::CCompositeComponentStaticInfo"){
+					m_techFilePath = m_technicalFileProviderCompPtr->GetHelpFilePath(classInfo.GetName(), &classInfo);
+
+					ShowTechButton->setVisible(!m_techFilePath.IsEmpty());
+
+					return;
+				}
+			}
+		}
 	}
-	else{
-		ShowTechButton->setVisible(true);
-	}
+
+	ShowTechButton->setVisible(false);
+}
+
+
+// protected methods
+
+// reimplemented (CGuiComponentBase)
+
+void CQuickHelpViewerComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	DescriptionFrame->setVisible(false);
+	NoDescriptionFrame->setVisible(false);
+	ShowTechButton->setVisible(false);
 }
 
 
@@ -88,7 +129,7 @@ void CQuickHelpViewerComp::on_ShowTechButton_clicked()
 	}
 
 	QStringList parameters;
-	parameters << iqt::GetQString(m_techFilePath);
+	parameters << "file://" + iqt::GetQString(m_techFilePath);
 
 	QProcess::startDetached(iqt::GetQString(editorPath), parameters);
 }

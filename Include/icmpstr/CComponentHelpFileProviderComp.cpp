@@ -32,8 +32,8 @@ double CComponentHelpFileProviderComp::GetHelpQuality(const istd::CString& conte
 		}
 	}
 
-	if (m_classHelpProviderCompPtr.IsValid()){
-		return m_classHelpProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
+	if (m_slaveProviderCompPtr.IsValid()){
+		return m_slaveProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
 	}
 
 	return 0;
@@ -58,8 +58,8 @@ istd::CString CComponentHelpFileProviderComp::GetHelpFilePath(const istd::CStrin
 		}
 	}
 
-	if (m_classHelpProviderCompPtr.IsValid()){
-		return m_classHelpProviderCompPtr->GetHelpFilePath(contextText, contextObjectPtr);
+	if (m_slaveProviderCompPtr.IsValid()){
+		return m_slaveProviderCompPtr->GetHelpFilePath(contextText, contextObjectPtr);
 	}
 
 	return "";
@@ -103,16 +103,6 @@ istd::CString CComponentHelpFileProviderComp::GetSlaveFilePath(const icomp::CCom
 						return iqt::GetCString(shortDescrFileInfo.absoluteFilePath());
 					}
 				}
-			}
-
-			if (m_classHelpProviderCompPtr.IsValid()){
-				istd::CClassInfo classInfo(*infoPtr);
-
-				while (classInfo.IsTemplateClass()){
-					classInfo = classInfo.GetTemplateParam();
-				}
-
-				return m_classHelpProviderCompPtr->GetHelpFilePath("", &classInfo);
 			}
 		}
 	}

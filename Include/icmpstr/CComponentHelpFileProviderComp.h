@@ -24,7 +24,7 @@ public:
 
 	I_BEGIN_COMPONENT(CComponentHelpFileProviderComp);
 		I_REGISTER_INTERFACE(idoc::IHelpFileProvider);
-		I_ASSIGN(m_classHelpProviderCompPtr, "ClassHelpProvider", "Slave help file provider for class info objects", true, "ClassHelpProvider");
+		I_ASSIGN(m_slaveProviderCompPtr, "SlaveProvider", "Slave help file provider used if no class description is found", false, "SlaveProvider");
 		I_ASSIGN(m_metaInfoManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
 	I_END_COMPONENT;
 
@@ -39,7 +39,7 @@ protected:
 	bool ExtractComponentAddress(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr, icomp::CComponentAddress& result) const;
 
 private:
-	I_REF(idoc::IHelpFileProvider, m_classHelpProviderCompPtr);
+	I_REF(idoc::IHelpFileProvider, m_slaveProviderCompPtr);
 	I_REF(icomp::IMetaInfoManager, m_metaInfoManagerCompPtr);
 };
 
