@@ -56,8 +56,6 @@
 
 #include "imath/CSampledFunction2d.h"
 
-#include "iimg/CHistogram.h"
-
 #include "iproc/CCascadedProcessorComp.h"
 #include "iproc/CIterativeProcessorComp.h"
 #include "iproc/CIterativeProcessorParams.h"
@@ -171,11 +169,6 @@ typedef icomp::TMakeComponentWrap<
 			imath::ISampledFunction2d,
 			istd::IChangeable,
 			imod::IModel> SampledFunction2d;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<iimg::CHistogram>,
-			istd::IChangeable,
-			imod::IModel> Histogram;
 
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
 typedef iproc::CIterativeProcessorComp IterativeProcessor;

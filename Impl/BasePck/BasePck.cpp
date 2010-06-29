@@ -224,11 +224,6 @@ I_EXPORT_COMPONENT(
 			"Function Sample" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Sampling Model"));
 
 I_EXPORT_COMPONENT(
-			Histogram,
-			"Image histogram",
-			"Histogram" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Image Model"));
-
-I_EXPORT_COMPONENT(
 			CascadedProcessor,
 			"Sequence processing using slave processors",
 			"Processor Sequence Buffer Cascade" IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing Composition"));
