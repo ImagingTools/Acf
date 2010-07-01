@@ -25,7 +25,7 @@ double CComponentHelpFileProviderComp::GetHelpQuality(const istd::CString& conte
 			return 1.0;
 		}
 
-		filePath = GetSlaveFilePath(address);
+		filePath = GetHelpFilePath(address);
 
 		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
 			return 0.5;
@@ -51,7 +51,7 @@ istd::CString CComponentHelpFileProviderComp::GetHelpFilePath(const istd::CStrin
 			return filePath;
 		}
 
-		filePath = GetSlaveFilePath(address);
+		filePath = GetHelpFilePath(address);
 
 		if (!filePath.IsEmpty() && QFileInfo(iqt::GetQString(filePath)).exists()){
 			return filePath;
@@ -84,7 +84,7 @@ istd::CString CComponentHelpFileProviderComp::GetInfoFilePath(const icomp::CComp
 }
 
 
-istd::CString CComponentHelpFileProviderComp::GetSlaveFilePath(const icomp::CComponentAddress& componentAddress) const
+istd::CString CComponentHelpFileProviderComp::GetHelpFilePath(const icomp::CComponentAddress& componentAddress) const
 {
 	if (m_metaInfoManagerCompPtr.IsValid()){
 		const icomp::IComponentStaticInfo* infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(componentAddress);
@@ -92,16 +92,9 @@ istd::CString CComponentHelpFileProviderComp::GetSlaveFilePath(const icomp::CCom
 			istd::CString infoPath = m_metaInfoManagerCompPtr->GetComponentInfoPath(componentAddress);
 			if (!infoPath.IsEmpty()){
 				QDir infoDir(iqt::GetQString(infoPath));
-				QFileInfo fullDescrFileInfo(infoDir.filePath("FullDescription.html"));
-				if (fullDescrFileInfo.exists()){
-					return iqt::GetCString(fullDescrFileInfo.absoluteFilePath());
-				}
-
-				if (infoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE){
-					QFileInfo shortDescrFileInfo(infoDir.filePath("ShortDescription.html"));
-					if (shortDescrFileInfo.exists()){
-						return iqt::GetCString(shortDescrFileInfo.absoluteFilePath());
-					}
+				QFileInfo helpFileInfo(infoDir.filePath(iqt::GetQString(*m_helpFileNameAttrPtr)));
+				if (helpFileInfo.exists()){
+					return iqt::GetCString(helpFileInfo.absoluteFilePath());
 				}
 			}
 		}
