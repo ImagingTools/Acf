@@ -65,7 +65,12 @@ public:
 		/**
 			Dot grid.
 		*/
-		BM_DOT_GRID
+		BM_DOT_GRID,
+
+		/**
+			Transparent background.
+		*/
+		BM_TRANSPARENT
 	};
 
 	I_BEGIN_COMPONENT(CSceneProviderGuiComp);
@@ -80,7 +85,7 @@ public:
 		I_ASSIGN(m_isotropyFactorAttrPtr, "IsotropyFactor", "Describe type of isotropic transformation: 0 - letterbox, 1 - full", true, 0);
 		I_ASSIGN(m_sceneControllerGuiCompPtr, "SceneController", "Scene controller", false, "SceneController");
 		I_ASSIGN_MULTI_0(m_dropConsumersCompPtr, "DropConsumers", "List of consumers for the drop event", false);
-		I_ASSIGN(m_backgroundModeAttrPtr, "BackgroundMode", "Mode of background drawing:\n 0 - normal window\n 1 - solid color\n 2 - grid\n 3 - checkerboard\n 4 - dot grid", true, 0);	
+		I_ASSIGN(m_backgroundModeAttrPtr, "BackgroundMode", "Mode of background drawing:\n 0 - normal window\n 1 - solid color\n 2 - grid\n 3 - checkerboard\n 4 - dot grid\n 5 - transparent", true, 0);	
 		I_ASSIGN(m_gridSizeAttrPtr, "GridSize", "Size of grid, it is used also for background", true, 20);	
 		I_ASSIGN(m_isAlignmentEnabledAttrPtr, "IsAlignmentEnabled", "If true, grid alignment will be enabled", true, false);	
 		I_ASSIGN(m_sceneWidthAttrPtr, "SceneWidth", "Logical with of scene", false, 1000);	

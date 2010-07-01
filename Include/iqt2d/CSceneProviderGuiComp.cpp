@@ -524,6 +524,10 @@ void CSceneProviderGuiComp::OnGuiCreated()
 			SceneView->setBackgroundBrush(QBrush(backgroundPixmap));
 			break;
 		}
+
+		case BM_TRANSPARENT:
+			SceneView->setBackgroundBrush(Qt::transparent);
+			break;
 	}
 
 	SceneView->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
