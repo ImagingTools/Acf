@@ -13,7 +13,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iqtgui/Generated/ui_CSelectionParamGuiComp.h"
+#include "iqtprm/Generated/ui_CSelectionParamGuiComp.h"
 
 
 namespace iqtprm
