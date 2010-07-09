@@ -26,11 +26,14 @@ public:
 
 	I_BEGIN_COMPONENT(CStaticUserLoginComp);
 		I_REGISTER_INTERFACE(IUserLogin);
+		I_REGISTER_INTERFACE(IAuthorizationVerifier);
 		I_ASSIGN_MULTI_0(m_userIdsCompPtr, "UserIds", "List of user ID's", true);
 		I_ASSIGN_MULTI_0(m_userPasswordsCompPtr, "UserPasswords", "List of user passwords", true);
 		I_ASSIGN_MULTI_0(m_verifiersCompPtr, "Verifiers", "List of user authorization verifiers", true);
 		I_ASSIGN(m_defaultVerifierCompPtr, "DefaultVerifier", "Authorization verifier used if no user is logged", true, "DefaultVerifier");
 	I_END_COMPONENT;
+
+	CStaticUserLoginComp();
 
 	// reimplemented (isec::IAuthorizationVerifier)
 	virtual bool IsAuthorized(const std::string& featureId) const;

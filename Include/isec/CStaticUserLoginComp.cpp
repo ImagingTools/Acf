@@ -8,6 +8,12 @@ namespace isec
 {
 
 
+CStaticUserLoginComp::CStaticUserLoginComp()
+:	m_loggedUserIndex(-1)
+{
+}
+
+
 // reimplemented (isec::IAuthorizationVerifier)
 
 bool CStaticUserLoginComp::IsAuthorized(const std::string& featureId) const

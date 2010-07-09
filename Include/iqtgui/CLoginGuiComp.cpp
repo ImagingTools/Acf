@@ -53,6 +53,7 @@ void CLoginGuiComp::on_LoginButton_clicked()
 {
 	if (m_userLoginCompPtr.IsValid()){
 		if (!m_userLoginCompPtr->LoginUser(UserNameEdit->text().toStdString(), iqt::GetCString(PasswordEdit->text()))){
+			PasswordEdit->setText("");
 			QMessageBox::warning(GetWidget(), tr("Login Error") , tr("Wrong password or user name"));
 		}
 

@@ -101,7 +101,7 @@ typedef idoc::CSelectedDocModelBinderComp SelectedDocModelBinder;
 
 typedef icomp::TModelCompWrap<isec::CComposedAuthorizationVerifierComp> ComposedAuthorizationVerifier;
 typedef icomp::TModelCompWrap<isec::CFixedAuthorisationVerifierComp> FixedAuthorisationVerifier;
-typedef isec::CStaticUserLoginComp StaticUserLogin;
+typedef icomp::TModelCompWrap<isec::CStaticUserLoginComp> StaticUserLogin;
 
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<i2d::CPosition2d>,

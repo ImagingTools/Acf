@@ -584,6 +584,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CLoginGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
@@ -689,6 +693,10 @@
 			</File>
 			<File
 				RelativePath="..\CLogGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CLoginGuiComp.moc"
 				>
 			</File>
 			<File

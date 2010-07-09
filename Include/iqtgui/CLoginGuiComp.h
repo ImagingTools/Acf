@@ -16,6 +16,8 @@ namespace iqtgui
 
 class CLoginGuiComp: public TDesignerGuiCompBase<Ui::CLoginGuiComp, QWidget>
 {
+	Q_OBJECT
+
 public:
 	typedef TDesignerGuiCompBase<Ui::CLoginGuiComp, QWidget> BaseClass;
 

@@ -1,30 +1,41 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1337
+          1518
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          219
+        </Number>
+        <Description>
+          ACF-Solutions
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="9">
+  <PositionMap count="8">
     <Element>
       <ComponentName>
         AdminAuthorisationVerifier
       </ComponentName>
       <X>
-        -1009
+        975
       </X>
       <X>
-        274
+        575
       </X>
     </Element>
     <Element>
@@ -32,10 +43,10 @@
         Application
       </ComponentName>
       <X>
-        0
+        600
       </X>
       <X>
-        -11
+        100
       </X>
     </Element>
     <Element>
@@ -43,21 +54,10 @@
         DefaultAuthorisationVerifier
       </ComponentName>
       <X>
-        -970
+        300
       </X>
       <X>
-        -95
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        FixedAuthorisationVerifier
-      </ComponentName>
-      <X>
-        -937
-      </X>
-      <X>
-        93
+        375
       </X>
     </Element>
     <Element>
@@ -65,10 +65,10 @@
         Login
       </ComponentName>
       <X>
-        -347
+        600
       </X>
       <X>
-        -12
+        200
       </X>
     </Element>
     <Element>
@@ -76,10 +76,10 @@
         MasterAuthorisationVerifier
       </ComponentName>
       <X>
-        -1280
+        300
       </X>
       <X>
-        274
+        575
       </X>
     </Element>
     <Element>
@@ -87,10 +87,10 @@
         Splash
       </ComponentName>
       <X>
-        0
+        900
       </X>
       <X>
-        -136
+        100
       </X>
     </Element>
     <Element>
@@ -98,10 +98,10 @@
         StaticUserLogin
       </ComponentName>
       <X>
-        -647
+        600
       </X>
       <X>
-        92
+        475
       </X>
     </Element>
     <Element>
@@ -109,10 +109,10 @@
         UserAuthorisationVerifier
       </ComponentName>
       <X>
-        -1553
+        650
       </X>
       <X>
-        276
+        575
       </X>
     </Element>
   </PositionMap>
