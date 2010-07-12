@@ -44,7 +44,7 @@ istd::CString CFileSystem::GetDirPath(const istd::CString& filePath) const
 {
 	QFileInfo fileInfo(iqt::GetQString(filePath));
 
-	return iqt::GetCString(fileInfo.canonicalPath());
+	return iqt::GetCString(fileInfo.absolutePath());
 }
 
 
