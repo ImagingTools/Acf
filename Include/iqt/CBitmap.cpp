@@ -33,6 +33,8 @@ const QImage& CBitmap::GetQImage() const
 
 bool CBitmap::CopyImageFrom(const QImage& image)
 {
+	istd::CChangeNotifier changePtr(this);
+
 	m_externalBuffer.Reset();
 
 	return SetQImage(image);
@@ -61,6 +63,8 @@ bool CBitmap::GetSnap(const istd::IChangeable& data, iimg::IBitmap& objectSnap, 
 
 bool CBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int componentsCount)
 {
+	istd::CChangeNotifier changePtr(this);
+
 	QImage::Format imageFormat = CalcQtFormat(pixelBitsCount, componentsCount);
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image(size.GetX(), size.GetY(), imageFormat);
@@ -76,6 +80,8 @@ bool CBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int c
 
 bool CBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference, int pixelBitsCount, int componentsCount)
 {
+	istd::CChangeNotifier changePtr(this);
+
 	QImage::Format imageFormat = CalcQtFormat(pixelBitsCount, componentsCount);
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image((I_BYTE*)dataPtr, size.GetX(), size.GetY(), imageFormat);
@@ -126,6 +132,8 @@ void* CBitmap::GetLinePtr(int positionY)
 
 void CBitmap::ResetImage()
 {
+	istd::CChangeNotifier changePtr(this);
+
 	m_image = QImage();
 	m_externalBuffer.Reset();
 }

@@ -55,6 +55,9 @@ void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, i
 QRectF CImageShape::boundingRect() const
 {
 	QRectF imageRect(QPoint(0, 0), m_bitmap.size());
+	if (imageRect.isEmpty()){
+		return QRectF();
+	}
 
 	QRectF retVal(imageRect);
 
