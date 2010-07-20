@@ -6,6 +6,7 @@
 	ProjectGUID="{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 	RootNamespace="iqt"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -254,6 +255,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CProcessExecutorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CReflectedBitmapBase.cpp"
 				>
 			</File>
@@ -360,10 +365,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDirList.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CDllFunctionsProvider.h"
 				>
 			</File>
@@ -373,10 +374,6 @@
 			</File>
 			<File
 				RelativePath="..\CFileList.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileList.moc"
 				>
 			</File>
 			<File
@@ -396,11 +393,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CNetworkWriteArchive.moc"
+				RelativePath="..\CPackagesLoaderComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPackagesLoaderComp.h"
+				RelativePath="..\CProcessExecutorComp.h"
 				>
 			</File>
 			<File
@@ -413,10 +410,6 @@
 			</File>
 			<File
 				RelativePath="..\CSafeNotifier.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CSafeNotifier.moc"
 				>
 			</File>
 			<File
@@ -490,7 +483,35 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CProcessExecutorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CSafeNotifier.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Other"
+			>
+			<File
+				RelativePath="..\CDirList.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileList.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CNetworkWriteArchive.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CProcessExecutorComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CSafeNotifier.moc"
 				>
 			</File>
 		</Filter>
@@ -510,4 +531,3 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-

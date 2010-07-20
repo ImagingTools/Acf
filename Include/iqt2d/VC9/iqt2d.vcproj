@@ -434,6 +434,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TScenographerCompBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TShapeBase.h"
 				>
 			</File>

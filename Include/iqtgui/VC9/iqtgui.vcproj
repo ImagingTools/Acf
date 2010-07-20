@@ -205,11 +205,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CAboutWidgetGuiComp.moc"
+				RelativePath="..\CApplicationComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CApplicationComp.cpp"
+				RelativePath="..\CCheckableComboBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCommandsBinderComp.cpp"
 				>
 			</File>
 			<File
@@ -217,19 +221,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDialogGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CDockWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CDockWidgetGuiComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CExtLineEdit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CExtLineEdit.moc"
 				>
 			</File>
 			<File
@@ -241,7 +241,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFilePersistenceGuiComp.moc"
+				RelativePath="..\CFileSystemExplorerGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -261,11 +261,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CHierarchicalCommand.moc"
+				RelativePath="..\CIconProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CIconProviderComp.cpp"
+				RelativePath="..\CImagePropertyGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -277,10 +277,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CLogGuiComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CLoginGuiComp.cpp"
 				>
 			</File>
@@ -289,19 +285,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectionParamGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionParamGuiComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CSimpleMainWindowGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSimpleMainWindowGuiComp.moc"
 				>
 			</File>
 			<File
@@ -309,11 +293,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTabbedMultiViewGuiComp.cpp"
+				RelativePath="..\CStatusBarWidgetComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CTabbedMultiViewGuiComp.moc"
+				RelativePath="..\CTabbedMultiViewGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -322,10 +306,6 @@
 			</File>
 			<File
 				RelativePath="..\CToolBarWidgetGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CToolBarWidgetGuiComp.moc"
 				>
 			</File>
 			<File
@@ -347,7 +327,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCheckableComboBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCommandsBinderComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDialogGuiComp.h"
 				>
 			</File>
 			<File
@@ -364,6 +356,10 @@
 			</File>
 			<File
 				RelativePath="..\CFilePersistenceGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSystemExplorerGuiComp.h"
 				>
 			</File>
 			<File
@@ -409,6 +405,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CImagePropertyGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CItemDelegate.h"
 				>
 			</File>
@@ -425,15 +425,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectionParamGuiComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CSimpleMainWindowGuiComp.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CSplashScreenGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CStatusBarWidgetComp.h"
 				>
 			</File>
 			<File
@@ -552,6 +552,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CCheckableComboBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CDockWidgetGuiComp.cpp"
 				>
 			</File>
@@ -564,7 +568,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CFileSystemExplorerGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CHierarchicalCommand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CImagePropertyGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -572,7 +584,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSelectionParamGuiComp.cpp"
+				RelativePath="..\generated\moc_CLoginGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -608,10 +620,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CSelectionParamGuiComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Generated\ui_CSplashScreenGuiComp.h"
 				>
 			</File>
@@ -628,6 +636,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileSystemExplorerGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CImagePropertyGuiComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CLogGuiComp.ui"
 				>
 			</File>
@@ -636,11 +652,63 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectionParamGuiComp.ui"
+				RelativePath="..\CSplashScreenGuiComp.ui"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="MOC Files"
+			>
+			<File
+				RelativePath="..\CAboutWidgetGuiComp.moc"
 				>
 			</File>
 			<File
-				RelativePath="..\CSplashScreenGuiComp.ui"
+				RelativePath="..\CCheckableComboBox.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CDockWidgetGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CExtLineEdit.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilePersistenceGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSystemExplorerGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CHierarchicalCommand.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CImagePropertyGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CLogGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CLoginGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CSimpleMainWindowGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CTabbedMultiViewGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CToolBarWidgetGuiComp.moc"
 				>
 			</File>
 		</Filter>

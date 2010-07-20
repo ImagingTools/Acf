@@ -189,10 +189,6 @@
 				RelativePath="..\CIterativeProcessorParams.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\CTestIdManagerComp.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -211,19 +207,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTestIdManagerComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\IBitmapAcquisition.h"
 				>
 			</File>
 			<File
 				RelativePath="..\IBitmapSupplier.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IIdManager.h"
 				>
 			</File>
 			<File

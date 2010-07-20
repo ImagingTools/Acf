@@ -178,10 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CAttributeEditorComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CComponentHelpFileProviderComp.cpp"
 				>
 			</File>
@@ -190,15 +186,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CGraphicsConnectorItem.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CPackageOverviewComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPackageOverviewComp.moc"
+				RelativePath="..\CQuickHelpViewerComp.cpp"
 				>
 			</File>
 			<File
@@ -210,10 +202,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRegistryElementShape.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CRegistryLoaderComp.cpp"
 				>
 			</File>
@@ -222,15 +210,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRegistryPreviewComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CRegistryPropEditorComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CRegistryPropEditorComp.moc"
 				>
 			</File>
 			<File
@@ -245,10 +225,6 @@
 				RelativePath="..\CVisualRegistryScenographerComp.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\CVisualRegistryScenographerComp.moc"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -257,10 +233,6 @@
 			>
 			<File
 				RelativePath="..\CAttributeEditorComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CComponentConnector.h"
 				>
 			</File>
 			<File
@@ -273,6 +245,10 @@
 			</File>
 			<File
 				RelativePath="..\CPackageOverviewComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CQuickHelpViewerComp.h"
 				>
 			</File>
 			<File
@@ -365,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CQuickHelpViewerComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CRegistryElementShape.cpp"
 				>
 			</File>
@@ -393,6 +373,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\ui_CQuickHelpViewerComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\ui_CRegistryPropEditorComp.h"
 				>
 			</File>
@@ -409,7 +393,47 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CQuickHelpViewerComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CRegistryPropEditorComp.ui"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Moc Files"
+			>
+			<File
+				RelativePath="..\CAttributeEditorComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CGraphicsConnectorItem.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CPackageOverviewComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CQuickHelpViewerComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryElementShape.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryPreviewComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryPropEditorComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CVisualRegistryScenographerComp.moc"
 				>
 			</File>
 		</Filter>

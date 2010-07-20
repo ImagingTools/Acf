@@ -200,6 +200,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CComponentMetaDescriptionEncoder.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComponentStaticInfoBase.cpp"
 				>
 			</File>
@@ -278,6 +282,10 @@
 			</File>
 			<File
 				RelativePath="..\CComponentContext.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComponentMetaDescriptionEncoder.h"
 				>
 			</File>
 			<File
@@ -406,6 +414,10 @@
 			</File>
 			<File
 				RelativePath="..\TAttributeStaticInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TComponentCloneWrap.h"
 				>
 			</File>
 			<File

@@ -20,9 +20,12 @@ function TransformProject(fileSystem, shell, inputPath, outputPath, beQuiet, isT
 
     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
     outputFile.writeLine(text);
-    inputFile.close();
 
-	return outputPath + "\n";
+//    inputFile.close();
+    
+    outputPath += "\n";
+
+	return outputPath;
 }
 
 

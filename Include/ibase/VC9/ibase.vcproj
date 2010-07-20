@@ -227,6 +227,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CExternalFileConverterComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileCopyOverLoaderComp.cpp"
 				>
 			</File>
@@ -236,6 +240,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTypeInfoComp.cpp"
 				>
 			</File>
 			<File
@@ -264,6 +272,10 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryCodeSaverComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSelectableFileConverterComp.cpp"
 				>
 			</File>
 			<File
@@ -312,6 +324,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CExternalFileConverterComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileCopyOverLoaderComp.h"
 				>
 			</File>
@@ -321,6 +337,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTypeInfoComp.h"
 				>
 			</File>
 			<File
@@ -349,6 +369,10 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryCodeSaverComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSelectableFileConverterComp.h"
 				>
 			</File>
 			<File
@@ -425,6 +449,10 @@
 			</File>
 			<File
 				RelativePath="..\IObjectSnap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IProcessExecutor.h"
 				>
 			</File>
 			<File
