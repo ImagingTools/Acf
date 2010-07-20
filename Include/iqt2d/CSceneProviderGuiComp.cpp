@@ -427,8 +427,6 @@ bool CSceneProviderGuiComp::HasDropConsumerForFormat(const QStringList& formats)
 	for (int formatIndex = 0; formatIndex < formats.size(); formatIndex++){
 		for (int consumerIndex = 0; consumerIndex < m_dropConsumersCompPtr.GetCount(); consumerIndex++){
 			iqtgui::IDropConsumer* dropConsumerPtr = m_dropConsumersCompPtr[consumerIndex];
-
-			I_ASSERT(dropConsumerPtr != NULL);
 			if (dropConsumerPtr != NULL){
 				QStringList supportedIds = dropConsumerPtr->GetAcceptedMimeIds();
 
@@ -453,7 +451,9 @@ void CSceneProviderGuiComp::DelegateDropEvent(const QMimeData& mimeData, QGraphi
 
 	for (int consumerIndex = 0; consumerIndex < m_dropConsumersCompPtr.GetCount(); consumerIndex++){
 		iqtgui::IDropConsumer* dropConsumerPtr = m_dropConsumersCompPtr[consumerIndex];
-		I_ASSERT(dropConsumerPtr != NULL);
+		if (dropConsumerPtr == NULL){
+			continue;
+		}
 
 		QStringList supportedIds = dropConsumerPtr->GetAcceptedMimeIds();
 		

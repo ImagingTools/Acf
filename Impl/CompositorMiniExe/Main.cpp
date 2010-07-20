@@ -20,23 +20,40 @@
 
 static icomp::IComponent* metaInfoManagerPtr = NULL;
 static icomp::IComponent* consistInfoPtr = NULL;
-static icomp::IComponent* modelObserverPtr = NULL;
+static icomp::TSimComponentWrap<CmpstrPck::AttributeEditor>* modelObserverPtr = NULL;
 
 
-class RegistryView: public QtViewPck::SceneProvider
+// dirty wor-around to simulate composed components
+class RegistryView: public icomp::CComponentBase
 {
+	typedef icomp::CComponentBase BaseClass;
+
+	icomp::TSimComponentWrap<QtViewPck::SceneProvider>* sceneProviderPtr;
 	icomp::TSimComponentWrap<CmpstrPck::VisualRegistryScenographer> scenographer;
 	icomp::TSimComponentWrap<BasePck::ModelBinder> binder;
 
 public:
 	RegistryView()
+	:	sceneProviderPtr(new icomp::TSimComponentWrap<QtViewPck::SceneProvider>())
 	{
 		scenographer.SetRef("SceneProvider", this);
 		scenographer.SetRef("MetaInfoManager", metaInfoManagerPtr);
 		scenographer.SetRef("ConsistencyInfo", consistInfoPtr);
 
+		imod::IModel* lastModelPtr = modelObserverPtr->GetModelPtr();
+		if (lastModelPtr != NULL){
+			lastModelPtr->DetachObserver(modelObserverPtr);
+		}
+
 		binder.SetRef("Model", &scenographer);
 		binder.InsertMultiRef("Observers", modelObserverPtr);
+
+		sceneProviderPtr->SetIntAttr("BackgroundMode", 2);
+		sceneProviderPtr->SetDoubleAttr("GridSize", 25);
+		sceneProviderPtr->SetDoubleAttr("SceneWidth", 1189);
+		sceneProviderPtr->SetDoubleAttr("SceneHeight", 841);
+		sceneProviderPtr->SetBoolAttr("IsAlignmentEnabled", true);
+		sceneProviderPtr->InsertMultiRef("DropConsumers", &scenographer);
 	}
 
 	// reimplemented (icomp::IComponent)
@@ -46,10 +63,10 @@ public:
 			return scenographer.GetInterface(interfaceType, subId);
 		}
 		else if (interfaceType.IsType<iqt2d::ISceneProvider>()){
-			return dynamic_cast<iqt2d::ISceneProvider*>(this);
+			return dynamic_cast<iqt2d::ISceneProvider*>(sceneProviderPtr);
 		}
 		else{
-			return QtViewPck::SceneProvider::GetInterface(interfaceType, subId);
+			return sceneProviderPtr->GetInterface(interfaceType, subId);
 		}
 	}
 
@@ -57,8 +74,9 @@ protected:
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated()
 	{
-		QtViewPck::SceneProvider::OnComponentCreated();
+		BaseClass::OnComponentCreated();
 
+		sceneProviderPtr->InitComponent();
 		scenographer.InitComponent();
 		binder.InitComponent();
 	}
@@ -66,8 +84,9 @@ protected:
 	{
 		binder.SetComponentContext(NULL, NULL, false);
 		scenographer.SetComponentContext(NULL, NULL, false);
+		sceneProviderPtr->SetComponentContext(NULL, NULL, false);
 
-		QtViewPck::SceneProvider::OnComponentDestroyed();
+		BaseClass::OnComponentDestroyed();
 	}
 };
 
@@ -173,12 +192,6 @@ int main(int argc, char *argv[])
 	metaInfoManagerPtr = &packagesLoaderComp;
 	consistInfoPtr = &registryConsistInfoComp;
 	icomp::TSimComponentsFactory<RegistryView> viewFactoryComp;
-	viewFactoryComp.SetIntAttr("BackgroundMode", 2);
-	viewFactoryComp.SetDoubleAttr("GridSize", 25);
-	viewFactoryComp.SetDoubleAttr("SceneWidth", 1189);
-	viewFactoryComp.SetDoubleAttr("SceneHeight", 841);
-	viewFactoryComp.SetBoolAttr("IsAlignmentEnabled", true);
-	viewFactoryComp.InsertMultiRef("DropConsumers", &viewFactoryComp);
 
 	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
