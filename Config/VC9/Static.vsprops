@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="ACF Static Library"
+	OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
+	IntermediateDirectory="$(ConfigurationName)"
+	ConfigurationType="4"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="../../"
+		StringPooling="true"
+		RuntimeLibrary="3"
+		TreatWChar_tAsBuiltInType="false"
+		WarningLevel="4"
+		DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
+	/>
+</VisualStudioPropertySheet>
