@@ -23,7 +23,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -95,7 +95,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -214,3 +214,5 @@
 		/>
 	</Globals>
 </VisualStudioProject>
+
+

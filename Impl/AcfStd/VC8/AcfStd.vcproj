@@ -18,7 +18,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -99,7 +99,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -195,3 +195,5 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+
+

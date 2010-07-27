@@ -5,6 +5,7 @@
 	Name="isys"
 	ProjectGUID="{633B67F7-B154-4A80-A651-0243D5EDF583}"
 	RootNamespace="isys"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -19,7 +20,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -96,7 +97,7 @@
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Static.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
@@ -266,3 +267,4 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+

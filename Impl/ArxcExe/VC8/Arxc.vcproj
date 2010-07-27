@@ -22,7 +22,7 @@
 			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\General.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -123,7 +123,7 @@
 			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(ACFDIR)\Config\VC8\General.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -239,3 +239,5 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+
+
