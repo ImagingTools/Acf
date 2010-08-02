@@ -38,7 +38,7 @@ I_EXPORT_COMPONENT(
 			"Composed File Load Save Slave Delegating" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Composition Loader"));
 
 I_EXPORT_COMPONENT(
-			TextFileSerializer,
+			TextFileLoader,
 			"Simple file serializer for text files",
 			"Text Loader File Serializer Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Text Loader"));
 

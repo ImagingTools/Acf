@@ -72,7 +72,7 @@ typedef ibase::CFileTypeInfoComp FileTypeInfo;
 typedef ibase::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
 typedef ibase::TFileSerializerComp<iser::CFileReadArchive, iser::CFileWriteArchive> BinaryFileSerializer;
 typedef ibase::CComposedLoaderComp ComposedLoader;
-typedef ibase::CTextFileLoaderComp TextFileSerializer;
+typedef ibase::CTextFileLoaderComp TextFileLoader;
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;

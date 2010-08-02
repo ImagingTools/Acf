@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1410
+          1536
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          232
+        </Number>
+        <Description>
+          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -21,10 +32,10 @@
         CopyConfig
       </ComponentName>
       <X>
-        525
+        475
       </X>
       <X>
-        100
+        200
       </X>
     </Element>
     <Element>
@@ -32,10 +43,10 @@
         CopyDocs
       </ComponentName>
       <X>
-        725
+        800
       </X>
       <X>
-        475
+        650
       </X>
     </Element>
     <Element>
@@ -43,7 +54,7 @@
         CopyImpl
       </ComponentName>
       <X>
-        525
+        550
       </X>
       <X>
         400
@@ -54,51 +65,7 @@
         CopyIncludes
       </ComponentName>
       <X>
-        433
-      </X>
-      <X>
-        501
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyInstallInfo
-      </ComponentName>
-      <X>
-        250
-      </X>
-      <X>
-        100
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyInstallationScript
-      </ComponentName>
-      <X>
-        125
-      </X>
-      <X>
-        500
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyLicenses
-      </ComponentName>
-      <X>
-        816
-      </X>
-      <X>
-        106
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyPartitura
-      </ComponentName>
-      <X>
-        1000
+        450
       </X>
       <X>
         525
@@ -106,13 +73,57 @@
     </Element>
     <Element>
       <ComponentName>
-        CopyRoot
+        CopyInstallInfo
+      </ComponentName>
+      <X>
+        350
+      </X>
+      <X>
+        75
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyInstallationScript
       </ComponentName>
       <X>
         250
       </X>
       <X>
-        390
+        775
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyLicenses
+      </ComponentName>
+      <X>
+        650
+      </X>
+      <X>
+        75
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyPartitura
+      </ComponentName>
+      <X>
+        1050
+      </X>
+      <X>
+        400
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        CopyRoot
+      </ComponentName>
+      <X>
+        350
+      </X>
+      <X>
+        650
       </X>
     </Element>
     <Element>
@@ -120,10 +131,10 @@
         CopyTexts
       </ComponentName>
       <X>
-        650
+        700
       </X>
       <X>
-        575
+        775
       </X>
     </Element>
     <Element>
@@ -131,10 +142,10 @@
         CopyTutorialOther
       </ComponentName>
       <X>
-        1075
+        800
       </X>
       <X>
-        250
+        200
       </X>
     </Element>
     <Element>
@@ -142,10 +153,10 @@
         CopyTutorialSources
       </ComponentName>
       <X>
-        825
+        950
       </X>
       <X>
-        325
+        525
       </X>
     </Element>
     <Element>
@@ -153,10 +164,10 @@
         InitSequence
       </ComponentName>
       <X>
-        75
+        125
       </X>
       <X>
-        250
+        300
       </X>
     </Element>
   </PositionMap>

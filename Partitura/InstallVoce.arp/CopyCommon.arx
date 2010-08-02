@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1410
+          1536
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          232
+        </Number>
+        <Description>
+          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -64,12 +75,18 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="4">
                 <Value>
                   *.xpc
                 </Value>
                 <Value>
                   *.rules
+                </Value>
+                <Value>
+                  *.vsprops
+                </Value>
+                <Value>
+                  empty
                 </Value>
               </Values>
             </Data>
