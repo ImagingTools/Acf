@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1452
+          1536
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          174
+          232
         </Number>
         <Description>
           ACF-Solutions
@@ -156,9 +156,9 @@
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    
+    Progress manager GUI integrated in status bar
   </Description>
   <Keywords>
-    
+    Progress Status Main Window GUI
   </Keywords>
 </Acf>

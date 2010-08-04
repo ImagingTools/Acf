@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1431
+          1536
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          232
+        </Number>
+        <Description>
+          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -21,7 +32,7 @@
         PlaybackBinder
       </ComponentName>
       <X>
-        250
+        325
       </X>
       <X>
         400
@@ -46,7 +57,7 @@
         975
       </X>
       <X>
-        450
+        400
       </X>
     </Element>
     <Element>
@@ -54,10 +65,10 @@
         VideoViewGui
       </ComponentName>
       <X>
-        625
+        650
       </X>
       <X>
-        625
+        575
       </X>
     </Element>
   </PositionMap>
