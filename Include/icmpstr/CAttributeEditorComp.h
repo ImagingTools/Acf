@@ -100,7 +100,7 @@ public:
 	// reimplemented (iqt::TGuiObserverWrap)
 	virtual void OnGuiModelDetached();
 
-	// reimplmented (imod::IModelEditor)
+	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;
 
