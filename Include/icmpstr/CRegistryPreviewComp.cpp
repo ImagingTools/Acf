@@ -2,7 +2,6 @@
 
 
 // Qt includes
-#include <QTemporaryFile>
 #include <QApplication>
 #include <QDir>
 #include <QFileInfo>
