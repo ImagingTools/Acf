@@ -5,6 +5,7 @@
 	Name="CompositorMini"
 	ProjectGUID="{6BD89B26-013F-4F41-87B7-14D632CCFEFF}"
 	RootNamespace="CompositorMini"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -64,7 +65,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC9&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				AssemblyLinkResource="$(IntDir)CompositorMini.res"
 				GenerateDebugInformation="false"
 				SubSystem="2"
@@ -86,9 +87,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -144,7 +142,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC9&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				AssemblyLinkResource="$(IntDir)CompositorMini.res"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -166,9 +164,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -229,4 +224,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-
