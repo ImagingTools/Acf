@@ -6,6 +6,7 @@
 	ProjectGUID="{FC63E8FB-DC12-4E1E-BD93-4AFEFF373282}"
 	RootNamespace="QtGuiPck"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -63,9 +64,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmain.lib QtCore4.lib QtGui4.lib"
+				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 			/>
@@ -86,9 +87,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -142,9 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmaind.lib QtCored4.lib QtGuid4.lib"
+				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 			/>
@@ -165,9 +163,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -220,5 +215,4 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-
 

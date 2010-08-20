@@ -6,6 +6,7 @@
 	ProjectGUID="{030936A8-23C4-45EE-8E3D-196FF4D405C6}"
 	RootNamespace="BasePck"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -63,9 +64,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
-				AdditionalLibraryDirectories="&quot;$(ACFDIR)/Lib/$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="false"
 				SubSystem="1"
 			/>
@@ -86,9 +86,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -142,9 +139,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
-				AdditionalLibraryDirectories="&quot;$(ACFDIR)/Lib/$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="1"
 			/>
@@ -165,9 +161,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -220,5 +213,4 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-
 

@@ -5,6 +5,7 @@
 	Name="Arxc"
 	ProjectGUID="{470627A4-FE37-4A0E-AD07-62D6CF79F90A}"
 	RootNamespace="Arxc"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -90,7 +91,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				SubSystem="2"
 			/>
 			<Tool
@@ -110,9 +111,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -188,7 +186,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib"
 				OutputFile="$(OutDir)/$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(ACFDIR)\Lib\$(ConfigurationName)VC8&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 			/>
@@ -209,9 +207,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -239,5 +234,4 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-
 
