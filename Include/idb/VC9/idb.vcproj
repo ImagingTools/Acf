@@ -5,6 +5,7 @@
 	Name="idb"
 	ProjectGUID="{136B67F7-B779-5A80-A651-1111D5EDF583}"
 	RootNamespace="idb"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -92,7 +93,6 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"
@@ -189,4 +189,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-

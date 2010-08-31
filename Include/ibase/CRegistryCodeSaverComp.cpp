@@ -854,9 +854,22 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 bool CRegistryCodeSaverComp::WriteRegistryClassDeclaration(
 			const std::string& /*baseClassName*/,
 			const std::string& registryClassName,
-                        const icomp::IRegistry& /*registry*/,
+			const icomp::IRegistry& registry,
 			std::ofstream& stream) const
 {
+	istd::CString description = registry.GetDescription();
+
+	if (!description.empty()){
+		NextLine(stream);
+		stream << "/**";
+
+		NextLine(stream);
+		stream << "\t" << description.ToString() << ".";
+
+		NextLine(stream);
+		stream << "*/";
+	}
+
 	NextLine(stream);
 	stream << "class " << registryClassName << ": private icomp::TComponentWrap<icomp::CCompositeComponent>";
 	NextLine(stream);
@@ -1005,25 +1018,6 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 			stream << "\t\t\t\"" << exportedName << "\",";
 			NextLine(stream);
 			stream << "\t\t\t\"" << componentName << "\");";
-		}
-	}
-
-	istd::CString description = registry.GetDescription();
-	istd::CString keywords = registry.GetKeywords();
-
-	if (!description.empty() || !keywords.empty()){
-		stream << std::endl;
-		NextLine(stream);
-		stream << "// setting of meta info";
-
-		if (!description.empty()){
-			NextLine(stream);
-			stream << "registry.SetDescription(" << GetStringLiteral(description) << ");";
-		}
-
-		if (!keywords.empty()){
-			NextLine(stream);
-			stream << "registry.SetKeywords(" << GetStringLiteral(keywords) << ");";
 		}
 	}
 
