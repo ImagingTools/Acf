@@ -236,7 +236,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="7">
+              <Values count="8">
                 <Value>
                   *.htm
                 </Value>
@@ -257,6 +257,9 @@
                 </Value>
                 <Value>
                   *.pdf
+                </Value>
+                <Value>
+                  *.css
                 </Value>
               </Values>
             </Data>
