@@ -14,7 +14,7 @@ namespace iqtmm
 // public methods
 
 // reimplemented (imod::IModelEditor)
-	
+
 void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 {
 	imm::IVideoController* objectPtr = GetObjectPtr();
@@ -30,24 +30,26 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 		bool isSeekEnabled = ((supportedFeatures & imm::IMediaController::SF_SEEK) != 0);
 
 		if ((updateFlags & (imm::IMediaController::CF_STATUS | CF_INIT_EDITOR)) != 0){
-			iqt::CSignalBlocker block(this, true);
+			iqt::CSignalBlocker block1(PositionSlider, true);
+			iqt::CSignalBlocker block2(FrameIndexSB, true);
+			iqt::CSignalBlocker block3(TimeEdit, true);
 
 			bool isPlaying = objectPtr->IsPlaying();
 			PlayButton->setChecked(isPlaying);
 
 			int framesCount = objectPtr->GetFramesCount();
 			if (framesCount > 1){
-				PositionSlider->setMaximum(framesCount - 1);
 				double mediumLength = objectPtr->GetMediumLength();
 				TimeEdit->setMaximumTime(QTime().addMSecs(mediumLength * 1000));
-				PositionSlider->setMaximum(framesCount - 1);
-				FrameIndexSB->setMaximum(framesCount - 1);
+				PositionSlider->setMaximum(framesCount);
+				FrameIndexSB->setMaximum(framesCount);
+				MaxFramesLabel->setText(QString::number(framesCount));
 			}
 			else{
 				isSeekEnabled = false;
-				PositionSlider->setValue(0);
 				TimeEdit->setTime(QTime());
-				FrameIndexSB->setValue(0);
+				PositionSlider->setValue(1);
+				FrameIndexSB->setValue(1);
 			}
 		}
 		PositionSlider->setEnabled(isSeekEnabled);
@@ -55,12 +57,14 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 		FrameIndexSB->setEnabled(isSeekEnabled);
 
 		if ((updateFlags & (imm::IMediaController::CF_MEDIA_POSITION | CF_INIT_EDITOR)) != 0){
-			iqt::CSignalBlocker block(PositionSlider, true);
+			iqt::CSignalBlocker block1(PositionSlider, true);
+			iqt::CSignalBlocker block2(FrameIndexSB, true);
+			iqt::CSignalBlocker block3(TimeEdit, true);
 
 			int currentFrame = objectPtr->GetCurrentFrame();
 			if (currentFrame >= 0){
-				PositionSlider->setValue(currentFrame);
-				FrameIndexSB->setValue(currentFrame);
+				PositionSlider->setValue(currentFrame + 1);
+				FrameIndexSB->setValue(currentFrame + 1);
 				TimeEdit->setTime(QTime().addMSecs(objectPtr->GetCurrentPosition() * 1000));
 			}
 		}
@@ -85,7 +89,7 @@ void CPlaybackControllerGuiComp::OnGuiCreated()
 	TimeEdit->setEnabled(false);
 	PositionSlider->setVisible(*m_showPositionSliderAttrPtr);
 	PositionSlider->setEnabled(false);
-	FrameIndexSB->setVisible(*m_showFrameIndexAttrPtr);
+	IndexFrame->setVisible(*m_showFrameIndexAttrPtr);
 	FrameIndexSB->setEnabled(false);
 	RepeatButton->setVisible(*m_showRepeatButtonAttrPtr);
 	RepeatButton->setEnabled(false);
@@ -140,18 +144,22 @@ void CPlaybackControllerGuiComp::on_PlayButton_toggled(bool isToggled)
 
 void CPlaybackControllerGuiComp::on_PositionSlider_valueChanged(int position)
 {
+	I_ASSERT(position > 0);
+
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		objectPtr->SetCurrentFrame(position);
+		objectPtr->SetCurrentFrame(position - 1);
 	}
 }
 
 
-void CPlaybackControllerGuiComp::on_FrameIndexSB_editingFinished()
+void CPlaybackControllerGuiComp::on_FrameIndexSB_valueChanged(int position)
 {
+	I_ASSERT(position > 0);
+
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		objectPtr->SetCurrentFrame(FrameIndexSB->value());
+		objectPtr->SetCurrentFrame(position - 1);
 	}
 }
 

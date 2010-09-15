@@ -54,7 +54,7 @@ private slots:
 private Q_SLOTS:
 	void on_PlayButton_toggled(bool isToggled);
 	void on_PositionSlider_valueChanged(int position);
-	void on_FrameIndexSB_editingFinished();
+	void on_FrameIndexSB_valueChanged(int position);
 	void on_TimeEdit_editingFinished();
 
 private:

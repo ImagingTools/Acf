@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1543
+          1553
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          237
+          241
         </Number>
         <Description>
           ACF-Solutions
@@ -105,7 +105,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               ShowFrameIndex
@@ -124,6 +124,22 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              ShowPlayButton
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              ShowPlayButton
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               ShowPositionSlider
             </Id>
             <Type>
@@ -131,6 +147,22 @@
             </Type>
             <ExportId>
               ShowPositionSlider
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ShowRepeatButton
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              ShowRepeatButton
             </ExportId>
             <Data>
               <IsEnabled>

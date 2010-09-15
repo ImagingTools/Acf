@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>50</height>
+    <width>450</width>
+    <height>24</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,14 +23,8 @@
       <string>Play</string>
      </property>
      <property name="icon">
-      <iconset>
-       <normaloff>:/Icons/PlayerPlay</normaloff>:/Icons/PlayerPlay</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>24</width>
-       <height>24</height>
-      </size>
+      <iconset resource="../iqtgui/iqtgui.qrc">
+       <normaloff>:/Icons/Play.svg</normaloff>:/Icons/Play.svg</iconset>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -59,22 +53,51 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="FrameIndexSB">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximum">
-      <number>999999</number>
-     </property>
+    <widget class="QWidget" name="IndexFrame" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="margin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QSpinBox" name="FrameIndexSB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>/</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="MaxFramesLabel">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -85,12 +108,6 @@
      <property name="icon">
       <iconset resource="../iqtgui/iqtgui.qrc">
        <normaloff>:/Icons/Restart</normaloff>:/Icons/Restart</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>24</width>
-       <height>24</height>
-      </size>
      </property>
      <property name="checkable">
       <bool>true</bool>
