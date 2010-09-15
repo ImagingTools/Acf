@@ -18,8 +18,17 @@ namespace imod
 class IModelEditor: virtual public istd::IPolymorphic
 {
 public:
+	enum ChangeFlags
+	{
+		/**
+			Called at begin of editor initialization.
+		*/
+		CF_INIT_EDITOR = 0x20
+	};
+
 	/**
 		Updates editor with model data.
+		\param	updateFlags	the same as \c changeFlag in istd::IChangeable
 	*/
 	virtual void UpdateEditor(int updateFlags = 0) = 0;
 

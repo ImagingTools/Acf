@@ -176,7 +176,7 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 	if (!IsUpdateBlocked()){
 		UpdateBlocker blocker(this);
 
-		UpdateEditor();
+		UpdateEditor(CF_INIT_EDITOR);
 	}
 }
 

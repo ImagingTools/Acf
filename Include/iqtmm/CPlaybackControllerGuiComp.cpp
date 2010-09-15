@@ -29,7 +29,7 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 
 		bool isSeekEnabled = ((supportedFeatures & imm::IMediaController::SF_SEEK) != 0);
 
-		if ((updateFlags & imm::IMediaController::CF_STATUS) != 0){
+		if ((updateFlags & (imm::IMediaController::CF_STATUS | CF_INIT_EDITOR)) != 0){
 			iqt::CSignalBlocker block(this, true);
 
 			bool isPlaying = objectPtr->IsPlaying();
@@ -54,7 +54,7 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 		TimeEdit->setEnabled(isSeekEnabled);
 		FrameIndexSB->setEnabled(isSeekEnabled);
 
-		if ((updateFlags & imm::IMediaController::CF_MEDIA_POSITION) != 0){
+		if ((updateFlags & (imm::IMediaController::CF_MEDIA_POSITION | CF_INIT_EDITOR)) != 0){
 			iqt::CSignalBlocker block(PositionSlider, true);
 
 			int currentFrame = objectPtr->GetCurrentFrame();
@@ -79,8 +79,6 @@ void CPlaybackControllerGuiComp::UpdateModel() const
 
 void CPlaybackControllerGuiComp::OnGuiCreated()
 {
-	BaseClass::OnGuiCreated();
-
 	PlayButton->setVisible(*m_showPlayButtonAttrPtr);
 	PlayButton->setEnabled(false);
 	TimeEdit->setVisible(*m_showTimePositionAttrPtr);
@@ -91,6 +89,8 @@ void CPlaybackControllerGuiComp::OnGuiCreated()
 	FrameIndexSB->setEnabled(false);
 	RepeatButton->setVisible(*m_showRepeatButtonAttrPtr);
 	RepeatButton->setEnabled(false);
+
+	BaseClass::OnGuiCreated();
 }
 
 
