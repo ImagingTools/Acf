@@ -21,7 +21,7 @@
 
 #include "iproc/IProcessor.h"
 
-#include "iqtproc/Generated/ui_CAcquisitonProcessorGuiComp.h"
+#include "iqtproc/Generated/ui_CProcessorControlGuiComp.h"
 
 
 namespace iqtproc
