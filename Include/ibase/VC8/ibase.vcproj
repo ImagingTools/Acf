@@ -5,7 +5,6 @@
 	Name="ibase"
 	ProjectGUID="{C30159C1-C8F9-49F4-AE32-C014F87B12BD}"
 	RootNamespace="ibase"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -232,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileConvertOverProcessorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileCopyOverLoaderComp.cpp"
 				>
 			</File>
@@ -322,6 +325,10 @@
 			</File>
 			<File
 				RelativePath="..\CExternalFileConverterComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileConvertOverProcessorComp.h"
 				>
 			</File>
 			<File
@@ -517,4 +524,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-

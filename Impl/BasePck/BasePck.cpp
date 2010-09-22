@@ -110,8 +110,12 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			SelectableFileConverter,
 			"Selectable file converter",
-			"File Converter" IM_CATEGORY(I_SERVICE));
+			"File Converter" IM_CATEGORY(I_DATA_PROCESSING I_SERVICE));
 
+I_EXPORT_COMPONENT(
+			FileConvertOverProcessor,
+			"File conversion over processor",
+			"File Converter" IM_CATEGORY(I_DATA_PROCESSING I_SERVICE));
 
 I_EXPORT_COMPONENT(
 			SelectableParamsSet,
