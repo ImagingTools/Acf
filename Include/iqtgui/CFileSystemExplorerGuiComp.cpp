@@ -4,11 +4,39 @@
 
 
 // ACF includes
+#include "istd/TChangeNotifier.h"
+
+#include "iqt/CFileSystem.h"
+
 #include "iqtgui/CFileSystemExplorerGuiComp.h"
 
 
 namespace iqtgui
 {
+
+
+// public methods
+
+// reimplemented (imod::IModelEditor)
+
+void CFileSystemExplorerGuiComp::UpdateModel() const
+{
+}
+
+
+void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
+{
+	iprm::IFileNameParam* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		QModelIndex index = m_fileSystemModel.index(iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(objectPtr->GetPath())));
+		if (index.isValid()){
+			QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();
+			if (selectionModelPtr != NULL){
+				selectionModelPtr->select(index, QItemSelectionModel::Select);
+			}
+		}
+	}
+}
 
 
 // protected methods
@@ -22,6 +50,11 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 	FileTree->setModel(&m_fileSystemModel);
 	m_fileSystemModel.setRootPath(QDir::currentPath());
 	FileTree->setRootIndex(m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString()));
+
+	QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();
+	if (selectionModelPtr != NULL){
+		connect(selectionModelPtr, SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(OnSelectionChanged(const QItemSelection&, const QItemSelection&)));
+	}
 
 	QStringList fileFilters;
 	if (m_fileFilterAttrPtr.IsValid()){
@@ -94,6 +127,21 @@ void CFileSystemExplorerGuiComp::OnFilterChanged()
 	}
 
 	m_fileSystemModel.setNameFilters(fileFilters);
+}
+
+
+void CFileSystemExplorerGuiComp::OnSelectionChanged(const QItemSelection& selected, const QItemSelection&/* deselected*/)
+{
+	if (!selected.indexes().isEmpty()){
+		QModelIndex selectedIndex = selected.indexes().at(0);
+
+		QString currentFilePath = m_fileSystemModel.filePath(selectedIndex);
+
+		iprm::IFileNameParam* objectPtr = GetObjectPtr();
+		if (objectPtr != NULL){
+			objectPtr->SetPath(iqt::GetCString(currentFilePath));
+		}
+	}
 }
 
 

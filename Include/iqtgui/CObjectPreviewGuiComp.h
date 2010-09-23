@@ -31,7 +31,6 @@ public:
 				Ui::CObjectPreviewGuiComp, iprm::IFileNameParam> BaseClass;
 
 	I_BEGIN_COMPONENT(CObjectPreviewGuiComp);
-		I_REGISTER_INTERFACE(imod::IObserver);
 		I_ASSIGN(m_fileLoaderCompPtr, "FileLoader", "Object loader", true, "FileLoader");
 		I_ASSIGN(m_objectCompPtr, "Object", "Object", true, "Object");
 		I_ASSIGN(m_objectModelCompPtr, "Object", "Object", true, "Object");

@@ -2,6 +2,8 @@
 #define iprm_CFileNameParamComp_included
 
 
+#include "iser/ISerializable.h"
+
 #include "icomp/CComponentBase.h"
 
 #include "iprm/IFileNameParam.h"
@@ -16,7 +18,8 @@ namespace iprm
 */
 class CFileNameParamComp:
 			public icomp::CComponentBase,
-			virtual public IFileNameParam
+			virtual public IFileNameParam,
+			virtual public iser::ISerializable
 {
 public:
 	typedef icomp::CComponentBase BaseClass;

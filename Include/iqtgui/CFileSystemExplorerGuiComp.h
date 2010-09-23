@@ -5,10 +5,13 @@
 // Qt includes
 #include <QTreeWidget>
 #include <QFileSystemModel>
+#include <QItemSelectionModel>
 
 
 // ACF includes
-#include "iqtgui/TDesignerGuiCompBase.h"
+#include "iprm/IFileNameParam.h"
+
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CExtLineEdit.h"
 
 #include "iqtgui/Generated/ui_CFileSystemExplorerGuiComp.h"
@@ -21,17 +24,24 @@ namespace iqtgui
 /**
 	Component for visualization of file system contents.
 */
-class CFileSystemExplorerGuiComp: public iqtgui::TDesignerGuiCompBase<Ui::CFileSystemExplorerGuiComp>
+class CFileSystemExplorerGuiComp:
+		public iqtgui::TDesignerGuiObserverCompBase<
+					Ui::CFileSystemExplorerGuiComp, iprm::IFileNameParam>
 {
 	Q_OBJECT
 public:
-	typedef iqtgui::TDesignerGuiCompBase<Ui::CFileSystemExplorerGuiComp> BaseClass; 
+	typedef iqtgui::TDesignerGuiObserverCompBase<
+					Ui::CFileSystemExplorerGuiComp, iprm::IFileNameParam> BaseClass;
 	
 	I_BEGIN_COMPONENT(CFileSystemExplorerGuiComp);
 		I_ASSIGN(m_fileFilterAttrPtr, "FileFilter", "File filter", false, "*.*");
 		I_ASSIGN(m_showFileTypeAttrPtr, "ShowFileType", "Show file type description", false, false);
-		I_ASSIGN(m_showFileModificationTimeAttrPtr, "ShowModificationTime", "Show last file modification time", false, false);
 	I_END_COMPONENT;
+
+public:
+	// reimplemented (imod::IModelEditor)
+	virtual void UpdateModel() const;
+	virtual void UpdateEditor(int updateFlags = 0);
 
 protected:
 	// reimplemented (CGuiComponentBase)
@@ -40,8 +50,9 @@ protected:
 
 private Q_SLOTS:
 	void OnFilterChanged();
+	void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
-protected:
+private:
 	I_ATTR(istd::CString, m_fileFilterAttrPtr);
 	I_ATTR(bool, m_showFileTypeAttrPtr);
 	I_ATTR(bool, m_showFileModificationTimeAttrPtr);

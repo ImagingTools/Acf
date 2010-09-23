@@ -2,7 +2,8 @@
 #define iprm_IFileNameParam_included
 
 
-#include "iser/ISerializable.h"
+#include "istd/IChangeable.h"
+#include "istd/CString.h"
 
 #include "iprm/iprm.h"
 
@@ -14,7 +15,7 @@ namespace iprm
 /**
 	Common interface for a file system item settings.
 */
-class IFileNameParam: virtual public iser::ISerializable
+class IFileNameParam: virtual public istd::IChangeable
 {
 public:
 	enum PathType
