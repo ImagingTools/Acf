@@ -67,6 +67,7 @@ public:
 
 	// reimplemented (imod::IObserver)
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnDetached(imod::IModel* modelPtr);
 
 private:
 	void SetLookupTableToImage(QImage& image, const icmm::IColorTransformation& colorTransformation);

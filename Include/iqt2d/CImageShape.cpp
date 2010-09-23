@@ -50,6 +50,17 @@ void CImageShape::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, i
 }
 
 
+bool CImageShape::OnDetached(imod::IModel* modelPtr)
+{
+	m_bitmap = QPixmap();
+
+	update();
+
+	return BaseClass::OnDetached(modelPtr);
+}
+
+
+
 // reimplemented (QGraphicsRectItem)
 
 QRectF CImageShape::boundingRect() const

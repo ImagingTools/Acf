@@ -33,6 +33,9 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor(int updateFlags = 0);
 
+	// reimplemented (imod::IObserver)
+	virtual bool OnDetached(imod::IModel* modelPtr);
+
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();

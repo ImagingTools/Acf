@@ -194,6 +194,11 @@ I_EXPORT_COMPONENT(
 			"Image property viewer",
 			"Observer Display GUI Image Bitmap Property" IM_TAG("GUI"));
 
+I_EXPORT_COMPONENT(
+			ObjectPreviewGui,
+			"Object preview GUI",
+			"Observer Display GUI Preview" IM_TAG("GUI"));
+
 
 } // namespace QtGuiPck
 

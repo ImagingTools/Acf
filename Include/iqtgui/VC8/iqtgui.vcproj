@@ -285,6 +285,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CObjectPreviewGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
@@ -422,6 +426,10 @@
 			</File>
 			<File
 				RelativePath="..\CModelDialogGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CObjectPreviewGuiComp.h"
 				>
 			</File>
 			<File
@@ -588,6 +596,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CObjectPreviewGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
@@ -620,6 +632,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\ui_CObjectPreviewGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\ui_CSplashScreenGuiComp.h"
 				>
 			</File>
@@ -649,6 +665,10 @@
 			</File>
 			<File
 				RelativePath="..\CLoginGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CObjectPreviewGuiComp.ui"
 				>
 			</File>
 			<File
@@ -700,6 +720,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CObjectPreviewGuiComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CSimpleMainWindowGuiComp.moc"
 				>
 			</File>
@@ -728,5 +752,3 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-
-

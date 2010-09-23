@@ -45,6 +45,23 @@ void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 }
 
 
+// reimplemented (imod::IObserver)
+
+bool CImageViewComp::OnDetached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnDetached(modelPtr)){
+		QGraphicsScene* scenePtr = GetScene();
+		if (scenePtr != NULL){
+			scenePtr->update();
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
 // protected methods
 
 // reimplemented (iqtgui::CGuiComponentBase)
