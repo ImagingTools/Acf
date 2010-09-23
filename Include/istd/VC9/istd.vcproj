@@ -5,7 +5,6 @@
 	Name="istd"
 	ProjectGUID="{126B67F7-B779-4A80-A651-1111D5EDF583}"
 	RootNamespace="istd"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -72,10 +71,13 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -111,6 +113,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"
@@ -160,12 +163,15 @@
 				StringPooling="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				BrowseInformation="1"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -456,3 +462,6 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+
+
+

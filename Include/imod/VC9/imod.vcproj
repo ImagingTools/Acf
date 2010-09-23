@@ -4,7 +4,6 @@
 	Version="9,00"
 	Name="imod"
 	ProjectGUID="{AA16B362-CE5A-48C6-9322-42620FE1006D}"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -53,10 +52,13 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -91,6 +93,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"
@@ -125,12 +128,15 @@
 				StringPooling="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				BrowseInformation="1"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -264,3 +270,6 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+
+
+

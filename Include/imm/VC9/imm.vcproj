@@ -6,7 +6,6 @@
 	ProjectGUID="{27FB7E8A-2337-4A30-AA09-3D5A74D059B1}"
 	RootNamespace="imm"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -109,6 +108,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			>
@@ -239,3 +239,6 @@
 		/>
 	</Globals>
 </VisualStudioProject>
+
+
+

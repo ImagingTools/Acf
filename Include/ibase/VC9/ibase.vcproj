@@ -5,7 +5,6 @@
 	Name="ibase"
 	ProjectGUID="{C30159C1-C8F9-49F4-AE32-C014F87B12BD}"
 	RootNamespace="ibase"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -72,10 +71,13 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="2"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -111,6 +113,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"
@@ -159,11 +162,14 @@
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -222,6 +228,10 @@
 			</File>
 			<File
 				RelativePath="..\CExternalFileConverterComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileConvertOverProcessorComp.cpp"
 				>
 			</File>
 			<File
@@ -315,6 +325,10 @@
 			</File>
 			<File
 				RelativePath="..\CExternalFileConverterComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileConvertOverProcessorComp.h"
 				>
 			</File>
 			<File
@@ -510,3 +524,4 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
+
