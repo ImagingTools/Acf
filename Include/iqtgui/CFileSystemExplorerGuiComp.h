@@ -34,8 +34,10 @@ public:
 					Ui::CFileSystemExplorerGuiComp, iprm::IFileNameParam> BaseClass;
 	
 	I_BEGIN_COMPONENT(CFileSystemExplorerGuiComp);
+		I_ASSIGN(m_previewGuiCompPtr, "PreviewGui", "UI for the preview of the selected file system item", false, "PreviewGui");
 		I_ASSIGN(m_fileFilterAttrPtr, "FileFilter", "File filter", false, "*.*");
 		I_ASSIGN(m_showFileTypeAttrPtr, "ShowFileType", "Show file type description", false, false);
+
 	I_END_COMPONENT;
 
 public:
@@ -53,6 +55,8 @@ private Q_SLOTS:
 	void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 private:
+
+	I_REF(iqtgui::IGuiObject, m_previewGuiCompPtr);
 	I_ATTR(istd::CString, m_fileFilterAttrPtr);
 	I_ATTR(bool, m_showFileTypeAttrPtr);
 	I_ATTR(bool, m_showFileModificationTimeAttrPtr);

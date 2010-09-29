@@ -47,6 +47,10 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+	if (m_previewGuiCompPtr.IsValid()){
+		m_previewGuiCompPtr->CreateGui(PreviewFrame);
+	}
+
 	FileTree->setModel(&m_fileSystemModel);
 	m_fileSystemModel.setRootPath(QDir::currentPath());
 	FileTree->setRootIndex(m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString()));
@@ -106,6 +110,10 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 
 void CFileSystemExplorerGuiComp::OnGuiDestroyed()
 {
+	if (m_previewGuiCompPtr.IsValid()){
+		m_previewGuiCompPtr->DestroyGui();
+	}
+
 	BaseClass::OnGuiDestroyed();
 }
 
