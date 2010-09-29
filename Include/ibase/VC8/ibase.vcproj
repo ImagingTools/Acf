@@ -275,6 +275,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRenderedObjectFileLoaderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSelectableFileConverterComp.cpp"
 				>
 			</File>
@@ -369,6 +373,10 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryCodeSaverComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRenderedObjectFileLoaderComp.h"
 				>
 			</File>
 			<File

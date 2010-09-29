@@ -34,7 +34,7 @@ public:
 		/**
 			No saving operation should be considered.
 		*/
-		QF_NO_SAVING = 0x0002,
+		QF_NO_SAVING = 0x0002
 	};
 
 	/**
