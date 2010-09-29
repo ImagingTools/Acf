@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRenderedObjectFileLoaderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSafeNotifier.cpp"
 				>
 			</File>
@@ -409,6 +413,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRenderedObjectFileLoaderComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CSafeNotifier.h"
 				>
 			</File>
@@ -531,5 +539,4 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-
 
