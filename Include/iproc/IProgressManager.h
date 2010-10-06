@@ -13,6 +13,9 @@ namespace iproc
 {
 
 
+/**
+	Consume information about progress of some process.
+*/
 class IProgressManager: virtual public istd::IPolymorphic
 {
 public:
