@@ -66,18 +66,18 @@ protected:
 	class RefCounter: public RefCountBase
 	{
 	public:
-		RefCounter(Type* ptr)
-		{
-			I_ASSERT(ptr != NULL);
+		typedef RefCountBase BaseClass;
 
-			m_objectPtr = ptr;
+		RefCounter(Type* ptr)
+		:	BaseClass(ptr)
+		{
 			m_count = 1;
 		}
 
 		// reimplemented (RefCountBase)
 		virtual void OnAttached()
 		{
-			I_ASSERT(m_objectPtr != NULL);
+			I_ASSERT(IsValid());
 			I_ASSERT(m_count > 0);
 
 			++m_count;
@@ -85,7 +85,7 @@ protected:
 
 		virtual void OnDetached()
 		{
-			I_ASSERT(m_objectPtr != NULL);
+			I_ASSERT(IsValid());
 			I_ASSERT(m_count > 0);
 
 			if (--m_count <= 0){
@@ -95,10 +95,8 @@ protected:
 			}
 		}
 
-
 	private:
 		int m_count;
-		Type* m_objectPtr;
 	};
 
 	using TTransPtr<Type>::m_counterPtr;
