@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1567
+          1582
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          252
+          263
         </Number>
         <Description>
           ACF-Solutions
@@ -188,7 +188,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="3">
+  <ExportedInterfaces count="4">
     <Interface>
       <InterfaceId>
         imod::IModelEditor
@@ -211,6 +211,14 @@
       </InterfaceId>
       <ComponentId>
         ObjectPreviewGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iser::IFileTypeInfo
+      </InterfaceId>
+      <ComponentId>
+        BitmapLoader
       </ComponentId>
     </Interface>
   </ExportedInterfaces>

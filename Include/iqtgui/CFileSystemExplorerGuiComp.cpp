@@ -41,6 +41,25 @@ void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
 
 // protected methods
 
+QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
+{
+	QStringList retVal;
+
+	if (m_filterInfoCompPtr.IsValid()){
+		istd::CStringList extensions;
+		if (m_filterInfoCompPtr->GetFileExtensions(extensions, iser::IFileTypeInfo::QF_NO_SAVING)){
+			for (		istd::CStringList::const_iterator iter = extensions.begin();
+						iter != extensions.end();
+						++iter){
+				retVal += "*." + iqt::GetQString(*iter);
+			}
+		}
+	}
+
+	return retVal;
+}
+
+
 // reimplemented (CGuiComponentBase)
 
 void CFileSystemExplorerGuiComp::OnGuiCreated()
@@ -60,13 +79,11 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 		connect(selectionModelPtr, SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(OnSelectionChanged(const QItemSelection&, const QItemSelection&)));
 	}
 
-	QStringList fileFilters;
-	if (m_fileFilterAttrPtr.IsValid()){
-		fileFilters << iqt::GetQString(*m_fileFilterAttrPtr);
-	}
+	QStringList fileFilters = GetDefaultFilters();
 
 	m_fileSystemModel.setNameFilters(fileFilters);
 
+	FilterFrame->setVisible(*m_showUserFilterAttrPtr);
 	QLayout* filterLayoutPtr = FilterFrame->layout();
 	if (filterLayoutPtr != NULL){
 		m_filterEdit = new iqtgui::CExtLineEdit(tr("Enter text to filter file items"), 2, FilterFrame);
@@ -89,7 +106,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 
 	QHeaderView* headerPtr = FileTree->header();
 	if (headerPtr != NULL){
-		if (m_showFileTypeAttrPtr.IsValid() && *m_showFileTypeAttrPtr){
+		if (*m_showFileTypeAttrPtr){
 			headerPtr->setSectionHidden(2, false);
 		}
 		else{
@@ -98,7 +115,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 
 		headerPtr->setSectionHidden(1, true);
 
-		if (m_showFileModificationTimeAttrPtr.IsValid() && *m_showFileModificationTimeAttrPtr){
+		if (*m_showFileModificationTimeAttrPtr){
 			headerPtr->setSectionHidden(3, false);
 		}
 		else{
@@ -124,14 +141,10 @@ void CFileSystemExplorerGuiComp::OnFilterChanged()
 {
 	QString filterText = m_filterEdit->GetText();
 
-	QStringList fileFilters;
+	QStringList fileFilters = GetDefaultFilters();
 
 	if (!filterText.isEmpty()){
 		fileFilters << filterText;
-	}
-
-	if (m_fileFilterAttrPtr.IsValid()){
-		fileFilters << iqt::GetQString(*m_fileFilterAttrPtr);
 	}
 
 	m_fileSystemModel.setNameFilters(fileFilters);

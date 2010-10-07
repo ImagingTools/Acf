@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1571
+          1582
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          255
+          263
         </Number>
         <Description>
           ACF-Solutions
@@ -29,13 +29,13 @@
   <PositionMap count="2">
     <Element>
       <ComponentName>
-        FileExplorer
+        BitmapFileExplorer
       </ComponentName>
       <X>
-        644
+        625
       </X>
       <X>
-        340
+        350
       </X>
     </Element>
     <Element>

@@ -26,49 +26,71 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="4">
+  <PositionMap count="6">
     <Element>
       <ComponentName>
-        Bitmap
+        DockWidgetGui
       </ComponentName>
       <X>
-        900
+        500
       </X>
       <X>
-        400
+        325
       </X>
     </Element>
     <Element>
       <ComponentName>
-        BitmapLoader
+        FileExplorerGui
       </ComponentName>
+      <X>
+        500
+      </X>
+      <X>
+        450
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        FilePath
+      </ComponentName>
+      <X>
+        500
+      </X>
+      <X>
+        700
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ModelBinder
+      </ComponentName>
+      <X>
+        750
+      </X>
       <X>
         575
       </X>
-      <X>
-        250
-      </X>
     </Element>
     <Element>
       <ComponentName>
-        ImageView
+        PathBinder
       </ComponentName>
       <X>
-        250
+        225
       </X>
-      <X>
-        400
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ObjectPreviewGui
-      </ComponentName>
       <X>
         575
       </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        PreviewGui
+      </ComponentName>
       <X>
-        400
+        775
+      </X>
+      <X>
+        450
       </X>
     </Element>
   </PositionMap>

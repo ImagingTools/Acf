@@ -9,6 +9,7 @@
 
 
 // ACF includes
+#include "iser/IFileTypeInfo.h"
 #include "iprm/IFileNameParam.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
@@ -35,8 +36,10 @@ public:
 	
 	I_BEGIN_COMPONENT(CFileSystemExplorerGuiComp);
 		I_ASSIGN(m_previewGuiCompPtr, "PreviewGui", "UI for the preview of the selected file system item", false, "PreviewGui");
-		I_ASSIGN(m_fileFilterAttrPtr, "FileFilter", "File filter", false, "*.*");
-		I_ASSIGN(m_showFileTypeAttrPtr, "ShowFileType", "Show file type description", false, false);
+		I_ASSIGN(m_filterInfoCompPtr, "FilterInfo", "Provides information about supported files used to filter shown files", false, "FilterInfo");
+		I_ASSIGN(m_showUserFilterAttrPtr, "ShowUserFilter", "If activated user filter line will be shown", true, false);
+		I_ASSIGN(m_showFileTypeAttrPtr, "ShowFileType", "Show file type description", true, false);
+		I_ASSIGN(m_showFileModificationTimeAttrPtr, "ShowFileModificationTime", "If activated file modification time stamp will be shown for each file", true, false);
 
 	I_END_COMPONENT;
 
@@ -46,6 +49,12 @@ public:
 	virtual void UpdateEditor(int updateFlags = 0);
 
 protected:
+	/**
+		Get default list of filters.
+		This list will be created using component parameters.
+	*/
+	QStringList GetDefaultFilters() const;
+
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
@@ -57,7 +66,8 @@ private Q_SLOTS:
 private:
 
 	I_REF(iqtgui::IGuiObject, m_previewGuiCompPtr);
-	I_ATTR(istd::CString, m_fileFilterAttrPtr);
+	I_REF(iser::IFileTypeInfo, m_filterInfoCompPtr);
+	I_ATTR(bool, m_showUserFilterAttrPtr);
 	I_ATTR(bool, m_showFileTypeAttrPtr);
 	I_ATTR(bool, m_showFileModificationTimeAttrPtr);
 

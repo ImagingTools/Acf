@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1571
+          1582
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          255
+          263
         </Number>
         <Description>
           ACF-Solutions
@@ -26,16 +26,16 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="5">
+  <ElementsList count="6">
     <Element>
       <Id>
-        FilePath
+        DockWidgetGui
       </Id>
       <PackageId>
-        BasePck
+        QtGuiPck
       </PackageId>
       <ComponentId>
-        FileNameParam
+        DockWidgetGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -44,13 +44,51 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="0">
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              DockTitle
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                File Selector
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveGui
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                FileExplorerGui
+              </Value>
+            </Data>
+          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
     <Element>
       <Id>
-        FileSystemExplorerGui
+        FileExplorerGui
       </Id>
       <PackageId>
         QtGuiPck
@@ -65,7 +103,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="2">
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               FileNameBridge
@@ -87,6 +125,22 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              FilterInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              PreviewObjectLoader
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               PreviewGui
             </Id>
             <Type>
@@ -100,7 +154,63 @@
                 true
               </IsEnabled>
               <Value>
-                Preview
+                PreviewGui
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        FilePath
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        FileNameParam
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              DefaultPath
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              DefaultPath
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              PathType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                1
               </Value>
             </Data>
           </AttributeInfo>
@@ -160,7 +270,7 @@
               </IsEnabled>
               <Values count="1">
                 <Value>
-                  Preview
+                  PreviewGui
                 </Value>
               </Values>
             </Data>
@@ -221,7 +331,7 @@
               </IsEnabled>
               <Values count="1">
                 <Value>
-                  FileSystemExplorerGui
+                  FileExplorerGui
                 </Value>
               </Values>
             </Data>
@@ -231,13 +341,13 @@
     </Element>
     <Element>
       <Id>
-        Preview
+        PreviewGui
       </Id>
       <PackageId>
-        AcfGuiVoce
+        QtGuiPck
       </PackageId>
       <ComponentId>
-        BitmapPreview
+        ObjectPreviewGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -246,27 +356,115 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="0">
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              FileLoader
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              PreviewObjectLoader
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Object
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              PreviewObject
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ObjectView
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              PreviewObjectView
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
         </AttributeInfoMap>
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="1">
+  <ExportedInterfaces count="6">
+    <Interface>
+      <InterfaceId>
+        imod::IModel
+      </InterfaceId>
+      <ComponentId>
+        FilePath
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iprm::IFileNameParam
+      </InterfaceId>
+      <ComponentId>
+        FilePath
+      </ComponentId>
+    </Interface>
     <Interface>
       <InterfaceId>
         iqtgui::IGuiObject
       </InterfaceId>
       <ComponentId>
-        FileSystemExplorerGui
+        FileExplorerGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iqtgui::IMainWindowComponent
+      </InterfaceId>
+      <ComponentId>
+        DockWidgetGui
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iser::ISerializable
+      </InterfaceId>
+      <ComponentId>
+        FilePath
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        istd::IChangeable
+      </InterfaceId>
+      <ComponentId>
+        FilePath
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    Simple file system exploring component demonstration
+    General file selector with external preview
   </Description>
   <Keywords>
-    File Preview Explorer Demo Tutorial
+    File Name Selector Preview Explorer Choice Author='"Witold Gantzke"' Category='GUI'
   </Keywords>
 </Acf>

@@ -154,23 +154,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="3">
-          <AttributeInfo>
-            <Id>
-              FileFilter
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              FileFilter
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
+        <AttributeInfoMap count="2">
           <AttributeInfo>
             <Id>
               ShowFileType
