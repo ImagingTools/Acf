@@ -2,7 +2,7 @@
 #define istd_TOptDelPtr_included
 
 
-#include "istd/TPointer.h"
+#include "istd/TPointerBase.h"
 
 
 namespace istd
@@ -13,10 +13,10 @@ namespace istd
 	Pointer wrapper providing automatic deleting pointed object during destruction.
 */
 template <class Type, bool DelArray = false>
-class TOptDelPtr: public TPointer<Type>
+class TOptDelPtr: public TPointerBase<Type>
 {
 public:
-	typedef TPointer<Type> BaseClass;
+	typedef TPointerBase<Type> BaseClass;
 
 	/**
 		Construct and init this pointer.

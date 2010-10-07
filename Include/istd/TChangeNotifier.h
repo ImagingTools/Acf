@@ -3,7 +3,7 @@
 
 
 #include "istd/IChangeable.h"
-#include "istd/TPointer.h"
+#include "istd/TPointerBase.h"
 
 
 namespace istd
@@ -18,10 +18,10 @@ namespace istd
 	\ingroup Helpers
 */
 template <class Changeable>
-class TChangeNotifier: public istd::TPointer<Changeable>
+class TChangeNotifier: public istd::TPointerBase<Changeable>
 {
 public:
-	typedef istd::TPointer<Changeable> BaseClass;
+	typedef istd::TPointerBase<Changeable> BaseClass;
 
 	explicit TChangeNotifier(Changeable* changeablePtr, int changeFlags = IChangeable::CF_MODEL, istd::IPolymorphic* updateParamsPtr = NULL);
 	virtual  ~TChangeNotifier();

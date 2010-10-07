@@ -422,7 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TRetSmartPtr.h"
+				RelativePath="..\TTransPtr.h"
 				>
 			</File>
 			<File

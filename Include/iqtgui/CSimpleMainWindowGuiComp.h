@@ -141,7 +141,7 @@ void CSimpleMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& co
 
 	int childsCount = command.GetChildsCount();
 
-	std::map<int, istd::TPointer<QActionGroup> > groups;
+	std::map<int, QActionGroup*> groups;
 
 	for (int i = 0; i < childsCount; ++i){
 		QString text = command.text();
@@ -171,9 +171,9 @@ void CSimpleMainWindowGuiComp::CreateMenu(const iqtgui::CHierarchicalCommand& co
 			}
 			else if ((flags & ibase::ICommand::CF_GLOBAL_MENU) != 0){
 				if ((flags & ibase::ICommand::CF_EXCLUSIVE) != 0){
-					istd::TPointer<QActionGroup>& groupPtr = groups[hierarchicalPtr->GetGroupId()];
-					if (!groupPtr.IsValid()){
-						groupPtr.SetPtr(new QActionGroup(&result));
+					QActionGroup*& groupPtr = groups[hierarchicalPtr->GetGroupId()];
+					if (groupPtr == NULL){
+						groupPtr = new QActionGroup(&result);
 						groupPtr->setExclusive(true);
 					}
 

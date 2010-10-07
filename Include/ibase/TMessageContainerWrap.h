@@ -5,7 +5,6 @@
 // STL includes
 #include <list>
 
-#include "istd/TSmartPtr.h"
 #include "istd/TChangeNotifier.h"
 
 #include "iser/IArchive.h"

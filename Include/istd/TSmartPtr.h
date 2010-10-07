@@ -2,7 +2,7 @@
 #define istd_TSmartPtr_included
 
 
-#include "istd/TRetSmartPtr.h"
+#include "istd/TTransPtr.h"
 
 
 namespace istd
@@ -17,14 +17,14 @@ namespace istd
 	\ingroup Main
 */
 template <class Type, class Accessor = DefaultAccessor<Type> >
-class TSmartPtr: public TRetSmartPtr<Type, Accessor>
+class TSmartPtr: public TTransPtr<Type>
 {
 public:
-	typedef TRetSmartPtr<Type, Accessor> BaseClass;
+	typedef TTransPtr<Type> BaseClass;
 
 	TSmartPtr();
 	TSmartPtr(Type* pointer);
-	TSmartPtr(const TRetSmartPtr<Type, Accessor>& pointer);
+	TSmartPtr(const TTransPtr<Type>& pointer);
 	TSmartPtr(const TSmartPtr& pointer);
 	~TSmartPtr();
 
@@ -53,7 +53,7 @@ public:
 			return true;
 		}
 		else{
-			delete ptr;
+			Accessor::Delete(ptr);
 
 			return false;
 		}
@@ -63,7 +63,45 @@ public:
 	TSmartPtr& operator=(const TSmartPtr& otherCounter);
 
 protected:
-	using TRetSmartPtr<Type, Accessor>::m_counterPtr;
+	class RefCounter: public RefCountBase
+	{
+	public:
+		RefCounter(Type* ptr)
+		{
+			I_ASSERT(ptr != NULL);
+
+			m_objectPtr = ptr;
+			m_count = 1;
+		}
+
+		// reimplemented (RefCountBase)
+		virtual void OnAttached()
+		{
+			I_ASSERT(m_objectPtr != NULL);
+			I_ASSERT(m_count > 0);
+
+			++m_count;
+		}
+
+		virtual void OnDetached()
+		{
+			I_ASSERT(m_objectPtr != NULL);
+			I_ASSERT(m_count > 0);
+
+			if (--m_count <= 0){
+				Accessor::Delete(GetPtr());
+
+				delete this;
+			}
+		}
+
+
+	private:
+		int m_count;
+		Type* m_objectPtr;
+	};
+
+	using TTransPtr<Type>::m_counterPtr;
 
 	/**
 		Detach counter object without changing of internal counter pointer.
@@ -82,12 +120,12 @@ TSmartPtr<Type, Accessor>::TSmartPtr()
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr(Type* pointer)
 {
-	m_counterPtr = new typename TRetSmartPtr<Type, Accessor>::Counter(pointer);
+	m_counterPtr = new typename RefCounter(pointer);
 }
 
 
 template <class Type, class Accessor>
-TSmartPtr<Type, Accessor>::TSmartPtr(const TRetSmartPtr<Type, Accessor>& pointer)
+TSmartPtr<Type, Accessor>::TSmartPtr(const TTransPtr<Type>& pointer)
 :	BaseClass(pointer)
 {
 	if (m_counterPtr != NULL){
@@ -129,7 +167,7 @@ inline void TSmartPtr<Type, Accessor>::SetPtr(Type* pointer)
 {
 	Detach();
 
-	m_counterPtr = new typename TRetSmartPtr<Type, Accessor>::Counter(pointer);
+	m_counterPtr = new typename RefCounter(pointer);
 }
 
 

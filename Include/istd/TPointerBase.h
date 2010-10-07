@@ -1,5 +1,5 @@
-#ifndef istd_TPointer_included
-#define istd_TPointer_included
+#ifndef istd_TPointerBase_included
+#define istd_TPointerBase_included
 
 
 #include "istd/istd.h"
@@ -10,16 +10,52 @@ namespace istd
 
 
 /**
+	\internal
+	Internal data accessor using standard memory management with new and delete.
+*/
+template <class Type>
+class DefaultAccessor
+{
+public:
+	static void Delete(Type* ptr)
+	{
+		I_ASSERT(ptr != NULL);
+		if (ptr != NULL){
+			delete ptr;
+		}
+	}
+};
+
+
+/**
+	\internal
+	Internal data accessor using standard memory management with new and delete for arrays.
+*/
+template <class Type>
+class ArrayAccessor
+{
+public:
+	static void Delete(Type* ptr)
+	{
+		I_ASSERT(ptr != NULL);
+		if (ptr != NULL){
+			delete[] ptr;
+		}
+	}
+};
+
+
+/**
 	Implementation of pointer wrapper.
 */
 template <class Type>
-class TPointer
+class TPointerBase
 {
 public:
 	/**
 		Construct and assign internal pointer.
 	*/
-	TPointer(Type* ptr = NULL);
+	TPointerBase(Type* ptr = NULL);
 
 	/**
 		Set value of internal stored pointer.
@@ -53,12 +89,12 @@ public:
 
 	// operators
 	Type* operator->() const;
-	bool operator==(const TPointer<Type>& ptr) const;
-	bool operator!=(const TPointer<Type>& ptr) const;
-	bool operator<(const TPointer<Type>& ptr) const;
-	bool operator>(const TPointer<Type>& ptr) const;
-	bool operator<=(const TPointer<Type>& ptr) const;
-	bool operator>=(const TPointer<Type>& ptr) const;
+	bool operator==(const TPointerBase<Type>& ptr) const;
+	bool operator!=(const TPointerBase<Type>& ptr) const;
+	bool operator<(const TPointerBase<Type>& ptr) const;
+	bool operator>(const TPointerBase<Type>& ptr) const;
+	bool operator<=(const TPointerBase<Type>& ptr) const;
+	bool operator>=(const TPointerBase<Type>& ptr) const;
 	bool operator==(const Type* ptr) const;
 	bool operator!=(const Type* ptr) const;
 	bool operator<(const Type* ptr) const;
@@ -68,7 +104,7 @@ public:
 
 protected:
 	// blocked operators
-	TPointer<Type>& operator=(const TPointer<Type> ptr);
+	TPointerBase<Type>& operator=(const TPointerBase<Type> ptr);
 
 	Type*& GetPtrRef();
 
@@ -80,28 +116,28 @@ private:
 // inline methods
 
 template <class Type>
-inline void TPointer<Type>::Reset()
+inline void TPointerBase<Type>::Reset()
 {
 	m_ptr = NULL;
 }
 
 
 template <class Type>
-inline Type* TPointer<Type>::GetPtr() const
+inline Type* TPointerBase<Type>::GetPtr() const
 {
 	return m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::IsValid() const
+inline bool TPointerBase<Type>::IsValid() const
 {
 	return (m_ptr != NULL);
 }
 
 
 template <class Type>
-inline Type& TPointer<Type>::operator*() const
+inline Type& TPointerBase<Type>::operator*() const
 {
 	I_ASSERT(m_ptr != NULL);
 	
@@ -110,91 +146,91 @@ inline Type& TPointer<Type>::operator*() const
 
 
 template <class Type>
-inline Type* TPointer<Type>::operator->() const
+inline Type* TPointerBase<Type>::operator->() const
 {
 	return m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator==(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator==(const TPointerBase<Type>& ptr) const
 {
 	return (m_ptr == ptr.m_ptr);
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator!=(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator!=(const TPointerBase<Type>& ptr) const
 {
 	return (m_ptr != ptr.m_ptr);
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator<(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator<(const TPointerBase<Type>& ptr) const
 {
 	return m_ptr < ptr.m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator>(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator>(const TPointerBase<Type>& ptr) const
 {
 	return m_ptr > ptr.m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator<=(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator<=(const TPointerBase<Type>& ptr) const
 {
 	return m_ptr <= ptr.m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator>=(const TPointer<Type>& ptr) const
+inline bool TPointerBase<Type>::operator>=(const TPointerBase<Type>& ptr) const
 {
 	return m_ptr >= ptr.m_ptr;
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator==(const Type* ptr) const
+inline bool TPointerBase<Type>::operator==(const Type* ptr) const
 {
 	return (m_ptr == ptr);
 }
 
 
 template <class Type>
-inline bool TPointer<Type>::operator!=(const Type* ptr) const
+inline bool TPointerBase<Type>::operator!=(const Type* ptr) const
 {
 	return (m_ptr != ptr);
 }
 
 
 template <class Type>
-bool TPointer<Type>::operator<(const Type* ptr) const
+bool TPointerBase<Type>::operator<(const Type* ptr) const
 {
 	return (m_ptr < ptr);
 }
 
 
 template <class Type>
-bool TPointer<Type>::operator>(const Type* ptr) const
+bool TPointerBase<Type>::operator>(const Type* ptr) const
 {
 	return (m_ptr > ptr);
 }
 
 
 template <class Type>
-bool TPointer<Type>::operator<=(const Type* ptr) const
+bool TPointerBase<Type>::operator<=(const Type* ptr) const
 {
 	return (m_ptr <= ptr);
 }
 
 
 template <class Type>
-bool TPointer<Type>::operator>=(const Type* ptr) const
+bool TPointerBase<Type>::operator>=(const Type* ptr) const
 {
 	return (m_ptr >= ptr);
 }
@@ -203,21 +239,21 @@ bool TPointer<Type>::operator>=(const Type* ptr) const
 // protected inline methods
 
 template <class Type>
-inline TPointer<Type>::TPointer(Type* ptr)
+inline TPointerBase<Type>::TPointerBase(Type* ptr)
 {
 	m_ptr = ptr;
 }
 
 
 template <class Type>
-inline void TPointer<Type>::SetPtr(Type* ptr)
+inline void TPointerBase<Type>::SetPtr(Type* ptr)
 {
 	m_ptr = ptr;
 }
 
 
 template <class Type>
-inline TPointer<Type>& TPointer<Type>::operator=(const TPointer<Type> ptr)
+inline TPointerBase<Type>& TPointerBase<Type>::operator=(const TPointerBase<Type> ptr)
 {
 	m_ptr = ptr.m_ptr;
 	
@@ -226,7 +262,7 @@ inline TPointer<Type>& TPointer<Type>::operator=(const TPointer<Type> ptr)
 
 
 template <class Type>
-inline Type*& TPointer<Type>::GetPtrRef()
+inline Type*& TPointerBase<Type>::GetPtrRef()
 {
 	return m_ptr;
 }
@@ -235,6 +271,6 @@ inline Type*& TPointer<Type>::GetPtrRef()
 } // namespace istd
 
 
-#endif // !istd_TPointer_included
+#endif // !istd_TPointerBase_included
 
 

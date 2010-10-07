@@ -2,7 +2,8 @@
 #define ibase_CFileConvertOverProcessorComp_included
 
 
-// ACF includes
+#include "istd/TSmartPtr.h"
+
 #include "isys/ICriticalSection.h"
 
 #include "iser/IFileLoader.h"

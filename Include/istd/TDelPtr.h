@@ -2,7 +2,7 @@
 #define istd_TDelPtr_included
 
 
-#include "istd/TPointer.h"
+#include "istd/TPointerBase.h"
 
 
 namespace istd
@@ -14,11 +14,11 @@ namespace istd
 
 	\ingroup Main
 */
-template <class Type, bool DelArray = false>
-class TDelPtr: public TPointer<Type>
+template <class Type, class Accessor = DefaultAccessor<Type> >
+class TDelPtr: public TPointerBase<Type>
 {
 public:
-	typedef TPointer<Type> BaseClass;
+	typedef TPointerBase<Type> BaseClass;
 
 	/**
 		Construct and init this pointer.
@@ -105,36 +105,36 @@ protected:
 
 // inline methods
 
-template <class Type, bool DelArray>
-inline TDelPtr<Type, DelArray>::TDelPtr(Type* ptr)
+template <class Type, class Accessor>
+inline TDelPtr<Type, Accessor>::TDelPtr(Type* ptr)
 :	BaseClass(ptr)
 {
 }
 
 
-template <class Type, bool DelArray>
-inline TDelPtr<Type, DelArray>::TDelPtr(const TDelPtr<Type, DelArray>& I_IF_DEBUG(ptr))
+template <class Type, class Accessor>
+inline TDelPtr<Type, Accessor>::TDelPtr(const TDelPtr<Type, Accessor>& I_IF_DEBUG(ptr))
 {
 	I_ASSERT(ptr.GetPtr() == NULL);
 }
 
 
-template <class Type, bool DelArray>
-inline TDelPtr<Type, DelArray>::~TDelPtr()
+template <class Type, class Accessor>
+inline TDelPtr<Type, Accessor>::~TDelPtr()
 {
 	TDelPtr::Detach();
 }
 
 
-template <class Type, bool DelArray>
-inline void TDelPtr<Type, DelArray>::Reset()
+template <class Type, class Accessor>
+inline void TDelPtr<Type, Accessor>::Reset()
 {
 	SetPtr(NULL);
 }
 
 
-template <class Type, bool DelArray>
-inline void TDelPtr<Type, DelArray>::SetPtr(Type* ptr)
+template <class Type, class Accessor>
+inline void TDelPtr<Type, Accessor>::SetPtr(Type* ptr)
 {
 	Detach();
 
@@ -142,8 +142,8 @@ inline void TDelPtr<Type, DelArray>::SetPtr(Type* ptr)
 }
 
 
-template <class Type, bool DelArray>
-inline Type* TDelPtr<Type, DelArray>::PopPtr()
+template <class Type, class Accessor>
+inline Type* TDelPtr<Type, Accessor>::PopPtr()
 {
 	Type* slavePtr = BaseClass::GetPtr();
 	BaseClass::SetPtr(NULL);
@@ -152,8 +152,8 @@ inline Type* TDelPtr<Type, DelArray>::PopPtr()
 }
 
 
-template <class Type, bool DelArray>
-void TDelPtr<Type, DelArray>::TakeOver(TDelPtr& sourcePtr)
+template <class Type, class Accessor>
+void TDelPtr<Type, Accessor>::TakeOver(TDelPtr& sourcePtr)
 {
 	SetPtr(sourcePtr.PopPtr());
 }
@@ -161,8 +161,8 @@ void TDelPtr<Type, DelArray>::TakeOver(TDelPtr& sourcePtr)
 
 // public methods
 
-template <class Type, bool DelArray>
-TDelPtr<Type, DelArray>& TDelPtr<Type, DelArray>::operator=(const TDelPtr& I_IF_DEBUG(ptr))
+template <class Type, class Accessor>
+TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(const TDelPtr& I_IF_DEBUG(ptr))
 {
 	I_ASSERT(ptr.GetPtr() == NULL);
 
@@ -172,8 +172,8 @@ TDelPtr<Type, DelArray>& TDelPtr<Type, DelArray>::operator=(const TDelPtr& I_IF_
 }
 
 
-template <class Type, bool DelArray>
-TDelPtr<Type, DelArray>& TDelPtr<Type, DelArray>::operator=(Type* ptr)
+template <class Type, class Accessor>
+TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(Type* ptr)
 {
 	Detach();
 
@@ -185,20 +185,15 @@ TDelPtr<Type, DelArray>& TDelPtr<Type, DelArray>::operator=(Type* ptr)
 
 // protected methods
 
-template <class Type, bool DelArray>
-void TDelPtr<Type, DelArray>::Detach()
+template <class Type, class Accessor>
+void TDelPtr<Type, Accessor>::Detach()
 {
 	Type* ptr = BaseClass::GetPtr();
 	if (ptr == NULL){
 		return;
 	}
 
-	if (DelArray){
-		delete[] ptr;
-	}
-	else{
-		delete ptr;
-	}
+	Accessor::Delete(ptr);
 }
 
 
