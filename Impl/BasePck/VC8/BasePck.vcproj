@@ -6,6 +6,7 @@
 	ProjectGUID="{030936A8-23C4-45EE-8E3D-196FF4D405C6}"
 	RootNamespace="BasePck"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -87,9 +88,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -165,9 +163,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -218,3 +213,6 @@
 		/>
 	</Globals>
 </VisualStudioProject>
+
+
+

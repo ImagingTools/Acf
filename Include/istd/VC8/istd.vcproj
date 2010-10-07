@@ -5,6 +5,7 @@
 	Name="istd"
 	ProjectGUID="{126B67F7-B779-4A80-A651-1111D5EDF583}"
 	RootNamespace="istd"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -414,7 +415,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TPointer.h"
+				RelativePath="..\TPointerBase.h"
 				>
 			</File>
 			<File
@@ -462,5 +463,4 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-
 
