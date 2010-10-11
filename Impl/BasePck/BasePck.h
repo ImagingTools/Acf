@@ -44,6 +44,7 @@
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
 #include "iprm/CComposedParamsSetComp.h"
+#include "iprm/CVariableParamComp.h"
 #include "iprm/CFileNameParamComp.h"
 #include "iprm/CEnableableParamComp.h"
 #include "iprm/CLinearAdjustParamsComp.h"
@@ -94,6 +95,7 @@ typedef ibase::CFileConvertOverProcessorComp FileConvertOverProcessor;
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;
 typedef icomp::TModelCompWrap<iprm::CComposedParamsSetComp> ComposedParamsSet;
+typedef icomp::TModelCompWrap<iprm::CVariableParamComp> VariableParam;
 typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 typedef icomp::TModelCompWrap<iprm::CEnableableParamComp> EnableableParam;
 typedef icomp::TModelCompWrap<iprm::CLinearAdjustParamsComp> LinearAdjustParams;
