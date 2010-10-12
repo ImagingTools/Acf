@@ -110,7 +110,6 @@ bool CAnnulus::Serialize(iser::IArchive& archive)
 		istd::CChangeNotifier changePtr(this);
 
 		m_radiusRange = istd::CRange(innerRadius, outerRadius);
-	
 	}
 
 	return retVal;
