@@ -63,6 +63,68 @@ void CXmlDocumentInfoBase::DecodeXml(const std::string& xmlText, std::string& te
 }
 
 
+void CXmlDocumentInfoBase::EncodeXml(const std::wstring& text, std::string& xmlText)
+{
+	xmlText = "";
+
+	std::wstring::size_type textLength = int(text.size());
+	for (std::wstring::size_type i = 0; i < textLength; ++i){
+		wchar_t c = text[i];
+		WideCharToEntityMap::const_iterator iter = s_wideCharToEntityMap.find(c);
+		if (iter != s_wideCharToEntityMap.end()){
+			xmlText += iter->second;
+		}
+		else if ((c >= ' ') && (c <= '}')){
+			xmlText += c;
+		}
+		else{
+			xmlText += "&#" + istd::CString::FromNumber(I_WORD((unsigned short)c)).ToString() + ";";
+		}
+	}
+}
+
+
+void CXmlDocumentInfoBase::DecodeXml(const std::string& xmlText, std::wstring& text)
+{
+	text = L"";
+
+	std::wstring::size_type actPos = 0;
+
+	for (;;){
+		std::string::size_type ampPos = xmlText.find('&', actPos);
+		if (ampPos != std::string::npos){
+			istd::CString subString = xmlText.substr(actPos, ampPos - actPos);
+
+			text += subString;
+
+			std::string::size_type semicolonPos = xmlText.find(';', actPos);
+			if ((semicolonPos == std::string::npos) || (ampPos >= semicolonPos - 2)){
+				return;
+			}
+
+			if (xmlText[ampPos + 1] == '#'){
+				text += wchar_t(istd::CString(xmlText.substr(ampPos + 2, semicolonPos - ampPos - 2)).ToNumber<int>());
+			}
+			else{
+				EntityToWideChartMap::const_iterator entityIter = s_entityToWideChartMap.find(xmlText.substr(ampPos, semicolonPos - ampPos + 1));
+				if (entityIter != s_entityToWideChartMap.end()){
+					text += entityIter->second;
+				}
+			}
+
+			actPos = semicolonPos + 1;
+		}
+		else{
+			istd::CString subString = xmlText.substr(actPos);
+
+			text += subString;
+
+			return;
+		}
+	}
+}
+
+
 const istd::CString& CXmlDocumentInfoBase::GetElementSeparator()
 {
 	return s_elementSeparator;
@@ -89,10 +151,33 @@ CXmlDocumentInfoBase::EntityToChartMap::EntityToChartMap()
 }
 
 
+// public methods of embedded class WideCharToEntityMap
+
+CXmlDocumentInfoBase::WideCharToEntityMap::WideCharToEntityMap()
+{
+	operator[](L'<') = "&lt;";
+	operator[](L'>') = "&gt;";
+	operator[](L'&') = "&amp;";
+}
+
+
+// public methods of embedded class EntityToWideChartMap
+
+CXmlDocumentInfoBase::EntityToWideChartMap::EntityToWideChartMap()
+{
+	operator[]("&lt;") = L'<';
+	operator[]("&gt;") = L'>';
+	operator[]("&amp;") = L'&';
+}
+
+
 // static attributes
 
 CXmlDocumentInfoBase::CharToEntityMap CXmlDocumentInfoBase::s_charToEntityMap;
 CXmlDocumentInfoBase::EntityToChartMap CXmlDocumentInfoBase::s_entityToChartMap;
+CXmlDocumentInfoBase::WideCharToEntityMap CXmlDocumentInfoBase::s_wideCharToEntityMap;
+CXmlDocumentInfoBase::EntityToWideChartMap CXmlDocumentInfoBase::s_entityToWideChartMap;
+
 istd::CString CXmlDocumentInfoBase::s_elementSeparator("br");
 
 

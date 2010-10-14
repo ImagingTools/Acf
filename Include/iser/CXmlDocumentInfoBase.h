@@ -37,19 +37,33 @@ public:
 	// static methods
 	static void EncodeXml(const std::string& text, std::string& xmlText);
 	static void DecodeXml(const std::string& xmlText, std::string& text);
+	static void EncodeXml(const std::wstring& text, std::string& xmlText);
+	static void DecodeXml(const std::string& xmlText, std::wstring& text);
 	static const istd::CString& GetElementSeparator();
 
 protected:
-	class CharToEntityMap: public std::map< char, std::string >
+	class CharToEntityMap: public std::map<char, std::string>
 	{
 	public:
 		CharToEntityMap();
 	};
 
-	class EntityToChartMap: public std::map< std::string, char >
+	class EntityToChartMap: public std::map<std::string, char>
 	{
 	public:
 		EntityToChartMap();
+	};
+
+	class WideCharToEntityMap: public std::map<wchar_t, std::string >
+	{
+	public:
+		WideCharToEntityMap();
+	};
+
+	class EntityToWideChartMap: public std::map<std::string, wchar_t>
+	{
+	public:
+		EntityToWideChartMap();
 	};
 
 private:
@@ -57,6 +71,9 @@ private:
 
 	static CharToEntityMap s_charToEntityMap;
 	static EntityToChartMap s_entityToChartMap;
+	static WideCharToEntityMap s_wideCharToEntityMap;
+	static EntityToWideChartMap s_entityToWideChartMap;
+
 	static istd::CString s_elementSeparator;
 };
 

@@ -153,14 +153,35 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 
 bool CXmlReadArchiveBase::Process(istd::CString& value)
 {
-	std::string textValue;
-	if (Process(textValue)){
-		value = textValue;
+	std::string xmlText;
+
+	if (m_isSeparatorNeeded){
+		if (!ReadToDelimeter(">", xmlText)){
+			return false;
+		}
+
+		if (xmlText != GetElementSeparator().ToString()){
+			SendLogMessage(
+						istd::ILogger::MC_INFO,
+						MI_TAG_ERROR,
+						"Bad separator tag, should be ",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+	}
+	else{
+		m_isSeparatorNeeded = true;
+	}
+
+	if (ReadToDelimeter("<", xmlText, false)){
+		DecodeXml(xmlText, value);
 
 		return true;
 	}
+	else{
+		return false;
+	}
 
-	return false;
 }
 
 

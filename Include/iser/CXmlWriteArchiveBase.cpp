@@ -77,9 +77,26 @@ bool CXmlWriteArchiveBase::Process(std::string& value)
 
 bool CXmlWriteArchiveBase::Process(istd::CString& value)
 {
-	std::string str(value.ToString());
+	bool retVal = true;
 
-	return Process(str);
+	if (m_isSeparatorNeeded){
+		retVal = retVal && MakeIndent();
+		retVal = retVal && WriteString("<" + GetElementSeparator().ToString() + "/>\n");
+	}
+	else{
+		m_isSeparatorNeeded = true;
+	}
+
+	retVal = retVal && MakeIndent();
+
+	std::string xmlText;
+
+	EncodeXml(value, xmlText);
+
+	retVal = retVal && WriteString(xmlText) && WriteString("\n");
+
+	return retVal;
+
 }
 
 
