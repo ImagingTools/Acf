@@ -19,7 +19,7 @@ function TransformProject(fileSystem, shell, inputPath, outputPath, beQuiet, isT
     text = text.replace("Version=\"8,00\"", "Version=\"9,00\"");
 
     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
-    outputFile.writeLine(text);
+    outputFile.write(text);
 
 //    inputFile.close();
     
