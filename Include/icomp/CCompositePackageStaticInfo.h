@@ -19,10 +19,14 @@ namespace icomp
 class CCompositePackageStaticInfo: public CPackageStaticInfo
 {
 public:
+	typedef CPackageStaticInfo BaseClass;
+
 	CCompositePackageStaticInfo(
 				const std::string& packageId,
 				const Ids& componentIds,
 				const icomp::IComponentEnvironmentManager* managerPtr);
+
+	void Reset();
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual const InterfaceExtractors& GetInterfaceExtractors() const;

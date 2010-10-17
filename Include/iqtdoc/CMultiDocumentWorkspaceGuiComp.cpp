@@ -80,32 +80,6 @@ void CMultiDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 }
 
 
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
-{
-	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
-	// Window commands
-	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
-	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
-	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
-	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
-	m_workspaceModeCommand.SetVisuals(tr("&Workspace Mode"), tr("Workspace Mode"), tr("Switch workspace mode"));
-	m_subWindowCommand.SetVisuals(tr("&Multiple Documents"), tr("Multiple Documents"), tr("Show each window in own frame"));
-	m_tabbedCommand.SetVisuals(tr("&Tabbed Documents"), tr("Tabbed Documents"), tr("Show windows in tabbed frame"));
-}
-
-
-// reimplemented (icomp::IComponent)
-
-void CMultiDocumentWorkspaceGuiComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	SetDocumentTemplate(m_documentTemplateCompPtr.GetPtr());
-}
-
-
 // protected members
 
 void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
@@ -440,6 +414,30 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiDestroyed()
 	CloseAllDocuments();
 
 	BaseClass::OnGuiDestroyed();
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
+{
+	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
+	// Window commands
+	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));
+	m_tileHorizontallyCommand.SetVisuals(tr("Tile &Horizontaly"), tr("Horizontal"), tr("Lays out all document windows horizontaly"));
+	m_tileVerticallyCommand.SetVisuals(tr("Tile &Verticaly"), tr("Vertical"), tr("Lays out all document windows verticaly"));
+	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
+	m_workspaceModeCommand.SetVisuals(tr("&Workspace Mode"), tr("Workspace Mode"), tr("Switch workspace mode"));
+	m_subWindowCommand.SetVisuals(tr("&Multiple Documents"), tr("Multiple Documents"), tr("Show each window in own frame"));
+	m_tabbedCommand.SetVisuals(tr("&Tabbed Documents"), tr("Tabbed Documents"), tr("Show windows in tabbed frame"));
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CMultiDocumentWorkspaceGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	SetDocumentTemplate(m_documentTemplateCompPtr.GetPtr());
 }
 
 

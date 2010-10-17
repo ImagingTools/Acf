@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include <QFileInfo>
 
+#include "istd/TChangeNotifier.h"
+
 #include "iser/CXmlFileReadArchive.h"
 
 #include "icomp/export.h"
@@ -51,21 +53,36 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const istd::CSt
 
 bool CPackagesLoaderComp::ConfigureEnvironment(const istd::CString& configFilePath)
 {
-	bool retVal = true;
+	istd::CChangeNotifier notifier(this);
 
-	if (!configFilePath.IsEmpty()){
-		retVal = retVal && LoadConfigFile(configFilePath, true);
-	}
-	else{
-		if (!LoadConfigFile(iqt::GetCString("Default.xpc"), true)){
+	m_configFilePath = configFilePath;
+
+	if (m_configFilePath.IsEmpty() && m_configFilePathCompPtr.IsValid()){
+		istd::CString path = m_configFilePathCompPtr->GetPath();
+
+		if (!path.IsEmpty()){
 			QDir applicationDir = QCoreApplication::applicationDirPath();
-			if (!LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath("Default.xpc")), true)){
-				retVal = retVal && RegisterPackagesDir(iqt::GetCString(applicationDir.absolutePath()));
-			}
+
+			QString enrolledPath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path));
+
+			m_configFilePath = iqt::GetCString(applicationDir.absoluteFilePath(enrolledPath));
 		}
 	}
 
-	return retVal;
+	if (m_configFilePath.IsEmpty()){
+		m_configFilePath = "Default.xpc";
+	}
+
+	BaseClass2::Reset();
+
+	m_registriesMap.clear();
+	m_invRegistriesMap.clear();
+	m_usedFilesList.clear();
+	m_compositePackagesMap.clear();
+	m_normalPackagesMap.clear();
+	m_dllCacheMap.clear();
+
+	return LoadConfigFile(m_configFilePath);
 }
 
 
@@ -170,17 +187,7 @@ void CPackagesLoaderComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_configFilePathCompPtr.IsValid()){
-		istd::CString path = m_configFilePathCompPtr->GetPath();
-
-		if (!path.IsEmpty()){
-			QDir applicationDir = QCoreApplication::applicationDirPath();
-
-			QString enrolledPath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path));
-
-			LoadConfigFile(iqt::GetCString(applicationDir.absoluteFilePath(enrolledPath)), true);
-		}
-	}
+	ConfigureEnvironment();
 }
 
 
@@ -277,17 +284,13 @@ bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path)
 }
 
 
-bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile, bool isRoot)
+bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile)
 {
 	QFileInfo fileInfo(iqt::GetQString(configFile));
 
 	QDir baseDir = fileInfo.absoluteDir();
 
 	istd::CString configFilePath = GetCString(fileInfo.absoluteFilePath());
-
-	if (isRoot){
-		m_configFilePath = configFilePath;
-	}
 
 	iser::CXmlFileReadArchive archive(configFilePath);
 
@@ -314,7 +317,7 @@ bool CPackagesLoaderComp::LoadConfigFile(const istd::CString& configFile, bool i
 		retVal = retVal && archive.Process(filePath);
 		istd::CString correctedPath;
 		if (retVal && CheckAndMarkPath(baseDir, filePath, correctedPath)){
-			LoadConfigFile(correctedPath, false);
+			LoadConfigFile(correctedPath);
 		}
 
 		retVal = retVal && archive.EndTag(filePathTag);

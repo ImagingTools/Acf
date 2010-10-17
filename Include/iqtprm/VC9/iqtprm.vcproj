@@ -6,7 +6,6 @@
 	ProjectGUID="{B11EFB14-C129-4F69-8143-8127D45770BF}"
 	RootNamespace="iqtprm"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -339,3 +338,4 @@
 		/>
 	</Globals>
 </VisualStudioProject>
+

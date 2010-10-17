@@ -18,6 +18,8 @@ public:
 
 	const SubcomponentInfos& GetSubcomponentInfos() const;
 
+	void Reset();
+
 	// reimplemented (icomp::IComponentStaticInfo)
 	virtual int GetComponentType() const;
 	virtual IComponent* CreateComponent() const;

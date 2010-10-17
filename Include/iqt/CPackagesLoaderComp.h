@@ -40,6 +40,7 @@ class CPackagesLoaderComp:
 {
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef icomp::CEnvironmentManagerBase BaseClass2;
 
 	enum MessageId
 	{
@@ -94,7 +95,7 @@ protected:
 
 	virtual bool RegisterPackageFile(const istd::CString& file);
 	virtual bool RegisterPackagesDir(const istd::CString& subDir);
-	virtual bool LoadConfigFile(const istd::CString& configFile, bool isRoot);
+	virtual bool LoadConfigFile(const istd::CString& configFile);
 
 	CDllFunctionsProvider& GetProviderRef(const QFileInfo& fileInfo);
 

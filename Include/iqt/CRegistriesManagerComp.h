@@ -14,7 +14,7 @@
 
 #include "icomp/IRegistryLoader.h"
 #include "icomp/CRegistry.h"
-#include "icomp/CEnvironmentManagerBase.h"
+#include "icomp/IRegistriesManager.h"
 #include "icomp/CComponentBase.h"
 
 #include "ibase/TLoggerCompWrap.h"

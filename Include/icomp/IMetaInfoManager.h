@@ -2,7 +2,7 @@
 #define icomp_IPackagesManager_included
 
 
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 
 #include "icomp/IComponentStaticInfo.h"
 #include "icomp/CComponentAddress.h"
@@ -12,7 +12,7 @@ namespace icomp
 {
 
 
-class IMetaInfoManager: virtual public istd::IPolymorphic
+class IMetaInfoManager: virtual public istd::IChangeable
 {
 public:
 	enum ComponentTypeFlag

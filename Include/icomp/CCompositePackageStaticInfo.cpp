@@ -26,6 +26,19 @@ CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 }
 
 
+void CCompositePackageStaticInfo::Reset()
+{
+	BaseClass::Reset();
+
+	int infosCount = m_subcomponentInfos.GetLocalElementsCount();
+	for (int i = 0; i < infosCount; ++i){
+		ComponentInfo& info = m_subcomponentInfos.GetLocalValueAt(i);
+		info.componentInfoPtr.Reset();
+		info.isInitialized = false;
+	}
+}
+
+
 //	reimplemented (icomp::IComponentStaticInfo)
 
 const icomp::IComponentStaticInfo::InterfaceExtractors& CCompositePackageStaticInfo::GetInterfaceExtractors() const

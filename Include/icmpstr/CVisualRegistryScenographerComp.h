@@ -66,6 +66,7 @@ public:
 		I_ASSIGN(m_registryCodeSaverCompPtr, "RegistryCodeSaver", "Export registry to C++ code file", false, "RegistryCodeSaver");
 		I_ASSIGN(m_registryPreviewCompPtr, "RegistryPreview", "Executes preview of the registry", false, "RegistryPreview");
 		I_ASSIGN(m_envManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
+		I_ASSIGN(m_envManagerModelCompPtr, "MetaInfoManager", "Allows access to component meta information", false, "MetaInfoManager");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
 		I_ASSIGN(m_mainWindowCompPtr, "MainWindow", "Access to main window command", false, "MainWindow");
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and attributes", false, "ConsistencyInfo");
@@ -94,33 +95,25 @@ public:
 	// reimplemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
-protected:
-	void DoRetranslate();
-
-	// reimplemented (iqt2d::TScenographerCompBase)
-	virtual bool OnDropObject(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
-	virtual void UpdateScene(int updateFlags);
-
-protected slots:
-	void OnSelectionChanged();
-	void OnRemoveComponent();
-	void OnRenameComponent();
-	void OnExportToCode();
-	void OnExecute();
-	void OnAbort();
-	void OnAddNote();
-	void OnRemoveNote();
-	void OnExecutionTimerTick();
-
 protected:
 	enum GroupId
 	{
 		GI_COMPONENT = 0x5430,
 		GI_CODEGEN,
 		GI_PREVIEW
+	};
+
+	class EnvironmentObserver: public imod::TSingleModelObserverBase<icomp::IComponentEnvironmentManager>
+	{
+	public:
+		EnvironmentObserver(CVisualRegistryScenographerComp* parentPtr);
+
+	protected:
+		// reimplemented (imod::TSingleModelObserverBase)
+		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	private:
+		CVisualRegistryScenographerComp& m_parent;
 	};
 
 	/**
@@ -139,10 +132,32 @@ protected:
 	void ConnectReferences(const QString& componentRole);
 	void UpdateComponentSelection();
 
+	void DoRetranslate();
+
+	// reimplemented (iqt2d::TScenographerCompBase)
+	virtual bool OnDropObject(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
+	virtual void UpdateScene(int updateFlags);
+
+	// reimplemented (icomp::IComponent)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
+
+protected slots:
+	void OnSelectionChanged();
+	void OnRemoveComponent();
+	void OnRenameComponent();
+	void OnExportToCode();
+	void OnExecute();
+	void OnAbort();
+	void OnAddNote();
+	void OnRemoveNote();
+	void OnExecutionTimerTick();
+
 private:
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
 	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);
+	I_REF(imod::IModel, m_envManagerModelCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 	I_REF(idoc::IMainWindowCommands, m_mainWindowCompPtr);
 	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
@@ -163,6 +178,8 @@ private:
 	QFont m_elementDetailFont;
 
 	std::string m_selectedElementId;
+
+	EnvironmentObserver m_environmentObserver;
 };
 
 

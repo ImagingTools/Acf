@@ -13,9 +13,12 @@
 #include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CComponentAddress.h"
 
+#include "ibase/ICommandsProvider.h"
+
 #include "idoc/IHelpViewer.h"
 
 #include "iqtgui/TDesignerGuiCompBase.h"
+#include "iqtgui/CHierarchicalCommand.h"
 
 #include "icmpstr/IRegistryConsistInfo.h"
 #include "icmpstr/IAttributeSelectionObserver.h"
@@ -29,7 +32,8 @@ namespace icmpstr
 
 class CPackageOverviewComp:
 			public iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp>,
-			public IAttributeSelectionObserver
+			virtual public ibase::ICommandsProvider,
+			virtual public IAttributeSelectionObserver
 {
     Q_OBJECT
 
@@ -37,18 +41,18 @@ public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
 	
 	I_BEGIN_COMPONENT(CPackageOverviewComp);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver);
 		I_ASSIGN(m_envManagerCompPtr, "EnvironmentManager", "Packages manager used to provide icon paths", true, "PackagesManager");
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and access to buffred icons", false, "ConsistencyInfo");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
 	I_END_COMPONENT;
 
-	enum
-	{
-		ComponentStaticInfo = Qt::UserRole
-	};
+	CPackageOverviewComp();
 
-public:
+	// reimplemented (ibase::ICommandsProvider)
+	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+
 	// reimplemented (IAttributeSelectionObserver)
 	virtual void OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr);
 
@@ -83,8 +87,9 @@ protected:
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
-	// reimplemented (CGuiComponentBase)
+	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnRetranslate();
 
 protected slots:
 	void on_FilterEdit_editingFinished();
@@ -94,8 +99,9 @@ protected slots:
 	void on_PackagesList_itemClicked(QTreeWidgetItem* item, int column);
 	void on_FilterGB_toggled(bool on);
 	void on_InterfaceCB_currentIndexChanged(int index);
-private:
+	void OnReloadPackages();
 
+private:
 	class PackageItemBase: public QTreeWidgetItem
 	{
 	public:
@@ -150,6 +156,10 @@ private:
 	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);
 	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
+
+	iqtgui::CHierarchicalCommand m_commands;
+	iqtgui::CHierarchicalCommand m_packagesCommand;
+	iqtgui::CHierarchicalCommand m_reloadCommand;
 
 	typedef std::map<std::string, RootInfo> RootInfos;
 	RootInfos m_roots;

@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 #include "istd/CString.h"
 
 #include "icomp/icomp.h"
@@ -18,7 +18,7 @@ class IRegistry;
 class CComponentAddress;
 
 
-class IRegistriesManager: virtual public istd::IPolymorphic
+class IRegistriesManager: virtual public istd::IChangeable
 {
 public:
 	/**

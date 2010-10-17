@@ -40,7 +40,8 @@ public:
 		I_ASSIGN(m_workspaceCommandsCompPtr, "Workspace", "Document workspace", false, "Workspace");
 		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if 'About' action is triggered", false, "AboutGui");
 		I_ASSIGN(m_settingsGuiCompPtr, "SettingsGui", "Gui displayed if 'Settings' action is triggered", false, "SettingsGui");
-		I_ASSIGN_MULTI_0(m_mainWindowComponentsPtr, "MainWindowComponents", "Additional GUI components", false);
+		I_ASSIGN_MULTI_0(m_mainWindowComponentsCompPtr, "MainWindowComponents", "Additional GUI components", false);
+		I_ASSIGN_MULTI_0(m_mainWindowCommandsCompPtr, "MainWindowComponents", "Additional GUI components", false);
 		I_ASSIGN(m_isNestingEnabledAttrPtr, "IsNestingEnabled", "If true, docking nesting is enabled,\nmore than one docking widget is allowed on the same size", true, false);
 		I_ASSIGN(m_isMenuVisibleAttrPtr, "IsMenuVisible", "If true, menu bar will be visible", true, true);
 		I_ASSIGN(m_isToolbarVisibleAttrPtr, "IsToolbarVisible", "If true, tool bar will be visible", true, true);
@@ -60,7 +61,6 @@ public:
 
 protected:
 	virtual void UpdateMenuActions();
-	virtual void UpdateFixedCommands();
 
 	virtual void SetupMainWindowComponents(QMainWindow& mainWindow);
 
@@ -100,7 +100,8 @@ protected Q_SLOTS:
 private:
 	I_REF(iqtgui::IGuiObject, m_workspaceCompPtr);
 	I_REF(ibase::ICommandsProvider, m_workspaceCommandsCompPtr);
-	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsPtr);
+	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsCompPtr);
+	I_MULTIREF(ibase::ICommandsProvider, m_mainWindowCommandsCompPtr);
 	I_REF(iqtgui::IGuiObject, m_aboutGuiCompPtr);
 	I_REF(iqtgui::IDialog, m_settingsGuiCompPtr);
 	I_ATTR(bool, m_isNestingEnabledAttrPtr);

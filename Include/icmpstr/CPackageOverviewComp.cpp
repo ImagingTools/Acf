@@ -210,6 +210,23 @@ private:
 };
 
 
+CPackageOverviewComp::CPackageOverviewComp()
+:	m_packagesCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
+	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU)
+{
+	connect(&m_reloadCommand, SIGNAL(activated()), this, SLOT(OnReloadPackages()));
+	m_packagesCommand.InsertChild(&m_reloadCommand);
+	m_commands.InsertChild(&m_packagesCommand);
+}
+
+// reimplemented (ibase::ICommandsProvider)
+
+const ibase::IHierarchicalCommand* CPackageOverviewComp::GetCommands() const
+{
+	return &m_commands;
+}
+
+
 // reimplemented (IAttributeSelectionObserver)
 
 void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo* attributeStaticInfoPtr)
@@ -560,6 +577,14 @@ void CPackageOverviewComp::on_InterfaceCB_currentIndexChanged(int index)
 }
 
 
+void CPackageOverviewComp::OnReloadPackages()
+{
+	m_envManagerCompPtr->ConfigureEnvironment();
+
+	UpdateComponentsView();
+}
+
+
 // protected methods
 
 QPixmap CPackageOverviewComp::CreateComponentDragPixmap(const icomp::CComponentAddress &address) const
@@ -771,6 +796,14 @@ void CPackageOverviewComp::OnGuiCreated()
 	UpdateComponentGroups();
 
 	UpdateComponentsView();
+
+	OnRetranslate();
+}
+
+void CPackageOverviewComp::OnRetranslate()
+{
+	m_packagesCommand.SetVisuals(tr("&Packages"), tr("Packages"), tr("Menu for packages"));
+	m_reloadCommand.SetVisuals(tr("&Reload All Packages"), tr("Reload"), tr("Reloads all packages form configuration file"), QIcon(":/Icons/Reload.svg"));
 }
 
 

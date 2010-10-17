@@ -77,12 +77,6 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 }
 
 
-void CSimpleMainWindowGuiComp::UpdateFixedCommands()
-{
-	UpdateFixedCommands(m_fixedCommands);
-}
-
-
 void CSimpleMainWindowGuiComp::SetupMainWindowComponents(QMainWindow& mainWindow)
 {
 	if (m_standardToolBarPtr.IsValid()){
@@ -289,6 +283,17 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& m
 			menuCommands.JoinLinkFrom(commandsPtr);
 		}
 	}
+
+	int mainWindowsCommandsCount = m_mainWindowCommandsCompPtr.GetCount();
+	for (int mainCommIndex = 0; mainCommIndex < mainWindowsCommandsCount; ++mainCommIndex){
+		const ibase::ICommandsProvider* providerPtr = m_mainWindowCommandsCompPtr[mainCommIndex];
+		if (providerPtr != NULL){
+			const ibase::IHierarchicalCommand* commandsPtr = providerPtr->GetCommands();
+			if (commandsPtr != NULL){
+				menuCommands.JoinLinkFrom(commandsPtr);
+			}
+		}
+	}
 }
 
 
@@ -366,8 +371,8 @@ void CSimpleMainWindowGuiComp::OnGuiCreated()
 
 	SetupMainWindowComponents(*mainWindowPtr);
 
-	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsPtr.GetCount(); componentIndex++){
-		iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
+	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsCompPtr.GetCount(); componentIndex++){
+		iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsCompPtr[componentIndex];
 		if (mainWindowComponentPtr != NULL){
 			AddMainComponent(mainWindowComponentPtr);
 		}
@@ -381,8 +386,8 @@ void CSimpleMainWindowGuiComp::OnGuiDestroyed()
 		m_workspaceCompPtr->DestroyGui();
 	}
 
-	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsPtr.GetCount(); componentIndex++){
-		iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsPtr[componentIndex];
+	for (int componentIndex = 0; componentIndex < m_mainWindowComponentsCompPtr.GetCount(); componentIndex++){
+		iqtgui::IMainWindowComponent* mainWindowComponentPtr =  m_mainWindowComponentsCompPtr[componentIndex];
 		if (mainWindowComponentPtr != NULL){
 			RemoveMainComponent(mainWindowComponentPtr);
 		}

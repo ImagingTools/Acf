@@ -5,6 +5,12 @@ namespace icomp
 {
 
 
+void CComponentStaticInfoBase::Reset()
+{
+	m_subcomponentInfos.ResetLocal();
+}
+
+
 // reimplemented (icomp::IComponentStaticInfo)
 
 int CComponentStaticInfoBase::GetComponentType() const

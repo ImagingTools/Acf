@@ -42,7 +42,7 @@ typedef icomp::TMakeComponentWrap<
 typedef icmpstr::CRegistryConsistInfoComp RegistryConsistInfo;
 typedef icmpstr::CRegistryPropEditorComp RegistryPropEditor;
 typedef icmpstr::CQuickHelpViewerComp QuickHelpViewer;
-typedef icmpstr::CPackagesLoaderExtComp PackagesLoaderExt;
+typedef icomp::TModelCompWrap<icmpstr::CPackagesLoaderExtComp> PackagesLoaderExt;
 
 
 } // namespace CmpstrPck
