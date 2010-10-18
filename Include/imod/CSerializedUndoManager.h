@@ -28,7 +28,7 @@ public:
 		Default constructor with optional model pointer to set managed model.
 		You can also use standard connection to observed model.
 	*/
-	CSerializedUndoManager(imod::IModel* persistentModelPtr = NULL);
+	CSerializedUndoManager();
 
 	// reimplemented (imod::IUndoManager)
 	virtual bool IsUndoAvailable() const;

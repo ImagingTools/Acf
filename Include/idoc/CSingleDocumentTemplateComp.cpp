@@ -1,6 +1,13 @@
 #include "idoc/CSingleDocumentTemplateComp.h"
 
 
+#include "istd/TDelPtr.h"
+
+#include "imod/IModel.h"
+#include "imod/CSerializedUndoManager.h"
+#include "imod/TModelWrap.h"
+
+
 namespace idoc
 {		
 
@@ -35,7 +42,7 @@ istd::IPolymorphic* CSingleDocumentTemplateComp::CreateView(
 {
 	I_ASSERT(documentPtr != NULL);
 
-	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(documentPtr);
+	imod::IModel* modelPtr = CompCastPtr<imod::IModel>(documentPtr);
 
 	if (		(modelPtr != NULL) &&
 				m_viewCompFact.IsValid() &&
@@ -52,6 +59,24 @@ istd::IPolymorphic* CSingleDocumentTemplateComp::CreateView(
 			componentPtr.PopPtr();
 
 			return viewPtr;
+		}
+	}
+
+	return NULL;
+}
+
+
+imod::IUndoManager* CSingleDocumentTemplateComp::CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const
+{
+	if (IsDocumentTypeSupported(documentTypeId)){
+		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(documentPtr);
+		imod::IModel* modelPtr = CompCastPtr<imod::IModel>(documentPtr);
+		if ((serializablePtr != NULL) && (modelPtr != NULL)){
+			istd::TDelPtr<imod::TModelWrap<imod::CSerializedUndoManager> > undoManagerModelPtr(new imod::TModelWrap<imod::CSerializedUndoManager>);
+			if (		undoManagerModelPtr.IsValid() &&
+						modelPtr->AttachObserver(undoManagerModelPtr.GetPtr())){
+				return undoManagerModelPtr.PopPtr();
+			}
 		}
 	}
 

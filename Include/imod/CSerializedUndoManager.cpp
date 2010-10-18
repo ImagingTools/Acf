@@ -10,12 +10,9 @@ namespace imod
 {
 
 
-CSerializedUndoManager::CSerializedUndoManager(imod::IModel* persistentModelPtr)
+CSerializedUndoManager::CSerializedUndoManager()
 :	m_updateNestingCount(0)
 {
-	if (persistentModelPtr != NULL){
-		persistentModelPtr->AttachObserver(this);
-	}
 }
 
 

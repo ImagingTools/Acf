@@ -161,7 +161,7 @@ void CSingleDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewP
 
 	istd::CChangeNotifier changePtr(this, CF_VIEW_ACTIVATION_CHANGED);
 
-	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
+	iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewPtr);
 	QWidget* widgetPtr = GetQtWidget();
 	if ((guiObjectPtr != NULL) && (widgetPtr != NULL)){
 		if (m_lastViewPtr != NULL){

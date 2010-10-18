@@ -33,7 +33,6 @@ public:
 	virtual Ids GetDocumentTypeIds() const;
 	virtual Ids GetViewTypeIds(const std::string& documentTypeId) const;
 	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
-	imod::IUndoManager* CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const;
 	virtual IDocumentStateComparator* CreateStateComparator(const std::string& documentTypeId) const;
 	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
 

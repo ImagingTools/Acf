@@ -9,6 +9,8 @@
 #include "imod/IModel.h"
 #include "imod/IModelEditor.h"
 
+#include "icomp/CComponentBase.h"
+
 #include "idoc/IDocumentTemplate.h"
 
 
@@ -188,7 +190,7 @@ bool CSingleDocumentManagerBase::FileSave(
 		}
 	}
 
-	const imod::IModelEditor* editorPtr = dynamic_cast<const imod::IModelEditor*>(m_viewPtr.GetPtr());
+	const imod::IModelEditor* editorPtr = CompCastPtr<imod::IModelEditor>(m_viewPtr.GetPtr());
 	if ((editorPtr != NULL) && (!editorPtr->IsReadOnly())){
 		editorPtr->UpdateModel();
 	}
@@ -362,7 +364,7 @@ bool CSingleDocumentManagerBase::NewDocument(
 			m_undoManagerPtr.SetPtr(documentTemplatePtr->CreateUndoManager(documentTypeId, m_documentPtr.GetPtr()));
 			m_stateComparatorPtr.SetPtr(documentTemplatePtr->CreateStateComparator(documentTypeId));
 
-			imod::IModel* documentModelPtr = dynamic_cast<imod::IModel*>(m_documentPtr.GetPtr());
+			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(m_documentPtr.GetPtr());
 			if (documentModelPtr != NULL){
 				documentModelPtr->AttachObserver(this);
 			}

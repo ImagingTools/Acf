@@ -40,6 +40,7 @@ public:
 				const std::string& documentTypeId,
 				istd::IChangeable* documentPtr,
 				const std::string& viewTypeId = std::string()) const;
+	imod::IUndoManager* CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const;
 
 protected:
 	/**

@@ -116,7 +116,7 @@ void CMultiDocumentWorkspaceGuiComp::UpdateAllTitles()
 			const ViewPtr& viewPtr = *viewIter;
 			I_ASSERT(viewPtr.IsValid());
 
-			const iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<const iqtgui::IGuiObject*>(viewPtr.GetPtr());
+			const iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewPtr.GetPtr());
 			if (guiObjectPtr != NULL){
 				QWidget* widgetPtr = guiObjectPtr->GetWidget();
 				I_ASSERT(widgetPtr != NULL);
@@ -137,7 +137,7 @@ iqtgui::IGuiObject* CMultiDocumentWorkspaceGuiComp::GetViewFromWidget(const QWid
 		for (		Views::const_iterator viewIter = info.views.begin();
 					viewIter != info.views.end();
 					++viewIter){
-			iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewIter->GetPtr());
+			iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewIter->GetPtr());
 			if (guiObjectPtr != NULL){
 				if (guiObjectPtr->GetWidget() == &widget){
 					return guiObjectPtr;
@@ -308,7 +308,7 @@ istd::CString CMultiDocumentWorkspaceGuiComp::GetSaveFilePath(const std::string&
 
 void CMultiDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewPtr)
 {
-	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
+	iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewPtr);
 	QMdiArea* workspacePtr = GetQtWidget();
 	if ((guiObjectPtr != NULL) && (workspacePtr != NULL)){
 		if (guiObjectPtr->CreateGui(workspacePtr)){
@@ -347,7 +347,7 @@ void CMultiDocumentWorkspaceGuiComp::OnViewRemoved(istd::IPolymorphic* viewPtr)
 
 	OnViewsCountChanged();
 
-	iqtgui::IGuiObject* guiObjectPtr = dynamic_cast<iqtgui::IGuiObject*>(viewPtr);
+	iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewPtr);
 	if (guiObjectPtr != NULL){
 		guiObjectPtr->DestroyGui();
 	}

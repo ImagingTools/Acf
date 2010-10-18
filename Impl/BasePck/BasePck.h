@@ -2,6 +2,10 @@
 #define BasePck_included
 
 
+#include "imod/IUndoManager.h"
+#include "imod/IObserver.h"
+#include "imod/CSerializedUndoManager.h"
+
 #include "iser/CXmlFileReadArchive.h"
 #include "iser/CXmlFileWriteArchive.h"
 #include "iser/CFileReadArchive.h"
@@ -71,6 +75,10 @@ namespace BasePck
 {
 
 
+typedef icomp::TMakeComponentWrap<
+			imod::CSerializedUndoManager,
+			imod::IUndoManager,
+			imod::IObserver> SerializedUndoManager;
 typedef ibase::CFileTypeInfoComp FileTypeInfo;
 typedef ibase::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
 typedef ibase::TFileSerializerComp<iser::CFileReadArchive, iser::CFileWriteArchive> BinaryFileSerializer;

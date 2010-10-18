@@ -4,14 +4,9 @@
 // STL includes
 #include <algorithm>
 
-#include "istd/TDelPtr.h"
 #include "istd/CStaticServicesProvider.h"
 
 #include "iser/ISerializable.h"
-
-#include "imod/IModel.h"
-#include "imod/CSerializedUndoManager.h"
-#include "imod/TModelWrap.h"
 
 #include "isys/IFileSystem.h"
 
@@ -90,24 +85,6 @@ IDocumentTemplate::Ids CSingleDocumentTemplateBase::GetDocumentTypeIdsForFile(co
 	}
 
 	return retVal;
-}
-
-
-imod::IUndoManager* CSingleDocumentTemplateBase::CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const
-{
-	if (IsDocumentTypeSupported(documentTypeId)){
-		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(documentPtr);
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(documentPtr);
-		if ((serializablePtr != NULL) && (modelPtr != NULL)){
-			istd::TDelPtr<imod::TModelWrap<imod::CSerializedUndoManager> > undoManagerModelPtr(new imod::TModelWrap<imod::CSerializedUndoManager>);
-			if (		undoManagerModelPtr.IsValid() &&
-						modelPtr->AttachObserver(undoManagerModelPtr.GetPtr())){
-				return undoManagerModelPtr.PopPtr();
-			}
-		}
-	}
-
-	return NULL;
 }
 
 

@@ -9,6 +9,8 @@
 #include "imod/IModel.h"
 #include "imod/IModelEditor.h"
 
+#include "icomp/CComponentBase.h"
+
 #include "idoc/IDocumentTemplate.h"
 
 
@@ -222,7 +224,7 @@ bool CMultiDocumentManagerBase::FileSave(
 	for (		Views::const_iterator iter = infoPtr->views.begin();
 				iter != infoPtr->views.end();
 				++iter){
-		const imod::IModelEditor* editorPtr = dynamic_cast<const imod::IModelEditor*>(iter->GetPtr());
+		const imod::IModelEditor* editorPtr = CompCastPtr<imod::IModelEditor>(iter->GetPtr());
 		if ((editorPtr != NULL) && (!editorPtr->IsReadOnly())){
 			editorPtr->UpdateModel();
 		}
@@ -450,7 +452,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 					documentTemplatePtr->CreateStateComparator(documentTypeId)));
 
 		if (infoPtr->documentPtr.IsValid()){
-			imod::IModel* documentModelPtr = dynamic_cast<imod::IModel*>(documentPtr);
+			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(documentPtr);
 			if (documentModelPtr != NULL){
 				documentModelPtr->AttachObserver(infoPtr.GetPtr());
 			}
