@@ -245,7 +245,7 @@ bool CRegistryConsistInfoComp::IsAttributeValid(
 									reasonConsumerPtr->AddMessage(new ibase::CMessage(
 												istd::ILogger::MC_ERROR,
 												MI_REF_NOT_RESOLVED,
-												iqt::GetCString(QObject::tr("Reference of factory %1 in %2 is undefined and it is obligatory")
+												iqt::GetCString(QObject::tr("Reference or factory %1 in %2 is undefined and it is obligatory")
 															.arg(attributeName.c_str())
 															.arg(elementName.c_str())),
 												iqt::GetCString(QObject::tr("Attribute Consistency Check")),
@@ -261,7 +261,7 @@ bool CRegistryConsistInfoComp::IsAttributeValid(
 								reasonConsumerPtr->AddMessage(new ibase::CMessage(
 											istd::ILogger::MC_ERROR,
 											MI_REF_NOT_RESOLVED,
-											iqt::GetCString(QObject::tr("Reference of factory %1 in %2 is undefined and it is obligatory")
+											iqt::GetCString(QObject::tr("Reference or factory %1 in %2 is undefined and it is obligatory")
 														.arg(attributeName.c_str())
 														.arg(elementName.c_str())),
 											iqt::GetCString(QObject::tr("Attribute Consistency Check")),
@@ -464,7 +464,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 						reasonConsumerPtr->AddMessage(new ibase::CMessage(
 									istd::ILogger::MC_ERROR,
 									MI_COMPONENT_NOT_FOUND,
-									iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' point at '%3', but subelement '%4' doesn't exist")
+									iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but subelement '%4' doesn't exist")
 												.arg(attributeName.c_str())
 												.arg(elementName.c_str())
 												.arg(pointedElementName.c_str())
@@ -482,7 +482,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 						reasonConsumerPtr->AddMessage(new ibase::CMessage(
 									istd::ILogger::MC_ERROR,
 									MI_COMPONENT_NOT_FOUND,
-									iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' point at '%3', but exported element '%4' is not compatible")
+									iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but exported element '%4' is not compatible")
 												.arg(attributeName.c_str())
 												.arg(elementName.c_str())
 												.arg(pointedElementName.c_str())
@@ -499,7 +499,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 					reasonConsumerPtr->AddMessage(new ibase::CMessage(
 								istd::ILogger::MC_WARNING,
 								MI_COMPOSITE_FOUND,
-								iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
+								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
 											.arg(attributeName.c_str())
 											.arg(elementName.c_str())
 											.arg(pointedElementName.c_str())
@@ -516,7 +516,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 				reasonConsumerPtr->AddMessage(new ibase::CMessage(
 							istd::ILogger::MC_ERROR,
 							MI_COMPONENT_NOT_FOUND,
-							iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' contains '%3', but element '%4' doesn't exist")
+							iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' contains '%3', but element '%4' doesn't exist")
 										.arg(attributeName.c_str())
 										.arg(elementName.c_str())
 										.arg(pointedElementName.c_str())
@@ -544,7 +544,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 						reasonConsumerPtr->AddMessage(new ibase::CMessage(
 									istd::ILogger::MC_ERROR,
 									MI_WRONG_INTERFACE,
-									iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' point at '%3', but it doesn't implement interface %4")
+									iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but it doesn't implement interface %4")
 												.arg(attributeName.c_str())
 												.arg(elementName.c_str())
 												.arg(pointedElementName.c_str())
@@ -561,7 +561,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 					reasonConsumerPtr->AddMessage(new ibase::CMessage(
 								istd::ILogger::MC_WARNING,
 								MI_COMPOSITE_FOUND,
-								iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
+								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
 											.arg(attributeName.c_str())
 											.arg(elementName.c_str())
 											.arg(pointedElementName.c_str())
@@ -578,7 +578,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 				reasonConsumerPtr->AddMessage(new ibase::CMessage(
 							istd::ILogger::MC_ERROR,
 							MI_COMPONENT_NOT_FOUND,
-							iqt::GetCString(QObject::tr("Reference of factory '%1' in '%2' contains '%3', but this element doesn't exist")
+							iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' contains '%3', but this element doesn't exist")
 										.arg(attributeName.c_str())
 										.arg(elementName.c_str())
 										.arg(pointedElementName.c_str())),

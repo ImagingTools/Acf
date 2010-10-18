@@ -39,6 +39,75 @@ void CRegistryPropEditorComp::UpdateModel() const
 }
 
 
+// protected methods
+
+void CRegistryPropEditorComp::CreateOverview()
+{
+	// reset view:
+	OverviewTree->clear();
+
+	// setup colors:
+	QFont boldFont = qApp->font();
+	boldFont.setBold(true);
+
+
+	// create overview infos:
+	icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (registryPtr != NULL){
+		const icomp::IRegistry::ExportedInterfacesMap& exportedInterfaces = registryPtr->GetExportedInterfacesMap();
+		if (!exportedInterfaces.empty()){
+			QTreeWidgetItem* exportedInterfacesItemPtr = new QTreeWidgetItem();
+			exportedInterfacesItemPtr->setText(0, tr("Exported Interfaces"));
+			exportedInterfacesItemPtr->setFont(0, boldFont);
+			
+			OverviewTree->addTopLevelItem(exportedInterfacesItemPtr);
+
+			for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator index = exportedInterfaces.begin();
+						index != exportedInterfaces.end();
+						index++){
+				QTreeWidgetItem* exportedInterfaceItemPtr = new QTreeWidgetItem();
+				exportedInterfaceItemPtr->setText(0, QString(index->second.c_str()));
+				exportedInterfaceItemPtr->setText(1, QString(index->first.GetName().c_str()));
+				exportedInterfacesItemPtr->addChild(exportedInterfaceItemPtr);		
+			}
+
+			exportedInterfacesItemPtr->setExpanded(true);
+		}
+
+		const icomp::IRegistry::ExportedComponentsMap& exportedComponents = registryPtr->GetExportedComponentsMap();
+		if (!exportedComponents.empty()){
+			QTreeWidgetItem* exportedComponentsItemPtr = new QTreeWidgetItem();
+			exportedComponentsItemPtr->setText(0, tr("Exported Components"));
+			exportedComponentsItemPtr->setFont(0, boldFont);
+
+			OverviewTree->addTopLevelItem(exportedComponentsItemPtr);
+
+			for (		icomp::IRegistry::ExportedComponentsMap::const_iterator index = exportedComponents.begin();
+						index != exportedComponents.end();
+						index++){
+				QTreeWidgetItem* exportedComponentItemPtr = new QTreeWidgetItem();
+				exportedComponentItemPtr->setText(0, QString(index->second.c_str()));
+				exportedComponentItemPtr->setText(1, QString(index->first.c_str()));
+				exportedComponentsItemPtr->addChild(exportedComponentItemPtr);		
+			}
+
+			exportedComponentsItemPtr->setExpanded(true);
+		}
+
+		if (m_consistInfoCompPtr.IsValid()){
+			TextLog textLog;
+			if (!m_consistInfoCompPtr->IsRegistryValid(*registryPtr, false, true, &textLog)){
+				ErrorsLabel->setText(iqt::GetQString(textLog));
+				ErrorsFrame->setVisible(true);
+			}
+			else{
+				ErrorsFrame->setVisible(false);
+			}
+		}
+	}
+}
+
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CRegistryPropEditorComp::OnGuiCreated()
@@ -120,60 +189,27 @@ void CRegistryPropEditorComp::OnCategoriesChanged(const QStringList& /*categorie
 
 
 
-// private methods
+// public methods of embedded class TextLog
 
-void CRegistryPropEditorComp::CreateOverview()
+// reimplemented (ibase::IMessageConsumer)
+
+bool CRegistryPropEditorComp::TextLog::IsMessageSupported(
+			int /*messageCategory*/,
+			int /*messageId*/,
+			const ibase::IMessage* /*messagePtr*/) const
 {
-	// reset view:
-	OverviewTree->clear();
-
-	// setup colors:
-	QFont boldFont = qApp->font();
-	boldFont.setBold(true);
+	return true;
+}
 
 
-	// create overview infos:
-	icomp::IRegistry* registryPtr = GetObjectPtr();
-	if (registryPtr != NULL){
-		const icomp::IRegistry::ExportedInterfacesMap& exportedInterfaces = registryPtr->GetExportedInterfacesMap();
-		if (!exportedInterfaces.empty()){
-			QTreeWidgetItem* exportedInterfacesItemPtr = new QTreeWidgetItem();
-			exportedInterfacesItemPtr->setText(0, tr("Exported Interfaces"));
-			exportedInterfacesItemPtr->setFont(0, boldFont);
-			
-			OverviewTree->addTopLevelItem(exportedInterfacesItemPtr);
-
-			for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator index = exportedInterfaces.begin();
-						index != exportedInterfaces.end();
-						index++){
-				QTreeWidgetItem* exportedInterfaceItemPtr = new QTreeWidgetItem();
-				exportedInterfaceItemPtr->setText(0, QString(index->second.c_str()));
-				exportedInterfaceItemPtr->setText(1, QString(index->first.GetName().c_str()));
-				exportedInterfacesItemPtr->addChild(exportedInterfaceItemPtr);		
-			}
-
-			exportedInterfacesItemPtr->setExpanded(true);
+void CRegistryPropEditorComp::TextLog::AddMessage(const MessagePtr& messagePtr)
+{
+	if (messagePtr.IsValid()){
+		if (!IsEmpty()){
+			operator+=("\n");
 		}
 
-		const icomp::IRegistry::ExportedComponentsMap& exportedComponents = registryPtr->GetExportedComponentsMap();
-		if (!exportedComponents.empty()){
-			QTreeWidgetItem* exportedComponentsItemPtr = new QTreeWidgetItem();
-			exportedComponentsItemPtr->setText(0, tr("Exported Components"));
-			exportedComponentsItemPtr->setFont(0, boldFont);
-
-			OverviewTree->addTopLevelItem(exportedComponentsItemPtr);
-
-			for (		icomp::IRegistry::ExportedComponentsMap::const_iterator index = exportedComponents.begin();
-						index != exportedComponents.end();
-						index++){
-				QTreeWidgetItem* exportedComponentItemPtr = new QTreeWidgetItem();
-				exportedComponentItemPtr->setText(0, QString(index->second.c_str()));
-				exportedComponentItemPtr->setText(1, QString(index->first.c_str()));
-				exportedComponentsItemPtr->addChild(exportedComponentItemPtr);		
-			}
-
-			exportedComponentsItemPtr->setExpanded(true);
-		}
+		operator+=(messagePtr->GetText());
 	}
 }
 

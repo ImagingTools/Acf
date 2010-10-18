@@ -492,9 +492,9 @@ void CMainWindowGuiComp::OnRetranslate()
 	// File commands
 	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), QIcon(":/Icons/New"));
 	m_newCommand.setShortcut(tr("Ctrl+N"));
-	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), QIcon(":/Icons/Open"));
+	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), QIcon(":/Icons/Open.svg"));
 	m_openCommand.setShortcut(tr("Ctrl+O"));
-	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), QIcon(":/Icons/Save"));
+	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), QIcon(":/Icons/Save.svg"));
 	m_saveCommand.setShortcut(tr("Ctrl+S"));
 	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
 	m_printCommand.setShortcut(tr("Ctrl+P"));

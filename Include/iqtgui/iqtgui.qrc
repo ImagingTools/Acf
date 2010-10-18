@@ -12,8 +12,8 @@
     <file alias="AcfLogo.svg">../../Docs/Images/Logo/AcfLogo.svg</file>
     <file alias="AcfLogo3d.svg">../../Docs/Images/Logo/AcfLogo3d.svg</file>
     <file alias="New">Resources/Icons/document_128.png</file>
-    <file alias="Open">Resources/Icons/folder_128.png</file>
-    <file alias="Save">Resources/Icons/diskette_128.png</file>
+    <file alias="Open.svg">Resources/Icons/Open.svg</file>
+    <file alias="Save.svg">Resources/Icons/Save.svg</file>
     <file alias="Shutdown.svg">Resources/Icons/Shutdown.svg</file>
     <file alias="Undo.svg">Resources/Icons/Undo.svg</file>
     <file alias="Redo.svg">Resources/Icons/Redo.svg</file>
@@ -45,8 +45,6 @@
     <file alias="StateOk.svg">Resources/Icons/StateOk.svg</file>
     <file alias="StateWarning.svg">Resources/Icons/StateWarning.svg</file>
     <file alias="StateInvalid.svg">Resources/Icons/StateInvalid.svg</file>
-    <file alias="Restart">Resources/Icons/Restart.png</file>
-		<file alias="Reset">Resources/Icons/Reset.png</file>
 		<file alias="AutoUpdate.svg">Resources/Icons/AutoUpdate.svg</file>
 		<file alias="Reload.svg">Resources/Icons/Reload.svg</file>
 	</qresource>

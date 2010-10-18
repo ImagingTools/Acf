@@ -2046,14 +2046,6 @@
        x2="-207.08127"
        y2="6.8527031"
        gradientTransform="matrix(0.59996476,0,0,0.56094266,243.84779,109.27288)" />
-    <filter
-       inkscape:collect="always"
-       id="filter4179">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="2.6545312"
-         id="feGaussianBlur4181" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3820"
@@ -2242,7 +2234,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="276.03273"
+     inkscape:cx="157.81844"
      inkscape:cy="239.59943"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
@@ -2261,7 +2253,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2284,7 +2276,7 @@
       <path
          id="rect3023"
          d="m -355.5625,-24.46875 0,259.0625 35.90625,35.90625 7.53125,0 0,-3.03125 206.0625,0 0,3.03125 45.46875,0 0,-294.96875 -45.46875,0 0,1.03125 -206.0625,0 0,-1.03125 -43.4375,0 z"
-         style="fill:url(#radialGradient4275);fill-opacity:1;stroke:url(#radialGradient4277);stroke-width:3;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+         style="fill:url(#radialGradient4275);fill-opacity:1;stroke:url(#radialGradient4277);stroke-width:5.66358915;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
       <g
          transform="matrix(1,0,0,0.93495935,0,6.1616897)"
          id="g3836">

@@ -5,10 +5,12 @@
 // ACF includes
 #include "icomp/IRegistry.h"
 
+#include "ibase/IMessageConsumer.h"
+
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CCheckableComboBox.h"
 
-#include "icmpstr/icmpstr.h"
+#include "icmpstr/IRegistryConsistInfo.h"
 
 #include "icmpstr/Generated/ui_CRegistryPropEditorComp.h"
 
@@ -25,11 +27,28 @@ public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CRegistryPropEditorComp, icomp::IRegistry> BaseClass;
 
 	I_BEGIN_COMPONENT(CRegistryPropEditorComp);
+		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and attributes", false, "ConsistencyInfo");
 	I_END_COMPONENT;
 
 	// reimplmented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;
+
+protected:
+	class TextLog:
+				public istd::CString,
+				virtual public ibase::IMessageConsumer
+	{
+	public:
+		// reimplemented (ibase::IMessageConsumer)
+		virtual bool IsMessageSupported(
+					int messageCategory = -1,
+					int messageId = -1,
+					const ibase::IMessage* messagePtr = NULL) const;
+		virtual void AddMessage(const MessagePtr& messagePtr);
+	};
+
+	void CreateOverview();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -40,7 +59,7 @@ protected slots:
 	void OnCategoriesChanged(const QStringList& categories);
 
 private:
-	void CreateOverview();
+	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
 
 	iqtgui::CCheckableComboBox* m_categoryComboBox;
 };

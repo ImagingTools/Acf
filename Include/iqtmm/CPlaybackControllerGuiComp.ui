@@ -107,7 +107,7 @@
      </property>
      <property name="icon">
       <iconset resource="../iqtgui/iqtgui.qrc">
-       <normaloff>:/Icons/Restart</normaloff>:/Icons/Reload.svg</iconset>
+       <normaloff>:/Icons/Reload.svg</normaloff>:/Icons/Reload.svg</iconset>
      </property>
      <property name="checkable">
       <bool>true</bool>
