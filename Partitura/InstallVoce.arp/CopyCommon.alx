@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1595
+          1597
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          269
+          271
         </Number>
         <Description>
           ACF-Solutions
@@ -26,13 +26,13 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="13">
+  <PositionMap count="14">
     <Element>
       <ComponentName>
         CopyConfig
       </ComponentName>
       <X>
-        475
+        775
       </X>
       <X>
         200
@@ -106,6 +106,17 @@
     </Element>
     <Element>
       <ComponentName>
+        CopyNockout
+      </ComponentName>
+      <X>
+        950
+      </X>
+      <X>
+        75
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         CopyPartitura
       </ComponentName>
       <X>
@@ -142,7 +153,7 @@
         CopyTutorialOther
       </ComponentName>
       <X>
-        800
+        450
       </X>
       <X>
         200

@@ -81,7 +81,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -211,6 +211,33 @@
               <Value>
                 Log
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SourceExcludeFilters
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="3">
+                <Value>
+                  moc_*
+                </Value>
+                <Value>
+                  qrc_*
+                </Value>
+                <Value>
+                  ui_*
+                </Value>
+              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

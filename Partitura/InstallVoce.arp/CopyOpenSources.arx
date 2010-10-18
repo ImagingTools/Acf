@@ -44,7 +44,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="7">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -134,6 +134,22 @@
             </Type>
             <ExportId>
               Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SourceExcludeFilters
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              SourceExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -512,7 +528,7 @@
               icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              BinaryExcludeFilters
+              SourceExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -992,7 +1008,7 @@
               icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              BinaryExcludeFilters
+              SourceExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>

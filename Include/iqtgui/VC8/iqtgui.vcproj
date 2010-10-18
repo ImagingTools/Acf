@@ -526,28 +526,6 @@
 			<File
 				RelativePath="..\iqtgui.qrc"
 				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Rcc&apos;ing iqtgui.qrc..."
-						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;iqtgui&quot; -no-compress &quot;..\iqtgui.qrc&quot; -o $(InputDir)\Generated\qrc_iqtgui.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="..\iqtgui.qrc;Resources/Icons/diskette_128.png"
-						Outputs="$(InputDir)\Generated\qrc_iqtgui.cpp"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Rcc&apos;ing iqtgui.qrc..."
-						CommandLine="$(QTDIR)\bin\rcc.exe -name &quot;iqtgui&quot; -no-compress &quot;..\iqtgui.qrc&quot; -o $(InputDir)\Generated\qrc_iqtgui.cpp&#x0D;&#x0A;"
-						AdditionalDependencies="..\iqtgui.qrc;Resources/Icons/diskette_128.png"
-						Outputs="$(InputDir)\Generated\qrc_iqtgui.cpp"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
