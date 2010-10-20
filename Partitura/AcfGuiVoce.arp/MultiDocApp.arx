@@ -807,7 +807,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="6">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
         ibase::IApplication
@@ -830,14 +830,6 @@
       </InterfaceId>
       <ComponentId>
         Workspace
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        idoc::IMainWindowCommands
-      </InterfaceId>
-      <ComponentId>
-        MainGui
       </ComponentId>
     </Interface>
     <Interface>
