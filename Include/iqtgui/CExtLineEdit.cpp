@@ -194,7 +194,7 @@ void CExtLineEdit::UpdateStartupText()
 		setStyleSheet(QString("QLineEdit[text=\"%1\"]\n{\n color: rgb(192, 192,192)\n}").arg(m_startupText));
 	}
 	else{
-		setStyleSheet(QString());
+		setStyleSheet(QString("QLineEdit{color: palette text}"));
 	}
 }
 
