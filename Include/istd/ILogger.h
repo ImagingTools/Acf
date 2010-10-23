@@ -45,7 +45,7 @@ protected:
 	*/
 	virtual bool IsLogConsumed(
 				const MessageCategory* categoryPtr = NULL,
-				int* flagsPtr = NULL) const;
+				const int* flagsPtr = NULL) const;
 
 	/**
 		Send any message to log.
@@ -79,7 +79,7 @@ protected:
 
 inline bool ILogger::IsLogConsumed(
 			const MessageCategory* /*categoryPtr*/,
-			int* /*flagsPtr*/) const
+			const int* /*flagsPtr*/) const
 {
 	return false;
 }

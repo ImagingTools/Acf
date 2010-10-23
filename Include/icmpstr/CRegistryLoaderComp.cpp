@@ -35,10 +35,6 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 		if (!geometricalRegistryPtr->SerializeRegistry(registryArchive)){
 			OnReadError(registryArchive, data, filePath);
 
-			SendErrorMessage(
-						MI_LOAD_ERROR,
-						iqt::GetCString(QObject::tr("Cannot load file %1").arg(iqt::GetQString(filePath))));
-
 			return StateFailed;
 		}
 
@@ -144,9 +140,9 @@ void CRegistryLoaderComp::OnReadError(
 {
 	int lastReadLine = archive.GetLastReadLine();
 
-	QString message = QObject::tr("%1(%2) : Cannot load object").arg(iqt::GetQString(filePath)).arg(lastReadLine);
+	QString message = QObject::tr("%1(%2) : Cannot load file").arg(iqt::GetQString(filePath)).arg(lastReadLine);
 
-	SendInfoMessage(MI_CANNOT_LOAD, iqt::GetCString(message));
+	SendErrorMessage(MI_CANNOT_LOAD, iqt::GetCString(message));
 }
 
 

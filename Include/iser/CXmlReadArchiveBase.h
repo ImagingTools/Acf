@@ -67,6 +67,7 @@ private:
 	CArchiveTag m_rootTag;
 
 	bool m_isSeparatorNeeded;
+	bool m_isTagEmpty;
 };
 
 

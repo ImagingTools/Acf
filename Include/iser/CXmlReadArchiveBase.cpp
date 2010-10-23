@@ -26,7 +26,42 @@ bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag)
 	retVal = retVal && ReadToDelimeter("<", tagText);
 	retVal = retVal && ReadToDelimeter(">",  tagText);
 
-	if (retVal && (tagText != tag.GetId())){
+	if (!retVal){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"Begin of tag cannot be found, shoud be '" + tag.GetId() + "'",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
+		return false;
+	}
+
+	if (tagText.empty()){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"Found tag is empty, shoud be '" + tag.GetId() + "'",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
+		return false;
+	}
+
+	if (*tagText.rbegin() == '/'){	// if the last char is '/'
+		tagText = tagText.substr(0, tagText.size() - 1);
+
+		m_isTagEmpty = true;
+	}
+	else{
+		m_isTagEmpty = false;
+	}
+
+	if (tagText != tag.GetId()){
 		if (IsLogConsumed()){
 			SendLogMessage(
 						istd::ILogger::MC_ERROR,
@@ -40,7 +75,6 @@ bool CXmlReadArchiveBase::BeginTag(const CArchiveTag& tag)
 	}
 
 	m_isSeparatorNeeded = false;
-
 
 	return retVal;
 }
@@ -57,6 +91,28 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 	retVal = retVal && ReadToDelimeter(" \t>", tagText, true, &foundDelimeter);
 
 	if (!retVal){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"Found tag is empty, shoud be '" + tag.GetId() + "'",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
+		return false;
+	}
+
+	if (tagText.empty()){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"Found tag is empty, shoud be '" + tag.GetId() + "'",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
 		return false;
 	}
 
@@ -89,9 +145,33 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 	retVal = retVal && ReadToDelimeter("\"", tagText);
 
+	if (!retVal){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"The quotes for tag '" + tag.GetId() + "' could not be found",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
+		return false;
+	}
+
 	std::istringstream stream(tagText);
 
 	stream >> count;
+
+	retVal = retVal && ReadToDelimeter(">", tagText);
+
+	if (!tagText.empty() && *tagText.rbegin() == '/'){	// if the last char is '/'
+		tagText = tagText.substr(0, tagText.size() - 1);
+
+		m_isTagEmpty = true;
+	}
+	else{
+		m_isTagEmpty = false;
+	}
 
 	m_isSeparatorNeeded = false;
 
@@ -101,17 +181,25 @@ bool CXmlReadArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchiveTa
 
 bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 {
+	if (m_isTagEmpty){
+		m_isTagEmpty = false;
+
+		return true;
+	}
+
 	bool isSkippedFlag = false;
 
 	bool retVal = InternEndTag(tag, isSkippedFlag);
 
-	if (retVal && isSkippedFlag && IsLogConsumed()){
-		SendLogMessage(
-					istd::ILogger::MC_INFO,
-					MI_TAG_SKIPPED,
-					"Some elements in '" + tag.GetId() + "' was skipped",
-					"iser::CXmlReadArchiveBase",
-					MF_SYSTEM);
+	if (retVal && isSkippedFlag){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_INFO,
+						MI_TAG_SKIPPED,
+						"Some elements in '" + tag.GetId() + "' was skipped",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -120,20 +208,46 @@ bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 
 bool CXmlReadArchiveBase::Process(std::string& value)
 {
+	if (m_isTagEmpty){
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_SKIPPED,
+						"Could not read data from empty tag",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
+		return false;
+	}
+
 	std::string xmlText;
 
 	if (m_isSeparatorNeeded){
 		if (!ReadToDelimeter(">", xmlText)){
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::ILogger::MC_ERROR,
+							MI_TAG_SKIPPED,
+							"Cannot find separator between multiple elements in the same tag",
+							"iser::CXmlReadArchiveBase",
+							MF_SYSTEM);
+			}
+
 			return false;
 		}
 
 		if (xmlText != GetElementSeparator().ToString()){
-			SendLogMessage(
-						istd::ILogger::MC_INFO,
-						MI_TAG_ERROR,
-						"Bad separator tag, should be ",
-						"iser::CXmlReadArchiveBase",
-						MF_SYSTEM);
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::ILogger::MC_ERROR,
+							MI_TAG_ERROR,
+							"Bad separator tag, should be ",
+							"iser::CXmlReadArchiveBase",
+							MF_SYSTEM);
+			}
+
+			return false;
 		}
 	}
 	else{
@@ -146,6 +260,15 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 		return true;
 	}
 	else{
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::ILogger::MC_ERROR,
+						MI_TAG_ERROR,
+						"Cannot find begin of enclosing tag",
+						"iser::CXmlReadArchiveBase",
+						MF_SYSTEM);
+		}
+
 		return false;
 	}
 }
@@ -153,6 +276,10 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 
 bool CXmlReadArchiveBase::Process(istd::CString& value)
 {
+	if (m_isTagEmpty){
+		return false;
+	}
+
 	std::string xmlText;
 
 	if (m_isSeparatorNeeded){
@@ -161,12 +288,14 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 		}
 
 		if (xmlText != GetElementSeparator().ToString()){
-			SendLogMessage(
-						istd::ILogger::MC_INFO,
-						MI_TAG_ERROR,
-						"Bad separator tag, should be ",
-						"iser::CXmlReadArchiveBase",
-						MF_SYSTEM);
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::ILogger::MC_ERROR,
+							MI_TAG_ERROR,
+							"Bad separator tag, should be ",
+							"iser::CXmlReadArchiveBase",
+							MF_SYSTEM);
+			}
 		}
 	}
 	else{
@@ -189,7 +318,8 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 
 CXmlReadArchiveBase::CXmlReadArchiveBase(const CArchiveTag& rootTag)
 :	m_rootTag(rootTag),
-	m_isSeparatorNeeded(false)
+	m_isSeparatorNeeded(false),
+	m_isTagEmpty(false)
 {
 }
 
@@ -206,6 +336,15 @@ bool CXmlReadArchiveBase::InternEndTag(const CArchiveTag& tag, bool& wasTagSkipp
 		retVal = retVal && ReadToDelimeter(">", tagText);
 
 		if (!retVal || tagText.empty()){
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::ILogger::MC_ERROR,
+							MI_TAG_ERROR,
+							"End of tag cannot be found, shoud be '" + tag.GetId() + "'",
+							"iser::CXmlReadArchiveBase",
+							MF_SYSTEM);
+			}
+
 			return false;
 		}
 
@@ -259,6 +398,15 @@ bool CXmlReadArchiveBase::SerializeXmlHeader()
 		retVal = retVal && ReadToDelimeter("<", tagText);
 		retVal = retVal && ReadToDelimeter(">", tagText);
 	} while (retVal && (tagText != m_rootTag.GetId()));
+
+	if (!retVal && IsLogConsumed()){
+		SendLogMessage(
+					istd::ILogger::MC_ERROR,
+					MI_TAG_ERROR,
+					"Cannot find root tag '" + m_rootTag.GetId() + "'",
+					"iser::CXmlReadArchiveBase",
+					MF_SYSTEM);
+	}
 
 	return retVal;
 }

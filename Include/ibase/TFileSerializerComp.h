@@ -64,10 +64,12 @@ protected:
 	protected:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
-					const MessageCategory* categoryPtr = NULL,
+					const MessageCategory* /*categoryPtr*/,
 					const int* flagsPtr = NULL) const
 		{
-			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(categoryPtr, flagsPtr);
+			static const MessageCategory slaveCategory = MC_INFO;
+
+			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
 		virtual bool SendLogMessage(MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource, int flags = 0) const
 		{
@@ -77,7 +79,7 @@ protected:
 
 				DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
 
-				return m_loggerPtr->SendLogMessage(category, id, correctedMessage, correctedMessageSource, flags);
+				return m_loggerPtr->SendLogMessage(MC_INFO, id, correctedMessage, correctedMessageSource, flags);
 			}
 
 			return false;
@@ -99,10 +101,12 @@ protected:
 	protected:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
-					const MessageCategory* categoryPtr = NULL,
+					const MessageCategory* /*categoryPtr*/,
 					const int* flagsPtr = NULL) const
 		{
-			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(categoryPtr, flagsPtr);
+			static const MessageCategory slaveCategory = MC_INFO;
+
+			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
 		virtual bool SendLogMessage(MessageCategory category, int id, const istd::CString& message, const istd::CString& messageSource, int flags = 0) const
 		{
@@ -262,7 +266,7 @@ const iser::IVersionInfo* TFileSerializerComp<ReadArchive, WriteArchive>::GetVer
 template <class ReadArchive, class WriteArchive>
 void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(const ReadArchive& /*archive*/, const istd::IChangeable& /*data*/, const istd::CString& filePath) const
 {
-	this->SendInfoMessage(MI_CANNOT_LOAD, istd::CString("Cannot load object from file ") + filePath);
+	SendWarningMessage(MI_CANNOT_LOAD, istd::CString("Cannot load object from file ") + filePath);
 }
 
 
