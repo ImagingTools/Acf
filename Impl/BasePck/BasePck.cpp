@@ -125,37 +125,42 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			SelectableParamsSet,
 			"Composed set of parameters",
-			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
+			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
 			ParamsManager,
 			"Manager of parameters set",
-			"Parameters Set Manager" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition"));
+			"Parameters Set Manager" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition Parameter"));
 
 I_EXPORT_COMPONENT(
 			ComposedParamsSet,
 			"Composed set of parameters",
-			"Parameters Set List Composed" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition"));
+			"Parameters Set List Composed" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition Parameter"));
 
 I_EXPORT_COMPONENT(
 			VariableParam,
 			"Parameter which can change its type",
-			"Parameter Choice Change Selection Mutable Variable" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
+			"Parameter Choice Change Selection Mutable Variable" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
 			FileNameParam,
 			"Parameters for file/directory selection",
-			"Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model"));
+			"Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
 
 I_EXPORT_COMPONENT(
 			EnableableParam,
 			"Parameter with boolean flag",
-			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
+			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
 			LinearAdjustParams,
 			"Parameter with scale and offset for simple linear transformations",
-			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
+			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
+
+I_EXPORT_COMPONENT(
+			SelectionParam,
+			"Selection Parameter",
+			"Selection Parameter Integer Index Choice" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
 			SingleDocumentTemplate,
@@ -251,11 +256,6 @@ I_EXPORT_COMPONENT(
 			IterativeProcessor,
 			"Iterative Processor",
 			"Iterative Loop Sequence Processor" IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing"));
-
-I_EXPORT_COMPONENT(
-			IterativeProcessorParams,
-			"Iterative Processor Params",
-			"Iterative Filter Processor Parameter" IM_CATEGORY(I_DATA_PROCESSING I_DATA_MODEL) IM_TAG("Processing Model Parameter"));
 
 
 } // namespace BasePck

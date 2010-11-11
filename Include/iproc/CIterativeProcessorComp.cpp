@@ -1,6 +1,8 @@
 #include "iproc/CIterativeProcessorComp.h"
 
 
+#include "iprm/ISelectionParam.h"
+
 #include "iproc/IProgressManager.h"
 
 
@@ -21,7 +23,6 @@ int CIterativeProcessorComp::DoProcessing(
 	}
 
 	if (		(inputPtr == NULL) ||
-				(outputPtr == NULL) ||
 				(paramsPtr == NULL) ||
 				!m_paramsIdAttrPtr.IsValid()){
 		return TS_INVALID;
@@ -31,10 +32,20 @@ int CIterativeProcessorComp::DoProcessing(
 
 	int progressSessionId = -1;
 
-	const CIterativeProcessorParams* processorParamsPtr = dynamic_cast<const CIterativeProcessorParams*>(
+	const iprm::ISelectionParam* processorParamsPtr = dynamic_cast<const iprm::ISelectionParam*>(
 				paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
 	if ((processorParamsPtr != NULL) && m_slaveProcessorCompPtr.IsValid()){
-		int iterationsCount = processorParamsPtr->GetIterationsCount();
+		int iterationsCount = processorParamsPtr->GetSelectedOptionIndex();
+
+		if (iterationsCount <= 0){
+			const istd::IChangeable* inputObjectPtr = dynamic_cast<const istd::IChangeable*>(inputPtr);
+
+			if ((inputObjectPtr != NULL) && outputPtr->CopyFrom(*inputObjectPtr)){
+				return TS_OK;
+			}
+
+			return TS_INVALID;
+		}
 
 		if (progressManagerPtr != NULL){
 			progressSessionId = progressManagerPtr->BeginProgressSession("IterativeProcessor", "Iteration");

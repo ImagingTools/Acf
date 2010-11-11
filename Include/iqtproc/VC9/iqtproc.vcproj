@@ -6,6 +6,7 @@
 	ProjectGUID="{67FB72B1-029B-4152-9267-B91970E6EC6D}"
 	RootNamespace="iqtproc"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -176,14 +177,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.moc"
-				>
-			</File>
-			<File
 				RelativePath="..\CProcessorControlGuiComp.cpp"
 				>
 			</File>
@@ -205,10 +198,6 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.h"
-				>
-			</File>
 			<File
 				RelativePath="..\CProcessorControlGuiComp.h"
 				>
@@ -239,10 +228,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CIterativeProcessorParamsGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\generated\moc_CProcessorControlGuiComp.cpp"
 				>
 			</File>
@@ -255,10 +240,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CIterativeProcessorParamsGuiComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\generated\ui_CProgressManagerGuiComp.h"
 				>
 			</File>
@@ -266,10 +247,6 @@
 		<Filter
 			Name="Forms"
 			>
-			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.ui"
-				>
-			</File>
 			<File
 				RelativePath="..\CProcessorControlGuiComp.ui"
 				>
@@ -295,4 +272,3 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-

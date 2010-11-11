@@ -5,6 +5,7 @@
 	Name="iproc"
 	ProjectGUID="{9BA2C3D2-9483-483F-9019-8C6B027C58C6}"
 	RootNamespace="iproc"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -189,10 +190,6 @@
 				RelativePath="..\CIterativeProcessorComp.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\CIterativeProcessorParams.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -208,10 +205,6 @@
 			</File>
 			<File
 				RelativePath="..\CIterativeProcessorComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CIterativeProcessorParams.h"
 				>
 			</File>
 			<File
@@ -275,4 +268,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-

@@ -176,11 +176,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.cpp"
+				RelativePath="..\CSelectionParamIndexGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.moc"
+				RelativePath="..\CSelectionParamIndexGuiComp.moc"
 				>
 			</File>
 			<File
@@ -206,7 +206,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.h"
+				RelativePath="..\CSelectionParamIndexGuiComp.h"
 				>
 			</File>
 			<File
@@ -267,7 +267,7 @@
 			Name="Forms"
 			>
 			<File
-				RelativePath="..\CIterativeProcessorParamsGuiComp.ui"
+				RelativePath="..\CSelectionParamIndexGuiComp.ui"
 				>
 			</File>
 			<File

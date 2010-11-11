@@ -4,6 +4,7 @@
 	Version="9,00"
 	Name="iprm"
 	ProjectGUID="{9ABA7CB2-C8DB-4704-BC43-537BD9AD82D7}"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -203,6 +204,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSelectionParamComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CVariableParamComp.cpp"
 				>
 			</File>
@@ -237,6 +242,10 @@
 			</File>
 			<File
 				RelativePath="..\CSelectableParamsSetComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSelectionParamComp.h"
 				>
 			</File>
 			<File
@@ -284,4 +293,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-

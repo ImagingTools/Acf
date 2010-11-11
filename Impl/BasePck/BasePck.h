@@ -52,6 +52,7 @@
 #include "iprm/CFileNameParamComp.h"
 #include "iprm/CEnableableParamComp.h"
 #include "iprm/CLinearAdjustParamsComp.h"
+#include "iprm/CSelectionParamComp.h"
 
 #include "i2d/CPosition2d.h"
 #include "i2d/CCircle.h"
@@ -65,7 +66,6 @@
 
 #include "iproc/CCascadedProcessorComp.h"
 #include "iproc/CIterativeProcessorComp.h"
-#include "iproc/CIterativeProcessorParams.h"
 
 
 /**
@@ -107,6 +107,7 @@ typedef icomp::TModelCompWrap<iprm::CVariableParamComp> VariableParam;
 typedef icomp::TModelCompWrap<iprm::CFileNameParamComp> FileNameParam;
 typedef icomp::TModelCompWrap<iprm::CEnableableParamComp> EnableableParam;
 typedef icomp::TModelCompWrap<iprm::CLinearAdjustParamsComp> LinearAdjustParams;
+typedef icomp::TModelCompWrap<iprm::CSelectionParamComp> SelectionParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
@@ -186,9 +187,6 @@ typedef icomp::TMakeComponentWrap<
 
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
 typedef iproc::CIterativeProcessorComp IterativeProcessor;
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<iproc::CIterativeProcessorParams>, 
-			iser::ISerializable> IterativeProcessorParams;
 
 
 } // namespace BasePck

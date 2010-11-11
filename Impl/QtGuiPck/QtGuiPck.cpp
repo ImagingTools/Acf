@@ -82,7 +82,12 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			SelectionParamGui,
 			"Single selection parameter from list of options",
-			"Observer Parameters Set Selection Options List" IM_TAG("GUI Editor"));
+			"Observer Parameters Set Selection Options Choice List" IM_TAG("GUI Editor"));
+
+I_EXPORT_COMPONENT(
+			SelectionParamIndexGui,
+			"Single selection parameter shown as index number",
+			"Observer Parameters Set Selection Options Index Choice" IM_TAG("GUI Editor"));
 
 I_EXPORT_COMPONENT(
 			TabContainer,
@@ -188,11 +193,6 @@ I_EXPORT_COMPONENT(
 			ProcessorControlGui,
 			"Processor acquisition GUI",
 			"Acquisition Processor Parameter View" IM_TAG("GUI Image Processing"));
-
-I_EXPORT_COMPONENT(
-			IterationParamsGui,
-			"Iterative processor params",
-			"Filter Parameter Qt Processing" IM_TAG("GUI Editor"));
 
 I_EXPORT_COMPONENT(
 			ImagePropertyGui,

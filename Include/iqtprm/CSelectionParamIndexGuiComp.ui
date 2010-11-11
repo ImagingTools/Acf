@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>CIterativeProcessorParamsGuiComp</class>
- <widget class="QWidget" name="CIterativeProcessorParamsGuiComp" >
+ <class>CSelectionParamIndexGuiComp</class>
+ <widget class="QWidget" name="CSelectionParamIndexGuiComp" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -24,9 +24,9 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="QSlider" name="IterationsSlider" >
+    <widget class="QSlider" name="OptionIndexSlider" >
      <property name="minimum" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="maximum" >
       <number>10</number>
@@ -40,9 +40,9 @@
     </widget>
    </item>
    <item row="0" column="2" >
-    <widget class="QSpinBox" name="IterationsSpin" >
+    <widget class="QSpinBox" name="OptionIndexSpin" >
      <property name="minimum" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="maximum" >
       <number>1000</number>
@@ -57,9 +57,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>IterationsSlider</sender>
+   <sender>OptionIndexSlider</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>IterationsSpin</receiver>
+   <receiver>OptionIndexSpin</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel" >
@@ -73,9 +73,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>IterationsSpin</sender>
+   <sender>OptionIndexSpin</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>IterationsSlider</receiver>
+   <receiver>OptionIndexSlider</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel" >

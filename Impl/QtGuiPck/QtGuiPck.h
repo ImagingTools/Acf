@@ -33,6 +33,7 @@
 #include "iqtprm/CVariableParamGuiComp.h"
 #include "iqtprm/CParamsManagerGuiComp.h"
 #include "iqtprm/CSelectionParamGuiComp.h"
+#include "iqtprm/CSelectionParamIndexGuiComp.h"
 
 #include "iqtdoc/CModelEditorGuiComp.h"
 #include "iqtdoc/CMainWindowGuiComp.h"
@@ -42,7 +43,6 @@
 
 #include "iqtproc/CProgressManagerGuiComp.h"
 #include "iqtproc/CProcessorControlGuiComp.h"
-#include "iqtproc/CIterativeProcessorParamsGuiComp.h"
 
 
 /**
@@ -80,6 +80,7 @@ typedef iqtprm::CVariableParamGuiComp VariableParamGui;
 typedef iqtprm::CParamsManagerGuiComp ParamsManagerGui;
 typedef iqtprm::CFileNameParamGuiComp FileNameParamGui;
 typedef iqtprm::CSelectionParamGuiComp SelectionParamGui;
+typedef iqtprm::CSelectionParamIndexGuiComp SelectionParamIndexGui;
 
 typedef iqtdoc::CModelEditorGuiComp ModelEditorGui;
 typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
@@ -89,7 +90,6 @@ typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
 
 typedef iqtproc::CProgressManagerGuiComp ProgressManagerGui;
 typedef iqtproc::CProcessorControlGuiComp ProcessorControlGui;
-typedef iqtproc::CIterativeProcessorParamsGuiComp IterationParamsGui;
 
 
 } // namespace QtGuiPck
