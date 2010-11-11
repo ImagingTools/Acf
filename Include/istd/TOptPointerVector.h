@@ -34,8 +34,6 @@ public:
 
 	static void Delete(const ElementType& element)
 	{
-		I_ASSERT(element.pointer != NULL);
-
 		if (element.releaseFlag){
 			delete element.pointer;
 		}
