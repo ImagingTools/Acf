@@ -32,7 +32,7 @@ public:
 	virtual void UpdateEditor(int updateFlags = 0);
 
 protected slots:
-	void on_IterationsSlider_valueChanged(int value);
+	void on_OptionIndexSlider_valueChanged(int value);
 };
 
 

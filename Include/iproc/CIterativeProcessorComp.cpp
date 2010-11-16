@@ -94,6 +94,23 @@ int CIterativeProcessorComp::DoProcessing(
 }
 
 
+// reimplemented (iprm::ISelectionConstraints)
+
+int CIterativeProcessorComp::GetOptionsCount() const
+{
+	return int(m_iterationNames.size());
+}
+
+
+const istd::CString& CIterativeProcessorComp::GetOptionName(int index) const
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < int(m_iterationNames.size()));
+
+	return m_iterationNames[index];
+}
+
+
 // protected methods
 
 int CIterativeProcessorComp::ProcessSlave(
@@ -111,6 +128,26 @@ int CIterativeProcessorComp::ProcessSlave(
 	}
 
 	return retVal;
+}
+
+
+// reimplemented (icomp::IComponent)
+
+void CIterativeProcessorComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	int optionsCount = istd::Max(int(0), *m_maxIterationsCountAttrPtr) + 1;
+	m_iterationNames.resize(optionsCount);
+
+	m_iterationNames[0] = "No iteration";
+	if (optionsCount >= 1){
+		m_iterationNames[1] = "1 iteration";
+
+		for (int i = 2; i < optionsCount; ++i){
+			m_iterationNames[i] = istd::CString::FromNumber(i) + " iterations";
+		}
+	}
 }
 
 

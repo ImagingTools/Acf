@@ -46,6 +46,7 @@ void CSelectionParamIndexGuiComp::UpdateEditor(int /*updateFlags*/)
 		}
 
 		OptionIndexSpin->setMaximum(maxCount);
+		OptionIndexSlider->setMaximum(maxCount);
 
 		OptionIndexSpin->setValue(objectPtr->GetSelectedOptionIndex());
 	}
@@ -54,7 +55,7 @@ void CSelectionParamIndexGuiComp::UpdateEditor(int /*updateFlags*/)
 
 // protected slots
 
-void CSelectionParamIndexGuiComp::on_IterationsSlider_valueChanged(int /*value*/)
+void CSelectionParamIndexGuiComp::on_OptionIndexSlider_valueChanged(int /*value*/)
 {
 	UpdateModel();
 }
