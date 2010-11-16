@@ -22,6 +22,7 @@ public:
 		I_ASSIGN_MULTI_0(m_instancesAttrPtr, "Instances", "List of instances will be created during instantiator is created", false)
 	I_END_COMPONENT
 
+protected:
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 
