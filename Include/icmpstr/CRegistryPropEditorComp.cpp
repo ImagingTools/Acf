@@ -39,6 +39,33 @@ void CRegistryPropEditorComp::UpdateModel() const
 }
 
 
+// reimplemented (imod::TGuiObserverWrap)
+
+void CRegistryPropEditorComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	DescriptionEdit->setEnabled(true);
+	KeywordsEdit->setEnabled(true);
+}
+
+
+void CRegistryPropEditorComp::OnGuiModelDetached()
+{
+	DescriptionEdit->clear();
+	KeywordsEdit->clear();
+
+	DescriptionEdit->setDisabled(true);
+	KeywordsEdit->setDisabled(true);
+
+	OverviewTree->clear();
+
+	ErrorsLabel->clear();
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
 // protected methods
 
 void CRegistryPropEditorComp::CreateOverview()
@@ -49,7 +76,6 @@ void CRegistryPropEditorComp::CreateOverview()
 	// setup colors:
 	QFont boldFont = qApp->font();
 	boldFont.setBold(true);
-
 
 	// create overview infos:
 	icomp::IRegistry* registryPtr = GetObjectPtr();

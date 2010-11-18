@@ -6,6 +6,7 @@
 	ProjectGUID="{B11EFB14-C129-4F69-8143-8127D45770BF}"
 	RootNamespace="iqtprm"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -190,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSelectionParamIndexGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CVariableParamGuiComp.cpp"
 				>
 			</File>
@@ -213,6 +218,10 @@
 			</File>
 			<File
 				RelativePath="..\CSelectionParamGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSelectionParamIndexGuiComp.h"
 				>
 			</File>
 			<File
@@ -246,6 +255,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CSelectionParamIndexGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CVariableParamGuiComp.cpp"
 				>
 			</File>
@@ -267,6 +280,10 @@
 			</File>
 			<File
 				RelativePath="..\generated\ui_CSelectionParamGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CSelectionParamIndexGuiComp.h"
 				>
 			</File>
 			<File
@@ -294,6 +311,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSelectionParamIndexGuiComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CVariableParamGuiComp.ui"
 				>
 			</File>
@@ -318,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSelectionParamIndexGuiComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CVariableParamGuiComp.moc"
 				>
 			</File>
@@ -338,4 +363,3 @@
 		/>
 	</Globals>
 </VisualStudioProject>
-

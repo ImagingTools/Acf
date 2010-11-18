@@ -34,6 +34,10 @@ public:
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;
 
+	// reimplemented (imod::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
+
 protected:
 	class TextLog:
 				public istd::CString,
@@ -53,7 +57,7 @@ protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
-protected slots:
+protected Q_SLOTS:
 	void on_DescriptionEdit_editingFinished();
 	void on_KeywordsEdit_editingFinished();
 	void OnCategoriesChanged(const QStringList& categories);
