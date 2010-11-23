@@ -208,7 +208,7 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 
 			icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.GetFunction(I_PACKAGE_EXPORT_FUNCTION_NAME);
 			if (getInfoPtr != NULL){
-				icomp::IComponentStaticInfo* infoPtr = getInfoPtr();
+				icomp::CPackageStaticInfo* infoPtr = getInfoPtr();
 				if (infoPtr != NULL){
 					std::string packageName(fileInfo.baseName().toStdString());
 

@@ -32,8 +32,8 @@ public:
 	virtual const ExportedComponentsMap& GetExportedComponentsMap() const;
 	virtual void SetElementInterfaceExported(
 				const std::string& elementId,
-				const istd::CClassInfo& exportInterfaceInfo,
-				bool state);
+				const std::string& interfaceName,
+				bool state = true);
 	virtual void SetElementExported(
 				const std::string& exportId,
 				const std::string& elementId);

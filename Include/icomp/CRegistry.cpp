@@ -125,17 +125,17 @@ const IRegistry::ExportedComponentsMap& CRegistry::GetExportedComponentsMap() co
 
 void CRegistry::SetElementInterfaceExported(
 			const std::string& elementId,
-			const istd::CClassInfo& exportInterfaceInfo,
+			const std::string& interfaceName,
 			bool state)
 {
 	I_ASSERT(!elementId.empty());
-	I_ASSERT(exportInterfaceInfo.IsValid());
+	I_ASSERT(!interfaceName.empty());
 
 	if (state){
-		m_exportedInterfacesMap[exportInterfaceInfo] = elementId;
+		m_exportedInterfacesMap[interfaceName] = elementId;
 	}
 	else{
-		ExportedInterfacesMap::iterator foundIter = m_exportedInterfacesMap.find(exportInterfaceInfo);
+		ExportedInterfacesMap::iterator foundIter = m_exportedInterfacesMap.find(interfaceName);
 		if ((foundIter != m_exportedInterfacesMap.end()) && (foundIter->second == elementId)){
 			m_exportedInterfacesMap.erase(foundIter);
 		}
@@ -511,8 +511,8 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 			retVal = retVal && archive.BeginTag(interfaceTag);
 
 			retVal = retVal && archive.BeginTag(interfaceIdTag);
-			std::string interfaceId = iter->first.GetName();
-			retVal = retVal && archive.Process(interfaceId);
+			std::string interfaceName = iter->first;
+			retVal = retVal && archive.Process(interfaceName);
 			retVal = retVal && archive.EndTag(interfaceIdTag);
 
 			retVal = retVal && archive.BeginTag(componentIdTag);
@@ -528,9 +528,9 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 		for (int i = 0; i < count; ++i){
 			retVal = retVal && archive.BeginTag(interfaceTag);
 
-			std::string interfaceId;
+			std::string interfaceName;
 			retVal = retVal && archive.BeginTag(interfaceIdTag);
-			retVal = retVal && archive.Process(interfaceId);
+			retVal = retVal && archive.Process(interfaceName);
 			retVal = retVal && archive.EndTag(interfaceIdTag);
 
 			std::string componentId;
@@ -538,8 +538,7 @@ bool CRegistry::SerializeExportedInterfaces(iser::IArchive& archive)
 			retVal = retVal && archive.Process(componentId);
 			retVal = retVal && archive.EndTag(componentIdTag);
 
-			istd::CClassInfo interfaceInfo(interfaceId);
-			m_exportedInterfacesMap[interfaceInfo] = componentId;
+			m_exportedInterfacesMap[interfaceName] = componentId;
 
 			retVal = retVal && archive.EndTag(interfaceTag);
 		}

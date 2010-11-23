@@ -6,17 +6,17 @@
 
 #include "istd/IPolymorphic.h"
 #include "istd/TIMap.h"
-#include "istd/CClassInfo.h"
-
-#include "icomp/IComponent.h"
-#include "icomp/IAttributeStaticInfo.h"
-#include "icomp/IComponentStaticInfo.h"
+#include "istd/CString.h"
 
 #include "icomp/icomp.h"
 
 
 namespace icomp
 {
+
+
+class IAttributeStaticInfo;
+class IComponent;
 
 
 /**
@@ -52,10 +52,18 @@ public:
 		CT_COMPOSITE
 	};
 
+	enum MetaGroupId
+	{
+		/**
+			ID of meta group storing list of supported interfaces.
+		*/
+		MGI_INTERFACES = 0
+	};
+
 	/**
 		Map from class type to interface extractor implementation.
 	*/
-	typedef istd::TIMap<istd::CClassInfo, InterfaceExtractorPtr> InterfaceExtractors;
+	typedef istd::TIMap<std::string, InterfaceExtractorPtr> InterfaceExtractors;
 	/**
 		Map from attribute name string to attribute static info object.
 	*/
@@ -74,14 +82,15 @@ public:
 	virtual IComponent* CreateComponent() const = 0;
 
 	/**
-		Returns the interface ID with the index @c index.
-	*/
-	virtual const InterfaceExtractors& GetInterfaceExtractors() const = 0;
-
-	/**
-		Get number of attributes.
+		Get set of attributes.
 	*/
 	virtual const AttributeInfos& GetAttributeInfos() const = 0;
+
+	/**
+		Get list of meta IDs associated with some meta key.
+		\sa MetaGroupId
+	*/
+	virtual Ids GetMetaIds(int metaGroupId) const = 0;
 
 	/**
 		Get list of subcomponent ID's.
@@ -94,29 +103,6 @@ public:
 								\sa	GetSubcomponentIds().
 	*/
 	virtual const IComponentStaticInfo* GetSubcomponentInfo(const std::string& subcomponentId) const = 0;
-
-	/**
-		Register interface ID for this static component info.
-		This interface ID is used for static check
-		if this component can be used to resolve reference dependecy of second one.
-	*/
-	virtual bool RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr) = 0;
-
-	/**
-		Register static attribute info.
-		\param	attributeId			ID of attribute.
-		\param	attributeInfoPtr	static attribute info object used to describe attribute type and as factory.
-									It cannot be NULL.
-	*/
-	virtual bool RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr) = 0;
-
-	/**
-		Register static subcomponent info.
-		\param	subcomponentId		ID of this subcomponent.
-		\param	componentInfoPtr	static subcomponent info object used to describe subcomponent type and as factory.
-									It cannot be NULL.
-	*/
-	virtual bool RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr) = 0;
 
 	/**
 		Get human readable description of this component.

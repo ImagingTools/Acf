@@ -5,7 +5,7 @@ namespace icomp
 {
 
 
-CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr)
+CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IRealComponentStaticInfo* baseComponentPtr)
 :	m_baseComponentPtr(baseComponentPtr)
 {
 	if (baseComponentPtr != NULL){
@@ -15,7 +15,19 @@ CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IComponentStaticInfo* b
 }
 
 
-//	reimplemented (icomp::IComponentStaticInfo)
+bool CBaseComponentStaticInfo::RegisterInterfaceExtractor(const std::string& interfaceName, InterfaceExtractorPtr extractorPtr)
+{
+	return m_interfaceExtractors.InsertLocal(interfaceName, extractorPtr);
+}
+
+
+bool CBaseComponentStaticInfo::RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr)
+{
+	return m_attributeInfos.InsertLocal(attributeId, attributeInfoPtr);
+}
+
+
+//	reimplemented (icomp::IRealComponentStaticInfo)
 
 const IComponentStaticInfo::InterfaceExtractors& CBaseComponentStaticInfo::GetInterfaceExtractors() const
 {
@@ -23,9 +35,22 @@ const IComponentStaticInfo::InterfaceExtractors& CBaseComponentStaticInfo::GetIn
 }
 
 
+//	reimplemented (icomp::IComponentStaticInfo)
+
 const IComponentStaticInfo::AttributeInfos& CBaseComponentStaticInfo::GetAttributeInfos() const
 {
 	return m_attributeInfos;
+}
+
+
+IComponentStaticInfo::Ids CBaseComponentStaticInfo::GetMetaIds(int metaGroupId) const
+{
+	Ids retVal;
+	if (metaGroupId == MGI_INTERFACES){
+		m_interfaceExtractors.GetKeys(retVal);
+	}
+
+	return retVal;
 }
 
 
@@ -55,18 +80,6 @@ const IComponentStaticInfo* CBaseComponentStaticInfo::GetSubcomponentInfo(const 
 	else{
 		return NULL;
 	}
-}
-
-
-bool CBaseComponentStaticInfo::RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr)
-{
-	return m_interfaceExtractors.InsertLocal(interfaceId, extractorPtr);
-}
-
-
-bool CBaseComponentStaticInfo::RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr)
-{
-	return m_attributeInfos.InsertLocal(attributeId, attributeInfoPtr);
 }
 
 

@@ -20,9 +20,9 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 	for (		IRegistry::ExportedInterfacesMap::const_iterator interfaceIter = interfacesMap.begin();
 				interfaceIter != interfacesMap.end();
 				++interfaceIter){
-		const istd::CClassInfo& interfaceId = interfaceIter->first;
+		const std::string& interfaceName = interfaceIter->first;
 
-		RegisterInterfaceExtractor(interfaceId, NULL);
+		RegisterInterfaceExtractor(interfaceName, NULL);
 	}
 
 	// register exported subcomponents
@@ -201,15 +201,15 @@ const std::string& CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAt
 }
 
 
-const istd::CClassInfo& CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetRelatedInterfaceType() const
+IComponentStaticInfo::Ids CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const
 {
-	return m_slave.GetRelatedInterfaceType();
+	return m_slave.GetRelatedMetaIds(metaGroupId, flags, flagsMask);
 }
 
 
-bool CCompositeComponentStaticInfo::AttrAsOptionalDelegator::IsObligatory() const
+int CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAttributeFlags() const
 {
-	return false;
+	return AF_NULLABLE;
 }
 
 

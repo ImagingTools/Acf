@@ -16,7 +16,7 @@ class TComponentStaticInfo: public CBaseComponentStaticInfo
 public:
 	typedef CBaseComponentStaticInfo BaseClass;
 
-	TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr = NULL);
+	TComponentStaticInfo(const IRealComponentStaticInfo* baseComponentPtr = NULL);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual int GetComponentType() const;
@@ -27,7 +27,7 @@ public:
 // public methods
 
 template <class Component>
-TComponentStaticInfo<Component>::TComponentStaticInfo(const IComponentStaticInfo* baseComponentPtr)
+TComponentStaticInfo<Component>::TComponentStaticInfo(const IRealComponentStaticInfo* baseComponentPtr)
 :	BaseClass(baseComponentPtr)
 {
 }

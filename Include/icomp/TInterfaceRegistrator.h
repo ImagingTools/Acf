@@ -4,7 +4,7 @@
 
 #include "istd/CClassInfo.h"
 
-#include "icomp/IComponentStaticInfo.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -18,7 +18,7 @@ template <class Interface>
 class TInterfaceRegistrator
 {
 public:
-	TInterfaceRegistrator(icomp::IComponentStaticInfo& staticInfo);
+	TInterfaceRegistrator(CBaseComponentStaticInfo& staticInfo);
 
 protected:
 	static void* InterfaceExtractor(IComponent* componentPtr);
@@ -28,18 +28,18 @@ protected:
 // public methods
 
 template <class Interface>
-TInterfaceRegistrator<Interface>::TInterfaceRegistrator(icomp::IComponentStaticInfo& staticInfo)
+TInterfaceRegistrator<Interface>::TInterfaceRegistrator(CBaseComponentStaticInfo& staticInfo)
 {
 	istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
 
 	if (!info.IsVoid()){
-		staticInfo.RegisterInterfaceExtractor(info, TInterfaceRegistrator<Interface>::InterfaceExtractor);
+		staticInfo.RegisterInterfaceExtractor(info.GetName(), TInterfaceRegistrator<Interface>::InterfaceExtractor);
 	}
 }
 
 
 template <>
-inline TInterfaceRegistrator<void>::TInterfaceRegistrator(icomp::IComponentStaticInfo& /*staticInfo*/)
+inline TInterfaceRegistrator<void>::TInterfaceRegistrator(CBaseComponentStaticInfo& /*staticInfo*/)
 {
 }
 

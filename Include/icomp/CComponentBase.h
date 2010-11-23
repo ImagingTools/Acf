@@ -5,7 +5,7 @@
 #include "istd/CClassInfo.h"
 
 #include "icomp/IComponent.h"
-#include "icomp/IComponentStaticInfo.h"
+#include "icomp/IRealComponentStaticInfo.h"
 #include "icomp/TInterfaceRegistrator.h"
 #include "icomp/TAttribute.h"
 #include "icomp/TMultiAttribute.h"
@@ -53,9 +53,6 @@ public:
 	virtual IComponent* CreateSubcomponent(const std::string& componentId) const;
 	virtual void OnSubcomponentDeleted(const IComponent* subcomponentPtr);
 
-	// static methods
-	static const icomp::IComponentStaticInfo& InitStaticInfo(CComponentBase* componentPtr);
-
 protected:
 	/**
 		Check if component is active.
@@ -66,6 +63,15 @@ protected:
 	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
+
+	// abstract methods
+	/**
+		Get access to static info of this component.
+	*/
+	virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const = 0;
+
+	// static methods
+	static const icomp::IRealComponentStaticInfo& InitStaticInfo(IComponent* componentPtr);
 
 private:
 	const IComponentContext* m_contextPtr;
@@ -94,7 +100,7 @@ inline bool CComponentBase::IsComponentActive() const
 	\ingroup ComponentConcept
 */
 #define I_BEGIN_COMPONENT(ComponentType)\
-	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
+	static const icomp::IRealComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
 		static icomp::TComponentStaticInfo<ComponentType> staticInfo(&BaseClass::InitStaticInfo(NULL));\
 		static bool isStaticInitialized = false;\
@@ -111,7 +117,7 @@ inline bool CComponentBase::IsComponentActive() const
 	\ingroup ComponentConcept
 */
 #define I_BEGIN_BASE_COMPONENT(ComponentType)\
-	static const icomp::IComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
+	static const icomp::IRealComponentStaticInfo& InitStaticInfo(ComponentType* componentPtr)\
 	{\
 		static icomp::CBaseComponentStaticInfo staticInfo(&BaseClass::InitStaticInfo(NULL));\
 		static bool isStaticInitialized = false;\
@@ -130,6 +136,10 @@ inline bool CComponentBase::IsComponentActive() const
 */
 #define I_END_COMPONENT\
 		return staticInfo;\
+	}\
+	virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const\
+	{\
+		return InitStaticInfo(NULL);\
 	}
 
 /**
@@ -235,7 +245,7 @@ inline bool CComponentBase::IsComponentActive() const
 	Used to assign value for single parameter (attribute, reference or factory).
 */
 #define I_ASSIGN_BASE(member, id, description, isObligatory)\
-	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, istd::CClassInfo::GetInfo<member##_Type::InterfaceType>());\
+	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<member##_Type::InterfaceType>());\
 	if (componentPtr != NULL){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}
@@ -308,7 +318,7 @@ inline bool CComponentBase::IsComponentActive() const
 	Used to assign value for single parameter with template type (attribute, reference or factory).
 */
 #define I_TASSIGN_BASE(member, id, description, isObligatory)\
-	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
+	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
 	if (componentPtr != NULL){\
 		componentPtr->member.Init(componentPtr, member##_Info);\
 	}

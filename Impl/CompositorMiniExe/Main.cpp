@@ -26,13 +26,16 @@ static icomp::TSimComponentWrap<CmpstrPck::AttributeEditor>* modelObserverPtr = 
 // dirty wor-around to simulate composed components
 class RegistryView: public icomp::CComponentBase
 {
-	typedef icomp::CComponentBase BaseClass;
-
 	icomp::TSimComponentWrap<QtViewPck::SceneProvider>* sceneProviderPtr;
 	icomp::TSimComponentWrap<CmpstrPck::VisualRegistryScenographer> scenographer;
 	icomp::TSimComponentWrap<BasePck::ModelBinder> binder;
 
 public:
+	typedef icomp::CComponentBase BaseClass;
+
+	I_BEGIN_COMPONENT(RegistryView);
+	I_END_COMPONENT();
+
 	RegistryView()
 	:	sceneProviderPtr(new icomp::TSimComponentWrap<QtViewPck::SceneProvider>())
 	{

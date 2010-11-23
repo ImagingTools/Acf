@@ -41,14 +41,6 @@ void CCompositePackageStaticInfo::Reset()
 
 //	reimplemented (icomp::IComponentStaticInfo)
 
-const icomp::IComponentStaticInfo::InterfaceExtractors& CCompositePackageStaticInfo::GetInterfaceExtractors() const
-{
-	static CascInterfaceExtractors empty;
-
-	return empty;
-}
-
-
 const icomp::IComponentStaticInfo::AttributeInfos& CCompositePackageStaticInfo::GetAttributeInfos() const
 {
 	static CascAttributeInfos empty;
@@ -87,24 +79,6 @@ const icomp::IComponentStaticInfo* CCompositePackageStaticInfo::GetSubcomponentI
 
 	return NULL;
 
-}
-
-
-bool CCompositePackageStaticInfo::RegisterInterfaceExtractor(const istd::CClassInfo& /*interfaceId*/, InterfaceExtractorPtr /*extractorPtr*/)
-{
-	return false;
-}
-
-
-bool CCompositePackageStaticInfo::RegisterAttributeInfo(const std::string& /*attributeId*/, const icomp::IAttributeStaticInfo* /*attributeInfoPtr*/)
-{
-	return false;
-}
-
-
-bool CCompositePackageStaticInfo::RegisterSubcomponentInfo(const std::string& /*subcomponentId*/, const IComponentStaticInfo* /*componentInfoPtr*/)
-{
-	return false;
 }
 
 

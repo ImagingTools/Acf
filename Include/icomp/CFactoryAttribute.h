@@ -19,6 +19,12 @@ class CFactoryAttribute: public TAttribute<std::string>
 public:
 	typedef TAttribute<std::string> BaseClass;
 
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_FACTORY,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE | IAttributeStaticInfo::AF_FACTORY
+	};
+
 	CFactoryAttribute(){}
 	CFactoryAttribute(const CFactoryAttribute& attribute):BaseClass(attribute){}
 	explicit CFactoryAttribute(const std::string& value):BaseClass(value){}

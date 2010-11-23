@@ -23,12 +23,10 @@ class IMetaInfoManager;
 
 
 class CCompositeComponent:
-			public CComponentBase,
-			public CInterfaceManipBase
+			public CInterfaceManipBase,
+			virtual public IComponent
 {
 public:
-	typedef CComponentBase BaseClass;
-
 	CCompositeComponent();
 
 	template <class InterfaceType>
@@ -44,7 +42,9 @@ public:
 	bool EndAutoInitBlock();
 
 	// reimplemented (icomp::IComponent)
+	virtual const IComponent* GetParentComponent(bool ownerOnly = false) const;
 	virtual void* GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId = "");
+	virtual const IComponentContext* GetComponentContext() const;
 	virtual void SetComponentContext(
 				const icomp::IComponentContext* contextPtr,
 				const IComponent* parentPtr,
@@ -77,6 +77,9 @@ protected:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
+	// static methods
+	static const icomp::IRealComponentStaticInfo& InitStaticInfo(IComponent* componentPtr);
+
 private:
 	struct ComponentInfo
 	{
@@ -99,6 +102,10 @@ private:
 
 	mutable IRegistry::Ids m_autoInitComponentIds;
 	int m_isAutoInitBlockCount;
+
+	const IComponentContext* m_contextPtr;
+	const IComponent* m_parentPtr;
+	bool m_isParentOwner;
 };
 
 

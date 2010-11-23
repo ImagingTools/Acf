@@ -987,7 +987,7 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 		for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator interfaceIter = interfacesMap.begin();
 					interfaceIter != interfacesMap.end();
 					++interfaceIter){
-			const istd::CClassInfo& info = interfaceIter->first;
+			const std::string& interfaceName = interfaceIter->first;
 			const std::string& componentName = interfaceIter->second;
 
 			NextLine(stream);
@@ -995,7 +995,7 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 			NextLine(stream);
 			stream << "\t\t\t\"" << componentName << "\",";
 			NextLine(stream);
-			stream << "\t\t\tistd::CClassInfo(\"" << info.GetName() << "\"),";
+			stream << "\t\t\t\"" << interfaceName << "\",";
 			NextLine(stream);
 			stream << "\t\t\ttrue);";
 		}

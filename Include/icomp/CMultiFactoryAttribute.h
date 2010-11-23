@@ -20,6 +20,12 @@ class CMultiFactoryAttribute: public TMultiAttribute<std::string>
 public:
 	typedef TMultiAttribute<std::string> BaseClass;
 
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_FACTORY,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE | IAttributeStaticInfo::AF_FACTORY
+	};
+
 	CMultiFactoryAttribute(){}
 	CMultiFactoryAttribute(const CMultiFactoryAttribute& attribute):BaseClass(attribute){}
 	CMultiFactoryAttribute(int elementsCount, std::string* valuesPtr):BaseClass(elementsCount, valuesPtr){}

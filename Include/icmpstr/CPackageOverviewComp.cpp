@@ -241,12 +241,18 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 		bool isMultiFactory = (attributeType == icomp::CMultiFactoryAttribute::GetTypeName());
 
 		if (isReference || isMultiReference || isFactory || isMultiFactory){
-			const istd::CClassInfo& interfaceType = attributeStaticInfoPtr->GetRelatedInterfaceType();
-			int index = InterfaceCB->findText(interfaceType.GetName().c_str());
-			if (index > 0){
-				filter.insert(interfaceType);
+			icomp::IComponentStaticInfo::Ids interfaceNames = attributeStaticInfoPtr->GetRelatedMetaIds(
+						icomp::IComponentStaticInfo::MGI_INTERFACES,
+						0,
+						icomp::IAttributeStaticInfo::AF_NULLABLE);	// Names of the interfaces which must be set
+			if (!interfaceNames.empty()){
+				const std::string& interfaceName = *interfaceNames.begin();
+				int index = InterfaceCB->findText(interfaceName.c_str());
+				if (index > 0){
+					filter.insert(interfaceName);
 
-				InterfaceCB->setCurrentIndex(index);
+					InterfaceCB->setCurrentIndex(index);
+				}
 			}
 		}
 	}
@@ -442,13 +448,12 @@ icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredCom
 			bool isFilterMatched = true;
 
 			if (metaInfoPtr != NULL){
-				const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = metaInfoPtr->GetInterfaceExtractors();
+				const icomp::IComponentStaticInfo::Ids& interfaces = metaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
 				for (		InterfaceFilter::const_iterator iterfaceIter = m_interfaceFilter.begin();
 							iterfaceIter != m_interfaceFilter.end();
 							++iterfaceIter){
-					const istd::CClassInfo& interfaceInfo = *iterfaceIter;
-
-					if (interfaceExtractors.FindElement(interfaceInfo) == NULL){
+					const std::string& interfaceName = *iterfaceIter;
+					if (interfaces.find(interfaceName) != interfaces.end()){
 						isFilterMatched = false;
 						break;
 					}
@@ -580,9 +585,7 @@ void CPackageOverviewComp::on_InterfaceCB_currentIndexChanged(int index)
 	InterfaceFilter filter;
 
 	if (index > 0){
-		istd::CClassInfo info(InterfaceCB->itemText(index).toStdString());
-
-		filter.insert(info);
+		filter.insert(InterfaceCB->itemText(index).toStdString());
 	}
 
 	if (filter != m_interfaceFilter){
@@ -781,12 +784,12 @@ void CPackageOverviewComp::OnGuiCreated()
 
 			const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
 			if (metaInfoPtr != NULL){
-				const icomp::IComponentStaticInfo::InterfaceExtractors& interfaceExtractors = metaInfoPtr->GetInterfaceExtractors();
+				const icomp::IComponentStaticInfo::Ids& interfaceNames = metaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
 
-				int interfacesCount = interfaceExtractors.GetElementsCount();
-				for (int i = 0; i < interfacesCount; ++i){
-					const istd::CClassInfo& interfaceInfo = interfaceExtractors.GetKeyAt(i);
-					knownInterfaces.insert(interfaceInfo);
+				for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceNames.begin();
+							interfaceIter != interfaceNames.end();
+							++interfaceIter){
+					knownInterfaces.insert(*interfaceIter);
 				}
 			}
 		}
@@ -798,9 +801,9 @@ void CPackageOverviewComp::OnGuiCreated()
 		for (		InterfaceFilter::const_iterator iterfaceIter = knownInterfaces.begin();
 					iterfaceIter != knownInterfaces.end();
 					++iterfaceIter){
-			const istd::CClassInfo& interfaceInfo = *iterfaceIter;
+			const std::string& interfaceName = *iterfaceIter;
 
-			InterfaceCB->addItem(interfaceInfo.GetName().c_str());
+			InterfaceCB->addItem(interfaceName.c_str());
 		}
 
 		InterfaceLabel->setVisible(true);

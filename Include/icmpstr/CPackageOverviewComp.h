@@ -168,7 +168,7 @@ private:
 	typedef std::map<std::string, RootInfo> RootInfos;
 	RootInfos m_roots;
 
-	typedef std::set<istd::CClassInfo> InterfaceFilter;
+	typedef std::set<std::string> InterfaceFilter;
 	InterfaceFilter m_interfaceFilter;
 	QStringList m_keywordsFilter;
 

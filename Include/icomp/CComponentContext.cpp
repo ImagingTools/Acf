@@ -3,6 +3,7 @@
 
 #include "icomp/IRegistryElement.h"
 #include "icomp/IComponentStaticInfo.h"
+#include "icomp/IAttributeStaticInfo.h"
 
 
 namespace icomp
@@ -83,7 +84,7 @@ const iser::IObject* CComponentContext::GetAttribute(const std::string& attribut
 	if (attributePtr2 != NULL){
 		I_ASSERT(*attributePtr2 != NULL);
 
-		if ((*attributePtr2)->IsObligatory()){
+		if (((*attributePtr2)->GetAttributeFlags() & icomp::IAttributeStaticInfo::AF_OBLIGATORY) != 0){
 			const iser::IObject* defaultAttributePtr = (*attributePtr2)->GetAttributeDefaultValue();
 			if (defaultAttributePtr != NULL){
 				if (definitionLevelPtr != NULL){

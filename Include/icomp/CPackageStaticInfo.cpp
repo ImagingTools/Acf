@@ -42,31 +42,11 @@ bool CPackageStaticInfo::SerializeMeta(iser::IArchive& archive)
 
 // reimplemented (icomp::IPackageStaticInfo)
 
-const CPackageStaticInfo::InterfaceExtractors& CPackageStaticInfo::GetInterfaceExtractors() const
-{
-	static CascInterfaceExtractors empty;
-
-	return empty;
-}
-
-
 const CPackageStaticInfo::AttributeInfos& CPackageStaticInfo::GetAttributeInfos() const
 {
 	static CascAttributeInfos empty;
 
 	return empty;
-}
-
-
-bool CPackageStaticInfo::RegisterInterfaceExtractor(const istd::CClassInfo& /*interfaceId*/, InterfaceExtractorPtr /*extractorPtr*/)
-{
-	return false;
-}
-
-
-bool CPackageStaticInfo::RegisterAttributeInfo(const std::string& /*attributeId*/, const IAttributeStaticInfo* /*attributeInfoPtr*/)
-{
-	return false;
 }
 
 

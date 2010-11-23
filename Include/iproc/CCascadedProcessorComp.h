@@ -31,7 +31,7 @@ public:
 		I_ASSIGN_MULTI_0(m_buffersCompPtr, "Buffers", "List of buffers storing data between processors", false);
 		I_ASSIGN_MULTI_0(m_progressIdsAttrPtr, "ProgressIds", "List of progress ID's used for progress manager for each processor", false);
 		I_ASSIGN_MULTI_0(m_progressDescriptionsAttrPtr, "ProgressDescriptions", "List of progress descriptions used for progress manager for each processor", false);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (iproc::IProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;

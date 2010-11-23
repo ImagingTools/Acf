@@ -8,7 +8,7 @@
 #include "iser/IObject.h"
 #include "iser/CArchiveTag.h"
 
-#include "icomp/icomp.h"
+#include "icomp/IAttributeStaticInfo.h"
 
 
 namespace icomp
@@ -25,6 +25,12 @@ class TAttribute: virtual public iser::IObject
 {
 public:
 	typedef Value ValueType;
+
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_NULLABLE,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE
+	};
 
 	TAttribute();
 	TAttribute(const TAttribute& attribute);

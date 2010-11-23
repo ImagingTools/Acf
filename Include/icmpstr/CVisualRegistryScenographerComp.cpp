@@ -722,7 +722,7 @@ void CVisualRegistryScenographerComp::OnExecutionTimerTick()
 		icomp::IRegistry* registryPtr = GetObjectPtr();
 		if (registryPtr != NULL){
 			const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = registryPtr->GetExportedInterfacesMap();
-			isExecutable = (interfacesMap.find(istd::CClassInfo::GetInfo<ibase::IApplication>()) != interfacesMap.end());
+			isExecutable = (interfacesMap.find(istd::CClassInfo::GetName<ibase::IApplication>()) != interfacesMap.end());
 		}
 	}
 

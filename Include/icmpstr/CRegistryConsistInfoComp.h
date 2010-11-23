@@ -44,7 +44,7 @@ public:
 
 	// reimplemented (icmpstr::IRegistryConsistInfo)
 	virtual icomp::IRegistry::Ids GetCompatibleElements(
-				const istd::CClassInfo& interfaceInfo,
+				const icomp::IComponentStaticInfo::Ids& interfaceNames,
 				const icomp::IRegistry& registry,
 				bool includeUndefined) const;
 	virtual bool IsRegistryValid(
@@ -71,7 +71,7 @@ protected:
 	icomp::IRegistry::Ids GetCompatibleSubcomponents(
 				const std::string& elementId,
 				const icomp::IComponentStaticInfo& elementStaticInfo,
-				const istd::CClassInfo& interfaceInfo) const;
+				const icomp::IComponentStaticInfo::Ids& interfaceNames) const;
 	istd::CString GetAddressName(const icomp::CComponentAddress& address) const;
 	bool CRegistryConsistInfoComp::CheckAttributeCompatibility(
 				const iser::IObject& attribute,
@@ -84,7 +84,7 @@ protected:
 				ibase::IMessageConsumer* reasonConsumerPtr) const;
 	bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 				const std::string& pointedElementName,
-				const istd::CClassInfo& interfaceInfo,
+				const icomp::IComponentStaticInfo::Ids& interfaceNames,
 				const std::string& attributeName,
 				const std::string& elementName,
 				const icomp::IRegistry& registry,

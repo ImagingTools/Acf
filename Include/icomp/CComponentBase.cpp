@@ -3,7 +3,7 @@
 
 #include "icomp/IComponentContext.h"
 #include "icomp/IRegistryElement.h"
-#include "icomp/CPackageStaticInfo.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -41,11 +41,11 @@ void* CComponentBase::GetInterface(const istd::CClassInfo& interfaceType, const 
 			return static_cast<icomp::IComponent*>(this);
 		}
 
-		const IComponentStaticInfo& staticInfo = m_contextPtr->GetStaticInfo();
+		const IRealComponentStaticInfo& staticInfo = GetComponentStaticInfo();
 
 		const IComponentStaticInfo::InterfaceExtractors& extractors = staticInfo.GetInterfaceExtractors();
 
-		int index = extractors.FindIndex(interfaceType);
+		int index = extractors.FindIndex(interfaceType.GetName());
 		if (index >= 0){
 			IComponentStaticInfo::InterfaceExtractorPtr extractorPtr = extractors.GetValueAt(index);
 
@@ -98,16 +98,6 @@ void CComponentBase::OnSubcomponentDeleted(const IComponent* /*subcomponentPtr*/
 }
 
 
-// static methods
-
-const icomp::IComponentStaticInfo& CComponentBase::InitStaticInfo(CComponentBase* /*componentPtr*/)
-{
-	static CPackageStaticInfo emptyInfo;
-
-	return emptyInfo;
-}
-
-
 // protected methods
 
 // reimplemented (icomp::IComponent)
@@ -121,6 +111,16 @@ void CComponentBase::OnComponentCreated()
 void CComponentBase::OnComponentDestroyed()
 {
 	I_ASSERT(m_contextPtr != NULL);
+}
+
+
+// static methods
+
+const icomp::IRealComponentStaticInfo& CComponentBase::InitStaticInfo(IComponent* /*componentPtr*/)
+{
+	static CBaseComponentStaticInfo emptyInfo;
+
+	return emptyInfo;
 }
 
 

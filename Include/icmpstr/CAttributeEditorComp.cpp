@@ -318,7 +318,7 @@ void CAttributeEditorComp::on_InterfacesTree_itemChanged(QTreeWidgetItem* item, 
 
 		const std::string& elementName = selectionInfoPtr->GetSelectedElementName();
 		bool isSelected = (item->checkState(column) == Qt::Checked);
-		registryPtr->SetElementInterfaceExported(elementName, istd::CClassInfo(interfaceName.toStdString()), isSelected);
+		registryPtr->SetElementInterfaceExported(elementName, interfaceName.toStdString(), isSelected);
 
 		UpdateExportIcon();
 	}
@@ -446,20 +446,21 @@ void CAttributeEditorComp::UpdateSelectedAttr()
 
 		AttributeTree->resizeColumnToContents(0);
 
-		const icomp::IComponentStaticInfo::InterfaceExtractors& extractors = infoPtr->GetInterfaceExtractors();
-
 		icomp::IRegistry::ExportedInterfacesMap interfacesMap;
 
 		interfacesMap = registryPtr->GetExportedInterfacesMap();
 
-		for (int extractorIndex = 0; extractorIndex < extractors.GetElementsCount(); extractorIndex++){
-			const istd::CClassInfo& interfaceInfo = extractors.GetKeyAt(extractorIndex);
+		const icomp::IComponentStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
+		for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
+					interfaceIter != interfaceIds.end();
+					interfaceIter++){
+			const std::string& interfaceName = *interfaceIter;
 			QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
 
 			itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
-			itemPtr->setText(0, interfaceInfo.GetName().c_str());
+			itemPtr->setText(0, interfaceName.c_str());
 
-			icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceInfo);
+			icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceName);
 			bool isInterfaceExported = false;
 			if (foundExportIter != interfacesMap.end()){
 				isInterfaceExported = (foundExportIter->second == elementId);
@@ -548,7 +549,8 @@ bool CAttributeEditorComp::SetAttributeToItems(
 	AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(staticInfo.GetAttributeTypeName());
 	if (foundTypeName != m_attributeTypesMap.end()){
 		attributeType = foundTypeName->second;
-		if (!attributeType.isEmpty() && !staticInfo.IsObligatory()){
+		if (		!attributeType.isEmpty() &&
+					((staticInfo.GetAttributeFlags() & icomp::IAttributeStaticInfo::AF_OBLIGATORY) == 0)){
 			attributeType = tr("Optional %1").arg(attributeType);
 		}
 	}
@@ -973,9 +975,12 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 
 		const icomp::IRegistry* registryPtr = m_parent.GetRegistry();
 		if ((registryPtr != NULL) && (staticInfoPtr != NULL) && m_parent.m_consistInfoCompPtr.IsValid()){
-			const istd::CClassInfo& interfaceInfo = staticInfoPtr->GetRelatedInterfaceType();
+			icomp::IComponentStaticInfo::Ids obligatoryInterfaces = staticInfoPtr->GetRelatedMetaIds(
+						icomp::IComponentStaticInfo::MGI_INTERFACES,
+						0,
+						icomp::IAttributeStaticInfo::AF_NULLABLE);	// Names of the interfaces which must be set
 			icomp::IRegistry::Ids compatIds = m_parent.m_consistInfoCompPtr->GetCompatibleElements(
-						interfaceInfo,
+						obligatoryInterfaces,
 						*registryPtr,
 						false);
 

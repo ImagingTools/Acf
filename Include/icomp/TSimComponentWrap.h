@@ -41,7 +41,7 @@ public:
 
 template <class Base>
 TSimComponentWrap<Base>::TSimComponentWrap()
-:	BaseClass(), BaseClass2(&BaseClass::InitStaticInfo(NULL))
+:	BaseClass(), BaseClass2(&GetComponentStaticInfo())
 {
 }
 

@@ -55,7 +55,7 @@ public:
 	/**
 		Map assigning interface ID (undecorated) to component ID exporting this interface.
 	*/
-	typedef std::map<istd::CClassInfo, std::string> ExportedInterfacesMap;
+	typedef std::map<std::string, std::string> ExportedInterfacesMap;
 
 	/**
 		Map assigning exported sub-component names to internal subcomponent ID's.
@@ -106,7 +106,7 @@ public:
 	*/
 	virtual void SetElementInterfaceExported(
 				const std::string& elementId,
-				const istd::CClassInfo& exportInterfaceInfo = istd::CClassInfo(),
+				const std::string& interfaceName,
 				bool state = true) = 0;
 
 	/**

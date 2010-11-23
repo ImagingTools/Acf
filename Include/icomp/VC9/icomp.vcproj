@@ -5,6 +5,7 @@
 	Name="icomp"
 	ProjectGUID="{F3A159CA-14B5-4800-8039-0157CF31EA27}"
 	RootNamespace="icomp"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -385,6 +386,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IRealComponentStaticInfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IRegistriesManager.h"
 				>
 			</File>
@@ -481,4 +486,3 @@
 	<Globals>
 	</Globals>
 </VisualStudioProject>
-

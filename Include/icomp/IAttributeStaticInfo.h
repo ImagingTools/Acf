@@ -9,7 +9,7 @@
 
 #include "iser/IObject.h"
 
-#include "icomp/icomp.h"
+#include "icomp/IComponentStaticInfo.h"
 
 
 namespace icomp
@@ -19,6 +19,27 @@ namespace icomp
 class IAttributeStaticInfo: virtual public istd::IPolymorphic
 {
 public:
+	enum AttributeFlags
+	{
+		/**
+			Active if user declared this attrinute as obligatory.
+		*/
+		AF_OBLIGATORY = 1 << 0,
+		/**
+			Active if this attribute can be unset (null).
+			Please note, that sometimes obligatory attributes can be nullable - for example for simple types default value can be taken.
+		*/
+		AF_NULLABLE	= 1 << 1,
+		/**
+			Attribute is reference to another component.
+		*/
+		AF_REFERENCE = 1 << 2,
+		/**
+			Attribute is factory of another component.
+		*/
+		AF_FACTORY = 1 << 2
+	};
+
 	/**
 		Get description of this attribute.
 	 */
@@ -36,17 +57,15 @@ public:
 	virtual const std::string& GetAttributeTypeName() const = 0;
 
 	/**
-		Get related interface type.
-		This type in normally used by references and factories.
+		Get related meta information.
+		This information in normally used by references and factories to provide information about related interfaces.
 	*/
-	virtual const istd::CClassInfo& GetRelatedInterfaceType() const = 0;
+	virtual IComponentStaticInfo::Ids GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const = 0;
 
 	/**
-		Check if this attribute is obligatory.
-		If attribute is obligatory, its value shouldn't be NULL.
-		Please note, that this flag is only suggestion for registry designer.
+		Get flags of this attribute.
 	 */
-	virtual bool IsObligatory() const = 0;
+	virtual int GetAttributeFlags() const = 0;
 };
 
 

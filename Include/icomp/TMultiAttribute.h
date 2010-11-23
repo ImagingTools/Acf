@@ -11,7 +11,7 @@
 #include "iser/IObject.h"
 #include "iser/CArchiveTag.h"
 
-#include "icomp/icomp.h"
+#include "icomp/IAttributeStaticInfo.h"
 
 
 namespace icomp
@@ -28,6 +28,12 @@ class TMultiAttribute: virtual public iser::IObject
 {
 public:
 	typedef Value ValueType;
+
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_NULLABLE,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE
+	};
 
 	TMultiAttribute();
 	TMultiAttribute(const TMultiAttribute& attribute);

@@ -52,8 +52,8 @@ protected:
 		virtual const std::string& GetAttributeDescription() const;
 		virtual const iser::IObject* GetAttributeDefaultValue() const;
 		virtual const std::string& GetAttributeTypeName() const;
-		virtual const istd::CClassInfo& GetRelatedInterfaceType() const;
-		virtual bool IsObligatory() const;
+		virtual IComponentStaticInfo::Ids GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const;
+		virtual int GetAttributeFlags() const;
 
 	private:
 		const IAttributeStaticInfo& m_slave;

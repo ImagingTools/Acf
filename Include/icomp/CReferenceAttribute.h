@@ -19,6 +19,12 @@ class CReferenceAttribute: public TAttribute<std::string>
 public:
 	typedef TAttribute<std::string> BaseClass;
 
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_REFERENCE,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE | IAttributeStaticInfo::AF_REFERENCE
+	};
+
 	CReferenceAttribute(){}
 	CReferenceAttribute(const CReferenceAttribute& attribute):BaseClass(attribute){}
 	explicit CReferenceAttribute(const std::string& value):BaseClass(value){}

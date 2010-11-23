@@ -88,12 +88,12 @@ void CRegistryPropEditorComp::CreateOverview()
 			
 			OverviewTree->addTopLevelItem(exportedInterfacesItemPtr);
 
-			for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator index = exportedInterfaces.begin();
-						index != exportedInterfaces.end();
-						index++){
+			for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator iter = exportedInterfaces.begin();
+						iter != exportedInterfaces.end();
+						iter++){
 				QTreeWidgetItem* exportedInterfaceItemPtr = new QTreeWidgetItem();
-				exportedInterfaceItemPtr->setText(0, QString(index->second.c_str()));
-				exportedInterfaceItemPtr->setText(1, QString(index->first.GetName().c_str()));
+				exportedInterfaceItemPtr->setText(0, QString(iter->second.c_str()));
+				exportedInterfaceItemPtr->setText(1, QString(iter->first.c_str()));
 				exportedInterfacesItemPtr->addChild(exportedInterfaceItemPtr);		
 			}
 
@@ -108,12 +108,12 @@ void CRegistryPropEditorComp::CreateOverview()
 
 			OverviewTree->addTopLevelItem(exportedComponentsItemPtr);
 
-			for (		icomp::IRegistry::ExportedComponentsMap::const_iterator index = exportedComponents.begin();
-						index != exportedComponents.end();
-						index++){
+			for (		icomp::IRegistry::ExportedComponentsMap::const_iterator iter = exportedComponents.begin();
+						iter != exportedComponents.end();
+						iter++){
 				QTreeWidgetItem* exportedComponentItemPtr = new QTreeWidgetItem();
-				exportedComponentItemPtr->setText(0, QString(index->second.c_str()));
-				exportedComponentItemPtr->setText(1, QString(index->first.c_str()));
+				exportedComponentItemPtr->setText(0, QString(iter->second.c_str()));
+				exportedComponentItemPtr->setText(1, QString(iter->first.c_str()));
 				exportedComponentsItemPtr->addChild(exportedComponentItemPtr);		
 			}
 

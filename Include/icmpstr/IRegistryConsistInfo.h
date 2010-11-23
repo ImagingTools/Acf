@@ -9,7 +9,6 @@
 #include <QIcon>
 
 #include "istd/IPolymorphic.h"
-#include "istd/CClassInfo.h"
 
 #include "icomp/IRegistry.h"
 
@@ -27,12 +26,12 @@ class IRegistryConsistInfo: virtual public istd::IPolymorphic
 public:
 	/**
 		Get list of compatible element names.
-		\param	interfaceInfo		definition of interface.
+		\param	interfaceNames		list of interfaces must be implemented.
 		\param	registry			registry will be looked in.
 		\param	includeUndefined	if it is true, all undefined elements will be included.
 	*/
 	virtual icomp::IRegistry::Ids GetCompatibleElements(
-				const istd::CClassInfo& interfaceInfo,
+				const icomp::IComponentStaticInfo::Ids& interfaceNames,
 				const icomp::IRegistry& registry,
 				bool includeUndefined) const = 0;
 

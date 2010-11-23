@@ -2,6 +2,7 @@
 
 
 #include "icomp/IComponentStaticInfo.h"
+#include "icomp/IAttributeStaticInfo.h"
 #include "icomp/CReferenceAttribute.h"
 #include "icomp/CFactoryAttribute.h"
 #include "icomp/CMultiReferenceAttribute.h"
@@ -159,7 +160,7 @@ const iser::IObject* CSimComponentContextBase::GetAttribute(const std::string& a
 	if (attributePtr2 != NULL){
 		I_ASSERT(*attributePtr2 != NULL);
 
-		if ((*attributePtr2)->IsObligatory()){
+		if (((*attributePtr2)->GetAttributeFlags() & IAttributeStaticInfo::AF_OBLIGATORY) != 0){
 			const iser::IObject* defaultAttributePtr = (*attributePtr2)->GetAttributeDefaultValue();
 			if (defaultAttributePtr != NULL){
 				if (definitionLevelPtr != NULL){

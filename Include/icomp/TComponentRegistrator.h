@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "icomp/IComponentStaticInfo.h"
 #include "icomp/TComponentStaticInfo.h"
+#include "icomp/CPackageStaticInfo.h"
 
 
 namespace icomp
@@ -23,7 +23,7 @@ public:
 
 	TComponentRegistrator(
 				const std::string& componentId,
-				icomp::IComponentStaticInfo& packageStaticInfo,
+				icomp::CPackageStaticInfo& packageStaticInfo,
 				const istd::CString& description,
 				const istd::CString& keywords);
 
@@ -43,7 +43,7 @@ private:
 template <class Component>
 TComponentRegistrator<Component>::TComponentRegistrator(
 			const std::string& componentId,
-			icomp::IComponentStaticInfo& packageStaticInfo,
+			icomp::CPackageStaticInfo& packageStaticInfo,
 			const istd::CString& description,
 			const istd::CString& keywords)
 :	BaseClass(&Component::InitStaticInfo(NULL)),

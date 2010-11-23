@@ -26,10 +26,7 @@ public:
 	virtual bool SerializeMeta(iser::IArchive& archive);
 
 	// reimplemented (icomp::IComponentStaticInfo)
-	virtual const InterfaceExtractors& GetInterfaceExtractors() const;
 	virtual const AttributeInfos& GetAttributeInfos() const;
-	virtual bool RegisterInterfaceExtractor(const istd::CClassInfo& interfaceId, InterfaceExtractorPtr extractorPtr);
-	virtual bool RegisterAttributeInfo(const std::string& attributeId, const IAttributeStaticInfo* attributeInfoPtr);
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;
 

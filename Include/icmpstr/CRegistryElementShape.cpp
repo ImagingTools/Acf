@@ -247,7 +247,7 @@ void CRegistryElementShape::CalcExportedInteraces(const CVisualRegistryElement& 
 					iter != interfacesMap.end();
 					++iter){
 			if (iter->second == componentName){
-				m_exportedInterfacesList.push_back(iqt::GetQString(iter->first.GetName()));
+				m_exportedInterfacesList.push_back(iter->first.c_str());
 			}
 		}
 	}

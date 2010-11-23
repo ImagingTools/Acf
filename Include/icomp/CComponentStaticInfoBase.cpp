@@ -11,6 +11,12 @@ void CComponentStaticInfoBase::Reset()
 }
 
 
+bool CComponentStaticInfoBase::RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr)
+{
+	return m_subcomponentInfos.InsertLocal(subcomponentId, componentInfoPtr);
+}
+
+
 // reimplemented (icomp::IComponentStaticInfo)
 
 int CComponentStaticInfoBase::GetComponentType() const
@@ -24,6 +30,12 @@ IComponent* CComponentStaticInfoBase::CreateComponent() const
 	I_CRITICAL();	// trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten
 
 	return NULL;
+}
+
+
+IComponentStaticInfo::Ids CComponentStaticInfoBase::GetMetaIds(int metaGroupId) const
+{
+	return Ids();
 }
 
 
@@ -46,12 +58,6 @@ const IComponentStaticInfo* CComponentStaticInfoBase::GetSubcomponentInfo(const 
 	else{
 		return NULL;
 	}
-}
-
-
-bool CComponentStaticInfoBase::RegisterSubcomponentInfo(const std::string& subcomponentId, const IComponentStaticInfo* componentInfoPtr)
-{
-	return m_subcomponentInfos.InsertLocal(subcomponentId, componentInfoPtr);
 }
 
 

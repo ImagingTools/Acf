@@ -2,19 +2,19 @@
 #define icomp_IRealAttributeStaticInfo_included
 
 
+// STL includes
 #include <string>
 
-#include "istd/IPolymorphic.h"
-
-#include "iser/ISerializable.h"
-
-#include "icomp/icomp.h"
+#include "icomp/IAttributeStaticInfo.h"
 
 
 namespace icomp
 {
 
 
+/**
+	Interface adding to attribute static info functionality existing only for real attributes.
+*/
 class IRealAttributeStaticInfo: virtual public IAttributeStaticInfo
 {
 public:

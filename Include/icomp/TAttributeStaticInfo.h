@@ -5,6 +5,7 @@
 #include "istd/CClassInfo.h"
 
 #include "icomp/IRealAttributeStaticInfo.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -16,11 +17,11 @@ class TAttributeStaticInfo: virtual public IRealAttributeStaticInfo
 {
 public:
 	TAttributeStaticInfo(
-				icomp::IComponentStaticInfo& staticInfo,
+				icomp::CBaseComponentStaticInfo& staticInfo,
 				const std::string& id,
 				const std::string& description,
 				const Attribute* defaultValuePtr,
-				bool isObligatory,
+				int flags,
 				const istd::CClassInfo& relatedInterfaceInfo);
 
 	// reimplemented (icomp::IRealAttributeStaticInfo)
@@ -30,14 +31,14 @@ public:
 	virtual const std::string& GetAttributeDescription() const;
 	virtual const iser::IObject* GetAttributeDefaultValue() const;
 	virtual const std::string& GetAttributeTypeName() const;
-	virtual const istd::CClassInfo& GetRelatedInterfaceType() const;
-	virtual bool IsObligatory() const;
+	virtual IComponentStaticInfo::Ids GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const;
+	virtual int GetAttributeFlags() const;
 
 private:
 	std::string m_id;
 	std::string m_description;
 	const Attribute* m_defaultValuePtr;
-	bool m_isObligatory;
+	int m_attributeFlags;
 	istd::CClassInfo m_relatedInterfaceType;
 };
 
@@ -46,16 +47,16 @@ private:
 
 template <class Attribute>
 TAttributeStaticInfo<Attribute>::TAttributeStaticInfo(
-			icomp::IComponentStaticInfo& staticInfo,
+			icomp::CBaseComponentStaticInfo& staticInfo,
 			const std::string& id,
 			const std::string& description,
 			const Attribute* defaultValuePtr,
-			bool isObligatory,
+			int flags,
 			const istd::CClassInfo& relatedInterfaceInfo)
 :	m_id(id),
 	m_description(description),
 	m_defaultValuePtr(defaultValuePtr),
-	m_isObligatory(isObligatory),
+	m_attributeFlags(flags),
 	m_relatedInterfaceType(relatedInterfaceInfo)
 {
 	staticInfo.RegisterAttributeInfo(id, this);
@@ -95,16 +96,24 @@ const std::string& TAttributeStaticInfo<Attribute>::GetAttributeTypeName() const
 
 
 template <class Attribute>
-const istd::CClassInfo& TAttributeStaticInfo<Attribute>::GetRelatedInterfaceType() const
+IComponentStaticInfo::Ids TAttributeStaticInfo<Attribute>::GetRelatedMetaIds(int metaGroupId, int flags, int flagsMask) const
 {
-	return m_relatedInterfaceType;
+	IComponentStaticInfo::Ids retVal;
+
+	if (metaGroupId == IComponentStaticInfo::MGI_INTERFACES){
+		if ((m_attributeFlags & flagsMask) == flags){
+			retVal.insert(m_relatedInterfaceType.GetName());
+		}
+	}
+
+	return retVal;
 }
 
 
 template <class Attribute>
-bool TAttributeStaticInfo<Attribute>::IsObligatory() const
+int TAttributeStaticInfo<Attribute>::GetAttributeFlags() const
 {
-	return m_isObligatory;
+	return m_attributeFlags;
 }
 
 

@@ -5,6 +5,7 @@
 
 #include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CCompositeComponentContext.h"
+#include "icomp/CBaseComponentStaticInfo.h"
 
 
 namespace icomp
@@ -13,7 +14,10 @@ namespace icomp
 
 CCompositeComponent::CCompositeComponent()
 :	m_blockCreating(true),
-	m_isAutoInitBlockCount(0)
+	m_isAutoInitBlockCount(0),
+	m_contextPtr(NULL),
+	m_parentPtr(NULL),
+	m_isParentOwner(false)
 {
 }
 
@@ -37,6 +41,16 @@ bool CCompositeComponent::EndAutoInitBlock()
 
 // reimplemented (icomp::IComponent)
 
+const IComponent* CCompositeComponent::GetParentComponent(bool ownerOnly) const
+{
+	if (!ownerOnly || m_isParentOwner){
+		return m_parentPtr;
+	}
+
+	return NULL;
+}
+
+
 void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, const std::string& subId)
 {
 	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext());
@@ -54,7 +68,7 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 			iter = interfaceInfos.begin();
 		}
 		else{
-			iter = interfaceInfos.find(interfaceType);
+			iter = interfaceInfos.find(interfaceType.GetName());
 		}
 
 		if (iter != interfaceInfos.end()){
@@ -93,12 +107,20 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 }
 
 
+const IComponentContext* CCompositeComponent::GetComponentContext() const
+{
+	return m_contextPtr;
+}
+
+
 void CCompositeComponent::SetComponentContext(
 			const icomp::IComponentContext* contextPtr,
 			const IComponent* parentPtr,
 			bool isParentOwner)
 {
-	BaseClass::SetComponentContext(contextPtr, parentPtr, isParentOwner);
+	m_contextPtr = contextPtr;
+	m_parentPtr = parentPtr;
+	m_isParentOwner = isParentOwner;
 
 	m_autoInitComponentIds.clear();
 
@@ -291,7 +313,7 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 
 void CCompositeComponent::OnComponentCreated()
 {
-	BaseClass::OnComponentCreated();
+	I_ASSERT(m_contextPtr != NULL);
 
 	m_blockCreating = false;
 
@@ -301,6 +323,8 @@ void CCompositeComponent::OnComponentCreated()
 
 void CCompositeComponent::OnComponentDestroyed()
 {
+	I_ASSERT(m_contextPtr != NULL);
+
 	m_blockCreating = true;
 
 	for (		ComponentMap::iterator iter = m_componentMap.begin();
@@ -313,8 +337,16 @@ void CCompositeComponent::OnComponentDestroyed()
 			info.isInitialized = false;
 		}
 	}
+}
 
-	BaseClass::OnComponentDestroyed();
+
+// static methods
+
+const icomp::IRealComponentStaticInfo& CCompositeComponent::InitStaticInfo(IComponent* /*componentPtr*/)
+{
+	static CBaseComponentStaticInfo emptyInfo;
+
+	return emptyInfo;
 }
 
 
