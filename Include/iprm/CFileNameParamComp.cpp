@@ -11,18 +11,6 @@ namespace iprm
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CFileNameParamComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_defaultDirAttrPtr.IsValid()){
-		m_path = *m_defaultDirAttrPtr;
-	}
-}
-
-
 // reimplemented (iprm::IFileNameParam)
 
 int CFileNameParamComp::GetPathType() const
@@ -69,6 +57,20 @@ bool CFileNameParamComp::Serialize(iser::IArchive& archive)
 	}
 
 	return retVal;
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CFileNameParamComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_defaultDirAttrPtr.IsValid()){
+		m_path = *m_defaultDirAttrPtr;
+	}
 }
 
 

@@ -26,11 +26,11 @@ public:
 		I_ASSIGN(m_titleAttrPtr, "Title", "Specify the window title ", true, "Free Window")
 	I_END_COMPONENT
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-protected:
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);
 	I_ATTR(istd::CString, m_titleAttrPtr);
 

@@ -30,9 +30,6 @@ public:
 		I_ASSIGN(m_pathTypeAttrPtr, "PathType", "Type of path: 0 - unknown, 1 - PT_FILE, 2 - PT_DIRECTORY, 3 - PT_URL", true, PT_UNKNOWN);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (iprm::IFileNameParam)
 	virtual int GetPathType() const;
 	virtual const istd::CString& GetPath() const;
@@ -40,6 +37,10 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	istd::CString m_path;

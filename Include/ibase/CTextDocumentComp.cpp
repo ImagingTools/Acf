@@ -30,16 +30,6 @@ void CTextDocumentComp::SetText(const istd::CString& text)
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CTextDocumentComp::OnComponentCreated()
-{
-	if (m_defaultTextAttrPtr.IsValid()){
-		m_text = *m_defaultTextAttrPtr;
-	}
-}
-
-
 // reimplemented (iser::ISerializable)
 
 bool CTextDocumentComp::Serialize(iser::IArchive& archive)
@@ -50,6 +40,18 @@ bool CTextDocumentComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(textTag);
 
 	return retVal;
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CTextDocumentComp::OnComponentCreated()
+{
+	if (m_defaultTextAttrPtr.IsValid()){
+		m_text = *m_defaultTextAttrPtr;
+	}
 }
 
 

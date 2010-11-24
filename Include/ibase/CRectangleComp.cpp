@@ -4,8 +4,9 @@
 namespace ibase
 {		
 
-	
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 void CRectangleComp::OnComponentCreated()
 {

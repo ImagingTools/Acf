@@ -11,7 +11,9 @@ CModelProxyComp::CModelProxyComp()
 }
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 void CModelProxyComp::OnComponentCreated()
 {

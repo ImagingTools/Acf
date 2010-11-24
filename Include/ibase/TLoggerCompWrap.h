@@ -27,9 +27,6 @@ public:
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
 	I_END_COMPONENT
 	
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 protected:
 	// reimplemented (istd::ILogger)
 	virtual void DecorateMessage(
@@ -39,24 +36,12 @@ protected:
 				istd::CString& message,
 				istd::CString& messageSource) const;
 
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+
 private:
 	I_REF(ibase::IMessageConsumer, m_logCompPtr);
 };
-
-
-// public methods
-
-// reimplemented (icomp::IComponent)
-
-template <class Base>
-void TLoggerCompWrap<Base>::OnComponentCreated()
-{
-	if (m_logCompPtr.IsValid()){
-		this->SetLogPtr(m_logCompPtr.GetPtr());
-	}
-
-	BaseClass::OnComponentCreated();
-}
 
 
 // protected methods
@@ -82,6 +67,19 @@ void TLoggerCompWrap<Base>::DecorateMessage(
 			messageSource = istd::CString(contextPtr->GetContextId()) + " (" + messageSource + ")";
 		}
 	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+template <class Base>
+void TLoggerCompWrap<Base>::OnComponentCreated()
+{
+	if (m_logCompPtr.IsValid()){
+		this->SetLogPtr(m_logCompPtr.GetPtr());
+	}
+
+	BaseClass::OnComponentCreated();
 }
 
 

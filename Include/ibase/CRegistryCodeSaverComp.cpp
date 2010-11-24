@@ -187,8 +187,6 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	NextLine(stream);
 	stream << "#include \"icomp/IRegistriesManager.h\"";
 	NextLine(stream);
-	stream << "#include \"icomp/TComponentWrap.h\"";
-	NextLine(stream);
 	stream << "#include \"icomp/CRegistry.h\"";
 	NextLine(stream);
 	stream << "#include \"icomp/CCompositeComponent.h\"";
@@ -216,7 +214,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	}
 
 	NextLine(stream);
-	stream << "class " << className << ": protected icomp::TComponentWrap<icomp::CCompositeComponent>";
+	stream << "class " << className << ": protected icomp::CCompositeComponent";
 	NextLine(stream);
 	stream << "{";
 	NextLine(stream);
@@ -224,7 +222,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	ChangeIndent(1);
 
 	NextLine(stream);
-	stream << "typedef icomp::TComponentWrap<icomp::CCompositeComponent> BaseClass;";
+	stream << "typedef icomp::CCompositeComponent BaseClass;";
 	NextLine(stream);
 
 	NextLine(stream);
@@ -871,7 +869,7 @@ bool CRegistryCodeSaverComp::WriteRegistryClassDeclaration(
 	}
 
 	NextLine(stream);
-	stream << "class " << registryClassName << ": private icomp::TComponentWrap<icomp::CCompositeComponent>";
+	stream << "class " << registryClassName << ": private icomp::CCompositeComponent";
 	NextLine(stream);
 	stream << "{";
 
@@ -880,7 +878,7 @@ bool CRegistryCodeSaverComp::WriteRegistryClassDeclaration(
 	ChangeIndent(1);
 
 	NextLine(stream);
-	stream << "typedef icomp::TComponentWrap<icomp::CCompositeComponent> BaseClass;";
+	stream << "typedef icomp::CCompositeComponent BaseClass;";
 
 	NextLine(stream);
 	stream << "static const icomp::IComponentStaticInfo& EnsureStaticInfoInit(const icomp::IComponentEnvironmentManager* managerPtr);";

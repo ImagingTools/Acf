@@ -98,7 +98,7 @@ void CPlaybackControllerGuiComp::OnGuiCreated()
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CPlaybackControllerGuiComp::OnComponentCreated()
 {

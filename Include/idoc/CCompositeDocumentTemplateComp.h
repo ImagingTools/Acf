@@ -40,7 +40,7 @@ public:
 	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
 
 protected:
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

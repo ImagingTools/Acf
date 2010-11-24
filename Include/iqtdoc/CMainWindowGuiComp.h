@@ -58,10 +58,6 @@ public:
 
 	CMainWindowGuiComp();
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	virtual bool OnDetached(imod::IModel* modelPtr);
@@ -104,6 +100,10 @@ protected:
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 protected Q_SLOTS:
 	void OnNew();

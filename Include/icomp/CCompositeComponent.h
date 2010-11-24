@@ -28,6 +28,7 @@ class CCompositeComponent:
 {
 public:
 	CCompositeComponent();
+	virtual ~CCompositeComponent();
 
 	template <class InterfaceType>
 	InterfaceType* GetComponentInterface(const std::string& subId = "");
@@ -64,21 +65,15 @@ protected:
 		\param	subContextPtr	pointer to subcomponent context will be set to new context object if needed.
 		\param	subComponentPtr	optional pointer to subcomponent will be set to new component object.
 		\param	isOwned			true, if created component will be owned by this component.
+		\return					true if success.
 	*/
-	void CreateSubcomponentInfo(
+	bool CreateSubcomponentInfo(
 				const std::string& componentId,
 				ContextPtr& subContextPtr,
 				ComponentPtr* subComponentPtr,
 				bool isOwned) const;
 
 	bool EnsureAutoInitComponentsCreated() const;
-
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
-	// static methods
-	static const icomp::IRealComponentStaticInfo& InitStaticInfo(IComponent* componentPtr);
 
 private:
 	struct ComponentInfo
@@ -97,8 +92,6 @@ private:
 	typedef std::map< std::string, ComponentInfo > ComponentMap;
 
 	mutable ComponentMap m_componentMap;
-
-	bool m_blockCreating;
 
 	mutable IRegistry::Ids m_autoInitComponentIds;
 	int m_isAutoInitBlockCount;

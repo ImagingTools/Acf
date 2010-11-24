@@ -41,24 +41,6 @@ void CSingleDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CSingleDocumentWorkspaceGuiComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	SetDocumentTemplate(m_documentTemplateCompPtr.GetPtr());
-
-	if (m_documentTemplateCompPtr.IsValid()){
-		idoc::IDocumentTemplate::Ids ids = m_documentTemplateCompPtr->GetDocumentTypeIds();
-
-		if (!ids.empty()){
-			FileNew(ids.front());
-		}
-	}
-}
-
-
 // protected members
 
 void CSingleDocumentWorkspaceGuiComp::UpdateTitle()
@@ -258,6 +240,24 @@ void CSingleDocumentWorkspaceGuiComp::OnGuiCreated()
 void CSingleDocumentWorkspaceGuiComp::OnGuiDestroyed()
 {
 	FileClose();
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CSingleDocumentWorkspaceGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	SetDocumentTemplate(m_documentTemplateCompPtr.GetPtr());
+
+	if (m_documentTemplateCompPtr.IsValid()){
+		idoc::IDocumentTemplate::Ids ids = m_documentTemplateCompPtr->GetDocumentTypeIds();
+
+		if (!ids.empty()){
+			FileNew(ids.front());
+		}
+	}
 }
 
 

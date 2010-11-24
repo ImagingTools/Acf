@@ -41,9 +41,6 @@ public:
 
 	CLogGuiComp();
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 protected:
 	enum ColumnType
 	{
@@ -75,7 +72,10 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
-	
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+
 	// reimplemented (istd::IChangeable)
 	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);

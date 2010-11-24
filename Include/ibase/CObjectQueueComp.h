@@ -58,7 +58,7 @@ protected:
 	istd::IChangeable* CreateObject();
 	void TryReductReserve();
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed();
 
 private:

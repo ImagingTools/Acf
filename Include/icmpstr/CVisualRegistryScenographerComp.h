@@ -138,7 +138,7 @@ protected:
 	virtual bool OnDropObject(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
 	virtual void UpdateScene(int updateFlags);
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

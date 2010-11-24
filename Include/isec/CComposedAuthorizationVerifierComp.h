@@ -30,12 +30,13 @@ public:
 		I_ASSIGN_MULTI_0(m_slaveVerifiersModelCompPtr, "SlaveVerifiers", "List of slave verifiers", true);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (isec::IAuthorizationVerifier)
 	virtual bool IsAuthorized(const std::string& featureId) const;
 	virtual Ids GetKnownFeatureIds() const;
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	I_MULTIREF(IAuthorizationVerifier, m_slaveVerifiersCompPtr);

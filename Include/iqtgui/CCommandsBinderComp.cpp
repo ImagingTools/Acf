@@ -15,7 +15,7 @@ const ibase::IHierarchicalCommand* CCommandsBinderComp::GetCommands() const
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CCommandsBinderComp::OnComponentCreated()
 {

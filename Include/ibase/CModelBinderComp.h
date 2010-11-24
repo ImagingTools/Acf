@@ -26,7 +26,7 @@ public:
 	I_END_COMPONENT
 
 protected:
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

@@ -26,12 +26,13 @@ public:
 		I_ASSIGN(m_defaultRightCompPtr, "DefaultRight", "Default right will be returned if ID is unknown", false, false);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (isec::IAuthorizationVerifier)
 	virtual bool IsAuthorized(const std::string& featureId) const;
 	virtual Ids GetKnownFeatureIds() const;
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	I_MULTIATTR(istd::CString, m_enabledFeaturesCompPtr);

@@ -110,7 +110,7 @@ protected:
 	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 	// reimplemented (istd:IChangeable)

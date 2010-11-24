@@ -31,7 +31,7 @@ public:
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 protected:
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 private:

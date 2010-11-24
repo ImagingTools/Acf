@@ -48,20 +48,6 @@ void CStreamLogCompBase::AddMessage(const MessagePtr& messagePtr)
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CStreamLogCompBase::OnComponentDestroyed()
-{
-	BaseClass::OnComponentDestroyed();
-
-	if (m_isLastDotShown){
-		NewLine();
-
-		m_isLastDotShown = false;
-	}
-}
-
-
 // protected methods
 
 void CStreamLogCompBase::WriteMessageToStream(const ibase::IMessage& message)
@@ -77,6 +63,20 @@ void CStreamLogCompBase::WriteMessageToStream(const ibase::IMessage& message)
 	WriteText(messageText);
 
 	NewLine();
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CStreamLogCompBase::OnComponentDestroyed()
+{
+	BaseClass::OnComponentDestroyed();
+
+	if (m_isLastDotShown){
+		NewLine();
+
+		m_isLastDotShown = false;
+	}
 }
 
 

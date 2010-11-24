@@ -558,7 +558,7 @@ void CSceneProviderGuiComp::OnGuiDestroyed()
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CSceneProviderGuiComp::OnComponentCreated()
 {

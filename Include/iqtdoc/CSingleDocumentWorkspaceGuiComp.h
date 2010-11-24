@@ -47,9 +47,6 @@ public:
 	// reimplemented (iqtgui::IGuiObject)
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 protected:
 	/**
 		Update titles of views or all views of specified document.
@@ -73,6 +70,9 @@ protected:
 	// reimplemented (iqt:CGuiComponentBase)
 	virtual void OnGuiCreated();	
 	virtual void OnGuiDestroyed();
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 	// reimplemented (istd:IChangeable)
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);

@@ -5,30 +5,6 @@ namespace isec
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CFixedAuthorisationVerifierComp::OnComponentCreated()
-{
-	m_enabledFeatureIds.clear();
-
-	int enabledCount = m_enabledFeaturesCompPtr.GetCount();
-	for (int enabledIndex = 0; enabledIndex < enabledCount; ++enabledIndex){
-		const istd::CString& id = m_enabledFeaturesCompPtr[enabledIndex];
-
-		m_enabledFeatureIds.insert(id.ToString());
-	}
-
-	m_disabledFeatureIds.clear();
-
-	int disabledCount = m_disabledFeaturesCompPtr.GetCount();
-	for (int disabledIndex = 0; disabledIndex < disabledCount; ++disabledIndex){
-		const istd::CString& id = m_disabledFeaturesCompPtr[disabledIndex];
-
-		m_disabledFeatureIds.insert(id.ToString());
-	}
-}
-
-
 // reimplemented (isec::IAuthorizationVerifier)
 
 bool CFixedAuthorisationVerifierComp::IsAuthorized(const std::string& featureId) const
@@ -65,6 +41,32 @@ isec::IAuthorizationVerifier::Ids CFixedAuthorisationVerifierComp::GetKnownFeatu
 	}
 
 	return retVal;
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CFixedAuthorisationVerifierComp::OnComponentCreated()
+{
+	m_enabledFeatureIds.clear();
+
+	int enabledCount = m_enabledFeaturesCompPtr.GetCount();
+	for (int enabledIndex = 0; enabledIndex < enabledCount; ++enabledIndex){
+		const istd::CString& id = m_enabledFeaturesCompPtr[enabledIndex];
+
+		m_enabledFeatureIds.insert(id.ToString());
+	}
+
+	m_disabledFeatureIds.clear();
+
+	int disabledCount = m_disabledFeaturesCompPtr.GetCount();
+	for (int disabledIndex = 0; disabledIndex < disabledCount; ++disabledIndex){
+		const istd::CString& id = m_disabledFeaturesCompPtr[disabledIndex];
+
+		m_disabledFeatureIds.insert(id.ToString());
+	}
 }
 
 

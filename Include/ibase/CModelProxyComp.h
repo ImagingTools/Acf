@@ -30,7 +30,8 @@ public:
 
 	CModelProxyComp();
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

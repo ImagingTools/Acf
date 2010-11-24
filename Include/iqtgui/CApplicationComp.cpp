@@ -17,21 +17,6 @@ namespace iqtgui
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CApplicationComp::OnComponentCreated()
-{
-	icomp::IComponent* parentPtr = const_cast<icomp::IComponent*>(GetParentComponent(true));
-	icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
-
-	if (compositePtr != NULL){
-		compositePtr->BeginAutoInitBlock();
-	}
-
-	BaseClass::OnComponentCreated();
-}
-
-
 // reimplemented (iqtgui::IGuiApplication)
 
 const iqtgui::IGuiObject* CApplicationComp::GetApplicationGui() const
@@ -197,6 +182,23 @@ int CApplicationComp::Execute(int argc, char** argv)
 istd::CString CApplicationComp::GetHelpText() const
 {
 	return "-style QtStyle\tname of Qt-specified style";
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CApplicationComp::OnComponentCreated()
+{
+	icomp::IComponent* parentPtr = const_cast<icomp::IComponent*>(GetParentComponent(true));
+	icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
+
+	if (compositePtr != NULL){
+		compositePtr->BeginAutoInitBlock();
+	}
+
+	BaseClass::OnComponentCreated();
 }
 
 

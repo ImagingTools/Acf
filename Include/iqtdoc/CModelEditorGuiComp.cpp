@@ -11,29 +11,6 @@ CModelEditorGuiComp::CModelEditorGuiComp()
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CModelEditorGuiComp::OnComponentCreated()
-{
-	I_ASSERT(!m_isConnected);
-
-	if (m_slaveObserverCompPtr.IsValid() && m_modelCompPtr.IsValid()){
-		m_isConnected = m_modelCompPtr->AttachObserver(m_slaveObserverCompPtr.GetPtr());
-	}
-}
-
-
-void CModelEditorGuiComp::OnComponentDestroyed()
-{
-	if (m_isConnected){
-		I_ASSERT(m_slaveObserverCompPtr.IsValid());
-		I_ASSERT(m_modelCompPtr.IsValid());
-
-		m_modelCompPtr->DetachObserver(m_slaveObserverCompPtr.GetPtr());
-	}
-}
-
-
 // reimplemented (iqtgui::IGuiObject)
 
 bool CModelEditorGuiComp::IsGuiCreated() const
@@ -134,6 +111,31 @@ void CModelEditorGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* providerPt
 {
 	if (m_slaveExtenderCompPtr.IsValid()){
 		m_slaveExtenderCompPtr->RemoveItemsFromScene(providerPtr);
+	}
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CModelEditorGuiComp::OnComponentCreated()
+{
+	I_ASSERT(!m_isConnected);
+
+	if (m_slaveObserverCompPtr.IsValid() && m_modelCompPtr.IsValid()){
+		m_isConnected = m_modelCompPtr->AttachObserver(m_slaveObserverCompPtr.GetPtr());
+	}
+}
+
+
+void CModelEditorGuiComp::OnComponentDestroyed()
+{
+	if (m_isConnected){
+		I_ASSERT(m_slaveObserverCompPtr.IsValid());
+		I_ASSERT(m_modelCompPtr.IsValid());
+
+		m_modelCompPtr->DetachObserver(m_slaveObserverCompPtr.GetPtr());
 	}
 }
 

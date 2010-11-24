@@ -171,7 +171,7 @@ istd::CString CCompositeDocumentTemplateComp::GetDefaultDirectory(const istd::CS
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CCompositeDocumentTemplateComp::OnComponentCreated()
 {

@@ -4,7 +4,6 @@
 
 #include "icomp/IRegistryLoader.h"
 #include "icomp/IRegistriesManager.h"
-#include "icomp/TComponentWrap.h"
 #include "icomp/CCompositeComponentContext.h"
 #include "icomp/CCompositeComponent.h"
 #include "icomp/CRegistryElement.h"
@@ -27,7 +26,7 @@ public:
 private:
 	istd::CString m_registryFile;
 
-	icomp::TComponentWrap<icomp::CCompositeComponent> m_composite;
+	icomp::CCompositeComponent m_composite;
 
 	bool m_isAutoInitBlocked;
 };

@@ -33,8 +33,8 @@ void CTextFileLogComp::NewLine()
 	}
 }
 
-	
-// reimplemented (icomp::IComponent)
+
+// reimplemented (icomp::CComponentBase)
 
 void CTextFileLogComp::OnComponentCreated()
 {

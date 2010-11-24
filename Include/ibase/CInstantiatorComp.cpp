@@ -7,7 +7,7 @@ namespace ibase
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CInstantiatorComp::OnComponentCreated()
 {

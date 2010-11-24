@@ -7,28 +7,6 @@ namespace iqtmm
 
 // public methods
 
-// reimplemented (icomp::IComponent)
-
-void CVideoPlayerGuiComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_urlParamModelCompPtr.IsValid()){
-		m_urlParamModelCompPtr->AttachObserver(this);
-	}
-}
-
-
-void CVideoPlayerGuiComp::OnComponentDestroyed()
-{
-	if (m_urlParamModelCompPtr.IsValid()){
-		m_urlParamModelCompPtr->DetachObserver(this);
-	}
-
-	BaseClass::OnComponentDestroyed();
-}
-
-
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CVideoPlayerGuiComp::OnGuiCreated()
@@ -90,6 +68,28 @@ void CVideoPlayerGuiComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*up
 	if (m_mediaControllerCompPtr.IsValid() && m_urlParamCompPtr.IsValid()){
 		m_mediaControllerCompPtr->OpenMediumUrl(m_urlParamCompPtr->GetPath(), false);
 	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CVideoPlayerGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_urlParamModelCompPtr.IsValid()){
+		m_urlParamModelCompPtr->AttachObserver(this);
+	}
+}
+
+
+void CVideoPlayerGuiComp::OnComponentDestroyed()
+{
+	if (m_urlParamModelCompPtr.IsValid()){
+		m_urlParamModelCompPtr->DetachObserver(this);
+	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

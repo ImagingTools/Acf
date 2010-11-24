@@ -28,9 +28,6 @@ public:
 		I_ASSIGN(m_defaultIsEnabledAttrPtr, "DefaultEnabled", "Default value", true, false);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (istd::IEnableable)
 	virtual bool IsEnabled() const;
 	virtual bool IsEnablingAllowed() const;
@@ -38,6 +35,10 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	bool m_isEnabled;

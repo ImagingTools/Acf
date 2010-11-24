@@ -52,7 +52,7 @@ protected:
 	iprm::IParamsSet* GetSlaveParamsSet(int index) const;
 	int GetSlaveParamsSetCount() const;
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 private:

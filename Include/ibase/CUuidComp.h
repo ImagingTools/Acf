@@ -31,7 +31,7 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 };
 

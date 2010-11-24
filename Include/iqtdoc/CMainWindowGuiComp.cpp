@@ -56,35 +56,6 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CMainWindowGuiComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_documentManagerModelCompPtr.IsValid()){
-		m_documentManagerModelCompPtr->AttachObserver(this);
-	}
-	
-	SerializeRecentFiles<iqt::CSettingsReadArchive>();
-}
-
-
-void CMainWindowGuiComp::OnComponentDestroyed()
-{
-	m_fileCommand.ResetChilds();
-	m_editCommand.ResetChilds();
-
-	if (m_documentManagerModelCompPtr.IsValid()){
-		if (m_documentManagerModelCompPtr->IsAttached(this)){
-			m_documentManagerModelCompPtr->DetachObserver(this);
-		}
-	}
-
-	BaseClass::OnComponentDestroyed();
-}
-
-
 // reimplemented (imod::IObserver)
 
 bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
@@ -324,6 +295,173 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 }
 
 
+void CMainWindowGuiComp::UpdateUndoMenu()
+{
+	imod::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObjectPtr();
+	if (undoManagerPtr != NULL){
+		m_undoCommand.SetEnabled(undoManagerPtr->IsUndoAvailable());
+		m_redoCommand.SetEnabled(undoManagerPtr->IsRedoAvailable());
+	}
+}
+
+
+void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
+{
+	if (m_documentManagerCompPtr.IsValid()){
+		if (!m_documentManagerCompPtr->FileNew(documentFactoryId)){
+			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
+			return;
+		}
+	}
+}
+
+
+bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
+{
+	int documentTypeIdsCount = m_recentFilesMap.size();
+
+	static iser::CArchiveTag recentFilesTag("RecentFileList", "List of application's recent files");
+	static iser::CArchiveTag documentTypeIdsTag("DocumentIds", "List of document ID's");
+	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
+	static iser::CArchiveTag fileListTag("FileList", "List of recent files");
+	static iser::CArchiveTag filePathTag("FilePath", "File path");
+
+	bool retVal = archive.BeginTag(recentFilesTag);
+	retVal = retVal && archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
+
+	if (archive.IsStoring()){
+		for (		RecentFilesMap::const_iterator index = m_recentFilesMap.begin();
+					index != m_recentFilesMap.end();
+					index++){
+			std::string documentTypeId = index->first;
+			I_ASSERT(!documentTypeId.empty());
+
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			const RecentGroupCommandPtr& groupCommandPtr = index->second;
+
+			int filesCount = groupCommandPtr.IsValid()? groupCommandPtr->GetChildsCount(): 0;
+			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
+
+			for (int i = filesCount - 1; i >= 0; --i){
+				I_ASSERT(groupCommandPtr.IsValid());
+
+				ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+				istd::CString filePath = (commandPtr != NULL)? commandPtr->GetName(): "";
+
+				retVal = retVal && archive.BeginTag(filePathTag);
+				retVal = retVal && archive.Process(filePath);					
+				retVal = retVal && archive.EndTag(filePathTag);
+			}
+
+			retVal = retVal && archive.EndTag(fileListTag);
+		}
+	}
+	else{
+		for (int typeIndex = 0; typeIndex < documentTypeIdsCount; typeIndex++){
+			std::string documentTypeId;
+
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			if (documentTypeId.empty()){
+				return false;
+			}
+
+			RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+
+			if (groupCommandPtr.IsValid()){
+				groupCommandPtr->ResetChilds();
+			}
+
+			int filesCount = 0;
+			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
+
+			for (int fileIndex = 0; fileIndex < filesCount; fileIndex++){
+				istd::CString filePath;
+				retVal = retVal && archive.BeginTag(filePathTag);
+				retVal = retVal && archive.Process(filePath);					
+				retVal = retVal && archive.EndTag(filePathTag);
+
+				if (retVal && !filePath.IsEmpty()){
+					idoc::IDocumentManager::FileToTypeMap fileMap;
+
+					fileMap[filePath] = documentTypeId;
+
+					UpdateRecentFileList(fileMap);
+				}
+			}
+
+			retVal = retVal && archive.EndTag(fileListTag);
+		}
+
+		BaseClass::UpdateMenuActions();
+	}
+
+	retVal = retVal && archive.EndTag(documentTypeIdsTag);
+
+	retVal = retVal && archive.EndTag(recentFilesTag);
+
+	return retVal;
+}
+
+
+void CMainWindowGuiComp::UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap)
+{
+	for (		idoc::IDocumentManager::FileToTypeMap::const_iterator iter = fileToTypeMap.begin();
+				iter != fileToTypeMap.end();
+				++iter){
+		QFileInfo fileInfo(iqt::GetQString(iter->first));
+
+		istd::CString filePath = iqt::GetCString(fileInfo.absoluteFilePath());
+		const std::string documentTypeId = iter->second;
+		I_ASSERT(!documentTypeId.empty());
+
+		RemoveFromRecentFileList(filePath);
+
+		RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+
+		if (groupCommandPtr.IsValid()){
+			RecentFileCommand* commandPtr = new RecentFileCommand(this, filePath);
+			groupCommandPtr->InsertChild(commandPtr, true, 0);
+
+			int childsCount = groupCommandPtr->GetChildsCount();
+			if ((childsCount > 0) && (childsCount > *m_maxRecentFilesCountAttrPtr)){
+				groupCommandPtr->RemoveChild(childsCount - 1);
+			}
+		}
+	}
+}
+
+
+void CMainWindowGuiComp::RemoveFromRecentFileList(const istd::CString& filePath)
+{
+	for (		RecentFilesMap::iterator iter = m_recentFilesMap.begin();
+				iter != m_recentFilesMap.end();
+				++iter){
+		RecentGroupCommandPtr& groupCommandPtr = iter->second;
+
+		if (!groupCommandPtr.IsValid()){
+			continue;
+		}
+
+		int childsCount = groupCommandPtr->GetChildsCount();
+
+		for (int i = 0; i < childsCount; ++i){
+			const ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
+			if ((commandPtr != NULL) && (commandPtr->GetName() == filePath)){
+				groupCommandPtr->RemoveChild(i);
+				--childsCount;
+				--i;
+			}
+		}
+	}
+}
+
+
 // reimplemented (iqtgui::CSimpleMainWindowGuiComp)
 
 void CMainWindowGuiComp::UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixedCommands)
@@ -366,16 +504,6 @@ void CMainWindowGuiComp::UpdateToolsCommands(iqtgui::CHierarchicalCommand& tools
 
 	if (*m_isOpenContainingFolderVisibleAttrPtr){
 		toolsCommand.InsertChild(&m_openDocumentFolderCommand, false);
-	}
-}
-
-
-void CMainWindowGuiComp::UpdateUndoMenu()
-{
-	imod::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObjectPtr();
-	if (undoManagerPtr != NULL){
-		m_undoCommand.SetEnabled(undoManagerPtr->IsUndoAvailable());
-		m_redoCommand.SetEnabled(undoManagerPtr->IsRedoAvailable());
 	}
 }
 
@@ -569,7 +697,34 @@ bool CMainWindowGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 }
 
 
-// static methods
+// reimplemented (icomp::CComponentBase)
+
+void CMainWindowGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_documentManagerModelCompPtr.IsValid()){
+		m_documentManagerModelCompPtr->AttachObserver(this);
+	}
+	
+	SerializeRecentFiles<iqt::CSettingsReadArchive>();
+}
+
+
+void CMainWindowGuiComp::OnComponentDestroyed()
+{
+	m_fileCommand.ResetChilds();
+	m_editCommand.ResetChilds();
+
+	if (m_documentManagerModelCompPtr.IsValid()){
+		if (m_documentManagerModelCompPtr->IsAttached(this)){
+			m_documentManagerModelCompPtr->DetachObserver(this);
+		}
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
 
 // protected slots
 
@@ -638,163 +793,6 @@ void CMainWindowGuiComp::OnPrint()
 {
 	if (m_documentManagerCompPtr.IsValid()){
 		m_documentManagerCompPtr->FilePrint();
-	}
-}
-
-
-void CMainWindowGuiComp::OnNewDocument(const std::string& documentFactoryId)
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->FileNew(documentFactoryId)){
-			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
-			return;
-		}
-	}
-}
-
-
-bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
-{
-	int documentTypeIdsCount = m_recentFilesMap.size();
-
-	static iser::CArchiveTag recentFilesTag("RecentFileList", "List of application's recent files");
-	static iser::CArchiveTag documentTypeIdsTag("DocumentIds", "List of document ID's");
-	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
-	static iser::CArchiveTag fileListTag("FileList", "List of recent files");
-	static iser::CArchiveTag filePathTag("FilePath", "File path");
-
-	bool retVal = archive.BeginTag(recentFilesTag);
-	retVal = retVal && archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
-
-	if (archive.IsStoring()){
-		for (		RecentFilesMap::const_iterator index = m_recentFilesMap.begin();
-					index != m_recentFilesMap.end();
-					index++){
-			std::string documentTypeId = index->first;
-			I_ASSERT(!documentTypeId.empty());
-
-			retVal = retVal && archive.BeginTag(documentTypeIdTag);
-			retVal = retVal && archive.Process(documentTypeId);
-			retVal = retVal && archive.EndTag(documentTypeIdTag);
-
-			const RecentGroupCommandPtr& groupCommandPtr = index->second;
-
-			int filesCount = groupCommandPtr.IsValid()? groupCommandPtr->GetChildsCount(): 0;
-			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
-
-			for (int i = filesCount - 1; i >= 0; --i){
-				I_ASSERT(groupCommandPtr.IsValid());
-
-				ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
-				istd::CString filePath = (commandPtr != NULL)? commandPtr->GetName(): "";
-
-				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
-				retVal = retVal && archive.EndTag(filePathTag);
-			}
-
-			retVal = retVal && archive.EndTag(fileListTag);
-		}
-	}
-	else{
-		for (int typeIndex = 0; typeIndex < documentTypeIdsCount; typeIndex++){
-			std::string documentTypeId;
-
-			retVal = retVal && archive.BeginTag(documentTypeIdTag);
-			retVal = retVal && archive.Process(documentTypeId);
-			retVal = retVal && archive.EndTag(documentTypeIdTag);
-
-			if (documentTypeId.empty()){
-				return false;
-			}
-
-			RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
-
-			if (groupCommandPtr.IsValid()){
-				groupCommandPtr->ResetChilds();
-			}
-
-			int filesCount = 0;
-			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
-
-			for (int fileIndex = 0; fileIndex < filesCount; fileIndex++){
-				istd::CString filePath;
-				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
-				retVal = retVal && archive.EndTag(filePathTag);
-
-				if (retVal && !filePath.IsEmpty()){
-					idoc::IDocumentManager::FileToTypeMap fileMap;
-
-					fileMap[filePath] = documentTypeId;
-
-					UpdateRecentFileList(fileMap);
-				}
-			}
-
-			retVal = retVal && archive.EndTag(fileListTag);
-		}
-
-		BaseClass::UpdateMenuActions();
-	}
-
-	retVal = retVal && archive.EndTag(documentTypeIdsTag);
-
-	retVal = retVal && archive.EndTag(recentFilesTag);
-
-	return retVal;
-}
-
-	
-void CMainWindowGuiComp::UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap)
-{
-	for (		idoc::IDocumentManager::FileToTypeMap::const_iterator iter = fileToTypeMap.begin();
-				iter != fileToTypeMap.end();
-				++iter){
-		QFileInfo fileInfo(iqt::GetQString(iter->first));
-
-		istd::CString filePath = iqt::GetCString(fileInfo.absoluteFilePath());
-		const std::string documentTypeId = iter->second;
-		I_ASSERT(!documentTypeId.empty());
-
-		RemoveFromRecentFileList(filePath);
-
-		RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
-
-		if (groupCommandPtr.IsValid()){
-			RecentFileCommand* commandPtr = new RecentFileCommand(this, filePath);
-			groupCommandPtr->InsertChild(commandPtr, true, 0);
-
-			int childsCount = groupCommandPtr->GetChildsCount();
-			if ((childsCount > 0) && (childsCount > *m_maxRecentFilesCountAttrPtr)){
-				groupCommandPtr->RemoveChild(childsCount - 1);
-			}
-		}
-	}
-}
-
-
-void CMainWindowGuiComp::RemoveFromRecentFileList(const istd::CString& filePath)
-{
-	for (		RecentFilesMap::iterator iter = m_recentFilesMap.begin();
-				iter != m_recentFilesMap.end();
-				++iter){
-		RecentGroupCommandPtr& groupCommandPtr = iter->second;
-
-		if (!groupCommandPtr.IsValid()){
-			continue;
-		}
-
-		int childsCount = groupCommandPtr->GetChildsCount();
-
-		for (int i = 0; i < childsCount; ++i){
-			const ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
-			if ((commandPtr != NULL) && (commandPtr->GetName() == filePath)){
-				groupCommandPtr->RemoveChild(i);
-				--childsCount;
-				--i;
-			}
-		}
 	}
 }
 

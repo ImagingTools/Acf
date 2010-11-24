@@ -70,7 +70,7 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CSelectionParamComp::OnComponentCreated()
 {

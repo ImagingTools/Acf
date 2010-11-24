@@ -169,7 +169,7 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 	// reimplemented (QObject)

@@ -23,7 +23,8 @@ public:
 		I_ASSIGN_MULTI_0(m_slaveFactoriesCompPtr, "SlaveFactories", "Slave factories", true);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 private:
@@ -31,7 +32,9 @@ private:
 };
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 template <class Interface>
 void TComposedFactoryComp<Interface>::OnComponentCreated()

@@ -37,9 +37,6 @@ public:
 				const IMessage* messagePtr = NULL) const;
 	virtual void AddMessage(const MessagePtr& messagePtr);
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentDestroyed();
-
 protected:
 	/**
 		Write formatted the message to the output stream.
@@ -57,6 +54,9 @@ protected:
 		Make new line.
 	*/
 	virtual void NewLine() = 0;
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentDestroyed();
 
 private:
 	I_ATTR(int, m_minPriorityAttrPtr);

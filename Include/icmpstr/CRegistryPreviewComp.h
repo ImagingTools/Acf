@@ -36,14 +36,15 @@ public:
 
 	CRegistryPreviewComp();
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
 	// reimplemented (icmpstr::IRegistryPreview)
 	virtual bool StartRegistry(const icomp::IRegistry& registry);
 	virtual bool IsRunning() const;
 	virtual void AbortRegistry();
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 protected slots:
 	void OnStateChanged(QProcess::ProcessState state);

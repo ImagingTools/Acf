@@ -74,7 +74,7 @@ public:
 	}
 
 protected:
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated()
 	{
 		BaseClass::OnComponentCreated();

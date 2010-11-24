@@ -69,32 +69,6 @@ void CSelectedDocModelBinderComp::TryDisconnectObservers()
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CSelectedDocModelBinderComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_documentManagerModelCompPtr.IsValid()){
-		m_documentManagerModelCompPtr->AttachObserver(this);
-	}
-
-	TryConnectObservers();
-}
-
-
-void CSelectedDocModelBinderComp::OnComponentDestroyed()
-{
-	if (m_documentManagerModelCompPtr.IsValid() && m_documentManagerModelCompPtr->IsAttached(this)){
-		m_documentManagerModelCompPtr->DetachObserver(this);
-	}
-
-	TryDisconnectObservers();
-
-	BaseClass::OnComponentDestroyed();
-}
-
-
 // reimplemented (imod::IObserver)
 
 void CSelectedDocModelBinderComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
@@ -120,6 +94,32 @@ void CSelectedDocModelBinderComp::AfterUpdate(imod::IModel* modelPtr, int update
 	}
 
 	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CSelectedDocModelBinderComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_documentManagerModelCompPtr.IsValid()){
+		m_documentManagerModelCompPtr->AttachObserver(this);
+	}
+
+	TryConnectObservers();
+}
+
+
+void CSelectedDocModelBinderComp::OnComponentDestroyed()
+{
+	if (m_documentManagerModelCompPtr.IsValid() && m_documentManagerModelCompPtr->IsAttached(this)){
+		m_documentManagerModelCompPtr->DetachObserver(this);
+	}
+
+	TryDisconnectObservers();
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

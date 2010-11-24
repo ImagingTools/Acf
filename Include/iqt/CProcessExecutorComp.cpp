@@ -69,7 +69,9 @@ int CProcessExecutorComp::Execute(const istd::CString& executablePath, const ist
 }
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 void CProcessExecutorComp::OnComponentDestroyed()
 {

@@ -70,7 +70,7 @@ protected:
 	virtual int GetOptionsCount() const;
 	virtual const istd::CString& GetOptionName(int index) const;
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

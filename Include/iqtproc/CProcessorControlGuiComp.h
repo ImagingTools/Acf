@@ -50,7 +50,8 @@ public:
 
 	CProcessorControlGuiComp();
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 protected slots:

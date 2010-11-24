@@ -11,49 +11,6 @@ namespace iqt
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CCopyProcessorComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (!m_fileCopyCompPtr.IsValid()){
-		SendErrorMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("File copy provider is not present")));
-
-		return;
-	}
-
-	QStringList filters;
-	for (int filterIndex = 0; filterIndex < m_filtersAttrPtr.GetCount(); ++filterIndex){
-		const istd::CString& filter = m_filtersAttrPtr[filterIndex];
-
-		filters << iqt::GetQString(filter);
-	}
-
-	QStringList excludeFilters;
-	for (int excludeIndex = 0; excludeIndex < m_excludeFiltersAttrPtr.GetCount(); ++excludeIndex){
-		const istd::CString& excludeFilter = m_excludeFiltersAttrPtr[excludeIndex];
-
-		excludeFilters << iqt::GetQString(excludeFilter);
-	}
-
-	int counter = 0;
-	if (CopyFileTree(
-				iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(*m_inputPathAttrPtr)),
-				iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(*m_outputPathAttrPtr)),
-				filters,
-				excludeFilters,
-				*m_recursionDepthAttrPtr,
-				counter)){
-
-		SendInfoMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("Success: %1 files copied").arg(counter)));
-	}
-	else{
-		SendErrorMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("Failed: %1 files copied").arg(counter)));
-	}
-}
-
-
 // protected methods
 
 bool CCopyProcessorComp::CheckFileExistTree(
@@ -181,6 +138,49 @@ bool CCopyProcessorComp::CheckIfExcluded(const QString& fileName, const QStringL
 	}
 
 	return false;
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CCopyProcessorComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (!m_fileCopyCompPtr.IsValid()){
+		SendErrorMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("File copy provider is not present")));
+
+		return;
+	}
+
+	QStringList filters;
+	for (int filterIndex = 0; filterIndex < m_filtersAttrPtr.GetCount(); ++filterIndex){
+		const istd::CString& filter = m_filtersAttrPtr[filterIndex];
+
+		filters << iqt::GetQString(filter);
+	}
+
+	QStringList excludeFilters;
+	for (int excludeIndex = 0; excludeIndex < m_excludeFiltersAttrPtr.GetCount(); ++excludeIndex){
+		const istd::CString& excludeFilter = m_excludeFiltersAttrPtr[excludeIndex];
+
+		excludeFilters << iqt::GetQString(excludeFilter);
+	}
+
+	int counter = 0;
+	if (CopyFileTree(
+				iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(*m_inputPathAttrPtr)),
+				iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(*m_outputPathAttrPtr)),
+				filters,
+				excludeFilters,
+				*m_recursionDepthAttrPtr,
+				counter)){
+
+		SendInfoMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("Success: %1 files copied").arg(counter)));
+	}
+	else{
+		SendErrorMessage(MI_END_STATUS, iqt::GetCString(QObject::tr("Failed: %1 files copied").arg(counter)));
+	}
 }
 
 

@@ -132,7 +132,7 @@ int CComposedParamsSetComp::GetSlaveParamsSetCount() const
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CComposedParamsSetComp::OnComponentCreated()
 {

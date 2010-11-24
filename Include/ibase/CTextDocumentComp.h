@@ -32,11 +32,12 @@ public:
 	virtual istd::CString GetText() const;
 	virtual void SetText(const istd::CString& text);
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	istd::CString m_text;

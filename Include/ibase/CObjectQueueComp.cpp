@@ -307,7 +307,7 @@ void CObjectQueueComp::TryReductReserve()
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CObjectQueueComp::OnComponentDestroyed()
 {

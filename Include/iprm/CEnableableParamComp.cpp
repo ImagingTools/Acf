@@ -11,18 +11,6 @@ namespace iprm
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CEnableableParamComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_defaultIsEnabledAttrPtr.IsValid()){
-		m_isEnabled = *m_defaultIsEnabledAttrPtr;
-	}
-}
-
-
 // reimplemented (istd::IEnableable)
 
 bool CEnableableParamComp::IsEnabled() const
@@ -59,6 +47,20 @@ bool CEnableableParamComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(isEnabledTag);
 
 	return retVal;
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CEnableableParamComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_defaultIsEnabledAttrPtr.IsValid()){
+		m_isEnabled = *m_defaultIsEnabledAttrPtr;
+	}
 }
 
 

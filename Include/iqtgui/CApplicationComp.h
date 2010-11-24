@@ -41,9 +41,6 @@ public:
 		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 	// reimplemented (ibase::IGuiApplication)
 	virtual const iqtgui::IGuiObject* GetApplicationGui() const;
 
@@ -51,6 +48,10 @@ public:
 	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual istd::CString GetHelpText() const;
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	void SetStyleSheet(const QString& styleSheetFileName);

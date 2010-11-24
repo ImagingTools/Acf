@@ -62,9 +62,6 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentDestroyed();
-
 protected:
 	/**
 		Get current work product, if work was done correctly.
@@ -90,6 +87,9 @@ protected:
 		\return	work status. \sa iproc::ISupplier::WorkStatus
 	*/
 	virtual int ProduceObject(Product& result) const = 0;
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentDestroyed();
 
 private:
 	I_ATTR(int, m_recentObjectListSizeAttrPtr);
@@ -231,17 +231,6 @@ I_DWORD TSupplierCompWrap<SupplierInterface, Product>::GetMinimalVersion(int ver
 }
 
 
-// reimplemented (icomp::IComponent)
-
-template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
-{
-	RemoveAllInputSuppliers();
-
-	BaseClass::OnComponentDestroyed();
-}
-
-
 // protected methods
 
 template <class SupplierInterface, class Product>
@@ -293,6 +282,17 @@ void TSupplierCompWrap<SupplierInterface, Product>::RemoveAllInputSuppliers()
 	}
 
 	m_inputSuppliers.clear();
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+template <class SupplierInterface, class Product>
+void TSupplierCompWrap<SupplierInterface, Product>::OnComponentDestroyed()
+{
+	RemoveAllInputSuppliers();
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

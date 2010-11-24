@@ -29,16 +29,6 @@ CLogGuiComp::CLogGuiComp()
 }
 
 
-// reimplemented (icomp::IComponent)
-
-void CLogGuiComp::OnComponentCreated()
-{
-	if (m_maxMessageCountAttrPtr.IsValid()){
-		SetMaxMessageCount(m_maxMessageCountAttrPtr->GetValue());
-	}
-}
-
-
 // protected methods
 	
 QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const ibase::IMessage& message)
@@ -175,6 +165,16 @@ void CLogGuiComp::OnGuiCreated()
 				OnAddMessage(itemPtr);
 			}
 		}
+	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CLogGuiComp::OnComponentCreated()
+{
+	if (m_maxMessageCountAttrPtr.IsValid()){
+		SetMaxMessageCount(m_maxMessageCountAttrPtr->GetValue());
 	}
 }
 

@@ -42,7 +42,8 @@ public:
 
 	virtual int Execute(const istd::CString& executablePath, const istd::CStringList& processArguments);
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed();
 
 protected Q_SLOTS:

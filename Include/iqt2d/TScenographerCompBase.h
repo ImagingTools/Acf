@@ -57,10 +57,6 @@ public:
 	// reimplemented (imod::IObserver)
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
 protected:
 	/**
 		Event handler for the drop action.
@@ -75,6 +71,10 @@ protected:
 		Default implementation does nothing.
 	*/
 	virtual void UpdateScene(int updateFlags);
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 protected:
 	I_REF(iqt2d::ISceneProvider, m_sceneProviderCompPtr);
@@ -158,7 +158,22 @@ void TScenographerCompBase<Observer>::AfterUpdate(imod::IModel* /*modelPtr*/, in
 }
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+template <class Observer>
+bool TScenographerCompBase<Observer>::OnDropObject(const QMimeData& /*mimeData*/, QGraphicsSceneDragDropEvent* /*eventPtr*/)
+{
+	return true;
+}
+
+
+template <class Observer>
+void TScenographerCompBase<Observer>::UpdateScene(int /*updateFlags*/)
+{
+}
+
+
+// reimplemented (icomp::CComponentBase)
 
 template <class Observer>
 void TScenographerCompBase<Observer>::OnComponentCreated()
@@ -177,21 +192,6 @@ template <class Observer>
 void TScenographerCompBase<Observer>::OnComponentDestroyed()
 {
 	m_scenePtr = NULL;
-}
-
-
-// protected methods
-
-template <class Observer>
-bool TScenographerCompBase<Observer>::OnDropObject(const QMimeData& /*mimeData*/, QGraphicsSceneDragDropEvent* /*eventPtr*/)
-{
-	return true;
-}
-
-
-template <class Observer>
-void TScenographerCompBase<Observer>::UpdateScene(int /*updateFlags*/)
-{
 }
 
 

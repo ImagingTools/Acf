@@ -45,9 +45,6 @@ public:
 		I_ASSIGN(m_recursionDepthAttrPtr, "RecursionDepth", "Depth of recursion", true, 0);
 	I_END_COMPONENT;
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-
 protected:
 	/**
 		Check if in tree specified files exists.
@@ -80,6 +77,9 @@ protected:
 		Check if some file should be excluded from processing.
 	*/
 	bool CheckIfExcluded(const QString& fileName, const QStringList& excludeFilters) const;
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	I_REF(ibase::IFileConvertCopy, m_fileCopyCompPtr);

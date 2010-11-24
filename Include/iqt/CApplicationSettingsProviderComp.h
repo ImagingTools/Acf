@@ -30,7 +30,8 @@ public:
 	// reimplemented (iqt::ISettingsProvider)
 	virtual QSettings& GetSettings() const;
 
-	// reimplemented (icomp::IComponent)
+protected:
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	
 private:

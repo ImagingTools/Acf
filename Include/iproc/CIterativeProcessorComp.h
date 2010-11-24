@@ -62,7 +62,7 @@ protected:
 				const istd::IPolymorphic* inputPtr,
 				istd::IChangeable* outputPtr);
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
 private:

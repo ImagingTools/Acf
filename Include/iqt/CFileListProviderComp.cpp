@@ -13,31 +13,6 @@ namespace iqt
 {
 
 
-// reimplemented (icomp::IComponent)
-
-void CFileListProviderComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	if (m_dirParamModelCompPtr.IsValid()){
-		m_dirParamModelCompPtr->AttachObserver(this);
-	}
-	else{
-		OnUpdate(0, NULL);
-	}
-}
-
-
-void CFileListProviderComp::OnComponentDestroyed()
-{
-	if (m_dirParamModelCompPtr.IsValid() && m_dirParamModelCompPtr->IsAttached(this)){
-		m_dirParamModelCompPtr->DetachObserver(this);
-	}
-
-	BaseClass::OnComponentDestroyed();
-}
-
-
 // reimplemented (ibase::IFileListProvider)
 
 istd::CStringList CFileListProviderComp::GetFileList() const
@@ -87,6 +62,31 @@ void CFileListProviderComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*
 
 		m_fileList = iqt::GetCStringList(fileList);
 	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CFileListProviderComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_dirParamModelCompPtr.IsValid()){
+		m_dirParamModelCompPtr->AttachObserver(this);
+	}
+	else{
+		OnUpdate(0, NULL);
+	}
+}
+
+
+void CFileListProviderComp::OnComponentDestroyed()
+{
+	if (m_dirParamModelCompPtr.IsValid() && m_dirParamModelCompPtr->IsAttached(this)){
+		m_dirParamModelCompPtr->DetachObserver(this);
+	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 

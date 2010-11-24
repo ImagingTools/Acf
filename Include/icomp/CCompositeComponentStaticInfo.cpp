@@ -121,7 +121,7 @@ int CCompositeComponentStaticInfo::GetComponentType() const
 
 IComponent* CCompositeComponentStaticInfo::CreateComponent() const
 {
-	return new TComponentWrap<CCompositeComponent>();
+	return new CCompositeComponent();
 }
 
 

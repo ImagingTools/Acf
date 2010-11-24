@@ -23,7 +23,9 @@ QSettings& CApplicationSettingsProviderComp::GetSettings() const
 }
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 void CApplicationSettingsProviderComp::OnComponentCreated()
 {

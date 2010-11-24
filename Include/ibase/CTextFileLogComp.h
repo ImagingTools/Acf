@@ -34,7 +34,7 @@ protected:
 	virtual void WriteText(const istd::CString& text);
 	virtual void NewLine();
 
-	// reimplemented (icomp::IComponent)
+	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

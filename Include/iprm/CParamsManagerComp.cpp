@@ -325,7 +325,7 @@ const istd::CString& CParamsManagerComp::GetOptionName(int index) const
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CParamsManagerComp::OnComponentCreated()
 {

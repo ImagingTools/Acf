@@ -131,7 +131,7 @@ int CIterativeProcessorComp::ProcessSlave(
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CIterativeProcessorComp::OnComponentCreated()
 {

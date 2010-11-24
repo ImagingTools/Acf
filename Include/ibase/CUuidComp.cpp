@@ -20,7 +20,7 @@ bool CUuidComp::Serialize(iser::IArchive& archive)
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CUuidComp::OnComponentCreated()
 {

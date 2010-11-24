@@ -53,6 +53,8 @@ void TSimComponentWrap<Base>::InitComponent()
 }
 
 
+// pseudo-reimplemented (icomp::IComponent)
+
 template <class Base>
 const IComponent* TSimComponentWrap<Base>::GetParentComponent(bool ownerOnly) const
 {

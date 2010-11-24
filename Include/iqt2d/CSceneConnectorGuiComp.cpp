@@ -66,7 +66,7 @@ void CSceneConnectorGuiComp::OnGuiDestroyed()
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CSceneConnectorGuiComp::OnComponentCreated()
 {

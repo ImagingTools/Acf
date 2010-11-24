@@ -46,10 +46,6 @@ public:
 
 	CModelEditorGuiComp();
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
 	// reimplemented (iqtgui::IGuiObject)
 	virtual bool IsGuiCreated() const;
 	virtual bool CreateGui(QWidget* parentPtr);
@@ -66,6 +62,11 @@ public:
 	// reimplemented (iqt2d::ISceneExtender)
 	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);
 	virtual void RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr);
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 private:
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);

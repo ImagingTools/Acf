@@ -100,8 +100,6 @@ void CComponentBase::OnSubcomponentDeleted(const IComponent* /*subcomponentPtr*/
 
 // protected methods
 
-// reimplemented (icomp::IComponent)
-
 void CComponentBase::OnComponentCreated()
 {
 	I_ASSERT(m_contextPtr != NULL);

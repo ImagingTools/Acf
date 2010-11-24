@@ -37,10 +37,6 @@ public:
 		I_ASSIGN(m_urlParamModelCompPtr, "UrlParams", "Parameter storing media URL or file or directory", true, "UrlParams");
 	I_END_COMPONENT();
 
-	// reimplemented (icomp::IComponent)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
-
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
@@ -48,6 +44,10 @@ public:
 protected:
 	// reimplemented (imod::CSingleModelObserverBase)
 	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 private:
 	I_REF(imm::IMediaController, m_mediaControllerCompPtr);

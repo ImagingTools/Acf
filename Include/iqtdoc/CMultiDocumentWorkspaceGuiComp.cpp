@@ -431,7 +431,7 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CMultiDocumentWorkspaceGuiComp::OnComponentCreated()
 {

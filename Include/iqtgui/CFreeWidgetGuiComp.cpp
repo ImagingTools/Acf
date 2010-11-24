@@ -9,7 +9,9 @@ namespace iqtgui
 {
 
 
-// reimplemented (icomp::IComponent)
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
 
 void CFreeWidgetGuiComp::OnComponentCreated()
 {

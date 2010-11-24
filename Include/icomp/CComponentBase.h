@@ -60,7 +60,6 @@ protected:
 	*/
 	bool IsComponentActive() const;
 
-	// reimplemented (icomp::IComponent)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 

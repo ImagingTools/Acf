@@ -523,7 +523,7 @@ void CVisualRegistryScenographerComp::UpdateScene(int /*updateFlags*/)
 }
 
 
-// reimplemented (icomp::IComponent)
+// reimplemented (icomp::CComponentBase)
 
 void CVisualRegistryScenographerComp::OnComponentCreated()
 {
