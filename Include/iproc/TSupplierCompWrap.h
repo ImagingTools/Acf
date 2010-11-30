@@ -3,7 +3,7 @@
 
 
 // STL includes
-#include <map>
+#include <set>
 #include <list>
 
 
@@ -41,32 +41,29 @@ public:
 	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(TSupplierCompWrap);
-		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(ISupplier);
 		I_REGISTER_INTERFACE(SupplierInterface);
 		I_ASSIGN(m_paramsSetCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
 		I_ASSIGN(m_paramsSetModelCompPtr, "ParamsSet", "Parameters set describing model parameter used to produce results", false, "ParamsSet");
 	I_END_COMPONENT;
 
+	TSupplierCompWrap();
+
 	// pseudo-reimplemented (iproc::ISupplier)
-	virtual void InitNewWork(bool thisOnly = false);
-	virtual void EnsureWorkFinished(const istd::IPolymorphic* outputObjectPtr = NULL);
+	virtual void InvalidateSupplier();
+	virtual void EnsureWorkFinished();
 	virtual void ClearWorkResults();
 	virtual int GetWorkStatus() const;
 	virtual double GetWorkDurationTime() const;
 	virtual iprm::IParamsSet* GetModelParametersSet() const;
-	virtual void OnOutputSubscribed(istd::IPolymorphic* outputObjectPtr);
-	virtual void OnOutputUnsubscribed(const istd::IPolymorphic* outputObjectPtr);
-
-	// pseudo-reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-	virtual I_DWORD GetMinimalVersion(int versionId = iser::IVersionInfo::UserVersionId) const;
+	virtual void OnOutputSubscribed(ISupplier* outputSupplierPtr);
+	virtual void OnOutputUnsubscribed(const ISupplier* outputSupplierPtr);
 
 protected:
 	/**
 		Get current work product, if work was done correctly.
 	*/
-	const Product* GetWorkProduct(const istd::IPolymorphic* outputObjectPtr = NULL) const;
+	const Product* GetWorkProduct() const;
 
 	/**
 		Add some supplier to input supplier list.
@@ -96,8 +93,9 @@ private:
 	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
 	I_REF(imod::IModel, m_paramsSetModelCompPtr);
 
-	typedef std::set<ISupplier*> InputSuppliers;
-	InputSuppliers m_inputSuppliers;
+	typedef std::set<ISupplier*> Suppliers;
+	Suppliers m_inputSuppliers;
+	Suppliers m_outputSuppliers;
 
 	Product m_product;
 	int m_workStatus;
@@ -106,6 +104,14 @@ private:
 
 
 // public methods
+
+template <class SupplierInterface, class Product>
+TSupplierCompWrap<SupplierInterface, Product>::TSupplierCompWrap()
+:	m_workStatus(WS_NONE),
+	m_durationTime(0)
+{
+}
+
 
 template <class SupplierInterface, class Product>
 iprm::IParamsSet* TSupplierCompWrap<SupplierInterface, Product>::GetModelParametersSet() const
@@ -117,31 +123,35 @@ iprm::IParamsSet* TSupplierCompWrap<SupplierInterface, Product>::GetModelParamet
 // pseudo-reimplemented (iproc::ISupplier)
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::InitNewWork(bool thisOnly)
+void TSupplierCompWrap<SupplierInterface, Product>::InvalidateSupplier()
 {
-	if (m_workStatus != ISupplier::WS_INIT){
+	if ((m_workStatus != ISupplier::WS_INIT) && (m_workStatus != ISupplier::WS_LOCKED)){
+		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+
+		m_workStatus = ISupplier::WS_LOCKED;
+
+		for (		Suppliers::const_iterator iter = m_outputSuppliers.begin();
+					iter != m_outputSuppliers.end();
+					++iter){
+			ISupplier* supplierPtr = *iter;
+			I_ASSERT(supplierPtr != NULL);
+
+			supplierPtr->InvalidateSupplier();
+		}
+
 		m_workStatus = ISupplier::WS_INIT;
 		m_durationTime = 0;
-
-		if (!thisOnly){
-			for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
-						iter != m_inputSuppliers.end();
-						++iter){
-				ISupplier* supplierPtr = *iter;
-				I_ASSERT(supplierPtr != NULL);
-
-				supplierPtr->InitNewWork();
-			}
-		}
 	}
 }
 
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished(const istd::IPolymorphic* /*outputObjectPtr*/)
+void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished()
 {
 	if (m_workStatus <= ISupplier::WS_INIT){
-		m_workStatus = ISupplier::WS_LOCKED;
+		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+
+		m_workStatus = WS_LOCKED;
 
 		isys::ITimer* timerPtr = istd::GetService<isys::ITimer>();
 
@@ -149,8 +159,6 @@ void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished(const ist
 		if (timerPtr != NULL){
 			beforeTime = timerPtr->GetElapsed();
 		}
-
-		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
 
 		m_workStatus = ProduceObject(m_product);
 		I_ASSERT(m_workStatus >= WS_OK);	// No initial states are possible
@@ -166,10 +174,12 @@ template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::ClearWorkResults()
 {
 	if (m_workStatus != ISupplier::WS_NONE){
+		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+
 		m_workStatus = ISupplier::WS_NONE;
 		m_durationTime = 0;
 
-		for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
+		for (		Suppliers::const_iterator iter = m_inputSuppliers.begin();
 					iter != m_inputSuppliers.end();
 					++iter){
 			ISupplier* supplierPtr = *iter;
@@ -196,49 +206,32 @@ double TSupplierCompWrap<SupplierInterface, Product>::GetWorkDurationTime() cons
 
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnOutputSubscribed(istd::IPolymorphic* /*outputObjectPtr*/)
+void TSupplierCompWrap<SupplierInterface, Product>::OnOutputSubscribed(ISupplier* outputSupplierPtr)
 {
+	I_ASSERT(outputSupplierPtr != NULL);
+
+	m_outputSuppliers.insert(outputSupplierPtr);
 }
 
 
 template <class SupplierInterface, class Product>
-void TSupplierCompWrap<SupplierInterface, Product>::OnOutputUnsubscribed(const istd::IPolymorphic* /*outputObjectPtr*/)
+void TSupplierCompWrap<SupplierInterface, Product>::OnOutputUnsubscribed(const ISupplier* outputSupplierPtr)
 {
-}
+	I_ASSERT(outputSupplierPtr != NULL);
+	I_ASSERT(m_outputSuppliers.find(const_cast<ISupplier*>(outputSupplierPtr)) != m_outputSuppliers.end());
 
-
-// reimplemented (iser::ISerializable)
-
-template <class SupplierInterface, class Product>
-bool TSupplierCompWrap<SupplierInterface, Product>::Serialize(iser::IArchive& archive)
-{
-	if (m_paramsSetCompPtr.IsValid()){
-		return m_paramsSetCompPtr->Serialize(archive);
-	}
-
-	return true;
-}
-
-
-template <class SupplierInterface, class Product>
-I_DWORD TSupplierCompWrap<SupplierInterface, Product>::GetMinimalVersion(int versionId) const
-{
-	if (m_paramsSetCompPtr.IsValid()){
-		return m_paramsSetCompPtr->GetMinimalVersion(versionId);
-	}
-
-	return SupplierInterface::GetMinimalVersion(versionId);
+	m_outputSuppliers.erase(const_cast<ISupplier*>(outputSupplierPtr));
 }
 
 
 // protected methods
 
 template <class SupplierInterface, class Product>
-const Product* TSupplierCompWrap<SupplierInterface, Product>::GetWorkProduct(const istd::IPolymorphic* outputObjectPtr) const
+const Product* TSupplierCompWrap<SupplierInterface, Product>::GetWorkProduct() const
 {
-	const_cast< TSupplierCompWrap<SupplierInterface, Product>* >(this)->EnsureWorkFinished(outputObjectPtr);
+	const_cast< TSupplierCompWrap<SupplierInterface, Product>* >(this)->EnsureWorkFinished();
 
-	if ((m_workStatus == WS_OK) || (m_workStatus == WS_WARNING)){
+	if (m_workStatus == WS_OK){
 		return &m_product;
 	}
 	else{
@@ -252,9 +245,11 @@ void TSupplierCompWrap<SupplierInterface, Product>::AddInputSupplier(ISupplier* 
 {
 	I_ASSERT(supplierPtr != NULL);
 
-	supplierPtr->OnOutputSubscribed(this);
+	std::pair<Suppliers::iterator, bool> status = m_inputSuppliers.insert(supplierPtr);
 
-	m_inputSuppliers.insert(supplierPtr);
+	if (status.second){
+		supplierPtr->OnOutputSubscribed(this);
+	}
 }
 
 
@@ -272,7 +267,7 @@ void TSupplierCompWrap<SupplierInterface, Product>::RemoveInputSupplier(ISupplie
 template <class SupplierInterface, class Product>
 void TSupplierCompWrap<SupplierInterface, Product>::RemoveAllInputSuppliers()
 {
-	for (		InputSuppliers::const_iterator iter = m_inputSuppliers.begin();
+	for (		Suppliers::const_iterator iter = m_inputSuppliers.begin();
 				iter != m_inputSuppliers.end();
 				++iter){
 		ISupplier* supplierPtr = *iter;

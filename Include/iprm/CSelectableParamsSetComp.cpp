@@ -25,7 +25,7 @@ const iser::ISerializable* CSelectableParamsSetComp::GetParameter(const std::str
 		return static_cast<const ISelectionParam*>(this);
 	}
 
-	if (m_paramsManagerCompPtr.IsValid() && (m_selectedIndex < m_paramsManagerCompPtr->GetSetsCount())){
+	if (m_paramsManagerCompPtr.IsValid() && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
 		const IParamsSet* paramsSetPtr = m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex);
 		if (paramsSetPtr != NULL){
 			return paramsSetPtr->GetParameter(id);
@@ -108,7 +108,7 @@ bool CSelectableParamsSetComp::Serialize(iser::IArchive& archive)
 int CSelectableParamsSetComp::GetOptionsCount() const
 {
 	if (m_paramsManagerCompPtr.IsValid()){
-		return m_paramsManagerCompPtr->GetSetsCount();
+		return m_paramsManagerCompPtr->GetParamsSetsCount();
 	}
 
 	return 0;
@@ -118,7 +118,7 @@ int CSelectableParamsSetComp::GetOptionsCount() const
 const istd::CString& CSelectableParamsSetComp::GetOptionName(int index) const
 {
 	if (m_paramsManagerCompPtr.IsValid()){
-		return m_paramsManagerCompPtr->GetSetName(index);
+		return m_paramsManagerCompPtr->GetParamsSetName(index);
 	}
 
 	static istd::CString noname("<noname>");

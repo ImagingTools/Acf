@@ -77,6 +77,9 @@ protected:
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
 
+	// reimplemented (iqt2d::TSceneExtenderCompBase)
+	virtual void CreateShapes(int sceneId, bool inactiveOnly, Shapes& result);
+
 	// abstract methods
 	/**
 		Get parameters widget object.
@@ -230,7 +233,7 @@ bool TSupplierGuiCompBase<UI, Model, WidgetType>::DoTest()
 {
 	iproc::ISupplier* supplierPtr = BaseClass::GetObjectPtr();
 	if (supplierPtr != NULL){
-		supplierPtr->InitNewWork(true);
+		supplierPtr->InvalidateSupplier();
 		supplierPtr->EnsureWorkFinished();
 
 		return supplierPtr->GetWorkStatus() < iproc::ISupplier::WS_ERROR;
@@ -290,6 +293,14 @@ void TSupplierGuiCompBase<UI, Model, WidgetType>::OnGuiModelDetached()
 	m_areParamsEditable = false;
 
 	BaseClass::OnGuiModelDetached();
+}
+
+
+// reimplemented (iqt2d::TSceneExtenderCompBase)
+
+template <class UI, class Model, class WidgetType>
+void TSupplierGuiCompBase<UI, Model, WidgetType>::CreateShapes(int /*sceneId*/, bool /*inactiveOnly*/, Shapes& /*result*/)
+{
 }
 
 

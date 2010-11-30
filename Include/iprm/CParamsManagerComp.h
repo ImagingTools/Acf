@@ -49,12 +49,12 @@ public:
 
 	// reimplemented (iprm::IParamsManager)
 	virtual int GetManagerFlags() const;
-	virtual int GetSetsCount() const;
-	virtual bool InsertSet(int index = -1);
-	virtual bool RemoveSet(int index);
+	virtual int GetParamsSetsCount() const;
+	virtual bool InsertParamsSet(int index = -1);
+	virtual bool RemoveParamsSet(int index);
 	virtual IParamsSet* GetParamsSet(int index) const;
-	virtual const istd::CString& GetSetName(int index) const;
-	virtual bool SetSetName(int index, const istd::CString& name);
+	virtual const istd::CString& GetParamsSetName(int index) const;
+	virtual bool SetParamsSetName(int index, const istd::CString& name);
 
 	// reimplemented (iprm::ISelectionParam)
 	virtual const ISelectionConstraints* GetConstraints() const;

@@ -32,8 +32,8 @@ public:
 		I_ASSIGN(m_cornerGuiCompPtr, "CornerWidget", "Optional corner widget", false, "CornerWidget")
 		I_ASSIGN_MULTI_0(m_tabNamesAttrPtr, "Names", "Titles for the tab", true)
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for tab icons", false, 16)
-		I_ASSIGN(m_useTriangularTabsAttrPtr, "UseTriangularTabs", "Using triangular tab form", false, false)
-		I_ASSIGN(m_tabOrientationAttrPtr, "TabBarOrientation", "Orientation of the tab bar", false, 0)
+		I_ASSIGN(m_useTriangularTabsAttrPtr, "UseTriangularTabs", "Using triangular tab form", true, false)
+		I_ASSIGN(m_tabOrientationAttrPtr, "TabBarOrientation", "Orientation of the tab bar\n 0 - North\n 1 - South\n 2 - West\n 3 - East", true, 0)
 	I_END_COMPONENT
 
 protected:

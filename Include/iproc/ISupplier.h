@@ -2,7 +2,7 @@
 #define iproc_ISupplier_included
 
 
-#include "iser/ISerializable.h"
+#include "istd/IChangeable.h"
 
 #include "iprm/IParamsSet.h"
 
@@ -19,7 +19,7 @@ namespace iproc
 	For example image supplier should provide method \c{const iimg::IBitmap* GetBitmap(const I_DWORD* objectIdPtr) const}.
 	The internal stored object should be created on demand.
 */
-class ISupplier: virtual public iser::ISerializable
+class ISupplier: virtual public istd::IChangeable
 {
 public:
 	enum WorkStatus
@@ -33,8 +33,7 @@ public:
 		*/
 		WS_INIT,
 		/**
-			Supplier is locked.
-			This state can occured during processing.
+			Supplier is locked becouse it is doing processing step.
 		*/
 		WS_LOCKED,
 		/**
@@ -45,10 +44,6 @@ public:
 			Work was canceled.
 		*/
 		WS_CANCELED,
-		/**
-			Work was done, but there were warnings.
-		*/
-		WS_WARNING,
 		/**
 			Work was done, but there were errors.
 		*/
@@ -65,17 +60,15 @@ public:
 	};
 
 	/**
-		Called to signalize to entering of new object.
-		Because of all produced object are accessible on demand and must be cached, there is needed signal to clear this cache.
-		\param	thisOnly	normally dependent suppliers will be initialized,
-							but if this flag is true only this single supplier will be initilized.
+		Called to signalize that this supplier is invalid.
+		This signal will be transfered to all supplier which are registered as output.
 	*/
-	virtual void InitNewWork(bool thisOnly = false) = 0;
+	virtual void InvalidateSupplier() = 0;
 
 	/**
 		Ensure that all objects are produced.
 	*/
-	virtual void EnsureWorkFinished(const istd::IPolymorphic* outputObjectPtr = NULL) = 0;
+	virtual void EnsureWorkFinished() = 0;
 
 	/**
 		Remove all stored work results.
@@ -101,13 +94,14 @@ public:
 	virtual iprm::IParamsSet* GetModelParametersSet() const = 0;
 
 	/**
-		Register output object for unanonymous supplying.
+		Register output supplier object.
+		The output object will be informed about invalidate of this supplier.
 	*/
-	virtual void OnOutputSubscribed(istd::IPolymorphic* outputObjectPtr) = 0;
+	virtual void OnOutputSubscribed(ISupplier* outputSupplierPtr) = 0;
 	/**
-		Unregister output object for unanonymous supplying.
+		Unregister output supplier object.
 	*/
-	virtual void OnOutputUnsubscribed(const istd::IPolymorphic* outputObjectPtr) = 0;
+	virtual void OnOutputUnsubscribed(const ISupplier* outputSupplierPtr) = 0;
 };
 
 

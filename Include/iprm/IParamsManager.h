@@ -50,17 +50,17 @@ public:
 	/**
 		Get number of managed set.
 	*/
-	virtual int GetSetsCount() const = 0;
+	virtual int GetParamsSetsCount() const = 0;
 
 	/**
 		Insert new parameters set at selected position or at the and of the list.
 	*/
-	virtual bool InsertSet(int index = -1) = 0;
+	virtual bool InsertParamsSet(int index = -1) = 0;
 
 	/**
 		Remove parameters set at selected position.
 	*/
-	virtual bool RemoveSet(int index) = 0;
+	virtual bool RemoveParamsSet(int index) = 0;
 
 	/**
 		Get selected parameter set.
@@ -70,12 +70,12 @@ public:
 	/**
 		Get name of specified parameter set.
 	*/
-	virtual const istd::CString& GetSetName(int index) const = 0;
+	virtual const istd::CString& GetParamsSetName(int index) const = 0;
 
 	/**
 		Set name of specified parameter set.
 	*/
-	virtual bool SetSetName(int index, const istd::CString& name) = 0;
+	virtual bool SetParamsSetName(int index, const istd::CString& name) = 0;
 };
 
 

@@ -22,7 +22,7 @@ CParamsManagerComp::CParamsManagerComp()
 
 bool CParamsManagerComp::SetSetsCount(int count)
 {
-	int actualSetsCount = GetSetsCount();
+	int actualSetsCount = GetParamsSetsCount();
 
 	if (count < actualSetsCount){
 		int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
@@ -39,7 +39,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			return false;
 		}
 
-		int setsToAdd = count - GetSetsCount();
+		int setsToAdd = count - GetParamsSetsCount();
 		for (int i = 0; i < setsToAdd; ++i){
 			IParamsSet* newParamsSetPtr = m_paramSetsFactPtr.CreateInstance();
 			if (newParamsSetPtr == NULL){
@@ -85,13 +85,13 @@ int CParamsManagerComp::GetManagerFlags() const
 }
 
 
-int CParamsManagerComp::GetSetsCount() const
+int CParamsManagerComp::GetParamsSetsCount() const
 {
 	return m_fixedParamSetsCompPtr.GetCount() + m_paramSets.size();
 }
 
 
-bool CParamsManagerComp::InsertSet(int index)
+bool CParamsManagerComp::InsertParamsSet(int index)
 {
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
@@ -127,7 +127,7 @@ bool CParamsManagerComp::InsertSet(int index)
 }
 
 
-bool CParamsManagerComp::RemoveSet(int index)
+bool CParamsManagerComp::RemoveParamsSet(int index)
 {
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
@@ -154,8 +154,8 @@ bool CParamsManagerComp::RemoveSet(int index)
 
 IParamsSet* CParamsManagerComp::GetParamsSet(int index) const
 {
-	I_ASSERT((index >= 0) && (index < GetSetsCount()));
-	if ((index < 0) || (index >= GetSetsCount())){
+	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+	if ((index < 0) || (index >= GetParamsSetsCount())){
 		return NULL;
 	}
 
@@ -168,9 +168,9 @@ IParamsSet* CParamsManagerComp::GetParamsSet(int index) const
 }
 
 
-const istd::CString& CParamsManagerComp::GetSetName(int index) const
+const istd::CString& CParamsManagerComp::GetParamsSetName(int index) const
 {
-	I_ASSERT((index >= 0) && (index < GetSetsCount()));
+	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
 	int fixedCount = m_fixedSetNamesCompPtr.GetCount();
 	if (index < fixedCount){
@@ -185,9 +185,9 @@ const istd::CString& CParamsManagerComp::GetSetName(int index) const
 }
 
 
-bool CParamsManagerComp::SetSetName(int index, const istd::CString& name)
+bool CParamsManagerComp::SetParamsSetName(int index, const istd::CString& name)
 {
-	I_ASSERT((index >= 0) && (index < GetSetsCount()));
+	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
 	int fixedCount = m_fixedSetNamesCompPtr.GetCount();
 	if (index < fixedCount){
@@ -251,7 +251,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 
 	bool retVal = true;
 
-	int paramsCount = GetSetsCount();
+	int paramsCount = GetParamsSetsCount();
 	retVal = retVal && archive.BeginMultiTag(paramsSetListTag, paramsSetTag, paramsCount);
 
 	bool isStoring = archive.IsStoring();
@@ -275,7 +275,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 
 		retVal = retVal && archive.BeginTag(nameTag);
 		if (isStoring){
-			istd::CString name = GetSetName(i);
+			istd::CString name = GetParamsSetName(i);
 
 			retVal = retVal && archive.Process(name);
 		}
@@ -287,7 +287,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 				return false;
 			}
 
-			SetSetName(i, name);
+			SetParamsSetName(i, name);
 		}
 		retVal = retVal && archive.EndTag(nameTag);
 
@@ -315,13 +315,13 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 
 int CParamsManagerComp::GetOptionsCount() const
 {
-	return GetSetsCount();
+	return GetParamsSetsCount();
 }
 
 
 const istd::CString& CParamsManagerComp::GetOptionName(int index) const
 {
-	return GetSetName(index);
+	return GetParamsSetName(index);
 }
 
 

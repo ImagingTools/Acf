@@ -25,13 +25,11 @@ void CTabContainerGuiComp::OnGuiCreated()
 		return;
 	}
 
-	if (m_useTriangularTabsAttrPtr.IsValid() && m_useTriangularTabsAttrPtr->GetValue()){
+	if (*m_useTriangularTabsAttrPtr){
 		widgetPtr->setTabShape(QTabWidget::Triangular);
 	}
 
-	if (m_tabOrientationAttrPtr.IsValid()){
-		widgetPtr->setTabPosition(QTabWidget::TabPosition(m_tabOrientationAttrPtr->GetValue()));
-	}
+	widgetPtr->setTabPosition(QTabWidget::TabPosition(*m_tabOrientationAttrPtr));
 
 	if (m_iconSizeAttrPtr.IsValid()){
 		QSize iconSize = QSize(m_iconSizeAttrPtr->GetValue(), m_iconSizeAttrPtr->GetValue());

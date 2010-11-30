@@ -224,7 +224,7 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 	std::string xmlText;
 
 	if (m_isSeparatorNeeded){
-		if (!ReadToDelimeter(">", xmlText)){
+		if (!ReadToDelimeter("<", xmlText) || !ReadToDelimeter("/>", xmlText, false)){
 			if (IsLogConsumed()){
 				SendLogMessage(
 							istd::ILogger::MC_ERROR,
@@ -242,13 +242,15 @@ bool CXmlReadArchiveBase::Process(std::string& value)
 				SendLogMessage(
 							istd::ILogger::MC_ERROR,
 							MI_TAG_ERROR,
-							"Bad separator tag, should be ",
+							"Bad separator tag",
 							"iser::CXmlReadArchiveBase",
 							MF_SYSTEM);
 			}
 
 			return false;
 		}
+
+		ReadToDelimeter(">", xmlText);
 	}
 	else{
 		m_isSeparatorNeeded = true;

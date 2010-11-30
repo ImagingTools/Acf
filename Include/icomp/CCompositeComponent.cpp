@@ -179,7 +179,9 @@ IComponent* CCompositeComponent::GetSubcomponent(const std::string& componentId)
 	if (m_contextPtr != NULL){
 		ComponentInfo& componentInfo = m_componentMap[componentId];
 		if (!componentInfo.isInitialized){
-			componentInfo.isInitialized = CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &componentInfo.componentPtr, true);
+			CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &componentInfo.componentPtr, true);
+
+			componentInfo.isInitialized = true;
 		}
 
 		return componentInfo.componentPtr.GetPtr();
@@ -300,11 +302,17 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			}
 		}
 
-		if (subContextPtr.IsValid() && (subComponentPtr != NULL)){
+		if (!subContextPtr.IsValid()){
+			return false;
+		}
+
+		if (subComponentPtr != NULL){
 			subComponentPtr->SetPtr(componentInfoPtr->CreateComponent());
-			if (subComponentPtr->IsValid()){
-				(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
+			if (!subComponentPtr->IsValid()){
+				return false;
 			}
+
+			(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
 		}
 	}
 
@@ -322,7 +330,9 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 
 			ComponentInfo& autoInitInfo = m_componentMap[autoInitId];
 			if (!autoInitInfo.isInitialized){
-				autoInitInfo.isInitialized = CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, &autoInitInfo.componentPtr, true);
+				CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, &autoInitInfo.componentPtr, true);
+
+				autoInitInfo.isInitialized = true;
 			}
 		}
 	}

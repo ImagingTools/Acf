@@ -52,9 +52,9 @@ void CParamsManagerGuiComp::on_AddButton_clicked()
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int selectedIndex = GetSelectedIndex();
-		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
+		I_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
-		objectPtr->InsertSet(selectedIndex);
+		objectPtr->InsertParamsSet(selectedIndex);
 	}
 }
 
@@ -64,10 +64,10 @@ void CParamsManagerGuiComp::on_RemoveButton_clicked()
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int selectedIndex = GetSelectedIndex();
-		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
+		I_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
 		if (selectedIndex >= 0){
-			objectPtr->RemoveSet(selectedIndex);
+			objectPtr->RemoveParamsSet(selectedIndex);
 		}
 	}
 }
@@ -122,7 +122,7 @@ void CParamsManagerGuiComp::on_ParamsTree_itemChanged(QTreeWidgetItem* item, int
 	if (objectPtr != NULL){
 		int setIndex = item->data(0, Qt::UserRole).toInt();
 
-		objectPtr->SetSetName(setIndex, iqt::GetCString(item->text(0)));
+		objectPtr->SetParamsSetName(setIndex, iqt::GetCString(item->text(0)));
 	}
 }
 
@@ -162,7 +162,7 @@ void CParamsManagerGuiComp::UpdateTree()
 			itemFlags |= Qt::ItemIsEditable;
 		}
 
-		int setsCount = objectPtr->GetSetsCount();
+		int setsCount = objectPtr->GetParamsSetsCount();
 
 		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 		int selectedIndex = -1;
@@ -171,7 +171,7 @@ void CParamsManagerGuiComp::UpdateTree()
 		}
 
 		for (int paramSetIndex = 0; paramSetIndex < setsCount; ++paramSetIndex){
-			const istd::CString& name = objectPtr->GetSetName(paramSetIndex);
+			const istd::CString& name = objectPtr->GetParamsSetName(paramSetIndex);
 			QTreeWidgetItem* paramsSetItemPtr = new QTreeWidgetItem();
 			paramsSetItemPtr->setText(0, iqt::GetQString(name));
 			paramsSetItemPtr->setData(0, Qt::UserRole, paramSetIndex);
@@ -194,7 +194,7 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL && (selectedIndex >= 0)){
-		I_ASSERT(selectedIndex < objectPtr->GetSetsCount());
+		I_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
 		if (m_paramsObserverCompPtr.IsValid()){
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(selectedIndex));
