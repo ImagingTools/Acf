@@ -120,33 +120,35 @@ bool CQuadrangleParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 
 void CQuadrangleParamsGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CQuadrangle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CQuadrangleParamsGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		i2d::CVector2d point1(FirstDiagPoint1XSpin->value(), FirstDiagPoint1YSpin->value());
-		i2d::CVector2d point2(FirstDiagPoint2XSpin->value(), FirstDiagPoint2YSpin->value());
+	i2d::CVector2d point1(FirstDiagPoint1XSpin->value(), FirstDiagPoint1YSpin->value());
+	i2d::CVector2d point2(FirstDiagPoint2XSpin->value(), FirstDiagPoint2YSpin->value());
 
-		i2d::CVector2d point3(SecondDiagPoint1XSpin->value(), SecondDiagPoint1YSpin->value());
-		i2d::CVector2d point4(SecondDiagPoint2XSpin->value(), SecondDiagPoint2YSpin->value());
+	i2d::CVector2d point3(SecondDiagPoint1XSpin->value(), SecondDiagPoint1YSpin->value());
+	i2d::CVector2d point4(SecondDiagPoint2XSpin->value(), SecondDiagPoint2YSpin->value());
 
-		i2d::CLine2d firstDiag(point1, point2);
-		i2d::CLine2d secondDiag(point3, point4);
+	i2d::CLine2d firstDiag(point1, point2);
+	i2d::CLine2d secondDiag(point3, point4);
 
-		istd::CChangeNotifier changePtr(NULL);
+	istd::CChangeNotifier changePtr(NULL);
 
-		if (firstDiag != objectPtr->GetFirstDiagonal() || secondDiag != objectPtr->GetSecondDiagonal()){
-			changePtr.SetPtr(objectPtr);
-		
-			objectPtr->SetFirstDiagonal(i2d::CLine2d(point1, point2));
-			objectPtr->SetSecondDiagonal(i2d::CLine2d(point3, point4));
-		}
+	if (firstDiag != objectPtr->GetFirstDiagonal() || secondDiag != objectPtr->GetSecondDiagonal()){
+		changePtr.SetPtr(objectPtr);
+	
+		objectPtr->SetFirstDiagonal(i2d::CLine2d(point1, point2));
+		objectPtr->SetSecondDiagonal(i2d::CLine2d(point3, point4));
 	}
 }
 
 
 void CQuadrangleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CQuadrangle* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& point1 = objectPtr->GetFirstDiagonal().GetPoint1();

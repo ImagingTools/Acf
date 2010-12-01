@@ -163,9 +163,9 @@ void CCompositeComponent::SetComponentContext(
 			ComponentInfo& info = iter->second;
 
 			if (info.isInitialized){
-				I_ASSERT(info.componentPtr.IsValid());
-
-				info.componentPtr->SetComponentContext(NULL, NULL, false);
+				if (info.componentPtr.IsValid()){
+					info.componentPtr->SetComponentContext(NULL, NULL, false);
+				}
 
 				info.isInitialized = false;
 			}

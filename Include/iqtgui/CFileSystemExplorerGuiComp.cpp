@@ -23,11 +23,14 @@ namespace iqtgui
 
 void CFileSystemExplorerGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
 void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		QModelIndex index = m_fileSystemModel.index(iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(objectPtr->GetPath())));

@@ -18,25 +18,24 @@ namespace iqtprm
 
 void CSelectionParamIndexGuiComp::UpdateModel() const
 {
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CSelectionParamIndexGuiComp*>(this));
+	I_ASSERT(IsGuiCreated());
+	iprm::ISelectionParam* objectPtr = GetObjectPtr();
+	I_ASSERT(objectPtr != NULL);
 
-		iprm::ISelectionParam* objectPtr = GetObjectPtr();
-		if (objectPtr != NULL){
-			int iterationCount = OptionIndexSpin->value();
+	int iterationCount = OptionIndexSpin->value();
 
-			if (iterationCount != objectPtr->GetSelectedOptionIndex()){
-				istd::CChangeNotifier notifier(objectPtr);
+	if (iterationCount != objectPtr->GetSelectedOptionIndex()){
+		istd::CChangeNotifier notifier(objectPtr);
 
-				objectPtr->SetSelectedOptionIndex(iterationCount);
-			}
-		}
+		objectPtr->SetSelectedOptionIndex(iterationCount);
 	}
 }
 
 
 void CSelectionParamIndexGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	const iprm::ISelectionParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int maxCount = 10;

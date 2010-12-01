@@ -24,16 +24,15 @@ CVariableParamGuiComp::CVariableParamGuiComp()
 
 void CVariableParamGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
 void CVariableParamGuiComp::UpdateEditor(int updateFlags)
 {
-	I_ASSERT(m_currentTypeIndex < m_typeIdsAttrPtr.GetCount());
+	I_ASSERT(IsGuiCreated());
 
-	if (!IsGuiCreated()){
-		return;
-	}
+	I_ASSERT(m_currentTypeIndex < m_typeIdsAttrPtr.GetCount());
 
 	iprm::IVariableParam* variableParamPtr = GetObjectPtr();
 	if (variableParamPtr == NULL){

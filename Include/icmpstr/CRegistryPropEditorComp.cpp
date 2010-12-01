@@ -15,9 +15,7 @@ namespace icmpstr
 
 void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
 {
-	if (!IsGuiCreated()){
-		return;
-	}
+	I_ASSERT(IsGuiCreated());
 
 	const icomp::IRegistry* registryPtr = GetObjectPtr();
 	if (registryPtr == NULL){
@@ -26,7 +24,7 @@ void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
 
 	DescriptionEdit->setText(iqt::GetQString(registryPtr->GetDescription()));
 	KeywordsEdit->setText(iqt::GetQString(registryPtr->GetKeywords()));
-	/*
+/*
 	CComponentCategoryEncoder encoder;
 	m_categoryComboBox->SetItemsChecked(encoder.GetCategoryNames(registryPtr->GetCategory()));
 */
@@ -36,6 +34,7 @@ void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
 
 void CRegistryPropEditorComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 

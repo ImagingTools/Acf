@@ -103,29 +103,31 @@ bool CLine2dParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 
 void CLine2dParamsGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CLine2d* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CLine2dParamsGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		istd::CChangeNotifier notifier(NULL);
+	istd::CChangeNotifier notifier(NULL);
 
-		i2d::CVector2d point1(Point1XSB->value(), Point1YSB->value());
-		if (objectPtr->GetPoint1() != point1){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetPoint1(point1);
-		}
+	i2d::CVector2d point1(Point1XSB->value(), Point1YSB->value());
+	if (objectPtr->GetPoint1() != point1){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetPoint1(point1);
+	}
 
-		i2d::CVector2d point2(Point2XSB->value(), Point2YSB->value());
-		if (objectPtr->GetPoint2() != point2){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetPoint2(point2);
-		}
+	i2d::CVector2d point2(Point2XSB->value(), Point2YSB->value());
+	if (objectPtr->GetPoint2() != point2){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetPoint2(point2);
 	}
 }
 
 
 void CLine2dParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CLine2d* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& point1 = objectPtr->GetPoint1();

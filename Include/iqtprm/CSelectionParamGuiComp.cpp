@@ -14,31 +14,26 @@ namespace iqtprm
 
 void CSelectionParamGuiComp::UpdateModel() const
 {
-	if (!IsGuiCreated()){
-		return;
-	}
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CSelectionParamGuiComp*>(this));
+	I_ASSERT(IsGuiCreated());
 
-		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
-		int switchesCount = m_comboBoxes.GetCount();
-		for (		int switchIndex = 0;
-					(selectionPtr != NULL) && switchIndex < switchesCount;
-					++switchIndex){
-			const QComboBox* switchBoxPtr = m_comboBoxes.GetAt(switchIndex);
-			selectionPtr->SetSelectedOptionIndex(switchBoxPtr->currentIndex());
+	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	I_ASSERT(selectionPtr != NULL);
 
-			selectionPtr = selectionPtr->GetActiveSubselection();
-		}
+	int switchesCount = m_comboBoxes.GetCount();
+	for (		int switchIndex = 0;
+				(selectionPtr != NULL) && switchIndex < switchesCount;
+				++switchIndex){
+		const QComboBox* switchBoxPtr = m_comboBoxes.GetAt(switchIndex);
+		selectionPtr->SetSelectedOptionIndex(switchBoxPtr->currentIndex());
+
+		selectionPtr = selectionPtr->GetActiveSubselection();
 	}
 }
 
 
 void CSelectionParamGuiComp::UpdateEditor(int /*updateFlags*/)
 {
-	if (!IsGuiCreated()){
-		return;
-	}
+	I_ASSERT(IsGuiCreated());
 
 	m_comboBoxes.Reset();
 

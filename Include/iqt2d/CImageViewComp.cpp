@@ -21,11 +21,14 @@ CImageViewComp::CImageViewComp()
 
 void CImageViewComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
 void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	istd::CIndex2d imageSize = GetSize();
 	if (imageSize == istd::CIndex2d::GetZero() || imageSize == istd::CIndex2d::GetInvalid()){
 		QGraphicsScene* scenePtr = GetScene();

@@ -19,6 +19,8 @@ namespace iqtgui
 
 void CObjectPreviewGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		QString qtFilePath = iqt::GetQString(objectPtr->GetPath());
@@ -45,6 +47,7 @@ void CObjectPreviewGuiComp::UpdateEditor(int /*updateFlags*/)
 
 void CObjectPreviewGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 

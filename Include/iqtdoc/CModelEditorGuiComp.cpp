@@ -65,6 +65,8 @@ void CModelEditorGuiComp::OnTryClose(bool* ignoredPtr)
 
 void CModelEditorGuiComp::UpdateEditor(int updateFlags)
 {
+	I_ASSERT(IsGuiCreated());
+
 	if (m_slaveEditorCompPtr.IsValid()){
 		m_slaveEditorCompPtr->UpdateEditor(updateFlags);
 	}
@@ -73,6 +75,8 @@ void CModelEditorGuiComp::UpdateEditor(int updateFlags)
 
 void CModelEditorGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	if (m_slaveEditorCompPtr.IsValid()){
 		m_slaveEditorCompPtr->UpdateModel();
 	}

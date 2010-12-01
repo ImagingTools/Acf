@@ -40,37 +40,39 @@ void CRectangleParamsGuiComp::OnGuiModelDetached()
 
 void CRectangleParamsGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CRectangle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CRectangleParamsGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		istd::CChangeNotifier notifier(NULL);
+	istd::CChangeNotifier notifier(NULL);
 
-		if (objectPtr->GetLeft() != LeftSpin->value()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetLeft(LeftSpin->value());
-		}
+	if (objectPtr->GetLeft() != LeftSpin->value()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetLeft(LeftSpin->value());
+	}
 
-		if (objectPtr->GetRight() != RightSpin->value()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetRight(RightSpin->value());
-		}
+	if (objectPtr->GetRight() != RightSpin->value()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetRight(RightSpin->value());
+	}
 
-		if (objectPtr->GetTop() != TopSpin->value()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetTop(TopSpin->value());
-		}
+	if (objectPtr->GetTop() != TopSpin->value()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetTop(TopSpin->value());
+	}
 
-		if (objectPtr->GetBottom() != BottomSpin->value()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetBottom(BottomSpin->value());
-		}
+	if (objectPtr->GetBottom() != BottomSpin->value()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetBottom(BottomSpin->value());
 	}
 }
 
 
 void CRectangleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CRectangle* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		iqt::CSignalBlocker block(LeftSpin);

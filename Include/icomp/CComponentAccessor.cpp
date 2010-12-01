@@ -49,7 +49,6 @@ CComponentAccessor::CComponentAccessor(
 			}
 		}
 	}
-
 }
 
 

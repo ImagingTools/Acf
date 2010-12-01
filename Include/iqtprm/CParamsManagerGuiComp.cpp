@@ -26,22 +26,21 @@ CParamsManagerGuiComp::CParamsManagerGuiComp()
 
 void CParamsManagerGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
 void CParamsManagerGuiComp::UpdateEditor(int updateFlags)
 {
+	I_ASSERT(IsGuiCreated());
+
 	// if the set was removed, the model was already detached from all observers,
 	// so we must reset our temporary model pointer:
 	if ((updateFlags & iprm::IParamsManager::CF_SET_REMOVED) != 0 && (updateFlags & istd::CChangeDelegator::CF_DELEGATED) != 0){
 		m_lastConnectedModelPtr = NULL;
 	}
-	
-	if (IsGuiCreated()){
-		UpdateBlocker updateBlocker(this);
 
-		UpdateTree();
-	}
+	UpdateTree();
 }
 
 

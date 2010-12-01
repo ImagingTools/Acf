@@ -11,6 +11,8 @@ namespace iqtgui
 
 void CImagePropertyGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	PropertyTree->clear();
 
 	iimg::IBitmap* bitmapPtr = GetObjectPtr();
@@ -31,6 +33,7 @@ void CImagePropertyGuiComp::UpdateEditor(int /*updateFlags*/)
 
 void CImagePropertyGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 

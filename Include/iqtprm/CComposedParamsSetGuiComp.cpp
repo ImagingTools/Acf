@@ -26,24 +26,43 @@ CComposedParamsSetGuiComp::CComposedParamsSetGuiComp()
 
 void CComposedParamsSetGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
+
 	int editorsCount = m_editorsCompPtr.GetCount();
 	for (int i = 0; i < editorsCount; ++i){
-		imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
-		if (editorPtr != NULL){
-			editorPtr->UpdateModel();
+		iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+		if ((guiPtr == NULL) || !guiPtr->IsGuiCreated()){
+			continue;
 		}
+
+		imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
+		if (m_connectedEditors.find(editorPtr) == m_connectedEditors.end()){
+			continue;
+		}
+		I_ASSERT(editorPtr != NULL);	// only not NULL editors are stored in m_connectedEditors
+
+		editorPtr->UpdateModel();
 	}
 }
 
 
 void CComposedParamsSetGuiComp::UpdateEditor(int updateFlags)
 {
+	I_ASSERT(IsGuiCreated());
+
 	int editorsCount = m_editorsCompPtr.GetCount();
 	for (int i = 0; i < editorsCount; ++i){
-		imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
-		if (editorPtr != NULL){
-			editorPtr->UpdateEditor(updateFlags);
+		iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+		if ((guiPtr == NULL) || !guiPtr->IsGuiCreated()){
+			continue;
 		}
+
+		imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
+		if (editorPtr == NULL){
+			continue;
+		}
+
+		editorPtr->UpdateEditor(updateFlags);
 	}
 }
 
@@ -66,8 +85,11 @@ bool CComposedParamsSetGuiComp::OnAttached(imod::IModel* modelPtr)
 		imod::IModel* parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
 
-		if ((parameterModelPtr != NULL) && (observerPtr != NULL)){
-			parameterModelPtr->AttachObserver(observerPtr);
+		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->AttachObserver(observerPtr)){
+			imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
+			if (editorPtr != NULL){
+				m_connectedEditors.insert(editorPtr);
+			}
 		}
 	}
 
@@ -79,6 +101,8 @@ bool CComposedParamsSetGuiComp::OnDetached(imod::IModel* modelPtr)
 {
 	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
 	I_ASSERT(paramsSetPtr != NULL);
+
+	m_connectedEditors.clear();
 
 	int elementsCount = istd::Min(m_observersCompPtr.GetCount(), m_idsAttrPtr.GetCount());
 	for (int i = 0; i < elementsCount; ++i){

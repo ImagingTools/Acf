@@ -9,21 +9,22 @@ namespace iqtproc
 
 void CGeneralSupplierGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
 void CGeneralSupplierGuiComp::UpdateEditor(int /*updateFlags*/)
 {
-	if (IsGuiCreated()){
-		iproc::ISupplier* supplierPtr = GetObjectPtr();
-		if (supplierPtr != NULL){
-			double inspectionTime = supplierPtr->GetWorkDurationTime();
-			QString inspectionText = tr("%1 ms").arg(inspectionTime * 1000);
-			InspectionTimeLabel->setText(inspectionText);
-		}
-		else{
-			InspectionTimeLabel->setText(tr("-"));
-		}
+	I_ASSERT(IsGuiCreated());
+
+	iproc::ISupplier* supplierPtr = GetObjectPtr();
+	if (supplierPtr != NULL){
+		double inspectionTime = supplierPtr->GetWorkDurationTime();
+		QString inspectionText = tr("%1 ms").arg(inspectionTime * 1000);
+		InspectionTimeLabel->setText(inspectionText);
+	}
+	else{
+		InspectionTimeLabel->setText(tr("-"));
 	}
 }
 

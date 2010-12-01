@@ -66,47 +66,49 @@ bool CAnnulusSegmentParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 
 void CAnnulusSegmentParamsGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CAnnulusSegmentParamsGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		istd::CChangeNotifier notifier(NULL);
+	istd::CChangeNotifier notifier(NULL);
 
-		i2d::CVector2d postion(XSpin->value(), YSpin->value());
-		if (objectPtr->GetCenter() != postion){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetPosition(postion);
-		}
+	i2d::CVector2d postion(XSpin->value(), YSpin->value());
+	if (objectPtr->GetCenter() != postion){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetPosition(postion);
+	}
 
-		double innerRadius = InnerRadiusSpin->value();
-		if (objectPtr->GetInnerRadius() != innerRadius){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetInnerRadius(innerRadius);
-		}
+	double innerRadius = InnerRadiusSpin->value();
+	if (objectPtr->GetInnerRadius() != innerRadius){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetInnerRadius(innerRadius);
+	}
 
-		double outerRadius = OuterRadiusSpin->value();
-		if (objectPtr->GetOuterRadius() != outerRadius){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetOuterRadius(outerRadius);
-		}
+	double outerRadius = OuterRadiusSpin->value();
+	if (objectPtr->GetOuterRadius() != outerRadius){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetOuterRadius(outerRadius);
+	}
 
-		double beginAngle = imath::GetRadianFromDegree(BeginAngleSB->value());
-		if (beginAngle != objectPtr->GetBeginAngle()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetBeginAngle(beginAngle);
-		}
+	double beginAngle = imath::GetRadianFromDegree(BeginAngleSB->value());
+	if (beginAngle != objectPtr->GetBeginAngle()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetBeginAngle(beginAngle);
+	}
 
-		double endAngle = imath::GetRadianFromDegree(EndAngleSB->value());
-		if (endAngle != objectPtr->GetEndAngle()){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetEndAngle(endAngle);
-		}
+	double endAngle = imath::GetRadianFromDegree(EndAngleSB->value());
+	if (endAngle != objectPtr->GetEndAngle()){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetEndAngle(endAngle);
 	}
 }
 
 
 void CAnnulusSegmentParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();

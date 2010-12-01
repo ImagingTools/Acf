@@ -134,7 +134,9 @@ bool TGuiObserverWrap<Gui, Observer>::OnDetached(imod::IModel* modelPtr)
 {
 	if (Observer::IsModelAttached(modelPtr)){
 		if (Gui::IsGuiCreated()){
-			if (!m_isReadOnly){
+			if (!m_isReadOnly && !IsUpdateBlocked()){
+				UpdateBlocker blocker(this);
+
 				UpdateModel();
 			}
 
@@ -184,7 +186,9 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 template <class Gui, class Observer>
 void TGuiObserverWrap<Gui, Observer>::OnGuiModelDetached()
 {
-	if (!m_isReadOnly && Observer::IsModelAttached(NULL)){
+	if (!m_isReadOnly && Observer::IsModelAttached(NULL) && !IsUpdateBlocked()){
+		UpdateBlocker blocker(this);
+
 		UpdateModel();
 	}
 }
@@ -302,7 +306,7 @@ void TGuiObserverWrap<Gui, Observer>::DoUpdate(int updateFlags)
 		skipUpdate = ((m_updateFilter & updateFlags) == 0);
 	}
 
-	if (!IsUpdateBlocked() && !skipUpdate){
+	if (!IsUpdateBlocked() && !skipUpdate && IsGuiCreated()){
 		UpdateBlocker blocker(this);
 
 		UpdateEditor(updateFlags);

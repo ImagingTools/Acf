@@ -28,12 +28,14 @@ public:
 
 	/**
 		Updates editor with model data.
-		\param	updateFlags	the same as \c changeFlag in istd::IChangeable
+		This method will be called only if GUI is connected.
+		\param	updateFlags	the same as \c changeFlag in istd::IChangeable.
 	*/
 	virtual void UpdateEditor(int updateFlags = 0) = 0;
 
 	/**
 		Updates model from editor.
+		This method will be called only if GUI is connected and model is attached.
 	*/
 	virtual void UpdateModel() const = 0;
 

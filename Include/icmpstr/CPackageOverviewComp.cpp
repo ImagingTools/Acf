@@ -453,7 +453,7 @@ icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredCom
 							iterfaceIter != m_interfaceFilter.end();
 							++iterfaceIter){
 					const std::string& filteredInterfaceName = *iterfaceIter;
-					if (interfaces.find(filteredInterfaceName) != interfaces.end()){
+					if (interfaces.find(filteredInterfaceName) == interfaces.end()){
 						isFilterMatched = false;
 						break;
 					}

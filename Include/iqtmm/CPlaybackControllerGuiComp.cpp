@@ -17,6 +17,8 @@ namespace iqtmm
 
 void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 {
+	I_ASSERT(IsGuiCreated());
+
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int supportedFeatures = objectPtr->GetSupportedFeatures();
@@ -74,6 +76,7 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 
 void CPlaybackControllerGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 

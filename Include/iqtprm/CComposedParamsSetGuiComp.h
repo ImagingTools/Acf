@@ -2,6 +2,9 @@
 #define iqtprm_CComposedParamsSetGuiComp_included
 
 
+// STL includes
+#include <set>
+
 // ACF includes
 #include "istd/CString.h"
 
@@ -82,6 +85,9 @@ private:
 	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);
 	I_ATTR(bool, m_showAllShapesAttrPtr);
 	I_ATTR(int, m_designTypeAttrPtr);
+
+	typedef std::set<imod::IModelEditor*> ConnectedEditors;
+	ConnectedEditors m_connectedEditors;
 
 	int m_currentGuiIndex;
 

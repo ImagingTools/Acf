@@ -64,22 +64,26 @@ void CFileNameParamGuiComp::OnGuiCreated()
 
 void CFileNameParamGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CFileNameParamGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		istd::CString currentPath = iqt::GetCString(GetPathFromEditor());
-		if (currentPath != objectPtr->GetPath()){
-			istd::CChangeNotifier notifier(objectPtr);
+	UpdateBlocker blocker(const_cast<CFileNameParamGuiComp*>(this));
 
-			objectPtr->SetPath(currentPath);
-		}
+	istd::CString currentPath = iqt::GetCString(GetPathFromEditor());
+	if (currentPath != objectPtr->GetPath()){
+		istd::CChangeNotifier notifier(objectPtr);
+
+		objectPtr->SetPath(currentPath);
 	}
 }
 
 
 void CFileNameParamGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int pathType = objectPtr->GetPathType();

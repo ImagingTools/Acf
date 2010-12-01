@@ -163,9 +163,7 @@ void CAttributeEditorComp::OnGuiModelDetached()
 
 void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 {
-	if (!IsGuiCreated()){
-		return;
-	}
+	I_ASSERT(IsGuiCreated());
 
 	icomp::IRegistry* registryPtr = GetRegistry();
 	imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);
@@ -220,6 +218,7 @@ void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
 
 void CAttributeEditorComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 
@@ -979,6 +978,9 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 						icomp::IComponentStaticInfo::MGI_INTERFACES,
 						0,
 						icomp::IAttributeStaticInfo::AF_NULLABLE);	// Names of the interfaces which must be set
+			if (obligatoryInterfaces.empty()){
+				obligatoryInterfaces = staticInfoPtr->GetRelatedMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES, 0, 0);	// All asked interface names
+			}
 			icomp::IRegistry::Ids compatIds = m_parent.m_consistInfoCompPtr->GetCompatibleElements(
 						obligatoryInterfaces,
 						*registryPtr,

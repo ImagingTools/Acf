@@ -99,29 +99,31 @@ bool CCircleParamsGuiComp::OnDetached(imod::IModel* modelPtr)
 
 void CCircleParamsGuiComp::UpdateModel() const
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CCircle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && !IsUpdateBlocked()){
-		UpdateBlocker blocker(const_cast<CCircleParamsGuiComp*>(this));
+	I_ASSERT(objectPtr != NULL);
 
-		istd::CChangeNotifier notifier(NULL);
+	istd::CChangeNotifier notifier(NULL);
 
-		i2d::CVector2d postion(XSpin->value(), YSpin->value());
-		if (objectPtr->GetCenter() != postion){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetPosition(postion);
-		}
+	i2d::CVector2d postion(XSpin->value(), YSpin->value());
+	if (objectPtr->GetCenter() != postion){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetPosition(postion);
+	}
 
-		double radius = RadiusSpin->value();
-		if (objectPtr->GetRadius() != radius){
-			notifier.SetPtr(objectPtr);
-			objectPtr->SetRadius(radius);
-		}
+	double radius = RadiusSpin->value();
+	if (objectPtr->GetRadius() != radius){
+		notifier.SetPtr(objectPtr);
+		objectPtr->SetRadius(radius);
 	}
 }
 
 
 void CCircleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 {
+	I_ASSERT(IsGuiCreated());
+
 	i2d::CCircle* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
