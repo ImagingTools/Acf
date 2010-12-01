@@ -117,10 +117,12 @@ void CObjectPreviewGuiComp::UpdateObjectFromFile()
 
 		istd::CChangeNotifier changePtr(m_objectCompPtr.GetPtr());
 
-		int retVal = m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr.GetPtr(), iqt::GetCString(m_lastFilePath));
-		if (retVal != iser::IFileLoader::StateOk){
-			if (m_objectModelCompPtr->IsAttached(m_objectObserverCompPtr.GetPtr())){
-				m_objectModelCompPtr->DetachObserver(m_objectObserverCompPtr.GetPtr());
+		if (m_fileLoaderCompPtr.IsValid()){
+			int retVal = m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr.GetPtr(), iqt::GetCString(m_lastFilePath));
+			if (retVal != iser::IFileLoader::StateOk){
+				if (m_objectModelCompPtr->IsAttached(m_objectObserverCompPtr.GetPtr())){
+					m_objectModelCompPtr->DetachObserver(m_objectObserverCompPtr.GetPtr());
+				}
 			}
 		}
 	}
