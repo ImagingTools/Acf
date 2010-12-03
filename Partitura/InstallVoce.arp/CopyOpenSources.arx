@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1597
+          1633
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          271
+          289
         </Number>
         <Description>
           ACF-Solutions
@@ -250,10 +250,10 @@
                   *.xtrsvn
                 </Value>
                 <Value>
-                  *.copy
+                  *.xtracf
                 </Value>
                 <Value>
-                  
+                  *.copy
                 </Value>
               </Values>
             </Data>
@@ -713,7 +713,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="8">
+              <Values count="9">
                 <Value>
                   *.ui
                 </Value>
@@ -734,6 +734,9 @@
                 </Value>
                 <Value>
                   *.xtrsvn
+                </Value>
+                <Value>
+                  *.xtracf
                 </Value>
                 <Value>
                   *.copy
