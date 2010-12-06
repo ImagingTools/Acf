@@ -89,15 +89,15 @@ bool CApplicationInfoComp::GetVersionNumber(int versionId, I_DWORD& result) cons
 	else if (m_slaveVersionInfoCompPtr.IsValid()){
 		return m_slaveVersionInfoCompPtr->GetVersionNumber(versionId, result);
 	}
-	else{
-		if (versionId == iser::IVersionInfo::FrameworkVersionId){
-			result = istd::RS_USE_VERSION;
+	else if (versionId == iser::IVersionInfo::FrameworkVersionId){
+		result = istd::RS_USE_VERSION;
 
-			return true;
-		}
-
-		return false;
+		return true;
 	}
+
+	result = 0xffffffff;
+
+	return false;
 }
 
 

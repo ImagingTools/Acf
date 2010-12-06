@@ -68,6 +68,11 @@ public:
 	virtual Ids GetElementIds() const = 0;
 
 	/**
+		Get access to stored attribute info structure.
+	*/
+	virtual const ElementInfo* GetElementInfo(const std::string& elementId) const = 0;
+
+	/**
 		Insert new attribute info object to collection of attributes.
 		\param	elementId				unique ID of new element (component).
 		\param	address					address describing element type.
@@ -79,14 +84,48 @@ public:
 				bool ensureElementCreated = true) = 0;
 
 	/**
-		Get access to stored attribute info structure.
-	*/
-	virtual const ElementInfo* GetElementInfo(const std::string& elementId) const = 0;
-
-	/**
 		Removes attribute info structure from this collection.
 	*/
 	virtual bool RemoveElementInfo(const std::string& elementId) = 0;
+
+	/**
+		Rename an registry element.
+		\param	oldElementId		ID of element to be renamed.
+		\param	newElementId		the new ID of element.
+	*/
+	virtual bool RenameElement(const std::string& oldElementId, const std::string& newElementId) = 0;
+
+	/**
+		Get list of IDs of embedded registries.
+		Embedded registries are used to manage local composite components.
+		\return	set of IDs.
+	*/
+	virtual Ids GetEmbeddedRegistryIds() const = 0;
+
+	/**
+		Get access to embedded registry using its ID.
+		Embedded registries are used to manage local composite components.
+	*/
+	virtual IRegistry* GetEmbeddedRegistry(const std::string& registryId) const = 0;
+
+	/**
+		Insert embedded registry with specified ID.
+		\return	instance of new created embedded registry.
+	*/
+	virtual IRegistry* InsertEmbeddedRegistry(const std::string& registryId) = 0;
+
+	/**
+		Remove embedded registry with specified ID.
+		\return	true, if registry could be removed.
+	*/
+	virtual bool RemoveEmbeddedRegistry(const std::string& registryId) = 0;
+
+	/**
+		Rename a embedded registry.
+		\param	oldElementId		ID of element to be renamed.
+		\param	newElementId		the new ID of element.
+	*/
+	virtual bool RenameEmbeddedRegistry(const std::string& oldRegistryId, const std::string& newRegistryId) = 0;
 
 	/**
 		Get access to information structore of exported interfaces.
@@ -117,13 +156,6 @@ public:
 	virtual void SetElementExported(
 				const std::string& exportId,
 				const std::string& elementId) = 0;
-
-	/**
-		Rename an registry element.
-		\param	oldElementId		ID of element to be renamed.
-		\param	newElementId		the new ID of element.
-	*/
-	virtual bool RenameElement(const std::string& oldElementId, const std::string& newElementId) = 0;
 
 	/**
 		Get human readable description of this registry.

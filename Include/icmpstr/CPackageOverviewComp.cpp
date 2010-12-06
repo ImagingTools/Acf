@@ -245,6 +245,11 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 						icomp::IComponentStaticInfo::MGI_INTERFACES,
 						0,
 						icomp::IAttributeStaticInfo::AF_NULLABLE);	// Names of the interfaces which must be set
+			if (interfaceNames.empty()){
+				interfaceNames = attributeStaticInfoPtr->GetRelatedMetaIds(
+							icomp::IComponentStaticInfo::MGI_INTERFACES, 0, 0);	// All asked interfaces
+			}
+
 			if (!interfaceNames.empty()){
 				const std::string& interfaceName = *interfaceNames.begin();
 				int index = InterfaceCB->findText(interfaceName.c_str());

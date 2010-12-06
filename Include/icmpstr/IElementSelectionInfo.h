@@ -2,6 +2,9 @@
 #define icmpstr_IElementSelectionInfo_included
 
 
+// STL includes
+#include <set>
+
 // Qt includes
 #include <QIcon>
 
@@ -31,6 +34,8 @@ public:
 	{
 		CF_SELECTION = 0x80000
 	};
+
+	typedef std::set<std::string> ElementIds;
 
 	/**
 		Get registry containing selected element.

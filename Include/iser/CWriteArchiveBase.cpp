@@ -107,8 +107,10 @@ bool CWriteArchiveBase::SerializeAcfHeader()
 
 // reimplemented (iser::IVersionInfo)
 
-bool CWriteArchiveBase::EmptyVersionInfo::GetVersionNumber(int /*versionId*/, I_DWORD& /*result*/) const
+bool CWriteArchiveBase::EmptyVersionInfo::GetVersionNumber(int /*versionId*/, I_DWORD& result) const
 {
+	result = 0xffffffff;
+
 	return false;
 }
 

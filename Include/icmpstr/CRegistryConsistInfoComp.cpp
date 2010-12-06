@@ -4,6 +4,8 @@
 // Qt includes
 #include <QDir>
 
+#include "icomp/CCompositeComponentStaticInfo.h"
+
 #include "ibase/CMessage.h"
 
 
@@ -82,83 +84,52 @@ bool CRegistryConsistInfoComp::IsElementValid(
 			bool allReasons,
 			ibase::IMessageConsumer* reasonConsumerPtr) const
 {
+	I_ASSERT(m_envManagerCompPtr.IsValid());
+
 	bool retVal = true;
 
 	const icomp::IRegistry::ElementInfo* infoPtr = registry.GetElementInfo(elementName);
 	if (infoPtr != NULL){
-		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(infoPtr->address);
-		if (metaInfoPtr != NULL){
-			const icomp::IComponentStaticInfo::AttributeInfos& staticAttributes = metaInfoPtr->GetAttributeInfos();
-			for (int staticAttributeIndex = 0; staticAttributeIndex < staticAttributes.GetElementsCount(); staticAttributeIndex++){
-				const std::string& attributeId = staticAttributes.GetKeyAt(staticAttributeIndex);
-
-				bool status = IsAttributeValid(attributeId, elementName, registry, ignoreUndef, allReasons, reasonConsumerPtr);
-
-				if (!status && !allReasons){
-					return false;
-				}
-
-				retVal = retVal && status;
-			}
+		const icomp::CComponentAddress& elementAddress = infoPtr->address;
+		if (!elementAddress.GetPackageId().empty()){
+			retVal = IsElementWithInfoValid(
+						elementName,
+						*infoPtr,
+						m_envManagerCompPtr->GetComponentMetaInfo(elementAddress),
+						registry,
+						ignoreUndef,
+						allReasons,
+						reasonConsumerPtr) && retVal;
 		}
 		else{
-			if (!ignoreUndef){
+			icomp::IRegistry* embeddedRegistryPtr = registry.GetEmbeddedRegistry(elementAddress.GetComponentId());
+			if (embeddedRegistryPtr != NULL){
+				icomp::CCompositeComponentStaticInfo embeddedInfo(*embeddedRegistryPtr, *m_envManagerCompPtr);
+				retVal = IsElementWithInfoValid(
+							elementName,
+							*infoPtr,
+							&embeddedInfo,
+							registry,
+							ignoreUndef,
+							allReasons,
+							reasonConsumerPtr) && retVal;
+			}
+			else{
 				if (reasonConsumerPtr != NULL){
 					reasonConsumerPtr->AddMessage(new ibase::CMessage(
 								istd::ILogger::MC_WARNING,
 								MI_COMPONENT_INACTIVE,
-								iqt::GetCString(QObject::tr("Element %1 uses inactive component %2")
-											.arg(elementName.c_str())
-											.arg(iqt::GetQString(GetAddressName(infoPtr->address)))),
+								iqt::GetCString(QObject::tr("Element %1 uses unknown embedded composite component %2").arg(elementName.c_str()).arg(elementAddress.GetComponentId().c_str())),
 								iqt::GetCString(QObject::tr("Element Consistency Check")),
 								0));
 				}
 
-				if (allReasons){
-					retVal = false;
-				}
-				else{
-					return false;
-				}
-			}
-		}
-
-		const icomp::IRegistryElement* elementPtr = infoPtr->elementPtr.GetPtr();
-		if (elementPtr != NULL){
-			if (metaInfoPtr == NULL){	// if no meta info, we try to check attributes from existing attributes list
-				icomp::IRegistryElement::Ids ids = elementPtr->GetAttributeIds();
-
-				for (		icomp::IRegistryElement::Ids::const_iterator iter = ids.begin();
-							iter != ids.end();
-							++iter){
-					const std::string& attributeId = *iter;
-
-					bool status = IsAttributeValid(attributeId, elementName, registry, ignoreUndef, allReasons, reasonConsumerPtr);
-
-					if (!status && !allReasons){
-						return false;
-					}
-
-					retVal = retVal && status;
-				}
-			}
-		}
-		else{
-			if (reasonConsumerPtr != NULL){
-				reasonConsumerPtr->AddMessage(new ibase::CMessage(
-							istd::ILogger::MC_WARNING,
-							MI_COMPONENT_INACTIVE,
-							iqt::GetCString(QObject::tr("Element %1 is not loaded").arg(elementName.c_str())),
-							iqt::GetCString(QObject::tr("Element Consistency Check")),
-							0));
-			}
-
-			if (allReasons){
 				retVal = false;
 			}
-			else{
-				return false;
-			}
+		}
+
+		if (!retVal && !allReasons){
+			return false;
 		}
 	}
 	else{
@@ -171,12 +142,86 @@ bool CRegistryConsistInfoComp::IsElementValid(
 						0));
 		}
 
-		if (allReasons){
+		retVal = false;
+	}
+
+	return retVal;
+}
+
+
+bool CRegistryConsistInfoComp::IsElementWithInfoValid(
+			const std::string& elementName,
+			const icomp::IRegistry::ElementInfo& elementInfo,
+			const icomp::IComponentStaticInfo* metaInfoPtr,
+			const icomp::IRegistry& registry,
+			bool ignoreUndef,
+			bool allReasons,
+			ibase::IMessageConsumer* reasonConsumerPtr) const
+{
+	bool retVal = true;
+
+	if (metaInfoPtr != NULL){
+		const icomp::IComponentStaticInfo::AttributeInfos& staticAttributes = metaInfoPtr->GetAttributeInfos();
+		for (int staticAttributeIndex = 0; staticAttributeIndex < staticAttributes.GetElementsCount(); staticAttributeIndex++){
+			const std::string& attributeId = staticAttributes.GetKeyAt(staticAttributeIndex);
+
+			retVal = IsAttributeValid(attributeId, elementName, registry, ignoreUndef, allReasons, reasonConsumerPtr) && retVal;
+
+			if (!retVal && !allReasons){
+				return false;
+			}
+		}
+	}
+	else{
+		if (!ignoreUndef){
+			if (reasonConsumerPtr != NULL){
+				reasonConsumerPtr->AddMessage(new ibase::CMessage(
+							istd::ILogger::MC_WARNING,
+							MI_COMPONENT_INACTIVE,
+							iqt::GetCString(QObject::tr("Element %1 uses inactive component %2")
+										.arg(elementName.c_str())
+										.arg(iqt::GetQString(GetAddressName(elementInfo.address)))),
+							iqt::GetCString(QObject::tr("Element Consistency Check")),
+							0));
+			}
+
 			retVal = false;
+
+			if (!allReasons){
+				return false;
+			}
 		}
-		else{
-			return false;
+	}
+
+	const icomp::IRegistryElement* elementPtr = elementInfo.elementPtr.GetPtr();
+	if (elementPtr != NULL){
+		if (metaInfoPtr == NULL){	// if no meta info, we try to check attributes from existing attributes list
+			icomp::IRegistryElement::Ids ids = elementPtr->GetAttributeIds();
+
+			for (		icomp::IRegistryElement::Ids::const_iterator iter = ids.begin();
+						iter != ids.end();
+						++iter){
+				const std::string& attributeId = *iter;
+
+				retVal = IsAttributeValid(attributeId, elementName, registry, ignoreUndef, allReasons, reasonConsumerPtr) && retVal;
+
+				if (!retVal && !allReasons){
+					return false;
+				}
+			}
 		}
+	}
+	else{
+		if (reasonConsumerPtr != NULL){
+			reasonConsumerPtr->AddMessage(new ibase::CMessage(
+						istd::ILogger::MC_WARNING,
+						MI_COMPONENT_INACTIVE,
+						iqt::GetCString(QObject::tr("Element %1 is not loaded").arg(elementName.c_str())),
+						iqt::GetCString(QObject::tr("Element Consistency Check")),
+						0));
+		}
+
+		return false;
 	}
 
 	return retVal;

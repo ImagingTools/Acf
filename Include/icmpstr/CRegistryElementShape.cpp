@@ -26,7 +26,8 @@ CRegistryElementShape::CRegistryElementShape(
 			const iqt2d::ISceneProvider* providerPtr)
 :	BaseClass(true, providerPtr),
 	m_registryView(*registryViewPtr),
-	m_isConsistent(false)
+	m_isConsistent(false),
+	m_componentType(0)
 {
 	I_ASSERT(registryViewPtr != NULL);
 }
@@ -92,31 +93,15 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 	QRectF shadowRect = mainRect;
 	shadowRect.adjust(SHADOW_OFFSET, SHADOW_OFFSET, SHADOW_OFFSET, SHADOW_OFFSET);
 
-	const icomp::IComponentStaticInfo* metaInfoPtr = NULL;
-	const icomp::IComponentEnvironmentManager* managerPtr = m_registryView.GetEnvironmentManager();
-	if (managerPtr != NULL){
-		metaInfoPtr = managerPtr->GetComponentMetaInfo(objectPtr->GetAddress());
-	}
-
 	if (isSelected()){
 		painterPtr->fillRect(shadowRect, QColor(10, 242, 126, 50));
 
-		if (metaInfoPtr != NULL){
-			painterPtr->fillRect(mainRect, QColor(10, 242, 126, 255));
-		}
-		else{
-			painterPtr->fillRect(mainRect, QColor(69, 185, 127, 255));
-		}
+		painterPtr->fillRect(mainRect, m_backgroundSelectedColor);
 	}
 	else{
 		painterPtr->fillRect(shadowRect, QColor(0, 0, 0, 30));
 
-		if (metaInfoPtr != NULL){
-			painterPtr->fillRect(mainRect, Qt::white);
-		}
-		else{
-			painterPtr->fillRect(mainRect, QColor(128, 128, 128, 255));
-		}
+		painterPtr->fillRect(mainRect, m_backgroundColor);
 	}
 
 	if (m_isConsistent){
@@ -145,7 +130,7 @@ void CRegistryElementShape::paint(QPainter* painterPtr, const QStyleOptionGraphi
 	}
 
 	// draw composite indication rectangle:
-	if ((metaInfoPtr != NULL) && (metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE)){
+	if (m_componentType == icomp::IComponentStaticInfo::CT_COMPOSITE){
 		painterPtr->setPen(Qt::black);
 		painterPtr->drawRect(mainRect);
 		mainRect.adjust(SIDE_OFFSET, SIDE_OFFSET, -SIDE_OFFSET, -SIDE_OFFSET);
@@ -262,12 +247,48 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 
 	CalcExportedInteraces(element);
 
-	const icomp::CComponentAddress& address = element.GetAddress();
-	m_addressString = QString(address.GetPackageId().c_str()) + QString("/") + address.GetComponentId().c_str();
+	m_componentType = 0;
 
-	const IRegistryConsistInfo* constistInfoPtr = m_registryView.GetRegistryConsistInfo();
-	if (constistInfoPtr != NULL){
-		m_icon = constistInfoPtr->GetComponentIcon(address);
+	const icomp::CComponentAddress& address = element.GetAddress();
+	const std::string& packageId = address.GetPackageId();
+	if (!packageId.empty()){
+		m_addressString = QString(packageId.c_str()) + QString("/") + address.GetComponentId().c_str();
+
+		const IRegistryConsistInfo* constistInfoPtr = m_registryView.GetRegistryConsistInfo();
+		if (constistInfoPtr != NULL){
+			m_icon = constistInfoPtr->GetComponentIcon(address);
+		}
+
+		const icomp::IComponentEnvironmentManager* managerPtr = m_registryView.GetEnvironmentManager();
+		if (managerPtr != NULL){
+			const icomp::IComponentStaticInfo* metaInfoPtr = managerPtr->GetComponentMetaInfo(element.GetAddress());
+			if (metaInfoPtr != NULL){
+				setToolTip(iqt::GetQString(metaInfoPtr->GetDescription()));
+
+				m_componentType = metaInfoPtr->GetComponentType();
+
+				m_backgroundColor = Qt::white;
+				m_backgroundSelectedColor = QColor(10, 242, 126, 255);
+			}
+			else{
+				setToolTip(tr("Package or component not found"));
+
+				m_backgroundColor = QColor(128, 128, 128, 255);
+				m_backgroundSelectedColor = QColor(69, 185, 127, 255);
+			}
+		}
+		else{
+			setToolTip("");
+		}
+	}
+	else{
+		setToolTip("");
+
+		m_addressString = tr("Embedded: %1").arg(address.GetComponentId().c_str());
+		m_icon = QIcon(":/Icons/EmbeddedComponent.svg");
+
+		m_backgroundColor = QColor(200, 220, 255, 255);
+		m_backgroundSelectedColor = QColor(10, 126, 242, 255);
 	}
 
 	QFontMetrics nameFontInfo(m_registryView.GetElementNameFont());
@@ -291,24 +312,13 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 
 	int width = istd::Max(titleWidth, detailFontInfo.width(m_addressString)) + SIDE_OFFSET * 2;
 
-	const icomp::IComponentEnvironmentManager* managerPtr = m_registryView.GetEnvironmentManager();
-	if (managerPtr != NULL){
-		const icomp::IComponentStaticInfo* metaInfoPtr = managerPtr->GetComponentMetaInfo(element.GetAddress());
-		if (metaInfoPtr != NULL){
-			setToolTip(iqt::GetQString(metaInfoPtr->GetDescription()));
-
-			if (metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE){
-				width += SIDE_OFFSET * 2;
-				height += SIDE_OFFSET * 2;
-			}
-		}
-		else{
-			setToolTip(tr("Package or component not found"));
-		}
-	}
-
 	width += SIDE_OFFSET * 2;
 	height += SIDE_OFFSET * 2;
+
+	if (m_componentType == icomp::IComponentStaticInfo::CT_COMPOSITE){
+		width += SIDE_OFFSET * 2;
+		height += SIDE_OFFSET * 2;
+	}
 
 	if (!m_icon.isNull()){
 		width += height + SIDE_OFFSET;

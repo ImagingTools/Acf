@@ -101,7 +101,7 @@ IComponentStaticInfo::Ids TAttributeStaticInfo<Attribute>::GetRelatedMetaIds(int
 	IComponentStaticInfo::Ids retVal;
 
 	if (metaGroupId == IComponentStaticInfo::MGI_INTERFACES){
-		if ((m_attributeFlags & flagsMask) == flags){
+		if (((m_attributeFlags & flagsMask) == flags) && !m_relatedInterfaceType.IsVoid()){
 			retVal.insert(m_relatedInterfaceType.GetName());
 		}
 	}

@@ -39,6 +39,10 @@ CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
 	m_renameComponentCommand.setEnabled(false);
 	m_renameComponentCommand.SetGroupId(GI_COMPONENT);
 	m_renameComponentCommand.setShortcut(QKeySequence(Qt::Key_F2));
+	m_insertEmbeddedRegistryCommand.setEnabled(true);
+	m_insertEmbeddedRegistryCommand.SetGroupId(GI_EMBEDDED_REGISTRY);
+	m_toEmbeddedRegistryCommand.setEnabled(false);
+	m_toEmbeddedRegistryCommand.SetGroupId(GI_EMBEDDED_REGISTRY);
 	m_exportToCodeCommand.SetGroupId(GI_CODEGEN);
 	m_executeRegistryCommand.setEnabled(false);
 	m_executeRegistryCommand.setShortcut(QKeySequence(Qt::Key_F5));
@@ -57,6 +61,8 @@ CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
 
 	m_registryMenu.InsertChild(&m_removeComponentCommand);
 	m_registryMenu.InsertChild(&m_renameComponentCommand);
+	m_registryMenu.InsertChild(&m_insertEmbeddedRegistryCommand);
+	m_registryMenu.InsertChild(&m_toEmbeddedRegistryCommand);
 	m_registryMenu.InsertChild(&m_exportToCodeCommand);
 	m_registryMenu.InsertChild(&m_executeRegistryCommand);
 	m_registryMenu.InsertChild(&m_abortRegistryCommand);
@@ -119,8 +125,8 @@ icomp::IRegistry* CVisualRegistryScenographerComp::GetSelectedRegistry() const
 iser::ISerializable* CVisualRegistryScenographerComp::GetSelectedElement() const
 {
 	icomp::IRegistry* registryPtr = GetObjectPtr();
-	if (registryPtr != NULL){
-		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(m_selectedElementId);
+	if ((registryPtr != NULL) && !m_selectedElementIds.empty()){
+		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*m_selectedElementIds.begin());
 		if (elementInfoPtr != NULL){
 			return elementInfoPtr->elementPtr.GetPtr();
 		}
@@ -132,15 +138,21 @@ iser::ISerializable* CVisualRegistryScenographerComp::GetSelectedElement() const
 
 const std::string& CVisualRegistryScenographerComp::GetSelectedElementName() const
 {
-	return m_selectedElementId;
+	if (!m_selectedElementIds.empty()){
+		return *m_selectedElementIds.begin();
+	}
+
+	static std::string empty;
+
+	return empty;
 }
 
 
 const icomp::CComponentAddress* CVisualRegistryScenographerComp::GetSelectedElementAddress() const
 {
 	icomp::IRegistry* registryPtr = GetObjectPtr();
-	if (registryPtr != NULL){
-		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(m_selectedElementId);
+	if ((registryPtr != NULL) && !m_selectedElementIds.empty()){
+		const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(*m_selectedElementIds.begin());
 		if (elementInfoPtr != NULL){
 			return &elementInfoPtr->address;
 		}
@@ -420,10 +432,12 @@ void CVisualRegistryScenographerComp::UpdateComponentSelection()
 		}
 	}
 
-	bool isElementSelected = (GetSelectedElement() != NULL);
+	bool isElementSelected = !m_selectedElementIds.empty();
 
 	m_removeComponentCommand.setEnabled(isElementSelected);
 	m_renameComponentCommand.setEnabled(isElementSelected);
+
+	m_toEmbeddedRegistryCommand.setEnabled(m_selectedElementIds.size() > 1);
 }
 
 
@@ -442,6 +456,15 @@ void CVisualRegistryScenographerComp::DoRetranslate()
 				tr("&Rename Component"), 
 				tr("Rename"), 
 				tr("Allow to assign new name to selected component"));
+	m_insertEmbeddedRegistryCommand.SetVisuals(
+				tr("&Insert Embedded Composition"), 
+				tr("Insert Embedded"), 
+				tr("Insert new embedded component composition used to group set of components and manage it as single one"));
+	m_toEmbeddedRegistryCommand.SetVisuals(
+				tr("To &Embedded Composition"), 
+				tr("To Embedded"), 
+				tr("Make embedded component composition from selected elements.\nIt allows to group set of components and manage it as single one"),
+				QIcon(":/Icons/ToEmbeddedComponent.svg"));
 	m_exportToCodeCommand.SetVisuals(
 				tr("&Export To Code..."),
 				tr("Export"),
@@ -531,6 +554,8 @@ void CVisualRegistryScenographerComp::OnComponentCreated()
 
 	connect(&m_removeComponentCommand, SIGNAL(activated()), this, SLOT(OnRemoveComponent()));
 	connect(&m_renameComponentCommand, SIGNAL(activated()), this, SLOT(OnRenameComponent()));
+	connect(&m_insertEmbeddedRegistryCommand, SIGNAL(activated()), this, SLOT(InsertEmbeddedComponent()));
+	connect(&m_toEmbeddedRegistryCommand, SIGNAL(activated()), this, SLOT(ToEmbeddedComponent()));
 	connect(&m_exportToCodeCommand, SIGNAL(activated()), this, SLOT(OnExportToCode()));
 	connect(&m_executeRegistryCommand, SIGNAL(activated()), this, SLOT(OnExecute()));
 	connect(&m_abortRegistryCommand, SIGNAL(activated()), this, SLOT(OnAbort()));
@@ -591,7 +616,7 @@ void CVisualRegistryScenographerComp::OnSelectionChanged()
 	QList<QGraphicsItem*> selectedItems = m_scenePtr->selectedItems();
 	CVisualRegistryElement* elementPtr = NULL;
 	
-	std::string elementId;
+	ElementIds elementIds;
 
 	for (		QList<QGraphicsItem*>::const_iterator iter = selectedItems.begin();
 				iter != selectedItems.end();
@@ -604,16 +629,14 @@ void CVisualRegistryScenographerComp::OnSelectionChanged()
 
 		elementPtr = selectedShapePtr->GetObjectPtr();
 		if (elementPtr != NULL){
-			elementId = elementPtr->GetName();
-
-			break;
+			elementIds.insert(elementPtr->GetName());
 		}	
 	}
 
-	if (m_selectedElementId != elementId){
+	if (m_selectedElementIds != elementIds){
 		istd::CChangeNotifier changePtr(this, CF_SELECTION);
 
-		m_selectedElementId = elementId;
+		m_selectedElementIds = elementIds;
 
 		UpdateComponentSelection();
 	}
@@ -651,6 +674,90 @@ void CVisualRegistryScenographerComp::OnRenameComponent()
 	}
 
 	registryPtr->RenameElement(oldName, newName);
+}
+
+
+void CVisualRegistryScenographerComp::InsertEmbeddedComponent()
+{
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_COMPONENT_ADDED);
+	if (!registryPtr.IsValid()){
+		return;
+	}
+
+	bool isOk = false;
+	std::string newName = QInputDialog::getText(
+				NULL,
+				tr("ACF Compositor"),
+				tr("New embedded component name"),
+				QLineEdit::Normal,
+				"",
+				&isOk).toStdString();
+	if (!isOk || newName.empty()){
+		return;
+	}
+
+	icomp::IRegistry* newEbeddedRegistryPtr = registryPtr->InsertEmbeddedRegistry(newName);
+	if (newEbeddedRegistryPtr == NULL){
+		QMessageBox::critical(NULL, tr("Error"), tr("Embedded component could not be created!")); 
+		return;
+	}
+
+	if (registryPtr->InsertElementInfo(newName, icomp::CComponentAddress("", newName)) == NULL){
+		QMessageBox::critical(NULL, tr("Error"), tr("Component could not be added")); 
+		return;
+	}
+}
+
+
+void CVisualRegistryScenographerComp::ToEmbeddedComponent()
+{
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_COMPONENT_ADDED | icomp::IRegistry::CF_COMPONENT_REMOVED);
+	if (!registryPtr.IsValid()){
+		return;
+	}
+
+	bool isOk = false;
+	std::string newName = QInputDialog::getText(
+				NULL,
+				tr("ACF Compositor"),
+				tr("New embedded component name"),
+				QLineEdit::Normal,
+				"",
+				&isOk).toStdString();
+	if (!isOk || newName.empty()){
+		return;
+	}
+
+	icomp::IRegistry* newEbeddedRegistryPtr = registryPtr->InsertEmbeddedRegistry(newName);
+	if (newEbeddedRegistryPtr == NULL){
+		QMessageBox::critical(NULL, tr("Error"), tr("Embedded component could not be created!")); 
+		return;
+	}
+
+	if (registryPtr->InsertElementInfo(newName, icomp::CComponentAddress("", newName)) == NULL){
+		QMessageBox::critical(NULL, tr("Error"), tr("Component could not be added")); 
+		return;
+	}
+
+	for (		ElementIds::const_iterator iter = m_selectedElementIds.begin();
+				iter != m_selectedElementIds.end();
+				++iter){
+		const std::string& elementName = *iter;
+
+		icomp::IRegistry::ElementInfo* oldInfoPtr = const_cast<icomp::IRegistry::ElementInfo*>(registryPtr->GetElementInfo(elementName));
+		if (oldInfoPtr == NULL){
+			continue;
+		}
+
+		icomp::IRegistry::ElementInfo* newInfoPtr = newEbeddedRegistryPtr->InsertElementInfo(elementName, oldInfoPtr->address, false);
+		if (newInfoPtr == NULL){
+			continue;
+		}
+
+		newInfoPtr->elementPtr.TakeOver(oldInfoPtr->elementPtr);
+
+		registryPtr->RemoveElementInfo(elementName);
+	}
 }
 
 

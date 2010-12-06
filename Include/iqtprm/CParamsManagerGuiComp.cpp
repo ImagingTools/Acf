@@ -94,7 +94,9 @@ void CParamsManagerGuiComp::on_ParamsTree_itemSelectionChanged()
 	if (		(constraintsPtr != NULL) &&
 				(selectedIndex < constraintsPtr->GetOptionsCount()) &&
 				(selectedIndex != selectionPtr->GetSelectedOptionIndex())){
-		selectionPtr->SetSelectedOptionIndex(selectedIndex);
+		if (selectionPtr->SetSelectedOptionIndex(selectedIndex)){
+			UpdateParamsView(selectedIndex);
+		}
 
 		return;
 	}

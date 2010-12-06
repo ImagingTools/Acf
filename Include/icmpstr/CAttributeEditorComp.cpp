@@ -560,6 +560,28 @@ bool CAttributeEditorComp::SetAttributeToItems(
 				attributeType + attributeDescription:
 				tr("%1\nType: %2").arg(attributeDescription).arg(attributeType);
 
+	icomp::IComponentStaticInfo::Ids obligatoryInterfaces = staticInfo.GetRelatedMetaIds(
+				icomp::IComponentStaticInfo::MGI_INTERFACES,
+				icomp::IAttributeStaticInfo::AF_OBLIGATORY,
+				icomp::IAttributeStaticInfo::AF_OBLIGATORY);	// Names of obligatory interfaces
+	icomp::IComponentStaticInfo::Ids optionalInterfaces = staticInfo.GetRelatedMetaIds(
+				icomp::IComponentStaticInfo::MGI_INTERFACES,
+				0,
+				icomp::IAttributeStaticInfo::AF_OBLIGATORY);	// Names of optional interfaces
+	if (!obligatoryInterfaces.empty() || !optionalInterfaces.empty()){
+		toolTip += tr("\nInterfaces:");
+		for (		icomp::IComponentStaticInfo::Ids::const_iterator obligIter = obligatoryInterfaces.begin();
+					obligIter != obligatoryInterfaces.end();
+					++obligIter){
+			toolTip += tr("\n - %1").arg(obligIter->c_str());
+		}
+		for (		icomp::IComponentStaticInfo::Ids::const_iterator optIter = optionalInterfaces.begin();
+					optIter != optionalInterfaces.end();
+					++optIter){
+			toolTip += tr("\n - %1 (optional)").arg(optIter->c_str());
+		}
+	}
+
 	QString attributeName = id.c_str();
 	attributeItem.setText(NameColumn, attributeName);
 	attributeItem.setData(ValueColumn, AttributeId, attributeName);

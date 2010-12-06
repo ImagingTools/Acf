@@ -149,7 +149,11 @@ const IRegistry::ElementInfo* CCompositeComponentStaticInfo::GetElementInfoFromR
 	if (istd::CIdManipBase::SplitId(elementId, baseId, subId)){
 		const IRegistry::ElementInfo* subElementInfoPtr = registry.GetElementInfo(baseId);
 		if (subElementInfoPtr != NULL){
-			const icomp::IRegistry* subRegistryPtr = manager.GetRegistry(subElementInfoPtr->address);
+			const std::string& packageId = subElementInfoPtr->address.GetPackageId();
+
+			const icomp::IRegistry* subRegistryPtr = (!packageId.empty())?
+						manager.GetRegistry(subElementInfoPtr->address):
+						registry.GetEmbeddedRegistry(subElementInfoPtr->address.GetComponentId());
 			if (subRegistryPtr != NULL){
 				// get right component path for exported components:
 				const IRegistry::ExportedComponentsMap& exportedComponentsMap = subRegistryPtr->GetExportedComponentsMap();

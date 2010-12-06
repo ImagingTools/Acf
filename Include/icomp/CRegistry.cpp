@@ -38,6 +38,17 @@ IRegistry::Ids CRegistry::GetElementIds() const
 }
 
 
+const IRegistry::ElementInfo* CRegistry::GetElementInfo(const std::string& elementId) const
+{
+	ComponentsMap::const_iterator iter = m_componentsMap.find(elementId);
+	if (iter != m_componentsMap.end()){
+		return &(iter->second);
+	}
+
+	return NULL;
+}
+
+
 IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 			const std::string& elementId,
 			const icomp::CComponentAddress& address,
@@ -64,17 +75,6 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 	newElement.elementPtr.TakeOver(registryElementPtr);
 
 	return &newElement;
-}
-
-
-const IRegistry::ElementInfo* CRegistry::GetElementInfo(const std::string& elementId) const
-{
-	ComponentsMap::const_iterator iter = m_componentsMap.find(elementId);
-	if (iter != m_componentsMap.end()){
-		return &(iter->second);
-	}
-
-	return NULL;
 }
 
 
@@ -106,6 +106,81 @@ bool CRegistry::RemoveElementInfo(const std::string& elementId)
 	if (m_componentsMap.erase(elementId) <= 0){
 		return false;
 	}
+
+	return true;
+}
+
+
+IRegistry::Ids CRegistry::GetEmbeddedRegistryIds() const
+{
+	Ids retVal;
+	for (		EmbeddedRegistriesMap::const_iterator iter = m_embeddedRegistriesMap.begin();
+				iter != m_embeddedRegistriesMap.end();
+				++iter){
+		retVal.insert(iter->first);
+	}
+
+	return retVal;
+}
+
+
+IRegistry* CRegistry::GetEmbeddedRegistry(const std::string& registryId) const
+{
+	EmbeddedRegistriesMap::const_iterator iter = m_embeddedRegistriesMap.find(registryId);
+	if (iter != m_embeddedRegistriesMap.end()){
+		I_ASSERT(iter->second.IsValid());
+
+		return iter->second.GetPtr();
+	}
+
+	return NULL;
+}
+
+
+IRegistry* CRegistry::InsertEmbeddedRegistry(const std::string& registryId)
+{
+	RegistryPtr newRegistryPtr(new CRegistry());
+
+	RegistryPtr& registryPtr = m_embeddedRegistriesMap[registryId];
+	if (registryPtr.IsValid()){
+		return NULL;	// such ID exists yet!
+	}
+
+	registryPtr.TakeOver(newRegistryPtr);
+
+	return registryPtr.GetPtr();
+}
+
+
+bool CRegistry::RemoveEmbeddedRegistry(const std::string& registryId)
+{
+	if (m_embeddedRegistriesMap.erase(registryId) <= 0){
+		return false;
+	}
+
+	return true;
+}
+
+
+bool CRegistry::RenameEmbeddedRegistry(const std::string& oldRegistryId, const std::string& newRegistryId)
+{
+	if (oldRegistryId == newRegistryId){
+		return true;
+	}
+
+	EmbeddedRegistriesMap::iterator oldIter = m_embeddedRegistriesMap.find(oldRegistryId);
+	if (oldIter == m_embeddedRegistriesMap.end()){
+		return false;
+	}
+
+	RegistryPtr& newRegistryPtr = m_embeddedRegistriesMap[newRegistryId];
+	if (newRegistryPtr.IsValid()){
+		return NULL;	// such ID exists yet!
+	}
+
+	newRegistryPtr.TakeOver(oldIter->second);
+
+	m_embeddedRegistriesMap.erase(oldIter);
 
 	return true;
 }
@@ -324,15 +399,20 @@ void CRegistry::SetKeywords(const istd::CString& keywords)
 
 bool CRegistry::Serialize(iser::IArchive& archive)
 {
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
+	I_DWORD frameworkVersion = 0;
+	versionInfo.GetVersionNumber(iser::IVersionInfo::FrameworkVersionId, frameworkVersion);
+
 	istd::CChangeNotifier changePtr(archive.IsStoring()? NULL: this);
 
-	bool retVal =	SerializeComponents(archive) &&
-					SerializeExportedInterfaces(archive) &&
-					SerializeExportedComponents(archive);
+	bool retVal = true;
 
-	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
-	I_DWORD frameworkVersion;
-	if (!versionInfo.GetVersionNumber(iser::IVersionInfo::FrameworkVersionId, frameworkVersion) || (frameworkVersion >= 807)){
+	retVal = retVal && SerializeComponents(archive);
+	retVal = retVal && SerializeEmbeddedRegistries(archive);
+	retVal = retVal && SerializeExportedInterfaces(archive);
+	retVal = retVal && SerializeExportedComponents(archive);
+
+	if (frameworkVersion >= 807){
 		static iser::CArchiveTag descriptionTag("Description", "Human readable description");
 		retVal = retVal && archive.BeginTag(descriptionTag);
 		retVal = retVal && archive.Process(m_description);
@@ -363,6 +443,10 @@ bool CRegistry::Serialize(iser::IArchive& archive)
 I_DWORD CRegistry::GetMinimalVersion(int versionId) const
 {
 	if (versionId == iser::IVersionInfo::FrameworkVersionId){
+		if (!m_embeddedRegistriesMap.empty()){
+			return 1637;
+		}
+
 		if (!m_description.IsEmpty() || !m_keywords.IsEmpty()){
 			return 807;
 		}
@@ -484,6 +568,82 @@ bool CRegistry::SerializeComponents(iser::IArchive& archive)
 	}
 
 	retVal = retVal && archive.EndTag(elementsListTag);
+
+	return retVal;
+}
+
+
+bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
+{
+	static iser::CArchiveTag registriesListTag("EmbeddedRegistriesList", "List of embedded registries");
+	static iser::CArchiveTag registryTag("EmbeddedRegistry", "Description of single embedded registry");
+	static iser::CArchiveTag registryIdTag("Id", "ID of embedded registry");
+	static iser::CArchiveTag dataTag("Data", "Data of single embedded registry");
+
+	bool isStoring = archive.IsStoring();
+
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
+	I_DWORD frameworkVersion = 0;
+	versionInfo.GetVersionNumber(iser::IVersionInfo::FrameworkVersionId, frameworkVersion);
+	if (frameworkVersion < 1637){
+		if (!isStoring){
+			m_embeddedRegistriesMap.clear();
+		}
+
+		return true;
+	}
+
+	bool retVal = true;
+
+	int count = int(m_embeddedRegistriesMap.size());
+
+	retVal = retVal && archive.BeginMultiTag(registriesListTag, registryTag, count);
+
+	if (isStoring){
+		for (		EmbeddedRegistriesMap::iterator iter = m_embeddedRegistriesMap.begin();
+					iter != m_embeddedRegistriesMap.end();
+					++iter){
+			RegistryPtr& registrPtr = iter->second;
+			I_ASSERT(registrPtr.IsValid());
+
+			retVal = retVal && archive.BeginTag(registryTag);
+
+			retVal = retVal && archive.BeginTag(registryIdTag);
+			retVal = retVal && archive.Process(const_cast< std::string&>(iter->first));
+			retVal = retVal && archive.EndTag(registryIdTag);
+
+			retVal = retVal && archive.BeginTag(dataTag);
+			retVal = retVal && registrPtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(dataTag);
+
+			retVal = retVal && archive.EndTag(registryTag);
+		}
+	}
+	else{
+		m_embeddedRegistriesMap.clear();
+
+		for (int i = 0; i < count; ++i){
+			retVal = retVal && archive.BeginTag(registryTag);
+
+			std::string elementId;
+			retVal = retVal && archive.BeginTag(registryIdTag);
+			retVal = retVal && archive.Process(elementId);
+			retVal = retVal && archive.EndTag(registryIdTag);
+
+			retVal = retVal && archive.BeginTag(dataTag);
+
+			IRegistry* registrPtr = InsertEmbeddedRegistry(elementId);
+			if (registrPtr == NULL){
+				return false;
+			}
+			retVal = retVal && registrPtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(dataTag);
+
+			retVal = retVal && archive.EndTag(registryTag);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(registriesListTag);
 
 	return retVal;
 }

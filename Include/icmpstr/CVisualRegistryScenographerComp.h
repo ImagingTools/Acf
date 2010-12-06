@@ -99,6 +99,7 @@ protected:
 	enum GroupId
 	{
 		GI_COMPONENT = 0x5430,
+		GI_EMBEDDED_REGISTRY,
 		GI_CODEGEN,
 		GI_PREVIEW
 	};
@@ -146,6 +147,8 @@ protected slots:
 	void OnSelectionChanged();
 	void OnRemoveComponent();
 	void OnRenameComponent();
+	void InsertEmbeddedComponent();
+	void ToEmbeddedComponent();
 	void OnExportToCode();
 	void OnExecute();
 	void OnAbort();
@@ -166,6 +169,8 @@ private:
 	iqtgui::CHierarchicalCommand m_registryMenu;
 	iqtgui::CHierarchicalCommand m_removeComponentCommand;
 	iqtgui::CHierarchicalCommand m_renameComponentCommand;
+	iqtgui::CHierarchicalCommand m_insertEmbeddedRegistryCommand;
+	iqtgui::CHierarchicalCommand m_toEmbeddedRegistryCommand;
 	iqtgui::CHierarchicalCommand m_exportToCodeCommand;
 	iqtgui::CHierarchicalCommand m_executeRegistryCommand;
 	iqtgui::CHierarchicalCommand m_abortRegistryCommand;
@@ -177,7 +182,7 @@ private:
 	QFont m_elementNameFont;
 	QFont m_elementDetailFont;
 
-	std::string m_selectedElementId;
+	ElementIds m_selectedElementIds;
 
 	EnvironmentObserver m_environmentObserver;
 };

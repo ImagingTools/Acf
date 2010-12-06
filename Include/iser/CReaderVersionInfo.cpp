@@ -38,9 +38,10 @@ bool CReaderVersionInfo::GetVersionNumber(int versionId, I_DWORD& result) const
 
 		return true;
 	}
-	else{
-		return false;
-	}
+
+	result = 0xffffffff;
+
+	return false;
 }
 
 

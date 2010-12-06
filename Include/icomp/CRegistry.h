@@ -22,12 +22,18 @@ class CRegistry: virtual public IRegistry
 public:
 	// reimplemented (icomp::IRegistry)
 	virtual Ids GetElementIds() const;
+	virtual const ElementInfo* GetElementInfo(const std::string& elementId) const;
 	virtual ElementInfo* InsertElementInfo(
 				const std::string& elementId,
 				const icomp::CComponentAddress& address,
 				bool ensureElementCreated = true);
-	virtual const ElementInfo* GetElementInfo(const std::string& elementId) const;
 	virtual bool RemoveElementInfo(const std::string& elementId);
+	virtual bool RenameElement(const std::string& oldElementId, const std::string& newElementId);
+	virtual Ids GetEmbeddedRegistryIds() const;
+	virtual IRegistry* GetEmbeddedRegistry(const std::string& registryId) const;
+	virtual IRegistry* InsertEmbeddedRegistry(const std::string& registryId);
+	virtual bool RemoveEmbeddedRegistry(const std::string& registryId);
+	virtual bool RenameEmbeddedRegistry(const std::string& oldRegistryId, const std::string& newRegistryId);
 	virtual const ExportedInterfacesMap& GetExportedInterfacesMap() const;
 	virtual const ExportedComponentsMap& GetExportedComponentsMap() const;
 	virtual void SetElementInterfaceExported(
@@ -37,7 +43,6 @@ public:
 	virtual void SetElementExported(
 				const std::string& exportId,
 				const std::string& elementId);
-	virtual bool RenameElement(const std::string& oldElementId, const std::string& newElementId);
 	virtual const istd::CString& GetDescription() const;
 	virtual void SetDescription(const istd::CString& description);
 	virtual const istd::CString& GetKeywords() const;
@@ -57,13 +62,17 @@ protected:
 				const std::string& elementId,
 				const icomp::CComponentAddress& address) const;
 	virtual bool SerializeComponents(iser::IArchive& archive);
+	virtual bool SerializeEmbeddedRegistries(iser::IArchive& archive);
 	virtual bool SerializeExportedInterfaces(iser::IArchive& archive);
 	virtual bool SerializeExportedComponents(iser::IArchive& archive);
 
 private:
 	typedef std::map<std::string, ElementInfo> ComponentsMap;
+	typedef istd::TDelPtr<IRegistry> RegistryPtr;
+	typedef std::map<std::string, RegistryPtr> EmbeddedRegistriesMap;
 
 	ComponentsMap m_componentsMap;
+	EmbeddedRegistriesMap m_embeddedRegistriesMap;
 	ExportedInterfacesMap m_exportedInterfacesMap;
 	ExportedComponentsMap m_exportedComponentsMap;
 

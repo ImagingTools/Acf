@@ -58,6 +58,14 @@ public:
 				bool ignoreUndef,
 				bool allReasons,
 				ibase::IMessageConsumer* reasonConsumerPtr) const;
+	virtual bool IsElementWithInfoValid(
+				const std::string& elementName,
+				const icomp::IRegistry::ElementInfo& elementInfo,
+				const icomp::IComponentStaticInfo* metaInfoPtr,
+				const icomp::IRegistry& registry,
+				bool ignoreUndef,
+				bool allReasons,
+				ibase::IMessageConsumer* reasonConsumerPtr) const;
 	virtual bool IsAttributeValid(
 				const std::string& attributeName,
 				const std::string& elementName,

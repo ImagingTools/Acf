@@ -49,6 +49,8 @@ bool CMinimalVersionInfo::GetVersionNumber(int versionId, I_DWORD& result) const
 		return true;
 	}
 
+	result = 0xffffffff;
+
 	return false;
 }
 

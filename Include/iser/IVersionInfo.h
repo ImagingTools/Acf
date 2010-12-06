@@ -52,8 +52,8 @@ public:
 		\param	versionId	versioning type. It allows you to distinguish different version aspects.
 							For example version number of framework cann differ from application version.
 							\sa VersionId.
-		\param	result		output version number.
-		\return	true, if success.
+		\param	result		output version number. For unknown version it will be set to bigg number to indicate of using the newest version.
+		\return	true, if version is known.
 	 */
 	virtual bool GetVersionNumber(int versionId, I_DWORD& result) const = 0;
 

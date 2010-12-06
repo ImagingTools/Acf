@@ -282,7 +282,11 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			int componentType = componentInfoPtr->GetComponentType();
 			if (componentType == IComponentStaticInfo::CT_COMPOSITE){
 				// create composed component
-				const icomp::IRegistry* subRegistryPtr = envManager.GetRegistry(elementInfoPtr->address);
+				const std::string& packageId = elementInfoPtr->address.GetPackageId();
+
+				const icomp::IRegistry* subRegistryPtr = (!packageId.empty())?
+							envManager.GetRegistry(elementInfoPtr->address):
+							registry.GetEmbeddedRegistry(elementInfoPtr->address.GetComponentId());
 				if (subRegistryPtr != NULL){
 					subContextPtr.SetPtr(new CCompositeComponentContext(
 								&registryElement,
