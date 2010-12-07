@@ -63,8 +63,12 @@ const icomp::IRegistry* CRegistriesManagerComp::GetRegistryFromFile(const istd::
 
 // reimplemented (icomp::IRegistriesManager)
 
-const icomp::IRegistry* CRegistriesManagerComp::GetRegistry(const icomp::CComponentAddress& address) const
+const icomp::IRegistry* CRegistriesManagerComp::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const
 {
+	if ((contextRegistryPtr != NULL) && address.GetPackageId().empty()){
+		return contextRegistryPtr->GetEmbeddedRegistry(address.GetComponentId());
+	}
+
 	PackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(address.GetPackageId());
 	if (foundCompositeIter != m_compositePackagesMap.end()){
 		QString filePath = foundCompositeIter->second.absoluteFilePath(QString(address.GetComponentId().c_str()) + ".arx");

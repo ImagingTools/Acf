@@ -14,7 +14,7 @@
 
 #include "imod/CSingleModelObserverBase.h"
 
-#include "icomp/IMetaInfoManager.h"
+#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/IRegistryElement.h"
 
 #include "idoc/IHelpViewer.h"
@@ -197,7 +197,7 @@ private:
 
 	QIcon m_exportIcon;
 
-	I_REF(icomp::IMetaInfoManager, m_metaInfoManagerCompPtr);
+	I_REF(icomp::IComponentEnvironmentManager, m_metaInfoManagerCompPtr);
 	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);

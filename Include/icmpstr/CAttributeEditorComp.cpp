@@ -9,9 +9,11 @@
 
 
 // ACF includes
+#include "istd/TOptDelPtr.h"
 #include "istd/TChangeNotifier.h"
 
 #include "icomp/CInterfaceManipBase.h"
+#include "icomp/CCompositeComponentStaticInfo.h"
 
 
 // public methods
@@ -376,13 +378,19 @@ void CAttributeEditorComp::UpdateSelectedAttr()
 	componentRootPtr->setData(ValueColumn, AttributeMining, ComponentExport);
 	componentRootPtr->setText(ValueColumn, GetExportAliases(elementId).join(";"));
 
-	const icomp::IComponentStaticInfo* infoPtr = NULL;
+	istd::TOptDelPtr<const icomp::IComponentStaticInfo> infoPtr;
 
 	QIcon icon;
 	const icomp::CComponentAddress* addressPtr = selectionInfoPtr->GetSelectedElementAddress();
 	if (addressPtr != NULL){
 		if (m_metaInfoManagerCompPtr.IsValid()){
-			infoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(*addressPtr);
+			if (!addressPtr->GetPackageId().empty()){
+				infoPtr.SetPtr(m_metaInfoManagerCompPtr->GetComponentMetaInfo(*addressPtr), false);
+			}
+			else{
+				icomp::IRegistry* embeddedRegistryPtr = registryPtr->GetEmbeddedRegistry(addressPtr->GetComponentId());
+				infoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, *m_metaInfoManagerCompPtr), true);
+			}
 		}
 
 		AddressLabel->setText(QString(addressPtr->GetPackageId().c_str()) + QString("/") + addressPtr->GetComponentId().c_str());
@@ -406,7 +414,7 @@ void CAttributeEditorComp::UpdateSelectedAttr()
 		IconLabel->setVisible(false);
 	}
 
-	if (infoPtr != NULL){
+	if (infoPtr.IsValid()){
 		DescriptionLabel->setText(iqt::GetQString(infoPtr->GetDescription()));
 		KeywordsLabel->setText(iqt::GetQString(infoPtr->GetKeywords()));
 

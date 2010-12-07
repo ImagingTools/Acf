@@ -23,7 +23,7 @@ public:
 	virtual istd::CString GetConfigFilePath() const;
 
 	// reimplemented (icomp::IRegistriesManager)
-	virtual const IRegistry* GetRegistry(const CComponentAddress& address) const;
+	virtual const IRegistry* GetRegistry(const CComponentAddress& address, const IRegistry* contextRegistryPtr = NULL) const;
 	virtual istd::CString GetPackageDirPath(const std::string& packageId) const;
 
 	// reimplemented (icomp::IMetaInfoManager)

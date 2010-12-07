@@ -26,7 +26,7 @@ public:
 		\param	address		adress of registry treated as composed component.
 		\return				registry object or NULL if specified composite component is not registered.
 	*/
-	virtual const IRegistry* GetRegistry(const CComponentAddress& address) const = 0;
+	virtual const IRegistry* GetRegistry(const CComponentAddress& address, const IRegistry* contextRegistryPtr = NULL) const = 0;
 	/**
 		Get directory path of specified component package.
 		\param	packageId	ID of component package.

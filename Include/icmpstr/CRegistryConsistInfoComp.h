@@ -81,7 +81,7 @@ protected:
 				const icomp::IComponentStaticInfo& elementStaticInfo,
 				const icomp::IComponentStaticInfo::Ids& interfaceNames) const;
 	istd::CString GetAddressName(const icomp::CComponentAddress& address) const;
-	bool CRegistryConsistInfoComp::CheckAttributeCompatibility(
+	bool CheckAttributeCompatibility(
 				const iser::IObject& attribute,
 				const icomp::IAttributeStaticInfo& attributeMetaInfo,
 				const std::string& attributeName,
@@ -90,8 +90,17 @@ protected:
 				bool ignoreUndef,
 				bool allReasons,
 				ibase::IMessageConsumer* reasonConsumerPtr) const;
-	bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
+	bool CheckPointedElementCompatibility(
 				const std::string& pointedElementName,
+				const icomp::IComponentStaticInfo::Ids& interfaceNames,
+				const std::string& attributeName,
+				const std::string& elementName,
+				const icomp::IRegistry& registry,
+				bool ignoreUndef,
+				ibase::IMessageConsumer* reasonConsumerPtr) const;
+	bool CheckPointedElementInfoCompatibility(
+				const std::string& pointedElementName,
+				const icomp::IComponentStaticInfo* pointedMetaInfoPtr,
 				const icomp::IComponentStaticInfo::Ids& interfaceNames,
 				const std::string& attributeName,
 				const std::string& elementName,

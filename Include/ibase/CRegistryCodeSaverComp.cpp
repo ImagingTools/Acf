@@ -281,7 +281,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 
 				icomp::CComponentAddress address(packageId, componentId);
 
-				const icomp::IRegistry* subregistryPtr = m_registriesManagerCompPtr->GetRegistry(address);
+				const icomp::IRegistry* subregistryPtr = m_registriesManagerCompPtr->GetRegistry(address, &registry);
 
 				if (subregistryPtr != NULL){
 					stream << std::endl;
@@ -290,7 +290,13 @@ bool CRegistryCodeSaverComp::WriteHeader(
 				}
 				else{
 					NextLine(stream);
-					stream << "// Registry for address '" << address.GetPackageId() << "/" << address.GetComponentId() << "' could not be created";
+					const std::string& packageId = address.GetPackageId();
+					if (packageId.empty()){
+						stream << "// Embedded registry '" << address.GetComponentId() << "' could not be created";
+					}
+					else{
+						stream << "// Registry for address '" << packageId << "/" << address.GetComponentId() << "' could not be created";
+					}
 				}
 			}
 
@@ -350,13 +356,17 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	ChangeIndent(1);
 
 	NextLine(stream);
+	stream << "typedef icomp::CEnvironmentManagerBase BaseClass;";
+	stream << std::endl;
+
+	NextLine(stream);
 	stream << "CFactory();";
 	stream << std::endl;
 
 	NextLine(stream);
 	stream << "// reimplemented (icomp::IRegistriesManager)";
 	NextLine(stream);
-	stream << "virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address) const;";
+	stream << "virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const IRegistry* contextRegistryPtr = NULL) const;";
 	stream << std::endl;
 
 	ChangeIndent(-1);
@@ -550,7 +560,7 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 
 				icomp::CComponentAddress address(packageId, componentId);
 
-				const icomp::IRegistry* subregistryPtr = m_registriesManagerCompPtr->GetRegistry(address);
+				const icomp::IRegistry* subregistryPtr = m_registriesManagerCompPtr->GetRegistry(address, &registry);
 
 				if (subregistryPtr != NULL){
 					WriteRegistryClassBody(className + "::C" + packageName, "C" + componentName, *subregistryPtr, stream);
@@ -657,7 +667,7 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 	stream << "// reimplemented (icomp::IRegistriesManager)";
 	stream << std::endl;
 	NextLine(stream);
-	stream << "const icomp::IRegistry* " << className << "::CFactory::GetRegistry(const icomp::CComponentAddress& address) const";
+	stream << "const icomp::IRegistry* " << className << "::CFactory::GetRegistry(const icomp::CComponentAddress& address, const IRegistry* contextRegistryPtr) const";
 	NextLine(stream);
 	stream << "{";
 	ChangeIndent(1);
@@ -688,7 +698,7 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 	}
 
 	NextLine(stream);
-	stream << "return NULL;";
+	stream << "return BaseClass::GetRegistry(address, contextRegistryPtr);";
 
 	ChangeIndent(-1);
 	NextLine(stream);

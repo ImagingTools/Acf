@@ -94,7 +94,7 @@ istd::CString CPackagesLoaderComp::GetConfigFilePath() const
 
 // reimplemented (icomp::IRegistriesManager)
 
-const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponentAddress& address) const
+const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const
 {
 	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(address.GetPackageId());
 	if (foundCompositeIter != m_compositePackagesMap.end()){
@@ -103,7 +103,7 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponent
 		return GetRegistryFromFile(GetCString(filePath));
 	}
 
-	return NULL;
+	return BaseClass2::GetRegistry(address, contextRegistryPtr);
 }
 
 

@@ -40,7 +40,7 @@ protected:
 	const IRegistry::ElementInfo* GetElementInfoFromRegistry(
 				const IRegistry& registry,
 				const std::string& elementId,
-				const icomp::IComponentEnvironmentManager& manager) const;
+				const icomp::IRegistriesManager& manager) const;
 
 	class AttrAsOptionalDelegator: virtual public IAttributeStaticInfo
 	{

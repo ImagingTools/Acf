@@ -1,6 +1,9 @@
 #include "icomp/CEnvironmentManagerBase.h"
 
 
+#include "icomp/IRegistry.h"
+
+
 namespace icomp
 {
 
@@ -29,8 +32,12 @@ istd::CString CEnvironmentManagerBase::GetConfigFilePath() const
 
 // reimplemented (icomp::IRegistriesManager)
 
-const IRegistry* CEnvironmentManagerBase::GetRegistry(const CComponentAddress& /*address*/) const
+const IRegistry* CEnvironmentManagerBase::GetRegistry(const CComponentAddress& address, const IRegistry* contextRegistryPtr) const
 {
+	if ((contextRegistryPtr != NULL) && address.GetPackageId().empty()){
+		return contextRegistryPtr->GetEmbeddedRegistry(address.GetComponentId());
+	}
+
 	return NULL;
 }
 

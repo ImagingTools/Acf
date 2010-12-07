@@ -27,22 +27,44 @@ icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleElements(
 		for (		icomp::IRegistry::Ids::const_iterator index = elementIds.begin();
 					index != elementIds.end();
 					index++){
-			const icomp::IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(*index);
+			const std::string& elementId = *index;
+			const icomp::IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(elementId);
 			I_ASSERT(elementInfoPtr != NULL);	// element ID was taken from this registry, it must exist
 
-			const icomp::IComponentStaticInfo* infoPtr = m_envManagerCompPtr->GetComponentMetaInfo(elementInfoPtr->address);
+			icomp::IRegistry::Ids subIds;
 
-			if (infoPtr != NULL){
-				icomp::IRegistry::Ids subIds = GetCompatibleSubcomponents(
-							*index,
-							*infoPtr,
+			const icomp::CComponentAddress& elementAddress = elementInfoPtr->address;
+			if (!elementAddress.GetPackageId().empty()){
+				const icomp::IComponentStaticInfo* infoPtr = m_envManagerCompPtr->GetComponentMetaInfo(elementAddress);
+
+				if (infoPtr != NULL){
+					subIds = GetCompatibleSubcomponents(
+								elementId,
+								*infoPtr,
+								interfaceNames);
+				}
+				else if (includeUndefined){
+					retVal.insert(elementId);
+				}
+			}
+			else{
+				const icomp::IRegistry* embeddedRegistryPtr = registry.GetEmbeddedRegistry(elementAddress.GetComponentId());
+				if (embeddedRegistryPtr == NULL){
+					if (includeUndefined){
+						retVal.insert(elementId);
+					}
+
+					continue;
+				}
+
+				icomp::CCompositeComponentStaticInfo info(*embeddedRegistryPtr, *m_envManagerCompPtr);
+				subIds = GetCompatibleSubcomponents(
+							elementId,
+							info,
 							interfaceNames);
+			}
 
-				retVal.insert(subIds.begin(), subIds.end());
-			}
-			else if (includeUndefined){
-				retVal.insert(*index);
-			}
+			retVal.insert(subIds.begin(), subIds.end());
 		}
 	}
 
@@ -513,7 +535,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 	if (istd::CIdManipBase::SplitId(pointedElementName, baseId, subId)){
 		const icomp::IRegistry::ElementInfo* pointedInfoPtr = registry.GetElementInfo(baseId);
 		if (pointedInfoPtr != NULL){
-			const icomp::IRegistry* pointedRegistryPtr = m_envManagerCompPtr->GetRegistry(pointedInfoPtr->address);
+			const icomp::IRegistry* pointedRegistryPtr = m_envManagerCompPtr->GetRegistry(pointedInfoPtr->address, &registry);
 			if (pointedRegistryPtr != NULL){
 				const icomp::IRegistry::ExportedComponentsMap& exportedMap = pointedRegistryPtr->GetExportedComponentsMap();
 				icomp::IRegistry::ExportedComponentsMap::const_iterator exportIter = exportedMap.find(subId);
@@ -564,7 +586,7 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 					reasonConsumerPtr->AddMessage(new ibase::CMessage(
 								istd::ILogger::MC_WARNING,
 								MI_COMPOSITE_FOUND,
-								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
+								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but element '%4' is not accessible in actual configuration")
 											.arg(attributeName.c_str())
 											.arg(elementName.c_str())
 											.arg(pointedElementName.c_str())
@@ -596,47 +618,49 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 	else{
 		const icomp::IRegistry::ElementInfo* pointedInfoPtr = registry.GetElementInfo(pointedElementName);
 		if (pointedInfoPtr != NULL){
-			const icomp::IComponentStaticInfo* pointedMetaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(pointedInfoPtr->address);
-			if (pointedMetaInfoPtr != NULL){
-				const icomp::IComponentStaticInfo::Ids& supportedInterfaces = pointedMetaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-				for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceNames.begin();
-							interfaceIter != interfaceNames.end();
-							++interfaceIter){
-					const std::string& interfaceName = *interfaceIter;
+			const icomp::CComponentAddress& pointedElementAddress = pointedInfoPtr->address;
+			if (!pointedElementAddress.GetPackageId().empty()){
+				const icomp::IComponentStaticInfo* pointedMetaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(pointedElementAddress);
 
-					if (supportedInterfaces.find(interfaceName) == supportedInterfaces.end()){
-						if (reasonConsumerPtr != NULL){
-							reasonConsumerPtr->AddMessage(new ibase::CMessage(
-										istd::ILogger::MC_ERROR,
-										MI_WRONG_INTERFACE,
-										iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but it doesn't implement interface %4")
-													.arg(attributeName.c_str())
-													.arg(elementName.c_str())
-													.arg(pointedElementName.c_str())
-													.arg(interfaceName.c_str())),
-										iqt::GetCString(QObject::tr("Attribute Consistency Check")),
-										0));
-						}
-
-						return false;
-					}
-				}
+				return CheckPointedElementInfoCompatibility(
+							baseId,
+							pointedMetaInfoPtr,
+							interfaceNames,
+							attributeName,
+							elementName,
+							registry,
+							ignoreUndef,
+							reasonConsumerPtr);
 			}
-			else if (!ignoreUndef){
-				if (reasonConsumerPtr != NULL){
-					reasonConsumerPtr->AddMessage(new ibase::CMessage(
-								istd::ILogger::MC_WARNING,
-								MI_COMPOSITE_FOUND,
-								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but element '%4' is not composited or cannot be loaded")
-											.arg(attributeName.c_str())
-											.arg(elementName.c_str())
-											.arg(pointedElementName.c_str())
-											.arg(baseId.c_str())),
-								iqt::GetCString(QObject::tr("Attribute Consistency Check")),
-								0));
+			else{
+				icomp::IRegistry* embeddedRegistryPtr = registry.GetEmbeddedRegistry(pointedElementAddress.GetComponentId());
+				if (embeddedRegistryPtr != NULL){
+					icomp::CCompositeComponentStaticInfo info(*embeddedRegistryPtr, *m_envManagerCompPtr);
+					return CheckPointedElementInfoCompatibility(
+								pointedElementName,
+								&info,
+								interfaceNames,
+								attributeName,
+								elementName,
+								registry,
+								ignoreUndef,
+								reasonConsumerPtr);
 				}
+				else{
+					if (reasonConsumerPtr != NULL){
+						reasonConsumerPtr->AddMessage(new ibase::CMessage(
+									istd::ILogger::MC_ERROR,
+									MI_COMPONENT_NOT_FOUND,
+									iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' uses embedded type '%3', but this type is undefined")
+												.arg(attributeName.c_str())
+												.arg(elementName.c_str())
+												.arg(pointedElementAddress.GetComponentId().c_str())),
+									iqt::GetCString(QObject::tr("Attribute Consistency Check")),
+									0));
+					}
 
-				return false;
+					return false;
+				}
 			}
 		}
 		else{
@@ -654,6 +678,61 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 
 			return false;
 		}
+	}
+
+	return true;
+}
+
+
+bool CRegistryConsistInfoComp::CheckPointedElementInfoCompatibility(
+			const std::string& pointedElementName,
+			const icomp::IComponentStaticInfo* pointedMetaInfoPtr,
+			const icomp::IComponentStaticInfo::Ids& interfaceNames,
+			const std::string& attributeName,
+			const std::string& elementName,
+			const icomp::IRegistry& registry,
+			bool ignoreUndef,
+			ibase::IMessageConsumer* reasonConsumerPtr) const
+{
+	if (pointedMetaInfoPtr != NULL){
+		const icomp::IComponentStaticInfo::Ids& supportedInterfaces = pointedMetaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
+		for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceNames.begin();
+					interfaceIter != interfaceNames.end();
+					++interfaceIter){
+			const std::string& interfaceName = *interfaceIter;
+
+			if (supportedInterfaces.find(interfaceName) == supportedInterfaces.end()){
+				if (reasonConsumerPtr != NULL){
+					reasonConsumerPtr->AddMessage(new ibase::CMessage(
+								istd::ILogger::MC_ERROR,
+								MI_WRONG_INTERFACE,
+								iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but it doesn't implement interface %4")
+											.arg(attributeName.c_str())
+											.arg(elementName.c_str())
+											.arg(pointedElementName.c_str())
+											.arg(interfaceName.c_str())),
+								iqt::GetCString(QObject::tr("Attribute Consistency Check")),
+								0));
+				}
+
+				return false;
+			}
+		}
+	}
+	else if (!ignoreUndef){
+		if (reasonConsumerPtr != NULL){
+			reasonConsumerPtr->AddMessage(new ibase::CMessage(
+						istd::ILogger::MC_WARNING,
+						MI_COMPOSITE_FOUND,
+						iqt::GetCString(QObject::tr("Reference or factory '%1' in '%2' point at '%3', but it is not accessible in actual configuration")
+									.arg(attributeName.c_str())
+									.arg(elementName.c_str())
+									.arg(pointedElementName.c_str())),
+						iqt::GetCString(QObject::tr("Attribute Consistency Check")),
+						0));
+		}
+
+		return false;
 	}
 
 	return true;
