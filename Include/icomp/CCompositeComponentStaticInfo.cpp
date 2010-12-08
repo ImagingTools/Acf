@@ -46,6 +46,21 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 		RegisterSubcomponentInfo(subcomponentId, subMetaInfoPtr);
 	}
 
+	// register embedded components
+	const IRegistry::Ids& embeddedComponentIds = registry.GetEmbeddedRegistryIds();
+	for (		IRegistry::Ids::const_iterator embeddedIter = embeddedComponentIds.begin();
+				embeddedIter != embeddedComponentIds.end();
+				++embeddedIter){
+		const std::string& embeddedComponentId = *embeddedIter;
+
+		const IRegistry* embeddedRegistryPtr = registry.GetEmbeddedRegistry(embeddedComponentId);
+		if (embeddedRegistryPtr == NULL){
+			continue;
+		}
+
+		m_embeddedComponentInfos[embeddedComponentId].SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, manager, this));
+	}
+
 	// register exported attributes
 	IRegistry::Ids elementIds = registry.GetElementIds();
 	for (		IRegistry::Ids::const_iterator elementIter = elementIds.begin();
@@ -76,7 +91,7 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 
 			const IAttributeStaticInfo* attributeInfoPtr = subMetaInfoPtr->GetAttributeInfo(attrId);
 			if (attributeInfoPtr != NULL){
-				if (attrInfoPtr->attributePtr.IsValid() && ((attributeInfoPtr->GetAttributeFlags() & IAttributeStaticInfo::AF_NULLABLE) == 0)){
+				if (attrInfoPtr->attributePtr.IsValid()){
 					// attribute was obligatory, but it was defined -> now it is optional
 					AttrMetaInfoPtr& replaceAttrPtr = m_attrReplacers[attributeInfoPtr];
 					if (!replaceAttrPtr.IsValid()){
@@ -122,6 +137,17 @@ IComponent* CCompositeComponentStaticInfo::CreateComponent() const
 int CCompositeComponentStaticInfo::GetComponentType() const
 {
 	return CT_COMPOSITE;
+}
+
+
+const IComponentStaticInfo* CCompositeComponentStaticInfo::GetEmbeddedComponentInfo(const std::string& embeddedId) const
+{
+	EmbeddedComponentInfos::iterator infoIter = m_embeddedComponentInfos.find(embeddedId);
+	if (infoIter != m_embeddedComponentInfos.end()){
+		return infoIter->second.GetPtr();
+	}
+
+	return NULL;
 }
 
 

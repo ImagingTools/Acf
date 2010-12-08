@@ -43,8 +43,8 @@ private:
 		bool isInitialized;
 	};
 
-	typedef std::map<std::string, ComponentInfo> SubcomponentInfos;
-	mutable SubcomponentInfos m_subcomponentInfos;
+	typedef std::map<std::string, ComponentInfo> EmbeddedComponentInfos;
+	mutable EmbeddedComponentInfos m_embeddedComponentInfos;
 
 	std::string m_packageId;
 	const icomp::IComponentEnvironmentManager& m_envManager;

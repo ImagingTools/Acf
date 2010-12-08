@@ -23,7 +23,7 @@ CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 				++iter){
 		const std::string& id = *iter;
 
-		m_subcomponentInfos[id];
+		m_embeddedComponentInfos[id];
 	}
 }
 
@@ -32,8 +32,8 @@ CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 
 const IComponentStaticInfo* CCompositePackageStaticInfo::GetEmbeddedComponentInfo(const std::string& embeddedId) const
 {
-	SubcomponentInfos::iterator infoIter = m_subcomponentInfos.find(embeddedId);
-	if (infoIter != m_subcomponentInfos.end()){
+	EmbeddedComponentInfos::iterator infoIter = m_embeddedComponentInfos.find(embeddedId);
+	if (infoIter != m_embeddedComponentInfos.end()){
 		ComponentInfo& info = infoIter->second;
 
 		if (!info.isInitialized){
@@ -51,7 +51,6 @@ const IComponentStaticInfo* CCompositePackageStaticInfo::GetEmbeddedComponentInf
 	}
 
 	return NULL;
-
 }
 
 
@@ -60,8 +59,8 @@ IComponentStaticInfo::Ids CCompositePackageStaticInfo::GetMetaIds(int metaGroupI
 	Ids retVal;
 
 	if (metaGroupId == MGI_EMBEDDED_COMPONENTS){
-		for (		SubcomponentInfos::const_iterator iter = m_subcomponentInfos.begin();
-					iter != m_subcomponentInfos.end();
+		for (		EmbeddedComponentInfos::const_iterator iter = m_embeddedComponentInfos.begin();
+					iter != m_embeddedComponentInfos.end();
 					++iter){
 			retVal.insert(iter->first);
 		}

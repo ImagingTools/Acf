@@ -603,8 +603,8 @@ bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
 		for (		EmbeddedRegistriesMap::iterator iter = m_embeddedRegistriesMap.begin();
 					iter != m_embeddedRegistriesMap.end();
 					++iter){
-			RegistryPtr& registrPtr = iter->second;
-			I_ASSERT(registrPtr.IsValid());
+			RegistryPtr& registryPtr = iter->second;
+			I_ASSERT(registryPtr.IsValid());
 
 			retVal = retVal && archive.BeginTag(registryTag);
 
@@ -613,7 +613,7 @@ bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
 			retVal = retVal && archive.EndTag(registryIdTag);
 
 			retVal = retVal && archive.BeginTag(dataTag);
-			retVal = retVal && registrPtr->Serialize(archive);
+			retVal = retVal && registryPtr->Serialize(archive);
 			retVal = retVal && archive.EndTag(dataTag);
 
 			retVal = retVal && archive.EndTag(registryTag);
@@ -632,11 +632,11 @@ bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
 
 			retVal = retVal && archive.BeginTag(dataTag);
 
-			IRegistry* registrPtr = InsertEmbeddedRegistry(elementId);
-			if (registrPtr == NULL){
+			IRegistry* registryPtr = InsertEmbeddedRegistry(elementId);
+			if (registryPtr == NULL){
 				return false;
 			}
-			retVal = retVal && registrPtr->Serialize(archive);
+			retVal = retVal && registryPtr->Serialize(archive);
 			retVal = retVal && archive.EndTag(dataTag);
 
 			retVal = retVal && archive.EndTag(registryTag);

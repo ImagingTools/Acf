@@ -32,6 +32,7 @@ public:
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual int GetComponentType() const;
+	virtual const IComponentStaticInfo* GetEmbeddedComponentInfo(const std::string& embeddedId) const;
 	virtual const istd::CString& GetDescription() const;
 	virtual const istd::CString& GetKeywords() const;
 
@@ -65,8 +66,11 @@ protected:
 private:
 	typedef istd::TDelPtr<IAttributeStaticInfo> AttrMetaInfoPtr;
 	typedef std::map<const IAttributeStaticInfo*, AttrMetaInfoPtr> AttrReplacers;
-
 	AttrReplacers m_attrReplacers;
+
+	typedef istd::TDelPtr<icomp::CCompositeComponentStaticInfo> ComponentInfoPtr;
+	typedef std::map<std::string, ComponentInfoPtr> EmbeddedComponentInfos;
+	mutable EmbeddedComponentInfos m_embeddedComponentInfos;
 
 	istd::CString m_description;
 	istd::CString m_keywords;
