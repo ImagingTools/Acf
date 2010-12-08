@@ -63,6 +63,10 @@ private Q_SLOTS:
 	void OnFilterChanged();
 	void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 	void OnDoubleClicked(const QModelIndex& index);
+
+private:
+	void InvalidateFileSystemModel(const QString& currentFilePath);
+
 private:
 	I_REF(iser::IFileTypeInfo, m_filterInfoCompPtr);
 	I_ATTR(bool, m_showUserFilterAttrPtr);

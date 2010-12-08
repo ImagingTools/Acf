@@ -33,13 +33,17 @@ void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
 
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		QModelIndex index = m_fileSystemModel.index(iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(objectPtr->GetPath())));
+		QString currentFilePath = iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(objectPtr->GetPath()));
+
+		InvalidateFileSystemModel(currentFilePath);
+
+		QModelIndex index = m_fileSystemModel.index(currentFilePath);
 		if (index.isValid()){
 			QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();
 			if (selectionModelPtr != NULL){
-				selectionModelPtr->select(index, QItemSelectionModel::ClearAndSelect);
+				selectionModelPtr->select(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-				FileTree->scrollTo(index);
+				FileTree->scrollTo(index, QAbstractItemView::PositionAtCenter);
 			}
 		}
 	}
@@ -71,8 +75,6 @@ QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
 
 void CFileSystemExplorerGuiComp::OnGuiCreated()
 {
-	BaseClass::OnGuiCreated();
-
 	if (!m_useSystemDecoratedIconsAttrPtr.IsValid() || !*m_useSystemDecoratedIconsAttrPtr){
 		m_fileSystemModel.setIconProvider(&m_fileIconProvider);
 	}
@@ -83,9 +85,9 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 
 	FileTree->setModel(&m_fileSystemModel);
 
-	m_fileSystemModel.setRootPath(QDir::currentPath());
+	QModelIndex rootIndex = m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString());
 	
-	FileTree->setRootIndex(m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString()));
+	FileTree->setRootIndex(rootIndex);
 
 	QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();
 	if (selectionModelPtr != NULL){
@@ -143,6 +145,8 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 	if (m_allowOpenFileAttrPtr.IsValid() && *m_allowOpenFileAttrPtr){
 		connect(FileTree, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(OnDoubleClicked(const QModelIndex&)));
 	}
+
+	BaseClass::OnGuiCreated();
 }
 
 
@@ -204,6 +208,18 @@ void CFileSystemExplorerGuiComp::OnDoubleClicked(const QModelIndex& modelIndex)
 	}
 
 	QDesktopServices::openUrl(fileInfo.canonicalFilePath());
+}
+
+
+void CFileSystemExplorerGuiComp::InvalidateFileSystemModel(const QString& currentFilePath)
+{
+	QString currentPath = QFileInfo(currentFilePath).absolutePath();
+
+	QString saveRootPath = m_fileSystemModel.rootPath();
+
+	m_fileSystemModel.setRootPath(currentPath);
+
+	m_fileSystemModel.setRootPath(saveRootPath);
 }
 
 
