@@ -2,13 +2,18 @@
 #define istd_CCrcCalculator_included
 
 
+// STL includes
 #include <vector>
 
-#include "istd/CString.h"
+
+#include "istd/istd.h"
 
 
 namespace istd
 {
+
+
+class CString;
 
 
 class CCrcCalculator

@@ -5,6 +5,9 @@
 
 #include "icomp/IRegistryLoaderProvider.h"
 #include "icomp/IComponentEnvironmentManager.h"
+#include "icomp/IRegistryLoader.h"
+#include "icomp/CCompositeComponentContext.h"
+#include "icomp/CRegistryElement.h"
 
 
 namespace icomp

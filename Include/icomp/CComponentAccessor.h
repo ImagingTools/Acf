@@ -2,11 +2,7 @@
 #define icomp_CComponentAccessor_included
 
 
-#include "icomp/IRegistryLoader.h"
-#include "icomp/IRegistriesManager.h"
-#include "icomp/CCompositeComponentContext.h"
 #include "icomp/CCompositeComponent.h"
-#include "icomp/CRegistryElement.h"
 
 
 namespace icomp

@@ -4,8 +4,6 @@
 
 #include <map>
 
-#include "istd/TDelPtr.h"
-
 #include "icomp/IComponentContext.h"
 
 

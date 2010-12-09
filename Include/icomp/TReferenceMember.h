@@ -2,7 +2,6 @@
 #define icomp_TReferenceMember_included
 
 
-#include "icomp/IComponentContext.h"
 #include "icomp/TAttributeMember.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CReferenceAttribute.h"

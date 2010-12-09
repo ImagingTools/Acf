@@ -8,7 +8,7 @@ namespace iser
 // public methods
 
 CBitMemoryReadArchive::CBitMemoryReadArchive(const std::vector<I_BYTE>& data, bool serializeHeader)
-	:BaseClass(&data[0], data.size(), serializeHeader)	
+:	BaseClass(&data[0], data.size(), serializeHeader)	
 {
 	m_bitPosition = 0;
 }

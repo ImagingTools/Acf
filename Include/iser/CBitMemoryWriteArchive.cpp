@@ -8,7 +8,7 @@ namespace iser
 // public methods
 
 CBitMemoryWriteArchive::CBitMemoryWriteArchive(const IVersionInfo* versionInfoPtr, bool serializeHeader)
-	:BaseClass(versionInfoPtr, serializeHeader)
+:	BaseClass(versionInfoPtr, serializeHeader)
 {
 	m_bitPosition = 0;
 }

@@ -148,7 +148,9 @@ inline bool CComponentBase::IsComponentActive() const
 	\ingroup ComponentConcept
 */
 #define I_REGISTER_INTERFACE(InterfaceType)\
-	static icomp::TInterfaceRegistrator<InterfaceType> AUTO_VARNAME(staticRegistrator)(staticInfo);
+	{\
+		static icomp::TInterfaceRegistrator<InterfaceType> staticRegistrator(staticInfo);\
+	}
 
 /**
 	Declare user type attribute member.

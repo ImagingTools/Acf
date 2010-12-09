@@ -5,9 +5,12 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
-#include "istd/CClassInfo.h"
 
-#include "icomp/icomp.h"
+
+namespace istd
+{
+	class CClassInfo;
+}
 
 
 namespace icomp

@@ -30,7 +30,7 @@ void CParamsManagerGuiComp::UpdateModel() const
 }
 
 
-void CParamsManagerGuiComp::UpdateEditor(int updateFlags)
+void CParamsManagerGuiComp::UpdateEditor(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 

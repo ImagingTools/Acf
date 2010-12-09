@@ -7,7 +7,6 @@
 #include <map>
 
 #include "istd/TDelPtr.h"
-#include "istd/CClassInfo.h"
 
 #include "iser/ISerializable.h"
 

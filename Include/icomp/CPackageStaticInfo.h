@@ -2,9 +2,13 @@
 #define icomp_CPackageStaticInfo_included
 
 
-#include "iser/IArchive.h"
-
 #include "icomp/CComponentStaticInfoBase.h"
+
+
+namespace iser
+{
+	class IArchive;
+};
 
 
 namespace icomp

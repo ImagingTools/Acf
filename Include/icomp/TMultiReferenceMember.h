@@ -2,7 +2,6 @@
 #define icomp_TMultiReferenceMember_included
 
 
-#include "icomp/IComponentContext.h"
 #include "icomp/TMultiAttributeMember.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CMultiReferenceAttribute.h"

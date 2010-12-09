@@ -1,6 +1,9 @@
 #include "icomp/CBaseComponentStaticInfo.h"
 
 
+#include "istd/istd.h"
+
+
 namespace icomp
 {
 

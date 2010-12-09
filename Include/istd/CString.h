@@ -8,10 +8,6 @@
 #include <sstream>
 
 
-// ACF includes
-#include "istd/istd.h"
-
-
 namespace istd
 {
 

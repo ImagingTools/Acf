@@ -2,9 +2,13 @@
 #define icomp_IComponentContext_included
 
 
-#include "iser/IObject.h"
+#include "istd/IPolymorphic.h"
 
-#include "icomp/icomp.h"
+
+namespace iser
+{
+	class IObject;
+}
 
 
 namespace icomp

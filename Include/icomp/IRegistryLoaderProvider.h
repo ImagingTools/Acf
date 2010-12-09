@@ -2,12 +2,15 @@
 #define icomp_IRegistryLoaderProvider_included
 
 
-#include "icomp/IRegistryLoader.h"
-#include "icomp/IComponentEnvironmentManager.h"
+#include "istd/IPolymorphic.h"
 
 
 namespace icomp
 {
+
+
+class IRegistryLoader;
+class IComponentEnvironmentManager;
 
 
 /**

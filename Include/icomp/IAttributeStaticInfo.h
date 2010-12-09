@@ -5,7 +5,6 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
-#include "istd/CClassInfo.h"
 
 #include "iser/IObject.h"
 

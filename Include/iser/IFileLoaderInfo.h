@@ -6,8 +6,6 @@
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
 
-#include "iser/iser.h"
-
 
 namespace iser
 {

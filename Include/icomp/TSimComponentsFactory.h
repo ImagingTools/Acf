@@ -2,7 +2,7 @@
 #define icomp_TSimComponentsFactory_included
 
 
-#include "istd/TSingleFactory.h"
+#include "istd/TIFactory.h"
 #include "istd/CClassInfo.h"
 
 #include "icomp/IComponent.h"

@@ -4,10 +4,9 @@
 
 #include <string>
 
+#include "istd/istd.h"
 #include "istd/IChangeable.h"
 #include "istd/CString.h"
-
-#include "icomp/icomp.h"
 
 
 namespace icomp

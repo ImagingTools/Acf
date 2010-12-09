@@ -4,7 +4,6 @@
 
 #include "istd/TDelPtr.h"
 
-#include "icomp/IComponentContext.h"
 #include "icomp/TMultiAttributeMember.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CMultiFactoryAttribute.h"

@@ -2,8 +2,6 @@
 #define istd_CChangeDelegator_included
 
 
-#include "istd/istd.h"
-
 #include "istd/IChangeable.h"
 
 

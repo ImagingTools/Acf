@@ -27,10 +27,10 @@ class TModelCompWrap: public icomp::TComponentCloneWrap<imod::TModelWrap<Base> >
 public:
 	typedef icomp::TComponentCloneWrap<imod::TModelWrap<Base> > BaseClass;
 
-	I_BEGIN_COMPONENT(TModelCompWrap)
-		I_REGISTER_INTERFACE(istd::IChangeable)
-		I_REGISTER_INTERFACE(imod::IModel)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(TModelCompWrap);
+		I_REGISTER_INTERFACE(istd::IChangeable);
+		I_REGISTER_INTERFACE(imod::IModel);
+	I_END_COMPONENT;
 };
 
 

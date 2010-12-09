@@ -5,7 +5,6 @@
 // STL includes
 #include <vector>
 #include <map>
-#include <set>
 
 #include "istd/TIMap.h"
 

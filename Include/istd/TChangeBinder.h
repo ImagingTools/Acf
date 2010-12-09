@@ -2,11 +2,6 @@
 #define istd_TChangeBinder_included
 
 
-#include "istd/istd.h"
-
-#include "istd/CChangeDelegator.h"
-
-
 namespace istd
 {
 

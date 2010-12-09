@@ -1,6 +1,7 @@
 #include <locale>
 
 
+#include "istd/istd.h"
 #include "istd/CString.h"
 
 

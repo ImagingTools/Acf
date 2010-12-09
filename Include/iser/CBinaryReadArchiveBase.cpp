@@ -1,8 +1,6 @@
 #include "iser/CBinaryReadArchiveBase.h"
 
 
-#include <assert.h>
-
 #include "istd/CString.h"
 
 #include "iser/CArchiveTag.h"

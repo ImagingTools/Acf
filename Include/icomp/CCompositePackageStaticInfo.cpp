@@ -1,6 +1,7 @@
 #include "icomp/CCompositePackageStaticInfo.h"
 
 
+#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CComponentAddress.h"
 
 

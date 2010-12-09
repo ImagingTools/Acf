@@ -6,15 +6,15 @@
 
 #include "istd/TDelPtr.h"
 
-#include "iser/ISerializable.h"
-
-#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CPackageStaticInfo.h"
 #include "icomp/CCompositeComponentStaticInfo.h"
 
 
 namespace icomp
 {
+
+
+class IComponentEnvironmentManager;
 
 
 /**

@@ -3,7 +3,7 @@
 
 
 // STL includes
-#include <vector>
+#include <string>
 
 #include "icomp/TMultiAttribute.h"
 

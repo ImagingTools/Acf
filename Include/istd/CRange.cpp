@@ -171,8 +171,8 @@ double CRange::GetNearestInside(double value) const
 double CRange::GetClipped(double value) const
 {
 	if (!Contains(value)){
-		double distanceMin = fabs(value - m_minValue);
-		double distanceMax = fabs(value - m_maxValue);
+		double distanceMin = std::fabs(value - m_minValue);
+		double distanceMax = std::fabs(value - m_maxValue);
 
 		return distanceMin < distanceMax ? m_minValue : m_maxValue;
 	}

@@ -5,12 +5,11 @@
 #include <set>
 #include <string>
 
+#include "istd/istd.h"
 #include "istd/TDelPtr.h"
 
 #include "iser/ISerializable.h"
 #include "iser/IObject.h"
-
-#include "icomp/icomp.h"
 
 
 namespace icomp

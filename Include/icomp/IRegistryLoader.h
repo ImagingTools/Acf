@@ -2,11 +2,16 @@
 #define icomp_IRegistryLoader_included
 
 
-#include "icomp/IRegistry.h"
+#include "istd/IPolymorphic.h"
+#include "istd/CString.h"
 
 
 namespace icomp
 {
+
+
+class IRegistry;
+
 
 /**
 	Interface for a ACF registry loader.

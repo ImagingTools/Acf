@@ -4,7 +4,6 @@
 
 #include "istd/CClassInfo.h"
 #include "iser/IArchive.h"
-#include "iser/ISerializable.h"
 #include "iser/IObject.h"
 #include "iser/CArchiveTag.h"
 

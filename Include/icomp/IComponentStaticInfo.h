@@ -2,13 +2,12 @@
 #define icomp_IComponentStaticInfo_included
 
 
+// STL includes
+#include <set>
 #include <string>
 
 #include "istd/IPolymorphic.h"
-#include "istd/TIMap.h"
 #include "istd/CString.h"
-
-#include "icomp/icomp.h"
 
 
 namespace icomp
@@ -69,10 +68,7 @@ public:
 		*/
 		MGI_EMBEDDED_COMPONENTS
 	};
-	/**
-		Map from attribute name string to attribute static info object.
-	*/
-	typedef istd::TIMap<std::string, const IAttributeStaticInfo*> AttributeInfos;
+
 	typedef std::set<std::string> Ids;
 
 	/**

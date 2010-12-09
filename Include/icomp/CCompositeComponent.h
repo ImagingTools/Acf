@@ -3,7 +3,6 @@
 
 
 // STL includes
-#include <set>
 #include <map>
 #include <string>
 
@@ -11,7 +10,6 @@
 
 #include "icomp/IRegistry.h"
 #include "icomp/IComponentContext.h"
-#include "icomp/CComponentBase.h"
 #include "icomp/CInterfaceManipBase.h"
 
 

@@ -1,6 +1,9 @@
 #include "istd/CCrcCalculator.h"
 
+// STL includes
 #include <fstream>
+
+#include "istd/CString.h"
 
 
 namespace istd

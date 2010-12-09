@@ -2,9 +2,6 @@
 #define istd_TSingleFactory_included
 
 
-#include "istd/istd.h"
-
-
 #include <string>
 
 

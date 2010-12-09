@@ -2,10 +2,6 @@
 #define iser_CMemoryReadArchive_included
 
 
-// STL includes
-#include <vector>
-
-
 // ACF includes
 #include "iser/CBinaryReadArchiveBase.h"
 

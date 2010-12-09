@@ -4,7 +4,6 @@
 
 // STL includes
 #include <map>
-#include <string>
 
 #include "istd/IServicesProvider.h"
 #include "istd/TIFactory.h"

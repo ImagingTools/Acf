@@ -9,7 +9,6 @@
 // ACF includes
 #include "istd/TDelPtr.h"
 
-#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/IAttributeStaticInfo.h"
 #include "icomp/IRegistry.h"
 #include "icomp/CBaseComponentStaticInfo.h"
@@ -17,6 +16,10 @@
 
 namespace icomp
 {
+
+
+class IComponentEnvironmentManager;
+class IRegistriesManager;
 
 
 class CCompositeComponentStaticInfo: public CBaseComponentStaticInfo

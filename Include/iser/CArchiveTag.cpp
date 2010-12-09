@@ -1,9 +1,6 @@
 #include "iser/CArchiveTag.h"
 
 
-#include "iser/IArchive.h"
-
-
 namespace iser
 {
 

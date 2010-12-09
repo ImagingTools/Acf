@@ -2,9 +2,6 @@
 #define istd_IPolymorphic_included
 
 
-#include "istd/istd.h"
-
-
 namespace istd
 {
 

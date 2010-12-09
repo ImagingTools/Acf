@@ -7,16 +7,16 @@
 
 
 // ACF includes
+#include "istd/istd.h"
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
-
-#include "iser/IVersionInfo.h"
 
 
 namespace iser
 {
 
 
+class IVersionInfo;
 class CArchiveTag;
 
 

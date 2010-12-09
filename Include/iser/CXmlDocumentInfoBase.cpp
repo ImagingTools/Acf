@@ -1,6 +1,9 @@
 #include "iser/CXmlDocumentInfoBase.h"
 
 
+#include "istd/istd.h"
+
+
 namespace iser
 {
 
