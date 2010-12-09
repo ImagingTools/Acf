@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1597
+          1646
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          271
+          293
         </Number>
         <Description>
           ACF-Solutions
@@ -257,7 +257,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="10">
+              <Values count="11">
                 <Value>
                   *.htm
                 </Value>
@@ -287,6 +287,9 @@
                 </Value>
                 <Value>
                   *.ico
+                </Value>
+                <Value>
+                  *.tag
                 </Value>
               </Values>
             </Data>
@@ -2028,6 +2031,8 @@
       </Data>
     </Element>
   </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
   <ExportedInterfaces count="0">
   </ExportedInterfaces>
   <ExportedComponents count="0">
