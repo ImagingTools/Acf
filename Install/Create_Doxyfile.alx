@@ -1,52 +1,41 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1080
+          1646
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          293
+        </Number>
+        <Description>
+          ACF-Solutions
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="9">
+  <PositionMap count="4">
     <Element>
       <ComponentName>
         Application
       </ComponentName>
       <X>
-        105
+        375
       </X>
       <X>
-        -249
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Copy
-      </ComponentName>
-      <X>
-        291
-      </X>
-      <X>
-        -32
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CopyHeaders
-      </ComponentName>
-      <X>
-        1
-      </X>
-      <X>
-        -10
+        175
       </X>
     </Element>
     <Element>
@@ -54,43 +43,10 @@
         DoxyfileCopy
       </ComponentName>
       <X>
-        60
+        800
       </X>
       <X>
-        -20
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        DyxyfileCopy
-      </ComponentName>
-      <X>
-        19
-      </X>
-      <X>
-        -52
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        InitSeqence
-      </ComponentName>
-      <X>
-        -8
-      </X>
-      <X>
-        171
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        InitSequence
-      </ComponentName>
-      <X>
-        368
-      </X>
-      <X>
-        -8
+        350
       </X>
     </Element>
     <Element>
@@ -98,10 +54,10 @@
         Log
       </ComponentName>
       <X>
-        107
+        800
       </X>
       <X>
-        174
+        550
       </X>
     </Element>
     <Element>
@@ -109,10 +65,10 @@
         VersionInfo
       </ComponentName>
       <X>
-        -348
+        375
       </X>
       <X>
-        -17
+        350
       </X>
     </Element>
   </PositionMap>

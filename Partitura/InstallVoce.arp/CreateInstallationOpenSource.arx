@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1597
+          1646
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          271
+          293
         </Number>
         <Description>
           ACF-Solutions
@@ -319,6 +319,8 @@
       </Data>
     </Element>
   </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
@@ -332,9 +334,9 @@
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    
+    Complete application template for open source LGPL installation without distributed binaries
   </Description>
   <Keywords>
-    
+    Installation Framework Distribution LGPL Public License Open Source
   </Keywords>
 </Acf>
