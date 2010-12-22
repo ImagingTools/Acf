@@ -166,7 +166,11 @@ void CRectangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, S
 
 void CRectangleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

@@ -101,11 +101,6 @@ void CAnnulusParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 
 	i2d::CAnnulus* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		iqt::CSignalBlocker block(XSpin);
-		iqt::CSignalBlocker block2(YSpin);
-		iqt::CSignalBlocker block3(InnerRadiusSpin);
-		iqt::CSignalBlocker block4(OuterRadiusSpin);
-
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 		XSpin->setValue(center.GetX());
 		YSpin->setValue(center.GetY());
@@ -174,7 +169,11 @@ void CAnnulusParamsGuiComp::OnGuiDestroyed()
 
 void CAnnulusParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

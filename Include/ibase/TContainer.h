@@ -24,9 +24,6 @@ template <typename ItemClass, typename ContainerClass = std::vector<ItemClass> >
 class TContainer: virtual public istd::IContainerInfo, virtual public istd::IChangeable
 {
 public:
-	TContainer();
-	virtual ~TContainer();
-
 	const ItemClass& GetAt(int index) const;
 	ItemClass& GetAt(int index);
 	void PushBack(const ItemClass& item);
@@ -45,20 +42,6 @@ protected:
 	typedef ContainerClass Items;
 	Items m_items;
 };
-
-
-template <typename ItemClass, typename ContainerClass>
-TContainer<ItemClass, ContainerClass>::TContainer()
-{
-
-}
-
-
-template <typename ItemClass, typename ContainerClass>
-TContainer<ItemClass, ContainerClass>::~TContainer()
-{
-
-}
 
 
 template <typename ItemClass, typename ContainerClass>

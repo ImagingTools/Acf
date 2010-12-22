@@ -186,7 +186,11 @@ void CAnnulusSegmentParamsGuiComp::OnGuiDestroyed()
 
 void CAnnulusSegmentParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

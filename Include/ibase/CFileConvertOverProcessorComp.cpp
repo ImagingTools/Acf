@@ -66,7 +66,8 @@ bool CFileConvertOverProcessorComp::CopyFile(
 	int processingResult = m_processorCompPtr->DoProcessing(
 				m_processingParamsSetCompPtr.GetPtr(),
 				m_inputDataCompPtr.GetPtr(),
-				m_outputDataCompPtr.GetPtr());
+				m_outputDataCompPtr.GetPtr(),
+				m_progressManagerCompPtr.GetPtr());
 	if (processingResult != iproc::IProcessor::TS_OK){
 		return false;
 	}

@@ -128,10 +128,6 @@ void CCircleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 
-		iqt::CSignalBlocker block(XSpin);
-		iqt::CSignalBlocker block2(YSpin);
-		iqt::CSignalBlocker block3(RadiusSpin);
-
 		XSpin->setValue(center.GetX());
 		YSpin->setValue(center.GetY());
 
@@ -163,7 +159,11 @@ void CCircleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shap
 
 void CCircleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

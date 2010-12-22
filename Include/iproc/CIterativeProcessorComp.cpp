@@ -81,6 +81,10 @@ int CIterativeProcessorComp::DoProcessing(
 			if (progressSessionId >= 0){
 				I_ASSERT(progressManagerPtr != NULL);
 				progressManagerPtr->OnProgress(progressSessionId, iterationIndex / double(iterationsCount - 1));
+
+				if (progressManagerPtr->IsCanceled(progressSessionId)){
+					break;
+				}
 			}
 		}
 	}

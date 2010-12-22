@@ -1,6 +1,8 @@
 #include "iqtprm/CSelectionParamGuiComp.h"
 
 
+#include "istd/TChangeNotifier.h"
+
 #include "iprm/ISelectionConstraints.h"
 
 #include "iqt/CSignalBlocker.h"
@@ -20,6 +22,7 @@ void CSelectionParamGuiComp::UpdateModel() const
 	I_ASSERT(selectionPtr != NULL);
 
 	int switchesCount = m_comboBoxes.GetCount();
+
 	for (		int switchIndex = 0;
 				(selectionPtr != NULL) && switchIndex < switchesCount;
 				++switchIndex){
@@ -93,7 +96,11 @@ void CSelectionParamGuiComp::OnGuiDestroyed()
 
 void CSelectionParamGuiComp::OnSelectionChanged(int /*index*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(const_cast<CSelectionParamGuiComp*>(this));
+
+		UpdateModel();
+	}
 }
 
 

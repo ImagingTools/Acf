@@ -29,8 +29,6 @@ void CTextEditorComp::UpdateModel() const
 	QTextEdit* textEditPtr = GetQtWidget();
 	I_ASSERT(textEditPtr != NULL);
 
-	iqt::CSignalBlocker block(textEditPtr);
-
 	ibase::ITextDocument* objectPtr = GetObjectPtr();
 	I_ASSERT(objectPtr != NULL);
 
@@ -80,7 +78,11 @@ void CTextEditorComp::OnSelectionChanged()
 
 void CTextEditorComp::OnTextChanged()
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 
@@ -97,7 +99,12 @@ void CTextEditorComp::OnToLowercase()
 	cursor.insertText(selectedText.toLower());
 
 	OnSelectionChanged();
-	UpdateModel();
+
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 
@@ -114,7 +121,12 @@ void CTextEditorComp::OnToUppercase()
 	cursor.insertText(selectedText.toUpper());
 
 	OnSelectionChanged();
-	UpdateModel();
+
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

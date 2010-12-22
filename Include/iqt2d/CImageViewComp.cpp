@@ -12,11 +12,6 @@ namespace iqt2d
 {
 
 
-CImageViewComp::CImageViewComp()
-{
-}
-
-
 // reimplemented (imod::IModelEditor)
 
 void CImageViewComp::UpdateModel() const

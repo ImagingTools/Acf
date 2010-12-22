@@ -194,7 +194,11 @@ void CQuadrangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, 
 
 void CQuadrangleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 

@@ -6,6 +6,7 @@
 #include <memory>
 
 
+// ACF includes
 #include "istd/TSmartPtr.h"
 #include "istd/TIFactory.h"
 
@@ -24,7 +25,9 @@ namespace ibase
 	\li Serialization mechanism with automatic item allocation.
 */
 template <class InterfaceClass>
-class TFactorisableContainer: public ibase::TSerializableContainer<std::pair<istd::TSmartPtr<InterfaceClass>, std::string> >
+class TFactorisableContainer:
+			public ibase::TSerializableContainer<
+						std::pair<istd::TSmartPtr<InterfaceClass>, std::string> >
 {
 public:
 	typedef std::pair<istd::TSmartPtr<InterfaceClass>, std::string> ItemClass;

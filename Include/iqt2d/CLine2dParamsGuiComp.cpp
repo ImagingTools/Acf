@@ -171,7 +171,11 @@ void CLine2dParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shap
 
 void CLine2dParamsGuiComp::OnParamsChanged(double /*value*/)
 {
-	UpdateModel();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker blockUpdate(this);
+
+		UpdateModel();
+	}
 }
 
 
