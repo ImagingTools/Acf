@@ -250,6 +250,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLogComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMessage.cpp"
 				>
 			</File>
@@ -344,6 +348,10 @@
 			</File>
 			<File
 				RelativePath="..\CInstantiatorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CLogComp.h"
 				>
 			</File>
 			<File
