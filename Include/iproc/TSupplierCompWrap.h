@@ -42,7 +42,7 @@ public:
 
 	enum MessageId
 	{
-		MI_DURATION_TIME = 077a1b
+		MI_DURATION_TIME = 0x077a1b
 	};
 
 	I_BEGIN_BASE_COMPONENT(TSupplierCompWrap);
@@ -177,8 +177,8 @@ void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished()
 		if (timerPtr != NULL){
 			m_durationTime = timerPtr->GetElapsed() - beforeTime;
 
-			if (m_diagnosticNameAttrPtr.IsValid() && !m_diagnosticNameAttrPtr->m_value.empty){
-				SendInfoMessage(MI_DURATION_TIME, *m_diagnosticNameAttrPtr + ": Calculation time " + istd::CString::FromNumber(m_durationTime * 1000) + " ms.";
+			if (m_diagnosticNameAttrPtr.IsValid() && !(*m_diagnosticNameAttrPtr).empty()){
+				SendInfoMessage(MI_DURATION_TIME, *m_diagnosticNameAttrPtr + ": Calculation time " + istd::CString::FromNumber(m_durationTime * 1000) + " ms.");
 			}
 		}
 	}
