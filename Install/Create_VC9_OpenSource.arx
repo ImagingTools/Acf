@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1597
+          1661
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          271
+          296
         </Number>
         <Description>
           ACF-Solutions
@@ -78,12 +78,15 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="2">
+              <Values count="3">
                 <Value>
                   *Xcd
                 </Value>
                 <Value>
                   *QMake
+                </Value>
+                <Value>
+                  *VC8
                 </Value>
               </Values>
             </Data>
@@ -170,6 +173,8 @@
       </Data>
     </Element>
   </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
