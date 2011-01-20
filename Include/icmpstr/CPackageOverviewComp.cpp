@@ -212,7 +212,8 @@ private:
 
 CPackageOverviewComp::CPackageOverviewComp()
 :	m_packagesCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
-	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU)
+	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
+	m_registryObserver(this)
 {
 	connect(&m_reloadCommand, SIGNAL(activated()), this, SLOT(OnReloadPackages()));
 	m_packagesCommand.InsertChild(&m_reloadCommand);
@@ -272,7 +273,7 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 		}
 
 		if (FilterGB->isChecked()){
-			UpdateComponentsView();
+			GenerateComponentTree(false);
 		}
 	}
 }
@@ -280,16 +281,15 @@ void CPackageOverviewComp::OnAttributeSelected(const icomp::IAttributeStaticInfo
 
 // protected methods
 
-void CPackageOverviewComp::GenerateComponentTree()
+void CPackageOverviewComp::GenerateComponentTree(bool forceUpdate)
 {
-	PackagesList->clear();
-	m_roots.clear();
-
-	if (!m_envManagerCompPtr.IsValid()){
+	icomp::IMetaInfoManager::ComponentAddresses addresses = GetFilteredComponentAdresses();
+	if (!forceUpdate && (addresses == m_shownAddresses)){
 		return;
 	}
 
-	icomp::IMetaInfoManager::ComponentAddresses addresses = GetFilteredComponentAdresses();
+	PackagesList->clear();
+	m_roots.clear();
 
 	istd::CString currentKey = iqt::GetCString(GroupByCB->currentText()); 
 
@@ -297,25 +297,44 @@ void CPackageOverviewComp::GenerateComponentTree()
 				addressIter != addresses.end();
 				++addressIter){
 		const icomp::CComponentAddress& address = *addressIter;
-		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+
+		const icomp::IComponentStaticInfo* metaInfoPtr = NULL;
+		if (m_envManagerCompPtr.IsValid()){
+			metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+		}
 
 		istd::CStringList groupIds;
-		std::string elementName = address.GetPackageId() + "/" + address.GetComponentId();
+		std::string elementName;
+
+		if (!address.GetPackageId().empty()){
+			elementName += address.GetPackageId() + "/";
+		}
+		else{
+			groupIds.push_back(tr("<< Local >>").toStdString());
+		}
+
+		elementName += address.GetComponentId();
+
 		switch (GroupByCB->currentIndex()){
 		case GM_NONE:
 			groupIds.push_back("");
 			break;
 
 		case GM_PACKAGE:
-			groupIds.push_back(address.GetPackageId());
+			if (!address.GetPackageId().empty()){
+				groupIds.push_back(address.GetPackageId());
+			}
+
 			elementName = address.GetComponentId();
 			break;
 
 		default:
 			{
-				icomp::CComponentMetaDescriptionEncoder encoder(metaInfoPtr->GetKeywords());
+				if (metaInfoPtr != NULL){
+					icomp::CComponentMetaDescriptionEncoder encoder(metaInfoPtr->GetKeywords());
 
-				groupIds = encoder.GetValues(currentKey);
+					groupIds = encoder.GetValues(currentKey);
+				}
 			}
 		}
 
@@ -324,7 +343,7 @@ void CPackageOverviewComp::GenerateComponentTree()
 			icon = m_consistInfoCompPtr->GetComponentIcon(address);
 		}
 
-		if (icon.isNull() && metaInfoPtr != NULL){
+		if (icon.isNull() && (metaInfoPtr != NULL)){
 			switch (metaInfoPtr->GetComponentType()){
 				case icomp::IComponentStaticInfo::CT_COMPOSITE:
 					icon = m_compositeComponentIcon.pixmap(QSize(64, 64), QIcon::Disabled);
@@ -384,12 +403,8 @@ void CPackageOverviewComp::GenerateComponentTree()
 	if (keywordsListModelPtr != NULL){
 		keywordsListModelPtr->sort(0);
 	}
-}
 
-
-void CPackageOverviewComp::UpdateComponentsView()
-{
-	GenerateComponentTree();
+	m_shownAddresses = addresses;
 }
 
 
@@ -431,7 +446,7 @@ icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredCom
 	if (!m_envManagerCompPtr.IsValid()){
 		return filteredComponentAdresses;
 	}
-	
+
 	icomp::IMetaInfoManager::ComponentAddresses addresses = m_envManagerCompPtr->GetComponentAddresses();
 
 	for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
@@ -496,6 +511,75 @@ icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredCom
 		filteredComponentAdresses.insert(address);
 	}
 
+	const IElementSelectionInfo* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
+		if (registryPtr != NULL){
+			icomp::IRegistry::Ids embeddedIds = registryPtr->GetEmbeddedRegistryIds();
+			for (		icomp::IRegistry::Ids::const_iterator embeddedIter = embeddedIds.begin();
+						embeddedIter != embeddedIds.end();
+						++embeddedIter){
+				const std::string& embeddedId = *embeddedIter;
+
+				const icomp::IRegistry* embeddedRegistryPtr = registryPtr->GetEmbeddedRegistry(embeddedId);
+				if (embeddedRegistryPtr == NULL){
+					continue;
+				}
+
+				QStringList keywords;
+				keywords << embeddedId.c_str();
+
+				icomp::CComponentMetaDescriptionEncoder encoder(embeddedRegistryPtr->GetKeywords());
+				keywords << iqt::GetQStringList(encoder.GetValues());
+
+				if (FilterGB->isChecked()){
+					bool isFilterMatched = true;
+
+					const icomp::IRegistry::ExportedInterfacesMap& exportedInterfaces = embeddedRegistryPtr->GetExportedInterfacesMap();
+
+					for (		InterfaceFilter::const_iterator iterfaceIter = m_interfaceFilter.begin();
+								iterfaceIter != m_interfaceFilter.end();
+								++iterfaceIter){
+						const std::string& filteredInterfaceName = *iterfaceIter;
+						if (exportedInterfaces.find(filteredInterfaceName) == exportedInterfaces.end()){
+							isFilterMatched = false;
+							break;
+						}
+					}
+
+					for (		QStringList::const_iterator filterIter = m_keywordsFilter.begin();
+								filterIter != m_keywordsFilter.end();
+								++filterIter){
+						const QString& filter = *filterIter;
+
+						bool filterFound = false;
+						for (		QStringList::const_iterator keywordIter = keywords.begin();
+									keywordIter != keywords.end();
+									++keywordIter){
+							const QString& keyword = *keywordIter;
+
+							if (keyword.contains(filter, Qt::CaseInsensitive)){
+								filterFound = true;
+								break;
+							}
+						}
+
+						if (!filterFound){
+							isFilterMatched = false;
+							break;
+						}
+					}
+
+					if (!isFilterMatched){
+						continue;
+					}
+				}
+
+				filteredComponentAdresses.insert(icomp::CComponentAddress("", embeddedId));
+			}
+		}
+	}
+
 	return filteredComponentAdresses;
 
 }
@@ -511,7 +595,7 @@ void CPackageOverviewComp::on_FilterEdit_editingFinished()
 		m_keywordsFilter = keywordsFilter;
 
 		if (FilterGB->isChecked()){
-			UpdateComponentsView();
+			GenerateComponentTree(false);
 		}
 	}
 }
@@ -519,7 +603,7 @@ void CPackageOverviewComp::on_FilterEdit_editingFinished()
 
 void CPackageOverviewComp::on_GroupByCB_currentIndexChanged(int /*index*/)
 {
-	UpdateComponentsView();
+	GenerateComponentTree(false);
 }
 
 
@@ -580,7 +664,7 @@ void CPackageOverviewComp::on_PackagesList_itemDoubleClicked(QTreeWidgetItem* it
 void CPackageOverviewComp::on_FilterGB_toggled(bool /*on*/)
 {
 	if (!m_interfaceFilter.empty() || !m_keywordsFilter.isEmpty()){
-		UpdateComponentsView();
+		GenerateComponentTree(false);
 	}
 }
 
@@ -597,7 +681,7 @@ void CPackageOverviewComp::on_InterfaceCB_currentIndexChanged(int index)
 		m_interfaceFilter = filter;
 
 		if (FilterGB->isChecked()){
-			UpdateComponentsView();
+			GenerateComponentTree(false);
 		}
 	}
 }
@@ -607,7 +691,7 @@ void CPackageOverviewComp::OnReloadPackages()
 {
 	m_envManagerCompPtr->ConfigureEnvironment();
 
-	UpdateComponentsView();
+	GenerateComponentTree(true);
 }
 
 
@@ -753,6 +837,45 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 }
 
 
+// reimplemented (imod::IModelEditor)
+
+void CPackageOverviewComp::UpdateEditor(int updateFlags)
+{
+	I_ASSERT(IsGuiCreated());
+
+	const IElementSelectionInfo* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
+
+		imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);
+		if (!m_registryObserver.IsModelAttached(registryModelPtr)){
+			m_registryObserver.EnsureDetached();
+
+			if (registryModelPtr != NULL){
+				registryModelPtr->AttachObserver(&m_registryObserver);
+			}
+		}
+
+		if ((updateFlags & IElementSelectionInfo::CF_SELECTION) == 0){	// ignore selection only changes
+			GenerateComponentTree(false);
+		}
+	}
+	else{
+		m_registryObserver.EnsureDetached();
+
+		GenerateComponentTree(false);
+	}
+}
+
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CPackageOverviewComp::OnGuiModelDetached()
+{
+	BaseClass::OnGuiModelDetached();
+}
+
+
 // reimplemented (CGuiComponentBase)
 
 void CPackageOverviewComp::OnGuiCreated()
@@ -821,7 +944,7 @@ void CPackageOverviewComp::OnGuiCreated()
 
 	UpdateComponentGroups();
 
-	UpdateComponentsView();
+	GenerateComponentTree(true);
 
 	OnRetranslate();
 }
@@ -862,20 +985,26 @@ CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
 :	BaseClass(parent, (staticInfoPtr != NULL) ? iqt::GetQString(staticInfoPtr->GetDescription()) : QString(), icon),
 	m_address(address)
 {
-	QString toolTip = QObject::tr("Component %1.%2").arg(address.GetPackageId().c_str()).arg(address.GetComponentId().c_str());
+	QString toolTip;
+	if (!address.GetPackageId().empty()){
+		toolTip = QObject::tr("Component %1.%2").arg(address.GetPackageId().c_str()).arg(address.GetComponentId().c_str());
+	}
+	else{
+		toolTip = QObject::tr("Local composite component %2").arg(address.GetComponentId().c_str());
+	}
 
-	if (staticInfoPtr != NULL){
-		setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-
+	if (!m_description.isEmpty()){
 		toolTip += "\n";
-
 		toolTip += m_description;
+	}
+	setToolTip(0, toolTip);
+
+	if ((staticInfoPtr != NULL) || address.GetPackageId().empty()){
+		setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 	}
 	else{
 		setFlags(Qt::ItemIsDragEnabled | Qt::ItemIsSelectable);
 	}
-
-	setToolTip(0, toolTip);
 }
 
 
@@ -894,6 +1023,33 @@ CPackageOverviewComp::PackageItem::PackageItem(
 :	BaseClass(parent, description, icon)
 {
 	setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+}
+
+
+// public methods of embedded class RegistryObserver
+
+CPackageOverviewComp::RegistryObserver::RegistryObserver(CPackageOverviewComp* parentPtr)
+:	m_parent(*parentPtr)
+{
+	I_ASSERT(parentPtr != NULL);
+}
+
+
+// protected methods of embedded class RegistryObserver
+
+// reimplemented (imod::CSingleModelObserverBase)
+
+void CPackageOverviewComp::RegistryObserver::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	if ((updateFlags & icomp::IRegistry::CF_EMBEDDED) != 0){
+		if (m_parent.IsUpdateBlocked()){
+			return;
+		}
+
+		UpdateBlocker blocker(&m_parent);
+
+		m_parent.GenerateComponentTree(false);
+	}
 }
 
 

@@ -18,11 +18,12 @@
 #include "idoc/IHelpViewer.h"
 #include "idoc/IDocumentManager.h"
 
-#include "iqtgui/TDesignerGuiCompBase.h"
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
 #include "icmpstr/IRegistryConsistInfo.h"
 #include "icmpstr/IAttributeSelectionObserver.h"
+#include "icmpstr/IElementSelectionInfo.h"
 
 #include "Generated/ui_CPackageOverviewComp.h"
 
@@ -32,15 +33,15 @@ namespace icmpstr
 
 
 class CPackageOverviewComp:
-			public iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp>,
+			public iqtgui::TDesignerGuiObserverCompBase<Ui::CPackageOverviewComp, IElementSelectionInfo>,
 			virtual public ibase::ICommandsProvider,
 			virtual public IAttributeSelectionObserver
 {
     Q_OBJECT
 
 public:
-	typedef iqtgui::TDesignerGuiCompBase<Ui::CPackageOverviewComp> BaseClass;
-	
+	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CPackageOverviewComp, IElementSelectionInfo> BaseClass;
+
 	I_BEGIN_COMPONENT(CPackageOverviewComp);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver);
@@ -68,8 +69,7 @@ protected:
 		bool hasCompositeComponents;
 	};
 
-	void GenerateComponentTree();
-	void UpdateComponentsView();
+	void GenerateComponentTree(bool forceUpdate);
 	void UpdateComponentGroups();
 
 	/**
@@ -88,6 +88,12 @@ protected:
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
+	// reimplemented (imod::IModelEditor)
+	virtual void UpdateEditor(int updateFlags = 0);
+
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiModelDetached();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -120,7 +126,6 @@ private:
 		CPackageOverviewComp& m_parent;
 	};
 
-
 	class PackageComponentItem: public PackageItemBase
 	{
 	public:
@@ -150,6 +155,20 @@ private:
 					const QIcon& icon = QIcon());
 	};
 
+	class RegistryObserver: public imod::CSingleModelObserverBase
+	{
+	public:
+		RegistryObserver(CPackageOverviewComp* parentPtr);
+		using imod::CSingleModelObserverBase::EnsureDetached;
+
+	protected:
+		// reimplemented (imod::CSingleModelObserverBase)
+		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	private:
+		CPackageOverviewComp& m_parent;
+	};
+
 	enum GruppingMode
 	{
 		GM_NONE,
@@ -168,6 +187,8 @@ private:
 	typedef std::map<std::string, RootInfo> RootInfos;
 	RootInfos m_roots;
 
+	RegistryObserver m_registryObserver;
+
 	typedef std::set<std::string> InterfaceFilter;
 	InterfaceFilter m_interfaceFilter;
 	QStringList m_keywordsFilter;
@@ -178,6 +199,8 @@ private:
 
 	typedef std::map<istd::CString, QTreeWidget*> CategoryWidgetsMap;
 	CategoryWidgetsMap m_categoryWidgetsMap;
+
+	icomp::IMetaInfoManager::ComponentAddresses m_shownAddresses;
 
 	friend class CItemDelegate;
 };

@@ -39,7 +39,7 @@ CVisualRegistryScenographerComp::CVisualRegistryScenographerComp()
 	m_renameComponentCommand.setEnabled(false);
 	m_renameComponentCommand.SetGroupId(GI_COMPONENT);
 	m_renameComponentCommand.setShortcut(QKeySequence(Qt::Key_F2));
-	m_insertEmbeddedRegistryCommand.setEnabled(true);
+	m_insertEmbeddedRegistryCommand.setEnabled(false);
 	m_insertEmbeddedRegistryCommand.SetGroupId(GI_EMBEDDED_REGISTRY);
 	m_toEmbeddedRegistryCommand.setEnabled(false);
 	m_toEmbeddedRegistryCommand.SetGroupId(GI_EMBEDDED_REGISTRY);
@@ -434,6 +434,7 @@ void CVisualRegistryScenographerComp::UpdateComponentSelection()
 	m_removeComponentCommand.setEnabled(isElementSelected);
 	m_renameComponentCommand.setEnabled(m_selectedElementIds.size() == 1);
 
+	m_insertEmbeddedRegistryCommand.setEnabled(m_selectedElementIds.size() > 1);
 	m_toEmbeddedRegistryCommand.setEnabled(m_selectedElementIds.size() > 1);
 }
 
@@ -687,7 +688,7 @@ void CVisualRegistryScenographerComp::OnRenameComponent()
 
 void CVisualRegistryScenographerComp::InsertEmbeddedComponent()
 {
-	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_COMPONENT_ADDED);
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_EMBEDDED | icomp::IRegistry::CF_COMPONENT_ADDED);
 	if (!registryPtr.IsValid()){
 		return;
 	}
@@ -719,7 +720,7 @@ void CVisualRegistryScenographerComp::InsertEmbeddedComponent()
 
 void CVisualRegistryScenographerComp::ToEmbeddedComponent()
 {
-	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_COMPONENT_ADDED | icomp::IRegistry::CF_COMPONENT_REMOVED);
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_EMBEDDED | icomp::IRegistry::CF_COMPONENT_ADDED | icomp::IRegistry::CF_COMPONENT_REMOVED);
 	if (!registryPtr.IsValid()){
 		return;
 	}
