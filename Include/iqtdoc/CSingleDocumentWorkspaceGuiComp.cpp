@@ -33,7 +33,7 @@ CSingleDocumentWorkspaceGuiComp::CSingleDocumentWorkspaceGuiComp()
 
 void CSingleDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 {
-	FileClose(ignoredPtr);
+	FileClose(-1, ignoredPtr);
 
 	if (ignoredPtr != NULL){
 		*ignoredPtr = (GetDocumentsCount() > 0);

@@ -48,7 +48,7 @@ public:
 				int documentIndex = -1,
 				bool requestFileName = false,
 				FileToTypeMap* savedMapPtr = NULL);
-	virtual void FileClose(bool* ignoredPtr = NULL);
+	virtual void FileClose(int documentIndex = -1, bool* ignoredPtr = NULL);
 
 protected:
 	/**

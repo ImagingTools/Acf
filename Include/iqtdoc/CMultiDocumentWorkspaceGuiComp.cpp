@@ -215,7 +215,7 @@ bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* sourcePtr, QEvent* eve
 				SetActiveView(guiObjectPtr);
 
 				bool isCloseIgnored = false;
-				FileClose(&isCloseIgnored);
+				FileClose(-1, &isCloseIgnored);
 
 				if (!isCloseIgnored){
 					return true;

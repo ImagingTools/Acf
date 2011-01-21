@@ -270,11 +270,12 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 	int documentsCount = m_documentInfos.GetCount();
 
 	if (documentIndex >= 0){
-		SingleDocumentData& info = m_documentInfos.GetAt(documentIndex);
+		SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
+		I_ASSERT(infoPtr != NULL);
 
-		for (Views::iterator iter = info.views.begin(); iter != info.views.end(); ++iter){
-			if (info.isDirty){
-				QueryDocumentClose(info, ignoredPtr);
+		for (Views::iterator iter = infoPtr->views.begin(); iter != infoPtr->views.end(); ++iter){
+			if (infoPtr->isDirty){
+				QueryDocumentClose(*infoPtr, ignoredPtr);
 				if ((ignoredPtr != NULL) && *ignoredPtr){
 					break;
 				}
@@ -282,12 +283,12 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 
 			I_ASSERT(iter->IsValid());
 
-			istd::IPolymorphic* viewPtr = *iter;
+			istd::IPolymorphic* viewPtr = iter->GetPtr();
 			I_ASSERT(viewPtr != NULL);
 
 			OnViewRemoved(viewPtr);
 
-			info.views.erase(iter);
+			infoPtr->views.erase(iter);
 
 			if (viewPtr == m_activeViewPtr){
 				m_activeViewPtr = NULL;
@@ -303,14 +304,16 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 		istd::CChangeNotifier notifier(this, changeFlags);
 
 		m_documentInfos.RemoveAt(documentIndex);
+	}
 	else{
 		for (int i = 0; i < documentsCount; ++i){
-			SingleDocumentData& info = m_documentInfos.GetAt(i);
+			SingleDocumentData* infoPtr = m_documentInfos.GetAt(i);
+			I_ASSERT(infoPtr != NULL);
 
-			Views::iterator findIter = std::find(info.views.begin(), info.views.end(), m_activeViewPtr);
-			if (findIter != info.views.end()){
-				if (info.isDirty){
-					QueryDocumentClose(info, ignoredPtr);
+			Views::iterator findIter = std::find(infoPtr->views.begin(), infoPtr->views.end(), m_activeViewPtr);
+			if (findIter != infoPtr->views.end()){
+				if (infoPtr->isDirty){
+					QueryDocumentClose(*infoPtr, ignoredPtr);
 					if ((ignoredPtr != NULL) && *ignoredPtr){
 						break;
 					}
@@ -319,11 +322,11 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 				I_ASSERT(findIter->IsValid());
 				OnViewRemoved(findIter->GetPtr());
 
-				info.views.erase(findIter);	// remove active view
+				infoPtr->views.erase(findIter);	// remove active view
 
 				m_activeViewPtr = NULL;
 
-				if (info.views.empty()){	// last view was removed
+				if (infoPtr->views.empty()){	// last view was removed
 					int changeFlags = CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
 					// if last document was closed, force view activation update:
 					if (m_documentInfos.GetCount() == 1){

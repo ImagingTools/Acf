@@ -113,7 +113,7 @@ bool CSingleDocumentManagerBase::FileNew(
 
 	bool isCloseIgnored = false;
 
-	FileClose(&isCloseIgnored);
+	FileClose(-1, &isCloseIgnored);
 
 	if (isCloseIgnored){
 		if (newDocumentPtr != NULL){
@@ -220,7 +220,7 @@ bool CSingleDocumentManagerBase::FileSave(
 }
 
 
-void CSingleDocumentManagerBase::FileClose(bool* ignoredPtr)
+void CSingleDocumentManagerBase::FileClose(int /*documentIndex*/, bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){
 		*ignoredPtr = false;
@@ -289,7 +289,7 @@ bool CSingleDocumentManagerBase::OpenDocument(
 	
 	bool isCloseIgnored = false;
 
-	FileClose(&isCloseIgnored);
+	FileClose(-1, &isCloseIgnored);
 
 	if (isCloseIgnored){
 		documentTypeId = m_documentTypeId;
