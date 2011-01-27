@@ -603,7 +603,7 @@ void CPackageOverviewComp::on_FilterEdit_editingFinished()
 
 void CPackageOverviewComp::on_GroupByCB_currentIndexChanged(int /*index*/)
 {
-	GenerateComponentTree(false);
+	GenerateComponentTree(true);
 }
 
 
