@@ -228,7 +228,7 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 					iter != selectedElements.end();
 					++iter){
 			const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter->second;
-			I_ASSERT(selectedInfoPtr == NULL);
+			I_ASSERT(selectedInfoPtr != NULL);
 
 			icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.Cast<icomp::IRegistryElement*>();
 			if (elementPtr == NULL){
