@@ -472,6 +472,9 @@ void CAttributeEditorComp::UpdateSelectedAttr()
 		IconLabel->setVisible(false);
 	}
 
+	bool autoInstanceOn = false;
+	bool autoInstanceOff = false;
+
 	std::map<std::string, QTreeWidgetItem*> attributeToItemMap;
 	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
 				iter != selectedElements.end();
@@ -492,94 +495,116 @@ void CAttributeEditorComp::UpdateSelectedAttr()
 		}
 
 		const icomp::IComponentStaticInfo* infoPtr = foundInfoIter->second.GetPtr();
-		I_ASSERT(infoPtr != NULL);
+		if (infoPtr != NULL){
+			bool hasExport = false;
 
-		bool hasExport = false;
+			icomp::IComponentStaticInfo::Ids attributeIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_ATTRIBUTES);
+			for (		icomp::IComponentStaticInfo::Ids::const_iterator attrIter = attributeIds.begin();
+						attrIter != attributeIds.end();
+						++attrIter){
+				const std::string& attributeId = *attrIter;
 
-		icomp::IComponentStaticInfo::Ids attributeIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_ATTRIBUTES);
-		for (		icomp::IComponentStaticInfo::Ids::const_iterator attrIter = attributeIds.begin();
-					attrIter != attributeIds.end();
-					++attrIter){
-			const std::string& attributeId = *attrIter;
+				const icomp::IAttributeStaticInfo* staticAttributeInfoPtr = infoPtr->GetAttributeInfo(attributeId);
+				if (staticAttributeInfoPtr == NULL){
+					continue;
+				}
 
-			const icomp::IAttributeStaticInfo* staticAttributeInfoPtr = infoPtr->GetAttributeInfo(attributeId);
-			if (staticAttributeInfoPtr == NULL){
-				continue;
+				QTreeWidgetItem* attributeItemPtr = NULL;
+				std::map<std::string, QTreeWidgetItem*>::const_iterator foundAttrIter = attributeToItemMap.find(attributeId);
+				if (foundAttrIter != attributeToItemMap.end()){
+					attributeItemPtr = foundAttrIter->second;
+				}
+				else{
+					attributeItemPtr = new QTreeWidgetItem();
+					QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem(attributeItemPtr);
+					attributeItemPtr->addChild(exportItemPtr);
+
+					AttributeTree->addTopLevelItem(attributeItemPtr);
+				}
+
+				bool exportFlag;
+				SetAttributeToItems(attributeId, *elementPtr, *staticAttributeInfoPtr, *attributeItemPtr, &exportFlag);
+
+				if (m_consistInfoCompPtr.IsValid() && !m_consistInfoCompPtr->IsAttributeValid(
+								attributeId,
+								elementId,
+								*registryPtr,
+								true,
+								false,
+								NULL)){
+					attributeItemPtr->setBackgroundColor(ValueColumn, Qt::red);
+				}
+
+				hasExport = hasExport || exportFlag;
+
+				attributeToItemMap[attributeId] = attributeItemPtr;
 			}
 
-			QTreeWidgetItem* attributeItemPtr = NULL;
-			std::map<std::string, QTreeWidgetItem*>::const_iterator foundAttrIter = attributeToItemMap.find(attributeId);
-			if (foundAttrIter != attributeToItemMap.end()){
-				attributeItemPtr = foundAttrIter->second;
+			AttributeTree->resizeColumnToContents(0);
+
+			icomp::IRegistry::ExportedInterfacesMap interfacesMap;
+
+			interfacesMap = registryPtr->GetExportedInterfacesMap();
+
+			const icomp::IComponentStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
+			for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
+						interfaceIter != interfaceIds.end();
+						interfaceIter++){
+				const std::string& interfaceName = *interfaceIter;
+				QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
+
+				itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
+				if (elementsCount > 1){
+					itemPtr->setText(0, tr("%1:%2").arg(elementId.c_str()).arg(interfaceName.c_str()));
+				}
+				else{
+					itemPtr->setText(0, interfaceName.c_str());
+				}
+
+				itemPtr->setData(0, InterfaceName, interfaceName.c_str());
+				itemPtr->setData(0, ElementId, elementId.c_str());
+
+				icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceName);
+				bool isInterfaceExported = false;
+				if (foundExportIter != interfacesMap.end()){
+					isInterfaceExported = (foundExportIter->second == elementId);
+				}
+
+				itemPtr->setCheckState(0, isInterfaceExported? Qt::Checked: Qt::Unchecked);
+
+				InterfacesTree->addTopLevelItem(itemPtr);
 			}
-			else{
-				attributeItemPtr = new QTreeWidgetItem();
-				QTreeWidgetItem* exportItemPtr = new QTreeWidgetItem(attributeItemPtr);
-				attributeItemPtr->addChild(exportItemPtr);
-
-				AttributeTree->addTopLevelItem(attributeItemPtr);
-			}
-
-			bool exportFlag;
-			SetAttributeToItems(attributeId, *elementPtr, *staticAttributeInfoPtr, *attributeItemPtr, &exportFlag);
-
-			if (m_consistInfoCompPtr.IsValid() && !m_consistInfoCompPtr->IsAttributeValid(
-							attributeId,
-							elementId,
-							*registryPtr,
-							true,
-							false,
-							NULL)){
-				attributeItemPtr->setBackgroundColor(ValueColumn, Qt::red);
-			}
-
-			hasExport = hasExport || exportFlag;
-
-			attributeToItemMap[attributeId] = attributeItemPtr;
-		}
-
-		AttributeTree->resizeColumnToContents(0);
-
-		icomp::IRegistry::ExportedInterfacesMap interfacesMap;
-
-		interfacesMap = registryPtr->GetExportedInterfacesMap();
-
-		const icomp::IComponentStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-		for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
-					interfaceIter != interfaceIds.end();
-					interfaceIter++){
-			const std::string& interfaceName = *interfaceIter;
-			QTreeWidgetItem* itemPtr = new QTreeWidgetItem();
-
-			itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
-			if (elementsCount > 1){
-				itemPtr->setText(0, tr("%1:%2").arg(elementId.c_str()).arg(interfaceName.c_str()));
-			}
-			else{
-				itemPtr->setText(0, interfaceName.c_str());
-			}
-
-			itemPtr->setData(0, InterfaceName, interfaceName.c_str());
-			itemPtr->setData(0, ElementId, elementId.c_str());
-
-			icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceName);
-			bool isInterfaceExported = false;
-			if (foundExportIter != interfacesMap.end()){
-				isInterfaceExported = (foundExportIter->second == elementId);
-			}
-
-			itemPtr->setCheckState(0, isInterfaceExported? Qt::Checked: Qt::Unchecked);
-
-			InterfacesTree->addTopLevelItem(itemPtr);
 		}
 
 		if (elementPtr != NULL){
 			I_DWORD elementFlags = elementPtr->GetElementFlags();
-			AutoInstanceCB->setChecked((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0);
+			if ((elementFlags & icomp::IRegistryElement::EF_AUTO_INSTANCE) != 0){
+				autoInstanceOn = true;
+			}
+			else{
+				autoInstanceOff = true;
+			}
+		}
+	}
+
+	if (autoInstanceOn){
+		if (autoInstanceOff){
+			AutoInstanceCB->setCheckState(Qt::PartiallyChecked);
+		}
+		else{
+			AutoInstanceCB->setTristate(false);
+			AutoInstanceCB->setCheckState(Qt::Checked);
+		}
+		AutoInstanceCB->setEnabled(true);
+	}
+	else{
+		if (autoInstanceOff){
+			AutoInstanceCB->setTristate(false);
+			AutoInstanceCB->setCheckState(Qt::Unchecked);
 			AutoInstanceCB->setEnabled(true);
 		}
 		else{
-			AutoInstanceCB->setChecked(false);
+			AutoInstanceCB->setCheckState(Qt::PartiallyChecked);
 			AutoInstanceCB->setEnabled(false);
 		}
 	}
