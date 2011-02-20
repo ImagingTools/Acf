@@ -53,7 +53,8 @@ public:
 	{
 		GI_APPLICATION = 0x200,
 		GI_DOCUMENT,
-		GI_UNDO
+		GI_UNDO,
+		GI_RECENT_FILE
 	};
 
 	CMainWindowGuiComp();
@@ -145,22 +146,22 @@ private:
 	public:
 		typedef iqtgui::CHierarchicalCommand BaseClass;
 
-		RecentFileCommand(CMainWindowGuiComp* parentPtr, const istd::CString& fileName)
-		:	m_parent(*parentPtr)
-		{
-			SetName(fileName);
-		}
+		RecentFileCommand(
+					CMainWindowGuiComp* parentPtr,
+					const istd::CString& name,
+					const istd::CString& actionString,
+					bool isOpenCommand);
+
+		const istd::CString& GetActionString() const;
+		bool IsOpenCommand() const;
 
 		// reimplemented (ibase::ICommand)
-		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/)
-		{
-			m_parent.OpenFile(GetName());
-
-			return true;
-		}
+		virtual bool Execute(istd::IPolymorphic* /*contextPtr*/);
 
 	private:
 		CMainWindowGuiComp& m_parent;
+		istd::CString m_actionString;
+		bool m_isOpenCommand;
 	};
 
 	class ActiveUndoManager: public imod::TSingleModelObserverBase<imod::IUndoManager>

@@ -342,18 +342,29 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 
 			const RecentGroupCommandPtr& groupCommandPtr = index->second;
 
-			int filesCount = groupCommandPtr.IsValid()? groupCommandPtr->GetChildsCount(): 0;
+			int elementsCount = groupCommandPtr.IsValid()? groupCommandPtr->GetChildsCount(): 0;
+
+			int filesCount = 0;
+			for (int i = 0; i < elementsCount; ++i){
+				const RecentFileCommand* commandPtr = dynamic_cast<const RecentFileCommand*>(groupCommandPtr->GetChild(i));
+				if ((commandPtr != NULL) && commandPtr->IsOpenCommand()){
+					filesCount++;
+				}
+			}
+
 			retVal = retVal && archive.BeginMultiTag(fileListTag, filePathTag, filesCount);
 
 			for (int i = filesCount - 1; i >= 0; --i){
 				I_ASSERT(groupCommandPtr.IsValid());
 
-				ibase::ICommand* commandPtr = groupCommandPtr->GetChild(i);
-				istd::CString filePath = (commandPtr != NULL)? commandPtr->GetName(): "";
+				RecentFileCommand* commandPtr = dynamic_cast<RecentFileCommand*>(groupCommandPtr->GetChild(i));
+				if ((commandPtr != NULL) && commandPtr->IsOpenCommand()){
+					istd::CString filePath = commandPtr->GetActionString();
 
-				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
-				retVal = retVal && archive.EndTag(filePathTag);
+					retVal = retVal && archive.BeginTag(filePathTag);
+					retVal = retVal && archive.Process(filePath);					
+					retVal = retVal && archive.EndTag(filePathTag);
+				}
 			}
 
 			retVal = retVal && archive.EndTag(fileListTag);
@@ -425,12 +436,17 @@ void CMainWindowGuiComp::UpdateRecentFileList(const idoc::IDocumentManager::File
 		RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
 
 		if (groupCommandPtr.IsValid()){
-			RecentFileCommand* commandPtr = new RecentFileCommand(this, filePath);
+			if (groupCommandPtr->GetChildsCount() == 0){
+				RecentFileCommand* commandPtr = new RecentFileCommand(this, iqt::GetCString(tr("Clear List")), documentTypeId, false);
+				groupCommandPtr->InsertChild(commandPtr, true);
+			}
+
+			RecentFileCommand* commandPtr = new RecentFileCommand(this, filePath, filePath, true);
 			groupCommandPtr->InsertChild(commandPtr, true, 0);
 
 			int childsCount = groupCommandPtr->GetChildsCount();
-			if ((childsCount > 0) && (childsCount > *m_maxRecentFilesCountAttrPtr)){
-				groupCommandPtr->RemoveChild(childsCount - 1);
+			if ((childsCount > 1) && (childsCount > *m_maxRecentFilesCountAttrPtr + 1)){
+				groupCommandPtr->RemoveChild(childsCount - 2);
 			}
 		}
 	}
@@ -899,6 +915,52 @@ void CMainWindowGuiComp::OnOpenDocumentFolder()
 			}
 		}
 	}
+}
+
+
+// public methods of embedded class RecentFileCommand
+
+CMainWindowGuiComp::RecentFileCommand::RecentFileCommand(
+			CMainWindowGuiComp* parentPtr,
+			const istd::CString& name,
+			const istd::CString& actionString,
+			bool isOpenCommand)
+:	m_parent(*parentPtr),
+	m_actionString(actionString),
+	m_isOpenCommand(isOpenCommand)
+{
+	SetName(name);
+	SetGroupId(isOpenCommand? GI_RECENT_FILE: GI_APPLICATION);
+}
+
+
+const istd::CString& CMainWindowGuiComp::RecentFileCommand::GetActionString() const
+{
+	return m_actionString;
+}
+
+
+bool CMainWindowGuiComp::RecentFileCommand::IsOpenCommand() const
+{
+	return m_isOpenCommand;
+}
+
+
+// reimplemented (ibase::ICommand)
+
+bool CMainWindowGuiComp::RecentFileCommand::Execute(istd::IPolymorphic* /*contextPtr*/)
+{
+	if (m_isOpenCommand){
+		m_parent.OpenFile(m_actionString);
+	}
+	else{
+		RecentGroupCommandPtr& groupCommandPtr = m_parent.m_recentFilesMap[m_actionString.ToString()];
+		if (groupCommandPtr.IsValid()){
+			groupCommandPtr->ResetChilds();
+		}
+	}
+
+	return true;
 }
 
 
