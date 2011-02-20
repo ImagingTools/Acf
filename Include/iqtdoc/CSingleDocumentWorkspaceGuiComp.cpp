@@ -97,9 +97,8 @@ QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::strin
 			}
 		}
 
-		if (filtersCount > 1){
-			retVal += "\n";
-			retVal += tr("All known documents (%1)").arg(allExt);
+		if ((filtersCount > 1) && ((flags & iser::IFileLoader::QF_NO_LOADING) == 0)){
+			retVal = tr("All known documents (%1)\n").arg(allExt) + retVal;
 		}
 	}
 
