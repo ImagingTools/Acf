@@ -11,8 +11,6 @@
 
 #include "iqtgui/IGuiObject.h"
 
-#include "iqt2d/ISceneExtender.h"
-
 
 namespace iqtgui
 {
@@ -25,8 +23,7 @@ namespace iqtgui
 class CModelEditorGuiComp:
 			public icomp::CComponentBase,
 			virtual public iqtgui::IGuiObject,
-			virtual public imod::IModelEditor,
-			virtual public iqt2d::ISceneExtender
+			virtual public imod::IModelEditor
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -34,11 +31,9 @@ public:
 	I_BEGIN_COMPONENT(CModelEditorGuiComp)
 		I_REGISTER_INTERFACE(iqtgui::IGuiObject)
 		I_REGISTER_INTERFACE(imod::IModelEditor)
-		I_REGISTER_INTERFACE(iqt2d::ISceneExtender)
 		I_ASSIGN(m_slaveEditorCompPtr, "SlaveEditorGui", "Slave GUI object will be connected to model", true, "SlaveEditor");
 		I_ASSIGN(m_slaveGuiCompPtr, "SlaveEditorGui", "Slave GUI object will be connected to model", true, "SlaveEditor");
 		I_ASSIGN(m_slaveObserverCompPtr, "SlaveEditorGui", "Slave GUI object will be connected to model", false, "SlaveEditor");
-		I_ASSIGN(m_slaveExtenderCompPtr, "SlaveEditorGui", "Slave GUI object will be connected to model", false, "SlaveEditor");
 		I_ASSIGN(m_modelCompPtr, "Model", "Model will be observed and modify using editor", true, "Model");
 	I_END_COMPONENT
 
@@ -57,10 +52,6 @@ public:
 	virtual bool IsReadOnly() const;
 	virtual void SetReadOnly(bool state);
 
-	// reimplemented (iqt2d::ISceneExtender)
-	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr);
-
 protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
@@ -70,7 +61,6 @@ private:
 	I_REF(iqtgui::IGuiObject, m_slaveGuiCompPtr);
 	I_REF(imod::IObserver, m_slaveObserverCompPtr);
 	I_REF(imod::IModelEditor, m_slaveEditorCompPtr);
-	I_REF(iqt2d::ISceneExtender, m_slaveExtenderCompPtr);
 	I_REF(imod::IModel, m_modelCompPtr);
 
 	bool m_isConnected;

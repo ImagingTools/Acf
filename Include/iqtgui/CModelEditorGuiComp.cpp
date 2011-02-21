@@ -101,30 +101,14 @@ void CModelEditorGuiComp::SetReadOnly(bool state)
 }
 
 
-// reimplemented (iqt2d::ISceneExtender)
-
-void CModelEditorGuiComp::AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags)
-{
-	if (m_slaveExtenderCompPtr.IsValid()){
-		m_slaveExtenderCompPtr->AddItemsToScene(providerPtr, flags);
-	}
-}
-
-
-void CModelEditorGuiComp::RemoveItemsFromScene(iqt2d::ISceneProvider* providerPtr)
-{
-	if (m_slaveExtenderCompPtr.IsValid()){
-		m_slaveExtenderCompPtr->RemoveItemsFromScene(providerPtr);
-	}
-}
-
-
 // protected methods
 
 // reimplemented (icomp::CComponentBase)
 
 void CModelEditorGuiComp::OnComponentCreated()
 {
+	BaseClass::OnComponentCreated();
+
 	I_ASSERT(!m_isConnected);
 
 	if (m_slaveObserverCompPtr.IsValid() && m_modelCompPtr.IsValid()){
@@ -141,6 +125,8 @@ void CModelEditorGuiComp::OnComponentDestroyed()
 
 		m_modelCompPtr->DetachObserver(m_slaveObserverCompPtr.GetPtr());
 	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 
