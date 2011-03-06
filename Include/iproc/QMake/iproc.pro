@@ -1,4 +1,4 @@
-TARGET = isys
+TARGET = iproc
 TEMPLATE = lib
 CONFIG += staticlib
 
@@ -9,7 +9,9 @@ CONFIG(release, debug|release) {
 	DESTDIR = ../../../Lib/ReleaseQMake
 }
 
+
 QT += 
+
 
 INCLUDEPATH += ../../ 
 

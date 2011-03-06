@@ -2,18 +2,19 @@ TARGET = BasePck
 TEMPLATE = lib
 
 CONFIG += dll
+CONFIG += warn_off
 
-TARGET_EXT = arp
+TARGET_EXT = .arp
 
 CONFIG(debug, debug|release) {
-	DESTDIR = ..\..\..\Bin\DebugQMake
+        DESTDIR = ../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
-	LIBS += AcfStd 
+        LIBS += AcfStd.lib
 }
 CONFIG(release, debug|release) {
-	DESTDIR = ..\..\..\Bin\ReleaseQMake
+        DESTDIR = ../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
-	LIBS += AcfStd 
+        LIBS += AcfStd.lib
 }
 
 UI_DIR = ../Generated

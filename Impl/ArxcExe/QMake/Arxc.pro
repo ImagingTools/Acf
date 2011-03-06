@@ -2,14 +2,14 @@ TARGET = Arxc
 TEMPLATE = app
 
 CONFIG(debug, debug|release) {
-	DESTDIR = ..\..\..\Bin\DebugQMake
+        DESTDIR = ../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
-	LIBS += 
+        LIBS += AcfStd.lib AcfQt.lib icmpstr.lib
 }
 CONFIG(release, debug|release) {
-	DESTDIR = ..\..\..\Bin\ReleaseQMake
+        DESTDIR = ../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
-	LIBS += 
+        LIBS += AcfStd.lib AcfQt.lib icmpstr.lib
 }
 
 UI_DIR = ../Generated

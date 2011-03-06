@@ -1,4 +1,4 @@
-TARGET = isys
+TARGET = iqtproc
 TEMPLATE = lib
 CONFIG += staticlib
 
@@ -9,9 +9,16 @@ CONFIG(release, debug|release) {
 	DESTDIR = ../../../Lib/ReleaseQMake
 }
 
+UI_DIR = ../Generated
+MOC_DIR = ../Generated
+RCC_DIR = ../Generated
+
 QT += 
 
-INCLUDEPATH += ../../ 
+
+INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
 
 HEADERS += ../*.h
 SOURCES += ../*.cpp
+FORMS += ../*.ui
+

@@ -1,12 +1,17 @@
 CONFIG += lib_bundle
-CONFIG += no_lflags_merge
-
-INCLUDEPATH = ../../../Include
+CONFIG += no_lflags_merge no_smart_library_merge
 
 CONFIG(debug, debug|release) {
-	LIBS += -L../../../Lib/DebugQMake
+        LIBDIR = ../../../Lib/DebugQMake
 }
 CONFIG(release, debug|release) {
-	LIBS += -L../../../Lib/ReleaseQMake
+        LIBDIR = ../../../Lib/ReleaseQMake
 }
-LIBS += iqt iqt2d iqtdoc iqtgui iqtprm
+
+OBJECTS += $$LIBDIR/iqt.lib
+OBJECTS += $$LIBDIR/iqt2d.lib
+OBJECTS += $$LIBDIR/iqtdoc.lib
+OBJECTS += $$LIBDIR/iqtgui.lib
+OBJECTS += $$LIBDIR/iqtprm.lib
+OBJECTS += $$LIBDIR/iqtproc.lib
+OBJECTS += $$LIBDIR/iqtmm.lib

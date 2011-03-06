@@ -2,14 +2,14 @@ TARGET = CompositorMini
 TEMPLATE = app
 
 CONFIG(debug, debug|release) {
-	DESTDIR = ..\..\..\Bin\DebugQMake
+        DESTDIR = ../../../Bin/DebugQMake
 	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
-	LIBS += 
+        LIBS += AcfStd.lib AcfQt.lib icmpstr.lib
 }
 CONFIG(release, debug|release) {
-	DESTDIR = ..\..\..\Bin\ReleaseQMake
+        DESTDIR = ../../../Bin/ReleaseQMake
 	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
-	LIBS += 
+        LIBS += AcfStd.lib AcfQt.lib icmpstr.lib
 }
 
 UI_DIR = ../Generated
@@ -22,5 +22,5 @@ include(dependencies.pri)
 
 INCLUDEPATH += "$(ACFDIR)/Include" "$(ACFDIR)/Impl" "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtScript" 
 
-HEADERS += ../VC\resource.h
+HEADERS += ../VC/resource.h
 SOURCES += ../main.cpp
