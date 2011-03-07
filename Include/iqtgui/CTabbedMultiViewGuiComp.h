@@ -2,10 +2,6 @@
 #define iqtgui_CTabbedMultiViewGuiComp_included
 
 
-// Qt includes
-#include <QTabWidget>
-
-
 // ACF includes
 #include "imod/IModelEditor.h"
 #include "imod/CSingleModelObserverBase.h"
@@ -33,10 +29,10 @@ public:
 	typedef iqtgui::CTabContainerGuiComp BaseClass;
 	typedef imod::CSingleModelObserverBase BaseClass2;
 
-	I_BEGIN_COMPONENT(CTabbedMultiViewGuiComp)
-		I_REGISTER_INTERFACE(imod::IObserver)
-		I_ASSIGN_MULTI_0(m_observersCompPtr, "Editors", "Editors", true)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CTabbedMultiViewGuiComp);
+		I_REGISTER_INTERFACE(imod::IObserver);
+		I_ASSIGN_MULTI_0(m_observersCompPtr, "Editors", "Editors", true);
+	I_END_COMPONENT;
 
 protected:
 	// reimplemented (imod::IObserver)
