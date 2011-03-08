@@ -19,7 +19,7 @@ public:
 		/**
 			Used to avoid adding of changes to undo list.
 		*/
-		CF_NO_UNDO = 0x400
+		CF_NO_UNDO = 0x100
 	};
 
 	/**

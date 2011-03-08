@@ -17,10 +17,13 @@ namespace iqt
 	Implementation of bitmap storing internal additionaly QImage object reflecting state of main bitmap after conversion to Qt formats.
 	It allows to working with Qt with other bitmap formats.
 */
-class CReflectedBitmapBase: public istd::TCachedUpdateManagerWrap<iimg::CGeneralBitmap>, virtual public IQImageProvider
+class CReflectedBitmapBase:
+			public istd::TCachedUpdateManagerWrap<iimg::CGeneralBitmap>,
+			virtual public IQImageProvider
 {
 public:
-	enum ChangeFlags{
+	enum ChangeFlags
+	{
 		CF_BLOCK_BITMAP_CONVERSION = 0x200000
 	};
 

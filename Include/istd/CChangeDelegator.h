@@ -21,7 +21,7 @@ public:
 		/**
 			Change flag indicate that this change was delegated (is indirect).
 		*/
-		CF_DELEGATED = 0x10,
+		CF_DELEGATED = 0x8
 	};
 
 	CChangeDelegator();

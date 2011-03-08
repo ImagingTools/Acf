@@ -1,5 +1,5 @@
-#ifndef IContainerInfo_included
-#define IContainerInfo_included
+#ifndef istd_IContainerInfo_included
+#define istd_IContainerInfo_included
 
 
 #include "istd/IChangeable.h"
@@ -35,5 +35,5 @@ public:
 } // namespace istd
 
 
-#endif // IContainerInfo_included
+#endif // istd_IContainerInfo_included
 

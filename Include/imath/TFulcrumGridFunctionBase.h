@@ -46,7 +46,7 @@ public:
 
 	enum ChangeFlags
 	{
-		CF_SORT_LAYERS = 0x80000
+		CF_SORT_LAYERS = 0x400000
 	};
 
 	/**

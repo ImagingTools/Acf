@@ -24,6 +24,13 @@ template <typename ItemClass, typename ContainerClass = std::vector<ItemClass> >
 class TContainer: virtual public istd::IContainerInfo, virtual public istd::IChangeable
 {
 public:
+	enum ChangeFlags
+	{
+		CF_ELEMENT_ADDED = 0x1000000,
+		CF_ELEMENT_REMOVED = 0x2000000,
+		CF_RESET = 0x4000000
+	};
+
 	const ItemClass& GetAt(int index) const;
 	ItemClass& GetAt(int index);
 	void PushBack(const ItemClass& item);
@@ -65,7 +72,7 @@ const ItemClass& TContainer<ItemClass, ContainerClass>::GetAt(int index) const
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::PushBack(const ItemClass& item)
 {
-	istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
 
 	std::back_inserter<ContainerClass>(m_items) = item;
 }
@@ -74,7 +81,7 @@ void TContainer<ItemClass, ContainerClass>::PushBack(const ItemClass& item)
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::PushFront(const ItemClass& item)
 {
-	istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
 
 	std::front_inserter<ContainerClass>(m_items) = item;
 }
@@ -83,7 +90,7 @@ void TContainer<ItemClass, ContainerClass>::PushFront(const ItemClass& item)
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::PopBack()
 {
-	istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+	istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
 
 	m_items.pop_back();
 }
@@ -92,7 +99,7 @@ void TContainer<ItemClass, ContainerClass>::PopBack()
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::PopFront()
 {
-	istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+	istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
 
 	m_items.pop_front();
 }
@@ -105,7 +112,7 @@ void TContainer<ItemClass, ContainerClass>::RemoveAt(int index)
 	I_ASSERT(index < int(m_items.size()));
 
 	if (index < int(m_items.size())){
-		istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+		istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
 	
 		m_items.erase(m_items.begin()  + index);
 	}
@@ -115,7 +122,7 @@ void TContainer<ItemClass, ContainerClass>::RemoveAt(int index)
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::Reset()
 {
-	istd::TChangeNotifier<istd::IContainerInfo> changePtr(this);
+	istd::CChangeNotifier changePtr(this, CF_RESET);
 
 	m_items.clear();
 }
@@ -147,6 +154,6 @@ bool TContainer<ItemClass, ContainerClass>::IsIndexValid(int index) const
 } // namespace ibase
 
 
-#endif // ibase_TContainer_included
+#endif // !ibase_TContainer_included
 
 

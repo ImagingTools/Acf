@@ -2,9 +2,12 @@
 #define idoc_IDocumentManager_included
 
 
+// STL includes
 #include <string>
 #include <map>
 
+
+// ACF includes
 #include "istd/IChangeable.h"
 #include "istd/CString.h"
 
@@ -21,7 +24,6 @@ namespace idoc
 class IDocumentManager: virtual public istd::IChangeable
 {
 public:
-
 	/**
 		Possible changes in the mananger data model.
 	*/
