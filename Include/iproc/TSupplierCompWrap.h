@@ -164,18 +164,27 @@ void TSupplierCompWrap<SupplierInterface, Product>::EnsureWorkFinished()
 
 		m_workStatus = WS_LOCKED;
 
-		isys::ITimer* timerPtr = istd::GetService<isys::ITimer>();
+		istd::TSmartPtr<isys::ITimer> timerPtr(istd::CreateService<isys::ITimer>());
 
-		double beforeTime = 0;
-		if (timerPtr != NULL){
-			beforeTime = timerPtr->GetElapsed();
+		if (timerPtr.IsValid()){
+			// before time measurement is started, we have to ensure that all input suppliers has work finished
+			for (		Suppliers::const_iterator iter = m_inputSuppliers.begin();
+						iter != m_inputSuppliers.end();
+						++iter){
+				ISupplier* supplierPtr = *iter;
+				I_ASSERT(supplierPtr != NULL);
+
+				supplierPtr->EnsureWorkFinished();
+			}
+
+			timerPtr->Start();
 		}
 
 		m_workStatus = ProduceObject(m_product);
 		I_ASSERT(m_workStatus >= WS_OK);	// No initial states are possible
 
-		if (timerPtr != NULL){
-			m_durationTime = timerPtr->GetElapsed() - beforeTime;
+		if (timerPtr.IsValid()){
+			m_durationTime = timerPtr->GetElapsed();
 
 			if (m_diagnosticNameAttrPtr.IsValid() && !(*m_diagnosticNameAttrPtr).empty()){
 				SendInfoMessage(MI_DURATION_TIME, *m_diagnosticNameAttrPtr + ": Calculation time " + istd::CString::FromNumber(m_durationTime * 1000) + " ms.");
