@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1637
+          1688
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          291
+          307
         </Number>
         <Description>
           ACF-Solutions
@@ -95,6 +95,17 @@
     </Element>
     <Element>
       <ComponentName>
+        SettingsPersistence
+      </ComponentName>
+      <X>
+        550
+      </X>
+      <X>
+        700
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         SplittedGui
       </ComponentName>
       <X>
@@ -102,17 +113,6 @@
       </X>
       <X>
         200
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        XmlFilePersistence
-      </ComponentName>
-      <X>
-        550
-      </X>
-      <X>
-        700
       </X>
     </Element>
   </PositionMap>

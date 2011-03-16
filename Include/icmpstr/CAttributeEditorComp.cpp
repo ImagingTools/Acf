@@ -1063,7 +1063,10 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 	int propertyMining = index.data(AttributeMining).toInt();
 
 	std::string attributeName = index.data(AttributeId).toString().toStdString();
-	std::string attributeValue = index.data(AttributeId).toString().toStdString();
+	std::string attributeValue = index.data(AttributeValue).toString().toStdString();
+	if (attributeValue.empty()){
+		attributeValue = attributeName;
+	}
 
 	if (propertyMining == ComponentExport){
 		SetComponentExportEditor(attributeName, *editor);

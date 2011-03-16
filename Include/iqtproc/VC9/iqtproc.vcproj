@@ -219,10 +219,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CGeneralSupplierGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\generated\moc_CProcessorControlGuiComp.cpp"
 				>
 			</File>
@@ -231,11 +227,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAcquisitonProcessorGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\generated\ui_CGeneralSupplierGuiComp.h"
+				RelativePath="..\generated\ui_CProcessorControlGuiComp.h"
 				>
 			</File>
 			<File

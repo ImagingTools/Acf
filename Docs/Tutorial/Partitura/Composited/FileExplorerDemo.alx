@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1586
+          1688
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          268
+          307
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="2">
+  <PositionMap count="3">
     <Element>
       <ComponentName>
         BitmapFileExplorer
@@ -35,7 +35,7 @@
         350
       </X>
       <X>
-        475
+        425
       </X>
     </Element>
     <Element>
@@ -47,6 +47,17 @@
       </X>
       <X>
         175
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        VersionInfo
+      </ComponentName>
+      <X>
+        775
+      </X>
+      <X>
+        675
       </X>
     </Element>
   </PositionMap>
