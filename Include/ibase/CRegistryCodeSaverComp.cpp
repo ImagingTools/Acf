@@ -253,6 +253,9 @@ bool CRegistryCodeSaverComp::WriteHeader(
 					packageIter != composedPackageIds.end();
 					++packageIter){
 			const std::string& packageId = *packageIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			std::string packageName = GetPackageName(packageId);
 
@@ -317,6 +320,9 @@ bool CRegistryCodeSaverComp::WriteHeader(
 					packageIter != realPackageIds.end();
 					++packageIter){
 			const std::string& packageId = *packageIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			std::string packageName = GetPackageName(packageId);
 
@@ -378,6 +384,9 @@ bool CRegistryCodeSaverComp::WriteHeader(
 				packageInstanceIter != realPackageIds.end();
 				++packageInstanceIter){
 		const std::string& packageId = *packageInstanceIter;
+		if (packageId.empty()){
+			continue;
+		}
 
 		std::string packageName = GetPackageName(packageId);
 
@@ -435,6 +444,9 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 					packageIter != packageIds.end();
 					++packageIter){
 			const std::string& packageId = *packageIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			stream << "#include \"" << packageId << "/" << packageId << ".h\"" << std::endl;
 		}
@@ -490,6 +502,9 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 					packageIter != composedPackageIds.end();
 					++packageIter){
 			const std::string& packageId = *packageIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			std::string packageName = GetPackageName(packageId);
 
@@ -576,6 +591,9 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 				packageIter != realPackageIds.end();
 				++packageIter){
 		const std::string& packageId = *packageIter;
+		if (packageId.empty()){
+			continue;
+		}
 
 		std::string packageName = GetPackageName(packageId);
 
@@ -633,6 +651,9 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 					registerRealIter != realPackageIds.end();
 					++registerRealIter){
 			const std::string& packageId = *registerRealIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			std::string packageName = GetPackageName(packageId);
 
@@ -649,6 +670,9 @@ bool CRegistryCodeSaverComp::WriteRegistryInfo(
 					registerPackageIter != composedPackageIds.end();
 					++registerPackageIter){
 			const std::string& packageId = *registerPackageIter;
+			if (packageId.empty()){
+				continue;
+			}
 
 			std::string packageName = GetPackageName(packageId);
 

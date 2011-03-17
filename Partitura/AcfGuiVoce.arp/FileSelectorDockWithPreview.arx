@@ -420,7 +420,7 @@
           true
         </IsEnabled>
         <Flags>
-          0
+          1
         </Flags>
         <AttributeInfoMap count="4">
           <AttributeInfo>
