@@ -20,9 +20,11 @@ UninstallDisplayIcon=..\..\Docs\Images\Logo\Logo.ico
 UninstallDisplayName=$AcfProductName$ $AcfVersion:0$
 OutputDir=..\Setup
 LicenseFile=$LicensePath$
-VersionInfoDescription=$AcfProductName$ v. $AcfVersion:0$ ($AcfRawVersion:0$) by $AcfCompanyName$, compiled using $CompilerName$
-AppCopyright=Copyright (C) 2007-2010 Witold Gantzke and Kirill Lepskiy
+VersionInfoDescription=$AcfProductName$ v. $AcfVersion:0$ ($AcfRawVersion:0$) by $AcfCompanyName$
+AppComments=Compiled using $CompilerName$, see www.imagingtools.de to find out more about ACF
+AppCopyright=Copyright (C) 2007-2011 Witold Gantzke and Kirill Lepskiy
 VersionInfoVersion=$AcfVersion:0$
+ChangesEnvironment=yes
 
 [Files]
 Source: ..\Temp\*; DestDir: {app}; Flags: recursesubdirs; Components: acfComp
@@ -61,11 +63,11 @@ pl.QtBinaries=Pliki binarne Qt
 
 en.AddExtPath=Add external binaries path to the system PATH
 de.AddExtPath=Pfad für externe Bibliotheken zum Systempfad hinzufügen
-pl.AddExtPath=Dodaj sciezke zewnetrznych bibliotek do sciezki systemowej
+pl.AddExtPath=Dodaj ¶cie¿kê zewnetrznych bibliotek do ¶cie¿ki systemowej
 
 en.AddAcfPath=Add ACF tools path to the system PATH
 de.AddAcfPath=Pfad für ACF-Tools zum Systempfad hinzufügen
-pl.AddAcfPath=Dodaj sciezke narzedzi ACF do sciezki systemowej
+pl.AddAcfPath=Dodaj ¶cie¿kê narzêdzi ACF do ¶cie¿ki systemowej
 
 [Types]
 Name: minimalType; Description: {cm:MinimalType}

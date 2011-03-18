@@ -142,6 +142,8 @@ void CParamsManagerGuiComp::UpdateActions()
 
 void CParamsManagerGuiComp::UpdateTree()
 {
+	UpdateBlocker updateBlocker(this);
+
 	ParamsTree->clear();
 
 	int selectedIndex = -1;
@@ -180,30 +182,34 @@ void CParamsManagerGuiComp::UpdateTree()
 
 void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 {
-	EnsureParamsGuiDetached();
-
-	bool paramsFrameVisible = false;
+	imod::IModel* modelPtr = NULL;
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL && (selectedIndex >= 0)){
 		I_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
 		if (m_paramsObserverCompPtr.IsValid()){
-			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(selectedIndex));
-
-			if (modelPtr != NULL){
-				I_ASSERT(!modelPtr->IsAttached(m_paramsObserverCompPtr.GetPtr()));
-					
-				if (modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
-					m_lastConnectedModelPtr = modelPtr;
-
-					paramsFrameVisible = true;
-				}
-			}
+			modelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(selectedIndex));
 		}
 	}
 
-	ParamsFrame->setVisible(paramsFrameVisible);
+	if (modelPtr != m_lastConnectedModelPtr){
+		EnsureParamsGuiDetached();
+
+		bool paramsFrameVisible = false;
+
+		if (modelPtr != NULL){
+			I_ASSERT(!modelPtr->IsAttached(m_paramsObserverCompPtr.GetPtr()));
+				
+			if (modelPtr->AttachObserver(m_paramsObserverCompPtr.GetPtr())){
+				m_lastConnectedModelPtr = modelPtr;
+
+				paramsFrameVisible = true;
+			}
+		}
+
+		ParamsFrame->setVisible(paramsFrameVisible);
+	}
 
 	RemoveButton->setEnabled(selectedIndex >= 0);
 }

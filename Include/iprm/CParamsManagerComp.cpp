@@ -14,7 +14,7 @@ namespace iprm
 
 
 CParamsManagerComp::CParamsManagerComp()
-	:m_selectedIndex(-1),
+:	m_selectedIndex(-1),
 	m_paramsObserver(*this)
 {
 }
