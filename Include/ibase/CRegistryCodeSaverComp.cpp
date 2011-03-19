@@ -1106,7 +1106,7 @@ bool CRegistryCodeSaverComp::GetAttributeValue(
 {
 	const icomp::CBoolAttribute* boolAttribute = dynamic_cast<const icomp::CBoolAttribute*>(&attribute);
 	if (boolAttribute != NULL){
-		valueString = boolAttribute->GetValue() ? "true": "false";
+		valueString = boolAttribute->GetValue()? "true": "false";
 		typeName = "icomp::CBoolAttribute";
 
 		return true;
@@ -1188,7 +1188,7 @@ bool CRegistryCodeSaverComp::GetMultiAttributeValue(
 		return true;
 	}
 
-	const icomp::TMultiAttribute<std::string>* multiIdPtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(&attribute);
+	const icomp::TMultiAttribute<std::string>* multiIdPtr = dynamic_cast<const icomp::TMultiAttribute<std::string>*>(&attribute);
 	if (multiIdPtr != NULL){
 		for (int index = 0; index < multiIdPtr->GetValuesCount(); index++){
 			valueStrings.push_back(istd::CString("\"" + multiIdPtr->GetValueAt(index) + "\"").ToString());
