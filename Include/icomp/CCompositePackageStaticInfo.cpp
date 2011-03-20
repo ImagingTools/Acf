@@ -11,21 +11,18 @@ namespace icomp
 
 CCompositePackageStaticInfo::CCompositePackageStaticInfo(
 			const std::string& packageId,
-			const Ids& componentIds,
 			const icomp::IComponentEnvironmentManager* managerPtr)
 
 :	m_packageId(packageId),
 	m_envManager(*managerPtr)
 {
 	I_ASSERT(managerPtr != NULL);
+}
 
-	for (		Ids::const_iterator iter = componentIds.begin();
-				iter != componentIds.end();
-				++iter){
-		const std::string& id = *iter;
 
-		m_embeddedComponentInfos[id];
-	}
+void CCompositePackageStaticInfo::RegisterEmbeddedComponent(const std::string& componentId)
+{
+	m_embeddedComponentInfos[componentId];
 }
 
 

@@ -70,7 +70,7 @@ protected:
 				const std::string& className,
 				const Addresses& addresses,
 				std::ofstream& stream) const;
-	bool WriteClassDefinisions(
+	bool WriteClassDefinitions(
 				const std::string& className,
 				const icomp::IRegistry& registry,
 				const Addresses& composedAddresses,
@@ -118,7 +118,6 @@ protected:
 	bool ExtractInfoFromFile(const istd::CString& filePath, std::string& className, istd::CString& headerFilePath) const;
 
 	std::string GetPackageName(const std::string& packageId) const;
-	std::string GetComponentName(const std::string& componentId) const;
 
 	/**
 		Get some string as C++ string literal.

@@ -227,7 +227,12 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 		if (foundIter == m_compositePackagesMap.end()){
 			CompositePackageInfo& packageInfo = m_compositePackagesMap[packageId];
 
-			icomp::IComponentStaticInfo::Ids componentIds;
+			icomp::CCompositePackageStaticInfo* infoPtr = new icomp::CCompositePackageStaticInfo(
+						packageId,
+						this);
+			if (infoPtr == NULL){
+				return false;
+			}
 
 			QStringList filters;
 			filters.append("*.arx");
@@ -237,13 +242,9 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 						iter != componentFiles.end();
 						++iter){
 				QFileInfo componentFileInfo(*iter);
-				componentIds.insert(componentFileInfo.baseName().toStdString());
+				infoPtr->RegisterEmbeddedComponent(componentFileInfo.baseName().toStdString());
 			}
 
-			icomp::CCompositePackageStaticInfo* infoPtr = new icomp::CCompositePackageStaticInfo(
-						packageId,
-						componentIds,
-						this);
 			packageInfo.staticInfoPtr.SetPtr(infoPtr);
 			packageInfo.directory = packageDir;
 

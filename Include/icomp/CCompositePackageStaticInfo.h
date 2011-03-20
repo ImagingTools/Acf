@@ -27,8 +27,9 @@ public:
 
 	CCompositePackageStaticInfo(
 				const std::string& packageId,
-				const Ids& componentIds,
 				const icomp::IComponentEnvironmentManager* managerPtr);
+
+	void RegisterEmbeddedComponent(const std::string& componentId);
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual const IComponentStaticInfo* GetEmbeddedComponentInfo(const std::string& embeddedId) const;
