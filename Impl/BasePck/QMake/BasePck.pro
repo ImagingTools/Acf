@@ -6,21 +6,18 @@ CONFIG += dll
 TARGET_EXT = .arp
 
 CONFIG(debug, debug|release) {
-        DESTDIR = ../../../Bin/DebugQMake
-	LIBS += -L"$(ACFDIR)/Lib/DebugQMake 
-        LIBS += AcfStd.lib
+	DESTDIR = ../../../Bin/DebugQMake
+	LIBS += -L../../../Lib/DebugQMake 
 }
 CONFIG(release, debug|release) {
-        DESTDIR = ../../../Bin/ReleaseQMake
-	LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake 
-        LIBS += AcfStd.lib
+	DESTDIR = ../../../Bin/ReleaseQMake
+	LIBS += -L../../../Lib/ReleaseQMake 
 }
 
-UI_DIR = ../Generated
-MOC_DIR = ../Generated
-RCC_DIR = ../Generated
+LIBS += -lAcfStd
 
-INCLUDEPATH += ../../../Include "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
+QT -= gui core
 
+INCLUDEPATH += ../../../Include
 HEADERS += ../BasePck.h
 SOURCES += ../BasePck.cpp

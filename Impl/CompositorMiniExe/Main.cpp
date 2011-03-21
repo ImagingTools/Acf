@@ -34,7 +34,7 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(RegistryView);
-	I_END_COMPONENT();
+	I_END_COMPONENT;
 
 	RegistryView()
 	:	sceneProviderPtr(new icomp::TSimComponentWrap<QtViewPck::SceneProvider>())

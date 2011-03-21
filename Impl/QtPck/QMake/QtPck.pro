@@ -7,20 +7,21 @@ TARGET_EXT = .arp
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../../../Bin/DebugQMake
-        LIBS += -L"$(ACFDIR)/Lib/DebugQMake
-        LIBS += AcfStd.lib AcfQt.lib
+	LIBS += -L../../../Lib/DebugQMake 
 }
+
 CONFIG(release, debug|release) {
 	DESTDIR = ../../../Bin/ReleaseQMake
-        LIBS += -L"$(ACFDIR)/Lib/ReleaseQMake
-        LIBS += AcfStd.lib AcfQt.lib
+	LIBS += -L../../../Lib/ReleaseQMake 
 }
+
+LIBS += -lAcfStd -lAcfQt
 
 UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += main core gui xml 
+QT += core gui xml
 
 INCLUDEPATH += ../../../Include "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
 

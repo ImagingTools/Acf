@@ -13,12 +13,24 @@ CONFIG(release, debug|release) {
         DEPENDPATH += ../../../Lib/ReleaseQMake
 }
 
+# static libs for visual studio compiler
+MSVC_OBJECTS = iqt.lib iqt2d.lib iqtdoc.lib iqtgui.lib iqtprm.lib iqtproc.lib iqtmm.lib
+
+# static libs for the GCC compiler
+GCC_OBJECTS = libiqt.a libiqt2d.a libiqtdoc.a libiqtgui.a libiqtprm.a libiqtproc.a libiqtmm.a
+
 win32{
-        OBJECTS += iqt.lib iqt2d.lib iqtdoc.lib iqtgui.lib iqtprm.lib iqtproc.lib iqtmm.lib
+	win32-g++{
+		OBJECTS = $$GCC_OBJECTS
+	}
+	else{
+		OBJECTS = $$MSVC_OBJECTS
+	}
 }
 else{
-        LIBS += i2d.lib ibase.lib icmm.lib icomp.lib idoc.lib iimg.lib imath.lib imod.lib iprm.lib isec.lib iser.lib istd.lib isys.lib iproc.lib
+	OBJECTS = $$GCC_OBJECTS
 }
+
 INCLUDEPATH += ../../ 
 
 SOURCES += ../Empty.cpp

@@ -1,6 +1,5 @@
 TARGET = AcfStd
 TEMPLATE = lib
-
 CONFIG += staticlib
 CONFIG += lib_bundle
 CONFIG += no_lflags_merge no_smart_library_merge
@@ -14,13 +13,25 @@ CONFIG(release, debug|release) {
         DEPENDPATH += ../../../Lib/ReleaseQMake
 }
 
+
+# static libs for visual studio compiler
+MSVC_OBJECTS = i2d.lib ibase.lib icmm.lib icomp.lib idoc.lib iimg.lib imath.lib imod.lib iprm.lib isec.lib iser.lib istd.lib isys.lib iproc.lib
+
+# static libs for the GCC compiler
+GCC_OBJECTS = libibase.a libicomp.a libi2d.a libiproc.a libicmm.a libidoc.a libiimg.a libimath.a libimod.a libiprm.a libisec.a libiser.a libistd.a libisys.a
+
 win32{
-        OBJECTS += i2d.lib ibase.lib icmm.lib icomp.lib idoc.lib iimg.lib imath.lib imod.lib iprm.lib isec.lib iser.lib istd.lib isys.lib iproc.lib
+	win32-g++{
+		OBJECTS = $$GCC_OBJECTS
+	}
+	else{
+		OBJECTS = $$MSVC_OBJECTS
+	}
 }
 else{
-        LIBS += i2d.lib ibase.lib icmm.lib icomp.lib idoc.lib iimg.lib imath.lib imod.lib iprm.lib isec.lib iser.lib istd.lib isys.lib iproc.lib
+	OBJECTS = $$GCC_OBJECTS
 }
 
-INCLUDEPATH += ../../ 
+INCLUDEPATH += ../../
 
 SOURCES += ../Empty.cpp
