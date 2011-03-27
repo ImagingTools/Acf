@@ -7,6 +7,8 @@
 #include <vector>
 #include <sstream>
 
+#include "istd/istd.h"
+
 
 namespace istd
 {

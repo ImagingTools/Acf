@@ -110,7 +110,7 @@ bool CRegistry::RemoveElementInfo(const std::string& elementId)
 
 			++iter;
 		}
-	}                        
+	}
 
 	if (m_componentsMap.erase(elementId) <= 0){
 		return false;

@@ -1,7 +1,7 @@
 #include "imath/CSampledFunction2d.h"
 
 
-// STD includes
+// STL includes
 #include <cstring>
 
 
@@ -36,7 +36,7 @@ void CSampledFunction2d::Create(int width, int height, double defaultValue)
 		SamplesContainer::Iterator beginIter = m_samplesContainer.Begin();
 		double* dataPtr = &(*beginIter);
 
-		memset(dataPtr, 0, sizeof(double) * width * height);
+		std::memset(dataPtr, 0, sizeof(double) * width * height);
 
 		if (defaultValue != 0){
 			for (		SamplesContainer::Iterator index = m_samplesContainer.Begin();
@@ -70,7 +70,7 @@ bool CSampledFunction2d::CreateFunction(double* dataPtr, const ArgumentType& siz
 	SamplesContainer::Iterator beginIter = m_samplesContainer.Begin();
 	double* functionDataPtr = &(*beginIter);
 	
-	memcpy(functionDataPtr, dataPtr, sizeof(double) * sizes[0] * sizes[1]);
+	std::memcpy(functionDataPtr, dataPtr, sizeof(double) * sizes[0] * sizes[1]);
 
 	return true;
 }

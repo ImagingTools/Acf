@@ -2,7 +2,8 @@
 #define icmm_TComposedColor_included
 
 
-#include "math.h"
+// STL includes
+#include <cstring>
 
 #include "iser/ISerializable.h"
 #include "iser/CArchiveTag.h"
@@ -238,7 +239,7 @@ inline const TComposedColor<Size>& TComposedColor<Size>::operator=(const TCompos
 template <int Size>
 inline const TComposedColor<Size>& TComposedColor<Size>::operator=(double colorValue)
 {
-	memset(&BaseClass::GetElementsRef()[0], 0.0, sizeof(double) * Size);
+	std::memset(&BaseClass::GetElementsRef()[0], 0.0, sizeof(double) * Size);
 
 	BaseClass::SetElement(0, colorValue);
 

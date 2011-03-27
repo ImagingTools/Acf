@@ -88,7 +88,7 @@ protected:
 private:
 	typedef QPair<QPen, QBrush> ColorShemeInfo;
 	typedef QMap<int, ColorShemeInfo> ColorShemeMap;
-        
+
 	bool m_isEditable;
 	const ISceneProvider* m_providerPtr;
 

@@ -1,7 +1,8 @@
 #include "iimg/CGeneralBitmap.h"
 
 
-#include <memory.h>
+// STL includes
+#include <cstring>
 
 #include "istd/TChangeNotifier.h"
 #include "istd/TDelPtr.h"
@@ -146,7 +147,7 @@ bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
 		if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
 			int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
 			for (int y = 0; y < size.GetY(); ++y){
-				::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
+				std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
 			}
 
 			return true;

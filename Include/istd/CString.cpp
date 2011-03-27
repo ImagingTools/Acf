@@ -1,9 +1,11 @@
+#include "istd/CString.h"
+
+
+// STL includes
 #include <locale>
 #include <cstdlib>
-#include <string.h>
+#include <string>
 
-#include "istd/istd.h"
-#include "istd/CString.h"
 
 
 namespace istd
@@ -32,7 +34,7 @@ CString::CString(const char* str)
 
 	int length = strlen(str) + 1;
 	wchar_t* wideStringBuffer = new wchar_t[length];
-	memset(wideStringBuffer, 0, length * sizeof(wchar_t));
+	std::memset(wideStringBuffer, 0, length * sizeof(wchar_t));
 	mbstowcs(wideStringBuffer, str, length);
 	*this = std::wstring(wideStringBuffer);
 

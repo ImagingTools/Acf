@@ -1,6 +1,10 @@
 #include "iqt/CBitmap.h"
 
 
+// STL includes
+#include <cstring>
+
+// QT includes
 #include <QVector>
 #include <QColor>
 
@@ -188,7 +192,7 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object)
 			if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
 				int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
 				for (int y = 0; y < size.GetY(); ++y){
-					::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
+					std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
 				}
 
 				return true;

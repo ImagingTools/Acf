@@ -3,12 +3,11 @@
 
 // STL includes
 #include <sstream>
-
+#include <cstring>
 
 // Qt includes
 #include <QDomNodeList>
 #include <QFile>
-
 
 // ACF includes
 #include "istd/CBase64.h"
@@ -294,7 +293,7 @@ bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
 
 	I_ASSERT(size == int(decodedData.size()));
 
-	memcpy(data, &decodedData[0], size);
+	std::memcpy(data, &decodedData[0], size);
 
 	return !m_currentNode.isNull();
 }

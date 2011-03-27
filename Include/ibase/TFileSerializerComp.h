@@ -56,7 +56,7 @@ protected:
 	{
 	public:
 		typedef ReadArchive BaseClass;
-                
+
 		ReadArchiveEx(const istd::CString& filePath, const TFileSerializerComp* loggerPtr)
 		:	ReadArchive(filePath),
 			m_loggerPtr(loggerPtr)
@@ -117,7 +117,7 @@ protected:
 			if (m_loggerPtr != NULL){
 				istd::CString correctedMessage = message;
 				istd::CString correctedMessageSource = messageSource;
-                                
+
 				BaseClass::DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
 
 				return m_loggerPtr->SendLogMessage(category, id, correctedMessage, correctedMessageSource, flags);

@@ -2,6 +2,9 @@
 #define ibase_TMsbWord_included
 
 
+// STL includes
+#include <cstring>
+
 #include "iser/IArchive.h"
 
 
@@ -72,7 +75,7 @@ inline TMsbWord<Size>::TMsbWord(const TMsbWord& inputValue)
 	I_ASSERT(Size > 0);
 	I_ASSERT(Size <= 4);
 
-	memcpy(m_bytes, &inputValue.m_bytes, sizeof(m_bytes));
+	std::memcpy(m_bytes, &inputValue.m_bytes, sizeof(m_bytes));
 }
 
 

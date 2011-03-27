@@ -4,7 +4,6 @@
 // STD includes
 #include <cstring>
 
-
 // ACF includes
 #include "istd/CString.h"
 
@@ -73,7 +72,7 @@ bool CMemoryReadArchive::ProcessData(void* data, int size)
 		return false;
 	}
 
-	::memcpy(data, m_bufferPtr + m_readPosition, size);
+	std::memcpy(data, m_bufferPtr + m_readPosition, size);
 	m_readPosition += size;
 
 	return true;

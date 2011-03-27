@@ -1,7 +1,7 @@
 #include "iser/CBitMemoryReadArchive.h"
 
 
-// STD includes
+// STL includes
 #include <cstring>
 
 
@@ -80,7 +80,7 @@ bool CBitMemoryReadArchive::ProcessBits(void* dataPtr, int bitsCount, int bytesC
 
 	I_DWORD retVal = ReadValue(bitsCount);
 	
-	::memcpy(dataPtr, &retVal, bytesCount);
+	std::memcpy(dataPtr, &retVal, bytesCount);
 
 	return true;
 }

@@ -1,9 +1,8 @@
 #include "iser/CTextReadArchiveBase.h"
 
 
-// STD includes
+// STL includes
 #include <cstring>
-
 
 // ACF includes
 #include "istd/CBase64.h"
@@ -106,7 +105,7 @@ bool CTextReadArchiveBase::ProcessData(void* dataPtr, int size)
 		std::vector<I_BYTE> decodedData = istd::CBase64::ConvertFromBase64(text);
 		I_ASSERT(size == int(decodedData.size()));
 
-		memcpy(data, &decodedData[0], size);
+		std::memcpy(data, &decodedData[0], size);
 	}
 
 	return retVal;

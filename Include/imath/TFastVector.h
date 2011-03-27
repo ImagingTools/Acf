@@ -4,7 +4,7 @@
 
 // STL includes
 #include <cmath>
-#include <memory.h>
+#include <cstring>
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -240,7 +240,7 @@ inline TFastVector<MaxSize, Element>::TFastVector(const TFastVector<MaxSize, Ele
 {
 	I_ASSERT(m_elementsCount <= MaxSize);
 
-	memcpy(m_elements, vector.m_elements, sizeof(Element) * m_elementsCount);
+	std::memcpy(m_elements, vector.m_elements, sizeof(Element) * m_elementsCount);
 }
 
 

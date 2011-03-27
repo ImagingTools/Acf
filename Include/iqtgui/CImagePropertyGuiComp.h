@@ -25,7 +25,6 @@ public:
 	I_BEGIN_COMPONENT(CImagePropertyGuiComp);
 	I_END_COMPONENT;
 
-public:
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;

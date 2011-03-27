@@ -1,9 +1,8 @@
 #include "iser/CMemoryWriteArchive.h"
 
 
-// STD includes
+// STL includes
 #include <cstring>
-
 
 // ACF includes
 #include "istd/CString.h"
@@ -60,7 +59,7 @@ bool CMemoryWriteArchive::ProcessData(void* data, int size)
 
 	m_dataBuffer.resize(previousSize + size);
 
-	::memcpy(&m_dataBuffer[previousSize], data, size);
+	std::memcpy(&m_dataBuffer[previousSize], data, size);
 
 	return true;
 }
