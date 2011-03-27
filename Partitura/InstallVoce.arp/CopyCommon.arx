@@ -1104,7 +1104,7 @@
     </Element>
     <Element>
       <Id>
-        CopyNockout
+        CopyKnockout
       </Id>
       <PackageId>
         InstallVoce
@@ -1151,7 +1151,7 @@
                 true
               </IsEnabled>
               <Value>
-                Nockout
+                Knockout
               </Value>
             </Data>
           </AttributeInfo>
@@ -2022,7 +2022,7 @@
                   CopyConfig
                 </Value>
                 <Value>
-                  CopyNockout
+                  CopyKnockout
                 </Value>
               </Values>
             </Data>
