@@ -21,17 +21,14 @@ void CAboutWidgetGuiComp::OnGuiCreated()
 		LogoLabel->setVisible(false);
 	}
 
-	if (m_descriptionTextAttrPtr.IsValid()){
-		DescriptionLabel->setText(iqt::GetQString(*m_descriptionTextAttrPtr));
-		DescriptionFrame->setVisible(true);
-	}
-	else{
-		DescriptionFrame->setVisible(false);
-	}
+	QString productName;
+	QString applicationName;
+	QString applicationSubname;
+	QString applicationType;
+	QString legalCopyright;
 
 	if (m_applicationInfoCompPtr.IsValid()){
-		ApplicationNameLabel->setText(iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName()));
-
+		// set version information
 		QGridLayout* layoutPtr = dynamic_cast<QGridLayout*>(VersionsFrame->layout());
 		if (layoutPtr != NULL){
 			if (m_versionIdsAttrPtr.IsValid()){
@@ -78,7 +75,42 @@ void CAboutWidgetGuiComp::OnGuiCreated()
 				}
 			}
 		}
+
+		if (*m_showProductNameAttrPtr){
+			productName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
+		}
+
+		if (*m_showApplicationNameAttrPtr){
+			applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
+		}
+
+		if (*m_showApplicationSubnameAttrPtr){
+			applicationSubname = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
+		}
+
+		if (*m_showProductTypeAttrPtr){
+			applicationType = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_TYPE));
+		}
+
+		if (*m_showLegalCopyrightAttrPtr){
+			legalCopyright = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_LEGAL_COPYRIGHT));
+		}
 	}
+
+	ProductNameLabel->setText(productName);
+	ProductNameLabel->setVisible(!productName.isEmpty());
+	ApplicationNameLabel->setText(applicationName);
+	ApplicationNameLabel->setVisible(!applicationName.isEmpty());
+	if (!applicationSubname.isEmpty() && !applicationType.isEmpty()){
+		ApplicationTypeLabel->setText(applicationSubname + "(" + applicationType + ")");
+	}
+	else{
+		ApplicationTypeLabel->setText(applicationSubname + applicationType);
+	}
+	ApplicationTypeLabel->setVisible(!applicationSubname.isEmpty() || !applicationType.isEmpty());
+
+	CopyrightLabel->setText(legalCopyright);
+	CopyrightLabel->setVisible(!legalCopyright.isEmpty());
 }
 
 

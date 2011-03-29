@@ -18,7 +18,7 @@
 	<ElementsList count="2">
 		<Element>
 			<Id>
-				AcfInfo
+				BaseInfo
 			</Id>
 			<PackageId>
 				BasePck
@@ -83,7 +83,7 @@
 							<IsEnabled>
 								true
 							</IsEnabled>
-							<Values count="14">
+							<Values count="15">
 								<Value>
 									0.9.0
 								</Value>
@@ -126,7 +126,10 @@
 								<Value>
 									1.2.0
 								</Value>
-							</Values>
+                <Value>
+                  1.3.0
+                </Value>
+              </Values>
 						</Data>
 					</AttributeInfo>
 					<AttributeInfo>
@@ -143,7 +146,7 @@
 							<IsEnabled>
 								true
 							</IsEnabled>
-							<Values count="14">
+							<Values count="15">
 								<Value>
 									940
 								</Value>
@@ -183,10 +186,13 @@
 								<Value>
 									1644
 								</Value>
-								<Value>
-									1688
-								</Value>
-							</Values>
+                <Value>
+                  1688
+                </Value>
+                <Value>
+                  1705
+                </Value>
+              </Values>
 						</Data>
 					</AttributeInfo>
 					<AttributeInfo>
@@ -298,23 +304,87 @@
 				<IsEnabled>
 					true
 				</IsEnabled>
-				<AttributeInfoMap count="9">
-					<AttributeInfo>
-						<Id>
-							ApplicationName
-						</Id>
-						<Type>
-							icomp::TAttribute&lt;istd::CString&gt;
-						</Type>
-						<ExportId>
-							ApplicationName
-						</ExportId>
-						<Data>
-							<IsEnabled>
-								false
-							</IsEnabled>
-						</Data>
-					</AttributeInfo>
+				<AttributeInfoMap count="13">
+          <AttributeInfo>
+            <Id>
+              ProductName
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ProductName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationName
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationSubname
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationSubname
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationType
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              LegalCopyright
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              LegalCopyright
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
 					<AttributeInfo>
 						<Id>
 							CompanyName
@@ -394,7 +464,7 @@
 								true
 							</IsEnabled>
 							<Value>
-								AcfInfo
+								BaseInfo
 							</Value>
 						</Data>
 					</AttributeInfo>

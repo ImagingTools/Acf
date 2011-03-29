@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1490
+          1703
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          192
+          311
         </Number>
         <Description>
           ACF-Solutions
@@ -40,6 +40,17 @@
     </Element>
     <Element>
       <ComponentName>
+        AutoPersistence
+      </ComponentName>
+      <X>
+        725
+      </X>
+      <X>
+        300
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         FileDialogLoader
       </ComponentName>
       <X>
@@ -47,17 +58,6 @@
       </X>
       <X>
         500
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        FilePersistence
-      </ComponentName>
-      <X>
-        725
-      </X>
-      <X>
-        300
       </X>
     </Element>
     <Element>

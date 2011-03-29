@@ -32,10 +32,12 @@ public:
 	I_BEGIN_COMPONENT(CSplashScreenGuiComp);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Version management for application", false, "Application");
 		I_ASSIGN(m_imagePathAttrPtr, "ImagePath", "Path of image shown as splash screen", true, "Splash.jpg");
-		I_ASSIGN(m_productNameAttrPtr, "ProductName", "Optional product name if is not painted at image", false, "ACF Product");
-		I_ASSIGN(m_productTypeAttrPtr, "ProductType", "Additional product description shown over version info", false, "Server");
-		I_ASSIGN(m_copyrightTextAttrPtr, "CopyrightText", "Optional copyright text", false, "\x00A9 2010 CompanyName\n\nAll rights reserved");
-		I_ASSIGN_MULTI_1(m_versionIdsAttrPtr, "VersionIds", "List of version ID's for version infor should be displayed", false, 0);
+		I_ASSIGN(m_showProductNameAttrPtr, "ShowProductName", "If true, product name will be shown, disable it, if it was painted on background image", true, true);
+		I_ASSIGN(m_showApplicationNameAttrPtr, "ShowApplicationName", "If true, application name will be shown, disable it, if it was painted on background image", true, true);
+		I_ASSIGN(m_showApplicationSubnameAttrPtr, "ShowApplicationSubName", "If true, application subname will be shown, disable it, if it was painted on background image", true, false);
+		I_ASSIGN(m_showProductTypeAttrPtr, "ShowProductType", "Additional product description shown over version info", true, false);
+		I_ASSIGN(m_showLegalCopyrightAttrPtr, "ShowLegalCopyright", "If enabled legal copyrights will be shown", true, true);
+		I_ASSIGN_MULTI_1(m_versionIdsAttrPtr, "VersionIds", "List of version ID's for version information should be displayed", false, 0);
 		I_ASSIGN_MULTI_1(m_versionNamesAttrPtr, "VersionNames", "List of version names will be used as version description", false, "Version");
 	I_END_COMPONENT;
 
@@ -46,9 +48,11 @@ protected:
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_ATTR(istd::CString, m_imagePathAttrPtr);
-	I_ATTR(istd::CString, m_productNameAttrPtr);
-	I_ATTR(istd::CString, m_productTypeAttrPtr);
-	I_ATTR(istd::CString, m_copyrightTextAttrPtr);
+	I_ATTR(bool, m_showProductNameAttrPtr);
+	I_ATTR(bool, m_showApplicationNameAttrPtr);
+	I_ATTR(bool, m_showApplicationSubnameAttrPtr);
+	I_ATTR(bool, m_showProductTypeAttrPtr);
+	I_ATTR(bool, m_showLegalCopyrightAttrPtr);
 	I_MULTIATTR(int, m_versionIdsAttrPtr);
 	I_MULTIATTR(istd::CString, m_versionNamesAttrPtr);
 };

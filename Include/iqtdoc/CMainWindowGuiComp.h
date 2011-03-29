@@ -232,8 +232,8 @@ bool CMainWindowGuiComp::SerializeRecentFiles()
 	istd::CString companyName = "ImagingTools";
 
 	if (m_applicationInfoCompPtr.IsValid()){ 
-		applicationName = m_applicationInfoCompPtr->GetApplicationName();
-		companyName = m_applicationInfoCompPtr->GetCompanyName();
+		applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+		companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
 	}
 
 	Archive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));

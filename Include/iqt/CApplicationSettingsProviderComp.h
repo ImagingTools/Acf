@@ -37,8 +37,6 @@ protected:
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 
-	QString m_companyName;
-	QString m_applicationName;
 	istd::TDelPtr<QSettings> m_settingsPtr;
 };
 

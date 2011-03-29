@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1684
+          1705
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          306
+          313
         </Number>
         <Description>
           ACF-Solutions
@@ -204,7 +204,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="14">
+        <AttributeInfoMap count="17">
           <AttributeInfo>
             <Id>
               AppName
@@ -240,6 +240,25 @@
               </IsEnabled>
               <Value>
                 ImageViewApp
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Tutorial
               </Value>
             </Data>
           </AttributeInfo>
@@ -361,6 +380,25 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              LegalCopyright
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                See 'licence.txt' for copyright informations
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               ProductName
             </Id>
             <Type>
@@ -374,7 +412,7 @@
                 true
               </IsEnabled>
               <Value>
-                Image Viewer
+                ACF
               </Value>
             </Data>
           </AttributeInfo>
@@ -394,6 +432,25 @@
               </IsEnabled>
               <Value>
                 Tutorial
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ShowSplashProductType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                true
               </Value>
             </Data>
           </AttributeInfo>

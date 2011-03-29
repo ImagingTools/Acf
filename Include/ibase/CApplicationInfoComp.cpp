@@ -12,37 +12,55 @@ namespace ibase
 
 // reimplemented (ibase::IApplicationInfo)
 
-istd::CString CApplicationInfoComp::GetCompanyName() const
+istd::CString CApplicationInfoComp::GetApplicationAttribute(int attributeId) const
 {
-	if (m_companyNameAttrPtr.IsValid()){
-		return *m_companyNameAttrPtr;
-	}
-	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetCompanyName();
-	}
-	else{
-		return "";
-	}
-}
+	switch (attributeId){
+	case AA_COMPANY_NAME:
+		if (m_companyNameAttrPtr.IsValid()){
+			return *m_companyNameAttrPtr;
+		}
+		break;
 
+	case AA_PRODUCT_NAME:
+		if (m_productNameAttrPtr.IsValid()){
+			return *m_productNameAttrPtr;
+		}
+		break;
 
-istd::CString CApplicationInfoComp::GetApplicationName() const
-{
-	if (m_applicationNameAttrPtr.IsValid()){
-		return *m_applicationNameAttrPtr;
-	}
-	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetApplicationName();
-	}
-	else{
-		return "";
-	}
-}
+	case AA_APPLICATION_NAME:
+		if (m_applicationNameAttrPtr.IsValid()){
+			return *m_applicationNameAttrPtr;
+		}
+		break;
 
+	case AA_APPLICATION_SUBNAME:
+		if (m_applicationSubnameAttrPtr.IsValid()){
+			return *m_applicationSubnameAttrPtr;
+		}
+		break;
 
-istd::CString CApplicationInfoComp::GetApplicationPath() const
-{
-	return istd::CString(".");
+	case AA_APPLICATION_TYPE:
+		if (m_applicationTypeAttrPtr.IsValid()){
+			return *m_applicationTypeAttrPtr;
+		}
+		break;
+
+	case AA_APPLICATION_PATH:
+		return istd::CString(".");
+		break;
+
+	case AA_LEGAL_COPYRIGHT:
+		if (m_legalCopyrightAttrPtr.IsValid()){
+			return *m_legalCopyrightAttrPtr;
+		}
+		break;
+	}
+
+	if (m_slaveVersionInfoCompPtr.IsValid()){
+		return m_slaveVersionInfoCompPtr->GetApplicationAttribute(attributeId);
+	}
+
+	return "";
 }
 
 

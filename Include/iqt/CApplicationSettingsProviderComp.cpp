@@ -7,8 +7,6 @@ namespace iqt
 	
 	
 CApplicationSettingsProviderComp::CApplicationSettingsProviderComp()
-:	m_companyName("UnknownCompany"),
-	m_applicationName("ACF Application")
 {
 }
 
@@ -31,12 +29,15 @@ void CApplicationSettingsProviderComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
+	QString companyName("UnknownCompany");
+	QString applicationName("ACF Application");
+
 	if (m_applicationInfoCompPtr.IsValid()){
-		m_companyName = iqt::GetQString(m_applicationInfoCompPtr->GetCompanyName());
-		m_applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName());
+		companyName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
+		applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
 	}
 
-	m_settingsPtr.SetPtr(new QSettings(QSettings::UserScope, m_companyName, m_applicationName));
+	m_settingsPtr.SetPtr(new QSettings(QSettings::UserScope, companyName, applicationName));
 }
 
 

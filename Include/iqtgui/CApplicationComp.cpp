@@ -119,8 +119,8 @@ int CApplicationComp::Execute(int argc, char** argv)
 
 			if (m_applicationInfoCompPtr.IsValid()){
 				QString format = iqt::GetQString(*m_titleFormatAttrPtr);
-				QString applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName());
-				QString companyName = iqt::GetQString(m_applicationInfoCompPtr->GetCompanyName());
+				QString applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
+				QString companyName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
 				m_mainWidgetPtr->setWindowTitle(format.arg(applicationName).arg(companyName));
 			}
 			else{

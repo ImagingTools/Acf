@@ -23,20 +23,23 @@ namespace ibase
 class IApplicationInfo: public iser::IVersionInfo
 {
 public:
-	/**
-		Get company name.
-	*/
-	virtual istd::CString GetCompanyName() const = 0;
-	
-	/**
-		Get main name of application.
-	*/
-	virtual istd::CString GetApplicationName() const = 0;
+	enum ApplicationAttribute
+	{
+		AA_COMPANY_NAME,
+		AA_PRODUCT_NAME,
+		AA_APPLICATION_NAME,
+		AA_APPLICATION_SUBNAME,
+		AA_APPLICATION_TYPE,
+		AA_APPLICATION_PATH,
+		AA_LEGAL_COPYRIGHT,
+		AA_USER = 100
+	};
 
 	/**
-		Get working directory of this application.
+		Get value of application attribute.
+		\param	attributeId	ID of application attribute \sa ApplicationAttribute.
 	*/
-	virtual istd::CString GetApplicationPath() const = 0;
+	virtual istd::CString GetApplicationAttribute(int attributeId) const = 0;
 
 	/**
 		Encode version number to human readable form.

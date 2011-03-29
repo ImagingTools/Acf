@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1518
+          1705
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          219
+          313
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="8">
+  <PositionMap count="9">
     <Element>
       <ComponentName>
         AdminAuthorisationVerifier
@@ -113,6 +113,17 @@
       </X>
       <X>
         575
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        VersionInfo
+      </ComponentName>
+      <X>
+        900
+      </X>
+      <X>
+        200
       </X>
     </Element>
   </PositionMap>

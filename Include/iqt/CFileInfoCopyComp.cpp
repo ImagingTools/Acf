@@ -162,14 +162,17 @@ bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& resu
 	else{
 		if (tag == acfProductNameTag){
 			if (m_applicationInfoCompPtr.IsValid()){
-				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationName());
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
+				if (result.isEmpty()){
+					result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
+				}
 
 				return true;
 			}
 		}
 		else if (tag == acfCompanyNameTag){
 			if (m_applicationInfoCompPtr.IsValid()){
-				result = iqt::GetQString(m_applicationInfoCompPtr->GetCompanyName());
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
 
 				return true;
 			}
