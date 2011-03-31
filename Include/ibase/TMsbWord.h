@@ -64,7 +64,7 @@ inline TMsbWord<Size>::TMsbWord(I_DWORD inputValue)
 	I_ASSERT(Size <= 4);
 
 	for (int i = 0; i < Size; i++){
-		m_bytes[i] = (inputValue >> (i * 8)) & 0xff;
+		m_bytes[i] = I_BYTE((inputValue >> (i * 8)) & 0xff);
 	}
 }
 
