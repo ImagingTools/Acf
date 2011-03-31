@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1705
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          313
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="5">
+  <ElementsList count="6">
     <Element>
       <Id>
         Bitmap
@@ -207,7 +207,7 @@
         <AttributeInfoMap count="17">
           <AttributeInfo>
             <Id>
-              AppName
+              ApplicationName
             </Id>
             <Type>
               icomp::TAttribute&lt;istd::CString&gt;
@@ -221,25 +221,6 @@
               </IsEnabled>
               <Value>
                 Image Viewer
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                ImageViewApp
               </Value>
             </Data>
           </AttributeInfo>
@@ -264,7 +245,7 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              Company
+              CompanyName
             </Id>
             <Type>
               icomp::TAttribute&lt;istd::CString&gt;
@@ -277,13 +258,13 @@
                 true
               </IsEnabled>
               <Value>
-                ImagingTools GbR
+                ImagingTools
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              CopyrightText
+              CompanyName
             </Id>
             <Type>
               icomp::TAttribute&lt;istd::CString&gt;
@@ -296,7 +277,7 @@
                 true
               </IsEnabled>
               <Value>
-                See 'licence.txt' for copyright informations
+                ImagingTools
               </Value>
             </Data>
           </AttributeInfo>
@@ -530,6 +511,46 @@
               </Value>
             </Data>
           </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              VersionInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                VersionInfo
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        VersionInfo
+      </Id>
+      <PackageId>
+        AcfVoce
+      </PackageId>
+      <ComponentId>
+        VersionInfo
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>
     </Element>

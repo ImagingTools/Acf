@@ -249,10 +249,10 @@
         ApplicationInfo
       </Id>
       <PackageId>
-        AcfVoce
+        BasePck
       </PackageId>
       <ComponentId>
-        VersionInfo
+        ApplicationInfo
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -270,7 +270,7 @@
               icomp::TAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              AppName
+              ApplicationName
             </ExportId>
             <Data>
               <IsEnabled>
@@ -318,7 +318,7 @@
               icomp::TAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              Company
+              CompanyName
             </ExportId>
             <Data>
               <IsEnabled>
@@ -360,13 +360,13 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SlaveApplicationInfo
+              VersionInfo
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              SlaveApplicationInfo
+              VersionInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -721,7 +721,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="12">
+        <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -743,22 +743,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              CopyrightText
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              CopyrightText
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               ImagePath
             </Id>
             <Type>
@@ -766,38 +750,6 @@
             </Type>
             <ExportId>
               SplashScreenImage
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ProductName
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              ProductName
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ProductType
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              ProductType
             </ExportId>
             <Data>
               <IsEnabled>
@@ -1001,7 +953,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="5">
+  <ExportedInterfaces count="4">
     <Interface>
       <InterfaceId>
         ibase::IApplication
@@ -1032,14 +984,6 @@
       </InterfaceId>
       <ComponentId>
         Workspace
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        iser::IVersionInfo
-      </InterfaceId>
-      <ComponentId>
-        ApplicationInfo
       </ComponentId>
     </Interface>
   </ExportedInterfaces>

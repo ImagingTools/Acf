@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1633
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          289
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -846,7 +846,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              VersionInfo
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -1193,6 +1193,8 @@
       </Data>
     </Element>
   </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
   <ExportedInterfaces count="0">
   </ExportedInterfaces>
   <ExportedComponents count="0">

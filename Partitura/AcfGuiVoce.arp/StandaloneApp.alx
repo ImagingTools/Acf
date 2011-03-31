@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1518
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          219
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,18 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="4">
+    <Element>
+      <ComponentName>
+        ApplicationInfo
+      </ComponentName>
+      <X>
+        925
+      </X>
+      <X>
+        225
+      </X>
+    </Element>
     <Element>
       <ComponentName>
         GuiApplication

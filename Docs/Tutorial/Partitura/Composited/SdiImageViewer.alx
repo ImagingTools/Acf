@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1705
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          313
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="5">
+  <PositionMap count="6">
     <Element>
       <ComponentName>
         Bitmap
@@ -77,6 +77,17 @@
       </ComponentName>
       <X>
         550
+      </X>
+      <X>
+        275
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        VersionInfo
+      </ComponentName>
+      <X>
+        875
       </X>
       <X>
         275

@@ -67,6 +67,12 @@ CReaderVersionInfo::VersionIds CReaderVersionInfo::GetVersionIds() const
 }
 
 
+istd::CString CReaderVersionInfo::GetEncodedVersionName(int /*versionId*/, I_DWORD /*versionNumber*/) const
+{
+	return "";
+}
+
+
 // protected methods
 
 const CReaderVersionInfo::VersionIdElement& CReaderVersionInfo::GetVersionIdElement(int versionId) const

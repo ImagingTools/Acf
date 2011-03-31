@@ -26,6 +26,8 @@ void CSplashScreenGuiComp::OnGuiCreated()
 	if (m_applicationInfoCompPtr.IsValid()){
 		QGridLayout* layoutPtr = dynamic_cast<QGridLayout*>(VersionsFrame->layout());
 		if (layoutPtr != NULL){
+			const iser::IVersionInfo& versionInfo = m_applicationInfoCompPtr->GetVersionInfo();
+
 			if (m_versionIdsAttrPtr.IsValid()){
 				int versionsCount = m_versionIdsAttrPtr.GetCount();
 
@@ -33,11 +35,11 @@ void CSplashScreenGuiComp::OnGuiCreated()
 					int versionId = m_versionIdsAttrPtr[i];
 
 					I_DWORD version;
-					if (m_applicationInfoCompPtr->GetVersionNumber(versionId, version)){
+					if (versionInfo.GetVersionNumber(versionId, version)){
 						istd::CString description = (i < m_versionNamesAttrPtr.GetCount())?
 									m_versionNamesAttrPtr[i]:
-									m_applicationInfoCompPtr->GetVersionIdDescription(versionId);
-						istd::CString versionText = m_applicationInfoCompPtr->GetEncodedVersionName(versionId, version);
+									versionInfo.GetVersionIdDescription(versionId);
+						istd::CString versionText = versionInfo.GetEncodedVersionName(versionId, version);
 
 						QLabel* descriptionLabelPtr = new QLabel(iqt::GetQString(description), VersionsFrame);
 						descriptionLabelPtr->setPalette(palette);
@@ -52,16 +54,16 @@ void CSplashScreenGuiComp::OnGuiCreated()
 			else{
 				int rowCount = 0;
 				
-				iser::IVersionInfo::VersionIds ids = m_applicationInfoCompPtr->GetVersionIds();
+				iser::IVersionInfo::VersionIds ids = versionInfo.GetVersionIds();
 				for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
 							iter != ids.end();
 							++iter){
 					int versionId = *iter;
 
 					I_DWORD version;
-					if (m_applicationInfoCompPtr->GetVersionNumber(versionId, version)){
-						istd::CString description = m_applicationInfoCompPtr->GetVersionIdDescription(versionId);;
-						istd::CString versionText = m_applicationInfoCompPtr->GetEncodedVersionName(versionId, version);
+					if (versionInfo.GetVersionNumber(versionId, version)){
+						istd::CString description = versionInfo.GetVersionIdDescription(versionId);;
+						istd::CString versionText = versionInfo.GetEncodedVersionName(versionId, version);
 
 						QLabel* descriptionLabelPtr = new QLabel(iqt::GetQString(description), VersionsFrame);
 						descriptionLabelPtr->setPalette(palette);

@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1518
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          219
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,140 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="3">
+  <ElementsList count="4">
+    <Element>
+      <Id>
+        ApplicationInfo
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        ApplicationInfo
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="7">
+          <AttributeInfo>
+            <Id>
+              ApplicationName
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationSubname
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationSubname
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ApplicationType
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              CompanyName
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              CompanyName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              LegalCopyright
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              LegalCopyright
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ProductName
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              ProductName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              VersionInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              VersionInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         GuiApplication
@@ -53,12 +186,15 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              ApplicationInfo
+              
             </ExportId>
             <Data>
               <IsEnabled>
-                false
+                true
               </IsEnabled>
+              <Value>
+                ApplicationInfo
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -208,12 +344,15 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              ApplicationInfo
+              
             </ExportId>
             <Data>
               <IsEnabled>
-                false
+                true
               </IsEnabled>
+              <Value>
+                ApplicationInfo
+              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -394,13 +533,23 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="2">
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
+  <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
         ibase::IApplication
       </InterfaceId>
       <ComponentId>
         GuiApplication
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        ibase::IApplicationInfo
+      </InterfaceId>
+      <ComponentId>
+        ApplicationInfo
       </ComponentId>
     </Interface>
     <Interface>

@@ -22,6 +22,7 @@
 #include "ibase/CComposedLoaderComp.h"
 #include "ibase/CTextFileLoaderComp.h"
 #include "ibase/CInstantiatorComp.h"
+#include "ibase/CVersionInfoComp.h"
 #include "ibase/CApplicationInfoComp.h"
 #include "ibase/CRegistryCodeSaverComp.h"
 #include "ibase/CRectangleComp.h"
@@ -86,6 +87,7 @@ typedef ibase::TFileSerializerComp<iser::CFileReadArchive, iser::CFileWriteArchi
 typedef ibase::CComposedLoaderComp ComposedLoader;
 typedef ibase::CTextFileLoaderComp TextFileLoader;
 typedef ibase::CInstantiatorComp Instantiator;
+typedef ibase::CVersionInfoComp VersionInfo;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CRegistryCodeSaverComp RegistryCodeSaver;
 typedef ibase::CModelProxyComp ModelProxy;

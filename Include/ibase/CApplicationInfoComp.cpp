@@ -56,95 +56,47 @@ istd::CString CApplicationInfoComp::GetApplicationAttribute(int attributeId) con
 		break;
 	}
 
-	if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetApplicationAttribute(attributeId);
-	}
-
 	return "";
 }
 
 
-istd::CString CApplicationInfoComp::GetEncodedVersionName(int versionId, I_DWORD versionNumber) const
+const iser::IVersionInfo& CApplicationInfoComp::GetVersionInfo() const
 {
-	istd::CString retVal = "0";
-
-	if (m_versionIdAttrPtr.IsValid() && (versionId == *m_versionIdAttrPtr)){
-		I_DWORD lastBellowNumber = 0;
-		int knownVersionsCount = istd::Min(m_knownVersionsAttrPtr.GetCount(), m_knownVersionNamesAttrPtr.GetCount());
-		for (int i = 0; i < knownVersionsCount; ++i){
-			I_DWORD knownNumber = I_DWORD(m_knownVersionsAttrPtr[i]);
-
-			if ((knownNumber <= versionNumber) && (knownNumber >= lastBellowNumber)){
-				lastBellowNumber = knownNumber;
-				retVal = m_knownVersionNamesAttrPtr[i];
-			}
-		}
-
-		if (m_isExtensionUsedAttrPtr.IsValid() && *m_isExtensionUsedAttrPtr){
-			retVal += istd::CString(".") + istd::CString::FromNumber(int(versionNumber - lastBellowNumber));
-		}
-	}
-	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		retVal = m_slaveVersionInfoCompPtr->GetEncodedVersionName(versionId, versionNumber);
-	}
-	else{
-		retVal = istd::CString("<") + istd::CString::FromNumber(versionNumber) + ">";
+	if (m_versionInfoCompPtr.IsValid()){
+		return *m_versionInfoCompPtr;
 	}
 
-	return retVal;
+	return *this;	// empty version info
 }
 
 
+// public methods
+
 // reimplemented (iser::IVersionInfo)
 
-bool CApplicationInfoComp::GetVersionNumber(int versionId, I_DWORD& result) const
+bool CApplicationInfoComp::GetVersionNumber(int /*versionId*/, I_DWORD& result) const
 {
-	if (m_versionIdAttrPtr.IsValid() && (versionId == *m_versionIdAttrPtr)){
-		result = *m_versionNumberAttrPtr;
-
-		return true;
-	}
-	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetVersionNumber(versionId, result);
-	}
-	else if (versionId == iser::IVersionInfo::FrameworkVersionId){
-		result = istd::RS_USE_VERSION;
-
-		return true;
-	}
-
 	result = 0xffffffff;
 
 	return false;
 }
 
 
-istd::CString CApplicationInfoComp::GetVersionIdDescription(int versionId) const
+istd::CString CApplicationInfoComp::GetVersionIdDescription(int /*versionId*/) const
 {
-	if (m_versionIdAttrPtr.IsValid() && (versionId == *m_versionIdAttrPtr)){
-		return *m_versionIdDescriptionAttrPtr;
-	}
-	else if (m_slaveVersionInfoCompPtr.IsValid()){
-		return m_slaveVersionInfoCompPtr->GetVersionIdDescription(versionId);
-	}
-	else{
-		return "";
-	}
+	return "";
 }
 
 
 iser::IVersionInfo::VersionIds CApplicationInfoComp::GetVersionIds() const
 {
-	VersionIds retVal;
-	if (m_slaveVersionInfoCompPtr.IsValid()){
-		retVal = m_slaveVersionInfoCompPtr->GetVersionIds();
-	}
+	return iser::IVersionInfo::VersionIds();
+}
 
-	if (m_versionIdAttrPtr.IsValid()){
-		retVal.insert(*m_versionIdAttrPtr);
-	}
 
-	return retVal;
+istd::CString CApplicationInfoComp::GetEncodedVersionName(int /*versionId*/, I_DWORD /*versionNumber*/) const
+{
+	return "";
 }
 
 

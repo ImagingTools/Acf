@@ -68,6 +68,11 @@ public:
 		Get list of version ID's.
 	*/
 	virtual VersionIds GetVersionIds() const = 0;
+
+	/**
+		Encode version number to human readable form.
+	*/
+	virtual istd::CString GetEncodedVersionName(int versionId, I_DWORD versionNumber) const = 0;
 };
 
 

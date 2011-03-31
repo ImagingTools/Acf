@@ -84,6 +84,12 @@ IVersionInfo::VersionIds CMinimalVersionInfo::GetVersionIds() const
 }
 
 
+istd::CString CMinimalVersionInfo::GetEncodedVersionName(int /*versionId*/, I_DWORD /*versionNumber*/) const
+{
+	return "";
+}
+
+
 } // namespace iser
 
 

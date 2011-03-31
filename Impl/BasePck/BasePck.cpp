@@ -53,9 +53,14 @@ I_EXPORT_COMPONENT(
 			"Instance Create Free Components" IM_CATEGORY(I_SERVICE));
 
 I_EXPORT_COMPONENT(
+			VersionInfo,
+			"Genaral information about versions",
+			"Veraion Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
+
+I_EXPORT_COMPONENT(
 			ApplicationInfo,
-			"Simple application info",
-			"Application Info" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
+			"General application information provider",
+			"Application Meta Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
 
 I_EXPORT_COMPONENT(
 			RegistryCodeSaver,

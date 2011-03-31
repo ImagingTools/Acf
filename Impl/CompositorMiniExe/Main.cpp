@@ -104,14 +104,20 @@ int main(int argc, char *argv[])
 
 	QApplication::setStyle("plastique");
 
+	icomp::TSimComponentWrap<BasePck::VersionInfo> versionInfo;
+	versionInfo.SetIntAttr("VersionId", 0);
+	versionInfo.SetIntAttr("VersionNumber", istd::RS_USE_VERSION);
+	versionInfo.SetStringAttr("VersionIdDesc", "ACF");
+	versionInfo.InsertMultiAttr("KnownVersions", 0);
+	versionInfo.InsertMultiAttr("KnownVersionNames", istd::CString("i"));
+	versionInfo.InitComponent();
+
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
-	applicationInfo.SetStringAttr("ApplicationName", "ACF CompositorMini");
+	applicationInfo.SetStringAttr("ProductName", "ACF");
+	applicationInfo.SetStringAttr("ApplicationName", "CompositorMini");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
-	applicationInfo.SetIntAttr("VersionId", 0);
-	applicationInfo.SetIntAttr("VersionNumber", istd::RS_USE_VERSION);
-	applicationInfo.SetStringAttr("VersionIdDesc", "ACF");
-	applicationInfo.InsertMultiAttr("KnownVersions", 0);
-	applicationInfo.InsertMultiAttr("KnownVersionNames", istd::CString("i"));
+	applicationInfo.SetRef("VersionInfo", &versionInfo);
+	applicationInfo.SetStringAttr("LegalCopyright", "Copyright 2009-2010 Witold Gantzke & Kirill Lepskiy\n\nThis tool is a part of ACF project\nSee 'License.txt' for license information");
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ApplicationSettingsProvider> applicationSettingsProvider;
@@ -222,7 +228,7 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtGuiPck::AboutGui> aboutGuiComp;
 	aboutGuiComp.SetRef("ApplicationInfo", &applicationInfo);
-	aboutGuiComp.SetStringAttr("DescriptionText", "Copyright 2009-2010 Witold Gantzke & Kirill Lepskiy\n\nThis tool is a part of ACF project\nSee 'License.txt' for license information");
+	aboutGuiComp.SetBoolAttr("ShowProductName", true);
 	aboutGuiComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtGuiPck::MainWindowGui> mainWindowComp;

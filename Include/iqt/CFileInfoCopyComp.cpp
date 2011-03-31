@@ -7,7 +7,8 @@
 #include <QFile>
 
 
-// ACF includes
+#include "iser/IVersionInfo.h"
+
 #include "iqt/CFileSystem.h"
 
 
@@ -107,8 +108,12 @@ bool CFileInfoCopyComp::CopyFile(
 
 bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& result) const
 {
-	static const QString acfProductNameTag("AcfProductName");
 	static const QString acfCompanyNameTag("AcfCompanyName");
+	static const QString acfProductNameTag("AcfProductName");
+	static const QString acfApplicationNameTag("AcfApplicationName");
+	static const QString acfApplicationSubnameTag("AcfApplicationSubname");
+	static const QString acfApplicationTypeTag("AcfApplicationType");
+	static const QString acfLegalCopyrightTag("AcfLegalCopyright");
 	static const QString acfVersionTag("AcfVersion");
 	static const QString acfRawVersionTag("AcfRawVersion");
 	static const QString acfRcVersionTag("AcfRcVersion");
@@ -120,64 +125,80 @@ bool CFileInfoCopyComp::ProcessSubstitutionTag(const QString& tag, QString& resu
 		QString paramTag = tag.left(separatorIndex);
 		QString parameter = tag.right(tag.length() - separatorIndex - 1);
 
-		if (paramTag == acfVersionTag){
-			bool isNumOk;
-			int versionId = parameter.toInt(&isNumOk);
-			I_DWORD versionNumber;
-			if (		isNumOk &&
-						m_applicationInfoCompPtr.IsValid() &&
-						m_applicationInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
-				result = iqt::GetQString(m_applicationInfoCompPtr->GetEncodedVersionName(versionId, versionNumber));
+		if (m_applicationInfoCompPtr.IsValid()){
+			const iser::IVersionInfo& versionInfo = m_applicationInfoCompPtr->GetVersionInfo();
+			if (paramTag == acfVersionTag){
+				bool isNumOk;
+				int versionId = parameter.toInt(&isNumOk);
+				I_DWORD versionNumber;
+				if (		isNumOk &&
+							versionInfo.GetVersionNumber(versionId, versionNumber)){
+					result = iqt::GetQString(versionInfo.GetEncodedVersionName(versionId, versionNumber));
 
-				return true;
+					return true;
+				}
 			}
-		}
-		else if (paramTag == acfRawVersionTag){
-			bool isNumOk;
-			int versionId = parameter.toInt(&isNumOk);
-			I_DWORD versionNumber;
-			if (		isNumOk &&
-						m_applicationInfoCompPtr.IsValid() &&
-						m_applicationInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
-				result = QString::number(versionNumber);
+			else if (paramTag == acfRawVersionTag){
+				bool isNumOk;
+				int versionId = parameter.toInt(&isNumOk);
+				I_DWORD versionNumber;
+				if (		isNumOk &&
+							versionInfo.GetVersionNumber(versionId, versionNumber)){
+					result = QString::number(versionNumber);
 
-				return true;
+					return true;
+				}
 			}
-		}
-		else if (paramTag == acfRcVersionTag){
-			bool isNumOk;
-			int versionId = parameter.toInt(&isNumOk);
-			I_DWORD versionNumber;
-			if (		isNumOk &&
-						m_applicationInfoCompPtr.IsValid() &&
-						m_applicationInfoCompPtr->GetVersionNumber(versionId, versionNumber)){
-				result = iqt::GetQString(m_applicationInfoCompPtr->GetEncodedVersionName(versionId, versionNumber));
-				result.replace(".", ", ");
-				result.replace("'", "");
+			else if (paramTag == acfRcVersionTag){
+				bool isNumOk;
+				int versionId = parameter.toInt(&isNumOk);
+				I_DWORD versionNumber;
+				if (		isNumOk &&
+							versionInfo.GetVersionNumber(versionId, versionNumber)){
+					result = iqt::GetQString(versionInfo.GetEncodedVersionName(versionId, versionNumber));
+					result.replace(".", ", ");
+					result.replace("'", "");
 
-				return true;
+					return true;
+				}
 			}
 		}
 	}
 	else{
-		if (tag == acfProductNameTag){
-			if (m_applicationInfoCompPtr.IsValid()){
-				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
-				if (result.isEmpty()){
-					result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
-				}
-
-				return true;
-			}
-		}
-		else if (tag == acfCompanyNameTag){
-			if (m_applicationInfoCompPtr.IsValid()){
+		if (m_applicationInfoCompPtr.IsValid()){
+			if (tag == acfCompanyNameTag){
 				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
 
 				return true;
 			}
+			else if (tag == acfProductNameTag){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
+
+				return true;
+			}
+			else if (tag == acfApplicationNameTag){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
+
+				return true;
+			}
+			else if (tag == acfApplicationSubnameTag){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
+
+				return true;
+			}
+			else if (tag == acfApplicationTypeTag){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_TYPE));
+
+				return true;
+			}
+			else if (tag == acfLegalCopyrightTag){
+				result = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_LEGAL_COPYRIGHT));
+
+				return true;
+			}
 		}
-		else if (tag == acfTimestampTag){
+
+		if (tag == acfTimestampTag){
 			QDateTime currentTime = QDateTime::currentDateTime();
 			result = currentTime.toString();
 

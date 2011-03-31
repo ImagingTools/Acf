@@ -45,6 +45,7 @@ protected:
 		virtual bool GetVersionNumber(int versionId, I_DWORD& result) const;
 		virtual istd::CString GetVersionIdDescription(int versionId) const;
 		virtual VersionIds GetVersionIds() const;
+		virtual istd::CString GetEncodedVersionName(int versionId, I_DWORD versionNumber) const;
 	};
 
 private:

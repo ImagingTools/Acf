@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1646
+          1708
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          293
+          315
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="4">
     <Element>
       <ComponentName>
         Application
@@ -35,7 +35,18 @@
         375
       </X>
       <X>
-        175
+        100
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ApplicationInfo
+      </ComponentName>
+      <X>
+        375
+      </X>
+      <X>
+        200
       </X>
     </Element>
     <Element>

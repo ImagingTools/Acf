@@ -127,6 +127,12 @@ iser::IVersionInfo::VersionIds CWriteArchiveBase::EmptyVersionInfo::GetVersionId
 }
 
 
+istd::CString CWriteArchiveBase::EmptyVersionInfo::GetEncodedVersionName(int /*versionId*/, I_DWORD /*versionNumber*/) const
+{
+	return "";
+}
+
+
 // static attributes
 
 CWriteArchiveBase::EmptyVersionInfo CWriteArchiveBase::s_emptyVersionInfo;

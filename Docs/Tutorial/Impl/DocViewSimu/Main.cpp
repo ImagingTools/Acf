@@ -18,17 +18,21 @@ int main(int argc, char *argv[])
 
 	Q_INIT_RESOURCE(iqtgui);
 
+	icomp::TSimComponentWrap<BasePck::VersionInfo> versionInfo;
+	versionInfo.SetIntAttr("VersionNumber", 1000);
+	versionInfo.InsertMultiAttr("KnownVersions", 1000);
+	versionInfo.InsertMultiAttr("KnownVersionNames", istd::CString("1.0.0"));
+	versionInfo.InitComponent();
+
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
-	applicationInfo.SetIntAttr("VersionNumber", 1000);
-	applicationInfo.InsertMultiAttr("KnownVersions", 1000);
-	applicationInfo.InsertMultiAttr("KnownVersionNames", istd::CString("1.0.0"));
 	applicationInfo.SetStringAttr("ApplicationName", "DocView");
+	applicationInfo.SetStringAttr("ApplicationType", "Tutorial");
+	applicationInfo.SetStringAttr("LegalCopyright", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
+	applicationInfo.SetRef("VersionInfo", &versionInfo);
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtGuiPck::SplashScreen> splashScreenGui;
 	splashScreenGui.SetStringAttr("ImagePath", "../../../Docs/Images/AcfSplashScreen.png");
-	splashScreenGui.SetStringAttr("ProductType", "Tutorial");
-	splashScreenGui.SetStringAttr("CopyrightText", "This is a part of ACF project.\nSee 'licence.txt' for copyright informations");
 	splashScreenGui.SetRef("ApplicationInfo", &applicationInfo);
 	splashScreenGui.InitComponent();
 

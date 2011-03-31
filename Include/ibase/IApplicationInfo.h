@@ -5,10 +5,9 @@
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
 
-#include "ibase/ibase.h"
-
-
 #include "iser/IVersionInfo.h"
+
+#include "ibase/ibase.h"
 
 
 namespace ibase
@@ -20,7 +19,7 @@ namespace ibase
 
 	\ingroup Main
 */
-class IApplicationInfo: public iser::IVersionInfo
+class IApplicationInfo: public istd::IPolymorphic
 {
 public:
 	enum ApplicationAttribute
@@ -42,9 +41,9 @@ public:
 	virtual istd::CString GetApplicationAttribute(int attributeId) const = 0;
 
 	/**
-		Encode version number to human readable form.
+		Get access to application version info.
 	*/
-	virtual istd::CString GetEncodedVersionName(int versionId, I_DWORD versionNumber) const = 0;
+	virtual const iser::IVersionInfo& GetVersionInfo() const = 0;
 };
 
 
