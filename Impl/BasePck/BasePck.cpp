@@ -55,7 +55,7 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			VersionInfo,
 			"Genaral information about versions",
-			"Veraion Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
+			"Version Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
 
 I_EXPORT_COMPONENT(
 			ApplicationInfo,
