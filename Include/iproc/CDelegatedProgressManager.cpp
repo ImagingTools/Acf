@@ -9,9 +9,12 @@ namespace iproc
 
 
 CDelegatedProgressManager::CDelegatedProgressManager()
-:	m_slaveManagerPtr(NULL),
-	m_slaveSessionId(-1),
-	m_isCanceled(false)
+:	m_isCanceled(false),
+	m_nextSessionId(-1),
+	m_progressSum(0.0),
+	m_cancelableSessionsCount(0),
+	m_slaveManagerPtr(NULL),
+	m_slaveSessionId(-1)
 {
 }
 

@@ -80,8 +80,8 @@ private:
 	QIcon m_icon;
 	QColor m_backgroundColor;
 	QColor m_backgroundSelectedColor;
-	int m_componentType;
 	bool m_isConsistent;
+	int m_componentType;
 };
 
 

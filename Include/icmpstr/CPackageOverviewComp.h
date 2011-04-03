@@ -122,8 +122,8 @@ private:
 		virtual const QString& GetDescription() const;
 
 	protected:
-		QString m_description;
 		CPackageOverviewComp& m_parent;
+		QString m_description;
 	};
 
 	class PackageComponentItem: public PackageItemBase

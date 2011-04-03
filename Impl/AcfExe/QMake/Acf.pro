@@ -1,5 +1,9 @@
+include(../../AcfStd/QMake/AcfStd.pri)
+include(../../AcfQt/QMake/AcfQt.pri)
+
 TARGET = Acf
 TEMPLATE = app
+CONFIG += link_prl
 
 CONFIG(debug, debug|release){
 	DESTDIR = ../../../Bin/DebugQMake
@@ -10,8 +14,12 @@ CONFIG(release, debug|release){
 	LIBS += -L../../../Lib/ReleaseQMake 
 }
 
-
-LIBS += -lAcfQt -lAcfStd
+win32-msvc*{
+	LIBS += -licmpstr -lAcfQt -lAcfStd
+}
+else{
+	LIBS += -licmpstr $$ACFQT_LIBS $$ACFSTD_LIBS
+}
 
 UI_DIR = ../Generated
 MOC_DIR = ../Generated

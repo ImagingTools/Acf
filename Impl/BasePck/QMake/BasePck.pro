@@ -2,6 +2,9 @@ TARGET = BasePck
 TEMPLATE = lib
 
 CONFIG += dll
+CONFIG += link_prl
+
+include(../../AcfStd/QMake/AcfStd.pri)
 
 TARGET_EXT = .arp
 
@@ -14,7 +17,12 @@ CONFIG(release, debug|release){
 	LIBS += -L../../../Lib/ReleaseQMake 
 }
 
-LIBS += -lAcfStd
+win32-msvc*{
+	LIBS += -lAcfStd
+}
+else{
+	LIBS += $$ACFSTD_LIBS
+}
 
 QT -= gui core
 

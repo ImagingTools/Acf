@@ -3,6 +3,7 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += lib_bundle
 CONFIG += no_lflags_merge no_smart_library_merge
+CONFIG += create_prl link_prl
 
 CONFIG(debug, debug|release){
 	DESTDIR = ../../../Lib/DebugQMake

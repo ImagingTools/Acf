@@ -155,9 +155,9 @@ protected:
 	void DeepCopy(const Elements& elements, const SizesType& sizes);
 
 private:
-	Elements m_elements;
-
 	SizesType m_sizes;
+
+	Elements m_elements;
 
 	static Iterator s_endIterator;
 };

@@ -5,6 +5,7 @@
 #include <locale>
 #include <cstdlib>
 #include <string>
+#include <cstring>
 
 
 
@@ -34,7 +35,7 @@ CString::CString(const char* str)
 
 	int length = strlen(str) + 1;
 	wchar_t* wideStringBuffer = new wchar_t[length];
-	std::memset(wideStringBuffer, 0, length * sizeof(wchar_t));
+	memset(wideStringBuffer, 0, length * sizeof(wchar_t));
 	mbstowcs(wideStringBuffer, str, length);
 	*this = std::wstring(wideStringBuffer);
 

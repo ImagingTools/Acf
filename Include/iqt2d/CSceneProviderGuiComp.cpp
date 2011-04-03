@@ -617,6 +617,8 @@ bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 			case QEvent::GraphicsSceneWheel:
 				OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr));
 				return true;
+			default:
+				return BaseClass::eventFilter(sourcePtr, eventPtr);
 		}
 	}
 

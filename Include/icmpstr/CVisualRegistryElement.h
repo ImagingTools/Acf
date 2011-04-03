@@ -42,9 +42,9 @@ public:
 	virtual void MoveCenterTo(const i2d::CVector2d& position);
 
 private:
+	i2d::CVector2d m_center;
 	const icomp::IRegistry* m_registryPtr;
 	icomp::CComponentAddress m_addess;
-	i2d::CVector2d m_center;
 	std::string m_name;
 };
 

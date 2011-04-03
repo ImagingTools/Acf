@@ -2,6 +2,7 @@ TARGET = ibase
 TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += stl
+CONFIG += create_prl
 
 CONFIG(debug, debug|release){
 	DESTDIR = ../../../Lib/DebugQMake
