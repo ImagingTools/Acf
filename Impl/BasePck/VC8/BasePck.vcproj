@@ -40,6 +40,7 @@
 				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories="..\..\..\Include"
 				PreprocessorDefinitions="UNICODE;WIN32;NDEBUG"
+				RuntimeLibrary="2"
 				PrecompiledHeaderFile=""
 			/>
 			<Tool
