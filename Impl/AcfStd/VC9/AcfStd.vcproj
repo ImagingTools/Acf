@@ -16,8 +16,6 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"
@@ -96,8 +94,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			UseOfMFC="0"

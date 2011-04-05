@@ -6,6 +6,7 @@
 	ProjectGUID="{F9F47984-52CC-4D6B-9079-FC7DD1009C6E}"
 	RootNamespace="iqt2d"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -20,8 +21,6 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			>
@@ -90,8 +89,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC9\Static.vsprops"
 			>
