@@ -1,29 +1,7 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          1708
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          315
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="3">
@@ -32,10 +10,10 @@
         BitmapFileExplorer
       </ComponentName>
       <X>
-        350
+        225
       </X>
       <X>
-        425
+        525
       </X>
     </Element>
     <Element>
@@ -43,10 +21,10 @@
         StandaloneApp
       </ComponentName>
       <X>
-        775
+        575
       </X>
       <X>
-        175
+        350
       </X>
     </Element>
     <Element>
@@ -54,10 +32,10 @@
         VersionInfo
       </ComponentName>
       <X>
-        775
+        950
       </X>
       <X>
-        675
+        350
       </X>
     </Element>
   </PositionMap>
