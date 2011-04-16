@@ -15,7 +15,7 @@ CGuiComponentDialog::CGuiComponentDialog(
 			int buttons,  
 			bool isModal, 
 			QWidget* parentWidgetPtr)
-	:BaseClass(parentWidgetPtr),
+:	BaseClass(parentWidgetPtr),
 	m_buttonsBox(NULL),
 	m_guiObjectPtr(NULL)
 {

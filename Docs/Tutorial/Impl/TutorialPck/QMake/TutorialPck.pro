@@ -20,10 +20,10 @@ UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += main core gui xml sql network 
+QT += main core gui xml sql network
 
 
-INCLUDEPATH += ../.. ../../../../../Include "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" 
+INCLUDEPATH += ../.. ../../../../../Include
 
 HEADERS += ../TutorialPck.h
 SOURCES += ../Main.cpp

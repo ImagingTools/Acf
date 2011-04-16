@@ -13,10 +13,9 @@ UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += 
+QT += core gui
 
+INCLUDEPATH += .. ../../../../../Include
 
-INCLUDEPATH += .. ../../../../../Include "$(QTDIR)/Include" "$(QTDIR)/Include/QtCore" "$(QTDIR)/Include/QtGui" "$(ACFDIR)/Include" 
-
-HEADERS += ../CTextEditorComp.h
-SOURCES += ../CTextEditorComp.cpp
+HEADERS += ../*.h
+SOURCES += ../*.cpp

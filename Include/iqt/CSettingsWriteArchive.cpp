@@ -15,7 +15,7 @@ CSettingsWriteArchive::CSettingsWriteArchive(
 			const QString& organizationName, 
 			const QString& productName,
 			const iser::IVersionInfo* versionInfoPtr)
-	:BaseClass(versionInfoPtr),
+:	BaseClass(versionInfoPtr),
 	BaseClass2(organizationName, productName)
 {
 }

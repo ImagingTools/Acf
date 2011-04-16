@@ -19,7 +19,7 @@ namespace ibase
 
 	\ingroup Main
 */
-class IApplicationInfo: public istd::IPolymorphic
+class IApplicationInfo: virtual public istd::IPolymorphic
 {
 public:
 	enum ApplicationAttribute

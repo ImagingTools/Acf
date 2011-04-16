@@ -1,6 +1,3 @@
-include(../../AcfStd/QMake/AcfStd.pri)
-include(../../AcfQt/QMake/AcfQt.pri)
-
 TARGET = Arxc
 TEMPLATE = app
 CONFIG += link_prl
@@ -14,12 +11,7 @@ CONFIG(release, debug|release){
 	LIBS += -L../../../Lib/ReleaseQMake 
 }
 
-win32-msvc*{
-	LIBS += -licmpstr -lAcfQt -lAcfStd
-}
-else{
-	LIBS += -licmpstr $$ACFQT_LIBS $$ACFSTD_LIBS
-}
+LIBS += -licmpstr -lAcfQt -lAcfStd
 
 UI_DIR = ../Generated
 MOC_DIR = ../Generated
@@ -27,8 +19,6 @@ RCC_DIR = ../Generated
 
 QT += core gui 
 
-INCLUDEPATH += ../../../Include
-INCLUDEPATH += ../../../Impl
-INCLUDEPATH += "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtScript" .. 
+INCLUDEPATH += ../../../Include ../../../Impl
 
 SOURCES += ../Main.cpp

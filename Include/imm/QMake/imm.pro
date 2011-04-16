@@ -14,9 +14,7 @@ UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += 
-
-
-INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/phonon" 
+INCLUDEPATH += ../..
 
 HEADERS += ../*.h
+SOURCES += ../*.cpp
