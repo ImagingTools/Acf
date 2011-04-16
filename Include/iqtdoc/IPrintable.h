@@ -19,7 +19,7 @@ namespace iqtdoc
 /**
 	Common interface for printable objects.
 */
-class IPrintable: public istd::IPolymorphic
+class IPrintable: virtual public istd::IPolymorphic
 {
 public:
 	/**

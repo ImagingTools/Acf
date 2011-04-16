@@ -11,7 +11,7 @@
 
 #include "iqtgui/TDesignerGuiCompBase.h"
 
-#include "generated/ui_CVideoPlayerGuiComp.h"
+#include "Generated/ui_CVideoPlayerGuiComp.h"
 
 
 namespace iqtmm

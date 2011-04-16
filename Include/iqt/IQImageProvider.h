@@ -14,7 +14,7 @@ namespace iqt
 {
 
 
-class IQImageProvider: public istd::IPolymorphic
+class IQImageProvider: virtual public istd::IPolymorphic
 {
 public:
 	virtual const QImage& GetQImage() const = 0;

@@ -20,7 +20,8 @@ CBitmapSurface::CBitmapSurface()
 
 
 CBitmapSurface::CBitmapSurface(const CBitmapSurface& bitmap)
-	:BaseClass(bitmap)
+:	BaseClass(bitmap),
+	BaseClass2()
 {
 }
 

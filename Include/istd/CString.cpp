@@ -43,6 +43,7 @@ CString::CString(const char* str)
 
 
 CString::CString(const CString& str)
+:	BaseClass()
 {
 	Copy(str);
 }

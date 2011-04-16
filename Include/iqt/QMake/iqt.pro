@@ -17,8 +17,7 @@ RCC_DIR = ../Generated
 
 QT += core gui network xml
 
-INCLUDEPATH += ../../ "$(QTDIR)/include" "$(QTDIR)/include/QtCore" "$(QTDIR)/include/QtGui" "$(QTDIR)/include/QtXml" "$(QTDIR)/include/QtNetwork" 
-
+INCLUDEPATH += ../../
 
 HEADERS += ../*.h
 SOURCES += ../*.cpp

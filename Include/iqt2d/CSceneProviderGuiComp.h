@@ -21,7 +21,7 @@
 #include "iqtdoc/IPrintable.h"
 
 #include "iqt2d/ISceneProvider.h"
-#include "iqt2d/Generated/Ui_CSceneProviderGuiComp.h"
+#include "iqt2d/Generated/ui_CSceneProviderGuiComp.h"
 
 
 namespace iqt2d

@@ -114,6 +114,7 @@ inline TDelPtr<Type, Accessor>::TDelPtr(Type* ptr)
 
 template <class Type, class Accessor>
 inline TDelPtr<Type, Accessor>::TDelPtr(const TDelPtr<Type, Accessor>& I_IF_DEBUG(ptr))
+:	BaseClass(NULL)
 {
 	I_ASSERT(ptr.GetPtr() == NULL);
 }

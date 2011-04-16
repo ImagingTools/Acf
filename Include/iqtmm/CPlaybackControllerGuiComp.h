@@ -11,7 +11,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "generated/ui_CPlaybackControllerGuiComp.h"
+#include "Generated/ui_CPlaybackControllerGuiComp.h"
 
 
 namespace iqtmm
