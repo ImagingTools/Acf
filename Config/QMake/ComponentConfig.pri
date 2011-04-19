@@ -1,6 +1,6 @@
 #Standard settings for an ACF package project
 
-include (General.config)
+include (GeneralConfig.pri)
 
 TEMPLATE = lib
 

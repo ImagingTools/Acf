@@ -1,5 +1,5 @@
 # Standard settings for a Qt based UI project
 
-include (QtBase.config)
+include (QtBaseConfig.pri)
 
 FORMS += ../*.ui

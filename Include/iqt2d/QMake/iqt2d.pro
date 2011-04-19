@@ -1,3 +1,3 @@
-include(../../../Config/QMake/IncludeQtGui.config)
+include(../../../Config/QMake/IncludeQtGuiConfig.pri)
 
 TARGET = iqt2d

@@ -1,4 +1,4 @@
-include(../../../Config/QMake/Include.config)
+include(../../../Config/QMake/IncludeConfig.pri)
 
 TARGET = idoc
 

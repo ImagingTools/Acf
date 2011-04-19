@@ -1,5 +1,5 @@
-include(../../../../../Config/QMake/Component.config)
-include(../../../../../Config/QMake/QtGuiBase.config)
+include(../../../../../Config/QMake/ComponentConfig.pri)
+include(../../../../../Config/QMake/QtGuiBaseConfig.pri)
 
 TARGET = TutorialPck
 

@@ -1,6 +1,6 @@
 # Standard settings for an ACF static library
 
-include(../../Config/QMake/Static.config)
+include(../../Config/QMake/StaticConfig.pri)
 
 INCLUDEPATH += ../../
 

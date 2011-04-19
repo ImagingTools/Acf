@@ -1,6 +1,6 @@
 #Standard settings for an ACF application
 
-include (General.config)
+include (GeneralConfig.pri)
 
 TEMPLATE = app
 

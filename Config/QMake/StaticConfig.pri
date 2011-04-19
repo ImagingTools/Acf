@@ -1,6 +1,6 @@
 # Standard settings for an ACF static library
 
-include(General.config)
+include(GeneralConfig.pri)
 
 TEMPLATE = lib
 

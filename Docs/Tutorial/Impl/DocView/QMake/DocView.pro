@@ -1,5 +1,5 @@
-include($(ACFDIR)/Config/QMake/Static.config)
-include($(ACFDIR)/Config/QMake/QtGuiBase.config)
+include($(ACFDIR)/Config/QMake/StaticConfig.pri)
+include($(ACFDIR)/Config/QMake/QtGuiBaseConfig.pri)
 
 TARGET = DocView
 

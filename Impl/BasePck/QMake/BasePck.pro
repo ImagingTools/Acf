@@ -1,4 +1,4 @@
-include(../../../Config/QMake/Component.config)
+include(../../../Config/QMake/ComponentConfig.pri)
 include(../../AcfStd/QMake/AcfStd.pri)
 
 TARGET = BasePck

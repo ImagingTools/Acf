@@ -1,5 +1,5 @@
-include(../../../../../Config/QMake/Application.config)
-include(../../../../../Config/QMake/QtGuiBase.config)
+include(../../../../../Config/QMake/ApplicationConfig.pri)
+include(../../../../../Config/QMake/QtGuiBaseConfig.pri)
 
 TARGET = DocViewSimu
 

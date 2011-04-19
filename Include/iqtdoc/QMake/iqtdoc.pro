@@ -1,3 +1,3 @@
-include(../../../Config/QMake/IncludeQt.config)
+include(../../../Config/QMake/IncludeQtConfig.pri)
 
 TARGET = iqtdoc
