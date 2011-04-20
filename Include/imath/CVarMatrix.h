@@ -50,12 +50,12 @@ public:
 	/**
 		Set all matrix cells to zero.
 	*/
-	virtual void Clear();
+	void Clear();
 
 	/**
 		Create identity matrix.
 	*/
-	virtual void InitToIdentity(int size);
+	void InitToIdentity(int size);
 
 	/*
 		Get maximal element.

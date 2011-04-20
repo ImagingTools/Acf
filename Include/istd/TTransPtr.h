@@ -54,10 +54,11 @@ protected:
 		typedef TPointerBase<Type> BaseClass;
 
 		RefCountBase(Type* ptr)
-		: BaseClass(ptr)
+		:	BaseClass(ptr)
 		{
 			I_ASSERT(ptr != NULL);
 		}
+		virtual ~RefCountBase(){}
 
 		// abstract methods
 		virtual void OnAttached() = 0;

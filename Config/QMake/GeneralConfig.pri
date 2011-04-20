@@ -2,6 +2,7 @@
 
 CONFIG += stl
 CONFIG -= exceptions
+CONFIG += silent
 
 COMPILER_NAME = QMake
 win32-msvc*{
@@ -20,6 +21,8 @@ win32-msvc*{
 macx-xcode{
 	COMPILER_NAME = XCD
 }
+
+QMAKE_CXXFLAGS_WARN_ON = -Wall
 
 CONFIG(debug, debug|release){
 	COMPILER_DIR = Debug$$COMPILER_NAME
