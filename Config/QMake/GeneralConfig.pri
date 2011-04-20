@@ -18,9 +18,6 @@ win32-msvc*{
 		COMPILER_NAME = VC10
 	}
 }
-macx-xcode{
-	COMPILER_NAME = XCD
-}
 
 QMAKE_CXXFLAGS_WARN_ON = -Wall
 

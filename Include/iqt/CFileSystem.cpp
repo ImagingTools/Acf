@@ -111,7 +111,7 @@ QString CFileSystem::GetEnrolledPath(const QString& path)
 QString CFileSystem::FindVariableValue(const QString& varName)
 {
 	if (varName == "ConfigurationName"){
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1500
 		return "DebugVC9";
@@ -123,9 +123,9 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 		return "DebugVC";
 		#endif
 	#else // _MSC_VER
-		return "DebugXCD";
+		return "DebugQMake";
 	#endif // _MSC_VER
-#else // _DEBUG
+#else // _DEBUG || DEBUG
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1500
 		return "ReleaseVC9";
@@ -137,9 +137,9 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 		return "ReleaseVC";
 		#endif
 	#else // _MSC_VER
-		return "ReleaseXCD";
+		return "ReleaseQMake";
 	#endif // _MSC_VER
-#endif // _DEBUG
+#endif // _DEBUG || DEBUG
 	}
 	else if (varName == "CompilerName"){
 #ifdef _MSC_VER
@@ -153,7 +153,7 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 		return "VC";
 	#endif
 #else // _MSC_VER
-		return "XCD";
+		return "QMake";
 #endif // _MSC_VER
 	}
 

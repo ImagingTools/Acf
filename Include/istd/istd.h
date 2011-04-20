@@ -124,7 +124,7 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #define I_INFINITY std::numeric_limits<double>::infinity()
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 
 
 #define I_IF_DEBUG(instructions) instructions
@@ -132,7 +132,7 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #define I_CRITICAL() istd::OnSoftwareError(__FILE__, __LINE__)
 
 
-#else //_DEBUG
+#else // _DEBUG || DEBUG
 
 
 #define I_ASSERT(test)
@@ -140,10 +140,10 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #define I_IF_DEBUG(instructions)
 
 
-#endif //_DEBUG
+#endif // _DEBUG || DEBUG
 
 
-#if defined(_DEBUG) || defined(I_FORCE_TRACE)
+#if defined(_DEBUG) || defined(DEBUG) || defined(I_FORCE_TRACE)
 
 
 /**
@@ -169,14 +169,14 @@ if (istd::CheckTraceEnabled(level, groupId)){\
 }
 
 
-#else //defined(_DEBUG) || defined(I_FORCE_TRACE)
+#else // _DEBUG || DEBUG || I_FORCE_TRACE
 
 
 #define I_TRACE(level, groupId, message)
 #define I_TRACE_ONCE(level, groupId, message)
 
 
-#endif //defined(_DEBUG) || defined(I_FORCE_TRACE)
+#endif // _DEBUG || DEBUG || I_FORCE_TRACE
 
 
 #ifndef NULL

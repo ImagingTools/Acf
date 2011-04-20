@@ -21,22 +21,22 @@ namespace icomp
 #endif
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	#define I_PACKAGE_EXPORT_FUNCTION GetPackageInfoDebug
 	#define I_PACKAGE_EXPORT_FUNCTION_NAME "GetPackageInfoDebug"
-#else
+#else // _DEBUG || DEBUG
 	#define I_PACKAGE_EXPORT_FUNCTION GetPackageInfo
 	#define I_PACKAGE_EXPORT_FUNCTION_NAME "GetPackageInfo"
-#endif
+#endif // _DEBUG || DEBUG
 
 
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(DEBUG)
 	#define I_EXPORT_SERVICES_FUNCTION RegisterServicesDebug
 	#define I_EXPORT_SERVICES_FUNCTION_NAME "RegisterServicesDebug"
-#else
+#else // _DEBUG || DEBUG
 	#define I_EXPORT_SERVICES_FUNCTION RegisterServices
 	#define I_EXPORT_SERVICES_FUNCTION_NAME "RegisterServices"
-#endif
+#endif // _DEBUG || DEBUG
 
 
 #define I_EXPORT_SERVICES_PROVIDER(serviceProvider)\

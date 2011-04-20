@@ -248,7 +248,7 @@ int main(int argc, char *argv[])
 	application.SetStringAttr("StyleSheet", ":/Style/Resources/Style/AcfStyle.ass");
 	application.InitComponent();
 
-	if (!registryFile.empty()){
+/*	if (!registryFile.empty()){
 		if (!workspaceComp.FileOpen(NULL, &registryFile)){
 			QMessageBox::information(
 						NULL,
@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
 						QObject::tr("Cannot load registry\n%1").arg(iqt::GetQString(registryFile)));
 		}
 	}
-
+*/
 	return application.Execute(argc, argv);
 }
 
