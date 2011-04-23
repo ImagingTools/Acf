@@ -19,7 +19,6 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Component.vsprops"
 			UseOfMFC="0"
@@ -113,7 +112,6 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(ACFDIR)\Config\VC8\Component.vsprops"
 			UseOfMFC="0"
