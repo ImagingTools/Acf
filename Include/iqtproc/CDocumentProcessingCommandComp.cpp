@@ -1,0 +1,55 @@
+#include "iqtproc/CDocumentProcessingCommandComp.h"
+
+
+// ACF includes
+#include "iqtgui/CGuiComponentDialog.h"
+
+
+namespace iqtproc
+{
+
+
+// protected methods
+
+// reimplemented (iqtproc::CDocumentProcessingManagerCompBase)
+
+void CDocumentProcessingCommandComp::DoDocumentProcessing(const istd::IChangeable& inputDocument, const std::string& /*documentTypeId*/)
+{
+	if (!m_outputDataCompPtr.IsValid()){
+		SendErrorMessage(0, "Processing result data model not set");
+
+		return;
+	}
+
+	istd::CChangeNotifier changePtr(m_outputDataCompPtr.GetPtr());
+
+	int retVal = m_processorCompPtr->DoProcessing(
+				m_paramsSetCompPtr.GetPtr(),
+				&inputDocument,
+				m_outputDataCompPtr.GetPtr(),
+				m_progressManagerCompPtr.GetPtr());
+	
+	if (retVal != iproc::IProcessor::TS_OK){
+		SendErrorMessage(0, "Processing was failed", "Document processing manager");
+
+		return;
+	}
+
+	// show results in the dialog:
+	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
+
+	if (m_outputDataGuiCompPtr.IsValid()){
+		dialogPtr.SetPtr(
+					new iqtgui::CGuiComponentDialog(
+								m_outputDataGuiCompPtr.GetPtr(),
+								QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+								true));
+
+		dialogPtr->exec();
+	}
+}
+
+
+} // namespace iqtproc
+
+

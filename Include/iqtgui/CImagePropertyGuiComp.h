@@ -13,8 +13,8 @@ namespace iqtgui
 
 
 class CImagePropertyGuiComp:
-	public iqtgui::TDesignerGuiObserverCompBase<
-			Ui::CImagePropertyGuiComp, iimg::IBitmap>
+			public iqtgui::TDesignerGuiObserverCompBase<
+						Ui::CImagePropertyGuiComp, iimg::IBitmap>
 {
 	Q_OBJECT
 

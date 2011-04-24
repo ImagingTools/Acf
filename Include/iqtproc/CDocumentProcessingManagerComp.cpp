@@ -1,95 +1,28 @@
 #include "iqtproc/CDocumentProcessingManagerComp.h"
 
 
-// ACF includes
-#include "iqtgui/CGuiComponentDialog.h"
-
-
 namespace iqtproc
 {
 
 
-// public methods
+// protected methods
 
-CDocumentProcessingManagerComp::CDocumentProcessingManagerComp()
-	:m_rootCommands("", 100, ibase::ICommand::CF_GLOBAL_MENU),
-	m_processingCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU)	
-{
-}
-
-
-// reimpemented (ibase::ICommandsProvider)
-
-const ibase::IHierarchicalCommand* CDocumentProcessingManagerComp::GetCommands() const
-{
-	return &m_processingMenu;
-}
-
-
-// reimpemented (icomp::IComponent)
-
-void CDocumentProcessingManagerComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	QString menuName = tr("Processing");
-
-	if (m_menuNameAttrPtr.IsValid()){
-		menuName = iqt::GetQString(*m_menuNameAttrPtr);
-	}
-
-	if (m_commandNameAttrPtr.IsValid() && !(*m_commandNameAttrPtr).IsEmpty()){
-		QString commandName = iqt::GetQString(*m_commandNameAttrPtr);
-
-		m_processingCommand.SetVisuals(commandName, commandName, commandName);
-		m_rootCommands.SetVisuals(menuName, menuName, tr("Document processing actions"));
-
-		m_rootCommands.InsertChild(&m_processingCommand);
-		m_processingMenu.InsertChild(&m_rootCommands);
-
-		connect(&m_processingCommand, SIGNAL(triggered()), this, SLOT(OnDoProcessing()));
-	}
-}
-
-
-// private slots
-
-void CDocumentProcessingManagerComp::OnDoProcessing()
-{
-	if (!m_documentManagerCompPtr.IsValid()){
-		SendErrorMessage(0, "Document manager was not set", "Document processing manager");
-
-		return;
-	}
-
-	if (!m_processorCompPtr.IsValid()){
-		SendErrorMessage(0, "Processor was not set", "Document processing manager");
-
-		return;
-	}
-
-	istd::IPolymorphic* viewPtr = m_documentManagerCompPtr->GetActiveView();
-	if (viewPtr == NULL){
-		return;
-	}
-
-	istd::IChangeable* inputDocumentPtr = m_documentManagerCompPtr->GetDocumentFromView(*viewPtr);
-	if (inputDocumentPtr == NULL){
-		return;
-	}
-	
-	std::string documentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*inputDocumentPtr);
-
-	if (m_inPlaceProcessingAttrPtr.IsValid() && *m_inPlaceProcessingAttrPtr){
-		DoInPlaceDocumentProcessing(*inputDocumentPtr);
-	}
-	else{
-		DoDocumentProcessing(*inputDocumentPtr, documentTypeId);
-	}
-}
-
+// reimplemented (iqtproc::CDocumentProcessingManagerCompBase)
 
 void CDocumentProcessingManagerComp::DoDocumentProcessing(const istd::IChangeable& inputDocument, const std::string& documentTypeId)
+{
+	if (m_inPlaceProcessingAttrPtr.IsValid() && *m_inPlaceProcessingAttrPtr){
+		DoInPlaceProcessing(const_cast<istd::IChangeable&>(inputDocument));
+	}
+	else{
+		DoProcessingToOutput(inputDocument, documentTypeId);
+	}
+}
+
+
+// private methods
+
+void CDocumentProcessingManagerComp::DoProcessingToOutput(const istd::IChangeable& inputDocument, const std::string& documentTypeId)
 {
 	istd::IChangeable* outputDocumentPtr = NULL;
 	if (!m_documentManagerCompPtr->FileNew(documentTypeId, false, "", &outputDocumentPtr)){
@@ -97,6 +30,8 @@ void CDocumentProcessingManagerComp::DoDocumentProcessing(const istd::IChangeabl
 
 		return;
 	}
+
+	I_ASSERT(outputDocumentPtr != NULL);
 
 	int documentIndex = -1;
 
@@ -110,23 +45,6 @@ void CDocumentProcessingManagerComp::DoDocumentProcessing(const istd::IChangeabl
 	}
 
 	I_ASSERT(documentIndex >= 0);
-
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
-
-	if (m_paramsGuiCompPtr.IsValid()){
-		dialogPtr.SetPtr(
-					new iqtgui::CGuiComponentDialog(
-								m_paramsGuiCompPtr.GetPtr(),
-								QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-								true));
-
-		int retVal = dialogPtr->exec();
-		if (retVal != QDialog::Accepted){
-			return;
-		}
-	}
-
-	I_ASSERT(outputDocumentPtr != NULL);
 
 	istd::CChangeNotifier changePtr(outputDocumentPtr);
 
@@ -156,23 +74,8 @@ void CDocumentProcessingManagerComp::DoDocumentProcessing(const istd::IChangeabl
 }
 
 
-void CDocumentProcessingManagerComp::DoInPlaceDocumentProcessing(istd::IChangeable& inputDocument)
+void CDocumentProcessingManagerComp::DoInPlaceProcessing(istd::IChangeable& inputDocument)
 {
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
-
-	if (m_paramsGuiCompPtr.IsValid()){
-		dialogPtr.SetPtr(
-					new iqtgui::CGuiComponentDialog(
-								m_paramsGuiCompPtr.GetPtr(),
-								QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-								true));
-
-		int retVal = dialogPtr->exec();
-		if (retVal != QDialog::Accepted){
-			return;
-		}
-	}
-
 	istd::CChangeNotifier changePtr(&inputDocument);
 
 	istd::TDelPtr<istd::IChangeable> outputDocumentPtr(inputDocument.CloneMe());
@@ -190,6 +93,8 @@ void CDocumentProcessingManagerComp::DoInPlaceDocumentProcessing(istd::IChangeab
 	
 	if (retVal != iproc::IProcessor::TS_OK){
 		SendErrorMessage(0, "Processing was failed", "Document processing manager");
+
+		return;
 	}
 
 	if (!inputDocument.CopyFrom(*outputDocumentPtr.GetPtr())){

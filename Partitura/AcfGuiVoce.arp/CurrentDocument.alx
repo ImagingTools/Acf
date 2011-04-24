@@ -1,32 +1,10 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          1441
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          169
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="4">
+  <PositionMap count="3">
     <Element>
       <ComponentName>
         CurrentDocumentModel
@@ -36,17 +14,6 @@
       </X>
       <X>
         400
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        CurrentModelBinder
-      </ComponentName>
-      <X>
-        375
-      </X>
-      <X>
-        575
       </X>
     </Element>
     <Element>

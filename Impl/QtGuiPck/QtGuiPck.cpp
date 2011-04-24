@@ -209,6 +209,15 @@ I_EXPORT_COMPONENT(
 			"Document processing manager",
 			"Processing Document" IM_TAG("Processing"));
 
+I_EXPORT_COMPONENT(
+			ImagePropertiesFrame,
+			"Frame with image properties",
+			"Image Properties" IM_TAG("GUI"));
+
+I_EXPORT_COMPONENT(
+			DocumentProcessingCommand,
+			"Document processing command",
+			"Processing Document Command" IM_TAG("Processing"));
 
 
 } // namespace QtGuiPck
