@@ -42,7 +42,7 @@ void CDocumentProcessingCommandComp::DoDocumentProcessing(const istd::IChangeabl
 		dialogPtr.SetPtr(
 					new iqtgui::CGuiComponentDialog(
 								m_outputDataGuiCompPtr.GetPtr(),
-								QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+								QDialogButtonBox::Ok,
 								true));
 
 		dialogPtr->exec();
