@@ -68,6 +68,7 @@
 
 #include "iproc/CCascadedProcessorComp.h"
 #include "iproc/CIterativeProcessorComp.h"
+#include "iproc/CModelBasedProcessingTriggerComp.h"
 
 
 /**
@@ -191,6 +192,7 @@ typedef icomp::TMakeComponentWrap<
 
 typedef iproc::CCascadedProcessorComp CascadedProcessor;
 typedef iproc::CIterativeProcessorComp IterativeProcessor;
+typedef iproc::CModelBasedProcessingTriggerComp ModelBasedProcessingTrigger;
 
 
 } // namespace BasePck

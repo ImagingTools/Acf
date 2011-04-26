@@ -267,6 +267,11 @@ I_EXPORT_COMPONENT(
 			"Data model of the logging component",
 			IM_TAG("Log"));
 
+I_EXPORT_COMPONENT(
+			ModelBasedProcessingTrigger,
+			"Model-based processing trigger",
+			"Processor Model Trigger" IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing"));
+
 
 } // namespace BasePck
 

@@ -25,7 +25,7 @@ CGuiComponentDialog::CGuiComponentDialog(
 	// GUI must not be created: 
 	I_ASSERT(!guiObjectPtr->IsGuiCreated());
 	if(!guiObjectPtr->IsGuiCreated()){
-		setModal(isModal);
+		BaseClass::setModal(isModal);
 
 		QVBoxLayout* dialogLayout = new QVBoxLayout(this);
 
@@ -34,6 +34,11 @@ CGuiComponentDialog::CGuiComponentDialog(
 				m_guiObjectPtr = guiObjectPtr;
 
 				dialogLayout->addWidget(m_guiObjectPtr->GetWidget());
+				
+				QWidget* slaveWidgetPtr = guiObjectPtr->GetWidget();
+				I_ASSERT(slaveWidgetPtr != NULL);
+
+				BaseClass::resize(slaveWidgetPtr->sizeHint().expandedTo(BaseClass::sizeHint()));
 			}
 		}
 

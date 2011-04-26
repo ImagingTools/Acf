@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <PositionMap count="3">
+    <Element>
+      <ComponentName>
+        ImagePropertiesFrame
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        475
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        ImagePropertiesGui
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        375
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        StatusBarWidget
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        250
+      </X>
+    </Element>
+  </PositionMap>
+</Acf>

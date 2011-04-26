@@ -181,6 +181,10 @@
 				RelativePath="..\CIterativeProcessorComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CModelBasedProcessingTriggerComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -196,6 +200,10 @@
 			</File>
 			<File
 				RelativePath="..\CIterativeProcessorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CModelBasedProcessingTriggerComp.h"
 				>
 			</File>
 			<File
