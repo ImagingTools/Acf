@@ -17,12 +17,15 @@ int CBitmapBase::GetLineBytesCount() const
 {
 	istd::CIndex2d size = GetImageSize();
 	int bytesPerPixel = ((GetPixelBitsCount() + 7) / 8);
+
 	return bytesPerPixel * size.GetX();
 }
 
 
 int CBitmapBase::GetComponentBitsCount(int /*componentIndex*/) const
 {
+	I_ASSERT(GetComponentsCount() > 0);
+
 	return GetPixelBitsCount() / GetComponentsCount();
 }
 
