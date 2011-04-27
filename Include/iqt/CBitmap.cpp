@@ -68,11 +68,17 @@ bool CBitmap::GetSnap(const istd::IChangeable& data, iimg::IBitmap& objectSnap, 
 
 // reimplemented (iimg::IBitmap)
 
-bool CBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int componentsCount)
+iimg::IBitmap::PixelFormat CBitmap::GetPixelFormat() const
+{
+	return CalcFromQtFormat(m_image.format());
+}
+
+
+bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
 {
 	istd::CChangeNotifier changePtr(this);
 
-	QImage::Format imageFormat = CalcQtFormat(pixelBitsCount, componentsCount);
+	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image(size.GetX(), size.GetY(), imageFormat);
 
@@ -84,12 +90,11 @@ bool CBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int c
 	return false;
 }
 
-
-bool CBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference, int pixelBitsCount, int componentsCount)
+bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	istd::CChangeNotifier changePtr(this);
 
-	QImage::Format imageFormat = CalcQtFormat(pixelBitsCount, componentsCount);
+	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image((I_BYTE*)dataPtr, size.GetX(), size.GetY(), imageFormat);
 		if ((linesDifference != 0) && (linesDifference != image.scanLine(1) - image.scanLine(0))){
@@ -192,7 +197,7 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object)
 		if (bitmapPtr != NULL){
 			istd::CChangeNotifier notifier(this);
 			istd::CIndex2d size = bitmapPtr->GetImageSize();
-			if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
+			if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
 				int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
 				for (int y = 0; y < size.GetY(); ++y){
 					std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
@@ -221,23 +226,35 @@ istd::IChangeable* CBitmap::CloneMe() const
 
 // protected methods
 
-QImage::Format CBitmap::CalcQtFormat(int pixelBitsCount, int componentsCount) const
+QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 {
-	switch (pixelBitsCount){
-	case 8:
-		if (componentsCount == 1){
-			return QImage::Format_Indexed8;
-		}
-		break;
-
-	case 32:	
-		if (componentsCount == 4){
+	switch (pixelFormat){
+		case PF_RGB:
+			return QImage::Format_RGB32;
+		case PF_RGBA:
 			return QImage::Format_ARGB32;
-		}
-		break;
+		case PF_GRAY:
+			return QImage::Format_Indexed8;
 	}
 
 	return QImage::Format_Invalid;
+}
+
+
+iimg::IBitmap::PixelFormat CBitmap::CalcFromQtFormat(QImage::Format imageFormat) const
+{
+	switch (imageFormat){
+		case QImage::Format_RGB32:
+			return PF_RGB;
+	
+		case QImage::Format_ARGB32:
+			return PF_RGBA;
+
+		case QImage::Format_Indexed8:
+			return PF_GRAY;
+	}
+
+	return PF_UNKNOWN;
 }
 
 

@@ -16,25 +16,64 @@ class IBitmap: virtual public IRasterImage
 {
 public:
 	/**
-		Create bitmap with specified size, number of bits per pixel and components number per pixel.
-		\param	size			bitmap size.
-		\param	pixelBitsCount	number of bits per single pixel.
-		\param	componentsCount	number of components per single pixel.
-		\return					true if bitmap was created.
+		Bitmap pixel format description.
 	*/
-	virtual bool CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount = 8, int componentsCount = 1) = 0;
+	enum PixelFormat
+	{
+		/**
+			Unknown image format
+		*/
+		PF_UNKNOWN = 0,
+
+		/**
+			User defined format
+		*/
+		PF_USER,
+
+		/**
+			Monochrome bitmap
+		*/
+		PF_MONO,
+
+		/**
+			8-bit grayscale bitmap.
+		*/
+		PF_GRAY,
+
+		/**
+			32-bit RGB-bitmap, alpha channel can be ignored.
+		*/
+		PF_RGB,
+
+		/**
+			32-bit RGB bitmap with alpha channel.
+		*/
+		PF_RGBA
+	};
+
 
 	/**
-		Create bitmap using external image buffer.
+		Get the bitmap's pixel format.
+		\sa PixelFormat
+	*/
+	virtual PixelFormat GetPixelFormat() const = 0;
+
+	/**
+		Create bitmap with specified size and format.
+		\param	pixelFormat		bitmap format. \sa PixelFormat
+		\param	size			bitmap size.
+	*/
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size) = 0;
+
+	/**
+		Create bitmap with specified size and format using external image data buffer.
+		\param	pixelFormat		bitmap format. \sa PixelFormat
 		\param	size			bitmap size.
 		\param	dataPtr			pointer to external image buffer.
 		\param	releaseFlag		if its true, external buffer will be managed (removed) by this object.
 		\param	linesDifference	address difference between next and previos line. If it equals 0, the value will be taken from size and number of bits per pixel.
-		\param	pixelBitsCount	number of bits per single pixel.
-		\param	componentsCount	number of components per single pixel.
-		\return					true if bitmap was created.
 	*/
-	virtual bool CreateBitmap(const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0, int pixelBitsCount = 8, int componentsCount = 1) = 0;
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0) = 0;
 
 	/**
 		Number of bytes per single line.

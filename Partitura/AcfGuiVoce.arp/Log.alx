@@ -1,29 +1,7 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          1654
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          295
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="3">
@@ -51,13 +29,13 @@
     </Element>
     <Element>
       <ComponentName>
-        LogModelBinder
+        ModelEditorGui
       </ComponentName>
       <X>
         625
       </X>
       <X>
-        125
+        175
       </X>
     </Element>
   </PositionMap>

@@ -14,14 +14,19 @@ namespace iimg
 
 
 CGeneralBitmap::CGeneralBitmap()
-:	m_linesDifference(0), m_pixelBitsCount(0), m_componentsCount(0)
+:	m_linesDifference(0),
+	m_pixelBitsCount(0),
+	m_componentsCount(0),
+	m_pixelFormat(PF_UNKNOWN)
 {
 }
 
 
-// reimplemented (iimg::IBitmap)
-
-bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount, int componentsCount)
+bool CGeneralBitmap::CreateBitmap(
+			const istd::CIndex2d& size,
+			int pixelBitsCount,
+			int componentsCount,
+			PixelFormat pixelFormat)
 {
 	if (		(size.GetX() < 0) ||
 				(size.GetY() < 0) ||
@@ -39,6 +44,7 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount
 	m_size = size;
 	m_pixelBitsCount = pixelBitsCount;
 	m_componentsCount = componentsCount;
+	m_pixelFormat = pixelFormat;
 
 	int bufferSize = m_linesDifference * size.GetY();
 	if (bufferSize > 0){
@@ -54,7 +60,14 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, int pixelBitsCount
 }
 
 
-bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference, int pixelBitsCount, int componentsCount)
+bool CGeneralBitmap::CreateBitmap(
+			const istd::CIndex2d& size,
+			void* dataPtr,
+			bool releaseFlag,
+			int linesDifference,
+			int pixelBitsCount,
+			int componentsCount,
+			PixelFormat pixelFormat)
 {
 	if (		(size.GetX() < 0) ||
 				(size.GetY() < 0) ||
@@ -69,6 +82,7 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, boo
 	m_size = size;
 	m_pixelBitsCount = pixelBitsCount;
 	m_componentsCount = componentsCount;
+	m_pixelFormat = pixelFormat;
 
 	if (linesDifference != 0){
 		m_linesDifference = linesDifference;
@@ -80,6 +94,49 @@ bool CGeneralBitmap::CreateBitmap(const istd::CIndex2d& size, void* dataPtr, boo
 	m_buffer.SetPtr((I_BYTE*)dataPtr, releaseFlag);
 
 	return true;
+}
+
+
+// reimplemented (iimg::IBitmap)
+
+IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
+{
+	return m_pixelFormat;
+}
+
+
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
+{
+	switch(pixelFormat){
+		case PF_UNKNOWN:
+			return false;
+		case PF_USER:
+			return CreateBitmap(size);
+		case PF_GRAY:
+			return CreateBitmap(size, 8, 1, PF_GRAY);
+		case PF_RGB:
+		case PF_RGBA:
+			return CreateBitmap(size, 32, 4, pixelFormat);
+	}
+
+	return false;
+}
+
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
+{
+	switch(pixelFormat){
+		case PF_UNKNOWN:
+			return false;
+		case PF_USER:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference);
+		case PF_GRAY:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 8, 1, PF_GRAY);
+		case PF_RGB:
+		case PF_RGBA:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 4, pixelFormat);
+	}
+
+	return false;
 }
 
 

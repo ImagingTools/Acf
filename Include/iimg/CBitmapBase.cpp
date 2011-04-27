@@ -130,11 +130,13 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 	istd::CIndex2d size;
 	int pixelBitsCount = 0;
 	int componentsCount = 0;
+	int pixelFormat = PF_UNKNOWN;
 
 	if (isStoring){
 		size = GetImageSize();
 		pixelBitsCount = GetPixelBitsCount();
 		componentsCount = GetComponentsCount();
+		pixelFormat =  GetPixelFormat();
 	}
 
 	static iser::CArchiveTag sizeTag("Size", "Size of bitmap");
@@ -152,15 +154,10 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 
 	retVal = retVal && archive.EndTag(sizeTag);
 
-	static iser::CArchiveTag pixelBitsCountTag("PixelBitsCount", "Number of bits per single pixel");
-	retVal = retVal && archive.BeginTag(pixelBitsCountTag);
-	retVal = retVal && archive.Process(pixelBitsCount);
-	retVal = retVal && archive.EndTag(pixelBitsCountTag);
-
-	static iser::CArchiveTag componentsCountTag("ComponentsCount", "Number of components per pixel");
-	retVal = retVal && archive.BeginTag(componentsCountTag);
-	retVal = retVal && archive.Process(componentsCount);
-	retVal = retVal && archive.EndTag(componentsCountTag);
+	static iser::CArchiveTag pixelFormatTag("PixelFormat", "Pixel format");
+	retVal = retVal && archive.BeginTag(pixelFormatTag);
+	retVal = retVal && archive.Process(pixelFormat);
+	retVal = retVal && archive.EndTag(pixelFormatTag);
 
 	retVal = retVal && archive.EndTag(headerTag);
 
@@ -168,7 +165,7 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 
 	if (!isStoring){
 		if (!size.IsZero()){
-			if (!CreateBitmap(size, pixelBitsCount, componentsCount)){
+			if (!CreateBitmap(PixelFormat(pixelFormat), size)){
 				return false;
 			}
 		}

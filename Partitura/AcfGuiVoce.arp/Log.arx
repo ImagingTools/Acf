@@ -1,29 +1,7 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          1654
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          295
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <ElementsList count="3">
@@ -135,20 +113,20 @@
     </Element>
     <Element>
       <Id>
-        LogModelBinder
+        ModelEditorGui
       </Id>
       <PackageId>
-        BasePck
+        QtGuiPck
       </PackageId>
       <ComponentId>
-        ModelBinder
+        ModelEditorGui
       </ComponentId>
       <Data>
         <IsEnabled>
           true
         </IsEnabled>
         <Flags>
-          1
+          0
         </Flags>
         <AttributeInfoMap count="2">
           <AttributeInfo>
@@ -172,10 +150,10 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              Observers
+              SlaveEditorGui
             </Id>
             <Type>
-              icomp::CMultiReferenceAttribute
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
               
@@ -184,11 +162,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
-                <Value>
-                  LogGui
-                </Value>
-              </Values>
+              <Value>
+                LogGui
+              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -219,7 +195,7 @@
         iqtgui::IGuiObject
       </InterfaceId>
       <ComponentId>
-        LogGui
+        ModelEditorGui
       </ComponentId>
     </Interface>
   </ExportedInterfaces>

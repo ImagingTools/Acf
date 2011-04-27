@@ -282,6 +282,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSceneBinderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSceneConnectorGuiComp.cpp"
 				>
 			</File>
@@ -391,6 +395,10 @@
 			</File>
 			<File
 				RelativePath="..\CRectangleShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSceneBinderComp.h"
 				>
 			</File>
 			<File
