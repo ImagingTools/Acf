@@ -685,6 +685,10 @@ bool CRegistryConsistInfoComp::CheckPointedElementInfoCompatibility(
 					++interfaceIter){
 			const std::string& interfaceName = *interfaceIter;
 
+			if ((interfaceName == "icomp::IComponent") || (interfaceName == "void")){
+				continue;
+			}
+
 			if (supportedInterfaces.find(interfaceName) == supportedInterfaces.end()){
 				if (reasonConsumerPtr != NULL){
 					reasonConsumerPtr->AddMessage(new ibase::CMessage(

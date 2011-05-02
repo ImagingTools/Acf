@@ -4,7 +4,7 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="2">
     <Element>
       <ComponentName>
         ImagePropertiesFrame
@@ -14,17 +14,6 @@
       </X>
       <X>
         475
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ImagePropertiesGui
-      </ComponentName>
-      <X>
-        575
-      </X>
-      <X>
-        375
       </X>
     </Element>
     <Element>

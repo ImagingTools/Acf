@@ -34,7 +34,7 @@ public:
 	I_BEGIN_COMPONENT(TScenographerCompBase);
 		I_REGISTER_INTERFACE(iqtgui::IDropConsumer);
 		I_REGISTER_INTERFACE(imod::IObserver);
-		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "Display view where the registry will be shown", true, "SceneProvider");
+		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "Display view where graphical objects will be shown", true, "SceneProvider");
 	I_END_COMPONENT;
 
 	TScenographerCompBase();
