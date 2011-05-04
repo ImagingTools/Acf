@@ -582,8 +582,6 @@ void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCom
 
 void CMainWindowGuiComp::OnGuiCreated()
 {
-	OnRetranslate();
-
 	BaseClass::OnGuiCreated();
 
 	QMainWindow* mainWindowPtr = GetQtWidget();
@@ -619,13 +617,6 @@ void CMainWindowGuiComp::OnGuiDestroyed()
 void CMainWindowGuiComp::OnRetranslate()
 {
 	BaseClass::OnRetranslate();
-
-	I_ASSERT(GetWidget() != NULL);
-
-	QWidget* parentWidgetPtr = GetWidget()->parentWidget();
-	if (parentWidgetPtr == NULL){
-		parentWidgetPtr = GetWidget();
-	}
 
 	// Main commands
 	m_fileCommand.SetName(iqt::GetCString(tr("&File")));

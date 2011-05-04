@@ -404,8 +404,6 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 	}
 
 	OnViewsCountChanged();
-
-	OnRetranslate();
 }
 
 
@@ -419,6 +417,8 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiDestroyed()
 
 void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 {
+	BaseClass::OnRetranslate();
+
 	m_windowCommand.SetName(iqt::GetCString(tr("&Window")));
 	// Window commands
 	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));

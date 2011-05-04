@@ -86,6 +86,8 @@ protected:
 
 	RootInfo& EnsureRoot(const std::string& path, const icomp::CComponentAddress& address, const icomp::IComponentStaticInfo* staticInfoPtr);
 
+	void SetCommandNames();
+
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 

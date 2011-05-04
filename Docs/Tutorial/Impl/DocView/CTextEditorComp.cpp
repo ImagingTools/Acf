@@ -141,13 +141,13 @@ void CTextEditorComp::OnGuiCreated()
 
 	connect(textEditPtr, SIGNAL(textChanged()), this, SLOT(OnTextChanged()));
 	connect(textEditPtr, SIGNAL(selectionChanged()), this, SLOT(OnSelectionChanged()));
-
-	OnRetranslate();
 }
 
 
 void CTextEditorComp::OnRetranslate()
 {
+	BaseClass::OnRetranslate();
+
 	m_lowercaseCommand.SetVisuals(tr("To &Lowercase"), tr("Lowercase"), tr("Convert selected block to lowercase characters"), QIcon(":/Icons/Down"));
 	m_uppercaseCommand.SetVisuals(tr("To &Uppercase"), tr("Uppercase"), tr("Convert selected block to uppercase characters"), QIcon(":/Icons/Up"));
 }

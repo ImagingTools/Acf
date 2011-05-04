@@ -56,9 +56,14 @@ protected:
 	virtual void OnGuiHidden();
 
 	/**
-		Called from widget event filter when GUI should be retranslated.
+		Called when non-GUI elements (like commands) should be retranslated.
 	 */
 	virtual void OnRetranslate();
+
+	/**
+		Called from widget event filter when GUI should be retranslated.
+	 */
+	virtual void OnGuiRetranslate();
 
 	/**
 		Called just after GUI is initialized.
@@ -72,6 +77,9 @@ protected:
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 	// abstract methods
 	/**

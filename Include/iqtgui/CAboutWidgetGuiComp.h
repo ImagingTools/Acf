@@ -38,7 +38,6 @@ public:
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
-	virtual void OnRetranslate();
 
 protected:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);

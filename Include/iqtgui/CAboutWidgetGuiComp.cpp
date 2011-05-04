@@ -116,11 +116,6 @@ void CAboutWidgetGuiComp::OnGuiCreated()
 }
 
 
-void CAboutWidgetGuiComp::OnRetranslate()
-{
-}
-
-
 } // namespace iqtgui
 
 

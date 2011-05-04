@@ -231,8 +231,6 @@ void CSingleDocumentWorkspaceGuiComp::OnGuiCreated()
 			OnViewRegistered(viewPtr);
 		}
 	}
-
-	OnRetranslate();
 }
 
 

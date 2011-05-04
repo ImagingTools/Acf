@@ -74,7 +74,7 @@ public:
 
 	/**
 		Set all visual elements of this command.
-		This method is designed to use in OnRetranslate() imaplementation and that's why it uses Qt \c QString.
+		This method is designed to use in OnRetranslate() implementation and that's why it uses Qt \c QString.
 		\param	name		general name, used in menus.
 		\param	shortName	short version of name used in toolbars.
 		\param	description	description used as tool tip.

@@ -44,6 +44,7 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 			MakeAutoSlotConnection();
 
 			OnGuiCreated();
+			OnGuiRetranslate();
 
 			return true;
 		}
@@ -98,6 +99,11 @@ void CGuiComponentBase::OnRetranslate()
 }
 
 
+void CGuiComponentBase::OnGuiRetranslate()
+{
+}
+
+
 void CGuiComponentBase::OnGuiCreated()
 {
 }
@@ -144,6 +150,7 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	case QEvent::LanguageChange:
 		OnRetranslate();
+		OnGuiRetranslate();
 		break;
 
 	default:
@@ -151,6 +158,16 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 	}
 
 	return false;
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CGuiComponentBase::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	OnRetranslate();
 }
 
 
