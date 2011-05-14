@@ -7,6 +7,8 @@
 
 
 // ACF includes
+#include "imod/TSingleModelObserverBase.h"
+
 #include "ibase/TLoggerCompWrap.h"
 #include "ibase/ICommandsProvider.h"
 
@@ -44,11 +46,17 @@ public:
 
 	CDocumentProcessingManagerCompBase();
 
+	/**
+		Enable or disable processing command.
+	*/
+	void SetProcessingCommandEnabled(bool isProcessingCommandEnabled = true);
+
 	// reimpemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
 	// reimpemented (icomp::IComponent)
 	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 	// abstract methods
 
@@ -72,6 +80,20 @@ protected:
 	iqtgui::CHierarchicalCommand m_processingMenu;
 	iqtgui::CHierarchicalCommand m_rootCommands;
 	iqtgui::CHierarchicalCommand m_processingCommand;
+
+private:
+	class DocumentManagerObserver: public imod::TSingleModelObserverBase<idoc::IDocumentManager>
+	{
+	public:
+		DocumentManagerObserver(CDocumentProcessingManagerCompBase& parent);
+	protected:
+		// reimplemented (imod::TSingleModelObserverBase)
+		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	private:
+		CDocumentProcessingManagerCompBase& m_parent;
+	};
+
+	DocumentManagerObserver m_documentManagerObserver;
 };
 
 
