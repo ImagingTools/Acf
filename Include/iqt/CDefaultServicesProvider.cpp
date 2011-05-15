@@ -6,6 +6,7 @@
 #include "istd/CStaticServicesProvider.h"
 
 #include "iqt/CTimer.h"
+#include "iqt/CDateTime.h"
 #include "iqt/CApplicationEnvironment.h"
 #include "iqt/CCriticalSection.h"
 #include "iqt/CFileSystem.h"
@@ -36,6 +37,9 @@ void CDefaultServicesProvider::RegisterServices()
 
 	static istd::TSingleFactory<isys::ITimer, iqt::CTimer> timerFactory("");
 	istd::CStaticServicesProvider::RegisterFactory(&timerFactory);
+
+	static istd::TSingleFactory<isys::IDateTime, iqt::CDateTime> dateTimeFactory("");
+	istd::CStaticServicesProvider::RegisterFactory(&dateTimeFactory);
 
 	static istd::TSingleFactory<isys::ICriticalSection, iqt::CCriticalSection> criticalSectionFactory("");
 	istd::CStaticServicesProvider::RegisterFactory(&criticalSectionFactory);
