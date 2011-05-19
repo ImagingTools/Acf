@@ -1,6 +1,10 @@
 #include "iqt/CDateTime.h"
 
 
+// ACF includes
+#include "istd/TDelPtr.h"
+
+
 namespace iqt
 {
 
@@ -136,6 +140,40 @@ void CDateTime::FromCTime(double ctime)
 	unsigned ctimeValue = unsigned(ctime);
 	setTime_t(uint(ctime));
 	QDateTime::operator=(addMSecs(qint64((ctime - ctimeValue) * 1000)));
+}
+
+
+// reimplemented (istd::IChangeable)
+
+bool CDateTime::CopyFrom(const istd::IChangeable& object)
+{
+	const iqt::CDateTime* dateTimePtr = dynamic_cast<const iqt::CDateTime*>(&object);
+	if (dateTimePtr != NULL){
+		QDateTime::operator = (*dateTimePtr);
+
+		return true;
+	}
+
+	const isys::IDateTime* baseDateTimePtr = dynamic_cast<const isys::IDateTime*>(&object);
+	if (baseDateTimePtr != NULL){
+		FromCTime(baseDateTimePtr->ToCTime());
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CDateTime::CloneMe() const
+{
+	istd::TDelPtr<CDateTime> clonePtr(new iqt::CDateTime);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

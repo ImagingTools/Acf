@@ -2,8 +2,11 @@
 #define iqt_CDateTime_included
 
 
+// Qt includes
 #include <QDateTime>
 
+
+// ACF includes
 #include "isys/CDateTimeBase.h"
 
 
@@ -27,6 +30,10 @@ public:
 	virtual bool SetCurrentTime();
 	virtual double ToCTime() const;
 	virtual void FromCTime(double ctime);
+
+	// reimplemented (istd::IChangeable)
+	virtual bool CopyFrom(const istd::IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 };
 
 
