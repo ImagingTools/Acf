@@ -27,10 +27,10 @@ public:
 	I_END_COMPONENT
 
 	// reimplemented (iqtgui::IDialog)
-	virtual void Execute();
+	virtual void ExecuteDialog(IGuiObject* parentPtr);
 
 protected:
-	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons) const;
+	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;
 
 private:
 	I_REF(iqtgui::IGuiObject, m_guiCompPtr);

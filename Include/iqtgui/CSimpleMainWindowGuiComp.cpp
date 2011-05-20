@@ -447,7 +447,7 @@ void CSimpleMainWindowGuiComp::OnAbout()
 void CSimpleMainWindowGuiComp::OnSettings()
 {
 	if (m_settingsGuiCompPtr.IsValid()){
-		m_settingsGuiCompPtr->Execute();
+		m_settingsGuiCompPtr->ExecuteDialog(this);
 	}
 }
 

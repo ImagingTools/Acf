@@ -13,9 +13,9 @@ namespace iqtgui
 
 // reimplemented (iqtgui::IDialog)
 
-void CDialogGuiComp::Execute()
+void CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 {
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(QDialogButtonBox::Close));
+	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(QDialogButtonBox::Close, parentPtr));
 	if (dialogPtr.IsValid()){
 		dialogPtr->exec();
 	}
@@ -24,16 +24,19 @@ void CDialogGuiComp::Execute()
 
 // protected methods
 
-iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons) const
+iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, IGuiObject* parentPtr) const
 {
 	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
 
 	if (m_guiCompPtr.IsValid()){
+		QWidget* parentWidgetPtr = (parentPtr != NULL)? parentPtr->GetWidget(): NULL;
+
 		dialogPtr.SetPtr(
 					new iqtgui::CGuiComponentDialog(
 								m_guiCompPtr.GetPtr(),
 								buttons,
-								true));
+								true,
+								parentWidgetPtr));
 
 		if (m_dialogTitleAttrPtr.IsValid()){
 			dialogPtr->setWindowTitle(iqt::GetQString(*m_dialogTitleAttrPtr));

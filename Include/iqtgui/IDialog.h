@@ -5,7 +5,7 @@
 // ACF includes
 #include "istd/IPolymorphic.h"
 
-#include "iqtgui/iqtgui.h"
+#include "iqtgui/IGuiObject.h"
 
 
 namespace iqtgui
@@ -21,7 +21,7 @@ public:
 	/**
 		Execute dialog instance.
 	*/
-	virtual void Execute() = 0;
+	virtual void ExecuteDialog(IGuiObject* parentPtr) = 0;
 };
 
 
