@@ -7,9 +7,13 @@
 
 #include "iser/ISerializable.h"
 
-#include "isys/IDateTime.h"
-
 #include "ibase/ibase.h"
+
+
+namespace isys
+{
+	class IDateTime;
+}
 
 
 namespace ibase

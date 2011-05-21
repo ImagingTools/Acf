@@ -50,7 +50,7 @@ int CDateTime::GetComponent(int component) const
 	case TC_SECOND:
 		return time().second();
 
-	case TC_MICROSECOND:
+	case TC_MILLISECOND:
 		return time().msec();
 
 	default:
@@ -106,7 +106,7 @@ void CDateTime::SetComponent(int component, int value)
 		}
 		break;
 
-	case TC_MICROSECOND:
+	case TC_MILLISECOND:
 		{
 			QTime time = this->time();
 			setTime(QTime(time.hour(), time.minute(), time.second(), value));

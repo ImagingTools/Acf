@@ -166,7 +166,7 @@ QDateTime GetQDateTime(const isys::IDateTime& dateTime)
 	QTime time(dateTime.GetComponent(isys::IDateTime::TC_HOUR),
 				dateTime.GetComponent(isys::IDateTime::TC_MINUTE),
 				dateTime.GetComponent(isys::IDateTime::TC_SECOND),
-				dateTime.GetComponent(isys::IDateTime::TC_MICROSECOND));
+				dateTime.GetComponent(isys::IDateTime::TC_MILLISECOND));
 	
 	qtDateTime.setDate(date);
 	qtDateTime.setTime(time);

@@ -108,7 +108,7 @@ bool CSimpleDateTime::SetCurrentTime()
 	m_components[TC_HOUR] = currentTime.tm_hour;
 	m_components[TC_MINUTE] = currentTime.tm_min;
 	m_components[TC_SECOND] = currentTime.tm_sec;
-	m_components[TC_MICROSECOND] = 0;
+	m_components[TC_MILLISECOND] = 0;
 
 	return false;
 }

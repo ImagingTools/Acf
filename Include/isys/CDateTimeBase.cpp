@@ -15,6 +15,14 @@ namespace isys
 {
 
 
+// public static members
+
+const IDateTime::TimeSeparator IDateTime::TS_ISO = {'-',' ',':', '.'};
+const IDateTime::TimeSeparator IDateTime::TS_FILENAME = {'-',' ','.','.'};
+
+
+// public methods
+
 bool CDateTimeBase::SerializeComponents(iser::IArchive& archive, TimeComponent fromComponent, TimeComponent toComponent)
 {
 	bool retVal = true;
@@ -46,7 +54,7 @@ bool CDateTimeBase::SerializeComponents(iser::IArchive& archive, TimeComponent f
 
 // reimplemented (isys::IDateTime)
  
-std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
+std::string CDateTimeBase::ToString(int fromComponent, int toComponent, const TimeSeparator& separator) const
 {
 	std::ostringstream stream;
 
@@ -54,14 +62,23 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 		stream << std::setfill('0') << std::setw(2) << GetComponent(i);
 
 		if (i < toComponent){
-			if (i < TC_HOUR){
-				stream << '-';
-			}
-			else if (i < TC_MICROSECOND){
-				stream << ':';
-			}
-			else{
-				stream << '\'';
+			switch (i){
+				case TC_YEAR:
+				case TC_MONTH:
+					stream << separator[0];
+					break;
+
+				case TC_DAY:
+					stream << separator[1];
+					break;
+
+				case TC_HOUR:
+				case TC_MINUTE:
+					stream << separator[2];
+					break;
+
+				default:
+					stream << separator[3];
 			}
 		}
 	}
@@ -72,7 +89,9 @@ std::string CDateTimeBase::ToString(int fromComponent, int toComponent) const
 
 bool CDateTimeBase::FromString(const std::string& text, int fromComponent, int toComponent)
 {
-	std::istringstream stream(text);
+	ResetAllComponents();
+
+	std::stringstream stream(text);
 
 	for (int i = fromComponent; i <= toComponent; ++i){
 		int value;
@@ -81,8 +100,18 @@ bool CDateTimeBase::FromString(const std::string& text, int fromComponent, int t
 		SetComponent(i, value);
 
 		if (i < toComponent){
-			std::string dummy;
-			stream >> dummy;
+			char dummy = ' ';
+
+			// skip all the non-digits
+			while (!stream.eof()){
+				stream >> dummy;
+
+				if (isdigit(dummy)){
+					// return the digit back
+					stream.putback(dummy);
+					break;
+				}
+			}
 		}
 	}
 
@@ -94,7 +123,17 @@ bool CDateTimeBase::FromString(const std::string& text, int fromComponent, int t
 
 bool CDateTimeBase::Serialize(iser::IArchive& archive)
 {
-	return SerializeComponents(archive, TC_YEAR, TC_MICROSECOND);
+	return SerializeComponents(archive, TC_YEAR, TC_MILLISECOND);
+}
+
+
+// protected methods
+
+void CDateTimeBase::ResetAllComponents()
+{
+	for (int i = 0; i <= TC_LAST; ++i){
+		SetComponent(i, 0);
+	}
 }
 
 
@@ -107,7 +146,7 @@ iser::CArchiveTag CDateTimeBase::s_archiveTags[TC_LAST + 1] = {
 	iser::CArchiveTag("Hour", "Hour"),
 	iser::CArchiveTag("Minute", "Minute"),
 	iser::CArchiveTag("Second", "Second"),
-	iser::CArchiveTag("Miliecond", "Miliecond")
+	iser::CArchiveTag("Millisecond", "Millisecond")
 };
 
 

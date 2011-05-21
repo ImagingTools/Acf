@@ -22,6 +22,27 @@ namespace isys
 class IDateTime: virtual public iser::ISerializable
 {
 public:
+	/**
+		Separator token for the Date/Time string conversion given in the form:
+		YEAR TimeSeparator[0] MONTH TimeSeparator[0] DAY TimeSeparator[1] HOUR TimeSeparator[2] MINUTE TimeSeparator[2] SECOND TimeSeparator[3] MILLISECOND
+	*/
+	typedef char TimeSeparator[4];
+
+	/**
+		Separator tokens for ISO string representation of a date/time object.
+		TS_ISO = {'-',' ',':', '.'}, for example: 2010-01-01 12:30:05.45
+	*/
+	static const TimeSeparator TS_ISO;
+
+	/**
+		Separator tokens for string representation of a date/time object, which is valid as a name for a file system item.
+		TS_FILENAME = {'-',' ','.','.'}
+	*/
+	static const TimeSeparator TS_FILENAME;
+
+	/**
+		Date/Time basic components.
+	*/
 	enum TimeComponent
 	{
 		TC_YEAR,
@@ -30,14 +51,15 @@ public:
 		TC_HOUR,
 		TC_MINUTE,
 		TC_SECOND,
-		TC_MICROSECOND,
-		TC_LAST = TC_MICROSECOND
+		TC_MILLISECOND,
+		TC_LAST = TC_MILLISECOND
 	};
 
 	/**
 		Get single component.
 	*/
 	virtual int GetComponent(int component) const = 0;
+
 	/**
 		Set single component.
 	*/
@@ -64,12 +86,12 @@ public:
 	/**
 		Returns the datetime object as a string.
 	*/
-	virtual std::string ToString(int fromComponent = TC_YEAR, int toComponent = TC_MICROSECOND) const = 0;
+	virtual std::string ToString(int fromComponent = TC_YEAR, int toComponent = TC_MILLISECOND, const TimeSeparator& separator = TS_ISO) const = 0;
 
 	/**
 		Creates a datetime object from a string.
 	*/
-	virtual bool FromString(const std::string& dateTime, int fromComponent = TC_YEAR, int toComponent = TC_MICROSECOND) = 0;
+	virtual bool FromString(const std::string& dateTime, int fromComponent = TC_YEAR, int toComponent = TC_MILLISECOND) = 0;
 };
 
 
