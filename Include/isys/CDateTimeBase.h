@@ -26,7 +26,6 @@ public:
 protected:
 	void ResetAllComponents();
 
-protected:
 	static iser::CArchiveTag s_archiveTags[TC_LAST + 1];
 };
 
