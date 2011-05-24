@@ -178,7 +178,7 @@
               icomp::TAttribute&lt;int&gt;
             </Type>
             <ExportId>
-              
+              PathType
             </ExportId>
             <Data>
               <IsEnabled>

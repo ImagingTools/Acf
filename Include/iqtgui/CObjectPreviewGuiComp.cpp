@@ -21,26 +21,39 @@ void CObjectPreviewGuiComp::UpdateEditor(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
+	if (!m_fileLoaderCompPtr.IsValid()){
+		return;
+	}
+
 	iprm::IFileNameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		QString qtFilePath = iqt::GetQString(objectPtr->GetPath());
+		QString newFilePath = iqt::GetQString(objectPtr->GetPath());
 
-		if (m_lastFilePath != qtFilePath){
-			m_lastFilePath = qtFilePath;
+		int fileQueryFlags = iser::IFileLoader::QF_NO_SAVING;
 
-			m_fileSystemObserver.removePaths(m_fileSystemObserver.files());
-
-			if (QFile::exists(m_lastFilePath)){
-				m_fileSystemObserver.addPath(m_lastFilePath);
-			}
-			else{
-				m_lastFilePath = QString();
-			}
-
-			m_lastModificationTimeStamp = QDateTime();
+		QFileInfo newFileInfo(newFilePath);
+		if (newFileInfo.isFile()){
+			fileQueryFlags |= iser::IFileLoader::QF_FILE_ONLY;
+		}
+		else if (newFileInfo.isDir()){
+			fileQueryFlags |= iser::IFileLoader::QF_DIRECTORY_ONLY;
 		}
 
-		UpdateObjectFromFile();
+		if (m_fileLoaderCompPtr->IsOperationSupported(NULL, NULL, fileQueryFlags)){
+			if (m_lastFilePath != newFilePath){
+				m_lastFilePath = newFilePath;
+
+				m_fileSystemObserver.removePaths(m_fileSystemObserver.files());
+				m_fileSystemObserver.addPath(m_lastFilePath);
+
+				m_lastModificationTimeStamp = QDateTime();
+
+				UpdateObjectFromFile();
+			}
+		}
+		else{
+			m_lastFilePath = QString();
+		}
 	}
 }
 

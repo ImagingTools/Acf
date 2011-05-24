@@ -27,11 +27,11 @@ public:
 		/**
 			No loading operation should be considered.
 		*/
-		QF_NO_LOADING = 0x0001,
+		QF_NO_LOADING = 1 << 0,
 		/**
 			No saving operation should be considered.
 		*/
-		QF_NO_SAVING = 0x0002
+		QF_NO_SAVING = 1 << 1
 	};
 
 	/**

@@ -58,12 +58,17 @@ public:
 		/**
 			Only operations with specified file name should be considered.
 		*/
-		QF_NAMED_ONLY = 0x0004,
+		QF_FILE_ONLY = 1 << 2,
 
 		/**
-			Only operations without specified file name (anonymous) should be considered.
+			Only operations with specified directory name should be considered.
 		*/
-		QF_ANONYMOUS_ONLY = 0x0008
+		QF_DIRECTORY_ONLY = 1 << 3,
+
+		/**
+			Only operations without specified path (anonymous) should be considered.
+		*/
+		QF_ANONYMOUS_ONLY = 1 << 4
 	};
 
 	/**

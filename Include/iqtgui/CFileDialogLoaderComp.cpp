@@ -22,13 +22,13 @@ bool CFileDialogLoaderComp::IsOperationSupported(
 	if (filePathPtr != NULL && !filePathPtr->IsEmpty()){
 		const iser::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(*filePathPtr), -1, flags, beQuiet);
 		if (loaderPtr != NULL){
-			return loaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, flags | QF_NAMED_ONLY, beQuiet);
+			return loaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, flags | QF_FILE_ONLY, beQuiet);
 		}
 		return false;
 	}
 
 	if (m_loadersCompPtr.IsValid()){
-		int correctedFlags = (flags | QF_NAMED_ONLY) & (~QF_ANONYMOUS_ONLY);
+		int correctedFlags = (flags | QF_FILE_ONLY) & (~QF_ANONYMOUS_ONLY);
 		int loaderCount = m_loadersCompPtr.GetCount();
 		for (int index = 0; index < loaderCount; index++){
 			const iser::IFileLoader* slaveLoaderPtr = m_loadersCompPtr[index];

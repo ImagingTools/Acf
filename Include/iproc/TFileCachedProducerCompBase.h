@@ -100,7 +100,7 @@ const CacheObject* TFileCachedProducerCompBase<Key, CacheObject>::ProduceLockedO
 			if (m_cacheLoaderCompPtr->IsOperationSupported(
 						NULL,
 						&cacheFilePath,
-						iser::IFileLoader::QF_NO_SAVING | iser::IFileLoader::QF_NAMED_ONLY,
+						iser::IFileLoader::QF_NO_SAVING | iser::IFileLoader::QF_FILE_ONLY,
 						false)){
 				istd::TDelPtr<CacheObject> objectPtr(new CacheObject);
 

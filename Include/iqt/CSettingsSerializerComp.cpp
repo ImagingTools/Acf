@@ -26,7 +26,7 @@ bool CSettingsSerializerComp::IsOperationSupported(
 		return false;
 	}
 
-	return ((flags & QF_NAMED_ONLY) == 0);
+	return ((flags & (QF_DIRECTORY_ONLY | QF_FILE_ONLY)) == 0);
 }
 
 

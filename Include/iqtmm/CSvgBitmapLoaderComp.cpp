@@ -59,7 +59,7 @@ bool CSvgBitmapLoaderComp::IsOperationSupported(
 		}
 	}
 
-	return ((flags & (QF_ANONYMOUS_ONLY | QF_NO_LOADING)) == 0);
+	return ((flags & (QF_ANONYMOUS_ONLY | QF_DIRECTORY_ONLY | QF_NO_LOADING)) == 0);
 }
 
 

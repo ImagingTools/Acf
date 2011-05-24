@@ -27,7 +27,7 @@ bool CRegistryCodeSaverComp::IsOperationSupported(
 		return false;
 	}
 
-	return (flags & QF_NO_SAVING) == 0;
+	return (flags & (QF_NO_SAVING | QF_DIRECTORY_ONLY | QF_ANONYMOUS_ONLY)) == 0;
 }
 
 
