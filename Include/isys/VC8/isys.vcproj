@@ -219,10 +219,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IApplicationEnvironment.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ICriticalSection.h"
 				>
 			</File>
@@ -240,6 +236,10 @@
 			</File>
 			<File
 				RelativePath="..\IFunctionsProvider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IProcessEnvironment.h"
 				>
 			</File>
 			<File

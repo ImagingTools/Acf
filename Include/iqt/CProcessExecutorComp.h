@@ -38,9 +38,9 @@ public:
 	CProcessExecutorComp();
 
 	// reimplemented (ibase::IProcessExecutor)
-	virtual void SetEnvironment(const isys::IApplicationEnvironment& processEnvironment);
+	virtual void SetEnvironment(const isys::IProcessEnvironment& processEnvironment);
 
-	virtual int Execute(const istd::CString& executablePath, const istd::CStringList& processArguments);
+	virtual int ExecuteProcess(const istd::CString& executablePath, const istd::CStringList& processArguments);
 
 protected:
 	// reimplemented (icomp::CComponentBase)

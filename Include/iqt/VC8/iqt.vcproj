@@ -6,7 +6,6 @@
 	ProjectGUID="{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 	RootNamespace="iqt"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -166,10 +165,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\CApplicationEnvironment.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CApplicationSettingsProviderComp.cpp"
 				>
 			</File>
@@ -246,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CProcessEnvironment.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CProcessExecutorComp.cpp"
 				>
 			</File>
@@ -311,10 +310,6 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="..\CApplicationEnvironment.h"
-				>
-			</File>
 			<File
 				RelativePath="..\CApplicationSettingsProviderComp.h"
 				>
@@ -389,6 +384,10 @@
 			</File>
 			<File
 				RelativePath="..\CPackagesLoaderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CProcessEnvironment.h"
 				>
 			</File>
 			<File

@@ -1,39 +1,65 @@
-#include "iqt/CApplicationEnvironment.h"
+#include "iqt/CProcessEnvironment.h"
 
 
 // Qt includes
 #include <QDir>
 #include <QCoreApplication>
 #include <QProcess>
+#include <QThread>
 
 
 namespace iqt
 {
 
 
+/*
+	Helper implementation.
+*/
+class CQtThread: private QThread
+{
+public:
+	static void Sleep(double seconds)
+	{
+		QThread::usleep(seconds * 1000000);
+	}
+};
+
+
 // public methods
 	
-// reimplemented (isys::IApplicationEnvironment)
+// reimplemented (isys::IProcessEnvironment)
 
-istd::CString CApplicationEnvironment::GetTempDirPath() const
+int CProcessEnvironment::GetMainThreadId() const
+{
+	return reinterpret_cast<int>(QThread::currentThreadId());
+}
+
+
+void CProcessEnvironment::Sleep(double seconds)
+{
+	CQtThread::Sleep(seconds);
+}
+
+
+istd::CString CProcessEnvironment::GetTempDirPath() const
 {
 	return iqt::GetCString(QDir::tempPath());
 }
 
 
-istd::CString CApplicationEnvironment::GetWorkingDirectory() const
+istd::CString CProcessEnvironment::GetWorkingDirectory() const
 {
 	return iqt::GetCString(QDir::currentPath());
 }
 
 
-istd::CStringList CApplicationEnvironment::GetApplicationArguments() const
+istd::CStringList CProcessEnvironment::GetApplicationArguments() const
 {
 	return iqt::GetCStringList(QCoreApplication::arguments());
 }
 
 
-istd::CString CApplicationEnvironment::GetModulePath(bool /*useApplicationModule = false*/, bool onlyDirectory /*= false*/) const
+istd::CString CProcessEnvironment::GetModulePath(bool /*useApplicationModule = false*/, bool onlyDirectory /*= false*/) const
 {
 	if (!onlyDirectory){
 		return iqt::GetCString(QCoreApplication::applicationFilePath());
@@ -43,7 +69,7 @@ istd::CString CApplicationEnvironment::GetModulePath(bool /*useApplicationModule
 }
 
 
-CApplicationEnvironment::EnvironmentVariables CApplicationEnvironment::GetEnvironmentVariables() const
+CProcessEnvironment::EnvironmentVariables CProcessEnvironment::GetEnvironmentVariables() const
 {
 	QStringList processEnvironment = QProcess::systemEnvironment();
 	EnvironmentVariables environmentVariables;
@@ -64,7 +90,7 @@ CApplicationEnvironment::EnvironmentVariables CApplicationEnvironment::GetEnviro
 }
 
 
-void CApplicationEnvironment::SetEnvironmentVariableValue(const istd::CString&/* variableName*/, const istd::CString&/* value*/)
+void CProcessEnvironment::SetEnvironmentVariableValue(const istd::CString&/* variableName*/, const istd::CString&/* value*/)
 {
 	// not implemented yet.
 	I_CRITICAL();

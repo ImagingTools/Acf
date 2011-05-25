@@ -1,8 +1,8 @@
-#ifndef iqt_CApplicationEnvironment_included
-#define iqt_CApplicationEnvironment_included
+#ifndef iqt_CProcessEnvironment_included
+#define iqt_CProcessEnvironment_included
 
 
-#include "isys/IApplicationEnvironment.h"
+#include "isys/IProcessEnvironment.h"
 
 #include "iqt/iqt.h"
 
@@ -14,10 +14,12 @@ namespace iqt
 /**
 	Qt-based implementation of application environment information.
 */
-class CApplicationEnvironment: virtual public isys::IApplicationEnvironment
+class CProcessEnvironment: virtual public isys::IProcessEnvironment
 {
 public:
-	// reimplemented (isys::IApplicationEnvironment)
+	// reimplemented (isys::IProcessEnvironment)
+	virtual int GetMainThreadId() const;
+	virtual void Sleep(double seconds);
 	virtual istd::CString GetTempDirPath() const;
 	virtual istd::CString GetWorkingDirectory() const;
 	virtual istd::CStringList GetApplicationArguments() const;
@@ -30,4 +32,4 @@ public:
 } // namespace iqt
 
 
-#endif // !iqt_CApplicationEnvironment_included
+#endif // !iqt_CProcessEnvironment_included

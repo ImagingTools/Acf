@@ -1,5 +1,5 @@
-#ifndef isys_IApplicationEnvironment_included
-#define isys_IApplicationEnvironment_included
+#ifndef isys_IProcessEnvironment_included
+#define isys_IProcessEnvironment_included
 
 
 // STL includes
@@ -21,14 +21,22 @@ namespace isys
 	Interface for access of some system dependent features and infos.
 
 	\ingroup System
-
-	TODO: rename to IProcessEnvironment
 */
-class IApplicationEnvironment: virtual public istd::IPolymorphic
+class IProcessEnvironment: virtual public istd::IPolymorphic
 {
 public:
 	typedef std::map<istd::CString, istd::CString> EnvironmentVariables;
 	
+	/**
+		Get current thread ID.
+	*/
+	virtual int GetMainThreadId() const = 0;
+
+	/**
+		Suspend the current thread for \c seconds.
+	*/
+	virtual void Sleep(double seconds) = 0;
+
 	/**
 		Returns the standard temp path, that will be used by the application.
 	*/
@@ -69,4 +77,4 @@ public:
 } // namespace isys
 
 
-#endif // !isys_IApplicationEnvironment_included
+#endif // !isys_IProcessEnvironment_included

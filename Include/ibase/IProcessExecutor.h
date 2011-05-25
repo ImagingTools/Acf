@@ -5,7 +5,7 @@
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
 
-#include "isys/IApplicationEnvironment.h"
+#include "isys/IProcessEnvironment.h"
 
 
 namespace ibase
@@ -23,14 +23,14 @@ public:
 	/**
 		Define execution environment for the process.
 	*/
-	virtual void SetEnvironment(const isys::IApplicationEnvironment& processEnvironment) = 0;
+	virtual void SetEnvironment(const isys::IProcessEnvironment& processEnvironment) = 0;
 
 	/**
 		Execute external process.
 		\param applicationPath - Path to the application's file. 
 		\param applicationArguments - Calling arguments for the application. 
 	*/
-	virtual int Execute(const istd::CString& executablePath, const istd::CStringList& processArguments) = 0;
+	virtual int ExecuteProcess(const istd::CString& executablePath, const istd::CStringList& processArguments) = 0;
 };
 
 

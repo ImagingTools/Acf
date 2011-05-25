@@ -48,7 +48,7 @@ bool CExternalFileConverterComp::CopyFile(
 		}
 	}
 
-	return (m_processExecuterCompPtr->Execute(m_executablePathCompPtr->GetPath(), arguments) == 0);
+	return (m_processExecuterCompPtr->ExecuteProcess(m_executablePathCompPtr->GetPath(), arguments) == 0);
 }
 
 
