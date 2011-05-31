@@ -17,7 +17,6 @@ class CCriticalSection: public isys::ICriticalSection
 {
 public:
 	CCriticalSection();
-	~CCriticalSection();
 
 	// reimplemented (isys::ICriticalSection)
 	virtual void Enter();

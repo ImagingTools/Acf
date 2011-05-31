@@ -12,6 +12,7 @@
 #include "iqt/CFileSystem.h"
 #include "iqt/CDefaultRegistryLoaderProvider.h"
 #include "iqt/CSystemEnvironment.h"
+#include "iqt/CLocalizer.h"
 
 
 namespace iqt
@@ -34,6 +35,9 @@ void CDefaultServicesProvider::RegisterServices()
 
 	static iqt::CSystemEnvironment systemEnvironment;
 	istd::CStaticServicesProvider::RegisterService<isys::ISystemEnvironment>(&systemEnvironment);
+
+	static iqt::CLocalizer localizer;
+	istd::CStaticServicesProvider::RegisterService<istd::ILocalizer>(&localizer);
 
 	static istd::TSingleFactory<isys::ITimer, iqt::CTimer> timerFactory("");
 	istd::CStaticServicesProvider::RegisterFactory(&timerFactory);

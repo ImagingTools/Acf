@@ -19,11 +19,6 @@ CSceneProviderGuiComp::CSceneProviderGuiComp()
 :	m_fitMode(FM_NONE),
 	m_isFullScreenMode(true),
 	m_isZoomIgnored(false),
-	m_viewCommand("&View"),
-	m_autoFitToViewCommand("&Auto Fit"),
-	m_fitToViewCommand("&Fit Contents To View"),
-	m_fitToImageCommand("&Fit View To Contents"),
-	m_resetZoomCommand("&Reset Zoom"),
 	m_savedParentWidgetPtr(NULL),
 	m_isotropyFactor(0)
 {
@@ -566,6 +561,18 @@ void CSceneProviderGuiComp::OnGuiDestroyed()
 	}
 
 	BaseClass::OnGuiDestroyed();
+}
+
+
+void CSceneProviderGuiComp::OnRetranslate()
+{
+	BaseClass::OnRetranslate();
+
+	m_viewCommand.SetVisuals(tr("&View"), tr("View"), tr("View menu"));
+	m_autoFitToViewCommand.SetVisuals(tr("&Auto Fit"), tr("Auto Fit"), tr("Automatical fit contents to view area"));
+	m_fitToViewCommand.SetVisuals(tr("&Fit Contents To View"), tr("Fit contents To View"), tr("Fit contents to view area"));
+	m_fitToImageCommand.SetVisuals(tr("&Fit View To Contents"), tr("Fit View To Contents"), tr("Fit view area to contents"));
+	m_resetZoomCommand.SetVisuals(tr("&Reset Zoom"), tr("Reset Zoom"), tr("Reset scene zoom"));
 }
 
 

@@ -42,7 +42,7 @@ protected:
 	/**
 		Called from widget event filter when key is pressed.
 		\return	if event was consumed returns true, otherwise false.
-	 */
+	*/
 	virtual bool OnKeyPressed(QKeyEvent* event);
 
 	/**
@@ -57,22 +57,22 @@ protected:
 
 	/**
 		Called when non-GUI elements (like commands) should be retranslated.
-	 */
+	*/
 	virtual void OnRetranslate();
 
 	/**
 		Called from widget event filter when GUI should be retranslated.
-	 */
+	*/
 	virtual void OnGuiRetranslate();
 
 	/**
 		Called just after GUI is initialized.
-	 */
+	*/
 	virtual void OnGuiCreated();
 
 	/**
 		Called just before GUI is released.
-	 */
+	*/
 	virtual void OnGuiDestroyed();
 
 	// reimplemented (QObject)
@@ -84,15 +84,31 @@ protected:
 	// abstract methods
 	/**
 		Create slave widget object.
-	 */
+	*/
 	virtual QWidget* InitWidgetToParent(QWidget* parentPtr) = 0;
 
 private:
 	void MakeAutoSlotConnection();
 
+	class LanguageChangeEventFilter: public QObject
+	{
+	public:
+		typedef QObject BaseClass;
+
+		LanguageChangeEventFilter(CGuiComponentBase& parent);
+
+	protected:
+		// reimplemented (QObject)
+		virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+	
+	private:
+		CGuiComponentBase& m_parent;
+	};
+
 private:
 	QWidget* m_widgetPtr;
 	bool m_isGuiShown;
+	LanguageChangeEventFilter m_languageChangeEventFilter;
 };
 
 

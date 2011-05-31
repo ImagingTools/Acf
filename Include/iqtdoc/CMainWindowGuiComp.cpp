@@ -591,7 +591,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 
 	UpdateUndoMenu();
 	
-	mainWindowPtr->setAcceptDrops(true);
+ 	mainWindowPtr->setAcceptDrops(true);
 
 	mainWindowPtr->installEventFilter(this);
 

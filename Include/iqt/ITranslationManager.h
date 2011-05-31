@@ -2,13 +2,11 @@
 #define iqt_ITranslationManager_included
 
 
-#include "iqt/iqt.h"
-
-
-#include <QString>
-
+// ACF includes
 #include "istd/IPolymorphic.h"
 
+
+class QTranslator;
 
 
 namespace iqt
@@ -19,34 +17,29 @@ class ITranslationManager: virtual public istd::IPolymorphic
 {
 public:
 	/**
-		Returns number of languages supported by translation manager.
+		Get number of provided languages.
 	*/
-	virtual	int GetLanguageCount() const = 0;
+	virtual int GetLanguagesCount() const = 0;
 
 	/**
-		Returns language ID for the language with the index \c index.
+		Get Qt translator for a given language.
 	*/
-	virtual	QString GetLanguageId(int index) const = 0;
+	virtual const QTranslator* GetLanguageTranslator(int languageIndex) const = 0;
 
 	/**
-		Returns language icon for the language with the index \c index.
+		Get slave translation manager, if set.
 	*/
-	virtual	QIcon GetLanguageIcon(int index) const = 0;
+	virtual const ITranslationManager* GetSlaveTranslationManager() const = 0;
 
 	/**
-		Returns currently selected language ID.
+		Switch the current language to the language with the index \c languageIndex.
 	*/
-	virtual	QString GetSelectedLanguageId() const = 0;
+	virtual void SwitchLanguage(int languageIndex) = 0;
 
 	/**
-		Select a language.
+		Set default system's language.
 	*/
-	virtual	void SetSelectedLanguage(const QString& languageId) = 0;
-	
-	/**
-		Sets default language.
-	*/
-	virtual void SetDefaultLanguage(const QString& laguageId) = 0;
+	virtual void SetSystemLanguage() = 0;
 };
 
 
@@ -54,3 +47,5 @@ public:
 
 
 #endif // !iqt_ITranslationManager_included
+
+

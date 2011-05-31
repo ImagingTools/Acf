@@ -122,7 +122,7 @@ int CSelectableParamsSetComp::GetOptionsCount() const
 }
 
 
-const istd::CString& CSelectableParamsSetComp::GetOptionName(int index) const
+istd::CString CSelectableParamsSetComp::GetOptionName(int index) const
 {
 	if (m_paramsManagerCompPtr.IsValid()){
 		return m_paramsManagerCompPtr->GetParamsSetName(index);

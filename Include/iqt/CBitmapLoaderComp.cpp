@@ -32,7 +32,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 {
 	if ((dataObjectPtr != NULL) && (dynamic_cast<const iqt::IQImageProvider*>(dataObjectPtr) == NULL)){
 		if (!beQuiet){
-			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(QObject::tr("Object is not Qt image")));
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(tr("Object is not Qt image")));
 		}
 
 		return false;
@@ -48,7 +48,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 
 			if (!extensionsList.contains(info.suffix(), Qt::CaseInsensitive)){
 				if (!beQuiet){
-					SendInfoMessage(MI_BAD_EXTENSION, iqt::GetCString(QObject::tr("Bad image file extension %1").arg(info.suffix())));
+					SendInfoMessage(MI_BAD_EXTENSION, iqt::GetCString(tr("Bad image file extension %1").arg(info.suffix())));
 				}
 
 				return false;
@@ -58,7 +58,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 		if ((flags & QF_NO_SAVING) != 0){
 			if (!info.exists()){
 				if (!beQuiet){
-					SendInfoMessage(MI_FILE_NOT_EXIST, iqt::GetCString(QObject::tr("Image file %1 not exist").arg(qtFilePath)));
+					SendInfoMessage(MI_FILE_NOT_EXIST, iqt::GetCString(tr("Image file %1 not exist").arg(qtFilePath)));
 				}
 
 				return false;
@@ -68,7 +68,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 
 			if (format.isEmpty()){
 				if (!beQuiet){
-					SendInfoMessage(MI_BAD_FORMAT, iqt::GetCString(QObject::tr("Bad image format")));
+					SendInfoMessage(MI_BAD_FORMAT, iqt::GetCString(tr("Bad image format")));
 				}
 				return false;
 			}
@@ -92,11 +92,11 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 			return StateOk;
 		}
 		else{
-			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(QObject::tr("Object is not supported image")));
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(tr("Object is not supported image")));
 		}
 	}
 	else{
-		SendInfoMessage(MI_CANNOT_LOAD, iqt::GetCString(QObject::tr("Cannot load file %1").arg(qtFilePath)));
+		SendInfoMessage(MI_CANNOT_LOAD, iqt::GetCString(tr("Cannot load file %1").arg(qtFilePath)));
 	}
 
 	return StateFailed;
@@ -113,7 +113,7 @@ int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CSt
 			imageProviderPtr = &qtBitmap;
 		}
 		else{
-			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(QObject::tr("Object is not supported image")));
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, iqt::GetCString(tr("Object is not supported image")));
 
 			return StateFailed;
 		}
@@ -128,7 +128,7 @@ int CBitmapLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CSt
 		return StateOk;
 	}
 	else{
-		SendInfoMessage(MI_CANNOT_SAVE, iqt::GetCString(QObject::tr("Cannot save file %1").arg(qtFilePath)));
+		SendInfoMessage(MI_CANNOT_SAVE, iqt::GetCString(tr("Cannot save file %1").arg(qtFilePath)));
 	}
 
 	return StateFailed;
@@ -164,7 +164,7 @@ istd::CString CBitmapLoaderComp::GetTypeDescription(const istd::CString* extensi
 				extensionPtr->IsEqualNoCase("png") ||
 				extensionPtr->IsEqualNoCase("jpeg") ||
 				extensionPtr->IsEqualNoCase("jpg")){
-		return iqt::GetCString(QObject::tr("Bitmap"));
+		return iqt::GetCString(tr("Bitmap"));
 	}
 
 	return "";

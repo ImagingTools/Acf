@@ -28,7 +28,7 @@ public:
 
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnRetranslate();
+	virtual void OnGuiRetranslate();
 };
 
 
@@ -54,7 +54,7 @@ QWidget* TDesignerGuiCompBase<UI, WidgetType>::InitWidgetToParent(QWidget* paren
 // reimplemented (iqtgui::CGuiComponentBase)
 
 template <class UI, class WidgetType>
-void TDesignerGuiCompBase<UI, WidgetType>::OnRetranslate()
+void TDesignerGuiCompBase<UI, WidgetType>::OnGuiRetranslate()
 {
 	QWidget* widgetPtr = BaseClass::GetWidget();
 
@@ -62,7 +62,7 @@ void TDesignerGuiCompBase<UI, WidgetType>::OnRetranslate()
 		UI::retranslateUi(widgetPtr);
 	}
 
-	BaseClass::OnRetranslate();
+	BaseClass::OnGuiRetranslate();
 }
 
 

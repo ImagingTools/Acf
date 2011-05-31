@@ -213,7 +213,8 @@ private:
 CPackageOverviewComp::CPackageOverviewComp()
 :	m_packagesCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
 	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
-	m_registryObserver(this)
+	m_registryObserver(this),
+	m_currentPackageGroupIndex(-1)
 {
 	connect(&m_reloadCommand, SIGNAL(activated()), this, SLOT(OnReloadPackages()));
 	m_packagesCommand.InsertChild(&m_reloadCommand);
@@ -581,7 +582,6 @@ icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredCom
 	}
 
 	return filteredComponentAdresses;
-
 }
 
 
@@ -868,14 +868,6 @@ void CPackageOverviewComp::UpdateEditor(int updateFlags)
 }
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CPackageOverviewComp::OnGuiModelDetached()
-{
-	BaseClass::OnGuiModelDetached();
-}
-
-
 // reimplemented (CGuiComponentBase)
 
 void CPackageOverviewComp::OnGuiCreated()
@@ -942,10 +934,13 @@ void CPackageOverviewComp::OnGuiCreated()
 		InterfaceCB->setVisible(false);
 	}
 
+	m_currentPackageGroupIndex = GroupByCB->currentIndex();
+
 	UpdateComponentGroups();
 
 	GenerateComponentTree(true);
 }
+
 
 void CPackageOverviewComp::OnRetranslate()
 {
@@ -953,6 +948,17 @@ void CPackageOverviewComp::OnRetranslate()
 
 	m_packagesCommand.SetVisuals(tr("&Packages"), tr("Packages"), tr("Menu for packages"));
 	m_reloadCommand.SetVisuals(tr("&Reload All Packages"), tr("Reload"), tr("Reloads all packages form configuration file"), QIcon(":/Icons/Reload.svg"));
+}
+
+
+void CPackageOverviewComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	// Work around a Qt bug: By retranslation of the UI the combo boxes will be reset and lose their previous model:
+	UpdateComponentGroups();
+
+	GroupByCB->setCurrentIndex(m_currentPackageGroupIndex);
 }
 
 
@@ -987,10 +993,10 @@ CPackageOverviewComp::PackageComponentItem::PackageComponentItem(
 {
 	QString toolTip;
 	if (!address.GetPackageId().empty()){
-		toolTip = QObject::tr("Component %1.%2").arg(address.GetPackageId().c_str()).arg(address.GetComponentId().c_str());
+		toolTip = tr("Component %1.%2").arg(address.GetPackageId().c_str()).arg(address.GetComponentId().c_str());
 	}
 	else{
-		toolTip = QObject::tr("Local composite component %2").arg(address.GetComponentId().c_str());
+		toolTip = tr("Local composite component %2").arg(address.GetComponentId().c_str());
 	}
 
 	if (!m_description.isEmpty()){

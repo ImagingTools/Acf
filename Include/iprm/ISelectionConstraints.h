@@ -35,7 +35,7 @@ public:
 	/**
 		Get name of specified option.
 	*/
-	virtual const istd::CString& GetOptionName(int index) const = 0;
+	virtual istd::CString GetOptionName(int index) const = 0;
 };
 
 

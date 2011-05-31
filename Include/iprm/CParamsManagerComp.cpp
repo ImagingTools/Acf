@@ -317,7 +317,7 @@ int CParamsManagerComp::GetOptionsCount() const
 }
 
 
-const istd::CString& CParamsManagerComp::GetOptionName(int index) const
+istd::CString CParamsManagerComp::GetOptionName(int index) const
 {
 	return GetParamsSetName(index);
 }

@@ -20,6 +20,12 @@ void CAboutWidgetGuiComp::OnGuiCreated()
 	else{
 		LogoLabel->setVisible(false);
 	}
+}
+
+
+void CAboutWidgetGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
 
 	QString productName;
 	QString applicationName;

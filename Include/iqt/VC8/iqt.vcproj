@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLocalizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CNetworkWriteArchive.cpp"
 				>
 			</File>
@@ -290,6 +294,10 @@
 			</File>
 			<File
 				RelativePath="..\CTimer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CTranslationManagerComp.cpp"
 				>
 			</File>
 			<File
@@ -379,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLocalizer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CNetworkWriteArchive.h"
 				>
 			</File>
@@ -436,6 +448,10 @@
 			</File>
 			<File
 				RelativePath="..\CTimer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTranslationManagerComp.h"
 				>
 			</File>
 			<File

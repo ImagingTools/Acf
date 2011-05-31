@@ -94,12 +94,10 @@ protected:
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 
-	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelDetached();
-
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnRetranslate();
+	virtual void OnGuiRetranslate();
 
 protected slots:
 	void on_FilterEdit_editingFinished();
@@ -203,6 +201,8 @@ private:
 	CategoryWidgetsMap m_categoryWidgetsMap;
 
 	icomp::IMetaInfoManager::ComponentAddresses m_shownAddresses;
+
+	int m_currentPackageGroupIndex;
 
 	friend class CItemDelegate;
 };

@@ -126,7 +126,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -217,6 +217,22 @@
               <Value>
                 :/Style/Resources/Style/AcfStyle.ass
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              TranslationManager
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              TranslationManager
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

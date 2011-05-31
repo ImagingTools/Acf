@@ -114,6 +114,11 @@ I_EXPORT_COMPONENT(
 			"Provide file name relative to some other optional directory",
 			"Name Relative Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
 
+I_EXPORT_COMPONENT(
+			TranslationManager,
+			"Text localization manager",
+			"Translation" IM_TAG("Localization"));
+
 
 } // namespace QtPck
 

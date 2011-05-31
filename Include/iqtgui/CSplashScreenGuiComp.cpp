@@ -18,12 +18,6 @@ void CSplashScreenGuiComp::OnGuiCreated()
 	I_ASSERT(IsGuiCreated());
 	QPalette palette = GetQtWidget()->palette();
 
-	QString productName;
-	QString applicationName;
-	QString applicationSubname;
-	QString applicationType;
-	QString legalCopyright;
-
 	if (m_applicationInfoCompPtr.IsValid()){
 		QGridLayout* layoutPtr = dynamic_cast<QGridLayout*>(VersionsFrame->layout());
 		if (layoutPtr != NULL){
@@ -77,40 +71,7 @@ void CSplashScreenGuiComp::OnGuiCreated()
 				}
 			}
 		}
-
-		if (*m_showProductNameAttrPtr){
-			productName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
-		}
-
-		if (*m_showApplicationNameAttrPtr){
-			applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
-		}
-
-		if (*m_showApplicationSubnameAttrPtr){
-			applicationSubname = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
-		}
-
-		if (*m_showProductTypeAttrPtr){
-			applicationType = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_TYPE));
-		}
-
-		if (*m_showLegalCopyrightAttrPtr){
-			legalCopyright = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_LEGAL_COPYRIGHT));
-		}
 	}
-
-	ProductNameLabel->setText(productName);
-	ApplicationNameLabel->setText(applicationName);
-	if (!applicationSubname.isEmpty() && !applicationType.isEmpty()){
-		ApplicationTypeLabel->setText(applicationSubname + "(" + applicationType + ")");
-	}
-	else{
-		ApplicationTypeLabel->setText(applicationSubname + applicationType);
-	}
-	ApplicationTypeLabel->setVisible(!applicationSubname.isEmpty() || !applicationType.isEmpty());
-
-	CopyrightLabel->setText(legalCopyright);
-	CopyrightLabel->setVisible(!legalCopyright.isEmpty());
 
 	QSplashScreen* splashScreenPtr = GetQtWidget();
 	if (m_imagePathAttrPtr.IsValid() && (splashScreenPtr != NULL)){
@@ -121,5 +82,52 @@ void CSplashScreenGuiComp::OnGuiCreated()
 }
 
 
+void CSplashScreenGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	QString productName;
+	QString applicationName;
+	QString applicationSubname;
+	QString applicationType;
+	QString legalCopyright;
+
+	if (*m_showProductNameAttrPtr){
+		productName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME));
+	}
+
+	if (*m_showApplicationNameAttrPtr){
+		applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
+	}
+
+	if (*m_showApplicationSubnameAttrPtr){
+		applicationSubname = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
+	}
+
+	if (*m_showProductTypeAttrPtr){
+		applicationType = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_TYPE));
+	}
+
+	if (*m_showLegalCopyrightAttrPtr){
+		legalCopyright = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_LEGAL_COPYRIGHT));
+	}
+
+	ProductNameLabel->setText(productName);
+	ApplicationNameLabel->setText(applicationName);
+	if (!applicationSubname.isEmpty() && !applicationType.isEmpty()){
+		ApplicationTypeLabel->setText(applicationSubname + "(" + applicationType + ")");
+	}
+	else{
+		ApplicationTypeLabel->setText(applicationSubname + applicationType);
+	}
+
+	ApplicationTypeLabel->setVisible(!applicationSubname.isEmpty() || !applicationType.isEmpty());
+
+	CopyrightLabel->setText(legalCopyright);
+	CopyrightLabel->setVisible(!legalCopyright.isEmpty());
+}
+
+
 } // namespace iqtgui
+
 

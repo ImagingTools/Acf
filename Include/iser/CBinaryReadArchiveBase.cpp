@@ -25,7 +25,7 @@ bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag)
 			SendLogMessage(
 						istd::ILogger::MC_ERROR,
 						MI_TAG_ERROR,
-						istd::CString("Bad tag begin code, is ") + istd::CString::FromNumber(readId) + ", should be " + istd::CString::FromNumber(tag.GetBinaryId()) + " (tag '" + tag.GetId() + "')",
+						tr("Bad tag begin code, is ") + istd::CString::FromNumber(readId) + tr(", should be ") + istd::CString::FromNumber(tag.GetBinaryId()) + tr(" (tag '") + tag.GetId() + tr("')"),
 						"iser::CBinaryReadArchiveBase",
 						MF_SYSTEM);
 		}
@@ -51,7 +51,7 @@ bool CBinaryReadArchiveBase::EndTag(const CArchiveTag& tag)
 			SendLogMessage(
 						istd::ILogger::MC_ERROR,
 						MI_TAG_ERROR,
-						istd::CString("Bad tag begin code, is ") + istd::CString::FromNumber(~readId) + ", should be " + istd::CString::FromNumber(tag.GetBinaryId()) + " (tag '" + tag.GetId() + "')",
+						tr("Bad tag begin code, is ") + istd::CString::FromNumber(~readId) + tr(", should be ") + istd::CString::FromNumber(tag.GetBinaryId()) + tr(" (tag '") + tag.GetId() + tr("')"),
 						"iser::CBinaryReadArchiveBase",
 						MF_SYSTEM);
 		}

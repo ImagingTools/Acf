@@ -58,7 +58,7 @@ void CSelectionParamGuiComp::UpdateEditor(int /*updateFlags*/)
 			int optionsCont = constraintsPtr->GetOptionsCount();
 
 			for (int i = 0; i < optionsCont; ++i){
-				const istd::CString& name = constraintsPtr->GetOptionName(i);
+				istd::CString name = constraintsPtr->GetOptionName(i);
 
 				switchBoxPtr->addItem(iqt::GetQString(name));
 			}

@@ -155,7 +155,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -291,6 +291,22 @@
               <Value>
                 %1 by %2
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              TranslationManager
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              TranslationManager
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

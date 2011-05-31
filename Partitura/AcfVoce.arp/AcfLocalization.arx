@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<Acf>
+  <AcfHeader>
+    <VersionInfos count="0">
+    </VersionInfos>
+  </AcfHeader>
+  <ElementsList count="1">
+    <Element>
+      <Id>
+        AcfLocalization
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        TranslationManager
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="4">
+          <AttributeInfo>
+            <Id>
+              LanguageIds
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              LanguageIds
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="3">
+                <Value>
+                  de_DE
+                </Value>
+                <Value>
+                  ru_RU
+                </Value>
+                <Value>
+                  pl_PL
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveTranslationManager
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              SlaveTranslationManager
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              TranslationFilePath
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                :/Translations
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              TranslationFilePrefix
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Acf
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+  </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
+  <ExportedInterfaces count="1">
+    <Interface>
+      <InterfaceId>
+        iqt::ITranslationManager
+      </InterfaceId>
+      <ComponentId>
+        AcfLocalization
+      </ComponentId>
+    </Interface>
+  </ExportedInterfaces>
+  <ExportedComponents count="0">
+  </ExportedComponents>
+  <Description>
+    ACF strings localization
+  </Description>
+  <Keywords>
+    Translation Tag='Localization'
+  </Keywords>
+</Acf>

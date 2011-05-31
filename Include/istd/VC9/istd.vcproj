@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ILocalizer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ILogger.h"
 				>
 			</File>
@@ -346,6 +350,10 @@
 			</File>
 			<File
 				RelativePath="..\istd.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itr.h"
 				>
 			</File>
 			<File

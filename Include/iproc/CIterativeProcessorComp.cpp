@@ -107,7 +107,7 @@ int CIterativeProcessorComp::GetOptionsCount() const
 }
 
 
-const istd::CString& CIterativeProcessorComp::GetOptionName(int index) const
+istd::CString CIterativeProcessorComp::GetOptionName(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_iterationNames.size()));

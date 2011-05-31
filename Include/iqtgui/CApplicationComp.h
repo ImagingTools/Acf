@@ -8,6 +8,8 @@
 #include "icomp/TAttribute.h"
 #include "icomp/CComponentBase.h"
 
+#include "iqt/ITranslationManager.h"
+
 #include "iqtgui/IGuiObject.h"
 #include "iqtgui/IGuiApplication.h"
 
@@ -31,6 +33,7 @@ public:
 	I_BEGIN_COMPONENT(CApplicationComp);
 		I_REGISTER_INTERFACE(ibase::IApplication);
 		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", false, "MainGui");
+		I_ASSIGN(m_translationManagerCompPtr, "TranslationManager", "Translation manager", false, "TranslationManager");
 		I_ASSIGN(m_splashScreenCompPtr, "SplashScreen", "Splash screen shown before application is launched", false, "SplashScreen");
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info used to set main window title", false, "ApplicationInfo");
 		I_ASSIGN(m_splashTimeAttrPtr, "SplashTime", "Minimal time splash screen will be shown", true, 2);
@@ -60,6 +63,7 @@ private:
 	I_REF(IGuiObject, m_mainGuiCompPtr);
 	I_REF(IGuiObject, m_splashScreenCompPtr);
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
+	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);
 	I_ATTR(double, m_splashTimeAttrPtr);
 	I_ATTR(istd::CString, m_styleSheetAttrPtr);
 	I_ATTR(istd::CString, m_iconPathAttrPtr);

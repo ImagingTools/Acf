@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include "istd/itr.h"
 #include "iser/CReadArchiveBase.h"
 
 
@@ -15,6 +16,8 @@ namespace iser
 */
 class CBinaryReadArchiveBase: public CReadArchiveBase
 {
+	I_DECLARE_TR_FUNCTION(CBinaryReadArchiveBase);
+
 public:
 	typedef CReadArchiveBase BaseClass;
 

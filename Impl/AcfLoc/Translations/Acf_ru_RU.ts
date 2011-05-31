@@ -1746,7 +1746,7 @@ It allows to group set of components and manage it as single one</source>
     <name>iqt2d::CSceneProviderGuiComp</name>
     <message>
         <location filename="../../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="571"/>
-        <source>&amp;View...</source>
+        <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
