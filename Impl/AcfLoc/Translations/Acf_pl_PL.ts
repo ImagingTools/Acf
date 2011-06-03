@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl_[PL]">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>CAboutWidgetGuiComp</name>
     <message>
         <location filename="../../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="170"/>
         <source>About...</source>
-        <translation type="unfinished"></translation>
+        <translation>O...</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="98"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="171"/>
         <source>Product</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="112"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="172"/>
         <source>ApplicationName</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="163"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="173"/>
         <source>ApplicationType</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -40,13 +40,13 @@
         <location filename="../../../Include/iqt2d/CAnnulusParamsGuiComp.ui" line="28"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusParamsGuiComp.h" line="128"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CAnnulusParamsGuiComp.ui" line="86"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusParamsGuiComp.h" line="130"/>
         <source>Radii</source>
-        <translation type="unfinished"></translation>
+        <translation>Promienie</translation>
     </message>
 </context>
 <context>
@@ -55,35 +55,35 @@
         <location filename="../../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="163"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="29"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="164"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="87"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="166"/>
         <source>Radii</source>
-        <translation type="unfinished"></translation>
+        <translation>Promienie</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="145"/>
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="168"/>
         <source>Angles</source>
-        <translation type="unfinished"></translation>
+        <translation>Kąty</translation>
     </message>
     <message utf8="true">
         <location filename="../../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="190"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message utf8="true">
         <location filename="../../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="169"/>
         <source>Â°</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -92,115 +92,115 @@
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="14"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="345"/>
         <source>Property Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytor parametrów</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="30"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="363"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacja</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="112"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="348"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="129"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="350"/>
         <source>Company:</source>
-        <translation type="unfinished"></translation>
+        <translation>Firma:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="146"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="352"/>
         <source>Project:</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="163"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="354"/>
         <source>Author:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="180"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="356"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategoria:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="197"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="358"/>
         <source>Tags:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagi:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="214"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="360"/>
         <source>Keywords:</source>
-        <translation type="unfinished"></translation>
+        <translation>Słowa kluczowe:</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="325"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="367"/>
         <source>Attributes</source>
-        <translation type="unfinished"></translation>
+        <translation>Atrybuty</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="344"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="366"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="349"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="365"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="358"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="370"/>
         <source>Interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfejsy</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="377"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="369"/>
         <source>Export interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportuj</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="386"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="372"/>
         <source>Flags</source>
-        <translation type="unfinished"></translation>
+        <translation>Flagi</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="392"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="371"/>
         <source>Automatically create instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz automatycznie</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="417"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="376"/>
         <source>Components</source>
-        <translation type="unfinished"></translation>
+        <translation>Komponenty</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="430"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="375"/>
         <source>Component</source>
-        <translation type="unfinished"></translation>
+        <translation>Komponent</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CAttributeEditorComp.ui" line="435"/>
         <location filename="../../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="374"/>
         <source>Export alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportuj jako</translation>
     </message>
 </context>
 <context>
@@ -209,19 +209,19 @@
         <location filename="../../../Include/iqt2d/CCircleParamsGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="117"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CCircleParamsGuiComp.ui" line="29"/>
         <location filename="../../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="118"/>
         <source>Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CCircleParamsGuiComp.ui" line="87"/>
         <location filename="../../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="120"/>
         <source>Radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Promień</translation>
     </message>
 </context>
 <context>
@@ -230,19 +230,19 @@
         <location filename="../../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="13"/>
         <location filename="../../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="91"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="56"/>
         <location filename="../../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="92"/>
         <source>Save...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz...</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="69"/>
         <location filename="../../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="93"/>
         <source>Load...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj...</translation>
     </message>
 </context>
 <context>
@@ -251,31 +251,31 @@
         <location filename="../../../Include/iqtprm/CFileNameParamGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="87"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CFileNameParamGuiComp.ui" line="26"/>
         <location filename="../../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="88"/>
         <source>Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalog</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CFileNameParamGuiComp.ui" line="33"/>
         <location filename="../../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="89"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Scieżka</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CFileNameParamGuiComp.ui" line="40"/>
         <location filename="../../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="90"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CFileNameParamGuiComp.ui" line="60"/>
         <location filename="../../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="91"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -284,19 +284,19 @@
         <location filename="../../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="57"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="23"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="58"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="30"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="59"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz</translation>
     </message>
 </context>
 <context>
@@ -305,7 +305,7 @@
         <location filename="../../../Include/iqtgui/CFileSystemExplorerGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CFileSystemExplorerGuiComp.h" line="67"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -314,7 +314,7 @@
         <location filename="../../../Include/iqtgui/CImagePropertiesFrameComp.ui" line="14"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CImagePropertiesFrameComp.h" line="70"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CImagePropertiesFrameComp.ui" line="17"/>
@@ -329,7 +329,7 @@
         <location filename="../../../Include/iqtgui/CImagePropertyGuiComp.ui" line="20"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="53"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CImagePropertyGuiComp.ui" line="23"/>
@@ -341,13 +341,13 @@
         <location filename="../../../Include/iqtgui/CImagePropertyGuiComp.ui" line="36"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="59"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Cecha</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CImagePropertyGuiComp.ui" line="41"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="58"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
 </context>
 <context>
@@ -356,19 +356,19 @@
         <location filename="../../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="13"/>
         <location filename="../../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="127"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="28"/>
         <location filename="../../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="128"/>
         <source>First point</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwszy punkt</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="86"/>
         <location filename="../../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="130"/>
         <source>Second point</source>
-        <translation type="unfinished"></translation>
+        <translation>Drugi punkt</translation>
     </message>
 </context>
 <context>
@@ -377,25 +377,25 @@
         <location filename="../../../Include/iqtgui/CLogGuiComp.ui" line="112"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="98"/>
         <source>State</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLogGuiComp.ui" line="117"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="97"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLogGuiComp.ui" line="122"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="96"/>
         <source>Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Źródło</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLogGuiComp.ui" line="127"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="95"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Komunikat</translation>
     </message>
 </context>
 <context>
@@ -404,25 +404,25 @@
         <location filename="../../../Include/iqtgui/CLoginGuiComp.ui" line="41"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="118"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>Użytkownik</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLoginGuiComp.ui" line="70"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="119"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Hasło</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLoginGuiComp.ui" line="87"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="120"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaloguj</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CLoginGuiComp.ui" line="94"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="121"/>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyloguj</translation>
     </message>
 </context>
 <context>
@@ -431,7 +431,7 @@
         <location filename="../../../Include/iqtgui/CObjectPreviewGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtgui/Generated/ui_CObjectPreviewGuiComp.h" line="59"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtgui/CObjectPreviewGuiComp.ui" line="17"/>
@@ -446,61 +446,61 @@
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="14"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="132"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="31"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="133"/>
         <source>Group By</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupuj po</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="42"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="136"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Żaden</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="47"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="137"/>
         <source>Package</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakiet</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="57"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="142"/>
         <source>List of registered component types</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista zarejestrowanych komponentów</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="88"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="140"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="96"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="144"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="108"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="145"/>
         <source>Keyword</source>
-        <translation type="unfinished"></translation>
+        <translation>Słowo kluczowe</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="118"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="146"/>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfejs</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CPackageOverviewComp.ui" line="132"/>
         <location filename="../../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="149"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>Dowolny</translation>
     </message>
 </context>
 <context>
@@ -509,13 +509,13 @@
         <location filename="../../../Include/iqtprm/CParamsManagerGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="110"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CParamsManagerGuiComp.ui" line="42"/>
         <location filename="../../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="112"/>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtprm/CParamsManagerGuiComp.ui" line="52"/>
@@ -523,7 +523,7 @@
         <location filename="../../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="113"/>
         <location filename="../../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="114"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -532,31 +532,31 @@
         <location filename="../../../Include/iqtmm/CPlaybackControllerGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtmm/generated/ui_CPlaybackControllerGuiComp.h" line="125"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtmm/CPlaybackControllerGuiComp.ui" line="23"/>
         <location filename="../../../Include/iqtmm/generated/ui_CPlaybackControllerGuiComp.h" line="126"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtmm/CPlaybackControllerGuiComp.ui" line="44"/>
         <location filename="../../../Include/iqtmm/generated/ui_CPlaybackControllerGuiComp.h" line="127"/>
         <source>H:mm:ss.zzz</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtmm/CPlaybackControllerGuiComp.ui" line="89"/>
         <location filename="../../../Include/iqtmm/generated/ui_CPlaybackControllerGuiComp.h" line="128"/>
         <source>/</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtmm/CPlaybackControllerGuiComp.ui" line="96"/>
         <location filename="../../../Include/iqtmm/generated/ui_CPlaybackControllerGuiComp.h" line="129"/>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -565,55 +565,55 @@
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="164"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="29"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="165"/>
         <source>Processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetwarzanie</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="49"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="167"/>
         <source>Do single processing step</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonuje pojedynczy krok</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="52"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="169"/>
         <source>Process</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetwórz</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="65"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="171"/>
         <source>Enable/disable continuous processing</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącza/wyłącza tryb przetwarzania ciągłego</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="87"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="173"/>
         <source>Save Result...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz wynik...</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="97"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="174"/>
         <source>Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametry</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="135"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="175"/>
         <source>Load...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj...</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProcessorControlGuiComp.ui" line="148"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="176"/>
         <source>Save...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz...</translation>
     </message>
 </context>
 <context>
@@ -622,19 +622,19 @@
         <location filename="../../../Include/iqtproc/CProgressManagerGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="69"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProgressManagerGuiComp.ui" line="23"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="70"/>
         <source>Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Postęp</translation>
     </message>
     <message>
         <location filename="../../../Include/iqtproc/CProgressManagerGuiComp.ui" line="46"/>
         <location filename="../../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="71"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Przerwij</translation>
     </message>
 </context>
 <context>
@@ -643,13 +643,13 @@
         <location filename="../../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="13"/>
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="219"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="22"/>
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="220"/>
         <source>First Diagonal</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwsza przekątna</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="34"/>
@@ -657,7 +657,7 @@
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="221"/>
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="226"/>
         <source>First point</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwszy punkt</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="92"/>
@@ -665,13 +665,13 @@
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="223"/>
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="228"/>
         <source>Second point</source>
-        <translation type="unfinished"></translation>
+        <translation>Drugi punkt</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="147"/>
         <location filename="../../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="225"/>
         <source>Second Diagonal</source>
-        <translation type="unfinished"></translation>
+        <translation>Druga przekątna</translation>
     </message>
 </context>
 <context>
@@ -680,31 +680,31 @@
         <location filename="../../../Include/icmpstr/CQuickHelpViewerComp.ui" line="20"/>
         <location filename="../../../Include/icmpstr/generated/ui_CQuickHelpViewerComp.h" line="126"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CQuickHelpViewerComp.ui" line="53"/>
         <location filename="../../../Include/icmpstr/generated/ui_CQuickHelpViewerComp.h" line="127"/>
         <source>There is no description available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie ma jeszcze żadnego opisu</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CQuickHelpViewerComp.ui" line="63"/>
         <location filename="../../../Include/icmpstr/generated/ui_CQuickHelpViewerComp.h" line="128"/>
         <source>New Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy opis</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CQuickHelpViewerComp.ui" line="92"/>
         <location filename="../../../Include/icmpstr/generated/ui_CQuickHelpViewerComp.h" line="129"/>
         <source>Edit Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Edytuj opis</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CQuickHelpViewerComp.ui" line="102"/>
         <location filename="../../../Include/icmpstr/generated/ui_CQuickHelpViewerComp.h" line="130"/>
         <source>Show Technical Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż dokumentację techniczną</translation>
     </message>
 </context>
 <context>
@@ -713,31 +713,31 @@
         <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="14"/>
         <location filename="../../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="124"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="29"/>
         <location filename="../../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="125"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Lewy</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="58"/>
         <location filename="../../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="126"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawy</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="87"/>
         <location filename="../../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="127"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Górny</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="116"/>
         <location filename="../../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="128"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Dolny</translation>
     </message>
 </context>
 <context>
@@ -746,73 +746,73 @@
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="14"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="226"/>
         <source>Properies of Registry</source>
-        <translation type="unfinished"></translation>
+        <translation>Własności rejestru</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="27"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="227"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="39"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="228"/>
         <source>Registry Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacja o rejestrze</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="45"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="229"/>
         <source>Company</source>
-        <translation type="unfinished"></translation>
+        <translation>Firma</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="55"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="230"/>
         <source>Project</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="65"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="231"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="75"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="232"/>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategorie</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="85"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="233"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagi</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="95"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="234"/>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation>Słowa kluczowe</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="108"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="235"/>
         <source>Overview</source>
-        <translation type="unfinished"></translation>
+        <translation>Informacje ogólne</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="213"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="236"/>
         <source>Errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Błędy</translation>
     </message>
     <message>
         <location filename="../../../Include/icmpstr/CRegistryPropEditorComp.ui" line="266"/>
         <location filename="../../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="237"/>
         <source>-</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -821,7 +821,7 @@
         <location filename="../../../Include/iqt2d/CSceneConnectorGuiComp.ui" line="13"/>
         <location filename="../../../Include/iqt2d/generated/ui_CSceneConnectorGuiComp.h" line="95"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -830,13 +830,13 @@
         <location filename="../../../Include/iqt2d/CSceneControllerGuiComp.ui" line="19"/>
         <location filename="../../../Include/iqt2d/generated/ui_CSceneControllerGuiComp.h" line="133"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CSceneControllerGuiComp.ui" line="22"/>
         <location filename="../../../Include/iqt2d/generated/ui_CSceneControllerGuiComp.h" line="135"/>
         <source>Display navigation bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pasek nawigacji dla podglądu</translation>
     </message>
     <message>
         <location filename="../../../Include/iqt2d/CSceneControllerGuiComp.ui" line="63"/>
