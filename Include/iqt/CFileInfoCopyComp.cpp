@@ -19,7 +19,7 @@ namespace iqt
 
 // reimplemented (ibase::IFileConvertCopy)
 
-bool CFileInfoCopyComp::CopyFile(
+bool CFileInfoCopyComp::ConvertFile(
 			const istd::CString& inputFilePath,
 			const istd::CString& outputFilePath,
 			const iprm::IParamsSet* /*paramsSetPtr*/) const

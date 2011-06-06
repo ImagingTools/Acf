@@ -23,13 +23,13 @@ CSelectableFileConverterComp::CSelectableFileConverterComp()
 
 // reimplemented (ibase::IFileConvertCopy)
 
-bool CSelectableFileConverterComp::CopyFile(
+bool CSelectableFileConverterComp::ConvertFile(
 			const istd::CString& inputFilePath,
 			const istd::CString& outputFilePath,
 			const iprm::IParamsSet* /*paramsPtr*/) const
 {
 	if (m_selectedOptionIndex >= 0){
-		return m_slaveConvertersCompPtr[m_selectedOptionIndex]->CopyFile(inputFilePath, outputFilePath);
+		return m_slaveConvertersCompPtr[m_selectedOptionIndex]->ConvertFile(inputFilePath, outputFilePath);
 	}
 
 	return false;

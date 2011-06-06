@@ -30,7 +30,7 @@ public:
 	/**
 		Copy a file \c inputFilePath to destination \c outputFilePath. Optionally, you can use \c paramsPtr to control the copy process.
 	*/
-	virtual bool CopyFile(
+	virtual bool ConvertFile(
 				const istd::CString& inputFilePath,
 				const istd::CString& outputFilePath,
 				const iprm::IParamsSet* paramsPtr = NULL) const = 0;

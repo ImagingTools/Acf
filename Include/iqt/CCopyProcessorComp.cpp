@@ -96,7 +96,7 @@ bool CCopyProcessorComp::CopyFileTree(
 
 		I_ASSERT(m_fileCopyCompPtr.IsValid());	// it should be checked before whole process started
 
-		if (m_fileCopyCompPtr->CopyFile(iqt::GetCString(inputFilePath), iqt::GetCString(outputFilePath))){
+		if (m_fileCopyCompPtr->ConvertFile(iqt::GetCString(inputFilePath), iqt::GetCString(outputFilePath))){
 			counter++;
 		}
 	}

@@ -7,7 +7,7 @@ namespace ibase
 
 // reimplemented (ibase::IFileConvertCopy)
 
-bool CExternalFileConverterComp::CopyFile(
+bool CExternalFileConverterComp::ConvertFile(
 			const istd::CString& inputFilePath,
 			const istd::CString& outputFilePath,
 			const iprm::IParamsSet* /*paramsSetPtr*/) const
