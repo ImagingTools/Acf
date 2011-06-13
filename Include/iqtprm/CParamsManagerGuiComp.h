@@ -37,7 +37,7 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor(int updateFlags = 0);
 
-protected slots:
+protected Q_SLOTS:
 	void on_AddButton_clicked();
 	void on_RemoveButton_clicked();
 	void on_ParamsTree_itemSelectionChanged();
@@ -49,6 +49,10 @@ protected:
 	void UpdateParamsView(int selectedIndex);
 	int GetSelectedIndex() const;
 	void EnsureParamsGuiDetached();
+
+	// reimplemented (iqtgui::CComponentBase)
+	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();

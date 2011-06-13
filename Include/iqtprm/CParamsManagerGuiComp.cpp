@@ -213,6 +213,10 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 	}
 
 	RemoveButton->setEnabled(selectedIndex >= 0);
+
+	if (selectedIndex == -1){
+		ParamsFrame->setVisible(false);
+	}
 }
 
 
@@ -261,24 +265,41 @@ void CParamsManagerGuiComp::OnGuiModelAttached()
 		}
 	}
 
-	if (m_paramsGuiCompPtr.IsValid()){
-		m_paramsGuiCompPtr->CreateGui(ParamsFrame);
-	}
-
 	ParamsTree->setItemDelegate(new iqtgui::CItemDelegate());
 }
 
 
 void CParamsManagerGuiComp::OnGuiModelDetached()
 {
-	if (m_paramsGuiCompPtr.IsValid()){
-		m_paramsGuiCompPtr->DestroyGui();
-	}
-
 	EnsureParamsGuiDetached();
 
 	BaseClass::OnGuiModelDetached();
 }
+
+
+// reimplemented (iqtgui::CComponentBase)
+
+void CParamsManagerGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	if (m_paramsGuiCompPtr.IsValid()){
+		m_paramsGuiCompPtr->CreateGui(ParamsFrame);
+
+		ParamsFrame->setVisible(false);
+	}
+}
+
+
+void CParamsManagerGuiComp::OnGuiDestroyed()
+{
+	if (m_paramsGuiCompPtr.IsValid()){
+		m_paramsGuiCompPtr->DestroyGui();
+	}
+
+	BaseClass::OnGuiDestroyed();
+}
+
 
 
 } // namespace iqtprm
