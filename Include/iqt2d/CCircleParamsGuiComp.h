@@ -30,13 +30,9 @@ public:
 		I_ASSIGN(m_circleZValueAttrPtr, "CircleZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT
 
-	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
@@ -45,7 +41,13 @@ public:
 	// reimplemented (iqt2d::TSceneExtenderCompBase)
 	virtual void CreateShapes(int sceneId, bool inactiveOnly, Shapes& result);
 
-protected slots:
+protected:
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
+	virtual void UpdateGui(int updateFlags = 0);
+
+protected Q_SLOTS:
 	void OnParamsChanged(double value);
 
 private:

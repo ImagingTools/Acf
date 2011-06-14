@@ -13,7 +13,7 @@ namespace iprm
 
 
 CSelectionParamComp::CSelectionParamComp()
-:	m_selectedOptionIndex(0)
+:	m_selectedOptionIndex(-1)
 {
 }
 
@@ -34,14 +34,12 @@ int CSelectionParamComp::GetSelectedOptionIndex() const
 
 bool CSelectionParamComp::SetSelectedOptionIndex(int index)
 {
-	I_ASSERT(index > 0);
-
 	if (m_constraintsCompPtr.IsValid() && (index >= m_constraintsCompPtr->GetOptionsCount())){
 		return false;
 	}
 
 	if (m_selectedOptionIndex != index){
-		istd::CChangeNotifier changeNotifier(this);
+		istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED);
 
 		m_selectedOptionIndex = index;
 	}
@@ -60,10 +58,20 @@ ISelectionParam* CSelectionParamComp::GetActiveSubselection() const
 
 bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 {
+	int selectionOptionIndex = m_selectedOptionIndex;
+
 	static iser::CArchiveTag selectedOptionIndexTag("Index", "Selected option index");
 	bool retVal = archive.BeginTag(selectedOptionIndexTag);
-	retVal = retVal && archive.Process(m_selectedOptionIndex);
+	retVal = retVal && archive.Process(selectionOptionIndex);
 	retVal = retVal && archive.EndTag(selectedOptionIndexTag);
+
+	if (retVal && !archive.IsStoring()){
+		if (selectionOptionIndex != m_selectedOptionIndex){
+			istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED);
+
+			m_selectedOptionIndex = selectionOptionIndex;
+		}
+	}
 
 	return retVal;
 }

@@ -21,63 +21,6 @@ CVariableParamGuiComp::CVariableParamGuiComp()
 }
 
 
-// reimplemented (imod::IModelEditor)
-
-void CVariableParamGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
-}
-
-
-void CVariableParamGuiComp::UpdateEditor(int updateFlags)
-{
-	I_ASSERT(IsGuiCreated());
-
-	I_ASSERT(m_currentTypeIndex < m_typeIdsAttrPtr.GetCount());
-
-	iprm::IVariableParam* variableParamPtr = GetObjectPtr();
-	if (variableParamPtr == NULL){
-		return;
-	}
-
-	std::string currentId;
-	if (m_currentTypeIndex >= 0){
-		currentId = m_typeIdsAttrPtr[m_currentTypeIndex].ToString();
-	}
-
-	std::string typeId = variableParamPtr->GetParameterTypeId();
-	if (typeId != currentId){
-		DetachCurrentType();
-
-		int typeIdsCount = m_typeIdsAttrPtr.GetCount();
-		for (int i = 0; i < typeIdsCount; ++i){
-			if (typeId == m_typeIdsAttrPtr[i].ToString()){
-				m_currentTypeIndex = i;
-
-				AttachCurrentType();
-
-				break;
-			}
-		}
-	}
-
-	TypeSelectorCB->setCurrentIndex(m_currentTypeIndex);
-
-	if (		(m_lastParamModelPtr != NULL) &&
-				(m_currentTypeIndex >= 0) &&
-				(m_currentTypeIndex < m_editorsCompPtr.GetCount())){
-		imod::IModelEditor* editorPtr = m_editorsCompPtr[m_currentTypeIndex];
-		if (editorPtr != NULL){
-			editorPtr->UpdateEditor(updateFlags);
-		}
-	}
-
-	if (IsGuiCreated()){
-		TypeSelectorCB->setVisible(m_currentTypeIndex < 0);
-	}
-}
-
-
 // reimplemented (imod::IObserver)
 
 bool CVariableParamGuiComp::OnDetached(imod::IModel* modelPtr)
@@ -89,41 +32,6 @@ bool CVariableParamGuiComp::OnDetached(imod::IModel* modelPtr)
 	}
 
 	return false;
-}
-
-
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void CVariableParamGuiComp::OnGuiCreated()
-{
-	iqt::CSignalBlocker block(TypeSelectorCB);
-
-	TypeSelectorCB->clear();
-
-	int typeIdsCount = m_typeIdsAttrPtr.GetCount();
-	for (int i = 0; i < typeIdsCount; ++i){
-		istd::CString typeName = (i < m_typeNamesAttrPtr.GetCount())? m_typeNamesAttrPtr[i]: m_typeIdsAttrPtr[i];
-		TypeSelectorCB->addItem(iqt::GetQString(typeName));
-	}
-
-	TypeSelectorCB->setCurrentIndex(m_currentTypeIndex);
-
-	BaseClass::OnGuiCreated();
-}
-
-
-void CVariableParamGuiComp::OnGuiDestroyed()
-{
-	int elementsCount = m_guisCompPtr.GetCount();
-	for (int i = 0; i < elementsCount; ++i){
-		iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
-
-		if ((guiPtr != NULL) && guiPtr->IsGuiCreated()){
-			guiPtr->DestroyGui();
-		}
-	}
-
-	BaseClass::OnGuiDestroyed();
 }
 
 
@@ -237,6 +145,91 @@ void CVariableParamGuiComp::DetachCurrentType()
 	}
 }
 
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CVariableParamGuiComp::UpdateGui(int updateFlags)
+{
+	I_ASSERT(IsGuiCreated());
+
+	I_ASSERT(m_currentTypeIndex < m_typeIdsAttrPtr.GetCount());
+
+	iprm::IVariableParam* variableParamPtr = GetObjectPtr();
+	if (variableParamPtr == NULL){
+		return;
+	}
+
+	std::string currentId;
+	if (m_currentTypeIndex >= 0){
+		currentId = m_typeIdsAttrPtr[m_currentTypeIndex].ToString();
+	}
+
+	std::string typeId = variableParamPtr->GetParameterTypeId();
+	if (typeId != currentId){
+		DetachCurrentType();
+
+		int typeIdsCount = m_typeIdsAttrPtr.GetCount();
+		for (int i = 0; i < typeIdsCount; ++i){
+			if (typeId == m_typeIdsAttrPtr[i].ToString()){
+				m_currentTypeIndex = i;
+
+				AttachCurrentType();
+
+				break;
+			}
+		}
+	}
+
+	TypeSelectorCB->setCurrentIndex(m_currentTypeIndex);
+
+	if (		(m_lastParamModelPtr != NULL) &&
+				(m_currentTypeIndex >= 0) &&
+				(m_currentTypeIndex < m_editorsCompPtr.GetCount())){
+		imod::IModelEditor* editorPtr = m_editorsCompPtr[m_currentTypeIndex];
+		if (editorPtr != NULL){
+			editorPtr->UpdateEditor(updateFlags);
+		}
+	}
+
+	if (IsGuiCreated()){
+		TypeSelectorCB->setVisible(m_currentTypeIndex < 0);
+	}
+}
+
+
+// reimplemented (iqtgui::CGuiComponentBase)
+
+void CVariableParamGuiComp::OnGuiCreated()
+{
+	iqt::CSignalBlocker block(TypeSelectorCB);
+
+	TypeSelectorCB->clear();
+
+	int typeIdsCount = m_typeIdsAttrPtr.GetCount();
+	for (int i = 0; i < typeIdsCount; ++i){
+		istd::CString typeName = (i < m_typeNamesAttrPtr.GetCount())? m_typeNamesAttrPtr[i]: m_typeIdsAttrPtr[i];
+		TypeSelectorCB->addItem(iqt::GetQString(typeName));
+	}
+
+	TypeSelectorCB->setCurrentIndex(m_currentTypeIndex);
+
+	BaseClass::OnGuiCreated();
+}
+
+
+void CVariableParamGuiComp::OnGuiDestroyed()
+{
+	int elementsCount = m_guisCompPtr.GetCount();
+	for (int i = 0; i < elementsCount; ++i){
+		iqtgui::IGuiObject* guiPtr = m_guisCompPtr[i];
+
+		if ((guiPtr != NULL) && guiPtr->IsGuiCreated()){
+			guiPtr->DestroyGui();
+		}
+	}
+
+	BaseClass::OnGuiDestroyed();
+}
 
 
 // protected slots

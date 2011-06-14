@@ -27,14 +27,13 @@ public:
 		I_ASSIGN(m_imagePositionModeAttrPtr, "ImagePositionMode", "Mode of image position:\n 0 - corner\n 1 - center", true, 0);
 	I_END_COMPONENT
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
-
 	// reimplemented (imod::IObserver)
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
 protected:
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
+
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();

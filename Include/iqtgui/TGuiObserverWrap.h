@@ -68,6 +68,11 @@ protected:
 	*/
 	bool IsUpdateBlocked() const;
 
+	/**
+		Do update of the model GUI.
+	*/
+	virtual void UpdateGui(int updateFlags);
+
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(int updateFlags = 0);
 	virtual void UpdateModel() const;
@@ -179,11 +184,7 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 	I_ASSERT(Gui::IsGuiCreated());
 	I_ASSERT(Observer::IsModelAttached(NULL));
 
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blocker(this);
-
-		UpdateEditor(CF_INIT_EDITOR);
-	}
+	UpdateEditor(CF_INIT_EDITOR);
 }
 
 
@@ -205,11 +206,22 @@ bool TGuiObserverWrap<Gui, Observer>::IsUpdateBlocked() const
 }
 
 
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::UpdateGui(int /*updateFlags*/)
+{
+}
+
+
 // reimplemented (imod::IModelEditor)
 
 template <class Gui, class Observer>
-void TGuiObserverWrap<Gui, Observer>::UpdateEditor(int /*updateFlags*/)
+void TGuiObserverWrap<Gui, Observer>::UpdateEditor(int updateFlags)
 {
+	if (!IsUpdateBlocked() && Gui::IsGuiCreated()){
+		UpdateBlocker updateBlocker(this);
+
+		UpdateGui(updateFlags);
+	}
 }
 
 
@@ -324,9 +336,7 @@ void TGuiObserverWrap<Gui, Observer>::DoUpdate(int updateFlags)
 		skipUpdate = ((m_updateFilter & updateFlags) == 0);
 	}
 
-	if (!IsUpdateBlocked() && !skipUpdate && Gui::IsGuiCreated()){
-		UpdateBlocker blocker(this);
-
+	if (!skipUpdate){
 		UpdateEditor(updateFlags);
 	}
 }

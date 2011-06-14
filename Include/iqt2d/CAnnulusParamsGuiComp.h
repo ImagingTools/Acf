@@ -32,7 +32,6 @@ public:
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
@@ -42,6 +41,9 @@ public:
 	virtual void CreateShapes(int sceneId, bool inactiveOnly, Shapes& result);
 
 protected:
+	// reimplemenented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
+
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();

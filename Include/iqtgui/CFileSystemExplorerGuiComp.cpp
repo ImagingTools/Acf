@@ -17,17 +17,30 @@ namespace iqtgui
 {
 
 
-// public methods
+// protected methods
 
-// reimplemented (imod::IModelEditor)
-
-void CFileSystemExplorerGuiComp::UpdateModel() const
+QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
 {
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
+	QStringList retVal;
+
+	if (m_filterInfoCompPtr.IsValid()){
+		istd::CStringList extensions;
+		if (m_filterInfoCompPtr->GetFileExtensions(extensions, iser::IFileTypeInfo::QF_NO_SAVING)){
+			for (		istd::CStringList::const_iterator iter = extensions.begin();
+						iter != extensions.end();
+						++iter){
+				retVal += "*." + iqt::GetQString(*iter);
+			}
+		}
+	}
+
+	return retVal;
 }
 
 
-void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CFileSystemExplorerGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -47,27 +60,6 @@ void CFileSystemExplorerGuiComp::UpdateEditor(int /*updateFlags*/)
 			}
 		}
 	}
-}
-
-
-// protected methods
-
-QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
-{
-	QStringList retVal;
-
-	if (m_filterInfoCompPtr.IsValid()){
-		istd::CStringList extensions;
-		if (m_filterInfoCompPtr->GetFileExtensions(extensions, iser::IFileTypeInfo::QF_NO_SAVING)){
-			for (		istd::CStringList::const_iterator iter = extensions.begin();
-						iter != extensions.end();
-						++iter){
-				retVal += "*." + iqt::GetQString(*iter);
-			}
-		}
-	}
-
-	return retVal;
 }
 
 
@@ -150,7 +142,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 }
 
 
-// private slots:
+// private slots
 
 void CFileSystemExplorerGuiComp::OnFilterChanged()
 {

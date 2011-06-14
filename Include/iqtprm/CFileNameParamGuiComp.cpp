@@ -23,6 +23,70 @@ namespace iqtprm
 
 // public methods
 
+// reimplemented (imod::IModelEditor)
+
+void CFileNameParamGuiComp::UpdateModel() const
+{
+	I_ASSERT(IsGuiCreated());
+
+	iprm::IFileNameParam* objectPtr = GetObjectPtr();
+	I_ASSERT(objectPtr != NULL);
+
+	UpdateBlocker updateBlocker(const_cast<CFileNameParamGuiComp*>(this));
+
+	istd::CString currentPath = iqt::GetCString(GetPathFromEditor());
+	if (currentPath != objectPtr->GetPath()){
+		istd::CChangeNotifier notifier(objectPtr);
+
+		objectPtr->SetPath(currentPath);
+	}
+}
+
+
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CFileNameParamGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	iprm::IFileNameParam* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		SetPathToEditor(iqt::GetQString(objectPtr->GetPath()));
+	}
+}
+
+
+void CFileNameParamGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	iprm::IFileNameParam* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int pathType = objectPtr->GetPathType();
+
+		QString newPath = iqt::GetQString(objectPtr->GetPath());
+		if (newPath != GetPathFromEditor()){
+			SetPathToEditor(newPath);
+		}
+
+		if (IsLabelNeeded()){
+			DirectoryLabel->setVisible(pathType == iprm::IFileNameParam::PT_DIRECTORY);
+			PathLabel->setVisible(pathType == iprm::IFileNameParam::PT_FILE);
+			UrlLabel->setVisible(pathType == iprm::IFileNameParam::PT_URL);
+		}
+		BrowseButton->setVisible((pathType == iprm::IFileNameParam::PT_DIRECTORY) || (pathType == iprm::IFileNameParam::PT_FILE));
+	}
+	else{
+		DirectoryLabel->setVisible(false);
+		PathLabel->setVisible(false);
+		UrlLabel->setVisible(false);
+		BrowseButton->setVisible(false);
+	}
+}
+
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CFileNameParamGuiComp::OnGuiCreated()
@@ -57,68 +121,6 @@ void CFileNameParamGuiComp::OnGuiCreated()
 	DirEdit->setCompleter(NULL);
 
 	BaseClass::OnGuiCreated();
-}
-
-
-// reimplemented (imod::IModelEditor)
-
-void CFileNameParamGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated());
-
-	iprm::IFileNameParam* objectPtr = GetObjectPtr();
-	I_ASSERT(objectPtr != NULL);
-
-	UpdateBlocker blocker(const_cast<CFileNameParamGuiComp*>(this));
-
-	istd::CString currentPath = iqt::GetCString(GetPathFromEditor());
-	if (currentPath != objectPtr->GetPath()){
-		istd::CChangeNotifier notifier(objectPtr);
-
-		objectPtr->SetPath(currentPath);
-	}
-}
-
-
-void CFileNameParamGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	iprm::IFileNameParam* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int pathType = objectPtr->GetPathType();
-
-		QString newPath = iqt::GetQString(objectPtr->GetPath());
-		if (newPath != GetPathFromEditor()){
-			SetPathToEditor(newPath);
-		}
-
-		if (IsLabelNeeded()){
-			DirectoryLabel->setVisible(pathType == iprm::IFileNameParam::PT_DIRECTORY);
-			PathLabel->setVisible(pathType == iprm::IFileNameParam::PT_FILE);
-			UrlLabel->setVisible(pathType == iprm::IFileNameParam::PT_URL);
-		}
-		BrowseButton->setVisible((pathType == iprm::IFileNameParam::PT_DIRECTORY) || (pathType == iprm::IFileNameParam::PT_FILE));
-	}
-	else{
-		DirectoryLabel->setVisible(false);
-		PathLabel->setVisible(false);
-		UrlLabel->setVisible(false);
-		BrowseButton->setVisible(false);
-	}
-}
-
-
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CFileNameParamGuiComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	iprm::IFileNameParam* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		SetPathToEditor(iqt::GetQString(objectPtr->GetPath()));
-	}
 }
 
 

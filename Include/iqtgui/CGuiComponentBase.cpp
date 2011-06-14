@@ -250,7 +250,7 @@ CGuiComponentBase::LanguageChangeEventFilter::LanguageChangeEventFilter(CGuiComp
 
 bool CGuiComponentBase::LanguageChangeEventFilter::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	if (eventPtr->type() == QEvent::LanguageChange){
+	if ((eventPtr->type() == QEvent::LanguageChange) && (sourcePtr == &m_parent)){
 		m_parent.OnRetranslate();
 
 		if (m_parent.IsGuiCreated()){

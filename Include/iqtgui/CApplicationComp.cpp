@@ -54,7 +54,7 @@ bool CApplicationComp::InitializeApplication(int argc, char** argv)
 			return false;
 		}
 
-		if (m_translationManagerCompPtr.IsValid()){
+		if (m_translationManagerCompPtr.IsValid() && m_translationManagerCompPtr->GetCurrentLanguageIndex() < 0){
 			m_translationManagerCompPtr->SetSystemLanguage();
 		}
 

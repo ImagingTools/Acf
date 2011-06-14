@@ -440,6 +440,51 @@ void CPackageOverviewComp::UpdateComponentGroups()
 }
 
 
+void CPackageOverviewComp::UpdateInterfaceList()
+{
+	InterfaceFilter knownInterfaces;
+	if (m_envManagerCompPtr.IsValid()){
+		icomp::IMetaInfoManager::ComponentAddresses addresses = m_envManagerCompPtr->GetComponentAddresses();
+
+		for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
+					addressIter != addresses.end();
+					++addressIter){
+			const icomp::CComponentAddress& address = *addressIter;
+
+			const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+			if (metaInfoPtr != NULL){
+				const icomp::IComponentStaticInfo::Ids& interfaceNames = metaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
+
+				for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceNames.begin();
+							interfaceIter != interfaceNames.end();
+							++interfaceIter){
+					knownInterfaces.insert(*interfaceIter);
+				}
+			}
+		}
+
+		InterfaceCB->setMaxCount(0);
+		InterfaceCB->setMaxCount(int(knownInterfaces.size()));
+
+		InterfaceCB->addItem(tr("Any"));
+		for (		InterfaceFilter::const_iterator iterfaceIter = knownInterfaces.begin();
+					iterfaceIter != knownInterfaces.end();
+					++iterfaceIter){
+			const std::string& interfaceName = *iterfaceIter;
+
+			InterfaceCB->addItem(interfaceName.c_str());
+		}
+
+		InterfaceLabel->setVisible(true);
+		InterfaceCB->setVisible(true);
+	}
+	else{
+		InterfaceLabel->setVisible(false);
+		InterfaceCB->setVisible(false);
+	}
+}
+
+
 icomp::IMetaInfoManager::ComponentAddresses CPackageOverviewComp::GetFilteredComponentAdresses() const
 {
 	icomp::IMetaInfoManager::ComponentAddresses filteredComponentAdresses;
@@ -837,9 +882,9 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 }
 
 
-// reimplemented (imod::IModelEditor)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
-void CPackageOverviewComp::UpdateEditor(int updateFlags)
+void CPackageOverviewComp::UpdateGui(int updateFlags)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -893,46 +938,7 @@ void CPackageOverviewComp::OnGuiCreated()
 
 	PackagesList->viewport()->installEventFilter(this);
 
-	InterfaceFilter knownInterfaces;
-	if (m_envManagerCompPtr.IsValid()){
-		icomp::IMetaInfoManager::ComponentAddresses addresses = m_envManagerCompPtr->GetComponentAddresses();
-
-		for (		icomp::IMetaInfoManager::ComponentAddresses::const_iterator addressIter = addresses.begin();
-					addressIter != addresses.end();
-					++addressIter){
-			const icomp::CComponentAddress& address = *addressIter;
-
-			const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
-			if (metaInfoPtr != NULL){
-				const icomp::IComponentStaticInfo::Ids& interfaceNames = metaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-
-				for (		icomp::IComponentStaticInfo::Ids::const_iterator interfaceIter = interfaceNames.begin();
-							interfaceIter != interfaceNames.end();
-							++interfaceIter){
-					knownInterfaces.insert(*interfaceIter);
-				}
-			}
-		}
-
-		InterfaceCB->setMaxCount(0);
-		InterfaceCB->setMaxCount(int(knownInterfaces.size()));
-
-		InterfaceCB->addItem(tr("Any"));
-		for (		InterfaceFilter::const_iterator iterfaceIter = knownInterfaces.begin();
-					iterfaceIter != knownInterfaces.end();
-					++iterfaceIter){
-			const std::string& interfaceName = *iterfaceIter;
-
-			InterfaceCB->addItem(interfaceName.c_str());
-		}
-
-		InterfaceLabel->setVisible(true);
-		InterfaceCB->setVisible(true);
-	}
-	else{
-		InterfaceLabel->setVisible(false);
-		InterfaceCB->setVisible(false);
-	}
+	UpdateInterfaceList();
 
 	m_currentPackageGroupIndex = GroupByCB->currentIndex();
 
@@ -956,6 +962,8 @@ void CPackageOverviewComp::OnGuiRetranslate()
 	BaseClass::OnGuiRetranslate();
 
 	// Work around a Qt bug: By retranslation of the UI the combo boxes will be reset and lose their previous model:
+	UpdateInterfaceList();
+
 	UpdateComponentGroups();
 
 	GroupByCB->setCurrentIndex(m_currentPackageGroupIndex);

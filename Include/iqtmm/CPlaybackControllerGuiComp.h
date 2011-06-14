@@ -36,11 +36,10 @@ public:
 		I_ASSIGN(m_showRepeatButtonAttrPtr, "ShowRepeatButton", "Allow to display play button", true, true);
 	I_END_COMPONENT;
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateEditor(int updateFlags = 0);
-	virtual void UpdateModel() const;
-
 protected:
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
+
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
@@ -48,7 +47,7 @@ protected:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-private slots:
+private Q_SLOTS:
 	void OnTimerTick();
 
 private Q_SLOTS:

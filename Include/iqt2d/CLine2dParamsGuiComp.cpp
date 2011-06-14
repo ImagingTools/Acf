@@ -13,40 +13,7 @@ namespace iqt2d
 {
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CLine2dParamsGuiComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	QObject::connect(Point1XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(Point1YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(Point2XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(Point2YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	if (m_unitNameAttrPtr.IsValid()){
-		Point1UnitLabel->setVisible(true);
-		Point1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-		Point2UnitLabel->setVisible(true);
-		Point2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-	}
-	else{
-		Point1UnitLabel->setVisible(false);
-		Point2UnitLabel->setVisible(false);
-	}
-}
-
-
-void CLine2dParamsGuiComp::OnGuiModelDetached()
-{
-	QObject::disconnect(Point1XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(Point1YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(Point2XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(Point2YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	BaseClass::OnGuiModelDetached();
-}
-
+// public methods
 
 // reimplemented (imod::IObserver)
 
@@ -125,7 +92,63 @@ void CLine2dParamsGuiComp::UpdateModel() const
 }
 
 
-void CLine2dParamsGuiComp::UpdateEditor(int /*updateFlags*/)
+// reimplemented (iqt2d::TSceneExtenderCompBase)
+
+void CLine2dParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
+{
+	I_ASSERT(m_lineZValueAttrPtr.IsValid());	// this attribute is obligatory
+
+	CLine2dShape* shapePtr = new CLine2dShape(!inactiveOnly);
+	if (shapePtr != NULL){
+		shapePtr->setZValue(*m_lineZValueAttrPtr);
+		result.PushBack(shapePtr);
+
+		imod::IModel* modelPtr = GetModelPtr();
+		if (modelPtr != NULL){
+			modelPtr->AttachObserver(shapePtr);
+		}
+	}
+}
+
+
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CLine2dParamsGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	QObject::connect(Point1XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(Point1YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(Point2XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(Point2YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	if (m_unitNameAttrPtr.IsValid()){
+		Point1UnitLabel->setVisible(true);
+		Point1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+		Point2UnitLabel->setVisible(true);
+		Point2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+	}
+	else{
+		Point1UnitLabel->setVisible(false);
+		Point2UnitLabel->setVisible(false);
+	}
+}
+
+
+void CLine2dParamsGuiComp::OnGuiModelDetached()
+{
+	QObject::disconnect(Point1XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(Point1YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(Point2XSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(Point2YSB, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CLine2dParamsGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -149,31 +172,12 @@ void CLine2dParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 }
 
 
-// reimplemented (iqt2d::TSceneExtenderCompBase)
-
-void CLine2dParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
-{
-	I_ASSERT(m_lineZValueAttrPtr.IsValid());	// this attribute is obligatory
-
-	CLine2dShape* shapePtr = new CLine2dShape(!inactiveOnly);
-	if (shapePtr != NULL){
-		shapePtr->setZValue(*m_lineZValueAttrPtr);
-		result.PushBack(shapePtr);
-
-		imod::IModel* modelPtr = GetModelPtr();
-		if (modelPtr != NULL){
-			modelPtr->AttachObserver(shapePtr);
-		}
-	}
-}
-
-
 // protected slots
 
 void CLine2dParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

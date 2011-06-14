@@ -109,6 +109,7 @@ protected:
 	virtual void OnGuiCreated();	
 	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
+	virtual void OnGuiRetranslate();
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();

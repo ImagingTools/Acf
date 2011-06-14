@@ -48,17 +48,15 @@ public:
 		I_ASSIGN(m_allowOpenFileAttrPtr, "AllowOpenFile", "If enabled, the file will be opened by operation system shell", false, false);
 	I_END_COMPONENT;
 
-public:
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
-
 protected:
 	/**
 		Get default list of filters.
 		This list will be created using component parameters.
 	*/
 	QStringList GetDefaultFilters() const;
+
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();

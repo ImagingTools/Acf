@@ -22,6 +22,11 @@ public:
 	virtual int GetLanguagesCount() const = 0;
 
 	/**
+		Get current language index.
+	*/
+	virtual int GetCurrentLanguageIndex() const = 0;
+
+	/**
 		Get Qt translator for a given language.
 	*/
 	virtual const QTranslator* GetLanguageTranslator(int languageIndex) const = 0;

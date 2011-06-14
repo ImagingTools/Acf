@@ -25,9 +25,9 @@ public:
 	I_BEGIN_COMPONENT(CImagePropertiesFrameComp);
 	I_END_COMPONENT;
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateEditor(int updateFlags = 0);
-	virtual void UpdateModel() const;
+protected:
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
 };
 
 

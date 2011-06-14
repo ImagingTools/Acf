@@ -33,7 +33,11 @@ void CSelectionParamIndexGuiComp::UpdateModel() const
 }
 
 
-void CSelectionParamIndexGuiComp::UpdateEditor(int /*updateFlags*/)
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CSelectionParamIndexGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -58,7 +62,7 @@ void CSelectionParamIndexGuiComp::UpdateEditor(int /*updateFlags*/)
 void CSelectionParamIndexGuiComp::on_OptionIndexSlider_valueChanged(int /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

@@ -13,36 +13,7 @@ namespace iqt2d
 {
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CCircleParamsGuiComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	QObject::connect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	if (m_unitNameAttrPtr.IsValid()){
-		PositionUnitLabel->setVisible(true);
-		RadiusUnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-	}
-	else{
-		PositionUnitLabel->setVisible(false);
-		RadiusUnitLabel->setVisible(false);
-	}
-}
-
-
-void CCircleParamsGuiComp::OnGuiModelDetached()
-{
-	QObject::disconnect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	BaseClass::OnGuiModelDetached();
-}
-
+// public methods
 
 // reimplemented (imod::IObserver)
 
@@ -121,22 +92,6 @@ void CCircleParamsGuiComp::UpdateModel() const
 }
 
 
-void CCircleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	i2d::CCircle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		const i2d::CVector2d& center = objectPtr->GetCenter();
-
-		XSpin->setValue(center.GetX());
-		YSpin->setValue(center.GetY());
-
-		RadiusSpin->setValue(objectPtr->GetRadius());
-	}
-}
-
-
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
 void CCircleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
@@ -156,12 +111,61 @@ void CCircleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shap
 }
 
 
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CCircleParamsGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	QObject::connect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	if (m_unitNameAttrPtr.IsValid()){
+		PositionUnitLabel->setVisible(true);
+		RadiusUnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+	}
+	else{
+		PositionUnitLabel->setVisible(false);
+		RadiusUnitLabel->setVisible(false);
+	}
+}
+
+
+void CCircleParamsGuiComp::OnGuiModelDetached()
+{
+	QObject::disconnect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CCircleParamsGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	i2d::CCircle* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		const i2d::CVector2d& center = objectPtr->GetCenter();
+
+		XSpin->setValue(center.GetX());
+		YSpin->setValue(center.GetY());
+
+		RadiusSpin->setValue(objectPtr->GetRadius());
+	}
+}
+
+
 // protected slots
 
 void CCircleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

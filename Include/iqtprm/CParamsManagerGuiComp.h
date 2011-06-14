@@ -33,10 +33,6 @@ public:
 
 	CParamsManagerGuiComp();
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
-
 protected Q_SLOTS:
 	void on_AddButton_clicked();
 	void on_RemoveButton_clicked();
@@ -50,13 +46,14 @@ protected:
 	int GetSelectedIndex() const;
 	void EnsureParamsGuiDetached();
 
-	// reimplemented (iqtgui::CComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
+	virtual void UpdateGui(int updateFlags = 0);
+
+	// reimplemented (iqtgui::CComponentBase)
+	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 private:
 	I_REF(iqtgui::IGuiObject, m_paramsGuiCompPtr);

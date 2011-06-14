@@ -21,7 +21,8 @@ namespace iqt
 // public methods
 
 CTranslationManagerComp::CTranslationManagerComp()
-	:m_currentLanguageIndex(-1)
+	:m_currentLanguageIndex(-1),
+	m_selectionObserver(*this)
 {
 }
 
@@ -51,6 +52,24 @@ void CTranslationManagerComp::OnComponentCreated()
 			m_translatorsList.PushBack(qtTranslatorPtr.PopPtr());
 		}
 	}
+
+	if (m_languageSelectionModelCompPtr.IsValid() && m_languageSelectionCompPtr.IsValid()){
+		m_languageSelectionModelCompPtr->AttachObserver(&m_selectionObserver);
+
+		int languageIndex = m_languageSelectionCompPtr->GetSelectedOptionIndex();
+
+		SwitchLanguage(languageIndex);
+	}
+}
+
+
+void CTranslationManagerComp::OnComponentDestroyed()
+{
+	if (m_languageSelectionModelCompPtr.IsValid() && m_languageSelectionModelCompPtr->IsAttached(&m_selectionObserver)){
+		m_languageSelectionModelCompPtr->DetachObserver(&m_selectionObserver);
+	}
+
+	BaseClass::OnComponentDestroyed();
 }
 
 
@@ -63,6 +82,12 @@ int CTranslationManagerComp::GetLanguagesCount() const
 	}
 
 	return 0;
+}
+
+
+int CTranslationManagerComp::GetCurrentLanguageIndex() const
+{
+	return m_currentLanguageIndex; 
 }
 
 
@@ -87,10 +112,8 @@ void CTranslationManagerComp::SwitchLanguage(int languageIndex)
 		return;
 	}
 
-	istd::CChangeNotifier changePtr(this, iprm::ISelectionParam::CF_SELECTION_CHANGED);
-
 	if (m_currentLanguageIndex >= 0){
-		QCoreApplication::removeTranslator(m_translatorsList.GetAt(languageIndex));
+		QCoreApplication::removeTranslator(m_translatorsList.GetAt(m_currentLanguageIndex));
 	}
 
 	if (languageIndex >= 0){
@@ -122,35 +145,7 @@ void CTranslationManagerComp::SetSystemLanguage()
 }
 
 
-// reimplemented (iprm::ISelectionParam)
-
-const iprm::ISelectionConstraints* CTranslationManagerComp::GetConstraints() const
-{
-	return this;
-}
-
-
-int CTranslationManagerComp::GetSelectedOptionIndex() const
-{
-	return m_currentLanguageIndex;
-}
-
-
-bool CTranslationManagerComp::SetSelectedOptionIndex(int index)
-{
-	SwitchLanguage(index);
-
-	return true;
-}
-
-
-iprm::ISelectionParam* CTranslationManagerComp::GetActiveSubselection() const
-{
-	return NULL;
-}
-
-
-// reimplemented (iprm::ISelectionParam)
+// reimplemented (iprm::ISelectionConstraints)
 
 int CTranslationManagerComp::GetOptionsCount() const
 {
@@ -174,21 +169,30 @@ istd::CString CTranslationManagerComp::GetOptionName(int index) const
 }
 
 
-// reimplemented (iser::ISerializable)
+// public methods embedded class LanguageSelectionObserver
 
-bool CTranslationManagerComp::Serialize(iser::IArchive& archive)
+CTranslationManagerComp::LanguageSelectionObserver::LanguageSelectionObserver(CTranslationManagerComp& parent)
+	:m_parent(parent)
 {
-	int currentIndex = m_currentLanguageIndex;
-	static iser::CArchiveTag selectedLanguageIndexTag("LanguageIndex", "Selected language index");
-	bool retVal = archive.BeginTag(selectedLanguageIndexTag);
-	retVal = retVal && archive.Process(currentIndex);
-	retVal = retVal && archive.EndTag(selectedLanguageIndexTag);
+}
 
-	if (!archive.IsStoring()){
-		SwitchLanguage(currentIndex);
+
+// protected methods embedded class LanguageSelectionObserver
+
+// reimplemented (imod::CSingleModelObserverBase)
+
+void CTranslationManagerComp::LanguageSelectionObserver::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+		iprm::ISelectionParam* objectPtr = GetObjectPtr();
+		I_ASSERT(objectPtr != NULL);
+		if (objectPtr != NULL){
+			int selectedIndex = objectPtr->GetSelectedOptionIndex();
+			if (selectedIndex >= 0){
+				m_parent.SwitchLanguage(selectedIndex);
+			}
+		}
 	}
-
-	return retVal;
 }
 
 

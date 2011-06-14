@@ -79,93 +79,7 @@ QStringList CAttributeEditorComp::GetExportAliases(const std::string& attributeN
 }
 
 
-// reimplemented (TGuiObserverWrap)
-
-void CAttributeEditorComp::OnGuiModelDetached()
-{
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blocker(this);
-
-		ElementInfoTab->setVisible(false);
-
-		AttributeTree->clear();
-		InterfacesTree->clear();
-		ComponentsTree->clear();
-	}
-
-	BaseClass::OnGuiModelDetached();
-}
-
-
-// reimplmented (imod::IModelEditor)
-
-void CAttributeEditorComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	const IElementSelectionInfo* objectPtr = GetObjectPtr();
-	if (objectPtr == NULL){
-		return;
-	}
-
-	icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
-
-	imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);
-	if (registryModelPtr != m_lastRegistryModelPtr){
-		if (m_registryObserver.IsModelAttached(m_lastRegistryModelPtr)){
-			m_lastRegistryModelPtr->DetachObserver(&m_registryObserver);
-		}
-
-		if (m_registryPropObserverCompPtr.IsValid()){
-			if (m_registryPropObserverCompPtr->IsModelAttached(m_lastRegistryModelPtr)){
-				m_lastRegistryModelPtr->DetachObserver(m_registryPropObserverCompPtr.GetPtr());
-			}
-		}
-
-		if (registryModelPtr != NULL){
-			registryModelPtr->AttachObserver(&m_registryObserver);
-
-			if (m_registryPropObserverCompPtr.IsValid()){
-				registryModelPtr->AttachObserver(m_registryPropObserverCompPtr.GetPtr());
-			}
-		}
-
-		m_lastRegistryModelPtr = registryModelPtr;
-	}
-
-	if (registryPtr == NULL){
-		ElementInfoTab->setVisible(false);
-		RegistryPropertiesFrame->setVisible(false);
-
-		return;
-	}
-
-	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-
-	if (selectedElements.empty()){
-		ElementInfoTab->setVisible(false);
-
-		RegistryPropertiesFrame->setVisible(true);
-
-		return;
-	}
-	else{
-		RegistryPropertiesFrame->setVisible(false);
-
-		ElementInfoTab->setVisible(true);
-	}
-
-	UpdateSelectedAttr();
-}
-
-
-void CAttributeEditorComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
-}
-
-
-// protected slots:
+// protected slots
 
 void CAttributeEditorComp::on_AttributeTree_itemSelectionChanged()
 {
@@ -219,7 +133,7 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 		return;
 	}
 
-	UpdateBlocker blocker(this);
+	UpdateBlocker updateBlocker(this);
 
 	if (column == NameColumn){
 		istd::CChangeNotifier registryNotifier(registryPtr, istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
@@ -277,7 +191,7 @@ void CAttributeEditorComp::on_InterfacesTree_itemChanged(QTreeWidgetItem* item, 
 	I_ASSERT(item != NULL);
 
 	if (column == 0){
-		UpdateBlocker blocker(this);
+		UpdateBlocker updateBlocker(this);
 	
 		const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
 		if (selectionInfoPtr == NULL){
@@ -308,7 +222,7 @@ void CAttributeEditorComp::on_AutoInstanceCB_toggled(bool checked)
 		return;
 	}
 
-	UpdateBlocker blocker(this);
+	UpdateBlocker updateBlocker(this);
 
 	const IElementSelectionInfo* objectPtr = GetObjectPtr();
 	if (objectPtr == NULL){
@@ -962,6 +876,84 @@ void CAttributeEditorComp::UpdateExportIcon()
 
 	ElementInfoTab->setTabIcon(TI_INTERFACES, interfacesIcon);
 	ElementInfoTab->setTabIcon(TI_EXPORTS, componentsIcon);
+}
+
+
+// reimplemented (TGuiObserverWrap)
+
+void CAttributeEditorComp::OnGuiModelDetached()
+{
+	if (!IsUpdateBlocked()){
+		UpdateBlocker updateBlocker(this);
+
+		ElementInfoTab->setVisible(false);
+
+		AttributeTree->clear();
+		InterfacesTree->clear();
+		ComponentsTree->clear();
+	}
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CAttributeEditorComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	const IElementSelectionInfo* objectPtr = GetObjectPtr();
+	if (objectPtr == NULL){
+		return;
+	}
+
+	icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
+
+	imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);
+	if (registryModelPtr != m_lastRegistryModelPtr){
+		if (m_registryObserver.IsModelAttached(m_lastRegistryModelPtr)){
+			m_lastRegistryModelPtr->DetachObserver(&m_registryObserver);
+		}
+
+		if (m_registryPropObserverCompPtr.IsValid()){
+			if (m_registryPropObserverCompPtr->IsModelAttached(m_lastRegistryModelPtr)){
+				m_lastRegistryModelPtr->DetachObserver(m_registryPropObserverCompPtr.GetPtr());
+			}
+		}
+
+		if (registryModelPtr != NULL){
+			registryModelPtr->AttachObserver(&m_registryObserver);
+
+			if (m_registryPropObserverCompPtr.IsValid()){
+				registryModelPtr->AttachObserver(m_registryPropObserverCompPtr.GetPtr());
+			}
+		}
+
+		m_lastRegistryModelPtr = registryModelPtr;
+	}
+
+	if (registryPtr == NULL){
+		ElementInfoTab->setVisible(false);
+		RegistryPropertiesFrame->setVisible(false);
+
+		return;
+	}
+
+	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
+
+	if (selectedElements.empty()){
+		ElementInfoTab->setVisible(false);
+
+		RegistryPropertiesFrame->setVisible(true);
+
+		return;
+	}
+	else{
+		RegistryPropertiesFrame->setVisible(false);
+
+		ElementInfoTab->setVisible(true);
+	}
+
+	UpdateSelectedAttr();
 }
 
 

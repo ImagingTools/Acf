@@ -42,16 +42,9 @@ public:
 
 	CVariableParamGuiComp();
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnDetached(imod::IModel* modelPtr);
-
-	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
 
 	// reimplemented (iqt2d::ISceneExtender)
 	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);
@@ -60,6 +53,13 @@ public:
 protected:
 	void AttachCurrentType();
 	void DetachCurrentType();
+
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
+
+	// reimplemented (iqtgui::CGuiComponentBase)
+	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 protected slots:
 	void on_TypeSelectorCB_currentIndexChanged(int index);

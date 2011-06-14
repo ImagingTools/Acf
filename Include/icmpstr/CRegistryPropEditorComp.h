@@ -30,14 +30,6 @@ public:
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and attributes", false, "ConsistencyInfo");
 	I_END_COMPONENT;
 
-	// reimplmented (imod::IModelEditor)
-	virtual void UpdateEditor(int updateFlags = 0);
-	virtual void UpdateModel() const;
-
-	// reimplemented (imod::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
-
 protected:
 	class TextLog:
 				public istd::CString,
@@ -53,6 +45,11 @@ protected:
 	};
 
 	void CreateOverview();
+
+	// reimplemented (imod::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
+	virtual void UpdateGui(int updateFlags = 0);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();

@@ -13,29 +13,7 @@ namespace iqt2d
 {
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CRectangleParamsGuiComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	QObject::connect(LeftSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(RightSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(BottomSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(TopSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-}
-
-
-void CRectangleParamsGuiComp::OnGuiModelDetached()
-{
-	QObject::disconnect(LeftSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(RightSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(BottomSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(TopSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	BaseClass::OnGuiModelDetached();
-}
-
+// public methods
 
 // reimplemented (imod::IModelEditor)
 
@@ -66,27 +44,6 @@ void CRectangleParamsGuiComp::UpdateModel() const
 	if (objectPtr->GetBottom() != BottomSpin->value()){
 		notifier.SetPtr(objectPtr);
 		objectPtr->SetBottom(BottomSpin->value());
-	}
-}
-
-
-void CRectangleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	i2d::CRectangle* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		iqt::CSignalBlocker block(LeftSpin);
-		LeftSpin->setValue(objectPtr->GetLeft());
-
-		iqt::CSignalBlocker block2(RightSpin);
-		RightSpin->setValue(objectPtr->GetRight());
-
-		iqt::CSignalBlocker block3(BottomSpin);
-		BottomSpin->setValue(objectPtr->GetBottom());
-
-		iqt::CSignalBlocker block4(TopSpin);
-		TopSpin->setValue(objectPtr->GetTop());
 	}
 }
 
@@ -163,12 +120,59 @@ void CRectangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, S
 }
 
 
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CRectangleParamsGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	QObject::connect(LeftSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(RightSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(BottomSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(TopSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+}
+
+
+void CRectangleParamsGuiComp::OnGuiModelDetached()
+{
+	QObject::disconnect(LeftSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(RightSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(BottomSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(TopSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CRectangleParamsGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	i2d::CRectangle* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		iqt::CSignalBlocker block(LeftSpin);
+		LeftSpin->setValue(objectPtr->GetLeft());
+
+		iqt::CSignalBlocker block2(RightSpin);
+		RightSpin->setValue(objectPtr->GetRight());
+
+		iqt::CSignalBlocker block3(BottomSpin);
+		BottomSpin->setValue(objectPtr->GetBottom());
+
+		iqt::CSignalBlocker block4(TopSpin);
+		TopSpin->setValue(objectPtr->GetTop());
+	}
+}
+
+
 // protected slots
 
 void CRectangleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}
@@ -176,4 +180,5 @@ void CRectangleParamsGuiComp::OnParamsChanged(double /*value*/)
 
 
 } // namespace iqt2d
+
 

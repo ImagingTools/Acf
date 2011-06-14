@@ -403,6 +403,11 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 		}
 	}
 
+	QMdiArea* mdiAreaPtr = GetQtWidget();
+	I_ASSERT(mdiAreaPtr != NULL);
+
+	mdiAreaPtr->setActivationOrder(QMdiArea::ActivationHistoryOrder);
+
 	OnViewsCountChanged();
 }
 
@@ -428,6 +433,14 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 	m_workspaceModeCommand.SetVisuals(tr("&Workspace Mode"), tr("Workspace Mode"), tr("Switch workspace mode"));
 	m_subWindowCommand.SetVisuals(tr("&Multiple Documents"), tr("Multiple Documents"), tr("Show each window in own frame"));
 	m_tabbedCommand.SetVisuals(tr("&Tabbed Documents"), tr("Tabbed Documents"), tr("Show windows in tabbed frame"));
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	UpdateAllTitles();
 }
 
 

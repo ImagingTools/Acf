@@ -11,7 +11,7 @@ namespace iqtgui
 
 // protected methods
 
-void CLoginGuiComp::UpdateGui()
+void CLoginGuiComp::UpdateGuiElements()
 {
 	if (m_userLoginCompPtr.IsValid()){
 		std::string loggedUser = m_userLoginCompPtr->GetLoggedUser();
@@ -43,7 +43,7 @@ void CLoginGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	UpdateGui();
+	UpdateGuiElements();
 }
 
 
@@ -57,7 +57,7 @@ void CLoginGuiComp::on_LoginButton_clicked()
 			QMessageBox::warning(GetWidget(), tr("Login Error") , tr("Wrong password or user name"));
 		}
 
-		UpdateGui();
+		UpdateGuiElements();
 	}
 }
 
@@ -67,7 +67,7 @@ void CLoginGuiComp::on_LogoutButton_clicked()
 	if (m_userLoginCompPtr.IsValid()){
 		m_userLoginCompPtr->LogoutUser();
 
-		UpdateGui();
+		UpdateGuiElements();
 	}
 }
 

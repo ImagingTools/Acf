@@ -11,26 +11,7 @@ namespace iqtprm
 {
 
 
-// reimplemented (imod::IModelEditor)
-
-void CSelectableGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated());
-}
-
-
-void CSelectableGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
-	if (selectionPtr != NULL){
-		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
-
-		SelectionStack->setCurrentIndex(selectedIndex + 1);
-	}
-}
-
+// protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
@@ -82,6 +63,19 @@ void CSelectableGuiComp::OnGuiModelDetached()
 	m_widgetToGuiMap.clear();
 
 	BaseClass::OnGuiModelDetached();
+}
+
+
+void CSelectableGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	if (selectionPtr != NULL){
+		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
+
+		SelectionStack->setCurrentIndex(selectedIndex + 1);
+	}
 }
 
 

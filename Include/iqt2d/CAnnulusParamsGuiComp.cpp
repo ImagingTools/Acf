@@ -13,6 +13,8 @@ namespace iqt2d
 {
 
 
+// public methods
+
 // reimplemented (imod::IObserver)
 
 bool CAnnulusParamsGuiComp::OnAttached(imod::IModel* modelPtr)
@@ -96,22 +98,6 @@ void CAnnulusParamsGuiComp::UpdateModel() const
 }
 
 
-void CAnnulusParamsGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	i2d::CAnnulus* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		const i2d::CVector2d& center = objectPtr->GetCenter();
-		XSpin->setValue(center.GetX());
-		YSpin->setValue(center.GetY());
-
-		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
-		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
-	}
-}
-
-
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
 void CAnnulusParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
@@ -132,6 +118,24 @@ void CAnnulusParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Sha
 
 
 // protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CAnnulusParamsGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	i2d::CAnnulus* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		const i2d::CVector2d& center = objectPtr->GetCenter();
+		XSpin->setValue(center.GetX());
+		YSpin->setValue(center.GetY());
+
+		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
+		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
+	}
+}
+
 
 // reimplemented (iqtgui::CGuiComponentBase)
 
@@ -171,7 +175,7 @@ void CAnnulusParamsGuiComp::OnGuiDestroyed()
 void CAnnulusParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

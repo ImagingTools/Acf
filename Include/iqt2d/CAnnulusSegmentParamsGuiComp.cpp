@@ -11,6 +11,8 @@ namespace iqt2d
 {
 
 
+// public methods
+
 // reimplemented (imod::IObserver)
 
 bool CAnnulusSegmentParamsGuiComp::OnAttached(imod::IModel* modelPtr)
@@ -106,25 +108,6 @@ void CAnnulusSegmentParamsGuiComp::UpdateModel() const
 }
 
 
-void CAnnulusSegmentParamsGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		const i2d::CVector2d& center = objectPtr->GetCenter();
-		XSpin->setValue(center.GetX());
-		YSpin->setValue(center.GetY());
-
-		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
-		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
-
-		BeginAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetBeginAngle()));
-		EndAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetEndAngle()));
-	}
-}
-
-
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
 void CAnnulusSegmentParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
@@ -145,6 +128,27 @@ void CAnnulusSegmentParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOn
 
 
 // protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CAnnulusSegmentParamsGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		const i2d::CVector2d& center = objectPtr->GetCenter();
+		XSpin->setValue(center.GetX());
+		YSpin->setValue(center.GetY());
+
+		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
+		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
+
+		BeginAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetBeginAngle()));
+		EndAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetEndAngle()));
+	}
+}
+
 
 // reimplemented (iqtgui::CGuiComponentBase)
 
@@ -188,7 +192,7 @@ void CAnnulusSegmentParamsGuiComp::OnGuiDestroyed()
 void CAnnulusSegmentParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

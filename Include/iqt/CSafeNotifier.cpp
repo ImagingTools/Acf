@@ -36,7 +36,8 @@ void NotificationTarget::EndChanges(int changeFlags, istd::IPolymorphic* changeP
 	Q_EMIT EmitEndChanges(changeFlags, changeParamsPtr);
 }
 
-// protected slots:
+
+// protected slots
 
 void NotificationTarget::DoEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {

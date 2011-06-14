@@ -11,11 +11,11 @@ namespace iqtmm
 {
 
 
-// public methods
+// protected methods
 
-// reimplemented (imod::IModelEditor)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
-void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
+void CPlaybackControllerGuiComp::UpdateGui(int updateFlags)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -74,14 +74,6 @@ void CPlaybackControllerGuiComp::UpdateEditor(int updateFlags)
 }
 
 
-void CPlaybackControllerGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
-}
-
-
-// protected methods
-
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CPlaybackControllerGuiComp::OnGuiCreated()
@@ -125,7 +117,7 @@ void CPlaybackControllerGuiComp::on_PlayButton_toggled(bool isToggled)
 {
 	imm::IVideoController* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		UpdateBlocker block(this);
+		UpdateBlocker updateBlocker(this);
 
 		// if the controller doesn't support the auto playing of the content,
 		// we will create a timer and simulate playing manually:

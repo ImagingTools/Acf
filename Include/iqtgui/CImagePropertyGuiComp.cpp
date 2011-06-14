@@ -7,9 +7,9 @@ namespace iqtgui
 
 // public methods
 
-// reimplemented (imod::IModelEditor)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
-void CImagePropertyGuiComp::UpdateEditor(int /*updateFlags*/)
+void CImagePropertyGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -33,12 +33,6 @@ void CImagePropertyGuiComp::UpdateEditor(int /*updateFlags*/)
 		PropertyTree->addTopLevelItem(heightItemPtr);
 		PropertyTree->addTopLevelItem(depthItemPtr);
 	}
-}
-
-
-void CImagePropertyGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
 }
 
 

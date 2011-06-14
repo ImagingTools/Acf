@@ -13,57 +13,7 @@ namespace iqt2d
 {
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CQuadrangleParamsGuiComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	QObject::connect(FirstDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(FirstDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(FirstDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(FirstDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	QObject::connect(SecondDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(SecondDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(SecondDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::connect(SecondDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	if (m_unitNameAttrPtr.IsValid()){
-		FirstDiagPoint1UnitLabel->setVisible(true);
-		FirstDiagPoint1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-		FirstDiagPoint2UnitLabel->setVisible(true);
-		FirstDiagPoint2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-		
-		SecondDiagPoint1UnitLabel->setVisible(true);
-		SecondDiagPoint1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-		SecondDiagPoint2UnitLabel->setVisible(true);
-		SecondDiagPoint2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
-	}
-	else{
-		FirstDiagPoint1UnitLabel->setVisible(false);
-		FirstDiagPoint2UnitLabel->setVisible(false);
-		SecondDiagPoint1UnitLabel->setVisible(false);
-		SecondDiagPoint2UnitLabel->setVisible(false);
-	}
-}
-
-
-void CQuadrangleParamsGuiComp::OnGuiModelDetached()
-{
-	QObject::disconnect(FirstDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(FirstDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(FirstDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(FirstDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	QObject::disconnect(SecondDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(SecondDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(SecondDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	QObject::disconnect(SecondDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	BaseClass::OnGuiModelDetached();
-}
-
+// public methods
 
 // reimplemented (imod::IObserver)
 
@@ -146,7 +96,80 @@ void CQuadrangleParamsGuiComp::UpdateModel() const
 }
 
 
-void CQuadrangleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
+// reimplemented (iqt2d::TSceneExtenderCompBase)
+
+void CQuadrangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
+{
+	I_ASSERT(m_shapeZValueAttrPtr.IsValid());	// this attribute is obligatory
+
+	CQuadrangleShape* shapePtr = new CQuadrangleShape(!inactiveOnly);
+	if (shapePtr != NULL){
+		shapePtr->setZValue(*m_shapeZValueAttrPtr);
+		result.PushBack(shapePtr);
+
+		imod::IModel* modelPtr = GetModelPtr();
+		if (modelPtr != NULL){
+			modelPtr->AttachObserver(shapePtr);
+		}
+	}
+}
+
+
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CQuadrangleParamsGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	QObject::connect(FirstDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(FirstDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(FirstDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(FirstDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	QObject::connect(SecondDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(SecondDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(SecondDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::connect(SecondDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	if (m_unitNameAttrPtr.IsValid()){
+		FirstDiagPoint1UnitLabel->setVisible(true);
+		FirstDiagPoint1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+		FirstDiagPoint2UnitLabel->setVisible(true);
+		FirstDiagPoint2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+		
+		SecondDiagPoint1UnitLabel->setVisible(true);
+		SecondDiagPoint1UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+		SecondDiagPoint2UnitLabel->setVisible(true);
+		SecondDiagPoint2UnitLabel->setText(iqt::GetQString(*m_unitNameAttrPtr));
+	}
+	else{
+		FirstDiagPoint1UnitLabel->setVisible(false);
+		FirstDiagPoint2UnitLabel->setVisible(false);
+		SecondDiagPoint1UnitLabel->setVisible(false);
+		SecondDiagPoint2UnitLabel->setVisible(false);
+	}
+}
+
+
+void CQuadrangleParamsGuiComp::OnGuiModelDetached()
+{
+	QObject::disconnect(FirstDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(FirstDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(FirstDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(FirstDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	QObject::disconnect(SecondDiagPoint1XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(SecondDiagPoint1YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(SecondDiagPoint2XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+	QObject::disconnect(SecondDiagPoint2YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CQuadrangleParamsGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -172,31 +195,12 @@ void CQuadrangleParamsGuiComp::UpdateEditor(int /*updateFlags*/)
 }
 
 
-// reimplemented (iqt2d::TSceneExtenderCompBase)
-
-void CQuadrangleParamsGuiComp::CreateShapes(int /*sceneId*/, bool inactiveOnly, Shapes& result)
-{
-	I_ASSERT(m_shapeZValueAttrPtr.IsValid());	// this attribute is obligatory
-
-	CQuadrangleShape* shapePtr = new CQuadrangleShape(!inactiveOnly);
-	if (shapePtr != NULL){
-		shapePtr->setZValue(*m_shapeZValueAttrPtr);
-		result.PushBack(shapePtr);
-
-		imod::IModel* modelPtr = GetModelPtr();
-		if (modelPtr != NULL){
-			modelPtr->AttachObserver(shapePtr);
-		}
-	}
-}
-
-
 // protected slots
 
 void CQuadrangleParamsGuiComp::OnParamsChanged(double /*value*/)
 {
 	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdate(this);
+		UpdateBlocker updateBlocker(this);
 
 		UpdateModel();
 	}

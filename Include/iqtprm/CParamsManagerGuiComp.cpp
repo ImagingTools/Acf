@@ -23,22 +23,6 @@ CParamsManagerGuiComp::CParamsManagerGuiComp()
 }
 
 
-// reimplemented (imod::IModelEditor)
-
-void CParamsManagerGuiComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
-}
-
-
-void CParamsManagerGuiComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	UpdateTree();
-}
-
-
 // protected slots
 
 void CParamsManagerGuiComp::on_AddButton_clicked()
@@ -250,6 +234,8 @@ void CParamsManagerGuiComp::EnsureParamsGuiDetached()
 }
 
 
+// protected methods
+
 // reimplemented (iqtgui::TGuiObserverWrap)
 
 void CParamsManagerGuiComp::OnGuiModelAttached()
@@ -277,6 +263,14 @@ void CParamsManagerGuiComp::OnGuiModelDetached()
 }
 
 
+void CParamsManagerGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	UpdateTree();
+}
+
+
 // reimplemented (iqtgui::CComponentBase)
 
 void CParamsManagerGuiComp::OnGuiCreated()
@@ -299,7 +293,6 @@ void CParamsManagerGuiComp::OnGuiDestroyed()
 
 	BaseClass::OnGuiDestroyed();
 }
-
 
 
 } // namespace iqtprm

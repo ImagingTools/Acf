@@ -13,77 +13,6 @@ namespace icmpstr
 {
 
 
-// reimplmented (imod::IModelEditor)
-
-void CRegistryPropEditorComp::UpdateEditor(int /*updateFlags*/)
-{
-	I_ASSERT(IsGuiCreated());
-
-	const icomp::IRegistry* registryPtr = GetObjectPtr();
-	if (registryPtr == NULL){
-		return;
-	}
-
-	DescriptionEdit->setText(iqt::GetQString(registryPtr->GetDescription()));
-
-	icomp::CComponentMetaDescriptionEncoder metaDescriptionEncoder(registryPtr->GetKeywords());
-
-	QStringList companyList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Company"));
-	QStringList projectsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Project"));
-	QStringList authorsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Author"));
-	QStringList categoriesList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Category"));
-	QStringList tagsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Tag"));
-	QStringList keywords = iqt::GetQStringList(metaDescriptionEncoder.GetUnassignedKeywords());
-
-	CompanyEdit->setText(companyList.join(","));
-	CategoryEdit->setText(categoriesList.join(","));
-	ProjectEdit->setText(projectsList.join(","));
-	AuthorEdit->setText(authorsList.join(","));
-	TagsEdit->setText(tagsList.join(","));
-	KeywordsEdit->setText(keywords.join(","));
-
-	CreateOverview();
-}
-
-
-void CRegistryPropEditorComp::UpdateModel() const
-{
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
-}
-
-
-// reimplemented (imod::TGuiObserverWrap)
-
-void CRegistryPropEditorComp::OnGuiModelAttached()
-{
-	BaseClass::OnGuiModelAttached();
-
-	DescriptionEdit->setEnabled(true);
-	RegistryInfoFrame->setEnabled(true);
-}
-
-
-void CRegistryPropEditorComp::OnGuiModelDetached()
-{
-	DescriptionEdit->clear();
-	CompanyEdit->clear();
-	CategoryEdit->clear();
-	ProjectEdit->clear();
-	AuthorEdit->clear();
-	TagsEdit->clear();
-	KeywordsEdit->clear();
-
-	DescriptionEdit->setDisabled(true);
-	RegistryInfoFrame->setDisabled(true);
-
-	OverviewTree->clear();
-
-	ErrorsLabel->clear();
-
-	BaseClass::OnGuiModelDetached();
-}
-
-
 // protected methods
 
 void CRegistryPropEditorComp::CreateOverview()
@@ -152,6 +81,69 @@ void CRegistryPropEditorComp::CreateOverview()
 }
 
 
+// reimplemented (imod::TGuiObserverWrap)
+
+void CRegistryPropEditorComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	DescriptionEdit->setEnabled(true);
+	RegistryInfoFrame->setEnabled(true);
+}
+
+
+void CRegistryPropEditorComp::OnGuiModelDetached()
+{
+	DescriptionEdit->clear();
+	CompanyEdit->clear();
+	CategoryEdit->clear();
+	ProjectEdit->clear();
+	AuthorEdit->clear();
+	TagsEdit->clear();
+	KeywordsEdit->clear();
+
+	DescriptionEdit->setDisabled(true);
+	RegistryInfoFrame->setDisabled(true);
+
+	OverviewTree->clear();
+
+	ErrorsLabel->clear();
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CRegistryPropEditorComp::UpdateGui(int /*updateFlags*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	const icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (registryPtr == NULL){
+		return;
+	}
+
+	DescriptionEdit->setText(iqt::GetQString(registryPtr->GetDescription()));
+
+	icomp::CComponentMetaDescriptionEncoder metaDescriptionEncoder(registryPtr->GetKeywords());
+
+	QStringList companyList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Company"));
+	QStringList projectsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Project"));
+	QStringList authorsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Author"));
+	QStringList categoriesList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Category"));
+	QStringList tagsList = iqt::GetQStringList(metaDescriptionEncoder.GetValues("Tag"));
+	QStringList keywords = iqt::GetQStringList(metaDescriptionEncoder.GetUnassignedKeywords());
+
+	CompanyEdit->setText(companyList.join(","));
+	CategoryEdit->setText(categoriesList.join(","));
+	ProjectEdit->setText(projectsList.join(","));
+	AuthorEdit->setText(authorsList.join(","));
+	TagsEdit->setText(tagsList.join(","));
+	KeywordsEdit->setText(keywords.join(","));
+
+	CreateOverview();
+}
+
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CRegistryPropEditorComp::OnGuiCreated()
@@ -170,7 +162,7 @@ void CRegistryPropEditorComp::OnGuiCreated()
 }
 
 
-// protected slots:
+// protected slots
 
 void CRegistryPropEditorComp::on_DescriptionEdit_editingFinished()
 {

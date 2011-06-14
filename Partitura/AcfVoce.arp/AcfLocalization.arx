@@ -22,7 +22,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="4">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               LanguageIds
@@ -48,6 +48,22 @@
                   pl_PL
                 </Value>
               </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              LanguageSelection
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              LanguageSelection
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -110,10 +126,34 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="1">
+  <ExportedInterfaces count="4">
+    <Interface>
+      <InterfaceId>
+        imod::IModel
+      </InterfaceId>
+      <ComponentId>
+        AcfLocalization
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        iprm::ISelectionConstraints
+      </InterfaceId>
+      <ComponentId>
+        AcfLocalization
+      </ComponentId>
+    </Interface>
     <Interface>
       <InterfaceId>
         iqt::ITranslationManager
+      </InterfaceId>
+      <ComponentId>
+        AcfLocalization
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
+        istd::IChangeable
       </InterfaceId>
       <ComponentId>
         AcfLocalization

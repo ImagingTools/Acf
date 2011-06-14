@@ -13,15 +13,30 @@ namespace iqt2d
 {
 
 
-// reimplemented (imod::IModelEditor)
+// public methods
 
-void CImageViewComp::UpdateModel() const
+// reimplemented (imod::IObserver)
+
+bool CImageViewComp::OnDetached(imod::IModel* modelPtr)
 {
-	I_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
+	if (BaseClass::OnDetached(modelPtr)){
+		QGraphicsScene* scenePtr = GetScene();
+		if (scenePtr != NULL){
+			scenePtr->update();
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 
-void CImageViewComp::UpdateEditor(int /*updateFlags*/)
+// protected methods
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CImageViewComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
@@ -43,25 +58,6 @@ void CImageViewComp::UpdateEditor(int /*updateFlags*/)
 	}
 }
 
-
-// reimplemented (imod::IObserver)
-
-bool CImageViewComp::OnDetached(imod::IModel* modelPtr)
-{
-	if (BaseClass::OnDetached(modelPtr)){
-		QGraphicsScene* scenePtr = GetScene();
-		if (scenePtr != NULL){
-			scenePtr->update();
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-
-// protected methods
 
 // reimplemented (iqtgui::CGuiComponentBase)
 
