@@ -173,6 +173,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CBitmapRegion.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CGeneralBitmap.cpp"
 				>
 			</File>
@@ -183,6 +187,10 @@
 			>
 			<File
 				RelativePath="..\CBitmapBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CBitmapRegion.h"
 				>
 			</File>
 			<File
