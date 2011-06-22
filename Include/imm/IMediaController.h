@@ -18,7 +18,7 @@ public:
 	enum ChangeFlags
 	{
 		CF_STATUS = 1 << 28,
-		CF_MEDIA_POSITION = 29,
+		CF_MEDIA_POSITION = 1 << 29,
 	};
 
 	enum SupportedFeatures

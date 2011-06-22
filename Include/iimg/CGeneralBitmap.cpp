@@ -207,6 +207,8 @@ bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
 {
 	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
 	if (bitmapPtr != NULL){
+		istd::CChangeNotifier notifier(this);
+
 		istd::CIndex2d size = bitmapPtr->GetImageSize();
 		if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
 			int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
