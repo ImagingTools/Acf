@@ -31,7 +31,6 @@ public:
 
 	// pseudo-reimplemented (iproc::IProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
-	virtual void ResetAllTasks();
 	virtual bool AreParamsAccepted(
 				const iprm::IParamsSet* paramsPtr,
 				const istd::IPolymorphic* inputPtr,
@@ -45,6 +44,7 @@ public:
 					int taskId = -1,
 					double timeoutTime = -1,
 					bool killOnTimeout = true);
+	virtual void CancelTask(int taskId = -1);
 	virtual int GetReadyTask();
 	virtual int GetTaskState(int taskId = -1) const;
 	virtual void InitProcessor(const iprm::IParamsSet* paramsPtr);
@@ -72,13 +72,6 @@ template <class Base>
 int TSyncProcessorWrap<Base>::GetProcessorState(const iprm::IParamsSet* /*paramsPtr*/) const
 {
 	return IProcessor::PS_READY;
-}
-
-
-template <class Base>
-void TSyncProcessorWrap<Base>::ResetAllTasks()
-{
-	m_taskToStateMap.clear();
 }
 
 
@@ -134,10 +127,22 @@ int TSyncProcessorWrap<Base>::WaitTaskFinished(
 			}
 		}
 
-		this->ResetAllTasks();
+		m_taskToStateMap.clear();
 	}
 
 	return retVal;
+}
+
+
+template <class Base>
+void TSyncProcessorWrap<Base>::CancelTask(int taskId)
+{
+	if (taskId >= 0){
+		m_taskToStateMap.erase(taskId);
+	}
+	else{
+		m_taskToStateMap.clear();
+	}
 }
 
 

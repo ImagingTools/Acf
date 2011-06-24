@@ -17,7 +17,7 @@ class IProgressManager;
 	Synchrone processors are blocking and can process single task. Thats why is not necessary to use task ID.
 	Synchrone processing is provide by method DoProcessing.
 	Assynchrone processors can process many tasks parallel. Each task is identified using its ID.
-	New assynchrone processing task can be started using method \c BeginTask and finish using \c WaitTaskFinished or \c ResetAllTasks.
+	New assynchrone processing task can be started using method \c BeginTask and finish using \c WaitTaskFinished or \c CancelTask.
 	Each task has its input object, output object and parameter set.
 	\param	Input	type of input object.
 	\param	Output	type of output object.
@@ -92,11 +92,6 @@ public:
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const = 0;
 
 	/**
-		Remove all task from queue.
-	 */
-	virtual void ResetAllTasks() = 0;
-
-	/**
 		Check if specified parameter set is accepted for this processor.
 		\param	inputPtr	optional input object typically being source object used to processing.
 		\param	outputPtr	optional output object storing processing result.
@@ -120,7 +115,7 @@ public:
 	/**
 		Begin new task for this processor and add them to queue.
 		If this method success, new task is added into the queue.
-							To remove it from queue you have to call \c WaitTaskFinished or \c ResetAllTasks.
+							To remove it from queue you have to call \c WaitTaskFinished or \c CancelTask.
 		\param	paramsPtr	set of parameters controlling processing task.
 							Pointed object can be used till task is finished.
 							It can be NULL.
@@ -150,6 +145,12 @@ public:
 					int taskId = -1,
 					double timeoutTime = -1,
 					bool killOnTimeout = true) = 0;
+
+	/**
+		Remove task from queue.
+		\param	taskId			ID of task returned by BeginTask() or -1 if all tasks are mean.
+	 */
+	virtual void CancelTask(int taskId = -1) = 0;
 
 	/**
 		Get the ID of any ready task.

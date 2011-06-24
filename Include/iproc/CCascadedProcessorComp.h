@@ -35,7 +35,6 @@ public:
 
 	// reimplemented (iproc::IProcessor)
 	virtual int GetProcessorState(const iprm::IParamsSet* paramsPtr) const;
-	virtual void ResetAllTasks();
 	virtual bool AreParamsAccepted(
 				const iprm::IParamsSet* paramsPtr,
 				const istd::IPolymorphic* inputPtr,

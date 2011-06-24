@@ -22,26 +22,12 @@ int CCascadedProcessorComp::GetProcessorState(const iprm::IParamsSet* paramsPtr)
 	int processorsCount = m_processorsCompPtr.GetCount();
 	for (int i = 0; i < processorsCount; ++i){
 		const iproc::IProcessor* processorPtr = m_processorsCompPtr[i];
-		I_ASSERT(processorPtr != NULL);	// flag 'isObligatory' was set to true
-
-		retVal = istd::Max(retVal, processorPtr->GetProcessorState(paramsPtr));
+		if (processorPtr != NULL){
+			retVal = istd::Max(retVal, processorPtr->GetProcessorState(paramsPtr));
+		}
 	}
 
 	return retVal;
-}
-
-
-void CCascadedProcessorComp::ResetAllTasks()
-{
-	BaseClass2::ResetAllTasks();
-
-	int processorsCount = m_processorsCompPtr.GetCount();
-	for (int i = 0; i < processorsCount; ++i){
-		iproc::IProcessor* processorPtr = m_processorsCompPtr[i];
-		I_ASSERT(processorPtr != NULL);	// flag 'isObligatory' was set to true
-
-		processorPtr->ResetAllTasks();
-	}
 }
 
 
@@ -76,9 +62,8 @@ bool CCascadedProcessorComp::AreParamsAccepted(
 		}
 
 		const iproc::IProcessor* processorPtr = m_processorsCompPtr[i];
-		I_ASSERT(processorPtr != NULL);	// flag 'isObligatory' was set to true
 
-		if (!processorPtr->AreParamsAccepted(paramsPtr, processorInputPtr, processorOutputPtr)){
+		if ((processorPtr != NULL) && !processorPtr->AreParamsAccepted(paramsPtr, processorInputPtr, processorOutputPtr)){
 			return false;
 		}
 	}
@@ -137,7 +122,9 @@ int CCascadedProcessorComp::DoProcessing(
 		}
 
 		iproc::IProcessor* processorPtr = m_processorsCompPtr[i];
-		I_ASSERT(processorPtr != NULL);	// flag 'isObligatory' was set to true
+		if (processorPtr == NULL){
+			return TS_INVALID;
+		}
 
 		int taskState = processorPtr->DoProcessing(paramsPtr, processorInputPtr, processorOutputPtr, progressDelegators.GetAt(i));
 		if (taskState != TS_OK){
@@ -156,9 +143,9 @@ void CCascadedProcessorComp::InitProcessor(const iprm::IParamsSet* paramsPtr)
 	int processorsCount = m_processorsCompPtr.GetCount();
 	for (int i = 0; i < processorsCount; ++i){
 		iproc::IProcessor* processorPtr = m_processorsCompPtr[i];
-		I_ASSERT(processorPtr != NULL);	// flag 'isObligatory' was set to true
-
-		processorPtr->InitProcessor(paramsPtr);
+		if (processorPtr != NULL){
+			processorPtr->InitProcessor(paramsPtr);
+		}
 	}
 }
 
