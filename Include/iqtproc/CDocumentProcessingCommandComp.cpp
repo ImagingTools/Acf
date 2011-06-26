@@ -35,6 +35,8 @@ void CDocumentProcessingCommandComp::DoDocumentProcessing(const istd::IChangeabl
 		return;
 	}
 
+	changePtr.Reset();
+
 	// show results in the dialog:
 	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
 

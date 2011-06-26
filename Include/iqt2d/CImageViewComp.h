@@ -25,6 +25,7 @@ public:
 		I_REGISTER_INTERFACE(imod::IObserver)
 		I_ASSIGN(m_isFrameVisibleAttrPtr, "IsImageFrameVisible", "If true, image frame will be visible", true, false);
 		I_ASSIGN(m_imagePositionModeAttrPtr, "ImagePositionMode", "Mode of image position:\n 0 - corner\n 1 - center", true, 0);
+		I_ASSIGN(m_fitToViewOnChangeAttrPtr, "FitToViewOnImageChanges", "Fit the current image to view", false, false);
 	I_END_COMPONENT
 
 	// reimplemented (imod::IObserver)
@@ -41,6 +42,7 @@ protected:
 private:
 	I_ATTR(bool, m_isFrameVisibleAttrPtr);
 	I_ATTR(int, m_imagePositionModeAttrPtr);
+	I_ATTR(bool, m_fitToViewOnChangeAttrPtr);
 };
 
 

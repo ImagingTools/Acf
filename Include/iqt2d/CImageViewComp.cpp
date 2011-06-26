@@ -54,6 +54,10 @@ void CImageViewComp::UpdateGui(int /*updateFlags*/)
 	if (scenePtr != NULL){
 		scenePtr->setSceneRect(boundingRect());
 
+		if (m_fitToViewOnChangeAttrPtr.IsValid() && *m_fitToViewOnChangeAttrPtr){
+			OnFitToView();
+		}
+
 		SetFittedScale(GetFitMode());
 	}
 }
