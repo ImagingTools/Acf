@@ -450,6 +450,10 @@
 				RelativePath="..\TShapeBase.h"
 				>
 			</File>
+			<File
+				RelativePath="..\TShapeParamsGuiCompBase.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"

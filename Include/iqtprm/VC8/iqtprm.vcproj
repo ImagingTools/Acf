@@ -182,6 +182,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSelectableParamsSetGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSelectionParamGuiComp.cpp"
 				>
 			</File>
@@ -217,6 +221,10 @@
 			</File>
 			<File
 				RelativePath="..\CSelectableGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSelectableParamsSetGuiComp.h"
 				>
 			</File>
 			<File
