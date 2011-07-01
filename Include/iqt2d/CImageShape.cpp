@@ -87,7 +87,7 @@ QRectF CImageShape::boundingRect() const
 
 	if (m_positionMode == PM_CENTER){
 		QPointF center = retVal.center();
-		retVal.adjust(-center.x(), -center.y(), -center.x(), -center.y());
+		retVal.adjust(-center.x(), -center.y(), center.x(), center.y());
 	}
 
 	return retVal;
