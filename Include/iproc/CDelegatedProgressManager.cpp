@@ -10,7 +10,7 @@ namespace iproc
 
 
 CDelegatedProgressManager::CDelegatedProgressManager()
-:	m_nextSessionId(-1),
+:	m_nextSessionId(0),
 	m_progressSum(0.0),
 	m_cancelableSessionsCount(0),
 	m_slaveManagerPtr(NULL),
