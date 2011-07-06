@@ -19,6 +19,18 @@ CDocumentProcessingManagerCompBase::CDocumentProcessingManagerCompBase()
 }
 
 
+bool CDocumentProcessingManagerCompBase::IsInputDocumentRequired() const
+{
+	bool retVal = true;
+
+	if (m_inputDocumentRequiredAttrPtr.IsValid()){
+		retVal = *m_inputDocumentRequiredAttrPtr;
+	}
+
+	return retVal;
+}
+
+
 void CDocumentProcessingManagerCompBase::SetProcessingCommandEnabled(bool isProcessingCommandEnabled)
 {
 	m_processingCommand.setEnabled(isProcessingCommandEnabled);
@@ -92,17 +104,22 @@ void CDocumentProcessingManagerCompBase::OnDoProcessing()
 		return;
 	}
 
+	bool inputDocumentRequired = IsInputDocumentRequired();
+
 	istd::IPolymorphic* viewPtr = m_documentManagerCompPtr->GetActiveView();
-	if (viewPtr == NULL){
+	if ((viewPtr == NULL) && inputDocumentRequired){
 		return;
 	}
 
 	istd::IChangeable* inputDocumentPtr = m_documentManagerCompPtr->GetDocumentFromView(*viewPtr);
-	if (inputDocumentPtr == NULL){
+	if ((inputDocumentPtr == NULL) && inputDocumentRequired){
 		return;
 	}
 	
-	std::string documentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*inputDocumentPtr);
+	std::string documentTypeId;
+	if (inputDocumentPtr != NULL){
+		documentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*inputDocumentPtr);
+	}
 
 	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr;
 
@@ -119,7 +136,7 @@ void CDocumentProcessingManagerCompBase::OnDoProcessing()
 		}
 	}
 
-	DoDocumentProcessing(*inputDocumentPtr, documentTypeId);
+	DoDocumentProcessing(inputDocumentPtr, documentTypeId);
 }
 
 
@@ -140,7 +157,7 @@ void CDocumentProcessingManagerCompBase::DocumentManagerObserver::OnUpdate(int /
 	idoc::IDocumentManager* objectPtr = GetObjectPtr();
 	I_ASSERT(objectPtr != NULL);
 	if (objectPtr != NULL){
-		m_parent.SetProcessingCommandEnabled(objectPtr->GetActiveView() != NULL);
+		m_parent.SetProcessingCommandEnabled(objectPtr->GetActiveView() != NULL || !m_parent.IsInputDocumentRequired());
 	}
 }
 

@@ -27,11 +27,11 @@ public:
 
 protected:
 	// reimplemented (iqtproc::CDocumentProcessingManagerCompBase)
-	void DoDocumentProcessing(const istd::IChangeable& inputDocument, const std::string& documentTypeId);
+	void DoDocumentProcessing(const istd::IChangeable* inputDocumentPtr, const std::string& documentTypeId);
 
 private:
-	void DoProcessingToOutput(const istd::IChangeable& inputDocument, const std::string& documentTypeId);
-	void DoInPlaceProcessing(istd::IChangeable& inputDocument);
+	void DoProcessingToOutput(const istd::IChangeable* inputDocumentPtr, const std::string& documentTypeId);
+	void DoInPlaceProcessing(istd::IChangeable* inputDocumentPtr);
 
 private:
 	I_ATTR(bool, m_inPlaceProcessingAttrPtr);

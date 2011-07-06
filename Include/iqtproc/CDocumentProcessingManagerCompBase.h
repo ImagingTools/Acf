@@ -42,9 +42,15 @@ public:
 		I_ASSIGN(m_paramsGuiCompPtr, "ProcessingParamsGui", "UI for processing parameters", false, "ProcessingParamsGui");
 		I_ASSIGN(m_commandNameAttrPtr, "ProcessingCommandName", "Name of the processing action in menu", true, "");
 		I_ASSIGN(m_menuNameAttrPtr, "ProcessingMenuName", "Name of the processing menu", true, "Processing");
+		I_ASSIGN(m_inputDocumentRequiredAttrPtr, "InputDocumentRequired", "If enabled, the input document is required for processing", false, true);
 	I_END_COMPONENT;
 
 	CDocumentProcessingManagerCompBase();
+
+	/**
+		Return \c true, if the input document is required for processing.
+	*/
+	bool IsInputDocumentRequired() const;
 
 	/**
 		Enable or disable processing command.
@@ -63,7 +69,7 @@ public:
 	/**
 		Process the current document.
 	*/
-	virtual void DoDocumentProcessing(const istd::IChangeable& inputDocument, const std::string& documentTypeId) = 0;
+	virtual void DoDocumentProcessing(const istd::IChangeable* inputDocumentPtr, const std::string& documentTypeId) = 0;
 
 private Q_SLOTS:
 	void OnDoProcessing();
@@ -76,6 +82,7 @@ protected:
 	I_REF(iqtgui::IGuiObject, m_paramsGuiCompPtr);
 	I_ATTR(istd::CString, m_commandNameAttrPtr);
 	I_ATTR(istd::CString, m_menuNameAttrPtr);
+	I_ATTR(bool, m_inputDocumentRequiredAttrPtr);
 
 	iqtgui::CHierarchicalCommand m_processingMenu;
 	iqtgui::CHierarchicalCommand m_rootCommands;
