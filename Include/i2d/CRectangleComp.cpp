@@ -1,7 +1,7 @@
-#include "ibase/CRectangleComp.h"
+#include "i2d/CRectangleComp.h"
 
 
-namespace ibase
+namespace i2d
 {		
 
 // protected methods
@@ -24,6 +24,6 @@ void CRectangleComp::OnComponentCreated()
 }
 
 
-} // namespace ibase
+} // namespace i2d
 
 

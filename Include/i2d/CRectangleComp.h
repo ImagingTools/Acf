@@ -1,5 +1,5 @@
-#ifndef ibase_CRectangleComp_included
-#define ibase_CRectangleComp_included
+#ifndef i2d_CRectangleComp_included
+#define i2d_CRectangleComp_included
 
 
 #include "i2d/CRectangle.h"
@@ -7,13 +7,13 @@
 #include "icomp/CComponentBase.h"
 
 
-namespace ibase
+namespace i2d
 {		
 
 
 /**
 	Implementation of a rectangle as a component.
-	It gives the possibility to define a rectangle model vie component attributes.
+	It gives the possibility to define a rectangle model via component attributes.
 
 */
 class CRectangleComp: public icomp::CComponentBase, public i2d::CRectangle
@@ -42,9 +42,9 @@ private:
 };
 
 
-} // namespace ibase
+} // namespace i2d
 
 
-#endif // !ibase_CRectangleComp_included
+#endif // !i2d_CRectangleComp_included
 
 

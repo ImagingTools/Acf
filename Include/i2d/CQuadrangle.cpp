@@ -10,8 +10,10 @@
 
 
 namespace i2d
-{	
+{
 
+
+// public methods
 
 CQuadrangle::CQuadrangle()
 {

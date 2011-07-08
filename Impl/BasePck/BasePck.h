@@ -25,7 +25,6 @@
 #include "ibase/CVersionInfoComp.h"
 #include "ibase/CApplicationInfoComp.h"
 #include "ibase/CRegistryCodeSaverComp.h"
-#include "ibase/CRectangleComp.h"
 #include "ibase/CTextDocumentComp.h"
 #include "ibase/CModelProxyComp.h"
 #include "ibase/CModelBinderComp.h"
@@ -56,13 +55,14 @@
 #include "iprm/CLinearAdjustParamsComp.h"
 #include "iprm/CSelectionParamComp.h"
 
-#include "i2d/CPosition2d.h"
-#include "i2d/CCircle.h"
-#include "i2d/CLine2d.h"
-#include "i2d/CRectangle.h"
-#include "i2d/CAnnulus.h"
-#include "i2d/CAnnulusSegment.h"
-#include "i2d/CQuadrangle.h"
+
+#include "i2d/CPosition2dComp.h"
+#include "i2d/CRectangleComp.h"
+#include "i2d/CCircleComp.h"
+#include "i2d/CAnnulusComp.h"
+#include "i2d/CAnnulusSegmentComp.h"
+#include "i2d/CLine2dComp.h"
+#include "i2d/CQuadrangleComp.h"
 
 #include "imath/CSampledFunction2d.h"
 
@@ -123,64 +123,13 @@ typedef icomp::TModelCompWrap<isec::CComposedAuthorizationVerifierComp> Composed
 typedef icomp::TModelCompWrap<isec::CFixedAuthorisationVerifierComp> FixedAuthorisationVerifier;
 typedef icomp::TModelCompWrap<isec::CStaticUserLoginComp> StaticUserLogin;
 
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CPosition2d>,
-			i2d::CPosition2d,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Position2d;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CCircle>,
-			i2d::CCircle,
-			i2d::CPosition2d,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Circle;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CLine2d>,
-			i2d::CLine2d,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Line;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CRectangle>,
-			i2d::CRectangle,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Rectangle;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CAnnulus>,
-			i2d::CAnnulus,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Annulus;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CAnnulusSegment>,
-			i2d::CAnnulus,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> AnnulusSegment;
-
-typedef icomp::TMakeComponentWrap<
-			imod::TModelWrap<i2d::CQuadrangle>,
-			i2d::CQuadrangle,
-			i2d::IObject2d,
-			iser::ISerializable,
-			istd::IChangeable,
-			imod::IModel> Quadrangle;
-
-typedef icomp::TModelCompWrap<ibase::CRectangleComp> AttributedRectangle;
+typedef icomp::TModelCompWrap<i2d::CPosition2dComp> Position2d;
+typedef icomp::TModelCompWrap<i2d::CRectangleComp> Rectangle;
+typedef icomp::TModelCompWrap<i2d::CCircleComp> Circle;
+typedef icomp::TModelCompWrap<i2d::CAnnulusComp> Annulus;
+typedef icomp::TModelCompWrap<i2d::CAnnulusSegmentComp> AnnulusSegment;
+typedef icomp::TModelCompWrap<i2d::CLine2dComp> Line;
+typedef icomp::TModelCompWrap<i2d::CQuadrangleComp> Quadrangle;
 
 typedef icomp::TModelCompWrap<ibase::CTextDocumentComp> TextDocument;
 
