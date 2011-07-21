@@ -15,6 +15,8 @@
 
 #include "ibase/ICommandsProvider.h"
 
+#include "iprm/IFileNameParam.h"
+
 #include "idoc/IHelpViewer.h"
 #include "idoc/IDocumentManager.h"
 
@@ -49,6 +51,8 @@ public:
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and access to buffred icons", false, "ConsistencyInfo");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Show help of selected component using its address", false, "HelpViewer");
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager allowing to load files on double click", false, "DocumentManager");
+		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath");
+		I_ASSIGN_TO(m_configFilePathModelCompPtr, m_configFilePathCompPtr, false);
 	I_END_COMPONENT;
 
 	CPackageOverviewComp();
@@ -97,6 +101,7 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
 	virtual void OnGuiRetranslate();
 
@@ -170,6 +175,19 @@ private:
 		CPackageOverviewComp& m_parent;
 	};
 
+	class ConfigObserver: public imod::CSingleModelObserverBase
+	{
+	public:
+		ConfigObserver(CPackageOverviewComp* parentPtr);
+
+	protected:
+		// reimplemented (imod::CSingleModelObserverBase)
+		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	private:
+		CPackageOverviewComp& m_parent;
+	};
+
 	enum GruppingMode
 	{
 		GM_NONE,
@@ -180,6 +198,8 @@ private:
 	I_REF(IRegistryConsistInfo, m_consistInfoCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
+	I_REF(iprm::IFileNameParam, m_configFilePathCompPtr);
+	I_REF(imod::IModel, m_configFilePathModelCompPtr);
 
 	iqtgui::CHierarchicalCommand m_commands;
 	iqtgui::CHierarchicalCommand m_packagesCommand;
@@ -189,6 +209,7 @@ private:
 	RootInfos m_roots;
 
 	RegistryObserver m_registryObserver;
+	ConfigObserver m_configObserver;
 
 	typedef std::set<std::string> InterfaceFilter;
 	InterfaceFilter m_interfaceFilter;

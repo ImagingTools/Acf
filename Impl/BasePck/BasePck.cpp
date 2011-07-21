@@ -168,6 +168,11 @@ I_EXPORT_COMPONENT(
 			"Selection Parameter Integer Index Choice" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
+			ManagerParamsSetShadower,
+			"Synchronize selected parameter set with shadow object",
+			"Synchronizer Synchronisation" IM_CATEGORY(I_DATA_MODEL));
+
+I_EXPORT_COMPONENT(
 			SingleDocumentTemplate,
 			"Single document template for only one type of documents",
 			"Single Template MVC" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Document"));

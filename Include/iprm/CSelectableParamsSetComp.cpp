@@ -77,19 +77,25 @@ int CSelectableParamsSetComp::GetSelectedOptionIndex() const
 
 bool CSelectableParamsSetComp::SetSelectedOptionIndex(int index)
 {
-	if (index < GetOptionsCount()){
-		if (index != m_selectedIndex){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED);
-
-			m_selectedIndex = index;
-
-			SetupCurrentParamsSetBridge();
-		}
-
-		return true;
+	if (!m_paramsManagerCompPtr.IsValid() && (index > 0)){
+		return false;
 	}
 
-	return false;
+	if (index < GetOptionsCount()){
+		return false;
+	}
+
+	if (index != m_selectedIndex){
+		I_ASSERT(m_paramsManagerCompPtr.IsValid());
+
+		istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED);
+
+		m_selectedIndex = index;
+
+		SetupCurrentParamsSetBridge();
+	}
+
+	return true;
 }
 
 
@@ -117,6 +123,28 @@ bool CSelectableParamsSetComp::Serialize(iser::IArchive& archive)
 
 // protected methods
 
+void CSelectableParamsSetComp::SetupCurrentParamsSetBridge()
+{
+	I_ASSERT(m_paramsManagerCompPtr.IsValid());
+
+	if ((m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
+		imod::IModel* paramsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>((
+					m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex))));
+		if (paramsModelPtr != m_currentParamsModelPtr){
+			if ((m_currentParamsModelPtr != NULL) && m_currentParamsModelPtr->IsAttached(&m_currentParamsSetObserver)){
+				m_currentParamsModelPtr->DetachObserver(&m_currentParamsSetObserver);
+
+				m_currentParamsModelPtr = NULL;
+			}
+
+			if ((paramsModelPtr != NULL) && paramsModelPtr->AttachObserver(&m_currentParamsSetObserver)){
+				m_currentParamsModelPtr  = paramsModelPtr;
+			}
+		}
+	}
+}
+
+
 // reimplemented (iprm::ISelectionConstraints)
 
 int CSelectableParamsSetComp::GetOptionsCount() const
@@ -141,33 +169,10 @@ istd::CString CSelectableParamsSetComp::GetOptionName(int index) const
 }
 
 
-// private methods
-
-void CSelectableParamsSetComp::SetupCurrentParamsSetBridge()
-{
-	const imod::IModel* currentParamsModelPtr = NULL;
-
-	if (m_selectedIndex >= 0 && m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount()){
-		currentParamsModelPtr = dynamic_cast<const imod::IModel*>((m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex)));
-		if (currentParamsModelPtr != m_currentParamsModelPtr){
-			if (m_currentParamsModelPtr != NULL && m_currentParamsModelPtr->IsAttached(&m_currentParamsSetObserver)){
-				m_currentParamsModelPtr->DetachObserver(&m_currentParamsSetObserver);
-
-				m_currentParamsModelPtr = NULL;
-			}
-
-			if (currentParamsModelPtr != NULL && const_cast<imod::IModel*>(currentParamsModelPtr)->AttachObserver(&m_currentParamsSetObserver)){
-				m_currentParamsModelPtr  = const_cast<imod::IModel*>(currentParamsModelPtr);
-			}
-		}
-	}
-}
-
-
 // public methods of the embedded class CurrentParamsSetObserver
 
 CSelectableParamsSetComp::CurrentParamsSetObserver::CurrentParamsSetObserver(CSelectableParamsSetComp& parent)
-	:m_parent(parent)
+:	m_parent(parent)
 {
 }
 

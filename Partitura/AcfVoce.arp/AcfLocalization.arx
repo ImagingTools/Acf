@@ -37,7 +37,10 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="4">
+                <Value>
+                  en_US
+                </Value>
                 <Value>
                   de_DE
                 </Value>

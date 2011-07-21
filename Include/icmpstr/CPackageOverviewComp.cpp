@@ -24,6 +24,7 @@
 #include "icomp/CComponentMetaDescriptionEncoder.h"
 
 #include "iqt/CSignalBlocker.h"
+#include "iqt/CFileSystem.h"
 
 
 namespace icmpstr
@@ -214,6 +215,7 @@ CPackageOverviewComp::CPackageOverviewComp()
 :	m_packagesCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
 	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
 	m_registryObserver(this),
+	m_configObserver(this),
 	m_currentPackageGroupIndex(-1)
 {
 	connect(&m_reloadCommand, SIGNAL(activated()), this, SLOT(OnReloadPackages()));
@@ -734,7 +736,22 @@ void CPackageOverviewComp::on_InterfaceCB_currentIndexChanged(int index)
 
 void CPackageOverviewComp::OnReloadPackages()
 {
-	m_envManagerCompPtr->ConfigureEnvironment();
+	if (!m_envManagerCompPtr.IsValid()){
+		return;
+	}
+
+	istd::CString configFilePath;
+	if (m_configFilePathCompPtr.IsValid()){
+		configFilePath = m_configFilePathCompPtr->GetPath();
+	}
+	static iqt::CFileSystem fileSystem;
+	m_envManagerCompPtr->ConfigureEnvironment(fileSystem.GetNormalizedPath(configFilePath));
+
+	UpdateInterfaceList();
+
+	m_currentPackageGroupIndex = GroupByCB->currentIndex();
+
+	UpdateComponentGroups();
 
 	GenerateComponentTree(true);
 }
@@ -919,6 +936,10 @@ void CPackageOverviewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+	if (m_configFilePathModelCompPtr.IsValid()){
+		m_configFilePathModelCompPtr->AttachObserver(&m_configObserver);
+	}
+
 	m_realComponentIcon = QIcon(":/Icons/RealComponent.svg");
 	m_compositeComponentIcon = QIcon(":/Icons/CompositeComponent.svg");
 	m_mixedComponentIcon = QIcon(":/Icons/MixedComponent.svg");
@@ -945,6 +966,16 @@ void CPackageOverviewComp::OnGuiCreated()
 	UpdateComponentGroups();
 
 	GenerateComponentTree(true);
+}
+
+
+void CPackageOverviewComp::OnGuiDestroyed()
+{
+	if (m_configFilePathModelCompPtr.IsValid() && m_configFilePathModelCompPtr->IsAttached(&m_configObserver)){
+		m_configFilePathModelCompPtr->DetachObserver(&m_configObserver);
+	}
+
+	BaseClass::OnGuiDestroyed();
 }
 
 
@@ -1064,6 +1095,25 @@ void CPackageOverviewComp::RegistryObserver::OnUpdate(int updateFlags, istd::IPo
 
 		m_parent.GenerateComponentTree(false);
 	}
+}
+
+
+// public methods of embedded class RegistryObserver
+
+CPackageOverviewComp::ConfigObserver::ConfigObserver(CPackageOverviewComp* parentPtr)
+:	m_parent(*parentPtr)
+{
+	I_ASSERT(parentPtr != NULL);
+}
+
+
+// protected methods of embedded class RegistryObserver
+
+// reimplemented (imod::CSingleModelObserverBase)
+
+void CPackageOverviewComp::ConfigObserver::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	m_parent.OnReloadPackages();
 }
 
 
