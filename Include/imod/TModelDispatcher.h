@@ -26,6 +26,8 @@ template <class NotifyReceiver>
 class TModelDispatcher: protected imod::CMultiModelObserverBase
 {
 public:
+	typedef imod::CMultiModelObserverBase BaseClass;
+
 	TModelDispatcher(NotifyReceiver& parent);
 	~TModelDispatcher();
 
@@ -55,6 +57,9 @@ public:
 	Object* GetObjectPtr(int modelId) const;
 
 protected:
+	// reimplemented (imod::IObserver)
+	virtual bool OnDetached(imod::IModel* modelPtr);
+
 	// reimplemented (imod::CMultiModelObserverBase)
 	virtual void OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
@@ -139,6 +144,27 @@ Object* TModelDispatcher<NotifyReceiver>::GetObjectPtr(int modelId) const
 
 
 // protected methods
+
+// reimplemented (imod::IObserver)
+
+template <class NotifyReceiver>
+bool TModelDispatcher<NotifyReceiver>::OnDetached(imod::IModel* modelPtr)
+{
+	if (BaseClass::OnDetached(modelPtr)){
+		for (ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
+			if (index->first == modelPtr){
+				m_modelMap.erase(index);
+
+				break;
+			}
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
 
 // reimplemented (imod::CMultiModelObserverBase)
 
