@@ -109,6 +109,8 @@ void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
 			m_modelMap.erase(index);
 
 			modelPtr->DetachObserver(this);
+
+			break;
 		}
 	}
 }
@@ -117,8 +119,12 @@ void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
 template <class NotifyReceiver>
 void TModelDispatcher<NotifyReceiver>::UnregisterAllModels()
 {
-	for (ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
-		imod::IModel* modelPtr = index->first;
+	while (!m_modelMap.empty()){
+		ModelMap::iterator currentIter = m_modelMap.begin();
+
+		imod::IModel* modelPtr = currentIter->first;
+
+		m_modelMap.erase(currentIter);
 
 		modelPtr->DetachObserver(this);
 	}
