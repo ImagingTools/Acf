@@ -285,20 +285,33 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 	std::string xmlText;
 
 	if (m_isSeparatorNeeded){
-		if (!ReadToDelimeter(">", xmlText)){
+		if (!ReadToDelimeter("<", xmlText) || !ReadToDelimeter("/>", xmlText, false)){
+			if (IsLogConsumed()){
+				SendLogMessage(
+					istd::ILogger::MC_ERROR,
+					MI_TAG_SKIPPED,
+					"Cannot find separator between multiple elements in the same tag",
+					"iser::CXmlReadArchiveBase",
+					MF_SYSTEM);
+			}
+
 			return false;
 		}
 
 		if (xmlText != GetElementSeparator().ToString()){
 			if (IsLogConsumed()){
 				SendLogMessage(
-							istd::ILogger::MC_ERROR,
-							MI_TAG_ERROR,
-							"Bad separator tag, should be ",
-							"iser::CXmlReadArchiveBase",
-							MF_SYSTEM);
+					istd::ILogger::MC_ERROR,
+					MI_TAG_ERROR,
+					"Bad separator tag",
+					"iser::CXmlReadArchiveBase",
+					MF_SYSTEM);
 			}
+
+			return false;
 		}
+
+		ReadToDelimeter(">", xmlText);
 	}
 	else{
 		m_isSeparatorNeeded = true;
@@ -310,9 +323,17 @@ bool CXmlReadArchiveBase::Process(istd::CString& value)
 		return true;
 	}
 	else{
+		if (IsLogConsumed()){
+			SendLogMessage(
+				istd::ILogger::MC_ERROR,
+				MI_TAG_ERROR,
+				"Cannot find begin of enclosing tag",
+				"iser::CXmlReadArchiveBase",
+				MF_SYSTEM);
+		}
+
 		return false;
 	}
-
 }
 
 

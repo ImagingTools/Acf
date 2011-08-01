@@ -104,7 +104,7 @@ private:
 	bool m_updateOnShow;
 
 	/**
-		Cummulated flags for UI-update after it becomes visible state.
+		Cumulated flags for UI-update after it becomes visible state.
 	*/
 	int m_updateOnShowFlags;
 };
