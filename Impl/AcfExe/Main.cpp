@@ -5,14 +5,8 @@
 #include <QString>
 #include <QMessageBox>
 #include <QApplication>
-#include <QCoreApplication>
-#include <QDir>
-#include <QLabel>
 
 // ACF includes
-#include "icomp/TComponentWrap.h"
-#include "icomp/TSimComponentWrap.h"
-#include "icomp/CRegistryElement.h"
 #include "icomp/CComponentAccessor.h"
 
 #include "ibase/IApplication.h"
@@ -77,15 +71,15 @@ int main(int argc, char *argv[])
 
 	ibase::IApplication* applicationPtr = componentAccessor.GetComponentInterface<ibase::IApplication>(componentId);
 	if (applicationPtr == NULL){
-			std::cout << "Application interface cannot be found" << std::endl;
+		std::cout << "Application interface cannot be found" << std::endl;
 
-			retVal = -1;
+		retVal = -1;
 	}
 	
 	else if (showApplicationInfo){
-			std::cout << applicationPtr->GetHelpText().ToString();
+		std::cout << applicationPtr->GetHelpText().ToString();
 
-			retVal = 0;
+		retVal = 0;
 	}
 	else{
 		retVal = applicationPtr->Execute(argc, argv);
