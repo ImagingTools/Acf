@@ -28,15 +28,19 @@ namespace iqtdoc
 	This class is a Qt-based workspace implementation of a document manager.
 */
 class CMultiDocumentWorkspaceGuiComp:
-			public iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMdiArea> >, 
-			public iqtdoc::TQtDocumentManagerWrap<idoc::CMultiDocumentManagerBase>,
+			public iqtdoc::TQtDocumentManagerWrap<
+						idoc::CMultiDocumentManagerBase,
+						iqtgui::TRestorableGuiWrap<
+									iqtgui::TGuiComponentBase<QMdiArea> > >,
 			public ibase::ICommandsProvider
 {
 	Q_OBJECT
 
 public:
-	typedef iqtgui::TRestorableGuiWrap<iqtgui::TGuiComponentBase<QMdiArea> > BaseClass;
-	typedef idoc::CMultiDocumentManagerBase BaseClass2;
+	typedef iqtdoc::TQtDocumentManagerWrap<
+						idoc::CMultiDocumentManagerBase,
+						iqtgui::TRestorableGuiWrap<
+									iqtgui::TGuiComponentBase<QMdiArea> > > BaseClass;
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentManager)
@@ -80,12 +84,6 @@ protected:
 	virtual void CreateConnections();
 
 	/**
-		Creates the filter for the file selection dialog.
-		\param	documentTypeIdPtr	optional ID of document type if only filter for single document type should be created.
-	*/
-	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL, int flags = 0) const;
-
-	/**
 		Called when number of windows changed.
 	*/
 	void OnViewsCountChanged();
@@ -100,7 +98,6 @@ protected:
 	// reimplemented (idoc::CMultiDocumentManagerBase)
 	virtual void CloseAllDocuments();
 	virtual istd::CStringList GetOpenFilePaths(const std::string* documentTypeIdPtr = NULL) const;
-	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
 	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr);
@@ -126,12 +123,11 @@ protected slots:
 	void OnWorkspaceModeChanged();
 
 private:
-	void UpdateLastDirectory(const QString& filePath) const;
-
 	iqtgui::CHierarchicalCommand m_commands;
 
 	// global commands
 	iqtgui::CHierarchicalCommand m_windowCommand;
+
 	// window menu group
 	iqtgui::CHierarchicalCommand m_cascadeCommand;
 	iqtgui::CHierarchicalCommand m_tileHorizontallyCommand;
@@ -154,4 +150,5 @@ private:
 
 
 #endif // !iqtdoc_CMultiDocumentWorkspaceGuiComp_included
+
 

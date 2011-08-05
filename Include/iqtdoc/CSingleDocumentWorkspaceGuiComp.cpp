@@ -13,11 +13,6 @@
 
 #include "idoc/IDocumentTemplate.h"
 
-#include "iqtgui/CFileDialogLoaderComp.h"
-
-#include "iser/CXmlFileWriteArchive.h"
-#include "iser/CXmlFileReadArchive.h"
-
 
 namespace iqtdoc
 {
@@ -69,50 +64,11 @@ void CSingleDocumentWorkspaceGuiComp::UpdateTitle()
 }
 
 
-QString CSingleDocumentWorkspaceGuiComp::CreateFileDialogFilter(const std::string* documentTypeIdPtr, int flags) const
-{
-	QString retVal;
-
-	const idoc::IDocumentTemplate* templatePtr = GetDocumentTemplate();
-	if (templatePtr != NULL){
-		idoc::IDocumentTemplate::Ids docTypeIds = templatePtr->GetDocumentTypeIds();
-
-		QString allExt;
-		int filtersCount = 0;
-
-		if (documentTypeIdPtr != NULL){
-			iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*documentTypeIdPtr);
-			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
-			}
-		}
-		else{
-			for (		idoc::IDocumentTemplate::Ids::const_iterator docTypeIter = docTypeIds.begin();
-						docTypeIter != docTypeIds.end();
-						++docTypeIter){
-				iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*docTypeIter);
-				if (loaderPtr != NULL){
-					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
-				}
-			}
-		}
-
-		if ((filtersCount > 1) && ((flags & iser::IFileLoader::QF_NO_LOADING) == 0)){
-			retVal = tr("All known documents (%1)\n").arg(allExt) + retVal;
-		}
-	}
-
-	return retVal;
-}
-
-
 // reimplemented (idoc::CSingleDocumentManagerBase)
 
 istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFilePath(const std::string* documentTypeIdPtr) const
 {
-	QString filter = CreateFileDialogFilter(documentTypeIdPtr, iser::IFileLoader::QF_FILE_ONLY | iser::IFileLoader::QF_NO_SAVING);
-
-	QStringList files = QFileDialog::getOpenFileNames(GetWidget(), tr("Open Files..."), m_lastDirectory, filter);
+	QStringList files = GetOpenFilePathesFromDialog(documentTypeIdPtr);
 
 	if (!files.isEmpty()){
 		UpdateLastDirectory(files.at(0));
@@ -120,19 +76,7 @@ istd::CString CSingleDocumentWorkspaceGuiComp::GetOpenFilePath(const std::string
 		return iqt::GetCString(files.at(0));
 	}
 
-	return "";
-}
-
-
-istd::CString CSingleDocumentWorkspaceGuiComp::GetSaveFilePath(const std::string& documentTypeId) const
-{
-	QString filter = CreateFileDialogFilter(&documentTypeId, iser::IFileLoader::QF_FILE_ONLY | iser::IFileLoader::QF_NO_LOADING);
-
-	QString filePath = QFileDialog::getSaveFileName(NULL, tr("Save..."), m_lastDirectory, filter);
-
-	UpdateLastDirectory(filePath);
-
-	return iqt::GetCString(filePath);
+	return istd::CString();
 }
 
 
@@ -264,21 +208,11 @@ void CSingleDocumentWorkspaceGuiComp::OnComponentCreated()
 
 void CSingleDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	BaseClass2::OnEndChanges(changeFlags, changeParamsPtr);
+	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
 
 	if (IsGuiCreated()){
 		UpdateTitle();
 	}
-}
-
-
-// private methods
-
-void CSingleDocumentWorkspaceGuiComp::UpdateLastDirectory(const QString& filePath) const
-{
-	QFileInfo fileInfo(filePath);
-
-	m_lastDirectory = fileInfo.absolutePath();
 }
 
 

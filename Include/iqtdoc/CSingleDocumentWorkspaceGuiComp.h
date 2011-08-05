@@ -5,11 +5,13 @@
 // Qt includes
 #include <QWidget>
 
+
 // ACF includes
 #include "ibase/ICommandsProvider.h"
 #include "idoc/CSingleDocumentManagerBase.h"
 
 #include "iqtgui/TGuiComponentBase.h"
+#include "iqtgui/TRestorableGuiWrap.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
 #include "iqtdoc/TQtDocumentManagerWrap.h"
@@ -20,15 +22,19 @@ namespace iqtdoc
 
 
 /**	
-	This class is a Qt-based workspace implementation of a document manager.
+	Qt-based workspace implementation of a single document manager.
 */
 class CSingleDocumentWorkspaceGuiComp:
-			public iqtgui::TGuiComponentBase<QWidget>, 
-			public iqtdoc::TQtDocumentManagerWrap<idoc::CSingleDocumentManagerBase>
+			public iqtdoc::TQtDocumentManagerWrap<
+						idoc::CSingleDocumentManagerBase,
+						iqtgui::TRestorableGuiWrap<
+									iqtgui::TGuiComponentBase<QWidget> > >
 {
 public:
-	typedef iqtgui::TGuiComponentBase<QWidget> BaseClass;
-	typedef idoc::CSingleDocumentManagerBase BaseClass2;
+	typedef iqtdoc::TQtDocumentManagerWrap<
+						idoc::CSingleDocumentManagerBase,
+						iqtgui::TRestorableGuiWrap<
+									iqtgui::TGuiComponentBase<QWidget> > > BaseClass;
 
 	I_BEGIN_COMPONENT(CSingleDocumentWorkspaceGuiComp)
 		I_REGISTER_INTERFACE(idoc::IDocumentManager)
@@ -54,15 +60,8 @@ protected:
 	*/
 	void UpdateTitle();
 
-	/**
-		Creates the filter for the file selection dialog.
-		\param	documentTypeIdPtr	optional ID of document type if only filter for single document type should be created.
-	*/
-	QString CreateFileDialogFilter(const std::string* documentTypeIdPtr = NULL, int flags = 0) const;
-
 	// reimplemented (idoc::CSingleDocumentManagerBase)
 	virtual istd::CString GetOpenFilePath(const std::string* documentTypeIdPtr = NULL) const;
-	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
 	virtual void QueryDocumentClose(bool* ignoredPtr);
@@ -78,13 +77,10 @@ protected:
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
 private:
-	void UpdateLastDirectory(const QString& filePath) const;
 
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 
 	iqtgui::IGuiObject* m_lastViewPtr;
-
-	mutable QString m_lastDirectory;
 };
 
 
