@@ -4,56 +4,16 @@
     <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="4">
+  <ElementsList count="3">
     <Element>
       <Id>
-        Log
-      </Id>
-      <PackageId>
-        AcfGuiVoce
-      </PackageId>
-      <ComponentId>
-        Log
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="1">
-          <AttributeInfo>
-            <Id>
-              Exporter
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                PersistentFileDialogLoader
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        LogDock
+        FileDialogLoader
       </Id>
       <PackageId>
         QtGuiPck
       </PackageId>
       <ComponentId>
-        DockWidgetGui
+        FileDialogLoader
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -62,139 +22,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="4">
-          <AttributeInfo>
-            <Id>
-              AllowedDockAreas
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;int&gt;
-            </Type>
-            <ExportId>
-              AllowedDockAreas
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                12
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              DockArea
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;int&gt;
-            </Type>
-            <ExportId>
-              DockArea
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                3
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              DockTitle
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                Log
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              SlaveGui
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                Log
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        PersistentFileDialogLoader
-      </Id>
-      <PackageId>
-        AcfGuiVoce
-      </PackageId>
-      <ComponentId>
-        PersistentFileDialogLoader
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="4">
-          <AttributeInfo>
-            <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              LastPathSettingsKey
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                Log
-              </Value>
-            </Data>
-          </AttributeInfo>
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               Loaders
@@ -203,22 +31,33 @@
               icomp::CMultiReferenceAttribute
             </Type>
             <ExportId>
-              
+              Loaders
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Values count="1">
-                <Value>
-                  XmlFileSerializer
-                </Value>
-              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
               Log
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              StartupDirectory
             </Id>
             <Type>
               icomp::CReferenceAttribute
@@ -231,7 +70,7 @@
                 true
               </IsEnabled>
               <Value>
-                Log
+                StartupDirectory
               </Value>
             </Data>
           </AttributeInfo>
@@ -240,46 +79,57 @@
     </Element>
     <Element>
       <Id>
-        XmlFileSerializer
+        SettingsPersistence
       </Id>
       <PackageId>
-        BasePck
+        AcfGuiVoce
       </PackageId>
       <ComponentId>
-        XmlFileSerializer
+        SettingsPersistence
       </ComponentId>
       <Data>
         <IsEnabled>
           true
         </IsEnabled>
         <Flags>
-          0
+          1
         </Flags>
         <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
-              FileExtensions
+              ApplicationInfo
             </Id>
             <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
+              icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              ApplicationInfo
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Values count="1">
-                <Value>
-                  xlog
-                </Value>
-              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
               Log
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Object
             </Id>
             <Type>
               icomp::CReferenceAttribute
@@ -292,16 +142,69 @@
                 true
               </IsEnabled>
               <Value>
-                Log
+                StartupDirectory
               </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              TypeDescriptions
+              RootKey
             </Id>
             <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              LastPathSettingsKey
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        StartupDirectory
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        FileNameParam
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="2">
+          <AttributeInfo>
+            <Id>
+              DefaultPath
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              StartupDirectory
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              PathType
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
             </Type>
             <ExportId>
               
@@ -310,27 +213,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
-                <Value>
-                  Log XML file
-                </Value>
-              </Values>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              VersionInfo
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              VersionInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
+              <Value>
+                2
+              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>
@@ -342,35 +227,35 @@
   <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
-        ibase::IMessageConsumer
+        iser::IFileLoader
       </InterfaceId>
       <ComponentId>
-        Log
+        FileDialogLoader
       </ComponentId>
     </Interface>
     <Interface>
       <InterfaceId>
-        ibase::IMessageContainer
+        iser::IFileLoaderInfo
       </InterfaceId>
       <ComponentId>
-        Log
+        FileDialogLoader
       </ComponentId>
     </Interface>
     <Interface>
       <InterfaceId>
-        iqtgui::IMainWindowComponent
+        iser::IFileTypeInfo
       </InterfaceId>
       <ComponentId>
-        LogDock
+        FileDialogLoader
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    Log widget used as dock window
+    File dialog with memory of the last open directory path
   </Description>
   <Keywords>
-    Log Dock Main Window GUI Float Error Warning Info Message
+    "File Loader Persistency"
   </Keywords>
 </Acf>

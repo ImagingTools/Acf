@@ -262,6 +262,8 @@ QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool i
 		m_lastOpenInfo = fileInfo;
 	}
 
+	m_statupDirectoryCompPtr->SetPath(iqt::GetCString(fileInfo.dir().absolutePath()));
+
 	return retVal;
 }
 
@@ -299,6 +301,21 @@ iser::IFileLoader* CFileDialogLoaderComp::GetLoaderFor(const QString& filePath, 
 	}
 
 	return retVal;
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CFileDialogLoaderComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_statupDirectoryCompPtr.IsValid()){
+		QString lastDirectoryPath = iqt::GetQString(m_statupDirectoryCompPtr->GetPath());
+
+		m_lastOpenInfo.setFile(lastDirectoryPath);
+		m_lastSaveInfo.setFile(lastDirectoryPath);
+	}
 }
 
 
