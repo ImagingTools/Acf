@@ -128,7 +128,12 @@ TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
 template <class Gui, class Observer>
 bool TGuiObserverWrap<Gui, Observer>::OnAttached(imod::IModel* modelPtr)
 {
-	bool retVal = Observer::OnAttached(modelPtr);
+	bool retVal = true;
+	{
+		UpdateBlocker block(this);
+		
+		retVal = Observer::OnAttached(modelPtr);
+	}
 
 	if (retVal && Gui::IsGuiCreated() && Observer::IsModelAttached(NULL)){
 		OnGuiModelAttached();

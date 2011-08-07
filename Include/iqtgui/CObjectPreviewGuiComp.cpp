@@ -17,6 +17,17 @@ namespace iqtgui
 
 // reimplemented (imod::TGuiObserverWrap)
 
+void CObjectPreviewGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	if (m_objectModelCompPtr.IsValid() && m_objectObserverCompPtr.IsValid() && !m_objectModelCompPtr->IsAttached(m_objectObserverCompPtr.GetPtr())){
+		m_objectModelCompPtr->AttachObserver(m_objectObserverCompPtr.GetPtr());
+	}
+
+}
+
+
 void CObjectPreviewGuiComp::OnGuiModelDetached()
 {
 	if (m_objectModelCompPtr.IsValid() && m_objectObserverCompPtr.IsValid()){
@@ -74,13 +85,13 @@ void CObjectPreviewGuiComp::UpdateGui(int /*updateFlags*/)
 
 void CObjectPreviewGuiComp::OnGuiCreated()
 {
+	BaseClass::OnGuiCreated();
+
 	if (m_objectGuiCompPtr.IsValid()){
 		m_objectGuiCompPtr->CreateGui(ObjectViewFrame);	
 	}
 
 	connect(&m_fileSystemObserver, SIGNAL(fileChanged(const QString&)), this, SLOT(OnFileChanged(const QString&)));
-
-	BaseClass::OnGuiCreated();
 }
 
 
