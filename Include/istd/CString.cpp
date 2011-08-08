@@ -278,7 +278,10 @@ CString& CString::Replace(const CString& before, const CString& after, bool case
 
 void CString::Copy(const CString& str)
 {
-	clear();
+	if (&str == this){
+		return;
+	}
+
 	resize(str.size());
 
 	std::copy(str.begin(), str.end(), begin());

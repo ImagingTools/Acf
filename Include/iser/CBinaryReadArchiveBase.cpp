@@ -141,26 +141,32 @@ bool CBinaryReadArchiveBase::Process(std::string& value)
 
 	bool retVal = Process(stringLength);
 
-	if (retVal && (stringLength > 0)){
-		if (stringLength > MaxStringLength){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::ILogger::MC_ERROR,
-							MI_STRING_TOO_LONG,
-							istd::CString("Read string size is ") + istd::CString::FromNumber(stringLength) + " and it is longer than maximum size",
-							"iser::CBinaryReadArchiveBase",
-							MF_SYSTEM);
+	if (retVal){
+		if (stringLength > 0) {
+			if (stringLength > MaxStringLength){
+				if (IsLogConsumed()){
+					SendLogMessage(
+								istd::ILogger::MC_ERROR,
+								MI_STRING_TOO_LONG,
+								istd::CString("Read string size is ") + istd::CString::FromNumber(stringLength) + " and it is longer than maximum size",
+								"iser::CBinaryReadArchiveBase",
+								MF_SYSTEM);
+				}
+
+				return false;
 			}
 
-			return false;
+			std::vector<char> buffer(stringLength + 1, 0);
+
+			retVal = ProcessData(&buffer[0], stringLength * int(sizeof(char)));	
+
+			if (retVal){
+				value = std::string(&buffer[0]);
+			}
 		}
-
-		std::vector<char> buffer(stringLength + 1, 0);
-
-		retVal = ProcessData(&buffer[0], stringLength * int(sizeof(char)));	
-
-		if (retVal){
-			value = std::string(&buffer[0]);
+		else {
+			// just clear the string
+			value.clear();
 		}
 	}
 	
@@ -174,26 +180,32 @@ bool CBinaryReadArchiveBase::Process(istd::CString& value)
 
 	bool retVal = Process(stringLength);
 
-	if (retVal && (stringLength > 0)){
-		if (stringLength > MaxStringLength){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::ILogger::MC_ERROR,
-							MI_STRING_TOO_LONG,
-							istd::CString("Read string size is ") + istd::CString::FromNumber(stringLength) + " and it is longer than maximum size",
-							"iser::CBinaryReadArchiveBase",
-							MF_SYSTEM);
+	if (retVal){
+		if (stringLength > 0) {
+			if (stringLength > MaxStringLength){
+				if (IsLogConsumed()){
+					SendLogMessage(
+								istd::ILogger::MC_ERROR,
+								MI_STRING_TOO_LONG,
+								istd::CString("Read string size is ") + istd::CString::FromNumber(stringLength) + " and it is longer than maximum size",
+								"iser::CBinaryReadArchiveBase",
+								MF_SYSTEM);
+				}
+
+				return false;
 			}
 
-			return false;
+			std::vector<wchar_t> buffer(stringLength + 1, 0);
+
+			retVal = ProcessData(&buffer[0], stringLength * int(sizeof(wchar_t)));	
+
+			if (retVal){
+				value = istd::CString(&buffer[0]);
+			}
 		}
-
-		std::vector<wchar_t> buffer(stringLength + 1, 0);
-
-		retVal = ProcessData(&buffer[0], stringLength * int(sizeof(wchar_t)));	
-
-		if (retVal){
-			value = istd::CString(&buffer[0]);
+		else {
+			// just clear the string
+			value.Reset();
 		}
 	}
 
