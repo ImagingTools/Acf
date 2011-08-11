@@ -33,10 +33,11 @@ public:
 
 	/**
 		Register the data model to be observed. If model registration was successfull, the function returns \c true.
-		\param modelPtr	pointer to the data model object, which should be observed.
-		\param modelId	logical model ID for possible event filtering in the notification callback.
+		\param modelPtr	Pointer to the data model object, which should be observed.
+		\param modelId	Logical model ID for possible event filtering in the notification callback.
+		\param relefantFlags	The notification will only be triggered if the value of \c relevantFlags matches the model change flags.
 	*/
-	bool RegisterModel(imod::IModel* modelPtr, int modelId = 0);
+	bool RegisterModel(imod::IModel* modelPtr, int modelId = 0, int relevantFlags = 0);
 	
 	/**
 		Unregister the data model object.
@@ -64,7 +65,13 @@ protected:
 	virtual void OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 private:
-	typedef std::map<imod::IModel*, int> ModelMap;
+	struct ModelInfo
+	{
+		int modelId;
+		int relevantFlags;
+	};
+
+	typedef std::map<imod::IModel*, ModelInfo> ModelMap;
 
 	ModelMap m_modelMap;
 
@@ -87,10 +94,14 @@ TModelDispatcher<NotifyReceiver>::~TModelDispatcher()
 
 
 template <class NotifyReceiver>
-bool TModelDispatcher<NotifyReceiver>::RegisterModel(imod::IModel* modelPtr, int modelId)
+bool TModelDispatcher<NotifyReceiver>::RegisterModel(imod::IModel* modelPtr, int modelId, int relevantFlags)
 {
 	if (modelPtr->AttachObserver(this)){
-		m_modelMap[modelPtr] = modelId;
+		ModelInfo modelInfo;
+		modelInfo.modelId = modelId;
+		modelInfo.relevantFlags = relevantFlags;
+
+		m_modelMap[modelPtr] = modelInfo;
 
 		return true;
 	}
@@ -138,7 +149,7 @@ template <class Object>
 Object* TModelDispatcher<NotifyReceiver>::GetObjectPtr(int modelId) const
 {
 	for (ModelMap::const_iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
-		if (modelId == index->second){
+		if (modelId == index->second.modelId){
 			Object* objectPtr = dynamic_cast<Object*>(index->first);
 
 			return objectPtr;
@@ -179,7 +190,12 @@ void TModelDispatcher<NotifyReceiver>::OnUpdate(imod::IModel* modelPtr, int chan
 {
 	ModelMap::iterator foundModelIter = m_modelMap.find(modelPtr);
 	if (foundModelIter != m_modelMap.end()){
-		int modelId = foundModelIter->second;
+		int relevantFlags = foundModelIter->second.relevantFlags;
+		if (relevantFlags != 0 && (relevantFlags & changeFlags) == 0){
+			return;
+		}
+			
+		int modelId = foundModelIter->second.modelId;
 
 		m_parent.OnModelChanged(modelId, changeFlags, updateParamsPtr);
 	}
