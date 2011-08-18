@@ -161,7 +161,7 @@ public:
 		Please note, that created object is owned by the caller and the caller must remove them.
 		\return	new transformation object (owned by the caller) or NULL if creatiion was not possible.
 	*/
-	virtual const ITransformation2d* CreateCombinedTransformation(const ITransformation2d& secondTransform) const = 0;
+	virtual const ITransformation2d* CreateCombinedTransformation(const ITransformation2d& transform) const = 0;
 };
 
 

@@ -173,6 +173,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CAffineTransformation2d.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CAnnulus.cpp"
 				>
 			</File>
@@ -243,6 +247,10 @@
 			>
 			<File
 				RelativePath="..\CAffine2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CAffineTransformation2d.h"
 				>
 			</File>
 			<File
