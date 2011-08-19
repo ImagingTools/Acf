@@ -85,10 +85,21 @@ int CBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString
 
 	QString qtFilePath = iqt::GetQString(filePath);
 
-	CBitmap qtBitmap;
-	QImage& image = qtBitmap.GetQImageRef();
+	QImage image;
 	if (image.load(qtFilePath)){
-		if (data.CopyFrom(qtBitmap)){
+		bool isOk = false;
+
+		CBitmap* qtBitmapPtr = dynamic_cast<CBitmap*>(&data);
+		if (qtBitmapPtr != NULL){
+			isOk = qtBitmapPtr->CopyImageFrom(image);
+		}
+		else{
+			CBitmap tempQtBitmap(image);
+
+			isOk = data.CopyFrom(tempQtBitmap);
+		}
+
+		if (isOk){
 			return StateOk;
 		}
 		else{

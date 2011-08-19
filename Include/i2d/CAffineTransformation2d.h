@@ -15,7 +15,7 @@ namespace i2d
 	Affine transformation for 2D spaces.
 */
 class CAffineTransformation2d:
-			virtual CAffine2d,
+			virtual public CAffine2d,
 			virtual public ITransformation2d
 {
 public:

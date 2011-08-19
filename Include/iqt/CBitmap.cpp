@@ -30,6 +30,12 @@ CBitmap::CBitmap(const CBitmap& bitmap)
 }
 
 
+CBitmap::CBitmap(const QImage& image)
+{
+	SetQImage(image);
+}
+
+
 // reimplemented (iqt::IQImageProvider)
 
 const QImage& CBitmap::GetQImage() const
@@ -229,12 +235,14 @@ istd::IChangeable* CBitmap::CloneMe() const
 QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 {
 	switch (pixelFormat){
-		case PF_RGB:
-			return QImage::Format_RGB32;
-		case PF_RGBA:
-			return QImage::Format_ARGB32;
-		case PF_GRAY:
-			return QImage::Format_Indexed8;
+	case PF_RGB:
+		return QImage::Format_RGB32;
+
+	case PF_RGBA:
+		return QImage::Format_ARGB32;
+
+	case PF_GRAY:
+		return QImage::Format_Indexed8;
 	}
 
 	return QImage::Format_Invalid;

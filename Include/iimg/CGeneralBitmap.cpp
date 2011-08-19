@@ -22,6 +22,147 @@ CGeneralBitmap::CGeneralBitmap()
 }
 
 
+// reimplemented (iimg::IBitmap)
+
+IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
+{
+	return m_pixelFormat;
+}
+
+
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
+{
+	switch(pixelFormat){
+		case PF_GRAY:
+			return CreateBitmap(size, 8, 1, PF_GRAY);
+
+		case PF_RGB:
+		case PF_RGBA:
+			return CreateBitmap(size, 32, 4, pixelFormat);
+
+		case PF_GRAY16:
+			return CreateBitmap(size, 16, 1, PF_GRAY16);
+
+		case PF_GRAY32:
+			return CreateBitmap(size, 32, 1, PF_GRAY32);
+	}
+
+	return false;
+}
+
+
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
+{
+	switch(pixelFormat){
+		case PF_GRAY:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 8, 1, PF_GRAY);
+
+		case PF_RGB:
+		case PF_RGBA:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 4, pixelFormat);
+
+		case PF_GRAY16:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 16, 1, PF_GRAY16);
+
+		case PF_GRAY32:
+			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 1, PF_GRAY32);
+	}
+
+	return false;
+}
+
+
+int CGeneralBitmap::GetLinesDifference() const
+{
+	return m_linesDifference;
+}
+
+
+int CGeneralBitmap::GetPixelBitsCount() const
+{
+	return m_pixelBitsCount;
+}
+
+
+const void* CGeneralBitmap::GetLinePtr(int positionY) const
+{
+	return m_buffer.GetPtr() + m_linesDifference * positionY;
+}
+
+
+void* CGeneralBitmap::GetLinePtr(int positionY)
+{
+	return m_buffer.GetPtr() + m_linesDifference * positionY;
+}
+
+
+// reimplemented (iimg::IRasterImage)
+
+void CGeneralBitmap::ResetImage()
+{
+	m_size.Reset();
+	m_buffer.Reset();
+	m_linesDifference = 0;
+	m_pixelBitsCount = 0;
+	m_componentsCount = 0;
+}
+
+
+istd::CIndex2d CGeneralBitmap::GetImageSize() const
+{
+	return m_size;
+}
+
+
+int CGeneralBitmap::GetComponentsCount() const
+{
+	return m_componentsCount;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CGeneralBitmap::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+
+bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
+{
+	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
+	if (bitmapPtr != NULL){
+		istd::CChangeNotifier notifier(this);
+
+		istd::CIndex2d size = bitmapPtr->GetImageSize();
+		if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
+			int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
+			for (int y = 0; y < size.GetY(); ++y){
+				std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CGeneralBitmap::CloneMe() const
+{
+	istd::TDelPtr<CGeneralBitmap> clonePtr(new CGeneralBitmap);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
+}
+
+
+// protected methods
+
 bool CGeneralBitmap::CreateBitmap(
 			const istd::CIndex2d& size,
 			int pixelBitsCount,
@@ -94,145 +235,6 @@ bool CGeneralBitmap::CreateBitmap(
 	m_buffer.SetPtr((I_BYTE*)dataPtr, releaseFlag);
 
 	return true;
-}
-
-
-// reimplemented (iimg::IBitmap)
-
-IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
-{
-	return m_pixelFormat;
-}
-
-
-bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
-{
-	switch(pixelFormat){
-		case PF_UNKNOWN:
-			return false;
-
-		case PF_USER:
-			return CreateBitmap(size);
-
-		case PF_GRAY:
-			return CreateBitmap(size, 8, 1, PF_GRAY);
-
-		case PF_RGB:
-		case PF_RGBA:
-			return CreateBitmap(size, 32, 4, pixelFormat);
-
-		case PF_GRAY32:
-			return CreateBitmap(size, 32, 1, PF_GRAY32);
-	}
-
-	return false;
-}
-
-
-bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
-{
-	switch(pixelFormat){
-		case PF_UNKNOWN:
-			return false;
-		case PF_USER:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference);
-		case PF_GRAY:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 8, 1, PF_GRAY);
-		case PF_RGB:
-		case PF_RGBA:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 4, pixelFormat);
-	}
-
-	return false;
-}
-
-
-int CGeneralBitmap::GetLinesDifference() const
-{
-	return m_linesDifference;
-}
-
-
-int CGeneralBitmap::GetPixelBitsCount() const
-{
-	return m_pixelBitsCount;
-}
-
-
-const void* CGeneralBitmap::GetLinePtr(int positionY) const
-{
-	return m_buffer.GetPtr() + m_linesDifference * positionY;
-}
-
-
-void* CGeneralBitmap::GetLinePtr(int positionY)
-{
-	return m_buffer.GetPtr() + m_linesDifference * positionY;
-}
-
-
-// reimplemented (iimg::IRasterImage)
-
-void CGeneralBitmap::ResetImage()
-{
-	m_size.Reset();
-	m_buffer.Reset();
-	m_linesDifference = 0;
-	m_pixelBitsCount = 0;
-	m_componentsCount = 0;
-}
-
-
-istd::CIndex2d CGeneralBitmap::GetImageSize() const
-{
-	return m_size;
-}
-
-
-int CGeneralBitmap::GetComponentsCount() const
-{
-	return m_componentsCount;
-}
-
-
-// reimplemented (istd::IChangeable)
-
-int CGeneralBitmap::GetSupportedOperations() const
-{
-	return SO_COPY | SO_CLONE;
-}
-
-
-bool CGeneralBitmap::CopyFrom(const istd::IChangeable& object)
-{
-	const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
-	if (bitmapPtr != NULL){
-		istd::CChangeNotifier notifier(this);
-
-		istd::CIndex2d size = bitmapPtr->GetImageSize();
-		if (CreateBitmap(size, bitmapPtr->GetPixelBitsCount(), bitmapPtr->GetComponentsCount())){
-			int lineBytesCount = istd::Min(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
-			for (int y = 0; y < size.GetY(); ++y){
-				std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
-			}
-
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-istd::IChangeable* CGeneralBitmap::CloneMe() const
-{
-	istd::TDelPtr<CGeneralBitmap> clonePtr(new CGeneralBitmap);
-
-	if (clonePtr->CopyFrom(*this)){
-		return clonePtr.PopPtr();
-	}
-
-	return NULL;
 }
 
 

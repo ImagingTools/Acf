@@ -19,38 +19,6 @@ class CGeneralBitmap: public CBitmapBase
 public:
 	CGeneralBitmap();
 
-	/**
-		Create bitmap with specified size, number of bits per pixel and components number per pixel.
-		\param	size			bitmap size.
-		\param	pixelBitsCount	number of bits per single pixel.
-		\param	componentsCount	number of components per single pixel.
-		\return					true if bitmap was created.
-	*/
-	virtual bool CreateBitmap(
-				const istd::CIndex2d& size,
-				int pixelBitsCount = 8,
-				int componentsCount = 1,
-				PixelFormat pixelFormat = PF_USER);
-
-	/**
-		Create bitmap using external image buffer.
-		\param	size			bitmap size.
-		\param	dataPtr			pointer to external image buffer.
-		\param	releaseFlag		if its true, external buffer will be managed (removed) by this object.
-		\param	linesDifference	address difference between next and previos line. If it equals 0, the value will be taken from size and number of bits per pixel.
-		\param	pixelBitsCount	number of bits per single pixel.
-		\param	componentsCount	number of components per single pixel.
-		\return					true if bitmap was created.
-	*/
-	virtual bool CreateBitmap(
-				const istd::CIndex2d& size,
-				void* dataPtr,
-				bool releaseFlag,
-				int linesDifference = 0,
-				int pixelBitsCount = 8,
-				int componentsCount = 1,
-				PixelFormat pixelFormat = PF_USER);
-
 	// reimplemented (iimg::IBitmap)
 	virtual PixelFormat GetPixelFormat() const;
 	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size);
@@ -69,6 +37,39 @@ public:
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const istd::IChangeable& object);
 	virtual istd::IChangeable* CloneMe() const;
+
+protected:
+	/**
+		Create bitmap with specified size, number of bits per pixel and components number per pixel.
+		\param	size			bitmap size.
+		\param	pixelBitsCount	number of bits per single pixel.
+		\param	componentsCount	number of components per single pixel.
+		\return					true if bitmap was created.
+	*/
+	virtual bool CreateBitmap(
+				const istd::CIndex2d& size,
+				int pixelBitsCount,
+				int componentsCount,
+				PixelFormat pixelFormat);
+
+	/**
+		Create bitmap using external image buffer.
+		\param	size			bitmap size.
+		\param	dataPtr			pointer to external image buffer.
+		\param	releaseFlag		if its true, external buffer will be managed (removed) by this object.
+		\param	linesDifference	address difference between next and previos line. If it equals 0, the value will be taken from size and number of bits per pixel.
+		\param	pixelBitsCount	number of bits per single pixel.
+		\param	componentsCount	number of components per single pixel.
+		\return					true if bitmap was created.
+	*/
+	virtual bool CreateBitmap(
+				const istd::CIndex2d& size,
+				void* dataPtr,
+				bool releaseFlag,
+				int linesDifference,
+				int pixelBitsCount,
+				int componentsCount,
+				PixelFormat pixelFormat);
 
 private:
 	istd::TOptDelPtr<I_BYTE, true> m_buffer;
