@@ -119,6 +119,15 @@ I_EXPORT_COMPONENT(
 			"Text localization manager",
 			"Translation" IM_TAG("Localization"));
 
+I_EXPORT_COMPONENT(
+		   QtXmlFileSerializer,
+		   "File loader serializing objects using simplified XML format using Qt",
+		   "Save Serializer Archive Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
+
+I_EXPORT_COMPONENT(
+		   XslFileSerializer,
+		   "File loader serializing objects using simplified XML format using Qt, provides XSLT",
+		   "Save Serializer Archive Format XSLT" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
 
 } // namespace QtPck
 

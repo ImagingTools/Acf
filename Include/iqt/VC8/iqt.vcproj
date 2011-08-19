@@ -6,7 +6,6 @@
 	ProjectGUID="{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 	RootNamespace="iqt"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -28,16 +27,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Resources"
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
-				Name="QT Moc Metafile"
+				Name="QT Designer Form"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -50,7 +52,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\QtNetwork&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\QtNetwork&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -96,16 +98,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Resources"
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
-				Name="QT Moc Metafile"
+				Name="QT Designer Form"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -119,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\QtNetwork&quot;"
+				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;&quot;$(QTDIR)\include\QtNetwork&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -310,6 +315,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CXslSerializerComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CXslTransformationReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CXslTransformationWriteArchive.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\iqt.cpp"
 				>
 			</File>
@@ -461,6 +478,18 @@
 			</File>
 			<File
 				RelativePath="..\CXmlFileWriteArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXslSerializerComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXslTransformationReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXslTransformationWriteArchive.h"
 				>
 			</File>
 			<File

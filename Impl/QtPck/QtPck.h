@@ -20,12 +20,16 @@
 #include "iqt/CProcessExecutorComp.h"
 #include "iqt/CRenderedObjectFileLoaderComp.h"
 #include "iqt/CTranslationManagerComp.h"
+#include "iqt/CXmlFileReadArchive.h"
+#include "iqt/CXmlFileWriteArchive.h"
+#include "iqt/CXslSerializerComp.h"
 
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
 #include "iqtprm/CRelativeFileNameParamComp.h"
 
+#include "ibase/TFileSerializerComp.h"
 
 /**
 	Standard Qt package.
@@ -66,6 +70,9 @@ typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
 
 typedef icomp::TModelCompWrap<iqtprm::CRelativeFileNameParamComp> RelativeFileNameParam;
+
+typedef ibase::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
+typedef iqt::CXslSerializerComp XslFileSerializer;
 
 
 } // namespace QtPck

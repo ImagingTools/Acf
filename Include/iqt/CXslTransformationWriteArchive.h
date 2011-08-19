@@ -1,14 +1,24 @@
-#ifndef iqt_CXmlFileWriteArchive_included
-#define iqt_CXmlFileWriteArchive_included
+#ifndef iqt_CXslTransformationWriteArchive_included
+#define iqt_CXslTransformationWriteArchive_included
 
 
+// Qt includes
 #include <QDomDocument>
 #include <QDomNode>
 #include <QFile>
+#include <QXmlQuery>
+#include <QBuffer>
+#include <QAbstractMessageHandler>
+
+
+// ACF includes
+#include "istd/itr.h"
 
 #include "iser/CWriteArchiveBase.h"
 #include "iser/CFileArchiveInfo.h"
 #include "iser/CXmlDocumentInfoBase.h"
+
+#include "ibase/CLogComp.h"
 
 #include "iqt/iqt.h"
 
@@ -23,7 +33,7 @@ namespace iqt
 
 	\ingroup Persistence
 */
-class CXmlFileWriteArchive:
+class CXslTransformationWriteArchive:
 			public iser::CWriteArchiveBase,
 			public iser::CFileArchiveInfo,
 			public iser::CXmlDocumentInfoBase
@@ -32,16 +42,19 @@ public:
 	typedef iser::CWriteArchiveBase BaseClass;
 	typedef iser::CFileArchiveInfo BaseClass2;
 
-	CXmlFileWriteArchive(
+	CXslTransformationWriteArchive(
 				const istd::CString& filePath = "",
+				const istd::CString& xslFilePath = "",
 				const iser::IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
-	~CXmlFileWriteArchive();
+	~CXslTransformationWriteArchive();
+
+
 
 	bool Flush();
 
-	bool OpenDocument(const istd::CString& filePath);
+	bool OpenDocument(const istd::CString& filePath, const istd::CString& xslFilePath);
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
@@ -70,11 +83,36 @@ protected:
 	*/
 	bool PushTextNode(const QString& text);
 
+	virtual bool SendLogMessage(
+		MessageCategory category,
+		int id,
+		const istd::CString& message,
+		const istd::CString& messageSource,
+		int flags = 0) const
+	{
+		return iser::CWriteArchiveBase::SendLogMessage(category, id, message, messageSource, flags);
+	}
 private:
+	class MessageHandler:
+		virtual public QAbstractMessageHandler
+	{
+		I_DECLARE_TR_FUNCTION(MessageHandler);
+	public:
+		MessageHandler(CXslTransformationWriteArchive* logger);
+	protected:
+
+		void handleMessage(QtMsgType type, const QString &description, const QUrl &identifier, const QSourceLocation &sourceLocation);
+
+		CXslTransformationWriteArchive* m_loggerPtr;
+	};
+
+	friend class MessageHandler;
+
 	QDomDocument m_document;
 	QDomElement m_currentParent;
 
 	QFile m_file;
+	istd::CString m_xslFilePath;
 
 	bool m_serializeHeader;
 	iser::CArchiveTag m_rootTag;
@@ -86,6 +124,6 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CXmlFileWriteArchive_included
+#endif // !iqt_CXslTransformationWriteArchive_included
 
 

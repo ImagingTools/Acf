@@ -1,4 +1,4 @@
-#include "iqt/CXmlFileReadArchive.h"
+#include "iqt/CXslTransformationReadArchive.h"
 
 
 // STL includes
@@ -19,30 +19,56 @@ namespace iqt
 {
 
 
-CXmlFileReadArchive::CXmlFileReadArchive(
+CXslTransformationReadArchive::CXslTransformationReadArchive(
 			const istd::CString& filePath,
+			const istd::CString& xslFilePath,
 			bool serializeHeader,
 			const iser::CArchiveTag& rootTag)
 :	m_serializeHeader(serializeHeader),
 	m_rootTag(rootTag)
 {
 	if (!filePath.IsEmpty()){
-		OpenDocument(filePath);
+		OpenDocument(filePath, xslFilePath);
 	}
 }
 
 
-bool CXmlFileReadArchive::OpenDocument(const istd::CString& filePath)
+bool CXslTransformationReadArchive::OpenDocument(const istd::CString& filePath, const istd::CString& xslFilePath)
 {
-	QFile file(iqt::GetQString(filePath));
-	if (!file.open(QIODevice::ReadOnly)){
+	QFile xmlFile(iqt::GetQString(filePath));
+	if (!xmlFile.open(QIODevice::ReadOnly)){
 		return false;
 	}
 
-	if (!m_document.setContent(&file)) {
-		file.close();
 
-		return false;
+	if (xslFilePath.IsEmpty()){
+		if (!m_document.setContent(&xmlFile)) {
+			xmlFile.close();
+
+			return false;
+		}
+	}
+	else{
+		QFile xslfile(iqt::GetQString(xslFilePath));
+		if (!xslfile.open(QIODevice::ReadOnly)){
+			return false;
+		}
+
+		QString content;
+
+		QXmlQuery query(QXmlQuery::XSLT20);
+		MessageHandler handler(this);
+		query.setMessageHandler(&handler);
+		query.setFocus(&xmlFile);
+		query.setQuery(&xslfile);
+		query.evaluateTo(&content); 
+
+		if (!m_document.setContent(content)) {
+			xmlFile.close();
+			xslfile.close();
+
+			return false;
+		}
 	}
 
 	if (m_currentNode.nodeValue() != iqt::GetQString(m_rootTag.GetId())){
@@ -63,13 +89,13 @@ bool CXmlFileReadArchive::OpenDocument(const istd::CString& filePath)
 
 // reimplemented (iser::IArchive)
 
-bool CXmlFileReadArchive::IsTagSkippingSupported() const
+bool CXslTransformationReadArchive::IsTagSkippingSupported() const
 {
 	return true;
 }
 
 
-bool CXmlFileReadArchive::BeginTag(const iser::CArchiveTag& tag)
+bool CXslTransformationReadArchive::BeginTag(const iser::CArchiveTag& tag)
 {
 	QString tagId(tag.GetId().c_str());
 
@@ -81,7 +107,7 @@ bool CXmlFileReadArchive::BeginTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CXmlFileReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
+bool CXslTransformationReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
 	QString tagId(tag.GetId().c_str());
 
@@ -105,7 +131,7 @@ bool CXmlFileReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser
 }
 
 
-bool CXmlFileReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
+bool CXslTransformationReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 {
 	QDomNode parent = m_currentNode.parentNode();
 	
@@ -117,7 +143,7 @@ bool CXmlFileReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 }
 
 
-bool CXmlFileReadArchive::Process(bool& value)
+bool CXslTransformationReadArchive::Process(bool& value)
 {
 	QString text = PullTextNode();
 
@@ -137,7 +163,7 @@ bool CXmlFileReadArchive::Process(bool& value)
 }
 
 
-bool CXmlFileReadArchive::Process(char& value)
+bool CXslTransformationReadArchive::Process(char& value)
 {
 	QString text = PullTextNode();
 
@@ -151,7 +177,7 @@ bool CXmlFileReadArchive::Process(char& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_BYTE& value)
+bool CXslTransformationReadArchive::Process(I_BYTE& value)
 {
 	QString text = PullTextNode();
 
@@ -162,7 +188,7 @@ bool CXmlFileReadArchive::Process(I_BYTE& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_SBYTE& value)
+bool CXslTransformationReadArchive::Process(I_SBYTE& value)
 {
 	QString text = PullTextNode();
 
@@ -173,7 +199,7 @@ bool CXmlFileReadArchive::Process(I_SBYTE& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_WORD& value)
+bool CXslTransformationReadArchive::Process(I_WORD& value)
 {
 	QString text = PullTextNode();
 
@@ -184,7 +210,7 @@ bool CXmlFileReadArchive::Process(I_WORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_SWORD& value)
+bool CXslTransformationReadArchive::Process(I_SWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -195,7 +221,7 @@ bool CXmlFileReadArchive::Process(I_SWORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_DWORD& value)
+bool CXslTransformationReadArchive::Process(I_DWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -206,7 +232,7 @@ bool CXmlFileReadArchive::Process(I_DWORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_SDWORD& value)
+bool CXslTransformationReadArchive::Process(I_SDWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -217,7 +243,7 @@ bool CXmlFileReadArchive::Process(I_SDWORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_QWORD& value)
+bool CXslTransformationReadArchive::Process(I_QWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -228,7 +254,7 @@ bool CXmlFileReadArchive::Process(I_QWORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(I_SQWORD& value)
+bool CXslTransformationReadArchive::Process(I_SQWORD& value)
 {
 	QString text = PullTextNode();
 
@@ -239,7 +265,7 @@ bool CXmlFileReadArchive::Process(I_SQWORD& value)
 }
 
 
-bool CXmlFileReadArchive::Process(float& value)
+bool CXslTransformationReadArchive::Process(float& value)
 {
 	QString text = PullTextNode();
 
@@ -250,7 +276,7 @@ bool CXmlFileReadArchive::Process(float& value)
 }
 
 
-bool CXmlFileReadArchive::Process(double& value)
+bool CXslTransformationReadArchive::Process(double& value)
 {
 	QString text = PullTextNode();
 
@@ -261,7 +287,7 @@ bool CXmlFileReadArchive::Process(double& value)
 }
 
 
-bool CXmlFileReadArchive::Process(std::string& value)
+bool CXslTransformationReadArchive::Process(std::string& value)
 {
 	QString text = PullTextNode();
 
@@ -271,7 +297,7 @@ bool CXmlFileReadArchive::Process(std::string& value)
 }
 
 
-bool CXmlFileReadArchive::Process(istd::CString& value)
+bool CXslTransformationReadArchive::Process(istd::CString& value)
 {
 	QString text = PullTextNode();
 
@@ -281,7 +307,7 @@ bool CXmlFileReadArchive::Process(istd::CString& value)
 }
 
 
-bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
+bool CXslTransformationReadArchive::ProcessData(void* dataPtr, int size)
 {
 	QString text = PullTextNode();
 
@@ -299,12 +325,12 @@ bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
 
 // protected methods
 
-QString CXmlFileReadArchive::PullTextNode()
+QString CXslTransformationReadArchive::PullTextNode()
 {
 	QString text;
 	QDomNode node = m_currentNode.firstChild();
 	//Kill separator tags (<br/>)
-	while (node.nodeName() == "br"){
+	while (!node.isText() && !node.isNull()){
 		QDomNode brNode = node;
 		node = node.nextSibling();
 		m_currentNode.removeChild(brNode);
@@ -315,6 +341,26 @@ QString CXmlFileReadArchive::PullTextNode()
 	m_currentNode.removeChild(node);
 
 	return text;
+}
+
+
+CXslTransformationReadArchive::MessageHandler::MessageHandler(CXslTransformationReadArchive* logger)
+{
+	m_loggerPtr = logger;
+}
+
+
+void CXslTransformationReadArchive::MessageHandler::handleMessage(
+				QtMsgType /*type*/,
+				const QString& description,
+				const QUrl& /*identifier*/,
+				const QSourceLocation& /*sourceLocation*/)
+{
+	m_loggerPtr->SendLogMessage(
+					istd::ILogger::MC_WARNING,
+					0,
+					tr("Transformation message: ").append(iqt::GetCString(description)),
+					"XslTransformationWriteArchive");
 }
 
 

@@ -43,11 +43,12 @@ CXmlFileWriteArchive::~CXmlFileWriteArchive()
 
 bool CXmlFileWriteArchive::Flush()
 {
-	if (!m_file.isOpen()){
+	if (m_file.isOpen()){
 		QTextStream stream(&m_file);
 
 		m_document.save(stream, 4);
-
+		
+		m_file.close();
 		return true;
 	}
 
@@ -90,15 +91,25 @@ bool CXmlFileWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 
 	m_currentParent.appendChild(newElement);
 
+	m_currentParent = newElement;
+
 	m_isSeparatorNeeded = false;
 
 	return true;
 }
 
 
-bool CXmlFileWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& /*count*/)
+bool CXmlFileWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
-	return BeginTag(tag);
+	QDomElement newElement = m_document.createElement(QString::fromStdString(tag.GetId()));
+
+	newElement.setAttribute("count", count);
+	m_currentParent.appendChild(newElement);
+
+	m_currentParent = newElement;
+	m_isSeparatorNeeded = false;
+
+	return true;
 }
 
 
@@ -215,7 +226,7 @@ bool CXmlFileWriteArchive::PushTextNode(const QString& text)
 	}
 
 	QDomText newNode = m_document.createTextNode(text);
-
+	m_currentParent.appendChild(newNode);
 	m_isSeparatorNeeded = true;
 
 	return true;

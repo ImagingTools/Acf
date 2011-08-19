@@ -1,15 +1,22 @@
-#ifndef iqt_CXmlFileReadArchive_included
-#define iqt_CXmlFileReadArchive_included
+#ifndef iqt_CXslTransformationReadArchive_included
+#define iqt_CXslTransformationReadArchive_included
 
 
+// Qt includes
 #include <QDomDocument>
 #include <QDomNode>
+#include <QXmlQuery>
+#include <QAbstractMessageHandler>
 
+
+// ACF includes
+#include "istd/ILogger.h"
 
 #include "iser/CXmlDocumentInfoBase.h"
 #include "iser/CReadArchiveBase.h"
 
 #include "iqt/iqt.h"
+#include "istd/itr.h"
 
 
 namespace iqt
@@ -21,15 +28,16 @@ namespace iqt
 
 	\ingroup Persistence
 */
-class CXmlFileReadArchive: public iser::CReadArchiveBase, public iser::CXmlDocumentInfoBase
+class CXslTransformationReadArchive: public iser::CReadArchiveBase, public iser::CXmlDocumentInfoBase
 {
 public:
-	CXmlFileReadArchive(
+	CXslTransformationReadArchive(
 				const istd::CString& filePath = "",
+				const istd::CString& xslFilePath = "",
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
-	bool OpenDocument(const istd::CString& filePath);
+	bool OpenDocument(const istd::CString& filePath, const istd::CString& xslFilePath);
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
@@ -58,7 +66,32 @@ protected:
 	*/
 	QString PullTextNode();
 
+	//virtual bool SendLogMessage(
+	//	MessageCategory category,
+	//	int id,
+	//	const istd::CString& message,
+	//	const istd::CString& messageSource,
+	//	int flags = 0) const
+	//{
+	//	return iser::CReadArchiveBase::SendLogMessage(category, id, message, messageSource, flags);
+	//}
+
 private:
+	class MessageHandler:
+		virtual public QAbstractMessageHandler
+	{
+		I_DECLARE_TR_FUNCTION(MessageHandler);
+	public:
+		MessageHandler(CXslTransformationReadArchive* logger);
+	protected:
+
+		void handleMessage(QtMsgType type, const QString &description, const QUrl &identifier, const QSourceLocation &sourceLocation);
+
+		CXslTransformationReadArchive* m_loggerPtr;
+	};
+
+	friend class MessageHandler;
+
 	QDomDocument m_document;
 	QDomNode m_currentNode;
 
@@ -70,6 +103,6 @@ private:
 } // namespace iqt
 
 
-#endif // !iqt_CXmlFileReadArchive_included
+#endif // !iqt_CXslTransformationReadArchive_included
 
 
