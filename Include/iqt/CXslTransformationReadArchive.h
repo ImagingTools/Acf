@@ -11,12 +11,12 @@
 
 // ACF includes
 #include "istd/ILogger.h"
+#include "istd/itr.h"
 
 #include "iser/CXmlDocumentInfoBase.h"
 #include "iser/CReadArchiveBase.h"
 
 #include "iqt/iqt.h"
-#include "istd/itr.h"
 
 
 namespace iqt

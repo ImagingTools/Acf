@@ -6,7 +6,6 @@
 	ProjectGUID="{8EDC6010-0614-4B06-9375-F5660831DF54}"
 	RootNamespace="iqtgui"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -31,25 +30,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
 				Name="Arxc"
-			/>
-			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="DeployCopy"
 			/>
 			<Tool
 				Name="FileConvertCopy"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -108,25 +110,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="QT Designer Form"
+				Name="QT Resources"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
 				Name="Arxc"
-			/>
-			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="DeployCopy"
 			/>
 			<Tool
 				Name="FileConvertCopy"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -303,6 +308,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTextElider.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CToolBarWidgetGuiComp.cpp"
 				>
 			</File>
@@ -452,6 +461,10 @@
 			</File>
 			<File
 				RelativePath="..\CTabContainerGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextElider.h"
 				>
 			</File>
 			<File
