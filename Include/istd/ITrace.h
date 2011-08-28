@@ -30,7 +30,7 @@ public:
 				TraceLevel level,
 				const std::string& groupId,
 				const CString& message,
-				const std::string& fileName = "",
+				const std::string& fileName = std::string(),
 				int line = -1) const = 0;
 	/**
 	Check if traceing of this element is enabled.

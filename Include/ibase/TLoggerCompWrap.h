@@ -27,9 +27,15 @@ public:
 
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
+		I_ASSIGN(m_verboseEnabledAttrPtr, "EnableVerbose", "If enabled, verbose messages can be produced", false, false);
 	I_END_COMPONENT
-	
+
 protected:
+	/**
+		Send verbose message. If \c m_verboseEnabledAttrPtr is not enabled, the function does nothiing.
+	*/
+	void SendVerboseMessage(const istd::CString& message, const istd::CString& messageSource = istd::CString()) const;
+
 	// reimplemented (istd::ILogger)
 	virtual void DecorateMessage(
 				istd::ILogger::MessageCategory category,
@@ -43,10 +49,20 @@ protected:
 
 private:
 	I_REF(ibase::IMessageConsumer, m_logCompPtr);
+	I_ATTR(bool, m_verboseEnabledAttrPtr);
 };
 
 
 // protected methods
+	
+template <class Base>
+void TLoggerCompWrap<Base>::SendVerboseMessage(const istd::CString& message, const istd::CString& messageSource) const
+{
+	if (m_verboseEnabledAttrPtr.IsValid() && *m_verboseEnabledAttrPtr){
+		SendInfoMessage(0, message, messageSource);
+	}
+}
+
 
 // reimplemented (istd::ILogger)
 

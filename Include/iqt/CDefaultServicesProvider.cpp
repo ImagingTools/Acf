@@ -13,6 +13,7 @@
 #include "iqt/CDefaultRegistryLoaderProvider.h"
 #include "iqt/CSystemEnvironment.h"
 #include "iqt/CLocalizer.h"
+#include "iqt/CTrace.h"
 
 
 namespace iqt
@@ -21,6 +22,9 @@ namespace iqt
 
 void CDefaultServicesProvider::RegisterServices()
 {
+	static iqt::CTrace trace;
+	istd::CStaticServicesProvider::RegisterService<istd::ITrace>(&trace);
+
 	static iqt::CProcessEnvironment applicationEnvironment;
 	istd::CStaticServicesProvider::RegisterService<isys::IProcessEnvironment>(&applicationEnvironment);
 

@@ -30,6 +30,7 @@ static void ShowUsage()
 	std::cout << "\t-h or -help              - showing this help" << std::endl;
 	std::cout << "\t-o outputFile            - output file path" << std::endl;
 	std::cout << "\t-config configFile       - specify ACF packages configuration file" << std::endl;
+	std::cout << "\t-v						 - enable verbose mode" << std::endl;
 }
 
 
@@ -39,12 +40,23 @@ int main(int argc, char *argv[])
 
 	iqt::CDefaultServicesProvider::RegisterServices();
 
+	if (argc < 2){
+		ShowUsage();
+
+		return 0;
+	}
+
 	istd::CString configFile;
+	bool verboseEnabled = false;
 
 	for (int index = 1; index < argc; index++){
 		std::string argument = argv[index];
 		if (!argument.empty() && (argument[0] == '-')){
 			std::string option = argument.substr(1);
+
+			if (option == "v"){
+				verboseEnabled = true;
+			}
 
 			if ((option == "h") || (option == "help")){
 				ShowUsage();
@@ -59,6 +71,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	if (verboseEnabled){
+		std::cout << "ARX Compiler started in: " + QApplication::applicationDirPath().toStdString() << std::endl;
+	}
+
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
 	applicationInfo.SetStringAttr("ApplicationName", "ARX Compiler");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
@@ -70,11 +86,13 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<CmpstrPck::RegistryLoader> registryLoaderComp;
 	registryLoaderComp.SetRef("Log", &log);
 	registryLoaderComp.SetRef("VersionInfo", &applicationInfo);
+	registryLoaderComp.SetBoolAttr("EnableVerbose", verboseEnabled);
 	registryLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::RegistriesManager> registriesManagerComp;
 	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
 	registriesManagerComp.SetRef("Log", &log);
+	registriesManagerComp.SetBoolAttr("EnableVerbose", verboseEnabled);
 	registriesManagerComp.InitComponent();
 
 	registriesManagerComp.ConfigureEnvironment(configFile);
