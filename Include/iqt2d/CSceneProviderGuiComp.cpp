@@ -329,11 +329,9 @@ bool CSceneProviderGuiComp::OnMouseDoubleClickEvent(QEvent* eventPtr)
 
 	if (!eventPtr->isAccepted()){
 		SetFullScreenMode(!IsFullScreenMode());
-
-		return true;
 	}
 
-	return false;
+	return true;
 }
 
 
@@ -625,7 +623,7 @@ bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	if (IsGuiCreated()){
 		switch(eventPtr->type()){
-			case QEvent::MouseButtonDblClick:
+//			case QEvent::MouseButtonDblClick:
 			case QEvent::GraphicsSceneMouseDoubleClick:
 				if (OnMouseDoubleClickEvent(eventPtr)){
 					return true;
