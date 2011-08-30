@@ -105,7 +105,7 @@ protected:
 	virtual void OnRetranslate();
 	virtual void OnGuiRetranslate();
 
-protected slots:
+protected Q_SLOTS:
 	void on_FilterEdit_editingFinished();
 	void on_GroupByCB_currentIndexChanged(int index);
 	void on_PackagesList_itemSelectionChanged();

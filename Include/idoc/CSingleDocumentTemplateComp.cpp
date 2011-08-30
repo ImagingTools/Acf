@@ -106,11 +106,11 @@ void CSingleDocumentTemplateComp::OnComponentCreated()
 
 	int featureFlags = 0;
 	if (*m_isNewSupportedAttrPtr){
-		featureFlags |= idoc::IDocumentTemplate::New;
+		featureFlags |= idoc::IDocumentTemplate::SF_NEW_DOCUMENT;
 	}
 
 	if (*m_isEditSupportedAttrPtr){
-		featureFlags |= idoc::IDocumentTemplate::Edit;
+		featureFlags |= idoc::IDocumentTemplate::SF_EDIT_DOCUMENT;
 	}
 
 	SetSupportedFeatures(featureFlags);

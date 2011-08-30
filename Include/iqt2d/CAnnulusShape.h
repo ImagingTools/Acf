@@ -21,7 +21,7 @@ public:
 
 	CAnnulusShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnInnerGripPositionChanged(const i2d::CVector2d& point);
 	virtual void OnOuterGripPositionChanged(const i2d::CVector2d& point);
 

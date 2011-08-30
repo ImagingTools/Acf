@@ -61,7 +61,7 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 
-protected slots:
+protected Q_SLOTS:
 	void on_TypeSelectorCB_currentIndexChanged(int index);
 
 private:

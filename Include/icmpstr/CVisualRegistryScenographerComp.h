@@ -141,7 +141,7 @@ protected:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-protected slots:
+protected Q_SLOTS:
 	void OnSelectionChanged();
 	void OnRemoveComponent();
 	void OnRenameComponent();

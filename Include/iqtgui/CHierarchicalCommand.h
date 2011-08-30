@@ -98,7 +98,7 @@ public:
 	// reimplemented (istd::IEnableable)
 	virtual void SetEnabled(bool isEnabled = true);
 
-protected slots:
+protected Q_SLOTS:
 	void OnTriggered();
 
 protected:

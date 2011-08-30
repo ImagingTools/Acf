@@ -54,7 +54,7 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
-protected slots:
+protected Q_SLOTS:
 	void on_DataAcquisitionButton_clicked();
 	void on_LiveDataAcquisitionButton_toggled(bool checked);
 	void on_SaveDataButton_clicked();

@@ -33,7 +33,7 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 
-protected slots:
+protected Q_SLOTS:
 	void OnZoomIncrement();
 	void OnZoomDecrement();
 	void OnResetView();

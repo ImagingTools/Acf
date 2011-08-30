@@ -6,6 +6,7 @@
 	ProjectGUID="{FB8AA493-6CFD-4E1B-ABF8-09E4BE6CDD59}"
 	RootNamespace="iqt"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -303,6 +304,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTrace.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTranslationManagerComp.cpp"
 				>
 			</File>
@@ -466,6 +471,10 @@
 			</File>
 			<File
 				RelativePath="..\CTimer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTrace.h"
 				>
 			</File>
 			<File

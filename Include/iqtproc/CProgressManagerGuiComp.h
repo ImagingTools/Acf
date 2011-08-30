@@ -53,7 +53,7 @@ protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
-protected slots:
+protected Q_SLOTS:
 	void on_CancelButton_clicked();
 
 private:

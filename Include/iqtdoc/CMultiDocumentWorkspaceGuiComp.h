@@ -114,7 +114,7 @@ protected:
 	// reimplemented (istd:IChangeable)
 	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
 
-protected slots:
+protected Q_SLOTS:
 	void OnWindowActivated(QMdiSubWindow* window);
 	void OnTileHorizontally();
 	void OnTile();

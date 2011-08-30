@@ -61,7 +61,7 @@ protected:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-protected slots:
+protected Q_SLOTS:
 	void OnSourceRectMoved(const QRectF& rect);
 	void OnDestRectMoved(const QRectF& rect);
 	void OnSourceSelected(bool state);

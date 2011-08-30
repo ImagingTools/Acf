@@ -52,7 +52,7 @@ public:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
-protected slots:
+protected Q_SLOTS:
 	void OnAboutCommand();
 
 protected:

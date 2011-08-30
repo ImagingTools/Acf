@@ -34,7 +34,7 @@ protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags = 0);
 
-protected slots:
+protected Q_SLOTS:
 	void on_OptionIndexSlider_valueChanged(int value);
 };
 

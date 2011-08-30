@@ -39,7 +39,6 @@ public:
 
 	// reimplemented (ibase::IProcessExecutor)
 	virtual void SetEnvironment(const isys::IProcessEnvironment& processEnvironment);
-
 	virtual int ExecuteProcess(const istd::CString& executablePath, const istd::CStringList& processArguments);
 
 protected:

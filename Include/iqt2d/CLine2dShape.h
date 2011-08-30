@@ -20,7 +20,7 @@ public:
 
 	CLine2dShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnPosition1Changed(const i2d::CVector2d& point);
 	virtual void OnPosition2Changed(const i2d::CVector2d& point);
 

@@ -21,7 +21,7 @@ public:
 
 	CCircleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnGripPositionChanged(const i2d::CVector2d& point);
 
 private:

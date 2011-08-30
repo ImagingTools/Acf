@@ -33,7 +33,7 @@ protected:
 
 	I_REF(isec::IUserLogin, m_userLoginCompPtr);
 
-protected slots:
+protected Q_SLOTS:
 	void on_LoginButton_clicked();
 	void on_LogoutButton_clicked();
 };

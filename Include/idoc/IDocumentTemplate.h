@@ -34,19 +34,19 @@ public:
 	enum SupportedFeatures
 	{
 		/**
-			Document can be created.
+			A new document can be created.
 		*/
-		New = 0x0001,
+		SF_NEW_DOCUMENT = 0x0001,
 
 		/**
-			Document is editable.
+			A document is editable.
 		*/
-		Edit = 0x0010,
+		SF_EDIT_DOCUMENT = 0x0010,
 
 		/**
 			All features are supported.
 		*/
-		Default = 0xffff
+		SF_DEFAULT = 0xffff
 	};
 
 	/**

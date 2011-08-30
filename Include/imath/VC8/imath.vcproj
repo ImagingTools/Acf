@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="imath"
 	ProjectGUID="{7F855A37-4741-472A-82B5-5F57C4B6F2D1}"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform

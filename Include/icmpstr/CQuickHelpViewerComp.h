@@ -51,7 +51,7 @@ protected:
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 
-protected slots:
+protected Q_SLOTS:
 	void on_EditButton_clicked();
 	void on_NewButton_clicked();
 	void on_ShowTechButton_clicked();

@@ -19,7 +19,7 @@ public:
 
 	CAnnulusSegmentShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnAngleGripPositionChanged(const i2d::CVector2d& point);
 
 protected:

@@ -47,7 +47,7 @@ public:
 	virtual void OnGuiModelAttached();
 	virtual void UpdateGui(int updateFlags = 0);
 
-protected slots:
+protected Q_SLOTS:
 	void on_BrowseButton_clicked();
 	void on_DirEdit_editTextChanged(const QString& text);
 	void OnDirectoryUp();

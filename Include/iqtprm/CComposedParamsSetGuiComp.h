@@ -69,7 +69,7 @@ protected:
 	void AttachToScene(iqt2d::ISceneProvider* providerPtr, int flags);
 	void DetachFromScene(iqt2d::ISceneProvider* providerPtr);
 
-protected slots:
+protected Q_SLOTS:
 	void OnEditorChanged(int index);
 	void on_LoadParamsButton_clicked();
 	void on_SaveParamsButton_clicked();

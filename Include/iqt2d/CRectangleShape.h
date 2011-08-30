@@ -26,7 +26,7 @@ public:
 
 	CRectangleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnTopLeftChanged(const i2d::CVector2d& point);
 	virtual void OnTopRightChanged(const i2d::CVector2d& point);
 	virtual void OnBottomLeftChanged(const i2d::CVector2d& point);

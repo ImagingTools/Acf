@@ -26,7 +26,7 @@ public:
 
 	CQuadrangleShape(bool isEditable = false, const ISceneProvider* providerPtr = NULL);
 
-protected slots:
+protected Q_SLOTS:
 	virtual void OnFirstDiagGrip1Changed(const i2d::CVector2d& point);
 	virtual void OnFirstDiagGrip2Changed(const i2d::CVector2d& point);
 	virtual void OnSecondDiagGrip1Changed(const i2d::CVector2d& point);

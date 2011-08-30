@@ -46,7 +46,7 @@ protected:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-protected slots:
+protected Q_SLOTS:
 	void OnStateChanged(QProcess::ProcessState state);
 
 private:
