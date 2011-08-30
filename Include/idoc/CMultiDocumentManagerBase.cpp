@@ -418,6 +418,14 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 				OnViewRegistered(viewPtr);
 			}
 		}
+		else{
+			if (!existingInfoPtr->views.empty()){
+				istd::IPolymorphic* viewPtr = existingInfoPtr->views.front().GetPtr();
+				I_ASSERT(viewPtr != NULL);
+
+				SetActiveView(viewPtr);
+			}
+		}
 
 		documentTypeId = existingInfoPtr->documentTypeId;
 

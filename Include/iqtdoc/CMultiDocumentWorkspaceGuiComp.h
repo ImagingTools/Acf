@@ -42,11 +42,12 @@ public:
 						iqtgui::TRestorableGuiWrap<
 									iqtgui::TGuiComponentBase<QMdiArea> > > BaseClass;
 
-	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp)
-		I_REGISTER_INTERFACE(idoc::IDocumentManager)
-		I_REGISTER_INTERFACE(ibase::ICommandsProvider)
-		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true)
-		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate")
+	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp);
+		I_REGISTER_INTERFACE(idoc::IDocumentManager);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
+		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
+		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
+		I_ASSIGN(m_allowViewRepeatingAttrPtr, "AllowViewRepeating", "If enabled, multiple views for the same document are allowed", false, true);
 	I_END_COMPONENT
 
 	enum GroupId
@@ -65,7 +66,8 @@ public:
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
 protected:
-	/**
+
+/**
 		Update titles of views or all views of specified document.
 		\param	optional document object, if you want to update only views of single document.
 	*/
@@ -87,6 +89,14 @@ protected:
 		Called when number of windows changed.
 	*/
 	void OnViewsCountChanged();
+
+	// reimplemented (idoc::CMultiDocumentManagerBase)
+	virtual istd::IChangeable* OpenDocument(
+				const istd::CString& filePath,
+				bool createView,
+				const std::string& viewTypeId,
+				std::string& documentTypeId);
+	virtual void SetActiveView(istd::IPolymorphic* viewPtr);
 
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
@@ -137,8 +147,9 @@ private:
 	iqtgui::CHierarchicalCommand m_subWindowCommand;
 	iqtgui::CHierarchicalCommand m_tabbedCommand;
 
-	I_ATTR(bool, m_showMaximizedAttrPtr);
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
+	I_ATTR(bool, m_showMaximizedAttrPtr);
+	I_ATTR(bool, m_allowViewRepeatingAttrPtr);
 	
 	mutable QString m_lastDirectory;
 

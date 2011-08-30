@@ -166,6 +166,54 @@ void CMultiDocumentWorkspaceGuiComp::OnViewsCountChanged()
 }
 
 
+// reimplemented (idoc::CMultiDocumentManagerBase)
+
+istd::IChangeable* CMultiDocumentWorkspaceGuiComp::OpenDocument(
+			const istd::CString& filePath,
+			bool createView,
+			const std::string& viewTypeId,
+			std::string& documentTypeId)
+{
+	bool allowViewRepeating = true;
+	if (m_allowViewRepeatingAttrPtr.IsValid()){
+		allowViewRepeating = *m_allowViewRepeatingAttrPtr;
+	}
+
+	SingleDocumentData* documentInfoPtr = GetDocumentInfoFromPath(filePath);
+	if (documentInfoPtr != NULL && !allowViewRepeating){
+		createView = false;
+	}
+		
+	return BaseClass::OpenDocument(filePath, createView, viewTypeId, documentTypeId);
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* viewPtr)
+{
+	if (viewPtr != GetActiveView()){
+		QMdiArea* workspacePtr = GetQtWidget();
+		I_ASSERT(workspacePtr != NULL);
+
+		QList<QMdiSubWindow *> windows = workspacePtr->subWindowList();
+		for (int viewIndex = 0; viewIndex < windows.count(); viewIndex++){
+			QMdiSubWindow* windowPtr = windows.at(viewIndex);
+			if (windowPtr != NULL){
+				QWidget* viewWidgetPtr = windowPtr->widget();
+				if (viewWidgetPtr != NULL){
+					iqtgui::IGuiObject* guiObjectPtr = NULL;
+					guiObjectPtr = GetViewFromWidget(*viewWidgetPtr);
+					if (viewPtr == guiObjectPtr){
+						workspacePtr->setActiveSubWindow(windowPtr);
+					}
+				}
+			}
+		}
+	}
+		
+	BaseClass::SetActiveView(viewPtr);
+}
+
+
 // reimplemented (QObject)
 
 bool CMultiDocumentWorkspaceGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
