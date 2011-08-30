@@ -606,7 +606,7 @@
               icomp::TAttribute&lt;int&gt;
             </Type>
             <ExportId>
-              
+              MaxRecentFiles
             </ExportId>
             <Data>
               <IsEnabled>
