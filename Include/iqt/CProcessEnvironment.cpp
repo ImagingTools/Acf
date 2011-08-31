@@ -82,7 +82,7 @@ CProcessEnvironment::EnvironmentVariables CProcessEnvironment::GetEnvironmentVar
 			istd::CString variableName = iqt::GetCString(splitted[0]);
 			istd::CString variableValue = iqt::GetCString(splitted[1]);
 
-			environmentVariables[variableName] = variableValue;
+			environmentVariables[variableName.ToUpper()] = variableValue;
 		}
 	}
 

@@ -211,7 +211,7 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 	iqt::CProcessEnvironment processEnvironment;
 	iqt::CProcessEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
 
-	iqt::CProcessEnvironment::EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(iqt::GetCString(varName));
+	iqt::CProcessEnvironment::EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(iqt::GetCString(varName).ToUpper());
 	if (foundVarIter != environmentVariables.end()){
 		return iqt::GetQString(foundVarIter->second);
 	}
