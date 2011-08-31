@@ -6,6 +6,8 @@
 #include <set>
 #include <string>
 
+
+// ACF includes
 #include "istd/IChangeable.h"
 
 
@@ -15,7 +17,7 @@ namespace isec
 
 class IAuthorizationVerifier: virtual public istd::IChangeable
 {
-	public:
+public:
 	typedef std::set<std::string> Ids;
 	/**
 		Check if some feature is authorized.
