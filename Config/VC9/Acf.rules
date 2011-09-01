@@ -23,6 +23,13 @@
 					Delimited="true"
 					Inheritable="true"
 				/>
+				<BooleanProperty
+					Name="Verbose"
+					DisplayName="Verbose"
+					Category="Debug"
+					Description="Enable verbose mode"
+					Switch="-v"
+				/>
 			</Properties>
 		</CustomBuildRule>
 		<CustomBuildRule

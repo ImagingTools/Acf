@@ -78,7 +78,9 @@ int main(int argc, char *argv[])
 
 		iqt::CProcessEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
 
-		for (iqt::CProcessEnvironment::EnvironmentVariables::const_iterator index = environmentVariables.begin(); index != environmentVariables.end(); ++index){
+		for (		iqt::CProcessEnvironment::EnvironmentVariables::const_iterator index = environmentVariables.begin();
+					index != environmentVariables.end();
+					++index){
 			std::cout << index->first.ToString() << " = " << index->second.ToString() << std::endl;
 		}
 	}
