@@ -50,6 +50,7 @@ protected:
 
 private:
 	QPointF m_lastPosition;
+	bool m_isObjectMoved;
 
 	bool m_isShapeUpdateBlocked;
 
@@ -112,6 +113,7 @@ void TObjectShapeBase<GraphicsItemClass, ObjectClass>::OnPositionChanged(const Q
 		objectPtr->MoveCenterTo(iqt::GetCVector2d(offset) + objectPtr->GetCenter());
 
 		m_lastPosition = position;
+		m_isObjectMoved = true;
 	}
 
 	BaseClass::OnPositionChanged(position);
@@ -136,6 +138,7 @@ void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mousePressEvent(QGraphics
 
 	if (BaseClass::IsEditable() && (eventPtr->button() == Qt::LeftButton)){
 		m_lastPosition = BaseClass::pos();
+		m_isObjectMoved = false;
 
 		m_mousePressingNotifier.SetPtr(BaseClass2::GetObjectPtr());
 	}
@@ -147,7 +150,12 @@ void TObjectShapeBase<GraphicsItemClass, ObjectClass>::mouseReleaseEvent(QGraphi
 {
 	BaseClass::mouseReleaseEvent(eventPtr);
 
-	m_mousePressingNotifier.Reset();
+	if (m_isObjectMoved){
+		m_mousePressingNotifier.Reset();
+	}
+	else{
+		m_mousePressingNotifier.Abort();
+	}
 }
 
 

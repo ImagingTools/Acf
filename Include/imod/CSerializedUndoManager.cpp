@@ -12,7 +12,6 @@ namespace imod
 
 
 CSerializedUndoManager::CSerializedUndoManager()
-:	m_updateNestingCount(0)
 {
 }
 
@@ -102,12 +101,9 @@ void CSerializedUndoManager::BeforeUpdate(imod::IModel* modelPtr, int updateFlag
 {
 	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
 
-	if (m_updateNestingCount++ <= 0){
-		I_ASSERT(!m_beginStateArchivePtr.IsValid());
-
+	if (((updateFlags & CF_NO_UNDO) == 0) && !m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObjectPtr();
-		if (		(objectPtr != NULL) &&
-					((updateFlags & CF_NO_UNDO) == 0)){
+		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
 			if (		archivePtr.IsValid() &&
@@ -122,12 +118,9 @@ void CSerializedUndoManager::BeforeUpdate(imod::IModel* modelPtr, int updateFlag
 
 void CSerializedUndoManager::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	if (--m_updateNestingCount <= 0){
+	if (((updateFlags & CF_NO_UNDO) == 0) && m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObjectPtr();
-		if (		(objectPtr != NULL) &&
-					(m_beginStateArchivePtr.IsValid() &&
-					((updateFlags & CF_NO_UNDO) == 0)) &&
-					m_beginStateArchivePtr.IsValid()){
+		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
 			if (objectPtr->Serialize(*archivePtr) && (*archivePtr != *m_beginStateArchivePtr)){

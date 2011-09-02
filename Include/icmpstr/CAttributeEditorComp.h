@@ -47,7 +47,7 @@ public:
 
 	I_BEGIN_COMPONENT(CAttributeEditorComp);
 		I_ASSIGN(m_metaInfoManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
-		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "AM_ATTRIBUTE selection observer", false, "AttributeSelectionObserver");
+		I_ASSIGN(m_attributeSelectionObserverCompPtr, "AttributeSelectionObserver", "Attribute selection observer", false, "AttributeSelectionObserver");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpViewer", "Shows object info during selection using its type", false, "QuickHelpViewer");
 		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and attributes", false, "ConsistencyInfo");
 		I_ASSIGN(m_registryPropGuiCompPtr, "RegistryPropGui", "Display and edit registry properties if no element is selected", false, "RegistryPropGui");
@@ -78,19 +78,18 @@ public:
 
 	enum AttributeColumns
 	{
-		NameColumn = 0,
-		ValueColumn = 1
+		AC_NAME = 0,
+		AC_VALUE = 1
 	};
 
-	enum
+	enum AttributeRole
 	{
 		AttributeMining = Qt::UserRole + 1,
 		AttributeId,
 		AttributeValue,
-		AttributeType,
+		AttributeTypeId,
 		ElementId,
-		InterfaceName,
-		ExportId
+		InterfaceName
 	};
 
 public:
@@ -114,27 +113,50 @@ protected:
 		istd::TPointerBase<const icomp::IAttributeStaticInfo> staticInfoPtr;
 	};
 	typedef std::map<std::string, AttrInfo> ElementIdToAttrInfoMap;
+	typedef std::map<std::string, ElementIdToAttrInfoMap> AttrInfosMap;
 
-	void UpdateSelectedAttr();
+	const icomp::IComponentStaticInfo* GetComponentMetaInfo(const icomp::CComponentAddress& address) const;
 
-	bool AddAttributeToView(
+	void UpdateAddressToMetaInfoMap();
+
+	void UpdateGeneralView();
+	void UpdateAttributesView();
+	void UpdateInterfacesView();
+	void UpdateFlagsView();
+	void UpdateSubcomponentsView();
+
+	bool SetAttributeToItem(
+				QTreeWidgetItem& attributeItem,
 				const icomp::IRegistry& registry,
 				const std::string& attributeId,
 				const ElementIdToAttrInfoMap& infos,
-				bool* hasErrorPtr,
-				bool* hasWarningPtr,
-				bool* hasExportPtr);
+				bool* hasErrorPtr = NULL,
+				bool* hasWarningPtr = NULL,
+				bool* hasExportPtr = NULL) const;
+	bool SetInterfaceToItem(
+				QTreeWidgetItem& item,
+				const icomp::IRegistry& registry,
+				const std::string& elementId,
+				const std::string& interfaceName,
+				bool useFullPath,
+				bool* hasWarningPtr = NULL,
+				bool* hasExportPtr = NULL) const;
 	bool DecodeAttribute(
 				const iser::ISerializable& attribute,
 				QString& text,
-				int& meaning);
+				int& meaning) const;
+	bool EncodeAttribute(
+				const QString& text,
+				int meaning,
+				iser::ISerializable& result) const;
 
 	void CreateExportedComponentsTree(
 				const std::string& elementId,
-				const icomp::IComponentStaticInfo& elementStaticInfo,
-				QTreeWidgetItem& rootItem) const;
-
-	void UpdateExportIcon();
+				const std::string& globalElementId,
+				const icomp::IComponentStaticInfo* elementMetaInfoPtr,
+				QTreeWidgetItem& item,
+				bool* hasWarningPtr = NULL,
+				bool* hasExportPtr = NULL) const;
 
 	// reimplemented (iqt::TGuiObserverWrap)
 	virtual void OnGuiModelDetached();
@@ -167,15 +189,6 @@ private:
 		bool SetAttributeValueEditor(const std::string& id, int propertyMining, QWidget& editor) const;
 
 		bool SetComponentExportData(const std::string& attributeId, const QWidget& editor) const;
-		bool SetAttributeExportData(
-					const std::string& id,
-					const std::string& typeName,
-					const QWidget& editor) const;
-		bool SetAttributeValueData(
-					const std::string& id,
-					const std::string& typeName,
-					int propertyMining,
-					const QWidget& editor) const;
 
 	private:
 		CAttributeEditorComp& m_parent;
@@ -194,17 +207,6 @@ private:
 		CAttributeEditorComp& m_parent;
 	};
 
-	AttributeItemDelegate m_attributeItemDelegate;
-	RegistryObserver m_registryObserver;
-
-	typedef std::map<std::string, QString> AttributeTypesMap;
-	AttributeTypesMap m_attributeTypesMap;
-	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_treeWidgetFilter;
-
-	imod::IModel* m_lastRegistryModelPtr;
-
-	QIcon m_exportIcon;
-
 	I_REF(icomp::IComponentEnvironmentManager, m_metaInfoManagerCompPtr);
 	I_REF(IAttributeSelectionObserver, m_attributeSelectionObserverCompPtr);
 	I_REF(idoc::IHelpViewer, m_quickHelpViewerCompPtr);
@@ -212,7 +214,23 @@ private:
 	I_REF(iqtgui::IGuiObject, m_registryPropGuiCompPtr);
 	I_REF(imod::IObserver, m_registryPropObserverCompPtr);
 
+	AttributeItemDelegate m_attributeItemDelegate;
+	RegistryObserver m_registryObserver;
+
+	typedef std::map<std::string, QString> AttributeTypesMap;
+	AttributeTypesMap m_attributeTypesMap;
+	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_attributesTreeFilter;
+	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_interfacesTreeFilter;
+	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_subcomponentsTreeFilter;
+
+	imod::IModel* m_lastRegistryModelPtr;
+
+	QIcon m_invalidIcon;
+	QIcon m_warningIcon;
+	QIcon m_exportIcon;
+
 	typedef std::map<icomp::CComponentAddress, istd::TOptDelPtr<const icomp::IComponentStaticInfo> > AddressToInfoMap;
+	AddressToInfoMap m_adressToMetaInfoMap;
 };
 
 

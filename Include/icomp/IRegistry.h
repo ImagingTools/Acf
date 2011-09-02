@@ -131,7 +131,7 @@ public:
 	virtual bool RenameEmbeddedRegistry(const std::string& oldRegistryId, const std::string& newRegistryId) = 0;
 
 	/**
-		Get access to information structore of exported interfaces.
+		Get access to information structure of exported interfaces.
 	*/
 	virtual const ExportedInterfacesMap& GetExportedInterfacesMap() const = 0;
 
