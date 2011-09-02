@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1567
+          1860
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          252
+          369
         </Number>
         <Description>
           ACF-Solutions
@@ -29,10 +29,10 @@
   <PositionMap count="3">
     <Element>
       <ComponentName>
-        DirectorySelector
+        AutoPersistence
       </ComponentName>
       <X>
-        400
+        725
       </X>
       <X>
         325
@@ -40,10 +40,10 @@
     </Element>
     <Element>
       <ComponentName>
-        FilePersistence
+        DirectorySelector
       </ComponentName>
       <X>
-        725
+        400
       </X>
       <X>
         325

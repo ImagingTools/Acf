@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1481
+          1860
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          187
+          369
         </Number>
         <Description>
           ACF-Solutions
@@ -180,15 +180,9 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="3">
-    <Interface>
-      <InterfaceId>
-        ibase::ICommandsProvider
-      </InterfaceId>
-      <ComponentId>
-        TabbedMultiViewGui
-      </ComponentId>
-    </Interface>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
+  <ExportedInterfaces count="2">
     <Interface>
       <InterfaceId>
         imod::IObserver

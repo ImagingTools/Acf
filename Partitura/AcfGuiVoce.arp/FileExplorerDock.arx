@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1586
+          1860
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          268
+          369
         </Number>
         <Description>
           ACF-Solutions
@@ -154,7 +154,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               AllowOpenFile
@@ -205,22 +205,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              ShowModificationTime
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;bool&gt;
-            </Type>
-            <ExportId>
-              ShowModificationTime
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               ShowUserFilter
             </Id>
             <Type>
@@ -255,6 +239,8 @@
       </Data>
     </Element>
   </ElementsList>
+  <EmbeddedRegistriesList count="0">
+  </EmbeddedRegistriesList>
   <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
