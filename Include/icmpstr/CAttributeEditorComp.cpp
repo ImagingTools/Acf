@@ -41,6 +41,10 @@ CAttributeEditorComp::CAttributeEditorComp()
 	m_attributeTypesMap[icomp::CMultiReferenceAttribute::GetTypeName()] = tr("Multiple reference");
 	m_attributeTypesMap[icomp::CFactoryAttribute::GetTypeName()] = tr("Factory");
 	m_attributeTypesMap[icomp::CMultiFactoryAttribute::GetTypeName()] = tr("Multiple factory");
+
+	QObject::connect(this, SIGNAL(AfterAttributesChange()), this, SLOT(UpdateAttributesView()), Qt::QueuedConnection);
+	QObject::connect(this, SIGNAL(AfterInterfacesChange()), this, SLOT(UpdateInterfacesView()), Qt::QueuedConnection);
+	QObject::connect(this, SIGNAL(AfterSubcomponentsChange()), this, SLOT(UpdateSubcomponentsView()), Qt::QueuedConnection);
 }
 
 
@@ -174,7 +178,7 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 			}
 		}
 
-		UpdateAttributesView();
+		Q_EMIT AfterAttributesChange();
 	}
 }
 
@@ -221,7 +225,7 @@ void CAttributeEditorComp::on_InterfacesTree_itemChanged(QTreeWidgetItem* item, 
 		bool isSelected = (item->checkState(column) == Qt::Checked);
 		registryPtr->SetElementInterfaceExported(elementName, interfaceName.toStdString(), isSelected);
 
-		UpdateInterfacesView();
+		Q_EMIT AfterInterfacesChange();
 	}
 }
 
@@ -270,66 +274,6 @@ void CAttributeEditorComp::on_AutoInstanceCB_toggled(bool checked)
 }
 
 
-// protected methods
-
-const icomp::IComponentStaticInfo* CAttributeEditorComp::GetComponentMetaInfo(const icomp::CComponentAddress& address) const
-{
-	AddressToInfoMap::const_iterator foundInfoIter = m_adressToMetaInfoMap.find(address);
-	if (foundInfoIter != m_adressToMetaInfoMap.end()){
-		return foundInfoIter->second.GetPtr();
-	}
-
-	return NULL;
-}
-
-
-void CAttributeEditorComp::UpdateAddressToMetaInfoMap()
-{
-	m_adressToMetaInfoMap.clear();
-
-	if (!m_metaInfoManagerCompPtr.IsValid()){
-		return;
-	}
-
-	const IElementSelectionInfo* objectPtr = GetObjectPtr();
-	if (objectPtr == NULL){
-		return;
-	}
-
-	const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
-	if (registryPtr == NULL){
-		return;
-	}
-
-	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-				iter != selectedElements.end();
-				++iter){
-		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter->second;
-		I_ASSERT(selectedInfoPtr != NULL);
-
-		const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
-		if (elementPtr != NULL){
-			const icomp::CComponentAddress& componentAddress = selectedInfoPtr->address;
-
-			istd::TOptDelPtr<const icomp::IComponentStaticInfo>& infoPtr = m_adressToMetaInfoMap[componentAddress];
-			if (!componentAddress.GetPackageId().empty()){
-				const icomp::IComponentStaticInfo* staticInfoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(componentAddress);
-				if (staticInfoPtr != NULL){
-					infoPtr.SetPtr(staticInfoPtr, false);
-				}
-			}
-			else{
-				icomp::IRegistry* embeddedRegistryPtr = registryPtr->GetEmbeddedRegistry(componentAddress.GetComponentId());
-				if (embeddedRegistryPtr != NULL){
-					infoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, *m_metaInfoManagerCompPtr), true);
-				}
-			}
-		}
-	}
-}
-
-
 void CAttributeEditorComp::UpdateGeneralView()
 {
 	const IElementSelectionInfo* objectPtr = GetObjectPtr();
@@ -362,6 +306,7 @@ void CAttributeEditorComp::UpdateGeneralView()
 		}
 	}
 
+	QString description;
 	QStringList companyInfoList;
 	QStringList projectInfoList;
 	QStringList authorInfoList;
@@ -377,18 +322,26 @@ void CAttributeEditorComp::UpdateGeneralView()
 				++infoIter){
 		const icomp::CComponentAddress& address = infoIter->first;
 		const icomp::IComponentStaticInfo* infoPtr = infoIter->second.GetPtr();
-		I_ASSERT(infoPtr != NULL);
+		if (infoPtr != NULL){
+			description = iqt::GetQString(infoPtr->GetDescription());
+			
+			icomp::CComponentMetaDescriptionEncoder encoder(infoPtr->GetKeywords());
 
-		DescriptionLabel->setText(iqt::GetQString(infoPtr->GetDescription()));
-		
-		icomp::CComponentMetaDescriptionEncoder encoder(infoPtr->GetKeywords());
-
-		companyInfoList += iqt::GetQStringList(encoder.GetValues("Company"));
-		projectInfoList += iqt::GetQStringList(encoder.GetValues("Project"));
-		authorInfoList += iqt::GetQStringList(encoder.GetValues("Author"));
-		categoryInfoList += iqt::GetQStringList(encoder.GetValues("Category"));
-		tagInfoList += iqt::GetQStringList(encoder.GetValues("Tag"));
-		keywordInfoList += iqt::GetQStringList(encoder.GetUnassignedKeywords());
+			companyInfoList += iqt::GetQStringList(encoder.GetValues("Company"));
+			projectInfoList += iqt::GetQStringList(encoder.GetValues("Project"));
+			authorInfoList += iqt::GetQStringList(encoder.GetValues("Author"));
+			categoryInfoList += iqt::GetQStringList(encoder.GetValues("Category"));
+			tagInfoList += iqt::GetQStringList(encoder.GetValues("Tag"));
+			keywordInfoList += iqt::GetQStringList(encoder.GetUnassignedKeywords());
+		}
+		else{
+			companyInfoList += tr("<unknown>");
+			projectInfoList += tr("<unknown>");
+			authorInfoList += tr("<unknown>");
+			categoryInfoList += tr("<unknown>");
+			tagInfoList += tr("<unknown>");
+			keywordInfoList += tr("<unknown>");
+		}
 
 		if (!commonAddress.IsValid()){
 			commonAddress = address;
@@ -396,14 +349,20 @@ void CAttributeEditorComp::UpdateGeneralView()
 		else if (commonAddress != address){
 			isMultiType = true;
 		}
+	}
 
-		MetaInfoFrame->setVisible(true);
+	if (!description.isEmpty() && !isMultiType){
+		DescriptionLabel->setText(description);
+		DescriptionLabel->setVisible(true);
+	}
+	else{
+		DescriptionLabel->setVisible(false);
 	}
 
 	QIcon componentIcon;
 	if (commonAddress.IsValid()){
 		if (isMultiType){
-			AddressLabel->setText(tr("<different components selected>"));
+			AddressLabel->setText(tr("<multiple component types>"));
 		}
 		else{
 			AddressLabel->setText(tr("%1/%2").arg(commonAddress.GetPackageId().c_str()).arg(commonAddress.GetComponentId().c_str()));
@@ -805,6 +764,66 @@ void CAttributeEditorComp::UpdateSubcomponentsView()
 	}
 	else{
 		ElementInfoTab->setTabIcon(TI_EXPORTS, QIcon());
+	}
+}
+
+
+// protected methods
+
+const icomp::IComponentStaticInfo* CAttributeEditorComp::GetComponentMetaInfo(const icomp::CComponentAddress& address) const
+{
+	AddressToInfoMap::const_iterator foundInfoIter = m_adressToMetaInfoMap.find(address);
+	if (foundInfoIter != m_adressToMetaInfoMap.end()){
+		return foundInfoIter->second.GetPtr();
+	}
+
+	return NULL;
+}
+
+
+void CAttributeEditorComp::UpdateAddressToMetaInfoMap()
+{
+	m_adressToMetaInfoMap.clear();
+
+	if (!m_metaInfoManagerCompPtr.IsValid()){
+		return;
+	}
+
+	const IElementSelectionInfo* objectPtr = GetObjectPtr();
+	if (objectPtr == NULL){
+		return;
+	}
+
+	const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
+	if (registryPtr == NULL){
+		return;
+	}
+
+	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
+	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
+				iter != selectedElements.end();
+				++iter){
+		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter->second;
+		I_ASSERT(selectedInfoPtr != NULL);
+
+		const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
+		if (elementPtr != NULL){
+			const icomp::CComponentAddress& componentAddress = selectedInfoPtr->address;
+
+			istd::TOptDelPtr<const icomp::IComponentStaticInfo>& infoPtr = m_adressToMetaInfoMap[componentAddress];
+			if (!componentAddress.GetPackageId().empty()){
+				const icomp::IComponentStaticInfo* staticInfoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(componentAddress);
+				if (staticInfoPtr != NULL){
+					infoPtr.SetPtr(staticInfoPtr, false);
+				}
+			}
+			else{
+				icomp::IRegistry* embeddedRegistryPtr = registryPtr->GetEmbeddedRegistry(componentAddress.GetComponentId());
+				if (embeddedRegistryPtr != NULL){
+					infoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, *m_metaInfoManagerCompPtr), true);
+				}
+			}
+		}
 	}
 }
 
@@ -1694,7 +1713,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 			}
 		}
 
-		m_parent.UpdateAttributesView();
+		Q_EMIT m_parent.AfterAttributesChange();
 	}
 }
 
@@ -1947,7 +1966,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const s
 			registryPtr->SetElementExported(exportId, attributeId);
 		}
 
-		m_parent.UpdateAttributesView();
+		Q_EMIT m_parent.AfterAttributesChange();
 	}
 
 	return true;

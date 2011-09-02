@@ -105,6 +105,16 @@ protected Q_SLOTS:
 	void on_InterfacesTree_itemSelectionChanged();
 	void on_InterfacesTree_itemChanged(QTreeWidgetItem* item, int column);
 	void on_AutoInstanceCB_toggled(bool checked);
+	void UpdateGeneralView();
+	void UpdateAttributesView();
+	void UpdateInterfacesView();
+	void UpdateFlagsView();
+	void UpdateSubcomponentsView();
+
+Q_SIGNALS:
+	void AfterAttributesChange();
+	void AfterInterfacesChange();
+	void AfterSubcomponentsChange();
 
 protected:
 	struct AttrInfo
@@ -118,12 +128,6 @@ protected:
 	const icomp::IComponentStaticInfo* GetComponentMetaInfo(const icomp::CComponentAddress& address) const;
 
 	void UpdateAddressToMetaInfoMap();
-
-	void UpdateGeneralView();
-	void UpdateAttributesView();
-	void UpdateInterfacesView();
-	void UpdateFlagsView();
-	void UpdateSubcomponentsView();
 
 	bool SetAttributeToItem(
 				QTreeWidgetItem& attributeItem,
