@@ -4,4 +4,4 @@ UI_DIR = ../Generated
 MOC_DIR = ../Generated
 RCC_DIR = ../Generated
 
-QT += core gui
+QT += core gui xml network xmlpatterns
