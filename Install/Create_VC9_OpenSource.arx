@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1881
+          1860
         </Number>
         <Description>
           ACF
@@ -78,12 +78,9 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="3">
+              <Values count="2">
                 <Value>
                   *Xcd
-                </Value>
-                <Value>
-                  *QMake
                 </Value>
                 <Value>
                   *VC8
@@ -124,7 +121,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="5">
+              <Values count="4">
                 <Value>
                   Generated
                 </Value>
@@ -133,9 +130,6 @@
                 </Value>
                 <Value>
                   Xcd
-                </Value>
-                <Value>
-                  QMake
                 </Value>
                 <Value>
                   VC8
@@ -176,7 +170,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="5">
+              <Values count="4">
                 <Value>
                   Generated
                 </Value>
@@ -185,9 +179,6 @@
                 </Value>
                 <Value>
                   Xcd
-                </Value>
-                <Value>
-                  QMake
                 </Value>
                 <Value>
                   VC8

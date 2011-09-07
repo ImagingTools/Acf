@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1881
+          1860
         </Number>
         <Description>
           ACF
@@ -240,7 +240,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="9">
+              <Values count="10">
                 <Value>
                   *.ui
                 </Value>
@@ -255,6 +255,9 @@
                 </Value>
                 <Value>
                   *.sln
+                </Value>
+                <Value>
+                  *.pro
                 </Value>
                 <Value>
                   *.arx
@@ -742,7 +745,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="9">
+              <Values count="8">
                 <Value>
                   *.ui
                 </Value>
@@ -760,9 +763,6 @@
                 </Value>
                 <Value>
                   *.arx
-                </Value>
-                <Value>
-                  *.xtrsvn
                 </Value>
                 <Value>
                   *.xtracf

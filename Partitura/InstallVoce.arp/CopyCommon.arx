@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1881
+          1860
         </Number>
         <Description>
           ACF
@@ -1292,9 +1292,27 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="7">
                 <Value>
-                  *
+                  *.arx
+                </Value>
+                <Value>
+                  *.alx
+                </Value>
+                <Value>
+                  *.xml
+                </Value>
+                <Value>
+                  *.html
+                </Value>
+                <Value>
+                  *.htm
+                </Value>
+                <Value>
+                  *.png
+                </Value>
+                <Value>
+                  *.svg
                 </Value>
               </Values>
             </Data>
