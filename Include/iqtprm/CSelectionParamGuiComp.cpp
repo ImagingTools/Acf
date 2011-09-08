@@ -83,6 +83,7 @@ void CSelectionParamGuiComp::OnGuiDestroyed()
 {
 	m_comboBoxes.Reset();
 	m_radioButtons.Reset();
+	m_radioButtonFramePtr.Reset();
 
 	BaseClass::OnGuiDestroyed();
 }
