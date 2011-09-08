@@ -3,10 +3,15 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ACF Component Package"
-	OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
+	OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC9"
 	ConfigurationType="2"
 	InheritedPropertySheets=".\General.vsprops"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories=""
+		ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
+	/>
 	<Tool
 		Name="VCLinkerTool"
 		OutputFile="$(OutDir)\$(ProjectName).arp"

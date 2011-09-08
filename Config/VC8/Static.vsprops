@@ -3,8 +3,14 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ACF Static Library"
-	OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC8"
+	OutputDirectory="..\..\..\Lib\$(ConfigurationName)VC9"
 	ConfigurationType="4"
 	InheritedPropertySheets=".\General.vsprops"
 	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories=""
+		StringPooling="true"
+		ProgramDataBaseFileName="$(OutDir)/$(ProjectName).pdb"
+	/>
 </VisualStudioPropertySheet>

@@ -5,6 +5,7 @@
 	Name="CompositorMini"
 	ProjectGUID="{6BD89B26-013F-4F41-87B7-14D632CCFEFF}"
 	RootNamespace="CompositorMini"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -19,7 +20,7 @@
 			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(ACFDIR)\Config\VC8\General.vsprops"
+			InheritedPropertySheets="..\..\..\Config\VC8\Release.vsprops;..\..\..\Config\VC8\General.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -87,9 +88,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -98,7 +96,7 @@
 			OutputDirectory="..\..\..\Bin\$(ConfigurationName)VC8"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(ACFDIR)\Config\VC8\General.vsprops"
+			InheritedPropertySheets="..\..\..\Config\VC8\General.vsprops;..\..\..\Config\VC8\Debug.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -163,9 +161,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
