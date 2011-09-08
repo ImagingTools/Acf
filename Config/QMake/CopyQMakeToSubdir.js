@@ -30,7 +30,20 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName)
                         fileSystem.DeleteFile(outputPath);
                     }
 
-                    fileSystem.MoveFile(file, outputPath);
+                    var inputFile = fileSystem.OpenTextFile(file, 1);
+
+                    var text = inputFile.readAll();
+                    inputFile.close();
+                    var re1 = /IntermediateDirectory=\"release\\\"/g;
+                    text = text.replace(re1, "InheritedPropertySheets=\"..\\..\\..\\Config\\" + vcDirName + "\\General.vsprops;..\\..\\..\\Config\\" + vcDirName + "\\Release.vsprops\"");
+
+                    var re2 = /IntermediateDirectory=\"debug\\\"/g;
+                    text = text.replace(re2, "InheritedPropertySheets=\"..\\..\\..\\Config\\" + vcDirName + "\\General.vsprops;..\\..\\..\\Config\\" + vcDirName + "\\Debug.vsprops\"");
+
+                    var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
+                    outputFile.write(text);
+                    
+                    fileSystem.DeleteFile(file);
     		    }
     		    else if (solutionExp.exec(file.Name)){
                     // Move corrected solution to destination dir
