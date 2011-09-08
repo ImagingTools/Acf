@@ -1251,7 +1251,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="7">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -1261,22 +1261,6 @@
             </Type>
             <ExportId>
               ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ExcludeFilters
-            </Id>
-            <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              OtherExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -1720,7 +1704,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="7">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -1730,22 +1714,6 @@
             </Type>
             <ExportId>
               ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ExcludeFilters
-            </Id>
-            <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              OtherExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -1783,13 +1751,13 @@
                 <Value>
                   *.sln
                 </Value>
-								<Value>
-									*.pro
-								</Value>
-								<Value>
-									*.pri
-								</Value>
-								<Value>
+                <Value>
+                  *.pro
+                </Value>
+                <Value>
+                  *.pri
+                </Value>
+                <Value>
                   *.arx
                 </Value>
                 <Value>
@@ -2147,7 +2115,7 @@
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    
+    Copy common files for each distributions
   </Description>
   <Keywords>
     

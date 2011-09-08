@@ -16,4 +16,3 @@ QT += main core gui
 
 INCLUDEPATH += ../.. ../../../../../Impl "$(QScintilla)/include"
 
-SOURCES += ../*.cpp

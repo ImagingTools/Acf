@@ -9,8 +9,8 @@ mac*{
 
 TARGET = Acf
 
+HEADERS =
+
 LIBS += -licmpstr
 
 QT += xml
-
-SOURCES += ../Main.cpp

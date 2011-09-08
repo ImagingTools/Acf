@@ -217,7 +217,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -354,6 +354,22 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              OtherExcludeFilters
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              OtherExcludeFilters
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               SourceExcludeFilters
             </Id>
             <Type>
@@ -446,9 +462,9 @@
   <ExportedComponents count="0">
   </ExportedComponents>
   <Description>
-    
+    Complete application template for commercial installation with distributed sources
   </Description>
   <Keywords>
-    
+    Setup Installation Framework Binaries Distribution Commercial Proprietary Closed ClosedSource Category='Application'
   </Keywords>
 </Acf>

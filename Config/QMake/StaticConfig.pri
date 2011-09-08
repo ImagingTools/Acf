@@ -7,5 +7,6 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += create_prl link_prl
 
+INCLUDEPATH += ../../
 DESTDIR = ../../../Lib/$$COMPILER_DIR
 

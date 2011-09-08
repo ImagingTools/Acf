@@ -217,7 +217,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="9">
+        <AttributeInfoMap count="8">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -235,22 +235,6 @@
               <Value>
                 ApplicationInfo
               </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              BinaryExcludeFilters
-            </Id>
-            <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              BinaryExcludeFilters
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -497,6 +481,6 @@
     Complete application template for open source LGPL installation without distributed binaries
   </Description>
   <Keywords>
-    Installation Framework Distribution LGPL Public License Open Source
+    Setup Installation Framework Distribution GPL;LGPL Public License Open Source OpenSource Category='Application'
   </Keywords>
 </Acf>

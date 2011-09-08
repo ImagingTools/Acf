@@ -1,3 +1,3 @@
-include(../../../Config/QMake/IncludeConfig.pri)
+include(../../../Config/QMake/StaticConfig.pri)
 
 TARGET = isec

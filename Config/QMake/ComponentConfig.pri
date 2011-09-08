@@ -14,6 +14,3 @@ DESTDIR = ../../../Bin/$$COMPILER_DIR
 !win32-msvc*{
 	QMAKE_CFLAGS += -fPIC
 }
-
-HEADERS += ../*.h
-SOURCES += ../*.cpp

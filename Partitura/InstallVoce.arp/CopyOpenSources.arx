@@ -218,7 +218,7 @@
               icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              BinaryExcludeFilters
+              OtherExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -256,13 +256,13 @@
                 <Value>
                   *.sln
                 </Value>
-								<Value>
-									*.pro
-								</Value>
-								<Value>
-									*.pri
-								</Value>
-								<Value>
+                <Value>
+                  *.pro
+                </Value>
+                <Value>
+                  *.pri
+                </Value>
+                <Value>
                   *.arx
                 </Value>
                 <Value>
@@ -726,7 +726,7 @@
               icomp::TMultiAttribute&lt;istd::CString&gt;
             </Type>
             <ExportId>
-              BinaryExcludeFilters
+              OtherExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>
@@ -748,7 +748,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="10">
+              <Values count="11">
                 <Value>
                   *.ui
                 </Value>
@@ -767,11 +767,14 @@
                 <Value>
                   *.pro
                 </Value>
-								<Value>
-									*.pri
-								</Value>
-								<Value>
+                <Value>
+                  *.pri
+                </Value>
+                <Value>
                   *.arx
+                </Value>
+                <Value>
+                  *.alx
                 </Value>
                 <Value>
                   *.xtracf

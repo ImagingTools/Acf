@@ -3,6 +3,7 @@
 CONFIG += stl
 CONFIG -= exceptions
 CONFIG += silent
+CONFIG += rtti
 
 COMPILER_NAME = QMake
 win32-msvc*{
@@ -26,6 +27,7 @@ CONFIG(debug, debug|release){
 }
 CONFIG(release, debug|release){
 	COMPILER_DIR = Release$$COMPILER_NAME
+	CONFIG += sse2
 }
 
 !win32-msvc*{
@@ -36,3 +38,5 @@ CONFIG(release, debug|release){
 INCLUDEPATH += $$PWD/../../Include
 LIBS += -L$$PWD/../../Lib/$$COMPILER_DIR
 
+HEADERS += ../*.h
+SOURCES += ../*.cpp

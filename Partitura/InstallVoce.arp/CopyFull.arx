@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1881
+          1860
         </Number>
         <Description>
           ACF
@@ -350,7 +350,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="9">
+        <AttributeInfoMap count="8">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -360,22 +360,6 @@
             </Type>
             <ExportId>
               ApplicationInfo
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              BinaryExcludeFilters
-            </Id>
-            <Type>
-              icomp::TMultiAttribute&lt;istd::CString&gt;
-            </Type>
-            <ExportId>
-              BinaryExcludeFilters
             </ExportId>
             <Data>
               <IsEnabled>

@@ -5,6 +5,6 @@ include(../../AcfQt/QMake/AcfQt.pri)
 
 TARGET = CompositorMini
 
-LIBS += -licmpstr
+HEADERS =
 
-SOURCES += ../Main.cpp
+LIBS += -licmpstr

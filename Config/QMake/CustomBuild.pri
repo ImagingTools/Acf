@@ -13,7 +13,6 @@ win32{
         svnTransformation.CONFIG += target_predeps
         svnTransformation.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}
         svnTransformation.commands = SubWCRev.exe $${SVNTR_REPOSITORY} ${QMAKE_FILE_NAME} $${SVNTR_DESTINATION}/${QMAKE_FILE_BASE}
-        svnTransformation.depends = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER
         svnTransformation.input = SVNTR_FILES
         QMAKE_EXTRA_COMPILERS += svnTransformation
 }

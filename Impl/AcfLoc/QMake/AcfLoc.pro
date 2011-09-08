@@ -1,6 +1,8 @@
 include(../../../Config/QMake/StaticConfig.pri)
-include(../../../Config/QMake/QtGuiBaseConfig.pri)
 
-TARGET = icmpstr
+TARGET = AcfLoc
 
+HEADERS =
+SOURCES =
+TRANSLATIONS += ../Translations/*.ts
 RESOURCES += ../*.qrc
