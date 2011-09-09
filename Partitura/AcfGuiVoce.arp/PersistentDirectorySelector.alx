@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1860
+          1899
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          369
+          384
         </Number>
         <Description>
           ACF-Solutions
@@ -26,13 +26,13 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="4">
     <Element>
       <ComponentName>
         AutoPersistence
       </ComponentName>
       <X>
-        725
+        700
       </X>
       <X>
         325
@@ -51,13 +51,24 @@
     </Element>
     <Element>
       <ComponentName>
+        File
+      </ComponentName>
+      <X>
+        975
+      </X>
+      <X>
+        325
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
         XmlFileSerializer
       </ComponentName>
       <X>
-        725
+        700
       </X>
       <X>
-        525
+        475
       </X>
     </Element>
   </PositionMap>

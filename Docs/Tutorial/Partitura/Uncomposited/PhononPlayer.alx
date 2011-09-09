@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1703
+          1899
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          311
+          384
         </Number>
         <Description>
           ACF-Solutions
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="5">
+  <PositionMap count="6">
     <Element>
       <ComponentName>
         Application
@@ -44,6 +44,17 @@
       </ComponentName>
       <X>
         725
+      </X>
+      <X>
+        300
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        File
+      </ComponentName>
+      <X>
+        975
       </X>
       <X>
         300
