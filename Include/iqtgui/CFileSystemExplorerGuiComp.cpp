@@ -25,7 +25,7 @@ QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
 
 	if (m_filterInfoCompPtr.IsValid()){
 		istd::CStringList extensions;
-		if (m_filterInfoCompPtr->GetFileExtensions(extensions, iser::IFileTypeInfo::QF_NO_SAVING)){
+		if (m_filterInfoCompPtr->GetFileExtensions(extensions, iser::IFileTypeInfo::QF_LOAD | iser::IFileTypeInfo::QF_FILE)){
 			for (		istd::CStringList::const_iterator iter = extensions.begin();
 						iter != extensions.end();
 						++iter){

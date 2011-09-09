@@ -26,13 +26,17 @@ bool CSettingsSerializerComp::IsOperationSupported(
 		return false;
 	}
 
-	return ((flags & (QF_DIRECTORY_ONLY | QF_FILE_ONLY)) == 0);
+	if ((flags & (QF_LOAD | QF_SAVE)) == 0){
+		return false;
+	}
+
+	return ((flags & QF_ANONYMOUS) != 0);
 }
 
 
 int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	if (IsOperationSupported(&data, NULL, QF_NO_SAVING, false)){
+	if (IsOperationSupported(&data, NULL, QF_LOAD | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(&data);
 		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
 			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
@@ -77,7 +81,7 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::C
 
 int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	if (IsOperationSupported(&data, NULL, QF_NO_LOADING, false)){
+	if (IsOperationSupported(&data, NULL, QF_SAVE | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));
 		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
 			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);

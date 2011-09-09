@@ -34,7 +34,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iser::IFileTypeInfo)
-	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = -1, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 private:

@@ -27,11 +27,25 @@ public:
 		/**
 			No loading operation should be considered.
 		*/
-		QF_NO_LOADING = 1 << 0,
+		QF_SAVE = 1 << 0,
 		/**
 			No saving operation should be considered.
 		*/
-		QF_NO_SAVING = 1 << 1
+		QF_LOAD = 1 << 1,
+		/**
+			Operations with specified file name should be considered.
+		*/
+		QF_FILE = 1 << 2,
+
+		/**
+			Operations with specified directory name should be considered.
+		*/
+		QF_DIRECTORY = 1 << 3,
+
+		/**
+			Operations without specified path (anonymous) should be considered.
+		*/
+		QF_ANONYMOUS = 1 << 4
 	};
 
 	/**
@@ -40,7 +54,7 @@ public:
 		\param	flags		set of flags \sa QueryFlags.
 		\param	doAppend	if true, list of extensions should be appended to existing list.
 	*/
-	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const = 0;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = -1, bool doAppend = false) const = 0;
 
 	/**
 		Get description of object type associated with single extension.

@@ -26,13 +26,14 @@ bool CTextFileLoaderComp::IsOperationSupported(
 	}
 
 	return		((dataObjectPtr == NULL) || (dynamic_cast<const ITextDocument*>(dataObjectPtr) != NULL)) &&
-				((flags & (QF_DIRECTORY_ONLY | QF_ANONYMOUS_ONLY)) == 0);
+				((flags & (QF_LOAD | QF_SAVE)) != 0) &&
+				((flags & QF_FILE) != 0);
 }
 
 
 int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (!IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		return StateFailed;
 	}
 
@@ -68,7 +69,7 @@ int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 
 int CTextFileLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (!IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return StateFailed;
 	}
 

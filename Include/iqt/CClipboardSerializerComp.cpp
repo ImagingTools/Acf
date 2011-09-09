@@ -35,7 +35,11 @@ bool CClipboardSerializerComp::IsOperationSupported(
 		return false;
 	}
 
-	if ((flags & QF_FILE_ONLY) != 0){
+	if ((flags & QF_ANONYMOUS) == 0){
+		return false;
+	}
+
+	if ((flags & (QF_LOAD | QF_SAVE)) == 0){
 		return false;
 	}
 
@@ -45,7 +49,7 @@ bool CClipboardSerializerComp::IsOperationSupported(
 
 int CClipboardSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	if (IsOperationSupported(&data, NULL, QF_NO_SAVING | QF_ANONYMOUS_ONLY, false)){
+	if (IsOperationSupported(&data, NULL, QF_LOAD | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));
 		I_ASSERT(serializablePtr != NULL);	// it was checked in IsOperationSupported
 
@@ -81,7 +85,7 @@ int CClipboardSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::
 
 int CClipboardSerializerComp::SaveToFile(const istd::IChangeable& data, const istd::CString& /*filePath*/) const
 {
-	if (IsOperationSupported(&data, NULL, QF_NO_LOADING | QF_ANONYMOUS_ONLY, false)){
+	if (IsOperationSupported(&data, NULL, QF_SAVE | QF_ANONYMOUS, false)){
 		QClipboard* clipboardPtr = QApplication::clipboard();
 		if (clipboardPtr == NULL){
 			return StateAborted;

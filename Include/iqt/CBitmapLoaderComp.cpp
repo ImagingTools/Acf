@@ -55,7 +55,7 @@ bool CBitmapLoaderComp::IsOperationSupported(
 			}
 		}
 
-		if ((flags & QF_NO_SAVING) != 0){
+		if ((flags & QF_LOAD) != 0){
 			if (!info.exists()){
 				if (!beQuiet){
 					SendInfoMessage(MI_FILE_NOT_EXIST, iqt::GetCString(tr("Image file %1 not exist").arg(qtFilePath)));
@@ -75,7 +75,11 @@ bool CBitmapLoaderComp::IsOperationSupported(
 		}
 	}
 
-	return ((flags & (QF_DIRECTORY_ONLY | QF_ANONYMOUS_ONLY)) == 0);
+	if ((flags & (QF_LOAD | QF_SAVE)) == 0){
+		return false;
+	}
+
+	return ((flags & QF_FILE) != 0);
 }
 
 

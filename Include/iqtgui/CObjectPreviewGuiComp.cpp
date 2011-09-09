@@ -51,14 +51,14 @@ void CObjectPreviewGuiComp::UpdateGui(int /*updateFlags*/)
 	if (objectPtr != NULL){
 		QString newFilePath = iqt::GetQString(objectPtr->GetPath());
 
-		int fileQueryFlags = iser::IFileLoader::QF_NO_SAVING;
+		int fileQueryFlags = iser::IFileLoader::QF_LOAD;
 
 		QFileInfo newFileInfo(newFilePath);
 		if (newFileInfo.isFile()){
-			fileQueryFlags |= iser::IFileLoader::QF_FILE_ONLY;
+			fileQueryFlags |= iser::IFileLoader::QF_FILE;
 		}
 		else if (newFileInfo.isDir()){
-			fileQueryFlags |= iser::IFileLoader::QF_DIRECTORY_ONLY;
+			fileQueryFlags |= iser::IFileLoader::QF_DIRECTORY;
 		}
 
 		if (m_fileLoaderCompPtr->IsOperationSupported(NULL, NULL, fileQueryFlags)){

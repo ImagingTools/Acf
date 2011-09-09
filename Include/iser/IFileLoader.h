@@ -51,27 +51,6 @@ public:
 	};
 
 	/**
-		Describe detailed options of query.
-	*/
-	enum QueryFlags
-	{
-		/**
-			Only operations with specified file name should be considered.
-		*/
-		QF_FILE_ONLY = 1 << 2,
-
-		/**
-			Only operations with specified directory name should be considered.
-		*/
-		QF_DIRECTORY_ONLY = 1 << 3,
-
-		/**
-			Only operations without specified path (anonymous) should be considered.
-		*/
-		QF_ANONYMOUS_ONLY = 1 << 4
-	};
-
-	/**
 		Returns \c true if object \c dataObject can be loaded/saved.
 		\param	dataObjectPtr	optional pointer to data object should be loaded/stored.
 								It can be NULL if any object is meant.
@@ -84,7 +63,7 @@ public:
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				int flags = 0,
+				int flags = -1,
 				bool beQuiet = true) const = 0;
 
 	/**

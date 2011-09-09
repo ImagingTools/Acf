@@ -45,7 +45,7 @@ bool CFileConvertOverProcessorComp::ConvertFile(
 		return false;
 	}
 
-	if (!m_inputFileLoaderCompPtr->IsOperationSupported(m_inputDataCompPtr.GetPtr(), &inputFilePath, iser::IFileLoader::QF_NO_SAVING)){
+	if (!m_inputFileLoaderCompPtr->IsOperationSupported(m_inputDataCompPtr.GetPtr(), &inputFilePath, iser::IFileLoader::QF_LOAD | iser::IFileLoader::QF_FILE)){
 		SendErrorMessage(0, "File could not be loaded", "File processing component");
 		
 		return false;

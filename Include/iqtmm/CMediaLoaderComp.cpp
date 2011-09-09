@@ -50,13 +50,13 @@ bool CMediaLoaderComp::IsOperationSupported(
 		}
 	}
 
-	return ((flags & (QF_ANONYMOUS_ONLY | QF_DIRECTORY_ONLY | QF_NO_LOADING)) == 0);
+	return ((flags & (QF_FILE | QF_DIRECTORY)) != 0) && ((flags & QF_LOAD) != 0);
 }
 
 
 int CMediaLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
+	if (IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE | QF_DIRECTORY, false)){
 		imm::IMediaController* controllerPtr = dynamic_cast<imm::IMediaController*>(&data);
 		if (controllerPtr != NULL){
 			if (controllerPtr->OpenMediumUrl(filePath, *m_autoPlayAttrPtr)){
@@ -89,7 +89,7 @@ bool CMediaLoaderComp::GetFileExtensions(istd::CStringList& result, int flags, b
 		result.clear();
 	}
 
-	if ((flags & QF_NO_LOADING) == 0){
+	if ((flags & QF_LOAD) != 0){
 		result.push_back("mpg");
 		result.push_back("mpeg");
 		result.push_back("mov");

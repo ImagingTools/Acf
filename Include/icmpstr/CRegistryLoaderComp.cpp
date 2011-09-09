@@ -24,7 +24,7 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 {
 	istd::CChangeNotifier notifier(&data);
 
-	if (!IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		return StateFailed;
 	}
 
@@ -61,7 +61,7 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 
 int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (!IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
+	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return StateFailed;
 	}
 

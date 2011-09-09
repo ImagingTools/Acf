@@ -59,13 +59,13 @@ bool CSvgBitmapLoaderComp::IsOperationSupported(
 		}
 	}
 
-	return ((flags & (QF_ANONYMOUS_ONLY | QF_DIRECTORY_ONLY | QF_NO_LOADING)) == 0);
+	return ((flags & QF_FILE) != 0) && ((flags & QF_LOAD) != 0);
 }
 
 
 int CSvgBitmapLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
-	if (IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
+	if (IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		I_ASSERT(!filePath.IsEmpty());	// should be checked by IsOperationSupported
 
 		iimg::IRasterImage* imagePtr = dynamic_cast<iimg::IBitmap*>(&data);
@@ -120,7 +120,7 @@ bool CSvgBitmapLoaderComp::GetFileExtensions(istd::CStringList& result, int flag
 		result.clear();
 	}
 
-	if ((flags & QF_NO_LOADING) == 0){
+	if ((flags & QF_LOAD) != 0){
 		result.push_back("svg");
 	}
 

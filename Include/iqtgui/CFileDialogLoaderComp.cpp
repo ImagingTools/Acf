@@ -22,13 +22,13 @@ bool CFileDialogLoaderComp::IsOperationSupported(
 	if (filePathPtr != NULL && !filePathPtr->IsEmpty()){
 		const iser::IFileLoader* loaderPtr = GetLoaderFor(iqt::GetQString(*filePathPtr), -1, flags, beQuiet);
 		if (loaderPtr != NULL){
-			return loaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, flags | QF_FILE_ONLY, beQuiet);
+			return loaderPtr->IsOperationSupported(dataObjectPtr, filePathPtr, flags, beQuiet);
 		}
 		return false;
 	}
 
 	if (m_loadersCompPtr.IsValid()){
-		int correctedFlags = (flags | QF_FILE_ONLY) & (~QF_ANONYMOUS_ONLY);
+		int correctedFlags = (flags | QF_FILE) & (~QF_ANONYMOUS);
 		int loaderCount = m_loadersCompPtr.GetCount();
 		for (int index = 0; index < loaderCount; index++){
 			const iser::IFileLoader* slaveLoaderPtr = m_loadersCompPtr[index];
@@ -54,7 +54,7 @@ int CFileDialogLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CSt
 		return StateAborted;
 	}
 
-	iser::IFileLoader* loaderPtr = GetLoaderFor(openFileName, selectionIndex, QF_NO_SAVING, false);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(openFileName, selectionIndex, QF_LOAD, false);
 	if (loaderPtr != NULL){
 		return loaderPtr->LoadFromFile(data, iqt::GetCString(openFileName));
 	}
@@ -72,7 +72,7 @@ int CFileDialogLoaderComp::SaveToFile(const istd::IChangeable& data, const istd:
 		return StateAborted;
 	}
 
-	iser::IFileLoader* loaderPtr = GetLoaderFor(saveFileName, selectionIndex, QF_NO_LOADING, false);
+	iser::IFileLoader* loaderPtr = GetLoaderFor(saveFileName, selectionIndex, QF_SAVE, false);
 	if (loaderPtr != NULL){
 		return loaderPtr->SaveToFile(data, iqt::GetCString(saveFileName));
 	}
@@ -222,7 +222,7 @@ QString CFileDialogLoaderComp::GetFileName(const istd::CString& filePath, bool i
 		for (int i = 0; i < loadersCount; ++i){
 			iser::IFileLoader* loaderPtr = m_loadersCompPtr[i];
 			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, isSaving? QF_NO_LOADING: QF_NO_SAVING, allExt, filterList);
+				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, isSaving? QF_SAVE: QF_LOAD, allExt, filterList);
 			}
 		}
 

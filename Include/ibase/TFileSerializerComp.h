@@ -48,7 +48,7 @@ public:
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const istd::CString* filePathPtr = NULL,
-				int flags = 0,
+				int flags = -1,
 				bool beQuiet = true) const;
 	virtual int LoadFromFile(istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath = istd::CString()) const;
@@ -175,12 +175,12 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 		return false;
 	}
 
-	if ((flags & (QF_DIRECTORY_ONLY | QF_ANONYMOUS_ONLY)) != 0){
+	if ((flags & (QF_FILE)) == 0){
 		return false;
 	}
 
 	if (filePathPtr != NULL){
-		if ((flags & QF_NO_SAVING) != 0){
+		if ((flags & QF_LOAD) != 0){
 			isys::IFileSystem* fileSystemPtr = istd::GetService<isys::IFileSystem>();
 			if (fileSystemPtr != NULL){
 				if (!fileSystemPtr->IsPresent(*filePathPtr)){
@@ -218,7 +218,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 		return StateFailed;
 	}
 
-	if (IsOperationSupported(&data, &filePath, QF_NO_SAVING, false)){
+	if (IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		ReadArchiveEx archive(filePath, this);
 
 		I_ASSERT(!archive.IsStoring());
@@ -249,7 +249,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 		return StateFailed;
 	}
 
-	if (IsOperationSupported(&data, &filePath, QF_NO_LOADING, false)){
+	if (IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		WriteArchiveEx archive(filePath, GetVersionInfo(), this);
 		I_ASSERT(archive.IsStoring());
 

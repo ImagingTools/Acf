@@ -31,10 +31,18 @@ bool CComposedLoaderComp::IsOperationSupported(
 
 int CComposedLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CString& filePath) const
 {
+	int fileQueryFlags = QF_LOAD;
+	if (!filePath.IsEmpty()){
+		fileQueryFlags |= QF_FILE | QF_DIRECTORY;
+	}
+	else{
+		fileQueryFlags |= QF_ANONYMOUS;
+	}
+
 	int slavesCount = m_slaveLoadersCompPtr.GetCount();
 	for (int i = 0; i < slavesCount; ++i){
 		iser::IFileLoader* loaderPtr = m_slaveLoadersCompPtr[i];
-		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, QF_NO_SAVING | QF_FILE_ONLY)){
+		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
 			return loaderPtr->LoadFromFile(data, filePath);
 		}
 	}
@@ -45,10 +53,18 @@ int CComposedLoaderComp::LoadFromFile(istd::IChangeable& data, const istd::CStri
 
 int CComposedLoaderComp::SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const
 {
+	int fileQueryFlags = QF_SAVE;
+	if (!filePath.IsEmpty()){
+		fileQueryFlags |= QF_FILE | QF_DIRECTORY;
+	}
+	else{
+		fileQueryFlags |= QF_ANONYMOUS;
+	}
+
 	int slavesCount = m_slaveLoadersCompPtr.GetCount();
 	for (int i = 0; i < slavesCount; ++i){
 		iser::IFileLoader* loaderPtr = m_slaveLoadersCompPtr[i];
-		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, QF_NO_LOADING | QF_FILE_ONLY)){
+		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
 			return loaderPtr->SaveToFile(data, filePath);
 		}
 	}

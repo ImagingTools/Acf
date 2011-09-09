@@ -27,7 +27,7 @@ bool CRegistryCodeSaverComp::IsOperationSupported(
 		return false;
 	}
 
-	return (flags & (QF_NO_SAVING | QF_DIRECTORY_ONLY | QF_ANONYMOUS_ONLY)) == 0;
+	return ((flags & QF_SAVE) != 0) && ((flags & QF_FILE) != 0);
 }
 
 
@@ -72,7 +72,7 @@ bool CRegistryCodeSaverComp::GetFileExtensions(istd::CStringList& result, int fl
 		result.clear();
 	}
 
-	if ((flags & QF_NO_SAVING) == 0){
+	if ((flags & QF_SAVE) != 0){
 		result.push_back("c");
 		result.push_back("cpp");
 	}

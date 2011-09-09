@@ -41,7 +41,7 @@ public:
 	virtual int SaveToFile(const istd::IChangeable& data, const istd::CString& filePath) const;
 
 	// reimplemented (iser::IFileTypeInfo)
-	virtual bool GetFileExtensions(istd::CStringList& result, int flags = 0, bool doAppend = false) const;
+	virtual bool GetFileExtensions(istd::CStringList& result, int flags = -1, bool doAppend = false) const;
 	virtual istd::CString GetTypeDescription(const istd::CString* extensionPtr = NULL) const;
 
 protected:

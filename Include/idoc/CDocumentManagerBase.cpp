@@ -31,7 +31,7 @@ void CDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* document
 
 			iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(docTypeId);
 			if (		(loaderPtr != NULL) &&
-						loaderPtr->IsOperationSupported(NULL, NULL, iser::IFileLoader::QF_FILE_ONLY | iser::IFileLoader::QF_NO_SAVING)){
+						loaderPtr->IsOperationSupported(NULL, NULL, iser::IFileLoader::QF_LOAD | iser::IFileLoader::QF_FILE)){
 				m_baseAllowedFlags |= OF_FILE_OPEN;
 
 				break;
@@ -67,14 +67,14 @@ int CDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymorphic* vie
 			if (docInfo.filePath.IsEmpty() || loaderPtr->IsOperationSupported(
 						documentPtr,
 						&docInfo.filePath,
-						iser::IFileLoader::QF_FILE_ONLY | iser::IFileLoader::QF_NO_LOADING)){
+						iser::IFileLoader::QF_SAVE | iser::IFileLoader::QF_FILE)){
 				retVal |= OF_FILE_SAVE;
 			}
 
 			if (loaderPtr->IsOperationSupported(
 						documentPtr,
 						NULL,
-						iser::IFileLoader::QF_FILE_ONLY | iser::IFileLoader::QF_NO_LOADING)){
+						iser::IFileLoader::QF_SAVE | iser::IFileLoader::QF_FILE)){
 				retVal |= OF_FILE_SAVE_AS;
 			}
 		}
