@@ -35,7 +35,7 @@
         400
       </X>
       <X>
-        250
+        125
       </X>
     </Element>
     <Element>
@@ -46,7 +46,7 @@
         750
       </X>
       <X>
-        375
+        325
       </X>
     </Element>
     <Element>
@@ -54,7 +54,7 @@
         SelectionParam
       </ComponentName>
       <X>
-        750
+        400
       </X>
       <X>
         250
@@ -68,7 +68,7 @@
         400
       </X>
       <X>
-        375
+        425
       </X>
     </Element>
   </PositionMap>
