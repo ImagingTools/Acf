@@ -42,6 +42,11 @@ protected:
 		Write formatted the message to the output stream.
 	*/
 	virtual void WriteMessageToStream(const ibase::IMessage& message);
+	
+	/**
+		Generate formatted message text for the output.
+	*/
+	virtual istd::CString GenerateMessageText(const ibase::IMessage& message) const;
 
 	// abstract methods
 

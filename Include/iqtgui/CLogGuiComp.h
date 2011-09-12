@@ -2,6 +2,10 @@
 #define iqtgui_CLogGuiComp_included
 
 
+// Qt includes
+#include <QAction>
+
+
 // ACF includes
 #include "ibase/IMessageContainer.h"
 #include "ibase/CMessage.h"
@@ -32,6 +36,7 @@ public:
 	I_BEGIN_COMPONENT(CLogGuiComp);
 		I_ASSIGN(m_fileLoaderCompPtr, "Exporter", "File loader used for log export", false, "Exporter");
 		I_ASSIGN(m_defaultModeAttrPtr, "DefaultMode", "Default display mode,\n 0 - info,\n 1 - warning,\n 2 - error", true, 0);
+		I_ASSIGN(m_showLogDescriptionAttrPtr, "ShowLogDescription", "Sets the log tables description visible", false, false);
 	I_END_COMPONENT;
 
 	CLogGuiComp();
@@ -62,8 +67,13 @@ protected:
 	/**
 		Create GUI item corresponding to specified message.
 	*/
-	QTreeWidgetItem* CreateGuiItem(const ibase::IMessage& message);
-	void UpdateItemState(QTreeWidgetItem& item) const;
+	virtual QTreeWidgetItem* CreateGuiItem(const ibase::IMessage& message);
+	virtual void UpdateItemState(QTreeWidgetItem& item) const;
+
+	/**
+		Get icons corresponding to specified MessageMode
+	*/
+	virtual QIcon GetIcon(istd::ILogger::MessageCategory mode);
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
@@ -76,22 +86,30 @@ protected:
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 protected Q_SLOTS:
-	void OnAddMessage(QTreeWidgetItem* itemPtr);
-	void OnRemoveMessage(QVariant messageId);
-	void OnReset();
-	void OnMessageModeChanged();
+	virtual void OnAddMessage(QTreeWidgetItem* itemPtr);
+	virtual void OnRemoveMessage(QVariant messageId);
+	virtual void OnReset();
+	virtual void OnMessageModeChanged();
 
-	void OnClearAction();
-	void OnExportAction();
+	virtual void OnClearAction();
+	virtual void OnExportAction();
 
 Q_SIGNALS:
 	void EmitAddMessage(QTreeWidgetItem* itemPtr);
 	void EmitRemoveMessage(QVariant);
 	void EmitReset();
 
+protected:
+	QAction* m_infoAction;
+	QAction* m_warningAction;
+	QAction* m_errorAction;
+	QAction* m_clearAction;
+	QAction* m_exportAction;
+
 private:
 	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 	I_ATTR(int, m_defaultModeAttrPtr);
+	I_ATTR(bool, m_showLogDescriptionAttrPtr);
 
 	QIcon m_infoIcon;
 	QIcon m_warningIcon;

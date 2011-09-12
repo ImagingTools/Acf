@@ -5,6 +5,8 @@
 
 #include "iser/IArchive.h"
 
+#include "istd/CStaticServicesProvider.h"
+
 
 namespace ibase
 {		
@@ -12,7 +14,7 @@ namespace ibase
 
 CMessage::CMessage()
 {
-	m_time.SetCurrentTime();
+	InitializeMessageTime();
 }
 
 
@@ -28,7 +30,7 @@ CMessage::CMessage(
 	m_source(source),
 	m_flags(flags)
 {
-	m_time.SetCurrentTime();
+	InitializeMessageTime();
 }
 
 
@@ -75,12 +77,27 @@ bool CMessage::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.Process(m_source);
 	retVal = retVal && archive.EndTag(sourceTag);
 
+	I_ASSERT(m_timePtr.IsValid());
 	static iser::CArchiveTag timeStampTag("Timestamp", "Message time stamp");
 	retVal = retVal && archive.BeginTag(timeStampTag);
-	retVal = retVal && m_time.Serialize(archive);
+	retVal = retVal && m_timePtr->Serialize(archive);
 	retVal = retVal && archive.EndTag(timeStampTag);
 
+
 	return retVal;
+}
+
+
+// private methods
+
+void CMessage::InitializeMessageTime()
+{
+	m_timePtr = istd::CreateService<isys::IDateTime>();
+	if (!m_timePtr.IsValid()){
+		m_timePtr.SetPtr(new isys::CSimpleDateTime);
+	}
+
+	m_timePtr->SetCurrentTime();
 }
 
 
