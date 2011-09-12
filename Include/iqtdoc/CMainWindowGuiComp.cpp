@@ -725,11 +725,7 @@ void CMainWindowGuiComp::OnComponentDestroyed()
 	m_fileCommand.ResetChilds();
 	m_editCommand.ResetChilds();
 
-	if (m_documentManagerModelCompPtr.IsValid()){
-		if (m_documentManagerModelCompPtr->IsAttached(this)){
-			m_documentManagerModelCompPtr->DetachObserver(this);
-		}
-	}
+	BaseClass2::EnsureModelDetached();
 
 	BaseClass::OnComponentDestroyed();
 }

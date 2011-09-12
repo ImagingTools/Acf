@@ -12,7 +12,7 @@ namespace ibase
 // public methods
 
 CFileConvertOverProcessorComp::CFileConvertOverProcessorComp()
-	:m_progressSessionId(0)
+:	m_progressSessionId(0)
 {
 	m_lock = istd::CreateService<isys::ICriticalSection>();
 }

@@ -55,14 +55,8 @@ void CManagerParamsSetShadowerComp::OnComponentCreated()
 
 void CManagerParamsSetShadowerComp::OnComponentDestroyed()
 {
-	if (m_paramsManagerModelCompPtr.IsValid() && m_paramsManagerModelCompPtr->IsAttached(this)){
-		m_paramsManagerModelCompPtr->DetachObserver(this);
-	}
-
-	if ((m_currentParamsModelPtr != NULL) && m_currentParamsModelPtr->IsAttached(&m_currentParamsSetObserver)){
-		m_currentParamsModelPtr->DetachObserver(&m_currentParamsSetObserver);
-	}
-
+	imod::CSingleModelObserverBase::EnsureModelDetached();
+	m_currentParamsSetObserver.EnsureModelDetached();
 	m_currentParamsModelPtr = NULL;
 
 	BaseClass::OnComponentDestroyed();
@@ -81,9 +75,7 @@ void CManagerParamsSetShadowerComp::OnUpdate(int /*updateFlags*/, istd::IPolymor
 		imod::IModel* paramsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>((
 					m_paramsManagerCompPtr->GetParamsSet(index))));
 		if (paramsModelPtr != m_currentParamsModelPtr){
-			if ((m_currentParamsModelPtr != NULL) && m_currentParamsModelPtr->IsAttached(&m_currentParamsSetObserver)){
-				m_currentParamsModelPtr->DetachObserver(&m_currentParamsSetObserver);
-			}
+			m_currentParamsSetObserver.EnsureModelDetached();
 			m_currentParamsModelPtr = NULL;
 
 			if ((paramsModelPtr != NULL) && paramsModelPtr->AttachObserver(&m_currentParamsSetObserver)){

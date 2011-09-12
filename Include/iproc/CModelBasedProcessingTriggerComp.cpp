@@ -14,7 +14,7 @@ namespace iproc
 // public methods
 
 CModelBasedProcessingTriggerComp::CModelBasedProcessingTriggerComp()
-	:m_paramsObserver(*this)
+:	m_paramsObserver(this)
 {
 }
 
@@ -24,23 +24,15 @@ void CModelBasedProcessingTriggerComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_paramsSetCompPtr.IsValid() && m_triggerOnParamsChangeAttrPtr.IsValid() && *m_triggerOnParamsChangeAttrPtr){
-		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(m_paramsSetCompPtr.GetPtr());
-		if (paramsModelPtr != NULL){
-			paramsModelPtr->AttachObserver(&m_paramsObserver);
-		}
+	if (m_paramsSetModelCompPtr.IsValid() && *m_triggerOnParamsChangeAttrPtr){
+		m_paramsSetModelCompPtr->AttachObserver(&m_paramsObserver);
 	}
 }
 
 
 void CModelBasedProcessingTriggerComp::OnComponentDestroyed()
 {
-	if (m_paramsSetCompPtr.IsValid() && m_triggerOnParamsChangeAttrPtr.IsValid() && *m_triggerOnParamsChangeAttrPtr){
-		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(m_paramsSetCompPtr.GetPtr());
-		if (paramsModelPtr != NULL && paramsModelPtr->IsAttached(&m_paramsObserver)){
-			paramsModelPtr->DetachObserver(&m_paramsObserver);
-		}
-	}
+	m_paramsObserver.EnsureModelDetached();
 
 	BaseClass::OnComponentDestroyed();
 }
@@ -81,6 +73,7 @@ void CModelBasedProcessingTriggerComp::DoProcessing()
 				inputDataPtr,
 				m_outputDataCompPtr.GetPtr(),
 				m_progressManagerCompPtr.GetPtr());
+
 	if (retVal != iproc::IProcessor::TS_OK){
 		SendErrorMessage(0, "Processing failed");
 	}
@@ -89,8 +82,8 @@ void CModelBasedProcessingTriggerComp::DoProcessing()
 
 // public methods of the embedded class ParamsObserver
 
-CModelBasedProcessingTriggerComp::ParamsObserver::ParamsObserver(CModelBasedProcessingTriggerComp& parent)
-	:m_parent(parent)
+CModelBasedProcessingTriggerComp::ParamsObserver::ParamsObserver(CModelBasedProcessingTriggerComp* parentPtr)
+:	m_parent(*parentPtr)
 {
 }
 

@@ -65,9 +65,7 @@ void CTranslationManagerComp::OnComponentCreated()
 
 void CTranslationManagerComp::OnComponentDestroyed()
 {
-	if (m_languageSelectionModelCompPtr.IsValid() && m_languageSelectionModelCompPtr->IsAttached(&m_selectionObserver)){
-		m_languageSelectionModelCompPtr->DetachObserver(&m_selectionObserver);
-	}
+	m_selectionObserver.EnsureModelDetached();
 
 	BaseClass::OnComponentDestroyed();
 }

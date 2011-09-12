@@ -1458,9 +1458,7 @@ void CAttributeEditorComp::UpdateGui(int /*updateFlags*/)
 
 		imod::IModel* registryModelPtr = dynamic_cast<imod::IModel*>(registryPtr);
 		if (registryModelPtr != m_lastRegistryModelPtr){
-			if (m_registryObserver.IsModelAttached(m_lastRegistryModelPtr)){
-				m_lastRegistryModelPtr->DetachObserver(&m_registryObserver);
-			}
+			m_registryObserver.EnsureModelDetached();
 
 			if (m_registryPropObserverCompPtr.IsValid()){
 				if (m_registryPropObserverCompPtr->IsModelAttached(m_lastRegistryModelPtr)){

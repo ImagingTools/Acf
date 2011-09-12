@@ -48,11 +48,11 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 			istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_COUNT_CHANGED);
 
-			ParamSet paramsSet;
+			m_paramSets.push_back(ParamSet());
+			ParamSet& paramsSet = m_paramSets.back();
+
 			paramsSet.paramSetPtr.SetPtr(newParamsSetPtr);
 			paramsSet.name = *m_defaultSetNameCompPtr;
-
-			m_paramSets.push_back(paramsSet);
 
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
 			if (modelPtr != NULL){

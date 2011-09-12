@@ -29,8 +29,9 @@ public:
 		I_ASSIGN(m_processorCompPtr, "Processor", "Target processing component", true, "Processor");
 		I_ASSIGN(m_progressManagerCompPtr, "ProgressManager", "Processing progress manager", false, "ProgressManager");
 		I_ASSIGN(m_paramsSetCompPtr, "ProcessingParamsSet", "Processing parameters", false, "ProcessingParameters");
+		I_ASSIGN_TO(m_paramsSetModelCompPtr, m_paramsSetCompPtr, false);
 		I_ASSIGN(m_outputDataCompPtr, "OutputData", "Processing output data", true, "OutputData");
-		I_ASSIGN(m_triggerOnParamsChangeAttrPtr, "TriggerOnParameterChanges", "Start processing if the parameter have been changed", false, false);
+		I_ASSIGN(m_triggerOnParamsChangeAttrPtr, "TriggerOnParameterChanges", "Start processing if the parameters have been changed", true, false);
 	I_END_COMPONENT;
 
 	CModelBasedProcessingTriggerComp();
@@ -50,7 +51,7 @@ private:
 	class ParamsObserver: public imod::TSingleModelObserverBase<iprm::IParamsSet>
 	{
 	public:
-		ParamsObserver(CModelBasedProcessingTriggerComp& parent);
+		ParamsObserver(CModelBasedProcessingTriggerComp* parentPtr);
 
 		// reimplemented (imod::CSingleModelObserverBase)
 		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
@@ -63,6 +64,7 @@ private:
 	I_REF(iproc::IProcessor, m_processorCompPtr);
 	I_REF(iproc::IProgressManager, m_progressManagerCompPtr);
 	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
+	I_REF(imod::IModel, m_paramsSetModelCompPtr);
 	I_REF(istd::IChangeable, m_outputDataCompPtr);
 	I_ATTR(bool, m_triggerOnParamsChangeAttrPtr);
 

@@ -83,7 +83,6 @@ private:
 
 	int m_selectedIndex;
 	CurrentParamsSetObserver m_currentParamsSetObserver;
-	imod::IModel* m_currentParamsModelPtr;
 
 	I_ATTR(istd::CString, m_selectionIdAttrPtr);
 	I_REF(IParamsManager, m_paramsManagerCompPtr);

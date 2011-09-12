@@ -84,9 +84,7 @@ void CFileListProviderComp::OnComponentCreated()
 
 void CFileListProviderComp::OnComponentDestroyed()
 {
-	if (m_dirParamModelCompPtr.IsValid() && m_dirParamModelCompPtr->IsAttached(this)){
-		m_dirParamModelCompPtr->DetachObserver(this);
-	}
+	imod::CSingleModelObserverBase::EnsureModelDetached();
 
 	BaseClass::OnComponentDestroyed();
 }

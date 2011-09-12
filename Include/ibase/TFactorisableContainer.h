@@ -180,7 +180,7 @@ bool TFactorisableContainer<InterfaceClass>::Serialize(iser::IArchive& archive)
 			item.second = itemKey;
 			InterfaceClass* interfacePtr = CreateElement(itemKey);
 			if (interfacePtr != NULL){
-				item.first = istd::TSmartPtr<InterfaceClass>(interfacePtr);
+				item.first.SetPtr(interfacePtr);
 
 				BaseClass::PushBack(item);
 			}

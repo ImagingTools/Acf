@@ -13,8 +13,7 @@ namespace iprm
 
 CSelectableParamsSetComp::CSelectableParamsSetComp()
 :	m_selectedIndex(-1),
-	m_currentParamsSetObserver(*this),
-	m_currentParamsModelPtr(NULL)
+	m_currentParamsSetObserver(*this)
 {
 }
 
@@ -130,16 +129,15 @@ void CSelectableParamsSetComp::SetupCurrentParamsSetBridge()
 	if ((m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
 		imod::IModel* paramsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>((
 					m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex))));
-		if (paramsModelPtr != m_currentParamsModelPtr){
-			if ((m_currentParamsModelPtr != NULL) && m_currentParamsModelPtr->IsAttached(&m_currentParamsSetObserver)){
-				m_currentParamsModelPtr->DetachObserver(&m_currentParamsSetObserver);
+		if (paramsModelPtr != NULL){
+			if (m_currentParamsSetObserver.IsModelAttached(paramsModelPtr)){
+				m_currentParamsSetObserver.EnsureModelDetached();
 
-				m_currentParamsModelPtr = NULL;
+				paramsModelPtr->AttachObserver(&m_currentParamsSetObserver);
 			}
-
-			if ((paramsModelPtr != NULL) && paramsModelPtr->AttachObserver(&m_currentParamsSetObserver)){
-				m_currentParamsModelPtr  = paramsModelPtr;
-			}
+		}
+		else{
+			m_currentParamsSetObserver.EnsureModelDetached();
 		}
 	}
 }
