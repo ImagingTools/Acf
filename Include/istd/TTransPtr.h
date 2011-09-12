@@ -10,15 +10,60 @@ namespace istd
 
 
 /**
-	Implementation of reduced a smart pointer used as return parameters.
-	This is a part of smart pointer concept.
+	Implementation of data transfer smart pointer.
+	It should be used to pointer transfer only, not to store the pointers becouse it overtakes the pointer.
+	Typically it is used as smart pointer return parameters.
+	The adventage against 'normal' smart pointer (istd::TSmartPtr) is that the copy constructor is faster, becouse it overtakes the pointer.
 	\sa istd::TSmartPtr
 */
 template <class Type>
 class TTransPtr
 {
 public:
-	TTransPtr(const TTransPtr& other);
+	/**
+		Constructor overtaking the pointer.
+		\param	pointer	pointer to overtake - WARNING: After this operation this pointer is invalid!
+	*/
+	TTransPtr(TTransPtr& pointer);
+	~TTransPtr();
+
+	// operators
+	/**
+		Copy operator overtaking the pointer.
+		\param	pointer	pointer to overtake - WARNING: After this operation this pointer is invalid!
+	*/
+	TTransPtr& operator=(TTransPtr& pointer);
+
+protected:
+	class RefCountBase: public TPointerBase<Type>
+	{
+	public:
+		typedef TPointerBase<Type> BaseClass;
+
+		RefCountBase(Type* pointer)
+		:	BaseClass(pointer)
+		{
+			I_ASSERT(pointer != NULL);
+		}
+		virtual ~RefCountBase(){}
+
+		// abstract methods
+		/**
+			Called if new pointer is attached to this internal handler.
+		*/
+		virtual void OnAttached() = 0;
+		/**
+			Called if pointer is detached from this internal handler.
+		*/
+		virtual void OnDetached() = 0;
+	};
+
+	TTransPtr();
+
+	/**
+		Set this pointer to NULL.
+	*/
+	void Reset();
 
 	/**
 		Check, whether the object is in valid state.
@@ -41,29 +86,18 @@ public:
 		return dynamic_cast<CastedType>(GetPtr());
 	}
 
+	/**
+		Detach counter object without changing of internal counter pointer.
+	*/
+	void Detach();
+	/**
+		Get internal counter.
+	*/
+	RefCountBase* GetInternalCounter(const TTransPtr& pointer) const;
+
 	// operators
 	Type& operator*() const;
 	Type* operator->() const;
-
-protected:
-	TTransPtr();
-
-	class RefCountBase: public TPointerBase<Type>
-	{
-	public:
-		typedef TPointerBase<Type> BaseClass;
-
-		RefCountBase(Type* ptr)
-		:	BaseClass(ptr)
-		{
-			I_ASSERT(ptr != NULL);
-		}
-		virtual ~RefCountBase(){}
-
-		// abstract methods
-		virtual void OnAttached() = 0;
-		virtual void OnDetached() = 0;
-	};
 
 	RefCountBase* m_counterPtr;
 };
@@ -72,9 +106,47 @@ protected:
 // public methods
 
 template <class Type>
-TTransPtr<Type>::TTransPtr(const TTransPtr& other)
-:	m_counterPtr(other.m_counterPtr)
+TTransPtr<Type>::TTransPtr(TTransPtr& pointer)
+:	m_counterPtr(pointer.m_counterPtr)
 {
+	pointer.m_counterPtr = NULL;
+}
+
+
+template <class Type>
+TTransPtr<Type>::~TTransPtr()
+{
+	Detach();
+}
+
+
+template <class Type>
+TTransPtr<Type>& TTransPtr<Type>::operator=(TTransPtr& pointer)
+{
+	Detach();
+
+	m_counterPtr = pointer.m_counterPtr;
+
+	pointer.m_counterPtr = NULL;
+
+	return *this;
+}
+
+
+// protected methods
+
+template <class Type>
+TTransPtr<Type>::TTransPtr()
+{
+}
+
+
+template <class Type>
+void TTransPtr<Type>::Reset()
+{
+	Detach();
+
+	m_counterPtr = NULL;
 }
 
 
@@ -110,6 +182,22 @@ inline Type* TTransPtr<Type>::GetPtr()
 
 
 template <class Type>
+inline void TTransPtr<Type>::Detach()
+{
+	if (m_counterPtr != NULL){
+		m_counterPtr->OnDetached();
+	}
+}
+
+
+template <class Type>
+typename TTransPtr<Type>::RefCountBase* TTransPtr<Type>::GetInternalCounter(const TTransPtr& pointer) const
+{
+	return pointer.m_counterPtr;
+}
+
+
+template <class Type>
 inline Type& TTransPtr<Type>::operator*() const
 {
 	I_ASSERT(m_counterPtr != NULL);
@@ -126,14 +214,6 @@ inline Type* TTransPtr<Type>::operator->() const
 	I_ASSERT(m_counterPtr->GetPtr() != NULL);
 
 	return m_counterPtr->GetPtr();
-}
-
-
-// protected methods
-
-template <class Type>
-TTransPtr<Type>::TTransPtr()
-{
 }
 
 
