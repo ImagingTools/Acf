@@ -28,10 +28,13 @@ public:
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
+protected:
+	typedef typename BaseClass::Shapes Shapes;
+	typedef typename BaseClass::ShapesMap ShapesMap;
+
 	// reimplemented (iqt2d::TSceneExtenderCompBase)
 	virtual void CreateShapes(int sceneId, bool inactiveOnly, Shapes& result);
 
-protected:
 	I_ATTR(istd::CString, m_unitNameAttrPtr);
 	I_ATTR(double, m_zValueAttrPtr);
 };
@@ -45,8 +48,8 @@ template <class Ui, class Shape, class ShapeModel>
 bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnAttached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnAttached(modelPtr)){
-		const ShapesMap& shapesMap = GetShapesMap();
-		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+		const ShapesMap& shapesMap = BaseClass::GetShapesMap();
+		for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
 					iter != shapesMap.end();
 					++iter){
 			const Shapes& shapes = iter->second;
@@ -73,8 +76,8 @@ template <class Ui, class Shape, class ShapeModel>
 bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnDetached(modelPtr)){
-		const ShapesMap& shapesMap = GetShapesMap();
-		for (		ShapesMap::const_iterator iter = shapesMap.begin();
+		const ShapesMap& shapesMap = BaseClass::GetShapesMap();
+		for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
 					iter != shapesMap.end();
 					++iter){
 			const Shapes& shapes = iter->second;
@@ -97,6 +100,8 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* mo
 }
 
 
+// protected methods
+
 // reimplemented (iqt2d::TSceneExtenderCompBase)
 
 template <class Ui, class Shape, class ShapeModel>
@@ -109,7 +114,7 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*
 		shapePtr->setVisible(false);
 		result.PushBack(shapePtr);
 
-		imod::IModel* modelPtr = GetModelPtr();
+		imod::IModel* modelPtr = BaseClass::GetModelPtr();
 		if (modelPtr != NULL){
 			if (modelPtr->AttachObserver(shapePtr)){
 				shapePtr->setVisible(true);

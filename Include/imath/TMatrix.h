@@ -284,17 +284,17 @@ public:
 	bool Serialize(iser::IArchive& archive);
 
 	// operators
-	TMatrix<Width, Height, Element> operator+(const TMatrix<Width, Height, Element>& b) const;
-	TMatrix<Width, Height, Element> operator-(const TMatrix<Width, Height, Element>& b) const;
+	TMatrix<Width, Height, Element> operator+(const TMatrix<Width, Height, Element>& matrix) const;
+	TMatrix<Width, Height, Element> operator-(const TMatrix<Width, Height, Element>& matrix) const;
 	TMatrix<Width, Height, Element> operator-();
 	template <int SecondWidth>
-	TMatrix<SecondWidth, Height, Element> operator*(const TMatrix<SecondWidth, Width, Element>& b) const
+	TMatrix<SecondWidth, Height, Element> operator*(const TMatrix<SecondWidth, Width, Element>& matrix) const
 	{
-		TMatrix<SecondWidth, Height, Element> result;
+		TMatrix<SecondWidth, Height, Element> retVal;
 
-		GetMultiplied(matrix, result);
+		GetMultiplied(matrix, retVal);
 
-		return result;
+		return retVal;
 	}
 
 	TMatrix<Width, Height, Element> operator*(double value) const;
@@ -319,7 +319,7 @@ inline TMatrix<Height, Width, Element> TMatrix<Width, Height, Element>::GetTrans
 {
     TMatrix<Height, Width, Element> retVal;
 
-	GetTransposed(result);
+	GetTransposed(retVal);
 
 	return retVal;
 }
@@ -328,11 +328,11 @@ inline TMatrix<Height, Width, Element> TMatrix<Width, Height, Element>::GetTrans
 template <int Width, int Height, typename Element>
 inline void TMatrix<Width, Height, Element>::Transpose()
 {
-    TMatrix<Height, Width, Element> result;
+	TMatrix<Height, Width, Element> retVal;
 
-	GetTransposed(result);
+	GetTransposed(retVal);
 
-	*this = result;
+	*this = retVal;
 }
 
 
@@ -350,44 +350,44 @@ TVector<Height, Element> TMatrix<Width, Height, Element>::GetMultiplied(const TV
 template <int Width, int Height, typename Element>
 inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator+(const TMatrix<Width, Height, Element>& matrix) const
 {
-    TMatrix<Width, Height, Element> result;
+	TMatrix<Width, Height, Element> retVal;
 
-	GetAdded(matrix, result);
+	GetAdded(matrix, retVal);
 
-	return result;
+	return retVal;
 }
 
 
 template <int Width, int Height, typename Element>
 inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator-(const TMatrix<Width, Height, Element>& matrix) const
 {
-    TMatrix<Width, Height, Element> result;
+	TMatrix<Width, Height, Element> retVal;
 
-    GetSubstracted(matrix, result);
+	GetSubstracted(matrix, retVal);
 
-	return result;
+	return retVal;
 }
 
 
 template <int Width, int Height, typename Element>
 inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator-()
 {
-	TMatrix<Width, Height, Element> result;
+	TMatrix<Width, Height, Element> retVal;
 
-	GetNegated(result);
+	GetNegated(retVal);
 
-	return result;
+	return retVal;
 }
 
 
 template <int Width, int Height, typename Element>
 inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator*(double value) const
 {
-    TMatrix result;
+	TMatrix retVal;
 
-    GetScaled(value, result);
+	GetScaled(value, retVal);
 
-	return result;
+	return retVal;
 }
 
 

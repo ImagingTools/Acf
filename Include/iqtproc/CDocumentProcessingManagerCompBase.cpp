@@ -12,7 +12,7 @@ namespace iqtproc
 // public methods
 
 CDocumentProcessingManagerCompBase::CDocumentProcessingManagerCompBase()
-	:m_rootCommands("", 100, ibase::ICommand::CF_GLOBAL_MENU),
+:	m_rootCommands("", 100, ibase::ICommand::CF_GLOBAL_MENU),
 	m_processingCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU),
 	m_documentManagerObserver(*this)
 {

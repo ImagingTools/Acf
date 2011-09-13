@@ -38,10 +38,10 @@ protected:
 	void UpdateProgressBar();
 
 	// reimplemented (iproc::CDelegatedProgressManager)
-	void CProgressManagerGuiComp::OnCancelable(bool cancelState);
+	void OnCancelable(bool cancelState);
 
 	// reimplemented (iproc::IProgressManager)
-	virtual int CProgressManagerGuiComp::BeginProgressSession(
+	virtual int BeginProgressSession(
 				const std::string& progressId,
 				const istd::CString& description,
 				bool isCancelable);

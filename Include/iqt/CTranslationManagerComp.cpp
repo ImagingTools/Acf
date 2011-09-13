@@ -21,8 +21,8 @@ namespace iqt
 // public methods
 
 CTranslationManagerComp::CTranslationManagerComp()
-	:m_currentLanguageIndex(-1),
-	m_selectionObserver(*this)
+:	m_selectionObserver(*this),
+	m_currentLanguageIndex(-1)
 {
 }
 

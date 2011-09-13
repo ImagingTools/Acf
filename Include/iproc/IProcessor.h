@@ -4,12 +4,11 @@
 
 #include "iprm/IParamsSet.h"
 
+#include "iproc/IProgressManager.h"
+
 
 namespace iproc
 {
-
-
-class IProgressManager;
 
 
 /**

@@ -19,12 +19,12 @@ namespace iqtgui
 // public methods
 
 CLogGuiComp::CLogGuiComp()
-	:m_currentMessageMode(MM_ALL),
-	m_infoAction(NULL),
+:	m_infoAction(NULL),
 	m_warningAction(NULL),
 	m_errorAction(NULL),
 	m_clearAction(NULL),
-	m_exportAction(NULL)
+	m_exportAction(NULL),
+	m_currentMessageMode(MM_ALL)
 {
 	qRegisterMetaType<QVariant>("QVariant");
 

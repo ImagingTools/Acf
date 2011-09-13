@@ -59,7 +59,7 @@ template <class Base>
 void TLoggerCompWrap<Base>::SendVerboseMessage(const istd::CString& message, const istd::CString& messageSource) const
 {
 	if (m_verboseEnabledAttrPtr.IsValid() && *m_verboseEnabledAttrPtr){
-		SendInfoMessage(0, message, messageSource);
+		BaseClass::SendInfoMessage(0, message, messageSource);
 	}
 }
 

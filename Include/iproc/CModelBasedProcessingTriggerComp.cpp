@@ -6,6 +6,8 @@
 
 #include "imod/IModel.h"
 
+#include "iproc/IProgressManager.h"
+
 
 namespace iproc
 {

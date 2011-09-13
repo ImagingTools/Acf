@@ -45,9 +45,10 @@ bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d&
 
 		case PF_GRAY32:
 			return CreateBitmap(size, 32, 1, PF_GRAY32);
-	}
 
-	return false;
+		default:
+			return false;
+	}
 }
 
 
@@ -66,9 +67,10 @@ bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d&
 
 		case PF_GRAY32:
 			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 1, PF_GRAY32);
-	}
 
-	return false;
+		default:
+			return false;
+	}
 }
 
 

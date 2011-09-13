@@ -243,26 +243,28 @@ QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 
 	case PF_GRAY:
 		return QImage::Format_Indexed8;
-	}
 
-	return QImage::Format_Invalid;
+	default:
+		return QImage::Format_Invalid;
+	}
 }
 
 
 iimg::IBitmap::PixelFormat CBitmap::CalcFromQtFormat(QImage::Format imageFormat) const
 {
 	switch (imageFormat){
-		case QImage::Format_RGB32:
-			return PF_RGB;
-	
-		case QImage::Format_ARGB32:
-			return PF_RGBA;
+	case QImage::Format_RGB32:
+		return PF_RGB;
 
-		case QImage::Format_Indexed8:
-			return PF_GRAY;
+	case QImage::Format_ARGB32:
+		return PF_RGBA;
+
+	case QImage::Format_Indexed8:
+		return PF_GRAY;
+
+	default:
+		return PF_UNKNOWN;
 	}
-
-	return PF_UNKNOWN;
 }
 
 

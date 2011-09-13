@@ -134,7 +134,7 @@ istd::CString TQtDocumentManagerWrap<Base, Gui>::GetSaveFilePath(const std::stri
 {
 	QString filter = CreateFileDialogFilter(&documentTypeId, iser::IFileLoader::QF_FILE | iser::IFileLoader::QF_SAVE);
 
-	QString filePath = QFileDialog::getSaveFileName(NULL, tr("Save..."), m_lastDirectory, filter);
+	QString filePath = QFileDialog::getSaveFileName(NULL, Gui::tr("Save..."), m_lastDirectory, filter);
 
 	UpdateLastDirectory(filePath);
 
@@ -149,7 +149,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilter(const std::str
 {
 	QString retVal;
 
-	const idoc::IDocumentTemplate* templatePtr = GetDocumentTemplate();
+	const idoc::IDocumentTemplate* templatePtr = BaseClass::GetDocumentTemplate();
 	if (templatePtr != NULL){
 		idoc::IDocumentTemplate::Ids docTypeIds = templatePtr->GetDocumentTypeIds();
 
@@ -174,7 +174,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilter(const std::str
 		}
 
 		if ((filtersCount > 1) && ((flags & iser::IFileLoader::QF_SAVE) == 0)){
-			retVal = tr("All known documents (%1)\n").arg(allExt) + retVal;
+			retVal = Gui::tr("All known documents (%1)\n").arg(allExt) + retVal;
 		}
 	}
 
@@ -195,7 +195,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 {
 	QString filter = CreateFileDialogFilter(documentTypeIdPtr, iser::IFileLoader::QF_FILE | iser::IFileLoader::QF_LOAD);
 
-	return QFileDialog::getOpenFileNames(GetWidget(), tr("Open Files..."), m_lastDirectory, filter);
+	return QFileDialog::getOpenFileNames(Gui::GetWidget(), Gui::tr("Open Files..."), m_lastDirectory, filter);
 }
 
 

@@ -623,28 +623,31 @@ bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	if (IsGuiCreated()){
 		switch(eventPtr->type()){
-//			case QEvent::MouseButtonDblClick:
-			case QEvent::GraphicsSceneMouseDoubleClick:
-				if (OnMouseDoubleClickEvent(eventPtr)){
-					return true;
-				}
-				break;
+//		case QEvent::MouseButtonDblClick:
+		case QEvent::GraphicsSceneMouseDoubleClick:
+			if (OnMouseDoubleClickEvent(eventPtr)){
+				return true;
+			}
+			break;
 
-			case QEvent::KeyRelease:
-				if (OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(eventPtr))){
-					return true;
-				}
-				break;
+		case QEvent::KeyRelease:
+			if (OnKeyReleaseEvent(dynamic_cast<QKeyEvent*>(eventPtr))){
+				return true;
+			}
+			break;
 
-			case QEvent::Resize:
-				OnResize(dynamic_cast<QResizeEvent*>(eventPtr));
-				break;
+		case QEvent::Resize:
+			OnResize(dynamic_cast<QResizeEvent*>(eventPtr));
+			break;
 
-			case QEvent::GraphicsSceneWheel:
-				if (OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr))){
-					return true;
-				}
-				break;
+		case QEvent::GraphicsSceneWheel:
+			if (OnWheelEvent(dynamic_cast<QGraphicsSceneWheelEvent*>(eventPtr))){
+				return true;
+			}
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -731,16 +734,16 @@ void CSceneProviderGuiComp::CScene::drawBackground(QPainter* painter, const QRec
 {
 	if (m_parent.IsGuiCreated() && m_parent.m_backgroundModeAttrPtr.IsValid()){
 		switch (*m_parent.m_backgroundModeAttrPtr){
-			case BM_GRID:
-				DrawGrid(*painter, rect, false);
-				break;
+		case BM_GRID:
+			DrawGrid(*painter, rect, false);
+			break;
 
-			case BM_DOT_GRID:
-				DrawGrid(*painter, rect, true);
-				break;
+		case BM_DOT_GRID:
+			DrawGrid(*painter, rect, true);
+			break;
 
-			default:
-				QGraphicsScene::drawBackground(painter, rect);
+		default:
+			QGraphicsScene::drawBackground(painter, rect);
 		}
 	}
 	else{

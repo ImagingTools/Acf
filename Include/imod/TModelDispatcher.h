@@ -113,7 +113,7 @@ bool TModelDispatcher<NotifyReceiver>::RegisterModel(imod::IModel* modelPtr, int
 template <class NotifyReceiver>
 void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
 {
-	for (ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
+	for (typename ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
 		if (modelId == index->second.modelId){
 			imod::IModel* modelPtr = index->first;
 
@@ -131,7 +131,7 @@ template <class NotifyReceiver>
 void TModelDispatcher<NotifyReceiver>::UnregisterAllModels()
 {
 	while (!m_modelMap.empty()){
-		ModelMap::iterator currentIter = m_modelMap.begin();
+		typename ModelMap::iterator currentIter = m_modelMap.begin();
 
 		imod::IModel* modelPtr = currentIter->first;
 
@@ -148,7 +148,7 @@ template <class NotifyReceiver>
 template <class Object>
 Object* TModelDispatcher<NotifyReceiver>::GetObjectPtr(int modelId) const
 {
-	for (ModelMap::const_iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
+	for (typename ModelMap::const_iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
 		if (modelId == index->second.modelId){
 			Object* objectPtr = dynamic_cast<Object*>(index->first);
 
@@ -168,7 +168,7 @@ template <class NotifyReceiver>
 bool TModelDispatcher<NotifyReceiver>::OnDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnDetached(modelPtr)){
-		for (ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
+		for (typename ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
 			if (index->first == modelPtr){
 				m_modelMap.erase(index);
 
@@ -188,7 +188,7 @@ bool TModelDispatcher<NotifyReceiver>::OnDetached(imod::IModel* modelPtr)
 template <class NotifyReceiver>
 void TModelDispatcher<NotifyReceiver>::OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	ModelMap::iterator foundModelIter = m_modelMap.find(modelPtr);
+	typename ModelMap::iterator foundModelIter = m_modelMap.find(modelPtr);
 	if (foundModelIter != m_modelMap.end()){
 		int relevantFlags = foundModelIter->second.relevantFlags;
 		if (relevantFlags != 0 && (relevantFlags & changeFlags) == 0){
