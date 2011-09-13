@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1860
+          1902
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          369
+          380
         </Number>
         <Description>
           ACF-Solutions
@@ -585,7 +585,10 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
+                <Value>
+                  *.h
+                </Value>
                 <Value>
                   *.cpp
                 </Value>
