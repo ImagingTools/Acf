@@ -100,24 +100,24 @@ protected:
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr()
 {
-	m_counterPtr = NULL;
+	BaseClass::m_counterPtr = NULL;
 }
 
 
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr(Type* pointer)
 {
-	m_counterPtr = new RefCounter(pointer);
+	BaseClass::m_counterPtr = new RefCounter(pointer);
 }
 
 
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr(const TTransPtr<Type>& pointer)
 {
-	m_counterPtr = GetInternalCounter(pointer);
+	BaseClass::m_counterPtr = GetInternalCounter(pointer);
 
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
+	if (BaseClass::m_counterPtr != NULL){
+		BaseClass::m_counterPtr->OnAttached();
 	}
 }
 
@@ -125,10 +125,10 @@ TSmartPtr<Type, Accessor>::TSmartPtr(const TTransPtr<Type>& pointer)
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr(const TSmartPtr& pointer)
 {
-	m_counterPtr = pointer.m_counterPtr;
+	BaseClass::m_counterPtr = GetInternalCounter(pointer);
 
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
+	if (BaseClass::m_counterPtr != NULL){
+		BaseClass::m_counterPtr->OnAttached();
 	}
 }
 
@@ -136,13 +136,13 @@ TSmartPtr<Type, Accessor>::TSmartPtr(const TSmartPtr& pointer)
 template <class Type, class Accessor>
 inline void TSmartPtr<Type, Accessor>::SetPtr(Type* pointer)
 {
-	Detach();
+	BaseClass::Detach();
 
 	if (pointer != NULL){
-		m_counterPtr = new RefCounter(pointer);
+		BaseClass::m_counterPtr = new RefCounter(pointer);
 	}
 	else{
-		m_counterPtr = NULL;
+		BaseClass::m_counterPtr = NULL;
 	}
 }
 
@@ -150,12 +150,12 @@ inline void TSmartPtr<Type, Accessor>::SetPtr(Type* pointer)
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>& TSmartPtr<Type, Accessor>::operator=(const TTransPtr<Type>& pointer)
 {
-	Detach();
+	BaseClass::Detach();
 
-	m_counterPtr = GetInternalCounter(pointer);
+	BaseClass::m_counterPtr = GetInternalCounter(pointer);
 
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
+	if (BaseClass::m_counterPtr != NULL){
+		BaseClass::m_counterPtr->OnAttached();
 	}
 
 	return *this;
@@ -165,12 +165,12 @@ TSmartPtr<Type, Accessor>& TSmartPtr<Type, Accessor>::operator=(const TTransPtr<
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>& TSmartPtr<Type, Accessor>::operator=(const TSmartPtr& pointer)
 {
-	Detach();
+	BaseClass::Detach();
 
-	m_counterPtr = pointer.m_counterPtr;
+	BaseClass::m_counterPtr = GetInternalCounter(pointer);
 
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnAttached();
+	if (BaseClass::m_counterPtr != NULL){
+		BaseClass::m_counterPtr->OnAttached();
 	}
 
 	return *this;
