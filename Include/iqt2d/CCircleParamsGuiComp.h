@@ -28,8 +28,8 @@ public:
 				iqt2d::CCircleShape,
 				i2d::CCircle> BaseClass;
 
-	I_BEGIN_COMPONENT(CCircleParamsGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CCircleParamsGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

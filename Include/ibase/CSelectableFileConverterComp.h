@@ -24,13 +24,13 @@ class CSelectableFileConverterComp:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CSelectableFileConverterComp)
+	I_BEGIN_COMPONENT(CSelectableFileConverterComp);
 		I_REGISTER_INTERFACE(ibase::IFileConvertCopy);
 		I_REGISTER_INTERFACE(iprm::ISelectionParam);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN_MULTI_0(m_slaveConvertersCompPtr, "SlaveConverters", "List of the slave converters", true);
 		I_ASSIGN_MULTI_0(m_slaveConverterNamesAttrPtr, "SlaveConverterNames", "List of the converter names", true);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	CSelectableFileConverterComp();
 

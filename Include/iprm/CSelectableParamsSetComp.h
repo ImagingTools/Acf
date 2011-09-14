@@ -34,7 +34,7 @@ public:
 		I_REGISTER_INTERFACE(ISelectionParam);
 		I_ASSIGN(m_selectionIdAttrPtr, "SelectionId", "ID of selection in parameter set", true, "Input");
 		I_ASSIGN(m_paramsManagerCompPtr, "ParamsManager", "Manager of parameter set used to realize selection", true, "ParamsManager");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	CSelectableParamsSetComp();
 

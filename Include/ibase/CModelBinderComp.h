@@ -20,10 +20,10 @@ class CModelBinderComp: public icomp::CComponentBase
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CModelBinderComp)
-		I_ASSIGN(m_modelCompPtr, "Model", "Model to be connected", true, "Model")
-		I_ASSIGN_MULTI_0(m_observersCompPtr, "Observers", "Observers for the model", true)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CModelBinderComp);
+		I_ASSIGN(m_modelCompPtr, "Model", "Model to be connected", true, "Model");
+		I_ASSIGN_MULTI_0(m_observersCompPtr, "Observers", "Observers for the model", true);
+	I_END_COMPONENT;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

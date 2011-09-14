@@ -22,7 +22,7 @@ public:
 	I_BEGIN_COMPONENT(TShapeParamsGuiCompBase);
 		I_ASSIGN(m_unitNameAttrPtr, "UnitName", "Name of geometric units e.g. mm", false, "mm");
 		I_ASSIGN(m_zValueAttrPtr, "ZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);

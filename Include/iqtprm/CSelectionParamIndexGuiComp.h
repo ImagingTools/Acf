@@ -24,8 +24,8 @@ public:
 				Ui::CSelectionParamIndexGuiComp,
 				iprm::ISelectionParam> BaseClass;
 
-	I_BEGIN_COMPONENT(CSelectionParamIndexGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CSelectionParamIndexGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

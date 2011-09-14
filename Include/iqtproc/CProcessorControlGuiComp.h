@@ -35,7 +35,7 @@ class CProcessorControlGuiComp: public iqtgui::TDesignerGuiCompBase<Ui::CProcess
 public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CProcessorControlGuiComp, QWidget> BaseClass;
 
-	I_BEGIN_COMPONENT(CProcessorControlGuiComp)
+	I_BEGIN_COMPONENT(CProcessorControlGuiComp);
 		I_ASSIGN(m_inputDataCompPtr, "InputData", "Input data that will be processed", false, "InputData");
 		I_ASSIGN(m_outputDataCompPtr, "OutputData", "Output data object", true, "OutputData");
 		I_ASSIGN(m_outputDataLoaderCompPtr, "OutputDataLoader", "Saves processing data to file", false, "OutputDataLoader");
@@ -46,7 +46,7 @@ public:
 		I_ASSIGN(m_paramsSetGuiCompPtr, "ParamsSetGui", "Shows parameter set", false, "ParamsSetGui");
 		I_ASSIGN_TO(m_paramsSetObserverCompPtr, m_paramsSetGuiCompPtr, false);
 		I_ASSIGN(m_liveIntervalAttrPtr, "LiveInterval", "Interval (in seconds) of acquisition in continuous mode", true, 0.04);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	CProcessorControlGuiComp();
 

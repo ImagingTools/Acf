@@ -25,8 +25,8 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef CSyncProcessorBase BaseClass2;
 
-	I_BEGIN_COMPONENT(CCascadedProcessorComp)
-		I_REGISTER_INTERFACE(iproc::IProcessor)
+	I_BEGIN_COMPONENT(CCascadedProcessorComp);
+		I_REGISTER_INTERFACE(iproc::IProcessor);
 		I_ASSIGN_MULTI_0(m_processorsCompPtr, "Processors", "List of processors", true);
 		I_ASSIGN_MULTI_0(m_buffersCompPtr, "Buffers", "List of buffers storing data between processors", false);
 		I_ASSIGN_MULTI_0(m_progressIdsAttrPtr, "ProgressIds", "List of progress ID's used for progress manager for each processor", false);

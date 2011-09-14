@@ -16,12 +16,12 @@ class CTextFileLoaderComp: public icomp::CComponentBase, public iser::IFileLoade
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CTextFileLoaderComp)
+	I_BEGIN_COMPONENT(CTextFileLoaderComp);
 		I_REGISTER_INTERFACE(iser::IFileTypeInfo);
-		I_REGISTER_INTERFACE(iser::IFileLoader)
+		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN_MULTI_1(m_fileExtensionsAttrPtr, "FileExtensions", "List of possible file extensions", false, "txt");
 		I_ASSIGN_MULTI_1(m_typeDescriptionsAttrPtr, "TypeDescriptions", "List of descriptions for each extension", false, "Text file");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (iser::IFileLoader)
 	virtual bool IsOperationSupported(

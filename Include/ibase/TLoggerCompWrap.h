@@ -28,7 +28,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
 		I_ASSIGN(m_verboseEnabledAttrPtr, "EnableVerbose", "If enabled, verbose messages can be produced", false, false);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 protected:
 	/**

@@ -28,8 +28,8 @@ public:
 				iqt2d::CQuadrangleShape,
 				i2d::CQuadrangle> BaseClass;
 
-	I_BEGIN_COMPONENT(CQuadrangleParamsGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CQuadrangleParamsGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

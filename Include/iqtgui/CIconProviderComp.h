@@ -17,11 +17,11 @@ class CIconProviderComp: public icomp::CComponentBase, public iqtgui::IIconProvi
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CIconProviderComp)
-		I_REGISTER_INTERFACE(iqtgui::IIconProvider)
-		I_ASSIGN_MULTI_0(m_iconFilesAttrPtr, "IconFiles", "Names of the icon files", true)
-		I_ASSIGN(m_iconPathAttrPtr, "IconsPath", "Path to the icon files", true, ".")
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CIconProviderComp);
+		I_REGISTER_INTERFACE(iqtgui::IIconProvider);
+		I_ASSIGN_MULTI_0(m_iconFilesAttrPtr, "IconFiles", "Names of the icon files", true);
+		I_ASSIGN(m_iconPathAttrPtr, "IconsPath", "Path to the icon files", true, ".");
+	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IIconProvider)
 	virtual int GetIconCount() const;

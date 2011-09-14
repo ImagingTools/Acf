@@ -29,7 +29,7 @@ public:
 				i2d::CAnnulus> BaseClass;
 
 	I_BEGIN_COMPONENT(CAnnulusParamsGuiComp);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

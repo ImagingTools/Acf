@@ -25,11 +25,11 @@ public:
 				Ui::CParamsManagerGuiComp,
 				iprm::IParamsManager> BaseClass;
 
-	I_BEGIN_COMPONENT(CParamsManagerGuiComp)
-		I_ASSIGN(m_paramsGuiCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui")
-		I_ASSIGN(m_paramsObserverCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui")
-		I_ASSIGN(m_allowAddRemoveAttrPtr, "AllowAddRemove", "If it is false, 'Add' and 'Remove' buttons will be always hidden", true, true)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CParamsManagerGuiComp);
+		I_ASSIGN(m_paramsGuiCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui");
+		I_ASSIGN(m_paramsObserverCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui");
+		I_ASSIGN(m_allowAddRemoveAttrPtr, "AllowAddRemove", "If it is false, 'Add' and 'Remove' buttons will be always hidden", true, true);
+	I_END_COMPONENT;
 
 	CParamsManagerGuiComp();
 

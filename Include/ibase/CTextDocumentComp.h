@@ -22,11 +22,11 @@ class CTextDocumentComp: public icomp::CComponentBase, virtual public ibase::ITe
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CTextDocumentComp)
+	I_BEGIN_COMPONENT(CTextDocumentComp);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(ibase::ITextDocument);
-		I_ASSIGN(m_defaultTextAttrPtr, "DefaultText", "Default text", false, "Hallo World!")
-	I_END_COMPONENT
+		I_ASSIGN(m_defaultTextAttrPtr, "DefaultText", "Default text", false, "Hallo World!");
+	I_END_COMPONENT;
 
 	// reimplemented (ibase::ITextDocument)
 	virtual istd::CString GetText() const;

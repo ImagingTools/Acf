@@ -35,7 +35,7 @@ public:
 	
 	I_BEGIN_BASE_COMPONENT(CDocumentProcessingManagerCompBase);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
-		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Application's document manager", true, "DocumentManager")
+		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Application's document manager", true, "DocumentManager");
 		I_ASSIGN(m_processorCompPtr, "Processor", "Target processing component", true, "Processor");
 		I_ASSIGN(m_progressManagerCompPtr, "ProgressManager", "Processing progress manager", false, "ProgressManager");
 		I_ASSIGN(m_paramsSetCompPtr, "ProcessingParamsSet", "Processing parameters", false, "ProcessingParameters");

@@ -29,8 +29,8 @@ public:
 				iqt2d::CLine2dShape,
 				i2d::CLine2d> BaseClass;
 
-	I_BEGIN_COMPONENT(CLine2dParamsGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CLine2dParamsGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

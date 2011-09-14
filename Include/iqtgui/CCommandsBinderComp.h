@@ -24,7 +24,7 @@ public:
 
 	I_BEGIN_COMPONENT(CCommandsBinderComp);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
-		I_ASSIGN_MULTI_0(m_commandProvidersCompPtr, "CommandProviders", "List of command providers", true)
+		I_ASSIGN_MULTI_0(m_commandProvidersCompPtr, "CommandProviders", "List of command providers", true);
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)

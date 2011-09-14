@@ -18,9 +18,9 @@ class CInstantiatorComp: public icomp::CComponentBase
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CInstantiatorComp)
-		I_ASSIGN_MULTI_0(m_instancesAttrPtr, "Instances", "List of instances will be created during instantiator is created", false)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CInstantiatorComp);
+		I_ASSIGN_MULTI_0(m_instancesAttrPtr, "Instances", "List of instances will be created during instantiator is created", false);
+	I_END_COMPONENT;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

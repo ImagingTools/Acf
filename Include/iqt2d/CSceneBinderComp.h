@@ -20,10 +20,10 @@ class CSceneBinderComp: public icomp::CComponentBase
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CSceneBinderComp)
+	I_BEGIN_COMPONENT(CSceneBinderComp);
 		I_ASSIGN(m_sceneProviderCompPtr, "SceneProvider", "A graphical scene provider", true, "SceneProvider");
 		I_ASSIGN(m_extenderCompPtr, "SceneExtender", "Shapes provider for the graphical scene", true, "SceneExtender");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

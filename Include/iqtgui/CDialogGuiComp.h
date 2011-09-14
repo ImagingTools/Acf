@@ -19,12 +19,12 @@ class CDialogGuiComp: public icomp::CComponentBase, virtual public iqtgui::IDial
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CDialogGuiComp)
+	I_BEGIN_COMPONENT(CDialogGuiComp);
 		I_REGISTER_INTERFACE(iqtgui::IDialog);
 		I_ASSIGN(m_guiCompPtr, "Gui", "UI to show in the dialog", true, "Gui");
 		I_ASSIGN(m_dialogTitleAttrPtr, "DialogTitle", "Title for the dialog", false, "DialogTitle");
 		I_ASSIGN(m_dialogIconPathAttrPtr, "DialogIconPath", "Icon path for the dialog", false, "IconPath");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IDialog)
 	virtual void ExecuteDialog(IGuiObject* parentPtr);

@@ -23,11 +23,11 @@ class CMediaLoaderComp:
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CMediaLoaderComp)
+	I_BEGIN_COMPONENT(CMediaLoaderComp);
 		I_REGISTER_INTERFACE(iser::IFileTypeInfo);
 		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN(m_autoPlayAttrPtr, "AutoPlay", "If enabled, movie will be automatically played after loading", true, true);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	enum MessageId
 	{

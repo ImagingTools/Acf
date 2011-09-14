@@ -28,8 +28,8 @@ public:
 				iqt2d::CRectangleShape,
 				i2d::CRectangle> BaseClass;
 
-	I_BEGIN_COMPONENT(CRectangleParamsGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CRectangleParamsGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

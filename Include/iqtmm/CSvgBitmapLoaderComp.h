@@ -28,12 +28,12 @@ class CSvgBitmapLoaderComp:
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CSvgBitmapLoaderComp)
+	I_BEGIN_COMPONENT(CSvgBitmapLoaderComp);
 		I_REGISTER_INTERFACE(iser::IFileTypeInfo);
 		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN(m_bitmapWidthAttrPtr, "BitmapWidth", "Width of rendered bitmap in pixels", true, 100);
 		I_ASSIGN(m_bitmapHeightAttrPtr, "BitmapHeight", "Height of rendered bitmap in pixels", true, 100);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	enum MessageId
 	{

@@ -137,7 +137,7 @@ void CSimpleDateTime::FromCTime(double ctime)
 {
 	time_t time = (time_t)ctime;
 
-	tm* timePtr = localtime(&time);;
+	tm* timePtr = localtime(&time);
 	if (timePtr != NULL){
 		m_components[TC_YEAR] = timePtr->tm_year + 1900;
 		m_components[TC_MONTH] = timePtr->tm_mon + 1;

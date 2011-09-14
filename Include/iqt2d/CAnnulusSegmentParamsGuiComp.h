@@ -29,8 +29,8 @@ public:
 				iqt2d::CAnnulusSegmentShape,
 				i2d::CAnnulusSegment> BaseClass;
 
-	I_BEGIN_COMPONENT(CAnnulusSegmentParamsGuiComp)
-	I_END_COMPONENT
+	I_BEGIN_COMPONENT(CAnnulusSegmentParamsGuiComp);
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;

@@ -29,12 +29,12 @@ class CObjectQueueComp:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CObjectQueueComp)
+	I_BEGIN_COMPONENT(CObjectQueueComp);
 		I_REGISTER_INTERFACE(IObjectQueue);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_objectFactoryFactPtr, "ObjectFactory", "Object factory used to create queue instancies", true, "ObjectFactory");
 		I_ASSIGN(m_maxReserveObjectsAttrPtr, "MaxReserveObjects", "Maximal number of reserve objects used to avoid cretion and removing of objects from heap", true, 10);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (ibase::IObjectQueue)
 	virtual int GetObjectsCount(const std::string* typeIdPtr = NULL) const;

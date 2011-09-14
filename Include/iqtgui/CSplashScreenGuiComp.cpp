@@ -57,7 +57,7 @@ void CSplashScreenGuiComp::OnGuiCreated()
 
 					I_DWORD version;
 					if (versionInfo.GetVersionNumber(versionId, version)){
-						istd::CString description = versionInfo.GetVersionIdDescription(versionId);;
+						istd::CString description = versionInfo.GetVersionIdDescription(versionId);
 						istd::CString versionText = versionInfo.GetEncodedVersionName(versionId, version);
 
 						QLabel* descriptionLabelPtr = new QLabel(iqt::GetQString(description), VersionsFrame);

@@ -20,10 +20,10 @@ class TSceneExtenderDelgatorCompWrap:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(TSceneExtenderDelgatorCompWrap)
-		I_REGISTER_INTERFACE(iqt2d::ISceneExtender)
+	I_BEGIN_COMPONENT(TSceneExtenderDelgatorCompWrap);
+		I_REGISTER_INTERFACE(iqt2d::ISceneExtender);
 		I_ASSIGN(m_slaveExtenderCompPtr, "SlaveSceneExtender", "Slave scene extender", false, "SlaveSceneExtender");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (iqt2d::ISceneExtender)
 	virtual void AddItemsToScene(iqt2d::ISceneProvider* providerPtr, int flags);

@@ -23,12 +23,12 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef imod::TSingleModelObserverBase<idoc::IDocumentManager> BaseClass2;
 
-	I_BEGIN_COMPONENT(CDocumentManagerListenerComp)
-		I_REGISTER_INTERFACE(imod::IModelSelection)
-		I_REGISTER_INTERFACE(imod::IObserver)
-		I_REGISTER_INTERFACE(imod::IModel)
+	I_BEGIN_COMPONENT(CDocumentManagerListenerComp);
+		I_REGISTER_INTERFACE(imod::IModelSelection);
+		I_REGISTER_INTERFACE(imod::IObserver);
+		I_REGISTER_INTERFACE(imod::IModel);
 		I_ASSIGN(m_useModelFromViewAttrPtr, "UseModelFromView", "Try to get the observed model from view", false, false);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	CDocumentManagerListenerComp();
 

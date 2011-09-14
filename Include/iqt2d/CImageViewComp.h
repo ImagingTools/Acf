@@ -21,12 +21,12 @@ class CImageViewComp: public iqtgui::TGuiObserverWrap<CSceneProviderGuiComp, CIm
 public:
 	typedef iqtgui::TGuiObserverWrap<CSceneProviderGuiComp, CImageShape> BaseClass;
 
-	I_BEGIN_COMPONENT(CImageViewComp)
-		I_REGISTER_INTERFACE(imod::IObserver)
+	I_BEGIN_COMPONENT(CImageViewComp);
+		I_REGISTER_INTERFACE(imod::IObserver);
 		I_ASSIGN(m_isFrameVisibleAttrPtr, "IsImageFrameVisible", "If true, image frame will be visible", true, false);
 		I_ASSIGN(m_imagePositionModeAttrPtr, "ImagePositionMode", "Mode of image position:\n 0 - corner\n 1 - center", true, 0);
 		I_ASSIGN(m_fitToViewOnChangeAttrPtr, "FitToViewOnImageChanges", "Fit the current image to view", false, false);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnDetached(imod::IModel* modelPtr);

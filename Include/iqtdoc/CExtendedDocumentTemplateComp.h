@@ -36,12 +36,12 @@ public:
 
 	CExtendedDocumentTemplateComp();
 
-	I_BEGIN_COMPONENT(CExtendedDocumentTemplateComp)
-		I_REGISTER_INTERFACE(ibase::ICommandsProvider)
+	I_BEGIN_COMPONENT(CExtendedDocumentTemplateComp);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_ASSIGN(m_aboutCommandTextAttrPtr, "AboutCommandText", "Text used in about menu", true, "Document");
 		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "GUI used inside about dialog box", false, "AboutGui");
 		I_ASSIGN(m_viewGuiCompFact, "ViewFactory", "Create of document GUI", true, "ViewFactory");
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;

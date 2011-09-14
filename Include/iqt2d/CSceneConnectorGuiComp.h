@@ -24,7 +24,7 @@ class CSceneConnectorGuiComp:
 public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CSceneConnectorGuiComp, QWidget> BaseClass;
 
-	I_BEGIN_COMPONENT(CSceneConnectorGuiComp)
+	I_BEGIN_COMPONENT(CSceneConnectorGuiComp);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_ASSIGN(m_sceneGuiCompPtr, "SceneGui", "Gui providing scene information", true, "SceneGui");
 		I_ASSIGN_TO(m_sceneCommandsCompPtr, m_sceneGuiCompPtr, false);
@@ -32,7 +32,7 @@ public:
 		I_ASSIGN(m_extenderGuiCompPtr, "ExtenderGui", "Gui providing parameters displayed on scene", true, "ExtenderGui");
 		I_ASSIGN_TO(m_extenderCommandsCompPtr, m_extenderGuiCompPtr, false);
 		I_ASSIGN_TO(m_extenderCompPtr, m_extenderGuiCompPtr, true);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;

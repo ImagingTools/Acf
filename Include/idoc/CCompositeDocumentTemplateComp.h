@@ -19,10 +19,10 @@ class CCompositeDocumentTemplateComp: public icomp::CComponentBase, virtual publ
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CCompositeDocumentTemplateComp)
-		I_REGISTER_INTERFACE(idoc::IDocumentTemplate)
+	I_BEGIN_COMPONENT(CCompositeDocumentTemplateComp);
+		I_REGISTER_INTERFACE(idoc::IDocumentTemplate);
 		I_ASSIGN_MULTI_0(m_slaveTemplatesCompPtr, "SlaveTemplates", "Set of document templates", true);
-	I_END_COMPONENT
+	I_END_COMPONENT;
 
 	// reimplemented (idoc::IDocumentTemplate)
 	virtual bool IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const;
