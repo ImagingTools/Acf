@@ -14,8 +14,13 @@ void CAutoPersistenceComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	if (*m_restoreOnBeginAttrPtr){
-		if (m_fileLoaderCompPtr.IsValid() && m_objectCompPtr.IsValid() && m_filePathCompPtr.IsValid()){
-			m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, m_filePathCompPtr->GetPath());
+		if (m_fileLoaderCompPtr.IsValid() && m_objectCompPtr.IsValid()){
+			istd::CString filePath;
+			if (m_filePathCompPtr.IsValid()){
+				filePath = m_filePathCompPtr->GetPath();
+			}
+
+			m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, filePath);
 		}
 	}
 }
@@ -24,8 +29,13 @@ void CAutoPersistenceComp::OnComponentCreated()
 void CAutoPersistenceComp::OnComponentDestroyed()
 {
 	if (*m_storeOnEndAttrPtr){
-		if (m_fileLoaderCompPtr.IsValid() && m_objectCompPtr.IsValid() && m_filePathCompPtr.IsValid()){
-			m_fileLoaderCompPtr->SaveToFile(*m_objectCompPtr, m_filePathCompPtr->GetPath());
+		if (m_fileLoaderCompPtr.IsValid() && m_objectCompPtr.IsValid()){
+			istd::CString filePath;
+			if (m_filePathCompPtr.IsValid()){
+				filePath = m_filePathCompPtr->GetPath();
+			}
+
+			m_fileLoaderCompPtr->SaveToFile(*m_objectCompPtr, filePath);
 		}
 	}
 

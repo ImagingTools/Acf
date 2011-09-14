@@ -27,7 +27,7 @@ public:
 	I_BEGIN_COMPONENT(CAutoPersistenceComp);
 		I_ASSIGN(m_objectCompPtr, "Object", "Object will be restored and stored", true, "Object");
 		I_ASSIGN(m_fileLoaderCompPtr, "FileLoader", "File loader used to store and restore object", true, "FileLoader");
-		I_ASSIGN(m_filePathCompPtr, "FilePath", "File path where object data will be stored", true, "FilePath");
+		I_ASSIGN(m_filePathCompPtr, "FilePath", "File path where object data will be stored if non anonymous loader is used", false, "FilePath");
 		I_ASSIGN(m_restoreOnBeginAttrPtr, "RestoreonBegin", "Flag indicating that object should be restored on begin", true, true);
 		I_ASSIGN(m_storeOnEndAttrPtr, "StoreOnEnd", "Flag indicating that object should be stored on end", true, true);
 	I_END_COMPONENT;
