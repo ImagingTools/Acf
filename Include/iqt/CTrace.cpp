@@ -39,7 +39,7 @@ void CTrace::LogMessage(
 			traceMessage = fileMessage + traceMessage;
 		}
 
-		qDebug(traceMessage.toLatin1());
+		qDebug(traceMessage.toLatin1().constData());
 	}
 }
 
