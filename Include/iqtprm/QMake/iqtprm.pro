@@ -3,3 +3,5 @@ include(../../../Config/QMake/QtGuiBaseConfig.pri)
 
 TARGET = iqtprm
 
+LIBS += -liqt
+LIBS += -liprm

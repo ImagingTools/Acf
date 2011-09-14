@@ -4,3 +4,6 @@ include(../../../Config/QMake/QtGuiBaseConfig.pri)
 TARGET = icmpstr
 
 RESOURCES += ../*.qrc
+
+LIBS += -licomp
+LIBS += -liqtgui
