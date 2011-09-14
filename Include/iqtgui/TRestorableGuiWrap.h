@@ -23,7 +23,7 @@ class TRestorableGuiWrap: public Gui
 public:
 	typedef Gui BaseClass;
 
-	I_BEGIN_BASE_COMPONENT(TRestorableGuiWrap)
+	I_BEGIN_BASE_COMPONENT(TRestorableGuiWrap);
 		I_ASSIGN(m_settingsProviderCompPtr, "SettingsProvider", "Application settings provider", false, "SettingsProvider");
 	I_END_COMPONENT;
 
