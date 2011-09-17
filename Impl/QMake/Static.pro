@@ -24,3 +24,4 @@ SUBDIRS += ../../Include/iqtmm/QMake/iqtmm.pro
 SUBDIRS += ../../Include/iqtprm/QMake/iqtprm.pro
 SUBDIRS += ../../Include/iqtproc/QMake/iqtproc.pro
 SUBDIRS += ../../Include/icmpstr/QMake/icmpstr.pro
+SUBDIRS += ../../Include/istd/QMake/iattr.pro
