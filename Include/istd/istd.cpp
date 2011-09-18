@@ -38,13 +38,10 @@ void OnSoftwareError(const char* fileName, int line)
 
 		if (tracePtr->IsTraceEnabled(CriticalLevel, groupId)){
 			tracePtr->LogMessage(CriticalLevel, groupId, "assertion error", fileName, line);
-
-			assert(false);
 		}
 	}
-	else{
-		assert(false);
-	}
+
+	assert(false);
 }
 
 
