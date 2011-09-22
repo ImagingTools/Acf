@@ -7,7 +7,7 @@
 
 
 // ACF includes
-#include "imod/TModelDispatcher.h"
+#include "imod/TModelDispatcherWrap.h"
 
 #include "ibase/TLoggerCompWrap.h"
 #include "ibase/ICommandsProvider.h"
@@ -26,12 +26,12 @@ namespace iqtproc
 
 class CDocumentProcessingManagerCompBase:
 			public QObject,
-			public ibase::CLoggerComponentBase,
+			public imod::TModelDispatcherWrap<ibase::CLoggerComponentBase>,
 			virtual public ibase::ICommandsProvider
 {
 	Q_OBJECT
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef imod::TModelDispatcherWrap<ibase::CLoggerComponentBase> BaseClass;
 	
 	I_BEGIN_BASE_COMPONENT(CDocumentProcessingManagerCompBase);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
@@ -47,7 +47,8 @@ public:
 
 	CDocumentProcessingManagerCompBase();
 
-	void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+	// reimplemented (imod::TModelDispatcherWrap)
+	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 	/**
 		Return \c true, if the input document is required for processing.
@@ -89,9 +90,6 @@ protected:
 	iqtgui::CHierarchicalCommand m_processingMenu;
 	iqtgui::CHierarchicalCommand m_rootCommands;
 	iqtgui::CHierarchicalCommand m_processingCommand;
-
-private:
-	imod::TModelDispatcher<CDocumentProcessingManagerCompBase> m_documentManagerObserver;
 };
 
 

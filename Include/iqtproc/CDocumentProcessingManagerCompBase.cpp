@@ -13,15 +13,16 @@ namespace iqtproc
 
 CDocumentProcessingManagerCompBase::CDocumentProcessingManagerCompBase()
 :	m_rootCommands("", 100, ibase::ICommand::CF_GLOBAL_MENU),
-	m_processingCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU),
-	m_documentManagerObserver(*this)
+	m_processingCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU)
 {
 }
 
 
+// reimplemented (imod::TModelDispatcherWrap)
+
 void CDocumentProcessingManagerCompBase::OnModelChanged(int modelId, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
-	idoc::IDocumentManager* objectPtr = m_documentManagerObserver.GetObjectPtr<idoc::IDocumentManager>(modelId);
+	idoc::IDocumentManager* objectPtr = GetObjectPtr<idoc::IDocumentManager>(modelId);
 	I_ASSERT(objectPtr != NULL);
 	if (objectPtr != NULL){
 		SetProcessingCommandEnabled(objectPtr->GetActiveView() != NULL || !IsInputDocumentRequired());
@@ -63,7 +64,7 @@ void CDocumentProcessingManagerCompBase::OnComponentCreated()
 
 	imod::IModel* documentManagerModelPtr = dynamic_cast<imod::IModel*>(m_documentManagerCompPtr.GetPtr());
 	if (documentManagerModelPtr != NULL){
-		m_documentManagerObserver.RegisterModel(documentManagerModelPtr);
+		RegisterModel(documentManagerModelPtr);
 	}
 	
 	QString menuName = tr("Processing");
@@ -88,7 +89,7 @@ void CDocumentProcessingManagerCompBase::OnComponentCreated()
 
 void CDocumentProcessingManagerCompBase::OnComponentDestroyed()
 {
-	m_documentManagerObserver.UnregisterAllModels();
+	UnregisterAllModels();
 
 	BaseClass::OnComponentDestroyed();
 }

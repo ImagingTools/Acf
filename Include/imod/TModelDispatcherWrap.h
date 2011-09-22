@@ -1,5 +1,5 @@
-#ifndef imod_TModelDispatcher_included
-#define imod_TModelDispatcher_included
+#ifndef imod_TModelDispatcherWrap_included
+#define imod_TModelDispatcherWrap_included
 
 
 // STL includes
@@ -22,14 +22,14 @@ namespace imod
 	\note Notification consumer class must implement the method
 	void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr) to support the notification callback.
 */
-template <class NotifyReceiver>
-class TModelDispatcher: protected imod::CMultiModelObserverBase
+template <class Base>
+class TModelDispatcherWrap: public Base
 {
 public:
-	typedef imod::CMultiModelObserverBase BaseClass;
+	typedef Base BaseClass;
 
-	TModelDispatcher(NotifyReceiver& parent);
-	~TModelDispatcher();
+	TModelDispatcherWrap();
+	~TModelDispatcherWrap();
 
 	/**
 		Register the data model to be observed. If model registration was successfull, the function returns \c true.
@@ -57,12 +57,26 @@ public:
 	template <class Object>
 	Object* GetObjectPtr(int modelId) const;
 
-protected:
-	// reimplemented (imod::IObserver)
-	virtual bool OnDetached(imod::IModel* modelPtr);
+	// abstract methods
+	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr) = 0;
 
-	// reimplemented (imod::CMultiModelObserverBase)
-	virtual void OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+protected:
+	class ModelObserver: public imod::CMultiModelObserverBase
+	{
+	public:
+		typedef imod::CMultiModelObserverBase BaseClass;
+
+		ModelObserver(TModelDispatcherWrap& parent);
+
+		// reimplemented (imod::IObserver)
+		virtual bool OnDetached(imod::IModel* modelPtr);
+
+		// reimplemented (imod::CMultiModelObserverBase)
+		virtual void OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+
+	private:
+		TModelDispatcherWrap& m_parent;
+	};
 
 private:
 	struct ModelInfo
@@ -75,28 +89,29 @@ private:
 
 	ModelMap m_modelMap;
 
-	NotifyReceiver& m_parent;
+	ModelObserver m_modelObserver;
 };
 
 
-template <class NotifyReceiver>
-TModelDispatcher<NotifyReceiver>::TModelDispatcher(NotifyReceiver& parent)
-	:m_parent(parent)
+// public methods
+template <class Base>
+TModelDispatcherWrap<Base>::TModelDispatcherWrap()
+	:m_modelObserver(*this)
 {
 }
 
 
-template <class NotifyReceiver>
-TModelDispatcher<NotifyReceiver>::~TModelDispatcher()
+template <class Base>
+TModelDispatcherWrap<Base>::~TModelDispatcherWrap()
 {
 	UnregisterAllModels();
 }
 
 
-template <class NotifyReceiver>
-bool TModelDispatcher<NotifyReceiver>::RegisterModel(imod::IModel* modelPtr, int modelId, int relevantFlags)
+template <class Base>
+bool TModelDispatcherWrap<Base>::RegisterModel(imod::IModel* modelPtr, int modelId, int relevantFlags)
 {
-	if (modelPtr->AttachObserver(this)){
+	if (modelPtr->AttachObserver(&m_modelObserver)){
 		ModelInfo modelInfo;
 		modelInfo.modelId = modelId;
 		modelInfo.relevantFlags = relevantFlags;
@@ -110,8 +125,8 @@ bool TModelDispatcher<NotifyReceiver>::RegisterModel(imod::IModel* modelPtr, int
 }
 
 
-template <class NotifyReceiver>
-void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
+template <class Base>
+void TModelDispatcherWrap<Base>::UnregisterModel(int modelId)
 {
 	for (typename ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
 		if (modelId == index->second.modelId){
@@ -119,7 +134,7 @@ void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
 
 			m_modelMap.erase(index);
 
-			modelPtr->DetachObserver(this);
+			modelPtr->DetachObserver(&m_modelObserver);
 
 			break;
 		}
@@ -127,8 +142,8 @@ void TModelDispatcher<NotifyReceiver>::UnregisterModel(int modelId)
 }
 
 
-template <class NotifyReceiver>
-void TModelDispatcher<NotifyReceiver>::UnregisterAllModels()
+template <class Base>
+void TModelDispatcherWrap<Base>::UnregisterAllModels()
 {
 	while (!m_modelMap.empty()){
 		typename ModelMap::iterator currentIter = m_modelMap.begin();
@@ -137,16 +152,16 @@ void TModelDispatcher<NotifyReceiver>::UnregisterAllModels()
 
 		m_modelMap.erase(currentIter);
 
-		modelPtr->DetachObserver(this);
+		modelPtr->DetachObserver(&m_modelObserver);
 	}
 
 	m_modelMap.clear();
 }
 
 
-template <class NotifyReceiver>
+template <class Base>
 template <class Object>
-Object* TModelDispatcher<NotifyReceiver>::GetObjectPtr(int modelId) const
+Object* TModelDispatcherWrap<Base>::GetObjectPtr(int modelId) const
 {
 	for (typename ModelMap::const_iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
 		if (modelId == index->second.modelId){
@@ -160,17 +175,24 @@ Object* TModelDispatcher<NotifyReceiver>::GetObjectPtr(int modelId) const
 }
 
 
-// protected methods
+// protected methods of the embedded class ModelObserver
+		
+template <class Base>
+TModelDispatcherWrap<Base>::ModelObserver::ModelObserver(TModelDispatcherWrap& parent)
+	:m_parent(parent)
+{
+}
+
 
 // reimplemented (imod::IObserver)
 
-template <class NotifyReceiver>
-bool TModelDispatcher<NotifyReceiver>::OnDetached(imod::IModel* modelPtr)
+template <class Base>
+bool TModelDispatcherWrap<Base>::ModelObserver::OnDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnDetached(modelPtr)){
-		for (typename ModelMap::iterator index = m_modelMap.begin(); index != m_modelMap.end(); index++){
+		for (typename ModelMap::iterator index = m_parent.m_modelMap.begin(); index != m_parent.m_modelMap.end(); index++){
 			if (index->first == modelPtr){
-				m_modelMap.erase(index);
+				m_parent.m_modelMap.erase(index);
 
 				break;
 			}
@@ -185,11 +207,11 @@ bool TModelDispatcher<NotifyReceiver>::OnDetached(imod::IModel* modelPtr)
 
 // reimplemented (imod::CMultiModelObserverBase)
 
-template <class NotifyReceiver>
-void TModelDispatcher<NotifyReceiver>::OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
+template <class Base>
+void TModelDispatcherWrap<Base>::ModelObserver::OnUpdate(imod::IModel* modelPtr, int changeFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	typename ModelMap::iterator foundModelIter = m_modelMap.find(modelPtr);
-	if (foundModelIter != m_modelMap.end()){
+	typename ModelMap::iterator foundModelIter = m_parent.m_modelMap.find(modelPtr);
+	if (foundModelIter != m_parent.m_modelMap.end()){
 		int relevantFlags = foundModelIter->second.relevantFlags;
 		if (relevantFlags != 0 && (relevantFlags & changeFlags) == 0){
 			return;
@@ -205,6 +227,6 @@ void TModelDispatcher<NotifyReceiver>::OnUpdate(imod::IModel* modelPtr, int chan
 } // namespace imod
 
 
-#endif // !imod_TModelDispatcher_included
+#endif // !imod_TModelDispatcherWrap_included
 
 

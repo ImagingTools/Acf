@@ -246,7 +246,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TModelDispatcher.h"
+				RelativePath="..\TModelDispatcherWrap.h"
 				>
 			</File>
 			<File
