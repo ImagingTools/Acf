@@ -30,6 +30,9 @@ class TMultiAttribute: public iattr::CAttributeBase
 public:
 	typedef Value ValueType;
 	typedef iattr::CAttributeBase BaseClass;
+	typedef std::vector<ValueType> ValueList;
+	typedef typename ValueList::iterator iterator;
+	typedef typename ValueList::const_iterator const_iterator;
 
 	/**
 		Default constructor.
@@ -54,6 +57,19 @@ public:
 				int elementsCount = 0,
 				Value* valuesPtr = NULL);
 
+	void SetValues(const ValueList& valueList);
+
+	/**
+		Set value list to the attribute.
+	*/
+	template <class ContainerImpl>
+	void SetValues(typename ContainerImpl::const_iterator begin, typename ContainerImpl::const_iterator end);
+
+	/**
+		Get all values.
+	*/
+	const ValueList& GetValues() const;
+
 	/**
 		Get number of values in the multi attribute.
 	*/
@@ -62,7 +78,7 @@ public:
 	/**
 		Get value at the index \c index
 	*/
-	virtual const Value& GetValueAt(int index) const;
+	virtual Value GetValueAt(int index) const;
 
 	/**
 		Set value at the index \c index to new value \c value.
@@ -79,6 +95,12 @@ public:
 	*/
 	virtual void ResetValues();
 
+	// STL compatibility
+	iterator begin();
+	const_iterator begin() const;
+	iterator end();
+	const_iterator end() const;
+
 	// reimplemented (iser::IObject)
 	const std::string& GetFactoryId() const;
 
@@ -89,11 +111,7 @@ public:
 	static const std::string& GetTypeName();
 
 protected:
-	struct Wrap
-	{
-		Value value;
-	};
-	std::vector<Wrap> m_values;
+	std::vector<Value> m_values;
 
 private:
 	static const std::string s_typeName;
@@ -120,10 +138,38 @@ TMultiAttribute<Value>::TMultiAttribute(
 	:BaseClass(attributeOwnerPtr, attributeId, attributeDescription, attributeFlags, changeFlags)
 {
 	for (int i = 0; i < elementsCount; ++i){
-		Wrap wrap;
-		wrap.value = valuesPtr[i];
-		m_values.push_back(wrap);
+		m_values.push_back(valuesPtr[i]);
 	}
+}
+
+
+template <typename Value>
+void TMultiAttribute<Value>::SetValues(const ValueList& valueList)
+{
+	SetValues<ValueList>(valueList.begin(), valueList.end());
+}
+
+
+template <typename Value>
+template <class ContainerImpl>
+void TMultiAttribute<Value>::SetValues(typename ContainerImpl::const_iterator beginIter, typename ContainerImpl::const_iterator endIter)
+{
+	istd::CChangeNotifier changePtr(m_attributeOwnerPtr, m_changeFlags);
+
+	ResetValues();
+
+	while (beginIter != endIter){
+		InsertValue(*beginIter);
+
+		++beginIter;
+	}
+}
+
+
+template <typename Value>
+const typename TMultiAttribute<Value>::ValueList& TMultiAttribute<Value>::GetValues() const
+{
+	return m_values;
 }
 
 
@@ -135,12 +181,12 @@ int TMultiAttribute<Value>::GetValuesCount() const
 
 
 template <typename Value>
-const Value& TMultiAttribute<Value>::GetValueAt(int index) const
+Value TMultiAttribute<Value>::GetValueAt(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetValuesCount());
 
-	return m_values[index].value;
+	return m_values[index];
 }
 
 
@@ -150,10 +196,10 @@ void TMultiAttribute<Value>::SetValueAt(int index, const Value& value)
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetValuesCount());
 
-	if (m_values[index].value != value){
+	if (m_values[index] != value){
 		istd::CChangeNotifier changePtr(m_attributeOwnerPtr, m_changeFlags);
 
-		m_values[index].value = value;
+		m_values[index] = value;
 	}
 }
 
@@ -161,9 +207,7 @@ void TMultiAttribute<Value>::SetValueAt(int index, const Value& value)
 template <typename Value>
 void TMultiAttribute<Value>::InsertValue(const Value& value)
 {
-	Wrap wrap;
-	wrap.value = value;
-	m_values.push_back(wrap);
+	m_values.push_back(value);
 }
 
 
@@ -173,6 +217,36 @@ void TMultiAttribute<Value>::ResetValues()
 	istd::CChangeNotifier changePtr(m_attributeOwnerPtr, m_changeFlags);
 	
 	m_values.clear();
+}
+
+
+// STL compatibility
+
+template <typename Value>
+typename TMultiAttribute<Value>::iterator TMultiAttribute<Value>::begin()
+{
+	return m_values.begin();
+}
+
+
+template <typename Value>
+typename TMultiAttribute<Value>::const_iterator TMultiAttribute<Value>::begin() const
+{
+	return m_values.begin();
+}
+
+
+template <typename Value>
+typename TMultiAttribute<Value>::iterator TMultiAttribute<Value>::end()
+{
+	return m_values.end();
+}
+	
+
+template <typename Value>
+typename TMultiAttribute<Value>::const_iterator TMultiAttribute<Value>::end() const
+{
+	return m_values.end();
 }
 
 
@@ -215,7 +289,9 @@ bool TMultiAttribute<Value>::Serialize(iser::IArchive& archive)
 
 	for (int i = 0; i < valuesCount; ++i){
 		retVal = retVal && archive.BeginTag(valueTag);
-		retVal = retVal && archive.Process(m_values[i].value);
+		Value value = m_values[i];
+		retVal = retVal && archive.Process(value);
+		m_values[i] = value;
 		retVal = retVal && archive.EndTag(valueTag);
 	}
 

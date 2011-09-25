@@ -22,7 +22,7 @@ public:
 		/**
 			Attribute is persistent.
 		*/
-		AF_PERSISTENT
+		AF_PERSISTENT = 0x1
 	};
 
 	/**

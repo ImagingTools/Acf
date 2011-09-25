@@ -11,6 +11,7 @@
 #include "iser/CArchiveTag.h"
 
 #include "iattr/TAttribute.h"
+#include "iattr/TMultiAttribute.h"
 #include "iattr/IAttributesManager.h"
 
 
