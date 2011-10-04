@@ -18,18 +18,6 @@ CDocumentProcessingManagerCompBase::CDocumentProcessingManagerCompBase()
 }
 
 
-// reimplemented (imod::TModelDispatcherWrap)
-
-void CDocumentProcessingManagerCompBase::OnModelChanged(int modelId, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	idoc::IDocumentManager* objectPtr = GetObjectPtr<idoc::IDocumentManager>(modelId);
-	I_ASSERT(objectPtr != NULL);
-	if (objectPtr != NULL){
-		SetProcessingCommandEnabled(objectPtr->GetActiveView() != NULL || !IsInputDocumentRequired());
-	}
-}
-
-
 bool CDocumentProcessingManagerCompBase::IsInputDocumentRequired() const
 {
 	bool retVal = true;
@@ -62,9 +50,8 @@ void CDocumentProcessingManagerCompBase::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	imod::IModel* documentManagerModelPtr = dynamic_cast<imod::IModel*>(m_documentManagerCompPtr.GetPtr());
-	if (documentManagerModelPtr != NULL){
-		RegisterModel(documentManagerModelPtr);
+	if (m_documentManagerModelCompPtr.IsValid()){
+		RegisterModel(m_documentManagerModelCompPtr.GetPtr());
 	}
 	
 	QString menuName = tr("Processing");
@@ -94,6 +81,19 @@ void CDocumentProcessingManagerCompBase::OnComponentDestroyed()
 	BaseClass::OnComponentDestroyed();
 }
 
+
+// protected methods
+
+// reimplemented (imod::CMultiModelDispatcherBase)
+
+void CDocumentProcessingManagerCompBase::OnModelChanged(int modelId, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	idoc::IDocumentManager* objectPtr = GetObjectAt<idoc::IDocumentManager>(modelId);
+	I_ASSERT(objectPtr != NULL);
+	if (objectPtr != NULL){
+		SetProcessingCommandEnabled((objectPtr->GetActiveView() != NULL) || !IsInputDocumentRequired());
+	}
+}
 
 
 // private slots

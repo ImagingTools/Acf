@@ -7,7 +7,7 @@
 
 
 // ACF includes
-#include "imod/TModelDispatcherWrap.h"
+#include "imod/CMultiModelDispatcherBase.h"
 
 #include "ibase/TLoggerCompWrap.h"
 #include "ibase/ICommandsProvider.h"
@@ -26,16 +26,18 @@ namespace iqtproc
 
 class CDocumentProcessingManagerCompBase:
 			public QObject,
-			public imod::TModelDispatcherWrap<ibase::CLoggerComponentBase>,
+			public ibase::CLoggerComponentBase,
+			protected imod::CMultiModelDispatcherBase,
 			virtual public ibase::ICommandsProvider
 {
 	Q_OBJECT
 public:
-	typedef imod::TModelDispatcherWrap<ibase::CLoggerComponentBase> BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 	
 	I_BEGIN_BASE_COMPONENT(CDocumentProcessingManagerCompBase);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Application's document manager", true, "DocumentManager");
+		I_ASSIGN_TO(m_documentManagerModelCompPtr, m_documentManagerCompPtr, true);
 		I_ASSIGN(m_processorCompPtr, "Processor", "Target processing component", true, "Processor");
 		I_ASSIGN(m_progressManagerCompPtr, "ProgressManager", "Processing progress manager", false, "ProgressManager");
 		I_ASSIGN(m_paramsSetCompPtr, "ProcessingParamsSet", "Processing parameters", false, "ProcessingParameters");
@@ -46,9 +48,6 @@ public:
 	I_END_COMPONENT;
 
 	CDocumentProcessingManagerCompBase();
-
-	// reimplemented (imod::TModelDispatcherWrap)
-	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 	/**
 		Return \c true, if the input document is required for processing.
@@ -74,11 +73,12 @@ public:
 	*/
 	virtual void DoDocumentProcessing(const istd::IChangeable* inputDocumentPtr, const std::string& documentTypeId) = 0;
 
-private Q_SLOTS:
-	void OnDoProcessing();
-
 protected:
+	// reimplemented (imod::CMultiModelDispatcherBase)
+	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+
 	I_REF(idoc::IDocumentManager, m_documentManagerCompPtr);
+	I_REF(imod::IModel, m_documentManagerModelCompPtr);
 	I_REF(iproc::IProcessor, m_processorCompPtr);
 	I_REF(iproc::IProgressManager, m_progressManagerCompPtr);
 	I_REF(iprm::IParamsSet, m_paramsSetCompPtr);
@@ -90,6 +90,9 @@ protected:
 	iqtgui::CHierarchicalCommand m_processingMenu;
 	iqtgui::CHierarchicalCommand m_rootCommands;
 	iqtgui::CHierarchicalCommand m_processingCommand;
+
+private Q_SLOTS:
+	void OnDoProcessing();
 };
 
 

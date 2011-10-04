@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiModelDispatcherBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMultiModelObserverBase.cpp"
 				>
 			</File>
@@ -207,6 +211,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiModelBridgeBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiModelDispatcherBase.h"
 				>
 			</File>
 			<File
@@ -243,10 +251,6 @@
 			</File>
 			<File
 				RelativePath="..\IUndoManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TModelDispatcherWrap.h"
 				>
 			</File>
 			<File
