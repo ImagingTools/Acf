@@ -109,12 +109,14 @@ void CAboutWidgetGuiComp::OnGuiRetranslate()
 	ProductNameLabel->setVisible(!productName.isEmpty());
 	ApplicationNameLabel->setText(applicationName);
 	ApplicationNameLabel->setVisible(!applicationName.isEmpty());
+
 	if (!applicationSubname.isEmpty() && !applicationType.isEmpty()){
 		ApplicationTypeLabel->setText(applicationSubname + "(" + applicationType + ")");
 	}
 	else{
 		ApplicationTypeLabel->setText(applicationSubname + applicationType);
 	}
+
 	ApplicationTypeLabel->setVisible(!applicationSubname.isEmpty() || !applicationType.isEmpty());
 
 	CopyrightLabel->setText(legalCopyright);

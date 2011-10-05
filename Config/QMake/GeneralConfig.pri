@@ -32,7 +32,9 @@ CONFIG(release, debug|release){
 
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
-	QMAKE_LFLAGS += -fvisibility=hidden
+	#QMAKE_CXXFLAGS += -fvisibility=hidden
+	QMAKE_CXXFLAGS += -fno-threadsafe-statics
+	QMAKE_CXXFLAGS += -fvisibility-ms-compat
 }
 
 INCLUDEPATH += $$PWD/../../Include

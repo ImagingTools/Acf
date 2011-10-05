@@ -13,7 +13,7 @@ namespace icomp
 
 
 #if defined _MSC_VER
-	#define I_FUNCTION_EXPORT __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+	#define I_FUNCTION_EXPORT __declspec(dllexport) // Note: actually gcc seems also to supports this syntax.
 #elif defined __GNUC__
 	#define I_FUNCTION_EXPORT __attribute__ ((visibility("default")))
 #else

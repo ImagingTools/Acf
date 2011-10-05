@@ -2,7 +2,7 @@
 #define iattr_IAttributesManager_included
 
 
-#include "iser/ISerializable.h"
+#include "iser/IObject.h"
 
 #include "iattr/iattr.h"
 

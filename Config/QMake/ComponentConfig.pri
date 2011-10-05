@@ -13,4 +13,5 @@ DESTDIR = ../../../Bin/$$COMPILER_DIR
 
 !win32-msvc*{
 	QMAKE_CFLAGS += -fPIC
+	QMAKE_EXTENSION_SHLIB = arp
 }
