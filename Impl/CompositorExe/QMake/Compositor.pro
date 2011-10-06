@@ -1,7 +1,7 @@
-include($(ACFDIR)/Config/QMake/ApplicationConfig.pri)
-include($(ACFDIR)/Config/QMake/QtBaseConfig.pri)
-include($(ACFDIR)/Impl/AcfStd/QMake/AcfStd.pri)
-include($(ACFDIR)/Impl/AcfQt/QMake/AcfQt.pri)
+include(../../../Config/QMake/ApplicationConfig.pri)
+include(../../../Config/QMake/QtBaseConfig.pri)
+include(../../AcfStd/QMake/AcfStd.pri)
+include(../../AcfQt/QMake/AcfQt.pri)
 
 TARGET = Compositor
 
@@ -14,5 +14,5 @@ QT += xml
 ARXC_CONFIG = ../../../Config/Core.xpc
 ARXC_FILES += ../*.arx
 
-include($(ACFDIR)/Config/QMake/CustomBuild.pri)
+include(../../../Config/QMake/CustomBuild.pri)
 

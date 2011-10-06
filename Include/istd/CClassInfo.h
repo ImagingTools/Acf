@@ -193,7 +193,9 @@ inline bool CClassInfo::operator>(const CClassInfo& info) const
 template <class C>
 CClassInfo CClassInfo::GetInfo()
 {
-	return CClassInfo(typeid(C));
+	CClassInfo retVal(typeid(C));
+
+	return retVal;
 }
 
 
