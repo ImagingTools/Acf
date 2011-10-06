@@ -43,15 +43,16 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const istd
 	if (registryPtr != NULL){
 		istd::CString headerFilePath;
 		std::string className;
-		if (ExtractInfoFromFile(filePath, className, headerFilePath)){
+
+		Addresses realAddresses;
+		Addresses composedAddresses;
+
+		if (		AppendAddresses(*registryPtr, realAddresses, composedAddresses) &&
+					ExtractInfoFromFile(filePath, className, headerFilePath)){
 			std::ofstream stream(filePath.ToString().c_str());
 			std::ofstream headerStream(headerFilePath.ToString().c_str());
 
-			Addresses realAddresses;
-			Addresses composedAddresses;
-
-			if (		AppendAddresses(*registryPtr, realAddresses, composedAddresses) &&
-						WriteHeader(className, *registryPtr, composedAddresses, realAddresses, headerStream) &&
+			if (		WriteHeader(className, *registryPtr, composedAddresses, realAddresses, headerStream) &&
 						WriteIncludes(className, realAddresses, stream) &&
 						WriteClassDefinitions(className, *registryPtr, composedAddresses, realAddresses, stream)){
 				return StateOk;
