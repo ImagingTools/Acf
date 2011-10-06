@@ -38,7 +38,7 @@
                 true
               </IsEnabled>
               <Value>
-                $(ACFDIR)/Config/Full.xpc
+                ../../Config/Full.xpc
               </Value>
             </Data>
           </AttributeInfo>
@@ -313,7 +313,7 @@
                 true
               </IsEnabled>
               <Value>
-                $(ACFDIR)/Bin/$(ConfigurationName)/Acf.exe
+                Acf.exe
               </Value>
             </Data>
           </AttributeInfo>
