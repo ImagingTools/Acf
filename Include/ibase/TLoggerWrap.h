@@ -179,7 +179,7 @@ bool TLoggerWrap<Base>::SendLogMessage(
 
 		DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
 
-		m_logPtr->AddMessage(new ibase::CMessage(category, id, correctedMessage, correctedMessageSource, flags));
+		m_logPtr->AddMessage(istd::TSmartPtr<const IMessage>(new ibase::CMessage(category, id, correctedMessage, correctedMessageSource, flags)));
 	
 		return true;
 	}

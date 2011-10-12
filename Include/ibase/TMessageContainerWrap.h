@@ -25,24 +25,24 @@ namespace ibase
 	Basic implementation of a message container.
 */
 template <class Base>
-class TMessageContainerWrap: public ibase::THierarchicalBase<Base>
+class TMessageContainerWrap: public THierarchicalBase<Base>
 {
 public:
-	typedef ibase::THierarchicalBase<Base> BaseClass;
+	typedef THierarchicalBase<Base> BaseClass;
 
 	TMessageContainerWrap();
 	virtual ~TMessageContainerWrap();
 
-	virtual void AddChildContainer(ibase::IMessageContainer* childContainerPtr);
+	virtual void AddChildContainer(IMessageContainer* childContainerPtr);
 
 	// pseudo-reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-	// pseudo-reimplemented (ibase::IMessageContainer)
+	// pseudo-reimplemented (IMessageContainer)
 	virtual void SetMaxMessageCount(int maxMessageCount = -1);
 	virtual void SetMaxLiveTime(int maxLiveTime = -1);
 	virtual int GetWorstCategory() const;
-	virtual ibase::IMessageContainer::Messages GetMessages() const;
+	virtual IMessageContainer::Messages GetMessages() const;
 	virtual void ClearMessages();
 
 	// pseudo-reimplemented (ibase::IMessageConsumer)
@@ -50,20 +50,20 @@ public:
 				int messageCategory = -1,
 				int messageId = -1,
 				const IMessage* messagePtr = NULL) const;
-	virtual void AddMessage(const ibase::IMessageContainer::MessagePtr& messagePtr);
+	virtual void AddMessage(const IMessageConsumer::MessagePtr& messagePtr);
 
 	// pseudo-reimplemented (IHierarchicalMessageContainer)
 	virtual int GetChildsCount() const;
-	virtual ibase::IMessageContainer* GetChild(int index) const;
+	virtual IMessageContainer* GetChild(int index) const;
 
 protected:
-	typedef std::list<ibase::IMessageContainer::MessagePtr> MessageList;
+	typedef std::list<IMessageContainer::MessagePtr> MessageList;
 	MessageList m_messages;
 
 	int m_worstCategory;
 
 private:
-	typedef std::vector<ibase::IMessageContainer*> Childs;
+	typedef std::vector<IMessageContainer*> Childs;
 	Childs m_childContainers;
 
 	int m_maxMessageCount;
@@ -90,7 +90,7 @@ TMessageContainerWrap<Base>::~TMessageContainerWrap()
 
 
 template <class Base>
-void TMessageContainerWrap<Base>::AddChildContainer(ibase::IMessageContainer* childContainerPtr)
+void TMessageContainerWrap<Base>::AddChildContainer(IMessageContainer* childContainerPtr)
 {
 	I_ASSERT(childContainerPtr != NULL);
 
@@ -123,10 +123,10 @@ bool TMessageContainerWrap<Base>::Serialize(iser::IArchive& archive)
 	for (		MessageList::const_iterator iter = m_messages.begin();
 				iter != m_messages.end();
 				++iter){
-		const ibase::IMessageContainer::MessagePtr& messagePtr = *iter;
+		const IMessageContainer::MessagePtr& messagePtr = *iter;
 
 		retVal = retVal && archive.BeginTag(messageTag);
-		retVal = retVal && const_cast<ibase::IMessage*>(messagePtr.GetPtr())->Serialize(archive);
+		retVal = retVal && const_cast<IMessage*>(messagePtr.GetPtr())->Serialize(archive);
 		retVal = retVal && archive.EndTag(messageTag);
 	}
 
@@ -166,7 +166,7 @@ int TMessageContainerWrap<Base>::GetWorstCategory() const
 		for (		MessageList::const_iterator iter = m_messages.begin();
 					iter != m_messages.end();
 					++iter){
-			const ibase::IMessageContainer::MessagePtr& messagePtr = *iter;
+			const IMessageContainer::MessagePtr& messagePtr = *iter;
 
 			int category = messagePtr->GetCategory();
 			if (category > worstCategory){
@@ -176,7 +176,7 @@ int TMessageContainerWrap<Base>::GetWorstCategory() const
 	}
 
 	for (int childIndex = 0; childIndex < childCount; childIndex++){
-		ibase::IMessageContainer* childPtr = dynamic_cast<ibase::IMessageContainer*>(GetChild(childIndex));
+		IMessageContainer* childPtr = dynamic_cast<IMessageContainer*>(GetChild(childIndex));
 		if (childPtr != NULL){
 			int category = childPtr->GetWorstCategory();
 			if (category > worstCategory){
@@ -190,24 +190,24 @@ int TMessageContainerWrap<Base>::GetWorstCategory() const
 
 
 template <class Base>
-ibase::IMessageContainer::Messages TMessageContainerWrap<Base>::GetMessages() const
+IMessageContainer::Messages TMessageContainerWrap<Base>::GetMessages() const
 {
-	ibase::IMessageContainer::Messages messages;
+	IMessageContainer::Messages messages;
 
 	for (		MessageList::const_iterator iter = m_messages.begin();
 				iter != m_messages.end();
 				++iter){
-		const ibase::IMessageContainer::MessagePtr& messagePtr = *iter;
+		const IMessageContainer::MessagePtr& messagePtr = *iter;
 
 		messages.push_back(messagePtr);
 	}
 
 	int childsCount = GetChildsCount();
 	for (int childIndex = 0; childIndex < childsCount; childIndex++){
-		ibase::IMessageContainer* childPtr = GetChild(childIndex);
+		IMessageContainer* childPtr = GetChild(childIndex);
 		I_ASSERT(childPtr != NULL);
 
-		ibase::IMessageContainer::Messages childMessages = childPtr->GetMessages();
+		IMessageContainer::Messages childMessages = childPtr->GetMessages();
 
 		messages.insert(messages.end(), childMessages.begin(), childMessages.end());
 	}
@@ -227,7 +227,7 @@ bool TMessageContainerWrap<Base>::IsMessageSupported(
 
 
 template <class Base>
-void TMessageContainerWrap<Base>::AddMessage(const ibase::IMessageContainer::MessagePtr& messagePtr)
+void TMessageContainerWrap<Base>::AddMessage(const IMessageConsumer::MessagePtr& messagePtr)
 {
 	I_ASSERT(messagePtr.IsValid());
 
@@ -236,9 +236,9 @@ void TMessageContainerWrap<Base>::AddMessage(const ibase::IMessageContainer::Mes
 	}
 
 	{
-		istd::TChangeNotifier<ibase::IMessageContainer> changePtr(
+		istd::TChangeNotifier<IMessageContainer> changePtr(
 					this,
-					ibase::IMessageContainer::CF_MESSAGE_ADDED,
+					IMessageContainer::CF_MESSAGE_ADDED,
 					const_cast<IMessage*>(messagePtr.GetPtr()));
 
 		m_messages.push_back(messagePtr);
@@ -252,11 +252,11 @@ void TMessageContainerWrap<Base>::AddMessage(const ibase::IMessageContainer::Mes
 	if (m_maxMessageCount >= 0){
 		while (int(m_messages.size()) > m_maxMessageCount){
 			I_ASSERT(!m_messages.empty());
-			const ibase::IMessageContainer::MessagePtr& messageToRemovePtr = m_messages.back();
+			const IMessageContainer::MessagePtr& messageToRemovePtr = m_messages.back();
 
-			istd::TChangeNotifier<ibase::IMessageContainer> changePtr(
+			istd::TChangeNotifier<IMessageContainer> changePtr(
 						this,
-						ibase::IMessageContainer::CF_MESSAGE_REMOVED,
+						IMessageContainer::CF_MESSAGE_REMOVED,
 						const_cast<IMessage*>(messageToRemovePtr.GetPtr()));
 
 			int removeCategory = messageToRemovePtr->GetCategory();
@@ -274,7 +274,7 @@ void TMessageContainerWrap<Base>::AddMessage(const ibase::IMessageContainer::Mes
 template <class Base>
 void TMessageContainerWrap<Base>::ClearMessages()
 {
-	istd::TChangeNotifier<ibase::IMessageContainer> changePtr(this, ibase::IMessageContainer::CF_RESET);
+	istd::TChangeNotifier<IMessageContainer> changePtr(this, IMessageContainer::CF_RESET);
 	
 	m_messages.clear();
 
@@ -292,7 +292,7 @@ int TMessageContainerWrap<Base>::GetChildsCount() const
 
 
 template <class Base>
-ibase::IMessageContainer* TMessageContainerWrap<Base>::GetChild(int index) const
+IMessageContainer* TMessageContainerWrap<Base>::GetChild(int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_childContainers.size()));
@@ -301,7 +301,7 @@ ibase::IMessageContainer* TMessageContainerWrap<Base>::GetChild(int index) const
 }
 
 
-typedef ibase::TMessageContainerWrap<ibase::IHierarchicalMessageContainer> CMessageContainer;
+typedef TMessageContainerWrap<IHierarchicalMessageContainer> CMessageContainer;
 
 
 } // namespace ibase
