@@ -204,6 +204,9 @@ const std::string& TMultiAttribute<Value>::GetTypeName()
 
 // private static attributes
 
+template <>
+const std::string TMultiAttribute<std::string>::s_typeName("icomp::TMultiAttribute<std::string>");
+
 template <typename Value>
 const std::string TMultiAttribute<Value>::s_typeName(istd::CClassInfo::GetName<TMultiAttribute<Value> >());
 

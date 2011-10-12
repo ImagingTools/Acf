@@ -132,6 +132,9 @@ const std::string& TAttribute<Value>::GetTypeName()
 
 // private static attributes
 
+template <>
+const std::string TAttribute<std::string>::s_typeName("icomp::TAttribute<std::string>");
+
 template <typename Value>
 const std::string TAttribute<Value>::s_typeName(istd::CClassInfo::GetName<TAttribute<Value> >());
 

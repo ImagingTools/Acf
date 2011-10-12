@@ -2,7 +2,6 @@
 
 
 #include "istd/TChangeNotifier.h"
-#include "istd/CClassInfo.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -87,18 +86,22 @@ IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(
 
 iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeType) const
 {
-	static std::string boolAttrTypeName = istd::CClassInfo::GetName<icomp::CBoolAttribute>();
-	static std::string doubleAttrTypeName = istd::CClassInfo::GetName<icomp::CDoubleAttribute>();
-	static std::string intAttrTypeName = istd::CClassInfo::GetName<icomp::CIntAttribute>();
-	static std::string stringAttrTypeName = istd::CClassInfo::GetName<icomp::CStringAttribute>();
-	static std::string multiBoolAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiBoolAttribute>();
-	static std::string multiDoubleAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiDoubleAttribute>();
-	static std::string multiIntAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiIntAttribute>();
-	static std::string multiStringAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiStringAttribute>();
-	static std::string referenceAttrTypeName = istd::CClassInfo::GetName<icomp::CReferenceAttribute>();
-	static std::string multiReferenceAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiReferenceAttribute>();
-	static std::string factoryAttrTypeName = istd::CClassInfo::GetName<icomp::CFactoryAttribute>();
-	static std::string multiFactoryAttrTypeName = istd::CClassInfo::GetName<icomp::CMultiFactoryAttribute>();
+	static std::string boolAttrTypeName = icomp::CBoolAttribute::GetTypeName();
+	static std::string doubleAttrTypeName = icomp::CDoubleAttribute::GetTypeName();
+	static std::string intAttrTypeName = icomp::CIntAttribute::GetTypeName();
+	static std::string stdStringAttrTypeName = icomp::CStdStringAttribute::GetTypeName();
+	static std::string stringAttrTypeName = icomp::CStringAttribute::GetTypeName();
+
+	static std::string multiBoolAttrTypeName = icomp::CMultiBoolAttribute::GetTypeName();
+	static std::string multiDoubleAttrTypeName = icomp::CMultiDoubleAttribute::GetTypeName();
+	static std::string multiIntAttrTypeName = icomp::CMultiIntAttribute::GetTypeName();
+	static std::string multiStdStringAttrTypeName = icomp::CMultiStdStringAttribute::GetTypeName();
+	static std::string multiStringAttrTypeName = icomp::CMultiStringAttribute::GetTypeName();
+
+	static std::string referenceAttrTypeName = icomp::CReferenceAttribute::GetTypeName();
+	static std::string multiReferenceAttrTypeName = icomp::CMultiReferenceAttribute::GetTypeName();
+	static std::string factoryAttrTypeName = icomp::CFactoryAttribute::GetTypeName();
+	static std::string multiFactoryAttrTypeName = icomp::CMultiFactoryAttribute::GetTypeName();
 
 	if (attributeType == boolAttrTypeName){
 		return new icomp::CBoolAttribute();
@@ -108,6 +111,9 @@ iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeTyp
 	}
 	else if (attributeType == intAttrTypeName){
 		return new icomp::CIntAttribute();
+	}
+	else if (attributeType == stdStringAttrTypeName){
+		return new icomp::CStdStringAttribute();
 	}
 	else if (attributeType == stringAttrTypeName){
 		return new icomp::CStringAttribute();
@@ -120,6 +126,9 @@ iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeTyp
 	}
 	else if (attributeType == multiIntAttrTypeName){
 		return new icomp::CMultiIntAttribute();
+	}
+	else if (attributeType == multiStdStringAttrTypeName){
+		return new icomp::CMultiStdStringAttribute();
 	}
 	else if (attributeType == multiStringAttrTypeName){
 		return new icomp::CMultiStringAttribute();
