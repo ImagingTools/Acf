@@ -13,7 +13,7 @@ namespace istd
 	Implementation of data transfer smart pointer.
 	It should be used to pointer transfer only, not to store the pointers becouse it overtakes the pointer.
 	Typically it is used as smart pointer return parameters.
-	The adventage against 'normal' smart pointer (istd::TSmartPtr) is that the copy constructor is faster, becouse it overtakes the pointer.
+	The adventage against 'normal' smart pointer (istd::TSmartPtr) is that the copy constructor is faster, because it overtakes the pointer.
 	\sa istd::TSmartPtr
 */
 template <class Type>
