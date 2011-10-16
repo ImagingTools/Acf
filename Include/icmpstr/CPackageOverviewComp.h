@@ -224,6 +224,8 @@ private:
 	icomp::IMetaInfoManager::ComponentAddresses m_shownAddresses;
 
 	int m_currentPackageGroupIndex;
+	bool m_startDrag;
+	QPoint m_starDragPosition;
 
 	friend class CItemDelegate;
 };

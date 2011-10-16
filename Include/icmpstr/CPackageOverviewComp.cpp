@@ -216,7 +216,9 @@ CPackageOverviewComp::CPackageOverviewComp()
 	m_reloadCommand("", 110, ibase::ICommand::CF_GLOBAL_MENU),
 	m_registryObserver(this),
 	m_configObserver(this),
-	m_currentPackageGroupIndex(-1)
+	m_currentPackageGroupIndex(-1),
+	m_startDrag(false),
+	m_starDragPosition(0, 0)
 {
 	connect(&m_reloadCommand, SIGNAL(activated()), this, SLOT(OnReloadPackages()));
 	m_packagesCommand.InsertChild(&m_reloadCommand);
@@ -858,17 +860,29 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 		}
 	}
 
+	QMouseEvent* mouseEventPtr = dynamic_cast<QMouseEvent*>(eventPtr);
+	if (mouseEventPtr == NULL){
+		return BaseClass::eventFilter(sourcePtr, eventPtr);
+	}
+
 	switch (eventPtr->type()){
-		case QEvent::MouseButtonPress:
+		case QEvent::MouseMove:
 		{
-			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
-			I_ASSERT(mouseEvent != NULL);
+			bool doDrag = false;
 
-			if (mouseEvent->button() == Qt::LeftButton && sourceWidgetPtr != NULL){
-				PackageComponentItem* selectedItemPtr = NULL;
+			if (m_startDrag && sourceWidgetPtr != NULL){
+				QPoint positionDifference = m_starDragPosition - mouseEventPtr->pos();
 
-				QModelIndex componentModelIndex = itemViewPtr->indexAt(mouseEvent->pos());
-				selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(componentModelIndex.internalPointer()));
+				double length = sqrt(double(positionDifference.x() * positionDifference.x() + positionDifference.y() * positionDifference.y()));
+				if (length > 10){
+					doDrag = true;
+				}
+			}
+
+			if (doDrag){
+				m_startDrag = false;
+				QModelIndex componentModelIndex = itemViewPtr->indexAt(mouseEventPtr->pos());
+				PackageComponentItem* selectedItemPtr = dynamic_cast<PackageComponentItem*>(reinterpret_cast<QTreeWidgetItem*>(componentModelIndex.internalPointer()));
 
 				if (selectedItemPtr != NULL){
 					QMimeData* mimeData = new QMimeData;
@@ -891,8 +905,22 @@ bool CPackageOverviewComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 		}
 		break;
 
-	default:
-		break;
+		case QEvent::MouseButtonPress:
+			if (mouseEventPtr->button() == Qt::LeftButton && sourceWidgetPtr != NULL){
+				if (!m_startDrag){
+					m_startDrag = true;
+
+					m_starDragPosition = mouseEventPtr->pos();
+				}
+			}
+			break;
+	
+		case QEvent::MouseButtonRelease:
+			m_startDrag = false;
+			break;
+	
+		default:
+			break;
 	}
 
 	return BaseClass::eventFilter(sourcePtr, eventPtr);
