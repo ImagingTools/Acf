@@ -134,7 +134,7 @@ Interface* TFactoryMember<Interface>::CreateInstance() const
 template <class Interface>
 Interface* TFactoryMember<Interface>::ExtractInterface(istd::IPolymorphic* instancePtr, const std::string& subId)
 {
-	icomp::IComponent* componentPtr = dynamic_cast<icomp::IComponent>(instancePtr);
+	icomp::IComponent* componentPtr = dynamic_cast<icomp::IComponent*>(instancePtr);
 	I_ASSERT(componentPtr != NULL);
 
 	if (componentPtr != NULL){
