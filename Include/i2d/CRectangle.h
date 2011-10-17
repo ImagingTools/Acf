@@ -28,8 +28,20 @@ public:
 	CRectangle(const istd::CRange& horizontalRange, const istd::CRange& verticalRange);
 	explicit CRectangle(const istd::CIndex2d& size);
 
+	/**
+		Return \c true if the rectangle is valid.
+	*/
 	bool IsValid() const;
+
+	/**
+		Return \c true if the rectangle is empty.
+	*/
 	bool IsEmpty() const;
+
+	/**
+		Make rectangle empty.
+	*/
+	void Reset();
 
 	double GetLeft() const;
 	void SetLeft(double left);
@@ -90,6 +102,9 @@ public:
 
 	CRectangle GetUnion(const CRectangle& rect) const;
 	void Unite(const CRectangle& rect);
+
+	CRectangle GetUnion(const i2d::CVector2d& position) const;
+	void Unite(const i2d::CVector2d& position);
 
 	CRectangle GetExpanded(const CRectangle& rect) const;
 	void Expand(const CRectangle& rect);

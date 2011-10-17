@@ -65,6 +65,13 @@ bool CRectangle::IsEmpty() const
 }
 
 
+void CRectangle::Reset()
+{
+	m_horizontalRange.Reset();
+	m_verticalRange.Reset();
+}
+
+
 void CRectangle::SetLeft(double left)
 {
 	if (GetLeft() != left){
@@ -286,6 +293,38 @@ void CRectangle::Unite(const CRectangle& rect)
 
 	m_horizontalRange = istd::CRange(outputLeft, outputRight);
 	m_verticalRange = istd::CRange(outputTop, outputBottom);
+}
+
+
+CRectangle CRectangle::GetUnion(const i2d::CVector2d& position) const
+{
+	CRectangle retVal = *this;
+
+	retVal.Unite(position);
+
+	return retVal;
+}
+
+
+void CRectangle::Unite(const i2d::CVector2d& position)
+{
+	double left = GetLeft();
+	double right = GetRight();
+	double top = GetTop();
+	double bottom = GetBottom();
+
+	if (position.GetX() < left){
+		SetLeft(position.GetX());
+	}
+	else if (position.GetX() > right){
+		SetRight(position.GetX());
+	}
+	if (position.GetY() < top){
+		SetTop(position.GetY());
+	}
+	else if (position.GetY() > bottom){
+		SetBottom(position.GetY());
+	}
 }
 
 
