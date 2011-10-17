@@ -16,7 +16,7 @@ namespace iproc
 /**
 	Base interface for suppliers providing synchrone processing of single object with <em>"pull data" model</em>.
 	Additional interfaces (providers) should provide access to intern stored produced objects.
-	For example image provider should provide method \c{const iimg::IBitmap* GetBitmap(const I_DWORD* objectIdPtr) const}.
+	For example image provider should provide method \c{const iimg::IBitmap* GetBitmap() const}.
 	The internal stored object should be created on demand.
 */
 class ISupplier: virtual public istd::IChangeable
