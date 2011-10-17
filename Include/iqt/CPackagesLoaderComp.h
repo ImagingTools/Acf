@@ -119,7 +119,7 @@ private:
 	/**
 		Map package ID to package file path.
 	*/
-	typedef std::map<std::string, istd::CString> RealPackagesMap;
+	typedef std::map<std::string, QString> RealPackagesMap;
 	RealPackagesMap m_realPackagesMap;
 
 	/**
