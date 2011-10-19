@@ -1,0 +1,47 @@
+#ifndef iqtdoc_CStaticHelpFileProviderComp_included
+#define iqtdoc_CStaticHelpFileProviderComp_included
+
+
+// ACF includes
+#include "icomp/CComponentBase.h"
+#include "iprm/IFileNameParam.h"
+#include "idoc/IHelpFileProvider.h"
+
+
+namespace iqtdoc
+{
+
+
+class CStaticHelpFileProviderComp:
+			public icomp::CComponentBase,
+			virtual public idoc::IHelpFileProvider
+{
+public:
+	typedef icomp::CComponentBase BaseClass;
+
+	I_BEGIN_COMPONENT(CStaticHelpFileProviderComp);
+		I_REGISTER_INTERFACE(idoc::IHelpFileProvider);
+		I_ASSIGN(m_helpFileDirCompPtr, "HelpFileDir", "Directory where help files are stored", true, ".");
+		I_ASSIGN(m_defaultFileNameAttrPtr, "DefaultHelpFileName", "Help file name used if help without context is asked", true, "GeneralHelp.html");
+		I_ASSIGN(m_contextPrefixAttrPtr, "ContextPrefix", "File name prefix used for context based help file name", true, "");
+		I_ASSIGN(m_contextSuffixAttrPtr, "ContextSuffix", "File name suffix added to context based help file name", true, ".html");
+	I_END_COMPONENT;
+
+	// reimplemented (idoc::IHelpFileProvider)
+	virtual double GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const;
+	virtual istd::CString GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const;
+
+private:
+	I_REF(iprm::IFileNameParam, m_helpFileDirCompPtr);
+	I_ATTR(istd::CString, m_defaultFileNameAttrPtr);
+	I_ATTR(istd::CString, m_contextPrefixAttrPtr);
+	I_ATTR(istd::CString, m_contextSuffixAttrPtr);
+};
+
+
+} // namespace iqtdoc
+
+
+#endif // !iqtdoc_CStaticHelpFileProviderComp_included
+
+

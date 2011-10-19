@@ -25,6 +25,7 @@
 #include "iqt/CXslSerializerComp.h"
 
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
+#include "iqtdoc/CStaticHelpFileProviderComp.h"
 #include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
 #include "iqtprm/CRelativeFileNameParamComp.h"
@@ -67,6 +68,7 @@ typedef iqt::CRenderedObjectFileLoaderComp RenderedObjectFileLoader;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
 
 typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
+typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
 typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
 
 typedef icomp::TModelCompWrap<iqtprm::CRelativeFileNameParamComp> RelativeFileNameParam;

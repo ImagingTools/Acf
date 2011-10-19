@@ -35,7 +35,6 @@ public:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiShown();
 
-
 private:
 	I_REF(idoc::IHelpFileProvider, m_helpFileProviderCompPtr);
 

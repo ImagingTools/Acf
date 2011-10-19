@@ -105,6 +105,11 @@ I_EXPORT_COMPONENT(
 			"Serialized Template" IM_TAG("Document"));
 
 I_EXPORT_COMPONENT(
+			StaticHelpFileProvider,
+			"Provide static html help file path",
+			"File Provider Document Html Description Qt" IM_TAG("Help"));
+
+I_EXPORT_COMPONENT(
 			DoxygenHelpFileProvider,
 			"Provide html help file path converting class type using doxygen format",
 			"DoxyGen File Provider Document Html Description Class Interface Qt" IM_TAG("Help"));

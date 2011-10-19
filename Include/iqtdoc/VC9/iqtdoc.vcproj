@@ -206,6 +206,10 @@
 				RelativePath="..\CSingleDocumentWorkspaceGuiComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CStaticHelpFileProviderComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -234,6 +238,10 @@
 			</File>
 			<File
 				RelativePath="..\CSingleDocumentWorkspaceGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CStaticHelpFileProviderComp.h"
 				>
 			</File>
 			<File

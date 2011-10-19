@@ -23,7 +23,8 @@ public:
 	/**
 		Bitwise coded flags used to find out supported features.
 	*/
-	enum ManagerFlags{
+	enum ManagerFlags
+	{
 		MF_COUNT_FIXED = 1,
 		MF_NAME_FIXED = 2,
 		MF_NO_INSERT = 4,
