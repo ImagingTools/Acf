@@ -43,6 +43,21 @@ public:
 	bool IsVoid() const;
 
 	/**
+		Check if this class information represents const class.
+	*/
+	bool IsConst() const;
+
+	/**
+		Get class with enabled or disabled const attribute.
+	*/
+	CClassInfo GetConstCasted(bool enableConst = true) const;
+
+	/**
+		Enable or disable const attribute.
+	*/
+	bool ConstCast(bool enableConst = true);
+
+	/**
 		Check if this class information represents template class.
 	*/
 	bool IsTemplateClass() const;

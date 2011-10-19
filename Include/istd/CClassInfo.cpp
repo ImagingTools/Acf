@@ -229,6 +229,50 @@ namespace istd
 {
 
 
+bool CClassInfo::IsConst() const
+{
+	return (m_name.substr(0, 6) == "const ");
+}
+
+
+CClassInfo CClassInfo::GetConstCasted(bool enableConst) const
+{
+	if (enableConst){
+		if (!IsConst()){
+			return CClassInfo("const " + m_name);
+		}
+	}
+	else{
+		if (IsConst()){
+			return CClassInfo(m_name.substr(6));
+		}
+	}
+
+	return *this;
+}
+
+
+bool CClassInfo::ConstCast(bool enableConst)
+{
+	if (enableConst){
+		if (!IsConst()){
+			m_name = "const " + m_name;
+
+			return true;
+		}
+	}
+	else{
+		if (IsConst()){
+			m_name = m_name.substr(6);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 bool CClassInfo::IsTemplateClass() const
 {
 	std::string::size_type ltPos = m_name.find_first_of('<');

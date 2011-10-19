@@ -42,17 +42,28 @@ IComponent* CBaseComponentStaticInfo::CreateComponent() const
 }
 
 
-void* CBaseComponentStaticInfo::GetComponentInterface(const std::string& interfaceName, IComponent& component) const
+void* CBaseComponentStaticInfo::GetComponentInterface(const istd::CClassInfo& interfaceType, IComponent& component) const
 {
-	InterfaceExtractors::const_iterator foundIter = m_interfaceExtractors.find(interfaceName);
+	InterfaceExtractors::const_iterator foundIter = m_interfaceExtractors.find(interfaceType.GetName());
 	if (foundIter != m_interfaceExtractors.end()){
 		InterfaceExtractorPtr extractorPtr = foundIter->second;
 
 		return extractorPtr(component);
 	}
 
+	if (interfaceType.IsConst()){
+		istd::CClassInfo nonConstType = interfaceType.GetConstCasted(false);
+
+		InterfaceExtractors::const_iterator foundIter = m_interfaceExtractors.find(nonConstType.GetName());
+		if (foundIter != m_interfaceExtractors.end()){
+			InterfaceExtractorPtr extractorPtr = foundIter->second;
+
+			return extractorPtr(component);
+		}
+	}
+
 	if (m_baseComponentPtr != NULL){
-		return m_baseComponentPtr->GetComponentInterface(interfaceName, component);
+		return m_baseComponentPtr->GetComponentInterface(interfaceType, component);
 	}
 
 	return NULL;

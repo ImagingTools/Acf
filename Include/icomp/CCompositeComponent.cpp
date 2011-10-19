@@ -78,6 +78,11 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 		}
 		else{
 			iter = interfaceInfos.find(interfaceType.GetName());
+			if ((iter == interfaceInfos.end()) && interfaceType.IsConst()){
+				istd::CClassInfo nonConstInterfaceType = interfaceType.GetConstCasted(false);
+
+				iter = interfaceInfos.find(nonConstInterfaceType.GetName());
+			}
 		}
 
 		if (iter != interfaceInfos.end()){

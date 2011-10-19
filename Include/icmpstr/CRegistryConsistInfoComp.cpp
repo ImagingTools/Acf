@@ -401,13 +401,23 @@ icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleSubcomponents(
 				interfaceIter != interfaceNames.end();
 				++interfaceIter){
 		const std::string& interfaceName = *interfaceIter;
+		istd::CClassInfo interfaceType(interfaceName);
 
-		if ((interfaceName == "icomp::IComponent") || (interfaceName == "void")){
+		if (		interfaceType.IsVoid() ||
+					(interfaceName == "icomp::IComponent") ||
+					(interfaceName == "const icomp::IComponent") ||
+					(interfaceName == "void") ||
+					(interfaceName == "const void")){
 			continue;
 		}
 
 		icomp::IComponentStaticInfo::Ids supportedInterfaces = elementStaticInfo.GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-		if (supportedInterfaces.find(interfaceName) == supportedInterfaces.end()){
+
+		std::string nonConstInterfaceName = interfaceType.GetConstCasted(false).GetName();
+		bool isInterfaceCompatible =
+					(supportedInterfaces.find(interfaceName) != supportedInterfaces.end()) ||
+					(supportedInterfaces.find(nonConstInterfaceName) == supportedInterfaces.end());
+		if (!isInterfaceCompatible){
 			areInterfacesSupported = false;
 
 			break;
@@ -680,12 +690,21 @@ bool CRegistryConsistInfoComp::CheckPointedElementInfoCompatibility(
 					interfaceIter != interfaceNames.end();
 					++interfaceIter){
 			const std::string& interfaceName = *interfaceIter;
+			istd::CClassInfo interfaceType(interfaceName);
 
-			if ((interfaceName == "icomp::IComponent") || (interfaceName == "void")){
+			if (		interfaceType.IsVoid() ||
+						(interfaceName == "icomp::IComponent") ||
+						(interfaceName == "const icomp::IComponent") ||
+						(interfaceName == "void") ||
+						(interfaceName == "const void")){
 				continue;
 			}
 
-			if (supportedInterfaces.find(interfaceName) == supportedInterfaces.end()){
+			std::string nonConstInterfaceName = interfaceType.GetConstCasted(false).GetName();
+			bool isInterfaceCompatible =
+						(supportedInterfaces.find(interfaceName) != supportedInterfaces.end()) ||
+						(supportedInterfaces.find(nonConstInterfaceName) == supportedInterfaces.end());
+			if (!isInterfaceCompatible){
 				if (reasonConsumerPtr != NULL){
 					reasonConsumerPtr->AddMessage(istd::TSmartPtr<const ibase::IMessage>(new ibase::CMessage(
 								istd::ILogger::MC_ERROR,

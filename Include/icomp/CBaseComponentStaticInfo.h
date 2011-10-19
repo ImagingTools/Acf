@@ -48,7 +48,7 @@ public:
 
 	//	reimplemented (icomp::IRealComponentStaticInfo)
 	virtual IComponent* CreateComponent() const;
-	virtual void* GetComponentInterface(const std::string& interfaceName, IComponent& component) const;
+	virtual void* GetComponentInterface(const istd::CClassInfo& interfaceType, IComponent& component) const;
 
 	//	reimplemented (icomp::IComponentStaticInfo)
 	virtual const IAttributeStaticInfo* GetAttributeInfo(const std::string& attributeId) const;

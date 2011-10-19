@@ -2,6 +2,8 @@
 #define icomp_IRealComponentStaticInfo_included
 
 
+// ACF includes
+#include "istd/CClassInfo.h"
 #include "icomp/IComponentStaticInfo.h"
 
 
@@ -25,7 +27,7 @@ public:
 	/**
 		Extract instance implemented specified interface from some component.
 	*/
-	virtual void* GetComponentInterface(const std::string& interfaceName, IComponent& component) const = 0;
+	virtual void* GetComponentInterface(const istd::CClassInfo& interfaceType, IComponent& component) const = 0;
 };
 
 

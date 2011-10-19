@@ -295,7 +295,7 @@ bool CPackagesLoaderComp::RegisterPackageFile(const istd::CString& file)
 
 			return true;
 		}
-		else{
+		else if (foundIter->second.directory.canonicalPath() != fileInfo.canonicalFilePath()){
 			SendWarningMessage(
 						MI_CANNOT_REGISTER,
 						iqt::GetCString(QObject::tr("Second composed package definition was ignored %1 (previous: %2)")
@@ -477,7 +477,7 @@ CPackagesLoaderComp::LogingRegistry::ElementInfo* CPackagesLoaderComp::LogingReg
 
 bool CPackagesLoaderComp::CheckAndMarkPath(const QDir& directory, const istd::CString& path, istd::CString& resultPath) const
 {
-	istd::CString fullPath = iqt::GetCString(directory.absoluteFilePath(iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path))));
+	istd::CString fullPath = iqt::GetCString(QFileInfo(directory.filePath(iqt::CFileSystem::GetEnrolledPath(iqt::GetQString(path)))).canonicalFilePath());
 	if (m_usedFilesList.find(fullPath) == m_usedFilesList.end()){
 		m_usedFilesList.insert(fullPath);
 
