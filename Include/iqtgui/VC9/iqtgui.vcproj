@@ -151,7 +151,6 @@
 				StringPooling="true"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
-				BrowseInformation="1"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
