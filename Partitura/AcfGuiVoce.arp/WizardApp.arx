@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1952
+          1988
         </Number>
         <Description>
           ACF
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -102,6 +102,22 @@
               <Value>
                 SplashScreen
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SplashTime
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;double&gt;
+            </Type>
+            <ExportId>
+              SplashTime
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -471,7 +487,7 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              HelpViewer
+              
             </ExportId>
             <Data>
               <IsEnabled>

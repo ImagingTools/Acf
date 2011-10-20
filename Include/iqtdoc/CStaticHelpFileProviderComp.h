@@ -21,7 +21,7 @@ public:
 
 	I_BEGIN_COMPONENT(CStaticHelpFileProviderComp);
 		I_REGISTER_INTERFACE(idoc::IHelpFileProvider);
-		I_ASSIGN(m_helpFileDirCompPtr, "HelpFileDir", "Directory where help files are stored", true, ".");
+		I_ASSIGN(m_helpFileDirCompPtr, "HelpFileDir", "Directory where help files are stored", true, "HelpFileDir");
 		I_ASSIGN(m_defaultFileNameAttrPtr, "DefaultHelpFileName", "Help file name used if help without context is asked", true, "GeneralHelp.html");
 		I_ASSIGN(m_contextPrefixAttrPtr, "ContextPrefix", "File name prefix used for context based help file name", true, "");
 		I_ASSIGN(m_contextSuffixAttrPtr, "ContextSuffix", "File name suffix added to context based help file name", true, ".html");
