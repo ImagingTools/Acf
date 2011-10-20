@@ -42,14 +42,16 @@ public:
 		I_REGISTER_INTERFACE(imod::IModelEditor);
 		I_ASSIGN(m_sideGuiCompPtr, "SideWidget", "Side widget of the wizard", false, "SideWidget");
 		I_ASSIGN(m_helpViewerCompPtr, "HelpViewer", "Help view component", false, "HelpViewer");
+		I_ASSIGN_TO(m_helpViewerGuiCompPtr, m_helpViewerCompPtr, false);
 		I_ASSIGN_MULTI_0(m_editorsCompPtr, "Editors", "List of GUI's for parameters edition", true);
 		I_ASSIGN_TO(m_guisCompPtr, m_editorsCompPtr, true);
 		I_ASSIGN_TO(m_observersCompPtr, m_editorsCompPtr, true);
 		I_ASSIGN_MULTI_0(m_titelsAttrPtr, "PageTitels", "List of page titels", false);
 		I_ASSIGN_MULTI_0(m_subTitelsAttrPtr, "PageSubTitels", "List of page sub-titels", false);
 		I_ASSIGN(m_wizardStyleAttrPtr, "WizardStyle", "Set the look of the wizard UI\n0 - Classic\n1 - Modern\n2 - MacStyle\n3 - Aero", false, 0);
-
 	I_END_COMPONENT;
+
+	CWizardGuiComp();
 
 protected Q_SLOTS:
 	void OnCurrentPageChanged(int pageId);
@@ -73,12 +75,15 @@ private:
 private:
 	I_REF(iqtgui::IGuiObject, m_sideGuiCompPtr);
 	I_REF(idoc::IHelpViewer, m_helpViewerCompPtr);
+	I_REF(iqtgui::IGuiObject, m_helpViewerGuiCompPtr);
 	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIATTR(istd::CString, m_titelsAttrPtr);
 	I_MULTIATTR(istd::CString, m_subTitelsAttrPtr);
 	I_ATTR(int, m_wizardStyleAttrPtr);
+
+	QWidget* m_helpWidgetPtr;
 };
 
 
