@@ -1,5 +1,5 @@
-#ifndef icmpstr_CQuickHelpViewerComp_included
-#define icmpstr_CQuickHelpViewerComp_included
+#ifndef icmpstr_CQuickHelpGuiComp_included
+#define icmpstr_CQuickHelpGuiComp_included
 
 
 // Qt includes
@@ -17,23 +17,23 @@
 
 #include "icmpstr/IExternalMetaInfoManager.h"
 
-#include "Generated/ui_CQuickHelpViewerComp.h"
+#include "Generated/ui_CQuickHelpGuiComp.h"
 
 
 namespace icmpstr
 {
 
 
-class CQuickHelpViewerComp:
-			public iqtgui::TDesignerGuiCompBase<Ui::CQuickHelpViewerComp>,
+class CQuickHelpGuiComp:
+			public iqtgui::TDesignerGuiCompBase<Ui::CQuickHelpGuiComp>,
 			virtual public idoc::IHelpViewer
 {
 	Q_OBJECT
 
 public:
-	typedef iqtgui::TDesignerGuiCompBase<Ui::CQuickHelpViewerComp> BaseClass;
+	typedef iqtgui::TDesignerGuiCompBase<Ui::CQuickHelpGuiComp> BaseClass;
 
-	I_BEGIN_COMPONENT(CQuickHelpViewerComp);
+	I_BEGIN_COMPONENT(CQuickHelpGuiComp);
 		I_REGISTER_INTERFACE(idoc::IHelpInfoProvider);
 		I_REGISTER_INTERFACE(idoc::IHelpViewer);
 		I_ASSIGN(m_descriptionFileProviderCompPtr, "HelpFileProvider", "Calculate path of html document for short description", true, "HelpFileProvider");
@@ -75,6 +75,6 @@ private:
 } // namespace icmpstr
 
 
-#endif // !icmpstr_CQuickHelpViewerComp_included
+#endif // !icmpstr_CQuickHelpGuiComp_included
 
 

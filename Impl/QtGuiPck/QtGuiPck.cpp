@@ -180,7 +180,7 @@ I_EXPORT_COMPONENT(
 			"Workspace Multi MDI Document Model View Observer MVC" IM_TAG("GUI Document"));
 
 I_EXPORT_COMPONENT(
-			HtmlHelpViewer,
+			HtmlHelpGui,
 			"Help GUI showing html help document",
 			"Help Viewer Document Html Description" IM_TAG("GUI Help"));
 

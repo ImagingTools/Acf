@@ -384,13 +384,13 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              QuickHelpViewer
+              QuickHelpGui
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              QuickHelpViewer
+              QuickHelpGui
             </ExportId>
             <Data>
               <IsEnabled>

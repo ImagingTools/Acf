@@ -1,4 +1,4 @@
-#include "iqtdoc/CHtmlHelpViewerComp.h"
+#include "iqtdoc/CHtmlHelpGuiComp.h"
 
 
 namespace iqtdoc
@@ -7,7 +7,7 @@ namespace iqtdoc
 
 // reimplemented (idoc::IHelpInfoProvider)
 
-double CHtmlHelpViewerComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+double CHtmlHelpGuiComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
 {
 	if (m_helpFileProviderCompPtr.IsValid()){
 		return m_helpFileProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
@@ -19,7 +19,7 @@ double CHtmlHelpViewerComp::GetHelpQuality(const istd::CString& contextText, con
 
 // reimplemented (idoc::IHelpViewer)
 
-void CHtmlHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
+void CHtmlHelpGuiComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
 {
 	QTextBrowser* editorPtr = GetQtWidget();
 	if (		(editorPtr != NULL) &&
@@ -43,7 +43,7 @@ void CHtmlHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd:
 
 // reimplemented (iqtgui::CGuiComponentBase)
 
-void CHtmlHelpViewerComp::OnGuiShown()
+void CHtmlHelpGuiComp::OnGuiShown()
 {
 	BaseClass::OnGuiShown();
 

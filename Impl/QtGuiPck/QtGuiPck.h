@@ -43,7 +43,7 @@
 #include "iqtdoc/CMainWindowGuiComp.h"
 #include "iqtdoc/CSingleDocumentWorkspaceGuiComp.h"
 #include "iqtdoc/CMultiDocumentWorkspaceGuiComp.h"
-#include "iqtdoc/CHtmlHelpViewerComp.h"
+#include "iqtdoc/CHtmlHelpGuiComp.h"
 #include "iqtdoc/CHtmlHelpWindowComp.h"
 
 #include "iqtproc/CProgressManagerGuiComp.h"
@@ -97,7 +97,7 @@ typedef iqtprm::CWizardGuiComp WizardGui;
 typedef iqtdoc::CMainWindowGuiComp MainWindowGui;
 typedef icomp::TModelCompWrap<iqtdoc::CSingleDocumentWorkspaceGuiComp> SingleDocWorkspaceGui;
 typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWorkspaceGui;
-typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
+typedef iqtdoc::CHtmlHelpGuiComp HtmlHelpGui;
 typedef iqtdoc::CHtmlHelpWindowComp HtmlHelpWindow;
 
 typedef iqtproc::CProgressManagerGuiComp ProgressManagerGui;

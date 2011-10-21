@@ -135,7 +135,7 @@
                 true
               </IsEnabled>
               <Value>
-                QuickHelpViewer
+                QuickHelpGui
               </Value>
             </Data>
           </AttributeInfo>
@@ -144,13 +144,13 @@
     </Element>
     <Element>
       <Id>
-        QuickHelpViewer
+        QuickHelpGui
       </Id>
       <PackageId>
         CmpstrPck
       </PackageId>
       <ComponentId>
-        QuickHelpViewer
+        QuickHelpGui
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -258,7 +258,7 @@
         idoc::IHelpViewer
       </InterfaceId>
       <ComponentId>
-        QuickHelpViewer
+        QuickHelpGui
       </ComponentId>
     </Interface>
     <Interface>
@@ -266,7 +266,7 @@
         iqtgui::IGuiObject
       </InterfaceId>
       <ComponentId>
-        QuickHelpViewer
+        QuickHelpGui
       </ComponentId>
     </Interface>
     <Interface>

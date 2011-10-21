@@ -191,7 +191,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CQuickHelpViewerComp.cpp"
+				RelativePath="..\CQuickHelpGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -253,7 +253,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CQuickHelpViewerComp.h"
+				RelativePath="..\CQuickHelpGuiComp.h"
 				>
 			</File>
 			<File
@@ -398,7 +398,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CQuickHelpViewerComp.ui"
+				RelativePath="..\CQuickHelpGuiComp.ui"
 				>
 			</File>
 			<File
@@ -422,7 +422,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CQuickHelpViewerComp.moc"
+				RelativePath="..\CQuickHelpGuiComp.moc"
 				>
 			</File>
 			<File

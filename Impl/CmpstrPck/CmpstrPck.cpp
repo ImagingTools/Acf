@@ -76,7 +76,7 @@ I_EXPORT_COMPONENT(
 			"Registry Description Keywords" IM_TAG("GUI Editor"));
 
 I_EXPORT_COMPONENT(
-			QuickHelpViewer,
+			QuickHelpGui,
 			"Show short description and allow to show technical documentation",
 			"Quick Help Technical Documentation" IM_TAG("GUI Help"));
 

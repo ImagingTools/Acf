@@ -1,4 +1,4 @@
-#include "icmpstr/CQuickHelpViewerComp.h"
+#include "icmpstr/CQuickHelpGuiComp.h"
 
 
 // Qt includes
@@ -18,7 +18,7 @@ namespace icmpstr
 
 // reimplemented (idoc::IHelpInfoProvider)
 
-double CQuickHelpViewerComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+double CQuickHelpGuiComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
 {
 	if (m_descriptionFileProviderCompPtr.IsValid()){
 		return m_descriptionFileProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
@@ -30,7 +30,7 @@ double CQuickHelpViewerComp::GetHelpQuality(const istd::CString& contextText, co
 
 // reimplemented (idoc::IHelpViewer)
 
-void CQuickHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
+void CQuickHelpGuiComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
 {
 	if (!IsGuiCreated()){
 		return;
@@ -109,7 +109,7 @@ void CQuickHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd
 
 // protected methods
 
-istd::CString CQuickHelpViewerComp::CalcDoxygenFileName(const istd::CClassInfo& classInfo) const
+istd::CString CQuickHelpGuiComp::CalcDoxygenFileName(const istd::CClassInfo& classInfo) const
 {
 	istd::CString retVal = "class";
 
@@ -138,7 +138,7 @@ istd::CString CQuickHelpViewerComp::CalcDoxygenFileName(const istd::CClassInfo& 
 
 // reimplemented (CGuiComponentBase)
 
-void CQuickHelpViewerComp::OnGuiCreated()
+void CQuickHelpGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
@@ -150,7 +150,7 @@ void CQuickHelpViewerComp::OnGuiCreated()
 
 // protected slots
 
-void CQuickHelpViewerComp::on_EditButton_clicked()
+void CQuickHelpGuiComp::on_EditButton_clicked()
 {
 	if (!m_docuEditorFileParamsCompPtr.IsValid()){
 		return;
@@ -169,13 +169,13 @@ void CQuickHelpViewerComp::on_EditButton_clicked()
 }
 
 
-void CQuickHelpViewerComp::on_NewButton_clicked()
+void CQuickHelpGuiComp::on_NewButton_clicked()
 {
 	on_EditButton_clicked();
 }
 
 
-void CQuickHelpViewerComp::on_ShowTechButton_clicked()
+void CQuickHelpGuiComp::on_ShowTechButton_clicked()
 {
 	if (!m_techDocuViewerFileParamsCompPtr.IsValid()){
 		return;

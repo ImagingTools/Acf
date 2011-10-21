@@ -183,7 +183,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CHtmlHelpViewerComp.cpp"
+				RelativePath="..\CHtmlHelpGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -229,7 +229,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CHtmlHelpViewerComp.h"
+				RelativePath="..\CHtmlHelpGuiComp.h"
 				>
 			</File>
 			<File

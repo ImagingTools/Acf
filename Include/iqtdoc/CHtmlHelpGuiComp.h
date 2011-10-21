@@ -1,5 +1,5 @@
-#ifndef iqtdoc_CHtmlHelpViewerComp_included
-#define iqtdoc_CHtmlHelpViewerComp_included
+#ifndef iqtdoc_CHtmlHelpGuiComp_included
+#define iqtdoc_CHtmlHelpGuiComp_included
 
 
 // Qt includes
@@ -17,14 +17,14 @@ namespace iqtdoc
 {
 
 
-class CHtmlHelpViewerComp:
+class CHtmlHelpGuiComp:
 			public iqtgui::TGuiComponentBase<QTextBrowser>,
 			virtual public idoc::IHelpViewer
 {
 public:
 	typedef iqtgui::TGuiComponentBase<QTextBrowser> BaseClass;
 
-	I_BEGIN_COMPONENT(CHtmlHelpViewerComp);
+	I_BEGIN_COMPONENT(CHtmlHelpGuiComp);
 		I_REGISTER_INTERFACE(idoc::IHelpInfoProvider);
 		I_REGISTER_INTERFACE(idoc::IHelpViewer);
 		I_ASSIGN(m_helpFileProviderCompPtr, "HelpFileProvider", "Calculate path of html document", true, "HelpFileProvider");
@@ -49,6 +49,6 @@ private:
 } // namespace iqtdoc
 
 
-#endif // !iqtdoc_CHtmlHelpViewerComp_included
+#endif // !iqtdoc_CHtmlHelpGuiComp_included
 
 
