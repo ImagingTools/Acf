@@ -115,7 +115,6 @@
 				PreprocessorDefinitions="UNICODE;WIN32"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
-				BrowseInformation="1"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 				CompileAs="0"

@@ -205,6 +205,7 @@ void CWizardGuiComp::OnGuiCreated()
 		}
 	}
 
+#if QT_VERSION > 0x040700
 	if (m_sideGuiCompPtr.IsValid()){
 		QWidget* sideWidgetContainer = new QWidget(wizardPtr);
 		sideWidgetContainer->setMinimumWidth(250);
@@ -215,6 +216,7 @@ void CWizardGuiComp::OnGuiCreated()
 			wizardPtr->setSideWidget(sideWidgetContainer);
 		}
 	}
+#endif
 
 	connect(wizardPtr, SIGNAL(currentIdChanged(int)), this, SLOT(OnCurrentPageChanged(int)));
 	connect(wizardPtr, SIGNAL(helpRequested()), this, SLOT(OnHelpRequested()));

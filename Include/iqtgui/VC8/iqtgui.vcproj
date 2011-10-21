@@ -151,7 +151,6 @@
 				StringPooling="true"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
-				BrowseInformation="1"
 				WarningLevel="4"
 				DebugInformationFormat="3"
 			/>
@@ -643,7 +642,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Forms"
+			Name="Qt Designer Files"
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.ui"
@@ -683,7 +682,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="MOC Files"
+			Name="Moc Files"
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.moc"

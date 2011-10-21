@@ -30,6 +30,9 @@
 				CommandLine=""
 			/>
 			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
 				Name="Qt Linguist"
 			/>
 			<Tool
@@ -128,6 +131,9 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
 				Name="Qt Linguist"
 			/>
 			<Tool
@@ -169,7 +175,6 @@
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
-				BrowseInformation="1"
 				WarningLevel="4"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
