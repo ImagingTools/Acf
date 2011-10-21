@@ -55,7 +55,7 @@ protected:
 	virtual void OnGuiDestroyed();
 
 protected Q_SLOTS:
-	void OnSelectionChanged(int index);
+	void OnSelectionChanged();
 
 private:
 	void CreateOptionsTree(const iprm::ISelectionParam* selectionParamPtr, QTreeWidgetItem* parentItemPtr = NULL);

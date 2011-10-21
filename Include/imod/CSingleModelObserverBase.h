@@ -34,7 +34,7 @@ public:
 	void EnsureModelDetached();
 
 	// reimplemented (imod::IObserver)
-	virtual bool IsModelAttached(const imod::IModel* modelPtr) const;
+	virtual bool IsModelAttached(const imod::IModel* modelPtr = NULL) const;
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	virtual bool OnDetached(imod::IModel* modelPtr);
 	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);

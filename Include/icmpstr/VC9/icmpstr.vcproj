@@ -346,7 +346,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CQuickHelpViewerComp.cpp"
+				RelativePath="..\generated\moc_CQuickHelpGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -378,7 +378,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CQuickHelpViewerComp.h"
+				RelativePath="..\generated\ui_CQuickHelpGuiComp.h"
 				>
 			</File>
 			<File

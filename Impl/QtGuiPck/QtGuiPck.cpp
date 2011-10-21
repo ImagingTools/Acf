@@ -132,7 +132,7 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			CommandsBinder,
 			"Component for binding of several commands provider into a single one",
-			"Qt GUI Menu Action" IM_CATEGORY(I_SERVICE) IM_TAG("Command Composition"));
+			"GUI Menu Action" IM_CATEGORY(I_SERVICE) IM_TAG("Command Composition"));
 
 I_EXPORT_COMPONENT(
 			FileSystemExplorerGui,
@@ -162,7 +162,7 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			ModelEditorGui,
 			"Connection between GUI and model components",
-			"Observer Connection Connector Qt" IM_TAG("GUI Model Editor"));
+			"Observer Connection Connector" IM_TAG("GUI Model Editor"));
 
 I_EXPORT_COMPONENT(
 			MainWindowGui,
@@ -237,6 +237,11 @@ I_EXPORT_COMPONENT(
 I_EXPORT_COMPONENT(
 			WizardGui,
 			"Wizard-based parameter editor",
+			"Wizard" IM_TAG("GUI"));
+
+I_EXPORT_COMPONENT(
+			OptionsListGui,
+			"Hierarchical list of options",
 			"Wizard" IM_TAG("GUI"));
 
 

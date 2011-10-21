@@ -157,9 +157,7 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 			}
 
 			int selectedIndex = selectionPtr->GetSelectedOptionIndex();
-			if (selectedIndex >= 0){
-				switchBoxPtr->setCurrentIndex(selectedIndex);
-			}
+			switchBoxPtr->setCurrentIndex(selectedIndex);
 		}
 	}
 }
