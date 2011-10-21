@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          1988
+          1990
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="6">
+  <ElementsList count="5">
     <Element>
       <Id>
         GuiApplication
@@ -180,43 +180,6 @@
             </Type>
             <ExportId>
               UiStartMode
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        HtmlHelpViewer
-      </Id>
-      <PackageId>
-        QtGuiPck
-      </PackageId>
-      <ComponentId>
-        HtmlHelpViewer
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="1">
-          <AttributeInfo>
-            <Id>
-              HelpFileProvider
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              HelpFileProvider
             </ExportId>
             <Data>
               <IsEnabled>
@@ -487,15 +450,12 @@
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              
+              HelpViewer
             </ExportId>
             <Data>
               <IsEnabled>
-                true
+                false
               </IsEnabled>
-              <Value>
-                HtmlHelpViewer
-              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

@@ -266,6 +266,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IHelpInfoProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IHelpViewer.h"
 				>
 			</File>

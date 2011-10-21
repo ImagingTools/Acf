@@ -34,6 +34,7 @@ public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CQuickHelpViewerComp> BaseClass;
 
 	I_BEGIN_COMPONENT(CQuickHelpViewerComp);
+		I_REGISTER_INTERFACE(idoc::IHelpInfoProvider);
 		I_REGISTER_INTERFACE(idoc::IHelpViewer);
 		I_ASSIGN(m_descriptionFileProviderCompPtr, "HelpFileProvider", "Calculate path of html document for short description", true, "HelpFileProvider");
 		I_ASSIGN(m_docuEditorFileParamsCompPtr, "DocuEditorFileParam", "Object storing path to html editor used to edit the description", true, "DocuEditorFileParam");
@@ -41,6 +42,9 @@ public:
 		I_ASSIGN(m_metaInfoManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
 		I_ASSIGN_TO(m_externalMetaInfoManagerCompPtr, m_metaInfoManagerCompPtr, false);
 	I_END_COMPONENT;
+
+	// reimplemented (idoc::IHelpInfoProvider)
+	virtual double GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const;
 
 	// reimplemented (idoc::IHelpViewer)
 	virtual void ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr);

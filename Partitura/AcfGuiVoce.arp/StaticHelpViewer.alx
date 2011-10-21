@@ -15,24 +15,13 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="5">
+  <PositionMap count="3">
     <Element>
       <ComponentName>
-        GuiApplication
+        FileNameParam
       </ComponentName>
       <X>
         575
-      </X>
-      <X>
-        175
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ParamsManager
-      </ComponentName>
-      <X>
-        350
       </X>
       <X>
         400
@@ -40,35 +29,24 @@
     </Element>
     <Element>
       <ComponentName>
-        SplashScreen
-      </ComponentName>
-      <X>
-        300
-      </X>
-      <X>
-        175
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        WizardGui
-      </ComponentName>
-      <X>
-        800
-      </X>
-      <X>
-        400
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        WizardGuiBinder
+        HtmlHelpWindow
       </ComponentName>
       <X>
         575
       </X>
       <X>
-        300
+        150
+      </X>
+    </Element>
+    <Element>
+      <ComponentName>
+        StaticHelpFileProvider
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        275
       </X>
     </Element>
   </PositionMap>

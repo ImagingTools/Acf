@@ -2,8 +2,11 @@
 #define idoc_IHelpFileProvider_included
 
 
+// ACF includes
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
+
+#include "idoc/IHelpInfoProvider.h"
 
 
 namespace idoc
@@ -13,14 +16,12 @@ namespace idoc
 /**
 	Allow to show help document to specified object or text.
 */
-class IHelpFileProvider: virtual public istd::IPolymorphic
+class IHelpFileProvider: virtual public IHelpInfoProvider
 {
 public:
 	/**
-		Get quality of help information for specified context and/or object.
-		\return	quality of help. It represented as value in range [0, 1].
+		Get access to help file path for specified help information.
 	*/
-	virtual double GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const = 0;
 	virtual istd::CString GetHelpFilePath(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const = 0;
 };
 

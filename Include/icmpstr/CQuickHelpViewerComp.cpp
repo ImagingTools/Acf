@@ -16,6 +16,18 @@ namespace icmpstr
 {
 
 
+// reimplemented (idoc::IHelpInfoProvider)
+
+double CQuickHelpViewerComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+{
+	if (m_descriptionFileProviderCompPtr.IsValid()){
+		return m_descriptionFileProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
+	}
+
+	return 0;
+}
+
+
 // reimplemented (idoc::IHelpViewer)
 
 void CQuickHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)

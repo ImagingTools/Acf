@@ -181,8 +181,13 @@ I_EXPORT_COMPONENT(
 
 I_EXPORT_COMPONENT(
 			HtmlHelpViewer,
-			"Help viewer showing html document",
+			"Help GUI showing html help document",
 			"Help Viewer Document Html Description" IM_TAG("GUI Help"));
+
+I_EXPORT_COMPONENT(
+			HtmlHelpWindow,
+			"Help viewer showing html document in separated window",
+			"Viewer Window Dialog Document Html Description" IM_TAG("GUI Help"));
 
 I_EXPORT_COMPONENT(
 			ProgressManagerGui,

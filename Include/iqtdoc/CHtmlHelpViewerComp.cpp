@@ -5,6 +5,18 @@ namespace iqtdoc
 {
 
 
+// reimplemented (idoc::IHelpInfoProvider)
+
+double CHtmlHelpViewerComp::GetHelpQuality(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr) const
+{
+	if (m_helpFileProviderCompPtr.IsValid()){
+		return m_helpFileProviderCompPtr->GetHelpQuality(contextText, contextObjectPtr);
+	}
+
+	return 0;
+}
+
+
 // reimplemented (idoc::IHelpViewer)
 
 void CHtmlHelpViewerComp::ShowHelp(const istd::CString& contextText, const istd::IPolymorphic* contextObjectPtr)
