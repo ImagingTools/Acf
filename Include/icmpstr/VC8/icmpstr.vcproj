@@ -6,7 +6,6 @@
 	ProjectGUID="{E089473F-CFF6-478B-99A3-6C9109CFC9A3}"
 	RootNamespace="icmpstr"
 	Keyword="Qt4VSv1.0"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -346,7 +345,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CQuickHelpViewerComp.cpp"
+				RelativePath="..\generated\moc_CQuickHelpGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -378,7 +377,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CQuickHelpViewerComp.h"
+				RelativePath="..\generated\ui_CQuickHelpGuiComp.h"
 				>
 			</File>
 			<File
