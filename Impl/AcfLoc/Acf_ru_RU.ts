@@ -7,25 +7,25 @@
         <location filename="../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="170"/>
         <source>About...</source>
-        <translation>О продукте...</translation>
+        <translation type="unfinished">О продукте...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="98"/>
         <location filename="../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="171"/>
         <source>Product</source>
-        <translation>Продукт</translation>
+        <translation type="unfinished">Продукт</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="112"/>
         <location filename="../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="172"/>
         <source>ApplicationName</source>
-        <translation>Название приложения</translation>
+        <translation type="unfinished">Название приложения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CAboutWidgetGuiComp.ui" line="163"/>
         <location filename="../../Include/iqtgui/Generated/ui_CAboutWidgetGuiComp.h" line="173"/>
         <source>ApplicationType</source>
-        <translation>Тип приложения</translation>
+        <translation type="unfinished">Тип приложения</translation>
     </message>
 </context>
 <context>
@@ -34,19 +34,19 @@
         <location filename="../../Include/iqt2d/CAnnulusParamsGuiComp.ui" line="13"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusParamsGuiComp.h" line="127"/>
         <source>Form</source>
-        <translation>Параметеры диска</translation>
+        <translation type="unfinished">Параметеры диска</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CAnnulusParamsGuiComp.ui" line="28"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusParamsGuiComp.h" line="128"/>
         <source>Position</source>
-        <translation>Позиция</translation>
+        <translation type="unfinished">Позиция</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CAnnulusParamsGuiComp.ui" line="86"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusParamsGuiComp.h" line="130"/>
         <source>Radii</source>
-        <translation>Радиусы</translation>
+        <translation type="unfinished">Радиусы</translation>
     </message>
 </context>
 <context>
@@ -55,31 +55,31 @@
         <location filename="../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="14"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="163"/>
         <source>Form</source>
-        <translation>Параметеры сегмента диска</translation>
+        <translation type="unfinished">Параметеры сегмента диска</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="29"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="164"/>
         <source>Position</source>
-        <translation>Позиция</translation>
+        <translation type="unfinished">Позиция</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="87"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="166"/>
         <source>Radii</source>
-        <translation>Радиусы</translation>
+        <translation type="unfinished">Радиусы</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="145"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="168"/>
         <source>Angles</source>
-        <translation>Углы</translation>
+        <translation type="unfinished">Углы</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../Include/iqt2d/CAnnulusSegmentParamsGuiComp.ui" line="190"/>
         <location filename="../../Include/iqt2d/generated/ui_CAnnulusSegmentParamsGuiComp.h" line="169"/>
         <source>°</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -88,115 +88,115 @@
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="14"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="345"/>
         <source>Property Editor</source>
-        <translation>Редактор свойств</translation>
+        <translation type="unfinished">Редактор свойств</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="30"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="363"/>
         <source>Info</source>
-        <translation>Информация</translation>
+        <translation type="unfinished">Информация</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="112"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="348"/>
         <source>Description:</source>
-        <translation>Описание:</translation>
+        <translation type="unfinished">Описание:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="129"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="350"/>
         <source>Company:</source>
-        <translation>Компания:</translation>
+        <translation type="unfinished">Компания:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="146"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="352"/>
         <source>Project:</source>
-        <translation>Проект:</translation>
+        <translation type="unfinished">Проект:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="163"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="354"/>
         <source>Author:</source>
-        <translation>Автор:</translation>
+        <translation type="unfinished">Автор:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="180"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="356"/>
         <source>Category:</source>
-        <translation>Категория:</translation>
+        <translation type="unfinished">Категория:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="197"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="358"/>
         <source>Tags:</source>
-        <translation>Тэги:</translation>
+        <translation type="unfinished">Тэги:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="214"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="360"/>
         <source>Keywords:</source>
-        <translation>Ключевые слова:</translation>
+        <translation type="unfinished">Ключевые слова:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="325"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="367"/>
         <source>Attributes</source>
-        <translation>Аттрибуты</translation>
+        <translation type="unfinished">Аттрибуты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="344"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="366"/>
         <source>Property</source>
-        <translation>Свойства</translation>
+        <translation type="unfinished">Свойства</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="349"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="365"/>
         <source>Value</source>
-        <translation>Значение</translation>
+        <translation type="unfinished">Значение</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="358"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="370"/>
         <source>Interfaces</source>
-        <translation>Интерфэйсы</translation>
+        <translation type="unfinished">Интерфэйсы</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="377"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="369"/>
         <source>Export interface</source>
-        <translation>Экспортированные интерфэйсы</translation>
+        <translation type="unfinished">Экспортированные интерфэйсы</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="386"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="372"/>
         <source>Flags</source>
-        <translation>Дополнительно</translation>
+        <translation type="unfinished">Дополнительно</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="392"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="371"/>
         <source>Automatically create instance</source>
-        <translation>Автоматически создавать компоненту</translation>
+        <translation type="unfinished">Автоматически создавать компоненту</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="417"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="376"/>
         <source>Components</source>
-        <translation>Компоненты</translation>
+        <translation type="unfinished">Компоненты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="430"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="375"/>
         <source>Component</source>
-        <translation>Компонент</translation>
+        <translation type="unfinished">Компонент</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.ui" line="435"/>
         <location filename="../../Include/icmpstr/generated/ui_CAttributeEditorComp.h" line="374"/>
         <source>Export alias</source>
-        <translation>Экспортировать как</translation>
+        <translation type="unfinished">Экспортировать как</translation>
     </message>
 </context>
 <context>
@@ -205,19 +205,19 @@
         <location filename="../../Include/iqt2d/CCircleParamsGuiComp.ui" line="14"/>
         <location filename="../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="117"/>
         <source>Form</source>
-        <translation>Редактор параметеров окружности</translation>
+        <translation type="unfinished">Редактор параметеров окружности</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CCircleParamsGuiComp.ui" line="29"/>
         <location filename="../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="118"/>
         <source>Position</source>
-        <translation>Позиция</translation>
+        <translation type="unfinished">Позиция</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CCircleParamsGuiComp.ui" line="87"/>
         <location filename="../../Include/iqt2d/generated/ui_CCircleParamsGuiComp.h" line="120"/>
         <source>Radius</source>
-        <translation>Радиус</translation>
+        <translation type="unfinished">Радиус</translation>
     </message>
 </context>
 <context>
@@ -226,19 +226,509 @@
         <location filename="../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="13"/>
         <location filename="../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="91"/>
         <source>Form</source>
-        <translation>Редактор набора параметров</translation>
+        <translation type="unfinished">Редактор набора параметров</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="56"/>
         <location filename="../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="92"/>
         <source>Save...</source>
-        <translation>Сохранить как...</translation>
+        <translation type="unfinished">Сохранить как...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CComposedParamsSetGuiComp.ui" line="69"/>
         <location filename="../../Include/iqtprm/generated/ui_CComposedParamsSetGuiComp.h" line="93"/>
         <source>Load...</source>
-        <translation>Загрузить из...</translation>
+        <translation type="unfinished">Загрузить из...</translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CAcfGuiVocePck::CLogDockRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="419"/>
+        <source>Log</source>
+        <comment>LogDock/DockTitle</comment>
+        <translation>Журнал</translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="454"/>
+        <source>Log</source>
+        <comment>PersistentFileDialogLoader/LastPathSettingsKey</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="498"/>
+        <source>xlog</source>
+        <comment>XmlFileSerializer/FileExtensions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="522"/>
+        <source>Log XML file</source>
+        <comment>XmlFileSerializer/TypeDescriptions</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CAcfGuiVocePck::CMultiDocAppRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="642"/>
+        <source>:/Style/Resources/Style/AcfStyle.ass</source>
+        <comment>App/StyleSheet</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CAcfVocePck::CAcfLocalizationRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1240"/>
+        <source>en_US</source>
+        <comment>AcfLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1241"/>
+        <source>de_DE</source>
+        <comment>AcfLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1242"/>
+        <source>ru_RU</source>
+        <comment>AcfLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1243"/>
+        <source>pl_PL</source>
+        <comment>AcfLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1271"/>
+        <source>:/Translations</source>
+        <comment>AcfLocalization/TranslationFilePath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1282"/>
+        <source>Acf</source>
+        <comment>AcfLocalization/TranslationFilePrefix</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1303"/>
+        <source>en_US</source>
+        <comment>QtLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1304"/>
+        <source>de_DE</source>
+        <comment>QtLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1305"/>
+        <source>ru_RU</source>
+        <comment>QtLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1306"/>
+        <source>pl_PL</source>
+        <comment>QtLocalization/LanguageIds</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1323"/>
+        <source>:/Translations</source>
+        <comment>QtLocalization/TranslationFilePath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1334"/>
+        <source>qt</source>
+        <comment>QtLocalization/TranslationFilePrefix</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CAcfVocePck::CVersionInfoRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1389"/>
+        <source>0.9.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1390"/>
+        <source>0.9.1</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1391"/>
+        <source>0.9.2</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1392"/>
+        <source>0.9.3</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1393"/>
+        <source>0.9.4</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1394"/>
+        <source>0.9.5</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1395"/>
+        <source>0.9.6</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1396"/>
+        <source>0.9.7</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1397"/>
+        <source>0.9.8</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1398"/>
+        <source>0.9.9</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1399"/>
+        <source>1.0.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1400"/>
+        <source>1.0.1</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1401"/>
+        <source>1.1.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1402"/>
+        <source>1.2.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1403"/>
+        <source>1.3.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1404"/>
+        <source>1.4.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1405"/>
+        <source>1.4.1</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1406"/>
+        <source>1.5.0</source>
+        <comment>BaseInfo/KnownVersionNames</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1464"/>
+        <source>ACF</source>
+        <comment>BaseInfo/VersionIdDesc</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CAttributeEditorDockRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1591"/>
+        <source>Selected component</source>
+        <comment>AttributeDock/DockTitle</comment>
+        <translation>Выбранный компонент</translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CClassHelpDockRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1719"/>
+        <source>Quick Help</source>
+        <comment>QuickHelpDock/DockTitle</comment>
+        <translation>Быстрая подсказка</translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CCompositorApplicationRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1826"/>
+        <source>Compositor</source>
+        <comment>Application/ApplicationName</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1837"/>
+        <source>ACF Registry Editor</source>
+        <comment>Application/ApplicationSubname</comment>
+        <translation>ACF Редактор</translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1848"/>
+        <source>ImagingTools</source>
+        <comment>Application/CompanyName</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1865"/>
+        <source>:/Icons/CompositorIcon.svg</source>
+        <comment>Application/IconPath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1909"/>
+        <source>� Copyright 2011 Witold Gantzke &amp; Kirill Lepskiy
+All rights reserved
+
+This tool is a part of ACF Solutions project
+See &apos;License.txt&apos; for license information</source>
+        <comment>Application/LegalCopyright</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1920"/>
+        <source>:/Icons/CompositorLogo.svg</source>
+        <comment>Application/LogoPath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1949"/>
+        <source>ACF-Solutions</source>
+        <comment>Application/ProductName</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1993"/>
+        <source>:/Images/CompositorSplashScreen</source>
+        <comment>Application/SplashScreenImage</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CCompositorSettingsDialogRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2553"/>
+        <source>exe</source>
+        <comment>PreviewCommandFileInfo/FileExtensions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2554"/>
+        <source>bat</source>
+        <comment>PreviewCommandFileInfo/FileExtensions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2567"/>
+        <source>Windows executable</source>
+        <comment>PreviewCommandFileInfo/TypeDescriptions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2568"/>
+        <source>Script file</source>
+        <comment>PreviewCommandFileInfo/TypeDescriptions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2599"/>
+        <source>:/Icons/Settings.svg</source>
+        <comment>SettingsDialog/DialogIconPath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2610"/>
+        <source>Settings</source>
+        <comment>SettingsDialog/DialogTitle</comment>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2680"/>
+        <source>ConfigFile</source>
+        <comment>SettingsGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2681"/>
+        <source>PreviewCommandFile</source>
+        <comment>SettingsGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2682"/>
+        <source>HtmlBrowserFile</source>
+        <comment>SettingsGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2683"/>
+        <source>HtmlEditorFile</source>
+        <comment>SettingsGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2684"/>
+        <source>LanguageSelection</source>
+        <comment>SettingsGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2697"/>
+        <source>Configuration File</source>
+        <comment>SettingsGui/Names</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2698"/>
+        <source>ACF Command Path</source>
+        <comment>SettingsGui/Names</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2699"/>
+        <source>HTML Browser</source>
+        <comment>SettingsGui/Names</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2700"/>
+        <source>HTML Editor</source>
+        <comment>SettingsGui/Names</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2701"/>
+        <source>Language</source>
+        <comment>SettingsGui/Names</comment>
+        <translation>Язык</translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2744"/>
+        <source>ApplicationSettings</source>
+        <comment>SettingsPersistence/RootKey</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CCompositorSettingsRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2270"/>
+        <source>../../Config/Full.xpc</source>
+        <comment>ConfigDataShadow/DefaultPath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2397"/>
+        <source>Acf</source>
+        <comment>PreviewCommandFile/DefaultPath</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2450"/>
+        <source>ConfigFile</source>
+        <comment>Settings/ParametersId</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2451"/>
+        <source>PreviewCommandFile</source>
+        <comment>Settings/ParametersId</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2452"/>
+        <source>HtmlBrowserFile</source>
+        <comment>Settings/ParametersId</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2453"/>
+        <source>HtmlEditorFile</source>
+        <comment>Settings/ParametersId</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2454"/>
+        <source>LanguageSelection</source>
+        <comment>Settings/ParametersId</comment>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CPackageOverviewDockRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3187"/>
+        <source>Packages</source>
+        <comment>PackageOverviewDock/DockTitle</comment>
+        <translation>Пакеты</translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CSelectableConfigDataEditorRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3355"/>
+        <source>ConfigFile</source>
+        <comment>ComposedParamsSetGui/Ids</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3393"/>
+        <source>xpc</source>
+        <comment>ConfigFileInfo/FileExtensions</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3406"/>
+        <source>ACF component configuration</source>
+        <comment>ConfigFileInfo/TypeDescriptions</comment>
+        <translation>Конфигурация среды компонент</translation>
+    </message>
+</context>
+<context>
+    <name>CCompositor::CCmpstrVocePck::CSelectableConfigDataRegistry</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3263"/>
+        <source>ConfigFile</source>
+        <comment>ComposedParamsSet/ParametersId</comment>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -247,31 +737,31 @@
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="87"/>
         <source>Form</source>
-        <translation>Редактор пути к файлу или папке</translation>
+        <translation type="unfinished">Редактор пути к файлу или папке</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.ui" line="26"/>
         <location filename="../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="88"/>
         <source>Directory</source>
-        <translation>Папка</translation>
+        <translation type="unfinished">Папка</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.ui" line="33"/>
         <location filename="../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="89"/>
         <source>Path</source>
-        <translation>Файл</translation>
+        <translation type="unfinished">Файл</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.ui" line="40"/>
         <location filename="../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="90"/>
         <source>URL</source>
-        <translation>Линк</translation>
+        <translation type="unfinished">Линк</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.ui" line="60"/>
         <location filename="../../Include/iqtprm/generated/ui_CFileNameParamGuiComp.h" line="91"/>
         <source>...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -280,19 +770,19 @@
         <location filename="../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="57"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="23"/>
         <location filename="../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="58"/>
         <source>Load</source>
-        <translation>Загрузить</translation>
+        <translation type="unfinished">Загрузить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CFilePersistenceGuiComp.ui" line="30"/>
         <location filename="../../Include/iqtgui/Generated/ui_CFilePersistenceGuiComp.h" line="59"/>
         <source>Save</source>
-        <translation>Сохранить</translation>
+        <translation type="unfinished">Сохранить</translation>
     </message>
 </context>
 <context>
@@ -301,7 +791,7 @@
         <location filename="../../Include/iqtgui/CFileSystemExplorerGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtgui/Generated/ui_CFileSystemExplorerGuiComp.h" line="67"/>
         <source>Form</source>
-        <translation>Обзор файловой системы</translation>
+        <translation type="unfinished">Обзор файловой системы</translation>
     </message>
 </context>
 <context>
@@ -310,13 +800,13 @@
         <location filename="../../Include/iqtgui/CImagePropertiesFrameComp.ui" line="14"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertiesFrameComp.h" line="70"/>
         <source>Form</source>
-        <translation>Свойства изображения</translation>
+        <translation type="unfinished">Свойства изображения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CImagePropertiesFrameComp.ui" line="17"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertiesFrameComp.h" line="72"/>
         <source>Display navigation bar</source>
-        <translation>Показать навигацию</translation>
+        <translation type="unfinished">Показать навигацию</translation>
     </message>
 </context>
 <context>
@@ -325,25 +815,25 @@
         <location filename="../../Include/iqtgui/CImagePropertyGuiComp.ui" line="20"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="53"/>
         <source>Form</source>
-        <translation>Свойства изображения</translation>
+        <translation type="unfinished">Свойства изображения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CImagePropertyGuiComp.ui" line="23"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="55"/>
         <source>Display navigation bar</source>
-        <translation>Показать навигацию</translation>
+        <translation type="unfinished">Показать навигацию</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CImagePropertyGuiComp.ui" line="36"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="59"/>
         <source>Property</source>
-        <translation>Свойство</translation>
+        <translation type="unfinished">Свойство</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CImagePropertyGuiComp.ui" line="41"/>
         <location filename="../../Include/iqtgui/Generated/ui_CImagePropertyGuiComp.h" line="58"/>
         <source>Value</source>
-        <translation>Значение</translation>
+        <translation type="unfinished">Значение</translation>
     </message>
 </context>
 <context>
@@ -352,19 +842,19 @@
         <location filename="../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="13"/>
         <location filename="../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="127"/>
         <source>Form</source>
-        <translation>Редактор линии</translation>
+        <translation type="unfinished">Редактор линии</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="28"/>
         <location filename="../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="128"/>
         <source>First point</source>
-        <translation>Начальная точка</translation>
+        <translation type="unfinished">Начальная точка</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CLine2dParamsGuiComp.ui" line="86"/>
         <location filename="../../Include/iqt2d/generated/ui_CLine2dParamsGuiComp.h" line="130"/>
         <source>Second point</source>
-        <translation>Конечная точка</translation>
+        <translation type="unfinished">Конечная точка</translation>
     </message>
 </context>
 <context>
@@ -373,25 +863,25 @@
         <location filename="../../Include/iqtgui/CLogGuiComp.ui" line="112"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="98"/>
         <source>State</source>
-        <translation>Состояние</translation>
+        <translation type="unfinished">Состояние</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.ui" line="117"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="97"/>
         <source>Time</source>
-        <translation>Время</translation>
+        <translation type="unfinished">Время</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.ui" line="122"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="96"/>
         <source>Source</source>
-        <translation>Источник</translation>
+        <translation type="unfinished">Источник</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.ui" line="127"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLogGuiComp.h" line="95"/>
         <source>Message</source>
-        <translation>Сообщение</translation>
+        <translation type="unfinished">Сообщение</translation>
     </message>
 </context>
 <context>
@@ -400,25 +890,25 @@
         <location filename="../../Include/iqtgui/CLoginGuiComp.ui" line="41"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="118"/>
         <source>User</source>
-        <translation>Пользователь</translation>
+        <translation type="unfinished">Пользователь</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLoginGuiComp.ui" line="70"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="119"/>
         <source>Password</source>
-        <translation>Пароль</translation>
+        <translation type="unfinished">Пароль</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLoginGuiComp.ui" line="87"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="120"/>
         <source>Login</source>
-        <translation>Вход</translation>
+        <translation type="unfinished">Вход</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLoginGuiComp.ui" line="94"/>
         <location filename="../../Include/iqtgui/Generated/ui_CLoginGuiComp.h" line="121"/>
         <source>Logout</source>
-        <translation>Выход</translation>
+        <translation type="unfinished">Выход</translation>
     </message>
 </context>
 <context>
@@ -427,13 +917,13 @@
         <location filename="../../Include/iqtgui/CObjectPreviewGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtgui/Generated/ui_CObjectPreviewGuiComp.h" line="59"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CObjectPreviewGuiComp.ui" line="17"/>
         <location filename="../../Include/iqtgui/Generated/ui_CObjectPreviewGuiComp.h" line="61"/>
         <source>Display navigation bar</source>
-        <translation></translation>
+        <translation type="unfinished">Показать навигацию</translation>
     </message>
 </context>
 <context>
@@ -442,8 +932,7 @@
         <location filename="../../Include/iqtprm/COptionsListGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_COptionsListGuiComp.h" line="70"/>
         <source>Options</source>
-        <translatorcomment>Опции</translatorcomment>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -452,61 +941,61 @@
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="14"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="132"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="31"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="133"/>
         <source>Group By</source>
-        <translation>Группировать по</translation>
+        <translation type="unfinished">Группировать по</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="42"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="136"/>
         <source>None</source>
-        <translation>Никак</translation>
+        <translation type="unfinished">Никак</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="47"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="137"/>
         <source>Package</source>
-        <translation>Пакетам</translation>
+        <translation type="unfinished">Пакетам</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="57"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="142"/>
         <source>List of registered component types</source>
-        <translation>Список зарегистрированных типов компонент</translation>
+        <translation type="unfinished">Список зарегистрированных типов компонент</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="88"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="140"/>
         <source>Name</source>
-        <translation>Имя</translation>
+        <translation type="unfinished">Имя</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="96"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="144"/>
         <source>Filter</source>
-        <translation>Фильтр</translation>
+        <translation type="unfinished">Фильтр</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="108"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="145"/>
         <source>Keyword</source>
-        <translation>Ключевые слова</translation>
+        <translation type="unfinished">Ключевые слова</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="118"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="146"/>
         <source>Interface</source>
-        <translation>Интерфэйс</translation>
+        <translation type="unfinished">Интерфэйс</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="132"/>
         <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="149"/>
         <source>Any</source>
-        <translation>Любой</translation>
+        <translation type="unfinished">Любой</translation>
     </message>
 </context>
 <context>
@@ -515,13 +1004,13 @@
         <location filename="../../Include/iqtprm/CParamsManagerGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="114"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CParamsManagerGuiComp.ui" line="42"/>
         <location filename="../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="116"/>
         <source>List</source>
-        <translation>Список</translation>
+        <translation type="unfinished">Список</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CParamsManagerGuiComp.ui" line="56"/>
@@ -529,7 +1018,7 @@
         <location filename="../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="117"/>
         <location filename="../../Include/iqtprm/generated/ui_CParamsManagerGuiComp.h" line="118"/>
         <source>...</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -538,55 +1027,55 @@
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="164"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="29"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="165"/>
         <source>Processing</source>
-        <translation>Процесс</translation>
+        <translation type="unfinished">Процесс</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="49"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="167"/>
         <source>Do single processing step</source>
-        <translation>Пошаговое выполнение</translation>
+        <translation type="unfinished">Пошаговое выполнение</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="52"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="169"/>
         <source>Process</source>
-        <translation>Запустить</translation>
+        <translation type="unfinished">Запустить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="65"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="171"/>
         <source>Enable/disable continuous processing</source>
-        <translation>Включить/Выключить постоянное выполнение</translation>
+        <translation type="unfinished">Включить/Выключить постоянное выполнение</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="87"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="173"/>
         <source>Save Result...</source>
-        <translation>Сохранить результат...</translation>
+        <translation type="unfinished">Сохранить результат...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="97"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="174"/>
         <source>Parameters</source>
-        <translation>Параметры</translation>
+        <translation type="unfinished">Параметры</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="135"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="175"/>
         <source>Load...</source>
-        <translation>Загрузить из...</translation>
+        <translation type="unfinished">Загрузить из...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.ui" line="148"/>
         <location filename="../../Include/iqtproc/generated/ui_CProcessorControlGuiComp.h" line="176"/>
         <source>Save...</source>
-        <translation>Сохранить как...</translation>
+        <translation type="unfinished">Сохранить как...</translation>
     </message>
 </context>
 <context>
@@ -595,19 +1084,19 @@
         <location filename="../../Include/iqtproc/CProgressManagerGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="69"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProgressManagerGuiComp.ui" line="23"/>
         <location filename="../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="70"/>
         <source>Progress</source>
-        <translation>Выполнено</translation>
+        <translation type="unfinished">Выполнено</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProgressManagerGuiComp.ui" line="46"/>
         <location filename="../../Include/iqtproc/generated/ui_CProgressManagerGuiComp.h" line="71"/>
         <source>Cancel</source>
-        <translation>Отменить</translation>
+        <translation type="unfinished">Отменить</translation>
     </message>
 </context>
 <context>
@@ -616,13 +1105,13 @@
         <location filename="../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="13"/>
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="219"/>
         <source>Form</source>
-        <translation>Редактор четырёхугольника</translation>
+        <translation type="unfinished">Редактор четырёхугольника</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="22"/>
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="220"/>
         <source>First Diagonal</source>
-        <translation>Первая диагональ</translation>
+        <translation type="unfinished">Первая диагональ</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="34"/>
@@ -630,7 +1119,7 @@
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="221"/>
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="226"/>
         <source>First point</source>
-        <translation>Начальная точка</translation>
+        <translation type="unfinished">Начальная точка</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="92"/>
@@ -638,13 +1127,13 @@
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="223"/>
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="228"/>
         <source>Second point</source>
-        <translation>Конечная точка</translation>
+        <translation type="unfinished">Конечная точка</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CQuadrangleParamsGuiComp.ui" line="147"/>
         <location filename="../../Include/iqt2d/generated/ui_CQuadrangleParamsGuiComp.h" line="225"/>
         <source>Second Diagonal</source>
-        <translation>Вторая диагональ</translation>
+        <translation type="unfinished">Вторая диагональ</translation>
     </message>
 </context>
 <context>
@@ -653,31 +1142,31 @@
         <location filename="../../Include/icmpstr/CQuickHelpGuiComp.ui" line="20"/>
         <location filename="../../Include/icmpstr/generated/ui_CQuickHelpGuiComp.h" line="126"/>
         <source>Form</source>
-        <translation>Быстрая подсказка</translation>
+        <translation type="unfinished">Быстрая подсказка</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CQuickHelpGuiComp.ui" line="53"/>
         <location filename="../../Include/icmpstr/generated/ui_CQuickHelpGuiComp.h" line="127"/>
         <source>There is no description available</source>
-        <translation>Описание недоступно</translation>
+        <translation type="unfinished">Описание недоступно</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CQuickHelpGuiComp.ui" line="63"/>
         <location filename="../../Include/icmpstr/generated/ui_CQuickHelpGuiComp.h" line="128"/>
         <source>New Description</source>
-        <translation>Создать новое описание</translation>
+        <translation type="unfinished">Создать новое описание</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CQuickHelpGuiComp.ui" line="92"/>
         <location filename="../../Include/icmpstr/generated/ui_CQuickHelpGuiComp.h" line="129"/>
         <source>Edit Description</source>
-        <translation>Редактировать</translation>
+        <translation type="unfinished">Редактировать</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CQuickHelpGuiComp.ui" line="102"/>
         <location filename="../../Include/icmpstr/generated/ui_CQuickHelpGuiComp.h" line="130"/>
         <source>Show Technical Documentation</source>
-        <translation>Показать техническую документацию</translation>
+        <translation type="unfinished">Показать техническую документацию</translation>
     </message>
 </context>
 <context>
@@ -686,31 +1175,31 @@
         <location filename="../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="14"/>
         <location filename="../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="124"/>
         <source>Form</source>
-        <translation>Редактор прямоугольника</translation>
+        <translation type="unfinished">Редактор прямоугольника</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="29"/>
         <location filename="../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="125"/>
         <source>Left</source>
-        <translation>Левая граница</translation>
+        <translation type="unfinished">Левая граница</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="58"/>
         <location filename="../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="126"/>
         <source>Right</source>
-        <translation>Правая граница</translation>
+        <translation type="unfinished">Правая граница</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="87"/>
         <location filename="../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="127"/>
         <source>Top</source>
-        <translation>Верхняя граница</translation>
+        <translation type="unfinished">Верхняя граница</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="116"/>
         <location filename="../../Include/iqt2d/generated/ui_CRectangleParamsGuiComp.h" line="128"/>
         <source>Bottom</source>
-        <translation>Нижняя граница</translation>
+        <translation type="unfinished">Нижняя граница</translation>
     </message>
 </context>
 <context>
@@ -719,73 +1208,73 @@
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="14"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="226"/>
         <source>Properies of Registry</source>
-        <translation>Свойства компоненты</translation>
+        <translation type="unfinished">Свойства компоненты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="27"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="227"/>
         <source>Description</source>
-        <translation>Описание</translation>
+        <translation type="unfinished">Описание</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="39"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="228"/>
         <source>Registry Info</source>
-        <translation>Информация</translation>
+        <translation type="unfinished">Информация</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="45"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="229"/>
         <source>Company</source>
-        <translation>Компания</translation>
+        <translation type="unfinished">Компания</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="55"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="230"/>
         <source>Project</source>
-        <translation>Проект</translation>
+        <translation type="unfinished">Проект</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="65"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="231"/>
         <source>Author</source>
-        <translation>Автор</translation>
+        <translation type="unfinished">Автор</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="75"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="232"/>
         <source>Category</source>
-        <translation>Категория</translation>
+        <translation type="unfinished">Категория</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="85"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="233"/>
         <source>Tags</source>
-        <translation>Тэги</translation>
+        <translation type="unfinished">Тэги</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="95"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="234"/>
         <source>Keywords</source>
-        <translation>Ключевые слова</translation>
+        <translation type="unfinished">Ключевые слова</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="108"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="235"/>
         <source>Overview</source>
-        <translation>Обзор</translation>
+        <translation type="unfinished">Обзор</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="213"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="236"/>
         <source>Errors</source>
-        <translation>Ошибки</translation>
+        <translation type="unfinished">Ошибки</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.ui" line="266"/>
         <location filename="../../Include/icmpstr/generated/ui_CRegistryPropEditorComp.h" line="237"/>
         <source>-</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -794,7 +1283,7 @@
         <location filename="../../Include/iqt2d/CSceneConnectorGuiComp.ui" line="13"/>
         <location filename="../../Include/iqt2d/generated/ui_CSceneConnectorGuiComp.h" line="95"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -809,7 +1298,7 @@
         <location filename="../../Include/iqt2d/CSceneControllerGuiComp.ui" line="22"/>
         <location filename="../../Include/iqt2d/generated/ui_CSceneControllerGuiComp.h" line="135"/>
         <source>Display navigation bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Показать навигацию</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneControllerGuiComp.ui" line="63"/>
@@ -863,13 +1352,13 @@
         <location filename="../../Include/iqtprm/CSelectableGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectableGuiComp.h" line="67"/>
         <source>Form</source>
-        <translation>Отбражение выбора</translation>
+        <translation type="unfinished">Отбражение выбора</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CSelectableGuiComp.ui" line="30"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectableGuiComp.h" line="68"/>
         <source>No selection</source>
-        <translation>Ничего не выбрано</translation>
+        <translation type="unfinished">Ничего не выбрано</translation>
     </message>
 </context>
 <context>
@@ -878,13 +1367,13 @@
         <location filename="../../Include/iqtprm/CSelectionParamGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectionParamGuiComp.h" line="71"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CSelectionParamGuiComp.ui" line="32"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectionParamGuiComp.h" line="72"/>
         <source>Input</source>
-        <translation>Ввод</translation>
+        <translation type="unfinished">Ввод</translation>
     </message>
 </context>
 <context>
@@ -893,13 +1382,13 @@
         <location filename="../../Include/iqtprm/CSelectionParamIndexGuiComp.ui" line="13"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectionParamIndexGuiComp.h" line="74"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CSelectionParamIndexGuiComp.ui" line="22"/>
         <location filename="../../Include/iqtprm/generated/ui_CSelectionParamIndexGuiComp.h" line="75"/>
         <source>Iterations</source>
-        <translation>Циклы</translation>
+        <translation type="unfinished">Циклы</translation>
     </message>
 </context>
 <context>
@@ -908,31 +1397,64 @@
         <location filename="../../Include/iqtgui/CSplashScreenGuiComp.ui" line="132"/>
         <location filename="../../Include/iqtgui/Generated/ui_CSplashScreenGuiComp.h" line="180"/>
         <source>FormTip</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSplashScreenGuiComp.ui" line="188"/>
         <location filename="../../Include/iqtgui/Generated/ui_CSplashScreenGuiComp.h" line="182"/>
         <source>ProductName</source>
-        <translation>Название продукта</translation>
+        <translation type="unfinished">Название продукта</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSplashScreenGuiComp.ui" line="246"/>
         <location filename="../../Include/iqtgui/Generated/ui_CSplashScreenGuiComp.h" line="183"/>
         <source>ApplicationName</source>
-        <translation>Имя приложения</translation>
+        <translation type="unfinished">Имя приложения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSplashScreenGuiComp.ui" line="301"/>
         <location filename="../../Include/iqtgui/Generated/ui_CSplashScreenGuiComp.h" line="184"/>
         <source>ApplicationType</source>
-        <translation>Тип приложения</translation>
+        <translation type="unfinished">Тип приложения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSplashScreenGuiComp.ui" line="423"/>
         <location filename="../../Include/iqtgui/Generated/ui_CSplashScreenGuiComp.h" line="185"/>
         <source>(C) Copyright</source>
-        <translation>Все права защищены</translation>
+        <translation type="unfinished">Все права защищены</translation>
+    </message>
+</context>
+<context>
+    <name>CTextEditorComp</name>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="153"/>
+        <source>To &amp;Lowercase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="153"/>
+        <source>Lowercase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="153"/>
+        <source>Convert selected block to lowercase characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="154"/>
+        <source>To &amp;Uppercase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="154"/>
+        <source>Uppercase</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Docs/Tutorial/Impl/DocView/CTextEditorComp.cpp" line="154"/>
+        <source>Convert selected block to uppercase characters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -941,7 +1463,7 @@
         <location filename="../../Include/iqtprm/CVariableParamGuiComp.ui" line="14"/>
         <location filename="../../Include/iqtprm/generated/ui_CVariableParamGuiComp.h" line="62"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -949,22 +1471,50 @@
     <message>
         <location filename="../../Include/iqtdoc/TQtDocumentManagerWrap.h" line="137"/>
         <source>Save...</source>
-        <translation>Сохранить как...</translation>
+        <translation type="unfinished">Сохранить как...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/TQtDocumentManagerWrap.h" line="177"/>
         <source>All known documents (%1)
 </source>
-        <translation>Все известные типы документов (%1)</translation>
+        <translation type="unfinished">Все известные типы документов (%1)</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/TQtDocumentManagerWrap.h" line="198"/>
         <source>Open Files...</source>
-        <translation>Открыть файлы...</translation>
+        <translation type="unfinished">Открыть файлы...</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
+    <message>
+        <location filename="../CompositorMiniExe/Main.cpp" line="155"/>
+        <source>Parameter help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorMiniExe/Main.cpp" line="155"/>
+        <source>Usage	CompositorMini.exe [registryName] {options}      - registry editor	-h or -help              - showing this help	-config configFile       - load config file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="181"/>
+        <source>Register package directory: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="204"/>
+        <source>Load configuration file: %1</source>
+        <translation type="unfinished">Загружаю конфигурационный файл: %1</translation>
+    </message>
+    <message>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="222"/>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="246"/>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="269"/>
+        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="289"/>
+        <source>Load of configuration file: %1 failed</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../Include/iqt/CFileInfoCopyComp.cpp" line="30"/>
         <source>Processing file %1 to %2</source>
@@ -1020,24 +1570,6 @@
     <message>
         <location filename="../../Include/iqt/CPackagesLoaderComp.cpp" line="468"/>
         <source>Cannot create %1 (%2: %3)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="181"/>
-        <source>Register package directory: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="204"/>
-        <source>Load configuration file: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="222"/>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="246"/>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="269"/>
-        <location filename="../../Include/iqt/CRegistriesManagerComp.cpp" line="289"/>
-        <source>Load of configuration file: %1 failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1220,13 +1752,13 @@ Type: %2</source>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.cpp" line="999"/>
         <source>
 Interfaces:</source>
-        <translation>Интерфэйсы:</translation>
+        <translation type="unfinished">Интерфэйсы:</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.cpp" line="1003"/>
         <source>
  - %1</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CAttributeEditorComp.cpp" line="1008"/>
@@ -1250,57 +1782,57 @@ Interfaces:</source>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="318"/>
         <source>&lt;&lt; Local &gt;&gt;</source>
-        <translation>&lt;&lt;Локальные&gt;&gt;</translation>
+        <translation type="unfinished">&lt;&lt;Локальные&gt;&gt;</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="400"/>
         <source>Group containing components of %2 type</source>
-        <translation>Группа содержит компоненты след. типа %2</translation>
+        <translation type="unfinished">Группа содержит компоненты след. типа %2</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="473"/>
         <source>Any</source>
-        <translation>Любой</translation>
+        <translation type="unfinished">Любой</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1014"/>
         <source>&amp;Packages</source>
-        <translation>П&amp;акеты</translation>
+        <translation type="unfinished">П&amp;акеты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1014"/>
         <source>Packages</source>
-        <translation>Пакеты</translation>
+        <translation type="unfinished">Пакеты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1014"/>
         <source>Menu for packages</source>
-        <translation>Меню пакетов</translation>
+        <translation type="unfinished">Меню пакетов</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1015"/>
         <source>&amp;Reload All Packages</source>
-        <translation>&amp;Перезагрузить все пакеты</translation>
+        <translation type="unfinished">&amp;Перезагрузить все пакеты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1015"/>
         <source>Reload</source>
-        <translation>Перезагрузить все пакеты</translation>
+        <translation type="unfinished">Перезагрузить все пакеты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1015"/>
         <source>Reloads all packages form configuration file</source>
-        <translation>Перезагрузить все пакеты</translation>
+        <translation type="unfinished">Перезагрузить все пакеты</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1063"/>
         <source>Component %1.%2</source>
-        <translation>Компонент %1 %2</translation>
+        <translation type="unfinished">Компонент %1 %2</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1066"/>
         <source>Local composite component %2</source>
-        <translation>Локальный комплексный компонент %2</translation>
+        <translation type="unfinished">Локальный комплексный компонент %2</translation>
     </message>
 </context>
 <context>
@@ -1452,12 +1984,12 @@ Interfaces:</source>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.cpp" line="33"/>
         <source>Exported Interfaces</source>
-        <translation>Экспортированные интерфэйсы</translation>
+        <translation type="unfinished">Экспортированные интерфэйсы</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CRegistryPropEditorComp.cpp" line="53"/>
         <source>Exported Components</source>
-        <translation>Экспортированные компоненты</translation>
+        <translation type="unfinished">Экспортированные компоненты</translation>
     </message>
 </context>
 <context>
@@ -1498,7 +2030,7 @@ Interfaces:</source>
         <location filename="../../Include/icmpstr/CVisualRegistryScenographerComp.cpp" line="747"/>
         <location filename="../../Include/icmpstr/CVisualRegistryScenographerComp.cpp" line="782"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ошибка</translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CVisualRegistryScenographerComp.cpp" line="327"/>
@@ -1688,32 +2220,32 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="585"/>
         <source>&amp;View</source>
-        <translation>&amp;Вид</translation>
+        <translation type="unfinished">&amp;Вид</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="585"/>
         <source>View</source>
-        <translation>Вид</translation>
+        <translation type="unfinished">Вид</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="585"/>
         <source>View menu</source>
-        <translation>Вид</translation>
+        <translation type="unfinished">Вид</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="586"/>
         <source>&amp;Auto Fit</source>
-        <translation>&amp;Автоматическое скалирование</translation>
+        <translation type="unfinished">&amp;Автоматическое скалирование</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="586"/>
         <source>Auto Fit</source>
-        <translation>Автоматическое скалирование</translation>
+        <translation type="unfinished">Автоматическое скалирование</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="586"/>
         <source>Automatical fit contents to view area</source>
-        <translation>Автоматическое скалирование</translation>
+        <translation type="unfinished">Автоматическое скалирование</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="587"/>
@@ -1747,18 +2279,18 @@ It allows to group set of components and manage it as single one</source>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="589"/>
-        <source>&amp;Reset Zoom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="589"/>
         <source>Reset Zoom</source>
-        <translation>Сбросить скалирование</translation>
+        <translation type="unfinished">Сбросить скалирование</translation>
     </message>
     <message>
         <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="589"/>
         <source>Reset scene zoom</source>
-        <translation>Сбросить скалирование сцены</translation>
+        <translation type="unfinished">Сбросить скалирование сцены</translation>
+    </message>
+    <message>
+        <location filename="../../Include/iqt2d/CSceneProviderGuiComp.cpp" line="589"/>
+        <source>&amp;Reset Zoom</source>
+        <translation type="unfinished">&amp;Сбросить скалирование</translation>
     </message>
 </context>
 <context>
@@ -1838,7 +2370,7 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqt/CPackagesLoaderComp.cpp" line="340"/>
         <source>Load configuration file: %1</source>
-        <translation>Загружаю конфигурационный файл: %1</translation>
+        <translation type="unfinished">Загружаю конфигурационный файл: %1</translation>
     </message>
 </context>
 <context>
@@ -1890,249 +2422,249 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="101"/>
         <source>Recent %1 Files</source>
-        <translation>Последние %1</translation>
+        <translation type="unfinished">Последние %1</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="102"/>
         <source>Recent Files</source>
-        <translation>Последние</translation>
+        <translation type="unfinished">Последние</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="160"/>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="824"/>
         <source>Document could not be opened</source>
-        <translation>Невозможно открыть документ</translation>
+        <translation type="unfinished">Невозможно открыть документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="269"/>
         <source>Creates new document %1</source>
-        <translation>Создать новый документ %1</translation>
+        <translation type="unfinished">Создать новый документ %1</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="318"/>
         <source>Document could not be created</source>
-        <translation>Невозможно создать документ</translation>
+        <translation type="unfinished">Невозможно создать документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="446"/>
         <source>Clear List</source>
-        <translation>Очистить</translation>
+        <translation type="unfinished">Очистить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="626"/>
         <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
+        <translation type="unfinished">&amp;Файл</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="627"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Редактировать</translation>
+        <translation type="unfinished">&amp;Редактировать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="630"/>
         <source>&amp;New</source>
-        <translation>&amp;Создать</translation>
+        <translation type="unfinished">&amp;Создать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="630"/>
         <source>New</source>
-        <translation>Создать</translation>
+        <translation type="unfinished">Создать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="630"/>
         <source>Creates new document</source>
-        <translation>Создать новый документ</translation>
+        <translation type="unfinished">Создать новый документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="631"/>
         <source>Ctrl+N</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="632"/>
         <source>&amp;Open...</source>
-        <translation>&amp;Открыть...</translation>
+        <translation type="unfinished">&amp;Открыть...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="632"/>
         <source>Open</source>
-        <translation>Открыть</translation>
+        <translation type="unfinished">Открыть</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="632"/>
         <source>Opens document from file</source>
-        <translation>Открыть документ из файла</translation>
+        <translation type="unfinished">Открыть документ из файла</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="633"/>
         <source>Ctrl+O</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="634"/>
         <source>&amp;Save</source>
-        <translation>&amp;Сохранить</translation>
+        <translation type="unfinished">&amp;Сохранить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="634"/>
         <source>Save</source>
-        <translation>Сохранить</translation>
+        <translation type="unfinished">Сохранить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="634"/>
         <source>Saves document to actual working file</source>
-        <translation>Сохранить документ в рабочий файл</translation>
+        <translation type="unfinished">Сохранить документ в рабочий файл</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="635"/>
         <source>Ctrl+S</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="636"/>
         <source>&amp;Save As...</source>
-        <translation>&amp;Сохранить как...</translation>
+        <translation type="unfinished">&amp;Сохранить как...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="636"/>
         <source>Save As</source>
-        <translation>Сохранить как</translation>
+        <translation type="unfinished">Сохранить как</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="636"/>
         <source>Saves document into selected file</source>
-        <translation>Сохранить документ в выбранный файл</translation>
+        <translation type="unfinished">Сохранить документ в выбранный файл</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="637"/>
         <source>Ctrl+P</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="638"/>
         <source>&amp;Print...</source>
-        <translation>&amp;Печать...</translation>
+        <translation type="unfinished">&amp;Печать...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="638"/>
         <source>Print</source>
-        <translation>Печать</translation>
+        <translation type="unfinished">Печать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="638"/>
         <source>Prints current document</source>
-        <translation>Распечатать документ</translation>
+        <translation type="unfinished">Распечатать документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="639"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Выйти</translation>
+        <translation type="unfinished">&amp;Выйти</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="639"/>
         <source>Quit</source>
-        <translation>Выйти</translation>
+        <translation type="unfinished">Выйти</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="639"/>
         <source>Quits this application</source>
-        <translation>Завершить приложение</translation>
+        <translation type="unfinished">Завершить приложение</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="640"/>
         <source>&amp;Undo</source>
-        <translation>&amp;Отменить</translation>
+        <translation type="unfinished">&amp;Отменить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="640"/>
         <source>Undo</source>
-        <translation>Отменить</translation>
+        <translation type="unfinished">Отменить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="640"/>
         <source>Undo last document changes</source>
-        <translation>Отменить последние изменения в документе</translation>
+        <translation type="unfinished">Отменить последние изменения в документе</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="641"/>
         <source>Ctrl+Z</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="642"/>
         <source>&amp;Redo</source>
-        <translation>&amp;Повторить</translation>
+        <translation type="unfinished">&amp;Повторить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="642"/>
         <source>Redo</source>
-        <translation>Повторить</translation>
+        <translation type="unfinished">Повторить</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="642"/>
         <source>Redo last document changes</source>
-        <translation>Повторить последние изменения</translation>
+        <translation type="unfinished">Повторить последние изменения</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="643"/>
         <source>Ctrl+Shift+Z</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="646"/>
         <source>&amp;Full Screen</source>
-        <translation>&amp;Весь экран</translation>
+        <translation type="unfinished">&amp;Весь экран</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="646"/>
         <source>Full Screen</source>
-        <translation>Весь экран</translation>
+        <translation type="unfinished">Весь экран</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="646"/>
         <source>Turn full screen mode on/off</source>
-        <translation>Завершить полноэкранный режим</translation>
+        <translation type="unfinished">Завершить полноэкранный режим</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="647"/>
         <source>F11</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="650"/>
         <source>&amp;Copy Document Path</source>
-        <translation>&amp;Скопировать путь к файлу</translation>
+        <translation type="unfinished">&amp;Скопировать путь к файлу</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="650"/>
         <source>Copy Path</source>
-        <translation>Скопировать путь к файлу</translation>
+        <translation type="unfinished">Скопировать путь к файлу</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="650"/>
         <source>Copy current document path to system clippboard</source>
-        <translation>Скопировать путь к файлу в буффер обмена</translation>
+        <translation type="unfinished">Скопировать путь к файлу в буффер обмена</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="651"/>
         <source>&amp;Open Containing Folder</source>
-        <translation>&amp;Открыть папку файла</translation>
+        <translation type="unfinished">&amp;Открыть папку файла</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="651"/>
         <source>Open Containing Folder</source>
-        <translation>Открыть папку файла содержащую данный документ</translation>
+        <translation type="unfinished">Открыть папку файла содержащую данный документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="651"/>
         <source>Open folder containing the current document</source>
-        <translation>Открыть папку файла содержащую данный документ</translation>
+        <translation type="unfinished">Открыть папку файла содержащую данный документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="782"/>
         <location filename="../../Include/iqtdoc/CMainWindowGuiComp.cpp" line="799"/>
         <source>File could not be saved!</source>
-        <translation>Невозможно сохранить файл!</translation>
+        <translation type="unfinished">Невозможно сохранить файл!</translation>
     </message>
 </context>
 <context>
@@ -2140,129 +2672,129 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="96"/>
         <source>&lt;no name&gt;</source>
-        <translation>&lt;без названия&gt;</translation>
+        <translation type="unfinished">&lt;без названия&gt;</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="104"/>
         <source>%1 &lt;%2&gt;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="369"/>
         <source>Do you want to save your changes made in document
 %1</source>
-        <translation>Вы хотите сохранить сделанные изменения?
+        <translation type="unfinished">Вы хотите сохранить сделанные изменения?
 %1</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="428"/>
         <source>&amp;Window</source>
-        <translation>&amp;Окно</translation>
+        <translation type="unfinished">&amp;Окно</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="430"/>
         <source>Casca&amp;de</source>
-        <translation>&amp;Каскадировать</translation>
+        <translation type="unfinished">&amp;Каскадировать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="430"/>
         <source>Cascade</source>
-        <translation>Каскадировать</translation>
+        <translation type="unfinished">Каскадировать</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="430"/>
         <source>Lays out all document windows in cascaded mode</source>
-        <translation>Каскадировать окна документов</translation>
+        <translation type="unfinished">Каскадировать окна документов</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="431"/>
         <source>Tile &amp;Horizontaly</source>
-        <translation>Располагать по &amp;горизонтали</translation>
+        <translation type="unfinished">Располагать по &amp;горизонтали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="431"/>
         <source>Horizontal</source>
-        <translation>Располагать по горизонтали</translation>
+        <translation type="unfinished">Располагать по горизонтали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="431"/>
         <source>Lays out all document windows horizontaly</source>
-        <translation>Располагать окна документов по горизонтали</translation>
+        <translation type="unfinished">Располагать окна документов по горизонтали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="432"/>
         <source>Tile &amp;Verticaly</source>
-        <translation>Располагать &amp;вертикали</translation>
+        <translation type="unfinished">Располагать &amp;вертикали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="432"/>
         <source>Vertical</source>
-        <translation>Располагать по вертикали</translation>
+        <translation type="unfinished">Располагать по вертикали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="432"/>
         <source>Lays out all document windows verticaly</source>
-        <translation>Располагать окна документов по вертикали</translation>
+        <translation type="unfinished">Располагать окна документов по вертикали</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="433"/>
         <source>&amp;Close All Documents</source>
-        <translation>&amp;Закрыть все документы</translation>
+        <translation type="unfinished">&amp;Закрыть все документы</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="433"/>
         <source>Close All</source>
-        <translation>Закрыть все документы</translation>
+        <translation type="unfinished">Закрыть все документы</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="433"/>
         <source>&amp;Closes all opened documents</source>
-        <translation>&amp;Закрыть все документы</translation>
+        <translation type="unfinished">&amp;Закрыть все документы</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="434"/>
         <source>&amp;Workspace Mode</source>
-        <translation>&amp;Режим оконной среды</translation>
+        <translation type="unfinished">&amp;Режим оконной среды</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="434"/>
         <source>Workspace Mode</source>
-        <translation>Режим оконной среды</translation>
+        <translation type="unfinished">Режим оконной среды</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="434"/>
         <source>Switch workspace mode</source>
-        <translation>Сменить режим оконной среды</translation>
+        <translation type="unfinished">Сменить режим оконной среды</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="435"/>
         <source>&amp;Multiple Documents</source>
-        <translation>&amp;Отдельные окна</translation>
+        <translation type="unfinished">&amp;Отдельные окна</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="435"/>
         <source>Multiple Documents</source>
-        <translation>Отдельные окна</translation>
+        <translation type="unfinished">Отдельные окна</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="435"/>
         <source>Show each window in own frame</source>
-        <translation>Показывать каждый документ в отдельном окне</translation>
+        <translation type="unfinished">Показывать каждый документ в отдельном окне</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="436"/>
         <source>&amp;Tabbed Documents</source>
-        <translation>&amp;Использовать вкладки</translation>
+        <translation type="unfinished">&amp;Использовать вкладки</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="436"/>
         <source>Tabbed Documents</source>
-        <translation>Использовать вкладки</translation>
+        <translation type="unfinished">Использовать вкладки</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CMultiDocumentWorkspaceGuiComp.cpp" line="436"/>
         <source>Show windows in tabbed frame</source>
-        <translation>Показывать документ во вкладке</translation>
+        <translation type="unfinished">Показывать документ во вкладке</translation>
     </message>
 </context>
 <context>
@@ -2270,18 +2802,18 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtdoc/CSingleDocumentWorkspaceGuiComp.cpp" line="43"/>
         <source>&lt;no name&gt;</source>
-        <translation>&lt;без названия&gt;</translation>
+        <translation type="unfinished">&lt;без названия&gt;</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CSingleDocumentWorkspaceGuiComp.cpp" line="135"/>
         <source>Close document</source>
-        <translation>Закрыть документ</translation>
+        <translation type="unfinished">Закрыть документ</translation>
     </message>
     <message>
         <location filename="../../Include/iqtdoc/CSingleDocumentWorkspaceGuiComp.cpp" line="136"/>
         <source>Do you want to save your changes made in document
 %1</source>
-        <translation>Вы хотите сохранить изменения сделанные в документе
+        <translation type="unfinished">Вы хотите сохранить изменения сделанные в документе
 %1</translation>
     </message>
 </context>
@@ -2290,7 +2822,7 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtgui/CCheckableComboBox.cpp" line="83"/>
         <source>None</source>
-        <translation>Ничего</translation>
+        <translation type="unfinished">Ничего</translation>
     </message>
 </context>
 <context>
@@ -2298,17 +2830,17 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtgui/CFileDialogLoaderComp.cpp" line="233"/>
         <source>All known file types (%1)</source>
-        <translation>Все известные типы файлов (%1)</translation>
+        <translation type="unfinished">Все известные типы файлов (%1)</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CFileDialogLoaderComp.cpp" line="244"/>
         <source>Enter file name</source>
-        <translation>Введите имя файла</translation>
+        <translation type="unfinished">Введите имя файла</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CFileDialogLoaderComp.cpp" line="270"/>
         <source>Select a file to open</source>
-        <translation>Выберите файл</translation>
+        <translation type="unfinished">Выберите файл</translation>
     </message>
 </context>
 <context>
@@ -2342,27 +2874,27 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.cpp" line="161"/>
         <source>Info</source>
-        <translation>Информация</translation>
+        <translation type="unfinished">Информация</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.cpp" line="170"/>
         <source>Warning</source>
-        <translation>Предупреждение</translation>
+        <translation type="unfinished">Предупреждение</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.cpp" line="179"/>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation type="unfinished">Ошибка</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.cpp" line="188"/>
         <source>Clear</source>
-        <translation>Стереть</translation>
+        <translation type="unfinished">Стереть</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLogGuiComp.cpp" line="200"/>
         <source>Export...</source>
-        <translation>Экспортировать...</translation>
+        <translation type="unfinished">Экспортировать...</translation>
     </message>
 </context>
 <context>
@@ -2370,12 +2902,12 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtgui/CLoginGuiComp.cpp" line="57"/>
         <source>Login Error</source>
-        <translation>Ошибка идентификации</translation>
+        <translation type="unfinished">Ошибка идентификации</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CLoginGuiComp.cpp" line="57"/>
         <source>Wrong password or user name</source>
-        <translation>Неправильный пароль или имя пользователя</translation>
+        <translation type="unfinished">Неправильный пароль или имя пользователя</translation>
     </message>
 </context>
 <context>
@@ -2383,67 +2915,67 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="147"/>
         <source>Standard</source>
-        <translation>Стандартные</translation>
+        <translation type="unfinished">Стандартные</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="414"/>
         <source>&amp;View</source>
-        <translation>&amp;Вид</translation>
+        <translation type="unfinished">&amp;Вид</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="415"/>
         <source>&amp;Tools</source>
-        <translation>&amp;Инструменты</translation>
+        <translation type="unfinished">&amp;Инструменты</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="416"/>
         <source>&amp;Help</source>
-        <translation>&amp;Помощь</translation>
+        <translation type="unfinished">&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="419"/>
         <source>&amp;Show Toolbars</source>
-        <translation>&amp;Показать панель инструментов</translation>
+        <translation type="unfinished">&amp;Показать панель инструментов</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="419"/>
         <source>Show Toolbars</source>
-        <translation>Показать панель инструментов</translation>
+        <translation type="unfinished">Показать панель инструментов</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="419"/>
         <source>Show and hide toolbars</source>
-        <translation>Показать /спрятать панель инструментов</translation>
+        <translation type="unfinished">Показать /спрятать панель инструментов</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="422"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Настройки</translation>
+        <translation type="unfinished">&amp;Настройки</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="422"/>
         <source>Settings</source>
-        <translation>Настройки</translation>
+        <translation type="unfinished">Настройки</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="422"/>
         <source>Show global application settings</source>
-        <translation>Показать общие настройки приложния</translation>
+        <translation type="unfinished">Показать общие настройки приложния</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="426"/>
         <source>&amp;About...</source>
-        <translation>&amp;О продукте...</translation>
+        <translation type="unfinished">&amp;О продукте...</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="426"/>
         <source>About</source>
-        <translation>О продукте</translation>
+        <translation type="unfinished">О продукте</translation>
     </message>
     <message>
         <location filename="../../Include/iqtgui/CSimpleMainWindowGuiComp.cpp" line="426"/>
         <source>Shows information about this application</source>
-        <translation>Показать информацию об этом приложении</translation>
+        <translation type="unfinished">Показать информацию об этом приложении</translation>
     </message>
 </context>
 <context>
@@ -2451,22 +2983,22 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.cpp" line="105"/>
         <source>&lt;Enter path&gt;</source>
-        <translation>&lt;Введите путь к файлу&gt;</translation>
+        <translation type="unfinished">&lt;Введите путь к файлу&gt;</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.cpp" line="136"/>
         <source>Select directory</source>
-        <translation>Выбор папки</translation>
+        <translation type="unfinished">Выбор папки</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.cpp" line="154"/>
         <source>All supported files (%1)</source>
-        <translation>Все файлы (%1)</translation>
+        <translation type="unfinished">Все файлы (%1)</translation>
     </message>
     <message>
         <location filename="../../Include/iqtprm/CFileNameParamGuiComp.cpp" line="160"/>
         <source>Select file</source>
-        <translation>Выбор файла</translation>
+        <translation type="unfinished">Выбор файла</translation>
     </message>
 </context>
 <context>
@@ -2474,12 +3006,12 @@ It allows to group set of components and manage it as single one</source>
     <message>
         <location filename="../../Include/iqtproc/CDocumentProcessingManagerCompBase.cpp" line="57"/>
         <source>Processing</source>
-        <translation>Действия</translation>
+        <translation type="unfinished">Действия</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CDocumentProcessingManagerCompBase.cpp" line="67"/>
         <source>Document processing actions</source>
-        <translation>Действия над документом</translation>
+        <translation type="unfinished">Действия над документом</translation>
     </message>
 </context>
 <context>
@@ -2489,22 +3021,22 @@ It allows to group set of components and manage it as single one</source>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.cpp" line="75"/>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.cpp" line="88"/>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation type="unfinished">Ошибка</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.cpp" line="63"/>
         <source>Cannot save the output</source>
-        <translation>Данные не могу быть сохранены</translation>
+        <translation type="unfinished">Данные не могу быть сохранены</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.cpp" line="76"/>
         <source>Cannot load parameters</source>
-        <translation>Невозможно загрузить параметры</translation>
+        <translation type="unfinished">Невозможно загрузить параметры</translation>
     </message>
     <message>
         <location filename="../../Include/iqtproc/CProcessorControlGuiComp.cpp" line="89"/>
         <source>Cannot save parameters</source>
-        <translation>Невозможно сохранить параметры</translation>
+        <translation type="unfinished">Невозможно сохранить параметры</translation>
     </message>
 </context>
 <context>
