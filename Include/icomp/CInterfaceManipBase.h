@@ -5,6 +5,8 @@
 // STL includes
 #include <string>
 
+
+// ACF includes
 #include "istd/CIdManipBase.h"
 
 #include "icomp/IComponent.h"
@@ -41,7 +43,7 @@ Interface* CInterfaceManipBase::ExtractInterface(IComponent* componentPtr, const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CInterfaceManipBase_included

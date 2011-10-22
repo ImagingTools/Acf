@@ -97,6 +97,6 @@ const iser::IObject* CComponentContext::GetAttribute(const std::string& attribut
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

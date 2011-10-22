@@ -398,7 +398,7 @@ void CVisualRegistryScenographerComp::ConnectReferences(const QString& component
 			icomp::IRegistryElement* registryElementPtr = elementInfoPtr->elementPtr.GetPtr();
 			const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = registryElementPtr->GetAttributeInfo(attributeId);
 			if (attributeInfoPtr == NULL && createAttribute){
-				const std::string& attrType = staticAttributeInfoPtr->GetAttributeTypeName();
+				std::string attrType = staticAttributeInfoPtr->GetAttributeTypeName();
 				icomp::IRegistryElement::AttributeInfo* newAttributeInfoPtr = registryElementPtr->InsertAttributeInfo(attributeId, attrType);
 				if (newAttributeInfoPtr != NULL){
 					newAttributeInfoPtr->attributePtr.SetPtr(registryElementPtr->CreateAttribute(attrType));

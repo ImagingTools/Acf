@@ -34,9 +34,6 @@ void CDefaultServicesProvider::RegisterServices()
 	static iqt::CFileSystem fileSystem;
 	istd::CStaticServicesProvider::RegisterService<isys::IFileSystem>(&fileSystem);
 
-	static iqt::CDefaultRegistryLoaderProvider registryLoaderProvider;
-	istd::CStaticServicesProvider::RegisterService<icomp::IRegistryLoaderProvider>(&registryLoaderProvider);
-
 	static iqt::CSystemEnvironment systemEnvironment;
 	istd::CStaticServicesProvider::RegisterService<isys::ISystemEnvironment>(&systemEnvironment);
 

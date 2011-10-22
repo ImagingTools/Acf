@@ -2,6 +2,7 @@
 #define icomp_TComponentWrap_included
 
 
+// ACF includes
 #include "icomp/IComponent.h"
 #include "icomp/IComponentContext.h"
 
@@ -72,7 +73,7 @@ void TComponentWrap<Component>::SetComponentContext(
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TComponentWrap_included

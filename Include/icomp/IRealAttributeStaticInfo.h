@@ -5,6 +5,8 @@
 // STL includes
 #include <string>
 
+
+// ACF includes
 #include "icomp/IAttributeStaticInfo.h"
 
 
@@ -31,7 +33,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_IRealAttributeStaticInfo_included

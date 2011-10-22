@@ -68,6 +68,6 @@ IComponentStaticInfo::Ids CCompositePackageStaticInfo::GetMetaIds(int metaGroupI
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

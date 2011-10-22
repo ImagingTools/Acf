@@ -316,7 +316,7 @@ bool CPackagesLoaderComp::RegisterPackagesDir(const istd::CString& path)
 
 	QStringList filters;
 	filters.append("*.arp");
-	QStringList filesInfo = packagesDir.entryList(filters, QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+	QStringList filesInfo = packagesDir.entryList(filters, QDir::NoSymLinks | QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 	for (		QStringList::iterator iter = filesInfo.begin();
 				iter != filesInfo.end();
 				++iter){

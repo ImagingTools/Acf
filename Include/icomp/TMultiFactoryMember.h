@@ -2,6 +2,7 @@
 #define icomp_TMultiFactoryMember_included
 
 
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "icomp/TMultiAttributeMember.h"
@@ -148,7 +149,7 @@ TMultiFactoryMember<Interface>::TMultiFactoryMember(const TMultiFactoryMember& p
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TMultiFactoryMember_included

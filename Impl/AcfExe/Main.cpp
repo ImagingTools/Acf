@@ -1,13 +1,15 @@
 // STL includes
 #include <iostream>
 
+
 // Qt includes
 #include <QString>
 #include <QMessageBox>
 #include <QApplication>
 
+
 // ACF includes
-#include "icomp/CComponentAccessor.h"
+#include "iqt/CComponentAccessor.h"
 
 #include "ibase/IApplication.h"
 
@@ -67,7 +69,7 @@ int main(int argc, char *argv[])
 
 	int retVal = 0;
 
-	icomp::CComponentAccessor componentAccessor(registryFile, configFile);
+	iqt::CComponentAccessor componentAccessor(registryFile, configFile);
 
 	ibase::IApplication* applicationPtr = componentAccessor.GetComponentInterface<ibase::IApplication>(componentId);
 	if (applicationPtr == NULL){

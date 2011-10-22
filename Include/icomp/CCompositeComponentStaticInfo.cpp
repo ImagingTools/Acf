@@ -222,7 +222,7 @@ const iser::IObject* CCompositeComponentStaticInfo::AttrAsOptionalDelegator::Get
 }
 
 
-const std::string& CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAttributeTypeName() const
+std::string CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAttributeTypeName() const
 {
 	return m_slave.GetAttributeTypeName();
 }
@@ -240,6 +240,6 @@ int CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAttributeFlags() 
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

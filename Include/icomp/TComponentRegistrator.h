@@ -2,8 +2,11 @@
 #define icomp_TComponentRegistrator_included
 
 
+// STL includes
 #include <string>
 
+
+// ACF includes
 #include "icomp/TComponentStaticInfo.h"
 #include "icomp/CPackageStaticInfo.h"
 
@@ -74,7 +77,7 @@ const istd::CString& TComponentRegistrator<Component>::GetKeywords() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TComponentRegistrator_included

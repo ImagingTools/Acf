@@ -47,7 +47,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_IPackagesManager_included

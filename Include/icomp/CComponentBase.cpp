@@ -115,6 +115,6 @@ const icomp::IRealComponentStaticInfo& CComponentBase::InitStaticInfo(IComponent
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

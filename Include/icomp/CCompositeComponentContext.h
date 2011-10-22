@@ -58,7 +58,7 @@ inline const IComponentEnvironmentManager& CCompositeComponentContext::GetEnviro
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CCompositeComponentContext_included

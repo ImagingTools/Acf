@@ -2,6 +2,7 @@
 #define icomp_TReferenceMember_included
 
 
+// ACF includes
 #include "icomp/TAttributeMember.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CReferenceAttribute.h"
@@ -136,7 +137,7 @@ bool TReferenceMember<Interface>::EnsureInitialized() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 inline void operator*(const icomp::TReferenceMember<void>& /*ref*/)

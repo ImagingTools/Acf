@@ -1,28 +1,24 @@
 #include "icomp/CReferenceAttribute.h"
 
 
-namespace icomp{
+namespace icomp
+{
 
 
 // reimplemented (iser::IObject)
 
-const std::string& CReferenceAttribute::GetFactoryId() const
+std::string CReferenceAttribute::GetFactoryId() const
 {
-	return s_typeName;
+	return GetTypeName();
 }
 
 
 // static methods
 
-const std::string& CReferenceAttribute::GetTypeName()
+std::string CReferenceAttribute::GetTypeName()
 {
-	return s_typeName;
+	return "icomp::CReferenceAttribute";
 }
-
-
-// private static attributes
-
-const std::string CReferenceAttribute::s_typeName("icomp::CReferenceAttribute");
 
 
 } // namespace icomp

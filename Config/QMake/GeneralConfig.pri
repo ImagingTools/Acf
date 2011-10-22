@@ -32,7 +32,6 @@ CONFIG(release, debug|release){
 
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
-	#QMAKE_CXXFLAGS += -fvisibility=hidden
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics
 	QMAKE_CXXFLAGS += -fvisibility-ms-compat
 }
@@ -42,3 +41,4 @@ LIBS += -L$$PWD/../../Lib/$$COMPILER_DIR
 
 HEADERS += ../*.h
 SOURCES += ../*.cpp
+

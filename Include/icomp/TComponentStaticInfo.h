@@ -2,6 +2,7 @@
 #define icomp_TComponentStaticInfo_included
 
 
+// ACF includes
 #include "icomp/TComponentWrap.h"
 #include "icomp/CBaseComponentStaticInfo.h"
 
@@ -55,7 +56,7 @@ int TComponentStaticInfo<Component>::GetComponentType() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TComponentStaticInfo_included

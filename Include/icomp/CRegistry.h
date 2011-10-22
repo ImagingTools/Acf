@@ -81,7 +81,7 @@ private:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CRegistry_included

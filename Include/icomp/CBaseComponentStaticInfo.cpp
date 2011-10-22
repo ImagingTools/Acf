@@ -136,6 +136,6 @@ IComponentStaticInfo::Ids CBaseComponentStaticInfo::GetMetaIds(int metaGroupId) 
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

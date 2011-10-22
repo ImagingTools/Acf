@@ -335,6 +335,6 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

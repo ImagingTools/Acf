@@ -5,10 +5,13 @@
 // STL includes
 #include <string>
 
+
+// ACF includes
 #include "icomp/TAttribute.h"
 
 
-namespace icomp{
+namespace icomp
+{
 
 
 /**
@@ -30,13 +33,10 @@ public:
 	explicit CReferenceAttribute(const std::string& value):BaseClass(value){}
 
 	// reimplemented (iser::IObject)
-	const std::string& GetFactoryId() const;
+	std::string GetFactoryId() const;
 
 	// static methods
-	static const std::string& GetTypeName();
-
-private:
-	static const std::string s_typeName;
+	static std::string GetTypeName();
 };
 
 

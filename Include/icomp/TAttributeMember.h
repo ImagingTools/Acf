@@ -151,7 +151,7 @@ void TAttributeMember<Attribute>::SetAttribute(const Attribute* attributePtr)
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TAttributeMember_included

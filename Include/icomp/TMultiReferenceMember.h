@@ -2,6 +2,7 @@
 #define icomp_TMultiReferenceMember_included
 
 
+// ACF includes
 #include "icomp/TMultiAttributeMember.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CMultiReferenceAttribute.h"
@@ -136,7 +137,7 @@ bool TMultiReferenceMember<Interface>::EnsureInitialized() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TMultiReferenceMember_included

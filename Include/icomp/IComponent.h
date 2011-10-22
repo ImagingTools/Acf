@@ -2,8 +2,11 @@
 #define icomp_IComponent_included
 
 
+// STL includes
 #include <string>
 
+
+// ACF includes
 #include "istd/IPolymorphic.h"
 
 
@@ -85,7 +88,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_IComponent_included

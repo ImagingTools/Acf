@@ -98,7 +98,7 @@ inline bool CComponentAddress::operator<(const CComponentAddress& address) const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CComponentAddress_included

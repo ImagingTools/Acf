@@ -108,8 +108,6 @@ public:
 
 private:
 	std::string m_name;
-
-	static istd::CClassInfo s_voidType;
 };
 
 
@@ -152,7 +150,7 @@ inline const std::string& CClassInfo::GetName() const
 
 inline bool CClassInfo::IsVoid() const
 {
-	return *this == s_voidType;
+	return *this == istd::CClassInfo::GetInfo<void>();
 }
 
 

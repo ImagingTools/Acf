@@ -87,7 +87,7 @@ inline bool CComponentBase::IsComponentActive() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 /**

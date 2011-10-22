@@ -54,7 +54,7 @@ private:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CPackageStaticInfo_included

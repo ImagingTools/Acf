@@ -1,28 +1,24 @@
 #include "icomp/CFactoryAttribute.h"
 
 
-namespace icomp{
+namespace icomp
+{
 
 
 // reimplemented (iser::IObject)
 
-const std::string& CFactoryAttribute::GetFactoryId() const
+std::string CFactoryAttribute::GetFactoryId() const
 {
-	return s_typeName;
+	return GetTypeName();
 }
 
 
 // static methods
 
-const std::string& CFactoryAttribute::GetTypeName()
+std::string CFactoryAttribute::GetTypeName()
 {
-	return s_typeName;
+	return "icomp::CFactoryAttribute";
 }
-
-
-// private static attributes
-
-const std::string CFactoryAttribute::s_typeName("icomp::CFactoryAttribute");
 
 
 } // namespace icomp

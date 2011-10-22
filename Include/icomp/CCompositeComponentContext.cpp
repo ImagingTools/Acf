@@ -24,6 +24,6 @@ CCompositeComponentContext::CCompositeComponentContext(
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

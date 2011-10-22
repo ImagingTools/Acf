@@ -1,28 +1,24 @@
 #include "icomp/CMultiReferenceAttribute.h"
 
 
-namespace icomp{
+namespace icomp
+{
 
 
 // reimplemented (iser::IObject)
 
-const std::string& CMultiReferenceAttribute::GetFactoryId() const
+std::string CMultiReferenceAttribute::GetFactoryId() const
 {
-	return s_typeName;
+	return GetTypeName();
 }
 
 
 // static methods
 
-const std::string& CMultiReferenceAttribute::GetTypeName()
+std::string CMultiReferenceAttribute::GetTypeName()
 {
-	return s_typeName;
+	return "icomp::CMultiReferenceAttribute";
 }
-
-
-// private static attributes
-
-const std::string CMultiReferenceAttribute::s_typeName("icomp::CMultiReferenceAttribute");
 
 
 } // namespace icomp

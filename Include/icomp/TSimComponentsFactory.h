@@ -2,6 +2,7 @@
 #define icomp_TSimComponentsFactory_included
 
 
+// ACF includes
 #include "istd/TIFactory.h"
 #include "istd/CClassInfo.h"
 
@@ -74,7 +75,7 @@ icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const std::string
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TSimComponentsFactory_included

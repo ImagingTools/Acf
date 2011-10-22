@@ -2,6 +2,7 @@
 #define icomp_TMakeComponentWrap_included
 
 
+// ACF includes
 #include "icomp/CComponentBase.h"
 
 
@@ -47,7 +48,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TMakeComponentWrap_included

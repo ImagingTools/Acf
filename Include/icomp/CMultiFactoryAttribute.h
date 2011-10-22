@@ -31,13 +31,10 @@ public:
 	CMultiFactoryAttribute(int elementsCount, std::string* valuesPtr):BaseClass(elementsCount, valuesPtr){}
 
 	// reimplemented (iser::IObject)
-	const std::string& GetFactoryId() const;
+	std::string GetFactoryId() const;
 
 	// static methods
-	static const std::string& GetTypeName();
-
-private:
-	static const std::string s_typeName;
+	static std::string GetTypeName();
 };
 
 

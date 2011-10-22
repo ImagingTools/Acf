@@ -95,6 +95,6 @@ const istd::CString& CPackageStaticInfo::GetKeywords() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

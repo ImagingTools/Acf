@@ -31,7 +31,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_IRealComponentStaticInfo_included

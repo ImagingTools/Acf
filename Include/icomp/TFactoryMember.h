@@ -2,6 +2,7 @@
 #define icomp_TFactoryMember_included
 
 
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "icomp/TAttributeMember.h"
@@ -155,7 +156,7 @@ TFactoryMember<Interface>::TFactoryMember(const TFactoryMember& ptr)
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_TFactoryMember_included

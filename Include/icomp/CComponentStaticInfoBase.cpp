@@ -39,6 +39,6 @@ IComponentStaticInfo::Ids CComponentStaticInfoBase::GetMetaIds(int /*metaGroupId
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 

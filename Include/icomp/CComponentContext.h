@@ -60,7 +60,7 @@ inline const std::string& CComponentContext::GetContextId() const
 }
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CComponentContext_included

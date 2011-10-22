@@ -6,6 +6,8 @@
 #include <set>
 #include <string>
 
+
+// ACF includes
 #include "istd/IPolymorphic.h"
 #include "istd/CString.h"
 
@@ -113,7 +115,7 @@ public:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_IComponentStaticInfo_included

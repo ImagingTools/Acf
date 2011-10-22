@@ -1,28 +1,24 @@
 #include "icomp/CMultiFactoryAttribute.h"
 
 
-namespace icomp{
+namespace icomp
+{
 
 
 // reimplemented (iser::IObject)
 
-const std::string& CMultiFactoryAttribute::GetFactoryId() const
+std::string CMultiFactoryAttribute::GetFactoryId() const
 {
-	return s_typeName;
+	return GetTypeName();
 }
 
 
 // static methods
 
-const std::string& CMultiFactoryAttribute::GetTypeName()
+std::string CMultiFactoryAttribute::GetTypeName()
 {
-	return s_typeName;
+	return "icomp::CMultiFactoryAttribute";
 }
-
-
-// private static attributes
-
-const std::string CMultiFactoryAttribute::s_typeName("icomp::CMultiFactoryAttribute");
 
 
 } // namespace icomp

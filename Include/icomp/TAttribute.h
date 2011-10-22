@@ -42,19 +42,16 @@ public:
 	virtual void SetValue(const Value& value);
 
 	// reimplemented (iser::IObject)
-	virtual const std::string& GetFactoryId() const;
+	virtual std::string GetFactoryId() const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
 	// static methods
-	static const std::string& GetTypeName();
+	static std::string GetTypeName();
 
 protected:
 	Value m_value;
-
-private:
-	static const std::string s_typeName;
 };
 
 
@@ -97,9 +94,9 @@ void TAttribute<Value>::SetValue(const Value& value)
 // reimplemented (iser::IObject)
 
 template <typename Value>
-const std::string& TAttribute<Value>::GetFactoryId() const
+std::string TAttribute<Value>::GetFactoryId() const
 {
-	return s_typeName;
+	return GetTypeName();
 }
 
 
@@ -124,19 +121,14 @@ bool TAttribute<Value>::Serialize(iser::IArchive& archive)
 // static methods
 
 template <typename Value>
-const std::string& TAttribute<Value>::GetTypeName()
+std::string TAttribute<Value>::GetTypeName()
 {
-	return s_typeName;
+	if (typeid(Value) == typeid(std::string)){
+		return "icomp::TAttribute<std::string>";
+	}
+
+	return istd::CClassInfo::GetName<TAttribute<Value> >();
 }
-
-
-// private static attributes
-
-template <>
-const std::string TAttribute<std::string>::s_typeName("icomp::TAttribute<std::string>");
-
-template <typename Value>
-const std::string TAttribute<Value>::s_typeName(istd::CClassInfo::GetName<TAttribute<Value> >());
 
 
 // typedefs

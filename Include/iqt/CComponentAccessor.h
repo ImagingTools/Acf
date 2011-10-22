@@ -1,11 +1,11 @@
-#ifndef icomp_CComponentAccessor_included
-#define icomp_CComponentAccessor_included
+#ifndef iqt_CComponentAccessor_included
+#define iqt_CComponentAccessor_included
 
 
 #include "icomp/CCompositeComponent.h"
 
 
-namespace icomp
+namespace iqt
 {
 
 
@@ -43,9 +43,9 @@ InterfaceType* CComponentAccessor::GetComponentInterface(const std::string& comp
 }
 
 
-} // namespace icomp
+} // namespace iqt
 
 
-#endif // !icomp_CComponentAccessor_included
+#endif // !iqt_CComponentAccessor_included
 
 

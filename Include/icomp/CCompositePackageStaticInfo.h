@@ -2,8 +2,11 @@
 #define icomp_CCompositePackageStaticInfo_included
 
 
+// STL includes
 #include <map>
 
+
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "icomp/CPackageStaticInfo.h"
@@ -52,7 +55,7 @@ private:
 };
 
 
-}//namespace icomp
+} // namespace icomp
 
 
 #endif // !icomp_CCompositePackageStaticInfo_included
