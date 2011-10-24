@@ -21,7 +21,7 @@ win32{
 arxCompiler.name = ACF-Components
 arxCompiler.CONFIG += target_predeps
 arxCompiler.output = ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp
-arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
+arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
 arxCompiler.depends = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER
 arxCompiler.input = ARXC_FILES
 arxCompiler.variable_out = SOURCES
