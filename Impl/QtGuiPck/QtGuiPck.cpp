@@ -234,11 +234,6 @@ I_EXPORT_COMPONENT(
 			"Component to show a selected GUI of a parameter set",
 			"Selection Stack Parameter");
 
-I_EXPORT_COMPONENT(
-			OptionsListGui,
-			"GUI for a list of options",
-			"List Options Parameters");
-
 
 } // namespace QtGuiPck
 
