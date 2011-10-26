@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2014
+          2016
         </Number>
         <Description>
           ACF
@@ -459,7 +459,7 @@
     </Component>
   </ExportedComponents>
   <Description>
-    Wizard-based application template
+    General wizard-based application template
   </Description>
   <Keywords>
     Tag='Wizard Application'
