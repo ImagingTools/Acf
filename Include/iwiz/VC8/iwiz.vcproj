@@ -3,8 +3,9 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="iwiz"
-	ProjectGUID="{B2200C7D-07DB-417E-906D-6EDFA4E0BCC2}"
+	ProjectGUID="{48E3F7BE-6244-4A43-B0A4-631948AD967C}"
 	RootNamespace="iwiz"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform

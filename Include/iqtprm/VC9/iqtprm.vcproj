@@ -179,10 +179,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\COptionsListGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CParamsManagerGuiComp.cpp"
 				>
 			</File>
@@ -296,10 +292,6 @@
 			</File>
 			<File
 				RelativePath="..\Generated\ui_CFileNameParamGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\generated\ui_COptionSelectorGuiComp.h"
 				>
 			</File>
 			<File

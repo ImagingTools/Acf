@@ -3,9 +3,10 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="WizPck"
-	ProjectGUID="{DC9A9D75-8F95-4217-B16D-88ECB4EFC6B2}"
+	ProjectGUID="{6607F3BF-6838-446A-92D5-F4360BE0B62E}"
 	RootNamespace="WizPck"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -84,9 +85,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -155,9 +153,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

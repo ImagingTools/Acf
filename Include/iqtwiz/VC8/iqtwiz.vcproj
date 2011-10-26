@@ -3,9 +3,10 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="iqtwiz"
-	ProjectGUID="{7A94C760-200C-41C6-82D3-93FB5DEA127B}"
+	ProjectGUID="{24C0746F-A1FE-4152-87E0-988D6DA60E41}"
 	RootNamespace="iqtwiz"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -189,10 +190,6 @@
 			</File>
 			<File
 				RelativePath="..\CWizardOptionsListGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\iqtwiz.h"
 				>
 			</File>
 		</Filter>
