@@ -1,27 +1,16 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="1">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1543
+          2009
         </Number>
         <Description>
           ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          237
-        </Number>
-        <Description>
-          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -32,7 +21,7 @@
         BitmapLoader
       </ComponentName>
       <X>
-        200
+        400
       </X>
       <X>
         425
@@ -43,10 +32,10 @@
         BitmapView
       </ComponentName>
       <X>
-        1025
+        950
       </X>
       <X>
-        450
+        425
       </X>
     </Element>
     <Element>
