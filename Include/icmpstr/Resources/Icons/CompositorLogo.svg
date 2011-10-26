@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -13,7 +14,7 @@
    height="258.22198"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
+   inkscape:version="0.48.2 r9819"
    sodipodi:docname="CompositorLogo.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="E:\Work\Projects\Developement\ACF\Docs\Images\Logo\CompositorLogo3d.png"
@@ -1705,19 +1706,19 @@
        r="15.18579" />
     <filter
        inkscape:collect="always"
-       id="filter3504">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="4.9792482"
-         id="feGaussianBlur3506" />
-    </filter>
-    <filter
-       inkscape:collect="always"
        id="filter3508">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="0.75637612"
          id="feGaussianBlur3510" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       id="filter4139">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.239812"
+         id="feGaussianBlur4141" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -1728,18 +1729,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="-156.78786"
+     inkscape:cx="-338.28786"
      inkscape:cy="34.095361"
      inkscape:document-units="px"
-     inkscape:current-layer="layer5"
+     inkscape:current-layer="layer2"
      showgrid="true"
      inkscape:snap-global="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1134"
+     inkscape:window-height="1061"
      inkscape:window-x="0"
-     inkscape:window-y="26">
+     inkscape:window-y="26"
+     inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
        id="grid3176"
@@ -1764,7 +1766,7 @@
      style="display:inline"
      transform="translate(-214.15812,-420.02424)">
     <g
-       style="filter:url(#filter3504);enable-background:new"
+       style="enable-background:new;filter:url(#filter4139)"
        id="g2966"
        transform="matrix(1.0041701,0,0,0.9806357,217.21525,423.13539)">
       <g
@@ -1801,7 +1803,7 @@
            style="fill:#4d0000;fill-opacity:0.49295774;stroke:none;stroke-width:20;stroke-opacity:1;filter:url(#filter3281)" />
         <path
            transform="matrix(0.943137,0,0,1.1618462,20.59015,-90.047374)"
-           d="M 364.15998,548.7254 A 16.970562,16.440233 0 1 1 330.21886,548.7254 A 16.970562,16.440233 0 1 1 364.15998,548.7254 z"
+           d="m 364.15998,548.7254 c 0,9.07969 -7.59797,16.44024 -16.97056,16.44024 -9.37258,0 -16.97056,-7.36055 -16.97056,-16.44024 0,-9.07969 7.59798,-16.44023 16.97056,-16.44023 9.37259,0 16.97056,7.36054 16.97056,16.44023 z"
            sodipodi:ry="16.440233"
            sodipodi:rx="16.970562"
            sodipodi:cy="548.7254"
