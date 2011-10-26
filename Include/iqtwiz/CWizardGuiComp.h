@@ -41,7 +41,7 @@ public:
 	I_BEGIN_COMPONENT(CWizardGuiComp);
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_REGISTER_INTERFACE(imod::IModelEditor);
-		I_ASSIGN(m_wizardControllerCompPtr, "LinearWizardController", "Wizard navigation controller", false, "LinearWizardController");
+		I_ASSIGN(m_wizardControllerCompPtr, "WizardController", "Wizard navigation controller", false, "WizardController");
 		I_ASSIGN(m_sideGuiCompPtr, "SideWidget", "Side widget of the wizard", false, "SideWidget");
 		I_ASSIGN(m_helpViewerCompPtr, "HelpViewer", "Help view component", false, "HelpViewer");
 		I_ASSIGN_MULTI_0(m_editorsCompPtr, "Editors", "List of GUI's for parameters edition", true);

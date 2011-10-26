@@ -62,12 +62,6 @@ void CWizardOptionsListGuiComp::OnGuiCreated()
 }
 
 
-void CWizardOptionsListGuiComp::OnGuiDestroyed()
-{
-	BaseClass::OnGuiDestroyed();
-}
-
-
 // protected slots
 
 void CWizardOptionsListGuiComp::OnSelectionChanged()

@@ -174,7 +174,6 @@ void CWizardGuiComp::OnGuiCreated()
 	wizardPtr->setWizardStyle(wizardStyle);
 
 	QWizard::WizardOptions options;
-//	options |= QWizard::IndependentPages;
 	
 	if (m_helpViewerCompPtr.IsValid()){
 		options |= QWizard::HaveHelpButton;
