@@ -1,8 +1,9 @@
+#include "CmpstrPck.h"
+
+
 #include "icomp/export.h"
 
 #include "iqt/CDefaultServicesProvider.h"
-
-#include "CmpstrPck.h"
 
 
 static struct StaticInit
@@ -18,9 +19,6 @@ static struct StaticInit
 
 namespace CmpstrPck
 {
-
-	
-using namespace icomp;
 
 
 I_EXPORT_SERVICES_PROVIDER(iqt::CDefaultServicesProvider);
