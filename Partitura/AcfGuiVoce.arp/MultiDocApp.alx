@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2020
+          2021
         </Number>
         <Description>
           ACF
@@ -18,13 +18,13 @@
   <PositionMap count="8">
     <Element>
       <ComponentName>
-        AboutGui
+        AboutDialog
       </ComponentName>
       <X>
-        1075
+        925
       </X>
       <X>
-        600
+        700
       </X>
     </Element>
     <Element>
@@ -32,7 +32,7 @@
         App
       </ComponentName>
       <X>
-        600
+        650
       </X>
       <X>
         150
@@ -46,7 +46,7 @@
         925
       </X>
       <X>
-        450
+        425
       </X>
     </Element>
     <Element>
@@ -54,7 +54,7 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        150
+        200
       </X>
       <X>
         700
@@ -68,7 +68,7 @@
         650
       </X>
       <X>
-        600
+        575
       </X>
     </Element>
     <Element>
@@ -79,7 +79,7 @@
         375
       </X>
       <X>
-        300
+        275
       </X>
     </Element>
     <Element>

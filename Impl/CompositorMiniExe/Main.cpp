@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 	applicationInfo.SetStringAttr("ApplicationName", "CompositorMini");
 	applicationInfo.SetStringAttr("CompanyName", "ImagingTools");
 	applicationInfo.SetRef("VersionInfo", &versionInfo);
-	applicationInfo.SetStringAttr("LegalCopyright", "Copyright 2009-2010 Witold Gantzke & Kirill Lepskiy\n\nThis tool is a part of ACF project\nSee 'License.txt' for license information");
+	applicationInfo.SetStringAttr("LegalCopyright", "Copyright 2009-2011 Witold Gantzke & Kirill Lepskiy\n\nThis tool is a part of ACF project\nSee 'License.txt' for license information");
 	applicationInfo.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::ApplicationSettingsProvider> applicationSettingsProvider;
@@ -229,8 +229,14 @@ int main(int argc, char *argv[])
 
 	icomp::TSimComponentWrap<QtGuiPck::AboutGui> aboutGuiComp;
 	aboutGuiComp.SetRef("ApplicationInfo", &applicationInfo);
-	aboutGuiComp.SetBoolAttr("ShowProductName", true);
+	aboutGuiComp.SetBoolAttr("ShowProductName", false);
+	aboutGuiComp.SetBoolAttr("ShowApplicationName", true);
 	aboutGuiComp.InitComponent();
+
+	icomp::TSimComponentWrap<QtGuiPck::DialogGui> aboutDialogComp;
+	aboutDialogComp.SetRef("Gui", &aboutGuiComp);
+	aboutDialogComp.SetStringAttr("DialogTitle", "About Compositor Mini");
+	aboutDialogComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtGuiPck::MainWindowGui> mainWindowComp;
 	mainWindowComp.SetIntAttr("IconSize", 32);
@@ -240,7 +246,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &attributeEditorDockComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
 	mainWindowComp.SetRef("ApplicationInfo", &applicationInfo);
-	mainWindowComp.SetRef("AboutGui", &aboutGuiComp);
+	mainWindowComp.SetRef("AboutDialog", &aboutDialogComp);
 	mainWindowComp.SetRef("SettingsProvider", &applicationSettingsProvider);
 	mainWindowComp.InitComponent();
 

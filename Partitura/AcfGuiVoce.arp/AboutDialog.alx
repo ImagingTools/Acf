@@ -15,49 +15,27 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="4">
+  <PositionMap count="2">
     <Element>
       <ComponentName>
-        Application
+        AboutGui
       </ComponentName>
       <X>
-        550
+        575
       </X>
       <X>
-        300
+        425
       </X>
     </Element>
     <Element>
       <ComponentName>
-        Settings
+        DialogGui
       </ComponentName>
       <X>
-        250
+        575
       </X>
       <X>
-        450
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        TranslationManager
-      </ComponentName>
-      <X>
-        850
-      </X>
-      <X>
-        600
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        VersionInfo
-      </ComponentName>
-      <X>
-        550
-      </X>
-      <X>
-        150
+        325
       </X>
     </Element>
   </PositionMap>

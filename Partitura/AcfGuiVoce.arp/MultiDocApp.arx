@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2020
+          2021
         </Number>
         <Description>
           ACF
@@ -18,13 +18,13 @@
   <ElementsList count="8">
     <Element>
       <Id>
-        AboutGui
+        AboutDialog
       </Id>
       <PackageId>
-        QtGuiPck
+        AcfGuiVoce
       </PackageId>
       <ComponentId>
-        AboutGui
+        AboutDialog
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="9">
+        <AttributeInfoMap count="11">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -51,6 +51,38 @@
               <Value>
                 ApplicationInfo
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              DialogIconPath
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              AboutDialogIconPath
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              DialogTitle
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              AboutDialogTitle
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -519,7 +551,7 @@
         <AttributeInfoMap count="13">
           <AttributeInfo>
             <Id>
-              AboutGui
+              AboutDialog
             </Id>
             <Type>
               icomp::CReferenceAttribute
@@ -532,7 +564,7 @@
                 true
               </IsEnabled>
               <Value>
-                AboutGui
+                AboutDialog
               </Value>
             </Data>
           </AttributeInfo>
@@ -678,13 +710,13 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SettingsGui
+              SettingsDialog
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              SettingsGui
+              SettingsDialog
             </ExportId>
             <Data>
               <IsEnabled>

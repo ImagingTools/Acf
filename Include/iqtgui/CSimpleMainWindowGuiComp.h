@@ -38,8 +38,8 @@ public:
 	I_BEGIN_COMPONENT(CSimpleMainWindowGuiComp);
 		I_ASSIGN(m_workspaceCommandsCompPtr, "Workspace", "Main widget", false, "Workspace");
 		I_ASSIGN_TO(m_workspaceCompPtr, m_workspaceCommandsCompPtr, true);
-		I_ASSIGN(m_aboutGuiCompPtr, "AboutGui", "Gui displayed if 'About' action is triggered", false, "AboutGui");
-		I_ASSIGN(m_settingsGuiCompPtr, "SettingsGui", "Gui displayed if 'Settings' action is triggered", false, "SettingsGui");
+		I_ASSIGN(m_aboutDialogCompPtr, "AboutDialog", "Gui displayed if 'About' action is triggered", false, "AboutDialog");
+		I_ASSIGN(m_settingsDialogCompPtr, "SettingsDialog", "Dialog window displayed if 'Settings' action is triggered", false, "SettingsDialog");
 		I_ASSIGN_MULTI_0(m_mainWindowCommandsCompPtr, "MainWindowComponents", "Additional GUI components", false);
 		I_ASSIGN_TO(m_mainWindowComponentsCompPtr, m_mainWindowCommandsCompPtr, false);
 		I_ASSIGN(m_isNestingEnabledAttrPtr, "IsNestingEnabled", "If true, docking nesting is enabled,\nmore than one docking widget is allowed on the same size", true, false);
@@ -102,15 +102,13 @@ private:
 	I_REF(ibase::ICommandsProvider, m_workspaceCommandsCompPtr);
 	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsCompPtr);
 	I_MULTIREF(ibase::ICommandsProvider, m_mainWindowCommandsCompPtr);
-	I_REF(iqtgui::IGuiObject, m_aboutGuiCompPtr);
-	I_REF(iqtgui::IDialog, m_settingsGuiCompPtr);
+	I_REF(iqtgui::IDialog, m_aboutDialogCompPtr);
+	I_REF(iqtgui::IDialog, m_settingsDialogCompPtr);
 	I_ATTR(bool, m_isNestingEnabledAttrPtr);
 	I_ATTR(bool, m_isMenuVisibleAttrPtr);
 	I_ATTR(bool, m_isToolbarVisibleAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(bool, m_useIconTextAttrPtr);
-
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> m_aboutDialogPtr;
 
 	istd::TDelPtr<QMenuBar> m_menuBarPtr;
 	istd::TDelPtr<QToolBar> m_standardToolBarPtr;

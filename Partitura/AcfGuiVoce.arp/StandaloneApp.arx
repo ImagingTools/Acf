@@ -410,13 +410,13 @@
         <AttributeInfoMap count="9">
           <AttributeInfo>
             <Id>
-              AboutGui
+              AboutDialog
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              AboutGui
+              AboutDialog
             </ExportId>
             <Data>
               <IsEnabled>
@@ -496,13 +496,13 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SettingsGui
+              SettingsDialog
             </Id>
             <Type>
               icomp::CReferenceAttribute
             </Type>
             <ExportId>
-              SettingsGui
+              SettingsDialog
             </ExportId>
             <Data>
               <IsEnabled>

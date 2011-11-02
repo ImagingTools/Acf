@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2020
+          2021
         </Number>
         <Description>
           ACF
@@ -33,7 +33,26 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="21">
+        <AttributeInfoMap count="22">
+          <AttributeInfo>
+            <Id>
+              AboutDialogTitle
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;istd::CString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                About Compositor
+              </Value>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               AllowViewRepeating
@@ -296,7 +315,7 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              SettingsGui
+              SettingsDialog
             </Id>
             <Type>
               icomp::CReferenceAttribute

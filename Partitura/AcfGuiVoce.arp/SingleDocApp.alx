@@ -1,27 +1,16 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="1">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1860
+          2021
         </Number>
         <Description>
           ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          369
-        </Number>
-        <Description>
-          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -29,13 +18,13 @@
   <PositionMap count="8">
     <Element>
       <ComponentName>
-        AboutGui
+        AboutDialog
       </ComponentName>
       <X>
-        1025
+        925
       </X>
       <X>
-        425
+        700
       </X>
     </Element>
     <Element>
@@ -43,10 +32,10 @@
         App
       </ComponentName>
       <X>
-        475
+        650
       </X>
       <X>
-        125
+        150
       </X>
     </Element>
     <Element>
@@ -54,7 +43,7 @@
         ApplicationInfo
       </ComponentName>
       <X>
-        750
+        925
       </X>
       <X>
         425
@@ -65,7 +54,7 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        350
+        200
       </X>
       <X>
         700
@@ -76,7 +65,7 @@
         MainGui
       </ComponentName>
       <X>
-        625
+        650
       </X>
       <X>
         575
@@ -87,7 +76,7 @@
         SettingsProvider
       </ComponentName>
       <X>
-        225
+        375
       </X>
       <X>
         275
@@ -109,10 +98,10 @@
         Workspace
       </ComponentName>
       <X>
-        625
+        200
       </X>
       <X>
-        700
+        425
       </X>
     </Element>
   </PositionMap>
