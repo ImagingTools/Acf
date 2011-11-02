@@ -19,6 +19,6 @@
 		Compositor tool specific composed package
 	</Description>
   <Keywords>
-    Compositor Company='ImagingTools' Project='ACF-Solutions' Author='"Witold Gantzke" "Kirill Lepskiy"'
+    Compositor Company='ImagingTools' Project='ACF' Author='"Witold Gantzke" "Kirill Lepskiy"'
   </Keywords>
 </Acf>
