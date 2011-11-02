@@ -291,6 +291,17 @@ void CSceneProviderGuiComp::OnAutoFit(bool isAutoScale)
 }
 
 
+void CSceneProviderGuiComp::OnSelectAllShapes()
+{
+	if (m_scenePtr != NULL){
+		QPainterPath sceneSelection;
+		sceneSelection.addRect(m_scenePtr->sceneRect());
+
+		m_scenePtr->setSelectionArea(sceneSelection);
+	}
+}
+
+
 // protected methods
 
 bool CSceneProviderGuiComp::OnResize(QResizeEvent* /*eventPtr*/)
@@ -491,6 +502,10 @@ void CSceneProviderGuiComp::OnGuiCreated()
 	connect(&m_fitToImageCommand, SIGNAL( activated()), this, SLOT(OnFitToShapes()));
 	m_viewCommand.InsertChild(&m_fitToImageCommand);
 
+	m_selectAllCommand.setShortcut(Qt::CTRL + Qt::Key_A);
+	connect(&m_selectAllCommand, SIGNAL( activated()), this, SLOT(OnSelectAllShapes()));
+	m_viewCommand.InsertChild(&m_selectAllCommand);
+
 	connect(&m_resetZoomCommand, SIGNAL( activated()), this, SLOT(OnResetScale()));
 	m_viewCommand.InsertChild(&m_resetZoomCommand);
 
@@ -587,6 +602,7 @@ void CSceneProviderGuiComp::OnRetranslate()
 	m_fitToViewCommand.SetVisuals(tr("&Fit Contents To View"), tr("Fit contents To View"), tr("Fit contents to view area"));
 	m_fitToImageCommand.SetVisuals(tr("&Fit View To Contents"), tr("Fit View To Contents"), tr("Fit view area to contents"));
 	m_resetZoomCommand.SetVisuals(tr("&Reset Zoom"), tr("Reset Zoom"), tr("Reset scene zoom"));
+	m_selectAllCommand.SetVisuals(tr("&Select All"), tr("Select All"), tr("Select all shapes"));
 }
 
 
