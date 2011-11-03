@@ -162,7 +162,7 @@ QString CFileSystem::GetEnrolledPath(const QString& path)
 QString CFileSystem::FindVariableValue(const QString& varName)
 {
 	if (varName == "ConfigurationName"){
-#if defined(_DEBUG) || defined(DEBUG)
+#if defined(_DEBUG) || defined(DEBUG) || defined(QT_DEBUG)
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1500
 		return "DebugVC9";

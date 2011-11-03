@@ -38,3 +38,9 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_IN_PATH}/
 updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
+
+copyQmToGenerate.input = COPYQMTOGENERATE
+copyQmToGenerate.output = ../Generated/${QMAKE_FILE_BASE}.qm
+copyQmToGenerate.commands = cp ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
+copyQmToGenerate.CONFIG += no_link
+QMAKE_EXTRA_COMPILERS += copyQmToGenerate
