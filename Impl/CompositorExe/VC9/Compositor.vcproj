@@ -87,7 +87,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtXml4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC9&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC9&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC9&quot;"
 				AssemblyLinkResource="$(IntDir)$(ProjectName).res"
 				SubSystem="2"
 			/>
@@ -181,7 +181,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC9&quot;;&quot;$(QScintilla)\Lib\$(ConfigurationName)VC9&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC9&quot;"
 				AssemblyLinkResource="$(IntDir)$(ProjectName).res"
 			/>
 			<Tool
