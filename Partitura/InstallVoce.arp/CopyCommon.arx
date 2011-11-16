@@ -1,27 +1,16 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="1">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1860
+          2049
         </Number>
         <Description>
           ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          369
-        </Number>
-        <Description>
-          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -389,7 +378,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="11">
+              <Values count="13">
                 <Value>
                   *.htm
                 </Value>
@@ -406,7 +395,13 @@
                   *.bmp
                 </Value>
                 <Value>
-                  *.doc
+                  *.odt
+                </Value>
+                <Value>
+                  *.otp
+                </Value>
+                <Value>
+                  *.odp
                 </Value>
                 <Value>
                   *.pdf
