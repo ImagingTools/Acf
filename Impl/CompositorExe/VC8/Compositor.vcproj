@@ -262,7 +262,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\VC\Compositor.rc.xtracf"
+				RelativePath="Compositor.rc.xtracf"
 				>
 			</File>
 			<File
