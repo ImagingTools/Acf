@@ -66,7 +66,6 @@ bool CApplicationComp::InitializeApplication(int argc, char** argv)
 		}
 		else{	
 			icon.addFile(":/Icons/AcfLogo.svg");
-			icon.addFile(":/Icons/acfLogo3d");
 		}
 
 		m_applicationPtr->setWindowIcon(icon);

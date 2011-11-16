@@ -9,8 +9,7 @@
     <file alias="Warning.svg">Resources/Icons/Warning.svg</file>
     <file alias="Log">Resources/Icons/Log.png</file>
     <file alias="SnapImage">Resources/Icons/SnapImage.png</file>
-    <file alias="AcfLogo.svg">../../Docs/Images/Logo/AcfLogo.svg</file>
-    <file alias="AcfLogo3d.svg">../../Docs/Images/Logo/AcfLogo3d.svg</file>
+    <file alias="AcfLogo.svg">Resources/Icons/AcfLogo.svg</file>
     <file alias="New">Resources/Icons/document_128.png</file>
     <file alias="Open.svg">Resources/Icons/Open.svg</file>
     <file alias="Save.svg">Resources/Icons/Save.svg</file>

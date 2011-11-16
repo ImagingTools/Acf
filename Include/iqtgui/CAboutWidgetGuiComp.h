@@ -25,7 +25,7 @@ public:
 
 	I_BEGIN_COMPONENT(CAboutWidgetGuiComp);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info object", true, "ApplicationInfo");
-		I_ASSIGN(m_logoPathAttrPtr, "LogoPath", "Path of bitmap logo", false, ":/Icons/AcfLogo3d.svg");
+		I_ASSIGN(m_logoPathAttrPtr, "LogoPath", "Path of bitmap logo", false, "");
 		I_ASSIGN(m_showProductNameAttrPtr, "ShowProductName", "If true, product name will be shown, disable it, if it was painted on background image", true, true);
 		I_ASSIGN(m_showApplicationNameAttrPtr, "ShowApplicationName", "If true, application name will be shown, disable it, if it was painted on background image", true, true);
 		I_ASSIGN(m_showApplicationSubnameAttrPtr, "ShowApplicationSubName", "If true, application subname will be shown, disable it, if it was painted on background image", true, false);
