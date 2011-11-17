@@ -1653,14 +1653,6 @@
          stdDeviation="0.75637612"
          id="feGaussianBlur3510" />
     </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter4139">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.239812"
-         id="feGaussianBlur4141" />
-    </filter>
     <linearGradient
        id="linearGradient3174-5">
       <stop
@@ -1676,19 +1668,6 @@
          offset="1"
          id="stop3178-6" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4218"
-       x="-0.13740329"
-       width="1.2748066"
-       y="-0.10557777"
-       height="1.2111555">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.3650875"
-         id="feGaussianBlur4220" />
-    </filter>
     <linearGradient
        id="linearGradient4202">
       <stop
@@ -1704,15 +1683,6 @@
          offset="1"
          style="stop-color:#0076e2;stop-opacity:1;" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       id="filter3281-1"
-       inkscape:collect="always">
-      <feGaussianBlur
-         id="feGaussianBlur3283-7"
-         stdDeviation="2.151518"
-         inkscape:collect="always" />
-    </filter>
     <linearGradient
        id="linearGradient3164-2">
       <stop
@@ -1790,15 +1760,6 @@
          offset="1"
          style="stop-color:#000000;stop-opacity:0;" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4193">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="4.4093246"
-         id="feGaussianBlur4195" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3372"
@@ -1854,14 +1815,6 @@
        fx="358.2023"
        fy="-194.25717"
        r="112.01563" />
-    <filter
-       inkscape:collect="always"
-       id="filter4195">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="3.6310321"
-         id="feGaussianBlur4197" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3372-6"
@@ -2162,7 +2115,7 @@
      transform="translate(-214.15812,-420.02424)">
     <g
        id="g4455"
-       transform="matrix(0.93463874,0,0,0.93463874,92.17628,50.284096)"
+       transform="matrix(0.93463874,0,0,1.0359552,92.17628,-10.214447)"
        style="display:inline;filter:url(#filter4326);enable-background:new">
       <path
          transform="matrix(-0.37948612,-0.04721799,-0.11921633,0.26017611,314.482,584.21936)"
