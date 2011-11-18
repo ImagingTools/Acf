@@ -81,7 +81,9 @@ const iser::IObject* CComponentContext::GetAttribute(const std::string& attribut
 
 	const IAttributeStaticInfo* attributeInfoPtr = m_staticInfo.GetAttributeInfo(attributeId);
 	if (attributeInfoPtr != NULL){
-		if ((attributeInfoPtr->GetAttributeFlags() & icomp::IAttributeStaticInfo::AF_OBLIGATORY) != 0){
+		int attributeFlags = attributeInfoPtr->GetAttributeFlags();
+		static const int UseDefaultFlags = icomp::IAttributeStaticInfo::AF_OBLIGATORY | icomp::IAttributeStaticInfo::AF_VALUE;
+		if ((attributeFlags & UseDefaultFlags) == UseDefaultFlags){
 			const iser::IObject* defaultAttributePtr = attributeInfoPtr->GetAttributeDefaultValue();
 			if (defaultAttributePtr != NULL){
 				if (definitionLevelPtr != NULL){

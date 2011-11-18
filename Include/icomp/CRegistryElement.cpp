@@ -86,11 +86,11 @@ IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(
 
 iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeType) const
 {
-	static std::string boolAttrTypeName = icomp::CBoolAttribute::GetTypeName();
-	static std::string doubleAttrTypeName = icomp::CDoubleAttribute::GetTypeName();
 	static std::string intAttrTypeName = icomp::CIntAttribute::GetTypeName();
-	static std::string stdStringAttrTypeName = icomp::CStdStringAttribute::GetTypeName();
+	static std::string doubleAttrTypeName = icomp::CDoubleAttribute::GetTypeName();
+	static std::string boolAttrTypeName = icomp::CBoolAttribute::GetTypeName();
 	static std::string stringAttrTypeName = icomp::CStringAttribute::GetTypeName();
+	static std::string stdStringAttrTypeName = icomp::CStdStringAttribute::GetTypeName();
 
 	static std::string multiBoolAttrTypeName = icomp::CMultiBoolAttribute::GetTypeName();
 	static std::string multiDoubleAttrTypeName = icomp::CMultiDoubleAttribute::GetTypeName();
@@ -103,35 +103,35 @@ iser::IObject* CRegistryElement::CreateAttribute(const std::string& attributeTyp
 	static std::string factoryAttrTypeName = icomp::CFactoryAttribute::GetTypeName();
 	static std::string multiFactoryAttrTypeName = icomp::CMultiFactoryAttribute::GetTypeName();
 
-	if (attributeType == boolAttrTypeName){
-		return new icomp::CBoolAttribute();
+	if (attributeType == intAttrTypeName){
+		return new icomp::CIntAttribute();
 	}
 	else if (attributeType == doubleAttrTypeName){
 		return new icomp::CDoubleAttribute();
 	}
-	else if (attributeType == intAttrTypeName){
-		return new icomp::CIntAttribute();
-	}
-	else if (attributeType == stdStringAttrTypeName){
-		return new icomp::CStdStringAttribute();
+	else if (attributeType == boolAttrTypeName){
+		return new icomp::CBoolAttribute();
 	}
 	else if (attributeType == stringAttrTypeName){
 		return new icomp::CStringAttribute();
 	}
-	else if (attributeType == multiBoolAttrTypeName){
-		return new icomp::CMultiBoolAttribute();
-	}
-	else if (attributeType == multiDoubleAttrTypeName){
-		return new icomp::CMultiDoubleAttribute();
+	else if (attributeType == stdStringAttrTypeName){
+		return new icomp::CStdStringAttribute();
 	}
 	else if (attributeType == multiIntAttrTypeName){
 		return new icomp::CMultiIntAttribute();
 	}
-	else if (attributeType == multiStdStringAttrTypeName){
-		return new icomp::CMultiStdStringAttribute();
+	else if (attributeType == multiDoubleAttrTypeName){
+		return new icomp::CMultiDoubleAttribute();
+	}
+	else if (attributeType == multiBoolAttrTypeName){
+		return new icomp::CMultiBoolAttribute();
 	}
 	else if (attributeType == multiStringAttrTypeName){
 		return new icomp::CMultiStringAttribute();
+	}
+	else if (attributeType == multiStdStringAttrTypeName){
+		return new icomp::CMultiStdStringAttribute();
 	}
 	else if (attributeType == referenceAttrTypeName){
 		return new icomp::CReferenceAttribute();

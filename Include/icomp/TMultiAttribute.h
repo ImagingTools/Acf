@@ -34,8 +34,8 @@ public:
 
 	enum DefaultAttributeFlags
 	{
-		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_NULLABLE,
-		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE
+		DAF_OBLIGATORY = IAttributeStaticInfo::AF_OBLIGATORY | IAttributeStaticInfo::AF_NULLABLE | IAttributeStaticInfo::AF_MULTIPLE | IAttributeStaticInfo::AF_VALUE,
+		DAF_OPTIONAL = IAttributeStaticInfo::AF_NULLABLE | IAttributeStaticInfo::AF_MULTIPLE | IAttributeStaticInfo::AF_VALUE
 	};
 
 	TMultiAttribute();
@@ -206,11 +206,11 @@ std::string TMultiAttribute<Value>::GetTypeName()
 
 // typedefs
 
+typedef TMultiAttribute<int> CMultiIntAttribute;
 typedef TMultiAttribute<double> CMultiDoubleAttribute;
 typedef TMultiAttribute<bool> CMultiBoolAttribute;
-typedef TMultiAttribute<int> CMultiIntAttribute;
-typedef TMultiAttribute<std::string> CMultiStdStringAttribute;
 typedef TMultiAttribute<istd::CString> CMultiStringAttribute;
+typedef TMultiAttribute<std::string> CMultiStdStringAttribute;
 
 
 } // namespace icomp

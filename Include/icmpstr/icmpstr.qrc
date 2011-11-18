@@ -2,8 +2,9 @@
 	<qresource prefix="Icons/" >
 		<file alias="Folder">Resources/Icons/folder_64.png</file>
 		<file alias="Back">Resources/Icons/back_128.png</file>
-		<file alias="Export.svg">Resources/Icons/Export.svg</file>
-		<file alias="AutoInit.svg">Resources/Icons/Anchor.svg</file>
+    <file alias="Export.svg">Resources/Icons/Export.svg</file>
+    <file alias="Import.svg">Resources/Icons/Import.svg</file>
+    <file alias="AutoInit.svg">Resources/Icons/Anchor.svg</file>
 		<file alias="ExportToCode.svg">Resources/Icons/ExportToCode.svg</file>
 		<file alias="RealComponent.svg">Resources/Icons/RealComponent.svg</file>
 		<file alias="CompositeComponent.svg">Resources/Icons/CompositeComponent.svg</file>
