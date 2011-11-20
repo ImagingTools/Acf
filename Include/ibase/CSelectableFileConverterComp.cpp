@@ -105,6 +105,11 @@ void CSelectableFileConverterComp::OnComponentCreated()
 
 // reimplemented (iprm::ISelectionConstraints)
 
+int CSelectableFileConverterComp::GetConstraintsFlags() const
+{
+	return SCF_NONE;
+}
+
 int CSelectableFileConverterComp::GetOptionsCount() const
 {
 	return m_optionsCount;
@@ -126,6 +131,12 @@ istd::CString CSelectableFileConverterComp::GetOptionDescription(int index) cons
 	}
 
 	return istd::CString();
+}
+
+
+std::string CSelectableFileConverterComp::GetOptionId(int /*index*/) const
+{
+	return std::string();
 }
 
 

@@ -150,6 +150,12 @@ void CSelectableParamsSetComp::SetupCurrentParamsSetBridge()
 
 // reimplemented (iprm::ISelectionConstraints)
 
+int CSelectableParamsSetComp::GetConstraintsFlags() const
+{
+	return SCF_NONE;
+}
+
+
 int CSelectableParamsSetComp::GetOptionsCount() const
 {
 	if (m_paramsManagerCompPtr.IsValid()){
@@ -171,6 +177,7 @@ istd::CString CSelectableParamsSetComp::GetOptionName(int index) const
 	return noname;
 }
 
+
 istd::CString CSelectableParamsSetComp::GetOptionDescription(int index) const
 {
 	if (m_paramsManagerCompPtr.IsValid()){
@@ -181,6 +188,12 @@ istd::CString CSelectableParamsSetComp::GetOptionDescription(int index) const
 	}
 
 	return istd::CString();
+}
+
+
+std::string CSelectableParamsSetComp::GetOptionId(int /*index*/) const
+{
+	return std::string();
 }
 
 

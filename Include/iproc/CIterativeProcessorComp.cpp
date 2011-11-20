@@ -101,6 +101,12 @@ int CIterativeProcessorComp::DoProcessing(
 
 // reimplemented (iprm::ISelectionConstraints)
 
+int CIterativeProcessorComp::GetConstraintsFlags() const
+{
+	return SCF_NONE;
+}
+
+
 int CIterativeProcessorComp::GetOptionsCount() const
 {
 	return int(m_iterationNames.size());
@@ -119,6 +125,12 @@ istd::CString CIterativeProcessorComp::GetOptionName(int index) const
 istd::CString CIterativeProcessorComp::GetOptionDescription(int /*index*/) const
 {
 	return istd::CString();
+}
+
+
+std::string CIterativeProcessorComp::GetOptionId(int /*index*/) const
+{
+	return std::string();
 }
 
 

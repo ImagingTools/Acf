@@ -6,8 +6,6 @@
 
 #include "iprm/ISelectionConstraints.h"
 
-#include "iqt/CSignalBlocker.h"
-
 
 namespace iqtprm
 {
@@ -38,6 +36,31 @@ void CSelectionParamGuiComp::UpdateModel() const
 // protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
+
+void CSelectionParamGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	iprm::ISelectionParam* selectionParamsPtr = GetObjectPtr();
+	if (selectionParamsPtr != NULL){
+		const iprm::ISelectionConstraints* constraintsPtr = selectionParamsPtr->GetSelectionConstraints();
+		if (constraintsPtr != NULL){
+			const imod::IModel* constraintsModelPtr = dynamic_cast<const imod::IModel*>(constraintsPtr);
+			if (constraintsModelPtr != NULL){
+				RegisterModel(const_cast<imod::IModel*>(constraintsModelPtr));
+			}
+		}
+	}
+}
+
+
+void CSelectionParamGuiComp::OnGuiModelDetached()
+{
+	UnregisterAllModels();
+
+	BaseClass::OnGuiModelDetached();
+}
+
 
 void CSelectionParamGuiComp::UpdateGui(int /*updateFlags*/)
 {
@@ -121,10 +144,6 @@ void CSelectionParamGuiComp::OnGuiShown()
 {
 	BaseClass::OnGuiShown();
 
-	if (m_optionsLabelAttrPtr.IsValid() && m_selectorLabelPtr.IsValid()){
-		m_selectorLabelPtr->setText(iqt::GetQString(*m_optionsLabelAttrPtr));
-	}
-
 	if (m_infoLabelAttrPtr.IsValid()){
 		InfoLabel->setText(iqt::GetQString(*m_infoLabelAttrPtr));
 
@@ -135,6 +154,16 @@ void CSelectionParamGuiComp::OnGuiShown()
 		InfoIcon->setMinimumHeight(32);
 		InfoIcon->setPixmap(QPixmap(":/Icons/About"));
 	}
+}
+
+
+// reimplemented (imod::CMultiModelDispatcherBase)
+
+void CSelectionParamGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	I_ASSERT(IsGuiCreated());
+
+	UpdateGui();
 }
 
 

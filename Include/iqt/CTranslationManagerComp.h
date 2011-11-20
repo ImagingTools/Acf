@@ -59,9 +59,11 @@ public:
 	virtual void SetSystemLanguage();
 
 	// reimplemented (iprm::ISelectionConstraints)
+	virtual int GetConstraintsFlags() const;
 	virtual int GetOptionsCount() const;
 	virtual istd::CString GetOptionName(int index) const;
 	virtual istd::CString GetOptionDescription(int index) const;
+	virtual std::string GetOptionId(int index) const;
 
 private:
 	class LanguageSelectionObserver: public imod::TSingleModelObserverBase<iprm::ISelectionParam>

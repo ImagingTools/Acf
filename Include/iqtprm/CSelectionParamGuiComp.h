@@ -10,6 +10,8 @@
 // ACF includes
 #include "istd/TPointerVector.h"
 
+#include "imod/CMultiModelDispatcherBase.h"
+
 #include "iprm/ISelectionParam.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
@@ -26,7 +28,8 @@ namespace iqtprm
 */
 class CSelectionParamGuiComp:
 			public iqtgui::TDesignerGuiObserverCompBase<
-						Ui::CSelectionParamGuiComp, iprm::ISelectionParam>
+						Ui::CSelectionParamGuiComp, iprm::ISelectionParam>,
+			protected imod::CMultiModelDispatcherBase
 {
 	Q_OBJECT
 
@@ -84,12 +87,17 @@ public:
 
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
 	virtual void UpdateGui(int updateFlags = 0);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 	virtual void OnGuiShown();
+
+	// reimplemented (imod::CMultiModelDispatcherBase)
+	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 protected Q_SLOTS:
 	void OnSelectionChanged(int index);
@@ -109,8 +117,6 @@ private:
 	istd::TPointerVector<QComboBox> m_comboBoxes;
 	istd::TPointerVector<QRadioButton> m_radioButtons;
 	istd::TDelPtr<QFrame> m_radioButtonFramePtr;
-
-	istd::TDelPtr<QLabel> m_selectorLabelPtr;
 };
 
 

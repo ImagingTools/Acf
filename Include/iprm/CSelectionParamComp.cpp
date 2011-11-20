@@ -59,17 +59,30 @@ ISelectionParam* CSelectionParamComp::GetActiveSubselection() const
 bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 {
 	int selectionOptionIndex = m_selectedOptionIndex;
+	std::string selectedOptionId;
+
+	if (m_constraintsCompPtr.IsValid()){
+		selectedOptionId = m_constraintsCompPtr->GetOptionId(selectionOptionIndex);
+	}
 
 	static iser::CArchiveTag selectedOptionIndexTag("Index", "Selected option index");
 	bool retVal = archive.BeginTag(selectedOptionIndexTag);
 	retVal = retVal && archive.Process(selectionOptionIndex);
 	retVal = retVal && archive.EndTag(selectedOptionIndexTag);
 
-	if (retVal && !archive.IsStoring()){
-		if (selectionOptionIndex != m_selectedOptionIndex){
-			istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED);
+	static iser::CArchiveTag selectedOptionIdTag("OptionId", "Selected option identifier");
+	retVal = retVal && archive.BeginTag(selectedOptionIdTag);
+	retVal = retVal && archive.Process(selectedOptionId);
+	retVal = retVal && archive.EndTag(selectedOptionIdTag);
 
-			m_selectedOptionIndex = selectionOptionIndex;
+	if (retVal && !archive.IsStoring()){
+		if (		m_constraintsCompPtr.IsValid() &&
+					((m_constraintsCompPtr->GetConstraintsFlags() & iprm::ISelectionConstraints::SCF_SUPPORT_UNIQUE_ID) != 0) &&
+					!selectedOptionId.empty()){
+			retVal = retVal && SetSelectedOptionIndexById(selectedOptionId);
+		}
+		else{
+			retVal = retVal && SetSelectedOptionIndex(selectionOptionIndex);
 		}
 	}
 
@@ -79,12 +92,24 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 
 // protected methods
 
-// reimplemented (imod::CMultiModelDispatcherBase)
-
-void CSelectionParamComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+bool CSelectionParamComp::SetSelectedOptionIndexById(const std::string& selectedOptionId)
 {
-	// adjust selection to the new constraints:
-	SetSelectedOptionIndex(0);
+	I_ASSERT(!selectedOptionId.empty());
+	I_ASSERT(m_constraintsCompPtr.IsValid());
+
+	if (m_constraintsCompPtr.IsValid()){
+		int optionsCount = m_constraintsCompPtr->GetOptionsCount();
+
+		for (int optionIndex = 0; optionIndex < optionsCount; optionIndex++){
+			std::string optionId = m_constraintsCompPtr->GetOptionId(optionIndex);
+
+			if (optionId == selectedOptionId){
+				return SetSelectedOptionIndex(optionIndex);
+			}
+		}
+	}
+
+	return false;
 }
 
 
@@ -95,22 +120,6 @@ void CSelectionParamComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	m_selectedOptionIndex = *m_defaultIndexAttrPtr;
-/*
-	if (m_constraintsCompPtr.IsValid()){
-		imod::IModel* constraintsModelPtr = dynamic_cast<imod::IModel*>(m_constraintsCompPtr.GetPtr());
-		if (constraintsModelPtr != NULL){
-			RegisterModel(constraintsModelPtr);
-		}
-	}
-	*/
-}
-
-
-void CSelectionParamComp::OnComponentDestroyed()
-{
-	UnregisterAllModels();
-
-	BaseClass::OnComponentDestroyed();
 }
 
 

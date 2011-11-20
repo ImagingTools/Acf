@@ -158,7 +158,7 @@ protected Q_SLOTS:
 	void OnExecutionTimerTick();
 
 private:
-	class SelectionInfo: virtual public IElementSelectionInfo
+	class SelectionInfoImpl: virtual public IElementSelectionInfo
 	{
 	public:
 		void SetParent(CVisualRegistryScenographerComp* parentPtr);
@@ -170,6 +170,8 @@ private:
 	private:
 		CVisualRegistryScenographerComp* m_parentPtr;
 	};
+
+	friend class imod::TModelWrap<SelectionInfoImpl>;
 
 	I_REF(iser::IFileLoader, m_registryCodeSaverCompPtr);
 	I_REF(IRegistryPreview, m_registryPreviewCompPtr);
@@ -201,7 +203,7 @@ private:
 
 	EnvironmentObserver m_environmentObserver;
 
-	imod::TModelWrap<SelectionInfo> m_selectionInfo;
+	imod::TModelWrap<SelectionInfoImpl> m_selectionInfo;
 };
 
 

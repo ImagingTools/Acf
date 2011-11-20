@@ -5,6 +5,7 @@
 	Name="Compositor"
 	ProjectGUID="{00BD2AB5-993C-4B0D-B117-D98F7307E947}"
 	RootNamespace="Compositor"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -86,7 +87,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib QtXml4.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC8&quot;;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\Lib\$(ConfigurationName)VC8&quot;"
 				AssemblyLinkResource="$(IntDir)$(ProjectName).res"
 				SubSystem="2"
 			/>
@@ -107,9 +108,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -205,9 +203,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -262,7 +257,7 @@
 				>
 			</File>
 			<File
-				RelativePath="Compositor.rc.xtracf"
+				RelativePath=".\Compositor.rc.xtracf"
 				>
 			</File>
 			<File

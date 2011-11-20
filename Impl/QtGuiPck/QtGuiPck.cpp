@@ -232,6 +232,11 @@ I_EXPORT_COMPONENT(
 			"Component to show a selected GUI of a parameter set",
 			"Selection Stack Parameter");
 
+I_EXPORT_COMPONENT(
+			NameParamGui,
+			"Component to show a name parameter",
+			"Name Parameter");
+
 
 } // namespace QtGuiPck
 

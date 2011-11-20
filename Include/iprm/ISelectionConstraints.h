@@ -35,6 +35,24 @@ public:
 	};
 
 	/**
+		Flags for control constraints behavior.
+	*/
+	enum SelectionContstraintsFlags
+	{
+		SCF_NONE = 0,
+
+		/**
+			If set, every option must have an unique ID.
+		*/
+		SCF_SUPPORT_UNIQUE_ID = 1 << 0
+	};
+
+	/**
+		Get constraints flags. The flags describes how the constraints object mantainance
+	*/
+	virtual int GetConstraintsFlags() const = 0;
+
+	/**
 		Get number of managed options.
 	*/
 	virtual int GetOptionsCount() const = 0;
@@ -48,6 +66,12 @@ public:
 		Get description for a option with the index \c index.
 	*/
 	virtual istd::CString GetOptionDescription(int index) const = 0;
+
+	/**
+		Get option ID. The option ID must be unique, if flag SCF_SUPPORT_UNIQUE_ID is set.
+		\sa SelectionContstraintsFlags
+	*/
+	virtual std::string GetOptionId(int index) const = 0;
 };
 
 

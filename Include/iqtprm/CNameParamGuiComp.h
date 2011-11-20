@@ -1,0 +1,71 @@
+#ifndef iqtprm_CNameParamGuiComp_included
+#define iqtprm_CNameParamGuiComp_included
+
+
+// ACF includes
+#include "istd/INamed.h"
+
+#include "iqtgui/TDesignerGuiObserverCompBase.h"
+
+#include "iqtprm/Generated/ui_CNameParamGuiComp.h"
+
+
+namespace iqtprm
+{
+
+
+class CNameParamGuiComp: public iqtgui::TDesignerGuiObserverCompBase<
+			Ui::CNameParamGuiComp,
+			istd::INamed>
+{
+	Q_OBJECT
+
+public:
+	typedef iqtgui::TDesignerGuiObserverCompBase<
+				Ui::CNameParamGuiComp,
+				istd::INamed> BaseClass;
+	/**
+		Command label position
+	*/
+	enum LabelPosition
+	{
+		/**
+			Left from the name field
+		*/
+		LP_LEFT,
+
+		/**
+			On top of the name field
+		*/
+		LP_TOP
+	};
+
+	I_BEGIN_COMPONENT(CNameParamGuiComp);
+		I_ASSIGN(m_labelAttrPtr, "Label", "Label for the named object", false, "");
+		I_ASSIGN(m_labelPositionAttrPtr, "LabelPosition", "Selection label position. 0 - Left from the selector,\n1 - On top of the selector", false, LP_LEFT);
+	I_END_COMPONENT;
+
+	// reimplemented (imod::IModelEditor)
+	virtual void UpdateModel() const;
+
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void UpdateGui(int updateFlags = 0);
+
+	// reimplemented (iqtgui::CGuiComponentBase)
+	virtual void OnGuiCreated();
+
+private Q_SLOTS:
+	void OnNameChanged(const QString& text);
+
+private:
+	I_ATTR(istd::CString, m_labelAttrPtr);
+	I_ATTR(int, m_labelPositionAttrPtr);
+};
+
+
+} // namespace iqtprm
+
+
+#endif // !iqtprm_CNameParamGuiComp_included
+
+

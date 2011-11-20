@@ -7,6 +7,12 @@ namespace iprm
 
 // reimplemented (iprm::ISelectionConstraints)
 
+int CSelectionConstraintsComp::GetConstraintsFlags() const
+{
+	return SCF_NONE;
+}
+
+
 int CSelectionConstraintsComp::GetOptionsCount() const
 {
 	I_ASSERT(m_optionNamesAttrPtr.IsValid());
@@ -33,6 +39,12 @@ istd::CString CSelectionConstraintsComp::GetOptionDescription(int index) const
 	}
 
 	return istd::CString();
+}
+
+
+std::string CSelectionConstraintsComp::GetOptionId(int /*index*/) const
+{
+	return std::string();
 }
 
 

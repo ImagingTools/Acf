@@ -858,9 +858,9 @@ void CVisualRegistryScenographerComp::EnvironmentObserver::OnUpdate(int updateFl
 }
 
 
-// public methods of embedded class SelectionInfo
+// public methods of embedded class SelectionInfoImpl
 
-void CVisualRegistryScenographerComp::SelectionInfo::SetParent(CVisualRegistryScenographerComp* parentPtr)
+void CVisualRegistryScenographerComp::SelectionInfoImpl::SetParent(CVisualRegistryScenographerComp* parentPtr)
 {
 	m_parentPtr = parentPtr;
 }
@@ -868,7 +868,7 @@ void CVisualRegistryScenographerComp::SelectionInfo::SetParent(CVisualRegistrySc
 
 // reimplemented (icmpstr::IElementSelectionInfo)
 
-icomp::IRegistry* CVisualRegistryScenographerComp::SelectionInfo::GetSelectedRegistry() const
+icomp::IRegistry* CVisualRegistryScenographerComp::SelectionInfoImpl::GetSelectedRegistry() const
 {
 	I_ASSERT(m_parentPtr != NULL);	// parent should be set before any subelement can be accessed
 
@@ -876,7 +876,7 @@ icomp::IRegistry* CVisualRegistryScenographerComp::SelectionInfo::GetSelectedReg
 }
 
 
-IElementSelectionInfo::Elements CVisualRegistryScenographerComp::SelectionInfo::GetSelectedElements() const
+IElementSelectionInfo::Elements CVisualRegistryScenographerComp::SelectionInfoImpl::GetSelectedElements() const
 {
 	I_ASSERT(m_parentPtr != NULL);	// parent should be set before any subelement can be accessed
 

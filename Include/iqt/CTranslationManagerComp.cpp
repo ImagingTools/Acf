@@ -145,6 +145,12 @@ void CTranslationManagerComp::SetSystemLanguage()
 
 // reimplemented (iprm::ISelectionConstraints)
 
+int CTranslationManagerComp::GetConstraintsFlags() const
+{
+	return SCF_NONE;
+}
+
+
 int CTranslationManagerComp::GetOptionsCount() const
 {
 	return GetLanguagesCount();
@@ -170,6 +176,12 @@ istd::CString CTranslationManagerComp::GetOptionName(int index) const
 istd::CString CTranslationManagerComp::GetOptionDescription(int /*index*/) const
 {
 	return istd::CString();
+}
+
+
+std::string CTranslationManagerComp::GetOptionId(int /*index*/) const
+{
+	return std::string();
 }
 
 

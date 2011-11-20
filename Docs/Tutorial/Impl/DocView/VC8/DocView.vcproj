@@ -215,10 +215,6 @@
 				RelativePath="..\CTextEditorComp.h"
 				>
 			</File>
-			<File
-				RelativePath="..\CTextEditorComp.moc"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -236,8 +232,16 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Forms"
+			Name="Qt Designer Files"
 			>
+		</Filter>
+		<Filter
+			Name="Moc Files"
+			>
+			<File
+				RelativePath="..\CTextEditorComp.moc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
