@@ -10,7 +10,7 @@
 // ACF includes
 #include "istd/TOptPointerVector.h"
 
-#include "ibase/TNamedWrap.h"
+#include "iprm/CNameParam.h"
 #include "ibase/THierarchicalBase.h"
 #include "ibase/TEnableableWrap.h"
 
@@ -28,17 +28,15 @@ namespace iqtgui
 */
 class CHierarchicalCommand:
 			public QAction,
-			public ibase::TEnableableWrap<
-						ibase::THierarchicalBase<
-									ibase::TNamedWrap<ibase::IHierarchicalCommand> > >
+			public ibase::TEnableableWrap<ibase::THierarchicalBase<ibase::IHierarchicalCommand> >,
+			public iprm::CNameParam
 {
 	Q_OBJECT
 
 public:
 	typedef QAction BaseClass;
-	typedef ibase::TEnableableWrap<
-					ibase::THierarchicalBase<
-								ibase::TNamedWrap<ibase::IHierarchicalCommand> > > BaseClass2;
+	typedef ibase::TEnableableWrap<ibase::THierarchicalBase<ibase::IHierarchicalCommand> > BaseClass2;
+	typedef iprm::CNameParam BaseClass3;
 
 	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL);
 
@@ -92,7 +90,7 @@ public:
 	virtual int GetChildsCount() const;
 	virtual ibase::ICommand* GetChild(int index) const;
 
-	// reimplemented (istd::INamed)
+	// reimplemented (iprm::INameParam)
 	virtual void SetName(const istd::CString& name);
 
 	// reimplemented (istd::IEnableable)

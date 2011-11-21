@@ -21,7 +21,7 @@ void CNameParamGuiComp::UpdateModel() const
 {
 	I_ASSERT(IsGuiCreated());
 
-	istd::INamed* objectPtr = GetObjectPtr();
+	iprm::INameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		objectPtr->SetName(iqt::GetCString(NameEdit->text()));
 	}
@@ -34,7 +34,7 @@ void CNameParamGuiComp::UpdateModel() const
 
 void CNameParamGuiComp::UpdateGui(int /*updateFlags*/)
 {
-	istd::INamed* objectPtr = GetObjectPtr();
+	iprm::INameParam* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		NameEdit->setText(iqt::GetQString(objectPtr->GetName()));
 	}

@@ -4,7 +4,7 @@
 
 #include "icomp/CComponentBase.h"
 
-#include "ibase/TNamedWrap.h"
+#include "iprm/CNameParam.h"
 
 
 namespace ibase
@@ -12,23 +12,20 @@ namespace ibase
 
 
 /**
-	Component for automatic creation of the Universally Unique Identifier (UUID)
+	Component for automatic creation of the Universally Unique Identifier (UUID).
+	You can access this UUID using \c GetName method defined in interface \c iprm::INameParam.
 */
 class CUuidComp:
-				public icomp::CComponentBase,
-				public ibase::CNamed,
-				virtual public iser::ISerializable
+			public icomp::CComponentBase,
+			public iprm::CNameParam
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CUuidComp);
-		I_REGISTER_INTERFACE(istd::INamed);
+		I_REGISTER_INTERFACE(iprm::INameParam);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 	I_END_COMPONENT;
-
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
 	// reimplemented (icomp::CComponentBase)

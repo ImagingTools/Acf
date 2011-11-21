@@ -2,9 +2,10 @@
 #define iprm_CNameParamComp_included
 
 
+// ACF includes
 #include "icomp/CComponentBase.h"
 
-#include "ibase/TNamedWrap.h"
+#include "iprm/CNameParam.h"
 
 
 namespace iprm
@@ -16,20 +17,16 @@ namespace iprm
 */
 class CNameParamComp:
 				public icomp::CComponentBase,
-				public ibase::CNamed,
-				virtual public iser::ISerializable
+				public iprm::CNameParam
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CNameParamComp);
-		I_REGISTER_INTERFACE(istd::INamed);
+		I_REGISTER_INTERFACE(iprm::INameParam);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_defaultNameAttrPtr, "DefaultName", "Default name", false, "");
 	I_END_COMPONENT;
-
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
 	// reimplemented (icomp::CComponentBase)

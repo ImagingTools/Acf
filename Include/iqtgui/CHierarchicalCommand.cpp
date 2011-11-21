@@ -11,7 +11,7 @@ CHierarchicalCommand::CHierarchicalCommand(const istd::CString& name, int priori
 	m_staticFlags(0),
 	m_groupId(groupId)
 {
-	BaseClass2::SetName(name);
+	BaseClass3::SetName(name);
 	SetStaticFlags(staticFlags);
 
 	connect(this, SIGNAL(triggered()), SLOT(OnTriggered()), Qt::QueuedConnection);
@@ -161,12 +161,12 @@ ibase::ICommand* CHierarchicalCommand::GetChild(int index) const
 }
 
 
-// reimplemented (istd::INamed)
+// reimplemented (iprm::INameParam)
 
 void CHierarchicalCommand::SetName(const istd::CString& name)
 {
 	BaseClass::setText(iqt::GetQString(name));
-	BaseClass2::SetName(name);
+	BaseClass3::SetName(name);
 }
 
 

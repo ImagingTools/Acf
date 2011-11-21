@@ -62,55 +62,71 @@ void CWizardGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iwiz::IParamsManagerWizard* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int paramsCount = objectPtr->GetParamsSetsCount();
-		int connectionsCount = istd::Min(m_observersCompPtr.GetCount(), paramsCount);
+	if (m_sideGuiObserverCompPtr.IsValid()){
+		imod::IModel* modelPtr = GetModelPtr();
+		I_ASSERT(modelPtr != NULL);	// OnGuiModelAttached() is called after model is disconnected
 
-		for (int connectionIndex = 0; connectionIndex < connectionsCount; connectionIndex++){
-			imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(connectionIndex));
-			if (paramsModelPtr != NULL && m_observersCompPtr.IsValid()){
-				imod::IObserver* paramsObserverPtr = m_observersCompPtr[connectionIndex];
-				if (paramsObserverPtr != NULL){
-					paramsModelPtr->AttachObserver(paramsObserverPtr);
-				}
+		modelPtr->AttachObserver(m_sideGuiObserverCompPtr.GetPtr());
+	}
+
+	iwiz::IParamsManagerWizard* objectPtr = GetObjectPtr();
+	I_ASSERT(objectPtr != NULL);	// OnGuiModelAttached() is called after model is disconnected
+
+	int paramsCount = objectPtr->GetParamsSetsCount();
+	int connectionsCount = istd::Min(m_observersCompPtr.GetCount(), paramsCount);
+
+	for (int connectionIndex = 0; connectionIndex < connectionsCount; connectionIndex++){
+		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(connectionIndex));
+		if (paramsModelPtr != NULL && m_observersCompPtr.IsValid()){
+			imod::IObserver* paramsObserverPtr = m_observersCompPtr[connectionIndex];
+			if (paramsObserverPtr != NULL){
+				paramsModelPtr->AttachObserver(paramsObserverPtr);
 			}
 		}
-		QWizard* wizardPtr = GetQtWidget();
-		I_ASSERT(wizardPtr != NULL);
-
-		UpdateBlocker updateBlocker(this);
-		
-		int pageIndex = objectPtr->GetSelectedOptionIndex();
-		if (pageIndex < 0){
-			pageIndex = 0;
-
-			objectPtr->SetSelectedOptionIndex(0);
-		}
-
-		wizardPtr->restart();
-
-		GoToPage(pageIndex);
-		wizardPtr->setStartId(pageIndex);
 	}
+	QWizard* wizardPtr = GetQtWidget();
+	I_ASSERT(wizardPtr != NULL);
+
+	UpdateBlocker updateBlocker(this);
+	
+	int pageIndex = objectPtr->GetSelectedOptionIndex();
+	if (pageIndex < 0){
+		pageIndex = 0;
+
+		objectPtr->SetSelectedOptionIndex(0);
+	}
+
+	wizardPtr->restart();
+
+	GoToPage(pageIndex);
+	wizardPtr->setStartId(pageIndex);
 }
 
 
 void CWizardGuiComp::OnGuiModelDetached()
 {
 	iwiz::IParamsManagerWizard* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int paramsCount = objectPtr->GetParamsSetsCount();
-		int connectionsCount = istd::Min(m_observersCompPtr.GetCount(), paramsCount);
+	I_ASSERT(objectPtr != NULL);	// OnGuiModelDetached() is called before model is disconnected
 
-		for (int connectionIndex = 0; connectionIndex < connectionsCount; connectionIndex++){
-			imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(connectionIndex));
-			if (paramsModelPtr != NULL && m_observersCompPtr.IsValid()){
-				imod::IObserver* paramsObserverPtr = m_observersCompPtr[connectionIndex];
-				if (paramsObserverPtr != NULL && paramsModelPtr->IsAttached(paramsObserverPtr)){
-					paramsModelPtr->DetachObserver(paramsObserverPtr);
-				}
+	int paramsCount = objectPtr->GetParamsSetsCount();
+	int connectionsCount = istd::Min(m_observersCompPtr.GetCount(), paramsCount);
+
+	for (int connectionIndex = 0; connectionIndex < connectionsCount; connectionIndex++){
+		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(objectPtr->GetParamsSet(connectionIndex));
+		if (paramsModelPtr != NULL && m_observersCompPtr.IsValid()){
+			imod::IObserver* paramsObserverPtr = m_observersCompPtr[connectionIndex];
+			if (paramsObserverPtr != NULL && paramsModelPtr->IsAttached(paramsObserverPtr)){
+				paramsModelPtr->DetachObserver(paramsObserverPtr);
 			}
+		}
+	}
+
+	if (m_sideGuiObserverCompPtr.IsValid()){
+		imod::IModel* modelPtr = GetModelPtr();
+		I_ASSERT(modelPtr != NULL);	// OnGuiModelDetached() is called before model is disconnected
+
+		if (modelPtr->IsAttached(m_sideGuiObserverCompPtr.GetPtr())){
+			modelPtr->DetachObserver(m_sideGuiObserverCompPtr.GetPtr());
 		}
 	}
 

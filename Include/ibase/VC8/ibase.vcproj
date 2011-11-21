@@ -503,10 +503,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TNamedWrap.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TSerializableContainer.h"
 				>
 			</File>

@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "istd/INamed.h"
+#include "iprm/INameParam.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
@@ -16,14 +16,14 @@ namespace iqtprm
 
 class CNameParamGuiComp: public iqtgui::TDesignerGuiObserverCompBase<
 			Ui::CNameParamGuiComp,
-			istd::INamed>
+			iprm::INameParam>
 {
 	Q_OBJECT
 
 public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CNameParamGuiComp,
-				istd::INamed> BaseClass;
+				iprm::INameParam> BaseClass;
 	/**
 		Command label position
 	*/

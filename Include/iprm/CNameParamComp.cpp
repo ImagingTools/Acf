@@ -5,14 +5,6 @@ namespace iprm
 {
 
 
-// reimplemented (iser::ISerializable)
-
-bool CNameParamComp::Serialize(iser::IArchive& archive)
-{
-	return SerializeName(archive);
-}
-
-
 // protected methods
 
 // reimplemented (icomp::CComponentBase)

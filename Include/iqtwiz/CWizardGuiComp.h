@@ -41,6 +41,7 @@ public:
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_REGISTER_INTERFACE(imod::IModelEditor);
 		I_ASSIGN(m_sideGuiCompPtr, "SideWidget", "Side widget of the wizard", false, "SideWidget");
+		I_ASSIGN_TO(m_sideGuiObserverCompPtr, m_sideGuiCompPtr, false);
 		I_ASSIGN(m_helpViewerCompPtr, "HelpViewer", "Help view component", false, "HelpViewer");
 		I_ASSIGN_MULTI_0(m_editorsCompPtr, "Editors", "List of GUI's for parameters edition", true);
 		I_ASSIGN_TO(m_guisCompPtr, m_editorsCompPtr, true);
@@ -86,6 +87,7 @@ private:
 
 private:
 	I_REF(iqtgui::IGuiObject, m_sideGuiCompPtr);
+	I_REF(imod::IObserver, m_sideGuiObserverCompPtr);
 	I_REF(idoc::IHelpViewer, m_helpViewerCompPtr);
 	I_MULTIREF(imod::IModelEditor, m_editorsCompPtr);
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);

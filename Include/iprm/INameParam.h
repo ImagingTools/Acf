@@ -1,19 +1,21 @@
-#ifndef istd_INamed_included
-#define istd_INamed_included
+#ifndef iprm_INameParam_included
+#define iprm_INameParam_included
 
 
-#include "istd/IChangeable.h"
+// ACF includes
 #include "istd/CString.h"
 
+#include "iser/ISerializable.h"
 
-namespace istd
+
+namespace iprm
 {
 
 
 /**
 	Interface for a object containing its name.
 */
-class INamed: virtual public istd::IChangeable  
+class INameParam: virtual public iser::ISerializable
 {
 public:
 	/**
@@ -33,7 +35,7 @@ public:
 };
 
 
-} // namespace istd
+} // namespace iprm
 
 
-#endif // !istd_INamed_included
+#endif // !iprm_INameParam_included

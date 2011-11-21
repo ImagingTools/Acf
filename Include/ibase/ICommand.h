@@ -2,9 +2,11 @@
 #define ibase_ICommand_included
 
 
-#include "istd/INamed.h"
+// ACF includes
 #include "istd/IEnableable.h"
 #include "istd/TIHierarchical.h"
+
+#include "iprm/INameParam.h"
 
 
 namespace ibase
@@ -15,7 +17,7 @@ namespace ibase
 	Provides single command for interaction with user.
 */
 class ICommand:
-			virtual public istd::INamed, 
+			virtual public iprm::INameParam, 
 			virtual public istd::IEnableable
 {
 public:

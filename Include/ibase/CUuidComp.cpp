@@ -10,14 +10,6 @@ namespace ibase
 {
 
 
-// reimplemented (iser::ISerializable)
-
-bool CUuidComp::Serialize(iser::IArchive& archive)
-{
-	return SerializeName(archive);
-}
-
-
 // protected methods
 
 // reimplemented (icomp::CComponentBase)

@@ -7,11 +7,15 @@
 
 
 /**
-	This namespace containes basic implementations of standard primitives.
+	This namespace containes basic implementations of standard primitives on the component level.
+	Typically it contains components implementing functionality defined in \c isys module.
 	This package is system independent.
 	This package use following ACF packages:
 	\li	istd
 	\li	iser
+	\li	icomp
+	\li	iprm
+	\li	isys
 */
 namespace ibase
 {
