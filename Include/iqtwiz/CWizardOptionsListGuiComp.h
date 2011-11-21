@@ -26,7 +26,7 @@ namespace iqtwiz
 */
 class CWizardOptionsListGuiComp:
 			public iqtgui::TDesignerGuiObserverCompBase<
-			Ui::CWizardOptionsListGuiComp, iprm::IParamsManager>
+						Ui::CWizardOptionsListGuiComp, iprm::IParamsManager>
 {
 	Q_OBJECT
 
@@ -37,7 +37,6 @@ public:
 	enum DataRole
 	{
 		DR_SELECTION_INDEX = Qt::UserRole + 1,
-		DR_OBJECT_PTR
 	};
 
 	I_BEGIN_COMPONENT(CWizardOptionsListGuiComp);
@@ -50,11 +49,8 @@ protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags = 0);
 
-	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-
 protected Q_SLOTS:
-	void OnSelectionChanged();
+	void on_OptionsList_itemSelectionChanged();
 
 private:
 	void CreateOptionsTree(const iprm::IParamsManager* paramsManagerPtr, QTreeWidgetItem* parentItemPtr = NULL);

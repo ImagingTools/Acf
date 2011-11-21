@@ -36,6 +36,7 @@ public:
 	virtual bool IsFinishAllowed() const;
 	virtual int GetPrevPageIndex() const;
 	virtual int GetNextPageIndex() const;
+	virtual bool DoWizardFinish();
 };
 
 

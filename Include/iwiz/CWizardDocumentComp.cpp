@@ -90,6 +90,46 @@ int CWizardDocumentComp::GetNextPageIndex() const
 }
 
 
+bool CWizardDocumentComp::DoWizardFinish()
+{
+	int pagesCount = GetParamsSetsCount();
+	int currentPageIndex = GetSelectedOptionIndex();
+
+	istd::CChangeNotifier notifier(this);
+
+	iproc::IStateController* currentPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(currentPageIndex));
+	if ((currentPageInfoPtr != NULL) && !currentPageInfoPtr->TryLeaveState()){
+		return false;
+	}
+
+	for (int checkPageIndex = currentPageIndex + 1; checkPageIndex < pagesCount; ++checkPageIndex){
+		iproc::IStateController* checkedPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(checkPageIndex));
+		if ((checkedPageInfoPtr == NULL) || !checkedPageInfoPtr->IsStateEnabled()){
+			continue;
+		}
+
+		if (checkedPageInfoPtr->TryEnterState()){
+			if (SetSelectedOptionIndex(checkPageIndex)){
+				currentPageInfoPtr = checkedPageInfoPtr;
+			}
+		}
+		else{
+			if ((currentPageInfoPtr == NULL) || !currentPageInfoPtr->TryEnterState()){
+				SetSelectedOptionIndex(NO_SELECTION);
+			}
+
+			return false;
+		}
+
+		if (checkedPageInfoPtr->TryLeaveState()){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 } // namespace iwiz
 
 

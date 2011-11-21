@@ -29,11 +29,6 @@ I_EXPORT_PACKAGE(
 
 
 I_EXPORT_COMPONENT(
-			WizardGui,
-			"Wizard-based parameter editor",
-			"Wizard");
-
-I_EXPORT_COMPONENT(
 			WizardOptionsListGui,
 			"GUI for the list of wizard options",
 			"Wizard");

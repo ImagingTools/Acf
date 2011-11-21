@@ -27,6 +27,10 @@ public:
 		Get the ID of the next wizard page.
 	*/
 	virtual int GetNextPageIndex() const = 0;
+	/**
+		Do finish action by wizard.
+	*/
+	virtual bool DoWizardFinish() = 0;
 };
 
 

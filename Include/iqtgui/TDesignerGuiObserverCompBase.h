@@ -33,7 +33,6 @@ public:
 
 	I_BEGIN_BASE_COMPONENT(TDesignerGuiObserverCompBase);
 		I_REGISTER_INTERFACE(imod::IModelEditor);
-		I_REGISTER_INTERFACE(imod::IObserver);
 	I_END_COMPONENT;
 };
 

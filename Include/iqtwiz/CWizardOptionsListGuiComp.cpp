@@ -15,22 +15,19 @@ void CWizardOptionsListGuiComp::UpdateModel() const
 {
 	I_ASSERT(IsGuiCreated());
 
+	iprm::ISelectionParam* objectPtr = GetObjectPtr();
+	I_ASSERT(objectPtr != NULL);
+
 	QList<QTreeWidgetItem*> selectedItems = OptionsList->selectedItems();
 	if (selectedItems.isEmpty()){
-		iprm::ISelectionParam* objectPtr = GetObjectPtr();
-		I_ASSERT(objectPtr != NULL);
-
 		objectPtr->SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);
 	}
 	else{
-		QTreeWidgetItem* selectedItemPtr = selectedItems[0];
+		QTreeWidgetItem* selectedItemPtr = selectedItems.first();
 
 		int selectedIndex = selectedItemPtr->data(0, DR_SELECTION_INDEX).toInt();
-		iprm::IParamsManager* selectionParamPtr = reinterpret_cast<iprm::IParamsManager*>(selectedItemPtr->data(0, DR_OBJECT_PTR).toUInt());
 
-		I_ASSERT(selectionParamPtr != NULL);
-
-		selectionParamPtr->SetSelectedOptionIndex(selectedIndex);
+		objectPtr->SetSelectedOptionIndex(selectedIndex);
 	}
 }
 
@@ -52,19 +49,9 @@ void CWizardOptionsListGuiComp::UpdateGui(int /*updateFlags*/)
 }
 
 
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void CWizardOptionsListGuiComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
-	connect(OptionsList, SIGNAL(itemSelectionChanged()), this, SLOT(OnSelectionChanged()));
-}
-
-
 // protected slots
 
-void CWizardOptionsListGuiComp::OnSelectionChanged()
+void CWizardOptionsListGuiComp::on_OptionsList_itemSelectionChanged()
 {
 	if (!IsUpdateBlocked() && IsModelAttached()){
 		UpdateBlocker updateBlocker(this);
@@ -81,13 +68,13 @@ void CWizardOptionsListGuiComp::CreateOptionsTree(const iprm::IParamsManager* pa
 	if (paramsManagerPtr != NULL){
 		int selectedOptionIndex = paramsManagerPtr->GetSelectedOptionIndex();
 
-		for (int optionIndex = 0; optionIndex < paramsManagerPtr->GetParamsSetsCount(); optionIndex++){
+		int pagesCount = paramsManagerPtr->GetParamsSetsCount();
+		for (int optionIndex = 0; optionIndex < pagesCount; optionIndex++){
 			QString optionName = iqt::GetQString(paramsManagerPtr->GetParamsSetName(optionIndex));
 
 			QTreeWidgetItem* itemPtr = new QTreeWidgetItem(OptionsList);
 			itemPtr->setText(0, optionName);
 			itemPtr->setData(0, DR_SELECTION_INDEX, optionIndex);
-			itemPtr->setData(0, DR_OBJECT_PTR, quintptr(paramsManagerPtr));
 
 			if (parentItemPtr != NULL){
 				parentItemPtr->addChild(itemPtr);
