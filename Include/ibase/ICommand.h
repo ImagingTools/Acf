@@ -3,10 +3,10 @@
 
 
 // ACF includes
-#include "istd/IEnableable.h"
 #include "istd/TIHierarchical.h"
 
 #include "iprm/INameParam.h"
+#include "iprm/IEnableableParam.h"
 
 
 namespace ibase
@@ -18,7 +18,7 @@ namespace ibase
 */
 class ICommand:
 			virtual public iprm::INameParam, 
-			virtual public istd::IEnableable
+			virtual public iprm::IEnableableParam
 {
 public:
 	enum StaticFlags

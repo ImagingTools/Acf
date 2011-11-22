@@ -1,18 +1,18 @@
-#ifndef istd_IEnableable_included
-#define istd_IEnableable_included
+#ifndef iprm_IEnableableParam_included
+#define iprm_IEnableableParam_included
 
 
-#include "istd/IChangeable.h"
+#include "iser/ISerializable.h"
 
 
-namespace istd
+namespace iprm
 {
 
 
 /**
 	Interface for objects which can be enabled/disabled.	
 */
-class IEnableable: virtual public IChangeable
+class IEnableableParam: virtual public iser::ISerializable
 {
 public:
 	/**
@@ -33,9 +33,9 @@ public:
 };
 
 
-} // namespace istd
+} // namespace iprm
 
 
-#endif // !istd_IEnableable_included
+#endif // !iprm_IEnableableParam_included
 
 

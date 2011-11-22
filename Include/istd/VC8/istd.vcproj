@@ -328,10 +328,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IEnableable.h"
-				>
-			</File>
-			<File
 				RelativePath="..\IFactoryInfo.h"
 				>
 			</File>

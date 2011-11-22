@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include "istd/TChangeNotifier.h"
 #include "iqtgui/CGuiComponentDialog.h"
 
 

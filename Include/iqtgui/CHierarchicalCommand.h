@@ -11,10 +11,10 @@
 #include "istd/TOptPointerVector.h"
 
 #include "iprm/CNameParam.h"
-#include "ibase/THierarchicalBase.h"
-#include "ibase/TEnableableWrap.h"
+#include "iprm/CEnableableParam.h"
 
 #include "ibase/ICommand.h"
+#include "ibase/THierarchicalBase.h"
 
 #include "iqtgui/iqtgui.h"
 
@@ -28,14 +28,15 @@ namespace iqtgui
 */
 class CHierarchicalCommand:
 			public QAction,
-			public ibase::TEnableableWrap<ibase::THierarchicalBase<ibase::IHierarchicalCommand> >,
-			public iprm::CNameParam
+			public iprm::CEnableableParam,
+			public iprm::CNameParam,
+			public ibase::THierarchicalBase<ibase::IHierarchicalCommand>
 {
 	Q_OBJECT
 
 public:
 	typedef QAction BaseClass;
-	typedef ibase::TEnableableWrap<ibase::THierarchicalBase<ibase::IHierarchicalCommand> > BaseClass2;
+	typedef iprm::CEnableableParam BaseClass2;
 	typedef iprm::CNameParam BaseClass3;
 
 	explicit CHierarchicalCommand(const istd::CString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL);
@@ -93,8 +94,11 @@ public:
 	// reimplemented (iprm::INameParam)
 	virtual void SetName(const istd::CString& name);
 
-	// reimplemented (istd::IEnableable)
+	// reimplemented (iprm::IEnableableParam)
 	virtual void SetEnabled(bool isEnabled = true);
+
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
 
 protected Q_SLOTS:
 	void OnTriggered();

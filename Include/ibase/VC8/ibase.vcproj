@@ -471,10 +471,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TEnableableWrap.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TFactorisableContainer.h"
 				>
 			</File>
