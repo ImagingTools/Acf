@@ -18,8 +18,6 @@
 #include "iqtgui/TDesignerGuiCompBase.h"
 #include "iqtgui/CHierarchicalCommand.h"
 
-#include "iqtdoc/IPrintable.h"
-
 #include "iqt2d/ISceneProvider.h"
 #include "iqt2d/Generated/ui_CSceneProviderGuiComp.h"
 
@@ -30,7 +28,6 @@ namespace iqt2d
 
 class CSceneProviderGuiComp: 
 			public iqtgui::TDesignerGuiCompBase<Ui::CSceneProviderGuiComp>,
-			virtual public iqtdoc::IPrintable,
 			virtual public ibase::ICommandsProvider,
 			virtual public ISceneProvider,
 			virtual public i2d::ISceneController
@@ -73,7 +70,6 @@ public:
 	};
 
 	I_BEGIN_COMPONENT(CSceneProviderGuiComp);
-		I_REGISTER_INTERFACE(iqtdoc::IPrintable);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(ISceneProvider);
 		I_REGISTER_INTERFACE(i2d::ISceneController);
@@ -96,9 +92,6 @@ public:
 	double GetIsotropyFactor() const;
 	void SetIsotropyFactor(double factor);
 
-	// reimplemented (iqtdoc::IPrintable)
-	virtual void Print(QPrinter* printerPtr) const;
-
 	// reimplemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
 
@@ -116,15 +109,6 @@ public:
 	virtual bool SetFullScreenMode(bool isFullScreen);
 	virtual double GetScale() const;
 	virtual bool SetScale(int scaleMode = SM_SET, double value = 1.0);
-
-public Q_SLOTS:
-	void OnZoomIncrement();
-	void OnZoomDecrement();
-	void OnFitToView();
-	void OnFitToShapes();
-	void OnResetScale();
-	void OnAutoFit(bool isAutoScale);
-	void OnSelectAllShapes();
 
 protected:
 	/**
@@ -179,6 +163,16 @@ protected:
 signals:
 	void zoomChanged(double);
 
+protected Q_SLOTS:
+	void OnPrint();
+	void OnZoomIncrement();
+	void OnZoomDecrement();
+	void OnFitToView();
+	void OnFitToShapes();
+	void OnResetScale();
+	void OnAutoFit(bool isAutoScale);
+	void OnSelectAllShapes();
+
 private:
 	istd::TDelPtr<QGraphicsScene> m_scenePtr;
 	
@@ -188,6 +182,8 @@ private:
 	bool m_isZoomIgnored;
 
 	iqtgui::CHierarchicalCommand m_commands;
+	iqtgui::CHierarchicalCommand m_fileCommand;
+	iqtgui::CHierarchicalCommand m_printCommand;
 	iqtgui::CHierarchicalCommand m_viewCommand;
 	iqtgui::CHierarchicalCommand m_autoFitToViewCommand;
 	iqtgui::CHierarchicalCommand m_fitToViewCommand;

@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2021
+          2064
         </Number>
         <Description>
           ACF
@@ -21,7 +21,7 @@
         Bitmap
       </ComponentName>
       <X>
-        350
+        325
       </X>
       <X>
         500
@@ -54,7 +54,7 @@
         ImageView
       </ComponentName>
       <X>
-        775
+        800
       </X>
       <X>
         500

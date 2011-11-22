@@ -2,11 +2,13 @@
 
 
 // Qt includes
-#include <QApplication>
 #include <QKeyEvent>
-#include <QMenu>
-#include <QVBoxLayout>
 #include <QVarLengthArray>
+#include <QPrinter>
+#include <QPrintDialog>
+
+// ACF includes
+#include "iqtdoc/CMainWindowGuiComp.h"
 
 
 namespace iqt2d
@@ -22,6 +24,32 @@ CSceneProviderGuiComp::CSceneProviderGuiComp()
 	m_savedParentWidgetPtr(NULL),
 	m_isotropyFactor(0)
 {
+	m_printCommand.SetGroupId(iqtdoc::CMainWindowGuiComp::GI_DOCUMENT);
+	m_printCommand.setShortcut(tr("Ctrl+P"));
+	connect(&m_printCommand, SIGNAL(activated()), this, SLOT(OnPrint()));
+	m_fileCommand.InsertChild(&m_printCommand);
+
+	m_autoFitToViewCommand.SetStaticFlags(
+				iqtgui::CHierarchicalCommand::CF_ONOFF | 
+				iqtgui::CHierarchicalCommand::CF_GLOBAL_MENU);
+	connect(&m_autoFitToViewCommand, SIGNAL(toggled(bool)), this, SLOT(OnAutoFit(bool)));
+	m_viewCommand.InsertChild(&m_autoFitToViewCommand);
+
+	connect(&m_fitToViewCommand, SIGNAL(activated()), this, SLOT(OnFitToView()));
+	m_viewCommand.InsertChild(&m_fitToViewCommand);
+
+	connect(&m_fitToImageCommand, SIGNAL(activated()), this, SLOT(OnFitToShapes()));
+	m_viewCommand.InsertChild(&m_fitToImageCommand);
+
+	m_selectAllCommand.setShortcut(Qt::CTRL + Qt::Key_A);
+	connect(&m_selectAllCommand, SIGNAL(activated()), this, SLOT(OnSelectAllShapes()));
+	m_viewCommand.InsertChild(&m_selectAllCommand);
+
+	connect(&m_resetZoomCommand, SIGNAL(activated()), this, SLOT(OnResetScale()));
+	m_viewCommand.InsertChild(&m_resetZoomCommand);
+
+	m_commands.InsertChild(&m_fileCommand);
+	m_commands.InsertChild(&m_viewCommand);
 }
 
 
@@ -40,30 +68,6 @@ void CSceneProviderGuiComp::SetIsotropyFactor(double factor)
 			SetFittedScale(m_fitMode);
 		}
 	}
-}
-
-
-// reimplemented (iqtdoc::IPrintable)
-
-void CSceneProviderGuiComp::Print(QPrinter* printerPtr) const
-{
-	if (!m_scenePtr.IsValid()){
-		return;
-	}
-
-	QPrinter* realPrinterPtr = printerPtr;
-	QPrinter defaultPrinter(QPrinter::HighResolution);
-	defaultPrinter.setPageSize(QPrinter::A4);
-	defaultPrinter.setOrientation(QPrinter::Landscape);
-
-	if (realPrinterPtr == NULL){
-		realPrinterPtr = &defaultPrinter;
-	}
-
-	QPainter painter(realPrinterPtr);
-
-	 // print, fitting the viewport contents into a full page
-	m_scenePtr->render(&painter);
 }
 
 
@@ -238,67 +242,6 @@ bool CSceneProviderGuiComp::SetScale(int scaleMode, double scaleFactor)
 	m_isZoomIgnored = false;
 
 	return true;
-}
-
-
-// public slots
-
-void CSceneProviderGuiComp::OnZoomIncrement()
-{
-	 ScaleView(pow((double)2, 0.5));  
-}
-
-
-void CSceneProviderGuiComp::OnZoomDecrement()
-{
-	ScaleView(pow((double)2, -0.5));  
-}
-
-
-void CSceneProviderGuiComp::OnFitToView()
-{
-	SetFittedScale(FM_ISOTROPIC);
-}
-
-
-void CSceneProviderGuiComp::OnFitToShapes()
-{
-	SceneView->showNormal();
-
-	double r = SceneView->matrix().m11();
-	QRectF sceneRect = SceneView->sceneRect();
-	SceneView->resize(int(sceneRect.width() * r), int(sceneRect.height() * r));
-}
-
-
-void CSceneProviderGuiComp::OnResetScale()
-{
-	SetScale(SM_SET, 1.0);
-}
-
-
-void CSceneProviderGuiComp::OnAutoFit(bool isAutoScale)
-{
-	if (isAutoScale){
-		SetFitMode(FM_ISOTROPIC);
-	}
-	else{
-		SetFitMode(FM_NONE);
-	}
-
-	m_fitToViewCommand.setEnabled(!isAutoScale);
-	m_resetZoomCommand.setEnabled(!isAutoScale);
-}
-
-
-void CSceneProviderGuiComp::OnSelectAllShapes()
-{
-	if (m_scenePtr != NULL){
-		QPainterPath sceneSelection;
-		sceneSelection.addRect(m_scenePtr->sceneRect());
-
-		m_scenePtr->setSelectionArea(sceneSelection);
-	}
 }
 
 
@@ -487,30 +430,6 @@ void CSceneProviderGuiComp::OnGuiCreated()
 		SceneView->setAcceptDrops(true);
 	}
 
-	I_ASSERT(m_allowWidgetResizeAttrPtr.IsValid());	// this attribute is obligatory
-	m_fitToImageCommand.setVisible(*m_allowWidgetResizeAttrPtr);
-
-	m_autoFitToViewCommand.SetStaticFlags(
-				iqtgui::CHierarchicalCommand::CF_ONOFF | 
-				iqtgui::CHierarchicalCommand::CF_GLOBAL_MENU);
-	connect(&m_autoFitToViewCommand, SIGNAL(toggled(bool)), this, SLOT(OnAutoFit(bool)));
-	m_viewCommand.InsertChild(&m_autoFitToViewCommand);
-
-	connect(&m_fitToViewCommand, SIGNAL( activated()), this, SLOT(OnFitToView()));
-	m_viewCommand.InsertChild(&m_fitToViewCommand);
-
-	connect(&m_fitToImageCommand, SIGNAL( activated()), this, SLOT(OnFitToShapes()));
-	m_viewCommand.InsertChild(&m_fitToImageCommand);
-
-	m_selectAllCommand.setShortcut(Qt::CTRL + Qt::Key_A);
-	connect(&m_selectAllCommand, SIGNAL( activated()), this, SLOT(OnSelectAllShapes()));
-	m_viewCommand.InsertChild(&m_selectAllCommand);
-
-	connect(&m_resetZoomCommand, SIGNAL( activated()), this, SLOT(OnResetScale()));
-	m_viewCommand.InsertChild(&m_resetZoomCommand);
-
-	m_commands.InsertChild(&m_viewCommand);
-
 	SceneView->setScene(m_scenePtr.GetPtr());
 	SceneView->setMouseTracking(true);
 	SceneView->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -597,6 +516,8 @@ void CSceneProviderGuiComp::OnRetranslate()
 {
 	BaseClass::OnRetranslate();
 
+	m_fileCommand.SetVisuals(tr("&File"), tr("File"), tr("File menu"));
+	m_printCommand.SetVisuals(tr("&Print..."), tr("Print"), tr("Prints current document"), QIcon(":/Icons/Print"));
 	m_viewCommand.SetVisuals(tr("&View"), tr("View"), tr("View menu"));
 	m_autoFitToViewCommand.SetVisuals(tr("&Auto Fit"), tr("Auto Fit"), tr("Automatical fit contents to view area"));
 	m_fitToViewCommand.SetVisuals(tr("&Fit Contents To View"), tr("Fit contents To View"), tr("Fit contents to view area"));
@@ -618,6 +539,9 @@ void CSceneProviderGuiComp::OnComponentCreated()
 	if (m_sceneWidthAttrPtr.IsValid() && m_sceneHeightAttrPtr.IsValid()){
 		m_scenePtr->setSceneRect(0, 0, *m_sceneWidthAttrPtr, *m_sceneHeightAttrPtr);
 	}
+
+	I_ASSERT(m_allowWidgetResizeAttrPtr.IsValid());	// this attribute is obligatory
+	m_fitToImageCommand.setVisible(*m_allowWidgetResizeAttrPtr);
 }
 
 
@@ -668,6 +592,95 @@ bool CSceneProviderGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 	}
 
 	return BaseClass::eventFilter(sourcePtr, eventPtr);
+}
+
+
+// protected slots
+
+void CSceneProviderGuiComp::OnPrint()
+{
+	if (!m_scenePtr.IsValid()){
+		return;
+	}
+
+	QPrinter printer;
+
+	QRectF sceneRect = m_scenePtr->sceneRect();
+	if (sceneRect.width() <= sceneRect.height()){
+		printer.setOrientation(QPrinter::Portrait);
+	}
+	else{
+		printer.setOrientation(QPrinter::Landscape);
+	}
+
+	QPrintDialog printerDialog(&printer, GetQtWidget());
+	if (printerDialog.exec() != QDialog::Accepted){
+		return;
+	}
+
+	QPainter painter(&printer);
+
+	 // print, fitting the viewport contents into a full page
+	m_scenePtr->render(&painter);
+}
+
+
+void CSceneProviderGuiComp::OnZoomIncrement()
+{
+	 ScaleView(pow((double)2, 0.5));  
+}
+
+
+void CSceneProviderGuiComp::OnZoomDecrement()
+{
+	ScaleView(pow((double)2, -0.5));  
+}
+
+
+void CSceneProviderGuiComp::OnFitToView()
+{
+	SetFittedScale(FM_ISOTROPIC);
+}
+
+
+void CSceneProviderGuiComp::OnFitToShapes()
+{
+	SceneView->showNormal();
+
+	double r = SceneView->matrix().m11();
+	QRectF sceneRect = SceneView->sceneRect();
+	SceneView->resize(int(sceneRect.width() * r), int(sceneRect.height() * r));
+}
+
+
+void CSceneProviderGuiComp::OnResetScale()
+{
+	SetScale(SM_SET, 1.0);
+}
+
+
+void CSceneProviderGuiComp::OnAutoFit(bool isAutoScale)
+{
+	if (isAutoScale){
+		SetFitMode(FM_ISOTROPIC);
+	}
+	else{
+		SetFitMode(FM_NONE);
+	}
+
+	m_fitToViewCommand.setEnabled(!isAutoScale);
+	m_resetZoomCommand.setEnabled(!isAutoScale);
+}
+
+
+void CSceneProviderGuiComp::OnSelectAllShapes()
+{
+	if (m_scenePtr != NULL){
+		QPainterPath sceneSelection;
+		sceneSelection.addRect(m_scenePtr->sceneRect());
+
+		m_scenePtr->setSelectionArea(sceneSelection);
+	}
 }
 
 

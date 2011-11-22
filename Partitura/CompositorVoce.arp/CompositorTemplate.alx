@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2058
+          2064
         </Number>
         <Description>
           ACF
@@ -21,10 +21,10 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        825
+        925
       </X>
       <X>
-        150
+        200
       </X>
     </Element>
     <Element>
@@ -32,10 +32,10 @@
         PackagesLoaderExt
       </ComponentName>
       <X>
-        150
+        200
       </X>
       <X>
-        50
+        100
       </X>
     </Element>
     <Element>
@@ -43,10 +43,10 @@
         Preview
       </ComponentName>
       <X>
-        650
+        750
       </X>
       <X>
-        375
+        400
       </X>
     </Element>
     <Element>
@@ -54,7 +54,7 @@
         RegistryCodeSaver
       </ComponentName>
       <X>
-        475
+        525
       </X>
       <X>
         500
@@ -65,7 +65,7 @@
         RegistryConsistInfo
       </ComponentName>
       <X>
-        800
+        925
       </X>
       <X>
         750
@@ -79,7 +79,7 @@
         550
       </X>
       <X>
-        50
+        100
       </X>
     </Element>
     <Element>
@@ -90,7 +90,7 @@
         550
       </X>
       <X>
-        250
+        300
       </X>
     </Element>
     <Element>
@@ -98,7 +98,7 @@
         VisualRegistryView
       </ComponentName>
       <X>
-        800
+        925
       </X>
       <X>
         625

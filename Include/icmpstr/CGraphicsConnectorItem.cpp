@@ -216,19 +216,16 @@ void CGraphicsConnectorItem::paint(QPainter *painter, const QStyleOptionGraphics
 	// drawing:
 	painter->save();
 
-	painter->setRenderHints(QPainter::Antialiasing, isSelected());
+	painter->setRenderHints(QPainter::Antialiasing, true);
 
 	QColor referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? Qt::darkYellow: Qt::darkBlue;
 
 	if (m_isSourceSelected){
-		referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
+		referenceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 255);
 	}
 
-	painter->setPen(QPen(referenceColor, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->setPen(QPen(referenceColor, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	painter->drawLine(m_touchPoint, m_touchPoint + iqt::GetQPointF(circleDirection));
-	
-	painter->save();
-	painter->setRenderHints(QPainter::Antialiasing, true);
 	
 	QRectF circleRect2(circlePoint.x() - GP_RADIUS2, circlePoint.y() - GP_RADIUS2, GP_RADIUS2 * 2, GP_RADIUS2 * 2);
 	painter->drawArc(circleRect2, (degree + 45) * 16, 270 * 16);
@@ -236,22 +233,19 @@ void CGraphicsConnectorItem::paint(QPainter *painter, const QStyleOptionGraphics
 	QColor interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? Qt::darkYellow: Qt::darkBlue;
 
 	if (m_isDestSelected){
-		interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 205);
+		interfaceColor = ((m_connectFlags & CF_FACTORY) != 0)? QColor(0, 255, 155, 255): QColor(0, 150, 50, 255);
 	}
 
-	painter->setPen(QPen(interfaceColor, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter->setPen(QPen(interfaceColor, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	painter->setBrush(interfaceColor);
 	QRectF circleRect(circlePoint.x() - GP_RADIUS, circlePoint.y() - GP_RADIUS, GP_RADIUS * 2, GP_RADIUS * 2);
 	painter->drawEllipse(circleRect);
 
 	if ((m_connectFlags & CF_EMBEDDED) != 0){
-		painter->setPen(QPen(interfaceColor, 0, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin));
+		painter->setPen(QPen(interfaceColor, 1, Qt::DashDotLine, Qt::RoundCap, Qt::RoundJoin));
 	}
 
-	painter->setRenderHints(QPainter::Antialiasing, false);
 	painter->drawPolyline(m_connectionLine);
-
-	painter->restore();
 
 	painter->restore();
 }

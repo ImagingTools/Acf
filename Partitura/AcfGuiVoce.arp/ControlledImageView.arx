@@ -223,7 +223,7 @@
       </Data>
     </Element>
   </ElementsList>
-  <ExportedInterfaces count="6">
+  <ExportedInterfaces count="5">
     <Interface>
       <InterfaceId>
         i2d::ISceneController
@@ -251,14 +251,6 @@
     <Interface>
       <InterfaceId>
         iqt2d::ISceneProvider
-      </InterfaceId>
-      <ComponentId>
-        ImageView
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        iqtdoc::IPrintable
       </InterfaceId>
       <ComponentId>
         ImageView

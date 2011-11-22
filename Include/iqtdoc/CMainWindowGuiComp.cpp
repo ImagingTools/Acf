@@ -48,7 +48,6 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 	connect(&m_openCommand, SIGNAL(activated()), this, SLOT(OnOpen()));
 	connect(&m_saveCommand, SIGNAL(activated()), this, SLOT(OnSave()));
 	connect(&m_saveAsCommand, SIGNAL(activated()), this, SLOT(OnSaveAs()));
-	connect(&m_printCommand, SIGNAL(activated()), this, SLOT(OnPrint()));
 	connect(&m_quitCommand, SIGNAL(activated()), this, SLOT(OnQuit()));
 	connect(&m_undoCommand, SIGNAL(activated()), this, SLOT(OnUndo()));
 	connect(&m_redoCommand, SIGNAL(activated()), this, SLOT(OnRedo()));
@@ -79,8 +78,6 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 			m_fileCommand.InsertChild(&m_saveCommand, false);
 			m_saveAsCommand.SetGroupId(GI_DOCUMENT);
 			m_fileCommand.InsertChild(&m_saveAsCommand, false);
-			m_printCommand.SetGroupId(GI_DOCUMENT);
-			m_fileCommand.InsertChild(&m_printCommand, false);
 
 			const idoc::IDocumentManager* managerPtr = GetObjectPtr();
 			if (managerPtr != NULL){
@@ -113,6 +110,7 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 				}
 			}
 
+			m_quitCommand.SetPriority(999);
 			m_quitCommand.SetGroupId(GI_APPLICATION);
 			m_fileCommand.InsertChild(&m_quitCommand, false);
 
@@ -555,7 +553,6 @@ void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCom
 	m_saveAsCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_SAVE_AS) != 0);
 	m_copyPathToClippboardCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_KNOWN_PATH) != 0);
 	m_openDocumentFolderCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_KNOWN_PATH) != 0);
-	m_printCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_PRINT) != 0);
 
 	if (m_documentManagerCommandsCompPtr.IsValid()){
 		const ibase::IHierarchicalCommand* commandsPtr = m_documentManagerCommandsCompPtr->GetCommands();
@@ -634,8 +631,6 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), QIcon(":/Icons/Save.svg"));
 	m_saveCommand.setShortcut(tr("Ctrl+S"));
 	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
-	m_printCommand.setShortcut(tr("Ctrl+P"));
-	m_printCommand.SetVisuals(tr("&Print..."), tr("Print"), tr("Prints current document"), QIcon(":/Icons/Print"));
 	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), QIcon(":/Icons/Shutdown.svg"));
 	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), QIcon(":/Icons/Undo.svg"));
 	m_undoCommand.setShortcut(tr("Ctrl+Z"));
@@ -800,14 +795,6 @@ void CMainWindowGuiComp::OnSaveAs()
 		}
 
 		BaseClass::UpdateMenuActions();
-	}
-}
-
-
-void CMainWindowGuiComp::OnPrint()
-{
-	if (m_documentManagerCompPtr.IsValid()){
-		m_documentManagerCompPtr->FilePrint();
 	}
 }
 

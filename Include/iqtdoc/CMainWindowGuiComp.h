@@ -111,7 +111,6 @@ protected Q_SLOTS:
 	void OnOpen();
 	void OnSave();
 	void OnSaveAs();
-	void OnPrint();
 	void OnOpenDocument(const std::string* documentTypeIdPtr = NULL);
 	void OnQuit();
 	void OnUndo();
@@ -195,7 +194,6 @@ private:
 	iqtgui::CHierarchicalCommand m_openCommand;
 	iqtgui::CHierarchicalCommand m_saveCommand;
 	iqtgui::CHierarchicalCommand m_saveAsCommand;
-	iqtgui::CHierarchicalCommand m_printCommand;
 	iqtgui::CHierarchicalCommand m_quitCommand;
 	// edit menu group
 	iqtgui::CHierarchicalCommand m_undoCommand;

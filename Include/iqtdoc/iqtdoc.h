@@ -14,8 +14,8 @@
 	This package use following ACF packages:
 	\li istd
 	\li iser
-	\li	icmm
-	\li	iqt2d
+	\li	icomp
+	\li	iqt
 */
 namespace iqtdoc
 {

@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2021
+          2064
         </Number>
         <Description>
           ACF
@@ -193,7 +193,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="15">
+        <AttributeInfoMap count="13">
           <AttributeInfo>
             <Id>
               ApplicationName
@@ -274,25 +274,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              IsCopyPathVisible
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;bool&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                true
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               IsNestingEnabled
             </Id>
             <Type>
@@ -307,25 +288,6 @@
               </IsEnabled>
               <Value>
                 false
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              IsOpenContainingFolderVisible
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;bool&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                true
               </Value>
             </Data>
           </AttributeInfo>

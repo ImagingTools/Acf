@@ -253,10 +253,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IPrintable.h"
-				>
-			</File>
-			<File
 				RelativePath="..\iqtdoc.h"
 				>
 			</File>

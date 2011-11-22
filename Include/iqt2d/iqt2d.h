@@ -7,6 +7,12 @@
 
 /**
 	This package contains Qt based implementations for 2D graphic objects.
+	This package use following ACF packages:
+	\li istd
+	\li iser
+	\li	icomp
+	\li	iqt
+	\li	iqtdoc
 */
 
 

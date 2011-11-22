@@ -52,8 +52,7 @@ public:
 		OF_FILE_OPEN = 0x0002,
 		OF_FILE_SAVE = 0x0004,
 		OF_FILE_SAVE_AS = 0x0008,
-		OF_FILE_PRINT = 0x0010,
-		OF_KNOWN_PATH = 0x0020
+		OF_KNOWN_PATH = 0x0010
 	};
 
 	/**
@@ -171,12 +170,6 @@ public:
 		\param	ignoredPtr		optional return flag indicating that closing was aborted by user.
 	*/
 	virtual void FileClose(int documentIndex = -1, bool* ignoredPtr = NULL) = 0;
-
-	/**
-		Print current document.
-		\param	documentIndex	optional index of document to print.
-	*/
-	virtual void FilePrint(int documentIndex = -1) const = 0;
 };
 
 

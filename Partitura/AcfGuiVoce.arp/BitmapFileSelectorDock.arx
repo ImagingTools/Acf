@@ -392,7 +392,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="11">
+  <ExportedInterfaces count="10">
     <Interface>
       <InterfaceId>
         i2d::ISceneController
@@ -428,14 +428,6 @@
     <Interface>
       <InterfaceId>
         iqt2d::ISceneProvider
-      </InterfaceId>
-      <ComponentId>
-        ImageView
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        iqtdoc::IPrintable
       </InterfaceId>
       <ComponentId>
         ImageView

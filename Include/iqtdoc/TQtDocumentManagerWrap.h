@@ -3,7 +3,6 @@
 
 
 // Qt includes
-#include <QPrintDialog>
 #include <QFileDialog>
 #include <QSettings>
 
@@ -12,8 +11,6 @@
 #include "idoc/IDocumentManager.h"
 
 #include "iqtgui/CFileDialogLoaderComp.h"
-
-#include "iqtdoc/IPrintable.h"
 
 
 namespace iqtdoc
@@ -32,10 +29,6 @@ public:
 	// pseudo-reimplemented (iqtgui::TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings);
 	virtual void OnSaveSettings(QSettings& settings) const;
-
-	// pseudo-reimplemented (idoc::IDocumentManager)
-	virtual int GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr = NULL) const;
-	virtual void FilePrint(int documentIndex = -1) const;
 
 	// pseudo-reimplemented (idoc::CSingleDocumentManagerBase)
 	virtual istd::CString GetSaveFilePath(const std::string& documentTypeId) const;
@@ -76,54 +69,6 @@ template <class Base, class Gui>
 void TQtDocumentManagerWrap<Base, Gui>::OnSaveSettings(QSettings& settings) const
 {
 	settings.setValue("Workspace/LastOpenDocumentDirectory", m_lastDirectory);
-}
-
-
-// reimplemented (idoc::IDocumentManager)
-
-template <class Base, class Gui>
-int TQtDocumentManagerWrap<Base, Gui>::GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr) const
-{
-	int retVal = BaseClass::GetAllowedOperationFlags(viewPtr);
-
-	if (viewPtr == NULL){
-		viewPtr = BaseClass::GetActiveView();
-	}
-
-	if (dynamic_cast<const iqtdoc::IPrintable*>(viewPtr) != NULL){
-		retVal |= idoc::IDocumentManager::OF_FILE_PRINT;
-	}
-
-	return retVal;
-}
-
-
-template <class Base, class Gui>
-void TQtDocumentManagerWrap<Base, Gui>::FilePrint(int documentIndex) const
-{
-	istd::IPolymorphic* activeViewPtr = NULL;
-	if (documentIndex >= 0){
-		I_ASSERT(documentIndex < GetDocumentsCount());
-
-		if (BaseClass::GetViewsCount(documentIndex) > 0){
-			activeViewPtr = BaseClass::GetViewFromIndex(documentIndex, 0);
-		}
-	}
-	else{
-		activeViewPtr = BaseClass::GetActiveView();
-	}
-
-	if (activeViewPtr != NULL){
-		iqtdoc::IPrintable* printablePtr = dynamic_cast<iqtdoc::IPrintable*>(activeViewPtr);
-		if (printablePtr != NULL){
-			QPrinter printer(QPrinter::HighResolution);
-			QPrintDialog printerDialog(&printer);
-
-			if (printerDialog.exec() == QDialog::Accepted){
-				printablePtr->Print(printerDialog.printer());
-			}
-		}
-	}
 }
 
 
