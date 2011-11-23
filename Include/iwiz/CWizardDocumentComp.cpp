@@ -26,7 +26,9 @@ bool CWizardDocumentComp::IsPageSelectionAllowed(int pageIndex) const
 		return false;
 	}
 
-	for (int checkPageIndex = currentPageIndex; checkPageIndex < pageIndex; ++checkPageIndex){
+	for (		int checkPageIndex = istd::Max(currentPageIndex, 0);
+				checkPageIndex < pageIndex;
+				++checkPageIndex){
 		const iproc::IStateController* checkedPageInfoPtr = CompCastPtr<const iproc::IStateController>(GetParamsSet(checkPageIndex));
 		if ((checkedPageInfoPtr != NULL) && checkedPageInfoPtr->IsStateEnabled() && !checkedPageInfoPtr->IsLeaveAllowed()){
 			return false;
@@ -99,40 +101,62 @@ bool CWizardDocumentComp::DoWizardFinish()
 
 	istd::CChangeNotifier notifier(this);
 
-	iproc::IStateController* currentPageInfoPtr = NULL;
-
-	if (currentPageIndex >= 0){
-		currentPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(currentPageIndex));
-		if ((currentPageInfoPtr != NULL) && !currentPageInfoPtr->TryLeaveState()){
-			return false;
-		}
-	}
-
 	for (int checkPageIndex = currentPageIndex + 1; checkPageIndex < pagesCount; ++checkPageIndex){
 		iproc::IStateController* checkedPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(checkPageIndex));
 		if ((checkedPageInfoPtr == NULL) || !checkedPageInfoPtr->IsStateEnabled()){
 			continue;
 		}
 
-		if (checkedPageInfoPtr->TryEnterState()){
-			if (SetSelectedOptionIndex(checkPageIndex)){
-				currentPageInfoPtr = checkedPageInfoPtr;
-			}
-		}
-		else{
-			if ((currentPageInfoPtr == NULL) || !currentPageInfoPtr->TryEnterState()){
-				SetSelectedOptionIndex(NO_SELECTION);
-			}
-
-			return false;
-		}
-
-		if (checkedPageInfoPtr->TryLeaveState()){
+		if (!SetSelectedOptionIndex(checkPageIndex)){
 			return false;
 		}
 	}
 
 	return true;
+}
+
+
+// reimplemented (iprm::ISelectionParam)
+
+bool CWizardDocumentComp::SetSelectedOptionIndex(int index)
+{
+	int currentPageIndex = BaseClass::GetSelectedOptionIndex();
+	if (index == currentPageIndex){
+		return true;
+	}
+
+	if (!IsPageSelectionAllowed(index)){
+		return false;
+	}
+
+	int pagesCount = GetParamsSetsCount();
+
+	iproc::IStateController* currentPageInfoPtr = NULL;
+	if ((currentPageIndex >= 0) && (currentPageIndex < pagesCount)){
+		currentPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(currentPageIndex));
+	}
+
+	iproc::IStateController* nextPageInfoPtr = NULL;
+	if ((index >= 0) && (index < pagesCount)){
+		nextPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(index));
+	}
+
+	istd::CChangeNotifier notifier(this);
+
+	bool isNextPage = (index == GetNextPageIndex());
+
+	if (currentPageInfoPtr != NULL){
+		if (!currentPageInfoPtr->TryLeaveState(isNextPage, nextPageInfoPtr)){
+			return false;
+		}
+	}
+
+	if ((nextPageInfoPtr == NULL) || nextPageInfoPtr->TryEnterState(isNextPage, currentPageInfoPtr)){
+		return BaseClass::SetSelectedOptionIndex(index);
+	}
+	else{
+		return BaseClass::SetSelectedOptionIndex(-1);
+	}
 }
 
 

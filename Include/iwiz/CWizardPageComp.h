@@ -40,7 +40,7 @@ public:
 	virtual bool IsEnterAllowed(bool isActionAllowed = true, const IStateController* prevStatePtr = NULL) const;
 	virtual bool IsLeaveAllowed(bool isActionAllowed = true, const IStateController* nextStatePtr = NULL) const;
 	virtual bool TryEnterState(bool isActionAllowed = true, const IStateController* prevStatePtr = NULL);
-	virtual bool TryLeaveState(bool isActionAllowed = true, const IStateController* prevStatePtr = NULL);
+	virtual bool TryLeaveState(bool isActionAllowed = true, const IStateController* nextStatePtr = NULL);
 
 protected:
 	void UpdateAllMembers();

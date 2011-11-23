@@ -37,6 +37,9 @@ public:
 	virtual int GetPrevPageIndex() const;
 	virtual int GetNextPageIndex() const;
 	virtual bool DoWizardFinish();
+
+	// reimplemented (iprm::ISelectionParam)
+	virtual bool SetSelectedOptionIndex(int index);
 };
 
 

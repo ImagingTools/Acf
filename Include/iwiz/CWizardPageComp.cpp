@@ -104,7 +104,7 @@ bool CWizardPageComp::TryEnterState(bool isActionAllowed, const IStateController
 }
 
 
-bool CWizardPageComp::TryLeaveState(bool isActionAllowed, const IStateController* /*prevStatePtr*/)
+bool CWizardPageComp::TryLeaveState(bool isActionAllowed, const IStateController* /*nextStatePtr*/)
 {
 	if (!m_isStateActive){
 		return false;

@@ -1,8 +1,13 @@
 #include "iqtwiz/CWizardOptionsListGuiComp.h"
 
 
+// Qt includes
+#include <QHeaderView>
+
 // ACF includes
 #include "istd/TChangeNotifier.h"
+
+#include "iqt/CSignalBlocker.h"
 
 
 namespace iqtwiz
@@ -25,9 +30,19 @@ void CWizardOptionsListGuiComp::UpdateModel() const
 	else{
 		QTreeWidgetItem* selectedItemPtr = selectedItems.first();
 
-		int selectedIndex = selectedItemPtr->data(0, DR_SELECTION_INDEX).toInt();
+		int selectedIndex = selectedItemPtr->data(0, DR_PAGE_INDEX).toInt();
 
-		objectPtr->SetSelectedOptionIndex(selectedIndex);
+		if (!objectPtr->SetSelectedOptionIndex(selectedIndex)){
+			iqt::CSignalBlocker blocker(OptionsList);
+
+			OptionsList->clearSelection();
+
+			int currentSelected = objectPtr->GetSelectedOptionIndex();
+			if ((currentSelected >= 0) && (currentSelected < OptionsList->topLevelItemCount())){
+				QTreeWidgetItem* itemPtr = OptionsList->topLevelItem(currentSelected);
+				itemPtr->setSelected(true);
+			}
+		}
 	}
 }
 
@@ -42,9 +57,22 @@ void CWizardOptionsListGuiComp::UpdateGui(int /*updateFlags*/)
 
 	OptionsList->clear();
 	
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iwiz::IParamsManagerWizard* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		CreateOptionsTree(objectPtr);
+	}
+}
+
+
+// reimplemented (CGuiComponentBase)
+
+void CWizardOptionsListGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	QHeaderView* headerPtr = OptionsList->header();
+	if (headerPtr != NULL){
+		headerPtr->setStretchLastSection(true);
 	}
 }
 
@@ -63,18 +91,20 @@ void CWizardOptionsListGuiComp::on_OptionsList_itemSelectionChanged()
 
 // private methods
 
-void CWizardOptionsListGuiComp::CreateOptionsTree(const iprm::IParamsManager* paramsManagerPtr, QTreeWidgetItem* parentItemPtr)
+void CWizardOptionsListGuiComp::CreateOptionsTree(const iwiz::IParamsManagerWizard* paramsManagerPtr, QTreeWidgetItem* parentItemPtr)
 {
 	if (paramsManagerPtr != NULL){
 		int selectedOptionIndex = paramsManagerPtr->GetSelectedOptionIndex();
 
 		int pagesCount = paramsManagerPtr->GetParamsSetsCount();
-		for (int optionIndex = 0; optionIndex < pagesCount; optionIndex++){
-			QString optionName = iqt::GetQString(paramsManagerPtr->GetParamsSetName(optionIndex));
+		for (int pageIndex = 0; pageIndex < pagesCount; pageIndex++){
+			QString optionName = iqt::GetQString(paramsManagerPtr->GetParamsSetName(pageIndex));
 
 			QTreeWidgetItem* itemPtr = new QTreeWidgetItem(OptionsList);
 			itemPtr->setText(0, optionName);
-			itemPtr->setData(0, DR_SELECTION_INDEX, optionIndex);
+			itemPtr->setData(0, DR_PAGE_INDEX, pageIndex);
+
+			itemPtr->setDisabled(!paramsManagerPtr->IsPageSelectionAllowed(pageIndex));
 
 			if (parentItemPtr != NULL){
 				parentItemPtr->addChild(itemPtr);
@@ -83,7 +113,7 @@ void CWizardOptionsListGuiComp::CreateOptionsTree(const iprm::IParamsManager* pa
 				OptionsList->addTopLevelItem(itemPtr);
 			}
 
-			if (selectedOptionIndex == optionIndex){
+			if (selectedOptionIndex == pageIndex){
 				itemPtr->setSelected(true);
 			}
 		}

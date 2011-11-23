@@ -64,7 +64,7 @@ public:
 		\param	nextStatePtr	optional controller of the next state.
 		\return	true, if state could be enter.
 	*/
-	virtual bool TryLeaveState(bool isActionAllowed = true, const IStateController* prevStatePtr = NULL) = 0;
+	virtual bool TryLeaveState(bool isActionAllowed = true, const IStateController* nextStatePtr = NULL) = 0;
 };
 
 

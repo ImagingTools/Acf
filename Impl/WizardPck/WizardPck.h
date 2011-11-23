@@ -7,6 +7,7 @@
 
 #include "iwiz/CWizardDocumentComp.h"
 #include "iwiz/CWizardPageComp.h"
+#include "iwiz/CSelectionConsistencyControllerComp.h"
 
 
 /**
@@ -18,6 +19,7 @@ namespace WizardPck
 
 typedef icomp::TModelCompWrap<iwiz::CWizardDocumentComp> WizardDocument;
 typedef icomp::TModelCompWrap<iwiz::CWizardPageComp> WizardPage;
+typedef icomp::TModelCompWrap<iwiz::CSelectionConsistencyControllerComp> SelectionConsistencyController;
 
 
 } // namespace WizardPck

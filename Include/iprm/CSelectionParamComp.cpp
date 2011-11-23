@@ -69,7 +69,7 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 	if (m_constraintsCompPtr.IsValid()){
 		int optionsCount = m_constraintsCompPtr->GetOptionsCount();
 
-		if (selectionOptionIndex < optionsCount){
+		if ((selectionOptionIndex >= 0) && (selectionOptionIndex < optionsCount)){
 			selectedOptionId = m_constraintsCompPtr->GetOptionId(selectionOptionIndex);
 		}
 	}

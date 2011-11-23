@@ -25,6 +25,11 @@ I_EXPORT_COMPONENT(
 			"Single wizard page data",
 			"Wizard Parameter" IM_CATEGORY(I_DATA_MODEL));
 
+I_EXPORT_COMPONENT(
+			SelectionConsistencyController,
+			"State controller calculating its state using check of external selection parameters",
+			"State Controller Selection Parameters Dependency" IM_CATEGORY(I_DATA_MODEL))
+
 
 } // namespace WizardPck
 
