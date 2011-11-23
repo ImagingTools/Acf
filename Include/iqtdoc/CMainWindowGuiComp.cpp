@@ -131,7 +131,18 @@ bool CMainWindowGuiComp::OnDetached(imod::IModel* modelPtr)
 	bool retVal = BaseClass2::OnDetached(modelPtr);
 
 	if (retVal){
-		SerializeRecentFiles<iqt::CSettingsWriteArchive>();
+		if (m_applicationInfoCompPtr.IsValid()){ 
+			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+			istd::CString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+
+			iqt::CSettingsWriteArchive archive(
+						iqt::GetQString(companyName),
+						iqt::GetQString(applicationName),
+						"RecentFileList",
+						&m_applicationInfoCompPtr->GetVersionInfo());
+
+			SerializeRecentFileList(archive);
+		}
 
 		m_recentFilesMap.clear();
 	}
@@ -324,14 +335,12 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 {
 	int documentTypeIdsCount = m_recentFilesMap.size();
 
-	static iser::CArchiveTag recentFilesTag("RecentFileList", "List of application's recent files");
 	static iser::CArchiveTag documentTypeIdsTag("DocumentIds", "List of document ID's");
 	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
 	static iser::CArchiveTag fileListTag("FileList", "List of recent files");
 	static iser::CArchiveTag filePathTag("FilePath", "File path");
 
-	bool retVal = archive.BeginTag(recentFilesTag);
-	retVal = retVal && archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
+	bool retVal = archive.BeginMultiTag(documentTypeIdsTag, documentTypeIdTag, documentTypeIdsCount);
 
 	if (archive.IsStoring()){
 		for (		RecentFilesMap::const_iterator index = m_recentFilesMap.begin();
@@ -417,8 +426,6 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 	}
 
 	retVal = retVal && archive.EndTag(documentTypeIdsTag);
-
-	retVal = retVal && archive.EndTag(recentFilesTag);
 
 	return retVal;
 }
@@ -715,7 +722,14 @@ void CMainWindowGuiComp::OnComponentCreated()
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
 	
-	SerializeRecentFiles<iqt::CSettingsReadArchive>();
+	if (m_applicationInfoCompPtr.IsValid()){ 
+		istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+		istd::CString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+
+		iqt::CSettingsReadArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName), "RecentFileList");
+
+		SerializeRecentFileList(archive);
+	}
 }
 
 

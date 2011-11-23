@@ -23,6 +23,7 @@ public:
 	CSettingsWriteArchive(
 				const QString& organizationName,
 				const QString& applicationName,
+				const QString& rootKey,
 				const iser::IVersionInfo* versionInfoPtr = NULL);
 
 	// reimplemented (iser::IArchive)

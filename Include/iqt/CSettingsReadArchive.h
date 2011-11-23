@@ -17,8 +17,10 @@ public:
 	typedef iser::CTextReadArchiveBase BaseClass;
 	typedef CSettingsArchiveBase BaseClass2;
 
-	CSettingsReadArchive(	const QString& organizationName,
-							const QString& applicationName);
+	CSettingsReadArchive(
+				const QString& organizationName,
+				const QString& applicationName,
+				const QString& rootKey);
 
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const iser::CArchiveTag& tag);

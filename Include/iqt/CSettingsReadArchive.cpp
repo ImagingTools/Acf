@@ -15,10 +15,13 @@ namespace iqt
 
 // public methods
 
-CSettingsReadArchive::CSettingsReadArchive(	const QString& organizationName,
-											const QString& applicationName)
-	:BaseClass2(organizationName, applicationName)
+CSettingsReadArchive::CSettingsReadArchive(
+			const QString& organizationName,
+			const QString& applicationName,
+			const QString& rootKey)
+:	BaseClass2(organizationName, applicationName, rootKey)
 {
+	SerializeAcfHeader();
 }
 
 
@@ -26,53 +29,38 @@ CSettingsReadArchive::CSettingsReadArchive(	const QString& organizationName,
 
 bool CSettingsReadArchive::BeginTag(const iser::CArchiveTag& tag)
 {
-	if (!m_openTagsList.empty()){
-		TagInfo& multiTag = m_openTagsList.back();
-		if (multiTag.subTagId == tag.GetId()){
-			multiTag.count--;
-		}
-	}
-	
-	m_openTagsList.push_back(TagInfo(tag.GetId()));
-
-	return true;
+	return EnterTag(tag.GetId());
 }
 
 
-bool CSettingsReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
+bool CSettingsReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
-	m_openTagsList.push_back(TagInfo(tag.GetId(), 0, subTag.GetId()));
+	QString countRegistryKey = GetCurrentCountKey();
 
-	QString registryKey = CreateKey(false);
+	bool isOk = true;
+	count = BaseClass2::value(countRegistryKey).toInt(&isOk);
 
-	count = BaseClass2::value(registryKey).toInt();
+	if (!isOk){
+		return false;
+	}
 
-	m_openTagsList.back().count = count + 1;
-
-	return true;
+	return EnterTag(tag.GetId());
 }
 
 
-bool CSettingsReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
+bool CSettingsReadArchive::EndTag(const iser::CArchiveTag& tag)
 {
-	I_ASSERT(!m_openTagsList.empty());
-
-	TagInfo& currentTag = m_openTagsList.back();
-	if (currentTag.count <= 1){		
-		m_openTagsList.pop_back();
-	}
-	
-	return true;
+	return LeaveTag(tag.GetId());
 }
 
 
 bool CSettingsReadArchive::Process(std::string& value)
 {
-	if (m_openTagsList.empty()){
+	QString registryKey = CreateNextValueKey();
+
+	if (registryKey.isEmpty()){
 		return false;
 	}
-
-	QString registryKey = CreateKey();
 
 	value = BaseClass2::value(registryKey).toString().toStdString();
 
@@ -82,15 +70,15 @@ bool CSettingsReadArchive::Process(std::string& value)
 
 bool CSettingsReadArchive::Process(istd::CString& value)
 {
-	std::string str(value.ToString());
+	QString registryKey = CreateNextValueKey();
 
-	if (Process(str)){
-		value = str;
-
-		return true;
+	if (registryKey.isEmpty()){
+		return false;
 	}
 
-	return false;
+	value = iqt::GetCString(BaseClass2::value(registryKey).toString());
+
+	return true;
 }
 
 

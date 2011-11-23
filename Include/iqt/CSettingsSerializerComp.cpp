@@ -42,28 +42,9 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::C
 			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
 			istd::CString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
 
-			CSettingsReadArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
+			CSettingsReadArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName), iqt::GetQString(*m_rootKeyAttrPtr));
 
-			std::string rootKey;
-			if (m_rootKeyAttrPtr.IsValid()){
-				rootKey = (*m_rootKeyAttrPtr).ToString();
-			}
-
-			iser::CArchiveTag rootArchiveTag(rootKey, "Root key");
-
-			bool retVal = true;
-
-			if (!rootKey.empty()){
-				retVal = retVal && archive.BeginTag(rootArchiveTag);
-			}
-
-			retVal = retVal && serializeblePtr->Serialize(archive);
-
-			if (!rootKey.empty()){
-				retVal = retVal && archive.EndTag(rootArchiveTag);
-			}
-
-			if (retVal){
+			if (serializeblePtr->Serialize(archive)){
 				return StateOk;
 			}
 			else{
@@ -71,7 +52,7 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const istd::C
 			}
 		}
 		else{
-			SendInfoMessage(MI_CANNOT_LOAD, "No application info needed to load from settings");
+			SendInfoMessage(MI_CANNOT_LOAD, "No application info found, it is needed to save to settings");
 		}
 	}
 
@@ -87,28 +68,13 @@ int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const ist
 			istd::CString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
 			istd::CString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
 
-			CSettingsWriteArchive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
+			CSettingsWriteArchive archive(
+						iqt::GetQString(companyName),
+						iqt::GetQString(applicationName),
+						iqt::GetQString(*m_rootKeyAttrPtr),
+						&m_applicationInfoCompPtr->GetVersionInfo());
 		
-			std::string rootKey;
-			if (m_rootKeyAttrPtr.IsValid()){
-				rootKey = (*m_rootKeyAttrPtr).ToString();
-			}
-
-			iser::CArchiveTag rootArchiveTag(rootKey, "Root key");
-
-			bool retVal = true;
-
-			if (!rootKey.empty()){
-				retVal = retVal && archive.BeginTag(rootArchiveTag);
-			}
-
-			retVal = retVal && serializeblePtr->Serialize(archive);
-
-			if (!rootKey.empty()){
-				retVal = retVal && archive.EndTag(rootArchiveTag);
-			}
-
-			if (retVal){
+			if (serializeblePtr->Serialize(archive)){
 				return StateOk;
 			}
 			else{
@@ -116,7 +82,7 @@ int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const ist
 			}
 		}
 		else{
-			SendInfoMessage(MI_CANNOT_LOAD, "No application info needed to save to settings");
+			SendInfoMessage(MI_CANNOT_LOAD, "No application info found, it is needed to save to settings");
 		}
 	}
 

@@ -16,29 +16,36 @@ class CSettingsArchiveBase: protected QSettings
 public:
 	typedef QSettings BaseClass;
 
-	CSettingsArchiveBase(	const QString& organizationName,
-							const QString& applicationName);
+	CSettingsArchiveBase(
+				const QString& organizationName,
+				const QString& applicationName,
+				const QString& rootKey);
 
 protected:
-	QString CreateKey(bool replaceMultiple = true) const;
+	bool EnterTag(const std::string& tagId);
+	bool LeaveTag(const std::string& tagId);
+	QString GetCurrentCountKey() const;
+	QString CreateNextValueKey();
+	QString CSettingsArchiveBase::GetBaseKey() const;
 
-protected:
 	struct TagInfo
 	{
-		TagInfo(const std::string& tagId, int count = 0, const std::string& subTagId = std::string())
+		TagInfo(const std::string& tagId, int siblingsCount)
 		{
 			this->tagId = tagId;
-			this->count = count;
-			this->subTagId = subTagId;
+			this->siblingsCount = siblingsCount;
 		}
 	
 		std::string tagId;
-		std::string subTagId;
-		int count;
+		int siblingsCount;
 	};
 
 	typedef std::vector<TagInfo> OpenTagsList;
-	mutable OpenTagsList m_openTagsList;
+	OpenTagsList m_openTagsList;
+
+	QString m_rootKey;
+
+	int m_valuesCount;
 };
 
 

@@ -11,29 +11,83 @@ namespace iqt
 
 // public methods
 
-CSettingsArchiveBase::CSettingsArchiveBase(	const QString& organizationName,
-											const QString& applicationName)
-	:BaseClass(organizationName, applicationName)
+CSettingsArchiveBase::CSettingsArchiveBase(
+			const QString& organizationName,
+			const QString& applicationName,
+			const QString& rootKey)
+:	BaseClass(organizationName, applicationName),
+	m_rootKey(rootKey),
+	m_valuesCount(0)
 {
 }
 
 
 // protected methods
 
-QString CSettingsArchiveBase::CreateKey(bool replaceMultiple) const
+bool CSettingsArchiveBase::EnterTag(const std::string& tagId)
+{
+	m_openTagsList.push_back(TagInfo(tagId, m_valuesCount));
+
+	m_valuesCount = 0;
+
+	return true;
+}
+
+
+bool CSettingsArchiveBase::LeaveTag(const std::string& tagId)
+{
+	if (m_openTagsList.empty()){
+		return false;
+	}
+
+	if (m_openTagsList.back().tagId != tagId){
+		return false;
+	}
+
+	TagInfo& tagInfo = m_openTagsList.back();
+	m_valuesCount = tagInfo.siblingsCount + 1;
+
+	m_openTagsList.pop_back();
+
+	return true;
+}
+
+
+QString CSettingsArchiveBase::GetCurrentCountKey() const
+{
+	return GetBaseKey() + "count";
+
+	return true;
+}
+
+
+QString CSettingsArchiveBase::CreateNextValueKey()
+{
+	static const QString valueSuffix("_value");
+
+	QString retVal = GetBaseKey() + QString::number(++m_valuesCount) + valueSuffix;
+
+	return retVal;
+}
+
+
+QString CSettingsArchiveBase::GetBaseKey() const
 {
 	QString registryKey;
 
-	for (		OpenTagsList::iterator index = m_openTagsList.begin();
-				index != m_openTagsList.end();
-				index++){
-		TagInfo& tagInfo = *index;
-		if (tagInfo.count > 0 && replaceMultiple){
-			tagInfo.tagId = QString::number(tagInfo.count).toStdString();
-		}
+	if (!m_rootKey.isEmpty()){
+		registryKey = m_rootKey + "/";
+	}
 
-		registryKey += iqt::GetQString(tagInfo.tagId);
-	
+	for (		OpenTagsList::const_iterator tagIter = m_openTagsList.begin();
+				tagIter != m_openTagsList.end();
+				tagIter++){
+		const TagInfo& tagInfo = *tagIter;
+
+		static const QString separator("_");
+
+		registryKey += QString::number(tagInfo.siblingsCount + 1) + separator + iqt::GetQString(tagInfo.tagId);
+
 		registryKey += "/";
 	}
 

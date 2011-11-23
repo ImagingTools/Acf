@@ -29,7 +29,7 @@ public:
 	I_BEGIN_COMPONENT(CSettingsSerializerComp);
 		I_REGISTER_INTERFACE(iser::IFileLoader);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
-		I_ASSIGN(m_rootKeyAttrPtr, "RootKey", "The root key in the file/registry for the serialized object", false, "Object");
+		I_ASSIGN(m_rootKeyAttrPtr, "RootKey", "The root key in the file/registry for the serialized object", true, "Data");
 	I_END_COMPONENT;
 
 	// reimplemented (iser::IFileLoader)

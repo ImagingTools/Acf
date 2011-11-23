@@ -81,10 +81,6 @@ protected:
 	virtual void UpdateRecentFileList(const idoc::IDocumentManager::FileToTypeMap& fileToTypeMap);
 	virtual void RemoveFromRecentFileList(const istd::CString& filePath);
 
-	// protected template methods
-	template <class Archive> 
-	bool SerializeRecentFiles();
-
 	// reimplemented (iqtgui::CSimpleMainWindowGuiComp)
 	virtual void UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixedCommands);
 	virtual void UpdateViewCommands(iqtgui::CHierarchicalCommand& viewCommand);
@@ -219,25 +215,6 @@ private:
 	QByteArray m_beforeFullScreenGeometry;
 	QByteArray m_beforeFullScreenState;
 };
-
-
-// protected template methods
-
-template <class Archive> 
-bool CMainWindowGuiComp::SerializeRecentFiles()
-{
-	istd::CString applicationName = "ACF Application";
-	istd::CString companyName = "ImagingTools";
-
-	if (m_applicationInfoCompPtr.IsValid()){ 
-		applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
-		companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
-	}
-
-	Archive archive(iqt::GetQString(companyName), iqt::GetQString(applicationName));
-
-	return SerializeRecentFileList(archive);
-}
 
 
 } // namespace iqtdoc

@@ -14,10 +14,12 @@ namespace iqt
 CSettingsWriteArchive::CSettingsWriteArchive(
 			const QString& organizationName, 
 			const QString& productName,
+			const QString& rootKey,
 			const iser::IVersionInfo* versionInfoPtr)
 :	BaseClass(versionInfoPtr),
-	BaseClass2(organizationName, productName)
+	BaseClass2(organizationName, productName, rootKey)
 {
+	SerializeAcfHeader();
 }
 
 
@@ -25,53 +27,33 @@ CSettingsWriteArchive::CSettingsWriteArchive(
 
 bool CSettingsWriteArchive::BeginTag(const iser::CArchiveTag& tag)
 {
-	if (!m_openTagsList.empty()){
-		TagInfo& multiTag = m_openTagsList.back();
-		if (multiTag.subTagId == tag.GetId()){
-			multiTag.count--;
-		}
-	}
-	
-	m_openTagsList.push_back(TagInfo(tag.GetId()));
-
-	return true;
+	return EnterTag(tag.GetId());
 }
 
 
-bool CSettingsWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
+bool CSettingsWriteArchive::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& /*subTag*/, int& count)
 {
-	I_ASSERT(!tag.GetId().empty());
+	QString countRegistryKey = GetCurrentCountKey();
 
-	m_openTagsList.push_back(TagInfo(tag.GetId(), count + 1, subTag.GetId()));
+	BaseClass2::setValue(countRegistryKey, count);
 
-	QString registryKey = CreateKey(false);
-
-	BaseClass2::setValue(registryKey, count);
-
-	return true;
+	return EnterTag(tag.GetId());
 }
 
 
-bool CSettingsWriteArchive::EndTag(const iser::CArchiveTag& /*tag*/)
+bool CSettingsWriteArchive::EndTag(const iser::CArchiveTag& tag)
 {
-	I_ASSERT(!m_openTagsList.empty());
-
-	TagInfo& currentTag = m_openTagsList.back();
-	if (currentTag.count <= 1){		
-		m_openTagsList.pop_back();
-	}
-
-	return true;
+	return LeaveTag(tag.GetId());
 }
 
 
 bool CSettingsWriteArchive::Process(std::string& value)
 {
-	if (m_openTagsList.empty()){
+	QString registryKey = CreateNextValueKey();
+
+	if (registryKey.isEmpty()){
 		return false;
 	}
-
-	QString registryKey = CreateKey();
 
 	BaseClass2::setValue(registryKey, QString(value.c_str()));
 
@@ -81,9 +63,15 @@ bool CSettingsWriteArchive::Process(std::string& value)
 
 bool CSettingsWriteArchive::Process(istd::CString& value)
 {
-	std::string str(value.ToString());
+	QString registryKey = CreateNextValueKey();
 
-	return Process(str);
+	if (registryKey.isEmpty()){
+		return false;
+	}
+
+	BaseClass2::setValue(registryKey, iqt::GetQString(value));
+
+	return true;
 }
 
 
