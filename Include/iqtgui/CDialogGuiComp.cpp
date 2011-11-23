@@ -3,6 +3,7 @@
 
 // Qt includes
 #include <QIcon>
+#include <QApplication>
 
 
 namespace iqtgui
@@ -41,9 +42,15 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 		if (m_dialogTitleAttrPtr.IsValid()){
 			dialogPtr->setWindowTitle(iqt::GetQString(*m_dialogTitleAttrPtr));
 		}
+		else{
+			dialogPtr->setWindowTitle(QCoreApplication::applicationName());
+		}
 
 		if (m_dialogIconPathAttrPtr.IsValid()){
 			dialogPtr->setWindowIcon(QIcon(iqt::GetQString(*m_dialogIconPathAttrPtr)));
+		}
+		else{
+			dialogPtr->setWindowIcon(QApplication::windowIcon());
 		}
 	}
 

@@ -4,16 +4,8 @@
 // Qt includes
 #include <QApplication>
 #include <QString>
-#include <QIcon>
-#include <QStyle>
-#include <QTextStream>
-#include <QFile>
 #include <QVBoxLayout>
-
-
-// ACF includes
-#include "icomp/CCompositeComponent.h"
-#include "iqt/CTimer.h"
+#include <QIcon>
 
 
 namespace iqtgui
@@ -34,9 +26,11 @@ const iqtgui::IGuiObject* CGuiApplicationComp::GetApplicationGui() const
 
 // reimplemented (ibase::IApplication)
 
-bool CGuiApplicationComp::InitializeApplication(int argc, char** argv)
+int CGuiApplicationComp::Execute(int argc, char** argv)
 {
-	if (!m_applicationPtr.IsValid()){
+	int retVal = -1;
+
+	if (BaseClass::InitializeApplication(argc, argv)){
 		std::string appStyle;
 
 		// parse arguments:
@@ -48,64 +42,9 @@ bool CGuiApplicationComp::InitializeApplication(int argc, char** argv)
 				}
 			}
 		}
+		QApplication::setStyle(appStyle.c_str());
 
-		m_applicationPtr.SetPtr(new QApplication(argc, argv));
-		if (!m_applicationPtr.IsValid()){
-			return false;
-		}
-
-		if (m_translationManagerCompPtr.IsValid() && m_translationManagerCompPtr->GetCurrentLanguageIndex() < 0){
-			m_translationManagerCompPtr->SetSystemLanguage();
-		}
-
-		m_applicationPtr->setStyle(appStyle.c_str());
-
-		QIcon icon;
-		if (m_iconPathAttrPtr.IsValid()){
-			icon = QIcon(iqt::GetQString(*m_iconPathAttrPtr));
-		}
-		else{	
-			icon.addFile(":/Icons/AcfLogo.svg");
-		}
-
-		m_applicationPtr->setWindowIcon(icon);
-
-		icomp::ICompositeComponent* parentPtr = const_cast<icomp::ICompositeComponent*>(GetParentComponent(true));
-		icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
-
-		if (compositePtr != NULL){
-			compositePtr->EndAutoInitBlock();
-		}
-	}
-
-	return true;
-}
-
-
-int CGuiApplicationComp::Execute(int argc, char** argv)
-{
-	int retVal = -1;
-
-	if (InitializeApplication(argc, argv)){
-		iqt::CTimer timer;
-
-		m_applicationPtr->setPalette(QApplication::style()->standardPalette());
-
-		// set style sheet for the application:
-		if (m_styleSheetAttrPtr.IsValid()){
-			SetStyleSheet(iqt::GetQString(*m_styleSheetAttrPtr));
-		}
-
-		// show splash screen:
-		bool useSplashScreen = m_splashScreenCompPtr.IsValid() && m_splashScreenCompPtr->CreateGui(NULL);
-		if (useSplashScreen){
-			QWidget* splashWidgetPtr = m_splashScreenCompPtr->GetWidget();
-			I_ASSERT(splashWidgetPtr != NULL);
-
-			splashWidgetPtr->show();
-
-			m_applicationPtr->processEvents();
-		}
+		TryShowSplashScreen();
 
 		if (m_mainGuiCompPtr.IsValid()){
 			if (m_frameSpaceSizeAttrPtr.IsValid()){
@@ -123,30 +62,11 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 				m_mainWidgetPtr.SetPtr(m_mainGuiCompPtr->GetWidget());
 			}
 
-			if (m_applicationInfoCompPtr.IsValid()){
-				QString format = iqt::GetQString(*m_titleFormatAttrPtr);
-				QString applicationName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
-				QString companyName = iqt::GetQString(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
-				m_mainWidgetPtr->setWindowTitle(format.arg(applicationName).arg(companyName));
-			}
-			else{
-				m_mainWidgetPtr->setWindowTitle(QObject::tr("ACF application"));
-			}
-
-			m_mainWidgetPtr->setWindowIcon(m_applicationPtr->windowIcon());
+			m_mainWidgetPtr->setWindowTitle(QCoreApplication::applicationName());
+			m_mainWidgetPtr->setWindowIcon(QApplication::windowIcon());
 		}
 
-		if (useSplashScreen){
-			I_ASSERT(m_splashTimeAttrPtr.IsValid());
-			timer.WaitTo(m_splashTimeAttrPtr->GetValue());
-
-			QWidget* splashWidgetPtr = m_splashScreenCompPtr->GetWidget();
-			I_ASSERT(splashWidgetPtr != NULL);
-
-			splashWidgetPtr->hide();
-
-			m_splashScreenCompPtr->DestroyGui();
-		}
+		HideSplashScreen();
 
 		if (m_mainWidgetPtr.IsValid()){
 			int uiStartMode = 0;
@@ -155,26 +75,29 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			}
 
 			switch (uiStartMode){
-				case 0:
-					m_mainWidgetPtr->show();
-					break;
-				case 1:
-					m_mainWidgetPtr->showFullScreen();
-					break;
-				case 2:
-					m_mainWidgetPtr->showMinimized();
-					break;
-				case 3:
-					m_mainWidgetPtr->showMaximized();
-					break;
-				default:
-					m_mainWidgetPtr->show();
+			case 1:
+				m_mainWidgetPtr->showFullScreen();
+				break;
+
+			case 2:
+				m_mainWidgetPtr->showMinimized();
+				break;
+
+			case 3:
+				m_mainWidgetPtr->showMaximized();
+				break;
+
+			default:
+				m_mainWidgetPtr->show();
 			}
 		}
 
 		if (m_mainWidgetPtr.IsValid()){
+			QApplication* applicationPtr = GetQtApplication();
+			I_ASSERT(applicationPtr != NULL);	// application initialization was succesfull, it must be valid
+
 			// start application loop:
-			retVal = m_applicationPtr->exec();
+			retVal = applicationPtr->exec();
 
 			I_ASSERT(m_mainGuiCompPtr.IsValid());
 			m_mainGuiCompPtr->DestroyGui();
@@ -191,44 +114,7 @@ istd::CString CGuiApplicationComp::GetHelpText() const
 }
 
 
-// protected methods
-
-// reimplemented (icomp::CComponentBase)
-
-void CGuiApplicationComp::OnComponentCreated()
-{
-	icomp::ICompositeComponent* parentPtr = const_cast<icomp::ICompositeComponent*>(GetParentComponent(true));
-	icomp::CCompositeComponent* compositePtr = dynamic_cast<icomp::CCompositeComponent*>(parentPtr);
-
-	if (compositePtr != NULL){
-		compositePtr->BeginAutoInitBlock();
-	}
-
-	BaseClass::OnComponentCreated();
-}
-
-
-// private methods
-
-void CGuiApplicationComp::SetStyleSheet(const QString& styleSheetFileName)
-{
-	I_ASSERT(m_applicationPtr != NULL);
-
-	QFile styleSheetFile(styleSheetFileName);
-	if (styleSheetFile.open(QIODevice::ReadOnly | QIODevice::Text)){
-		QTextStream stream(&styleSheetFile);
-		QString styleSheetText;
-		QString textLine;
-		do{
-			textLine = stream.readLine();
-			styleSheetText += textLine;
-		} while (!textLine.isNull());
-
-		m_applicationPtr->setStyleSheet(styleSheetText);
-	}
-}
-
-
 } // namespace iqtgui
+
 
 

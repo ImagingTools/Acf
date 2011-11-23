@@ -29,8 +29,13 @@ I_EXPORT_PACKAGE(
 
 I_EXPORT_COMPONENT(
 			GuiApplication,
-			"Main entry point for window based Qt application",
-			"Application Main Entry Start Begin" IM_TAG("Application"));
+			"Main entry point for Qt applications using GUI object as main window",
+			"Application Main Entry Start Begin Widget" IM_TAG("Application"));
+
+I_EXPORT_COMPONENT(
+			DialogApplication,
+			"Main entry point for Qt applications using dialog window as main window",
+			"Application Main Entry Start Begin Dialog" IM_TAG("Application"));
 
 I_EXPORT_COMPONENT(
 			SplashScreen,
