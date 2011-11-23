@@ -61,6 +61,11 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 	int selectionOptionIndex = m_selectedOptionIndex;
 	std::string selectedOptionId;
 
+	static iser::CArchiveTag selectedOptionIndexTag("Index", "Selected option index");
+	bool retVal = archive.BeginTag(selectedOptionIndexTag);
+	retVal = retVal && archive.Process(selectionOptionIndex);
+	retVal = retVal && archive.EndTag(selectedOptionIndexTag);
+
 	if (m_constraintsCompPtr.IsValid()){
 		int optionsCount = m_constraintsCompPtr->GetOptionsCount();
 
@@ -68,11 +73,6 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 			selectedOptionId = m_constraintsCompPtr->GetOptionId(selectionOptionIndex);
 		}
 	}
-
-	static iser::CArchiveTag selectedOptionIndexTag("Index", "Selected option index");
-	bool retVal = archive.BeginTag(selectedOptionIndexTag);
-	retVal = retVal && archive.Process(selectionOptionIndex);
-	retVal = retVal && archive.EndTag(selectedOptionIndexTag);
 
 	static iser::CArchiveTag selectedOptionIdTag("OptionId", "Selected option identifier");
 	retVal = retVal && archive.BeginTag(selectedOptionIdTag);

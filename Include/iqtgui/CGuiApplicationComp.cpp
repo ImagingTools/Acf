@@ -232,4 +232,3 @@ void CGuiApplicationComp::SetStyleSheet(const QString& styleSheetFileName)
 } // namespace iqtgui
 
 
-

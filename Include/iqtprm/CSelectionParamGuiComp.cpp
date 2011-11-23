@@ -163,7 +163,11 @@ void CSelectionParamGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/
 {
 	I_ASSERT(IsGuiCreated());
 
-	UpdateGui();
+	if (!IsUpdateBlocked()){
+		UpdateBlocker updateBlocker(this);
+		
+		UpdateGui();
+	}
 }
 
 
