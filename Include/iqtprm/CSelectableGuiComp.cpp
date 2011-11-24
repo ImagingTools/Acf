@@ -114,6 +114,9 @@ void CSelectableGuiComp::OnGuiCreated()
 	if (m_selectorGuiCompPtr.IsValid()){
 		m_selectorGuiCompPtr->CreateGui(SelectorFrame);
 	}
+	else{
+		SelectorFrame->hide();
+	}
 }
 
 
