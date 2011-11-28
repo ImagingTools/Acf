@@ -40,6 +40,8 @@ public:
 		Check if entering of this page is allowed.
 		\param	isActionAllowed	if set, action related to the state leaving should be done.
 		\param	prevStatePtr	optional controller of the previous state.
+		\return	true, if this state can be entered.
+				If state is active, it return true, if we can leave and then enter this state.
 	*/
 	virtual bool IsEnterAllowed(bool isActionAllowed = true, const IStateController* prevStatePtr = NULL) const = 0;
 
@@ -47,6 +49,8 @@ public:
 		Check if this state can be leaved.
 		\param	isActionAllowed	if set, action related to the state leaving should be done.
 		\param	nextStatePtr	optional controller of the next state.
+		\return	true, if this state can be leaved.
+				If state is not active, it return true, if we can enter and then leave this state.
 	*/
 	virtual bool IsLeaveAllowed(bool isActionAllowed = true, const IStateController* nextStatePtr = NULL) const = 0;
 

@@ -214,7 +214,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CWizardPageComp.cpp"
+				RelativePath="..\CComposedStateControllerComp.cpp"
 				>
 			</File>
 		</Filter>
@@ -231,7 +231,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CWizardPageComp.h"
+				RelativePath="..\CComposedStateControllerComp.h"
 				>
 			</File>
 			<File

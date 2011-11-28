@@ -160,6 +160,50 @@ bool CWizardDocumentComp::SetSelectedOptionIndex(int index)
 }
 
 
+// reimplemented (iser::ISerializable)
+
+bool CWizardDocumentComp::Serialize(iser::IArchive& archive)
+{
+	bool isStoring = archive.IsStoring();
+	istd::CChangeNotifier notifier(isStoring? NULL: this);
+
+	int pagesCount = GetParamsSetsCount();
+
+	if (!isStoring){
+		int currentPageIndex = BaseClass::GetSelectedOptionIndex();
+
+		iproc::IStateController* currentPageInfoPtr = NULL;
+		if ((currentPageIndex >= 0) && (currentPageIndex < pagesCount)){
+			currentPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(currentPageIndex));
+		}
+
+		if (currentPageInfoPtr != NULL){
+			currentPageInfoPtr->TryLeaveState(false);
+		}
+	}
+
+	bool retVal = BaseClass::Serialize(archive);
+
+	if (!isStoring){
+		int index = BaseClass::GetSelectedOptionIndex();
+
+		iproc::IStateController* nextPageInfoPtr = NULL;
+		if ((index >= 0) && (index < pagesCount)){
+			nextPageInfoPtr = CompCastPtr<iproc::IStateController>(GetParamsSet(index));
+		}
+
+		if ((nextPageInfoPtr == NULL) || nextPageInfoPtr->TryEnterState(false)){
+			BaseClass::SetSelectedOptionIndex(index);
+		}
+		else{
+			BaseClass::SetSelectedOptionIndex(-1);
+		}
+	}
+
+	return retVal;
+}
+
+
 } // namespace iwiz
 
 

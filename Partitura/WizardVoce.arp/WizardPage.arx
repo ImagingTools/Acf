@@ -24,7 +24,7 @@
         WizardPck
       </PackageId>
       <ComponentId>
-        WizardPage
+        ComposedStateController
       </ComponentId>
       <Data>
         <IsEnabled>

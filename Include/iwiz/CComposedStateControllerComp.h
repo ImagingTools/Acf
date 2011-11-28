@@ -1,5 +1,5 @@
-#ifndef iwiz_CWizardPageComp_included
-#define iwiz_CWizardPageComp_included
+#ifndef iwiz_CComposedStateControllerComp_included
+#define iwiz_CComposedStateControllerComp_included
 
 
 #include "imod/CMultiModelDispatcherBase.h"
@@ -17,7 +17,7 @@ namespace iwiz
 /**
 	Component implementation of a wizard page.
 */
-class CWizardPageComp:
+class CComposedStateControllerComp:
 			public iprm::CComposedParamsSetComp,
 			protected imod::CMultiModelDispatcherBase,
 			virtual public iproc::IStateController
@@ -26,13 +26,13 @@ public:
 	typedef iprm::CComposedParamsSetComp BaseClass;
 	typedef imod::CMultiModelDispatcherBase BaseClass2;
 
-	I_BEGIN_COMPONENT(CWizardPageComp);
+	I_BEGIN_COMPONENT(CComposedStateControllerComp);
 		I_REGISTER_INTERFACE(iproc::IStateController);
 		I_ASSIGN_MULTI_0(m_slaveControllersCompPtr, "SlaveControllers", "State controllers used to calculation general page state", true);
 		I_ASSIGN_TO(m_slaveControllerModelsCompPtr, m_slaveControllersCompPtr, true);
 	I_END_COMPONENT;
 
-	CWizardPageComp();
+	CComposedStateControllerComp();
 
 	// reimplemented (iproc::IStateController)
 	virtual bool IsStateEnabled() const;
@@ -66,6 +66,6 @@ private:
 } // namespace iwiz
 
 
-#endif // !iwiz_CWizardPageComp_included
+#endif // !iwiz_CComposedStateControllerComp_included
 
 

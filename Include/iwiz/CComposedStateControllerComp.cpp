@@ -1,4 +1,4 @@
-#include "iwiz/CWizardPageComp.h"
+#include "iwiz/CComposedStateControllerComp.h"
 
 
 // ACF includes
@@ -11,7 +11,7 @@ namespace iwiz
 
 // public methods
 
-CWizardPageComp::CWizardPageComp()
+CComposedStateControllerComp::CComposedStateControllerComp()
 :	m_isStateEnabled(true),
 	m_isStateActive(false)
 {
@@ -20,19 +20,19 @@ CWizardPageComp::CWizardPageComp()
 
 // reimplemented (iproc::IStateController)
 
-bool CWizardPageComp::IsStateEnabled() const
+bool CComposedStateControllerComp::IsStateEnabled() const
 {
 	return m_isStateEnabled;
 }
 
 
-bool CWizardPageComp::IsStateActive() const
+bool CComposedStateControllerComp::IsStateActive() const
 {
 	return m_isStateActive;
 }
 
 
-bool CWizardPageComp::IsEnterAllowed(bool isActionAllowed, const IStateController* prevStatePtr) const
+bool CComposedStateControllerComp::IsEnterAllowed(bool isActionAllowed, const IStateController* prevStatePtr) const
 {
 	if (m_isStateActive){
 		return false;
@@ -57,12 +57,8 @@ bool CWizardPageComp::IsEnterAllowed(bool isActionAllowed, const IStateControlle
 }
 
 
-bool CWizardPageComp::IsLeaveAllowed(bool isActionAllowed, const IStateController* nextStatePtr) const
+bool CComposedStateControllerComp::IsLeaveAllowed(bool isActionAllowed, const IStateController* nextStatePtr) const
 {
-	if (!m_isStateActive){
-		return false;
-	}
-
 	if (isActionAllowed && m_processOnLeaveCompPtr.IsValid()){
 		if (		(m_processOnLeaveCompPtr->GetProcessorState(this) != iproc::IProcessor::PS_READY) ||
 					!m_processOnLeaveCompPtr->AreParamsAccepted(this, NULL, NULL)){
@@ -82,7 +78,7 @@ bool CWizardPageComp::IsLeaveAllowed(bool isActionAllowed, const IStateControlle
 }
 
 
-bool CWizardPageComp::TryEnterState(bool isActionAllowed, const IStateController* /*prevStatePtr*/)
+bool CComposedStateControllerComp::TryEnterState(bool isActionAllowed, const IStateController* /*prevStatePtr*/)
 {
 	if (m_isStateActive){
 		return false;
@@ -104,7 +100,7 @@ bool CWizardPageComp::TryEnterState(bool isActionAllowed, const IStateController
 }
 
 
-bool CWizardPageComp::TryLeaveState(bool isActionAllowed, const IStateController* /*nextStatePtr*/)
+bool CComposedStateControllerComp::TryLeaveState(bool isActionAllowed, const IStateController* /*nextStatePtr*/)
 {
 	if (!m_isStateActive){
 		return false;
@@ -128,7 +124,7 @@ bool CWizardPageComp::TryLeaveState(bool isActionAllowed, const IStateController
 
 // protected methods
 
-void CWizardPageComp::UpdateAllMembers()
+void CComposedStateControllerComp::UpdateAllMembers()
 {
 	bool isEnabled = false;
 
@@ -146,7 +142,7 @@ void CWizardPageComp::UpdateAllMembers()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CWizardPageComp::OnModelChanged(int /*modelId*/, int changeFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+void CComposedStateControllerComp::OnModelChanged(int /*modelId*/, int changeFlags, istd::IPolymorphic* /*updateParamsPtr*/)
 {
 	if ((changeFlags & (CF_STATE_ENTERED | CF_STATE_LEAVED | CF_GRAPH_CHANGED)) != 0){
 		istd::CChangeNotifier notifier(this, changeFlags);
@@ -158,7 +154,7 @@ void CWizardPageComp::OnModelChanged(int /*modelId*/, int changeFlags, istd::IPo
 
 // reimplemented (icomp::CComponentBase)
 
-void CWizardPageComp::OnComponentCreated()
+void CComposedStateControllerComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
@@ -174,7 +170,7 @@ void CWizardPageComp::OnComponentCreated()
 }
 
 
-void CWizardPageComp::OnComponentDestroyed()
+void CComposedStateControllerComp::OnComponentDestroyed()
 {
 	BaseClass2::UnregisterAllModels();
 

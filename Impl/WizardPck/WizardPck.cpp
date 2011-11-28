@@ -21,9 +21,9 @@ I_EXPORT_COMPONENT(
 			"Wizard Parameter" IM_CATEGORY(I_DATA_MODEL));
 
 I_EXPORT_COMPONENT(
-			WizardPage,
-			"Single wizard page data",
-			"Wizard Parameter" IM_CATEGORY(I_DATA_MODEL));
+			ComposedStateController,
+			"State controller composing other state controller implementations to provide single state",
+			"State Parameter Composition Composed Graph" IM_CATEGORY(I_DATA_MODEL));
 
 I_EXPORT_COMPONENT(
 			SelectionConsistencyController,

@@ -345,7 +345,9 @@ void TGuiObserverWrap<Gui, Observer>::DoUpdate(int updateFlags)
 {
 	bool skipUpdate = false;
 	if ((m_updateFilter != 0) && (updateFlags != 0)){
-		skipUpdate = ((m_updateFilter & updateFlags) == 0);
+		if ((updateFlags & CF_INIT_EDITOR) == 0){
+			skipUpdate = ((m_updateFilter & updateFlags) == 0);
+		}
 	}
 
 	if (!skipUpdate){

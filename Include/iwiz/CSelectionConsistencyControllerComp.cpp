@@ -15,9 +15,7 @@ namespace iwiz
 
 bool CSelectionConsistencyControllerComp::IsStateEnabled() const
 {
-	EnsureCacheValid();
-
-	return m_isStateEnabled;
+	return true;
 }
 
 
@@ -81,23 +79,14 @@ void CSelectionConsistencyControllerComp::OnComponentCreated()
 
 	m_isCacheValid = false;
 
-	m_isStateEnabled = false;
 	m_isEnterAllowed = false;
 	m_isLeaveAllowed = false;
 
 	BaseClass::OnComponentCreated();
 
-	int enablingParamModelsCount = m_enablingParamModelsCompPtr.GetCount();
-	for (int i = 0; i < enablingParamModelsCount; ++i){
-		imod::IModel* modelPtr = m_enablingParamModelsCompPtr[i];
-		if (modelPtr != NULL){
-			modelPtr->AttachObserver(this);
-		}
-	}
-
-	int enterCondParamModelsCount = m_enterCondParamModelsCompPtr.GetCount();
+	int enterCondParamModelsCount = m_enterDependenciesModelCompPtr.GetCount();
 	for (int i = 0; i < enterCondParamModelsCount; ++i){
-		imod::IModel* modelPtr = m_enterCondParamModelsCompPtr[i];
+		imod::IModel* modelPtr = m_enterDependenciesModelCompPtr[i];
 		if (modelPtr != NULL){
 			modelPtr->AttachObserver(this);
 		}
@@ -108,30 +97,6 @@ void CSelectionConsistencyControllerComp::OnComponentCreated()
 		imod::IModel* modelPtr = m_leaveCondParamModelsCompPtr[i];
 		if (modelPtr != NULL){
 			modelPtr->AttachObserver(this);
-		}
-	}
-
-	int enablingParamsCount = m_enablingParamsCompPtr.GetCount();
-	for (int i = 0; i < enablingParamsCount; ++i){
-		const iprm::ISelectionParam* paramPtr = m_enablingParamsCompPtr[i];
-		if (paramPtr != NULL){
-			imod::IModel* contraintsModelPtr =
-						const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(paramPtr->GetSelectionConstraints()));
-			if (contraintsModelPtr != NULL){
-				contraintsModelPtr->AttachObserver(this);
-			}
-		}
-	}
-
-	int enterCondParamsCount = m_enterCondParamsCompPtr.GetCount();
-	for (int i = 0; i < enterCondParamsCount; ++i){
-		const iprm::ISelectionParam* paramPtr = m_enterCondParamsCompPtr[i];
-		if (paramPtr != NULL){
-			imod::IModel* contraintsModelPtr =
-						const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(paramPtr->GetSelectionConstraints()));
-			if (contraintsModelPtr != NULL){
-				contraintsModelPtr->AttachObserver(this);
-			}
 		}
 	}
 
@@ -162,24 +127,15 @@ void CSelectionConsistencyControllerComp::OnComponentDestroyed()
 void CSelectionConsistencyControllerComp::EnsureCacheValid() const
 {
 	if (!m_isCacheValid){
-		m_isStateEnabled = true;
 		m_isEnterAllowed = true;
 		m_isLeaveAllowed = true;
 
-		int enablingParamsCount = m_enablingParamsCompPtr.GetCount();
-		for (int i = 0; i < enablingParamsCount; ++i){
-			const iprm::ISelectionParam* paramPtr = m_enablingParamsCompPtr[i];
-			if ((paramPtr != NULL) && !CheckParamConsistency(*paramPtr)){
-				m_isStateEnabled = false;
-				break;
-			}
-		}
-
-		int enterCondParamsCount = m_enterCondParamsCompPtr.GetCount();
+		int enterCondParamsCount = m_enterDependenciesCompPtr.GetCount();
 		for (int i = 0; i < enterCondParamsCount; ++i){
-			const iprm::ISelectionParam* paramPtr = m_enterCondParamsCompPtr[i];
-			if ((paramPtr != NULL) && !CheckParamConsistency(*paramPtr)){
+			const iproc::IStateController* controllerPtr = m_enterDependenciesCompPtr[i];
+			if ((controllerPtr != NULL) && !controllerPtr->IsLeaveAllowed()){
 				m_isEnterAllowed = false;
+				m_isLeaveAllowed = false;
 				break;
 			}
 		}
