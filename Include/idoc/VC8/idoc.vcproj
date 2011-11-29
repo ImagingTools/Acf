@@ -4,7 +4,6 @@
 	Version="8,00"
 	Name="idoc"
 	ProjectGUID="{CEB219AC-442A-4B4C-8324-719352C0922B}"
-	SccLocalPath="..\iwin"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -40,7 +39,6 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="./iwin/ReleaseVC7/iwin.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -113,7 +111,6 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName="./iwin/DebugVC7/iwin.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
