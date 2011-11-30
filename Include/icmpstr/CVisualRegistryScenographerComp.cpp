@@ -716,11 +716,6 @@ void CVisualRegistryScenographerComp::OnCopyCommand()
 		return;
 	}
 
-	ElementIds::const_iterator firstIter = m_selectedElementIds.begin();
-	if (firstIter == m_selectedElementIds.end()){
-		return;
-	}
-
 	QClipboard* clipboardPtr = QApplication::clipboard();
 	if (clipboardPtr != NULL){
 		iser::CXmlStringWriteArchive archive(NULL, false);
