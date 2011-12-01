@@ -33,15 +33,17 @@ public:
 	*/
 	int GetModelCount() const;
 
+	/**
+		Remove all observed models from this bridge.
+	*/
+	void EnsureModelsDetached();
+
 	// reimplemented (imod::IObserver)
 	virtual bool IsModelAttached(const imod::IModel* modelPtr) const;
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	virtual bool OnDetached(imod::IModel* modelPtr);
 	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
-protected:
-	void EnsureModelsDetached();
 
 private:
 	typedef std::vector<imod::IModel*> Models;

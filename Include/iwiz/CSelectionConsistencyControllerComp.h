@@ -53,8 +53,9 @@ protected:
 	void OnComponentCreated();
 	void OnComponentDestroyed();
 
-	// reimplemented (imod::CMultiModelObserverBase)
-	virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	// reimplemented (imod::IObserver)
+	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 private:
 	I_MULTIREF(iproc::IStateController, m_enterDependenciesCompPtr);

@@ -83,10 +83,12 @@ bool CSelectionParamComp::Serialize(iser::IArchive& archive)
 		if (		m_constraintsCompPtr.IsValid() &&
 					((m_constraintsCompPtr->GetConstraintsFlags() & iprm::ISelectionConstraints::SCF_SUPPORT_UNIQUE_ID) != 0) &&
 					!selectedOptionId.empty()){
-			retVal = retVal && SetSelectedOptionIndexById(selectedOptionId);
+			if (!SetSelectedOptionIndexById(selectedOptionId) && !SetSelectedOptionIndex(selectionOptionIndex)){
+				SetSelectedOptionIndex(-1);
+			}
 		}
 		else{
-			retVal = retVal && SetSelectedOptionIndex(selectionOptionIndex);
+			SetSelectedOptionIndex(selectionOptionIndex);
 		}
 	}
 

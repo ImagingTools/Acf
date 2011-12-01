@@ -32,6 +32,17 @@ int CMultiModelBridgeBase::GetModelCount() const
 }
 
 
+void CMultiModelBridgeBase::EnsureModelsDetached()
+{
+	while (!m_models.empty()){
+		imod::IModel* modelPtr = m_models.front();
+		I_ASSERT(modelPtr != NULL);
+
+		modelPtr->DetachObserver(this);
+	}
+}
+
+
 // reimplemented (imod::IObserver)
 
 bool CMultiModelBridgeBase::IsModelAttached(const imod::IModel* modelPtr) const
@@ -86,19 +97,6 @@ void CMultiModelBridgeBase::AfterUpdate(IModel* I_IF_DEBUG(modelPtr), int update
 	I_ASSERT(IsModelAttached(modelPtr));
 
 	EndChanges(updateFlags | CF_DELEGATED, updateParamsPtr);
-}
-
-
-// protected methods
-
-void CMultiModelBridgeBase::EnsureModelsDetached()
-{
-	while (!m_models.empty()){
-		imod::IModel* modelPtr = m_models.front();
-		I_ASSERT(modelPtr != NULL);
-
-		modelPtr->DetachObserver(this);
-	}
 }
 
 

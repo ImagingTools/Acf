@@ -87,7 +87,7 @@ void CSelectionConsistencyControllerComp::OnComponentCreated()
 	int enterCondParamModelsCount = m_enterDependenciesModelCompPtr.GetCount();
 	for (int i = 0; i < enterCondParamModelsCount; ++i){
 		imod::IModel* modelPtr = m_enterDependenciesModelCompPtr[i];
-		if (modelPtr != NULL){
+		if ((modelPtr != NULL) && !modelPtr->IsAttached(this)){
 			modelPtr->AttachObserver(this);
 		}
 	}
@@ -95,7 +95,7 @@ void CSelectionConsistencyControllerComp::OnComponentCreated()
 	int leaveCondParamModelsCount = m_leaveCondParamModelsCompPtr.GetCount();
 	for (int i = 0; i < leaveCondParamModelsCount; ++i){
 		imod::IModel* modelPtr = m_leaveCondParamModelsCompPtr[i];
-		if (modelPtr != NULL){
+		if ((modelPtr != NULL) && !modelPtr->IsAttached(this)){
 			modelPtr->AttachObserver(this);
 		}
 	}
@@ -106,7 +106,7 @@ void CSelectionConsistencyControllerComp::OnComponentCreated()
 		if (paramPtr != NULL){
 			imod::IModel* contraintsModelPtr =
 						const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(paramPtr->GetSelectionConstraints()));
-			if (contraintsModelPtr != NULL){
+			if ((contraintsModelPtr != NULL) && !contraintsModelPtr->IsAttached(this)){
 				contraintsModelPtr->AttachObserver(this);
 			}
 		}
@@ -173,9 +173,15 @@ bool CSelectionConsistencyControllerComp::CheckParamConsistency(const iprm::ISel
 }
 
 
-// reimplemented (imod::CMultiModelObserverBase)
+// reimplemented (imod::IObserver)
 
-void CSelectionConsistencyControllerComp::OnUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSelectionConsistencyControllerComp::BeforeUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	m_isCacheValid = false;
+}
+
+
+void CSelectionConsistencyControllerComp::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
 	m_isCacheValid = false;
 }

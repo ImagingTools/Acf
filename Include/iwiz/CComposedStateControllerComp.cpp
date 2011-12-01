@@ -69,7 +69,7 @@ bool CComposedStateControllerComp::IsLeaveAllowed(bool isActionAllowed, const IS
 	int slavesCount = m_slaveControllersCompPtr.GetCount();
 	for (int i = 0; i < slavesCount; ++i){
 		const iproc::IStateController* slaveConstrollerPtr = m_slaveControllersCompPtr[i];
-		if ((slaveConstrollerPtr != NULL) && !slaveConstrollerPtr->IsEnterAllowed(isActionAllowed)){
+		if ((slaveConstrollerPtr != NULL) && !slaveConstrollerPtr->IsLeaveAllowed(isActionAllowed)){
 			return false;	// if any subcontroller block leaving this state, it will be blocked
 		}
 	}
