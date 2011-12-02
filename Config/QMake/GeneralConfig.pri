@@ -8,6 +8,7 @@ CONFIG += rtti
 COMPILER_NAME = QMake
 win32-msvc*{
 	COMPILER_NAME = VC
+	QMAKE_CXXFLAGS += /wd4250 /wd4355 /wd4505 /wd4510 /wd4511 /wd4512 /wd4127 /wd4702
 
 	win32-msvc2005{
 		COMPILER_NAME = VC8
