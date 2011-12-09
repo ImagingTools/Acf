@@ -3,6 +3,7 @@
 
 
 #include "icomp/IComponent.h"
+#include "icomp/ICompositeComponent.h"
 #include "icomp/CInterfaceManipBase.h"
 #include "icomp/CComponentContext.h"
 
