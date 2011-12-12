@@ -201,21 +201,6 @@ I_EXPORT_COMPONENT(
 			"Multiple Model Observer Composite Template MVC" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Document"));
 
 I_EXPORT_COMPONENT(
-			ComposedAuthorizationVerifier,
-			"Allows to combine many authorization versifiers.",
-			"Verifier Right Security" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Authorization Composition"));
-
-I_EXPORT_COMPONENT(
-			FixedAuthorisationVerifier,
-			"Authorization verifier with fixed rights",
-			"Simple Verifier Fixed Right Security" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Authorization"));
-
-I_EXPORT_COMPONENT(
-			StaticUserLogin,
-			"Authorization verifier delegating authorisation request depent on logged user",
-			"User Login Verifier Right Security" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Authorization"));
-
-I_EXPORT_COMPONENT(
 			Line,
 			"Line 2D object",
 			"Line Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
