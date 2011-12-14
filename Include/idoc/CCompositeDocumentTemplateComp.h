@@ -24,15 +24,19 @@ public:
 		I_ASSIGN_MULTI_0(m_slaveTemplatesCompPtr, "SlaveTemplates", "Set of document templates", true);
 	I_END_COMPONENT;
 
-	// reimplemented (idoc::IDocumentTemplate)
+	// reimplemented (idoc::IDocumentTypesInfo)
 	virtual bool IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const;
 	virtual Ids GetDocumentTypeIds() const;
 	virtual istd::CString GetDocumentTypeName(const std::string& documentTypeId) const;
+	virtual iser::IFileTypeInfo* GetDocumentFileTypeInfo(const std::string& documentTypeId) const;
+	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
+	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
+
+	// reimplemented (idoc::IDocumentTemplate)
 	virtual Ids GetViewTypeIds(const std::string& documentTypeId) const;
 	virtual istd::CString GetViewTypeName(
 				const std::string& documentTypeId,
 				const std::string& viewTypeId) const;
-	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
 	virtual iser::IFileLoader* GetFileLoader(const std::string& documentTypeId) const;
 	virtual istd::IChangeable* CreateDocument(const std::string& documentTypeId) const;
 	virtual istd::IPolymorphic* CreateView(
@@ -41,7 +45,6 @@ public:
 				const std::string& viewTypeId = std::string()) const;
 	virtual imod::IUndoManager* CreateUndoManager(const std::string& documentTypeId, istd::IChangeable* documentPtr) const;
 	virtual IDocumentStateComparator* CreateStateComparator(const std::string& documentTypeId) const;
-	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

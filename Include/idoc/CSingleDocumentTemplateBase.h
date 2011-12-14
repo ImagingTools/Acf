@@ -31,17 +31,20 @@ public:
 	virtual void SetViewTypeName(const istd::CString& name);
 	virtual void SetDefaultDirectory(const istd::CString& defaultDirectory);
 
-	// reimplemented (idoc::IDocumentTemplate)
+	// reimplemented (idoc::IDocumentTypesInfo)
 	virtual bool IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const;
 	virtual Ids GetDocumentTypeIds() const;
 	virtual istd::CString GetDocumentTypeName(const std::string& documentTypeId) const;
+	virtual iser::IFileTypeInfo* GetDocumentFileTypeInfo(const std::string& documentTypeId) const;
+	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
+	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
+
+	// reimplemented (idoc::IDocumentTemplate)
 	virtual Ids GetViewTypeIds(const std::string& documentTypeId) const;
 	virtual istd::CString GetViewTypeName(
 				const std::string& documentTypeId,
 				const std::string& viewTypeId) const;
-	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const;
 	virtual IDocumentStateComparator* CreateStateComparator(const std::string& documentTypeId) const;
-	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const;
 
 protected:
 	bool IsDocumentTypeSupported(const std::string& documentTypeId) const;

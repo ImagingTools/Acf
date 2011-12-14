@@ -2,28 +2,11 @@
 
 
 // Qt includes
-#include <QMessageBox>
 #include <QFileInfo>
-#include <QAction>
 
 
 namespace iqtdoc
 {
-
-
-CExtendedDocumentTemplateComp::CExtendedDocumentTemplateComp()
-:	m_globalMenuCommands("Global")
-{
-	m_globalMenuCommands.SetEnabled(false);
-}
-
-
-// reimplemented (ibase::ICommandsProvider)
-
-const ibase::IHierarchicalCommand* CExtendedDocumentTemplateComp::GetCommands() const
-{
-	return &m_globalMenuCommands;
-}
 
 
 // reimplemented (idoc::IDocumentTemplate)
@@ -58,42 +41,6 @@ idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsFo
 	}
 
 	return retVal;
-}
-
-
-// reimplemented (icomp::CComponentBase)
-
-void CExtendedDocumentTemplateComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-
-	m_aboutCommandText = istd::CString("About ") + *m_aboutCommandTextAttrPtr + istd::CString("...");
-
-	I_ASSERT(m_aboutCommandTextAttrPtr.IsValid());
-	if (m_aboutGuiCompPtr.IsValid()){
-		iqtgui::CHierarchicalCommand* aboutMenuPtr = new iqtgui::CHierarchicalCommand("&Help");
-		iqtgui::CHierarchicalCommand* aboutCommandPtr = new iqtgui::CHierarchicalCommand(m_aboutCommandText);
-		aboutCommandPtr->setMenuRole(QAction::AboutRole);
-
-		connect(aboutCommandPtr, SIGNAL(activated()), this, SLOT(OnAboutCommand()));
-
-		aboutMenuPtr->InsertChild(aboutCommandPtr, true);
-		m_globalMenuCommands.InsertChild(aboutMenuPtr, true);
-	}
-}
-
-
-// protected slots
-
-void CExtendedDocumentTemplateComp::OnAboutCommand()
-{
-	I_ASSERT(m_aboutGuiCompPtr.IsValid());
-
-	QMessageBox messageBox(QMessageBox::NoIcon, iqt::GetQString(m_aboutCommandText), "");
-	if (m_aboutGuiCompPtr->CreateGui(&messageBox)){
-		messageBox.exec();
-		m_aboutGuiCompPtr->DestroyGui();
-	}
 }
 
 

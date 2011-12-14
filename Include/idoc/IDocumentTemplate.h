@@ -3,7 +3,6 @@
 
 
 #include "istd/IChangeable.h"
-#include "istd/TIFactory.h"
 #include "istd/CString.h"
 
 #include "iser/IFileLoader.h"
@@ -13,6 +12,7 @@
 
 #include "ibase/ICommand.h"
 
+#include "idoc/IDocumentTypesInfo.h"
 #include "idoc/IDocumentStateComparator.h"
 
 
@@ -23,47 +23,9 @@ namespace idoc
 /**
 	Document template creating and controling views and models.
 */
-class IDocumentTemplate: virtual public istd::IPolymorphic
+class IDocumentTemplate: virtual public IDocumentTypesInfo
 {
 public:
-	typedef std::vector<std::string> Ids;
-
-	/**
-		Enumeration for supported types of operation with the document.
-	*/
-	enum SupportedFeatures
-	{
-		/**
-			A new document can be created.
-		*/
-		SF_NEW_DOCUMENT = 0x0001,
-
-		/**
-			A document is editable.
-		*/
-		SF_EDIT_DOCUMENT = 0x0010,
-
-		/**
-			All features are supported.
-		*/
-		SF_DEFAULT = 0xffff
-	};
-
-	/**
-		Return \c true, if the feature(s) is supported by this document template.
-	*/
-	virtual bool IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const = 0;
-
-	/**
-		Get list of supported document ID's can be created for specified file.
-	*/
-	virtual Ids GetDocumentTypeIds() const = 0;
-
-	/**
-		Get human readable name of some document type ID.
-	*/
-	virtual istd::CString GetDocumentTypeName(const std::string& documentTypeId) const = 0;
-
 	/**
 		Return supported view type IDs for specified document type.
 		\param	documentTypeId	ID of document type.
@@ -76,11 +38,6 @@ public:
 	virtual istd::CString GetViewTypeName(
 				const std::string& documentTypeId,
 				const std::string& viewTypeId) const = 0;
-
-	/**
-		Get list of supported document ID's can be created for specified file.
-	*/
-	virtual Ids GetDocumentTypeIdsForFile(const istd::CString& filePath) const = 0;
 
 	/**
 		Get file loader/saver for spacified document ID.
@@ -117,13 +74,6 @@ public:
 		Creates a document state comparator.
 	*/
 	virtual IDocumentStateComparator* CreateStateComparator(const std::string& documentTypeId) const = 0;
-
-	/**
-		Return default directory for specified document type.
-		\param	sugestedDir			template directory sugested by user.
-		\param	documentTypeIdPtr	optional ID of document type.
-	*/
-	virtual istd::CString GetDefaultDirectory(const istd::CString& sugestedDir = "", const std::string* documentTypeIdPtr = NULL) const = 0;
 };
 
 

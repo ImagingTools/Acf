@@ -81,31 +81,28 @@ bool CMainWindowGuiComp::OnAttached(imod::IModel* modelPtr)
 
 			const idoc::IDocumentManager* managerPtr = GetObjectPtr();
 			if (managerPtr != NULL){
-				const idoc::IDocumentTemplate* templatePtr = managerPtr->GetDocumentTemplate();
-				if (templatePtr != NULL){
-					idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-					for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
-								iter != ids.end();
-								++iter){
-						const std::string& documentTypeId = *iter;
-						I_ASSERT(!documentTypeId.empty());
+				idoc::IDocumentTypesInfo::Ids ids = managerPtr->GetDocumentTypeIds();
+				for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
+							iter != ids.end();
+							++iter){
+					const std::string& documentTypeId = *iter;
+					I_ASSERT(!documentTypeId.empty());
 
-						RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+					RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
 
-						istd::CString documentTypeName = templatePtr->GetDocumentTypeName(documentTypeId);
+					istd::CString documentTypeName = managerPtr->GetDocumentTypeName(documentTypeId);
 
-						QString recentListTitle = (ids.size() > 1)?
-									tr("Recent %1 Files").arg(iqt::GetQString(documentTypeName)):
-									tr("Recent Files");
-						iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
+					QString recentListTitle = (ids.size() > 1)?
+								tr("Recent %1 Files").arg(iqt::GetQString(documentTypeName)):
+								tr("Recent Files");
+					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(iqt::GetCString(recentListTitle));
 
-						if (fileListCommandPtr != NULL){
-							fileListCommandPtr->SetPriority(130);
+					if (fileListCommandPtr != NULL){
+						fileListCommandPtr->SetPriority(130);
 
-							groupCommandPtr.SetPtr(fileListCommandPtr);
+						groupCommandPtr.SetPtr(fileListCommandPtr);
 
-							m_fileCommand.InsertChild(fileListCommandPtr, false);
-						}
+						m_fileCommand.InsertChild(fileListCommandPtr, false);
 					}
 				}
 			}
@@ -231,13 +228,10 @@ void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 			istd::CString filePath = iqt::GetCString(files.at(fileIndex).toLocalFile());
 
 			if (m_documentManagerCompPtr.IsValid()){
-				const idoc::IDocumentTemplate* documentTemplatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-				if (documentTemplatePtr != NULL){
-					idoc::IDocumentTemplate::Ids availableDocumentIds = documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
-					if (!availableDocumentIds.empty()){
+				idoc::IDocumentTypesInfo::Ids availableDocumentIds = m_documentManagerCompPtr->GetDocumentTypeIdsForFile(filePath);
+				if (!availableDocumentIds.empty()){
 
-						OpenFile(filePath);
-					}
+					OpenFile(filePath);
 				}
 			}
 		}
@@ -251,30 +245,25 @@ void CMainWindowGuiComp::SetupNewCommand()
 		return;
 	}
 	
-	const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-	if (templatePtr == NULL){
-		return;
-	}
-	
-	idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
+	idoc::IDocumentTypesInfo::Ids ids = m_documentManagerCompPtr->GetDocumentTypeIds();
 	if (ids.empty()){
 		return;
 	}
 
 	m_newCommand.SetGroupId(GI_DOCUMENT);
 
-	bool isNewSupported = templatePtr->IsFeatureSupported(idoc::IDocumentTemplate::SF_NEW_DOCUMENT, ids.front());
+	bool isNewSupported = m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, ids.front());
 
 	if (ids.size() > 1){
-		for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
+		for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
 					iter != ids.end();
 					++iter){
 			const std::string& documentTypeId = *iter;
 
-			if (templatePtr->IsFeatureSupported(idoc::IDocumentTemplate::SF_NEW_DOCUMENT, documentTypeId)){
+			if (m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, documentTypeId)){
 				NewDocumentCommand* newCommandPtr = new NewDocumentCommand(this, documentTypeId);
 				if (newCommandPtr != NULL){
-					QString commandName = iqt::GetQString(templatePtr->GetDocumentTypeName(documentTypeId));
+					QString commandName = iqt::GetQString(m_documentManagerCompPtr->GetDocumentTypeName(documentTypeId));
 					newCommandPtr->SetVisuals(commandName, commandName, tr("Creates new document %1").arg(commandName));
 					m_newCommand.InsertChild(newCommandPtr, true);
 
@@ -296,12 +285,7 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 		return false;
 	}
 
-	const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-	if (templatePtr == NULL){
-		return false;
-	}
-
-	idoc::IDocumentTemplate::Ids documentTypeIds = templatePtr->GetDocumentTypeIds();
+	idoc::IDocumentTypesInfo::Ids documentTypeIds = m_documentManagerCompPtr->GetDocumentTypeIds();
 	if (documentTypeIds.empty()){
 		return false;
 	}
@@ -503,8 +487,7 @@ void CMainWindowGuiComp::UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixed
 			if (m_documentManagerCompPtr.IsValid()){
 				std::string documentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*m_activeDocumentPtr);
 					
-				const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-				if ((templatePtr != NULL) && templatePtr->IsFeatureSupported(idoc::IDocumentTemplate::SF_EDIT_DOCUMENT, documentTypeId)){
+				if (m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_EDIT_DOCUMENT, documentTypeId)){
 					fixedCommands.InsertChild(&m_editCommand, false, 1);
 				}
 			}
@@ -543,15 +526,6 @@ void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCom
 
 	if (m_documentManagerCompPtr.IsValid()){
 		allowedOperationFlags = m_documentManagerCompPtr->GetAllowedOperationFlags();
-
-		const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-		const ibase::ICommandsProvider* templateProviderPtr = CompCastPtr<ibase::ICommandsProvider>(templatePtr);
-		if (templateProviderPtr != NULL){
-			const ibase::IHierarchicalCommand* commandsPtr = templateProviderPtr->GetCommands();
-			if (commandsPtr != NULL){
-				menuCommands.JoinLinkFrom(commandsPtr);
-			}
-		}
 	}
 
 	m_newCommand.SetEnabled((allowedOperationFlags & idoc::IDocumentManager::OF_FILE_NEW) != 0);
@@ -752,19 +726,14 @@ void CMainWindowGuiComp::OnNew()
 		return;
 	}
 
-	const idoc::IDocumentTemplate* templatePtr = m_documentManagerCompPtr->GetDocumentTemplate();
-	if (templatePtr == NULL){
-		return;
-	}
-
-	idoc::IDocumentTemplate::Ids ids = templatePtr->GetDocumentTypeIds();
-	for (		idoc::IDocumentTemplate::Ids::const_iterator iter = ids.begin();
+	idoc::IDocumentTypesInfo::Ids ids = m_documentManagerCompPtr->GetDocumentTypeIds();
+	for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
 				iter != ids.end();
 				++iter){
 		const std::string& documentTypeId = *iter;
 		I_ASSERT(!documentTypeId.empty());
 
-		if (templatePtr->IsFeatureSupported(idoc::IDocumentTemplate::SF_NEW_DOCUMENT, documentTypeId)){
+		if (m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, documentTypeId)){
 			OnNewDocument(documentTypeId);
 
 			return;

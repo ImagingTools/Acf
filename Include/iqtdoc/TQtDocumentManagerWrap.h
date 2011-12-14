@@ -94,33 +94,30 @@ QString TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilter(const std::str
 {
 	QString retVal;
 
-	const idoc::IDocumentTemplate* templatePtr = BaseClass::GetDocumentTemplate();
-	if (templatePtr != NULL){
-		idoc::IDocumentTemplate::Ids docTypeIds = templatePtr->GetDocumentTypeIds();
+	Ids docTypeIds = BaseClass::GetDocumentTypeIds();
 
-		QString allExt;
-		int filtersCount = 0;
+	QString allExt;
+	int filtersCount = 0;
 
-		if (documentTypeIdPtr != NULL){
-			iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*documentTypeIdPtr);
-			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
+	if (documentTypeIdPtr != NULL){
+		iser::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*documentTypeIdPtr);
+		if (typeInfoPtr != NULL){
+			filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, flags, allExt, retVal);
+		}
+	}
+	else{
+		for (		Ids::const_iterator docTypeIter = docTypeIds.begin();
+					docTypeIter != docTypeIds.end();
+					++docTypeIter){
+			iser::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*docTypeIter);
+			if (typeInfoPtr != NULL){
+				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, flags, allExt, retVal);
 			}
 		}
-		else{
-			for (		idoc::IDocumentTemplate::Ids::const_iterator docTypeIter = docTypeIds.begin();
-						docTypeIter != docTypeIds.end();
-						++docTypeIter){
-				iser::IFileLoader* loaderPtr = templatePtr->GetFileLoader(*docTypeIter);
-				if (loaderPtr != NULL){
-					filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, flags, allExt, retVal);
-				}
-			}
-		}
+	}
 
-		if ((filtersCount > 1) && ((flags & iser::IFileLoader::QF_SAVE) == 0)){
-			retVal = Gui::tr("All known documents (%1)\n").arg(allExt) + retVal;
-		}
+	if ((filtersCount > 1) && ((flags & iser::IFileLoader::QF_SAVE) == 0)){
+		retVal = Gui::tr("All known documents (%1)\n").arg(allExt) + retVal;
 	}
 
 	return retVal;

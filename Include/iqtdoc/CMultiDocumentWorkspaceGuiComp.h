@@ -44,6 +44,7 @@ public:
 
 	I_BEGIN_COMPONENT(CMultiDocumentWorkspaceGuiComp);
 		I_REGISTER_INTERFACE(idoc::IDocumentManager);
+		I_REGISTER_INTERFACE(idoc::IDocumentTypesInfo);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);

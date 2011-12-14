@@ -12,6 +12,7 @@
 
 #include "imod/CSingleModelObserverBase.h"
 
+#include "idoc/IDocumentStateComparator.h"
 #include "idoc/CDocumentManagerBase.h"
 
 
