@@ -17,7 +17,9 @@ namespace icomp
 	Don't use direct this class, use macros \c I_REF and \c I_ASSIGN instead.
 */
 template <class Interface>
-class TReferenceMember: public TAttributeMember<CReferenceAttribute>, public CInterfaceManipBase
+class TReferenceMember:
+			public TAttributeMember<CReferenceAttribute>,
+			protected CInterfaceManipBase
 {
 public:
 	typedef TAttributeMember<CReferenceAttribute> BaseClass;

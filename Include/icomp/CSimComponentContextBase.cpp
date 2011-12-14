@@ -30,16 +30,19 @@ bool CSimComponentContextBase::SetAttr(const std::string& attributeId, const ise
 		return true;
 	}
 
+	delete attributePtr;
+
 	return false;
 }
 
 
-bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent* componentPtr)
+bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent* componentPtr, const std::string& subelementId)
 {
 	I_ASSERT(IsAttributeTypeCorrect<CReferenceAttribute>(referenceId));
 	I_ASSERT(componentPtr != NULL);
 
-	if (SetAttr(referenceId, new CReferenceAttribute(referenceId))){
+	std::string completeId = JoinId(referenceId, subelementId);
+	if (SetAttr(referenceId, new CReferenceAttribute(completeId))){
 		m_componentsMap[referenceId] = componentPtr;
 
 		return true;
@@ -49,7 +52,7 @@ bool CSimComponentContextBase::SetRef(const std::string& referenceId, IComponent
 }
 
 
-bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IComponent* componentPtr)
+bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IComponent* componentPtr, const std::string& subelementId)
 {
 	I_ASSERT(IsAttributeTypeCorrect<CMultiReferenceAttribute>(referenceId));
 
@@ -75,6 +78,7 @@ bool CSimComponentContextBase::InsertMultiRef(const std::string& referenceId, IC
 		istd::CString indexString = istd::CString::FromNumber(multiAttrPtr->GetValuesCount());
 		std::string attributeId = referenceId + '#' + indexString.ToString();
 
+		std::string completeId = JoinId(attributeId, subelementId);
 		multiAttrPtr->InsertValue(attributeId);
 
 		m_componentsMap[attributeId] = componentPtr;
@@ -101,27 +105,27 @@ bool CSimComponentContextBase::SetFactory(const std::string& factoryId, const Co
 }
 
 
-void CSimComponentContextBase::SetBoolAttr(const std::string& attributeId, bool value)
+bool CSimComponentContextBase::SetBoolAttr(const std::string& attributeId, bool value)
 {
-	SetSingleAttr<bool>(attributeId, value);
+	return SetSingleAttr<bool>(attributeId, value);
 }
 
 
-void CSimComponentContextBase::SetIntAttr(const std::string& attributeId, int value)
+bool CSimComponentContextBase::SetIntAttr(const std::string& attributeId, int value)
 {
-	SetSingleAttr<int>(attributeId, value);
+	return SetSingleAttr<int>(attributeId, value);
 }
 
 
-void CSimComponentContextBase::SetDoubleAttr(const std::string& attributeId, double value)
+bool CSimComponentContextBase::SetDoubleAttr(const std::string& attributeId, double value)
 {
-	SetSingleAttr<double>(attributeId, value);
+	return SetSingleAttr<double>(attributeId, value);
 }
 
 
-void CSimComponentContextBase::SetStringAttr(const std::string& attributeId, const istd::CString& value)
+bool CSimComponentContextBase::SetStringAttr(const std::string& attributeId, const istd::CString& value)
 {
-	SetSingleAttr<istd::CString>(attributeId, value);
+	return SetSingleAttr<istd::CString>(attributeId, value);
 }
 
 
@@ -147,6 +151,7 @@ const IComponentContext* CSimComponentContextBase::GetParentContext() const
 
 const iser::IObject* CSimComponentContextBase::GetAttribute(const std::string& attributeId, int* definitionLevelPtr) const
 {
+	// try to find registered attribute
 	const IRegistryElement::AttributeInfo* infoPtr = m_registryElement.GetAttributeInfo(attributeId);
 	if (infoPtr != NULL){
 		if (definitionLevelPtr != NULL){
@@ -155,6 +160,7 @@ const iser::IObject* CSimComponentContextBase::GetAttribute(const std::string& a
 		return infoPtr->attributePtr.GetPtr();
 	}
 
+	// resolve using default attribute value
 	const IAttributeStaticInfo* attributeInfoPtr = m_metaInfo.GetAttributeInfo(attributeId);
 	if (attributeInfoPtr != NULL){
 		if ((attributeInfoPtr->GetAttributeFlags() & IAttributeStaticInfo::AF_OBLIGATORY) != 0){

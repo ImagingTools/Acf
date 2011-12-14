@@ -8,20 +8,23 @@
 #include "istd/CString.h"
 
 #include "istd/TIFactory.h"
+#include "istd/CIdManipBase.h"
 
 #include "icomp/IComponent.h"
 #include "icomp/IComponentContext.h"
 #include "icomp/IComponentStaticInfo.h"
-#include "icomp/CRegistryElement.h"
 #include "icomp/TAttribute.h"
 #include "icomp/TMultiAttribute.h"
+#include "icomp/CRegistryElement.h"
 
 
 namespace icomp
 {
 
 
-class CSimComponentContextBase: public IComponentContext
+class CSimComponentContextBase:
+			public IComponentContext,
+			protected istd::CIdManipBase
 {
 public:
 	typedef istd::TIFactory<icomp::IComponent> ComponentsFactory;
@@ -38,12 +41,12 @@ public:
 	/**
 		Set named reference to some component.
 	*/
-	bool SetRef(const std::string& referenceId, IComponent* componentPtr);
+	bool SetRef(const std::string& referenceId, IComponent* componentPtr, const std::string& subelementId = "");
 
 	/**
 		Set named reference to some component.
 	*/
-	bool InsertMultiRef(const std::string& referenceId, IComponent* componentPtr);
+	bool InsertMultiRef(const std::string& referenceId, IComponent* componentPtr, const std::string& subelementId = "");
 
 	/**
 		Set factory of component instance.
@@ -53,22 +56,22 @@ public:
 	/**
 		Set instance of \c bool attribute.
 	*/
-	void SetBoolAttr(const std::string& attributeId, bool value);
+	bool SetBoolAttr(const std::string& attributeId, bool value);
 
 	/**
 		Set instance of \c int attribute.
 	*/
-	void SetIntAttr(const std::string& attributeId, int value);
+	bool SetIntAttr(const std::string& attributeId, int value);
 
 	/**
 		Set instance of \c double attribute.
 	*/
-	void SetDoubleAttr(const std::string& attributeId, double value);
+	bool SetDoubleAttr(const std::string& attributeId, double value);
 
 	/**
 		Set instance of \c istd::CString attribute.
 	*/
-	void SetStringAttr(const std::string& attributeId, const istd::CString& value);
+	bool SetStringAttr(const std::string& attributeId, const istd::CString& value);
 
 	/**
 		Set instance of simple attribute.
