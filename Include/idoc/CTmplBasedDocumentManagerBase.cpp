@@ -1,4 +1,4 @@
-#include "idoc/CDocumentManagerBase.h"
+#include "idoc/CTmplBasedDocumentManagerBase.h"
 
 
 #include "idoc/IDocumentTemplate.h"
@@ -8,7 +8,7 @@ namespace idoc
 {		
 
 
-CDocumentManagerBase::CDocumentManagerBase()
+CTmplBasedDocumentManagerBase::CTmplBasedDocumentManagerBase()
 :	m_documentTemplatePtr(NULL)
 {
 }
@@ -16,7 +16,7 @@ CDocumentManagerBase::CDocumentManagerBase()
 
 // reimplemented (idoc::IDocumentManager)
 
-int CDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr) const
+int CTmplBasedDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr) const
 {
 	int retVal = m_baseAllowedFlags;
 
@@ -63,7 +63,7 @@ int CDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymorphic* vie
 
 // reimplemented (idoc::IDocumentTypesInfo)
 
-bool CDocumentManagerBase::IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const
+bool CTmplBasedDocumentManagerBase::IsFeatureSupported(int featureFlags, const std::string& documentTypeId) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->IsFeatureSupported(featureFlags, documentTypeId);
@@ -73,7 +73,7 @@ bool CDocumentManagerBase::IsFeatureSupported(int featureFlags, const std::strin
 }
 
 
-IDocumentTypesInfo::Ids CDocumentManagerBase::GetDocumentTypeIds() const
+IDocumentTypesInfo::Ids CTmplBasedDocumentManagerBase::GetDocumentTypeIds() const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetDocumentTypeIds();
@@ -83,7 +83,7 @@ IDocumentTypesInfo::Ids CDocumentManagerBase::GetDocumentTypeIds() const
 }
 
 
-istd::CString CDocumentManagerBase::GetDocumentTypeName(const std::string& documentTypeId) const
+istd::CString CTmplBasedDocumentManagerBase::GetDocumentTypeName(const std::string& documentTypeId) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetDocumentTypeName(documentTypeId);
@@ -93,7 +93,7 @@ istd::CString CDocumentManagerBase::GetDocumentTypeName(const std::string& docum
 }
 
 
-iser::IFileTypeInfo* CDocumentManagerBase::GetDocumentFileTypeInfo(const std::string& documentTypeId) const
+iser::IFileTypeInfo* CTmplBasedDocumentManagerBase::GetDocumentFileTypeInfo(const std::string& documentTypeId) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetFileLoader(documentTypeId);
@@ -103,7 +103,7 @@ iser::IFileTypeInfo* CDocumentManagerBase::GetDocumentFileTypeInfo(const std::st
 }
 
 
-IDocumentTypesInfo::Ids CDocumentManagerBase::GetDocumentTypeIdsForFile(const istd::CString& filePath) const
+IDocumentTypesInfo::Ids CTmplBasedDocumentManagerBase::GetDocumentTypeIdsForFile(const istd::CString& filePath) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetDocumentTypeIdsForFile(filePath);
@@ -113,7 +113,7 @@ IDocumentTypesInfo::Ids CDocumentManagerBase::GetDocumentTypeIdsForFile(const is
 }
 
 
-istd::CString CDocumentManagerBase::GetDefaultDirectory(const istd::CString& sugestedDir, const std::string* documentTypeIdPtr) const
+istd::CString CTmplBasedDocumentManagerBase::GetDefaultDirectory(const istd::CString& sugestedDir, const std::string* documentTypeIdPtr) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetDefaultDirectory(sugestedDir, documentTypeIdPtr);
@@ -125,13 +125,13 @@ istd::CString CDocumentManagerBase::GetDefaultDirectory(const istd::CString& sug
 
 // protected methods
 
-const idoc::IDocumentTemplate* CDocumentManagerBase::GetDocumentTemplate() const
+const idoc::IDocumentTemplate* CTmplBasedDocumentManagerBase::GetDocumentTemplate() const
 {
 	return m_documentTemplatePtr;
 }
 
 
-void CDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
+void CTmplBasedDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate* documentTemplatePtr)
 {
 	m_documentTemplatePtr = documentTemplatePtr;
 

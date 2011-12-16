@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include "istd/TIFactory.h"
 #include "istd/TDelPtr.h"
 
 #include "icomp/TAttributeMember.h"
@@ -19,7 +20,10 @@ namespace icomp
 	Don't use direct this class, use macros \c I_FACT and \c I_ASSIGN instead.
 */
 template <class Interface>
-class TFactoryMember: public TAttributeMember<CFactoryAttribute>, public CInterfaceManipBase
+class TFactoryMember:
+			public TAttributeMember<CFactoryAttribute>,
+			public CInterfaceManipBase,
+			virtual public istd::TIFactory<Interface>
 {
 public:
 	typedef TAttributeMember<CFactoryAttribute> BaseClass;
@@ -42,13 +46,6 @@ public:
 	IComponent* CreateComponent() const;
 
 	/**
-		Create instance of this interface.
-		This is combination of the methods CreateComponent() and ExtractInterface()
-		provided for convinience, if only one interface is asked in factorisied objects.
-	*/
-	Interface* CreateInstance() const;
-
-	/**
 		Extract interface from some component.
 		Type of extracted interface is specified by template parameter of this class.
 		If you want to force some factory to support more interfaces, you should simply define
@@ -60,6 +57,12 @@ public:
 		\return	pointer to interface or NULL, if such interface could not be extracted.
 	*/
 	static Interface* ExtractInterface(istd::IPolymorphic* instancePtr, const std::string& subId = "");
+
+	// reimplemented (istd::TIFactory)
+	virtual Interface* CreateInstance(const std::string& keyId = "") const;
+
+	// reimplemented (istd::IFactoryInfo)
+	virtual KeyList GetFactoryKeys() const;
 
 protected:
 	TFactoryMember(const TFactoryMember& ptr);
@@ -115,7 +118,7 @@ IComponent* TFactoryMember<Interface>::CreateComponent() const
 
 
 template <class Interface>
-Interface* TFactoryMember<Interface>::CreateInstance() const
+Interface* TFactoryMember<Interface>::CreateInstance(const std::string& /*keyId*/) const
 {
 	istd::TDelPtr<IComponent> newComponentPtr(CreateComponent());
 	if (newComponentPtr.IsValid()){
@@ -128,6 +131,17 @@ Interface* TFactoryMember<Interface>::CreateInstance() const
 	}
 
 	return NULL;
+}
+
+
+// reimplemented (istd::IFactoryInfo)
+
+template <class Interface>
+istd::IFactoryInfo::KeyList TFactoryMember<Interface>::GetFactoryKeys() const
+{
+	static KeyList defaultList(1, "Component");
+
+	return defaultList;
 }
 
 

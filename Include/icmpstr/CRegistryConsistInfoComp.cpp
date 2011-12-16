@@ -42,10 +42,11 @@ icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleElements(
 				const icomp::IComponentStaticInfo* infoPtr = m_envManagerCompPtr->GetComponentMetaInfo(elementAddress);
 
 				if (infoPtr != NULL){
-					subIds = GetCompatibleSubcomponents(
+					subIds = GetCompatibleIds(
 								elementId,
 								*infoPtr,
-								interfaceNames);
+								interfaceNames,
+								true);
 				}
 				else if (includeUndefined){
 					retVal.insert(elementId);
@@ -62,10 +63,11 @@ icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleElements(
 				}
 
 				icomp::CCompositeComponentStaticInfo info(*embeddedRegistryPtr, *m_envManagerCompPtr);
-				subIds = GetCompatibleSubcomponents(
+				subIds = GetCompatibleIds(
 							elementId,
 							info,
-							interfaceNames);
+							interfaceNames,
+							true);
 			}
 
 			retVal.insert(subIds.begin(), subIds.end());
@@ -389,10 +391,11 @@ QIcon CRegistryConsistInfoComp::GetComponentIcon(const icomp::CComponentAddress&
 
 // protected methods
 
-icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleSubcomponents(
+icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleIds(
 			const std::string& elementId,
 			const icomp::IElementStaticInfo& elementStaticInfo,
-			const icomp::IElementStaticInfo::Ids& interfaceNames) const
+			const icomp::IElementStaticInfo::Ids& interfaceNames,
+			bool subcomponentsFlag) const
 {
 	icomp::IRegistry::Ids retVal;
 
@@ -428,21 +431,24 @@ icomp::IRegistry::Ids CRegistryConsistInfoComp::GetCompatibleSubcomponents(
 		retVal.insert(elementId);
 	}
 
-	const icomp::IElementStaticInfo::Ids subcomponentIds = elementStaticInfo.GetMetaIds(icomp::IComponentStaticInfo::MGI_SUBELEMENTS);
+	if (subcomponentsFlag){
+		const icomp::IElementStaticInfo::Ids subcomponentIds = elementStaticInfo.GetMetaIds(icomp::IComponentStaticInfo::MGI_SUBELEMENTS);
 
-	for (		icomp::IElementStaticInfo::Ids::const_iterator subIter = subcomponentIds.begin();
-				subIter != subcomponentIds.end();
-				++subIter){
-		const std::string& subcomponentId = *subIter;
+		for (		icomp::IElementStaticInfo::Ids::const_iterator subIter = subcomponentIds.begin();
+					subIter != subcomponentIds.end();
+					++subIter){
+			const std::string& subcomponentId = *subIter;
 
-		const icomp::IElementStaticInfo* subcomponentInfoPtr = elementStaticInfo.GetSubelementInfo(subcomponentId);
-		if (subcomponentInfoPtr != NULL){
-			icomp::IRegistry::Ids subIds = GetCompatibleSubcomponents(
-						icomp::CInterfaceManipBase::JoinId(elementId, subcomponentId),
-						*subcomponentInfoPtr,
-						interfaceNames);
+			const icomp::IElementStaticInfo* subcomponentInfoPtr = elementStaticInfo.GetSubelementInfo(subcomponentId);
+			if (subcomponentInfoPtr != NULL){
+				icomp::IRegistry::Ids subIds = GetCompatibleIds(
+							icomp::CInterfaceManipBase::JoinId(elementId, subcomponentId),
+							*subcomponentInfoPtr,
+							interfaceNames,
+							false);
 
-			retVal.insert(subIds.begin(), subIds.end());
+				retVal.insert(subIds.begin(), subIds.end());
+			}
 		}
 	}
 
@@ -532,19 +538,31 @@ bool CRegistryConsistInfoComp::CheckPointedElementCompatibility(
 		const icomp::CComponentAddress& pointedElementAddress = pointedInfoPtr->address;
 		if (!pointedElementAddress.GetPackageId().empty()){
 			const icomp::IElementStaticInfo* pointedMetaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(pointedElementAddress);
-
-			while (!subId.empty()){
-				istd::CIdManipBase::SplitId(std::string(subId), baseId, subId);
-
-				if (pointedMetaInfoPtr != NULL){
-					pointedMetaInfoPtr = pointedMetaInfoPtr->GetSubelementInfo(baseId);
+			if (pointedMetaInfoPtr == NULL){
+				if (reasonConsumerPtr != NULL){
+					reasonConsumerPtr->AddMessage(istd::TSmartPtr<const ibase::IMessage>(new ibase::CMessage(
+								istd::ILogger::MC_ERROR,
+								MI_COMPONENT_NOT_FOUND,
+								iqt::GetCString(tr("Reference or factory '%1' in '%2' is set to %3, but it cannot be resolved")
+											.arg(attributeName.c_str())
+											.arg(elementName.c_str())
+											.arg(pointedElementName.c_str())),
+								iqt::GetCString(tr("Attribute Consistency Check")),
+								0)));
 				}
-				else{
+
+				return false;
+			}
+
+			if (!subId.empty()){
+				pointedMetaInfoPtr = pointedMetaInfoPtr->GetSubelementInfo(subId);
+
+				if (pointedMetaInfoPtr == NULL){
 					if (reasonConsumerPtr != NULL){
 						reasonConsumerPtr->AddMessage(istd::TSmartPtr<const ibase::IMessage>(new ibase::CMessage(
 									istd::ILogger::MC_ERROR,
 									MI_COMPONENT_NOT_FOUND,
-									iqt::GetCString(tr("Reference or factory '%1' in '%2' is set to %3, but it cannot be resolved")
+									iqt::GetCString(tr("Reference or factory '%1' in '%2' is set to %3, but its subelement cannot be found")
 												.arg(attributeName.c_str())
 												.arg(elementName.c_str())
 												.arg(pointedElementName.c_str())),

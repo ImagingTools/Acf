@@ -77,10 +77,15 @@ public:
 	virtual QIcon GetComponentIcon(const icomp::CComponentAddress& address) const;
 
 protected:
-	icomp::IRegistry::Ids GetCompatibleSubcomponents(
+	/**
+		Get list of compatible element ID's.
+		It include also pointed element.
+	*/
+	icomp::IRegistry::Ids GetCompatibleIds(
 				const std::string& elementId,
 				const icomp::IElementStaticInfo& elementStaticInfo,
-				const icomp::IElementStaticInfo::Ids& interfaceNames) const;
+				const icomp::IElementStaticInfo::Ids& interfaceNames,
+				bool subcomponentsFlag) const;
 	bool CheckAttributeCompatibility(
 				const iser::IObject& attribute,
 				const icomp::IAttributeStaticInfo& attributeMetaInfo,

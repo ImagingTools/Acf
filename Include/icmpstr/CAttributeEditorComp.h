@@ -188,7 +188,7 @@ private:
 		virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
 
 	protected:
-		bool SetComponentExportEditor(const std::string& attributeId, QWidget& editor) const;
+		bool SetComponentExportEditor(const std::string& attributeId, const QString& defaultValue, QWidget& editor) const;
 		bool SetAttributeExportEditor(const std::string& id, const std::string& exportId, QWidget& editor) const;
 		bool SetAttributeValueEditor(const std::string& id, int propertyMining, QWidget& editor) const;
 

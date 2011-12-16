@@ -1405,8 +1405,9 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 	item.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
 	item.setText(AC_NAME, elementId.c_str());
 	item.setData(AC_VALUE, AttributeId, QString(globalElementId.c_str()));
+	item.setData(AC_VALUE, AttributeValue, QString(elementId.c_str()));
 	item.setData(AC_VALUE, AttributeMining, AM_EXPORTED_COMP);
-	item.setText(AC_VALUE, GetExportAliases(globalElementId).join(";"));
+	item.setText(AC_VALUE, exportedAliases.join(";"));
 	item.setExpanded(true);
 
 	if (elementMetaInfoPtr != NULL){
@@ -1648,7 +1649,7 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 	}
 
 	if (propertyMining == AM_EXPORTED_COMP){
-		SetComponentExportEditor(attributeName, *editor);
+		SetComponentExportEditor(attributeName, attributeValue.c_str(), *editor);
 	}
 	else if (propertyMining == AM_EXPORTED_ATTR){
 		SetAttributeExportEditor(attributeName, attributeValue, *editor);
@@ -1743,9 +1744,13 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 
 // protected methods of embedded class AttributeItemDelegate
 
-bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportEditor(const std::string& attributeId, QWidget& editor) const
+bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportEditor(const std::string& attributeId, const QString& defaultValue, QWidget& editor) const
 {
 	QString editorValue = m_parent.GetExportAliases(attributeId).join(";");
+
+	if (editorValue.isEmpty()){
+		editorValue = defaultValue;
+	}
 
 	editor.setProperty("text", QVariant(editorValue));
 

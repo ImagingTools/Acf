@@ -170,7 +170,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDocumentManagerBase.cpp"
+				RelativePath="..\CTmplBasedDocumentManagerBase.cpp"
 				>
 			</File>
 			<File
@@ -211,7 +211,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDocumentManagerBase.h"
+				RelativePath="..\CTmplBasedDocumentManagerBase.h"
 				>
 			</File>
 			<File

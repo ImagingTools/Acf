@@ -13,7 +13,7 @@
 #include "imod/IUndoManager.h"
 #include "imod/CSingleModelObserverBase.h"
 
-#include "idoc/CDocumentManagerBase.h"
+#include "idoc/CTmplBasedDocumentManagerBase.h"
 #include "idoc/IDocumentStateComparator.h"
 
 
@@ -21,7 +21,7 @@ namespace idoc
 {
 
 
-class CMultiDocumentManagerBase: public idoc::CDocumentManagerBase
+class CMultiDocumentManagerBase: public idoc::CTmplBasedDocumentManagerBase
 {
 public:
 	CMultiDocumentManagerBase();

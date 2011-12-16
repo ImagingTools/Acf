@@ -1,5 +1,5 @@
-#ifndef idoc_CDocumentManagerBase_included
-#define idoc_CDocumentManagerBase_included
+#ifndef idoc_CTmplBasedDocumentManagerBase_included
+#define idoc_CTmplBasedDocumentManagerBase_included
 
 
 #include "idoc/IDocumentManager.h"
@@ -12,10 +12,14 @@ namespace idoc
 class IDocumentTemplate;
 
 
-class CDocumentManagerBase: virtual public idoc::IDocumentManager
+/**
+	Base implementation of document manager.
+	This implementation base on document template concept.
+*/
+class CTmplBasedDocumentManagerBase: virtual public idoc::IDocumentManager
 {
 public:
-	CDocumentManagerBase();
+	CTmplBasedDocumentManagerBase();
 
 	// reimplemented (idoc::IDocumentManager)
 	virtual int GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr = NULL) const;
@@ -42,6 +46,6 @@ private:
 } // namespace idoc
 
 
-#endif // idoc_CDocumentManagerBase_included
+#endif // idoc_CTmplBasedDocumentManagerBase_included
 
 
