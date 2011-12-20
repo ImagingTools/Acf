@@ -75,6 +75,37 @@ istd::CString CRegistriesManagerComp::GetPackagePath(const std::string& packageI
 }
 
 
+// reimplemented (icomp::IExtRegistriesManager)
+
+icomp::IExtPackagesManager::PathList CRegistriesManagerComp::GetConfigurationPathList(PathType pathType) const
+{
+	switch (pathType){
+	case PT_CONFIG:
+		return m_usedConfigFilesList;
+
+	case PT_PACKAGES_DIR:
+		return m_usedPackageDirsList;
+
+	case PT_PACKAGE:
+		return m_usedPackageFilesList;
+
+	case PT_REGISTRY:
+		return m_usedRegistryFilesList;
+
+	default:
+		break;
+	}
+
+	PathList retVal;
+	retVal.insert(m_usedConfigFilesList.begin(), m_usedConfigFilesList.end());
+	retVal.insert(m_usedPackageDirsList.begin(), m_usedPackageDirsList.end());
+	retVal.insert(m_usedPackageFilesList.begin(), m_usedPackageFilesList.end());
+	retVal.insert(m_usedRegistryFilesList.begin(), m_usedRegistryFilesList.end());
+
+	return retVal;
+}
+
+
 // reimplemented (icomp::IRegistriesManager)
 
 const icomp::IRegistry* CRegistriesManagerComp::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const
@@ -147,8 +178,6 @@ void CRegistriesManagerComp::RegisterPackageFile(const istd::CString& file)
 	else if (fileInfo.isDir()){
 		CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(packageId);
 		if (foundIter == m_compositePackagesMap.end()){
-			icomp::IElementStaticInfo::Ids componentIds;
-
 			QStringList filters;
 			filters.append("*.arx");
 			QDir packageDir(fileInfo.canonicalFilePath());
@@ -156,9 +185,9 @@ void CRegistriesManagerComp::RegisterPackageFile(const istd::CString& file)
 			for (		QStringList::iterator iter = componentFiles.begin();
 						iter != componentFiles.end();
 						++iter){
-				QFileInfo componentFileInfo(*iter);
+				istd::CString correctedPath;
 
-				componentIds.insert(componentFileInfo.baseName().toStdString());
+				CheckAndMarkPath(m_usedRegistryFilesList, packageDir, iqt::GetCString(*iter), correctedPath);
 			}
 
 			m_compositePackagesMap[packageId] = packageDir;
@@ -195,10 +224,13 @@ void CRegistriesManagerComp::RegisterPackagesDir(const istd::CString& path)
 
 bool CRegistriesManagerComp::LoadConfigFile(const istd::CString& configFile)
 {
-	QFileInfo fileInfo(iqt::GetQString(configFile));
+	istd::CString correctedPath;
+	if (!CheckAndMarkPath(m_usedConfigFilesList, QDir(), configFile, correctedPath)){
+		return true;
+	}
 
+	QFileInfo fileInfo(iqt::GetQString(correctedPath));
 	QDir baseDir = fileInfo.absoluteDir();
-
 	QString configFilePath = fileInfo.absoluteFilePath();
 
 	SendVerboseMessage(iqt::GetCString(QObject::tr("Load configuration file: %1").arg(configFilePath)));
@@ -228,10 +260,7 @@ bool CRegistriesManagerComp::LoadConfigFile(const istd::CString& configFile)
 		retVal = retVal && archive.BeginTag(filePathTag);
 		istd::CString filePath;
 		retVal = retVal && archive.Process(filePath);
-		istd::CString correctedPath;
-		if (retVal && CheckAndMarkPath(baseDir, filePath, correctedPath)){
-			LoadConfigFile(correctedPath);
-		}
+		LoadConfigFile(iqt::GetCString(baseDir.absoluteFilePath(iqt::GetQString(filePath))));
 
 		retVal = retVal && archive.EndTag(filePathTag);
 	}
@@ -253,7 +282,7 @@ bool CRegistriesManagerComp::LoadConfigFile(const istd::CString& configFile)
 		istd::CString dirPath;
 		retVal = retVal && archive.Process(dirPath);
 		istd::CString correctedPath;
-		if (retVal && CheckAndMarkPath(baseDir, dirPath, correctedPath)){
+		if (retVal && CheckAndMarkPath(m_usedPackageDirsList, baseDir, dirPath, correctedPath)){
 			RegisterPackagesDir(correctedPath);
 		}
 
@@ -276,7 +305,7 @@ bool CRegistriesManagerComp::LoadConfigFile(const istd::CString& configFile)
 		istd::CString filePath;
 		retVal = retVal && archive.Process(filePath);
 		istd::CString correctedPath;
-		if (retVal && CheckAndMarkPath(baseDir, filePath, correctedPath)){
+		if (retVal && CheckAndMarkPath(m_usedPackageFilesList, baseDir, filePath, correctedPath)){
 			RegisterPackageFile(correctedPath);
 		}
 
@@ -295,7 +324,7 @@ bool CRegistriesManagerComp::LoadConfigFile(const istd::CString& configFile)
 }
 
 
-bool CRegistriesManagerComp::CheckAndMarkPath(const QDir& directory, const istd::CString& path, istd::CString& resultPath) const
+bool CRegistriesManagerComp::CheckAndMarkPath(PathList& pathList, const QDir& directory, const istd::CString& path, istd::CString& resultPath) const
 {
 	SendVerboseMessage(istd::CString("Check path: ") + path);
 
@@ -305,8 +334,8 @@ bool CRegistriesManagerComp::CheckAndMarkPath(const QDir& directory, const istd:
 	istd::CString fullPath = iqt::GetCString(directory.absoluteFilePath(enrolledPath));
 	SendVerboseMessage(istd::CString("Full path: ") + fullPath);
 
-	if (m_usedFilesList.find(fullPath) == m_usedFilesList.end()){
-		m_usedFilesList.insert(fullPath);
+	if (pathList.find(fullPath) == pathList.end()){
+		pathList.insert(fullPath);
 
 		resultPath = fullPath;
 

@@ -96,7 +96,9 @@ bool CPackagesLoaderComp::LoadPackages(const istd::CString& configFilePath)
 	m_realPackagesMap.clear();
 	m_dllCacheMap.clear();
 
-	return LoadConfigFile(m_configFilePath);
+	bool retVal = LoadConfigFile(m_configFilePath);
+
+	return retVal;
 }
 
 

@@ -136,8 +136,11 @@ private:
 	mutable RegistriesMap m_registriesMap;
 	mutable InvRegistriesMap m_invRegistriesMap;
 
-	typedef std::set<istd::CString> UsedFilesList;
-	mutable UsedFilesList m_usedFilesList;
+	/**
+		List of pathes.
+	*/
+	typedef std::set<istd::CString> PathList;
+	mutable PathList m_usedFilesList;
 
 	istd::CString m_configFilePath;
 

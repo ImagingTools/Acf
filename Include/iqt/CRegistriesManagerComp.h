@@ -12,7 +12,7 @@
 
 #include "iser/IFileLoader.h"
 
-#include "icomp/IPackagesManager.h"
+#include "icomp/IExtPackagesManager.h"
 #include "icomp/IRegistriesManager.h"
 #include "icomp/IRegistryLoader.h"
 #include "icomp/CComponentBase.h"
@@ -31,7 +31,7 @@ namespace iqt
 */
 class CRegistriesManagerComp:
 			public ibase::CLoggerComponentBase,
-			virtual public icomp::IPackagesManager,
+			virtual public icomp::IExtPackagesManager,
 			virtual public icomp::IRegistriesManager,
 			virtual public icomp::IRegistryLoader
 {
@@ -45,6 +45,7 @@ public:
 	};
 
 	I_BEGIN_COMPONENT(CRegistriesManagerComp);
+		I_REGISTER_INTERFACE(icomp::IExtPackagesManager);
 		I_REGISTER_INTERFACE(icomp::IPackagesManager);
 		I_REGISTER_INTERFACE(icomp::IRegistriesManager);
 		I_REGISTER_INTERFACE(icomp::IRegistryLoader);
@@ -57,6 +58,9 @@ public:
 	virtual int GetPackageType(const std::string& packageId) const;
 	virtual istd::CString GetPackagePath(const std::string& packageId) const;
 
+	// reimplemented (icomp::IExtRegistriesManager)
+	virtual PathList GetConfigurationPathList(PathType pathType) const;
+
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr = NULL) const;
 
@@ -68,7 +72,7 @@ protected:
 	void RegisterPackagesDir(const istd::CString& subDir);
 	bool LoadConfigFile(const istd::CString& configFile);
 
-	bool CheckAndMarkPath(const QDir& directory, const istd::CString& path, istd::CString& resultPath) const;
+	bool CheckAndMarkPath(PathList& pathList, const QDir& directory, const istd::CString& path, istd::CString& resultPath) const;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
@@ -91,8 +95,10 @@ private:
 
 	mutable RegistriesMap m_registriesMap;
 
-	typedef std::set<istd::CString> UsedFilesList;
-	mutable UsedFilesList m_usedFilesList;
+	mutable PathList m_usedConfigFilesList;
+	mutable PathList m_usedPackageDirsList;
+	mutable PathList m_usedPackageFilesList;
+	mutable PathList m_usedRegistryFilesList;
 
 	I_REF(iser::IFileLoader, m_registryLoaderCompPtr);
 	I_REF(iprm::IFileNameParam, m_configFilePathCompPtr);

@@ -1,27 +1,16 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="1">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1899
+          2116
         </Number>
         <Description>
           ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          384
-        </Number>
-        <Description>
-          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -35,7 +24,7 @@
         600
       </X>
       <X>
-        400
+        550
       </X>
     </Element>
     <Element>
@@ -46,18 +35,18 @@
         600
       </X>
       <X>
-        125
+        250
       </X>
     </Element>
     <Element>
       <ComponentName>
-        QuickHelpViewer
+        QuickHelpGui
       </ComponentName>
       <X>
         600
       </X>
       <X>
-        275
+        400
       </X>
     </Element>
   </PositionMap>

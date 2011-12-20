@@ -26,12 +26,18 @@
 
 static void ShowUsage()
 {
-	std::cout << "Usage";
-	std::cout << "\tArxc.exe [registryName] {options}      - convertion registry to C++ code" << std::endl;
-	std::cout << "\t-h or -help				 - showing this help" << std::endl;
+	std::cout << "ACF registry compiler" << std::endl;
+	std::cout << "It generates C++ code and/or dependencies for qmake" << std::endl << std::endl;
+	std::cout << "Usage:" << std::endl;
+	std::cout << "\tArxc.exe [registryName] {options}" << std::endl;
+	std::cout << "Options:" << std::endl;
+	std::cout << "\t-h or -help              - showing this help" << std::endl;
 	std::cout << "\t-o outputFile            - output file path" << std::endl;
 	std::cout << "\t-config configFile       - specify ACF packages configuration file" << std::endl;
-	std::cout << "\t-v			 - enable verbose mode" << std::endl;
+	std::cout << "\t-sources [on|off]        - enables/disables C++ sources output, default is 'on'" << std::endl;
+	std::cout << "\t-depends [on|off]        - enables/disables qmake dependendency output, default is 'off'" << std::endl;
+	std::cout << "\t-dependsPath path        - base path for dependencies, if not specified working directory will be taken" << std::endl;
+	std::cout << "\t-v                       - enable verbose mode" << std::endl;
 }
 
 
@@ -49,6 +55,9 @@ int main(int argc, char *argv[])
 
 	istd::CString configFile;
 	bool verboseEnabled = false;
+	bool sourcesEnabled = true;
+	bool depandenciesEnabled = false;
+	istd::CString baseDependsPath;
 
 	for (int index = 1; index < argc; index++){
 		std::string argument = argv[index];
@@ -67,6 +76,20 @@ int main(int argc, char *argv[])
 			else if (index < argc - 1){
 				if (option == "config"){
 					configFile = argv[++index];
+				}
+
+				if (option == "sources"){
+					std::string switchText = argv[++index];
+					sourcesEnabled = (switchText == "on") || (switchText == "ON");
+				}
+
+				if (option == "depends"){
+					std::string switchText = argv[++index];
+					depandenciesEnabled = (switchText == "on") || (switchText == "ON");
+				}
+
+				if (option == "dependsPath"){
+					baseDependsPath = argv[++index];
 				}
 			}
 		}
@@ -107,10 +130,16 @@ int main(int argc, char *argv[])
 
 	registriesManagerComp.LoadPackages(configFile);
 
-	icomp::TSimComponentWrap<BasePck::RegistryCodeSaver> codeSaverComp;
+	icomp::TSimComponentWrap<BasePck::FileNameParam> dependsBasePathComp;
+	dependsBasePathComp.SetStringAttr("DefaultPath", baseDependsPath);
+	dependsBasePathComp.InitComponent();
+
+	icomp::TSimComponentWrap<QtPck::RegistryCodeSaver> codeSaverComp;
 	codeSaverComp.SetRef("Log", &log);
 	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
 	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
+	codeSaverComp.SetIntAttr("WorkingMode", (sourcesEnabled? 1: 0) + (depandenciesEnabled? 2: 0));
+	codeSaverComp.SetRef("BaseDependenciesPath", &dependsBasePathComp);
 	codeSaverComp.InitComponent();
 
 	// registry model

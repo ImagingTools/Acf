@@ -98,6 +98,26 @@ I_EXPORT_COMPONENT(
 			"File Loader Preview");
 
 I_EXPORT_COMPONENT(
+			TranslationManager,
+			"Text localization manager",
+			"Translation" IM_TAG("Localization"));
+
+I_EXPORT_COMPONENT(
+		   QtXmlFileSerializer,
+		   "File loader serializing objects using simplified XML format using Qt",
+		   "Save Serializer Archive Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
+
+I_EXPORT_COMPONENT(
+		   XslFileSerializer,
+		   "File loader serializing objects using simplified XML format using Qt, provides XSLT",
+		   "Save Serializer Archive Format XSLT" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
+
+I_EXPORT_COMPONENT(
+			RegistryCodeSaver,
+			"Stores registry as C++ code",
+			"Code C++ File Store Save Registry Compile" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Loader"));
+
+I_EXPORT_COMPONENT(
 			ExtendedDocumentTemplate,
 			"Extended serialized document template",
 			"Serialized Template" IM_TAG("Document"));
@@ -116,21 +136,6 @@ I_EXPORT_COMPONENT(
 			RelativeFileNameParam,
 			"Provide file name relative to some other optional directory",
 			"Name Relative Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
-
-I_EXPORT_COMPONENT(
-			TranslationManager,
-			"Text localization manager",
-			"Translation" IM_TAG("Localization"));
-
-I_EXPORT_COMPONENT(
-		   QtXmlFileSerializer,
-		   "File loader serializing objects using simplified XML format using Qt",
-		   "Save Serializer Archive Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
-
-I_EXPORT_COMPONENT(
-		   XslFileSerializer,
-		   "File loader serializing objects using simplified XML format using Qt, provides XSLT",
-		   "Save Serializer Archive Format XSLT" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
 
 
 } // namespace QtPck

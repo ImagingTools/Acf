@@ -61,11 +61,6 @@ I_EXPORT_COMPONENT(
 			"Application Meta Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
 
 I_EXPORT_COMPONENT(
-			RegistryCodeSaver,
-			"Stores registry as C++ code",
-			"Code C++ File Store Save Registry Compile" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Loader"));
-
-I_EXPORT_COMPONENT(
 			ModelProxy,
 			"Model proxy",
 			"Proxy" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
