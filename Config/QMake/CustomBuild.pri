@@ -1,20 +1,20 @@
 #General ACF settings
 
 win32{
-        ARX_COMPILER = Arxc.exe
+		ARX_COMPILER = Arxc.exe
 }
 else{
-        ARX_COMPILER = Arxc
+		ARX_COMPILER = Arxc
 }
 
 # custom build for Subversion Transformations
 win32{
-        svnTransformation.name = SvnTransf
-        svnTransformation.CONFIG += target_predeps
-        svnTransformation.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}
-        svnTransformation.commands = SubWCRev.exe $${SVNTR_REPOSITORY} ${QMAKE_FILE_NAME} $${SVNTR_DESTINATION}/${QMAKE_FILE_BASE}
-        svnTransformation.input = SVNTR_FILES
-        QMAKE_EXTRA_COMPILERS += svnTransformation
+		svnTransformation.name = SvnTransf
+		svnTransformation.CONFIG += target_predeps
+		svnTransformation.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}
+		svnTransformation.commands = SubWCRev.exe $${SVNTR_REPOSITORY} ${QMAKE_FILE_NAME} $${SVNTR_DESTINATION}/${QMAKE_FILE_BASE}
+		svnTransformation.input = SVNTR_FILES
+		QMAKE_EXTRA_COMPILERS += svnTransformation
 }
 
 # custom build for ACF Registry Compiler (Arxc)
@@ -29,8 +29,8 @@ QMAKE_EXTRA_COMPILERS += arxCompiler
 
 # custom build for ACF conform translations
 isEmpty(QMAKE_LRELEASE) {
-    win32:QMAKE_LRELEASE = $$QT_INSTALL_BINS\\lrelease.exe
-    else:QMAKE_LRELEASE = $$QT_INSTALL_BINS/lrelease
+	win32:QMAKE_LRELEASE = $$QT_INSTALL_BINS\\lrelease.exe
+	else:QMAKE_LRELEASE = $$QT_INSTALL_BINS/lrelease
 }
 updateqm.input = TRANSLATIONS
 updateqm.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}.qm
@@ -41,7 +41,8 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 
 copyQmToGenerate.input = COPYQMTOGENERATE
 copyQmToGenerate.output = ../Generated/${QMAKE_FILE_BASE}.qm
-copyQmToGenerate.commands = cp ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
+win32:copyQmToGenerate.commands = xcopy ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
+else:copyQmToGenerate.commands = cp ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
 copyQmToGenerate.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += copyQmToGenerate
 PRE_TARGETDEPS += compiler_copyQmToGenerate_make_all
