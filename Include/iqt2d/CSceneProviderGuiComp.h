@@ -85,6 +85,7 @@ public:
 		I_ASSIGN(m_isAlignmentEnabledAttrPtr, "IsAlignmentEnabled", "If true, grid alignment will be enabled", true, false);	
 		I_ASSIGN(m_sceneWidthAttrPtr, "SceneWidth", "Logical with of scene", false, 1000);	
 		I_ASSIGN(m_sceneHeightAttrPtr, "SceneHeight", "Logical height of scene", false, 1000);	
+		I_ASSIGN(m_allowSelectAllAttrPtr, "AllowSelectAll", "If true, command 'Select All' will be enabled", true, false);	
 	I_END_COMPONENT;
 
 	CSceneProviderGuiComp();
@@ -205,6 +206,7 @@ private:
 	I_ATTR(bool, m_isAlignmentEnabledAttrPtr);
 	I_ATTR(double, m_sceneWidthAttrPtr);
 	I_ATTR(double, m_sceneHeightAttrPtr);
+	I_ATTR(bool, m_allowSelectAllAttrPtr);
 
 	QWidget* m_savedParentWidgetPtr;
 	QMatrix m_savedViewTransform;

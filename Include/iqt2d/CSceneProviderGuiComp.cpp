@@ -546,6 +546,8 @@ void CSceneProviderGuiComp::OnComponentCreated()
 
 	I_ASSERT(m_allowWidgetResizeAttrPtr.IsValid());	// this attribute is obligatory
 	m_fitToImageCommand.setVisible(*m_allowWidgetResizeAttrPtr);
+	I_ASSERT(m_allowSelectAllAttrPtr.IsValid());	// this attribute is obligatory
+	m_selectAllCommand.setVisible(*m_allowSelectAllAttrPtr);
 }
 
 

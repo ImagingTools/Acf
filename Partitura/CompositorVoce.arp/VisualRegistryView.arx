@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2058
+          2118
         </Number>
         <Description>
           ACF
@@ -78,7 +78,26 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="7">
+          <AttributeInfo>
+            <Id>
+              AllowSelectAll
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;bool&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                true
+              </Value>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               BackgroundMode
