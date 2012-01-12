@@ -260,6 +260,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiObserverBinderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CObjectQueueComp.cpp"
 				>
 			</File>
@@ -354,6 +358,10 @@
 			</File>
 			<File
 				RelativePath="..\CModelProxyComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiObserverBinderComp.h"
 				>
 			</File>
 			<File

@@ -121,6 +121,16 @@ I_EXPORT_COMPONENT(
 			"File Converter" IM_CATEGORY(I_DATA_PROCESSING I_SERVICE));
 
 I_EXPORT_COMPONENT(
+			Log,
+			"Data model of the logging component",
+			IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
+			MultiObserverBinder,
+			"Simple binder of few observers of the same model",
+			"Multi Model Observer Binder" IM_TAG("Model") IM_AUTHOR("\"Krzysztof Gantzke\""));
+
+I_EXPORT_COMPONENT(
 			SelectableParamsSet,
 			"Composed set of parameters",
 			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
@@ -249,11 +259,6 @@ I_EXPORT_COMPONENT(
 			IterativeProcessor,
 			"Iterative Processor",
 			"Iterative Loop Sequence Processor" IM_CATEGORY(I_DATA_PROCESSING) IM_TAG("Processing"));
-
-I_EXPORT_COMPONENT(
-			Log,
-			"Data model of the logging component",
-			IM_TAG("Log"));
 
 I_EXPORT_COMPONENT(
 			ModelBasedProcessingTrigger,
