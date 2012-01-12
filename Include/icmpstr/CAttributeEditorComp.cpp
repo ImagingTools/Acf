@@ -1392,7 +1392,7 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 			const std::string& globalElementId,
 			const icomp::IElementStaticInfo* elementMetaInfoPtr,
 			QTreeWidgetItem& item,
-			bool* hasWarningPtr,
+			bool* /*hasWarningPtr*/,
 			bool* hasExportPtr) const
 {
 	int itemIndex = 0;
@@ -1420,6 +1420,11 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 
 			std::string globalSublementId = icomp::CInterfaceManipBase::JoinId(globalElementId, sublementId);
 
+			QStringList subExportedAliases = GetExportAliases(globalSublementId);
+			if ((hasExportPtr != NULL) && !subExportedAliases.isEmpty()){
+				*hasExportPtr = true;
+			}
+
 			QTreeWidgetItem* itemPtr = NULL;
 			if (itemIndex < item.childCount()){
 				itemPtr = item.child(itemIndex);
@@ -1427,6 +1432,16 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 			else{
 				itemPtr = new QTreeWidgetItem(&item);
 			}
+
+			itemPtr->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+			itemPtr->setText(AC_NAME, sublementId.c_str());
+			itemPtr->setData(AC_VALUE, AttributeId, QString(globalSublementId.c_str()));
+			itemPtr->setData(AC_VALUE, AttributeValue, QString(sublementId.c_str()));
+			itemPtr->setData(AC_VALUE, AttributeMining, AM_EXPORTED_COMP);
+			itemPtr->setText(AC_VALUE, subExportedAliases.join(";"));
+			itemPtr->setExpanded(true);
+
+/*
 			I_ASSERT(itemPtr != NULL);
 
 			const icomp::IElementStaticInfo* subcomponentInfoPtr = elementMetaInfoPtr->GetSubelementInfo(sublementId);
@@ -1440,6 +1455,7 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 			if (hasExportPtr != NULL){
 				*hasExportPtr = *hasExportPtr || exportFlag;
 			}
+*/
 		}
 		item.setDisabled(false);
 	}
