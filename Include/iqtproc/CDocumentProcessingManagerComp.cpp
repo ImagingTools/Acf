@@ -4,6 +4,8 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
+#include "iqt/CTimer.h"
+
 
 namespace iqtproc
 {
@@ -52,11 +54,16 @@ void CDocumentProcessingManagerComp::DoProcessingToOutput(const istd::IChangeabl
 
 	istd::CChangeNotifier changePtr(outputDocumentPtr);
 
+	iqt::CTimer timer;
+
 	int retVal = m_processorCompPtr->DoProcessing(
 				m_paramsSetCompPtr.GetPtr(),
 				inputDocumentPtr,
 				outputDocumentPtr,
 				m_progressManagerCompPtr.GetPtr());
+
+	double processingTime = timer.GetElapsed();
+	SendInfoMessage(0, istd::CString("Processing time: ") + istd::CString::FromNumber(processingTime * 1000) + " ms", "Document processing manager");
 	
 	if (retVal != iproc::IProcessor::TS_OK){
 		SendErrorMessage(0, "Processing was failed", "Document processing manager");
@@ -95,11 +102,16 @@ void CDocumentProcessingManagerComp::DoInPlaceProcessing(istd::IChangeable* inpu
 		return;
 	}
 
+	iqt::CTimer timer;
+
 	int retVal = m_processorCompPtr->DoProcessing(
 				m_paramsSetCompPtr.GetPtr(),
 				inputDocumentPtr,
 				outputDocumentPtr.GetPtr(),
 				m_progressManagerCompPtr.GetPtr());
+
+	double processingTime = timer.GetElapsed();
+	SendInfoMessage(0, istd::CString("Processing time: ") + istd::CString::FromNumber(processingTime * 1000) + " ms", "Document processing manager");
 	
 	if (retVal != iproc::IProcessor::TS_OK){
 		SendErrorMessage(0, "Processing was failed", "Document processing manager");
