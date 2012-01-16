@@ -26,7 +26,7 @@ public:
 
 protected:
 	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel();
+	virtual void UpdateModel() const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags = 0);

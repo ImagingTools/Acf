@@ -9,21 +9,21 @@
 #include "IAconstraints.h"
 
 
-// protected methods
-
 // reimplemented (imod::IModelEditor)
 
-void CAbGuiComp::UpdateModel()
+void CAbGuiComp::UpdateModel() const
 {
 	IAb* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		istd::TChangeNotifier<IAb> changePtr(objectPtr);
+	I_ASSERT(objectPtr != NULL);
 
-		changePtr->SetA(AValueSpinBox->value());
-		changePtr->SetB(BValueEdit->text().toStdString());
-	}
+	istd::TChangeNotifier<IAb> changePtr(objectPtr);
+
+	changePtr->SetA(AValueSpinBox->value());
+	changePtr->SetB(BValueEdit->text().toStdString());
 }
 
+
+// protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
@@ -72,21 +72,13 @@ void CAbGuiComp::OnGuiCreated()
 
 void CAbGuiComp::OnAValueChanged(int /*value*/)
 {
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdates(this);
-
-		UpdateModel();
-	}
+	DoUpdateModel();
 }
 
 
 void CAbGuiComp::OnBValueChanged(const QString& /*value*/)
 {
-	if (!IsUpdateBlocked()){
-		UpdateBlocker blockUpdates(this);
-
-		UpdateModel();
-	}
+	DoUpdateModel();
 }
 
 
