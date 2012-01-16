@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2021
+          2126
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="2">
     <Element>
       <ComponentName>
         LogGui
@@ -36,17 +36,6 @@
       </X>
       <X>
         300
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ModelEditorGui
-      </ComponentName>
-      <X>
-        625
-      </X>
-      <X>
-        175
       </X>
     </Element>
   </PositionMap>
