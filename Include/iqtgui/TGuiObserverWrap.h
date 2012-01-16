@@ -72,6 +72,12 @@ protected:
 	bool IsUpdateBlocked() const;
 
 	/**
+		Secure update model.
+		It use GUI block mechanism and it is designed to be called directly from UI slot.
+	*/
+	bool DoUpdateModel();
+
+	/**
 		Do update of the model GUI.
 	*/
 	virtual void UpdateGui(int updateFlags);
@@ -132,14 +138,16 @@ TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
 template <class Gui, class Observer>
 bool TGuiObserverWrap<Gui, Observer>::OnAttached(imod::IModel* modelPtr)
 {
-	bool retVal = true;
+	bool retVal;
 	{
 		UpdateBlocker block(this);
 		
 		retVal = Observer::OnAttached(modelPtr);
 	}
 
-	if (retVal && Gui::IsGuiCreated() && Observer::IsModelAttached(NULL)){
+	if (retVal && Gui::IsGuiCreated()){
+		I_ASSERT(Observer::IsModelAttached(NULL));
+
 		OnGuiModelAttached();
 	}
 
@@ -212,6 +220,21 @@ template <class Gui, class Observer>
 bool TGuiObserverWrap<Gui, Observer>::IsUpdateBlocked() const
 {
 	return (m_ignoreUpdatesCounter > 0);
+}
+
+
+template <class Gui, class Observer>
+bool TGuiObserverWrap<Gui, Observer>::DoUpdateModel()
+{
+	if (!IsUpdateBlocked() && Observer::IsModelAttached(NULL)){
+		UpdateBlocker blockUpdates(this);
+
+		UpdateModel();
+
+		return true;
+	}
+
+	return false;
 }
 
 
