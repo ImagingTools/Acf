@@ -87,7 +87,11 @@ bool CComposedParamsSetGuiComp::OnAttached(imod::IModel* modelPtr)
 	for (int i = 0; i < elementsCount; ++i){
 		const istd::CString& paramId = m_idsAttrPtr[i];
 
-		imod::IModel* parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
+		imod::IModel* parameterModelPtr = GetModelPtr();
+		if (!paramId.IsEmpty() && (paramId != "*")){
+			parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.ToString()));
+		}
+
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
 
 		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->AttachObserver(observerPtr)){

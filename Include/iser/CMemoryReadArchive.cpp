@@ -4,8 +4,8 @@
 // STD includes
 #include <cstring>
 
-
 // ACF includes
+#include "istd/TChangeNotifier.h"
 #include "istd/CString.h"
 
 #include "iser/ISerializable.h"
@@ -87,6 +87,8 @@ bool CMemoryReadArchive::CloneObjectByArchive(const ISerializable& source, ISeri
 	bool retVal = true;
 	CMemoryWriteArchive stored;
 	retVal = retVal && const_cast<ISerializable&>(source).Serialize(stored);
+
+	istd::CChangeNotifier notifier(&result);
 
 	CMemoryReadArchive restore(stored);
 	retVal = retVal && result.Serialize(restore);
