@@ -119,10 +119,12 @@ public:
 		Some range is intersected by another, if intercestion of this two ranges is not empty.
 	*/
 	bool IsIntersectedBy(const CRange& range) const;
+
 	/**
 		Get intersection with the second \c range.
 	*/
 	CRange GetIntersection(const CRange& range) const;
+
 	/**
 		Set this range to be intersection of two ranges.
 	*/
@@ -132,14 +134,17 @@ public:
 		Get union with the second \c range.
 	*/
 	CRange GetUnion(const CRange& range) const;
+
 	/**
 		Get union with the second \c range.
 	*/
 	CRange GetUnion(double value) const;
+
 	/**
 		Set this range to be union of two ranges.
 	*/
 	void Unite(const CRange& range);
+
 	/**
 		Set this range to be union of two ranges.
 	*/
@@ -150,6 +155,7 @@ public:
 		Expanding operation calculate simple sum for each components separately.
 	*/
 	CRange GetExpanded(const CRange& range) const;
+
 	/**
 		Set this range to be expanded.
 		Expanding operation calculate simple sum for each components separately.
@@ -199,10 +205,27 @@ public:
 							\note This value must be in current range.
 	*/
 	double GetMappedTo(double value, const istd::CRange& range) const;
+	
+	/** 
+		Get a combined range.
+		It calculates combined range. Range [0, 1] is neutral element of this operation.
+	*/
+	CRange GetApply(const CRange& range) const;
+	
+	CRange GetInvertApply(const CRange& range) const;
+
+	CRange GetInverted() const;
+
+	/**
+		Set this range to be linear interpolated using two other ranges and adjast alpha value.
+	*/
+	void SetInterpolated(const CRange& first, const CRange& second, double alpha);
 
 	CRange& operator=(const CRange& range);
 	bool operator==(const CRange& range) const;
 	bool operator!=(const CRange& range) const;
+	CRange operator*(double value) const;
+	CRange operator/(double value) const;
 
 	// static methods
 	/**

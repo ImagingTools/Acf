@@ -222,6 +222,47 @@ double CRange::GetMappedTo(double value, const istd::CRange& range) const
 }
 
 
+CRange CRange::GetApply(const CRange& range) const
+{
+	CRange result;
+	result.m_minValue = GetValueFromAlpha(range.m_minValue);
+	result.m_maxValue = GetValueFromAlpha(range.m_maxValue);
+
+	return result;
+}
+
+
+CRange CRange::GetInvertApply(const CRange& range) const
+{
+	CRange result;
+
+	double length = GetLength();
+	result.m_minValue = (range.m_minValue - m_minValue) / length;
+	result.m_maxValue = (range.m_maxValue - m_minValue) / length;
+
+	return result;
+}
+
+CRange CRange::GetInverted() const
+{
+	CRange result;
+
+	double minusWidth = m_minValue - m_maxValue;
+	result.m_minValue = m_minValue / minusWidth;
+	result.m_maxValue = (m_minValue - 1) / minusWidth;
+
+	return result;
+}
+
+
+void CRange::SetInterpolated(const CRange& first, const CRange& second, double alpha)
+{
+	double beta = 1 - alpha;
+
+	m_minValue = first.m_minValue * beta + second.m_minValue * alpha;
+	m_maxValue = first.m_maxValue * beta + second.m_maxValue * alpha;
+}
+
 
 CRange& CRange::operator=(const CRange& range)
 {
@@ -229,6 +270,28 @@ CRange& CRange::operator=(const CRange& range)
 	m_minValue = range.m_minValue;
 
 	return *this;
+}
+
+
+CRange CRange::operator*(double value) const
+{
+	CRange result = *this;
+
+	result.m_minValue *= value;
+	result.m_maxValue *= value;
+
+	return result;
+}
+
+
+CRange CRange::operator/(double value) const
+{
+	CRange result = *this;
+
+	result.m_minValue /= value;
+	result.m_maxValue /= value;
+
+	return result;
 }
 
 
@@ -247,3 +310,5 @@ CRange CRange::s_invalid(0, -1);
 
 
 } // namespace istd
+
+
