@@ -260,7 +260,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiObserverBinderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CObjectQueueComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CRangeSerializer.cpp"
 				>
 			</File>
 			<File
@@ -357,7 +365,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiObserverBinderComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CObjectQueueComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRangeSerializer.h"
 				>
 			</File>
 			<File

@@ -24,7 +24,7 @@ public:
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_centerXAttrPtr, "X", "X-Position of the circle center", true, 0);
-		I_ASSIGN(m_centerYAttrPtr, "Y", "X-Position of the circle center", true, 0);
+		I_ASSIGN(m_centerYAttrPtr, "Y", "Y-Position of the circle center", true, 0);
 		I_ASSIGN(m_radiusAttrPtr, "Radius", "Radius of the circle", true, 0);
 	I_END_COMPONENT;
 
