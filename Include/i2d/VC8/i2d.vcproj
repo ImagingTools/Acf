@@ -5,7 +5,6 @@
 	Name="i2d"
 	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
 	RootNamespace="i2d"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -198,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLabel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CLine2d.cpp"
 				>
 			</File>
@@ -207,6 +210,34 @@
 			</File>
 			<File
 				RelativePath="..\CMatrix2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiPolylineBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolygon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolygonExtractor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolyline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolylineExNodeBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolylineExtractor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolypoint.cpp"
 				>
 			</File>
 			<File
@@ -231,6 +262,14 @@
 			</File>
 			<File
 				RelativePath="..\CRectangleComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSpline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSplineSegment.cpp"
 				>
 			</File>
 			<File
@@ -275,6 +314,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLabel.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CLine2d.h"
 				>
 			</File>
@@ -284,6 +327,34 @@
 			</File>
 			<File
 				RelativePath="..\CMatrix2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiPolylineBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolygon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolygonExtractor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolyline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolylineExNodeBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolylineExtractor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolypoint.h"
 				>
 			</File>
 			<File
@@ -311,6 +382,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSpline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSplineSegment.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CVector2d.h"
 				>
 			</File>
@@ -328,6 +407,22 @@
 			</File>
 			<File
 				RelativePath="..\ITransformation2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TMultiPolyline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TPolylineEx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TPolylineExNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TPolylineExPrimitive.h"
 				>
 			</File>
 		</Filter>
