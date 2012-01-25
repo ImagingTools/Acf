@@ -218,11 +218,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygon.cpp"
+				RelativePath="..\CParallelogram.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonExtractor.cpp"
+				RelativePath="..\CPolygon.cpp"
 				>
 			</File>
 			<File
@@ -231,10 +231,6 @@
 			</File>
 			<File
 				RelativePath="..\CPolylineExNodeBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CPolylineExtractor.cpp"
 				>
 			</File>
 			<File
@@ -335,11 +331,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygon.h"
+				RelativePath="..\CParallelogram.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonExtractor.h"
+				RelativePath="..\CPolygon.h"
 				>
 			</File>
 			<File
@@ -348,10 +344,6 @@
 			</File>
 			<File
 				RelativePath="..\CPolylineExNodeBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CPolylineExtractor.h"
 				>
 			</File>
 			<File
