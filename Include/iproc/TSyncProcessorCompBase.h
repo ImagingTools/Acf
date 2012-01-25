@@ -35,7 +35,7 @@ public:
 
 // global typedefs
 
-typedef TSyncProcessorCompBase<iproc::IProcessor> CSyncProcessorCompBase;
+typedef TSyncProcessorCompBase<IProcessor> CSyncProcessorCompBase;
 
 
 } // namespace iproc

@@ -19,7 +19,7 @@ namespace iproc
 	Bitmap acquisition processor.
 	This processor use as \c iproc::IProcessor template parameter Input optional isys::ITimer object to indicate trigger time of acquision.
 */
-class IBitmapAcquisition: virtual public iproc::IProcessor
+class IBitmapAcquisition: virtual public IProcessor
 {
 public:
 	/**
