@@ -108,6 +108,7 @@ bool CBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size)
 	return false;
 }
 
+
 bool CBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	istd::CChangeNotifier changePtr(this);

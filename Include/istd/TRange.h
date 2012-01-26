@@ -557,7 +557,7 @@ ValueType TRange<ValueType>::GetClipped(ValueType value) const
 template <typename ValueType>
 TRange<ValueType> TRange<ValueType>::GetClipped(const TRange& range) const
 {
-	istd::TRange clippedRange = range;
+	istd::TRange<ValueType> clippedRange = range;
 
 	if (!Contains(range.GetMinValue())){
 		clippedRange.SetMinValue(m_minValue);
