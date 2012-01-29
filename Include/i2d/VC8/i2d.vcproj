@@ -5,6 +5,7 @@
 	Name="i2d"
 	ProjectGUID="{CB5A8391-AB54-40F6-B721-74D8CC1A32CE}"
 	RootNamespace="i2d"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -197,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDirection2d.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CLabel.cpp"
 				>
 			</File>
@@ -214,6 +219,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiPolylineBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CParallelogram.cpp"
 				>
 			</File>
 			<File
@@ -254,6 +263,10 @@
 			</File>
 			<File
 				RelativePath="..\CQuadrangleComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CRect.cpp"
 				>
 			</File>
 			<File
@@ -314,6 +327,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDirection2d.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CLabel.h"
 				>
 			</File>
@@ -331,6 +348,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiPolylineBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CParallelogram.h"
 				>
 			</File>
 			<File
@@ -371,6 +392,10 @@
 			</File>
 			<File
 				RelativePath="..\CQuadrangleComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRect.h"
 				>
 			</File>
 			<File

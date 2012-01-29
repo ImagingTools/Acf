@@ -370,6 +370,28 @@ bool CVarMatrix::GetSolvedTriangle(const CVarMatrix& vector, CVarMatrix& result,
 }
 
 
+bool imath::CVarMatrix::GetSolvedTriangle(imath::CVarMatrix& result) const
+{
+	istd::CIndex2d size = GetSizes();
+	I_ASSERT(size.GetY() >= size.GetX() - 1);
+
+	result.SetSizes(istd::CIndex2d(1, size.GetX() - 1));
+	for (int row = size.GetX() - 2; row >= 0; row--){
+		double dif = 0.0;
+		for (int i = size.GetX() - 2; i > row; i--){
+			dif += result[istd::CIndex2d(0, i)] * GetAt(istd::CIndex2d(i, row));
+		}
+		double diagonal = GetAt(istd::CIndex2d(row, row));
+		if (::fabs(diagonal) < I_BIG_EPSILON){
+			return false;
+		}
+		double value = (GetAt(istd::CIndex2d(size.GetX() - 1, row)) - dif) / diagonal;
+		result.SetAt(istd::CIndex2d(0, row), value);
+	}
+	return true;
+}
+
+
 bool CVarMatrix::GetSolvedLSP(const CVarMatrix& vector, CVarMatrix& result, double accuracy) const
 {
 	CVarMatrix matrixR;
@@ -380,6 +402,16 @@ bool CVarMatrix::GetSolvedLSP(const CVarMatrix& vector, CVarMatrix& result, doub
 	}
 
 	return false;
+}
+
+
+bool CVarMatrix::SolveLSP(imath::CVarMatrix& result)
+{
+	I_ASSERT(!IsEmpty());
+
+	istd::CIndex2d size = GetSizes();
+	int firstPart = size.GetX() - 1;
+	return TransformR(firstPart) && GetSolvedTriangle(result);
 }
 
 

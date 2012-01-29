@@ -233,10 +233,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRange.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CStaticServicesProvider.cpp"
 				>
 			</File>
@@ -291,6 +287,10 @@
 			</File>
 			<File
 				RelativePath="..\CIndex2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CIntRange.h"
 				>
 			</File>
 			<File
@@ -419,6 +419,10 @@
 			</File>
 			<File
 				RelativePath="..\TPointerVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TRange.h"
 				>
 			</File>
 			<File
