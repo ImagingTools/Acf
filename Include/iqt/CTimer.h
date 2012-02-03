@@ -2,7 +2,11 @@
 #define iqt_CTimer_included
 
 
-#include <QElapsedTimer>
+#if QT_VERSION >= 0x040700
+	#include <QElapsedTimer>
+#else
+	#include <QTime>
+#endif
 
 #include "isys/ITimer.h"
 
@@ -42,7 +46,12 @@ public:
 	virtual double GetTimerResolution() const;
 
 private:
-	QElapsedTimer m_time;
+	#if QT_VERSION >= 0x040700
+		QElapsedTimer m_time;
+	#else
+		QTime m_time;
+	#endif
+	
 	double m_timeShift;
 };
 
