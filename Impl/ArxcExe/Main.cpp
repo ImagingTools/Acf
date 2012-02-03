@@ -150,10 +150,12 @@ int main(int argc, char *argv[])
 	fileCopyComp.SetRef("Object", &registryComp);
 	fileCopyComp.SetRef("InputLoader", &registryLoaderComp);
 	fileCopyComp.SetRef("OutputLoader", &codeSaverComp);
+	fileCopyComp.SetRef("Log", &log);
 	fileCopyComp.InitComponent();
 
 	icomp::TSimComponentWrap<BasePck::CopyApp> applicationComp;
 	applicationComp.SetRef("FileCopy", &fileCopyComp);
+	applicationComp.SetRef("Log", &log);
 	applicationComp.InitComponent();
 
 	return applicationComp.Execute(argc, argv);

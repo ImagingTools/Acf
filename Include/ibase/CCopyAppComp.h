@@ -6,10 +6,9 @@
 
 #include "iser/IFileLoader.h"
 
-#include "icomp/CComponentBase.h"
-
 #include "ibase/IApplication.h"
 #include "ibase/IFileConvertCopy.h"
+#include "ibase/TLoggerCompWrap.h"
 
 
 namespace ibase
@@ -22,11 +21,11 @@ namespace ibase
 	It implements ibase::IApplication and can be used as standalone application.
 */
 class CCopyAppComp:
-			public icomp::CComponentBase,
+			public ibase::CLoggerComponentBase,
 			virtual public IApplication
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CCopyAppComp);
 		I_REGISTER_INTERFACE(IApplication);

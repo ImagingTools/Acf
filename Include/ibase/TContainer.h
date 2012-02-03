@@ -91,12 +91,14 @@ void TContainer<ItemClass, ContainerClass>::PushFront(const ItemClass& item)
 template <typename ItemClass, typename ContainerClass>
 void TContainer<ItemClass, ContainerClass>::InsertAt(const ItemClass& item, int index)
 {
-	I_ASSERT(index >= 0);
-	I_ASSERT(index < int(m_items.size()));
+	if (index < 0 || index >= int(m_items.size())){
+		PushBack(item);
+	}
+	else{
+		istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
 
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
-
-	std::inserter<ContainerClass>(m_items, m_items.begin() + index) = item;
+		std::inserter<ContainerClass>(m_items, m_items.begin() + index) = item;
+	}
 }
 
 

@@ -6,9 +6,8 @@
 
 #include "iser/IFileLoader.h"
 
-#include "icomp/CComponentBase.h"
-
 #include "ibase/IFileConvertCopy.h"
+#include "ibase/TLoggerCompWrap.h"
 
 
 namespace ibase
@@ -20,11 +19,11 @@ namespace ibase
 	This implementation uses general file loader, saver and any object instance.
 */
 class CFileCopyOverLoaderComp:
-			public icomp::CComponentBase,
+			public ibase::CLoggerComponentBase,
 			virtual public IFileConvertCopy
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CFileCopyOverLoaderComp);
 		I_REGISTER_INTERFACE(IFileConvertCopy);
