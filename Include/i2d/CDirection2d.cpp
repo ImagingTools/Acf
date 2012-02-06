@@ -10,14 +10,14 @@ namespace i2d
 
 
 CDirection2d::CDirection2d()
-	:	m_direction(0.0)
+	:m_direction(0.0)
 {
 	I_ASSERT(Invariant());
 }
 
 
 CDirection2d::CDirection2d(const CDirection2d& direction)
-:	m_direction(direction.m_direction)
+	:m_direction(direction.m_direction)
 {
 	I_ASSERT(direction.Invariant());
 
@@ -26,7 +26,7 @@ CDirection2d::CDirection2d(const CDirection2d& direction)
 
 
 CDirection2d::CDirection2d(double radian)
-	:	m_direction(radian)
+	:m_direction(radian)
 {
 	I_ASSERT(radian >= -I_PI - I_BIG_EPSILON);
 	I_ASSERT(radian <= I_PI + I_BIG_EPSILON);
@@ -83,7 +83,7 @@ bool CDirection2d::Invariant() const
 
 double CDirection2d::Normalize(double radian)
 {
-	double retVal = (radian >= 0)?
+	double retVal = (radian >= 0) ?
 					::fmod(radian + I_PI, I_2PI) - I_PI:
 					I_PI - ::fmod(I_PI - radian, I_2PI);
 					
