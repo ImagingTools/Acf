@@ -3,6 +3,7 @@
 
 // ACF includes
 #include "iprm/ISelectionParam.h"
+#include "iprm/TParamsPtr.h"
 
 #include "iproc/IProgressManager.h"
 
@@ -33,9 +34,8 @@ int CIterativeProcessorComp::DoProcessing(
 
 	int progressSessionId = -1;
 
-	const iprm::ISelectionParam* processorParamsPtr = dynamic_cast<const iprm::ISelectionParam*>(
-				paramsPtr->GetParameter(m_paramsIdAttrPtr->GetValue().ToString()));
-	if ((processorParamsPtr != NULL) && m_slaveProcessorCompPtr.IsValid()){
+	iprm::TParamsPtr<iprm::ISelectionParam> processorParamsPtr(paramsPtr, m_paramsIdAttrPtr->GetValue().ToString());
+	if (processorParamsPtr.IsValid() && m_slaveProcessorCompPtr.IsValid()){
 		int iterationsCount = processorParamsPtr->GetSelectedOptionIndex();
 
 		if (iterationsCount <= 0){

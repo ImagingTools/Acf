@@ -339,6 +339,10 @@
 				RelativePath="..\IVariableParam.h"
 				>
 			</File>
+			<File
+				RelativePath="..\TParamsPtr.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
