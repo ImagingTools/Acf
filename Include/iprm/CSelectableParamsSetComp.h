@@ -94,7 +94,7 @@ private:
 	int m_selectedIndex;
 	CurrentParamsSetObserver m_currentParamsSetObserver;
 
-	I_ATTR(istd::CString, m_selectionIdAttrPtr);
+	I_ATTR(std::string, m_selectionIdAttrPtr);
 	I_ATTR(int, m_defaultIndexAttrPtr);
 	I_REF(IParamsManager, m_paramsManagerCompPtr);
 };
