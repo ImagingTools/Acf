@@ -21,6 +21,7 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CPosition2dComp);
+		I_REGISTER_INTERFACE(i2d::CPosition2d);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_xAttrPtr, "X", "X-Position", true, 0);

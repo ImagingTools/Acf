@@ -16,7 +16,7 @@ namespace i2d
 	Annulus is area between two concentrical circles.
 	This object is stored using center position and two radii.
 */
-class CAnnulus: public i2d::CPosition2d
+class CAnnulus: public CPosition2d
 {
 public:
 	typedef i2d::CPosition2d BaseClass;

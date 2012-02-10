@@ -15,12 +15,13 @@ namespace i2d
 	Implementation of a quadrangle as a component.
 	It gives the possibility to define a quadrangle model via component attributes.
 */
-class CQuadrangleComp: public icomp::CComponentBase, public i2d::CQuadrangle
+class CQuadrangleComp: public icomp::CComponentBase, public CQuadrangle
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CQuadrangleComp);
+		I_REGISTER_INTERFACE(CQuadrangle);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_diag1X1AttrPtr, "Diag1X1", "X-Position of start line point of the first diagonal", true, 0);

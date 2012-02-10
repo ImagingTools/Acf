@@ -15,12 +15,13 @@ namespace i2d
 	Implementation of a 2D-line as a component.
 	It gives the possibility to define a 2D-line model via component attributes.
 */
-class CLine2dComp: public icomp::CComponentBase, public i2d::CLine2d
+class CLine2dComp: public icomp::CComponentBase, public CLine2d
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CLine2dComp);
+		I_REGISTER_INTERFACE(CLine2d);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_x1AttrPtr, "X1", "X-Position of start line point", true, 0);

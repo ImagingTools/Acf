@@ -15,12 +15,15 @@ namespace i2d
 	Implementation of a annulus as a component.
 	It gives the possibility to define a annulus segment model via component attributes.
 */
-class CAnnulusSegmentComp: public icomp::CComponentBase, public i2d::CAnnulusSegment
+class CAnnulusSegmentComp: public icomp::CComponentBase, public CAnnulusSegment
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CAnnulusSegmentComp);
+		I_REGISTER_INTERFACE(CAnnulusSegment);
+		I_REGISTER_INTERFACE(CAnnulus);
+		I_REGISTER_INTERFACE(CPosition2d);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_centerXAttrPtr, "X", "X-Position of the annulus center", true, 0);

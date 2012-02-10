@@ -16,12 +16,13 @@ namespace i2d
 	It gives the possibility to define a rectangle model via component attributes.
 
 */
-class CRectangleComp: public icomp::CComponentBase, public i2d::CRectangle
+class CRectangleComp: public icomp::CComponentBase, public CRectangle
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CRectangleComp);
+		I_REGISTER_INTERFACE(CRectangle);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_leftAttrPtr, "X", "X-Position of the rectangle", true, 0);

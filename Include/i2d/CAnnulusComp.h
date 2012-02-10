@@ -21,6 +21,8 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CAnnulusComp);
+		I_REGISTER_INTERFACE(i2d::CAnnulus);
+		I_REGISTER_INTERFACE(CPosition2d);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_centerXAttrPtr, "X", "X-Position of the annulus center", true, 0);

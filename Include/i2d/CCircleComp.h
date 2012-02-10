@@ -15,12 +15,14 @@ namespace i2d
 	Implementation of a circle as a component.
 	It gives the possibility to define a circle model via component attributes.
 */
-class CCircleComp: public icomp::CComponentBase, public i2d::CCircle
+class CCircleComp: public icomp::CComponentBase, public CCircle
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CCircleComp);
+		I_REGISTER_INTERFACE(CCircle);
+		I_REGISTER_INTERFACE(CPosition2d);
 		I_REGISTER_INTERFACE(IObject2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_centerXAttrPtr, "X", "X-Position of the circle center", true, 0);
