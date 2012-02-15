@@ -51,9 +51,12 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QToolButton" name="AddButton">
+       <widget class="QPushButton" name="AddButton">
+        <property name="toolTip">
+         <string>Insert new item</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>Add</string>
         </property>
         <property name="icon">
          <iconset resource="../iqtgui/iqtgui.qrc">
@@ -62,9 +65,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="RemoveButton">
+       <widget class="QPushButton" name="RemoveButton">
+        <property name="toolTip">
+         <string>Remove selected item</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>Remove</string>
         </property>
         <property name="icon">
          <iconset resource="../iqtgui/iqtgui.qrc">
@@ -84,6 +90,34 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="UpButton">
+        <property name="toolTip">
+         <string>Move selected item up</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Up.svg</normaloff>:/Icons/Up.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="DownButton">
+        <property name="toolTip">
+         <string>Move selected item down</string>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Down.svg</normaloff>:/Icons/Down.svg</iconset>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

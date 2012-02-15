@@ -46,7 +46,9 @@
     <file alias="StateInvalid.svg">Resources/Icons/StateInvalid.svg</file>
 		<file alias="AutoUpdate.svg">Resources/Icons/AutoUpdate.svg</file>
 		<file alias="Reload.svg">Resources/Icons/Reload.svg</file>
-	</qresource>
+    <file alias="Up.svg">Resources/Icons/Up.svg</file>
+    <file alias="Down.svg">Resources/Icons/Down.svg</file>
+  </qresource>
   <qresource prefix="Style">
     <file>Resources/Style/AcfStyle.ass</file>
   </qresource>

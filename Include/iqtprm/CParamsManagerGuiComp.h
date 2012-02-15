@@ -36,6 +36,8 @@ public:
 protected Q_SLOTS:
 	void on_AddButton_clicked();
 	void on_RemoveButton_clicked();
+	void on_UpButton_clicked();
+	void on_DownButton_clicked();
 	void on_ParamsTree_itemSelectionChanged();
 	void on_ParamsTree_itemChanged(QTreeWidgetItem* item, int column);
 

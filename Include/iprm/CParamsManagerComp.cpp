@@ -67,18 +67,22 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 // reimplemented (iprm::IParamsManager)
 
-int CParamsManagerComp::GetManagerFlags() const
+int CParamsManagerComp::GetIndexOperationFlags(int index) const
 {
 	int retVal = 0;
+
+	if ((index >= 0) && (index < m_fixedParamSetsCompPtr.GetCount())){
+		retVal |= MF_NO_DELETE;
+		retVal |= MF_NO_INSERT;
+	}
+	else if (m_paramSets.empty()){
+		retVal |= MF_NO_DELETE;
+	}
 
 	if (!m_paramSetsFactPtr.IsValid()){
 		retVal |= MF_COUNT_FIXED;
 		retVal |= MF_NO_DELETE;
 		retVal |= MF_NO_INSERT;
-	}
-
-	if (m_paramSets.empty()){
-		retVal |= MF_NO_DELETE;
 	}
 
 	return retVal;
@@ -91,18 +95,18 @@ int CParamsManagerComp::GetParamsSetsCount() const
 }
 
 
-bool CParamsManagerComp::InsertParamsSet(int index)
+int CParamsManagerComp::InsertParamsSet(int index)
 {
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
 	if (		!m_paramSetsFactPtr.IsValid() ||
 				((index >= 0) && (index < fixedParamsCount))){
-		return false;
+		return -1;
 	}
 
 	IParamsSet* newParamsSetPtr = m_paramSetsFactPtr.CreateInstance();
 	if (newParamsSetPtr == NULL){
-		return false;
+		return -1;
 	}
 
 	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED);
@@ -118,12 +122,14 @@ bool CParamsManagerComp::InsertParamsSet(int index)
 		int insertIndex = index - fixedParamsCount;
 
 		m_paramSets.insert(m_paramSets.begin() + insertIndex, paramSet);
+
+		return index;
 	}
 	else{
 		m_paramSets.push_back(paramSet);
-	}
 
-	return true;
+		return int(m_paramSets.size()) - 1;
+	}
 }
 
 
@@ -256,7 +262,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 
 	bool isStoring = archive.IsStoring();
 
-	istd::CChangeNotifier notifier(isStoring ? NULL : this);
+	istd::CChangeNotifier notifier(isStoring? NULL: this);
 
 	if (!isStoring){
 		if (!retVal || !SetSetsCount(paramsCount)){

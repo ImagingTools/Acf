@@ -51,9 +51,9 @@ public:
 	bool SetSetsCount(int count);
 
 	// reimplemented (iprm::IParamsManager)
-	virtual int GetManagerFlags() const;
+	virtual int GetIndexOperationFlags(int index = -1) const;
 	virtual int GetParamsSetsCount() const;
-	virtual bool InsertParamsSet(int index = -1);
+	virtual int InsertParamsSet(int index = -1);
 	virtual bool RemoveParamsSet(int index);
 	virtual IParamsSet* GetParamsSet(int index) const;
 	virtual const istd::CString& GetParamsSetName(int index) const;
