@@ -42,13 +42,10 @@ public:
 
 	int GetLeft() const;
 	void SetLeft(int left);
-
 	int GetTop() const;
 	void SetTop(int top);
-
 	int GetRight() const;
 	void SetRight(int right);
-
 	int GetBottom() const;
 	void SetBottom(int bottom);
 
@@ -288,10 +285,21 @@ inline int CRect::GetLeft() const
 	return m_horizontalRange.GetMinValue();
 }
 
+inline void CRect::SetLeft(int left)
+{
+	m_horizontalRange.SetMinValue(left);
+}
+
 
 inline int CRect::GetTop() const
 {
 	return m_verticalRange.GetMinValue();
+}
+
+
+inline void CRect::SetTop(int top)
+{
+	return m_verticalRange.SetMinValue(top);
 }
 
 
@@ -301,11 +309,23 @@ inline int CRect::GetRight() const
 }
 
 
+inline void CRect::SetRight(int right)
+{
+	return m_horizontalRange.SetMaxValue(right);
+}
+
+
 inline int CRect::GetBottom() const
 {
 	return m_verticalRange.GetMaxValue();
-
 }
+
+
+inline void CRect::SetBottom(int bottom)
+{
+	return m_verticalRange.SetMaxValue(bottom);
+}
+
 
 inline int CRect::GetWidth() const
 {
