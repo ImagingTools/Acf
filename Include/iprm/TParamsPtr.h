@@ -25,7 +25,7 @@ public:
 	/**
 		Initialize the pointer with the given parameter set and parameter ID.
 	*/
-	void Init(const IParamsSet* parameterSetPtrPtr, const std::string& parameterId);
+	void Init(const IParamsSet* parameterSetPtr, const std::string& parameterId);
 };
 
 
