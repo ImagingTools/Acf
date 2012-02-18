@@ -1,0 +1,62 @@
+#ifndef iview_IShape_included
+#define iview_IShape_included
+
+
+// ACF includes
+#include "imod/IModel.h"
+#include "imod/IObserver.h"
+
+#include "i2d/CRect.h"
+
+#include "iview/IVisualizable.h"
+
+
+namespace iview
+{
+
+
+class IColorShema;
+
+
+/**
+	Common interface for all display console shapes.
+	Shapes are a representants of model objects in display console.
+*/
+class IShape:
+			virtual public imod::IObserver,
+			virtual public iview::IVisualizable
+{
+public:
+	enum ChangeFlags
+	{
+		CF_CALIB = 1 << 20
+	};
+
+	virtual imod::IModel* GetShapeModelPtr() const = 0;
+
+	/**	
+		Return bounding box in client window coordinates.
+		You can store this bounding box for optimisation,
+		because about every change of transformation you will be informed
+		by calling OnDisplayChange(int) method.
+	*/
+	virtual i2d::CRect GetBoundingBox() const = 0;
+
+	/**
+		Set color shema to draw shape.
+	*/
+	virtual void SetUserColorShema(const IColorShema* shemaPtr) = 0;
+ 
+	/**
+		Get color shema from view or user defined.
+	*/
+	virtual const iview::IColorShema* GetUserColorShema() const = 0;
+};
+
+
+} // namespace iview
+
+
+#endif // !iview_IShape_included
+
+

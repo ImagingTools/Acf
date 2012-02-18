@@ -1,0 +1,391 @@
+#include "iview/CInteractiveAnnulusShape.h"
+
+
+// Qt includes
+#include <QPainter>
+
+
+// ACF includes
+#include "imod/IModel.h"
+#include "i2d/CAnnulus.h"
+#include "iqt/iqt.h"
+
+
+
+#include "iview/CScreenTransform.h"
+
+
+namespace iview
+{
+
+
+CInteractiveAnnulusShape::CInteractiveAnnulusShape()
+	:BaseClass()
+{
+	m_editRadius2Mode = false;
+	m_editRadiusMode = false;
+
+	m_isEditableRadius2 = m_isEditableRadius;
+}
+
+
+bool CInteractiveAnnulusShape::IsEditableRadiusInner() const
+{
+	return m_isEditableRadius;
+}
+
+
+void CInteractiveAnnulusShape::SetEditableRadiusInner(bool editable)
+{
+	if (m_isEditableRadius != editable){
+		m_isEditableRadius = editable;
+		Invalidate(CS_CONSOLE);
+	}
+}
+
+
+bool CInteractiveAnnulusShape::IsEditableRadiusOuter() const
+{
+	return m_isEditableRadius2;
+}
+
+
+void CInteractiveAnnulusShape::SetEditableRadiusOuter(bool editable)
+{
+	if (m_isEditableRadius2 != editable){
+		m_isEditableRadius2 = editable;
+		Invalidate(CS_CONSOLE);
+	}
+}
+
+
+bool CInteractiveAnnulusShape::IsEditableRadius() const
+{
+	return m_isEditableRadius || m_isEditableRadius2;
+}
+
+
+void CInteractiveAnnulusShape::SetEditableRadius(bool editable)
+{
+	if (m_isEditableRadius != editable || m_isEditableRadius2 != editable){
+		m_isEditableRadius2 = m_isEditableRadius = editable;
+		Invalidate(CS_CONSOLE);
+	}
+}
+
+
+bool CInteractiveAnnulusShape::IsCenterVisible() const
+{
+	return m_isCenterVisible;
+}
+
+
+void CInteractiveAnnulusShape::SetCenterVisible(bool state)
+{
+	if (m_isCenterVisible != state){
+		m_isCenterVisible = state;
+
+		Invalidate(CS_CONSOLE);
+	}
+}
+
+
+// reimplemented (iview::IMouseActionObserver)
+
+bool CInteractiveAnnulusShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetModelPtr());
+	if (annulusPtr != NULL){
+		if (downFlag && IsEditableRadius()){
+			const IColorShema& colorShema = GetColorShema();
+			i2d::CVector2d center = annulusPtr->GetPosition();
+			double radius = annulusPtr->GetInnerRadius();
+			double xyShift2 = annulusPtr->GetOuterRadius() / sqrt(2.0);
+
+			const iview::CScreenTransform& transform = GetLogToScreenTransform();
+			istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));
+			istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - radius, center.GetY()));
+			istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
+			istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
+
+			istd::CIndex2d ticker5 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() + xyShift2));
+			istd::CIndex2d ticker6 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() - xyShift2));
+			istd::CIndex2d ticker7 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2));
+			istd::CIndex2d ticker8 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2));
+
+			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+
+			if (			tickerBox.IsInside(position - ticker1) ||
+							tickerBox.IsInside(position - ticker2) ||
+							tickerBox.IsInside(position - ticker3) ||
+							tickerBox.IsInside(position - ticker4) &&
+							IsEditableRadiusInner()){
+				m_editRadiusMode = true;
+				BeginModelChanges();
+				return true;
+			}
+			if (			tickerBox.IsInside(position - ticker5) ||
+							tickerBox.IsInside(position - ticker6) ||
+							tickerBox.IsInside(position - ticker7) ||
+							tickerBox.IsInside(position - ticker8) &&
+							IsEditableRadiusOuter()){
+				m_editRadius2Mode = true;
+				BeginModelChanges();
+				return true;
+			}
+		}
+		m_editRadiusMode = false;
+		m_editRadius2Mode = false;
+	}
+
+	return CInteractivePinShape::OnMouseButton(position, buttonType, downFlag);
+}
+
+
+bool CInteractiveAnnulusShape::OnMouseMove(istd::CIndex2d position)
+{
+	if (!m_editRadiusMode && !m_editRadius2Mode){
+		return CInteractivePinShape::OnMouseMove(position);
+	}
+
+	imod::IModel* modelPtr = GetModelPtr();
+	i2d::CAnnulus& annulus = *dynamic_cast<i2d::CAnnulus*>(modelPtr);
+	I_ASSERT(&annulus != NULL);
+
+	const iview::CScreenTransform& transform = GetLogToScreenTransform();
+	const i2d::CVector2d& cp = transform.GetClientPosition(position);
+	const i2d::CVector2d& center = annulus.GetPosition();
+	double radius = center.GetDistance(cp);
+
+	if (m_editRadiusMode){
+		annulus.SetInnerRadius(radius);
+	}
+	else {
+		annulus.SetOuterRadius(radius);
+	}
+
+	UpdateModelChanges();
+
+	return true;
+}
+
+
+// reimplemented (iview::IVisualizable)
+
+void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const imod::IModel* modelPtr = GetModelPtr();
+	I_ASSERT(modelPtr != NULL);
+
+	const iview::CScreenTransform& transform = GetLogToScreenTransform();
+
+	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
+	I_ASSERT(&annulus != NULL);
+
+    const IColorShema& colorShema = GetColorShema();
+	i2d::CVector2d screenCenter;
+	const i2d::CVector2d& center = annulus.GetPosition();
+	transform.GetApply(center, screenCenter);
+	double radius = annulus.GetInnerRadius();
+	double radius2 = annulus.GetOuterRadius();
+
+	const i2d::CMatrix2d& deform = transform.GetDeformMatrix();
+	i2d::CVector2d scale;
+	deform.GetAxesLengths(scale);
+
+	const i2d::CRect& clientRect = GetClientRect();
+	i2d::CRect bbox = clientRect.GetIntersection(GetBoundingBox());
+
+	if (IsCenterVisible()){
+		CInteractivePinShape::Draw(drawContext);
+	}
+
+	if (IsSelected()){
+		drawContext.save();
+		drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+		drawContext.save();
+		drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_HALF_TRANSPARENT));
+	}
+	else{
+		drawContext.save();
+		drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+		drawContext.save();
+		drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_HALF_TRANSPARENT2));
+	}
+
+	DrawAnnulus(drawContext, screenCenter.ToIndex2d(), int(istd::Min(radius, radius2) * scale.GetX()), int(istd::Max(radius, radius2) * scale.GetY()));
+
+	drawContext.restore();
+	drawContext.restore();
+
+	if (IsEditableRadius() && IsSelected()){
+		if (IsEditableRadiusInner()){
+			istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));
+			istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - radius, center.GetY()));
+			istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
+			istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
+
+			colorShema.DrawTicker(drawContext, ticker1, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker2, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker3, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker4, IColorShema::TT_NORMAL);
+		}
+
+		if (IsEditableRadiusOuter()){
+			double xyShift2 = radius2 / sqrt(2.0);
+
+			istd::CIndex2d ticker5 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() + xyShift2));
+			istd::CIndex2d ticker6 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() - xyShift2));
+			istd::CIndex2d ticker7 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2));
+			istd::CIndex2d ticker8 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2));
+
+			colorShema.DrawTicker(drawContext, ticker5, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker6, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker7, IColorShema::TT_NORMAL);
+			colorShema.DrawTicker(drawContext, ticker8, IColorShema::TT_NORMAL);
+		}
+	}
+}
+
+
+// reimplemented (imod::IObserver)
+
+bool CInteractiveAnnulusShape::OnAttached(imod::IModel* modelPtr)
+{
+	I_ASSERT(dynamic_cast<i2d::CAnnulus*>(modelPtr) != NULL);
+
+	return BaseClass::OnAttached(modelPtr);
+}
+
+
+// reimplemented (iview::ITouchable)
+
+ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d position) const
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const imod::IModel* modelPtr = GetModelPtr();
+	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
+	I_ASSERT(&annulus != NULL);
+
+    const IColorShema& colorShema = GetColorShema();
+	const iview::CScreenTransform& transform = GetLogToScreenTransform();
+
+	double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
+	i2d::CVector2d cp = transform.GetClientPosition(position);
+
+	i2d::CVector2d center = annulus.GetPosition();
+	double distance = center.GetDistance(cp);
+
+	double radius = annulus.GetInnerRadius();
+	double radius2 = annulus.GetOuterRadius();
+
+	if (IsSelected() && IsEditableRadius()){
+		double xyShift2 = annulus.GetOuterRadius() / sqrt(2.0);
+
+		istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));
+		istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - radius, center.GetY()));
+		istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
+		istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
+
+		istd::CIndex2d ticker5 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() + xyShift2));
+		istd::CIndex2d ticker6 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + xyShift2, center.GetY() - xyShift2));
+		istd::CIndex2d ticker7 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2));
+		istd::CIndex2d ticker8 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2));
+
+		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+
+		if (			tickerBox.IsInside(position - ticker1) ||
+						tickerBox.IsInside(position - ticker2) ||
+						tickerBox.IsInside(position - ticker3) ||
+						tickerBox.IsInside(position - ticker4) &&
+						IsEditableRadiusInner()){
+			return IInteractiveShape::TS_TICKER;
+		}
+
+		if (			tickerBox.IsInside(position - ticker5) ||
+						tickerBox.IsInside(position - ticker6) ||
+						tickerBox.IsInside(position - ticker7) ||
+						tickerBox.IsInside(position - ticker8) &&
+						IsEditableRadiusOuter()){
+			return IInteractiveShape::TS_TICKER;
+		}
+	}
+
+	double delta = ::fabs(radius - distance);
+	double delta2 = ::fabs(radius2 - distance);
+
+	double logicalLineWidth = colorShema.GetLogicalLineWidth();
+
+	if ((proportions * delta < logicalLineWidth) || (proportions * delta2 < logicalLineWidth)){
+		bool isEditablePosition = IsEditablePosition();
+		return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
+	}
+
+	if (IsCenterVisible()){
+		return CInteractivePinShape::IsTouched(position);
+	}
+
+	return TS_NONE;
+}
+
+
+// reimplemented (iview::CInteractiveShapeBase)
+
+void CInteractiveAnnulusShape::CalcBoundingBox(i2d::CRect& result) const
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetModelPtr());
+	if (annulusPtr != NULL){
+		const IColorShema& colorShema = GetColorShema();
+		const iview::CScreenTransform& transform = GetLogToScreenTransform();
+
+		i2d::CVector2d center;
+		transform.GetApply(annulusPtr->GetPosition(), center);
+		double radius = annulusPtr->GetOuterRadius();
+
+		const i2d::CMatrix2d& deform = transform.GetDeformMatrix();
+		i2d::CVector2d scale;
+		deform.GetAxesLengths(scale);
+
+		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+
+		i2d::CRect boundingBox(	int(center.GetX() - radius * scale.GetX()), int(center.GetY() - radius * scale.GetY()),
+							int(center.GetX() + radius * scale.GetX()), int(center.GetY() + radius * scale.GetY()));
+
+		result = boundingBox.GetExpanded(tickerBox);
+	}
+	else{
+		result.Reset();
+	}
+}
+
+
+// protected methods
+
+void CInteractiveAnnulusShape::DrawAnnulus(QPainter& painter, istd::CIndex2d center, int minRadius, int maxRadius, bool /*fillFlag*/) const
+{
+	I_ASSERT(minRadius <= maxRadius);
+
+	i2d::CRect maxBox1(center.GetX() - maxRadius, center.GetY() - maxRadius, center.GetX() + maxRadius + 1, center.GetY() + maxRadius + 1);
+	i2d::CRect minBox1(center.GetX() - minRadius, center.GetY() - minRadius, center.GetX() + minRadius + 1, center.GetY() + minRadius + 1);
+	i2d::CRect bitmapBox1 = maxBox1.GetIntersection(iqt::GetCRect(painter.clipRegion().boundingRect()));
+
+	QRect tempBitmapRect1(iqt::GetQRect(i2d::CRect(bitmapBox1.GetSize())));
+	QPainterPath painterPatch;
+
+	painterPatch.addEllipse(iqt::GetQRect(minBox1));
+	painterPatch.addEllipse(iqt::GetQRect(maxBox1));
+
+	painter.drawPath(painterPatch);
+}
+
+
+} // namespace iview
+
+
