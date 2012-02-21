@@ -24,8 +24,62 @@
 			InheritedPropertySheets="..\..\..\Config\VC8\Static.vsprops;..\..\..\Config\VC8\Release.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -34,8 +88,62 @@
 			InheritedPropertySheets="..\..\..\Config\VC8\Debug.vsprops;..\..\..\Config\VC8\Static.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 	</Configurations>
@@ -56,7 +164,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CElementSelectionInfoManagerBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CGraphicsConnectorItem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeDelegateWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeEditor.cpp"
 				>
 			</File>
 			<File
@@ -118,7 +238,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CElementSelectionInfoManagerBase.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CGraphicsConnectorItem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeDelegateWidget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeEditor.h"
 				>
 			</File>
 			<File
@@ -196,7 +328,7 @@
 		</Filter>
 		<Filter
 			Name="Resource Files"
-                        Filter="qrc"
+			Filter="qrc"
 			UniqueIdentifier="{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}"
 			ParseFiles="false"
 			>
@@ -207,7 +339,7 @@
 		</Filter>
 		<Filter
 			Name="Generated Files"
-                        Filter="h;cpp"
+			Filter="h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
@@ -216,6 +348,14 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CGraphicsConnectorItem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CMultiAttributeDelegateWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CMultiAttributeEditor.cpp"
 				>
 			</File>
 			<File
@@ -251,6 +391,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\ui_CMultiAttributeEditor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\ui_CPackageOverviewComp.h"
 				>
 			</File>
@@ -271,6 +415,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiAttributeEditor.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CPackageOverviewComp.ui"
 				>
 			</File>
@@ -285,14 +433,22 @@
 		</Filter>
 		<Filter
 			Name="Moc Files"
-                        Filter="moc"
-                        >
+			Filter="moc"
+			>
 			<File
 				RelativePath="..\CAttributeEditorComp.moc"
 				>
 			</File>
 			<File
 				RelativePath="..\CGraphicsConnectorItem.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeDelegateWidget.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiAttributeEditor.moc"
 				>
 			</File>
 			<File

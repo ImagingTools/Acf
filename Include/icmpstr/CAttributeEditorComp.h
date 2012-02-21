@@ -3,20 +3,13 @@
 
 
 // Qt includes
-#include <QtGui/QWidget>
-#include <QtGui/QIcon>
-#include <QtGui/QItemDelegate>
+#include <QWidget>
+#include <QIcon>
+#include <QItemDelegate>
+
 
 // ACF includes
-#include "istd/TPointerBase.h"
-#include "istd/TDelPtr.h"
-#include "istd/TOptDelPtr.h"
 #include "istd/CClassInfo.h"
-
-#include "imod/CSingleModelObserverBase.h"
-
-#include "icomp/IComponentEnvironmentManager.h"
-#include "icomp/IRegistryElement.h"
 
 #include "idoc/IHelpViewer.h"
 
@@ -24,10 +17,8 @@
 #include "iqtgui/CTreeWidgetFilter.h"
 #include "iqtgui/CItemDelegate.h"
 
-#include "icmpstr/IAttributeSelectionObserver.h"
-#include "icmpstr/IElementSelectionInfo.h"
-#include "icmpstr/IRegistryConsistInfo.h"
-
+#include "icmpstr/CElementSelectionInfoManagerBase.h"
+#include "icmpstr/CMultiAttributeEditor.h"
 #include "icmpstr/Generated/ui_CAttributeEditorComp.h"
 
 
@@ -36,14 +27,16 @@ namespace icmpstr
 
 
 class CAttributeEditorComp:
-			public iqtgui::TDesignerGuiObserverCompBase<
-						Ui::CAttributeEditorComp, IElementSelectionInfo>
+			public ibase::TModelObserverCompWrap<
+						iqtgui::TGuiObserverWrap<
+									iqtgui::TDesignerGuiCompBase<Ui::CAttributeEditorComp>, CElementSelectionInfoManagerBase> >
 {
     Q_OBJECT
 
 public:
-	typedef iqtgui::TDesignerGuiObserverCompBase<
-				Ui::CAttributeEditorComp, IElementSelectionInfo> BaseClass;
+	typedef ibase::TModelObserverCompWrap<
+				iqtgui::TGuiObserverWrap<
+							iqtgui::TDesignerGuiCompBase<Ui::CAttributeEditorComp>, CElementSelectionInfoManagerBase> > BaseClass;
 
 	I_BEGIN_COMPONENT(CAttributeEditorComp);
 		I_ASSIGN(m_metaInfoManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
@@ -95,9 +88,9 @@ public:
 public:
 	CAttributeEditorComp();
 
-	icomp::IRegistry* GetRegistry() const;
-	const icomp::IAttributeStaticInfo* GetStaticAttributeInfo(const std::string& id) const;
-	QStringList GetExportAliases(const std::string& attributeName) const;
+	// reimplemented (CElementSelectionInfoManagerBase)
+	virtual const icomp::IComponentEnvironmentManager* GetMetaInfoManagerPtr() const;
+	virtual const icmpstr::IRegistryConsistInfo* GetConsistencyInfoPtr() const;
 
 protected Q_SLOTS:
 	void on_AttributeTree_itemSelectionChanged();
@@ -117,18 +110,6 @@ Q_SIGNALS:
 	void AfterSubcomponentsChange();
 
 protected:
-	struct AttrInfo
-	{
-		istd::TPointerBase<const icomp::IRegistryElement::AttributeInfo> infoPtr;
-		istd::TPointerBase<const icomp::IAttributeStaticInfo> staticInfoPtr;
-	};
-	typedef std::map<std::string, AttrInfo> ElementIdToAttrInfoMap;
-	typedef std::map<std::string, ElementIdToAttrInfoMap> AttrInfosMap;
-
-	const icomp::IComponentStaticInfo* GetComponentMetaInfo(const icomp::CComponentAddress& address) const;
-
-	void UpdateAddressToMetaInfoMap();
-
 	bool SetAttributeToItem(
 				QTreeWidgetItem& attributeItem,
 				const icomp::IRegistry& registry,
@@ -181,6 +162,9 @@ private:
 		typedef iqtgui::CItemDelegate BaseClass;
 
 		AttributeItemDelegate(CAttributeEditorComp* parentPtr);
+
+		template <class AttributeImpl>
+		static QString GetMultiAttributeValueAsString(const AttributeImpl& attribute);
 		
 		// reimplemented (QItemDelegate)
 		virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
@@ -233,10 +217,25 @@ private:
 	QIcon m_warningIcon;
 	QIcon m_exportIcon;
 	QIcon m_importIcon;
-
-	typedef std::map<icomp::CComponentAddress, istd::TOptDelPtr<const icomp::IComponentStaticInfo> > AddressToInfoMap;
-	AddressToInfoMap m_adressToMetaInfoMap;
 };
+
+
+// public static methods
+
+template <class AttributeImpl>
+QString CAttributeEditorComp::AttributeItemDelegate::GetMultiAttributeValueAsString(const AttributeImpl& attribute)
+{
+	QString valuesString;
+	for (int index = 0; index < attribute.GetValuesCount(); index++){
+		if (!valuesString.isEmpty()){
+			valuesString += ";";
+		}
+
+		valuesString += iqt::GetQString(attribute.GetValueAt(index));
+	}
+
+	return valuesString;
+}
 
 
 } // namespace icmpstr

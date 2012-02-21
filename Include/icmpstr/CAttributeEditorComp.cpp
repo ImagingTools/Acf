@@ -6,6 +6,9 @@
 #include <QListWidget>
 #include <QLineEdit>
 #include <QComboBox>
+#include <QToolButton>
+#include <QPushButton>
+
 
 // ACF includes
 #include "istd/TOptDelPtr.h"
@@ -16,6 +19,8 @@
 #include "icomp/CComponentMetaDescriptionEncoder.h"
 
 #include "iqt/CSignalBlocker.h"
+
+#include "icmpstr/CMultiAttributeDelegateWidget.h"
 
 
 // public methods
@@ -50,39 +55,18 @@ CAttributeEditorComp::CAttributeEditorComp()
 }
 
 
-icomp::IRegistry* CAttributeEditorComp::GetRegistry() const
-{
-	const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
-	if (selectionInfoPtr == NULL){
-		return NULL;
-	}
 
-	return selectionInfoPtr->GetSelectedRegistry();
+// reimplemented (CElementSelectionInfoManagerBase)
+
+const icomp::IComponentEnvironmentManager* CAttributeEditorComp::GetMetaInfoManagerPtr() const
+{
+	return m_metaInfoManagerCompPtr.GetPtr();
 }
 
 
-QStringList CAttributeEditorComp::GetExportAliases(const std::string& attributeName) const
+const icmpstr::IRegistryConsistInfo* CAttributeEditorComp::GetConsistencyInfoPtr() const
 {
-	const IElementSelectionInfo* selectionInfoPtr = GetObjectPtr();
-	if (selectionInfoPtr == NULL){
-		return QStringList();
-	}
-
-	QStringList exportedAliases;
-
-	const icomp::IRegistry* registryPtr = selectionInfoPtr->GetSelectedRegistry();
-	if (registryPtr != NULL){
-		const icomp::IRegistry::ExportedComponentsMap& exportedMap = registryPtr->GetExportedComponentsMap();
-		for (		icomp::IRegistry::ExportedComponentsMap::const_iterator iter = exportedMap.begin();
-					iter != exportedMap.end();
-					++iter){
-			if (iter->second == attributeName){
-				exportedAliases.append(iqt::GetQString(iter->first));
-			}
-		}
-	}
-
-	return exportedAliases;
+	return m_consistInfoCompPtr.GetPtr();
 }
 
 
@@ -116,6 +100,9 @@ void CAttributeEditorComp::on_AttributeTree_itemSelectionChanged()
 				}
 			}
 		}
+	}
+	else{
+		AttributeTree->reset();
 	}
 
 	if (m_attributeSelectionObserverCompPtr.IsValid()){
@@ -771,64 +758,6 @@ void CAttributeEditorComp::UpdateSubcomponentsView()
 
 
 // protected methods
-
-const icomp::IComponentStaticInfo* CAttributeEditorComp::GetComponentMetaInfo(const icomp::CComponentAddress& address) const
-{
-	AddressToInfoMap::const_iterator foundInfoIter = m_adressToMetaInfoMap.find(address);
-	if (foundInfoIter != m_adressToMetaInfoMap.end()){
-		return foundInfoIter->second.GetPtr();
-	}
-
-	return NULL;
-}
-
-
-void CAttributeEditorComp::UpdateAddressToMetaInfoMap()
-{
-	m_adressToMetaInfoMap.clear();
-
-	if (!m_metaInfoManagerCompPtr.IsValid()){
-		return;
-	}
-
-	const IElementSelectionInfo* objectPtr = GetObjectPtr();
-	if (objectPtr == NULL){
-		return;
-	}
-
-	const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
-	if (registryPtr == NULL){
-		return;
-	}
-
-	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-				iter != selectedElements.end();
-				++iter){
-		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter->second;
-		I_ASSERT(selectedInfoPtr != NULL);
-
-		const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
-		if (elementPtr != NULL){
-			const icomp::CComponentAddress& componentAddress = selectedInfoPtr->address;
-
-			istd::TOptDelPtr<const icomp::IComponentStaticInfo>& infoPtr = m_adressToMetaInfoMap[componentAddress];
-			if (!componentAddress.GetPackageId().empty()){
-				const icomp::IComponentStaticInfo* staticInfoPtr = m_metaInfoManagerCompPtr->GetComponentMetaInfo(componentAddress);
-				if (staticInfoPtr != NULL){
-					infoPtr.SetPtr(staticInfoPtr, false);
-				}
-			}
-			else{
-				icomp::IRegistry* embeddedRegistryPtr = registryPtr->GetEmbeddedRegistry(componentAddress.GetComponentId());
-				if (embeddedRegistryPtr != NULL){
-					infoPtr.SetPtr(new icomp::CCompositeComponentStaticInfo(*embeddedRegistryPtr, *m_metaInfoManagerCompPtr), true);
-				}
-			}
-		}
-	}
-}
-
 
 bool CAttributeEditorComp::SetAttributeToItem(
 			QTreeWidgetItem& attributeItem,
@@ -1487,9 +1416,13 @@ void CAttributeEditorComp::OnGuiModelDetached()
 }
 
 
-void CAttributeEditorComp::UpdateGui(int /*updateFlags*/)
+void CAttributeEditorComp::UpdateGui(int updateFlags)
 {
 	I_ASSERT(IsGuiCreated());
+
+	if ((updateFlags & IElementSelectionInfo::CF_SELECTION) != 0){
+		AttributeTree->reset();
+	}
 
 	UpdateAddressToMetaInfoMap();
 
@@ -1617,7 +1550,7 @@ CAttributeEditorComp::AttributeItemDelegate::AttributeItemDelegate(CAttributeEdi
 
 // reimplemented (QItemDelegate)
 
-QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
+QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* parentWidget, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	if (index.column() != AC_VALUE){
 		return NULL;
@@ -1625,20 +1558,35 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 
 	int propertyMining = index.data(AttributeMining).toInt();
 
+	if (		propertyMining == AM_MULTI_ATTRIBUTE ||
+				propertyMining == AM_MULTI_REFERENCE){
+		std::string attributeId = index.data(AttributeId).toString().toStdString();
+
+		int attributeFlags = 0;
+		if (propertyMining == AM_MULTI_REFERENCE){
+			attributeFlags = icomp::IAttributeStaticInfo::AF_REFERENCE;
+		}
+		else{
+			attributeFlags = icomp::IAttributeStaticInfo::AF_VALUE;
+		}
+		
+		return new CMultiAttributeDelegateWidget(const_cast<AttributeItemDelegate&>(*this), m_parent, parentWidget, attributeId, attributeFlags);
+	}
+
 	if (		(propertyMining == AM_REFERENCE) ||
-				(propertyMining == AM_MULTI_REFERENCE) ||
 				(propertyMining == AM_SELECTABLE_ATTRIBUTE)){
-		QComboBox* comboEditor = new QComboBox(parent);
+		QComboBox* comboEditor = new QComboBox(parentWidget);
 		QString text = index.data().toString();
 		comboEditor->setEditable(true);
 		comboEditor->setEditText(text);
+	
 		return comboEditor;
 	} 
 
 	if (propertyMining == AM_ATTRIBUTE){
 		std::string attributeType = index.data(AttributeTypeId).toString().toStdString();
 		if (attributeType == icomp::CBoolAttribute::GetTypeName()){
-			QComboBox* comboEditor = new QComboBox(parent);
+			QComboBox* comboEditor = new QComboBox(parentWidget);
 			comboEditor->addItem("true");
 			comboEditor->addItem("false");
 	
@@ -1646,7 +1594,7 @@ QWidget* CAttributeEditorComp::AttributeItemDelegate::createEditor(QWidget* pare
 		}
 	} 
 
-	return BaseClass::createEditor(parent, option, index);
+	return BaseClass::createEditor(parentWidget, option, index);
 }
 
 
@@ -1697,7 +1645,13 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 		newValue = comboEditorPtr->currentText();
 	}
 	else{
-		newValue = editor->property("text").toString();
+		const CMultiAttributeDelegateWidget* multiAttributeEditorPtr = dynamic_cast<const CMultiAttributeDelegateWidget*>(editor);
+		if (multiAttributeEditorPtr != NULL){
+			newValue = multiAttributeEditorPtr->GetText();
+		}
+		else{
+			newValue = editor->property("text").toString();
+		}
 	}
 
 	int propertyMining = index.data(AttributeMining).toInt();
@@ -1768,17 +1722,13 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportEditor(const
 		editorValue = defaultValue;
 	}
 
-	editor.setProperty("text", QVariant(editorValue));
-
-	return true;
+	return editor.setProperty("text", QVariant(editorValue));
 }
 
 
 bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeExportEditor(const std::string& /*id*/, const std::string& exportId, QWidget& editor) const
 {
-	editor.setProperty("text", QVariant(exportId.c_str()));
-
-	return true;
+	return editor.setProperty("text", QVariant(exportId.c_str()));
 }
 
 
@@ -1797,7 +1747,6 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 	}
 
 	IElementSelectionInfo::Elements selectedElements = selectionInfoPtr->GetSelectedElements();
-
 	if (selectedElements.empty()){
 		return false;
 	}
@@ -1811,31 +1760,35 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 			continue;
 		}
 
-		const icomp::IComponentStaticInfo* componentInfoPtr = m_parent.GetComponentMetaInfo(elementInfoPtr->address);
-		if (componentInfoPtr == NULL){
+		const iser::IObject* attributePtr = m_parent.GetAttributeObject(id, *elementInfoPtr);
+		if (attributePtr == NULL){
 			continue;
 		}
 
-		const icomp::IAttributeStaticInfo* staticInfoPtr = componentInfoPtr->GetAttributeInfo(id);
+		if (propertyMining == AM_MULTI_REFERENCE){
+			CMultiAttributeDelegateWidget* multiEditorPtr = dynamic_cast<CMultiAttributeDelegateWidget*>(&editor);
+			if (multiEditorPtr == NULL){
+				return false;
+			}
 
-		const iser::IObject* attributePtr = NULL;
-		const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = elementInfoPtr->elementPtr->GetAttributeInfo(id);
-		if ((attributeInfoPtr != NULL) && attributeInfoPtr->attributePtr.IsValid()){
-			attributePtr = attributeInfoPtr->attributePtr.GetPtr();
-		}
-		else if (staticInfoPtr != NULL){
-			attributePtr = staticInfoPtr->GetAttributeDefaultValue();
+			const icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(attributePtr);
+			if (multiReferenceAttributePtr != NULL){
+				QString valuesString = GetMultiAttributeValueAsString(*multiReferenceAttributePtr);
+
+				multiEditorPtr->SetText(valuesString);
+
+				return true;
+			}
 		}
 
 		QComboBox* comboEditor = dynamic_cast<QComboBox*>(&editor);
-
-		if (		(propertyMining == AM_REFERENCE) ||
-					(propertyMining == AM_MULTI_REFERENCE)){
+		if (propertyMining == AM_REFERENCE){
 			if (comboEditor == NULL){
 				return false;
 			}
 
 			const icomp::IRegistry* registryPtr = m_parent.GetRegistry();
+			const icomp::IAttributeStaticInfo* staticInfoPtr = m_parent.GetAttributeStaticInfo(id, *elementInfoPtr);
 			if ((registryPtr != NULL) && (staticInfoPtr != NULL) && m_parent.m_consistInfoCompPtr.IsValid()){
 				int queryFlags = IRegistryConsistInfo::QF_NONE;
 				icomp::IElementStaticInfo::Ids obligatoryInterfaces = staticInfoPtr->GetRelatedMetaIds(
@@ -1872,39 +1825,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 				return true;
 			}
 
-			const icomp::CMultiReferenceAttribute* multiReferenceAttributePtr = dynamic_cast<const icomp::CMultiReferenceAttribute*>(attributePtr);
-			if (multiReferenceAttributePtr != NULL){
-				QString valuesString;
-				for (int index = 0; index < multiReferenceAttributePtr->GetValuesCount(); index++){
-					if (!valuesString.isEmpty()){
-						valuesString += ";";
-					}
-
-					valuesString += iqt::GetQString(multiReferenceAttributePtr->GetValueAt(index));
-				}
-
-				comboEditor->lineEdit()->setText(valuesString);
-
-				return true;
-			}
-
-			const icomp::CMultiFactoryAttribute* multiFactoryAttributePtr = dynamic_cast<const icomp::CMultiFactoryAttribute*>(attributePtr);
-			if (multiFactoryAttributePtr != NULL){
-				QString valuesString;
-				for (int index = 0; index < multiFactoryAttributePtr->GetValuesCount(); index++){
-					if (!valuesString.isEmpty()){
-						valuesString += ";";
-					}
-
-					valuesString += iqt::GetQString(multiFactoryAttributePtr->GetValueAt(index));
-				}
-
-				comboEditor->lineEdit()->setText(valuesString);
-
-				return true;
-			}
 		}
-		else if (propertyMining == AM_ATTRIBUTE || propertyMining == AM_MULTI_ATTRIBUTE){
+		else if (propertyMining == AM_ATTRIBUTE){
 			const icomp::CIntAttribute* intAttributePtr = dynamic_cast<const icomp::CIntAttribute*>(attributePtr);
 			if (intAttributePtr != NULL){
 				int value = intAttributePtr->GetValue();
@@ -1944,6 +1866,12 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 
 				return true;
 			}
+		}
+		else if (propertyMining == AM_MULTI_ATTRIBUTE){
+			CMultiAttributeDelegateWidget* multiEditorPtr = dynamic_cast<CMultiAttributeDelegateWidget*>(&editor);
+			if (multiEditorPtr == NULL){
+				return false;
+			}
 
 			const icomp::CMultiIntAttribute* intListAttributePtr = dynamic_cast<const icomp::CMultiIntAttribute*>(attributePtr);
 			if (intListAttributePtr != NULL){
@@ -1956,7 +1884,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 					outputValue += QString::number(intListAttributePtr->GetValueAt(index));
 				}
 
-				editor.setProperty("text", QVariant(outputValue));
+				multiEditorPtr->SetText(outputValue);
 
 				return true;
 			}
@@ -1972,7 +1900,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 					outputValue += QString::number(doubleListAttributePtr->GetValueAt(index));
 				}
 
-				editor.setProperty("text", QVariant(outputValue));
+				multiEditorPtr->SetText(outputValue);
 
 				return true;
 			}
@@ -1988,7 +1916,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 					outputValue += boolListAttributePtr->GetValueAt(index)? "true": "false";
 				}
 
-				editor.setProperty("text", QVariant(outputValue));
+				multiEditorPtr->SetText(outputValue);
 
 				return true;
 			}
@@ -2004,7 +1932,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 					outputValue += iqt::GetQString(stringListAttributePtr->GetValueAt(index));
 				}
 
-				editor.setProperty("text", QVariant(outputValue));
+				multiEditorPtr->SetText(outputValue);
 
 				return true;
 			}
@@ -2020,7 +1948,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 					outputValue += idListAttributePtr->GetValueAt(index).c_str();
 				}
 
-				editor.setProperty("text", QVariant(outputValue));
+				multiEditorPtr->SetText(outputValue);
 
 				return true;
 			}

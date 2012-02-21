@@ -1,0 +1,54 @@
+#ifndef icmpstr_CMultiAttributeDelegateWidget_included
+#define icmpstr_CMultiAttributeDelegateWidget_included
+
+
+// Qt includes
+#include <QWidget>
+#include <QIcon>
+#include <QItemDelegate>
+
+
+// ACF includes
+#include "icmpstr/CElementSelectionInfoManagerBase.h"
+
+
+namespace icmpstr
+{
+
+
+class CMultiAttributeDelegateWidget: public QWidget
+{
+    Q_OBJECT
+public:
+	typedef QWidget BaseClass;
+
+public:
+	CMultiAttributeDelegateWidget(
+				QItemDelegate& itemDelegate,
+				const CElementSelectionInfoManagerBase& elementSelectionInfoManager,
+				QWidget* parentWidget,
+				const std::string& attributeId,
+				int attributeFlags);
+
+	QString GetText() const;
+	void SetText(const QString& text);
+
+protected Q_SLOTS:
+	void OnShowDialog();
+
+private:
+	const CElementSelectionInfoManagerBase& m_elementSelectionInfoManager;
+
+	QLineEdit* m_textEditor;
+	std::string m_attributeId;
+	int m_attributeFlags;
+
+	QItemDelegate& m_itemDelegate;
+};
+
+
+} // namespace icmpstr
+
+
+#endif // !icmpstr_CMultiAttributeDelegateWidget_included
+

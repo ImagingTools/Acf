@@ -8,6 +8,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		AdditionalOptions="/MP"
 		AdditionalIncludeDirectories="../../"
 		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_WINDOWS"
 		StringPooling="true"
@@ -20,5 +21,6 @@
 	<Tool
 		Name="VCLinkerTool"
 		LinkIncremental="2"
+		EnableUAC="false"
 	/>
 </VisualStudioPropertySheet>

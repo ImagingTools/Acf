@@ -27,25 +27,17 @@ CTreeWidgetFilter::CTreeWidgetFilter(QTreeWidget* slavePtr)
 
 bool CTreeWidgetFilter::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	switch (eventPtr->type()){
-	case QEvent::MouseButtonPress:
-		{
-			QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
-			if (mouseEvent != NULL){
-				QTreeWidgetItem* foundPtr = m_slave.itemAt(mouseEvent->pos());
-				if (foundPtr == NULL){
-					m_slave.clearSelection();
-
-					return true;
-				}
+	if (eventPtr->type() == QEvent::MouseButtonPress){
+		QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(eventPtr);
+		if (mouseEvent != NULL){
+			QTreeWidgetItem* foundPtr = m_slave.itemAt(mouseEvent->pos());
+			if (foundPtr == NULL){
+				m_slave.clearSelection();
 			}
 		}
-
-		return false;
-
-	default:
-		return BaseClass::eventFilter(sourcePtr, eventPtr);
 	}
+
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

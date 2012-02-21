@@ -21,7 +21,7 @@ class TModelObserverCompWrap: public ObserverComponent
 public:
 	typedef ObserverComponent BaseClass;
 
-	I_BEGIN_COMPONENT(TModelObserverCompWrap);
+	I_BEGIN_BASE_COMPONENT(TModelObserverCompWrap);
 		I_REGISTER_INTERFACE(imod::IObserver);
 		I_ASSIGN(m_defaultModelCompPtr, "DefaultModel", "Data model to be connected to the observer", false, "DefaultModel");
 		I_TASSIGN_TO(m_defaultObjectCompPtr, m_defaultModelCompPtr, false);
