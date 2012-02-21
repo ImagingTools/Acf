@@ -49,7 +49,9 @@ public:
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags);
-	virtual void OnGuiModelAttached();
+
+	// reimplemented (iqtui::CComponentBase)
+	virtual void OnGuiCreated();
 
 private:
 	I_ATTR(bool, m_showControlButtonsAttrPtr);

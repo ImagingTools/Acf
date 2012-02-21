@@ -90,8 +90,8 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_zoomOutCommand.setToolTip(tr("Zoom Out"));
 	m_commands.InsertChild(&m_zoomOutCommand);
 
-	m_zoomResetCommand.setIcon(QIcon(":/Icons/ZoomBase"));
-	m_zoomResetCommand.setToolTip(tr("Zoom 1:1"));
+	m_zoomResetCommand.setIcon(QIcon(":/Icons/ZoomReset"));
+	m_zoomResetCommand.setToolTip(tr("Reset Zoom"));
 	m_commands.InsertChild(&m_zoomResetCommand);
 
 	m_zoomToFitCommand.setIcon(QIcon(":/Icons/ZoomToFit"));
