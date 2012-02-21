@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2116
+          2180
         </Number>
         <Description>
           ACF
@@ -148,7 +148,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="5">
+        <AttributeInfoMap count="4">
           <AttributeInfo>
             <Id>
               DocuEditorFileParam
@@ -214,25 +214,6 @@
               <IsEnabled>
                 false
               </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              TechHelpFileProvider
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                DoxygenHelpFileProvider
-              </Value>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

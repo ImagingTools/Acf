@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2116
+          2180
         </Number>
         <Description>
           ACF
@@ -632,15 +632,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="9">
-    <Interface>
-      <InterfaceId>
-        ibase::ICommandsProvider
-      </InterfaceId>
-      <ComponentId>
-        DocumentTemplate
-      </ComponentId>
-    </Interface>
+  <ExportedInterfaces count="8">
     <Interface>
       <InterfaceId>
         icmpstr::IExternalMetaInfoManager
