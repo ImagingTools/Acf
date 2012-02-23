@@ -1,9 +1,10 @@
 <RCC>
   <qresource prefix="/Icons">
     <file alias="UpDir.svg">Resources/Icons/UpDir.svg</file>
-    <file alias="ZoomReset">Resources/Icons/hand_128.png</file>
     <file alias="ZoomIn.svg">Resources/Icons/ZoomIn.svg</file>
     <file alias="ZoomOut.svg">Resources/Icons/ZoomOut.svg</file>
+    <file alias="ZoomReset.svg">Resources/Icons/ZoomReset.svg</file>
+    <file alias="ZoomToFit.svg">Resources/Icons/ZoomToFit.svg</file>
     <file alias="Info.svg">Resources/Icons/Info.svg</file>
     <file alias="Error.svg">Resources/Icons/Error.svg</file>
     <file alias="Warning.svg">Resources/Icons/Warning.svg</file>
