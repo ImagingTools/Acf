@@ -1,9 +1,13 @@
 #include "iser/CBinaryReadArchiveBase.h"
 
 
-// ACF includes
+// STL includes
+#include <vector>
+
+// Qt includes
 #include <QString>
 
+// ACF includes
 #include "iser/CArchiveTag.h"
 
 

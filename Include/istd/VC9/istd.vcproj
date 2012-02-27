@@ -342,10 +342,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\itr.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ITrace.h"
 				>
 			</File>

@@ -627,9 +627,6 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 		}
 	}
 
-	stream << std::endl << std::endl;
-	stream << "I_DECLARE_TR_FUNCTION(" << className << ")" << std::endl << std::endl;
-
 	return !stream.fail();
 }
 
@@ -1338,7 +1335,7 @@ bool CRegistryCodeSaverComp::GetAttributeValue(
 
 	const icomp::CStringAttribute* stringAttribute = dynamic_cast<const icomp::CStringAttribute*>(&attribute);
 	if (stringAttribute != NULL){
-		valueString = "tr(" + GetStringLiteral(stringAttribute->GetValue()) + ", \"" + componentId + "/" + attributeId + "\")";
+		valueString = "QObject::tr(" + GetStringLiteral(stringAttribute->GetValue()) + ", \"" + componentId + "/" + attributeId + "\")";
 		typeName = "icomp::CStringAttribute";
 
 		return true;
@@ -1401,7 +1398,7 @@ bool CRegistryCodeSaverComp::GetMultiAttributeValue(
 	const icomp::CMultiStringAttribute* stringListAttribute = dynamic_cast<const icomp::CMultiStringAttribute*>(&attribute);
 	if (stringListAttribute != NULL){
 		for (int index = 0; index < stringListAttribute->GetValuesCount(); index++){
-			valueStrings.push_back("tr(" + GetStringLiteral(stringListAttribute->GetValueAt(index)) + ", \"" + componentId + "/" + attributeId + "\")");
+			valueStrings.push_back("QObject::tr(" + GetStringLiteral(stringListAttribute->GetValueAt(index)) + ", \"" + componentId + "/" + attributeId + "\")");
 		}
 
 		typeName = "icomp::CMultiStringAttribute";

@@ -3,14 +3,13 @@
 
 
 // Qt includes
+#include <QObject>
 #include <QStringList>
 #include <QFileInfo>
-
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "istd/CStaticServicesProvider.h"
-#include "istd/itr.h"
 
 #include "iser/IFileLoader.h"
 
@@ -34,7 +33,6 @@ class TFileSerializerComp:
 			public ibase::TLoggerCompWrap<CFileTypeInfoComp>,
 			virtual public iser::IFileLoader
 {
-	I_DECLARE_TR_FUNCTION(TFileSerializerComp);
 public:	
 	typedef ibase::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
 
@@ -175,7 +173,7 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 {
 	if ((dataObjectPtr != NULL) && (dynamic_cast<const iser::ISerializable*>(dataObjectPtr) == NULL)){
 		if (!beQuiet){
-			SendInfoMessage(MI_BAD_OBJECT_TYPE, tr("Object is not serializable"));
+			SendInfoMessage(MI_BAD_OBJECT_TYPE, QObject::tr("Object is not serializable"));
 		}
 
 		return false;
@@ -209,7 +207,7 @@ bool TFileSerializerComp<ReadArchive, WriteArchive>::IsOperationSupported(
 			}
 
 			if (!beQuiet){
-				SendInfoMessage(MI_BAD_EXTENSION, tr("File extension is not supported"));
+				SendInfoMessage(MI_BAD_EXTENSION, QObject::tr("File extension is not supported"));
 			}
 
 			return false;
@@ -266,14 +264,14 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 		I_ASSERT(serializablePtr != NULL);
 
 		if (!CheckMinimalVersion(*serializablePtr, archive.GetVersionInfo())){
-			SendWarningMessage(MI_UNSUPPORTED_VERSION, tr("Archive version is not supported, possible lost of data"));
+			SendWarningMessage(MI_UNSUPPORTED_VERSION, QObject::tr("Archive version is not supported, possible lost of data"));
 		}
 
 		if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
 			return StateOk;
 		}
 		else{
-			SendInfoMessage(MI_CANNOT_SAVE, tr("Cannot serialize object to file"));
+			SendInfoMessage(MI_CANNOT_SAVE, QObject::tr("Cannot serialize object to file"));
 		}
 	}
 
@@ -293,7 +291,7 @@ const iser::IVersionInfo* TFileSerializerComp<ReadArchive, WriteArchive>::GetVer
 template <class ReadArchive, class WriteArchive>
 void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(const ReadArchive& /*archive*/, const istd::IChangeable& /*data*/, const QString& filePath) const
 {
-	SendWarningMessage(MI_CANNOT_LOAD, QString(tr("Cannot load object from file ")) + filePath);
+	SendWarningMessage(MI_CANNOT_LOAD, QString(QObject::tr("Cannot load object from file ")) + filePath);
 }
 
 
