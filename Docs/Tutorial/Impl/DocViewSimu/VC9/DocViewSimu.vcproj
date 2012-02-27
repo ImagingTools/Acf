@@ -73,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmain.lib QtCore4.lib QtGui4.lib AcfStd.lib AcfQt.lib"
+				AdditionalDependencies="QtGui4.lib AcfStd.lib AcfQt.lib"
 				OutputFile="$(OutDir)/$(ProjectName)"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\..\..\Lib\$(ConfigurationName)VC9&quot;"
 				SubSystem="2"
