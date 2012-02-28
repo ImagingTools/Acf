@@ -23,13 +23,13 @@ CComplexDoubleManip::CComplexDoubleManip(
 
 // reimplemented (imath::TIValueManip)
 
-std::string CComplexDoubleManip::GetString(const double& value) const
+QString CComplexDoubleManip::GetString(const double& value) const
 {
 	return BaseClass::GetString(GetRounded(value) * m_scaleFactor + m_offset, m_scaledPrecision);
 }
 
 
-bool CComplexDoubleManip::GetParsed(const std::string& text, double& result) const
+bool CComplexDoubleManip::GetParsed(const QString& text, double& result) const
 {
 	bool retVal = CDoubleManip::GetParsed(text, result);
 

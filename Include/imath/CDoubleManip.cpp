@@ -26,64 +26,19 @@ int CDoubleManip::GetPrecision() const
 
 // reimplemented (imath::TIValueManip)
 
-std::string CDoubleManip::GetString(const double& value) const
+QString CDoubleManip::GetString(const double& value) const
 {
-	std::ostringstream stream;
-
-	stream << value;
-
-	return stream.str();
+	return QString::number(value);
 }
 
 
-bool CDoubleManip::GetParsed(const std::string& text, double& result) const
+bool CDoubleManip::GetParsed(const QString& text, double& result) const
 {
-	double sign = 0.0;
-	double divider = 0.0;
-	I_SDWORD intValueResult = 0;
+	bool isOk;
 
-	int stringLength = int(text.size());
-	for (int i = 0; i < stringLength; ++i){
-		char c = text[i];
-		if (::isdigit(c)){
-			divider *= 10;
+	result = text.toDouble(&isOk);
 
-			intValueResult = intValueResult * 10 + c - '0';
-		}
-		else if (c == m_pointChar){
-			if (divider != 0){
-				return false;
-			}
-
-			divider = 1.0;
-		}
-		else if (c == '-'){
-			if (sign != 0.0){
-				return false;	// two minus or plus signs are not allowed
-			}
-
-			sign = -1.0;
-		}
-		else if (c == '+'){
-			if (sign != 0.0){
-				return false;	// two minus or plus signs are not allowed
-			}
-
-			sign = 1.0;
-		}
-	}
-
-	if (sign == 0.0){
-		sign = 1.0;
-	}
-
-	if (divider == 0.0){
-		divider = 1.0;
-	}
-
-	result = intValueResult * sign / divider;
-
-	return true;
+	return isOk;
 }
 
 

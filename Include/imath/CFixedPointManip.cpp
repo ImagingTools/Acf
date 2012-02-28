@@ -40,13 +40,13 @@ int CFixedPointManip::GetPrecision() const
 
 // reimplemented (imath::TIValueManip)
 
-std::string CFixedPointManip::GetString(const double& value) const
+QString CFixedPointManip::GetString(const double& value) const
 {
 	return GetString(value, m_precision);
 }
 
 
-bool CFixedPointManip::GetParsed(const std::string& text, double& result) const
+bool CFixedPointManip::GetParsed(const QString& text, double& result) const
 {
 	bool retVal = BaseClass::GetParsed(text, result);
 
@@ -60,7 +60,7 @@ bool CFixedPointManip::GetParsed(const std::string& text, double& result) const
 
 // protected methods
 
-std::string CFixedPointManip::GetString(const double& value, int /*precision*/) const
+QString CFixedPointManip::GetString(const double& value, int /*precision*/) const
 {
 	typedef std::vector<char> CharacterList;
 	CharacterList rotatedString;
@@ -92,7 +92,7 @@ std::string CFixedPointManip::GetString(const double& value, int /*precision*/) 
 
 	int stringLength = int(rotatedString.size());
 
-	std::string retVal(rotatedString.size(), ' ');
+	QString retVal(int(rotatedString.size()), ' ');
 
 	for (int i = 0; i < stringLength; ++i){
 		retVal[i] = rotatedString[stringLength - i - 1];

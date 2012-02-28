@@ -40,8 +40,8 @@ public:
 	void SetPrecision(int precision);
 
 	// reimplemented (imath::TIValueManip)
-	virtual std::string GetString(const double& value) const;
-	virtual bool GetParsed(const std::string& text, double& result) const;
+	virtual QString GetString(const double& value) const;
+	virtual bool GetParsed(const QString& text, double& result) const;
 
 protected:
 	// reimplemented (imath::TIValueManip)

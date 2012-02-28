@@ -2,9 +2,8 @@
 #define imath_TIValueManip_included
 
 
-// STL includes
-#include <string>
-
+// QtCore includes
+#include <QtCore/QString>
 
 // ACF includes
 #include "istd/IPolymorphic.h"
@@ -49,14 +48,14 @@ public:
 		Get this value as string.
 		\param	value	value will be converted.
 	 */
-	virtual std::string GetString(const ValueType& value) const = 0;
+	virtual QString GetString(const ValueType& value) const = 0;
 	/**
 		Get value converted from string.
 		\param	text	input string.
 		\param	result	result value.
 		\return			true if success.
 	 */
-	virtual bool GetParsed(const std::string& text, ValueType& result) const = 0;
+	virtual bool GetParsed(const QString& text, ValueType& result) const = 0;
 	/**
 		Return biggest value smaller that specified one.
 	 */

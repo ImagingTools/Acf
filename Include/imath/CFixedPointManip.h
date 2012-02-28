@@ -59,8 +59,8 @@ public:
 	virtual bool IsSmallerEqual(const double& value1, const double& value2) const;
 	virtual double GetSmallerValue(const double& value) const;
 	virtual double GetBiggerValue(const double& value) const;
-	virtual std::string GetString(const double& value) const;
-	virtual bool GetParsed(const std::string& text, double& result) const;
+	virtual QString GetString(const double& value) const;
+	virtual bool GetParsed(const QString& text, double& result) const;
 
 protected:
 	typedef double (*RoundingFuntionPtr)(double value);
@@ -68,7 +68,7 @@ protected:
 	virtual I_SDWORD GetInternalValue(double value) const;
 	virtual double GetNormalValue(I_SDWORD intValue) const;
 
-	std::string GetString(const double& value, int precision) const;
+	QString GetString(const double& value, int precision) const;
 
 	static double NormalRoundFuntion(double value);
 
