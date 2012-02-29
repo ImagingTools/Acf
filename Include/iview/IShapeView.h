@@ -106,7 +106,6 @@ public:
 	/**
 		Connect shape object to view.
 		\param	shape	a shape object.
-		\param	active	if true, shape will be active, if false it will be only visible.
 		\return	true, if it was possible to connect this shape.
 	*/
 	virtual void ConnectShape(IShape* shapePtr, int layerIndex = -1) = 0;

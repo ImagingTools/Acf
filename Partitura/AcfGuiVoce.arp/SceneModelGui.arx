@@ -82,13 +82,13 @@
     </Element>
     <Element>
       <Id>
-        SceneExtenderDelgator
+        SceneExtenderDelegator
       </Id>
       <PackageId>
         QtViewPck
       </PackageId>
       <ComponentId>
-        SceneExtenderDelgator
+        SceneExtenderDelegator
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -134,7 +134,7 @@
         iqt2d::ISceneExtender
       </InterfaceId>
       <ComponentId>
-        SceneExtenderDelgator
+        SceneExtenderDelegator
       </ComponentId>
     </Interface>
     <Interface>

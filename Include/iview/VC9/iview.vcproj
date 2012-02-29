@@ -605,10 +605,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ISingleLayer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ITouchable.h"
 				>
 			</File>

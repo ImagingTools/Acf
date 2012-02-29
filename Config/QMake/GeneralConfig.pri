@@ -9,6 +9,7 @@ COMPILER_NAME = QMake
 win32-msvc*{
 	COMPILER_NAME = VC
 	QMAKE_CXXFLAGS += /wd4127 /wd4250 /wd4347 /wd4355 /wd4365 /wd4505 /wd4510 /wd4511 /wd4512 /wd4548 /wd4571 /wd4619 /wd4625 /wd4626 /wd4640 /wd4702 /wd4710 /wd4820 /wd4826
+	QMAKE_CXXFLAGS_WARN_ON = -W4
 
 	win32-msvc2005{
 		COMPILER_NAME = VC8
@@ -21,8 +22,9 @@ win32-msvc*{
 		COMPILER_NAME = VC10
 	}
 }
-
-QMAKE_CXXFLAGS_WARN_ON = -Wall
+else{
+	QMAKE_CXXFLAGS_WARN_ON = -Wall
+}
 
 CONFIG(debug, debug|release){
 	COMPILER_DIR = Debug$$COMPILER_NAME

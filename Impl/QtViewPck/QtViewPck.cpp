@@ -29,7 +29,7 @@ I_EXPORT_PACKAGE(
 
 
 I_EXPORT_COMPONENT(
-			SceneExtenderDelgator,
+			SceneExtenderDelegator,
 			"Delegate a scene extender",
 			"Scene Connector Provider Extender Display Console" IM_TAG("GUI"));
 

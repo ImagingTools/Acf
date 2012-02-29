@@ -5,7 +5,7 @@
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
 
-#include "iqt2d/TSceneExtenderDelgatorCompWrap.h"
+#include "iqt2d/TSceneExtenderDelegatorCompWrap.h"
 #include "iqt2d/CSceneConnectorGuiComp.h"
 #include "iqt2d/CSceneProviderGuiComp.h"
 #include "iqt2d/CImageViewComp.h"
@@ -29,7 +29,7 @@ namespace QtViewPck
 {
 
 
-typedef iqt2d::CSceneExtenderDelgatorComp SceneExtenderDelgator;
+typedef iqt2d::CSceneExtenderDelegatorComp SceneExtenderDelegator;
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
 typedef iqt2d::CSceneProviderGuiComp SceneProvider;
 typedef iqt2d::CImageViewComp ImageView;

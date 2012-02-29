@@ -68,8 +68,17 @@ public:
 	int GetLogicalPositionExact() const;
 
 	// reimplemented (IViewEventObserver)
-	virtual bool OnSelectChange(const iview::IShapeView& view, const istd::CIndex2d& position, const iview::IInteractiveShape& shape, bool state);
-	virtual bool OnMouseButton(const iview::IShapeView& view, const istd::CIndex2d& position, Qt::MouseButton buttonType, bool state, const iview::IInteractiveShape* shapePtr);
+	virtual bool OnSelectChange(
+				const iview::IShapeView& view,
+				const istd::CIndex2d& position,
+				const iview::IInteractiveShape& shape,
+				bool state);
+	virtual bool OnMouseButton(
+				const iview::IShapeView& view,
+				const istd::CIndex2d& position,
+				Qt::MouseButton buttonType,
+				bool state,
+				const iview::IInteractiveShape* shapePtr);
 
 	// reimplemented (IMouseActionObserver)
 	virtual bool OnMouseMove(istd::CIndex2d position);
