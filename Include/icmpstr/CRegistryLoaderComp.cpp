@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QString>
-#include <QFileInfo>
-#include <QDir>
-#include <QMessageBox>
+#include <QtCore/QString>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
+#include <QtGui/QMessageBox>
 
 
 // ACF includes

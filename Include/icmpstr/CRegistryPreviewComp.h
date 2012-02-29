@@ -3,9 +3,10 @@
 
 
 // Qt includes
-#include <QProcess>
-#include <QLabel>
+#include <QtCore/QProcess>
+#include <QtGui/QLabel>
 
+// ACF includes
 #include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CComponentBase.h"
 

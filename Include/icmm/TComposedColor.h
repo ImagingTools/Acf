@@ -6,7 +6,7 @@
 #include <cstring>
 
 
-// ACF inlcudes
+// ACF includes
 #include "iser/ISerializable.h"
 #include "iser/CArchiveTag.h"
 

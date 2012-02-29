@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QProcess>
-#include <QMetaType>
+#include <QtCore/QProcess>
+#include <QtCore/QMetaType>
 
 
 namespace iqt

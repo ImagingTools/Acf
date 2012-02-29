@@ -2,9 +2,9 @@
 #define icmpstr_CRegistryConsistInfoComp_included
 
 
-// QT includes
-#include <QHash>
-#include <QIcon>
+// Qt includes
+#include <QtCore/QHash>
+#include <QtGui/QIcon>
 
 #include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CComponentBase.h"

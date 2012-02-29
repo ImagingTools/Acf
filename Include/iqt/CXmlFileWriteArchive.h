@@ -2,9 +2,9 @@
 #define iqt_CXmlFileWriteArchive_included
 
 
-#include <QDomDocument>
-#include <QDomNode>
-#include <QFile>
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomNode>
+#include <QtCore/QFile>
 
 #include "iser/CWriteArchiveBase.h"
 #include "iser/CFileArchiveInfo.h"

@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QUuid>
-#include <QDir>
+#include <QtCore/QUuid>
+#include <QtCore/QDir>
 
 
 namespace iqt

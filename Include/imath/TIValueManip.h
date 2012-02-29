@@ -2,7 +2,7 @@
 #define imath_TIValueManip_included
 
 
-// QtCore includes
+// Qt includes
 #include <QtCore/QString>
 
 // ACF includes

@@ -5,11 +5,9 @@
 #include <sstream>
 #include <cstring>
 
-
 // Qt includes
-#include <QDomNodeList>
-#include <QFile>
-
+#include <QtCore/QFile>
+#include <QtXml/QDomNodeList>
 
 // ACF includes
 #include "istd/CBase64.h"

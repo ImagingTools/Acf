@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QGraphicsItem>
+#include <QtGui/QGraphicsItem>
 
 #include "imod/TSingleModelObserverBase.h"
 

@@ -3,9 +3,9 @@
 
 
 // Qt includes
-#include <QString>
-#include <QMessageBox>
-#include <QApplication>
+#include <QtCore/QString>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
 
 
 // ACF includes

@@ -5,7 +5,7 @@
 #include "istd/ILogger.h"
 #include "istd/TSmartPtr.h"
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "isys/CSimpleDateTime.h"
 

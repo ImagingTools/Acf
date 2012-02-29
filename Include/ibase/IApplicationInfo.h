@@ -3,7 +3,7 @@
 
 
 #include "istd/IPolymorphic.h"
-#include <QString>
+#include <QtCore/QString>
 
 #include "iser/IVersionInfo.h"
 

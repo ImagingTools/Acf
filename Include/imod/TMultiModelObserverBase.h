@@ -2,7 +2,7 @@
 #define imod_TMultiModelObserverBase_included
 
 
-// ACF inlcudes
+// ACF includes
 #include "imod/CMultiModelObserverBase.h"
 
 #include "imod/imod.h"

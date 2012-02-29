@@ -2,11 +2,13 @@
 #define iqt_CCriticalSection_included
 
 
-#include "iqt/iqt.h"
+// Qt includes
+#include <QtCore/QMutex>
 
+// ACF includes
 #include "isys/ICriticalSection.h"
 
-#include <QMutex>
+#include "iqt/iqt.h"
 
 
 namespace iqt

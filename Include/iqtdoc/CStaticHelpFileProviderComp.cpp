@@ -1,9 +1,9 @@
 #include "iqtdoc/CStaticHelpFileProviderComp.h"
 
 
-// QT includes
-#include <QFileInfo>
-#include <QDir>
+// Qt includes
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 
 // ACF includes
 #include "iqt/iqt.h"

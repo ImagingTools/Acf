@@ -3,8 +3,8 @@
 
 
 // Qt includes
-#include <QToolBar>
-#include <QMap>
+#include <QtCore/QMap>
+#include <QtGui/QToolBar>
 
 
 // ACF includes

@@ -2,7 +2,7 @@
 #define iqt_CIniSettingsProviderComp_included
 
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "icomp/CComponentBase.h"
 

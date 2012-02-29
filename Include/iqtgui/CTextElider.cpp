@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QVariant>
-#include <QFont>
-#include <QFontMetrics>
-#include <QEvent>
+#include <QtCore/QVariant>
+#include <QtGui/QFont>
+#include <QtGui/QFontMetrics>
+#include <QtCore/QEvent>
 
 
 // ACF includes

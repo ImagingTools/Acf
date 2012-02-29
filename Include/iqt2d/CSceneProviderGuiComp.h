@@ -3,11 +3,10 @@
 
 
 // Qt includes
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsSceneResizeEvent>
-#include <QGraphicsSceneWheelEvent>
-
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsSceneResizeEvent>
+#include <QtGui/QGraphicsSceneWheelEvent>
 
 // ACF includes
 #include "i2d/ISceneController.h"

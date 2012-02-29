@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QStringList>
-#include <QDateTime>
+#include <QtCore/QStringList>
+#include <QtCore/QDateTime>
 
 
 namespace iqt

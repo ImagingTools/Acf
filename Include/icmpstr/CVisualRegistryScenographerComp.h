@@ -6,11 +6,10 @@
 #include <map>
 
 // Qt includes
-#include <QObject>
-#include <QTimer>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGraphicsScene>
 
 // ACF includes
 #include "iser/IFileLoader.h"

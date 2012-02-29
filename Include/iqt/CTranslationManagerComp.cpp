@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QApplication>
-#include <QIcon>
-#include <QLocale>
-#include <QDir>
-
+#include <QtCore/QLocale>
+#include <QtCore/QDir>
+#include <QtGui/QApplication>
+#include <QtGui/QIcon>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

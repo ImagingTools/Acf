@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QHeaderView>
-#include <QDateTime>
-#include <QToolBar>
-#include <QPainter>
-
+#include <QtCore/QDateTime>
+#include <QtGui/QHeaderView>
+#include <QtGui/QToolBar>
+#include <QtGui/QPainter>
 
 // ACF includes
 #include "iqtgui/CItemDelegate.h"

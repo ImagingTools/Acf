@@ -2,11 +2,11 @@
 
 
 // Qt includes
-#include <QObject>
-#include <QDir>
-#include <QCoreApplication>
-#include <QMessageBox>
-#include <QFileInfo>
+#include <QtCore/QObject>
+#include <QtCore/QDir>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QFileInfo>
+#include <QtGui/QMessageBox>
 
 
 // ACF includes

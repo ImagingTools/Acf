@@ -2,12 +2,12 @@
 
 
 // Qt includes
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QSpacerItem>
-#include <QToolBox>
-#include <QTabWidget>
-#include <QGroupBox>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QSpacerItem>
+#include <QtGui/QToolBox>
+#include <QtGui/QTabWidget>
+#include <QtGui/QGroupBox>
 
 
 // ACF includes

@@ -2,9 +2,9 @@
 
 
 // Qt includes
-#include <QObject>
-#include <QAction>
-#include <QFileDialog>
+#include <QtCore/QObject>
+#include <QtGui/QAction>
+#include <QtGui/QFileDialog>
 
 
 namespace iqtgui

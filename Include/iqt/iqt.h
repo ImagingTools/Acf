@@ -3,17 +3,16 @@
 
 
 // Qt includes
-#include <QString>
-#include <QStringList>
-#include <QSize>
-#include <QPoint>
-#include <QPointF>
-#include <QRectF>
-#include <QLine>
-#include <QLineF>
-#include <QFileInfo>
-#include <QDateTime>
-
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QSize>
+#include <QtCore/QPoint>
+#include <QtCore/QPointF>
+#include <QtCore/QRectF>
+#include <QtCore/QLine>
+#include <QtCore/QLineF>
+#include <QtCore/QFileInfo>
+#include <QtCore/QDateTime>
 
 // ACF includes
 #include "istd/CIndex2d.h"

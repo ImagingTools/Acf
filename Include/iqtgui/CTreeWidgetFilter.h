@@ -2,7 +2,7 @@
 #define iqtgui_CTreeWidgetFilter_included
 
 
-#include <QTreeWidget>
+#include <QtGui/QTreeWidget>
 
 #include "iqtgui/iqtgui.h"
 

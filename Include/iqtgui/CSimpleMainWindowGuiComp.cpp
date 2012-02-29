@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QSettings>
+#include <QtCore/QSettings>
 
 
 // ACF includes

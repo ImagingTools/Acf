@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QAuthenticator>
+#include <QtNetwork/QAuthenticator>
 
 
 namespace iqt

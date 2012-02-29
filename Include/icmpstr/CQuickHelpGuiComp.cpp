@@ -2,9 +2,9 @@
 
 
 // Qt includes
-#include <QProcess>
-#include <QDir>
-#include <QFileInfo>
+#include <QtCore/QProcess>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomNode>
 

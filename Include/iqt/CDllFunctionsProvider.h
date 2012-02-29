@@ -2,13 +2,14 @@
 #define iqt_CDllFunctionsProvider_included
 
 
-#include "iqt/iqt.h"
+// Qt includes
+#include <QtCore/QString>
+#include <QtCore/QLibrary>
 
-#include <QString>
-
+// ACF includes
 #include "isys/IFunctionsProvider.h"
 
-#include <QLibrary>
+#include "iqt/iqt.h"
 
 
 namespace iqt

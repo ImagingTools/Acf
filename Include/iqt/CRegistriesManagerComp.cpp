@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QCoreApplication>
-#include <QFileInfo>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QFileInfo>
 
 // ACF includes
 #include "iser/CXmlFileReadArchive.h"

@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QImage>
-
+#include <QtGui/QImage>
 
 // ACF includes
 #include "istd/IPolymorphic.h"

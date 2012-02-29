@@ -2,17 +2,16 @@
 
 
 // Qt includes
-#include <QMessageBox>
-#include <QApplication>
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QUrl>
-#include <QDir>
-#include <QFileInfo>
-#include <QStatusBar>
-#include <QClipboard>
-#include <QDesktopServices>
-
+#include <QtCore/QUrl>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QStatusBar>
+#include <QtGui/QClipboard>
+#include <QtGui/QDesktopServices>
 
 // ACF includes
 #include "imod/IObserver.h"

@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QIcon>
+#include <QtGui/QIcon>
 
 
 // ACF includes

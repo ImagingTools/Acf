@@ -2,8 +2,7 @@
 
 
 // Qt includes
-#include <QTextDocument>
-
+#include <QtGui/QTextDocument>
 
 // ACF includes
 #include "iqt/CSignalBlocker.h"

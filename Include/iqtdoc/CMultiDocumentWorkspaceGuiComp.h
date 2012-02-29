@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QMdiArea>
-#include <QMdiSubWindow>
-
+#include <QtGui/QMdiArea>
+#include <QtGui/QMdiSubWindow>
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"

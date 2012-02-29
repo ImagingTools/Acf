@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QStyleOptionGraphicsItem>
-#include <QPainter>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-
+#include <QtGui/QStyleOptionGraphicsItem>
+#include <QtGui/QPainter>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsView>
 
 // ACF includes
 #include "istd/TDelPtr.h"

@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QItemDelegate>
+#include <QtGui/QItemDelegate>
 
 
 // ACF includes 

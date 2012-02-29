@@ -2,7 +2,7 @@
 #define iview_ICalibration_included
 
 
-// ACF inlcudes
+// ACF includes
 #include "i2d/CVector2d.h"
 #include "i2d/CLine2d.h"
 #include "i2d/CMatrix2d.h"

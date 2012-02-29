@@ -3,10 +3,9 @@
 
 
 // Qt includes
-#include <QObject>
-#include <QGraphicsScene>
-#include <QGraphicsSceneDragDropEvent>
-
+#include <QtCore/QObject>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsSceneDragDropEvent>
 
 // ACF includes
 #include "icomp/CComponentBase.h"

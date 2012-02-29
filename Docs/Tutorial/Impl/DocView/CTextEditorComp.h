@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QTextEdit>
+#include <QtGui/QTextEdit>
 
 #include "imod/TSingleModelObserverBase.h"
 

@@ -3,10 +3,9 @@
 
 
 // Qt includes
-#include <QMap>
-#include <QString>
-#include <QTranslator>
-
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QtCore/QTranslator>
 
 // ACF includes
 #include "istd/TPointerVector.h"

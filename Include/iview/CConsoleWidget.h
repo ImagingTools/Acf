@@ -3,10 +3,10 @@
 
 
 // Qt includes
-#include <QPainter>
-#include <QWidget>
-#include <QCursor>
-#include <QPainter>
+#include <QtGui/QPainter>
+#include <QtGui/QWidget>
+#include <QtGui/QCursor>
+#include <QtGui/QPainter>
 
 
 // ACF includes

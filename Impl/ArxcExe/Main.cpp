@@ -3,20 +3,17 @@
 
 
 // Qt includes
-#include <QMessageBox>
-#include <QApplication>
-#include <QCoreApplication>
-#include <QDir>
-
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
 
 // ACF includes
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
-
 #include "iqt/CDefaultServicesProvider.h"
 #include "iqt/CProcessEnvironment.h"
-
 
 // ACF packages includes
 #include "QtPck/QtPck.h"

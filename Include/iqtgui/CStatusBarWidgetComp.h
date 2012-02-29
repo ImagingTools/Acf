@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QStatusBar>
-
+#include <QtGui/QStatusBar>
 
 // ACF includes
 #include "icomp/CComponentBase.h"

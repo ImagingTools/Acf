@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QCheckBox>
-#include <QApplication>
-#include <QStylePainter>
-#include <QAbstractItemView>
-
+#include <QtGui/QCheckBox>
+#include <QtGui/QApplication>
+#include <QtGui/QStylePainter>
+#include <QtGui/QAbstractItemView>
 
 // ACF includes
 #include "iqt/CSignalBlocker.h"

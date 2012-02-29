@@ -5,7 +5,7 @@
 #include <vector>
 
 // Qt includes
-#include <QString>
+#include <QtCore/QString>
 
 // ACF includes
 #include "iser/CArchiveTag.h"

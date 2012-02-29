@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QApplication>
-#include <QString>
-#include <QVBoxLayout>
-#include <QIcon>
+#include <QtGui/QApplication>
+#include <QtCore/QString>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QIcon>
 
 
 namespace iqtgui

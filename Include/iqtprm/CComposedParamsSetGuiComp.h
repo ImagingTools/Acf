@@ -6,7 +6,7 @@
 #include <set>
 
 // ACF includes
-#include <QString>
+#include <QtCore/QString>
 
 #include "iser/IFileLoader.h"
 

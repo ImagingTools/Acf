@@ -2,7 +2,7 @@
 #define ibase_ITextDocument_included
 
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "iser/ISerializable.h"
 

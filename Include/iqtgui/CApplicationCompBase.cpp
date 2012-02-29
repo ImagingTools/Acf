@@ -2,14 +2,13 @@
 
 
 // Qt includes
-#include <QApplication>
-#include <QString>
-#include <QIcon>
-#include <QStyle>
-#include <QTextStream>
-#include <QFile>
-#include <QVBoxLayout>
-
+#include <QtCore/QString>
+#include <QtCore/QTextStream>
+#include <QtCore/QFile>
+#include <QtGui/QApplication>
+#include <QtGui/QIcon>
+#include <QtGui/QStyle>
+#include <QtGui/QVBoxLayout>
 
 // ACF includes
 #include "icomp/CCompositeComponent.h"

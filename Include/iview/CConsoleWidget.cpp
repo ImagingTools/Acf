@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QPaintEvent>
-#include <QMouseEvent>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QMouseEvent>
 
 
 namespace iview

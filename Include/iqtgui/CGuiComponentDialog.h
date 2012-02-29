@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QDialog>
-#include <QDialogButtonBox>
-
+#include <QtGui/QDialog>
+#include <QtGui/QDialogButtonBox>
 
 // ACF includes
 #include "icomp/CComponentBase.h"

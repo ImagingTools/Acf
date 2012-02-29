@@ -2,12 +2,11 @@
 
 
 // Qt includes
-#include <QFrame>
-#include <QToolButton>
-#include <QLayout>
-#include <QLabel>
-#include <QWheelEvent>
-
+#include <QtGui/QFrame>
+#include <QtGui/QToolButton>
+#include <QtGui/QLayout>
+#include <QtGui/QLabel>
+#include <QtGui/QWheelEvent>
 
 // ACF includes
 #include "iqtgui/CWidgetUpdateBlocker.h"

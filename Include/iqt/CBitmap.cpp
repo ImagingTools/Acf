@@ -4,9 +4,9 @@
 // STL includes
 #include <cstring>
 
-// QT includes
-#include <QVector>
-#include <QColor>
+// Qt includes
+#include <QtCore/QVector>
+#include <QtGui/QColor>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

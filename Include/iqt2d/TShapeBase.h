@@ -3,16 +3,15 @@
 
 
 // Qt includes
-#include <QObject>
-#include <QBrush>
-#include <QPen>
-#include <QVariant>
-#include <QMap>
-#include <QPointF>
-#include <QGraphicsItem>
-#include <QStyle>
-#include <QStyleOptionGraphicsItem>
-
+#include <QtCore/QObject>
+#include <QtCore/QVariant>
+#include <QtCore/QMap>
+#include <QtCore/QPointF>
+#include <QtGui/QBrush>
+#include <QtGui/QPen>
+#include <QtGui/QGraphicsItem>
+#include <QtGui/QStyle>
+#include <QtGui/QStyleOptionGraphicsItem>
 
 // ACF includes
 #include "iqt2d/ISceneProvider.h"

@@ -3,11 +3,11 @@
 
 
 // Qt includes
-#include <QString>
+#include <QtCore/QString>
 
 
 // ACF includes
-#include <QString>
+#include <QtCore/QString>
 
 #include "ibase/IApplicationInfo.h"
 #include "ibase/IFileConvertCopy.h"

@@ -2,12 +2,11 @@
 
 
 // Qt includes
-#include <QEvent>
-#include <QFileDialog>
-#include <QMap>
-#include <QMessageBox>
-#include <QFileInfo>
-
+#include <QtCore/QMap>
+#include <QtCore/QFileInfo>
+#include <QtCore/QEvent>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

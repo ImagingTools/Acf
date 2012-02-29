@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include <QString>
+#include <QtCore/QString>
 
 #include "icomp/CComponentBase.h"
 

@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QTimer>
-
+#include <QtCore/QTimer>
 
 // ACF includes
 #include "iser/IFileLoader.h"

@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QAction>
+#include <QtGui/QAction>
 
 
 // ACF includes

@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QSplashScreen>
-
+#include <QtGui/QSplashScreen>
 
 // ACF includes
 #include "ibase/IApplicationInfo.h"

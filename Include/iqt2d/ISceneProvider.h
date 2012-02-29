@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QGraphicsScene>
-
+#include <QtGui/QGraphicsScene>
 
 // ACF includes
 #include "istd/IPolymorphic.h"

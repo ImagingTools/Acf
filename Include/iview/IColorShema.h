@@ -7,9 +7,9 @@
 
 
 // Qt includes
-#include <QPen>
-#include <QBrush>
-#include <QFont>
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
+#include <QtGui/QFont>
 
 
 // ACF includes

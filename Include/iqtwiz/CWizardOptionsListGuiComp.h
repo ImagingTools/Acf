@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QComboBox>
-#include <QRadioButton>
-
+#include <QtGui/QComboBox>
+#include <QtGui/QRadioButton>
 
 // ACF includes
 #include "istd/TPointerVector.h"

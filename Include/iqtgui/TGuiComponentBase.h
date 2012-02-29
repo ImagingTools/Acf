@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QWidget>
+#include <QtGui/QWidget>
 
 
 // ACF includes

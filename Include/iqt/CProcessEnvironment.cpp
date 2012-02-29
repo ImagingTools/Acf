@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QDir>
-#include <QCoreApplication>
-#include <QProcess>
-#include <QThread>
+#include <QtCore/QDir>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QProcess>
+#include <QtCore/QThread>
 
 
 namespace iqt

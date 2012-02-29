@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QApplication>
+#include <QtGui/QApplication>
 
 
 namespace iqtgui

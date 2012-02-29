@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QGraphicsPathItem>
-
+#include <QtGui/QGraphicsPathItem>
 
 // ACF includes
 #include "i2d/CQuadrangle.h"

@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QFileInfo>
-#include <QVBoxLayout>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
+#include <QtCore/QFileInfo>
+#include <QtGui/QVBoxLayout>
 
 
 // ACF includes

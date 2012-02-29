@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QDirModel>
+#include <QtGui/QDirModel>
 
 
 // ACF includes

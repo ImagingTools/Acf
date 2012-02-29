@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QGraphicsRectItem>
-
+#include <QtGui/QGraphicsRectItem>
 
 // ACF includes
 #include "i2d/CRectangle.h"

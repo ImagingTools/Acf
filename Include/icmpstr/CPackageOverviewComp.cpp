@@ -2,19 +2,18 @@
 
 
 // Qt includes
-#include <QVBoxLayout>
-#include <QMouseEvent>
-#include <QApplication>
-#include <QHeaderView>
-#include <QItemDelegate>
-#include <QBitmap>
-#include <QPushButton>
-#include <QPainter>
-#include <QMenu>
-#include <QMimeData>
-#include <QDrag>
-#include <QString>
-
+#include <QtCore/QString>
+#include <QtCore/QMimeData>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QApplication>
+#include <QtGui/QHeaderView>
+#include <QtGui/QItemDelegate>
+#include <QtGui/QBitmap>
+#include <QtGui/QPushButton>
+#include <QtGui/QPainter>
+#include <QtGui/QMenu>
+#include <QtGui/QDrag>
 
 // ACF includes
 #include "iser/CXmlStringWriteArchive.h"

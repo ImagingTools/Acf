@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QDir>
+#include <QtCore/QDir>
 
 // STL includes
 #include <map>

@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QObject>
-#include <QGraphicsItem>
-
+#include <QtCore/QObject>
+#include <QtGui/QGraphicsItem>
 
 // ACF includes
 #include "iqt2d/ISceneProvider.h"

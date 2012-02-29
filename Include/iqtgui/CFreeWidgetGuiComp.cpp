@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QVBoxLayout>
+#include <QtGui/QVBoxLayout>
 
 
 namespace iqtgui

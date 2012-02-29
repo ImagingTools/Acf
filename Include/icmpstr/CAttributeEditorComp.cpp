@@ -2,12 +2,12 @@
 
 
 // Qt includes
-#include <QHeaderView>
-#include <QListWidget>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QToolButton>
-#include <QPushButton>
+#include <QtGui/QHeaderView>
+#include <QtGui/QListWidget>
+#include <QtGui/QLineEdit>
+#include <QtGui/QComboBox>
+#include <QtGui/QToolButton>
+#include <QtGui/QPushButton>
 
 
 // ACF includes

@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
 
 
 namespace iqt

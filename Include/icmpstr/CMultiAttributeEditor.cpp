@@ -2,9 +2,9 @@
 
 
 // Qt includes
-#include <QHeaderView>
-#include <QComboBox>
-#include <QLineEdit>
+#include <QtGui/QHeaderView>
+#include <QtGui/QComboBox>
+#include <QtGui/QLineEdit>
 
 
 // public methods

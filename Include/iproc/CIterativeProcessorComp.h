@@ -5,7 +5,7 @@
 // STL includes
 #include <vector>
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "ibase/TLoggerCompWrap.h"
 

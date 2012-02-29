@@ -2,9 +2,9 @@
 
 
 // Qt includes
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QLineEdit>
+#include <QtGui/QFileDialog>
+#include <QtCore/QFileInfo>
+#include <QtGui/QLineEdit>
 
 
 // ACF includes

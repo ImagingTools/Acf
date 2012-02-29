@@ -2,11 +2,11 @@
 #define iqtgui_CTextElider_included
 
 
-// QT includes
-#include <QObject>
-#include <QString>
-#include <QMap>
-#include <QTimer>
+// Qt includes
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QMap>
+#include <QtCore/QTimer>
 
 
 namespace iqtgui

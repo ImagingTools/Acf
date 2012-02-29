@@ -5,7 +5,7 @@
 #include "iqt/iqt.h"
 
 
-#include <QObject>
+#include <QtCore/QObject>
 
 
 namespace iqt

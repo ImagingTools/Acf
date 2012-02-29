@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QDockWidget>
-
+#include <QtGui/QDockWidget>
 
 // ACF includes
 #include "iqtgui/IMainWindowComponent.h"

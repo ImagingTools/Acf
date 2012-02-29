@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QThread>
+#include <QtCore/QThread>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

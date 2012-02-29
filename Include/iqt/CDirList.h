@@ -5,9 +5,9 @@
 #include "iqt/iqt.h"
 
 
-#include <QObject>
-#include <QStringList>
-#include <QDir>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
+#include <QtCore/QDir>
  
 
 namespace iqt

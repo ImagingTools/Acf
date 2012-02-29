@@ -2,13 +2,14 @@
 
 
 // Qt includes
-#include <QApplication>
-#include <QDir>
-#include <QFileInfo>
-#include <QMessageBox>
-#include <QDesktopWidget>
-#include <QMetaType>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtCore/QMetaType>
+#include <QtGui/QApplication>
+#include <QtGui/QMessageBox>
+#include <QtGui/QDesktopWidget>
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "iser/CXmlFileWriteArchive.h"

@@ -2,11 +2,11 @@
 #define iqt_CTimer_included
 
 
-#include <QObject>
+#include <QtCore/QObject>
 #if QT_VERSION >= 0x040700
-	#include <QElapsedTimer>
+	#include <QtCore/QElapsedTimer>
 #else
-	#include <QTime>
+	#include <QtCore/QTime>
 #endif
 
 #include "isys/ITimer.h"

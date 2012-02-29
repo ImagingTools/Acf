@@ -2,8 +2,8 @@
 
 
 // Qt includes
-#include <QMainWindow>
-#include <QVBoxLayout>
+#include <QtGui/QMainWindow>
+#include <QtGui/QVBoxLayout>
 
 
 namespace iqtgui

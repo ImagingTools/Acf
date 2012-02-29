@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QMainWindow>
+#include <QtGui/QMainWindow>
 
 
 // ACF includes

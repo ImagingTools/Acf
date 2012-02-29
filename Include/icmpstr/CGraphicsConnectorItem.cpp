@@ -4,11 +4,9 @@
 // STL includes
 #include <cmath>
 
-
 // Qt includes
-#include <QPainter>
-#include <QPainterPath>
-
+#include <QtGui/QPainter>
+#include <QtGui/QPainterPath>
 
 // ACF includes
 #include "i2d/CVector2d.h"

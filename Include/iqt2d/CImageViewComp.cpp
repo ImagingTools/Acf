@@ -2,11 +2,11 @@
 
 
 // ACF includes
-#include <QApplication>
-#include <QGraphicsScene>
-#include <QGraphicsSceneWheelEvent>
-#include <QKeyEvent>
-#include <QMenu>
+#include <QtGui/QApplication>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsSceneWheelEvent>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
 
 
 namespace iqt2d

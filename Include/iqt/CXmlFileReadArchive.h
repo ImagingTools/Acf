@@ -2,10 +2,11 @@
 #define iqt_CXmlFileReadArchive_included
 
 
-#include <QDomDocument>
-#include <QDomNode>
+// Qt includes
+#include <QtXml/QDomDocument>
+#include <QtXml/QDomNode>
 
-
+// ACF includes
 #include "iser/CXmlDocumentInfoBase.h"
 #include "iser/CReadArchiveBase.h"
 

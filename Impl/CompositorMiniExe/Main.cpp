@@ -1,8 +1,8 @@
 // Qt includes
-#include <QMessageBox>
-#include <QApplication>
-#include <QCoreApplication>
-#include <QDir>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDir>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
 
 // ACF includes
 #include "istd/AcfVersion.h"

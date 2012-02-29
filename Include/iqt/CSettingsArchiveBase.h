@@ -5,10 +5,9 @@
 // STL includes
 #include <vector>
 
-
 // Qt includes
-#include <QSettings>
-#include <QString>
+#include <QtCore/QSettings>
+#include <QtCore/QString>
 
 
 namespace iqt

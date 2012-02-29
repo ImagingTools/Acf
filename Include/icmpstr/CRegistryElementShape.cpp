@@ -2,11 +2,11 @@
 
 
 // Qt includes
-#include <QPainter>
-#include <QFont>
-#include <QFontMetrics>
-#include <QStyleOptionGraphicsItem>
-#include <QGraphicsScene>
+#include <QtGui/QPainter>
+#include <QtGui/QFont>
+#include <QtGui/QFontMetrics>
+#include <QtGui/QStyleOptionGraphicsItem>
+#include <QtGui/QGraphicsScene>
 
 
 // ACF includes

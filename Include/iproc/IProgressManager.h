@@ -6,7 +6,7 @@
 #include <string>
 
 #include "istd/IPolymorphic.h"
-#include <QString>
+#include <QtCore/QString>
 
 
 namespace iproc

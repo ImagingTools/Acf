@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QIcon>
+#include <QtGui/QIcon>
 
 
 namespace iqtgui

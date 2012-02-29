@@ -3,11 +3,11 @@
 
 
 // Qt includes
-#include <QFileInfo>
+#include <QtCore/QFileInfo>
 
 
 // ACF includes
-#include <QString>
+#include <QtCore/QString>
 
 #include "iser/IFileLoader.h"
 #include "iser/IFileLoaderInfo.h"

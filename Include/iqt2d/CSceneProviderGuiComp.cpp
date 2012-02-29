@@ -2,12 +2,11 @@
 
 
 // Qt includes
-#include <QKeyEvent>
-#include <QVarLengthArray>
-#include <QPrinter>
-#include <QPrintDialog>
-#include <QGraphicsItem>
-
+#include <QtCore/QVarLengthArray>
+#include <QtGui/QKeyEvent>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QGraphicsItem>
 
 // ACF includes
 #include "iqtdoc/CMainWindowGuiComp.h"

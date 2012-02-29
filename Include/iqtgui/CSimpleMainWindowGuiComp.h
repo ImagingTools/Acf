@@ -3,13 +3,12 @@
 
 
 // Qt includes
-#include <QMainWindow>
-#include <QMenu>
-#include <QMenuBar>
-#include <QToolBar>
-#include <QAction>
-#include <QActionGroup>
-
+#include <QtGui/QMainWindow>
+#include <QtGui/QMenu>
+#include <QtGui/QMenuBar>
+#include <QtGui/QToolBar>
+#include <QtGui/QAction>
+#include <QtGui/QActionGroup>
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"

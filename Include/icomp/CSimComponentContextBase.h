@@ -5,7 +5,7 @@
 // STL includes
 #include <map>
 
-#include <QString>
+#include <QtCore/QString>
 
 #include "istd/TIFactory.h"
 #include "istd/CIdManipBase.h"

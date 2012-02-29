@@ -3,11 +3,10 @@
 
 
 // Qt includes
-#include <QLineEdit>
-#include <QIcon>
-#include <QLabel>
-#include <QList>
-
+#include <QtCore/QList>
+#include <QtGui/QLineEdit>
+#include <QtGui/QIcon>
+#include <QtGui/QLabel>
 
 // ACF includes 
 #include "istd/TDelPtr.h"

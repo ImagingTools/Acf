@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QMimeData>
-#include <QEvent>
-
+#include <QtCore/QMimeData>
+#include <QtCore/QEvent>
 
 // ACF includes
 #include "istd/IPolymorphic.h"

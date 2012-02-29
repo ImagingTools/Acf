@@ -3,8 +3,8 @@
 
 
 // Qt includes
-#include <QAction>
-#include <QString>
+#include <QtGui/QAction>
+#include <QtCore/QString>
 
 
 // ACF includes

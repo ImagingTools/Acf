@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QApplication>
-#include <QClipboard>
-#include <QMimeData>
-#include <QByteArray>
-
+#include <QtCore/QByteArray>
+#include <QtCore/QMimeData>
+#include <QtGui/QApplication>
+#include <QtGui/QClipboard>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

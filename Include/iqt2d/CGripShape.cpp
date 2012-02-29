@@ -2,11 +2,10 @@
 
 
 // Qt includes
-#include <QPen>
-#include <QBrush>
-#include <QFont>
-#include <QCursor>
-
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
+#include <QtGui/QFont>
+#include <QtGui/QCursor>
 
 // ACF includes
 #include "iqt/CSignalBlocker.h"

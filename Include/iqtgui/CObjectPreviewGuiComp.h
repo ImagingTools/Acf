@@ -3,9 +3,8 @@
 
 
 // Qt includes
-#include <QFileSystemWatcher>
-#include <QDateTime>
-
+#include <QtCore/QFileSystemWatcher>
+#include <QtCore/QDateTime>
 
 // ACF includes
 #include "iser/IFileLoader.h"

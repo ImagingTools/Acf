@@ -3,8 +3,7 @@
 
 
 // Qt includes
-#include <QGraphicsRectItem>
-
+#include <QtGui/QGraphicsRectItem>
 
 // ACF includes
 #include "istd/CIndex2d.h"

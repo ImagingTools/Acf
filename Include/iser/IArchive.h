@@ -7,7 +7,7 @@
 
 
 // Qt includes
-#include <QString>
+#include <QtCore/QString>
 
 
 // ACF includes

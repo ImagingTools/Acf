@@ -5,7 +5,7 @@
 
 
 // ACF includes
-#include <QString>
+#include <QtCore/QString>
 
 
 namespace istd

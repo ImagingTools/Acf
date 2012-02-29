@@ -2,10 +2,10 @@
 
 
 // Qt includes
-#include <QLayout>
-#include <QEvent>
-#include <QMetaMethod>
-#include <QCoreApplication>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QEvent>
+#include <QtCore/QMetaMethod>
+#include <QtGui/QLayout>
 
 
 namespace iqtgui
