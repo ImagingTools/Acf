@@ -20,7 +20,7 @@
 			OutputDirectory="../../../../../Bin/$(ConfigurationName)VC9/Tutorial"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\..\..\..\..\Config\VC9\General.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Config\VC9\General.vsprops;..\..\..\..\..\Config\VC9\Release.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -105,7 +105,7 @@
 			OutputDirectory="../../../../../Bin/$(ConfigurationName)VC9/Tutorial"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\..\..\..\..\Config\VC9\General.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\Config\VC9\General.vsprops;..\..\..\..\..\Config\VC9\Debug.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>

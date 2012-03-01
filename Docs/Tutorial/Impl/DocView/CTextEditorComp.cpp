@@ -48,7 +48,7 @@ void CTextEditorComp::UpdateGui(int /*updateFlags*/)
 	ibase::ITextDocument* objectPtr = GetObjectPtr();
 
 	if ((objectPtr != NULL) && !textEditPtr->signalsBlocked()){
-		textEditPtr->setText(objectPtr->GetText()));
+		textEditPtr->setText(objectPtr->GetText());
 	}
 }
 
