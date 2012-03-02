@@ -85,14 +85,14 @@ int CCascadedProcessorComp::DoProcessing(
 	if (progressManagerPtr != NULL){
 		int managersCount = istd::Min(processorsCount, m_progressIdsAttrPtr.GetCount());
 		for (int i = 0; i < managersCount; ++i){
-			const QString& progressId = m_progressIdsAttrPtr[i];
-			if (!progressId.isEmpty()){
-				QString description = progressId;
+			const std::string& progressId = m_progressIdsAttrPtr[i];
+			if (!progressId.empty()){
+				QString description = QString::fromStdString(progressId);
 				if (i < m_progressDescriptionsAttrPtr.GetCount()){
 					description = m_progressDescriptionsAttrPtr[i];
 				}
 
-				progressDelegators.SetElementAt(i, new CDelegatedProgressManager(progressManagerPtr, progressId.toStdString(), description));
+				progressDelegators.SetElementAt(i, new CDelegatedProgressManager(progressManagerPtr, progressId, description));
 			}
 		}
 	}
