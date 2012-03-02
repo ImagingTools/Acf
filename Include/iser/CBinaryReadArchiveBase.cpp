@@ -5,6 +5,7 @@
 #include <vector>
 
 // Qt includes
+#include <QtCore/QObject>
 #include <QtCore/QString>
 
 // ACF includes
@@ -29,7 +30,7 @@ bool CBinaryReadArchiveBase::BeginTag(const CArchiveTag& tag)
 			SendLogMessage(
 						istd::ILogger::MC_ERROR,
 						MI_TAG_ERROR,
-						QString(tr("Bad tag begin code, is ")) + QString("%1").arg(readId) + QString(tr(", should be ")) + QString("%1").arg(tag.GetBinaryId()) + QString(tr(" (tag '")) + QString(tag.GetId().c_str()) + QString(tr("')")),
+						QObject::tr("Bad tag begin code, is %1, should be %2 (tag '%3')").arg(readId).arg(tag.GetBinaryId()).arg(QString::fromStdString(tag.GetId())),
 						"iser::CBinaryReadArchiveBase",
 						MF_SYSTEM);
 		}
@@ -55,7 +56,7 @@ bool CBinaryReadArchiveBase::EndTag(const CArchiveTag& tag)
 			SendLogMessage(
 						istd::ILogger::MC_ERROR,
 						MI_TAG_ERROR,
-						tr("Bad tag begin code, is ") + QString("%1").arg(~readId) + tr(", should be ") + QString("%1").arg(tag.GetBinaryId()) + tr(" (tag '") + QString(tag.GetId().c_str()) + tr("')"),
+						QObject::tr("Bad tag begin code, is %1, should be %2 (tag '%3')").arg(~readId).arg(tag.GetBinaryId()).arg(QString::fromStdString(tag.GetId())),
 						"iser::CBinaryReadArchiveBase",
 						MF_SYSTEM);
 		}

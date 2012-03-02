@@ -39,7 +39,7 @@ public:
 	I_BEGIN_COMPONENT(CIterativeProcessorComp);
 		I_REGISTER_INTERFACE(iproc::IProcessor);
 		I_REGISTER_INTERFACE(iprm::ISelectionConstraints);
-		I_ASSIGN(m_paramsIdAttrPtr, "ParamsId", "ID of parameter defining number of iterations (type iprm::ISelectionParam)", true, "ParamsId");
+		I_ASSIGN(m_paramsIdAttrPtr, "IterationParamId", "ID of parameter defining number of iterations (type iprm::ISelectionParam)", true, "ParamsId");
 		I_ASSIGN(m_maxIterationsCountAttrPtr, "MaxIterations", "Maximal number of iterations", true, 10);
 		I_ASSIGN(m_bufferObjectCompPtr, "BufferObject", "Object used as buffer between single processing steps", true, "BufferObject");
 		I_ASSIGN(m_slaveProcessorCompPtr, "SlaveProcessor", "Slave image processor", true, "SlaveProcessor");
@@ -69,7 +69,7 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
-	I_ATTR(QString, m_paramsIdAttrPtr);
+	I_ATTR(std::string, m_paramsIdAttrPtr);
 	I_ATTR(int, m_maxIterationsCountAttrPtr);
 	I_REF(istd::IChangeable, m_bufferObjectCompPtr);
 	I_REF(iproc::IProcessor, m_slaveProcessorCompPtr);

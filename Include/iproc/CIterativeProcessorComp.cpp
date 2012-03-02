@@ -34,7 +34,7 @@ int CIterativeProcessorComp::DoProcessing(
 
 	int progressSessionId = -1;
 
-	iprm::TParamsPtr<iprm::ISelectionParam> processorParamsPtr(paramsPtr, m_paramsIdAttrPtr->GetValue().toStdString());
+	iprm::TParamsPtr<iprm::ISelectionParam> processorParamsPtr(paramsPtr, *m_paramsIdAttrPtr);
 	if (processorParamsPtr.IsValid() && m_slaveProcessorCompPtr.IsValid()){
 		int iterationsCount = processorParamsPtr->GetSelectedOptionIndex();
 
