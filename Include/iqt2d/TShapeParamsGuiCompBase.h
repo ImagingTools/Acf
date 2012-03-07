@@ -24,7 +24,6 @@ public:
 
 	I_BEGIN_COMPONENT(TShapeParamsGuiCompBase);
 		I_ASSIGN(m_unitNameAttrPtr, "UnitName", "Name of geometric units e.g. mm", false, "mm");
-		I_ASSIGN(m_zValueAttrPtr, "ZValue", "Describe draw priority on display console (the objects with bigger value will overlap the other ones)", true, 1);
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
@@ -41,7 +40,6 @@ protected:
 	virtual void CreateShapes(int sceneId, Shapes& result);
 
 	I_ATTR(QString, m_unitNameAttrPtr);
-	I_ATTR(double, m_zValueAttrPtr);
 };
 
 
@@ -136,7 +134,6 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::UpdateShapeView()
 template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*/, Shapes& result)
 {
-	I_ASSERT(m_zValueAttrPtr.IsValid());	// this attribute is obligatory
 	Shape* shapePtr = new Shape();
 	if (shapePtr != NULL){
 		result.PushBack(shapePtr);
