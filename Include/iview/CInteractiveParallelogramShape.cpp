@@ -38,6 +38,7 @@ CInteractiveParallelogramShape::CInteractiveParallelogramShape()
 void CInteractiveParallelogramShape::InvalidateBoundingBox()
 {
 	m_areNodesValid = false;
+
 	BaseClass::InvalidateBoundingBox();
 }
 
@@ -234,6 +235,10 @@ bool CInteractiveParallelogramShape::OnMouseMove(istd::CIndex2d position)
 				}
 			}
 			return true;
+
+		case EN_NONE:
+		case EN_NODE11:
+			break;
 		}
 
 		i2d::CMatrix2d newParallDeform(newAxisX, newAxisY);

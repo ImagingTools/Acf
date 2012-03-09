@@ -8,7 +8,9 @@
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"
+
 #include "idoc/CMultiDocumentManagerBase.h"
+#include "idoc/IDocumentTemplate.h"
 
 #include "iqt/ISettingsProvider.h"
 

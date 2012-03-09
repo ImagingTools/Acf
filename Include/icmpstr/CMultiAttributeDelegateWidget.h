@@ -39,11 +39,10 @@ protected Q_SLOTS:
 private:
 	const CElementSelectionInfoManagerBase& m_elementSelectionInfoManager;
 
+	QItemDelegate& m_itemDelegate;
 	QLineEdit* m_textEditor;
 	std::string m_attributeId;
 	int m_attributeFlags;
-
-	QItemDelegate& m_itemDelegate;
 };
 
 

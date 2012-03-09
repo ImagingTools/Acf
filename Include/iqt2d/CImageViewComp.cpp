@@ -47,7 +47,7 @@ void CImageViewComp::OnGuiCreated()
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	I_ASSERT(consolePtr != NULL);
 
-	iview::CConsoleGui::ViewImpl& view = consolePtr->GetViewRef();
+	iview::CViewport& view = consolePtr->GetViewRef();
 	view.SetViewDraggable();
 
 	view.ConnectBackgroundShape(this);

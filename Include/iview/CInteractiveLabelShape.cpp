@@ -104,13 +104,14 @@ bool CInteractiveLabelShape::OnMouseMove(istd::CIndex2d position)
 				Invalidate(CS_CONSOLE);
             }
             break;
+		default:
+			return true;
         }
 
 		return true;
 	}
-	else{
-		return false;
-	}
+
+	return false;
 }
 
 

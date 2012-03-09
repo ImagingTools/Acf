@@ -25,6 +25,7 @@ class TQtDocumentManagerWrap: public Base, public Gui
 {
 public:
 	typedef Base BaseClass;
+	typedef typename BaseClass::Ids Ids;
 
 	// pseudo-reimplemented (iqtgui::TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings);
@@ -106,7 +107,7 @@ QString TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilter(const std::str
 		}
 	}
 	else{
-		for (		Ids::const_iterator docTypeIter = docTypeIds.begin();
+		for (		typename Ids::const_iterator docTypeIter = docTypeIds.begin();
 					docTypeIter != docTypeIds.end();
 					++docTypeIter){
 			iser::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*docTypeIter);

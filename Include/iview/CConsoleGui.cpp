@@ -458,7 +458,7 @@ void CConsoleGui::UpdateComponentsPosition()
 
 void CConsoleGui::UpdateCommands()
 {
-	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS);
+//	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS);
 
 	m_rootCommands.ResetChilds();
 	m_commands.ResetChilds();

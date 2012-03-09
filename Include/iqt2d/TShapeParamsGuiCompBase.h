@@ -114,8 +114,8 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* mo
 template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::UpdateShapeView()
 {
-	const ShapesMap& shapesMap = GetShapesMap();
-	for (		ShapesMap::const_iterator index = shapesMap.begin();
+	const ShapesMap& shapesMap = BaseClass::GetShapesMap();
+	for (		typename ShapesMap::const_iterator index = shapesMap.begin();
 				index != shapesMap.end();
 				index++){
 		IViewProvider* providerPtr = index->first;

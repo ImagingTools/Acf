@@ -80,6 +80,8 @@ bool CBitmap::IsFormatSupported(PixelFormat pixelFormat) const
 		case PF_RGB:
 		case PF_RGBA:
 			return true;
+		default:
+			return false;
 	}
 
 	return false;

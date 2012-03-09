@@ -75,7 +75,7 @@ void CXmlDocumentInfoBase::EncodeXml(const QString& text, std::string& xmlText)
 
 	std::wstring::size_type textLength = int(text.size());
 	for (std::wstring::size_type i = 0; i < textLength; ++i){
-		QChar c = text[i];
+		QChar c = text.at(i);
 		WideCharToEntityMap::const_iterator iter = s_wideCharToEntityMap.find(c);
 		if (iter != s_wideCharToEntityMap.end()){
 			xmlText += iter->second;
