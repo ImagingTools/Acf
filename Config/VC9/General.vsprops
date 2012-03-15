@@ -18,9 +18,4 @@
 		WarningLevel="4"
 		DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
 	/>
-	<Tool
-		Name="VCLinkerTool"
-		LinkIncremental="2"
-		EnableUAC="false"
-	/>
 </VisualStudioPropertySheet>
