@@ -1,6 +1,6 @@
 TARGET = BasePck
 
 include(../../../Config/QMake/ComponentConfig.pri)
-include(../../AcfStd/QMake/AcfStd.pri)
+include(../../../Config/QMake/AcfStd.pri)
 
 QT -= gui core

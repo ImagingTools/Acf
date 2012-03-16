@@ -1,0 +1,3 @@
+include(../../../Config/QMake/StaticConfig.pri)
+
+TARGET = iview
