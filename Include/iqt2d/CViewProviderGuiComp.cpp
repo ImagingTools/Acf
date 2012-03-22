@@ -51,8 +51,14 @@ void CViewProviderGuiComp::OnGuiCreated()
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	I_ASSERT(consolePtr != NULL);
 
-	if (m_fitOnStartAttrPtr.IsValid() && *m_fitOnStartAttrPtr){
-		consolePtr->OnFitContentstoView();
+	if (m_fitModeAttrPtr.IsValid()){
+		iview::CConsoleBase::FitMode fitMode = iview::CConsoleBase::FitMode(*m_fitModeAttrPtr);
+
+		consolePtr->SetFitMode(fitMode);
+	}
+
+	if (m_zoomToFitEnabledAttrPtr.IsValid()){
+		consolePtr->SetZoomToFit(*m_zoomToFitEnabledAttrPtr);
 	}
 
 	// shape edit commands

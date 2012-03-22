@@ -118,6 +118,8 @@ void CQuadrangleParamsGuiComp::UpdateGui(int /*updateFlags*/)
 		SecondDiagPoint1YSpin->setValue(point3.GetY());
 		SecondDiagPoint2XSpin->setValue(point4.GetX());
 		SecondDiagPoint2YSpin->setValue(point4.GetY());
+
+		UpdateAllViews();
 	}
 }
 

@@ -89,6 +89,8 @@ void CRectangleParamsGuiComp::UpdateGui(int /*updateFlags*/)
 
 		iqt::CSignalBlocker block4(TopSpin);
 		TopSpin->setValue(objectPtr->GetTop());
+
+		UpdateAllViews();
 	}
 }
 

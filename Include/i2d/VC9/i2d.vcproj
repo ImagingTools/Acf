@@ -418,6 +418,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\ICalibrationProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IObject2d.h"
 				>
 			</File>

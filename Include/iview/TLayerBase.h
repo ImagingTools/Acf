@@ -13,32 +13,30 @@ namespace iview
 /**
 	This is internal class to generate common implementation
 	for diffrent layers implementations.
-	Template paramener must be derivate from iview::ILayer interface.
+	Template paramener must be derivate from ILayer interface.
 */
 template <class Layer, class View = IShapeView>
 class TLayerBase: public Layer
 {
 public:
 	typedef Layer BaseClass;
-
 	using BaseClass::GetBoundingBox;
-
 
 	TLayerBase();
 	virtual ~TLayerBase();
 
 	View* GetTViewPtr() const;
 
-	// reimplemented (iview::ILayer)
+	// reimplemented (ILayer)
 	virtual void OnConnectView(IShapeView* viewPtr);
 	virtual void OnDisconnectView(IShapeView* viewPtr);
 	virtual IShapeView* GetViewPtr() const;
 	virtual bool IsVisible() const;
 	virtual void SetVisible(bool state = true);
 
-	// reimplemented (iview::IDisplay)
+	// reimplemented (IDisplay)
 	virtual IDisplay* GetParentDisplayPtr() const;
-	virtual const iview::CScreenTransform& GetTransform() const;
+	virtual const CScreenTransform& GetTransform() const;
 	virtual i2d::CRect GetClientRect() const;
     virtual const IColorShema& GetColorShema() const;
 	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea);
@@ -63,11 +61,9 @@ inline void TLayerBase<Layer, View>::SetVisible(bool state)
 		m_isVisible = state;
 
 		if (m_isVisible){
-			// Show.
 			OnAreaInvalidated(i2d::CRect::GetEmpty(), GetBoundingBox());
 		}
 		else{
-			// Hide.
 			OnAreaInvalidated(GetBoundingBox(), i2d::CRect::GetEmpty());
 		}
 	}
@@ -105,7 +101,7 @@ View* TLayerBase<Layer, View>::GetTViewPtr() const
 }
 
 
-// reimplemented (iview::ILayer)
+// reimplemented (ILayer)
 
 template <class Layer, class View>
 void TLayerBase<Layer, View>::OnConnectView(IShapeView* viewPtr)
@@ -134,7 +130,7 @@ IShapeView* TLayerBase<Layer, View>::GetViewPtr() const
 }
 
 
-// reimplemented (iview::IDisplay)
+// reimplemented (IDisplay)
 
 template <class Layer, class View>
 IDisplay* TLayerBase<Layer, View>::GetParentDisplayPtr() const
@@ -144,7 +140,7 @@ IDisplay* TLayerBase<Layer, View>::GetParentDisplayPtr() const
 
 
 template <class Layer, class View>
-const iview::CScreenTransform& TLayerBase<Layer, View>::GetTransform() const
+const CScreenTransform& TLayerBase<Layer, View>::GetTransform() const
 {
 	I_ASSERT(m_viewPtr != NULL);
 

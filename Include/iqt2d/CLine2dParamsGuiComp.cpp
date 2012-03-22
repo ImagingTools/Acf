@@ -95,6 +95,8 @@ void CLine2dParamsGuiComp::UpdateGui(int /*updateFlags*/)
 
 		iqt::CSignalBlocker block4(Point2YSB);
 		Point2YSB->setValue(point2.GetY());
+
+		UpdateAllViews();
 	}
 }
 

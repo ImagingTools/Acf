@@ -241,6 +241,11 @@ I_EXPORT_COMPONENT(
 			"Quadrangle 2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
 
 I_EXPORT_COMPONENT(
+			AffineTransformation2d,
+			"Affine transformation",
+			"Affine 2D Tranformation" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+
+I_EXPORT_COMPONENT(
 			TextDocument,
 			"Simple text document",
 			IM_CATEGORY(I_DATA_MODEL) IM_TAG("Text Document"));

@@ -73,6 +73,8 @@ void CAnnulusSegmentParamsGuiComp::UpdateGui(int /*updateFlags*/)
 
 		BeginAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetBeginAngle()));
 		EndAngleSB->setValue(imath::GetDegreeFromRadian(objectPtr->GetEndAngle()));
+
+		UpdateAllViews();
 	}
 }
 

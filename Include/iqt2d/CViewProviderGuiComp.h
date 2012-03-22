@@ -29,11 +29,12 @@ public:
 		I_REGISTER_INTERFACE(IViewProvider);
 		I_ASSIGN(m_viewIdAttrPtr, "ViewId", "ID allowing identifying this view", true, 0);
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);
-		I_ASSIGN(m_fitOnStartAttrPtr, "FitToViewOnStart", "If true, the shapes will be fit to the view on start", false, true);
+		I_ASSIGN(m_zoomToFitEnabledAttrPtr, "ZoomToFitEnabled", "If true, the shapes will be fit to the view according to the defined fitting mode", false, false);
 		I_ASSIGN(m_useShapeEditCommandsAttrPtr, "UseShapeEditCommands", "If true, the commands for shape editing are available", false, false);
 		I_ASSIGN(m_useGridCommandsAttrPtr, "UseGridCommands", "If true, the commands for grid mangement are available", false, false);
 		I_ASSIGN(m_useScollBarCommandsAttrPtr, "UseScrollBarCommands", "If true, the commands for scroll bar management are available", false, false);
 		I_ASSIGN(m_useStatusBarCommandsAttrPtr, "UseStatusBarCommands", "If true, the commands for status bar management are available", false, false);
+		I_ASSIGN(m_fitModeAttrPtr, "FitMode", "Select fitting mode for the view. 0 - No fitting\n1 - Fit contents to view\n2 - Horizontal fit\n3 - Vertical fit\n4 - Both axes sclaled separately\n5 - Scale both axes proportional to display smallest AOI, which fully covers display", false, 0);
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
@@ -54,7 +55,8 @@ private:
 	I_ATTR(bool, m_useGridCommandsAttrPtr);
 	I_ATTR(bool, m_useScollBarCommandsAttrPtr);
 	I_ATTR(bool, m_useStatusBarCommandsAttrPtr);
-	I_ATTR(bool, m_fitOnStartAttrPtr);
+	I_ATTR(bool, m_zoomToFitEnabledAttrPtr);
+	I_ATTR(int, m_fitModeAttrPtr);
 };
 
 

@@ -61,30 +61,34 @@ public:
 	virtual void OnUpdate(int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 protected:
-	/**	Get display changes mask.
-	 *		Only changes there are in mask will be accepted,
-	 *		rest will be ignored.
+	/**
+		Get display changes mask.
+		Only changes there are in mask will be accepted, rest will be ignored.
 	*/
 	virtual int GetDisplayChangesMask();
 	
-	/**	Invalidate bounding box.
-	 *		You can overload this method to provide validation of your internal attributes,
-	 *		because this method is called from Invalidate(int) and
-	 *		OnDisplayChange(int) methods.
-	 *		Please don't forget base method call in your implementations.
+	/**
+		Invalidate bounding box.
+		You can overload this method to provide validation of your internal attributes,
+		because this method is called from Invalidate(int) and OnDisplayChange(int) methods.
+		Please don't forget base method call in your implementations.
 	*/
 	virtual void InvalidateBoundingBox();
 
-	/**	Check if display is connected.
+	/**
+		Check if display is connected.
 	*/
 	bool IsDisplayConnected() const;
 
-	/**	Get color shema for this shape.
-	 *		It can be called only when display is connected \sa IsDisplayConnected().
+	/**
+		Get color shema for this shape.
+		It can be called only when display is connected \sa IsDisplayConnected().
 	*/
 	const IColorShema& GetColorShema() const;
-	/**	Get display client rectangle.
-	 *		It can be called only when display is connected \sa IsDisplayConnected().
+	
+	/**
+		Get display client rectangle.
+		It can be called only when display is connected \sa IsDisplayConnected().
 	*/
 	i2d::CRect GetClientRect() const;
 
@@ -97,8 +101,9 @@ protected:
 
 	// abstract methods
 
-	/**	Calculate bounding box.
-	 *		You have to implement this method in your shapes implementations.
+	/**
+		Calculate bounding box.
+		You have to implement this method in your shapes implementations.
 	*/
 	virtual void CalcBoundingBox(i2d::CRect& result) const = 0;
 

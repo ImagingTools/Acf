@@ -41,6 +41,8 @@ protected:
 	bool IsSceneIdSupported(int id) const;
 	const ShapesMap& GetShapesMap() const;
 
+	void UpdateAllViews();
+
 	// abstract methods
 	virtual void CreateShapes(int sceneId, Shapes& result) = 0;
 
@@ -145,6 +147,21 @@ template <class Base>
 const typename TSceneExtenderCompBase<Base>::ShapesMap& TSceneExtenderCompBase<Base>::GetShapesMap() const
 {
 	return m_shapesMap;
+}
+
+
+template <class Base>
+void TSceneExtenderCompBase<Base>::UpdateAllViews()
+{
+	for (ShapesMap::iterator index = m_shapesMap.begin(); index != m_shapesMap.end(); index++){
+		IViewProvider* viewProvderPtr = index->first;
+		I_ASSERT(viewProvderPtr != NULL);
+
+		iview::IShapeView* viewPtr = viewProvderPtr->GetView();
+		I_ASSERT(viewPtr != NULL);
+
+		viewPtr->Update();
+	}
 }
 
 
