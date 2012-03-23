@@ -6,6 +6,7 @@
 	ProjectGUID="{CE718FF3-10C8-40B7-BCFF-244511F3E1C4}"
 	RootNamespace="iview"
 	Keyword="Qt4VSv1.0"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -52,7 +53,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -123,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../;&quot;$(QTDIR)\include&quot;"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -625,14 +626,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TCalibratedViewBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TFramedViewBase.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TInteractiveMultiPolylineShape.h"
 				>
 			</File>
@@ -650,10 +643,6 @@
 			</File>
 			<File
 				RelativePath="..\TShapeBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TViewImpl.h"
 				>
 			</File>
 		</Filter>

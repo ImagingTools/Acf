@@ -5,6 +5,7 @@
 	Name="ibase"
 	ProjectGUID="{C30159C1-C8F9-49F4-AE32-C014F87B12BD}"
 	RootNamespace="ibase"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -65,7 +66,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="../../"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -433,10 +434,6 @@
 			</File>
 			<File
 				RelativePath="..\ILoggable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IInformation.h"
 				>
 			</File>
 			<File

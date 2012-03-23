@@ -5,6 +5,7 @@
 	Name="CompositorMini"
 	ProjectGUID="{6BD89B26-013F-4F41-87B7-14D632CCFEFF}"
 	RootNamespace="CompositorMini"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -40,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="0"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../../Include;&quot;$(QTDIR)\include&quot;"
+				AdditionalIncludeDirectories="../../../Include"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="2"
@@ -86,9 +87,6 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -117,10 +115,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../../Include;&quot;$(QTDIR)\include&quot;"
+				AdditionalIncludeDirectories="../../../Include"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
+				DebugInformationFormat="3"
 				CompileAs="0"
 			/>
 			<Tool
@@ -159,9 +158,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
