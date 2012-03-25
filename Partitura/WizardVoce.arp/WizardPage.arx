@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2016
+          2246
         </Number>
         <Description>
           ACF
@@ -36,22 +36,6 @@
         <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
-              PageController
-            </Id>
-            <Type>
-              icomp::CReferenceAttribute
-            </Type>
-            <ExportId>
-              PageController
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               Parameters
             </Id>
             <Type>
@@ -75,6 +59,22 @@
             </Type>
             <ExportId>
               PageDataId
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              SlaveControllers
+            </Id>
+            <Type>
+              icomp::CMultiReferenceAttribute
+            </Type>
+            <ExportId>
+              SlaveControllers
             </ExportId>
             <Data>
               <IsEnabled>

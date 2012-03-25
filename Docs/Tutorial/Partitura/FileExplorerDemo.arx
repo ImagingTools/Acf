@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2088
+          2246
         </Number>
         <Description>
           ACF
@@ -33,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               AllowOpenFile
@@ -74,25 +74,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              BackgroundMode
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;int&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                3
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               FileExplorerSettingsKey
             </Id>
             <Type>
@@ -107,25 +88,6 @@
               </IsEnabled>
               <Value>
                 FileExplorer
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              FitMode
-            </Id>
-            <Type>
-              icomp::TAttribute&lt;int&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                2
               </Value>
             </Data>
           </AttributeInfo>
