@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          2246
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="2">
@@ -13,8 +24,11 @@
         575
       </X>
       <X>
-        475
+        375
       </X>
+      <Note>
+        Widget to show image properties
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -26,6 +40,9 @@
       <X>
         250
       </X>
+      <Note>
+        General status bar widget, where the image frame will be placed.
+      </Note>
     </Element>
   </PositionMap>
 </Acf>

@@ -1,7 +1,18 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="1">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          2246
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
@@ -15,6 +26,9 @@
       <X>
         275
       </X>
+      <Note>
+        Log UI and data model
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -26,6 +40,9 @@
       <X>
         150
       </X>
+      <Note>
+        Dock widget where the log window is placed.
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -37,6 +54,9 @@
       <X>
         375
       </X>
+      <Note>
+        File loader for log import/export
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -48,6 +68,9 @@
       <X>
         375
       </X>
+      <Note>
+        XML based file serializer using by persistency components for loading/saving the log data
+      </Note>
     </Element>
   </PositionMap>
 </Acf>

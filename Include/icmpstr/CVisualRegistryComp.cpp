@@ -232,9 +232,6 @@ bool CVisualRegistryComp::SerializeComponentInfo(
 	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
 	I_DWORD frameworkVersion = 0;
 	versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion);
-	if (!archive.IsStoring() && (frameworkVersion == iser::IVersionInfo::UnknownVersion)){
-		return true;
-	}
 	
 	if (frameworkVersion >= 2246 || archive.IsStoring()){
 		static iser::CArchiveTag componentNoteTag("Note", "Component note");	
