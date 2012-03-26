@@ -22,7 +22,12 @@ namespace istd
 CGeneralTimeStamp::CGeneralTimeStamp()
 {
 	m_timeShift = 0;
+
+#if QT_VERSION >= 0x040700
 	m_timer.start();
+#else
+	m_timer = QDateTime::currentTime();
+#endif
 }
 
 
@@ -39,7 +44,26 @@ void CGeneralTimeStamp::Start(double elapsedTime)
 	istd::CChangeNotifier notifier(this);
 
 	m_timeShift = elapsedTime;
+
+#if QT_VERSION >= 0x040700
 	m_timer.start();
+#else
+	m_timer = QDateTime::currentTime();
+#endif
+}
+
+
+QDateTime CGeneralTimeStamp::GetStartTime() const
+{
+#if QT_VERSION >= 0x040700
+	QDateTime retVal = QDateTime::currentDateTime();
+
+	retVal.addMSecs(m_timer.elapsed());
+
+	return retVal;
+#else
+	return m_timer;
+#endif
 }
 
 
@@ -48,7 +72,11 @@ double CGeneralTimeStamp::GetElapsed() const
 #if QT_VERSION >= 0x040800
 	return m_timer.nsecsElapsed() * 0.000000001 + m_timeShift;
 #else
+#if QT_VERSION >= 0x040700
 	return m_timer.elapsed() * 0.001 + m_timeShift;
+#else
+	return QDateTime::currentDateTime().msecsTo(m_timer) * 0.001 + m_timeShift;
+#endif
 #endif
 }
 
