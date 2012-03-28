@@ -41,7 +41,7 @@ public:
 	/**
 		Flags for control constraints behavior.
 	*/
-	enum SelectionContstraintsFlags
+	enum SelectionConstraintsFlags
 	{
 		SCF_NONE = 0,
 
@@ -67,13 +67,13 @@ public:
 	virtual QString GetOptionName(int index) const = 0;
 
 	/**
-		Get description for a option with the index \c index.
+		Get human readable description for a option with the index \c index.
 	*/
 	virtual QString GetOptionDescription(int index) const = 0;
 
 	/**
 		Get option ID. The option ID must be unique, if flag SCF_SUPPORT_UNIQUE_ID is set.
-		\sa SelectionContstraintsFlags
+		\sa SelectionConstraintsFlags
 	*/
 	virtual std::string GetOptionId(int index) const = 0;
 };
