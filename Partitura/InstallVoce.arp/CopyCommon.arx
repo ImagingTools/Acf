@@ -211,7 +211,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="8">
                 <Value>
                   *.xpc
                 </Value>
@@ -229,6 +229,12 @@
                 </Value>
                 <Value>
                   empty
+                </Value>
+                <Value>
+                  *.props
+                </Value>
+                <Value>
+                  *.targets
                 </Value>
               </Values>
             </Data>

@@ -1,27 +1,16 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="1">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1860
+          2246
         </Number>
         <Description>
           ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1
-        </Id>
-        <Number>
-          369
-        </Number>
-        <Description>
-          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -44,7 +33,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="7">
+        <AttributeInfoMap count="6">
           <AttributeInfo>
             <Id>
               ApplicationType
@@ -62,30 +51,6 @@
               <Value>
                 OpenSource
               </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              BinaryExcludeFilters
-            </Id>
-            <Type>
-              icomp::TMultiAttribute&lt;QString&gt;
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Values count="2">
-                <Value>
-                  *Xcd
-                </Value>
-                <Value>
-                  *VC8
-                </Value>
-              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

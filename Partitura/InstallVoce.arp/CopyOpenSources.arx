@@ -15,7 +15,163 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="8">
+  <ElementsList count="9">
+    <Element>
+      <Id>
+        CopyBuild
+      </Id>
+      <PackageId>
+        InstallVoce
+      </PackageId>
+      <ComponentId>
+        CopyInfoProcessor
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="7">
+          <AttributeInfo>
+            <Id>
+              ApplicationInfo
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              ApplicationInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ExcludeFilters
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;QString&gt;
+            </Type>
+            <ExportId>
+              OtherExcludeFilters
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Filters
+            </Id>
+            <Type>
+              icomp::TMultiAttribute&lt;QString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="4">
+                <Value>
+                  *.vcproj
+                </Value>
+                <Value>
+                  *.sln
+                </Value>
+                <Value>
+                  *.pro
+                </Value>
+                <Value>
+                  *.pri
+                </Value>
+              </Values>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              InputDir
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;QString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ../Build
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              icomp::CReferenceAttribute
+            </Type>
+            <ExportId>
+              Log
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              OutputDir
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;QString&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Temp/Build
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              RecursionDepth
+            </Id>
+            <Type>
+              icomp::TAttribute&lt;int&gt;
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                2
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
     <Element>
       <Id>
         CopyCommon
@@ -1216,7 +1372,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="7">
+              <Values count="8">
                 <Value>
                   CopyCommon
                 </Value>
@@ -1237,6 +1393,9 @@
                 </Value>
                 <Value>
                   CopyImplResources
+                </Value>
+                <Value>
+                  CopyBuild
                 </Value>
               </Values>
             </Data>

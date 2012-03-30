@@ -15,7 +15,21 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="8">
+  <PositionMap count="9">
+    <Element>
+      <ComponentName>
+        CopyBuild
+      </ComponentName>
+      <X>
+        1000
+      </X>
+      <X>
+        350
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
     <Element>
       <ComponentName>
         CopyCommon
