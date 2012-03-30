@@ -10,6 +10,8 @@ RESOURCES += ../*.qrc
 LIBS += -licmpstr
 LIBS += -lAcfLoc
 
+HEADERS -= ../*.h
+
 win32-msvc*{
 	QMAKE_CXXFLAGS += /wd4264
 }
