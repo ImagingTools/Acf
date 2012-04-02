@@ -2,8 +2,6 @@
 
 
 // Qt includes
-#include <QtCore/QString>
-#include <QtCore/QFileInfo>
 #include <QtCore/QDir>
 #include <QtCore/QProcess>
 
@@ -16,123 +14,15 @@ namespace iqt
 {
 
 
-// reimplemented (isys::IFileSystem)
+// static members
 
-QString CFileSystem::GetNormalizedPath(const QString& path) const
+QString CFileSystem::GetNormalizedPath(const QString& path)
 {
 	QDir dir(GetEnrolledPath(path));
 
 	return dir.absolutePath();
 }
 
-
-QString CFileSystem::GetFileName(const QString& filePath) const
-{
-	QFileInfo fileInfo(filePath);
-
-	return fileInfo.fileName();
-}
-
-
-QString CFileSystem::GetBaseFileName(const QString& filePath) const
-{
-	QFileInfo fileInfo(filePath);
-
-	return fileInfo.baseName();
-}
-
-
-QString CFileSystem::GetDirPath(const QString& filePath) const
-{
-	QFileInfo fileInfo(filePath);
-
-	return fileInfo.absolutePath();
-}
-
-
-bool CFileSystem::HasExtension(const QString& filePath, const QString& extension) const
-{
-	return filePath.endsWith(extension);
-}
-
-
-bool CFileSystem::IsPresent(const QString& filePath) const
-{
-	QFileInfo fileInfo(filePath);
-
-	return fileInfo.exists();
-}
-
-
-bool CFileSystem::CreateFileCopy(const QString& inputFile, const QString& outputFile, bool overwriteExisting) const
-{
-	QString inputFilePath = inputFile;
-	QFileInfo inputFileInfo(inputFilePath);
-	if (!inputFileInfo.exists()){
-		return false;
-	}
-
-	QString outputFilePath = outputFile;
-
-	if (overwriteExisting){
-		QFileInfo fileInfo(outputFilePath);
-		if (fileInfo.exists()){
-			if (!QFile::remove(outputFilePath)){
-				return false;
-			}
-		}
-	}
-
-	return QFile::copy(inputFilePath, outputFilePath);
-}
-
-
-bool CFileSystem::RemoveFile(const QString& filePath) const
-{
-	QFile file(filePath);
-
-	return file.remove();
-}
-
-
-bool CFileSystem::RemoveFolder(const QString& directoryPath, bool ignoreNonEmpty) const
-{
-	QString directory = directoryPath;
-
-	QDir dir(directory);
-
-	if (ignoreNonEmpty){
-		bool retVal = true;
-		QFileInfoList directoryItems = dir.entryInfoList(QDir::Files | QDir::Dirs);
-		for (int itemIndex = 0; itemIndex < directoryItems.count(); itemIndex++){
-			QFileInfo& fileInfo  = directoryItems[itemIndex];
-
-			if (fileInfo.exists()){
-				if (fileInfo.isDir()){
-					retVal = retVal && RemoveFolder(fileInfo.absoluteFilePath(), true);
-				}
-				else{				
-					retVal = retVal && RemoveFile(fileInfo.absoluteFilePath());
-				}
-			}
-		}
-	}
-
-	return dir.rmdir(directory);
-}
-
-
-bool CFileSystem::CreateFolder(const QString& directoryPath) const
-{
-	QString directory = directoryPath;
-
-	QDir dir(directory);
-
-	return dir.mkdir(directory);
-}
-
-
-// static members
 
 QString CFileSystem::GetEnrolledPath(const QString& path)
 {
@@ -214,8 +104,8 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 #endif // _MSC_VER
 	}
 
-	iqt::CProcessEnvironment processEnvironment;
-	iqt::CProcessEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
+	static iqt::CProcessEnvironment processEnvironment;
+	static iqt::CProcessEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
 
 	iqt::CProcessEnvironment::EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(varName.toUpper());
 	if (foundVarIter != environmentVariables.end()){

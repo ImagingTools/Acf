@@ -178,10 +178,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IFileSystem.h"
-				>
-			</File>
-			<File
 				RelativePath="..\IFunctionsProvider.h"
 				>
 			</File>

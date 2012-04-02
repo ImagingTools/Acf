@@ -232,6 +232,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileSerializerCompBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileTypeInfoComp.cpp"
 				>
 			</File>
@@ -330,6 +334,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileCopyOverLoaderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSerializerCompBase.h"
 				>
 			</File>
 			<File

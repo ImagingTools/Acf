@@ -4,13 +4,10 @@
 // STL includes
 #include <algorithm>
 
-
 // ACF includes
 #include "istd/CStaticServicesProvider.h"
 
 #include "iser/ISerializable.h"
-
-#include "isys/IFileSystem.h"
 
 #include "idoc/IDocumentManager.h"
 #include "idoc/CSerializedStateComparator.h"
