@@ -164,19 +164,11 @@
 			Name="Source Files"
 			Filter="cpp"
 			>
-			<File
-				RelativePath="..\CSystemInfoBase.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h"
 			>
-			<File
-				RelativePath="..\CSystemInfoBase.h"
-				>
-			</File>
 			<File
 				RelativePath="..\IFunctionsProvider.h"
 				>
@@ -187,10 +179,6 @@
 			</File>
 			<File
 				RelativePath="..\isys.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ISystemInfo.h"
 				>
 			</File>
 			<File
