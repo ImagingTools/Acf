@@ -170,10 +170,6 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\IProcessEnvironment.h"
-				>
-			</File>
-			<File
 				RelativePath="..\isys.h"
 				>
 			</File>

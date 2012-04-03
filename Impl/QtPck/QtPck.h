@@ -17,7 +17,6 @@
 #include "iqt/CCopyProcessorComp.h"
 #include "iqt/CFileListProviderComp.h"
 #include "iqt/CClipboardSerializerComp.h"
-#include "iqt/CProcessExecutorComp.h"
 #include "iqt/CRenderedObjectFileLoaderComp.h"
 #include "iqt/CTranslationManagerComp.h"
 #include "iqt/CXmlFileReadArchive.h"
@@ -64,7 +63,6 @@ typedef iqt::CFileInfoCopyComp FileInfoCopy;
 typedef iqt::CCopyProcessorComp CopyProcessor;
 typedef icomp::TModelCompWrap<iqt::CFileListProviderComp> FileListProvider;
 typedef iqt::CClipboardSerializerComp ClipboardSerializer;
-typedef iqt::CProcessExecutorComp ProcessorExecutor;
 typedef iqt::CRenderedObjectFileLoaderComp RenderedObjectFileLoader;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
 typedef ibase::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;

@@ -3,15 +3,26 @@
 
 // Qt includes
 #include <QtCore/QDir>
+#include <QtCore/QThread>
 #include <QtCore/QProcess>
 
-
 // ACF includes
-#include "iqt/CProcessEnvironment.h"
+#include <istd/istd.h>
 
 
 namespace iqt
 {
+
+
+/*
+	Helper implementation makeing sleep functionality public.
+	\intern
+*/
+class CQtThread: private QThread
+{
+public:
+	using QThread::usleep;
+};
 
 
 // static members
@@ -104,15 +115,41 @@ QString CFileSystem::FindVariableValue(const QString& varName)
 #endif // _MSC_VER
 	}
 
-	static iqt::CProcessEnvironment processEnvironment;
-	static iqt::CProcessEnvironment::EnvironmentVariables environmentVariables = processEnvironment.GetEnvironmentVariables();
+	EnvironmentVariables environmentVariables = GetEnvironmentVariables();
 
-	iqt::CProcessEnvironment::EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(varName.toUpper());
+	EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(varName.toUpper());
 	if (foundVarIter != environmentVariables.end()){
 		return foundVarIter->second;
 	}
 
 	return QString();
+}
+
+
+CFileSystem::EnvironmentVariables CFileSystem::GetEnvironmentVariables()
+{
+	QStringList processEnvironment = QProcess::systemEnvironment();
+	EnvironmentVariables environmentVariables;
+
+	for (int variableIndex = 0; variableIndex < int(processEnvironment.count()); variableIndex++){
+		QString variableEntry = processEnvironment[variableIndex];
+		QStringList splitted = variableEntry.split('=');
+
+		if (splitted.count() == 2){
+			QString variableName = splitted[0];
+			QString variableValue = splitted[1];
+
+			environmentVariables[variableName.toUpper()] = variableValue;
+		}
+	}
+
+	return environmentVariables;
+}
+
+
+void CFileSystem::Sleep(double seconds)
+{
+	CQtThread::usleep((unsigned long)seconds * 1000000);
 }
 
 
