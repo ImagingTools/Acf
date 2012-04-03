@@ -55,8 +55,6 @@ See \c Docs/Tutorial for tutorials.
 
 /**
 	\defgroup System Defines access to operating system dependent implementation
-	Many of system dependent interfaces will be registered on global level as services.
-	This interfaces can be accessed using global template functions istd::GetService() and istd::CreateService().
 
 	\ingroup ACF
 */

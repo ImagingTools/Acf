@@ -8,8 +8,6 @@ namespace WizardPck
 {
 
 
-I_EXPORT_DEFAULT_SERVICES;
-
 I_EXPORT_PACKAGE(
 			"Acf/Wizard",
 			"Wizard data model and controller package",

@@ -12,7 +12,6 @@
 #include "icomp/TSimComponentWrap.h"
 #include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
-#include "iqt/CDefaultServicesProvider.h"
 #include "iqt/CFileSystem.h"
 
 // ACF packages includes
@@ -41,8 +40,6 @@ static void ShowUsage()
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-
-	iqt::CDefaultServicesProvider::RegisterServices();
 
 	if (argc < 2){
 		ShowUsage();

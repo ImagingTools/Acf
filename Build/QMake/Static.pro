@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += istd
-SUBDIRS += isys
 SUBDIRS += iser
 SUBDIRS += i2d
 SUBDIRS += iimg
@@ -26,7 +25,6 @@ SUBDIRS += icmpstr
 SUBDIRS += AcfLoc
 
 istd.file = ../../Include/istd/QMake/istd.pro
-isys.file = ../../Include/isys/QMake/isys.pro
 iser.file = ../../Include/iser/QMake/iser.pro
 i2d.file = ../../Include/i2d/QMake/i2d.pro
 iimg.file = ../../Include/iimg/QMake/iimg.pro

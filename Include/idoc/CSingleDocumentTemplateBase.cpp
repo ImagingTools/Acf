@@ -5,8 +5,6 @@
 #include <algorithm>
 
 // ACF includes
-#include "istd/CStaticServicesProvider.h"
-
 #include "iser/ISerializable.h"
 
 #include "idoc/IDocumentManager.h"

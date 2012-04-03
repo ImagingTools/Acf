@@ -233,15 +233,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CStaticServicesProvider.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CVarIndex.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\istd.cpp"
 				>
 			</File>
 		</Filter>
@@ -302,10 +294,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CStaticServicesProvider.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CVarIndex.h"
 				>
 			</File>
@@ -330,10 +318,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ILocalizer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\ILogger.h"
 				>
 			</File>
@@ -342,19 +326,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IServicesProvider.h"
-				>
-			</File>
-			<File
 				RelativePath="..\istd.h"
 				>
 			</File>
 			<File
 				RelativePath="..\ITimeStamp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ITrace.h"
 				>
 			</File>
 			<File

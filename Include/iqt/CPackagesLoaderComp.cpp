@@ -229,12 +229,6 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 		if (foundIter == m_realPackagesMap.end()){
 			QLibrary& provider = GetLibrary(fileInfo);
 			if (provider.isLoaded()){
-				// register services:
-				icomp::RegisterServicesFunc registerServicesInfoPtr = (icomp::RegisterServicesFunc)provider.resolve(I_EXPORT_SERVICES_FUNCTION_NAME);
-				if (registerServicesInfoPtr != NULL){
-					registerServicesInfoPtr(&istd::CStaticServicesProvider::GetProviderInstance());
-				}
-
 				icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.resolve(I_PACKAGE_EXPORT_FUNCTION_NAME);
 				if (getInfoPtr != NULL){
 					icomp::CPackageStaticInfo* infoPtr = getInfoPtr();

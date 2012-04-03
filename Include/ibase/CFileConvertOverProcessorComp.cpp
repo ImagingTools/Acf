@@ -4,9 +4,6 @@
 // Qt includes
 #include <QtCore/QMutexLocker>
 
-// ACF includes
-#include "istd/CStaticServicesProvider.h"
-
 
 namespace ibase
 {

@@ -13,14 +13,10 @@
 
 #include "ibase/IApplication.h"
 
-#include "iqt/CDefaultServicesProvider.h"
-
 
 int main(int argc, char *argv[])
 {
 	QApplication::setStyle("plastique");
-
-	iqt::CDefaultServicesProvider::RegisterServices();
 
 	QString configFile;
 

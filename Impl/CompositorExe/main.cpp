@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "ibase/IApplication.h"
-#include "iqt/CDefaultServicesProvider.h"
 
 #include "Generated/CCompositor.h"
 
@@ -17,8 +16,6 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(icmpstr);
 	Q_INIT_RESOURCE(AcfLoc);
 	Q_INIT_RESOURCE(Compositor);
-
-	iqt::CDefaultServicesProvider::RegisterServices();
 
 	CCompositor instance;
 

@@ -200,10 +200,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDefaultServicesProvider.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CDirList.cpp"
 				>
 			</File>
@@ -225,10 +221,6 @@
 			</File>
 			<File
 				RelativePath="..\CIniSettingsProviderComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CLocalizer.cpp"
 				>
 			</File>
 			<File
@@ -277,10 +269,6 @@
 			</File>
 			<File
 				RelativePath="..\CSignalBlocker.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CTrace.cpp"
 				>
 			</File>
 			<File
@@ -338,10 +326,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDefaultServicesProvider.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CDirList.h"
 				>
 			</File>
@@ -363,10 +347,6 @@
 			</File>
 			<File
 				RelativePath="..\CIniSettingsProviderComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CLocalizer.h"
 				>
 			</File>
 			<File
@@ -418,10 +398,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTrace.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CTranslationManagerComp.h"
 				>
 			</File>
@@ -465,10 +441,6 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CNetworkWriteArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\generated\moc_CProcessExecutorComp.cpp"
 				>
 			</File>
 			<File

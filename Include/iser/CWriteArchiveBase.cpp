@@ -2,8 +2,6 @@
 
 
 // ACF includes
-#include "istd/CStaticServicesProvider.h"
-
 #include "iser/TVersionInfoSerializer.h"
 
 
@@ -49,9 +47,6 @@ bool CWriteArchiveBase::ProcessBits(void* dataPtr, int bitsCount, int bytesCount
 CWriteArchiveBase::CWriteArchiveBase(const IVersionInfo* versionInfoPtr)
 :	m_versionInfoPtr(versionInfoPtr)
 {
-	if (m_versionInfoPtr == NULL){
-		m_versionInfoPtr = istd::GetService<IVersionInfo>();
-	}
 }
 
 

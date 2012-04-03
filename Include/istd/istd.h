@@ -2,7 +2,11 @@
 #define istd_included
 
 
+// QTL includes
 #include <limits>
+
+// Qt includes
+#include <QtGlobal>
 
 
 /**
@@ -77,13 +81,6 @@ inline bool IsBeetween(const T& value, const T& value1, const  T& value2)
 }
 
 
-class CGroupRegistrator
-{
-public:
-	CGroupRegistrator(const char* groupId);
-};
-
-
 enum TraceLevel
 {
 	InfoLevel,
@@ -91,11 +88,6 @@ enum TraceLevel
 	ErrorLevel,
 	CriticalLevel
 };
-
-
-extern void OnSoftwareError(const char* fileName, int line);
-extern bool CheckTraceEnabled(TraceLevel level, const char* groupId);
-extern void SendTraceMessage(TraceLevel level, const char* groupId, const char* message, const char* fileName, int line);
 
 
 } // namespace istd
@@ -134,8 +126,8 @@ static const double I_BIG_EPSILON = 1.0e-8;
 
 
 #define I_IF_DEBUG(instructions) instructions
-#define I_ASSERT(condition) if (!(condition)){::istd::OnSoftwareError(__FILE__, __LINE__);}
-#define I_CRITICAL() istd::OnSoftwareError(__FILE__, __LINE__)
+#define I_ASSERT(condition) if (!(condition)){qFatal("assertion error %1: (%2)", __FILE__, __LINE__);}
+#define I_CRITICAL() qFatal("fatal error %1: (%2)", __FILE__, __LINE__)
 
 
 #else // _DEBUG || DEBUG
@@ -160,11 +152,6 @@ static const double I_BIG_EPSILON = 1.0e-8;
 	\li	istd::ErrorLevel	error message priority, should not happened but e.g. wrong using of parameters can cause it.
 	\li	istd::CriticalLevel	maximal message priority, for application states which should never occured.
 */
-#define I_TRACE(level, groupId, message) \
-if (istd::CheckTraceEnabled(level, groupId)){\
-	static istd::CGroupRegistrator registrator(groupId);\
-	istd::SendTraceMessage(level, groupId, message, __FILE__, __LINE__);\
-}
 #define I_TRACE_ONCE(level, groupId, message) \
 {\
 	static bool active = true;\
