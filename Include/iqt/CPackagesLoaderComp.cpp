@@ -427,7 +427,7 @@ QLibrary& CPackagesLoaderComp::GetLibrary(const QFileInfo& fileInfo)
 
 	LibraryPtr& libraryPtr = m_dllCacheMap[absolutePath];
 	libraryPtr.SetPtr(new QLibrary(absolutePath));
-	if (!libraryPtr.IsValid() || !libraryPtr->isLoaded()){
+	if (!libraryPtr.IsValid() || !libraryPtr->load()){
 		SendErrorMessage(
 					MI_CANNOT_REGISTER,
 					QObject::tr("Cannot register components from package %1").arg(fileInfo.fileName()));
