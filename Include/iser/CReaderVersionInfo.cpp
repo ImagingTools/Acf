@@ -1,40 +1,55 @@
 #include "iser/CReaderVersionInfo.h"
 
 
+// ACF includes
+#include <istd/TChangeNotifier.h>
+
+
 namespace iser
 {
 
 
 void CReaderVersionInfo::Reset()
 {
+	istd::CChangeNotifier notifier(this);
+
 	m_versionIdList.clear();
 }
 
 
-bool CReaderVersionInfo::InsertVersionId(int id, quint32 version, const QString& description)
+bool CReaderVersionInfo::InsertVersionId(int versionId, quint32 versionNumber, const QString& description)
 {
-	VersionIdElement element(version, description);
+	istd::CChangeNotifier notifier(this);
 
-	std::pair<VersionElements::iterator, bool> status = m_versionIdList.insert(VersionElements::value_type(id, element));
+	VersionIdElement& element = m_versionIdList[versionId];
+	element.versionNumber = versionNumber;
+	element.description = description;
 
-	return status.second;
+	return true;
 }
 
 
-bool CReaderVersionInfo::RemoveVersionId(int id)
+bool CReaderVersionInfo::RemoveVersionId(int versionId)
 {
-	return m_versionIdList.erase(id) > 0;
+	istd::CChangeNotifier notifier(this);
+
+	return m_versionIdList.remove(versionId) > 0;
 }
 
 
 // reimplemented (iser::IVersionInfo)
 
+CReaderVersionInfo::VersionIds CReaderVersionInfo::GetVersionIds() const
+{
+	return m_versionIdList.keys().toSet();
+}
+
+
 bool CReaderVersionInfo::GetVersionNumber(int versionId, quint32& result) const
 {
-	const VersionIdElement& element = GetVersionIdElement(versionId);
-
-	if (&element != &s_element){
-		result = element.version;
+	VersionElements::ConstIterator findIter = m_versionIdList.constFind(versionId);
+	if (findIter != m_versionIdList.end()){
+		result = findIter.value().versionNumber;
 
 		return true;
 	}
@@ -47,23 +62,12 @@ bool CReaderVersionInfo::GetVersionNumber(int versionId, quint32& result) const
 
 QString CReaderVersionInfo::GetVersionIdDescription(int versionId) const
 {
-	const VersionIdElement& element = GetVersionIdElement(versionId);
-
-	return element.description;
-}
-
-
-CReaderVersionInfo::VersionIds CReaderVersionInfo::GetVersionIds() const
-{
-	VersionIds ids;
-
-	for (		VersionElements::const_iterator iter = m_versionIdList.begin();
-				iter != m_versionIdList.end();
-				++iter){
-		ids.insert(iter->first);
+	VersionElements::ConstIterator findIter = m_versionIdList.constFind(versionId);
+	if (findIter != m_versionIdList.end()){
+		return findIter.value().description;
 	}
 
-	return ids;
+	return QString();
 }
 
 
@@ -73,23 +77,32 @@ QString CReaderVersionInfo::GetEncodedVersionName(int /*versionId*/, quint32 /*v
 }
 
 
-// protected methods
+// reimplemented (istd::IChangeable)
 
-const CReaderVersionInfo::VersionIdElement& CReaderVersionInfo::GetVersionIdElement(int versionId) const
+bool CReaderVersionInfo::CopyFrom(const istd::IChangeable& object)
 {
-	VersionElements::const_iterator iter = m_versionIdList.find(versionId);
-
-	if (iter != m_versionIdList.end()){
-		return iter->second;
+	const iser::IVersionInfo* versionInfoPtr = dynamic_cast<const iser::IVersionInfo*>(&object);
+	if (versionInfoPtr == NULL){
+		return false;
 	}
 
-	return s_element;
+	iser::IVersionInfo::VersionIds ids = versionInfoPtr->GetVersionIds();
+	for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
+				iter != ids.begin();
+				++iter){
+		int versionId = *iter;
+
+		quint32 versionNumber;
+		if (!versionInfoPtr->GetVersionNumber(versionId, versionNumber)){
+			continue;
+		}
+
+		VersionIdElement& element = m_versionIdList[versionId];
+		element.versionNumber = versionNumber;
+		element.description = versionInfoPtr->GetVersionIdDescription(versionId);
+	}
+	return true;
 }
-
-
-// static attributes
-
-CReaderVersionInfo::VersionIdElement CReaderVersionInfo::s_element(quint32(UnknownVersion), "");
 
 
 } // namespace iser

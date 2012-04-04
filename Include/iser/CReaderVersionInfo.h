@@ -2,9 +2,8 @@
 #define iser_CReaderVersionInfo_included
 
 
-// STL includes
-#include <map>
-
+// Qt includes
+#include <QtCore/QMap>
 
 // ACF includes
 #include "iser/IVersionInfo.h"
@@ -30,40 +29,37 @@ public:
 	/**
 		Insert new version id with its actual version number and its description.
 		\sa iser::IVersionInfo.
-		\param	id			ID of version info.
-		\param	version		version number for specified version info ID.
-		\param	description	description of role of specified version info.
+		\param	versionId		ID of version info.
+		\param	versionNumber	version number for specified version info ID.
+		\param	description		description of role of specified version info.
 	*/
-	bool InsertVersionId(int id, quint32 version, const QString& description);
+	bool InsertVersionId(int versionId, quint32 versionNumber, const QString& description);
 	/**
 		Remove single version info.
-		\param	id	ID of version info.
+		\param	versionId	ID of version info.
 	*/
-	bool RemoveVersionId(int id);
+	bool RemoveVersionId(int versionId);
 
 	// reimplemented (iser::IVersionInfo)
+	virtual VersionIds GetVersionIds() const;
 	virtual bool GetVersionNumber(int versionId, quint32& result) const;
 	virtual QString GetVersionIdDescription(int versionId) const;
-	virtual VersionIds GetVersionIds() const;
 	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
+
+	// reimplemented (istd::IChangeable)
+	virtual bool CopyFrom(const istd::IChangeable& object);
 
 protected:
 	struct VersionIdElement
 	{
-		quint32 version;
+		quint32 versionNumber;
 		QString description;
-
-		VersionIdElement(quint32 _version, const QString& _description):version(_version), description(_description){}
 	};
 
-	const VersionIdElement& GetVersionIdElement(int versionId) const;
-
 private:
-	typedef std::map<int, VersionIdElement> VersionElements;
+	typedef QMap<int, VersionIdElement> VersionElements;
 
 	VersionElements m_versionIdList;
-
-	static VersionIdElement s_element;
 };
 
 

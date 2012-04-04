@@ -2,17 +2,12 @@
 #define iser_IVersionInfo_included
 
 
-// STL includes
-#include <set>
-
-
 // Qt includes
 #include <QtCore/QString>
-
+#include <QtCore/QSet>
 
 // ACF includes
-#include "istd/istd.h"
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 
 
 namespace iser
@@ -24,7 +19,7 @@ namespace iser
 
 	\ingroup Persistence
 */
-class IVersionInfo: virtual public istd::IPolymorphic
+class IVersionInfo: virtual public istd::IChangeable
 {
 public:
 	/**
@@ -46,7 +41,12 @@ public:
 		UnknownVersion = 0xffffffff
 	};
 
-	typedef std::set<int> VersionIds;
+	typedef QSet<int> VersionIds;
+
+	/**
+		Get list of version ID's.
+	*/
+	virtual VersionIds GetVersionIds() const = 0;
 
 	/**
 		Get version of archived stream for specific versioning type.
@@ -65,11 +65,6 @@ public:
 							\sa VersionId, GetVersionNumber.
 	*/
 	virtual QString GetVersionIdDescription(int versionId) const = 0;
-
-	/**
-		Get list of version ID's.
-	*/
-	virtual VersionIds GetVersionIds() const = 0;
 
 	/**
 		Encode version number to human readable form.
