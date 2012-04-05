@@ -1,6 +1,6 @@
 echo Generating VC10 projects...
 
-cd ..\..
+cd ..
 call Config\QMake\CopyProToSubdir.js VC10
 cd Build\VC10
 
@@ -13,6 +13,6 @@ del /q Tool.sln
 
 cd ..\..
 call Config\QMake\RemoveProFromSubdir.js VC10
-cd Build\VC10
+cd Build
 
 pause
