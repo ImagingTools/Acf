@@ -12,11 +12,11 @@
 
 int main(int argc, char *argv[])
 {
+	Q_INIT_RESOURCE(iqtgui);
+
 	icomp::TSimComponentWrap<QtGuiPck::GuiApplication> application;
 	application.SetDoubleAttr("SplashTime", 1.5);
 	application.InitializeApplication(argc, argv);
-
-	Q_INIT_RESOURCE(iqtgui);
 
 	icomp::TSimComponentWrap<BasePck::VersionInfo> versionInfo;
 	versionInfo.SetIntAttr("VersionNumber", 1000);

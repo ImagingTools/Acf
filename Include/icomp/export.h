@@ -66,6 +66,15 @@ typedef icomp::CPackageStaticInfo* (*GetPackageInfoFunc)();
 #define IM_AUTHOR(keywords) " Author='" keywords "' "
 #define IM_PROJECT(keywords) " Project='" keywords "' "
 
+#define I_REGISTER_QT_RESOURCE(resourceId)\
+static struct Registrator_##resourceId\
+{\
+	Registrator_##resourceId()\
+	{\
+		Q_INIT_RESOURCE(resourceId);\
+	}\
+} registrator_instance_##resourceId;\
+
 
 } // namespace icomp
 
