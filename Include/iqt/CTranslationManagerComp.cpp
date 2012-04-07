@@ -66,6 +66,8 @@ void CTranslationManagerComp::OnComponentDestroyed()
 {
 	m_selectionObserver.EnsureModelDetached();
 
+	m_translatorsList.Reset();
+
 	BaseClass::OnComponentDestroyed();
 }
 
