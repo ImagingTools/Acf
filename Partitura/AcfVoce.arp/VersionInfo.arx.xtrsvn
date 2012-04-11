@@ -210,7 +210,7 @@
 							SlaveVersionInfo
 						</Id>
 						<Type>
-							Component
+							Reference
 						</Type>
 						<ExportId>
 							SlaveVersionInfo
@@ -368,8 +368,8 @@
 							SlaveVersionInfo
 						</Id>
 						<Type>
-							Component
-						</Type>
+              Reference
+            </Type>
 						<ExportId>
 
 						</ExportId>
