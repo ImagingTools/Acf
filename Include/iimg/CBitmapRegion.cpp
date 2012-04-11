@@ -1,6 +1,10 @@
 #include "iimg/CBitmapRegion.h"
 
 
+// Qt includes
+#include <QtCore/qmath.h>
+
+
 namespace iimg
 {
 
@@ -85,10 +89,10 @@ void CBitmapRegion::CalculateRegionBoundingBox(const i2d::CRectangle& objectBoun
 	I_ASSERT(m_bitmapPtr != NULL);
 	istd::CIndex2d imageSize = m_bitmapPtr->GetImageSize();
 
-	m_boundingBox.SetLeft(::floor(objectBoundingBox.GetLeft()));
-	m_boundingBox.SetRight(::ceil(objectBoundingBox.GetRight()));
-	m_boundingBox.SetTop(::floor(objectBoundingBox.GetTop()));
-	m_boundingBox.SetBottom(::ceil(objectBoundingBox.GetBottom()));
+	m_boundingBox.SetLeft(qFloor(objectBoundingBox.GetLeft()));
+	m_boundingBox.SetRight(qCeil(objectBoundingBox.GetRight()));
+	m_boundingBox.SetTop(qFloor(objectBoundingBox.GetTop()));
+	m_boundingBox.SetBottom(qCeil(objectBoundingBox.GetBottom()));
 
 	m_boundingBox = m_boundingBox.GetIntersection(i2d::CRectangle(imageSize));
 }
@@ -136,7 +140,7 @@ void CBitmapRegion::CreateFromCircle(const i2d::CCircle& circle)
 			double left = center.GetX() - radiusDiff;
 			double right = center.GetX() + radiusDiff;
 
-			istd::CRange outerRadiusRange(::floor(left), ::ceil(right));
+			istd::CRange outerRadiusRange(qFloor(left), qCeil(right));
 			outerRadiusRange.Intersection(imageLineRange);
 			
 			if (outerRadiusRange.IsValid() && !outerRadiusRange.IsEmpty()){
@@ -235,7 +239,7 @@ void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
 		double left = centerX - outputRadiusDiff;
 		double right = centerX + outputRadiusDiff;
 
-		istd::CRange outerRadiusRange(::floor(left), ::ceil(right));
+		istd::CRange outerRadiusRange(qFloor(left), qCeil(right));
 		outerRadiusRange.Intersection(imageLineRange);
 
 		double innerRadiusDiff = innerRadius2 - y * y;
@@ -245,7 +249,7 @@ void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
 			double left = centerX - innerRadiusDiff;
 			double right = centerX + innerRadiusDiff;
 
-			istd::CRange innerRadiusRange(::floor(left), ::ceil(right));
+			istd::CRange innerRadiusRange(qFloor(left), qCeil(right));
 			innerRadiusRange.Intersection(imageLineRange);
 
 			if (innerRadiusRange.IsValid() && !innerRadiusRange.IsEmpty()){

@@ -37,8 +37,8 @@ void CAffine2d::Reset(const CVector2d& translation)
 
 void CAffine2d::Reset(const CVector2d& translation, double angle, double scale)
 {
-	double sinus = std::sin(angle);
-	double cosinus = std::cos(angle);
+	double sinus = qSin(angle);
+	double cosinus = qCos(angle);
 
 	m_deformMatrix.SetAt(0, 0, cosinus * scale);
 	m_deformMatrix.SetAt(0, 1, sinus * scale);
@@ -51,8 +51,8 @@ void CAffine2d::Reset(const CVector2d& translation, double angle, double scale)
 
 void CAffine2d::Reset(const CVector2d& translation, double angle, const CVector2d& scale)
 {
-	double sinus = std::sin(angle);
-	double cosinus = std::cos(angle);
+	double sinus = qSin(angle);
+	double cosinus = qCos(angle);
 
 	m_deformMatrix.SetAt(0, 0, cosinus * scale[0]);
 	m_deformMatrix.SetAt(0, 1, sinus * scale[0]);

@@ -1,6 +1,10 @@
 #include "iimg/CBitmapBase.h"
 
 
+// Qt includes
+#include <QtCore/qmath.h>
+
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "iser/IArchive.h"
@@ -18,10 +22,10 @@ bool CBitmapBase::CopyBitmapRegion(const iimg::IBitmap& sourceBitmap, const i2d:
 	istd::CIndex2d sourceImageSize = sourceBitmap.GetImageSize();
 	i2d::CRectangle bitmapAoi;
 
-	bitmapAoi.SetLeft(::floor(area.GetLeft()));
-	bitmapAoi.SetRight(::ceil(area.GetRight()));
-	bitmapAoi.SetTop(::floor(area.GetTop()));
-	bitmapAoi.SetBottom(::ceil(area.GetBottom()));
+	bitmapAoi.SetLeft(qFloor(area.GetLeft()));
+	bitmapAoi.SetRight(qCeil(area.GetRight()));
+	bitmapAoi.SetTop(qFloor(area.GetTop()));
+	bitmapAoi.SetBottom(qCeil(area.GetBottom()));
 
 	bitmapAoi = bitmapAoi.GetIntersection(i2d::CRectangle(sourceImageSize));
 	if (bitmapAoi.IsEmpty()){

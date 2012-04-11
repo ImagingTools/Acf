@@ -1,4 +1,10 @@
 #include "icmm/CHsvToRgbTransformation.h"
+
+
+// Qt includes
+#include <QtCore/qmath.h>
+
+// ACF includes
 #include "icmm/CHsv.h"
 #include "icmm/CRgb.h"
 
@@ -46,7 +52,7 @@ bool CHsvToRgbTransformation::GetValueAt(const ArgumentType& argument, ResultTyp
 		}
 
 		hTemp = hTemp / 60.0;		// hue is now in [0,6) 
-		int intHue = int(floor(hTemp));	// largest integer <= hue 
+		int intHue = qFloor(hTemp);	// largest integer <= hue 
 		double f = hTemp - intHue;		// fractional part of hue 
 			
 		double p = value * (1.0 - saturation); 

@@ -205,7 +205,7 @@ void CPolylineCalibrationShape::DrawCurve(QPainter& drawContext) const
 					calib.GetInvPositionAt(polylinePtr->GetNode(pointIndex), viewPos);
 					QPoint point2 = iqt::GetQPoint(transform.GetScreenPosition(viewPos));
 					istd::CIndex2d delta(point2.x() - point1.x(), point2.y() - point1.y());
-					if (::abs(delta.GetY()) > ::abs(delta.GetX())){
+					if (qAbs(delta.GetY()) > qAbs(delta.GetX())){
 						if (delta.GetY() > 0){
 							drawContext.save();
 							drawContext.setPen(darkPen);

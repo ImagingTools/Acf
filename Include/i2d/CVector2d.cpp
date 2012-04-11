@@ -11,8 +11,8 @@ namespace i2d
 
 void CVector2d::Init(double angle, double length)
 {
-	SetX(::cos(angle) * length);
-	SetY(::sin(angle) * length);
+	SetX(qCos(angle) * length);
+	SetY(qSin(angle) * length);
 }
 
 

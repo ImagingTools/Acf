@@ -107,7 +107,7 @@ void CScaleCalibrationShape::Draw(QPainter& drawContext) const
 
 				int levels[2];
 				double minGridDistance = calibInfoPtr->GetMinGridDistance() / scale;
-				double grid = qPow(10.0, int(ceil(log10(minGridDistance))));
+				double grid = qPow(10.0, qCeil(log10(minGridDistance)));
 				if (grid * 0.5 < minGridDistance){
 					levels[0] = 5;
 					levels[1] = 10;
@@ -118,8 +118,8 @@ void CScaleCalibrationShape::Draw(QPainter& drawContext) const
 					levels[1] = 20;
 				}
 
-				int firstIndex = int(::floor(boundRectangle.GetLeft() / grid)) + 1;
-				int lastIndex = int(::ceil(boundRectangle.GetRight() / grid));
+				int firstIndex = int(qFloor(boundRectangle.GetLeft() / grid)) + 1;
+				int lastIndex = int(qCeil(boundRectangle.GetRight() / grid));
 
 				drawContext.save();
 				drawContext.setPen(colorShema.GetPen(iview::IColorShema::SP_GUIDELINE3));
@@ -172,8 +172,8 @@ void CScaleCalibrationShape::Draw(QPainter& drawContext) const
 					}
 				}
 
-				firstIndex = int(::floor(boundRectangle.GetTop() / grid)) + 1;
-				lastIndex = int(::ceil(boundRectangle.GetBottom() / grid));
+				firstIndex = int(qFloor(boundRectangle.GetTop() / grid)) + 1;
+				lastIndex = int(qCeil(boundRectangle.GetBottom() / grid));
 
 				for (index = firstIndex; index <= lastIndex; ++index){
 					i2d::CVector2d position1(boundRectangle.GetLeft(), index * grid);

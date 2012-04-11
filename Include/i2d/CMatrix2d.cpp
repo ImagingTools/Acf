@@ -13,8 +13,8 @@ void CMatrix2d::Reset()
 
 void CMatrix2d::Reset(double angle, double scale)
 {
-	double scaledSinus = std::sin(angle) * scale;
-	double scaledCosinus = std::cos(angle) * scale;
+	double scaledSinus = qSin(angle) * scale;
+	double scaledCosinus = qCos(angle) * scale;
 
 	SetAt(0, 0, scaledCosinus);
 	SetAt(0, 1, scaledSinus);
@@ -25,8 +25,8 @@ void CMatrix2d::Reset(double angle, double scale)
 
 void CMatrix2d::Reset(double angle, const CVector2d& scale)
 {
-	double sinus = std::sin(angle);
-	double cosinus = std::cos(angle);
+	double sinus = qSin(angle);
+	double cosinus = qCos(angle);
 
 	SetAt(0, 0, cosinus * scale[0]);
 	SetAt(0, 1, sinus * scale[0]);

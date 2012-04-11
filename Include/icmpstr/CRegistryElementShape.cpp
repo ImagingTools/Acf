@@ -350,8 +350,8 @@ void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& ele
 	double gridSize;
 	const iqt2d::ISceneProvider* providerPtr = GetSceneProvider();
 	if ((providerPtr != NULL) && providerPtr->GetSceneAlignment(gridSize)){
-		width = ::ceil(width / gridSize) * gridSize;
-		height = ::ceil(height / gridSize) * gridSize;
+		width = qCeil(width / gridSize) * gridSize;
+		height = qCeil(height / gridSize) * gridSize;
 	}
 
 	setRect(QRectF(-width * 0.5, -height * 0.5, width, height));

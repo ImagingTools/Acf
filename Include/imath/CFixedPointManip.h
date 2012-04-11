@@ -63,14 +63,12 @@ public:
 	virtual bool GetParsed(const QString& text, double& result) const;
 
 protected:
-	typedef double (*RoundingFuntionPtr)(double value);
+	typedef int (*RoundingFuntionPtr)(qreal value);
 
 	virtual qint32 GetInternalValue(double value) const;
 	virtual double GetNormalValue(qint32 intValue) const;
 
 	QString GetString(const double& value, int precision) const;
-
-	static double NormalRoundFuntion(double value);
 
 private:
 	int m_precision;
@@ -134,7 +132,7 @@ inline qint32 CFixedPointManip::GetInternalValue(double value) const
 {
 	RoundingFuntionPtr function = m_roundingFuntionsPtr[m_roundingType];
 
-	return qint32(function(value * m_scaleToIntFactor + 0.5));
+	return qint32(function(value * m_scaleToIntFactor));
 }
 
 

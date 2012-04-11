@@ -298,8 +298,8 @@ void CInteractiveLabelShape::CalculateTextOriginSize(i2d::CRect& textBox) const
 		if (textAlign == TAL_AUTOMATIC){
 			istd::CIndex2d newOffset = m_drawOffset;
 			if (!m_isAlignFixed){
-				int absX = ::abs(newOffset.GetX());
-				int absY = ::abs(newOffset.GetY());
+				int absX = qAbs(newOffset.GetX());
+				int absY = qAbs(newOffset.GetY());
 
 				if (			(sp.GetX() + newOffset.GetX() - textSize.GetX() < clientArea.GetLeft()) &&
 								(sp.GetX() + absX + textSize.GetX() < clientArea.GetRight())){

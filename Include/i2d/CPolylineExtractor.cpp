@@ -17,7 +17,7 @@ i2d::CPolyline CPolylineExtractor::CreatePolyline(const i2d::CCircle& circle, in
 		double angle = 0;
 
 		for (int i = 0; i < pointCount; ++i, angle += step){
-			i2d::CVector2d position(cos(angle) * radius, sin(angle) * radius);
+			i2d::CVector2d position(qCos(angle) * radius, qSin(angle) * radius);
 
 			retVal.InsertNode(center + position);
 		}

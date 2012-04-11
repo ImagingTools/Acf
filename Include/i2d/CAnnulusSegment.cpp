@@ -71,7 +71,7 @@ CRectangle CAnnulusSegment::GetBoundingBox() const
 bool CAnnulusSegment::Contains(const i2d::CVector2d& point) const
 {
 	double r = point.GetLength();
-	double phi = atan2(point.GetY(), point.GetX());
+	double phi = qAtan2(point.GetY(), point.GetX());
 
 	if (r < GetInnerRadius() || r > GetOuterRadius()){
 		return false;

@@ -98,10 +98,10 @@ bool CInteractiveAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt:
 			double radius = annulusPtr->GetInnerRadius();
 			double radius2 = annulusPtr->GetOuterRadius();
 			double r = (radius2 - radius)/2 + radius;
-			double x1 = r * cos(annulusPtr->GetBeginAngle());
-			double y1 = r * sin(annulusPtr->GetBeginAngle());
-			double x2 = r * cos(annulusPtr->GetEndAngle());
-			double y2 = r * sin(annulusPtr->GetEndAngle());
+			double x1 = r * qCos(annulusPtr->GetBeginAngle());
+			double y1 = r * qSin(annulusPtr->GetBeginAngle());
+			double x2 = r * qCos(annulusPtr->GetEndAngle());
+			double y2 = r * qSin(annulusPtr->GetEndAngle());
 
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + x1, center.GetY() + y1));
@@ -161,7 +161,7 @@ bool CInteractiveAnnulusSegmentShape::OnMouseMove(istd::CIndex2d position)
 		}
 		else if (m_editAngle1Mode){
 			i2d::CVector2d delta = cp - center;	
-			double angle = atan2(delta.GetY(), delta.GetX());
+			double angle = qAtan2(delta.GetY(), delta.GetX());
 			annulus.SetBeginAngle(angle);
 
 			UpdateModelChanges();
@@ -170,7 +170,7 @@ bool CInteractiveAnnulusSegmentShape::OnMouseMove(istd::CIndex2d position)
 		}
 		else if (m_editAngle2Mode){
 			i2d::CVector2d delta = cp - center;	
-			double angle = atan2(delta.GetY(), delta.GetX());
+			double angle = qAtan2(delta.GetY(), delta.GetX());
 			annulus.SetEndAngle(angle);
 
 			UpdateModelChanges();
@@ -261,10 +261,10 @@ void CInteractiveAnnulusSegmentShape::Draw(QPainter& drawContext) const
 
 	if (m_editableAngle && IsSelected()){
 		double r = (radius2 - radius)/2 + radius;
-		double x1 = r * cos(annulusSegment.GetBeginAngle());
-		double y1 = r * sin(annulusSegment.GetBeginAngle());
-		double x2 = r * cos(annulusSegment.GetEndAngle());
-		double y2 = r * sin(annulusSegment.GetEndAngle());
+		double x1 = r * qCos(annulusSegment.GetBeginAngle());
+		double y1 = r * qSin(annulusSegment.GetBeginAngle());
+		double x2 = r * qCos(annulusSegment.GetEndAngle());
+		double y2 = r * qSin(annulusSegment.GetEndAngle());
 
 		istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + x1, center.GetY() + y1));
 		istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + x2, center.GetY() + y2));
@@ -336,10 +336,10 @@ ITouchable::TouchState CInteractiveAnnulusSegmentShape::IsTouched(istd::CIndex2d
 
 	if (IsSelected() && IsEditableAngles()){
 		double r = (radius2 - radius)/2 + radius;
-		double x1 = r * cos(annulus.GetBeginAngle());
-		double y1 = r * sin(annulus.GetBeginAngle());
-		double x2 = r * cos(annulus.GetEndAngle());
-		double y2 = r * sin(annulus.GetEndAngle());
+		double x1 = r * qCos(annulus.GetBeginAngle());
+		double y1 = r * qSin(annulus.GetBeginAngle());
+		double x2 = r * qCos(annulus.GetEndAngle());
+		double y2 = r * qSin(annulus.GetEndAngle());
 
 		istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + x1, center.GetY() + y1));
 		istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + x2, center.GetY() + y2));

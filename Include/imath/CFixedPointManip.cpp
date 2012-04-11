@@ -102,20 +102,12 @@ QString CFixedPointManip::GetString(const double& value, int /*precision*/) cons
 }
 
 
-// static protected methods
-
-double CFixedPointManip::NormalRoundFuntion(double value)
-{
-	return std::floor(value + 0.5);
-}
-
-
 // static attributes
 
 CFixedPointManip::RoundingFuntionPtr CFixedPointManip::m_roundingFuntionsPtr[RT_LAST + 1] = {
-			CFixedPointManip::NormalRoundFuntion,
-			std::floor,
-			std::ceil};
+			qRound,
+			qFloor,
+			qCeil};
 
 
 } // namespace imath

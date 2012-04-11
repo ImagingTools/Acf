@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtCore/qmath.h>
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtCore/QMap>
@@ -267,8 +268,8 @@ QVariant TShapeBase<GraphicsItemClass>::itemChange(QGraphicsItem::GraphicsItemCh
 		if (m_providerPtr != NULL){
 			double distance;
 			if (m_providerPtr->GetSceneAlignment(distance)){
-				position.setX(::floor(position.x() / distance + 0.5) * distance);
-				position.setY(::floor(position.y() / distance + 0.5) * distance);
+				position.setX(qRound(position.x() / distance) * distance);
+				position.setY(qRound(position.y() / distance) * distance);
 			}
 		}
 

@@ -262,7 +262,7 @@ inline double CDouble::GetRounded(double value, int precision)
 {
 	double scale = qPow(10.0, precision);
 
-	return std::floor(value * scale + 0.5) / scale;
+	return qFloor(value * scale + 0.5) / scale;
 }
 
 
@@ -270,7 +270,7 @@ inline bool CDouble::IsRoundedEqual(double value1, double value2, int precision)
 {
 	double scale = qPow(10.0, precision);
 
-	return std::floor(value1 * scale + 0.5) == std::floor(value2 * scale + 0.5);
+	return qFloor(value1 * scale + 0.5) == qFloor(value2 * scale + 0.5);
 }
 
 
@@ -278,7 +278,7 @@ inline double CDouble::GetRoundedDown(double value, int precision)
 {
 	double scale = qPow(10.0, precision);
 
-	return std::floor(value * scale) / scale;
+	return qFloor(value * scale) / scale;
 }
 
 
@@ -286,7 +286,7 @@ inline bool CDouble::IsRoundedDownEqual(double value1, double value2, int precis
 {
 	double scale = qPow(10.0, precision);
 
-	return std::floor(value1 * scale) == std::floor(value2 * scale);
+	return qFloor(value1 * scale) == qFloor(value2 * scale);
 }
 
 
@@ -294,7 +294,7 @@ inline double CDouble::GetRoundedUp(double value, int precision)
 {
 	double scale = qPow(10.0, precision);
 
-	return std::ceil(value * scale) / scale;
+	return qCeil(value * scale) / scale;
 }
 
 
@@ -302,7 +302,7 @@ inline bool CDouble::IsRoundedUpEqual(double value1, double value2, int precisio
 {
 	double scale = qPow(10.0, precision);
 
-	return std::ceil(value1 * scale) == std::ceil(value2 * scale);
+	return qCeil(value1 * scale) == qCeil(value2 * scale);
 }
 
 

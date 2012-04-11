@@ -199,7 +199,7 @@ void CInteractivePolylineShape::DrawCurve(QPainter& drawContext) const
 				for (pointIndex = secondPointIndex; pointIndex < nodesCount; ++pointIndex){
 					istd::CIndex2d point2 = transform.GetScreenPosition(polylinePtr->GetNode(pointIndex));
 					istd::CIndex2d delta(point2.GetX() - point1.GetX(), point2.GetY() - point1.GetY());
-					if (::abs(delta.GetY()) > ::abs(delta.GetX())){
+					if (qAbs(delta.GetY()) > qAbs(delta.GetX())){
 						if (delta.GetY() > 0){
 							drawContext.save();
 							drawContext.setPen(darkPen);
