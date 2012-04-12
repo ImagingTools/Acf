@@ -7,8 +7,9 @@
 		<CustomBuildRule
 			Name="Arxc"
 			DisplayName="ARX Compiler"
-			CommandLine="..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe $(InputPath) -o $(InputDir)Generated\C$(InputName).cpp [AllOptions] [AdditionalOptions]"
-			Outputs="$(InputDir)Generated\C$(InputName).cpp;$(InputDir)Generated\C$(InputName).h"
+			CommandLine="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)Generated\C$(InputName).cpp&quot; [AllOptions] [AdditionalOptions]"
+			Outputs="&quot;$(InputDir)Generated\C$(InputName).cpp&quot;;&quot;$(InputDir)Generated\C$(InputName).h&quot;"
+			AdditionalDependencies="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot;"
 			FileExtensions="*.arx"
 			ExecutionDescription="Compiling ACF Registry File..."
 			>
@@ -18,7 +19,7 @@
 					DisplayName="Packages Configuration File"
 					Category="Environment"
 					Description="ACF Packages Configuration File"
-					Switch="-config [value]"
+					Switch="-config &quot;[value]&quot;"
 					Delimited="true"
 					Inheritable="true"
 				/>
@@ -34,9 +35,9 @@
 		<CustomBuildRule
 			Name="DeployCopy"
 			DisplayName="Deploy copy files"
-			CommandLine="copy /Y [$InputDir]\$(InputName) [$OutputDir]\"
-			Outputs="[$OutputDir]\$(InputName)"
-			AdditionalDependencies="[$InputDir]\$(InputName)"
+			CommandLine="copy /Y &quot;[$InputDir]\$(InputName)&quot; &quot;[$OutputDir]\&quot;"
+			Outputs="&quot;[$OutputDir]\$(InputName)&quot;"
+			AdditionalDependencies="&quot;[$InputDir]\$(InputName)&quot;"
 			FileExtensions="*.copy"
 			ExecutionDescription="Copying file $(InputName)"
 			>
@@ -64,9 +65,9 @@
 		<CustomBuildRule
 			Name="FileConvertCopy"
 			DisplayName="ACF file convertion copy"
-			CommandLine="..\..\..\Bin\$(ConfigurationName)VC9\Acf.exe [$RegistryFile] -config [$ConfigFile] -input $(InputPath) -o [$OutputDir]\$(InputName)"
-			Outputs="[$OutputDir]\$(InputName)"
-			AdditionalDependencies="..\..\..\Bin\$(ConfigurationName)VC9\Acf.exe;[$RegistryFile];[$ConfigFile];"
+			CommandLine="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Acf.exe&quot; &quot;[$RegistryFile]&quot; -config &quot;[$ConfigFile]&quot; -input &quot;$(InputPath)&quot; -o &quot;[$OutputDir]\$(InputName)&quot;"
+			Outputs="&quot;[$OutputDir]\$(InputName)&quot;"
+			AdditionalDependencies="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Acf.exe&quot;;&quot;[$RegistryFile]&quot;;&quot;[$ConfigFile]&quot;"
 			FileExtensions="*.xtracf"
 			ExecutionDescription="Converting File With ACF transformation..."
 			>

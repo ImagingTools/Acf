@@ -16,9 +16,6 @@
 		<ToolFile
 			RelativePath="..\..\..\Config\VC9\Acf.rules"
 		/>
-		<ToolFile
-			RelativePath="..\..\..\Config\VC9\Tortoise.rules"
-		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
