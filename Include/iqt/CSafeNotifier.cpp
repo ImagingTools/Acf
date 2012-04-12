@@ -8,7 +8,6 @@
 namespace iqt
 {
 
-
 	
 NotificationTarget::NotificationTarget(istd::IChangeable* slavePtr, int changeFlags, istd::IPolymorphic* changeParamsPtr)
 :	BaseClass(slavePtr),
