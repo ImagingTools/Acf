@@ -178,6 +178,8 @@ public:
 	CVarIndex& operator+=(const CVarIndex& index);
 	CVarIndex& operator-=(const CVarIndex& index);
 
+	friend int qHash(const istd::CVarIndex& index);
+
 private:
 	QVector<int> m_elements;
 };
@@ -379,6 +381,11 @@ CVarIndex::CVarIndex(const TIndex<Dimensions> index)
 		m_elements[i] = index[i];
 	}
 }
+
+
+// related methods
+
+int qHash(const istd::CVarIndex& index);
 
 
 } // namespace istd

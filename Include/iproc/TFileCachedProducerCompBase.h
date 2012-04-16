@@ -148,7 +148,7 @@ void TFileCachedProducerCompBase<Key, CacheObject>::UnlockObject(const CacheObje
 
 	typename OwnedObjects::iterator foundIter = m_ownedObjects.find(objectPtr);
 	if (foundIter != m_ownedObjects.end()){
-		m_ownedObjects.erase(objectPtr);
+		m_ownedObjects.remove(objectPtr);
 
 		delete objectPtr;
 

@@ -279,7 +279,7 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 			QString metaInfoFile(packageDir.absoluteFilePath("General.xml"));
 			iser::CXmlFileReadArchive archive(metaInfoFile);
 			if (!infoPtr->SerializeMeta(archive)){
-				SendErrorMessage(
+				SendWarningMessage(
 							iser::IFileLoader::MI_CANNOT_LOAD,
 							QObject::tr("Cannot load meta description for registry %1 (%2)")
 										.arg(QString(packageId))

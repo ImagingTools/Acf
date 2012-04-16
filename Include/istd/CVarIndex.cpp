@@ -183,6 +183,22 @@ CVarIndex& CVarIndex::operator-=(const CVarIndex& index)
 }
 
 
+// related methods
+
+int qHash(const istd::CVarIndex& index)
+{
+	int retVal = index.m_elements.size();
+
+	for (		QVector<int>::ConstIterator iter = index.m_elements.begin();
+				iter != index.m_elements.end();
+				++iter){
+		retVal = (retVal *3) ^ *iter;
+	}
+
+	return retVal;
+}
+
+
 } // namespace istd
 
 

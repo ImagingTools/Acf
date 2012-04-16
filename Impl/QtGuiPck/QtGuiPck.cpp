@@ -11,7 +11,7 @@ namespace QtGuiPck
 I_REGISTER_QT_RESOURCE(iqtgui);
 
 I_EXPORT_PACKAGE(
-			"Acf/Qt/Gui",
+			"Acf/Gui",
 			"Standard Qt package",
 			IM_PROJECT("ACF") IM_TAG("Qt GUI") IM_COMPANY("ImagingTools") IM_AUTHOR("\"Witold Gantzke\" \"Kirill Lepskiy\""));
 
