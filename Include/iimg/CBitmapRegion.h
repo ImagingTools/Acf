@@ -9,6 +9,7 @@
 #include "i2d/CRectangle.h"
 #include "i2d/CCircle.h"
 #include "i2d/CAnnulus.h"
+#include "i2d/CPolygon.h"
 
 #include "iimg/IBitmap.h"
 
@@ -59,6 +60,9 @@ private:
 	void CreateFromCircle(const i2d::CCircle& circle);
 	void CreateFromRectangle(const i2d::CRectangle& rect);
 	void CreateFromAnnulus(const i2d::CAnnulus& annulus);
+	void CreateFromPolygon(const i2d::CPolygon& polygon);
+
+	void InsertVectorPoint(QList<int>& list, int value);
 
 private:
 	const IBitmap* m_bitmapPtr;

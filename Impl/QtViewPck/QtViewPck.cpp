@@ -67,6 +67,11 @@ I_EXPORT_COMPONENT(
 			"Quadrangle Parameters Observer Display" IM_TAG("GUI Editor 2D"));
 
 I_EXPORT_COMPONENT(
+			PolygonParamsGui,
+			"Polygon parameter GUI displaying a polygon using scene",
+			"Polygon Parameters Observer Display" IM_TAG("GUI Editor 2D"));
+
+I_EXPORT_COMPONENT(
 			SceneControllerGui,
 			"Scene controller allowing to control scale and other scene properties",
 			"Observer Display GUI Scene Controller Zoom Rotate" IM_TAG("GUI"));

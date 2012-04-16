@@ -225,6 +225,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CPolygonComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPolygonExtractor.cpp"
 				>
 			</File>
@@ -355,6 +359,10 @@
 			</File>
 			<File
 				RelativePath="..\CPolygon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolygonComp.h"
 				>
 			</File>
 			<File

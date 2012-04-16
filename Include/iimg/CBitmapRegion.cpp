@@ -23,23 +23,29 @@ bool CBitmapRegion::CreateFromGeometry(const i2d::IObject2d& geometry)
 	m_isEmpty = true;
 
 	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(&geometry);
-	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(&geometry);
-	const i2d::CRectangle* rectanglePtr = dynamic_cast<const i2d::CRectangle*>(&geometry);
-
 	if (annulusPtr != NULL){
 		CreateFromAnnulus(*annulusPtr);
 
 		return true;
 	}
 
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(&geometry);
 	if (circlePtr != NULL){
 		CreateFromCircle(*circlePtr);
 
 		return true;
 	}
 
+	const i2d::CRectangle* rectanglePtr = dynamic_cast<const i2d::CRectangle*>(&geometry);
 	if (rectanglePtr != NULL){
 		CreateFromRectangle(*rectanglePtr);
+
+		return true;
+	}
+
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(&geometry);
+	if (polygonPtr != NULL){
+		CreateFromPolygon(*polygonPtr);
 
 		return true;
 	}
@@ -282,6 +288,133 @@ void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
 			m_lineRangePtr[lineIndex] =  NULL;
 		}
 	}
+}
+
+
+void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon)
+{
+	I_ASSERT(m_bitmapPtr != NULL);
+
+	CalculateRegionBoundingBox(polygon.GetBoundingBox());
+	if (m_boundingBox.IsEmpty() || !m_boundingBox.IsValid()){
+		ResetBitmapRegion();
+
+		return;
+	}
+
+	int bitmapWidth = m_bitmapPtr->GetImageSize().GetX();
+	int bitmapHeight = m_bitmapPtr->GetImageSize().GetY();
+
+	int linesCount = int(m_boundingBox.GetHeight());
+	int lineSize = m_bitmapPtr->GetLinesDifference();
+	int bytesPerPixel = m_bitmapPtr->GetPixelBitsCount() / 8;
+
+	int boundingTop = int(m_boundingBox.GetTop());
+
+	// QVector of lines by Y coordinates;
+	// every line is QList of X coordinates of the polygon lines points 
+	QVector<QList<int> > scanVector(linesCount);
+
+	int nodesCount = polygon.GetNodesCount();
+	for (int i = 0; i < nodesCount; i++){
+		int nextIndex = i + 1;
+		if (nextIndex >= nodesCount){
+			nextIndex = 0;
+		}
+
+		i2d::CVector2d startPoint = polygon.GetNode(i);
+		i2d::CVector2d endPoint = polygon.GetNode(nextIndex);
+
+		double y1 = startPoint.GetY() - boundingTop;
+		double y2 = endPoint.GetY() - boundingTop;
+
+		double x1 = startPoint.GetX();
+		double x2 = endPoint.GetX();
+
+		// special case: line is parallel to X
+		if (y1 == y2){
+			continue;
+		}
+
+		if (y2 < y1){
+			qSwap(y1, y2);
+			qSwap(x1, x2);
+		}
+
+		double deltaX = (x2 - x1) / (y2 - y1);
+		double x = x1;
+
+		for (int y = y1; y < (int)y2 && y < linesCount; y++){
+			// check if we are inside the image
+			if (y >= 0){
+				InsertVectorPoint(scanVector[y], x);
+			}
+
+			x += deltaX;
+		}
+	}
+
+	// build the scan ranges
+	m_lineRangePtr.resize(linesCount);
+	m_rangesContainer.resize(linesCount);
+
+	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
+		const quint8* basePtr = (const quint8*)m_bitmapPtr->GetLinePtr(lineIndex) + lineSize * boundingTop;
+
+		PixelRanges& rangeList = m_rangesContainer[lineIndex];
+
+		const QList<int>& lineList = scanVector.at(lineIndex);
+		int count = lineList.count() - (lineList.count() % 2);
+		for (int i = 0; i < count; i += 2){
+			int x1 = lineList.at(i);
+			int x2 = lineList.at(i+1);
+
+			x1 = qMax(0, qMin(x1, bitmapWidth));
+			x2 = qMax(0, qMin(x2, bitmapWidth));
+			
+			PixelRange pixelRange;
+			pixelRange.range = istd::CRange(x1, x2);
+			pixelRange.pixelBufferPtr = basePtr + x1 * bytesPerPixel;
+			rangeList.push_back(pixelRange);
+		}
+
+		if (rangeList.size() != 0){
+			m_lineRangePtr[lineIndex] = &rangeList;
+			m_isEmpty = false;
+		}
+		else{
+			m_lineRangePtr[lineIndex] =  NULL;
+		}
+	}
+}
+
+
+void CBitmapRegion::InsertVectorPoint(QList<int>& list, int value)
+{
+	if (list.isEmpty()){
+		list.append(value);
+		return;
+	}
+
+	if (list.first() >= value){
+		list.prepend(value);
+		return;
+	}
+
+	if (list.last() <= value){
+		list.append(value);
+		return;
+	}
+
+	for (int i = 1; i < list.count(); i++){
+		if (value <= list.at(i)){
+			list.insert(i, value);
+			return;
+		}
+	}
+
+	// that should not happen!
+	I_CRITICAL();
 }
 
 

@@ -49,6 +49,10 @@
 		<file alias="Reload.svg">Resources/Icons/Reload.svg</file>
     <file alias="Up.svg">Resources/Icons/Up.svg</file>
     <file alias="Down.svg">Resources/Icons/Down.svg</file>
+    <file alias="PointsAdd">Resources/Icons/PointsAdd.svg</file>
+    <file alias="PointsSub">Resources/Icons/PointsSub.svg</file>
+    <file alias="PointsNone">Resources/Icons/PointsNone.svg</file>
+    <file alias="PointsMove">Resources/Icons/PointsMove.svg</file>
   </qresource>
   <qresource prefix="Style">
     <file>Resources/Style/AcfStyle.ass</file>

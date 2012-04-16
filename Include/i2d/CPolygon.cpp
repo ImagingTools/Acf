@@ -4,6 +4,8 @@
 // ACF includes
 #include "i2d/CLine2d.h"
 
+#include "istd/TChangeNotifier.h"
+
 
 namespace i2d
 {
@@ -77,6 +79,88 @@ void CPolygon::CalcBoundingBox(i2d::CRectangle& result) const
 	}
 
 	result.Reset();
+}
+
+
+i2d::CRectangle CPolygon::GetBoundingBox() const
+{
+	int nodesCount = GetNodesCount();
+
+	if (nodesCount > 0){
+		i2d::CVector2d sp = GetNode(0);
+		i2d::CRectangle boundingBox(sp, sp);
+		for (int i = 1; i < nodesCount; i++){
+			sp = GetNode(i);
+			boundingBox.Unite(sp);
+		}
+		return boundingBox;
+	}
+
+	return i2d::CRectangle();
+}
+
+
+// reimplemented (i2d::IObject2d)
+
+CVector2d CPolygon::GetCenter() const
+{
+	return GetBoundingBox().GetCenter();
+}
+
+
+void CPolygon::MoveCenterTo(const CVector2d& position)
+{
+	i2d::CVector2d offset = position - GetCenter();
+	if (offset != i2d::CVector2d(0, 0)){
+		istd::CChangeNotifier notifier(this, i2d::IObject2d::CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+
+		int nodesCount = GetNodesCount();
+		for (int i = 0; i < nodesCount; i++){
+			SetNode(i, GetNode(i) + offset);
+		}
+	}
+}
+
+
+bool CPolygon::Transform(
+						   const ITransformation2d& /*transformation*/,
+						   ITransformation2d::ExactnessMode /*mode*/,
+						   double* /*errorFactorPtr*/)
+{
+	// TODO: implement geometrical transformations for rectangle.
+	return false;
+}
+
+
+bool CPolygon::InvTransform(
+							  const ITransformation2d& /*transformation*/,
+							  ITransformation2d::ExactnessMode /*mode*/,
+							  double* /*errorFactorPtr*/)
+{
+	// TODO: implement geometrical transformations for rectangle.
+	return false;
+}
+
+
+bool CPolygon::GetTransformed(
+								const ITransformation2d& /*transformation*/,
+								IObject2d& /*result*/,
+								ITransformation2d::ExactnessMode /*mode*/,
+								double* /*errorFactorPtr*/) const
+{
+	// TODO: implement geometrical transformations for rectangle.
+	return false;
+}
+
+
+bool CPolygon::GetInvTransformed(
+								   const ITransformation2d& /*transformation*/,
+								   IObject2d& /*result*/,
+								   ITransformation2d::ExactnessMode /*mode*/,
+								   double* /*errorFactorPtr*/) const
+{
+	// TODO: implement geometrical transformations for rectangle.
+	return false;
 }
 
 
