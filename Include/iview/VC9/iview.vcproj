@@ -308,7 +308,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectableLayerBase.cpp"
+				RelativePath="..\CInteractiveViewLayer.cpp"
 				>
 			</File>
 			<File
@@ -482,7 +482,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectableLayerBase.h"
+				RelativePath="..\CInteractiveViewLayer.h"
 				>
 			</File>
 			<File

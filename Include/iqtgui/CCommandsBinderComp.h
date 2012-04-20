@@ -8,7 +8,6 @@
 #include "imod/CMultiModelDispatcherBase.h"
 
 #include "ibase/ICommandsProvider.h"
-#include "ibase/TCommandsProviderCompWrap.h"
 
 #include "iqtgui/CHierarchicalCommand.h"
 
@@ -21,13 +20,15 @@ namespace iqtgui
 	Component for binding of multiple command providers
 */
 class CCommandsBinderComp:
-			public ibase::TCommandsProviderCompWrap<icomp::CComponentBase>,
+			public icomp::CComponentBase,
+			virtual public ibase::ICommandsProvider,
 			protected imod::CMultiModelDispatcherBase
 {
 public:
-	typedef ibase::TCommandsProviderCompWrap<icomp::CComponentBase> BaseClass;
+	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CCommandsBinderComp);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_ASSIGN_MULTI_0(m_commandProvidersCompPtr, "CommandProviders", "List of command providers", true);
 	I_END_COMPONENT;
 

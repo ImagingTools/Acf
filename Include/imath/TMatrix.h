@@ -763,7 +763,7 @@ double TMatrix<Width, Height, Element>::GetFrobeniusNorm2() const
 template <int Width, int Height, typename Element>
 double TMatrix<Width, Height, Element>::GetFrobeniusNorm() const
 {
-	return std::sqrt(GetFrobeniusNorm2());
+	return qSqrt(GetFrobeniusNorm2());
 }
 
 
@@ -832,7 +832,7 @@ bool TMatrix<Width, Height, Element>::GetTriangleDecomposed(
 
 		double element0 = result[istd::CIndex2d(hhIndex, hhIndex)];
 
-		double hhLength = (element0 >= 0)? std::sqrt(hhNorm2): -sqrt(hhNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
+		double hhLength = (element0 >= 0)? qSqrt(hhNorm2): -sqrt(hhNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
 
 		double hhVector0 = element0 + hhLength;	// element 0 of householder vector, rest of ist will be taken directly from matrix elements
 		double hhVectorNorm2 = hhNorm2 + hhVector0 * hhVector0 - element0 * element0;	// sqare of norm of householder vector, first element replaced from original column norm sqare

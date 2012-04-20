@@ -1,5 +1,5 @@
-#ifndef iview_CSelectableLayerBase_included
-#define iview_CSelectableLayerBase_included
+#ifndef iview_CInteractiveViewLayer_included
+#define iview_CInteractiveViewLayer_included
 
 
 #include "iview/ISelectableLayer.h"
@@ -11,15 +11,15 @@ namespace iview
 {
 
 
-class CSelectableLayerBase:
+class CInteractiveViewLayer:
 			public CViewLayer,
 			virtual public ISelectableLayer
 {
 public:
 	typedef CViewLayer BaseClass;
 
-	CSelectableLayerBase();
-	virtual ~CSelectableLayerBase();
+	CInteractiveViewLayer();
+	virtual ~CInteractiveViewLayer();
 
 	// reimplemented (iview::CViewLayer)
 	virtual i2d::CRect RecalcAllShapes(int changeFlag);
@@ -74,7 +74,7 @@ private:
 
 // reimplemented (iview::ISelectable)
 
-inline int CSelectableLayerBase::GetKeysState() const
+inline int CInteractiveViewLayer::GetKeysState() const
 {
 	const IShapeView* viewPtr = GetViewPtr();
 	I_ASSERT(viewPtr != NULL);
@@ -83,7 +83,7 @@ inline int CSelectableLayerBase::GetKeysState() const
 }
 
 
-inline int CSelectableLayerBase::GetEditMode() const
+inline int CInteractiveViewLayer::GetEditMode() const
 {
 	const IShapeView* viewPtr = GetViewPtr();
 	I_ASSERT(viewPtr != NULL);
@@ -95,7 +95,7 @@ inline int CSelectableLayerBase::GetEditMode() const
 } // namespace iview
 
 
-#endif // !iview_CSelectableLayerBase_included
+#endif // !iview_CInteractiveViewLayer_included
 
 
 

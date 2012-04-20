@@ -28,7 +28,7 @@ CPinCalibrationShape::CPinCalibrationShape()
 
 iview::ITouchable::TouchState CPinCalibrationShape::IsTouched(istd::CIndex2d position) const
 {
-	i2d::CRect boundingBox = CPinCalibrationShape::GetBoundingBox();
+	i2d::CRect boundingBox = CPinCalibrationShape::CalcBoundingBox();
 	if (boundingBox.IsInside(position) != 0){
 		return TS_TICKER;
 	}

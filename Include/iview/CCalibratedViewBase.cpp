@@ -17,9 +17,8 @@ namespace iview
 {
 
 
-CCalibratedViewBase::CCalibratedViewBase(QWidget* parentWidgetPtr)
-	:BaseClass2(parentWidgetPtr),
-	m_calibrationPtr(&CNoneCalibration::GetInstance()),
+CCalibratedViewBase::CCalibratedViewBase()
+:	m_calibrationPtr(&CNoneCalibration::GetInstance()),
 	m_isGridVisible(false),
 	m_isGridInMm(true),
 	m_minGridDistance(10)
@@ -282,8 +281,6 @@ void CCalibratedViewBase::CheckResize()
 		OnResize();
 	}
 }
-
-
 
 
 } // namespace iview

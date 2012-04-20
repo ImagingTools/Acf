@@ -420,7 +420,7 @@ inline Element TFastVector<MaxSize, Element>::GetLength2() const
 template <int MaxSize, class Element>
 inline Element TFastVector<MaxSize, Element>::GetLength() const
 {
-	return std::sqrt(GetLength2());
+	return qSqrt(GetLength2());
 }
 
 
@@ -434,7 +434,7 @@ inline Element TFastVector<MaxSize, Element>::GetDistance2(const TFastVector<Max
 template <int MaxSize, class Element>
 inline Element TFastVector<MaxSize, Element>::GetDistance(const TFastVector<MaxSize, Element>& vector) const
 {
-	return std::sqrt(GetDistance2(vector));
+	return qSqrt(GetDistance2(vector));
 }
 
 

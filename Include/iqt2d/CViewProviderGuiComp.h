@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "ibase/TCommandsProviderCompWrap.h"
+#include "ibase/ICommandsProvider.h"
 
 #include "iqtgui/TGuiComponentBase.h"
 
@@ -17,15 +17,15 @@ namespace iqt2d
 
 
 class CViewProviderGuiComp: 
-			public	ibase::TCommandsProviderCompWrap<
-						iqtgui::TGuiComponentBase<iview::CConsoleGui> >,
+			public	iqtgui::TGuiComponentBase<iview::CConsoleGui>,
+			virtual public ibase::ICommandsProvider,
 			virtual public IViewProvider
 {
 public:
-	typedef ibase::TCommandsProviderCompWrap<
-				iqtgui::TGuiComponentBase<iview::CConsoleGui> > BaseClass;
+	typedef iqtgui::TGuiComponentBase<iview::CConsoleGui> BaseClass;
 
 	I_BEGIN_COMPONENT(CViewProviderGuiComp);	
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(IViewProvider);
 		I_ASSIGN(m_viewIdAttrPtr, "ViewId", "ID allowing identifying this view", true, 0);
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);

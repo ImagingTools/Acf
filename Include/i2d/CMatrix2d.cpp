@@ -73,7 +73,7 @@ double CMatrix2d::GetApproxAngle() const
 
 double CMatrix2d::GetApproxScale() const
 {
-	static const double sqrt2 = std::sqrt(2.0);
+	static const double sqrt2 = qSqrt(2.0);
 
 	return GetFrobeniusNorm() / sqrt2;
 }

@@ -206,7 +206,7 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetLength2() const
 template <typename Base>
 inline typename Base::ElementType TMathVectorWrap<Base>::GetLength() const
 {
-	return std::sqrt(GetLength2());
+	return qSqrt(GetLength2());
 }
 
 
@@ -220,7 +220,7 @@ inline typename Base::ElementType TMathVectorWrap<Base>::GetDistance2(const TMat
 template <typename Base>
 inline typename Base::ElementType TMathVectorWrap<Base>::GetDistance(const TMathVectorWrap<Base>& vector) const
 {
-	return std::sqrt(GetDistance2(vector));
+	return qSqrt(GetDistance2(vector));
 }
 
 

@@ -4,8 +4,6 @@
 
 // Qt includes
 #include <QtGui/QPainter>
-#include <QtGui/QWidget>
-
 
 // ACF includes
 #include "istd/TOptDelPtr.h"
@@ -30,15 +28,13 @@ namespace iview
 	and can automatically show calibration grid if supported.
 */
 class CCalibratedViewBase:
-			public QWidget,
 			public CViewBase,
 			virtual public IVisualCalibrationInfo
 {
 public:
 	typedef CViewBase BaseClass;
-	typedef QWidget BaseClass2;
 
-	CCalibratedViewBase(QWidget* parentWidgetPtr = NULL);
+	CCalibratedViewBase();
 
 	/**
 		Set calibration object for this view.

@@ -138,7 +138,7 @@ void CConsoleGui::OnZoomToFit(bool state)
 	UpdateZoomInOutState();
 }
 
-void CConsoleGui::OnFitContentstoView()
+void CConsoleGui::OnFitContentsToView()
 {
 	m_viewPtr->SetZoom(iview::CViewBase::ZM_FIT);
 

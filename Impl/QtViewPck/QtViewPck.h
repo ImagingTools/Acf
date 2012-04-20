@@ -31,8 +31,8 @@ namespace QtViewPck
 
 typedef iqt2d::CSceneExtenderDelegatorComp SceneExtenderDelegator;
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
-typedef iqt2d::CSceneProviderGuiComp SceneProvider;
-typedef iqt2d::CImageViewComp ImageView;
+typedef icomp::TModelCompWrap<iqt2d::CSceneProviderGuiComp> SceneProvider;
+typedef icomp::TModelCompWrap<iqt2d::CImageViewComp> ImageView;
 typedef iqt2d::CLine2dParamsGuiComp Line2dParamsGui;
 typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
 typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;
@@ -43,7 +43,7 @@ typedef iqt2d::CPolygonParamsGuiComp PolygonParamsGui;
 typedef iqt2d::CSceneControllerGuiComp SceneControllerGui;
 typedef iqt2d::CSceneBinderComp SceneBinder;
 typedef iqt2d::CSelectableSceneExtenderComp SelectableSceneExtender;
-typedef iqt2d::CViewProviderGuiComp ViewProvider;
+typedef icomp::TModelCompWrap<iqt2d::CViewProviderGuiComp> ViewProvider;
 
 
 } // namespace QtViewPck

@@ -10,7 +10,7 @@
 #include "iview/IMouseActionObserver.h"
 #include "iview/CScreenTransform.h"
 #include "iview/CViewLayer.h"
-#include "iview/CSelectableLayerBase.h"
+#include "iview/CInteractiveViewLayer.h"
 
 
 class QPainter;
@@ -338,7 +338,7 @@ private:
 	// default layers
 	iview::CViewLayer m_backgroundLayer;
 	iview::CViewLayer m_inactiveLayer;
-	iview::CSelectableLayerBase m_activeLayer;
+	iview::CInteractiveViewLayer m_activeLayer;
 
 	// help objects
 	bool m_isLastMouseButtonDown;

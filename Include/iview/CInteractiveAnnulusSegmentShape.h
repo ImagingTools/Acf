@@ -33,18 +33,18 @@ public:
 	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
 protected:
-	virtual void DrawAnnulusSegment(
+	virtual void DrawArea(
 				QPainter& painter,
-				istd::CIndex2d center,
+				i2d::CVector2d center,
 				int minRadius,
 				int maxRadius,
 				double startAngle,
 				double stopAngle,
 				bool fillFlag = true) const;
 
-	bool m_editRadius2Mode;
-
 	bool m_editableAngle;
+
+	bool m_editRadius2Mode;
 	bool m_editAngle1Mode;
 	bool m_editAngle2Mode;
 };

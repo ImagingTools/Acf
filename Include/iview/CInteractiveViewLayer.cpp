@@ -1,4 +1,4 @@
-#include "iview/CSelectableLayerBase.h"
+#include "iview/CInteractiveViewLayer.h"
 
 
 // Qt includes
@@ -20,14 +20,14 @@ namespace iview
 {
 
 
-CSelectableLayerBase::CSelectableLayerBase()
+CInteractiveViewLayer::CInteractiveViewLayer()
 :	BaseClass(),
 	m_focusedShapePtr(NULL)
 {
 }
 
 
-CSelectableLayerBase::~CSelectableLayerBase()
+CInteractiveViewLayer::~CInteractiveViewLayer()
 {
 	DisconnectAllShapes();
 }
@@ -35,7 +35,7 @@ CSelectableLayerBase::~CSelectableLayerBase()
 
 // reimplemented (iview::CViewLayer)
 
-i2d::CRect CSelectableLayerBase::RecalcAllShapes(int changeFlag)
+i2d::CRect CInteractiveViewLayer::RecalcAllShapes(int changeFlag)
 {
 	i2d::CRect boundingBox = BaseClass::RecalcAllShapes(changeFlag);
 
@@ -54,7 +54,7 @@ i2d::CRect CSelectableLayerBase::RecalcAllShapes(int changeFlag)
 }
 
 
-i2d::CRect CSelectableLayerBase::CalcBoundingBox() const
+i2d::CRect CInteractiveViewLayer::CalcBoundingBox() const
 {
 	i2d::CRect boundingBox = BaseClass::CalcBoundingBox();
 
@@ -70,7 +70,7 @@ i2d::CRect CSelectableLayerBase::CalcBoundingBox() const
 
 // reimplemented (iview::ISelectableLayer)
 
-bool CSelectableLayerBase::ConnectInteractiveShape(IInteractiveShape* shapePtr)
+bool CInteractiveViewLayer::ConnectInteractiveShape(IInteractiveShape* shapePtr)
 {
 	if (shapePtr->IsSelected()){
 		shapePtr->OnConnectDisplay(this);
@@ -90,13 +90,13 @@ bool CSelectableLayerBase::ConnectInteractiveShape(IInteractiveShape* shapePtr)
 }
 
 
-int CSelectableLayerBase::GetUnselectedShapesCount() const
+int CInteractiveViewLayer::GetUnselectedShapesCount() const
 {
 	return BaseClass::GetShapesCount();
 }
 
 
-void CSelectableLayerBase::DrawFocusedShape(QPainter& drawContext)
+void CInteractiveViewLayer::DrawFocusedShape(QPainter& drawContext)
 {
 	if (m_focusedShapePtr != NULL){
 		m_focusedShapePtr->Draw(drawContext);
@@ -104,7 +104,7 @@ void CSelectableLayerBase::DrawFocusedShape(QPainter& drawContext)
 }
 
 
-void CSelectableLayerBase::BeginDrag(const i2d::CVector2d& position)
+void CInteractiveViewLayer::BeginDrag(const i2d::CVector2d& position)
 {
 	for (ShapeMap::iterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
 		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter.key());
@@ -115,7 +115,7 @@ void CSelectableLayerBase::BeginDrag(const i2d::CVector2d& position)
 }
 
 
-void CSelectableLayerBase::SetDragPosition(const i2d::CVector2d& position)
+void CInteractiveViewLayer::SetDragPosition(const i2d::CVector2d& position)
 {
 	for (ShapeMap::iterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
 		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter.key());
@@ -126,7 +126,7 @@ void CSelectableLayerBase::SetDragPosition(const i2d::CVector2d& position)
 }
 
 
-void CSelectableLayerBase::EndDrag()
+void CInteractiveViewLayer::EndDrag()
 {
 	for (ShapeMap::iterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
 		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter.key());
@@ -137,7 +137,7 @@ void CSelectableLayerBase::EndDrag()
 }
 
 
-bool CSelectableLayerBase::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
+bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	IShapeView* viewPtr = GetViewPtr();
 	I_ASSERT(viewPtr != NULL);
@@ -230,7 +230,7 @@ bool CSelectableLayerBase::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 }
 
 
-bool CSelectableLayerBase::OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
+bool CInteractiveViewLayer::OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	if (m_focusedShapePtr != NULL){
 		return m_focusedShapePtr->OnMouseButton(position, buttonType, downFlag);
@@ -241,7 +241,7 @@ bool CSelectableLayerBase::OnFocusedMouseButton(istd::CIndex2d position, Qt::Mou
 }
 
 
-bool CSelectableLayerBase::OnFocusedMouseMove(istd::CIndex2d position)
+bool CInteractiveViewLayer::OnFocusedMouseMove(istd::CIndex2d position)
 {
 	if (m_focusedShapePtr != NULL){
 		return m_focusedShapePtr->OnMouseMove(position);
@@ -252,7 +252,7 @@ bool CSelectableLayerBase::OnFocusedMouseMove(istd::CIndex2d position)
 }
 
 
-ITouchable::TouchState CSelectableLayerBase::IsTouched(istd::CIndex2d position, IInteractiveShape** shapePtrPtr) const
+ITouchable::TouchState CInteractiveViewLayer::IsTouched(istd::CIndex2d position, IInteractiveShape** shapePtrPtr) const
 {
 	QMapIterator<IShape*, i2d::CRect> iter(m_activeShapes);
 	iter.toBack();
@@ -300,13 +300,13 @@ ITouchable::TouchState CSelectableLayerBase::IsTouched(istd::CIndex2d position, 
 
 // reimplemented (iview::ISelectable)
 
-int CSelectableLayerBase::GetSelectedShapesCount() const
+int CInteractiveViewLayer::GetSelectedShapesCount() const
 {
 	return m_activeShapes.size();
 }
 
 
-void CSelectableLayerBase::InsertSelectedShapes(SelectedShapes& result) const
+void CInteractiveViewLayer::InsertSelectedShapes(SelectedShapes& result) const
 {
 	for (ShapeMap::ConstIterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
 		IInteractiveShape* uiShape = dynamic_cast<IInteractiveShape*>(iter.key());
@@ -317,7 +317,7 @@ void CSelectableLayerBase::InsertSelectedShapes(SelectedShapes& result) const
 }
 
 
-void CSelectableLayerBase::DeselectAllShapes()
+void CInteractiveViewLayer::DeselectAllShapes()
 {
 	while (!m_activeShapes.isEmpty()){
 		ShapeMap::iterator iter = m_activeShapes.begin();
@@ -332,7 +332,7 @@ void CSelectableLayerBase::DeselectAllShapes()
 }
 
 
-void CSelectableLayerBase::OnShapeFocused(IInteractiveShape* shapePtr)
+void CInteractiveViewLayer::OnShapeFocused(IInteractiveShape* shapePtr)
 {
 	I_ASSERT(shapePtr != NULL);
 	I_ASSERT(m_activeShapes.find(shapePtr) != m_activeShapes.end());
@@ -347,7 +347,7 @@ void CSelectableLayerBase::OnShapeFocused(IInteractiveShape* shapePtr)
 }
 
 
-void CSelectableLayerBase::OnShapeDefocused(IInteractiveShape* shapePtr)
+void CInteractiveViewLayer::OnShapeDefocused(IInteractiveShape* shapePtr)
 {
 	I_ASSERT(shapePtr != NULL);
 
@@ -361,7 +361,7 @@ void CSelectableLayerBase::OnShapeDefocused(IInteractiveShape* shapePtr)
 }
 
 
-void CSelectableLayerBase::OnShapeSelected(IInteractiveShape& shape, bool state)
+void CInteractiveViewLayer::OnShapeSelected(IInteractiveShape& shape, bool state)
 {
 	if (state){
 		ShapeMap::iterator iter = m_shapes.find(&shape);
@@ -405,13 +405,13 @@ void CSelectableLayerBase::OnShapeSelected(IInteractiveShape& shape, bool state)
 
 // reimplemented (iview::IViewLayer)
 
-bool CSelectableLayerBase::IsShapeConnected(IShape* shapePtr)
+bool CInteractiveViewLayer::IsShapeConnected(IShape* shapePtr)
 {
 	return (m_activeShapes.find(shapePtr) != m_activeShapes.end()) || BaseClass::IsShapeConnected(shapePtr);
 }
 
 
-bool CSelectableLayerBase::ConnectShape(IShape* shapePtr)
+bool CInteractiveViewLayer::ConnectShape(IShape* shapePtr)
 {
 	IInteractiveShape* uiShapePtr = dynamic_cast<IInteractiveShape*>(shapePtr);
 	if (uiShapePtr != NULL){
@@ -422,13 +422,13 @@ bool CSelectableLayerBase::ConnectShape(IShape* shapePtr)
 }
 
 
-int CSelectableLayerBase::GetShapesCount() const
+int CInteractiveViewLayer::GetShapesCount() const
 {
 	return BaseClass::GetShapesCount() + m_activeShapes.size();
 }
 
 
-void CSelectableLayerBase::DisconnectAllShapes()
+void CInteractiveViewLayer::DisconnectAllShapes()
 {
 	BaseClass::DisconnectAllShapes();
 
@@ -444,7 +444,7 @@ void CSelectableLayerBase::DisconnectAllShapes()
 }
 
 
-void CSelectableLayerBase::DrawShapes(QPainter& drawContext)
+void CInteractiveViewLayer::DrawShapes(QPainter& drawContext)
 {
 	BaseClass::DrawShapes(drawContext);
 
@@ -464,7 +464,7 @@ void CSelectableLayerBase::DrawShapes(QPainter& drawContext)
 
 // reimplemented (iview::IShapeObserver)
 
-void CSelectableLayerBase::OnChangeShape(IShape* shapePtr)
+void CInteractiveViewLayer::OnChangeShape(IShape* shapePtr)
 {
 	I_ASSERT(shapePtr != NULL);
 
@@ -479,7 +479,7 @@ void CSelectableLayerBase::OnChangeShape(IShape* shapePtr)
 }
 
 
-bool CSelectableLayerBase::DisconnectShape(IShape* shapePtr)
+bool CInteractiveViewLayer::DisconnectShape(IShape* shapePtr)
 {
 	I_ASSERT(shapePtr != NULL);
 
@@ -505,7 +505,7 @@ bool CSelectableLayerBase::DisconnectShape(IShape* shapePtr)
 
 // reimplemented (iview::ITouchable)
 
-ITouchable::TouchState CSelectableLayerBase::IsTouched(istd::CIndex2d position) const
+ITouchable::TouchState CInteractiveViewLayer::IsTouched(istd::CIndex2d position) const
 {
 	if (IsVisible()){
 		for (ShapeMap::iterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
@@ -524,7 +524,7 @@ ITouchable::TouchState CSelectableLayerBase::IsTouched(istd::CIndex2d position) 
 }
 
 
-QString CSelectableLayerBase::GetShapeDescriptionAt(istd::CIndex2d position) const
+QString CInteractiveViewLayer::GetShapeDescriptionAt(istd::CIndex2d position) const
 {
 	if (IsVisible()){
 		for (ShapeMap::iterator iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){

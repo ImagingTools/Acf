@@ -502,7 +502,7 @@ bool CLine2d::Transform(
 			// approx error if transformation of center lies on the result line
 			CVector2d transCenter;
 			if (transformation.GetPositionAt(GetCenter(), transCenter, mode)){
-				*errorFactorPtr = std::sqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
+				*errorFactorPtr = qSqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
 			}
 			else{
 				// there is no possibility to calculate it, get proportional dummy error
@@ -539,7 +539,7 @@ bool CLine2d::InvTransform(
 			// approx error if transformation of center lies on the result line
 			CVector2d transCenter;
 			if (transformation.GetInvPositionAt(GetCenter(), transCenter, mode)){
-				*errorFactorPtr = std::sqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
+				*errorFactorPtr = qSqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
 			}
 			else{
 				// there is no possibility to calculate it, get proportional dummy error
@@ -582,7 +582,7 @@ bool CLine2d::GetTransformed(
 			// approx error if transformation of center lies on the result line
 			CVector2d transCenter;
 			if (transformation.GetPositionAt(GetCenter(), transCenter, mode)){
-				*errorFactorPtr = std::sqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
+				*errorFactorPtr = qSqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
 			}
 			else{
 				// there is no possibility to calculate it, get proportional dummy error
@@ -625,7 +625,7 @@ bool CLine2d::GetInvTransformed(
 			// approx error if transformation of center lies on the result line
 			CVector2d transCenter;
 			if (transformation.GetInvPositionAt(GetCenter(), transCenter, mode)){
-				*errorFactorPtr = std::sqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
+				*errorFactorPtr = qSqrt((transCenter - transPos1).GetCrossProductZ(transPos2 - transPos1));
 			}
 			else{
 				// there is no possibility to calculate it, get proportional dummy error

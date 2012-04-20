@@ -8,7 +8,6 @@
 #include <QtGui/QCursor>
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "iimg/IBitmap.h"
 
@@ -27,11 +26,13 @@ namespace iview
 
 
 class CViewport:
+			public QWidget,
 			public CCalibratedViewBase,
 			virtual public IViewEventObserver
 {
 public:
 	typedef CCalibratedViewBase BaseClass;
+	typedef QWidget BaseClass2;
 
 	CViewport(CConsoleBase* framePtr, QWidget* parent = NULL);
 	virtual ~CViewport();

@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtCore/qmath.h>
 #include <QtCore/QVector>
 
 // ACF includes
@@ -372,7 +373,7 @@ inline double CVarVector::GetLength2() const
 
 inline double CVarVector::GetLength() const
 {
-	return std::sqrt(GetLength2());
+	return qSqrt(GetLength2());
 }
 
 
@@ -384,7 +385,7 @@ inline double CVarVector::GetDistance2(const CVarVector& vector) const
 
 inline double CVarVector::GetDistance(const CVarVector& vector) const
 {
-	return std::sqrt(GetDistance2(vector));
+	return qSqrt(GetDistance2(vector));
 }
 
 

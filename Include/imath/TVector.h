@@ -2,6 +2,9 @@
 #define imath_TVector_included
 
 
+// Qt includes
+#include <QtCore/qmath.h>
+
 // ACF includes
 #include "iser/IArchive.h"
 
@@ -325,7 +328,7 @@ inline Element TVector<Size, Element>::GetLength2() const
 template <int Size, class Element>
 inline Element TVector<Size, Element>::GetLength() const
 {
-	return std::sqrt(GetLength2());
+	return qSqrt(GetLength2());
 }
 
 
@@ -339,7 +342,7 @@ inline Element TVector<Size, Element>::GetDistance2(const TVector<Size, Element>
 template <int Size, class Element>
 inline Element TVector<Size, Element>::GetDistance(const TVector<Size, Element>& vector) const
 {
-	return std::sqrt(GetDistance2(vector));
+	return qSqrt(GetDistance2(vector));
 }
 
 

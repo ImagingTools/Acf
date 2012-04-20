@@ -10,7 +10,7 @@
 #include "iview/ISelectable.h"
 #include "iview/IViewEventObserver.h"
 #include "iview/CViewLayer.h"
-#include "iview/CSelectableLayerBase.h"
+#include "iview/CInteractiveViewLayer.h"
 
 
 namespace iview

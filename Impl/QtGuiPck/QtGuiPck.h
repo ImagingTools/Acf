@@ -79,7 +79,7 @@ typedef iqtgui::CFilePersistenceGuiComp FilePersistenceGui;
 typedef iqtgui::CSimpleMainWindowGuiComp SimpleMainGui;
 typedef iqtgui::CDialogGuiComp DialogGui;
 typedef iqtgui::CModelDialogGuiComp ModelDialogGui;
-typedef iqtgui::CCommandsBinderComp CommandsBinder;
+typedef icomp::TModelCompWrap<iqtgui::CCommandsBinderComp> CommandsBinder;
 typedef iqtgui::CFileSystemExplorerGuiComp FileSystemExplorerGui;
 typedef iqtgui::CImagePropertyGuiComp ImagePropertyGui;
 typedef iqtgui::CObjectPreviewGuiComp ObjectPreviewGui;

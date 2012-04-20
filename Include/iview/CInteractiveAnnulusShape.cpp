@@ -25,7 +25,8 @@ CInteractiveAnnulusShape::CInteractiveAnnulusShape()
 	m_editRadius2Mode = false;
 	m_editRadiusMode = false;
 
-	m_isEditableRadius2 = m_isEditableRadius;
+	m_isEditableRadius2 = true;
+	m_isEditableRadius = true;
 }
 
 

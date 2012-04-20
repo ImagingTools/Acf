@@ -79,7 +79,7 @@ public Q_SLOTS:
 	virtual void OnZoomOut();
 	virtual void OnZoomReset();
 	virtual void OnZoomToFit(bool state);
-	virtual void OnFitContentstoView();
+	virtual void OnFitContentsToView();
 	virtual void OnPointsNone();
 	virtual void OnPoinsMove();
 	virtual void OnPointsAdd();

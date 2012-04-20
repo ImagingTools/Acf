@@ -25,7 +25,7 @@ CInteractivePinShape::CInteractivePinShape()
 
 ITouchable::TouchState CInteractivePinShape::IsTouched(istd::CIndex2d position) const
 {
-	i2d::CRect boundingBox = CInteractivePinShape::GetBoundingBox();
+	i2d::CRect boundingBox = CInteractivePinShape::CalcBoundingBox();
 	if (boundingBox.IsInside(position)){
 		if (IsEditablePosition()){
 			return TS_TICKER;

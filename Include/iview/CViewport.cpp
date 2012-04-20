@@ -13,7 +13,7 @@ namespace iview
 // public methods
 
 CViewport::CViewport(CConsoleBase* framePtr, QWidget* parent)
-	:BaseClass(parent),
+:	BaseClass2(parent),
 	m_pixelPositionFormatter(0),
 	m_logicalPositionFormatter(2),
 	m_framePtr(framePtr)
@@ -47,13 +47,10 @@ CViewport::~CViewport()
 }
 
 
-
 CConsoleBase* CViewport::GetFramePtr() const
 {
 	return m_framePtr;
 }
-
-
 
 
 void CViewport::UpdateFitTransform()
@@ -220,9 +217,9 @@ void CViewport::SetBackgroundBufferValid(bool state)
 		if (backgroundLayerIndex >= 0){
 			const iview::IViewLayer& layer = GetLayer(backgroundLayerIndex);
 
-			i2d::CRect backgroundBoundingBox = layer.GetBoundingBox();
+			i2d::CRect fitArea = GetFitArea();
 
-			bool isBkActive = !backgroundBoundingBox.IsEmpty();
+			bool isBkActive = !fitArea.IsEmpty();
 			if (isBkActive != m_framePtr->m_isBkActive){
 				m_framePtr->m_isBkActive = isBkActive;
 				if (m_framePtr->m_isZoomToFit){
@@ -299,7 +296,7 @@ void CViewport::mousePressEvent(QMouseEvent* eventPtr)
 		Update();
 	}
 	else{
-		BaseClass::mousePressEvent(eventPtr);
+		BaseClass2::mousePressEvent(eventPtr);
 	}
 }
 
@@ -319,7 +316,7 @@ void CViewport::mouseReleaseEvent(QMouseEvent* eventPtr)
 		Update();
 	}
 	else{
-		BaseClass::mousePressEvent(eventPtr);
+		BaseClass2::mousePressEvent(eventPtr);
 	}
 }
 
@@ -334,7 +331,7 @@ void CViewport::mouseMoveEvent(QMouseEvent* eventPtr)
 
 	OnMouseMove(pos);
 
-	BaseClass::mouseMoveEvent(eventPtr);
+	BaseClass2::mouseMoveEvent(eventPtr);
 }
 
 
@@ -345,7 +342,7 @@ void CViewport::SetMousePointer(MousePointerMode mode)
 	I_ASSERT(mode >= 0);
 	I_ASSERT(mode < MPM_LAST);
 
-	BaseClass::setCursor(m_mousePointerModes[mode]);
+	BaseClass2::setCursor(m_mousePointerModes[mode]);
 }
 
 
