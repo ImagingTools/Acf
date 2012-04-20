@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	}
 	
 	else if (showApplicationInfo){
-		std::cout << applicationPtr->GetHelpText().toStdString();
+		std::cout << applicationPtr->GetHelpText().toLocal8Bit().constData();
 
 		retVal = 0;
 	}

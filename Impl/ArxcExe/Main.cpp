@@ -90,14 +90,14 @@ int main(int argc, char *argv[])
 	}
 
 	if (verboseEnabled){
-		std::cout << "ARX Compiler started in: " << QDir::currentPath().toStdString() << std::endl;
+		std::cout << "ARX Compiler started in: " << QDir::currentPath().toLocal8Bit().constData() << std::endl;
 
 		iqt::CSystem::EnvironmentVariables environmentVariables = iqt::CSystem::GetEnvironmentVariables();
 
 		for (		iqt::CSystem::EnvironmentVariables::const_iterator index = environmentVariables.begin();
 					index != environmentVariables.end();
 					++index){
-			std::cout << index.key().toStdString() << " = " << index.value().toStdString() << std::endl;
+			std::cout << index.key().toLocal8Bit().constData() << " = " << index.value().toLocal8Bit().constData() << std::endl;
 		}
 	}
 
