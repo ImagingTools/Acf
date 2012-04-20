@@ -31,11 +31,11 @@ namespace iview
 */
 class CCalibratedViewBase:
 			public QWidget,
-			public iview::CViewBase,
+			public CViewBase,
 			virtual public IVisualCalibrationInfo
 {
 public:
-	typedef iview::CViewBase BaseClass;
+	typedef CViewBase BaseClass;
 	typedef QWidget BaseClass2;
 
 	CCalibratedViewBase(QWidget* parentWidgetPtr = NULL);

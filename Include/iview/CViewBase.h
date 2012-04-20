@@ -240,7 +240,7 @@ protected:
 	/**
 		Calculate bounding box of all shapes.
 	*/
-	virtual void CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const;
 
 	virtual MousePointerMode CalcMousePointer(istd::CIndex2d position) const;
 
@@ -463,7 +463,9 @@ inline const iview::CScreenTransform& CViewBase::GetTransform() const
 inline i2d::CRect CViewBase::GetBoundingBox() const
 {
 	if (!m_isBoundingBoxValid){
-		CalcBoundingBox();
+		m_boundingBox = CalcBoundingBox();
+
+		m_isBoundingBoxValid = true;
 	}
 
 	return m_boundingBox;

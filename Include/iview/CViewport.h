@@ -93,7 +93,7 @@ protected:
 	void UpdateRectArea(const i2d::CRect& rect);
 
 	// reimplemented (CViewBase)
-	virtual void CalcBoundingBox() const;
+	virtual i2d::CRect CalcBoundingBox() const;
 
 	// reimplemented (IDisplay)
 	virtual void OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox);

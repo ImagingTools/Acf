@@ -41,8 +41,10 @@ protected:
 	void CalcPoints(const i2d::CLine2d& line) const;
 	void ResetPoints() const;
 
-	// reimplemented (iview::CInteractiveShapeBase)
+	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const;
+
+	// reimplemented (iview::CInteractiveShapeBase)
 	virtual void BeginLogDrag(const i2d::CVector2d& reference);
 	virtual void SetLogDragPosition(const i2d::CVector2d& position);
 

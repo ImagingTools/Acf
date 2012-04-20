@@ -98,7 +98,7 @@ void CImageShape::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPo
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CImageShape::CalcBoundingBox() const
 {

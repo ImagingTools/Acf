@@ -11,6 +11,7 @@
 #include "iqt/iqt.h"
 
 #include "iview/ISelectable.h"
+#include "iview/IViewLayer.h"
 
 
 namespace iview
@@ -34,8 +35,6 @@ CInteractiveShapeBase::CInteractiveShapeBase(const CInteractiveShapeBase& /*shap
 CInteractiveShapeBase::~CInteractiveShapeBase()
 {
 	DisconnectDisplay();
-
-	DisconnectFromModel();
 }
 
 
@@ -122,7 +121,7 @@ void CInteractiveShapeBase::EndModelChanges()
 
 void CInteractiveShapeBase::UpdateModelChanges()
 {
-	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetShapeModelPtr());
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
 
 	istd::CChangeNotifier changePtr(objectPtr, istd::IChangeable::CF_MODEL);
 }

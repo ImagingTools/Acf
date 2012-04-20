@@ -81,7 +81,7 @@ protected:
 	*/
 	virtual i2d::CRect RecalcAllShapes(int changeFlag);
 	/**
-		Calculate bounding box all all shapes.
+		Calculate bounding box for all shapes.
 	*/
 	virtual i2d::CRect CalcBoundingBox() const;
 

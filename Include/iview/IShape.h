@@ -40,11 +40,6 @@ public:
 	*/
 	virtual int GetLayerType() const = 0;
 
-	/**
-		Get the model object associated with this shape.
-	*/
-	virtual imod::IModel* GetShapeModelPtr() const = 0;
-
 	/**	
 		Return bounding box in client window coordinates.
 		You can store this bounding box for optimisation,

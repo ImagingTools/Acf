@@ -219,7 +219,7 @@ bool CInteractivePerspectiveCalibrationShape::OnMouseMove(istd::CIndex2d positio
 
 // protected methods
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractivePerspectiveCalibrationShape::CalcBoundingBox() const
 {
@@ -231,6 +231,8 @@ i2d::CRect CInteractivePerspectiveCalibrationShape::CalcBoundingBox() const
 	return i2d::CRect();
 }
 
+
+// reimplemented (iview::CInteractiveShapeBase)
 
 void CInteractivePerspectiveCalibrationShape::BeginLogDrag(const i2d::CVector2d& /*reference*/)
 {

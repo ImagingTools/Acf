@@ -11,6 +11,7 @@
 
 #include "iqt/iqt.h"
 
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -218,7 +219,7 @@ void CInteractiveArrowShape::ResetPoints() const
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractiveArrowShape::CalcBoundingBox() const
 {
@@ -242,6 +243,8 @@ i2d::CRect CInteractiveArrowShape::CalcBoundingBox() const
 	return boundingBox;
 }
 
+
+// reimplemented (iview::CInteractiveShapeBase)
 
 void CInteractiveArrowShape::BeginLogDrag(const i2d::CVector2d& reference)
 {

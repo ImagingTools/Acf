@@ -8,7 +8,7 @@
 #include "iview/IInteractiveShape.h"
 #include "iview/IDraggable.h"
 #include "iview/ISelectable.h"
-#include "iview/TShapeBase.h"
+#include "iview/CShapeBase.h"
 
 
 namespace iview
@@ -16,12 +16,12 @@ namespace iview
 
 
 class CInteractiveShapeBase:
-			public TShapeBase<IInteractiveShape>,
+			public CShapeBase,
+			virtual public IInteractiveShape,
 			virtual public IDraggable
 {
 public:
-	typedef TShapeBase<IInteractiveShape> BaseClass;
-	typedef IDraggable BaseClass2;
+	typedef CShapeBase BaseClass;
 
 	CInteractiveShapeBase();
 	CInteractiveShapeBase(const CInteractiveShapeBase& shape);
@@ -71,13 +71,12 @@ protected:
 	*/
 	void DrawText(QPainter& drawContext, istd::CIndex2d point, const QString& text) const;
 
-	// reimplemented (iview::TShapeBase)
+	// reimplemented (iview::CShapeBase)
 	virtual int GetDisplayChangesMask();
 
 	// abstract methods
 	virtual void BeginLogDrag(const i2d::CVector2d& reference) = 0;
 	virtual void SetLogDragPosition(const i2d::CVector2d& position) = 0;
-	virtual i2d::CRect CalcBoundingBox() const = 0;
 
 private:
 	bool m_isSelected;
@@ -155,7 +154,7 @@ inline int CInteractiveShapeBase::GetEditMode() const
 }
 
 
-// reimplemented (iview::TShapeBase)
+// reimplemented (iview::CShapeBase)
 
 inline int CInteractiveShapeBase::GetDisplayChangesMask()
 {

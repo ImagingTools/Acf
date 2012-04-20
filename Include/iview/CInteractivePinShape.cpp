@@ -1,15 +1,13 @@
 #include "iview/CInteractivePinShape.h"
 
 
-
-#include "i2d/CPosition2d.h"
-#include "iview/CScreenTransform.h"
-
-#include "iview/iview.h"
-
-
 // ACF includes
 #include "imod/IModel.h"
+
+#include "i2d/CPosition2d.h"
+
+#include "iview/IColorShema.h"
+#include "iview/CScreenTransform.h"
 
 
 namespace iview
@@ -140,7 +138,7 @@ bool CInteractivePinShape::OnMouseMove(istd::CIndex2d position)
 
 // protected methods
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractivePinShape::CalcBoundingBox() const
 {
@@ -174,6 +172,8 @@ i2d::CRect CInteractivePinShape::CalcBoundingBox() const
 	return i2d::CRect();
 }
 
+
+// reimplemented (iview::CInteractiveShapeBase)
 
 void CInteractivePinShape::BeginLogDrag(const i2d::CVector2d& reference)
 {

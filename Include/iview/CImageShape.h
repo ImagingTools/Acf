@@ -2,6 +2,10 @@
 #define iview_CImageShape_included
 
 
+// Qt includes
+#include <QtGui/QImage>
+#include <QtGui/QPixmap>
+
 // ACF includes
 #include "icmm/IColorTransformation.h"
 

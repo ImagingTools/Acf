@@ -7,9 +7,12 @@
 
 // ACF includes
 #include "imod/IModel.h"
+
 #include "i2d/CPolygon.h"
+
 #include "iqt/iqt.h"
 
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -320,62 +323,6 @@ bool CInteractivePolygonShape::IsDraggable() const
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
-
-i2d::CRect CInteractivePolygonShape::CalcBoundingBox() const
-{
-	I_ASSERT(IsDisplayConnected());
-
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
-	if (polygonPtr != NULL){
-		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-        const IColorShema& colorShema = GetColorShema();
-
-		int nodesCount = polygonPtr->GetNodesCount();
-
-		if (nodesCount > 0){
-			istd::CIndex2d sp = transform.GetScreenPosition(polygonPtr->GetNode(0));
-			i2d::CRect boundingBox(sp, sp);
-			for (int i = 1; i < nodesCount; i++){
-				sp = transform.GetScreenPosition(polygonPtr->GetNode(i));
-				boundingBox.Union(sp);
-			}
-
-			boundingBox.Expand(i2d::CRect(0,0,1,1));
-
-			IColorShema::TickerType tickerType;
-
-			if (IsSelected()){
-				int editMode = GetEditMode();
-				switch (editMode){
-				case ISelectable::EM_MOVE:
-					tickerType = IColorShema::TT_MOVE;
-					break;
-
-				case ISelectable::EM_ADD:
-					tickerType = IColorShema::TT_INSERT;
-					break;
-
-				case ISelectable::EM_REMOVE:
-					tickerType = IColorShema::TT_DELETE;
-					break;
-
-				default:
-					return BaseClass::CalcBoundingBox();
-				}
-			}
-			else{
-				tickerType = IColorShema::TT_INACTIVE;
-			}
-
-			return boundingBox.GetExpanded(colorShema.GetTickerBox(tickerType));
-		}
-	}
-
-	return i2d::CRect();
-}
-
-
 // protected methods
 
 i2d::CVector2d CInteractivePolygonShape::GetSegmentMiddle(int index) const
@@ -668,6 +615,62 @@ void CInteractivePolygonShape::SetLogDragPosition(const i2d::CVector2d& position
 
 		EndModelChanges();
 	}
+}
+
+
+// reimplemented (iview::CShapeBase)
+
+i2d::CRect CInteractivePolygonShape::CalcBoundingBox() const
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	if (polygonPtr != NULL){
+		const iview::CScreenTransform& transform = GetLogToScreenTransform();
+        const IColorShema& colorShema = GetColorShema();
+
+		int nodesCount = polygonPtr->GetNodesCount();
+
+		if (nodesCount > 0){
+			istd::CIndex2d sp = transform.GetScreenPosition(polygonPtr->GetNode(0));
+			i2d::CRect boundingBox(sp, sp);
+			for (int i = 1; i < nodesCount; i++){
+				sp = transform.GetScreenPosition(polygonPtr->GetNode(i));
+				boundingBox.Union(sp);
+			}
+
+			boundingBox.Expand(i2d::CRect(0,0,1,1));
+
+			IColorShema::TickerType tickerType;
+
+			if (IsSelected()){
+				int editMode = GetEditMode();
+				switch (editMode){
+				case ISelectable::EM_MOVE:
+					tickerType = IColorShema::TT_MOVE;
+					break;
+
+				case ISelectable::EM_ADD:
+					tickerType = IColorShema::TT_INSERT;
+					break;
+
+				case ISelectable::EM_REMOVE:
+					tickerType = IColorShema::TT_DELETE;
+					break;
+
+				default:
+					return BaseClass::CalcBoundingBox();
+				}
+			}
+			else{
+				tickerType = IColorShema::TT_INACTIVE;
+			}
+
+			return boundingBox.GetExpanded(colorShema.GetTickerBox(tickerType));
+		}
+	}
+
+	return i2d::CRect();
 }
 
 

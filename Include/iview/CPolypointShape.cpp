@@ -7,11 +7,11 @@
 
 // ACF includes
 #include "imod/IModel.h"
+
 #include "i2d/CVector2d.h"
 #include "i2d/CPolypoint.h"
 
-
-
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -39,43 +39,6 @@ void CPolypointShape::SetSmallTickersMode(bool state)
 		m_isSmallTickersMode = state;
 		Invalidate(CS_CONSOLE);
 	}
-}
-
-
-// reimplemented (iview::TShapeBase)
-
-i2d::CRect CPolypointShape::CalcBoundingBox() const
-{
-	I_ASSERT(IsDisplayConnected());
-
-	const imod::IModel* modelPtr = GetModelPtr();
-	if (modelPtr != NULL){
-		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
-		I_ASSERT(&polypoint != NULL);
-
-        const IColorShema& colorShema = GetColorShema();
-		const QVector<i2d::CVector2d>& points = polypoint.GetPoints();
-
-		if (!points.isEmpty()){
-			const iview::CScreenTransform& transform = GetLogToScreenTransform();
-
-			istd::CIndex2d sp = transform.GetScreenPosition(points[0]);
-
-			i2d::CRect boundingBox(sp, sp);
-
-			int pointsCount = points.size();
-			for (int pointIndex = 1; pointIndex < pointsCount; ++pointIndex){
-				sp = transform.GetScreenPosition(points[pointIndex]);
-
-				boundingBox.Union(sp);
-			}
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_INACTIVE);
-
-			return boundingBox.GetExpanded(tickerBox);
-		}
-	}
-
-	return i2d::CRect();
 }
 
 
@@ -120,6 +83,45 @@ bool CPolypointShape::OnAttached(imod::IModel* modelPtr)
 	I_ASSERT(dynamic_cast<i2d::CPolypoint*>(modelPtr) != NULL);
 
 	return BaseClass::OnAttached(modelPtr);
+}
+
+
+// protected methods
+
+// reimplemented (iview::CShapeBase)
+
+i2d::CRect CPolypointShape::CalcBoundingBox() const
+{
+	I_ASSERT(IsDisplayConnected());
+
+	const imod::IModel* modelPtr = GetModelPtr();
+	if (modelPtr != NULL){
+		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
+		I_ASSERT(&polypoint != NULL);
+
+        const IColorShema& colorShema = GetColorShema();
+		const QVector<i2d::CVector2d>& points = polypoint.GetPoints();
+
+		if (!points.isEmpty()){
+			const iview::CScreenTransform& transform = GetLogToScreenTransform();
+
+			istd::CIndex2d sp = transform.GetScreenPosition(points[0]);
+
+			i2d::CRect boundingBox(sp, sp);
+
+			int pointsCount = points.size();
+			for (int pointIndex = 1; pointIndex < pointsCount; ++pointIndex){
+				sp = transform.GetScreenPosition(points[pointIndex]);
+
+				boundingBox.Union(sp);
+			}
+			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_INACTIVE);
+
+			return boundingBox.GetExpanded(tickerBox);
+		}
+	}
+
+	return i2d::CRect();
 }
 
 

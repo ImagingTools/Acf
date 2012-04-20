@@ -4,7 +4,6 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "imod/IModel.h"
 
@@ -12,6 +11,7 @@
 
 #include "iqt/iqt.h"
 
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 

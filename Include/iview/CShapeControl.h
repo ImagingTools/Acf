@@ -16,6 +16,7 @@ class CShapeControl: public ILogicalCoords
 {
 public:
 	CShapeControl();
+	CShapeControl(const CShapeControl& shapeControl);
 
 	/**
 		Describe how shape tranformation is interpreted.
@@ -47,17 +48,7 @@ public:
 		Set a transform from logical units to view units.
 	*/
 	virtual void SetShapeTransform(const i2d::CAffine2d& transform);
-	
-	/**
-		Check if this shape is visible.
-	*/
-	virtual bool IsVisible() const;
-	
-	/**
-		Make this shape visible.
-	*/
-	virtual void SetVisible(bool state = true);
-	
+		
 	/**
 		Get shape transformation mode.
 		This mode describes which transformation will be used to display shape.
@@ -106,7 +97,6 @@ protected:
 private:
 	i2d::CAffine2d m_shapeTransform;
 	ShapeTransformMode m_shapeTransformMode;
-	bool m_isVisible;
 	mutable i2d::CAffine2d m_logToViewTransform;
 	mutable iview::CScreenTransform m_logToScreenTransform;
 	mutable bool m_areTransformsValid;
@@ -132,21 +122,6 @@ inline void CShapeControl::SetShapeTransform(const i2d::CAffine2d& transform)
 inline CShapeControl::ShapeTransformMode CShapeControl::GetTransformMode() const
 {
 	return m_shapeTransformMode;
-}
-
-
-inline bool CShapeControl::IsVisible() const
-{
-	return m_isVisible;
-}
-
-
-inline void CShapeControl::SetVisible(bool state)
-{
-	if (m_isVisible != state){
-		m_isVisible = state;
-		Invalidate(CS_CONSOLE);
-	}
 }
 
 

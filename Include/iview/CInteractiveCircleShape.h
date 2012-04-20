@@ -34,10 +34,10 @@ public:
 	// reimplemented (iview::ITouchable)
 	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
-	// reimplemented (iview::CInteractiveShapeBase)
+protected:
+	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const;
 
-protected:
 	bool m_isEditableRadius;
 	bool m_isCenterVisible;
 

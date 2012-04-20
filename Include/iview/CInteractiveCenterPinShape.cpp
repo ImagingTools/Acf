@@ -2,16 +2,14 @@
 
 
 // ACF includes
-#include "imod/IModel.h"
-
 #include "istd/TChangeNotifier.h"
 
-
+#include "imod/IModel.h"
 
 #include "i2d/CPosition2d.h"
-#include "iview/CScreenTransform.h"
 
-#include "iview/iview.h"
+#include "iview/IColorShema.h"
+#include "iview/CScreenTransform.h"
 
 
 namespace iview
@@ -110,7 +108,7 @@ bool CInteractiveCenterPinShape::OnMouseMove(istd::CIndex2d position)
 
 // protected methods
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractiveCenterPinShape::CalcBoundingBox() const
 {

@@ -388,21 +388,25 @@ int CViewport::GetKeysState(const QMouseEvent& mouseEvent)
 
 // reimplemented (iview::CViewBase)
 
-void CViewport::CalcBoundingBox() const
+i2d::CRect CViewport::CalcBoundingBox() const
 {
 	if (!m_blockBBoxEvent){
 		m_blockBBoxEvent = true;
 
 		const i2d::CRect& lastBox = GetBoundingBox();
-		BaseClass::CalcBoundingBox();
+
+		i2d::CRect boundingBox = BaseClass::CalcBoundingBox();
+
 		if (lastBox != GetBoundingBox()){
 			const_cast<CViewport*>(this)->OnBoundingBoxChanged();
 		}
 
 		m_blockBBoxEvent = false;
+
+		return boundingBox;
 	}
 	else{
-		BaseClass::CalcBoundingBox();
+		return BaseClass::CalcBoundingBox();
 	}
 }
 

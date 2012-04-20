@@ -5,13 +5,12 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "i2d/CPolyline.h"
+
 #include "iqt/iqt.h"
 
-
-
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 

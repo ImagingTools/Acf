@@ -9,6 +9,7 @@
 
 #include "i2d/CCircle.h"
 
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -249,7 +250,9 @@ ITouchable::TouchState CInteractiveCircleShape::IsTouched(istd::CIndex2d positio
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
+// protected methods
+
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractiveCircleShape::CalcBoundingBox() const
 {

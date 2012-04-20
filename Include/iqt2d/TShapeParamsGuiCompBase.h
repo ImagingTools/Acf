@@ -61,9 +61,9 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnAttached(imod::IModel* mo
 				Shape* shapePtr = dynamic_cast<Shape*>(shapes.GetAt(shapeIndex));
 				if (shapePtr != NULL){
 					if (modelPtr->AttachObserver(shapePtr)){
-						iview::CShapeControl* shapeControllerPtr = dynamic_cast<iview::CShapeControl*>(shapePtr);
-						if (shapeControllerPtr != NULL){
-							shapeControllerPtr->SetVisible(true);
+						iview::CShapeBase* shapeBasePtr = dynamic_cast<iview::CShapeBase*>(shapePtr);
+						if (shapeBasePtr != NULL){
+							shapeBasePtr->SetVisible(true);
 						}
 					}
 				}
@@ -93,9 +93,9 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* mo
 				if (shapePtr != NULL){
 					modelPtr->DetachObserver(shapePtr);
 
-					iview::CShapeControl* shapeControllerPtr = dynamic_cast<iview::CShapeControl*>(shapePtr);
-					if (shapeControllerPtr != NULL){
-						shapeControllerPtr->SetVisible(false);
+					iview::CShapeBase* shapeBasePtr = dynamic_cast<iview::CShapeBase*>(shapePtr);
+					if (shapeBasePtr != NULL){
+						shapeBasePtr->SetVisible(false);
 					}
 				}
 			}
@@ -141,9 +141,9 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*
 		imod::IModel* modelPtr = BaseClass::GetModelPtr();
 		if (modelPtr != NULL){
 			if (modelPtr->AttachObserver(shapePtr)){
-				iview::CShapeControl* shapeControllerPtr = dynamic_cast<iview::CShapeControl*>(shapePtr);
-				if (shapeControllerPtr != NULL){
-					shapeControllerPtr->SetVisible(true);
+				iview::CShapeBase* shapeBasePtr = dynamic_cast<iview::CShapeBase*>(shapePtr);
+				if (shapeBasePtr != NULL){
+					shapeBasePtr->SetVisible(true);
 				}
 			}
 		}

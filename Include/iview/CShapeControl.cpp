@@ -7,9 +7,15 @@ namespace iview
 
 CShapeControl::CShapeControl()
 {
-	m_isVisible = true;
 	m_shapeTransformMode = STM_COMBINE;
 	m_shapeTransform.Reset();
+}
+
+
+CShapeControl::CShapeControl(const CShapeControl& shapeControl)
+{
+	m_shapeTransform = shapeControl.m_shapeTransform;
+	m_shapeTransformMode = shapeControl.m_shapeTransformMode;
 }
 
 

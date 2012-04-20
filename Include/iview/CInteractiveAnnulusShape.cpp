@@ -4,14 +4,14 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "imod/IModel.h"
+
 #include "i2d/CAnnulus.h"
+
 #include "iqt/iqt.h"
 
-
-
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -334,7 +334,27 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
+// protected methods
+
+void CInteractiveAnnulusShape::DrawAnnulus(QPainter& painter, istd::CIndex2d center, int minRadius, int maxRadius, bool /*fillFlag*/) const
+{
+	I_ASSERT(minRadius <= maxRadius);
+
+	i2d::CRect maxBox1(center.GetX() - maxRadius, center.GetY() - maxRadius, center.GetX() + maxRadius + 1, center.GetY() + maxRadius + 1);
+	i2d::CRect minBox1(center.GetX() - minRadius, center.GetY() - minRadius, center.GetX() + minRadius + 1, center.GetY() + minRadius + 1);
+	i2d::CRect bitmapBox1 = maxBox1.GetIntersection(iqt::GetCRect(painter.clipRegion().boundingRect()));
+
+	QRect tempBitmapRect1(iqt::GetQRect(i2d::CRect(bitmapBox1.GetSize())));
+	QPainterPath painterPatch;
+
+	painterPatch.addEllipse(iqt::GetQRect(minBox1));
+	painterPatch.addEllipse(iqt::GetQRect(maxBox1));
+
+	painter.drawPath(painterPatch);
+}
+
+
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractiveAnnulusShape::CalcBoundingBox() const
 {
@@ -365,26 +385,6 @@ i2d::CRect CInteractiveAnnulusShape::CalcBoundingBox() const
 	}
 
 	return i2d::CRect();
-}
-
-
-// protected methods
-
-void CInteractiveAnnulusShape::DrawAnnulus(QPainter& painter, istd::CIndex2d center, int minRadius, int maxRadius, bool /*fillFlag*/) const
-{
-	I_ASSERT(minRadius <= maxRadius);
-
-	i2d::CRect maxBox1(center.GetX() - maxRadius, center.GetY() - maxRadius, center.GetX() + maxRadius + 1, center.GetY() + maxRadius + 1);
-	i2d::CRect minBox1(center.GetX() - minRadius, center.GetY() - minRadius, center.GetX() + minRadius + 1, center.GetY() + minRadius + 1);
-	i2d::CRect bitmapBox1 = maxBox1.GetIntersection(iqt::GetCRect(painter.clipRegion().boundingRect()));
-
-	QRect tempBitmapRect1(iqt::GetQRect(i2d::CRect(bitmapBox1.GetSize())));
-	QPainterPath painterPatch;
-
-	painterPatch.addEllipse(iqt::GetQRect(minBox1));
-	painterPatch.addEllipse(iqt::GetQRect(maxBox1));
-
-	painter.drawPath(painterPatch);
 }
 
 

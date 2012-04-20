@@ -4,11 +4,14 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "imod/IModel.h"
+
 #include "i2d/CLine2d.h"
+
 #include "iqt/iqt.h"
+
+#include "iview/IColorShema.h"
 
 
 namespace iview
@@ -284,6 +287,31 @@ void CInteractiveRectangleShape::CalcPoints(const i2d::CRectangle& rectangle, co
 
 // reimplemented (iview::CInteractiveShapeBase)
 
+void CInteractiveRectangleShape::BeginLogDrag(const i2d::CVector2d& reference)
+{
+	m_referencePosition = reference;
+}
+
+
+void CInteractiveRectangleShape::SetLogDragPosition(const i2d::CVector2d& position)
+{
+	imod::IModel* modelPtr = GetModelPtr();
+	if (modelPtr != NULL){
+		i2d::CRectangle& rectangle = *dynamic_cast<i2d::CRectangle*>(modelPtr);
+		I_ASSERT(&rectangle != NULL);
+
+		BeginModelChanges();
+
+		rectangle.Translate(position - m_referencePosition);
+		m_referencePosition = position;
+
+		EndModelChanges();
+	}
+}
+
+
+// reimplemented (iview::CShapeBase)
+
 i2d::CRect CInteractiveRectangleShape::CalcBoundingBox() const
 {
 	I_ASSERT(IsDisplayConnected());
@@ -311,29 +339,6 @@ i2d::CRect CInteractiveRectangleShape::CalcBoundingBox() const
 	}
 
 	return i2d::CRect();
-}
-
-
-void CInteractiveRectangleShape::BeginLogDrag(const i2d::CVector2d& reference)
-{
-	m_referencePosition = reference;
-}
-
-
-void CInteractiveRectangleShape::SetLogDragPosition(const i2d::CVector2d& position)
-{
-	imod::IModel* modelPtr = GetModelPtr();
-	if (modelPtr != NULL){
-		i2d::CRectangle& rectangle = *dynamic_cast<i2d::CRectangle*>(modelPtr);
-		I_ASSERT(&rectangle != NULL);
-
-		BeginModelChanges();
-
-		rectangle.Translate(position - m_referencePosition);
-		m_referencePosition = position;
-
-		EndModelChanges();
-	}
 }
 
 

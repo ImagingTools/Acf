@@ -589,10 +589,6 @@
 				RelativePath="..\IVisualizable.h"
 				>
 			</File>
-			<File
-				RelativePath="..\TShapeBase.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"

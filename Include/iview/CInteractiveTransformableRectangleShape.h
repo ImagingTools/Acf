@@ -124,9 +124,11 @@ protected:
 					const i2d::CVector2d& shouldPos);
 
 	// reimplemented (iview::CInteractiveShapeBase)
-	virtual i2d::CRect CalcBoundingBox() const;
 	virtual void BeginLogDrag(const i2d::CVector2d& reference);
 	virtual void SetLogDragPosition(const i2d::CVector2d& position);
+
+	// reimplemented (iview::CShapeBase)
+	virtual i2d::CRect CalcBoundingBox() const;
 
 private:
 	bool m_isEditableRotation;

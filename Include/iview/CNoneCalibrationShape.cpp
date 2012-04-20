@@ -252,6 +252,18 @@ const i2d::ITransformation2d* CNoneCalibrationShape::GetCalibrationPtr() const
 
 // reimplemented (iview::CInteractiveShapeBase)
 
+void CNoneCalibrationShape::BeginLogDrag(const i2d::CVector2d& /*reference*/)
+{
+}
+
+
+void CNoneCalibrationShape::SetLogDragPosition(const i2d::CVector2d& /*position*/)
+{
+}
+
+
+// reimplemented (iview::CShapeBase)
+
 i2d::CRect CNoneCalibrationShape::CalcBoundingBox() const
 {
 	iview::IDisplay* displayPtr = GetDisplayPtr();
@@ -260,16 +272,6 @@ i2d::CRect CNoneCalibrationShape::CalcBoundingBox() const
 	}
 
 	return i2d::CRect();
-}
- 
-
-void CNoneCalibrationShape::BeginLogDrag(const i2d::CVector2d& /*reference*/)
-{
-}
-
-
-void CNoneCalibrationShape::SetLogDragPosition(const i2d::CVector2d& /*position*/)
-{
 }
 
 

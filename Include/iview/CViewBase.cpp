@@ -732,18 +732,18 @@ void CViewBase::InvalidateBoundingBox()
 }
 
 
-void CViewBase::CalcBoundingBox() const
+i2d::CRect CViewBase::CalcBoundingBox() const
 {
-	m_boundingBox.Reset();
+	i2d::CRect boundingBox = i2d::CRect::GetEmpty();
 
 	for (Layers::const_iterator iter = m_layers.begin(); iter != m_layers.end(); ++iter){
 		IViewLayer* layerPtr = *iter;
 		I_ASSERT(layerPtr != NULL);
 
-		m_boundingBox.Union(layerPtr->GetBoundingBox());
+		boundingBox.Union(layerPtr->GetBoundingBox());
 	}
 
-	m_isBoundingBoxValid = true;
+	return boundingBox;
 }
 
 

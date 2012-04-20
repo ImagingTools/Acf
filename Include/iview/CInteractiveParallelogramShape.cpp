@@ -4,7 +4,6 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "imod/IModel.h"
 
@@ -12,6 +11,7 @@
 
 #include "iqt/iqt.h"
 
+#include "iview/IColorShema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -417,7 +417,7 @@ void CInteractiveParallelogramShape::DrawFigure(QPainter& drawContext) const
 }
 
 
-// reimplemented (iview::CInteractiveShapeBase)
+// reimplemented (iview::CShapeBase)
 
 i2d::CRect CInteractiveParallelogramShape::CalcBoundingBox() const
 {
@@ -441,6 +441,8 @@ i2d::CRect CInteractiveParallelogramShape::CalcBoundingBox() const
 	return boundingBox;
 }
 
+
+// reimplemented (iview::CInteractiveShapeBase)
 
 void CInteractiveParallelogramShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
