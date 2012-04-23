@@ -143,7 +143,7 @@ void CComposedParamsSetComp::OnComponentCreated()
 
 	for (int i = 0; i < setsCount; ++i){
 		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
-		QByteArray id = m_parametersIdAttrPtr[i].toLocal8Bit();
+		const QByteArray& id = m_parametersIdAttrPtr[i];
 
 		SetEditableParameter(id, paramPtr);
 	}

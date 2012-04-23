@@ -85,11 +85,11 @@ bool CComposedParamsSetGuiComp::OnAttached(imod::IModel* modelPtr)
 
 	int elementsCount = qMin(m_observersCompPtr.GetCount(), m_idsAttrPtr.GetCount());
 	for (int i = 0; i < elementsCount; ++i){
-		const QString& paramId = m_idsAttrPtr[i];
+		const QByteArray& paramId = m_idsAttrPtr[i];
 
 		imod::IModel* parameterModelPtr = GetModelPtr();
 		if (!paramId.isEmpty() && (paramId != "*")){
-			parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId.toLocal8Bit()));
+			parameterModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr->GetEditableParameter(paramId));
 		}
 
 		imod::IObserver* observerPtr = m_observersCompPtr[i];

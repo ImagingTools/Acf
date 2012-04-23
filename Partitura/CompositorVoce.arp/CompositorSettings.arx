@@ -427,7 +427,7 @@
               ParametersId
             </Id>
             <Type>
-              String[]
+              Id[]
             </Type>
             <ExportId>
               
