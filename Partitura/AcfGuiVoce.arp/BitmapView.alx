@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2246
+          2298
         </Number>
         <Description>
           ACF
@@ -18,10 +18,10 @@
   <PositionMap count="2">
     <Element>
       <ComponentName>
-        Bitmap
+        ImageView
       </ComponentName>
       <X>
-        600
+        350
       </X>
       <X>
         325
@@ -32,10 +32,10 @@
     </Element>
     <Element>
       <ComponentName>
-        ImageView
+        Bitmap
       </ComponentName>
       <X>
-        350
+        600
       </X>
       <X>
         325

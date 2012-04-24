@@ -40,6 +40,13 @@ void CImageViewComp::UpdateGui(int /*updateFlags*/)
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	I_ASSERT(consolePtr != NULL);
 
+	const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(GetModelPtr());
+	if (imagePtr != NULL){
+		i2d::CRectangle areaRect(imagePtr->GetImageSize());
+
+		consolePtr->GetViewRef().SetFitArea(areaRect);
+	}
+
 	consolePtr->UpdateView();
 }
 

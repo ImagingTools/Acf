@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2246
+          2298
         </Number>
         <Description>
           ACF
@@ -54,7 +54,23 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="3">
+        <AttributeInfoMap count="10">
+          <AttributeInfo>
+            <Id>
+              CalibrationProvider
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              CalibrationProvider
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               DefaultModel
@@ -76,6 +92,54 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
+              DefaultStatusIcon
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              DefaultStatusIcon
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              DefaultStatusText
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              DefaultStatusText
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              FitMode
+            </Id>
+            <Type>
+              Integer
+            </Type>
+            <ExportId>
+              FitMode
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               UseAntialiasing
             </Id>
             <Type>
@@ -83,6 +147,38 @@
             </Type>
             <ExportId>
               UseAntialiasing
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              UseShapeEditCommands
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              UseShapeEditCommands
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              UseStatusBarCommands
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              UseStatusBarCommands
             </ExportId>
             <Data>
               <IsEnabled>
@@ -107,6 +203,22 @@
               <Value>
                 0
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ZoomToFitEnabled
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              ZoomToFitEnabled
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

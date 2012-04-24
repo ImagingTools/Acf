@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2246
+          2298
         </Number>
         <Description>
           ACF
@@ -16,20 +16,6 @@
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
-    <Element>
-      <ComponentName>
-        Bitmap
-      </ComponentName>
-      <X>
-        900
-      </X>
-      <X>
-        400
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
     <Element>
       <ComponentName>
         BitmapLoader
@@ -64,6 +50,20 @@
       </ComponentName>
       <X>
         575
+      </X>
+      <X>
+        400
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        Bitmap
+      </ComponentName>
+      <X>
+        900
       </X>
       <X>
         400
