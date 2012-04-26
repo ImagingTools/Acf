@@ -34,18 +34,6 @@ istd::CIndex2d GetCIndex2d(const QPoint& position)
 }
 
 
-QPointF GetQPointF(const i2d::CVector2d& position)
-{
-	return QPointF(position.GetX(), position.GetY());
-}
-
-
-i2d::CVector2d GetCVector2d(const QPointF& position)
-{
-	return i2d::CVector2d(position.x(), position.y());
-}
-
-
 QRectF GetQRectF(const i2d::CRectangle& rect)
 {
 	return QRectF(rect.GetLeft(), rect.GetTop(), rect.GetWidth(), rect.GetHeight());

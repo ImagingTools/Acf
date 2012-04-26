@@ -215,8 +215,8 @@ void CPolygonCalibrationShape::Draw(QPainter& drawContext) const
 
 					i2d::CVector2d viewPos;
 					calib.GetInvPositionAt(polygonPtr->GetNode(0), viewPos);
-                    istd::CIndex2d screenPos = transform.GetScreenPosition(viewPos);
-                    colorShema.DrawTicker(drawContext, screenPos, IColorShema::TT_INACTIVE);
+					istd::CIndex2d screenPos = transform.GetScreenPosition(viewPos);
+					colorShema.DrawTicker(drawContext, screenPos, IColorShema::TT_INACTIVE);
                 }
             }
         }

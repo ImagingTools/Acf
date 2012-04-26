@@ -254,7 +254,7 @@ void CRegistryElementShape::CalcExportedInteraces(const CVisualRegistryElement& 
 
 void CRegistryElementShape::UpdateGraphicsItem(const CVisualRegistryElement& element)
 {
-	setPos(iqt::GetQPointF(element.GetCenter()));
+	setPos(element.GetCenter());
 
 	CalcExportedInteraces(element);
 

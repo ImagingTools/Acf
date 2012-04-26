@@ -41,7 +41,7 @@ void CInteractiveSplineShape::DrawPolyBezier(QPainter& drawContext, const istd::
 	drawContext.setBrush(QBrush(QColor(0,0,0,0)));
 
 	if (pointsCount >= 4){
-		QPainterPath qtPatch(iqt::GetQPointF(i2d::CVector2d(pointsPtr[0])));
+		QPainterPath qtPatch(iqt::GetQPoint(pointsPtr[0]));
 		for (int i = 3; i < pointsCount; i += 3){
 			qtPatch.cubicTo(iqt::GetQPoint(pointsPtr[i - 2]),
 							iqt::GetQPoint(pointsPtr[i - 1]),

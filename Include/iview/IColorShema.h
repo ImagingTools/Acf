@@ -28,7 +28,8 @@ namespace iview
 class IColorShema: virtual public istd::IPolymorphic
 {
 public:
-    enum StandardPen{
+    enum StandardPen
+	{
 		SP_NORMAL,
 		SP_SELECTED,
 		SP_SELECTED_TICKER,
@@ -52,7 +53,8 @@ public:
 		SP_LAST = SP_MAGENTA
 	};
 
-	enum StandardBrush{
+	enum StandardBrush
+	{
 		SB_NORMAL,
 		SB_SELECTED,
 		SB_TICKER,
@@ -65,62 +67,80 @@ public:
 		SB_LAST = SB_TRANSPARENT
 	};
 
-    enum StandardFont{
+    enum StandardFont
+	{
 		SF_NORMAL = 0,
 		SF_LAST = SF_NORMAL
 	};
 
-	enum StandardPensSet{
+	enum StandardPensSet
+	{
 		SPS_NORMAL = 0,
 		SPS_LAST = SPS_NORMAL
 	};
 
 	/**	Defines a type of ticker.
 	*/
-	enum TickerType{
-		/**	Small ticker.
+	enum TickerType
+	{
+		/**
+			Small ticker.
 		*/
 		TT_SMALL,
-		/**	Inactive small ticker.
+		/**
+			Inactive small ticker.
 		*/
 		TT_INACTIVE_SMALL,
-		/**	Selected inactive small ticker.
+		/**
+			Selected inactive small ticker.
 		*/
 		TT_SELECTED_INACTIVE_SMALL,
-		/**	Normal (default active) ticker.
+		/**
+			Normal (default active) ticker.
 		*/
 		TT_NORMAL,
-		/**	Inactive ticker.
+		/**
+			Inactive ticker.
 		*/
 		TT_INACTIVE,
-		/**	Selected inactive ticker.
+		/**
+			Selected inactive ticker.
 		*/
 		TT_SELECTED_INACTIVE,
-		/**	Ticker used to move object.
+		/**
+			Ticker used to move object.
 		*/
 		TT_MOVE,
-		/** Ticker used to move center pins
+		/**
+			Ticker used to move center pins
 		*/
 		TT_MOVE_CENTER,
-		/**	Ticker used to add node.
+		/**
+			Ticker used to add node.
 		*/
 		TT_INSERT,
-		/**	Ticker used to delete node.
+		/**
+			Ticker used to delete node.
 		*/
 		TT_DELETE,
-		/**	Ticker used to rotate object.
+		/**
+			Ticker used to rotate object.
 		*/
 		TT_ROTATE,
-		/**	Ticker used to skew object.
+		/**
+			Ticker used to skew object.
 		*/
 		TT_SKEW,
-		/**	Ticker used to checkbox, when it is on.
+		/**
+			Ticker used to checkbox, when it is on.
 		*/
 		TT_CHECKBOX_ON,
-		/**	Ticker used to checkbox, when it is off.
+		/**
+			Ticker used to checkbox, when it is off.
 		*/
 		TT_CHECKBOX_OFF,
-		/**	Max value.
+		/**
+			Max value.
 		*/
 		TT_LAST = TT_CHECKBOX_OFF
 	};

@@ -402,7 +402,7 @@ void CInteractiveAnnulusSegmentShape::DrawArea(
 	deltaStartAngle.Init(startAngle, minRadius);
 
 	QPainterPath painterPath;
-	painterPath.moveTo(iqt::GetQPointF(center + deltaStartAngle));
+	painterPath.moveTo(center + deltaStartAngle);
 	painterPath.arcTo(maxRect, startAngleDeg, -sweepLength);
 	painterPath.arcTo(minRect, stopAngleDeg, sweepLength);
 	painterPath.closeSubpath();

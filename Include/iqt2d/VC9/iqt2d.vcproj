@@ -320,6 +320,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IViewProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TObjectShapeBase.h"
 				>
 			</File>

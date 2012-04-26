@@ -511,7 +511,7 @@ bool CVisualRegistryScenographerComp::OnDropObject(const QMimeData& mimeData, QG
 
 	i2d::CVector2d position(0, 0);
 	if (eventPtr != NULL){
-		position = iqt::GetCVector2d(eventPtr->scenePos());
+		position = i2d::CVector2d(eventPtr->scenePos());
 	}
 
 	if (address.Serialize(archive)){

@@ -34,8 +34,6 @@ extern QSize GetQSize(const istd::CIndex2d& size);
 extern istd::CIndex2d GetCIndex2d(const QSize& size);
 extern QPoint GetQPoint(const istd::CIndex2d& position);
 extern istd::CIndex2d GetCIndex2d(const QPoint& position);
-extern QPointF GetQPointF(const i2d::CVector2d& position);
-extern i2d::CVector2d GetCVector2d(const QPointF& position);
 extern QRectF GetQRectF(const i2d::CRectangle& rect);
 extern i2d::CRectangle GetCRectangle(const QRectF& rect);
 extern i2d::CLine2d GetCLine2d(const QLine& line);

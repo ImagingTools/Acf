@@ -210,14 +210,14 @@ const ISceneProvider* TShapeBase<GraphicsItemClass>::GetSceneProvider() const
 template <class GraphicsItemClass>
 i2d::CVector2d TShapeBase<GraphicsItemClass>::GetPosFromLocal(const QPointF& position) const
 {
-	return iqt::GetCVector2d(BaseClass::mapToScene(position));
+	return BaseClass::mapToScene(position);
 }
 
 
 template <class GraphicsItemClass>
 QPointF TShapeBase<GraphicsItemClass>::GetLocalFromPos(const i2d::CVector2d& position) const
 {
-	return BaseClass::mapFromScene(iqt::GetQPointF(position));
+	return BaseClass::mapFromScene(position);
 }
 
 
@@ -253,11 +253,11 @@ QVariant TShapeBase<GraphicsItemClass>::itemChange(QGraphicsItem::GraphicsItemCh
 				QRectF itemRect = BaseClass::boundingRect();
 
 				i2d::CRectangle innerRect = iqt::GetCRectangle(sceneRect.adjusted(itemRect.width() / 2, itemRect.height() / 2, -itemRect.width() / 2, -itemRect.height() / 2));
-				i2d::CVector2d innerPosition = iqt::GetCVector2d(value.toPointF());
+				i2d::CVector2d innerPosition = i2d::CVector2d(value.toPointF());
 
 				innerPosition = innerRect.GetNearestPointTo(innerPosition);
 
-				return iqt::GetQPointF(innerPosition);
+				return innerPosition;
 			}
 		}
 	}

@@ -55,7 +55,7 @@ void CFileSystemExplorerGuiComp::UpdateGui(int /*updateFlags*/)
 			if (selectionModelPtr != NULL){
 				selectionModelPtr->select(index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-				FileTree->scrollTo(index, QAbstractItemView::PositionAtCenter);
+				FileTree->scrollTo(index);
 			}
 		}
 	}

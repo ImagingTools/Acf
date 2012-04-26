@@ -154,11 +154,6 @@ I_EXPORT_COMPONENT(
 			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
-			LinearAdjustParams,
-			"Parameter with scale and offset for simple linear transformations",
-			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
-
-I_EXPORT_COMPONENT(
 			SelectionParam,
 			"Selection Parameter",
 			"Selection Parameter Integer Index Choice" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));

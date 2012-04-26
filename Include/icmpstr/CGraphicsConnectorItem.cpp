@@ -77,10 +77,10 @@ QPainterPath CGraphicsConnectorItem::shape() const
 
 bool CGraphicsConnectorItem::contains(const QPointF& point) const
 {
-	i2d::CVector2d position = iqt::GetCVector2d(point);
+	i2d::CVector2d position(point);
 	int nodesCount = m_connectionLine.count();
 	for (int i = 1; i < nodesCount; ++i){
-		i2d::CLine2d segment(iqt::GetCVector2d(m_connectionLine.at(i - 1)), iqt::GetCVector2d(m_connectionLine.at(i)));
+		i2d::CLine2d segment(m_connectionLine.at(i - 1), m_connectionLine.at(i));
 
 		if (segment.GetDistance(position) < 2){
 			return true;
@@ -220,7 +220,7 @@ void CGraphicsConnectorItem::paint(QPainter *painter, const QStyleOptionGraphics
 	}
 
 	painter->setPen(QPen(referenceColor, 1, Qt::SolidLine));
-	painter->drawLine(m_touchPoint, m_touchPoint + iqt::GetQPointF(circleDirection));
+	painter->drawLine(m_touchPoint, m_touchPoint + circleDirection);
 	
 	QRectF circleRect2(circlePoint.x() - GP_RADIUS2, circlePoint.y() - GP_RADIUS2, GP_RADIUS2 * 2, GP_RADIUS2 * 2);
 	painter->drawArc(circleRect2, (degree + 45) * 16, 270 * 16);

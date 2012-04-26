@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/qmath.h>
 #include <QtCore/QtGlobal>
+#include <QtCore/QPointF>
 
 // ACF includes
 #include "istd/CIndex2d.h"
@@ -37,6 +38,8 @@ public:
 	CVector2d(double x, double y);
 	
 	CVector2d(const istd::CIndex2d& index);
+
+	CVector2d(const QPointF& point);
 
 	/**
 		Copy constructor.
@@ -114,10 +117,19 @@ public:
 	CVector2d& operator-=(const imath::TVector<2>& vector);
 	CVector2d& operator*=(double scalar);
 	CVector2d& operator/=(double scalar);
+
+	operator QPointF() const;
 };
 
 
 // inline methods
+
+inline CVector2d::CVector2d(const QPointF& point)
+{
+	operator[](0) = point.x();
+	operator[](1) = point.y();
+}
+
 
 inline CVector2d::CVector2d()
 {
@@ -267,6 +279,12 @@ inline CVector2d& CVector2d::operator/=(double scalar)
 	BaseClass::operator/=(scalar);
 
 	return *this;
+}
+
+
+inline CVector2d::operator QPointF() const
+{
+	return QPointF(qreal(GetX()), qreal(GetY()));
 }
 
 
