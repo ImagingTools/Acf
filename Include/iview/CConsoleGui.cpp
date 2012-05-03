@@ -28,7 +28,6 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_rulerVisibleCommand("Show Ruler", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_gridInMmVisibleCommand("Grid in Milimeter", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_scrollVisibleCommand("Show Scrollbars", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_VIEW_CONTROL),
-	m_statusVisibleCommand("Show Statusbar", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_VIEW_CONTROL),
 	m_zoomInCommand("Zoom In", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_ZOOM),
 	m_zoomOutCommand("Zoom Out", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_ZOOM),
 	m_zoomResetCommand("Reset Zoom", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_ZOOM),
@@ -36,39 +35,21 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_pointsSelectCommand("Selection Mode", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
 	m_pointsMoveCommand("Modify Mode", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
 	m_pointsAddCommand("Add Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
-	m_pointsSubCommand("Remove Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR)
+	m_pointsSubCommand("Remove Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
+	m_shapeStatusInfoPtr(NULL)
 {
 	m_viewPtr = new iview::CViewport(this);
 
 	m_mainLayoutPtr = new QVBoxLayout(this);
 	m_centerLayoutPtr = new QGridLayout();
-	m_statusLayoutPtr = new QHBoxLayout();
 
 	m_verticalScrollbarPtr = new QScrollBar(Qt::Vertical);
 	m_verticalScrollbarPtr->setTracking(false);
 	m_horizontalScrollbarPtr = new QScrollBar(Qt::Horizontal);
 	m_horizontalScrollbarPtr->setTracking(false);
 
-	// status bar
-	m_statusBarPtr = new QStatusBar(this);
-	
-	m_positionLabelPtr = new QLabel(this);
-	m_positionLabelPtr->setMinimumWidth(100);
-	m_statusBarPtr->addPermanentWidget(m_positionLabelPtr);
-
-	m_positionMmLabelPtr = new QLabel(this);
-	m_positionMmLabelPtr->setMinimumWidth(100);
-	m_statusBarPtr->addPermanentWidget(m_positionMmLabelPtr);
-
-	m_colorLabelPtr = new QLabel(this);
-	m_colorLabelPtr->setMinimumWidth(120);
-	m_statusBarPtr->addPermanentWidget(m_colorLabelPtr);
-
-	m_statusLayoutPtr->addWidget(m_statusBarPtr);
-
 	// main layout
 	m_mainLayoutPtr->addLayout(m_centerLayoutPtr);
-	m_mainLayoutPtr->addLayout(m_statusLayoutPtr);
 	m_mainLayoutPtr->setMargin(0);
 
 	m_centerLayoutPtr->addWidget(m_viewPtr, 0, 0);
@@ -94,6 +75,12 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	UpdateCommands();
 
 	ConnectSignalSlots();
+}
+
+
+void CConsoleGui::SetShapeStatusInfo(IShapeStatusInfo* shapeStatusInfoPtr)
+{
+	m_shapeStatusInfoPtr = shapeStatusInfoPtr;
 }
 
 
@@ -174,12 +161,6 @@ void CConsoleGui::OnPointsSub()
 void CConsoleGui::OnShowScrollbars(bool state)
 {
 	SetScrollbarsVisible(state);
-}
-
-
-void CConsoleGui::OnShowStatus(bool state)
-{
-	SetStatusVisible(state);
 }
 
 
@@ -340,6 +321,13 @@ void CConsoleGui::UpdateScrollbarsValues()
 
 void CConsoleGui::UpdateCursorInfo(const i2d::CVector2d& pixelPos, const i2d::CVector2d& logicalPos, const QString& infoText)
 {
+	istd::TChangeNotifier<IShapeStatusInfo> shapeInfoPtr(m_shapeStatusInfoPtr);
+	if (shapeInfoPtr.IsValid()){
+		m_shapeStatusInfoPtr->SetLogicalPosition(logicalPos);
+		m_shapeStatusInfoPtr->SetPixelPosition(pixelPos);	
+		m_shapeStatusInfoPtr->SetInfoText(infoText);	
+	}
+/*
 	if (IsPixelPositionVisible()){
 		m_positionLabelPtr->setText(tr("X: %1  Y: %2").arg(pixelPos.GetX()).arg(pixelPos.GetY()));		
 		m_positionLabelPtr->show();
@@ -363,6 +351,7 @@ void CConsoleGui::UpdateCursorInfo(const i2d::CVector2d& pixelPos, const i2d::CV
 	else{
 		m_colorLabelPtr->hide();
 	}
+	*/
 }
 
 
@@ -390,7 +379,6 @@ void CConsoleGui::UpdateButtonsState()
 
 	m_scrollVisibleCommand.SetEnabled(!IsZoomToFit());
 	m_scrollVisibleCommand.setChecked(AreScrollbarsVisible());
-	m_statusVisibleCommand.setChecked(IsStatusVisible());
 	m_gridVisibleCommand.SetEnabled(isGridLayerActive);
 	m_gridVisibleCommand.setChecked(IsGridVisible());
 	m_rulerVisibleCommand.setChecked(IsRulerVisible());
@@ -402,10 +390,6 @@ void CConsoleGui::UpdateComponentsPosition()
 {
 	iqtgui::CWidgetUpdateBlocker frameBlocker(this);
 	iqtgui::CWidgetUpdateBlocker viewBlocker(m_viewPtr);
-
-	// status
-	bool isStatusVisible = IsStatusVisible();
-	m_statusBarPtr->setVisible(isStatusVisible);
 
 	// scroll bars
 	bool isScrollHVisible = false;
@@ -441,7 +425,6 @@ void CConsoleGui::UpdateComponentsPosition()
 	m_pointsSubCommand.setVisible(polyVisible);
 
 	m_scrollVisibleCommand.setVisible(areButtonsVisible && IsScrollbarsButtonVisible());
-	m_statusVisibleCommand.setVisible(areButtonsVisible && IsStatusButtonVisible());
 	m_gridVisibleCommand.setVisible(areButtonsVisible && IsGridButtonVisible());
 	m_rulerVisibleCommand.setVisible(areButtonsVisible && IsRulerButtonVisible());
 	m_gridInMmVisibleCommand.setVisible(areButtonsVisible && IsMmButtonVisible());
@@ -525,19 +508,6 @@ void CConsoleGui::UpdateCommands()
 		m_scrollVisibleCommand.setChecked(AreScrollbarsVisible());
 		m_commands.InsertChild(&m_scrollVisibleCommand);
 	}
-
-	if (IsStatusButtonVisible()){
-		m_statusVisibleCommand.setIcon(QIcon(":/Icons/ShowStatus"));
-		m_statusVisibleCommand.setToolTip(tr("Show/Hide Status"));
-		m_statusVisibleCommand.setChecked(IsStatusVisible());
-		m_commands.InsertChild(&m_statusVisibleCommand);
-	}
-}
-
-
-void CConsoleGui::SetStatusText(const QString& message)
-{
-	m_statusBarPtr->showMessage(message);
 }
 
 
@@ -620,7 +590,6 @@ bool CConsoleGui::ConnectSignalSlots()
 	retVal = retVal && connect(&m_pointsAddCommand, SIGNAL(activated()), this, SLOT(OnPointsAdd()));
 	retVal = retVal && connect(&m_pointsSubCommand, SIGNAL(activated()), this, SLOT(OnPointsSub()));
 	retVal = retVal && connect(&m_scrollVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowScrollbars(bool)));
-	retVal = retVal && connect(&m_statusVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowStatus(bool)));
 	retVal = retVal && connect(&m_gridVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGrid(bool)));
 	retVal = retVal && connect(&m_rulerVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowRuler(bool)));
 	retVal = retVal && connect(&m_gridInMmVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGridInMm(bool)));

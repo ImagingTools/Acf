@@ -5,7 +5,6 @@
 #include <QtCore/QString>
 #include <QtGui/QWidget>
 
-
 // ACF includes
 #include "i2d/CRectangle.h"
 
@@ -124,16 +123,6 @@ void CConsoleBase::SetScrollbarsVisible(bool state)
 }
 
 
-void CConsoleBase::SetStatusVisible(bool state)
-{
-	if (state != m_isStatusVisible){
-		m_isStatusVisible = state;
-		UpdateComponentsPosition();
-		UpdateButtonsState();
-	}
-}
-
-
 // Buttons visibility
 
 void CConsoleBase::SetZoomsVisible(bool state)
@@ -168,16 +157,6 @@ void CConsoleBase::SetUserModeButtonsVisible(bool state)
 {
 	if (state != m_areUserModeButtonsVisible){
 		m_areUserModeButtonsVisible = state;
-		UpdateComponentsPosition();
-		UpdateCommands();
-	}
-}
-
-
-void CConsoleBase::SetStatusButtonVisible(bool state)
-{
-	if (state != m_isStatusButtonVisible){
-		m_isStatusButtonVisible = state;
 		UpdateComponentsPosition();
 		UpdateCommands();
 	}
@@ -224,30 +203,6 @@ void CConsoleBase::SetMmButtonVisible(bool state)
 }
 
 
-void CConsoleBase::SetPixelPositionVisible(bool state)
-{
-	if (state != m_isPixelPositionVisible){
-		m_isPixelPositionVisible = state;
-	}
-}
-
-
-void CConsoleBase::SetPixelValueVisible(bool state)
-{
-	if (state != m_isPixelValueVisible){
-		m_isPixelValueVisible = state;
-	}
-}
-
-
-void CConsoleBase::SetMmPositionVisible(bool state)
-{
-	if (state != m_isMmPositionVisible){
-		m_isMmPositionVisible = state;
-	}
-}
-
-
 void CConsoleBase::UpdateView()
 {
 	CViewport& view = GetViewRef();
@@ -272,19 +227,11 @@ void CConsoleBase::Init()
 	m_isZoomToFitVisible = true;
 	m_arePolylineButtonsVisible = true;
 	m_areUserModeButtonsVisible = false;
-	m_isStatusVisible = true;
-	m_isStatusButtonVisible = true;
 	m_isScrollbarsButtonVisible = true;
 	m_isGridButtonVisible = true;
 	m_isRulerButtonVisible = true;
 	m_isRulerVisible = false;
 	m_isMmButtonVisible = true;
-	m_isUndoButtonVisible = true;
-
-	m_isPixelPositionVisible = true;
-	m_isPixelValueVisible = true;
-	m_isMmPositionVisible = false;
-
 	m_isBkActive = false;
 	m_isZoomToFit = false;
 	m_fitMode = FM_BOTH;
@@ -343,12 +290,6 @@ bool CConsoleBase::AreScrollbarsVisible() const
 }
 
 
-bool CConsoleBase::IsStatusVisible() const
-{
-	return m_isStatusVisible;
-}
-
-
 // buttons visibility
 
 bool CConsoleBase::AreZoomsVisible() const
@@ -375,12 +316,6 @@ bool CConsoleBase::AreUserModeButtonsVisible() const
 }
 
 
-bool CConsoleBase::IsStatusButtonVisible() const
-{
-	return m_isStatusButtonVisible;
-}
-
-
 bool CConsoleBase::IsScrollbarsButtonVisible() const
 {
 	return m_isScrollbarsButtonVisible;
@@ -401,24 +336,6 @@ bool CConsoleBase::IsRulerButtonVisible() const
 bool CConsoleBase::IsMmButtonVisible() const
 {
 	return m_isMmButtonVisible;
-}
-
-
-bool CConsoleBase::IsPixelPositionVisible() const
-{
-	return m_isPixelPositionVisible;
-}
-
-
-bool CConsoleBase::IsPixelValueVisible() const
-{
-	return m_isPixelValueVisible;
-}
-
-
-bool CConsoleBase::IsMmPositionVisible() const
-{
-	return m_isMmPositionVisible;
 }
 
 

@@ -9,9 +9,10 @@
 
 #include "iview/CConsoleBase.h"
 #include "iview/CViewport.h"
+#include "iview/IShapeStatusInfo.h"
 
 
-// Foirward declarations
+// Forward declarations
 class QVBoxLayout;
 class QGridLayout;
 class QHBoxLayout;
@@ -38,20 +39,14 @@ class CConsoleGui:
 	Q_PROPERTY(bool ShowButtonPanel READ IsButtonsPanelVisible WRITE SetButtonsPanelVisible)
 	Q_PROPERTY(bool ButtonPanelVertical READ IsButtonsPanelVertical WRITE SetButtonsPanelVertical)
 	Q_PROPERTY(bool ScrollbarsVisible READ AreScrollbarsVisible WRITE SetScrollbarsVisible)
-	Q_PROPERTY(bool StatusVisible READ IsStatusVisible WRITE SetStatusVisible)	
 	Q_PROPERTY(bool ZoomButtonsVisible READ AreZoomsVisible WRITE SetZoomsVisible)	
 	Q_PROPERTY(bool ZoomToFitButtonsVisible READ IsZoomToFitVisible WRITE SetZoomToFitVisible)	
 	Q_PROPERTY(bool PolylineButtonsVisible READ ArePolylineButtonsVisible WRITE SetPolylineButtonsVisible)	
 	Q_PROPERTY(bool UserModeButtonsVisible READ AreUserModeButtonsVisible WRITE SetUserModeButtonsVisible)	
-	Q_PROPERTY(bool StatusButtonVisible READ IsStatusButtonVisible WRITE SetStatusButtonVisible)	
 	Q_PROPERTY(bool ScrollbarsButtonVisible READ IsScrollbarsButtonVisible WRITE SetScrollbarsButtonVisible)	
 	Q_PROPERTY(bool GridButtonVisible READ IsGridButtonVisible WRITE SetGridButtonVisible)	
 	Q_PROPERTY(bool RulerButtonVisible READ IsRulerButtonVisible WRITE SetRulerButtonVisible)	
-
 	Q_PROPERTY(bool MmButtonVisible READ IsMmButtonVisible WRITE SetMmButtonVisible)	
-	Q_PROPERTY(bool PixelPositionVisible READ IsPixelPositionVisible WRITE SetPixelPositionVisible)	
-	Q_PROPERTY(bool PixelValueVisible READ IsPixelValueVisible WRITE SetPixelValueVisible)	
-	Q_PROPERTY(bool MmPositionVisible READ IsMmPositionVisible WRITE SetMmPositionVisible)	
 	Q_PROPERTY(FitMode FitMode READ GetFitMode WRITE SetFitMode)
 
 public:
@@ -66,6 +61,11 @@ public:
 	};
 
 	explicit CConsoleGui(QWidget* parent = NULL);
+
+	/**
+		Set status info object for the console shapes.
+	*/
+	void SetShapeStatusInfo(IShapeStatusInfo* shapeStatusInfoPtr);
 
 	// reimplemented (iview::CConsoleBase)
 	virtual const CViewport& GetView() const;
@@ -85,7 +85,6 @@ public Q_SLOTS:
 	virtual void OnPointsAdd();
 	virtual void OnPointsSub();
 	virtual void OnShowScrollbars(bool state);
-	virtual void OnShowStatus(bool state);
 	virtual void OnShowGrid(bool state);
 	virtual void OnShowRuler(bool state);
 	virtual void OnShowGridInMm(bool state);
@@ -106,7 +105,6 @@ protected:
 	virtual void UpdateButtonsState();
 	virtual void UpdateComponentsPosition();
 	virtual void UpdateCommands();
-	virtual void SetStatusText(const QString& message);
 
 	// events
 	virtual bool OnSelectChange(const iview::IShapeView& view, const istd::CIndex2d& position, const iview::IInteractiveShape& shape, bool state);
@@ -124,15 +122,9 @@ private:
 private:
 	QVBoxLayout* m_mainLayoutPtr;
 	QGridLayout* m_centerLayoutPtr;
-	QHBoxLayout* m_statusLayoutPtr;
 
 	QScrollBar* m_verticalScrollbarPtr;
 	QScrollBar* m_horizontalScrollbarPtr;
-
-	QStatusBar* m_statusBarPtr;
-	QLabel* m_positionLabelPtr;
-	QLabel* m_positionMmLabelPtr;
-	QLabel* m_colorLabelPtr;
 
 	// commands
 	iqtgui::CHierarchicalCommand m_rootCommands;
@@ -142,7 +134,6 @@ private:
 	iqtgui::CHierarchicalCommand m_rulerVisibleCommand;
 	iqtgui::CHierarchicalCommand m_gridInMmVisibleCommand;
 	iqtgui::CHierarchicalCommand m_scrollVisibleCommand;
-	iqtgui::CHierarchicalCommand m_statusVisibleCommand;
 
 	iqtgui::CHierarchicalCommand m_zoomInCommand;
 	iqtgui::CHierarchicalCommand m_zoomOutCommand;
@@ -153,6 +144,8 @@ private:
 	iqtgui::CHierarchicalCommand m_pointsMoveCommand;
 	iqtgui::CHierarchicalCommand m_pointsAddCommand;
 	iqtgui::CHierarchicalCommand m_pointsSubCommand;
+
+	IShapeStatusInfo* m_shapeStatusInfoPtr;
 };
 
 

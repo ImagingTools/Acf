@@ -34,7 +34,6 @@ private:
 };
 
 
-
 // reimplemented (iqt2d::IViewExtender)
 
 template<class Base>

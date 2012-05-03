@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2246
+          2286
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="2">
+  <ElementsList count="3">
     <Element>
       <Id>
         ImagePropertiesFrame
@@ -39,6 +39,43 @@
     </Element>
     <Element>
       <Id>
+        ShapeInfoGui
+      </Id>
+      <PackageId>
+        QtViewPck
+      </PackageId>
+      <ComponentId>
+        ShapeInfoGui
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              DefaultModel
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              ShapeStatusInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         StatusBarWidget
       </Id>
       <PackageId>
@@ -57,10 +94,10 @@
         <AttributeInfoMap count="1">
           <AttributeInfo>
             <Id>
-              StatusBarWidget
+              StatusBarWidgets
             </Id>
             <Type>
-              Reference
+              Reference[]
             </Type>
             <ExportId>
               
@@ -69,9 +106,14 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Value>
-                ImagePropertiesFrame
-              </Value>
+              <Values count="2">
+                <Value>
+                  ShapeInfoGui
+                </Value>
+                <Value>
+                  ImagePropertiesFrame
+                </Value>
+              </Values>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

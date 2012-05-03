@@ -277,10 +277,6 @@
 				RelativePath="..\iqtprm.h"
 				>
 			</File>
-			<File
-				RelativePath="..\generated\ui_CComboParamsManagerGuiComp.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
@@ -321,6 +317,10 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CVariableParamGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CComboParamsManagerGuiComp.h"
 				>
 			</File>
 			<File

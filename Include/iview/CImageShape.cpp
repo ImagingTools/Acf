@@ -187,7 +187,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 							.arg(int(pixelValue[2] * 100));
 
 			case iimg::IBitmap::PF_RGBA:
-				return QObject::tr("RGB value %1%, %2%, %3%, %4%")
+				return QObject::tr("RGBA value %1%, %2%, %3%, %4%")
 							.arg(int(pixelValue[0] * 100))
 							.arg(int(pixelValue[1] * 100))
 							.arg(int(pixelValue[2] * 100))

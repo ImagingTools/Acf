@@ -264,6 +264,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CInteractiveViewLayer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CNoneCalibration.cpp"
 				>
 			</File>
@@ -308,15 +312,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveViewLayer.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CShapeBase.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CShapeControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CShapeInfoGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CShapeStatusInfoComp.cpp"
 				>
 			</File>
 			<File
@@ -438,6 +446,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CInteractiveViewLayer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CNoneCalibration.h"
 				>
 			</File>
@@ -482,15 +494,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveViewLayer.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CShapeBase.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CShapeControl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CShapeInfoGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CShapeStatusInfoComp.h"
 				>
 			</File>
 			<File
@@ -558,6 +574,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IShapeStatusInfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IShapeView.h"
 				>
 			</File>
@@ -599,12 +619,32 @@
 				RelativePath="..\Generated\moc_CConsoleGui.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Generated\moc_CShapeInfoGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Generated\ui_CShapeInfoGuiComp.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Moc Files"
 			>
 			<File
 				RelativePath="..\CConsoleGui.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CShapeInfoGuiComp.moc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Qt Designer Files"
+			>
+			<File
+				RelativePath="..\CShapeInfoGuiComp.ui"
 				>
 			</File>
 		</Filter>

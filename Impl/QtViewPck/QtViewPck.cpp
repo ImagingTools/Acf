@@ -15,6 +15,15 @@ I_EXPORT_PACKAGE(
 			"Viewport package",
 			IM_PROJECT("ACF") IM_TAG("Qt Viewport") IM_COMPANY("ImagingTools") IM_AUTHOR("\"Witold Gantzke\" \"Kirill Lepskiy\""));
 
+I_EXPORT_COMPONENT(
+			ShapeStatusInfo,
+			"Status information about a shape in the 2D-Console",
+			"Display Console Shape Info" IM_TAG("Model 2D"));
+
+I_EXPORT_COMPONENT(
+			ShapeInfoGui,
+			"GUI for the status information about a shape in the 2D-Console",
+			"Display Console Shape Info" IM_TAG("GUI 2D"));
 
 I_EXPORT_COMPONENT(
 			SceneExtenderDelegator,

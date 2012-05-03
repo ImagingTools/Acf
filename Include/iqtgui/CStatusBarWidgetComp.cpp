@@ -15,16 +15,34 @@ namespace iqtgui
 
 bool CStatusBarWidgetComp::AddToMainWindow(QMainWindow& mainWindow)
 {
-	if (m_statusBarWidgetCompPtr.IsValid()){
+	if (m_statusBarWidgetsCompPtr.IsValid()){
 		QStatusBar* statusBar = mainWindow.statusBar();
 		I_ASSERT(statusBar != NULL);
 
-		if (!m_statusBarWidgetCompPtr->IsGuiCreated()){
-			if (m_statusBarWidgetCompPtr->CreateGui(statusBar)){
-				statusBar->addPermanentWidget(m_statusBarWidgetCompPtr->GetWidget());
-			}
+		int widgetsCount = m_statusBarWidgetsCompPtr.GetCount();
 
-			return true;
+		for (int widgetIndex = 0; widgetIndex < widgetsCount; widgetIndex++){
+			iqtgui::IGuiObject* guiPtr = m_statusBarWidgetsCompPtr[widgetIndex];
+			if (guiPtr != NULL){
+				if (!guiPtr->IsGuiCreated()){
+					if (guiPtr->CreateGui(statusBar)){
+						statusBar->addPermanentWidget(guiPtr->GetWidget());
+					}
+					else{
+						return false;
+					}
+				}
+				else{
+					I_CRITICAL();
+
+					return false;
+				}
+			}
+			else{
+				I_CRITICAL();
+
+				return false;
+			}
 		}
 	}
 
@@ -34,13 +52,23 @@ bool CStatusBarWidgetComp::AddToMainWindow(QMainWindow& mainWindow)
 
 bool CStatusBarWidgetComp::RemoveFromMainWindow(QMainWindow& /*mainWindow*/)
 {
-	if (m_statusBarWidgetCompPtr.IsValid()){
-		if (m_statusBarWidgetCompPtr->IsGuiCreated()){
-			return m_statusBarWidgetCompPtr->DestroyGui();
+	int widgetsCount = m_statusBarWidgetsCompPtr.GetCount();
+
+	bool retVal = true;
+
+	if (m_statusBarWidgetsCompPtr.IsValid()){
+		for (int widgetIndex = 0; widgetIndex < widgetsCount; widgetIndex++){
+			iqtgui::IGuiObject* guiPtr = m_statusBarWidgetsCompPtr[widgetIndex];
+			if (guiPtr != NULL && guiPtr->IsGuiCreated()){
+				retVal = guiPtr->DestroyGui() && retVal;
+			}
 		}
 	}
+	else{
+		return false;
+	}
 
-	return true;
+	return retVal;
 }
 
 

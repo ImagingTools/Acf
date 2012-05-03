@@ -27,13 +27,13 @@ public:
 	I_BEGIN_COMPONENT(CViewProviderGuiComp);	
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(IViewProvider);
+		I_ASSIGN(m_shapeStatusInfoCompPtr, "ShapeStatusInfo", "Shape status info consumer", false, "ShapeStatusInfo");
 		I_ASSIGN(m_viewIdAttrPtr, "ViewId", "ID allowing identifying this view", true, 0);
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);
 		I_ASSIGN(m_zoomToFitEnabledAttrPtr, "ZoomToFitEnabled", "If true, the shapes will be fit to the view according to the defined fitting mode", false, false);
 		I_ASSIGN(m_useShapeEditCommandsAttrPtr, "UseShapeEditCommands", "If true, the commands for shape editing are available", false, false);
 		I_ASSIGN(m_useGridCommandsAttrPtr, "UseGridCommands", "If true, the commands for grid mangement are available", false, false);
 		I_ASSIGN(m_useScollBarCommandsAttrPtr, "UseScrollBarCommands", "If true, the commands for scroll bar management are available", false, false);
-		I_ASSIGN(m_useStatusBarCommandsAttrPtr, "UseStatusBarCommands", "If true, the commands for status bar management are available", false, false);
 		I_ASSIGN(m_fitModeAttrPtr, "FitMode", "Select fitting mode for the view. 0 - No fitting\n1 - Fit contents to view\n2 - Horizontal fit\n3 - Vertical fit\n4 - Both axes sclaled separately\n5 - Scale both axes proportional to display smallest AOI, which fully covers display", false, 0);
 	I_END_COMPONENT;
 
@@ -49,6 +49,7 @@ protected:
 	virtual void OnGuiCreated();
 
 private:
+	I_REF(iview::IShapeStatusInfo, m_shapeStatusInfoCompPtr);
 	I_ATTR(int, m_viewIdAttrPtr);
 	I_ATTR(bool, m_useAntialiasingAttrPtr);
 	I_ATTR(bool, m_useShapeEditCommandsAttrPtr);

@@ -24,11 +24,6 @@ void CImageViewComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::
 		const i2d::ITransformation2d* calibrationPtr = m_calibrationProviderCompPtr->GetCalibration();
 
 		view.SetCalibrationPtr(calibrationPtr);
-
-		consolePtr->SetMmPositionVisible(calibrationPtr != NULL);
-	}
-	else{
-		consolePtr->SetMmPositionVisible(false);
 	}
 }
 

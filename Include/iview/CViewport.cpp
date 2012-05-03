@@ -162,10 +162,8 @@ bool CViewport::OnMouseMove(istd::CIndex2d position)
 	QString infoText;
 	int backgroundLayerIndex = GetBackgroundLayerIndex();
 	if (backgroundLayerIndex >= 0){
-		if (m_framePtr->IsPixelValueVisible()){
-			const iview::IViewLayer& backgroundLayer = GetLayer(backgroundLayerIndex);
-			infoText = backgroundLayer.GetShapeDescriptionAt(position);
-		}
+		const iview::IViewLayer& backgroundLayer = GetLayer(backgroundLayerIndex);
+		infoText = backgroundLayer.GetShapeDescriptionAt(position);
 	}
 
 	// pixel position
@@ -175,17 +173,15 @@ bool CViewport::OnMouseMove(istd::CIndex2d position)
 
 	// logical position
 	i2d::CVector2d logPosition;
-	if (m_framePtr->IsMmPositionVisible()){
-		const iview::CScreenTransform& logToScreenTransform = GetLogToScreenTransform();
 
-		const i2d::ITransformation2d* calibrationPtr = GetCalibration();
-		const i2d::ITransformation2d* isomorphCalibPtr = dynamic_cast<const i2d::ITransformation2d*>(calibrationPtr);
-		if (isomorphCalibPtr != NULL){
-			isomorphCalibPtr->GetPositionAt(pixelPosition, logPosition);
-		}
-		else{
-			logPosition = logToScreenTransform.GetClientPosition(position);
-		}
+	const iview::CScreenTransform& logToScreenTransform = GetLogToScreenTransform();
+	const i2d::ITransformation2d* calibrationPtr = GetCalibration();
+	const i2d::ITransformation2d* isomorphCalibPtr = dynamic_cast<const i2d::ITransformation2d*>(calibrationPtr);
+	if (isomorphCalibPtr != NULL){
+		isomorphCalibPtr->GetPositionAt(pixelPosition, logPosition);
+	}
+	else{
+		logPosition = logToScreenTransform.GetClientPosition(position);
 	}
 
 	m_framePtr->UpdateCursorInfo(pixelPosition, logPosition, infoText);
@@ -215,8 +211,6 @@ void CViewport::SetBackgroundBufferValid(bool state)
 	if (!state && (m_framePtr != NULL)){
 		int backgroundLayerIndex = GetBackgroundLayerIndex();
 		if (backgroundLayerIndex >= 0){
-			const iview::IViewLayer& layer = GetLayer(backgroundLayerIndex);
-
 			i2d::CRect fitArea = GetFitArea();
 
 			bool isBkActive = !fitArea.IsEmpty();

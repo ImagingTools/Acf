@@ -81,8 +81,6 @@ public:
 	void SetButtonsPanelVertical(bool state = true);
 	bool AreScrollbarsVisible() const;
 	void SetScrollbarsVisible(bool state = true);
-	bool IsStatusVisible() const;
-	void SetStatusVisible(bool state = true);
 
 	// buttons visibility
 	bool AreZoomsVisible() const;
@@ -93,8 +91,6 @@ public:
 	void SetPolylineButtonsVisible(bool state = true);
 	bool AreUserModeButtonsVisible() const;
 	void SetUserModeButtonsVisible(bool state = true);
-	bool IsStatusButtonVisible() const;
-	void SetStatusButtonVisible(bool state = true);
 	bool IsScrollbarsButtonVisible() const;
 	void SetScrollbarsButtonVisible(bool state = true);
 	bool IsGridButtonVisible() const;
@@ -103,12 +99,6 @@ public:
 	void SetRulerButtonVisible(bool state = true);
 	bool IsMmButtonVisible() const;
 	void SetMmButtonVisible(bool state = true);
-	bool IsPixelPositionVisible() const;
-	void SetPixelPositionVisible(bool state = true);
-	bool IsPixelValueVisible() const;
-	void SetPixelValueVisible(bool state = true);
-	bool IsMmPositionVisible() const;
-	void SetMmPositionVisible(bool state = true);
 
 	/**
 		Check if background object is present and active.
@@ -152,11 +142,6 @@ public:
 	*/
 	virtual void UpdateCommands() = 0;
 
-	/**
-		Display specified text in status window.
-	*/
-	virtual void SetStatusText(const QString& message) = 0;
-
 	virtual void UpdateCursorInfo(const i2d::CVector2d& pixelPos, const i2d::CVector2d& logicalPos, const QString& infoText) = 0;
 
 protected:
@@ -172,7 +157,6 @@ private:
 	bool m_isRulerVisible;
 
 	bool m_areScollbarsVisible;
-	bool m_isStatusVisible;
 	bool m_isButtonsPanelVisible;
 	bool m_isButtonsPanelVertical;
 
@@ -180,16 +164,10 @@ private:
 	bool m_isZoomToFitVisible;
 	bool m_arePolylineButtonsVisible;
 	bool m_areUserModeButtonsVisible;
-	bool m_isStatusButtonVisible;
 	bool m_isScrollbarsButtonVisible;
 	bool m_isGridButtonVisible;
 	bool m_isRulerButtonVisible;
 	bool m_isMmButtonVisible;
-	bool m_isUndoButtonVisible;
-
-	bool m_isPixelPositionVisible;
-	bool m_isPixelValueVisible;
-	bool m_isMmPositionVisible;
 
 	iview::CScreenTransform m_storedTransform;
 

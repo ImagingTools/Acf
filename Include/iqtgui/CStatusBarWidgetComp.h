@@ -28,7 +28,7 @@ public:
 	
 	I_BEGIN_COMPONENT(CStatusBarWidgetComp);
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
-		I_ASSIGN(m_statusBarWidgetCompPtr, "StatusBarWidget", "Widget to place into the status bar of the application", true, "StatusBarWidget");
+		I_ASSIGN_MULTI_0(m_statusBarWidgetsCompPtr, "StatusBarWidgets", "Widgets to place into the status bar of the application", true);
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
@@ -36,7 +36,7 @@ public:
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
 
 private:
-	I_REF(iqtgui::IGuiObject, m_statusBarWidgetCompPtr);
+	I_MULTIREF(iqtgui::IGuiObject, m_statusBarWidgetsCompPtr);
 };
 
 
