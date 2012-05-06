@@ -75,8 +75,13 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 
 void CModelBase::DetachAllObservers()
 {
-	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		m_observers.at(observerIndex)->OnDetached(this);
+	int observersCount = int(m_observers.size());
+
+	for (int observerIndex = 0; observerIndex < observersCount; observerIndex++){
+		imod::IObserver* observerPtr = m_observers.at(observerIndex);
+		I_ASSERT(observerPtr != NULL);
+		
+		observerPtr->OnDetached(this);
 	}
 
 	m_observers.clear();
@@ -85,8 +90,13 @@ void CModelBase::DetachAllObservers()
 
 bool CModelBase::IsAttached(const IObserver* observerPtr) const
 {
-	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		if (m_observers.at(observerIndex) == observerPtr){
+	int observersCount = int(m_observers.size());
+
+	for (int observerIndex = 0; observerIndex < observersCount; observerIndex++){
+		imod::IObserver* connectedObserverPtr = m_observers.at(observerIndex);
+		I_ASSERT(connectedObserverPtr != NULL);
+
+		if (connectedObserverPtr == observerPtr){
 			return true;
 		}
 	}
@@ -99,16 +109,26 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 
 void CModelBase::NotifyBeforeUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		m_observers.at(observerIndex)->BeforeUpdate(this, updateFlags, updateParamsPtr);
+	int observersCount = int(m_observers.size());
+
+	for (int observerIndex = 0; observerIndex < observersCount; observerIndex++){
+		imod::IObserver* observerPtr = m_observers.at(observerIndex);
+		I_ASSERT(observerPtr != NULL);
+
+		observerPtr->BeforeUpdate(this, updateFlags, updateParamsPtr);
 	}
 }
 
 
 void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
-		m_observers.at(observerIndex)->AfterUpdate(this, updateFlags, updateParamsPtr);
+	int observersCount = int(m_observers.size());
+
+	for (int observerIndex = 0; observerIndex < observersCount; observerIndex++){
+		imod::IObserver* observerPtr = m_observers.at(observerIndex);
+		I_ASSERT(observerPtr != NULL);
+
+		observerPtr->AfterUpdate(this, updateFlags, updateParamsPtr);
 	}
 }
 

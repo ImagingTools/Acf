@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
+    <width>400</width>
     <height>16</height>
    </rect>
   </property>
@@ -14,6 +14,9 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>2</number>
+   </property>
    <property name="margin">
     <number>0</number>
    </property>
@@ -26,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Logical Position: </string>
+      <string>Logical [</string>
      </property>
     </widget>
    </item>
@@ -34,6 +37,13 @@
     <widget class="QLabel" name="LogicalPosition">
      <property name="text">
       <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>]</string>
      </property>
     </widget>
    </item>
@@ -46,7 +56,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Pixel Position:</string>
+      <string>Pixel [</string>
      </property>
     </widget>
    </item>
@@ -58,15 +68,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="InfoTextLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Info:</string>
+      <string>]</string>
      </property>
     </widget>
    </item>

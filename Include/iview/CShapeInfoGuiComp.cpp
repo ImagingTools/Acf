@@ -14,10 +14,10 @@ void CShapeInfoGuiComp::UpdateGui(int /*updateFlags*/)
 	IShapeStatusInfo* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		i2d::CVector2d logicalPosition = objectPtr->GetLogicalPosition();
-		LogicalPosition->setText(tr("X: %1  Y: %2").arg(logicalPosition.GetX()).arg(logicalPosition.GetY()));
+		LogicalPosition->setText(tr("%1, %2").arg(logicalPosition.GetX(), 2, 'f', 2).arg(logicalPosition.GetY(), 2, 'f', 2));
 
 		i2d::CVector2d pixelPosition = objectPtr->GetPixelPosition();
-		PixelPosition->setText(tr("X: %1  Y: %2").arg(pixelPosition.GetX()).arg(pixelPosition.GetY()));
+		PixelPosition->setText(tr("%1, %2").arg(int(pixelPosition.GetX())).arg(int(pixelPosition.GetY())));
 
 		QString infoText = objectPtr->GetInfoText();
 		InfoText->setText(infoText);

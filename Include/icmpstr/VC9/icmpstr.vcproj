@@ -479,6 +479,10 @@
 				RelativePath="..\CRegistryPropEditorComp.ui"
 				>
 			</File>
+			<File
+				RelativePath="..\CSceneProviderGuiComp.ui"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Moc Files"
@@ -533,10 +537,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="..\CSceneProviderGuiComp.ui"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
