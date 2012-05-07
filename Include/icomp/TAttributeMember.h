@@ -2,8 +2,13 @@
 #define icomp_TAttributeMember_included
 
 
+// Qt includes
+#include <QtCore/QCoreApplication>
+
+// ACF includes
 #include "icomp/IComponentContext.h"
 #include "icomp/IRealAttributeStaticInfo.h"
+#include "icomp/TAttribute.h"
 
 
 namespace icomp
@@ -53,7 +58,7 @@ public:
 	/**
 		Access to object pointed by internal pointer.
 	*/
-	const typename Attribute::ValueType& operator*() const;
+	typename Attribute::ValueType operator*() const;
 
 protected:
 	void SetAttribute(const Attribute* attributePtr);
@@ -134,11 +139,20 @@ const Attribute* TAttributeMember<Attribute>::operator->() const
 
 
 template <typename Attribute>
-const typename Attribute::ValueType& TAttributeMember<Attribute>::operator*() const
+typename Attribute::ValueType TAttributeMember<Attribute>::operator*() const
 {
 	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
 
 	return m_attributePtr->GetValue();
+}
+
+
+template <>
+inline QString TAttributeMember< TAttribute<QString> >::operator*() const
+{
+	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+
+	return QCoreApplication::translate("Attribute", m_attributePtr->GetValue().toAscii());
 }
 
 

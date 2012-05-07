@@ -4,6 +4,7 @@
 
 // ACF includes
 #include "icomp/IComponentContext.h"
+#include "icomp/TMultiAttribute.h"
 
 
 namespace icomp
@@ -41,7 +42,7 @@ public:
 	/**
 		Access to object pointed by internal pointer.
 	*/
-	const typename Attribute::ValueType& operator[](int index) const;
+	typename Attribute::ValueType operator[](int index) const;
 
 private:
 	const Attribute* m_attributePtr;
@@ -117,7 +118,7 @@ int TMultiAttributeMember<Attribute>::GetCount() const
 
 
 template <typename Attribute>
-const typename Attribute::ValueType& TMultiAttributeMember<Attribute>::operator[](int index) const
+typename Attribute::ValueType TMultiAttributeMember<Attribute>::operator[](int index) const
 {
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < GetCount());
@@ -125,6 +126,18 @@ const typename Attribute::ValueType& TMultiAttributeMember<Attribute>::operator[
 	I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
 
 	return m_attributePtr->GetValueAt(index);
+}
+
+
+template <>
+inline QString TMultiAttributeMember< TMultiAttribute<QString> >::operator[](int index) const
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < GetCount());
+	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+	I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
+
+	return QCoreApplication::translate("Attribute", m_attributePtr->GetValueAt(index).toAscii());
 }
 
 

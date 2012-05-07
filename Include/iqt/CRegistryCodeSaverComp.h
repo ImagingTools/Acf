@@ -149,14 +149,10 @@ protected:
 				QTextStream& stream) const;
 
 	bool GetAttributeValue(
-				const QByteArray& attributeId,
-				const QByteArray& componentId,
 				const iser::ISerializable& attribute,
 				QByteArray& valueString,
 				QByteArray& typeName) const;
 	bool GetMultiAttributeValue(
-				const QByteArray& attributeId,
-				const QByteArray& componentId,
 				const iser::ISerializable& attribute,
 				QList<QByteArray>& valueStrings,
 				QByteArray& typeName) const;

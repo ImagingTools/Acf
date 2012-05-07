@@ -1184,7 +1184,7 @@ bool CRegistryCodeSaverComp::WriteComponentInfo(
 
 bool CRegistryCodeSaverComp::WriteAttribute(
 			const QByteArray& attributeId,
-			const QByteArray& componentId,
+			const QByteArray& /*componentId*/,
 			const QByteArray& attributeInfoName,
 			const iser::IObject& attribute,
 			QTextStream& stream) const
@@ -1195,7 +1195,7 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 
 	QByteArray attributeName = "attr" + attributeId + "Ptr";
 
-	if (GetAttributeValue(attributeId, componentId, attribute, valueString, attributeType)){
+	if (GetAttributeValue(attribute, valueString, attributeType)){
 		NextLine(stream);
 		stream << attributeInfoName << "->attributePtr.SetPtr(new " << attributeType << ");";
 
@@ -1210,7 +1210,7 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 		NextLine(stream);
 		stream << attributeName << "->SetValue(" << valueString << ");";
 	}
-	else if (GetMultiAttributeValue(attributeId, componentId, attribute, valueStrings, attributeType)){
+	else if (GetMultiAttributeValue(attribute, valueStrings, attributeType)){
 		NextLine(stream);
 		stream << attributeInfoName << "->attributePtr.SetPtr(new " << attributeType << ");";
 
@@ -1316,8 +1316,6 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 
 
 bool CRegistryCodeSaverComp::GetAttributeValue(
-			const QByteArray& attributeId,
-			const QByteArray& componentId,
 			const iser::ISerializable& attribute,
 			QByteArray& valueString,
 			QByteArray& typeName) const
@@ -1348,7 +1346,7 @@ bool CRegistryCodeSaverComp::GetAttributeValue(
 
 	const icomp::CStringAttribute* stringAttribute = dynamic_cast<const icomp::CStringAttribute*>(&attribute);
 	if (stringAttribute != NULL){
-		valueString = "QObject::tr(" + GetStringLiteral(stringAttribute->GetValue()) + ", \"" + componentId + "/" + attributeId + "\")";
+		valueString = "QT_TRANSLATE_NOOP(\"Attribute\", " + GetStringLiteral(stringAttribute->GetValue()) + ")";
 		typeName = "icomp::CStringAttribute";
 
 		return true;
@@ -1382,8 +1380,6 @@ bool CRegistryCodeSaverComp::GetAttributeValue(
 
 
 bool CRegistryCodeSaverComp::GetMultiAttributeValue(
-			const QByteArray& attributeId,
-			const QByteArray& componentId,
 			const iser::ISerializable& attribute,
 			QList<QByteArray>& valueStrings,
 			QByteArray& typeName) const
@@ -1426,7 +1422,7 @@ bool CRegistryCodeSaverComp::GetMultiAttributeValue(
 	const icomp::CStringListAttribute* stringAttributePtr = dynamic_cast<const icomp::CStringListAttribute*>(&attribute);
 	if (stringAttributePtr != NULL){
 		for (int index = 0; index < stringAttributePtr->GetValuesCount(); index++){
-			valueStrings.push_back("QObject::tr(" + GetStringLiteral(stringAttributePtr->GetValueAt(index)) + ", \"" + componentId + "/" + attributeId + "\")");
+			valueStrings.push_back("QT_TRANSLATE_NOOP(\"Attribute\", " + GetStringLiteral(stringAttributePtr->GetValueAt(index)) + ")");
 		}
 
 		typeName = "icomp::CStringListAttribute";
