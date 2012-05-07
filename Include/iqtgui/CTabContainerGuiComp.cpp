@@ -122,7 +122,10 @@ void CTabContainerGuiComp::OnGuiDestroyed()
 	if (m_slaveWidgetsCompPtr.IsValid()){
 		int slaveWidgetsCount = m_slaveWidgetsCompPtr.GetCount();
 		for (int widgetIndex = 0; widgetIndex < slaveWidgetsCount; widgetIndex++){
-			m_slaveWidgetsCompPtr[widgetIndex]->DestroyGui();
+			iqtgui::IGuiObject* guiPtr = m_slaveWidgetsCompPtr[widgetIndex];
+			if (guiPtr != NULL){
+				guiPtr->DestroyGui();
+			}
 		}
 	}
 
