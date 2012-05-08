@@ -2,6 +2,331 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="en_US">
 <context>
+    <name>Attribute</name>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="882"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1169"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1207"/>
+        <source>Log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1262"/>
+        <source>xlog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1275"/>
+        <source>Log XML file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1351"/>
+        <source>qt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1362"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1414"/>
+        <source>:/Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1382"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1445"/>
+        <source>en_US</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1383"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1446"/>
+        <source>de_DE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1384"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1447"/>
+        <source>ru_RU</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1385"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1448"/>
+        <source>pl_PL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1403"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3601"/>
+        <source>Acf</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1503"/>
+        <source>0.9.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1504"/>
+        <source>0.9.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1505"/>
+        <source>0.9.2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1506"/>
+        <source>0.9.3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1507"/>
+        <source>0.9.4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1508"/>
+        <source>0.9.5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1509"/>
+        <source>0.9.6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1510"/>
+        <source>0.9.7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1511"/>
+        <source>0.9.8</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1512"/>
+        <source>0.9.9</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1513"/>
+        <source>1.0.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1514"/>
+        <source>1.0.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1515"/>
+        <source>1.1.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1516"/>
+        <source>1.2.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1517"/>
+        <source>1.3.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1518"/>
+        <source>1.4.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1519"/>
+        <source>1.4.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1520"/>
+        <source>1.5.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1521"/>
+        <source>1.5.1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1522"/>
+        <source>1.5.2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1523"/>
+        <source>1.5.3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1524"/>
+        <source>1.5.4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1525"/>
+        <source>1.6.0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1588"/>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2415"/>
+        <source>ACF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1758"/>
+        <source>xpc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1771"/>
+        <source>ACF component configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2276"/>
+        <source>Compositor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2287"/>
+        <source>ImagingTools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2298"/>
+        <source>:/Images/CompositorLogo.svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2309"/>
+        <source>About Compositor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2375"/>
+        <source>:/Images/CompositorSplashScreen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2386"/>
+        <source>� Copyright 2011 Witold Gantzke &amp; Kirill Lepskiy
+All rights reserved
+
+This tool is a part of ACF project
+See &apos;License.txt&apos; for license information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2426"/>
+        <source>ACF Registry Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2460"/>
+        <source>:/Icons/CompositorIcon.svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3064"/>
+        <source>:/Icons/Settings.svg</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3097"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3117"/>
+        <source>exe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3118"/>
+        <source>bat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3131"/>
+        <source>Windows executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3132"/>
+        <source>Script file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3152"/>
+        <source>Configuration File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3153"/>
+        <source>ACF Command Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3154"/>
+        <source>HTML Browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3155"/>
+        <source>HTML Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3156"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3221"/>
+        <source>ApplicationSettings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3357"/>
+        <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3459"/>
+        <source>../../Config/Full.xpc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3709"/>
+        <source>Quick Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3769"/>
+        <source>Selected component</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3921"/>
+        <source>Packages</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CAbGuiComp</name>
     <message>
         <location filename="../../Docs/Tutorial/Impl/ModelObserver/CAbGuiComp.ui" line="14"/>
@@ -550,62 +875,70 @@
     <name>CPackageOverviewComp</name>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="14"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="132"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="151"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="31"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="133"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="152"/>
         <source>Group By</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="42"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="136"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="155"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="47"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="137"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="156"/>
         <source>Package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="57"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="142"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="161"/>
         <source>List of registered component types</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="88"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="140"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="159"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="96"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="144"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="163"/>
         <source>Filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="108"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="145"/>
-        <source>Keyword</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="118"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="146"/>
-        <source>Interface</source>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="114"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="153"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="164"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="170"/>
+        <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="132"/>
-        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="149"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="167"/>
         <source>Any</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="140"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="169"/>
+        <source>Interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.ui" line="167"/>
+        <location filename="../../Include/icmpstr/generated/ui_CPackageOverviewComp.h" line="171"/>
+        <source>Keyword</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1263,430 +1596,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="882"/>
-        <source>About</source>
-        <comment>DialogGui/DialogTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1169"/>
-        <source>Log</source>
-        <comment>PersistentFileDialogLoader/LastPathSettingsKey</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1207"/>
-        <source>Log</source>
-        <comment>LogDock/DockTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1262"/>
-        <source>xlog</source>
-        <comment>XmlLogSerializer/FileExtensions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1275"/>
-        <source>Log XML file</source>
-        <comment>XmlLogSerializer/TypeDescriptions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1351"/>
-        <source>qt</source>
-        <comment>QtLocalization/TranslationFilePrefix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1362"/>
-        <source>:/Translations</source>
-        <comment>QtLocalization/TranslationFilePath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1382"/>
-        <source>en_US</source>
-        <comment>QtLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1383"/>
-        <source>de_DE</source>
-        <comment>QtLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1384"/>
-        <source>ru_RU</source>
-        <comment>QtLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1385"/>
-        <source>pl_PL</source>
-        <comment>QtLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1403"/>
-        <source>Acf</source>
-        <comment>AcfLocalization/TranslationFilePrefix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1414"/>
-        <source>:/Translations</source>
-        <comment>AcfLocalization/TranslationFilePath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1445"/>
-        <source>en_US</source>
-        <comment>AcfLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1446"/>
-        <source>de_DE</source>
-        <comment>AcfLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1447"/>
-        <source>ru_RU</source>
-        <comment>AcfLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1448"/>
-        <source>pl_PL</source>
-        <comment>AcfLocalization/LanguageIds</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1503"/>
-        <source>0.9.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1504"/>
-        <source>0.9.1</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1505"/>
-        <source>0.9.2</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1506"/>
-        <source>0.9.3</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1507"/>
-        <source>0.9.4</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1508"/>
-        <source>0.9.5</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1509"/>
-        <source>0.9.6</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1510"/>
-        <source>0.9.7</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1511"/>
-        <source>0.9.8</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1512"/>
-        <source>0.9.9</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1513"/>
-        <source>1.0.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1514"/>
-        <source>1.0.1</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1515"/>
-        <source>1.1.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1516"/>
-        <source>1.2.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1517"/>
-        <source>1.3.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1518"/>
-        <source>1.4.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1519"/>
-        <source>1.4.1</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1520"/>
-        <source>1.5.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1521"/>
-        <source>1.5.1</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1522"/>
-        <source>1.5.2</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1523"/>
-        <source>1.5.3</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1524"/>
-        <source>1.5.4</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1525"/>
-        <source>1.6.0</source>
-        <comment>BaseInfo/KnownVersionNames</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1588"/>
-        <source>ACF</source>
-        <comment>BaseInfo/VersionIdDesc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1758"/>
-        <source>xpc</source>
-        <comment>ConfigFileInfo/FileExtensions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="1771"/>
-        <source>ACF component configuration</source>
-        <comment>ConfigFileInfo/TypeDescriptions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2276"/>
-        <source>Compositor</source>
-        <comment>Application/ApplicationName</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2287"/>
-        <source>ImagingTools</source>
-        <comment>Application/CompanyName</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2298"/>
-        <source>:/Images/CompositorLogo.svg</source>
-        <comment>Application/LogoPath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2309"/>
-        <source>About Compositor</source>
-        <comment>Application/AboutDialogTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2375"/>
-        <source>:/Images/CompositorSplashScreen</source>
-        <comment>Application/SplashScreenImage</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2386"/>
-        <source>� Copyright 2011 Witold Gantzke &amp; Kirill Lepskiy
-All rights reserved
-
-This tool is a part of ACF project
-See &apos;License.txt&apos; for license information</source>
-        <comment>Application/LegalCopyright</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2415"/>
-        <source>ACF</source>
-        <comment>Application/ProductName</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2426"/>
-        <source>ACF Registry Editor</source>
-        <comment>Application/ApplicationSubname</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="2460"/>
-        <source>:/Icons/CompositorIcon.svg</source>
-        <comment>Application/IconPath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3064"/>
-        <source>:/Icons/Settings.svg</source>
-        <comment>SettingsDialog/DialogIconPath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3097"/>
-        <source>Settings</source>
-        <comment>SettingsDialog/DialogTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3117"/>
-        <source>exe</source>
-        <comment>PreviewCommandFileInfo/FileExtensions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3118"/>
-        <source>bat</source>
-        <comment>PreviewCommandFileInfo/FileExtensions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3131"/>
-        <source>Windows executable</source>
-        <comment>PreviewCommandFileInfo/TypeDescriptions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3132"/>
-        <source>Script file</source>
-        <comment>PreviewCommandFileInfo/TypeDescriptions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3152"/>
-        <source>Configuration File</source>
-        <comment>SettingsGui/Names</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3153"/>
-        <source>ACF Command Path</source>
-        <comment>SettingsGui/Names</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3154"/>
-        <source>HTML Browser</source>
-        <comment>SettingsGui/Names</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3155"/>
-        <source>HTML Editor</source>
-        <comment>SettingsGui/Names</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3156"/>
-        <source>Language</source>
-        <comment>SettingsGui/Names</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3221"/>
-        <source>ApplicationSettings</source>
-        <comment>SettingsPersistence/RootKey</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3357"/>
-        <source>Notes</source>
-        <comment>ComponentNoteDock/DockTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3459"/>
-        <source>../../Config/Full.xpc</source>
-        <comment>ConfigDataShadow/DefaultPath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3601"/>
-        <source>Acf</source>
-        <comment>PreviewCommandFile/DefaultPath</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3709"/>
-        <source>Quick Help</source>
-        <comment>QuickHelpDock/DockTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3769"/>
-        <source>Selected component</source>
-        <comment>AttributeDock/DockTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CompositorExe/generated/CCompositor.cpp" line="3921"/>
-        <source>Packages</source>
-        <comment>PackageOverviewDock/DockTitle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../Include/ibase/CFileSerializerCompBase.cpp" line="22"/>
         <source>Object is not serializable</source>
         <translation type="unfinished"></translation>
@@ -2073,42 +1982,42 @@ Interfaces:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1018"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1032"/>
         <source>&amp;Packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1018"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1032"/>
         <source>Packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1018"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1032"/>
         <source>Menu for packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1019"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1033"/>
         <source>&amp;Reload All Packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1019"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1033"/>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1019"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1033"/>
         <source>Reloads all packages form configuration file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1077"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1091"/>
         <source>Component %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1080"/>
+        <location filename="../../Include/icmpstr/CPackageOverviewComp.cpp" line="1094"/>
         <source>Local composite component %2</source>
         <translation type="unfinished"></translation>
     </message>

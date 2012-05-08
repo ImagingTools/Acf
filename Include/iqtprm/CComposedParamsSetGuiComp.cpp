@@ -163,7 +163,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 				panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
 				QString name;
 				if (i < m_namesAttrPtr.GetCount()){
-					name = QObject::tr(m_namesAttrPtr[i].toAscii());
+					name = m_namesAttrPtr[i];
 				}
 
 				guiPtr->CreateGui(panelPtr);
@@ -195,7 +195,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 				QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
 				QString name;
 				if (i < m_namesAttrPtr.GetCount()){
-					name = QObject::tr(m_namesAttrPtr[i].toAscii());
+					name = m_namesAttrPtr[i];
 				}
 
 				guiPtr->CreateGui(panelPtr);
@@ -224,7 +224,7 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 			if (i < m_namesAttrPtr.GetCount()){
 				QLayout* parentLayoutPtr = elementParentPtr->layout();
 
-				elementParentPtr = new QGroupBox(QObject::tr(m_namesAttrPtr[i].toAscii()), elementParentPtr);
+				elementParentPtr = new QGroupBox(m_namesAttrPtr[i], elementParentPtr);
 				new QVBoxLayout(elementParentPtr);
 
 				if (parentLayoutPtr != NULL){

@@ -127,9 +127,7 @@ void CDockWidgetGuiComp::OnGuiRetranslate()
 	I_ASSERT(dockWidgetPtr != NULL);
 
 	if (m_dockTitleAttrPtr.IsValid()){
-		QString title = *m_dockTitleAttrPtr;
-
-		dockWidgetPtr->setWindowTitle(QObject::tr(title.toAscii()));
+		dockWidgetPtr->setWindowTitle(*m_dockTitleAttrPtr);
 	}
 }
 
