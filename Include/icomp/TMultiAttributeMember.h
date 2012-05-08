@@ -143,11 +143,6 @@ class TMultiAttributeMember< TMultiAttribute<QString> >: public TMultiAttributeM
 public:
 	QString operator[](int index) const
 	{
-		I_ASSERT(index >= 0);
-		I_ASSERT(index < GetCount());
-		I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
-		I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
-
 		return QCoreApplication::translate("Attribute", TMultiAttributeMemberBase< TMultiAttribute<QString> >::operator[](index).toAscii());
 	}
 };

@@ -170,8 +170,6 @@ class TAttributeMember< TAttribute<QString> >: public TAttributeMemberBase< TAtt
 public:
 	QString operator*() const
 	{
-		I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
-
 		return QCoreApplication::translate("Attribute", TAttributeMemberBase< TAttribute<QString> >::operator*().toAscii());
 	}
 };
