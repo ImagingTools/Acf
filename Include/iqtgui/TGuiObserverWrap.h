@@ -201,7 +201,7 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiModelAttached()
 	I_ASSERT(Gui::IsGuiCreated());
 	I_ASSERT(Observer::IsModelAttached(NULL));
 
-	DoUpdate(CF_INIT_EDITOR);
+	UpdateEditor(CF_INIT_EDITOR);
 }
 
 
@@ -249,11 +249,7 @@ void TGuiObserverWrap<Gui, Observer>::UpdateGui(int /*updateFlags*/)
 template <class Gui, class Observer>
 void TGuiObserverWrap<Gui, Observer>::UpdateEditor(int updateFlags)
 {
-	if (!IsUpdateBlocked() && Gui::IsGuiCreated()){
-		UpdateBlocker updateBlocker(this);
-
-		UpdateGui(updateFlags);
-	}
+	DoPostponedUpdate(updateFlags);
 }
 
 
@@ -272,7 +268,7 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiShown()
 
 	if (Observer::IsModelAttached(NULL)){
 		if (m_updateOnShow){
-			DoUpdate(m_updateOnShowFlags);
+			UpdateEditor(m_updateOnShowFlags);
 		}
 
 		OnGuiModelShown();
@@ -327,7 +323,7 @@ void TGuiObserverWrap<Gui, Observer>::AfterUpdate(imod::IModel* modelPtr, int up
 		return;
 	}
 
-	DoPostponedUpdate(updateFlags);
+	UpdateEditor(updateFlags);
 }
 
 
@@ -374,7 +370,11 @@ void TGuiObserverWrap<Gui, Observer>::DoUpdate(int updateFlags)
 	}
 
 	if (!skipUpdate){
-		UpdateEditor(updateFlags);
+		if (!IsUpdateBlocked() && Gui::IsGuiCreated()){
+			UpdateBlocker updateBlocker(this);
+
+			UpdateGui(updateFlags);
+		}
 	}
 
 	m_updateOnShow = false;
