@@ -116,17 +116,17 @@ protected:
 				const icomp::IRegistry& registry,
 				const QByteArray& attributeId,
 				const ElementIdToAttrInfoMap& infos,
-				bool* hasErrorPtr = NULL,
-				bool* hasWarningPtr = NULL,
-				bool* hasExportPtr = NULL) const;
+				bool& hasError,
+				bool& hasWarning,
+				bool& hasExport) const;
 	bool SetInterfaceToItem(
 				QTreeWidgetItem& item,
-				const icomp::IRegistry& registry,
+				icomp::IRegistry::ExportedInterfacesMap* interfacesMapPtr,
 				const QByteArray& elementId,
 				const QByteArray& interfaceName,
-				bool useFullPath,
-				bool* hasWarningPtr = NULL,
-				bool* hasExportPtr = NULL) const;
+				bool& hasWarning,
+				bool& hasExport) const;
+	bool ResetItem(QTreeWidgetItem& item);
 	bool DecodeAttribute(
 				const iser::ISerializable& attribute,
 				QString& text,
@@ -136,13 +136,21 @@ protected:
 				int meaning,
 				iser::ISerializable& result) const;
 
+	void CreateInterfacesTree(
+				const QByteArray& elementId,
+				const icomp::IElementStaticInfo* infoPtr,
+				icomp::IRegistry::ExportedInterfacesMap& registryInterfaces,
+				QTreeWidgetItem* parentItemPtr,
+				bool& hasWarning,
+				bool& hasExport,
+				bool includeSubelement);
 	void CreateExportedComponentsTree(
 				const QByteArray& elementId,
 				const QByteArray& globalElementId,
 				const icomp::IElementStaticInfo* elementMetaInfoPtr,
 				QTreeWidgetItem& item,
-				bool* hasWarningPtr = NULL,
-				bool* hasExportPtr = NULL) const;
+				bool& hasWarning,
+				bool& hasExport) const;
 
 	// reimplemented (iqt::TGuiObserverWrap)
 	virtual void OnGuiModelDetached();

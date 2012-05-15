@@ -9,7 +9,6 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QPushButton>
 
-
 // ACF includes
 #include "istd/TOptDelPtr.h"
 #include "istd/TChangeNotifier.h"
@@ -485,9 +484,9 @@ void CAttributeEditorComp::UpdateAttributesView()
 								*registryPtr,
 								attributeId,
 								attrInfos,
-								&errorFlag,
-								&warningFlag,
-								&exportFlag);
+								errorFlag,
+								warningFlag,
+								exportFlag);
 
 					hasError = hasError || errorFlag;
 					hasWarning = hasWarning || warningFlag;
@@ -524,17 +523,15 @@ void CAttributeEditorComp::UpdateInterfacesView()
 
 	bool hasWarning = false;
 	bool hasExport = false;
-	int itemIndex = 0;
-
 	const IElementSelectionInfo* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
 		if (registryPtr != NULL){
-			const icomp::IRegistry::ExportedInterfacesMap& registryInterfaces = registryPtr->GetExportedInterfacesMap();
+			icomp::IRegistry::ExportedInterfacesMap registryInterfaces = registryPtr->GetExportedInterfacesMap();
 
 			IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
 
-			int elementsCount = int(selectedElements.size());
+			int itemIndex = 0;
 
 			for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
 						iter != selectedElements.end();
@@ -542,85 +539,46 @@ void CAttributeEditorComp::UpdateInterfacesView()
 				const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 				I_ASSERT(selectedInfoPtr != NULL);
 
-				const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
-				if (elementPtr != NULL){
-					const QByteArray& elementId = iter.key();
+				const QByteArray& elementId = iter.key();
 
-					// create list of all interfaces exported by element
-					icomp::IElementStaticInfo::Ids elementInterfaceIds;
-					for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator regInterfaceIter = registryInterfaces.begin();
-								regInterfaceIter != registryInterfaces.end();
-								++regInterfaceIter){
-						if (regInterfaceIter.value() == elementId){
-							elementInterfaceIds.insert(regInterfaceIter.key());
-						}
+				QTreeWidgetItem* itemPtr = NULL;
+				if (selectedElements.size() > 1){
+					if (itemIndex < InterfacesTree->topLevelItemCount()){
+						itemPtr = InterfacesTree->topLevelItem(itemIndex);
 					}
-
-					// display all interfaces based on meta information
-					const icomp::IComponentStaticInfo* infoPtr = GetComponentMetaInfo(selectedInfoPtr->address);
-					if (infoPtr != NULL){
-						const icomp::IElementStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-						for (		icomp::IElementStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
-									interfaceIter != interfaceIds.end();
-									interfaceIter++, ++itemIndex){
-							const QByteArray& interfaceName = *interfaceIter;
-
-							elementInterfaceIds.remove(interfaceName);
-
-							QTreeWidgetItem* itemPtr = NULL;
-							if (itemIndex < InterfacesTree->topLevelItemCount()){
-								itemPtr = InterfacesTree->topLevelItem(itemIndex);
-							}
-							else{
-								itemPtr = new QTreeWidgetItem();
-								InterfacesTree->addTopLevelItem(itemPtr);
-							}
-							I_ASSERT(itemPtr != NULL);
-
-							bool warningFlag = false;
-							bool exportFlag = false;
-							SetInterfaceToItem(
-										*itemPtr,
-										*registryPtr,
-										elementId,
-										interfaceName,
-										(elementsCount > 1),
-										&warningFlag,
-										&exportFlag);
-							hasWarning = hasWarning || warningFlag;
-							hasExport = hasExport || exportFlag;
-						}
+					else{
+						itemPtr = new QTreeWidgetItem();
+						InterfacesTree->addTopLevelItem(itemPtr);
 					}
+					itemIndex++;
+					I_ASSERT(itemPtr != NULL);
 
-					// display all interfaces assigned to this element, but not existing in element meta information
-					for (		icomp::IElementStaticInfo::Ids::const_iterator interfaceIter = elementInterfaceIds.begin();
-								interfaceIter != elementInterfaceIds.end();
-								interfaceIter++, ++itemIndex){
-						const QByteArray& interfaceName = *interfaceIter;
+					ResetItem(*itemPtr);
+					itemPtr->setText(0, elementId);
+				}
 
-						QTreeWidgetItem* itemPtr = NULL;
-						if (itemIndex < InterfacesTree->topLevelItemCount()){
-							itemPtr = InterfacesTree->topLevelItem(itemIndex);
-						}
-						else{
-							itemPtr = new QTreeWidgetItem();
-							InterfacesTree->addTopLevelItem(itemPtr);
-						}
-						I_ASSERT(itemPtr != NULL);
+				const icomp::IComponentStaticInfo* staticInfoPtr = GetComponentMetaInfo(selectedInfoPtr->address);
 
-						SetInterfaceToItem(*itemPtr, *registryPtr, elementId, interfaceName, (elementsCount > 1));
-						itemPtr->setToolTip(0, tr("Interface doesn't implemented by this element (was removed?)"));
-						itemPtr->setBackgroundColor(0, Qt::yellow);
-						hasWarning = true;
-						hasExport = true;
-					}
+				bool warningFlag = false;
+				bool exportFlag = false;
+				CreateInterfacesTree(
+							elementId,
+							staticInfoPtr,
+							registryInterfaces,
+							itemPtr,
+							warningFlag,
+							exportFlag,
+							true);
+				hasWarning = hasWarning || warningFlag;
+				hasExport = hasExport || exportFlag;
+			}
+
+			if (selectedElements.size() != 1){
+				while (itemIndex < InterfacesTree->topLevelItemCount()){
+					delete InterfacesTree->topLevelItem(itemIndex);
 				}
 			}
 		}
-	}
-
-	while (InterfacesTree->topLevelItemCount() > itemIndex){
-		delete InterfacesTree->topLevelItem(itemIndex);
 	}
 
 	if (hasWarning){
@@ -729,7 +687,7 @@ void CAttributeEditorComp::UpdateSubcomponentsView()
 
 					bool warningFlag = false;
 					bool exportFlag = false;
-					CreateExportedComponentsTree(elementId, elementId, infoPtr, *componentRootPtr, &warningFlag, &exportFlag);
+					CreateExportedComponentsTree(elementId, elementId, infoPtr, *componentRootPtr, warningFlag, exportFlag);
 					hasWarning = hasWarning || warningFlag;
 					hasExport = hasExport || exportFlag;
 
@@ -764,9 +722,9 @@ bool CAttributeEditorComp::SetAttributeToItem(
 			const icomp::IRegistry& registry,
 			const QByteArray& attributeId,
 			const ElementIdToAttrInfoMap& infos,
-			bool* hasErrorPtr,
-			bool* hasWarningPtr,
-			bool* hasExportPtr) const
+			bool& hasError,
+			bool& hasWarning,
+			bool& hasExport) const
 {
 	QTreeWidgetItem* importItemPtr = NULL;
 	if (attributeItem.childCount() < 1){
@@ -962,15 +920,11 @@ bool CAttributeEditorComp::SetAttributeToItem(
 
 	if (isAttributeError){
 		attributeItem.setBackgroundColor(AC_VALUE, Qt::red);
-		if (hasErrorPtr != NULL){
-			*hasErrorPtr = true;
-		}
+		hasError = true;
 	}
 	else if (isAttributeWarning){
 		attributeItem.setBackgroundColor(AC_VALUE, Qt::yellow);
-		if (hasWarningPtr != NULL){
-			*hasWarningPtr = true;
-		}
+		hasWarning = true;
 	}
 	else{
 		attributeItem.setBackgroundColor(AC_VALUE, Qt::white);
@@ -989,9 +943,7 @@ bool CAttributeEditorComp::SetAttributeToItem(
 
 		attributeItem.setIcon(AC_NAME, m_importIcon);
 
-		if (hasExportPtr != NULL){
-			*hasExportPtr = true;
-		}
+		hasExport = true;
 	}
 	else{
 		importItemPtr->setData(AC_NAME, Qt::CheckStateRole, QVariant());
@@ -1007,38 +959,52 @@ bool CAttributeEditorComp::SetAttributeToItem(
 
 bool CAttributeEditorComp::SetInterfaceToItem(
 			QTreeWidgetItem& item,
-			const icomp::IRegistry& registry,
+			icomp::IRegistry::ExportedInterfacesMap* interfacesMapPtr,
 			const QByteArray& elementId,
 			const QByteArray& interfaceName,
-			bool useFullPath,
-			bool* /*hasWarningPtr*/,
-			bool* hasExportPtr) const
+			bool& /*hasWarning*/,
+			bool& hasExport) const
 {
 	item.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
-	if (useFullPath){
-		item.setText(0, tr("%1:%2").arg(QString(elementId)).arg(QString(interfaceName)));
-	}
-	else{
-		item.setText(0, interfaceName);
-	}
 
 	item.setData(0, InterfaceName, interfaceName);
 	item.setData(0, ElementId, elementId);
 
-	const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = registry.GetExportedInterfacesMap();
-
-	icomp::IRegistry::ExportedInterfacesMap::const_iterator foundExportIter = interfacesMap.find(interfaceName);
-	bool isInterfaceExported = false;
-	if (foundExportIter != interfacesMap.end()){
-		isInterfaceExported = (foundExportIter.value() == elementId);
-
-		if (isInterfaceExported && (hasExportPtr != NULL)){
-			*hasExportPtr = true;
+	if (interfacesMapPtr != NULL){
+		hasExport = false;
+		icomp::IRegistry::ExportedInterfacesMap::Iterator foundExportIter = interfacesMapPtr->find(interfaceName);
+		if ((foundExportIter != interfacesMapPtr->end()) && (foundExportIter.value() == elementId)){
+			hasExport = true;
+			interfacesMapPtr->erase(foundExportIter);
 		}
-	}
 
-	item.setCheckState(0, isInterfaceExported? Qt::Checked: Qt::Unchecked);
+		item.setText(0, interfaceName);
+		item.setCheckState(0, hasExport? Qt::Checked: Qt::Unchecked);
+		item.setToolTip(0, "");
+		item.setBackgroundColor(0, Qt::white);
+	}
+	else{
+		item.setText(0, elementId + ": " + interfaceName);
+		item.setCheckState(0, Qt::Checked);
+		item.setToolTip(0, tr("Interface doesn't implemented by this element (was removed?)"));
+		item.setBackgroundColor(0, Qt::yellow);
+	}
+	item.setIcon(0, QIcon());
+
+	return true;
+}
+
+
+bool CAttributeEditorComp::ResetItem(QTreeWidgetItem& item)
+{
+	item.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+	item.setData(0, InterfaceName, QVariant());
+	item.setData(0, ElementId, QVariant());
+	item.setText(0, "");
+	item.setData(0, Qt::CheckStateRole, QVariant());
+	item.setToolTip(0, "");
 	item.setBackgroundColor(0, Qt::white);
+	item.setIcon(0, QIcon());
 
 	return true;
 }
@@ -1316,19 +1282,175 @@ bool CAttributeEditorComp::EncodeAttribute(
 }
 
 
+void CAttributeEditorComp::CreateInterfacesTree(
+			const QByteArray& elementId,
+			const icomp::IElementStaticInfo* infoPtr,
+			icomp::IRegistry::ExportedInterfacesMap& registryInterfaces,
+			QTreeWidgetItem* parentItemPtr,
+			bool& hasWarning,
+			bool& hasExport,
+			bool includeSubelement)
+{
+	hasWarning = false;
+	hasExport = false;
+
+	int itemIndex = 0;
+
+	// display all interfaces based on meta information
+	if (infoPtr != NULL){
+		const icomp::IElementStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
+		for (		icomp::IElementStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
+					interfaceIter != interfaceIds.end();
+					interfaceIter++){
+			const QByteArray& interfaceName = *interfaceIter;
+
+			QTreeWidgetItem* itemPtr = NULL;
+			if (parentItemPtr != NULL){
+				if (itemIndex < parentItemPtr->childCount()){
+					itemPtr = parentItemPtr->child(itemIndex);
+				}
+				else{
+					itemPtr = new QTreeWidgetItem(parentItemPtr);
+					parentItemPtr->addChild(itemPtr);
+				}
+			}
+			else{
+				if (itemIndex < InterfacesTree->topLevelItemCount()){
+					itemPtr = InterfacesTree->topLevelItem(itemIndex);
+				}
+				else{
+					itemPtr = new QTreeWidgetItem();
+					InterfacesTree->addTopLevelItem(itemPtr);
+				}
+			}
+			itemIndex++;
+			I_ASSERT(itemPtr != NULL);
+
+			bool warningFlag = false;
+			bool exportFlag = false;
+			SetInterfaceToItem(
+						*itemPtr,
+						&registryInterfaces,
+						elementId,
+						interfaceName,
+						warningFlag,
+						exportFlag);
+			hasWarning = hasWarning || warningFlag;
+			hasExport = hasExport || exportFlag;
+		}
+
+		if (includeSubelement){
+			const icomp::IElementStaticInfo::Ids subcomponentIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_SUBELEMENTS);
+			for (		icomp::IElementStaticInfo::Ids::const_iterator subIter = subcomponentIds.begin();
+						subIter != subcomponentIds.end();
+						++subIter){
+				const QByteArray& sublementId = *subIter;
+
+				QByteArray globalSublementId = icomp::CInterfaceManipBase::JoinId(elementId, sublementId);
+
+				QTreeWidgetItem* itemPtr = NULL;
+				if (parentItemPtr != NULL){
+					if (itemIndex < parentItemPtr->childCount()){
+						itemPtr = parentItemPtr->child(itemIndex);
+					}
+					else{
+						itemPtr = new QTreeWidgetItem(parentItemPtr);
+						parentItemPtr->addChild(itemPtr);
+					}
+				}
+				else{
+					if (itemIndex < InterfacesTree->topLevelItemCount()){
+						itemPtr = InterfacesTree->topLevelItem(itemIndex);
+					}
+					else{
+						itemPtr = new QTreeWidgetItem();
+						InterfacesTree->addTopLevelItem(itemPtr);
+					}
+				}
+				itemIndex++;
+				I_ASSERT(itemPtr != NULL);
+
+				ResetItem(*itemPtr);
+				itemPtr->setText(AC_NAME, sublementId);
+
+				const icomp::IElementStaticInfo* subelementInfoPtr = infoPtr->GetSubelementInfo(sublementId);
+
+				bool warningFlag = false;
+				bool exportFlag = false;
+				CreateInterfacesTree(
+							globalSublementId,
+							subelementInfoPtr,
+							registryInterfaces,
+							itemPtr,
+							warningFlag,
+							exportFlag,
+							false);
+				hasWarning = hasWarning || warningFlag;
+				hasExport = hasExport || exportFlag;
+			}
+		}
+	}
+
+	// display all interfaces assigned to this element, but not existing in element meta information
+	for (		icomp::IRegistry::ExportedInterfacesMap::ConstIterator interfaceIter = registryInterfaces.begin();
+				interfaceIter != registryInterfaces.end();
+				interfaceIter++){
+		const QByteArray& interfaceName = interfaceIter.key();
+		if (interfaceIter.value() == elementId){
+			QTreeWidgetItem* itemPtr = NULL;
+			if (itemIndex < InterfacesTree->topLevelItemCount()){
+				itemPtr = InterfacesTree->topLevelItem(itemIndex);
+			}
+			else{
+				itemPtr = new QTreeWidgetItem();
+				InterfacesTree->addTopLevelItem(itemPtr);
+			}
+			itemIndex++;
+			I_ASSERT(itemPtr != NULL);
+
+			bool warningFlag = false;
+			bool exportFlag = false;
+			SetInterfaceToItem(*itemPtr, NULL, elementId, interfaceName, warningFlag, exportFlag);
+			hasWarning = true;
+		}
+	}
+
+	if (parentItemPtr != NULL){
+		while (parentItemPtr->childCount() > itemIndex){
+			delete parentItemPtr->child(itemIndex);
+		}
+
+		if (hasWarning){
+			parentItemPtr->setIcon(AC_NAME, m_warningIcon);
+		}
+		else if (hasExport){
+			parentItemPtr->setIcon(AC_NAME, m_exportIcon);
+		}
+		else{
+			parentItemPtr->setIcon(AC_NAME, QIcon());
+		}
+	}
+	else{
+		while (InterfacesTree->topLevelItemCount() > itemIndex){
+			delete InterfacesTree->topLevelItem(itemIndex);
+		}
+	}
+}
+
+
 void CAttributeEditorComp::CreateExportedComponentsTree(
 			const QByteArray& elementId,
 			const QByteArray& globalElementId,
 			const icomp::IElementStaticInfo* elementMetaInfoPtr,
 			QTreeWidgetItem& item,
-			bool* /*hasWarningPtr*/,
-			bool* hasExportPtr) const
+			bool& /*hasWarning*/,
+			bool& hasExport) const
 {
 	int itemIndex = 0;
 
 	QStringList exportedAliases = GetExportAliases(globalElementId);
-	if ((hasExportPtr != NULL) && !exportedAliases.isEmpty()){
-		*hasExportPtr = true;
+	if (!exportedAliases.isEmpty()){
+		hasExport = true;
 	}
 
 	item.setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
@@ -1350,8 +1472,8 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 			QByteArray globalSublementId = icomp::CInterfaceManipBase::JoinId(globalElementId, sublementId);
 
 			QStringList subExportedAliases = GetExportAliases(globalSublementId);
-			if ((hasExportPtr != NULL) && !subExportedAliases.isEmpty()){
-				*hasExportPtr = true;
+			if (!subExportedAliases.isEmpty()){
+				hasExport = true;
 			}
 
 			QTreeWidgetItem* itemPtr = NULL;
@@ -1378,12 +1500,8 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 			bool warningFlag = false;
 			bool exportFlag = false;
 			CreateExportedComponentsTree(sublementId, globalSublementId, subcomponentInfoPtr, *itemPtr, &warningFlag, &exportFlag);
-			if (hasWarningPtr != NULL){
-				*hasWarningPtr = *hasWarningPtr || warningFlag;
-			}
-			if (hasExportPtr != NULL){
-				*hasExportPtr = *hasExportPtr || exportFlag;
-			}
+			hasWarning = hasWarning || warningFlag;
+			hasExport = hasExport || exportFlag;
 */
 		}
 		item.setDisabled(false);

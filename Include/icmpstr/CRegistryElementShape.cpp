@@ -8,8 +8,8 @@
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtGui/QGraphicsScene>
 
-
 // ACF includes
+#include "istd/CIdManipBase.h"
 #include "icmpstr/CVisualRegistryScenographerComp.h"
 #include "icmpstr/CRegistryElementShape.h"
 #include "icmpstr/IRegistryConsistInfo.h"
@@ -236,13 +236,17 @@ void CRegistryElementShape::CalcExportedInteraces(const CVisualRegistryElement& 
 	const icomp::IRegistry* registryPtr = element.GetRegistry();
 
 	if (registryPtr != NULL){
-		const QByteArray& componentName = element.GetName();
+		const QByteArray& elementName = element.GetName();
 
 		const icomp::IRegistry::ExportedInterfacesMap& interfacesMap = registryPtr->GetExportedInterfacesMap();
 		for (		icomp::IRegistry::ExportedInterfacesMap::const_iterator iter = interfacesMap.begin();
 					iter != interfacesMap.end();
 					++iter){
-			if (iter.value() == componentName){
+			const QByteArray& exportedId = iter.value();
+			QByteArray exportedElementId;
+			QByteArray restId;
+			istd::CIdManipBase::SplitId(exportedId, exportedElementId, restId);
+			if (exportedElementId == elementName){
 				m_exportedInterfacesList.push_back(iter.key());
 			}
 		}
