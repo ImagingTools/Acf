@@ -991,6 +991,10 @@ bool CAttributeEditorComp::SetInterfaceToItem(
 	}
 	item.setIcon(0, QIcon());
 
+	while (item.childCount() > 0){
+		delete item.child(0);
+	}
+
 	return true;
 }
 
