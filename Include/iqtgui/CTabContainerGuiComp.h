@@ -30,7 +30,7 @@ public:
 
 	I_BEGIN_COMPONENT(CTabContainerGuiComp);
 		I_ASSIGN_MULTI_0(m_slaveWidgetsCompPtr, "Guis", "Slave widgets for tab window", true);
-		I_ASSIGN_TO(m_slaveWidgetsVisualCompPtr, m_slaveWidgetsCompPtr, false);
+		I_ASSIGN_MULTI_0(m_slaveWidgetsVisualCompPtr, "GuiVisualInfos", "Provide visual information for each GUI", false);
 		I_ASSIGN_TO(m_slaveWidgetsModelCompPtr, m_slaveWidgetsCompPtr, false);
 		I_ASSIGN(m_cornerGuiCompPtr, "CornerWidget", "Optional corner widget", false, "CornerWidget");
 		I_ASSIGN_MULTI_0(m_tabNamesAttrPtr, "Names", "Titles for the tab", true);

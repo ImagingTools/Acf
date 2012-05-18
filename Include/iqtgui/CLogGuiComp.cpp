@@ -35,53 +35,6 @@ CLogGuiComp::CLogGuiComp()
 }
 
 
-// reimplemented (istd::IVisualStatusProvider)
-
-QIcon CLogGuiComp::GetStatusIcon() const
-{
-	static QIcon infoIcon(":/Icons/Info.svg");
-	static QIcon warningIcon(":/Icons/Warning.svg");
-	static QIcon errorIcon(":/Icons/Error.svg");
-	static QIcon logIcon(":/Icons/Log");
-
-	switch (m_statusCategory){
-	case istd::IInformationProvider::IC_INFO:
-		return infoIcon;
-
-	case istd::IInformationProvider::IC_WARNING:
-		return warningIcon;
-
-	case istd::IInformationProvider::IC_ERROR:
-	case istd::IInformationProvider::IC_CRITICAL:
-		return errorIcon;
-
-	default:
-		return logIcon;
-	}
-}
-
-
-QString CLogGuiComp::GetStatusText() const
-{
-	switch (m_statusCategory){
-	case istd::IInformationProvider::IC_INFO:
-		return tr("New informations available");
-
-	case istd::IInformationProvider::IC_WARNING:
-		return tr("There are warnings");
-
-	case istd::IInformationProvider::IC_ERROR:
-		return tr("There are errors");
-
-	case istd::IInformationProvider::IC_CRITICAL:
-		return tr("There are critical errors!");
-
-	default:
-		return "";
-	}
-}
-
-
 // protected methods
 	
 QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& message)
@@ -102,7 +55,8 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue((void*)&message));
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetInformationCategory());
 
-		QIcon messageIcon = GetIcon(message.GetInformationCategory());
+		istd::IInformationProvider::InformationCategory category = message.GetInformationCategory();
+		QIcon messageIcon = GetCategoryIcon(category).pixmap(QSize(12, 12), QIcon::Normal, QIcon::On);
 
 		treeItemPtr->setIcon(CT_ICON, messageIcon);
 	}
@@ -111,30 +65,48 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 }
 
 
-QIcon CLogGuiComp::GetIcon(istd::IInformationProvider::InformationCategory mode)
+QIcon CLogGuiComp::GetCategoryIcon(int category) const
 {
-	QIcon infoIcon = QIcon(":/Icons/Info.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
-	QIcon warningIcon = QIcon(":/Icons/Warning.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
-	QIcon errorIcon = QIcon(":/Icons/Error.svg").pixmap(QSize(12, 12),QIcon::Normal, QIcon::On);
+	static QIcon logIcon(":/Icons/Log");
+	static QIcon infoIcon(":/Icons/Info.svg");
+	static QIcon warningIcon(":/Icons/Warning.svg");
+	static QIcon errorIcon(":/Icons/Error.svg");
 
-	QIcon messageIcon;
-	switch (mode)
-	{
+	switch (category){
+	case istd::IInformationProvider::IC_INFO:
+		return infoIcon;
+
 	case istd::IInformationProvider::IC_WARNING:
-		messageIcon = warningIcon;
-		break;
+		return warningIcon;
 
 	case istd::IInformationProvider::IC_ERROR:
 	case istd::IInformationProvider::IC_CRITICAL:
-		messageIcon = errorIcon;
-		break;
+		return errorIcon;
 
-	case istd::IInformationProvider::IC_INFO:
-		messageIcon = infoIcon;
-		break;
+	default:
+		return logIcon;
 	}
+}
 
-	return messageIcon;
+
+QString CLogGuiComp::GetCategoryText(int category) const
+{
+	switch (category){
+	case istd::IInformationProvider::IC_INFO:
+		return tr("New informations available");
+
+	case istd::IInformationProvider::IC_WARNING:
+		return tr("There are warnings");
+
+	case istd::IInformationProvider::IC_ERROR:
+		return tr("There are errors");
+
+	case istd::IInformationProvider::IC_CRITICAL:
+		return tr("There are critical errors!");
+
+	default:
+		return "";
+	}
 }
 
 
@@ -146,8 +118,6 @@ void CLogGuiComp::OnGuiModelAttached()
 
 	ibase::IMessageContainer* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		istd::CChangeNotifier notfier(this);
-
 		ibase::IMessageContainer::Messages messages = objectPtr->GetMessages();
 		for (		ibase::IMessageContainer::Messages::const_iterator iter = messages.begin();
 					iter != messages.end();
@@ -298,9 +268,11 @@ void CLogGuiComp::OnAddMessage(QTreeWidgetItem* itemPtr)
 	itemPtr->setHidden(itemCategory < m_currentMessageMode);
 
 	if (itemCategory > m_statusCategory){
-		istd::CChangeNotifier notifier(this);
-
 		m_statusCategory = itemCategory;
+
+		istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
+		SetStatusIcon(GetCategoryIcon(m_statusCategory));
+		SetStatusText(GetCategoryText(m_statusCategory));
 	}
 }
 
@@ -349,11 +321,11 @@ void CLogGuiComp::OnMessageModeChanged()
 		}
 	}
 
-	if (worstCategory != m_statusCategory){
-		istd::CChangeNotifier notifier(this);
+	m_statusCategory = worstCategory;
 
-		m_statusCategory = worstCategory;
-	}
+	istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
+	SetStatusIcon(GetCategoryIcon(m_statusCategory));
+	SetStatusText(GetCategoryText(m_statusCategory));
 }
 
 
@@ -365,9 +337,11 @@ void CLogGuiComp::OnClearAction()
 	}
 
 	if (m_statusCategory != istd::IInformationProvider::IC_NONE){
-		istd::CChangeNotifier notifier(this);
-
 		m_statusCategory = istd::IInformationProvider::IC_NONE;
+
+		istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
+		SetStatusIcon(GetCategoryIcon(m_statusCategory));
+		SetStatusText(GetCategoryText(m_statusCategory));
 	}
 }
 

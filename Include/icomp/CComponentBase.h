@@ -168,8 +168,20 @@ inline bool CComponentBase::IsComponentActive() const
 	{\
 		static icomp::TSubelementStaticInfo<CurrentComponentType>::Registrator<InterfaceType> registrator(\
 					subelementInfo_##ElementName,\
-					#InterfaceType,\
 					extractorFunction);\
+	}
+
+/**
+	Register interface extractor for some subelement with template extractor function.
+	\param	ElementName			name of subelement.
+	\param	InterfaceType		type of registered interface.
+	\param	extractorFunction	function returning pointer to casted type (must be 'InterfaceType* Foo(MyComponent& component)')".
+*/
+#define I_REGISTER_SUBELEMENT_INTERFACE_T(ElementName, InterfaceType, extractorFunction)\
+	{\
+		static icomp::TSubelementStaticInfo<CurrentComponentType>::Registrator<InterfaceType> registrator(\
+					subelementInfo_##ElementName,\
+					extractorFunction<InterfaceType>);\
 	}
 
 /**

@@ -52,10 +52,10 @@ public:
 		typedef InterfaceType* (*ExtractorPtr)(ComponentType& component);
 
 		Registrator(TSubelementStaticInfo& staticInfo,
-					const QByteArray& interfaceName,
 					ExtractorPtr extractorPtr)
 		{
-			staticInfo.RegisterInterfaceExtractor(interfaceName, reinterpret_cast<InterfaceExtractorPtr>(extractorPtr));
+			istd::CClassInfo interfaceInfo = istd::CClassInfo::GetInfo<InterfaceType>();
+			staticInfo.RegisterInterfaceExtractor(interfaceInfo.GetName(), reinterpret_cast<InterfaceExtractorPtr>(extractorPtr));
 		}
 	};
 

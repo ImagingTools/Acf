@@ -41,10 +41,6 @@ public:
 
 	CLogGuiComp();
 
-	// reimplemented (istd::IVisualStatusProvider)
-	virtual QIcon GetStatusIcon() const;
-	virtual QString GetStatusText() const;
-
 protected:
 	enum ColumnType
 	{
@@ -74,9 +70,13 @@ protected:
 	virtual QTreeWidgetItem* CreateGuiItem(const istd::IInformationProvider& message);
 
 	/**
-		Get icons corresponding to specified MessageMode
+		Get icons corresponding to specified information category.
 	*/
-	virtual QIcon GetIcon(istd::IInformationProvider::InformationCategory mode);
+	QIcon GetCategoryIcon(int category) const;
+	/**
+		Get text corresponding to specified information category.
+	*/
+	QString GetCategoryText(int category) const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();

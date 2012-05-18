@@ -2,12 +2,10 @@
 #define iprm_CSelectionParamComp_included
 
 
-#include "iser/ISerializable.h"
-
+// ACF includes
 #include "icomp/CComponentBase.h"
 
-#include "iprm/ISelectionParam.h"
-#include "iprm/ISelectionConstraints.h"
+#include "iprm/CSelectionParam.h"
 
 
 namespace iprm
@@ -15,11 +13,11 @@ namespace iprm
 
 
 /**
-	Basic implementation of selection parameter.
+	Component level implementation of selection parameter.
 */
 class CSelectionParamComp:
 			public icomp::CComponentBase,
-			virtual public ISelectionParam
+			public CSelectionParam
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
@@ -33,23 +31,10 @@ public:
 		I_ASSIGN(m_defaultIndexAttrPtr, "DefaultIndex", "Default value of selected index", true, 0);
 	I_END_COMPONENT;
 
-	CSelectionParamComp();
-
 	// reimplemented (iprm::ISelectionParam)
-	virtual const ISelectionConstraints* GetSelectionConstraints() const;
-	virtual int GetSelectedOptionIndex() const;
-	virtual bool SetSelectedOptionIndex(int index);
 	virtual ISelectionParam* GetActiveSubselection() const;
 
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
-
 protected:
-	/**
-		Set selection index according to a given option ID.
-	*/
-	bool SetSelectedOptionIndexById(const QByteArray& selectedOptionId);
-
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
@@ -57,8 +42,6 @@ private:
 	I_REF(ISelectionConstraints, m_constraintsCompPtr);
 	I_REF(ISelectionParam, m_subselectionCompPtr);
 	I_ATTR(int, m_defaultIndexAttrPtr);
-
-	int m_selectedOptionIndex;
 };
 
 

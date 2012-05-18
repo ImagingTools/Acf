@@ -7,6 +7,9 @@
 #include <QtCore/QMetaMethod>
 #include <QtGui/QLayout>
 
+// ACF includes
+#include "istd/TChangeNotifier.h"
+
 
 namespace iqtgui
 {
@@ -85,20 +88,6 @@ void CGuiComponentBase::OnTryClose(bool* ignoredPtr)
 }
 
 
-// reimplemented (iqtgui::IVisualStatusProvider)
-
-QIcon CGuiComponentBase::GetStatusIcon() const
-{
-	return m_defaultStatusIcon;
-}
-
-
-QString CGuiComponentBase::GetStatusText() const
-{
-	return *m_defaultStatusTextAttrPtr;
-}
-
-
 // protected methods
 
 void CGuiComponentBase::OnGuiShown()
@@ -134,6 +123,24 @@ void CGuiComponentBase::OnGuiCreated()
 
 void CGuiComponentBase::OnGuiDestroyed()
 {
+}
+
+
+void CGuiComponentBase::SetStatusIcon(const QIcon& icon)
+{
+	istd::CChangeNotifier notifier(&m_visualStatus);
+
+	m_visualStatus.m_statusIcon = icon;
+}
+
+
+void CGuiComponentBase::SetStatusText(const QString& text)
+{
+	if (text != m_visualStatus.m_statusText){
+		istd::CChangeNotifier notifier(&m_visualStatus);
+
+		m_visualStatus.m_statusText = text;
+	}
 }
 
 
@@ -196,8 +203,10 @@ void CGuiComponentBase::OnComponentCreated()
 	}
 
 	if (m_defaultStatusIconPathAttrPtr.IsValid()){
-		m_defaultStatusIcon = QIcon(*m_defaultStatusIconPathAttrPtr);
+		m_visualStatus.m_statusIcon = QIcon(*m_defaultStatusIconPathAttrPtr);
 	}
+
+	m_visualStatus.m_statusText = *m_defaultStatusTextAttrPtr;
 
 	OnRetranslate();
 }
@@ -257,7 +266,7 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 // public methods of the embedded class LanguageChangeEventFilter
 
 CGuiComponentBase::LanguageChangeEventFilter::LanguageChangeEventFilter(CGuiComponentBase& parent)
-	:m_parent(parent)
+:	m_parent(parent)
 {
 }
 
@@ -277,6 +286,22 @@ bool CGuiComponentBase::LanguageChangeEventFilter::eventFilter(QObject* sourcePt
 	}
 
 	return BaseClass::eventFilter(sourcePtr, eventPtr);
+}
+
+
+// public methods of embedded class VisualStatus
+
+// reimplemented (iqtgui::IVisualStatusProvider)
+
+QIcon CGuiComponentBase::VisualStatus::GetStatusIcon() const
+{
+	return m_statusIcon;
+}
+
+
+QString CGuiComponentBase::VisualStatus::GetStatusText() const
+{
+	return m_statusText;
 }
 
 
