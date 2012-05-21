@@ -430,7 +430,7 @@ QLibrary& CPackagesLoaderComp::GetLibrary(const QFileInfo& fileInfo)
 	if (!libraryPtr.IsValid() || !libraryPtr->load()){
 		SendErrorMessage(
 					MI_CANNOT_REGISTER,
-					QObject::tr("Cannot register components from package %1").arg(fileInfo.fileName()));
+					QObject::tr("Cannot register package %1 (%2)").arg(fileInfo.fileName()).arg(libraryPtr->errorString()));
 	}
 
 	return *libraryPtr;
