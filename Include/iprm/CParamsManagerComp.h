@@ -54,6 +54,7 @@ public:
 	virtual int GetParamsSetsCount() const;
 	virtual int InsertParamsSet(int index = -1);
 	virtual bool RemoveParamsSet(int index);
+	virtual bool SwapParamsSet(int index1, int index2);
 	virtual IParamsSet* GetParamsSet(int index) const;
 	virtual QString GetParamsSetName(int index) const;
 	virtual bool SetParamsSetName(int index, const QString& name);

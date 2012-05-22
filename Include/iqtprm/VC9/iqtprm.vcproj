@@ -215,10 +215,6 @@
 				RelativePath="..\CVariableParamGuiComp.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\generated\moc_CComboParamsManagerGuiComp.cpp"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -283,6 +279,10 @@
 			Filter="moc;h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
+			<File
+				RelativePath="..\generated\moc_CComboParamsManagerGuiComp.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\Generated\moc_CComposedParamsSetGuiComp.cpp"
 				>

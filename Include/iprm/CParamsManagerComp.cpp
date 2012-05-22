@@ -71,18 +71,21 @@ int CParamsManagerComp::GetIndexOperationFlags(int index) const
 {
 	int retVal = 0;
 
-	if ((index >= 0) && (index < m_fixedParamSetsCompPtr.GetCount())){
-		retVal |= MF_NO_DELETE;
-		retVal |= MF_NO_INSERT;
+	if (m_paramSetsFactPtr.IsValid()){
+		retVal |= MF_SUPPORT_INSERT | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME;
+
+		if (!m_paramSets.isEmpty() && (index < CParamsManagerComp::GetParamsSetsCount())){
+			retVal |= MF_SUPPORT_DELETE;
+		}
 	}
-	else if (m_paramSets.isEmpty()){
-		retVal |= MF_NO_DELETE;
+	else{
+		retVal |= MF_COUNT_FIXED;
 	}
 
-	if (!m_paramSetsFactPtr.IsValid()){
-		retVal |= MF_COUNT_FIXED;
-		retVal |= MF_NO_DELETE;
-		retVal |= MF_NO_INSERT;
+	if (index >= 0){
+		if (index < m_fixedParamSetsCompPtr.GetCount()){
+			retVal &= ~(MF_SUPPORT_INSERT | MF_SUPPORT_DELETE | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME);
+		}
 	}
 
 	return retVal;
@@ -135,6 +138,9 @@ int CParamsManagerComp::InsertParamsSet(int index)
 
 bool CParamsManagerComp::RemoveParamsSet(int index)
 {
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < CParamsManagerComp::GetParamsSetsCount());
+
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
 	if (index < fixedParamsCount){
@@ -153,6 +159,33 @@ bool CParamsManagerComp::RemoveParamsSet(int index)
 	m_paramSets.erase(m_paramSets.begin() + removeIndex);
 
 	m_selectedIndex = index - 1;
+
+	return true;
+}
+
+
+bool CParamsManagerComp::SwapParamsSet(int index1, int index2)
+{
+	I_ASSERT(index1 >= 0);
+	I_ASSERT(index1 < CParamsManagerComp::GetParamsSetsCount());
+	I_ASSERT(index2 >= 0);
+	I_ASSERT(index2 < CParamsManagerComp::GetParamsSetsCount());
+
+	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
+
+	if ((index1 < fixedParamsCount) || (index2 < fixedParamsCount)){
+		return false;
+	}
+
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED);
+
+	ParamSet& paramsSet1 = m_paramSets[index1 - fixedParamsCount];
+	ParamSet& paramsSet2 = m_paramSets[index2 - fixedParamsCount];
+
+	paramsSet1.paramSetPtr.Swap(paramsSet2.paramSetPtr);
+	QString tempName = paramsSet1.name;
+	paramsSet1.name = paramsSet2.name;
+	paramsSet2.name = tempName;
 
 	return true;
 }

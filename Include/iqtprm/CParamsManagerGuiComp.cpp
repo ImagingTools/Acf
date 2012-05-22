@@ -67,44 +67,10 @@ void CParamsManagerGuiComp::on_UpButton_clicked()
 			return;
 		}
 
-		iprm::IParamsSet* originalParamsPtr = objectPtr->GetParamsSet(selectedIndex);
-		if (originalParamsPtr == NULL){
-			return;
-		}
-
-		iser::CMemoryWriteArchive storeArchive;
-		if (!originalParamsPtr->Serialize(storeArchive)){
-			return;
-		}
-
-		QString name = objectPtr->GetParamsSetName(selectedIndex);
-
 		istd::CChangeNotifier notifier(objectPtr);
 
-		int newIndex = objectPtr->InsertParamsSet(selectedIndex - 1);
-		if (newIndex < 0){
-			return;
-		}
-
-		int indexToRemove = newIndex;
-
-		iprm::IParamsSet* newParamsPtr = objectPtr->GetParamsSet(newIndex);
-		I_ASSERT(newParamsPtr != NULL);	// insert returned success, it cannot be NULL!
-
-		if (		(selectedIndex + 1 < objectPtr->GetParamsSetsCount()) &&
-					((objectPtr->GetIndexOperationFlags(selectedIndex + 1) & iprm::IParamsManager::MF_NO_DELETE) == 0)){
-			iser::CMemoryReadArchive restoreArchive(storeArchive);
-			if (newParamsPtr->Serialize(restoreArchive)){
-				objectPtr->SetParamsSetName(newIndex, name);
-				indexToRemove = selectedIndex + 1;
-			}
-		}
-
-		I_ASSERT(indexToRemove < objectPtr->GetParamsSetsCount());
-
-		objectPtr->RemoveParamsSet(indexToRemove);
-
-		objectPtr->SetSelectedOptionIndex(newIndex);
+		objectPtr->SwapParamsSet(selectedIndex, selectedIndex - 1);
+		objectPtr->SetSelectedOptionIndex(selectedIndex - 1);
 	}
 }
 
@@ -120,44 +86,10 @@ void CParamsManagerGuiComp::on_DownButton_clicked()
 			return;
 		}
 
-		iprm::IParamsSet* originalParamsPtr = objectPtr->GetParamsSet(selectedIndex);
-		if (originalParamsPtr == NULL){
-			return;
-		}
-
-		iser::CMemoryWriteArchive storeArchive;
-		if (!originalParamsPtr->Serialize(storeArchive)){
-			return;
-		}
-
-		QString name = objectPtr->GetParamsSetName(selectedIndex);
-
 		istd::CChangeNotifier notifier(objectPtr);
 
-		int newIndex = objectPtr->InsertParamsSet(selectedIndex + 2);
-		if (newIndex < 0){
-			return;
-		}
-
-		int indexToRemove = newIndex;
-
-		iprm::IParamsSet* newParamsPtr = objectPtr->GetParamsSet(newIndex);
-		I_ASSERT(newParamsPtr != NULL);	// insert returned success, it cannot be NULL!
-
-		if ((objectPtr->GetIndexOperationFlags(selectedIndex) & iprm::IParamsManager::MF_NO_DELETE) == 0){
-			iser::CMemoryReadArchive restoreArchive(storeArchive);
-			if (newParamsPtr->Serialize(restoreArchive)){
-				objectPtr->SetParamsSetName(newIndex, name);
-				indexToRemove = selectedIndex;
-			}
-		}
-
-		I_ASSERT(indexToRemove < objectPtr->GetParamsSetsCount());
-
-		objectPtr->RemoveParamsSet(indexToRemove);
-		--newIndex;	// correction becouse item for lower index was removed
-
-		objectPtr->SetSelectedOptionIndex(newIndex);
+		objectPtr->SwapParamsSet(selectedIndex, selectedIndex + 1);
+		objectPtr->SetSelectedOptionIndex(selectedIndex + 1);
 	}
 }
 
@@ -243,14 +175,14 @@ void CParamsManagerGuiComp::UpdateActions()
 		}
 	}
 
-	AddButton->setEnabled((flags & iprm::IParamsManager::MF_NO_INSERT) == 0);
-	RemoveButton->setEnabled((flags & iprm::IParamsManager::MF_NO_DELETE) == 0);
+	AddButton->setEnabled((flags & iprm::IParamsManager::MF_SUPPORT_INSERT) != 0);
+	RemoveButton->setEnabled((flags & iprm::IParamsManager::MF_SUPPORT_DELETE) != 0);
 	UpButton->setEnabled(
-				((prevFlags & iprm::IParamsManager::MF_NO_DELETE) == 0) &&
-				((flags & iprm::IParamsManager::MF_NO_INSERT) == 0));
+				((prevFlags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0) &&
+				((flags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0));
 	DownButton->setEnabled(
-				((flags & iprm::IParamsManager::MF_NO_DELETE) == 0) &&
-				((nextFlags & iprm::IParamsManager::MF_NO_INSERT) == 0));
+				((flags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0) &&
+				((nextFlags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0));
 }
 
 
@@ -275,7 +207,7 @@ void CParamsManagerGuiComp::UpdateTree()
 			int flags = objectPtr->GetIndexOperationFlags(paramSetIndex);
 
 			Qt::ItemFlags itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-			if ((flags & iprm::IParamsManager::MF_NAME_FIXED) == 0){
+			if ((flags & iprm::IParamsManager::MF_SUPPORT_RENAME) != 0){
 				itemFlags |= Qt::ItemIsEditable;
 			}
 
@@ -369,18 +301,26 @@ void CParamsManagerGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	bool areButtonsNeeded = false;
+	bool areAddRemoveButtonsNeeded = false;
+	bool areUpDownButtonsNeeded = false;
 
-	if (*m_allowAddRemoveAttrPtr){
-		iprm::IParamsManager* objectPtr = GetObjectPtr();
-		if (objectPtr != NULL){
-			int flags = objectPtr->GetIndexOperationFlags();
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int flags = objectPtr->GetIndexOperationFlags();
 
-			areButtonsNeeded = ((flags & iprm::IParamsManager::MF_COUNT_FIXED) == 0);
+		if (*m_allowAddRemoveAttrPtr){
+			areAddRemoveButtonsNeeded = ((flags & iprm::IParamsManager::MF_COUNT_FIXED) == 0);
+		}
+
+		if (*m_allowUpDownAttrPtr){
+			areUpDownButtonsNeeded = ((flags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0);
 		}
 	}
 
-	ButtonsFrame->setVisible(areButtonsNeeded);
+	AddRemoveButtonsFrame->setVisible(areAddRemoveButtonsNeeded);
+	UpDownButtonsFrame->setVisible(areUpDownButtonsNeeded);
+
+	ButtonsFrame->setVisible(areAddRemoveButtonsNeeded && areUpDownButtonsNeeded);
 	ParamsTree->setItemDelegate(new iqtgui::CItemDelegate());
 }
 
