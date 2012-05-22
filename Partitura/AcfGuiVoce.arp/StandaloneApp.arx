@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2246
+          2335
         </Number>
         <Description>
           ACF
@@ -357,46 +357,6 @@
     </Element>
     <Element>
       <Id>
-        LayoutSettingsProvider
-      </Id>
-      <PackageId>
-        QtPck
-      </PackageId>
-      <ComponentId>
-        ApplicationSettingsProvider
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="1">
-          <AttributeInfo>
-            <Id>
-              ApplicationInfo
-            </Id>
-            <Type>
-              Reference
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                ApplicationInfo
-              </Value>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
         MainGui
       </Id>
       <PackageId>
@@ -530,7 +490,7 @@
                 true
               </IsEnabled>
               <Value>
-                LayoutSettingsProvider
+                SettingsProvider
               </Value>
             </Data>
           </AttributeInfo>
@@ -569,10 +529,50 @@
         </AttributeInfoMap>
       </Data>
     </Element>
+    <Element>
+      <Id>
+        SettingsProvider
+      </Id>
+      <PackageId>
+        QtPck
+      </PackageId>
+      <ComponentId>
+        ApplicationSettingsProvider
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="1">
+          <AttributeInfo>
+            <Id>
+              ApplicationInfo
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                ApplicationInfo
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="3">
+  <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
         ibase::IApplication
@@ -581,24 +581,16 @@
         GuiApplication
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        ibase::IApplicationInfo
-      </InterfaceId>
+  </ExportedInterfaces>
+  <ExportedComponents count="4">
+    <Component>
+      <ExportedId>
+        ApplicationInfo
+      </ExportedId>
       <ComponentId>
         ApplicationInfo
       </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        iqt::ISettingsProvider
-      </InterfaceId>
-      <ComponentId>
-        LayoutSettingsProvider
-      </ComponentId>
-    </Interface>
-  </ExportedInterfaces>
-  <ExportedComponents count="2">
+    </Component>
     <Component>
       <ExportedId>
         BasePath
@@ -613,6 +605,14 @@
       </ExportedId>
       <ComponentId>
         Parameters/ClassPath
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        SettingsProvider
+      </ExportedId>
+      <ComponentId>
+        SettingsProvider
       </ComponentId>
     </Component>
   </ExportedComponents>
