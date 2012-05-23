@@ -209,15 +209,6 @@ inline istd::CRange& CRectangle::GetVerticalRangeRef()
 }
 
 
-inline void CRectangle::Translate(const i2d::CVector2d& delta)
-{
-	m_horizontalRange.SetMinValue(m_horizontalRange.GetMinValue() + delta.GetX());
-	m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + delta.GetY());
-	m_horizontalRange.SetMaxValue(m_horizontalRange.GetMaxValue() + delta.GetX());
-	m_verticalRange.SetMaxValue(m_verticalRange.GetMaxValue() + delta.GetY());
-}
-
-
 } // namespace i2d
 
 

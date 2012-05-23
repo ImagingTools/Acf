@@ -391,6 +391,17 @@ CRectangle CRectangle::GetTranslated(const i2d::CVector2d& delta) const
 }
 
 
+void CRectangle::Translate(const i2d::CVector2d& delta)
+{
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+
+	m_horizontalRange.SetMinValue(m_horizontalRange.GetMinValue() + delta.GetX());
+	m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + delta.GetY());
+	m_horizontalRange.SetMaxValue(m_horizontalRange.GetMaxValue() + delta.GetX());
+	m_verticalRange.SetMaxValue(m_verticalRange.GetMaxValue() + delta.GetY());
+}
+
+
 // reimplemented (i2d::IObject2d)
 
 CVector2d CRectangle::GetCenter() const
