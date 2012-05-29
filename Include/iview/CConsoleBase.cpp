@@ -35,11 +35,15 @@ void CConsoleBase::SetZoomToFit(bool state)
 		CViewport& view = GetViewRef();
 		
 		if (m_isZoomToFit){
-			m_storedTransform = view.GetTransform();
+			iview::CScreenTransform viewTransform = view.GetTransform();
+			if (m_storedTransform != viewTransform){
+				m_storedTransform = viewTransform;
 
-			UpdateComponentsPosition();
+				UpdateComponentsPosition();
 
-			view.UpdateFitTransform();
+				view.UpdateFitTransform();			
+			}
+
 		}
 		else{
 			UpdateComponentsPosition();
@@ -207,9 +211,14 @@ void CConsoleBase::UpdateView()
 {
 	CViewport& view = GetViewRef();
 	if (m_isZoomToFit){
-		m_storedTransform = view.GetTransform();
-		UpdateComponentsPosition();
-		view.UpdateFitTransform();
+		iview::CScreenTransform viewTransform = view.GetTransform();
+		if (m_storedTransform != viewTransform){
+			m_storedTransform = viewTransform;		
+
+			UpdateComponentsPosition();
+			
+			view.UpdateFitTransform();
+		}
 	}
 
 	view.Update();
