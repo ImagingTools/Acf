@@ -233,12 +233,12 @@ bool CShapeBase::IsDisplayConnected() const
 
 const IColorShema& CShapeBase::GetColorShema() const
 {
-	I_ASSERT(IsDisplayConnected());
-
 	if (m_userColorShemaPtr != NULL){
 		return *m_userColorShemaPtr;
 	}
 	else{
+		I_ASSERT(IsDisplayConnected());
+	
 		return m_displayPtr->GetColorShema();
 	}
 }
