@@ -143,7 +143,7 @@ void TSupplierCompWrap<Product>::InvalidateSupplier()
 	}
 
 	if (m_workStatus != ISupplier::WS_INIT){
-		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+		istd::CChangeNotifier notifier(this);
 
 		m_workStatus = ISupplier::WS_INIT;
 	}
@@ -154,7 +154,7 @@ template <class Product>
 void TSupplierCompWrap<Product>::EnsureWorkFinished()
 {
 	if (m_workStatus <= ISupplier::WS_INIT){
-		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS | CF_MODEL);
 
 		m_workStatus = WS_LOCKED;
 
@@ -172,7 +172,7 @@ template <class Product>
 void TSupplierCompWrap<Product>::ClearWorkResults()
 {
 	if (m_workStatus != ISupplier::WS_NONE){
-		istd::CChangeNotifier notifier(this, ISupplier::CF_SUPPLIER_RESULTS);
+		istd::CChangeNotifier notifier(this);
 
 		m_productPtr.Reset();
 
