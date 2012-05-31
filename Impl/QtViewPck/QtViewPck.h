@@ -21,6 +21,7 @@
 #include "iqt2d/CSceneBinderComp.h"
 #include "iqt2d/CSelectableSceneExtenderComp.h"
 #include "iqt2d/CViewProviderGuiComp.h"
+#include "iqt2d/CExtendedConsoleGuiComp.h"
 
 
 /**
@@ -46,6 +47,7 @@ typedef iqt2d::CPolygonParamsGuiComp PolygonParamsGui;
 typedef iqt2d::CSceneBinderComp SceneBinder;
 typedef iqt2d::CSelectableSceneExtenderComp SelectableSceneExtender;
 typedef icomp::TModelCompWrap<iqt2d::CViewProviderGuiComp> ViewProvider;
+typedef iqt2d::CExtendedConsoleGuiComp ExtendedConsoleGui;
 
 
 } // namespace QtViewPck

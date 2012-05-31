@@ -205,6 +205,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCommandsToolBarGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCommandTools.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedGuiComp.cpp"
 				>
 			</File>
@@ -313,6 +321,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CToolBarGuiCompBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CToolBarWidgetGuiComp.cpp"
 				>
 			</File>
@@ -340,6 +352,14 @@
 			</File>
 			<File
 				RelativePath="..\CCommandsBinderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCommandsToolBarGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCommandTools.h"
 				>
 			</File>
 			<File
@@ -470,6 +490,10 @@
 			</File>
 			<File
 				RelativePath="..\CTextElider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CToolBarGuiCompBase.h"
 				>
 			</File>
 			<File
@@ -735,10 +759,6 @@
 			</File>
 			<File
 				RelativePath="..\CTabbedMultiViewGuiComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\CToolBarWidgetGuiComp.moc"
 				>
 			</File>
 		</Filter>

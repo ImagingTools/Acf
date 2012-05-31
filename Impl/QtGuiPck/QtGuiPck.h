@@ -29,6 +29,7 @@
 #include "iqtgui/CObjectPreviewGuiComp.h"
 #include "iqtgui/CModelEditorGuiComp.h"
 #include "iqtgui/CImagePropertiesFrameComp.h"
+#include "iqtgui/CCommandsToolBarGuiComp.h"
 
 #include "iqtprm/CFileNameParamGuiComp.h"
 #include "iqtprm/CComposedParamsSetGuiComp.h"
@@ -85,6 +86,7 @@ typedef iqtgui::CImagePropertyGuiComp ImagePropertyGui;
 typedef iqtgui::CObjectPreviewGuiComp ObjectPreviewGui;
 typedef iqtgui::CModelEditorGuiComp ModelEditorGui;
 typedef iqtgui::CImagePropertiesFrameComp ImagePropertiesFrame;
+typedef iqtgui::CCommandsToolBarGuiComp CommandsToolBar;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CVariableParamGuiComp VariableParamGui;

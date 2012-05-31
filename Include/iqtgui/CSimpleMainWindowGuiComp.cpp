@@ -65,13 +65,13 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 
 	if (m_menuBarPtr.IsValid()){
 		m_menuBarPtr->clear();
-		CreateMenu(m_menuCommands, *m_menuBarPtr);
+		CCommandTools::CreateMenu(m_menuCommands, *m_menuBarPtr);
 	}
 
 	if (m_standardToolBarPtr.IsValid()){
 		m_standardToolBarPtr->clear();
 		
-		SetupToolbar(m_menuCommands, *m_standardToolBarPtr);
+		CCommandTools::SetupToolbar(m_menuCommands, *m_standardToolBarPtr);
 		
 		m_standardToolBarPtr->setVisible(true);
 	}
@@ -153,67 +153,6 @@ void CSimpleMainWindowGuiComp::CreateDefaultToolBar()
 			}
 		}
 	}
-}
-
-
-int CSimpleMainWindowGuiComp::SetupToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId) const
-{
-	int childsCount = command.GetChildsCount();
-
-	QMap<int, QActionGroup*> groups;
-
-	for (int i = 0; i < childsCount; ++i){
-		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
-					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
-
-		if (hierarchicalPtr != NULL){
-			int groupId = hierarchicalPtr->GetGroupId();
-			int flags = hierarchicalPtr->GetStaticFlags();
-
-			if ((flags & ibase::ICommand::CF_TOOLBAR) != 0){
-				if (hierarchicalPtr->GetChildsCount() > 0){
-					QMenu* newMenuPtr = new QMenu(&result);
-					if (newMenuPtr != NULL){
-						newMenuPtr->setTitle(hierarchicalPtr->GetName());
-
-						CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
-
-						newMenuPtr->setIcon(hierarchicalPtr->icon());
-						result.addAction(newMenuPtr->menuAction());
-					}
-				}
-				else{
-					if ((groupId != prevGroupId) && (prevGroupId != ibase::ICommand::GI_NONE)){
-						result.addSeparator();
-					}
-
-					QString actionName = hierarchicalPtr->GetName();
-
-					result.addAction(hierarchicalPtr);
-
-					if ((flags & ibase::ICommand::CF_EXCLUSIVE) != 0){
-						QActionGroup*& groupPtr = groups[hierarchicalPtr->GetGroupId()];
-						if (groupPtr == NULL){
-							groupPtr = new QActionGroup(&result);
-							groupPtr->setExclusive(true);
-						}
-
-						groupPtr->addAction(hierarchicalPtr);
-						hierarchicalPtr->setCheckable(true);
-					}
-				}
-
-				if (groupId != ibase::ICommand::GI_NONE){
-					prevGroupId = groupId;
-				}
-			}
-			else if (hierarchicalPtr->GetChildsCount() > 0){
-				prevGroupId = SetupToolbar(*hierarchicalPtr, result, prevGroupId);
-			}
-		}
-	}
-
-	return prevGroupId;
 }
 
 

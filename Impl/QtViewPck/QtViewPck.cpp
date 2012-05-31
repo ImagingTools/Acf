@@ -91,6 +91,11 @@ I_EXPORT_COMPONENT(
 			"View provider based on 2D-console",
 			"View Console Display" IM_TAG("2D"));
 
+I_EXPORT_COMPONENT(
+			ExtendedConsoleGui,
+			"2D-View decorated with commands toolbar and status widget",
+			"View Console Display" IM_TAG("2D"));
+
 
 } // namespace QtViewPck
 

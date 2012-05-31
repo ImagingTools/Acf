@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CExtendedConsoleGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CImageViewComp.cpp"
 				>
 			</File>
@@ -231,6 +235,10 @@
 			</File>
 			<File
 				RelativePath="..\CCircleParamsGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CExtendedConsoleGuiComp.h"
 				>
 			</File>
 			<File
@@ -396,6 +404,10 @@
 			</File>
 			<File
 				RelativePath="..\CCircleParamsGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CExtendedConsoleGuiComp.ui"
 				>
 			</File>
 			<File

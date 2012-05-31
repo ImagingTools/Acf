@@ -207,6 +207,11 @@ I_EXPORT_COMPONENT(
 			"Image Properties");
 
 I_EXPORT_COMPONENT(
+			CommandsToolBar,
+			"General tool bar component with commands",
+			"Toolbar Command");
+
+I_EXPORT_COMPONENT(
 			DocumentProcessingCommand,
 			"Document processing command",
 			"Processing Document Command" IM_TAG("Processing"));

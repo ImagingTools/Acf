@@ -191,6 +191,22 @@ void CComposedGuiComp::OnGuiCreated()
 }
 
 
+void CComposedGuiComp::OnGuiDestroyed()
+{
+	if (m_guisCompPtr.IsValid()){
+		int guisCount = m_guisCompPtr.GetCount();
+		for (int guiIndex = 0; guiIndex < guisCount; ++guiIndex){
+			iqtgui::IGuiObject* guiPtr = m_guisCompPtr[guiIndex];
+			if (guiPtr != NULL && guiPtr->IsGuiCreated()){
+				guiPtr->DestroyGui();
+			}
+		}
+	}
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
 // private methods
 
 QString CComposedGuiComp::GetSettingsKey() const
