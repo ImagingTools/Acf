@@ -634,10 +634,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CToolBarWidgetGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Generated\qrc_iqtgui.cpp"
 				>
 			</File>
