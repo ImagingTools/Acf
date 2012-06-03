@@ -306,25 +306,28 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 		SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
 		I_ASSERT(infoPtr != NULL);
 
-		for (Views::iterator iter = infoPtr->views.begin(); iter != infoPtr->views.end(); ++iter){
-			if (infoPtr->isDirty){
-				QueryDocumentClose(*infoPtr, ignoredPtr);
-				if ((ignoredPtr != NULL) && *ignoredPtr){
-					break;
+		while (!infoPtr->views.empty()){
+			for (Views::iterator iter = infoPtr->views.begin(); iter != infoPtr->views.end(); ++iter){
+				if (infoPtr->isDirty){
+					QueryDocumentClose(*infoPtr, ignoredPtr);
+					if ((ignoredPtr != NULL) && *ignoredPtr){
+						break;
+					}
 				}
-			}
 
-			I_ASSERT(iter->IsValid());
+				I_ASSERT(iter->IsValid());
 
-			istd::IPolymorphic* viewPtr = iter->GetPtr();
-			I_ASSERT(viewPtr != NULL);
+				istd::IPolymorphic* viewPtr = iter->GetPtr();
+				I_ASSERT(viewPtr != NULL);
 
-			OnViewRemoved(viewPtr);
+				OnViewRemoved(viewPtr);
 
-			infoPtr->views.erase(iter);
+				infoPtr->views.erase(iter);
 
-			if (viewPtr == m_activeViewPtr){
-				m_activeViewPtr = NULL;
+				if (viewPtr == m_activeViewPtr){
+					m_activeViewPtr = NULL;
+				}
+				break;
 			}
 		}
 
