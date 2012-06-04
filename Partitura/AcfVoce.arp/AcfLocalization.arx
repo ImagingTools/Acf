@@ -39,7 +39,7 @@
               LanguageIds
             </Id>
             <Type>
-              String[]
+              Id[]
             </Type>
             <ExportId>
               LanguageIds
@@ -163,7 +163,7 @@
               LanguageIds
             </Id>
             <Type>
-              String[]
+              Id[]
             </Type>
             <ExportId>
               LanguageIds

@@ -81,7 +81,7 @@ private:
 private:
 	I_ATTR(QString, m_translationFilePathAttrPtr);
 	I_ATTR(QString, m_translationFilePrefixAttrPtr);
-	I_MULTIATTR(QString, m_languagesAttrPtr);
+	I_MULTIATTR(QByteArray, m_languagesAttrPtr);
 	I_REF(iqt::ITranslationManager, m_slaveTranslationManagerCompPtr);
 	I_REF(iprm::ISelectionParam, m_languageSelectionCompPtr);
 	I_REF(imod::IModel, m_languageSelectionModelCompPtr);
