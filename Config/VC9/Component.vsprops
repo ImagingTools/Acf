@@ -14,8 +14,8 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 		OutputFile="$(OutDir)\$(ProjectName).arp"
+		AdditionalLibraryDirectories=""
 		SubSystem="1"
 	/>
 </VisualStudioPropertySheet>
