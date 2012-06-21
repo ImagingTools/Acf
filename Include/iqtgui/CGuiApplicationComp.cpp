@@ -96,6 +96,10 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			// start application loop:
 			retVal = QApplication::exec();
 
+			if (!m_frameSpaceSizeAttrPtr.IsValid()){
+				m_mainWidgetPtr.PopPtr();
+			}
+
 			I_ASSERT(m_mainGuiCompPtr.IsValid());
 			m_mainGuiCompPtr->DestroyGui();
 		}
