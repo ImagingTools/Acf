@@ -4,6 +4,7 @@
 #include "istd/TChangeNotifier.h"
 
 #include "i2d/CVector2d.h"
+#include "i2d/CRect.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -46,6 +47,13 @@ CRectangle::CRectangle(const istd::CRange& horizontalRange, const istd::CRange& 
 }
 
 
+CRectangle::CRectangle(const i2d::CRect& rect)
+:	m_horizontalRange(rect.GetLeft(), rect.GetRight()),
+	m_verticalRange(rect.GetTop(), rect.GetBottom())
+{
+}
+
+
 CRectangle::CRectangle(const istd::CIndex2d& size)
 :	m_horizontalRange(0.0, size.GetX()),
 	m_verticalRange(0.0, size.GetY())
@@ -62,6 +70,12 @@ bool CRectangle::IsValid() const
 bool CRectangle::IsEmpty() const
 {
 	return m_horizontalRange.IsEmpty() || m_verticalRange.IsEmpty();
+}
+
+
+bool CRectangle::IsValidNonEmpty() const
+{
+	return m_horizontalRange.IsValidNonEmpty() && m_verticalRange.IsValidNonEmpty();
 }
 
 
@@ -132,7 +146,7 @@ void CRectangle::SetVerticalRange(const istd::CRange& range)
 }
 
 
-CVector2d CRectangle::GetTopLeft() const
+CVector2d CRectangle::GetLeftTop() const
 {
 	return CVector2d(m_horizontalRange.GetMinValue(), m_verticalRange.GetMinValue()); 
 }
@@ -140,7 +154,7 @@ CVector2d CRectangle::GetTopLeft() const
 
 void CRectangle::SetTopLeft(const CVector2d& topLeft)
 {
-	if (topLeft != GetTopLeft()){
+	if (topLeft != GetLeftTop()){
 		istd::CChangeNotifier changePtr(this);
 
 		m_horizontalRange.SetMinValue(topLeft.GetX());
@@ -149,7 +163,7 @@ void CRectangle::SetTopLeft(const CVector2d& topLeft)
 }
 
 
-CVector2d CRectangle::GetTopRight() const
+CVector2d CRectangle::GetRightTop() const
 {
 	return CVector2d(m_horizontalRange.GetMaxValue(), m_verticalRange.GetMinValue()); 
 }
@@ -157,7 +171,7 @@ CVector2d CRectangle::GetTopRight() const
 
 void CRectangle::SetTopRight(const CVector2d& topRight)
 {
-	if (topRight != GetTopRight()){
+	if (topRight != GetRightTop()){
 		istd::CChangeNotifier changePtr(this);
 
 		m_horizontalRange.SetMaxValue(topRight.GetX());
@@ -166,7 +180,7 @@ void CRectangle::SetTopRight(const CVector2d& topRight)
 }
 
 
-CVector2d CRectangle::GetBottomLeft() const
+CVector2d CRectangle::GetLeftBottom() const
 {
 	return CVector2d(m_horizontalRange.GetMinValue(), m_verticalRange.GetMaxValue()); 
 }
@@ -174,7 +188,7 @@ CVector2d CRectangle::GetBottomLeft() const
 
 void CRectangle::SetBottomLeft(const CVector2d& bottomLeft)
 {
-	if (bottomLeft != GetBottomLeft()){
+	if (bottomLeft != GetLeftBottom()){
 		istd::CChangeNotifier changePtr(this);
 
 		m_horizontalRange.SetMinValue(bottomLeft.GetX());
@@ -183,7 +197,7 @@ void CRectangle::SetBottomLeft(const CVector2d& bottomLeft)
 }	
 
 
-CVector2d CRectangle::GetBottomRight() const
+CVector2d CRectangle::GetRightBottom() const
 {
 	return CVector2d(m_horizontalRange.GetMaxValue(), m_verticalRange.GetMaxValue()); 
 }
@@ -191,7 +205,7 @@ CVector2d CRectangle::GetBottomRight() const
 
 void CRectangle::SetBottomRight(const CVector2d& bottomRight)
 {
-	if (bottomRight != GetBottomRight()){
+	if (bottomRight != GetRightBottom()){
 		istd::CChangeNotifier changePtr(this);
 
 		m_horizontalRange.SetMaxValue(bottomRight.GetX());
@@ -406,7 +420,7 @@ void CRectangle::Translate(const i2d::CVector2d& delta)
 
 CVector2d CRectangle::GetCenter() const
 {
-	return (GetTopLeft() + GetBottomRight()) * 0.5;
+	return (GetLeftTop() + GetRightBottom()) * 0.5;
 }
 
 

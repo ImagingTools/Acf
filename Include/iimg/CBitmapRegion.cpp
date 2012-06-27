@@ -1,6 +1,9 @@
 #include "iimg/CBitmapRegion.h"
 
 
+// STL includes
+#include <set>
+
 // Qt includes
 #include <QtCore/qmath.h>
 
@@ -11,74 +14,9 @@ namespace iimg
 
 // public methods
 
-CBitmapRegion::CBitmapRegion(const iimg::IBitmap* bitmapPtr)
-:	m_bitmapPtr(bitmapPtr),
-	m_isEmpty(true)
+CBitmapRegion::CBitmapRegion()
+:	m_isEmpty(true)
 {
-}
-
-
-bool CBitmapRegion::CreateFromGeometry(const i2d::IObject2d& geometry)
-{
-	m_isEmpty = true;
-
-	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(&geometry);
-	if (annulusPtr != NULL){
-		CreateFromAnnulus(*annulusPtr);
-
-		return true;
-	}
-
-	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(&geometry);
-	if (circlePtr != NULL){
-		CreateFromCircle(*circlePtr);
-
-		return true;
-	}
-
-	const i2d::CRectangle* rectanglePtr = dynamic_cast<const i2d::CRectangle*>(&geometry);
-	if (rectanglePtr != NULL){
-		CreateFromRectangle(*rectanglePtr);
-
-		return true;
-	}
-
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(&geometry);
-	if (polygonPtr != NULL){
-		CreateFromPolygon(*polygonPtr);
-
-		return true;
-	}
-
-	return false;
-}
-
-
-const CBitmapRegion::PixelRanges* CBitmapRegion::GetPixelRanges(int lineIndex) const
-{
-	int rangeIndex = lineIndex - int(m_boundingBox.GetTop());
-
-	if (rangeIndex >= 0 && rangeIndex < int(m_lineRangePtr.size())){
-		return m_lineRangePtr[rangeIndex];
-	}
-
-	return NULL;
-}
-
-
-const i2d::CRectangle& CBitmapRegion::GetBoundingBox() const
-{
-	return m_boundingBox;
-}
-
-
-void CBitmapRegion::ResetBitmapRegion()
-{
-	m_rangesContainer.clear();
-	m_lineRangePtr.clear();
-
-	m_boundingBox = i2d::CRectangle();
-	m_isEmpty = true;
 }
 
 
@@ -88,28 +26,73 @@ bool CBitmapRegion::IsBitmapRegionEmpty() const
 }
 
 
-// private methods
-
-void CBitmapRegion::CalculateRegionBoundingBox(const i2d::CRectangle& objectBoundingBox)
+i2d::CRect CBitmapRegion::GetBoundingBox() const
 {
-	I_ASSERT(m_bitmapPtr != NULL);
-	istd::CIndex2d imageSize = m_bitmapPtr->GetImageSize();
-
-	m_boundingBox.SetLeft(qFloor(objectBoundingBox.GetLeft()));
-	m_boundingBox.SetRight(qCeil(objectBoundingBox.GetRight()));
-	m_boundingBox.SetTop(qFloor(objectBoundingBox.GetTop()));
-	m_boundingBox.SetBottom(qCeil(objectBoundingBox.GetBottom()));
-
-	m_boundingBox = m_boundingBox.GetIntersection(i2d::CRectangle(imageSize));
+	return m_boundingBox;
 }
 
 
-void CBitmapRegion::CreateFromCircle(const i2d::CCircle& circle)
+const CBitmapRegion::PixelRanges* CBitmapRegion::GetPixelRanges(int lineIndex) const
 {
-	I_ASSERT(m_bitmapPtr != NULL);
+	int rangeIndex = lineIndex - m_boundingBox.GetTop();
 
-	CalculateRegionBoundingBox(circle.GetBoundingBox());
-	if (m_boundingBox.IsEmpty() || !m_boundingBox.IsValid()){
+	if (rangeIndex >= 0 && rangeIndex < int(m_lineRangePtr.size())){
+		return m_lineRangePtr[rangeIndex];
+	}
+
+	return NULL;
+}
+
+
+void CBitmapRegion::ResetBitmapRegion()
+{
+	m_rangesContainer.clear();
+	m_lineRangePtr.clear();
+
+	m_boundingBox = i2d::CRect::GetEmpty();
+
+	m_isEmpty = true;
+}
+
+
+bool CBitmapRegion::CreateFromGeometry(const i2d::IObject2d& geometry, const i2d::CRect* clipAreaPtr)
+{
+	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(&geometry);
+	if (annulusPtr != NULL){
+		CreateFromAnnulus(*annulusPtr, clipAreaPtr);
+
+		return true;
+	}
+
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(&geometry);
+	if (circlePtr != NULL){
+		CreateFromCircle(*circlePtr, clipAreaPtr);
+
+		return true;
+	}
+
+	const i2d::CRectangle* rectanglePtr = dynamic_cast<const i2d::CRectangle*>(&geometry);
+	if (rectanglePtr != NULL){
+		CreateFromRectangle(*rectanglePtr, clipAreaPtr);
+
+		return true;
+	}
+
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(&geometry);
+	if (polygonPtr != NULL){
+		CreateFromPolygon(*polygonPtr, clipAreaPtr);
+
+		return true;
+	}
+
+	return false;
+}
+
+
+void CBitmapRegion::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRect* clipAreaPtr)
+{
+	SetBoundingBox(circle.GetBoundingBox(), clipAreaPtr);
+	if (!m_boundingBox.IsValidNonEmpty()){
 		ResetBitmapRegion();
 
 		return;
@@ -119,41 +102,39 @@ void CBitmapRegion::CreateFromCircle(const i2d::CCircle& circle)
 	double radius = circle.GetRadius();
 	double radius2 = radius * radius;
 
-	int boundingTop = int(m_boundingBox.GetTop());
-	int boundingHeight = int(m_boundingBox.GetHeight());
-		
-	int linesCount = boundingHeight;
-	int lineSize = m_bitmapPtr->GetLinesDifference();
-	int bytesPerPixel = m_bitmapPtr->GetPixelBitsCount() / 8;
+	int linesCount = m_boundingBox.GetHeight();
 
 	m_lineRangePtr.resize(linesCount);
 	m_rangesContainer.resize(linesCount);
-	istd::CRange imageLineRange(0, m_bitmapPtr->GetImageSize().GetX() - 1);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
-		const quint8* basePtr = (const quint8*)m_bitmapPtr->GetLinePtr(lineIndex) + lineSize * boundingTop;
-	
 		PixelRanges& rangeList = m_rangesContainer[lineIndex];
-		PixelRange pixelRange;
 
 		m_lineRangePtr[lineIndex] =  NULL;
 
-		double y = (lineIndex + boundingTop - center.GetY());
-		double radiusDiff = radius2 - y * y;
+		double y = (lineIndex + m_boundingBox.GetTop() - center.GetY());
+		double radiusDiff2 = radius2 - y * y;
 
-		if (radiusDiff >= 0){
-			radiusDiff = ::sqrt(radiusDiff);
-			double left = center.GetX() - radiusDiff;
-			double right = center.GetX() + radiusDiff;
+		if (radiusDiff2 >= 0){
+			double radiusDiff = std::sqrt(radiusDiff2);
+			int left = int(center.GetX() - radiusDiff);
+			int right = int(center.GetX() + radiusDiff);
 
-			istd::CRange outerRadiusRange(qFloor(left), qCeil(right));
-			outerRadiusRange.Intersection(imageLineRange);
-			
-			if (outerRadiusRange.IsValid() && !outerRadiusRange.IsEmpty()){
-				pixelRange.pixelBufferPtr = basePtr + int(outerRadiusRange.GetMinValue()) * bytesPerPixel;
-				pixelRange.range = outerRadiusRange;
-				rangeList.push_back(pixelRange);
+			if (clipAreaPtr != NULL){
+				if (left < clipAreaPtr->GetLeft()){
+					left = clipAreaPtr->GetLeft();
+				}
+
+				if (right > clipAreaPtr->GetRight()){
+					right = clipAreaPtr->GetRight();
+				}
+			}
+
+			if (left < right){
+				rangeList.push_back(istd::CIntRange(left, right));
+
 				m_lineRangePtr[lineIndex] = &rangeList;
+
 				m_isEmpty = false;
 			}
 		}
@@ -161,12 +142,10 @@ void CBitmapRegion::CreateFromCircle(const i2d::CCircle& circle)
 }
 
 
-void CBitmapRegion::CreateFromRectangle(const i2d::CRectangle& rect)
+void CBitmapRegion::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::CRect* clipAreaPtr)
 {
-	I_ASSERT(m_bitmapPtr != NULL);
-
-	CalculateRegionBoundingBox(rect);
-	if (m_boundingBox.IsEmpty() || !m_boundingBox.IsValid()){
+	SetBoundingBox(rect, clipAreaPtr);
+	if (!m_boundingBox.IsValidNonEmpty()){
 		ResetBitmapRegion();
 
 		return;
@@ -174,35 +153,24 @@ void CBitmapRegion::CreateFromRectangle(const i2d::CRectangle& rect)
 
 	m_isEmpty = false;
 
-	int linesCount = int(m_boundingBox.GetHeight());
-	int lineSize = m_bitmapPtr->GetLinesDifference();
-	int bytesPerPixel = m_bitmapPtr->GetPixelBitsCount() / 8;
-	
-	m_lineRangePtr.resize(linesCount);
-	m_rangesContainer.resize(linesCount);
+	int linesCount = m_boundingBox.GetHeight();
 
-	int boundingTop = int(m_boundingBox.GetTop());
+	m_lineRangePtr.resize(linesCount);
+
+	m_rangesContainer.resize(1);
+	PixelRanges& rangeList = m_rangesContainer.front();
+	rangeList.push_back(m_boundingBox.GetHorizontalRange());
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
-		const quint8* basePtr = (const quint8*)m_bitmapPtr->GetLinePtr(lineIndex) + lineSize * boundingTop;
-	
-		PixelRanges& rangeList = m_rangesContainer[lineIndex];
-		PixelRange pixelRange;
-		pixelRange.range = istd::CRange(m_boundingBox.GetLeft(), m_boundingBox.GetRight());
-		pixelRange.pixelBufferPtr = basePtr + int(m_boundingBox.GetLeft()) * bytesPerPixel;
-	
-		rangeList.push_back(pixelRange);
-		m_lineRangePtr[lineIndex] = &rangeList;
+		m_lineRangePtr[lineIndex] = &rangeList;	// set all lines to the same range
 	}
 }
 
 
-void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
+void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::CRect* clipAreaPtr)
 {
-	I_ASSERT(m_bitmapPtr != NULL);
-
-	CalculateRegionBoundingBox(annulus.GetBoundingBox());
-	if (m_boundingBox.IsEmpty() || !m_boundingBox.IsValid()){
+	SetBoundingBox(annulus.GetBoundingBox(), clipAreaPtr);
+	if (!m_boundingBox.IsValidNonEmpty()){
 		ResetBitmapRegion();
 
 		return;
@@ -216,72 +184,66 @@ void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
 	double innerRadius2 = innerRadius * innerRadius;
 
 	int linesCount = int(m_boundingBox.GetHeight());
-	int lineSize = m_bitmapPtr->GetLinesDifference();
-	int bytesPerPixel = m_bitmapPtr->GetPixelBitsCount() / 8;
 
-	int boundingTop = int(m_boundingBox.GetTop());
 	double centerX = center.GetX();
 	double centerY = center.GetY();
 
-	istd::CRange imageLineRange(0, m_bitmapPtr->GetImageSize().GetX() - 1);
 	m_lineRangePtr.resize(linesCount);
 	m_rangesContainer.resize(linesCount);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
-		const quint8* basePtr = (const quint8*)m_bitmapPtr->GetLinePtr(lineIndex) + lineSize * boundingTop;
-	
 		PixelRanges& rangeList = m_rangesContainer[lineIndex];
-		double y = (lineIndex + boundingTop - centerY);
+		double y = (lineIndex + m_boundingBox.GetTop() - centerY);
 
-		double outputRadiusDiff = outerRadius2 - y * y;
+		double outputRadiusDiff2 = outerRadius2 - y * y;
 
-		if (outputRadiusDiff < 0){
+		if (outputRadiusDiff2 < 0){
 			m_lineRangePtr[lineIndex] =  NULL;
 
 			continue;
 		}
 
-		outputRadiusDiff = ::sqrt(outerRadius2 - y * y);
-		double left = centerX - outputRadiusDiff;
-		double right = centerX + outputRadiusDiff;
+		double outputRadiusDiff = std::sqrt(outputRadiusDiff2);
+		int outerLeft = int(centerX - outputRadiusDiff);
+		int outerRight = int(centerX + outputRadiusDiff);
 
-		istd::CRange outerRadiusRange(qFloor(left), qCeil(right));
-		outerRadiusRange.Intersection(imageLineRange);
+		if (clipAreaPtr != NULL){
+			if (outerLeft < clipAreaPtr->GetLeft()){
+				outerLeft = clipAreaPtr->GetLeft();
+			}
 
-		double innerRadiusDiff = innerRadius2 - y * y;
-
-		if (innerRadius2 - y * y >= 0 && innerRadius2 != outerRadius){
-			innerRadiusDiff = ::sqrt(innerRadiusDiff);
-			double left = centerX - innerRadiusDiff;
-			double right = centerX + innerRadiusDiff;
-
-			istd::CRange innerRadiusRange(qFloor(left), qCeil(right));
-			innerRadiusRange.Intersection(imageLineRange);
-
-			if (innerRadiusRange.IsValid() && !innerRadiusRange.IsEmpty()){
-				double bigRaduisRangeMax = outerRadiusRange.GetMaxValue();
-				outerRadiusRange.SetMaxValue(innerRadiusRange.GetMinValue());
-				innerRadiusRange.SetMinValue(innerRadiusRange.GetMaxValue());
-				innerRadiusRange.SetMaxValue(bigRaduisRangeMax);
-
-				if (!innerRadiusRange.IsEmpty()){
-					PixelRange range;
-					range.pixelBufferPtr = basePtr + int(innerRadiusRange.GetMinValue()) * bytesPerPixel;
-					range.range = innerRadiusRange;
-					rangeList.push_back(range);
-				}
+			if (outerRight > clipAreaPtr->GetRight()){
+				outerRight = clipAreaPtr->GetRight();
 			}
 		}
 
-		if (outerRadiusRange.IsValid() && !outerRadiusRange.IsEmpty()){
-			PixelRange range;
-			range.pixelBufferPtr = basePtr + int(outerRadiusRange.GetMinValue()) * bytesPerPixel;
-			range.range = outerRadiusRange;
-			rangeList.push_back(range);
+		double innerRadiusDiff2 = innerRadius2 - y * y;
+		if (innerRadiusDiff2 >= 0){
+			double innerRadiusDiff = std::sqrt(innerRadiusDiff2);
+
+			int innerLeft = int(centerX - innerRadiusDiff);
+			int innerRight = int(centerX + innerRadiusDiff);
+
+			if (innerLeft < innerRight){
+				if (outerLeft < innerLeft){
+					rangeList.push_back(istd::CIntRange(outerLeft, innerLeft));
+				}
+
+				if (innerRight < outerRight){
+					rangeList.push_back(istd::CIntRange(innerRight, outerRight));
+				}
+
+				continue;
+			}
+		}
+		
+		if (outerLeft < outerRight){
+			rangeList.push_back(istd::CIntRange(outerLeft, outerRight));
 		}
 
-		if (rangeList.size() != 0){
+		if (!rangeList.isEmpty()){
 			m_lineRangePtr[lineIndex] = &rangeList;
+
 			m_isEmpty = false;
 		}
 		else{
@@ -291,28 +253,20 @@ void CBitmapRegion::CreateFromAnnulus(const i2d::CAnnulus& annulus)
 }
 
 
-void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon)
+void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::CRect* clipAreaPtr)
 {
-	I_ASSERT(m_bitmapPtr != NULL);
-
-	CalculateRegionBoundingBox(polygon.GetBoundingBox());
-	if (m_boundingBox.IsEmpty() || !m_boundingBox.IsValid()){
+	SetBoundingBox(polygon.GetBoundingBox(), clipAreaPtr);
+	if (!m_boundingBox.IsValidNonEmpty()){
 		ResetBitmapRegion();
 
 		return;
 	}
 
-	int bitmapWidth = m_bitmapPtr->GetImageSize().GetX();
-
-	int linesCount = int(m_boundingBox.GetHeight());
-	int lineSize = m_bitmapPtr->GetLinesDifference();
-	int bytesPerPixel = m_bitmapPtr->GetPixelBitsCount() / 8;
-
-	int boundingTop = int(m_boundingBox.GetTop());
+	int linesCount = m_boundingBox.GetHeight();
 
 	// QVector of lines by Y coordinates;
 	// every line is QList of X coordinates of the polygon lines points 
-	QVector<QList<int> > scanVector(linesCount);
+	QVector< std::set<int> > scanVector(linesCount);
 
 	int nodesCount = polygon.GetNodesCount();
 	for (int i = 0; i < nodesCount; i++){
@@ -324,32 +278,40 @@ void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon)
 		i2d::CVector2d startPoint = polygon.GetNode(i);
 		i2d::CVector2d endPoint = polygon.GetNode(nextIndex);
 
-		double y1 = startPoint.GetY() - boundingTop;
-		double y2 = endPoint.GetY() - boundingTop;
+		double y1 = startPoint.GetY() - m_boundingBox.GetTop();
+		double y2 = endPoint.GetY() - m_boundingBox.GetTop();
 
 		double x1 = startPoint.GetX();
 		double x2 = endPoint.GetX();
-
-		// special case: line is parallel to X
-		if (y1 == y2){
-			continue;
-		}
 
 		if (y2 < y1){
 			qSwap(y1, y2);
 			qSwap(x1, x2);
 		}
 
-		double deltaX = (x2 - x1) / (y2 - y1);
-		double x = x1;
+		int firstLine = qMax(int(y1), 0);
+		int lastLine = qMin(int(y2), linesCount);
 
-		for (int y = y1; y < (int)y2 && y < linesCount; y++){
-			// check if we are inside the image
-			if (y >= 0){
-				InsertVectorPoint(scanVector[y], x);
+		if (firstLine < lastLine){
+			double deltaX = (x2 - x1) / (y2 - y1);
+
+			// add line to list of points
+			double positionX = x1 + (firstLine - y1) * deltaX;
+			for (int lineIndex = firstLine; lineIndex < lastLine; ++lineIndex){
+				int x = int(positionX);
+
+				std::set<int> points = scanVector[lineIndex];
+
+				std::set<int>::iterator foundIter = points.find(x);
+				if (foundIter != points.end()){
+					points.erase(foundIter);
+				}
+				else{
+					points.insert(x);
+				}
+
+				positionX += deltaX;
 			}
-
-			x += deltaX;
 		}
 	}
 
@@ -358,26 +320,36 @@ void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon)
 	m_rangesContainer.resize(linesCount);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
-		const quint8* basePtr = (const quint8*)m_bitmapPtr->GetLinePtr(lineIndex) + lineSize * boundingTop;
-
 		PixelRanges& rangeList = m_rangesContainer[lineIndex];
 
-		const QList<int>& lineList = scanVector.at(lineIndex);
-		int count = lineList.count() - (lineList.count() % 2);
-		for (int i = 0; i < count; i += 2){
-			int x1 = lineList.at(i);
-			int x2 = lineList.at(i+1);
+		const std::set<int>& lineList = scanVector.at(lineIndex);
+		Q_ASSERT((lineList.size() % 2) == 0);	// pair number of points should be calculated
 
-			x1 = qMax(0, qMin(x1, bitmapWidth));
-			x2 = qMax(0, qMin(x2, bitmapWidth));
-			
-			PixelRange pixelRange;
-			pixelRange.range = istd::CRange(x1, x2);
-			pixelRange.pixelBufferPtr = basePtr + x1 * bytesPerPixel;
-			rangeList.push_back(pixelRange);
+		int rangesCount = int(lineList.size()) / 2;
+
+		std::set<int>::const_iterator iter = lineList.begin();
+		for (int i = 0; i < rangesCount; ++i){
+			int left = *(iter++);
+			Q_ASSERT(iter != lineList.end());
+			int right = *(iter++);
+			Q_ASSERT(iter != lineList.end());
+
+			if (clipAreaPtr != NULL){
+				if (left < clipAreaPtr->GetLeft()){
+					left = clipAreaPtr->GetLeft();
+				}
+
+				if (right > clipAreaPtr->GetRight()){
+					right = clipAreaPtr->GetRight();
+				}
+			}
+
+			if (left < right){
+				rangeList.push_back(istd::CIntRange(left, right));
+			}
 		}
 
-		if (rangeList.size() != 0){
+		if (!rangeList.isEmpty()){
 			m_lineRangePtr[lineIndex] = &rangeList;
 			m_isEmpty = false;
 		}
@@ -388,32 +360,75 @@ void CBitmapRegion::CreateFromPolygon(const i2d::CPolygon& polygon)
 }
 
 
-void CBitmapRegion::InsertVectorPoint(QList<int>& list, int value)
+// static methods
+
+void CBitmapRegion::UnionLine(const PixelRanges& line, PixelRanges& result)
 {
-	if (list.isEmpty()){
-		list.append(value);
-		return;
-	}
+	PixelRanges::Iterator resultIter = result.begin();
 
-	if (list.first() >= value){
-		list.prepend(value);
-		return;
-	}
+	for (		PixelRanges::ConstIterator iter = line.constBegin();
+				iter != line.constEnd();
+				++iter){
+		const istd::CIntRange& range = *iter;
 
-	if (list.last() <= value){
-		list.append(value);
-		return;
-	}
+		for (; (resultIter != result.end()) && (range.GetMinValue() > resultIter->GetMaxValue()); ++resultIter);	// skip non colliding ranges
 
-	for (int i = 1; i < list.count(); i++){
-		if (value <= list.at(i)){
-			list.insert(i, value);
-			return;
+		if (resultIter != result.end()){
+			Q_ASSERT(range.GetMinValue() <= resultIter->GetMaxValue());
+
+			if (range.GetMaxValue() < resultIter->GetMinValue()){	// our new range is before
+				resultIter = result.insert(resultIter, range);
+			}
+			else{
+				if (range.GetMinValue() < resultIter->GetMinValue()){	// our new range extends the range on the left side
+					resultIter->SetMinValue(range.GetMinValue());
+				}
+
+				if (range.GetMaxValue() > resultIter->GetMaxValue()){	// our new range extends the range on the right side
+					int maxRight = range.GetMaxValue();
+
+					// remove contained ranges
+					PixelRanges::Iterator removeIter = resultIter;
+					for (		++resultIter;
+								(removeIter != result.end()) && (range.GetMaxValue() > removeIter->GetMinValue());
+								removeIter = result.erase(removeIter)){
+						if (removeIter->GetMaxValue() > maxRight){
+							maxRight = removeIter->GetMaxValue();
+						}
+					}
+
+					resultIter->SetMaxValue(maxRight);
+
+					resultIter = removeIter;
+				}
+			}
+		}
+		else{
+			// at the end we can simply insert elements
+			resultIter = result.insert(resultIter, range);
 		}
 	}
+}
 
-	// that should not happen!
-	I_CRITICAL();
+
+void CBitmapRegion::IntersectLine(const PixelRanges& /*line*/, PixelRanges& /*result*/)
+{
+	// TODO: implement CBitmapRegion::IntersectLine
+}
+
+
+// protected methods
+
+void CBitmapRegion::SetBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr)
+{
+	m_boundingBox.SetLeft(int(qFloor(objectBoundingBox.GetLeft())));
+	m_boundingBox.SetRight(int(qCeil(objectBoundingBox.GetRight())));
+	m_boundingBox.SetTop(int(qFloor(objectBoundingBox.GetTop())));
+	m_boundingBox.SetBottom(int(qCeil(objectBoundingBox.GetBottom())));
+
+	if (clipAreaPtr != NULL){
+		m_boundingBox.Intersection(*clipAreaPtr);
+	}
 }
 
 

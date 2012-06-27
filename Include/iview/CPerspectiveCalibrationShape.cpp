@@ -125,13 +125,13 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 				logCorners[3] = transform.GetClientPosition(clientRect.GetRightBottom());
 
 				i2d::CVector2d viewLeftTop;
-				calibPtr->GetInvPositionAt(bounds.GetTopLeft(), viewLeftTop);
+				calibPtr->GetInvPositionAt(bounds.GetLeftTop(), viewLeftTop);
 				i2d::CVector2d viewLeftBottom;
-				calibPtr->GetInvPositionAt(bounds.GetBottomLeft(), viewLeftBottom);
+				calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
 				i2d::CVector2d viewRightTop;
-				calibPtr->GetInvPositionAt(bounds.GetTopRight(), viewRightTop);
+				calibPtr->GetInvPositionAt(bounds.GetRightTop(), viewRightTop);
 				i2d::CVector2d viewRightBottom;
-				calibPtr->GetInvPositionAt(bounds.GetBottomRight(), viewRightBottom);
+				calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
 				double perspScale = (
 								viewLeftTop.GetDistance(viewRightTop) / bounds.GetWidth() +

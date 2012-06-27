@@ -15,6 +15,9 @@ namespace i2d
 {
 
 
+class CRect;
+
+
 /**
 	Definition of rectangle area orthogonal to axis of coordination system.
 */
@@ -26,6 +29,7 @@ public:
 	CRectangle(double left, double top, double width, double height);
 	CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight);
 	CRectangle(const istd::CRange& horizontalRange, const istd::CRange& verticalRange);
+	explicit CRectangle(const i2d::CRect& rect);
 	explicit CRectangle(const istd::CIndex2d& size);
 
 	/**
@@ -37,6 +41,11 @@ public:
 		Return \c true if the rectangle is empty.
 	*/
 	bool IsEmpty() const;
+
+	/**
+		Return \c true if the rectangle is valid and it is not empty.
+	*/
+	bool IsValidNonEmpty() const;
 
 	/**
 		Make rectangle empty.
@@ -60,13 +69,13 @@ public:
 	istd::CRange& GetVerticalRangeRef();
 	void SetVerticalRange(const istd::CRange& range);
 
-	CVector2d GetTopLeft() const;
+	CVector2d GetLeftTop() const;
 	void SetTopLeft(const CVector2d& topLeft);
-	CVector2d GetTopRight() const;
+	CVector2d GetRightTop() const;
 	void SetTopRight(const CVector2d& topRight);
-	CVector2d GetBottomLeft() const;
+	CVector2d GetLeftBottom() const;
 	void SetBottomLeft(const CVector2d& bottomLeft);
-	CVector2d GetBottomRight() const;
+	CVector2d GetRightBottom() const;
 	void SetBottomRight(const CVector2d& bottomRight);
 
 	bool Contains(const CVector2d& point) const;

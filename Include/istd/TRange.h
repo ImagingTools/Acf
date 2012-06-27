@@ -44,6 +44,11 @@ public:
 	bool IsEmpty() const;
 
 	/**
+		Return \c true if the range is valid and it is not empty.
+	*/
+	bool IsValidNonEmpty() const;
+
+	/**
 		Get the bottom value.	
 	*/
 	ValueType GetMinValue() const;
@@ -295,6 +300,13 @@ template <typename ValueType>
 inline bool TRange<ValueType>::IsEmpty() const
 {
 	return (m_minValue == m_maxValue);
+}
+
+
+template <typename ValueType>
+inline bool TRange<ValueType>::IsValidNonEmpty() const
+{
+	return (m_minValue < m_maxValue);
 }
 
 

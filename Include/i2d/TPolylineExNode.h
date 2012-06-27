@@ -10,6 +10,10 @@ namespace i2d
 {
 
 
+/**
+	Generic polyline with additional information stored for each node.
+	Please note that template parameter \c NodeData must be derrived from iser::ISerializable.
+*/
 template<class NodeData>
 class TPolylineExNode: public CPolylineExNodeBase
 {

@@ -3,10 +3,10 @@
 
 
 // Qt includes
-#include <QtCore/QVector>
+#include <QtCore/QList>
 
 // ACF includes
-#include "i2d/CRectangle.h"
+#include "i2d/CRect.h"
 #include "i2d/CCircle.h"
 #include "i2d/CAnnulus.h"
 #include "i2d/CPolygon.h"
@@ -24,61 +24,72 @@ namespace iimg
 class CBitmapRegion: virtual public istd::IPolymorphic
 {
 public:
-	struct PixelRange
-	{
-		PixelRange()
-		:	pixelBufferPtr(NULL)
-		{
-		}
+	typedef QList<istd::CIntRange> PixelRanges;
 
-		istd::CRange range;
-		const void* pixelBufferPtr;
-	};
-
-	typedef QVector<PixelRange> PixelRanges;
-
-	CBitmapRegion(const IBitmap* bitmapPtr = NULL);
+	CBitmapRegion();
 
 	/**
-		Create 2D-region from the geometrical object.
+		Check if region is empty.
 	*/
-	bool CreateFromGeometry(const i2d::IObject2d& geometry);
+	bool IsBitmapRegionEmpty() const;
+
+	/**
+		Get bounding box of this region.
+	*/
+	i2d::CRect GetBoundingBox() const;
 
 	/**
 		Get the list of pixel ranges per given line.
 	*/
 	const PixelRanges* GetPixelRanges(int lineIndex) const;
 
-	const i2d::CRectangle& GetBoundingBox() const;
 	void ResetBitmapRegion();
-	bool IsBitmapRegionEmpty() const;
 
-	const IBitmap* GetBitmapPtr() const;
+	/**
+		Create 2D-region from some geometrical object.
+		\param	geometry	some geometrical object.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	bool CreateFromGeometry(const i2d::IObject2d& geometry, const i2d::CRect* clipAreaPtr);
+
+	/**
+		Create 2D-region from circle.
+		\param	circle		circle object.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	void CreateFromCircle(const i2d::CCircle& circle, const i2d::CRect* clipAreaPtr);
+	/**
+		Create 2D-region from rectangle.
+		\param	rect		rectangle object.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	void CreateFromRectangle(const i2d::CRectangle& rect, const i2d::CRect* clipAreaPtr);
+	/**
+		Create 2D-region from annulus.
+		\param	rect		annulus object.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	void CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::CRect* clipAreaPtr);
+	/**
+		Create 2D-region from polygon.
+		\param	rect		polygon object.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	void CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::CRect* clipAreaPtr);
+
+	// static methods
+	static void UnionLine(const PixelRanges& line, PixelRanges& result);
+	static void IntersectLine(const PixelRanges& line, PixelRanges& result);
+
+protected:
+	void SetBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
 
 private:
-	void CalculateRegionBoundingBox(const i2d::CRectangle& objectBoundingBox);
-	void CreateFromCircle(const i2d::CCircle& circle);
-	void CreateFromRectangle(const i2d::CRectangle& rect);
-	void CreateFromAnnulus(const i2d::CAnnulus& annulus);
-	void CreateFromPolygon(const i2d::CPolygon& polygon);
-
-	void InsertVectorPoint(QList<int>& list, int value);
-
-private:
-	const IBitmap* m_bitmapPtr;
 	QVector<PixelRanges> m_rangesContainer;
 	QVector<const PixelRanges*> m_lineRangePtr;
-	i2d::CRectangle m_boundingBox;
+	i2d::CRect m_boundingBox;
 	bool m_isEmpty;
 };
-
-
-// public inline methods
-
-inline const IBitmap* CBitmapRegion::GetBitmapPtr() const
-{
-	return m_bitmapPtr;
-}
 
 
 } // namespace iimg

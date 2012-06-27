@@ -26,10 +26,10 @@ iview::ITouchable::TouchState CInteractivePerspectiveCalibrationShape::IsTouched
 		const i2d::CRectangle& bounds = calibPtr->GetBounds();
 		i2d::CVector2d viewLeftTop, viewRightTop, viewLeftBottom, viewRightBottom;
 
-		calibPtr->GetInvPositionAt(bounds.GetTopLeft(), viewLeftTop);
-		calibPtr->GetInvPositionAt(bounds.GetTopRight(), viewRightTop);
-		calibPtr->GetInvPositionAt(bounds.GetBottomLeft(), viewLeftBottom);
-		calibPtr->GetInvPositionAt(bounds.GetBottomRight(), viewRightBottom);
+		calibPtr->GetInvPositionAt(bounds.GetLeftTop(), viewLeftTop);
+		calibPtr->GetInvPositionAt(bounds.GetRightTop(), viewRightTop);
+		calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
+		calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const iview::IColorShema& colorShema = GetColorShema();
@@ -67,10 +67,10 @@ void CInteractivePerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 		const i2d::CRectangle& bounds = calibPtr->GetBounds();
 		i2d::CVector2d viewLeftTop, viewRightTop, viewLeftBottom, viewRightBottom;
 
-		calibPtr->GetInvPositionAt(bounds.GetTopLeft(), viewLeftTop);
-		calibPtr->GetInvPositionAt(bounds.GetTopRight(), viewRightTop);
-		calibPtr->GetInvPositionAt(bounds.GetBottomLeft(), viewLeftBottom);
-		calibPtr->GetInvPositionAt(bounds.GetBottomRight(), viewRightBottom);
+		calibPtr->GetInvPositionAt(bounds.GetLeftTop(), viewLeftTop);
+		calibPtr->GetInvPositionAt(bounds.GetRightTop(), viewRightTop);
+		calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
+		calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const iview::IColorShema& colorShema = GetColorShema();
@@ -110,10 +110,10 @@ bool CInteractivePerspectiveCalibrationShape::OnMouseButton(istd::CIndex2d posit
 			const i2d::CRectangle& bounds = calibPtr->GetBounds();
 			i2d::CVector2d viewLeftTop, viewRightTop, viewLeftBottom, viewRightBottom;
 
-			calibPtr->GetInvPositionAt(bounds.GetTopLeft(), viewLeftTop);
-			calibPtr->GetInvPositionAt(bounds.GetTopRight(), viewRightTop);
-			calibPtr->GetInvPositionAt(bounds.GetBottomLeft(), viewLeftBottom);
-			calibPtr->GetInvPositionAt(bounds.GetBottomRight(), viewRightBottom);
+			calibPtr->GetInvPositionAt(bounds.GetLeftTop(), viewLeftTop);
+			calibPtr->GetInvPositionAt(bounds.GetRightTop(), viewRightTop);
+			calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
+			calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			const iview::IColorShema& colorShema = GetColorShema();
