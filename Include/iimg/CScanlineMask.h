@@ -11,7 +11,7 @@
 #include "i2d/CAnnulus.h"
 #include "i2d/CPolygon.h"
 
-#include "iimg/IBitmap.h"
+#include "iimg/IRasterImage.h"
 
 
 namespace iimg
@@ -21,7 +21,7 @@ namespace iimg
 /**
 	Representation of a 2D-region as container of bitmap line scans.
 */
-class CScanlineMask: virtual public istd::IPolymorphic
+class CScanlineMask: virtual public IRasterImage
 {
 public:
 	typedef QList<istd::CIntRange> PixelRanges;
@@ -42,8 +42,6 @@ public:
 		Get the list of pixel ranges per given line.
 	*/
 	const PixelRanges* GetPixelRanges(int lineIndex) const;
-
-	void ResetBitmapRegion();
 
 	/**
 		Create 2D-region from some geometrical object.
@@ -77,6 +75,17 @@ public:
 	*/
 	void CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::CRect* clipAreaPtr);
 
+	// reimplemented (iimg::IRasterImage)
+	virtual bool IsEmpty() const;
+	virtual void ResetImage();
+	virtual istd::CIndex2d GetImageSize() const;
+	virtual int GetComponentsCount() const;
+	virtual icmm::CVarColor GetColorAt(const istd::CIndex2d& position) const;
+	virtual bool SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color);
+
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 	// static methods
 	static void UnionLine(const PixelRanges& line, PixelRanges& result);
 	static void IntersectLine(const PixelRanges& line, PixelRanges& result);
@@ -85,9 +94,14 @@ protected:
 	void SetBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
 
 private:
-	QVector<PixelRanges> m_rangesContainer;
-	QVector<const PixelRanges*> m_lineRangePtr;
+	typedef QVector<PixelRanges> RangesContainer;
+	RangesContainer m_rangesContainer;
+
+	typedef QVector<const PixelRanges*> Scanlines;
+	Scanlines m_scanlines;
+
 	i2d::CRect m_boundingBox;
+
 	bool m_isEmpty;
 };
 

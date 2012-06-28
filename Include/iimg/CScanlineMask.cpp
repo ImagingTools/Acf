@@ -36,22 +36,11 @@ const CScanlineMask::PixelRanges* CScanlineMask::GetPixelRanges(int lineIndex) c
 {
 	int rangeIndex = lineIndex - m_boundingBox.GetTop();
 
-	if (rangeIndex >= 0 && rangeIndex < int(m_lineRangePtr.size())){
-		return m_lineRangePtr[rangeIndex];
+	if (rangeIndex >= 0 && rangeIndex < int(m_scanlines.size())){
+		return m_scanlines[rangeIndex];
 	}
 
 	return NULL;
-}
-
-
-void CScanlineMask::ResetBitmapRegion()
-{
-	m_rangesContainer.clear();
-	m_lineRangePtr.clear();
-
-	m_boundingBox = i2d::CRect::GetEmpty();
-
-	m_isEmpty = true;
 }
 
 
@@ -93,7 +82,7 @@ void CScanlineMask::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRec
 {
 	SetBoundingBox(circle.GetBoundingBox(), clipAreaPtr);
 	if (!m_boundingBox.IsValidNonEmpty()){
-		ResetBitmapRegion();
+		ResetImage();
 
 		return;
 	}
@@ -104,13 +93,13 @@ void CScanlineMask::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRec
 
 	int linesCount = m_boundingBox.GetHeight();
 
-	m_lineRangePtr.resize(linesCount);
+	m_scanlines.resize(linesCount);
 	m_rangesContainer.resize(linesCount);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
 		PixelRanges& rangeList = m_rangesContainer[lineIndex];
 
-		m_lineRangePtr[lineIndex] =  NULL;
+		m_scanlines[lineIndex] =  NULL;
 
 		double y = (lineIndex + m_boundingBox.GetTop() - center.GetY());
 		double radiusDiff2 = radius2 - y * y;
@@ -133,7 +122,7 @@ void CScanlineMask::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRec
 			if (left < right){
 				rangeList.push_back(istd::CIntRange(left, right));
 
-				m_lineRangePtr[lineIndex] = &rangeList;
+				m_scanlines[lineIndex] = &rangeList;
 
 				m_isEmpty = false;
 			}
@@ -146,7 +135,7 @@ void CScanlineMask::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::
 {
 	SetBoundingBox(rect, clipAreaPtr);
 	if (!m_boundingBox.IsValidNonEmpty()){
-		ResetBitmapRegion();
+		ResetImage();
 
 		return;
 	}
@@ -155,14 +144,14 @@ void CScanlineMask::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::
 
 	int linesCount = m_boundingBox.GetHeight();
 
-	m_lineRangePtr.resize(linesCount);
+	m_scanlines.resize(linesCount);
 
 	m_rangesContainer.resize(1);
 	PixelRanges& rangeList = m_rangesContainer.front();
 	rangeList.push_back(m_boundingBox.GetHorizontalRange());
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
-		m_lineRangePtr[lineIndex] = &rangeList;	// set all lines to the same range
+		m_scanlines[lineIndex] = &rangeList;	// set all lines to the same range
 	}
 }
 
@@ -171,7 +160,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 {
 	SetBoundingBox(annulus.GetBoundingBox(), clipAreaPtr);
 	if (!m_boundingBox.IsValidNonEmpty()){
-		ResetBitmapRegion();
+		ResetImage();
 
 		return;
 	}
@@ -188,7 +177,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 	double centerX = center.GetX();
 	double centerY = center.GetY();
 
-	m_lineRangePtr.resize(linesCount);
+	m_scanlines.resize(linesCount);
 	m_rangesContainer.resize(linesCount);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
@@ -198,7 +187,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 		double outputRadiusDiff2 = outerRadius2 - y * y;
 
 		if (outputRadiusDiff2 < 0){
-			m_lineRangePtr[lineIndex] =  NULL;
+			m_scanlines[lineIndex] =  NULL;
 
 			continue;
 		}
@@ -242,12 +231,12 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 		}
 
 		if (!rangeList.isEmpty()){
-			m_lineRangePtr[lineIndex] = &rangeList;
+			m_scanlines[lineIndex] = &rangeList;
 
 			m_isEmpty = false;
 		}
 		else{
-			m_lineRangePtr[lineIndex] =  NULL;
+			m_scanlines[lineIndex] =  NULL;
 		}
 	}
 }
@@ -257,7 +246,7 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 {
 	SetBoundingBox(polygon.GetBoundingBox(), clipAreaPtr);
 	if (!m_boundingBox.IsValidNonEmpty()){
-		ResetBitmapRegion();
+		ResetImage();
 
 		return;
 	}
@@ -316,7 +305,7 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 	}
 
 	// build the scan ranges
-	m_lineRangePtr.resize(linesCount);
+	m_scanlines.resize(linesCount);
 	m_rangesContainer.resize(linesCount);
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
@@ -350,13 +339,191 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 		}
 
 		if (!rangeList.isEmpty()){
-			m_lineRangePtr[lineIndex] = &rangeList;
+			m_scanlines[lineIndex] = &rangeList;
 			m_isEmpty = false;
 		}
 		else{
-			m_lineRangePtr[lineIndex] =  NULL;
+			m_scanlines[lineIndex] =  NULL;
 		}
 	}
+}
+
+
+// reimplemented (iimg::IRasterImage)
+
+bool CScanlineMask::IsEmpty() const
+{
+	for (		Scanlines::ConstIterator iter = m_scanlines.constBegin();
+				iter != m_scanlines.constEnd();
+				++iter){
+		if (*iter != NULL){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+void CScanlineMask::ResetImage()
+{
+	m_rangesContainer.clear();
+	m_scanlines.clear();
+
+	m_boundingBox = i2d::CRect::GetEmpty();
+
+	m_isEmpty = true;
+}
+
+
+istd::CIndex2d CScanlineMask::GetImageSize() const
+{
+	return m_boundingBox.GetRightBottom();
+}
+
+
+int CScanlineMask::GetComponentsCount() const
+{
+	return 1;
+}
+
+
+icmm::CVarColor CScanlineMask::GetColorAt(const istd::CIndex2d& position) const
+{
+	int scanLine = position.GetY() - m_boundingBox.GetTop();
+	if ((scanLine >= 0) && (scanLine < m_scanlines.size())){
+		const PixelRanges* rangesPtr = m_scanlines[scanLine];
+		if (rangesPtr != NULL){
+			for (		PixelRanges::ConstIterator rangeIter = rangesPtr->constBegin();
+						rangeIter != rangesPtr->constEnd();
+						++rangeIter){
+				const istd::CIntRange& range = *rangeIter;
+				if (position.GetX() >= range.GetMaxValue()){
+					break;
+				}
+
+				if (position.GetX() >= range.GetMinValue()){
+					return icmm::CVarColor(1, 1);
+				}
+			}
+		}
+	}
+
+	return icmm::CVarColor(1, 0);
+}
+
+
+bool CScanlineMask::SetColorAt(const istd::CIndex2d& /*position*/, const icmm::CVarColor& /*color*/)
+{
+	return false;	// this is not editable using color set at pixel index
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CScanlineMask::Serialize(iser::IArchive& archive)
+{
+	static iser::CArchiveTag minYTag("MinY", "Minimal Y");
+	static iser::CArchiveTag maxYTag("MaxY", "Maximal Y (exclusive)");
+	static iser::CArchiveTag scanlinesTag("Scanelines", "List of mask scan lines");
+	static iser::CArchiveTag rangesTag("Ranges", "List of ranges for single scan line");
+	static iser::CArchiveTag rangeTag("Range", "Single mask range");
+
+	bool retVal = true;
+
+	if (archive.IsStoring()){
+		int minY = m_boundingBox.GetTop();
+
+		retVal = retVal && archive.BeginTag(minYTag);
+		retVal = retVal && archive.Process(minY);
+		retVal = retVal && archive.EndTag(minYTag);
+
+		int scanLinesCount = m_scanlines.size();
+
+		retVal = retVal && archive.BeginMultiTag(scanlinesTag, rangesTag, scanLinesCount);
+		for (		Scanlines::ConstIterator lineIter = m_scanlines.constBegin();
+					lineIter != m_scanlines.constEnd();
+					++lineIter){
+			const PixelRanges* rangesPtr = *lineIter;
+			int rangesCount = 0;
+
+			if (rangesPtr != NULL){
+				rangesCount = rangesPtr->size();
+			}
+
+			retVal = retVal && archive.BeginMultiTag(rangesTag, rangeTag, rangesCount);
+
+			for (int rangeIndex = 0; rangeIndex < rangesCount; ++rangeIndex){
+				istd::CIntRange range = rangesPtr->at(rangeIndex);
+				retVal = retVal && archive.BeginTag(rangeTag);
+				retVal = retVal && archive.Process(range.GetMinValueRef());
+				retVal = retVal && archive.Process(range.GetMaxValueRef());
+				retVal = retVal && archive.EndTag(rangeTag);
+			}
+
+			retVal = retVal && archive.EndTag(rangesTag);
+		}
+	}
+	else{
+		int minY = 0;
+
+		retVal = retVal && archive.BeginTag(minYTag);
+		retVal = retVal && archive.Process(minY);
+		retVal = retVal && archive.EndTag(minYTag);
+
+		m_rangesContainer.clear();
+		m_scanlines.clear();
+
+		int scanLinesCount = 0;
+
+		retVal = retVal && archive.BeginMultiTag(scanlinesTag, rangesTag, scanLinesCount);
+
+		if (!retVal || (scanLinesCount < 0)){
+			return false;
+		}
+
+		m_scanlines.resize(scanLinesCount);
+
+		for (int lineIndex = 0; lineIndex < scanLinesCount; ++lineIndex){
+			int rangesCount = 0;
+
+			retVal = retVal && archive.BeginMultiTag(rangesTag, rangeTag, rangesCount);
+
+			if (!retVal || (rangesCount < 0)){
+				CScanlineMask::ResetImage();
+
+				return false;
+			}
+
+			if (rangesCount > 0){
+				m_rangesContainer.push_back(PixelRanges());
+
+				PixelRanges& ranges = m_rangesContainer.back();
+
+				for (int rangeIndex = 0; rangeIndex < rangesCount; ++rangeIndex){
+					istd::CIntRange range;
+					retVal = retVal && archive.BeginTag(rangeTag);
+					retVal = retVal && archive.Process(range.GetMinValueRef());
+					retVal = retVal && archive.Process(range.GetMaxValueRef());
+					retVal = retVal && archive.EndTag(rangeTag);
+
+					if (!retVal){
+						CScanlineMask::ResetImage();
+
+						return false;
+					}
+
+					ranges.push_back(range);
+				}
+
+				m_scanlines[lineIndex] = &ranges;
+			}
+
+			retVal = retVal && archive.EndTag(rangesTag);
+		}
+	}
+
+	return retVal;
 }
 
 
