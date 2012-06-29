@@ -52,8 +52,13 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
-	istd::CIntRange GetHorizontalRange() const;
-	istd::CIntRange GetVerticalRange() const;
+	const istd::CIntRange& GetHorizontalRange() const;
+	istd::CIntRange& GetHorizontalRangeRef();
+	void SetHorizontalRange(const istd::CIntRange& range);
+
+	const istd::CIntRange& GetVerticalRange() const;
+	istd::CIntRange& GetVerticalRangeRef();
+	void SetVerticalRange(const istd::CIntRange& range);
 
 	istd::CIndex2d GetCenter() const;
 
@@ -120,7 +125,7 @@ public:
 
 	/**
 		Calculate union of this rectangle and point.
-		Result is atored in this object.
+		Result is stored in this object.
 	*/
 	void Union(istd::CIndex2d point);
 
@@ -362,15 +367,39 @@ inline int CRect::GetHeight() const
 }
 
 
-inline istd::CIntRange CRect::GetHorizontalRange() const
+inline const istd::CIntRange& CRect::GetHorizontalRange() const
 {
 	return m_horizontalRange;
 }
 
 
-inline istd::CIntRange CRect::GetVerticalRange() const
+inline istd::CIntRange& CRect::GetHorizontalRangeRef()
+{
+	return m_horizontalRange;
+}
+
+
+inline void CRect::SetHorizontalRange(const istd::CIntRange& range)
+{
+	m_horizontalRange = range;
+}
+
+
+inline const istd::CIntRange& CRect::GetVerticalRange() const
 {
 	return m_verticalRange;
+}
+
+
+inline istd::CIntRange& CRect::GetVerticalRangeRef()
+{
+	return m_verticalRange;
+}
+
+
+inline void CRect::SetVerticalRange(const istd::CIntRange& range)
+{
+	m_verticalRange = range;
 }
 
 

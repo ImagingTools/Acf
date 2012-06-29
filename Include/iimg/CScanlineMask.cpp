@@ -36,7 +36,7 @@ const CScanlineMask::PixelRanges* CScanlineMask::GetPixelRanges(int lineIndex) c
 {
 	int rangeIndex = lineIndex - m_boundingBox.GetTop();
 
-	if (rangeIndex >= 0 && rangeIndex < int(m_scanlines.size())){
+	if ((rangeIndex >= 0) && (rangeIndex < int(m_scanlines.size()))){
 		return m_scanlines[rangeIndex];
 	}
 
@@ -349,6 +349,172 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 }
 
 
+CScanlineMask CScanlineMask::GetUnion(const CScanlineMask& mask) const
+{
+	CScanlineMask result;
+
+	GetUnion(mask, result);
+
+	return result;
+}
+
+
+void CScanlineMask::GetUnion(const CScanlineMask& mask, CScanlineMask& result) const
+{
+	result.m_boundingBox = m_boundingBox.GetUnion(mask.m_boundingBox);
+	result.m_isEmpty = m_isEmpty || mask.m_isEmpty;
+
+	result.m_scanlines.resize(result.m_boundingBox.GetHeight());
+
+	for (int y = result.m_boundingBox.GetTop(); y < result.m_boundingBox.GetBottom(); ++y){
+		const PixelRanges* rangesPtr = NULL;
+		const PixelRanges* maskRangesPtr = NULL;
+
+		int lineIndex = y - m_boundingBox.GetTop();
+		if ((lineIndex >= 0) && (lineIndex < m_scanlines.size())){
+			rangesPtr = m_scanlines[lineIndex];
+		}
+
+		int maskLineIndex = y - mask.m_boundingBox.GetTop();
+		if ((maskLineIndex >= 0) && (maskLineIndex < mask.m_scanlines.size())){
+			maskRangesPtr = mask.m_scanlines[lineIndex];
+		}
+
+		if (rangesPtr != NULL){
+			result.m_rangesContainer.push_back(PixelRanges());
+
+			PixelRanges& unionRanges = result.m_rangesContainer.back();
+
+			if (maskRangesPtr != NULL){
+				GetLineUnion(*rangesPtr, *maskRangesPtr, unionRanges);
+			}
+			else{
+				unionRanges = *rangesPtr;
+			}
+
+			result.m_scanlines[y - result.m_boundingBox.GetTop()] = &unionRanges;
+		}
+		else if (maskRangesPtr != NULL){
+			result.m_rangesContainer.push_back(PixelRanges());
+
+			PixelRanges& unionRanges = result.m_rangesContainer.back();
+
+			unionRanges = *maskRangesPtr;
+
+			result.m_scanlines[y - result.m_boundingBox.GetTop()] = &unionRanges;
+		}
+		else{
+			result.m_scanlines[y - result.m_boundingBox.GetTop()] = NULL;
+		}
+	}
+}
+
+
+void CScanlineMask::Union(const CScanlineMask& mask)
+{
+	*this = GetUnion(mask);
+}
+
+
+CScanlineMask CScanlineMask::GetIntersection(const CScanlineMask& mask) const
+{
+	CScanlineMask result;
+
+	GetIntersection(mask, result);
+
+	return result;
+}
+
+
+void CScanlineMask::GetIntersection(const CScanlineMask& mask, CScanlineMask& result) const
+{
+	result.m_boundingBox = m_boundingBox.GetUnion(mask.m_boundingBox);
+	result.m_isEmpty = true;
+
+	result.m_scanlines.resize(result.m_boundingBox.GetHeight());
+
+	for (int y = result.m_boundingBox.GetTop(); y < result.m_boundingBox.GetBottom(); ++y){
+		int lineIndex = y - m_boundingBox.GetTop();
+		int maskLineIndex = y - mask.m_boundingBox.GetTop();
+		if (		(lineIndex >= 0) && (lineIndex < m_scanlines.size()) &&
+					(maskLineIndex >= 0) && (maskLineIndex < mask.m_scanlines.size())){
+			const PixelRanges* rangesPtr = m_scanlines[lineIndex];
+			const PixelRanges* maskRangesPtr = mask.m_scanlines[lineIndex];
+
+			PixelRanges resultRanges;
+			GetLineIntersection(*rangesPtr, *maskRangesPtr, resultRanges);
+
+			if (!resultRanges.isEmpty()){
+				result.m_rangesContainer.push_back(resultRanges);
+
+				PixelRanges& intersectedRanges = result.m_rangesContainer.back();
+
+				result.m_scanlines[y - result.m_boundingBox.GetTop()] = &intersectedRanges;
+
+				result.m_isEmpty = false;
+			}
+			else{
+				result.m_scanlines[y - result.m_boundingBox.GetTop()] = NULL;
+			}
+		}
+		else{
+			result.m_scanlines[y - result.m_boundingBox.GetTop()] = NULL;
+		}
+	}
+}
+
+
+void CScanlineMask::Intersection(const CScanlineMask& mask)
+{
+	*this = GetIntersection(mask);
+}
+
+
+CScanlineMask CScanlineMask::GetTranslated(int dx, int dy) const
+{
+	CScanlineMask result;
+
+	GetTranslated(dx, dy, result);
+
+	return result;
+}
+
+
+void CScanlineMask::GetTranslated(int dx, int dy, CScanlineMask& result) const
+{
+	result = *this;
+
+	result.Translate(dx, dy);
+}
+
+
+void CScanlineMask::Translate(int dx, int dy)
+{
+	m_boundingBox.SetTop(m_boundingBox.GetTop() + dy);
+	m_boundingBox.SetBottom(m_boundingBox.GetBottom() + dy);
+
+	if (dx != NULL){
+		m_boundingBox.SetLeft(m_boundingBox.GetLeft() + dx);
+		m_boundingBox.SetRight(m_boundingBox.GetRight() + dx);
+
+		for (		RangesContainer::Iterator lineIter = m_rangesContainer.begin();
+					lineIter != m_rangesContainer.end();
+					++lineIter){
+			PixelRanges& lineRanges = *lineIter;
+
+			for (		PixelRanges::Iterator rangeIter = lineRanges.begin();
+						rangeIter != lineRanges.end();
+						++rangeIter){
+				istd::CIntRange& range = *rangeIter;
+
+				range.GetMinValueRef() += dx;
+				range.GetMaxValueRef() += dx;
+			}
+		}
+	}
+}
+
+
 // reimplemented (iimg::IRasterImage)
 
 bool CScanlineMask::IsEmpty() const
@@ -529,7 +695,78 @@ bool CScanlineMask::Serialize(iser::IArchive& archive)
 
 // static methods
 
-void CScanlineMask::UnionLine(const PixelRanges& line, PixelRanges& result)
+void CScanlineMask::GetLineUnion(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result)
+{
+	PixelRanges::ConstIterator iter1 = line1.constBegin();
+	PixelRanges::ConstIterator iter2 = line2.constBegin();
+	for (;;){
+		if (iter1 != line1.constEnd()){
+			const istd::CIntRange& range1 = *iter1;
+
+			if (iter2 != line2.constEnd()){
+				const istd::CIntRange& range2 = *iter2;
+
+				if (range1.GetMaxValue() < range2.GetMinValue()){
+					result.push_back(range1);
+
+					++iter1;
+				}
+				else if (range2.GetMaxValue() < range1.GetMinValue()){
+					result.push_back(range2);
+
+					++iter2;
+				}
+				else{
+					int rangeBegin = qMin(range1.GetMinValue(), range2.GetMinValue());
+					int rangeEnd = qMax(range1.GetMaxValue(), range2.GetMaxValue());
+
+					++iter1;
+					++iter2;
+
+					for (;;){
+						if ((iter1 != line1.constEnd()) && (iter1->GetMinValue() <= rangeEnd)){	// if first range connects to the current range without gap..
+							if (iter1->GetMinValue() > rangeEnd){	// if the range extends current range, its end will be used
+								rangeEnd = iter1->GetMinValue();
+							}
+
+							++iter1;
+						}
+						else if ((iter2 != line1.constEnd()) && (iter2->GetMinValue() <= rangeEnd)){	// if first range connects to the current range without gap..
+							if (iter2->GetMinValue() > rangeEnd){	// if the range extends current range, its end will be used
+								rangeEnd = iter2->GetMinValue();
+							}
+
+							++iter2;
+						}
+						else{
+							break;
+						}
+					}
+
+					result.push_back(istd::CIntRange(rangeBegin, rangeEnd));
+				}
+			}
+			else{
+				result.push_back(range1);
+
+				++iter1;
+			}
+		}
+		else if (iter2 != line2.constEnd()){
+			const istd::CIntRange& range2 = *iter2;
+
+			result.push_back(range2);
+
+			++iter2;
+		}
+		else{
+			break;	// finish
+		}
+	}
+}
+
+
+void CScanlineMask::LineUnion(const PixelRanges& line, PixelRanges& result)
 {
 	PixelRanges::Iterator resultIter = result.begin();
 
@@ -578,7 +815,49 @@ void CScanlineMask::UnionLine(const PixelRanges& line, PixelRanges& result)
 }
 
 
-void CScanlineMask::IntersectLine(const PixelRanges& line, PixelRanges& result)
+void CScanlineMask::GetLineIntersection(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result)
+{
+	PixelRanges::ConstIterator iter1 = line1.constBegin();
+	PixelRanges::ConstIterator iter2 = line2.constBegin();
+	for (;;){
+		if (iter1 != line1.constEnd()){
+			const istd::CIntRange& range1 = *iter1;
+
+			if (iter2 != line2.constEnd()){
+				const istd::CIntRange& range2 = *iter2;
+
+				if (range1.GetMaxValue() <= range2.GetMinValue()){
+					++iter1;
+				}
+				else if (range2.GetMaxValue() <= range1.GetMinValue()){
+					++iter2;
+				}
+				else{
+					int rangeBegin = qMax(range1.GetMinValue(), range2.GetMinValue());
+					int rangeEnd = qMin(range1.GetMaxValue(), range2.GetMaxValue());
+
+					result.push_back(istd::CIntRange(rangeBegin, rangeEnd));
+
+					if (range1.GetMaxValue() < range2.GetMaxValue()){
+						++iter1;
+					}
+					else{
+						++iter2;
+					}
+				}
+			}
+			else{
+				break;	// finish
+			}
+		}
+		else{
+			break;	// finish
+		}
+	}
+}
+
+
+void CScanlineMask::LineIntersection(const PixelRanges& line, PixelRanges& result)
 {
 	PixelRanges::Iterator resultIter = result.begin();
 

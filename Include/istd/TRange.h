@@ -396,7 +396,7 @@ inline bool TRange<ValueType>::Contains(ValueType value) const
 {
 	I_ASSERT(IsValid());
 
-	return (m_minValue <= value) && (m_maxValue >= value);
+	return (value  >= m_minValue) && (value < m_maxValue);
 }
 
 
@@ -406,21 +406,21 @@ inline bool TRange<ValueType>::Contains(const TRange& range) const
 	I_ASSERT(IsValid());
 	I_ASSERT(range.IsValid());
 
-	return (m_minValue <= range.m_minValue) && (m_maxValue >= range.m_maxValue);
+	return (range.m_minValue >= m_minValue) && (range.m_maxValue <= m_maxValue);
 }
 
 
 template <typename ValueType>
 inline bool TRange<ValueType>::IsIntersectedBy(const TRange& range) const
 {
-	return (m_minValue < range.m_maxValue) || (m_maxValue > range.m_minValue);
+	return (range.m_maxValue > m_minValue) && (range.m_minValue < m_maxValue);
 }
 
 
 template <typename ValueType>
 inline bool TRange<ValueType>::IsOutsideOf(const TRange& range) const
 {
-	return (range.m_maxValue < m_minValue) || (range.m_minValue > m_maxValue);
+	return (range.m_maxValue <= m_minValue) || (range.m_minValue >= m_maxValue);
 }
 
 

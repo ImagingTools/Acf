@@ -75,6 +75,49 @@ public:
 	*/
 	void CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::CRect* clipAreaPtr);
 
+	/**
+		Get union of two masks.
+	*/
+	CScanlineMask GetUnion(const CScanlineMask& mask) const;
+	/**
+		Get union of two masks.
+		\overload
+	*/
+	void GetUnion(const CScanlineMask& mask, CScanlineMask& result) const;
+	/**
+		Calculate union of this mask and the other one.
+		Result is stored in this object.
+	*/
+	void Union(const CScanlineMask& mask);
+	/**
+		Get intersection of two masks.
+	*/
+	CScanlineMask GetIntersection(const CScanlineMask& mask) const;
+	/**
+		Get intersection of two masks.
+		\overload
+	*/
+	void GetIntersection(const CScanlineMask& mask, CScanlineMask& result) const;
+	/**
+		Calculate intersection of this mask and the other one.
+		Result is stored in this object.
+	*/
+	void Intersection(const CScanlineMask& mask);
+
+	/**
+		Calculate translated (moved) mask.
+	*/
+	CScanlineMask GetTranslated(int dx, int dy) const;
+	/**
+		Calculate translated (moved) mask.
+		\overload
+	*/
+	void GetTranslated(int dx, int dy, CScanlineMask& result) const;
+	/**
+		Translated (move) this mask.
+	*/
+	void Translate(int dx, int dy);
+
 	// reimplemented (iimg::IRasterImage)
 	virtual bool IsEmpty() const;
 	virtual void ResetImage();
@@ -87,8 +130,10 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 	// static methods
-	static void UnionLine(const PixelRanges& line, PixelRanges& result);
-	static void IntersectLine(const PixelRanges& line, PixelRanges& result);
+	static void GetLineUnion(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result);
+	static void LineUnion(const PixelRanges& line, PixelRanges& result);
+	static void GetLineIntersection(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result);
+	static void LineIntersection(const PixelRanges& line, PixelRanges& result);
 
 protected:
 	void SetBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
