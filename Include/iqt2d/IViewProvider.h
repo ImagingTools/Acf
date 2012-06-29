@@ -5,9 +5,13 @@
 // ACF includes
 #include "istd/IPolymorphic.h"
 
-#include "iview/IShapeView.h"
-
 #include "iqt2d/iqt2d.h"
+
+
+namespace iview
+{
+	class IShapeView;
+}
 
 
 namespace iqt2d

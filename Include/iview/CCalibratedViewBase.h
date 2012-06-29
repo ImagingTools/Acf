@@ -29,6 +29,7 @@ namespace iview
 */
 class CCalibratedViewBase:
 			public CViewBase,
+			virtual public i2d::ICalibrationProvider,
 			virtual public IVisualCalibrationInfo
 {
 public:
@@ -138,23 +139,6 @@ private:
 
 
 // inline methods
-
-inline 	void CCalibratedViewBase::SetCalibrationPtr(const i2d::ITransformation2d* calibrationPtr)
-{
-	if (calibrationPtr != m_calibrationPtr){
-		if (calibrationPtr != NULL){
-			m_calibrationPtr = calibrationPtr;
-		}
-		else{
-			m_calibrationPtr = &CNoneCalibration::GetInstance();
-		}
-
-		InvalidateBackground();
-	}
-
-	UpdateAllShapes(iview::IShape::CF_CALIB);
-}
-
 
 inline void CCalibratedViewBase::SetGridVisible(bool state)
 {

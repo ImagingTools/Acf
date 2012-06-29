@@ -12,8 +12,13 @@
 
 // ACF includes
 #include "istd/CChangeDelegator.h"
+
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
+
+#include "iview/IShapeView.h"
+
+#include "iqt2d/IViewProvider.h"
 
 
 namespace iqtprm

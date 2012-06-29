@@ -147,8 +147,6 @@ void CViewProviderGuiComp::OnComponentDestroyed()
 }
 
 
-
-
 } // namespace iqt2d
 
 

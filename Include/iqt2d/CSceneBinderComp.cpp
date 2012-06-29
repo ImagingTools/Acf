@@ -1,6 +1,10 @@
 #include "iqt2d/CSceneBinderComp.h"
 
 
+// ACF includes
+#include "iview/IShapeView.h"
+
+
 namespace iqt2d
 {
 

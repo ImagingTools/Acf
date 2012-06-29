@@ -9,6 +9,10 @@
 
 #include "iqt/CSignalBlocker.h"
 
+#include "iview/IShapeView.h"
+
+#include "iqt2d/IViewProvider.h"
+
 
 namespace iqtprm
 {

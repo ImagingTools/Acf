@@ -4,7 +4,6 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "i2d/CRectangle.h"
 
@@ -17,6 +16,8 @@ namespace iview
 {
 
 
+// public methods
+
 CCalibratedViewBase::CCalibratedViewBase()
 :	m_calibrationPtr(&CNoneCalibration::GetInstance()),
 	m_isGridVisible(false),
@@ -27,6 +28,23 @@ CCalibratedViewBase::CCalibratedViewBase()
 	m_lastClientArea.Reset();
 	m_isBackgroundBufferActive = true;
 	m_isDoubleBufferActive = true;
+}
+
+
+void CCalibratedViewBase::SetCalibrationPtr(const i2d::ITransformation2d* calibrationPtr)
+{
+	if (calibrationPtr != m_calibrationPtr){
+		if (calibrationPtr != NULL){
+			m_calibrationPtr = calibrationPtr;
+		}
+		else{
+			m_calibrationPtr = &CNoneCalibration::GetInstance();
+		}
+
+		InvalidateBackground();
+	}
+
+	UpdateAllShapes(iview::IShape::CF_CALIB);
 }
 
 
@@ -60,6 +78,7 @@ void CCalibratedViewBase::InsertDefaultLayers()
 	BaseClass::InsertDefaultLayers();
 
 	int layerIndex = InsertLayer(&m_calibrationLayer, 1, IViewLayer::LT_CALIBRATION);
+
 	SetLastBackgroundLayerIndex(layerIndex);
 }
 
@@ -152,7 +171,6 @@ iview::CDrawBuffer& CCalibratedViewBase::GetDoubleBuffer()
 
 // reimplemented (iview::IShapeView)
 
-
 const iview::IColorShema& CCalibratedViewBase::GetDefaultColorShema() const
 {
 	if (!m_defaultColorShemaPtr.IsValid()){
@@ -164,7 +182,6 @@ const iview::IColorShema& CCalibratedViewBase::GetDefaultColorShema() const
 
 
 // protected methods
-
 
 void CCalibratedViewBase::DrawBuffers(QPaintDevice& nativeContext, const i2d::CRect& clipRect)
 {
@@ -197,7 +214,6 @@ void CCalibratedViewBase::DrawBuffers(QPaintDevice& nativeContext, const i2d::CR
 		ResetInvalidatedBox();
 	}
 }
-
 
 
 void CCalibratedViewBase::DrawToContext(
@@ -250,9 +266,6 @@ void CCalibratedViewBase::DrawToContext(
 }
 
 
-// events
-
-
 void CCalibratedViewBase::OnResize()
 {
 	SetBackgroundBufferValid(false);
@@ -267,7 +280,6 @@ void CCalibratedViewBase::OnResize()
 		doubleBuffer.Reset();
 	}
 }
-
 
 
 void CCalibratedViewBase::CheckResize()

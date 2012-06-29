@@ -17,7 +17,11 @@ namespace i2d
 class CAffineTransformation2d: virtual public ITransformation2d
 {
 public:
-	/**
+	CAffineTransformation2d();
+
+	explicit CAffineTransformation2d(const i2d::CAffine2d& transformation);
+
+		/**
 		Get used transformation object.
 	*/
 	const i2d::CAffine2d& GetTransformation() const;
@@ -82,6 +86,10 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+	// reimplemented (istd::IChangeable)
+	virtual bool CopyFrom(const istd::IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 
 protected:
 	CAffine2d m_transformation;

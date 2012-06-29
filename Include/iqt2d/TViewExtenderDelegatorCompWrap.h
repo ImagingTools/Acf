@@ -3,8 +3,6 @@
 
 
 // ACF includes
-#include "icomp/CComponentBase.h"
-
 #include "iqt2d/IViewExtender.h"
 
 
@@ -18,7 +16,7 @@ class TViewExtenderDelegatorCompWrap:
 			virtual public iqt2d::IViewExtender
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef Base BaseClass;
 
 	I_BEGIN_COMPONENT(TViewExtenderDelegatorCompWrap);
 		I_REGISTER_INTERFACE(iqt2d::IViewExtender);

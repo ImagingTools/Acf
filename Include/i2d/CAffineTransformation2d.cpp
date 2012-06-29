@@ -11,6 +11,17 @@ namespace i2d
 
 // public methods
 
+CAffineTransformation2d::CAffineTransformation2d()
+{
+}
+
+
+CAffineTransformation2d::CAffineTransformation2d(const i2d::CAffine2d& transformation)
+	:m_transformation(transformation)
+{
+}
+
+
 const i2d::CAffine2d& CAffineTransformation2d::GetTransformation() const
 {
 	return m_transformation;
@@ -169,6 +180,29 @@ bool CAffineTransformation2d::Serialize(iser::IArchive& archive)
 	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
 
 	return m_transformation.Serialize(archive);
+}
+
+
+// reimplemented (istd::IChangeable)
+
+bool CAffineTransformation2d::CopyFrom(const istd::IChangeable& object)
+{
+	const CAffineTransformation2d* sourcePtr = dynamic_cast<const CAffineTransformation2d*>(&object);
+	if (sourcePtr != NULL){
+		istd::CChangeNotifier changePtr(this);
+		
+		m_transformation = sourcePtr->m_transformation;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CAffineTransformation2d::CloneMe() const
+{
+	return new CAffineTransformation2d(m_transformation);
 }
 
 
