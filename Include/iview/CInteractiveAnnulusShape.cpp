@@ -118,23 +118,30 @@ bool CInteractiveAnnulusShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 
 			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
 
-			if (			tickerBox.IsInside(position - ticker1) ||
-							tickerBox.IsInside(position - ticker2) ||
-							tickerBox.IsInside(position - ticker3) ||
-							tickerBox.IsInside(position - ticker4) &&
-							IsEditableRadiusInner()){
-				m_editRadiusMode = true;
-				BeginModelChanges();
-				return true;
+			if (IsEditableRadiusInner()){
+				if (			tickerBox.IsInside(position - ticker1) ||
+								tickerBox.IsInside(position - ticker2) ||
+								tickerBox.IsInside(position - ticker3) ||
+								tickerBox.IsInside(position - ticker4)){
+					m_editRadiusMode = true;
+
+					BeginModelChanges();
+
+					return true;
+				}
 			}
-			if (			tickerBox.IsInside(position - ticker5) ||
-							tickerBox.IsInside(position - ticker6) ||
-							tickerBox.IsInside(position - ticker7) ||
-							tickerBox.IsInside(position - ticker8) &&
-							IsEditableRadiusOuter()){
-				m_editRadius2Mode = true;
-				BeginModelChanges();
-				return true;
+
+			if (IsEditableRadiusOuter()){
+				if (			tickerBox.IsInside(position - ticker5) ||
+								tickerBox.IsInside(position - ticker6) ||
+								tickerBox.IsInside(position - ticker7) ||
+								tickerBox.IsInside(position - ticker8)){
+					m_editRadius2Mode = true;
+
+					BeginModelChanges();
+
+					return true;
+				}
 			}
 		}
 		m_editRadiusMode = false;
@@ -197,9 +204,6 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 	const i2d::CMatrix2d& deform = transform.GetDeformMatrix();
 	i2d::CVector2d scale;
 	deform.GetAxesLengths(scale);
-
-	const i2d::CRect& clientRect = GetClientRect();
-	i2d::CRect bbox = clientRect.GetIntersection(GetBoundingBox());
 
 	if (IsCenterVisible()){
 		CInteractivePinShape::Draw(drawContext);
@@ -300,20 +304,22 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 
 		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
 
-		if (			tickerBox.IsInside(position - ticker1) ||
-						tickerBox.IsInside(position - ticker2) ||
-						tickerBox.IsInside(position - ticker3) ||
-						tickerBox.IsInside(position - ticker4) &&
-						IsEditableRadiusInner()){
-			return IInteractiveShape::TS_TICKER;
+		if (IsEditableRadiusInner()){
+			if (			tickerBox.IsInside(position - ticker1) ||
+							tickerBox.IsInside(position - ticker2) ||
+							tickerBox.IsInside(position - ticker3) ||
+							tickerBox.IsInside(position - ticker4)){
+				return IInteractiveShape::TS_TICKER;
+			}
 		}
 
-		if (			tickerBox.IsInside(position - ticker5) ||
-						tickerBox.IsInside(position - ticker6) ||
-						tickerBox.IsInside(position - ticker7) ||
-						tickerBox.IsInside(position - ticker8) &&
-						IsEditableRadiusOuter()){
-			return IInteractiveShape::TS_TICKER;
+		if (IsEditableRadiusOuter()){
+			if (			tickerBox.IsInside(position - ticker5) ||
+							tickerBox.IsInside(position - ticker6) ||
+							tickerBox.IsInside(position - ticker7) ||
+							tickerBox.IsInside(position - ticker8)){
+				return IInteractiveShape::TS_TICKER;
+			}
 		}
 	}
 

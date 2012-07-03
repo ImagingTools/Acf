@@ -1,6 +1,9 @@
 #include "iimg/CBitmapBase.h"
 
 
+// STL includes
+#include <cstring>
+
 // Qt includes
 #include <QtCore/qmath.h>
 

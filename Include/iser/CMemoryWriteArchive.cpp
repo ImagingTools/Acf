@@ -1,6 +1,10 @@
 #include "iser/CMemoryWriteArchive.h"
 
 
+// STL includes
+#include <cstring>
+
+
 namespace iser
 {
 

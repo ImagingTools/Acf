@@ -2,6 +2,9 @@
 #define icmm_TComposedColor_included
 
 
+// STL includes
+#include <cstring>
+
 // ACF includes
 #include "istd/TChangeNotifier.h"
 

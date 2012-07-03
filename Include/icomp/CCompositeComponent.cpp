@@ -324,7 +324,7 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 								componentId));
 				}
 				else{
-					qCritical("Registry %s could not be found", elementAddress.ToString().constData());
+					qCritical("Registry %s could not be found", elementAddress.ToString().toLocal8Bit().constData());
 				}
 			}
 			else if (componentType == IComponentStaticInfo::CT_REAL){
@@ -336,7 +336,7 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 							componentId));
 			}
 			else{
-				qCritical("Unknown component type, instance of %s could not be created", elementAddress.ToString().constData());
+				qCritical("Unknown component type, instance of %s could not be created", elementAddress.ToString().toLocal8Bit().constData());
 			}
 		}
 
@@ -347,14 +347,14 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 		if (subComponentPtr != NULL){
 			const IRealComponentStaticInfo* realComponentInfoPtr = dynamic_cast<const IRealComponentStaticInfo*>(subComponentInfoPtr);
 			if (realComponentInfoPtr == NULL){
-				qCritical("Component %s is not real component, it cannot be created", elementAddress.ToString().constData());
+				qCritical("Component %s is not real component, it cannot be created", elementAddress.ToString().toLocal8Bit().constData());
 
 				return false;
 			}
 
 			subComponentPtr->SetPtr(realComponentInfoPtr->CreateComponent());
 			if (!subComponentPtr->IsValid()){
-				qCritical("Instance of component %s couldn't be created", elementAddress.ToString().constData());
+				qCritical("Instance of component %s couldn't be created", elementAddress.ToString().toLocal8Bit().constData());
 
 				return false;
 			}

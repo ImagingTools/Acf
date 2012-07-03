@@ -105,7 +105,7 @@ void CScanlineMask::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRec
 		double radiusDiff2 = radius2 - y * y;
 
 		if (radiusDiff2 >= 0){
-			double radiusDiff = std::sqrt(radiusDiff2);
+			double radiusDiff = qSqrt(radiusDiff2);
 			int left = int(center.GetX() - radiusDiff);
 			int right = int(center.GetX() + radiusDiff);
 
@@ -192,7 +192,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 			continue;
 		}
 
-		double outputRadiusDiff = std::sqrt(outputRadiusDiff2);
+		double outputRadiusDiff = qSqrt(outputRadiusDiff2);
 		int outerLeft = int(centerX - outputRadiusDiff);
 		int outerRight = int(centerX + outputRadiusDiff);
 
@@ -208,7 +208,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 
 		double innerRadiusDiff2 = innerRadius2 - y * y;
 		if (innerRadiusDiff2 >= 0){
-			double innerRadiusDiff = std::sqrt(innerRadiusDiff2);
+			double innerRadiusDiff = qSqrt(innerRadiusDiff2);
 
 			int innerLeft = int(centerX - innerRadiusDiff);
 			int innerRight = int(centerX + innerRadiusDiff);

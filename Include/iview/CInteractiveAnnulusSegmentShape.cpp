@@ -215,9 +215,6 @@ void CInteractiveAnnulusSegmentShape::Draw(QPainter& drawContext) const
 	i2d::CVector2d scale;
 	deform.GetAxesLengths(scale);
 
-	const i2d::CRect& clientRect = GetClientRect();
-	i2d::CRect bbox = clientRect.GetIntersection(GetBoundingBox());
-
 	if (IsCenterVisible()){
 		CInteractivePinShape::Draw(drawContext);
 	}

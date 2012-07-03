@@ -1,6 +1,9 @@
 #include "imath/CSampledFunction2d.h"
 
 
+// STL includes
+#include <cstring>
+
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
