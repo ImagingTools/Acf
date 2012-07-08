@@ -58,7 +58,7 @@ public:
 	enum ChangeFlags
 	{
 		/**
-			Supplier result chenged.
+			Supplier result changed.
 		*/
 		CF_SUPPLIER_RESULTS = 1 << 22
 	};

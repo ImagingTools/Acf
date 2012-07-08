@@ -37,6 +37,11 @@ public:
 		Sleep current thread.
 	*/
 	static void Sleep(double seconds);
+
+	/**
+		Remove a given directory with all contents.
+	*/
+	static bool RemoveDirectory(const QString& directoryPath);
 };
 
 
