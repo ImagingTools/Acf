@@ -86,6 +86,12 @@ void CToolBarGuiCompBase::OnGuiCreated()
 		widgetPtr->setWindowTitle(m_titleAttrPtr->GetValue());
 		widgetPtr->setObjectName(m_titleAttrPtr->GetValue());
 	}
+
+	if (m_iconSizeAttrPtr.IsValid()){
+		widgetPtr->setIconSize(QSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr));
+	}
+
+//	widgetPtr->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
 

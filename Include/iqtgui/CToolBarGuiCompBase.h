@@ -29,6 +29,7 @@ public:
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
 		I_ASSIGN(m_dockAreaAttrPtr, "ToolBarArea", "Specify the area for this toolbar\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);
 		I_ASSIGN(m_titleAttrPtr, "Title", "Tool bar title", false, "");
+		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of the icon used in the tool bar", false, 32);
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
@@ -42,6 +43,7 @@ protected:
 private:
 	I_ATTR(int, m_dockAreaAttrPtr);
 	I_ATTR(QString, m_titleAttrPtr);
+	I_ATTR(int, m_iconSizeAttrPtr);
 };
 
 

@@ -19,6 +19,9 @@ namespace iqt2d
 {
 
 
+/**
+	Standard 2D-View provider.
+*/
 class CViewProviderGuiComp: 
 			public	iqtgui::TGuiComponentBase<iview::CConsoleGui>,
 			virtual public ibase::ICommandsProvider,
@@ -28,6 +31,32 @@ class CViewProviderGuiComp:
 public:
 	typedef iqtgui::TGuiComponentBase<iview::CConsoleGui> BaseClass;
 	typedef imod::CMultiModelDispatcherBase BaseClass2;
+
+	/**
+		Background type for the 2D-view.
+	*/
+	enum BackgroundMode
+	{
+		/**
+			Standard window backround.
+		*/
+		BM_NORMAL,
+
+		/**
+			Filled with solid color.
+		*/
+		BM_SOLID,
+
+		/**
+			Checkerboard pattern.
+		*/
+		BM_CHECKERBOARD,
+
+		/**
+			Dot grid.
+		*/
+		BM_DOT_GRID
+	};
 
 	I_BEGIN_COMPONENT(CViewProviderGuiComp);	
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
@@ -42,6 +71,7 @@ public:
 		I_ASSIGN(m_fitModeAttrPtr, "FitMode", "Select fitting mode for the view. 0 - No fitting\n1 - Fit contents to view\n2 - Horizontal fit\n3 - Vertical fit\n4 - Both axes sclaled separately\n5 - Scale both axes proportional to display smallest AOI, which fully covers display", false, 0);
 		I_ASSIGN(m_calibrationProviderCompPtr, "CalibrationProvider", "Provider of 2D-calibration for the entire view", false, "CalibrationProvider");
 		I_ASSIGN_TO(m_calibrationProviderModelCompPtr, m_calibrationProviderCompPtr, false);
+		I_ASSIGN(m_backgroundModeAttrPtr, "BackgroundMode", "Mode of background drawing:\n 0 - standard window background\n 1 - solid color\n 2 - checkerboard\n 3 - dot grid\n", true, 0);	
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
@@ -74,6 +104,7 @@ private:
 	I_ATTR(bool, m_useStatusBarCommandsAttrPtr);
 	I_ATTR(bool, m_zoomToFitEnabledAttrPtr);
 	I_ATTR(int, m_fitModeAttrPtr);
+	I_ATTR(int, m_backgroundModeAttrPtr);
 
 	iview::CAffiniteCalibrationShape m_calibrationShape;
 };

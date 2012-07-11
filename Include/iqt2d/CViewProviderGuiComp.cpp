@@ -89,8 +89,20 @@ void CViewProviderGuiComp::OnGuiCreated()
 	}
 	consolePtr->SetScrollbarsButtonVisible(useScrollBarCommands);
 
-	if (m_calibrationProviderCompPtr.IsValid()){
-		view.ConnectCalibrationShape(&m_calibrationShape);
+	view.ConnectCalibrationShape(&m_calibrationShape);
+
+	if (m_backgroundModeAttrPtr.IsValid()){
+		switch (*m_backgroundModeAttrPtr){
+			case BM_SOLID:
+				iview::CColorShema* newColorShemaPtr = new iview::CColorShema;
+				newColorShemaPtr->Assign(consolePtr->GetViewRef().GetColorShema());
+
+				QBrush backgroundBrush(qRgb(192, 192, 192));
+				newColorShemaPtr->SetBrush(iview::IColorShema::SB_BACKGROUND, backgroundBrush);
+
+				consolePtr->GetViewRef().SetDefaultColorShema(newColorShemaPtr, true);
+				break;
+		}
 	}
 }
 

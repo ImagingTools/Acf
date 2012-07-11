@@ -230,7 +230,7 @@ void CCalibratedViewBase::DrawToContext(
 	}
 
 	QPainter& backgroundDC = backgroundBuffer.GetDrawContext();
-	const iview::IColorShema& colorShema =  GetDefaultColorShema();
+	const iview::IColorShema& colorShema = GetDefaultColorShema();
 
 	context.setPen(colorShema.GetPen(iview::IColorShema::SP_NORMAL));
 	context.setBrush(colorShema.GetBrush(iview::IColorShema::SB_NORMAL));

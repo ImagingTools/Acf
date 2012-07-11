@@ -24,7 +24,7 @@ namespace iview
 CConsoleGui::CConsoleGui(QWidget* parent)
 :	BaseClass(parent),
 	m_commands("&View", 100),
-	m_gridVisibleCommand("Grid", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
+	m_gridVisibleCommand("Show Grid", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_rulerVisibleCommand("Show Ruler", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_gridInMmVisibleCommand("Grid in Milimeter", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_scrollVisibleCommand("Show Scrollbars", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_VIEW_CONTROL),

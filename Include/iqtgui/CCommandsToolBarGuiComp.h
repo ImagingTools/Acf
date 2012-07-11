@@ -16,8 +16,7 @@ namespace iqtgui
 /**
 	Component for construction of a tool bar for a given commands provider.
 */
-class CCommandsToolBarGuiComp: 
-			public CToolBarGuiCompBase
+class CCommandsToolBarGuiComp: public CToolBarGuiCompBase
 {
 public:
 	typedef CToolBarGuiCompBase BaseClass; 
