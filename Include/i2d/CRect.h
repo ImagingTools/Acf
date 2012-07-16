@@ -4,7 +4,7 @@
 
 // ACF includes
 #include "istd/CIndex2d.h"
-#include "istd/CIntRange.h"
+#include "istd/TRange.h"
 
 #include "i2d/CRectangle.h"
 

@@ -6,7 +6,7 @@
 #include <math.h>
 
 // ACF includes
-#include "istd/CRange.h"
+#include "istd/TRange.h"
 
 #include "imath/CFixedPointManip.h"
 

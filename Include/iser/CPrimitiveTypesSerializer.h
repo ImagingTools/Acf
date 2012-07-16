@@ -6,7 +6,8 @@
 #include <QtCore/QDateTime>
 
 // ACF includes
-#include "istd/CRange.h"
+#include "istd/TRange.h"
+#include "istd/TRanges.h"
 #include "istd/TIndex.h"
 #include "iser/IArchive.h"
 
@@ -24,6 +25,9 @@ class CPrimitiveTypesSerializer
 {
 public:
 	static bool SerializeRange(iser::IArchive& archive, istd::CRange& range);
+	static bool SerializeIntRange(iser::IArchive& archive, istd::CIntRange& range);
+	static bool SerializeRanges(iser::IArchive& archive, istd::CRanges& ranges);
+	static bool SerializeIntRanges(iser::IArchive& archive, istd::CIntRanges& ranges);
 	static bool SerializeDateTime(iser::IArchive& archive, QDateTime& dateTime);
 
 	template <int Dimensions>

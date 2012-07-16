@@ -1,0 +1,777 @@
+#ifndef istd_TRanges_included
+#define istd_TRanges_included
+
+
+// STL includes
+#include <set>
+
+// ACF includes
+#include "istd/TRange.h"
+
+
+namespace istd
+{
+
+
+/**
+	Set of ranges.
+	This set is defined by initial begin state (state of minuns infinity) and list of state switch points.
+	Example given, set [10, 20) is represented as begin state \c false, and two switch points: at 10 and 20.
+*/
+template <typename ValueType>
+class TRanges
+{
+public:
+	typedef QList< TRange<ValueType> > RangeList;
+	typedef std::set<ValueType> SwitchPoints;
+
+	/**
+		Default constructor initializing this set to be empty.
+	*/
+	TRanges();
+
+	/**
+		Set this set to be empty.
+	*/
+	void Reset();
+
+	/**
+		Check if this set is empty.
+		This set is empty if no point belongs him.
+	*/
+	bool IsEmpty() const;
+
+	/**
+		Get stored switch points.
+	*/
+	const SwitchPoints& GetSwitchPoints() const;
+	/**
+		Allows access to stored switch points.
+	*/
+	SwitchPoints& GetSwitchPointsRef();
+
+	/**
+		Insert new switch point.
+		It add the new switch point or remove it, if such switch point exist.
+		Considering interpretation of switch points, it inverts the sets in range (point, infinity).
+	*/
+	void InsertSwitchPoint(ValueType point);
+
+	/**
+		Get begin state.
+		It is true, if values before first switch point belongs to set or not.
+	*/
+	bool GetBeginState() const;
+	/**
+		Set begin state.
+		Begin state is true, if values before first switch point belongs to set or not.
+		Changing of begin state inverts the set.
+	*/
+	void SetBeginState(bool state);
+
+	/**
+		Check if some point belongs to set.
+	*/
+	bool IsInside(ValueType point) const;
+
+	/**
+		Check if some range belongs to set.
+	*/
+	bool IsInside(const TRange<ValueType>& range) const;
+
+	/**
+		Check if some other set belongs to this set.
+	*/
+	bool IsInside(const TRanges<ValueType>& rangesList) const;
+
+	/**
+		Get union of two range list.
+	*/
+	TRanges<ValueType> GetUnion(const TRanges<ValueType>& rangesList) const;
+
+	/**
+		Get union of two range lists.
+		\overload
+	*/
+	void GetUnion(const TRanges<ValueType>& rangesList, TRanges<ValueType>& result) const;
+
+	/**
+		Calculate union of this range list and the other one.
+		Result is stored in this object.
+	*/
+	void Union(const TRanges<ValueType>& rangesList);
+
+	/**
+		Calculate union of this range list and some range.
+		Result is stored in this object.
+	*/
+	void Union(const TRange<ValueType>& range, bool isInverted = false);
+
+	/**
+		Get intersection of two range list.
+	*/
+	TRanges<ValueType> GetIntersection(const TRanges<ValueType>& rangesList) const;
+
+	/**
+		Get intersection of two range lists.
+		\overload
+	*/
+	void GetIntersection(const TRanges<ValueType>& rangesList, TRanges<ValueType>& result) const;
+
+	/**
+		Calculate intersection of this range list and the other one.
+		Result is stored in this object.
+	*/
+	void Intersection(const TRanges<ValueType>& rangesList);
+
+	/**
+		Calculate intersection of this range list and some range.
+		Result is stored in this object.
+	*/
+	void Intersection(const TRange<ValueType>& range, bool isInverted = false);
+
+	/**
+		Calculate erosion of this range list.
+		Erosion shortens the ends of each range with some value.
+		Result is stored in this object.
+	*/
+	void Erosion(ValueType value);
+
+	/**
+		Calculate dilatation of this range list.
+		Erosion prolongs the ends of each range with some value.
+		Result is stored in this object.
+	*/
+	void Dilatation(ValueType value);
+	/**
+		Remove gaps with some length.
+		\param	gapState	state interpreted as a gape.
+							If it is false the morphological closing is done,
+							otherwhile the morphological opening.
+	*/
+	void RemoveGaps(ValueType value, bool gapState = false);
+
+	/**
+		ShiftRanges all points in this set using specified offset.
+	*/
+	void ShiftRanges(ValueType offset);
+
+	/**
+		Get this set as list of \c istd::TRange objects.
+		\param	range	enclosing range.
+						Must be provided becouse this set can represent values inclusive infinities.
+	*/
+	void GetAsList(const TRange<ValueType>& range, RangeList& result) const;
+
+private:
+	SwitchPoints m_switchPoints;
+
+	bool  m_beginState;
+};
+
+
+template <typename ValueType>
+TRanges<ValueType>::TRanges()
+:	m_beginState(false)
+{
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Reset()
+{
+	m_switchPoints.clear();
+	m_beginState = false;
+}
+
+
+template <typename ValueType>
+bool TRanges<ValueType>::IsEmpty() const
+{
+	return 	m_switchPoints.empty() && (m_beginState == false);
+}
+
+
+template <typename ValueType>
+const typename TRanges<ValueType>::SwitchPoints& TRanges<ValueType>::GetSwitchPoints() const
+{
+	return m_switchPoints;
+}
+
+
+template <typename ValueType>
+typename TRanges<ValueType>::SwitchPoints& TRanges<ValueType>::GetSwitchPointsRef()
+{
+	return m_switchPoints;
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::InsertSwitchPoint(ValueType point)
+{
+	std::pair<SwitchPoints::iterator, bool> insertionStatus = m_switchPoints.insert(point);
+	if (!insertionStatus.second){
+		m_switchPoints.erase(insertionStatus.first);
+	}
+}
+
+
+template <typename ValueType>
+bool TRanges<ValueType>::GetBeginState() const
+{
+	return m_beginState;
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::SetBeginState(bool state)
+{
+	m_beginState = state;
+}
+
+
+template <typename ValueType>
+bool TRanges<ValueType>::IsInside(ValueType point) const
+{
+	bool state = m_beginState;
+	for (		SwitchPoints::const_iterator iter = m_switchPoints.begin();
+				iter != m_switchPoints.end();
+				++iter){
+		if (*iter > point){
+			break;
+		}
+
+		state = !state;
+	}
+
+	return state;
+}
+
+
+template <typename ValueType>
+bool TRanges<ValueType>::IsInside(const TRange<ValueType>& range) const
+{
+	bool state = m_beginState;
+	for (		SwitchPoints::const_iterator iter = m_switchPoints.begin();
+				iter != m_switchPoints.end();
+				++iter){
+		if (*iter > range.GetMinValue()){
+			if (state){
+				++iter;
+
+				// is the next switch out of checked range?
+				return (iter == m_switchPoints.end()) || (*iter >= range.GetMaxValue());
+			}
+			else{
+				return false;
+			}
+		}
+
+		state = !state;
+	}
+
+	return state;
+}
+
+
+template <typename ValueType>
+bool TRanges<ValueType>::IsInside(const TRanges<ValueType>& rangesList) const
+{
+	SwitchPoints::const_iterator iter = m_switchPoints.begin();
+	SwitchPoints::const_iterator listIter = rangesList.m_switchPoints.begin();
+
+	bool state = m_beginState;
+	bool listState = rangesList.m_beginState;
+
+	for (;;){
+		bool isListCovered = state || !listState;
+		if (!isListCovered){
+			return false;
+		}
+
+		if (iter != m_switchPoints.end()){
+			ValueType point = *iter;
+
+			if (listIter != rangesList.m_switchPoints.end()){
+				ValueType listPoint = *listIter;
+
+				if (point <= listPoint){
+					++iter;
+					state = !state;
+				}
+
+				if (listPoint <= point){
+					++listIter;
+					listState = !listState;
+				}
+			}
+			else{
+				return true;
+			}
+		}
+		else{
+			// if no more segments in this list, check if no more switch is inside
+			return listIter == rangesList.m_switchPoints.end();
+		}
+	}
+}
+
+
+template <typename ValueType>
+TRanges<ValueType> TRanges<ValueType>::GetUnion(const TRanges<ValueType>& rangesList) const
+{
+	TRanges<ValueType> retVal;
+
+	GetUnion(rangesList, retVal);
+
+	return retVal;
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::GetUnion(const TRanges<ValueType>& rangesList, TRanges<ValueType>& result) const
+{
+	SwitchPoints::const_iterator iter = m_switchPoints.begin();
+	SwitchPoints::const_iterator listIter = rangesList.m_switchPoints.begin();
+
+	bool state = m_beginState;
+	bool listState = rangesList.m_beginState;
+
+	bool resultState = state || listState;
+
+	result.m_beginState = resultState;
+	result.m_switchPoints.clear();
+
+	for (;;){
+		if (iter != m_switchPoints.end()){
+			ValueType point = *iter;
+
+			if (listIter != rangesList.m_switchPoints.end()){
+				ValueType listPoint = *listIter;
+
+				if (point <= listPoint){
+					++iter;
+					state = !state;
+				}
+
+				if (listPoint <= point){
+					++listIter;
+					listState = !listState;
+				}
+
+				bool unitedStateAfter = state || listState;
+				if (unitedStateAfter != resultState){
+					result.m_switchPoints.insert(qMin(point, listPoint));
+
+					resultState = unitedStateAfter;
+				}
+			}
+			else{
+				if (!listState){
+					result.m_switchPoints.insert(iter, m_switchPoints.end());
+				}
+
+				return;
+			}
+		}
+		else{
+			if (!state && (listIter != rangesList.m_switchPoints.end())){
+				result.m_switchPoints.insert(listIter, rangesList.m_switchPoints.end());
+			}
+
+			return;
+		}
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Union(const TRanges<ValueType>& rangesList)
+{
+	SwitchPoints::iterator iter = m_switchPoints.begin();
+	SwitchPoints::const_iterator listIter = rangesList.m_switchPoints.begin();
+
+	bool state = m_beginState;
+	bool listState = rangesList.m_beginState;
+
+	result.m_beginState = state || listState;
+
+	for (;;){
+		if (iter != m_switchPoints.end()){
+			ValueType point = *iter;
+
+			if (listIter != rangesList.m_switchPoints.end()){
+				ValueType listPoint = *listIter;
+
+				if (point == listPoint){
+					++iter;
+					state = !state;
+					++listIter;
+					listState = !listState;
+				}
+				else if (point < listPoint){
+					if (listState){
+						iter = m_switchPoints.remove(iter);
+					}
+					else{
+						++iter;
+					}
+					state = !state;
+				}
+				else{
+					if (!state){
+						iter = m_switchPoints.insert(iter, listPoint);
+					}
+					++listIter;
+					listState = !listState;
+				}
+			}
+			else{
+				if (listState){
+					m_switchPoints.remove(iter, m_switchPoints.end());
+				}
+
+				return;
+			}
+		}
+		else{
+			if (!state && (listIter != rangesList.m_switchPoints.end())){
+				m_switchPoints.insert(listIter, rangesList.m_switchPoints.end());
+			}
+
+			return;
+		}
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Union(const TRange<ValueType>& range, bool isInverted)
+{
+	if (range.IsEmpty()){
+		return;
+	}
+
+	bool firstPointState = m_beginState;
+	SwitchPoints::const_iterator firstIter = m_switchPoints.begin();
+	for (;firstIter != m_switchPoints.end(); ++firstIter){
+		if (*firstIter > range.GetMinValue()){
+			break;
+		}
+
+		firstPointState = !firstPointState;
+	}
+
+	bool secondPointState = firstPointState;
+	SwitchPoints::const_iterator secondIter = firstIter;
+	for (;secondIter != m_switchPoints.end(); ++secondIter){
+		if (*secondIter > range.GetMaxValue()){
+			break;
+		}
+
+		secondPointState = !secondPointState;
+	}
+
+	if (firstIter != secondIter){
+		// if there are some points in range...
+		if (isInverted){
+			m_switchPoints.remove(m_switchPoints.begin(), firstIter);	// remove all points before
+			m_switchPoints.remove(m_switchPoints.begin(), secondIter);	// remove all points after
+		}
+		else{
+			m_switchPoints.remove(firstIter, secondIter);	// remove all points before
+		}
+	}
+	else{
+		if (isInverted){
+			m_switchPoints.clear();
+		}
+	}
+
+	m_beginState = m_beginState || isInverted;
+
+	if (firstPointState != !isInverted){
+		m_switchPoints.insert(range.GetMinValue());
+	}
+
+	if (secondPointState != isInverted){
+		m_switchPoints.insert(range.GetMaxValue());
+	}
+}
+
+
+template <typename ValueType>
+TRanges<ValueType> TRanges<ValueType>::GetIntersection(const TRanges<ValueType>& rangesList) const
+{
+	TRanges<ValueType> retVal;
+
+	GetIntersection(rangesList, retVal);
+
+	return retVal;
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::GetIntersection(const TRanges<ValueType>& rangesList, TRanges<ValueType>& result) const
+{
+	SwitchPoints::const_iterator iter = m_switchPoints.begin();
+	SwitchPoints::const_iterator listIter = rangesList.m_switchPoints.begin();
+
+	bool state = m_beginState;
+	bool listState = rangesList.m_beginState;
+
+	bool resultState = state && listState;
+
+	result.m_beginState = resultState;
+	result.m_switchPoints.clear();
+
+	for (;;){
+		if (iter != m_switchPoints.end()){
+			ValueType point = *iter;
+
+			if (listIter != rangesList.m_switchPoints.end()){
+				ValueType listPoint = *listIter;
+
+				if (point <= listPoint){
+					++iter;
+					state = !state;
+				}
+
+				if (listPoint <= point){
+					++listIter;
+					listState = !listState;
+				}
+
+				bool unitedStateAfter = state && listState;
+				if (unitedStateAfter != resultState){
+					result.m_switchPoints.insert(qMin(point, listPoint));
+
+					resultState = unitedStateAfter;
+				}
+			}
+			else{
+				if (listState){
+					result.m_switchPoints.insert(iter, m_switchPoints.end());
+				}
+
+				return;
+			}
+		}
+		else{
+			if (state && (listIter != rangesList.m_switchPoints.end())){
+				result.m_switchPoints.insert(listIter, rangesList.m_switchPoints.end());
+			}
+
+			return;
+		}
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Intersection(const TRanges<ValueType>& rangesList)
+{
+	SwitchPoints::iterator iter = m_switchPoints.begin();
+	SwitchPoints::const_iterator listIter = rangesList.m_switchPoints.begin();
+
+	bool state = m_beginState;
+	bool listState = rangesList.m_beginState;
+
+	m_beginState = state && listState;
+
+	for (;;){
+		if (iter != m_switchPoints.end()){
+			ValueType point = *iter;
+
+			if (listIter != rangesList.m_switchPoints.end()){
+				ValueType listPoint = *listIter;
+
+				if (point == listPoint){
+					++iter;
+					state = !state;
+					++listIter;
+					listState = !listState;
+				}
+				else if (point < listPoint){
+					if (!listState){
+						iter = m_switchPoints.remove(iter);
+					}
+					else{
+						++iter;
+					}
+					state = !state;
+				}
+				else{
+					if (state){
+						iter = m_switchPoints.insert(iter, listPoint);
+					}
+					++listIter;
+					listState = !listState;
+				}
+			}
+			else{
+				if (!listState){
+					m_switchPoints.remove(iter, m_switchPoints.end());
+				}
+
+				return;
+			}
+		}
+		else{
+			if (state && (listIter != rangesList.m_switchPoints.end())){
+				m_switchPoints.insert(listIter, rangesList.m_switchPoints.end());
+			}
+
+			return;
+		}
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Intersection(const TRange<ValueType>& range, bool isInverted)
+{
+	m_beginState = !m_beginState;
+
+	Union(range, !isInverted);
+
+	m_beginState = !m_beginState;
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Erosion(ValueType value)
+{
+	bool isErosion = value > 0;
+	ValueType correctionValue = qAbs(value);
+
+	bool state = m_beginState;
+
+	SwitchPoints::iterator iter = m_switchPoints.begin();
+	while (iter != m_switchPoints.end()){
+		ValueType point = *iter;
+
+		state = !state;
+
+		if (!state == isErosion){
+			// move point back
+			if (iter != m_switchPoints.begin()){
+				SwitchPoints::iterator prevIter = iter;
+				--prevIter;
+
+				if (*prevIter > point - correctionValue * 2){
+					// previous range should be removed - is smaller than the erosion kernel
+					m_switchPoints.erase(prevIter);
+					iter = m_switchPoints.erase(iter);
+
+					continue;
+				}
+			}
+
+			// range can be moved using kernel size
+			iter = m_switchPoints.erase(iter);
+			iter = m_switchPoints.insert(iter, point - correctionValue);
+		}
+		else{
+			// move point forward
+			SwitchPoints::iterator nextIter = iter;
+			++nextIter;
+
+			if (nextIter != m_switchPoints.begin()){
+				if (*nextIter < point + correctionValue * 2){
+					// following range should be removed - is smaller than the erosion kernel
+					iter = m_switchPoints.erase(iter);
+					iter = m_switchPoints.erase(iter);
+
+					continue;
+				}
+			}
+
+			// range can be moved using kernel size
+			iter = m_switchPoints.erase(iter);
+			iter = m_switchPoints.insert(iter, point + correctionValue);
+		}
+
+		++iter;
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Dilatation(ValueType value)
+{
+	Erosion(-value);
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::RemoveGaps(ValueType value, bool gapState)
+{
+	if (gapState){
+		Erosion(-value);
+		Erosion(value);
+	}
+	else{
+		Erosion(value);
+		Erosion(-value);
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::ShiftRanges(ValueType offset)
+{
+	for (		SwitchPoints::iterator iter = m_switchPoints.begin();
+				iter != m_switchPoints.end();
+				++iter){
+		ValueType& position = *iter;
+
+		position += offset;
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::GetAsList(const TRange<ValueType>& range, RangeList& result) const
+{
+	int prevPosition = range.GetMinValue();
+
+	bool state = m_beginState;
+
+	for (		SwitchPoints::const_iterator iter = m_switchPoints.begin();
+				iter != m_switchPoints.end();
+				++iter){
+		ValueType position = *iter;
+		if (position >= range.GetMaxValue()){
+			break;
+		}
+
+		if (position > prevPosition){
+			if (!state){
+				result.push_back(TRange<ValueType>(prevPosition, position));
+			}
+
+			prevPosition = position;
+		}
+
+		state = !state;
+	}
+
+	if (state){
+		result.push_back(TRange<ValueType>(prevPosition, range.GetMaxValue()));
+	}
+}
+
+
+// typedefs
+
+typedef TRanges<double> CRanges;
+typedef TRanges<int> CIntRanges;
+
+
+} // namespace istd
+
+
+#endif istd_TRanges_included
+
+

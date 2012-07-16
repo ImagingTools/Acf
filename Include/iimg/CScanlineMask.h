@@ -6,6 +6,7 @@
 #include <QtCore/QList>
 
 // ACF includes
+#include "istd/TRanges.h"
 #include "i2d/CRect.h"
 #include "i2d/CCircle.h"
 #include "i2d/CAnnulus.h"
@@ -24,8 +25,6 @@ namespace iimg
 class CScanlineMask: virtual public IRasterImage
 {
 public:
-	typedef QList<istd::CIntRange> PixelRanges;
-
 	CScanlineMask();
 
 	/**
@@ -41,7 +40,7 @@ public:
 	/**
 		Get the list of pixel ranges per given line.
 	*/
-	const PixelRanges* GetPixelRanges(int lineIndex) const;
+	const istd::CIntRanges* GetPixelRanges(int lineIndex) const;
 
 	/**
 		Create 2D-region from some geometrical object.
@@ -129,20 +128,14 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-	// static methods
-	static void GetLineUnion(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result);
-	static void LineUnion(const PixelRanges& line, PixelRanges& result);
-	static void GetLineIntersection(const PixelRanges& line1, const PixelRanges& line2, PixelRanges& result);
-	static void LineIntersection(const PixelRanges& line, PixelRanges& result);
-
 protected:
 	void SetBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
 
 private:
-	typedef QVector<PixelRanges> RangesContainer;
+	typedef QList<istd::CIntRanges> RangesContainer;
 	RangesContainer m_rangesContainer;
 
-	typedef QVector<const PixelRanges*> Scanlines;
+	typedef QVector<const istd::CIntRanges*> Scanlines;
 	Scanlines m_scanlines;
 
 	i2d::CRect m_boundingBox;

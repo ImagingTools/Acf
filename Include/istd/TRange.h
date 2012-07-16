@@ -731,6 +731,12 @@ template <typename ValueType>
 TRange<ValueType> TRange<ValueType>::s_invalid(0, -1);
 
 
+// typedefs
+
+typedef istd::TRange<double> CRange;
+typedef istd::TRange<int> CIntRange;
+
+
 } // namespace istd
 
 
