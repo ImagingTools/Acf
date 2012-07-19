@@ -28,15 +28,6 @@ namespace icomp
 #endif // _DEBUG || DEBUG
 
 
-#if defined(_DEBUG) || defined(DEBUG)
-	#define I_EXPORT_SERVICES_FUNCTION RegisterServicesDebug
-	#define I_EXPORT_SERVICES_FUNCTION_NAME "RegisterServicesDebug"
-#else // _DEBUG || DEBUG
-	#define I_EXPORT_SERVICES_FUNCTION RegisterServices
-	#define I_EXPORT_SERVICES_FUNCTION_NAME "RegisterServices"
-#endif // _DEBUG || DEBUG
-
-
 #define I_EXPORT_PACKAGE(logicalName, description, keywords) \
 	static icomp::CPackageStaticInfo packageInfo(description, keywords);\
 	extern "C" I_FUNCTION_EXPORT icomp::CPackageStaticInfo* I_PACKAGE_EXPORT_FUNCTION(){\
