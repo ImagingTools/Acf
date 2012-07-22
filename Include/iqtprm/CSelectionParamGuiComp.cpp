@@ -13,13 +13,6 @@ namespace iqtprm
 {
 
 
-// reimplemented (imod::IModelEditor)
-
-void CSelectionParamGuiComp::UpdateModel() const
-{
-}
-
-
 // protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
@@ -44,6 +37,8 @@ void CSelectionParamGuiComp::OnGuiModelAttached()
 void CSelectionParamGuiComp::OnGuiModelDetached()
 {
 	UnregisterAllModels();
+
+	ResetWidgets();
 
 	BaseClass::OnGuiModelDetached();
 }
@@ -164,9 +159,7 @@ void CSelectionParamGuiComp::OnGuiCreated()
 
 void CSelectionParamGuiComp::OnGuiDestroyed()
 {
-	m_comboBoxes.Reset();
-	m_radioButtons.Reset();
-	m_radioButtonFramePtr.Reset();
+	ResetWidgets();
 
 	BaseClass::OnGuiDestroyed();
 }
@@ -424,6 +417,14 @@ void CSelectionParamGuiComp::UpdateDescriptionFrame()
 		}
 	}
 }
+
+void CSelectionParamGuiComp::ResetWidgets()
+{
+	m_comboBoxes.Reset();
+	m_radioButtons.Reset();
+	m_radioButtonFramePtr.Reset();
+}
+
 
 
 } // namespace iqtprm

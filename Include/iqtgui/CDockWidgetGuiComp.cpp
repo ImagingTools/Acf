@@ -86,7 +86,7 @@ void CDockWidgetGuiComp::OnGuiCreated()
 
 	istd::TDelPtr<QWidget> containerWidgetPtr(new QWidget(NULL));
 	QVBoxLayout* layoutPtr = new QVBoxLayout(containerWidgetPtr.GetPtr());
-	layoutPtr->setMargin(3);
+	layoutPtr->setMargin(1);
 	containerWidgetPtr->setLayout(layoutPtr);
 
 	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.GetPtr())){

@@ -92,9 +92,6 @@ public:
 		I_ASSIGN(m_labelWidthAttrPtr, "LabelWidth", "Fixed label width (in pixels)", false, 100);
 	I_END_COMPONENT;
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
@@ -117,6 +114,7 @@ private:
 	void UpdateComboBoxesView();
 	void UpdateRadioButtonView();
 	void UpdateDescriptionFrame();
+	void ResetWidgets();
 
 private:
 	I_ATTR(QString, m_optionsLabelAttrPtr);
