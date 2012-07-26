@@ -724,13 +724,14 @@ void TRanges<ValueType>::RemoveGaps(ValueType value, bool gapState)
 template <typename ValueType>
 void TRanges<ValueType>::ShiftRanges(ValueType offset)
 {
+	SwitchPoints newSwitchPoints;
 	for (		SwitchPoints::iterator iter = m_switchPoints.begin();
 				iter != m_switchPoints.end();
 				++iter){
-		ValueType& position = *iter;
-
-		position += offset;
+		newSwitchPoints.insert(*iter + offset);
 	}
+
+	m_switchPoints.swap(newSwitchPoints);
 }
 
 
