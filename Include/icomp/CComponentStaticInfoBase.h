@@ -30,26 +30,6 @@ public:
 };
 
 
-// inline methods
-
-// reimplemented (icomp::IComponentStaticInfo)
-
-inline const QString& CComponentStaticInfoBase::GetDescription() const
-{
-	static QString emptyString;
-
-	return emptyString;
-}
-
-
-inline const QString& CComponentStaticInfoBase::GetKeywords() const
-{
-	static QString emptyString;
-
-	return emptyString;
-}
-
-
 } // namespace icomp
 
 

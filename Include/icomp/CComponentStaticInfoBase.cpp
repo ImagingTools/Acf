@@ -25,6 +25,22 @@ const IComponentStaticInfo* CComponentStaticInfoBase::GetEmbeddedComponentInfo(c
 }
 
 
+const QString& CComponentStaticInfoBase::GetDescription() const
+{
+	static QString emptyString;
+
+	return emptyString;
+}
+
+
+const QString& CComponentStaticInfoBase::GetKeywords() const
+{
+	static QString emptyString;
+
+	return emptyString;
+}
+
+
 //	reimplemented (icomp::IElementStaticInfo)
 
 const IElementStaticInfo* CComponentStaticInfoBase::GetSubelementInfo(const QByteArray& /*subcomponentId*/) const
