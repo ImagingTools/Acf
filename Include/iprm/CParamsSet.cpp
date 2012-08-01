@@ -64,6 +64,15 @@ IParamsSet::Ids CParamsSet::GetParamIds(bool editableOnly) const
 		I_ASSERT(parameterPtr != NULL);
 
 		retVal.insert(parameterPtr->parameterId);
+
+		const IParamsSet* subSetPtr = dynamic_cast<const IParamsSet*>(parameterPtr->parameterPtr.GetPtr());
+		if (subSetPtr != NULL){
+			Ids subIds = subSetPtr->GetParamIds(editableOnly);
+
+			for (Ids::ConstIterator index = subIds.constBegin(); index != subIds.constEnd(); index++){
+				retVal.insert(parameterPtr->parameterId + "/" + *index);
+			}
+		}
 	}
 
 	return retVal;
