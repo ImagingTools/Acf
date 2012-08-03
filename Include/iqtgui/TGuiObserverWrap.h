@@ -293,7 +293,7 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiRetranslate()
 {
 	UpdateBlocker updateBlocker(this);
 
-	Gui::OnGuiCreated();
+	Gui::OnGuiRetranslate();
 }
 
 
