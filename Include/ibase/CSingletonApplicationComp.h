@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QSharedMemory>
+#include <QtCore/QSharedMemory>
 
 // ACF includes
 #include "icomp/CComponentBase.h"
