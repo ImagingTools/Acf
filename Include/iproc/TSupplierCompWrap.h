@@ -142,7 +142,8 @@ template <class Product>
 TSupplierCompWrap<Product>::TSupplierCompWrap()
 :	m_workStatus(WS_INVALID),
 	m_inputObserver(this),
-	m_productChangeNotifier(NULL, CF_SUPPLIER_RESULTS | CF_MODEL)
+	m_productChangeNotifier(NULL, CF_SUPPLIER_RESULTS | CF_MODEL),
+	m_elapsedTime(0)
 {
 }
 

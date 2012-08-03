@@ -89,6 +89,7 @@ protected:
 	// pseudo-reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiShown();
 	virtual void OnGuiHidden();
+	virtual void OnGuiRetranslate();
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 
@@ -284,6 +285,15 @@ void TGuiObserverWrap<Gui, Observer>::OnGuiHidden()
 	if (Observer::IsModelAttached(NULL)){
 		OnGuiModelHidden();
 	}
+}
+
+
+template <class Gui, class Observer>
+void TGuiObserverWrap<Gui, Observer>::OnGuiRetranslate()
+{
+	UpdateBlocker updateBlocker(this);
+
+	Gui::OnGuiCreated();
 }
 
 
