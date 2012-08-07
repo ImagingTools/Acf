@@ -281,20 +281,21 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 			qSwap(x1, x2);
 		}
 
-		int firstLine = qMax(int(y1), 0);
-		int lastLine = qMin(int(y2), linesCount);
+		int firstLine = qMax(int(y1 + 0.5), 0);
+		int lastLine = qMin(int(y2 + 0.5), linesCount);
 
 		if (firstLine < lastLine){
 			double deltaX = (x2 - x1) / (y2 - y1);
 
 			// add line to list of points
-			double positionX = x1 + (firstLine - y1) * deltaX;
+			double positionX = x1 + (firstLine + 0.5 - y1) * deltaX;
 			for (int lineIndex = firstLine; lineIndex < lastLine; ++lineIndex){
-				int x = int(positionX);
+				int x = int(positionX + 0.5);
 
-				std::set<int> points = scanVector[lineIndex];
+				std::set<int>& points = scanVector[lineIndex];
 
 				std::set<int>::iterator foundIter = points.find(x);
+				
 				if (foundIter != points.end()){
 					points.erase(foundIter);
 				}
@@ -325,7 +326,6 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 			int left = *(iter++);
 			Q_ASSERT(iter != lineList.end());
 			int right = *(iter++);
-			Q_ASSERT(iter != lineList.end());
 
 			if (clipAreaPtr != NULL){
 				if (left < clipAreaPtr->GetLeft()){
