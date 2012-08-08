@@ -237,6 +237,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMessageContainer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CModelBinderComp.cpp"
 				>
 			</File>
@@ -343,6 +347,10 @@
 			</File>
 			<File
 				RelativePath="..\CMessage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMessageContainer.h"
 				>
 			</File>
 			<File
@@ -479,10 +487,6 @@
 			</File>
 			<File
 				RelativePath="..\TLoggerWrap.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TMessageContainerWrap.h"
 				>
 			</File>
 			<File

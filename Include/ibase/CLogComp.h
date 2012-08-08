@@ -6,7 +6,7 @@
 #include "icomp/CComponentBase.h"
 
 #include "ibase/IMessageContainer.h"
-#include "ibase/TMessageContainerWrap.h"
+#include "ibase/CMessageContainer.h"
 
 #include "ibase/CMessage.h"
 
