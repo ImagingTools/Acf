@@ -139,7 +139,7 @@ void CCompositeComponent::OnSubcomponentDeleted(const IComponent* subcomponentPt
 		}
 	}
 
-	I_CRITICAL();	// subcomponent not found in this composition
+	qFatal("sub component not found in this composition");
 }
 
 

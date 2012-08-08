@@ -39,7 +39,7 @@ void CBaseComponentStaticInfo::RegisterSubelementInfo(const QByteArray& embedded
 
 IComponent* CBaseComponentStaticInfo::CreateComponent() const
 {
-	I_CRITICAL();	// trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten
+	qFatal("trying to create abstract base component. Check if I_BEGIN_COMPONENT in constructed component wasn't forgotten");
 
 	return NULL;
 }

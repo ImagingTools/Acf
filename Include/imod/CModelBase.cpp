@@ -38,7 +38,7 @@ bool CModelBase::AttachObserver(IObserver* observerPtr)
 
 	for (int observerIndex = 0; observerIndex < int(m_observers.size()); observerIndex++){
 		if (m_observers.at(observerIndex) == observerPtr){
-			I_CRITICAL();
+			qFatal("Observer is already connected to this model");
 
 			return false;
 		}
@@ -69,7 +69,7 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 		}
 	}
 
-	I_ASSERT(false);
+	qFatal("Observer doesn't exist");
 }
 
 

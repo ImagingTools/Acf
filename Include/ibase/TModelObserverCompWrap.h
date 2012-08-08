@@ -47,6 +47,34 @@ void TModelObserverCompWrap<ObserverComponent>::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
+	I_IF_DEBUG(
+		if (m_defaultModelCompPtr.IsValid() && !m_defaultObjectCompPtr.IsValid()){
+			const icomp::IComponentContext* contextPtr = BaseClass::GetComponentContext();
+			QByteArray observerComponentId;
+			if (contextPtr != NULL){
+				observerComponentId = contextPtr->GetContextId();
+			}
+
+			QByteArray modelComponentId;
+
+			icomp::IComponent* modelComponentPtr = dynamic_cast<icomp::IComponent*>(m_defaultModelCompPtr.GetPtr());
+			I_ASSERT(modelComponentPtr != NULL);
+			const icomp::IComponentContext* modelContextPtr = modelComponentPtr->GetComponentContext();
+			if (modelContextPtr != NULL){
+				modelComponentId = modelContextPtr->GetContextId();
+			}
+
+			QString exptectedObjectInterface = typeid(ObserverComponent::ModelType).name();
+
+			QString debugMessage = QString("Try to bind the Observer <%1> to Model <%2>. Data model interface is not supported by this observer. Expected interface is: %3")
+				.arg(QString(observerComponentId))
+				.arg(QString(modelComponentId))
+				.arg(exptectedObjectInterface);
+
+			qDebug(debugMessage.toUtf8());
+		}
+	)
+
 	if (m_defaultModelCompPtr.IsValid() && m_defaultObjectCompPtr.IsValid()){
 		m_defaultModelCompPtr->AttachObserver(this);
 	}
