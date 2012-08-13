@@ -68,6 +68,8 @@ bool CFileConvertOverProcessorComp::ConvertFile(
 				m_outputDataCompPtr.GetPtr(),
 				m_progressManagerCompPtr.GetPtr());
 	if (processingResult != iproc::IProcessor::TS_OK){
+		SendErrorMessage(0, "File conversion failed", "File processing component");
+
 		return false;
 	}
 

@@ -1,6 +1,10 @@
 #include "ibase/CCopyAppComp.h"
 
 
+// Qt includes
+#include <QtCore/QFileInfo>
+
+
 namespace ibase
 {
 
@@ -43,6 +47,11 @@ int CCopyAppComp::Execute(int argc, char** argv)
 		else if (!*m_needExplicitInputAttrPtr && (index == 1)){
 			inputFilePath = QString::fromLocal8Bit(argument);
 		}
+	}
+
+	QFileInfo inputFileInfo(inputFilePath);
+	if (!inputFileInfo.exists()){
+		SendWarningMessage(0, QString("Input file doesn't exist: %1").arg(inputFilePath));;	
 	}
 
 	if (!m_fileCopyCompPtr->ConvertFile(inputFilePath, outputFilePath)){
