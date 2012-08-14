@@ -38,6 +38,7 @@ public:
 		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, imod::IModel, ExtractVisualStatus);
 		I_ASSIGN(m_defaultStatusIconPathAttrPtr, "DefaultStatusIcon", "Path of status icon used by default", false, "");
 		I_ASSIGN(m_defaultStatusTextAttrPtr, "DefaultStatusText", "Status text used by default", true, "");
+		I_ASSIGN(m_styleSheetPathAttrPtr, "StyleSheet", "Path to the style sheet file used for this UI component.", true, "");
 	I_END_COMPONENT;
 
 	CGuiComponentBase();
@@ -146,6 +147,7 @@ private:
 
 	I_ATTR(QString, m_defaultStatusIconPathAttrPtr);
 	I_ATTR(QString, m_defaultStatusTextAttrPtr);
+	I_ATTR(QString, m_styleSheetPathAttrPtr);
 
 	QWidget* m_widgetPtr;
 	bool m_isGuiShown;

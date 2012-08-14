@@ -54,9 +54,6 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
-	void SetStyleSheet(const QString& styleSheetFileName);
-
-private:
 	I_REF(IGuiObject, m_splashScreenCompPtr);
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_REF(iqt::ITranslationManager, m_translationManagerCompPtr);

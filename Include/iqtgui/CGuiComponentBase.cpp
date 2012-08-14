@@ -58,6 +58,12 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 			OnGuiCreated();
 			OnGuiRetranslate();
 
+			if (m_styleSheetPathAttrPtr.IsValid()){
+				if (!iqtgui::SetStyleSheet(*m_widgetPtr, *m_styleSheetPathAttrPtr)){
+					qDebug(QString("Style sheet file could not be set: %1").arg(*m_styleSheetPathAttrPtr).toLatin1());
+				}
+			}
+
 			return true;
 		}
 	}

@@ -74,7 +74,9 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 
 		// set up style sheet
 		if (m_styleSheetAttrPtr.IsValid()){
-			SetStyleSheet(*m_styleSheetAttrPtr);
+			if (!iqtgui::SetStyleSheet(*m_applicationPtr, *m_styleSheetAttrPtr)){
+				qDebug(QString("Style sheet file could not be set: %1").arg(*m_styleSheetAttrPtr).toLatin1());
+			}
 		}
 
 		icomp::ICompositeComponent* parentPtr = const_cast<icomp::ICompositeComponent*>(GetParentComponent(true));
@@ -146,27 +148,6 @@ void CApplicationCompBase::OnComponentCreated()
 	}
 
 	BaseClass::OnComponentCreated();
-}
-
-
-// private methods
-
-void CApplicationCompBase::SetStyleSheet(const QString& styleSheetFileName)
-{
-	I_ASSERT(m_applicationPtr != NULL);
-
-	QFile styleSheetFile(styleSheetFileName);
-	if (styleSheetFile.open(QIODevice::ReadOnly | QIODevice::Text)){
-		QTextStream stream(&styleSheetFile);
-		QString styleSheetText;
-		QString textLine;
-		do{
-			textLine = stream.readLine();
-			styleSheetText += textLine;
-		} while (!textLine.isNull());
-
-		m_applicationPtr->setStyleSheet(styleSheetText);
-	}
 }
 
 
