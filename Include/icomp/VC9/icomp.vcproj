@@ -243,6 +243,10 @@
 				RelativePath="..\CSimComponentContextBase.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CXpcModel.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -330,6 +334,10 @@
 			</File>
 			<File
 				RelativePath="..\CSimComponentContextBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXpcModel.h"
 				>
 			</File>
 			<File
