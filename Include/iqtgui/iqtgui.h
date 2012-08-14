@@ -23,6 +23,12 @@ namespace iqtgui
 template <class StyleSheetConsumer>
 static bool SetStyleSheet(StyleSheetConsumer& styleSheetConsumer, const QString& styleSheetFilePath)
 {
+	if (styleSheetFilePath.isEmpty()){
+		styleSheetConsumer.setStyleSheet("");
+
+		return true;
+	}
+
 	QFile styleSheetFile(styleSheetFilePath);
 	if (styleSheetFile.open(QIODevice::ReadOnly | QIODevice::Text)){
 		QTextStream stream(&styleSheetFile);

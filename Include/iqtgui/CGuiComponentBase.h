@@ -38,7 +38,7 @@ public:
 		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, imod::IModel, ExtractVisualStatus);
 		I_ASSIGN(m_defaultStatusIconPathAttrPtr, "DefaultStatusIcon", "Path of status icon used by default", false, "");
 		I_ASSIGN(m_defaultStatusTextAttrPtr, "DefaultStatusText", "Status text used by default", true, "");
-		I_ASSIGN(m_styleSheetPathAttrPtr, "StyleSheet", "Path to the style sheet file used for this UI component.", true, "");
+		I_ASSIGN(m_styleSheetPathAttrPtr, "StyleSheet", "Path to the style sheet file used for this UI component.", false, "");
 	I_END_COMPONENT;
 
 	CGuiComponentBase();
