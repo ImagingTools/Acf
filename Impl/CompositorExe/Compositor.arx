@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2426
+          2437
         </Number>
         <Description>
           ACF
@@ -15,7 +15,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="3">
+  <ElementsList count="4">
     <Element>
       <Id>
         Application
@@ -36,7 +36,7 @@
         <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
-              CompositorTemplate
+              DocumentTemplates
             </Id>
             <Type>
               Reference[]
@@ -48,9 +48,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="1">
+              <Values count="2">
                 <Value>
                   CompositorTemplate
+                </Value>
+                <Value>
+                  XpcTemplate
                 </Value>
               </Values>
             </Data>
@@ -461,6 +464,84 @@
               </IsEnabled>
               <Value>
                 Application/DocumentSelection
+              </Value>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        XpcTemplate
+      </Id>
+      <PackageId>
+        CompositorVoce
+      </PackageId>
+      <ComponentId>
+        XpcTemplate
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              DocumentManager
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Application/DocumentManager
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              Log
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                MainWindowComponents/LogDock
+              </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              VersionInfo
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Value>
+                Application
               </Value>
             </Data>
           </AttributeInfo>
