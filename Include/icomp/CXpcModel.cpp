@@ -30,30 +30,31 @@ bool CXpcModel::Serialize(iser::IArchive& archive)
 	m_confFiles.clear();
 	m_packageDirs.clear();
 	m_packages.clear();
-    } else {
-	configFilesCount = m_confFiles.size();
-    }
-    retVal = retVal && archive.BeginMultiTag(configFilesTag, filePathTag, configFilesCount);
-
-    if (!retVal) {
-	return false;
-    }
-
-    for (int i = 0; i < configFilesCount; ++i) {
-	retVal = retVal && archive.BeginTag(filePathTag);
-	QString filePath;
-	if (archive.IsStoring()) {
-	    filePath = m_confFiles[i];
 	}
-	retVal = retVal && archive.Process(filePath);
-	if (retVal && !archive.IsStoring()) {
-	    m_confFiles.push_back(filePath);
+	else{
+		configFilesCount = m_confFiles.size();
+	}
+	retVal = retVal && archive.BeginMultiTag(configFilesTag, filePathTag, configFilesCount);
+
+	if (!retVal) {
+		return false;
 	}
 
-	retVal = retVal && archive.EndTag(filePathTag);
-    }
+	for (int i = 0; i < configFilesCount; ++i){
+		retVal = retVal && archive.BeginTag(filePathTag);
+		QString filePath;
+		if (archive.IsStoring()) {
+		    filePath = m_confFiles[i];
+		}
+		retVal = retVal && archive.Process(filePath);
+		if (retVal && !archive.IsStoring()) {
+		    m_confFiles.push_back(filePath);
+		}
+	
+		retVal = retVal && archive.EndTag(filePathTag);
+	}
 
-    retVal = retVal && archive.EndTag(configFilesTag);
+	retVal = retVal && archive.EndTag(configFilesTag);
 
     int dirsCount = 0;
     if (archive.IsStoring()) {
