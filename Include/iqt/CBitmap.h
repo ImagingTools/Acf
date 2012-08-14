@@ -51,9 +51,9 @@ public:
 
 	// reimplemented (iimg::IBitmap)
 	virtual bool IsFormatSupported(PixelFormat pixelFormat) const;
-	virtual int GetPixelFormat() const;
-	virtual bool CreateBitmap(int pixelFormat, const istd::CIndex2d& size);
-	virtual bool CreateBitmap(int pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0);
+	virtual PixelFormat GetPixelFormat() const;
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size);
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0);
 	virtual int GetLinesDifference() const;
 	virtual int GetPixelsDifference() const;
 	virtual int GetPixelBitsCount() const;
@@ -72,8 +72,8 @@ public:
 	virtual istd::IChangeable* CloneMe() const;
 
 protected:
-	QImage::Format CalcQtFormat(int pixelFormat) const;
-	int CalcFromQtFormat(QImage::Format imageFormat) const;
+	QImage::Format CalcQtFormat(PixelFormat pixelFormat) const;
+	PixelFormat CalcFromQtFormat(QImage::Format imageFormat) const;
 	bool SetQImage(const QImage& image);
 
 private:

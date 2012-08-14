@@ -31,13 +31,13 @@ bool CGeneralBitmap::IsFormatSupported(PixelFormat /*pixelFormat*/) const
 }
 
 
-int CGeneralBitmap::GetPixelFormat() const
+IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
 {
 	return m_pixelFormat;
 }
 
 
-bool CGeneralBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size)
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
 {
 	switch(pixelFormat){
 	case PF_GRAY:
@@ -59,7 +59,7 @@ bool CGeneralBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size)
 }
 
 
-bool CGeneralBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	switch(pixelFormat){
 		case PF_GRAY:
@@ -182,7 +182,7 @@ bool CGeneralBitmap::CreateBitmap(
 			const istd::CIndex2d& size,
 			int pixelBitsCount,
 			int componentsCount,
-			int pixelFormat)
+			PixelFormat pixelFormat)
 {
 	if (		(size.GetX() < 0) ||
 				(size.GetY() < 0) ||
@@ -223,7 +223,7 @@ bool CGeneralBitmap::CreateBitmap(
 			int linesDifference,
 			int pixelBitsCount,
 			int componentsCount,
-			int pixelFormat)
+			PixelFormat pixelFormat)
 {
 	if (		(size.GetX() < 0) ||
 				(size.GetY() < 0) ||

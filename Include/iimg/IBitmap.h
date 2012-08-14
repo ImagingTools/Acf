@@ -72,7 +72,7 @@ public:
 		Get the bitmap's pixel format.
 		\sa PixelFormat
 	*/
-	virtual int GetPixelFormat() const = 0;
+	virtual PixelFormat GetPixelFormat() const = 0;
 
 	/**
 		Get \c true if the pixel format is supported by the bitmap implementation.
@@ -85,7 +85,7 @@ public:
 		\param	pixelFormat		bitmap format. \sa PixelFormat
 		\param	size			bitmap size.
 	*/
-	virtual bool CreateBitmap(int pixelFormat, const istd::CIndex2d& size) = 0;
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size) = 0;
 
 	/**
 		Create bitmap with specified size and format using external image data buffer.
@@ -95,7 +95,7 @@ public:
 		\param	releaseFlag		if its true, external buffer will be managed (removed) by this object.
 		\param	linesDifference	address difference between next and previos line. If it equals 0, the value will be taken from size and number of bits per pixel.
 	*/
-	virtual bool CreateBitmap(int pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0) = 0;
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference = 0) = 0;
 
 	/**
 		Number of bytes per single line.

@@ -99,13 +99,13 @@ bool CBitmap::IsFormatSupported(PixelFormat pixelFormat) const
 }
 
 
-int CBitmap::GetPixelFormat() const
+iimg::IBitmap::PixelFormat CBitmap::GetPixelFormat() const
 {
 	return CalcFromQtFormat(m_image.format());
 }
 
 
-bool CBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size)
+bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
 {
 	istd::CChangeNotifier changePtr(this);
 
@@ -122,7 +122,7 @@ bool CBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size)
 }
 
 
-bool CBitmap::CreateBitmap(int pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
+bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	istd::CChangeNotifier changePtr(this);
 
@@ -212,7 +212,7 @@ int CBitmap::GetComponentsCount() const
 
 icmm::CVarColor CBitmap::GetColorAt(const istd::CIndex2d& position) const
 {
-	int pixelFormat = GetPixelFormat();
+	PixelFormat pixelFormat = GetPixelFormat();
 	if (pixelFormat == PF_RGB){
 		icmm::CVarColor rgbValue(3);
 		QColor color(m_image.pixel(position.GetX(), position.GetY()));
@@ -226,7 +226,6 @@ icmm::CVarColor CBitmap::GetColorAt(const istd::CIndex2d& position) const
 
 	return BaseClass::GetColorAt(position);
 }
-
 
 
 // reimplemented (istd::IChangeable)
@@ -282,25 +281,25 @@ istd::IChangeable* CBitmap::CloneMe() const
 
 // protected methods
 
-QImage::Format CBitmap::CalcQtFormat(int pixelFormat) const
+QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 {
 	switch (pixelFormat){
-	case PF_RGB:
-		return QImage::Format_RGB32;
+		case PF_RGB:
+			return QImage::Format_RGB32;
 
-	case PF_RGBA:
-		return QImage::Format_ARGB32;
+		case PF_RGBA:
+			return QImage::Format_ARGB32;
 
-	case PF_GRAY:
-		return QImage::Format_Indexed8;
+		case PF_GRAY:
+			return QImage::Format_Indexed8;
 
-	default:
-		return QImage::Format_Invalid;
+		default:
+			return QImage::Format_Invalid;
 	}
 }
 
 
-int CBitmap::CalcFromQtFormat(QImage::Format imageFormat) const
+iimg::IBitmap::PixelFormat CBitmap::CalcFromQtFormat(QImage::Format imageFormat) const
 {
 	switch (imageFormat){
 	case QImage::Format_RGB32:

@@ -206,7 +206,7 @@ bool CBitmapBase::Serialize(iser::IArchive& archive)
 
 	if (!isStoring){
 		if (!size.IsZero()){
-			if (!CreateBitmap(pixelFormat, size)){
+			if (!CreateBitmap(PixelFormat(pixelFormat), size)){
 				return false;
 			}
 		}
