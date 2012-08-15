@@ -246,6 +246,7 @@ int main(int argc, char *argv[])
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &attributeEditorDockComp);
 	mainWindowComp.InsertMultiRef("MainWindowComponents", &lockDockComp);
 	mainWindowComp.SetRef("ApplicationInfo", &applicationInfo);
+	mainWindowComp.SetRef("Application", &application);
 	mainWindowComp.SetRef("AboutDialog", &aboutDialogComp);
 	mainWindowComp.SetRef("SettingsProvider", &applicationSettingsProvider);
 	mainWindowComp.InitComponent();

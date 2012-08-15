@@ -591,13 +591,15 @@ void CMainWindowGuiComp::OnGuiCreated()
  	mainWindowPtr->setAcceptDrops(true);
 
 	// load the document from command line:
-	QStringList applicationArguments = qApp->arguments();
-	if (applicationArguments.count() > 1 && m_documentManagerCompPtr.IsValid()){
-		QString documentFileName = applicationArguments[1];
-		idoc::IDocumentManager::FileToTypeMap fileMap;
+	if (m_applicationCompPtr.IsValid()){
+		QStringList applicationArguments = m_applicationCompPtr->GetCommandLine();
+		if (applicationArguments.count() > 1 && m_documentManagerCompPtr.IsValid()){
+			QString documentFileName = applicationArguments[1];
+			idoc::IDocumentManager::FileToTypeMap fileMap;
 
-		if (m_documentManagerCompPtr->FileOpen(NULL, &documentFileName, true, "", NULL, &fileMap)){
-			UpdateRecentFileList(fileMap);
+			if (m_documentManagerCompPtr->FileOpen(NULL, &documentFileName, true, "", NULL, &fileMap)){
+				UpdateRecentFileList(fileMap);
+			}
 		}
 	}
 
