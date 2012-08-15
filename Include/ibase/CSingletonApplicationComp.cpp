@@ -61,6 +61,16 @@ QString CSingletonApplicationComp::GetHelpText() const
 }
 
 
+QStringList CSingletonApplicationComp::GetCommandLine() const
+{
+	if (m_slaveApplicationCompPtr.IsValid()){
+		return m_slaveApplicationCompPtr->GetCommandLine();
+	}
+
+	return QStringList();
+}
+
+
 // protected methods
 
 // reimplemented (icomp::CComponentBase)

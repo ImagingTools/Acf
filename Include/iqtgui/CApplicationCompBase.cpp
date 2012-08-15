@@ -22,6 +22,12 @@ namespace iqtgui
 
 bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 {
+	m_applicationArguments.clear();
+
+	for (int argIndex = 0; argIndex < argc; argIndex++){
+		m_applicationArguments << QString::fromLocal8Bit(argv[argIndex]);
+	}
+	
 	if (!m_applicationPtr.IsValid()){
 		m_applicationPtr.SetPtr(new QApplication(argc, argv));
 		if (!m_applicationPtr.IsValid()){
@@ -88,6 +94,12 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 	}
 
 	return true;
+}
+
+
+QStringList CApplicationCompBase::GetCommandLine() const
+{
+	return m_applicationArguments;
 }
 
 

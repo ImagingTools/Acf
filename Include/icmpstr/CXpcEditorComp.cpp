@@ -1,14 +1,16 @@
 #include "CXpcEditorComp.h"
 
 
-// ACF includes
+// Qt includes
 #include <QtGui/QStringListModel>
-#include "generated/ui_CXpcEditorComp.h"
 #include <QtGui/QItemDelegate>
 #include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
+
+// ACF includes
 #include "iqt/CSystem.h"
-//#include <QtGui/QCompleter>
+#include "generated/ui_CXpcEditorComp.h"
+
 
 namespace
 {
@@ -21,8 +23,6 @@ namespace
 class NonOverwritableQStringListModel : public QStringListModel
 {
 public:
-
-
 	NonOverwritableQStringListModel(QObject* object) : QStringListModel(object)
 	{
 	}
@@ -30,7 +30,7 @@ public:
 
 	virtual Qt::ItemFlags flags(const QModelIndex & index) const
 	{
-		int flags = QStringListModel::flags(index);
+		Qt::ItemFlags flags = QStringListModel::flags(index);
 
 		return index.data().isNull() ? flags : flags ^ Qt::ItemIsDropEnabled;
 	}
@@ -46,7 +46,7 @@ namespace icmpstr
 
 CXpcEditorComp::CXpcEditorComp()
 {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 3; i++){
 		m_guiModel[i] = new NonOverwritableQStringListModel(this);
 		QObject::connect(m_guiModel[i], SIGNAL(layoutChanged()), this, SLOT(OnModelLayoutChanged()));
 		QObject::connect(m_guiModel[i], SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(OnModelDataChanged(const QModelIndex&, const QModelIndex&)));
@@ -84,7 +84,7 @@ void CXpcEditorComp::UpdateGui(int /*updateFlags*/)
 	I_ASSERT(IsGuiCreated());
 
 	icomp::CXpcModel* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL) {
+	if (objectPtr != NULL){
 		SetStringList(SectionConfFiles, objectPtr->GetConfFilesList());
 		SetStringList(SectionPackageDirectories, objectPtr->GetPackageDirsList());
 		SetStringList(SectionPackages, objectPtr->GetPackagesList());
@@ -129,7 +129,7 @@ void CXpcEditorComp::on_button_add_pk_clicked()
 void CXpcEditorComp::on_button_remove_cf_clicked()
 {
 	QModelIndex index = listView_cf->currentIndex();
-	if (index.isValid()) {
+	if (index.isValid()){
 		m_guiModel[SectionConfFiles]->removeRow(index.row());
 		DoUpdateModel();
 	}
@@ -139,7 +139,7 @@ void CXpcEditorComp::on_button_remove_cf_clicked()
 void CXpcEditorComp::on_button_remove_pd_clicked()
 {
 	QModelIndex index = listView_pd->currentIndex();
-	if (index.isValid()) {
+	if (index.isValid()){
 		m_guiModel[SectionPackageDirectories]->removeRow(index.row());
 		DoUpdateModel();
 	}
@@ -149,7 +149,7 @@ void CXpcEditorComp::on_button_remove_pd_clicked()
 void CXpcEditorComp::on_button_remove_pk_clicked()
 {
 	QModelIndex index = listView_pk->currentIndex();
-	if (index.isValid()) {
+	if (index.isValid()){
 		m_guiModel[SectionPackages]->removeRow(index.row());
 		DoUpdateModel();
 	}
@@ -159,9 +159,9 @@ void CXpcEditorComp::on_button_remove_pk_clicked()
 QDir CXpcEditorComp::GetCurrentDocumentDir()
 {
 	QDir documentDir;
-	if (m_docMgrPtr.IsValid()) {
+	if (m_docMgrPtr.IsValid()){
 		const istd::IPolymorphic* viewPtr = m_docMgrPtr->GetActiveView();
-		if (viewPtr) {
+		if (viewPtr){
 			idoc::IDocumentManager::DocumentInfo info;
 			m_docMgrPtr->GetDocumentFromView(*viewPtr, &info);
 			QFileInfo fileInfo(info.filePath);
@@ -175,25 +175,25 @@ QDir CXpcEditorComp::GetCurrentDocumentDir()
 void CXpcEditorComp::PickFileNameForLineEdit(QLineEdit* lineEdit,
 		bool SelectDirectories, iser::IFileTypeInfo* typeInfo)
 {
-	if (!lineEdit) {
+	if (!lineEdit){
 		return;
 	}
 	QFileDialog dialog;
 
-	if (SelectDirectories) {
+	if (SelectDirectories){
 		dialog.setFileMode(QFileDialog::DirectoryOnly);
 		dialog.setOption(QFileDialog::ShowDirsOnly);
 	} else {
 		dialog.setFileMode(QFileDialog::ExistingFile);
 	}
 
-	if (typeInfo) {
+	if (typeInfo){
 		QStringList extensions;
 		typeInfo->GetFileExtensions(extensions);
 		QString filter = typeInfo->GetTypeDescription();
 		filter += " (";
-		if (extensions.size()) {
-			for (int i = 0; i < extensions.size(); i++) {
+		if (extensions.size()){
+			for (int i = 0; i < extensions.size(); i++){
 				filter += "*." + extensions[i];
 			}
 		} else {
@@ -211,9 +211,9 @@ void CXpcEditorComp::PickFileNameForLineEdit(QLineEdit* lineEdit,
 	dialog.setDirectory(fileInfo.absoluteDir());
 
 	int result = dialog.exec();
-	if (result == QDialog::Accepted) {
+	if (result == QDialog::Accepted){
 		QStringList filenames = dialog.selectedFiles();
-		if (filenames.size()) {
+		if (filenames.size()){
 			lineEdit->setText(baseDir.relativeFilePath(filenames[0]));
 		}
 		DoUpdateModel();
@@ -282,7 +282,7 @@ void CXpcEditorComp::on_listView_cf_doubleClicked(const QModelIndex & index)
 void CXpcEditorComp::on_lineEdit_cf_textChanged(const QString & text)
 {
 	QModelIndex index = listView_cf->currentIndex();
-	if (!index.isValid()) {
+	if (!index.isValid()){
 		return;
 	}
 
@@ -293,7 +293,7 @@ void CXpcEditorComp::on_lineEdit_cf_textChanged(const QString & text)
 void CXpcEditorComp::on_lineEdit_pd_textChanged(const QString & text)
 {
 	QModelIndex index = listView_pd->currentIndex();
-	if (!index.isValid()) {
+	if (!index.isValid()){
 		return;
 	}
 
@@ -304,7 +304,7 @@ void CXpcEditorComp::on_lineEdit_pd_textChanged(const QString & text)
 void CXpcEditorComp::on_lineEdit_pk_textChanged(const QString & text)
 {
 	QModelIndex index = listView_pk->currentIndex();
-	if (!index.isValid()) {
+	if (!index.isValid()){
 		return;
 	}
 

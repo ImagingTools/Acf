@@ -25,14 +25,19 @@ public:
 	virtual bool InitializeApplication(int argc, char** argv) = 0;
 
 	/**
-		Starts execution loop of the application.
+		Start execution loop of the application.
 	*/
 	virtual int Execute(int argc, char** argv) = 0;
 
 	/**
-		Gets the command line arguments of this application.
+		Get information about the possible command line arguments of this application.
 	*/
 	virtual QString GetHelpText() const = 0;
+
+	/**
+		Get the command line arguments of this application.
+	*/
+	virtual QStringList GetCommandLine() const = 0;
 };
 
 

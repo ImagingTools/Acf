@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QSharedMemory>
+#include <QtCore/QStringList>
 
 // ACF includes
 #include "icomp/CComponentBase.h"
@@ -39,6 +40,7 @@ public:
 	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual QString GetHelpText() const;
+	virtual QStringList GetCommandLine() const;
 
 protected:
 	// reimplemented (icomp::CComponentBase)

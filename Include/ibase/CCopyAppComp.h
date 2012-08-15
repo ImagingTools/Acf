@@ -2,6 +2,10 @@
 #define ibase_CCopyAppComp_included
 
 
+// Qt includes
+#include <QtCore/QStringList>
+
+// ACF includes
 #include "istd/IChangeable.h"
 
 #include "iser/IFileLoader.h"
@@ -38,10 +42,13 @@ public:
 	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual QString GetHelpText() const;
+	virtual QStringList GetCommandLine() const;
 
 private:
 	I_REF(IFileConvertCopy, m_fileCopyCompPtr);
 	I_ATTR(bool, m_needExplicitInputAttrPtr);
+
+	QStringList m_applicationArguments;
 };
 
 

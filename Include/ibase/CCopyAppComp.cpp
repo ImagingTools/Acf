@@ -11,8 +11,14 @@ namespace ibase
 
 // reimplemented (ibase::IApplication)
 
-bool CCopyAppComp::InitializeApplication(int /*argc*/, char** /*argv*/)
+bool CCopyAppComp::InitializeApplication(int argc, char** argv)
 {
+	m_applicationArguments.clear();
+
+	for (int argIndex = 0; argIndex < argc; argIndex++){
+		m_applicationArguments << QString::fromLocal8Bit(argv[argIndex]);
+	}
+	
 	return true;
 }
 
@@ -67,6 +73,12 @@ int CCopyAppComp::Execute(int argc, char** argv)
 QString CCopyAppComp::GetHelpText() const
 {
 	return "General ACF copy application. Usage: <application> InputFilePath [-o OutputFilePath]";
+}
+
+
+QStringList CCopyAppComp::GetCommandLine() const
+{
+	return m_applicationArguments;
 }
 
 
