@@ -404,7 +404,7 @@
         <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
-              ConfigurationFileType
+              ConfigFileType
             </Id>
             <Type>
               Reference

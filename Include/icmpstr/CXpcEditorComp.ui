@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1019</width>
-    <height>875</height>
+    <width>384</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,12 +17,12 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Configuration files</string>
+      <string>Inherited configuration files</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListView" name="listView_cf">
+    <widget class="QListView" name="ConfigPathView">
      <property name="acceptDrops">
       <bool>false</bool>
      </property>
@@ -72,7 +72,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QPushButton" name="button_add_cf">
+      <widget class="QPushButton" name="ConfigPathAddButton">
        <property name="text">
         <string>Add</string>
        </property>
@@ -83,7 +83,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="button_remove_cf">
+      <widget class="QPushButton" name="ConfigPathRemoveButton">
        <property name="text">
         <string>Remove</string>
        </property>
@@ -109,25 +109,37 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QLineEdit" name="lineEdit_cf"/>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonEdit_cf">
-       <property name="toolTip">
-        <string comment="File selection with a dialog window">File selection</string>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="ConfigPathEditFrame" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLineEdit" name="ConfigPathEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="ConfigPathInsertVariableButton">
+        <property name="text">
+         <string>Insert variable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="ConfigPathBrowseButton">
+        <property name="toolTip">
+         <string comment="File selection with a dialog window">File selection</string>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_2">
@@ -137,7 +149,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListView" name="listView_pd">
+    <widget class="QListView" name="PackageDirView">
      <property name="styleSheet">
       <string notr="true">QListView {
      show-decoration-selected: 1; /* make the selection span the entire width of the view */
@@ -168,7 +180,7 @@
 </string>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::DoubleClicked</set>
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="dragEnabled">
       <bool>true</bool>
@@ -184,7 +196,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="button_add_pd">
+      <widget class="QPushButton" name="PackageDirAddButton">
        <property name="text">
         <string>Add</string>
        </property>
@@ -195,7 +207,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="button_remove_pd">
+      <widget class="QPushButton" name="PackageDirRemoveButton">
        <property name="text">
         <string>Remove</string>
        </property>
@@ -221,25 +233,37 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QLineEdit" name="lineEdit_pd"/>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonEdit_pd">
-       <property name="toolTip">
-        <string comment="File selection with a dialog window">File selection</string>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="PackageDirEditFrame" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLineEdit" name="PackageDirEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="PackageDirInsertVariableButton">
+        <property name="text">
+         <string>Insert variable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="PackageDirBrowseButton">
+        <property name="toolTip">
+         <string comment="File selection with a dialog window">File selection</string>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_3">
@@ -249,7 +273,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListView" name="listView_pk">
+    <widget class="QListView" name="PackagePathView">
      <property name="styleSheet">
       <string notr="true">QListView {
      show-decoration-selected: 1; /* make the selection span the entire width of the view */
@@ -280,7 +304,7 @@
 </string>
      </property>
      <property name="editTriggers">
-      <set>QAbstractItemView::DoubleClicked</set>
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
      <property name="dragEnabled">
       <bool>true</bool>
@@ -296,7 +320,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="button_add_pk">
+      <widget class="QPushButton" name="PackagePathAddButton">
        <property name="text">
         <string>Add</string>
        </property>
@@ -307,7 +331,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="button_remove_pk">
+      <widget class="QPushButton" name="PackagePathRemoveButton">
        <property name="text">
         <string>Remove</string>
        </property>
@@ -333,25 +357,37 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QLineEdit" name="lineEdit_pk"/>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonEdit_pk">
-       <property name="toolTip">
-        <string comment="File selection with a dialog window">File selection</string>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="PackagePathEditFrame" native="true">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <item>
+       <widget class="QLineEdit" name="PackagePathEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="PackagePathInsertVariableButton">
+        <property name="text">
+         <string>Insert variable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="PackagePathBrowseButton">
+        <property name="toolTip">
+         <string comment="File selection with a dialog window">File selection</string>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

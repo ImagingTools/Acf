@@ -16,23 +16,22 @@ namespace
 {
 
 
-/** 
+/**
 	A reimplementation of flags() that disables overwriting of non-null 
 	items on drag-drop 
- */
-class NonOverwritableQStringListModel : public QStringListModel
+*/
+class NonOverwritableQStringListModel: public QStringListModel
 {
 public:
-	NonOverwritableQStringListModel(QObject* object) : QStringListModel(object)
+	NonOverwritableQStringListModel(QObject* object): QStringListModel(object)
 	{
 	}
 
-
-	virtual Qt::ItemFlags flags(const QModelIndex & index) const
+	virtual Qt::ItemFlags flags(const QModelIndex& index) const
 	{
-		Qt::ItemFlags flags = QStringListModel::flags(index);
+		int flags = QStringListModel::flags(index);
 
-		return index.data().isNull() ? flags : flags ^ Qt::ItemIsDropEnabled;
+		return index.data().isNull()? flags: flags & ~Qt::ItemIsDropEnabled;
 	}
 };
 
@@ -46,11 +45,19 @@ namespace icmpstr
 
 CXpcEditorComp::CXpcEditorComp()
 {
-	for (int i = 0; i < 3; i++){
-		m_guiModel[i] = new NonOverwritableQStringListModel(this);
-		QObject::connect(m_guiModel[i], SIGNAL(layoutChanged()), this, SLOT(OnModelLayoutChanged()));
-		QObject::connect(m_guiModel[i], SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(OnModelDataChanged(const QModelIndex&, const QModelIndex&)));
+	for (int sectionIndex = S_FIRST; sectionIndex <= S_LAST; ++sectionIndex){
+		m_guiModel[sectionIndex] = new NonOverwritableQStringListModel(this);
+		QObject::connect(m_guiModel[sectionIndex], SIGNAL(layoutChanged()), this, SLOT(OnDoUpdateModel()));
+		QObject::connect(m_guiModel[sectionIndex], SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&)), this, SLOT(OnModelDataChanged(const QModelIndex&, const QModelIndex&)));
+
+		SetupVariablesMenu(true, sectionIndex, m_startVariableMenus[sectionIndex]);
+		QObject::connect(&m_startVariableMenus[sectionIndex], SIGNAL(triggered(QAction*)), this, SLOT(OnInsertVariable(QAction*)));
+
+		SetupVariablesMenu(false, sectionIndex, m_variableMenus[sectionIndex]);
+		QObject::connect(&m_variableMenus[sectionIndex], SIGNAL(triggered(QAction*)), this, SLOT(OnInsertVariable(QAction*)));
 	}
+
+	QObject::connect(this, SIGNAL(DoLateUpdateModel()), this, SLOT(OnDoUpdateModel()), Qt::QueuedConnection);
 }
 
 
@@ -67,9 +74,9 @@ void CXpcEditorComp::UpdateModel() const
 
 	istd::TChangeNotifier<icomp::CXpcModel> changePtr(objectPtr);
 
-	changePtr->SetConfFilesList(GetStringList(SectionConfFiles));
-	changePtr->SetPackageDirsList(GetStringList(SectionPackageDirectories));
-	changePtr->SetPackagesList(GetStringList(SectionPackages));
+	changePtr->SetConfFilesList(GetStringList(S_CONFIG_PATH));
+	changePtr->SetPackageDirsList(GetStringList(S_PACKAGE_DIR));
+	changePtr->SetPackagesList(GetStringList(S_PACKAGE_PATH));
 }
 
 
@@ -85,72 +92,71 @@ void CXpcEditorComp::UpdateGui(int /*updateFlags*/)
 
 	icomp::CXpcModel* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		SetStringList(SectionConfFiles, objectPtr->GetConfFilesList());
-		SetStringList(SectionPackageDirectories, objectPtr->GetPackageDirsList());
-		SetStringList(SectionPackages, objectPtr->GetPackagesList());
+		SetStringList(S_CONFIG_PATH, objectPtr->GetConfFilesList());
+		SetStringList(S_PACKAGE_DIR, objectPtr->GetPackageDirsList());
+		SetStringList(S_PACKAGE_PATH, objectPtr->GetPackagesList());
 	}
 }
 
 
 void CXpcEditorComp::OnGuiCreated()
 {
-	listView_cf->setModel(m_guiModel[SectionConfFiles]);
-	listView_pd->setModel(m_guiModel[SectionPackageDirectories]);
-	listView_pk->setModel(m_guiModel[SectionPackages]);
-	//	QStringList wordList;
-	//	wordList << "$(ConfigurationName)" << "$(CompilerName)";
-	//	QCompleter *completer = new QCompleter(wordList, this);
-	//	completer->setCompletionMode(QCompleter::InlineCompletion);
-	//	lineEdit_pk->setCompleter(completer);
+	ConfigPathView->setModel(m_guiModel[S_CONFIG_PATH]);
+	PackageDirView->setModel(m_guiModel[S_PACKAGE_DIR]);
+	PackagePathView->setModel(m_guiModel[S_PACKAGE_PATH]);
+
+	QObject::connect(ConfigPathView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(OnConfigPathViewSelected(const QItemSelection&, const QItemSelection&)));
+	QObject::connect(PackageDirView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(OnPackageDirViewSelected(const QItemSelection&, const QItemSelection&)));
+	QObject::connect(PackagePathView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(OnPackagePathViewSelected(const QItemSelection&, const QItemSelection&)));
 
 	// Call basic functionality:
 	BaseClass::OnGuiCreated();
 }
 
 
-void CXpcEditorComp::on_button_add_cf_clicked()
+void CXpcEditorComp::on_ConfigPathAddButton_clicked()
 {
-	m_guiModel[SectionConfFiles]->insertRow(m_guiModel[SectionConfFiles]->rowCount());
+	m_guiModel[S_CONFIG_PATH]->insertRow(m_guiModel[S_CONFIG_PATH]->rowCount());
 }
 
 
-void CXpcEditorComp::on_button_add_pd_clicked()
+void CXpcEditorComp::on_PackageDirAddButton_clicked()
 {
-	m_guiModel[SectionPackageDirectories]->insertRow(m_guiModel[SectionPackageDirectories]->rowCount());
+	m_guiModel[S_PACKAGE_DIR]->insertRow(m_guiModel[S_PACKAGE_DIR]->rowCount());
 }
 
 
-void CXpcEditorComp::on_button_add_pk_clicked()
+void CXpcEditorComp::on_PackagePathAddButton_clicked()
 {
-	m_guiModel[SectionPackages]->insertRow(m_guiModel[SectionPackages]->rowCount());
+	m_guiModel[S_PACKAGE_PATH]->insertRow(m_guiModel[S_PACKAGE_PATH]->rowCount());
 }
 
 
-void CXpcEditorComp::on_button_remove_cf_clicked()
+void CXpcEditorComp::on_ConfigPathRemoveButton_clicked()
 {
-	QModelIndex index = listView_cf->currentIndex();
+	QModelIndex index = ConfigPathView->currentIndex();
 	if (index.isValid()){
-		m_guiModel[SectionConfFiles]->removeRow(index.row());
+		m_guiModel[S_CONFIG_PATH]->removeRow(index.row());
 		DoUpdateModel();
 	}
 }
 
 
-void CXpcEditorComp::on_button_remove_pd_clicked()
+void CXpcEditorComp::on_PackageDirRemoveButton_clicked()
 {
-	QModelIndex index = listView_pd->currentIndex();
+	QModelIndex index = PackageDirView->currentIndex();
 	if (index.isValid()){
-		m_guiModel[SectionPackageDirectories]->removeRow(index.row());
+		m_guiModel[S_PACKAGE_DIR]->removeRow(index.row());
 		DoUpdateModel();
 	}
 }
 
 
-void CXpcEditorComp::on_button_remove_pk_clicked()
+void CXpcEditorComp::on_PackagePathRemoveButton_clicked()
 {
-	QModelIndex index = listView_pk->currentIndex();
+	QModelIndex index = PackagePathView->currentIndex();
 	if (index.isValid()){
-		m_guiModel[SectionPackages]->removeRow(index.row());
+		m_guiModel[S_PACKAGE_PATH]->removeRow(index.row());
 		DoUpdateModel();
 	}
 }
@@ -172,21 +178,21 @@ QDir CXpcEditorComp::GetCurrentDocumentDir()
 }
 
 
-void CXpcEditorComp::PickFileNameForLineEdit(QLineEdit* lineEdit,
-		bool SelectDirectories, iser::IFileTypeInfo* typeInfo)
+void CXpcEditorComp::PickFileNameForLineEdit(
+			QLineEdit& lineEdit,
+			bool SelectDirectories,
+			iser::IFileTypeInfo* typeInfo)
 {
-	if (!lineEdit){
-		return;
-	}
 	QFileDialog dialog;
-
 	if (SelectDirectories){
 		dialog.setFileMode(QFileDialog::DirectoryOnly);
 		dialog.setOption(QFileDialog::ShowDirsOnly);
-	} else {
+	}
+	else{
 		dialog.setFileMode(QFileDialog::ExistingFile);
 	}
 
+	// configure file filter
 	if (typeInfo){
 		QStringList extensions;
 		typeInfo->GetFileExtensions(extensions);
@@ -206,70 +212,105 @@ void CXpcEditorComp::PickFileNameForLineEdit(QLineEdit* lineEdit,
 	// try to access IDocumentManager and ask it for the file name
 	QDir baseDir = GetCurrentDocumentDir();
 
-	QString unrolledPath = iqt::CSystem::GetEnrolledPath(lineEdit->text());
+	QString unrolledPath = iqt::CSystem::GetEnrolledPath(lineEdit.text());
 	QFileInfo fileInfo(baseDir.absoluteFilePath(unrolledPath));
 	dialog.setDirectory(fileInfo.absoluteDir());
 
-	int result = dialog.exec();
-	if (result == QDialog::Accepted){
+	if (dialog.exec() == QDialog::Accepted){
 		QStringList filenames = dialog.selectedFiles();
 		if (filenames.size()){
-			lineEdit->setText(baseDir.relativeFilePath(filenames[0]));
+			lineEdit.setText(baseDir.relativeFilePath(filenames[0]));
 		}
 		DoUpdateModel();
 	}
 }
 
 
-void CXpcEditorComp::on_buttonEdit_cf_clicked()
+void CXpcEditorComp::on_ConfigPathBrowseButton_clicked()
 {
-	PickFileNameForLineEdit(lineEdit_cf, false, m_confFileTypeInfo.GetPtr());
+	PickFileNameForLineEdit(*ConfigPathEdit, false, m_configFileTypeInfo.GetPtr());
+
+	on_ConfigPathEdit_editingFinished();
 }
 
 
-void CXpcEditorComp::on_buttonEdit_pd_clicked()
+void CXpcEditorComp::on_PackageDirBrowseButton_clicked()
 {
-	PickFileNameForLineEdit(lineEdit_pd, true);
+	PickFileNameForLineEdit(*PackageDirEdit, true);
+
+	on_PackageDirEdit_editingFinished();
 }
 
 
-void CXpcEditorComp::on_buttonEdit_pk_clicked()
+void CXpcEditorComp::on_PackagePathBrowseButton_clicked()
 {
-	PickFileNameForLineEdit(lineEdit_pk, false, m_packageFileTypeInfo.GetPtr());
+	PickFileNameForLineEdit(*PackagePathEdit, false, m_packageFileTypeInfo.GetPtr());
+
+	on_PackagePathEdit_editingFinished();
 }
 
 
-void CXpcEditorComp::OnModelLayoutChanged()
+void CXpcEditorComp::OnDoUpdateModel()
 {
 	DoUpdateModel();
 }
 
 
-void CXpcEditorComp::OnModelDataChanged(const QModelIndex &, const QModelIndex &)
+void CXpcEditorComp::OnModelDataChanged(const QModelIndex& /*topLeft*/, const QModelIndex& /*bottomRight*/)
 {
-	DoUpdateModel();
+	Q_EMIT DoLateUpdateModel();
 }
 
 
-void CXpcEditorComp::on_listView_cf_activated(const QModelIndex & index)
+void CXpcEditorComp::OnConfigPathViewSelected(const QItemSelection& selected, const QItemSelection& /*deselected*/)
 {
-	lineEdit_cf->setText(index.data().toString());
+	QModelIndexList selectedIndices = selected.indexes();
+	if (!selectedIndices.isEmpty()){
+		ConfigPathEdit->setText(selectedIndices.front().data().toString());
+		ConfigPathEdit->setProperty("selectionLength", 0);
+		ConfigPathEdit->deselect();
+
+		ConfigPathEditFrame->setEnabled(true);
+	}
+	else{
+		ConfigPathEditFrame->setEnabled(false);
+	}
 }
 
 
-void CXpcEditorComp::on_listView_pd_activated(const QModelIndex & index)
+void CXpcEditorComp::OnPackageDirViewSelected(const QItemSelection& selected, const QItemSelection& /*deselected*/)
 {
-	lineEdit_pd->setText(index.data().toString());
+	QModelIndexList selectedIndices = selected.indexes();
+	if (!selectedIndices.isEmpty()){
+		PackageDirEdit->setText(selectedIndices.front().data().toString());
+		PackageDirEdit->setProperty("selectionLength", 0);
+		PackageDirEdit->deselect();
+
+		PackageDirEditFrame->setEnabled(true);
+	}
+	else{
+		PackageDirEditFrame->setEnabled(false);
+	}
 }
 
 
-void CXpcEditorComp::on_listView_pk_activated(const QModelIndex & index)
+void CXpcEditorComp::OnPackagePathViewSelected(const QItemSelection& selected, const QItemSelection& /*deselected*/)
 {
-	lineEdit_pk->setText(index.data().toString());
+	QModelIndexList selectedIndices = selected.indexes();
+	if (!selectedIndices.isEmpty()){
+		PackagePathEdit->setText(selectedIndices.front().data().toString());
+		PackagePathEdit->setProperty("selectionLength", 0);
+		PackagePathEdit->deselect();
+
+		PackagePathEditFrame->setEnabled(true);
+	}
+	else{
+		PackagePathEditFrame->setEnabled(false);
+	}
 }
 
 
-void CXpcEditorComp::on_listView_cf_doubleClicked(const QModelIndex & index)
+void CXpcEditorComp::on_ConfigPathView_doubleClicked(const QModelIndex& index)
 {
 	QDir baseDir = GetCurrentDocumentDir();
 	QString unrolledPath = iqt::CSystem::GetEnrolledPath(index.data().toString());
@@ -279,37 +320,224 @@ void CXpcEditorComp::on_listView_cf_doubleClicked(const QModelIndex & index)
 }
 
 
-void CXpcEditorComp::on_lineEdit_cf_textChanged(const QString & text)
+void CXpcEditorComp::on_ConfigPathEdit_editingFinished()
 {
-	QModelIndex index = listView_cf->currentIndex();
+	QModelIndex index = ConfigPathView->currentIndex();
 	if (!index.isValid()){
 		return;
 	}
 
-	listView_cf->model()->setData(index, text);
+	ConfigPathView->model()->setData(index, ConfigPathEdit->text());
 }
 
 
-void CXpcEditorComp::on_lineEdit_pd_textChanged(const QString & text)
+void CXpcEditorComp::on_PackageDirEdit_editingFinished()
 {
-	QModelIndex index = listView_pd->currentIndex();
+	QModelIndex index = PackageDirView->currentIndex();
 	if (!index.isValid()){
 		return;
 	}
 
-	listView_pd->model()->setData(index, text);
+	PackageDirView->model()->setData(index, PackageDirEdit->text());
 }
 
 
-void CXpcEditorComp::on_lineEdit_pk_textChanged(const QString & text)
+void CXpcEditorComp::on_PackagePathEdit_editingFinished()
 {
-	QModelIndex index = listView_pk->currentIndex();
+	QModelIndex index = PackagePathView->currentIndex();
 	if (!index.isValid()){
 		return;
 	}
 
-	listView_pk->model()->setData(index, text);
+	PackagePathView->model()->setData(index, PackagePathEdit->text());
+}
+
+
+void CXpcEditorComp::SetupVariablesMenu(bool isBegin, int sectionIndex, QMenu& menu)
+{
+	menu.clear();
+
+	bool allowFilePath = (sectionIndex == S_CONFIG_PATH) || (sectionIndex == S_PACKAGE_PATH);
+
+	if (isBegin){
+		QMap<QString, QString> envVariables = iqt::CSystem::GetEnvironmentVariables();
+		for (		QMap<QString, QString>::ConstIterator i = envVariables.constBegin();
+					i != envVariables.constEnd();
+					i++){
+			QString value = i.value();
+
+			QFileInfo dirInfo(value);
+			if (dirInfo.isAbsolute() && (dirInfo.isDir() || (allowFilePath && dirInfo.isFile()))){
+				QAction* newAction = menu.addAction(i.key());
+				newAction->setData(sectionIndex);
+				newAction->setStatusTip(value);
+			}
+		}
+	}
+	else{
+		// special variables are considered relative
+		static QString specialVariables[] = {"ConfigName", "CompilerName"};
+		for (int i = 0; i < 2; i++){
+			QAction* newAction = menu.addAction(specialVariables[i]);
+			newAction->setData(sectionIndex);
+			newAction->setStatusTip(iqt::CSystem::FindVariableValue(specialVariables[i]));
+		}
+	}
+}
+
+
+void CXpcEditorComp::on_ConfigPathEdit_selectionChanged()
+{
+	MaintainLineEditSelection(ConfigPathEdit);
+
+	if (ConfigPathEdit->selectionStart() > 0){
+		ConfigPathInsertVariableButton->setMenu(&m_variableMenus[S_CONFIG_PATH]);
+	}
+	else{
+		ConfigPathInsertVariableButton->setMenu(&m_startVariableMenus[S_CONFIG_PATH]);
+	}
+}
+
+
+void CXpcEditorComp::on_PackageDirEdit_selectionChanged()
+{
+	MaintainLineEditSelection(PackageDirEdit);
+
+	if (PackageDirEdit->selectionStart() > 0){
+		PackageDirInsertVariableButton->setMenu(&m_variableMenus[S_PACKAGE_DIR]);
+	}
+	else{
+		PackageDirInsertVariableButton->setMenu(&m_startVariableMenus[S_PACKAGE_DIR]);
+	}
+}
+
+
+void CXpcEditorComp::on_PackagePathEdit_selectionChanged()
+{
+	MaintainLineEditSelection(PackagePathEdit);
+
+	if (PackagePathEdit->selectionStart() > 0){
+		PackagePathInsertVariableButton->setMenu(&m_variableMenus[S_PACKAGE_PATH]);
+	}
+	else{
+		PackagePathInsertVariableButton->setMenu(&m_startVariableMenus[S_PACKAGE_PATH]);
+	}
+}
+
+
+void CXpcEditorComp::on_ConfigPathEdit_cursorPositionChanged(int /*oldPosition*/, int newPosition)
+{
+	MaintainLineEditSelection(PackagePathEdit);
+
+	if (newPosition > 0){
+		ConfigPathInsertVariableButton->setMenu(&m_variableMenus[S_CONFIG_PATH]);
+	}
+	else{
+		ConfigPathInsertVariableButton->setMenu(&m_startVariableMenus[S_CONFIG_PATH]);
+	}
+}
+
+
+void CXpcEditorComp::on_PackageDirEdit_cursorPositionChanged(int /*oldPosition*/, int newPosition)
+{
+	MaintainLineEditSelection(PackagePathEdit);
+
+	if (newPosition > 0){
+		PackageDirInsertVariableButton->setMenu(&m_variableMenus[S_PACKAGE_DIR]);
+	}
+	else{
+		PackageDirInsertVariableButton->setMenu(&m_startVariableMenus[S_PACKAGE_DIR]);
+	}
+}
+
+
+void CXpcEditorComp::on_PackagePathEdit_cursorPositionChanged(int /*oldPosition*/, int newPosition)
+{
+	MaintainLineEditSelection(PackagePathEdit);
+
+	if (newPosition > 0){
+		PackagePathInsertVariableButton->setMenu(&m_variableMenus[S_PACKAGE_PATH]);
+	}
+	else{
+		PackagePathInsertVariableButton->setMenu(&m_startVariableMenus[S_PACKAGE_PATH]);
+	}
+}
+
+
+void CXpcEditorComp::OnInsertVariable(QAction* action)
+{
+	QLineEdit* lineEditPtr = NULL;
+
+	int sectionIndex = action->data().toInt();
+	switch (sectionIndex){
+	case S_CONFIG_PATH:
+		lineEditPtr = ConfigPathEdit;
+		break;
+
+	case S_PACKAGE_DIR:
+		lineEditPtr = PackageDirEdit;
+		break;
+
+	case S_PACKAGE_PATH:
+		lineEditPtr = PackagePathEdit;
+		break;
+
+	default:
+		return;
+	}
+	Q_ASSERT(lineEditPtr != NULL);
+
+	int insertPoint = lineEditPtr->selectedText().size()?
+				lineEditPtr->selectionStart():
+				lineEditPtr->cursorPosition();
+
+	QString editText = lineEditPtr->text();
+	QString variableToInsert = "$(" + action->text() + ")";
+	editText.insert(insertPoint, variableToInsert);
+	lineEditPtr->setText(editText);
+
+	// update selection to match the length of variable name
+	lineEditPtr->setProperty("selectionLength", variableToInsert.size());
+	lineEditPtr->setSelection(lineEditPtr->selectionStart(), variableToInsert.size());
+
+	switch (sectionIndex){
+	case S_CONFIG_PATH:
+		on_ConfigPathEdit_editingFinished();
+		break;
+
+	case S_PACKAGE_DIR:
+		on_PackageDirEdit_editingFinished();
+		break;
+
+	case S_PACKAGE_PATH:
+		on_PackagePathEdit_editingFinished();
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+// static methods
+
+void CXpcEditorComp::MaintainLineEditSelection(QLineEdit* lineEdit)
+{
+	if (lineEdit->hasFocus()){
+		lineEdit->setProperty("selectionStart", lineEdit->selectionStart());
+		lineEdit->setProperty("selectionLength", lineEdit->selectedText().size());
+	}
+	else{
+		int selectionStart = lineEdit->property("selectionStart").toInt();
+		int selectionLength = lineEdit->property("selectionLength").toInt();
+
+		if (selectionStart + selectionLength <= lineEdit->text().size()){
+			lineEdit->setSelection(selectionStart, selectionLength);
+		}
+	}
 }
 
 
 } // namespace icmpstr
+
+
