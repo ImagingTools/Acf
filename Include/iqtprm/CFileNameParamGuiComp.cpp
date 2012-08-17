@@ -161,19 +161,18 @@ void CFileNameParamGuiComp::on_BrowseButton_clicked()
 			}
 		}
 		else if (pathType == iprm::IFileNameParam::PT_FILE){
-			QString filter;
+			QStringList filterList;
 
 			if (m_fileTypeInfoPtr.IsValid()){
 				QString allExt;
-				int filtersCount = iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(
+				iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(
 							*m_fileTypeInfoPtr,
 							0,
 							allExt,
-							filter);
+							filterList);
 
-				if (filtersCount > 1){
-					filter += "\n";
-					filter += tr("All supported files (%1)").arg(allExt);
+				if (filterList.size() > 1){
+					filterList += tr("All supported files (%1)").arg(allExt);
 				}
 			}
 
@@ -181,7 +180,7 @@ void CFileNameParamGuiComp::on_BrowseButton_clicked()
 						GetQtWidget(),
 						tr("Select file"),
 						QFileInfo(GetPathFromEditor()).dir().absolutePath(),
-						filter);
+						filterList.join("\n"));
 			if (!filePath.isEmpty()){
 				OnPathEdited(filePath);
 			}

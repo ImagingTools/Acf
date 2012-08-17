@@ -2,7 +2,6 @@
 
 
 // Qt includes
-#include <QtGui/QFileDialog>
 #include <QtGui/QMessageBox>
 #include <QtCore/QFileInfo>
 #include <QtGui/QVBoxLayout>

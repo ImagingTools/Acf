@@ -76,7 +76,7 @@ public:
 		\param	result	input/output list of filters with description separated with next line character.
 		\return			number of filters.
 	*/
-	static int AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QString& allExt, QString& result);
+	static void AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QString& allExt, QStringList& result);
 
 protected:
 	QString GetPathForType(const QFileInfo& fileInfo, PathType pathType) const;

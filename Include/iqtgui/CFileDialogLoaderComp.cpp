@@ -131,65 +131,53 @@ QString CFileDialogLoaderComp::GetLastFilePath(OperationType operationType, Path
 
 // static methods
 
-int CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QString& allExt, QString& result)
+void CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QString& allExt, QStringList& result)
 {
-	int retVal = 0;
-
 	QStringList docExtensions;
 	if (!fileTypeInfo.GetFileExtensions(docExtensions, flags)){
-		return 0;
+		return;
 	}
 
-	QString commonDescription = fileTypeInfo.GetTypeDescription();
-
-	if (!commonDescription.isEmpty()){
-		if (!result.isEmpty()){
-			result += "\n";
-		}
-
-		result += commonDescription + " (";
-	}
-
+	QString commonFilter;
 	for (		QStringList::const_iterator extIter = docExtensions.begin();
 				extIter != docExtensions.end();
 				++extIter){
 		const QString& extension = *extIter;
 
 		if (!extension.isEmpty()){
-			if (commonDescription.isEmpty()){
-				QString description = fileTypeInfo.GetTypeDescription(&extension);
-
-				if (!result.isEmpty()){
-					result += "\n";
-				}
-
-				result += description + " (*." + extension + ")";
-
-				++retVal;
-			}
-			else{
-				if (extIter != docExtensions.begin()){
-					result += ";";
-				}
-
-				result += QString("*.") + extension;
+			if (!commonFilter.isEmpty()){
+				commonFilter += " ";
 			}
 
-			if (!allExt.isEmpty()){
-				allExt += ";";
-			}
-
-			allExt += "*." + extension.toLower();
+			commonFilter += QString("*.") + extension;
 		}
 	}
 
+	QString commonDescription = fileTypeInfo.GetTypeDescription();
 	if (!commonDescription.isEmpty()){
-		result += ")";
+		if (!commonFilter.isEmpty()){
+			if (!allExt.isEmpty()){
+				allExt += " ";
+			}
 
-		++retVal;
+			allExt += commonFilter;
+
+			result += tr("%1 (%2)").arg(commonDescription).arg(commonFilter);
+		}
 	}
+	else{
+		for (		QStringList::const_iterator extIter = docExtensions.begin();
+					extIter != docExtensions.end();
+					++extIter){
+			const QString& extension = *extIter;
 
-	return retVal;
+			if (!extension.isEmpty()){
+				QString description = fileTypeInfo.GetTypeDescription(&extension);
+
+				result += description + " (*." + extension + ")";
+			}
+		}
+	}
 }
 
 
@@ -216,20 +204,18 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 
 	QString retVal = filePath;
 	if (retVal.isEmpty()){
-		QString filterList;
+		QStringList filterList;
 		QString allExt;
-		int filtersCount = 0;
 
 		int loadersCount = m_loadersCompPtr.GetCount();
 		for (int i = 0; i < loadersCount; ++i){
 			iser::IFileLoader* loaderPtr = m_loadersCompPtr[i];
 			if (loaderPtr != NULL){
-				filtersCount += iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, isSaving? QF_SAVE: QF_LOAD, allExt, filterList);
+				iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(*loaderPtr, isSaving? QF_SAVE: QF_LOAD, allExt, filterList);
 			}
 		}
 
-		if (filtersCount > 1){
-			filterList += "\n";
+		if (filterList.size() > 1){
 			filterList += tr("All known file types (%1)").arg(allExt);
 		}
 
@@ -245,11 +231,10 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 
 			if (!useNativeDialogs){
 				QFileDialog dialog(
-					NULL, 
-					caption,
-					m_lastSaveInfo.absoluteFilePath(),
-					filterList);
-
+							NULL, 
+							caption,
+							m_lastSaveInfo.absoluteFilePath());
+				dialog.setNameFilters(filterList);
 				dialog.setAcceptMode(QFileDialog::AcceptSave);
 				
 				if (dialog.exec()){
@@ -259,11 +244,11 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 			}
 			else {
 				retVal = QFileDialog::getSaveFileName(
-					NULL,
-					caption, 
-					m_lastSaveInfo.absoluteFilePath(),
-					filterList,
-					&selectedFilter); 
+							NULL,
+							caption, 
+							m_lastSaveInfo.absoluteFilePath(),
+							filterList.join("\n"),
+							&selectedFilter); 
 			}
 		}
 		else{
@@ -273,9 +258,8 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 				QFileDialog dialog(
 					NULL, 
 					caption,
-					m_lastSaveInfo.absoluteFilePath(),
-					filterList);
-
+					m_lastSaveInfo.absoluteFilePath());
+				dialog.setNameFilters(filterList);
 				dialog.setAcceptMode(QFileDialog::AcceptOpen);
 
 				if (dialog.exec()){
@@ -288,14 +272,16 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 					NULL,
 					caption,
 					m_lastOpenInfo.absoluteFilePath(),
-					filterList,
+					filterList.join("\n"),
 					&selectedFilter);
 			}
 		}
 
-		int selectedPos = filterList.indexOf(selectedFilter);
-		filterList.truncate(selectedPos);
-		selectionIndex = filterList.count('\n');
+		QString enrolledFilters = filterList.join("\n");
+
+		int selectedPos = enrolledFilters.indexOf(selectedFilter);
+		enrolledFilters.truncate(selectedPos);
+		selectionIndex = enrolledFilters.count('\n');
 	}
 
 	if (!retVal.isEmpty()){
@@ -329,18 +315,18 @@ iser::IFileLoader* CFileDialogLoaderComp::GetLoaderFor(const QString& filePath, 
 		iser::IFileLoader* loaderPtr = m_loadersCompPtr[i];
 		if (loaderPtr != NULL){
 			QString extensions;
-			QString filters;
-			int filtersCount = AppendLoaderFilterList(*loaderPtr, flags, extensions, filters);
+			QStringList filters;
+			AppendLoaderFilterList(*loaderPtr, flags, extensions, filters);
 		
 			if (extensions.contains(fileExtension)){
-				if ((selectionIndex < 0) || ((selectionIndex >= filtersSum) && (selectionIndex < filtersSum + filtersCount))){
+				if ((selectionIndex < 0) || ((selectionIndex >= filtersSum) && (selectionIndex < filtersSum + filters.size()))){
 					return loaderPtr;
 				}
 
 				retVal = loaderPtr;
 			}
 
-			filtersSum += filtersCount;
+			filtersSum += filters.size();
 		}
 	}
 
