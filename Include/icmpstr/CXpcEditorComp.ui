@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>384</width>
-    <height>597</height>
+    <height>657</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -114,8 +114,18 @@
       <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="margin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QLineEdit" name="ConfigPathEdit"/>
+       <widget class="QLineEdit" name="ConfigPathEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="ConfigPathInsertVariableButton">
@@ -237,7 +247,16 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="margin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLineEdit" name="PackageDirEdit"/>
       </item>
@@ -362,8 +381,18 @@
       <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_6">
+      <property name="margin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QLineEdit" name="PackagePathEdit"/>
+       <widget class="QLineEdit" name="PackagePathEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="PackagePathInsertVariableButton">
