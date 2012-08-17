@@ -776,6 +776,6 @@ typedef TRanges<int> CIntRanges;
 } // namespace istd
 
 
-#endif istd_TRanges_included
+#endif //!istd_TRanges_included
 
 
