@@ -35,7 +35,7 @@ void CParamsManagerGuiComp::on_AddButton_clicked()
 		int selectedIndex = GetSelectedIndex();
 		I_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
-		objectPtr->InsertParamsSet(selectedIndex);
+		objectPtr->InsertParamsSet("", selectedIndex);
 	}
 }
 
