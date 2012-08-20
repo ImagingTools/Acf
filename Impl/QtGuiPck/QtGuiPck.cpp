@@ -217,6 +217,11 @@ I_EXPORT_COMPONENT(
 			"Selection Command List Actions");
 
 I_EXPORT_COMPONENT(
+			VersionInfoGui,
+			"Module version info overview",
+			"Version Info Application Module Components");
+
+I_EXPORT_COMPONENT(
 			DocumentProcessingCommand,
 			"Document processing command",
 			"Processing Document Command" IM_TAG("Processing"));

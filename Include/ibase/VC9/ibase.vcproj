@@ -257,6 +257,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CQtVersionInfoComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSelectableFileConverterComp.cpp"
 				>
 			</File>
@@ -367,6 +371,10 @@
 			</File>
 			<File
 				RelativePath="..\CObjectQueueComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CQtVersionInfoComp.h"
 				>
 			</File>
 			<File

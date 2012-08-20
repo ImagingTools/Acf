@@ -336,6 +336,10 @@
 				RelativePath="..\CTreeWidgetFilter.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CVersionInfoGuiComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -510,6 +514,10 @@
 			</File>
 			<File
 				RelativePath="..\CTreeWidgetFilter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CVersionInfoGuiComp.h"
 				>
 			</File>
 			<File
@@ -715,6 +723,10 @@
 			</File>
 			<File
 				RelativePath="..\CSplashScreenGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CVersionInfoGuiComp.ui"
 				>
 			</File>
 		</Filter>

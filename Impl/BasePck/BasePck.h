@@ -41,6 +41,7 @@
 #include "ibase/CLogComp.h"
 #include "ibase/CMultiObserverBinderComp.h"
 #include "ibase/CSingletonApplicationComp.h"
+#include "ibase/CQtVersionInfoComp.h"
 
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
@@ -102,6 +103,7 @@ typedef ibase::CFileConvertOverProcessorComp FileConvertOverProcessor;
 typedef icomp::TModelCompWrap<ibase::CLogComp> Log;
 typedef ibase::CMultiObserverBinderComp MultiObserverBinder;
 typedef ibase::CSingletonApplicationComp SingletonApplication;
+typedef ibase::CQtVersionInfoComp QtVersionInfo;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;

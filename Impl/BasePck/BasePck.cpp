@@ -129,6 +129,11 @@ I_EXPORT_COMPONENT(
 			"Application Singleton Process" IM_TAG("Application"));
 
 I_EXPORT_COMPONENT(
+			QtVersionInfo,
+			"Version information about underlaying Qt framework",
+			"Application Version Qt" IM_TAG("Application"));
+
+I_EXPORT_COMPONENT(
 			SelectableParamsSet,
 			"Composed set of parameters",
 			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
