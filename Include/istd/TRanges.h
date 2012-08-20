@@ -6,7 +6,7 @@
 #include <set>
 
 // QT includes
-#include <QList>
+#include <QtCore/QList>
 
 // ACF includes
 #include "istd/TRange.h"

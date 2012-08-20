@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QStringList>
+#include <QtCore/QStringList>
 
 // ACF includes
 #include "istd/TPointerBase.h"
