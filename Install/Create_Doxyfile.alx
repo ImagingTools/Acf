@@ -1,16 +1,38 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="3">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1637
+          2467
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1025
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Created with Qt version
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1026
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Runtime Version
         </Description>
       </Version>
     </VersionInfos>
@@ -24,30 +46,11 @@
         375
       </X>
       <X>
-        100
+        150
       </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        ApplicationInfo
-      </ComponentName>
-      <X>
-        375
-      </X>
-      <X>
-        350
-      </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        DoxyfileCopy
-      </ComponentName>
-      <X>
-        800
-      </X>
-      <X>
-        350
-      </X>
+      <Note>
+        
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -59,6 +62,37 @@
       <X>
         550
       </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        DoxyfileCopy
+      </ComponentName>
+      <X>
+        800
+      </X>
+      <X>
+        350
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        ApplicationInfo
+      </ComponentName>
+      <X>
+        375
+      </X>
+      <X>
+        350
+      </X>
+      <Note>
+        
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -68,8 +102,11 @@
         375
       </X>
       <X>
-        225
+        550
       </X>
+      <Note>
+        
+      </Note>
     </Element>
   </PositionMap>
 </Acf>

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="3">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1690
+          2467
         </Number>
         <Description>
           ACF
@@ -15,13 +15,24 @@
       </Version>
       <Version>
         <Id>
-          1
+          1025
         </Id>
         <Number>
-          309
+          264194
         </Number>
         <Description>
-          ACF-Solutions
+          Created with Qt version
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1026
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Runtime Version
         </Description>
       </Version>
     </VersionInfos>
@@ -60,7 +71,7 @@
                 true
               </IsEnabled>
               <Value>
-                VersionInfo
+                ApplicationInfo
               </Value>
             </Data>
           </AttributeInfo>

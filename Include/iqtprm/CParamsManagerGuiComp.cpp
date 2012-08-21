@@ -321,6 +321,9 @@ void CParamsManagerGuiComp::OnGuiModelAttached()
 		if (typeIds.size() > 1){
 			iprm::IParamsManager::TypeIds::iterator i;
 			// fill the menu
+			
+			m_startVariableMenus.clear();
+			
 			for (i = typeIds.begin(); i != typeIds.end(); ++i){
 				//translate
 				QString typeName(*i);
