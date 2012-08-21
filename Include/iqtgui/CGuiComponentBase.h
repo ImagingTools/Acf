@@ -52,7 +52,11 @@ public:
 	virtual QWidget* GetWidget() const;
 	virtual void OnTryClose(bool* ignoredPtr = NULL);
 
+#if _MSC_VER < 1500
+public:
+#else
 protected:
+#endif
 	class VisualStatus: virtual public IVisualStatusProvider
 	{
 	public:
@@ -67,6 +71,7 @@ protected:
 		QString m_statusText;
 	};
 
+protected:
 	/**
 		Called from widget event filter when key is pressed.
 		\return	if event was consumed returns true, otherwise false.
