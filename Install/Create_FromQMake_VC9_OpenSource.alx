@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
+    <VersionInfos count="3">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          1860
+          2470
         </Number>
         <Description>
           ACF
@@ -15,18 +15,29 @@
       </Version>
       <Version>
         <Id>
-          1
+          1025
         </Id>
         <Number>
-          369
+          264194
         </Number>
         <Description>
-          ACF-Solutions
+          Qt Compiled Version
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1026
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Runtime Version
         </Description>
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="3">
+  <PositionMap count="2">
     <Element>
       <ComponentName>
         Application
@@ -37,17 +48,9 @@
       <X>
         375
       </X>
-    </Element>
-    <Element>
-      <ComponentName>
-        Copy_vsprops
-      </ComponentName>
-      <X>
-        725
-      </X>
-      <X>
-        550
-      </X>
+      <Note>
+        
+      </Note>
     </Element>
     <Element>
       <ComponentName>
@@ -59,6 +62,9 @@
       <X>
         375
       </X>
+      <Note>
+        
+      </Note>
     </Element>
   </PositionMap>
 </Acf>
