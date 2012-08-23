@@ -22,7 +22,7 @@ namespace iqt2d
 
 
 class CPolygonParamsGuiComp:
-		public iqt2d::TShapeParamsGuiCompBase<
+	public iqt2d::TShapeParamsGuiCompBase<
 				Ui::CPolygonParamsGuiComp,
 				iview::CInteractivePolygonShape,
 				i2d::CPolygon>
@@ -51,7 +51,6 @@ protected:
 protected Q_SLOTS:
 	void OnParamsChanged();
 
-	void on_AppendButton_clicked();
 	void on_InsertButton_clicked();
 	void on_RemoveButton_clicked();
 

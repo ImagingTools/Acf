@@ -58,7 +58,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QToolButton" name="AppendButton">
+      <widget class="QToolButton" name="InsertButton">
        <property name="toolTip">
         <string>Add new point</string>
        </property>
@@ -71,23 +71,6 @@
        </property>
        <property name="shortcut">
         <string>Ctrl+Ins</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="InsertButton">
-       <property name="toolTip">
-        <string>Insert new point before current</string>
-       </property>
-       <property name="text">
-        <string>Insert</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Redo.svg</normaloff>:/Icons/Redo.svg</iconset>
-       </property>
-       <property name="shortcut">
-        <string>Ins</string>
        </property>
       </widget>
      </item>

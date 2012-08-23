@@ -96,26 +96,19 @@ void CPolygonParamsGuiComp::OnParamsChanged()
 }
 
 
-void CPolygonParamsGuiComp::on_AppendButton_clicked()
-{
-	iqt::CSignalBlocker block(CoordsTable);
-
-	int row = CoordsTable->rowCount();
-	CoordsTable->setRowCount(row + 1);
-	CoordsTable->setItem(row, 0, new QTableWidgetItem(QString::number(0)));
-	CoordsTable->setItem(row, 1, new QTableWidgetItem(QString::number(0)));
-	CoordsTable->setCurrentCell(row, 0);
-
-	OnParamsChanged();
-}
-
-
 void CPolygonParamsGuiComp::on_InsertButton_clicked()
 {
 	iqt::CSignalBlocker block(CoordsTable);
 
 	int row = CoordsTable->currentRow();
-	CoordsTable->insertRow(row);
+	if (row < 0){
+		row = CoordsTable->rowCount();
+		
+		CoordsTable->setRowCount(row + 1);
+	}
+	else{
+		CoordsTable->insertRow(row);
+	}
 	CoordsTable->setItem(row, 0, new QTableWidgetItem(QString::number(0)));
 	CoordsTable->setItem(row, 1, new QTableWidgetItem(QString::number(0)));
 	CoordsTable->setCurrentCell(row, 0);
