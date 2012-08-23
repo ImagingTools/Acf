@@ -96,6 +96,11 @@ I_EXPORT_COMPONENT(
 			"2D-View decorated with commands toolbar and status widget",
 			"View Console Display" IM_TAG("2D"));
 
+I_EXPORT_COMPONENT(
+			PolylineParamsGui,
+			"Polyline parameter GUI displaying a polyline using 2D-view",
+			"View Console Polyline Shape" IM_TAG("2D"));
+
 
 } // namespace QtViewPck
 

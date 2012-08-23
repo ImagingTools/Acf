@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CPolylineParamsGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CQuadrangleParamsGuiComp.cpp"
 				>
 			</File>
@@ -276,6 +280,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CPolylineParamsGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CQuadrangleParamsGuiComp.h"
 				>
 			</File>
@@ -347,6 +355,10 @@
 			</File>
 			<File
 				RelativePath="..\generated\moc_CPolygonParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\moc_CPolylineParamsGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -452,6 +464,10 @@
 			</File>
 			<File
 				RelativePath="..\CPolygonParamsGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CPolylineParamsGuiComp.moc"
 				>
 			</File>
 			<File
