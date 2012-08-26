@@ -1,10 +1,32 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="0">
+    <VersionInfos count="2">
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          2484
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <ConfigFiles count ="0">
+  <ConfigFiles count="0">
   </ConfigFiles>
   <PackageDirs count="0">
   </PackageDirs>
@@ -19,4 +41,6 @@
       ../Partitura/AcfVoce.arp
     </FilePath>
   </PackageFiles>
+  <RegistryFiles count="0">
+  </RegistryFiles>
 </Acf>
