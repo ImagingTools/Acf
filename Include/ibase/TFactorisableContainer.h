@@ -24,8 +24,9 @@ namespace ibase
 	\li Serialization mechanism with automatic item allocation.
 */
 template <class InterfaceClass>
-class TFactorisableContainer: public ibase::TSerializableContainer<
-			QPair<istd::TSmartPtr<InterfaceClass>, QByteArray> >
+class TFactorisableContainer: 
+			public ibase::TSerializableContainer<
+						QPair<istd::TSmartPtr<InterfaceClass>, QByteArray> >
 {
 public:
 	typedef QPair<istd::TSmartPtr<InterfaceClass>, QByteArray> ItemClass;
@@ -94,24 +95,24 @@ TFactorisableContainer<InterfaceClass>::~TFactorisableContainer()
 template <class InterfaceClass>
 InterfaceClass* TFactorisableContainer<InterfaceClass>::AddElement(const QByteArray& elementFactoryKey)
 {
-	InterfaceClass* elementPtr = CreateElement(elementFactoryKey);
-	if (elementPtr != NULL){
-		BaseClass::PushBack(std::make_pair(elementPtr, elementFactoryKey));
+	istd::TSmartPtr<InterfaceClass> elementPtr(CreateElement(elementFactoryKey));
+	if (elementPtr.IsValid()){
+		BaseClass::PushBack(ItemClass(elementPtr, elementFactoryKey));
 	}
 
-	return elementPtr;
+	return elementPtr.GetPtr();
 }
 
 
 template <class InterfaceClass>
 InterfaceClass* TFactorisableContainer<InterfaceClass>::InsertElement(int index, const QByteArray& elementFactoryKey)
 {
-	InterfaceClass* elementPtr = CreateElement(elementFactoryKey);
-	if (elementPtr != NULL){
-		BaseClass::InsertAt(std::make_pair(elementPtr, elementFactoryKey), index);
+	istd::TSmartPtr<InterfaceClass> elementPtr(CreateElement(elementFactoryKey));
+	if (elementPtr.IsValid()){
+		BaseClass::InsertAt(ItemClass(elementPtr, elementFactoryKey), index);
 	}
 
-	return elementPtr;
+	return elementPtr.GetPtr();
 }
 
 
