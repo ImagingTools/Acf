@@ -24,9 +24,9 @@ namespace iqtprm
 {
 
 
-class CComposedParamsSetGuiComp
-: public iqtgui::TDesignerGuiObserverCompBase<Ui::CComposedParamsSetGuiComp, iprm::IParamsSet>,
-public iqt2d::IViewExtender
+class CComposedParamsSetGuiComp:
+			public iqtgui::TDesignerGuiObserverCompBase<Ui::CComposedParamsSetGuiComp, iprm::IParamsSet>,
+			public iqt2d::IViewExtender
 {
 	Q_OBJECT
 
@@ -54,10 +54,6 @@ public:
 	virtual void UpdateModel() const;
 	virtual void UpdateEditor(int updateFlags = 0);
 
-	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
-
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
@@ -69,6 +65,10 @@ public:
 protected:
 	void AttachToScene(iqt2d::IViewProvider* providerPtr, int flags);
 	void DetachFromScene(iqt2d::IViewProvider* providerPtr);
+
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
 
 	protected
 Q_SLOTS:
@@ -97,8 +97,10 @@ private:
 	typedef QMap<iqt2d::IViewProvider*, int> ConnectedSceneFlags; // maps connected scene provider to connection flags
 	ConnectedSceneFlags m_connectedSceneFlags;
 	
-	/** A container that depends on *m_designTypeAttrPtr, ie. QWidget, QToolBox or QTabWidget */
-	QWidget* m_guiContainer;
+	/**
+		A container that depends on \c DesignType, ie. QWidget, QToolBox or QTabWidget
+	*/
+	QWidget* m_guiContainerPtr;
 	QMap<iqtgui::IGuiObject*, QString> m_guiNames;
 };
 
