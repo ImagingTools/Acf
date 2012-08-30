@@ -15,7 +15,7 @@
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
 
-#include "iqt/CSignalBlocker.h"
+#include "iqtgui/CWidgetUpdateBlocker.h"
 
 #include "iview/IShapeView.h"
 
@@ -271,7 +271,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iqt::CSignalBlocker blocker(m_guiContainerPtr);
+	iqtgui::CWidgetUpdateBlocker blocker(m_guiContainerPtr);
 
 	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
 	I_ASSERT(paramsSetPtr != NULL);
@@ -301,7 +301,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 			}
 		}
 
-		iqtgui::IGuiObject* guiObject = dynamic_cast<iqtgui::IGuiObject*> (m_observersCompPtr[i]);
+		iqtgui::IGuiObject* guiObject = dynamic_cast<iqtgui::IGuiObject*>(m_observersCompPtr[i]);
 		if (guiObject){
 			iprm::IParamsSet::Ids::const_iterator iter;
 
@@ -406,7 +406,7 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
 	I_ASSERT(paramsSetPtr != NULL);
 
-	iqt::CSignalBlocker blocker(m_guiContainerPtr);
+	iqtgui::CWidgetUpdateBlocker blocker(m_guiContainerPtr);
 
 	// clear the gui container
 	int guiMode = *m_designTypeAttrPtr;
@@ -433,11 +433,15 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 
 	int elementsCount = qMin(m_observersCompPtr.GetCount(), m_idsAttrPtr.GetCount());
 	for (int i = 0; i < elementsCount; ++i){
-		const QString& paramId = m_idsAttrPtr[i];
+		const QByteArray& paramId = m_idsAttrPtr[i];
 
-		imod::IModel* parameterModelPtr = dynamic_cast<imod::IModel*> (paramsSetPtr->GetEditableParameter(paramId.toLocal8Bit()));
+		imod::IModel* parameterModelPtr = GetModelPtr();
+		if (!paramId.isEmpty() && (paramId != "*")){
+			iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
+			parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
+		}
+
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
-
 		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
 			parameterModelPtr->DetachObserver(observerPtr);
 		}

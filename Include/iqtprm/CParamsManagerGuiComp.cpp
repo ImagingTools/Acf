@@ -12,6 +12,7 @@
 #include "iprm/ISelectionConstraints.h"
 
 #include "iqtgui/CItemDelegate.h"
+#include "iqtgui/CWidgetUpdateBlocker.h"
 
 
 namespace iqtprm
@@ -240,6 +241,8 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 	}
 
 	if (modelPtr != m_lastConnectedModelPtr){
+		iqtgui::CWidgetUpdateBlocker blocker(ParamsFrame);
+
 		EnsureParamsGuiDetached();
 
 		bool paramsFrameVisible = false;
@@ -255,6 +258,8 @@ void CParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 		}
 
 		ParamsFrame->setVisible(paramsFrameVisible);
+
+		ParamsFrame->setUpdatesEnabled(true);
 	}
 
 	RemoveButton->setEnabled(selectedIndex >= 0);
