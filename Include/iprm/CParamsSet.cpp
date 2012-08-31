@@ -217,6 +217,9 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 				retVal = retVal && parameterInfoPtr->parameterPtr->Serialize(archive);
 				retVal = retVal && archive.EndTag(parameterValueTag);
 			}
+			else{
+				return false;
+			}
 
 			retVal = retVal && archive.EndTag(parameterTag);
 		}

@@ -82,12 +82,12 @@ protected:
 	virtual void OnComponentDestroyed();
 
 	/**
-		Deserialize parameter set 
+		Ensure some parameter exist and has correct type. 
 		\param	index	position in list of parameters.
 		\param	typeid	ID of parameter type.
 		\return			\c true - deserialization was successfull or \c false - no deserialization was possible.
 	*/
-	bool DeserializeParamsSet(const QByteArray& typeId, int index, const QString& name);
+	bool EnsureParamExist(const QByteArray& typeId, int index, const QString& name);
 
 private:
 	I_MULTIREF(IParamsSet, m_fixedParamSetsCompPtr);
@@ -103,7 +103,7 @@ private:
 		QByteArray typeId;
 	};
 
-	typedef QVector<ParamSet> ParamSets;
+	typedef QList<ParamSet> ParamSets;
 
 	ParamSets m_paramSets;
 

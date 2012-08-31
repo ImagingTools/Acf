@@ -98,7 +98,7 @@ private:
 		QString name;
 	};
 
-	typedef QVector<ParamSet> ParamSets;
+	typedef QList<ParamSet> ParamSets;
 
 	ParamSets m_paramSets;
 

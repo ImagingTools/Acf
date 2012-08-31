@@ -32,7 +32,9 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED);
 
-		m_paramSets.resize(count - fixedSetsCount);
+		while (m_paramSets.size() > count - fixedSetsCount){
+			m_paramSets.removeLast();
+		}
 	}
 	else if (count > actualSetsCount){
 		if (!m_paramSetsFactPtr.IsValid()){
@@ -135,6 +137,11 @@ int CParamsManagerComp::InsertParamsSet(const QByteArray& typeId, int index)
 	paramSet.paramSetPtr.SetPtr(newParamsSetPtr);
 	paramSet.name = defaultSetName;
 
+	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
+	if (modelPtr != NULL){
+		modelPtr->AttachObserver(this);
+	}
+
 	if (index >= 0){
 		int insertIndex = index - fixedParamsCount;
 
@@ -165,12 +172,7 @@ bool CParamsManagerComp::RemoveParamsSet(int index)
 	
 	int removeIndex = index - fixedParamsCount;
 
-	imod::IModel* paramsSetModelPtr = dynamic_cast<imod::IModel*>(m_paramSets[removeIndex].paramSetPtr.GetPtr());
-	if (paramsSetModelPtr != NULL){
-		paramsSetModelPtr->DetachAllObservers();
-	}
-
-	m_paramSets.erase(m_paramSets.begin() + removeIndex);
+	m_paramSets.removeAt(removeIndex);
 
 	m_selectedIndex = index - 1;
 
@@ -197,9 +199,7 @@ bool CParamsManagerComp::SwapParamsSet(int index1, int index2)
 	ParamSet& paramsSet2 = m_paramSets[index2 - fixedParamsCount];
 
 	paramsSet1.paramSetPtr.Swap(paramsSet2.paramSetPtr);
-	QString tempName = paramsSet1.name;
-	paramsSet1.name = paramsSet2.name;
-	paramsSet2.name = tempName;
+	qSwap(paramsSet1.name, paramsSet2.name);
 
 	return true;
 }
@@ -209,12 +209,12 @@ IParamsSet* CParamsManagerComp::GetParamsSet(int index) const
 {
 	I_ASSERT((index >= 0) && (index < CParamsManagerComp::GetParamsSetsCount()));
 
-	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedCount){
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
 		return m_fixedParamSetsCompPtr[index];
 	}
 
-	return const_cast<IParamsSet*>(m_paramSets[index - fixedCount].paramSetPtr.GetPtr());
+	return const_cast<IParamsSet*>(m_paramSets[index - fixedSetsCount].paramSetPtr.GetPtr());
 }
 
 
@@ -222,8 +222,8 @@ QByteArray CParamsManagerComp::GetParamsSetTypeId(int index) const
 {
 	I_ASSERT((index >= 0) && (index < CParamsManagerComp::GetParamsSetsCount()));
 
-	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedCount){
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
 		int typeIdsCount = m_fixedSetTypeIdsAttrPtr.GetCount();
 		if (typeIdsCount > 0){
 			int realIndex = qMin(index, typeIdsCount);
@@ -240,8 +240,8 @@ QString CParamsManagerComp::GetParamsSetName(int index) const
 {
 	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
-	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedCount){
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
 		int namesCount = m_fixedSetNamesAttrPtr.GetCount();
 
 		if (index < namesCount){
@@ -252,7 +252,7 @@ QString CParamsManagerComp::GetParamsSetName(int index) const
 		}
 	}
 
-	return m_paramSets[index - fixedCount].name;
+	return m_paramSets[index - fixedSetsCount].name;
 }
 
 
@@ -260,15 +260,15 @@ bool CParamsManagerComp::SetParamsSetName(int index, const QString& name)
 {
 	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
-	int fixedCount = m_fixedSetNamesAttrPtr.GetCount();
-	if (index < fixedCount){
+	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
+	if (index < fixedSetsCount){
 		return false;
 	}
 
-	if (m_paramSets[index - fixedCount].name != name){
+	if (m_paramSets[index - fixedSetsCount].name != name){
 		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED);
 
-		m_paramSets[index - fixedCount].name = name;
+		m_paramSets[index - fixedSetsCount].name = name;
 	}
 
 	return true;
@@ -418,9 +418,9 @@ QByteArray CParamsManagerComp::GetOptionId(int index) const
 
 void CParamsManagerComp::OnComponentCreated()
 {
-	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 
-	for (int setIndex = 0; setIndex < fixedCount; setIndex++){
+	for (int setIndex = 0; setIndex < fixedSetsCount; setIndex++){
 		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(m_fixedParamSetsCompPtr[setIndex]);
 		if (modelPtr != NULL){
 			modelPtr->AttachObserver(this);
@@ -433,9 +433,9 @@ void CParamsManagerComp::OnComponentCreated()
 
 void CParamsManagerComp::OnComponentDestroyed()
 {
-	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 
-	for (int setIndex = 0; setIndex < fixedCount; setIndex++){
+	for (int setIndex = 0; setIndex < fixedSetsCount; setIndex++){
 		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(m_fixedParamSetsCompPtr[setIndex]);
 		if (modelPtr != NULL && modelPtr->IsAttached(this)){
 			modelPtr->DetachObserver(this);
