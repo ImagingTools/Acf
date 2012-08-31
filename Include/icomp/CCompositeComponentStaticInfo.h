@@ -29,6 +29,8 @@ public:
 				const icomp::IComponentEnvironmentManager& manager,
 				const IComponentStaticInfo* parentPtr = NULL);
 
+	const IRegistry& GetRegistry() const;
+
 	// reimplemented (icomp::IRealComponentStaticInfo)
 	virtual IComponent* CreateComponent() const;
 
@@ -77,6 +79,8 @@ private:
 	QString m_description;
 	QString m_keywords;
 	int m_category;
+
+	const icomp::IRegistry& m_registry;
 };
 
 

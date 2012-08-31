@@ -19,7 +19,7 @@
 #include "icmpstr/CComponentNoteEditorComp.h"
 #include "icmpstr/CSceneProviderGuiComp.h"
 #include "icmpstr/CXpcEditorComp.h"
-
+#include "icmpstr/CRegistryTreeViewComp.h"
 
 /**
 	Component manipulation package.
@@ -55,6 +55,7 @@ typedef icomp::TMakeComponentWrap<
 			istd::IChangeable,
 			imod::IModel> XpcModel;
 typedef icmpstr::CXpcEditorComp XpcEditorGui;
+typedef icmpstr::CRegistryTreeViewComp RegistryTreeView;
 
 
 } // namespace CompositorPck

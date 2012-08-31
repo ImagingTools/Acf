@@ -1,6 +1,9 @@
 #include "iqt/CSystem.h"
 
 
+// STD includes
+#include <cstdlib>
+
 // Qt includes
 #include <QtCore/QDir>
 #include <QtCore/QThread>
@@ -144,6 +147,13 @@ CSystem::EnvironmentVariables CSystem::GetEnvironmentVariables()
 	}
 
 	return environmentVariables;
+}
+
+
+void CSystem::SetTempDirectoryPath(const QString& tempPath)
+{
+	_wputenv(QString("TMP=%1").arg(tempPath).toStdWString().c_str());
+	_wputenv(QString("TEMP=%1").arg(tempPath).toStdWString().c_str());
 }
 
 

@@ -216,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryTreeViewComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSceneProviderGuiComp.cpp"
 				>
 			</File>
@@ -299,6 +303,10 @@
 			</File>
 			<File
 				RelativePath="..\CRegistryPropEditorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRegistryTreeViewComp.h"
 				>
 			</File>
 			<File
@@ -419,6 +427,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\moc_CRegistryTreeViewComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CSceneProviderGuiComp.cpp"
 				>
 			</File>
@@ -456,6 +468,10 @@
 			</File>
 			<File
 				RelativePath="..\generated\ui_CRegistryPropEditorComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Generated\ui_CRegistryTreeViewComp.h"
 				>
 			</File>
 			<File
@@ -549,6 +565,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRegistryTreeViewComp.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CSceneProviderGuiComp.moc"
 				>
 			</File>
@@ -561,6 +581,10 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\CRegistryTreeViewComp.ui"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

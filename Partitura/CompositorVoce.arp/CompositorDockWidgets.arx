@@ -1,21 +1,32 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2399
+          2494
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264192
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="6">
+  <ElementsList count="7">
     <Element>
       <Id>
         AttributeEditorDock
@@ -375,6 +386,75 @@
     </Element>
     <Element>
       <Id>
+        RegistryOverviewDialog
+      </Id>
+      <PackageId>
+        CompositorVoce
+      </PackageId>
+      <ComponentId>
+        RegistryOverviewDialog
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="3">
+          <AttributeInfo>
+            <Id>
+              ConsistencyInfo
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              ConsistencyInfo
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              DocumentManager
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              DocumentManager
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MetaInfoManager
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              MetaInfoManager
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
         WindowsListCommands
       </Id>
       <PackageId>
@@ -472,7 +552,7 @@
   </EmbeddedRegistriesList>
   <ExportedInterfaces count="0">
   </ExportedInterfaces>
-  <ExportedComponents count="6">
+  <ExportedComponents count="7">
     <Component>
       <ExportedId>
         AttributeEditorDock
@@ -511,6 +591,14 @@
       </ExportedId>
       <ComponentId>
         QuickHelpDock
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        RegistryOverviewDialog
+      </ExportedId>
+      <ComponentId>
+        RegistryOverviewDialog
       </ComponentId>
     </Component>
     <Component>

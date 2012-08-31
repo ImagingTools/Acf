@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2437
+          2494
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264192
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -91,7 +102,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="6">
+              <Values count="7">
                 <Value>
                   MainWindowComponents/AttributeEditorDock
                 </Value>
@@ -109,6 +120,9 @@
                 </Value>
                 <Value>
                   MainWindowComponents/WindowsListCommands
+                </Value>
+                <Value>
+                  MainWindowComponents/RegistryOverviewDialog
                 </Value>
               </Values>
             </Data>
@@ -133,7 +147,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="6">
+        <AttributeInfoMap count="7">
           <AttributeInfo>
             <Id>
               DocumentManager
@@ -208,6 +222,27 @@
               <Value>
                 MainWindowComponents/QuickHelpDock
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              RegistryObservers
+            </Id>
+            <Type>
+              Reference[]
+            </Type>
+            <ExportId>
+              
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                true
+              </IsEnabled>
+              <Values count="1">
+                <Value>
+                  MainWindowComponents/RegistryOverviewDialog
+                </Value>
+              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

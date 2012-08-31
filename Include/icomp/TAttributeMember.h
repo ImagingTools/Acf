@@ -66,6 +66,9 @@ protected:
 	void SetAttribute(const Attribute* attributePtr);
 
 private:
+	static QByteArray GetContextId(const IComponentContext& context);
+
+private:
 	const Attribute* m_attributePtr;
 };
 
@@ -111,15 +114,8 @@ bool TAttributeMemberBase<Attribute>::Init(
 					return true;
 				}
 				else{
-					QByteArray completeIdPath = componentContextPtr->GetContextId();
-					for (		const IComponentContext* partContextPtr = componentContextPtr->GetParentContext();
-								partContextPtr != NULL;
-								partContextPtr = partContextPtr->GetParentContext()){
-						completeIdPath = partContextPtr->GetContextId() + "/" + completeIdPath;
-					}
-
 					qCritical(	"Component %s: Attribute %s type inconsistence!",
-								completeIdPath.constData(),
+								GetContextId(*componentContextPtr).constData(),
 								attributeId.constData());
 				}
 			}
@@ -128,10 +124,20 @@ bool TAttributeMemberBase<Attribute>::Init(
 			const iser::IObject* attributePtr = componentContextPtr->GetAttribute(attributeId, NULL);
 			m_attributePtr = dynamic_cast<const Attribute*>(attributePtr);
 
+			if (m_attributePtr == NULL){
+				if (attributePtr != NULL){
+					qCritical("Component %s: Attribute %s exists in the component context but has a wrong type",
+								GetContextId(*componentContextPtr).constData(),
+								attributeId.constData());
+				}
+			}
+
 			return (m_attributePtr != NULL);
 		}
 	}
 	else{
+		qCritical("Error during resolving of attribute: %s in component %s: Component context not set", GetContextId(*componentContextPtr).constData(), attributeId.constData());
+		
 		m_attributePtr = NULL;
 	}
 
@@ -175,6 +181,24 @@ template <typename Attribute>
 void TAttributeMemberBase<Attribute>::SetAttribute(const Attribute* attributePtr)
 {
 	m_attributePtr = attributePtr;
+}
+
+
+// private static methods
+
+template <typename Attribute>
+QByteArray TAttributeMemberBase<Attribute>::GetContextId(const IComponentContext& context)
+{
+	QByteArray completeIdPath = context.GetContextId();
+	const IComponentContext* parentContextPtr = context.GetParentContext();
+
+	while ((parentContextPtr != NULL) && (parentContextPtr != &context)){
+		completeIdPath = parentContextPtr->GetContextId() + "/" + completeIdPath;
+	
+		parentContextPtr = parentContextPtr->GetParentContext();
+	}
+
+	return completeIdPath; 
 }
 
 

@@ -26,16 +26,16 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="4">
+  <PositionMap count="2">
     <Element>
       <ComponentName>
-        Application
+        RegistryModelBinder
       </ComponentName>
       <X>
-        525
+        800
       </X>
       <X>
-        475
+        300
       </X>
       <Note>
         
@@ -43,41 +43,13 @@
     </Element>
     <Element>
       <ComponentName>
-        CompositorTemplate
+        VisualRegistry
       </ComponentName>
       <X>
-        225
+        450
       </X>
       <X>
-        650
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        MainWindowComponents
-      </ComponentName>
-      <X>
-        1000
-      </X>
-      <X>
-        175
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        XpcTemplate
-      </ComponentName>
-      <X>
-        750
-      </X>
-      <X>
-        325
+        300
       </X>
       <Note>
         

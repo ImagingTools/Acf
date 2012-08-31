@@ -19,20 +19,33 @@ class CSystem
 public:
 	typedef QMap<QString, QString> EnvironmentVariables;
 
-	// static members
+	// static methods
+
 	/**
 		Get normalized path with enrolled system variables.
 	*/
 	static QString GetNormalizedPath(const QString& path);
+
 	/**
 		Get value of system variables.
 	*/
 	static QString FindVariableValue(const QString& varName);
+
 	/**
 		Get path with enrolled system variables.
 	*/
 	static QString GetEnrolledPath(const QString& path);
+
+	/**
+		Get list of environment valiables related to the current process.
+	*/
 	static EnvironmentVariables GetEnvironmentVariables();
+
+	/**
+		Set path for for temporary data to the current process.
+	*/
+	static void SetTempDirectoryPath(const QString& tempPath);
+
 	/**
 		Sleep current thread.
 	*/

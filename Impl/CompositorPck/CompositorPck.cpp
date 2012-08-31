@@ -93,6 +93,11 @@ I_EXPORT_COMPONENT(
 			IM_TAG("XPC GUI"));
 
 I_EXPORT_COMPONENT(
+			RegistryTreeView,
+			"Display component registry as a component tree",
+			IM_TAG("Registry View Tree Overview GUI"));
+
+I_EXPORT_COMPONENT(
 			SceneProvider,
 			"Obsolete scene provider used in compositor only",
 			"Scene Provider Extender Display Console" IM_TAG("Deprecated"));

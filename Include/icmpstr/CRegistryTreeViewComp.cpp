@@ -1,0 +1,326 @@
+#include "icmpstr/CRegistryTreeViewComp.h"
+
+
+// Qt includes
+#include <QtCore/QDir>
+#include <QtGui/QHeaderView>
+
+// ACF includes
+#include "icomp/CCompositeComponentStaticInfo.h"
+
+#include "ibase/CMessageContainer.h"
+
+#include "iqtgui/CItemDelegate.h"
+
+
+namespace icmpstr
+{
+
+
+CRegistryTreeViewComp::CRegistryTreeViewComp()
+	:m_environmentObserver(this)
+{
+	m_selectionInfo.SetParent(this);
+}
+
+
+void CRegistryTreeViewComp::AddSubcomponents(
+			const icomp::CComponentAddress& address,
+			QTreeWidgetItem* registryElementItemPtr) const
+{
+	if (m_envManagerCompPtr.IsValid()){
+		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(address);
+
+		if (metaInfoPtr != NULL &&(metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE)){
+			const icomp::CCompositeComponentStaticInfo* compositeMetaInfoPtr = dynamic_cast<const icomp::CCompositeComponentStaticInfo*>(metaInfoPtr);
+			if (compositeMetaInfoPtr != NULL){
+				const icomp::IRegistry& registry = compositeMetaInfoPtr->GetRegistry();
+
+				CreateRegistryTree(registry, registryElementItemPtr);
+			}
+		}
+	}
+}
+
+
+void CRegistryTreeViewComp::CreateRegistryTree(const icomp::IRegistry& registry, QTreeWidgetItem* registryRootItemPtr) const
+{
+	icomp::IRegistry::Ids elementIds = registry.GetElementIds();
+	for (		icomp::IRegistry::Ids::iterator iter = elementIds.begin();
+				iter != elementIds.end();
+				iter++){
+		const QByteArray& elementId = *iter;
+		const icomp::IRegistry::ElementInfo* elementInfoPtr = registry.GetElementInfo(elementId);
+		if ((elementInfoPtr != NULL) && elementInfoPtr->elementPtr.IsValid()){
+			AddRegistryElementItem(registry, elementInfoPtr, elementId, registryRootItemPtr);
+		}
+	}
+}
+
+
+// protected methods
+
+QTreeWidgetItem* CRegistryTreeViewComp::AddRegistryElementItem(
+			const icomp::IRegistry& registry,
+			const icomp::IRegistry::ElementInfo* elementPtr,
+			const QByteArray& elementId,
+			QTreeWidgetItem* parentItemPtr) const
+{
+	icomp::CRegistryElement* registryElementPtr = dynamic_cast<icomp::CRegistryElement*>(elementPtr->elementPtr.GetPtr());
+	if (registryElementPtr != NULL){
+		QTreeWidgetItem* elementItemPtr = new QTreeWidgetItem();
+
+		elementItemPtr->setText(CT_NAME, elementId);
+		elementItemPtr->setData(CT_NAME, DR_ELEMENT_NAME, elementId);
+		elementItemPtr->setData(CT_NAME, DR_ELEMENT_ID, elementPtr->address.GetComponentId());
+		elementItemPtr->setData(CT_NAME, DR_ELEMENT_PACKAGE_ID, elementPtr->address.GetPackageId());
+		elementItemPtr->setData(CT_NAME, DR_REGISTRY, int(&registry));
+		elementItemPtr->setText(CT_ID, elementPtr->address.GetComponentId());
+		elementItemPtr->setText(CT_PACKAGE, elementPtr->address.GetPackageId());
+
+		bool isElementSelected = (m_selectedElements.selectedElementIds.find(elementId) != m_selectedElements.selectedElementIds.end());
+		elementItemPtr->setSelected(isElementSelected);
+
+		if (parentItemPtr != NULL){
+			parentItemPtr->addChild(elementItemPtr);
+			parentItemPtr->setExpanded(true);
+		}
+		
+		bool isConsistent = true;
+		ibase::CMessageContainer messageContainer;
+
+		if (m_consistInfoCompPtr.IsValid()){
+			isConsistent = m_consistInfoCompPtr->IsElementValid(
+						elementId,
+						registry,
+						false,
+						true,
+						&messageContainer);
+		}
+
+		static QIcon errorIcon(":/Icons/Warning.svg");
+
+		if (!isConsistent){
+			elementItemPtr->setIcon(CT_NAME, errorIcon);
+
+			ibase::CMessageContainer::Messages messages = messageContainer.GetMessages();
+			QString messageText;
+			for (int messageIndex = 0; messageIndex < messages.count(); messageIndex++){
+				messageText += messages[messageIndex]->GetInformationDescription();
+				messageText += '\n';
+			}
+
+			elementItemPtr->setData(CT_NAME, DR_MESSAGE_LIST, messageText);
+
+			while (parentItemPtr != NULL){
+				parentItemPtr->setIcon(CT_NAME, errorIcon);
+
+				QString parentMessages = parentItemPtr->data(CT_NAME, DR_MESSAGE_LIST).toString();
+				parentItemPtr->setData(CT_NAME, DR_MESSAGE_LIST, parentMessages + messageText);
+
+				parentItemPtr = parentItemPtr->parent();
+			}
+		}
+
+		AddSubcomponents(elementPtr->address, elementItemPtr);
+
+		return elementItemPtr;
+	}
+
+	return NULL;
+}
+
+
+void CRegistryTreeViewComp::UpdateComponentSelection()
+{
+}
+
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CRegistryTreeViewComp::UpdateGui(int /*updateFlags*/)
+{
+	RegistryTree->clear();
+
+	QTreeWidgetItem* rootItem = new QTreeWidgetItem();
+	rootItem->setText(0, "Root");
+
+	RegistryTree->addTopLevelItem(rootItem);
+
+	icomp::IRegistry* registryPtr = GetObjectPtr();
+	if (registryPtr != NULL){
+		CreateRegistryTree(*registryPtr, rootItem);
+	}
+
+	UpdateComponentSelection();
+}
+
+
+// reimplemented (iqtgui::CGuiComponentBase)
+
+void CRegistryTreeViewComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+//	RegistryTree->setItemDelegate(new iqtgui::CItemDelegate);
+
+	RegistryTree->header()->setResizeMode(QHeaderView::Stretch);
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CRegistryTreeViewComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_envManagerModelCompPtr.IsValid()){
+		m_envManagerModelCompPtr->AttachObserver(&m_environmentObserver);
+	}
+}
+
+
+void CRegistryTreeViewComp::OnComponentDestroyed()
+{
+	if (m_envManagerModelCompPtr.IsValid() && m_envManagerModelCompPtr->IsAttached(&m_environmentObserver)){
+		m_envManagerModelCompPtr->DetachObserver(&m_environmentObserver);
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// static methods
+
+IElementSelectionInfo* CRegistryTreeViewComp::ExtractSelectionInterface(CRegistryTreeViewComp& component)
+{
+	return &component.m_selectionInfo;
+}
+
+
+imod::IModel* CRegistryTreeViewComp::ExtractSelectionInterfaceModel(CRegistryTreeViewComp& component)
+{
+	return &component.m_selectionInfo;
+}
+
+
+istd::IChangeable* CRegistryTreeViewComp::ExtractSelectionInterfaceChangeable(CRegistryTreeViewComp& component)
+{
+	return &component.m_selectionInfo;
+}
+
+
+// protected slots
+
+void CRegistryTreeViewComp::on_RegistryTree_itemSelectionChanged()
+{
+	istd::CChangeNotifier changePtr(&m_selectionInfo);
+
+	m_selectedElements.selectedElementIds.clear();
+	m_selectedElements.registryPtr = NULL;
+
+	QList<QTreeWidgetItem*> selectedItems = RegistryTree->selectedItems();
+
+	int itemsCount = selectedItems.size();
+	for (int itemIndex = 0; itemIndex < itemsCount; itemIndex++){
+		QTreeWidgetItem* itemPtr = selectedItems.at(itemIndex);
+		I_ASSERT(itemPtr != NULL);
+
+		QString messageText = itemPtr->data(CT_NAME, DR_MESSAGE_LIST).toString();
+
+		MessagesList->setPlainText(messageText);
+
+		m_selectedElements.selectedElementIds.insert(itemPtr->data(CT_NAME, DR_ELEMENT_ID).toByteArray());
+		int registryPointerAddress = itemPtr->data(CT_NAME, DR_REGISTRY).toInt();
+		m_selectedElements.registryPtr = reinterpret_cast<icomp::IRegistry*>(registryPointerAddress);
+	}
+}
+
+
+void CRegistryTreeViewComp::on_RegistryTree_itemDoubleClicked(QTreeWidgetItem* itemPtr, int /*column*/)
+{
+	icomp::CComponentAddress componentAddress;
+
+	componentAddress.SetComponentId(itemPtr->data(CT_NAME, DR_ELEMENT_ID).toByteArray());
+	componentAddress.SetPackageId(itemPtr->data(CT_NAME, DR_ELEMENT_PACKAGE_ID).toByteArray());
+	
+	if (m_envManagerCompPtr.IsValid() && m_documentManagerCompPtr.IsValid()){
+		const icomp::IComponentStaticInfo* metaInfoPtr = m_envManagerCompPtr->GetComponentMetaInfo(componentAddress);
+
+		if (metaInfoPtr != NULL &&(metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE)){
+			QDir packageDir(m_envManagerCompPtr->GetPackagePath(componentAddress.GetPackageId()));
+		
+			QString filePath = packageDir.absoluteFilePath(componentAddress.GetComponentId() + ".arx");
+
+			m_documentManagerCompPtr->FileOpen(NULL, &filePath);
+		}
+	}
+}
+
+
+// public methods of embedded class EnvironmentObserver
+
+CRegistryTreeViewComp::EnvironmentObserver::EnvironmentObserver(CRegistryTreeViewComp* parentPtr)
+:	m_parent(*parentPtr)
+{
+	I_ASSERT(parentPtr != NULL);
+}
+
+
+// protected methods of embedded class EnvironmentObserver
+
+// reimplemented (imod::TSingleModelObserverBase)
+
+void CRegistryTreeViewComp::EnvironmentObserver::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	if (m_parent.IsGuiCreated()){
+		m_parent.UpdateGui(updateFlags);
+	}
+}
+
+
+// public methods of embedded class SelectionInfoImpl
+
+void CRegistryTreeViewComp::SelectionInfoImpl::SetParent(CRegistryTreeViewComp* parentPtr)
+{
+	m_parentPtr = parentPtr;
+}
+
+
+// reimplemented (icmpstr::IElementSelectionInfo)
+
+icomp::IRegistry* CRegistryTreeViewComp::SelectionInfoImpl::GetSelectedRegistry() const
+{
+	I_ASSERT(m_parentPtr != NULL);	// parent should be set before any subelement can be accessed
+
+	return m_parentPtr->m_selectedElements.registryPtr;
+}
+
+
+IElementSelectionInfo::Elements CRegistryTreeViewComp::SelectionInfoImpl::GetSelectedElements() const
+{
+	I_ASSERT(m_parentPtr != NULL);	// parent should be set before any subelement can be accessed
+
+	IElementSelectionInfo::Elements retVal;
+
+	icomp::IRegistry* registryPtr = m_parentPtr->GetObjectPtr();
+	if (registryPtr != NULL){
+		for (		ElementIds::const_iterator iter = m_parentPtr->m_selectedElements.selectedElementIds.begin();
+					iter != m_parentPtr->m_selectedElements.selectedElementIds.end();
+					++iter){
+			const QByteArray& elementName = *iter;
+
+			const icomp::IRegistry::ElementInfo* elementInfoPtr = registryPtr->GetElementInfo(elementName);
+			if (elementInfoPtr != NULL){
+				retVal[elementName] = elementInfoPtr;
+			}
+		}
+	}
+
+	return retVal;
+}
+
+
+} // namespace icmpstr
+
+

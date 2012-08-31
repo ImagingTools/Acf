@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2437
+          2494
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264192
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -21,7 +32,7 @@
         RegistryLoader
       </ComponentName>
       <X>
-        550
+        625
       </X>
       <X>
         100
@@ -35,10 +46,10 @@
         RegistryConsistInfo
       </ComponentName>
       <X>
-        925
+        1000
       </X>
       <X>
-        750
+        700
       </X>
       <Note>
         
@@ -49,10 +60,10 @@
         VisualRegistryView
       </ComponentName>
       <X>
-        925
+        1000
       </X>
       <X>
-        625
+        600
       </X>
       <Note>
         
@@ -77,7 +88,7 @@
         VisualRegistry
       </ComponentName>
       <X>
-        550
+        625
       </X>
       <X>
         300
@@ -91,7 +102,7 @@
         DocumentTemplate
       </ComponentName>
       <X>
-        925
+        1000
       </X>
       <X>
         200
@@ -105,10 +116,10 @@
         UndoManager
       </ComponentName>
       <X>
-        925
+        1000
       </X>
       <X>
-        100
+        75
       </X>
       <Note>
         
@@ -119,10 +130,10 @@
         RegistryCodeSaver
       </ComponentName>
       <X>
-        525
+        400
       </X>
       <X>
-        500
+        475
       </X>
       <Note>
         
@@ -133,7 +144,7 @@
         Preview
       </ComponentName>
       <X>
-        750
+        625
       </X>
       <X>
         400
