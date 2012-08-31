@@ -15,7 +15,7 @@
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
 
-#include "iqtgui/CWidgetUpdateBlocker.h"
+#include "iqt/CSignalBlocker.h"
 
 #include "iview/IShapeView.h"
 
@@ -273,12 +273,14 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iqtgui::CWidgetUpdateBlocker blocker(m_guiContainerPtr);
+	iqt::CSignalBlocker blocker(m_guiContainerPtr);
 
 	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
 	I_ASSERT(paramsSetPtr != NULL);
 
 	int guiMode = *m_designTypeAttrPtr;
+
+	bool keepGlobalVisible = false;
 
 	int elementsCount = qMin(m_observersCompPtr.GetCount(), m_idsAttrPtr.GetCount());
 	for (int i = 0; i < elementsCount; ++i){
@@ -389,9 +391,11 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 				}
 			}
 		}
+
+		keepGlobalVisible = keepGlobalVisible || keepVisible;
 	}
 
-	// make use of the lastSelectedIndex property
+	// restore selection
 	if (guiMode == 2){
 		QTabWidget* tabWidgetPtr = static_cast<QTabWidget*> (m_guiContainerPtr);
 		tabWidgetPtr->setCurrentIndex(m_currentGuiIndex);
@@ -400,6 +404,8 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 		QToolBox* toolBoxPtr = static_cast<QToolBox*> (m_guiContainerPtr);
 		toolBoxPtr->setCurrentIndex(m_currentGuiIndex);
 	}
+
+	GetWidget()->setVisible(keepGlobalVisible);
 }
 
 
@@ -408,7 +414,7 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
 	I_ASSERT(paramsSetPtr != NULL);
 
-	iqtgui::CWidgetUpdateBlocker blocker(m_guiContainerPtr);
+	iqt::CSignalBlocker blocker(m_guiContainerPtr);
 
 	// clear the gui container
 	int guiMode = *m_designTypeAttrPtr;
