@@ -1,21 +1,32 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2483
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="9">
+  <ElementsList count="10">
     <Element>
       <Id>
         ConfigDataShadow
@@ -171,6 +182,27 @@
               </Value>
             </Data>
           </AttributeInfo>
+        </AttributeInfoMap>
+      </Data>
+    </Element>
+    <Element>
+      <Id>
+        EnableDocumentPersistence
+      </Id>
+      <PackageId>
+        BasePck
+      </PackageId>
+      <ComponentId>
+        EnableableParam
+      </ComponentId>
+      <Data>
+        <IsEnabled>
+          true
+        </IsEnabled>
+        <Flags>
+          0
+        </Flags>
+        <AttributeInfoMap count="0">
         </AttributeInfoMap>
       </Data>
     </Element>
@@ -403,7 +435,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="5">
+              <Values count="6">
                 <Value>
                   ConfigsManager
                 </Value>
@@ -418,6 +450,9 @@
                 </Value>
                 <Value>
                   LanguageSelection
+                </Value>
+                <Value>
+                  EnableDocumentPersistence
                 </Value>
               </Values>
             </Data>
@@ -436,7 +471,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="5">
+              <Values count="6">
                 <Value>
                   ConfigFile
                 </Value>
@@ -451,6 +486,9 @@
                 </Value>
                 <Value>
                   LanguageSelection
+                </Value>
+                <Value>
+                  EnableDocumentPersistence
                 </Value>
               </Values>
             </Data>
@@ -495,13 +533,21 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="5">
+  <ExportedComponents count="6">
     <Component>
       <ExportedId>
         ConfigFile
       </ExportedId>
       <ComponentId>
         ConfigDataShadow/ConfigFile
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        EnableDocumentPersistence
+      </ExportedId>
+      <ComponentId>
+        EnableDocumentPersistence
       </ComponentId>
     </Component>
     <Component>

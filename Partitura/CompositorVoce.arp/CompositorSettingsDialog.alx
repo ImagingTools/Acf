@@ -1,35 +1,32 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2483
         </Number>
         <Description>
           ACF
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="10">
-    <Element>
-      <ComponentName>
-        ConfigEditor
-      </ComponentName>
-      <X>
-        450
-      </X>
-      <X>
-        275
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
+  <PositionMap count="11">
     <Element>
       <ComponentName>
         HtmlBrowserFileGui
@@ -46,55 +43,13 @@
     </Element>
     <Element>
       <ComponentName>
-        HtmlEditorFileGui
-      </ComponentName>
-      <X>
-        775
-      </X>
-      <X>
-        500
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        LanguageSelectionGui
+        DocumentPersistenceGui
       </ComponentName>
       <X>
         1050
       </X>
       <X>
-        275
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        PreviewCommandFileGui
-      </ComponentName>
-      <X>
-        775
-      </X>
-      <X>
-        275
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        PreviewCommandFileInfo
-      </ComponentName>
-      <X>
-        725
-      </X>
-      <X>
-        175
+        500
       </X>
       <Note>
         
@@ -130,6 +85,20 @@
     </Element>
     <Element>
       <ComponentName>
+        PreviewCommandFileInfo
+      </ComponentName>
+      <X>
+        725
+      </X>
+      <X>
+        175
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
         SettingsGui
       </ComponentName>
       <X>
@@ -144,6 +113,20 @@
     </Element>
     <Element>
       <ComponentName>
+        LanguageSelectionGui
+      </ComponentName>
+      <X>
+        1050
+      </X>
+      <X>
+        275
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
         SettingsPersistence
       </ComponentName>
       <X>
@@ -151,6 +134,48 @@
       </X>
       <X>
         675
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        HtmlEditorFileGui
+      </ComponentName>
+      <X>
+        775
+      </X>
+      <X>
+        500
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        PreviewCommandFileGui
+      </ComponentName>
+      <X>
+        775
+      </X>
+      <X>
+        275
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        ConfigEditor
+      </ComponentName>
+      <X>
+        450
+      </X>
+      <X>
+        275
       </X>
       <Note>
         
