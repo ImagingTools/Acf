@@ -16,7 +16,9 @@ namespace icmm
 
 
 /**
-	Generic color implementation with components number set at construction time.
+	Generic color implementation with variable number of color components.
+
+	The dimension of used colorspace can be set at the construction time of CVarColor object,
 */
 class CVarColor: public imath::CVarVector, public iser::ISerializable
 {

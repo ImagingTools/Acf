@@ -12,7 +12,7 @@ namespace icmm
 
 
 /**
-	Primitive for representation of CMYK color value.
+	Primitive for representation of LAB color value.
 	Please note, that normal components values are in range [0, 1].
 */
 class CLab: public TComposedColor<3>

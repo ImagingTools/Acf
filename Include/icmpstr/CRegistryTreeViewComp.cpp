@@ -198,6 +198,51 @@ void CRegistryTreeViewComp::UpdateRegistryStatus()
 }
 
 
+void CRegistryTreeViewComp::UpdateTreeItemsVisibility()
+{
+	QString filterText = FilterEdit->text();
+	bool showOnlyErrors = ShowOnlyErrorsCheck->isChecked();
+
+	QTreeWidgetItemIterator treeIter(RegistryTree);
+
+	while (*treeIter != NULL){
+		QTreeWidgetItem* itemPtr = *treeIter;
+
+		bool showItem = true;
+			
+		QString itemName = itemPtr->text(CT_NAME);
+
+		if (filterText.isEmpty() || itemName.contains(filterText, Qt::CaseInsensitive)){
+			showItem = true;
+		}
+		else{
+			showItem = false;
+		}
+
+		QString messageText = itemPtr->data(CT_NAME, DR_MESSAGE_LIST).toString();
+		if (messageText.isEmpty() && showOnlyErrors){
+			showItem = false;
+		}
+
+		itemPtr->setHidden(!showItem);
+
+		if (showItem){
+			QTreeWidgetItem* parentItemPtr = itemPtr->parent();
+
+			while (parentItemPtr != NULL){ 
+				if (parentItemPtr->isHidden()){
+					parentItemPtr->setHidden(false);
+				}
+
+				parentItemPtr = parentItemPtr->parent();
+			}
+		}
+
+		treeIter++;
+	}
+}
+
+
 // reimplemented (iqtgui::TGuiObserverWrap)
 
 void CRegistryTreeViewComp::UpdateGui(int /*updateFlags*/)
@@ -236,6 +281,11 @@ void CRegistryTreeViewComp::OnGuiModelDetached()
 void CRegistryTreeViewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
+
+	QList<int> sizes = MainSplitter->sizes();
+	sizes[0] = 0;
+
+	MainSplitter->setSizes(sizes);
 
 //	RegistryTree->setItemDelegate(new iqtgui::CItemDelegate);
 
@@ -307,11 +357,14 @@ void CRegistryTreeViewComp::on_RegistryTree_itemSelectionChanged()
 	QList<QTreeWidgetItem*> selectedItems = RegistryTree->selectedItems();
 
 	int itemsCount = selectedItems.size();
+	
 	for (int itemIndex = 0; itemIndex < itemsCount; itemIndex++){
 		QTreeWidgetItem* itemPtr = selectedItems.at(itemIndex);
 		I_ASSERT(itemPtr != NULL);
 
 		QString messageText = itemPtr->data(CT_NAME, DR_MESSAGE_LIST).toString();
+
+		m_selectedElements.selectedElementIds.insert(itemPtr->data(CT_NAME, DR_ELEMENT_ID).toByteArray());
 
 		MessagesList->setPlainText(messageText);
 
@@ -319,6 +372,18 @@ void CRegistryTreeViewComp::on_RegistryTree_itemSelectionChanged()
 		int registryPointerAddress = itemPtr->data(CT_NAME, DR_REGISTRY).toInt();
 		m_selectedElements.registryPtr = reinterpret_cast<icomp::IRegistry*>(registryPointerAddress);
 	}
+
+	// Close message view of no messages were provded:
+	QList<int> sizes = MainSplitter->sizes();
+
+	if (MessagesList->toPlainText().isEmpty()){
+		sizes[1] = 0;
+	}
+	else{
+		sizes[1] = sizes[0] / 4;
+	}
+
+	MainSplitter->setSizes(sizes);
 }
 
 
@@ -340,6 +405,18 @@ void CRegistryTreeViewComp::on_RegistryTree_itemDoubleClicked(QTreeWidgetItem* i
 			m_documentManagerCompPtr->FileOpen(NULL, &filePath);
 		}
 	}
+}
+
+
+void CRegistryTreeViewComp::on_FilterEdit_textChanged(const QString& /*filterText*/)
+{
+	UpdateTreeItemsVisibility();
+}
+
+
+void CRegistryTreeViewComp::on_ShowOnlyErrorsCheck_stateChanged(int /*state*/)
+{
+	UpdateTreeItemsVisibility();
 }
 
 

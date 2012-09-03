@@ -11,7 +11,7 @@
 
 namespace icmm
 {
-	
+
 
 // public methods
 
@@ -37,7 +37,7 @@ bool CHsvToRgbTransformation::GetValueAt(const ArgumentType& argument, ResultTyp
 
 	// color is on black-and-white center line 
 	if (saturation == 0.0f){
-		red = value;		// achromatic: shades of gray 
+		red = value;		// achromatic:shades of gray 
 		green = value;	// supposedly invalid for hue=0 but who cares 
 		blue = value;
 	}
@@ -60,38 +60,37 @@ bool CHsvToRgbTransformation::GetValueAt(const ArgumentType& argument, ResultTyp
 		double t = value * (1.0 - (saturation * (1.0 - f))); 
 		
 		switch (intHue){
-			case 0: 
+			case 0:
 				red = value; 
 				green = t;
 				blue = p; 
 				break;
 			
-			case 1: 
+			case 1:
 				red = q; 
 				green = value; 
 				blue = p;
 				break;
 			
 			case 2:
-				
 				red = p; 
 				green = value; 
 				blue = t; 
 				break;
+
 			case 3:
-				
 				red = p; 
 				green = q; 
 				blue = value; 
 				break;
 
-			case 4: 
+			case 4:
 				red = t; 
 				green = p; 
 				blue = value; 
 				break;
 
-			case 5: 
+			case 5:
 				red = value; 
 				green = p; 
 				blue = value; 

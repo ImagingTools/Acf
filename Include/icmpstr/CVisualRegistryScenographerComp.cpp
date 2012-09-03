@@ -1099,13 +1099,15 @@ void CVisualRegistryScenographerComp::OnShowRegistryTopology()
 {
 	if (m_registryTopologyGuiCompPtr.IsValid()){
 		iqtgui::CGuiComponentDialog dialog(m_registryTopologyGuiCompPtr.GetPtr());
+		dialog.setWindowIcon(m_showRegistryTopologyCommand.icon());
+		dialog.setWindowTitle(tr("Registry Topology"));
 
 		const QDesktopWidget* desktopPtr = QApplication::desktop();
 		I_ASSERT(desktopPtr != NULL);
 
 		QRect screenRect = desktopPtr->screenGeometry();
 
-		dialog.resize(int(screenRect.width() * 0.5), int(screenRect.height() * 0.5));
+		dialog.resize(int(screenRect.width() * 0.7), int(screenRect.height() * 0.7));
 
 		dialog.exec();
 	}

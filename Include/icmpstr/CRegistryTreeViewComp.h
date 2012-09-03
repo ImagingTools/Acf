@@ -105,7 +105,15 @@ protected:
 	*/
 	bool IsRegistryValid(const icomp::IRegistry& registry) const;
 
+	/**
+		Update visual state of the reistry validation.
+	*/
 	void UpdateRegistryStatus();
+
+	/**
+		Update visibiliy state of the registry tree elemens according to the settings of the item filter
+	*/
+	void UpdateTreeItemsVisibility();
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags);
@@ -129,6 +137,8 @@ protected:
 protected Q_SLOTS:
 	void on_RegistryTree_itemSelectionChanged();
 	void on_RegistryTree_itemDoubleClicked(QTreeWidgetItem* itemPtr, int column);
+	void on_FilterEdit_textChanged(const QString& filterText);
+	void on_ShowOnlyErrorsCheck_stateChanged(int state);
 
 private:
 	class SelectionInfoImpl: virtual public IElementSelectionInfo

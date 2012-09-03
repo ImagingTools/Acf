@@ -12,7 +12,7 @@ namespace icmm
 
 
 /**
-	Primitive for representation of Hsv color value.
+	Primitive for representation of HSV color value.
 	Please note, that normal components values are in range [0, 1].
 */
 class CHsv: public TComposedColor<3>
