@@ -152,8 +152,8 @@ CSystem::EnvironmentVariables CSystem::GetEnvironmentVariables()
 
 void CSystem::SetTempDirectoryPath(const QString& tempPath)
 {
-    qputenv("TMP", tempPath.toUtf8());
-    qputenv("TEMP", tempPath.toUtf8());
+	qputenv("TMP", tempPath.toUtf8());
+	qputenv("TEMP", tempPath.toUtf8());
 }
 
 

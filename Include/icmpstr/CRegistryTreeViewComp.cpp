@@ -74,7 +74,7 @@ QTreeWidgetItem* CRegistryTreeViewComp::AddRegistryElementItem(
 		elementItemPtr->setData(CT_NAME, DR_ELEMENT_NAME, elementId);
 		elementItemPtr->setData(CT_NAME, DR_ELEMENT_ID, elementPtr->address.GetComponentId());
 		elementItemPtr->setData(CT_NAME, DR_ELEMENT_PACKAGE_ID, elementPtr->address.GetPackageId());
-        elementItemPtr->setData(CT_NAME, DR_REGISTRY, quintptr(&registry));
+		elementItemPtr->setData(CT_NAME, DR_REGISTRY, quintptr(&registry));
 		elementItemPtr->setText(CT_ID, elementPtr->address.GetComponentId());
 		elementItemPtr->setText(CT_PACKAGE, elementPtr->address.GetPackageId());
 
