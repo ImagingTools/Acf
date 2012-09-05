@@ -7,10 +7,10 @@
 
 \mainpage
 \section Introduction
-ACF (Advanced Component Framework) is a powerfull C++ based component framework that was especially designed 
+ACF (Advanced Component Framework) is a C++ based component framework that was especially designed 
 for creation of very complex applications. ACF contains many standard implementations of most usefull design patterns, 
-such Serialization, Model/Observer, Factory and so on. ACF implements a powerfull component concept 
-and includes many well designed components, which you can directly use in your application.
+such Serialization, Model/Observer, Factory and so on. ACF implements a component concept 
+and includes many standard components, which you can directly use in your application.
 
 See http://www.imagingtools.de, write info@imagingtools.de or contact
 by Skype to ACF_infoline for further information about the ACF.

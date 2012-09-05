@@ -5,9 +5,6 @@
 #include "istd/TChangeNotifier.h"
 #include "istd/CChangeDelegator.h"
 
-#include "iser/CMemoryReadArchive.h"
-#include "iser/CMemoryWriteArchive.h"
-
 #include "iprm/IParamsSet.h"
 #include "iprm/ISelectionConstraints.h"
 

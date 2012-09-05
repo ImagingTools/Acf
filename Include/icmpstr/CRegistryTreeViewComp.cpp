@@ -78,9 +78,6 @@ QTreeWidgetItem* CRegistryTreeViewComp::AddRegistryElementItem(
 		elementItemPtr->setText(CT_ID, elementPtr->address.GetComponentId());
 		elementItemPtr->setText(CT_PACKAGE, elementPtr->address.GetPackageId());
 
-		bool isElementSelected = (m_selectedElements.selectedElementIds.find(elementId) != m_selectedElements.selectedElementIds.end());
-		elementItemPtr->setSelected(isElementSelected);
-
 		if (parentItemPtr != NULL){
 			parentItemPtr->addChild(elementItemPtr);
 			parentItemPtr->setExpanded(true);
@@ -251,7 +248,6 @@ void CRegistryTreeViewComp::UpdateGui(int /*updateFlags*/)
 
 	QTreeWidgetItem* rootItem = new QTreeWidgetItem();
 	rootItem->setText(0, "Root");
-	rootItem->setSelected(true);
 
 	static QIcon okIcon(":/Icons/Ok");
 
@@ -265,6 +261,8 @@ void CRegistryTreeViewComp::UpdateGui(int /*updateFlags*/)
 	if (registryPtr != NULL){
 		CreateRegistryTree(*registryPtr, rootItem);
 	}
+
+	rootItem->setSelected(true);
 }
 
 
