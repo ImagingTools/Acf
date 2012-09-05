@@ -2,6 +2,10 @@
 #define ibase_CExternalFileConverterComp_included
 
 
+// Qt includes
+#include <QtCore/QProcess>
+
+// ACF includes
 #include "ibase/IFileConvertCopy.h"
 #include "ibase/TLoggerCompWrap.h"
 
@@ -16,9 +20,12 @@ namespace ibase
 	File converter, which uses an external programm to perform the convert action. 
 */
 class CExternalFileConverterComp:
+			public QObject,
 			public ibase::CLoggerComponentBase,
 			virtual public IFileConvertCopy
 {
+	Q_OBJECT
+
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
 
@@ -34,9 +41,19 @@ public:
 				const QString& outputFilePath,
 				const iprm::IParamsSet* paramsPtr = NULL) const;
 
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+
+private Q_SLOTS:
+	void OnReadyReadStandardError();
+	void OnReadyReadStandardOutput();
+
 private:
 	I_ATTR(QString, m_processArgumentsAttrPtr);
 	I_REF(iprm::IFileNameParam, m_executablePathCompPtr);
+
+	mutable QProcess m_conversionProcess;
 };
 
 

@@ -47,17 +47,52 @@ bool CExternalFileConverterComp::ConvertFile(
 		}
 	}
 
-	QProcess appProcess;
-	appProcess.start(m_executablePathCompPtr->GetPath(), arguments);
+	m_conversionProcess.start(m_executablePathCompPtr->GetPath(), arguments);
 
-	appProcess.waitForFinished(-1);
+	m_conversionProcess.waitForFinished(-1);
 
-	if (appProcess.error() != QProcess::UnknownError){
+	if (m_conversionProcess.error() != QProcess::UnknownError){
 		return false;
 	}
 
-	return (appProcess.exitCode() == 0);
+	return (m_conversionProcess.exitCode() == 0);
 }
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+	
+void CExternalFileConverterComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	connect(&m_conversionProcess, SIGNAL(readyReadStandardError()), this, SLOT(OnReadyReadStandardError()));
+	connect(&m_conversionProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(OnReadyReadStandardOutput()));
+}
+
+
+// private slots
+
+void CExternalFileConverterComp::OnReadyReadStandardError()
+{
+	QString errorOutput = m_conversionProcess.readAllStandardError();
+	
+	errorOutput = errorOutput.simplified();
+
+	SendErrorMessage(0, errorOutput);
+}
+
+
+void CExternalFileConverterComp::OnReadyReadStandardOutput()
+{
+	QString standardOutput = m_conversionProcess.readAllStandardOutput();
+
+	standardOutput = standardOutput.simplified();
+
+	SendInfoMessage(0, standardOutput);
+}
+
 
 
 } // namespace ibase

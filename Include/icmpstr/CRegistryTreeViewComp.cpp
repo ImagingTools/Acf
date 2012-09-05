@@ -78,6 +78,9 @@ QTreeWidgetItem* CRegistryTreeViewComp::AddRegistryElementItem(
 		elementItemPtr->setText(CT_ID, elementPtr->address.GetComponentId());
 		elementItemPtr->setText(CT_PACKAGE, elementPtr->address.GetPackageId());
 
+		static QIcon okIcon(":/Icons/Ok");
+		elementItemPtr->setIcon(CT_NAME, okIcon);
+
 		if (parentItemPtr != NULL){
 			parentItemPtr->addChild(elementItemPtr);
 			parentItemPtr->setExpanded(true);

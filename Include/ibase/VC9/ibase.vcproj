@@ -16,6 +16,9 @@
 		<ToolFile
 			RelativePath="..\..\..\Config\VC9\Acf.rules"
 		/>
+		<ToolFile
+			RelativePath="..\..\..\Config\VC9\QtUIForm.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -36,6 +39,18 @@
 			/>
 			<Tool
 				Name="Arxc"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
 			/>
 			<Tool
 				Name="FileConvertCopy"
@@ -117,6 +132,18 @@
 			/>
 			<Tool
 				Name="Arxc"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
 			/>
 			<Tool
 				Name="FileConvertCopy"
@@ -511,6 +538,22 @@
 			</File>
 			<File
 				RelativePath="..\TVersionInfoBase.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Moc Files"
+			>
+			<File
+				RelativePath="..\CExternalFileConverterComp.moc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Generated Files"
+			>
+			<File
+				RelativePath="..\Generated\moc_CExternalFileConverterComp.cpp"
 				>
 			</File>
 		</Filter>
