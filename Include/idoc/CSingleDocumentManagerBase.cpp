@@ -425,6 +425,60 @@ void CSingleDocumentManagerBase::EnsureViewRemoved()
 	}
 }
 
+bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive) 
+{
+	static iser::CArchiveTag openDocumentTag("OpenDocument", "Single document properties");
+	static iser::CArchiveTag filePathTag("FilePath", "File path");
+	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
+	static iser::CArchiveTag viewTypeIdTag("ViewTypeId", "View type ID");
+
+	bool retVal = archive.BeginTag(openDocumentTag);
+
+	if(archive.IsStoring())
+	{
+		retVal = retVal && archive.BeginTag(filePathTag);
+		retVal = retVal && archive.Process(m_filePath);
+		retVal = retVal && archive.EndTag(filePathTag);
+
+		retVal = retVal && archive.BeginTag(documentTypeIdTag);
+		retVal = retVal && archive.Process(m_documentTypeId);
+		retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+		retVal = retVal && archive.BeginTag(viewTypeIdTag);
+		retVal = retVal && archive.Process(m_viewTypeId);
+		retVal = retVal && archive.EndTag(viewTypeIdTag);		
+	}
+	else {
+
+		QString filePath;
+		QByteArray documentTypeId;
+		QByteArray viewTypeId;
+		
+		bool retVal = archive.BeginTag(openDocumentTag);
+
+		retVal = retVal && archive.BeginTag(filePathTag);
+		retVal = retVal && archive.Process(filePath);
+		retVal = retVal && archive.EndTag(filePathTag);
+
+		retVal = retVal && archive.BeginTag(documentTypeIdTag);
+		retVal = retVal && archive.Process(m_documentTypeId);
+		retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+		retVal = retVal && archive.BeginTag(viewTypeIdTag);
+		retVal = retVal && archive.Process(m_viewTypeId);
+		retVal = retVal && archive.EndTag(viewTypeIdTag);		
+
+		if(retVal && !filePath.isEmpty())
+		{
+			retVal = retVal & OpenDocument(filePath, true, viewTypeId, documentTypeId);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(openDocumentTag);
+
+	return retVal;
+}
+
 
 // reimplemented (imod::CSingleModelObserverBase)
 

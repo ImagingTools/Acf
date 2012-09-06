@@ -18,6 +18,9 @@
 
 #include "iqtgui/CFileDialogLoaderComp.h"
 
+#include "iqt/CSettingsWriteArchive.h"
+#include "iqt/CSettingsReadArchive.h"
+
 
 namespace iqtdoc
 {
@@ -71,6 +74,22 @@ const ibase::IHierarchicalCommand* CMultiDocumentWorkspaceGuiComp::GetCommands()
 
 void CMultiDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 {
+	//Save open document settings before exit
+	if((m_rememberOpenDocumentsOnExitAttPtr.IsValid() && *m_rememberOpenDocumentsOnExitAttPtr) ||
+		!m_rememberOpenDocumentsOnExitAttPtr.IsValid()){
+
+		if(!m_organizationName.isEmpty() && !m_applicationName.isEmpty()){
+
+			iqt::CSettingsWriteArchive archive(
+							m_organizationName,
+							m_applicationName,
+							"OpenDocumentList",
+							QSettings::UserScope);
+
+			SerializeOpenDocumentList(archive);
+		}
+	}
+
 	CloseAllDocuments();
 
 	if (ignoredPtr != NULL){
@@ -180,7 +199,7 @@ istd::IChangeable* CMultiDocumentWorkspaceGuiComp::OpenDocument(
 	SingleDocumentData* documentInfoPtr = GetDocumentInfoFromPath(filePath);
 	if (documentInfoPtr != NULL && !allowViewRepeating){
 		createView = false;
-	}
+	}	
 		
 	return BaseClass::OpenDocument(filePath, createView, viewTypeId, documentTypeId);
 }
@@ -278,6 +297,20 @@ void CMultiDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& settings
 			}
 		#endif
 	}
+
+	if((m_rememberOpenDocumentsOnExitAttPtr.IsValid() && *m_rememberOpenDocumentsOnExitAttPtr) ||
+		!m_rememberOpenDocumentsOnExitAttPtr.IsValid()){		
+	
+		m_organizationName = settings.organizationName();
+		m_applicationName = settings.applicationName();
+
+		iqt::CSettingsReadArchive archive(
+							m_organizationName,
+							m_applicationName,
+							"OpenDocumentList");
+		
+		SerializeOpenDocumentList(archive);
+	}
 }
 
 
@@ -287,11 +320,11 @@ void CMultiDocumentWorkspaceGuiComp::OnSaveSettings(QSettings& settings) const
 
 	I_ASSERT(IsGuiCreated());
 	
-	QMdiArea* workspacePtr = GetQtWidget();
+	QMdiArea* workspacePtr = GetQtWidget();	
 	
 #if QT_VERSION >= 0x040400
 	settings.setValue("MDIWorkspace/ViewMode", workspacePtr->viewMode());
-#endif
+#endif	
 }
 
 

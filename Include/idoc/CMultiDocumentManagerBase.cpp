@@ -21,7 +21,7 @@ namespace idoc
 
 
 CMultiDocumentManagerBase::CMultiDocumentManagerBase()
-:	m_activeViewPtr(NULL)
+	:m_activeViewPtr(NULL)
 {
 }
 
@@ -137,6 +137,7 @@ istd::IPolymorphic* CMultiDocumentManagerBase::AddViewToDocument(const istd::ICh
 
 			info.views.push_back(ViewPtr());
 			info.views.back().SetPtr(viewPtr);
+			info.viewTypeIds.push_back(viewTypeId);
 
 			OnViewRegistered(viewPtr);
 
@@ -326,6 +327,7 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 
 				OnViewRemoved(viewPtr);
 
+				infoPtr->viewTypeIds.removeAt(iter - infoPtr->views.begin());
 				infoPtr->views.erase(iter);
 
 				if (viewPtr == m_activeViewPtr){
@@ -361,7 +363,8 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 
 				I_ASSERT(findIter->IsValid());
 				OnViewRemoved(findIter->GetPtr());
-
+				
+				infoPtr->viewTypeIds.removeAt(findIter - infoPtr->views.begin());
 				infoPtr->views.erase(findIter);	// remove active view
 
 				m_activeViewPtr = NULL;
@@ -420,6 +423,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 			if (viewPtr != NULL){
 				existingInfoPtr->views.push_back(ViewPtr());
 				existingInfoPtr->views.back().SetPtr(viewPtr);
+				existingInfoPtr->viewTypeIds.push_back(viewTypeId);
 
 				OnViewRegistered(viewPtr);
 			}
@@ -581,6 +585,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 
 				infoPtr->views.push_back(ViewPtr());
 				infoPtr->views.back().SetPtr(viewPtr);
+				infoPtr->viewTypeIds.push_back(viewTypeId);
 			}
 
 			return infoPtr.PopPtr();
@@ -608,6 +613,129 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 	}
 
 	return true;
+}
+
+bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archive) 
+{
+	static iser::CArchiveTag openDocumentsListTag("OpenDocumentsList", "List of open documents ");
+	static iser::CArchiveTag openDocumentTag("OpenDocument", "Single document properties");
+	static iser::CArchiveTag filePathTag("FilePath", "File path");
+	static iser::CArchiveTag documentTypeIdTag("DocumentTypeId", "Document Type ID");
+	
+	static iser::CArchiveTag viewListTag("ViewList", "View list");
+	static iser::CArchiveTag viewTag("View", "View");
+	static iser::CArchiveTag viewTypeIdTag("ViewTypeId", "View type ID");
+	static iser::CArchiveTag viewIsActiveTag("ViewIsActive", "Active view");
+
+
+	int documentsCount = GetDocumentsCount();	
+
+	bool retVal = archive.BeginMultiTag(openDocumentsListTag, openDocumentTag, documentsCount);
+		
+	if (archive.IsStoring()){
+		for (int i = 0; i < documentsCount; ++i){
+			SingleDocumentData& info = GetSingleDocumentData(i);			
+
+			retVal = retVal && archive.BeginTag(openDocumentTag);
+			
+			retVal = retVal && archive.BeginTag(filePathTag);
+			retVal = retVal && archive.Process(info.filePath);
+			retVal = retVal && archive.EndTag(filePathTag);
+
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(info.documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			int viewCount = info.viewTypeIds.count();	
+			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
+
+			for(int j = 0; j < viewCount; ++j)
+			{
+				retVal = retVal && archive.BeginTag(viewTag);
+				
+				retVal = retVal && archive.BeginTag(viewTypeIdTag);
+				retVal = retVal && archive.Process(info.viewTypeIds[j]);
+				retVal = retVal && archive.EndTag(viewTypeIdTag);				
+
+				bool isActive = (info.views[j] == m_activeViewPtr);
+				retVal = retVal && archive.BeginTag(viewIsActiveTag);
+				retVal = retVal && archive.Process(isActive);
+				retVal = retVal && archive.EndTag(viewIsActiveTag);
+
+				retVal = retVal && archive.EndTag(viewTag);
+			}
+
+			retVal = retVal && archive.EndTag(viewListTag);			
+
+			retVal = retVal && archive.EndTag(openDocumentTag);
+
+		}
+	} 
+	else {
+		istd::IPolymorphic* activeView = NULL;
+
+		for (int i = 0; i < documentsCount; ++i){
+			retVal = retVal && archive.BeginTag(openDocumentTag);
+			
+			//loading document info
+
+			QString filePath;
+			retVal = retVal && archive.BeginTag(filePathTag);
+			retVal = retVal && archive.Process(filePath);
+			retVal = retVal && archive.EndTag(filePathTag);
+
+			QByteArray documentTypeId;
+			retVal = retVal && archive.BeginTag(documentTypeIdTag);
+			retVal = retVal && archive.Process(documentTypeId);
+			retVal = retVal && archive.EndTag(documentTypeIdTag);
+
+			//loading document's view info
+
+			int viewCount = 0;	
+			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
+			
+			for(int j = 0; j < viewCount; ++j)
+			{
+				QByteArray viewTypeId;
+				retVal = retVal && archive.BeginTag(viewTag);
+				
+				retVal = retVal && archive.BeginTag(viewTypeIdTag);
+				retVal = retVal && archive.Process(viewTypeId);
+				retVal = retVal && archive.EndTag(viewTypeIdTag);
+
+				bool isActive = false;
+				retVal = retVal && archive.BeginTag(viewIsActiveTag);
+				retVal = retVal && archive.Process(isActive);
+				retVal = retVal && archive.EndTag(viewIsActiveTag);
+
+				retVal = retVal && archive.EndTag(viewTag);
+
+				//Open document
+				istd::IChangeable* openDocumentPtr = OpenDocument(filePath, true, viewTypeId, documentTypeId);
+				if (openDocumentPtr == NULL){
+					retVal = false;
+				}	
+				else {
+					if (retVal && isActive){
+						activeView = GetViewFromIndex(i, j);						
+					}
+				}
+			}
+
+			retVal = retVal && archive.EndTag(viewListTag);
+
+			retVal = retVal && archive.EndTag(openDocumentTag);
+		}		
+
+		//all documents have been loaded, set previously active view
+		if (activeView != NULL){
+			SetActiveView(activeView);
+		}
+	}	
+
+	retVal = retVal && archive.EndTag(openDocumentsListTag);
+
+	return retVal;
 }
 
 

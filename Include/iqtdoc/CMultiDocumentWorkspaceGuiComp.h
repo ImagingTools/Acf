@@ -58,6 +58,7 @@ public:
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
 		I_ASSIGN(m_allowViewRepeatingAttrPtr, "AllowViewRepeating", "If enabled, multiple views for the same document are allowed", false, true);
+		I_ASSIGN(m_rememberOpenDocumentsOnExitAttPtr, "RememberOpenDocumentsOnExit", "Restores open documents from previous session", false, true);
 	I_END_COMPONENT;
 
 	enum GroupId
@@ -178,6 +179,7 @@ private:
 	static istd::IChangeable* ExtractSelectionInterfaceChangeable(CMultiDocumentWorkspaceGuiComp& parent);
 	static iprm::ISelectionConstraints* ExtractSelectionInterfaceConstraints(CMultiDocumentWorkspaceGuiComp& parent);
 
+
 	iqtgui::CHierarchicalCommand m_commands;
 
 	// global commands
@@ -195,12 +197,16 @@ private:
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_ATTR(bool, m_showMaximizedAttrPtr);
 	I_ATTR(bool, m_allowViewRepeatingAttrPtr);
+	I_ATTR(bool, m_rememberOpenDocumentsOnExitAttPtr);
 	
 	mutable QString m_lastDirectory;
 
 	int m_viewsCount;
 
 	imod::TModelWrap<DocumentSelectionInfo> m_documentSelectionInfo;
+
+	QString m_organizationName;
+	QString m_applicationName;	
 };
 
 
