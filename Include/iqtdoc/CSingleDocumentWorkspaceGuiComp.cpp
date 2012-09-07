@@ -22,7 +22,7 @@ namespace iqtdoc
 
 
 CSingleDocumentWorkspaceGuiComp::CSingleDocumentWorkspaceGuiComp()
-:	m_lastViewPtr(NULL)
+	:m_lastViewPtr(NULL)
 {
 }
 
@@ -31,12 +31,9 @@ CSingleDocumentWorkspaceGuiComp::CSingleDocumentWorkspaceGuiComp()
 
 void CSingleDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 {
-	//save open document information before exit
-	if((m_rememberOpenDocumentOnExitAttPtr.IsValid() && *m_rememberOpenDocumentOnExitAttPtr) ||
-		!m_rememberOpenDocumentOnExitAttPtr.IsValid()){
-
-		if(!m_organizationName.isEmpty() && !m_applicationName.isEmpty()){
-
+	// Save open document information before exit:
+	if (m_rememberOpenDocumentParamPtr.IsValid() && m_rememberOpenDocumentParamPtr->IsEnabled()){
+		if (!m_organizationName.isEmpty() && !m_applicationName.isEmpty()){
 			iqt::CSettingsWriteArchive archive(
 							m_organizationName,
 							m_applicationName,
@@ -46,8 +43,7 @@ void CSingleDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 			SerializeOpenDocument(archive);
 		}
 	}
-	
-	
+
 	FileClose(-1, ignoredPtr);
 
 	if (ignoredPtr != NULL){
@@ -235,6 +231,7 @@ void CSingleDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolym
 	}
 }
 
+
 // reimplemented (TRestorableGuiWrap)
 
 void CSingleDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& settings)
@@ -243,8 +240,7 @@ void CSingleDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& setting
 
 	Q_ASSERT(IsGuiCreated());
 	
-	if((m_rememberOpenDocumentOnExitAttPtr.IsValid() && *m_rememberOpenDocumentOnExitAttPtr) ||
-		!m_rememberOpenDocumentOnExitAttPtr.IsValid()){		
+	if (m_rememberOpenDocumentParamPtr.IsValid() && m_rememberOpenDocumentParamPtr->IsEnabled()){
 	
 		m_organizationName = settings.organizationName();
 		m_applicationName = settings.applicationName();
@@ -256,14 +252,6 @@ void CSingleDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& setting
 		
 		SerializeOpenDocument(archive);
 	}
-}
-
-
-void CSingleDocumentWorkspaceGuiComp::OnSaveSettings(QSettings& settings) const
-{
-	BaseClass::OnSaveSettings(settings);
-
-	Q_ASSERT(IsGuiCreated());	
 }
 
 

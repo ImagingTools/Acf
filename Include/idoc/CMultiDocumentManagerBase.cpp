@@ -17,7 +17,7 @@
 
 
 namespace idoc
-{		
+{
 
 
 CMultiDocumentManagerBase::CMultiDocumentManagerBase()
@@ -338,7 +338,8 @@ void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
 		}
 
 		int changeFlags = CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
-		// if last document was closed, force view activation update:
+		
+		// If last document was closed, force view activation update:
 		if (m_documentInfos.GetCount() == 1){
 			changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
 		}
@@ -627,14 +628,13 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 	static iser::CArchiveTag viewTypeIdTag("ViewTypeId", "View type ID");
 	static iser::CArchiveTag viewIsActiveTag("ViewIsActive", "Active view");
 
-
-	int documentsCount = GetDocumentsCount();	
+	int documentsCount = GetDocumentsCount();
 
 	bool retVal = archive.BeginMultiTag(openDocumentsListTag, openDocumentTag, documentsCount);
 		
 	if (archive.IsStoring()){
 		for (int i = 0; i < documentsCount; ++i){
-			SingleDocumentData& info = GetSingleDocumentData(i);			
+			SingleDocumentData& info = GetSingleDocumentData(i);
 
 			retVal = retVal && archive.BeginTag(openDocumentTag);
 			
@@ -655,7 +655,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 				
 				retVal = retVal && archive.BeginTag(viewTypeIdTag);
 				retVal = retVal && archive.Process(info.viewTypeIds[j]);
-				retVal = retVal && archive.EndTag(viewTypeIdTag);				
+				retVal = retVal && archive.EndTag(viewTypeIdTag);
 
 				bool isActive = (info.views[j] == m_activeViewPtr);
 				retVal = retVal && archive.BeginTag(viewIsActiveTag);
@@ -668,7 +668,6 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			retVal = retVal && archive.EndTag(viewListTag);			
 
 			retVal = retVal && archive.EndTag(openDocumentTag);
-
 		}
 	} 
 	else {
@@ -677,8 +676,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 		for (int i = 0; i < documentsCount; ++i){
 			retVal = retVal && archive.BeginTag(openDocumentTag);
 			
-			//loading document info
-
+			// Loading document info:
 			QString filePath;
 			retVal = retVal && archive.BeginTag(filePathTag);
 			retVal = retVal && archive.Process(filePath);
@@ -689,8 +687,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			retVal = retVal && archive.Process(documentTypeId);
 			retVal = retVal && archive.EndTag(documentTypeIdTag);
 
-			//loading document's view info
-
+			// Loading document's view info:
 			int viewCount = 0;	
 			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
 			
@@ -710,7 +707,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 
 				retVal = retVal && archive.EndTag(viewTag);
 
-				//Open document
+				// Open document:
 				istd::IChangeable* openDocumentPtr = OpenDocument(filePath, true, viewTypeId, documentTypeId);
 				if (openDocumentPtr == NULL){
 					retVal = false;
@@ -725,7 +722,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			retVal = retVal && archive.EndTag(viewListTag);
 
 			retVal = retVal && archive.EndTag(openDocumentTag);
-		}		
+		}
 
 		//all documents have been loaded, set previously active view
 		if (activeView != NULL){

@@ -75,11 +75,8 @@ const ibase::IHierarchicalCommand* CMultiDocumentWorkspaceGuiComp::GetCommands()
 void CMultiDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)
 {
 	//Save open document settings before exit
-	if((m_rememberOpenDocumentsOnExitAttPtr.IsValid() && *m_rememberOpenDocumentsOnExitAttPtr) ||
-		!m_rememberOpenDocumentsOnExitAttPtr.IsValid()){
-
+	if(m_rememberOpenDocumentsParamPtr.IsValid() && m_rememberOpenDocumentsParamPtr->IsEnabled()){
 		if(!m_organizationName.isEmpty() && !m_applicationName.isEmpty()){
-
 			iqt::CSettingsWriteArchive archive(
 							m_organizationName,
 							m_applicationName,
@@ -298,8 +295,7 @@ void CMultiDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& settings
 		#endif
 	}
 
-	if((m_rememberOpenDocumentsOnExitAttPtr.IsValid() && *m_rememberOpenDocumentsOnExitAttPtr) ||
-		!m_rememberOpenDocumentsOnExitAttPtr.IsValid()){		
+	if(m_rememberOpenDocumentsParamPtr.IsValid() && m_rememberOpenDocumentsParamPtr->IsEnabled()){
 	
 		m_organizationName = settings.organizationName();
 		m_applicationName = settings.applicationName();
