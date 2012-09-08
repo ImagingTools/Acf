@@ -17,9 +17,10 @@ CFileWriteArchive::CFileWriteArchive(
 :	BaseClass(versionInfoPtr),
 	BaseClass2(filePath),
 	m_file(filePath),
-	m_supportTagSkipping(supportTagSkipping)
+	m_supportTagSkipping(supportTagSkipping),
+	m_isValid(false)
 {
-	m_file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+	m_isValid = m_file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 
 	if (serializeHeader){
 		SerializeAcfHeader();
@@ -43,7 +44,7 @@ bool CFileWriteArchive::IsTagSkippingSupported() const
 
 bool CFileWriteArchive::BeginTag(const CArchiveTag& tag)
 {
-	bool retVal = BaseClass::BeginTag(tag);
+	bool retVal = m_isValid && BaseClass::BeginTag(tag);
 
 	if (!retVal){
 		return false;

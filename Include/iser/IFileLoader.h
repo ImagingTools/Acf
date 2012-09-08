@@ -44,6 +44,27 @@ public:
 	};
 
 	/**
+		Possible file I/O errors.
+	*/
+	enum ErrorType
+	{
+		/**
+			File could not be written, no write access granted.
+		*/
+		ET_NO_WRITE_PERMISSIONS,
+
+		/**
+			File could not be read, no read access granted.
+		*/
+		ET_NO_READ_PERMISSIONS,
+
+		/**
+			File doesn't exist.
+		*/
+		ET_FILE_NOT_EXIST
+	};
+
+	/**
 		List of possible message ids used in context of this interface.
 	*/
 	enum MessageId
@@ -71,13 +92,13 @@ public:
 
 	/**
 		This function loads data \c data from file \c filePath
-		\returns serialization state. \sa SerializationState
+		\returns File loading state. \sa OperationState
 	*/
 	virtual int LoadFromFile(istd::IChangeable& data, const QString& filePath = QString()) const = 0;
 
 	/**
 		This function saves data \c data to file \c filePath
-		\returns serialization state. \sa SerializationState
+		\returns File saving state. \sa OperationState
 	*/
 	virtual int SaveToFile(const istd::IChangeable& data, const QString& filePath = QString()) const = 0;
 };

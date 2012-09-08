@@ -45,6 +45,11 @@ public:
 					bool serializeHeader = true);
 
 	/**
+		Return \c true if the archive is valid (e.g. the file medium can be accessed)
+	*/
+	bool IsArchiveValid() const;
+
+	/**
 		Force internal stream object to flush.
 	*/
 	void Flush();
@@ -70,7 +75,17 @@ private:
 	typedef QVector<TagStackElement> TagStack;
 
 	TagStack m_tagStack;
+
+	bool m_isValid;
 };
+
+
+// public inline methods
+
+inline bool CFileWriteArchive::IsArchiveValid() const
+{
+	return m_isValid;
+}
 
 
 } // namespace iser
