@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2500
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264192
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -250,7 +261,23 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="4">
+          <AttributeInfo>
+            <Id>
+              BackgroundMode
+            </Id>
+            <Type>
+              Integer
+            </Type>
+            <ExportId>
+              BackgroundMode
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               FitMode
@@ -259,15 +286,47 @@
               Integer
             </Type>
             <ExportId>
-              
+              FitMode
             </ExportId>
             <Data>
               <IsEnabled>
                 true
               </IsEnabled>
               <Value>
-                2
+                1
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              UseAntialiasing
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              UseAntialiasing
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ZoomToFitEnabled
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              ZoomToFitEnabled
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

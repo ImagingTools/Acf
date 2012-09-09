@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2500
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264192
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -198,7 +209,15 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="0">
+  <ExportedInterfaces count="1">
+    <Interface>
+      <InterfaceId>
+        istd::IPolymorphic
+      </InterfaceId>
+      <ComponentId>
+        AutoPersistence
+      </ComponentId>
+    </Interface>
   </ExportedInterfaces>
   <ExportedComponents count="1">
     <Component>
