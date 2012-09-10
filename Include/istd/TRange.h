@@ -398,7 +398,7 @@ inline bool TRange<ValueType>::Contains(ValueType value) const
 {
 	I_ASSERT(IsValid());
 
-	return (value  >= m_minValue) && (value < m_maxValue);
+	return (value  >= m_minValue) && (value <= m_maxValue);
 }
 
 
