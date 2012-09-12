@@ -73,11 +73,19 @@ void CComponentBase::OnComponentDestroyed()
 
 // static methods
 
-const icomp::IRealComponentStaticInfo& CComponentBase::InitStaticInfo(IComponent* /*componentPtr*/)
+const icomp::IRealComponentStaticInfo& CComponentBase::InitStaticInfo(IComponent* componentPtr)
 {
-	static CBaseComponentStaticInfo emptyInfo;
+	static icomp::CBaseComponentStaticInfo staticInfo(NULL);
+	static bool isStaticInitialized = false;
+	if (isStaticInitialized && (componentPtr == NULL)){
+		return staticInfo;
+	}
 
-	return emptyInfo;
+	isStaticInitialized = true;
+
+	I_REGISTER_INTERFACE(istd::IPolymorphic);
+
+	return staticInfo;
 }
 
 

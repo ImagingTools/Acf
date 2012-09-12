@@ -106,8 +106,7 @@ inline bool CComponentBase::IsComponentActive() const
 			return staticInfo;\
 		}\
 		isStaticInitialized = true;\
-		BaseClass::InitStaticInfo(componentPtr);\
-		I_REGISTER_INTERFACE(istd::IPolymorphic);
+		BaseClass::InitStaticInfo(componentPtr);
 
 /**
 	Begin of ACF component declaration for non-instantiable definition section.
