@@ -1,9 +1,8 @@
 include(../../../Config/QMake/StaticConfig.pri)
 include(../../../Config/QMake/QtGuiBaseConfig.pri)
 
-TARGET = icmpstr
+TARGET = AcfStarter
 
 RESOURCES += ../*.qrc
 
-LIBS += -licomp
 LIBS += -liqtgui

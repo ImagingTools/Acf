@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Wrapper Acf</string>
+   <string>ACF Starter</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

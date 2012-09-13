@@ -1,10 +1,10 @@
-#include "Generated/ui_CAcfStarter.h"
-#include "CAcfStarter.h"
-
-//QT 
+// Qt includes
 #include <QtCore/QFileInfo>
 #include <QtGui/QMessageBox>
 
+// Project includes
+#include "CAcfStarter.h"
+#include "Generated/ui_CAcfStarter.h"
 
 
 int main(int argc, char *argv[])
@@ -16,9 +16,11 @@ int main(int argc, char *argv[])
 		QFileInfo confFile = QString(argv[1]);
 
 		if (!confFile.exists()){
-			QMessageBox::warning(0, "ACF Wrapper",
-								  "File not exist",
-								  QMessageBox::Ok);		
+			QMessageBox::warning(
+						NULL,
+						QObject::tr("ACF Starter"),
+						QObject::tr("File '%1' does not exist").arg(confFile),
+						QMessageBox::Ok);		
 			return 1;
 		}
 
@@ -26,23 +28,24 @@ int main(int argc, char *argv[])
 			CAcfStarter starter(argv);
 			starter.RunACF(1000);
 			starter.show();				
+			
 			return app.exec();			
-		
-		}else{			
-			QMessageBox::warning(0, "ACF Wrapper",
-								  "Invalid file format",
-								  QMessageBox::Ok);			
+		}
+		else{
+			QMessageBox::warning(
+						NULL,
+						QObject::tr("ACF Starter"),
+						QObject::tr("Invalid file format"),
+						QMessageBox::Ok);			
 			return 1;
 		}	
 
-	} else {
+	}
+	else{
 		CAcfStarter starter;
-
-		starter.show();
 
 		return app.exec();
 	}
-
-
 }
+
 
