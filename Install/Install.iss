@@ -5,7 +5,7 @@
 AppVerName=$AcfProductName$ $AcfVersion:0$
 AppVersion=$AcfVersion:0$
 AppPublisher=Witold Gantzke & Kirill Lepskiy
-AppPublisherURL=http://www.imagingtools.de/
+AppPublisherURL=http://www.ilena.org/
 AppName=ACF
 OutputBaseFilename=Setup_$AcfProductName$_$AcfApplicationType$_v$AcfVersion:0$_$CompilerName$
 
@@ -80,6 +80,7 @@ Name: qtComp; Description: {cm:QtBinaries}; Types: fullType customType
 
 [Icons]
 Name: "{group}\Compositor"; Filename: {app}\Bin\Release$CompilerName$\Compositor.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
+Name: "{group}\AcfStarter"; Filename: {app}\Bin\Release$CompilerName$\AcfStarter.exe; WorkingDir: {app}\Bin\Release$CompilerName$; Components: acfComp
 Name: "{group}\API Documentation"; Filename: {app}\Docs\TechnicalDoc\index.html; Components: acfComp
 
 [Tasks]
@@ -97,3 +98,10 @@ Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: EditFlags; Va
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file"; ValueName: BrowserFlags; ValueData: 8; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\shell\\open\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Acf.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
 Root: HKLM; Subkey: "SOFTWARE\\Classes\\arx_auto_file\\shell\\edit\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Compositor.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\.xpc"; ValueType: string; ValueData: xpc_auto_file; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\xpc_auto_file"; ValueData: "ACF Registry"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\xpc_auto_file"; ValueName: EditFlags; ValueData: 0; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\xpc_auto_file"; ValueName: BrowserFlags; ValueData: 8; ValueType: dword; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\xpc_auto_file\\shell\\open\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\AcfStarter.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
+Root: HKLM; Subkey: "SOFTWARE\\Classes\\xpc_auto_file\\shell\\edit\\command"; ValueData: "{app}\\Bin\\Release$CompilerName$\\Compositor.exe %22%251%22"; ValueType: string; Flags: uninsdeletevalue; Components: acfComp
