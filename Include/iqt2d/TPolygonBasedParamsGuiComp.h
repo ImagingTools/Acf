@@ -31,6 +31,29 @@ class TPolygonBasedParamsGuiComp:
 				PolygonBasedModel>
 {
 public:
+
+	/**
+		Cell index
+	*/
+	enum CellIndex
+	{
+		/**
+			Index of the table cell for the X coordinate of the polygon node
+		*/
+		CI_X,
+
+		/**
+			Index of the table cell for the X coordinate of the polygon node
+		*/
+		CI_Y,
+
+		/**
+			Last used cell index
+		*/
+		CI_LAST = CI_Y
+	};
+
+
 	typedef iqt2d::TShapeParamsGuiCompBase<
 				Ui::CPolygonParamsGuiComp,
 				PolygonBasedShape,
@@ -43,6 +66,12 @@ public:
 	virtual void UpdateModel() const;
 
 protected:
+
+	/**
+		Get the table with the node data.
+	*/
+	QTableWidget* GetNodeTable();
+
 	virtual void OnInsertNode();
 	virtual void OnRemoveNode();
 
@@ -57,7 +86,7 @@ protected:
 protected:
 	using BaseClass::GetObjectPtr;
 	using BaseClass::DoUpdateModel;
-	using BaseClass::CoordsTable;
+	using BaseClass::NodeParamsTable;
 
 	/** 
 		Internal item delegate class for input validation
@@ -90,12 +119,12 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateMod
 
 	istd::CChangeNotifier changePtr(objectPtr);
 
-	int count = CoordsTable->rowCount();
+	int count = NodeParamsTable->rowCount();
 	objectPtr->Clear();
 
 	for (int i = 0; i < count; i++){
-		double x = CoordsTable->item(i, 0)->text().toDouble();
-		double y = CoordsTable->item(i, 1)->text().toDouble();
+		double x = NodeParamsTable->item(i, CI_X)->text().toDouble();
+		double y = NodeParamsTable->item(i, CI_Y)->text().toDouble();
 	
 		objectPtr->InsertNode(i2d::CVector2d(x, y));
 	}
@@ -105,23 +134,30 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateMod
 // protected methods
 
 template <class PolygonBasedShape, class PolygonBasedModel>
+QTableWidget* TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::GetNodeTable()
+{
+	return NodeParamsTable;
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnInsertNode()
 {
-	iqt::CSignalBlocker block(CoordsTable);
+	iqt::CSignalBlocker block(NodeParamsTable);
 
-	int row = CoordsTable->currentRow();
+	int row = NodeParamsTable->currentRow();
 	if (row < 0){
-		row = CoordsTable->rowCount();
+		row = NodeParamsTable->rowCount();
 		
-		CoordsTable->setRowCount(row + 1);
+		NodeParamsTable->setRowCount(row + 1);
 	}
 	else{
-		CoordsTable->insertRow(row);
+		NodeParamsTable->insertRow(row);
 	}
 
-	CoordsTable->setItem(row, 0, new QTableWidgetItem(QString::number(0)));
-	CoordsTable->setItem(row, 1, new QTableWidgetItem(QString::number(0)));
-	CoordsTable->setCurrentCell(row, 0);
+	NodeParamsTable->setItem(row, CI_X, new QTableWidgetItem(QString::number(0)));
+	NodeParamsTable->setItem(row, CI_Y, new QTableWidgetItem(QString::number(0)));
+	NodeParamsTable->setCurrentCell(row, 0);
 
 	DoUpdateModel();
 }
@@ -130,11 +166,11 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnInsertN
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnRemoveNode()
 {
-	int row = CoordsTable->currentRow();
+	int row = NodeParamsTable->currentRow();
 	if (row >= 0){
-		iqt::CSignalBlocker block(CoordsTable);
+		iqt::CSignalBlocker block(NodeParamsTable);
 
-		CoordsTable->removeRow(row);
+		NodeParamsTable->removeRow(row);
 
 		DoUpdateModel();
 	}
@@ -148,14 +184,14 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiMode
 {
 	BaseClass::OnGuiModelAttached();
 
-	QObject::connect(CoordsTable, SIGNAL(cellChanged(int,int)), this, SLOT(OnParamsChanged()));
+	QObject::connect(NodeParamsTable, SIGNAL(cellChanged(int,int)), this, SLOT(OnParamsChanged()));
 }
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiModelDetached()
 {
-	CoordsTable->disconnect();
+	NodeParamsTable->disconnect();
 
 	BaseClass::OnGuiModelDetached();
 }
@@ -168,15 +204,15 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateGui
 
 	i2d::CPolygon* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		CoordsTable->clearContents();
+		NodeParamsTable->clearContents();
 
 		int count = objectPtr->GetNodesCount();
-		CoordsTable->setRowCount(count);
+		NodeParamsTable->setRowCount(count);
 
 		for (int i = 0; i < count; i++){
 			i2d::CVector2d coord = objectPtr->GetNode(i);
-			CoordsTable->setItem(i, 0, new QTableWidgetItem(QString::number(coord.GetX())));
-			CoordsTable->setItem(i, 1, new QTableWidgetItem(QString::number(coord.GetY())));
+			NodeParamsTable->setItem(i, 0, new QTableWidgetItem(QString::number(coord.GetX())));
+			NodeParamsTable->setItem(i, 1, new QTableWidgetItem(QString::number(coord.GetY())));
 		}
 	}
 }
@@ -189,11 +225,11 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 {
 	BaseClass::OnGuiCreated();
 
-	CoordsTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+	NodeParamsTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 
 	CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate();
-	CoordsTable->setItemDelegateForColumn(0, columnDelegate);
-	CoordsTable->setItemDelegateForColumn(1, columnDelegate);
+	NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
+	NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
 }
 
 

@@ -268,6 +268,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CInteractiveTubePolylineShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CInteractiveViewLayer.cpp"
 				>
 			</File>
@@ -451,6 +455,10 @@
 			</File>
 			<File
 				RelativePath="..\CInteractiveTransformableRectangleShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CInteractiveTubePolylineShape.h"
 				>
 			</File>
 			<File

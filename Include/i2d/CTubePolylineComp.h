@@ -5,15 +5,11 @@
 // ACF includes
 #include "icomp/CComponentBase.h"
 
-#include "i2d/TDataNodePolyline.h"
-#include "i2d/CTubeNode.h"
+#include "i2d/CTubePolyline.h"
 
 
 namespace i2d
 {
-
-
-typedef TDataNodePolyline<CTubeNode> CTubePolyline;
 
 
 class CTubePolylineComp:

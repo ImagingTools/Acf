@@ -446,6 +446,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTubePolyline.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CTubePolylineComp.h"
 				>
 			</File>
