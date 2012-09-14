@@ -616,7 +616,7 @@ bool CRegistry::SerializeEmbeddedRegistries(iser::IArchive& archive)
 			retVal = retVal && archive.BeginTag(registryTag);
 
 			retVal = retVal && archive.BeginTag(registryIdTag);
-			retVal = retVal && archive.Process(const_cast< QByteArray&>(iter.key()));
+			retVal = retVal && archive.Process(const_cast<QByteArray&>(iter.key()));
 			retVal = retVal && archive.EndTag(registryIdTag);
 
 			retVal = retVal && archive.BeginTag(dataTag);

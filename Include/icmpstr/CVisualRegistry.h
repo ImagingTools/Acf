@@ -7,10 +7,7 @@
 
 
 // ACF includes
-#include "icomp/IComponentEnvironmentManager.h"
 #include "icomp/CRegistry.h"
-
-#include "ibase/TLoggerCompWrap.h"
 
 #include "icmpstr/IComponentNoteController.h"
 #include "icmpstr/CVisualRegistryElement.h"
@@ -20,27 +17,20 @@ namespace icmpstr
 {
 
 
-class CVisualRegistryComp:
+class CVisualRegistry:
 			public QObject,
-			public ibase::CLoggerComponentBase,
 			public icomp::CRegistry,
 			virtual public IComponentNoteController
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
-	typedef icomp::CRegistry BaseClass2;
-
-	I_BEGIN_COMPONENT(CVisualRegistryComp);
-		I_REGISTER_INTERFACE(istd::IChangeable);
-		I_REGISTER_INTERFACE(icomp::IRegistry);
-		I_REGISTER_INTERFACE(IComponentNoteController);
-		I_ASSIGN(m_envManagerCompPtr, "MetaInfoManager", "Allows access to component meta information", true, "MetaInfoManager");
-	I_END_COMPONENT;
+	typedef icomp::CRegistry BaseClass;
 
 	enum MessageId
 	{
 		MI_CANNOT_CREATE_ELEMENT = 650
 	};
+
+	CVisualRegistry();
 
 	virtual bool SerializeComponentsLayout(iser::IArchive& archive);
 	virtual bool SerializeRegistry(iser::IArchive& archive);
@@ -78,7 +68,7 @@ protected:
 	virtual icomp::IRegistry* InsertEmbeddedRegistry(const QByteArray& registryId);
 
 private:
-	I_REF(icomp::IComponentEnvironmentManager, m_envManagerCompPtr);
+	bool m_serializeUserData;
 };
 
 

@@ -11,7 +11,7 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
-#include "icmpstr/CVisualRegistryComp.h"
+#include "icmpstr/CVisualRegistry.h"
 
 
 namespace icmpstr
@@ -28,7 +28,7 @@ int CRegistryLoaderComp::LoadFromFile(istd::IChangeable& data, const QString& fi
 		return StateFailed;
 	}
 
-	CVisualRegistryComp* geometricalRegistryPtr = dynamic_cast<CVisualRegistryComp*>(&data);
+	CVisualRegistry* geometricalRegistryPtr = dynamic_cast<CVisualRegistry*>(&data);
 	if (geometricalRegistryPtr != NULL){
 		ReadArchiveEx registryArchive(filePath, this);
 		I_ASSERT(!registryArchive.IsStoring());
@@ -64,12 +64,12 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const QString
 		return StateFailed;
 	}
 
-	const CVisualRegistryComp* geometricalRegistryPtr = dynamic_cast<const CVisualRegistryComp*>(&data);
+	const CVisualRegistry* geometricalRegistryPtr = dynamic_cast<const CVisualRegistry*>(&data);
 	if (geometricalRegistryPtr != NULL){
 		WriteArchiveEx registryArchive(filePath, GetVersionInfo(), this);
 		I_ASSERT(registryArchive.IsStoring());
 
-		if (!const_cast<CVisualRegistryComp*>(geometricalRegistryPtr)->SerializeRegistry(registryArchive)){
+		if (!const_cast<CVisualRegistry*>(geometricalRegistryPtr)->SerializeRegistry(registryArchive)){
 			SendErrorMessage(
 						MI_LOAD_ERROR,
 						tr("Cannot store to file %1").arg(filePath));
@@ -80,7 +80,7 @@ int CRegistryLoaderComp::SaveToFile(const istd::IChangeable& data, const QString
 		WriteArchiveEx layoutArchive(GetLayoutPath(filePath), GetVersionInfo(), this);
 		I_ASSERT(layoutArchive.IsStoring());
 
-		if (!const_cast<CVisualRegistryComp*>(geometricalRegistryPtr)->SerializeUserData(layoutArchive)){
+		if (!const_cast<CVisualRegistry*>(geometricalRegistryPtr)->SerializeUserData(layoutArchive)){
 			SendInfoMessage(
 						MI_CANNOT_READ_LAYOUT,
 						tr("Layout information cannot be stored (%1)").arg(filePath));

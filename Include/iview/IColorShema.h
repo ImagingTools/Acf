@@ -73,12 +73,6 @@ public:
 		SF_LAST = SF_NORMAL
 	};
 
-	enum StandardPensSet
-	{
-		SPS_NORMAL = 0,
-		SPS_LAST = SPS_NORMAL
-	};
-
 	/**	Defines a type of ticker.
 	*/
 	enum TickerType
@@ -145,8 +139,6 @@ public:
 		TT_LAST = TT_CHECKBOX_OFF
 	};
 
-	typedef QVector<const QPen*> PensPtrSet;
-
     virtual void Assign(const IColorShema& colorShema) = 0;
     virtual const QPen& GetPen(StandardPen penType) const = 0;
     virtual void SetPen(StandardPen penType, const QPen& pen) = 0;
@@ -154,8 +146,6 @@ public:
 	virtual void SetBrush(StandardBrush brushType, const QBrush& brush) = 0;
     virtual const QFont& GetFont(StandardFont fontType) const = 0;
     virtual void SetFont(StandardFont fontType, const QFont& font) = 0;
-	virtual const PensPtrSet& GetPensPtrSet(StandardPensSet pensSetType) const = 0;
-    virtual void SetPensPtrSet(StandardPensSet pensSetType, const PensPtrSet& pensSet) = 0;
    
 	/**
 		Draw a ticker.

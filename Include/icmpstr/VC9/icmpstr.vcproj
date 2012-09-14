@@ -224,7 +224,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryComp.cpp"
+				RelativePath="..\CVisualRegistry.cpp"
 				>
 			</File>
 			<File
@@ -314,7 +314,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryComp.h"
+				RelativePath="..\CVisualRegistry.h"
 				>
 			</File>
 			<File

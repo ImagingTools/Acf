@@ -33,17 +33,6 @@ void CColorShemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, Ti
 		drawContext.restore();
 		break;
 
-	case TT_NORMAL:
-	case TT_SMALL:
-		drawContext.save();
-		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
-		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		drawContext.drawRect(iqt::GetQRect(tickerBox.GetTranslated(point)));
-		drawContext.restore();
-		drawContext.restore();
-		break;
-
 	case TT_MOVE:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
@@ -129,6 +118,16 @@ void CColorShemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, Ti
 		drawContext.restore();
 		drawContext.restore();
 		break;
+
+	default:
+		drawContext.save();
+		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
+		drawContext.save();
+		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
+		drawContext.drawRect(iqt::GetQRect(tickerBox.GetTranslated(point)));
+		drawContext.restore();
+		drawContext.restore();
+		break;
 	}
 }
 
@@ -163,21 +162,16 @@ i2d::CRect CColorShemaBase::s_tickersBoxes[TT_LAST + 1] = {
 
 void CColorShemaBase::Assign(const IColorShema& colorShema)
 {
-	for(IColorShema::StandardPen penEnum = IColorShema::SP_NORMAL; penEnum <= IColorShema::SP_LAST;){
-    	SetPen(penEnum, colorShema.GetPen(penEnum));
-		penEnum = IColorShema::StandardPen(int(penEnum) + 1);
+	for (int penIndex = IColorShema::SP_NORMAL; penIndex <= IColorShema::SP_LAST; ++penIndex){
+    	SetPen(IColorShema::StandardPen(penIndex), colorShema.GetPen(IColorShema::StandardPen(penIndex)));
 	}
-    for(IColorShema::StandardBrush brushEnum = IColorShema::SB_NORMAL; brushEnum <= IColorShema::SB_LAST;){
-    	SetBrush(brushEnum, colorShema.GetBrush(brushEnum));
-		brushEnum = IColorShema::StandardBrush(int(brushEnum) + 1);
+
+	for (int brushIndex = IColorShema::SB_NORMAL; brushIndex <= IColorShema::SB_LAST; ++brushIndex){
+    	SetBrush(IColorShema::StandardBrush(brushIndex), colorShema.GetBrush(IColorShema::StandardBrush(brushIndex)));
 	}
-    for(IColorShema::StandardFont fontEnum = IColorShema::SF_NORMAL; fontEnum <= IColorShema::SF_LAST;){
-    	SetFont(fontEnum, colorShema.GetFont(fontEnum));
-		fontEnum = IColorShema::StandardFont(int(fontEnum) + 1);
-	}
-	for(IColorShema::StandardPensSet penSetEnum = IColorShema::SPS_NORMAL; penSetEnum <= IColorShema::SPS_LAST;){
-    	SetPensPtrSet(penSetEnum, colorShema.GetPensPtrSet(penSetEnum));
-		penSetEnum = IColorShema::StandardPensSet(int(penSetEnum) + 1);
+
+	for (int fontIndex = IColorShema::SF_NORMAL; fontIndex <= IColorShema::SF_LAST; ++fontIndex){
+    	SetFont(IColorShema::StandardFont(fontIndex), colorShema.GetFont(IColorShema::StandardFont(fontIndex)));
 	}
 }
 

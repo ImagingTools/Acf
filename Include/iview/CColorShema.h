@@ -31,7 +31,6 @@ public:
 	};
 
 	CColorShema();
-    virtual ~CColorShema();
 
 	// reimplemented IColorShema
     virtual const QFont& GetFont(IColorShema::StandardFont fontType) const;
@@ -40,25 +39,10 @@ public:
 	virtual void SetPen(iview::IColorShema::StandardPen penType, const QPen& pen);
 	virtual const QBrush& GetBrush(IColorShema::StandardBrush brushType) const;
 	virtual void SetBrush(iview::IColorShema::StandardBrush brushType, const QBrush& brush);
-	virtual const PensPtrSet& GetPensPtrSet(IColorShema::StandardPensSet pensSetType) const;
-    virtual void SetPensPtrSet(StandardPensSet pensSetType, const PensPtrSet& pensSet);
-
-protected:
-	 /**
-		Create pen set for specified type.
-	*/
-     void CreatePenSet(IColorShema::StandardPensSet penSetType, int size);
-	 
-	 /**
-		Delete pen set for specified type.
-	*/
-     void DeletePenSet(IColorShema::StandardPensSet penSetType);
 
 private:
 	QPen m_pens[int(IColorShema::SP_LAST) + 1];
 	QBrush m_brushes[int(IColorShema::SB_LAST) + 1];
-	QPen* m_pensSets[int(IColorShema::SPS_LAST) + 1];
-	QVector<const QPen*> m_pensPtrSets[int(IColorShema::SPS_LAST) + 1];
 	QFont m_fonts[int(IColorShema::SF_LAST) + 1];
 };
 
@@ -97,15 +81,6 @@ inline const QPen& CColorShema::GetPen(IColorShema::StandardPen penType) const
 inline const QBrush& CColorShema::GetBrush(IColorShema::StandardBrush brushType) const
 {
 	return m_brushes[brushType];
-}
-
-
-inline const IColorShema::PensPtrSet& CColorShema::GetPensPtrSet(IColorShema::StandardPensSet pensSetType) const
-{
-	I_ASSERT((int)pensSetType >= 0);
-	I_ASSERT((int)pensSetType <= (int)IColorShema::SPS_LAST);
-
-	return m_pensPtrSets[pensSetType];
 }
 
 
