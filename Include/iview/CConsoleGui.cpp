@@ -23,6 +23,7 @@ namespace iview
 
 CConsoleGui::CConsoleGui(QWidget* parent)
 :	BaseClass(parent),
+	m_isFullScreenMode(false),
 	m_commands("&View", 100),
 	m_gridVisibleCommand("Show Grid", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_rulerVisibleCommand("Show Ruler", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
@@ -75,6 +76,8 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	UpdateCommands();
 
 	ConnectSignalSlots();
+
+	m_viewPtr->installEventFilter(this);
 }
 
 
@@ -275,7 +278,7 @@ void CConsoleGui::UpdateScrollbarsValues()
 			}
 			int pageX = clientRect.GetWidth();
 
-			m_horizontalScrollbarPtr->setEnabled(true);
+			m_horizontalScrollbarPtr->setEnabled(true);			
 			m_horizontalScrollbarPtr->setMinimum(minX);
 			m_horizontalScrollbarPtr->setMaximum(maxX);
 			m_horizontalScrollbarPtr->setValue(posX);
@@ -283,7 +286,7 @@ void CConsoleGui::UpdateScrollbarsValues()
 			m_horizontalScrollbarPtr->setPageStep(pageX);
 		}
 		else{
-			m_horizontalScrollbarPtr->setEnabled(false);
+			m_horizontalScrollbarPtr->setEnabled(false);			
 			m_horizontalScrollbarPtr->setMinimum(0);
 			m_horizontalScrollbarPtr->setMaximum(0);
 			m_horizontalScrollbarPtr->setValue(0);
@@ -304,7 +307,7 @@ void CConsoleGui::UpdateScrollbarsValues()
 
 			int pageY = clientRect.GetHeight();
 
-			m_verticalScrollbarPtr->setEnabled(true);
+			m_verticalScrollbarPtr->setEnabled(true);			
 			m_verticalScrollbarPtr->setMinimum(minY);
 			m_verticalScrollbarPtr->setMaximum(maxY);
 			m_verticalScrollbarPtr->setValue(posY);
@@ -312,13 +315,66 @@ void CConsoleGui::UpdateScrollbarsValues()
 			m_verticalScrollbarPtr->setPageStep(pageY);
 		}
 		else{
-			m_verticalScrollbarPtr->setEnabled(false);
+			m_verticalScrollbarPtr->setEnabled(false);			
 			m_verticalScrollbarPtr->setMinimum(0);
 			m_verticalScrollbarPtr->setMaximum(0);
 			m_verticalScrollbarPtr->setValue(0);
 			m_verticalScrollbarPtr->setSingleStep(1);
 			m_verticalScrollbarPtr->setPageStep(1);
 		}
+
+		//Set scrollbar visibility in full screen mode
+		if(IsFullScreenMode()){
+			m_horizontalScrollbarPtr->setVisible(m_horizontalScrollbarPtr->isEnabled());
+			m_verticalScrollbarPtr->setVisible(m_verticalScrollbarPtr->isEnabled());	
+		}
+	}
+}
+
+bool CConsoleGui::IsFullScreenMode() const
+{
+	return m_isFullScreenMode;
+}
+
+void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
+{	
+	if (fullScreenMode != m_isFullScreenMode){
+		m_isFullScreenMode = fullScreenMode;		
+
+		if(m_isFullScreenMode){			
+			m_horizontalScrollbarPtr->setVisible(false);
+			m_verticalScrollbarPtr->setVisible(false);			
+			
+			m_savedTransform = m_viewPtr->GetTransform();
+			m_isViewMaximized = isMaximized();
+			m_savedParentWidgetPtr = parentWidget();
+
+			setParent(NULL);						
+			showFullScreen();
+
+			layout()->update();
+
+			//center image on screen
+			m_viewPtr->SetZoom(iview::CViewBase::ZM_FIT);
+			m_viewPtr->Update();
+			
+		}
+		else{			
+			if (m_savedParentWidgetPtr != NULL){
+				setParent(m_savedParentWidgetPtr);				
+				
+				m_savedParentWidgetPtr->layout()->addWidget(this);
+				m_savedParentWidgetPtr = NULL;
+			}		
+			
+			showNormal();
+			if(m_isViewMaximized){
+				showMaximized();
+			}
+			
+			m_viewPtr->SetTransform(m_savedTransform);
+			m_viewPtr->Update();
+		}		
 	}
 }
 
@@ -397,20 +453,27 @@ void CConsoleGui::UpdateComponentsPosition()
 	iqtgui::CWidgetUpdateBlocker frameBlocker(this);
 	iqtgui::CWidgetUpdateBlocker viewBlocker(m_viewPtr);
 
-	// scroll bars
-	bool isScrollHVisible = false;
-	bool isScrollVVisible = false;
-	if (AreScrollbarsVisible()){
-		bool isZoomToFit = IsZoomToFit();
-		FitMode fitMode = GetFitMode();
-		isScrollHVisible = !isZoomToFit || (fitMode == FM_VERTICAL);
-		isScrollVVisible = !isZoomToFit || (fitMode == FM_HORIZONTAL);
-
+	// scroll bars	
+	if(m_isFullScreenMode){
 		UpdateScrollbarsValues();
 	}
+	else{
+		bool isScrollHVisible = false;
+		bool isScrollVVisible = false;	
 
-	m_horizontalScrollbarPtr->setVisible(isScrollHVisible);
-	m_verticalScrollbarPtr->setVisible(isScrollVVisible);
+		if (AreScrollbarsVisible()){
+			bool isZoomToFit = IsZoomToFit();
+			FitMode fitMode = GetFitMode();
+			isScrollHVisible = !isZoomToFit || (fitMode == FM_VERTICAL);
+			isScrollVVisible = !isZoomToFit || (fitMode == FM_HORIZONTAL);
+
+			UpdateScrollbarsValues();
+		}
+
+		m_horizontalScrollbarPtr->setVisible(isScrollHVisible);
+		m_verticalScrollbarPtr->setVisible(isScrollVVisible);	
+	}
+		
 
 	//	TODO: Implement rulers and mm button if m_isRulerVisible == true!
 
@@ -544,9 +607,31 @@ void CConsoleGui::OnBoundingBoxChanged()
 }
 
 
-// reimplemented (QWidget)
+bool CConsoleGui::OnMouseDoubleClickEvent(QEvent* /*eventPtr*/)
+{
+	SetFullScreenMode(!IsFullScreenMode());
 
-void CConsoleGui::wheelEvent(QWheelEvent* eventPtr)
+	return true;
+}
+
+
+bool CConsoleGui::OnKeyReleaseEvent(QKeyEvent* eventPtr)
+{
+	switch(eventPtr->key()){
+	
+	case Qt::Key_Escape:
+		if (IsFullScreenMode()){
+			SetFullScreenMode(false);
+
+			return true;
+		}
+		break;
+	}
+
+	return false;
+}
+
+bool CConsoleGui::OnWheelEvent(QWheelEvent* eventPtr)
 {
 	bool isZoomToFit = IsZoomToFit();
 	if ((m_viewPtr != NULL) && !isZoomToFit){
@@ -563,7 +648,7 @@ void CConsoleGui::wheelEvent(QWheelEvent* eventPtr)
 			scale = 1.0 / double(1 << -factor);
 		}
 		else{
-			return;
+			return true;
 		}
 
 		istd::CIndex2d screenPos = iqt::GetCIndex2d(eventPtr->pos());
@@ -578,6 +663,47 @@ void CConsoleGui::wheelEvent(QWheelEvent* eventPtr)
 
 		UpdateZoomInOutState();
 	}
+
+	return true;
+}
+
+
+// reimplemented (QWidget)
+
+void CConsoleGui::keyReleaseEvent(QKeyEvent* eventPtr)
+{
+	if (!OnKeyReleaseEvent(eventPtr)){
+		BaseClass::keyReleaseEvent(eventPtr);
+	}
+}
+
+
+// reimplemented (QObject)
+
+bool CConsoleGui::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
+{
+	if (sourcePtr != m_viewPtr){
+		return BaseClass::eventFilter(sourcePtr, eventPtr);
+	}
+	
+	switch(eventPtr->type()){
+	case QEvent::MouseButtonDblClick:		
+		if (OnMouseDoubleClickEvent(eventPtr)){
+			return true;
+		}			
+		break;
+
+	case QEvent::Wheel:
+		if (OnWheelEvent(dynamic_cast<QWheelEvent*>(eventPtr))){
+			return true;
+		}
+		break;	
+
+	default:
+		break;
+	}	
+
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

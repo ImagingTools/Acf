@@ -27,13 +27,14 @@ namespace iqtprm
 
 
 CComposedParamsSetGuiComp::CComposedParamsSetGuiComp()
-:	m_currentGuiIndex(-1),
-	m_guiContainerPtr(NULL)
+: m_currentGuiIndex(-1),
+m_guiContainerPtr(NULL)
 {
 }
 
 
 // reimplemented (imod::IModelEditor)
+
 
 void CComposedParamsSetGuiComp::UpdateModel() const
 {
@@ -84,6 +85,7 @@ void CComposedParamsSetGuiComp::UpdateEditor(int updateFlags)
 
 // reimplemented (iqtgui::CGuiComponentBase)
 
+
 void CComposedParamsSetGuiComp::OnGuiCreated()
 {
 	DesignType guiMode = DesignType(*m_designTypeAttrPtr);
@@ -107,25 +109,25 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 	QToolBox* toolBoxPtr;
 	QTabWidget* tabWidgetPtr;
 	switch (guiMode){
-	case DT_TAB_WIDGET:
-		ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-		m_guiContainerPtr = tabWidgetPtr = new QTabWidget(ParamsFrame);
-		QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
-		layoutPtr->addWidget(tabWidgetPtr);
-		m_currentGuiIndex = 0;
-		break;
+		case DT_TAB_WIDGET:
+			ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+			m_guiContainerPtr = tabWidgetPtr = new QTabWidget(ParamsFrame);
+			QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
+			layoutPtr->addWidget(tabWidgetPtr);
+			m_currentGuiIndex = 0;
+			break;
 
-	case DT_TOOL_BOX:
-		ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-		m_guiContainerPtr = toolBoxPtr = new QToolBox(ParamsFrame);
-		QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
-		layoutPtr->addWidget(toolBoxPtr);
-		m_currentGuiIndex = 0;
-		break;
+		case DT_TOOL_BOX:
+			ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+			m_guiContainerPtr = toolBoxPtr = new QToolBox(ParamsFrame);
+			QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
+			layoutPtr->addWidget(toolBoxPtr);
+			m_currentGuiIndex = 0;
+			break;
 
-	default:
-		m_guiContainerPtr = ParamsFrame;
-		m_currentGuiIndex = -1;
+		default:
+			m_guiContainerPtr = ParamsFrame;
+			m_currentGuiIndex = -1;
 	}
 
 	// map gui objects with their names (the container will be filled by OnGuiModelAttached())
@@ -169,6 +171,7 @@ void CComposedParamsSetGuiComp::OnGuiDestroyed()
 
 // reimplemented (iqt2d::IViewExtender)
 
+
 void CComposedParamsSetGuiComp::AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags)
 {
 	I_ASSERT(providerPtr != NULL);
@@ -190,6 +193,7 @@ void CComposedParamsSetGuiComp::RemoveItemsFromScene(iqt2d::IViewProvider* provi
 
 
 // protected methods
+
 
 void CComposedParamsSetGuiComp::AttachToScene(iqt2d::IViewProvider* providerPtr, int flags)
 {
@@ -263,6 +267,7 @@ void CComposedParamsSetGuiComp::DetachFromScene(iqt2d::IViewProvider* providerPt
 
 // reimplemented (imod::IObserver)
 
+
 void CComposedParamsSetGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
@@ -321,7 +326,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 					panelPtr = new QWidget(m_guiContainerPtr);
 					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
 					panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
-					QToolBox* toolBoxPtr = static_cast<QToolBox*> (m_guiContainerPtr);
+					QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
 					toolBoxPtr->addItem(panelPtr, name);
 
 					addSpacer = true;
@@ -365,14 +370,14 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 				QWidget* framePtr = guiWidgetPtr->parentWidget();
 				if (framePtr){
 					if (guiMode == DT_TAB_WIDGET){
-						QTabWidget* tabWidgetPtr = static_cast<QTabWidget*> (m_guiContainerPtr);
+						QTabWidget* tabWidgetPtr = static_cast<QTabWidget*>(m_guiContainerPtr);
 						int index = tabWidgetPtr->indexOf(framePtr);
 						if (index >= 0){
 							tabWidgetPtr->removeTab(index);
 						}
 					}
 					else if (guiMode == DT_TOOL_BOX){
-						QToolBox* toolBoxPtr = static_cast<QToolBox*> (m_guiContainerPtr);
+						QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
 						int index = toolBoxPtr->indexOf(framePtr);
 						if (index >= 0){
 							toolBoxPtr->removeItem(index);
@@ -391,11 +396,11 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 
 	// restore selection
 	if (guiMode == DT_TAB_WIDGET){
-		QTabWidget* tabWidgetPtr = static_cast<QTabWidget*> (m_guiContainerPtr);
+		QTabWidget* tabWidgetPtr = static_cast<QTabWidget*>(m_guiContainerPtr);
 		tabWidgetPtr->setCurrentIndex(m_currentGuiIndex);
 	}
 	else if (guiMode == DT_TOOL_BOX){
-		QToolBox* toolBoxPtr = static_cast<QToolBox*> (m_guiContainerPtr);
+		QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
 		toolBoxPtr->setCurrentIndex(m_currentGuiIndex);
 	}
 
@@ -422,13 +427,13 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	// clear the gui container
 	int guiMode = *m_designTypeAttrPtr;
 	if (guiMode == DT_TAB_WIDGET){
-		QTabWidget* tabWidget = static_cast<QTabWidget*> (m_guiContainerPtr);
+		QTabWidget* tabWidget = static_cast<QTabWidget*>(m_guiContainerPtr);
 		for (int i = tabWidget->count() - 1; i >= 0; i--){
 			tabWidget->removeTab(i);
 		}
 	}
 	else if (guiMode == DT_TOOL_BOX){
-		QToolBox* toolBox = static_cast<QToolBox*> (m_guiContainerPtr);
+		QToolBox* toolBox = static_cast<QToolBox*>(m_guiContainerPtr);
 		for (int i = toolBox->count() - 1; i >= 0; i--){
 			toolBox->removeItem(i);
 		}
@@ -436,8 +441,9 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	else{
 		QLayout* layout = m_guiContainerPtr->layout();
 		for (int i = layout->count() - 1; i >= 0; i--){
-			layout->removeItem(layout->itemAt(i));
+			layout->itemAt(i)->widget()->hide();
 		}
+		qDeleteAll(layout->children());
 	}
 
 	m_connectedEditorsMap.clear();
@@ -463,6 +469,7 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 
 
 // protected slots
+
 
 void CComposedParamsSetGuiComp::OnEditorChanged(int index)
 {
