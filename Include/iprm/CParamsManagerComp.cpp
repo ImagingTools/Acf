@@ -218,24 +218,6 @@ IParamsSet* CParamsManagerComp::GetParamsSet(int index) const
 }
 
 
-QByteArray CParamsManagerComp::GetParamsSetTypeId(int index) const
-{
-	I_ASSERT((index >= 0) && (index < CParamsManagerComp::GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedSetsCount){
-		int typeIdsCount = m_fixedSetTypeIdsAttrPtr.GetCount();
-		if (typeIdsCount > 0){
-			int realIndex = qMin(index, typeIdsCount);
-
-			return m_fixedSetTypeIdsAttrPtr[realIndex];
-		}
-	}
-
-	return *m_paramsSetTypeIdAttrPtr;
-}
-
-
 QString CParamsManagerComp::GetParamsSetName(int index) const
 {
 	I_ASSERT((index >= 0) && (index < GetParamsSetsCount()));

@@ -41,7 +41,6 @@ public:
 		I_REGISTER_INTERFACE(ISelectionConstraints);
 		I_ASSIGN_MULTI_0(m_fixedParamSetsCompPtr, "FixedParamSets", "List of references to fixed parameter set", false);
 		I_ASSIGN_MULTI_0(m_fixedSetNamesCompPtr, "FixedSetNames", "List of fixed parameter names", false);
-		I_ASSIGN_MULTI_0(m_fixedSetTypeIdsCompPtr, "FixedSetTypeIds", "List of fixed parameter type IDs", false);
 		I_ASSIGN(m_defaultSetNameCompPtr, "DefaultSetName", "Default name of parameter set", true, "<noname>");		
 		I_ASSIGN_MULTI_0(m_paramSetsFactoriesPtr, "ParamSetsFactories", "List of factories for parameter sets creation", true);		
 	I_END_COMPONENT;
@@ -56,7 +55,6 @@ public:
 	virtual bool RemoveParamsSet(int index);
 	virtual bool SwapParamsSet(int index1, int index2);
 	virtual IParamsSet* GetParamsSet(int index) const;
-	virtual QByteArray GetParamsSetTypeId(int index) const;
 	virtual QString GetParamsSetName(int index) const;
 	virtual bool SetParamsSetName(int index, const QString& name);
 
@@ -92,7 +90,6 @@ protected:
 private:
 	I_MULTIREF(IParamsSet, m_fixedParamSetsCompPtr);
 	I_MULTIATTR(QString, m_fixedSetNamesCompPtr);
-	I_MULTIATTR(QByteArray, m_fixedSetTypeIdsCompPtr);
 	I_ATTR(QString, m_defaultSetNameCompPtr);	
 	I_MULTIFACT(iprm::IParamsSet, m_paramSetsFactoriesPtr);
 

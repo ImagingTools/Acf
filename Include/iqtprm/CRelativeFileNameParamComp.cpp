@@ -25,7 +25,7 @@ const QString& CRelativeFileNameParamComp::GetPath() const
 		if (!basePath.isEmpty()){
 			QDir baseDir(basePath);
 
-			m_relativePath = baseDir.absoluteFilePath(relativePath);
+			m_relativePath = QDir::cleanPath(baseDir.absoluteFilePath(relativePath));
 
 			return m_relativePath;
 		}
