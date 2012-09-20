@@ -25,12 +25,21 @@ public:
 
 	TParamsPtr(const ParameterInterace* ptr = NULL);
 
-	TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId);
+	/**
+		Construct and initialize the pointer with the given parameter set and parameter ID.
+		\param	parameterSetPtr	parameter set, parameter will be taken from this set.
+		\param	parameterId		ID of parameter in the set.
+		\param	isObligatory	indicate, that this parameter is obligatory.
+	*/
+	TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
 
 	/**
 		Initialize the pointer with the given parameter set and parameter ID.
+		\param	parameterSetPtr	parameter set, parameter will be taken from this set.
+		\param	parameterId		ID of parameter in the set.
+		\param	isObligatory	indicate, that this parameter is obligatory.
 	*/
-	void Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId);
+	void Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
 };
 
 
@@ -38,26 +47,26 @@ public:
 
 template <class ParameterInterace>
 TParamsPtr<ParameterInterace>::TParamsPtr(const ParameterInterace* ptr)
-	:BaseClass(ptr)
+:	BaseClass(ptr)
 {
 }
 
 
 template <class ParameterInterace>
-TParamsPtr<ParameterInterace>::TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId)
+TParamsPtr<ParameterInterace>::TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
 {
-	Init(parameterSetPtr, parameterId);
+	Init(parameterSetPtr, parameterId, isObligatory);
 }
 
 
 template <class ParameterInterace>
-void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId)
+void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
 {
 	if ((parameterSetPtr != NULL) && !parameterId.isEmpty()){
 		BaseClass::SetPtr(dynamic_cast<const ParameterInterace*>(parameterSetPtr->GetParameter(parameterId)));
 
 		I_IF_DEBUG(
-			if (!IsValid()){
+			if (!IsValid() && isObligatory){
 				iprm::IParamsSet::Ids existingParamIds = parameterSetPtr->GetParamIds();
 				QStringList existingIds;
 				for (iprm::IParamsSet::Ids::ConstIterator index = existingParamIds.constBegin(); index != existingParamIds.constEnd(); index++){

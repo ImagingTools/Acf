@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2528
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -18,13 +29,13 @@
   <PositionMap count="5">
     <Element>
       <ComponentName>
-        ApplicationInfo
+        Log
       </ComponentName>
       <X>
         625
       </X>
       <X>
-        275
+        525
       </X>
       <Note>
         
@@ -46,13 +57,13 @@
     </Element>
     <Element>
       <ComponentName>
-        FileInfoCopy
+        ApplicationInfo
       </ComponentName>
       <X>
         625
       </X>
       <X>
-        400
+        275
       </X>
       <Note>
         
@@ -60,13 +71,13 @@
     </Element>
     <Element>
       <ComponentName>
-        Log
+        FileInfoCopy
       </ComponentName>
       <X>
         625
       </X>
       <X>
-        525
+        400
       </X>
       <Note>
         
@@ -87,4 +98,6 @@
       </Note>
     </Element>
   </PositionMap>
+  <EmbeddedRegistries count="0">
+  </EmbeddedRegistries>
 </Acf>

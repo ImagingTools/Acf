@@ -41,7 +41,7 @@
 			/>
 			<Tool
 				Name="FileConvertCopy"
-				RegistryFile="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+				RegistryFile="..\..\..\Partitura\AcfInfoCopyApp.arx"
 				ConfigFile="..\..\..\Config\BaseOnly.xpc"
 				OutputDir="$(InputDir)\..\Generated"
 			/>
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="FileConvertCopy"
-				RegistryFile="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+				RegistryFile="..\..\..\Partitura\AcfInfoCopyApp.arx"
 				ConfigFile="..\..\..\Config\BaseOnly.xpc"
 				OutputDir="$(InputDir)\..\Generated"
 			/>

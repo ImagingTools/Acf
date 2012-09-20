@@ -1,16 +1,27 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
+    <VersionInfos count="2">
       <Version>
         <Id>
           0
         </Id>
         <Number>
-          2246
+          2528
         </Number>
         <Description>
           ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          264194
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -33,7 +44,119 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="1">
+        <AttributeInfoMap count="8">
+          <AttributeInfo>
+            <Id>
+              ApplicationName
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              ApplicationName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationSubname
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              ApplicationSubname
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ApplicationType
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              ApplicationType
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              CompanyName
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              CompanyName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              LegalCopyright
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              LegalCopyright
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              MainVersionId
+            </Id>
+            <Type>
+              Integer
+            </Type>
+            <ExportId>
+              MainVersionId
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ProductName
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              ProductName
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
           <AttributeInfo>
             <Id>
               VersionInfo
@@ -42,7 +165,7 @@
               Reference
             </Type>
             <ExportId>
-              
+              VersionInfo
             </ExportId>
             <Data>
               <IsEnabled>
@@ -318,7 +441,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="2">
+  <ExportedInterfaces count="1">
     <Interface>
       <InterfaceId>
         ibase::IApplication
@@ -327,16 +450,16 @@
         CopyApp
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        iser::IVersionInfo
-      </InterfaceId>
+  </ExportedInterfaces>
+  <ExportedComponents count="1">
+    <Component>
+      <ExportedId>
+        VersionInfo
+      </ExportedId>
       <ComponentId>
         VersionInfo
       </ComponentId>
-    </Interface>
-  </ExportedInterfaces>
-  <ExportedComponents count="0">
+    </Component>
   </ExportedComponents>
   <Description>
     Replacer for marked text file content
