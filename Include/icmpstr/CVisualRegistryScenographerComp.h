@@ -184,6 +184,7 @@ protected Q_SLOTS:
 	void OnAbort();
 	void OnExecutionTimerTick();
 	void OnShowRegistryTopology();
+
 	/**
 		Updates the scene and fills it with currently selected registry.
 		\param id valid component id of an embedded registry; otherwise will switch to root level

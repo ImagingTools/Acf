@@ -9,6 +9,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QPushButton>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -1210,6 +1211,15 @@ void CVisualRegistryScenographerComp::OnShowRegistryTopology()
 		iqtgui::CGuiComponentDialog dialog(m_registryTopologyGuiCompPtr.GetPtr());
 		dialog.setWindowIcon(m_showRegistryTopologyCommand.icon());
 		dialog.setWindowTitle(tr("Registry Topology"));
+
+		// Find button box and disable default button to ignore Enter button press:	
+		const QDialogButtonBox* dialogButtonBoxPtr = dialog.GetButtonBoxPtr();
+		if (dialogButtonBoxPtr != NULL){
+			QPushButton* closeButtonPtr = dynamic_cast<QPushButton*>(dialogButtonBoxPtr->button(QDialogButtonBox::Close));
+			if (closeButtonPtr != NULL){
+				closeButtonPtr->setAutoDefault(false);
+			}
+		}
 
 		const QDesktopWidget* desktopPtr = QApplication::desktop();
 		I_ASSERT(desktopPtr != NULL);
