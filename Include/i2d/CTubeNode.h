@@ -14,16 +14,23 @@ namespace i2d
 {
 
 
+/**
+	Polygon node used to define tube boundaries at the given point.
+	\sa CTubePolyline
+*/
 class CTubeNode: public iser::ISerializable
 {
 public:
 	CTubeNode();
 
 	/**
-		Get left and right aoi value.
-		Left aoi should be negative and right positive.
+		Get boundaries of the tube node.
 	*/
 	const istd::CRange& GetTubeRange() const;
+
+	/**
+		Set boundaries of the tube node.
+	*/
 	void SetTubeRange(const istd::CRange& tubeRange);
 
 	/**

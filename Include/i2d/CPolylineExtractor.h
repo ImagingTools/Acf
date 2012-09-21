@@ -12,6 +12,9 @@ namespace i2d
 {
 
 
+/**
+	Helper class for conversion of common geometrical primitives into a polyline.
+*/
 class CPolylineExtractor
 {
 public:

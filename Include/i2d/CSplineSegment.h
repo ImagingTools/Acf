@@ -15,8 +15,6 @@ namespace i2d
 class CSplineSegment: virtual public istd::IPolymorphic
 {
 public:
-	typedef istd::IPolymorphic BaseClass;
-
 	/**
 		Get point.
 		\param	position Position in segment. Must be in range [0, 1], where 0 is begin, and 1 is end of segment.

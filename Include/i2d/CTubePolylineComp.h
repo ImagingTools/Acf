@@ -12,6 +12,9 @@ namespace i2d
 {
 
 
+/**
+	Component definition of the tube region based on a polyline.
+*/
 class CTubePolylineComp:
 			public icomp::CComponentBase,
 			public CTubePolyline
@@ -50,6 +53,5 @@ private:
 
 
 #endif // !i2d_CTubePolylineComp_included
-
 
 

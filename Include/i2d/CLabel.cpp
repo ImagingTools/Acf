@@ -4,10 +4,14 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
+#include "iser/CArchiveTag.h"
+
 
 namespace i2d
 {
 
+
+// public methods
 
 CLabel::CLabel(const i2d::CVector2d& position, const QString& labelText)
 	:BaseClass(position), 
