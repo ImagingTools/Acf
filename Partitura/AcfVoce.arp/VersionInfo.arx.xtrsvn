@@ -67,7 +67,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="25">
+              <Values count="26">
                 <Value>
                   0.9.0
                 </Value>
@@ -143,6 +143,9 @@
                 <Value>
                   1.6.2
                 </Value>
+                <Value>
+                  1.6.3
+                </Value>
               </Values>
             </Data>
           </AttributeInfo>
@@ -160,7 +163,7 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="25">
+              <Values count="26">
                 <Value>
                   940
                 </Value>
@@ -235,6 +238,9 @@
                 </Value>
                 <Value>
                   2476
+                </Value>
+                <Value>
+                  2534
                 </Value>
               </Values>
             </Data>
