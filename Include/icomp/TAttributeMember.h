@@ -70,6 +70,7 @@ private:
 
 private:
 	const Attribute* m_attributePtr;
+	bool m_isAssigned;
 };
 
 
@@ -77,7 +78,8 @@ private:
 
 template <typename Attribute>
 TAttributeMemberBase<Attribute>::TAttributeMemberBase()
-:	m_attributePtr(NULL)
+:	m_attributePtr(NULL),
+	m_isAssigned(false)
 {
 }
 
@@ -89,6 +91,8 @@ bool TAttributeMemberBase<Attribute>::Init(
 			const IComponent** definitionComponentPtr)
 {
 	I_ASSERT(ownerPtr != NULL);
+
+	m_isAssigned = true;
 
 	const QByteArray& attributeId = staticInfo.GetAttributeId();
 	const IComponentContext* componentContextPtr = ownerPtr->GetComponentContext();
@@ -148,6 +152,8 @@ bool TAttributeMemberBase<Attribute>::Init(
 template <typename Attribute>
 bool TAttributeMemberBase<Attribute>::IsValid() const
 {
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
 	return (m_attributePtr != NULL);
 }
 
@@ -155,6 +161,8 @@ bool TAttributeMemberBase<Attribute>::IsValid() const
 template <typename Attribute>
 const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
 {
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
 	return m_attributePtr;
 }
 
@@ -162,6 +170,8 @@ const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
 template <typename Attribute>
 const Attribute* TAttributeMemberBase<Attribute>::operator->() const
 {
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
 	return m_attributePtr;
 }
 
