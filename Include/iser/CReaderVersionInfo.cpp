@@ -88,7 +88,7 @@ bool CReaderVersionInfo::CopyFrom(const istd::IChangeable& object)
 
 	iser::IVersionInfo::VersionIds ids = versionInfoPtr->GetVersionIds();
 	for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
-				iter != ids.begin();
+				iter != ids.end();
 				++iter){
 		int versionId = *iter;
 
