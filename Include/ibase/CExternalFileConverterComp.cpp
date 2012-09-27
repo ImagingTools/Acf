@@ -62,7 +62,7 @@ bool CExternalFileConverterComp::ConvertFile(
 	if (m_additionalArgumentsCompPtr.IsValid()){
 		int additionalArgumentsCount = m_additionalArgumentsCompPtr.GetCount();
 
-		for (int addIndex = 0; addIndex < additionalArgumentsCount; addIndex){
+		for (int addIndex = 0; addIndex < additionalArgumentsCount; addIndex++){
 			iprm::INameParam* argumentPtr = m_additionalArgumentsCompPtr[addIndex];
 			if (argumentPtr != NULL){
 				arguments.push_back(argumentPtr->GetName());
