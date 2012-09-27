@@ -47,20 +47,30 @@ public:
 	virtual i2d::CRect CalcBoundingBox() const;
 
 	// reimplemented (iview::IMouseActionObserver)
-//	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-//	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
+	virtual bool OnMouseMove(istd::CIndex2d position);
+
+	// reimplemented (iview::ITouchable)
+	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
 protected:
 	// reimplemented (iview::CInteractivePolygonShape)
 	virtual void DrawCurve(QPainter& drawContext) const;
 	virtual void DrawSelectionElements(QPainter& drawContext) const;
-	virtual bool IsTickerTouched(istd::CIndex2d position) const;
     
 private:
+	enum TickerType{
+		TT_NONE,
+		TT_BASIC,
+		TT_LEFT,
+		TT_RIGHT
+	};
+
 	bool m_isAlwaysDraggable;
 	bool m_isOrientationVisible;
 
-	int m_draggedTickerIndex;
+	mutable int m_draggedTickerType;
+	mutable int m_draggedTickerIndex;
 };
 
 
