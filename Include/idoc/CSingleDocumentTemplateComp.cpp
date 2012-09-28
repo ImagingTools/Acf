@@ -70,7 +70,7 @@ istd::IPolymorphic* CSingleDocumentTemplateComp::CreateView(
 idoc::IUndoManager* CSingleDocumentTemplateComp::CreateUndoManager(const QByteArray& documentTypeId, istd::IChangeable* documentPtr) const
 {
 	if (IsDocumentTypeSupported(documentTypeId)){
-		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(documentPtr);
+		iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(documentPtr);
 		imod::IModel* modelPtr = CompCastPtr<imod::IModel>(documentPtr);
 		if ((serializablePtr != NULL) && (modelPtr != NULL)){
 			istd::TDelPtr< idoc::IUndoManager > undoManagerModelPtr(m_undoManagerCompFact.CreateInstance());
