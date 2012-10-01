@@ -2,12 +2,11 @@
 #define i2d_CRectangle_included
 
 
+// ACF includes
 #include "istd/TRange.h"
 #include "istd/CIndex2d.h"
-
 #include "iser/ISerializable.h"
-
-#include "i2d/IObject2d.h"
+#include "i2d/CObject2dBase.h"
 #include "i2d/CLine2d.h"
 
 
@@ -21,7 +20,7 @@ class CRect;
 /**
 	Definition of rectangle area orthogonal to axis of coordination system.
 */
-class CRectangle: virtual public IObject2d
+class CRectangle: public CObject2dBase
 {
 public:
 	CRectangle();

@@ -7,7 +7,7 @@
 
 
 // ACF includes
-#include "i2d/IObject2d.h"
+#include "i2d/CObject2dBase.h"
 #include "i2d/CAffineTransformation2d.h"
 
 
@@ -21,7 +21,7 @@ namespace i2d
 	but it is interpreted as a geometrical shape which is done,
 	if you transform unity quadrant [0, 1]X[0, 1] using this transformation.
 */
-class CParallelogram: virtual public i2d::IObject2d
+class CParallelogram: public CObject2dBase
 {
 public:
 	virtual const i2d::CAffine2d& GetTransform() const;

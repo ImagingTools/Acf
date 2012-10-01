@@ -210,6 +210,32 @@ void CShapeBase::OnUpdate(int changeFlags, istd::IPolymorphic* /*updateParamsPtr
 
 // protected methods
 
+i2d::CVector2d CShapeBase::GetScreenPosition(const i2d::CVector2d& logPosition, const i2d::ITransformation2d* calibrationPtr) const
+{
+	I_ASSERT(m_displayPtr != NULL);
+
+	if (calibrationPtr != NULL){
+		return m_displayPtr->GetTransform().GetApply(calibrationPtr->GetValueAt(logPosition));
+	}
+	else{
+		return m_displayPtr->GetTransform().GetApply(logPosition);
+	}
+}
+
+
+i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition, const i2d::ITransformation2d* calibrationPtr) const
+{
+	I_ASSERT(m_displayPtr != NULL);
+
+	i2d::CVector2d logPosition = m_displayPtr->GetTransform().GetInvertedApply(screenPosition);
+	if (calibrationPtr != NULL){
+		logPosition = calibrationPtr->GetInvValueAt(logPosition);
+	}
+
+	return logPosition;
+}
+
+
 int CShapeBase::GetDisplayChangesMask()
 {
 	return CF_TRANSFORM | CF_COLORS;

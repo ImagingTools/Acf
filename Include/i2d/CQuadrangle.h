@@ -2,7 +2,8 @@
 #define i2d_CQuadrangle_included
 
 
-#include "i2d/IObject2d.h"
+// ACF includes
+#include "i2d/CObject2dBase.h"
 #include "i2d/CLine2d.h"
 #include "i2d/CRectangle.h"
 
@@ -14,7 +15,7 @@ namespace i2d
 /**
 	Definition of convexes quadrangle object.
 */
-class CQuadrangle: virtual public IObject2d
+class CQuadrangle: public CObject2dBase
 {
 public:
 	CQuadrangle();

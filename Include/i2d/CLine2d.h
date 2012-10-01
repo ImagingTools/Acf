@@ -6,7 +6,7 @@
 #include <QtCore/QPair>
 
 // ACF includes
-#include "i2d/IObject2d.h"
+#include "i2d/CObject2dBase.h"
 #include "i2d/CVector2d.h"
 
 
@@ -21,7 +21,7 @@ class CRectangle;
 	Definition of a line in 2D-space.
 	Line is stored as the ordered set of two points.
 */
-class CLine2d: virtual public IObject2d
+class CLine2d: public CObject2dBase
 {
 public:
 	CLine2d();

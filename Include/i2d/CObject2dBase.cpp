@@ -1,0 +1,68 @@
+#include "i2d/CObject2dBase.h"
+
+
+namespace i2d
+{
+
+
+CObject2dBase::CObject2dBase()
+:	m_calibrationPtr(NULL)
+{
+}
+
+
+void CObject2dBase::SetCalibration(const ITransformation2d* calibrationPtr)
+{
+	m_calibrationPtr = calibrationPtr;
+}
+
+
+// reimplemented (i2d::IObject2d)
+
+const ITransformation2d* CObject2dBase::GetCalibration() const
+{
+	return m_calibrationPtr;
+}
+
+
+bool CObject2dBase::Transform(
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
+{
+	return false;
+}
+
+
+bool CObject2dBase::InvTransform(
+			const ITransformation2d& /*transformation*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/)
+{
+	return false;
+}
+
+
+bool CObject2dBase::GetTransformed(
+			const ITransformation2d& /*transformation*/,
+			CObject2dBase& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
+{
+	return false;
+}
+
+
+bool CObject2dBase::GetInvTransformed(
+			const ITransformation2d& /*transformation*/,
+			CObject2dBase& /*result*/,
+			ITransformation2d::ExactnessMode /*mode*/,
+			double* /*errorFactorPtr*/) const
+{
+	return false;
+}
+
+
+} // namespace i2d
+
+

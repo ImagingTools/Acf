@@ -221,6 +221,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CObject2dBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CParallelogram.cpp"
 				>
 			</File>
@@ -371,6 +375,10 @@
 			</File>
 			<File
 				RelativePath="..\CMatrix2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CObject2dBase.h"
 				>
 			</File>
 			<File

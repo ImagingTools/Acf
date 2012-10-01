@@ -7,8 +7,7 @@
 
 // ACF includes
 #include "iser/CArchiveTag.h"
-
-#include "i2d/IObject2d.h"
+#include "i2d/CObject2dBase.h"
 #include "i2d/CVector2d.h"
 
 
@@ -19,7 +18,7 @@ namespace i2d
 /**
 	2D-object given by the simple set of points.
 */
-class CPolypoint: virtual public IObject2d
+class CPolypoint: public CObject2dBase
 {
 public:
 	CPolypoint();
