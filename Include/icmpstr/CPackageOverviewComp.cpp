@@ -27,6 +27,7 @@
 namespace icmpstr
 {
 
+
 class CItemDelegate: public QItemDelegate
 {
 public:

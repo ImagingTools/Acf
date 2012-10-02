@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2500
+          2558
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1023
         </Id>
         <Number>
-          264192
+          264194
         </Number>
         <Description>
           Qt Framework
@@ -330,7 +330,7 @@
                 true
               </IsEnabled>
               <Value>
-                SceneProvider
+                VisualRegistryScenographer
               </Value>
             </Data>
           </AttributeInfo>
@@ -565,7 +565,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="5">
+  <ExportedInterfaces count="6">
     <Interface>
       <InterfaceId>
         i2d::ISceneController
@@ -600,10 +600,18 @@
     </Interface>
     <Interface>
       <InterfaceId>
+        iqtgui::IDropConsumer
+      </InterfaceId>
+      <ComponentId>
+        VisualRegistryScenographer
+      </ComponentId>
+    </Interface>
+    <Interface>
+      <InterfaceId>
         iqtgui::IGuiObject
       </InterfaceId>
       <ComponentId>
-        SceneProvider
+        VisualRegistryScenographer
       </ComponentId>
     </Interface>
   </ExportedInterfaces>

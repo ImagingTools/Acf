@@ -427,7 +427,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CRegistryTreeViewComp.cpp"
+				RelativePath="..\generated\moc_CRegistryTreeViewComp.cpp"
 				>
 			</File>
 			<File
@@ -471,11 +471,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CRegistryTreeViewComp.h"
+				RelativePath="..\generated\ui_CRegistryTreeViewComp.h"
 				>
 			</File>
 			<File
 				RelativePath="..\generated\ui_CSceneProviderGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CVisualRegistryScenographerComp.h"
 				>
 			</File>
 			<File
@@ -517,6 +521,10 @@
 			</File>
 			<File
 				RelativePath="..\CSceneProviderGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CVisualRegistryScenographerComp.ui"
 				>
 			</File>
 			<File

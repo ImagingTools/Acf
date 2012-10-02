@@ -47,7 +47,7 @@ public:
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(IAttributeSelectionObserver);
 		I_ASSIGN(m_envManagerCompPtr, "EnvironmentManager", "Packages manager used to provide icon paths", true, "PackagesManager");
-		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and access to buffred icons", false, "ConsistencyInfo");
+		I_ASSIGN(m_consistInfoCompPtr, "ConsistencyInfo", "Allows to check consistency of registries and access to buffered icons", false, "ConsistencyInfo");
 		I_ASSIGN(m_quickHelpViewerCompPtr, "QuickHelpGui", "Show help of selected component using its address", false, "HelpViewer");
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager allowing to load files on double click", false, "DocumentManager");
 		I_ASSIGN(m_configFilePathCompPtr, "ConfigFilePath", "Path of packages configuration file will be loaded, if enabled", false, "ConfigFilePath");
@@ -78,11 +78,9 @@ protected:
 	void UpdateAllLists();
 
 	/**
-		Get component list, that match to the filter criteria.
+		Get a list of components that match the filter criteria.
 	*/
 	icomp::IMetaInfoManager::ComponentAddresses GetFilteredComponentAdresses() const;
-
-	bool IsInterfaceSupportedByComponent(const istd::CClassInfo& interfaceInfo, const QTreeWidgetItem& item) const;
 
 	/**
 		Create the drag preview for the component.

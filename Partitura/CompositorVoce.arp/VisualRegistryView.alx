@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2500
+          2558
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1023
         </Id>
         <Number>
-          264192
+          264194
         </Number>
         <Description>
           Qt Framework
@@ -46,10 +46,10 @@
         SelectedDocModelBinder
       </ComponentName>
       <X>
-        900
+        925
       </X>
       <X>
-        125
+        225
       </X>
       <Note>
         
@@ -60,7 +60,7 @@
         VisualRegistryScenographer
       </ComponentName>
       <X>
-        750
+        700
       </X>
       <X>
         475
@@ -98,4 +98,6 @@
       </Note>
     </Element>
   </PositionMap>
+  <EmbeddedRegistries count="0">
+  </EmbeddedRegistries>
 </Acf>
