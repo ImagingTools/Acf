@@ -24,7 +24,10 @@ CDelegatedProgressManager::CDelegatedProgressManager(
 			const QByteArray& progressId,
 			const QString& description,
 			bool isCancelable)
-:	m_slaveManagerPtr(slaveManagerPtr)
+:	m_slaveManagerPtr(slaveManagerPtr),
+	m_nextSessionId(0),
+	m_progressSum(0.0),
+	m_cancelableSessionsCount(0)
 {
 	m_slaveSessionId = m_slaveManagerPtr->BeginProgressSession(progressId, description, isCancelable);
 	if (m_slaveSessionId < 0){
@@ -46,6 +49,10 @@ CDelegatedProgressManager::~CDelegatedProgressManager()
 
 double CDelegatedProgressManager::GetCumulatedProgress() const
 {
+	if (m_progressMap.isEmpty()){
+		return 0.0;
+	}
+
 	return m_progressSum / m_progressMap.size();
 }
 
@@ -60,6 +67,7 @@ int CDelegatedProgressManager::BeginProgressSession(
 	istd::CChangeNotifier notifier(this, CF_SESSIONS_NUMBER | CF_PROGRESS_CHANGED);
 
 	int id = m_nextSessionId++;
+	m_progressSum = 0.0;
 
 	ProgressInfo& info = m_progressMap[id];
 	info.progress = 0;
@@ -101,13 +109,14 @@ void CDelegatedProgressManager::EndProgressSession(int sessionId)
 
 void CDelegatedProgressManager::OnProgress(int sessionId, double currentProgress)
 {
+	I_ASSERT(m_progressMap.contains(sessionId));
+
 	istd::CChangeNotifier notifier(this, CF_PROGRESS_CHANGED);
 
-	ProgressMap::iterator iter = m_progressMap.find(sessionId);
-	I_ASSERT(iter != m_progressMap.constEnd());
+	ProgressInfo& value = m_progressMap[sessionId];
 
-	m_progressSum += currentProgress - iter.value().progress;
-	iter.value().progress = currentProgress;
+	m_progressSum += currentProgress - value.progress;
+	value.progress = currentProgress;
 }
 
 
