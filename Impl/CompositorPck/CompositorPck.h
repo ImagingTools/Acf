@@ -11,7 +11,7 @@
 #include "icmpstr/CRegistryPreviewComp.h"
 #include "icmpstr/CComponentHelpFileProviderComp.h"
 #include "icmpstr/CVisualRegistry.h"
-#include "icmpstr/CVisualRegistryScenographerComp.h"
+#include "icmpstr/CVisualRegistryEditorComp.h"
 #include "icmpstr/CRegistryConsistInfoComp.h"
 #include "icmpstr/CRegistryPropEditorComp.h"
 #include "icmpstr/CQuickHelpGuiComp.h"
@@ -41,7 +41,7 @@ typedef icomp::TMakeComponentWrap<
 			istd::IChangeable,
 			imod::IModel,
 			icmpstr::IComponentNoteController> VisualRegistry;
-typedef icmpstr::CVisualRegistryScenographerComp VisualRegistryScenographer;
+typedef icmpstr::CVisualRegistryEditorComp VisualRegistryScenographer;
 typedef icmpstr::CRegistryConsistInfoComp RegistryConsistInfo;
 typedef icmpstr::CRegistryPropEditorComp RegistryPropEditor;
 typedef icmpstr::CQuickHelpGuiComp QuickHelpGui;

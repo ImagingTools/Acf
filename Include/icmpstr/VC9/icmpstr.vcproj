@@ -232,7 +232,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryScenographerComp.cpp"
+				RelativePath="..\CVisualRegistryEditorComp.cpp"
 				>
 			</File>
 			<File
@@ -322,7 +322,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryScenographerComp.h"
+				RelativePath="..\CVisualRegistryEditorComp.h"
 				>
 			</File>
 			<File
@@ -435,7 +435,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CVisualRegistryScenographerComp.cpp"
+				RelativePath="..\generated\moc_CVisualRegistryEditorComp.cpp"
 				>
 			</File>
 			<File
@@ -479,7 +479,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CVisualRegistryScenographerComp.h"
+				RelativePath="..\generated\ui_CVisualRegistryEditorComp.h"
 				>
 			</File>
 			<File
@@ -524,7 +524,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryScenographerComp.ui"
+				RelativePath="..\CVisualRegistryEditorComp.ui"
 				>
 			</File>
 			<File
@@ -585,7 +585,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryScenographerComp.moc"
+				RelativePath="..\CVisualRegistryEditorComp.moc"
 				>
 			</File>
 			<File

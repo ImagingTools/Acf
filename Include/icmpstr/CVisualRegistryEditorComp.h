@@ -1,5 +1,5 @@
-#ifndef icmpstr_CVisualRegistryScenographerComp_included
-#define icmpstr_CVisualRegistryScenographerComp_included
+#ifndef icmpstr_CVisualRegistryEditorComp_included
+#define icmpstr_CVisualRegistryEditorComp_included
 
 
 // Qt includes
@@ -23,7 +23,7 @@
 #include "icmpstr/IElementSelectionInfo.h"
 #include "icmpstr/ISceneProvider.h"
 
-#include "Generated/ui_CVisualRegistryScenographerComp.h"
+#include "Generated/ui_CVisualRegistryEditorComp.h"
 
 
 namespace icmpstr
@@ -34,8 +34,8 @@ class CVisualRegistryElement;
 class CVisualRegistry;
 
 
-class CVisualRegistryScenographerComp:
-			public iqtgui::TDesignerGuiObserverCompBase<Ui::CVisualRegistryScenographerComp, icomp::IRegistry>,
+class CVisualRegistryEditorComp:
+			public iqtgui::TDesignerGuiObserverCompBase<Ui::CVisualRegistryEditorComp, icomp::IRegistry>,
 			virtual public iqtgui::IDropConsumer,
 			virtual public ibase::ICommandsProvider,
 			protected imod::CMultiModelDispatcherBase
@@ -43,9 +43,9 @@ class CVisualRegistryScenographerComp:
 	Q_OBJECT
 
 public:
-	iqtgui::TDesignerGuiObserverCompBase<Ui::CVisualRegistryScenographerComp, icomp::IRegistry> BaseClass2;
+	iqtgui::TDesignerGuiObserverCompBase<Ui::CVisualRegistryEditorComp, icomp::IRegistry> BaseClass2;
 
-	I_BEGIN_COMPONENT(CVisualRegistryScenographerComp);
+	I_BEGIN_COMPONENT(CVisualRegistryEditorComp);
 		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
 		I_REGISTER_INTERFACE(iqtgui::IDropConsumer);
 		I_REGISTER_INTERFACE(imod::IObserver);
@@ -69,7 +69,7 @@ public:
 		I_ASSIGN_TO(m_registryValidationStatusModelCompPtr, m_registryValidationStatusCompPtr, false);
 	I_END_COMPONENT;
 
-	CVisualRegistryScenographerComp();
+	CVisualRegistryEditorComp();
 
 	// font getters used by CRegistryElementShape
 	const QFont& GetElementNameFont() const;
@@ -122,14 +122,14 @@ protected:
 	class EnvironmentObserver: public imod::TSingleModelObserverBase<icomp::IComponentEnvironmentManager>
 	{
 	public:
-		EnvironmentObserver(CVisualRegistryScenographerComp* parentPtr);
+		EnvironmentObserver(CVisualRegistryEditorComp* parentPtr);
 
 	protected:
 		// reimplemented (imod::TSingleModelObserverBase)
 		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 	private:
-		CVisualRegistryScenographerComp& m_parent;
+		CVisualRegistryEditorComp& m_parent;
 	};
 
 	/**
@@ -188,9 +188,9 @@ protected:
 	virtual void OnComponentDestroyed();
 
 	// static methods
-	static IElementSelectionInfo* ExtractSelectionInterface(CVisualRegistryScenographerComp& component);
-	static imod::IModel* ExtractSelectionInterfaceModel(CVisualRegistryScenographerComp& component);
-	static istd::IChangeable* ExtractSelectionInterfaceChangeable(CVisualRegistryScenographerComp& component);
+	static IElementSelectionInfo* ExtractSelectionInterface(CVisualRegistryEditorComp& component);
+	static imod::IModel* ExtractSelectionInterfaceModel(CVisualRegistryEditorComp& component);
+	static istd::IChangeable* ExtractSelectionInterfaceChangeable(CVisualRegistryEditorComp& component);
 
 	protected
 Q_SLOTS:
@@ -231,14 +231,14 @@ private:
 	class SelectionInfoImpl: virtual public IElementSelectionInfo
 	{
 	public:
-		void SetParent(CVisualRegistryScenographerComp* parentPtr);
+		void SetParent(CVisualRegistryEditorComp* parentPtr);
 
 		// reimplemented (icmpstr::IElementSelectionInfo)
 		virtual icomp::IRegistry* GetSelectedRegistry() const;
 		virtual Elements GetSelectedElements() const;
 
 	private:
-		CVisualRegistryScenographerComp* m_parentPtr;
+		CVisualRegistryEditorComp* m_parentPtr;
 	};
 
 	friend class imod::TModelWrap<SelectionInfoImpl>;
@@ -305,13 +305,13 @@ private:
 // inline methods
 
 
-inline const icomp::IComponentEnvironmentManager* CVisualRegistryScenographerComp::GetEnvironmentManager() const
+inline const icomp::IComponentEnvironmentManager* CVisualRegistryEditorComp::GetEnvironmentManager() const
 {
 	return m_envManagerCompPtr.GetPtr();
 }
 
 
-inline const IRegistryConsistInfo* CVisualRegistryScenographerComp::GetRegistryConsistInfo() const
+inline const IRegistryConsistInfo* CVisualRegistryEditorComp::GetRegistryConsistInfo() const
 {
 	return m_consistencyInfoCompPtr.GetPtr();
 }
@@ -320,6 +320,6 @@ inline const IRegistryConsistInfo* CVisualRegistryScenographerComp::GetRegistryC
 } // namespace icmpstr
 
 
-#endif // !icmpstr_CVisualRegistryScenographerComp_included
+#endif // !icmpstr_CVisualRegistryEditorComp_included
 
 

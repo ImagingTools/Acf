@@ -10,7 +10,7 @@
 
 // ACF includes
 #include "istd/CIdManipBase.h"
-#include "icmpstr/CVisualRegistryScenographerComp.h"
+#include "icmpstr/CVisualRegistryEditorComp.h"
 #include "icmpstr/CRegistryElementShape.h"
 #include "icmpstr/IRegistryConsistInfo.h"
 
@@ -20,7 +20,7 @@ namespace icmpstr
 
 
 CRegistryElementShape::CRegistryElementShape(
-			CVisualRegistryScenographerComp* registryViewPtr,
+			CVisualRegistryEditorComp* registryViewPtr,
 			const icmpstr::ISceneProvider* providerPtr)
 :	BaseClass(true, providerPtr),
 	m_registryView(*registryViewPtr),

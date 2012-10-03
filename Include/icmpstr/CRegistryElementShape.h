@@ -15,7 +15,7 @@ namespace icmpstr
 {
 
 
-class CVisualRegistryScenographerComp;
+class CVisualRegistryEditorComp;
 
 
 /**
@@ -29,7 +29,7 @@ public:
 	typedef icmpstr::TObjectShapeBase<QGraphicsRectItem, CVisualRegistryElement> BaseClass;
 
 	CRegistryElementShape(
-				CVisualRegistryScenographerComp* registryViewPtr,
+				CVisualRegistryEditorComp* registryViewPtr,
 				const icmpstr::ISceneProvider* providerPtr = NULL);
 
 	QRectF GetViewRect() const;
@@ -68,7 +68,7 @@ protected:
 	virtual void OnSelectionChanged(bool isSelected);
 
 private:
-	CVisualRegistryScenographerComp& m_registryView;
+	CVisualRegistryEditorComp& m_registryView;
 
 	QStringList m_exportedInterfacesList;
 
