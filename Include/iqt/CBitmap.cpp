@@ -350,10 +350,7 @@ bool CBitmap::SetQImage(const QImage& image)
 
 void CBitmap::EnsureLogTransformCalculated() const 
 {
-	int pixelPerMmX = m_image.dotsPerMeterX() / 1000;
-	int pixelPerMmY = m_image.dotsPerMeterY() / 1000;
-
-	i2d::CVector2d scale(1.0 / pixelPerMmX, 1.0 / pixelPerMmY);
+	i2d::CVector2d scale(1000.0 / m_image.dotsPerMeterX(), 1000.0 / m_image.dotsPerMeterY());
 
 	i2d::CVector2d center(GetImageSize().GetX() * 0.5 * scale.GetX(), GetImageSize().GetY() * 0.5 * scale.GetY());
 	
