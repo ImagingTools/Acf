@@ -32,7 +32,7 @@ void CImagePropertiesFrameComp::UpdateGui(int /*updateFlags*/)
 		if (calibrationPtr != NULL){
 			i2d::CAffine2d transform;
 			
-			if (calibrationPtr->GetLocalInvTransform(i2d::CVector2d(0,0), transform)){
+			if (calibrationPtr->GetLocalTransform(i2d::CVector2d(0,0), transform)){
 				double scale = transform.GetDeformMatrix().GetApproxScale();
 				ResolutionLabel->setText(QString(tr("%1 px/mm")).arg(scale, 1, 'f', 1));
 			}

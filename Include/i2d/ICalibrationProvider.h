@@ -19,7 +19,7 @@ class ICalibrationProvider: virtual public istd::IChangeable
 {
 public:
 	/**
-		Get access to transformation object, which transforms a coordinate system to a logical one.
+		Get access to transformation object, which transforms a logical coordinate system to physical one.
 		\return		Pointer to transformation if it is accessible, or NULL.
 	*/
 	virtual const i2d::ITransformation2d* GetCalibration() const = 0;

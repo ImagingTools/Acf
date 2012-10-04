@@ -350,11 +350,11 @@ bool CBitmap::SetQImage(const QImage& image)
 
 void CBitmap::EnsureLogTransformCalculated() const 
 {
-	i2d::CVector2d scale(1000.0 / m_image.dotsPerMeterX(), 1000.0 / m_image.dotsPerMeterY());
+	i2d::CVector2d scale(m_image.dotsPerMeterX() / 1000.0, m_image.dotsPerMeterY() / 1000.0);
 
-	i2d::CVector2d center(GetImageSize().GetX() * 0.5 * scale.GetX(), GetImageSize().GetY() * 0.5 * scale.GetY());
+	i2d::CVector2d center(GetImageSize().GetX() * 0.5, GetImageSize().GetY() * 0.5);
 	
-	m_logTransform.Reset(-center, 0.0, scale);
+	m_logTransform.Reset(center, 0.0, scale);
 }
 
 
