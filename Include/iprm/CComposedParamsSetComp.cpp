@@ -125,10 +125,16 @@ void CComposedParamsSetComp::OnComponentCreated()
 	int setsCount = qMin(m_parametersCompPtr.GetCount(), m_parametersIdAttrPtr.GetCount());
 
 	for (int i = 0; i < setsCount; ++i){
-		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
 		const QByteArray& id = m_parametersIdAttrPtr[i];
-
-		BaseClass2::SetEditableParameter(id, paramPtr);
+		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
+		if (paramPtr != NULL){
+			BaseClass2::SetEditableParameter(id, paramPtr);
+		}
+		else{
+			qDebug(		"Component '%s': Parameter '%s' is set to invalid pointer",
+						icomp::CComponentContext::GetHierarchyAddress(GetComponentContext()).constData(),
+						id.constData());
+		}
 	}
 }
 

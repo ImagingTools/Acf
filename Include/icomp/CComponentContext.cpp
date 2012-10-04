@@ -79,6 +79,22 @@ const iser::IObject* CComponentContext::GetAttribute(const QByteArray& attribute
 }
 
 
+// static methods
+
+QByteArray CComponentContext::GetHierarchyAddress(const IComponentContext* contextPtr)
+{
+	QByteArray retVal;
+
+	while (contextPtr != NULL){
+		retVal = contextPtr->GetContextId()  + "/" + retVal;
+
+		contextPtr = contextPtr->GetParentContext();
+	}
+
+	return retVal;
+}
+
+
 // protected methods
 
 bool CComponentContext::CalcAttributeInfo(const QByteArray& attributeId, AttributeInfo& result) const

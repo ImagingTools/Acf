@@ -38,6 +38,12 @@ public:
 	virtual const IComponentContext* GetParentContext() const;
 	virtual const iser::IObject* GetAttribute(const QByteArray& attributeId, int* definitionLevelPtr = NULL) const;
 
+	// static methods
+	/**
+		Get address of this component identifying it in component topology hierarchy.
+	*/
+	static QByteArray GetHierarchyAddress(const IComponentContext* contextPtr);
+
 protected:
 	struct AttributeInfo
 	{
