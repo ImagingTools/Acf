@@ -4,7 +4,8 @@
 // Qt includes
 #include <QtCore/QStringList>
 #include <QtCore/QProcess>
-
+#include <QtCore/QFileInfo>
+#include <QtCore/QDir>
 
 // ACF includes
 #include "iprm/TParamsPtr.h"
@@ -54,9 +55,14 @@ bool CExternalFileConverterComp::ConvertFile(
 		arguments = applicationArguments.split(" ");
 	}
 
+	QFileInfo outputFileInfo(outputFilePath);
+
+	QString outputDirectory = outputFileInfo.dir().absolutePath();
+
 	for (int argIndex = 0; argIndex < int(arguments.size()); argIndex++){
 		arguments[argIndex].replace("$(Input)", inputFilePath);
 		arguments[argIndex].replace("$(Output)", outputFilePath);
+		arguments[argIndex].replace("$(OutputDir)", outputDirectory);
 	}
 
 	if (m_additionalArgumentsCompPtr.IsValid()){
