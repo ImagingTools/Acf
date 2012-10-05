@@ -83,9 +83,28 @@ istd::IPolymorphic* CComposedParamsSetComp::GetParent() const
 
 // reimplemented (istd::IChangeable)
 
-bool CComposedParamsSetComp::CopyFrom(const IChangeable& /*object*/)
+bool CComposedParamsSetComp::CopyFrom(const IChangeable& object)
 {
-	return false;
+	// Copy all fixed parameters from external parameter set
+	const iprm::IParamsSet* objectParamsSetPtr = dynamic_cast<const iprm::IParamsSet*>(&object);
+
+	if (objectParamsSetPtr == NULL){
+		return false;
+	}
+	int setsCount = qMin(m_parametersCompPtr.GetCount(), m_parametersIdAttrPtr.GetCount());
+
+	for (int i = 0; i < setsCount; ++i){
+		const QByteArray& id = m_parametersIdAttrPtr[i];
+		iser::ISerializable* paramPtr = m_parametersCompPtr[i];
+		if (paramPtr != NULL){
+			const iser::ISerializable* objectParamPtr = objectParamsSetPtr->GetParameter(id);
+			if ((objectParamPtr == NULL) || !paramPtr->CopyFrom(*objectParamPtr)){
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 
