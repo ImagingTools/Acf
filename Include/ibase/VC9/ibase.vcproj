@@ -236,14 +236,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CExternalFileConverterComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileConvertOverProcessorComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CFileCopyOverLoaderComp.cpp"
 				>
 			</File>
@@ -293,10 +285,6 @@
 			</File>
 			<File
 				RelativePath="..\CQtVersionInfoComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectableFileConverterComp.cpp"
 				>
 			</File>
 			<File
@@ -361,14 +349,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CExternalFileConverterComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileConvertOverProcessorComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CFileCopyOverLoaderComp.h"
 				>
 			</File>
@@ -418,10 +398,6 @@
 			</File>
 			<File
 				RelativePath="..\CQtVersionInfoComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectableFileConverterComp.h"
 				>
 			</File>
 			<File
@@ -564,18 +540,10 @@
 		<Filter
 			Name="Moc Files"
 			>
-			<File
-				RelativePath="..\CExternalFileConverterComp.moc"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
 			>
-			<File
-				RelativePath="..\Generated\moc_CExternalFileConverterComp.cpp"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
