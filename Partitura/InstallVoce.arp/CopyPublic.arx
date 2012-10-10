@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2584
+          2585
         </Number>
         <Description>
           ACF
@@ -312,7 +312,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="8">
+        <AttributeInfoMap count="7">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -354,22 +354,6 @@
             </Type>
             <ExportId>
               InstallScriptValues
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              LicenseInputDir
-            </Id>
-            <Type>
-              String
-            </Type>
-            <ExportId>
-              LicenseInputDir
             </ExportId>
             <Data>
               <IsEnabled>

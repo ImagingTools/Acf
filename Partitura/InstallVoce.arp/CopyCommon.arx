@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2584
+          2585
         </Number>
         <Description>
           ACF
@@ -1269,12 +1269,15 @@
               String
             </Type>
             <ExportId>
-              LicenseInputDir
+              
             </ExportId>
             <Data>
               <IsEnabled>
-                false
+                true
               </IsEnabled>
+              <Value>
+                $(LICENSE_DIR)
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

@@ -1,6 +1,6 @@
 Advanced Component Framework ("ACF") Toolkit
 
-Copyright (C) 2007-2010 Witold Gantzke & Kirill Lepskiy
+Copyright (C) 2007-2012 Witold Gantzke & Kirill Lepskiy
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -16,5 +16,5 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-See http://www.imagingtools.de, write info@imagingtools.de or contact
+See http://www.ilena.org, write info@imagingtools.de or contact
 by Skype to ACF_infoline for further information about the ACF.

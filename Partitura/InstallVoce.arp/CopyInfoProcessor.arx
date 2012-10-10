@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2584
+          2585
         </Number>
         <Description>
           ACF
@@ -57,8 +57,11 @@
             </ExportId>
             <Data>
               <IsEnabled>
-                false
+                true
               </IsEnabled>
+              <Value>
+                true
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -225,8 +228,11 @@
             </ExportId>
             <Data>
               <IsEnabled>
-                false
+                true
               </IsEnabled>
+              <Value>
+                true
+              </Value>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

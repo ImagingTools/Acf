@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2584
+          2585
         </Number>
         <Description>
           ACF
@@ -327,7 +327,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="9">
+        <AttributeInfoMap count="8">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -345,22 +345,6 @@
               <Value>
                 Application/ApplicationInfo
               </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              EnableVerbose
-            </Id>
-            <Type>
-              Boolean
-            </Type>
-            <ExportId>
-              EnableVerbose
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
