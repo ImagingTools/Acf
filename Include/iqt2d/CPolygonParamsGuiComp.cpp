@@ -25,4 +25,16 @@ void CPolygonParamsGuiComp::on_RemoveButton_clicked()
 }
 
 
+void CPolygonParamsGuiComp::on_CopyButton_clicked()
+{
+	OnCopyData();
+}
+
+
+void CPolygonParamsGuiComp::on_PasteButton_clicked()
+{
+	OnPasteData();
+}
+
+
 } // namespace iqt2d

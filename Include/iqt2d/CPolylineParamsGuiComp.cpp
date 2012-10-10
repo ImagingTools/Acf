@@ -25,4 +25,16 @@ void CPolylineParamsGuiComp::on_RemoveButton_clicked()
 }
 
 
+void CPolylineParamsGuiComp::on_CopyButton_clicked()
+{
+	OnCopyData();
+}
+
+
+void CPolylineParamsGuiComp::on_PasteButton_clicked()
+{
+	OnPasteData();
+}
+
+
 } // namespace iqt2d
