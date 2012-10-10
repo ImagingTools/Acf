@@ -25,7 +25,7 @@ public:
 		CI_CYAN,
 		CI_MAGENTA,
 		CI_YELLOW,
-		CI_LAST = CI_YELLOW,
+		CI_LAST = CI_YELLOW
 	};
 
 	CCmy(double c = 0.0, double m = 0.0, double y = 0.0);

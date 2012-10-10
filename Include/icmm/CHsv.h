@@ -25,7 +25,7 @@ public:
 		CI_HUE,
 		CI_SATURATION,
 		CI_VALUE,
-		CI_LAST = CI_VALUE,
+		CI_LAST = CI_VALUE
 	};
 
 	CHsv(double h = 0.0, double s = 0.0, double v = 0.0);
