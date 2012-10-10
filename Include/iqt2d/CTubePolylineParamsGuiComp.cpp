@@ -50,6 +50,18 @@ void CTubePolylineParamsGuiComp::on_RemoveButton_clicked()
 }
 
 
+void CTubePolylineParamsGuiComp::on_CopyButton_clicked()
+{
+	OnCopyData();
+}
+
+
+void CTubePolylineParamsGuiComp::on_PasteButton_clicked()
+{
+	OnPasteData();
+}
+
+
 // protected methods
 
 // reimplemented (iqt2d::TPolygonBasedParamsGuiComp)

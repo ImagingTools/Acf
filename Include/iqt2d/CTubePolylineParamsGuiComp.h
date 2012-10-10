@@ -32,6 +32,8 @@ protected Q_SLOTS:
 
 	void on_InsertButton_clicked();
 	void on_RemoveButton_clicked();
+	void on_CopyButton_clicked();
+	void on_PasteButton_clicked();
 
 protected:
 	// reimplemented (iqt2d::TPolygonBasedParamsGuiComp)

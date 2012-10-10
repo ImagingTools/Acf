@@ -6,10 +6,15 @@
 #include <QtGui/QItemDelegate>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDoubleValidator>
-
+#include <QtGui/QClipboard>
+#include <QtCore/QMimeData>
+#include <QtCore/QByteArray>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
+
+#include "iser/CMemoryWriteArchive.h"
+#include "iser/CMemoryReadArchive.h"
 
 #include "i2d/CPolygon.h"
 
@@ -74,6 +79,8 @@ protected:
 
 	virtual void OnInsertNode();
 	virtual void OnRemoveNode();
+	virtual void OnCopyData();
+	virtual void OnPasteData();
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
@@ -160,6 +167,48 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnInsertN
 	NodeParamsTable->setCurrentCell(row, 0);
 
 	DoUpdateModel();
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnCopyData()
+{
+	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObjectPtr());
+	if (objectPtr == NULL){
+		return;
+	}
+
+	iser::CMemoryWriteArchive archive;
+
+	if (objectPtr->Serialize(archive)){
+		QByteArray data((const char*)archive.GetBuffer(), archive.GetBufferSize());
+
+		QMimeData* dataPtr = new QMimeData();
+		dataPtr->setData(typeid(PolygonBasedModel).name(), data);
+
+		QApplication::clipboard()->setMimeData(dataPtr);
+	}
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnPasteData()
+{
+	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObjectPtr());
+	if (objectPtr == NULL){
+		return;
+	}
+
+	const QMimeData* dataPtr = QApplication::clipboard()->mimeData();
+	if (dataPtr != NULL){
+		if (dataPtr->hasFormat(typeid(PolygonBasedModel).name())){
+			QByteArray data(dataPtr->data(typeid(PolygonBasedModel).name()));
+
+			iser::CMemoryReadArchive archive(data.data(), data.size());
+
+			objectPtr->Serialize(archive);
+		}
+	}
 }
 
 

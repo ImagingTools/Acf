@@ -92,6 +92,40 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="CopyButton">
+       <property name="toolTip">
+        <string>Copy parameters to clipboard</string>
+       </property>
+       <property name="text">
+        <string>Copy</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../iqtgui/iqtgui.qrc">
+         <normaloff>:/Icons/Copy</normaloff>:/Icons/Copy</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+C</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="PasteButton">
+       <property name="toolTip">
+        <string>Paste parameters from clipboard</string>
+       </property>
+       <property name="text">
+        <string>Paste</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../iqtgui/iqtgui.qrc">
+         <normaloff>:/Icons/Paste</normaloff>:/Icons/Paste</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+V</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
