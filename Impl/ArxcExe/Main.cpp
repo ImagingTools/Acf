@@ -50,10 +50,13 @@ int main(int argc, char *argv[])
 	QString configFile;
 	bool verboseEnabled = false;
 	bool sourcesEnabled = true;
-	bool depandenciesEnabled = false;
+	bool dependenciesEnabled = false;
 	QString baseDependsPath;
 
-	for (int index = 1; index < argc; index++){
+	QString inputFilePath = argv[1];
+	QString outputFilePath;
+
+	for (int index = 2; index < argc; index++){
 		QByteArray argument = argv[index];
 		if (!argument.isEmpty() && (argument[0] == '-')){
 			QByteArray option = argument.mid(1);
@@ -61,8 +64,7 @@ int main(int argc, char *argv[])
 			if (option == "v"){
 				verboseEnabled = true;
 			}
-
-			if ((option == "h") || (option == "help")){
+			else if ((option == "h") || (option == "help")){
 				ShowUsage();
 
 				return 0;
@@ -71,19 +73,20 @@ int main(int argc, char *argv[])
 				if (option == "config"){
 					configFile = argv[++index];
 				}
-
-				if (option == "sources"){
+				else if (option == "sources"){
 					QByteArray switchText = argv[++index];
 					sourcesEnabled = (switchText == "on") || (switchText == "ON");
 				}
-
-				if (option == "depends"){
+				else if (option == "depends"){
 					QByteArray switchText = argv[++index];
-					depandenciesEnabled = (switchText == "on") || (switchText == "ON");
+					dependenciesEnabled = (switchText == "on") || (switchText == "ON");
 				}
-
-				if (option == "dependsPath"){
+				else if (option == "dependsPath"){
 					baseDependsPath = argv[++index];
+				}
+				else if ((option == "o") || (option == "output")){
+					outputFilePath = QString::fromLocal8Bit(argv[index + 1]);
+					++index;
 				}
 			}
 		}
@@ -99,6 +102,12 @@ int main(int argc, char *argv[])
 					++index){
 			std::cout << index.key().toLocal8Bit().constData() << " = " << index.value().toLocal8Bit().constData() << std::endl;
 		}
+	}
+
+	if (outputFilePath.isEmpty()){
+		std::cout << "Output file was not specified!" << std::endl;
+
+		return 1;
 	}
 
 	icomp::TSimComponentWrap<BasePck::ApplicationInfo> applicationInfo;
@@ -131,7 +140,7 @@ int main(int argc, char *argv[])
 	codeSaverComp.SetRef("Log", &log);
 	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
 	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
-	codeSaverComp.SetIntAttr("WorkingMode", (sourcesEnabled? 1: 0) + (depandenciesEnabled? 2: 0));
+	codeSaverComp.SetIntAttr("WorkingMode", (sourcesEnabled? 1: 0) + (dependenciesEnabled? 2: 0));
 	codeSaverComp.SetRef("BaseDependenciesPath", &dependsBasePathComp);
 	codeSaverComp.InitComponent();
 
@@ -139,19 +148,19 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<CompositorPck::Registry> registryComp;
 	registryComp.InitComponent();
 
-	icomp::TSimComponentWrap<BasePck::FileCopyOverLoader> fileCopyComp;
-	fileCopyComp.SetRef("Object", &registryComp);
-	fileCopyComp.SetRef("InputLoader", &registryLoaderComp);
-	fileCopyComp.SetRef("OutputLoader", &codeSaverComp);
-	fileCopyComp.SetRef("Log", &log);
-	fileCopyComp.InitComponent();
+	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != iser::IFileLoader::StateOk){
+		std::cout << "Cannot read input registry file '" << inputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
-	icomp::TSimComponentWrap<BasePck::CopyApp> applicationComp;
-	applicationComp.SetRef("FileCopy", &fileCopyComp);
-	applicationComp.SetRef("Log", &log);
-	applicationComp.InitComponent();
+		return 2;
+	}
 
-	return applicationComp.Execute(argc, argv);
+	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != iser::IFileLoader::StateOk){
+		std::cout << "Cannot write output file(s) '" << outputFilePath.toLocal8Bit().constData() << "'" << std::endl;
+
+		return 3;
+	}
+
+	return 0;
 }
 
 
