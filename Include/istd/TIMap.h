@@ -13,8 +13,11 @@ namespace istd
 {
 
 
+/**
+	Generic interface for a key/value mapping.
+*/
 template <typename Key, typename Value>
-class TIMap: virtual public istd::IPolymorphic
+class TIMap: virtual public IPolymorphic
 {
 public:
 	typedef Key KeyType;

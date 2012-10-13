@@ -5,7 +5,6 @@
 // Qt includes
 #include <QtGui/QDirModel>
 
-
 // ACF includes
 #include "iser/IFileTypeInfo.h"
 

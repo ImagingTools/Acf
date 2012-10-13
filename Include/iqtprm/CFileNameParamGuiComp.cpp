@@ -6,7 +6,6 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QLineEdit>
 
-
 // ACF includes
 #include "istd/TChangeNotifier.h"
 

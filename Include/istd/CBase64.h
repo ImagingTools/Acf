@@ -20,7 +20,14 @@ namespace istd
 class CBase64
 {
 public:
+	/**
+		Convert a memory block of a given size to Base64 string.
+	*/
 	static QByteArray ConvertToBase64(const void* dataPtrPtr, int size);
+
+	/**
+		Convert Base64 encoded string to raw data.
+	*/
 	static QVector<quint8> ConvertFromBase64(const QByteArray& base64String);
 
 private:

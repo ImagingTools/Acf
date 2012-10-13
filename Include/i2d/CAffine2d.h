@@ -21,6 +21,10 @@ public:
 		Constructor, parameters will be not initialized.
 	*/
 	CAffine2d();
+
+	/**
+		Copy constructor, transformation data will be copied from the input object.
+	*/
 	CAffine2d(const CAffine2d& transform);
 
 	/**
@@ -54,10 +58,19 @@ public:
 	void SetDeformMatrix(const CMatrix2d& deform);
 
 	// internal access operations
+
+	/**
+		Get internal reference to the translation vector.
+	*/
 	CVector2d& GetTranslationRef();
+
+	/**
+		Get internal reference to the transformation matrix.
+	*/
 	CMatrix2d& GetDeformMatrixRef();
 
 	// init operations
+
 	/**
 		Set to identity transformation.
 	*/
@@ -69,12 +82,12 @@ public:
 	void Reset(const CVector2d& translation);
 
 	/**
-		Set this transformation to translation, rotation and scaling.
+		Set this transformation to a given translation, rotation and scaling.
 	*/
 	void Reset(const CVector2d& translation, double angle, double scale = 1.0);
 
 	/**
-		Set this transformation to translation, rotation and both axis scaling.
+		Set this transformation to a given translation, rotation and both axis scaling.
 	*/
 	void Reset(const CVector2d& translation, double angle, const CVector2d& scale);
 
@@ -161,6 +174,9 @@ public:
 	*/
 	bool GetInverted(CAffine2d& result) const;
 
+	/**
+		Serialize transformation parameters into/from archive.
+	*/
 	bool Serialize(iser::IArchive& archive);
 
 	// operators
