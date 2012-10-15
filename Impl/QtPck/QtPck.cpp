@@ -108,6 +108,11 @@ I_EXPORT_COMPONENT(
 			"System locations provider",
 			"System Path File Location Temp Documents Media Cache" IM_TAG("Model"));
 
+I_EXPORT_COMPONENT(
+			GeneratedFileNameParam,
+			"Provide auto generated file or directory name",
+			"Name Relative Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
+
 } // namespace QtPck
 
 

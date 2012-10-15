@@ -208,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CGeneratedFileNameParamComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CIniSettingsProviderComp.cpp"
 				>
 			</File>
@@ -327,6 +331,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileListProviderComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CGeneratedFileNameParamComp.h"
 				>
 			</File>
 			<File

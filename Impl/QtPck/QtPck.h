@@ -22,6 +22,7 @@
 #include "iqt/CXmlFileWriteArchive.h"
 #include "iqt/CRegistryCodeSaverComp.h"
 #include "iqt/CSystemLocationComp.h"
+#include "iqt/CGeneratedFileNameParamComp.h"
 
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CStaticHelpFileProviderComp.h"
@@ -69,6 +70,7 @@ typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
 typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
 typedef icomp::TModelCompWrap<iqt::CSystemLocationComp> SystemLocation;
+typedef icomp::TModelCompWrap<iqt::CGeneratedFileNameParamComp> GeneratedFileNameParam;
 
 
 } // namespace QtPck
