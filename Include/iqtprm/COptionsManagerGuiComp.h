@@ -75,7 +75,9 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 	virtual void OnGuiShown();
+	virtual void OnGuiRetranslate();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
 	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
@@ -83,6 +85,7 @@ protected:
 protected Q_SLOTS:
 	void OnSelectionChanged(int index);
 	void OnEditingFinished();
+	void OnTextEdited(const QString& text);
 	void OnTextChanged(const QString& text);
 
 private:
@@ -100,6 +103,7 @@ private:
 		Flag to indicate that the option text is currently editing.
 	*/
 	bool m_isEditingFlag;
+	istd::TDelPtr<QLabel> m_selectorLabelPtr;
 };
 
 
