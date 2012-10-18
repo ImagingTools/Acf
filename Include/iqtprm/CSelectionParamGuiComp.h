@@ -102,6 +102,7 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 	virtual void OnGuiShown();
+	virtual void OnGuiRetranslate();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
 	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
@@ -126,6 +127,7 @@ private:
 	I_REF(iqtgui::IIconProvider, m_infoIconProviderCompPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 
+	istd::TDelPtr<QLabel> m_selectorLabelPtr;
 	istd::TPointerVector<QComboBox> m_comboBoxes;
 	istd::TPointerVector<QRadioButton> m_radioButtons;
 	istd::TDelPtr<QFrame> m_radioButtonFramePtr;

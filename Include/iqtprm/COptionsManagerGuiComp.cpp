@@ -9,6 +9,9 @@
 #include "istd/TChangeNotifier.h"
 
 #include "iprm/ISelectionConstraints.h"
+#include "iprm/INameParam.h"
+
+#include "iqt/CSignalBlocker.h"
 
 
 namespace iqtprm
@@ -63,6 +66,7 @@ void COptionsManagerGuiComp::OnGuiModelAttached()
 		Selector->setEditable(true);
 
 		connect(Selector->lineEdit(), SIGNAL(editingFinished()), this, SLOT(OnEditingFinished()));
+		connect(Selector->lineEdit(), SIGNAL(textEdited(const QString&)), this, SLOT(OnTextEdited(const QString&)));
 		connect(Selector->lineEdit(), SIGNAL(textChanged(const QString&)), this, SLOT(OnTextChanged(const QString&)));
 	}
 
@@ -73,15 +77,20 @@ void COptionsManagerGuiComp::OnGuiModelDetached()
 {
 	UnregisterAllModels();
 
+	m_selectorLabelPtr.Reset();
+
 	BaseClass::OnGuiModelDetached();
 }
 
 
-void COptionsManagerGuiComp::UpdateGui(int /*updateFlags*/)
+void COptionsManagerGuiComp::UpdateGui(int updateFlags)
 {
 	I_ASSERT(IsGuiCreated());
 
-	UpdateComboBox();
+	if ((updateFlags & (imod::IModelEditor::CF_INIT_EDITOR | iprm::IOptionsManager::CF_OPTION_ADDED | iprm::IOptionsManager::CF_OPTION_REMOVED | iprm::ISelectionParam::CF_SELECTION_CHANGED)) != 0)
+	{
+		UpdateComboBox();
+	}
 }
 
 
@@ -117,15 +126,24 @@ void COptionsManagerGuiComp::OnGuiCreated()
 
 		selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
 
-		QLabel* selectorLabelPtr = new QLabel(SelectionFrame);
-		selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-		selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+		m_selectorLabelPtr = new QLabel(SelectionFrame);
+		m_selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
 
-		selectorLayoutPtr->addWidget(selectorLabelPtr);
+		selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
 		selectorLayoutPtr->addWidget(SelectorLayout->parentWidget());
 	}
 
 	QObject::connect(Selector, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSelectionChanged(int)));
+}
+
+
+void COptionsManagerGuiComp::OnGuiDestroyed()
+{
+	
+	m_selectorLabelPtr.Reset();
+
+	BaseClass::OnGuiDestroyed();
 }
 
 
@@ -153,6 +171,24 @@ void COptionsManagerGuiComp::OnGuiShown()
 			InfoIcon->setPixmap(QPixmap(":/Icons/About"));
 		}
 	}
+}
+
+
+void COptionsManagerGuiComp::OnGuiRetranslate()
+{
+	UpdateBlocker updateBlocker(this);
+
+	BaseClass::OnGuiRetranslate();
+
+	if (m_infoLabelAttrPtr.IsValid()){
+		InfoLabel->setText(*m_infoLabelAttrPtr);
+	}
+
+	if (m_optionsLabelAttrPtr.IsValid()){
+		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+	}
+
+	UpdateDescriptionFrame();
 }
 
 
@@ -184,25 +220,32 @@ void COptionsManagerGuiComp::OnSelectionChanged(int /*index*/)
 
 void COptionsManagerGuiComp::OnEditingFinished()
 {
-	QString newOptionName = Selector->lineEdit()->text();
-	if (!newOptionName.isEmpty()){
-		bool addNewOption = true;
-		iprm::ISelectionParam* selectionParamsPtr = GetObjectPtr();
-		if (selectionParamsPtr != NULL){
-			const iprm::ISelectionConstraints* constraintsPtr = selectionParamsPtr->GetSelectionConstraints();
-			if (constraintsPtr != NULL){
-				int optionsCount = constraintsPtr->GetOptionsCount();
+	QString newOptionName;
+	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObjectPtr());
+	if (nameParamsPtr != NULL){
+		newOptionName = nameParamsPtr->GetName();
+	}
+	else
+	{
+		newOptionName = Selector->lineEdit()->text();
+	}
 
-				for (int i = 0; i < optionsCount; ++i){
-					QString name = constraintsPtr->GetOptionName(i);
+	bool addNewOption = true;
+	iprm::ISelectionParam* selectionParamsPtr = GetObjectPtr();
+	if (selectionParamsPtr != NULL){
+		const iprm::ISelectionConstraints* constraintsPtr = selectionParamsPtr->GetSelectionConstraints();
+		if (constraintsPtr != NULL){
+			int optionsCount = constraintsPtr->GetOptionsCount();
 
-					if (newOptionName == name){
-						selectionParamsPtr->SetSelectedOptionIndex(i);
+			for (int i = 0; i < optionsCount; ++i){
+				QString name = constraintsPtr->GetOptionName(i);
 
-						addNewOption = false;
+				if (newOptionName == name){
+					selectionParamsPtr->SetSelectedOptionIndex(i);
 
-						break;
-					}
+					addNewOption = false;
+
+					break;
 				}
 			}
 		}
@@ -217,7 +260,18 @@ void COptionsManagerGuiComp::OnEditingFinished()
 }
 
 
-void COptionsManagerGuiComp::OnTextChanged(const QString& /*text*/)
+void COptionsManagerGuiComp::OnTextChanged(const QString& text)
+{
+	iqt::CSignalBlocker signalBlocker(this, true);
+	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObjectPtr());
+	if (nameParamsPtr != NULL){
+		UpdateBlocker updateBlocker(this);
+		nameParamsPtr->SetName(text);
+	}
+}
+
+
+void COptionsManagerGuiComp::OnTextEdited(const QString& /*text*/)
 {
 	m_isEditingFlag = true;
 }
@@ -227,27 +281,31 @@ void COptionsManagerGuiComp::OnTextChanged(const QString& /*text*/)
 
 void COptionsManagerGuiComp::UpdateComboBox()
 {
+	iqt::CSignalBlocker signalBlocker(Selector, true);
+
 	Selector->clear();
 	
 	iprm::ISelectionParam* selectionParamsPtr = GetObjectPtr();
 	if (selectionParamsPtr != NULL){
+		int selectedIndex = selectionParamsPtr->GetSelectedOptionIndex();
 		const iprm::ISelectionConstraints* constraintsPtr = selectionParamsPtr->GetSelectionConstraints();
 		if (constraintsPtr != NULL){
 			int optionsCount = constraintsPtr->GetOptionsCount();
-
 			for (int i = 0; i < optionsCount; ++i){
 				QString name = constraintsPtr->GetOptionName(i);
-
 				Selector->addItem(name);
 			}
-
-			int selectedIndex = selectionParamsPtr->GetSelectedOptionIndex();
-
-			Selector->setCurrentIndex(selectedIndex);
 		}
+		else{
+			selectedIndex = -1;
+		}
+		Selector->setCurrentIndex(selectedIndex);
+
+		OnTextChanged((selectedIndex >= 0) ? Selector->itemText(selectedIndex) : QString());
 	}
 
 	UpdateDescriptionFrame();
+
 }
 
 

@@ -94,14 +94,14 @@ void CSelectionParamGuiComp::OnGuiCreated()
 
 		selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
 
-		QLabel* selectorLabelPtr = new QLabel(SelectionFrame);
-		selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-		selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+		m_selectorLabelPtr = new QLabel(SelectionFrame);
+		m_selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
 
 		if (m_labelWidthAttrPtr.IsValid()){
 			int width = *m_labelWidthAttrPtr;
 			if (width > 0){
-				selectorLabelPtr->setFixedWidth(width);
+				m_selectorLabelPtr->setFixedWidth(width);
 			}
 		}
 
@@ -148,11 +148,11 @@ void CSelectionParamGuiComp::OnGuiCreated()
 					break;
 				}
 
-				selectorLabelPtr->setAlignment(qtAlign);
+				m_selectorLabelPtr->setAlignment(qtAlign);
 			}
 		}
 
-		selectorLayoutPtr->addWidget(selectorLabelPtr);
+		selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
 	}
 }
 
@@ -189,6 +189,24 @@ void CSelectionParamGuiComp::OnGuiShown()
 			InfoIcon->setPixmap(QPixmap(":/Icons/About"));
 		}
 	}
+}
+
+
+void CSelectionParamGuiComp::OnGuiRetranslate()
+{
+	UpdateBlocker updateBlocker(this);
+
+	BaseClass::OnGuiRetranslate();
+
+	if (m_infoLabelAttrPtr.IsValid()){
+		InfoLabel->setText(*m_infoLabelAttrPtr);
+	}
+
+	if (m_optionsLabelAttrPtr.IsValid()){
+		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+	}
+
+	UpdateDescriptionFrame();
 }
 
 
@@ -423,6 +441,7 @@ void CSelectionParamGuiComp::ResetWidgets()
 	m_comboBoxes.Reset();
 	m_radioButtons.Reset();
 	m_radioButtonFramePtr.Reset();
+	m_selectorLabelPtr.Reset();
 }
 
 

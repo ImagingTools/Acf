@@ -4,8 +4,8 @@ call "%VS90COMNTOOLS%vsvars32.bat" x86
 
 call ..\Tortoise\UpdateVersion.cmd
 
-msbuild AcfAll.sln
-msbuild AcfAll.sln /p:Configuration=Release
+msbuild AcfAll.sln /m
+msbuild AcfAll.sln /p:Configuration=Release /m
 
 
 pause
