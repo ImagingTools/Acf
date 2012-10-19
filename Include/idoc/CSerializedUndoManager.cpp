@@ -3,8 +3,8 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-
 #include "iser/CMemoryReadArchive.h"
+#include "icomp/CComponentBase.h"
 
 
 namespace idoc
@@ -135,6 +135,14 @@ bool CSerializedUndoManager::OnDetached(imod::IModel* modelPtr)
 
 
 // protected methods
+
+// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
+
+iser::ISerializable* CSerializedUndoManager::CastFromModel(imod::IModel* modelPtr) const
+{
+	return CompCastPtr<iser::ISerializable>(modelPtr);
+}
+
 
 // reimplemented (imod::IObserver)
 

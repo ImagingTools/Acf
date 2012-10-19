@@ -159,6 +159,8 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 {
 	const CCompositeComponentContext* contextPtr = dynamic_cast<const CCompositeComponentContext*>(GetComponentContext());
 	if (contextPtr == NULL){
+		qCritical("Composite component dosn't use corresponding context");
+
 		return NULL;
 	}
 
@@ -189,6 +191,12 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 			if (subComponentPtr != NULL){
 				return subComponentPtr->GetInterface(interfaceType, restId);
 			}
+			else{
+				qCritical(	"Component %s: Component %s cannot be accessed (interface %s)!",
+							contextPtr->GetCompleteContextId().constData(),
+							componentId.constData(),
+							interfaceType.GetName().constData());
+			}
 		}
 	}
 	else{
@@ -209,6 +217,18 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 			if (subComponentPtr != NULL){
 				return subComponentPtr->GetInterface(interfaceType, JoinId(subRestId, restId));
 			}
+			else{
+				qCritical(	"Component %s: Subcomponent %s is registered as %s, but it cannot be accessed (interface %s)!",
+							contextPtr->GetCompleteContextId().constData(),
+							subComponentId.constData(),
+							componentId.constData(),
+							interfaceType.GetName().constData());
+			}
+		}
+		else{
+			qCritical(	"Component %s: Subcomponent %s not found!",
+						contextPtr->GetCompleteContextId().constData(),
+						componentId.constData());
 		}
 	}
 

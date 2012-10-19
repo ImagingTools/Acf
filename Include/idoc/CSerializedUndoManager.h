@@ -43,6 +43,9 @@ public:
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
 protected:
+	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
+	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const;
+
 	// reimplemented (imod::IObserver)
 	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);

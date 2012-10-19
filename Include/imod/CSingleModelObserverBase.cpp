@@ -94,3 +94,4 @@ void CSingleModelObserverBase::OnUpdate(int /*updateFlags*/, istd::IPolymorphic*
 
 } // namespace imod
 
+

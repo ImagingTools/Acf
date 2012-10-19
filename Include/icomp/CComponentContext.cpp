@@ -25,6 +25,19 @@ CComponentContext::CComponentContext(
 }
 
 
+QByteArray CComponentContext::GetCompleteContextId() const
+{
+	QByteArray completeIdPath = m_contextId;
+	for (		const IComponentContext* partContextPtr = m_parentPtr;
+				partContextPtr != NULL;
+				partContextPtr = partContextPtr->GetParentContext()){
+		completeIdPath = partContextPtr->GetContextId() + "/" + completeIdPath;
+	}
+
+	return completeIdPath;
+}
+
+
 // reimplemented (IComponentContext)
 
 const QByteArray& CComponentContext::GetContextId() const
@@ -156,19 +169,6 @@ bool CComponentContext::CalcAttributeInfo(const QByteArray& attributeId, Attribu
 	result.attributePtr = NULL;
 
 	return false;
-}
-
-
-QByteArray CComponentContext::GetCompleteContextId() const
-{
-	QByteArray completeIdPath = m_contextId;
-	for (		const IComponentContext* partContextPtr = m_parentPtr;
-				partContextPtr != NULL;
-				partContextPtr = partContextPtr->GetParentContext()){
-		completeIdPath = partContextPtr->GetContextId() + "/" + completeIdPath;
-	}
-
-	return completeIdPath;
 }
 
 
