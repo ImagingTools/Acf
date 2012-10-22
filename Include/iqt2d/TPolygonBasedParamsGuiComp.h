@@ -111,11 +111,6 @@ protected:
 	} ; // CPolygonParamsGuiItemDelegate
 
 private:
-	/** Change state of a line close check box: disabled and hidden, according 
-	 to the attached model type (only visible for CPolyline) and list selection 
-	 (uncheckable if a list element is selected, always checkable). */
-	void updateClosedLineCheckBox(bool forceEnabled, bool forceHidden);
-
 } ; // TPolygonBasedParamsGuiComp
 
 // public methods
@@ -240,16 +235,12 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiMode
 	BaseClass::OnGuiModelAttached();
 
 	QObject::connect(NodeParamsTable, SIGNAL(cellChanged(int, int)), this, SLOT(OnParamsChanged()));
-
-	updateClosedLineCheckBox(false, false);
 }
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiModelDetached()
 {
-	updateClosedLineCheckBox(false, true);
-
 	NodeParamsTable->disconnect();
 
 	BaseClass::OnGuiModelDetached();
@@ -289,23 +280,6 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 	CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate();
 	NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
 	NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
-
-	updateClosedLineCheckBox(false, false);
-}
-
-
-template <class PolygonBasedShape, class PolygonBasedModel>
-void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::updateClosedLineCheckBox(bool forceEnabled, bool forceHidden)
-{
-	CloseLineCheckBox->setHidden(true);
-	CloseLineCheckBox->setDisabled(true);
-
-	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(GetModelPtr());
-	if (!forceHidden && polylinePtr != NULL){
-		CloseLineCheckBox->setChecked(polylinePtr->IsClosed());
-		CloseLineCheckBox->setHidden(false);
-		CloseLineCheckBox->setEnabled(forceEnabled || !polylinePtr->IsClosed());
-	}
 }
 
 

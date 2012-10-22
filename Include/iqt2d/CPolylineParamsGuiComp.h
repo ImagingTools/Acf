@@ -34,6 +34,16 @@ protected Q_SLOTS:
 	void on_NodeParamsTable_itemSelectionChanged();
 	void on_CloseLineCheckBox_stateChanged(int state);
 
+	// reimplemented from TPolygonBasedParamsGuiComp<iview::CInteractivePolylineShape, i2d::CPolyline>
+	void OnGuiModelAttached();
+	void OnGuiModelDetached();
+	void OnGuiCreated();
+
+private:
+	/** Change state of a line close check box: disabled and hidden, according 
+ to the attached model type (only visible for CPolyline) and list selection 
+ (uncheckable if a list element is selected, always checkable). */
+	void updateClosedLineCheckBox(bool forceEnabled, bool forceHidden);
 };
 
 

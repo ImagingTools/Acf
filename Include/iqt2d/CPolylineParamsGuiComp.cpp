@@ -92,4 +92,40 @@ void CPolylineParamsGuiComp::on_CloseLineCheckBox_stateChanged(int state)
 }
 
 
+void CPolylineParamsGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+	updateClosedLineCheckBox(false, false);
+}
+
+
+void CPolylineParamsGuiComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+	updateClosedLineCheckBox(false, false);
+}
+
+
+void CPolylineParamsGuiComp::OnGuiModelDetached()
+{
+	updateClosedLineCheckBox(false, true);
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+void CPolylineParamsGuiComp::updateClosedLineCheckBox(bool forceEnabled, bool forceHidden)
+{
+	CloseLineCheckBox->setHidden(true);
+	CloseLineCheckBox->setDisabled(true);
+
+	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(GetModelPtr());
+	if (!forceHidden && polylinePtr != NULL){
+		CloseLineCheckBox->setChecked(polylinePtr->IsClosed());
+		CloseLineCheckBox->setHidden(false);
+		CloseLineCheckBox->setEnabled(forceEnabled || !polylinePtr->IsClosed());
+	}
+}
+
+
 } // namespace iqt2d
