@@ -30,11 +30,10 @@ namespace iqt2d
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-class TPolygonBasedParamsGuiComp:
-public iqt2d::TShapeParamsGuiCompBase<
-Ui::CPolygonParamsGuiComp,
-PolygonBasedShape,
-PolygonBasedModel>
+class TPolygonBasedParamsGuiComp: public iqt2d::TShapeParamsGuiCompBase<
+			Ui::CPolygonParamsGuiComp,
+			PolygonBasedShape,
+			PolygonBasedModel>
 {
 public:
 
@@ -96,7 +95,7 @@ protected:
 	using BaseClass::DoUpdateModel;
 	using BaseClass::NodeParamsTable;
 
-	/** 
+	/**
 		Internal item delegate class for input validation
 	 */
 	class CPolygonParamsGuiItemDelegate: public QItemDelegate
@@ -109,9 +108,8 @@ protected:
 			return editorPtr;
 		}
 	} ; // CPolygonParamsGuiItemDelegate
+};
 
-private:
-} ; // TPolygonBasedParamsGuiComp
 
 // public methods
 

@@ -5,9 +5,9 @@
 // Qt includes
 #include <QtCore/QString>
 
-// ACF includes 
-#include "imod/CSingleModelObserverBase.h" 
-#include "imod/IModel.h" 
+// ACF includes
+#include "imod/CSingleModelObserverBase.h"
+#include "imod/IModel.h"
 
 
 namespace imod
@@ -15,98 +15,98 @@ namespace imod
 
 
 /**
-	Basic implementation for a single model observer with binding to concrete data object interface.
+    Basic implementation for a single model observer with binding to concrete data object interface.
 
-	\ingroup ModelObserver
+    \ingroup ModelObserver
 */
-template <class ModelInterface> 
+template <class ModelInterface>
 class TSingleModelObserverBase: public CSingleModelObserverBase
 {
 public:
-	typedef CSingleModelObserverBase BaseClass;
-	typedef ModelInterface ModelType;
+    typedef CSingleModelObserverBase BaseClass;
+    typedef ModelInterface ModelType;
 
-	TSingleModelObserverBase();
+    TSingleModelObserverBase();
 
-	ModelInterface* GetObjectPtr() const;
+    ModelInterface* GetObjectPtr() const;
 
-	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
+    // reimplemented (imod::IObserver)
+    virtual bool OnAttached(imod::IModel* modelPtr);
+    virtual bool OnDetached(imod::IModel* modelPtr);
 
 protected:
-	virtual ModelInterface* CastFromModel(imod::IModel* modelPtr) const;
+    virtual ModelInterface* CastFromModel(imod::IModel* modelPtr) const;
 
 private:
-	ModelInterface* m_objectPtr;
+    ModelInterface* m_objectPtr;
 };
 
 
 // public methods
 
-template <class ModelInterface> 
+template <class ModelInterface>
 TSingleModelObserverBase<ModelInterface>::TSingleModelObserverBase()
 {
-	m_objectPtr = NULL;
+    m_objectPtr = NULL;
 }
 
 
-template <class ModelInterface> 
+template <class ModelInterface>
 ModelInterface* TSingleModelObserverBase<ModelInterface>::GetObjectPtr() const
 {
-	return m_objectPtr;
+    return m_objectPtr;
 }
 
 
 // reimplemented (imod::IObserver)
 
-template <class ModelInterface> 
+template <class ModelInterface>
 bool TSingleModelObserverBase<ModelInterface>::OnAttached(imod::IModel* modelPtr)
 {
-	m_objectPtr = CastFromModel(modelPtr);
+    m_objectPtr = CastFromModel(modelPtr);
 
-	I_IF_DEBUG(
-		if (m_objectPtr == NULL){
-			QString exptectedObjectInterface = typeid(ModelInterface).name();
+    I_IF_DEBUG(
+        if (m_objectPtr == NULL){
+            QString exptectedObjectInterface = typeid(ModelInterface).name();
 
-			QString debugMessage = QString("Data model interface is not supported by this observer. Expected interface is: %1").arg(exptectedObjectInterface);
+            QString debugMessage = QString("Data model interface is not supported by this observer. Expected interface is: %1").arg(exptectedObjectInterface);
 
-			qDebug(debugMessage.toUtf8());
-		}
-	)
+            qDebug(debugMessage.toUtf8());
+        }
+    )
 
-	if ((m_objectPtr != NULL) && BaseClass::OnAttached(modelPtr)){
-		return true;
-	}
+    if ((m_objectPtr != NULL) && BaseClass::OnAttached(modelPtr)){
+        return true;
+    }
 
-	BaseClass::EnsureModelDetached();
+    BaseClass::EnsureModelDetached();
 
-	return false;
+    return false;
 }
 
 
-template <class ModelInterface> 
+template <class ModelInterface>
 bool TSingleModelObserverBase<ModelInterface>::OnDetached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnDetached(modelPtr)){
-		// If model was correctly attached m_objectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
-		I_ASSERT(m_objectPtr != NULL);
+    if (BaseClass::OnDetached(modelPtr)){
+        // If model was correctly attached m_objectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
+        I_ASSERT(m_objectPtr != NULL);
 
-		m_objectPtr = NULL;
+        m_objectPtr = NULL;
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 
 // protected methods
 
-template <class ModelInterface> 
-typename ModelInterface* TSingleModelObserverBase<ModelInterface>::CastFromModel(imod::IModel* modelPtr) const
+template <class ModelInterface>
+ModelInterface* TSingleModelObserverBase<ModelInterface>::CastFromModel(imod::IModel* modelPtr) const
 {
-	return dynamic_cast<ModelInterface*>(modelPtr);
+    return dynamic_cast<ModelInterface*>(modelPtr);
 }
 
 
