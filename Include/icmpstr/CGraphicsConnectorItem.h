@@ -40,24 +40,24 @@ public:
 		GP_OFFSET = 12
 	};
 
-    CGraphicsConnectorItem(
+	CGraphicsConnectorItem(
 				const icmpstr::ISceneProvider& sceneProvider,
 				int connectFlags = 0,
 				QGraphicsItem* parent = NULL);
 
 	void InitEnds(CRegistryElementShape* sourceShapePtr, CRegistryElementShape* destShapePtr);
-    
+
 	// reimplemented (QGraphicsItem)
-    virtual int type() const;
+	virtual int type() const;
 	virtual QPainterPath shape() const;
 	virtual bool contains(const QPointF& point) const;
 
 protected:
-    void Adjust();
+	void Adjust();
 
 	// reimplemented (QGraphicsItem)
-    virtual QRectF boundingRect() const;
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+	virtual QRectF boundingRect() const;
+	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
 protected Q_SLOTS:
 	void OnSourceRectMoved(const QRectF& rect);

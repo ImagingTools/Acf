@@ -18,7 +18,7 @@ namespace icmpstr
 
 class CMultiAttributeDelegateWidget: public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	typedef QWidget BaseClass;
 

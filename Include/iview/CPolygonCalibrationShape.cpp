@@ -196,31 +196,31 @@ bool CPolygonCalibrationShape::OnMouseMove(istd::CIndex2d position)
 
 void CPolygonCalibrationShape::Draw(QPainter& drawContext) const
 {
-    const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
-    if (IsDisplayConnected() && (polygonPtr != NULL)){
-        int nodesCount = polygonPtr->GetNodesCount();
-        if (nodesCount > 0){
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	if (IsDisplayConnected() && (polygonPtr != NULL)){
+		int nodesCount = polygonPtr->GetNodesCount();
+		if (nodesCount > 0){
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
-            DrawArea(drawContext);
-            DrawCurve(drawContext);
+			DrawArea(drawContext);
+			DrawCurve(drawContext);
 
-            if (IsSelected()){
-                DrawSelectionElements(drawContext);
-            }
-            else{
-                if (m_isFirstVisible && (nodesCount > 0)){
+			if (IsSelected()){
+				DrawSelectionElements(drawContext);
+			}
+			else{
+				if (m_isFirstVisible && (nodesCount > 0)){
 					const IColorShema& colorShema = GetColorShema();
 
 					i2d::CVector2d viewPos;
 					calib.GetInvPositionAt(polygonPtr->GetNode(0), viewPos);
 					istd::CIndex2d screenPos = transform.GetScreenPosition(viewPos);
 					colorShema.DrawTicker(drawContext, screenPos, IColorShema::TT_INACTIVE);
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 }
 
 
@@ -387,7 +387,7 @@ void CPolygonCalibrationShape::DrawSelectionElements(QPainter& drawContext) cons
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 		istd::CIndex2d screenPos;
 
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 		int nodesCount = polygon.GetNodesCount();
 		int editMode = GetEditMode();
 
@@ -451,7 +451,7 @@ bool CPolygonCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (IsDisplayConnected() && (polygonPtr != NULL)){
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
@@ -501,7 +501,7 @@ bool CPolygonCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 			}
 			break;
 
-        case iview::ISelectable::EM_ADD:
+		case iview::ISelectable::EM_ADD:
 			{
 				const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()?
 								IColorShema::TT_INSERT:
@@ -538,38 +538,38 @@ bool CPolygonCalibrationShape::IsCurveTouched(istd::CIndex2d position) const
 			}
 		}
 
-        const IColorShema& colorShema = GetColorShema();
-        int nodesCount = polygon.GetNodesCount();
-        if (nodesCount > 0){
+		const IColorShema& colorShema = GetColorShema();
+		int nodesCount = polygon.GetNodesCount();
+		if (nodesCount > 0){
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
-            double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
+			double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
 
-            i2d::CVector2d node1;
+			i2d::CVector2d node1;
 			calib.GetInvPositionAt(polygon.GetNode(nodesCount - 1), node1);
 
-            double logicalLineWidth = colorShema.GetLogicalLineWidth();
+			double logicalLineWidth = colorShema.GetLogicalLineWidth();
 
 			const i2d::CVector2d& viewMouse = transform.GetClientPosition(position);
 
 			for (int i = 0; i < nodesCount; i++){
-                i2d::CVector2d node2;
+				i2d::CVector2d node2;
 				calib.GetInvPositionAt(polygon.GetNode(i), node2);
 
-                i2d::CVector2d delta = node2 - node1;
+				i2d::CVector2d delta = node2 - node1;
 
-                if ((delta.GetDotProduct(viewMouse - node1) >= 0) && (delta.GetDotProduct(viewMouse - node2) <= 0)){
-                    i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
-                    double distance = qAbs(ortonormal.GetDotProduct(viewMouse - node1));
-                    if (proportions * distance < logicalLineWidth){
-                        return true;
-                    }
-                }
+				if ((delta.GetDotProduct(viewMouse - node1) >= 0) && (delta.GetDotProduct(viewMouse - node2) <= 0)){
+					i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
+					double distance = qAbs(ortonormal.GetDotProduct(viewMouse - node1));
+					if (proportions * distance < logicalLineWidth){
+						return true;
+					}
+				}
 
-                node1 = node2;
-            }
-        }
+				node1 = node2;
+			}
+		}
 	}
 
 	return false;
@@ -673,11 +673,11 @@ void CPolygonCalibrationShape::SetLogDragPosition(const i2d::CVector2d& position
 
 i2d::CRect CPolygonCalibrationShape::CalcBoundingBox() const
 {
-    const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
-    if (IsDisplayConnected() && (polygonPtr != NULL)){
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	if (IsDisplayConnected() && (polygonPtr != NULL)){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		int nodesCount = polygonPtr->GetNodesCount();
 

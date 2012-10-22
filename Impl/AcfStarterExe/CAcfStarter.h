@@ -7,15 +7,15 @@
 
 class CAcfStarter: public QWidget, public Ui::CAcfStarter
 {
-    Q_OBJECT
+	Q_OBJECT
  
 public:
 	CAcfStarter(char **argv);
 	CAcfStarter();
 
 public slots:
-    void GetPath();	
-    void RunACF();   
+	void GetPath();	
+	void RunACF();   
 	void RunACF(int msec);
 	void GetRegistryPath(QListWidgetItem*);
 	

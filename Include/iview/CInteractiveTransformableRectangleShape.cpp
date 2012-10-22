@@ -555,7 +555,7 @@ i2d::CRect CInteractiveTransformableRectangleShape::CalcBoundingBox() const
 {
 	I_ASSERT(IsDisplayConnected());
 
-    const IColorShema& colorShema = GetColorShema();
+	const IColorShema& colorShema = GetColorShema();
 	const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
 
 	EnsureValidNodes();

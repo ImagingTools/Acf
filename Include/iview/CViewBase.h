@@ -139,7 +139,7 @@ public:
 	virtual int GetSelectedShapesCount() const;
 	virtual void InsertSelectedShapes(SelectedShapes& result) const;
 	virtual void DeselectAllShapes();
-    virtual int GetKeysState() const;
+	virtual int GetKeysState() const;
 	virtual int GetEditMode() const;
 	using BaseClass::OnShapeFocused;
 	using BaseClass::OnShapeDefocused;
@@ -160,7 +160,7 @@ public:
 	virtual IDisplay* GetParentDisplayPtr() const;
 	virtual const iview::CScreenTransform& GetTransform() const;
 	virtual i2d::CRect GetBoundingBox() const;
-    virtual const IColorShema& GetColorShema() const;
+	virtual const IColorShema& GetColorShema() const;
 	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea);
 
 	// reimplemented (iview::IShapeObserver)
@@ -482,7 +482,7 @@ inline const IColorShema& CViewBase::GetColorShema() const
 
 inline int CViewBase::GetKeysState() const
 {
-    return m_keysState;
+	return m_keysState;
 }
 
 

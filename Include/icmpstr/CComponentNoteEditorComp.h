@@ -24,7 +24,7 @@ class CComponentNoteEditorComp:
 						Ui::CComponentNoteEditorComp, IElementSelectionInfo>,
 			protected imod::CMultiModelDispatcherBase
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<

@@ -167,7 +167,7 @@ bool CVarColor::Serialize(iser::IArchive& archive)
 		}
 	}
 
-    for (int i = 0; i < elementsCount; ++i){
+	for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(componentTag);
 		retVal = retVal && archive.Process(operator[](i));
 		retVal = retVal && archive.EndTag(componentTag);

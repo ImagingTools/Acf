@@ -44,7 +44,7 @@ void CPinCalibrationShape::Draw(QPainter& drawContext) const
 {
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (IsDisplayConnected() && (pinPtr != NULL)){
-	    const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
@@ -164,7 +164,7 @@ void CPinCalibrationShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CPinCalibrationShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-    if (IsEditablePosition()){
+	if (IsEditablePosition()){
 		imod::IModel* modelPtr = GetModelPtr();
 		if (modelPtr != NULL){
 			i2d::CPosition2d& pin = *dynamic_cast<i2d::CPosition2d*>(modelPtr);

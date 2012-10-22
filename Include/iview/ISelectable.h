@@ -69,7 +69,7 @@ public:
 	/**
 		Get state of system keys.
 	*/
-    virtual int GetKeysState() const = 0;
+	virtual int GetKeysState() const = 0;
 
 	/**
 		Get actual edit mode.

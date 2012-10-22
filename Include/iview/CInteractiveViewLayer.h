@@ -41,7 +41,7 @@ public:
 	virtual int GetSelectedShapesCount() const;
 	virtual void InsertSelectedShapes(SelectedShapes& result) const;
 	virtual void DeselectAllShapes();
-    virtual int GetKeysState() const;
+	virtual int GetKeysState() const;
 	virtual int GetEditMode() const;
 	virtual void OnShapeFocused(IInteractiveShape* shapePtr);
 	virtual void OnShapeDefocused(IInteractiveShape* shapePtr);

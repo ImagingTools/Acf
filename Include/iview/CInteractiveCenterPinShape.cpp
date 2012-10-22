@@ -30,7 +30,7 @@ void CInteractiveCenterPinShape::Draw(QPainter& drawContext) const
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (pinPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		istd::CIndex2d sp = transform.GetScreenPosition(pinPtr->GetPosition());
 
@@ -63,7 +63,7 @@ bool CInteractiveCenterPinShape::OnMouseButton(istd::CIndex2d position, Qt::Mous
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (IsDisplayConnected() && (pinPtr != NULL)){
 		if (downFlag){
-            const IColorShema& colorShema = GetColorShema();
+			const IColorShema& colorShema = GetColorShema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			const i2d::CVector2d& cp = pinPtr->GetPosition();

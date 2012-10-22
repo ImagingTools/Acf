@@ -22,9 +22,9 @@ CVector3d CVector3d::GetNormalized(double length) const
 {
 	CVector3d retVal;
 
-    if (GetNormalized(retVal, length)){
+	if (GetNormalized(retVal, length)){
 		return retVal;
-    }
+	}
 
 	return CVector3d(length, 0.0, 0.0);
 }

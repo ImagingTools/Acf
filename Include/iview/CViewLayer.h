@@ -46,7 +46,7 @@ public:
 	virtual const CScreenTransform& GetTransform() const;
 	virtual i2d::CRect GetBoundingBox() const;
 	virtual i2d::CRect GetClientRect() const;
-    virtual const IColorShema& GetColorShema() const;
+	virtual const IColorShema& GetColorShema() const;
 	virtual void OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect& newArea);
 
 	// reimplemented (iview::IShapeObserver)

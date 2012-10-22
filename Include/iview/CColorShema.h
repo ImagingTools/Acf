@@ -22,7 +22,7 @@ namespace iview
 class CColorShema: public CColorShemaBase
 {
 public:
-    enum
+	enum
 	{
 		/**
 			Standard size of pens set.
@@ -33,8 +33,8 @@ public:
 	CColorShema();
 
 	// reimplemented IColorShema
-    virtual const QFont& GetFont(IColorShema::StandardFont fontType) const;
-    virtual void SetFont(iview::IColorShema::StandardFont fontType, const QFont& font);
+	virtual const QFont& GetFont(IColorShema::StandardFont fontType) const;
+	virtual void SetFont(iview::IColorShema::StandardFont fontType, const QFont& font);
 	virtual const QPen& GetPen(IColorShema::StandardPen penType) const;
 	virtual void SetPen(iview::IColorShema::StandardPen penType, const QPen& pen);
 	virtual const QBrush& GetBrush(IColorShema::StandardBrush brushType) const;
@@ -56,19 +56,19 @@ inline void CColorShema::SetPen(IColorShema::StandardPen penType, const QPen& pe
 
 inline void CColorShema::SetBrush(IColorShema::StandardBrush brushType, const QBrush& brush)
 {
-    m_brushes[brushType] = brush;
+	m_brushes[brushType] = brush;
 }
 
 
 inline void CColorShema::SetFont(IColorShema::StandardFont fontType, const QFont& font)
 {
-    m_fonts[fontType] = font;
+	m_fonts[fontType] = font;
 }
 
 
 inline const QFont& CColorShema::GetFont(IColorShema::StandardFont fontType) const
 {
-    return m_fonts[fontType];
+	return m_fonts[fontType];
 }
 
 

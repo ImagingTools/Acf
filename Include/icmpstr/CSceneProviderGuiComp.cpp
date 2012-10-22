@@ -803,7 +803,7 @@ void CSceneProviderGuiComp::CScene::DrawGrid(QPainter& painter, const QRectF& re
 		}
 
 		for (int y = firstTopGridLine; y <= realRect.bottom(); y += gridSize){
-			lines.append(QLine(realRect.left(), y, realRect.right(), y));           
+			lines.append(QLine(realRect.left(), y, realRect.right(), y));
 		}
 
 		gridColor.setAlpha(128);

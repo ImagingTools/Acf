@@ -56,18 +56,18 @@ void CVarMatrix::Clear()
 		for (index[0] = 0; index[0] < size[0]; ++index[0]){
 			SetAt(index, 0);
 		}
-    }
+	}
 }
 
 
 void CVarMatrix::InitToIdentity(int size)
 {
-    SetSizes(istd::CIndex2d(size, size));
+	SetSizes(istd::CIndex2d(size, size));
 
 	Clear();
 
 	for (int index = 0; index < size; ++index){
-        SetAt(istd::CIndex2d(index, index), 1);
+		SetAt(istd::CIndex2d(index, index), 1);
 	}
 }
 
@@ -90,7 +90,7 @@ double CVarMatrix::GetMaxElement() const
 				retVal = value;
 			}
 		}
-    }
+	}
 
 	return retVal;
 }
@@ -114,7 +114,7 @@ double CVarMatrix::GetMinElement() const
 				retVal = value;
 			}
 		}
-    }
+	}
 
 	return retVal;
 }
@@ -171,30 +171,30 @@ void CVarMatrix::GetMultiplied(const CVarMatrix& matrix, CVarMatrix& result) con
 {
 	istd::CIndex2d matrixSize = matrix.GetSizes();
 	istd::CIndex2d size = GetSizes();
-    I_ASSERT(size[0] == matrixSize[1]);	// width of first matrix must be equal of second one height
+	I_ASSERT(size[0] == matrixSize[1]);	// width of first matrix must be equal of second one height
 
-    result.SetSizes(istd::CIndex2d(matrixSize[0], size[1]));
+	result.SetSizes(istd::CIndex2d(matrixSize[0], size[1]));
 
 	istd::CIndex2d index;
 	istd::CIndex2d matrixIndex;
 	istd::CIndex2d resultIndex;
 
-    for (resultIndex[1] = 0; resultIndex[1] < size[1]; ++resultIndex[1]){
+	for (resultIndex[1] = 0; resultIndex[1] < size[1]; ++resultIndex[1]){
 		index[1] = resultIndex[1];
 
 		for (resultIndex[0] = 0; resultIndex[0] < matrixSize[0]; ++resultIndex[0]){
 			matrixIndex[0] = resultIndex[0];
 
-		    double sum = 0;
+			double sum = 0;
 			for (index[0] = 0; index[0] < size[0]; ++index[0]){
 				matrixIndex[1] = index[0];
 
 				sum += GetAt(index) * matrix.GetAt(matrixIndex);
-            }
+			}
 
 			result.SetAt(resultIndex, sum);
-        }
-    }
+		}
+	}
 }
 
 
@@ -209,7 +209,7 @@ void CVarMatrix::GetScaled(double value, CVarMatrix& result) const
 		for (index[0] = 0; index[0] < size[0]; ++index[0]){
 			result.SetAt(index, GetAt(index) * value);
 		}
-    }
+	}
 }
 
 
@@ -227,8 +227,8 @@ void CVarMatrix::GetTransposed(CVarMatrix& result) const
 			transposedIndex[0] = index[1];
 
 			result.SetAt(transposedIndex, GetAt(index));
-        }
-    }
+		}
+	}
 }
 
 
@@ -244,7 +244,7 @@ double CVarMatrix::GetFrobeniusNorm2() const
 			double value = GetAt(index);
 			retVal += double(value * value);
 		}
-    }
+	}
 	return retVal;
 }
 
@@ -418,7 +418,7 @@ bool CVarMatrix::GetSolvedTriangle(const CVarMatrix& vector, CVarMatrix& result,
 	I_ASSERT(size[1] >= size[0]);
 
 	int columnsCount = vector.GetSize(0);
-    result.SetSizes(istd::CIndex2d(columnsCount, size[0]));
+	result.SetSizes(istd::CIndex2d(columnsCount, size[0]));
 
 	istd::CIndex2d resultIndex;
 	for (resultIndex[0] = 0; resultIndex[0] < columnsCount; ++resultIndex[0]){
@@ -437,7 +437,7 @@ bool CVarMatrix::GetSolvedTriangle(const CVarMatrix& vector, CVarMatrix& result,
 		}
 	}
 
-    return true;
+	return true;
 }
 
 
@@ -642,7 +642,7 @@ void CVarMatrix::SolveRobustLSP(CVarMatrix matrixA, CVarMatrix& matrixY, CVarMat
 	}
 
 	// calculate output matrix X solving equation RX = Y
-    matrixX.SetSizes(istd::CIndex2d(matrixYColumnsCount, size[0]));
+	matrixX.SetSizes(istd::CIndex2d(matrixYColumnsCount, size[0]));
 
 	double restNorm2 = 0;
 	if (stepIndex > 0){

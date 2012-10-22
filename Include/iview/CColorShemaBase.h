@@ -17,7 +17,7 @@ namespace iview
 class CColorShemaBase: public IColorShema
 {
 public:
-    enum
+	enum
 	{
 		TICKER_SIZE = 4,
 		SMALL_TICKER_SIZE = 2,
@@ -31,7 +31,7 @@ public:
 	virtual int GetLogicalLineWidth() const;
 
 protected:
-     // static attributes
+	// static attributes
 	static i2d::CRect s_tickersBoxes[(int)TT_LAST + (int)1];
 };
 

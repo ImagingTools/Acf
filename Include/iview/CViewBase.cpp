@@ -37,7 +37,7 @@ CViewBase::CViewBase()
 	m_isMultiselectable = true;
 	m_isViewDraggable = false;
 	m_isDraggable = true;
-	    
+
 	m_isLastMouseButtonDown = false;
 	m_keysState = 0;
 

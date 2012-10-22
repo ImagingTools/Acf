@@ -68,7 +68,7 @@ public:
 protected:
 	// reimplemented (QWidget)
 	virtual void resizeEvent(QResizeEvent* resizeEvent);
-    virtual void focusInEvent(QFocusEvent* focusEvent);
+	virtual void focusInEvent(QFocusEvent* focusEvent);
 
 private Q_SLOTS:
 	void OnEditingFinished();

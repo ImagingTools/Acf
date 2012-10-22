@@ -88,7 +88,7 @@ bool CInteractiveParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::
 	if (downFlag){
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
 		

@@ -383,7 +383,7 @@ bool TComposedColor<Size>::Serialize(iser::IArchive& archive)
 		return false;
 	}
 
-    for (int i = 0; i < elementsCount; ++i){
+	for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(componentTag);
 		retVal = retVal && archive.Process(BaseClass::GetElementRef(i));
 		retVal = retVal && archive.EndTag(componentTag);

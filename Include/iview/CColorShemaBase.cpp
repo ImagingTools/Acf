@@ -163,15 +163,15 @@ i2d::CRect CColorShemaBase::s_tickersBoxes[TT_LAST + 1] = {
 void CColorShemaBase::Assign(const IColorShema& colorShema)
 {
 	for (int penIndex = IColorShema::SP_NORMAL; penIndex <= IColorShema::SP_LAST; ++penIndex){
-    	SetPen(IColorShema::StandardPen(penIndex), colorShema.GetPen(IColorShema::StandardPen(penIndex)));
+		SetPen(IColorShema::StandardPen(penIndex), colorShema.GetPen(IColorShema::StandardPen(penIndex)));
 	}
 
 	for (int brushIndex = IColorShema::SB_NORMAL; brushIndex <= IColorShema::SB_LAST; ++brushIndex){
-    	SetBrush(IColorShema::StandardBrush(brushIndex), colorShema.GetBrush(IColorShema::StandardBrush(brushIndex)));
+		SetBrush(IColorShema::StandardBrush(brushIndex), colorShema.GetBrush(IColorShema::StandardBrush(brushIndex)));
 	}
 
 	for (int fontIndex = IColorShema::SF_NORMAL; fontIndex <= IColorShema::SF_LAST; ++fontIndex){
-    	SetFont(IColorShema::StandardFont(fontIndex), colorShema.GetFont(IColorShema::StandardFont(fontIndex)));
+		SetFont(IColorShema::StandardFont(fontIndex), colorShema.GetFont(IColorShema::StandardFont(fontIndex)));
 	}
 }
 

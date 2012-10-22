@@ -39,8 +39,8 @@ public:
 	// reimplemented (iview::IShape)
 	virtual int GetLayerType() const;
 	virtual i2d::CRect GetBoundingBox() const;
-    virtual const IColorShema* GetUserColorShema() const;
-    virtual void SetUserColorShema(const IColorShema* shemaPtr);
+	virtual const IColorShema* GetUserColorShema() const;
+	virtual void SetUserColorShema(const IColorShema* shemaPtr);
 
 	// reimplemented (iview::IVisualizable)
 	virtual bool IsVisible() const;

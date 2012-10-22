@@ -39,7 +39,7 @@ bool CInteractivePolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
 	if (polygonPtr != NULL){
 		if (downFlag){
-            const IColorShema& colorShema = GetColorShema();
+			const IColorShema& colorShema = GetColorShema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			int nodesCount = polygonPtr->GetNodesCount();
@@ -186,35 +186,35 @@ void CInteractivePolygonShape::Draw(QPainter& drawContext) const
 {
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (IsDisplayConnected() && (polygonPtr != NULL)){
-        int nodesCount = polygonPtr->GetNodesCount();
-        if (nodesCount > 0){
-            const iview::CScreenTransform transform = GetLogToScreenTransform();
-	        const IColorShema& colorShema = GetColorShema();
+		int nodesCount = polygonPtr->GetNodesCount();
+		if (nodesCount > 0){
+			const iview::CScreenTransform transform = GetLogToScreenTransform();
+			const IColorShema& colorShema = GetColorShema();
 
-            istd::CIndex2d sp;
+			istd::CIndex2d sp;
 
-            DrawArea(drawContext);
-            DrawCurve(drawContext);
+			DrawArea(drawContext);
+			DrawCurve(drawContext);
 
 			drawContext.save();
-            drawContext.setPen(colorShema.GetPen(IColorShema::SP_TICKER));
+			drawContext.setPen(colorShema.GetPen(IColorShema::SP_TICKER));
 			drawContext.save();
-            drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_TICKER));
+			drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_TICKER));
 
-            if (IsSelected()){
-                DrawSelectionElements(drawContext);
-            }
-            else{
-                if (m_isFirstVisible && (nodesCount > 0)){
-                    sp = transform.GetScreenPosition(polygonPtr->GetNode(0));
-                    colorShema.DrawTicker(drawContext, sp, IColorShema::TT_INACTIVE);
-                }
-            }
+			if (IsSelected()){
+				DrawSelectionElements(drawContext);
+			}
+			else{
+				if (m_isFirstVisible && (nodesCount > 0)){
+					sp = transform.GetScreenPosition(polygonPtr->GetNode(0));
+					colorShema.DrawTicker(drawContext, sp, IColorShema::TT_INACTIVE);
+				}
+			}
 
-            drawContext.restore();
-            drawContext.restore();
-        }
-    }
+			drawContext.restore();
+			drawContext.restore();
+		}
+	}
 }
 
 
@@ -234,7 +234,7 @@ ITouchable::TouchState CInteractivePolygonShape::IsTouched(istd::CIndex2d positi
 {
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (IsDisplayConnected() && (polygonPtr != NULL)){
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 		int nodesCount = polygonPtr->GetNodesCount();
@@ -280,7 +280,7 @@ ITouchable::TouchState CInteractivePolygonShape::IsTouched(istd::CIndex2d positi
 			}
 			break;
 
-        case ISelectable::EM_ADD:
+		case ISelectable::EM_ADD:
 			{
 				const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_INSERT: IColorShema::TT_INACTIVE);
 				for (int i = 0; i < nodesCount; i++){
@@ -428,7 +428,7 @@ void CInteractivePolygonShape::DrawSelectionElements(QPainter& drawContext) cons
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (polygonPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		int nodesCount = polygonPtr->GetNodesCount();
 		int editMode = GetEditMode();
@@ -486,36 +486,36 @@ bool CInteractivePolygonShape::IsCurveTouched(istd::CIndex2d position) const
 
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (polygonPtr != NULL){
-        const IColorShema& colorShema = GetColorShema();
-        int nodesCount = polygonPtr->GetNodesCount();
-        if (nodesCount > 0){
-            const iview::CScreenTransform& transform = GetLogToScreenTransform();
+		const IColorShema& colorShema = GetColorShema();
+		int nodesCount = polygonPtr->GetNodesCount();
+		if (nodesCount > 0){
+			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
-            double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
+			double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
 
-            i2d::CVector2d node1;
-            int i;
-            node1 = polygonPtr->GetNode(nodesCount - 1);
+			i2d::CVector2d node1;
+			int i;
+			node1 = polygonPtr->GetNode(nodesCount - 1);
 
-            double logicalLineWidth = colorShema.GetLogicalLineWidth();
+			double logicalLineWidth = colorShema.GetLogicalLineWidth();
 
-            for (i = 0; i < nodesCount; i++){
-                const i2d::CVector2d& node2 = polygonPtr->GetNode(i);
-                const i2d::CVector2d& cp = transform.GetClientPosition(position);
+			for (i = 0; i < nodesCount; i++){
+				const i2d::CVector2d& node2 = polygonPtr->GetNode(i);
+				const i2d::CVector2d& cp = transform.GetClientPosition(position);
 
-                i2d::CVector2d delta = node2 - node1;
+				i2d::CVector2d delta = node2 - node1;
 
-                if ((delta.GetDotProduct(cp - node1) >= 0) && (delta.GetDotProduct(cp - node2) <= 0)){
-                    i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
-                    double distance = qAbs(ortonormal.GetDotProduct(cp - node1));
-                    if (proportions * distance < logicalLineWidth){
-                        return true;
-                    }
-                }
+				if ((delta.GetDotProduct(cp - node1) >= 0) && (delta.GetDotProduct(cp - node2) <= 0)){
+					i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
+					double distance = qAbs(ortonormal.GetDotProduct(cp - node1));
+					if (proportions * distance < logicalLineWidth){
+						return true;
+					}
+				}
 
-                node1 = node2;
-            }
-        }
+				node1 = node2;
+			}
+		}
 	}
 
 	return false;
@@ -627,7 +627,7 @@ i2d::CRect CInteractivePolygonShape::CalcBoundingBox() const
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (polygonPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		int nodesCount = polygonPtr->GetNodesCount();
 

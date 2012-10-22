@@ -58,7 +58,7 @@ void CInteractivePinShape::Draw(QPainter& drawContext) const
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (pinPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-        const IColorShema& colorShema = GetColorShema();
+		const IColorShema& colorShema = GetColorShema();
 
 		istd::CIndex2d sp = transform.GetScreenPosition(pinPtr->GetPosition());
 
@@ -91,7 +91,7 @@ bool CInteractivePinShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (IsDisplayConnected() && (pinPtr != NULL)){
 		if (downFlag){
-            const IColorShema& colorShema = GetColorShema();
+			const IColorShema& colorShema = GetColorShema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			const i2d::CVector2d& cp = pinPtr->GetPosition();
@@ -189,7 +189,7 @@ void CInteractivePinShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CInteractivePinShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-    if (IsEditablePosition()){
+	if (IsEditablePosition()){
 		imod::IModel* modelPtr = GetModelPtr();
 		if (modelPtr != NULL){
 			BeginModelChanges();

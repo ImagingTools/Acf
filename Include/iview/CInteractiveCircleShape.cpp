@@ -155,7 +155,7 @@ void CInteractiveCircleShape::Draw(QPainter& drawContext) const
 	i2d::CVector2d scale;
 	deform.GetAxesLengths(scale);
 
-    const IColorShema& colorShema = GetColorShema();
+	const IColorShema& colorShema = GetColorShema();
 	drawContext.save();
 
 	if (IsSelected()){

@@ -376,7 +376,7 @@ void CRegistryTreeViewComp::on_RegistryTree_itemSelectionChanged()
 		MessagesList->setPlainText(messageText);
 
 		m_selectedElements.selectedElementIds.insert(itemPtr->data(CT_NAME, DR_ELEMENT_ID).toByteArray());
-        int registryPointerAddress = itemPtr->data(CT_NAME, DR_REGISTRY).toUInt();
+		int registryPointerAddress = itemPtr->data(CT_NAME, DR_REGISTRY).toUInt();
 		m_selectedElements.registryPtr = reinterpret_cast<icomp::IRegistry*>(registryPointerAddress);
 	}
 

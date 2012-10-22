@@ -16,24 +16,24 @@ class CInteractiveLabelShape: public CInteractivePinShape
 public:
 	typedef CInteractivePinShape BaseClass;
 
-    enum TextAlign
+	enum TextAlign
 	{
-        TAL_CENTER,
-        TAL_LEFT_TOP,
-        TAL_RIGHT_TOP,
-        TAL_LEFT_BOTTOM,
-        TAL_RIGHT_BOTTOM,
-        TAL_AUTOMATIC,
-        TAL_LAST = TAL_AUTOMATIC
-    };
+		TAL_CENTER,
+		TAL_LEFT_TOP,
+		TAL_RIGHT_TOP,
+		TAL_LEFT_BOTTOM,
+		TAL_RIGHT_BOTTOM,
+		TAL_AUTOMATIC,
+		TAL_LAST = TAL_AUTOMATIC
+	};
 
 	CInteractiveLabelShape(
 				TextAlign align = TAL_RIGHT_TOP,
 				const istd::CIndex2d& offset = istd::CIndex2d(20, -20));
 
-    virtual TextAlign GetTextAlign() const;
+	virtual TextAlign GetTextAlign() const;
 	virtual void SetTextAlign(TextAlign align);
-    virtual const istd::CIndex2d& GetDrawOffset() const;
+	virtual const istd::CIndex2d& GetDrawOffset() const;
 	virtual void SetDrawOffset(const istd::CIndex2d& offset);
 
 	virtual bool IsPositionVisible() const;
@@ -75,7 +75,7 @@ private:
 	mutable istd::CIndex2d m_drawOffset;
 	bool m_isPositionVisible;
 	bool m_isBackgroundTransparent;
-    bool m_isEditableOffset;
+	bool m_isEditableOffset;
 	EditMode m_editMode;
 
 	bool m_isAlignFixed;
@@ -84,25 +84,25 @@ private:
 
 inline CInteractiveLabelShape::TextAlign CInteractiveLabelShape::GetTextAlign() const
 {
-    return m_textAlign;
+	return m_textAlign;
 }
 
 
 inline void CInteractiveLabelShape::SetTextAlign(CInteractiveLabelShape::TextAlign align)
 {
-    m_textAlign = align;
+	m_textAlign = align;
 }
 
 
 inline const istd::CIndex2d& CInteractiveLabelShape::GetDrawOffset() const
 {
-    return m_drawOffset;
+	return m_drawOffset;
 }
 
 
 inline void CInteractiveLabelShape::SetDrawOffset(const istd::CIndex2d& offset)
 {
-    m_drawOffset = offset;
+	m_drawOffset = offset;
 }
 
 

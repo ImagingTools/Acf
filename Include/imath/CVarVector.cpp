@@ -35,8 +35,8 @@ double CVarVector::GetElementsSum() const
 	double retVal = 0;
 
 	for (int i = 0; i < elementsCount; ++i){
-        retVal += GetElement(i);
-    }
+		retVal += GetElement(i);
+	}
 
 	return retVal;
 }
@@ -44,19 +44,19 @@ double CVarVector::GetElementsSum() const
 
 bool CVarVector::Normalize(double length)
 {
-    double isLength = GetLength();
+	double isLength = GetLength();
 
-    double proportion = isLength / length;
+	double proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
 		int elementsCount = GetElementsCount();
 
-        for (int i = 0; i < elementsCount; ++i){
-            m_elements[i] = m_elements[i] / proportion;
-        }
+		for (int i = 0; i < elementsCount; ++i){
+			m_elements[i] = m_elements[i] / proportion;
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}
@@ -89,21 +89,21 @@ void CVarVector::GetMaximal(const CVarVector& vector, CVarVector& result) const
 
 bool CVarVector::GetNormalized(CVarVector& result, double length) const
 {
-    double isLength = GetLength();
+	double isLength = GetLength();
 
-    double proportion = isLength / length;
+	double proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
 		int elementsCount = GetElementsCount();
 
 		result.m_elements.resize(elementsCount);
 
-        for (int i = 0; i < elementsCount; ++i){
-            result.m_elements[i] = m_elements[i] / proportion;
-        }
+		for (int i = 0; i < elementsCount; ++i){
+			result.m_elements[i] = m_elements[i] / proportion;
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}
@@ -131,7 +131,7 @@ bool CVarVector::Serialize(iser::IArchive& archive)
 		m_elements.resize(elementsCount);
 	}
 
-    for (int i = 0; i < elementsCount; ++i){
+	for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(elementTag);
 		retVal = retVal && archive.Process(m_elements[i]);
 		retVal = retVal && archive.EndTag(elementTag);

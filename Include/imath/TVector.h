@@ -23,7 +23,7 @@ class TVector
 {
 public:
 	typedef Element ElementType;
-    typedef Element Elements[Size];
+	typedef Element Elements[Size];
 
 	/**
 		Create an uninitialized point.
@@ -190,7 +190,7 @@ public:
 	static bool SetElementsCount(int count);
 
 protected:
-    Elements m_elements;
+	Elements m_elements;
 };
 
 
@@ -584,8 +584,8 @@ Element TVector<Size, Element>::GetElementsSum() const
 	Element retVal = 0;
 
 	for (int i = 0; i < Size; ++i){
-        retVal += m_elements[i];
-    }
+		retVal += m_elements[i];
+	}
 
 	return retVal;
 }
@@ -594,17 +594,17 @@ Element TVector<Size, Element>::GetElementsSum() const
 template <int Size, class Element>
 bool TVector<Size, Element>::Normalize(Element length)
 {
-    Element isLength = GetLength();
+	Element isLength = GetLength();
 
-    Element proportion = isLength / length;
+	Element proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
-        for (int i = 0; i < Size; ++i){
-            m_elements[i] = m_elements[i] / proportion;
-        }
+		for (int i = 0; i < Size; ++i){
+			m_elements[i] = m_elements[i] / proportion;
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}
@@ -614,17 +614,17 @@ bool TVector<Size, Element>::Normalize(Element length)
 template <int Size, class Element>
 bool TVector<Size, Element>::GetNormalized(TVector<Size, Element>& result, Element length) const
 {
-    Element isLength = GetLength();
+	Element isLength = GetLength();
 
-    Element proportion = isLength / length;
+	Element proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
-        for (int i = 0; i < Size; ++i){
-            result.m_elements[i] = m_elements[i] / proportion;
-        }
+		for (int i = 0; i < Size; ++i){
+			result.m_elements[i] = m_elements[i] / proportion;
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}

@@ -57,7 +57,7 @@ protected:
 	// reimplemented (iview::CInteractivePolygonShape)
 	virtual void DrawCurve(QPainter& drawContext) const;
 	virtual void DrawSelectionElements(QPainter& drawContext) const;
-    
+
 private:
 	enum TickerType{
 		TT_NONE,

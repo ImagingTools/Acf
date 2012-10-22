@@ -71,12 +71,12 @@ void CCheckableComboBox::UpdateDisplayText()
 
 void CCheckableComboBox::paintEvent(QPaintEvent* /*eventPtr*/)
 {
-    QStylePainter painter(this);
+	QStylePainter painter(this);
 
-    painter.setPen(palette().color(QPalette::Text));
+	painter.setPen(palette().color(QPalette::Text));
 
-    QStyleOptionComboBox opt;
-    initStyleOption(&opt);
+	QStyleOptionComboBox opt;
+	initStyleOption(&opt);
 
 	if (m_displayText.isNull()){
 		opt.currentText = tr("None");
@@ -86,7 +86,7 @@ void CCheckableComboBox::paintEvent(QPaintEvent* /*eventPtr*/)
 	}
 
 	painter.drawComplexControl(QStyle::CC_ComboBox, opt);
-    painter.drawControl(QStyle::CE_ComboBoxLabel, opt);
+	painter.drawControl(QStyle::CE_ComboBoxLabel, opt);
 }
 
 

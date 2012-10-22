@@ -213,7 +213,7 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 void CMainWindowGuiComp::OnDragEnterEvent(QDragEnterEvent* dragEnterEventPtr)
 {
 	if (dragEnterEventPtr->mimeData()->hasFormat("text/uri-list")){
-         dragEnterEventPtr->acceptProposedAction();
+		dragEnterEventPtr->acceptProposedAction();
 	}
 }
 

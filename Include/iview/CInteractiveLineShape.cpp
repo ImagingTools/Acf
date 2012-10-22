@@ -240,7 +240,7 @@ void CInteractiveLineShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CInteractiveLineShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-    if (IsEditablePosition()){
+	if (IsEditablePosition()){
 		imod::IModel* modelPtr = GetModelPtr();
 		if (modelPtr != NULL){
 			i2d::CLine2d& line = *dynamic_cast<i2d::CLine2d*>(modelPtr);

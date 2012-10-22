@@ -326,7 +326,7 @@ private:
 template <int Width, int Height, typename Element>
 inline TMatrix<Height, Width, Element> TMatrix<Width, Height, Element>::GetTransposed() const
 {
-    TMatrix<Height, Width, Element> retVal;
+	TMatrix<Height, Width, Element> retVal;
 
 	GetTransposed(retVal);
 
@@ -403,7 +403,7 @@ inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator
 template <int Width, int Height, typename Element>
 inline TMatrix<Width, Height, Element> operator*(double value, const imath::TMatrix<Width, Height, Element>& matrix)
 {
-    return matrix * value;
+	return matrix * value;
 }
 
 
@@ -651,7 +651,7 @@ double TMatrix<Width, Height, Element>::GetMaxElement() const
 				retVal = value;
 			}
 		}
-    }
+	}
 
 	return retVal;
 }
@@ -670,7 +670,7 @@ double TMatrix<Width, Height, Element>::GetMinElement() const
 				retVal = value;
 			}
 		}
-    }
+	}
 
 	return retVal;
 }
@@ -755,7 +755,7 @@ double TMatrix<Width, Height, Element>::GetFrobeniusNorm2() const
 			double value = m_elements[x][y];
 			retVal += double(value * value);
 		}
-    }
+	}
 	return retVal;
 }
 

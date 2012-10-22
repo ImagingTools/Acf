@@ -38,7 +38,7 @@ class CPackageOverviewComp:
 			virtual public ibase::ICommandsProvider,
 			virtual public IAttributeSelectionObserver
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CPackageOverviewComp, IElementSelectionInfo> BaseClass;

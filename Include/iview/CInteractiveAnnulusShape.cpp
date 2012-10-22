@@ -194,7 +194,7 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
 	I_ASSERT(&annulus != NULL);
 
-    const IColorShema& colorShema = GetColorShema();
+	const IColorShema& colorShema = GetColorShema();
 	i2d::CVector2d screenCenter;
 	const i2d::CVector2d& center = annulus.GetPosition();
 	transform.GetApply(center, screenCenter);
@@ -277,7 +277,7 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
 	I_ASSERT(&annulus != NULL);
 
-    const IColorShema& colorShema = GetColorShema();
+	const IColorShema& colorShema = GetColorShema();
 	const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 	double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());

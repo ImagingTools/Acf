@@ -40,16 +40,16 @@ bool CInteractiveLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseBut
 	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
 	if (labelPtr != NULL){
 		if (downFlag){
-            const IColorShema& colorShema = GetColorShema();
+			const IColorShema& colorShema = GetColorShema();
 
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			const i2d::CVector2d& cp = labelPtr->GetPosition();
 			istd::CIndex2d sp = transform.GetScreenPosition(cp);
-            istd::CIndex2d offsetSp = sp + m_drawOffset;
+			istd::CIndex2d offsetSp = sp + m_drawOffset;
 
 			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_MOVE: IColorShema::TT_INACTIVE);
 
-            if (IsEditableOffset() && tickerBox.IsInside(position - offsetSp)){
+			if (IsEditableOffset() && tickerBox.IsInside(position - offsetSp)){
 				m_editMode = EM_OFFSET;
 				m_referenceOffset = position;
 				m_isAlignFixed = true;
@@ -59,7 +59,7 @@ bool CInteractiveLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseBut
 				return true;
 			}
 
-            if (IsEditablePosition() && tickerBox.IsInside(position - sp)){
+			if (IsEditablePosition() && tickerBox.IsInside(position - sp)){
 				m_editMode = EM_POSITION;
 				m_referencePosition = cp - transform.GetClientPosition(position);
 
@@ -89,23 +89,23 @@ bool CInteractiveLabelShape::OnMouseMove(istd::CIndex2d position)
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 		switch(m_editMode){
-        case EM_POSITION:
-            if (IsEditablePosition()){
-                label.SetPosition(m_referencePosition + transform.GetClientPosition(position));
+		case EM_POSITION:
+			if (IsEditablePosition()){
+				label.SetPosition(m_referencePosition + transform.GetClientPosition(position));
 			}
 			UpdateModelChanges();
-            break;
+			break;
 
-        case EM_OFFSET:
-            if (IsEditableOffset()){
-                m_drawOffset = m_drawOffset + position - m_referenceOffset;
-                m_referenceOffset = position;
+		case EM_OFFSET:
+			if (IsEditableOffset()){
+				m_drawOffset = m_drawOffset + position - m_referenceOffset;
+				m_referenceOffset = position;
 				Invalidate(CS_CONSOLE);
-            }
-            break;
+			}
+			break;
 		default:
 			return true;
-        }
+		}
 
 		return true;
 	}
@@ -140,19 +140,19 @@ void CInteractiveLabelShape::Draw(QPainter& drawContext) const
 			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
 		}
 		else{
-        	drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+			drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
 		}
 
-        if (IsBackgroundTransparent()){
-            drawContext.setBrush(colorShema.GetBrush(iview::IColorShema::SB_TRANSPARENT));
-            if (IsSelected()){
+		if (IsBackgroundTransparent()){
+			drawContext.setBrush(colorShema.GetBrush(iview::IColorShema::SB_TRANSPARENT));
+			if (IsSelected()){
 				drawContext.drawRect(iqt::GetQRect(expandedBox));
 			}
-        }
-        else{
-            drawContext.setBrush(colorShema.GetBrush(iview::IColorShema::SB_NORMAL));
+		}
+		else{
+			drawContext.setBrush(colorShema.GetBrush(iview::IColorShema::SB_NORMAL));
 			drawContext.drawRect(iqt::GetQRect(expandedBox));
-        }
+		}
 
 		//draw text
 		drawContext.setFont(colorShema.GetFont(iview::IColorShema::SF_NORMAL));
@@ -174,17 +174,17 @@ void CInteractiveLabelShape::Draw(QPainter& drawContext) const
 				linePoint.SetY(expandedBox.GetBottom() - 1);
 			}
 			drawContext.drawLine(iqt::GetQPoint(sp), iqt::GetQPoint(linePoint));
-        }
+		}
 
-        drawContext.restore();
+		drawContext.restore();
 
-        //draw ticker
+		//draw ticker
 		if (IsPositionVisible()){
-            BaseClass::Draw(drawContext);
+			BaseClass::Draw(drawContext);
 			if (IsSelected() && IsEditableOffset()){
-                colorShema.DrawTicker(drawContext, offsetSp, IColorShema::TT_MOVE);
+				colorShema.DrawTicker(drawContext, offsetSp, IColorShema::TT_MOVE);
 			}
-        }
+		}
 	}
 }
 

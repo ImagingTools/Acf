@@ -25,7 +25,7 @@ public:
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
 
-    // reimplemented (iview::ITouchable)
+	// reimplemented (iview::ITouchable)
 	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
 protected:

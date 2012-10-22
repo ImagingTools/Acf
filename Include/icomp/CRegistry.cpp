@@ -84,10 +84,10 @@ bool CRegistry::RemoveElementInfo(const QByteArray& elementId)
 	// remove interfaces exported by this component:
 	bool isDone = false;
 	while(!isDone){
-		isDone = true;      
+		isDone = true;
 		for (		ExportedInterfacesMap::iterator iter = m_exportedInterfacesMap.begin();
 					iter != m_exportedInterfacesMap.end();){
-			if (iter.value() == elementId){                         
+			if (iter.value() == elementId){
 				m_exportedInterfacesMap.erase(iter);
 				isDone = false;
 				break;
@@ -98,7 +98,7 @@ bool CRegistry::RemoveElementInfo(const QByteArray& elementId)
 
 	isDone = false;
 	while(!isDone){
-		isDone = true;      
+		isDone = true;
 		for (		ExportedElementsMap::iterator iter = m_exportedComponentsMap.begin();
 					iter != m_exportedComponentsMap.end();){
 			if (iter.value() == elementId){

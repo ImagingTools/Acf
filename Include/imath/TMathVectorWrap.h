@@ -467,18 +467,18 @@ inline TMathVectorWrap<Base> TMathVectorWrap<Base>::operator/(typename Base::Ele
 template <typename Base>
 bool TMathVectorWrap<Base>::Normalize(typename Base::ElementType length)
 {
-    typename Base::ElementType isLength = GetLength();
+	typename Base::ElementType isLength = GetLength();
 
-    typename Base::ElementType proportion = isLength / length;
+	typename Base::ElementType proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
 		int elementsCount = BaseClass::GetElementsCount();
 		for (int i = 0; i < elementsCount; ++i){
 			BaseClass::SetElement(i, BaseClass::GetElement(i) / proportion);
-        }
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}
@@ -488,19 +488,19 @@ bool TMathVectorWrap<Base>::Normalize(typename Base::ElementType length)
 template <typename Base>
 bool TMathVectorWrap<Base>::GetNormalized(TMathVectorWrap<Base>& result, typename Base::ElementType length) const
 {
-    typename Base::ElementType isLength = GetLength();
+	typename Base::ElementType isLength = GetLength();
 
-    typename Base::ElementType proportion = isLength / length;
+	typename Base::ElementType proportion = isLength / length;
 
 	if (qAbs(proportion) > I_BIG_EPSILON){
 		int elementsCount = BaseClass::GetElementsCount();
 		result.SetElementsCount(elementsCount);
 		for (int i = 0; i < elementsCount; ++i){
 			result.SetElement(i, BaseClass::GetElement(i) / proportion);
-        }
+		}
 
 		return true;
-    }
+	}
 	else{
 		return false;
 	}
@@ -527,7 +527,7 @@ bool TMathVectorWrap<Base>::Serialize(iser::IArchive& archive)
 		BaseClass::SetElementsCount(elementsCount);
 	}
 
-    for (int i = 0; i < elementsCount; ++i){
+	for (int i = 0; i < elementsCount; ++i){
 		retVal = retVal && archive.BeginTag(elementTag);
 		retVal = retVal && archive.Process(BaseClass::GetElementRef(i));
 		retVal = retVal && archive.EndTag(elementTag);

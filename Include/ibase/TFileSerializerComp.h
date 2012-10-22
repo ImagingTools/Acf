@@ -75,7 +75,7 @@ protected:
 	{
 	public:
 		typedef WriteArchive BaseClass;
-                
+
 		WriteArchiveEx(const QString& filePath, const iser::IVersionInfo* infoPtr, const TFileSerializerComp* loggerPtr)
 		:	WriteArchive(filePath, infoPtr),
 			m_loggerPtr(loggerPtr)

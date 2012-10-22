@@ -16,7 +16,7 @@ CMessageContainer::CMessageContainer()
 :	m_slaveConsumerPtr(NULL),
 	m_maxMessagesCount(-1),
 	m_maxLiveTime(-1),
-    m_worstCategory(-1)
+	m_worstCategory(-1)
 {
 }
 

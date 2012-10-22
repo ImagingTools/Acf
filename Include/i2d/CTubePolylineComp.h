@@ -30,12 +30,12 @@ public:
 		I_ASSIGN(m_maxTubeRangeValueAttrPtr, "DefaultRightTubeRange", "Default right tube range value", false, 10);
 	I_END_COMPONENT;
 
-    // reimplemented (i2d::CPolygon)
+	// reimplemented (i2d::CPolygon)
 	virtual bool InsertNode(const i2d::CVector2d& node);
 	virtual bool InsertNode(int index, const i2d::CVector2d& node);
 
 protected:
-    // reimplemented (i2d::CPolygon)
+	// reimplemented (i2d::CPolygon)
 	virtual void SetNodesCount(int count);
 
 	// reimplemented (icomp::CComponentBase)

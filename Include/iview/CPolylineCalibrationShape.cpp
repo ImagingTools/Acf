@@ -32,7 +32,7 @@ bool CPolylineCalibrationShape::OnMouseButton(istd::CIndex2d position, Qt::Mouse
 	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(modelPtr);
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
 		if (downFlag){
-            const iview::IColorShema& colorShema = GetColorShema();
+			const iview::IColorShema& colorShema = GetColorShema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 			const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
@@ -171,7 +171,7 @@ void CPolylineCalibrationShape::DrawCurve(QPainter& drawContext) const
 {
 	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(GetModelPtr());
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
-        const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorShema& colorShema = GetColorShema();
 		int nodesCount = polylinePtr->GetNodesCount();
 		if (nodesCount > 0){
 			int secondPointIndex;
@@ -296,7 +296,7 @@ void CPolylineCalibrationShape::DrawSelectionElements(QPainter& drawContext) con
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
-        const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorShema& colorShema = GetColorShema();
 		int nodesCount = polylinePtr->GetNodesCount();
 		int editMode = GetEditMode();
 
@@ -383,7 +383,7 @@ bool CPolylineCalibrationShape::IsCurveTouched(istd::CIndex2d position) const
 			}
 		}
 
-        const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
@@ -432,7 +432,7 @@ bool CPolylineCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 {
 	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(GetModelPtr());
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
-        const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 		const i2d::ITransformation2d& calib = GetIsomorphCalib();
 
@@ -450,7 +450,7 @@ bool CPolylineCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 			}
 			break;
 
-        case iview::ISelectable::EM_MOVE:
+		case iview::ISelectable::EM_MOVE:
 			{
 				const i2d::CRect& tickerBox = colorShema.GetTickerBox(iview::IColorShema::TT_MOVE);
 				for (int i = 0; i < nodesCount; i++){
@@ -464,7 +464,7 @@ bool CPolylineCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 			}
 			break;
 
-        case iview::ISelectable::EM_REMOVE:
+		case iview::ISelectable::EM_REMOVE:
 			{
 				const i2d::CRect& tickerBox = colorShema.GetTickerBox(iview::IColorShema::TT_DELETE);
 				for (int i = 0; i < nodesCount; i++){
@@ -514,7 +514,7 @@ bool CPolylineCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 					}
 				}
 			}
-        }
+		}
 	}
 
 	return false;
