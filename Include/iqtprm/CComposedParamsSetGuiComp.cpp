@@ -287,20 +287,22 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 
 		bool keepVisible = true;
 
-		imod::IModel* parameterModelPtr = GetModelPtr();
-		if (!paramId.isEmpty() && (paramId != "*")){
-			iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
-			parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
+		if (!paramId.isEmpty()){
+			imod::IModel* parameterModelPtr = GetModelPtr();
+			if (paramId != "*"){
+				iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
+				parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
 
-			keepVisible = (parameterPtr != NULL);
-		}
+				keepVisible = (parameterPtr != NULL);
+			}
 
-		imod::IObserver* observerPtr = m_observersCompPtr[i];
+			imod::IObserver* observerPtr = m_observersCompPtr[i];
 
-		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->AttachObserver(observerPtr)){
-			imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
-			if (editorPtr != NULL){
-				m_connectedEditorsMap[editorPtr] = false;
+			if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->AttachObserver(observerPtr)){
+				imod::IModelEditor* editorPtr = m_editorsCompPtr[i];
+				if (editorPtr != NULL){
+					m_connectedEditorsMap[editorPtr] = false;
+				}
 			}
 		}
 
@@ -461,15 +463,17 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	for (int i = 0; i < elementsCount; ++i){
 		const QByteArray& paramId = m_idsAttrPtr[i];
 
-		imod::IModel* parameterModelPtr = GetModelPtr();
-		if (!paramId.isEmpty() && (paramId != "*")){
-			iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
-			parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
-		}
+		if (!paramId.isEmpty()){
+			imod::IModel* parameterModelPtr = GetModelPtr();
+			if (paramId != "*"){
+				iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
+				parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
+			}
 
-		imod::IObserver* observerPtr = m_observersCompPtr[i];
-		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
-			parameterModelPtr->DetachObserver(observerPtr);
+			imod::IObserver* observerPtr = m_observersCompPtr[i];
+			if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
+				parameterModelPtr->DetachObserver(observerPtr);
+			}
 		}
 	}
 

@@ -47,7 +47,7 @@ public:
 	I_ASSIGN_TO(m_observersCompPtr, m_editorsCompPtr, true);
 	I_ASSIGN_TO(m_extendersCompPtr, m_editorsCompPtr, false);
 	I_ASSIGN(m_paramsLoaderCompPtr, "ParamsLoader", "Loader for the parameter set", false, "ParamsLoader");
-	I_ASSIGN_MULTI_0(m_idsAttrPtr, "Ids", "List of parameter ID's according to defined editors, if ID is leer/empty or equals '*' then the observed parameter set will be used", true);
+	I_ASSIGN_MULTI_0(m_idsAttrPtr, "Ids", "List of parameter ID's according to defined editors, if ID equals '*' then the observed parameter set will be used, if it is empty than only GUI will be shown, but no parameter will be connected", true);
 	I_ASSIGN_MULTI_0(m_namesAttrPtr, "Names", "List of of gui names", false);
 	I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
 	I_ASSIGN(m_useVerticalSpacerAttrPtr, "UseVerticalSpacer", "Use vertical spacer to keep inserted objects in place", true, false);
