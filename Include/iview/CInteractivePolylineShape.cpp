@@ -164,6 +164,94 @@ bool CInteractivePolylineShape::OnAttached(imod::IModel* modelPtr)
 }
 
 
+namespace
+{
+
+
+template<typename T> T lerp(T t1, T t2, double x)
+{
+	return t1 * (1 - x) + t2 * x;
+}
+
+
+void drawOrientationMarkers(
+			QPainter& drawContext,
+			QPen brightPen,
+			QPen darkPen,
+			istd::CIndex2d point1,
+			istd::CIndex2d point2,
+			double scale)
+{
+	scale = sqrt(scale);
+
+	// arbitrary marker dimensions in pixels, multiplied by scale
+	double markerSizeX = 8.5 * scale;
+	double markerSizeY = 50 * scale;
+
+	// calculate beginning, end and center of the line
+	QPoint bol(point1.GetX(), point1.GetY());
+	QPoint eol(point2.GetX(), point2.GetY());
+	QPoint lineCenter = (bol + eol) / 2;
+
+	// calculate line length
+	double Dx = bol.x() - eol.x();
+	double Dy = bol.y() - eol.y();
+	double lineLength = sqrt(Dx * Dx + Dy * Dy);
+
+	// limit marker size to half line length
+	if (markerSizeY > lineLength / 2){
+		double correction = markerSizeY / lineLength * 2;
+		markerSizeX /= correction;
+		markerSizeY /= correction;
+	}
+
+	// two points common to both markers
+	QPoint markerPoint1 = lerp(lineCenter, bol, markerSizeX / lineLength);
+	QPoint markerPoint2 = lerp(lineCenter, eol, markerSizeX / lineLength);
+
+	// marker top: point on a line, which will be rotated 90 degrees
+	QPoint top = lerp(lineCenter, bol, markerSizeY / lineLength) - lineCenter;
+
+	QPoint markerTopLeft(lineCenter.x() + top.y(), lineCenter.y() - top.x());
+	QPoint markerTopRight(lineCenter.x() - top.y(), lineCenter.y() + top.x());
+ 
+	QPolygonF leftMarker(3);
+	leftMarker[0] = markerPoint1;
+	leftMarker[1] = markerPoint2;
+	leftMarker[2] = markerTopLeft;
+
+	QPolygonF rightMarker(3);
+	rightMarker[0] = markerPoint1;
+	rightMarker[1] = markerPoint2;
+	rightMarker[2] = markerTopRight;
+
+	drawContext.save();
+
+	// reduce line opacity for the pens; the border is only used to increase visibility on black/white backgrounds
+	QColor darkColor = darkPen.color();
+	QColor brightColor = brightPen.color();
+	QColor color = darkColor;
+	color.setAlphaF(0.25);
+	darkPen.setColor(color);
+	color = brightColor;
+	color.setAlphaF(0.25);
+	brightPen.setColor(color);
+
+	// draw the markers
+	drawContext.setPen(darkPen);
+	drawContext.setBrush(brightColor);
+	drawContext.drawPolygon(leftMarker);
+
+	drawContext.setPen(brightPen);
+	drawContext.setBrush(darkColor);
+	drawContext.drawPolygon(rightMarker);
+
+	drawContext.restore();
+}
+
+} // namespace
+
+
 // protected methods
 
 void CInteractivePolylineShape::DrawCurve(QPainter& drawContext) const
@@ -198,65 +286,20 @@ void CInteractivePolylineShape::DrawCurve(QPainter& drawContext) const
 
 				for (pointIndex = secondPointIndex; pointIndex < nodesCount; ++pointIndex){
 					istd::CIndex2d point2 = transform.GetScreenPosition(polylinePtr->GetNode(pointIndex));
-					istd::CIndex2d delta(point2.GetX() - point1.GetX(), point2.GetY() - point1.GetY());
-					if (qAbs(delta.GetY()) > qAbs(delta.GetX())){
-						if (delta.GetY() > 0){
-							drawContext.save();
-							drawContext.setPen(darkPen);
-							drawContext.drawLine(QPoint(point1.GetX() - 1, point1.GetY()), QPoint(point2.GetX() - 1, point2.GetY()));
-							drawContext.restore();
-							
-							drawContext.save();
-							drawContext.setPen(brightPen);
-							drawContext.drawLine(QPoint(point1.GetX() + 1, point1.GetY()), QPoint(point2.GetX() + 1, point2.GetY()));
-							drawContext.restore();
-						}
-						else{
-							drawContext.save();
-							drawContext.setPen(darkPen);
-							drawContext.drawLine(QPoint(point1.GetX() + 1, point1.GetY()), QPoint(point2.GetX() + 1, point2.GetY()));
-							drawContext.restore();
-						
-							drawContext.save();
-							drawContext.setPen(brightPen);
-							drawContext.drawLine(QPoint(point1.GetX() - 1, point1.GetY()), QPoint(point2.GetX() - 1, point2.GetY()));
-							drawContext.restore();
-						}
-					}
-					else{
-						if (delta.GetX() > 0){
-							drawContext.save();
-							drawContext.setPen(darkPen);
-							drawContext.drawLine(QPoint(point1.GetX(), point1.GetY() + 1), QPoint(point2.GetX(), point2.GetY() + 1));
-							drawContext.restore();
 
-							drawContext.save();
-							drawContext.setPen(brightPen);
-							drawContext.drawLine(QPoint(point1.GetX(), point1.GetY() - 1), QPoint(point2.GetX(), point2.GetY() - 1));
-							drawContext.restore();
-						}
-						else{
-							drawContext.save();
-							drawContext.setPen(darkPen);
-							drawContext.drawLine(QPoint(point1.GetX(), point1.GetY() - 1), QPoint(point2.GetX(), point2.GetY() - 1));
-							drawContext.restore();
+					drawOrientationMarkers(drawContext, brightPen, darkPen, point1, point2, transform.GetDeformMatrix().GetApproxScale());
 
-							drawContext.save();
-							drawContext.setPen(brightPen);
-							drawContext.drawLine(QPoint(point1.GetX(), point1.GetY() + 1), QPoint(point2.GetX(), point2.GetY() + 1));
-							drawContext.restore();
-						}
-					}
 					point1 = point2;
 				}
 			}
 
+			// draw the polygon
+			drawContext.save();
+
 			if (IsSelected()){
-				drawContext.save();
 				drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
 			}
 			else{
-				drawContext.save();
 				drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
 			}
 
@@ -356,41 +399,34 @@ bool CInteractivePolylineShape::IsCurveTouched(istd::CIndex2d position) const
 
 	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(GetModelPtr());
 	if (polylinePtr != NULL){
+		int nodesCount = polylinePtr->GetNodesCount();
+		if (nodesCount < 2){
+			return false;
+		}
+
 		const IColorShema& colorShema = GetColorShema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
+		double logicalLineWidth = colorShema.GetLogicalLineWidth();
 
-		double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
-
-		int nodesCount = polylinePtr->GetNodesCount();
-
-		i2d::CVector2d node1;
+		i2d::CLine2d segmentLine;
 		int i;
 		if (polylinePtr->IsClosed()){
-			node1 = polylinePtr->GetNode(nodesCount - 1);
+			segmentLine.SetPoint2(transform.GetScreenPosition(polylinePtr->GetNode(nodesCount - 1)));
 			i = 0;
 		}
 		else{
-			node1 = polylinePtr->GetNode(0);
+			segmentLine.SetPoint2(transform.GetScreenPosition(polylinePtr->GetNode(0)));
 			i = 1;
 		}
 
-		double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		i2d::CVector2d screenPosition(position);
 
 		for (; i < nodesCount; i++){
-			const i2d::CVector2d& node2 = polylinePtr->GetNode(i);
-			const i2d::CVector2d& cp = transform.GetClientPosition(position);
+			segmentLine.PushEndPoint(transform.GetScreenPosition(polylinePtr->GetNode(i)));
 
-			i2d::CVector2d delta = node2 - node1;
-
-			if ((delta.GetDotProduct(cp - node1) >= 0) && (delta.GetDotProduct(cp - node2) <= 0)){
-				i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
-				double distance = qAbs(ortonormal.GetDotProduct(cp - node1));
-				if (proportions * distance < logicalLineWidth){
-					return true;
-				}
+			if (segmentLine.GetDistance(screenPosition) < logicalLineWidth){
+				return true;
 			}
-
-			node1 = node2;
 		}
 	}
 
@@ -481,7 +517,7 @@ ITouchable::TouchState CInteractivePolylineShape::IsTouched(istd::CIndex2d posit
 				}
 
 				for (int i = 0; i <= lastIndex; i++){
-					point = (polylinePtr->GetNode(i) + polylinePtr->GetNode((i+1) % nodesCount)) * 0.5;
+					point = (polylinePtr->GetNode(i) + polylinePtr->GetNode((i + 1) % nodesCount)) * 0.5;
 					sp = transform.GetScreenPosition(point);
 					if (tickerBox.IsInside(position - sp)){
 						return TS_TICKER;

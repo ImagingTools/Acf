@@ -486,34 +486,25 @@ bool CInteractivePolygonShape::IsCurveTouched(istd::CIndex2d position) const
 
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
 	if (polygonPtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
 		int nodesCount = polygonPtr->GetNodesCount();
-		if (nodesCount > 0){
-			const iview::CScreenTransform& transform = GetLogToScreenTransform();
+		if (nodesCount < 2){
+			return false;
+		}
 
-			double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
+		const IColorShema& colorShema = GetColorShema();
+		const iview::CScreenTransform& transform = GetLogToScreenTransform();
+		double logicalLineWidth = colorShema.GetLogicalLineWidth();
 
-			i2d::CVector2d node1;
-			int i;
-			node1 = polygonPtr->GetNode(nodesCount - 1);
+		i2d::CLine2d segmentLine;
+		segmentLine.SetPoint2(transform.GetScreenPosition(polygonPtr->GetNode(nodesCount - 1)));
 
-			double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		i2d::CVector2d screenPosition(position);
 
-			for (i = 0; i < nodesCount; i++){
-				const i2d::CVector2d& node2 = polygonPtr->GetNode(i);
-				const i2d::CVector2d& cp = transform.GetClientPosition(position);
+		for (int i = 0; i < nodesCount; i++){
+			segmentLine.PushEndPoint(transform.GetScreenPosition(polygonPtr->GetNode(i)));
 
-				i2d::CVector2d delta = node2 - node1;
-
-				if ((delta.GetDotProduct(cp - node1) >= 0) && (delta.GetDotProduct(cp - node2) <= 0)){
-					i2d::CVector2d ortonormal = delta.GetOrthogonal().GetNormalized();
-					double distance = qAbs(ortonormal.GetDotProduct(cp - node1));
-					if (proportions * distance < logicalLineWidth){
-						return true;
-					}
-				}
-
-				node1 = node2;
+			if (segmentLine.GetDistance(screenPosition) < logicalLineWidth){
+				return true;
 			}
 		}
 	}

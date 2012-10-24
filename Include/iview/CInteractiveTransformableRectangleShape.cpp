@@ -414,38 +414,37 @@ bool CInteractiveTransformableRectangleShape::IsParallTouched(
 		const i2d::CVector2d& axisX  = parallDeform.GetAxisX();
 		const i2d::CVector2d& axisY  = parallDeform.GetAxisY();
 
-		i2d::CVector2d cp = transform.GetClientPosition(position);
-		double proportions = ::sqrt(transform.GetDeformMatrix().GetDet());
+		i2d::CVector2d screenPosition(position);
 
 		double logicalLineWidth = colorShema.GetLogicalLineWidth();
 
-		i2d::CLine2d line(parallPosition, parallPosition + axisX);
+		i2d::CLine2d line(transform.GetApply(parallPosition), transform.GetApply(parallPosition + axisX));
 
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint1(parallPosition + axisX + axisY);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint1(transform.GetApply(parallPosition + axisX + axisY));
+		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint2(parallPosition + axisY);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint2(transform.GetApply(parallPosition + axisY));
+		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
-		line.SetPoint1(parallPosition);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint1(transform.GetApply(parallPosition));
+		if (line.GetDistance(screenPosition) < logicalLineWidth){
 			return true;
 		}
 
 		if (IsSelected()){
-			line.SetPoint1(parallPosition + (axisX + axisY) * 0.5);
-			line.SetPoint2(parallPosition + axisX * 0.5 + axisY * 0.25);
-			if (proportions * line.GetDistance(cp) < logicalLineWidth){
+			line.SetPoint1(transform.GetApply(parallPosition + (axisX + axisY) * 0.5));
+			line.SetPoint2(transform.GetApply(parallPosition + axisX * 0.5 + axisY * 0.25));
+			if (line.GetDistance(screenPosition) < logicalLineWidth){
 				return true;
 			}
 
-			line.SetPoint2(parallPosition + axisX * 0.25 + axisY * 0.5);
-			if (proportions * line.GetDistance(cp) < logicalLineWidth){
+			line.SetPoint2(transform.GetApply(parallPosition + axisX * 0.25 + axisY * 0.5));
+			if (line.GetDistance(screenPosition) < logicalLineWidth){
 				return true;
 			}
 		}
