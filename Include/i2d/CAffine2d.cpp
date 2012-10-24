@@ -125,8 +125,8 @@ bool CAffine2d::GetInverted(CAffine2d& result) const
 	}
 
 	result.m_deformMatrix.SetAt(0, 0, m_deformMatrix.GetAt(1, 1) / det);
-	result.m_deformMatrix.SetAt(0, 1, m_deformMatrix.GetAt(0, 1) / det);
-	result.m_deformMatrix.SetAt(1, 0, m_deformMatrix.GetAt(1, 0) / det);
+	result.m_deformMatrix.SetAt(1, 0, m_deformMatrix.GetAt(0, 1) / det);
+	result.m_deformMatrix.SetAt(0, 1, m_deformMatrix.GetAt(1, 0) / det);
 	result.m_deformMatrix.SetAt(1, 1, m_deformMatrix.GetAt(0, 0) / det);
 
 	CVector2d resultNegTranslation;
