@@ -50,23 +50,36 @@ void TModelObserverCompWrap<ObserverComponent>::OnComponentCreated()
 	I_IF_DEBUG(
 		if (m_defaultModelCompPtr.IsValid() && !m_defaultObjectCompPtr.IsValid()){
 			const icomp::IComponentContext* contextPtr = BaseClass::GetComponentContext();
-			QByteArray observerComponentId;
+			QByteArray observerComponentId = "(unidentified)";
 			if (contextPtr != NULL){
-				observerComponentId = contextPtr->GetContextId();
+				const icomp::CComponentContext* extContextPtr = dynamic_cast<const icomp::CComponentContext*>(contextPtr);
+				if (extContextPtr != NULL){
+					observerComponentId = extContextPtr->GetCompleteContextId();
+				}
+				else{
+					observerComponentId = contextPtr->GetContextId();
+				}
 			}
 
-			QByteArray modelComponentId;
+			QByteArray modelComponentId = "(unidentified)";
 
 			icomp::IComponent* modelComponentPtr = dynamic_cast<icomp::IComponent*>(m_defaultModelCompPtr.GetPtr());
-			I_ASSERT(modelComponentPtr != NULL);
-			const icomp::IComponentContext* modelContextPtr = modelComponentPtr->GetComponentContext();
-			if (modelContextPtr != NULL){
-				modelComponentId = modelContextPtr->GetContextId();
+			if (modelComponentPtr != NULL){
+				const icomp::IComponentContext* modelContextPtr = modelComponentPtr->GetComponentContext();
+				if (modelContextPtr != NULL){
+					const icomp::CComponentContext* extModelContextPtr = dynamic_cast<const icomp::CComponentContext*>(modelContextPtr);
+					if (extModelContextPtr != NULL){
+						modelComponentId = extModelContextPtr->GetCompleteContextId();
+					}
+					else{
+						modelComponentId = modelContextPtr->GetContextId();
+					}
+				}
 			}
 
 			QString exptectedObjectInterface = typeid(ObserverComponent::ModelType).name();
 
-			QString debugMessage = QString("Try to bind the Observer <%1> to Model <%2>. Data model interface is not supported by this observer. Expected interface is: %3")
+			QString debugMessage = QString("Component %1: Component model %2 doesn't implement observed interface %3")
 				.arg(QString(observerComponentId))
 				.arg(QString(modelComponentId))
 				.arg(exptectedObjectInterface);

@@ -68,9 +68,14 @@ int CBitmapBase::GetLineBytesCount() const
 
 int CBitmapBase::GetComponentBitsCount(int /*componentIndex*/) const
 {
-	I_ASSERT(GetComponentsCount() > 0);
+	int componentsCount = GetComponentsCount();
 
-	return GetPixelBitsCount() / GetComponentsCount();
+	if (componentsCount > 0){
+		return GetPixelBitsCount() / componentsCount;
+	}
+	else{
+		return 0;
+	}
 }
 
 
