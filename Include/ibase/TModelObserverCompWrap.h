@@ -80,9 +80,9 @@ void TModelObserverCompWrap<ObserverComponent>::OnComponentCreated()
 			QString exptectedObjectInterface = typeid(ObserverComponent::ModelType).name();
 
 			QString debugMessage = QString("Component %1: Component model %2 doesn't implement observed interface %3")
-				.arg(QString(observerComponentId))
-				.arg(QString(modelComponentId))
-				.arg(exptectedObjectInterface);
+						.arg(QString(observerComponentId))
+						.arg(QString(modelComponentId))
+						.arg(exptectedObjectInterface);
 
 			qDebug(debugMessage.toUtf8());
 		}
