@@ -133,6 +133,18 @@ public:
 	bool IsOutsideOf(const TRange& range) const;
 
 	/**
+		Get translated position range.
+		Translation adds the offset value to minimal and mavimal values.
+	*/
+	TRange GetTranslated(ValueType offset) const;
+
+	/**
+		Translated position of this range.
+		Translation adds the offset value to minimal and mavimal values.
+	*/
+	void Translate(ValueType offset);
+
+	/**
 		Get intersection with the second \c range.
 	*/
 	TRange GetIntersection(const TRange& range) const;
@@ -217,7 +229,7 @@ public:
 							\note This value must be in current range.
 	*/
 	ValueType GetMappedTo(ValueType value, const TRange& range) const;
-	
+
 	/** 
 		Get a combined range.
 		It calculates combined range. Range [0, 1] is neutral element of this operation.
@@ -423,6 +435,21 @@ template <typename ValueType>
 inline bool TRange<ValueType>::IsOutsideOf(const TRange& range) const
 {
 	return (range.m_maxValue <= m_minValue) || (range.m_minValue >= m_maxValue);
+}
+
+
+template <typename ValueType>
+inline TRange<ValueType> TRange<ValueType>::GetTranslated(ValueType offset) const
+{
+	return TRange(m_minValue + offset, m_maxValue + offset);
+}
+
+
+template <typename ValueType>
+inline void TRange<ValueType>::Translate(ValueType offset)
+{
+	m_minValue += offset;
+	m_maxValue += offset;
 }
 
 
