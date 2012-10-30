@@ -135,8 +135,8 @@ void CAttributeEditorComp::on_AttributeTree_itemChanged(QTreeWidgetItem* item, i
 		istd::CChangeNotifier registryNotifier(registryPtr, istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
 
 		IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-		for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-					iter != selectedElements.end();
+		for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+					iter != selectedElements.constEnd();
 					++iter){
 			const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 			I_ASSERT(selectedInfoPtr != NULL);
@@ -239,8 +239,8 @@ void CAttributeEditorComp::on_AutoInstanceCB_toggled(bool checked)
 	istd::CChangeNotifier registryNotifier(registryPtr, istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_FLAGS_CHANGED);
 
 	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-				iter != selectedElements.end();
+	for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+				iter != selectedElements.constEnd();
 				++iter){
 		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 		I_ASSERT(selectedInfoPtr != NULL);
@@ -277,8 +277,8 @@ void CAttributeEditorComp::UpdateGeneralView()
 	QString names;
 
 	IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-				iter != selectedElements.end();
+	for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+				iter != selectedElements.constEnd();
 				++iter){
 		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 		I_ASSERT(selectedInfoPtr != NULL);
@@ -305,8 +305,8 @@ void CAttributeEditorComp::UpdateGeneralView()
 	icomp::CComponentAddress commonAddress;
 	bool isMultiType = false;
 
-	for (		AddressToInfoMap::const_iterator infoIter = m_adressToMetaInfoMap.begin();
-				infoIter != m_adressToMetaInfoMap.end();
+	for (		AddressToInfoMap::ConstIterator infoIter = m_adressToMetaInfoMap.constBegin();
+				infoIter != m_adressToMetaInfoMap.constEnd();
 				++infoIter){
 		const icomp::CComponentAddress& address = infoIter.key();
 		const icomp::IComponentStaticInfo* infoPtr = infoIter.value().GetPtr();
@@ -408,8 +408,8 @@ void CAttributeEditorComp::UpdateAttributesView()
 
 			IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
 			AttrInfosMap attrInfosMap;
-			for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-						iter != selectedElements.end();
+			for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+						iter != selectedElements.constEnd();
 						++iter){
 				const QByteArray& elementId = iter.key();
 
@@ -430,8 +430,8 @@ void CAttributeEditorComp::UpdateAttributesView()
 				const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
 				if (elementPtr != NULL){
 					icomp::IRegistryElement::Ids attributeIds = elementPtr->GetAttributeIds();
-					for (		icomp::IRegistryElement::Ids::const_iterator attrIter = attributeIds.begin();
-								attrIter != attributeIds.end();
+					for (		icomp::IRegistryElement::Ids::ConstIterator attrIter = attributeIds.constBegin();
+								attrIter != attributeIds.constEnd();
 								++attrIter){
 						const QByteArray& attributeId = *attrIter;
 
@@ -448,8 +448,8 @@ void CAttributeEditorComp::UpdateAttributesView()
 				const icomp::IComponentStaticInfo* infoPtr = GetComponentMetaInfo(selectedInfoPtr->address);
 				if (infoPtr != NULL){
 					icomp::IElementStaticInfo::Ids attributeIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_ATTRIBUTES);
-					for (		icomp::IElementStaticInfo::Ids::const_iterator attrIter = attributeIds.begin();
-								attrIter != attributeIds.end();
+					for (		icomp::IElementStaticInfo::Ids::ConstIterator attrIter = attributeIds.constBegin();
+								attrIter != attributeIds.constEnd();
 								++attrIter){
 						const QByteArray& attributeId = *attrIter;
 
@@ -460,8 +460,8 @@ void CAttributeEditorComp::UpdateAttributesView()
 				}
 			}
 
-			for (		AttrInfosMap::const_iterator treeIter = attrInfosMap.begin();
-						treeIter != attrInfosMap.end();
+			for (		AttrInfosMap::ConstIterator treeIter = attrInfosMap.constBegin();
+						treeIter != attrInfosMap.constEnd();
 						++treeIter, ++itemIndex){
 				const QByteArray& attributeId = treeIter.key();
 				const ElementIdToAttrInfoMap& attrInfos = treeIter.value();
@@ -533,8 +533,8 @@ void CAttributeEditorComp::UpdateInterfacesView()
 
 			int itemIndex = 0;
 
-			for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-						iter != selectedElements.end();
+			for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+						iter != selectedElements.constEnd();
 						++iter){
 				const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 				I_ASSERT(selectedInfoPtr != NULL);
@@ -609,8 +609,8 @@ void CAttributeEditorComp::UpdateFlagsView()
 	bool autoInstanceOn = false;
 	bool autoInstanceOff = false;
 
-	for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-				iter != selectedElements.end();
+	for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+				iter != selectedElements.constEnd();
 				++iter){
 		const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
 		I_ASSERT(selectedInfoPtr != NULL);
@@ -664,8 +664,8 @@ void CAttributeEditorComp::UpdateSubcomponentsView()
 		const icomp::IRegistry* registryPtr = objectPtr->GetSelectedRegistry();
 		if (registryPtr != NULL){
 			IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-			for (		IElementSelectionInfo::Elements::const_iterator iter = selectedElements.begin();
-						iter != selectedElements.end();
+			for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
+						iter != selectedElements.constEnd();
 						++iter){
 				const QByteArray& elementId = iter.key();
 				const icomp::IRegistry::ElementInfo* selectedInfoPtr = iter.value();
@@ -750,8 +750,8 @@ bool CAttributeEditorComp::SetAttributeToItem(
 	icomp::IElementStaticInfo::Ids obligatoryInterfaces;
 	icomp::IElementStaticInfo::Ids optionalInterfaces;
 
-	for (		ElementIdToAttrInfoMap::const_iterator attrsIter = infos.begin();
-				attrsIter != infos.end();
+	for (		ElementIdToAttrInfoMap::ConstIterator attrsIter = infos.constBegin();
+				attrsIter != infos.constEnd();
 				++attrsIter){
 		const QByteArray& elementId = attrsIter.key();
 		const AttrInfo& attrInfo = attrsIter.value();
@@ -865,9 +865,9 @@ bool CAttributeEditorComp::SetAttributeToItem(
 
 	if (attributeValueTip.isEmpty()){
 		QString attributeTypeDescription;
-		AttributeTypesMap::const_iterator foundTypeName = m_attributeTypesMap.find(attributeTypeId);
-		if (foundTypeName != m_attributeTypesMap.end()){
-			attributeTypeDescription = foundTypeName.value();
+		AttributeTypesMap::ConstIterator foundTypeNameIter = m_attributeTypesMap.constFind(attributeTypeId);
+		if (foundTypeNameIter != m_attributeTypesMap.constEnd()){
+			attributeTypeDescription = foundTypeNameIter.value();
 		}
 		else{
 			attributeTypeDescription = tr("unsupported attribute of type '%1'").arg(QString(attributeTypeId));
@@ -883,13 +883,13 @@ bool CAttributeEditorComp::SetAttributeToItem(
 
 		if (!obligatoryInterfaces.isEmpty() || !optionalInterfaces.isEmpty()){
 			attributeValueTip += tr("\nInterfaces:");
-			for (		icomp::IElementStaticInfo::Ids::const_iterator obligIter = obligatoryInterfaces.begin();
-						obligIter != obligatoryInterfaces.end();
+			for (		icomp::IElementStaticInfo::Ids::ConstIterator obligIter = obligatoryInterfaces.constBegin();
+						obligIter != obligatoryInterfaces.constEnd();
 						++obligIter){
 				attributeValueTip += tr("\n - %1").arg(QString(*obligIter));
 			}
-			for (		icomp::IElementStaticInfo::Ids::const_iterator optIter = optionalInterfaces.begin();
-						optIter != optionalInterfaces.end();
+			for (		icomp::IElementStaticInfo::Ids::ConstIterator optIter = optionalInterfaces.constBegin();
+						optIter != optionalInterfaces.constEnd();
 						++optIter){
 				attributeValueTip += tr("\n - %1 (optional)").arg(QString(*optIter));
 			}
@@ -1303,8 +1303,8 @@ void CAttributeEditorComp::CreateInterfacesTree(
 	// display all interfaces based on meta information
 	if (infoPtr != NULL){
 		const icomp::IElementStaticInfo::Ids& interfaceIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_INTERFACES);
-		for (		icomp::IElementStaticInfo::Ids::const_iterator interfaceIter = interfaceIds.begin();
-					interfaceIter != interfaceIds.end();
+		for (		icomp::IElementStaticInfo::Ids::ConstIterator interfaceIter = interfaceIds.constBegin();
+					interfaceIter != interfaceIds.constEnd();
 					interfaceIter++){
 			const QByteArray& interfaceName = *interfaceIter;
 
@@ -1345,8 +1345,8 @@ void CAttributeEditorComp::CreateInterfacesTree(
 
 		if (includeSubelement){
 			const icomp::IElementStaticInfo::Ids subcomponentIds = infoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_SUBELEMENTS);
-			for (		icomp::IElementStaticInfo::Ids::const_iterator subIter = subcomponentIds.begin();
-						subIter != subcomponentIds.end();
+			for (		icomp::IElementStaticInfo::Ids::ConstIterator subIter = subcomponentIds.constBegin();
+						subIter != subcomponentIds.constEnd();
 						++subIter){
 				const QByteArray& sublementId = *subIter;
 
@@ -1468,8 +1468,8 @@ void CAttributeEditorComp::CreateExportedComponentsTree(
 	if (elementMetaInfoPtr != NULL){
 		const icomp::IElementStaticInfo::Ids subcomponentIds = elementMetaInfoPtr->GetMetaIds(icomp::IComponentStaticInfo::MGI_SUBELEMENTS);
 
-		for (		icomp::IElementStaticInfo::Ids::const_iterator subIter = subcomponentIds.begin();
-					subIter != subcomponentIds.end();
+		for (		icomp::IElementStaticInfo::Ids::ConstIterator subIter = subcomponentIds.constBegin();
+					subIter != subcomponentIds.constEnd();
 					++subIter, ++itemIndex){
 			const QByteArray& sublementId = *subIter;
 
@@ -1788,8 +1788,8 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 	else if ((propertyMining >= AM_REFERENCE) && (propertyMining <= AM_EXPORTED_ATTR)){
 		istd::CChangeNotifier registryNotifier(selectionInfoPtr->GetSelectedRegistry(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
 
-		for (		IElementSelectionInfo::Elements::const_iterator elemIter = selectedElements.begin();
-					elemIter != selectedElements.end();
+		for (		IElementSelectionInfo::Elements::ConstIterator elemIter = selectedElements.constBegin();
+					elemIter != selectedElements.constEnd();
 					++elemIter){
 			const icomp::IRegistry::ElementInfo* elementInfoPtr = elemIter.value();
 			I_ASSERT(elementInfoPtr != NULL);
@@ -1878,8 +1878,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 		return false;
 	}
 
-	for (		IElementSelectionInfo::Elements::const_iterator elemIter = selectedElements.begin();
-				elemIter != selectedElements.end();
+	for (		IElementSelectionInfo::Elements::ConstIterator elemIter = selectedElements.constBegin();
+				elemIter != selectedElements.constEnd();
 				++elemIter){
 		const icomp::IRegistry::ElementInfo* elementInfoPtr = elemIter.value();
 		I_ASSERT(elementInfoPtr != NULL);
@@ -1934,8 +1934,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 				QList< QByteArray> compatIdList = compatIds.toList();	
 				qSort(compatIdList);
 
-				for(		QList< QByteArray>::const_iterator iter = compatIdList.begin();
-							iter != compatIdList.end();
+				for(		QList< QByteArray>::ConstIterator iter = compatIdList.constBegin();
+							iter != compatIdList.constEnd();
 							++iter){
 					comboEditor->addItem(*iter);
 				}
@@ -2096,8 +2096,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const Q
 		QByteArray exportId = editor.property("text").toString().toLocal8Bit();
 
 		icomp::IRegistry::ExportedElementsMap exportedMap = registryPtr->GetExportedElementsMap();
-		for (icomp::IRegistry::ExportedElementsMap::const_iterator iter = exportedMap.begin();
-					iter != exportedMap.end();
+		for (icomp::IRegistry::ExportedElementsMap::ConstIterator iter = exportedMap.constBegin();
+					iter != exportedMap.constEnd();
 					++iter){
 			if (iter.value() == attributeId){
 				registryPtr->SetElementExported(iter.key(), "");

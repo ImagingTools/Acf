@@ -85,7 +85,18 @@ CCompositeComponentStaticInfo::CCompositeComponentStaticInfo(
 			continue;
 		}
 
-		const IComponentStaticInfo* subMetaInfoPtr = manager.GetComponentMetaInfo(elementInfoPtr->address);
+		const IComponentStaticInfo* subMetaInfoPtr = NULL;
+		
+		QByteArray packageId = elementInfoPtr->address.GetPackageId();
+		if (!packageId.isEmpty()){
+			subMetaInfoPtr = manager.GetComponentMetaInfo(elementInfoPtr->address);
+		}
+		else{
+			EmbeddedComponentInfos::ConstIterator findEmbeddedIter = m_embeddedComponentInfos.constFind(elementInfoPtr->address.GetComponentId());
+			if (findEmbeddedIter != m_embeddedComponentInfos.constEnd()){
+				subMetaInfoPtr = findEmbeddedIter.value().GetPtr();
+			}
+		}
 		if (subMetaInfoPtr == NULL){
 			continue;
 		}
