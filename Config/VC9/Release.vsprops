@@ -11,7 +11,7 @@
 		InlineFunctionExpansion="2"
 		EnableIntrinsicFunctions="true"
 		FavorSizeOrSpeed="1"
-		PreprocessorDefinitions="NDEBUG"
+		PreprocessorDefinitions="NDEBUG;QT_NO_DEBUG"
 		RuntimeLibrary="2"
 		BufferSecurityCheck="false"
 		EnableFunctionLevelLinking="true"
