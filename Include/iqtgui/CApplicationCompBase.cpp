@@ -133,7 +133,7 @@ void CApplicationCompBase::InitializeComponentApplication()
 	if (m_iconPathAttrPtr.IsValid()){
 		icon = QIcon(*m_iconPathAttrPtr);
 	}
-	else{	
+	else{
 		icon.addFile(":/Icons/AcfLogo.svg");
 	}
 	m_applicationPtr->setWindowIcon(icon);
@@ -153,7 +153,7 @@ void CApplicationCompBase::InitializeComponentApplication()
 	// set up style sheet
 	if (m_styleSheetAttrPtr.IsValid()){
 		if (!iqtgui::SetStyleSheet(*m_applicationPtr, *m_styleSheetAttrPtr)){
-			qDebug(QString("Style sheet file could not be set: %1").arg(*m_styleSheetAttrPtr).toLatin1());
+			qDebug("Style sheet file could not be set: %s", (*m_styleSheetAttrPtr).toLocal8Bit().constData());
 		}
 	}
 }
