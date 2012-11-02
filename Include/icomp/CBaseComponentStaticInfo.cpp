@@ -68,8 +68,8 @@ void* CBaseComponentStaticInfo::GetComponentInterface(
 			return &component;
 		}
 
-		InterfaceExtractors::const_iterator foundIter = m_interfaceExtractors.find(interfaceType.GetName());
-		if (foundIter != m_interfaceExtractors.end()){
+		InterfaceExtractors::ConstIterator foundIter = m_interfaceExtractors.constFind(interfaceType.GetName());
+		if (foundIter != m_interfaceExtractors.constEnd()){
 			InterfaceExtractorPtr extractorPtr = foundIter.value();
 
 			return extractorPtr(component);
@@ -78,8 +78,8 @@ void* CBaseComponentStaticInfo::GetComponentInterface(
 		if (interfaceType.IsConst()){
 			istd::CClassInfo nonConstType = interfaceType.GetConstCasted(false);
 
-			InterfaceExtractors::const_iterator foundIter = m_interfaceExtractors.find(nonConstType.GetName());
-			if (foundIter != m_interfaceExtractors.end()){
+			InterfaceExtractors::ConstIterator foundIter = m_interfaceExtractors.constFind(nonConstType.GetName());
+			if (foundIter != m_interfaceExtractors.constEnd()){
 				InterfaceExtractorPtr extractorPtr = foundIter.value();
 
 				return extractorPtr(component);
@@ -99,9 +99,9 @@ void* CBaseComponentStaticInfo::GetComponentInterface(
 
 const IAttributeStaticInfo* CBaseComponentStaticInfo::GetAttributeInfo(const QByteArray& attributeId) const
 {
-	AttributeInfos::const_iterator fondIter = m_attributeInfos.find(attributeId);
-	if (fondIter != m_attributeInfos.end()){
-		return fondIter.value();
+	AttributeInfos::ConstIterator foundIter = m_attributeInfos.constFind(attributeId);
+	if (foundIter != m_attributeInfos.constEnd()){
+		return foundIter.value();
 	}
 	else if (m_baseComponentPtr != NULL){
 		return m_baseComponentPtr->GetAttributeInfo(attributeId);
@@ -116,9 +116,9 @@ const IAttributeStaticInfo* CBaseComponentStaticInfo::GetAttributeInfo(const QBy
 
 const IElementStaticInfo* CBaseComponentStaticInfo::GetSubelementInfo(const QByteArray& subcomponentId) const
 {
-	SubelementInfos::const_iterator fondIter = m_subelementInfos.find(subcomponentId);
-	if (fondIter != m_subelementInfos.end()){
-		return fondIter.value();
+	SubelementInfos::ConstIterator foundIter = m_subelementInfos.constFind(subcomponentId);
+	if (foundIter != m_subelementInfos.constEnd()){
+		return foundIter.value();
 	}
 	else if (m_baseComponentPtr != NULL){
 		return m_baseComponentPtr->GetSubelementInfo(subcomponentId);

@@ -171,8 +171,8 @@ void TCascadedMap<Key, Value>::SetParent(const TIMap<Key, Value>* parentPtr)
 template <typename Key, typename Value>
 int TCascadedMap<Key, Value>::FindLocalIndex(const KeyType& key) const
 {
-	typename IndicesMap::const_iterator iter = m_positionsMap.find(key);
-	if (iter != m_positionsMap.end()){
+	typename IndicesMap::ConstIterator iter = m_positionsMap.constFind(key);
+	if (iter != m_positionsMap.constEnd()){
 		return iter.value();
 	}
 
@@ -250,8 +250,8 @@ int TCascadedMap<Key, Value>::GetLocalElementsCount() const
 template <typename Key, typename Value>
 bool TCascadedMap<Key, Value>::InsertLocal(const KeyType& key, const ValueType& value)
 {
-	typename IndicesMap::const_iterator iter = m_positionsMap.find(key);
-	if (iter != m_positionsMap.end()){
+	typename IndicesMap::ConstIterator iter = m_positionsMap.constFind(key);
+	if (iter != m_positionsMap.constEnd()){
 		return false;
 	}
 
@@ -304,8 +304,8 @@ int TCascadedMap<Key, Value>::GetElementsCount() const
 template <typename Key, typename Value>
 typename TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::operator[](const KeyType& key)
 {
-	typename IndicesMap::const_iterator iter = m_positionsMap.find(key);
-	if (iter != m_positionsMap.end()){
+	typename IndicesMap::ConstIterator iter = m_positionsMap.constFind(key);
+	if (iter != m_positionsMap.constEnd()){
 		return m_pairList[iter.value()].second;
 	}
 
@@ -328,8 +328,8 @@ const typename TCascadedMap<Key, Value>::ValueType& TCascadedMap<Key, Value>::op
 template <typename Key, typename Value>
 int TCascadedMap<Key, Value>::FindIndex(const KeyType& key) const
 {
-	typename IndicesMap::const_iterator iter = m_positionsMap.find(key);
-	if (iter != m_positionsMap.end()){
+	typename IndicesMap::ConstIterator iter = m_positionsMap.constFind(key);
+	if (iter != m_positionsMap.constEnd()){
 		return iter.value();
 	}
 

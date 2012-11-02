@@ -120,8 +120,8 @@ QString CSystem::FindVariableValue(const QString& varName)
 
 	EnvironmentVariables environmentVariables = GetEnvironmentVariables();
 
-	EnvironmentVariables::const_iterator foundVarIter = environmentVariables.find(varName.toUpper());
-	if (foundVarIter != environmentVariables.end()){
+	EnvironmentVariables::ConstIterator foundVarIter = environmentVariables.constFind(varName.toUpper());
+	if (foundVarIter != environmentVariables.constEnd()){
 		return foundVarIter.value();
 	}
 

@@ -942,9 +942,9 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 	ChangeIndent(1);
 
 	NextLine(stream);
-	stream << "RegistriesMap::const_iterator findIter = m_registriesMap.find(address);";
+	stream << "RegistriesMap::ConstIterator findIter = m_registriesMap.constFind(address);";
 	NextLine(stream);
-	stream << "if (findIter != m_registriesMap.end()){";
+	stream << "if (findIter != m_registriesMap.constEnd()){";
 	ChangeIndent(1);
 
 	NextLine(stream);

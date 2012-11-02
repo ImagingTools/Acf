@@ -22,8 +22,8 @@ CMinimalVersionInfo::CMinimalVersionInfo(const ISerializable* serializablePtr, b
 
 bool CMinimalVersionInfo::AddId(int versionId, const QString& description)
 {
-	Versions::const_iterator iter = m_versions.find(versionId);
-	if (iter != m_versions.end()){
+	Versions::ConstIterator iter = m_versions.constFind(versionId);
+	if (iter != m_versions.constEnd()){
 		return false;
 	}
 
@@ -40,8 +40,8 @@ bool CMinimalVersionInfo::AddId(int versionId, const QString& description)
 
 bool CMinimalVersionInfo::GetVersionNumber(int versionId, quint32& result) const
 {
-	Versions::const_iterator iter = m_versions.find(versionId);
-	if (m_versions.find(versionId) != m_versions.end()){
+	Versions::ConstIterator iter = m_versions.constFind(versionId);
+	if (m_versions.find(versionId) != m_versions.constEnd()){
 		const Info& info = iter.value();
 
 		result = info.version;
@@ -57,8 +57,8 @@ bool CMinimalVersionInfo::GetVersionNumber(int versionId, quint32& result) const
 
 QString CMinimalVersionInfo::GetVersionIdDescription(int versionId) const
 {
-	Versions::const_iterator iter = m_versions.find(versionId);
-	if (m_versions.find(versionId) != m_versions.end()){
+	Versions::ConstIterator iter = m_versions.constFind(versionId);
+	if (m_versions.find(versionId) != m_versions.constEnd()){
 		const Info& info = iter.value();
 
 		return info.description;

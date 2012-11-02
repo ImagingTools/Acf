@@ -40,8 +40,8 @@ IRegistry::Ids CRegistry::GetElementIds() const
 
 const IRegistry::ElementInfo* CRegistry::GetElementInfo(const QByteArray& elementId) const
 {
-	ComponentsMap::const_iterator iter = m_componentsMap.find(elementId);
-	if (iter != m_componentsMap.end()){
+	ComponentsMap::ConstIterator iter = m_componentsMap.constFind(elementId);
+	if (iter != m_componentsMap.constEnd()){
 		return &(iter.value());
 	}
 
@@ -134,8 +134,8 @@ IRegistry::Ids CRegistry::GetEmbeddedRegistryIds() const
 
 IRegistry* CRegistry::GetEmbeddedRegistry(const QByteArray& registryId) const
 {
-	EmbeddedRegistriesMap::const_iterator iter = m_embeddedRegistriesMap.find(registryId);
-	if (iter != m_embeddedRegistriesMap.end()){
+	EmbeddedRegistriesMap::ConstIterator iter = m_embeddedRegistriesMap.constFind(registryId);
+	if (iter != m_embeddedRegistriesMap.constEnd()){
 		I_ASSERT(iter.value().IsValid());
 
 		return iter.value().GetPtr();

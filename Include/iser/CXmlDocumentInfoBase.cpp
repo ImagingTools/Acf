@@ -16,8 +16,8 @@ void CXmlDocumentInfoBase::EncodeXml(const QByteArray& text, QByteArray& xmlText
 	int textLength = int(text.size());
 	for (int i = 0; i < textLength; ++i){
 		char c = text[i];
-		CharToEntityMap::const_iterator iter = s_charToEntityMap.find(c);
-		if (iter != s_charToEntityMap.end()){
+		CharToEntityMap::ConstIterator iter = s_charToEntityMap.constFind(c);
+		if (iter != s_charToEntityMap.constEnd()){
 			xmlText += iter.value();
 		}
 		else if ((c >= ' ') && (c <= '}')){
@@ -53,8 +53,8 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QByteArray& text
 			}
 			else{
 				QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
-				EntityToChartMap::const_iterator entityIter = s_entityToChartMap.find(entityId);
-				if (entityIter != s_entityToChartMap.end()){
+				EntityToChartMap::ConstIterator entityIter = s_entityToChartMap.constFind(entityId);
+				if (entityIter != s_entityToChartMap.constEnd()){
 					text += entityIter.value();
 				}
 			}
@@ -77,8 +77,8 @@ void CXmlDocumentInfoBase::EncodeXml(const QString& text, QByteArray& xmlText)
 	std::wstring::size_type textLength = int(text.size());
 	for (std::wstring::size_type i = 0; i < textLength; ++i){
 		QChar c = text.at(i);
-		WideCharToEntityMap::const_iterator iter = s_wideCharToEntityMap.find(c);
-		if (iter != s_wideCharToEntityMap.end()){
+		WideCharToEntityMap::ConstIterator iter = s_wideCharToEntityMap.constFind(c);
+		if (iter != s_wideCharToEntityMap.constEnd()){
 			xmlText += iter.value();
 		}
 		else if ((c >= ' ') && (c <= '}')){
@@ -118,8 +118,8 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QString& text)
 			}
 			else{
 				QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
-				EntityToWideChartMap::const_iterator entityIter = s_entityToWideChartMap.find(entityId);
-				if (entityIter != s_entityToWideChartMap.end()){
+				EntityToWideChartMap::ConstIterator entityIter = s_entityToWideChartMap.constFind(entityId);
+				if (entityIter != s_entityToWideChartMap.constEnd()){
 					text += entityIter.value();
 				}
 			}

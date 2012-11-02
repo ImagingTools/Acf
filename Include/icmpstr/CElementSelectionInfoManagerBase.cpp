@@ -54,8 +54,8 @@ QStringList CElementSelectionInfoManagerBase::GetExportAliases(const QByteArray&
 
 const icomp::IComponentStaticInfo* CElementSelectionInfoManagerBase::GetComponentMetaInfo(const icomp::CComponentAddress& address) const
 {
-	AddressToInfoMap::const_iterator foundInfoIter = m_adressToMetaInfoMap.find(address);
-	if (foundInfoIter != m_adressToMetaInfoMap.end()){
+	AddressToInfoMap::ConstIterator foundInfoIter = m_adressToMetaInfoMap.constFind(address);
+	if (foundInfoIter != m_adressToMetaInfoMap.constEnd()){
 		return foundInfoIter.value().GetPtr();
 	}
 

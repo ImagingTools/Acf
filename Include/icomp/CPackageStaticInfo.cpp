@@ -57,8 +57,8 @@ void CPackageStaticInfo::RegisterEmbeddedComponentInfo(const QByteArray& embedde
 
 const IComponentStaticInfo* CPackageStaticInfo::GetEmbeddedComponentInfo(const QByteArray& embeddedId) const
 {
-	EmbeddedComponentInfos::const_iterator foundIter = m_embeddedComponentInfos.find(embeddedId);
-	if (foundIter != m_embeddedComponentInfos.end()){
+	EmbeddedComponentInfos::ConstIterator foundIter = m_embeddedComponentInfos.constFind(embeddedId);
+	if (foundIter != m_embeddedComponentInfos.constEnd()){
 		return foundIter.value();
 	}
 	else{

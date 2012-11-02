@@ -134,8 +134,8 @@ IElementStaticInfo::Ids TAttributeStaticInfo<Attribute>::GetRelatedMetaIds(int m
 {
 	IElementStaticInfo::Ids retVal;
 
-	RelatedIdsMap::const_iterator foundGroupIter = m_relatedInterfacesMap.find(metaGroupId);
-	if (foundGroupIter != m_relatedInterfacesMap.end()){
+	RelatedIdsMap::ConstIterator foundGroupIter = m_relatedInterfacesMap.constFind(metaGroupId);
+	if (foundGroupIter != m_relatedInterfacesMap.constEnd()){
 		const IdsToFlagsMap& groupMap = foundGroupIter.value();
 
 		for (		IdsToFlagsMap::const_iterator iter = groupMap.begin();

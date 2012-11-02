@@ -90,8 +90,8 @@ const QStringList& CComponentMetaDescriptionEncoder::GetMetaKeys() const
 const QStringList& CComponentMetaDescriptionEncoder::GetValues(const QString& key) const
 {
 	if (!key.isEmpty()){
-		MetaValuesMap::const_iterator foundKeyIter = m_metaValuesMap.find(key);
-		if (foundKeyIter != m_metaValuesMap.end()){
+		MetaValuesMap::ConstIterator foundKeyIter = m_metaValuesMap.constFind(key);
+		if (foundKeyIter != m_metaValuesMap.constEnd()){
 			return foundKeyIter.value();
 		}
 		else{

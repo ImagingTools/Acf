@@ -377,8 +377,8 @@ QIcon CRegistryConsistInfoComp::GetComponentIcon(const icomp::CComponentAddress&
 	if (m_externalMetaInfoManagerCompPtr.IsValid()){
 		QString infoPath = m_externalMetaInfoManagerCompPtr->GetComponentInfoPath(address);
 		if (!infoPath.isEmpty()){
-			IconCache::const_iterator cachedIter = m_iconCache.find(address);
-			if (cachedIter != m_iconCache.end()){
+			IconCache::ConstIterator cachedIter = m_iconCache.constFind(address);
+			if (cachedIter != m_iconCache.constEnd()){
 				return cachedIter.value();
 			}
 			else{

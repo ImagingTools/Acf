@@ -37,8 +37,8 @@ bool CPackagesLoaderExtComp::RegisterPackagesDir(const QString& path)
 
 QString CPackagesLoaderExtComp::GetPackageInfoPath(const QByteArray& packageId) const
 {
-	PackageInfosMap::const_iterator foundPackageIter = m_packageInfosMap.find(packageId);
-	if (foundPackageIter != m_packageInfosMap.end()){
+	PackageInfosMap::ConstIterator foundPackageIter = m_packageInfosMap.constFind(packageId);
+	if (foundPackageIter != m_packageInfosMap.constEnd()){
 		return foundPackageIter.value().absolutePath();
 	}
 
@@ -48,8 +48,8 @@ QString CPackagesLoaderExtComp::GetPackageInfoPath(const QByteArray& packageId) 
 
 QString CPackagesLoaderExtComp::GetComponentInfoPath(const icomp::CComponentAddress& address) const
 {
-	PackageInfosMap::const_iterator foundPackageIter = m_packageInfosMap.find(address.GetPackageId());
-	if (foundPackageIter != m_packageInfosMap.end()){
+	PackageInfosMap::ConstIterator foundPackageIter = m_packageInfosMap.constFind(address.GetPackageId());
+	if (foundPackageIter != m_packageInfosMap.constEnd()){
 		return foundPackageIter.value().filePath(address.GetComponentId());
 	}
 

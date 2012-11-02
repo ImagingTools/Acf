@@ -46,13 +46,13 @@ bool CRegistriesManagerComp::LoadPackages(const QString& configFilePath)
 
 int CRegistriesManagerComp::GetPackageType(const QByteArray& packageId) const
 {
-	RealPackagesMap::const_iterator foundNormalIter = m_realPackagesMap.find(packageId);
-	if (foundNormalIter != m_realPackagesMap.end()){
+	RealPackagesMap::ConstIterator foundNormalIter = m_realPackagesMap.constFind(packageId);
+	if (foundNormalIter != m_realPackagesMap.constEnd()){
 		return PT_REAL;
 	}
 
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(packageId);
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(packageId);
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		return PT_COMPOSED;
 	}
 
@@ -62,13 +62,13 @@ int CRegistriesManagerComp::GetPackageType(const QByteArray& packageId) const
 
 QString CRegistriesManagerComp::GetPackagePath(const QByteArray& packageId) const
 {
-	RealPackagesMap::const_iterator foundNormalIter = m_realPackagesMap.find(packageId);
-	if (foundNormalIter != m_realPackagesMap.end()){
+	RealPackagesMap::ConstIterator foundNormalIter = m_realPackagesMap.constFind(packageId);
+	if (foundNormalIter != m_realPackagesMap.constEnd()){
 		return foundNormalIter.value();
 	}
 
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(packageId);
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(packageId);
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		return foundCompositeIter.value().absolutePath();
 	}
 
@@ -115,8 +115,8 @@ const icomp::IRegistry* CRegistriesManagerComp::GetRegistry(const icomp::CCompon
 		return contextRegistryPtr->GetEmbeddedRegistry(address.GetComponentId());
 	}
 
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(address.GetPackageId());
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(address.GetPackageId());
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		QString filePath = foundCompositeIter.value().absoluteFilePath(QString(address.GetComponentId()) + ".arx");
 
 		return GetRegistryFromFile(filePath);
@@ -133,9 +133,8 @@ const icomp::IRegistry* CRegistriesManagerComp::GetRegistryFromFile(const QStrin
 	QFileInfo fileInfo(path);
 	QString correctedPath = fileInfo.canonicalFilePath();
 
-	RegistriesMap::const_iterator iter = m_registriesMap.find(correctedPath);
-
-	if (iter != m_registriesMap.end()){
+	RegistriesMap::ConstIterator iter = m_registriesMap.constFind(correctedPath);
+	if (iter != m_registriesMap.constEnd()){
 		return iter.value().GetPtr();
 	}
 
@@ -164,8 +163,8 @@ void CRegistriesManagerComp::RegisterPackageFile(const QString& file)
 	SendVerboseMessage(QString("Register package file: ") + file);
 
 	if (fileInfo.isFile()){
-		RealPackagesMap::const_iterator foundIter = m_realPackagesMap.find(packageId);
-		if (foundIter == m_realPackagesMap.end()){
+		RealPackagesMap::ConstIterator foundIter = m_realPackagesMap.constFind(packageId);
+		if (foundIter == m_realPackagesMap.constEnd()){
 			m_realPackagesMap[packageId] = fileInfo.canonicalFilePath();
 		}
 		else if (foundIter.value() != fileInfo.canonicalFilePath()){
@@ -177,14 +176,14 @@ void CRegistriesManagerComp::RegisterPackageFile(const QString& file)
 		}
 	}
 	else if (fileInfo.isDir()){
-		CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(packageId);
-		if (foundIter == m_compositePackagesMap.end()){
+		CompositePackagesMap::ConstIterator foundIter = m_compositePackagesMap.constFind(packageId);
+		if (foundIter == m_compositePackagesMap.constEnd()){
 			QStringList filters;
 			filters.append("*.arx");
 			QDir packageDir(fileInfo.canonicalFilePath());
 			QStringList componentFiles = packageDir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
-			for (		QStringList::iterator iter = componentFiles.begin();
-						iter != componentFiles.end();
+			for (		QStringList::ConstIterator iter = componentFiles.constBegin();
+						iter != componentFiles.constEnd();
 						++iter){
 				QString correctedPath;
 

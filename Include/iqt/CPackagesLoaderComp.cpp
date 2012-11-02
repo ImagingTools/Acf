@@ -31,9 +31,8 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistryFromFile(const QString& 
 	QFileInfo fileInfo(path);
 	QString correctedPath = fileInfo.canonicalFilePath();
 
-	RegistriesMap::const_iterator iter = m_registriesMap.find(correctedPath);
-
-	if (iter != m_registriesMap.end()){
+	RegistriesMap::ConstIterator iter = m_registriesMap.constFind(correctedPath);
+	if (iter != m_registriesMap.constEnd()){
 		return iter.value().GetPtr();
 	}
 
@@ -105,13 +104,13 @@ bool CPackagesLoaderComp::LoadPackages(const QString& configFilePath)
 
 int CPackagesLoaderComp::GetPackageType(const QByteArray& packageId) const
 {
-	RealPackagesMap::const_iterator foundNormalIter = m_realPackagesMap.find(packageId);
-	if (foundNormalIter != m_realPackagesMap.end()){
+	RealPackagesMap::ConstIterator foundNormalIter = m_realPackagesMap.constFind(packageId);
+	if (foundNormalIter != m_realPackagesMap.constEnd()){
 		return PT_REAL;
 	}
 
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(packageId);
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(packageId);
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		return PT_COMPOSED;
 	}
 
@@ -121,13 +120,13 @@ int CPackagesLoaderComp::GetPackageType(const QByteArray& packageId) const
 
 QString CPackagesLoaderComp::GetPackagePath(const QByteArray& packageId) const
 {
-	RealPackagesMap::const_iterator foundNormalIter = m_realPackagesMap.find(packageId);
-	if (foundNormalIter != m_realPackagesMap.end()){
+	RealPackagesMap::ConstIterator foundNormalIter = m_realPackagesMap.constFind(packageId);
+	if (foundNormalIter != m_realPackagesMap.constEnd()){
 		return foundNormalIter.value();
 	}
 
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(packageId);
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(packageId);
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		return foundCompositeIter.value().directory.absolutePath();
 	}
 
@@ -139,8 +138,8 @@ QString CPackagesLoaderComp::GetPackagePath(const QByteArray& packageId) const
 
 const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const
 {
-	CompositePackagesMap::const_iterator foundCompositeIter = m_compositePackagesMap.find(address.GetPackageId());
-	if (foundCompositeIter != m_compositePackagesMap.end()){
+	CompositePackagesMap::ConstIterator foundCompositeIter = m_compositePackagesMap.constFind(address.GetPackageId());
+	if (foundCompositeIter != m_compositePackagesMap.constEnd()){
 		QString filePath = foundCompositeIter.value().directory.absoluteFilePath(QString(address.GetComponentId()) + ".arx");
 
 		return GetRegistryFromFile(filePath);
@@ -227,8 +226,8 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 	QByteArray packageId(fileInfo.baseName().toLocal8Bit());
 
 	if (fileInfo.isFile()){
-		RealPackagesMap::const_iterator foundIter = m_realPackagesMap.find(packageId);
-		if (foundIter == m_realPackagesMap.end()){
+		RealPackagesMap::ConstIterator foundIter = m_realPackagesMap.constFind(packageId);
+		if (foundIter == m_realPackagesMap.constEnd()){
 			QLibrary& provider = GetLibrary(fileInfo);
 			if (provider.isLoaded()){
 				icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.resolve(I_PACKAGE_EXPORT_FUNCTION_NAME);
@@ -253,8 +252,8 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 		}
 	}
 	else if (fileInfo.isDir()){
-		CompositePackagesMap::const_iterator foundIter = m_compositePackagesMap.find(packageId);
-		if (foundIter == m_compositePackagesMap.end()){
+		CompositePackagesMap::ConstIterator foundIter = m_compositePackagesMap.constFind(packageId);
+		if (foundIter == m_compositePackagesMap.constEnd()){
 			CompositePackageInfo& packageInfo = m_compositePackagesMap[packageId];
 
 			icomp::CCompositePackageStaticInfo* infoPtr = new icomp::CCompositePackageStaticInfo(
@@ -268,10 +267,11 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 			filters.append("*.arx");
 			QDir packageDir(fileInfo.absoluteFilePath());
 			QStringList componentFiles = packageDir.entryList(filters, QDir::Files | QDir::NoDotAndDotDot);
-			for (		QStringList::iterator iter = componentFiles.begin();
-						iter != componentFiles.end();
+			for (		QStringList::ConstIterator iter = componentFiles.constBegin();
+						iter != componentFiles.constEnd();
 						++iter){
 				QFileInfo componentFileInfo(*iter);
+
 				infoPtr->RegisterEmbeddedComponent(componentFileInfo.baseName().toLocal8Bit());
 			}
 

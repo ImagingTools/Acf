@@ -153,9 +153,9 @@ iser::IObject* CRegistryElement::CreateAttribute(const QByteArray& attributeType
 
 const IRegistryElement::AttributeInfo* CRegistryElement::GetAttributeInfo(const QByteArray& attributeId) const
 {
-	AttributeInfoMap::const_iterator iter = m_attributeInfos.find(attributeId);
+	AttributeInfoMap::ConstIterator iter = m_attributeInfos.constFind(attributeId);
 
-	if (iter != m_attributeInfos.end()){
+	if (iter != m_attributeInfos.constEnd()){
 		return &iter.value();
 	}
 

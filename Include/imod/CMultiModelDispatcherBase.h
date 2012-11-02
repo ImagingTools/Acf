@@ -88,8 +88,8 @@ private:
 template <class Object>
 Object* CMultiModelDispatcherBase::GetObjectAt(int modelId) const
 {
-	typename ModelMap::const_iterator foundIter = m_modelMap.find(modelId);
-	if ((foundIter != m_modelMap.end()) && foundIter.value().IsValid()){
+	typename ModelMap::ConstIterator foundIter = m_modelMap.constFind(modelId);
+	if ((foundIter != m_modelMap.constEnd()) && foundIter.value().IsValid()){
 		return dynamic_cast<Object*>(foundIter.value()->GetModelPtr());
 	}
 

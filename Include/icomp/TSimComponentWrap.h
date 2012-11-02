@@ -82,9 +82,9 @@ const QByteArray& TSimComponentWrap<Base>::GetContextId() const
 template <class Base>
 IComponent* TSimComponentWrap<Base>::GetSubcomponent(const QByteArray& componentId) const
 {
-	BaseClass2::ComponentsMap::const_iterator iter = BaseClass2::m_componentsMap.find(componentId);
+	BaseClass2::ComponentsMap::ConstIterator iter = BaseClass2::m_componentsMap.constFind(componentId);
 
-	if (iter != BaseClass2::m_componentsMap.end()){
+	if (iter != BaseClass2::m_componentsMap.constEnd()){
 		return iter.value();
 	}
 
@@ -102,8 +102,8 @@ const IComponentContext* TSimComponentWrap<Base>::GetSubcomponentContext(const Q
 template <class Base>
 IComponent* TSimComponentWrap<Base>::CreateSubcomponent(const QByteArray& componentId) const
 {
-	FactoriesMap::const_iterator iter = m_factoriesMap.find(componentId);
-	if (iter != m_factoriesMap.end()){
+	FactoriesMap::ConstIterator iter = m_factoriesMap.constFind(componentId);
+	if (iter != m_factoriesMap.constEnd()){
 		I_ASSERT(iter.value() != NULL);
 
 		return iter.value()->CreateInstance();
