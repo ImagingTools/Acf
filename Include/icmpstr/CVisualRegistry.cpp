@@ -332,7 +332,7 @@ icomp::IRegistryElement* CVisualRegistry::CreateRegistryElement(
 icomp::IRegistry* CVisualRegistry::InsertEmbeddedRegistry(const QByteArray& registryId)
 {
 	// A specialization of this method is needed to enable component layout support in embedded compositions.
-	istd::TDelPtr<CVisualRegistry> newRegistryPtr(new istd::TChangeDelegator<CVisualRegistry>(this));
+	istd::TDelPtr<CVisualRegistry> newRegistryPtr(new istd::TChangeDelegator< imod::TModelWrap<CVisualRegistry> >(this));
 	newRegistryPtr->m_serializeUserData = false;
 
 	RegistryPtr& registryPtr = m_embeddedRegistriesMap[registryId];

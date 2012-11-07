@@ -1131,58 +1131,10 @@ void CVisualRegistryEditorComp::ToEmbeddedComponent()
 			QByteArray subId;
 			istd::CIdManipBase::SplitId(subcomponentIter.value(), baseId, subId);
 			if (baseId == elementName){
-				QByteArray completeElementId = istd::CIdManipBase::JoinId(elementName, subId);
-
-				newEmbeddedRegistryPtr->SetElementExported(subcomponentIter.key(), elementName);
+				newEmbeddedRegistryPtr->SetElementExported(subcomponentIter.key(), subcomponentIter.value());
 			}
 		}
-		/*
-		// this code requires a way to get interface type for referenced elements
 
-			// replace referenced interfaces of moved elements with exports
-			icomp::IRegistry::Ids ids = newEmbeddedRegistryPtr->GetElementIds();
-			for (icomp::IRegistry::Ids::const_iterator iter = ids.begin(); iter != ids.end(); iter++){
-				// skip moved elements themselves
-				if (m_selectedElementIds.contains(*iter)){
-					continue;
-				}
-
-				const icomp::IRegistry::ElementInfo* info = registryPtr->GetElementInfo(*iter);
-				if (info == NULL || !info->elementPtr.IsValid()){
-					continue;
-				}
-				// search for attributes referencing moved elements
-				icomp::IRegistry::Ids attrIds = info->elementPtr->GetAttributeIds();
-				for (icomp::IRegistry::Ids::const_iterator iter = attrIds.begin(); iter != attrIds.end(); iter++){
-					icomp::IRegistryElement::AttributeInfo* attrInfo = info->elementPtr->GetAttributeInfo(*iter);
-					if (attrInfo == NULL || !attrInfo->attributeTypeName.startsWith("Reference")){
-						continue;
-					}
-
-					icomp::CReferenceAttribute *attr = attrInfo->attributePtr.Cast<icomp::CReferenceAttribute *>();
-					icomp::CMultiReferenceAttribute *attrMulti = attrInfo->attributePtr.Cast<icomp::CMultiReferenceAttribute *>();
-					QSet<QByteArray>refElemNames;
-
-					if (attr != NULL){
-						QByteArray refElemName = attr->GetValue();
-						if (m_selectedElementIds.contains(refElemName)){
-							refElemNames.insert(refElemName);
-							attr->
-						}
-					}
-					else if (attrMulti != NULL){
-						for (int i = 0; i < attrMulti->GetValuesCount(); i++){
-							QByteArray refElemName = attrMulti->GetValueAt(i);
-							if (m_selectedElementIds.contains(refElemName)){
-								refElemNames.insert(refElemName);
-							}
-
-						}
-					}
-			
-				}
-			}
-		 */
 		registryPtr->RemoveElementInfo(elementName);
 	}
 
@@ -1381,11 +1333,11 @@ void CVisualRegistryEditorComp::UpdateEmbeddedRegistryButtons()
 void CVisualRegistryEditorComp::UpdateEmbeddedRegistryView(const QByteArray& id)
 {
 	if (id != m_embeddedRegistryId){
+		istd::CChangeNotifier selectionNotifier(&m_selectionInfo, IElementSelectionInfo::CF_SELECTION);
+
 		m_embeddedRegistryId = id;
 
 		UpdateScene(0);
-
-		istd::CChangeNotifier selectionNotifier(&m_selectionInfo, IElementSelectionInfo::CF_SELECTION);
 	}
 }
 
