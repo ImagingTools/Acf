@@ -24,10 +24,10 @@ CDelegatedProgressManager::CDelegatedProgressManager(
 			const QByteArray& progressId,
 			const QString& description,
 			bool isCancelable)
-:	m_slaveManagerPtr(slaveManagerPtr),
-	m_nextSessionId(0),
+:	m_nextSessionId(0),
 	m_progressSum(0.0),
-	m_cancelableSessionsCount(0)
+	m_cancelableSessionsCount(0),
+	m_slaveManagerPtr(slaveManagerPtr)
 {
 	m_slaveSessionId = m_slaveManagerPtr->BeginProgressSession(progressId, description, isCancelable);
 	if (m_slaveSessionId < 0){

@@ -295,7 +295,7 @@ public:
 	TMatrix<Width, Height, Element> operator+(const TMatrix<Width, Height, Element>& matrix) const;
 	TMatrix<Width, Height, Element> operator-(const TMatrix<Width, Height, Element>& matrix) const;
 	TMatrix<Width, Height, Element> operator-();
-	
+
 	template <int SecondWidth>
 	TMatrix<SecondWidth, Height, Element> operator*(const TMatrix<SecondWidth, Width, Element>& matrix) const
 	{
@@ -532,10 +532,7 @@ bool TMatrix<Width, Height, Element>::SetDimensionsCount(int count)
 template <int Width, int Height, typename Element>
 const typename TMatrix<Width, Height, Element>::SizesType& TMatrix<Width, Height, Element>::GetSizes() const
 {
-	SizesType retVal;
-
-	retVal[0] = Width;
-	retVal[1] = Height;
+	static SizesType retVal(Width, Height);
 
 	return retVal;
 }

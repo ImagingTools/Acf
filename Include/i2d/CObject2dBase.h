@@ -39,12 +39,12 @@ public:
 				double* errorFactorPtr = NULL);
 	virtual bool GetTransformed(
 				const ITransformation2d& transformation,
-				CObject2dBase& result,
+				IObject2d& result,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
 	virtual bool GetInvTransformed(
 				const ITransformation2d& transformation,
-				CObject2dBase& result,
+				IObject2d& result,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
 
