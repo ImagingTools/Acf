@@ -43,9 +43,10 @@ public:
 		I_ASSIGN_MULTI_0(m_namesAttrPtr, "Names", "List of of gui names", false);
 		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
 		I_ASSIGN(m_insertSpacerAttrPtr, "InsertSpacer", "If enabled, spacer will be added to fill whole available area", true, false);
-		I_ASSIGN(m_designTypeAttrPtr, "DesignType", "Type of design:\n* 0 - simple\n* 1 - tool box\n* 2 - tab\n* 3 - splitter\n* 4 - tool box\n* 5 - tab widget", true, false);
+		I_ASSIGN(m_designTypeAttrPtr, "DesignType", "Type of design:\n* 0 - Simple (Group Box)\n* 1 - Tool Box\n* 2 - Tab Bar\n* 3 - Splitter", true, false);
 		I_ASSIGN(m_settingsKeyAttrPtr, "SettingsKey", "Key for saving/restoring of the layout information in the registry", false, "SettingsKey");
 		I_ASSIGN(m_tabOrientationAttrPtr, "TabBarOrientation", "Orientation of the tab bar for tab design\n 0 - North\n 1 - South\n 2 - West\n 3 - East", true, 0);
+		I_ASSIGN(m_flatViewAttrPtr, "FlatView", "Tries to apply flat view to the design if possible (Group Box: without frame; Tab Bar: triangular tabs; Slider: transparent grip)", true, false);
 	I_END_COMPONENT;
 
 	CComposedGuiComp();
@@ -72,6 +73,7 @@ private:
 	I_ATTR(int, m_designTypeAttrPtr);
 	I_ATTR(QString, m_settingsKeyAttrPtr);
 	I_ATTR(int, m_tabOrientationAttrPtr);
+	I_ATTR(bool, m_flatViewAttrPtr);
 
 	QSplitter* m_splitterPtr;
 };
