@@ -14,15 +14,12 @@
 #include "iqt/CApplicationSettingsProviderComp.h"
 #include "iqt/CIniSettingsProviderComp.h"
 #include "iqt/CFileInfoCopyComp.h"
-#include "iqt/CFileListProviderComp.h"
 #include "iqt/CClipboardSerializerComp.h"
 #include "iqt/CRenderedObjectFileLoaderComp.h"
 #include "iqt/CTranslationManagerComp.h"
 #include "iqt/CXmlFileReadArchive.h"
 #include "iqt/CXmlFileWriteArchive.h"
 #include "iqt/CRegistryCodeSaverComp.h"
-#include "iqt/CSystemLocationComp.h"
-#include "iqt/CGeneratedFileNameParamComp.h"
 
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CStaticHelpFileProviderComp.h"
@@ -59,7 +56,6 @@ typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CIniSettingsProviderComp IniSettingsProvider;
 typedef iqt::CFileInfoCopyComp FileInfoCopy;
-typedef icomp::TModelCompWrap<iqt::CFileListProviderComp> FileListProvider;
 typedef iqt::CClipboardSerializerComp ClipboardSerializer;
 typedef iqt::CRenderedObjectFileLoaderComp RenderedObjectFileLoader;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
@@ -69,8 +65,6 @@ typedef iqt::CRegistryCodeSaverComp RegistryCodeSaver;
 typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
 typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
-typedef icomp::TModelCompWrap<iqt::CSystemLocationComp> SystemLocation;
-typedef icomp::TModelCompWrap<iqt::CGeneratedFileNameParamComp> GeneratedFileNameParam;
 
 
 } // namespace QtPck

@@ -1,10 +1,12 @@
-#ifndef iqt_CFileListProviderComp_included
-#define iqt_CFileListProviderComp_included
+#ifndef ifile_CFileListProviderComp_included
+#define ifile_CFileListProviderComp_included
 
 
 // Qt includes
 #include <QtCore/QFileSystemWatcher>
+#include <QtCore/QStringList>
 
+// ACF includes
 #include "iser/IFileLoader.h"
 
 #include "imod/IModel.h"
@@ -14,12 +16,12 @@
 
 #include "ibase/IFileListProvider.h"
 
-#include "iprm/IFileNameParam.h"
+#include "ifile/IFileNameParam.h"
 
-#include "iqt/iqt.h"
+#include "ifile/ifile.h"
 
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -63,7 +65,7 @@ private Q_SLOTS:
 	void OnDirectoryContentChanged(const QString& directoryPath);
 
 private:
-	I_REF(iprm::IFileNameParam, m_dirParamCompPtr);
+	I_REF(ifile::IFileNameParam, m_dirParamCompPtr);
 	I_REF(imod::IModel, m_dirParamModelCompPtr);
 	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
 	I_MULTIATTR(QString, m_filtersAttrPtr);
@@ -77,9 +79,9 @@ private:
 };
 
 
-} // namespace iqt
+} // namespace ifile
 
 
-#endif //!iqt_CFileListProviderComp_included
+#endif //!ifile_CFileListProviderComp_included
 
 

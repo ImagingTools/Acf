@@ -144,11 +144,6 @@ I_EXPORT_COMPONENT(
 			"Parameter Choice Change Selection Mutable Variable" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
 
 I_EXPORT_COMPONENT(
-			FileNameParam,
-			"Parameters for file/directory selection",
-			"Name Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
-
-I_EXPORT_COMPONENT(
 			EnableableParam,
 			"Parameter with boolean flag",
 			"Parameter Enabled Bool" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));
@@ -272,11 +267,6 @@ I_EXPORT_COMPONENT(
 			MultiParamsManager,
 			"Manager of multi parameters set",
 			"Parameters Set Multi Manager" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition Parameter"));
-
-I_EXPORT_COMPONENT(
-			RelativeFileNameParam,
-			"Provide file name relative to some other optional directory",
-			"Name Relative Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
 
 
 } // namespace BasePck

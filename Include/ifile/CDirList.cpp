@@ -1,11 +1,11 @@
-#include "iqt/CDirList.h"
+#include "ifile/CDirList.h"
 
 
 // Qt includes
 #include <QtCore/QFileInfo>
 
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -89,6 +89,6 @@ void CDirList::DoSearch(
 }
 
 
-} // namespace iqt
+} // namespace ifile
 
 

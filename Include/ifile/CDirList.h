@@ -1,8 +1,8 @@
-#ifndef iqt_CDirList_included
-#define iqt_CDirList_included
+#ifndef ifile_CDirList_included
+#define ifile_CDirList_included
 
 
-#include "iqt/iqt.h"
+#include "ifile/ifile.h"
 
 
 #include <QtCore/QObject>
@@ -10,7 +10,7 @@
 #include <QtCore/QDir>
  
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -64,9 +64,9 @@ protected:
 };
 
 
-} // namespace iqt
+} // namespace ifile
 
 
-#endif // !iqt_CDirList_included
+#endif // !ifile_CDirList_included
 
 

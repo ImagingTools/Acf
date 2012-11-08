@@ -1,5 +1,5 @@
-#ifndef iqt_CGeneratedFileNameParamComp_included
-#define iqt_CGeneratedFileNameParamComp_included
+#ifndef ifile_CGeneratedFileNameParamComp_included
+#define ifile_CGeneratedFileNameParamComp_included
 
 
 // ACF includes
@@ -7,20 +7,20 @@
 
 #include "ibase/TLoggerCompWrap.h"
 
-#include "iprm/CRelativeFileNameParamComp.h"
+#include "ifile/CRelativeFileNameParamComp.h"
 
 
-namespace iqt
+namespace ifile
 {
 
 
 /**
 	Component for auto generated file path.
 */
-class CGeneratedFileNameParamComp: public ibase::TLoggerCompWrap<iprm::CRelativeFileNameParamComp>
+class CGeneratedFileNameParamComp: public ibase::TLoggerCompWrap<ifile::CRelativeFileNameParamComp>
 {
 public:
-	typedef ibase::TLoggerCompWrap<iprm::CRelativeFileNameParamComp> BaseClass;
+	typedef ibase::TLoggerCompWrap<ifile::CRelativeFileNameParamComp> BaseClass;
 
 	I_BEGIN_COMPONENT(CGeneratedFileNameParamComp);
 		I_ASSIGN(m_autoDeleteAttrPtr, "AutoDelete", "If enabled, the file or directory specified by this object will be removed during component deinitialization", false, false);
@@ -28,7 +28,7 @@ public:
 		I_ASSIGN(m_fileTypeInfoCompPtr, "FileTypeInfo", "File type information used for specifing the file extension", false, "FileTypeInfo");
 	I_END_COMPONENT;
 
-	// reimplemented (iprm::IFileNameParam)
+	// reimplemented (ifile::IFileNameParam)
 	virtual void SetPath(const QString& path);
 
 protected:
@@ -43,9 +43,9 @@ private:
 };
 
 
-} // namespace iqt
+} // namespace ifile
 
 
-#endif // !iqt_CGeneratedFileNameParamComp_included
+#endif // !ifile_CGeneratedFileNameParamComp_included
 
 

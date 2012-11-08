@@ -59,11 +59,6 @@ I_EXPORT_COMPONENT(
 			"Copy Move Attach License Version Tags" IM_TAG("File Processing"));
 
 I_EXPORT_COMPONENT(
-			FileListProvider,
-			"Provide list of file synchronized with some directory",
-			"List Provider Directory" IM_TAG("File"));
-
-I_EXPORT_COMPONENT(
 			ClipboardSerializer,
 			"Load and store objects from and to clipboard",
 			"System Clipboard Serializer Copy Paste" IM_TAG("Loader"));
@@ -103,15 +98,6 @@ I_EXPORT_COMPONENT(
 			"Provide html help file path converting class type using doxygen format",
 			"Doxygen File Provider Document Html Description Class Interface Qt" IM_TAG("Help"));
 
-I_EXPORT_COMPONENT(
-			SystemLocation,
-			"System locations provider",
-			"System Path File Location Temp Documents Media Cache" IM_TAG("Model"));
-
-I_EXPORT_COMPONENT(
-			GeneratedFileNameParam,
-			"Provide auto generated file or directory name",
-			"Name Relative Directory Parameters URL" IM_CATEGORY(I_DATA_MODEL) IM_TAG("File Model Parameter"));
 
 } // namespace QtPck
 

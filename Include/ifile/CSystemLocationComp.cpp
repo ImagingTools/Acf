@@ -1,17 +1,17 @@
-#include "iqt/CSystemLocationComp.h"
+#include "ifile/CSystemLocationComp.h"
 
 
 // Qt includes
 #include <QtGui/QDesktopServices>
 
 
-namespace iqt
+namespace ifile
 {
 
 
 // public methods
 
-// reimplemented (iprm::IFileNameParam)
+// reimplemented (ifile::IFileNameParam)
 
 int CSystemLocationComp::GetPathType() const
 {
@@ -53,6 +53,6 @@ void CSystemLocationComp::OnComponentCreated()
 }
 
 
-} // namespace iqt
+} // namespace ifile
 
 

@@ -17,6 +17,7 @@
 // ACF packages includes
 #include "QtPck/QtPck.h"
 #include "BasePck/BasePck.h"
+#include "FilePck/FilePck.h"
 #include "CompositorPck/CompositorPck.h"
 
 
@@ -132,7 +133,7 @@ int main(int argc, char *argv[])
 
 	registriesManagerComp.LoadPackages(configFile);
 
-	icomp::TSimComponentWrap<BasePck::FileNameParam> dependsBasePathComp;
+	icomp::TSimComponentWrap<FilePck::FileNameParam> dependsBasePathComp;
 	dependsBasePathComp.SetStringAttr("DefaultPath", baseDependsPath);
 	dependsBasePathComp.InitComponent();
 

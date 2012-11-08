@@ -1,4 +1,4 @@
-#include "iqt/CFileListProviderComp.h"
+#include "ifile/CFileListProviderComp.h"
 
 
 // Qt includes
@@ -8,10 +8,10 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 
-#include "iqt/CFileList.h"
+#include "ifile/CFileList.h"
 
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -103,6 +103,6 @@ void CFileListProviderComp::OnDirectoryContentChanged(const QString& /*directory
 }
 
 
-} // namespace iqt
+} // namespace ifile
 
 

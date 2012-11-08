@@ -230,7 +230,7 @@
         HtmlBrowserFile
       </Id>
       <PackageId>
-        BasePck
+        FilePck
       </PackageId>
       <ComponentId>
         FileNameParam
@@ -270,7 +270,7 @@
         HtmlEditorFile
       </Id>
       <PackageId>
-        BasePck
+        FilePck
       </PackageId>
       <ComponentId>
         FileNameParam
@@ -347,7 +347,7 @@
         PreviewCommandFile
       </Id>
       <PackageId>
-        BasePck
+        FilePck
       </PackageId>
       <ComponentId>
         FileNameParam

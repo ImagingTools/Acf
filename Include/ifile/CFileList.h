@@ -1,8 +1,8 @@
-#ifndef iqt_CFileList_included
-#define iqt_CFileList_included
+#ifndef ifile_CFileList_included
+#define ifile_CFileList_included
 
 
-#include "iqt/iqt.h"
+#include "ifile/ifile.h"
 
 
 #include <QtCore/QObject>
@@ -10,7 +10,7 @@
 #include <QtCore/QDir>
  
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -49,9 +49,9 @@ Q_SIGNALS:
 };
 
 
-} // namespace iqt
+} // namespace ifile
 
 
-#endif // !iqt_CFileList_included
+#endif // !ifile_CFileList_included
 
 

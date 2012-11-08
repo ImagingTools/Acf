@@ -1,4 +1,4 @@
-#include "iqt/CGeneratedFileNameParamComp.h"
+#include "ifile/CGeneratedFileNameParamComp.h"
 
 
 // Qt includes
@@ -12,11 +12,11 @@
 #include "iqt/CSystem.h"
 
 
-namespace iqt
+namespace ifile
 {
 
 
-// reimplemented (iprm::IFileNameParam)
+// reimplemented (ifile::IFileNameParam)
 
 void CGeneratedFileNameParamComp::SetPath(const QString& /*path*/)
 {
@@ -77,6 +77,6 @@ void CGeneratedFileNameParamComp::OnComponentDestroyed()
 }
 
 
-} // namespace iqt
+} // namespace ifile
 
 

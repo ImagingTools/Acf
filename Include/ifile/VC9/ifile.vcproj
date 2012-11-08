@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="iprm"
-	ProjectGUID="{9ABA7CB2-C8DB-4704-BC43-537BD9AD82D7}"
-	RootNamespace="iprm"
+	Name="ifile"
+	ProjectGUID="{1DD43ACD-B299-4852-9813-4E32D82DC38D}"
+	RootNamespace="ifile"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\Config\VC9\QtUIForm.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -26,7 +29,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Designer Form"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -96,7 +111,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Designer Form"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -162,63 +189,31 @@
 			Filter="cpp"
 			>
 			<File
-				RelativePath="..\CComposedParamsSetComp.cpp"
+				RelativePath="..\CDirList.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CEnableableParam.cpp"
+				RelativePath="..\CFileList.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CEnableableParamComp.cpp"
+				RelativePath="..\CFileListProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CManagerParamsSetShadowerComp.cpp"
+				RelativePath="..\CFileNameParamComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CMultiParamsManagerComp.cpp"
+				RelativePath="..\CGeneratedFileNameParamComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CNameParam.cpp"
+				RelativePath="..\CRelativeFileNameParamComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CNameParamComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\COptionsManagerComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsManagerComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CParamsSet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectableParamsSetComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionConstraintsComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionParam.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionParamComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CVariableParamComp.cpp"
+				RelativePath="..\CSystemLocationComp.cpp"
 				>
 			</File>
 		</Filter>
@@ -227,15 +222,15 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\CComposedParamsSetComp.h"
+				RelativePath="..\CDirList.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CEnableableParam.h"
+				RelativePath="..\CFileList.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CEnableableParamComp.h"
+				RelativePath="..\CFileListProviderComp.h"
 				>
 			</File>
 			<File
@@ -243,91 +238,55 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CManagerParamsSetShadowerComp.h"
+				RelativePath="..\CGeneratedFileNameParamComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CMultiParamsManagerComp.h"
+				RelativePath="..\CRelativeFileNameParamComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CNameParam.h"
+				RelativePath="..\CSystemLocationComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CNameParamComp.h"
+				RelativePath="..\ifile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\COptionsManagerComp.h"
+				RelativePath="..\IFileNameParam.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Moc Files"
+			>
+			<File
+				RelativePath="..\CDirList.moc"
 				>
 			</File>
 			<File
-				RelativePath="..\CParamsManagerComp.h"
+				RelativePath="..\CFileList.moc"
 				>
 			</File>
 			<File
-				RelativePath="..\CParamsSet.h"
+				RelativePath="..\CFileListProviderComp.moc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Generated Files"
+			>
+			<File
+				RelativePath="..\Generated\moc_CDirList.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectableParamsSetComp.h"
+				RelativePath="..\Generated\moc_CFileList.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CSelectionConstraintsComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CSelectionParamComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CVariableParamComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IEnableableParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\INameParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IOptionsManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IParamsManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IParamsSet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\iprm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ISelectionConstraints.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ISelectionParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IVariableParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TParamsPtr.h"
+				RelativePath="..\Generated\moc_CFileListProviderComp.cpp"
 				>
 			</File>
 		</Filter>

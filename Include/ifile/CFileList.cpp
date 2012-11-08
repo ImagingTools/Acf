@@ -1,12 +1,12 @@
-#include "iqt/CFileList.h"
-#include "iqt/CDirList.h"
+#include "ifile/CFileList.h"
+#include "ifile/CDirList.h"
 
 
 // Qt includes
 #include <QtCore/QFileInfo>
 
 
-namespace iqt
+namespace ifile
 {
 
 
@@ -55,6 +55,6 @@ bool CFileList::Create(
 }
 
 
-} // namespace iqt
+} // namespace ifile
 
 
