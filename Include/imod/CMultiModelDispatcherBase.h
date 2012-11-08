@@ -6,7 +6,9 @@
 #include <QtCore/QMap>
 
 // ACF includes
+#include "istd/IChangeable.h"
 #include "istd/TDelPtr.h"
+
 #include "imod/IModel.h"
 #include "imod/CSingleModelObserverBase.h"
 
@@ -35,7 +37,7 @@ public:
 		\param modelId	Logical model ID for possible event filtering in the notification callback.
 		\param relefantFlags	The notification will only be triggered if the value of \c relevantFlags matches the model change flags.
 	*/
-	bool RegisterModel(IModel* modelPtr, int modelId = 0, int relevantFlags = 0);
+	bool RegisterModel(IModel* modelPtr, int modelId = 0, int relevantFlags = istd::IChangeable::CF_MODEL);
 	
 	/**
 		Unregister the data model object.
