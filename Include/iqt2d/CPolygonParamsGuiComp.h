@@ -29,6 +29,8 @@ protected Q_SLOTS:
 	void on_RemoveButton_clicked();
 	void on_CopyButton_clicked();
 	void on_PasteButton_clicked();
+
+	void OnToolsButtonMenuActionTriggered(QAction* action);
 };
 
 

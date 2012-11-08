@@ -37,4 +37,10 @@ void CPolygonParamsGuiComp::on_PasteButton_clicked()
 }
 
 
+void CPolygonParamsGuiComp::OnToolsButtonMenuActionTriggered(QAction* action)
+{
+	BaseClass::OnToolsButtonMenuActionTriggered(action);
+}
+
+
 } // namespace iqt2d

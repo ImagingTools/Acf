@@ -68,6 +68,8 @@ void CPolylineParamsGuiComp::on_CloseLineCheckBox_stateChanged(int state)
 		if (state == Qt::Checked){
 			if (!polylinePtr->IsClosed()){
 				polylinePtr->SetClosed(true);
+				// ensure the checkbox is disabled if there's no selection
+				CloseLineCheckBox->setDisabled(NodeParamsTable->currentRow() < 0);
 			}
 		}
 		else if (state == Qt::Unchecked){
@@ -116,6 +118,12 @@ void CPolylineParamsGuiComp::OnGuiCreated()
 }
 
 
+void CPolylineParamsGuiComp::OnToolsButtonMenuActionTriggered(QAction* action)
+{
+	BaseClass::OnToolsButtonMenuActionTriggered(action);
+}
+
+
 void CPolylineParamsGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
@@ -126,7 +134,7 @@ void CPolylineParamsGuiComp::OnGuiModelAttached()
 void CPolylineParamsGuiComp::OnGuiModelDetached()
 {
 	UpdateClosedLineCheckBox(false, true);
-
+	
 	BaseClass::OnGuiModelDetached();
 }
 
