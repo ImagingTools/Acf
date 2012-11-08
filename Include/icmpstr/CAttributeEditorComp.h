@@ -63,7 +63,7 @@ public:
 		AM_REFERENCE,
 		AM_MULTI_REFERENCE,
 		AM_ATTRIBUTE,
-		AM_SELECTABLE_ATTRIBUTE,
+		AM_BOOL_ATTRIBUTE,
 		AM_MULTI_ATTRIBUTE,
 		AM_EXPORTED_ATTR,
 		AM_EXPORTED_COMP,
@@ -174,7 +174,7 @@ private:
 
 		template <class AttributeImpl>
 		static QString GetMultiAttributeValueAsString(const AttributeImpl& attribute);
-		
+
 		// reimplemented (QItemDelegate)
 		virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 		virtual void setEditorData(QWidget* editor, const QModelIndex& index ) const;
