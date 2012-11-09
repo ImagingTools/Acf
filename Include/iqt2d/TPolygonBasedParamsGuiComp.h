@@ -32,9 +32,9 @@ namespace iqt2d
 
 template <class PolygonBasedShape, class PolygonBasedModel>
 class TPolygonBasedParamsGuiComp: public iqt2d::TShapeParamsGuiCompBase<
-Ui::CPolygonParamsGuiComp,
-PolygonBasedShape,
-PolygonBasedModel>
+			Ui::CPolygonParamsGuiComp,
+			PolygonBasedShape,
+			PolygonBasedModel>
 {
 public:
 
@@ -59,11 +59,10 @@ public:
 		CI_LAST = CI_Y
 	};
 
-
 	typedef iqt2d::TShapeParamsGuiCompBase<
-	Ui::CPolygonParamsGuiComp,
-	PolygonBasedShape,
-	PolygonBasedModel> BaseClass;
+				Ui::CPolygonParamsGuiComp,
+				PolygonBasedShape,
+				PolygonBasedModel> BaseClass;
 
 	I_BEGIN_COMPONENT(TPolygonBasedParamsGuiComp);
 	I_END_COMPONENT;
@@ -72,7 +71,6 @@ public:
 	virtual void UpdateModel() const;
 
 protected:
-
 	/**
 		Get the table with the node data.
 	 */
@@ -297,7 +295,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 	NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
 	NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
 
-	CloseLineCheckBox->setHidden(true);
+	BaseClass::CloseLineCheckBox->setHidden(true);
 	UpdateToolsMenuButton();
 }
 
@@ -305,19 +303,19 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToolsMenuButton()
 {
-	ToolsButton->setHidden(true);
-	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(GetModelPtr());
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	BaseClass::ToolsButton->setHidden(true);
+	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(BaseClass::GetModelPtr());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetModelPtr());
 
 	if (polylinePtr != NULL || polygonPtr != NULL){
-		ToolsButton->setHidden(false);
-		if (ToolsButton->menu() == NULL){
-			ToolsButton->setMenu(new QMenu(ToolsButton));
-			connect(ToolsButton->menu(), SIGNAL(triggered(QAction*)),
+		BaseClass::ToolsButton->setHidden(false);
+		if (BaseClass::ToolsButton->menu() == NULL){
+			BaseClass::ToolsButton->setMenu(new QMenu(BaseClass::ToolsButton));
+			connect(BaseClass::ToolsButton->menu(), SIGNAL(triggered(QAction*)),
 					this, SLOT(OnToolsButtonMenuActionTriggered(QAction*)));
 		}
 
-		QMenu& menu = *ToolsButton->menu();
+		QMenu& menu = *BaseClass::ToolsButton->menu();
 		menu.clear();
 
 		menu.addAction("Flip horizontally")->setData(ActionFlipHorizontally);
@@ -334,7 +332,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToo
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnToolsButtonMenuActionTriggered(QAction* action)
 {
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetModelPtr());
 	if (polygonPtr != NULL){
 		istd::CChangeNotifier notifier(polygonPtr);
 
