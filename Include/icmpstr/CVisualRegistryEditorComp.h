@@ -106,8 +106,6 @@ public:
 	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 protected:
-
-
 	enum GroupId
 	{
 		GI_COMPONENT = 0x5430,
@@ -117,7 +115,6 @@ protected:
 		GI_EDIT,
 		GI_TOOLS
 	};
-
 
 	class EnvironmentObserver: public imod::TSingleModelObserverBase<icomp::IComponentEnvironmentManager>
 	{
@@ -159,10 +156,10 @@ protected:
 				const i2d::CVector2d& position);
 
 	/**
-	 Used by TryCreateComponent() when an existing component is pasted (?) to 
-	 update attributes referencing it, in all registry elements.
-	 \param componentRole registry element id
-	 */
+		Used by TryCreateComponent() when an existing component is pasted (?) to 
+		update attributes referencing it, in all registry elements.
+		\param componentRole registry element id
+	*/
 	void ConnectReferences(const QByteArray& componentRole);
 
 	/**
@@ -172,7 +169,6 @@ protected:
 
 	void DoRetranslate();
 
-	// reimplemented (icmpstr::TScenographerCompBase)
 	virtual bool OnDropObject(const QMimeData& data, QGraphicsSceneDragDropEvent* eventPtr);
 	virtual void UpdateScene(int updateFlags);
 

@@ -228,11 +228,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryElement.cpp"
+				RelativePath="..\CVisualRegistryEditorComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryEditorComp.cpp"
+				RelativePath="..\CVisualRegistryElement.cpp"
 				>
 			</File>
 			<File
@@ -318,11 +318,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryElement.h"
+				RelativePath="..\CVisualRegistryEditorComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CVisualRegistryEditorComp.h"
+				RelativePath="..\CVisualRegistryElement.h"
 				>
 			</File>
 			<File
@@ -359,10 +359,6 @@
 			</File>
 			<File
 				RelativePath="..\TObjectShapeBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TScenographerCompBase.h"
 				>
 			</File>
 			<File
