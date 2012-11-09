@@ -111,6 +111,16 @@ Q_SIGNALS:
 	void AfterSubcomponentsChange();
 
 protected:
+	struct AttrInfo
+	{
+		istd::TPointerBase<icomp::IRegistryElement> elementPtr;
+		istd::TPointerBase<icomp::IRegistryElement::AttributeInfo> infoPtr;
+		istd::TPointerBase<const icomp::IAttributeStaticInfo> staticInfoPtr;
+	};
+
+	typedef QMap<QByteArray, AttrInfo> ElementIdToAttrInfoMap;
+	typedef QMap<QByteArray, ElementIdToAttrInfoMap> AttrInfosMap;
+
 	bool SetAttributeToItem(
 				QTreeWidgetItem& attributeItem,
 				const icomp::IRegistry& registry,
@@ -185,7 +195,8 @@ private:
 		bool SetAttributeExportEditor(const QByteArray& id, const QByteArray& exportId, QWidget& editor) const;
 		bool SetAttributeValueEditor(const QByteArray& id, int propertyMining, QWidget& editor) const;
 
-		bool SetComponentExportData(const QByteArray& attributeId, const QWidget& editor) const;
+		bool SetComponentValue(const QByteArray& attributeId, int propertyMining, const QString& value) const;
+		bool SetComponentExportData(const QByteArray& attributeId, const QString& value) const;
 
 	private:
 		CAttributeEditorComp& m_parent;
@@ -216,6 +227,9 @@ private:
 
 	typedef QMap<QByteArray, QString> AttributeTypesMap;
 	AttributeTypesMap m_attributeTypesMap;
+
+	AttrInfosMap m_attrInfosMap;	// all current displayed attributes
+
 	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_attributesTreeFilter;
 	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_interfacesTreeFilter;
 	istd::TDelPtr<iqtgui::CTreeWidgetFilter> m_subcomponentsTreeFilter;

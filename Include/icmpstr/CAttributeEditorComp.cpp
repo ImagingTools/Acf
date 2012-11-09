@@ -395,6 +395,8 @@ void CAttributeEditorComp::UpdateAttributesView()
 {
 	iqt::CSignalBlocker signalBlocker(AttributeTree);
 
+	m_attrInfosMap.clear();
+
 	bool hasError = false;
 	bool hasWarning = false;
 	bool hasImport = false;
@@ -407,7 +409,6 @@ void CAttributeEditorComp::UpdateAttributesView()
 			bool isElementCorrect = true;
 
 			IElementSelectionInfo::Elements selectedElements = objectPtr->GetSelectedElements();
-			AttrInfosMap attrInfosMap;
 			for (		IElementSelectionInfo::Elements::ConstIterator iter = selectedElements.constBegin();
 						iter != selectedElements.constEnd();
 						++iter){
@@ -427,7 +428,7 @@ void CAttributeEditorComp::UpdateAttributesView()
 				I_ASSERT(selectedInfoPtr != NULL);
 
 				// creating map of attributes based on registry element data
-				const icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
+				icomp::IRegistryElement* elementPtr = selectedInfoPtr->elementPtr.GetPtr();
 				if (elementPtr != NULL){
 					icomp::IRegistryElement::Ids attributeIds = elementPtr->GetAttributeIds();
 					for (		icomp::IRegistryElement::Ids::ConstIterator attrIter = attributeIds.constBegin();
@@ -435,10 +436,11 @@ void CAttributeEditorComp::UpdateAttributesView()
 								++attrIter){
 						const QByteArray& attributeId = *attrIter;
 
-						const icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = elementPtr->GetAttributeInfo(attributeId);
+						icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = const_cast<icomp::IRegistryElement::AttributeInfo*>(elementPtr->GetAttributeInfo(attributeId));
 						if (attributeInfoPtr != NULL){
-							AttrInfo& attrInfo = attrInfosMap[attributeId][elementId];
+							AttrInfo& attrInfo = m_attrInfosMap[attributeId][elementId];
 
+							attrInfo.elementPtr.SetPtr(elementPtr);
 							attrInfo.infoPtr.SetPtr(attributeInfoPtr);
 						}
 					}
@@ -453,15 +455,17 @@ void CAttributeEditorComp::UpdateAttributesView()
 								++attrIter){
 						const QByteArray& attributeId = *attrIter;
 
-						AttrInfo& attrInfo = attrInfosMap[attributeId][elementId];
+						AttrInfo& attrInfo = m_attrInfosMap[attributeId][elementId];
 
+						Q_ASSERT(!(attrInfo.elementPtr.IsValid() && (elementPtr == NULL)));	// check if we dont reset existing element pointer, it shouldn't happen
+						attrInfo.elementPtr.SetPtr(elementPtr);
 						attrInfo.staticInfoPtr.SetPtr(infoPtr->GetAttributeInfo(attributeId));
 					}
 				}
 			}
 
-			for (		AttrInfosMap::ConstIterator treeIter = attrInfosMap.constBegin();
-						treeIter != attrInfosMap.constEnd();
+			for (		AttrInfosMap::ConstIterator treeIter = m_attrInfosMap.constBegin();
+						treeIter != m_attrInfosMap.constEnd();
 						++treeIter, ++itemIndex){
 				const QByteArray& attributeId = treeIter.key();
 				const ElementIdToAttrInfoMap& attrInfos = treeIter.value();
@@ -944,7 +948,7 @@ bool CAttributeEditorComp::SetAttributeToItem(
 	attributeItem.setData(AC_VALUE, AttributeId, attributeName);
 
 	attributeItem.setText(AC_VALUE, attributeValueText);
-	attributeItem.setData(AC_VALUE, AttributeTypeId, attributeValueTypeId);
+	attributeItem.setData(AC_VALUE, AttributeTypeId, attributeStatTypeId);
 	attributeItem.setData(AC_VALUE, AttributeMining, attributeStatMeaning);
 
 	attributeItem.setToolTip(AC_NAME, attributeValueTip);
@@ -1793,16 +1797,11 @@ void CAttributeEditorComp::AttributeItemDelegate::setEditorData(QWidget* editor,
 
 void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
-	const IElementSelectionInfo* selectionInfoPtr = m_parent.GetObjectPtr();
-	if (selectionInfoPtr == NULL){
-		return;
-	}
+	UpdateBlocker updateBlocker(&m_parent);
 
 	if (index.column() != AC_VALUE){
 		BaseClass::setModelData(editor, model, index);
 	}
-
-	IElementSelectionInfo::Elements selectedElements = selectionInfoPtr->GetSelectedElements();
 
 	QByteArray attributeId = index.data(AttributeId).toString().toLocal8Bit();
 	QString newValue;
@@ -1823,58 +1822,12 @@ void CAttributeEditorComp::AttributeItemDelegate::setModelData(QWidget* editor, 
 
 	int propertyMining = index.data(AttributeMining).toInt();
 	if (propertyMining == AM_EXPORTED_COMP){
-		SetComponentExportData(attributeId, *editor);
+		// set attribute export for each selected component (if has the attribute)
+		SetComponentExportData(attributeId, newValue);
 	}
 	else if ((propertyMining >= AM_REFERENCE) && (propertyMining <= AM_EXPORTED_ATTR)){
-		istd::CChangeNotifier registryNotifier(selectionInfoPtr->GetSelectedRegistry(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
-
-		for (		IElementSelectionInfo::Elements::ConstIterator elemIter = selectedElements.constBegin();
-					elemIter != selectedElements.constEnd();
-					++elemIter){
-			const icomp::IRegistry::ElementInfo* elementInfoPtr = elemIter.value();
-			I_ASSERT(elementInfoPtr != NULL);
-
-			istd::TChangeNotifier<icomp::IRegistryElement> elementPtr(elementInfoPtr->elementPtr.GetPtr(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
-			if (!elementPtr.IsValid()){
-				continue;
-			}
-
-			icomp::IRegistryElement::AttributeInfo* attributeInfoPtr =
-						const_cast<icomp::IRegistryElement::AttributeInfo*>(elementPtr->GetAttributeInfo(attributeId));
-
-			QByteArray attributeValueTypeId = index.data(AttributeTypeId).toString().toLocal8Bit();
-
-			if (propertyMining == AM_EXPORTED_ATTR){
-				if ((attributeInfoPtr == NULL) && !newValue.isEmpty()){
-					attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, attributeValueTypeId);
-				}
-
-				if (attributeInfoPtr != NULL){
-					attributeInfoPtr->exportId = newValue.toLocal8Bit();
-				}
-			}
-			else{
-				if (attributeInfoPtr == NULL){
-					attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, attributeValueTypeId);
-				}
-
-				if (attributeInfoPtr != NULL){
-					if (!attributeInfoPtr->attributePtr.IsValid()){
-						attributeInfoPtr->attributePtr.SetPtr(elementPtr->CreateAttribute(attributeInfoPtr->attributeTypeName));
-					}
-
-					if (attributeInfoPtr->attributePtr.IsValid()){
-						m_parent.EncodeAttribute(newValue, propertyMining, *attributeInfoPtr->attributePtr);
-					}
-				}
-			}
-
-			if ((attributeInfoPtr != NULL) && !attributeInfoPtr->attributePtr.IsValid() && attributeInfoPtr->exportId.isEmpty()){
-				elementPtr->RemoveAttribute(attributeId);
-			}
-		}
-
-		Q_EMIT m_parent.AfterAttributesChange();
+		// set attribute value for each selected component (if has the attribute)
+		SetComponentValue(attributeId, propertyMining, newValue);
 	}
 }
 
@@ -2131,12 +2084,71 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetAttributeValueEditor(
 }
 
 
-bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const QByteArray& attributeId, const QWidget& editor) const
+bool CAttributeEditorComp::AttributeItemDelegate::SetComponentValue(const QByteArray& attributeId, int propertyMining, const QString& value) const
+{
+	bool retVal = false;
+
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(m_parent.GetRegistry(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
+	if (registryPtr.IsValid()){
+		AttrInfosMap::ConstIterator attributeInfoMapIter = m_parent.m_attrInfosMap.constFind(attributeId);
+		if (attributeInfoMapIter == m_parent.m_attrInfosMap.constEnd()){
+			return false;
+		}
+
+		const ElementIdToAttrInfoMap& elementsMap = attributeInfoMapIter.value();
+		for (		ElementIdToAttrInfoMap::ConstIterator elemIter = elementsMap.constBegin();
+					elemIter != elementsMap.constEnd();
+					++elemIter){
+			const AttrInfo& attributeInfo = elemIter.value();
+
+			icomp::IRegistryElement::AttributeInfo* attributeInfoPtr = attributeInfo.infoPtr.GetPtr();
+
+			istd::TChangeNotifier<icomp::IRegistryElement> elementPtr(attributeInfo.elementPtr.GetPtr(), istd::IChangeable::CF_MODEL | icomp::IRegistryElement::CF_ATTRIBUTE_CHANGED);
+			if (!elementPtr.IsValid()){
+				continue;
+			}
+
+			if ((attributeInfoPtr == NULL) && !value.isEmpty()){
+				Q_ASSERT(attributeInfo.staticInfoPtr.IsValid());	// attributeInfo.infoPtr or attributeInfo.staticInfoPtr must be valid for attribute!
+
+				QByteArray attributeValueTypeId = attributeInfo.staticInfoPtr->GetAttributeTypeName();
+
+				attributeInfoPtr = elementPtr->InsertAttributeInfo(attributeId, attributeValueTypeId);
+			}
+
+			if (attributeInfoPtr != NULL){
+				if (propertyMining == AM_EXPORTED_ATTR){
+					attributeInfoPtr->exportId = value.toLocal8Bit();
+
+					retVal = true;
+				}
+				else{
+					if (!attributeInfoPtr->attributePtr.IsValid()){
+						attributeInfoPtr->attributePtr.SetPtr(elementPtr->CreateAttribute(attributeInfoPtr->attributeTypeName));
+					}
+
+					if (attributeInfoPtr->attributePtr.IsValid()){
+						retVal = m_parent.EncodeAttribute(value, propertyMining, *attributeInfoPtr->attributePtr) || retVal;
+					}
+				}
+			}
+
+			if ((attributeInfoPtr != NULL) && !attributeInfoPtr->attributePtr.IsValid() && attributeInfoPtr->exportId.isEmpty()){
+				elementPtr->RemoveAttribute(attributeId);
+			}
+		}
+
+		Q_EMIT m_parent.AfterAttributesChange();
+	}
+
+	return retVal;
+}
+
+
+bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const QByteArray& attributeId, const QString& value) const
 {
 	istd::TChangeNotifier<icomp::IRegistry> registryPtr(m_parent.GetRegistry(), istd::IChangeable::CF_MODEL | icomp::IRegistry::CF_ELEMENT_EXPORTED);
 	if (registryPtr.IsValid()){
-		QByteArray exportId = editor.property("text").toString().toLocal8Bit();
-
 		icomp::IRegistry::ExportedElementsMap exportedMap = registryPtr->GetExportedElementsMap();
 		for (icomp::IRegistry::ExportedElementsMap::ConstIterator iter = exportedMap.constBegin();
 					iter != exportedMap.constEnd();
@@ -2146,8 +2158,8 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const Q
 			}
 		}
 
-		if (!exportId.isEmpty()){
-			registryPtr->SetElementExported(exportId, attributeId);
+		if (!value.isEmpty()){
+			registryPtr->SetElementExported(value.toLocal8Bit(), attributeId);
 		}
 
 		Q_EMIT m_parent.AfterAttributesChange();

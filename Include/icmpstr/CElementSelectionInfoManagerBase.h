@@ -45,15 +45,6 @@ protected:
 	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 protected:
-	struct AttrInfo
-	{
-		istd::TPointerBase<const icomp::IRegistryElement::AttributeInfo> infoPtr;
-		istd::TPointerBase<const icomp::IAttributeStaticInfo> staticInfoPtr;
-	};
-
-	typedef QMap<QByteArray, AttrInfo> ElementIdToAttrInfoMap;
-	typedef QMap<QByteArray, ElementIdToAttrInfoMap> AttrInfosMap;
-
 	typedef QMap<icomp::CComponentAddress, istd::TOptDelPtr<const icomp::IComponentStaticInfo> > AddressToInfoMap;
 
 	AddressToInfoMap m_adressToMetaInfoMap;
