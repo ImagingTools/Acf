@@ -2162,7 +2162,6 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const Q
 			registryPtr->SetElementExported(value.toLocal8Bit(), attributeId);
 		}
 
-		Q_EMIT m_parent.AfterAttributesChange();
 		Q_EMIT m_parent.AfterSubcomponentsChange();
 	}
 
