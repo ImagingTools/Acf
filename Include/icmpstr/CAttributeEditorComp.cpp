@@ -2163,6 +2163,7 @@ bool CAttributeEditorComp::AttributeItemDelegate::SetComponentExportData(const Q
 		}
 
 		Q_EMIT m_parent.AfterAttributesChange();
+		Q_EMIT m_parent.AfterSubcomponentsChange();
 	}
 
 	return true;

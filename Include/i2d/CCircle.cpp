@@ -167,7 +167,7 @@ bool CCircle::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag radiusTag("Radius", "Circle radius");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = true;
 

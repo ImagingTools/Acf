@@ -60,7 +60,7 @@ void CSelectableCommandsProviderComp::OnUpdate(int /*updateFlags*/, istd::IPolym
 	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 	I_ASSERT(selectionPtr != NULL);
 
-	istd::CChangeNotifier changePtr(this, CF_COMMANDS);
+	istd::CChangeNotifier changePtr(this, CF_COMMANDS | CF_MODEL);
 
 	m_commandsList.ResetChilds();
 	m_commandsList.setVisible(false);

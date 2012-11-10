@@ -109,7 +109,7 @@ bool CAnnulusSegment::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag beginAngleTag("BeginAngle", "Start angle of the segment");
 	static iser::CArchiveTag endAngleTag("EndAngle", "End angle of the segment");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = BaseClass::Serialize(archive);
 

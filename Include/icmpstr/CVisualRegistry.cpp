@@ -195,7 +195,7 @@ void CVisualRegistry::SetComponentNote(const QByteArray& componentName, const QS
 		return;
 	}
 
-	istd::CChangeNotifier changePtr(this, CF_NOTE_CHANGED);
+	istd::CChangeNotifier changePtr(this, CF_NOTE_CHANGED | CF_MODEL);
 
 	CVisualRegistryElement* elementPtr = dynamic_cast<CVisualRegistryElement*>(elementInfoPtr->elementPtr.GetPtr());
 	if (elementPtr != NULL){

@@ -67,7 +67,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		}
 	}
 
-	istd::TChangeNotifier<IRegistry> changePtr(this, CF_ELEMENT_ADDED);
+	istd::TChangeNotifier<IRegistry> changePtr(this, CF_MODEL | CF_ELEMENT_ADDED);
 
 	ElementInfo& newElement = m_componentsMap[elementId];
 	newElement.address = address;
@@ -79,7 +79,7 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 
 bool CRegistry::RemoveElementInfo(const QByteArray& elementId)
 {
-	istd::TChangeNotifier<IRegistry> changePtr(this, CF_ELEMENT_REMOVED | CF_MODEL);
+	istd::TChangeNotifier<IRegistry> changePtr(this, CF_MODEL | CF_ELEMENT_REMOVED);
 
 	// remove interfaces exported by this component:
 	bool isDone = false;

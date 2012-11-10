@@ -28,7 +28,7 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d diffVector = position - CPolypoint::GetCenter();
 
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	for (		Points::Iterator iter = m_points.begin();
 				iter != m_points.end();
@@ -105,7 +105,7 @@ bool CPolypoint::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag polypointTag("Polypoint", "Polypoint");
 	static iser::CArchiveTag vectorTag("V", "Vector");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	int pointsCount = m_points.size();
 	bool retVal = true;

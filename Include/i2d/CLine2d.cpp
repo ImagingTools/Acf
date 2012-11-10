@@ -490,7 +490,7 @@ void CLine2d::MoveCenterTo(const CVector2d& position)
 	i2d::CVector2d offset = position - GetCenter();
 
 	if (offset != i2d::CVector2d(0, 0)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		SetPoint1(GetPoint1() + offset);
 		SetPoint2(GetPoint2() + offset);
@@ -526,7 +526,7 @@ bool CLine2d::Transform(
 		}
 	}
 
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	m_point1 = transPos1;
 	m_point2 = transPos2;
@@ -563,7 +563,7 @@ bool CLine2d::InvTransform(
 		}
 	}
 
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	m_point1 = transPos1;
 	m_point2 = transPos2;
@@ -606,7 +606,7 @@ bool CLine2d::GetTransformed(
 		}
 	}
 
-	istd::CChangeNotifier notifier(resultLinePtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(resultLinePtr, CF_OBJECT_POSITION | CF_MODEL);
 
 	resultLinePtr->SetPoint1(transPos1);
 	resultLinePtr->SetPoint2(transPos2);
@@ -649,7 +649,7 @@ bool CLine2d::GetInvTransformed(
 		}
 	}
 
-	istd::CChangeNotifier notifier(resultLinePtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(resultLinePtr, CF_OBJECT_POSITION | CF_MODEL);
 
 	resultLinePtr->SetPoint1(transPos1);
 	resultLinePtr->SetPoint2(transPos2);
@@ -665,7 +665,7 @@ bool CLine2d::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag beginPointTag("BeginPoint", "BeginPoint");
 	static iser::CArchiveTag endPointTag("EndPoint", "EndPoint");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = archive.BeginTag(beginPointTag);
 	retVal = retVal && m_point1.Serialize(archive);

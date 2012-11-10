@@ -99,7 +99,7 @@ void COptionsManagerComp::RemoveOption(int index)
 	I_ASSERT(index >= 0);
 	I_ASSERT(index < int(m_options.size()));
 
-	istd::CChangeNotifier changePtr(this, CF_OPTION_REMOVED | iprm::ISelectionConstraints::CF_OPTIONS_CHANGED);
+	istd::CChangeNotifier changePtr(this, CF_OPTION_REMOVED | iprm::ISelectionConstraints::CF_OPTIONS_CHANGED | CF_MODEL);
 
 	m_options.erase(m_options.begin() + index);
 }
@@ -113,7 +113,7 @@ bool COptionsManagerComp::InsertOption(
 {
 	OptionInfo optionInfo(optionName, optionId, optionDescription);
 
-	istd::CChangeNotifier changePtr(this, CF_OPTION_ADDED | iprm::ISelectionConstraints::CF_OPTIONS_CHANGED);
+	istd::CChangeNotifier changePtr(this, CF_OPTION_ADDED | iprm::ISelectionConstraints::CF_OPTIONS_CHANGED | CF_MODEL);
 
 	if (index < 0 || index >= int(m_options.size())){
 		m_options.push_back(optionInfo);

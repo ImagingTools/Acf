@@ -68,7 +68,7 @@ bool CSelectionParam::SetSelectedOptionIndex(int index)
 	}
 
 	if (m_selectedOptionIndex != index){
-		istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED);
+		istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED | CF_MODEL);
 
 		m_selectedOptionIndex = index;
 	}

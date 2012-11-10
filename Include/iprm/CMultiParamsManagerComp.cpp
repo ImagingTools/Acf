@@ -75,7 +75,7 @@ int CMultiParamsManagerComp::InsertParamsSet(int typeIndex, int index)
 		return -1;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
 
 	QString defaultSetName = m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr: "unnamed";
 
@@ -116,7 +116,7 @@ bool CMultiParamsManagerComp::RemoveParamsSet(int index)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
 	
 	int removeIndex = index - fixedParamsCount;
 
@@ -141,7 +141,7 @@ bool CMultiParamsManagerComp::SwapParamsSet(int index1, int index2)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
 
 	ParamSet& paramsSet1 = m_paramSets[index1 - fixedParamsCount];
 	ParamSet& paramsSet2 = m_paramSets[index2 - fixedParamsCount];
@@ -197,7 +197,7 @@ bool CMultiParamsManagerComp::SetParamsSetName(int index, const QString& name)
 	}
 
 	if (m_paramSets[index - fixedSetsCount].name != name){
-		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED);
+		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED | CF_MODEL);
 
 		m_paramSets[index - fixedSetsCount].name = name;
 	}
@@ -224,7 +224,7 @@ bool CMultiParamsManagerComp::SetSelectedOptionIndex(int index)
 {
 	if (index < GetOptionsCount()){
 		if (index != m_selectedIndex){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED);
+			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED | CF_MODEL);
 
 			m_selectedIndex = index;
 		}
@@ -457,7 +457,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(const QByteArray& typeId, int ind
 	if (paramSetsIndex < m_paramSets.size()){
 		ParamSet& paramSet = m_paramSets[paramSetsIndex];
 
-		istd::CChangeNotifier notifier(NULL, CF_MODEL | CF_OPTIONS_CHANGED);	
+		istd::CChangeNotifier notifier(NULL, CF_MODEL | CF_OPTIONS_CHANGED | CF_MODEL);	
 
 		if (name != paramSet.name){
 			notifier.SetPtr(this);
@@ -513,7 +513,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(const QByteArray& typeId, int ind
 			return false;
 		}
 
-		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED);	
+		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED | CF_MODEL);	
 
 		ParamSet paramSet;
 

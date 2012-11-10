@@ -72,7 +72,7 @@ const ItemClass& TContainer<ItemClass>::GetAt(int index) const
 template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::PushBack(const ItemClass& item)
 {
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_ADDED);
 
 	m_items.append(item);
 
@@ -83,7 +83,7 @@ ItemClass& TContainer<ItemClass>::PushBack(const ItemClass& item)
 template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::PushFront(const ItemClass& item)
 {
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_ADDED);
 
 	m_items.prepend(item);
 
@@ -94,7 +94,7 @@ ItemClass& TContainer<ItemClass>::PushFront(const ItemClass& item)
 template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::InsertAt(const ItemClass& item, int index)
 {
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_ADDED);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_ADDED);
 
 	if ((index < 0) || (index >= m_items.size())){
 		m_items.append(item);
@@ -112,7 +112,7 @@ ItemClass& TContainer<ItemClass>::InsertAt(const ItemClass& item, int index)
 template <typename ItemClass>
 void TContainer<ItemClass>::PopBack()
 {
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_REMOVED);
 
 	m_items.pop_back();
 }
@@ -121,7 +121,7 @@ void TContainer<ItemClass>::PopBack()
 template <typename ItemClass>
 void TContainer<ItemClass>::PopFront()
 {
-	istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_REMOVED);
 
 	m_items.pop_front();
 }
@@ -134,7 +134,7 @@ void TContainer<ItemClass>::RemoveAt(int index)
 	I_ASSERT(index < int(m_items.size()));
 
 	if (index < int(m_items.size())){
-		istd::CChangeNotifier changePtr(this, CF_ELEMENT_REMOVED);
+		istd::CChangeNotifier changePtr(this, CF_MODEL | CF_ELEMENT_REMOVED);
 	
 		m_items.erase(m_items.begin()  + index);
 	}
@@ -144,7 +144,7 @@ void TContainer<ItemClass>::RemoveAt(int index)
 template <typename ItemClass>
 void TContainer<ItemClass>::Reset()
 {
-	istd::CChangeNotifier changePtr(this, CF_RESET);
+	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_RESET);
 
 	m_items.clear();
 }

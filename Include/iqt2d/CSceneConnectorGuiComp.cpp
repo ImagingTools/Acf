@@ -85,7 +85,7 @@ void CSceneConnectorGuiComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS);
+	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS | istd::IChangeable::CF_MODEL);
 
 	if (m_sceneCommandsCompPtr.IsValid()){
 		const ibase::IHierarchicalCommand* commandPtr = m_sceneCommandsCompPtr->GetCommands();
@@ -105,7 +105,7 @@ void CSceneConnectorGuiComp::OnComponentCreated()
 
 void CSceneConnectorGuiComp::OnComponentDestroyed()
 {
-	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS);
+	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS | istd::IChangeable::CF_MODEL);
 
 	m_commands.ResetChilds();
 

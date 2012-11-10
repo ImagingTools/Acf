@@ -30,7 +30,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			return false;
 		}
 
-		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED);
+		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED | CF_MODEL);
 
 		while (m_paramSets.size() > count - fixedSetsCount){
 			m_paramSets.removeLast();
@@ -120,7 +120,7 @@ int CParamsManagerComp::InsertParamsSet(int /*typeIndex*/, int index)
 		return -1;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
 
 	QString defaultSetName = m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr: "unnamed";
 
@@ -160,7 +160,7 @@ bool CParamsManagerComp::RemoveParamsSet(int index)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
 	
 	int removeIndex = index - fixedParamsCount;
 
@@ -185,7 +185,7 @@ bool CParamsManagerComp::SwapParamsSet(int index1, int index2)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED);
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
 
 	ParamSet& paramsSet1 = m_paramSets[index1 - fixedParamsCount];
 	ParamSet& paramsSet2 = m_paramSets[index2 - fixedParamsCount];
@@ -240,7 +240,7 @@ bool CParamsManagerComp::SetParamsSetName(int index, const QString& name)
 	}
 
 	if (m_paramSets[index - fixedSetsCount].name != name){
-		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED);
+		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED | CF_MODEL);
 
 		m_paramSets[index - fixedSetsCount].name = name;
 	}
@@ -267,7 +267,7 @@ bool CParamsManagerComp::SetSelectedOptionIndex(int index)
 {
 	if (index < GetOptionsCount()){
 		if (index != m_selectedIndex){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED);
+			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED | CF_MODEL);
 
 			m_selectedIndex = index;
 		}

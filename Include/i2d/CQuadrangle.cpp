@@ -124,7 +124,7 @@ void CQuadrangle::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d delta = position - GetCenter();
 	if (delta != CVector2d(0, 0)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_firstDiagonal.MoveCenterTo(delta + m_firstDiagonal.GetCenter());
 		m_secondDiagonal.MoveCenterTo(delta + m_secondDiagonal.GetCenter());
@@ -137,7 +137,7 @@ bool CQuadrangle::Transform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -162,7 +162,7 @@ bool CQuadrangle::InvTransform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -193,7 +193,7 @@ bool CQuadrangle::GetTransformed(
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(resultQuadranglePtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(resultQuadranglePtr, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -224,7 +224,7 @@ bool CQuadrangle::GetInvTransformed(
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(resultQuadranglePtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(resultQuadranglePtr, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -251,7 +251,7 @@ bool CQuadrangle::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag firstDiagonalTag("FirstDiagonal", "FirstDiagonal");
 	static iser::CArchiveTag secondDiagonalTag("SecondDiagonal", "SecondDiagonal");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = archive.BeginTag(firstDiagonalTag);
 	retVal = retVal && m_firstDiagonal.Serialize(archive);

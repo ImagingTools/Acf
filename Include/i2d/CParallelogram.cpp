@@ -20,7 +20,7 @@ i2d::CVector2d CParallelogram::GetCenter() const
 void CParallelogram::MoveCenterTo(const i2d::CVector2d& position)
 {
 	if (m_transform.GetTranslation() != position){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_transform.SetTranslation(position);
 	}
@@ -34,7 +34,7 @@ bool CParallelogram::Transform(
 {
 	i2d::CAffine2d localTransform;
 	if (transformation.GetLocalTransform(GetCenter(), localTransform, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_transform.Apply(localTransform);
 
@@ -52,7 +52,7 @@ bool CParallelogram::InvTransform(
 {
 	i2d::CAffine2d localTransform;
 	if (transformation.GetLocalInvTransform(GetCenter(), localTransform, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_transform.Apply(localTransform);
 
@@ -71,7 +71,7 @@ bool CParallelogram::GetTransformed(
 {
 	CParallelogram* parallelogramPtr = dynamic_cast<CParallelogram*>(&result);
 	if (parallelogramPtr != NULL){
-		istd::CChangeNotifier notifier(parallelogramPtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(parallelogramPtr, CF_OBJECT_POSITION | CF_MODEL);
 
 		return parallelogramPtr->Transform(transformation, mode, errorFactorPtr);
 	}
@@ -88,7 +88,7 @@ bool CParallelogram::GetInvTransformed(
 {
 	CParallelogram* parallelogramPtr = dynamic_cast<CParallelogram*>(&result);
 	if (parallelogramPtr != NULL){
-		istd::CChangeNotifier notifier(parallelogramPtr, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+		istd::CChangeNotifier notifier(parallelogramPtr, CF_OBJECT_POSITION | CF_MODEL);
 
 		return parallelogramPtr->InvTransform(transformation, mode, errorFactorPtr);
 	}
@@ -103,7 +103,7 @@ bool CParallelogram::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag transformTag("Transform", "Transformation used in parallelogram");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = true;
 

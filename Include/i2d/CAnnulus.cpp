@@ -213,7 +213,7 @@ bool CAnnulus::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag innerRadiusTag("InnerRadius", "Inner radius");
 	static iser::CArchiveTag outerRadiusTag("OuterRadius", "Outer radius");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | istd::IChangeable::CF_MODEL);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
 
 	bool retVal = BaseClass::Serialize(archive);
 
