@@ -133,21 +133,22 @@ bool CVisualRegistryEditorComp::TryOpenComponent(const CVisualRegistryElement& r
 
 		Q_ASSERT(registryElement.GetRegistry() != NULL);
 
+		icomp::CComponentAddress componentAddress = registryElement.GetAddress();
+		QByteArray componentId = componentAddress.GetComponentId();
+
 		if (metaInfoPtr != NULL){
 			if (metaInfoPtr->GetComponentType() == icomp::IComponentStaticInfo::CT_COMPOSITE){
-				QDir packageDir(managerPtr->GetPackagePath(registryElement.GetAddress().GetPackageId()));
+				QDir packageDir(managerPtr->GetPackagePath(componentAddress.GetPackageId()));
 
-				QString filePath = packageDir.absoluteFilePath(registryElement.GetAddress().GetComponentId() + ".arx");
+				QString filePath = packageDir.absoluteFilePath(componentId + ".arx");
 
 				m_documentManagerCompPtr->FileOpen(NULL, &filePath);
 
 				return true;
 			}
 		}
-		else if (registryElement.GetRegistry()->GetEmbeddedRegistry(registryElement.GetName()) != NULL){
-			// embedded registry
-				QByteArray id = registryElement.GetName().data();
-			UpdateEmbeddedRegistryView(id);
+		else if (registryElement.GetRegistry()->GetEmbeddedRegistry(componentId) != NULL){
+			UpdateEmbeddedRegistryView(componentId);
 		}
 	}
 
