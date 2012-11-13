@@ -18,7 +18,7 @@
           1023
         </Id>
         <Number>
-          264194
+          264195
         </Number>
         <Description>
           Qt Framework
@@ -484,6 +484,6 @@
     2D-Console with tool bar and status info
   </Description>
   <Keywords>
-    
+    "View Display Scene Console Viewport"
   </Keywords>
 </Acf>
