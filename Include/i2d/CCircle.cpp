@@ -47,15 +47,15 @@ CRectangle CCircle::GetBoundingBox() const
 }
 
 
-bool CCircle::operator ==(const CCircle & ref) const
+bool CCircle::operator==(const CCircle& ref) const
 {
-	return (ref.GetRadius() == GetRadius() && ref.GetPosition() == GetPosition()) ? true : false;
+	return (ref.GetRadius() == GetRadius() && ref.GetPosition() == GetPosition());
 }
 
 
-bool CCircle::operator !=(const CCircle & ref) const
+bool CCircle::operator!=(const CCircle& ref) const
 {
-	return !operator ==(ref);
+	return !operator==(ref);
 }
 
 

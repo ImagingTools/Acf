@@ -29,8 +29,8 @@ public:
 
 	virtual CRectangle GetBoundingBox() const;
 
-	bool operator ==(const CCircle& circle) const;
-	bool operator !=(const CCircle& circle) const;
+	bool operator==(const CCircle& circle) const;
+	bool operator!=(const CCircle& circle) const;
 
 	// reimplemented (i2d::IObject2d)
 	virtual bool Transform(

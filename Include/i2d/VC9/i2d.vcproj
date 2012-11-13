@@ -225,6 +225,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\COrientedCircle.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CParallelogram.cpp"
 				>
 			</File>
@@ -375,6 +379,10 @@
 			</File>
 			<File
 				RelativePath="..\CObject2dBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\COrientedCircle.h"
 				>
 			</File>
 			<File
