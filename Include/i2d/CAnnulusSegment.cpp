@@ -62,12 +62,6 @@ void CAnnulusSegment::SetEndAngle(double angle)
 }
 
 
-CRectangle CAnnulusSegment::GetBoundingBox() const
-{
-	return BaseClass::GetBoundingBox();	// TODO: implement more exact bounding box of annulus segment
-}
-
-
 bool CAnnulusSegment::Contains(const i2d::CVector2d& point) const
 {
 	double r = point.GetLength();
@@ -99,6 +93,14 @@ bool CAnnulusSegment::Contains(const i2d::CVector2d& point) const
 	}
 
 	return false;
+}
+
+
+// reimplemented (i2d::IObject2d)
+
+CRectangle CAnnulusSegment::GetBoundingBox() const
+{
+	return BaseClass::GetBoundingBox();	// TODO: implement more exact bounding box of annulus segment
 }
 
 

@@ -69,12 +69,6 @@ bool CQuadrangle::IsQuadrangleEmpty() const
 }
 
 
-CRectangle CQuadrangle::GetBoundingBox() const
-{
-	return m_firstDiagonal.GetBoundingBox().GetUnion(m_secondDiagonal.GetBoundingBox());
-}
-
-
 const CLine2d& CQuadrangle::GetFirstDiagonal() const
 {
 	return m_firstDiagonal;
@@ -129,6 +123,12 @@ void CQuadrangle::MoveCenterTo(const CVector2d& position)
 		m_firstDiagonal.MoveCenterTo(delta + m_firstDiagonal.GetCenter());
 		m_secondDiagonal.MoveCenterTo(delta + m_secondDiagonal.GetCenter());
 	}
+}
+
+
+CRectangle CQuadrangle::GetBoundingBox() const
+{
+	return m_firstDiagonal.GetBoundingBox().GetUnion(m_secondDiagonal.GetBoundingBox());
 }
 
 

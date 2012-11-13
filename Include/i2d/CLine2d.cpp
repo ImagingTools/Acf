@@ -290,18 +290,6 @@ CLine2d CLine2d::GetSwapped() const
 }
 
 
-CRectangle CLine2d::GetBoundingBox() const
-{
-	double left = qMin(m_point1.GetX(), m_point2.GetX());
-	double top = qMin(m_point1.GetY(), m_point2.GetY());
-	double right = qMax(m_point1.GetX(), m_point2.GetX());
-	double bottom = qMax(m_point1.GetY(), m_point2.GetY());
-
-	return CRectangle(left, top, right - left, bottom - top);
-}
-
-
-
 void CLine2d::PushBeginPoint(const i2d::CVector2d& newBeginPoint)
 {
 	SetPoint2(GetPoint1());
@@ -495,6 +483,17 @@ void CLine2d::MoveCenterTo(const CVector2d& position)
 		SetPoint1(GetPoint1() + offset);
 		SetPoint2(GetPoint2() + offset);
 	}
+}
+
+
+CRectangle CLine2d::GetBoundingBox() const
+{
+	double left = qMin(m_point1.GetX(), m_point2.GetX());
+	double top = qMin(m_point1.GetY(), m_point2.GetY());
+	double right = qMax(m_point1.GetX(), m_point2.GetX());
+	double bottom = qMax(m_point1.GetY(), m_point2.GetY());
+
+	return CRectangle(left, top, right - left, bottom - top);
 }
 
 

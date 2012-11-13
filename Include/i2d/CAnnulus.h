@@ -35,12 +35,11 @@ public:
 	CCircle GetInnerCircle() const;
 	CCircle GetOuterCircle() const;
 
-	virtual CRectangle GetBoundingBox() const;
-
 	bool operator == (const CAnnulus & annulus) const;
 	bool operator != (const CAnnulus & annulus) const;
 
 	// reimplemented (i2d::IObject2d)
+	virtual CRectangle GetBoundingBox() const;
 	virtual bool Transform(
 		const ITransformation2d& transformation,
 		ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,

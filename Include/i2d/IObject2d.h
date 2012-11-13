@@ -13,6 +13,7 @@ namespace i2d
 
 
 class CVector2d;
+class CRectangle;
 
 
 /**
@@ -37,6 +38,12 @@ public:
 		Move object to position \c position.
 	*/
 	virtual void MoveCenterTo(const CVector2d& position) = 0;
+
+	/**
+		Get bounding box of this shape.
+		Please note, this bounding box is in logical units, the calibration will not be considered.
+	*/
+	virtual CRectangle GetBoundingBox() const = 0;
 
 	/**
 		Transform this object using some transformation.

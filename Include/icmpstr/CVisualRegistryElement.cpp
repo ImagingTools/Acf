@@ -1,10 +1,9 @@
 #include "icmpstr/CVisualRegistryElement.h"
 
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
-
-#include "i2d/IObject2d.h"
-
+#include "i2d/CRectangle.h"
 #include "icomp/CRegistryElement.h"
 
 #include "icmpstr/icmpstr.h"
@@ -65,6 +64,13 @@ void CVisualRegistryElement::MoveCenterTo(const i2d::CVector2d& position)
 
 		m_center = position;
 	}
+}
+
+
+i2d::CRectangle CVisualRegistryElement::GetBoundingBox() const
+{
+	// dummy implementation using center only
+	return i2d::CRectangle(m_center.GetX() - I_BIG_EPSILON, m_center.GetY() - I_BIG_EPSILON, I_BIG_EPSILON * 2, I_BIG_EPSILON * 2);
 }
 
 

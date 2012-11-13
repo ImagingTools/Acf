@@ -49,6 +49,12 @@ void CPosition2d::MoveCenterTo(const CVector2d& position)
 }
 
 
+CRectangle CPosition2d::GetBoundingBox() const
+{
+	return CRectangle(m_position.GetX() - I_BIG_EPSILON, m_position.GetY() - I_BIG_EPSILON, I_BIG_EPSILON * 2, I_BIG_EPSILON * 2);
+}
+
+
 bool CPosition2d::Transform(
 			const ITransformation2d& transformation,
 			ITransformation2d::ExactnessMode mode,

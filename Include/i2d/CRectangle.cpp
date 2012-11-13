@@ -413,12 +413,6 @@ bool CRectangle::operator!=(const CRectangle& rect) const
 }
 
 
-CRectangle CRectangle::GetBoundingBox() const
-{
-	return *this;
-}
-
-	
 CVector2d CRectangle::GetNearestPointTo(const CVector2d& point) const
 {
 	return CVector2d(m_horizontalRange.GetNearestInside(point.GetX()), m_verticalRange.GetNearestInside(point.GetY()));
@@ -467,6 +461,12 @@ void CRectangle::MoveCenterTo(const CVector2d& position)
 }
 
 
+CRectangle CRectangle::GetBoundingBox() const
+{
+	return *this;
+}
+
+	
 bool CRectangle::Transform(
 			const ITransformation2d& transformation,
 			ITransformation2d::ExactnessMode mode,

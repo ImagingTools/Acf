@@ -154,11 +154,6 @@ public:
 	CLine2d GetSwapped() const;
 
 	/**
-		Get bounding box of this line.
-	*/
-	virtual CRectangle GetBoundingBox() const;
-
-	/**
 		Get Y position of cutting this line by specified horizontal line.
 	*/
 	double GetCutXPos(double linePosY) const;
@@ -227,6 +222,7 @@ public:
 	// reimplemented (i2d::IObject2d)
 	virtual CVector2d GetCenter() const;
 	virtual void MoveCenterTo(const CVector2d& position);
+	virtual CRectangle GetBoundingBox() const;
 	virtual bool Transform(
 				const ITransformation2d& transformation,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
