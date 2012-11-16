@@ -204,6 +204,7 @@ void CSelectionParamGuiComp::OnGuiRetranslate()
 
 	if (m_optionsLabelAttrPtr.IsValid()){
 		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+		m_selectorLabelPtr->setVisible(!m_selectorLabelPtr->text().isEmpty());
 	}
 
 	UpdateDescriptionFrame();
@@ -436,6 +437,7 @@ void CSelectionParamGuiComp::UpdateDescriptionFrame()
 	}
 }
 
+
 void CSelectionParamGuiComp::ResetWidgets()
 {
 	m_comboBoxes.Reset();
@@ -443,7 +445,6 @@ void CSelectionParamGuiComp::ResetWidgets()
 	m_radioButtonFramePtr.Reset();
 	m_selectorLabelPtr.Reset();
 }
-
 
 
 } // namespace iqtprm
