@@ -48,6 +48,17 @@ QByteArray CSelectionConstraintsComp::GetOptionId(int /*index*/) const
 }
 
 
+bool CSelectionConstraintsComp::IsOptionEnabled(int /*index*/) const
+{
+	return true;
+}
+
+
+void CSelectionConstraintsComp::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 } // namespace iprm
 
 

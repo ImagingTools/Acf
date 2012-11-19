@@ -76,6 +76,18 @@ public:
 		\sa SelectionConstraintsFlags
 	*/
 	virtual QByteArray GetOptionId(int index) const = 0;
+
+	/**
+		Return \c true if the option is enabled and can be selected.
+		\sa SetOptionEnabled
+	*/
+	virtual bool IsOptionEnabled(int index) const = 0;
+
+	/**
+		Enables a given option. Only enabled options can be selected.
+		\sa GetOptionEnabled
+	*/
+	virtual void SetOptionEnabled(int index, bool isEnabled = true) = 0;
 };
 
 

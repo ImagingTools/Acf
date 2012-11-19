@@ -92,6 +92,28 @@ QByteArray COptionsManagerComp::GetOptionId(int index) const
 }
 
 
+bool COptionsManagerComp::IsOptionEnabled(int index) const
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < COptionsManagerComp::GetOptionsCount());
+
+	return m_options[index].isEnabled;
+}
+
+
+void COptionsManagerComp::SetOptionEnabled(int index, bool isEnabled)
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < COptionsManagerComp::GetOptionsCount());
+
+	if (m_options[index].isEnabled != isEnabled){
+		istd::CChangeNotifier changePtr(this);
+
+		m_options[index].isEnabled = isEnabled;
+	}
+}
+
+
 // reimplemented (iprm::IOptionsManager)
 
 void COptionsManagerComp::RemoveOption(int index)

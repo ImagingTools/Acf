@@ -711,6 +711,17 @@ QByteArray CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::GetOptionId(in
 }
 
 
+bool CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::IsOptionEnabled(int /*index*/) const
+{
+	return true;
+}
+
+
+void CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::Serialize(iser::IArchive& /*archive*/)

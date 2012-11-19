@@ -239,6 +239,24 @@ QByteArray CSelectableParamsSetComp::GetOptionId(int /*index*/) const
 }
 
 
+bool CSelectableParamsSetComp::IsOptionEnabled(int index) const
+{
+	if (m_paramsManagerCompPtr.IsValid()){
+		const iprm::ISelectionConstraints* constraintsPtr = m_paramsManagerCompPtr->GetSelectionConstraints();
+		if (constraintsPtr != NULL){
+			return constraintsPtr->IsOptionEnabled(index);
+		}
+	}
+
+	return true;
+}
+
+
+void CSelectableParamsSetComp::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 // reimplemented (icomp::CComponentBase)
 
 void CSelectableParamsSetComp::OnComponentCreated()

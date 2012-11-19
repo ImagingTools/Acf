@@ -386,6 +386,17 @@ QByteArray CParamsManagerComp::GetOptionId(int index) const
 }
 
 
+bool CParamsManagerComp::IsOptionEnabled(int /*index*/) const
+{
+	return true;
+}
+
+
+void CParamsManagerComp::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 // protected methods
 
 // reimplemented (icomp::CComponentBase)

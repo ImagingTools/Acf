@@ -252,6 +252,17 @@ QByteArray CRegistryCodeSaverComp::GetOptionId(int index) const
 }
 
 
+bool CRegistryCodeSaverComp::IsOptionEnabled(int index) const
+{
+	return true;
+}
+
+
+void CRegistryCodeSaverComp::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 // protected methods
 
 bool CRegistryCodeSaverComp::AppendAddresses(

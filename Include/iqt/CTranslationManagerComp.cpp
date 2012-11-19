@@ -191,6 +191,17 @@ QByteArray CTranslationManagerComp::GetOptionId(int /*index*/) const
 }
 
 
+bool CTranslationManagerComp::IsOptionEnabled(int /*index*/) const
+{
+	return true;
+}
+
+
+void CTranslationManagerComp::SetOptionEnabled(int /*index*/, bool /*isEnabled*/)
+{
+}
+
+
 // public methods embedded class LanguageSelectionObserver
 
 CTranslationManagerComp::LanguageSelectionObserver::LanguageSelectionObserver(CTranslationManagerComp& parent)
