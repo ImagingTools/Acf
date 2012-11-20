@@ -24,6 +24,18 @@ namespace ibase
 class IFileConvertCopy: virtual public istd::IPolymorphic
 {
 public:
+	enum MessageId
+	{
+		/**
+			Message ID if input path is invalid
+		*/
+		MI_INPUT_PATH = 0x5cd40,
+		/**
+			Message ID if output path is invalid
+		*/
+		MI_OUTPUT_PATH
+	};
+
 	/**
 		Copy a file or files from \c inputPath to destination \c outputPath.
 		Optionally, you can use \c paramsPtr to control the copy process.
