@@ -162,6 +162,10 @@
        <property name="text">
         <string>Tools</string>
        </property>
+       <property name="icon">
+        <iconset resource="../iqtgui/iqtgui.qrc">
+         <normaloff>:/Icons/Tools.svg</normaloff>:/Icons/Tools.svg</iconset>
+       </property>
       </widget>
      </item>
     </layout>

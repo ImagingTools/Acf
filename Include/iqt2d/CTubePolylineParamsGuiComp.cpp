@@ -62,6 +62,12 @@ void CTubePolylineParamsGuiComp::on_PasteButton_clicked()
 }
 
 
+void CTubePolylineParamsGuiComp::OnToolsButtonMenuActionTriggered(QAction* action)
+{
+	BaseClass::OnToolsButtonMenuActionTriggered(action);
+}
+
+
 // protected methods
 
 // reimplemented (iqt2d::TPolygonBasedParamsGuiComp)
