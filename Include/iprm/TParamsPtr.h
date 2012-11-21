@@ -129,7 +129,7 @@ void TParamsPtr<ParameterInterace>::Init(
 			const IParamsSet* parameterSetPtr,
 			const icomp::TAttributeMember<icomp::CIdAttribute>& parameterIdAttribute,
 			const icomp::TReferenceMember<ParameterInterace>& defaultRef,
-			bool isObligatory)
+			bool I_IF_DEBUG(isObligatory))
 {
 	BaseClass::Reset();
 
@@ -147,33 +147,33 @@ void TParamsPtr<ParameterInterace>::Init(
 				}
 			)
 		}
-
-		if (!BaseClass::IsValid() && defaultRef.IsValid()){
-			BaseClass::SetPtr(defaultRef.GetPtr());
-		}
-
-		I_IF_DEBUG(
-			if (!BaseClass::IsValid() && isObligatory){
-				QString debugMessage;
-				if (parameterIdAttribute.IsValid()){
-					iprm::IParamsSet::Ids existingParamIds = parameterSetPtr->GetParamIds();
-					QStringList existingIds;
-					for (iprm::IParamsSet::Ids::ConstIterator index = existingParamIds.constBegin(); index != existingParamIds.constEnd(); index++){
-						existingIds.push_back(*index);
-					}
-
-					QString idList = existingIds.join(", ");
-
-					debugMessage = QString("Parameter %1 was not found in the parameter set and no default parameter is active. Following parameter IDs are registered: %2").arg(QString(*parameterIdAttribute)).arg(idList);
-				}
-				else{
-					debugMessage = QString("Parameter was not specified and no default parameter is active");
-				}
-
-				qDebug(debugMessage.toLocal8Bit().constData());
-			}
-		)
 	}
+
+	if (!BaseClass::IsValid() && defaultRef.IsValid()){
+		BaseClass::SetPtr(defaultRef.GetPtr());
+	}
+
+	I_IF_DEBUG(
+		if (!BaseClass::IsValid() && isObligatory){
+			QString debugMessage;
+			if (parameterIdAttribute.IsValid()){
+				iprm::IParamsSet::Ids existingParamIds = parameterSetPtr->GetParamIds();
+				QStringList existingIds;
+				for (iprm::IParamsSet::Ids::ConstIterator index = existingParamIds.constBegin(); index != existingParamIds.constEnd(); index++){
+					existingIds.push_back(*index);
+				}
+
+				QString idList = existingIds.join(", ");
+
+				debugMessage = QString("Parameter %1 was not found in the parameter set and no default parameter is active. Following parameter IDs are registered: %2").arg(QString(*parameterIdAttribute)).arg(idList);
+			}
+			else{
+				debugMessage = QString("Parameter was not specified and no default parameter is active");
+			}
+
+			qDebug(debugMessage.toLocal8Bit().constData());
+		}
+	)
 }
 
 
