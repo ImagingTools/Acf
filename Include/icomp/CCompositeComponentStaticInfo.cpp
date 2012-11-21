@@ -265,7 +265,7 @@ IElementStaticInfo::Ids CCompositeComponentStaticInfo::AttrAsOptionalDelegator::
 
 int CCompositeComponentStaticInfo::AttrAsOptionalDelegator::GetAttributeFlags() const
 {
-	return AF_NULLABLE;
+	return (m_slave.GetAttributeFlags() & ~AF_OBLIGATORY) | AF_NULLABLE;
 }
 
 
