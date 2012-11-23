@@ -47,6 +47,7 @@ public:
 
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const istd::IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 
 protected:
 	istd::IInformationProvider::InformationCategory m_category;

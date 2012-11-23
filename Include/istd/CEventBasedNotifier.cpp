@@ -3,6 +3,7 @@
 
 // Qt includes
 #include <QtCore/QCoreApplication>
+#include <QtCore/QThread>
 
 
 namespace istd
@@ -14,6 +15,13 @@ namespace istd
 CEventBasedNotifier::CEventBasedNotifier(istd::IChangeable* slavePtr,  int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
 	m_notificationTarget = new NotificationTarget(slavePtr, changeFlags, changeParamsPtr);
+
+	m_notificationTarget->moveToThread(QCoreApplication::instance()->thread());
+
+	m_notificationTarget->connect(m_notificationTarget, SIGNAL(EmitBeginChanges()), m_notificationTarget, SLOT(DoBeginChanges()));
+	m_notificationTarget->connect(m_notificationTarget, SIGNAL(EmitEndChanges()), m_notificationTarget, SLOT(DoEndChanges()));
+
+	Q_EMIT m_notificationTarget->EmitBeginChanges();
 }
 
 
@@ -30,44 +38,63 @@ CEventBasedNotifier::~CEventBasedNotifier()
 NotificationTarget::NotificationTarget(istd::IChangeable* slavePtr, int changeFlags, istd::IPolymorphic* changeParamsPtr)
 :	m_slavePtr(slavePtr),
 	m_changeFlags(changeFlags),
-	m_changeParamsPtr(changeParamsPtr),
-	m_isBeginPending(true)
+ 	m_isBeginPending(true)
 {
-	moveToThread(QCoreApplication::instance()->thread());
+	QThread* applicationThreadPtr =  QCoreApplication::instance()->thread();
+	I_ASSERT(applicationThreadPtr != NULL);
 
-	connect(this, SIGNAL(EmitBeginChanges(int, istd::IPolymorphic*)), this, SLOT(DoBeginChanges(int, istd::IPolymorphic*)));
-	connect(this, SIGNAL(EmitEndChanges(int, istd::IPolymorphic*)), this, SLOT(DoEndChanges(int, istd::IPolymorphic*)));
+	QThread* objectThread = thread();
 
-	Q_EMIT EmitBeginChanges(changeFlags, changeParamsPtr);
+	// If event notifier lives in the application (main) thread, no parameter cloning is neccassary:
+	if (objectThread == applicationThreadPtr){
+		m_changeParamsPtr.SetPtr(changeParamsPtr, false);
+	}
+	else{
+		if (changeParamsPtr != NULL){
+			istd::IChangeable* changeablePtr = dynamic_cast<istd::IChangeable* >(changeParamsPtr);
+			if (changeablePtr != NULL){
+				istd::TOptDelPtr<istd::IChangeable> clonedParamsPtr(changeablePtr->CloneMe());
+				if (clonedParamsPtr.IsValid()){
+					m_changeParamsPtr.SetPtr(clonedParamsPtr.PopPtr(), true);
+				}
+				else{
+					qDebug("Update parameter could not be cloned. Change notifying will be processed without parameter instance");
+				}
+			}
+			else{
+				qDebug("Notification parameter doesn't support clone operation. Change notifying will be processed without parameter instance");			
+			}
+		}
+	}
 }
 
 
 void NotificationTarget::Reset()
 {
-	I_ASSERT(!m_isBeginPending);
-
-	Q_EMIT EmitEndChanges(m_changeFlags, m_changeParamsPtr);
-
-	m_slavePtr = NULL;
+	Q_EMIT EmitEndChanges();
 }
 
 
 // protected slots
 
-void NotificationTarget::DoBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void NotificationTarget::DoBeginChanges()
 {
+	I_ASSERT(m_isBeginPending == true);
+
 	m_isBeginPending = false;
 
 	if (m_slavePtr != NULL){
-		m_slavePtr->BeginChanges(changeFlags, changeParamsPtr);
+		m_slavePtr->BeginChanges(m_changeFlags, m_changeParamsPtr.GetPtr());
 	}
 }
 
 
-void NotificationTarget::DoEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void NotificationTarget::DoEndChanges()
 {
+	I_ASSERT(!m_isBeginPending);
+
 	if (m_slavePtr != NULL && !m_isBeginPending){
-		m_slavePtr->EndChanges(changeFlags, changeParamsPtr);
+		m_slavePtr->EndChanges(m_changeFlags, m_changeParamsPtr.GetPtr());
 	}
 }
 

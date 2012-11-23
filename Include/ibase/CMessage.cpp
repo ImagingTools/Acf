@@ -116,6 +116,16 @@ bool CMessage::CopyFrom(const istd::IChangeable& object)
 }
 
 
+istd::IChangeable* CMessage::CloneMe() const
+{
+	return new CMessage(
+				m_category,
+				m_id,
+				m_text,
+				m_source,
+				m_flags);
+}
+
 
 } // namespace ibase
 

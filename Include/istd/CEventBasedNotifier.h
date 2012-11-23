@@ -6,8 +6,8 @@
 #include <QtCore/QObject>
 
 // ACF includes
-#include "istd/CChangeDelegator.h"
 #include "istd/TChangeNotifier.h"
+#include "istd/TOptDelPtr.h"
 
 
 namespace istd
@@ -48,17 +48,17 @@ protected:
 	void Reset();
 
 protected Q_SLOTS:
-	void DoBeginChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-	void DoEndChanges(int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	void DoBeginChanges();
+	void DoEndChanges();
 
 Q_SIGNALS:
-	void EmitBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
-	void EmitEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	void EmitBeginChanges();
+	void EmitEndChanges();
 
 private:
 	istd::IChangeable* m_slavePtr;
 	int m_changeFlags;
-	istd::IPolymorphic* m_changeParamsPtr;
+	istd::TOptDelPtr<istd::IPolymorphic> m_changeParamsPtr;
 
 	/**
 		Flag to inidicate, that BeginChange notification was sent.

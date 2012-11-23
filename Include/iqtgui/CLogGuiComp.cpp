@@ -51,7 +51,7 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 		treeItemPtr->setToolTip(CT_TIME, message.GetInformationDescription());
 		treeItemPtr->setToolTip(CT_MESSAGE, message.GetInformationDescription());
 		treeItemPtr->setToolTip(CT_SOURCE, message.GetInformationDescription());
-		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue((void*)&message));
+		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue(timeStamp));
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetInformationCategory());
 
 		istd::IInformationProvider::InformationCategory category = message.GetInformationCategory();
@@ -223,7 +223,7 @@ void CLogGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IP
 		if (updateFlags & ibase::IMessageContainer::CF_MESSAGE_REMOVED){
 			istd::IInformationProvider* messagePtr = dynamic_cast<istd::IInformationProvider*>(updateParamsPtr);
 			if (messagePtr != NULL){
-				Q_EMIT EmitRemoveMessage(QVariant::fromValue((void*)messagePtr));
+				Q_EMIT EmitRemoveMessage(QVariant::fromValue(messagePtr->GetInformationTimeStamp()));
 			}
 		}
 	}
@@ -289,7 +289,9 @@ void CLogGuiComp::OnAddMessage(const istd::IInformationProvider* messagePtr, boo
 
 void CLogGuiComp::OnRemoveMessage(QVariant messageId)
 {
-	for (int itemIndex = 0; itemIndex < LogView->topLevelItemCount(); itemIndex++){
+	int itemsCount = LogView->topLevelItemCount();
+
+	for (int itemIndex = 0; itemIndex < itemsCount; itemIndex++){
 		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
 		I_ASSERT(itemPtr != NULL);
 

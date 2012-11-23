@@ -146,9 +146,15 @@ IMessageContainer::Messages CMessageContainer::GetMessages() const
 	for (		MessageList::ConstIterator iter = m_messages.constBegin();
 				iter != m_messages.constEnd();
 				++iter){
-		const IMessageConsumer::MessagePtr& messagePtr = *iter;
+		
+		istd::TDelPtr<istd::IInformationProvider> messagePtr;
 
-		messages.push_back(messagePtr);
+		messagePtr.SetCastedOrRemove<istd::IChangeable>((*iter)->CloneMe());
+		if (messagePtr.IsValid()){
+			IMessageConsumer::MessagePtr messageCopyPtr(messagePtr.PopPtr());
+	
+			messages.push_back(messageCopyPtr);
+		}
 	}
 
 	int childsCount = GetChildsCount();
@@ -190,7 +196,7 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 					CF_MODEL | CF_MESSAGE_ADDED,
 					const_cast<istd::IInformationProvider*>(messagePtr.GetPtr()));
 
-		m_messages.push_back(messagePtr);
+		m_messages.push_front(messagePtr);
 
 		int messageCategory = messagePtr->GetInformationCategory();
 		if ((m_worstCategory >= 0) && (messageCategory > m_worstCategory)){
