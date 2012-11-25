@@ -17,6 +17,8 @@ idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsFo
 
 	idoc::IDocumentTemplate::Ids allIds = GetDocumentTypeIds();
 
+	QFileInfo fileInfo(filePath);
+
 	for (		IDocumentTemplate::Ids::const_iterator documentIdIter = allIds.begin();
 				documentIdIter != allIds.end();
 				++documentIdIter){
@@ -29,7 +31,8 @@ idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsFo
 						extensionIter != extensions.end();
 						++extensionIter){
 				QString extension = *extensionIter;
-				if (filePath.endsWith(extension, Qt::CaseInsensitive)){
+
+				if (fileInfo.suffix().compare(extension, Qt::CaseInsensitive) == 0){
 					retVal.push_back(id);
 
 					break;
