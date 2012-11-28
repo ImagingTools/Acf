@@ -59,6 +59,10 @@
      <property name="text">
       <string>...</string>
      </property>
+     <property name="icon">
+      <iconset resource="../iqtgui/iqtgui.qrc">
+       <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+     </property>
     </widget>
    </item>
   </layout>
@@ -67,6 +71,8 @@
   <tabstop>BrowseButton</tabstop>
   <tabstop>DirEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../iqtgui/iqtgui.qrc"/>
+ </resources>
  <connections/>
 </ui>
