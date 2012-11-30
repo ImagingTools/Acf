@@ -41,7 +41,7 @@ public:
 		I_REGISTER_INTERFACE(ISelectionConstraints);
 		I_ASSIGN_MULTI_0(m_fixedParamSetsCompPtr, "FixedParamSets", "List of references to fixed parameter set", false);
 		I_ASSIGN_MULTI_0(m_fixedSetNamesAttrPtr, "FixedSetNames", "List of fixed parameter names", false);
-		I_ASSIGN(m_defaultSetNameAttrPtr, "DefaultSetName", "Default name of parameter set", true, "<noname>");		
+		I_ASSIGN(m_defaultSetNameAttrPtr, "DefaultSetName", "Default name of parameter set. Use %1 to insert automatic enumeration ", true, "<noname>");		
 		I_ASSIGN_MULTI_0(m_paramSetsFactoriesPtr, "ParamSetsFactories", "List of factories for parameter sets creation", true);		
 		I_ASSIGN_MULTI_0(m_factoryNameNameAttrPtr, "ParamSetsFactorieNames", "List of names associated with the parameter factories", true);
 		I_ASSIGN_MULTI_0(m_factoryDescriptionAttrPtr, "ParamSetsFactorieDesciption", "List of descriptions associated with the parameter factories", true);
@@ -127,6 +127,8 @@ private:
 		QString name;
 		QByteArray typeId;
 	};
+
+	int FindParamSetIndex(const QString& name) const;
 
 	typedef QList<ParamSet> ParamSets;
 

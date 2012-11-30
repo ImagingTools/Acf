@@ -77,7 +77,29 @@ int CMultiParamsManagerComp::InsertParamsSet(int typeIndex, int index)
 
 	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
 
-	QString defaultSetName = m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr: "unnamed";
+	QString defaultSetName;
+	if (m_defaultSetNameAttrPtr.IsValid()){
+		defaultSetName = info.name + " " + *m_defaultSetNameAttrPtr;
+		if (defaultSetName.contains("%1")){			
+			QString tmpName;
+			for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+				tmpName = defaultSetName;
+				tmpName.replace(QString("%1"), QString::number(suffixIndex));
+				if (FindParamSetIndex(tmpName) < 0){
+					defaultSetName = tmpName;
+					break;
+				}
+			}
+		}
+	}
+	else {
+		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+			defaultSetName = info.name + " " + QObject::tr("unnamed%1").arg(suffixIndex);
+			if (FindParamSetIndex(defaultSetName) < 0){
+				break;
+			}
+		}		
+	}
 
 	ParamSet paramSet;
 	
@@ -179,7 +201,7 @@ QString CMultiParamsManagerComp::GetParamsSetName(int index) const
 			return m_fixedSetNamesAttrPtr[index];
 		}
 		else{
-			return QObject::tr("%1_%2").arg(*m_defaultSetNameAttrPtr).arg(index - namesCount + 1);
+			return QObject::tr("%1_%2").arg(m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr : "unnamed").arg(index - namesCount + 1);
 		}
 	}
 
@@ -592,6 +614,20 @@ QByteArray CMultiParamsManagerComp::TypeInfoList::GetOptionId(int index) const
 bool CMultiParamsManagerComp::TypeInfoList::IsOptionEnabled(int /*index*/) const
 {
 	return true;
+}
+
+// private methods
+
+int CMultiParamsManagerComp::FindParamSetIndex(const QString& name) const
+{
+	int paramsCount = m_paramSets.size();
+	for (int i = 0; i < paramsCount; ++i){
+		if (m_paramSets.at(i).name == name){
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 

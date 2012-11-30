@@ -54,7 +54,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			ParamSet& paramsSet = m_paramSets.back();
 
 			paramsSet.paramSetPtr.SetPtr(newParamsSetPtr);
-			paramsSet.name = *m_defaultSetNameAttrPtr;
+			paramsSet.name = m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr : "unnamed";
 
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
 			if (modelPtr != NULL){
@@ -122,7 +122,30 @@ int CParamsManagerComp::InsertParamsSet(int /*typeIndex*/, int index)
 
 	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
 
-	QString defaultSetName = m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr: "unnamed";
+	QString defaultSetName;
+	if (m_defaultSetNameAttrPtr.IsValid()){
+		defaultSetName = *m_defaultSetNameAttrPtr;
+		if (defaultSetName.contains("%1")){			
+			QString tmpName;
+			for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+				tmpName = defaultSetName;
+				tmpName.replace(QString("%1"), QString::number(suffixIndex));
+				if (FindParamSetIndex(tmpName) < 0){
+					defaultSetName = tmpName;
+					break;
+				}
+			}
+		}
+	}
+	else {
+		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+			defaultSetName = QObject::tr("unnamed%1").arg(suffixIndex);
+			if (FindParamSetIndex(defaultSetName) < 0){
+				break;
+			}
+		}		
+	}
+
 
 	ParamSet paramSet;
 	
@@ -222,7 +245,7 @@ QString CParamsManagerComp::GetParamsSetName(int index) const
 			return m_fixedSetNamesAttrPtr[index];
 		}
 		else{
-			return QObject::tr("%1_%2").arg(*m_defaultSetNameAttrPtr).arg(index - namesCount + 1);
+			return QObject::tr("%1_%2").arg(m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr : "unnamed").arg(index - namesCount + 1);
 		}
 	}
 
@@ -423,6 +446,20 @@ void CParamsManagerComp::OnComponentDestroyed()
 	}
 
 	BaseClass::OnComponentDestroyed();
+}
+
+// private methods
+
+int CParamsManagerComp::FindParamSetIndex(const QString& name) const
+{
+	int paramsCount = m_paramSets.size();
+	for (int i = 0; i < paramsCount; ++i){
+		if (m_paramSets.at(i).name == name){
+			return i;
+		}
+	}
+
+	return -1;
 }
 
 
