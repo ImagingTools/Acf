@@ -22,6 +22,7 @@ public:
 	typedef CAffineTransformation2d BaseClass2;
 
 	I_BEGIN_COMPONENT(CAffineTransformation2dComp);
+		I_REGISTER_INTERFACE(ICalibration2d);
 		I_REGISTER_INTERFACE(ITransformation2d);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_m00AttrPtr, "M00", "Matrix value at the position (0, 0)", false, 1.0);
