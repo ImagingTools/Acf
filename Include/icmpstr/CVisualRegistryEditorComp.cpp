@@ -1085,7 +1085,7 @@ void CVisualRegistryEditorComp::ToEmbeddedComponent()
 	icomp::IRegistry::ExportedInterfacesMap exportedInterfacesMap = registryPtr->GetExportedInterfacesMap();
 	icomp::IRegistry::ExportedElementsMap exportedComponentsMap = registryPtr->GetExportedElementsMap();
 
-	i2d::CVector2d newElementPosition(0, 0);
+	i2d::CVector2d embeddedRegistryElementPosition(0, 0);
 
 	// move selected elements to the embedded registry
 	for (		ElementIds::const_iterator iter = m_selectedElementIds.begin();
@@ -1100,15 +1100,19 @@ void CVisualRegistryEditorComp::ToEmbeddedComponent()
 
 		i2d::IObject2d* oldVisualObjectPtr = dynamic_cast<i2d::IObject2d*>(oldInfoPtr->elementPtr.GetPtr());
 		if (oldVisualObjectPtr != NULL){
-			newElementPosition = oldVisualObjectPtr->GetCenter();
+			embeddedRegistryElementPosition += oldVisualObjectPtr->GetCenter();
 		}
 
-		icomp::IRegistry::ElementInfo* newInfoPtr = newEmbeddedRegistryPtr->InsertElementInfo(elementName, oldInfoPtr->address, false);
+		icomp::IRegistry::ElementInfo* newInfoPtr = newEmbeddedRegistryPtr->InsertElementInfo(elementName, oldInfoPtr->address, true);
 		if (newInfoPtr == NULL){
 			continue;
 		}
 
-		newInfoPtr->elementPtr.TakeOver(oldInfoPtr->elementPtr);
+		newInfoPtr->elementPtr->CopyFrom(*oldInfoPtr->elementPtr);
+		i2d::IObject2d* newVisualObjectPtr = dynamic_cast<i2d::IObject2d*>(newInfoPtr->elementPtr.GetPtr());
+		if (newVisualObjectPtr != NULL){
+			newVisualObjectPtr->MoveCenterTo(oldVisualObjectPtr->GetCenter());
+		}
 
 		for (		icomp::IRegistry::ExportedInterfacesMap::ConstIterator interfaceIter = exportedInterfacesMap.constBegin();
 					interfaceIter != exportedInterfacesMap.constEnd();
@@ -1143,7 +1147,9 @@ void CVisualRegistryEditorComp::ToEmbeddedComponent()
 
 		CVisualRegistryElement* registryElementPtr = dynamic_cast<CVisualRegistryElement*>(newElementInfoPtr->elementPtr.GetPtr());
 		if (registryElementPtr != NULL){
-			registryElementPtr->MoveCenterTo(newElementPosition);
+			embeddedRegistryElementPosition /= m_selectedElementIds.count();
+
+			registryElementPtr->MoveCenterTo(embeddedRegistryElementPosition);
 		}
 	}
 	else{
@@ -1155,7 +1161,7 @@ void CVisualRegistryEditorComp::ToEmbeddedComponent()
 
 void CVisualRegistryEditorComp::RemoveEmbeddedComponent()
 {
-	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_EMBEDDED | icomp::IRegistry::CF_ELEMENT_ADDED | icomp::IRegistry::CF_ELEMENT_REMOVED | CF_MODEL);
+	istd::TChangeNotifier<icomp::IRegistry> registryPtr(GetObjectPtr(), icomp::IRegistry::CF_EMBEDDED | icomp::IRegistry::CF_ELEMENT_REMOVED | CF_MODEL);
 	if (!registryPtr.IsValid()){
 		return;
 	}
@@ -1287,6 +1293,7 @@ void CVisualRegistryEditorComp::UpdateEmbeddedRegistryButtons()
 	}
 
 	m_embeddedButtons.Reset();
+
 	EmbeddedComponentsLayout->removeItem(m_buttonSpacerPtr);
 
 	icomp::IRegistry::Ids embeddedIds = rootRegistryPtr->GetEmbeddedRegistryIds();
@@ -1326,6 +1333,8 @@ void CVisualRegistryEditorComp::UpdateEmbeddedRegistryButtons()
 
 	Q_ASSERT(buttonIndex <= m_embeddedButtons.GetCount());
 	m_embeddedButtons.SetCount(buttonIndex);
+
+	RootButton->setVisible(buttonIndex > 0);
 }
 
 
@@ -1346,6 +1355,8 @@ void CVisualRegistryEditorComp::OnGuiCreated()
 	BaseClass::OnGuiCreated();
 
 	connect(RootButton, SIGNAL(clicked()), this, SLOT(OnEmbeddedComponentButtonClicked()));
+
+	RootButton->setHidden(true);
 
 	if (m_sceneProviderGuiCompPtr.IsValid()){
 		m_sceneProviderGuiCompPtr->CreateGui(SceneContainer);
