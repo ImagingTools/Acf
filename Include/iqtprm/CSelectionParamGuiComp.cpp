@@ -48,6 +48,8 @@ void CSelectionParamGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	I_ASSERT(IsGuiCreated());
 
+	UpdateSelectorLabel();
+
 	int uiMode = *m_uiModeAttrPtr;
 
 	switch (uiMode){
@@ -75,84 +77,6 @@ void CSelectionParamGuiComp::OnGuiCreated()
 
 	if (!m_infoLabelAttrPtr.IsValid()){
 		InfoFrame->hide();
-	}
-
-	if (m_optionsLabelAttrPtr.IsValid()){
-		int labelPosition = LP_LEFT;
-
-		if (m_labelPositionAttrPtr.IsValid()){
-			labelPosition = *m_labelPositionAttrPtr;
-		}
-
-		QLayout* selectorLayoutPtr = NULL;
-		if (labelPosition == LP_LEFT){
-			selectorLayoutPtr = new QHBoxLayout(SelectionFrame);
-		}
-		else{
-			selectorLayoutPtr = new QVBoxLayout(SelectionFrame);			
-		}
-
-		selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
-
-		m_selectorLabelPtr = new QLabel(SelectionFrame);
-		m_selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
-
-		if (m_labelWidthAttrPtr.IsValid()){
-			int width = *m_labelWidthAttrPtr;
-			if (width > 0){
-				m_selectorLabelPtr->setFixedWidth(width);
-			}
-		}
-
-		if (m_labelAlignAttrPtr.IsValid()){
-			int align = *m_labelAlignAttrPtr;
-			if (align >= LA_LEFT_TOP && align <= LA_RIGHT_BOTTOM){
-				Qt::Alignment qtAlign = 0;
-
-				switch (align){
-				case LA_LEFT_TOP:	
-					qtAlign = Qt::AlignLeft | Qt::AlignTop;
-					break;
-
-				case LA_CENTER_TOP:	
-					qtAlign = Qt::AlignHCenter | Qt::AlignTop;
-					break;
-
-				case LA_RIGHT_TOP:	
-					qtAlign = Qt::AlignRight | Qt::AlignTop;
-					break;
-
-				case LA_LEFT_CENTER:	
-					qtAlign = Qt::AlignLeft | Qt::AlignVCenter;
-					break;
-
-				case LA_CENTER:	
-					qtAlign = Qt::AlignCenter;
-					break;
-
-				case LA_RIGHT_CENTER:	
-					qtAlign = Qt::AlignRight | Qt::AlignVCenter;
-					break;
-
-				case LA_LEFT_BOTTOM:	
-					qtAlign = Qt::AlignLeft | Qt::AlignBottom;
-					break;
-
-				case LA_CENTER_BOTTOM:	
-					qtAlign = Qt::AlignHCenter | Qt::AlignBottom;
-					break;
-
-				case LA_RIGHT_BOTTOM:	
-					qtAlign = Qt::AlignRight | Qt::AlignBottom;
-					break;
-				}
-
-				m_selectorLabelPtr->setAlignment(qtAlign);
-			}
-		}
-
-		selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
 	}
 }
 
@@ -189,6 +113,8 @@ void CSelectionParamGuiComp::OnGuiShown()
 			InfoIcon->setPixmap(QPixmap(":/Icons/About"));
 		}
 	}
+
+	UpdateSelectorLabel();
 }
 
 
@@ -202,10 +128,7 @@ void CSelectionParamGuiComp::OnGuiRetranslate()
 		InfoLabel->setText(*m_infoLabelAttrPtr);
 	}
 
-	if (m_optionsLabelAttrPtr.IsValid()){
-		m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
-		m_selectorLabelPtr->setVisible(!m_selectorLabelPtr->text().isEmpty());
-	}
+	UpdateSelectorLabel();
 
 	UpdateDescriptionFrame();
 }
@@ -285,6 +208,9 @@ void CSelectionParamGuiComp::OnRadioButtonSelectionChanged(bool isSelected)
 
 		if (needUpdateGui){
 			UpdateRadioButtonView();
+		}
+		else{
+			UpdateDescriptionFrame();
 		}
 	}
 }
@@ -436,6 +362,97 @@ void CSelectionParamGuiComp::UpdateDescriptionFrame()
 				DescriptionFrame->setVisible(true);
 			}
 		}
+	}
+}
+
+
+void CSelectionParamGuiComp::UpdateSelectorLabel()
+{
+	if (m_optionsLabelAttrPtr.IsValid()){
+		if (m_selectorLabelPtr == NULL){
+			int labelPosition = LP_LEFT;
+
+			if (m_labelPositionAttrPtr.IsValid()){
+				labelPosition = *m_labelPositionAttrPtr;
+			}
+
+			QLayout* selectorLayoutPtr = SelectionFrame->layout();
+			if (selectorLayoutPtr == NULL){
+				if (labelPosition == LP_LEFT){
+					selectorLayoutPtr = new QHBoxLayout(SelectionFrame);
+				}
+				else{
+					selectorLayoutPtr = new QVBoxLayout(SelectionFrame);			
+				}
+			}
+
+			selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
+
+			m_selectorLabelPtr = new QLabel(SelectionFrame);
+			m_selectorLabelPtr->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
+			m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+
+			if (m_labelWidthAttrPtr.IsValid()){
+				int width = *m_labelWidthAttrPtr;
+				if (width > 0){
+					m_selectorLabelPtr->setFixedWidth(width);
+				}
+			}
+
+			if (m_labelAlignAttrPtr.IsValid()){
+				int align = *m_labelAlignAttrPtr;
+				if (align >= LA_LEFT_TOP && align <= LA_RIGHT_BOTTOM){
+					Qt::Alignment qtAlign = 0;
+
+					switch (align){
+					case LA_LEFT_TOP:	
+						qtAlign = Qt::AlignLeft | Qt::AlignTop;
+						break;
+
+					case LA_CENTER_TOP:	
+						qtAlign = Qt::AlignHCenter | Qt::AlignTop;
+						break;
+
+					case LA_RIGHT_TOP:	
+						qtAlign = Qt::AlignRight | Qt::AlignTop;
+						break;
+
+					case LA_LEFT_CENTER:	
+						qtAlign = Qt::AlignLeft | Qt::AlignVCenter;
+						break;
+
+					case LA_CENTER:	
+						qtAlign = Qt::AlignCenter;
+						break;
+
+					case LA_RIGHT_CENTER:	
+						qtAlign = Qt::AlignRight | Qt::AlignVCenter;
+						break;
+
+					case LA_LEFT_BOTTOM:	
+						qtAlign = Qt::AlignLeft | Qt::AlignBottom;
+						break;
+
+					case LA_CENTER_BOTTOM:	
+						qtAlign = Qt::AlignHCenter | Qt::AlignBottom;
+						break;
+
+					case LA_RIGHT_BOTTOM:	
+						qtAlign = Qt::AlignRight | Qt::AlignBottom;
+						break;
+					}
+
+					m_selectorLabelPtr->setAlignment(qtAlign);
+				}
+			}
+
+			selectorLayoutPtr->addWidget(m_selectorLabelPtr.GetPtr());
+		}
+		else{
+			m_selectorLabelPtr->setText(*m_optionsLabelAttrPtr);
+		}
+
+		m_selectorLabelPtr->setVisible(!m_selectorLabelPtr->text().isEmpty());
 	}
 }
 

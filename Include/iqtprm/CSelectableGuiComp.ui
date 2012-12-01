@@ -19,17 +19,18 @@
    </property>
    <item>
     <widget class="QFrame" name="SelectorFrame">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="margin">
        <number>0</number>
       </property>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="LineSeparator">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>
@@ -60,6 +61,10 @@
     </widget>
    </item>
   </layout>
+  <zorder>SelectorFrame</zorder>
+  <zorder>SelectionStack</zorder>
+  <zorder>NoSelectionLabel</zorder>
+  <zorder>LineSeparator</zorder>
  </widget>
  <resources/>
  <connections/>
