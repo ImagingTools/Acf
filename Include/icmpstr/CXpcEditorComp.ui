@@ -18,159 +18,16 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QToolBox" name="toolBox">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="RegistriesPage">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>625</width>
-        <height>532</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>Related registry files</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QListView" name="RegistryPathView">
-         <property name="styleSheet">
-          <string notr="true">QListView {
-     show-decoration-selected: 1; /* make the selection span the entire width of the view */
- }
-
- QListView::item {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #FAFBFE, stop: 1 #DCDEF1);
- }
-
- QListView::item:alternate {
-     background: #EEEEEE;
- }
-
- QListView::item:selected {
-     border: 1px solid #6a6ea9;
- }
-
- QListView::item:selected:!active {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #ABAFE5, stop: 1 #8588B2);
- }
-
- QListView::item:selected:active {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #6a6ea9, stop: 1 #888dd9);
- }
-</string>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-         <property name="dragDropMode">
-          <enum>QAbstractItemView::InternalMove</enum>
-         </property>
-         <property name="defaultDropAction">
-          <enum>Qt::TargetMoveAction</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QPushButton" name="RegistryPathAddButton">
-           <property name="text">
-            <string>Add</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Add.svg</normaloff>:/Icons/Add.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="RegistryPathRemoveButton">
-           <property name="text">
-            <string>Remove</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Delete.svg</normaloff>:/Icons/Delete.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QWidget" name="RegistryPathEditFrame" native="true">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="RegistryPathEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="RegistryPathInsertVariableButton">
-            <property name="text">
-             <string>Insert variable</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="RegistryPathBrowseButton">
-            <property name="toolTip">
-             <string>File selection</string>
-            </property>
-            <property name="text">
-             <string>Browse</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../iqtgui/iqtgui.qrc">
-              <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="PackagesPage">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>582</width>
-        <height>591</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>Packages definition</string>
+     <widget class="QWidget" name="tabWidgetPage2" native="true">
+      <attribute name="title">
+       <string>Packages</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
@@ -564,6 +421,136 @@
            <widget class="QToolButton" name="PackagePathBrowseButton">
             <property name="toolTip">
              <string comment="File selection with a dialog window">File selection</string>
+            </property>
+            <property name="text">
+             <string>Browse</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../iqtgui/iqtgui.qrc">
+              <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="" native="true">
+      <attribute name="title">
+       <string>Project Files</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListView" name="RegistryPathView">
+         <property name="styleSheet">
+          <string notr="true">QListView {
+     show-decoration-selected: 1; /* make the selection span the entire width of the view */
+ }
+
+ QListView::item {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #FAFBFE, stop: 1 #DCDEF1);
+ }
+
+ QListView::item:alternate {
+     background: #EEEEEE;
+ }
+
+ QListView::item:selected {
+     border: 1px solid #6a6ea9;
+ }
+
+ QListView::item:selected:!active {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #ABAFE5, stop: 1 #8588B2);
+ }
+
+ QListView::item:selected:active {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #6a6ea9, stop: 1 #888dd9);
+ }
+</string>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
+         </property>
+         <property name="defaultDropAction">
+          <enum>Qt::TargetMoveAction</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QPushButton" name="RegistryPathAddButton">
+           <property name="text">
+            <string>Add</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../iqtgui/iqtgui.qrc">
+             <normaloff>:/Icons/Add.svg</normaloff>:/Icons/Add.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="RegistryPathRemoveButton">
+           <property name="text">
+            <string>Remove</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../iqtgui/iqtgui.qrc">
+             <normaloff>:/Icons/Delete.svg</normaloff>:/Icons/Delete.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="RegistryPathEditFrame" native="true">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <property name="margin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="RegistryPathEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="RegistryPathInsertVariableButton">
+            <property name="text">
+             <string>Insert variable</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="RegistryPathBrowseButton">
+            <property name="toolTip">
+             <string>File selection</string>
             </property>
             <property name="text">
              <string>Browse</string>
