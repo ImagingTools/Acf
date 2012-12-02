@@ -38,6 +38,9 @@ public:
 	I_END_COMPONENT;
 
 protected:
+	using BaseClass::GetObjectPtr;
+	using BaseClass::GetQtWidget;
+
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 

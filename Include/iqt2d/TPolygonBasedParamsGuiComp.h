@@ -100,6 +100,7 @@ protected:
 	using BaseClass::GetObjectPtr;
 	using BaseClass::DoUpdateModel;
 	using BaseClass::NodeParamsTable;
+	using BaseClass::tr;
 
 	/**
 		Internal item delegate class for input validation
