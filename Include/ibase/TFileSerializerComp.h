@@ -158,7 +158,9 @@ template <class ReadArchive, class WriteArchive>
 int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const QString& filePath) const
 {
 	if (*m_autoCreateDirectoryAttrPtr){
-		if (!istd::CSystem::EnsurePathExists(filePath)){
+		QFileInfo fileInfo(filePath);
+
+		if (!istd::CSystem::EnsurePathExists(fileInfo.dir().absolutePath())){
 			SendErrorMessage(MI_CANNOT_SAVE, QObject::tr("Cannot create path to file"));
 		}
 	}
