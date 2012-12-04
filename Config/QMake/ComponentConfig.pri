@@ -2,6 +2,8 @@
 
 include (GeneralConfig.pri)
 
+INCLUDEPATH += ../../../Include
+
 TEMPLATE = lib
 
 TARGET_EXT = .arp
@@ -14,10 +16,6 @@ DESTDIR = ../../../Bin/$$COMPILER_DIR
 	CONFIG += plugin
 	QMAKE_CFLAGS += -fPIC
 	QMAKE_EXTENSION_SHLIB = arp
-#	QMAKE_PREFIX_SHLIB =
-#	QMAKE_PREFIX_STATICLIB =
-#	QMAKE_LFLAGS_SONAME =
-#	QMAKE_LN_SHLIB =
 	QMAKE_POST_LINK = mv $$OUT_PWD/../../../Bin/$$COMPILER_DIR/lib$$TARGET$$TARGET_EXT $$OUT_PWD/../../../Bin/$$COMPILER_DIR/$$TARGET$$TARGET_EXT
 
 }
