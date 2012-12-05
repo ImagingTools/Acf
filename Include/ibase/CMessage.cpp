@@ -36,19 +36,31 @@ CMessage::CMessage(
 
 void CMessage::SetCategory(istd::IInformationProvider::InformationCategory category)
 {
-	m_category = category;
+	if (category != m_category){
+		istd::CChangeNotifier notifier(this);
+
+		m_category = category;
+	}
 }
 
 
 void CMessage::SetText(const QString& text)
 {
-	m_text = text;
+	if (text != m_text){
+		istd::CChangeNotifier notifier(this);
+
+		m_text = text;
+	}
 }
 
 
 void CMessage::SetSource(const QString& source)
 {
-	m_source = source;
+	if (source != m_source){
+		istd::CChangeNotifier notifier(this);
+
+		m_source = source;
+	}
 }
 
 
