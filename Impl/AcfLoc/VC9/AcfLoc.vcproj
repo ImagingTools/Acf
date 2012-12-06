@@ -67,8 +67,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				ExecutionBucket="10"
-				Optimization="2"
-				InlineFunctionExpansion="0"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"

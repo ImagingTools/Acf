@@ -65,7 +65,6 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
 				AssemblyLinkResource="$(IntDir)CompositorMini.res"
-				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
 			<Tool

@@ -38,8 +38,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				InlineFunctionExpansion="0"
-				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="..\..\..\Include"
 				PreprocessorDefinitions="UNICODE;WIN32;NDEBUG"
 				RuntimeLibrary="2"
@@ -59,10 +57,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="QtCore4.lib"
-				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="false"
-				SubSystem="1"
 			/>
 			<Tool
 				Name="VCALinkTool"

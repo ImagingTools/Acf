@@ -182,6 +182,16 @@ I_EXPORT_COMPONENT(
 			"Progress Manager" IM_TAG("Processing"));
 
 I_EXPORT_COMPONENT(
+			TableBasedModelEditor,
+			"Table-based editor for Qt item model compatible data",
+			"Table");
+
+I_EXPORT_COMPONENT(
+			StatusGui,
+			"Status GUI showing category of observed information provider as red, orange or green ball",
+			"Table");
+
+I_EXPORT_COMPONENT(
 			ImagePropertyGui,
 			"Image property viewer",
 			"Observer Display GUI Image Bitmap Property");
@@ -245,11 +255,6 @@ I_EXPORT_COMPONENT(
 			FileListProviderGui,
 			"UI for showing a list of files",
 			"File List");
-
-I_EXPORT_COMPONENT(
-			TableBasedModelEditor,
-			"Table-based editor for Qt item model compatible data",
-			"Table");
 
 
 } // namespace QtGuiPck

@@ -71,7 +71,6 @@
 				AdditionalDependencies="QtGui4.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
 			<Tool

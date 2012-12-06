@@ -44,7 +44,6 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
 				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
@@ -52,7 +51,6 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=""
-				CompileAs="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

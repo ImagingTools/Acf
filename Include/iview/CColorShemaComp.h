@@ -35,10 +35,8 @@ public:
 		I_ASSIGN(m_tickerBrushColorAttrPtr, "TickerBrushColor", "Ticker brush color", false, "mediumslateblue");
 		I_ASSIGN(m_importantBrushColorAttrPtr, "ImportantBrushColor", "Important brush color", false, "blue");
 	I_END_COMPONENT;
-	
-	
-protected:
 
+protected:
 	I_ATTR(QString, m_normalPenColorAttrPtr);
 	I_ATTR(QString, m_selectedPenColorAttrPtr);
 	I_ATTR(double, m_selectedPenWidthAttrPtr);
@@ -54,13 +52,12 @@ protected:
 	I_ATTR(QString, m_selectedTickerBrushColorAttrPtr);
 	I_ATTR(QString, m_tickerBrushColorAttrPtr);
 	I_ATTR(QString, m_importantBrushColorAttrPtr);	
-	
 };
+
 
 /**
 	Implementation of a ColorShema as a component.
 */
-
 class CColorShemaComp: public CColorShemaCompAttr
 {
 public:
@@ -71,14 +68,12 @@ public:
 		I_ASSIGN(m_halfTransparent2BrushColorAttrPtr, "HalfTransparent2BrushColor", "Half-Transparent2 brush color", false, "mediumslateblue");
 		I_ASSIGN(m_backgroundBrushColorAttrPtr, "BackgroundBrushColor", "Background brush color", false, "AppColor");
 	I_END_COMPONENT;
-	
-	
+
 protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
-private:	
-
+private:
 	I_ATTR(QString, m_halfTransparentBrushColorAttrPtr);
 	I_ATTR(QString, m_halfTransparent2BrushColorAttrPtr);
 	I_ATTR(QString, m_backgroundBrushColorAttrPtr);
