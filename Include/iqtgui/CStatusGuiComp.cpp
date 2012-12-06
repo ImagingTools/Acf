@@ -57,7 +57,7 @@ void CStatusGuiComp::UpdateGui(int /*updateFlags*/)
 	QLabel* labelPtr = GetQtWidget();
 	Q_ASSERT(labelPtr != NULL);
 
-	labelPtr->setPixmap(icon.pixmap(128));
+	labelPtr->setPixmap(icon.pixmap(*m_iconSizeAttrPtr));
 }
 
 
@@ -68,7 +68,9 @@ void CStatusGuiComp::OnGuiCreated()
 	QLabel* labelPtr = GetQtWidget();
 	Q_ASSERT(labelPtr != NULL);
 
-	labelPtr->setScaledContents(true);
+	labelPtr->setMinimumSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr);
+	labelPtr->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	labelPtr->setScaledContents(false);
 }
 
 

@@ -29,6 +29,7 @@ public:
 							imod::TSingleModelObserverBase<istd::IInformationProvider> > > BaseClass;
 
 	I_BEGIN_COMPONENT(CStatusGuiComp);
+		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of status icon", true, 64);
 	I_END_COMPONENT;
 
 protected:
@@ -37,6 +38,9 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+
+private:
+	I_ATTR(int, m_iconSizeAttrPtr);
 };
 
 
