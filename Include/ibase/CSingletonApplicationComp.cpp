@@ -6,6 +6,10 @@
 #include <QtCore/QThread>
 #include <QtGui/QApplication>
 
+#ifdef Q_OS_MAC
+#include <Carbon/Carbon.h>
+#endif
+
 
 namespace ibase
 {
@@ -101,12 +105,38 @@ void CSingletonApplicationComp::OnComponentCreated()
 				m_processData->unlock();
 			}
 		}
-		else{
-			m_isAlreadyRunning = true;
+		else	
+			RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data	
+			if (dataPtr->processId == 0){
+				dataPtr->processId = QCoreApplication::applicationPid();
+			}
+			else{
+#ifdef Q_OS_MAC
+				ProcessSerialNumber psn;
+				if (GetProcessForPID(dataPtr->processId, &psn) == 0){
+					m_isAlreadyRunning = true;
+				}
+#else
+				m_isAlreadyRunning = true;
+#endif//!Q_OS_MAC
+			}
 		}
 	}
 }
 
+
+void CSingletonApplicationComp::OnComponentDestroyed()
+{
+	if (m_processData->isAttached()){
+		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data();
+		if (dataPtr->processId == QCoreApplication::applicationPid()){
+			dataPtr->processId = 0;
+		}
+		m_processData->detach();
+	}
+
+	BaseClass::OnComponentDestroyed();
+}
 
 } // namespace ibase
 
