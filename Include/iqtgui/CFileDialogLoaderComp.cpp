@@ -131,38 +131,19 @@ QString CFileDialogLoaderComp::GetLastFilePath(OperationType operationType, Path
 
 // static methods
 
-void CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QString& allExt, QStringList& result)
+void CFileDialogLoaderComp::AppendLoaderFilterList(const iser::IFileTypeInfo& fileTypeInfo, int flags, QStringList& allExt, QStringList& result)
 {
 	QStringList docExtensions;
 	if (!fileTypeInfo.GetFileExtensions(docExtensions, flags)){
 		return;
 	}
 
-	QString commonFilter;
-	for (		QStringList::const_iterator extIter = docExtensions.begin();
-				extIter != docExtensions.end();
-				++extIter){
-		const QString& extension = *extIter;
-
-		if (!extension.isEmpty()){
-			if (!commonFilter.isEmpty()){
-				commonFilter += " ";
-			}
-
-			commonFilter += QString("*.") + extension;
-		}
-	}
-
 	QString commonDescription = fileTypeInfo.GetTypeDescription();
 	if (!commonDescription.isEmpty()){
-		if (!commonFilter.isEmpty()){
-			if (!allExt.isEmpty()){
-				allExt += " ";
-			}
+		if (!docExtensions.isEmpty()){
+			allExt += docExtensions;
 
-			allExt += commonFilter;
-
-			result += tr("%1 (%2)").arg(commonDescription).arg(commonFilter);
+			result += tr("%1 (%2)").arg(commonDescription).arg("*." + docExtensions.join(" *."));
 		}
 	}
 	else{
@@ -207,7 +188,7 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 	QString retVal = filePath;
 	if (retVal.isEmpty()){
 		QStringList filterList;
-		QString allExt;
+		QStringList allExt;
 
 		int loadersCount = m_loadersCompPtr.GetCount();
 		for (int i = 0; i < loadersCount; ++i){
@@ -217,8 +198,8 @@ QString CFileDialogLoaderComp::GetFileName(const QString& filePath, bool isSavin
 			}
 		}
 
-		if (filterList.size() > 1){
-			filterList += tr("All known file types (%1)").arg(allExt);
+		if (allExt.size() > 1){
+			filterList.prepend(tr("All known file types (%1)").arg("*." + allExt.join(" *.")));
 		}
 
 		QString selectedFilter;
@@ -309,18 +290,18 @@ iser::IFileLoader* CFileDialogLoaderComp::GetLoaderFor(const QString& filePath, 
 	iser::IFileLoader* retVal = NULL;
 
 	QFileInfo fileInfo(filePath);
-	QString fileExtension = (QString("*.") + fileInfo.suffix()).toLower();
+	QString fileExtension = fileInfo.suffix().toLower();
 
 	int filtersSum = 0;
 	int loadersCount = m_loadersCompPtr.GetCount();
 	for (int i = 0; i < loadersCount; i++){
 		iser::IFileLoader* loaderPtr = m_loadersCompPtr[i];
 		if (loaderPtr != NULL){
-			QString extensions;
+			QStringList allExt;
 			QStringList filters;
-			AppendLoaderFilterList(*loaderPtr, flags, extensions, filters);
+			AppendLoaderFilterList(*loaderPtr, flags, allExt, filters);
 		
-			if (extensions.contains(fileExtension)){
+			if (allExt.contains(fileExtension)){
 				if ((selectionIndex < 0) || ((selectionIndex >= filtersSum) && (selectionIndex < filtersSum + filters.size()))){
 					return loaderPtr;
 				}

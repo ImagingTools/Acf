@@ -97,7 +97,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilters(const QBy
 
 	Ids docTypeIds = BaseClass::GetDocumentTypeIds();
 
-	QString allExt;
+	QStringList allExt;
 
 	if (documentTypeIdPtr != NULL){
 		iser::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*documentTypeIdPtr);
@@ -116,8 +116,8 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilters(const QBy
 		}
 	}
 
-	if ((filters.size() > 1) && ((flags & iser::IFileLoader::QF_SAVE) == 0)){
-		filters.prepend(Gui::tr("All known documents (%1)").arg(allExt));
+	if ((allExt.size() > 1) && ((flags & iser::IFileLoader::QF_SAVE) == 0)){
+		filters.prepend(Gui::tr("All known documents (%1)").arg("*." + allExt.join(" *.")));
 	}
 
 	return filters;

@@ -172,15 +172,15 @@ void CFileNameParamGuiComp::on_BrowseButton_clicked()
 			QStringList filterList;
 
 			if (m_fileTypeInfoPtr.IsValid()){
-				QString allExt;
+				QStringList allExt;
 				iqtgui::CFileDialogLoaderComp::AppendLoaderFilterList(
 							*m_fileTypeInfoPtr,
 							0,
 							allExt,
 							filterList);
 
-				if (filterList.size() > 1){
-					filterList += tr("All supported files (%1)").arg(allExt);
+				if (allExt.size() > 1){
+					filterList += tr("All supported files (%1)").arg("*." + allExt.join(" *."));
 				}
 			}
 
