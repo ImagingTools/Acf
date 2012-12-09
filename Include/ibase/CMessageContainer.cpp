@@ -232,12 +232,13 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 void CMessageContainer::ClearMessages()
 {
 	QMutexLocker lock(&m_lock);
+	if (!m_messages.isEmpty()){
+		istd::CEventBasedNotifier changePtr(this, CF_MODEL | CF_RESET);
+		
+		m_messages.clear();
 
-	istd::CEventBasedNotifier changePtr(this, CF_MODEL | CF_RESET);
-	
-	m_messages.clear();
-
-	m_worstCategory = 0;
+		m_worstCategory = 0;
+	}
 }
 
 
