@@ -80,7 +80,7 @@ TMultiFactoryMember<Interface>::TMultiFactoryMember()
 template <class Interface>
 void TMultiFactoryMember<Interface>::Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo)
 {
-	BaseClass::Init(ownerPtr, staticInfo, &m_definitionComponentPtr);
+	BaseClass::InitInternal(ownerPtr, staticInfo, &m_definitionComponentPtr);
 }
 
 

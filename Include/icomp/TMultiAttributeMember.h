@@ -26,9 +26,14 @@ public:
 
 	TMultiAttributeMemberBase();
 
-	bool Init(	const IComponent* ownerPtr,
-				const IRealAttributeStaticInfo& staticInfo,
-				const IComponent** definitionComponentPtr = NULL);
+	/**
+		Internal initialize of attribute.
+		\param	ownerPtr				pointer to parent component of this attribute.
+		\param	staticInfo				static info structure creating this attribute.
+		\param	definitionComponentPtr	optional pointer will be set with pointer to component defining this attribute.
+										If this attribute was exported it will differ from parent component.
+	*/
+	void Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo);
 
 	/**
 		Check if this attribute is valid.
@@ -45,6 +50,13 @@ public:
 	*/
 	const AttributeValueType& operator[](int index) const;
 
+protected:
+	bool InitInternal(
+				const IComponent* ownerPtr,
+				const IRealAttributeStaticInfo& staticInfo,
+				const IComponent** definitionComponentPtr);
+
+
 private:
 	const Attribute* m_attributePtr;
 };
@@ -60,7 +72,49 @@ TMultiAttributeMemberBase<Attribute>::TMultiAttributeMemberBase()
 
 
 template <typename Attribute>
-bool TMultiAttributeMemberBase<Attribute>::Init(
+void TMultiAttributeMemberBase<Attribute>::Init(
+			const IComponent* ownerPtr,
+			const IRealAttributeStaticInfo& staticInfo)
+{
+	InitInternal(ownerPtr, staticInfo, NULL);
+}
+
+
+template <typename Attribute>
+bool TMultiAttributeMemberBase<Attribute>::IsValid() const
+{
+	return (m_attributePtr != NULL);
+}
+
+
+template <typename Attribute>
+int TMultiAttributeMemberBase<Attribute>::GetCount() const
+{
+	if (m_attributePtr != NULL){
+		return m_attributePtr->GetValuesCount();
+	}
+	else{
+		return 0;
+	}
+}
+
+
+template <typename Attribute>
+const typename TMultiAttributeMemberBase<Attribute>::AttributeValueType& TMultiAttributeMemberBase<Attribute>::operator[](int index) const
+{
+	I_ASSERT(index >= 0);
+	I_ASSERT(index < GetCount());
+	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+	I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
+
+	return m_attributePtr->GetValueAt(index);
+}
+
+
+// protected methods
+
+template <typename Attribute>
+bool TMultiAttributeMemberBase<Attribute>::InitInternal(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo,
 			const IComponent** definitionComponentPtr)
@@ -96,37 +150,6 @@ bool TMultiAttributeMemberBase<Attribute>::Init(
 	}
 
 	return false;
-}
-
-
-template <typename Attribute>
-bool TMultiAttributeMemberBase<Attribute>::IsValid() const
-{
-	return (m_attributePtr != NULL);
-}
-
-
-template <typename Attribute>
-int TMultiAttributeMemberBase<Attribute>::GetCount() const
-{
-	if (m_attributePtr != NULL){
-		return m_attributePtr->GetValuesCount();
-	}
-	else{
-		return 0;
-	}
-}
-
-
-template <typename Attribute>
-const typename TMultiAttributeMemberBase<Attribute>::AttributeValueType& TMultiAttributeMemberBase<Attribute>::operator[](int index) const
-{
-	I_ASSERT(index >= 0);
-	I_ASSERT(index < GetCount());
-	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
-	I_ASSERT(m_attributePtr->GetValuesCount() == GetCount());
-
-	return m_attributePtr->GetValueAt(index);
 }
 
 

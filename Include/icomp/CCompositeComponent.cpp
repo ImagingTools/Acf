@@ -171,18 +171,18 @@ void* CCompositeComponent::GetInterface(const istd::CClassInfo& interfaceType, c
 
 		IRegistry::ExportedInterfacesMap::const_iterator iter;
 		if (interfaceType.IsVoid()){
-			iter = interfaceInfos.begin();
+			iter = interfaceInfos.constBegin();
 		}
 		else{
-			iter = interfaceInfos.find(interfaceType.GetName());
-			if ((iter == interfaceInfos.end()) && interfaceType.IsConst()){
+			iter = interfaceInfos.constFind(interfaceType.GetName());
+			if ((iter == interfaceInfos.constEnd()) && interfaceType.IsConst()){
 				istd::CClassInfo nonConstInterfaceType = interfaceType.GetConstCasted(false);
 
-				iter = interfaceInfos.find(nonConstInterfaceType.GetName());
+				iter = interfaceInfos.constFind(nonConstInterfaceType.GetName());
 			}
 		}
 
-		if (iter != interfaceInfos.end()){
+		if (iter != interfaceInfos.constEnd()){
 			QByteArray componentId;
 			QByteArray restId;
 			SplitId(iter.value(), componentId, restId);

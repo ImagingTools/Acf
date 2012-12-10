@@ -85,7 +85,7 @@ TFactoryMember<Interface>::TFactoryMember()
 template <class Interface>
 void TFactoryMember<Interface>::Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo)
 {
-	BaseClass::Init(ownerPtr, staticInfo, &m_definitionComponentPtr);
+	BaseClass::InitInternal(ownerPtr, staticInfo, &m_definitionComponentPtr);
 }
 
 

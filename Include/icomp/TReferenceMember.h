@@ -71,7 +71,7 @@ TReferenceMember<Interface>::TReferenceMember()
 template <class Interface>
 void TReferenceMember<Interface>::Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo)
 {
-	BaseClass::Init(ownerPtr, staticInfo, &m_definitionComponentPtr);
+	BaseClass::InitInternal(ownerPtr, staticInfo, &m_definitionComponentPtr);
 
 	m_componentPtr = NULL;
 }

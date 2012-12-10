@@ -36,12 +36,8 @@ public:
 		Initialize this attribute.
 		\param	ownerPtr				pointer to parent component of this attribute.
 		\param	staticInfo				static info structure creating this attribute.
-		\param	definitionComponentPtr	optional pointer will be set with pointer to component defining this attribute.
-										If this attribute was exported it will differ from parent component.
 	*/
-	bool Init(	const IComponent* ownerPtr,
-				const IRealAttributeStaticInfo& staticInfo,
-				const IComponent** definitionComponentPtr = NULL);
+	void Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo);
 
 	/**
 		Check if this attribute is valid.
@@ -66,6 +62,17 @@ public:
 protected:
 	void SetAttribute(const Attribute* attributePtr);
 
+	/**
+		Internal initialize of attribute.
+		\param	ownerPtr				pointer to parent component of this attribute.
+		\param	staticInfo				static info structure creating this attribute.
+		\param	definitionComponentPtr	optional pointer will be set with pointer to component defining this attribute.
+										If this attribute was exported it will differ from parent component.
+	*/
+	bool InitInternal(	const IComponent* ownerPtr,
+				const IRealAttributeStaticInfo& staticInfo,
+				const IComponent** definitionComponentPtr);
+
 private:
 	const Attribute* m_attributePtr;
 	bool m_isAssigned;
@@ -83,7 +90,60 @@ TAttributeMemberBase<Attribute>::TAttributeMemberBase()
 
 
 template <typename Attribute>
-bool TAttributeMemberBase<Attribute>::Init(
+void TAttributeMemberBase<Attribute>::Init(
+			const IComponent* ownerPtr,
+			const IRealAttributeStaticInfo& staticInfo)
+{
+	InitInternal(ownerPtr, staticInfo, NULL);
+}
+
+template <typename Attribute>
+bool TAttributeMemberBase<Attribute>::IsValid() const
+{
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
+	return (m_attributePtr != NULL);
+}
+
+
+template <typename Attribute>
+const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
+{
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
+	return m_attributePtr;
+}
+
+
+template <typename Attribute>
+const Attribute* TAttributeMemberBase<Attribute>::operator->() const
+{
+	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
+
+	return m_attributePtr;
+}
+
+
+template <typename Attribute>
+const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMemberBase<Attribute>::operator*() const
+{
+	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
+
+	return m_attributePtr->GetValue();
+}
+
+
+// protected methods
+
+template <typename Attribute>
+void TAttributeMemberBase<Attribute>::SetAttribute(const Attribute* attributePtr)
+{
+	m_attributePtr = attributePtr;
+}
+
+
+template <typename Attribute>
+bool TAttributeMemberBase<Attribute>::InitInternal(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo,
 			const IComponent** definitionComponentPtr)
@@ -146,51 +206,6 @@ bool TAttributeMemberBase<Attribute>::Init(
 	}
 
 	return false;
-}
-
-
-template <typename Attribute>
-bool TAttributeMemberBase<Attribute>::IsValid() const
-{
-	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
-
-	return (m_attributePtr != NULL);
-}
-
-
-template <typename Attribute>
-const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
-{
-	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
-
-	return m_attributePtr;
-}
-
-
-template <typename Attribute>
-const Attribute* TAttributeMemberBase<Attribute>::operator->() const
-{
-	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
-
-	return m_attributePtr;
-}
-
-
-template <typename Attribute>
-const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMemberBase<Attribute>::operator*() const
-{
-	I_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
-
-	return m_attributePtr->GetValue();
-}
-
-
-// protected methods
-
-template <typename Attribute>
-void TAttributeMemberBase<Attribute>::SetAttribute(const Attribute* attributePtr)
-{
-	m_attributePtr = attributePtr;
 }
 
 
