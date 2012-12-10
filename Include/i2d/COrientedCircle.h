@@ -32,6 +32,11 @@ public:
 	bool operator==(const COrientedCircle& circle) const;
 	bool operator!=(const COrientedCircle& circle) const;
 
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
+
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 

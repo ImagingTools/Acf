@@ -49,6 +49,12 @@ public:
 	*/
 	virtual i2d::CVector2d GetKneeVector(int nodeIndex) const;
 
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
+
+
 private:
 	bool m_isClosed;
 };

@@ -7,6 +7,7 @@
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -243,6 +244,39 @@ bool CQuadrangle::GetInvTransformed(
 	}
 }
 
+// reimplemented (istd::IChangeable)
+
+int CQuadrangle::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CQuadrangle::CopyFrom(const IChangeable& object)
+{
+	const CQuadrangle* quadranglesPtr = dynamic_cast<const CQuadrangle*>(&object);
+
+	if (quadranglesPtr != NULL){
+		
+		SetCalibration(quadranglesPtr->GetCalibration());
+		SetFirstDiagonal(quadranglesPtr->GetFirstDiagonal());
+		SetSecondDiagonal(quadranglesPtr->GetSecondDiagonal());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CQuadrangle::CloneMe() const 
+{
+	istd::TDelPtr<CQuadrangle> clonePtr(new CQuadrangle);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
+}
 
 // reimplemented (iser::ISerializable)
 

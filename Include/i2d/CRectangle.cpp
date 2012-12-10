@@ -8,6 +8,7 @@
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -558,6 +559,40 @@ bool CRectangle::GetInvTransformed(
 	}
 
 	return false;
+}
+
+// reimplemented (istd::IChangeable)
+
+int CRectangle::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CRectangle::CopyFrom(const IChangeable& object)
+{
+	const CRectangle* rectanglePtr = dynamic_cast<const CRectangle*>(&object);
+
+	if (rectanglePtr != NULL){
+		
+		SetCalibration(rectanglePtr->GetCalibration());
+		SetHorizontalRange(rectanglePtr->GetHorizontalRange());
+		SetVerticalRange(rectanglePtr->GetVerticalRange());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CRectangle::CloneMe() const 
+{
+	istd::TDelPtr<CRectangle> clonePtr(new CRectangle);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

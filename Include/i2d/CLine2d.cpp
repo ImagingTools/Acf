@@ -7,6 +7,7 @@
 #include "iser/CArchiveTag.h"
 
 #include "i2d/CRectangle.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -654,6 +655,40 @@ bool CLine2d::GetInvTransformed(
 	resultLinePtr->SetPoint2(transPos2);
 
 	return true;
+}
+
+// reimplemented (istd::IChangeable)
+
+int CLine2d::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CLine2d::CopyFrom(const IChangeable& object)
+{
+	const CLine2d* line2dPtr = dynamic_cast<const CLine2d*>(&object);
+
+	if (line2dPtr != NULL){
+		
+		SetCalibration(line2dPtr->GetCalibration());
+		SetPoint1(line2dPtr->GetPoint1());
+		SetPoint2(line2dPtr->GetPoint2());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CLine2d::CloneMe() const 
+{
+	istd::TDelPtr<CLine2d> clonePtr(new CLine2d);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

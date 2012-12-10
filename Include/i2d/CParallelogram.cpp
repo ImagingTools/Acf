@@ -3,6 +3,7 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -26,6 +27,10 @@ void CParallelogram::MoveCenterTo(const i2d::CVector2d& position)
 	}
 }
 
+i2d::CRectangle CParallelogram::GetBoundingBox() const
+{
+	return i2d::CRectangle();
+}
 
 bool CParallelogram::Transform(
 			const i2d::ITransformation2d& transformation,
@@ -94,6 +99,39 @@ bool CParallelogram::GetInvTransformed(
 	}
 
 	return false;
+}
+
+// reimplemented (istd::IChangeable)
+
+int CParallelogram::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CParallelogram::CopyFrom(const IChangeable& object)
+{
+	const CParallelogram* parallelogramPtr = dynamic_cast<const CParallelogram*>(&object);
+
+	if (parallelogramPtr != NULL){
+		
+		SetCalibration(parallelogramPtr->GetCalibration());
+		SetTransform(parallelogramPtr->GetTransform());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CParallelogram::CloneMe() const 
+{
+	istd::TDelPtr<CParallelogram> clonePtr(new CParallelogram);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

@@ -7,7 +7,7 @@
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
-
+#include "istd/TDelPtr.h"
 
 namespace i2d
 {	
@@ -144,6 +144,39 @@ bool CPosition2d::GetInvTransformed(
 	resultPositionPtr->SetPosition(transPos);
 
 	return true;
+}
+
+// reimplemented (istd::IChangeable)
+
+int CPosition2d::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CPosition2d::CopyFrom(const IChangeable& object)
+{
+	const CPosition2d* position2dPtr = dynamic_cast<const CPosition2d*>(&object);
+
+	if (position2dPtr != NULL){
+		
+		SetCalibration(position2dPtr->GetCalibration());
+		SetPosition(position2dPtr->GetPosition());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CPosition2d::CloneMe() const 
+{
+	istd::TDelPtr<CPosition2d> clonePtr(new CPosition2d);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

@@ -9,6 +9,7 @@
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -203,6 +204,41 @@ bool CAnnulus::GetInvTransformed(
 	annulusPtr->m_radiusRange = m_radiusRange;
 
 	return annulusPtr->Transform(transformation, mode, errorFactorPtr);
+}
+
+// reimplemented (istd::IChangeable)
+
+int CAnnulus::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CAnnulus::CopyFrom(const IChangeable& object)
+{
+	const CAnnulus* annulusPtr = dynamic_cast<const CAnnulus*>(&object);
+
+	if (annulusPtr != NULL){
+		
+		SetCalibration(annulusPtr->GetCalibration());
+		SetPosition(annulusPtr->GetPosition());
+		SetInnerRadius(annulusPtr->GetInnerRadius());
+		SetOuterRadius(annulusPtr->GetOuterRadius());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CAnnulus::CloneMe() const 
+{
+	istd::TDelPtr<CAnnulus> clonePtr(new CAnnulus);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 
 #include "i2d/CVector2d.h"
 
@@ -12,7 +12,7 @@ namespace i2d
 {
 
 
-class CSplineSegment: virtual public istd::IPolymorphic
+class CSplineSegment: virtual public istd::IChangeable
 {
 public:
 	/**
@@ -81,6 +81,11 @@ public:
 	void C(const i2d::CVector2d& value);
 	const i2d::CVector2d& D() const;
 	void D(const i2d::CVector2d& value);
+
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 
 private:
 	i2d::CVector2d m_a;

@@ -5,6 +5,7 @@
 #include "i2d/CLine2d.h"
 
 #include "istd/TChangeNotifier.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -178,6 +179,42 @@ bool CPolygon::GetInvTransformed(
 	}
 		
 	return false;
+}
+
+// reimplemented (istd::IChangeable)
+
+int CPolygon::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CPolygon::CopyFrom(const IChangeable& object)
+{
+	const CPolygon* polygonPtr = dynamic_cast<const CPolygon*>(&object);
+
+	if (polygonPtr != NULL){		
+		SetCalibration(polygonPtr->GetCalibration());
+
+		int sourceNodesCount = polygonPtr->GetNodesCount();
+		for (int nodesIndex = 0; nodesIndex < sourceNodesCount; nodesIndex++){		
+			InsertNode(polygonPtr->GetNode(nodesIndex));
+		}
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CPolygon::CloneMe() const 
+{
+	istd::TDelPtr<CPolygon> clonePtr(new CPolygon);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

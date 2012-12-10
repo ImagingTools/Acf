@@ -3,6 +3,7 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
+#include "i2d/CRectangle.h"
 
 
 namespace i2d
@@ -37,6 +38,11 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 	}
 }
 
+CRectangle CPolypoint::GetBoundingBox() const
+{	
+	//TODO
+	return CRectangle();
+}
 
 bool CPolypoint::Transform(
 		const ITransformation2d& transformation,
@@ -97,6 +103,41 @@ bool CPolypoint::GetInvTransformed(
 	return false;
 }
 
+// reimplemented (istd::IChangeable)
+
+int CPolypoint::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CPolypoint::CopyFrom(const IChangeable& object)
+{
+	const CPolypoint* polypointPtr = dynamic_cast<const CPolypoint*>(&object);
+
+	if (polypointPtr != NULL){		
+		SetCalibration(polypointPtr->GetCalibration());
+
+		int sourcePolypointCount = polypointPtr->GetPointsCount();
+		for (int pointIndex = 0; pointIndex < sourcePolypointCount; pointIndex++){		
+			Insert(polypointPtr->GetPoint(pointIndex));
+		}
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CPolypoint::CloneMe() const 
+{
+	istd::TDelPtr<CPolypoint> clonePtr(new CPolypoint);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
+}
 
 // reimplemented (iser::ISerializable)
 

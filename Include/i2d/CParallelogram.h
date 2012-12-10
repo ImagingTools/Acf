@@ -9,6 +9,7 @@
 // ACF includes
 #include "i2d/CObject2dBase.h"
 #include "i2d/CAffineTransformation2d.h"
+#include "i2d/CRectangle.h"
 
 
 namespace i2d
@@ -32,6 +33,7 @@ public:
 	// reimplemented (i2d::IObject2d)
 	virtual i2d::CVector2d GetCenter() const;
 	virtual void MoveCenterTo(const i2d::CVector2d& position);
+	virtual i2d::CRectangle GetBoundingBox() const;
 	virtual bool Transform(
 				const i2d::ITransformation2d& transformation,
 				i2d::ITransformation2d::ExactnessMode mode = i2d::ITransformation2d::EM_NONE,
@@ -50,6 +52,11 @@ public:
 				i2d::IObject2d& result,
 				i2d::ITransformation2d::ExactnessMode mode = i2d::ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
+
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);

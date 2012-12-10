@@ -35,6 +35,16 @@ public:
 	 */
 	virtual const CSplineSegment& GetSplineSegment(int index) const;
 
+	/**
+		Insert a segment at the end of spline segment table.
+	*/
+	virtual bool InsertSplineSegment(const CSplineSegment& segment);
+
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
+
 protected:
 	void CalcAllSegments() const;
 	

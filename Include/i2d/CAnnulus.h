@@ -59,6 +59,11 @@ public:
 		ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 		double* errorFactorPtr = NULL) const;
 
+	//reimplemented istd::IChangeable
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object);
+	virtual istd::IChangeable* CloneMe() const;
+
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 

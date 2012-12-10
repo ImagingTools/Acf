@@ -9,6 +9,7 @@
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -158,6 +159,40 @@ bool CCircle::GetInvTransformed(
 	circlePtr->SetRadius(m_radius);
 
 	return circlePtr->InvTransform(transformation, mode, errorFactorPtr);
+}
+
+// reimplemented (istd::IChangeable)
+
+int CCircle::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CCircle::CopyFrom(const IChangeable& object)
+{
+	const CCircle* circlePtr = dynamic_cast<const CCircle*>(&object);
+
+	if (circlePtr != NULL){
+		
+		SetCalibration(circlePtr->GetCalibration());
+		SetPosition(circlePtr->GetPosition());
+		SetRadius(circlePtr->GetRadius());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CCircle::CloneMe() const 
+{
+	istd::TDelPtr<CCircle> clonePtr(new CCircle);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

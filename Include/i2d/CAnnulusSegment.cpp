@@ -7,7 +7,7 @@
 #include "iser/CArchiveTag.h"
 
 #include "i2d/CRectangle.h"
-
+#include "istd/TDelPtr.h"
 
 namespace i2d
 {	
@@ -101,6 +101,44 @@ bool CAnnulusSegment::Contains(const i2d::CVector2d& point) const
 CRectangle CAnnulusSegment::GetBoundingBox() const
 {
 	return BaseClass::GetBoundingBox();	// TODO: implement more exact bounding box of annulus segment
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CAnnulusSegment::GetSupportedOperations() const
+{
+	return SO_COPY | SO_CLONE;
+}
+
+bool CAnnulusSegment::CopyFrom(const IChangeable& object)
+{
+	const CAnnulusSegment* annulusSegmentPtr = dynamic_cast<const CAnnulusSegment*>(&object);
+
+	if (annulusSegmentPtr != NULL){
+		
+		SetCalibration(annulusSegmentPtr->GetCalibration());
+		SetPosition(annulusSegmentPtr->GetPosition());
+		SetInnerRadius(annulusSegmentPtr->GetInnerRadius());
+		SetOuterRadius(annulusSegmentPtr->GetOuterRadius());
+		SetBeginAngle(annulusSegmentPtr->GetBeginAngle());
+		SetEndAngle(annulusSegmentPtr->GetEndAngle());
+
+		return true;
+	}	
+
+	return false;
+}
+
+istd::IChangeable* CAnnulusSegment::CloneMe() const 
+{
+	istd::TDelPtr<CAnnulusSegment> clonePtr(new CAnnulusSegment);
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 
