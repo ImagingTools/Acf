@@ -58,6 +58,8 @@ bool COrientedCircle::CopyFrom(const IChangeable& object)
 	const COrientedCircle* orientedCirclePtr = dynamic_cast<const COrientedCircle*>(&object);
 
 	if (orientedCirclePtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(orientedCirclePtr->GetCalibration());		
 		SetPosition(orientedCirclePtr->GetPosition());

@@ -173,6 +173,8 @@ bool CCircle::CopyFrom(const IChangeable& object)
 	const CCircle* circlePtr = dynamic_cast<const CCircle*>(&object);
 
 	if (circlePtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(circlePtr->GetCalibration());
 		SetPosition(circlePtr->GetPosition());

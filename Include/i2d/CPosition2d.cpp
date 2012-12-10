@@ -158,6 +158,8 @@ bool CPosition2d::CopyFrom(const IChangeable& object)
 	const CPosition2d* position2dPtr = dynamic_cast<const CPosition2d*>(&object);
 
 	if (position2dPtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(position2dPtr->GetCalibration());
 		SetPosition(position2dPtr->GetPosition());

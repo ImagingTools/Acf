@@ -2,6 +2,7 @@
 
 //ACF
 #include "istd/TDelPtr.h"
+#include "istd/TChangeNotifier.h"
 
 namespace i2d
 {
@@ -94,7 +95,10 @@ bool CSplineSegment::CopyFrom(const IChangeable& object)
 {
 	const CSplineSegment* splineSegmentPtr = dynamic_cast<const CSplineSegment*>(&object);
 
-	if (splineSegmentPtr != NULL){		
+	if (splineSegmentPtr != NULL){	
+
+		istd::CChangeNotifier notifier(this);
+
 		A(splineSegmentPtr->A());
 		B(splineSegmentPtr->B());
 		C(splineSegmentPtr->C());

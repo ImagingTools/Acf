@@ -669,6 +669,8 @@ bool CLine2d::CopyFrom(const IChangeable& object)
 	const CLine2d* line2dPtr = dynamic_cast<const CLine2d*>(&object);
 
 	if (line2dPtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(line2dPtr->GetCalibration());
 		SetPoint1(line2dPtr->GetPoint1());

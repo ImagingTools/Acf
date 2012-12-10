@@ -114,7 +114,10 @@ bool CPolypoint::CopyFrom(const IChangeable& object)
 {
 	const CPolypoint* polypointPtr = dynamic_cast<const CPolypoint*>(&object);
 
-	if (polypointPtr != NULL){		
+	if (polypointPtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
+
 		SetCalibration(polypointPtr->GetCalibration());
 
 		int sourcePolypointCount = polypointPtr->GetPointsCount();

@@ -573,6 +573,8 @@ bool CRectangle::CopyFrom(const IChangeable& object)
 	const CRectangle* rectanglePtr = dynamic_cast<const CRectangle*>(&object);
 
 	if (rectanglePtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(rectanglePtr->GetCalibration());
 		SetHorizontalRange(rectanglePtr->GetHorizontalRange());

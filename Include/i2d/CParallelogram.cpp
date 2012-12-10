@@ -113,6 +113,8 @@ bool CParallelogram::CopyFrom(const IChangeable& object)
 	const CParallelogram* parallelogramPtr = dynamic_cast<const CParallelogram*>(&object);
 
 	if (parallelogramPtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(parallelogramPtr->GetCalibration());
 		SetTransform(parallelogramPtr->GetTransform());

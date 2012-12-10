@@ -256,6 +256,8 @@ bool CQuadrangle::CopyFrom(const IChangeable& object)
 	const CQuadrangle* quadranglesPtr = dynamic_cast<const CQuadrangle*>(&object);
 
 	if (quadranglesPtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(quadranglesPtr->GetCalibration());
 		SetFirstDiagonal(quadranglesPtr->GetFirstDiagonal());

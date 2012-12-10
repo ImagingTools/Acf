@@ -193,6 +193,9 @@ bool CPolygon::CopyFrom(const IChangeable& object)
 	const CPolygon* polygonPtr = dynamic_cast<const CPolygon*>(&object);
 
 	if (polygonPtr != NULL){		
+
+		istd::CChangeNotifier notifier(this);
+
 		SetCalibration(polygonPtr->GetCalibration());
 
 		int sourceNodesCount = polygonPtr->GetNodesCount();

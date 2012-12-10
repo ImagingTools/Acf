@@ -1,6 +1,7 @@
 #include "i2d/CPolyline.h"
 
 #include "istd/TDelPtr.h"
+#include "istd/TChangeNotifier.h"
 
 
 namespace i2d
@@ -112,6 +113,9 @@ bool CPolyline::CopyFrom(const IChangeable& object)
 	const CPolyline* polylinePtr = dynamic_cast<const CPolyline*>(&object);
 
 	if (polylinePtr != NULL){
+
+		istd::CChangeNotifier notifier(this);
+
 		BaseClass::CopyFrom(object);
 		SetClosed(polylinePtr->IsClosed());
 		return true;

@@ -117,6 +117,8 @@ bool CAnnulusSegment::CopyFrom(const IChangeable& object)
 
 	if (annulusSegmentPtr != NULL){
 		
+		istd::CChangeNotifier notifier(this);
+
 		SetCalibration(annulusSegmentPtr->GetCalibration());
 		SetPosition(annulusSegmentPtr->GetPosition());
 		SetInnerRadius(annulusSegmentPtr->GetInnerRadius());
