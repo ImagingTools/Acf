@@ -69,7 +69,7 @@ bool CRegistryPreviewComp::StartRegistry(const icomp::IRegistry& registry)
 	m_process.start(acfApplicationPath, parameters);
 
 	bool result = m_process.waitForStarted();
-	if(!result){
+	if (!result){
 		SendErrorMessage(0, QString("Unfortunately, ACF process could not be started. Check your ACF command path!"));
 	}
 	return result;
