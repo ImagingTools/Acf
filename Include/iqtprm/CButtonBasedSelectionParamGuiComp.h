@@ -35,6 +35,7 @@ public:
 		I_ASSIGN(m_iconProviderCompPtr, "IconProvider", "Provider of the button icons", false, "IconProvider");
 		I_ASSIGN(m_fontSizeAttrPtr, "FontSize", "Font Size", true, 8);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Icon Size", true, 16);
+		I_ASSIGN(m_minWidthAttrPtr, "MinimumWidth", "Minimum width of the buttons (0 - default)", true, 0);
 		I_ASSIGN(m_layoutTypeAttrPtr, "LayoutType", "0 - horizontal\n1 - vertical\n2 and more - number of columns", true, 1);
 		I_ASSIGN(m_descriptionTypeAttrPtr, "DescriptionType", "0 - No description visible\n1 - Default (description is alvays visible)\n2 - Compact (description is visible for checked button only)", true, 1);
 		I_ASSIGN(m_showTooltipAttrPtr, "DescriptionAsTooltip", "Show description as tooltip", true, false);
@@ -66,6 +67,7 @@ private:
 	I_REF(iqtgui::IIconProvider, m_iconProviderCompPtr);
 	I_ATTR(int, m_fontSizeAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
+	I_ATTR(int, m_minWidthAttrPtr);
 	I_ATTR(bool, m_showTooltipAttrPtr);
 	I_ATTR(int, m_layoutTypeAttrPtr);
 	I_ATTR(int, m_descriptionTypeAttrPtr);

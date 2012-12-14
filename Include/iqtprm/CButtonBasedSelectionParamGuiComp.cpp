@@ -176,6 +176,8 @@ void CButtonBasedSelectionParamGuiComp::CreateButtons(
 	int iconsCount = m_iconProviderCompPtr.IsValid() ? m_iconProviderCompPtr->GetIconCount() : 0;
 	QSize iconSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr);
 
+	int minWidth = qMax(0, *m_minWidthAttrPtr);
+
 	QLayout* layoutPtr = SelectionFrame->layout();
 
 	const iprm::ISelectionConstraints* constraintsPtr = paramPtr->GetSelectionConstraints();
@@ -204,6 +206,8 @@ void CButtonBasedSelectionParamGuiComp::CreateButtons(
 				buttonPtr->setIcon(m_iconProviderCompPtr->GetIcon(totalButtons));
 				buttonPtr->setIconSize(iconSize);
 			}
+
+			buttonPtr->setMinimumWidth(minWidth);
 
 			if (setFont){
 				buttonPtr->setFont(buttonFont);

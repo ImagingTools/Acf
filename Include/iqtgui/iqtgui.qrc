@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/Icons">
+    <file alias="Camera.svg">Resources/Icons/Camera.svg</file>
     <file alias="FlipVertical.svg">Resources/Icons/FlipVertical.svg</file>
     <file alias="FlipHorizontal.svg">Resources/Icons/FlipHorizontal.svg</file>
     <file alias="Reverse.svg">Resources/Icons/Reverse.svg</file>
