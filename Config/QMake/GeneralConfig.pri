@@ -53,10 +53,6 @@ CONFIG(release, debug|release){
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics
 }
 
-*-g++*{
-	QMAKE_CXXFLAGS += -fvisibility-ms-compat
-}
-
 INCLUDEPATH += $$PWD/../../Include
 LIBS += -L$$PWD/../../Lib/$$COMPILER_DIR
 
