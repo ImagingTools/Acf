@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include "istd/TChangeNotifier.h"
 #include "imod/IModel.h"
 #include "i2d/CPolyline.h"
 #include "iqt/iqt.h"
@@ -76,6 +77,8 @@ bool CInteractivePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::Mouse
 					if (tickerBox.IsInside(position - spLast)){
 						BeginModelChanges();
 
+						istd::CChangeNotifier notifier(polylinePtr);
+
 						if (polylinePtr->InsertNode(cpLast)){
 							m_referencePosition = cpLast - transform.GetClientPosition(position);
 							m_referenceIndex = nodesCount;
@@ -90,6 +93,8 @@ bool CInteractivePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::Mouse
 						istd::CIndex2d sp = transform.GetScreenPosition(middle);
 						if (tickerBox.IsInside(position - sp)){
 							BeginModelChanges();
+
+							istd::CChangeNotifier notifier(polylinePtr);
 
 							if (polylinePtr->InsertNode(i + 1, middle)){
 								m_referencePosition = middle - transform.GetClientPosition(position);
@@ -106,6 +111,8 @@ bool CInteractivePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::Mouse
 						istd::CIndex2d spFirst = transform.GetScreenPosition(cpFirst);
 						if (tickerBox.IsInside(position - spFirst)){
 							BeginModelChanges();
+
+							istd::CChangeNotifier notifier(polylinePtr);
 
 							if (polylinePtr->InsertNode(0, cpFirst)){
 								m_referencePosition = cpFirst - transform.GetClientPosition(position);
@@ -129,6 +136,8 @@ bool CInteractivePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::Mouse
 						istd::CIndex2d sp = transform.GetScreenPosition(cp);
 						if (tickerBox.IsInside(position - sp)){
 							BeginModelChanges();
+
+							istd::CChangeNotifier notifier(polylinePtr);
 
 							polylinePtr->RemoveNode(i);
 

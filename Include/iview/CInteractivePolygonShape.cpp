@@ -6,12 +6,10 @@
 
 
 // ACF includes
+#include "istd/TChangeNotifier.h"
 #include "imod/IModel.h"
-
 #include "i2d/CPolygon.h"
-
 #include "iqt/iqt.h"
-
 #include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
@@ -83,6 +81,8 @@ bool CInteractivePolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 					if (tickerBox.IsInside(position - spLast)){
 						BeginModelChanges();
 
+						istd::CChangeNotifier notifier(polygonPtr);
+
 						if (polygonPtr->InsertNode(cpLast)){
 							m_referencePosition = cpLast - transform.GetClientPosition(position);
 							m_referenceIndex = nodesCount;
@@ -96,6 +96,8 @@ bool CInteractivePolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 						istd::CIndex2d sp = transform.GetScreenPosition(middle);
 						if (tickerBox.IsInside(position - sp)){
 							BeginModelChanges();
+
+							istd::CChangeNotifier notifier(polygonPtr);
 
 							if (polygonPtr->InsertNode(i + 1, middle)){
 								m_referencePosition = middle - transform.GetClientPosition(position);
@@ -118,6 +120,8 @@ bool CInteractivePolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 						istd::CIndex2d sp = transform.GetScreenPosition(cp);
 						if (tickerBox.IsInside(position - sp)){
 							BeginModelChanges();
+
+							istd::CChangeNotifier notifier(polygonPtr);
 
 							polygonPtr->RemoveNode(i);
 
@@ -144,11 +148,11 @@ bool CInteractivePolygonShape::OnMouseMove(istd::CIndex2d position)
 		int editMode = GetEditMode();
 
 		if ((editMode == ISelectable::EM_MOVE) || (editMode == ISelectable::EM_ADD)){
-			i2d::CPolygon& polygon = *dynamic_cast<i2d::CPolygon*>(modelPtr);
-			I_ASSERT(&polygon != NULL);
+			istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
+			I_ASSERT(polygonPtr.IsValid());
 
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
-			polygon.SetNode(m_referenceIndex, m_referencePosition + transform.GetClientPosition(position));
+			polygonPtr->SetNode(m_referenceIndex, m_referencePosition + transform.GetClientPosition(position));
 
 			UpdateModelChanges();
 
@@ -162,13 +166,13 @@ bool CInteractivePolygonShape::OnMouseMove(istd::CIndex2d position)
 			i2d::CAffine2d moveTransform = CalcMoveTransform(cp, m_castTransform);
 			m_castAxis = moveTransform.GetDeformMatrix().GetMultiplied(m_castAxis);
 
-			i2d::CPolygon& polygon = *dynamic_cast<i2d::CPolygon*>(modelPtr);
-			I_ASSERT(&polygon != NULL);
+			istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
+			I_ASSERT(polygonPtr.IsValid());
 
-			int nodesCount = polygon.GetNodesCount();
+			int nodesCount = polygonPtr->GetNodesCount();
 			for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
-				const i2d::CVector2d position = polygon.GetNode(nodeIndex);
-				polygon.SetNode(nodeIndex, moveTransform.GetApply(position));
+				const i2d::CVector2d position = polygonPtr->GetNode(nodeIndex);
+				polygonPtr->SetNode(nodeIndex, moveTransform.GetApply(position));
 			}
 
 			UpdateModelChanges();
@@ -592,15 +596,15 @@ void CInteractivePolygonShape::SetLogDragPosition(const i2d::CVector2d& position
 {
 	imod::IModel* modelPtr = GetModelPtr();
 	if (modelPtr != NULL){
-		i2d::CPolygon& polygon = *dynamic_cast<i2d::CPolygon*>(modelPtr);
-		I_ASSERT(&polygon != NULL);
+		istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
+		I_ASSERT(polygonPtr.IsValid());
 
 		BeginModelChanges();
 
-		int nodesCount = polygon.GetNodesCount();
+		int nodesCount = polygonPtr->GetNodesCount();
 		if (nodesCount == int(m_references.size())){
 			for (int i = 0; i < nodesCount; i++){
-				polygon.SetNode(i, m_references[i] + position);
+				polygonPtr->SetNode(i, m_references[i] + position);
 			}
 		}
 
