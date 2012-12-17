@@ -103,12 +103,14 @@ void CComponentNoteEditorComp::OnGuiModelDetached()
 
 bool CComponentNoteEditorComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 {
-	if (sourcePtr->objectName() == NoteEditor->objectName()){
-		if (eventPtr->type() == QEvent::FocusOut){
-			if (m_textWasChanged){
-				DoUpdateModel();
+	if (IsGuiCreated()){
+		if (sourcePtr->objectName() == NoteEditor->objectName()){
+			if (eventPtr->type() == QEvent::FocusOut){
+				if (m_textWasChanged){
+					DoUpdateModel();
 
-				m_textWasChanged = false;
+					m_textWasChanged = false;
+				}
 			}
 		}
 	}

@@ -43,6 +43,11 @@ private:
 	I_ATTR(int, m_frameSpaceSizeAttrPtr);
 	I_ATTR(int, m_uiStartModeAttrPtr);
 
+	/**
+		\note The main widget must be deleted manually.
+		For the main widget the deffered deleting in CGuiComponentBase::DestroyGui doesn't work, 
+		because it is called after leaving the main loop.
+	*/
 	istd::TDelPtr<QWidget> m_mainWidgetPtr;
 };
 

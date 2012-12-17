@@ -75,30 +75,26 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			}
 
 			switch (uiStartMode){
-			case 1:
-				m_mainWidgetPtr->showFullScreen();
-				break;
+				case 1:
+					m_mainWidgetPtr->showFullScreen();
+					break;
 
-			case 2:
-				m_mainWidgetPtr->showMinimized();
-				break;
+				case 2:
+					m_mainWidgetPtr->showMinimized();
+					break;
 
-			case 3:
-				m_mainWidgetPtr->showMaximized();
-				break;
+				case 3:
+					m_mainWidgetPtr->showMaximized();
+					break;
 
-			default:
-				m_mainWidgetPtr->show();
+				default:
+					m_mainWidgetPtr->show();
 			}
 		}
 
 		if (m_mainWidgetPtr.IsValid()){
 			// start application loop:
 			retVal = QApplication::exec();
-
-			if (!m_frameSpaceSizeAttrPtr.IsValid()){
-				m_mainWidgetPtr.PopPtr();
-			}
 
 			I_ASSERT(m_mainGuiCompPtr.IsValid());
 			m_mainGuiCompPtr->DestroyGui();
