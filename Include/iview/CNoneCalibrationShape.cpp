@@ -69,7 +69,7 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 					leftRulerPtr->Clear();
 				}
 
-				const iview::IColorShema& colorShema = GetColorShema();
+				const iview::IColorSchema& colorSchema = GetColorSchema();
 				const iview::CScreenTransform& transform = GetViewToScreenTransform();
 
 				i2d::CVector2d logCorners[4];
@@ -104,10 +104,10 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 				int lastIndex = int(qCeil(boundRectangle.GetRight() / grid));
 
 				drawContext.save();
-				drawContext.setPen(colorShema.GetPen(iview::IColorShema::SP_GUIDELINE3));
-				drawContext.setBrush(colorShema.GetBrush(iview::IColorShema::SB_TRANSPARENT));
-				const QPen& level0Pen = colorShema.GetPen(iview::IColorShema::SP_GUIDELINE2);
-				const QPen& level1Pen = colorShema.GetPen(iview::IColorShema::SP_GUIDELINE1);
+				drawContext.setPen(colorSchema.GetPen(iview::IColorSchema::SP_GUIDELINE3));
+				drawContext.setBrush(colorSchema.GetBrush(iview::IColorSchema::SB_TRANSPARENT));
+				const QPen& level0Pen = colorSchema.GetPen(iview::IColorSchema::SP_GUIDELINE2);
+				const QPen& level1Pen = colorSchema.GetPen(iview::IColorSchema::SP_GUIDELINE1);
 
 				int index;
 				for (index = firstIndex; index <= lastIndex; ++index){

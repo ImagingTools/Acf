@@ -8,7 +8,7 @@
 #include "i2d/CRectangle.h"
 #include "i2d/CNoneCalibration2d.h"
 #include "iview/IViewRulersAccessor.h"
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/IVisualizable.h"
 
 
@@ -115,9 +115,9 @@ void CCalibratedViewBase::RemoveLayer(int index)
 }
 
 
-void CCalibratedViewBase::SetDefaultColorShema(const IColorShema* colorShemaPtr, bool releaseFlag)
+void CCalibratedViewBase::SetDefaultColorSchema(const IColorSchema* colorSchemaPtr, bool releaseFlag)
 {
-	m_defaultColorShemaPtr.SetPtr(colorShemaPtr, releaseFlag);
+	m_defaultColorSchemaPtr.SetPtr(colorSchemaPtr, releaseFlag);
 }
 
 
@@ -171,13 +171,13 @@ iview::CDrawBuffer& CCalibratedViewBase::GetDoubleBuffer()
 
 // reimplemented (iview::IShapeView)
 
-const iview::IColorShema& CCalibratedViewBase::GetDefaultColorShema() const
+const iview::IColorSchema& CCalibratedViewBase::GetDefaultColorSchema() const
 {
-	if (!m_defaultColorShemaPtr.IsValid()){
-		m_defaultColorShemaPtr.SetPtr(new iview::CColorShema, true);
+	if (!m_defaultColorSchemaPtr.IsValid()){
+		m_defaultColorSchemaPtr.SetPtr(new iview::CColorSchema, true);
 	}
 
-	return *m_defaultColorShemaPtr;
+	return *m_defaultColorSchemaPtr;
 }
 
 
@@ -230,25 +230,25 @@ void CCalibratedViewBase::DrawToContext(
 	}
 
 	QPainter& backgroundDC = backgroundBuffer.GetDrawContext();
-	const iview::IColorShema& colorShema = GetDefaultColorShema();
+	const iview::IColorSchema& colorSchema = GetDefaultColorSchema();
 
-	context.setPen(colorShema.GetPen(iview::IColorShema::SP_NORMAL));
-	context.setBrush(colorShema.GetBrush(iview::IColorShema::SB_NORMAL));
-	context.setFont(colorShema.GetFont(iview::IColorShema::SF_NORMAL));
+	context.setPen(colorSchema.GetPen(iview::IColorSchema::SP_NORMAL));
+	context.setBrush(colorSchema.GetBrush(iview::IColorSchema::SB_NORMAL));
+	context.setFont(colorSchema.GetFont(iview::IColorSchema::SF_NORMAL));
 
 	int lastBackgroundLayerIndex = GetLastBackgroundLayerIndex();
 	int layersCount = GetLayersCount();
 
 	bool isBackgroundBufferValid = IsBackgroundBufferValid();
 	if (!isBackgroundBufferValid){
-		backgroundDC.setBrush(colorShema.GetBrush(iview::IColorShema::SB_BACKGROUND));
+		backgroundDC.setBrush(colorSchema.GetBrush(iview::IColorSchema::SB_BACKGROUND));
 		backgroundDC.setClipRegion(iqt::GetQRect(m_lastClientArea));
-		backgroundDC.fillRect(iqt::GetQRect(m_lastClientArea), colorShema.GetBrush(iview::IColorShema::SB_BACKGROUND));
+		backgroundDC.fillRect(iqt::GetQRect(m_lastClientArea), colorSchema.GetBrush(iview::IColorSchema::SB_BACKGROUND));
 
 		if ((lastBackgroundLayerIndex >= 0) && (lastBackgroundLayerIndex < layersCount)){
-			backgroundDC.setPen(colorShema.GetPen(iview::IColorShema::SP_NORMAL));
-			backgroundDC.setBrush(colorShema.GetBrush(iview::IColorShema::SB_BACKGROUND));
-			backgroundDC.setFont(colorShema.GetFont(iview::IColorShema::SF_NORMAL));
+			backgroundDC.setPen(colorSchema.GetPen(iview::IColorSchema::SP_NORMAL));
+			backgroundDC.setBrush(colorSchema.GetBrush(iview::IColorSchema::SB_BACKGROUND));
+			backgroundDC.setFont(colorSchema.GetFont(iview::IColorSchema::SF_NORMAL));
 
 			DrawLayers(backgroundDC, 0, lastBackgroundLayerIndex);
 		}

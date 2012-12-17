@@ -11,7 +11,7 @@
 
 #include "i2d/COrientedCircle.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -46,14 +46,14 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 	i2d::CVector2d scale;
 	deform.GetAxesLengths(scale);
 
-	const IColorShema& colorSchema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 	drawContext.save();
 
 	if (IsSelected()){
-		drawContext.setPen(colorSchema.GetPen(IColorShema::SP_SELECTED));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 	}
 	else{
-		drawContext.setPen(colorSchema.GetPen(IColorShema::SP_NORMAL));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 	}
 
 	QBrush emptyBrush(QColor(0, 0, 0), Qt::NoBrush);
@@ -111,10 +111,10 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 		istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
 		istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
 
-		colorSchema.DrawTicker(drawContext, ticker1, IColorShema::TT_NORMAL);
-		colorSchema.DrawTicker(drawContext, ticker2, IColorShema::TT_NORMAL);
-		colorSchema.DrawTicker(drawContext, ticker3, IColorShema::TT_NORMAL);
-		colorSchema.DrawTicker(drawContext, ticker4, IColorShema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker1, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker2, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker3, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker4, IColorSchema::TT_NORMAL);
 	}
 }
 

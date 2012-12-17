@@ -11,7 +11,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -102,7 +102,7 @@ bool CInteractiveAnnulusShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 		const i2d::ICalibration2d* calibrationPtr = annulusPtr->GetCalibration();
 
 		if (downFlag && IsEditableRadius()){
-			const IColorShema& colorShema = GetColorShema();
+			const IColorSchema& colorSchema = GetColorSchema();
 			i2d::CVector2d center = annulusPtr->GetPosition();
 			double radius = annulusPtr->GetInnerRadius();
 			double xyShift2 = annulusPtr->GetOuterRadius() / sqrt(2.0);
@@ -117,7 +117,7 @@ bool CInteractiveAnnulusShape::OnMouseButton(istd::CIndex2d position, Qt::MouseB
 			istd::CIndex2d ticker7 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2), calibrationPtr).ToIndex2d();
 			istd::CIndex2d ticker8 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2), calibrationPtr).ToIndex2d();
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 			if (IsEditableRadiusInner()){
 				if (			tickerBox.IsInside(position - ticker1) ||
@@ -197,7 +197,7 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 	const i2d::ICalibration2d* calibrationPtr = annulus.GetCalibration();
 	const iview::CScreenTransform& viewToScreenTransform = GetViewToScreenTransform();
 
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 
 	const i2d::CVector2d& center = annulus.GetPosition();
 	i2d::CVector2d screenCenter = GetScreenPosition(center, calibrationPtr);
@@ -223,15 +223,15 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 
 	if (IsSelected()){
 		drawContext.save();
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 		drawContext.save();
-		drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_HALF_TRANSPARENT));
+		drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_HALF_TRANSPARENT));
 	}
 	else{
 		drawContext.save();
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		drawContext.save();
-		drawContext.setBrush(colorShema.GetBrush(IColorShema::SB_HALF_TRANSPARENT2));
+		drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_HALF_TRANSPARENT2));
 	}
 
 	DrawAnnulus(drawContext, screenCenter.ToIndex2d(), int(qMin(radius, radius2) * scale.GetX()), int(qMax(radius, radius2) * scale.GetY()));
@@ -246,10 +246,10 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 			istd::CIndex2d ticker3 = GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius), calibrationPtr).ToIndex2d();
 			istd::CIndex2d ticker4 = GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius), calibrationPtr).ToIndex2d();
 
-			colorShema.DrawTicker(drawContext, ticker1, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker2, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker3, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker4, IColorShema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker1, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker2, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker3, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker4, IColorSchema::TT_NORMAL);
 		}
 
 		if (IsEditableRadiusOuter()){
@@ -260,10 +260,10 @@ void CInteractiveAnnulusShape::Draw(QPainter& drawContext) const
 			istd::CIndex2d ticker7 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2), calibrationPtr).ToIndex2d();
 			istd::CIndex2d ticker8 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2), calibrationPtr).ToIndex2d();
 
-			colorShema.DrawTicker(drawContext, ticker5, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker6, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker7, IColorShema::TT_NORMAL);
-			colorShema.DrawTicker(drawContext, ticker8, IColorShema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker5, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker6, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker7, IColorSchema::TT_NORMAL);
+			colorSchema.DrawTicker(drawContext, ticker8, IColorSchema::TT_NORMAL);
 		}
 	}
 }
@@ -291,7 +291,7 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 
 	const i2d::ICalibration2d* calibrationPtr = annulus.GetCalibration();
 
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 
 	double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
@@ -316,7 +316,7 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 		istd::CIndex2d ticker7 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() + xyShift2), calibrationPtr).ToIndex2d();
 		istd::CIndex2d ticker8 = GetScreenPosition(i2d::CVector2d(center.GetX() - xyShift2, center.GetY() - xyShift2), calibrationPtr).ToIndex2d();
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 		if (IsEditableRadiusInner()){
 			if (			tickerBox.IsInside(position - ticker1) ||
@@ -340,7 +340,7 @@ ITouchable::TouchState CInteractiveAnnulusShape::IsTouched(istd::CIndex2d positi
 	double delta = qAbs(radius - distance);
 	double delta2 = qAbs(radius2 - distance);
 
-	double logicalLineWidth = colorShema.GetLogicalLineWidth();
+	double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
 	if ((proportions * delta < logicalLineWidth) || (proportions * delta2 < logicalLineWidth)){
 		bool isEditablePosition = IsEditablePosition();
@@ -383,7 +383,7 @@ i2d::CRect CInteractiveAnnulusShape::CalcBoundingBox() const
 
 	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetModelPtr());
 	if (annulusPtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		const i2d::ICalibration2d* calibrationPtr = annulusPtr->GetCalibration();
 		const iview::CScreenTransform& viewToScreenTransform = GetViewToScreenTransform();
@@ -404,7 +404,7 @@ i2d::CRect CInteractiveAnnulusShape::CalcBoundingBox() const
 		i2d::CVector2d scale;
 		deform.GetAxesLengths(scale);
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 		i2d::CRect boundingBox(
 					int(screenCenter.GetX() - radius * scale.GetX() - 1), int(screenCenter.GetY() - radius * scale.GetY() - 1),

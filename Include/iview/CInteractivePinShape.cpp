@@ -6,7 +6,7 @@
 
 #include "i2d/CPosition2d.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -58,20 +58,20 @@ void CInteractivePinShape::Draw(QPainter& drawContext) const
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (pinPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		istd::CIndex2d sp = transform.GetScreenPosition(pinPtr->GetPosition());
 
 		if (IsSelected()){
 			if (IsEditablePosition()){
-				colorShema.DrawTicker(drawContext, sp, IColorShema::TT_MOVE);
+				colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_MOVE);
 			}
 			else{
-				colorShema.DrawTicker(drawContext, sp, IColorShema::TT_SELECTED_INACTIVE);
+				colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_SELECTED_INACTIVE);
 			}
 		}
 		else{
-			colorShema.DrawTicker(drawContext, sp, IColorShema::TT_INACTIVE);
+			colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE);
 		}
 	}
 }
@@ -91,12 +91,12 @@ bool CInteractivePinShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (IsDisplayConnected() && (pinPtr != NULL)){
 		if (downFlag){
-			const IColorShema& colorShema = GetColorShema();
+			const IColorSchema& colorSchema = GetColorSchema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			const i2d::CVector2d& cp = pinPtr->GetPosition();
 			istd::CIndex2d sp = transform.GetScreenPosition(cp);
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_MOVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 			if (tickerBox.IsInside(position - sp)){
 				m_referencePosition = cp - transform.GetClientPosition(position);
 				BeginModelChanges();
@@ -147,24 +147,24 @@ i2d::CRect CInteractivePinShape::CalcBoundingBox() const
 	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
 	if (pinPtr != NULL){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		istd::CIndex2d sp = transform.GetScreenPosition(pinPtr->GetPosition());
 
-		IColorShema::TickerType tickerType;
+		IColorSchema::TickerType tickerType;
 		if (IsSelected()){
 			if (IsEditablePosition()){
-				tickerType = IColorShema::TT_MOVE;
+				tickerType = IColorSchema::TT_MOVE;
 			}
 			else{
-				tickerType = IColorShema::TT_SELECTED_INACTIVE;
+				tickerType = IColorSchema::TT_SELECTED_INACTIVE;
 			}
 		}
 		else{
-			tickerType = IColorShema::TT_INACTIVE;
+			tickerType = IColorSchema::TT_INACTIVE;
 		}
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(tickerType);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(tickerType);
 
 		return tickerBox.GetTranslated(sp);
 	}

@@ -1,4 +1,4 @@
-#include "iview/CColorShemaComp.h"
+#include "iview/CColorSchemaComp.h"
 
 
 // ACF includes
@@ -14,7 +14,7 @@ namespace iview
 
 // reimplemented (icomp::CComponentBase)
 
-void CColorShemaComp::OnComponentCreated()
+void CColorSchemaComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();	
 

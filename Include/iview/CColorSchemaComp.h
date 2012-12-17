@@ -1,24 +1,24 @@
-#ifndef iview_CColorShemaComp_included
-#define iview_CColorShemaComp_included
+#ifndef iview_CColorSchemaComp_included
+#define iview_CColorSchemaComp_included
 
 
 // ACF includes
 #include "icomp/CComponentBase.h"
 
-#include "iview/CColorShema.h"
+#include "iview/CColorSchema.h"
 
 
 namespace iview
 {
 
 
-class CColorShemaCompAttr: public icomp::CComponentBase, public CColorShema
+class CColorSchemaCompAttr: public icomp::CComponentBase, public CColorSchema
 {
 public:
 	typedef icomp::CComponentBase BaseClass;	
 
-	I_BEGIN_COMPONENT(CColorShemaCompAttr);
-		I_REGISTER_INTERFACE(IColorShema);		
+	I_BEGIN_COMPONENT(CColorSchemaCompAttr);
+		I_REGISTER_INTERFACE(IColorSchema);		
 		I_ASSIGN(m_normalPenColorAttrPtr, "NormalPenColor", "Normal pen color", false, "green");
 		I_ASSIGN(m_selectedPenColorAttrPtr, "SelectedPenColor", "Selected pen color", false, "yellow");
 		I_ASSIGN(m_selectedPenWidthAttrPtr, "SelectedPenWidth", "Selected pen width", false, 1.5);
@@ -56,14 +56,14 @@ protected:
 
 
 /**
-	Implementation of a ColorShema as a component.
+	Implementation of a ColorSchema as a component.
 */
-class CColorShemaComp: public CColorShemaCompAttr
+class CColorSchemaComp: public CColorSchemaCompAttr
 {
 public:
-	typedef CColorShemaCompAttr BaseClass;	
+	typedef CColorSchemaCompAttr BaseClass;	
 
-	I_BEGIN_COMPONENT(CColorShemaComp);	
+	I_BEGIN_COMPONENT(CColorSchemaComp);	
 		I_ASSIGN(m_halfTransparentBrushColorAttrPtr, "HalfTransparentBrushColor", "Half-Transparent brush color", false, "mediumslateblue");
 		I_ASSIGN(m_halfTransparent2BrushColorAttrPtr, "HalfTransparent2BrushColor", "Half-Transparent2 brush color", false, "mediumslateblue");
 		I_ASSIGN(m_backgroundBrushColorAttrPtr, "BackgroundBrushColor", "Background brush color", false, "AppColor");
@@ -84,6 +84,6 @@ private:
 } // namespace iview
 
 
-#endif // !iview_CColorShemaComp_included
+#endif // !iview_CColorSchemaComp_included
 
 

@@ -12,7 +12,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -83,15 +83,15 @@ bool CTransformableRectangleCalibrationShape::OnMouseButton(istd::CIndex2d posit
 	if (IsDisplayConnected()){
 		m_mouseMode = MM_NONE;
 
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		if (downFlag && IsSelected()){
 			EnsureValidNodes();
 			const istd::CIndex2d* nodes = GetNodes();
-			const i2d::CRect& normalBox = colorShema.GetTickerBox(IColorShema::TT_NORMAL);
+			const i2d::CRect& normalBox = colorSchema.GetTickerBox(IColorSchema::TT_NORMAL);
 
 			if (m_isEditableRotation){
-				const i2d::CRect& rotateBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_ROTATE: IColorShema::TT_INACTIVE);
+				const i2d::CRect& rotateBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_ROTATE: IColorSchema::TT_INACTIVE);
 
 				if (rotateBox.IsInside(position - nodes[EN_ROTATION1])){
 					m_mouseMode = MM_ROTATION1;
@@ -298,18 +298,18 @@ i2d::CAffine2d CTransformableRectangleCalibrationShape::CalcMoveTransform(i2d::C
 bool CTransformableRectangleCalibrationShape::IsTickerTouched(istd::CIndex2d position) const
 {
 	if (IsDisplayConnected()){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
-		const i2d::CRect& normalBox = colorShema.GetTickerBox(IsSelected()?
-						IColorShema::TT_NORMAL:
-						IColorShema::TT_INACTIVE);
+		const i2d::CRect& normalBox = colorSchema.GetTickerBox(IsSelected()?
+						IColorSchema::TT_NORMAL:
+						IColorSchema::TT_INACTIVE);
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
 
 		if (m_isEditableRotation){
-			const i2d::CRect& rotateBox = colorShema.GetTickerBox(IsSelected()?
-							IColorShema::TT_ROTATE:
-							IColorShema::TT_INACTIVE);
+			const i2d::CRect& rotateBox = colorSchema.GetTickerBox(IsSelected()?
+							IColorSchema::TT_ROTATE:
+							IColorSchema::TT_INACTIVE);
 
 			if (			rotateBox.IsInside(position - nodes[EN_ROTATION1]) ||
 							rotateBox.IsInside(position - nodes[EN_ROTATION2])){
@@ -360,36 +360,36 @@ void CTransformableRectangleCalibrationShape::DrawTickers(QPainter& drawContext)
 	if (IsDisplayConnected()){
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		if (IsSelected()){
 			drawContext.save();
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 			
 			if (m_isEditableRotation){
 				drawContext.drawLine(iqt::GetQPoint(nodes[EN_CENTER]), iqt::GetQPoint(nodes[EN_ROTATION1]));
 				drawContext.drawLine(iqt::GetQPoint(nodes[EN_CENTER]), iqt::GetQPoint(nodes[EN_ROTATION2]));
-				colorShema.DrawTicker(drawContext, nodes[EN_ROTATION1], IColorShema::TT_ROTATE);
-				colorShema.DrawTicker(drawContext, nodes[EN_ROTATION2], IColorShema::TT_ROTATE);
+				colorSchema.DrawTicker(drawContext, nodes[EN_ROTATION1], IColorSchema::TT_ROTATE);
+				colorSchema.DrawTicker(drawContext, nodes[EN_ROTATION2], IColorSchema::TT_ROTATE);
 			}
 
-			colorShema.DrawTicker(drawContext, nodes[EN_CENTER], IColorShema::TT_SELECTED_INACTIVE);
+			colorSchema.DrawTicker(drawContext, nodes[EN_CENTER], IColorSchema::TT_SELECTED_INACTIVE);
 
 			if ((m_isEditableWidth && m_isEditableHeight) || m_isProportionalScaled){
-				colorShema.DrawTicker(drawContext, nodes[EN_NODE1], IColorShema::TT_NORMAL);
-				colorShema.DrawTicker(drawContext, nodes[EN_NODE2], IColorShema::TT_NORMAL);
-				colorShema.DrawTicker(drawContext, nodes[EN_NODE3], IColorShema::TT_NORMAL);
-				colorShema.DrawTicker(drawContext, nodes[EN_NODE4], IColorShema::TT_NORMAL);
+				colorSchema.DrawTicker(drawContext, nodes[EN_NODE1], IColorSchema::TT_NORMAL);
+				colorSchema.DrawTicker(drawContext, nodes[EN_NODE2], IColorSchema::TT_NORMAL);
+				colorSchema.DrawTicker(drawContext, nodes[EN_NODE3], IColorSchema::TT_NORMAL);
+				colorSchema.DrawTicker(drawContext, nodes[EN_NODE4], IColorSchema::TT_NORMAL);
 			}
 			if (!m_isProportionalScaled){
 				if (m_isEditableWidth){
-					colorShema.DrawTicker(drawContext, nodes[EN_MIDDLE12], IColorShema::TT_NORMAL);
-					colorShema.DrawTicker(drawContext, nodes[EN_MIDDLE34], IColorShema::TT_NORMAL);
+					colorSchema.DrawTicker(drawContext, nodes[EN_MIDDLE12], IColorSchema::TT_NORMAL);
+					colorSchema.DrawTicker(drawContext, nodes[EN_MIDDLE34], IColorSchema::TT_NORMAL);
 				}
 
 				if (m_isEditableHeight){
-					colorShema.DrawTicker(drawContext, nodes[EN_MIDDLE23], IColorShema::TT_NORMAL);
-					colorShema.DrawTicker(drawContext, nodes[EN_MIDDLE41], IColorShema::TT_NORMAL);
+					colorSchema.DrawTicker(drawContext, nodes[EN_MIDDLE23], IColorSchema::TT_NORMAL);
+					colorSchema.DrawTicker(drawContext, nodes[EN_MIDDLE41], IColorSchema::TT_NORMAL);
 				}
 			}
 
@@ -404,15 +404,15 @@ void CTransformableRectangleCalibrationShape::DrawFigure(QPainter& drawContext) 
 	if (IsDisplayConnected()){
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		drawContext.save();
 		
 		if (IsSelected()){
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 		}
 		else{
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		}
 
 		drawContext.drawLine(iqt::GetQPoint(nodes[EN_NODE1]), iqt::GetQPoint(nodes[EN_NODE2]));
@@ -433,10 +433,10 @@ bool CTransformableRectangleCalibrationShape::IsParallTouched(
 		EnsureValidNodes();
 
 		const istd::CIndex2d* nodes = GetNodes();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		i2d::CVector2d screenPosition(position);
-		double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
 		i2d::CLine2d line;
 
@@ -581,16 +581,16 @@ i2d::CRect CTransformableRectangleCalibrationShape::CalcBoundingBox() const
 		EnsureValidNodes();
 
 		const istd::CIndex2d* nodes = GetNodes();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		i2d::CRect boundingBox(nodes[EN_NODE1], nodes[EN_NODE1]);
 		for (int nodeIndex = 0; nodeIndex <= EN_LAST; ++nodeIndex){
 			boundingBox.Union(nodes[nodeIndex]);
 		}
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()?
-						IColorShema::TT_NORMAL:
-						IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()?
+						IColorSchema::TT_NORMAL:
+						IColorSchema::TT_INACTIVE);
 
 		boundingBox.Expand(tickerBox);
 

@@ -189,11 +189,11 @@ i2d::CRect CViewLayer::GetClientRect() const
 }
 
 
-const IColorShema& CViewLayer::GetColorShema() const
+const IColorSchema& CViewLayer::GetColorSchema() const
 {
 	I_ASSERT(m_viewPtr != NULL);
 
-	return m_viewPtr->GetColorShema();
+	return m_viewPtr->GetColorSchema();
 }
 
 

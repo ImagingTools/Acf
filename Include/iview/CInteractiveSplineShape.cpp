@@ -12,7 +12,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -79,14 +79,14 @@ void CInteractiveSplineShape::DrawCurve(QPainter& drawContext) const
 	const i2d::CSpline* splinePtr = dynamic_cast<const i2d::CSpline*>(GetModelPtr());
 	if (IsDisplayConnected() && (splinePtr != NULL)){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		drawContext.save();
 		if (IsSelected()){
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 		}
 		else{
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		}
 
 		int segmentsCount = splinePtr->GetSegmentCount();
@@ -115,12 +115,12 @@ bool CInteractiveSplineShape::IsCurveTouched(istd::CIndex2d position) const
 {
 	const i2d::CSpline* splinePtr = dynamic_cast<const i2d::CSpline*>(GetModelPtr());
 	if (IsDisplayConnected() && (splinePtr != NULL)){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double minDistance = colorShema.GetLogicalLineWidth() / proportions;
+		double minDistance = colorSchema.GetLogicalLineWidth() / proportions;
 		i2d::CVector2d cp = transform.GetClientPosition(position);
 
 		int segmentCount = splinePtr->GetSegmentCount();
@@ -144,7 +144,7 @@ i2d::CRect CInteractiveSplineShape::CalcBoundingBox() const
 	const i2d::CSpline* splinePtr = dynamic_cast<const i2d::CSpline*>(GetModelPtr());
 	if (IsDisplayConnected() && (splinePtr != NULL)){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		int segmentCount = splinePtr->GetSegmentCount();
 		if (segmentCount > 0){
@@ -165,7 +165,7 @@ i2d::CRect CInteractiveSplineShape::CalcBoundingBox() const
 				boundingBox.Union(sp);
 			}
 
-			IColorShema::TickerType tickerType;
+			IColorSchema::TickerType tickerType;
 
 			if (IsSelected()){
 				int editMode = GetEditMode();
@@ -173,27 +173,27 @@ i2d::CRect CInteractiveSplineShape::CalcBoundingBox() const
 				case ISelectable::EM_NONE:
 					boundingBox.Expand(i2d::CRect(-2, -2, 2, 2));
 				case ISelectable::EM_MOVE:
-					tickerType = IColorShema::TT_MOVE;
+					tickerType = IColorSchema::TT_MOVE;
 					break;
 
 				case ISelectable::EM_ADD:
-					tickerType = IColorShema::TT_INSERT;
+					tickerType = IColorSchema::TT_INSERT;
 					break;
 
 				case ISelectable::EM_REMOVE:
-					tickerType = IColorShema::TT_DELETE;
+					tickerType = IColorSchema::TT_DELETE;
 					break;
 
 				default:
-					tickerType = IColorShema::TT_INACTIVE;
+					tickerType = IColorSchema::TT_INACTIVE;
 					break;
 				}
 			}
 			else{
-				tickerType = IColorShema::TT_INACTIVE;
+				tickerType = IColorSchema::TT_INACTIVE;
 			}
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(tickerType);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(tickerType);
 
 			boundingBox.Expand(tickerBox);
 

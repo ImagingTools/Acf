@@ -180,15 +180,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShema.cpp"
+				RelativePath="..\CColorSchema.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShemaBase.cpp"
+				RelativePath="..\CColorSchemaBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShemaComp.cpp"
+				RelativePath="..\CColorSchemaComp.cpp"
 				>
 			</File>
 			<File
@@ -370,15 +370,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShema.h"
+				RelativePath="..\CColorSchema.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShemaBase.h"
+				RelativePath="..\CColorSchemaBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CColorShemaComp.h"
+				RelativePath="..\CColorSchemaComp.h"
 				>
 			</File>
 			<File
@@ -542,7 +542,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IColorShema.h"
+				RelativePath="..\IColorSchema.h"
 				>
 			</File>
 			<File

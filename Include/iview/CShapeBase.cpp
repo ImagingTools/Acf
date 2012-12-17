@@ -12,7 +12,7 @@ namespace iview
 CShapeBase::CShapeBase()
 {
 	m_isVisible = true;
-	m_userColorShemaPtr = NULL;
+	m_userColorSchemaPtr = NULL;
 	m_displayPtr = NULL;
 	m_isBoundingBoxValid = false;
 	m_layerType = iview::IViewLayer::LT_INACTIVE;
@@ -26,7 +26,7 @@ CShapeBase::CShapeBase(const CShapeBase& shape)
 
 	m_displayPtr = NULL;
 
-	m_userColorShemaPtr = shape.m_userColorShemaPtr;
+	m_userColorSchemaPtr = shape.m_userColorSchemaPtr;
 	m_isVisible = shape.m_isVisible;
 	m_isBoundingBoxValid = false;
 	m_layerType = shape.m_layerType;
@@ -106,15 +106,15 @@ i2d::CRect CShapeBase::GetBoundingBox() const
 }
 
 
-const IColorShema* CShapeBase::GetUserColorShema() const
+const IColorSchema* CShapeBase::GetUserColorSchema() const
 {
-	return m_userColorShemaPtr;
+	return m_userColorSchemaPtr;
 }
 
 
-void CShapeBase::SetUserColorShema(const IColorShema* shemaPtr)
+void CShapeBase::SetUserColorSchema(const IColorSchema* schemaPtr)
 {
-	m_userColorShemaPtr = shemaPtr;
+	m_userColorSchemaPtr = schemaPtr;
 	if (m_displayPtr != NULL){
 		m_displayPtr->OnChangeShape(this);
 	}
@@ -257,15 +257,15 @@ bool CShapeBase::IsDisplayConnected() const
 }
 
 
-const IColorShema& CShapeBase::GetColorShema() const
+const IColorSchema& CShapeBase::GetColorSchema() const
 {
-	if (m_userColorShemaPtr != NULL){
-		return *m_userColorShemaPtr;
+	if (m_userColorSchemaPtr != NULL){
+		return *m_userColorSchemaPtr;
 	}
 	else{
 		I_ASSERT(IsDisplayConnected());
 	
-		return m_displayPtr->GetColorShema();
+		return m_displayPtr->GetColorSchema();
 	}
 }
 

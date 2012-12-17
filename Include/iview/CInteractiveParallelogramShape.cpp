@@ -11,7 +11,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -88,9 +88,9 @@ bool CInteractiveParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::
 	if (downFlag){
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 		
 		if ((m_isEditableHeight || m_isEditableAngle) && tickerBox.IsInside(position - nodes[EN_NODE12])){
 			m_editNode = EN_NODE12;
@@ -302,8 +302,8 @@ void CInteractiveParallelogramShape::EnsureValidNodes() const
 bool CInteractiveParallelogramShape::IsTickerTouched(istd::CIndex2d position) const
 {
 	if (IsDisplayConnected()){
-		const IColorShema& colorShema = GetColorShema();
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+		const IColorSchema& colorSchema = GetColorSchema();
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
@@ -333,7 +333,7 @@ bool CInteractiveParallelogramShape::IsFigureTouched(istd::CIndex2d position) co
 {
 	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(GetModelPtr());
 	if (IsDisplayConnected() && (parallelogramPtr != NULL)){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		const i2d::CVector2d& parallPosition = parallelogramPtr->GetCenter();
 		const i2d::CMatrix2d& parallDeform = parallelogramPtr->GetDeformMatrix();
@@ -346,7 +346,7 @@ bool CInteractiveParallelogramShape::IsFigureTouched(istd::CIndex2d position) co
 
 		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
 		i2d::CLine2d line(parallPosition, parallPosition + axisX);
 
@@ -374,17 +374,17 @@ bool CInteractiveParallelogramShape::IsFigureTouched(istd::CIndex2d position) co
 void CInteractiveParallelogramShape::DrawTickers(QPainter& drawContext) const
 {
 	if (IsDisplayConnected()){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		EnsureValidNodes();
 		const istd::CIndex2d* nodes = GetNodes();
 
 		if (IsSelected()){
-			colorShema.DrawTicker(drawContext, nodes[EN_NODE11], IColorShema::TT_SELECTED_INACTIVE);
-			colorShema.DrawTicker(drawContext, nodes[EN_NODE12], (m_isEditableHeight || m_isEditableAngle)? IColorShema::TT_NORMAL: IColorShema::TT_SELECTED_INACTIVE);
-			colorShema.DrawTicker(drawContext, nodes[EN_NODE21], (m_isEditableWidth || m_isEditableAngle)? IColorShema::TT_NORMAL: IColorShema::TT_SELECTED_INACTIVE);
+			colorSchema.DrawTicker(drawContext, nodes[EN_NODE11], IColorSchema::TT_SELECTED_INACTIVE);
+			colorSchema.DrawTicker(drawContext, nodes[EN_NODE12], (m_isEditableHeight || m_isEditableAngle)? IColorSchema::TT_NORMAL: IColorSchema::TT_SELECTED_INACTIVE);
+			colorSchema.DrawTicker(drawContext, nodes[EN_NODE21], (m_isEditableWidth || m_isEditableAngle)? IColorSchema::TT_NORMAL: IColorSchema::TT_SELECTED_INACTIVE);
 			if (m_isEditableRotation){
-				colorShema.DrawTicker(drawContext, nodes[EN_NODE22], IColorShema::TT_ROTATE);
+				colorSchema.DrawTicker(drawContext, nodes[EN_NODE22], IColorSchema::TT_ROTATE);
 			}
 		}
 	}
@@ -396,16 +396,16 @@ void CInteractiveParallelogramShape::DrawFigure(QPainter& drawContext) const
 	if (IsDisplayConnected()){
 		EnsureValidNodes();
 
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const istd::CIndex2d* nodes = GetNodes();
 
 		if (IsSelected()){
 			drawContext.save();
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 		}
 		else{
 			drawContext.save();
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		}
 
 		drawContext.drawLine(iqt::GetQPoint(nodes[EN_NODE11]), iqt::GetQPoint(nodes[EN_NODE12]));
@@ -424,8 +424,8 @@ i2d::CRect CInteractiveParallelogramShape::CalcBoundingBox() const
 {
 	I_ASSERT(IsDisplayConnected());
 
-	const IColorShema& colorShema = GetColorShema();
-	const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+	const IColorSchema& colorSchema = GetColorSchema();
+	const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 	EnsureValidNodes();
 	const istd::CIndex2d* nodes = GetNodes();

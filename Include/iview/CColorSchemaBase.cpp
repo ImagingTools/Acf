@@ -1,4 +1,4 @@
-#include "iview/CColorShemaBase.h"
+#include "iview/CColorSchemaBase.h"
 
 
 // ACF includes
@@ -9,7 +9,7 @@ namespace iview
 {
 
 
-void CColorShemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, TickerType tickerType) const
+void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, TickerType tickerType) const
 {
 	const i2d::CRect& tickerBox = GetTickerBox(tickerType);
 	i2d::CRect tickerRect;
@@ -132,7 +132,7 @@ void CColorShemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, Ti
 }
 
 
-const i2d::CRect& CColorShemaBase::GetTickerBox(TickerType tickerType) const
+const i2d::CRect& CColorSchemaBase::GetTickerBox(TickerType tickerType) const
 {
 	I_ASSERT(tickerType >= 0);
 	I_ASSERT(tickerType <= TT_LAST);
@@ -143,7 +143,7 @@ const i2d::CRect& CColorShemaBase::GetTickerBox(TickerType tickerType) const
 
 // static attributes
 
-i2d::CRect CColorShemaBase::s_tickersBoxes[TT_LAST + 1] = {
+i2d::CRect CColorSchemaBase::s_tickersBoxes[TT_LAST + 1] = {
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
@@ -160,18 +160,18 @@ i2d::CRect CColorShemaBase::s_tickersBoxes[TT_LAST + 1] = {
 };
 
 
-void CColorShemaBase::Assign(const IColorShema& colorShema)
+void CColorSchemaBase::Assign(const IColorSchema& colorSchema)
 {
-	for (int penIndex = IColorShema::SP_NORMAL; penIndex <= IColorShema::SP_LAST; ++penIndex){
-		SetPen(IColorShema::StandardPen(penIndex), colorShema.GetPen(IColorShema::StandardPen(penIndex)));
+	for (int penIndex = IColorSchema::SP_NORMAL; penIndex <= IColorSchema::SP_LAST; ++penIndex){
+		SetPen(IColorSchema::StandardPen(penIndex), colorSchema.GetPen(IColorSchema::StandardPen(penIndex)));
 	}
 
-	for (int brushIndex = IColorShema::SB_NORMAL; brushIndex <= IColorShema::SB_LAST; ++brushIndex){
-		SetBrush(IColorShema::StandardBrush(brushIndex), colorShema.GetBrush(IColorShema::StandardBrush(brushIndex)));
+	for (int brushIndex = IColorSchema::SB_NORMAL; brushIndex <= IColorSchema::SB_LAST; ++brushIndex){
+		SetBrush(IColorSchema::StandardBrush(brushIndex), colorSchema.GetBrush(IColorSchema::StandardBrush(brushIndex)));
 	}
 
-	for (int fontIndex = IColorShema::SF_NORMAL; fontIndex <= IColorShema::SF_LAST; ++fontIndex){
-		SetFont(IColorShema::StandardFont(fontIndex), colorShema.GetFont(IColorShema::StandardFont(fontIndex)));
+	for (int fontIndex = IColorSchema::SF_NORMAL; fontIndex <= IColorSchema::SF_LAST; ++fontIndex){
+		SetFont(IColorSchema::StandardFont(fontIndex), colorSchema.GetFont(IColorSchema::StandardFont(fontIndex)));
 	}
 }
 

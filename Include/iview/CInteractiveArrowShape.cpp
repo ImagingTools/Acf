@@ -11,7 +11,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -46,11 +46,11 @@ ITouchable::TouchState CInteractiveArrowShape::IsTouched(istd::CIndex2d position
 	EnsurePointsAreValid();
 
 	bool isEditablePosition = IsEditablePosition();
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 
 	if (IsSelected() && isEditablePosition){
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_MOVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
 		if (tickerBox.IsInside(position - m_points[1])){
 			return TS_TICKER;
@@ -59,7 +59,7 @@ ITouchable::TouchState CInteractiveArrowShape::IsTouched(istd::CIndex2d position
 			return TS_TICKER;
 		}
 	}
-	double distance = colorShema.GetLogicalLineWidth();
+	double distance = colorSchema.GetLogicalLineWidth();
 
 	if (			CheckLine(m_points[0], m_points[1], position, distance) ||
 					CheckLine(m_points[1], m_points[2], position, distance) ||
@@ -79,15 +79,15 @@ void CInteractiveArrowShape::Draw(QPainter& drawContext) const
 
 	EnsurePointsAreValid();
 
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 
 	if (IsSelected()){
 		drawContext.save();
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 	}
 	else{
 		drawContext.save();
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 	}
 
 	drawContext.drawLine(iqt::GetQPoint(m_points[0]), iqt::GetQPoint(m_points[1]));
@@ -97,8 +97,8 @@ void CInteractiveArrowShape::Draw(QPainter& drawContext) const
 	drawContext.restore();
 
 	if (IsSelected() && IsEditablePosition()){
-		colorShema.DrawTicker(drawContext, m_points[0], IColorShema::TT_MOVE);
-		colorShema.DrawTicker(drawContext, m_points[1], IColorShema::TT_MOVE);
+		colorSchema.DrawTicker(drawContext, m_points[0], IColorSchema::TT_MOVE);
+		colorSchema.DrawTicker(drawContext, m_points[1], IColorSchema::TT_MOVE);
 	}
 }
 
@@ -124,9 +124,9 @@ bool CInteractiveArrowShape::OnMouseButton(istd::CIndex2d position, Qt::MouseBut
 		EnsurePointsAreValid(*linePtr);
 
 		if (downFlag && IsSelected() && IsEditablePosition()){
-			const IColorShema& colorShema = GetColorShema();
+			const IColorSchema& colorSchema = GetColorSchema();
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_MOVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			if (tickerBox.IsInside(position - m_points[1])){
@@ -227,7 +227,7 @@ i2d::CRect CInteractiveArrowShape::CalcBoundingBox() const
 
 	EnsurePointsAreValid();
 
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 
 	i2d::CRect boundingBox(m_points[0], ibase::CSize(1, 1));
 	for (int i = 1; i < 4; ++i){
@@ -235,7 +235,7 @@ i2d::CRect CInteractiveArrowShape::CalcBoundingBox() const
 	}
 
 	if (IsSelected() && IsEditablePosition()){
-		boundingBox.Expand(colorShema.GetTickerBox(IColorShema::TT_MOVE));
+		boundingBox.Expand(colorSchema.GetTickerBox(IColorSchema::TT_MOVE));
 	}
 
 	boundingBox.Expand(i2d::CRect(istd::CIndex2d(-1, -1), istd::CIndex2d(1, 1)));

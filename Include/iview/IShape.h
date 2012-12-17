@@ -16,7 +16,7 @@ namespace iview
 {
 
 
-class IColorShema;
+class IColorSchema;
 
 
 /**
@@ -49,14 +49,14 @@ public:
 	virtual i2d::CRect GetBoundingBox() const = 0;
 
 	/**
-		Set color shema to draw shape.
+		Set color schema to draw shape.
 	*/
-	virtual void SetUserColorShema(const IColorShema* shemaPtr) = 0;
+	virtual void SetUserColorSchema(const IColorSchema* schemaPtr) = 0;
  
 	/**
-		Get color shema from view or user defined.
+		Get color schema from view or user defined.
 	*/
-	virtual const iview::IColorShema* GetUserColorShema() const = 0;
+	virtual const iview::IColorSchema* GetUserColorSchema() const = 0;
 };
 
 

@@ -11,7 +11,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 
 
 namespace iview
@@ -42,7 +42,7 @@ ITouchable::TouchState CInteractiveRectangleShape::IsTouched(istd::CIndex2d posi
 
 	const i2d::CRectangle* rectanglePtr = dynamic_cast<const i2d::CRectangle*>(GetModelPtr());
 	if (rectanglePtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 		if (!m_arePointsValid){
@@ -50,7 +50,7 @@ ITouchable::TouchState CInteractiveRectangleShape::IsTouched(istd::CIndex2d posi
 		}
 
 		if (IsSelected()){
-			i2d::CRect tbox = colorShema.GetTickerBox(IColorShema::TT_MOVE);
+			i2d::CRect tbox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
 			if (			tbox.IsInside(position - m_corners[0][0]) ||
 							tbox.IsInside(position - m_corners[0][1]) ||
@@ -64,7 +64,7 @@ ITouchable::TouchState CInteractiveRectangleShape::IsTouched(istd::CIndex2d posi
 
 		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
 		const i2d::CRectangle& modelArea = *rectanglePtr;
 
@@ -100,7 +100,7 @@ void CInteractiveRectangleShape::Draw(QPainter& drawContext) const
 
 	const i2d::CRectangle* framePtr = dynamic_cast<const i2d::CRectangle*>(GetModelPtr());
 	if (framePtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		if (!m_arePointsValid){
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
@@ -109,11 +109,11 @@ void CInteractiveRectangleShape::Draw(QPainter& drawContext) const
 
 		if (IsSelected()){
 			drawContext.save();
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 		}
 		else{
 			drawContext.save();
-			drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		}
 
 		drawContext.drawLine(iqt::GetQPoint(m_corners[0][0]), iqt::GetQPoint(m_corners[0][1]));
@@ -122,10 +122,10 @@ void CInteractiveRectangleShape::Draw(QPainter& drawContext) const
 		drawContext.drawLine(iqt::GetQPoint(m_corners[1][0]), iqt::GetQPoint(m_corners[0][0]));
 
 		if (IsSelected()){
-			colorShema.DrawTicker(drawContext, m_corners[0][0], IColorShema::TT_MOVE);
-			colorShema.DrawTicker(drawContext, m_corners[0][1], IColorShema::TT_MOVE);
-			colorShema.DrawTicker(drawContext, m_corners[1][0], IColorShema::TT_MOVE);
-			colorShema.DrawTicker(drawContext, m_corners[1][1], IColorShema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[0][0], IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[0][1], IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[1][0], IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[1][1], IColorSchema::TT_MOVE);
 		}
 		
 		drawContext.restore();
@@ -152,14 +152,14 @@ bool CInteractiveRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::Mous
 	const i2d::CRectangle* framePtr = dynamic_cast<const i2d::CRectangle*>(GetModelPtr());
 	if (framePtr != NULL){
 		if (downFlag){
-			const IColorShema& colorShema = GetColorShema();
+			const IColorSchema& colorSchema = GetColorSchema();
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 			if (!m_arePointsValid){
 				CalcPoints(*framePtr, transform);
 			}
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_MOVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
 			if (tickerBox.IsInside(position - m_corners[0][0])){
 				m_editNode = EN_CORNER11;
@@ -319,7 +319,7 @@ i2d::CRect CInteractiveRectangleShape::CalcBoundingBox() const
 
 	const i2d::CRectangle* framePtr = dynamic_cast<const i2d::CRectangle*>(GetModelPtr());
 	if (framePtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		if (!m_arePointsValid){
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
@@ -331,7 +331,7 @@ i2d::CRect CInteractiveRectangleShape::CalcBoundingBox() const
 		boundingBox.Union(m_corners[1][0]);
 		boundingBox.Union(m_corners[1][1]);
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_MOVE: IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_MOVE: IColorSchema::TT_INACTIVE);
 		
 		boundingBox.Expand(tickerBox);
 		boundingBox.Expand(i2d::CRect(istd::CIndex2d(-1, -1), istd::CIndex2d(1, 1)));

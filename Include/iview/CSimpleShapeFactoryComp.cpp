@@ -26,7 +26,7 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const i2d::IObject2d& object, bool 
 
 	if (shapePtr.IsValid()){
 		if (m_colorSchemaCompPtr.IsValid()){
-			shapePtr->SetUserColorShema(m_colorSchemaCompPtr.GetPtr());
+			shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());
 		}
 
 		if (connectToModel){

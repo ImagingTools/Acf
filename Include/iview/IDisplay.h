@@ -12,7 +12,7 @@ namespace iview
 
 
 class CScreenTransform;
-class IColorShema;
+class IColorSchema;
 
 
 class IDisplay: public IShapeObserver
@@ -42,9 +42,9 @@ public:
 	virtual i2d::CRect GetClientRect() const = 0;
 
 	/**
-		Get color shema.
+		Get color schema.
    */
-	virtual const IColorShema& GetColorShema() const = 0;
+	virtual const IColorSchema& GetColorSchema() const = 0;
 	
 	/**
 		Invalidate display area.

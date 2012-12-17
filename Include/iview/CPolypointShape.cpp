@@ -11,7 +11,7 @@
 #include "i2d/CVector2d.h"
 #include "i2d/CPolypoint.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -55,7 +55,7 @@ void CPolypointShape::Draw(QPainter& drawContext) const
 		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
 		I_ASSERT(&polypoint != NULL);
 
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const i2d::CRect& clientArea = GetClientRect();
 
 		const QVector<i2d::CVector2d>& points = polypoint.GetPoints();
@@ -65,10 +65,10 @@ void CPolypointShape::Draw(QPainter& drawContext) const
 			istd::CIndex2d sp = transform.GetScreenPosition(points[pointIndex]);
 			if (clientArea.IsInside(sp)){
 				if (m_isSmallTickersMode){
-					colorShema.DrawTicker(drawContext, sp, IColorShema::TT_INACTIVE | IColorShema::TT_SMALL);
+					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE | IColorSchema::TT_SMALL);
 				}
 				else{
-					colorShema.DrawTicker(drawContext, sp, IColorShema::TT_INACTIVE);
+					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE);
 				}
 			}
 		}
@@ -99,7 +99,7 @@ i2d::CRect CPolypointShape::CalcBoundingBox() const
 		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
 		I_ASSERT(&polypoint != NULL);
 
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const QVector<i2d::CVector2d>& points = polypoint.GetPoints();
 
 		if (!points.isEmpty()){
@@ -115,7 +115,7 @@ i2d::CRect CPolypointShape::CalcBoundingBox() const
 
 				boundingBox.Union(sp);
 			}
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IColorShema::TT_INACTIVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_INACTIVE);
 
 			return boundingBox.GetExpanded(tickerBox);
 		}

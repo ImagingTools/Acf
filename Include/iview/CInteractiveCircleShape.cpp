@@ -9,7 +9,7 @@
 
 #include "i2d/CCircle.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
 
@@ -64,7 +64,7 @@ bool CInteractiveCircleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseBu
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
 	if (circlePtr != NULL){
 		if (downFlag && m_isEditableRadius){
-			const IColorShema& colorShema = GetColorShema();
+			const IColorSchema& colorSchema = GetColorSchema();
 			i2d::CVector2d center = circlePtr->GetPosition();
 			double radius = circlePtr->GetRadius();
 
@@ -74,7 +74,7 @@ bool CInteractiveCircleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseBu
 			istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
 			istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 			if (			tickerBox.IsInside(position - ticker1) ||
 							tickerBox.IsInside(position - ticker2) ||
@@ -155,14 +155,14 @@ void CInteractiveCircleShape::Draw(QPainter& drawContext) const
 	i2d::CVector2d scale;
 	deform.GetAxesLengths(scale);
 
-	const IColorShema& colorShema = GetColorShema();
+	const IColorSchema& colorSchema = GetColorSchema();
 	drawContext.save();
 
 	if (IsSelected()){
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_SELECTED));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 	}
 	else{
-		drawContext.setPen(colorShema.GetPen(IColorShema::SP_NORMAL));
+		drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 	}
 
 	QBrush emptyBrush(QColor(0, 0, 0), Qt::NoBrush);
@@ -181,10 +181,10 @@ void CInteractiveCircleShape::Draw(QPainter& drawContext) const
 		istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
 		istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
 
-		colorShema.DrawTicker(drawContext, ticker1, IColorShema::TT_NORMAL);
-		colorShema.DrawTicker(drawContext, ticker2, IColorShema::TT_NORMAL);
-		colorShema.DrawTicker(drawContext, ticker3, IColorShema::TT_NORMAL);
-		colorShema.DrawTicker(drawContext, ticker4, IColorShema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker1, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker2, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker3, IColorSchema::TT_NORMAL);
+		colorSchema.DrawTicker(drawContext, ticker4, IColorSchema::TT_NORMAL);
 	}
 }
 
@@ -206,7 +206,7 @@ ITouchable::TouchState CInteractiveCircleShape::IsTouched(istd::CIndex2d positio
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
 	if (IsDisplayConnected() && (circlePtr != NULL)){
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
 		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
@@ -221,7 +221,7 @@ ITouchable::TouchState CInteractiveCircleShape::IsTouched(istd::CIndex2d positio
 			istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
 			istd::CIndex2d ticker4 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
 
-			const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 			if (			tickerBox.IsInside(position - ticker1) ||
 							tickerBox.IsInside(position - ticker2) ||
@@ -234,7 +234,7 @@ ITouchable::TouchState CInteractiveCircleShape::IsTouched(istd::CIndex2d positio
 		double distance = center.GetDistance(cp);
 		double delta = qAbs(radius - distance);
 
-		double logicalLineWidth = colorShema.GetLogicalLineWidth();
+		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
 		if (proportions * delta < logicalLineWidth){
 			bool isEditablePosition = IsEditablePosition();
@@ -261,7 +261,7 @@ i2d::CRect CInteractiveCircleShape::CalcBoundingBox() const
 
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
 	if (circlePtr != NULL){
-		const IColorShema& colorShema = GetColorShema();
+		const IColorSchema& colorSchema = GetColorSchema();
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
 		i2d::CVector2d center;
@@ -273,7 +273,7 @@ i2d::CRect CInteractiveCircleShape::CalcBoundingBox() const
 		i2d::CVector2d scale;
 		deform.GetAxesLengths(scale);
 
-		const i2d::CRect& tickerBox = colorShema.GetTickerBox(IsSelected()? IColorShema::TT_NORMAL: IColorShema::TT_INACTIVE);
+		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
 		i2d::CRect boundingBox(
 					int(center.GetX() - radius * scale.GetX() - 1), int(center.GetY() - radius * scale.GetY() - 1),

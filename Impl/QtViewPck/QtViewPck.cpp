@@ -22,9 +22,9 @@ I_EXPORT_COMPONENT(
 			"Display Console Shape Info" IM_TAG("Model 2D"));
 
 I_EXPORT_COMPONENT(
-			ColorShema,
-			"ColorShema attributes set in comonent",
-			"ColorShema Color" IM_TAG("Color Shema"));
+			ColorSchema,
+			"ColorSchema attributes set in comonent",
+			"ColorSchema Color" IM_TAG("Color Schema"));
 
 I_EXPORT_COMPONENT(
 			ShapeInfoGui,

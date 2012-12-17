@@ -12,7 +12,7 @@
 #include "iview/IVisualCalibrationInfo.h"
 #include "iview/CViewBase.h"
 #include "iview/CDrawBuffer.h"
-#include "iview/CColorShema.h"
+#include "iview/CColorSchema.h"
 
 
 namespace iview
@@ -63,11 +63,11 @@ public:
 	const iview::IViewLayer& GetCalibrationLayer() const;
 
 	/**
-		Set default color shema object.
-		\param	colorShemaPtr	pointer to color shema object.
+		Set default color schema object.
+		\param	colorSchemaPtr	pointer to color schema object.
 		\param	releaseFlag		if its true, object will be automatically removed.
 	*/
-	void SetDefaultColorShema(const IColorShema* colorShemaPtr, bool releaseFlag = false);
+	void SetDefaultColorSchema(const IColorSchema* colorSchemaPtr, bool releaseFlag = false);
 
 	bool IsBackgroundBufferActive() const;
 	void SetBackgroundBufferActive(bool state = true);
@@ -90,7 +90,7 @@ public:
 	void CheckResize();
 
 	// reimplemented (iview::CViewBase)
-	virtual const iview::IColorShema& GetDefaultColorShema() const;
+	virtual const iview::IColorSchema& GetDefaultColorSchema() const;
 	virtual void UpdateAllShapes(int changeFlag);
 	virtual void InsertDefaultLayers();
 
@@ -113,7 +113,7 @@ protected:
 	virtual void DrawToContext(QPaintDevice& nativeContext, QPainter& context, const i2d::CRect& invalidatedBox);
 
 private:
-	mutable istd::TOptDelPtr<const IColorShema> m_defaultColorShemaPtr;
+	mutable istd::TOptDelPtr<const IColorSchema> m_defaultColorSchemaPtr;
 
 	iview::CDrawBuffer m_backgroundBuffer;
 	iview::CDrawBuffer m_doubleBuffer;

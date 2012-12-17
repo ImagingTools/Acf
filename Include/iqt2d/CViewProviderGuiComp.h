@@ -9,6 +9,8 @@
 
 #include "iqtgui/TGuiComponentBase.h"
 
+
+#include "iview/IColorSchema.h"
 #include "iview/CConsoleGui.h"
 #include "iview/CAffiniteCalibrationShape.h"
 
@@ -43,9 +45,9 @@ public:
 		BM_NORMAL,
 
 		/**
-			Filled with solid color.
+			Color from the given color scheme.
 		*/
-		BM_SOLID,
+		BM_COLOR_SCHEMA,
 
 		/**
 			Checkerboard pattern.
@@ -71,7 +73,8 @@ public:
 		I_ASSIGN(m_fitModeAttrPtr, "FitMode", "Select fitting mode for the view. 0 - No fitting\n1 - Fit contents to view\n2 - Horizontal fit\n3 - Vertical fit\n4 - Both axes sclaled separately\n5 - Scale both axes proportional to display smallest AOI, which fully covers display", false, 0);
 		I_ASSIGN(m_calibrationProviderCompPtr, "CalibrationProvider", "Provider of 2D-calibration for the entire view", false, "CalibrationProvider");
 		I_ASSIGN_TO(m_calibrationProviderModelCompPtr, m_calibrationProviderCompPtr, false);
-		I_ASSIGN(m_backgroundModeAttrPtr, "BackgroundMode", "Mode of background drawing:\n 0 - standard window background\n 1 - solid color\n 2 - checkerboard\n 3 - dot grid\n", true, 0);	
+		I_ASSIGN(m_backgroundModeAttrPtr, "BackgroundMode", "Mode of background drawing:\n 0 - standard window background\n 1 - color used from color scheme \n 2 - checkerboard\n 3 - dot grid\n", true, BM_NORMAL);
+		I_ASSIGN(m_colorSchemaCompPtr, "ColorSchema", "Color schema used for console", false, "ColorSchema");
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
@@ -101,6 +104,7 @@ protected:
 	I_REF(iview::IShapeStatusInfo, m_shapeStatusInfoCompPtr);
 	I_REF(i2d::ICalibrationProvider, m_calibrationProviderCompPtr);
 	I_REF(imod::IModel, m_calibrationProviderModelCompPtr);
+	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
 	I_ATTR(int, m_viewIdAttrPtr);
 	I_ATTR(bool, m_useAntialiasingAttrPtr);
 	I_ATTR(bool, m_useShapeEditCommandsAttrPtr);

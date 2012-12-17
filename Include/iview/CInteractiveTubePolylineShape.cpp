@@ -9,7 +9,7 @@
 
 #include "iqt/iqt.h"
 
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 
 
 namespace iview
@@ -31,7 +31,7 @@ void CInteractiveTubePolylineShape::DrawCurve(QPainter& drawContext) const
 {
 	const i2d::CTubePolyline* polylinePtr = dynamic_cast<const i2d::CTubePolyline*>(GetModelPtr());
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
-		const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorSchema& colorSchema = GetColorSchema();
 		int nodesCount = polylinePtr->GetNodesCount();
 		if (nodesCount > 1){
 			int segmentsCount = polylinePtr->GetSegmentsCount();
@@ -58,8 +58,8 @@ void CInteractiveTubePolylineShape::DrawCurve(QPainter& drawContext) const
 			
 			drawContext.save();
 
-			QPen linePen = colorShema.GetPen(isSelected ? iview::IColorShema::SP_SELECTED : iview::IColorShema::SP_NORMAL); 
-			QPen tubePen = colorShema.GetPen(isSelected ? iview::IColorShema::SP_SELECTED_DASH : iview::IColorShema::SP_NORMAL_DASH);
+			QPen linePen = colorSchema.GetPen(isSelected ? iview::IColorSchema::SP_SELECTED : iview::IColorSchema::SP_NORMAL); 
+			QPen tubePen = colorSchema.GetPen(isSelected ? iview::IColorSchema::SP_SELECTED_DASH : iview::IColorSchema::SP_NORMAL_DASH);
 
 			for (int segmentIndex = 0; segmentIndex < segmentsCount; ++segmentIndex){
 				int nodeIndex = (segmentIndex + 1) % nodesCount;
@@ -121,7 +121,7 @@ void CInteractiveTubePolylineShape::DrawSelectionElements(QPainter& drawContext)
 
 	const i2d::CTubePolyline* polylinePtr = dynamic_cast<const i2d::CTubePolyline*>(GetModelPtr());
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
-		const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorSchema& colorSchema = GetColorSchema();
 
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
@@ -146,14 +146,14 @@ void CInteractiveTubePolylineShape::DrawSelectionElements(QPainter& drawContext)
 			istd::CIndex2d rightScreenPoint = transform.GetScreenPosition(rightPos);
 
 			if (true){
-				colorShema.DrawTicker(drawContext, leftScreenPoint, iview::IColorShema::TT_MOVE);
-				colorShema.DrawTicker(drawContext, rightScreenPoint, iview::IColorShema::TT_MOVE);
+				colorSchema.DrawTicker(drawContext, leftScreenPoint, iview::IColorSchema::TT_MOVE);
+				colorSchema.DrawTicker(drawContext, rightScreenPoint, iview::IColorSchema::TT_MOVE);
 				if ((nodeIndex > 0) && (nodeIndex < nodesCount - 1)){
-					colorShema.DrawTicker(drawContext, screenPoint, iview::IColorShema::TT_CHECKBOX_ON);
+					colorSchema.DrawTicker(drawContext, screenPoint, iview::IColorSchema::TT_CHECKBOX_ON);
 				}
 			}
 			else{
-				colorShema.DrawTicker(drawContext, screenPoint, iview::IColorShema::TT_CHECKBOX_OFF);
+				colorSchema.DrawTicker(drawContext, screenPoint, iview::IColorSchema::TT_CHECKBOX_OFF);
 			}
 		}
 	}
@@ -175,7 +175,7 @@ i2d::CRect CInteractiveTubePolylineShape::CalcBoundingBox() const
 
 			bool isSelected = IsSelected();
 
-			const iview::IColorShema& colorShema = GetColorShema();
+			const iview::IColorSchema& colorSchema = GetColorSchema();
 
 			for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
 				i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
@@ -199,7 +199,7 @@ i2d::CRect CInteractiveTubePolylineShape::CalcBoundingBox() const
 			}
 			
 			i2d::CRect tickerBox = isSelected ? 
-				colorShema.GetTickerBox(iview::IColorShema::TT_NORMAL): 
+				colorSchema.GetTickerBox(iview::IColorSchema::TT_NORMAL): 
 				i2d::CRect(-1, -1, 1, 1);
 
 			result.Expand(tickerBox);
@@ -223,8 +223,8 @@ bool CInteractiveTubePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::M
 		if (IsDisplayConnected() && (polylinePtr != NULL)){
 			const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
-			const iview::IColorShema& colorShema = GetColorShema();
-			const i2d::CRect& tickerBoxMove = colorShema.GetTickerBox(iview::IColorShema::TT_MOVE);
+			const iview::IColorSchema& colorSchema = GetColorSchema();
+			const i2d::CRect& tickerBoxMove = colorSchema.GetTickerBox(iview::IColorSchema::TT_MOVE);
 
 			int nodesCount = polylinePtr->GetNodesCount();
 			for (int nodeIndex = nodesCount - 1; nodeIndex >= 0; --nodeIndex){
@@ -397,13 +397,13 @@ ITouchable::TouchState CInteractiveTubePolylineShape::IsTouched(istd::CIndex2d p
 
 	const i2d::CTubePolyline* polylinePtr = dynamic_cast<const i2d::CTubePolyline*>(GetModelPtr());
 	if (IsDisplayConnected() && (polylinePtr != NULL)){
-		const iview::IColorShema& colorShema = GetColorShema();
+		const iview::IColorSchema& colorSchema = GetColorSchema();
 
 		const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
-		//const i2d::CRect& tickerBoxCheckboxOn = colorShema.GetTickerBox(iview::IColorShema::TT_CHECKBOX_ON);
-		//const i2d::CRect& tickerBoxCheckboxOff = colorShema.GetTickerBox(iview::IColorShema::TT_CHECKBOX_OFF);
-		const i2d::CRect& tickerBoxMove = colorShema.GetTickerBox(iview::IColorShema::TT_MOVE);
+		//const i2d::CRect& tickerBoxCheckboxOn = colorSchema.GetTickerBox(iview::IColorSchema::TT_CHECKBOX_ON);
+		//const i2d::CRect& tickerBoxCheckboxOff = colorSchema.GetTickerBox(iview::IColorSchema::TT_CHECKBOX_OFF);
+		const i2d::CRect& tickerBoxMove = colorSchema.GetTickerBox(iview::IColorSchema::TT_MOVE);
 
 		int nodesCount = polylinePtr->GetNodesCount();
 

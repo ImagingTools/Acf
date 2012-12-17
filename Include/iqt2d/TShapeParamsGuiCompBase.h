@@ -4,7 +4,7 @@
 
 // ACF includes
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "iview/IColorShema.h"
+#include "iview/IColorSchema.h"
 #include "iview/CShapeControl.h"
 #include "iqt2d/TViewExtenderCompBase.h"
 
@@ -23,7 +23,7 @@ public:
 
 	I_BEGIN_COMPONENT(TShapeParamsGuiCompBase);
 		I_ASSIGN(m_unitNameAttrPtr, "UnitName", "Name of geometric units e.g. mm", false, "mm");
-		I_ASSIGN(m_colorSchemaCompPtr, "ShapeColorShema", "Color shema used by displayed shape", false, "ShapeColorShema");
+		I_ASSIGN(m_colorSchemaCompPtr, "ShapeColorSchema", "Color schema used by displayed shape", false, "ShapeColorSchema");
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
@@ -40,7 +40,7 @@ protected:
 	virtual void CreateShapes(int sceneId, Shapes& result);
 
 	I_ATTR(QString, m_unitNameAttrPtr);
-	I_REF(iview::IColorShema, m_colorSchemaCompPtr);
+	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
 };
 
 
@@ -121,7 +121,7 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*
 	Shape* shapePtr = CreateShape();
 	if (shapePtr != NULL){
 		if (m_colorSchemaCompPtr.IsValid()){
-			shapePtr->SetUserColorShema(m_colorSchemaCompPtr.GetPtr());
+			shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());
 		}
 
 		result.PushBack(shapePtr);
