@@ -227,6 +227,13 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 		mainLayoutPtr->setMargin(0);
 	}
 
+	QFont f;
+	bool setFontSize = false;
+	if (m_fontSizeAttrPtr.IsValid()){
+		f.setPointSize(*m_fontSizeAttrPtr);
+		setFontSize = true;
+	}
+
 	int switchIndex = 0;
 	for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 				selectionPtr != NULL;
@@ -237,8 +244,11 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 		}
 		else{
 			switchBoxPtr = new QComboBox(SelectionFrame);
-
 			switchBoxPtr->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+			if (setFontSize){
+				switchBoxPtr->setFont(f);
+			}
 
 			m_comboBoxes.PushBack(switchBoxPtr);
 
