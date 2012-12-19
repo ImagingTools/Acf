@@ -29,7 +29,7 @@ public:
 		I_ASSIGN(m_companyNameAttrPtr, "CompanyName", "Company name", false, "<my company>");
 		I_ASSIGN(m_productNameAttrPtr, "ProductName", "Product name, the same for all applications in one product", false, "<my product>");
 		I_ASSIGN(m_applicationNameAttrPtr, "ApplicationName", "Application name", false, "ACF Application");
-		I_ASSIGN(m_applicationSubnameAttrPtr, "ApplicationSubname", "Subname of application", false, "");
+		I_ASSIGN(m_applicationSubnameAttrPtr, "ApplicationSubname", "Sub-name of application", false, "");
 		I_ASSIGN(m_applicationTypeAttrPtr, "ApplicationType", "Application type", false, "Server");
 		I_ASSIGN(m_legalCopyrightAttrPtr, "LegalCopyright", "Legal copyright of this application", false, "\x00A9 Copyright xxxx <my company>");
 		I_ASSIGN(m_mainVersionIdAttrPtr, "MainVersionId", "ID of main module version as defined in version info", false, 0);
@@ -49,9 +49,9 @@ protected:
 	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
 
 private:
-	I_ATTR(QString, m_companyNameAttrPtr);
+	I_ATTR(QByteArray, m_companyNameAttrPtr);
 	I_ATTR(QString, m_productNameAttrPtr);
-	I_ATTR(QString, m_applicationNameAttrPtr);
+	I_ATTR(QByteArray, m_applicationNameAttrPtr);
 	I_ATTR(QString, m_applicationSubnameAttrPtr);
 	I_ATTR(QString, m_applicationTypeAttrPtr);
 	I_ATTR(QString, m_legalCopyrightAttrPtr);

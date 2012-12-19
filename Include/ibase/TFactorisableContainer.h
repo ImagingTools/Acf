@@ -19,7 +19,7 @@ namespace ibase
 /**
 	Specific container implementation for factorisable items. 
 
-	This container implementation supports folowing features:
+	This container implementation supports following features:
 	\li Automatic memory management for created items
 	\li Serialization mechanism with automatic item allocation.
 */
@@ -36,28 +36,29 @@ public:
 	virtual ~TFactorisableContainer();
 
 	/**
-		Insert the element to the container at the given index. 
+		Insert an element into the container at given index. 
 	*/
 	InterfaceClass* InsertElement(int index, const QByteArray& elementFactoryKey);
 
 	/**
-		Add the element to container. 
+		Add an element to the container.
 	*/
 	InterfaceClass* AddElement(const QByteArray& elementFactoryKey);
 
 	/**
-		Gets the element with the index \c elementIndex from container. 
-		You will need this function, because the GetAt() returns the ItemClass instance, what is not usable.
+		Gets an element with given index \c elementIndex from the container.
+		You will need this function, because the GetAt() returns an ItemClass 
+		instance, which is not usable.
 	*/
 	InterfaceClass* GetElement(int elementIndex) const;
 
 	/**
-		Gets the element index from container. 
+		Gets the index of given element from the container. 
 	*/
 	int GetElementIndex(const InterfaceClass& elementRef) const;
 
 	/**
-		Gets the element key associated with the element the index \c elementIndex from container. 
+		Gets the element key associated with the element with given \c elementIndex from the container.
 	*/
 	QByteArray GetElementKey(int elementIndex) const;
 

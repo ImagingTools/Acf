@@ -22,7 +22,7 @@ public:
 
 	/**
 		Get list of menu commands.
-		This commands will be integrated in global menu system undependent of actual selected view.
+		These commands will be integrated in global menu system, independent from actual selected view.
 		For support of normal pull down menu, depth of this tree structure should be at least 3.
 	*/
 	virtual const IHierarchicalCommand* GetCommands() const;

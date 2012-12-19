@@ -32,12 +32,12 @@ public:
 
 protected:
 	/**
-		Check if verbose messages are eneabled.
+		Check if verbose messages are enabled.
 	*/
 	bool IsVerboseEnabled() const;
 
 	/**
-		Send verbose message. If \c m_verboseEnabledAttrPtr is not enabled, the function does nothiing.
+		Send verbose message. If \c m_verboseEnabledAttrPtr is not enabled, the function does nothing.
 	*/
 	void SendVerboseMessage(const QString& message, const QString& messageSource = QString()) const;
 
@@ -114,7 +114,7 @@ void TLoggerCompWrap<Base>::OnComponentCreated()
 
 
 /**
-	Type defininig base class for simple components outputing log messages.
+	Type defining base class for simple components outputting log messages.
 
 	\ingroup Main
 */

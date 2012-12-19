@@ -7,9 +7,9 @@
 
 
 /**
-	This namespace containes basic implementations of standard primitives on the component level.
+	This namespace contains basic implementations of standard primitives on the component level.
 	This package is system independent.
-	This package use following ACF packages:
+	This package uses following ACF packages:
 	\li	istd
 	\li	iser
 	\li	icomp

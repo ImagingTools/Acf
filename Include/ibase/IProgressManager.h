@@ -34,7 +34,7 @@ public:
 	*/
 	virtual void EndProgressSession(int sessionId) = 0;
 	/**
-		Callback function for an progress event.
+		Callback function for a progress event.
 		\param	sessionId	session ID returned by \c BeginProgressSession.
 	*/
 	virtual void OnProgress(int sessionId, double currentProgress) = 0;

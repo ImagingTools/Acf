@@ -34,7 +34,7 @@ public:
 
 	/**
 		Set maximal number of messages in the container. 
-		If a new message will be added to the full container, the oldest message will be removed.
+		If the container is full and a new message is added, the oldest message will be removed.
 		\param maxMessageCount maximal number of messages in the container. If the value equals -1,
 		no limit is set for.
 	*/

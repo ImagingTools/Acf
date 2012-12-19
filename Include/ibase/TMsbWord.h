@@ -14,7 +14,7 @@ namespace ibase
 
 
 /**	
-	This class represents double word type with net byte order (MSB first).
+	This class represents double word type with network byte order (big endian, MSB first).
 */
 template <int Size>
 class TMsbWord

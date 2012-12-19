@@ -5,9 +5,6 @@
 // ACF includes
 #include "istd/IPolymorphic.h"
 
-// Qt includes
-#include <QtCore/QAbstractItemModel.h>
-
 
 namespace ibase
 {
