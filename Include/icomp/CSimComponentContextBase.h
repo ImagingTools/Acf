@@ -74,6 +74,11 @@ public:
 	bool SetStringAttr(const QByteArray& attributeId, const QString& value);
 
 	/**
+		Set instance of \c QByteArray attribute.
+	*/
+	bool SetIdAttr(const QByteArray& attributeId, const QByteArray& value);
+
+	/**
 		Set instance of simple attribute.
 	*/
 	template <class Attribute>

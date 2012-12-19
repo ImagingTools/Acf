@@ -129,7 +129,12 @@ bool CSimComponentContextBase::SetStringAttr(const QByteArray& attributeId, cons
 }
 
 
-// reimplemeted (icomp::IComponentContext)
+bool CSimComponentContextBase::SetIdAttr(const QByteArray& attributeId, const QByteArray& value){
+	return SetSingleAttr<QByteArray>(attributeId, value);
+}
+
+
+// reimplemented (icomp::IComponentContext)
 
 const IRegistryElement& CSimComponentContextBase::GetRegistryElement() const
 {
