@@ -520,6 +520,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(const QByteArray& typeId, int ind
 			Q_ASSERT(typeListIndex < m_typeInfoList.typeInfos.size());
 
 			const TypeInfo& typeInfo = m_typeInfoList.typeInfos[typeListIndex];
+			Q_ASSERT(typeInfo.id == typeId);
 			Q_ASSERT(typeInfo.factoryIndex >= 0);
 			Q_ASSERT(typeInfo.factoryIndex < m_paramSetsFactoriesPtr.GetCount());
 
