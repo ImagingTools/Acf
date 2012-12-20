@@ -49,9 +49,9 @@ protected:
 	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
 
 private:
-	I_ATTR(QByteArray, m_companyNameAttrPtr);
+	I_ATTR(QString, m_companyNameAttrPtr);
 	I_ATTR(QString, m_productNameAttrPtr);
-	I_ATTR(QByteArray, m_applicationNameAttrPtr);
+	I_ATTR(QString, m_applicationNameAttrPtr);
 	I_ATTR(QString, m_applicationSubnameAttrPtr);
 	I_ATTR(QString, m_applicationTypeAttrPtr);
 	I_ATTR(QString, m_legalCopyrightAttrPtr);

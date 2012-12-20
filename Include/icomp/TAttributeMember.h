@@ -48,6 +48,11 @@ public:
 		Access to internal attribute pointer.
 	*/
 	const Attribute* GetAttributePtr() const;
+	/**
+		Get value of attribute.
+		The \c String attributes will not be translated.
+	*/
+	const AttributeValueType& GetOriginalValue() const;
 
 	/**
 		Access to internal attribute pointer.
@@ -55,7 +60,8 @@ public:
 	const Attribute* operator->() const;
 
 	/**
-		Access to object pointed by internal pointer.
+		Get value of attribute.
+		Access to object pointed by internal pointer or translated values for \c String.
 	*/
 	const AttributeValueType& operator*() const;
 
@@ -112,6 +118,15 @@ const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
 	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
 
 	return m_attributePtr;
+}
+
+
+template <typename Attribute>
+const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMemberBase<Attribute>::GetOriginalValue() const
+{
+	I_ASSERT(m_attributePtr != NULL);	// GetOriginalValue() was called for invalid object, or no IsValid() check was called.
+
+	return m_attributePtr->GetValue();
 }
 
 

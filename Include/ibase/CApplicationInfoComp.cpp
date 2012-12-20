@@ -14,31 +14,31 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId) const
 	switch (attributeId){
 	case AA_COMPANY_NAME:
 		if (m_companyNameAttrPtr.IsValid()){
-			return *m_companyNameAttrPtr;
+			return m_companyNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_PRODUCT_NAME:
 		if (m_productNameAttrPtr.IsValid()){
-			return *m_productNameAttrPtr;
+			return m_productNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_NAME:
 		if (m_applicationNameAttrPtr.IsValid()){
-			return *m_applicationNameAttrPtr;
+			return m_applicationNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_SUBNAME:
 		if (m_applicationSubnameAttrPtr.IsValid()){
-			return *m_applicationSubnameAttrPtr;
+			return m_applicationSubnameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_TYPE:
 		if (m_applicationTypeAttrPtr.IsValid()){
-			return *m_applicationTypeAttrPtr;
+			return m_applicationTypeAttrPtr.GetOriginalValue();
 		}
 		break;
 
