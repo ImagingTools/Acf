@@ -154,7 +154,7 @@ inline void TSmartPtr<Type, Accessor>::SetPtr(Type* pointer)
 template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>& TSmartPtr<Type, Accessor>::operator=(const TTransPtr<Type>& pointer)
 {
-	RefCountBase* pointerInternalCounter = GetInternalCounter(pointer);
+	RefCountBase* pointerInternalCounter = BaseClass::GetInternalCounter(pointer);
 
 	if (pointerInternalCounter != BaseClass::m_counterPtr){
 		I_ASSERT((pointerInternalCounter == NULL) || (BaseClass::m_counterPtr == NULL) || (*pointerInternalCounter != *BaseClass::m_counterPtr)); // two different reference counters cannot shown at the same destination object

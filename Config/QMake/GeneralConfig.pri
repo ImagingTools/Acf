@@ -5,7 +5,6 @@ CONFIG -= exceptions
 CONFIG += silent
 CONFIG += rtti
 CONFIG += debug_and_release
-CONFIG += x86
 
 COMPILER_NAME = QMake
 PLATFORM_NAME = Unix
@@ -36,8 +35,8 @@ win32-msvc*{
 }
 
 *-clang*{
-        QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-variable
-        QMAKE_CXXFLAGS_WARN_ON += -Wno-overloaded-virtual
+	QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-variable
+	QMAKE_CXXFLAGS_WARN_ON += -Wno-overloaded-virtual
 }
 
 CONFIG(debug, debug|release){
