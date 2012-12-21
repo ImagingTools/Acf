@@ -14,9 +14,9 @@ namespace ibase
 
 
 /**
-	Class wrapper implementing istd::ILogger interface sending log messages over ibase::IMessageConsumer.
-	Access to ibase::IMessageConsumer interface must be registered by the user.
-	To register it, use ibase::ILoggable interface, implemented by this wrapper.
+	Class wrapper implementing interface istd::ILogger sending log messages over ibase::IMessageConsumer.
+	Access to interface ibase::IMessageConsumer must be registered by user.
+	To register it use interface ibase::ILoggable implemented by this wrapper.
 
 	\ingroup Helpers
 */
@@ -29,6 +29,8 @@ public:
 	// reimplemented (ibase::ILoggable)
 	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr);
 	virtual ibase::IMessageConsumer* GetLogPtr() const;
+	virtual void SetTracingEnabled(bool trace);
+	virtual bool IsTracingEnabled() const;
 
 protected:
 	/**
@@ -96,6 +98,7 @@ protected:
 
 private:
 	ibase::IMessageConsumer* m_logPtr;
+	bool m_isTracingEnabled;
 };
 
 
@@ -103,7 +106,8 @@ private:
 
 template <class Base>
 TLoggerWrap<Base>::TLoggerWrap()
-:	m_logPtr(NULL)
+:	m_logPtr(NULL),
+	m_isTracingEnabled(false)
 {
 }
 
@@ -121,6 +125,22 @@ template <class Base>
 inline ibase::IMessageConsumer* TLoggerWrap<Base>::GetLogPtr() const
 {
 	return m_logPtr;
+}
+
+
+// Trace protocol
+
+template <class Base>
+void TLoggerWrap<Base>::SetTracingEnabled(const bool trace)
+{
+	m_isTracingEnabled = trace;
+}
+
+
+template <class Base>
+bool TLoggerWrap<Base>::IsTracingEnabled() const
+{
+	return m_isTracingEnabled;
 }
 
 
