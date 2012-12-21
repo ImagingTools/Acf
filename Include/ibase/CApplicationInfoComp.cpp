@@ -9,36 +9,36 @@ namespace ibase
 
 // reimplemented (ibase::IApplicationInfo)
 
-QString CApplicationInfoComp::GetApplicationAttribute(int attributeId) const
+QString CApplicationInfoComp::GetApplicationAttribute(int attributeId, bool allowTranslation) const
 {
 	switch (attributeId){
 	case AA_COMPANY_NAME:
 		if (m_companyNameAttrPtr.IsValid()){
-			return m_companyNameAttrPtr.GetOriginalValue();
+			return allowTranslation? *m_companyNameAttrPtr: m_companyNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_PRODUCT_NAME:
 		if (m_productNameAttrPtr.IsValid()){
-			return m_productNameAttrPtr.GetOriginalValue();
+			return allowTranslation? *m_productNameAttrPtr: m_productNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_NAME:
 		if (m_applicationNameAttrPtr.IsValid()){
-			return m_applicationNameAttrPtr.GetOriginalValue();
+			return allowTranslation? *m_applicationNameAttrPtr: m_applicationNameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_SUBNAME:
 		if (m_applicationSubnameAttrPtr.IsValid()){
-			return m_applicationSubnameAttrPtr.GetOriginalValue();
+			return allowTranslation? *m_applicationSubnameAttrPtr: m_applicationSubnameAttrPtr.GetOriginalValue();
 		}
 		break;
 
 	case AA_APPLICATION_TYPE:
 		if (m_applicationTypeAttrPtr.IsValid()){
-			return m_applicationTypeAttrPtr.GetOriginalValue();
+			return allowTranslation? *m_applicationTypeAttrPtr: m_applicationTypeAttrPtr.GetOriginalValue();
 		}
 		break;
 
@@ -48,7 +48,7 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId) const
 
 	case AA_LEGAL_COPYRIGHT:
 		if (m_legalCopyrightAttrPtr.IsValid()){
-			return *m_legalCopyrightAttrPtr;
+			return allowTranslation? *m_legalCopyrightAttrPtr: m_legalCopyrightAttrPtr.GetOriginalValue();
 		}
 		break;
 

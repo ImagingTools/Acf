@@ -44,7 +44,7 @@ int CSingletonApplicationComp::Execute(int argc, char** argv)
 	if (m_isAlreadyRunning){
 		qDebug("Application already started");
 
-		return 0;	
+		return 0;
 	}
 
 	if (m_slaveApplicationCompPtr.IsValid()){
@@ -83,14 +83,14 @@ void CSingletonApplicationComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_applicationInfoCompPtr.IsValid()){	
+	if (m_applicationInfoCompPtr.IsValid()){
 		QString applicationId = QString("%1/%2/%3")
-					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME))
-					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME))
-					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
+					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME, false))
+					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false))
+					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME, false));
 
 		m_processData.SetPtr(new QSharedMemory(applicationId));
-		
+
 		m_isAlreadyRunning = false;
 
 		if (!m_processData->attach()){

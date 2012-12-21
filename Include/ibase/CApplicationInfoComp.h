@@ -37,7 +37,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::IApplicationInfo)
-	virtual QString GetApplicationAttribute(int attributeId) const;
+	virtual QString GetApplicationAttribute(int attributeId, bool allowTranslation = true) const;
 	virtual int GetMainVersionId() const;
 	virtual const iser::IVersionInfo& GetVersionInfo() const;
 

@@ -38,11 +38,11 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const QString
 {
 	if (IsOperationSupported(&data, NULL, QF_LOAD | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(&data);
-		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
-			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
-			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){
+			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false);
+			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME, false);
 
-			QSettings::Scope scope = m_scopeAttrPtr.IsValid() ? QSettings::Scope(*m_scopeAttrPtr) : QSettings::UserScope; 
+			QSettings::Scope scope = m_scopeAttrPtr.IsValid() ? QSettings::Scope(*m_scopeAttrPtr) : QSettings::UserScope;
 
 			CSettingsReadArchive archive(companyName, applicationName, *m_rootKeyAttrPtr, scope);
 
@@ -66,11 +66,11 @@ int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const QSt
 {
 	if (IsOperationSupported(&data, NULL, QF_SAVE | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));
-		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){ 
-			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
-			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+		if (m_applicationInfoCompPtr.IsValid() && (serializeblePtr != NULL)){
+			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME, false);
+			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false);
 
-			QSettings::Scope scope = m_scopeAttrPtr.IsValid() ? QSettings::Scope(*m_scopeAttrPtr) : QSettings::UserScope; 
+			QSettings::Scope scope = m_scopeAttrPtr.IsValid() ? QSettings::Scope(*m_scopeAttrPtr) : QSettings::UserScope;
 
 			CSettingsWriteArchive archive(
 						companyName,
@@ -78,7 +78,7 @@ int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const QSt
 						*m_rootKeyAttrPtr,
 						scope,
 						&m_applicationInfoCompPtr->GetVersionInfo());
-		
+
 			if (serializeblePtr->Serialize(archive)){
 				return StateOk;
 			}

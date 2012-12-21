@@ -127,9 +127,9 @@ bool CMainWindowGuiComp::OnDetached(imod::IModel* modelPtr)
 	bool retVal = BaseClass2::OnDetached(modelPtr);
 
 	if (retVal){
-		if (m_applicationInfoCompPtr.IsValid()){ 
-			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
-			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+		if (m_applicationInfoCompPtr.IsValid()){
+			QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false);
+			QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME, false);
 
 			iqt::CSettingsWriteArchive archive(
 						companyName,
@@ -244,7 +244,7 @@ void CMainWindowGuiComp::SetupNewCommand()
 	if (!m_documentManagerCompPtr.IsValid()){
 		return;
 	}
-	
+
 	idoc::IDocumentTypesInfo::Ids ids = m_documentManagerCompPtr->GetDocumentTypeIds();
 	if (ids.isEmpty()){
 		return;
@@ -359,7 +359,7 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 					QString filePath = commandPtr->GetActionString();
 
 					retVal = retVal && archive.BeginTag(filePathTag);
-					retVal = retVal && archive.Process(filePath);					
+					retVal = retVal && archive.Process(filePath);
 					retVal = retVal && archive.EndTag(filePathTag);
 				}
 			}
@@ -391,7 +391,7 @@ bool CMainWindowGuiComp::SerializeRecentFileList(iser::IArchive& archive)
 			for (int fileIndex = 0; fileIndex < filesCount; fileIndex++){
 				QString filePath;
 				retVal = retVal && archive.BeginTag(filePathTag);
-				retVal = retVal && archive.Process(filePath);					
+				retVal = retVal && archive.Process(filePath);
 				retVal = retVal && archive.EndTag(filePathTag);
 
 				if (retVal && !filePath.isEmpty()){
@@ -486,7 +486,7 @@ void CMainWindowGuiComp::UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixed
 		if (m_activeDocumentPtr != NULL){
 			if (m_documentManagerCompPtr.IsValid()){
 				QByteArray documentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*m_activeDocumentPtr);
-					
+
 				if (m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_EDIT_DOCUMENT, documentTypeId)){
 					fixedCommands.InsertChild(&m_editCommand, false, 1);
 				}
@@ -560,7 +560,7 @@ void CMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCom
 		if (activeViewPtr != NULL){
 			activeDocumentPtr = m_documentManagerCompPtr->GetDocumentFromView(*activeViewPtr);
 		}
-		else{		
+		else{
 			activeDocumentPtr = NULL;
 		}
 	}
@@ -587,8 +587,8 @@ void CMainWindowGuiComp::OnGuiCreated()
 	}
 
 	UpdateUndoMenu();
-	
- 	mainWindowPtr->setAcceptDrops(true);
+
+	mainWindowPtr->setAcceptDrops(true);
 
 	// load the document from command line:
 	if (m_applicationCompPtr.IsValid()){
@@ -635,7 +635,7 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_undoCommand.setShortcut(tr("Ctrl+Z"));
 	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), QIcon(":/Icons/Redo.svg"));
 	m_redoCommand.setShortcut(tr("Ctrl+Shift+Z"));
-	
+
 	// View commands
 	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_fullScreenCommand.setShortcut(tr("F11"));
@@ -731,8 +731,8 @@ void CMainWindowGuiComp::OnComponentCreated()
 	if (m_documentManagerModelCompPtr.IsValid()){
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
-	
-	if (m_applicationInfoCompPtr.IsValid()){ 
+
+	if (m_applicationInfoCompPtr.IsValid()){
 		QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
 		QString companyName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
 
@@ -844,7 +844,7 @@ void CMainWindowGuiComp::OnQuit()
 void CMainWindowGuiComp::OnUndo()
 {
 	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
-	
+
 	m_activeUndoManager.GetObjectPtr()->DoUndo();
 
 	UpdateUndoMenu();
@@ -856,7 +856,7 @@ void CMainWindowGuiComp::OnRedo()
 	I_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
 
 	m_activeUndoManager.GetObjectPtr()->DoRedo();
-	
+
 	UpdateUndoMenu();
 }
 
@@ -990,7 +990,7 @@ bool CMainWindowGuiComp::ActiveUndoManager::OnAttached(imod::IModel* modelPtr)
 
 
 // protected methods of embedded class ActiveUndoManager
-		
+
 // reimplemented (imod::CSingleModelObserverBase)
 
 void CMainWindowGuiComp::ActiveUndoManager::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)

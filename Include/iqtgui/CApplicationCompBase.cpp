@@ -140,10 +140,10 @@ void CApplicationCompBase::InitializeComponentApplication()
 
 	if (m_applicationInfoCompPtr.IsValid()){
 		// set up application data
-		QString mainVersionText = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_MAIN_VERSION);
+		QString mainVersionText = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_MAIN_VERSION, false);
 		m_applicationPtr->setApplicationVersion(mainVersionText);
 
-		QString companyNameText = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+		QString companyNameText = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME, false);
 		m_applicationPtr->setOrganizationName(companyNameText);
 	}
 
