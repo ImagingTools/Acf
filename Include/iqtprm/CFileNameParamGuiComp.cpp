@@ -241,7 +241,7 @@ void CFileNameParamGuiComp::SetPathToEditor(const QString& path) const
 	
 	iqt::CSignalBlocker blocker(DirEdit);
 
-	int currsorPosition = DirEdit->lineEdit()->cursorPosition();
+	int cursorPosition = DirEdit->lineEdit()->cursorPosition();
 
 	QString normalizedPath;
 	iqtgui::CExtLineEdit* lineEdit = dynamic_cast<iqtgui::CExtLineEdit*>(DirEdit->lineEdit());
@@ -264,7 +264,7 @@ void CFileNameParamGuiComp::SetPathToEditor(const QString& path) const
 	}
 
 	DirEdit->setEditText(normalizedPath);
-	lineEdit->setCursorPosition(currsorPosition);
+	lineEdit->setCursorPosition(lineEdit->isReadOnly() ? normalizedPath.length() : cursorPosition);
 }
 
 
