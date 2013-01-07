@@ -181,12 +181,14 @@ bool CPolygon::GetInvTransformed(
 	return false;
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CPolygon::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CPolygon::CopyFrom(const IChangeable& object)
 {
@@ -208,6 +210,7 @@ bool CPolygon::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CPolygon::CloneMe() const 
 {

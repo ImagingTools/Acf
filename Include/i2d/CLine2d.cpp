@@ -657,12 +657,14 @@ bool CLine2d::GetInvTransformed(
 	return true;
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CLine2d::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CLine2d::CopyFrom(const IChangeable& object)
 {
@@ -681,6 +683,7 @@ bool CLine2d::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CLine2d::CloneMe() const 
 {

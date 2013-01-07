@@ -206,12 +206,14 @@ bool CAnnulus::GetInvTransformed(
 	return annulusPtr->Transform(transformation, mode, errorFactorPtr);
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CAnnulus::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CAnnulus::CopyFrom(const IChangeable& object)
 {
@@ -231,6 +233,7 @@ bool CAnnulus::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CAnnulus::CloneMe() const 
 {

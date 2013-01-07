@@ -103,12 +103,14 @@ bool CPolypoint::GetInvTransformed(
 	return false;
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CPolypoint::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CPolypoint::CopyFrom(const IChangeable& object)
 {
@@ -131,6 +133,7 @@ bool CPolypoint::CopyFrom(const IChangeable& object)
 	return false;
 }
 
+
 istd::IChangeable* CPolypoint::CloneMe() const 
 {
 	istd::TDelPtr<CPolypoint> clonePtr(new CPolypoint);
@@ -141,6 +144,7 @@ istd::IChangeable* CPolypoint::CloneMe() const
 
 	return NULL;
 }
+
 
 // reimplemented (iser::ISerializable)
 

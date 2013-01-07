@@ -46,12 +46,14 @@ bool COrientedCircle::operator!=(const COrientedCircle& ref) const
 	return BaseClass::operator!=(ref) || (ref.m_orientedOutside != m_orientedOutside);
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int COrientedCircle::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool COrientedCircle::CopyFrom(const IChangeable& object)
 {
@@ -71,6 +73,7 @@ bool COrientedCircle::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* COrientedCircle::CloneMe() const 
 {

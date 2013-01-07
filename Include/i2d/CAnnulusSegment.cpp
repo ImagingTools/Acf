@@ -111,6 +111,7 @@ int CAnnulusSegment::GetSupportedOperations() const
 	return SO_COPY | SO_CLONE;
 }
 
+
 bool CAnnulusSegment::CopyFrom(const IChangeable& object)
 {
 	const CAnnulusSegment* annulusSegmentPtr = dynamic_cast<const CAnnulusSegment*>(&object);
@@ -131,6 +132,7 @@ bool CAnnulusSegment::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CAnnulusSegment::CloneMe() const 
 {

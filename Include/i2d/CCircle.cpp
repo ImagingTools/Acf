@@ -161,12 +161,14 @@ bool CCircle::GetInvTransformed(
 	return circlePtr->InvTransform(transformation, mode, errorFactorPtr);
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CCircle::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CCircle::CopyFrom(const IChangeable& object)
 {
@@ -185,6 +187,7 @@ bool CCircle::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CCircle::CloneMe() const 
 {
