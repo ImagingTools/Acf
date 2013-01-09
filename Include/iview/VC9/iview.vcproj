@@ -168,6 +168,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\CAffineTransformation2dShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CAffiniteCalibrationShape.cpp"
 				>
 			</File>
@@ -357,6 +361,10 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\CAffineTransformation2dShape.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CAffiniteCalibrationShape.h"
 				>

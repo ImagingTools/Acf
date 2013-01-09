@@ -26,7 +26,7 @@ public:
 	virtual void BeginDrag(const i2d::CVector2d& position);
 	virtual void SetDragPosition(const i2d::CVector2d& position);
 
-	// reimplement (iview::IVisualizable)
+	// reimplemented (iview::IVisualizable)
 	virtual bool IsDisplayAccepted(const iview::IDisplay& display) const;
 	virtual void OnConnectDisplay(iview::IDisplay* displayPtr);
 	virtual void OnDisconnectDisplay(iview::IDisplay* displayPtr);
