@@ -22,6 +22,7 @@ class CTubeNode: public iser::ISerializable
 {
 public:
 	CTubeNode();
+	CTubeNode(const CTubeNode& node);
 
 	/**
 		Get boundaries of the tube node.

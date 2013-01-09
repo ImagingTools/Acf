@@ -5,6 +5,8 @@
 // ACF includes
 #include "i2d/CDataNodePolylineBase.h"
 
+#include "istd/TChangeNotifier.h"
+
 
 namespace i2d
 {
@@ -12,13 +14,13 @@ namespace i2d
 
 /**
 	Generic polyline implementation with additional information stored for each node.
-	\note Template parameter \c NodeData must be derrived from iser::ISerializable.
+	\note Template parameter \c NodeData must be derived from iser::ISerializable.
 */
 template<class NodeData>
 class TDataNodePolyline: public CDataNodePolylineBase
 {
 public:
-	typedef CPolyline BaseClass;
+	typedef CDataNodePolylineBase BaseClass;
 
 	/**
 		Get user data from the given node.
@@ -39,6 +41,9 @@ public:
 	virtual bool InsertNode(const i2d::CVector2d& node);
 	virtual bool InsertNode(int index, const i2d::CVector2d& node);
 	virtual bool RemoveNode(int index);
+
+	// reimplemented istd::IChangeable
+	virtual bool CopyFrom(const IChangeable& object);
 
 protected:
 	// reimplemented (i2d::CPolygon)
@@ -98,6 +103,7 @@ template<class NodeData>
 inline void TDataNodePolyline<NodeData>::Clear()
 {
 	m_nodesData.clear();
+
 	BaseClass::Clear();
 }
 
@@ -130,6 +136,34 @@ bool TDataNodePolyline<NodeData>::RemoveNode(int index)
 	m_nodesData.erase(iter);
 
 	return BaseClass::RemoveNode(index);
+}
+
+
+// reimplemented istd::IChangeable
+
+template<class NodeData>
+bool TDataNodePolyline<NodeData>::CopyFrom(const IChangeable& object)
+{
+	Clear();
+
+	const TDataNodePolyline<NodeData>* polygonPtr = dynamic_cast<const TDataNodePolyline<NodeData>*>(&object);
+
+	if (polygonPtr != NULL){		
+		istd::CChangeNotifier notifier(this);
+
+		SetCalibration(polygonPtr->GetCalibration());
+
+		int sourceNodesCount = polygonPtr->GetNodesCount();
+		for (int nodesIndex = 0; nodesIndex < sourceNodesCount; nodesIndex++){		
+			InsertNode(polygonPtr->GetNode(nodesIndex));
+
+			m_nodesData[nodesIndex] = polygonPtr->m_nodesData[nodesIndex];
+		}
+
+		return true;
+	}	
+
+	return false;
 }
 
 
