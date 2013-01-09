@@ -239,7 +239,7 @@ void CAffineTransformation2dShape::Draw(QPainter& drawContext) const
 	// draw full and empty circles representing control points
 	for (int i = 1; i <= 5; i++){
 		if ((m_activeControlPoints & i) != NO_POINT){
-			drawContext.
+//			drawContext.
 		}
 		else{
 		}
