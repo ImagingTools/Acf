@@ -36,7 +36,7 @@ public:
 	virtual void UpdateModel() const;
 
 protected:
-	// reimplemenented (iqtgui::TGuiObserverWrap)
+	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags = 0);
 
 	// reimplemented (iqtgui::CGuiComponentBase)

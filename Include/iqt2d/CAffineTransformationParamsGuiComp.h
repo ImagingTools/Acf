@@ -17,7 +17,7 @@ namespace iqt2d
 /**
 	Gui Editor for shape affine transformation parameters
  */
-class CAffineTransformationParamsGui:
+class CAffineTransformationParamsGuiComp:
 			public iqt2d::TShapeParamsGuiCompBase<
 						Ui::CAffineTransformationParamsGui,
 						iview::CAffineTransformation2dShape,
