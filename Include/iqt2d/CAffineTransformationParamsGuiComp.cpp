@@ -22,6 +22,17 @@ void CAffineTransformationParamsGuiComp::UpdateModel() const
 }
 
 
+void CAffineTransformationParamsGuiComp::CreateShapes(int sceneId, Shapes& result)
+{
+	BaseClass::CreateShapes(sceneId, result);
+	for (int i = 0; i < result.GetCount(); i++){
+		iview::CAffineTransformation2dShape* shape = dynamic_cast<iview::CAffineTransformation2dShape*>(result.GetAt(i));
+		if (shape != NULL){
+			shape->SetEditablePosition();
+		}
+	}
+}
+
 // protected methods
 
 

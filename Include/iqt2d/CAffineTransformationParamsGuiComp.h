@@ -30,6 +30,8 @@ public:
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 
+	virtual void CreateShapes(int sceneId, Shapes& result);
+
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
