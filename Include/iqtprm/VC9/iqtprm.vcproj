@@ -432,10 +432,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CParamsManagerGuiComp.ui"
-				>
-			</File>
-			<File
 				RelativePath="..\CParamsManagerGuiCompBase.ui"
 				>
 			</File>
