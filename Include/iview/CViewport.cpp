@@ -58,29 +58,29 @@ void CViewport::UpdateFitTransform()
 	if (m_framePtr->m_isZoomToFit){
 		m_framePtr->m_isZoomToFit = false;
 		switch (m_framePtr->m_fitMode){
-		case CConsoleBase::FM_RESET:
-			SetZoom(iview::CViewBase::ZM_RESET);
-			break;
+			case CConsoleBase::FM_RESET:
+				SetZoom(iview::CViewBase::ZM_RESET);
+				break;
 
-		case CConsoleBase::FM_BOTH:
-			SetZoom(iview::CViewBase::ZM_FIT);
-			break;
+			case CConsoleBase::FM_BOTH:
+				SetZoom(iview::CViewBase::ZM_FIT);
+				break;
 
-		case CConsoleBase::FM_HORIZONTAL:
-			SetZoom(iview::CViewBase::ZM_FIT_H);
-			break;
+			case CConsoleBase::FM_HORIZONTAL:
+				SetZoom(iview::CViewBase::ZM_FIT_H);
+				break;
 
-		case CConsoleBase::FM_VERTICAL:
-			SetZoom(iview::CViewBase::ZM_FIT_V);
-			break;
+			case CConsoleBase::FM_VERTICAL:
+				SetZoom(iview::CViewBase::ZM_FIT_V);
+				break;
 
-		case CConsoleBase::FM_UNPROP:
-			SetZoom(iview::CViewBase::ZM_FIT_UNPROP);
-			break;
+			case CConsoleBase::FM_UNPROP:
+				SetZoom(iview::CViewBase::ZM_FIT_UNPROP);
+				break;
 
-		case CConsoleBase::FM_COVER:
-			SetZoom(iview::CViewBase::ZM_FIT_COVER);
-			break;
+			case CConsoleBase::FM_COVER:
+				SetZoom(iview::CViewBase::ZM_FIT_COVER);
+				break;
 		}
 		m_framePtr->m_isZoomToFit = true;
 	}
@@ -100,7 +100,7 @@ void CViewport::SetEditMode(int mode)
 {
 	if (mode != GetEditMode()){
 		BaseClass::SetEditMode(mode);
-		
+
 		m_framePtr->UpdateEditModeButtons();
 	}
 }
@@ -129,22 +129,21 @@ i2d::CRect CViewport::GetClientRect() const
 // reimplement (IViewEventObserver)
 
 bool CViewport::OnSelectChange(
-			const iview::IShapeView& view,
-			const istd::CIndex2d& position,
-			const iview::IInteractiveShape& shape,
-			bool state)
+		const iview::IShapeView& view,
+		const istd::CIndex2d& position,
+		const iview::IInteractiveShape& shape,
+		bool state)
 {
 	return m_framePtr->OnSelectChange(view, position, shape, state);
 }
 
 
-
 bool CViewport::OnMouseButton(
-			const IShapeView& view,
-			const istd::CIndex2d& position,
-			Qt::MouseButton buttonType,
-			bool state,
-			const IInteractiveShape* shapePtr)
+		const IShapeView& view,
+		const istd::CIndex2d& position,
+		Qt::MouseButton buttonType,
+		bool state,
+		const IInteractiveShape* shapePtr)
 {
 	if (!state){
 		m_framePtr->UpdateButtonsState();
@@ -162,10 +161,14 @@ bool CViewport::OnMouseMove(istd::CIndex2d position)
 
 	// info text
 	QString infoText;
-	int backgroundLayerIndex = GetBackgroundLayerIndex();
-	if (backgroundLayerIndex >= 0){
-		const iview::IViewLayer& backgroundLayer = GetLayer(backgroundLayerIndex);
-		infoText = backgroundLayer.GetShapeDescriptionAt(position);
+	for (int i = 0; i < GetLayersCount(); i++){
+		QString infoPart = GetLayer(i).GetShapeDescriptionAt(position);
+		if (!infoPart.isEmpty()){
+			if (!infoText.isEmpty()){
+				infoText += ", ";
+			}
+			infoText += infoPart;
+		}
 	}
 
 	// pixel position
@@ -190,7 +193,7 @@ bool CViewport::OnMouseMove(istd::CIndex2d position)
 	return retVal;
 }
 
-	
+
 // reimplemented (iview::CCalibratedViewBase)
 
 void CViewport::ConnectCalibrationShape(iview::IShape* shapePtr)
