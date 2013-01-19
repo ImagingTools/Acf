@@ -234,7 +234,10 @@ i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition, 
 
 	i2d::CVector2d logPosition = m_displayPtr->GetTransform().GetInvertedApply(screenPosition);
 	if (calibrationPtr != NULL){
-		logPosition = calibrationPtr->GetInvValueAt(logPosition);
+		i2d::CVector2d calibratedPosition;
+		if (!calibrationPtr->GetInvValueAt(logPosition, calibratedPosition)){
+			calibratedPosition = logPosition;
+		}
 	}
 
 	return logPosition;
