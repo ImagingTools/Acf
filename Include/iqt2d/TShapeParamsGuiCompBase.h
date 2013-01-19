@@ -89,7 +89,9 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* mo
 			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
 				Shape* shapePtr = dynamic_cast<Shape*>(shapes.GetAt(shapeIndex));
 				if (shapePtr != NULL){
-					modelPtr->DetachObserver(shapePtr);
+					if (modelPtr->IsAttached(shapePtr)){
+						modelPtr->DetachObserver(shapePtr);
+					}
 
 					shapePtr->SetVisible(false);
 				}
