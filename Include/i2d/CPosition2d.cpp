@@ -1,6 +1,7 @@
 #include "i2d/CPosition2d.h"
 
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "i2d/CRectangle.h"
@@ -9,8 +10,9 @@
 #include "iser/CArchiveTag.h"
 #include "istd/TDelPtr.h"
 
+
 namespace i2d
-{	
+{
 
 
 CPosition2d::CPosition2d()
@@ -151,7 +153,7 @@ bool CPosition2d::GetInvTransformed(
 
 int CPosition2d::GetSupportedOperations() const
 {
-	return SO_COPY | SO_CLONE;
+	return SO_COPY | SO_CLONE | SO_COMPARE;
 }
 
 
@@ -160,14 +162,24 @@ bool CPosition2d::CopyFrom(const IChangeable& object)
 	const CPosition2d* position2dPtr = dynamic_cast<const CPosition2d*>(&object);
 
 	if (position2dPtr != NULL){
-
 		istd::CChangeNotifier notifier(this);
 		
 		SetCalibration(position2dPtr->GetCalibration());
 		SetPosition(position2dPtr->GetPosition());
 
 		return true;
-	}	
+	}
+
+	return false;
+}
+
+
+bool CPosition2d::IsEqual(const istd::IChangeable& object) const
+{
+	const CPosition2d* position2dPtr = dynamic_cast<const CPosition2d*>(&object);
+	if (position2dPtr != NULL){
+		return (m_position == position2dPtr->m_position);
+	}
 
 	return false;
 }

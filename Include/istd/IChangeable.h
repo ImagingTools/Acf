@@ -50,17 +50,29 @@ public:
 	enum SupportedOperations
 	{
 		/**
+			No operations are supported.
+		*/
+		SO_NONE = 0,
+
+		/**
 			Observing of this object via observer-observable pattern.
 		*/
 		SO_OBSERVE = 1,
+		
 		/**
 			Copying from other object.
 		*/
 		SO_COPY = 2,
+		
 		/**
 			Creating of copy of this object.
 		*/
-		SO_CLONE = 4
+		SO_CLONE = 4,
+
+		/**
+			Comparsion with another object.
+		*/
+		SO_COMPARE = 8
 	};
 
 	/**
@@ -90,6 +102,13 @@ public:
 		Default implementation in istd::IChangeable do nothing.
 	*/
 	virtual bool CopyFrom(const IChangeable& object);
+
+	/**
+		Compare this object with another object.
+		\param object	Object to be compared
+		\return \c true if the objects are identical and \c false otherwise.
+	*/
+	virtual bool IsEqual(const IChangeable& object) const;
 
 	/**
 		Make a copy of this object.
@@ -129,11 +148,17 @@ inline void IChangeable::EndChanges(int changeFlags, istd::IPolymorphic* changeP
 
 inline int IChangeable::GetSupportedOperations() const
 {
-	return 0;
+	return SO_NONE;
 }
 
 
 inline bool IChangeable::CopyFrom(const IChangeable& /*object*/)
+{
+	return false;
+}
+
+
+inline bool IChangeable::IsEqual(const IChangeable& /*object*/) const
 {
 	return false;
 }

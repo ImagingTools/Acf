@@ -6,7 +6,7 @@
 
 
 namespace i2d
-{	
+{
 
 
 class CRectangle;

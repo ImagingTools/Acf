@@ -1,4 +1,8 @@
-#include "CInteractiveShapeBase.h"
+#ifndef iview_CAffineTransformation2dShape_included
+#define iview_CAffineTransformation2dShape_included
+
+
+#include "iview/CInteractiveShapeBase.h"
 
 
 namespace iview
@@ -11,18 +15,22 @@ namespace iview
 class CAffineTransformation2dShape: public CInteractiveShapeBase
 {
 public:
-	CAffineTransformation2dShape();
-
-
 	enum ControlPoint
 	{
-		NO_POINT = 0, POINT1 = 1, POINT2 = 2, POINT3 = 4,
-		POINT4 = 8, POINT5 = 16, ALL_POINTS = POINT1 | POINT2 | POINT3 | POINT4 | POINT5
+		NO_POINT = 0,
+		POINT1 = 1,
+		POINT2 = 2,
+		POINT3 = 4,
+		POINT4 = 8,
+		POINT5 = 16,
+		ALL_POINTS = POINT1 | POINT2 | POINT3 | POINT4 | POINT5
 	};
 
+	CAffineTransformation2dShape();
+
 	/**
-		Set control points that can be moved by the user (OR'ed ControlPoints)
-	 */
+		Set control points that can be moved by the user (OR'ed ControlPoints).
+	*/
 	void SetActiveControlPoints(ControlPoint points = ALL_POINTS);
 
 	// reimplemented (iview::IMouseActionObserver)
@@ -49,8 +57,14 @@ protected:
 private:
 	i2d::CVector2d m_referencePosition;
 	int m_activeControlPoints;
+
 	ControlPoint m_currentPoint; ///< point pressed by mouse
 };
 
-}
+
+} // namespace iview
+
+
+#endif // !iview_CAffineTransformation2dShape_included
+
 

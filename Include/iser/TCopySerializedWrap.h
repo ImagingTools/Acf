@@ -19,6 +19,7 @@ namespace iser
 	\ingroup Helpers
 */
 extern bool CopyByArchive(const istd::IChangeable& object, istd::IChangeable& result);
+extern bool CompareByArchive(const istd::IChangeable& object1, const istd::IChangeable& object2);
 /// @endcond
 
 
@@ -30,6 +31,7 @@ public:
 
 	// pseudo-reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const istd::IChangeable& object);
+	virtual bool IsEqual(const istd::IChangeable& object) const;
 };
 
 
@@ -46,6 +48,17 @@ bool TCopySerializedWrap<Base>::CopyFrom(const istd::IChangeable& object)
 	else{
 		return CopyByArchive(object, *this);
 	}
+}
+
+
+template <class Base>
+bool TCopySerializedWrap<Base>::IsEqual(const istd::IChangeable& object) const
+{
+	if ((GetSupportedOperations() & SO_COMPARE) && (object.GetSupportedOperations() & SO_COMPARE)){
+		return BaseClass::IsEqual(object);
+	}
+
+	return CompareByArchive(object, *this);
 }
 
 

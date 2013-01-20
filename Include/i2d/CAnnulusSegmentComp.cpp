@@ -2,7 +2,8 @@
 
 
 namespace i2d
-{		
+{
+
 
 // protected methods
 

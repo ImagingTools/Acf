@@ -58,10 +58,10 @@ int TModelWrap<Base>::GetSupportedOperations() const
 	int baseOperations = Base::GetSupportedOperations();
 
 	if ((baseOperations & istd::IChangeable::SO_COPY) != 0){
-		return baseOperations | istd::IChangeable::SO_CLONE | istd::IChangeable::SO_OBSERVE;
+		return baseOperations | istd::IChangeable::SO_CLONE | istd::IChangeable::SO_OBSERVE | istd::IChangeable::SO_COMPARE;
 	}
 	else{
-		return baseOperations | istd::IChangeable::SO_OBSERVE;
+		return baseOperations | istd::IChangeable::SO_OBSERVE | istd::IChangeable::SO_COMPARE;
 	}
 }
 

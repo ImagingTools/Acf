@@ -42,3 +42,4 @@ bool CDataNodePolylineBase::Serialize(iser::IArchive& archive)
 
 } // namespace i2d
 
+

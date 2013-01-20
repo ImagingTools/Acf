@@ -40,3 +40,5 @@ private:
 
 
 #endif // !i2d_CPolygonComp_included
+
+

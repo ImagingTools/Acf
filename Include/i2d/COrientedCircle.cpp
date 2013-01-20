@@ -10,7 +10,7 @@
 
 
 namespace i2d
-{	
+{
 
 
 COrientedCircle::COrientedCircle()
@@ -108,4 +108,5 @@ bool COrientedCircle::Serialize(iser::IArchive& archive)
 
 
 } // namespace i2d
+
 

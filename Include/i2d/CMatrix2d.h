@@ -279,3 +279,4 @@ inline const CMatrix2d& CMatrix2d::GetIdentity()
 
 #endif // !i2d_CMatrix2d_included
 
+

@@ -31,6 +31,7 @@ const CSplineSegment& CSpline::GetSplineSegment(int index) const
 	return m_segments[index];
 }
 
+
 bool CSpline::InsertSplineSegment(const CSplineSegment& segment)
 {
 	m_segments.push_back(segment);
@@ -38,12 +39,14 @@ bool CSpline::InsertSplineSegment(const CSplineSegment& segment)
 	return true;
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CSpline::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CSpline::CopyFrom(const IChangeable& object)
 {
@@ -65,6 +68,7 @@ bool CSpline::CopyFrom(const IChangeable& object)
 
 	return false;
 }
+
 
 istd::IChangeable* CSpline::CloneMe() const 
 {
@@ -138,3 +142,5 @@ void CSpline::SolveOpen(double* d,int count)
 
 
 } // namespace i2d
+
+

@@ -11,7 +11,7 @@
 
 
 namespace i2d
-{	
+{
 
 
 class CRectangle;
@@ -254,9 +254,9 @@ private:
 	CVector2d m_point1;
 	CVector2d m_point2;		
 };
-	
 
-// inline methods
+
+// public inline methods
 
 inline bool CLine2d::operator == (const CLine2d& line) const
 {
@@ -390,3 +390,5 @@ inline QPair<double, double> CLine2d::GetAlphaAndCastDistance(const i2d::CVector
 
 
 #endif // !i2d_CLine2d_included
+
+

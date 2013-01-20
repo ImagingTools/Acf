@@ -1,8 +1,10 @@
 #include "i2d/CSplineSegment.h"
 
-//ACF
+
+// ACF includes
 #include "istd/TDelPtr.h"
 #include "istd/TChangeNotifier.h"
+
 
 namespace i2d
 {
@@ -84,12 +86,14 @@ bool CSplineSegment::IsCloserThan(const i2d::CVector2d position, double distance
 	return false;
 }
 
+
 // reimplemented (istd::IChangeable)
 
 int CSplineSegment::GetSupportedOperations() const
 {
 	return SO_COPY | SO_CLONE;
 }
+
 
 bool CSplineSegment::CopyFrom(const IChangeable& object)
 {
@@ -110,6 +114,7 @@ bool CSplineSegment::CopyFrom(const IChangeable& object)
 	return false;
 }
 
+
 istd::IChangeable* CSplineSegment::CloneMe() const 
 {
 	istd::TDelPtr<CSplineSegment> clonePtr(new CSplineSegment);
@@ -122,6 +127,6 @@ istd::IChangeable* CSplineSegment::CloneMe() const
 }
 
 
-
 } // namespace i2d
+
 

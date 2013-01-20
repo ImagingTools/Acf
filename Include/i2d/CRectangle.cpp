@@ -1,6 +1,7 @@
 #include "i2d/CRectangle.h"
 
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "i2d/CVector2d.h"
@@ -12,7 +13,7 @@
 
 
 namespace i2d
-{	
+{
 
 
 CRectangle::CRectangle()
@@ -636,7 +637,7 @@ bool CRectangle::Serialize(iser::IArchive& archive)
 	return retVal;
 }
 
-	
+
 } // namespace i2d
 
 

@@ -1,6 +1,7 @@
 #include "i2d/CAnnulusSegment.h"
 
 
+// ACF includes
 #include "istd/TChangeNotifier.h"
 
 #include "iser/IArchive.h"
@@ -10,7 +11,7 @@
 #include "istd/TDelPtr.h"
 
 namespace i2d
-{	
+{
 
 
 CAnnulusSegment::CAnnulusSegment()

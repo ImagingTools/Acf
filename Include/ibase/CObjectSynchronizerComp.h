@@ -28,7 +28,7 @@ public:
 	I_BEGIN_COMPONENT(CObjectSynchronizerComp);
 		I_ASSIGN(m_referenceObjectCompPtr, "ReferenceObject", "Reference data object", true, "ReferenceObject");
 		I_ASSIGN_TO(m_referenceObjectModelCompPtr, m_referenceObjectCompPtr, true);
-		I_ASSIGN_MULTI_0(m_slaveObjectsCompPtr, "SlaveObjects", "The list of object which will be hold synchronized with reference object", true);		
+		I_ASSIGN_MULTI_0(m_slaveObjectsCompPtr, "SlaveObjects", "The list of object which will be hold synchronized with reference object", true);
 	I_END_COMPONENT;
 	
 protected:

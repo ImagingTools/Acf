@@ -1,18 +1,21 @@
-#include "CAffineTransformation2dShape.h"
-#include <i2d/CAffineTransformation2d.h>
-#include "IColorSchema.h"
-#include "CConsoleBase.h"
+#include "iview/CAffineTransformation2dShape.h"
+
 
 // Qt includes
 #include <QtGui/QPainter>
+
+// ACF includes
+#include <i2d/CAffineTransformation2d.h>
+#include <iview/IColorSchema.h>
+#include <iview/CConsoleBase.h>
+
 
 namespace iview
 {
 
 
-CAffineTransformation2dShape::CAffineTransformation2dShape(void)
-//: m_activeControlPoints(POINT1 | POINT2), m_currentPoint(NO_POINT)
-: m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
+CAffineTransformation2dShape::CAffineTransformation2dShape()
+	:m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
 {
 }
 
@@ -119,7 +122,7 @@ struct ControlPoints
 		After using this method, call ResetTransformation() to apply changes to 
 		the model.
 	 */
-	void MovePoint(int point, i2d::CVector2d offset)
+	void MovePoint(int /*point*/, i2d::CVector2d /*offset*/)
 	{
 		
 	}
