@@ -10,6 +10,7 @@
 #include "imod/IModel.h"
 
 #include "i2d/COrientedCircle.h"
+#include <i2d/CPolylineExtractor.h>
 
 #include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
@@ -104,8 +105,6 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 	drawContext.restore();
 
 	if (IsEditableRadius() && IsSelected()){
-
-
 		istd::CIndex2d ticker1 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));
 		istd::CIndex2d ticker2 = transform.GetScreenPosition(i2d::CVector2d(center.GetX() - radius, center.GetY()));
 		istd::CIndex2d ticker3 = transform.GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
@@ -115,6 +114,33 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 		colorSchema.DrawTicker(drawContext, ticker2, IColorSchema::TT_NORMAL);
 		colorSchema.DrawTicker(drawContext, ticker3, IColorSchema::TT_NORMAL);
 		colorSchema.DrawTicker(drawContext, ticker4, IColorSchema::TT_NORMAL);
+	}
+
+	// draw orientation markers as in a polyline
+	const QPen& darkPen = colorSchema.GetPen(IColorSchema::SP_ORIENT_DARK);
+	const QPen& brightPen = colorSchema.GetPen(IColorSchema::SP_ORIENT_BRIGHT);
+
+	// reduce line opacity for the pens; the border is only used to increase visibility on black/white backgrounds
+	QColor brightColor = brightPen.color();
+	QBrush brightBrush(brightColor);
+	brightColor.setAlphaF(0.25);
+	QPen softBrightPen(brightColor);
+
+	QColor darkColor = darkPen.color();
+	QBrush darkBrush(darkColor);
+	darkColor.setAlphaF(0.25);
+	QPen softDarkPen(darkColor);
+
+	i2d::CPolylineExtractor polylineExtractor;
+	const int nodesCount = 8;
+	i2d::CPolyline polyline = polylineExtractor.CreatePolyline(circle, nodesCount, !circle.IsOrientedOutside());
+	i2d::CVector2d firstPoint = transform.GetApply(polyline.GetNode(nodesCount - 1));
+	i2d::CLine2d segmentLine;
+	segmentLine.SetPoint2(firstPoint);
+
+	for (int pointIndex = 0; pointIndex < nodesCount; ++pointIndex){
+		segmentLine.PushEndPoint(transform.GetApply(polyline.GetNode(pointIndex)));
+		DrawOrientationMarker(drawContext, softBrightPen, darkBrush, softDarkPen, brightBrush, segmentLine, transform.GetDeformMatrix().GetApproxScale());
 	}
 }
 

@@ -10,6 +10,9 @@
 #include "iview/ISelectable.h"
 #include "iview/CShapeBase.h"
 
+// Qt includes
+#include <QtGui/QPen>
+
 
 namespace iview
 {
@@ -70,6 +73,19 @@ protected:
 		Draw text on a given position.
 	*/
 	void DrawText(QPainter& drawContext, istd::CIndex2d point, const QString& text) const;
+
+	/** 
+		Draw an orientation marker consisting of two triangles (black for 
+		outside and white for inside)
+	 */
+	virtual void DrawOrientationMarker(
+				QPainter& drawContext,
+				const QPen& rightPen,
+				const QBrush& rightBrush,
+				const QPen& leftPen,
+				const QBrush& leftBrush,
+				const i2d::CLine2d& segmentLine,
+				double scale) const;
 
 	// reimplemented (iview::CShapeBase)
 	virtual int GetDisplayChangesMask();
