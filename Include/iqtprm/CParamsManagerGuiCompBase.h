@@ -78,10 +78,14 @@ private:
 	I_ATTR(bool, m_allowAddRemoveAttrPtr);
 	I_ATTR(bool, m_allowUpDownAttrPtr);
 
+	typedef QMap<int, QIcon> StateIconsMap;
+
 	imod::IModel* m_lastConnectedModelPtr;
 	imod::IObserver* m_lastObserverPtr;
 	QMenu m_startVariableMenus;
 	QMap<QByteArray, int> m_factoryIconIndexMap;
+	StateIconsMap m_stateIconsMap;
+
 };
 
 

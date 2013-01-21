@@ -190,12 +190,7 @@ void CParamsManagerGuiCompBase::UpdateTree()
 
 	ParamsTree->clear();
 
-	int selectedIndex = -1;
-
-	int iconsCount = 0;
-	if (m_iconProviderCompPtr.IsValid()){
-		iconsCount = m_iconProviderCompPtr->GetIconCount();
-	}
+	int selectedIndex = -1;	
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
@@ -220,19 +215,17 @@ void CParamsManagerGuiCompBase::UpdateTree()
 			paramsSetItemPtr->setData(0, Qt::UserRole, paramSetIndex);
 			paramsSetItemPtr->setFlags(itemFlags);
 
-			if (iconsCount > 0){
-				iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(paramSetIndex);
-				if (paramsSetPtr != NULL){
-					QByteArray id = paramsSetPtr->GetFactoryId();
-					if (m_factoryIconIndexMap.contains(id)){
-						int iconIndex = m_factoryIconIndexMap[id];
-						if (iconIndex < iconsCount){
-							QIcon icon = m_iconProviderCompPtr->GetIcon(iconIndex);
-							paramsSetItemPtr->setIcon(0, icon);
-						}
-					}
+			
+			iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(paramSetIndex);
+			if (paramsSetPtr != NULL){
+				QByteArray id = paramsSetPtr->GetFactoryId();
+				if (m_factoryIconIndexMap.contains(id)){
+					int iconIndex = m_factoryIconIndexMap[id];						
+					QIcon icon = m_stateIconsMap.value(iconIndex);
+					paramsSetItemPtr->setIcon(0, icon);						
 				}
 			}
+			
 
 			ParamsTree->addTopLevelItem(paramsSetItemPtr);
 
@@ -427,6 +420,16 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 	ParamsFrame->setVisible(false);
 
 	BaseClass::OnGuiCreated();
+
+
+	// initialize state icons map:
+	if (m_iconProviderCompPtr.IsValid()){
+		for (int fileState = 0; fileState < m_iconProviderCompPtr->GetIconCount(); fileState++){
+			QPixmap pixmap = m_iconProviderCompPtr->GetIcon(fileState).pixmap(QSize(64, 64),QIcon::Normal, QIcon::On);
+			m_stateIconsMap[fileState] = QIcon(pixmap);
+		}
+	}
+
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr);
 }
