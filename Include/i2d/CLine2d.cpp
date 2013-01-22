@@ -102,7 +102,7 @@ double CLine2d::GetIntercept() const
 }
 
 
-bool CLine2d::IsParalell(const CLine2d& line) const
+bool CLine2d::IsParallel(const CLine2d& line) const
 {
 	CVector2d diff = GetDiffVector();
 	CVector2d lineDiff = line.GetDiffVector();
