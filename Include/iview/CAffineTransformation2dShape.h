@@ -15,6 +15,8 @@ namespace iview
 class CAffineTransformation2dShape: public CInteractiveShapeBase
 {
 public:
+
+
 	enum ControlPoint
 	{
 		NO_POINT = 0,
@@ -30,12 +32,8 @@ public:
 
 	/**
 		Set control points that can be moved by the user (OR'ed ControlPoints).
-	*/
+	 */
 	void SetActiveControlPoints(ControlPoint points = ALL_POINTS);
-
-	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
-	virtual bool OnMouseMove(istd::CIndex2d position);
 
 	// reimplemented (iview::IVisualizable)
 	virtual void Draw(QPainter& drawContext) const;
