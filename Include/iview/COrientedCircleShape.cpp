@@ -60,8 +60,11 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 	QBrush emptyBrush(QColor(0, 0, 0), Qt::NoBrush);
 	drawContext.setBrush(emptyBrush);
 
-	// draw direction indicator - uses QPointF to avoid rounding errors
 	if (IsCenterVisible()){
+#if USE_Z_AXIS_DIRECTION_INDICATOR
+		// draw direction indicator according to the right hand rule
+		// uses QPointF to avoid rounding errors
+
 		double dirIndicatorRadius = sqrt(radius);
 		double dirIndicatorScale = sqrt((scale.GetX() + scale.GetY()) / 2);
 
@@ -93,10 +96,12 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 			drawContext.drawLine(QPointF(left, top), QPointF(right, bottom));
 			drawContext.drawLine(QPointF(right, top), QPointF(left, bottom));
 		}
-
-		// draw inside or outside direction
+#else	
+		BaseClass::Draw(drawContext);
+#endif
 	}
 
+	// draw inside or outside direction
 	drawContext.drawEllipse(QRect(
 			QPoint(int(screenCenter.GetX() - radius * scale.GetX()),
 			int(screenCenter.GetY() - radius * scale.GetY())),
@@ -133,7 +138,7 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 
 	i2d::CPolylineExtractor polylineExtractor;
 	const int nodesCount = 8;
-	i2d::CPolyline polyline = polylineExtractor.CreatePolyline(circle, nodesCount, !circle.IsOrientedOutside());
+	i2d::CPolyline polyline = polylineExtractor.CreatePolyline(circle, nodesCount, !circle.IsOrientedOutside(), false);
 	i2d::CVector2d firstPoint = transform.GetApply(polyline.GetNode(nodesCount - 1));
 	i2d::CLine2d segmentLine;
 	segmentLine.SetPoint2(firstPoint);
