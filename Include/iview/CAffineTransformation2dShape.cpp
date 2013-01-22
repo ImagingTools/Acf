@@ -1,33 +1,22 @@
-#include "iview/CAffineTransformation2dShape.h"
+#include "CAffineTransformation2dShape.h"
 
-
-// Qt includes
-#include <QtGui/QPainter>
-
-// ACF includes
+// Acf includes
 #include <i2d/CAffineTransformation2d.h>
 #include <iview/IColorSchema.h>
 #include <iview/CConsoleBase.h>
+
+// Qt includes
+#include <QtGui/QPainter>
 
 
 namespace iview
 {
 
 
-CAffineTransformation2dShape::CAffineTransformation2dShape()
-	:m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
-{
-}
-
-
-void CAffineTransformation2dShape::SetActiveControlPoints(ControlPoint points)
-{
-	m_activeControlPoints = points;
-}
-
-
 namespace
 {
+
+const double baseScale = 100;
 
 
 /** 
@@ -49,9 +38,9 @@ struct ControlPoints
 	ControlPoints(int size, const i2d::CAffineTransformation2d * transformationPtr = NULL)
 	{
 		// points delimiting the original (not transformed) coordinate system
-		points[0] = i2d::CVector2d(0, size);
-		points[1] = i2d::CVector2d(size, size);
-		points[2] = i2d::CVector2d(0, 0);
+		points[0] = i2d::CVector2d(0, 0);
+		points[1] = i2d::CVector2d(size, 0);
+		points[2] = i2d::CVector2d(0, -size);
 
 		if (transformationPtr != NULL){
 			points[0] = transformationPtr->GetValueAt(points[0]);
@@ -71,7 +60,7 @@ struct ControlPoints
 	 */
 	ControlPoints ToScreen(const iview::CScreenTransform & transform)
 	{
-		ControlPoints result(100);
+		ControlPoints result(baseScale);
 		for (int i = 0; i < 5; i++){
 			result.points[i] = transform.GetApply(points[i]);
 		}
@@ -87,11 +76,7 @@ struct ControlPoints
 	 */
 	void ResetTransformation(i2d::CAffineTransformation2d * transformationPtr)
 	{
-		i2d::CVector2d translation = points[0];
-		double angle = atan2(points[1].GetY(), points[1].GetX());
-		i2d::CVector2d scale(points[1].GetDistance(points[0]), points[2].GetDistance(points[0]));
-
-		transformationPtr->Reset(translation, angle, scale);
+		MovePoint(CAffineTransformation2dShape::NO_POINT, i2d::CVector2d(0, 0), transformationPtr);
 	}
 
 
@@ -109,22 +94,65 @@ struct ControlPoints
 
 
 	/**
-		Modify all points to follow a single point movement.
+		Modify all points to follow a single point movement and store the result 
+		in a transformation object.
  
 		\param point
-		\value POINT1 translate
-		\value POINT2 scale in X axis
-		\value POINT3 scale in Y axis
-		\value POINT4 scale in both axes
-		\value POINT5 rotate around POINT1 position
+			\value POINT1 translate
+			\value POINT2 scale in X axis
+			\value POINT3 scale in Y axis
+			\value POINT4 scale in both axes
+			\value POINT5 rotate around POINT1 position
 		\param offset movement relative to the current point position
-	 
-		After using this method, call ResetTransformation() to apply changes to 
-		the model.
+		\param transformationPtr pointer to a transformation object to store changes
 	 */
-	void MovePoint(int /*point*/, i2d::CVector2d /*offset*/)
+	void MovePoint(int point, i2d::CVector2d offset, i2d::CAffineTransformation2d * transformationPtr)
 	{
-		
+		i2d::CVector2d translation = points[0];
+		i2d::CVector2d relativeVec = points[1] - points[0];
+		double angle = atan2(relativeVec.GetY(), relativeVec.GetX());
+		i2d::CVector2d scale(points[1].GetDistance(points[0]) / baseScale, points[2].GetDistance(points[0]) / baseScale);
+
+		switch (point){
+			case CAffineTransformation2dShape::POINT1:
+				translation += offset;
+				break;
+			case CAffineTransformation2dShape::POINT2:
+			{
+				i2d::CVector2d newPoint = points[1] + offset;
+				scale.SetX(newPoint.GetDistance(points[0]) / baseScale);
+			}
+				break;
+			case CAffineTransformation2dShape::POINT3:
+			{
+				i2d::CVector2d newPoint = points[2] + offset;
+				scale.SetY(newPoint.GetDistance(points[0]) / baseScale);
+			}
+				break;
+			case CAffineTransformation2dShape::POINT4:
+			{
+				double oldDiameter = points[3].GetDistance(points[0]);
+				i2d::CVector2d newPoint = points[3] + offset;
+				double newDiameter = newPoint.GetDistance(points[0]);
+
+				scale.SetX(scale.GetX() * newDiameter / oldDiameter);
+				scale.SetY(scale.GetY() * newDiameter / oldDiameter);
+			}
+				break;
+			case CAffineTransformation2dShape::POINT5:
+			{
+				i2d::CVector2d relativeVec = points[4] - points[0];
+				double oldAngle = atan2(relativeVec.GetY(), relativeVec.GetX());
+				relativeVec += offset;
+				double newAngle = atan2(relativeVec.GetY(), relativeVec.GetX());
+				angle += newAngle - oldAngle;
+			}
+				break;
+			default:
+				return;
+		}
+
+		transformationPtr->Reset(translation, angle, scale);
 	}
 
 private:
@@ -135,47 +163,61 @@ private:
 } // namespace
 
 
+CAffineTransformation2dShape::CAffineTransformation2dShape(void)
+//: m_activeControlPoints(POINT1 | POINT2), m_currentPoint(NO_POINT)
+: m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
+{
+}
+
+
+void CAffineTransformation2dShape::SetActiveControlPoints(ControlPoint points)
+{
+	m_activeControlPoints = points;
+	Invalidate(CS_CONSOLE);
+}
+
+
 bool CAffineTransformation2dShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	I_ASSERT(IsDisplayConnected());
-
-	const i2d::CAffineTransformation2d* transformationPtr =
-			dynamic_cast<const i2d::CAffineTransformation2d*>(GetModelPtr());
-	if (transformationPtr == NULL){
-		return false;
-	}
 
 	if (buttonType != Qt::LeftButton){
 		return false;
 	}
 
-	if (downFlag){
-		// use model transformation to transform original points
-		ControlPoints points(100, transformationPtr);
+	const i2d::CAffineTransformation2d* transformationPtr =
+			dynamic_cast<const i2d::CAffineTransformation2d*>(GetModelPtr());
 
-		const iview::CScreenTransform& transform = GetLogToScreenTransform();
-
-		ControlPoints screenPoints = points.ToScreen(transform);
-
-		const double pointRadius = 2.5; // pixels
-		i2d::CVector2d pos(position.GetX(), position.GetY());
-
-		m_currentPoint = NO_POINT;
-		// check whether any of the points or its surrounding was clicked
-		for (int i = 0; i < 5; i++){
-			ControlPoint point = (ControlPoint)(i + 1);
-			if ((m_activeControlPoints & point) != NO_POINT
-					&& screenPoints[i].GetDistance(pos) < pointRadius){
-				m_currentPoint = point;
-				BeginModelChanges();
-				return true;
-			}
-		}
+	if (transformationPtr == NULL){
+		return false;
 	}
-	else{
-		m_currentPoint = NO_POINT;
+
+	m_currentPoint = NO_POINT;
+
+	if (!downFlag){
 		EndModelChanges();
 		return true;
+	}
+
+	// use model transformation to transform original points
+	ControlPoints points(baseScale, transformationPtr);
+
+	const iview::CScreenTransform& transform = GetLogToScreenTransform();
+
+	ControlPoints screenPoints = points.ToScreen(transform);
+
+	const double pointRadius = 2.5; // pixels
+	i2d::CVector2d pos(position.GetX(), position.GetY());
+
+	// check whether any of the points or its surrounding was clicked
+	for (int i = 0; i < 5; i++){
+		ControlPoint point = (ControlPoint)(i + 1);
+		if ((m_activeControlPoints & point) != NO_POINT &&
+				screenPoints[i].GetDistance(pos) < pointRadius){
+			m_currentPoint = point;
+			BeginModelChanges();
+			return true;
+		}
 	}
 
 	return false;
@@ -188,14 +230,12 @@ bool CAffineTransformation2dShape::OnMouseMove(istd::CIndex2d position)
 
 	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
 
-	if (transformationPtr != NULL
-			&& m_currentPoint != NO_POINT
-			&& m_currentPoint <= POINT5
+	if (transformationPtr != NULL && m_currentPoint != NO_POINT && m_currentPoint <= POINT5
 			&& (m_activeControlPoints & m_currentPoint) != NO_POINT){
 
 		const i2d::CVector2d& cp = transform.GetClientPosition(position);
 
-		ControlPoints points(100, transformationPtr);
+		ControlPoints points(baseScale, transformationPtr);
 
 		points[m_currentPoint - 1].SetX(cp.GetX());
 		points[m_currentPoint - 1].SetY(cp.GetY());
@@ -214,12 +254,13 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 {
 	I_ASSERT(IsDisplayConnected());
 
-	///\todo use ColorSchema?
-	QPen baseSystemPen(QColor("cyan"));
-	QPen transformedSystemPen(QColor("blue"));
+	const IColorSchema& schema = GetColorSchema();
+
+	QPen baseSystemPen = schema.GetPen(IColorSchema::SP_CYAN);
+	QPen transformedSystemPen = schema.GetPen(IColorSchema::SP_BLUE);
 	QPen transformationOffsetsPen(QColor("brown"));
 	transformationOffsetsPen.setStyle(Qt::DotLine);
-	QPen additionalLinesPen(QColor("blue"));
+	QPen additionalLinesPen = transformedSystemPen;
 	additionalLinesPen.setStyle(Qt::DotLine);
 
 	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
@@ -233,7 +274,7 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 	double tipWidth = 0.3 * tipLength1;
 	double circleRadius = 2 * tipWidth;
 
-	ControlPoints cp(100);
+	ControlPoints cp(baseScale);
 	ControlPoints sp = cp.ToScreen(transform);
 	i2d::CVector2d arrowPoint1(cp[1].GetX() - tipLength1, cp[1].GetY() - tipWidth);
 	i2d::CVector2d arrowPoint2(cp[1].GetX() - tipLength2, cp[1].GetY());
@@ -274,7 +315,7 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 	// draw transformed coordinate system
 	drawContext.setPen(transformedSystemPen);
 	drawContext.setBrush(transformedSystemPen.color());
-	cp = ControlPoints(100, transformationPtr);
+	cp = ControlPoints(baseScale, transformationPtr);
 	ControlPoints tsp = cp.ToScreen(transform);
 	arrowPoint1 = transformationPtr->GetValueAt(arrowPoint1);
 	arrowPoint2 = transformationPtr->GetValueAt(arrowPoint2);
@@ -348,7 +389,7 @@ ITouchable::TouchState CAffineTransformation2dShape::IsTouched(istd::CIndex2d po
 
 		const double pointRadius = 2.5 * sqrt(sqrt(transform.GetDeformMatrix().GetApproxScale())); // pixels
 
-		ControlPoints movablePoints(100, transformationPtr);
+		ControlPoints movablePoints(baseScale, transformationPtr);
 		for (int i = 0; i < 5; i++){
 			if ((m_activeControlPoints & (1 << i)) == NO_POINT){
 				continue;
@@ -371,8 +412,8 @@ i2d::CRect CAffineTransformation2dShape::CalcBoundingBox() const
 	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
 	const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
-	ControlPoints screenPoints = ControlPoints(100).ToScreen(transform);
-	ControlPoints transformedScreenPoints = ControlPoints(100, transformationPtr).ToScreen(transform);
+	ControlPoints screenPoints = ControlPoints(baseScale).ToScreen(transform);
+	ControlPoints transformedScreenPoints = ControlPoints(baseScale, transformationPtr).ToScreen(transform);
 
 	i2d::CRect boundingBox(screenPoints[0].GetX(), screenPoints[0].GetY(), screenPoints[0].GetX(), screenPoints[0].GetY());
 
@@ -399,6 +440,26 @@ i2d::CRect CAffineTransformation2dShape::CalcBoundingBox() const
 void CAffineTransformation2dShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
 	m_referencePosition = reference;
+
+	const i2d::CAffineTransformation2d* transformationPtr =
+			dynamic_cast<const i2d::CAffineTransformation2d*>(GetModelPtr());
+	if (transformationPtr == NULL){
+		return;
+	}
+
+	// use model transformation to transform original points
+	ControlPoints points(baseScale, transformationPtr);
+	const double pointRadius = 2.5;
+
+	m_currentPoint = NO_POINT;
+	// check whether any of the points or its surrounding was clicked
+	for (int i = 0; i < 5; i++){
+		ControlPoint point = (ControlPoint)(1 << i);
+		if ((m_activeControlPoints & point) != NO_POINT
+				&& points[i].GetDistance(reference) < pointRadius){
+			m_currentPoint = point;
+		}
+	}
 }
 
 
@@ -416,7 +477,7 @@ void CAffineTransformation2dShape::SetLogDragPosition(const i2d::CVector2d& posi
 	BeginModelChanges();
 
 	i2d::CVector2d offset = position - m_referencePosition;
-	ControlPoints points(100, transformationPtr);
+	ControlPoints points(baseScale, transformationPtr);
 
 	switch (m_currentPoint){
 		case POINT1:
@@ -424,8 +485,7 @@ void CAffineTransformation2dShape::SetLogDragPosition(const i2d::CVector2d& posi
 		case POINT3:
 		case POINT4:
 		case POINT5:
-			points.MovePoint(m_currentPoint, offset);
-			points.ResetTransformation(transformationPtr);
+			points.MovePoint(m_currentPoint, offset, transformationPtr);
 			break;
 		default:
 			break;
