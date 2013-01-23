@@ -100,6 +100,8 @@ protected Q_SLOTS:
 	virtual void OnClearAction();
 	virtual void OnExportAction();
 
+	void rangeChanged(int min, int max);
+
 Q_SIGNALS:
 	void EmitAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag);
 	void EmitRemoveMessage(QVariant);
@@ -120,6 +122,8 @@ private:
 	int m_currentMessageMode;
 
 	int m_statusCategory;
+
+	int m_maxScrollBarValue;
 };
 
 
