@@ -22,7 +22,7 @@ const double baseScale = 100;
 /** 
 	Structure representing a set of 5 control points of the shape 
  
-	\todo Arrow tip points are also generated.
+	Arrow tip points are also generated.
  */
 struct ControlPoints
 {
@@ -41,15 +41,38 @@ struct ControlPoints
 		points[0] = i2d::CVector2d(0, 0);
 		points[1] = i2d::CVector2d(size, 0);
 		points[2] = i2d::CVector2d(0, -size);
-
-		if (transformationPtr != NULL){
-			points[0] = transformationPtr->GetValueAt(points[0]);
-			points[1] = transformationPtr->GetValueAt(points[1]);
-			points[2] = transformationPtr->GetValueAt(points[2]);
-		}
-
 		points[3] = points[1] + points[2] - points[0];
 		points[4] = (points[3] + points[0]) / 2;
+
+		double xscale = 1;
+		double yscale = 1;
+		if (transformationPtr != NULL){
+			i2d::CVector2d axesLengths = transformationPtr->GetTransformation().GetDeformMatrix().GetAxesLengths();
+			if (axesLengths.GetX() != 0){
+				xscale = 1 / axesLengths.GetX();
+			}
+			if (axesLengths.GetY() != 0){
+				yscale = 1 / axesLengths.GetY();
+			}
+		}
+
+		double tipLength1 = baseScale / 20;
+		double tipLength2 = 0.7 * tipLength1;
+		double tipWidth = 0.3 * tipLength1;
+
+		points[5] = i2d::CVector2d(points[1].GetX() - tipLength1 * xscale, points[1].GetY() - tipWidth * yscale);
+		points[6] = i2d::CVector2d(points[1].GetX() - tipLength2 * xscale, points[1].GetY() * yscale);
+		points[7] = i2d::CVector2d(points[1].GetX() - tipLength1 * xscale, points[1].GetY() + tipWidth * yscale);
+		points[8] = i2d::CVector2d(points[2].GetX() - tipWidth * xscale, points[2].GetY() + tipLength1 * yscale);
+		points[9] = i2d::CVector2d(points[2].GetX(), points[2].GetY() + tipLength2 * yscale);
+		points[10] = i2d::CVector2d(points[2].GetX() + tipWidth * xscale, points[2].GetY() + tipLength1 * yscale);
+
+		if (transformationPtr != NULL){
+			for (int i = 0; i < 11; i++){
+				points[i] = transformationPtr->GetValueAt(points[i]);
+			}
+		}
+
 	}
 
 
@@ -61,7 +84,8 @@ struct ControlPoints
 	ControlPoints ToScreen(const iview::CScreenTransform & transform)
 	{
 		ControlPoints result(baseScale);
-		for (int i = 0; i < 5; i++){
+
+		for (int i = 0; i < 11; i++){
 			result.points[i] = transform.GetApply(points[i]);
 		}
 
@@ -164,7 +188,6 @@ private:
 
 
 CAffineTransformation2dShape::CAffineTransformation2dShape(void)
-//: m_activeControlPoints(POINT1 | POINT2), m_currentPoint(NO_POINT)
 : m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
 {
 }
@@ -196,42 +219,27 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 
 	const iview::CScreenTransform& transform = GetLogToScreenTransform();
 
-	double tipLength1 = 5 * sqrt(sqrt(transform.GetDeformMatrix().GetApproxScale()));
-	double tipLength2 = 0.7 * tipLength1;
-	double tipWidth = 0.3 * tipLength1;
-	double circleRadius = 2 * tipWidth;
+	const double circleRadius = 5;
 
 	ControlPoints cp(baseScale);
 	ControlPoints sp = cp.ToScreen(transform);
-	i2d::CVector2d arrowPoint1(cp[1].GetX() - tipLength1, cp[1].GetY() - tipWidth);
-	i2d::CVector2d arrowPoint2(cp[1].GetX() - tipLength2, cp[1].GetY());
-	i2d::CVector2d arrowPoint3(cp[1].GetX() - tipLength1, cp[1].GetY() + tipWidth);
-	i2d::CVector2d arrowPoint4(cp[2].GetX() - tipWidth, cp[2].GetY() + tipLength1);
-	i2d::CVector2d arrowPoint5(cp[2].GetX(), cp[2].GetY() + tipLength2);
-	i2d::CVector2d arrowPoint6(cp[2].GetX() + tipWidth, cp[2].GetY() + tipLength1);
 
 	// draw base coordinate system
 	drawContext.setPen(baseSystemPen);
 	drawContext.setBrush(baseSystemPen.color());
 	drawContext.drawLine(sp[0].GetX(), sp[0].GetY(), sp[1].GetX(), sp[1].GetY());
-	i2d::CVector2d sap1 = transform.GetApply(arrowPoint1);
-	i2d::CVector2d sap2 = transform.GetApply(arrowPoint2);
-	i2d::CVector2d sap3 = transform.GetApply(arrowPoint3);
 	QPointF points[4];
 	points[0] = QPointF(sp[1].GetX(), sp[1].GetY());
-	points[1] = QPointF(sap1.GetX(), sap1.GetY());
-	points[2] = QPointF(sap2.GetX(), sap2.GetY());
-	points[3] = QPointF(sap3.GetX(), sap3.GetY());
+	points[1] = QPointF(sp[5].GetX(), sp[5].GetY());
+	points[2] = QPointF(sp[6].GetX(), sp[6].GetY());
+	points[3] = QPointF(sp[7].GetX(), sp[7].GetY());
 	drawContext.drawPolygon(points, 4);
 
 	drawContext.drawLine(sp[0].GetX(), sp[0].GetY(), sp[2].GetX(), sp[2].GetY());
-	i2d::CVector2d sap4 = transform.GetApply(arrowPoint4);
-	i2d::CVector2d sap5 = transform.GetApply(arrowPoint5);
-	i2d::CVector2d sap6 = transform.GetApply(arrowPoint6);
 	points[0] = QPointF(sp[2].GetX(), sp[2].GetY());
-	points[1] = QPointF(sap4.GetX(), sap4.GetY());
-	points[2] = QPointF(sap5.GetX(), sap5.GetY());
-	points[3] = QPointF(sap6.GetX(), sap6.GetY());
+	points[1] = QPointF(sp[8].GetX(), sp[8].GetY());
+	points[2] = QPointF(sp[9].GetX(), sp[9].GetY());
+	points[3] = QPointF(sp[10].GetX(), sp[10].GetY());
 	drawContext.drawPolygon(points, 4);
 
 	if (transformationPtr == NULL){
@@ -244,29 +252,18 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 	drawContext.setBrush(transformedSystemPen.color());
 	cp = ControlPoints(baseScale, transformationPtr);
 	ControlPoints tsp = cp.ToScreen(transform);
-	arrowPoint1 = transformationPtr->GetValueAt(arrowPoint1);
-	arrowPoint2 = transformationPtr->GetValueAt(arrowPoint2);
-	arrowPoint3 = transformationPtr->GetValueAt(arrowPoint3);
-	arrowPoint4 = transformationPtr->GetValueAt(arrowPoint4);
-	arrowPoint5 = transformationPtr->GetValueAt(arrowPoint5);
-	arrowPoint6 = transformationPtr->GetValueAt(arrowPoint6);
 	drawContext.drawLine(tsp[0].GetX(), tsp[0].GetY(), tsp[1].GetX(), tsp[1].GetY());
-	sap1 = transform.GetApply(arrowPoint1);
-	sap2 = transform.GetApply(arrowPoint2);
-	sap3 = transform.GetApply(arrowPoint3);
 	points[0] = QPointF(tsp[1].GetX(), tsp[1].GetY());
-	points[1] = QPointF(sap1.GetX(), sap1.GetY());
-	points[2] = QPointF(sap2.GetX(), sap2.GetY());
-	points[3] = QPointF(sap3.GetX(), sap3.GetY());
+	points[1] = QPointF(tsp[5].GetX(), tsp[5].GetY());
+	points[2] = QPointF(tsp[6].GetX(), tsp[6].GetY());
+	points[3] = QPointF(tsp[7].GetX(), tsp[7].GetY());
 	drawContext.drawPolygon(points, 4);
+
 	drawContext.drawLine(tsp[0].GetX(), tsp[0].GetY(), tsp[2].GetX(), tsp[2].GetY());
-	sap4 = transform.GetApply(arrowPoint4);
-	sap5 = transform.GetApply(arrowPoint5);
-	sap6 = transform.GetApply(arrowPoint6);
 	points[0] = QPointF(tsp[2].GetX(), tsp[2].GetY());
-	points[1] = QPointF(sap4.GetX(), sap4.GetY());
-	points[2] = QPointF(sap5.GetX(), sap5.GetY());
-	points[3] = QPointF(sap6.GetX(), sap6.GetY());
+	points[1] = QPointF(tsp[8].GetX(), tsp[8].GetY());
+	points[2] = QPointF(tsp[9].GetX(), tsp[9].GetY());
+	points[3] = QPointF(tsp[10].GetX(), tsp[10].GetY());
 	drawContext.drawPolygon(points, 4);
 
 	// draw lines connecting base system corner points with their transformed counterparts
@@ -282,16 +279,25 @@ void CAffineTransformation2dShape::Draw(QPainter & drawContext) const
 	drawContext.drawLine(tsp[2].GetX(), tsp[2].GetY(), tsp[3].GetX(), tsp[3].GetY());
 
 	// draw full and empty circles representing control points
-	drawContext.setPen(transformedSystemPen);
 	for (int i = 0; i < 5; i++){
-		if ((m_activeControlPoints & (1 << i)) != NO_POINT){
-			drawContext.setBrush(transformedSystemPen.color());
+		i2d::CVector2d cp = tsp[i];
+		istd::CIndex2d currentPoint(cp.GetX(), cp.GetY());
+		ControlPoint pointType = (ControlPoint)(1 << i);
+		if ((m_activeControlPoints & pointType) == NO_POINT){
+			drawContext.setPen(transformedSystemPen);
+			drawContext.setBrush(Qt::NoBrush);
+			drawContext.drawEllipse(cp.GetX() - circleRadius, cp.GetY() - circleRadius, circleRadius * 2, circleRadius * 2);
+			//			schema.DrawTicker(drawContext, currentPoint, IColorSchema::TT_SELECTED_INACTIVE);
+		}
+		else if (pointType == POINT5){
+			schema.DrawTicker(drawContext, currentPoint, IColorSchema::TT_ROTATE);
+		}
+		else if (pointType == POINT1){
+			schema.DrawTicker(drawContext, currentPoint, IColorSchema::TT_MOVE);
 		}
 		else{
-			drawContext.setBrush(Qt::NoBrush);
+			schema.DrawTicker(drawContext, currentPoint, IColorSchema::TT_NORMAL);
 		}
-		i2d::CVector2d currentPoint = tsp[i];
-		drawContext.drawEllipse(currentPoint.GetX() - circleRadius, currentPoint.GetY() - circleRadius, circleRadius * 2, circleRadius * 2);
 	}
 
 	drawContext.restore();
@@ -425,5 +431,4 @@ void CAffineTransformation2dShape::SetLogDragPosition(const i2d::CVector2d& posi
 
 
 } // namespace iview
-
 
