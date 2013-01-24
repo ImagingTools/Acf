@@ -28,10 +28,8 @@ CLogGuiComp::CLogGuiComp()
 	m_statusCategory(istd::IInformationProvider::IC_NONE),
 	m_maxScrollBarValue(0)
 {
-	qRegisterMetaType<QVariant>("QVariant");
-
 	connect(this, SIGNAL(EmitAddMessage(const istd::IInformationProvider*, bool)), this, SLOT(OnAddMessage(const istd::IInformationProvider*, bool)), Qt::QueuedConnection);
-	connect(this, SIGNAL(EmitRemoveMessage(QVariant)), this, SLOT(OnRemoveMessage(QVariant)), Qt::QueuedConnection);
+	connect(this, SIGNAL(EmitRemoveMessage(qint64)), this, SLOT(OnRemoveMessage(qint64)), Qt::QueuedConnection);
 	connect(this, SIGNAL(EmitReset()), this, SLOT(OnReset()), Qt::QueuedConnection);
 }
 
@@ -44,16 +42,17 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 	if (treeItemPtr != NULL){
 		QDateTime timeStamp = message.GetInformationTimeStamp();
 
-		QString date = timeStamp.toString();
+		QString messageTimeString = timeStamp.toString();
+		qint64 messageTimeStamp = timeStamp.toMSecsSinceEpoch();
 
-		treeItemPtr->setText(CT_TIME, date);
+		treeItemPtr->setText(CT_TIME, messageTimeString);
 		treeItemPtr->setText(CT_MESSAGE, message.GetInformationDescription());
 		treeItemPtr->setText(CT_SOURCE, message.GetInformationSource());
 
-		treeItemPtr->setToolTip(CT_TIME, message.GetInformationDescription());
+		treeItemPtr->setToolTip(CT_TIME, messageTimeString);
 		treeItemPtr->setToolTip(CT_MESSAGE, message.GetInformationDescription());
-		treeItemPtr->setToolTip(CT_SOURCE, message.GetInformationDescription());
-		treeItemPtr->setData(0, DR_MESSAGE_ID, QVariant::fromValue(timeStamp));
+		treeItemPtr->setToolTip(CT_SOURCE, message.GetInformationSource());
+		treeItemPtr->setData(0, DR_MESSAGE_ID, messageTimeStamp);
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetInformationCategory());
 
 		istd::IInformationProvider::InformationCategory category = message.GetInformationCategory();
@@ -233,7 +232,8 @@ void CLogGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IP
 		if (updateFlags & ibase::IMessageContainer::CF_MESSAGE_REMOVED){
 			istd::IInformationProvider* messagePtr = dynamic_cast<istd::IInformationProvider*>(updateParamsPtr);
 			if (messagePtr != NULL){
-				Q_EMIT EmitRemoveMessage(QVariant::fromValue(messagePtr->GetInformationTimeStamp()));
+				qint64 messageTimeStamp = messagePtr->GetInformationTimeStamp().toMSecsSinceEpoch();
+				Q_EMIT EmitRemoveMessage(messageTimeStamp);
 			}
 		}
 	}
@@ -297,18 +297,18 @@ void CLogGuiComp::OnAddMessage(const istd::IInformationProvider* messagePtr, boo
 }
 
 
-void CLogGuiComp::OnRemoveMessage(QVariant messageId)
+void CLogGuiComp::OnRemoveMessage(qint64 messageId)
 {
 	int itemsCount = LogView->topLevelItemCount();
 
-	for (int itemIndex = 0; itemIndex < itemsCount; itemIndex++){
+	for (int itemIndex = itemsCount - 1; itemIndex >= 0; itemIndex--){
 		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
 		I_ASSERT(itemPtr != NULL);
 
-		if (itemPtr->data(0, DR_MESSAGE_ID) == messageId){
-			delete LogView->takeTopLevelItem(itemIndex);
+		qint64 itemTimeStamp = itemPtr->data(0, DR_MESSAGE_ID).toLongLong();
 
-			break;
+		if (itemTimeStamp == messageId){
+			delete LogView->takeTopLevelItem(itemIndex);
 		}
 	}
 }

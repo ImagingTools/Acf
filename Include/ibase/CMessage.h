@@ -28,7 +28,8 @@ public:
 				int id,
 				const QString& text,
 				const QString& source,
-				int flags = 0);
+				int flags = 0,
+				const QDateTime* timeStampPtr = NULL);
 
 	virtual void SetCategory(istd::IInformationProvider::InformationCategory category);
 	virtual void SetText(const QString& text);

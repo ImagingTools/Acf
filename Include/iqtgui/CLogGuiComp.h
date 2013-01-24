@@ -93,7 +93,7 @@ private:
 
 protected Q_SLOTS:
 	virtual void OnAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag);
-	virtual void OnRemoveMessage(QVariant messageId);
+	virtual void OnRemoveMessage(qint64 messageTimeStamp);
 	virtual void OnReset();
 	virtual void OnMessageModeChanged();
 
@@ -104,7 +104,7 @@ protected Q_SLOTS:
 
 Q_SIGNALS:
 	void EmitAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag);
-	void EmitRemoveMessage(QVariant);
+	void EmitRemoveMessage(qint64);
 	void EmitReset();
 
 protected:

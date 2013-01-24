@@ -23,14 +23,20 @@ CMessage::CMessage(
 			int id,
 			const QString& text,
 			const QString& source,
-			int flags)
+			int flags,
+			const QDateTime* timeStampPtr)
 :	m_category(category),
 	m_id(id),
 	m_text(text),
 	m_source(source),
-	m_flags(flags),
-	m_timeStamp(QDateTime::currentDateTime())
+	m_flags(flags)
 {
+	if (timeStampPtr != NULL){
+		m_timeStamp = *timeStampPtr;
+	}
+	else{
+		m_timeStamp = QDateTime::currentDateTime();
+	}
 }
 
 
@@ -131,11 +137,12 @@ bool CMessage::CopyFrom(const istd::IChangeable& object)
 istd::IChangeable* CMessage::CloneMe() const
 {
 	return new CMessage(
-				m_category,
-				m_id,
-				m_text,
-				m_source,
-				m_flags);
+			m_category,
+			m_id,
+			m_text,
+			m_source,
+			m_flags,
+			&m_timeStamp);
 }
 
 
