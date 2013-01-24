@@ -101,12 +101,14 @@ protected:
 	virtual bool IsReadOnly() const;
 	virtual void SetReadOnly(bool state);
 
+protected:
+	bool m_isReadOnly;
+
 private:
 	void DoUpdate(int updateFlags);
 
 private:
 	int m_ignoreUpdatesCounter;
-	bool m_isReadOnly;
 	int m_updateFilter;
 
 	/**
@@ -125,8 +127,8 @@ private:
 
 template <class Gui, class Observer>
 TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
-:	m_ignoreUpdatesCounter(0),
-	m_isReadOnly(false),
+:	m_isReadOnly(false),
+	m_ignoreUpdatesCounter(0),
 	m_updateFilter(0),
 	m_updateOnShow(false),
 	m_updateOnShowFlags(0)
@@ -363,6 +365,14 @@ template <class Gui, class Observer>
 void TGuiObserverWrap<Gui, Observer>::SetReadOnly(bool state)
 {
 	m_isReadOnly = state;
+
+	if (Gui::IsGuiCreated())
+	{
+		QWidget* widgetPtr = Gui::GetWidget();
+		I_ASSERT(widgetPtr != NULL);
+
+		widgetPtr->setEnabled(!m_isReadOnly);
+	}
 }
 
 
