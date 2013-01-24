@@ -32,6 +32,8 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 	int retVal = -1;
 
 	if (BaseClass::InitializeApplication(argc, argv)){
+		m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_STARTING);
+	
 		QByteArray appStyle;
 
 		// parse arguments:
@@ -94,8 +96,12 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		}
 
 		if (m_mainWidgetPtr.IsValid()){
+			m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+
 			// start application loop:
 			retVal = QApplication::exec();
+
+			m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_SHUTDOWN);
 
 			I_ASSERT(m_mainGuiCompPtr.IsValid());
 			m_mainGuiCompPtr->DestroyGui();
@@ -114,7 +120,32 @@ QString CGuiApplicationComp::GetHelpText() const
 }
 
 
-} // namespace iqtgui
+// public methods of the embedded class RuntimeStatus
 
+CGuiApplicationComp::RuntimeStatus::RuntimeStatus()
+	:m_status(RS_NONE)
+{
+}
+
+
+void CGuiApplicationComp::RuntimeStatus::SetRuntimeStatus(IRuntimeStatusProvider::RuntimeStatus runtimeStatus)
+{
+	if (m_status != runtimeStatus){
+		istd::CChangeNotifier changePtr(this);
+		
+		m_status = runtimeStatus;
+	}
+}
+
+
+// reimplemented (ibase::IRuntimeStatusProvider)
+
+ibase::IRuntimeStatusProvider::RuntimeStatus CGuiApplicationComp::RuntimeStatus::GetRuntimeStatus() const
+{
+	return m_status;
+}
+
+
+} // namespace iqtgui
 
 

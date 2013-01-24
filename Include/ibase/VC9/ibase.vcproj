@@ -483,6 +483,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IRuntimeStatusProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ITextDocument.h"
 				>
 			</File>

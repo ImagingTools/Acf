@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2694
+          2777
         </Number>
         <Description>
           ACF
@@ -593,13 +593,21 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="2">
+  <ExportedComponents count="3">
     <Component>
       <ExportedId>
         ApplicationInfo
       </ExportedId>
       <ComponentId>
         ApplicationInfo
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        RuntimeStatus
+      </ExportedId>
+      <ComponentId>
+        GuiApplication/RuntimeStatus
       </ComponentId>
     </Component>
     <Component>

@@ -3,6 +3,10 @@
 
 
 // ACF includes
+#include "imod/TModelWrap.h"
+
+#include "ibase/IRuntimeStatusProvider.h"
+
 #include "iqtgui/IGuiObject.h"
 #include "iqtgui/IGuiApplication.h"
 #include "iqtgui/CApplicationCompBase.h"
@@ -26,6 +30,10 @@ public:
 
 	I_BEGIN_COMPONENT(CGuiApplicationComp);
 		I_REGISTER_INTERFACE(ibase::IApplication);
+		I_REGISTER_SUBELEMENT(RuntimeStatus);
+		I_REGISTER_SUBELEMENT_INTERFACE(RuntimeStatus, ibase::IRuntimeStatusProvider, ExtractRuntimeStatus);
+		I_REGISTER_SUBELEMENT_INTERFACE(RuntimeStatus, imod::IModel, ExtractRuntimeStatus);
+		I_REGISTER_SUBELEMENT_INTERFACE(RuntimeStatus, istd::IChangeable, ExtractRuntimeStatus);
 		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", false, "MainGui");
 		I_ASSIGN(m_frameSpaceSizeAttrPtr, "FrameSpaceSize", "Number of pixels will be added on the all window sides", false, 9);
 		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
@@ -37,6 +45,30 @@ public:
 	// reimplemented (ibase::IApplication)
 	virtual int Execute(int argc, char** argv);
 	virtual QString GetHelpText() const;
+
+private:
+	class RuntimeStatus: public ibase::IRuntimeStatusProvider
+	{
+	public:
+		RuntimeStatus();
+
+		void SetRuntimeStatus(IRuntimeStatusProvider::RuntimeStatus runtimeStatus);
+
+		// reimplemented (ibase::IRuntimeStatusProvider)
+		virtual IRuntimeStatusProvider::RuntimeStatus GetRuntimeStatus() const;
+
+	private:
+		IRuntimeStatusProvider::RuntimeStatus m_status;
+	};
+
+	imod::TModelWrap<RuntimeStatus> m_runtimeStatus;
+
+	// static template methods for subelement access
+	template <class InterfaceType>
+	static InterfaceType* ExtractRuntimeStatus(CGuiApplicationComp& component)
+	{
+		return &component.m_runtimeStatus;
+	}
 
 private:
 	I_REF(IGuiObject, m_mainGuiCompPtr);
