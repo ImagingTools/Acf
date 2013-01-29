@@ -75,6 +75,8 @@ CGuiComponentDialog::~CGuiComponentDialog()
 
 void CGuiComponentDialog::closeEvent(QCloseEvent* eventPtr)
 {
+	Q_ASSERT(eventPtr != NULL);
+
 	if (m_guiObjectPtr != NULL){
 		bool ignoreClosing = false;
 		m_guiObjectPtr->OnTryClose(&ignoreClosing);
@@ -89,6 +91,32 @@ void CGuiComponentDialog::closeEvent(QCloseEvent* eventPtr)
 	BaseClass::closeEvent(eventPtr);
 }
 
+
+void CGuiComponentDialog::keyPressEvent(QKeyEvent* eventPtr)
+{
+	Q_ASSERT(eventPtr != NULL);
+
+	switch (eventPtr->key()){
+        case Qt::Key_Escape:
+		if (m_guiObjectPtr != NULL){
+			bool ignoreClosing = false;
+			m_guiObjectPtr->OnTryClose(&ignoreClosing);
+			if (ignoreClosing){
+				  return;
+			}
+
+			int currentResult = BaseClass::result();
+			if (currentResult != 0){
+				done(currentResult);
+
+				return;
+			}			
+		}
+		break;
+	}
+
+	BaseClass::keyPressEvent(eventPtr);
+}
 
 
 } // namespace iqtgui
