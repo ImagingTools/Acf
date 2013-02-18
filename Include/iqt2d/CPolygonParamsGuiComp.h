@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "iview/CInteractivePolygonShape.h"
+#include "iview/CPolygonShape.h"
 
 #include "iqt2d/TPolygonBasedParamsGuiComp.h"
 
@@ -12,12 +12,12 @@ namespace iqt2d
 {
 
 
-class CPolygonParamsGuiComp: public TPolygonBasedParamsGuiComp<iview::CInteractivePolygonShape, i2d::CPolygon>
+class CPolygonParamsGuiComp: public TPolygonBasedParamsGuiComp<iview::CPolygonShape, i2d::CPolygon>
 {
 	Q_OBJECT
 
 public:
-	typedef TPolygonBasedParamsGuiComp<iview::CInteractivePolygonShape, i2d::CPolygon> BaseClass;
+	typedef TPolygonBasedParamsGuiComp<iview::CPolygonShape, i2d::CPolygon> BaseClass;
 
 	I_BEGIN_COMPONENT(CPolygonParamsGuiComp);
 	I_END_COMPONENT;

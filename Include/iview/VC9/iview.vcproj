@@ -176,11 +176,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CAnnulusSegmentShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CAnnulusShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CArrowShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCalibratedViewBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CCalibrationShapeBase.cpp"
+				RelativePath="..\CCenterPinShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCircleShape.cpp"
 				>
 			</File>
 			<File
@@ -212,75 +228,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveAnnulusSegmentShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveAnnulusShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveArrowShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveCenterPinShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveCircleShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveLabelShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveLineShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveParallelogramShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePerspectiveCalibrationShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePinShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePolygonShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePolylineShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveRectangleShape.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CInteractiveShapeBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveSplineShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveTransformableRectangleShape.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveTubePolylineShape.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CInteractiveViewLayer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CLabelShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CLineShape.cpp"
 				>
 			</File>
 			<File
@@ -292,7 +252,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CParallelogramShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CPerspectiveCalibration.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CPerspectiveCalibrationBoundsShape.cpp"
 				>
 			</File>
 			<File
@@ -300,19 +268,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPinCalibrationShape.cpp"
+				RelativePath="..\CPinShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonCalibrationShape.cpp"
+				RelativePath="..\CPolygonShape.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolylineCalibrationShape.cpp"
+				RelativePath="..\CPolylineShape.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CPolypointShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CRectangleShape.cpp"
 				>
 			</File>
 			<File
@@ -340,7 +312,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTransformableRectangleCalibrationShape.cpp"
+				RelativePath="..\CSplineShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CTransformableRectangleShape.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CTubePolylineShape.cpp"
 				>
 			</File>
 			<File
@@ -370,11 +350,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CAnnulusSegmentShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CAnnulusShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArrowShape.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CCalibratedViewBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CCalibrationShapeBase.h"
+				RelativePath="..\CCenterPinShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCircleShape.h"
 				>
 			</File>
 			<File
@@ -406,75 +402,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveAnnulusSegmentShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveAnnulusShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveArrowShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveCenterPinShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveCircleShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveLabelShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveLineShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveParallelogramShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePerspectiveCalibrationShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePinShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePolygonShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractivePolylineShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveRectangleShape.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CInteractiveShapeBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CInteractiveSplineShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveTransformableRectangleShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CInteractiveTubePolylineShape.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CInteractiveViewLayer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CLabelShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CLineShape.h"
 				>
 			</File>
 			<File
@@ -486,7 +426,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CParallelogramShape.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CPerspectiveCalibration.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CPerspectiveCalibrationBoundsShape.h"
 				>
 			</File>
 			<File
@@ -494,19 +442,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPinCalibrationShape.h"
+				RelativePath="..\CPinShape.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonCalibrationShape.h"
+				RelativePath="..\CPolygonShape.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPolylineCalibrationShape.h"
+				RelativePath="..\CPolylineShape.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CPolypointShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CRectangleShape.h"
 				>
 			</File>
 			<File
@@ -534,7 +486,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTransformableRectangleCalibrationShape.h"
+				RelativePath="..\CSplineShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTransformableRectangleShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTubePolylineShape.h"
 				>
 			</File>
 			<File

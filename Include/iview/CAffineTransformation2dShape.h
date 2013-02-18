@@ -2,6 +2,8 @@
 #define iview_CAffineTransformation2dShape_included
 
 
+// ACF includes
+#include <i2d/CAffineTransformation2d.h>
 #include "iview/CInteractiveShapeBase.h"
 
 
@@ -45,6 +47,27 @@ public:
 	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
 protected:
+	enum{
+		CONTROL_POINTS_COUNT = 11,
+		ACTIVE_POINTS_COUNT = 5
+	};
+	typedef i2d::CVector2d ControlPoints[CONTROL_POINTS_COUNT];
+
+	/** Generate transformed points using given transformation. 
+	 
+		If there is no transformation, generate default Cartesian coordinate 
+		system corner points: begin, X axis end and Y axis end.
+		\param size Length of both axes
+	*/
+	static const ControlPoints& GetControlPoints();
+	/** 
+		Transform control points from logical to screen coordinates
+		
+		\param transform LogToScreenTransform assigned to the view
+	*/
+	void ToScreen(const ControlPoints& points, ControlPoints& result, const i2d::ITransformation2d* calibrationPtr) const;
+	static void GetTransformedPoints(const ControlPoints& points, ControlPoints& result, const i2d::CAffineTransformation2d& transformation);
+
 	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const;
 

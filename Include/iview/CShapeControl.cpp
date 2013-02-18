@@ -31,6 +31,40 @@ void CShapeControl::SetTransformMode(ShapeTransformMode mode)
 
 // protected methods
 
+i2d::CVector2d CShapeControl::GetScreenPosition(const i2d::CVector2d& logPosition, const i2d::ITransformation2d* calibrationPtr) const
+{
+	const iview::CScreenTransform& transform = GetViewToScreenTransform();
+
+	if (calibrationPtr != NULL){
+		i2d::CVector2d calibratedPosition;
+		if (!calibrationPtr->GetValueAt(logPosition, calibratedPosition)){
+			calibratedPosition = logPosition;
+		}
+
+		return transform.GetApply(calibratedPosition);
+	}
+	else{
+		return transform.GetApply(logPosition);
+	}
+}
+
+
+i2d::CVector2d CShapeControl::GetLogPosition(const i2d::CVector2d& screenPosition, const i2d::ITransformation2d* calibrationPtr) const
+{
+	const iview::CScreenTransform& transform = GetViewToScreenTransform();
+
+	i2d::CVector2d logPosition = transform.GetInvertedApply(screenPosition);
+	if (calibrationPtr != NULL){
+		i2d::CVector2d calibratedPosition;
+		if (!calibrationPtr->GetInvValueAt(logPosition, calibratedPosition)){
+			calibratedPosition = logPosition;
+		}
+	}
+
+	return logPosition;
+}
+
+
 void CShapeControl::CalcTransforms() const
 {
 	const IDisplay* displayPtr = GetDisplayPtr();

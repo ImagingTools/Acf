@@ -5,7 +5,7 @@
 // ACF includes
 #include "i2d/CTubePolyline.h"
 
-#include "iview/CInteractiveTubePolylineShape.h"
+#include "iview/CTubePolylineShape.h"
 
 #include "iqt2d/TPolygonBasedParamsGuiComp.h"
 
@@ -14,12 +14,12 @@ namespace iqt2d
 {
 
 
-class CTubePolylineParamsGuiComp: public TPolygonBasedParamsGuiComp<iview::CInteractiveTubePolylineShape, i2d::CTubePolyline>
+class CTubePolylineParamsGuiComp: public TPolygonBasedParamsGuiComp<iview::CTubePolylineShape, i2d::CTubePolyline>
 {
 	Q_OBJECT
 
 public:
-	typedef TPolygonBasedParamsGuiComp<iview::CInteractiveTubePolylineShape, i2d::CTubePolyline> BaseClass;
+	typedef TPolygonBasedParamsGuiComp<iview::CTubePolylineShape, i2d::CTubePolyline> BaseClass;
 
 	I_BEGIN_COMPONENT(CTubePolylineParamsGuiComp);
 	I_END_COMPONENT;

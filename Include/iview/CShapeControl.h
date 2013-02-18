@@ -66,6 +66,15 @@ public:
 	virtual const iview::CScreenTransform& GetLogToScreenTransform() const;
 
 protected:
+	/**
+		Get screen position based on logical position.
+	*/
+	i2d::CVector2d GetScreenPosition(const i2d::CVector2d& logPosition, const i2d::ITransformation2d* calibrationPtr) const;
+	/**
+		Get logical position based on screen position.
+	*/
+	i2d::CVector2d GetLogPosition(const i2d::CVector2d& screenPosition, const i2d::ITransformation2d* calibrationPtr) const;
+
 	void InvalidateTransforms();
 	bool AreTransformsValid() const;
 

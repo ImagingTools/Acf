@@ -4,7 +4,7 @@
 
 #include "i2d/CCircle.h"
 
-#include "iview/CInteractiveCircleShape.h"
+#include "iview/CCircleShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
 #include "iqt2d/Generated/ui_CCircleParamsGuiComp.h"
@@ -17,7 +17,7 @@ namespace iqt2d
 class CCircleParamsGuiComp: 
 			public iqt2d::TShapeParamsGuiCompBase<
 						Ui::CCircleParamsGuiComp,
-						iview::CInteractiveCircleShape,
+						iview::CCircleShape,
 						i2d::CCircle>
 {
 	Q_OBJECT
@@ -25,7 +25,7 @@ class CCircleParamsGuiComp:
 public:
 	typedef iqt2d::TShapeParamsGuiCompBase<
 				Ui::CCircleParamsGuiComp,
-				iview::CInteractiveCircleShape,
+				iview::CCircleShape,
 				i2d::CCircle> BaseClass;
 
 	I_BEGIN_COMPONENT(CCircleParamsGuiComp);

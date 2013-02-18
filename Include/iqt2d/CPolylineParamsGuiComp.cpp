@@ -9,9 +9,9 @@ namespace iqt2d
 
 // reimplemented (iqt2d::TShapeParamsGuiCompBase)
 
-iview::CInteractivePolylineShape* CPolylineParamsGuiComp::CreateShape() const
+iview::CPolylineShape* CPolylineParamsGuiComp::CreateShape() const
 {
-	iview::CInteractivePolylineShape* shapePtr = new iview::CInteractivePolylineShape();
+	iview::CPolylineShape* shapePtr = new iview::CPolylineShape();
 
 	if (*m_showOrientationAttrPtr){
 		shapePtr->SetOrientationVisible(true);

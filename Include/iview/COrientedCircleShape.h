@@ -2,27 +2,27 @@
 #define iview_COrientedCircleShape_included
 
 
-#include "iview/CInteractiveCircleShape.h"
+#include "iview/CCircleShape.h"
 
 
 namespace iview
 {
 
 
-class COrientedCircleShape: public CInteractiveCircleShape
+class COrientedCircleShape: public CCircleShape
 {
 public:
-	typedef CInteractiveCircleShape BaseClass;
+	typedef CCircleShape BaseClass;
 
 	COrientedCircleShape();
 
-	// reimplemented (iview::CInteractiveCircleShape)
+	// reimplemented (iview::CCircleShape)
 	virtual void Draw(QPainter& drawContext) const;
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnAttached(imod::IModel* modelPtr);
 	
-	// reimplemented (iview::CInteractiveCircleShape)
+	// reimplemented (iview::CCircleShape)
 	virtual i2d::CRect CalcBoundingBox() const;
 };
 

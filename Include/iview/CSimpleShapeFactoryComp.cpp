@@ -5,11 +5,11 @@
 #include "i2d/CAnnulusSegment.h"
 #include "i2d/CTubePolyline.h"
 
-#include "iview/CInteractiveAnnulusSegmentShape.h"
-#include "iview/CInteractiveCircleShape.h"
-#include "iview/CInteractiveRectangleShape.h"
-#include "iview/CInteractiveLineShape.h"
-#include "iview/CInteractiveTubePolylineShape.h"
+#include "iview/CAnnulusSegmentShape.h"
+#include "iview/CCircleShape.h"
+#include "iview/CRectangleShape.h"
+#include "iview/CLineShape.h"
+#include "iview/CTubePolylineShape.h"
 
 
 namespace iview
@@ -49,7 +49,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 {
 	const i2d::CAnnulusSegment* annulusSegmentPtr = dynamic_cast<const i2d::CAnnulusSegment*>(&object);
 	if (annulusSegmentPtr != NULL){
-		iview::CInteractiveAnnulusSegmentShape* objectShapePtr = new iview::CInteractiveAnnulusSegmentShape();
+		iview::CAnnulusSegmentShape* objectShapePtr = new iview::CAnnulusSegmentShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableRadius(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableAngles(*m_useInteractiveShapesAttrPtr);
@@ -59,7 +59,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(&object);
 	if (annulusPtr != NULL){
-		iview::CInteractiveAnnulusShape* objectShapePtr = new iview::CInteractiveAnnulusShape();
+		iview::CAnnulusShape* objectShapePtr = new iview::CAnnulusShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableRadius(*m_useInteractiveShapesAttrPtr);
 
@@ -68,7 +68,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(&object);
 	if (circlePtr != NULL){
-		iview::CInteractiveCircleShape* objectShapePtr = new iview::CInteractiveCircleShape();
+		iview::CCircleShape* objectShapePtr = new iview::CCircleShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableRadius(*m_useInteractiveShapesAttrPtr);
 
@@ -77,7 +77,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CRectangle* rectPtr = dynamic_cast<const i2d::CRectangle*>(&object);
 	if (rectPtr != NULL){
-		iview::CInteractiveRectangleShape* objectShapePtr = new iview::CInteractiveRectangleShape();
+		iview::CRectangleShape* objectShapePtr = new iview::CRectangleShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;
@@ -85,7 +85,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(&object);
 	if (linePtr != NULL){
-		iview::CInteractiveLineShape* objectShapePtr = new iview::CInteractiveLineShape();
+		iview::CLineShape* objectShapePtr = new iview::CLineShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;
@@ -93,7 +93,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CTubePolyline* tubePolylinePtr = dynamic_cast<const i2d::CTubePolyline*>(&object);
 	if (tubePolylinePtr != NULL){
-		iview::CInteractiveTubePolylineShape* objectShapePtr = new iview::CInteractiveTubePolylineShape();
+		iview::CTubePolylineShape* objectShapePtr = new iview::CTubePolylineShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;
@@ -101,7 +101,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(&object);
 	if (polylinePtr != NULL){
-		iview::CInteractivePolylineShape* objectShapePtr = new iview::CInteractivePolylineShape();
+		iview::CPolylineShape* objectShapePtr = new iview::CPolylineShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableRotation(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableHeight(*m_useInteractiveShapesAttrPtr);
@@ -112,7 +112,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(&object);
 	if (polygonPtr != NULL){
-		iview::CInteractivePolygonShape* objectShapePtr = new iview::CInteractivePolygonShape();
+		iview::CPolygonShape* objectShapePtr = new iview::CPolygonShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableRotation(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableHeight(*m_useInteractiveShapesAttrPtr);
@@ -123,7 +123,7 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 
 	const i2d::CPosition2d* positionPtr = dynamic_cast<const i2d::CPosition2d*>(&object);
 	if (positionPtr != NULL){
-		iview::CInteractivePinShape* objectShapePtr = new iview::CInteractivePinShape();
+		iview::CPinShape* objectShapePtr = new iview::CPinShape();
 		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;

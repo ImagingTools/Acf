@@ -251,19 +251,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonExtractor.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CPolyline.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CPolylineComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CPolylineExtractor.cpp"
 				>
 			</File>
 			<File
@@ -420,19 +412,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CPolygonExtractor.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CPolyline.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CPolylineComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CPolylineExtractor.h"
 				>
 			</File>
 			<File
