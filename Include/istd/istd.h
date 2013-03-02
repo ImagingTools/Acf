@@ -40,21 +40,21 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #define I_INFINITY std::numeric_limits<double>::infinity()
 
 
-#if defined(_DEBUG) || defined(DEBUG)
+#ifndef QT_NO_DEBUG
 
 
 #define I_IF_DEBUG(instructions) instructions
 #define I_CRITICAL() Q_ASSERT(false)
 
 
-#else // _DEBUG || DEBUG
+#else // !QT_NO_DEBUG
 
 
 #define I_CRITICAL()
 #define I_IF_DEBUG(instructions)
 
 
-#endif // _DEBUG || DEBUG
+#endif // !QT_NO_DEBUG
 
 
 #ifndef NULL

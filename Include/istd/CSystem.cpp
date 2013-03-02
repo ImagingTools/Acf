@@ -63,7 +63,7 @@ QString CSystem::GetEnrolledPath(const QString& path)
 QString CSystem::FindVariableValue(const QString& varName)
 {
 	if (varName == "ConfigurationName"){
-#if defined(_DEBUG) || defined(DEBUG) || defined(QT_DEBUG)
+#ifndef QT_NO_DEBUG
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1600
 			return "DebugVC10";
@@ -79,7 +79,7 @@ QString CSystem::FindVariableValue(const QString& varName)
 	#else // _MSC_VER
 		return "DebugQMake";
 	#endif // _MSC_VER
-#else // _DEBUG || DEBUG
+#else // !QT_NO_DEBUG
 	#ifdef _MSC_VER
 		#if _MSC_VER >= 1600
 			return "ReleaseVC10";
@@ -95,7 +95,7 @@ QString CSystem::FindVariableValue(const QString& varName)
 	#else // _MSC_VER
 		return "ReleaseQMake";
 	#endif // _MSC_VER
-#endif // _DEBUG || DEBUG
+#endif // !QT_NO_DEBUG
 	}
 	else if (varName == "CompilerName"){
 #ifdef _MSC_VER

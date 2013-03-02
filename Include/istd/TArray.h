@@ -414,7 +414,7 @@ template <class Element, int Dimensions>
 const Element& TArray<Element, Dimensions>::Iterator::operator*() const
 {
 	Q_ASSERT(m_arrayPtr != NULL);
-	Q_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+	Q_ASSERT(BaseClass::IsInside(m_arrayPtr->GetSizes()));
 
 	return m_arrayPtr->GetAt(*this);
 }
@@ -424,7 +424,7 @@ template <class Element, int Dimensions>
 Element& TArray<Element, Dimensions>::Iterator::operator*()
 {
 	Q_ASSERT(m_arrayPtr != NULL);
-	Q_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+	Q_ASSERT(BaseClass::IsInside(m_arrayPtr->GetSizes()));
 
 	return m_arrayPtr->operator[](*this);
 }
@@ -434,7 +434,7 @@ template <class Element, int Dimensions>
 const Element* TArray<Element, Dimensions>::Iterator::operator->() const
 {
 	Q_ASSERT(m_arrayPtr != NULL);
-	Q_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+	Q_ASSERT(BaseClass::IsInside(m_arrayPtr->GetSizes()));
 
 	return &m_arrayPtr->GetAt(*this);
 }
@@ -444,7 +444,7 @@ template <class Element, int Dimensions>
 Element* TArray<Element, Dimensions>::Iterator::operator->()
 {
 	Q_ASSERT(m_arrayPtr != NULL);
-	Q_ASSERT(IsInside(m_arrayPtr->GetSizes()));
+	Q_ASSERT(BaseClass::IsInside(m_arrayPtr->GetSizes()));
 
 	return &m_arrayPtr->operator[](*this);
 }

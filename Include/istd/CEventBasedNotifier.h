@@ -24,7 +24,7 @@ class CEventBasedNotifier
 {
 public:
 	explicit CEventBasedNotifier(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
-	~CEventBasedNotifier();
+	virtual ~CEventBasedNotifier();
 
 private:
 	NotificationTarget* m_notificationTarget;

@@ -131,7 +131,7 @@ protected:
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateModel() const
 {
-	Q_ASSERT(IsGuiCreated());
+	Q_ASSERT(BaseClass::IsGuiCreated());
 
 	i2d::CPolygon* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
@@ -265,7 +265,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiMode
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateGui(int /*updateFlags*/)
 {
-	Q_ASSERT(IsGuiCreated());
+	Q_ASSERT(BaseClass::IsGuiCreated());
 
 	i2d::CPolygon* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){

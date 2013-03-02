@@ -2,6 +2,10 @@
 #define icomp_export_included
 
 
+// Qt includes
+#include <QtCore/QtGlobal>
+
+// ACF includes
 #include "icomp/TComponentRegistrator.h"
 #include "icomp/CPackageStaticInfo.h"
 
@@ -19,13 +23,13 @@ namespace icomp
 #endif
 
 
-#if defined(_DEBUG) || defined(DEBUG)
+#ifndef QT_NO_DEBUG
 	#define I_PACKAGE_EXPORT_FUNCTION GetPackageInfoDebug
 	#define I_PACKAGE_EXPORT_FUNCTION_NAME "GetPackageInfoDebug"
-#else // _DEBUG || DEBUG
+#else // !QT_NO_DEBUG
 	#define I_PACKAGE_EXPORT_FUNCTION GetPackageInfo
 	#define I_PACKAGE_EXPORT_FUNCTION_NAME "GetPackageInfo"
-#endif // _DEBUG || DEBUG
+#endif // !QT_NO_DEBUG
 
 
 #define I_EXPORT_PACKAGE(logicalName, description, keywords) \

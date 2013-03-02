@@ -77,7 +77,7 @@ void TModelObserverCompWrap<ObserverComponent>::OnComponentCreated()
 				}
 			}
 
-			QString exptectedObjectInterface = typeid(ObserverComponent::ModelType).name();
+			QString exptectedObjectInterface = typeid(typename ObserverComponent::ModelType).name();
 
 			QString debugMessage = QString("Component %1: Component model %2 doesn't implement observed interface %3")
 						.arg(QString(observerComponentId))
