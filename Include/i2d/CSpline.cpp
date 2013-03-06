@@ -48,7 +48,7 @@ int CSpline::GetSupportedOperations() const
 }
 
 
-bool CSpline::CopyFrom(const IChangeable& object, CompatibilityMode mode)
+bool CSpline::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 {
 	const CSpline* splinePtr = dynamic_cast<const CSpline*>(&object);
 
@@ -56,7 +56,7 @@ bool CSpline::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 		istd::CChangeNotifier notifier(this);		
 
 		BaseClass::CopyFrom(object);
-		
+
 		int sourceSegmentCount = splinePtr->GetSegmentCount();
 		for (int segmentIndex = 0; segmentIndex < sourceSegmentCount; segmentIndex++){
 			InsertSplineSegment(splinePtr->GetSplineSegment(segmentIndex));			

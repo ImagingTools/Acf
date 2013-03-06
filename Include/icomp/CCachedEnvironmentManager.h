@@ -7,6 +7,7 @@
 
 // ACF includes
 #include "iser/ISerializable.h"
+#include "iser/TCopySerializedWrap.h"
 #include "icomp/CRegistry.h"
 #include "icomp/CCompositePackageStaticInfo.h"
 #include "icomp/CEnvironmentManagerBase.h"
@@ -43,7 +44,8 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 private:
-	typedef QMap<QByteArray, CRegistry> RegistriesMap;
+	typedef iser::TCopySerializedWrap<CRegistry> Registry;
+	typedef QMap<QByteArray, Registry> RegistriesMap;
 	struct PackageInfo
 	{
 		istd::TDelPtr<CCompositePackageStaticInfo> staticInfoPtr;

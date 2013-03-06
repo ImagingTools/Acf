@@ -277,7 +277,7 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 			Q_ASSERT(sourceMessage.IsValid());
 
 			istd::TDelPtr<istd::IInformationProvider> newMessagePtr;
-			newMessagePtr.SetCastedOrRemove<istd::IChangeable>(sourceMessage->CloneMe());
+			newMessagePtr.SetCastedOrRemove<istd::IChangeable>(sourceMessage->CloneMe(mode));
 
 			MessagePtr messagePtr(newMessagePtr.PopPtr());
 			if (messagePtr.IsValid()){

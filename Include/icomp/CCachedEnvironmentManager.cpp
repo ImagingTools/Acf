@@ -39,6 +39,8 @@ void CCachedEnvironmentManager::InitializeStaticInfo()
 
 			packageInfo.staticInfoPtr->RegisterEmbeddedComponent(componentId);
 		}
+
+		RegisterEmbeddedComponentInfo(packageId, packageInfo.staticInfoPtr.GetPtr());
 	}
 }
 
@@ -110,7 +112,7 @@ bool CCachedEnvironmentManager::Serialize(iser::IArchive& archive)
 				retVal = retVal && archive.EndTag(componentIdTag);
 
 				retVal = retVal && archive.BeginTag(registryDataTag);
-				CRegistry& registry = const_cast<CRegistry&>(componentIter.value());
+				Registry& registry = const_cast<Registry&>(componentIter.value());
 				retVal = retVal && registry.Serialize(archive);
 				retVal = retVal && archive.EndTag(registryDataTag);
 
@@ -130,7 +132,7 @@ bool CCachedEnvironmentManager::Serialize(iser::IArchive& archive)
 			return false;
 		}
 
-		for (int packageIndex = 0; packageIndex < packagesCount; ++packagesCount){
+		for (int packageIndex = 0; packageIndex < packagesCount; ++packageIndex){
 			retVal = retVal && archive.BeginTag(packageTag);
 
 			QByteArray packageId;
@@ -159,7 +161,7 @@ bool CCachedEnvironmentManager::Serialize(iser::IArchive& archive)
 					return false;
 				}
 
-				CRegistry& registry = packageInfo.registriesMap[componentId];
+				Registry& registry = packageInfo.registriesMap[componentId];
 				retVal = retVal && archive.BeginTag(registryDataTag);
 				retVal = retVal && registry.Serialize(archive);
 				retVal = retVal && archive.EndTag(registryDataTag);

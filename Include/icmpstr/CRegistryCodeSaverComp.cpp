@@ -7,6 +7,8 @@
 
 // ACF includes
 #include "icomp/icomp.h"
+#include "icomp/CCachedEnvironmentManager.h"
+#include "iser/CMemoryWriteArchive.h"
 
 
 namespace icmpstr
@@ -367,21 +369,30 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	NextLine(stream);
 	stream << "#include \"istd/TDelPtr.h\"";
 	NextLine(stream);
-	stream << "#include \"icomp/IRegistriesManager.h\"";
-	NextLine(stream);
 	stream << "#include \"icomp/CRegistry.h\"";
 	NextLine(stream);
 	stream << "#include \"icomp/CCompositeComponent.h\"";
 	NextLine(stream);
 	stream << "#include \"icomp/CCompositeComponentContext.h\"";
 	NextLine(stream);
-	stream << "#include \"icomp/CCompositeComponentStaticInfo.h\"";
+	if (*m_useBinaryCodeAttrPtr){
+		stream << "#include \"icomp/CCachedEnvironmentManager.h\"";
+	}
+	else{
+		stream << "#include \"icomp/CCompositeComponentStaticInfo.h\"";
+	}
 	NextLine(stream);
 	stream << "#include \"icomp/CPackageStaticInfo.h\"";
-	NextLine(stream);
-	stream << "#include \"icomp/CCompositePackageStaticInfo.h\"";
-	NextLine(stream);
-	stream << "#include \"icomp/CEnvironmentManagerBase.h\"";
+	if (*m_useBinaryCodeAttrPtr){
+		NextLine(stream);
+		stream << "#include \"icomp/CCachedEnvironmentManager.h\"";
+	}
+	else{
+		NextLine(stream);
+		stream << "#include \"icomp/CCompositePackageStaticInfo.h\"" << "\n";
+		NextLine(stream);
+		stream << "#include \"icomp/CEnvironmentManagerBase.h\"";
+	}
 
 	stream << "\n\n";
 
@@ -429,7 +440,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	}
 
 	Ids composedPackageIds = ExtractPackageIds(composedAddresses);
-	if (m_registriesManagerCompPtr.IsValid() && !composedPackageIds.isEmpty()){
+	if (m_registriesManagerCompPtr.IsValid() && !composedPackageIds.isEmpty() && !*m_useBinaryCodeAttrPtr){
 		stream << "\n";
 
 		NextLine(stream);
@@ -533,7 +544,12 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << "\n";
 
 	NextLine(stream);
-	stream << "class CLocalEnvironmentManager: public icomp::CEnvironmentManagerBase";
+	if (*m_useBinaryCodeAttrPtr){
+		stream << "class CLocalEnvironmentManager: public icomp::CCachedEnvironmentManager";
+	}
+	else{
+		stream << "class CLocalEnvironmentManager: public icomp::CEnvironmentManagerBase";
+	}
 	NextLine(stream);
 	stream << "{";
 	NextLine(stream);
@@ -548,66 +564,68 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << "CLocalEnvironmentManager();";
 	stream << "\n";
 
-	NextLine(stream);
-	stream << "// reimplemented (icomp::IRegistriesManager)";
-	NextLine(stream);
-	stream << "virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr = NULL) const;";
+	if (!*m_useBinaryCodeAttrPtr){
+		NextLine(stream);
+		stream << "// reimplemented (icomp::IRegistriesManager)";
+		NextLine(stream);
+		stream << "virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr = NULL) const;";
 
-	stream << "\n";
-	ChangeIndent(-1);
-	NextLine(stream);
-	stream << "protected:";
-	ChangeIndent(1);
+		stream << "\n";
+		ChangeIndent(-1);
+		NextLine(stream);
+		stream << "protected:";
+		ChangeIndent(1);
 
-	NextLine(stream);
-	stream << "typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;";
-	NextLine(stream);
-	stream << "typedef QMap<icomp::CComponentAddress, RegistryPtr> RegistriesMap;";
+		NextLine(stream);
+		stream << "typedef istd::TDelPtr<icomp::IRegistry> RegistryPtr;";
+		NextLine(stream);
+		stream << "typedef QMap<icomp::CComponentAddress, RegistryPtr> RegistriesMap;";
+		stream << "\n";
+	}
 
-	stream << "\n";
 	ChangeIndent(-1);
 	NextLine(stream);
 	stream << "private:";
 	ChangeIndent(1);
 
-	if (!realPackageIds.isEmpty()){
-		for (		Ids::const_iterator packageInstanceIter = realPackageIds.begin();
-					packageInstanceIter != realPackageIds.end();
-					++packageInstanceIter){
-			const QByteArray& packageId = *packageInstanceIter;
-			if (packageId.isEmpty()){
-				continue;
-			}
-
-			QByteArray packageName = GetPackageName(packageId);
-
-			NextLine(stream);
-			stream << "C" << packageName << " m_sub" << packageName << ";";
+	for (		Ids::const_iterator packageInstanceIter = realPackageIds.begin();
+				packageInstanceIter != realPackageIds.end();
+				++packageInstanceIter){
+		const QByteArray& packageId = *packageInstanceIter;
+		if (packageId.isEmpty()){
+			continue;
 		}
 
-		stream << "\n";
+		QByteArray packageName = GetPackageName(packageId);
+
+		NextLine(stream);
+		stream << "C" << packageName << " m_sub" << packageName << ";";
 	}
 
-	if (!composedPackageIds.isEmpty()){
-		for (		Ids::const_iterator registerPackageIter = composedPackageIds.begin();
-					registerPackageIter != composedPackageIds.end();
-					++registerPackageIter){
-			const QByteArray& packageId = *registerPackageIter;
-			if (packageId.isEmpty()){
-				continue;
+	if (!*m_useBinaryCodeAttrPtr){
+		stream << "\n";
+
+		if (!composedPackageIds.isEmpty()){
+			for (		Ids::const_iterator registerPackageIter = composedPackageIds.begin();
+						registerPackageIter != composedPackageIds.end();
+						++registerPackageIter){
+				const QByteArray& packageId = *registerPackageIter;
+				if (packageId.isEmpty()){
+					continue;
+				}
+
+				QByteArray packageName = GetPackageName(packageId);
+
+				NextLine(stream);
+				stream << "istd::TDelPtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
 			}
 
-			QByteArray packageName = GetPackageName(packageId);
-
-			NextLine(stream);
-			stream << "istd::TDelPtr<icomp::IComponentStaticInfo> m_package" << packageId << "InfoPtr;";
+			stream << "\n";
 		}
 
-		stream << "\n";
+		NextLine(stream);
+		stream << "RegistriesMap m_registriesMap;";
 	}
-
-	NextLine(stream);
-	stream << "RegistriesMap m_registriesMap;";
 
 	ChangeIndent(-1);
 	NextLine(stream);
@@ -631,7 +649,7 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	NextLine(stream);
 	stream << "#endif // !" << includeDefine;
 
-	stream << "\n\n";
+	stream << "\n\n\n";
 
 	return stream.status() == QTextStream::Ok;
 }
@@ -645,10 +663,10 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 	stream << "#include \"" << className << ".h\"" << "\n";
 	stream << "\n\n";
 	stream << "// ACF includes" << "\n";
-	stream << "#include \"icomp/TAttribute.h\"" << "\n";
-	stream << "#include \"icomp/TMultiAttribute.h\"" << "\n";
+	if (*m_useBinaryCodeAttrPtr){
+		stream << "#include \"iser/CMemoryReadArchive.h\"" << "\n";
+	}
 	stream << "#include \"icomp/CRegistryElement.h\"" << "\n";
-	stream << "#include \"icomp/CCompositePackageStaticInfo.h\"" << "\n";
 
 	Ids packageIds = ExtractPackageIds(addresses);
 	if (!packageIds.isEmpty()){
@@ -666,6 +684,8 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 			stream << "#include \"" << packageId << "/" << packageId << ".h\"" << "\n";
 		}
 	}
+
+	stream << "\n";
 
 	return stream.status() == QTextStream::Ok;
 }
@@ -714,63 +734,65 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 
 	Ids composedPackageIds = ExtractPackageIds(composedAddresses);
 
-	if (m_registriesManagerCompPtr.IsValid()){
-		for (		Ids::const_iterator packageIter = composedPackageIds.begin();
-					packageIter != composedPackageIds.end();
-					++packageIter){
-			const QByteArray& packageId = *packageIter;
-			if (packageId.isEmpty()){
-				continue;
-			}
+	if (!*m_useBinaryCodeAttrPtr){
+		if (m_registriesManagerCompPtr.IsValid()){
+			for (		Ids::const_iterator packageIter = composedPackageIds.begin();
+						packageIter != composedPackageIds.end();
+						++packageIter){
+				const QByteArray& packageId = *packageIter;
+				if (packageId.isEmpty()){
+					continue;
+				}
 
-			QByteArray packageName = GetPackageName(packageId);
-
-			NextLine(stream);
-			stream << "// Embedded class C" << packageName;
-
-			stream << "\n";
-
-			NextLine(stream);
-			stream << className << "::C" << packageName << "::C" << packageName << "(const icomp::IComponentEnvironmentManager* managerPtr)";
-			NextLine(stream);
-			stream << ":\ticomp::CCompositePackageStaticInfo(\"" << packageId << "\", managerPtr)";
-			stream << "\n";
-
-
-			NextLine(stream);
-			stream << "{";
-			ChangeIndent(1);
-
-			Ids componentIds = ExtractComponentIds(composedAddresses, packageId);
-			for (		Ids::const_iterator instanceRegIter = componentIds.begin();
-						instanceRegIter != componentIds.end();
-						++instanceRegIter){
-				const QByteArray& componentId = *instanceRegIter;
+				QByteArray packageName = GetPackageName(packageId);
 
 				NextLine(stream);
-				stream << "RegisterEmbeddedComponent(\"" << componentId << "\");";
-			}
+				stream << "// Embedded class C" << packageName;
 
-			ChangeIndent(-1);
-			NextLine(stream);
-			stream << "}";
+				stream << "\n";
 
-			stream << "\n\n";
+				NextLine(stream);
+				stream << className << "::C" << packageName << "::C" << packageName << "(const icomp::IComponentEnvironmentManager* managerPtr)";
+				NextLine(stream);
+				stream << ":\ticomp::CCompositePackageStaticInfo(\"" << packageId << "\", managerPtr)";
+				stream << "\n";
 
-			for (		Ids::const_iterator componentIter = componentIds.begin();
-						componentIter != componentIds.end();
-						++componentIter){
-				const QByteArray& componentId = *componentIter;
 
-				icomp::CComponentAddress address(packageId, componentId);
+				NextLine(stream);
+				stream << "{";
+				ChangeIndent(1);
 
-				const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address, &registry);
-				if (registryPtr != NULL){
-					if (!WriteRegistryClassBody(className + "::C" + packageName, "C" + componentId + "Registry", *registryPtr, stream)){
-						return false;
+				Ids componentIds = ExtractComponentIds(composedAddresses, packageId);
+				for (		Ids::const_iterator instanceRegIter = componentIds.begin();
+							instanceRegIter != componentIds.end();
+							++instanceRegIter){
+					const QByteArray& componentId = *instanceRegIter;
+
+					NextLine(stream);
+					stream << "RegisterEmbeddedComponent(\"" << componentId << "\");";
+				}
+
+				ChangeIndent(-1);
+				NextLine(stream);
+				stream << "}";
+
+				stream << "\n\n";
+
+				for (		Ids::const_iterator componentIter = componentIds.begin();
+							componentIter != componentIds.end();
+							++componentIter){
+					const QByteArray& componentId = *componentIter;
+
+					icomp::CComponentAddress address(packageId, componentId);
+
+					const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address, &registry);
+					if (registryPtr != NULL){
+						if (!WriteRegistryClassBody(className + "::C" + packageName, "C" + componentId + "Registry", *registryPtr, stream)){
+							return false;
+						}
+
+						stream << "\n\n";
 					}
-
-					stream << "\n\n";
 				}
 			}
 		}
@@ -853,94 +875,115 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 		}
 	}
 
-	if (!composedAddresses.isEmpty()){
-		stream << "\n";
+	if (*m_useBinaryCodeAttrPtr){
+		icomp::CCachedEnvironmentManager cachedManager;
 
-		NextLine(stream);
-		stream << "// create map for all known registries";
-		for (		Addresses::const_iterator regTestIter = composedAddresses.begin();
-					regTestIter != composedAddresses.end();
-					++regTestIter){
-			const icomp::CComponentAddress& address = *regTestIter;
+		for (		Addresses::const_iterator addressIter = composedAddresses.begin();
+					addressIter != composedAddresses.end();
+					++addressIter){
+			const icomp::CComponentAddress& address = *addressIter;
+			Q_ASSERT(!address.GetPackageId().isEmpty());
+
+			const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address);
+			if (registryPtr != NULL){
+				cachedManager.AddComposedComponent(address, *registryPtr);
+			}
+		}
+
+		WriteDeserializingCode(cachedManager, stream);
+	}
+	else{
+		if (!composedAddresses.isEmpty()){
+			stream << "\n";
 
 			NextLine(stream);
-			stream << "m_registriesMap[icomp::CComponentAddress(\"" <<
-					address.GetPackageId() << "\", \"" <<
-					address.GetComponentId() << "\")].SetPtr(new C" <<
-					GetValidIdentifier(GetPackageName(address.GetPackageId())) <<
-					"::C" << GetValidIdentifier(address.GetComponentId()) << "Registry());";
+			stream << "// create map for all known registries";
+			for (		Addresses::const_iterator regTestIter = composedAddresses.begin();
+						regTestIter != composedAddresses.end();
+						++regTestIter){
+				const icomp::CComponentAddress& address = *regTestIter;
+
+				NextLine(stream);
+				stream << "m_registriesMap[icomp::CComponentAddress(\"" <<
+						address.GetPackageId() << "\", \"" <<
+						address.GetComponentId() << "\")].SetPtr(new C" <<
+						GetValidIdentifier(GetPackageName(address.GetPackageId())) <<
+						"::C" << GetValidIdentifier(address.GetComponentId()) << "Registry());";
+			}
+		}
+
+		if (!composedPackageIds.isEmpty()){
+			stream << "\n";
+
+			NextLine(stream);
+			stream << "// register composed packages";
+
+			for (		Ids::const_iterator registerPackageIter = composedPackageIds.begin();
+						registerPackageIter != composedPackageIds.end();
+						++registerPackageIter){
+				const QByteArray& packageId = *registerPackageIter;
+				if (packageId.isEmpty()){
+					continue;
+				}
+
+				if (registerPackageIter != composedPackageIds.begin()){
+					stream << "\n";
+				}
+
+				QByteArray packageName = GetPackageName(packageId);
+
+				NextLine(stream);
+				stream << "m_package" << packageId << "InfoPtr.SetPtr(new C" << packageName << "(this));";
+				NextLine(stream);
+				stream << "if (m_package" << packageId << "InfoPtr.IsValid()){";
+				ChangeIndent(1);
+				NextLine(stream);
+				stream << "RegisterEmbeddedComponentInfo(\"" << packageId << "\", m_package" << packageId << "InfoPtr.GetPtr());";
+				ChangeIndent(-1);
+				NextLine(stream);
+				stream << "}";
+			}
 		}
 	}
 
-	if (!composedPackageIds.isEmpty()){
-		stream << "\n";
+	ChangeIndent(-1);
+	NextLine(stream);
+	stream << "}";
+
+	if (!*m_useBinaryCodeAttrPtr){
+		stream << "\n\n";
 
 		NextLine(stream);
-		stream << "// register composed packages";
+		stream << "// reimplemented (icomp::IRegistriesManager)";
+		stream << "\n";
+		NextLine(stream);
+		stream << "const icomp::IRegistry* " << className << "::CLocalEnvironmentManager::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const";
+		NextLine(stream);
+		stream << "{";
+		ChangeIndent(1);
 
-		for (		Ids::const_iterator registerPackageIter = composedPackageIds.begin();
-					registerPackageIter != composedPackageIds.end();
-					++registerPackageIter){
-			const QByteArray& packageId = *registerPackageIter;
-			if (packageId.isEmpty()){
-				continue;
-			}
+		NextLine(stream);
+		stream << "RegistriesMap::ConstIterator findIter = m_registriesMap.constFind(address);";
+		NextLine(stream);
+		stream << "if (findIter != m_registriesMap.constEnd()){";
+		ChangeIndent(1);
 
-			if (registerPackageIter != composedPackageIds.begin()){
-				stream << "\n";
-			}
+		NextLine(stream);
+		stream << "return findIter.value().GetPtr();";
 
-			QByteArray packageName = GetPackageName(packageId);
+		ChangeIndent(-1);
+		NextLine(stream);
+		stream << "}";
 
-			NextLine(stream);
-			stream << "m_package" << packageId << "InfoPtr.SetPtr(new C" << packageName << "(this));";
-			NextLine(stream);
-			stream << "if (m_package" << packageId << "InfoPtr.IsValid()){";
-			ChangeIndent(1);
-			NextLine(stream);
-			stream << "RegisterEmbeddedComponentInfo(\"" << packageId << "\", m_package" << packageId << "InfoPtr.GetPtr());";
-			ChangeIndent(-1);
-			NextLine(stream);
-			stream << "}";
-		}
+		NextLine(stream);
+		stream << "return BaseClass::GetRegistry(address, contextRegistryPtr);";
+
+		ChangeIndent(-1);
+		NextLine(stream);
+		stream << "}";
 	}
 
-	ChangeIndent(-1);
-	NextLine(stream);
-	stream << "}";
-
-	stream << "\n\n";
-
-	NextLine(stream);
-	stream << "// reimplemented (icomp::IRegistriesManager)";
-	stream << "\n";
-	NextLine(stream);
-	stream << "const icomp::IRegistry* " << className << "::CLocalEnvironmentManager::GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr) const";
-	NextLine(stream);
-	stream << "{";
-	ChangeIndent(1);
-
-	NextLine(stream);
-	stream << "RegistriesMap::ConstIterator findIter = m_registriesMap.constFind(address);";
-	NextLine(stream);
-	stream << "if (findIter != m_registriesMap.constEnd()){";
-	ChangeIndent(1);
-
-	NextLine(stream);
-	stream << "return findIter.value().GetPtr();";
-
-	ChangeIndent(-1);
-	NextLine(stream);
-	stream << "}";
-
-	NextLine(stream);
-	stream << "return BaseClass::GetRegistry(address, contextRegistryPtr);";
-
-	ChangeIndent(-1);
-	NextLine(stream);
-	stream << "}";
-
-	stream << "\n\n";
+	stream << "\n\n\n";
 
 	return stream.status() == QTextStream::Ok;
 }
@@ -1342,13 +1385,63 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 	stream << "{";
 	ChangeIndent(1);
 
-	if (!WriteRegistryInfo(registry, "", stream)){
-		return false;
+	if (*m_useBinaryCodeAttrPtr){
+		WriteDeserializingCode(registry, stream);
+	}
+	else{
+		if (!WriteRegistryInfo(registry, "", stream)){
+			return false;
+		}
 	}
 
 	ChangeIndent(-1);
 	NextLine(stream);
 	stream << "}";
+
+	return true;
+}
+
+
+bool CRegistryCodeSaverComp::WriteDeserializingCode(const iser::ISerializable& object, QTextStream& stream) const
+{
+	iser::CMemoryWriteArchive memArchive(NULL, false);
+
+	if (!const_cast<iser::ISerializable&>(object).Serialize(memArchive)){
+		return false;
+	}
+
+	NextLine(stream);
+	stream << "static const unsigned char data[] = {";
+	ChangeIndent(3);
+
+	int bufferSize = memArchive.GetBufferSize();
+	const quint8* bufferPtr = (const quint8*)memArchive.GetBuffer();
+	for (int i = 0; i < bufferSize; ++i){
+		if ((i % 16) == 0){
+			NextLine(stream);
+		}
+
+		int byteValue = bufferPtr[i];
+		stream << "0x" << QString::number(byteValue, 16);
+
+		if (i < bufferSize - 1){
+			stream << ", ";
+		}
+	}
+
+	ChangeIndent(-3);
+
+	stream << "};";
+
+	stream << "\n";
+
+	NextLine(stream);
+	stream << "iser::CMemoryReadArchive archive(data, sizeof(data), false);";
+
+	stream << "\n";
+
+	NextLine(stream);
+	stream << "Serialize(archive);";
 
 	return true;
 }
