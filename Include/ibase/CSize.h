@@ -24,6 +24,8 @@ public:
 	CSize();
 	CSize(int width, int height);
 	CSize(const istd::CIndex2d& index);
+	CSize(const QPoint& point);
+	CSize(const QSize& size);
 
 	CSize operator+(const CSize& size);
 	CSize operator-(const CSize& size);

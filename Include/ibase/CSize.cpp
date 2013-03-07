@@ -25,6 +25,18 @@ CSize::CSize(const istd::CIndex2d& index)
 }
 
 
+CSize::CSize(const QPoint& point)
+:	BaseClass(point)
+{
+}
+
+
+CSize::CSize(const QSize& size)
+:	BaseClass(size)
+{
+}
+
+
 CSize CSize::operator+(const CSize& size)
 {
 	CSize retVal(*this);

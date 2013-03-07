@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtCore/QPoint>
 #include <QtCore/QSize>
 
 // ACF includes
@@ -21,6 +22,7 @@ public:
 	CIndex2d();
 	CIndex2d(int x, int y);
 	CIndex2d(const TIndex<2>& index);
+	CIndex2d(const QPoint& point);
 	CIndex2d(const QSize& size);
 
 	int GetX() const;
@@ -32,6 +34,8 @@ public:
 	bool operator>(const CIndex2d& index) const;
 	bool operator<=(const CIndex2d& index) const;
 	bool operator>=(const CIndex2d& index) const;
+
+	operator QSize() const;
 
 	CIndex2d& operator=(const TIndex<2>& index);
 };
@@ -55,6 +59,13 @@ inline CIndex2d::CIndex2d(const TIndex<2>& index)
 :	BaseClass(index)
 {
 }
+
+inline CIndex2d::CIndex2d(const QPoint& point)
+{
+	SetAt(0, point.x());
+	SetAt(1, point.y());
+}
+
 
 inline CIndex2d::CIndex2d(const QSize& size)
 {
@@ -126,6 +137,12 @@ inline CIndex2d& CIndex2d::operator=(const TIndex<2>& index)
 	BaseClass::operator=(index);
 
 	return *this;
+}
+
+
+inline CIndex2d::operator QSize() const
+{
+	return QSize(GetX(), GetY());
 }
 
 
