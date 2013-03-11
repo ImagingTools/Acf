@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2783
+          2813
         </Number>
         <Description>
           ACF
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="5">
+  <PositionMap count="4">
     <Element>
       <ComponentName>
         LogGui
@@ -39,20 +39,6 @@
       </X>
       <Note>
         GUI representation of LOG model container
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        LogModel
-      </ComponentName>
-      <X>
-        625
-      </X>
-      <X>
-        250
-      </X>
-      <Note>
-        Container of log messages
       </Note>
     </Element>
     <Element>

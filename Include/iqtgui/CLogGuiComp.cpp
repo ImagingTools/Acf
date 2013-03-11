@@ -26,12 +26,16 @@ CLogGuiComp::CLogGuiComp()
 	m_clearAction(NULL),
 	m_exportAction(NULL),
 	m_currentMessageMode(MM_ALL),
-	m_statusCategory(istd::IInformationProvider::IC_NONE),
-	m_messagesWereRemoved(false)
+	m_statusCategory(istd::IInformationProvider::IC_NONE)
 {
-	connect(this, SIGNAL(EmitAddMessage(const istd::IInformationProvider*, bool)), this, SLOT(OnAddMessage(const istd::IInformationProvider*, bool)), Qt::QueuedConnection);
-	connect(this, SIGNAL(EmitRemoveMessage(qint64)), this, SLOT(OnRemoveMessage(qint64)), Qt::QueuedConnection);
-	connect(this, SIGNAL(EmitReset()), this, SLOT(OnReset()), Qt::QueuedConnection);
+	qRegisterMetaType<MessagePtr>("MessagePtr");
+
+	connect(
+				this,
+				SIGNAL(EmitAddMessage(const MessagePtr&)),
+				this,
+				SLOT(OnAddMessage(const MessagePtr&)),
+				Qt::QueuedConnection);
 }
 
 
@@ -63,8 +67,6 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 		treeItemPtr->setToolTip(CT_SOURCE, message.GetInformationSource());
 		treeItemPtr->setData(0, DR_MESSAGE_ID, messageTimeStamp);
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetInformationCategory());
-
-		treeItemPtr->setData(0, DR_IS_MESSAGE_REMOVED_FLAG, false);
 
 		istd::IInformationProvider::InformationCategory category = message.GetInformationCategory();
 		QIcon messageIcon = GetCategoryIcon(category).pixmap(QSize(12, 12), QIcon::Normal, QIcon::On);
@@ -120,25 +122,20 @@ QString CLogGuiComp::GetCategoryText(int category) const
 	}
 }
 
+// reimplemented (ibase::IMessageConsumer)
 
-// reimplemented (iqtgui::TGuiObserverWrap)
-
-void CLogGuiComp::OnGuiModelAttached()
+bool CLogGuiComp::IsMessageSupported(
+			int /*messageCategory*/,
+			int /*messageId*/,
+			const istd::IInformationProvider* /*messagePtr*/) const
 {
-	BaseClass::OnGuiModelAttached();
+	return true;
+}
 
-	ibase::IMessageContainer* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		ibase::IMessageContainer::Messages messages = objectPtr->GetMessages();
-		for (		ibase::IMessageContainer::Messages::const_iterator iter = messages.begin();
-					iter != messages.end();
-					++iter){
-			const ibase::IMessageConsumer::MessagePtr& messagePtr = *iter;
-			if (messagePtr.IsValid()){
-				OnAddMessage(messagePtr.GetPtr(), false);
-			}
-		}
-	}
+
+void CLogGuiComp::AddMessage(const MessagePtr& messagePtr)
+{
+	Q_EMIT EmitAddMessage(messagePtr);
 }
 
 
@@ -146,6 +143,8 @@ void CLogGuiComp::OnGuiModelAttached()
 
 void CLogGuiComp::OnGuiCreated()
 {
+	BaseClass::OnGuiCreated();
+
 	LogView->header()->setResizeMode(QHeaderView::ResizeToContents);
 	LogView->header()->setStretchLastSection(true);
 
@@ -226,47 +225,29 @@ void CLogGuiComp::OnGuiCreated()
 		FilterFrame->setVisible(false);
 	}
 
-	BaseClass::OnGuiCreated();
+	GenerateMessageList();
 }
 
 
-// reimplemented (imod::IObserver)
-
-void CLogGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CLogGuiComp::OnGuiDestroyed()
 {
-	if (IsGuiCreated()){
-		if (updateFlags & ibase::IMessageContainer::CF_RESET){
-			Q_EMIT EmitReset();
-		}
+	m_removeMessagesTimer.stop();
 
-		if (updateFlags & ibase::IMessageContainer::CF_MESSAGE_REMOVED){
-			istd::IInformationProvider* messagePtr = dynamic_cast<istd::IInformationProvider*>(updateParamsPtr);
-			if (messagePtr != NULL){
-				qint64 messageTimeStamp = messagePtr->GetInformationTimeStamp().toMSecsSinceEpoch();
-			
-				Q_EMIT EmitRemoveMessage(messageTimeStamp);
-			}
-		}
-	}
-
-	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass::OnGuiDestroyed();
 }
 
 
-void CLogGuiComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+// reimplemented (icomp::CComponentBase)
+
+void CLogGuiComp::OnComponentCreated()
 {
-	if (((updateFlags & ibase::IMessageContainer::CF_MESSAGE_ADDED) != 0) && IsGuiCreated()){
-		istd::IInformationProvider* messagePtr = dynamic_cast<istd::IInformationProvider*>(updateParamsPtr);
-		if (messagePtr != NULL){
+	BaseClass::OnComponentCreated();
 
-			iser::TCopySerializedWrap<ibase::CMessage>* transferMessagePtr = new iser::TCopySerializedWrap<ibase::CMessage>;
-			transferMessagePtr->CopyFrom(*messagePtr);
+	BaseClass2::SetMaxMessageCount(*m_maxMessagesCountAttrPtr);
 
-			Q_EMIT EmitAddMessage(transferMessagePtr, true);
-		}
+	if (m_slaveMessageConsumerCompPtr.IsValid()){
+		BaseClass2::SetSlaveConsumer(m_slaveMessageConsumerCompPtr.GetPtr());
 	}
-
-	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
 }
 
 
@@ -296,17 +277,24 @@ void CLogGuiComp::UpdateItemVisibility(QTreeWidgetItem* itemPtr, const QString& 
 }
 
 
-// protected slots
+void CLogGuiComp::GenerateMessageList()
+{
+	Messages messageList = BaseClass2::GetMessages();
 
-void CLogGuiComp::OnAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag)
-{	
+	for (Messages::ConstIterator index = messageList.constBegin(); index != messageList.constEnd(); index++){
+		AddMessageToList(*index);
+	}
+}
+
+
+void CLogGuiComp::AddMessageToList(const MessagePtr& messagePtr)
+{
 	iqtgui::CWidgetUpdateBlocker widgetUpdateBlocker(LogView);
 
-	Q_ASSERT(messagePtr != NULL);
+	Q_ASSERT(messagePtr.IsValid());
 
-	QTreeWidgetItem* itemPtr = CreateGuiItem(*messagePtr);
+	QTreeWidgetItem* itemPtr = CreateGuiItem(*messagePtr.GetPtr());
 
-	// add message item to the list
 	LogView->insertTopLevelItem(0, itemPtr);
 
 	UpdateItemVisibility(itemPtr, FilterText->text());
@@ -317,35 +305,18 @@ void CLogGuiComp::OnAddMessage(const istd::IInformationProvider* messagePtr, boo
 
 		UpdateVisualStatus();
 	}
-
-	if (releaseFlag){
-		delete messagePtr;
-	}
 }
 
 
-void CLogGuiComp::OnRemoveMessage(qint64 messageId)
-{
-	int itemsCount = LogView->topLevelItemCount();
+// protected slots
 
-	for (int itemIndex = itemsCount - 1; itemIndex >= 0; itemIndex--){
-		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
-		Q_ASSERT(itemPtr != NULL);
-
-		qint64 itemTimeStamp = itemPtr->data(0, DR_MESSAGE_ID).toLongLong();
-		if (itemTimeStamp == messageId){
-			itemPtr->setData(0, DR_IS_MESSAGE_REMOVED_FLAG, true);
-			itemPtr->setHidden(true);
-			
-			m_messagesWereRemoved = true;
-		}
+void CLogGuiComp::OnAddMessage(const MessagePtr& messagePtr)
+{	
+	if (IsGuiCreated()){
+		AddMessageToList(messagePtr);
 	}
-}
 
-
-void CLogGuiComp::OnReset()
-{
-	LogView->clear();
+	BaseClass2::AddMessage(messagePtr);
 }
 
 
@@ -354,7 +325,6 @@ void CLogGuiComp::OnMessageModeChanged()
 	QAction* actionPtr = dynamic_cast<QAction*> (sender());
 	if (actionPtr != NULL){
 		m_currentMessageMode = actionPtr->data().toInt();
-	
 	}
 
 	int worstCategory = istd::IInformationProvider::IC_NONE;
@@ -382,10 +352,9 @@ void CLogGuiComp::OnMessageModeChanged()
 
 void CLogGuiComp::OnClearAction()
 {
-	ibase::IMessageContainer* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		objectPtr->ClearMessages();
-	}
+	BaseClass2::ClearMessages();
+
+	LogView->clear();
 
 	if (m_statusCategory != istd::IInformationProvider::IC_NONE){
 		m_statusCategory = istd::IInformationProvider::IC_NONE;
@@ -397,54 +366,25 @@ void CLogGuiComp::OnClearAction()
 
 void CLogGuiComp::OnExportAction()
 {
-	ibase::IMessageContainer* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL && m_fileLoaderCompPtr.IsValid()){
-		m_fileLoaderCompPtr->SaveToFile(*objectPtr);
+	if (m_fileLoaderCompPtr.IsValid()){
+		m_fileLoaderCompPtr->SaveToFile(*this);
 	}
 }
 
 
 void CLogGuiComp::OnRemoveMessagesTimer()
 {
-	if (!m_messagesWereRemoved){
-		return;
-	}
-
 	iqtgui::CWidgetUpdateBlocker widgetUpdateBlocker(LogView);
 
-	int itemsCount = LogView->topLevelItemCount();
-	QAbstractItemView::SelectionMode selectionMode = LogView->selectionMode();
-
-	LogView->setVisible(false);
-	LogView->setSortingEnabled(false);
-	LogView->setSelectionMode(QAbstractItemView::NoSelection);
-
-	int scrollBarPosition = 0; 
-	QScrollBar* vScrollBar = LogView->verticalScrollBar();
-	if (vScrollBar != NULL){
-		scrollBarPosition = vScrollBar->value();
-	}
-
-	for (int itemIndex = itemsCount - 1; itemIndex >= 0; itemIndex--){
-		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
-		Q_ASSERT(itemPtr != NULL);
-
-		bool isMessageRemoved = itemPtr->data(0, DR_IS_MESSAGE_REMOVED_FLAG).toBool();
-		if (isMessageRemoved){
-			delete LogView->takeTopLevelItem(itemIndex);
+	if (m_maxMessagesCountAttrPtr.IsValid() && (*m_maxMessagesCountAttrPtr > 0)){
+		int count = LogView->topLevelItemCount();
+		while (count > *m_maxMessagesCountAttrPtr){
+			QTreeWidgetItem* lastItem = LogView->takeTopLevelItem (count - 1);
+			delete lastItem;
+			
+			count = LogView->topLevelItemCount();
 		}
 	}
-
-	LogView->setVisible(true);
-	LogView->setSortingEnabled(true);
-	LogView->setSelectionMode(selectionMode);
-
-	vScrollBar = LogView->verticalScrollBar();
-	if (vScrollBar != NULL){
-		vScrollBar->setValue(scrollBarPosition);
-	}
-
-	m_messagesWereRemoved = false;
 }
 
 

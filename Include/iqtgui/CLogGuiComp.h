@@ -10,7 +10,7 @@
 // ACF includes
 #include "iser/IFileLoader.h"
 
-#include "ibase/IMessageContainer.h"
+#include "ibase/CMessageContainer.h"
 #include "ibase/CMessage.h"
 
 #include "iqtgui/IVisualStatusProvider.h"
@@ -27,19 +27,24 @@ namespace iqtgui
 	Message container displaying messages as log list.
 */
 class CLogGuiComp:
-			public iqtgui::TDesignerGuiObserverCompBase<Ui::CLogGuiComp, ibase::IMessageContainer>
+			public iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp>,
+			public ibase::CMessageContainer
 {
 	Q_OBJECT
 
 public:
-	typedef iqtgui::TDesignerGuiObserverCompBase<Ui::CLogGuiComp, ibase::IMessageContainer> BaseClass;
+	typedef iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp> BaseClass;
+	typedef ibase::CMessageContainer BaseClass2;
 
 	I_BEGIN_COMPONENT(CLogGuiComp);
+		I_REGISTER_INTERFACE(ibase::IMessageConsumer);
 		I_ASSIGN(m_fileLoaderCompPtr, "Exporter", "File loader used for log export", false, "Exporter");
+		I_ASSIGN(m_maxMessagesCountAttrPtr, "MaxMessageCount", "Maximal number of messages supported by the log", true, 1000);
 		I_ASSIGN(m_defaultModeAttrPtr, "DefaultMode", "Default display mode,\n 0 - info,\n 1 - warning,\n 2 - error", true, 0);
 		I_ASSIGN(m_showLogDescriptionAttrPtr, "ShowLogDescription", "Sets the log tables description visible", false, false);
 		I_ASSIGN(m_showMessageTextFilterAttrPtr, "ShowMessageTextFilter", "If enabled, the text filter for the messages will be shown", true, true);
 		I_ASSIGN(m_logTimeFormatAttrPtr, "TimeFormat", "Format of the date/time used for displaing message's time stamp", true, "");
+		I_ASSIGN(m_slaveMessageConsumerCompPtr, "SlaveMessageConsumer", "Slave message consumer", false, "SlaveMessageConsumer");
 	I_END_COMPONENT;
 
 	CLogGuiComp();
@@ -64,8 +69,7 @@ protected:
 	enum DataRole
 	{
 		DR_MESSAGE_ID = Qt::UserRole,
-		DR_CATEGORY,
-		DR_IS_MESSAGE_REMOVED_FLAG
+		DR_CATEGORY
 	};
 
 	/**
@@ -82,24 +86,28 @@ protected:
 	*/
 	QString GetCategoryText(int category) const;
 
-	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
+	// reimplemented (ibase::IMessageConsumer)
+	virtual bool IsMessageSupported(
+				int messageCategory = -1,
+				int messageId = -1,
+				const istd::IInformationProvider* messagePtr = NULL) const;
+	virtual void AddMessage(const MessagePtr& messagePtr);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
-	// reimplemented (imod::IObserver)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
 
 private:
 	void UpdateVisualStatus();
 	void UpdateItemVisibility(QTreeWidgetItem* itemPtr, const QString& filterText) const;
+	void GenerateMessageList();
+	void AddMessageToList(const MessagePtr& messagePtr);
 
 protected Q_SLOTS:
-	virtual void OnAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag);
-	virtual void OnRemoveMessage(qint64 messageTimeStamp);
-	virtual void OnReset();
+	virtual void OnAddMessage(const MessagePtr& messagePtr);
 	virtual void OnMessageModeChanged();
 
 	virtual void OnClearAction();
@@ -111,9 +119,7 @@ protected Q_SLOTS:
 	void on_FilterClearButton_clicked();
 
 Q_SIGNALS:
-	void EmitAddMessage(const istd::IInformationProvider* messagePtr, bool releaseFlag);
-	void EmitRemoveMessage(qint64);
-	void EmitReset();
+	void EmitAddMessage(const MessagePtr& messagePtr);
 
 protected:
 	QAction* m_infoAction;
@@ -124,7 +130,9 @@ protected:
 
 private:
 	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(ibase::IMessageConsumer, m_slaveMessageConsumerCompPtr);
 	I_ATTR(int, m_defaultModeAttrPtr);
+	I_ATTR(int, m_maxMessagesCountAttrPtr);
 	I_ATTR(bool, m_showLogDescriptionAttrPtr);
 	I_ATTR(bool, m_showMessageTextFilterAttrPtr);
 	I_ATTR(QString, m_logTimeFormatAttrPtr);
@@ -134,7 +142,6 @@ private:
 	int m_statusCategory;
 
 	QTimer m_removeMessagesTimer;
-	bool m_messagesWereRemoved;
 };
 
 

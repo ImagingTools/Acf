@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2783
+          2813
         </Number>
         <Description>
           ACF
@@ -26,7 +26,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <ElementsList count="5">
+  <ElementsList count="4">
     <Element>
       <Id>
         LogDock
@@ -160,25 +160,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              DefaultModel
-            </Id>
-            <Type>
-              Reference
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Value>
-                LogModel
-              </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
               Exporter
             </Id>
             <Type>
@@ -198,91 +179,6 @@
           </AttributeInfo>
           <AttributeInfo>
             <Id>
-              ShowLogDescription
-            </Id>
-            <Type>
-              Boolean
-            </Type>
-            <ExportId>
-              ShowLogDescription
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              ShowMessageTextFilter
-            </Id>
-            <Type>
-              Boolean
-            </Type>
-            <ExportId>
-              ShowMessageTextFilter
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              StyleSheet
-            </Id>
-            <Type>
-              String
-            </Type>
-            <ExportId>
-              StyleSheet
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              TimeFormat
-            </Id>
-            <Type>
-              String
-            </Type>
-            <ExportId>
-              TimeFormat
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-        </AttributeInfoMap>
-      </Data>
-    </Element>
-    <Element>
-      <Id>
-        LogModel
-      </Id>
-      <PackageId>
-        BasePck
-      </PackageId>
-      <ComponentId>
-        Log
-      </ComponentId>
-      <Data>
-        <IsEnabled>
-          true
-        </IsEnabled>
-        <Flags>
-          0
-        </Flags>
-        <AttributeInfoMap count="1">
-          <AttributeInfo>
-            <Id>
               MaxMessageCount
             </Id>
             <Type>
@@ -290,6 +186,70 @@
             </Type>
             <ExportId>
               MaxMessageCount
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ShowLogDescription
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              ShowLogDescription
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ShowMessageTextFilter
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              ShowMessageTextFilter
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              StyleSheet
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              StyleSheet
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              TimeFormat
+            </Id>
+            <Type>
+              String
+            </Type>
+            <ExportId>
+              TimeFormat
             </ExportId>
             <Data>
               <IsEnabled>
@@ -459,34 +419,10 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="7">
+  <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
         ibase::IMessageConsumer
-      </InterfaceId>
-      <ComponentId>
-        LogModel
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        ibase::IMessageContainer
-      </InterfaceId>
-      <ComponentId>
-        LogModel
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        imod::IModel
-      </InterfaceId>
-      <ComponentId>
-        LogModel
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        imod::IModelEditor
       </InterfaceId>
       <ComponentId>
         LogGui
@@ -508,24 +444,8 @@
         LogDock
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        istd::IChangeable
-      </InterfaceId>
-      <ComponentId>
-        LogModel
-      </ComponentId>
-    </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="3">
-    <Component>
-      <ExportedId>
-        Log
-      </ExportedId>
-      <ComponentId>
-        LogModel
-      </ComponentId>
-    </Component>
+  <ExportedComponents count="2">
     <Component>
       <ExportedId>
         VisualStatus

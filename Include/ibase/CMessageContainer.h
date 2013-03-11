@@ -75,8 +75,6 @@ private:
 	int m_maxMessagesCount;
 
 	int m_worstCategory;
-
-	mutable QMutex m_lock;
 };
 
 
