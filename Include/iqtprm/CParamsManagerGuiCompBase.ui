@@ -45,6 +45,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QComboBox" name="ParamsComboBox">
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::NoInsert</enum>
+     </property>
+     <property name="duplicatesEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QWidget" name="ButtonsFrame" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <property name="margin">

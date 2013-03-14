@@ -146,6 +146,63 @@ void CParamsManagerGuiCompBase::on_ParamsTree_itemChanged(QTreeWidgetItem* item,
 }
 
 
+void CParamsManagerGuiCompBase::on_ParamsComboBox_currentIndexChanged(int /*index*/)
+{
+	if (IsUpdateBlocked()){
+		return;
+	}
+
+	UpdateBlocker updateBlocker(this);
+
+	int selectedIndex = GetSelectedIndex();
+
+	ParamsComboBox->setEditable(selectedIndex >= 0);
+
+	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	if (selectionPtr == NULL){
+		return;
+	}
+
+	const iprm::IOptionsList* constraintsPtr = selectionPtr->GetSelectionConstraints();
+
+	if (		(constraintsPtr != NULL) &&
+		(selectedIndex < constraintsPtr->GetOptionsCount()) &&
+		(selectedIndex != selectionPtr->GetSelectedOptionIndex())){
+			if (selectionPtr->SetSelectedOptionIndex(selectedIndex)){
+				UpdateParamsView(selectedIndex);
+			}
+
+			return;
+	}
+
+	if (selectedIndex < 0){
+		UpdateParamsView(-1);
+	}
+}
+
+
+void CParamsManagerGuiCompBase::on_ParamsComboBox_editTextChanged(const QString& text)
+{
+	if (IsUpdateBlocked()){
+		return;
+	}
+
+	int selectedIndex = ParamsComboBox->currentIndex();
+	if (selectedIndex >= 0){
+		UpdateBlocker updateBlocker(this);
+
+		iprm::IParamsManager* objectPtr = GetObjectPtr();
+		if (objectPtr != NULL){
+			int setIndex = ParamsComboBox->itemData(selectedIndex, Qt::UserRole).toInt();
+
+			objectPtr->SetParamsSetName(setIndex, text);
+
+			ParamsComboBox->setItemText(selectedIndex, text);
+		}
+	}
+}
+
+
 // protected methods
 
 void CParamsManagerGuiCompBase::UpdateActions()
@@ -237,6 +294,54 @@ void CParamsManagerGuiCompBase::UpdateTree()
 }
 
 
+void CParamsManagerGuiCompBase::UpdateComboBox()
+{
+	UpdateBlocker updateBlocker(this);
+
+	ParamsComboBox->clear();
+
+	int selectedIndex = -1;	
+
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int setsCount = objectPtr->GetParamsSetsCount();
+
+		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+		if (selectionPtr != NULL){
+			selectedIndex = selectionPtr->GetSelectedOptionIndex();
+		}
+
+		for (int paramSetIndex = 0; paramSetIndex < setsCount; ++paramSetIndex){
+			int flags = objectPtr->GetIndexOperationFlags(paramSetIndex);
+
+			Qt::ItemFlags itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+			if ((flags & iprm::IParamsManager::MF_SUPPORT_RENAME) != 0){
+				itemFlags |= Qt::ItemIsEditable;
+			}
+
+			QString name = objectPtr->GetParamsSetName(paramSetIndex);
+			QIcon icon;
+			iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(paramSetIndex);
+			if (paramsSetPtr != NULL){
+				QByteArray id = paramsSetPtr->GetFactoryId();
+				if (m_factoryIconIndexMap.contains(id)){
+					int iconIndex = m_factoryIconIndexMap[id];						
+					icon = m_stateIconsMap.value(iconIndex);
+				}
+			}
+
+			ParamsComboBox->addItem(icon, name, paramSetIndex);
+		}
+	}
+
+	ParamsComboBox->setCurrentIndex(selectedIndex);
+	ParamsComboBox->setEditable(selectedIndex >= 0);
+	ParamsComboBox->setEnabled(ParamsComboBox->count() > 0);
+
+	UpdateParamsView(selectedIndex);
+}
+
+
 void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 {
 	imod::IModel* modelPtr = NULL;
@@ -278,6 +383,10 @@ void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 
 	RemoveButton->setEnabled(selectedIndex >= 0);
 
+	if (modelPtr == NULL){
+		ParamsFrame->hide();
+	}
+
 	UpdateActions();
 }
 
@@ -287,6 +396,15 @@ int CParamsManagerGuiCompBase::GetSelectedIndex() const
 	Q_ASSERT(IsGuiCreated());
 
 	int retVal = -1;
+
+	if (*m_comboBoxViewAttrPtr){
+		int index = ParamsComboBox->currentIndex();
+
+		retVal = ParamsComboBox->itemData(index).toInt();
+
+		return retVal;
+	}
+
 	QList<QTreeWidgetItem*> items = ParamsTree->selectedItems();
 	if (!items.isEmpty()){
 		QTreeWidgetItem* itemPtr = items.first();
@@ -409,7 +527,11 @@ void CParamsManagerGuiCompBase::UpdateGui(int /*updateFlags*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
-	UpdateTree();
+	if (*m_comboBoxViewAttrPtr){
+		UpdateComboBox();
+	} else {
+		UpdateTree();
+	}
 }
 
 
@@ -421,6 +543,11 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 
 	BaseClass::OnGuiCreated();
 
+	if (*m_comboBoxViewAttrPtr){
+		ParamsTree->hide();
+	} else {
+		ParamsComboBox->hide();
+	}
 
 	// initialize state icons map:
 	if (m_iconProviderCompPtr.IsValid()){
@@ -429,7 +556,6 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 			m_stateIconsMap[fileState] = QIcon(pixmap);
 		}
 	}
-
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr);
 }
