@@ -20,7 +20,7 @@ class CEnableableParam: virtual public iprm::IEnableableParam
 public:
 	CEnableableParam(bool isEnabled = true);
 
-	// pseudo-reimplemented (iprm::IEnableableParam)
+	// reimplemented (iprm::IEnableableParam)
 	virtual bool IsEnabled() const;
 	virtual bool IsEnablingAllowed() const;
 	virtual void SetEnabled(bool isEnabled = true);

@@ -2,7 +2,7 @@
 
 
 // STD includes
-#include <math.h>
+#include <cmath>
 
 // ACF includes
 #include "imath/imath.h"
@@ -87,8 +87,8 @@ bool CDirection2d::Invariant() const
 double CDirection2d::Normalize(double radian)
 {
 	double retVal = (radian >= 0) ?
-					::fmod(radian + I_PI, I_2PI) - I_PI:
-					I_PI - ::fmod(I_PI - radian, I_2PI);
+					std::fmod(radian + I_PI, I_2PI) - I_PI:
+					I_PI - std::fmod(I_PI - radian, I_2PI);
 					
 	Q_ASSERT((retVal >= -I_PI - I_BIG_EPSILON) && (retVal <= I_PI + I_BIG_EPSILON));
 
@@ -110,7 +110,7 @@ CDirection2d CDirection2d::FromDegree(double degree)
 
 double CDirection2d::ToDegree() const
 {
-	return fmod(m_direction / I_2PI * 360.0 + 360.0, 360.0);
+	return std::fmod(m_direction / I_2PI * 360.0 + 360.0, 360.0);
 }
 
 
