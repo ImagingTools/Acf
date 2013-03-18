@@ -1,3 +1,7 @@
+#Part of ACF project containing executable tools
+
+include (../../Config/QMake/GeneralConfig.pri)
+
 TEMPLATE = subdirs
 CONFIG += ordered
 

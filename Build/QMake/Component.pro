@@ -1,3 +1,7 @@
+#Part of ACF project containing components
+
+include (../../Config/QMake/GeneralConfig.pri)
+
 TEMPLATE = subdirs
 
 SUBDIRS += BasePck

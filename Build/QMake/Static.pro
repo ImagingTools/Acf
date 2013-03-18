@@ -1,3 +1,7 @@
+#Part of ACF project containing static libraries only
+
+include (../../Config/QMake/GeneralConfig.pri)
+
 TEMPLATE = subdirs
 
 SUBDIRS += istd
