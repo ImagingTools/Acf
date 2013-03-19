@@ -2,6 +2,9 @@
 #define iqtgui_TGuiObserverWrap_included
 
 
+// Qt includes
+#include <QtGui/QWidget>
+
 // ACF includes
 #include "imod/IModelEditor.h"
 #include "imod/IModel.h"
