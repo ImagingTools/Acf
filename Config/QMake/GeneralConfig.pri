@@ -6,6 +6,11 @@ CONFIG += silent
 CONFIG += rtti
 CONFIG += debug_and_release
 
+PLATFORM_CODE = i86
+win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
+	PLATFORM_CODE = x64
+}
+
 COMPILER_NAME = QMake
 PLATFORM_NAME = Unix
 
