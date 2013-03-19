@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2821
+          2826
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1023
         </Id>
         <Number>
-          264192
+          264194
         </Number>
         <Description>
           Qt Framework
@@ -461,7 +461,15 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="2">
+  <ExportedComponents count="3">
+    <Component>
+      <ExportedId>
+        LogGui
+      </ExportedId>
+      <ComponentId>
+        LogGui
+      </ComponentId>
+    </Component>
     <Component>
       <ExportedId>
         VisualStatus

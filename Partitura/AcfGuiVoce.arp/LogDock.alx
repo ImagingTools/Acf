@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2821
+          2826
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1023
         </Id>
         <Number>
-          264192
+          264194
         </Number>
         <Description>
           Qt Framework
@@ -63,7 +63,7 @@
         325
       </X>
       <X>
-        150
+        125
       </X>
       <Note>
         Dock widget where the log window is placed.

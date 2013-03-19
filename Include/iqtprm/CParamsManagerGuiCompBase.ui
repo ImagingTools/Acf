@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>656</width>
-    <height>513</height>
+    <width>452</width>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,113 +45,141 @@
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="ParamsComboBox">
-     <property name="editable">
-      <bool>true</bool>
-     </property>
-     <property name="insertPolicy">
-      <enum>QComboBox::NoInsert</enum>
-     </property>
-     <property name="duplicatesEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="ButtonsFrame" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <property name="margin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QWidget" name="AddRemoveButtonsFrame" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="AddButton">
-           <property name="toolTip">
-            <string>Insert new item</string>
-           </property>
-           <property name="text">
-            <string>Add</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Add.svg</normaloff>:/Icons/Add.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="RemoveButton">
-           <property name="toolTip">
-            <string>Remove selected item</string>
-           </property>
-           <property name="text">
-            <string>Remove</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Delete.svg</normaloff>:/Icons/Delete.svg</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QComboBox" name="ParamsComboBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="maxVisibleItems">
+        <number>20</number>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
+       <property name="duplicatesEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="ButtonsFrame" native="true">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="margin">
+         <number>0</number>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>329</width>
-          <height>17</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QWidget" name="UpDownButtonsFrame" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <property name="margin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QToolButton" name="UpButton">
-           <property name="toolTip">
-            <string>Move selected item up</string>
+        <item>
+         <widget class="QWidget" name="AddRemoveButtonsFrame" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="margin">
+            <number>0</number>
            </property>
-           <property name="text">
-            <string>...</string>
+           <item>
+            <widget class="QToolButton" name="AddButton">
+             <property name="toolTip">
+              <string>Insert new item</string>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../iqtgui/iqtgui.qrc">
+               <normaloff>:/Icons/Add.svg</normaloff>:/Icons/Add.svg</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="RemoveButton">
+             <property name="toolTip">
+              <string>Remove selected item</string>
+             </property>
+             <property name="text">
+              <string>Remove</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../iqtgui/iqtgui.qrc">
+               <normaloff>:/Icons/Delete.svg</normaloff>:/Icons/Delete.svg</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Minimum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>100</width>
+            <height>17</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QWidget" name="UpDownButtonsFrame" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="margin">
+            <number>0</number>
            </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Up.svg</normaloff>:/Icons/Up.svg</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="DownButton">
-           <property name="toolTip">
-            <string>Move selected item down</string>
-           </property>
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../iqtgui/iqtgui.qrc">
-             <normaloff>:/Icons/Down.svg</normaloff>:/Icons/Down.svg</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+           <item>
+            <widget class="QToolButton" name="UpButton">
+             <property name="toolTip">
+              <string>Move selected item up</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../iqtgui/iqtgui.qrc">
+               <normaloff>:/Icons/Up.svg</normaloff>:/Icons/Up.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="DownButton">
+             <property name="toolTip">
+              <string>Move selected item down</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../iqtgui/iqtgui.qrc">
+               <normaloff>:/Icons/Down.svg</normaloff>:/Icons/Down.svg</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QFrame" name="ParamsFrame">
