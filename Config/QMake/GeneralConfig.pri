@@ -3,6 +3,8 @@
 CONFIG += stl
 CONFIG -= exceptions
 CONFIG += silent
+#General base configuration should be included from all ACF-based projects
+
 CONFIG += rtti
 CONFIG += debug_and_release
 
@@ -55,5 +57,3 @@ CONFIG(release, debug|release){
 INCLUDEPATH += $$PWD/../../Include
 LIBS += -L$$PWD/../../Lib/$$COMPILER_DIR
 
-HEADERS += ../*.h
-SOURCES += ../*.cpp

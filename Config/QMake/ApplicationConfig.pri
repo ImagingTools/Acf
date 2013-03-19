@@ -10,3 +10,6 @@ CONFIG += app_bundle
 INCLUDEPATH += $$PWD/../../Impl
 
 DESTDIR = ../../../Bin/$$COMPILER_DIR
+
+HEADERS += ../*.h
+SOURCES += ../*.cpp

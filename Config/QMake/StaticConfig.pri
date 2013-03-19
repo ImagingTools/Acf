@@ -10,3 +10,5 @@ CONFIG += create_prl link_prl
 INCLUDEPATH += ../../
 DESTDIR = ../../../Lib/$$COMPILER_DIR
 
+HEADERS += ../*.h
+SOURCES += ../*.cpp

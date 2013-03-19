@@ -21,3 +21,6 @@ CONFIG += link_prl
 else{
 	CONFIG += dll
 }
+
+HEADERS += ../*.h
+SOURCES += ../*.cpp
