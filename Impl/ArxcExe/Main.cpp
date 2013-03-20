@@ -5,7 +5,6 @@
 // Qt includes
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
-#include <QtGui/QMessageBox>
 #include <QtGui/QApplication>
 
 // ACF includes

@@ -389,7 +389,7 @@ void CRegistryTreeViewComp::on_RegistryTree_itemDoubleClicked(QTreeWidgetItem* i
 		
 			QString filePath = packageDir.absoluteFilePath(componentAddress.GetComponentId() + ".arx");
 
-			m_documentManagerCompPtr->FileOpen(NULL, &filePath);
+			m_documentManagerCompPtr->OpenDocument(NULL, &filePath);
 		}
 	}
 }

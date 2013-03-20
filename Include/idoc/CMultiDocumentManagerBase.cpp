@@ -31,8 +31,8 @@ CMultiDocumentManagerBase::CMultiDocumentManagerBase()
 idoc::IUndoManager* CMultiDocumentManagerBase::GetUndoManagerForDocument(const istd::IChangeable* documentPtr) const
 {
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		const SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		const SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 		
 		if (info.documentPtr == documentPtr){
 			return info.undoManagerPtr.GetPtr();
@@ -87,7 +87,9 @@ istd::IPolymorphic* CMultiDocumentManagerBase::GetViewFromIndex(int documentInde
 	SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
 	Q_ASSERT(infoPtr != NULL);
 
-	return infoPtr->views.at(viewIndex).GetPtr();
+	const ViewInfo& viewInfo = infoPtr->views.at(viewIndex);
+
+	return viewInfo.viewPtr.GetPtr();
 }
 
 
@@ -123,8 +125,8 @@ istd::IPolymorphic* CMultiDocumentManagerBase::AddViewToDocument(const istd::ICh
 	}
 
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 		
 		if (info.documentPtr == &document){
 			istd::IPolymorphic* viewPtr = documentTemplatePtr->CreateView(
@@ -135,9 +137,12 @@ istd::IPolymorphic* CMultiDocumentManagerBase::AddViewToDocument(const istd::ICh
 				return NULL;
 			}
 
-			info.views.push_back(ViewPtr());
-			info.views.back().SetPtr(viewPtr);
-			info.viewTypeIds.push_back(viewTypeId);
+
+			info.views.push_back(ViewInfo());
+
+			ViewInfo& newViewInfo = info.views.back();
+			newViewInfo.viewPtr.SetPtr(viewPtr);
+			newViewInfo.viewTypeId = viewTypeId;
 
 			OnViewRegistered(viewPtr);
 
@@ -153,8 +158,8 @@ istd::IPolymorphic* CMultiDocumentManagerBase::AddViewToDocument(const istd::ICh
 QByteArray CMultiDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable& document) const
 {
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 
 		if (info.documentPtr == &document){
 			return info.documentTypeId;
@@ -165,7 +170,7 @@ QByteArray CMultiDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable&
 }
 
 
-bool CMultiDocumentManagerBase::FileNew(
+bool CMultiDocumentManagerBase::InsertNewDocument(
 			const QByteArray& documentTypeId, 
 			bool createView, 
 			const QByteArray& viewTypeId,
@@ -188,7 +193,7 @@ bool CMultiDocumentManagerBase::FileNew(
 }
 
 
-bool CMultiDocumentManagerBase::FileOpen(
+bool CMultiDocumentManagerBase::OpenDocument(
 			const QByteArray* documentTypeIdPtr,
 			const QString* fileNamePtr,
 			bool createView,
@@ -232,7 +237,7 @@ bool CMultiDocumentManagerBase::FileOpen(
 }
 
 
-bool CMultiDocumentManagerBase::FileSave(
+bool CMultiDocumentManagerBase::SaveDocument(
 			int documentIndex,
 			bool requestFileName,
 			FileToTypeMap* savedMapPtr)
@@ -270,10 +275,12 @@ bool CMultiDocumentManagerBase::FileSave(
 		}
 	}
 
-	for (		Views::const_iterator iter = infoPtr->views.begin();
-				iter != infoPtr->views.end();
-				++iter){
-		const imod::IModelEditor* editorPtr = CompCastPtr<imod::IModelEditor>(iter->GetPtr());
+	for (		Views::const_iterator viewIter = infoPtr->views.begin();
+				viewIter != infoPtr->views.end();
+				++viewIter){
+		const ViewInfo& viewInfo = *viewIter;
+
+		const imod::IModelEditor* editorPtr = CompCastPtr<imod::IModelEditor>(viewInfo.viewPtr.GetPtr());
 		if ((editorPtr != NULL) && (!editorPtr->IsReadOnly())){
 			editorPtr->UpdateModel();
 		}
@@ -303,86 +310,144 @@ bool CMultiDocumentManagerBase::FileSave(
 }
 
 
-void CMultiDocumentManagerBase::FileClose(int documentIndex, bool* ignoredPtr)
+bool CMultiDocumentManagerBase::SaveDirtyDocuments(bool beQuiet, bool* ignoredPtr)
 {
 	int documentsCount = m_documentInfos.GetCount();
-
-	if (documentIndex >= 0){
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
 		SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
 		Q_ASSERT(infoPtr != NULL);
 
-		while (!infoPtr->views.empty()){
-			for (Views::iterator iter = infoPtr->views.begin(); iter != infoPtr->views.end(); ++iter){
-				if (infoPtr->isDirty){
-					QueryDocumentClose(*infoPtr, ignoredPtr);
-					if ((ignoredPtr != NULL) && *ignoredPtr){
-						break;
+		if (infoPtr->isDirty){
+			if (!beQuiet){
+				// ensure some view of closing document is visible before query
+				if (!infoPtr->views.isEmpty() && (infoPtr != GetActiveDocumentInfo())){
+					const ViewInfo& firstViewInfo = infoPtr->views.front();
+
+					SetActiveView(firstViewInfo.viewPtr.GetPtr());
+				}
+
+				if (QueryDocumentSave(*infoPtr, ignoredPtr)){
+					if (!SaveDocument(documentIndex, false) && (ignoredPtr != NULL)){
+						*ignoredPtr = true;	// Cannot save, set cancel
 					}
 				}
 
-				Q_ASSERT(iter->IsValid());
-
-				istd::IPolymorphic* viewPtr = iter->GetPtr();
-				Q_ASSERT(viewPtr != NULL);
-
-				OnViewRemoved(viewPtr);
-
-				infoPtr->viewTypeIds.removeAt(iter - infoPtr->views.begin());
-				infoPtr->views.erase(iter);
-
-				if (viewPtr == m_activeViewPtr){
-					m_activeViewPtr = NULL;
+				if ((ignoredPtr != NULL) && *ignoredPtr){
+					return false;
 				}
-				break;
 			}
 		}
-
-		int changeFlags = CF_MODEL | CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
-		
-		// If last document was closed, force view activation update:
-		if (m_documentInfos.GetCount() == 1){
-			changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
-		}
-
-		istd::CChangeNotifier notifier(this, changeFlags);
-
-		m_documentInfos.RemoveAt(documentIndex);
 	}
-	else{
+
+	return true;
+}
+
+
+void CMultiDocumentManagerBase::CloseDocument(int documentIndex, bool beQuiet, bool* ignoredPtr)
+{
+	if (documentIndex < 0){
+		int documentsCount = m_documentInfos.GetCount();
 		for (int i = 0; i < documentsCount; ++i){
-			SingleDocumentData* infoPtr = m_documentInfos.GetAt(i);
+			const SingleDocumentData* infoPtr = m_documentInfos.GetAt(i);
 			Q_ASSERT(infoPtr != NULL);
 
-			Views::iterator findIter = qFind(infoPtr->views.begin(), infoPtr->views.end(), m_activeViewPtr);
-			if (findIter != infoPtr->views.end()){
-				if (infoPtr->isDirty){
-					QueryDocumentClose(*infoPtr, ignoredPtr);
-					if ((ignoredPtr != NULL) && *ignoredPtr){
-						break;
-					}
-				}
+			for (		Views::ConstIterator viewIter = infoPtr->views.constBegin();
+						viewIter != infoPtr->views.constEnd();
+						++viewIter){
+				const ViewInfo& viewInfo = *viewIter;
+				Q_ASSERT(viewInfo.viewPtr.IsValid());
 
-				Q_ASSERT(findIter->IsValid());
-				OnViewRemoved(findIter->GetPtr());
-				
-				infoPtr->viewTypeIds.removeAt(findIter - infoPtr->views.begin());
-				infoPtr->views.erase(findIter);	// remove active view
-
-				m_activeViewPtr = NULL;
-
-				if (infoPtr->views.isEmpty()){	// last view was removed
-					int changeFlags = CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
-					// if last document was closed, force view activation update:
-					if (m_documentInfos.GetCount() == 1){
-						changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
-					}
-
-					istd::CChangeNotifier notifier(this, changeFlags);
-
-					m_documentInfos.RemoveAt(i);
-
+				if (viewInfo.viewPtr == m_activeViewPtr){
+					documentIndex = i;
 					break;
 				}
+			}
+		}
+		Q_ASSERT(documentIndex >= 0);	// if some view is active than document must also exist...
+	}
+
+	SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
+	Q_ASSERT(infoPtr != NULL);
+
+	if (infoPtr->isDirty){
+		if (!beQuiet){
+			// ensure some view of closing document is visible before query
+			if (!infoPtr->views.isEmpty() && (infoPtr != GetActiveDocumentInfo())){
+				const ViewInfo& firstViewInfo = infoPtr->views.front();
+
+				SetActiveView(firstViewInfo.viewPtr.GetPtr());
+			}
+
+			if (QueryDocumentSave(*infoPtr, ignoredPtr)){
+				if (!SaveDocument(documentIndex, false) && (ignoredPtr != NULL)){
+					*ignoredPtr = true;	// Cannot save, set cancel
+				}
+			}
+
+			if ((ignoredPtr != NULL) && *ignoredPtr){
+				return;
+			}
+		}
+	}
+
+	// Close all views of this document
+	Views::iterator viewIter = infoPtr->views.begin();
+	while (viewIter != infoPtr->views.end()){
+		const ViewInfo& viewInfo = *viewIter;
+		Q_ASSERT(viewInfo.viewPtr.IsValid());
+
+		OnViewRemoved(viewInfo.viewPtr.GetPtr());
+
+		if (viewInfo.viewPtr == m_activeViewPtr){
+			m_activeViewPtr = NULL;
+		}
+
+		viewIter = infoPtr->views.erase(viewIter);
+	}
+
+	int changeFlags = CF_MODEL | CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
+	
+	// If last document was closed, force view activation update:
+	if (m_documentInfos.GetCount() == 1){
+		changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
+	}
+
+	istd::CChangeNotifier notifier(this, changeFlags);
+
+	m_documentInfos.RemoveAt(documentIndex);
+}
+
+
+void CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
+{
+	int documentsCount = m_documentInfos.GetCount();
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData* infoPtr = m_documentInfos.GetAt(documentIndex);
+		Q_ASSERT(infoPtr != NULL);
+
+		for (		Views::Iterator viewIter = infoPtr->views.begin();
+					viewIter != infoPtr->views.end();
+					++viewIter){
+			ViewInfo& viewInfo = *viewIter;
+			Q_ASSERT(viewInfo.viewPtr.IsValid());
+
+			if (viewInfo.viewPtr == m_activeViewPtr){
+				if (infoPtr->views.size() == 1){	// is it the last view? If yes then simple close document
+					CloseDocument(documentIndex, beQuiet, ignoredPtr);
+
+					if ((ignoredPtr != NULL) && *ignoredPtr){	// Is close operation canceled?
+						return;
+					}
+				}
+				else{
+					OnViewRemoved(viewInfo.viewPtr.GetPtr());
+
+					infoPtr->views.erase(viewIter);	// remove active view
+
+					m_activeViewPtr = NULL;
+				}
+
+				return;
 			}
 		}
 	}
@@ -422,19 +487,22 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 						existingInfoPtr->documentPtr.GetPtr(),
 						viewTypeId);
 			if (viewPtr != NULL){
-				existingInfoPtr->views.push_back(ViewPtr());
-				existingInfoPtr->views.back().SetPtr(viewPtr);
-				existingInfoPtr->viewTypeIds.push_back(viewTypeId);
+				existingInfoPtr->views.push_back(ViewInfo());
+
+				ViewInfo& newViewInfo = existingInfoPtr->views.back();
+				newViewInfo.viewPtr.SetPtr(viewPtr);
+				newViewInfo.viewTypeId = viewTypeId;
 
 				OnViewRegistered(viewPtr);
 			}
 		}
 		else{
-			if (!existingInfoPtr->views.isEmpty()){
-				istd::IPolymorphic* viewPtr = existingInfoPtr->views.front().GetPtr();
-				Q_ASSERT(viewPtr != NULL);
+			// try to show some view of existing document
+			if (!existingInfoPtr->views.isEmpty() && (existingInfoPtr != GetActiveDocumentInfo())){
+				const ViewInfo& firstViewInfo = existingInfoPtr->views.front();
+				Q_ASSERT(firstViewInfo.viewPtr.IsValid());
 
-				SetActiveView(viewPtr);
+				SetActiveView(firstViewInfo.viewPtr.GetPtr());
 			}
 		}
 
@@ -482,9 +550,11 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 void CMultiDocumentManagerBase::CloseAllDocuments()
 {
-	istd::CChangeNotifier notifierPtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_REMOVED | CF_MODEL);
+	if (!m_documentInfos.IsEmpty()){
+		istd::CChangeNotifier notifierPtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_REMOVED | CF_MODEL);
 
-	m_documentInfos.Reset();
+		m_documentInfos.Reset();
+	}
 }
 
 
@@ -514,12 +584,16 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetAct
 CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDocumentInfoFromView(const istd::IPolymorphic& view) const
 {
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 
-		Views::iterator findIter = qFind(info.views.begin(), info.views.end(), &view);
-		if (findIter != info.views.end()){
-			return &info;
+		for (		Views::ConstIterator viewIter = info.views.begin();
+					viewIter != info.views.end();
+					++viewIter){
+			const ViewInfo& viewInfo = *viewIter;
+			if (viewInfo.viewPtr == &view){
+				return &info;
+			}
 		}
 	}
 
@@ -530,8 +604,8 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDoc
 CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDocumentInfoFromPath(const QString& filePath) const
 {
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 
 		if (info.filePath == filePath){
 			return &info;
@@ -545,11 +619,11 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::GetDoc
 int CMultiDocumentManagerBase::GetDocumentIndex(const SingleDocumentData& document) const
 {
 	int documentsCount = GetDocumentsCount();
-	for (int i = 0; i < documentsCount; ++i){
-		SingleDocumentData& info = GetSingleDocumentData(i);
+	for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+		SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 
 		if (&info == &document){
-			return i;
+			return documentIndex;
 		}
 	}
 
@@ -575,6 +649,11 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 				documentModelPtr->AttachObserver(infoPtr.GetPtr());
 			}
 
+			imod::IModel* undoManagerModelPtr = CompCastPtr<imod::IModel>(infoPtr->undoManagerPtr.GetPtr());
+			if (undoManagerModelPtr != NULL){
+				undoManagerModelPtr->AttachObserver(infoPtr.GetPtr());
+			}
+
 			if (createView){
 				istd::IPolymorphic* viewPtr = documentTemplatePtr->CreateView(
 							documentTypeId,
@@ -584,9 +663,11 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 					return NULL;
 				}
 
-				infoPtr->views.push_back(ViewPtr());
-				infoPtr->views.back().SetPtr(viewPtr);
-				infoPtr->viewTypeIds.push_back(viewTypeId);
+				infoPtr->views.push_back(ViewInfo());
+
+				ViewInfo& newViewInfo = infoPtr->views.back();
+				newViewInfo.viewPtr.SetPtr(viewPtr);
+				newViewInfo.viewTypeId = viewTypeId;
 			}
 
 			return infoPtr.PopPtr();
@@ -605,12 +686,13 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 
 	m_documentInfos.PushBack(infoPtr);
 
-	for (		Views::iterator iter = infoPtr->views.begin();
-				iter != infoPtr->views.end();
-				++iter){
-		Q_ASSERT(iter->IsValid());
+	for (		Views::iterator viewIter = infoPtr->views.begin();
+				viewIter != infoPtr->views.end();
+				++viewIter){
+		ViewInfo& viewInfo = *viewIter;
+		Q_ASSERT(viewInfo.viewPtr.IsValid());
 
-		OnViewRegistered(iter->GetPtr());
+		OnViewRegistered(viewInfo.viewPtr.GetPtr());
 	}
 
 	return true;
@@ -633,8 +715,8 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 	bool retVal = archive.BeginMultiTag(openDocumentsListTag, openDocumentTag, documentsCount);
 		
 	if (archive.IsStoring()){
-		for (int i = 0; i < documentsCount; ++i){
-			SingleDocumentData& info = GetSingleDocumentData(i);
+		for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
+			SingleDocumentData& info = GetSingleDocumentData(documentIndex);
 
 			retVal = retVal && archive.BeginTag(openDocumentTag);
 			
@@ -646,17 +728,19 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			retVal = retVal && archive.Process(info.documentTypeId);
 			retVal = retVal && archive.EndTag(documentTypeIdTag);
 
-			int viewCount = info.viewTypeIds.count();	
+			int viewCount = info.views.count();	
 			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
 
-			for (int j = 0; j < viewCount; ++j){
+			for (int viewIndex = 0; viewIndex < viewCount; ++viewIndex){
+				ViewInfo& viewInfo = info.views[viewIndex];
+
 				retVal = retVal && archive.BeginTag(viewTag);
 				
 				retVal = retVal && archive.BeginTag(viewTypeIdTag);
-				retVal = retVal && archive.Process(info.viewTypeIds[j]);
+				retVal = retVal && archive.Process(viewInfo.viewTypeId);
 				retVal = retVal && archive.EndTag(viewTypeIdTag);
 
-				bool isActive = (info.views[j] == m_activeViewPtr);
+				bool isActive = (viewInfo.viewPtr == m_activeViewPtr);
 				retVal = retVal && archive.BeginTag(viewIsActiveTag);
 				retVal = retVal && archive.Process(isActive);
 				retVal = retVal && archive.EndTag(viewIsActiveTag);
@@ -672,7 +756,7 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 	else {
 		istd::IPolymorphic* activeView = NULL;
 
-		for (int i = 0; i < documentsCount; ++i){
+		for (int documentIndex = 0; documentIndex < documentsCount; ++documentIndex){
 			retVal = retVal && archive.BeginTag(openDocumentTag);
 			
 			// Loading document info:
@@ -690,11 +774,10 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			int viewCount = 0;	
 			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
 			
-			for (int j = 0; j < viewCount; ++j)
-			{
-				QByteArray viewTypeId;
+			for (int viewIndex = 0; viewIndex < viewCount; ++viewIndex){
 				retVal = retVal && archive.BeginTag(viewTag);
 				
+				QByteArray viewTypeId;
 				retVal = retVal && archive.BeginTag(viewTypeIdTag);
 				retVal = retVal && archive.Process(viewTypeId);
 				retVal = retVal && archive.EndTag(viewTypeIdTag);
@@ -708,12 +791,9 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 
 				// Open document:
 				istd::IChangeable* openDocumentPtr = OpenDocument(filePath, true, viewTypeId, documentTypeId);
-				if (openDocumentPtr == NULL){
-					retVal = false;
-				}	
-				else {
+				if (openDocumentPtr != NULL){
 					if (retVal && isActive){
-						activeView = GetViewFromIndex(i, j);						
+						activeView = GetViewFromIndex(documentIndex, viewIndex);						
 					}
 				}
 			}
@@ -735,11 +815,29 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 }
 
 
+// public methods of embedded class SingleDocumentData
+
+CMultiDocumentManagerBase::SingleDocumentData::SingleDocumentData(
+			CMultiDocumentManagerBase* parentPtr,
+			const QByteArray& documentTypeId,
+			istd::IChangeable* documentPtr,
+			idoc::IUndoManager* undoManagerPtr)
+{
+	this->parentPtr = parentPtr;
+	this->documentTypeId = documentTypeId;
+	this->documentPtr.SetPtr(documentPtr);
+	this->undoManagerPtr.SetPtr(undoManagerPtr);
+	isDirty = false;
+
+	if ((documentPtr != NULL) && (undoManagerPtr != NULL)){
+		undoManagerPtr->StoreDocumentState();
+	}
+}
 // protected methods of embedded class SingleDocumentData
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
 	bool newDirty = true;
 	if (documentPtr.IsValid() && undoManagerPtr.IsValid()){

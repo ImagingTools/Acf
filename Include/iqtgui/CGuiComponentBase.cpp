@@ -165,12 +165,14 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	switch (eventPtr->type()){
 	case QEvent::Close:
-		bool ignoreClose;
-		OnTryClose(&ignoreClose);
-		if (ignoreClose){
-			eventPtr->ignore();
+		{
+			bool ignoreClose = false;
+			OnTryClose(&ignoreClose);
+			if (ignoreClose){
+				eventPtr->ignore();
 
-			return true;
+				return true;
+			}
 		}
 		break;
 

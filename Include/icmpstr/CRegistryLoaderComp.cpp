@@ -5,7 +5,6 @@
 #include <QtCore/QString>
 #include <QtCore/QFileInfo>
 #include <QtCore/QDir>
-#include <QtGui/QMessageBox>
 
 
 // ACF includes

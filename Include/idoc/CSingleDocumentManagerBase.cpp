@@ -128,7 +128,7 @@ QByteArray CSingleDocumentManagerBase::GetDocumentTypeId(const istd::IChangeable
 }
 
 
-bool CSingleDocumentManagerBase::FileNew(
+bool CSingleDocumentManagerBase::InsertNewDocument(
 			const QByteArray& documentTypeId, 
 			bool createView, 
 			const QByteArray& viewTypeId,
@@ -138,7 +138,7 @@ bool CSingleDocumentManagerBase::FileNew(
 
 	bool isCloseIgnored = false;
 
-	FileClose(-1, &isCloseIgnored);
+	CloseDocument(-1, false, &isCloseIgnored);
 
 	if (isCloseIgnored){
 		if (newDocumentPtr != NULL){
@@ -160,7 +160,7 @@ bool CSingleDocumentManagerBase::FileNew(
 }
 
 
-bool CSingleDocumentManagerBase::FileOpen(
+bool CSingleDocumentManagerBase::OpenDocument(
 			const QByteArray* documentTypeIdPtr,
 			const QString* fileNamePtr,
 			bool createView,
@@ -199,7 +199,7 @@ bool CSingleDocumentManagerBase::FileOpen(
 }
 
 
-bool CSingleDocumentManagerBase::FileSave(
+bool CSingleDocumentManagerBase::SaveDocument(
 			int /*documentIndex*/,
 			bool requestFileName,
 			FileToTypeMap* savedMapPtr)
@@ -250,7 +250,7 @@ bool CSingleDocumentManagerBase::FileSave(
 }
 
 
-void CSingleDocumentManagerBase::FileClose(int /*documentIndex*/, bool* ignoredPtr)
+bool CSingleDocumentManagerBase::SaveDirtyDocuments(bool beQuiet, bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){
 		*ignoredPtr = false;
@@ -258,11 +258,33 @@ void CSingleDocumentManagerBase::FileClose(int /*documentIndex*/, bool* ignoredP
 
 	if (m_documentPtr.IsValid()){
 		if (m_isDirty){
-			QueryDocumentClose(ignoredPtr);
+			if (!beQuiet || QueryDocumentSave(ignoredPtr)){
+				SaveDocument(-1, false);
 
-			if ((ignoredPtr != NULL) && *ignoredPtr){
-				return;
+				if ((ignoredPtr != NULL) && *ignoredPtr){
+					return false;
+				}
 			}
+		}
+	}
+
+	return true;
+}
+
+
+void CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQuiet, bool* ignoredPtr)
+{
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
+
+	if (m_documentPtr.IsValid()){
+		if (!beQuiet){
+			SaveDirtyDocuments(false, ignoredPtr);
+		}
+
+		if ((ignoredPtr != NULL) && *ignoredPtr){
+			return;
 		}
 
 		istd::CChangeNotifier notifier(this, CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED | CF_VIEW_ACTIVATION_CHANGED | CF_MODEL);
@@ -274,6 +296,12 @@ void CSingleDocumentManagerBase::FileClose(int /*documentIndex*/, bool* ignoredP
 		m_documentPtr.Reset();
 		m_undoManagerPtr.Reset();
 	}
+}
+
+
+void CSingleDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
+{
+	CloseDocument(-1, beQuiet, ignoredPtr);
 }
 
 
@@ -318,7 +346,7 @@ bool CSingleDocumentManagerBase::OpenDocument(
 	
 	bool isCloseIgnored = false;
 
-	FileClose(-1, &isCloseIgnored);
+	CloseDocument(-1, false, &isCloseIgnored);
 
 	if (isCloseIgnored){
 		documentTypeId = m_documentTypeId;

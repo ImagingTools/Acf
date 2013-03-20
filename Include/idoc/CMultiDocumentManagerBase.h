@@ -9,7 +9,7 @@
 #include "istd/TPointerVector.h"
 #include "istd/TDelPtr.h"
 
-#include "imod/CSingleModelObserverBase.h"
+#include "imod/CMultiModelObserverBase.h"
 
 #include "idoc/IUndoManager.h"
 #include "idoc/CTmplBasedDocumentManagerBase.h"
@@ -36,59 +36,53 @@ public:
 	virtual istd::IChangeable* GetDocumentFromView(const istd::IPolymorphic& view, DocumentInfo* documentInfoPtr = NULL) const;
 	virtual istd::IPolymorphic* AddViewToDocument(const istd::IChangeable& document, const QByteArray& viewTypeId = QByteArray());
 	virtual QByteArray GetDocumentTypeId(const istd::IChangeable& document) const;
-	virtual bool FileNew(
+	virtual bool InsertNewDocument(
 				const QByteArray& documentTypeId, 
 				bool createView = true, 
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** newDocumentPtr = NULL);
-	virtual bool FileOpen(
+	virtual bool OpenDocument(
 				const QByteArray* documentTypeIdPtr,
 				const QString* fileNamePtr = NULL,
 				bool createView = true,
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** documentPtr = NULL,
 				FileToTypeMap* loadedMapPtr = NULL);
-	virtual bool FileSave(
+	virtual bool SaveDocument(
 				int documentIndex = -1,
 				bool requestFileName = false,
 				FileToTypeMap* savedMapPtr = NULL);
-	virtual void FileClose(int documentIndex = -1, bool* ignoredPtr = NULL);
+	virtual bool SaveDirtyDocuments(bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual void CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual void CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL);
 
 protected:
 	typedef istd::TDelPtr<istd::IChangeable> DocumentPtr;
 	typedef istd::TDelPtr<idoc::IUndoManager> UndoManagerPtr;
 	typedef istd::TDelPtr<istd::IPolymorphic> ViewPtr;
-	typedef QList<ViewPtr> Views;
-	typedef QList<QByteArray> ViewTypeIds;
+	struct ViewInfo
+	{
+		ViewPtr viewPtr;
+		QByteArray viewTypeId;
+	};
+	typedef QList<ViewInfo> Views;
 
-	struct SingleDocumentData: public DocumentInfo, public imod::CSingleModelObserverBase
+	struct SingleDocumentData: public DocumentInfo, public imod::CMultiModelObserverBase
 	{
 		SingleDocumentData(
 					CMultiDocumentManagerBase* parentPtr,
 					const QByteArray& documentTypeId,
 					istd::IChangeable* documentPtr,
-					idoc::IUndoManager* undoManagerPtr)
-		{
-			this->parentPtr = parentPtr;
-			this->documentTypeId = documentTypeId;
-			this->documentPtr.SetPtr(documentPtr);
-			this->undoManagerPtr.SetPtr(undoManagerPtr);
-			isDirty = false;
-
-			if ((documentPtr != NULL) && (undoManagerPtr != NULL)){
-				undoManagerPtr->StoreDocumentState();
-			}
-		}
+					idoc::IUndoManager* undoManagerPtr);
 
 		CMultiDocumentManagerBase* parentPtr;
 		DocumentPtr documentPtr;
 		UndoManagerPtr undoManagerPtr;
 		Views views;
-		ViewTypeIds viewTypeIds;
 
 	protected:
-		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+		// reimplemented (imod::CMultiModelObserverBase)
+		virtual void OnUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 	};
 
 	/**
@@ -167,11 +161,11 @@ protected:
 	virtual QString GetSaveFilePath(const QByteArray& documentTypeId) const = 0;
 
 	/**
-		Query user if this document can be closed.
+		Query user if this document should be saved.
 		\param	info		document info of document will be closed.
 		\param	ignoredPtr	optional return flag indicating that user ignored this close operation.
 	*/
-	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr) = 0;
+	virtual bool QueryDocumentSave(const SingleDocumentData& info, bool* ignoredPtr) = 0;
 
 	/**
 		Serializes open documents information

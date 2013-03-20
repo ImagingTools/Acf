@@ -26,7 +26,7 @@ CXmlFileWriteArchive::CXmlFileWriteArchive(
 	m_isSeparatorNeeded(false)
 {
 	if (!filePath.isEmpty()){
-		OpenDocument(filePath);
+		OpenFile(filePath);
 	}
 }
 
@@ -52,7 +52,7 @@ bool CXmlFileWriteArchive::Flush()
 }
 
 
-bool CXmlFileWriteArchive::OpenDocument(const QString& filePath)
+bool CXmlFileWriteArchive::OpenFile(const QString& filePath)
 {
 	bool retVal = true;
 

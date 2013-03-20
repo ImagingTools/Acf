@@ -3,11 +3,6 @@
 
 // Qt includes
 #include <QtCore/QDir>
-#include <QtCore/QFileInfo>
-#include <QtCore/QMetaType>
-#include <QtGui/QApplication>
-#include <QtGui/QMessageBox>
-#include <QtGui/QDesktopWidget>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

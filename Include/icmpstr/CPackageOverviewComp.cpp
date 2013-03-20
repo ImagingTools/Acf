@@ -753,7 +753,7 @@ void CPackageOverviewComp::on_PackagesList_itemDoubleClicked(QTreeWidgetItem* it
 			QDir packageDir(m_envManagerCompPtr->GetPackagePath(address.GetPackageId()));
 			QString filePath = packageDir.absoluteFilePath(QString(address.GetComponentId()) + ".arx");
 
-			m_documentManagerCompPtr->FileOpen(NULL, &filePath);
+			m_documentManagerCompPtr->OpenDocument(NULL, &filePath);
 		}
 	}
 }

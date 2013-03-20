@@ -167,13 +167,15 @@ void CSerializedUndoManager::BeforeUpdate(imod::IModel* modelPtr, int updateFlag
 
 void CSerializedUndoManager::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
+	istd::CChangeNotifier selfNotifierPtr(NULL);
+
 	if (((updateFlags & istd::IChangeable::CF_NO_UNDO) == 0) && m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObjectPtr();
 		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
 			if (objectPtr->Serialize(*archivePtr) && (*archivePtr != *m_beginStateArchivePtr)){
-				istd::CChangeNotifier selfNotifierPtr(this);
+				selfNotifierPtr.SetPtr(this);
 
 				m_undoList.push_back(UndoArchivePtr());
 				m_undoList.back().TakeOver(m_beginStateArchivePtr);

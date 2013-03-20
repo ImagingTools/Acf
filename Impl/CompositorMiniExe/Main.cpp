@@ -256,7 +256,7 @@ int main(int argc, char *argv[])
 	application.InitComponent();
 
 /*	if (!registryFile.isEmpty()){
-		if (!workspaceComp.FileOpen(NULL, &registryFile)){
+		if (!workspaceComp.OpenDocument(NULL, &registryFile)){
 			QMessageBox::information(
 						NULL,
 						QObject::tr("Error"),

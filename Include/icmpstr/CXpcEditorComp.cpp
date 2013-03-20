@@ -5,7 +5,6 @@
 #include <QtGui/QStringListModel>
 #include <QtGui/QItemDelegate>
 #include <QtGui/QFileDialog>
-#include <QtGui/QMessageBox>
 
 // ACF includes
 #include "istd/CSystem.h"
@@ -355,7 +354,7 @@ void CXpcEditorComp::on_ConfigPathView_doubleClicked(const QModelIndex& index)
 	QString unrolledPath = istd::CSystem::GetEnrolledPath(index.data().toString());
 	QString absolutePath = baseDir.absoluteFilePath(unrolledPath);
 
-	m_docMgrPtr->FileOpen(NULL, &absolutePath);
+	m_docMgrPtr->OpenDocument(NULL, &absolutePath);
 }
 
 
@@ -365,7 +364,7 @@ void CXpcEditorComp::on_RegistryPathView_doubleClicked(const QModelIndex& index)
 	QString unrolledPath = istd::CSystem::GetEnrolledPath(index.data().toString());
 	QString absolutePath = baseDir.absoluteFilePath(unrolledPath);
 
-	m_docMgrPtr->FileOpen(NULL, &absolutePath);
+	m_docMgrPtr->OpenDocument(NULL, &absolutePath);
 }
 
 

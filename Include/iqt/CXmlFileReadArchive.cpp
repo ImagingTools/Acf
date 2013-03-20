@@ -24,12 +24,12 @@ CXmlFileReadArchive::CXmlFileReadArchive(
 	m_rootTag(rootTag)
 {
 	if (!filePath.isEmpty()){
-		OpenDocument(filePath);
+		OpenFile(filePath);
 	}
 }
 
 
-bool CXmlFileReadArchive::OpenDocument(const QString& filePath)
+bool CXmlFileReadArchive::OpenFile(const QString& filePath)
 {
 	QFile file(filePath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){

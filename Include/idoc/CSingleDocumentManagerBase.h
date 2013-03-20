@@ -35,23 +35,25 @@ public:
 	virtual istd::IChangeable* GetDocumentFromView(const istd::IPolymorphic& view, DocumentInfo* documentInfoPtr = NULL) const;
 	virtual istd::IPolymorphic* AddViewToDocument(const istd::IChangeable& document, const QByteArray& viewTypeId = QByteArray());
 	virtual QByteArray GetDocumentTypeId(const istd::IChangeable& document) const;
-	virtual bool FileNew(
+	virtual bool InsertNewDocument(
 				const QByteArray& documentTypeId, 
 				bool createView = true, 
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** newDocumentPtr = NULL);
-	virtual bool FileOpen(
+	virtual bool OpenDocument(
 				const QByteArray* documentTypeIdPtr,
 				const QString* fileNamePtr = NULL,
 				bool createView = true,
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** documentPtr = NULL,
 				FileToTypeMap* loadedMapPtr = NULL);
-	virtual bool FileSave(
+	virtual bool SaveDocument(
 				int documentIndex = -1,
 				bool requestFileName = false,
 				FileToTypeMap* savedMapPtr = NULL);
-	virtual void FileClose(int documentIndex = -1, bool* ignoredPtr = NULL);
+	virtual bool SaveDirtyDocuments(bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual void CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual void CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL);
 
 protected:
 	/**
@@ -103,7 +105,7 @@ protected:
 		Query user if this document can be closed.
 		\param	ignoredPtr	optional return flag indicating that user ignored this close operation.
 	*/
-	virtual void QueryDocumentClose(bool* ignoredPtr) = 0;
+	virtual bool QueryDocumentSave(bool* ignoredPtr) = 0;
 
 	/**
 		Serializes open documents information

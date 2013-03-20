@@ -30,7 +30,7 @@ public:
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 
-	bool OpenDocument(const QString& filePath);
+	bool OpenFile(const QString& filePath);
 
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;

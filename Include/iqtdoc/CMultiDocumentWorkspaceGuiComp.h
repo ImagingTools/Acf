@@ -15,8 +15,6 @@
 #include "idoc/CMultiDocumentManagerBase.h"
 #include "idoc/IDocumentTemplate.h"
 
-#include "iqt/ISettingsProvider.h"
-
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/TRestorableGuiWrap.h"
 #include "iqtgui/CHierarchicalCommand.h"
@@ -92,6 +90,13 @@ protected:
 	iqtgui::IGuiObject* GetViewFromWidget(const QWidget& widget) const;
 
 	/**
+		Find index of document associated with specified Qt widget.
+		\param	widget	Qt widget representing view.
+		\return	index of document or negative value if nothing is found.
+	*/
+	int GetDocumentIndexFromWidget(const QWidget& widget) const;
+
+	/**
 		Creates signal/slot connnections for the implementation.
 	*/
 	virtual void CreateConnections();
@@ -121,7 +126,7 @@ protected:
 	virtual QStringList GetOpenFilePaths(const QByteArray* documentTypeIdPtr = NULL) const;
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
-	virtual void QueryDocumentClose(const SingleDocumentData& info, bool* ignoredPtr);
+	virtual bool QueryDocumentSave(const SingleDocumentData& info, bool* ignoredPtr);
 
 	// reimplemented (iqt:CGuiComponentBase)
 	virtual void OnGuiCreated();	
@@ -208,7 +213,9 @@ private:
 	imod::TModelWrap<DocumentSelectionInfo> m_documentSelectionInfo;
 
 	QString m_organizationName;
-	QString m_applicationName;	
+	QString m_applicationName;
+
+	bool m_forceQuietClose;
 };
 
 

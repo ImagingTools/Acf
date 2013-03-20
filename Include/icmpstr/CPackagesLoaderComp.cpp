@@ -6,7 +6,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFileInfo>
-#include <QtGui/QMessageBox>
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
