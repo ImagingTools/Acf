@@ -22,6 +22,15 @@ public:
 	// static methods
 
 	/**
+		Make a valid file name from a string.
+		All not allowed characters in the \c fileNameString will be replaced by a valid symbol defined in c\replacingChar or removed if this parameter is not set.
+		\param fileNameString	Input string representing the file name
+		\param fileName	Resulting file name if the conversion was successful.
+		\return \c true if the operation was successful, otherwise \c false.
+	*/
+	static bool ConvertToFileName(const QString& fileNameString, QString& fileName, const QString replacingChar = QString());
+
+	/**
 		Get normalized path with enrolled system variables.
 	*/
 	static QString GetNormalizedPath(const QString& path);

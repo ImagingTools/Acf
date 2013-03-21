@@ -15,7 +15,7 @@ namespace istd
 
 
 /*
-	Helper implementation makeing sleep functionality public.
+	Helper implementation making sleep functionality public.
 	\intern
 */
 class CQtThread: private QThread
@@ -25,7 +25,41 @@ public:
 };
 
 
-// static members
+// public static methods
+
+bool CSystem::ConvertToFileName(const QString& fileNameString, QString& fileName, const QString replacingChar)
+{
+	static char reservedCharacters[] = {
+		'\\',
+		'/',
+		'*',
+		'<',
+		'>',
+		'|',
+		':',
+		'?',
+		'\"'
+	};
+
+	int reservedCharactersCount = sizeof(reservedCharacters) / sizeof(char);
+
+	for (int charIndex = 0; charIndex < reservedCharactersCount; charIndex++){
+		if (replacingChar.contains(reservedCharacters[charIndex])){
+			qDebug("The string used for replacement of invalid characters contains an invalid character");
+
+			return false;
+		}
+	}
+
+	fileName = fileNameString;
+
+	for (int charIndex = 0; charIndex < reservedCharactersCount; charIndex++){
+		fileName.replace(reservedCharacters[charIndex], replacingChar);
+	}
+
+	return !fileName.isEmpty();
+}
+
 
 QString CSystem::GetNormalizedPath(const QString& path)
 {
