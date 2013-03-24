@@ -291,7 +291,8 @@ TVarArray<Element>::TVarArray()
 
 template <class Element>
 TVarArray<Element>::TVarArray(const TVarArray& array)
-:	m_sizes(array.m_sizes), m_elements(array.m_elements)
+:	m_elements(array.m_elements),
+	m_sizes(array.m_sizes)
 {
 }
 
@@ -333,7 +334,7 @@ bool TVarArray<Element>::SetSize(int dimension, int size)
 template <class Element>
 void TVarArray<Element>::SetAllElements(const Element& value)
 {
-	for (		Elements::Iterator iter = m_elements.begin();
+	for (		typename Elements::Iterator iter = m_elements.begin();
 				iter != m_elements.end();
 				++iter){
 		*iter = value;

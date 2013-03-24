@@ -1,7 +1,5 @@
 include(../../../Config/QMake/ApplicationConfig.pri)
 include(../../../Config/QMake/QtBaseConfig.pri)
-include(../../../Config/QMake/AcfStd.pri)
-include(../../../Config/QMake/AcfQt.pri)
 
 mac*{
 	CONFIG -= app_bundle
@@ -14,3 +12,6 @@ HEADERS =
 LIBS += -licmpstr
 
 QT += xml
+
+include(../../../Config/QMake/AcfQt.pri)
+include(../../../Config/QMake/AcfStd.pri)

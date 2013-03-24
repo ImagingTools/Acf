@@ -1,2 +1,2 @@
 # static libs for the GCC compiler
-LIBS += -listd -li2d -libase -licmm -licomp -lidoc -lifile -liimg -limath -limod -liprm -liqt -liser
+LIBS += -liqt -lidoc -lifile -liprm -licmm -liimg -li2d -libase -licomp -liser -limod -limath -listd

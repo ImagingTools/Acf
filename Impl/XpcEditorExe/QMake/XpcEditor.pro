@@ -1,7 +1,5 @@
 include(../../../Config/QMake/ApplicationConfig.pri)
 include(../../../Config/QMake/QtBaseConfig.pri)
-include(../../../Config/QMake/AcfStd.pri)
-include(../../../Config/QMake/AcfQt.pri)
 
 TARGET = XpcEditor
 
@@ -31,4 +29,5 @@ mac{
 #}
 
 include(../../../Config/QMake/CustomBuild.pri)
-
+include(../../../Config/QMake/AcfQt.pri)
+include(../../../Config/QMake/AcfStd.pri)

@@ -2,6 +2,9 @@
 #define imath_TFastVector_included
 
 
+// STL includes
+#include <cstring>
+
 // ACF includes
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"

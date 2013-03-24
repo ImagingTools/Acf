@@ -10,17 +10,14 @@
 
 // ACF includes
 #include "istd/TDelPtr.h"
-
 #include "iser/IFileLoader.h"
-
 #include "icomp/IRegistryLoader.h"
 #include "icomp/CRegistry.h"
 #include "icomp/CEnvironmentManagerBase.h"
 #include "icomp/CComponentBase.h"
 #include "icomp/CCompositePackageStaticInfo.h"
-
+#include "icomp/export.h"
 #include "ibase/TLoggerCompWrap.h"
-
 #include "ifile/IFileNameParam.h"
 
 
@@ -100,15 +97,13 @@ protected:
 	virtual bool RegisterPackagesDir(const QString& subDir);
 	virtual bool LoadConfigFile(const QString& configFile);
 
-	QLibrary& GetLibrary(const QFileInfo& fileInfo);
+	icomp::GetPackageInfoFunc GetPackageFunction(const QFileInfo& fileInfo);
 
 	bool CheckAndMarkPath(const QDir& directory, const QString& path, QString& resultPath) const;
 
 private:
-	typedef istd::TDelPtr<QLibrary> LibraryPtr;
-	typedef QMap<QString, LibraryPtr> DllCacheMap;
-
-	DllCacheMap m_dllCacheMap;
+	typedef QMap<QString, icomp::GetPackageInfoFunc> LibraryToInfoFuncMap;
+	LibraryToInfoFuncMap m_libraryToInfoFuncMap;
 
 	struct CompositePackageInfo
 	{

@@ -9,14 +9,9 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-
 #include "iser/CXmlFileReadArchive.h"
-
 #include "icomp/CXpcModel.h"
-
 #include "istd/CSystem.h"
-
-#include "icomp/export.h"
 
 
 namespace icmpstr
@@ -93,7 +88,7 @@ bool CPackagesLoaderComp::LoadPackages(const QString& configFilePath)
 	m_usedFilesList.clear();
 	m_compositePackagesMap.clear();
 	m_realPackagesMap.clear();
-	m_dllCacheMap.clear();
+	m_libraryToInfoFuncMap.clear();
 
 	bool retVal = LoadConfigFile(m_configFilePath);
 
@@ -227,18 +222,15 @@ bool CPackagesLoaderComp::RegisterPackageFile(const QString& file)
 	if (fileInfo.isFile()){
 		RealPackagesMap::ConstIterator foundIter = m_realPackagesMap.constFind(packageId);
 		if (foundIter == m_realPackagesMap.constEnd()){
-			QLibrary& provider = GetLibrary(fileInfo);
-			if (provider.isLoaded()){
-				icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)provider.resolve(I_PACKAGE_EXPORT_FUNCTION_NAME);
-				if (getInfoPtr != NULL){
-					icomp::CPackageStaticInfo* infoPtr = getInfoPtr();
-					if (infoPtr != NULL){
-						m_realPackagesMap[packageId] = fileInfo.canonicalFilePath();
+			icomp::GetPackageInfoFunc getInfoPtr = GetPackageFunction(fileInfo);
+			if (getInfoPtr != NULL){
+				icomp::CPackageStaticInfo* infoPtr = getInfoPtr();
+				if (infoPtr != NULL){
+					m_realPackagesMap[packageId] = fileInfo.canonicalFilePath();
 
-						RegisterEmbeddedComponentInfo(packageId, infoPtr);
+					RegisterEmbeddedComponentInfo(packageId, infoPtr);
 
-						return true;
-					}
+					return true;
 				}
 			}
 		}
@@ -377,26 +369,26 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 }
 
 
-QLibrary& CPackagesLoaderComp::GetLibrary(const QFileInfo& fileInfo)
+icomp::GetPackageInfoFunc CPackagesLoaderComp::GetPackageFunction(const QFileInfo& fileInfo)
 {
 	QString absolutePath = fileInfo.canonicalFilePath();
 
-	DllCacheMap::iterator iter = m_dllCacheMap.find(absolutePath);
-	if (iter != m_dllCacheMap.end()){
-		Q_ASSERT(iter.value().IsValid());
-
-		return *iter.value();
+	LibraryToInfoFuncMap::ConstIterator iter = m_libraryToInfoFuncMap.constFind(absolutePath);
+	if (iter != m_libraryToInfoFuncMap.constEnd()){
+		return iter.value();
 	}
 
-	LibraryPtr& libraryPtr = m_dllCacheMap[absolutePath];
-	libraryPtr.SetPtr(new QLibrary(absolutePath));
-	if (!libraryPtr.IsValid() || !libraryPtr->load()){
+	QLibrary library(absolutePath);
+	icomp::GetPackageInfoFunc getInfoPtr = (icomp::GetPackageInfoFunc)library.resolve(I_PACKAGE_EXPORT_FUNCTION_NAME);
+	if (getInfoPtr == NULL){
 		SendErrorMessage(
 					MI_CANNOT_REGISTER,
-					QObject::tr("Cannot register package %1 (%2)").arg(fileInfo.fileName()).arg(libraryPtr->errorString()));
+					QObject::tr("Cannot register package %1 (%2)").arg(fileInfo.fileName()).arg(library.errorString()));
 	}
 
-	return *libraryPtr;
+	m_libraryToInfoFuncMap[absolutePath] = getInfoPtr;
+
+	return getInfoPtr;
 }
 
 
