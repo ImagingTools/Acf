@@ -3,7 +3,6 @@
 
 // Qt includes
 #include <QtCore/QString>
-
 #include <QtGui/QApplication>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QIcon>
