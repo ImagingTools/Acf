@@ -172,10 +172,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CComboParamsManagerGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CComposedParamsSetGuiComp.cpp"
 				>
 			</File>
@@ -239,10 +235,6 @@
 			>
 			<File
 				RelativePath="..\CButtonBasedSelectionParamGuiComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CComboParamsManagerGuiComp.h"
 				>
 			</File>
 			<File
@@ -313,10 +305,6 @@
 			>
 			<File
 				RelativePath="..\generated\moc_CButtonBasedSelectionParamGuiComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\generated\moc_CComboParamsManagerGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -424,10 +412,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CComboParamsManagerGuiComp.ui"
-				>
-			</File>
-			<File
 				RelativePath="..\CComposedParamsSetGuiComp.ui"
 				>
 			</File>
@@ -475,14 +459,6 @@
 		<Filter
 			Name="Moc Files"
 			>
-			<File
-				RelativePath="..\CButtonBasedSelectionParamGuiComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\CComboParamsManagerGuiComp.moc"
-				>
-			</File>
 			<File
 				RelativePath="..\CComposedParamsSetGuiComp.moc"
 				>

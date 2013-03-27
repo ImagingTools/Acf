@@ -248,11 +248,6 @@ I_EXPORT_COMPONENT(
 			"Options Manager List Editor");
 
 I_EXPORT_COMPONENT(
-			ComboParamsManagerGui,
-			"Parameter manager editor as a combo box",
-			"Parameter Manager Selection");
-
-I_EXPORT_COMPONENT(
 			EnableableParamGui,
 			"Enableable parameter editor",
 			"Enableable Parameter");
