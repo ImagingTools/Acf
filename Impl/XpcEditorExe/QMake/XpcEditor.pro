@@ -24,9 +24,6 @@ mac{
 	QMAKE_INFO_PLIST = ../Mac/Info.plist
 }
 
-#exists(../Generated/CXpcEditor.pri){
-#	include(../Generated/CXpcEditor.pri)
-#}
 
 include(../../../Config/QMake/CustomBuild.pri)
 include(../../../Config/QMake/AcfQt.pri)

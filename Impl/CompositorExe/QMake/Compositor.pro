@@ -38,9 +38,6 @@ win*{
 	RC_FILE = ../Generated/Compositor.rc
 }
 
-#exists(../Generated/CCompositor.pri){
-#	include(../Generated/CCompositor.pri)
-#}
 
 include(../../../Config/QMake/CustomBuild.pri)
 include(../../../Config/QMake/AcfQt.pri)

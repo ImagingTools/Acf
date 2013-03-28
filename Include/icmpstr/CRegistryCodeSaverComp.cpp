@@ -1,6 +1,9 @@
 #include "icmpstr/CRegistryCodeSaverComp.h"
 
 
+// STL includes
+#include <iostream>
+
 // Qt includes
 #include <QtCore/QObject>
 #include <QtCore/QDir>
@@ -25,11 +28,17 @@ CRegistryCodeSaverComp::CRegistryCodeSaverComp()
 
 bool CRegistryCodeSaverComp::IsOperationSupported(
 		const istd::IChangeable* dataObjectPtr,
-		const QString* /*filePathPtr*/,
+		const QString* filePathPtr,
 		int flags,
 		bool /*beQuiet*/) const
 {
-	if (dynamic_cast<const icomp::IRegistry*>(dataObjectPtr) == NULL){
+	if (dynamic_cast<const icomp::IRegistry*>(dataObjectPtr) == NULL){	// check if object type is supported
+		return false;
+	}
+
+	if (		(*m_workingModeAttrPtr == WM_SOURCES) &&
+				(filePathPtr != NULL) &&
+				(filePathPtr->isEmpty())){	// check if path is set for source generating
 		return false;
 	}
 
@@ -56,18 +65,13 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 		return StateFailed;
 	}
 
-	QByteArray className;
-	QString baseFilePath;
-	if (!ExtractInfoFromFile(filePath, className, baseFilePath)){
-		return StateFailed;
-	}
+	if (*m_workingModeAttrPtr == WM_SOURCES){
+		QByteArray className;
+		QString baseFilePath;
+		if (!ExtractInfoFromFile(filePath, className, baseFilePath)){
+			return StateFailed;
+		}
 
-	int workingMode = *m_workingModeAttrPtr;
-	if (m_workingModeParamCompPtr.IsValid()){
-		workingMode = m_workingModeParamCompPtr->GetSelectedOptionIndex();
-	}
-
-	if ((workingMode == WM_SOURCES) || (workingMode == WM_SOURCES_AND_WM_DEPENDENCIES)){
 		QFile headerFile(baseFilePath + ".h");
 		QFile codeFile(filePath);
 
@@ -89,19 +93,26 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 			return StateFailed;
 		}
 	}
-
-	if ((workingMode == WM_DEPENDENCIES) || (workingMode == WM_SOURCES_AND_WM_DEPENDENCIES)){
-		QFile depsFile(baseFilePath + ".pri");
-
-		if (!depsFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
-			depsFile.remove();
-			return StateFailed;
+	else if (*m_workingModeAttrPtr == WM_DEPENDENCIES){
+		if (filePath.isEmpty()){
+			QTextStream depsStream(stdout);
+			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
+				return StateFailed;
+			}
 		}
+		else{
+			QFile depsFile(filePath);
 
-		QTextStream depsStream(&depsFile);
-		if (!WriteDependencies(className, composedAddresses, realAddresses, depsStream)){
-			depsFile.remove();
-			return StateFailed;
+			if (!depsFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
+				depsFile.remove();
+				return StateFailed;
+			}
+
+			QTextStream depsStream(&depsFile);
+			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
+				depsFile.remove();
+				return StateFailed;
+			}
 		}
 	}
 
@@ -118,14 +129,9 @@ bool CRegistryCodeSaverComp::GetFileExtensions(QStringList& result, int flags, b
 	}
 
 	if ((flags & QF_SAVE) != 0){
-		int workingMode = *m_workingModeAttrPtr;
-		if (m_workingModeParamCompPtr.IsValid()){
-			workingMode = m_workingModeParamCompPtr->GetSelectedOptionIndex();
-		}
-
-		switch (workingMode){
+		switch (*m_workingModeAttrPtr){
 		case WM_DEPENDENCIES:
-			result.push_back("pri");
+			result.push_back("txt");
 			break;
 
 		default:
@@ -142,14 +148,9 @@ bool CRegistryCodeSaverComp::GetFileExtensions(QStringList& result, int flags, b
 QString CRegistryCodeSaverComp::GetTypeDescription(const QString* extensionPtr) const
 {
 	if (extensionPtr == NULL){
-		int workingMode = *m_workingModeAttrPtr;
-		if (m_workingModeParamCompPtr.IsValid()){
-			workingMode = m_workingModeParamCompPtr->GetSelectedOptionIndex();
-		}
-
-		switch (workingMode){
+		switch (*m_workingModeAttrPtr){
 		case WM_DEPENDENCIES:
-			return QObject::tr("qmake dependency file");
+			return QObject::tr("dependency file");
 
 		default:
 			return QObject::tr("C++ source file");
@@ -160,76 +161,11 @@ QString CRegistryCodeSaverComp::GetTypeDescription(const QString* extensionPtr) 
 				(extensionPtr->compare("cpp", Qt::CaseInsensitive) == 0)){
 		return QObject::tr("C++ source file");
 	}
-	else if (extensionPtr->compare("pri", Qt::CaseInsensitive) == 0){
+	else if (extensionPtr->compare("txt", Qt::CaseInsensitive) == 0){
 		return QObject::tr("qmake dependency file");
 	}
 
 	return "";
-}
-
-
-// reimplemented (iprm::IOptionsList)
-
-int CRegistryCodeSaverComp::GetOptionsFlags() const
-{
-	return SCF_SUPPORT_UNIQUE_ID;
-}
-
-
-int CRegistryCodeSaverComp::GetOptionsCount() const
-{
-	return 3;
-}
-
-
-QString CRegistryCodeSaverComp::GetOptionName(int index) const
-{
-	switch (index){
-	case WM_DEPENDENCIES:
-		return QObject::tr("Dependencies");
-
-	case WM_SOURCES_AND_WM_DEPENDENCIES:
-		return QObject::tr("Sources and dependencies");
-
-	default:
-		return QObject::tr("Sources");
-	}
-}
-
-
-QString CRegistryCodeSaverComp::GetOptionDescription(int index) const
-{
-	switch (index){
-	case WM_DEPENDENCIES:
-		return QObject::tr("List of all component and package files requested by this registry will be saved");
-
-	case WM_SOURCES_AND_WM_DEPENDENCIES:
-		return QObject::tr("C++ sources and list of all component and package files requested by this registry will be saved");
-
-	default:
-		return QObject::tr("C++ sources will be saved");
-	}
-}
-
-
-QByteArray CRegistryCodeSaverComp::GetOptionId(int index) const
-{
-	switch (index){
-	case WM_DEPENDENCIES:
-		return "Dependencies";
-
-	case WM_SOURCES_AND_WM_DEPENDENCIES:
-		return "Sources and dependencies";
-
-	default:
-		return "Sources";
-	}
-}
-
-
-bool CRegistryCodeSaverComp::IsOptionEnabled(int /*index*/) const
-{
-	return true;
 }
 
 
@@ -990,7 +926,6 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 
 
 bool CRegistryCodeSaverComp::WriteDependencies(
-			const QByteArray& className,
 			const Addresses& composedAddresses,
 			const Addresses& realAddresses,
 			QTextStream& stream) const
@@ -999,31 +934,16 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 		return false;
 	}
 
-	QDir baseDir;
-	if (m_baseDependenciesPathCompPtr.IsValid()){
-		baseDir.setPath(m_baseDependenciesPathCompPtr->GetPath());
-	}
-
-	stream << "#dependencies of class " << className << "\n";
 	if (!composedAddresses.isEmpty() && !realAddresses.isEmpty()){
-		stream << "ARXC_DEPENDENCIES +=";
-
 		for (		Addresses::const_iterator addressIter = composedAddresses.begin();
 					addressIter != composedAddresses.end();
 					++addressIter){
 			const icomp::CComponentAddress& address = *addressIter;
 			const QByteArray& packageId = address.GetPackageId();
 
-			QString packagePath = m_packagesManagerCompPtr->GetPackagePath(packageId);
-			if (packagePath.isEmpty()){
-				SendErrorMessage(
-							MI_UNKNOWN_PACKAGE,
-							QObject::tr("Composed package '%1' cannot be found").arg(QString(packageId)));
-				return false;
-			}
+			QDir packageDir(QDir::cleanPath(m_packagesManagerCompPtr->GetPackagePath(packageId)));
 
-			stream << " \\" << "\n";
-			stream << "\t" << baseDir.relativeFilePath(packagePath).toLocal8Bit() << "/" << address.GetComponentId() << ".arx";
+			stream << packageDir.absoluteFilePath(address.GetComponentId() + ".arx") << "\n";
 		}
 
 		Ids packageIdsList;
@@ -1039,16 +959,9 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 					++packageIter){
 			const QByteArray& packageId = *packageIter;
 
-			QString packagePath = m_packagesManagerCompPtr->GetPackagePath(packageId);
-			if (packagePath.isEmpty()){
-				SendErrorMessage(
-							MI_UNKNOWN_PACKAGE,
-							QObject::tr("Package '%1' cannot be found").arg(QString(packageId)));
-				return false;
-			}
+			QFileInfo packageFilePath(QDir::cleanPath(m_packagesManagerCompPtr->GetPackagePath(packageId)));
 
-			stream << " \\" << "\n";
-			stream << "\t" << baseDir.relativeFilePath(packagePath).toLocal8Bit();
+			stream << packageFilePath.absoluteFilePath() << "\n";
 		}
 	}
 
@@ -1057,14 +970,11 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 		for (		icomp::IExtPackagesManager::PathList::const_iterator pathIter = configFilesList.begin();
 					pathIter != configFilesList.end();
 					++pathIter){
-			const QString& configFilePath = *pathIter;
+			QFileInfo configFilePath(*pathIter);
 
-			stream << " \\" << "\n";
-			stream << "\t" << baseDir.relativeFilePath(configFilePath).toLocal8Bit();
+			stream << configFilePath.absoluteFilePath().toLocal8Bit().constData() << "\n";
 		}
 	}
-
-	stream << "\n";
 
 	return true;
 }

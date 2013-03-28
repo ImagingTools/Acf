@@ -49,8 +49,11 @@ win32-msvc*{
 	QMAKE_CXXFLAGS_WARN_ON += -wformat-security
 }
 
+LIBRARY_SUFIX =
+
 CONFIG(debug, debug|release){
 	COMPILER_DIR = Debug$$COMPILER_NAME
+	LIBRARY_SUFIX = d
 }
 CONFIG(release, debug|release){
 	COMPILER_DIR = Release$$COMPILER_NAME

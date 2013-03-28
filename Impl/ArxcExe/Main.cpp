@@ -27,14 +27,13 @@ static void ShowUsage()
 	std::cout << "Usage:" << std::endl;
 	std::cout << "\tArxc.exe [registryName] {options}" << std::endl;
 	std::cout << "Options:" << std::endl;
-	std::cout << "\t-h or -help              - showing this help" << std::endl;
+	std::cout << "\t-mode [sources|depends]  - working mode - source generation or dependencies output, default is 'sources'" << std::endl;
 	std::cout << "\t-o outputFile            - output file path" << std::endl;
 	std::cout << "\t-config configFile       - specify ACF packages configuration file" << std::endl;
 	std::cout << "\t-sources [on|off]        - enables/disables C++ sources output, default is 'on'" << std::endl;
-	std::cout << "\t-depends [on|off]        - enables/disables qmake dependendency output, default is 'off'" << std::endl;
-	std::cout << "\t-dependsPath path        - base path for dependencies, if not specified working directory will be taken" << std::endl;
 	std::cout << "\t-v                       - enable verbose mode" << std::endl;
 	std::cout << "\t-no_binary               - disable generating of binary coded registries" << std::endl;
+	std::cout << "\t-h or -help              - showing this help" << std::endl;
 }
 
 
@@ -50,10 +49,8 @@ int main(int argc, char *argv[])
 
 	QString configFile;
 	bool verboseEnabled = false;
-	bool sourcesEnabled = true;
-	bool dependenciesEnabled = false;
+	int workingMode = 0;
 	bool useBinaryCode = true;
-	QString baseDependsPath;
 
 	QString inputFilePath = argv[1];
 	QString outputFilePath;
@@ -75,20 +72,15 @@ int main(int argc, char *argv[])
 				if (option == "config"){
 					configFile = argv[++index];
 				}
-				else if (option == "sources"){
-					QByteArray switchText = argv[++index];
-					sourcesEnabled = (switchText == "on") || (switchText == "ON");
-				}
-				else if (option == "depends"){
-					QByteArray switchText = argv[++index];
-					dependenciesEnabled = (switchText == "on") || (switchText == "ON");
-				}
-				else if (option == "dependsPath"){
-					baseDependsPath = argv[++index];
-				}
 				else if ((option == "o") || (option == "output")){
 					outputFilePath = QString::fromLocal8Bit(argv[index + 1]);
 					++index;
+				}
+				else if (option == "mode"){
+					QString modeText = argv[++index];
+					if ((modeText == "d") || (modeText == "depends")){
+						workingMode = 1;
+					}
 				}
 				else if (option == "no_binary"){
 					useBinaryCode = false;
@@ -109,7 +101,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (outputFilePath.isEmpty()){
+	if ((workingMode == 0) && outputFilePath.isEmpty()){
 		std::cout << "Output file was not specified!" << std::endl;
 
 		return 1;
@@ -137,17 +129,12 @@ int main(int argc, char *argv[])
 
 	registriesManagerComp.LoadPackages(configFile);
 
-	icomp::TSimComponentWrap<FilePck::FileNameParam> dependsBasePathComp;
-	dependsBasePathComp.SetStringAttr("DefaultPath", baseDependsPath);
-	dependsBasePathComp.InitComponent();
-
 	icomp::TSimComponentWrap<CompositorPck::RegistryCodeSaver> codeSaverComp;
 	codeSaverComp.SetRef("Log", &log);
 	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
 	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
-	codeSaverComp.SetIntAttr("WorkingMode", (sourcesEnabled? 1: 0) + (dependenciesEnabled? 2: 0));
+	codeSaverComp.SetIntAttr("WorkingMode", workingMode);
 	codeSaverComp.SetBoolAttr("UseBinaryCode", useBinaryCode);
-	codeSaverComp.SetRef("BaseDependenciesPath", &dependsBasePathComp);
 	codeSaverComp.InitComponent();
 
 	// registry model
