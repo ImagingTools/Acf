@@ -34,6 +34,14 @@ void CParamsManagerGuiCompBase::on_AddButton_clicked()
 		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
 		objectPtr->InsertParamsSet(-1, selectedIndex);
+
+		// auto select newly created element
+		if (objectPtr->GetParamsSetsCount() == 1){
+			objectPtr->SetSelectedOptionIndex(0);
+		}
+		else {
+			objectPtr->SetSelectedOptionIndex(selectedIndex);
+		}
 	}
 }
 
@@ -49,6 +57,17 @@ void CParamsManagerGuiCompBase::on_RemoveButton_clicked()
 
 		if (selectedIndex >= 0){
 			objectPtr->RemoveParamsSet(selectedIndex);
+
+			// auto select element next to removed
+			int count = objectPtr->GetParamsSetsCount();
+			if (count > 0){
+				if (selectedIndex < count){
+					objectPtr->SetSelectedOptionIndex(selectedIndex);
+				}
+				else{
+					objectPtr->SetSelectedOptionIndex(count-1);
+				}
+			}
 		}
 	}
 }
