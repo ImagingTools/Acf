@@ -69,7 +69,9 @@ QString CStreamLogCompBase::GenerateMessageText(const istd::IInformationProvider
 	QString messageText = message.GetInformationDescription();
 
 	if (m_useTimeStampAttrPtr.IsValid() && *m_useTimeStampAttrPtr){
-		messageText = QObject::tr("[%1] %2").arg(message.GetInformationTimeStamp().toString()).arg(messageText);
+		QString messageTimeStamp = message.GetInformationTimeStamp().toString();
+
+		messageText = QString("[%1] %2").arg(messageTimeStamp).arg(messageText);
 	}
 
 	return messageText;
