@@ -809,9 +809,11 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 			NextLine(stream);
 			stream << "RegisterEmbeddedComponentInfo(\"" << packageId << "\", &m_sub" << packageName << ");";
 		}
+		stream << "\n";
 	}
 
 	if (*m_useBinaryCodeAttrPtr){
+		bool isTranslationFound = false;
 		icomp::CCachedEnvironmentManager cachedManager;
 
 		for (		Addresses::const_iterator addressIter = composedAddresses.begin();
@@ -822,16 +824,20 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 
 			const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address);
 			if (registryPtr != NULL){
+				WriteRegistryTranslation(*registryPtr, isTranslationFound, stream);
+
 				cachedManager.AddComposedComponent(address, *registryPtr);
 			}
+		}
+
+		if (isTranslationFound){
+			stream << "\n";
 		}
 
 		WriteDeserializingCode(cachedManager, stream);
 	}
 	else{
 		if (!composedAddresses.isEmpty()){
-			stream << "\n";
-
 			NextLine(stream);
 			stream << "// create map for all known registries";
 			for (		Addresses::const_iterator regTestIter = composedAddresses.begin();
@@ -846,11 +852,10 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 						GetValidIdentifier(GetPackageName(address.GetPackageId())) <<
 						"::C" << GetValidIdentifier(address.GetComponentId()) << "Registry());";
 			}
+			stream << "\n";
 		}
 
 		if (!composedPackageIds.isEmpty()){
-			stream << "\n";
-
 			NextLine(stream);
 			stream << "// register composed packages";
 
@@ -1238,6 +1243,108 @@ bool CRegistryCodeSaverComp::WriteAttribute(
 }
 
 
+bool CRegistryCodeSaverComp::WriteRegistryTranslation(
+			const icomp::IRegistry& registry,
+			bool& translationFound,
+			QTextStream& stream) const
+{
+	icomp::IRegistry::Ids ids = registry.GetElementIds();
+	for (		icomp::IRegistry::Ids::const_iterator elementIter = ids.begin();
+				elementIter != ids.end();
+				++elementIter){
+		const QByteArray& componentId = *elementIter;
+
+		const icomp::IRegistry::ElementInfo* infoPtr = registry.GetElementInfo(componentId);
+		Q_ASSERT(infoPtr != NULL);	// used element ID was returned by registry, info must exist.
+
+		if (!WriteComponentTranslation(componentId, *infoPtr, translationFound, stream)){
+			return false;
+		}
+	}
+
+	icomp::IRegistry::Ids embeddedIds = registry.GetEmbeddedRegistryIds();
+	for (		icomp::IRegistry::Ids::const_iterator embeddedIter = embeddedIds.begin();
+				embeddedIter != embeddedIds.end();
+				++embeddedIter){
+		const QByteArray& id = *embeddedIter;
+
+		const icomp::IRegistry* embeddedRegistryPtr = registry.GetEmbeddedRegistry(id);
+		if (embeddedRegistryPtr != NULL){
+			if (!WriteRegistryTranslation(*embeddedRegistryPtr, translationFound, stream)){
+				return false;
+			}
+
+			ChangeIndent(-1);
+			NextLine(stream);
+			stream << "}";
+		}
+	}
+
+	return stream.status() == QTextStream::Ok;
+}
+
+
+bool CRegistryCodeSaverComp::WriteComponentTranslation(
+			const QByteArray& componentId,
+			const icomp::IRegistry::ElementInfo& componentInfo,
+			bool& translationFound,
+			QTextStream& stream) const
+{
+	if (componentInfo.elementPtr.IsValid()){
+		icomp::IRegistryElement& component = *componentInfo.elementPtr;
+		icomp::IRegistryElement::Ids attributeIds = component.GetAttributeIds();
+
+		quint32 componentFlags = component.GetElementFlags();
+
+		if (!attributeIds.isEmpty() || (componentFlags != 0)){
+			if (!attributeIds.isEmpty()){
+				for (		icomp::IRegistryElement::Ids::const_iterator attributeIter = attributeIds.begin();
+							attributeIter != attributeIds.end();
+							++attributeIter){
+					const QByteArray& attributeId = *attributeIter;
+
+					const icomp::IRegistryElement::AttributeInfo* attrInfoPtr = component.GetAttributeInfo(attributeId);
+
+					if ((attrInfoPtr != NULL) && attrInfoPtr->attributePtr.IsValid()){
+						const icomp::CStringAttribute* stringAttribute = dynamic_cast<const icomp::CStringAttribute*>(attrInfoPtr->attributePtr.GetPtr());
+						if (stringAttribute != NULL){
+							if (!translationFound){
+								NextLine(stream);
+								stream << "// translations";
+							}
+
+							NextLine(stream);
+							stream << "QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttribute->GetValue()) << "); // Set to attribute " << attributeId << " in component" << componentId;
+
+							translationFound = true;
+							continue;
+						}
+
+						const icomp::CStringListAttribute* stringAttributePtr = dynamic_cast<const icomp::CStringListAttribute*>(attrInfoPtr->attributePtr.GetPtr());
+						if (stringAttributePtr != NULL){
+							for (int index = 0; index < stringAttributePtr->GetValuesCount(); index++){
+								if (!translationFound){
+									NextLine(stream);
+									stream << "// translations";
+								}
+
+								NextLine(stream);
+								stream << "QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttributePtr->GetValueAt(index)) << "); // Set to attribute " << attributeId << " in component" << componentId;
+
+								translationFound = true;
+							}
+							continue;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return stream.status() == QTextStream::Ok;
+}
+
+
 bool CRegistryCodeSaverComp::WriteRegistryClassDeclaration(
 			const QByteArray& /*baseClassName*/,
 			const QByteArray& registryClassName,
@@ -1296,6 +1403,12 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 	ChangeIndent(1);
 
 	if (*m_useBinaryCodeAttrPtr){
+		bool isTranslationFound = false;
+		WriteRegistryTranslation(registry, isTranslationFound, stream);
+		if (isTranslationFound){
+			stream << "\n";
+		}
+
 		WriteDeserializingCode(registry, stream);
 	}
 	else{

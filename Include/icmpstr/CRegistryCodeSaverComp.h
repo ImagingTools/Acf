@@ -126,6 +126,22 @@ protected:
 				const iser::IObject& attribute,
 				QTextStream& stream) const;
 
+	/**
+		Write translation macro of all string attributes from registry.
+	*/
+	bool WriteRegistryTranslation(
+				const icomp::IRegistry& registry,
+				bool& translationFound,
+				QTextStream& stream) const;
+	/**
+		Write translation macro of all string attributes from component.
+	*/
+	bool WriteComponentTranslation(
+				const QByteArray& componentId,
+				const icomp::IRegistry::ElementInfo& componentInfo,
+				bool& translationFound,
+				QTextStream& stream) const;
+
 	bool WriteRegistryClassDeclaration(
 				const QByteArray& baseClassName,
 				const QByteArray& registryClassName,
