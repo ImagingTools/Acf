@@ -27,7 +27,14 @@ class COptionsManager:
 public:
 	COptionsManager();
 
-	void SetSlaveSelectionConstraints(const iprm::IOptionsList* slaveSelectionConstraintsPtr);
+	/**
+		Set additional fixed list of options.
+	*/
+	void SetFixedOptionsList(const iprm::IOptionsList* slaveSelectionConstraintsPtr);
+	/**
+		Removes all options.
+	*/
+	void ResetOptions();
 
 	// reimplemented (iprm::IOptionsList)
 	virtual int GetOptionsFlags() const;
@@ -38,13 +45,13 @@ public:
 	virtual bool IsOptionEnabled(int index) const;
 
 	// reimplemented (iprm::IOptionsManager)
-	virtual void SetOptionEnabled(int index, bool isEnabled = true);
+	virtual bool SetOptionEnabled(int index, bool isEnabled = true);
 	virtual bool RemoveOption(int index);
 	virtual bool InsertOption(
 					const QString& optionName,
 					const QByteArray& optionId,
-					const QString& optionDescription = QString(), 
-					int index = -	1);
+					const QString& optionDescription = QString(),
+					int index = -1);
 	virtual bool SwapOptions(int index1, int index2);
 	virtual bool SetOptionName(int index, const QString& optionName);
 	virtual bool SetOptionDescription(int index, const QString& optionDescription);

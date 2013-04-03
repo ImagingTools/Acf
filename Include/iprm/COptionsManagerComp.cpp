@@ -13,13 +13,13 @@ void COptionsManagerComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	SetSlaveSelectionConstraints(m_slaveSelectionConstraintsCompPtr.GetPtr());
+	SetFixedOptionsList(m_fixedOptionsListCompPtr.GetPtr());
 }
 
 
 void COptionsManagerComp::OnComponentDestroyed()
 {
-	SetSlaveSelectionConstraints(NULL);
+	SetFixedOptionsList(NULL);
 
 	BaseClass::OnComponentDestroyed();
 }

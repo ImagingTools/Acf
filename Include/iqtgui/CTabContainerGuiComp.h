@@ -82,7 +82,7 @@ private:
 		virtual bool Serialize(iser::IArchive& archive);
 
 		// reimplemented (iprm::IOptionsManager)
-		virtual void SetOptionEnabled(int index, bool isEnabled = true);
+		virtual bool SetOptionEnabled(int index, bool isEnabled = true);
 		virtual bool RemoveOption(int index);
 		virtual bool InsertOption(
 					QString& optionName,

@@ -221,16 +221,20 @@ bool CTabContainerGuiComp::TabModel::Serialize(iser::IArchive& archive)
 
 // reimplemented (iprm::IOptionsManager)
 
-void CTabContainerGuiComp::TabModel::SetOptionEnabled(int index, bool isEnabled)
+bool CTabContainerGuiComp::TabModel::SetOptionEnabled(int index, bool isEnabled)
 {
-	BaseClass2::SetOptionEnabled(index, isEnabled);
-	
-	if (m_parentPtr != NULL && m_parentPtr->IsGuiCreated()){
+	if (		(m_parentPtr != NULL) &&
+				m_parentPtr->IsGuiCreated() &&
+				BaseClass2::SetOptionEnabled(index, isEnabled)){
 		QTabWidget* tabWidgetPtr = m_parentPtr->GetQtWidget();
 		Q_ASSERT(tabWidgetPtr != NULL);
 
 		tabWidgetPtr->setTabEnabled(index, isEnabled);
+
+		return true;
 	}
+
+	return false;
 }
 
 

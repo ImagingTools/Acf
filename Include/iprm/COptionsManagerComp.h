@@ -26,7 +26,7 @@ public:
 		I_REGISTER_INTERFACE(iprm::IOptionsList);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(iprm::IOptionsManager);
-		I_ASSIGN(m_slaveSelectionConstraintsCompPtr, "SlaveConstraints", "Slave constraints object", false, "SlaveConstraints");
+		I_ASSIGN(m_fixedOptionsListCompPtr, "FixedOptionsList", "List of options could not be changed using this manager", false, "FixedOptionsList");
 	I_END_COMPONENT;
 
 protected:
@@ -35,7 +35,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 private:
-	I_REF(iprm::IOptionsList, m_slaveSelectionConstraintsCompPtr);
+	I_REF(iprm::IOptionsList, m_fixedOptionsListCompPtr);
 };
 
 

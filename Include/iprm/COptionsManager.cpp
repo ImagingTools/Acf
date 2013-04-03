@@ -20,7 +20,7 @@ COptionsManager::COptionsManager()
 }
 
 
-void COptionsManager::SetSlaveSelectionConstraints(const iprm::IOptionsList* slaveSelectionConstraintsPtr)
+void COptionsManager::SetFixedOptionsList(const iprm::IOptionsList* slaveSelectionConstraintsPtr)
 {
 	m_slaveSelectionConstraintsPtr = slaveSelectionConstraintsPtr;
 }
@@ -52,14 +52,14 @@ QString COptionsManager::GetOptionName(int index) const
 	if (m_slaveSelectionConstraintsPtr != NULL){
 		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
 
-		if (fixedOptionsCount - index - 1 >= 0){
+		if (index < fixedOptionsCount){
 			return m_slaveSelectionConstraintsPtr->GetOptionName(index);
 		}
-		else{
-			return m_options[index - fixedOptionsCount].optionName;
-		}
+
+		index -= fixedOptionsCount;
 	}
 
+	Q_ASSERT(index < m_options.size());
 	return m_options[index].optionName;
 }
 
@@ -72,14 +72,14 @@ QString COptionsManager::GetOptionDescription(int index) const
 	if (m_slaveSelectionConstraintsPtr != NULL){
 		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
 
-		if (fixedOptionsCount - index - 1 >= 0){
+		if (index < fixedOptionsCount){
 			return m_slaveSelectionConstraintsPtr->GetOptionDescription(index);
 		}
-		else{
-			return m_options[index - fixedOptionsCount].optionDescription;
-		}
+
+		index -= fixedOptionsCount;
 	}
 
+	Q_ASSERT(index < m_options.size());
 	return m_options[index].optionDescription;
 }
 
@@ -92,14 +92,14 @@ QByteArray COptionsManager::GetOptionId(int index) const
 	if (m_slaveSelectionConstraintsPtr != NULL){
 		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
 
-		if (fixedOptionsCount - index - 1 >= 0){
+		if (index < fixedOptionsCount){
 			return m_slaveSelectionConstraintsPtr->GetOptionId(index);
 		}
-		else{
-			return m_options[index - fixedOptionsCount].optionId;
-		}
+
+		index -= fixedOptionsCount;
 	}
 
+	Q_ASSERT(index < m_options.size());
 	return m_options[index].optionId;
 }
 
@@ -109,20 +109,44 @@ bool COptionsManager::IsOptionEnabled(int index) const
 	Q_ASSERT(index >= 0);
 	Q_ASSERT(index < COptionsManager::GetOptionsCount());
 
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if (index < fixedOptionsCount){
+			return m_slaveSelectionConstraintsPtr->IsOptionEnabled(index);
+		}
+
+		index -= fixedOptionsCount;
+	}
+
+	Q_ASSERT(index < m_options.size());
 	return m_options[index].isEnabled;
 }
 
 
-void COptionsManager::SetOptionEnabled(int index, bool isEnabled)
+bool COptionsManager::SetOptionEnabled(int index, bool isEnabled)
 {
 	Q_ASSERT(index >= 0);
 	Q_ASSERT(index < COptionsManager::GetOptionsCount());
 
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if (index < fixedOptionsCount){
+			return false;
+		}
+
+		index -= fixedOptionsCount;
+	}
+
+	Q_ASSERT(index < m_options.size());
 	if (m_options[index].isEnabled != isEnabled){
 		istd::CChangeNotifier changePtr(this, CF_OPTIONS_CHANGED | CF_MODEL);
 
 		m_options[index].isEnabled = isEnabled;
 	}
+
+	return true;
 }
 
 
@@ -131,8 +155,19 @@ void COptionsManager::SetOptionEnabled(int index, bool isEnabled)
 bool COptionsManager::RemoveOption(int index)
 {
 	Q_ASSERT(index >= 0);
-	Q_ASSERT(index < int(m_options.size()));
+	Q_ASSERT(index < COptionsManager::GetOptionsCount());
 
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if (index < fixedOptionsCount){
+			return false;
+		}
+
+		index -= fixedOptionsCount;
+	}
+
+	Q_ASSERT(index < m_options.size());
 	istd::CChangeNotifier changePtr(this, CF_OPTION_REMOVED | CF_OPTIONS_CHANGED | CF_MODEL);
 
 	m_options.erase(m_options.begin() + index);
@@ -144,17 +179,29 @@ bool COptionsManager::RemoveOption(int index)
 bool COptionsManager::InsertOption(
 					const QString& optionName,
 					const QByteArray& optionId,
-					const QString& optionDescription, 
+					const QString& optionDescription,
 					int index)
 {
 	OptionInfo optionInfo(optionName, optionId, optionDescription);
 
-	istd::CChangeNotifier changePtr(this, CF_OPTION_ADDED | CF_OPTIONS_CHANGED | CF_MODEL);
-
 	if (index < 0 || index >= int(m_options.size())){
+		istd::CChangeNotifier changePtr(this, CF_OPTION_ADDED | CF_OPTIONS_CHANGED | CF_MODEL);
+
 		m_options.push_back(optionInfo);
 	}
 	else{
+		if (m_slaveSelectionConstraintsPtr != NULL){
+			int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+			if (index < fixedOptionsCount){
+				return false;
+			}
+
+			index -= fixedOptionsCount;
+		}
+
+		istd::CChangeNotifier changePtr(this, CF_OPTION_ADDED | CF_OPTIONS_CHANGED | CF_MODEL);
+
 		m_options.insert(m_options.begin() + index, optionInfo);
 	}
 
@@ -164,15 +211,32 @@ bool COptionsManager::InsertOption(
 
 bool COptionsManager::SwapOptions(int index1, int index2)
 {
-	if (index1 >= m_options.size() || index2 >= m_options.size()){
-		return false;
+	Q_ASSERT(index1 >= 0);
+	Q_ASSERT(index1 < COptionsManager::GetOptionsCount());
+	Q_ASSERT(index2 >= 0);
+	Q_ASSERT(index2 < COptionsManager::GetOptionsCount());
+
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if ((index1 < fixedOptionsCount) || (index2 < fixedOptionsCount)){
+			return false;
+		}
+
+		index1 -= fixedOptionsCount;
+		index2 -= fixedOptionsCount;
 	}
 
-	istd::CChangeNotifier changePtr(this, CF_OPTIONS_CHANGED | CF_MODEL);
+	Q_ASSERT(index1 < m_options.size());
+	Q_ASSERT(index2 < m_options.size());
 
-	OptionInfo optionInfo1 = m_options.value(index1);
-	m_options.remove(index1);
-	m_options.insert(index2, optionInfo1);
+	if (index1 != index2){
+		istd::CChangeNotifier changePtr(this, CF_OPTIONS_CHANGED | CF_MODEL);
+
+		OptionInfo tempInfo = m_options[index1];
+		m_options[index1] = m_options[index2];
+		m_options[index2] = tempInfo;
+	}
 
 	return true;
 }
@@ -180,10 +244,20 @@ bool COptionsManager::SwapOptions(int index1, int index2)
 
 bool COptionsManager::SetOptionName(int index, const QString& optionName)
 {
-	if (index >= m_options.size()){
-		return false;
+	Q_ASSERT(index >= 0);
+	Q_ASSERT(index < COptionsManager::GetOptionsCount());
+
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if (index < fixedOptionsCount){
+			return false;
+		}
+
+		index -= fixedOptionsCount;
 	}
 
+	Q_ASSERT(index < m_options.size());
 	if (m_options[index].optionName != optionName){
 		istd::CChangeNotifier changePtr(this, CF_OPTION_RENAMED | CF_MODEL);
 
@@ -196,10 +270,20 @@ bool COptionsManager::SetOptionName(int index, const QString& optionName)
 
 bool COptionsManager::SetOptionDescription(int index, const QString& optionDescription)
 {
-	if (index >= m_options.size()){
-		return false;
+	Q_ASSERT(index >= 0);
+	Q_ASSERT(index < COptionsManager::GetOptionsCount());
+
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+
+		if (index < fixedOptionsCount){
+			return false;
+		}
+
+		index -= fixedOptionsCount;
 	}
 
+	Q_ASSERT(index < m_options.size());
 	if (m_options[index].optionDescription != optionDescription){
 		istd::CChangeNotifier changePtr(this, CF_OPTIONS_CHANGED | CF_MODEL);
 
