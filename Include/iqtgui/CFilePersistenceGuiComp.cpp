@@ -37,11 +37,11 @@ void CFilePersistenceGuiComp::OnGuiCreated()
 	LoadButton->setEnabled(
 				m_fileLoaderCompPtr.IsValid() &&
 				m_objectCompPtr.IsValid() &&
-				m_fileLoaderCompPtr->IsOperationSupported(m_objectCompPtr.GetPtr(), NULL, iser::IFileLoader::QF_LOAD | iser::IFileLoader::QF_ANONYMOUS));
+				m_fileLoaderCompPtr->IsOperationSupported(m_objectCompPtr.GetPtr(), NULL, ifile::IFilePersistence::QF_LOAD | ifile::IFilePersistence::QF_ANONYMOUS));
 	SaveButton->setEnabled(
 				m_fileLoaderCompPtr.IsValid() &&
 				m_objectCompPtr.IsValid() &&
-				m_fileLoaderCompPtr->IsOperationSupported(m_objectCompPtr.GetPtr(), NULL, iser::IFileLoader::QF_SAVE | iser::IFileLoader::QF_ANONYMOUS));
+				m_fileLoaderCompPtr->IsOperationSupported(m_objectCompPtr.GetPtr(), NULL, ifile::IFilePersistence::QF_SAVE | ifile::IFilePersistence::QF_ANONYMOUS));
 }
 
 

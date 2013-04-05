@@ -8,7 +8,7 @@
 #include <QtGui/QStandardItemModel>
 
 // ACF includes
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "imod/IModel.h"
 #include "imod/CSingleModelObserverBase.h"
@@ -71,7 +71,7 @@ private Q_SLOTS:
 private:
 	I_REF(ifile::IFileNameParam, m_dirParamCompPtr);
 	I_REF(imod::IModel, m_dirParamModelCompPtr);
-	I_REF(iser::IFileTypeInfo, m_fileTypeInfoCompPtr);
+	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoCompPtr);
 	I_MULTIATTR(QString, m_filtersAttrPtr);
 	I_ATTR(int, m_minRecurDepthAttrPtr);
 	I_ATTR(int, m_maxRecurDepthAttrPtr);

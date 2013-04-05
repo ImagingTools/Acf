@@ -38,6 +38,11 @@ I_EXPORT_COMPONENT(
 			"Provide list of file synchronized with some directory",
 			"List Provider Directory");
 
+I_EXPORT_COMPONENT(
+			AutoPersistence,
+			"Allows object persistence using files",
+			"Free Create Store Restore Load Save" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Persistence File"));
+
 
 } // namespace FilePck
 

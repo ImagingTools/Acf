@@ -9,7 +9,7 @@
 // ACF includes
 #include "istd/IPolymorphic.h"
 
-#include "iser/IFileTypeInfo.h"
+#include "ifile/IFileTypeInfo.h"
 
 
 namespace idoc
@@ -65,7 +65,7 @@ public:
 		Get file type information object for some selected document type.
 		\param	documentTypeId	ID of document type as returned by \c GetDocumentTypeIds().
 	*/
-	virtual iser::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const = 0;
+	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const = 0;
 
 	/**
 		Get list of supported document ID's can be created for specified file.

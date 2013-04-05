@@ -214,35 +214,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CAutoPersistenceComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CComposedLoaderComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CConsoleLogComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CCopyAppComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CDelegatedProgressManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileCopyOverLoaderComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileSerializerCompBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileTypeInfoComp.cpp"
 				>
 			</File>
 			<File
@@ -298,18 +274,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTextDocumentComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileLoaderComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileLogComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CUuidComp.cpp"
 				>
 			</File>
@@ -327,35 +291,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CAutoPersistenceComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CComposedLoaderComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CConsoleLogComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CCopyAppComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CDelegatedProgressManager.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileCopyOverLoaderComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileSerializerCompBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileTypeInfoComp.h"
 				>
 			</File>
 			<File
@@ -411,18 +351,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTextDocumentComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileLoaderComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileLogComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CUuidComp.h"
 				>
 			</File>
@@ -448,10 +376,6 @@
 			</File>
 			<File
 				RelativePath="..\ICommandsProvider.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileConvertCopy.h"
 				>
 			</File>
 			<File
@@ -487,10 +411,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\ITextDocument.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TCommandsProviderCompWrap.h"
 				>
 			</File>
@@ -504,10 +424,6 @@
 			</File>
 			<File
 				RelativePath="..\TFactorisableContainer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TFileSerializerComp.h"
 				>
 			</File>
 			<File

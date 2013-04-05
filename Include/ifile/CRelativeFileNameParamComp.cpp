@@ -7,7 +7,7 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-#include "iser/IFileArchiveInfo.h"
+#include "ifile/IFileArchiveInfo.h"
 
 
 namespace ifile
@@ -59,7 +59,7 @@ bool CRelativeFileNameParamComp::Serialize(iser::IArchive& archive)
 	bool retVal = true;
 
 	QString documentPath;
-	const iser::IFileArchiveInfo* fileArchiveInfoPtr = dynamic_cast<const iser::IFileArchiveInfo*>(&archive);
+	const ifile::IFileArchiveInfo* fileArchiveInfoPtr = dynamic_cast<const ifile::IFileArchiveInfo*>(&archive);
 	if (fileArchiveInfoPtr != NULL){
 		documentPath = fileArchiveInfoPtr->GetCurrentFilePath();
 	}

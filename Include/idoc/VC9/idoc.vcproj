@@ -191,6 +191,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTextDocumentComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextFileLoaderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTmplBasedDocumentManagerBase.cpp"
 				>
 			</File>
@@ -232,6 +240,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTextDocumentComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextFileLoaderComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CTmplBasedDocumentManagerBase.h"
 				>
 			</File>
@@ -265,6 +281,10 @@
 			</File>
 			<File
 				RelativePath="..\IHelpViewer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\ITextDocument.h"
 				>
 			</File>
 			<File

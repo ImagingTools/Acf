@@ -17,7 +17,7 @@
 #include "QtPck/QtPck.h"
 #include "BasePck/BasePck.h"
 #include "FilePck/FilePck.h"
-#include "CompositorPck/CompositorPck.h"
+#include "PackagePck/PackagePck.h"
 
 
 static void ShowUsage()
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 	registryLoaderComp.SetBoolAttr("EnableVerbose", verboseEnabled);
 	registryLoaderComp.InitComponent();
 
-	icomp::TSimComponentWrap<CompositorPck::RegistriesManager> registriesManagerComp;
+	icomp::TSimComponentWrap<PackagePck::RegistriesManager> registriesManagerComp;
 	registriesManagerComp.SetRef("RegistryLoader", &registryLoaderComp);
 	registriesManagerComp.SetRef("Log", &log);
 	registriesManagerComp.SetBoolAttr("EnableVerbose", verboseEnabled);
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
 	registriesManagerComp.LoadPackages(configFile);
 
-	icomp::TSimComponentWrap<CompositorPck::RegistryCodeSaver> codeSaverComp;
+	icomp::TSimComponentWrap<PackagePck::RegistryCodeSaver> codeSaverComp;
 	codeSaverComp.SetRef("Log", &log);
 	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
 	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
@@ -138,16 +138,16 @@ int main(int argc, char *argv[])
 	codeSaverComp.InitComponent();
 
 	// registry model
-	icomp::TSimComponentWrap<CompositorPck::Registry> registryComp;
+	icomp::TSimComponentWrap<PackagePck::Registry> registryComp;
 	registryComp.InitComponent();
 
-	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != iser::IFileLoader::StateOk){
+	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != ifile::IFilePersistence::StateOk){
 		std::cout << "Cannot read input registry file '" << inputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 2;
 	}
 
-	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != iser::IFileLoader::StateOk){
+	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != ifile::IFilePersistence::StateOk){
 		std::cout << "Cannot write output file(s) '" << outputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 3;

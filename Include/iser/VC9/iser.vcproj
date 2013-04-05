@@ -184,18 +184,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileArchiveInfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CMemoryReadArchive.cpp"
 				>
 			</File>
@@ -233,14 +221,6 @@
 			</File>
 			<File
 				RelativePath="..\CXmlDocumentInfoBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp"
 				>
 			</File>
 			<File
@@ -297,18 +277,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileArchiveInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CMemoryReadArchive.h"
 				>
 			</File>
@@ -349,14 +317,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CXmlReadArchiveBase.h"
 				>
 			</File>
@@ -378,22 +338,6 @@
 			</File>
 			<File
 				RelativePath="..\IArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileArchiveInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileLoader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileLoaderInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileTypeInfo.h"
 				>
 			</File>
 			<File

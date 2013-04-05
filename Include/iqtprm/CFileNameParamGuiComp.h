@@ -6,7 +6,7 @@
 #include <QtGui/QDirModel>
 
 // ACF includes
-#include "iser/IFileTypeInfo.h"
+#include "ifile/IFileTypeInfo.h"
 
 #include "ifile/IFileNameParam.h"
 
@@ -68,7 +68,7 @@ private:
 	I_ATTR(QString, m_startHintAttrPtr);
 	I_ATTR(bool, m_readOnlyAttrPtr);
 	I_ATTR(int, m_labelWidthAttrPtr);
-	I_REF(iser::IFileTypeInfo, m_fileTypeInfoPtr);
+	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoPtr);
 	I_REF(ifile::IFileNameParam, m_defaultDirPtr);
 
 	QDirModel m_directoryModel;

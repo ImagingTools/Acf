@@ -468,7 +468,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        iser::IFileTypeInfo
+        ifile::IFileTypeInfo
       </InterfaceId>
       <ComponentId>
         BitmapLoader

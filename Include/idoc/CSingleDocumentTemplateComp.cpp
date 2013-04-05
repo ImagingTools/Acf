@@ -15,7 +15,7 @@ namespace idoc
 
 // reimplemented (idoc::IDocumentTemplate)
 
-iser::IFileLoader* CSingleDocumentTemplateComp::GetFileLoader(const QByteArray& documentTypeId) const
+ifile::IFilePersistence* CSingleDocumentTemplateComp::GetFileLoader(const QByteArray& documentTypeId) const
 {
 	if (IsDocumentTypeSupported(documentTypeId)){
 		return m_fileLoaderCompPtr.GetPtr();

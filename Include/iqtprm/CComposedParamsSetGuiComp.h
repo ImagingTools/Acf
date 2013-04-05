@@ -8,7 +8,7 @@
 // ACF includes
 #include <QtCore/QString>
 
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "iprm/IParamsSet.h"
 
@@ -88,7 +88,7 @@ private:
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIREF(iqt2d::IViewExtender, m_extendersCompPtr);
-	I_REF(iser::IFileLoader, m_paramsLoaderCompPtr);
+	I_REF(ifile::IFilePersistence, m_paramsLoaderCompPtr);
 	I_MULTIATTR(QByteArray, m_idsAttrPtr);
 	I_MULTIATTR(QString, m_namesAttrPtr);
 	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);

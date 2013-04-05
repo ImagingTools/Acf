@@ -9,7 +9,7 @@
 
 
 // ACF includes
-#include "icmpstr/CComponentAccessor.h"
+#include "ipackage/CComponentAccessor.h"
 
 #include "ibase/IApplication.h"
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
 	int retVal = 0;
 
-	icmpstr::CComponentAccessor componentAccessor(registryFilePath, configFilePath);
+	ipackage::CComponentAccessor componentAccessor(registryFilePath, configFilePath);
 
 	ibase::IApplication* applicationPtr = componentAccessor.GetComponentInterface<ibase::IApplication>(componentId);
 	if (applicationPtr == NULL){

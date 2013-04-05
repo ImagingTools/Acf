@@ -8,7 +8,7 @@
 
 
 // ACF includes
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "ibase/CMessageContainer.h"
 #include "ibase/CMessage.h"
@@ -130,7 +130,7 @@ protected:
 	QAction* m_exportAction;
 
 private:
-	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
 	I_REF(ibase::IMessageConsumer, m_slaveMessageConsumerCompPtr);
 	I_REF(ibase::IHierarchicalMessageContainer, m_slaveMessageContainerCompPtr);
 	I_ATTR(int, m_defaultModeAttrPtr);

@@ -7,7 +7,7 @@
 #include <QtCore/QFile>
 
 #include "iser/CWriteArchiveBase.h"
-#include "iser/CFileArchiveInfo.h"
+#include "ifile/CFileArchiveInfo.h"
 #include "iser/CXmlDocumentInfoBase.h"
 
 #include "iqt/iqt.h"
@@ -19,18 +19,18 @@ namespace iqt
 
 /**
 	Qt-based implementation of archive for writing in XML format.
-	Please note that it doesn't create \c counter attribute needed by \c iser::CXmlFileReadArchive.
+	Please note that it doesn't create \c counter attribute needed by \c ifile::CXmlFileReadArchive.
 
 	\ingroup Persistence
 */
 class CXmlFileWriteArchive:
 			public iser::CWriteArchiveBase,
-			public iser::CFileArchiveInfo,
+			public ifile::CFileArchiveInfo,
 			public iser::CXmlDocumentInfoBase
 {
 public:
 	typedef iser::CWriteArchiveBase BaseClass;
-	typedef iser::CFileArchiveInfo BaseClass2;
+	typedef ifile::CFileArchiveInfo BaseClass2;
 
 	CXmlFileWriteArchive(
 				const QString& filePath = "",

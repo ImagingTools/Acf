@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "iser/IFileTypeInfo.h"
+#include "ifile/IFileTypeInfo.h"
 
 #include "ibase/TLoggerCompWrap.h"
 
@@ -39,7 +39,7 @@ protected:
 private:
 	I_ATTR(bool, m_autoDeleteAttrPtr);
 	I_ATTR(bool, m_ensureDirectoryCreatedAttrPtr);
-	I_REF(iser::IFileTypeInfo, m_fileTypeInfoCompPtr);
+	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoCompPtr);
 };
 
 

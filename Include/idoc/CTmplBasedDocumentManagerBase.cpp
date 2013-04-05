@@ -35,19 +35,19 @@ int CTmplBasedDocumentManagerBase::GetAllowedOperationFlags(const istd::IPolymor
 
 	if ((m_documentTemplatePtr != NULL) && (documentPtr != NULL)){
 		QByteArray docTypeId = GetDocumentTypeId(*documentPtr);
-		iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(docTypeId);
+		ifile::IFilePersistence* loaderPtr = m_documentTemplatePtr->GetFileLoader(docTypeId);
 		if (loaderPtr != NULL){
 			if (docInfo.filePath.isEmpty() || loaderPtr->IsOperationSupported(
 						documentPtr,
 						&docInfo.filePath,
-						iser::IFileLoader::QF_SAVE | iser::IFileLoader::QF_FILE)){
+						ifile::IFilePersistence::QF_SAVE | ifile::IFilePersistence::QF_FILE)){
 				retVal |= OF_FILE_SAVE;
 			}
 
 			if (loaderPtr->IsOperationSupported(
 						documentPtr,
 						NULL,
-						iser::IFileLoader::QF_SAVE | iser::IFileLoader::QF_FILE)){
+						ifile::IFilePersistence::QF_SAVE | ifile::IFilePersistence::QF_FILE)){
 				retVal |= OF_FILE_SAVE_AS;
 			}
 		}
@@ -93,7 +93,7 @@ QString CTmplBasedDocumentManagerBase::GetDocumentTypeName(const QByteArray& doc
 }
 
 
-iser::IFileTypeInfo* CTmplBasedDocumentManagerBase::GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const
+ifile::IFileTypeInfo* CTmplBasedDocumentManagerBase::GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const
 {
 	if (m_documentTemplatePtr != NULL){
 		return m_documentTemplatePtr->GetFileLoader(documentTypeId);
@@ -146,9 +146,9 @@ void CTmplBasedDocumentManagerBase::SetDocumentTemplate(const IDocumentTemplate*
 					++iter){
 			const QByteArray& docTypeId = *iter;
 
-			iser::IFileLoader* loaderPtr = m_documentTemplatePtr->GetFileLoader(docTypeId);
+			ifile::IFilePersistence* loaderPtr = m_documentTemplatePtr->GetFileLoader(docTypeId);
 			if (		(loaderPtr != NULL) &&
-						loaderPtr->IsOperationSupported(NULL, NULL, iser::IFileLoader::QF_LOAD | iser::IFileLoader::QF_FILE)){
+						loaderPtr->IsOperationSupported(NULL, NULL, ifile::IFilePersistence::QF_LOAD | ifile::IFilePersistence::QF_FILE)){
 				m_baseAllowedFlags |= OF_FILE_OPEN;
 
 				break;

@@ -5,7 +5,7 @@
 // ACF includes
 #include <QtCore/QString>
 
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "iprm/IVariableParam.h"
 

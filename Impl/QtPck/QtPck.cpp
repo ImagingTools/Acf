@@ -29,11 +29,6 @@ I_EXPORT_COMPONENT(
 			"INI Settings QSettings Registry Saver" IM_TAG("Application Persistence"));
 
 I_EXPORT_COMPONENT(
-			FileInfoCopy,
-			"Copy file attaching some additional information like version and license",
-			"Copy Move Attach License Version Tags" IM_TAG("File Processing"));
-
-I_EXPORT_COMPONENT(
 			ClipboardSerializer,
 			"Load and store objects from and to clipboard",
 			"System Clipboard Serializer Copy Paste" IM_TAG("Loader"));

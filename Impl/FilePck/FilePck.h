@@ -10,6 +10,7 @@
 #include "ifile/CSystemLocationComp.h"
 #include "ifile/CGeneratedFileNameParamComp.h"
 #include "ifile/CFileListProviderComp.h"
+#include "ifile/CAutoPersistenceComp.h"
 
 
 /**
@@ -24,6 +25,7 @@ typedef icomp::TModelCompWrap<ifile::CRelativeFileNameParamComp> RelativeFileNam
 typedef icomp::TModelCompWrap<ifile::CSystemLocationComp> SystemLocation;
 typedef icomp::TModelCompWrap<ifile::CGeneratedFileNameParamComp> GeneratedFileNameParam;
 typedef icomp::TModelCompWrap<ifile::CFileListProviderComp> FileListProvider;
+typedef ifile::CAutoPersistenceComp AutoPersistence;
 
 
 } // namespace FilePck

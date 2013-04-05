@@ -53,14 +53,14 @@ void CObjectPreviewGuiComp::UpdateGui(int /*updateFlags*/)
 	if (objectPtr != NULL){
 		QString newFilePath = objectPtr->GetPath();
 
-		int fileQueryFlags = iser::IFileLoader::QF_LOAD;
+		int fileQueryFlags = ifile::IFilePersistence::QF_LOAD;
 
 		QFileInfo newFileInfo(newFilePath);
 		if (newFileInfo.isFile()){
-			fileQueryFlags |= iser::IFileLoader::QF_FILE;
+			fileQueryFlags |= ifile::IFilePersistence::QF_FILE;
 		}
 		else if (newFileInfo.isDir()){
-			fileQueryFlags |= iser::IFileLoader::QF_DIRECTORY;
+			fileQueryFlags |= ifile::IFilePersistence::QF_DIRECTORY;
 		}
 
 		if (m_fileLoaderCompPtr->IsOperationSupported(NULL, NULL, fileQueryFlags)){
@@ -129,7 +129,7 @@ void CObjectPreviewGuiComp::UpdateObjectFromFile()
 
 		if (m_fileLoaderCompPtr.IsValid()){
 			int retVal = m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr.GetPtr(), m_lastFilePath);
-			if (retVal != iser::IFileLoader::StateOk){
+			if (retVal != ifile::IFilePersistence::StateOk){
 				disableView = true;
 			}
 		}

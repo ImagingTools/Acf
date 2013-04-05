@@ -28,7 +28,7 @@ public:
 	virtual bool IsFeatureSupported(int featureFlags, const QByteArray& documentTypeId) const;
 	virtual Ids GetDocumentTypeIds() const;
 	virtual QString GetDocumentTypeName(const QByteArray& documentTypeId) const;
-	virtual iser::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const;
+	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const;
 	virtual Ids GetDocumentTypeIdsForFile(const QString& filePath) const;
 	virtual QString GetDefaultDirectory(const QString& sugestedDir = "", const QByteArray* documentTypeIdPtr = NULL) const;
 

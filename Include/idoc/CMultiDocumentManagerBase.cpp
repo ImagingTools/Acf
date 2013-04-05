@@ -286,8 +286,8 @@ bool CMultiDocumentManagerBase::SaveDocument(
 		}
 	}
 
-	const iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(infoPtr->documentTypeId);
-	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk){
+	const ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(infoPtr->documentTypeId);
+	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::StateOk){
 		if ((infoPtr->filePath != filePath) || infoPtr->isDirty){
 			istd::CChangeNotifier notifierPtr(this);
 
@@ -526,9 +526,9 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 			istd::CChangeNotifier documentNotifier(infoPtr->documentPtr.GetPtr(), istd::IChangeable::CF_NO_UNDO);
 
-			iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
+			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
-						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == iser::IFileLoader::StateOk)){
+						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::StateOk)){
 				RegisterDocument(infoPtr.GetPtr());
 
 				documentNotifier.Reset();

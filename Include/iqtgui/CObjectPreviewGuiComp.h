@@ -7,7 +7,7 @@
 #include <QtCore/QDateTime>
 
 // ACF includes
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "ifile/IFileNameParam.h"
 
@@ -54,7 +54,7 @@ private:
 	void UpdateObjectFromFile();
 
 private:
-	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
 	I_REF(istd::IChangeable, m_objectCompPtr);
 	I_REF(imod::IModel, m_objectModelCompPtr);
 	I_REF(imod::IObserver, m_objectObserverCompPtr);

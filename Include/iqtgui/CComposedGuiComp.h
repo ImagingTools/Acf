@@ -8,7 +8,7 @@
 #include <QtGui/QSplitter>
 
 // ACF includes
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "iprm/IParamsSet.h"
 

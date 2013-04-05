@@ -8,7 +8,7 @@
 
 
 // ACF includes
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "icomp/CComponentBase.h"
 
@@ -22,12 +22,12 @@ namespace iimg
 
 
 /**
-	Bitmap loader component implementing interfaces \c iser::IFileLoader.
+	Bitmap loader component implementing interfaces \c ifile::IFilePersistence.
 */
 class CBitmapLoaderComp:
 			public QObject,
 			public ibase::CLoggerComponentBase,
-			virtual public iser::IFileLoader
+			virtual public ifile::IFilePersistence
 {
 public:
 	typedef ibase::CLoggerComponentBase BaseClass;
@@ -40,11 +40,11 @@ public:
 	};
 
 	I_BEGIN_COMPONENT(CBitmapLoaderComp);
-		I_REGISTER_INTERFACE(iser::IFileTypeInfo);
-		I_REGISTER_INTERFACE(iser::IFileLoader);
+		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
+		I_REGISTER_INTERFACE(ifile::IFilePersistence);
 	I_END_COMPONENT;
 
-	// reimplemented (iser::IFileLoader)
+	// reimplemented (ifile::IFilePersistence)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
 				const QString* filePathPtr = NULL,
@@ -53,7 +53,7 @@ public:
 	virtual int LoadFromFile(istd::IChangeable& data, const QString& filePath) const;
 	virtual int SaveToFile(const istd::IChangeable& data, const QString& filePath) const;
 
-	// reimplemented (iser::IFileTypeInfo)
+	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, int flags = -1, bool doAppend = false) const;
 	virtual QString GetTypeDescription(const QString* extensionPtr = NULL) const;
 

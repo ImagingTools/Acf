@@ -8,7 +8,6 @@
 #include "iqt/CSettingsSerializerComp.h"
 #include "iqt/CApplicationSettingsProviderComp.h"
 #include "iqt/CIniSettingsProviderComp.h"
-#include "iqt/CFileInfoCopyComp.h"
 #include "iqt/CClipboardSerializerComp.h"
 #include "iqt/CRenderedObjectFileLoaderComp.h"
 #include "iqt/CTranslationManagerComp.h"
@@ -19,7 +18,7 @@
 #include "iqtdoc/CStaticHelpFileProviderComp.h"
 #include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
-#include "ibase/TFileSerializerComp.h"
+#include "ifile/TFileSerializerComp.h"
 
 
 /**
@@ -33,11 +32,10 @@ namespace QtPck
 typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CIniSettingsProviderComp IniSettingsProvider;
-typedef iqt::CFileInfoCopyComp FileInfoCopy;
 typedef iqt::CClipboardSerializerComp ClipboardSerializer;
 typedef iqt::CRenderedObjectFileLoaderComp RenderedObjectFileLoader;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
-typedef ibase::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
+typedef ifile::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
 
 typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;

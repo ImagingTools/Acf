@@ -187,7 +187,19 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CAutoPersistenceComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CComposedFilePersistenceComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CDirList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileArchiveInfo.cpp"
 				>
 			</File>
 			<File
@@ -203,6 +215,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSerializerCompBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTypeInfoComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileWriteArchive.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CGeneratedFileNameParamComp.cpp"
 				>
 			</File>
@@ -214,13 +242,37 @@
 				RelativePath="..\CSystemLocationComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CTextFileLogComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CXmlFileReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CXmlFileWriteArchive.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h"
 			>
 			<File
+				RelativePath="..\CAutoPersistenceComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComposedFilePersistenceComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CDirList.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileArchiveInfo.h"
 				>
 			</File>
 			<File
@@ -236,6 +288,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSerializerCompBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTypeInfoComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileWriteArchive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CGeneratedFileNameParamComp.h"
 				>
 			</File>
@@ -248,7 +316,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CTextFileLogComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXmlFileReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXmlFileWriteArchive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ifile.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFileArchiveInfo.h"
 				>
 			</File>
 			<File
@@ -257,6 +341,22 @@
 			</File>
 			<File
 				RelativePath="..\IFileNameParam.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFilePersistence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFilePersistenceInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFileTypeInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TFileSerializerComp.h"
 				>
 			</File>
 		</Filter>

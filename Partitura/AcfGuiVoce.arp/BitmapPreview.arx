@@ -486,7 +486,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        iser::IFileLoader
+        ifile::IFilePersistence
       </InterfaceId>
       <ComponentId>
         BitmapLoader
@@ -494,7 +494,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        iser::IFileTypeInfo
+        ifile::IFileTypeInfo
       </InterfaceId>
       <ComponentId>
         BitmapLoader

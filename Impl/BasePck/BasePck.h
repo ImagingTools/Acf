@@ -4,10 +4,14 @@
 
 #include "imod/IObserver.h"
 
-#include "iser/CXmlFileReadArchive.h"
-#include "iser/CXmlFileWriteArchive.h"
-#include "iser/CFileReadArchive.h"
-#include "iser/CFileWriteArchive.h"
+#include "ifile/TFileSerializerComp.h"
+#include "ifile/CXmlFileReadArchive.h"
+#include "ifile/CXmlFileWriteArchive.h"
+#include "ifile/CFileReadArchive.h"
+#include "ifile/CFileWriteArchive.h"
+#include "ifile/CComposedFilePersistenceComp.h"
+#include "ifile/CFileTypeInfoComp.h"
+#include "ifile/CTextFileLogComp.h"
 
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
@@ -17,22 +21,15 @@
 #include "idoc/CDocumentManagerListenerComp.h"
 #include "idoc/CSelectedDocModelBinderComp.h"
 #include "idoc/CSerializedUndoManager.h"
+#include "idoc/CTextFileLoaderComp.h"
+#include "idoc/CTextDocumentComp.h"
 
-#include "ibase/CComposedLoaderComp.h"
-#include "ibase/CTextFileLoaderComp.h"
 #include "ibase/CInstantiatorComp.h"
 #include "ibase/CVersionInfoComp.h"
 #include "ibase/CApplicationInfoComp.h"
-#include "ibase/CTextDocumentComp.h"
 #include "ibase/CModelProxyComp.h"
 #include "ibase/CModelBinderComp.h"
-#include "ibase/CAutoPersistenceComp.h"
-#include "ibase/CFileTypeInfoComp.h"
-#include "ibase/TFileSerializerComp.h"
 #include "ibase/CConsoleLogComp.h"
-#include "ibase/CTextFileLogComp.h"
-#include "ibase/CFileCopyOverLoaderComp.h"
-#include "ibase/CCopyAppComp.h"
 #include "ibase/CUuidComp.h"
 #include "ibase/CObjectQueueComp.h"
 #include "ibase/CLogComp.h"
@@ -78,21 +75,18 @@ namespace BasePck
 {
 
 
-typedef ibase::CFileTypeInfoComp FileTypeInfo;
-typedef ibase::TFileSerializerComp<iser::CXmlFileReadArchive, iser::CXmlFileWriteArchive> XmlFileSerializer;
-typedef ibase::TFileSerializerComp<iser::CFileReadArchive, iser::CFileWriteArchive> BinaryFileSerializer;
-typedef ibase::CComposedLoaderComp ComposedLoader;
-typedef ibase::CTextFileLoaderComp TextFileLoader;
+typedef ifile::TFileSerializerComp<ifile::CXmlFileReadArchive, ifile::CXmlFileWriteArchive> XmlFileSerializer;
+typedef ifile::TFileSerializerComp<ifile::CFileReadArchive, ifile::CFileWriteArchive> BinaryFileSerializer;
+typedef ifile::CComposedFilePersistenceComp ComposedLoader;
+typedef ifile::CFileTypeInfoComp FileTypeInfo;
+typedef ifile::CTextFileLogComp TextFileLog;
+
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CVersionInfoComp VersionInfo;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CModelProxyComp ModelProxy;
 typedef ibase::CModelBinderComp ModelBinder;
-typedef ibase::CAutoPersistenceComp AutoPersistence;
 typedef ibase::CConsoleLogComp ConsoleLog;
-typedef ibase::CTextFileLogComp TextFileLog;
-typedef ibase::CFileCopyOverLoaderComp FileCopyOverLoader;
-typedef ibase::CCopyAppComp CopyApp;
 typedef icomp::TModelCompWrap<ibase::CUuidComp> Uuid;
 typedef ibase::CObjectQueueComp ObjectQueue;
 typedef icomp::TModelCompWrap<ibase::CLogComp> Log;
@@ -120,6 +114,8 @@ typedef icomp::TModelCompWrap< icomp::TMakeComponentWrap<
 			idoc::IUndoManager,
 			idoc::IDocumentStateComparator,
 			imod::IObserver> > SerializedUndoManager;
+typedef idoc::CTextFileLoaderComp TextFileLoader;
+typedef icomp::TModelCompWrap<idoc::CTextDocumentComp> TextDocument;
 
 typedef icomp::TModelCompWrap<i2d::CPosition2dComp> Position2d;
 typedef icomp::TModelCompWrap<i2d::CRectangleComp> Rectangle;
@@ -135,8 +131,6 @@ typedef icomp::TModelCompWrap<i2d::CAffineTransformation2dComp> AffineTransforma
 typedef icomp::TModelCompWrap<i2d::CStaticCalibrationProviderComp> StaticCalibrationProvider;
 typedef icomp::TModelCompWrap<i2d::CTubePolylineComp> TubePolyline;
 typedef icomp::TModelCompWrap<i2d::CCalibration2dProxyComp> Calibration2dProxy;
-
-typedef icomp::TModelCompWrap<ibase::CTextDocumentComp> TextDocument;
 
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<imath::CSampledFunction2d>,

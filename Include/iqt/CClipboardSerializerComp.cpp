@@ -18,7 +18,7 @@ namespace iqt
 {
 
 
-// reimplemented (iser::IFileLoader)
+// reimplemented (ifile::IFilePersistence)
 
 bool CClipboardSerializerComp::IsOperationSupported(
 			const istd::IChangeable* dataObjectPtr,
@@ -114,7 +114,7 @@ int CClipboardSerializerComp::SaveToFile(const istd::IChangeable& data, const QS
 }
 
 
-// reimplemented (iser::IFileTypeInfo)
+// reimplemented (ifile::IFileTypeInfo)
 
 bool CClipboardSerializerComp::GetFileExtensions(QStringList& /*result*/, int /*flags*/, bool /*doAppend*/) const
 {

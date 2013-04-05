@@ -2,7 +2,7 @@
 #define idoc_CSingleDocumentTemplateComp_included
 
 
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "imod/IModel.h"
 
@@ -37,7 +37,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (idoc::IDocumentTemplate)
-	virtual iser::IFileLoader* GetFileLoader(const QByteArray& documentTypeId) const;
+	virtual ifile::IFilePersistence* GetFileLoader(const QByteArray& documentTypeId) const;
 	virtual istd::IChangeable* CreateDocument(const QByteArray& documentTypeId) const;
 	virtual istd::IPolymorphic* CreateView(
 				const QByteArray& documentTypeId,
@@ -67,7 +67,7 @@ private:
 	I_FACT(istd::IChangeable, m_documentCompFact);
 	I_FACT(imod::IModel, m_modelCompFact);
 	I_FACT(imod::IObserver, m_viewCompFact);
-	I_REF(iser::IFileLoader, m_fileLoaderCompPtr);
+	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
 	I_FACT(idoc::IUndoManager, m_undoManagerCompFact);
 	I_FACT(imod::IObserver, m_undoManagerObserverCompFact);
 

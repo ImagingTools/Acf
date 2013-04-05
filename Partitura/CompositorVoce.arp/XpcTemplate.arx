@@ -557,7 +557,7 @@
         XpcModel
       </Id>
       <PackageId>
-        CompositorPck
+        PackagePck
       </PackageId>
       <ComponentId>
         XpcModel

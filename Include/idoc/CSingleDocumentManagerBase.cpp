@@ -226,8 +226,8 @@ bool CSingleDocumentManagerBase::SaveDocument(
 		editorPtr->UpdateModel();
 	}
 
-	const iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(m_documentTypeId);
-	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*m_documentPtr, filePath) == iser::IFileLoader::StateOk){
+	const ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(m_documentTypeId);
+	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*m_documentPtr, filePath) == ifile::IFilePersistence::StateOk){
 		if ((m_filePath != filePath) || m_isDirty){
 			istd::CChangeNotifier notifierPtr(this);
 
@@ -366,9 +366,9 @@ bool CSingleDocumentManagerBase::OpenDocument(
 
 			istd::CChangeNotifier documentNotifier(m_documentPtr.GetPtr(), istd::IChangeable::CF_NO_UNDO);
 
-			iser::IFileLoader* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
+			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
-						(loaderPtr->LoadFromFile(*m_documentPtr, filePath) == iser::IFileLoader::StateOk)){
+						(loaderPtr->LoadFromFile(*m_documentPtr, filePath) == ifile::IFilePersistence::StateOk)){
 				m_filePath = filePath;
 				documentNotifier.Reset();
 

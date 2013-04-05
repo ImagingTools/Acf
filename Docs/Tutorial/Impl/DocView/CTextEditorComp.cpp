@@ -29,7 +29,7 @@ void CTextEditorComp::UpdateModel() const
 	QTextEdit* textEditPtr = GetQtWidget();
 	Q_ASSERT(textEditPtr != NULL);
 
-	ibase::ITextDocument* objectPtr = GetObjectPtr();
+	idoc::ITextDocument* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
 	objectPtr->SetText(textEditPtr->toPlainText());
@@ -45,7 +45,7 @@ void CTextEditorComp::UpdateGui(int /*updateFlags*/)
 	QTextEdit* textEditPtr = GetQtWidget();
 	Q_ASSERT(textEditPtr != NULL);
 
-	ibase::ITextDocument* objectPtr = GetObjectPtr();
+	idoc::ITextDocument* objectPtr = GetObjectPtr();
 
 	if ((objectPtr != NULL) && !textEditPtr->signalsBlocked()){
 		textEditPtr->setText(objectPtr->GetText());

@@ -21,7 +21,7 @@
         AutoPersistence
       </Id>
       <PackageId>
-        BasePck
+        FilePck
       </PackageId>
       <ComponentId>
         AutoPersistence

@@ -365,7 +365,7 @@
         RegistryCodeSaver
       </Id>
       <PackageId>
-        CompositorPck
+        PackagePck
       </PackageId>
       <ComponentId>
         RegistryCodeSaver

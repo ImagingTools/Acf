@@ -25,7 +25,7 @@ idoc::IDocumentTemplate::Ids CExtendedDocumentTemplateComp::GetDocumentTypeIdsFo
 		const QByteArray& id = *documentIdIter;
 
 		QStringList extensions;
-		iser::IFileLoader* loaderPtr = GetFileLoader(id);
+		ifile::IFilePersistence* loaderPtr = GetFileLoader(id);
 		if ((loaderPtr != NULL) && loaderPtr->GetFileExtensions(extensions)){
 			for (		QStringList::const_iterator extensionIter = extensions.begin();
 						extensionIter != extensions.end();

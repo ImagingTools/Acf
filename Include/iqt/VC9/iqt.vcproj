@@ -176,10 +176,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileInfoCopyComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CIniSettingsProviderComp.cpp"
 				>
 			</File>
@@ -239,10 +235,6 @@
 			</File>
 			<File
 				RelativePath="..\CClipboardSerializerComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileInfoCopyComp.h"
 				>
 			</File>
 			<File

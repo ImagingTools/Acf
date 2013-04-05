@@ -6,7 +6,7 @@
 #include "istd/IChangeable.h"
 #include <QtCore/QString>
 
-#include "iser/IFileLoader.h"
+#include "ifile/IFilePersistence.h"
 
 #include "imod/IObserver.h"
 
@@ -43,7 +43,7 @@ public:
 		Get file loader/saver for spacified document ID.
 		\param	documentTypeId	type ID of document will be loaded/saved.
 	*/
-	virtual iser::IFileLoader* GetFileLoader(const QByteArray& documentTypeId) const = 0;
+	virtual ifile::IFilePersistence* GetFileLoader(const QByteArray& documentTypeId) const = 0;
 
 	/**
 		Creates a document instance for document type \c documentTypeId.

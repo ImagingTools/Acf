@@ -238,7 +238,7 @@
   <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
-        iser::IFileLoader
+        ifile::IFilePersistence
       </InterfaceId>
       <ComponentId>
         FileDialogLoader
@@ -246,7 +246,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        iser::IFileLoaderInfo
+        ifile::IFilePersistenceInfo
       </InterfaceId>
       <ComponentId>
         FileDialogLoader
@@ -254,7 +254,7 @@
     </Interface>
     <Interface>
       <InterfaceId>
-        iser::IFileTypeInfo
+        ifile::IFileTypeInfo
       </InterfaceId>
       <ComponentId>
         FileDialogLoader
