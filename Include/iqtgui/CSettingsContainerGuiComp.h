@@ -43,6 +43,7 @@ public:
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for button icons", true, 16);
 		I_ASSIGN(m_fixedWidthAttrPtr, "FixedWidth", "Fixed width of the buttons", false, 100);
 		I_ASSIGN(m_alternateColorsAttrPtr, "AlternateColors", "Alternate colors for each button", true, true);
+		I_ASSIGN(m_menuPositionAttrPtr, "SelectorPosition", "0 - Left\n1 - Right", true, 0);
 	I_END_COMPONENT;
 
 protected:
@@ -104,6 +105,7 @@ private:
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(int, m_fixedWidthAttrPtr);
 	I_ATTR(bool, m_alternateColorsAttrPtr);
+	I_ATTR(int, m_menuPositionAttrPtr);
 
 	typedef QMap<int, int> TabToGuiIndexMap;
 	TabToGuiIndexMap m_tabToGuiIndexMap;

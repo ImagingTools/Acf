@@ -67,14 +67,19 @@ void CSettingsContainerGuiComp::OnGuiCreated()
 
 	QHBoxLayout* mainLayoutPtr = new QHBoxLayout(widgetPtr);
 	mainLayoutPtr->setContentsMargins(0, 0, 0, 0);
-	mainLayoutPtr->setSpacing(0);
 
 	m_menuListPtr = new QListWidget(widgetPtr);
-	mainLayoutPtr->addWidget(m_menuListPtr);
 
 	m_stackedWidgetPtr = new QStackedWidget(widgetPtr);
-	m_stackedWidgetPtr->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
-	mainLayoutPtr->addWidget(m_stackedWidgetPtr);
+
+	if (*m_menuPositionAttrPtr == 0){
+		mainLayoutPtr->addWidget(m_menuListPtr);
+		mainLayoutPtr->addWidget(m_stackedWidgetPtr);
+	}
+	else{
+		mainLayoutPtr->addWidget(m_stackedWidgetPtr);
+		mainLayoutPtr->addWidget(m_menuListPtr);
+	}
 
 	QSize iconSize(16, 16);
 	if (m_iconSizeAttrPtr.IsValid()){
@@ -87,6 +92,7 @@ void CSettingsContainerGuiComp::OnGuiCreated()
 	m_menuListPtr->setIconSize(iconSize);
 	m_menuListPtr->setUniformItemSizes(true);
 	m_menuListPtr->setAlternatingRowColors(*m_alternateColorsAttrPtr);
+	m_menuListPtr->setFrameStyle(QFrame::NoFrame);
 
 	if (m_fixedWidthAttrPtr.IsValid()){
 		int width = qMax(iconSize.width(), *m_fixedWidthAttrPtr);
@@ -107,8 +113,6 @@ void CSettingsContainerGuiComp::OnGuiCreated()
 
 		int tabIndex = m_stackedWidgetPtr->addWidget(guiPtr->GetWidget());
 		m_tabToGuiIndexMap[tabIndex] = guiIndex;
-
-		m_stackedWidgetPtr->widget(tabIndex)->layout()->setContentsMargins(9,9,9,9);
 
 		if (		(guiIndex < m_slaveWidgetsVisualCompPtr.GetCount()) &&
 			(guiIndex < m_slaveWidgetsModelCompPtr.GetCount())){
