@@ -9,7 +9,7 @@ TARGET = Acf
 
 HEADERS =
 
-LIBS += -licmpstr
+LIBS += -lipackage
 
 QT += xml
 

@@ -62,8 +62,8 @@ iqtgui.file = ../../Include/iqtgui/QMake/iqtgui.pro
 SUBDIRS += iqtprm
 iqtprm.file = ../../Include/iqtprm/QMake/iqtprm.pro
 
-SUBDIRS += icmpstr
-icmpstr.file = ../../Include/icmpstr/QMake/icmpstr.pro
+SUBDIRS += ipackage
+ipackage.file = ../../Include/ipackage/QMake/ipackage.pro
 
 
 # Translation
@@ -92,8 +92,8 @@ QtGuiPck.file = ../../Impl/QtGuiPck/QMake/QtGuiPck.pro
 SUBDIRS += QtViewPck
 QtViewPck.file = ../../Impl/QtViewPck/QMake/QtViewPck.pro
 
-SUBDIRS += CompositorPck
-CompositorPck.file = ../../Impl/CompositorPck/QMake/CompositorPck.pro
+SUBDIRS += PackagePck
+PackagePck.file = ../../Impl/PackagePck/QMake/PackagePck.pro
 
 
 #Tool
@@ -104,15 +104,4 @@ Acf.file = ../../Impl/AcfExe/QMake/Acf.pro
 SUBDIRS += Arxc
 Arxc.file = ../../Impl/ArxcExe/QMake/Arxc.pro
 Arxc.depends = Acf
-
-SUBDIRS += CompositorMini
-CompositorMini.file = ../../Impl/CompositorMiniExe/QMake/CompositorMini.pro
-
-SUBDIRS += Compositor
-Compositor.file = ../../Impl/CompositorExe/QMake/Compositor.pro
-Compositor.depends = Arxc
-
-SUBDIRS += XpcEditor
-XpcEditor.file = ../../Impl/XpcEditorExe/QMake/XpcEditor.pro
-XpcEditor.depends = Arxc
 

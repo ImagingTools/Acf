@@ -1,6 +1,6 @@
-TARGET = PackagePck
-
 include(../../../Config/QMake/ComponentConfig.pri)
+
+TARGET = PackagePck
 
 LIBS += -lipackage
 
