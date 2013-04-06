@@ -143,14 +143,14 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 		if (serializablePtr->Serialize(archive)){
 			changePtr.SetPtr(&data);
 
-			return StateOk;
+			return OS_OK;
 		}
 		else{
 			OnReadError(archive, data, filePath);
 		}
 	}
 
-	return StateFailed;
+	return OS_FAILED;
 }
 
 
@@ -177,14 +177,14 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChan
 		}
 
 		if ((const_cast<iser::ISerializable*>(serializablePtr))->Serialize(archive)){
-			return StateOk;
+			return OS_OK;
 		}
 		else{
 			SendInfoMessage(MI_CANNOT_SAVE, QObject::tr("Cannot serialize object to file"));
 		}
 	}
 
-	return StateFailed;
+	return OS_FAILED;
 }
 
 

@@ -287,7 +287,7 @@ bool CMultiDocumentManagerBase::SaveDocument(
 	}
 
 	const ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(infoPtr->documentTypeId);
-	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::StateOk){
+	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::OS_OK){
 		if ((infoPtr->filePath != filePath) || infoPtr->isDirty){
 			istd::CChangeNotifier notifierPtr(this);
 
@@ -528,7 +528,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
-						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::StateOk)){
+						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::OS_OK)){
 				RegisterDocument(infoPtr.GetPtr());
 
 				documentNotifier.Reset();

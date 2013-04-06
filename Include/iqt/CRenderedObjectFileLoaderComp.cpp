@@ -40,7 +40,7 @@ int CRenderedObjectFileLoaderComp::LoadFromFile(istd::IChangeable& data, const Q
 {
 	iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(&data);
 	if (bitmapPtr == NULL){
-		return StateFailed;
+		return OS_FAILED;
 	}
 
 	if (m_fileLoaderCompPtr.IsValid() && m_fileDataCompPtr.IsValid() && m_objectSnapCompPtr.IsValid()){
@@ -52,10 +52,10 @@ int CRenderedObjectFileLoaderComp::LoadFromFile(istd::IChangeable& data, const Q
 			if (foundCacheIter != m_previewCache.end()){
 				if (fileTimeStamp == foundCacheIter.value().fileTimeStamp){
 					if (bitmapPtr->CopyFrom(*foundCacheIter.value().fileBitmapPtr.GetPtr())){
-						return StateOk;
+						return OS_OK;
 					}
 
-					return StateFailed;
+					return OS_FAILED;
 				}
 				else{
 					m_previewCache.erase(foundCacheIter);
@@ -63,7 +63,7 @@ int CRenderedObjectFileLoaderComp::LoadFromFile(istd::IChangeable& data, const Q
 			}
 
 			int loadResult = m_fileLoaderCompPtr->LoadFromFile(*m_fileDataCompPtr.GetPtr(), filePath);
-			if (loadResult == StateOk){
+			if (loadResult == OS_OK){
 				istd::CChangeNotifier changePtr(bitmapPtr);
 
 				if (m_objectSnapCompPtr->GetSnap(*m_fileDataCompPtr.GetPtr(), *bitmapPtr, istd::CIndex2d(*m_widthAttrPtr, *m_heightAttrPtr))){
@@ -82,13 +82,13 @@ int CRenderedObjectFileLoaderComp::LoadFromFile(istd::IChangeable& data, const Q
 						m_previewCache[filePath] = fileInfo;
 					}
 
-					return StateOk;
+					return OS_OK;
 				}
 			}
 		}
 	}
 
-	return StateFailed;
+	return OS_FAILED;
 }
 
 
@@ -98,7 +98,7 @@ int CRenderedObjectFileLoaderComp::SaveToFile(const istd::IChangeable& data, con
 		return m_fileLoaderCompPtr->SaveToFile(data, filePath);
 	}
 
-	return ifile::IFilePersistence::StateFailed;
+	return ifile::IFilePersistence::OS_FAILED;
 }
 
 

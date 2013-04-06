@@ -48,7 +48,7 @@ bool CRegistryCodeSaverComp::IsOperationSupported(
 
 int CRegistryCodeSaverComp::LoadFromFile(istd::IChangeable& /*data*/, const QString& /*filePath*/) const
 {
-	return StateFailed;
+	return OS_FAILED;
 }
 
 
@@ -56,20 +56,20 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 {
 	const icomp::IRegistry* registryPtr = dynamic_cast<const icomp::IRegistry*>(&data);
 	if (registryPtr == NULL){
-		return StateFailed;
+		return OS_FAILED;
 	}
 
 	Addresses realAddresses;
 	Addresses composedAddresses;
 	if (!AppendAddresses(*registryPtr, realAddresses, composedAddresses)){
-		return StateFailed;
+		return OS_FAILED;
 	}
 
 	if (*m_workingModeAttrPtr == WM_SOURCES){
 		QByteArray className;
 		QString baseFilePath;
 		if (!ExtractInfoFromFile(filePath, className, baseFilePath)){
-			return StateFailed;
+			return OS_FAILED;
 		}
 
 		QFile headerFile(baseFilePath + ".h");
@@ -80,7 +80,7 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 			headerFile.remove();
 			codeFile.remove();
 
-			return StateFailed;
+			return OS_FAILED;
 		}
 
 		QTextStream headerStream(&headerFile);
@@ -90,14 +90,14 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 					!WriteClassDefinitions(className, *registryPtr, composedAddresses, realAddresses, codeStream)){
 			headerFile.remove();
 			codeFile.remove();
-			return StateFailed;
+			return OS_FAILED;
 		}
 	}
 	else if (*m_workingModeAttrPtr == WM_DEPENDENCIES){
 		if (filePath.isEmpty()){
 			QTextStream depsStream(stdout);
 			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
-				return StateFailed;
+				return OS_FAILED;
 			}
 		}
 		else{
@@ -105,18 +105,18 @@ int CRegistryCodeSaverComp::SaveToFile(const istd::IChangeable& data, const QStr
 
 			if (!depsFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)){
 				depsFile.remove();
-				return StateFailed;
+				return OS_FAILED;
 			}
 
 			QTextStream depsStream(&depsFile);
 			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
 				depsFile.remove();
-				return StateFailed;
+				return OS_FAILED;
 			}
 		}
 	}
 
-	return StateOk;
+	return OS_OK;
 }
 
 

@@ -141,13 +141,13 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<PackagePck::Registry> registryComp;
 	registryComp.InitComponent();
 
-	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != ifile::IFilePersistence::StateOk){
+	if (registryLoaderComp.LoadFromFile(registryComp, inputFilePath) != ifile::IFilePersistence::OS_OK){
 		std::cout << "Cannot read input registry file '" << inputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 2;
 	}
 
-	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != ifile::IFilePersistence::StateOk){
+	if (codeSaverComp.SaveToFile(registryComp, outputFilePath) != ifile::IFilePersistence::OS_OK){
 		std::cout << "Cannot write output file(s) '" << outputFilePath.toLocal8Bit().constData() << "'" << std::endl;
 
 		return 3;
