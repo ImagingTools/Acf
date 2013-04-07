@@ -238,7 +238,7 @@ class TAttributeMember< TAttribute<QString> >: public TAttributeMemberBase< TAtt
 public:
 	QString operator*() const
 	{
-		return QCoreApplication::translate("Attribute", TAttributeMemberBase< TAttribute<QString> >::operator*().toAscii());
+        return QCoreApplication::translate("Attribute", TAttributeMemberBase< TAttribute<QString> >::operator*().toLatin1());
 	}
 };
 

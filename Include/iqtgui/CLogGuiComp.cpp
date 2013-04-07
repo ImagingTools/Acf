@@ -142,7 +142,12 @@ void CLogGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+#if QT_VERSION < 0x050000
 	LogView->header()->setResizeMode(QHeaderView::ResizeToContents);
+#else
+	LogView->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#endif
+
 	LogView->header()->setStretchLastSection(true);
 
 	iqtgui::CItemDelegate* itemDelegate = new iqtgui::CItemDelegate(20, this);
@@ -153,7 +158,12 @@ void CLogGuiComp::OnGuiCreated()
 		LogView->header()->show();
 	}
 
+#if QT_VERSION < 0x050000
 	LogView->header()->setResizeMode(CT_ICON, QHeaderView::Fixed);
+#else
+	LogView->header()->setSectionResizeMode(CT_ICON, QHeaderView::Fixed);
+#endif
+
 	LogView->header()->resizeSection(CT_ICON, itemDelegate->GetItemHeight());
 
 	QToolBar* toolBar = new QToolBar(ToolBarFrame);

@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtGui/QPrinter>
 #include <QtGui/QTextBrowser>
 
 // ACF includes

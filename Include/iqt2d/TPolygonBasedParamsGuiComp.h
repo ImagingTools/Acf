@@ -288,7 +288,11 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 {
 	BaseClass::OnGuiCreated();
 
+#if QT_VERSION < 0x050000
 	NodeParamsTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#else
+	NodeParamsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);	
+#endif
 
 	CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate();
 	NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);

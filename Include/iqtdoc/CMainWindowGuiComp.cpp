@@ -5,6 +5,7 @@
 #include <QtCore/QUrl>
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QMimeData>
 #include <QtGui/QMessageBox>
 #include <QtGui/QApplication>
 #include <QtGui/QDragEnterEvent>

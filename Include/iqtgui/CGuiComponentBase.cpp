@@ -230,16 +230,24 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 {
 	const QMetaObject *mo = metaObject();
 	Q_ASSERT(mo != NULL);
+
+#if QT_VERSION < 0X050000
 	const QObjectList list = qFindChildren<QObject *>(m_widgetPtr, QString());
+	#define methodSignature signature 
+#else
+	const QObjectList list = m_widgetPtr->findChildren<QObject*>(QString());
+	#define methodSignature methodSignature
+#endif
+
 	for (int i = 0; i < mo->methodCount(); ++i) {
-		const char *slot = mo->method(i).signature();
+		const char *slot = mo->method(i).methodSignature();
 		Q_ASSERT(slot != NULL);
 		if (slot[0] != 'o' || slot[1] != 'n' || slot[2] != '_')
 			continue;
 		bool foundIt = false;
 		for (int j = 0; j < list.count(); ++j) {
 			const QObject *co = list.at(j);
-			QByteArray objName = co->objectName().toAscii();
+			QByteArray objName = co->objectName().toLatin1();
 			int len = objName.length();
 			if (!len || qstrncmp(slot + 3, objName.data(), len) || slot[len+3] != '_')
 				continue;
@@ -251,7 +259,7 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 					if (smo->method(k).methodType() != QMetaMethod::Signal)
 						continue;
 
-					if (!qstrncmp(smo->method(k).signature(), slot + len + 4, slotlen)) {
+					if (!qstrncmp(smo->method(k).methodSignature(), slot + len + 4, slotlen)) {
 						sigIndex = k;
 						break;
 					}

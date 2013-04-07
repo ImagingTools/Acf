@@ -11,7 +11,11 @@ void CVersionInfoGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+#if QT_VERSION < 0x050000
 	Tree->header()->setResizeMode(QHeaderView::ResizeToContents);
+#else
+	Tree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#endif
 
 	for (int i = 0; i < m_versionInfosCompPtr.GetCount(); i++){
 		iser::IVersionInfo* infoPtr = m_versionInfosCompPtr[i];

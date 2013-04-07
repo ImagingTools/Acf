@@ -281,8 +281,11 @@ void CImageShape::SetLookupTableToImage(QImage& image, const icmm::IColorTransfo
 				rgbTable.append(qRgb(colorIndex, colorIndex, colorIndex));
 			}
 		}
-
+#if QT_VERSION < 0x050000
 		image.setNumColors(256);
+#else
+		image.setColorCount(256);
+#endif
 		image.setColorTable(rgbTable);
 	}
 }
