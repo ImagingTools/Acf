@@ -188,15 +188,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDirList.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CDllFunctionsProvider.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileList.cpp"
 				>
 			</File>
 			<File
@@ -278,60 +270,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CDirList.h"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;$(InputDir)\Generated&quot; &quot;..\CDirList.h&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputPath)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;$(InputDir)\Generated&quot; &quot;..\CDirList.h&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe"
-						Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\CDllFunctionsProvider.h"
 				>
-			</File>
-			<File
-				RelativePath="..\CFileList.h"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing CFileList.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;$(InputDir)\Generated&quot; &quot;..\CFileList.h&quot; -o &quot;$(InputDir)\Generated\moc_CFileList.cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\CFileList.h"
-						Outputs="&quot;$(InputDir)\Generated\moc_CFileList.cpp&quot;"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing CFileList.h..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  -DUNICODE -DWIN32 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_SQL_LIB -DQT_OPENGL_LIB -DQT_NETWORK_LIB -I&quot;.\..\..&quot; -I&quot;$(QTDIR)\include&quot; -I&quot;$(QTDIR)\include\QtCore&quot; -I&quot;$(QTDIR)\include\QtGui&quot; -I&quot;$(QTDIR)\include\QtXml&quot; -I&quot;$(InputDir)\Generated&quot; &quot;..\CFileList.h&quot; -o &quot;$(InputDir)\Generated\moc_CFileList.cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="$(QTDIR)\bin\moc.exe;..\CFileList.h"
-						Outputs="&quot;$(InputDir)\Generated\moc_CFileList.cpp&quot;"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CPackagesLoaderComp.h"
@@ -391,15 +331,7 @@
 			Filter="moc;h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
-			<File
-				RelativePath="..\Generated\moc_CDirList.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Generated\moc_CFileList.cpp"
-				>
-			</File>
-		</Filter>
+s		</Filter>
 	</Files>
 	<Globals>
 		<Global
