@@ -17,12 +17,12 @@ void CFileListProviderGuiComp::UpdateGui(int /*updateFlags*/)
 	if (objectPtr != NULL){
 		FileList->clear();
 
-		QStringList fileList = objectPtr->GetFileList();
+		const QFileInfoList& fileList = objectPtr->GetFileList();
 
 		for (int fileIndex = 0; fileIndex < fileList.count(); fileIndex++){
 			QTreeWidgetItem* fileItemPtr = new QTreeWidgetItem();
 
-			fileItemPtr->setText(0, fileList[fileIndex]);
+			fileItemPtr->setText(0, fileList[fileIndex].absoluteFilePath());
 
 			FileList->addTopLevelItem(fileItemPtr);
 		}	
