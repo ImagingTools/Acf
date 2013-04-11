@@ -193,7 +193,9 @@ void CTabContainerGuiComp::TabModel::SetParent(CTabContainerGuiComp* parentPtr)
 			for (int tabIndex = 0; tabIndex < activatorsCount; ++tabIndex){
 				imod::IModel* modelPtr = parentPtr->m_tabActivatorsModelCompPtr[tabIndex];
 
-				modelPtr->AttachObserver(this);
+				if (!modelPtr->IsAttached(this)){
+					modelPtr->AttachObserver(this);
+				}
 			}
 		}
 
