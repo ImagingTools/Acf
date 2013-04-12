@@ -439,6 +439,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TMessageDelegatorComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TModelObserverCompWrap.h"
 				>
 			</File>

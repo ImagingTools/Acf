@@ -48,6 +48,8 @@ void CStreamLogCompBase::AddMessage(const MessagePtr& messagePtr)
 
 			m_isLastDotShown = true;
 		}
+
+		BaseClass::AddMessage(messagePtr);
 	}
 }
 

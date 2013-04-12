@@ -2,9 +2,7 @@
 #define ibase_CStreamLogCompBase_included
 
 
-#include "icomp/CComponentBase.h"
-
-#include "ibase/IMessageConsumer.h"
+#include "ibase/TMessageDelegatorComp.h"
 
 
 namespace ibase
@@ -15,14 +13,12 @@ namespace ibase
 	Basic implementation for a log written to an output stream.
 */
 class CStreamLogCompBase:
-			public icomp::CComponentBase,
-			virtual public ibase::IMessageConsumer
+			public ibase::TMessageDelegatorComp<icomp::CComponentBase>
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef ibase::TMessageDelegatorComp<icomp::CComponentBase> BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CStreamLogCompBase);
-		I_REGISTER_INTERFACE(IMessageConsumer);
 		I_ASSIGN(m_minPriorityAttrPtr, "MinCategory", "Minimal category of message to print it out:\n *1-Information\n *2-Warning\n *3-Error\n *4-Critical", true, 0);
 		I_ASSIGN(m_isDotEnabledAttrPtr, "ShowDots", "If it's true, dot will be shown for each ignored message", true, false);
 		I_ASSIGN(m_useTimeStampAttrPtr, "UseTimeStamp", "Use time stamp for the messsages", false, true);

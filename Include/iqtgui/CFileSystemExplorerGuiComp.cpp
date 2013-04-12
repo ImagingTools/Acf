@@ -6,9 +6,7 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-
 #include "istd/CSystem.h"
-
 #include "iqtgui/CFileSystemExplorerGuiComp.h"
 
 
