@@ -1,5 +1,5 @@
-#ifndef ifile_CTextFileLogComp_included
-#define ifile_CTextFileLogComp_included
+#ifndef ilog_CTextFileLogComp_included
+#define ilog_CTextFileLogComp_included
 
 
 // Qt includes
@@ -9,17 +9,17 @@
 // ACF includes
 #include "imod/CSingleModelObserverBase.h"
 #include "ifile/IFileNameParam.h"
-#include "ibase/CStreamLogCompBase.h"
+#include "ilog/CStreamLogCompBase.h"
 
 
-namespace ifile
+namespace ilog
 {
 
 
 /**
 	Message container displaying messages as log list.
 */
-class CTextFileLogComp: public ibase::CStreamLogCompBase
+class CTextFileLogComp: public CStreamLogCompBase
 {
 public:
 	typedef CStreamLogCompBase BaseClass;
@@ -71,9 +71,9 @@ private:
 };
 
 
-} // namespace ifile
+} // namespace ilog
 
 
-#endif // !ifile_CTextFileLogComp_included
+#endif // !ilog_CTextFileLogComp_included
 
 

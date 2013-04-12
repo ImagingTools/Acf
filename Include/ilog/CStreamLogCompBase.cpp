@@ -1,4 +1,4 @@
-#include "ibase/CStreamLogCompBase.h"
+#include "ilog/CStreamLogCompBase.h"
 
 
 // Qt includes
@@ -8,7 +8,7 @@
 #include "istd/IInformationProvider.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -20,7 +20,7 @@ CStreamLogCompBase::CStreamLogCompBase()
 }
 
 
-// reimplemented (ibase::IMessageConsumer)
+// reimplemented (ilog::IMessageConsumer)
 
 bool CStreamLogCompBase::IsMessageSupported(
 			int /*messageCategory*/,
@@ -94,6 +94,6 @@ void CStreamLogCompBase::OnComponentDestroyed()
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 

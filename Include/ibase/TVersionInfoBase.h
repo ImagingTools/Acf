@@ -4,7 +4,7 @@
 
 // ACF includes
 #include "iser/IVersionInfo.h"
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 #include "istd/AcfVersion.h"
 
 
@@ -97,7 +97,7 @@ QString TVersionInfoBase<BaseComponent>::GetEncodedVersionName(int versionId, qu
 
 // Standard definitions
 typedef TVersionInfoBase<icomp::CComponentBase> CVersionInfoCompBase;
-typedef TVersionInfoBase<CLoggerComponentBase> CVersionInfoLoggerCompBase;
+typedef TVersionInfoBase<ilog::CLoggerComponentBase> CVersionInfoLoggerCompBase;
 
 
 } // namespace ibase

@@ -1,4 +1,4 @@
-#include "ibase/CConsoleLogComp.h"
+#include "ilog/CConsoleLogComp.h"
 
 
 // STL includes
@@ -8,7 +8,7 @@
 #include "istd/IInformationProvider.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -28,6 +28,6 @@ void CConsoleLogComp::NewLine()
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 

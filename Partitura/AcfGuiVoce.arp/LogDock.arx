@@ -438,7 +438,7 @@
   <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
-        ibase::IMessageConsumer
+        ilog::IMessageConsumer
       </InterfaceId>
       <ComponentId>
         LogGui

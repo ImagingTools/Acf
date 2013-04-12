@@ -18,7 +18,7 @@
 #include "iprm/IOptionsList.h"
 #include "ifile/IFileNameParam.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 
 namespace ipackage
@@ -29,11 +29,11 @@ namespace ipackage
 	Save registry as C++ code (it generates C++ class with the same functionality) and/or dependencies list.
 */
 class CRegistryCodeSaverComp:
-			public ibase::CLoggerComponentBase,
+			public ilog::CLoggerComponentBase,
 			public ifile::IFilePersistence
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

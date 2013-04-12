@@ -1,7 +1,7 @@
-#include "ibase/CLogComp.h"
+#include "ilog/CLogComp.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -17,6 +17,6 @@ void CLogComp::OnComponentCreated()
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 

@@ -6,16 +6,12 @@
 #include <QtCore/QTimer>
 #include <QtGui/QAction>
 
-
 // ACF includes
 #include "ifile/IFilePersistence.h"
-
-#include "ibase/CMessageContainer.h"
-#include "ibase/CMessage.h"
-
+#include "ilog/CMessageContainer.h"
+#include "ilog/CMessage.h"
 #include "iqtgui/IVisualStatusProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-
 #include "iqtgui/Generated/ui_CLogGuiComp.h"
 
 
@@ -28,16 +24,16 @@ namespace iqtgui
 */
 class CLogGuiComp:
 			public iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp>,
-			public ibase::CMessageContainer
+			public ilog::CMessageContainer
 {
 	Q_OBJECT
 
 public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp> BaseClass;
-	typedef ibase::CMessageContainer BaseClass2;
+	typedef ilog::CMessageContainer BaseClass2;
 
 	I_BEGIN_COMPONENT(CLogGuiComp);
-		I_REGISTER_INTERFACE(ibase::IMessageConsumer);
+		I_REGISTER_INTERFACE(ilog::IMessageConsumer);
 		I_ASSIGN(m_fileLoaderCompPtr, "Exporter", "File loader used for log export", false, "Exporter");
 		I_ASSIGN(m_maxMessagesCountAttrPtr, "MaxMessageCount", "Maximal number of messages supported by the log", true, 1000);
 		I_ASSIGN(m_defaultModeAttrPtr, "DefaultMode", "Default display mode,\n 0 - info,\n 1 - warning,\n 2 - error", true, 0);
@@ -86,7 +82,7 @@ protected:
 	*/
 	QString GetCategoryText(int category) const;
 
-	// reimplemented (ibase::IMessageConsumer)
+	// reimplemented (ilog::IMessageConsumer)
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
@@ -130,8 +126,8 @@ protected:
 
 private:
 	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
-	I_REF(ibase::IMessageConsumer, m_slaveMessageConsumerCompPtr);
-	I_REF(ibase::IHierarchicalMessageContainer, m_slaveMessageContainerCompPtr);
+	I_REF(ilog::IMessageConsumer, m_slaveMessageConsumerCompPtr);
+	I_REF(ilog::IHierarchicalMessageContainer, m_slaveMessageContainerCompPtr);
 	I_ATTR(int, m_defaultModeAttrPtr);
 	I_ATTR(int, m_maxMessagesCountAttrPtr);
 	I_ATTR(bool, m_showLogDescriptionAttrPtr);

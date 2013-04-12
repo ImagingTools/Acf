@@ -8,7 +8,7 @@
 #include <QtCore/QFileInfo>
 
 // ACF includes
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 #include "ifile/IFilePersistence.h"
 #include "ifile/CFileTypeInfoComp.h"
 
@@ -22,11 +22,11 @@ namespace ifile
 	Serializer allows to load and save objects implementing iser::ISerializable interface.
 */
 class CFileSerializerCompBase:
-			public ibase::TLoggerCompWrap<CFileTypeInfoComp>,
+			public ilog::TLoggerCompWrap<CFileTypeInfoComp>,
 			virtual public ifile::IFilePersistence
 {
 public:	
-	typedef ibase::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
+	typedef ilog::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
 
 	enum MessageId
 	{

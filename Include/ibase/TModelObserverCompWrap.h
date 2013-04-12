@@ -5,7 +5,7 @@
 #include "imod/IModel.h"
 #include "imod/TSingleModelObserverBase.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 
 namespace ibase

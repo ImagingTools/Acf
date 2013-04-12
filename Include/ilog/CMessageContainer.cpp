@@ -1,4 +1,4 @@
-#include "ibase/CMessageContainer.h"
+#include "ilog/CMessageContainer.h"
 
 
 // ACF includes
@@ -9,7 +9,7 @@
 #include "iser/CArchiveTag.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -38,7 +38,7 @@ void CMessageContainer::AddChildContainer(IHierarchicalMessageContainer* childCo
 }
 
 
-void CMessageContainer::SetSlaveConsumer(ibase::IMessageConsumer* consumerPtr)
+void CMessageContainer::SetSlaveConsumer(ilog::IMessageConsumer* consumerPtr)
 {
 	m_slaveConsumerPtr = consumerPtr;
 }
@@ -91,7 +91,7 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 }
 
 
-// reimplemented (ibase::IMessageContainer)
+// reimplemented (ilog::IMessageContainer)
 
 int CMessageContainer::GetWorstCategory() const
 {
@@ -267,6 +267,6 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 

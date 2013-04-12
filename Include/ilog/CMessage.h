@@ -1,5 +1,5 @@
-#ifndef ibase_CMessage_included
-#define ibase_CMessage_included
+#ifndef ilog_CMessage_included
+#define ilog_CMessage_included
 
 
 // Qt includes
@@ -11,7 +11,7 @@
 #include "iser/ISerializable.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -101,9 +101,9 @@ inline int CMessage::GetInformationFlags() const
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_CMessage_included
+#endif // !ilog_CMessage_included
 
 

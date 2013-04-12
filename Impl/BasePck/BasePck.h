@@ -4,6 +4,10 @@
 
 #include "imod/IObserver.h"
 
+#include "ilog/CTextFileLogComp.h"
+#include "ilog/CConsoleLogComp.h"
+#include "ilog/CLogComp.h"
+
 #include "ifile/TFileSerializerComp.h"
 #include "ifile/CXmlFileReadArchive.h"
 #include "ifile/CXmlFileWriteArchive.h"
@@ -11,7 +15,6 @@
 #include "ifile/CFileWriteArchive.h"
 #include "ifile/CComposedFilePersistenceComp.h"
 #include "ifile/CFileTypeInfoComp.h"
-#include "ifile/CTextFileLogComp.h"
 
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
@@ -29,10 +32,8 @@
 #include "ibase/CApplicationInfoComp.h"
 #include "ibase/CModelProxyComp.h"
 #include "ibase/CModelBinderComp.h"
-#include "ibase/CConsoleLogComp.h"
 #include "ibase/CUuidComp.h"
 #include "ibase/CObjectQueueComp.h"
-#include "ibase/CLogComp.h"
 #include "ibase/CMultiObserverBinderComp.h"
 #include "ibase/CSingletonApplicationComp.h"
 #include "ibase/CQtVersionInfoComp.h"
@@ -69,27 +70,28 @@
 
 
 /**
-	Base system-undependent general package.
+	Base system-independent general package.
 */
 namespace BasePck
 {
 
 
+typedef ilog::CTextFileLogComp TextFileLog;
+typedef ilog::CConsoleLogComp ConsoleLog;
+typedef icomp::TModelCompWrap<ilog::CLogComp> Log;
+
 typedef ifile::TFileSerializerComp<ifile::CXmlFileReadArchive, ifile::CXmlFileWriteArchive> XmlFileSerializer;
 typedef ifile::TFileSerializerComp<ifile::CFileReadArchive, ifile::CFileWriteArchive> BinaryFileSerializer;
 typedef ifile::CComposedFilePersistenceComp ComposedLoader;
 typedef ifile::CFileTypeInfoComp FileTypeInfo;
-typedef ifile::CTextFileLogComp TextFileLog;
 
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CVersionInfoComp VersionInfo;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
 typedef ibase::CModelProxyComp ModelProxy;
 typedef ibase::CModelBinderComp ModelBinder;
-typedef ibase::CConsoleLogComp ConsoleLog;
 typedef icomp::TModelCompWrap<ibase::CUuidComp> Uuid;
 typedef ibase::CObjectQueueComp ObjectQueue;
-typedef icomp::TModelCompWrap<ibase::CLogComp> Log;
 typedef ibase::CMultiObserverBinderComp MultiObserverBinder;
 typedef ibase::CSingletonApplicationComp SingletonApplication;
 typedef ibase::CQtVersionInfoComp QtVersionInfo;

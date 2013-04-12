@@ -1,13 +1,13 @@
-#ifndef ibase_ILoggable_included
-#define ibase_ILoggable_included
+#ifndef ilog_ILoggable_included
+#define ilog_ILoggable_included
 
 
-#include "ibase/IMessageConsumer.h"
+#include "ilog/IMessageConsumer.h"
 
 #include "istd/IPolymorphic.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -39,9 +39,9 @@ public:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_ILoggable_included
+#endif // !ilog_ILoggable_included
 
 

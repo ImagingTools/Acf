@@ -1,11 +1,11 @@
-#ifndef ibase_CStreamLogCompBase_included
-#define ibase_CStreamLogCompBase_included
+#ifndef ilog_CStreamLogCompBase_included
+#define ilog_CStreamLogCompBase_included
 
 
-#include "ibase/TMessageDelegatorComp.h"
+#include "ilog/TMessageDelegatorComp.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -13,10 +13,10 @@ namespace ibase
 	Basic implementation for a log written to an output stream.
 */
 class CStreamLogCompBase:
-			public ibase::TMessageDelegatorComp<icomp::CComponentBase>
+			public ilog::TMessageDelegatorComp<icomp::CComponentBase>
 {
 public:
-	typedef ibase::TMessageDelegatorComp<icomp::CComponentBase> BaseClass;
+	typedef ilog::TMessageDelegatorComp<icomp::CComponentBase> BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CStreamLogCompBase);
 		I_ASSIGN(m_minPriorityAttrPtr, "MinCategory", "Minimal category of message to print it out:\n *1-Information\n *2-Warning\n *3-Error\n *4-Critical", true, 0);
@@ -26,7 +26,7 @@ public:
 
 	CStreamLogCompBase();
 
-	// reimplemented (ibase::IMessageConsumer)
+	// reimplemented (ilog::IMessageConsumer)
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
@@ -68,8 +68,8 @@ private:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_CStreamLogCompBase_included
+#endif // !ilog_CStreamLogCompBase_included
 

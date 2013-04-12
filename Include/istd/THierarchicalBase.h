@@ -1,14 +1,14 @@
-#ifndef ibase_THierarchicalBase_included
-#define ibase_THierarchicalBase_included
+#ifndef istd_THierarchicalBase_included
+#define istd_THierarchicalBase_included
 
 
-#include "ibase/ibase.h"
+#include "istd/istd.h"
 
 #include "istd/TIHierarchical.h"
 #include "istd/TChangeDelegator.h"
 
 
-namespace ibase
+namespace istd
 {
 
 
@@ -88,9 +88,9 @@ Interface* THierarchicalBase<Base, Interface>::GetParent() const
 }
 
 
-} // namespace ibase
+} // namespace istd
 
 
-#endif // ibase_THierarchicalBase_included
+#endif // istd_THierarchicalBase_included
 
 

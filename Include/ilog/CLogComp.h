@@ -1,17 +1,17 @@
-#ifndef ibase_CLogComp_included
-#define ibase_CLogComp_included
+#ifndef ilog_CLogComp_included
+#define ilog_CLogComp_included
 
 
 // ACF includes
 #include "icomp/CComponentBase.h"
 
-#include "ibase/IMessageContainer.h"
-#include "ibase/CMessageContainer.h"
+#include "ilog/IMessageContainer.h"
+#include "ilog/CMessageContainer.h"
 
-#include "ibase/CMessage.h"
+#include "ilog/CMessage.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -20,15 +20,15 @@ namespace ibase
 */
 class CLogComp:
 	public icomp::CComponentBase,
-	public ibase::CMessageContainer
+	public ilog::CMessageContainer
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
-	typedef ibase::CMessageContainer BaseClass2;
+	typedef ilog::CMessageContainer BaseClass2;
 
 	I_BEGIN_COMPONENT(CLogComp);
-		I_REGISTER_INTERFACE(ibase::IMessageConsumer);
-		I_REGISTER_INTERFACE(ibase::IMessageContainer);
+		I_REGISTER_INTERFACE(ilog::IMessageConsumer);
+		I_REGISTER_INTERFACE(ilog::IMessageContainer);
 		I_ASSIGN(m_maxMessageCountAttrPtr, "MaxMessageCount", "Maximal number of messages", false, 1000);
 	I_END_COMPONENT;
 
@@ -41,8 +41,8 @@ private:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_CLogComp_included
+#endif // !ilog_CLogComp_included
 

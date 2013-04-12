@@ -1,5 +1,5 @@
-#ifndef ibase_CMessageContainer_included
-#define ibase_CMessageContainer_included
+#ifndef ilog_CMessageContainer_included
+#define ilog_CMessageContainer_included
 
 
 // Qt includes
@@ -8,13 +8,12 @@
 
 // ACF includes
 #include "istd/IInformationProvider.h"
+#include "istd/THierarchicalBase.h"
+#include "ilog/IMessageContainer.h"
+#include "ilog/IMessageConsumer.h"
 
-#include "ibase/IMessageContainer.h"
-#include "ibase/IMessageConsumer.h"
-#include "ibase/THierarchicalBase.h"
 
-
-namespace ibase
+namespace ilog
 {		
 
 
@@ -22,7 +21,7 @@ namespace ibase
 	Basic implementation of a message container.
 */
 class CMessageContainer:
-			public ibase::THierarchicalBase<IHierarchicalMessageContainer>,
+			public istd::THierarchicalBase<IHierarchicalMessageContainer>,
 			virtual public IMessageConsumer
 {
 public:
@@ -31,7 +30,7 @@ public:
 
 	virtual void AddChildContainer(IHierarchicalMessageContainer* childContainerPtr);
 
-	void SetSlaveConsumer(ibase::IMessageConsumer* consumerPtr);
+	void SetSlaveConsumer(ilog::IMessageConsumer* consumerPtr);
 
 	/**
 		Set maximal number of messages in the container. 
@@ -44,19 +43,19 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-	// reimplemented (ibase::IMessageContainer)
+	// reimplemented (ilog::IMessageContainer)
 	virtual int GetWorstCategory() const;
 	virtual Messages GetMessages() const;
 	virtual void ClearMessages();
 
-	// reimplemented (ibase::IMessageConsumer)
+	// reimplemented (ilog::IMessageConsumer)
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
 				const istd::IInformationProvider* messagePtr = NULL) const;
 	virtual void AddMessage(const IMessageConsumer::MessagePtr& messagePtr);
 
-	// reimplemented (ibase::IHierarchicalMessageContainer)
+	// reimplemented (ilog::IHierarchicalMessageContainer)
 	virtual int GetChildsCount() const;
 	virtual IHierarchicalMessageContainer* GetChild(int index) const;
 
@@ -70,7 +69,7 @@ private:
 	typedef QVector<IHierarchicalMessageContainer*> Childs;
 	Childs m_childContainers;
 
-	ibase::IMessageConsumer* m_slaveConsumerPtr;
+	ilog::IMessageConsumer* m_slaveConsumerPtr;
 
 	int m_maxMessagesCount;
 
@@ -78,9 +77,9 @@ private:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_CMessageContainer_included
+#endif // !ilog_CMessageContainer_included
 
 

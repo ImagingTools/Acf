@@ -12,7 +12,7 @@
 
 #include "icomp/CComponentBase.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 #include "iimg/iimg.h"
 
@@ -26,11 +26,11 @@ namespace iimg
 */
 class CBitmapLoaderComp:
 			public QObject,
-			public ibase::CLoggerComponentBase,
+			public ilog::CLoggerComponentBase,
 			virtual public ifile::IFilePersistence
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

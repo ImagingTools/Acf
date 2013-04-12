@@ -1,13 +1,13 @@
-#ifndef ibase_TMessageDelegatorComp_included
-#define ibase_TMessageDelegatorComp_included
+#ifndef ilog_TMessageDelegatorComp_included
+#define ilog_TMessageDelegatorComp_included
 
 
 // ACF includes
 #include "icomp/CComponentBase.h"
-#include "ibase/IMessageConsumer.h"
+#include "ilog/IMessageConsumer.h"
 
 
-namespace ibase
+namespace ilog
 {		
 
 
@@ -17,17 +17,17 @@ namespace ibase
 	\ingroup Helpers
 */
 template <class BaseComponent>
-class TMessageDelegatorComp: public BaseComponent, virtual public ibase::IMessageConsumer
+class TMessageDelegatorComp: public BaseComponent, virtual public ilog::IMessageConsumer
 {
 public:
 	typedef BaseComponent BaseClass;
 
 	I_BEGIN_COMPONENT(TMessageDelegatorComp);
-		I_REGISTER_INTERFACE(ibase::IMessageConsumer);
+		I_REGISTER_INTERFACE(ilog::IMessageConsumer);
 		I_ASSIGN(m_slaveMessageConsumerCompPtr, "SlaveMessageConsumer", "Slave message consumer", false, "SlaveMessageConsumer");
 	I_END_COMPONENT;
 
-	// reimplemented (ibase::IMessageConsumer)
+	// reimplemented (ilog::IMessageConsumer)
 	virtual bool IsMessageSupported(
 		int messageCategory = -1,
 		int messageId = -1,
@@ -35,13 +35,13 @@ public:
 	virtual void AddMessage(const MessagePtr& messagePtr);
 
 protected:
-	I_REF(ibase::IMessageConsumer, m_slaveMessageConsumerCompPtr);
+	I_REF(ilog::IMessageConsumer, m_slaveMessageConsumerCompPtr);
 };
 
 
 // public methods
 
-// reimplemented (ibase::IMessageConsumer)
+// reimplemented (ilog::IMessageConsumer)
 
 template <class BaseComponent>
 bool TMessageDelegatorComp<BaseComponent>::IsMessageSupported(
@@ -66,9 +66,9 @@ void TMessageDelegatorComp<BaseComponent>::AddMessage(const MessagePtr& messageP
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_TMessageDelegatorComp_included
+#endif // !ilog_TMessageDelegatorComp_included
 
 

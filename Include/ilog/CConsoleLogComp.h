@@ -1,11 +1,11 @@
-#ifndef ibase_CConsoleLogComp_included
-#define ibase_CConsoleLogComp_included
+#ifndef ilog_CConsoleLogComp_included
+#define ilog_CConsoleLogComp_included
 
 
-#include "ibase/CStreamLogCompBase.h"
+#include "ilog/CStreamLogCompBase.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -27,8 +27,8 @@ protected:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_CConsoleLogComp_included
+#endif // !ilog_CConsoleLogComp_included
 

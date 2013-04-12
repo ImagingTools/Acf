@@ -5,7 +5,7 @@
 #include "iser/IVersionInfo.h"
 #include "ifile/IFilePersistence.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 #include "iqt/iqt.h"
 
@@ -15,11 +15,11 @@ namespace iqt
 
 
 class CClipboardSerializerComp:
-			public ibase::CLoggerComponentBase,
+			public ilog::CLoggerComponentBase,
 			virtual public ifile::IFilePersistence
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CClipboardSerializerComp);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);

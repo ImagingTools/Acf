@@ -17,7 +17,7 @@
 #include "icomp/CComponentBase.h"
 #include "icomp/CCompositePackageStaticInfo.h"
 #include "icomp/export.h"
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 #include "ifile/IFileNameParam.h"
 
 
@@ -30,12 +30,12 @@ namespace ipackage
 */
 class CPackagesLoaderComp:
 			public QObject,
-			public ibase::CLoggerComponentBase,
+			public ilog::CLoggerComponentBase,
 			public icomp::CEnvironmentManagerBase,
 			virtual public icomp::IRegistryLoader
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 	typedef icomp::CEnvironmentManagerBase BaseClass2;
 
 	enum MessageId

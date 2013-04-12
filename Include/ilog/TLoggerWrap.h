@@ -1,22 +1,22 @@
-#ifndef ibase_TLoggerWrap_included
-#define ibase_TLoggerWrap_included
+#ifndef ilog_TLoggerWrap_included
+#define ilog_TLoggerWrap_included
 
 
 #include "istd/ILogger.h"
 
-#include "ibase/IMessageConsumer.h"
-#include "ibase/ILoggable.h"
-#include "ibase/CMessage.h"
+#include "ilog/IMessageConsumer.h"
+#include "ilog/ILoggable.h"
+#include "ilog/CMessage.h"
 
 
-namespace ibase
+namespace ilog
 {		
 
 
 /**
-	Class wrapper implementing interface istd::ILogger sending log messages over ibase::IMessageConsumer.
-	Access to interface ibase::IMessageConsumer must be registered by user.
-	To register it use interface ibase::ILoggable implemented by this wrapper.
+	Class wrapper implementing interface istd::ILogger sending log messages over ilog::IMessageConsumer.
+	Access to interface ilog::IMessageConsumer must be registered by user.
+	To register it use interface ilog::ILoggable implemented by this wrapper.
 
 	\ingroup Helpers
 */
@@ -26,9 +26,9 @@ class TLoggerWrap: public Base, virtual public ILoggable, virtual public istd::I
 public:
 	TLoggerWrap();
 
-	// reimplemented (ibase::ILoggable)
-	virtual void SetLogPtr(ibase::IMessageConsumer* logPtr);
-	virtual ibase::IMessageConsumer* GetLogPtr() const;
+	// reimplemented (ilog::ILoggable)
+	virtual void SetLogPtr(ilog::IMessageConsumer* logPtr);
+	virtual ilog::IMessageConsumer* GetLogPtr() const;
 	virtual void SetTracingEnabled(bool trace);
 	virtual bool IsTracingEnabled() const;
 
@@ -97,7 +97,7 @@ protected:
 				int flags = 0) const;
 
 private:
-	ibase::IMessageConsumer* m_logPtr;
+	ilog::IMessageConsumer* m_logPtr;
 	bool m_isTracingEnabled;
 };
 
@@ -112,17 +112,17 @@ TLoggerWrap<Base>::TLoggerWrap()
 }
 
 
-// pseudo-reimplemented (ibase::ILoggable)
+// pseudo-reimplemented (ilog::ILoggable)
 
 template <class Base>
-inline void TLoggerWrap<Base>::SetLogPtr(ibase::IMessageConsumer* logPtr)
+inline void TLoggerWrap<Base>::SetLogPtr(ilog::IMessageConsumer* logPtr)
 {
 	m_logPtr = logPtr;
 }
 
 
 template <class Base>
-inline ibase::IMessageConsumer* TLoggerWrap<Base>::GetLogPtr() const
+inline ilog::IMessageConsumer* TLoggerWrap<Base>::GetLogPtr() const
 {
 	return m_logPtr;
 }
@@ -199,7 +199,7 @@ bool TLoggerWrap<Base>::SendLogMessage(
 
 		DecorateMessage(category, id, flags, correctedMessage, correctedMessageSource);
 
-		m_logPtr->AddMessage(istd::TSmartPtr<const istd::IInformationProvider>(new ibase::CMessage(category, id, correctedMessage, correctedMessageSource, flags)));
+		m_logPtr->AddMessage(istd::TSmartPtr<const istd::IInformationProvider>(new ilog::CMessage(category, id, correctedMessage, correctedMessageSource, flags)));
 	
 		return true;
 	}
@@ -208,9 +208,9 @@ bool TLoggerWrap<Base>::SendLogMessage(
 }
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_TLoggerWrap_included
+#endif // !ilog_TLoggerWrap_included
 
 

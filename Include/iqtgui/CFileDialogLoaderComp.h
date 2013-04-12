@@ -9,7 +9,7 @@
 
 // ACF includes
 #include "icomp/CComponentBase.h"
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 #include "ifile/IFilePersistence.h"
 #include "ifile/IFilePersistenceInfo.h"
 #include "ifile/IFileNameParam.h"
@@ -26,12 +26,12 @@ namespace iqtgui
 */
 class CFileDialogLoaderComp: 
 			public QObject,
-			public ibase::CLoggerComponentBase, 
+			public ilog::CLoggerComponentBase, 
 			virtual public ifile::IFilePersistence,
 			virtual public ifile::IFilePersistenceInfo
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 
 	enum MessageId
 	{

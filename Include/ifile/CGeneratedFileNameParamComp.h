@@ -5,7 +5,7 @@
 // ACF includes
 #include "ifile/IFileTypeInfo.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 #include "ifile/CRelativeFileNameParamComp.h"
 
@@ -17,10 +17,10 @@ namespace ifile
 /**
 	Component for auto generated file path.
 */
-class CGeneratedFileNameParamComp: public ibase::TLoggerCompWrap<ifile::CRelativeFileNameParamComp>
+class CGeneratedFileNameParamComp: public ilog::TLoggerCompWrap<ifile::CRelativeFileNameParamComp>
 {
 public:
-	typedef ibase::TLoggerCompWrap<ifile::CRelativeFileNameParamComp> BaseClass;
+	typedef ilog::TLoggerCompWrap<ifile::CRelativeFileNameParamComp> BaseClass;
 
 	I_BEGIN_COMPONENT(CGeneratedFileNameParamComp);
 		I_ASSIGN(m_autoDeleteAttrPtr, "AutoDelete", "If enabled, the file or directory specified by this object will be removed during component deinitialization", false, false);

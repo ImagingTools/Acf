@@ -14,6 +14,9 @@ istd.file = ../../Include/istd/QMake/istd.pro
 SUBDIRS += iser
 iser.file = ../../Include/iser/QMake/iser.pro
 
+SUBDIRS += ilog
+ilog.file = ../../Include/ilog/QMake/ilog.pro
+
 SUBDIRS += i2d
 i2d.file = ../../Include/i2d/QMake/i2d.pro
 

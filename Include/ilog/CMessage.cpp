@@ -1,4 +1,4 @@
-#include "ibase/CMessage.h"
+#include "ilog/CMessage.h"
 
 
 // ACF includes
@@ -8,7 +8,7 @@
 #include "iser/CArchiveTag.h"
 
 
-namespace ibase
+namespace ilog
 {		
 
 
@@ -146,5 +146,5 @@ istd::IChangeable* CMessage::CloneMe(CompatibilityMode /*mode*/) const
 }
 
 
-} // namespace ibase
+} // namespace ilog
 

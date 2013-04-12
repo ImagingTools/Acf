@@ -1,4 +1,4 @@
-#include "ifile/CTextFileLogComp.h"
+#include "ilog/CTextFileLogComp.h"
 
 
 // ACF includes
@@ -6,7 +6,7 @@
 #include "imod/IModel.h"
 
 
-namespace ifile
+namespace ilog
 {
 
 
@@ -113,6 +113,6 @@ void CTextFileLogComp::FilePathObserver::OnUpdate(int /*updateFlags*/, istd::IPo
 }
 
 
-} // namespace ifile
+} // namespace ilog
 
 

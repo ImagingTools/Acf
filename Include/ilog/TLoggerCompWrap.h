@@ -1,16 +1,14 @@
-#ifndef ibase_TLoggerCompWrap_included
-#define ibase_TLoggerCompWrap_included
+#ifndef ilog_TLoggerCompWrap_included
+#define ilog_TLoggerCompWrap_included
 
 
 #include "icomp/CComponentBase.h"
 #include "icomp/CComponentContext.h"
-
 #include "istd/ILogger.h"
+#include "ilog/TLoggerWrap.h"
 
-#include "ibase/TLoggerWrap.h"
 
-
-namespace ibase
+namespace ilog
 {		
 
 
@@ -20,10 +18,10 @@ namespace ibase
 	\ingroup Helpers
 */
 template <class Base>
-class TLoggerCompWrap: public ibase::TLoggerWrap<Base>
+class TLoggerCompWrap: public ilog::TLoggerWrap<Base>
 {
 public:
-	typedef ibase::TLoggerWrap<Base> BaseClass;
+	typedef ilog::TLoggerWrap<Base> BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
@@ -53,7 +51,7 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
-	I_REF(ibase::IMessageConsumer, m_logCompPtr);
+	I_REF(ilog::IMessageConsumer, m_logCompPtr);
 	I_ATTR(bool, m_verboseEnabledAttrPtr);
 };
 
@@ -121,9 +119,9 @@ void TLoggerCompWrap<Base>::OnComponentCreated()
 typedef TLoggerCompWrap<icomp::CComponentBase> CLoggerComponentBase;
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_TLoggerCompWrap_included
+#endif // !ilog_TLoggerCompWrap_included
 
 

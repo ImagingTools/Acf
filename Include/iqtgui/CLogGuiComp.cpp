@@ -119,7 +119,7 @@ QString CLogGuiComp::GetCategoryText(int category) const
 	}
 }
 
-// reimplemented (ibase::IMessageConsumer)
+// reimplemented (ilog::IMessageConsumer)
 
 bool CLogGuiComp::IsMessageSupported(
 			int /*messageCategory*/,

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="ifile"
-	ProjectGUID="{1DD43ACD-B299-4852-9813-4E32D82DC38D}"
-	RootNamespace="ifile"
+	Name="ilog"
+	ProjectGUID="{FF25339E-5A5E-4926-A802-9DF1BE4F8503}"
+	RootNamespace="ilog"
 	TargetFrameworkVersion="0"
 	>
 	<Platforms>
@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<ToolFile
+			RelativePath="..\..\..\Config\VC9\Acf.rules"
+		/>
 		<ToolFile
 			RelativePath="..\..\..\Config\VC9\QtUIForm.rules"
 		/>
@@ -29,19 +32,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="DeployCopy"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Arxc"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
 				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="Qt Linguist"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Designer Form"
+				Name="FileConvertCopy"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -67,6 +79,7 @@
 				EnableEnhancedInstructionSet="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=""
+				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -96,6 +109,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -109,19 +123,28 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="DeployCopy"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Arxc"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
 				Name="QT Moc Metafile"
 			/>
 			<Tool
 				Name="Qt Linguist"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="QT Designer Form"
+				Name="FileConvertCopy"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -140,9 +163,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
-				StringPooling="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""
@@ -176,6 +198,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -187,59 +210,27 @@
 			Filter="cpp"
 			>
 			<File
-				RelativePath="..\CAutoPersistenceComp.cpp"
+				RelativePath="..\CConsoleLogComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CComposedFilePersistenceComp.cpp"
+				RelativePath="..\CLogComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileArchiveInfo.cpp"
+				RelativePath="..\CMessage.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileListProviderComp.cpp"
+				RelativePath="..\CMessageContainer.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileNameParamComp.cpp"
+				RelativePath="..\CStreamLogCompBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileSerializerCompBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileTypeInfoComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CFileWriteArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CGeneratedFileNameParamComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CRelativeFileNameParamComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CSystemLocationComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp"
+				RelativePath="..\CTextFileLogComp.cpp"
 				>
 			</File>
 		</Filter>
@@ -248,107 +239,55 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\CAutoPersistenceComp.h"
+				RelativePath="..\CConsoleLogComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CComposedFilePersistenceComp.h"
+				RelativePath="..\CLogComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileArchiveInfo.h"
+				RelativePath="..\CMessage.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileListProviderComp.h"
+				RelativePath="..\CMessageContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileNameParamComp.h"
+				RelativePath="..\CStreamLogCompBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileReadArchive.h"
+				RelativePath="..\CTextFileLogComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileSerializerCompBase.h"
+				RelativePath="..\ilog.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileTypeInfoComp.h"
+				RelativePath="..\ILoggable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CFileWriteArchive.h"
+				RelativePath="..\IMessageConsumer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CGeneratedFileNameParamComp.h"
+				RelativePath="..\IMessageContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CRelativeFileNameParamComp.h"
+				RelativePath="..\TLoggerCompWrap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CSystemLocationComp.h"
+				RelativePath="..\TLoggerWrap.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\ifile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileArchiveInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileListProvider.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileNameParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFilePersistence.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFilePersistenceInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IFileTypeInfo.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TFileSerializerComp.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Moc Files"
-			>
-			<File
-				RelativePath="..\CFileListProviderComp.moc"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			>
-			<File
-				RelativePath="..\Generated\moc_CFileListProviderComp.cpp"
+				RelativePath="..\TMessageDelegatorComp.h"
 				>
 			</File>
 		</Filter>

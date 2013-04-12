@@ -1,5 +1,5 @@
-#ifndef ibase_IMessageContainer_included
-#define ibase_IMessageContainer_included
+#ifndef ilog_IMessageContainer_included
+#define ilog_IMessageContainer_included
 
 
 // Qt includes
@@ -11,10 +11,10 @@
 
 #include "iser/ISerializable.h"
 
-#include "ibase/IMessageConsumer.h"
+#include "ilog/IMessageConsumer.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -24,7 +24,7 @@ namespace ibase
 class IMessageContainer: virtual public iser::ISerializable
 {
 public:
-	typedef QVector<ibase::IMessageConsumer::MessagePtr> Messages;
+	typedef QVector<ilog::IMessageConsumer::MessagePtr> Messages;
 
 	enum ChangeFlags
 	{
@@ -51,11 +51,11 @@ public:
 };
 
 
-typedef istd::TIHierarchical<ibase::IMessageContainer> IHierarchicalMessageContainer;
+typedef istd::TIHierarchical<ilog::IMessageContainer> IHierarchicalMessageContainer;
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_IMessageContainer_included
+#endif // !ilog_IMessageContainer_included
 

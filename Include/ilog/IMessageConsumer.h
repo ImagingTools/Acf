@@ -1,5 +1,5 @@
-#ifndef ibase_IMessageConsumer_included
-#define ibase_IMessageConsumer_included
+#ifndef ilog_IMessageConsumer_included
+#define ilog_IMessageConsumer_included
 
 
 #include "istd/IPolymorphic.h"
@@ -7,7 +7,7 @@
 #include "istd/TSmartPtr.h"
 
 
-namespace ibase
+namespace ilog
 {
 
 
@@ -40,9 +40,9 @@ public:
 };
 
 
-} // namespace ibase
+} // namespace ilog
 
 
-#endif // !ibase_IMessageConsumer_included
+#endif // !ilog_IMessageConsumer_included
 
 

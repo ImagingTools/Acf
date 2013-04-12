@@ -19,7 +19,7 @@
 
 #include "iqt/ITranslationManager.h"
 
-#include "ibase/TLoggerCompWrap.h"
+#include "ilog/TLoggerCompWrap.h"
 
 
 namespace iqt
@@ -27,12 +27,12 @@ namespace iqt
 
 
 class CTranslationManagerComp:
-			public ibase::CLoggerComponentBase, 
+			public ilog::CLoggerComponentBase, 
 			virtual public iqt::ITranslationManager,
 			virtual public iprm::IOptionsList
 {
 public:
-	typedef ibase::CLoggerComponentBase BaseClass;
+	typedef ilog::CLoggerComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CTranslationManagerComp);
 		I_REGISTER_INTERFACE(iqt::ITranslationManager);
