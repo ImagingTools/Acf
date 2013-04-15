@@ -182,6 +182,18 @@ void COptionsListEditorGuiComp::UpdateTree()
 
 	ParamsTree->clear();
 
+	if (*m_showListHeaderAttrPtr){
+		QStringList headers;
+		if (m_headerListAttrPtr.IsValid()){
+			int listCount = m_headerListAttrPtr.GetCount();
+			for (int listIndex = 0; listIndex < listCount; listIndex++){
+				headers << m_headerListAttrPtr[listIndex];
+			}
+		}
+		ParamsTree->setHeaderLabels(headers);
+		ParamsTree->setHeaderHidden(false);
+	}
+
 	iprm::IOptionsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		int setsCount = objectPtr->GetOptionsCount();
