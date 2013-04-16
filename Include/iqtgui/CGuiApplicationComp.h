@@ -4,9 +4,9 @@
 
 // ACF includes
 #include "imod/TModelWrap.h"
-
+#include "imod/TSingleModelObserverBase.h"
+#include "iprm/IEnableableParam.h"
 #include "ibase/IRuntimeStatusProvider.h"
-
 #include "iqtgui/IGuiObject.h"
 #include "iqtgui/IGuiApplication.h"
 #include "iqtgui/CApplicationCompBase.h"
@@ -23,10 +23,12 @@ namespace iqtgui
 */
 class CGuiApplicationComp:
 			public CApplicationCompBase,
+			protected imod::TSingleModelObserverBase<iprm::IEnableableParam>,
 			virtual public iqtgui::IGuiApplication
 {
 public:
 	typedef CApplicationCompBase BaseClass;
+	typedef imod::TSingleModelObserverBase<iprm::IEnableableParam> BaseClass2;
 
 	I_BEGIN_COMPONENT(CGuiApplicationComp);
 		I_REGISTER_INTERFACE(ibase::IApplication);
@@ -35,9 +37,13 @@ public:
 		I_REGISTER_SUBELEMENT_INTERFACE(RuntimeStatus, imod::IModel, ExtractRuntimeStatus);
 		I_REGISTER_SUBELEMENT_INTERFACE(RuntimeStatus, istd::IChangeable, ExtractRuntimeStatus);
 		I_ASSIGN(m_mainGuiCompPtr, "MainGui", "Gui object shown as main window", false, "MainGui");
+		I_ASSIGN(m_allowApplicationCloseCompPtr, "AllowClose", "Controls closing of the application", false, "AllowClose");
+		I_ASSIGN_TO(m_allowApplicationCloseModelCompPtr, m_allowApplicationCloseCompPtr, false);
 		I_ASSIGN(m_frameSpaceSizeAttrPtr, "FrameSpaceSize", "Number of pixels will be added on the all window sides", false, 9);
 		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
 	I_END_COMPONENT;
+
+	CGuiApplicationComp();
 
 	// reimplemented (ibase::IGuiApplication)
 	virtual const iqtgui::IGuiObject* GetApplicationGui() const;
@@ -45,6 +51,18 @@ public:
 	// reimplemented (ibase::IApplication)
 	virtual int Execute(int argc, char** argv);
 	virtual QString GetHelpText() const;
+
+protected:
+	// reimplemented (imod::TSingleModelObserverBase)
+	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
+
+private:
+	void UpdateMainWidgetDecorations();
+	void ShowWindow();
 
 private:
 	class RuntimeStatus: public ibase::IRuntimeStatusProvider
@@ -63,7 +81,7 @@ private:
 
 	imod::TModelWrap<RuntimeStatus> m_runtimeStatus;
 
-	// static template methods for subelement access
+	// static template methods for sub element access
 	template <class InterfaceType>
 	static InterfaceType* ExtractRuntimeStatus(CGuiApplicationComp& component)
 	{
@@ -72,6 +90,8 @@ private:
 
 private:
 	I_REF(IGuiObject, m_mainGuiCompPtr);
+	I_REF(iprm::IEnableableParam, m_allowApplicationCloseCompPtr);
+	I_REF(imod::IModel, m_allowApplicationCloseModelCompPtr);
 	I_ATTR(int, m_frameSpaceSizeAttrPtr);
 	I_ATTR(int, m_uiStartModeAttrPtr);
 
@@ -81,6 +101,8 @@ private:
 		because it is called after leaving the main loop.
 	*/
 	istd::TDelPtr<QWidget> m_mainWidgetPtr;
+	Qt::WindowFlags m_defaultWidgetFlags;
+	QRect m_lastWidgetGeometry;
 };
 
 

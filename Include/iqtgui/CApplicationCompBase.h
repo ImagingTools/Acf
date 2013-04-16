@@ -4,14 +4,10 @@
 
 // ACF includes
 #include "istd/CGeneralTimeStamp.h"
-
 #include "icomp/CComponentBase.h"
-
 #include "ibase/IApplication.h"
 #include "ibase/IApplicationInfo.h"
-
 #include "iqt/ITranslationManager.h"
-
 #include "iqtgui/IGuiObject.h"
 
 

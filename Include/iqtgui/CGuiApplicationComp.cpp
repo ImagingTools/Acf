@@ -12,6 +12,14 @@ namespace iqtgui
 {
 
 
+// public methods
+
+CGuiApplicationComp::CGuiApplicationComp()
+	:m_defaultWidgetFlags(0)
+{	
+}
+
+
 // reimplemented (iqtgui::IGuiApplication)
 
 const iqtgui::IGuiObject* CGuiApplicationComp::GetApplicationGui() const
@@ -71,27 +79,13 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		HideSplashScreen();
 
 		if (m_mainWidgetPtr.IsValid()){
-			int uiStartMode = 0;
-			if (m_uiStartModeAttrPtr.IsValid()){
-				uiStartMode = *m_uiStartModeAttrPtr;
-			}
+			m_defaultWidgetFlags = m_mainWidgetPtr->windowFlags();
 
-			switch (uiStartMode){
-				case 1:
-					m_mainWidgetPtr->showFullScreen();
-					break;
+			UpdateMainWidgetDecorations();
 
-				case 2:
-					m_mainWidgetPtr->showMinimized();
-					break;
+			ShowWindow();
 
-				case 3:
-					m_mainWidgetPtr->showMaximized();
-					break;
-
-				default:
-					m_mainWidgetPtr->show();
-			}
+			m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
 		}
 
 		if (m_mainWidgetPtr.IsValid()){
@@ -116,6 +110,95 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 QString CGuiApplicationComp::GetHelpText() const
 {
 	return "-style QtStyle\tname of Qt-specified style";
+}
+
+
+// protected methods
+
+// reimplemented (imod::TSingleModelObserverBase)
+
+void CGuiApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	if (m_mainWidgetPtr.IsValid()){
+		m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
+
+		UpdateMainWidgetDecorations();
+
+		ShowWindow();
+
+		if (		!m_mainWidgetPtr->isMaximized() &&
+					!m_mainWidgetPtr->isMinimized() &&
+					!m_mainWidgetPtr->isFullScreen()){
+			m_mainWidgetPtr->setGeometry(m_lastWidgetGeometry);
+		}
+	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CGuiApplicationComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_allowApplicationCloseModelCompPtr.IsValid()){
+		m_allowApplicationCloseModelCompPtr->AttachObserver(this);
+	}
+}
+
+
+void CGuiApplicationComp::OnComponentDestroyed()
+{
+	BaseClass2::EnsureModelDetached();
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// private methods
+
+void CGuiApplicationComp::UpdateMainWidgetDecorations()
+{
+	if (m_allowApplicationCloseCompPtr.IsValid() && m_mainWidgetPtr.IsValid())
+	{
+		Qt::WindowFlags windowFlags = m_defaultWidgetFlags;
+	
+		if (!m_allowApplicationCloseCompPtr->IsEnabled()){
+			windowFlags = (m_mainWidgetPtr->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint;
+		}
+
+		if (windowFlags != m_mainWidgetPtr->windowFlags()){
+			m_mainWidgetPtr->setWindowFlags(windowFlags);
+		}
+	}
+}
+
+
+void CGuiApplicationComp::ShowWindow()
+{
+	Q_ASSERT(m_mainWidgetPtr.IsValid());
+
+	int uiStartMode = 0;
+	if (m_uiStartModeAttrPtr.IsValid()){
+		uiStartMode = *m_uiStartModeAttrPtr;
+	}
+
+	switch (uiStartMode){
+		case 1:
+			m_mainWidgetPtr->showFullScreen();
+			break;
+
+		case 2:
+			m_mainWidgetPtr->showMinimized();
+			break;
+
+		case 3:
+			m_mainWidgetPtr->showMaximized();
+			break;
+
+		default:
+			m_mainWidgetPtr->show();
+	}
 }
 
 

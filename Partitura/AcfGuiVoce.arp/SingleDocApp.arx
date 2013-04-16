@@ -1,29 +1,7 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="2">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          2777
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1023
-        </Id>
-        <Number>
-          264192
-        </Number>
-        <Description>
-          Qt Framework
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <ElementsList count="8">
@@ -247,6 +225,22 @@
         <AttributeInfoMap count="8">
           <AttributeInfo>
             <Id>
+              AllowClose
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              AllowClose
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
               ApplicationInfo
             </Id>
             <Type>
@@ -316,22 +310,6 @@
               <Value>
                 SplashScreen
               </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              StandAloneComponents
-            </Id>
-            <Type>
-              Reference[]
-            </Type>
-            <ExportId>
-              StandAloneComponents
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
