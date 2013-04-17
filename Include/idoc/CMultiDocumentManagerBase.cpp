@@ -770,6 +770,11 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 			retVal = retVal && archive.Process(documentTypeId);
 			retVal = retVal && archive.EndTag(documentTypeIdTag);
 
+			istd::IChangeable* openDocumentPtr = OpenDocument(filePath, false, "", documentTypeId);
+			if (openDocumentPtr == NULL){
+				return false;
+			}
+
 			// Loading document's view info:
 			int viewCount = 0;	
 			retVal = archive.BeginMultiTag(viewListTag, viewTag, viewCount);
@@ -789,12 +794,15 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 
 				retVal = retVal && archive.EndTag(viewTag);
 
+				if (!retVal){
+					return false;
+				}
+
+				istd::IPolymorphic* viewPtr = AddViewToDocument(*openDocumentPtr, viewTypeId);
+
 				// Open document:
-				istd::IChangeable* openDocumentPtr = OpenDocument(filePath, true, viewTypeId, documentTypeId);
-				if (openDocumentPtr != NULL){
-					if (retVal && isActive){
-						activeView = GetViewFromIndex(documentIndex, viewIndex);						
-					}
+				if ((viewPtr != NULL) && isActive){
+					activeView = viewPtr;
 				}
 			}
 
