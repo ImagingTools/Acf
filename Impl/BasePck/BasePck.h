@@ -14,8 +14,6 @@
 #include "ifile/CXmlFileWriteArchive.h"
 #include "ifile/CFileReadArchive.h"
 #include "ifile/CFileWriteArchive.h"
-#include "ifile/CTextFileReadArchive.h"
-#include "ifile/CTextFileWriteArchive.h"
 #include "ifile/CComposedFilePersistenceComp.h"
 #include "ifile/CFileTypeInfoComp.h"
 
@@ -86,7 +84,6 @@ typedef ilog::CTextFileLogStreamerComp TextFileLogStreamer;
 
 typedef ifile::TFileSerializerComp<ifile::CXmlFileReadArchive, ifile::CXmlFileWriteArchive> XmlFileSerializer;
 typedef ifile::TFileSerializerComp<ifile::CFileReadArchive, ifile::CFileWriteArchive> BinaryFileSerializer;
-typedef ifile::TFileSerializerComp<ifile::CTextFileReadArchive, ifile::CTextFileWriteArchive> TextFileSerializer;
 typedef ifile::CComposedFilePersistenceComp ComposedLoader;
 typedef ifile::CFileTypeInfoComp FileTypeInfo;
 

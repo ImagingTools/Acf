@@ -235,14 +235,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CTextFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileWriteArchive.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CXmlFileReadArchive.cpp"
 				>
 			</File>
@@ -301,14 +293,6 @@
 			</File>
 			<File
 				RelativePath="..\CSystemLocationComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CTextFileWriteArchive.h"
 				>
 			</File>
 			<File

@@ -1,4 +1,4 @@
-#include "iqtgui/CLogGuiComp.h"
+#include "iloggui/CLogGuiComp.h"
 
 
 // Qt includes
@@ -13,7 +13,7 @@
 #include "iqtgui/CWidgetUpdateBlocker.h"
 
 
-namespace iqtgui
+namespace iloggui
 {
 
 
@@ -416,6 +416,6 @@ void CLogGuiComp::on_FilterClearButton_clicked()
 }
 
 
-} // namespace iqtgui
+} // namespace iloggui
 
 

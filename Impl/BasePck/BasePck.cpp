@@ -24,11 +24,6 @@ I_EXPORT_COMPONENT(
 			"Save Serializer Archive Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
 
 I_EXPORT_COMPONENT(
-			TextFileSerializer,
-			"File loader serializing objects using simple text format",
-			"Save Serializer Archive Format Text" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Text Loader File"));
-
-I_EXPORT_COMPONENT(
 			BinaryFileSerializer,
 			"Simple file loader serializing objects using binary files",
 			"Binary Load Save Serializer Archive Format" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Loader File"));

@@ -289,10 +289,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CLogGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CModelDialogGuiComp.cpp"
 				>
 			</File>
@@ -493,10 +489,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CLogGuiComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\CModelDialogGuiComp.h"
 				>
 			</File>
@@ -694,10 +686,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CLogGuiComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\generated\moc_CObjectPreviewGuiComp.cpp"
 				>
 			</File>
@@ -746,10 +734,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CLogGuiComp.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Generated\ui_CNumpadGui.h"
 				>
 			</File>
@@ -791,10 +775,6 @@
 			</File>
 			<File
 				RelativePath="..\CImagePropertyGuiComp.ui"
-				>
-			</File>
-			<File
-				RelativePath="..\CLogGuiComp.ui"
 				>
 			</File>
 			<File
@@ -859,10 +839,6 @@
 			</File>
 			<File
 				RelativePath="..\CImagePropertyGuiComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\CLogGuiComp.moc"
 				>
 			</File>
 			<File
