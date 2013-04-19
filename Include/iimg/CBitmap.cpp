@@ -254,6 +254,11 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 			istd::CIndex2d size = bitmapPtr->GetImageSize();
 			if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
 				int lineBytesCount = qMin(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
+				Q_ASSERT(lineBytesCount >= 0);
+				if (lineBytesCount <= 0){
+					return false;
+				}
+
 				for (int y = 0; y < size.GetY(); ++y){
 					std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
 				}

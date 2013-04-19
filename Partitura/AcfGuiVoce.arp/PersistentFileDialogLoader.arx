@@ -1,18 +1,7 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          2246
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <ElementsList count="3">
@@ -184,7 +173,7 @@
         FilePck
       </PackageId>
       <ComponentId>
-        FileNameParam
+        RelativeFileNameParam
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -193,7 +182,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="2">
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               DefaultPath
@@ -227,6 +216,22 @@
               <Value>
                 2
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ReferencePath
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              LogPath
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
         </AttributeInfoMap>

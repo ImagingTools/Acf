@@ -16,7 +16,7 @@ namespace ifile
 
 /**
 	Simple implementation of archive reading from XML file.
-	This imlementation doesn't use any external parser.
+	This implementation doesn't use any external parser.
 	It uses only single pass and is very fast, but it doesn't support of tags skipping and
 	it needs \c counter attribute indicating number of subtags for each mutli tag node.
 	XML file in this format can be created using \c ifile::CXmlFileWriteArchive.

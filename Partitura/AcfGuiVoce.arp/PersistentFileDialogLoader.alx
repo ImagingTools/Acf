@@ -1,21 +1,24 @@
 <?xml version="1.0"?>
 <Acf>
   <AcfHeader>
-    <VersionInfos count="1">
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          2246
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
+    <VersionInfos count="0">
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="3">
+    <Element>
+      <ComponentName>
+        StartupDirectory
+      </ComponentName>
+      <X>
+        275
+      </X>
+      <X>
+        325
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
     <Element>
       <ComponentName>
         FileDialogLoader
@@ -44,19 +47,7 @@
         
       </Note>
     </Element>
-    <Element>
-      <ComponentName>
-        StartupDirectory
-      </ComponentName>
-      <X>
-        275
-      </X>
-      <X>
-        325
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
   </PositionMap>
+  <EmbeddedRegistries count="0">
+  </EmbeddedRegistries>
 </Acf>

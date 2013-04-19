@@ -233,6 +233,10 @@
 				RelativePath="..\CTextFileLogComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CTextFileLogStreamerComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -260,6 +264,10 @@
 			</File>
 			<File
 				RelativePath="..\CTextFileLogComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextFileLogStreamerComp.h"
 				>
 			</File>
 			<File
