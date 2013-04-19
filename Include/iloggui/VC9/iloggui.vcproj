@@ -192,6 +192,10 @@
 				RelativePath="..\CLogGuiComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\CTextLogGuiComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -200,6 +204,10 @@
 			>
 			<File
 				RelativePath="..\CLogGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextLogGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -220,7 +228,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\moc_CTextLogGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\ui_CLogGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Generated\ui_CTextLogGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -231,12 +247,20 @@
 				RelativePath="..\CLogGuiComp.ui"
 				>
 			</File>
+			<File
+				RelativePath="..\CTextLogGuiComp.ui"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Moc Files"
 			>
 			<File
 				RelativePath="..\CLogGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CTextLogGuiComp.moc"
 				>
 			</File>
 		</Filter>

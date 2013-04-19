@@ -43,6 +43,11 @@ I_EXPORT_COMPONENT(
 			"Log Info List" IM_TAG("Log"));
 
 I_EXPORT_COMPONENT(
+			TextLogGui,
+			"Application log as text document",
+			"Text Log Info List" IM_TAG("Log"));
+
+I_EXPORT_COMPONENT(
 			IconProvider,
 			"Icon set provider",
 			"Icons GUI" IM_CATEGORY(I_SERVICE));

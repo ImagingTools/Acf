@@ -59,6 +59,7 @@
 #include "iqtdoc/CHtmlHelpViewerComp.h"
 
 #include "iloggui/CLogGuiComp.h"
+#include "iloggui/CTextLogGuiComp.h"
 
 
 /**
@@ -122,6 +123,7 @@ typedef iqtdoc::CHtmlHelpGuiComp HtmlHelpGui;
 typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
 
 typedef iloggui::CLogGuiComp LogGui;
+typedef iloggui::CTextLogGuiComp TextLogGui;
 
 
 } // namespace QtGuiPck
