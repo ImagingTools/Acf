@@ -64,14 +64,24 @@ protected:
 private:
 	CModelBase(const CModelBase& modelBase);
 
+	bool IsInternalDataLocked() const;
+	void LockInternalData();
+	void UnlockInternalData();
+	void CleanupDetachedObservers();
+
+private:
 	/**
 		Observer connection state.
 	*/
 	enum AttachingState
 	{
-		AS_NONE = 0,
 		/**
-			Observer is beeng to attached.
+			No state
+		*/
+		AS_NONE = 0,
+		
+		/**
+			Observer is being to attached.
 		*/
 		AS_ATTACHING,
 
@@ -93,6 +103,8 @@ private:
 
 	typedef QMap<IObserver*, AttachingState> ObserversMap;
 	ObserversMap m_observers;
+
+	bool m_areObserversLocked;
 };
 
 

@@ -11,6 +11,7 @@ namespace imod
 
 
 CModelBase::CModelBase()
+	:m_areObserversLocked(false)
 {
 }
 
@@ -86,7 +87,9 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 	
 	state = AS_DETACHED;
 
-	m_observers.erase(findIter);
+	if (!IsInternalDataLocked()){
+		m_observers.erase(findIter);
+	}
 }
 
 
@@ -130,7 +133,9 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 
 void CModelBase::NotifyBeforeUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
+	LockInternalData();
+
+	for (ObserversMap::Iterator iter = m_observers.constBegin(); iter != m_observers.constEnd(); ++iter){
 		AttachingState& state = iter.value();
 
 		if (state == AS_ATTACHED){
@@ -139,12 +144,16 @@ void CModelBase::NotifyBeforeUpdate(int updateFlags, istd::IPolymorphic* updateP
 			observerPtr->BeforeUpdate(this, updateFlags, updateParamsPtr);
 		}
 	}
+
+	UnlockInternalData();
 }
 
 
 void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
+	LockInternalData();
+
+	for (ObserversMap::Iterator iter = m_observers.constBegin(); iter != m_observers.constEnd(); ++iter){
 		AttachingState& state = iter.value();
 
 		if (state == AS_ATTACHED){
@@ -153,6 +162,8 @@ void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updatePa
 			observerPtr->AfterUpdate(this, updateFlags, updateParamsPtr);
 		}
 	}
+
+	UnlockInternalData();
 }
 
 
@@ -160,6 +171,40 @@ void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updatePa
 
 CModelBase::CModelBase(const CModelBase& /*modelBase*/)
 {
+}
+
+
+bool CModelBase::IsInternalDataLocked() const
+{
+	return m_areObserversLocked;
+}
+
+
+void CModelBase::LockInternalData()
+{
+	m_areObserversLocked = true;
+}
+
+
+void CModelBase::UnlockInternalData()
+{
+	m_areObserversLocked = false;
+
+	CleanupDetachedObservers();
+}
+
+
+void CModelBase::CleanupDetachedObservers()
+{
+	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
+		AttachingState& state = iter.value();
+
+		if (state == AS_DETACHED){
+			m_observers.erase(iter);
+
+			iter = m_observers.begin();
+		}
+	}
 }
 
 
