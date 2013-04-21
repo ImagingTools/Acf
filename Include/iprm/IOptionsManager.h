@@ -21,6 +21,49 @@ public:
 		CF_OPTION_ADDED = 1 << 7,
 		CF_OPTION_REMOVED = 1 << 8
 	};
+	
+	/**
+		Bitwise coded flags used to find out supported features.
+	*/
+	enum OptionOperationFlags
+	{
+		/**
+			Active if number of parameters is fixed.
+		*/
+		OOF_COUNT_FIXED = 1,
+
+		/**
+			Active if rename of parameters is supported.
+		*/
+		OOF_SUPPORT_RENAME = 2,
+
+		/**
+			Active if insert of parameters is possible.
+		*/
+		OOF_SUPPORT_INSERT = 4,
+
+		/**
+			Active if delete of parameters is possible.
+		*/
+		OOF_SUPPORT_DELETE = 8,
+
+		/**
+			Active if swap of parameters with the other one is possible.
+		*/
+		OOF_SUPPORT_SWAP = 16
+	};
+
+
+	/**
+		Get operation control flags of some option or whole manager.
+		\param	index	index addressing position in the option list.
+						For negative value general flags are returned.
+						For example if you want to check if there is any re-nameable element
+						you should call it with negative index value.
+						To check if first element can be renamed call it with index value 0.
+						To check if you can insert at the last position please use index value equal to current options count.
+	*/
+	virtual int GetIndexOperationFlags(int index = -1) const = 0;
 
 	/**
 		Enables a given option. Only enabled options can be selected.

@@ -31,10 +31,11 @@ public:
 		Set additional fixed list of options.
 	*/
 	void SetFixedOptionsList(const iprm::IOptionsList* slaveSelectionConstraintsPtr);
+
 	/**
 		Removes all options.
 	*/
-	void ResetOptions();
+	virtual void ResetOptions();
 
 	// reimplemented (iprm::IOptionsList)
 	virtual int GetOptionsFlags() const;
@@ -45,6 +46,7 @@ public:
 	virtual bool IsOptionEnabled(int index) const;
 
 	// reimplemented (iprm::IOptionsManager)
+	virtual int GetIndexOperationFlags(int index = -1) const;
 	virtual bool SetOptionEnabled(int index, bool isEnabled = true);
 	virtual bool RemoveOption(int index);
 	virtual bool InsertOption(
