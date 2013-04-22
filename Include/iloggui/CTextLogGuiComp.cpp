@@ -1,6 +1,7 @@
 #include "iloggui/CTextLogGuiComp.h"
 
-#define PERFORMANCE_TEST
+
+//#define PERFORMANCE_TEST
 
 
 // Qt includes
@@ -22,6 +23,87 @@ namespace iloggui
 
 void CTextLogGuiComp::UpdateGui(int /*updateFlags*/)
 {
+	UpdateFilters();
+
+	DoFilter();
+}
+
+
+// reimplemented (CGuiComponentBase)
+
+void CTextLogGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	m_tableFormat.setBorder(0);
+	m_tableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_None);
+	m_tableFormat.setCellPadding(4);
+	m_tableFormat.setCellSpacing(0);
+
+	m_okEvenCellFormat.setBackground(QColor(0xf0f0ff));
+
+	connect(SeverityFilterCB, SIGNAL(currentIndexChanged(int)), this, SLOT(DoFilter()));
+	connect(SourceFilterCB, SIGNAL(currentIndexChanged(int)), this, SLOT(DoFilter()));
+	connect(FilterText, SIGNAL(textChanged(QString)), this, SLOT(DoFilter()));
+}
+
+
+void CTextLogGuiComp::OnGuiDestroyed()
+{
+	BaseClass::OnGuiDestroyed();
+}
+
+
+void CTextLogGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	SeverityFilterCB->setItemIcon(0, GetCategoryIcon(istd::IInformationProvider::IC_NONE));
+	SeverityFilterCB->setItemIcon(1, GetCategoryIcon(istd::IInformationProvider::IC_INFO));
+	SeverityFilterCB->setItemIcon(2, GetCategoryIcon(istd::IInformationProvider::IC_WARNING));
+	SeverityFilterCB->setItemIcon(3, GetCategoryIcon(istd::IInformationProvider::IC_ERROR));
+}
+
+
+// private slots
+
+void CTextLogGuiComp::DoFilter()
+{
+	GenerateDocument(
+		SeverityFilterCB->currentIndex(),
+		SourceFilterCB->currentIndex() == 0 ? "" : SourceFilterCB->currentText(), 
+		FilterText->text());
+}
+
+
+// private members
+
+void CTextLogGuiComp::UpdateFilters()
+{
+	SourceFilterCB->blockSignals(true);
+
+	SourceFilterCB->clear();
+	SourceFilterCB->addItem(tr("Any"));
+
+	ilog::IMessageContainer* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		QSet<QString> sources;
+		const ilog::IMessageContainer::Messages messages = objectPtr->GetMessages();
+		int messagesCount = messages.count();
+		for (int i = 0; i < messagesCount; i++){
+			const ilog::IMessageConsumer::MessagePtr messagePtr = messages.at(i);
+			sources.insert(messagePtr->GetInformationSource());
+		}
+
+		SourceFilterCB->addItems(sources.toList());
+	}
+
+	SourceFilterCB->blockSignals(false);
+}
+
+
+void CTextLogGuiComp::GenerateDocument(int severityFilter, const QString& sourceFilter, const QString& textFilter)
+{
 #ifdef PERFORMANCE_TEST
 	QElapsedTimer timer;
 	timer.start();
@@ -42,29 +124,35 @@ void CTextLogGuiComp::UpdateGui(int /*updateFlags*/)
 	int messagesCount = messages.count();
 
 	QTextDocument* documentPtr = LogEditor->document();
-	
+
 	QTextCursor textCursor(documentPtr);
 	textCursor.beginEditBlock();
 
-	QTextTableFormat tableFormat;
-	tableFormat.setBorder(0);
-	tableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_None);
-	tableFormat.setCellPadding(4);
-	tableFormat.setCellSpacing(0);
+	QTextTable* tablePtr = textCursor.insertTable(1, 3, m_tableFormat);
 
-	QTextTable* tablePtr = textCursor.insertTable(messagesCount, 3, tableFormat);
-	int tableRow = 0;
-
-	for (int i = 0; i < messagesCount; i++, tableRow++){
+	for (int i = 0; i < messagesCount; i++){
 		int column = 0;
 
 		const ilog::IMessageConsumer::MessagePtr messagePtr = messages.at(i);
 
+		// filter the message
 		int category = messagePtr->GetInformationCategory();
+		if (category < severityFilter){
+			continue;
+		}
 
-		QString categoryText(GetCategoryText(category));
+		if (!sourceFilter.isEmpty() && sourceFilter != messagePtr->GetInformationSource()){
+			continue;
+		}
+
+		QString text(messagePtr->GetInformationDescription());
+		if (!textFilter.isEmpty() && text.indexOf(textFilter, 0, Qt::CaseInsensitive) < 0){
+			continue;
+		}
 
 		QTextTableCellFormat& cellFormat = i % 2 ? m_okEvenCellFormat : m_okCellFormat;
+
+		int tableRow = tablePtr->rows()-1;
 
 		// category
 		QImage categoryIcon = GetCategoryImage(category);		
@@ -73,11 +161,11 @@ void CTextLogGuiComp::UpdateGui(int /*updateFlags*/)
 		// timestamp
 		InsertText(tablePtr->cellAt(tableRow, column++), messagePtr->GetInformationTimeStamp().toString(), cellFormat);
 
-		// source
-		//InsertText(tablePtr->cellAt(tableRow, column++), messagePtr->GetInformationSource(), cellFormat);
-
 		// text
 		InsertText(tablePtr->cellAt(tableRow, column++), messagePtr->GetInformationDescription(), cellFormat);
+
+		// add message row
+		tablePtr->appendRows(1);
 	}
 
 	textCursor.endEditBlock();
@@ -88,26 +176,9 @@ void CTextLogGuiComp::UpdateGui(int /*updateFlags*/)
 #endif
 
 	LogEditor->setUpdatesEnabled(true);
+
 }
 
-
-// reimplemented (CGuiComponentBase)
-
-void CTextLogGuiComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
-	m_okEvenCellFormat.setBackground(QColor(0xf0f0f0));
-}
-
-
-void CTextLogGuiComp::OnGuiDestroyed()
-{
-	BaseClass::OnGuiDestroyed();
-}
-
-
-// private members
 
 void CTextLogGuiComp::InsertImage(QTextTableCell cell, const QImage& image)
 {
@@ -123,22 +194,12 @@ void CTextLogGuiComp::InsertText(QTextTableCell cell, const QString& text, const
 }
 
 
-QImage CTextLogGuiComp::GetCategoryImage(int category) const
+QIcon CTextLogGuiComp::GetCategoryIcon(int category) const
 {
-	static QImage logIcon(":/Icons/Log");
-	static QImage infoIcon(":/Icons/Info.svg");
-	static QImage warningIcon(":/Icons/Warning.svg");
-	static QImage errorIcon(":/Icons/Error.svg");
-
-	static bool initialized = false;
-	if (!initialized){
-		initialized = true;
-
-		errorIcon = errorIcon.scaled(16,16);
-		warningIcon = warningIcon.scaled(16,16);
-		infoIcon = infoIcon.scaled(16,16);
-		logIcon = logIcon.scaled(16,16);
-	}
+	static QIcon logIcon(":/Icons/Log");
+	static QIcon infoIcon(":/Icons/Info.svg");
+	static QIcon warningIcon(":/Icons/Warning.svg");
+	static QIcon errorIcon(":/Icons/Error.svg");
 
 	switch (category){
 	case istd::IInformationProvider::IC_INFO:
@@ -153,6 +214,40 @@ QImage CTextLogGuiComp::GetCategoryImage(int category) const
 
 	default:
 		return logIcon;
+	}
+}
+
+
+QImage CTextLogGuiComp::GetCategoryImage(int category) const
+{
+	static QImage logImage(":/Icons/Log");
+	static QImage infoImage(":/Icons/Info.svg");
+	static QImage warningImage(":/Icons/Warning.svg");
+	static QImage errorImage(":/Icons/Error.svg");
+
+	static bool initialized = false;
+	if (!initialized){
+		initialized = true;
+
+		errorImage = errorImage.scaled(16,16);
+		warningImage = warningImage.scaled(16,16);
+		infoImage = infoImage.scaled(16,16);
+		logImage = logImage.scaled(16,16);
+	}
+
+	switch (category){
+	case istd::IInformationProvider::IC_INFO:
+		return infoImage;
+
+	case istd::IInformationProvider::IC_WARNING:
+		return warningImage;
+
+	case istd::IInformationProvider::IC_ERROR:
+	case istd::IInformationProvider::IC_CRITICAL:
+		return errorImage;
+
+	default:
+		return logImage;
 	}
 }
 
