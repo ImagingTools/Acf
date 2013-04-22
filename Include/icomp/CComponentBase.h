@@ -275,6 +275,10 @@ inline bool CComponentBase::IsComponentActive() const
 	typedef icomp::TFactoryMember<interfaceType>::AttributeType member##_AttrType;\
 	icomp::TFactoryMember<interfaceType> member;
 
+#define I_TFACT(interfaceType, member)\
+	typedef icomp::TFactoryMember<interfaceType> member##_Type;\
+	typedef typename icomp::TFactoryMember<interfaceType>::AttributeType member##_AttrType;\
+	icomp::TFactoryMember<interfaceType> member;
 /**
 	Declare multiple factories of components.
 
