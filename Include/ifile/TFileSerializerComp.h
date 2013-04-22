@@ -135,7 +135,13 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 
 		Q_ASSERT(!archive.IsStoring());
 
-		iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		// TODO: change CompCastPtr to be sure that firstly the data will be casted to the interface,
+		// but NOT the first ISerializable in the composition.
+		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
+		if (serializablePtr == NULL){
+			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		}
+
 		Q_ASSERT(serializablePtr != NULL);
 
 		istd::CChangeNotifier changePtr(NULL, istd::IChangeable::CF_MODEL);
