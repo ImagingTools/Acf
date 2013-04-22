@@ -82,9 +82,16 @@ void CGuiComponentDialog::closeEvent(QCloseEvent* eventPtr)
 		m_guiObjectPtr->OnTryClose(&ignoreClosing);
 
 		if (ignoreClosing){
-			  eventPtr->ignore();
+			eventPtr->ignore();
 
-			  return;
+			return;
+		}
+
+		int currentResult = BaseClass::result();
+		if (currentResult != 0){
+			done(currentResult);
+
+			return;
 		}
 	}
 
@@ -97,12 +104,12 @@ void CGuiComponentDialog::keyPressEvent(QKeyEvent* eventPtr)
 	Q_ASSERT(eventPtr != NULL);
 
 	switch (eventPtr->key()){
-        case Qt::Key_Escape:
+		case Qt::Key_Escape:
 		if (m_guiObjectPtr != NULL){
 			bool ignoreClosing = false;
 			m_guiObjectPtr->OnTryClose(&ignoreClosing);
 			if (ignoreClosing){
-				  return;
+				return;
 			}
 
 			int currentResult = BaseClass::result();
@@ -110,7 +117,7 @@ void CGuiComponentDialog::keyPressEvent(QKeyEvent* eventPtr)
 				done(currentResult);
 
 				return;
-			}			
+			}
 		}
 		break;
 	}
