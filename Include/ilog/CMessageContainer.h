@@ -9,6 +9,10 @@
 // ACF includes
 #include "istd/IInformationProvider.h"
 #include "istd/THierarchicalBase.h"
+#include "istd/TComposedFactory.h"
+#include "istd/TSingleFactory.h"
+#include "istd/CClassInfo.h"
+#include "iser/IObject.h"
 #include "ilog/IMessageContainer.h"
 #include "ilog/IMessageConsumer.h"
 
@@ -28,8 +32,22 @@ public:
 	CMessageContainer();
 	CMessageContainer(const CMessageContainer& container);
 
+	/**
+		Register a new message type.
+		Only messages of known (registered) types can be serialized.
+	*/
+	template <typename MessageType>
+	static bool RegisterMessageType(const QByteArray& messageTypeId = QByteArray());
+
+	/**
+		Add a child message container to this object.
+		GetMessages returns messages from this container and all its children.
+	*/
 	virtual void AddChildContainer(IHierarchicalMessageContainer* childContainerPtr);
 
+	/**
+		Set slave message consumer. All incoming messages will be delegated to this object.
+	*/
 	void SetSlaveConsumer(ilog::IMessageConsumer* consumerPtr);
 
 	/**
@@ -70,11 +88,29 @@ private:
 	Childs m_childContainers;
 
 	ilog::IMessageConsumer* m_slaveConsumerPtr;
-
 	int m_maxMessagesCount;
-
 	int m_worstCategory;
+
+	typedef istd::TComposedFactory<iser::IObject> MessageFactory;
+
+	static MessageFactory s_messageFactory;
 };
+
+
+// public static methods
+
+template <typename MessageType>
+bool CMessageContainer::RegisterMessageType(const QByteArray& messageTypeId)
+{
+	QByteArray realTypeId = messageTypeId;
+
+	if (realTypeId.isEmpty()){
+		realTypeId = istd::CClassInfo::GetName<MessageType>();
+	}
+	
+	return s_messageFactory.RegisterFactory(new istd::TSingleFactory<iser::IObject, MessageType>(realTypeId), true);
+}
+
 
 
 } // namespace ilog

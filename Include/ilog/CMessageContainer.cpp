@@ -3,10 +3,12 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
+#include "istd/IFactoryInfo.h"
 #include "istd/TDelPtr.h"
-
+#include "iser/IObject.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "ilog/CMessage.h"
 
 
 namespace ilog
@@ -58,31 +60,95 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag messagesTag("Messages", "List of messages");
 	static iser::CArchiveTag messageTag("Message", "Message");
+	static iser::CArchiveTag messageTypeIdTag("TypeId", "ID of the message type");
 
-	if (!archive.IsStoring()){
-		return false;
-	}
+	istd::IFactoryInfo::KeyList knownMessageTypes = s_messageFactory.GetFactoryKeys();
 
 	bool retVal = true;
 
 	int messageCount = int(m_messages.size());
 
-	retVal = retVal && archive.BeginMultiTag(messagesTag, messageTag, messageCount);
+	if (archive.IsStoring()){
+		int serializableMessageCount = 0;
+		for (		MessageList::ConstIterator iter = m_messages.constBegin();
+					iter != m_messages.constEnd();
+					++iter){
+			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
+			iser::IObject* messageObjectPtr = const_cast<iser::IObject*>(dynamic_cast<const iser::IObject*>(messagePtr.GetPtr()));
+			if (messageObjectPtr != NULL){
+				if (knownMessageTypes.indexOf(messageObjectPtr->GetFactoryId()) >= 0){
+					++serializableMessageCount;
+				}
+			}
+		}
+
+		messageCount = serializableMessageCount;
+	}
+
+	retVal = retVal && archive.BeginMultiTag(messagesTag, messageTag, messageCount);
 	if (!retVal){
 		return false;
 	}
 
-	for (		MessageList::ConstIterator iter = m_messages.constBegin();
-				iter != m_messages.constEnd();
-				++iter){
-		const IMessageConsumer::MessagePtr& messagePtr = *iter;
+	istd::CChangeNotifier changePtr(archive.IsStoring() ? NULL : this);
 
-		iser::ISerializable* serMessagePtr = const_cast<iser::ISerializable*>(dynamic_cast<const iser::ISerializable*>(messagePtr.GetPtr()));
+	if (archive.IsStoring()){
+		for (		MessageList::ConstIterator iter = m_messages.constBegin();
+					iter != m_messages.constEnd();
+					++iter){
+			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
-		retVal = retVal && archive.BeginTag(messageTag);
-		retVal = retVal && serMessagePtr->Serialize(archive);
-		retVal = retVal && archive.EndTag(messageTag);
+			iser::IObject* messageObjectPtr = const_cast<iser::IObject*>(dynamic_cast<const iser::IObject*>(messagePtr.GetPtr()));
+			if (messageObjectPtr != NULL){
+				QByteArray messageTypeId  = messageObjectPtr->GetFactoryId();
+				retVal = retVal && archive.BeginTag(messageTypeIdTag);
+				retVal = retVal && archive.Process(messageTypeId);
+				retVal = retVal && archive.EndTag(messageTypeIdTag);
+
+				if (archive.IsStoring()){
+					retVal = retVal && archive.BeginTag(messageTag);
+					retVal = retVal && messageObjectPtr->Serialize(archive);
+					retVal = retVal && archive.EndTag(messageTag);
+				}
+			}
+		}
+	}
+	else{
+		m_messages.clear();
+
+		for (int messageIndex = 0; messageIndex < messageCount; ++messageIndex){
+			QByteArray messageTypeId;
+			retVal = retVal && archive.BeginTag(messageTypeIdTag);
+			retVal = retVal && archive.Process(messageTypeId);
+			retVal = retVal && archive.EndTag(messageTypeIdTag);
+
+			if (retVal){
+				if (knownMessageTypes.indexOf(messageTypeId) >= 0){
+					istd::TDelPtr<iser::IObject> objectPtr(s_messageFactory.CreateInstance(messageTypeId));
+
+					if (objectPtr.IsValid()){
+						retVal = retVal && archive.BeginTag(messageTag);
+						retVal = retVal && objectPtr->Serialize(archive);
+						retVal = retVal && archive.EndTag(messageTag);
+
+						if (retVal){
+							istd::IInformationProvider* infoPtr = dynamic_cast<istd::IInformationProvider*>(objectPtr.GetPtr());
+							if (infoPtr != NULL){
+								IMessageConsumer::MessagePtr messageObjectPtr(dynamic_cast<istd::IInformationProvider*>(objectPtr.PopPtr()));
+
+								m_messages.push_back(messageObjectPtr);
+							}
+						}
+					}
+				}
+				else{
+					QString debugMessage = QString("Message type: '%1' not supported").arg(messageTypeId.constData());
+
+					qDebug(debugMessage.toUtf8());
+				}
+			}
+		}
 	}
 
 	retVal = retVal && archive.EndTag(messagesTag);
@@ -101,9 +167,9 @@ int CMessageContainer::GetWorstCategory() const
 	if (worstCategory < 0){
 		worstCategory = 0;
 
-	for (		MessageList::ConstIterator iter = m_messages.constBegin();
-				iter != m_messages.constEnd();
-				++iter){
+		for (		MessageList::ConstIterator iter = m_messages.constBegin();
+					iter != m_messages.constEnd();
+					++iter){
 			const IMessageConsumer::MessagePtr& messagePtr = *iter;
 
 			int category = messagePtr->GetInformationCategory();
@@ -265,6 +331,20 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 
 	return false;
 }
+
+
+// private static members
+
+CMessageContainer::MessageFactory CMessageContainer::s_messageFactory;
+
+static struct DefaultMessageTypesRegistrator
+{
+	DefaultMessageTypesRegistrator()
+	{
+		CMessageContainer::RegisterMessageType<CMessage>();
+	}
+
+} s_defaultPropertyTypesRegistrator;
 
 
 } // namespace ilog
