@@ -96,18 +96,38 @@ iimg::IBitmap::PixelFormat CBitmap::GetPixelFormat() const
 
 bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
 {
+	if (size.IsSizeEmpty()){
+		ResetImage();
+
+		return true;
+	}
+
 	istd::CChangeNotifier changePtr(this);
 
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image(size.GetX(), size.GetY(), imageFormat);
 
+		Q_ASSERT(!image.isNull());
+		if (image.isNull()){
+			return false;
+		}
+
 		image.setDotsPerMeterX(1000);
 		image.setDotsPerMeterY(1000);
 
 		m_externalBuffer.Reset();
 
-		return SetQImage(image);
+		bool retVal = SetQImage(image);
+		if (retVal){
+			Q_ASSERT(!m_image.isNull());
+			Q_ASSERT(size == GetImageSize());
+			if (m_image.isNull() || size != GetImageSize()){
+				return false;
+			}
+		}
+
+		return retVal;
 	}
 
 	return false;
