@@ -28,7 +28,6 @@ public:
 		I_ASSIGN(m_importantPenWidthAttrPtr, "ImportantPenWidth", "Important pen width", false, 1.5);
 		I_ASSIGN(m_orientDarkPenColorAttrPtr, "OrientDarkPenColor", "OrientDark pen color", false, "black");
 		I_ASSIGN(m_orientBrightPenColorAttrPtr, "OrientBrightPenColor", "OrientBright pen color", false, "white");
-
 		I_ASSIGN(m_normalBrushColorAttrPtr, "NormalBrushColor", "Normal brush color", false, "rosybrown");
 		I_ASSIGN(m_selectedBrushColorAttrPtr, "SelectedBrushColor", "Selected brush color", false, "lightpink");	
 		I_ASSIGN(m_selectedTickerBrushColorAttrPtr, "SelectedTickerBrushColor", "Selected ticker brush color", false, "lightcoral");
@@ -37,21 +36,20 @@ public:
 	I_END_COMPONENT;
 
 protected:
-	I_ATTR(QString, m_normalPenColorAttrPtr);
-	I_ATTR(QString, m_selectedPenColorAttrPtr);
+	I_ATTR(QByteArray, m_normalPenColorAttrPtr);
+	I_ATTR(QByteArray, m_selectedPenColorAttrPtr);
 	I_ATTR(double, m_selectedPenWidthAttrPtr);
-	I_ATTR(QString, m_selectedTickerPenColorAttrPtr);
-	I_ATTR(QString, m_tickerPenColorAttrPtr);
-	I_ATTR(QString, m_importantPenColorAttrPtr);
+	I_ATTR(QByteArray, m_selectedTickerPenColorAttrPtr);
+	I_ATTR(QByteArray, m_tickerPenColorAttrPtr);
+	I_ATTR(QByteArray, m_importantPenColorAttrPtr);
 	I_ATTR(double, m_importantPenWidthAttrPtr);
-	I_ATTR(QString, m_orientDarkPenColorAttrPtr);
-	I_ATTR(QString, m_orientBrightPenColorAttrPtr);
-
-	I_ATTR(QString, m_normalBrushColorAttrPtr);
-	I_ATTR(QString, m_selectedBrushColorAttrPtr);
-	I_ATTR(QString, m_selectedTickerBrushColorAttrPtr);
-	I_ATTR(QString, m_tickerBrushColorAttrPtr);
-	I_ATTR(QString, m_importantBrushColorAttrPtr);	
+	I_ATTR(QByteArray, m_orientDarkPenColorAttrPtr);
+	I_ATTR(QByteArray, m_orientBrightPenColorAttrPtr);
+	I_ATTR(QByteArray, m_normalBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_selectedBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_selectedTickerBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_tickerBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_importantBrushColorAttrPtr);	
 };
 
 
@@ -74,9 +72,9 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
-	I_ATTR(QString, m_halfTransparentBrushColorAttrPtr);
-	I_ATTR(QString, m_halfTransparent2BrushColorAttrPtr);
-	I_ATTR(QString, m_backgroundBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_halfTransparentBrushColorAttrPtr);
+	I_ATTR(QByteArray, m_halfTransparent2BrushColorAttrPtr);
+	I_ATTR(QByteArray, m_backgroundBrushColorAttrPtr);
 	
 };
 
