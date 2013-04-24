@@ -235,6 +235,8 @@ bool CSystem::FileCopy(const QString& source, const QString& result, bool overWr
 	}
 
 	QFileInfo resultFile(result);
+	resultFile.setCaching(false);
+
 	const QDir&  resultDir = resultFile.absoluteDir();
 	if (!resultDir.exists())
 	{

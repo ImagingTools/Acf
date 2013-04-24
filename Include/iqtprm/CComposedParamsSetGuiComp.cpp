@@ -11,14 +11,10 @@
 
 // ACF includes
 #include "istd/CChangeDelegator.h"
-
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
-
 #include "iqt/CSignalBlocker.h"
-
 #include "iview/IShapeView.h"
-
 #include "iqt2d/IViewProvider.h"
 
 
@@ -27,14 +23,13 @@ namespace iqtprm
 
 
 CComposedParamsSetGuiComp::CComposedParamsSetGuiComp()
-: m_currentGuiIndex(-1),
-m_guiContainerPtr(NULL)
+	:m_currentGuiIndex(-1),
+	m_guiContainerPtr(NULL)
 {
 }
 
 
 // reimplemented (imod::IModelEditor)
-
 
 void CComposedParamsSetGuiComp::UpdateModel() const
 {
