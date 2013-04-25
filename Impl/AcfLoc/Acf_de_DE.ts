@@ -1093,7 +1093,7 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>Type filter text here...</source>
-        <translation>Bitten den Filtertext hier eintippen...</translation>
+        <translation>Bitte den Filtertext hier eintippen...</translation>
     </message>
     <message>
         <source>...</source>
