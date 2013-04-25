@@ -35,8 +35,13 @@ I_EXPORT_COMPONENT(
 
 I_EXPORT_COMPONENT(
 			FileListProvider,
-			"Provide list of file synchronized with some directory",
+			"Provides list of file synchronized with some directory",
 			"List Provider Directory");
+
+I_EXPORT_COMPONENT(
+			FileTreeProvider,
+			"Provides files tree synchronized with some directory",
+			"Tree Provider Directory");
 
 I_EXPORT_COMPONENT(
 			AutoPersistence,

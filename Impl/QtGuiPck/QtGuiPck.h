@@ -36,6 +36,7 @@
 #include "iqtgui/CTableBasedModelEditorComp.h"
 #include "iqtgui/CStatusGuiComp.h"
 #include "iqtgui/CSettingsContainerGuiComp.h"
+#include "iqtgui/CFileTreeProviderGuiComp.h"
 
 #include "iqtprm/CFileNameParamGuiComp.h"
 #include "iqtprm/CComposedParamsSetGuiComp.h"
@@ -100,6 +101,7 @@ typedef iqtgui::CProgressManagerGuiComp ProgressManagerGui;
 typedef iqtgui::CTableBasedModelEditorComp TableBasedModelEditor;
 typedef iqtgui::CStatusGuiComp StatusGui;
 typedef iqtgui::CSettingsContainerGuiComp SettingsContainerGui;
+typedef iqtgui::CFileTreeProviderGuiComp FileTreeProviderGui;
 
 typedef iqtprm::CComposedParamsSetGuiComp ComposedParamsSetGui;
 typedef iqtprm::CVariableParamGuiComp VariableParamGui;

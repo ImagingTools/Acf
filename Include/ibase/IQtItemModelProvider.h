@@ -2,6 +2,9 @@
 #define ibase_IItemModelProvider_included
 
 
+// Qt includes
+#include <QtCore/QAbstractItemModel>
+
 // ACF includes
 #include "istd/IPolymorphic.h"
 

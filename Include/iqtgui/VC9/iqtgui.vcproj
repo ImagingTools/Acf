@@ -253,6 +253,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileTreeProviderGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFreeWidgetGuiComp.cpp"
 				>
 			</File>
@@ -428,6 +432,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystemExplorerGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTreeProviderGuiComp.h"
 				>
 			</File>
 			<File
@@ -674,6 +682,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\moc_CFileTreeProviderGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CHierarchicalCommand.cpp"
 				>
 			</File>
@@ -730,6 +742,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\ui_CFileTreeProviderGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\ui_CImagePropertiesFrameComp.h"
 				>
 			</File>
@@ -767,6 +783,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystemExplorerGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTreeProviderGuiComp.ui"
 				>
 			</File>
 			<File
@@ -827,6 +847,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSystemExplorerGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTreeProviderGuiComp.moc"
 				>
 			</File>
 			<File

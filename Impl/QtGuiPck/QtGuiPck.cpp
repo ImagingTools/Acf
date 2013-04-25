@@ -277,6 +277,11 @@ I_EXPORT_COMPONENT(
 			"Allows to manage different types of parameter sets",
 			"Model Observer Parameters Set Manager");
 
+I_EXPORT_COMPONENT(
+			FileTreeProviderGui,
+			"UI for showing a tree of files",
+			"File Tree");
+
 
 } // namespace QtGuiPck
 
