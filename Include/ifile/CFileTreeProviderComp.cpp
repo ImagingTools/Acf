@@ -36,8 +36,8 @@ bool CFileTreeProviderComp::CreateFileList(
 	QStringList files = dir.entryList(nameFilters, QDir::Files, sortSpec);
 
 	for (		QStringList::const_iterator fileIter = files.begin();
-		fileIter != files.end();
-		++fileIter){
+				fileIter != files.end();
+				++fileIter){
 			const QString& fileName = *fileIter;
 
 			QString filePath = dir.absoluteFilePath(fileName);
