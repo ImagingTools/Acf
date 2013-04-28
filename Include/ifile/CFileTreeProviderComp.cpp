@@ -136,8 +136,8 @@ void CFileTreeProviderComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*
 			QStringList extensions;
 			if (m_fileTypeInfoCompPtr->GetFileExtensions(extensions)){
 				for (		QStringList::const_iterator extIter = extensions.begin();
-					extIter != extensions.end();
-					++extIter){
+							extIter != extensions.end();
+							++extIter){
 						const QString& extension = *extIter;
 
 						filters << "*." + extension;
