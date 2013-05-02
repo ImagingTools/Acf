@@ -1,0 +1,280 @@
+#include "iqtgui/CFileTreeViewGuiComp.h"
+
+
+namespace iqtgui
+{
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+void CFileTreeViewGuiComp::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	m_fileModelUpdateAllowed = true;
+
+	if (m_currentFileCompPtr.IsValid() && m_currentFileModelCompPtr.IsValid()){
+		RegisterModel(m_currentFileModelCompPtr.GetPtr());
+	}
+}
+
+
+void CFileTreeViewGuiComp::OnComponentDestroyed()
+{
+	UnregisterAllModels();
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// reimplemented (CGuiComponentBase)
+
+void CFileTreeViewGuiComp::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	FileList->setModel(&m_itemModel);
+
+	QItemSelectionModel* selectionModelPtr = FileList->selectionModel();
+	if (selectionModelPtr != NULL){
+		connect(selectionModelPtr,
+			SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+			this,
+			SLOT(OnSelectionChanged(const QItemSelection&, const QItemSelection&)));
+	}
+}
+
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+void CFileTreeViewGuiComp::UpdateGui(int /*updateFlags*/)
+{
+	Q_ASSERT(IsGuiCreated());
+
+	RebuildTreeModel();
+
+	UpdateCurrentSelection();
+}
+
+
+// reimplemented (imod::CMultiModelDispatcherBase)
+
+void CFileTreeViewGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	UpdateCurrentSelection();
+}
+
+
+// private slots
+
+void CFileTreeViewGuiComp::OnSelectionChanged(const QItemSelection& selected, const QItemSelection&/* deselected*/)
+{
+	UpdateBlocker updateBlocker(this);
+
+	if (!selected.indexes().isEmpty() && m_currentFileCompPtr.IsValid()){
+			QModelIndex selectedIndex = selected.indexes().at(0);
+
+			QString currentFilePath = m_itemModel.data(selectedIndex, DR_PATH).toString();
+			QFileInfo fileInfo(currentFilePath);
+
+			bool isFile = fileInfo.isFile();
+			bool isDir = fileInfo.isDir();
+
+			int selectedFileType = ifile::IFileNameParam::PT_UNKNOWN;
+
+			if (isFile){
+				selectedFileType = ifile::IFileNameParam::PT_FILE;
+			}
+
+			if (isDir){
+				selectedFileType = ifile::IFileNameParam::PT_DIRECTORY;
+			}
+
+			int supportedPathType = m_currentFileCompPtr->GetPathType();
+			if ((supportedPathType == ifile::IFileNameParam::PT_UNKNOWN) || (supportedPathType == selectedFileType)){
+				m_fileModelUpdateAllowed = false;
+
+				m_currentFileCompPtr->SetPath(currentFilePath);
+
+				m_fileModelUpdateAllowed = true;
+
+				return;
+			}
+	}
+
+	m_currentFileCompPtr->SetPath("");
+}
+
+
+void CFileTreeViewGuiComp::on_Refresh_clicked()
+{
+	// update tree
+	RebuildTreeModel();
+
+	// update selection
+	UpdateCurrentSelection();
+}
+
+
+// private members
+
+void CFileTreeViewGuiComp::RebuildTreeModel()
+{
+	m_itemModel.clear();
+
+	ifile::IFileNameParam* rootDirPtr = GetObjectPtr();
+	if (rootDirPtr == NULL){
+		return;
+	}
+
+	m_itemModel.setColumnCount(1);
+	m_itemModel.setHorizontalHeaderItem(0, new QStandardItem(tr("File")));
+
+	QStringList filters;
+
+	if (m_fileTypeInfoCompPtr.IsValid()){
+		QStringList extensions;
+		if (m_fileTypeInfoCompPtr->GetFileExtensions(extensions)){
+			for (		QStringList::const_iterator extIter = extensions.begin();
+				extIter != extensions.end();
+				++extIter){
+					const QString& extension = *extIter;
+
+					filters << "*." + extension;
+			}
+		}
+	}
+	else{
+		int filtersCount = m_filtersAttrPtr.GetCount();
+		for (int filterIndex = 0; filterIndex < filtersCount; ++filterIndex){
+			filters << m_filtersAttrPtr[filterIndex];
+		}
+	}
+
+	CreateDirectoryList(rootDirPtr->GetPath(),
+		filters,
+		QDir::Name | QDir::IgnoreCase,
+		NULL);
+}
+
+
+void CFileTreeViewGuiComp::UpdateCurrentSelection()
+{
+	if (!m_fileModelUpdateAllowed){
+		return;
+	}
+
+	UpdateBlocker updateBlocker(this);
+
+	QString currentPath = m_currentFileCompPtr->GetPath();
+
+	QModelIndexList indexes = m_itemModel.match(m_itemModel.index(0,0), DR_PATH, currentPath, 1, 
+		Qt::MatchFixedString | Qt::MatchRecursive | Qt::MatchWrap);
+	if (!indexes.isEmpty()){
+		QItemSelectionModel* selectionModelPtr = FileList->selectionModel();
+		if (selectionModelPtr != NULL){
+			selectionModelPtr->setCurrentIndex(indexes.first(), QItemSelectionModel::ClearAndSelect);
+		}			
+	}
+}
+
+
+bool CFileTreeViewGuiComp::CreateFileList(
+	const QDir& root,
+	const QStringList& nameFilters,
+	QDir::SortFlags sortSpec,
+	QStandardItem* parentItemPtr)
+{
+	QDir dir(root.absolutePath());
+	dir.setFilter(QDir::Files);
+
+	QStringList files = dir.entryList(nameFilters, QDir::Files, sortSpec);
+
+	for (		QStringList::const_iterator fileIter = files.begin();
+		fileIter != files.end();
+		++fileIter){
+			const QString& fileName = *fileIter;
+
+			QString filePath = dir.absoluteFilePath(fileName);
+
+			QStandardItem* fileItemPtr = new QStandardItem(fileName);
+			fileItemPtr->setEditable(false);
+			fileItemPtr->setIcon(m_iconProvider.icon(QFileInfo(filePath)));
+			fileItemPtr->setData(filePath, DR_PATH);
+
+			if (parentItemPtr != NULL)
+				parentItemPtr->appendRow(fileItemPtr);
+			else
+				m_itemModel.appendRow(fileItemPtr);
+	}
+
+	return true;
+}
+
+
+bool CFileTreeViewGuiComp::CreateDirectoryList(
+	const QDir& root,
+	const QStringList& nameFilters,
+	QDir::SortFlags sortSpec,
+	QStandardItem* parentItemPtr)
+{
+	QString rootPath = root.absolutePath();
+
+	if (rootPath.isEmpty()){
+		return false;
+	}
+
+	QFileInfo fileInfo(rootPath);
+	if (!fileInfo.isDir()){
+		return false;
+	}
+
+	EnumerateDirectory(root, nameFilters, sortSpec, parentItemPtr);
+
+	CreateFileList(root, nameFilters, sortSpec, parentItemPtr);
+
+	return true;
+}
+
+
+void CFileTreeViewGuiComp::EnumerateDirectory(
+	const QDir& root,
+	const QStringList& nameFilters,
+	QDir::SortFlags sortSpec,
+	QStandardItem* parentItemPtr)
+{
+	QString rootPath = root.absolutePath();
+
+	QStringList entries = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+
+	for (		QStringList::const_iterator iter = entries.begin();
+		iter != entries.end();
+		++iter){
+			const QString& subDirName = *iter;
+
+			QDir subDir = root;
+			subDir.setPath(root.absoluteFilePath(subDirName));
+
+			QStandardItem* dirItemPtr = new QStandardItem(subDirName);
+			dirItemPtr->setEditable(false);
+			dirItemPtr->setIcon(m_iconProvider.icon(QFileIconProvider::Folder));
+			dirItemPtr->setData(subDir.absolutePath(), DR_PATH);
+
+			if (parentItemPtr != NULL)
+				parentItemPtr->appendRow(dirItemPtr);
+			else{
+				m_itemModel.appendRow(dirItemPtr);
+			}
+
+			EnumerateDirectory(subDir, nameFilters, sortSpec, dirItemPtr);
+
+			CreateFileList(subDir, nameFilters, sortSpec, dirItemPtr);
+	}
+}
+
+
+} // namespace iqtgui
+
+

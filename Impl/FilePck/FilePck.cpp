@@ -39,11 +39,6 @@ I_EXPORT_COMPONENT(
 			"List Provider Directory");
 
 I_EXPORT_COMPONENT(
-			FileTreeProvider,
-			"Provides files tree synchronized with some directory",
-			"Tree Provider Directory");
-
-I_EXPORT_COMPONENT(
 			AutoPersistence,
 			"Allows object persistence using files",
 			"Free Create Store Restore Load Save" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Persistence File"));

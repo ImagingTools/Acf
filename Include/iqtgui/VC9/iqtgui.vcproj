@@ -253,7 +253,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileTreeProviderGuiComp.cpp"
+				RelativePath="..\CFileTreeViewGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -435,7 +435,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileTreeProviderGuiComp.h"
+				RelativePath="..\CFileTreeViewGuiComp.h"
 				>
 			</File>
 			<File
@@ -682,7 +682,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFileTreeProviderGuiComp.cpp"
+				RelativePath="..\Generated\moc_CFileTreeViewGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -742,7 +742,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFileTreeProviderGuiComp.h"
+				RelativePath="..\Generated\ui_CFileTreeViewGuiComp.h"
 				>
 			</File>
 			<File
@@ -786,7 +786,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CFileTreeProviderGuiComp.ui"
+				RelativePath="..\CFileTreeViewGuiComp.ui"
 				>
 			</File>
 			<File
@@ -851,6 +851,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileTreeProviderGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileTreeViewGuiComp.moc"
 				>
 			</File>
 			<File
