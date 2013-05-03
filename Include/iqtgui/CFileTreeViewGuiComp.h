@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QDir>
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QFileIconProvider>
 
 
@@ -51,7 +52,8 @@ public:
 	I_END_COMPONENT;
 
 	enum DataRoles{
-		DR_PATH = Qt::UserRole + 1
+		DR_PATH = Qt::UserRole + 1,
+		DR_ISDIR
 	};
 
 protected:
@@ -71,6 +73,7 @@ protected:
 private Q_SLOTS:
 	void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 	void on_Refresh_clicked();
+	void on_FilterText_textChanged(QString filterText);
 
 private:
 	void RebuildTreeModel();
@@ -121,12 +124,29 @@ private:
 		return &component.m_currentFile;
 	}
 
+	class FilterProxyModel: public QSortFilterProxyModel
+	{
+	protected:
+		virtual bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+		{
+			QModelIndex itemIndex = sourceModel()->index(source_row, 0, source_parent);
+			if (itemIndex.data(DR_ISDIR).toBool() && sourceModel()->hasChildren(itemIndex)){
+				return true;
+			}
+
+			return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
+		}
+	};
+
 	bool m_fileModelUpdateAllowed;
 	int m_filesCount;
 	int m_dirsCount;
 
 	mutable QStandardItemModel m_itemModel;
+	mutable FilterProxyModel m_filterModel;
 	QFileIconProvider m_iconProvider;
+
+	mutable QMap<QString, QIcon> m_extToIconMap;
 
 	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoCompPtr);
 	I_MULTIATTR(QString, m_filtersAttrPtr);
