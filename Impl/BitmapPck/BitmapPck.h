@@ -8,6 +8,7 @@
 #include "iimg/CBitmap.h"
 #include "iimg/CBitmapSurface.h"
 #include "iimg/CBitmapLoaderComp.h"
+#include "iimg/CGeneralBitmap.h"
 
 
 /**
@@ -24,6 +25,15 @@ typedef icomp::TModelCompWrap<
 						iimg::IRasterImage,
 						ibase::IObjectSnap,
 						iser::ISerializable> > Bitmap;
+
+typedef icomp::TModelCompWrap<
+			icomp::TMakeComponentWrap<
+						iimg::CGeneralBitmap,
+						iimg::IBitmap,
+						iimg::IRasterImage,
+						ibase::IObjectSnap,
+						iser::ISerializable> > GeneralBitmap;
+
 typedef icomp::TModelCompWrap<
 			icomp::TMakeComponentWrap<
 						iimg::CBitmapSurface,
@@ -31,6 +41,7 @@ typedef icomp::TModelCompWrap<
 						iimg::IRasterImage,
 						iser::ISerializable,
 						imath::ISampledFunction2d> > BitmapSurface;
+
 typedef iimg::CBitmapLoaderComp BitmapLoader;
 
 

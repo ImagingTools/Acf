@@ -19,6 +19,11 @@ I_EXPORT_COMPONENT(
 			"QImage" IM_TAG("Image Model"));
 
 I_EXPORT_COMPONENT(
+			GeneralBitmap,
+			"Buffer based bitmap implementation",
+			"Bitmap" IM_TAG("Image Model"));
+
+I_EXPORT_COMPONENT(
 			BitmapSurface,
 			"QImage based bitmap implementation with surface extension",
 			"Sampled Function QImage Surface" IM_TAG("Image Model 3D"));

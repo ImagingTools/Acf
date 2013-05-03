@@ -118,6 +118,11 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
 
 		m_externalBuffer.Reset();
 
+		Q_ASSERT(!image.isNull());
+		if (image.isNull()){
+			return false;
+		}
+
 		return SetQImage(image);
 	}
 
