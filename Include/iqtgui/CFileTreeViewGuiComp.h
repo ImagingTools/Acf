@@ -5,6 +5,10 @@
 // Qt includes
 #include <QtCore/QDir>
 #include <QtCore/QTimer>
+#include <QtCore/QElapsedTimer>
+#include <QtCore/QThread>
+#include <QtCore/QMutexLocker>
+
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QFileIconProvider>
 
@@ -74,10 +78,12 @@ protected:
 private Q_SLOTS:
 	void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 	void on_Refresh_clicked();
+	void OnTreeModelUpdated();
 	void on_FilterText_textChanged(QString filterText);
 
 private:
 	void RebuildTreeModel();
+	void DoTreeModelUpdate();
 	void UpdateCurrentSelection();
 
 	/**
@@ -125,6 +131,31 @@ private:
 		return &component.m_currentFile;
 	}
 
+
+	class InternalThread: public QThread
+	{
+	public:
+		InternalThread(CFileTreeViewGuiComp* parentPtr): QThread(parentPtr), 
+			m_parentPtr(parentPtr)
+		{
+		}
+
+		// reimplemented (QThread)
+		virtual void run()
+		{
+			m_parentPtr->DoTreeModelUpdate();
+		}
+
+	private:
+		CFileTreeViewGuiComp* m_parentPtr;
+	};
+
+	friend class InternalThread;
+	InternalThread* m_internalThreadPtr;
+
+	QMutex m_lock;
+
+
 	bool m_fileModelUpdateAllowed;
 	int m_filesCount;
 	int m_dirsCount;
@@ -136,6 +167,7 @@ private:
 
 	QString m_userFilter;
 	QTimer m_filterTimer;
+	QElapsedTimer m_performanceTimer;
 
 	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoCompPtr);
 	I_MULTIATTR(QString, m_filtersAttrPtr);

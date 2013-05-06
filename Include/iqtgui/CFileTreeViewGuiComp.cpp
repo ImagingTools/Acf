@@ -3,11 +3,6 @@
 
 #define PERFORMANCE_TEST
 
-// Qt includes
-#ifdef PERFORMANCE_TEST
-#include <QElapsedTimer>
-#endif
-
 
 namespace iqtgui
 {
@@ -52,6 +47,9 @@ void CFileTreeViewGuiComp::OnGuiCreated()
 	}
 
 	connect(&m_filterTimer, SIGNAL(timeout()), this, SLOT(on_Refresh_clicked()));
+
+	m_internalThreadPtr = new InternalThread(this);
+	connect(m_internalThreadPtr, SIGNAL(finished()), this, SLOT(OnTreeModelUpdated()));
 }
 
 
@@ -62,8 +60,6 @@ void CFileTreeViewGuiComp::UpdateGui(int /*updateFlags*/)
 	Q_ASSERT(IsGuiCreated());
 
 	RebuildTreeModel();
-
-	UpdateCurrentSelection();
 }
 
 
@@ -118,8 +114,27 @@ void CFileTreeViewGuiComp::OnSelectionChanged(const QItemSelection& selected, co
 
 void CFileTreeViewGuiComp::on_Refresh_clicked()
 {
-	// update tree
+	// update tree via QThread
 	RebuildTreeModel();
+}
+
+
+void CFileTreeViewGuiComp::OnTreeModelUpdated()
+{
+	QString infoText = QString("Files: %1  Dirs: %2").arg(m_filesCount).arg(m_dirsCount);
+
+#ifdef PERFORMANCE_TEST
+	infoText += QString("  Time: %1 ms").arg(m_performanceTimer.nsecsElapsed() / 1000000.0);
+#endif
+
+	InfoLabel->setText(infoText);
+
+	GetQtWidget()->setEnabled(true);
+
+	FileList->expandAll();
+	FileList->setUpdatesEnabled(true);
+
+	FilterText->setFocus();
 
 	// update selection
 	UpdateCurrentSelection();
@@ -130,7 +145,7 @@ void CFileTreeViewGuiComp::on_FilterText_textChanged(QString filterText)
 {
 	m_userFilter = filterText.trimmed();
 
-	m_filterTimer.start(250);
+	m_filterTimer.start(500);
 }
 
 
@@ -141,19 +156,29 @@ void CFileTreeViewGuiComp::RebuildTreeModel()
 	m_filterTimer.stop();
 
 #ifdef PERFORMANCE_TEST
-	QElapsedTimer timeout;
-	timeout.start();
+	m_performanceTimer.start();
 #endif
+
+	GetQtWidget()->setEnabled(false);
 
 	FileList->setUpdatesEnabled(false);
 
 	m_itemModel.clear();
 	m_filesCount = m_dirsCount = 0;
 
+	// this will start DoTreeModelUpdate() in the separate thread.
+	m_internalThreadPtr->start();
+
+	// after update is finished, OnTreeModelUpdated() will be invoked.
+}
+
+
+void CFileTreeViewGuiComp::DoTreeModelUpdate()
+{
+	QMutexLocker lock(&m_lock);
+
 	ifile::IFileNameParam* rootDirPtr = GetObjectPtr();
 	if (rootDirPtr == NULL){
-		FileList->setUpdatesEnabled(true);
-
 		return;
 	}
 
@@ -185,21 +210,13 @@ void CFileTreeViewGuiComp::RebuildTreeModel()
 		filters,
 		QDir::Name | QDir::IgnoreCase,
 		NULL);
-
-	FileList->setUpdatesEnabled(true);
-
-	QString infoText = QString("Files: %1  Dirs: %2").arg(m_filesCount).arg(m_dirsCount);
-
-#ifdef PERFORMANCE_TEST
-	infoText += QString("  Time: %1 ms").arg(timeout.nsecsElapsed() / 1000000.0);
-#endif
-
-	InfoLabel->setText(infoText);
 }
 
 
 void CFileTreeViewGuiComp::UpdateCurrentSelection()
 {
+	QMutexLocker lock(&m_lock);
+
 	if (!m_fileModelUpdateAllowed){
 		return;
 	}
