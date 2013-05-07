@@ -1,6 +1,10 @@
 #include "ifile/CAutoPersistenceComp.h"
 
 
+// Qt includes
+#include <QtCore>
+
+
 namespace ifile
 {
 
