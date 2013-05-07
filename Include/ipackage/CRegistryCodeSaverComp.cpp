@@ -1310,7 +1310,9 @@ bool CRegistryCodeSaverComp::WriteComponentTranslation(
 							}
 
 							NextLine(stream);
-							stream << "QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttribute->GetValue()) << "); // Attribute " << attributeId << " in " << componentId;
+							stream << "#define TRANSLATED_TEXT QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttribute->GetValue()) << "); // Attribute " << attributeId << " in " << componentId;
+							NextLine(stream);
+							stream << "#undef TRANSLATED_TEXT";
 
 							translationFound = true;
 							continue;
@@ -1325,7 +1327,9 @@ bool CRegistryCodeSaverComp::WriteComponentTranslation(
 								}
 
 								NextLine(stream);
-								stream << "QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttributePtr->GetValueAt(index)) << "); // Attribute " << attributeId << " in " << componentId;
+								stream << "#define TRANSLATED_TEXT QT_TRANSLATE_NOOP(\"Attribute\", " << GetStringLiteral(stringAttributePtr->GetValueAt(index)) << "); // Attribute " << attributeId << " in " << componentId;
+								NextLine(stream);
+								stream << "#undef TRANSLATED_TEXT";
 
 								translationFound = true;
 							}
