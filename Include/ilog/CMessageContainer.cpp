@@ -14,6 +14,9 @@
 namespace ilog
 {
 
+	
+I_REGISTER_MESSAGE_TYPE(CMessage)
+
 
 CMessageContainer::CMessageContainer()
 :	m_slaveConsumerPtr(NULL),
@@ -336,15 +339,6 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 // private static members
 
 CMessageContainer::MessageFactory CMessageContainer::s_messageFactory;
-
-static struct DefaultMessageTypesRegistrator
-{
-	DefaultMessageTypesRegistrator()
-	{
-		CMessageContainer::RegisterMessageType<CMessage>();
-	}
-
-} s_defaultPropertyTypesRegistrator;
 
 
 } // namespace ilog
