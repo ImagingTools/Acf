@@ -15,8 +15,6 @@ namespace ilog
 {
 
 	
-I_REGISTER_MESSAGE_TYPE(CMessage)
-
 
 CMessageContainer::CMessageContainer()
 :	m_slaveConsumerPtr(NULL),
@@ -339,6 +337,8 @@ bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityM
 // private static members
 
 CMessageContainer::MessageFactory CMessageContainer::s_messageFactory;
+
+I_REGISTER_MESSAGE_TYPE(CMessage)
 
 
 } // namespace ilog

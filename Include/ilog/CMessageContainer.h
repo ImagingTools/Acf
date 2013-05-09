@@ -119,7 +119,7 @@ static struct DefaultMessageTypesRegistrator_##messageType\
 {\
 	DefaultMessageTypesRegistrator_##messageType()\
 	{\
-		ilog::CMessageContainer::RegisterMessageType<ilog::CMessage>();\
+		ilog::CMessageContainer::RegisterMessageType<messageType>();\
 	}\
 } s_defaultMessageTypesRegistrator_##messageType;
 
