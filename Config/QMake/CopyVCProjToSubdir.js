@@ -5,6 +5,8 @@
 var qmakeDirName = "QMake"
 var projectExt = "vcproj";
 var projectExp = new RegExp(".*\." + projectExt + "$");
+var projectNewExt = "vcxproj";
+var projectNewExp = new RegExp(".*\." + projectNewExt + "$");
 var solutionExt = "sln";
 var solutionExp = new RegExp(".*\." + solutionExt + "$");
 
@@ -26,7 +28,7 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName)
     		for (; !fileIter.atEnd(); fileIter.moveNext()){
         		var file = fileIter.item();
 
-    		    if (projectExp.exec(file.Name)){
+        		if (projectExp.exec(file.Name) || projectNewExp.exec(file.Name)){
                     // Move project to destination dir
     		        var outputPath = destDir + "\\" + file.Name;
 
