@@ -48,7 +48,9 @@ public:
 			return true;
 		}
 		else{
-			Accessor::Delete(pointer);
+			if (pointer != NULL){
+				delete pointer;
+			}
 
 			return false;
 		}
