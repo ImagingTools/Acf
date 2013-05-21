@@ -5,12 +5,9 @@
 // Qt includes
 #include <QtGui/QWidget>
 
-
 // ACF includes
 #include "imod/TSingleModelObserverBase.h"
-
 #include "ibase/TModelObserverCompWrap.h"
-
 #include "iqtgui/TGuiObserverWrap.h"
 #include "iqtgui/TDesignerGuiCompBase.h"
 
