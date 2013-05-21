@@ -2,11 +2,11 @@
 #define idoc_CTextDocumentComp_included
 
 
-// ACF includes
+// Qt includes
 #include <QtCore/QString>
 
+// ACF includes
 #include "icomp/CComponentBase.h"
-
 #include "idoc/ITextDocument.h"
 
 

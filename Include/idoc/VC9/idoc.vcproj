@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CStandardDocumentMetaInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTextDocumentComp.cpp"
 				>
 			</File>
@@ -237,6 +241,10 @@
 			</File>
 			<File
 				RelativePath="..\CSingleDocumentTemplateComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CStandardDocumentMetaInfo.h"
 				>
 			</File>
 			<File

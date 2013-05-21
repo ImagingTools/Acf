@@ -1,0 +1,47 @@
+#ifndef idoc_CStandardDocumentMetaInfo_included
+#define idoc_CStandardDocumentMetaInfo_included
+
+
+// Qt includes
+#include <QtCore/QMap>
+
+// ACF includes
+#include "iser/ISerializable.h"
+#include "idoc/IDocumentMetaInfo.h"
+
+
+namespace idoc
+{
+
+
+/**
+	Simple implementation of a text document model.
+*/
+class CStandardDocumentMetaInfo:
+			virtual public IDocumentMetaInfo,
+			virtual public iser::ISerializable
+{
+public:
+	// reimplemented (IDocumentMetaInfo)
+	virtual MetaInfoTypes GetSupportedMetaInfoTypes() const;
+	virtual QVariant GetDocumentMetaInfo(MetaInfoType metaInfoType) const;
+	virtual bool SetDocumentMetaInfo(MetaInfoType metaInfoType, const QVariant& metaInfo);
+	virtual QString GetMetaInfoName(MetaInfoType metaInfoType) const;
+	virtual QString GetMetaInfoDescription(MetaInfoType metaInfoType) const;
+
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
+private:
+	typedef QMap<int, QVariant> MetaInfoMap;
+
+	QMap<int, QVariant> m_infosMap;
+};
+
+
+} // namespace idoc
+
+
+#endif // !idoc_CStandardDocumentMetaInfo_included
+
+

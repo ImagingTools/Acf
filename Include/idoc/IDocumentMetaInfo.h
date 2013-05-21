@@ -66,6 +66,11 @@ public:
 	virtual QVariant GetDocumentMetaInfo(MetaInfoType metaInfoType) const = 0;
 
 	/**
+		Set new document's meta information for a given meta type.
+	*/
+	virtual bool SetDocumentMetaInfo(MetaInfoType metaInfoType, const QVariant& metaInfo) = 0;
+
+	/**
 		Get a human readable name for a given meta information type.
 	*/
 	virtual QString GetMetaInfoName(MetaInfoType metaInfoType) const = 0;
