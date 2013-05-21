@@ -118,7 +118,7 @@ private:
 		// reimplemented (ifile::IFileNameParam)
 		virtual int GetPathType() const
 		{
-			return PT_UNKNOWN;
+			return PT_FILE;
 		}
 	};
 

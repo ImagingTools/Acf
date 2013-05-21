@@ -216,11 +216,11 @@ void CFileTreeViewGuiComp::DoTreeModelUpdate()
 
 void CFileTreeViewGuiComp::UpdateCurrentSelection()
 {
-	QMutexLocker lock(&m_lock);
-
 	if (!m_fileModelUpdateAllowed){
 		return;
 	}
+
+	QMutexLocker lock(&m_lock);
 
 	UpdateBlocker updateBlocker(this);
 

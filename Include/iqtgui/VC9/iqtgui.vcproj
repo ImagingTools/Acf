@@ -257,6 +257,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFlowLayout.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFreeWidgetGuiComp.cpp"
 				>
 			</File>
@@ -436,6 +440,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileTreeViewGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFlowLayout.h"
 				>
 			</File>
 			<File
