@@ -17,7 +17,7 @@ namespace icmm
 
 // reimplemented (icmm::IColorTransformation)
 
-bool CRgbToHsvTranformation::GetValueAt(const ArgumentType& argument, ResultType& result) const
+bool CRgbToHsvTranformation::GetValueAt(const icmm::CVarColor& argument, icmm::CVarColor& result) const
 {
 	if (argument.GetElementsCount() != icmm::CRgb::GetElementsCount()){
 		return false;
@@ -73,9 +73,9 @@ bool CRgbToHsvTranformation::GetValueAt(const ArgumentType& argument, ResultType
 }
 
 
-CRgbToHsvTranformation::ResultType CRgbToHsvTranformation::GetValueAt(const ArgumentType& argument) const
+icmm::CVarColor CRgbToHsvTranformation::GetValueAt(const icmm::CVarColor& argument) const
 {
-	CRgbToHsvTranformation::ResultType result(3);
+	icmm::CVarColor result(3);
 
 	GetValueAt(argument, result);
 

@@ -204,7 +204,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRgbToXyzTransformation.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CVarColor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CXyzToCieLabTransformation.cpp"
 				>
 			</File>
 		</Filter>
@@ -257,7 +265,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CRgbToXyzTransformation.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CVarColor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CXyzToCieLabTransformation.h"
 				>
 			</File>
 			<File
