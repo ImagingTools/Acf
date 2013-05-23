@@ -500,6 +500,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IRectangleConstraints.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ISceneController.h"
 				>
 			</File>
