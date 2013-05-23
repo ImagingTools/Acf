@@ -54,6 +54,8 @@ void CFileTreeViewGuiComp::OnGuiCreated()
 
 	m_internalThreadPtr = new InternalThread(this);
 	connect(m_internalThreadPtr, SIGNAL(finished()), this, SLOT(OnTreeModelUpdated()), Qt::QueuedConnection);
+
+	Stack->setCurrentIndex(0);
 }
 
 
@@ -133,12 +135,15 @@ void CFileTreeViewGuiComp::OnTreeModelUpdated()
 
 	InfoLabel->setText(infoText);
 
-	GetQtWidget()->setEnabled(true);
-
 	FileList->setUpdatesEnabled(true);
 	FileList->expandAll();
 
 	FilterText->setFocus();
+
+	Stack->widget(0)->setEnabled(true);
+	FileList->setEnabled(true);
+	Refresh->setEnabled(true);
+	Stack->setCurrentIndex(0);
 
 	// update selection
 	UpdateCurrentSelection();
@@ -163,7 +168,12 @@ void CFileTreeViewGuiComp::RebuildTreeModel()
 	m_performanceTimer.start();
 #endif
 
-	GetQtWidget()->setEnabled(false);
+	Stack->setCurrentIndex(1);
+	Stack->widget(0)->setEnabled(false);
+	FileList->setEnabled(false);
+	Refresh->setEnabled(false);
+
+	qApp->processEvents();
 
 	FileList->setUpdatesEnabled(false);
 
