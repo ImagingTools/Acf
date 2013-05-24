@@ -350,14 +350,17 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 					else{
 						guiObject->GetWidget()->setParent(panelPtr);
 					}
-
-					if (addSpacer){
-						QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-						panelLayoutPtr->addItem(spacerPtr);
-					}
 				}
 				else{
 					guiObject->CreateGui(panelPtr);
+				}
+
+				if (addSpacer){
+					QLayout* panelLayoutPtr = panelPtr->layout();
+					if (panelLayoutPtr != NULL){
+						QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+						panelLayoutPtr->addItem(spacerPtr);
+					}
 				}
 			}
 			else if (guiObject->GetWidget()){
