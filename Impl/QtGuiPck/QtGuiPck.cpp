@@ -258,6 +258,11 @@ I_EXPORT_COMPONENT(
 			"Options Manager List Editor");
 
 I_EXPORT_COMPONENT(
+			CheckableOptionsEditor,
+			"List of check boxes for enabling/disabling of options",
+			"Options Manager List Enable Editor");
+
+I_EXPORT_COMPONENT(
 			EnableableParamGui,
 			"Enableable parameter editor",
 			"Enableable Parameter");

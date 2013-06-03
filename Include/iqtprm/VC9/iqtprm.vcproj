@@ -172,6 +172,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCheckableOptionsEditorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedParamsSetGuiComp.cpp"
 				>
 			</File>
@@ -235,6 +239,10 @@
 			>
 			<File
 				RelativePath="..\CButtonBasedSelectionParamGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCheckableOptionsEditorComp.h"
 				>
 			</File>
 			<File
@@ -308,6 +316,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\generated\moc_CCheckableOptionsEditorComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CComposedParamsSetGuiComp.cpp"
 				>
 			</File>
@@ -353,6 +365,10 @@
 			</File>
 			<File
 				RelativePath="..\generated\ui_CButtonBasedSelectionParamGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\generated\ui_CCheckableOptionsEditorComp.h"
 				>
 			</File>
 			<File
@@ -412,6 +428,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCheckableOptionsEditorComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedParamsSetGuiComp.ui"
 				>
 			</File>
@@ -461,6 +481,10 @@
 			>
 			<File
 				RelativePath="..\CButtonBasedSelectionParamGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CCheckableOptionsEditorComp.moc"
 				>
 			</File>
 			<File
