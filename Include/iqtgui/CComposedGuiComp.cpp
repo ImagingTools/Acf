@@ -183,6 +183,11 @@ void CComposedGuiComp::OnGuiCreated()
 
 				if (parentLayoutPtr != NULL){
 					parentLayoutPtr->addWidget(elementParentPtr);
+
+					Q_ASSERT(layoutPtr != NULL);
+					if (m_useSameStretchingFactorAttrPtr.IsValid() && *m_useSameStretchingFactorAttrPtr){
+						layoutPtr->setStretchFactor(elementParentPtr, 1);
+					}
 				}
 
 				if (isFlat){
