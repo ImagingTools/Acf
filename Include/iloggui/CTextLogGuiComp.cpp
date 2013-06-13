@@ -154,8 +154,12 @@ void CTextLogGuiComp::GenerateDocument(int severityFilter, const QString& source
 		textCursor.insertText("  ");
 
 		// timestamp
-		textCursor.insertText(messagePtr->GetInformationTimeStamp().toString());
+		textCursor.insertText(messagePtr->GetInformationTimeStamp().toString("dd.MM.yyyy hh:mm:ss:zzz"));
 		textCursor.insertText("\t");
+
+		// source
+		textCursor.insertText(messagePtr->GetInformationSource());
+		textCursor.insertText("\t\t");
 
 		// text
 		textCursor.insertText(messagePtr->GetInformationDescription());

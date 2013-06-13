@@ -6,6 +6,7 @@
 #include "istd/CClassInfo.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
+#include "iser/CPrimitiveTypesSerializer.h"
 
 
 namespace ilog
@@ -110,13 +111,8 @@ bool CMessage::Serialize(iser::IArchive& archive)
 
 	static iser::CArchiveTag timeStampTag("Timestamp", "Message time stamp");
 	retVal = retVal && archive.BeginTag(timeStampTag);
-	QString timeStampString = m_timeStamp.toString(Qt::ISODate);
-	retVal = retVal && archive.Process(timeStampString);
+	retVal = retVal && iser::CPrimitiveTypesSerializer::SerializeDateTime(archive, m_timeStamp);
 	retVal = retVal && archive.EndTag(timeStampTag);
-
-	if (!isStoring){
-		m_timeStamp = QDateTime::fromString(timeStampString, Qt::ISODate);
-	}
 
 	return retVal;
 }
