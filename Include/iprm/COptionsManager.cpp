@@ -315,6 +315,7 @@ bool COptionsManager::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag optionNameTag("Name", "Name of the option");
 	static iser::CArchiveTag optionDescriptionTag("Description", "Description of the option");
 	static iser::CArchiveTag optionIdTag("ID", "ID of the option");
+	static iser::CArchiveTag enabledTag("Enabled", "Is option enabled");
 
 	bool isStoring = archive.IsStoring();
 
@@ -348,6 +349,10 @@ bool COptionsManager::Serialize(iser::IArchive& archive)
 		retVal = retVal && archive.BeginTag(optionIdTag);
 		retVal = retVal && archive.Process(option.optionId);
 		retVal = retVal && archive.EndTag(optionIdTag);
+
+		retVal = retVal && archive.BeginTag(enabledTag);
+		retVal = retVal && archive.Process(option.isEnabled);
+		retVal = retVal && archive.EndTag(enabledTag);
 
 		if (!isStoring && retVal){
 			m_options.push_back(option);

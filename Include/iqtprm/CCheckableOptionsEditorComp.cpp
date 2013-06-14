@@ -22,7 +22,7 @@ void CCheckableOptionsEditorComp::UpdateModel() const
 	Q_ASSERT(IsGuiCreated());
 
 	iprm::IOptionsManager* managerPtr = GetObjectPtr();
-	if (managerPtr != NULL){
+	if (managerPtr == NULL){
 		return;
 	}
 
@@ -53,59 +53,63 @@ void CCheckableOptionsEditorComp::OnParameterChanged()
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CCheckableOptionsEditorComp::UpdateGui(int /* updateFlags = 0 */)
+void CCheckableOptionsEditorComp::UpdateGui(int updateFlags)
 {
 	Q_ASSERT(IsGuiCreated());
 
 	iprm::IOptionsManager* managerPtr = GetObjectPtr();
-	if (managerPtr != NULL){
+	if (managerPtr == NULL){
 		return;
 	}
 
-	int optionsCount = managerPtr->GetOptionsCount();
-	QWidget* widget = GetQtWidget();
-	if (widget != NULL){
-		for (int optionsIndex = 0; optionsIndex < optionsCount; optionsIndex++){
-			QCheckBox* box = (QCheckBox*)widget->findChild<QCheckBox *>(managerPtr->GetOptionName(optionsIndex));
-			if (box != NULL){
-				box->setChecked(managerPtr->IsOptionEnabled(optionsIndex));
-			}
-		}
-	}
-}
-
-
-// reimplemented (iqt::CGuiObjectBase)
-
-void CCheckableOptionsEditorComp::OnGuiCreated()
-{
-	BaseClass::OnGuiCreated();
-
 	QWidget* widgetPtr = GetQtWidget();
-	if (widgetPtr != NULL){
-		iprm::IOptionsManager* managerPtr = GetObjectPtr();
-		if (managerPtr != NULL){
-			return;
-		}
+
+	if (widgetPtr == NULL){
+		return;
+	}
+
+	bool added = updateFlags & iprm::IOptionsManager::CF_OPTION_ADDED;
+	bool removed = updateFlags & iprm::IOptionsManager::CF_OPTION_REMOVED;
+	bool changed = updateFlags & iprm::IOptionsManager::CF_OPTIONS_CHANGED;
+	bool renamed = updateFlags & iprm::IOptionsManager::CF_OPTION_RENAMED;
+	bool init = updateFlags & imod::IModelEditor::CF_INIT_EDITOR;
+
+	if (added || removed || changed || renamed || init){
+		delete widgetPtr->layout();
 
 		int optionCount = managerPtr->GetOptionsCount();
 
 		QBoxLayout* layoutPtr = NULL;
 
 		if (*m_useHorizontalLayoutAttrPtr){
-			layoutPtr = new QHBoxLayout(GetWidget());
+			layoutPtr = new QHBoxLayout(widgetPtr);
 		}
 		else{
-			layoutPtr = new QVBoxLayout(GetWidget());
+			layoutPtr = new QVBoxLayout(widgetPtr);
 		}
 
 		for (int optionIndex = 0; optionIndex < optionCount; optionIndex++){
 			QCheckBox* checkBoxPtr = new QCheckBox(widgetPtr);
-			
+			checkBoxPtr->setObjectName(managerPtr->GetOptionName(optionIndex));
+
 			checkBoxPtr->setText(managerPtr->GetOptionName(optionIndex));
-			connect(checkBoxPtr, SIGNAL(stateChanged(int state)), this, SLOT(OnParameterChanged()));
+			bool checkedState = managerPtr->IsOptionEnabled(optionIndex);
+			checkBoxPtr->setChecked(checkedState);
+			connect(checkBoxPtr, SIGNAL(stateChanged(int)), this, SLOT(OnParameterChanged()));
 
 			layoutPtr->addWidget(checkBoxPtr);
+		}
+	}
+	else{
+		int optionsCount = managerPtr->GetOptionsCount();
+		if (widgetPtr != NULL){
+			for (int optionsIndex = 0; optionsIndex < optionsCount; optionsIndex++){
+				QCheckBox* box = widgetPtr->findChild<QCheckBox *>(managerPtr->GetOptionName(optionsIndex));
+				if (box != NULL){
+					bool checkedState = managerPtr->IsOptionEnabled(optionsIndex);
+					box->setChecked(checkedState);
+				}
+			}
 		}
 	}
 }
