@@ -10,6 +10,7 @@
 #include "iview/CRectangleShape.h"
 #include "iview/CLineShape.h"
 #include "iview/CTubePolylineShape.h"
+#include "iview/CLabelShape.h"
 
 
 namespace iview
@@ -117,6 +118,22 @@ IShape* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& objec
 		objectShapePtr->SetEditableRotation(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableHeight(*m_useInteractiveShapesAttrPtr);
 		objectShapePtr->SetEditableWidth(*m_useInteractiveShapesAttrPtr);
+
+		return objectShapePtr;
+	}
+
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(&object);
+	if (labelPtr != NULL){
+		iview::CLabelShape* objectShapePtr = new iview::CLabelShape();
+		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
+
+		return objectShapePtr;
+	}
+
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(&object);
+	if (labelPtr != NULL){
+		iview::CLabelShape* objectShapePtr = new iview::CLabelShape();
+		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;
 	}

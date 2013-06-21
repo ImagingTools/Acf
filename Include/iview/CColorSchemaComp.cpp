@@ -26,6 +26,11 @@ void CColorSchemaComp::OnComponentCreated()
 	if (m_normalPenColorAttrPtr.IsValid()){
 		SetPen(SP_NORMAL, QColor(QString(*m_normalPenColorAttrPtr)));
 	}	
+
+	if (m_normalPenWidthAttrPtr.IsValid()){		
+		QPen& p = const_cast<QPen&>(GetPen(SP_NORMAL));
+		p.setWidthF(*m_normalPenWidthAttrPtr);			
+	}
 	
 	if (m_selectedPenColorAttrPtr.IsValid()){
 		QPen& p = const_cast<QPen&>(GetPen(SP_SELECTED));
@@ -39,8 +44,13 @@ void CColorSchemaComp::OnComponentCreated()
 
 	if (m_selectedTickerPenColorAttrPtr.IsValid()){
 		SetPen(SP_SELECTED_TICKER, QColor(QString(*m_selectedTickerPenColorAttrPtr)));
-	}
+	}	
 
+	if (m_normalPenWidthAttrPtr.IsValid()){		
+		QPen& p = const_cast<QPen&>(GetPen(SP_NORMAL));
+		p.setWidthF(*m_normalPenWidthAttrPtr);			
+	}
+	
 	if (m_tickerPenColorAttrPtr.IsValid()){
 		SetPen(SP_TICKER, QColor(QString(*m_tickerPenColorAttrPtr)));
 	}
