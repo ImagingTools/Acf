@@ -29,6 +29,7 @@ void CSelectableParamsSetGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updat
 	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
 }
 
+
 void CSelectableParamsSetGuiComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
 	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){

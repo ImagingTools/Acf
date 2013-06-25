@@ -9,7 +9,7 @@
 #include "iprm/IParamsManager.h"
 #include "iqtgui/IIconProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-
+#include "iqt2d/IViewExtender.h"
 #include "iqtprm/Generated/ui_CParamsManagerGuiCompBase.h"
 
 
@@ -29,6 +29,7 @@ public:
 				iprm::IParamsManager> BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CParamsManagerGuiCompBase);
+		I_REGISTER_INTERFACE(iqt2d::IViewExtender);
 		I_ASSIGN(m_allowAddRemoveAttrPtr, "AllowAddRemove", "If it is false, 'Add' and 'Remove' buttons will be always hidden", true, true);
 		I_ASSIGN(m_allowUpDownAttrPtr, "AllowUpDown", "If it is false, 'Up' and 'Down' buttons will be always hidden", true, true);
 		I_ASSIGN(m_comboBoxViewAttrPtr, "CompactView", "Shows parameters list as a combo box", true, false);
@@ -36,6 +37,10 @@ public:
 	I_END_COMPONENT;
 
 	CParamsManagerGuiCompBase();
+
+	// reimplemented (iqt2d::IViewExtender)
+	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
+	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
 
 protected Q_SLOTS:
 	void on_AddButton_clicked();
@@ -61,6 +66,8 @@ protected:
 	*/
 	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const = 0;
 
+	void AttachToScene(iqt2d::IViewProvider* providerPtr, int flags);
+	void DetachFromScene(iqt2d::IViewProvider* providerPtr);
 	void UpdateActions();
 	void UpdateTree();
 	void UpdateComboBox();
@@ -82,6 +89,7 @@ private:
 	I_ATTR(bool, m_allowAddRemoveAttrPtr);
 	I_ATTR(bool, m_allowUpDownAttrPtr);
 	I_ATTR(bool, m_comboBoxViewAttrPtr);
+	I_REF(iqt2d::IViewExtender, m_extenderCompPtr);
 
 	typedef QMap<int, QIcon> StateIconsMap;
 
@@ -90,6 +98,9 @@ private:
 	QMenu m_startVariableMenus;
 	QMap<QByteArray, int> m_factoryIconIndexMap;
 	StateIconsMap m_stateIconsMap;
+
+	typedef QMap<iqt2d::IViewProvider*, int> ConnectedSceneFlags; // maps connected scene provider to connection flags
+	ConnectedSceneFlags m_connectedSceneFlags;
 };
 
 
