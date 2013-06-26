@@ -9,36 +9,7 @@ namespace iqtprm
 {
 
 
-// public methods
 	
-// reimplemented (iqt2d::IViewExtender)
-
-void CMultiParamsManagerGuiComp::AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags)
-{
-	Q_ASSERT(providerPtr != NULL);
-
-	m_connectedSceneFlags[providerPtr] = flags;
-
-	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
-	if (extenderPtr != NULL){
-		extenderPtr->AddItemsToScene(providerPtr, flags);
-	}
-}
-
-
-void CMultiParamsManagerGuiComp::RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr)
-{
-	Q_ASSERT(providerPtr != NULL);
-
-	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
-	if (extenderPtr != NULL){
-		extenderPtr->RemoveItemsFromScene(providerPtr);
-	}
-
-	m_connectedSceneFlags.remove(providerPtr);
-}
-
-
 // protected methods
 
 // reimplemented (CMultiParamsManagerGuiCompBase)
@@ -111,25 +82,11 @@ void CMultiParamsManagerGuiComp::UpdateParamsView(int selectedIndex)
 }
 
 
-// reimplemented (imod::CSingleModelObserverBase)
-
-void CMultiParamsManagerGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+iqt2d::IViewExtender* CMultiParamsManagerGuiComp::GetCurrentViewExtenderPtr() const
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
-		DetachCurrentExtender();
-	}
+	QByteArray selectedParameterTypeId = GetSelectedParamsSetTypeId();
 
-	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
-}
-
-
-void CMultiParamsManagerGuiComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
-		AttachCurrentExtender();
-	}
-
-	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	return m_typeToExtenderMap.value(selectedParameterTypeId, NULL);
 }
 
 
@@ -198,49 +155,6 @@ void CMultiParamsManagerGuiComp::OnGuiDestroyed()
 	BaseClass::OnGuiDestroyed();
 }
 
-
-// private methods
-
-iqt2d::IViewExtender* CMultiParamsManagerGuiComp::GetCurrentViewExtenderPtr() const
-{
-	QByteArray selectedParameterTypeId = GetSelectedParamsSetTypeId();
-	
-	return m_typeToExtenderMap.value(selectedParameterTypeId, NULL);
-}
-
-
-void CMultiParamsManagerGuiComp::AttachCurrentExtender()
-{
-	DetachCurrentExtender();
-
-	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
-	if (extenderPtr != NULL){
-		for (		ConnectedSceneFlags::const_iterator sceneIter = m_connectedSceneFlags.begin();
-					sceneIter != m_connectedSceneFlags.end();
-					++sceneIter){
-			iqt2d::IViewProvider* providerPtr = sceneIter.key();
-			Q_ASSERT(providerPtr != NULL);
-
-			extenderPtr->AddItemsToScene(providerPtr, sceneIter.value());
-		}
-	}
-}
-
-
-void CMultiParamsManagerGuiComp::DetachCurrentExtender()
-{
-	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
-	if (extenderPtr != NULL){
-		for (		ConnectedSceneFlags::const_iterator sceneIter = m_connectedSceneFlags.begin();
-					sceneIter != m_connectedSceneFlags.end();
-					++sceneIter){
-			iqt2d::IViewProvider* providerPtr = sceneIter.key();
-			Q_ASSERT(providerPtr != NULL);
-
-			extenderPtr->RemoveItemsFromScene(providerPtr);
-		}
-	}
-}
 
 } // namespace iqtprm
 

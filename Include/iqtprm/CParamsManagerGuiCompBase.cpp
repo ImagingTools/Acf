@@ -21,6 +21,7 @@ namespace iqtprm
 CParamsManagerGuiCompBase::CParamsManagerGuiCompBase()
 	:m_lastConnectedModelPtr(NULL)
 {
+	SetUpdateFilter(~istd::IChangeable::CF_DELEGATED);
 }
 
 
@@ -30,9 +31,12 @@ void CParamsManagerGuiCompBase::AddItemsToScene(iqt2d::IViewProvider* providerPt
 {
 	Q_ASSERT(providerPtr != NULL);
 
-	AttachToScene(providerPtr, flags);
+	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
+	if (extenderPtr != NULL){
+		extenderPtr->AddItemsToScene(providerPtr, flags);
 
-	m_connectedSceneFlags[providerPtr] = flags;
+		m_connectedSceneFlags[providerPtr] = flags;
+	}
 }
 
 
@@ -40,9 +44,12 @@ void CParamsManagerGuiCompBase::RemoveItemsFromScene(iqt2d::IViewProvider* provi
 {
 	Q_ASSERT(providerPtr != NULL);
 
-	DetachFromScene(providerPtr);
+	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
+	if (extenderPtr != NULL){
+		extenderPtr->RemoveItemsFromScene(providerPtr);
 
-	m_connectedSceneFlags.remove(providerPtr);
+		m_connectedSceneFlags.remove(providerPtr);
+	}
 }
 
 
@@ -250,63 +257,42 @@ void CParamsManagerGuiCompBase::on_ParamsComboBox_editTextChanged(const QString&
 }
 
 
+void CParamsManagerGuiCompBase::OnAddMenuOptionClicked(QAction* action)
+{
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int typeIndex = action->data().toInt();
+
+		int selectedIndex = GetSelectedIndex();
+		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
+
+		objectPtr->InsertParamsSet(typeIndex, selectedIndex);
+	}
+}
+
+
+iqt2d::IViewExtender* CParamsManagerGuiCompBase::GetCurrentViewExtenderPtr() const
+{
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr == NULL){
+		return NULL;
+	}
+
+	int selectedParamsSetIndex = objectPtr->GetSelectedOptionIndex();
+	if (selectedParamsSetIndex < 0){
+		return NULL;
+	}
+
+	iprm::IParamsSet* paramSetPtr = objectPtr->GetParamsSet(selectedParamsSetIndex);
+	if (paramSetPtr == NULL){
+		return NULL;
+	}
+
+	return dynamic_cast<iqt2d::IViewExtender*>(GetEditorGuiPtr(paramSetPtr));
+}
+
+
 // protected methods
-
-void CParamsManagerGuiCompBase::AttachToScene(iqt2d::IViewProvider* providerPtr, int flags)
-{
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr == NULL){
-		return;
-	}
-
-	iprm::IParamsSet* paramSetPtr = objectPtr->GetParamsSet(objectPtr->GetSelectedOptionIndex());
-	if (paramSetPtr == NULL){
-		return;
-	}
-
-	iview::IShapeView* viewPtr = NULL;
-
-	iqt2d::IViewExtender* extenderPtr = CompCastPtr<iqt2d::IViewExtender>(GetEditorGuiPtr(paramSetPtr));;
-	if (extenderPtr != NULL){
-		extenderPtr->AddItemsToScene(providerPtr, flags);
-
-		viewPtr = providerPtr->GetView();
-	}
-
-	if (viewPtr != NULL){
-		viewPtr->Update();
-	}
-}
-
-
-void CParamsManagerGuiCompBase::DetachFromScene(iqt2d::IViewProvider* providerPtr)
-{
-	Q_ASSERT(providerPtr != NULL);
-
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr == NULL){
-		return;
-	}
-
-	iprm::IParamsSet* paramSetPtr = objectPtr->GetParamsSet(objectPtr->GetSelectedOptionIndex());
-	if (paramSetPtr == NULL){
-		return;
-	}
-
-	iview::IShapeView* viewPtr = NULL;
-
-	iqt2d::IViewExtender* extenderPtr = CompCastPtr<iqt2d::IViewExtender>(GetEditorGuiPtr(paramSetPtr));;
-	if (extenderPtr != NULL){
-		extenderPtr->RemoveItemsFromScene(providerPtr);
-
-		viewPtr = providerPtr->GetView();
-	}
-
-	if (viewPtr != NULL){
-		viewPtr->Update();
-	}
-}
-
 
 void CParamsManagerGuiCompBase::UpdateActions()
 {
@@ -346,8 +332,6 @@ void CParamsManagerGuiCompBase::UpdateActions()
 
 void CParamsManagerGuiCompBase::UpdateTree()
 {
-	UpdateBlocker updateBlocker(this);
-
 	ParamsTree->clear();
 
 	int selectedIndex = -1;	
@@ -399,8 +383,6 @@ void CParamsManagerGuiCompBase::UpdateTree()
 
 void CParamsManagerGuiCompBase::UpdateComboBox()
 {
-	UpdateBlocker updateBlocker(this);
-
 	ParamsComboBox->clear();
 
 	int selectedIndex = -1;	
@@ -447,23 +429,6 @@ void CParamsManagerGuiCompBase::UpdateComboBox()
 
 void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 {
-	for (		ConnectedSceneFlags::const_iterator iter = m_connectedSceneFlags.begin();
-				iter != m_connectedSceneFlags.end();
-				++iter){
-		iqt2d::IViewProvider* providerPtr = iter.key();
-
-		DetachFromScene(providerPtr);
-	}
-
-	for (		ConnectedSceneFlags::const_iterator iter = m_connectedSceneFlags.begin();
-				iter != m_connectedSceneFlags.end();
-				++iter){
-		iqt2d::IViewProvider* providerPtr = iter.key();
-		int flags = iter.value();
-
-		AttachToScene(providerPtr, flags);
-	}
-
 	imod::IModel* modelPtr = NULL;
 	imod::IObserver* paramsSetObserverPtr = NULL;
 
@@ -646,9 +611,13 @@ void CParamsManagerGuiCompBase::OnGuiModelDetached()
 }
 
 
-void CParamsManagerGuiCompBase::UpdateGui(int /*updateFlags*/)
+void CParamsManagerGuiCompBase::UpdateGui(int updateFlags)
 {
 	Q_ASSERT(IsGuiCreated());
+
+	if (((updateFlags & CF_INIT_EDITOR) == 0) && (updateFlags & istd::IChangeable::CF_DELEGATED)){
+		return;
+	}
 
 	if (*m_comboBoxViewAttrPtr){
 		UpdateComboBox();
@@ -687,16 +656,60 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 }
 
 
-void CParamsManagerGuiCompBase::OnAddMenuOptionClicked(QAction* action)
+// reimplemented (imod::CSingleModelObserverBase)
+
+void CParamsManagerGuiCompBase::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int typeIndex = action->data().toInt();
+	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+		DetachCurrentExtender();
+	}
 
-		int selectedIndex = GetSelectedIndex();
-		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
+	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
+}
 
-		objectPtr->InsertParamsSet(typeIndex, selectedIndex);
+
+void CParamsManagerGuiCompBase::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
+	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+		AttachCurrentExtender();
+	}
+
+	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+}
+
+
+// private methods
+
+void CParamsManagerGuiCompBase::AttachCurrentExtender()
+{
+	DetachCurrentExtender();
+
+	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
+	if (extenderPtr != NULL){
+		for (		ConnectedSceneFlags::const_iterator sceneIter = m_connectedSceneFlags.begin();
+			sceneIter != m_connectedSceneFlags.end();
+			++sceneIter){
+				iqt2d::IViewProvider* providerPtr = sceneIter.key();
+				Q_ASSERT(providerPtr != NULL);
+
+				extenderPtr->AddItemsToScene(providerPtr, sceneIter.value());
+		}
+	}
+}
+
+
+void CParamsManagerGuiCompBase::DetachCurrentExtender()
+{
+	iqt2d::IViewExtender* extenderPtr = GetCurrentViewExtenderPtr();
+	if (extenderPtr != NULL){
+		for (		ConnectedSceneFlags::const_iterator sceneIter = m_connectedSceneFlags.begin();
+			sceneIter != m_connectedSceneFlags.end();
+			++sceneIter){
+				iqt2d::IViewProvider* providerPtr = sceneIter.key();
+				Q_ASSERT(providerPtr != NULL);
+
+				extenderPtr->RemoveItemsFromScene(providerPtr);
+		}
 	}
 }
 

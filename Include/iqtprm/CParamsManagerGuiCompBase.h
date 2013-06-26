@@ -17,9 +17,12 @@ namespace iqtprm
 {
 
 
-class CParamsManagerGuiCompBase: public iqtgui::TDesignerGuiObserverCompBase<
-			Ui::CParamsManagerGuiCompBase,
-			iprm::IParamsManager>
+class CParamsManagerGuiCompBase:
+			public iqtgui::TDesignerGuiObserverCompBase<
+						Ui::CParamsManagerGuiCompBase, iprm::IParamsManager>,
+			virtual public iqt2d::IViewExtender
+
+			
 {
 	Q_OBJECT
 
@@ -66,8 +69,11 @@ protected:
 	*/
 	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const = 0;
 
-	void AttachToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	void DetachFromScene(iqt2d::IViewProvider* providerPtr);
+	/**
+		Get the currently active view extender.
+	*/
+	virtual iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const;
+
 	void UpdateActions();
 	void UpdateTree();
 	void UpdateComboBox();
@@ -83,6 +89,14 @@ protected:
 
 	// reimplemented (iqtgui::CComponentBase)
 	virtual void OnGuiCreated();
+
+	// reimplemented (imod::CSingleModelObserverBase)
+	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+
+private:
+	void AttachCurrentExtender();
+	void DetachCurrentExtender();
 
 private:
 	I_REF(iqtgui::IIconProvider, m_iconProviderCompPtr);

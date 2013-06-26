@@ -15,43 +15,28 @@ namespace iqtprm
 {
 
 
-class CMultiParamsManagerGuiComp:
-			public CParamsManagerGuiCompBase,
-			virtual public iqt2d::IViewExtender
+class CMultiParamsManagerGuiComp: public CParamsManagerGuiCompBase
 {
 public:
 	typedef CParamsManagerGuiCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMultiParamsManagerGuiComp);
-		I_REGISTER_INTERFACE(iqt2d::IViewExtender);
 		I_ASSIGN_MULTI_0(m_paramsGuiCompPtr, "ParamsGui", "GUI object used to display parameters", false);
 		I_ASSIGN_TO(m_paramsObserverCompPtr, m_paramsGuiCompPtr, false);
 		I_ASSIGN_TO(m_viewExtendersCompPtr, m_paramsGuiCompPtr, false);
 		I_ASSIGN_MULTI_0(m_paramsSetTypeIdsAttrPtr, "ParamTypeIds", "The list of type IDs for supported parameter sets", true);
 	I_END_COMPONENT;
 	
-	// reimplemented (iqt2d::IViewExtender)
-	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
-	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
-
 protected:
 	// reimplemented (CParamsManagerGuiCompBase)
 	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const;
 	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const;
 	virtual void UpdateParamsView(int selectedIndex);
-
-	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const;
 	
 	// reimplemented (iqtgui::CComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
-
-private:
-	iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const;
-	void AttachCurrentExtender();
-	void DetachCurrentExtender();
 
 private:
 	I_MULTIREF(iqtgui::IGuiObject, m_paramsGuiCompPtr);
