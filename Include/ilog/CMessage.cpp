@@ -134,6 +134,18 @@ bool CMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mod
 		return true;
 	}
 
+	const istd::IInformationProvider* informationProviderPtr = dynamic_cast<const istd::IInformationProvider*>(&object);
+	if (informationProviderPtr != NULL){
+		m_category = informationProviderPtr->GetInformationCategory();
+		m_id = informationProviderPtr->GetInformationId();
+		m_text = informationProviderPtr->GetInformationDescription();
+		m_source = informationProviderPtr->GetInformationSource();
+		m_flags = informationProviderPtr->GetInformationFlags();
+		m_timeStamp = informationProviderPtr->GetInformationTimeStamp();
+
+		return true;
+	}
+
 	return false;
 }
 
