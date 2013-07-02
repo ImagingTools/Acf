@@ -22,7 +22,7 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 		return dialogPtr->exec();
 	}
 
-	return -1;
+	return QDialog::Rejected;
 }
 
 
