@@ -1,19 +1,7 @@
-cd Install/Temp
-
-echo Generating VC8 projects...
-set QMAKESPEC=%QTDIR%/mkspecs/win32-msvc2005
+echo Generating %COMPILER_EXT% projects...
 cd Build/QMake
 qmake -recursive -tp vc AcfAll.pro
 cd ../..
 
-call ../../Config/QMake/CopyVCProjToSubdir.js VC8
+call %ACFDIR%/Config/QMake/CopyVCProjToSubdir.js %COMPILER_EXT%
 
-echo Generating VC9 projects...
-set QMAKESPEC=%QTDIR%/mkspecs/win32-msvc2008
-cd Build/QMake
-qmake -recursive -tp vc AcfAll.pro
-cd ../..
-
-call ../../Config/QMake/CopyVCProjToSubdir.js VC9
-
-cd ../..

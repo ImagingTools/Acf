@@ -5,6 +5,7 @@ set LICENSE_TYPE=OpenSource
 set LICENSE_DIR=Install/LGPL
 set LICENSE_INSTALL_PATH=../LGPL/License.txt
 set ACF_CONFIG_FILE=$(ACFSLNDIR)/Config/Core.xpc
+set QMAKESPEC=%QTDIR%/mkspecs/win32-msvc2008
 
 cd ..
 
