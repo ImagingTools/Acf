@@ -44,6 +44,12 @@ public:
 	CVarIndex(const TIndex<Dimensions> index);
 
 	/**
+		Check if tihs index is valid.
+		Index is valid if it has elements and all elements are not negative.
+	*/
+	bool IsValid() const;
+
+	/**
 		Check if this index point at zero element.
 		In other words, it checks if all components are 0.
 	*/
