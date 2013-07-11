@@ -27,6 +27,12 @@ CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPt
 }
 
 
+void CImageShape::SetPositionOffset(const QPoint& position)
+{
+	m_positionOffset = position;
+}
+
+
 // reimplemented (iview::IVisualizable)
 
 void CImageShape::Draw(QPainter& drawContext) const
@@ -113,10 +119,13 @@ i2d::CRect CImageShape::CalcBoundingBox() const
 
 		istd::CIndex2d corners[4];
 
-		corners[0] = transform.GetScreenPosition(i2d::CVector2d(0, 0));
-		corners[1] = transform.GetScreenPosition(i2d::CVector2d(size.GetX(), 0));
-		corners[2] = transform.GetScreenPosition(i2d::CVector2d(0, size.GetY()));
-		corners[3] = transform.GetScreenPosition(i2d::CVector2d(size.GetX(), size.GetY()));
+		int offsetX = m_positionOffset.x();
+		int offsetY = m_positionOffset.y();
+
+		corners[0] = transform.GetScreenPosition(i2d::CVector2d(offsetX, offsetY));
+		corners[1] = transform.GetScreenPosition(i2d::CVector2d(offsetX + size.GetX(), offsetY));
+		corners[2] = transform.GetScreenPosition(i2d::CVector2d(offsetX, offsetY + size.GetY()));
+		corners[3] = transform.GetScreenPosition(i2d::CVector2d(offsetX + size.GetX(), offsetY + size.GetY()));
 
 		boundingBox = i2d::CRect(corners[0], corners[0]);
 		boundingBox.Union(corners[1]);
@@ -255,7 +264,14 @@ void CImageShape::DrawBitmap(
 		
 		painter.setMatrix(matrix);
 
-		painter.drawPixmap(0, 0, m_pixmap, bitmapArea.GetLeft(), bitmapArea.GetTop(), bitmapArea.GetRight(), bitmapArea.GetBottom());
+		painter.drawPixmap(
+			m_positionOffset.x(), 
+			m_positionOffset.y(),
+			m_pixmap, 
+			bitmapArea.GetLeft(), 
+			bitmapArea.GetTop(), 
+			bitmapArea.GetRight(), 
+			bitmapArea.GetBottom());
 
 		painter.setMatrixEnabled(false);
 	}

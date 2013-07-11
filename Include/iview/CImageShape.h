@@ -25,6 +25,8 @@ public:
 
 	CImageShape(const icmm::IColorTransformation* colorTransformationPtr = NULL);
 
+	void SetPositionOffset(const QPoint& position);
+
 	// reimplemented (iview::IShape)
 	virtual void Draw(QPainter& drawContext) const;
 
@@ -50,6 +52,8 @@ private:
 
 private:
 	QPixmap m_pixmap;
+
+	QPoint m_positionOffset;
 
 	const icmm::IColorTransformation* m_colorTransformationPtr;
 };
