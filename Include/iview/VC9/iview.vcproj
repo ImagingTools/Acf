@@ -581,6 +581,10 @@
 				RelativePath="..\IVisualizable.h"
 				>
 			</File>
+			<File
+				RelativePath="..\TVisualObjects.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
