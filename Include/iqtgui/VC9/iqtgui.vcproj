@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CDoubleRangeSpinEdit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CExtLineEdit.cpp"
 				>
 			</File>
@@ -416,6 +420,10 @@
 			</File>
 			<File
 				RelativePath="..\CDockWidgetGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CDoubleRangeSpinEdit.h"
 				>
 			</File>
 			<File
@@ -674,6 +682,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\moc_CDoubleRangeSpinEdit.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\generated\moc_CExtLineEdit.cpp"
 				>
 			</File>
@@ -738,6 +750,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\ui_CDoubleRangeSpinEdit.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\ui_CFileListProviderGuiComp.h"
 				>
 			</File>
@@ -779,6 +795,10 @@
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CDoubleRangeSpinEdit.ui"
 				>
 			</File>
 			<File
@@ -839,6 +859,10 @@
 			</File>
 			<File
 				RelativePath="..\CDockWidgetGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CDoubleRangeSpinEdit.moc"
 				>
 			</File>
 			<File

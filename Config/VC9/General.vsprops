@@ -21,6 +21,6 @@
 	/>
 	<Tool
 		Name="VCManifestTool"
-		EmbedManifest="false"
+		EmbedManifest="true"
 	/>
 </VisualStudioPropertySheet>
