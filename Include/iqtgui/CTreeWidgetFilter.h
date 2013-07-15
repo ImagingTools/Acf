@@ -2,7 +2,13 @@
 #define iqtgui_CTreeWidgetFilter_included
 
 
+// Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QTreeWidget>
+#else
 #include <QtGui/QTreeWidget>
+#endif
 
 #include "iqtgui/iqtgui.h"
 

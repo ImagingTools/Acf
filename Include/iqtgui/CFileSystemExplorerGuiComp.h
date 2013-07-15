@@ -3,10 +3,18 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtCore/QItemSelectionModel>
+#include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QFileSystemModel>
+#include <QtWidgets/QFileIconProvider>
+#else
+#include <QtGui/QItemSelectionModel>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QFileSystemModel>
-#include <QtGui/QItemSelectionModel>
 #include <QtGui/QFileIconProvider>
+#endif
 
 // ACF includes
 #include "ifile/IFileTypeInfo.h"
@@ -37,7 +45,7 @@ class CFileSystemExplorerGuiComp:
 public:
 	typedef iqtgui::TDesignerGuiObserverCompBase<
 				Ui::CFileSystemExplorerGuiComp, ifile::IFileNameParam> BaseClass;
-	
+
 	I_BEGIN_COMPONENT(CFileSystemExplorerGuiComp);
 		I_ASSIGN(m_filterInfoCompPtr, "FilterInfo", "Provides information about supported files used to filter shown files", false, "FilterInfo");
 		I_ASSIGN(m_rootPathParamCompPtr, "RootPath", "Sets the root path", false, "RootPath");

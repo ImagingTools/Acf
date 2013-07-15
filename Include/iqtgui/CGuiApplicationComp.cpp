@@ -3,9 +3,15 @@
 
 // Qt includes
 #include <QtCore/QString>
+#include <QtCore/QtGlobal>
+#include <QtGui/QIcon>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QVBoxLayout>
+#else
 #include <QtGui/QApplication>
 #include <QtGui/QVBoxLayout>
-#include <QtGui/QIcon>
+#endif
 
 
 namespace iqtgui
@@ -16,7 +22,7 @@ namespace iqtgui
 
 CGuiApplicationComp::CGuiApplicationComp()
 	:m_defaultWidgetFlags(0)
-{	
+{
 }
 
 
@@ -40,7 +46,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 	if (BaseClass::InitializeApplication(argc, argv)){
 		m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_STARTING);
-	
+
 		QByteArray appStyle;
 
 		// parse arguments:
@@ -162,7 +168,7 @@ void CGuiApplicationComp::UpdateMainWidgetDecorations()
 	if (m_allowApplicationCloseCompPtr.IsValid() && m_mainWidgetPtr.IsValid())
 	{
 		Qt::WindowFlags windowFlags = m_defaultWidgetFlags;
-	
+
 		if (!m_allowApplicationCloseCompPtr->IsEnabled()){
 			windowFlags = (m_mainWidgetPtr->windowFlags() | Qt::CustomizeWindowHint) & ~Qt::WindowCloseButtonHint;
 		}
@@ -214,7 +220,7 @@ void CGuiApplicationComp::RuntimeStatus::SetRuntimeStatus(IRuntimeStatusProvider
 {
 	if (m_status != runtimeStatus){
 		istd::CChangeNotifier changePtr(this);
-		
+
 		m_status = runtimeStatus;
 	}
 }

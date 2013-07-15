@@ -2,7 +2,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHeaderView>
+#else
 #include <QtGui/QHeaderView>
+#endif
 
 
 namespace iqtgui
@@ -25,7 +30,11 @@ void CTableBasedModelEditorComp::OnGuiCreated()
 	QHeaderView* horizontalHeaderPtr = viewPtr->horizontalHeader();
 	Q_ASSERT(horizontalHeaderPtr != NULL);
 
+#if QT_VERSION >= 0x050000
+	horizontalHeaderPtr->setSectionResizeMode(QHeaderView::Stretch);
+#else
 	horizontalHeaderPtr->setResizeMode(QHeaderView::Stretch);
+#endif
 
 	if (!*m_showHorizontalHeaderAttrPtr){
 		horizontalHeaderPtr->hide();

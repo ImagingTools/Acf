@@ -4,8 +4,12 @@
 // Qt includes
 #include <QtCore/QLocale>
 #include <QtCore/QDir>
-#include <QtGui/QApplication>
 #include <QtGui/QIcon>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#else
+#include <QtGui/QApplication>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -43,9 +47,9 @@ void CTranslationManagerComp::OnComponentCreated()
 			QString languageId = m_languagesAttrPtr[translatorIndex];
 
 			QString translatorFile = translationsPath + QString("/") + translationFilePrefix + QString("_") + languageId;
-			
+
 			istd::TDelPtr<QTranslator> qtTranslatorPtr(new QTranslator(qApp));
-			
+
 			if (!qtTranslatorPtr->load(translatorFile)){
 				SendErrorMessage(0, QString("Cannot load translator for: %1").arg(translatorFile), "TranslationManager");
 			}
@@ -91,7 +95,7 @@ int CTranslationManagerComp::GetLanguagesCount() const
 
 int CTranslationManagerComp::GetCurrentLanguageIndex() const
 {
-	return m_currentLanguageIndex; 
+	return m_currentLanguageIndex;
 }
 
 

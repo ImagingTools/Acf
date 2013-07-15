@@ -3,9 +3,15 @@
 
 
 #include <QtCore/QRect>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QWidgetItem>
+#include <QtWidgets/QStyle>
+#else
 #include <QtGui/QLayout>
 #include <QtGui/QWidgetItem>
 #include <QtGui/QStyle>
+#endif
 
 
 namespace iqtgui

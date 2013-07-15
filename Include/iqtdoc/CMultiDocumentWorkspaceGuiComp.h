@@ -3,8 +3,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMdiArea>
+#include <QtWidgets/QMdiSubWindow>
+#else
 #include <QtGui/QMdiArea>
 #include <QtGui/QMdiSubWindow>
+#endif
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"
@@ -26,7 +32,7 @@ namespace iqtdoc
 {
 
 
-/**	
+/**
 	This class is a Qt-based workspace implementation of a document manager.
 */
 class CMultiDocumentWorkspaceGuiComp:
@@ -129,7 +135,7 @@ protected:
 	virtual bool QueryDocumentSave(const SingleDocumentData& info, bool* ignoredPtr);
 
 	// reimplemented (iqt:CGuiComponentBase)
-	virtual void OnGuiCreated();	
+	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
 	virtual void OnGuiRetranslate();
@@ -204,8 +210,8 @@ private:
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_REF(iprm::IEnableableParam, m_rememberOpenDocumentsParamPtr);
 	I_ATTR(bool, m_showMaximizedAttrPtr);
-	I_ATTR(bool, m_allowViewRepeatingAttrPtr);	
-	
+	I_ATTR(bool, m_allowViewRepeatingAttrPtr);
+
 	mutable QString m_lastDirectory;
 
 	int m_viewsCount;

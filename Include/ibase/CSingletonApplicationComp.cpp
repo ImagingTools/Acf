@@ -3,7 +3,11 @@
 
 // Qt includes
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#else
 #include <QtGui/QApplication>
+#endif
 
 #ifdef Q_OS_MAC
 #include <Carbon/Carbon.h>

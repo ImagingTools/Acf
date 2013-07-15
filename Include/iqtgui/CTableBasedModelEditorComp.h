@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QTableView>
+#else
 #include <QtGui/QTableView>
+#endif
 
 // ACF includes
 #include "iqtgui/TItemModelEditorCompBase.h"
@@ -21,7 +26,7 @@ class CTableBasedModelEditorComp: public TItemModelEditorCompBase<QTableView>
 {
 public:
 	typedef TItemModelEditorCompBase<QTableView> BaseClass;
-	
+
 	I_BEGIN_COMPONENT(CTableBasedModelEditorComp);
 		I_ASSIGN(m_showHorizontalHeaderAttrPtr, "ShowHorizontalHeader", "If set, horizontal table header is shown", true, true);
 		I_ASSIGN(m_showVerticalHeaderAttrPtr, "ShowVerticalHeader", "If set, vertical table header is shown", true, true);

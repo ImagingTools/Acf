@@ -2,8 +2,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QFrame>
+#else
 #include <QtGui/QGridLayout>
 #include <QtGui/QFrame>
+#endif
 
 
 namespace iqtgui

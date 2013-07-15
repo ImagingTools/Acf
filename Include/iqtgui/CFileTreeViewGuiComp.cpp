@@ -39,7 +39,11 @@ void CFileTreeViewGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+#if QT_VERSION >= 0x050000
+	FileList->header()->setSectionResizeMode(QHeaderView::Stretch);
+#else
 	FileList->header()->setResizeMode(QHeaderView::Stretch);
+#endif
 	FileList->setModel(&m_itemModel);
 
 	QItemSelectionModel* selectionModelPtr = FileList->selectionModel();
@@ -240,13 +244,13 @@ void CFileTreeViewGuiComp::UpdateCurrentSelection()
 
 		QString currentPath = m_currentFile.GetPath();
 
-		QModelIndexList indexes = m_itemModel.match(m_itemModel.index(0,0), DR_PATH, currentPath, 1, 
+		QModelIndexList indexes = m_itemModel.match(m_itemModel.index(0,0), DR_PATH, currentPath, 1,
 			Qt::MatchFixedString | Qt::MatchRecursive | Qt::MatchWrap);
 		if (!indexes.isEmpty()){
 			QItemSelectionModel* selectionModelPtr = FileList->selectionModel();
 			if (selectionModelPtr != NULL){
 				selectionModelPtr->setCurrentIndex(indexes.first(), QItemSelectionModel::ClearAndSelect);
-			}			
+			}
 		}
 
 		m_lock.unlock();

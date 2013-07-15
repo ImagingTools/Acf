@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QDockWidget>
+#else
 #include <QtGui/QDockWidget>
+#endif
 
 // ACF includes
 #include "iqtgui/IMainWindowComponent.h"
@@ -33,7 +38,7 @@ public:
 		I_ASSIGN(m_allowedDockAreasAttrPtr, "AllowedDockAreas", "Specify the allowed dock areas\nIt is combination of options:\n 1 - left\n 2 - right\n 4 - top\n 8 - bottom", false, 0);
 		I_ASSIGN(m_dockTitleAttrPtr, "DockTitle", "Specify the dock title ", false, "DockTitle");
 	I_END_COMPONENT;
-	
+
 	// reimplemented (iqtgui::IMainWindowComponent)
 	virtual bool AddToMainWindow(QMainWindow& mainWindow);
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);

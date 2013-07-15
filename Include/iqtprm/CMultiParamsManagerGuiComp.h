@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QStackedWidget>
+#else
 #include <QtGui/QStackedWidget>
+#endif
 
 // ACF includes
 #include "iqt2d/IViewExtender.h"
@@ -26,14 +31,14 @@ public:
 		I_ASSIGN_TO(m_viewExtendersCompPtr, m_paramsGuiCompPtr, false);
 		I_ASSIGN_MULTI_0(m_paramsSetTypeIdsAttrPtr, "ParamTypeIds", "The list of type IDs for supported parameter sets", true);
 	I_END_COMPONENT;
-	
+
 protected:
 	// reimplemented (CParamsManagerGuiCompBase)
 	virtual imod::IObserver* GetObserverPtr(const iprm::IParamsSet* paramsSetPtr) const;
 	virtual iqtgui::IGuiObject* GetEditorGuiPtr(const iprm::IParamsSet* paramsSetPtr) const;
 	virtual void UpdateParamsView(int selectedIndex);
 	virtual iqt2d::IViewExtender* GetCurrentViewExtenderPtr() const;
-	
+
 	// reimplemented (iqtgui::CComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();

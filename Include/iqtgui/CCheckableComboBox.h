@@ -3,11 +3,17 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QItemDelegate>
+#else
 #include <QtGui/QComboBox>
 #include <QtGui/QItemDelegate>
+#endif
 
 
-// ACF includes 
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "iqtgui/iqtgui.h"
@@ -56,7 +62,7 @@ private:
 		virtual QWidget *createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 		virtual void setEditorData(QWidget* editor, const QModelIndex &index) const;
 		virtual void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const;
-	
+
 	private:
 		CCheckableComboBox& m_parent;
 	};

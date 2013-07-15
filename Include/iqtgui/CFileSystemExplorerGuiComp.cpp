@@ -1,8 +1,13 @@
 // Qt includes
 #include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QToolButton>
+#else
 #include <QtGui/QHeaderView>
 #include <QtGui/QToolButton>
-#include <QtGui/QDesktopServices>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -77,7 +82,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 	QModelIndex rootIndex;
 
 	QString currentRootFilePath;
-	
+
 	if (m_rootPathParamCompPtr.IsValid()){
 		currentRootFilePath = istd::CSystem::GetEnrolledPath(m_rootPathParamCompPtr->GetPath());
 	}
@@ -88,7 +93,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 	else {
 		rootIndex = m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString());
 	}
-	
+
 	FileTree->setRootIndex(rootIndex);
 
 	QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();

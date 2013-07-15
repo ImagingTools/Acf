@@ -2,8 +2,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QVBoxLayout>
+#else
 #include <QtGui/QMainWindow>
 #include <QtGui/QVBoxLayout>
+#endif
 
 
 namespace iqtgui
@@ -91,15 +97,15 @@ void CDockWidgetGuiComp::OnGuiCreated()
 
 	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.GetPtr())){
 		dockWidgetPtr->setWidget(containerWidgetPtr.PopPtr());
-	} 
+	}
 
 	if (m_dockFeaturesAttrPtr.IsValid()){
 		dockWidgetPtr->setFeatures(QDockWidget::DockWidgetFeature(*m_dockFeaturesAttrPtr));
 	}
 	else{
-		dockWidgetPtr->setFeatures(	
-					QDockWidget::DockWidgetMovable | 
-					QDockWidget::DockWidgetFloatable | 
+		dockWidgetPtr->setFeatures(
+					QDockWidget::DockWidgetMovable |
+					QDockWidget::DockWidgetFloatable |
 					QDockWidget::DockWidgetClosable);
 	}
 

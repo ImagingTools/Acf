@@ -4,9 +4,13 @@
 
 // Qt includes
 #include <QtGui/QPainter>
-#include <QtGui/QWidget>
 #include <QtGui/QCursor>
 #include <QtGui/QPainter>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#else
+#include <QtGui/QWidget>
+#endif
 
 // ACF includes
 #include "iimg/IBitmap.h"
@@ -47,7 +51,7 @@ public:
 		Get number of digits after point used to display mouse position in pixel.
 	*/
 	int GetPixelPositionExact() const;
-	
+
 	/**
 		Get number of digits after point used to display mouse position in logical units.
 	*/

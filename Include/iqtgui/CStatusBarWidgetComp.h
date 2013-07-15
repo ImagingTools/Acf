@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QStatusBar>
+#else
 #include <QtGui/QStatusBar>
+#endif
 
 // ACF includes
 #include "icomp/CComponentBase.h"
@@ -24,8 +29,8 @@ class CStatusBarWidgetComp:
 			virtual public iqtgui::IMainWindowComponent
 {
 public:
-	typedef icomp::CComponentBase BaseClass; 
-	
+	typedef icomp::CComponentBase BaseClass;
+
 	I_BEGIN_COMPONENT(CStatusBarWidgetComp);
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
 		I_ASSIGN_MULTI_0(m_statusBarWidgetsCompPtr, "StatusBarWidgets", "Widgets to place into the status bar of the application", true);

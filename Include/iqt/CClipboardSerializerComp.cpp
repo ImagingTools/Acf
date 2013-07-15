@@ -4,8 +4,12 @@
 // Qt includes
 #include <QtCore/QByteArray>
 #include <QtCore/QMimeData>
-#include <QtGui/QApplication>
 #include <QtGui/QClipboard>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#else
+#include <QtGui/QApplication>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -65,7 +69,7 @@ int CClipboardSerializerComp::LoadFromFile(istd::IChangeable& data, const QStrin
 
 				if (serializablePtr->Serialize(archive)){
 					changePtr.SetPtr(&data);
-					
+
 					return OS_OK;
 				}
 				else{

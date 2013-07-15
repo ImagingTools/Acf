@@ -5,7 +5,11 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QEvent>
 #include <QtCore/QMetaMethod>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QLayout>
+#else
 #include <QtGui/QLayout>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -233,7 +237,7 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 
 #if QT_VERSION < 0X050000
 	const QObjectList list = qFindChildren<QObject *>(m_widgetPtr, QString());
-	#define methodSignature signature 
+	#define methodSignature signature
 #else
 	const QObjectList list = m_widgetPtr->findChildren<QObject*>(QString());
 	#define methodSignature methodSignature

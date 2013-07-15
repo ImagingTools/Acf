@@ -4,7 +4,11 @@
 
 // Qt includes
 #include <QtCore/QMap>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QTabWidget>
+#else
 #include <QtGui/QTabWidget>
+#endif
 
 // ACF includes
 #include "imod/CMultiModelDispatcherBase.h"
@@ -60,8 +64,8 @@ protected:
 	virtual void OnGuiDestroyed();
 
 	// reimplemented (icomp::CComponentBase)
-    virtual void OnComponentCreated();
-    virtual void OnComponentDestroyed();
+	virtual void OnComponentCreated();
+	virtual void OnComponentDestroyed();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
 	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);

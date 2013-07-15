@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#else
 #include <QtGui/QWidget>
+#endif
 
 // ACF includes
 #include "imod/IModelEditor.h"
@@ -45,7 +50,7 @@ protected:
 	};
 
 	/**
-		Sets update flags for the editor. 
+		Sets update flags for the editor.
 		GUI editor will ignore all update events, which not matches the previously set filter.
 	*/
 	virtual void SetUpdateFilter(int updateFlags);
@@ -147,7 +152,7 @@ bool TGuiObserverWrap<Gui, Observer>::OnAttached(imod::IModel* modelPtr)
 	bool retVal;
 	{
 		UpdateBlocker block(this);
-		
+
 		retVal = Observer::OnAttached(modelPtr);
 	}
 

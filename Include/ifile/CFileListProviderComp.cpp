@@ -4,7 +4,11 @@
 // Qt includes
 #include <QtCore/QStringList>
 #include <QtCore/QDateTime>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QFileIconProvider>
+#else
 #include <QtGui/QFileIconProvider>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -180,7 +184,7 @@ void CFileListProviderComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*
 		for (int fileIndex = 0; fileIndex < m_fileList.count(); fileIndex++){
 			const QFileInfo& fileInfo = m_fileList[fileIndex];
 			QIcon fileIcon = fileIconProvider.icon(fileInfo);
-		
+
 			QStandardItem* fileItemPtr = new QStandardItem(fileInfo.absoluteFilePath());
 			fileItemPtr->setEditable(false);
 			fileItemPtr->setIcon(fileIcon);

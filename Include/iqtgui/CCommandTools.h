@@ -3,11 +3,20 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QActionGroup>
+#else
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QToolBar>
 #include <QtGui/QAction>
 #include <QtGui/QActionGroup>
+#endif
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"

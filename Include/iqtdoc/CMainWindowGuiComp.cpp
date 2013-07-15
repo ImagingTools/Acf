@@ -6,13 +6,19 @@
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMimeData>
-#include <QtGui/QMessageBox>
-#include <QtGui/QApplication>
+#include <QtGui/QClipboard>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
-#include <QtGui/QStatusBar>
-#include <QtGui/QClipboard>
 #include <QtGui/QDesktopServices>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStatusBar>
+#else
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
+#include <QtGui/QStatusBar>
+#endif
 
 // ACF includes
 #include "imod/IObserver.h"

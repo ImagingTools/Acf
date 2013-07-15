@@ -2,10 +2,18 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QGroupBox>
+#else
 #include <QtGui/QGridLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QStatusBar>
 #include <QtGui/QGroupBox>
+#endif
 
 
 namespace iqtgui

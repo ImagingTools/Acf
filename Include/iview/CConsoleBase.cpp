@@ -3,7 +3,11 @@
 
 // Qt includes
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#else
 #include <QtGui/QWidget>
+#endif
 
 // ACF includes
 #include "i2d/CRectangle.h"
@@ -31,9 +35,9 @@ void CConsoleBase::SetZoomToFit(bool state)
 {
 	if (state != m_isZoomToFit){
 		m_isZoomToFit = state;
-		
+
 		CViewport& view = GetViewRef();
-		
+
 		if (m_isZoomToFit){
 			iview::CScreenTransform viewTransform = view.GetTransform();
 			if (m_storedTransform != viewTransform){
@@ -41,16 +45,16 @@ void CConsoleBase::SetZoomToFit(bool state)
 
 				UpdateComponentsPosition();
 
-				view.UpdateFitTransform();			
+				view.UpdateFitTransform();
 			}
 
 		}
 		else{
 			UpdateComponentsPosition();
-		
+
 			view.SetTransform(m_storedTransform);
 		}
-		
+
 		UpdateButtonsState();
 	}
 }
@@ -213,10 +217,10 @@ void CConsoleBase::UpdateView()
 	if (m_isZoomToFit){
 		iview::CScreenTransform viewTransform = view.GetTransform();
 		if (m_storedTransform != viewTransform){
-			m_storedTransform = viewTransform;		
+			m_storedTransform = viewTransform;
 
 			UpdateComponentsPosition();
-			
+
 			view.UpdateFitTransform();
 		}
 	}

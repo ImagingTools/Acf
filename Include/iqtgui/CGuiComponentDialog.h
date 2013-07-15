@@ -3,8 +3,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QDialogButtonBox>
+#else
 #include <QtGui/QDialog>
 #include <QtGui/QDialogButtonBox>
+#endif
 
 // ACF includes
 #include "icomp/CComponentBase.h"
@@ -27,22 +33,22 @@ public:
 	/**
 		Construct the component dialog.
 		\param guiObjectPtr Pointer to the gui object.
-		\param buttons You can define some standard buttons for this dialog. 
+		\param buttons You can define some standard buttons for this dialog.
 		Default no buttons are set and the dialog starts only with the "Close" button.
 		\sa QDialogButtonBox::StandardButtons
 		\param isModal controls the modality of this dialog.
 		\param parentWidgetPtr - parent widget for this dialog. Default is NULL.
 	*/
 	CGuiComponentDialog(
-				iqtgui::IGuiObject* guiObjectPtr, 
-				int buttons = 0,  
-				bool isModal = true, 
+				iqtgui::IGuiObject* guiObjectPtr,
+				int buttons = 0,
+				bool isModal = true,
 				QWidget* parentWidgetPtr = NULL);
 
 	virtual ~CGuiComponentDialog();
 
 	/**
-		Returns the internal button box. 
+		Returns the internal button box.
 		You can use this function to create your own connections to the signals of the button group.
 	*/
 	const QDialogButtonBox* GetButtonBoxPtr() const;
@@ -70,7 +76,7 @@ inline const QDialogButtonBox* CGuiComponentDialog::GetButtonBoxPtr() const
 	return m_buttonsBox;
 }
 
-	
+
 inline const iqtgui::IGuiObject* CGuiComponentDialog::GetGuiPtr() const
 {
 	return m_guiObjectPtr;

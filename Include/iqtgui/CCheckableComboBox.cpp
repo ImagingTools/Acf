@@ -2,10 +2,18 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStylePainter>
+#include <QtWidgets/QAbstractItemView>
+#else
 #include <QtGui/QCheckBox>
 #include <QtGui/QApplication>
 #include <QtGui/QStylePainter>
 #include <QtGui/QAbstractItemView>
+#endif
 
 // ACF includes
 #include "iqt/CSignalBlocker.h"
@@ -31,7 +39,7 @@ void CCheckableComboBox::SetItemsChecked(const QStringList& items, bool isChecke
 	for (int itemIndex = 0; itemIndex < count(); itemIndex++){
 		QString currentItemText = itemText(itemIndex);
 		setItemData(itemIndex, false, Qt::UserRole);
-		
+
 		if (qFind(items, currentItemText) != items.end()){
 			bool currentState = itemData(itemIndex, Qt::UserRole).toBool();
 			if (currentState != isChecked){
@@ -62,7 +70,7 @@ void CCheckableComboBox::UpdateDisplayText()
 	}
 
 	update();
-	
+
 	Q_EMIT EmitActivatedItems(activatedItems);
 }
 
@@ -82,7 +90,7 @@ void CCheckableComboBox::paintEvent(QPaintEvent* /*eventPtr*/)
 		opt.currentText = tr("None");
 	}
 	else{
-		opt.currentText = m_displayText;	
+		opt.currentText = m_displayText;
 	}
 
 	painter.drawComplexControl(QStyle::CC_ComboBox, opt);
@@ -107,7 +115,7 @@ bool CCheckableComboBox::eventFilter(QObject* object, QEvent* eventPtr)
 CCheckableComboBox::CCheckBoxDelegate::CCheckBoxDelegate(CCheckableComboBox& parent)
 	:BaseClass(&parent),
 	m_parent(parent)
-{	
+{
 }
 
 

@@ -3,9 +3,16 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QCommandLinkButton>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QRadioButton>
+#else
 #include <QtGui/QCommandLinkButton>
 #include <QtGui/QToolButton>
 #include <QtGui/QRadioButton>
+#endif
 
 // ACF includes
 #include "iprm/ISelectionParam.h"

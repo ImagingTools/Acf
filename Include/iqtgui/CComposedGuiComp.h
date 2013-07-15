@@ -4,8 +4,13 @@
 
 // Qt includes
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QSplitter>
+#else
 #include <QtGui/QWidget>
 #include <QtGui/QSplitter>
+#endif
 
 // ACF includes
 #include "ifile/IFilePersistence.h"

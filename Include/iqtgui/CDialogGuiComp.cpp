@@ -3,8 +3,14 @@
 
 // Qt includes
 #include <QtGui/QIcon>
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QDesktopWidget>
+#else
 #include <QtGui/QApplication>
 #include <QtGui/QDesktopWidget>
+#endif
 
 
 namespace iqtgui

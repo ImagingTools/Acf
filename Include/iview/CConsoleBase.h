@@ -4,7 +4,11 @@
 
 // Qt includes
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QWidget>
+#else
 #include <QtGui/QWidget>
+#endif
 
 
 // ACF includes
@@ -33,27 +37,27 @@ public:
 			No fitting, frame use always identity transformation.
 		*/
 		FM_RESET,
-		
+
 		/**
 			Scale both axes proportional to display biggest, but full visible AOI.
 		*/
 		FM_BOTH,
-		
+
 		/**
 			Only horizontal size of AOI will be consider.
 		*/
 		FM_HORIZONTAL,
-		
+
 		/**
 			Only vertical size of AOI will be consider.
 		*/
 		FM_VERTICAL,
-		
+
 		/**
 			Both axes will be scaled separately.
 		*/
 		FM_UNPROP,
-		
+
 		/**
 			Scale both axes proportional to display smallest AOI, which fully covers display.
 		*/
@@ -126,12 +130,12 @@ public:
 		\sa iview::ISelectable::EditMode
 	*/
 	virtual void UpdateEditModeButtons() = 0;
-	
+
 	/**
 		Recalculates enabling flags for buttons.
 	*/
 	virtual void UpdateButtonsState() = 0;
-	
+
 	/**
 		Recalculates position of all components.
 	*/

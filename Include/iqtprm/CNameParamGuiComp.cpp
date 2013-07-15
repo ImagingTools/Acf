@@ -2,8 +2,13 @@
 
 
 // Qt includes
-#include <QtGui/QLabel>
+#include <QtCore/QtGlobal>
 #include <QtGui/QRegExpValidator>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QLabel>
+#else
+#include <QtGui/QLabel>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -61,7 +66,7 @@ void CNameParamGuiComp::OnGuiCreated()
 
 	}
 	else{
-		selectorLayoutPtr = new QVBoxLayout(NameFrame);			
+		selectorLayoutPtr = new QVBoxLayout(NameFrame);
 	}
 
 	selectorLayoutPtr->setContentsMargins(0, 0, 0, 0);
@@ -81,7 +86,7 @@ void CNameParamGuiComp::OnGuiCreated()
 	if (m_regularExpressionAttrPtr.IsValid()){
 		QRegExp expression(*m_regularExpressionAttrPtr);
 
-        QRegExpValidator* validatorPtr = new QRegExpValidator(expression, NameEdit);
+		QRegExpValidator* validatorPtr = new QRegExpValidator(expression, NameEdit);
 
 		NameEdit->setValidator(validatorPtr);
 	}

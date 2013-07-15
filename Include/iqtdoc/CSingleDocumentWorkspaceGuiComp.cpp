@@ -2,9 +2,14 @@
 
 
 // Qt includes
-#include <QtGui/QMessageBox>
 #include <QtCore/QFileInfo>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QVBoxLayout>
+#else
+#include <QtGui/QMessageBox>
 #include <QtGui/QVBoxLayout>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"

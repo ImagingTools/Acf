@@ -64,6 +64,10 @@ CONFIG(release, debug|release){
 	CONFIG += sse2
 }
 
+win32-msvc*{
+	QMAKE_LFLAGS_RELEASE += /DEBUG
+}
+
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics

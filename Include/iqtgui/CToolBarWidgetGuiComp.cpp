@@ -2,9 +2,16 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QMainWindow>
+#else
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QComboBox>
 #include <QtGui/QMainWindow>
+#endif
 
 
 namespace iqtgui

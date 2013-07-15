@@ -2,8 +2,12 @@
 
 
 // Qt includes
-#include <QtGui/QApplication>
 #include <QtGui/QPalette>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#else
+#include <QtGui/QApplication>
+#endif
 
 
 namespace iview

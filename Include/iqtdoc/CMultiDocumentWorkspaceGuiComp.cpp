@@ -5,7 +5,11 @@
 #include <QtCore/QMap>
 #include <QtCore/QFileInfo>
 #include <QtCore/QEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMessageBox>
+#else
 #include <QtGui/QMessageBox>
+#endif
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
@@ -217,8 +221,8 @@ istd::IChangeable* CMultiDocumentWorkspaceGuiComp::OpenDocument(
 	SingleDocumentData* documentInfoPtr = GetDocumentInfoFromPath(filePath);
 	if (documentInfoPtr != NULL && !allowViewRepeating){
 		createView = false;
-	}	
-		
+	}
+
 	return BaseClass::OpenDocument(filePath, createView, viewTypeId, documentTypeId);
 }
 
@@ -245,7 +249,7 @@ void CMultiDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* viewPtr)
 		}
 
 		idoc::CMultiDocumentManagerBase::SingleDocumentData* activeDocumentInfoPtr = GetDocumentInfoFromView(*viewPtr);
-		if (activeDocumentInfoPtr == NULL){	
+		if (activeDocumentInfoPtr == NULL){
 			m_documentSelectionInfo.SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);
 		}
 		else{
@@ -254,7 +258,7 @@ void CMultiDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* viewPtr)
 			m_documentSelectionInfo.SetSelectedOptionIndex(documentIndex);
 		}
 	}
-	
+
 	BaseClass::SetActiveView(viewPtr);
 }
 
@@ -291,7 +295,7 @@ void CMultiDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& settings
 	BaseClass::OnRestoreSettings(settings);
 
 	Q_ASSERT(IsGuiCreated());
-	
+
 	QVariant valueNotSet = QVariant(-1);
 
 	m_organizationName = settings.organizationName();
@@ -320,7 +324,7 @@ void CMultiDocumentWorkspaceGuiComp::OnRestoreSettings(const QSettings& settings
 					m_organizationName,
 					m_applicationName,
 					"OpenDocumentList");
-		
+
 		SerializeOpenDocumentList(archive);
 	}
 }
@@ -331,12 +335,12 @@ void CMultiDocumentWorkspaceGuiComp::OnSaveSettings(QSettings& settings) const
 	BaseClass::OnSaveSettings(settings);
 
 	Q_ASSERT(IsGuiCreated());
-	
-	QMdiArea* workspacePtr = GetQtWidget();	
-	
+
+	QMdiArea* workspacePtr = GetQtWidget();
+
 #if QT_VERSION >= 0x040400
 	settings.setValue("MDIWorkspace/ViewMode", workspacePtr->viewMode());
-#endif	
+#endif
 }
 
 
@@ -531,7 +535,7 @@ void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymo
 	}
 
 	idoc::CMultiDocumentManagerBase::SingleDocumentData* activeDocumentInfoPtr = GetActiveDocumentInfo();
-	if (activeDocumentInfoPtr == NULL){	
+	if (activeDocumentInfoPtr == NULL){
 		m_documentSelectionInfo.SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);
 	}
 	else{
@@ -560,7 +564,7 @@ void CMultiDocumentWorkspaceGuiComp::OnWindowActivated(QMdiSubWindow* /*window*/
 	}
 
 	SetActiveView(guiObjectPtr);
-}	
+}
 
 
 void CMultiDocumentWorkspaceGuiComp::OnTileHorizontally()
@@ -576,10 +580,10 @@ void CMultiDocumentWorkspaceGuiComp::OnTileHorizontally()
 	int workspaceHeight = workspacePtr->height();
 	int workspaceWidth = workspacePtr->width();
 	int heightForEach = workspaceHeight / widgets.count();
-	
+
 	for (int viewIndex = 0, y = 0; viewIndex < widgets.count(); viewIndex++){
 		QMdiSubWindow* widgetPtr = widgets.at(viewIndex);
-		widgetPtr->showNormal();									
+		widgetPtr->showNormal();
 
 		widgetPtr->setGeometry(0, y, workspaceWidth, heightForEach);
 		y += heightForEach;

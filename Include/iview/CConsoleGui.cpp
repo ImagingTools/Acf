@@ -2,13 +2,22 @@
 
 
 // Qt includes
+#include <QtGui/QWheelEvent>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QStatusBar>
+#else
 #include <QtGui/QFrame>
 #include <QtGui/QToolButton>
 #include <QtGui/QLayout>
 #include <QtGui/QLabel>
-#include <QtGui/QWheelEvent>
 #include <QtGui/QScrollBar>
 #include <QtGui/QStatusBar>
+#endif
 
 
 // ACF includes
@@ -38,11 +47,11 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_pointsSubCommand("Remove Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
 	m_shapeStatusInfoPtr(NULL),
 	m_isFullScreenMode(false),
-	m_isViewMaximized(false)	
-{		
+	m_isViewMaximized(false)
+{
 	m_viewWidget = new QWidget();
 
-	m_viewPtr = new iview::CViewport(this, m_viewWidget);	
+	m_viewPtr = new iview::CViewport(this, m_viewWidget);
 
 	m_mainLayoutPtr = new QVBoxLayout(m_viewWidget);
 	m_centerLayoutPtr = new QGridLayout();
@@ -60,7 +69,7 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_centerLayoutPtr->addWidget(m_verticalScrollbarPtr, 0, 1);
 	m_centerLayoutPtr->addWidget(m_horizontalScrollbarPtr, 1, 0);
 	m_centerLayoutPtr->setMargin(0);
-	m_centerLayoutPtr->setSpacing(1);	
+	m_centerLayoutPtr->setSpacing(1);
 
 	QSizePolicy emptyPolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
 	QSizePolicy buttonPolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -78,7 +87,7 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	UpdateComponentsPosition();
 	UpdateCommands();
 
-	ConnectSignalSlots();	
+	ConnectSignalSlots();
 
 	m_viewPtr->installEventFilter(this);
 
@@ -367,8 +376,8 @@ void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
 
 			m_savedTransform = m_viewPtr->GetTransform();
 			m_isViewMaximized = isMaximized();
-						
-			m_viewWidget->setParent(NULL);			
+
+			m_viewWidget->setParent(NULL);
 			m_viewWidget->showFullScreen();
 
 			//center image on screen

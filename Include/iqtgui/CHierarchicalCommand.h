@@ -3,8 +3,12 @@
 
 
 // Qt includes
-#include <QtGui/QAction>
 #include <QtCore/QString>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QAction>
+#else
+#include <QtGui/QAction>
+#endif
 
 // ACF includes
 #include "istd/TOptPointerVector.h"

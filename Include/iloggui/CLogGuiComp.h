@@ -4,7 +4,11 @@
 
 // Qt includes
 #include <QtCore/QTimer>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QAction>
+#else
 #include <QtGui/QAction>
+#endif
 
 // ACF includes
 #include "ifile/IFilePersistence.h"
@@ -66,7 +70,7 @@ protected:
 
 	enum DataRole
 	{
-        DR_CATEGORY = Qt::UserRole
+		DR_CATEGORY = Qt::UserRole
 	};
 
 	/**

@@ -2,12 +2,22 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QToolBox>
+#include <QtWidgets/QTabWidget>
+#include <QtWidgets/QGroupBox>
+#else
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QToolBox>
 #include <QtGui/QTabWidget>
 #include <QtGui/QGroupBox>
+#endif
 
 // ACF includes
 #include "istd/CChangeDelegator.h"

@@ -4,7 +4,11 @@
 
 // Qt includes
 #include <QtCore/QMap>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QToolBar>
+#else
 #include <QtGui/QToolBar>
+#endif
 
 // ACF includes
 #include "iqtgui/IMainWindowComponent.h"
@@ -18,13 +22,13 @@ namespace iqtgui
 /**
 	Basic implementation of a tool bar component.
 */
-class CToolBarGuiCompBase: 
-			public iqtgui::TGuiComponentBase<QToolBar>, 
+class CToolBarGuiCompBase:
+			public iqtgui::TGuiComponentBase<QToolBar>,
 			virtual public iqtgui::IMainWindowComponent
 {
 public:
-	typedef iqtgui::TGuiComponentBase<QToolBar> BaseClass; 
-	
+	typedef iqtgui::TGuiComponentBase<QToolBar> BaseClass;
+
 	I_BEGIN_COMPONENT(CToolBarGuiCompBase);
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
 		I_ASSIGN(m_dockAreaAttrPtr, "ToolBarArea", "Specify the area for this toolbar\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);

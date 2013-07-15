@@ -2,10 +2,18 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#else
 #include <QtGui/QPushButton>
 #include <QtGui/QToolButton>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QVBoxLayout>
+#endif
 
 
 namespace iqtgui
@@ -86,7 +94,7 @@ bool CSettingsContainerGuiComp::SetSelectedIndex(int index)
 {
 	Q_ASSERT(m_menuListPtr != NULL);
 	Q_ASSERT(m_stackedWidgetPtr != NULL);
-		
+
 	if (m_menuListPtr != NULL){
 		m_menuListPtr->setCurrentRow(index);
 

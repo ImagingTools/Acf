@@ -3,14 +3,18 @@
 
 
 // Qt includes
-#include <QtGui/QPrinter>
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QTextBrowser>
+#include <QtPrintSupport/QPrinter>
+#else
 #include <QtGui/QTextBrowser>
+#include <QtGui/QPrinter>
+#endif
 
 // ACF includes
 #include "istd/TDelPtr.h"
-
 #include "icomp/CComponentBase.h"
-
 #include "idoc/IHelpViewer.h"
 #include "idoc/IHelpFileProvider.h"
 

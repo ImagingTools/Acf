@@ -4,11 +4,16 @@
 
 // Qt includes
 #include <QtCore/QList>
-#include <QtGui/QLineEdit>
 #include <QtGui/QIcon>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QLabel>
+#else
+#include <QtGui/QLineEdit>
 #include <QtGui/QLabel>
+#endif
 
-// ACF includes 
+// ACF includes
 #include "istd/TDelPtr.h"
 
 #include "iqtgui/iqtgui.h"
@@ -20,7 +25,7 @@ namespace iqtgui
 
 /**
 	Input editor with extended functionality.
-	It's possible to add an icon to the edit field 
+	It's possible to add an icon to the edit field
 	or insert additional widgets (e.g control buttons) into the view.
 */
 class CExtLineEdit: public QLineEdit
@@ -90,7 +95,7 @@ private:
 	};
 
 	typedef QList<SubWidgetInfo> SubWidgetsList;
-	
+
 	QLabel* m_iconPtr;
 	SubWidgetsList m_subWidgets;
 };

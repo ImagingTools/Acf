@@ -3,8 +3,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QListWidget>
+#else
 #include <QtGui/QStackedWidget>
 #include <QtGui/QListWidget>
+#endif
 
 // ACF includes
 #include "iqtgui/CContainerGuiBase.h"

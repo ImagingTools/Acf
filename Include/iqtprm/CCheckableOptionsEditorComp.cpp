@@ -2,8 +2,14 @@
 
 
 // Qt includes
-#include "QtGui/qcheckbox.h"
-#include "QtGui/qboxlayout.h"
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QCheckbox>
+#include <QtWidgets/QBoxLayout>
+#else
+#include <QtGui/QCheckbox>
+#include <QtGui/QBoxLayout>
+#endif
 
 // ACF includes
 #include "iprm/IOptionsList.h"

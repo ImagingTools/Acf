@@ -3,7 +3,12 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QSplashScreen>
+#else
 #include <QtGui/QSplashScreen>
+#endif
 
 // ACF includes
 #include "ibase/IApplicationInfo.h"

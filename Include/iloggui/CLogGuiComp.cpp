@@ -3,10 +3,16 @@
 
 // Qt includes
 #include <QtCore/QDateTime>
+#include <QtGui/QPainter>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QToolBar>
+#include <QtWidgets/QScrollBar>
+#else
 #include <QtGui/QHeaderView>
 #include <QtGui/QToolBar>
-#include <QtGui/QPainter>
 #include <QtGui/QScrollBar>
+#endif
 
 // ACF includes
 #include "iqtgui/CItemDelegate.h"
@@ -40,7 +46,7 @@ CLogGuiComp::CLogGuiComp()
 
 
 // protected methods
-	
+
 QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& message)
 {
 	QTreeWidgetItem* treeItemPtr = new QTreeWidgetItem;
@@ -48,7 +54,7 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 		QDateTime timeStamp = message.GetInformationTimeStamp();
 
 		QString messageTimeString;
-		
+
 		if (!(*m_logTimeFormatAttrPtr).isEmpty()){
 			messageTimeString = timeStamp.toString(*m_logTimeFormatAttrPtr);
 		}
@@ -220,7 +226,7 @@ void CLogGuiComp::OnGuiCreated()
 	static QIcon exportIcon(":/Icons/DocumentExport.svg");
 	if (m_fileLoaderCompPtr.IsValid()){
 		m_exportAction = new QAction(exportIcon, tr("Export..."), ToolBarFrame);
-		connect(m_exportAction, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);		
+		connect(m_exportAction, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
 		toolBar->addAction(m_exportAction);
 		toolBar->insertSeparator(m_exportAction);
 	}
@@ -323,7 +329,7 @@ void CLogGuiComp::AddMessageToList(const MessagePtr& messagePtr)
 // protected slots
 
 void CLogGuiComp::OnAddMessage(const MessagePtr& messagePtr)
-{	
+{
 	if (IsGuiCreated()){
 		AddMessageToList(messagePtr);
 	}
@@ -342,7 +348,7 @@ void CLogGuiComp::OnMessageModeChanged()
 	int worstCategory = istd::IInformationProvider::IC_NONE;
 
 	QString filterText = FilterText->text();
-	
+
 	for (int itemIndex = 0; itemIndex < LogView->topLevelItemCount(); itemIndex++){
 		QTreeWidgetItem* itemPtr = LogView->topLevelItem(itemIndex);
 		Q_ASSERT(itemPtr != NULL);

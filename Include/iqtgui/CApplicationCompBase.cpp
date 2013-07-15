@@ -5,10 +5,16 @@
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
-#include <QtGui/QApplication>
 #include <QtGui/QIcon>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QVBoxLayout>
+#else
+#include <QtGui/QApplication>
 #include <QtGui/QStyle>
 #include <QtGui/QVBoxLayout>
+#endif
 
 // ACF includes
 #include "icomp/CCompositeComponent.h"
@@ -39,7 +45,7 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 		}
 
 		icomp::CCompositeComponent* rootComponentPtr = NULL;
-		
+
 		for (		icomp::ICompositeComponent* componentPtr = const_cast<icomp::ICompositeComponent*>(GetParentComponent(true));
 					componentPtr != NULL;
 					componentPtr = const_cast<icomp::ICompositeComponent*>(componentPtr->GetParentComponent(true))){

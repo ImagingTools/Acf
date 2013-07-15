@@ -1,6 +1,10 @@
 #include "idoc/CStandardDocumentMetaInfo.h"
 
 
+// Qt includes
+#include <QtCore/QIODevice>
+#include <QtCore/QDataStream>
+
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "iser/IArchive.h"
@@ -46,7 +50,7 @@ bool CStandardDocumentMetaInfo::SetDocumentMetaInfo(int metaInfoType, const QVar
 	MetaInfoTypes registeredTypes = GetSupportedMetaInfoTypes();
 
 	if (registeredTypes.contains(metaInfoType)){
-		
+
 		if (m_infosMap[metaInfoType] != metaInfo){
 			istd::CChangeNotifier changePtr(this);
 
