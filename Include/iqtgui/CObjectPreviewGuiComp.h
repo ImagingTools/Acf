@@ -8,9 +8,7 @@
 
 // ACF includes
 #include "ifile/IFilePersistence.h"
-
 #include "ifile/IFileNameParam.h"
-
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/Generated/ui_CObjectPreviewGuiComp.h"
 
@@ -19,6 +17,13 @@ namespace iqtgui
 {
 
 
+/**
+	Component for the preview of the file contents.
+
+	The component also observers the file system changes and updates the file preview automatically, if the file was changed.
+
+	//TODO: Must be renamed into CFilePreviewGuiComp and probably moved to ifilegui library.
+*/
 class CObjectPreviewGuiComp:
 			public iqtgui::TDesignerGuiObserverCompBase<
 						Ui::CObjectPreviewGuiComp, ifile::IFileNameParam>

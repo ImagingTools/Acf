@@ -225,7 +225,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IBitmapProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\iimg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IMultiBitmapProvider.h"
 				>
 			</File>
 			<File

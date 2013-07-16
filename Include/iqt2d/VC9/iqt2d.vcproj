@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiBitmapViewComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\COrientedCircleEditorComp.cpp"
 				>
 			</File>
@@ -289,6 +293,10 @@
 			</File>
 			<File
 				RelativePath="..\CLine2dParamsGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiBitmapViewComp.h"
 				>
 			</File>
 			<File

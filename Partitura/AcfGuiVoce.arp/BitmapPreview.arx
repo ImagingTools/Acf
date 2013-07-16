@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2934
+          3012
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          920
+          890
         </Number>
         <Description>
           ACF-Solutions
@@ -29,7 +29,7 @@
           1023
         </Id>
         <Number>
-          264194
+          264192
         </Number>
         <Description>
           Qt Framework
@@ -113,7 +113,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="10">
           <AttributeInfo>
             <Id>
               CalibrationProvider
@@ -238,22 +238,6 @@
             </Type>
             <ExportId>
               UseShapeEditCommands
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                false
-              </IsEnabled>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              UseStatusBarCommands
-            </Id>
-            <Type>
-              Boolean
-            </Type>
-            <ExportId>
-              UseStatusBarCommands
             </ExportId>
             <Data>
               <IsEnabled>
@@ -425,7 +409,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="14">
+  <ExportedInterfaces count="13">
     <Interface>
       <InterfaceId>
         ibase::ICommandsProvider
@@ -509,14 +493,6 @@
     <Interface>
       <InterfaceId>
         iqtgui::IGuiObject
-      </InterfaceId>
-      <ComponentId>
-        ObjectPreviewGui
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        iqtgui::IVisualStatusProvider
       </InterfaceId>
       <ComponentId>
         ObjectPreviewGui

@@ -131,6 +131,13 @@ I_EXPORT_COMPONENT(
 			"Affine transformations parameter GUI displaying",
 			"Affine Transformations Parameters" IM_TAG("GUI Editor 2D"));
 
+I_EXPORT_COMPONENT(
+			MultiBitmapView,
+			"Bitmap visualization for multi bitmap provider", 
+			"Image Bitmap Multiple View");
+
+
+
 
 } // namespace QtViewPck
 

@@ -4,7 +4,6 @@
 // Qt includes
 #include <QtCore/QFileInfo>
 
-
 // ACF includes
 #include "istd/TChangeNotifier.h"
 

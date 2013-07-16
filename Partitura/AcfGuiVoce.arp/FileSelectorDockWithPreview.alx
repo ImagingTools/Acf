@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2934
+          3012
         </Number>
         <Description>
           ACF
@@ -18,7 +18,7 @@
           1
         </Id>
         <Number>
-          920
+          890
         </Number>
         <Description>
           ACF-Solutions
@@ -29,7 +29,7 @@
           1023
         </Id>
         <Number>
-          264194
+          264192
         </Number>
         <Description>
           Qt Framework
@@ -37,7 +37,7 @@
       </Version>
     </VersionInfos>
   </AcfHeader>
-  <PositionMap count="8">
+  <PositionMap count="6">
     <Element>
       <ComponentName>
         FileExplorerGui
@@ -46,7 +46,7 @@
         275
       </X>
       <X>
-        300
+        325
       </X>
       <Note>
         
@@ -61,34 +61,6 @@
       </X>
       <X>
         325
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        ModelBinder
-      </ComponentName>
-      <X>
-        800
-      </X>
-      <X>
-        450
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        PathBinder
-      </ComponentName>
-      <X>
-        275
-      </X>
-      <X>
-        450
       </X>
       <Note>
         
@@ -116,7 +88,7 @@
         550
       </X>
       <X>
-        700
+        550
       </X>
       <Note>
         
@@ -144,7 +116,7 @@
         550
       </X>
       <X>
-        575
+        450
       </X>
       <Note>
         
