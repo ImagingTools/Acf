@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QDateTime>
+#include <QtCore/QPointF>
 
 // ACF includes
 #include "istd/TRange.h"
@@ -32,6 +33,8 @@ public:
 
 	template <int Dimensions>
 	static bool SerializeIndex(iser::IArchive& archive, istd::TIndex<Dimensions>& index);
+
+	static bool SerializeQPointF(iser::IArchive& archive, QPointF& point);
 };
 
 

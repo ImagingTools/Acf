@@ -213,6 +213,29 @@ bool CPrimitiveTypesSerializer::SerializeDateTime(iser::IArchive& archive, QDate
 }
 
 
+bool CPrimitiveTypesSerializer::SerializeQPointF(iser::IArchive& archive, QPointF& point)
+{
+	float x = point.x();
+	float y = point.y();
+
+	static iser::CArchiveTag xTag("X", "Horizontal position");
+	bool retVal = archive.BeginTag(xTag);
+	retVal = retVal && archive.Process(x);
+	retVal = retVal && archive.EndTag(xTag);
+
+	static iser::CArchiveTag yTag("Y", "Vertical position");
+	retVal = retVal && archive.BeginTag(yTag);
+	retVal = retVal && archive.Process(y);
+	retVal = retVal && archive.EndTag(yTag);
+
+	if (!archive.IsStoring()){
+		point = QPoint(x, y);
+	}
+
+	return retVal;
+}
+
+
 } // namespace iser
 
 
