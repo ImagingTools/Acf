@@ -54,13 +54,13 @@ void CMultiBitmapViewComp::OnModelChanged(int modelId, int /*changeFlags*/, istd
 	// view index is equal to the modelId
 	int index = modelId;
 
-	if (!IsGuiCreated() || index < 0 || index >= m_views.count()){
+	if (!IsGuiCreated() || index < 0 || index >= m_views.GetCount()){
 		return;
 	}
 
 	istd::IInformationProvider::InformationCategory viewResultCategory = m_informationProvidersCompPtr[index]->GetInformationCategory();
 
-	CSingleView* viewPtr = m_views.at(index);
+	CSingleView* viewPtr = m_views.GetAt(index);
 	viewPtr->SetInspectionResult(viewResultCategory);
 }
 
@@ -70,23 +70,34 @@ void CMultiBitmapViewComp::OnModelChanged(int modelId, int /*changeFlags*/, istd
 void CMultiBitmapViewComp::UpdateGui(int updateFlags)
 {
 	iimg::IMultiBitmapProvider* objectPtr = GetObjectPtr();
-
-	int bitmapsCount = objectPtr->GetBitmapsCount();
-	int viewsCount = m_views.count();
-
-	for (int bitmapIndex = 0; bitmapIndex < bitmapsCount; bitmapIndex++){
-		if (bitmapIndex < viewsCount){
-			CSingleView* viewPtr = m_views.at(bitmapIndex);
-
-			viewPtr->UpdateImage(objectPtr->GetBitmap(bitmapIndex));
-		}
+	if (objectPtr == NULL){
+		return;
 	}
 
-	for (int index = 0; index < m_views.count() && index < m_viewExtendersCompPtr.GetCount(); index++){
+	int bitmapsCount = objectPtr->GetBitmapsCount();
+	int viewsCount = m_views.GetCount();
+
+	if (bitmapsCount != viewsCount){
+		EnsureViewsCreated();
+	}
+
+	viewsCount = m_views.GetCount();
+
+	int usedViewsCount = qMin(viewsCount, bitmapsCount);
+
+	for (int viewIndex = 0; viewIndex < usedViewsCount; viewIndex++){
+		CSingleView* viewPtr = m_views.GetAt(viewIndex);
+
+		viewPtr->UpdateImage(objectPtr->GetBitmap(viewIndex));
+	}
+
+	usedViewsCount = qMin(viewsCount, m_viewExtendersCompPtr.GetCount());
+
+	for (int index = 0; index < usedViewsCount; index++){
 		iqt2d::IViewExtender* viewExtenderPtr = m_viewExtendersCompPtr[index];
 		Q_ASSERT(viewExtenderPtr != NULL);
 
-		CSingleView* viewPtr = m_views.at(index);
+		CSingleView* viewPtr = m_views.GetAt(index);
 		Q_ASSERT(viewPtr != NULL);
 
 		viewExtenderPtr->RemoveItemsFromScene(viewPtr);
@@ -95,11 +106,43 @@ void CMultiBitmapViewComp::UpdateGui(int updateFlags)
 }
 
 
+void CMultiBitmapViewComp::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	EnsureViewsCreated();
+}
+
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
 void CMultiBitmapViewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
+
+	if (m_generalInformationModelCompPtr.IsValid() && m_generalInformationProviderCompPtr.IsValid()){
+		RegisterModel(m_generalInformationModelCompPtr.GetPtr(), GeneralStatusModelId);
+	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CMultiBitmapViewComp::OnComponentDestroyed()
+{
+	UnregisterAllModels();
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
+// private methods
+
+void CMultiBitmapViewComp::EnsureViewsCreated()
+{
+	m_columnCount = 0;
+	m_rowCount = 0;
+	m_views.Reset();
 
 	iimg::IMultiBitmapProvider* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
@@ -130,11 +173,14 @@ void CMultiBitmapViewComp::OnGuiCreated()
 		}
 	}
 
-	QColor backgroundColor = m_viewBackgroundColorAttrPtr.IsValid() ? 
-		QColor(QString(*m_viewBackgroundColorAttrPtr)) : 
-		Qt::transparent;
+	QColor backgroundColor = m_viewBackgroundColorAttrPtr.IsValid() ?  QColor(QString(*m_viewBackgroundColorAttrPtr)) : Qt::transparent;
 
 	QWidget* widgetPtr = GetQtWidget();
+	QLayout* existingLayoutPtr = widgetPtr->layout();
+	if (existingLayoutPtr != NULL){
+		delete existingLayoutPtr;
+	}
+
 	QGridLayout* layoutPtr = new QGridLayout(widgetPtr);
 	layoutPtr->setContentsMargins(0, 0, 0, 0);
 	widgetPtr->setLayout(layoutPtr);
@@ -158,7 +204,7 @@ void CMultiBitmapViewComp::OnGuiCreated()
 
 			CSingleView* viewPtr = CreateView(widgetPtr, viewIndex, title);
 			layoutPtr->addWidget(viewPtr, row, col);
-			m_views.append(viewPtr);
+			m_views.PushBack(viewPtr);
 
 			if (m_viewBackgroundColorAttrPtr.IsValid()){
 				viewPtr->SetBackgroundColor(backgroundColor);
@@ -176,26 +222,6 @@ void CMultiBitmapViewComp::OnGuiCreated()
 			viewIndex++;
 		}
 	}
-
-	if (m_generalInformationModelCompPtr.IsValid() && m_generalInformationProviderCompPtr.IsValid()){
-		RegisterModel(m_generalInformationModelCompPtr.GetPtr(), GeneralStatusModelId);
-	}
-}
-
-
-// reimplemented (icomp::CComponentBase)
-
-void CMultiBitmapViewComp::OnComponentCreated()
-{
-	BaseClass::OnComponentCreated();
-}
-
-
-void CMultiBitmapViewComp::OnComponentDestroyed()
-{
-	UnregisterAllModels();
-
-	BaseClass::OnComponentDestroyed();
 }
 
 

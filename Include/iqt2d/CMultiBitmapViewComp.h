@@ -8,11 +8,12 @@
 #include <QtGui/QLabel>
 
 // ACF includes
-#include <iqtgui/TGuiComponentBase.h>
+#include <istd/TPointerVector.h>
 #include <ibase/TModelObserverCompWrap.h>
 #include <imod/CMultiModelDispatcherBase.h>
 #include <imod/TSingleModelObserverBase.h>
 #include <istd/IInformationProvider.h>
+#include <iqtgui/TGuiComponentBase.h>
 #include <iqtgui/TGuiObserverWrap.h>
 #include <iqtgui/TGuiComponentBase.h>
 #include <iqt2d/IViewExtender.h>
@@ -64,13 +65,16 @@ protected:
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(int updateFlags);
+	virtual void OnGuiModelAttached();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
+
+private:
+	void EnsureViewsCreated();
 
 protected:
 	class CSingleView: public QGroupBox, public iqt2d::IViewProvider
@@ -124,7 +128,7 @@ private:
 	int m_rowCount;
 	int m_columnCount;
 	int m_viewCount;
-	QList<CSingleView*> m_views;
+	istd::TPointerVector<CSingleView> m_views;
 };
 
 
