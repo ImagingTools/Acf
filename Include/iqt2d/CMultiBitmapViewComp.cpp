@@ -101,8 +101,34 @@ void CMultiBitmapViewComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
-	m_columnCount = m_horizontalViewsAttrPtr.IsValid() ? qMax(1, *m_horizontalViewsAttrPtr) : 1;
-	m_rowCount = m_verticalViewsAttrPtr.IsValid() ? qMax(1, *m_verticalViewsAttrPtr) : 1;
+	iimg::IMultiBitmapProvider* objectPtr = GetObjectPtr();
+	Q_ASSERT(objectPtr != NULL);
+	if (objectPtr == NULL){
+		return;
+	}
+
+	int totalViewsCount = objectPtr->GetBitmapsCount();
+
+	m_columnCount = m_horizontalViewsAttrPtr.IsValid() ? qMax(0, *m_horizontalViewsAttrPtr) : 0;
+	m_rowCount = m_verticalViewsAttrPtr.IsValid() ? qMax(0, *m_verticalViewsAttrPtr) : 0;
+
+	if (m_rowCount <= 0 && m_columnCount <= 0){
+		m_columnCount = qMax(1, (int)sqrt((double)totalViewsCount));
+		m_rowCount = totalViewsCount / m_columnCount;
+		if (totalViewsCount % m_columnCount){
+			m_rowCount++;
+		}
+	} else if (m_rowCount <= 0){
+		m_rowCount = totalViewsCount / m_columnCount;
+		if (totalViewsCount % m_columnCount){
+			m_rowCount++;
+		}
+	} else if (m_columnCount <= 0){
+		m_columnCount = totalViewsCount / m_rowCount;
+		if (totalViewsCount % m_rowCount){
+			m_columnCount++;
+		}
+	}
 
 	QColor backgroundColor = m_viewBackgroundColorAttrPtr.IsValid() ? 
 		QColor(QString(*m_viewBackgroundColorAttrPtr)) : 
@@ -114,8 +140,8 @@ void CMultiBitmapViewComp::OnGuiCreated()
 	widgetPtr->setLayout(layoutPtr);
 
 	int viewIndex = 0;
-	for (int row = 0; row < m_rowCount; row++){
-		for (int col = 0; col < m_columnCount; col++){
+	for (int row = 0; row < m_rowCount && viewIndex < totalViewsCount; row++){
+		for (int col = 0; col < m_columnCount && viewIndex < totalViewsCount; col++){
 			QString title;
 
 			if (m_viewLabelPrefixesAttrPtr.IsValid()){
