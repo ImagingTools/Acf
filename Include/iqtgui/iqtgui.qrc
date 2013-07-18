@@ -36,6 +36,7 @@
     <file alias="Ok">Resources/Icons/ok_128.png</file>
     <file alias="Delete.svg">Resources/Icons/Delete.svg</file>
     <file alias="Play.svg">Resources/Icons/Play.svg</file>
+    <file alias="PlayBack">Resources/Icons/PlayBack.svg</file>
     <file alias="Stop.svg">Resources/Icons/Stop.svg</file>
     <file alias="Pause.svg">Resources/Icons/Pause.svg</file>
     <file alias="Sandglass">Resources/Icons/sandglass_128.png</file>
