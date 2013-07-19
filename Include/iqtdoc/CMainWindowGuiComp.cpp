@@ -266,11 +266,23 @@ void CMainWindowGuiComp::SetupNewCommand()
 
 	m_newCommand.SetGroupId(GI_DOCUMENT);
 
-	bool isNewSupported = m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, ids.front());
+	int newSupportedCount = 0;
 
-	if (ids.size() > 1){
-		for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
-					iter != ids.end();
+	for (		idoc::IDocumentTypesInfo::Ids::ConstIterator iter = ids.constBegin();
+				iter != ids.constEnd();
+				++iter){
+		const QByteArray& documentTypeId = *iter;
+
+		if (m_documentManagerCompPtr->IsFeatureSupported(idoc::IDocumentTypesInfo::SF_NEW_DOCUMENT, documentTypeId)){
+			++newSupportedCount;
+		}
+	}
+
+	bool isNewSupported = (newSupportedCount > 0);
+
+	if (newSupportedCount > 1){
+		for (		idoc::IDocumentTypesInfo::Ids::ConstIterator iter = ids.constBegin();
+					iter != ids.constEnd();
 					++iter){
 			const QByteArray& documentTypeId = *iter;
 
@@ -280,8 +292,6 @@ void CMainWindowGuiComp::SetupNewCommand()
 					QString commandName = m_documentManagerCompPtr->GetDocumentTypeName(documentTypeId);
 					newCommandPtr->SetVisuals(commandName, commandName, tr("Creates new document %1").arg(commandName));
 					m_newCommand.InsertChild(newCommandPtr, true);
-
-					isNewSupported = true;
 				}
 			}
 		}
