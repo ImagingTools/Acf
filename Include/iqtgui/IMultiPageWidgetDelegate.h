@@ -20,7 +20,7 @@ public:
 	/**
 		Create container widget.
 	*/
-	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr) = 0;
+	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr, int orientation = Qt::Horizontal) = 0;
 
 	/**
 		Add a new page to the container. If \c pageIndex is negative, the new page will be inserted after the last page.

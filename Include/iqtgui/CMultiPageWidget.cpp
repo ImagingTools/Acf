@@ -240,7 +240,6 @@ bool CMultiPageWidget::CreateContainerGui()
 	MultiPageWidgetDelegatePtr delegatePtr = m_containerWidgetDelegateMap[m_designMode];
 	Q_ASSERT(delegatePtr.IsValid());
 
-
 	// initialize the GUI container
 	QLayout* layoutPtr = layout();
 	if (layoutPtr == NULL){
@@ -253,38 +252,10 @@ bool CMultiPageWidget::CreateContainerGui()
 	}
 
 	layoutPtr->setMargin(0);
+	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-	QToolBox* toolBoxPtr;
-	QSplitter* splitterPtr;
-
-	switch (m_designMode){
-		case DT_TAB_WIDGET:
-			setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-			m_guiContainerPtr = delegatePtr->CreateContainerWidget(this);
-			layoutPtr->addWidget(m_guiContainerPtr);
-			break;
-
-		case DT_TOOL_BOX:
-			setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-			m_guiContainerPtr = toolBoxPtr = new QToolBox(this);
-			toolBoxPtr->setBackgroundRole(QPalette::Window);
-			layoutPtr->addWidget(toolBoxPtr);
-			break;
-
-		case DT_SPLITTER:
-			m_guiContainerPtr = splitterPtr = new QSplitter(this);
-			if (m_useHorizontalLayout){
-				splitterPtr->setOrientation(Qt::Horizontal);
-			}
-			else{
-				splitterPtr->setOrientation(Qt::Vertical);
-			}
-			layoutPtr->addWidget(splitterPtr);
-			break;
-
-		default:
-			m_guiContainerPtr = this;
-	}
+	m_guiContainerPtr = delegatePtr->CreateContainerWidget(this, m_useHorizontalLayout ? Qt::Horizontal : Qt::Vertical);
+	layoutPtr->addWidget(m_guiContainerPtr);
 
 	if (!m_pageIconSize.isNull() && m_pageIconSize.isValid() && !m_pageIconSize.isEmpty()){
 		delegatePtr->SetPageIconSize(*m_guiContainerPtr, m_pageIconSize);

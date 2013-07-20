@@ -13,9 +13,13 @@ namespace iqtgui
 
 // public methods
 
-QWidget* CToolBoxDelegate::CreateContainerWidget(QWidget* parentWidgetPtr)
+QWidget* CToolBoxDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*orientation*/)
 {	
-	return new QToolBox(parentWidgetPtr);
+	QToolBox* toolBoxPtr = new QToolBox(parentWidgetPtr);
+
+	toolBoxPtr->setBackgroundRole(QPalette::Window);
+
+	return toolBoxPtr;
 }
 
 

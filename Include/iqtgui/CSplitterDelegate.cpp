@@ -14,9 +14,13 @@ namespace iqtgui
 
 // public methods
 
-QWidget* CSplitterDelegate::CreateContainerWidget(QWidget* parentWidgetPtr)
+QWidget* CSplitterDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int orientation)
 {	
-	return new QSplitter(parentWidgetPtr);
+	QSplitter* splitterPtr = new QSplitter(parentWidgetPtr);
+
+	splitterPtr->setOrientation(Qt::Orientation(orientation));
+
+	return splitterPtr;
 }
 
 

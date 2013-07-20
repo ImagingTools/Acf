@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSimpleGuiContainerDelegate.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
@@ -554,6 +558,10 @@
 			</File>
 			<File
 				RelativePath="..\CSettingsContainerGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSimpleGuiContainerDelegate.h"
 				>
 			</File>
 			<File

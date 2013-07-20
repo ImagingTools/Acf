@@ -13,7 +13,7 @@ namespace iqtgui
 
 // public methods
 
-QWidget* CTabWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr)
+QWidget* CTabWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*orientation*/)
 {	
 	return new QTabWidget(parentWidgetPtr);
 }

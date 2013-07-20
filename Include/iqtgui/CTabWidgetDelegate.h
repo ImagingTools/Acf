@@ -17,7 +17,7 @@ class CTabWidgetDelegate: virtual public IMultiPageWidgetDelegate
 {
 public:
 	// reimplemented (IMultiPageWidgetDelegate)
-	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr);
+	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr, int orientation = Qt::Horizontal);
 	virtual int InsertPage(
 		QWidget& containerWidget,
 		QWidget* pageWidgetPtr,
