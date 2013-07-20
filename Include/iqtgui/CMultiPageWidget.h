@@ -50,7 +50,12 @@ public:
 		/**
 			The same as DT_SIMPLE but a splitter manager is used for lay outing of the pages.
 		*/
-		DT_SPLITTER
+		DT_SPLITTER,
+
+		/**
+			User defined container implementation.
+		*/
+		DT_USER = 1024
 	};
 
 	CMultiPageWidget(int designMode = DT_SIMPLE, bool useHorizontalLayout = true);

@@ -88,7 +88,6 @@ bool CTabWidgetDelegate::SetCurrentPage(QWidget& containerWidget, int pageIndex)
 }
 
 
-
 QString CTabWidgetDelegate::GetPageTitle(QWidget& containerWidget, int pageIndex) const
 {
 	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
@@ -185,7 +184,6 @@ bool CTabWidgetDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*page
 }
 
 
-
 bool CTabWidgetDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) const
 {
 	return containerWidget.setProperty("iconSize", pageIconSize);
@@ -195,3 +193,4 @@ bool CTabWidgetDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& 
 } // namespace iqtgui
 
 
+s
