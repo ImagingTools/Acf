@@ -56,7 +56,7 @@ public:
 	/**
 		Set active page in the container.
 	*/
-	virtual bool SetCurrentPage(QWidget& containerWidget, int pageIndex) const = 0;
+	virtual bool SetCurrentPage(QWidget& containerWidget, int pageIndex) = 0;
 
 	/**
 		Get the title of the given page.
@@ -66,7 +66,7 @@ public:
 	/**
 		Set the page title.
 	*/
-	virtual void SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle) const = 0;
+	virtual void SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle) = 0;
 
 	/**
 		Get the page icon.
@@ -76,7 +76,7 @@ public:
 	/**
 		Set the page icon.
 	*/
-	virtual void SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon) const = 0;
+	virtual void SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon) = 0;
 
 	/**
 		Get the page tool tip.
@@ -86,7 +86,7 @@ public:
 	/**
 		Set the page tool tip.
 	*/
-	virtual void SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip) const = 0;
+	virtual void SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip) = 0;
 
 	/**
 		Get if the page enabled/disabled.
@@ -96,7 +96,7 @@ public:
 	/**
 		Set page enabled/disabled.
 	*/
-	virtual bool SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled = true) const = 0;
+	virtual bool SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled = true) = 0;
 
 	/**
 		Get if the page visible/hidden.
@@ -106,7 +106,7 @@ public:
 	/**
 		Set page visible/hidden.
 	*/
-	virtual bool SetPageVisible(QWidget& containerWidget, int pageIndex, bool isPageVisible = true) const = 0;
+	virtual bool SetPageVisible(QWidget& containerWidget, int pageIndex, bool isPageVisible = true) = 0;
 
 	/**
 		Get the size page icon.
@@ -114,9 +114,9 @@ public:
 	virtual QSize GetPageIconSize(QWidget& containerWidget) const = 0;
 
 	/**
-		Set the size page icon.
+		Set the size of the icon for all pages in the container.
 	*/
-	virtual bool SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) const = 0;
+	virtual bool SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) = 0;
 };
 
 

@@ -82,7 +82,7 @@ int CTabWidgetDelegate::GetCurrentPage(QWidget& containerWidget) const
 }
 
 
-bool CTabWidgetDelegate::SetCurrentPage(QWidget& containerWidget, int pageIndex) const
+bool CTabWidgetDelegate::SetCurrentPage(QWidget& containerWidget, int pageIndex)
 {
 	return containerWidget.setProperty("currentIndex", pageIndex);
 }
@@ -99,7 +99,7 @@ QString CTabWidgetDelegate::GetPageTitle(QWidget& containerWidget, int pageIndex
 }
 
 
-void CTabWidgetDelegate::SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle) const
+void CTabWidgetDelegate::SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle)
 {
 	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
 	if (tabWidgetPtr != NULL){
@@ -119,7 +119,7 @@ QIcon CTabWidgetDelegate::GetPageIcon(QWidget& containerWidget, int pageIndex) c
 }
 
 
-void CTabWidgetDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon) const
+void CTabWidgetDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon)
 {
 	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
 	if (tabWidgetPtr != NULL){
@@ -139,7 +139,7 @@ QString CTabWidgetDelegate::GetPageToolTip(QWidget& containerWidget, int pageInd
 }
 
 
-void CTabWidgetDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip) const
+void CTabWidgetDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip)
 {
 	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
 	if (tabWidgetPtr != NULL){
@@ -159,7 +159,7 @@ bool CTabWidgetDelegate::IsPageEnabled(QWidget& containerWidget, int pageIndex) 
 }
 
 
-bool CTabWidgetDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled) const
+bool CTabWidgetDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled)
 {
 	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
 	if (tabWidgetPtr != NULL){
@@ -178,13 +178,19 @@ bool CTabWidgetDelegate::IsPageVisible(QWidget& /*containerWidget*/, int /*pageI
 }
 
 
-bool CTabWidgetDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*pageIndex*/, bool /*isPageVisible*/) const
+bool CTabWidgetDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*pageIndex*/, bool /*isPageVisible*/)
 {
-	return true;
+	return false;
 }
 
 
-bool CTabWidgetDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) const
+QSize CTabWidgetDelegate::GetPageIconSize(QWidget& containerWidget) const
+{
+	return containerWidget.property("iconSize").toSize();
+}
+
+
+bool CTabWidgetDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize)
 {
 	return containerWidget.setProperty("iconSize", pageIconSize);
 }

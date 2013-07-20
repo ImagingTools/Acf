@@ -82,7 +82,7 @@ int CSplitterDelegate::GetCurrentPage(QWidget& /*containerWidget*/) const
 }
 
 
-bool CSplitterDelegate::SetCurrentPage(QWidget& /*containerWidget*/, int /*pageIndex*/) const
+bool CSplitterDelegate::SetCurrentPage(QWidget& /*containerWidget*/, int /*pageIndex*/)
 {
 	return false;
 }
@@ -94,7 +94,7 @@ QString CSplitterDelegate::GetPageTitle(QWidget& /*containerWidget*/, int /*page
 }
 
 
-void CSplitterDelegate::SetPageTitle(QWidget& /*containerWidget*/, int /*pageIndex*/, const QString& /*pageTitle*/) const
+void CSplitterDelegate::SetPageTitle(QWidget& /*containerWidget*/, int /*pageIndex*/, const QString& /*pageTitle*/)
 {
 }
 
@@ -113,13 +113,20 @@ QIcon CSplitterDelegate::GetPageIcon(QWidget& containerWidget, int pageIndex) co
 }
 
 
-void CSplitterDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon) const
+void CSplitterDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon)
 {
 	QSplitter* splitterPtr = dynamic_cast<QSplitter*>(&containerWidget);
 	if (splitterPtr != NULL){
 		QWidget* widgetPtr = splitterPtr->widget(pageIndex);
 		if (widgetPtr != NULL){
-			return widgetPtr->setWindowIcon(pageIcon);
+
+			QIcon usedIcon = pageIcon;
+			
+			if (!m_iconSize.isNull()){
+				usedIcon = pageIcon.pixmap(m_iconSize);
+			}
+
+			return widgetPtr->setWindowIcon(usedIcon);
 		}
 	}
 }
@@ -139,7 +146,7 @@ QString CSplitterDelegate::GetPageToolTip(QWidget& containerWidget, int pageInde
 }
 
 
-void CSplitterDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip) const
+void CSplitterDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip)
 {
 	QSplitter* splitterPtr = dynamic_cast<QSplitter*>(&containerWidget);
 	if (splitterPtr != NULL){
@@ -165,7 +172,7 @@ bool CSplitterDelegate::IsPageEnabled(QWidget& containerWidget, int pageIndex) c
 }
 
 
-bool CSplitterDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled) const
+bool CSplitterDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled)
 {
 	QSplitter* splitterPtr = dynamic_cast<QSplitter*>(&containerWidget);
 	if (splitterPtr != NULL){
@@ -197,7 +204,7 @@ bool CSplitterDelegate::IsPageVisible(QWidget& containerWidget, int pageIndex) c
 }
 
 
-bool CSplitterDelegate::SetPageVisible(QWidget& containerWidget, int pageIndex, bool isPageVisible) const
+bool CSplitterDelegate::SetPageVisible(QWidget& containerWidget, int pageIndex, bool isPageVisible)
 {
 	QSplitter* splitterPtr = dynamic_cast<QSplitter*>(&containerWidget);
 	if (splitterPtr != NULL){
@@ -213,9 +220,17 @@ bool CSplitterDelegate::SetPageVisible(QWidget& containerWidget, int pageIndex, 
 }
 
 
-bool CSplitterDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) const
+QSize CSplitterDelegate::GetPageIconSize(QWidget& /*containerWidget*/) const
 {
-	return containerWidget.setProperty("iconSize", pageIconSize);
+	return m_iconSize;
+}
+
+
+bool CSplitterDelegate::SetPageIconSize(QWidget& /*containerWidget*/, const QSize& pageIconSize)
+{
+	m_iconSize = pageIconSize;
+
+	return true;
 }
 
 

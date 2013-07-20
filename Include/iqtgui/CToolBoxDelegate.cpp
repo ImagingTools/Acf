@@ -83,7 +83,7 @@ int CToolBoxDelegate::GetCurrentPage(QWidget& containerWidget) const
 }
 
 
-bool CToolBoxDelegate::SetCurrentPage(QWidget& containerWidget, int pageIndex) const
+bool CToolBoxDelegate::SetCurrentPage(QWidget& containerWidget, int pageIndex)
 {
 	return containerWidget.setProperty("currentIndex", pageIndex);
 }
@@ -100,7 +100,7 @@ QString CToolBoxDelegate::GetPageTitle(QWidget& containerWidget, int pageIndex) 
 }
 
 
-void CToolBoxDelegate::SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle) const
+void CToolBoxDelegate::SetPageTitle(QWidget& containerWidget, int pageIndex, const QString& pageTitle)
 {
 	QToolBox* toolBoxPtr = dynamic_cast<QToolBox*>(&containerWidget);
 	if (toolBoxPtr != NULL){
@@ -120,7 +120,7 @@ QIcon CToolBoxDelegate::GetPageIcon(QWidget& containerWidget, int pageIndex) con
 }
 
 
-void CToolBoxDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon) const
+void CToolBoxDelegate::SetPageIcon(QWidget& containerWidget, int pageIndex, const QIcon& pageIcon)
 {
 	QToolBox* toolBoxPtr = dynamic_cast<QToolBox*>(&containerWidget);
 	if (toolBoxPtr != NULL){
@@ -140,7 +140,7 @@ QString CToolBoxDelegate::GetPageToolTip(QWidget& containerWidget, int pageIndex
 }
 
 
-void CToolBoxDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip) const
+void CToolBoxDelegate::SetPageToolTip(QWidget& containerWidget, int pageIndex, const QString& pageToolTip)
 {
 	QToolBox* toolBoxPtr = dynamic_cast<QToolBox*>(&containerWidget);
 	if (toolBoxPtr != NULL){
@@ -160,7 +160,7 @@ bool CToolBoxDelegate::IsPageEnabled(QWidget& containerWidget, int pageIndex) co
 }
 
 
-bool CToolBoxDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled) const
+bool CToolBoxDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex, bool isPageEnabled)
 {
 	QToolBox* toolBoxPtr = dynamic_cast<QToolBox*>(&containerWidget);
 	if (toolBoxPtr != NULL){
@@ -179,13 +179,19 @@ bool CToolBoxDelegate::IsPageVisible(QWidget& /*containerWidget*/, int /*pageInd
 }
 
 
-bool CToolBoxDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*pageIndex*/, bool /*isPageVisible*/) const
+bool CToolBoxDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*pageIndex*/, bool /*isPageVisible*/)
 {
-	return true;
+	return false;
 }
 
 
-bool CToolBoxDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize) const
+QSize CToolBoxDelegate::GetPageIconSize(QWidget& containerWidget) const
+{
+	return containerWidget.property("iconSize").toSize();
+}
+
+
+bool CToolBoxDelegate::SetPageIconSize(QWidget& containerWidget, const QSize& pageIconSize)
 {
 	return containerWidget.setProperty("iconSize", pageIconSize);
 }
