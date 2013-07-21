@@ -66,7 +66,8 @@ bool CTabWidgetDelegate::SetPageHeaderPosition(QWidget& containerWidget, PageHea
 			case PHP_BOTTOM:
 				tabPosition = QTabWidget::South;
 				break;
-
+			default:
+				break;
 		}
 
 		tabWidgetPtr->setTabPosition(tabPosition);
