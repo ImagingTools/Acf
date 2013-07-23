@@ -1,3 +1,4 @@
+
 #include "iqt2d/CMultiBitmapViewComp.h"
 
 
@@ -130,6 +131,10 @@ void CMultiBitmapViewComp::OnGuiCreated()
 
 void CMultiBitmapViewComp::OnComponentDestroyed()
 {
+	while (!m_views.IsEmpty()){
+		m_views.PopAt(0);
+	}
+
 	UnregisterAllModels();
 
 	BaseClass::OnComponentDestroyed();
