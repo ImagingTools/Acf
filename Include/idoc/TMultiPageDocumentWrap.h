@@ -2,9 +2,12 @@
 #define idoc_TMultiPageDocumentWrap_included
 
 
+// Qt includes
+#include <QtCore/QVector>
+
 // ACF includes
 #include "istd/TChangeNotifier.h"
-#include "istd/TPointerVector.h"
+#include "istd/TSmartPtr.h"
 #include "idoc/IMultiPageDocument.h"
 #include "idoc/CStandardDocumentMetaInfo.h"
 
@@ -36,7 +39,13 @@ public:
 	virtual const IDocumentMetaInfo& GetDocumentMetaInfo() const;
 
 protected:
-	typedef istd::TPointerVector<PageInterface> Pages;
+	struct Page
+	{
+		QString pageTitle;
+		istd::TSmartPtr<PageInterfaceType> pagePtr;
+	};
+
+	typedef QVector<Page> Pages;
 
 	Pages m_documentPages;
 };
@@ -50,7 +59,7 @@ const typename TMultiPageDocumentWrap<Base, PageInterface>::PageInterfaceType* T
 	Q_ASSERT(pageIndex < m_documentPages.GetCount());
 	Q_ASSERT(pageIndex >= 0);
 
-	return m_documentPages.GetAt(pageIndex);
+	return m_documentPages.at(pageIndex).pagePtr.GetPtr();
 }
 
 
@@ -59,7 +68,7 @@ const typename TMultiPageDocumentWrap<Base, PageInterface>::PageInterfaceType* T
 template <class Base, class PageInterface>
 int TMultiPageDocumentWrap<Base, PageInterface>::GetPagesCount() const
 {
-	return m_documentPages.GetCount();
+	return m_documentPages.count();
 }
 
 
@@ -75,7 +84,7 @@ void TMultiPageDocumentWrap<Base, PageInterface>::ResetPages()
 {
 	istd::CChangeNotifier changePtr(this);
 
-	m_documentPages.Reset();
+	m_documentPages.clear();
 }
 
 
@@ -87,7 +96,7 @@ bool TMultiPageDocumentWrap<Base, PageInterface>::RemovePage(int pageIndex)
 
 	istd::CChangeNotifier changePtr(this);
 
-	m_documentPages.RemoveAt(pageIndex);
+	m_documentPages.remove(pageIndex);
 
 	return true;
 }

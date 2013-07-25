@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QSizeF>
+#include <QtCore/QString>
 
 // ACF includes
 #include <istd/IChangeable.h>
@@ -40,10 +41,14 @@ public:
 
 	/**
 		Insert a new document page at the given position.
+		\param pageTitle - Title of the page.
 		\param pageSize - Physical dimension of the page in mm.
 		\param Insertion position in the page container. If this value is negative, the new page will be inserted after the last page of the document.
 	*/
-	virtual istd::IChangeable* InsertPage(const QSizeF& pageSize = QSizeF(), int position = -1) = 0;
+	virtual istd::IChangeable* InsertPage(
+				const QString& pageTitle = QString(),
+				const QSizeF& pageSize = QSizeF(),
+				int position = -1) = 0;
 
 	/**
 		Remove the page at the given index.

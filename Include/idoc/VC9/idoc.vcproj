@@ -296,11 +296,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IMultiPageDocument.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ITextDocument.h"
 				>
 			</File>
 			<File
 				RelativePath="..\IUndoManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TMultiPageDocumentWrap.h"
 				>
 			</File>
 		</Filter>
