@@ -10,6 +10,7 @@
 #include "istd/TSmartPtr.h"
 #include "idoc/IMultiPageDocument.h"
 #include "idoc/CStandardDocumentMetaInfo.h"
+#include "iser/CArchiveTag.h"
 
 
 namespace idoc
@@ -19,7 +20,7 @@ namespace idoc
 /**
 	Generic implementation of IMultiPageDocument interface.
 */
-template <class Base, class PageInterface>
+template <class Base>
 class TMultiPageDocumentWrap:
 			virtual public Base,
 			public CStandardDocumentMetaInfo
@@ -27,24 +28,32 @@ class TMultiPageDocumentWrap:
 public:
 	typedef Base BaseClass;
 	typedef CStandardDocumentMetaInfo BaseClass2;
-	typedef PageInterface PageInterfaceType;
-
-	const PageInterfaceType* GetPageObject(int pageIndex) const;
 
 	// pseudo-reimplemented (IMultiPageDocument)
 	virtual int GetPagesCount() const;
 	virtual const istd::IChangeable& GetDocumentPage(int pageIndex) const;
+	virtual const idoc::IDocumentMetaInfo* GetPageMetaInfo(int pageIndex) const;
 	virtual void ResetPages();
 	virtual bool RemovePage(int pageIndex);
 	virtual const IDocumentMetaInfo& GetDocumentMetaInfo() const;
 
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 protected:
 	struct Page
 	{
-		QString pageTitle;
-		istd::TSmartPtr<PageInterfaceType> pagePtr;
+		idoc::CStandardDocumentMetaInfo pageMetaInfo;
+		istd::TSmartPtr<istd::IChangeable> pagePtr;
 	};
 
+protected:
+	/**
+		Serialize a single page item into or from the archive.
+	*/
+	virtual bool SerializePage(iser::IArchive& archive, Page& pageItem);
+
+protected:
 	typedef QVector<Page> Pages;
 
 	Pages m_documentPages;
@@ -53,34 +62,38 @@ protected:
 
 // public methods
 
-template <class Base, class PageInterface>
-const typename TMultiPageDocumentWrap<Base, PageInterface>::PageInterfaceType* TMultiPageDocumentWrap<Base, PageInterface>::GetPageObject(int pageIndex) const
-{
-	Q_ASSERT(pageIndex < m_documentPages.count());
-	Q_ASSERT(pageIndex >= 0);
-
-	return m_documentPages.at(pageIndex).pagePtr.GetPtr();
-}
-
-
 // pseudo-reimplemented (IMultiPageDocument)
 
-template <class Base, class PageInterface>
-int TMultiPageDocumentWrap<Base, PageInterface>::GetPagesCount() const
+template <class Base>
+int TMultiPageDocumentWrap<Base>::GetPagesCount() const
 {
 	return m_documentPages.count();
 }
 
 
-template <class Base, class PageInterface>
-const istd::IChangeable& TMultiPageDocumentWrap<Base, PageInterface>::GetDocumentPage(int pageIndex) const
+template <class Base>
+const istd::IChangeable& TMultiPageDocumentWrap<Base>::GetDocumentPage(int pageIndex) const
 {
-	return *GetPageObject(pageIndex);
+	Q_ASSERT(pageIndex < m_documentPages.count());
+	Q_ASSERT(pageIndex >= 0);
+	Q_ASSERT(m_documentPages.at(pageIndex).pagePtr.IsValid());
+
+	return *m_documentPages.at(pageIndex).pagePtr.GetPtr();
 }
 
 
-template <class Base, class PageInterface>
-void TMultiPageDocumentWrap<Base, PageInterface>::ResetPages()
+template <class Base>
+const idoc::IDocumentMetaInfo* TMultiPageDocumentWrap<Base>::GetPageMetaInfo(int pageIndex) const
+{
+	Q_ASSERT(pageIndex < m_documentPages.count());
+	Q_ASSERT(pageIndex >= 0);
+
+	return &m_documentPages.at(pageIndex).pageMetaInfo;
+}
+
+
+template <class Base>
+void TMultiPageDocumentWrap<Base>::ResetPages()
 {
 	istd::CChangeNotifier changePtr(this);
 
@@ -88,8 +101,8 @@ void TMultiPageDocumentWrap<Base, PageInterface>::ResetPages()
 }
 
 
-template <class Base, class PageInterface>
-bool TMultiPageDocumentWrap<Base, PageInterface>::RemovePage(int pageIndex)
+template <class Base>
+bool TMultiPageDocumentWrap<Base>::RemovePage(int pageIndex)
 {
 	Q_ASSERT(pageIndex < m_documentPages.count());
 	Q_ASSERT(pageIndex >= 0);
@@ -102,11 +115,88 @@ bool TMultiPageDocumentWrap<Base, PageInterface>::RemovePage(int pageIndex)
 }
 
 
-template <class Base, class PageInterface>
-const IDocumentMetaInfo& TMultiPageDocumentWrap<Base, PageInterface>::GetDocumentMetaInfo() const
+template <class Base>
+const IDocumentMetaInfo& TMultiPageDocumentWrap<Base>::GetDocumentMetaInfo() const
 {
 	return *this;
 }
+
+
+// reimplemented (iser::ISerializable)
+
+template <class Base>
+bool TMultiPageDocumentWrap<Base>::Serialize(iser::IArchive& archive)
+{
+	// Serialize meta info:
+	static iser::CArchiveTag metaInfoTag("MetaInfo", "Meta information about the document");
+	bool retVal = archive.BeginTag(metaInfoTag);
+	retVal = retVal && BaseClass2::Serialize(archive);
+	retVal = retVal && archive.EndTag(metaInfoTag);
+
+	// Serialize document pages:
+	static iser::CArchiveTag pagesTag("Pages", "Container of the document pages");
+	static iser::CArchiveTag pageTag("Page", "Single document page");
+
+	int pagesCount = m_documentPages.count();
+
+	retVal = retVal && archive.BeginMultiTag(pagesTag, pageTag, pagesCount);
+
+	if (archive.IsStoring()){
+		for (int pageIndex = 0; pageIndex < pagesCount; ++pageIndex){
+			retVal = retVal && archive.BeginTag(pageTag);
+			retVal = retVal && SerializePage(archive, m_documentPages[pageIndex]);
+			retVal = retVal && archive.EndTag(pageTag);
+		}
+	}
+	else{
+		istd::CChangeNotifier changePtr(this);
+
+		m_documentPages.clear();
+
+		for (int pageIndex = 0; pageIndex < pagesCount; ++pageIndex){
+			InsertPage(QString(), QSizeF(), pageIndex);
+
+			retVal = retVal && archive.BeginTag(pageTag);
+			retVal = retVal && SerializePage(archive, m_documentPages[pageIndex]);
+			retVal = retVal && archive.EndTag(pageTag);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(pagesTag);
+
+	return retVal;
+}
+
+
+// protected methods
+
+template <class Base>
+bool TMultiPageDocumentWrap<Base>::SerializePage(iser::IArchive& archive, Page& pageItem)
+{
+	static iser::CArchiveTag pageTitleTag("PageTitle", "Title of the page");
+	bool retVal = archive.BeginTag(pageTitleTag);
+	retVal = retVal && pageItem.pageMetaInfo.Serialize(archive);
+	retVal = retVal && archive.EndTag(pageTitleTag);
+
+	static iser::CArchiveTag pageContentTag("PageContent", "The contents of the page");
+
+	iser::ISerializable* serializablePagePtr = dynamic_cast<iser::ISerializable*>(pageItem.pagePtr.GetPtr());
+	if (serializablePagePtr != NULL){
+		retVal = retVal && archive.BeginTag(pageContentTag);
+		retVal = serializablePagePtr->Serialize(archive);
+		retVal = retVal && archive.EndTag(pageContentTag);
+	}
+	else{
+		qWarning("Page object doesn't support serialization");
+
+		return false;
+	}
+
+	return retVal;
+}
+
+
+typedef idoc::TMultiPageDocumentWrap<idoc::IMultiPageDocument> CMultiPageDocumentBase;
 
 
 } // namespace idoc

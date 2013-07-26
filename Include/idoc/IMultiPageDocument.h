@@ -35,6 +35,11 @@ public:
 	virtual const istd::IChangeable& GetDocumentPage(int pageIndex) const = 0;
 
 	/**
+		Get meta info of the given page if exists.
+	*/
+	virtual const idoc::IDocumentMetaInfo* GetPageMetaInfo(int pageIndex) const = 0;
+
+	/**
 		Remove all pages and their content from the document.
 	*/
 	virtual void ResetPages() = 0;
@@ -42,8 +47,9 @@ public:
 	/**
 		Insert a new document page at the given position.
 		\param pageTitle - Title of the page.
-		\param pageSize - Physical dimension of the page in mm.
+		\param pageSize - Physical dimension of the page in mm. If no page size was specified, then the page will be resized to its content.
 		\param Insertion position in the page container. If this value is negative, the new page will be inserted after the last page of the document.
+		\return	The method returns the object, which represents the contents of the page.
 	*/
 	virtual istd::IChangeable* InsertPage(
 				const QString& pageTitle = QString(),

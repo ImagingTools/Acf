@@ -23,6 +23,7 @@ CStandardDocumentMetaInfo::MetaInfoTypes CStandardDocumentMetaInfo::GetSupported
 {
 	MetaInfoTypes retVal;
 
+	retVal.insert(MIT_TITLE);
 	retVal.insert(MIT_AUTHOR);
 	retVal.insert(MIT_CREATOR);
 	retVal.insert(MIT_DESCRIPTION);
@@ -71,6 +72,8 @@ QString CStandardDocumentMetaInfo::GetMetaInfoName(int metaInfoType) const
 	static QString emptyName;
 
 	switch (metaInfoType){
+		case MIT_TITLE:
+			return QObject::tr("Title");
 		case MIT_AUTHOR:
 			return QObject::tr("Author");
 		case MIT_CREATOR:
@@ -92,6 +95,8 @@ QString CStandardDocumentMetaInfo::GetMetaInfoDescription(int metaInfoType) cons
 	static QString emptyName;
 
 	switch (metaInfoType){
+		case MIT_TITLE:
+			return QObject::tr("Title of the document");
 		case MIT_AUTHOR:
 			return QObject::tr("Author of the document");
 		case MIT_CREATOR:

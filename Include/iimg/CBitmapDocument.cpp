@@ -10,7 +10,7 @@ namespace iimg
 // reimplemented (idoc::IMultiPageDocument)
 
 istd::IChangeable* CBitmapDocument::InsertPage(
-			const QString& /*pageTitle*/,
+			const QString& pageTitle,
 			const QSizeF& /*pageSize*/,
 			int position)
 {
@@ -19,6 +19,8 @@ istd::IChangeable* CBitmapDocument::InsertPage(
 	Page newPage;
 
 	Bitmap* bitmapPtr = new Bitmap;
+
+	newPage.pageMetaInfo.SetDocumentMetaInfo(MIT_TITLE, pageTitle);
 	newPage.pagePtr.SetPtr(bitmapPtr);
 
 	if (position < 0){
@@ -50,17 +52,7 @@ int CBitmapDocument::GetBitmapsCount() const
 
 const iimg::IBitmap* CBitmapDocument::GetBitmap(int bitmapIndex) const
 {
-	return m_documentPages.at(bitmapIndex).pagePtr.GetPtr();
-}
-
-
-// reimplemented (iser::ISerializable)
-
-bool CBitmapDocument::Serialize(iser::IArchive& /*archive*/)
-{
-	bool retVal = true;
-
-	return retVal;
+	return dynamic_cast<const iimg::IBitmap*>(m_documentPages.at(bitmapIndex).pagePtr.GetPtr());
 }
 
 
