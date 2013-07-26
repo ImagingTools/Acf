@@ -714,6 +714,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Generated\moc_CMultiPageWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Generated\moc_CProgressManagerGuiComp.cpp"
 				>
 			</File>
@@ -831,6 +835,10 @@
 			</File>
 			<File
 				RelativePath="..\CImagePropertyGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiPageWidget.moc"
 				>
 			</File>
 			<File

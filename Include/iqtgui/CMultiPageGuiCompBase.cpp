@@ -15,11 +15,19 @@ namespace iqtgui
 {
 
 
+// public methods
+
+CMultiPageGuiCompBase::CMultiPageGuiCompBase()
+	:m_currentPageIndex(-1)
+{
+}
+
+
 // protected methods
 
 int CMultiPageGuiCompBase::AddPageToContainerWidget(
 			iqtgui::IGuiObject& pageGui,
-			const QString& pageTitle) const
+			const QString& pageTitle)
 {
 	CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<CMultiPageWidget*>(GetWidget());
 	Q_ASSERT(multiPageWidgetPtr != NULL);
@@ -34,7 +42,12 @@ int CMultiPageGuiCompBase::AddPageToContainerWidget(
 		pageGui.CreateGui(pageContainerPtr);
 	}
 
-	return multiPageWidgetPtr->InsertPage(pageContainerPtr, pageTitle);
+	bool retVal = multiPageWidgetPtr->InsertPage(pageContainerPtr, pageTitle);
+	if (retVal){
+		m_currentPageIndex = multiPageWidgetPtr->GetCurrentPage();
+	}
+
+	return retVal;
 }
 
 
@@ -125,6 +138,8 @@ QWidget* CMultiPageGuiCompBase::InitWidgetToParent(QWidget* parentPtr)
 	if (m_iconSizeAttrPtr.IsValid()){
 		widgetPtr->SetPageIconSize(QSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr));
 	}
+
+	m_currentPageIndex = widgetPtr->GetCurrentPage();
 
 	return widgetPtr;
 }
@@ -347,6 +362,7 @@ bool CMultiPageGuiCompBase::PageModel::IsOptionEnabled(int index) const
 
 	return true;
 }
+
 
 // protected methods of the embedded class PageModel
 

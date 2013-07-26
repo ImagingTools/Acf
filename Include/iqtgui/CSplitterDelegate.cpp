@@ -21,6 +21,8 @@ namespace iqtgui
 
 // public methods
 
+// reimplemented (IMultiPageWidgetDelegate)
+
 QWidget* CSplitterDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int orientation)
 {	
 	QSplitter* splitterPtr = new QSplitter(parentWidgetPtr);
@@ -28,6 +30,15 @@ QWidget* CSplitterDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int 
 	splitterPtr->setOrientation(Qt::Orientation(orientation));
 
 	return splitterPtr;
+}
+
+
+bool CSplitterDelegate::ConnectPageIndexListener(
+			QWidget& /*containerWidget*/,
+			QObject* /*receiverPtr*/,
+			const char* /*receiverSlotName*/)
+{
+	return true;
 }
 
 

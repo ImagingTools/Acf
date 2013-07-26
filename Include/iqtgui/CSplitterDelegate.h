@@ -18,6 +18,10 @@ class CSplitterDelegate: virtual public IMultiPageWidgetDelegate
 public:
 	// reimplemented (IMultiPageWidgetDelegate)
 	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr, int orientation = Qt::Horizontal);
+	virtual bool ConnectPageIndexListener(
+		QWidget& containerWidget,
+		QObject* receiverPtr,
+		const char* receiverSlotName);
 	virtual bool SetPageHeaderPosition(QWidget& containerWidget, PageHeaderPosition pageHeaderPosition);
 	virtual int InsertPage(
 		QWidget& containerWidget,

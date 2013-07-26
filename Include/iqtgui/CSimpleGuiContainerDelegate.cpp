@@ -56,6 +56,15 @@ QWidget* CSimpleGuiContainerDelegate::CreateContainerWidget(QWidget* parentWidge
 }
 
 
+bool CSimpleGuiContainerDelegate::ConnectPageIndexListener(
+			QWidget& /*containerWidget*/,
+			QObject* /*receiverPtr*/,
+			const char* /*receiverSlotName*/)
+{
+	return true;
+}
+
+
 bool CSimpleGuiContainerDelegate::SetPageHeaderPosition(QWidget& /*containerWidget*/, PageHeaderPosition /*pageHeaderPosition*/)
 {
 	return false;

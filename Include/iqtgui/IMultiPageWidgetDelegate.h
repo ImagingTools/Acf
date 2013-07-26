@@ -64,6 +64,17 @@ public:
 	virtual QWidget* CreateContainerWidget(QWidget* parentWidgetPtr, int orientation = Qt::Horizontal) = 0;
 
 	/**
+		Connect object, which will be notified about changing of the current selected page index.
+		\param containerWidget	Container widget which provides initiate switching of the page
+		\param receiverPtr	Receiver of the page changing notification
+		\param receiverSlotName	Name of the slot implemented in the receiver implementation, which will be triggered on page switching.
+	*/
+	virtual bool ConnectPageIndexListener(
+				QWidget& containerWidget,
+				QObject* receiverPtr,
+				const char* receiverSlotName) = 0;
+
+	/**
 		Set the position of the page header bar on the container UI.
 	*/
 	virtual bool SetPageHeaderPosition(QWidget& containerWidget, PageHeaderPosition pageHeaderPosition) = 0;

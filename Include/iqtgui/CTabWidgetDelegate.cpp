@@ -17,6 +17,8 @@ namespace iqtgui
 
 // public methods
 
+// reimplemented (IMultiPageWidgetDelegate)
+
 CTabWidgetDelegate::CTabWidgetDelegate(QTabWidget::TabPosition tabPosition, bool useDocumentMode)
 	:m_tabPosition(tabPosition),
 	m_useDocumentMode(useDocumentMode)
@@ -53,6 +55,20 @@ QWidget* CTabWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int
 	tabWidgetPtr->setDocumentMode(m_useDocumentMode);
 
 	return tabWidgetPtr;
+}
+
+
+bool CTabWidgetDelegate::ConnectPageIndexListener(
+			QWidget& containerWidget,
+			QObject* receiverPtr,
+			const char* receiverSlotName)
+{
+	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
+	if (tabWidgetPtr != NULL){
+		return QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), receiverPtr, receiverSlotName);
+	}
+
+	return false;
 }
 
 

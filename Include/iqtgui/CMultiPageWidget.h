@@ -30,6 +30,7 @@ namespace iqtgui
 */
 class CMultiPageWidget: public QWidget
 {
+	Q_OBJECT
 public:
 	typedef QWidget BaseClass;
 	typedef IMultiPageWidgetDelegate::PageHeaderPosition PageHeaderPosition; 
@@ -84,6 +85,7 @@ public:
 
 	/**
 		Set design mode. Existing pages will be re-integrated into the new container widget.
+		\note Currently, the switching of the design mode at the run time (after creation of this object) is not implemented!
 	*/
 	void SetDesignMode(int designMode);
 
@@ -198,11 +200,14 @@ public:
 	template<class DelegateImpl>
 	void RegisterMultiPageWidgetDelegate(int uiMode);
 
-protected:
+Q_SIGNALS:
 	/**
-		Get the index of the currently active page in the container widget.
+		Signal will be emitted whenever the currently selected page will be changed. 
 	*/
-	int GetCurrentPageIndex() const;
+	void EmitPageIndexChanged(int pageIndex);
+
+protected Q_SLOTS:
+	void OnPageIndexChanged(int pageIndex);
 
 private:
 	typedef istd::TSmartPtr<IMultiPageWidgetDelegate> MultiPageWidgetDelegatePtr;

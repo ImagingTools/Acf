@@ -19,6 +19,8 @@ namespace iqtgui
 
 // public methods
 
+// reimplemented (IMultiPageWidgetDelegate)
+
 QWidget* CToolBoxDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*orientation*/)
 {	
 	QToolBox* toolBoxPtr = new QToolBox(parentWidgetPtr);
@@ -26,6 +28,20 @@ QWidget* CToolBoxDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /
 	toolBoxPtr->setBackgroundRole(QPalette::Window);
 
 	return toolBoxPtr;
+}
+
+
+bool CToolBoxDelegate::ConnectPageIndexListener(
+			QWidget& containerWidget,
+			QObject* receiverPtr,
+			const char* receiverSlotName)
+{
+	QToolBox* toolBoxPtr = dynamic_cast<QToolBox*>(&containerWidget);
+	if (toolBoxPtr != NULL){
+		return QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), receiverPtr, receiverSlotName);
+	}
+
+	return false;
 }
 
 

@@ -46,6 +46,8 @@ public:
 		I_ASSIGN(m_insertSpacerAttrPtr, "InsertSpacer", "If enabled, spacer will be added to fill whole available area", true, false);
 	I_END_COMPONENT;
 
+	CMultiPageGuiCompBase();
+
 protected:
 	/**
 		Get the number of the pages in the UI container.
@@ -67,7 +69,7 @@ protected:
 	/**
 		Add a new page to the widget container.
 	*/
-	virtual int AddPageToContainerWidget(iqtgui::IGuiObject& pageGui, const QString& pageTitle) const;
+	virtual int AddPageToContainerWidget(iqtgui::IGuiObject& pageGui, const QString& pageTitle);
 
 	/**
 		Get the name corresponding to a page GUI element.
@@ -148,6 +150,8 @@ protected:
 //	I_ATTR(int, m_designTypeAttrPtr);
 	I_ATTR(bool, m_useSameStretchingFactorAttrPtr);
 	I_ATTR(bool, m_insertSpacerAttrPtr);
+
+	int m_currentPageIndex;
 
 private:
 	typedef QMap<int /*page index in the widget container*/, int /*logical GUI element index*/> PageToGuiIndexMap;
