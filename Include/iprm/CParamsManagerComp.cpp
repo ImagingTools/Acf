@@ -33,11 +33,8 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			return false;
 		}
 
-		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED | CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_OPTIONS_CHANGED | CF_MODEL);
 
-		//m_paramSets.resize(count - fixedSetsCount);
-		m_paramSets.clear();
-		m_paramSets.reserve(count - fixedSetsCount);
 		while (m_paramSets.size() < (count - fixedSetsCount)){
 			m_paramSets.append(ParamSetPtr());
 		}
