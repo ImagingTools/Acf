@@ -42,8 +42,8 @@ int CMultiPageGuiCompBase::AddPageToContainerWidget(
 		pageGui.CreateGui(pageContainerPtr);
 	}
 
-	bool retVal = multiPageWidgetPtr->InsertPage(pageContainerPtr, pageTitle);
-	if (retVal){
+	int retVal = multiPageWidgetPtr->InsertPage(pageContainerPtr, pageTitle);
+	if (retVal >= 0){
 		m_currentPageIndex = multiPageWidgetPtr->GetCurrentPage();
 	}
 

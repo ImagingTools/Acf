@@ -53,6 +53,8 @@ void CTabContainerGuiComp::OnGuiCreated()
 
 		tabWidgetPtr->setTabPosition(QTabWidget::TabPosition(*m_tabOrientationAttrPtr));
 
+		tabWidgetPtr->setDocumentMode(*m_useDocumentModeAttrPtr);
+
 		// setup the corner widget:
 		if (m_cornerGuiCompPtr.IsValid()){
 			if (m_cornerGuiCompPtr->CreateGui(NULL)){
