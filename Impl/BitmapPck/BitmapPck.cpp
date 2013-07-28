@@ -38,7 +38,6 @@ I_EXPORT_COMPONENT(
 			"Multi-page bitmap document",
 			IM_TAG("Image Bitmap Document Pages Page"));
 
-
 I_EXPORT_COMPONENT(
 			ComposedBitmapProvider,
 			"Provider of the composed bitmap list",
