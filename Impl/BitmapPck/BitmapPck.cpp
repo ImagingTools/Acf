@@ -39,6 +39,12 @@ I_EXPORT_COMPONENT(
 			IM_TAG("Image Bitmap Document Pages Page"));
 
 
+I_EXPORT_COMPONENT(
+			ComposedBitmapProvider,
+			"Provider of the composed bitmap list",
+			IM_TAG("Image Bitmap List Multi"));
+
+
 } // namespace BitmapPck
 
 

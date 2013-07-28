@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CComposedBitmapProviderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CGeneralBitmap.cpp"
 				>
 			</File>
@@ -214,6 +218,10 @@
 			</File>
 			<File
 				RelativePath="..\CBitmapSurface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CComposedBitmapProviderComp.h"
 				>
 			</File>
 			<File
