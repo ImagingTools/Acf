@@ -39,6 +39,10 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			m_paramSets.append(ParamSetPtr());
 		}
 
+		while (m_paramSets.size() > (count - fixedSetsCount)){
+			m_paramSets.pop_back();
+		}
+
 		if (count > actualSetsCount){
 			for (int i = actualSetsCount; i < count; ++i){
 				IParamsSet* newParamsSetPtr = m_paramSetsFactPtr.CreateInstance();
@@ -366,6 +370,8 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.BeginTag(selectedIndexTag);
 	retVal = retVal && archive.Process(m_selectedIndex);
 	retVal = retVal && archive.EndTag(selectedIndexTag);
+
+	Q_ASSERT(m_selectedIndex < m_paramSets.count());
 
 	return retVal;
 }
