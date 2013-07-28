@@ -21,7 +21,7 @@ class CComposedBitmapProviderComp:
 			public icomp::CComponentBase,
 			virtual public iimg::IMultiBitmapProvider,
 			protected iprm::COptionsManager,
-			virtual protected imod::CMultiModelBridgeBase
+			protected imod::CMultiModelBridgeBase
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
