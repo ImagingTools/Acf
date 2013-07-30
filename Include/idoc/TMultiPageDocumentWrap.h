@@ -212,7 +212,7 @@ bool TMultiPageDocumentWrap<Base>::Serialize(iser::IArchive& archive)
 		m_documentPages.clear();
 
 		for (int pageIndex = 0; pageIndex < pagesCount; ++pageIndex){
-			BaseClass::InsertPage(QString(), QSizeF(), pageIndex);
+			this->InsertPage(QString(), QSizeF(), pageIndex);
 
 			retVal = retVal && archive.BeginTag(pageTag);
 			retVal = retVal && SerializePage(archive, m_documentPages[pageIndex]);
