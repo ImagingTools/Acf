@@ -194,7 +194,7 @@ bool CXmlFileReadArchive::Process(quint32& value)
 	QString text = PullTextNode();
 
 	bool retVal;
-	value = text.toInt(&retVal);
+	value = text.toUInt(&retVal);
 
 	return retVal;
 }
@@ -205,7 +205,7 @@ bool CXmlFileReadArchive::Process(qint32& value)
 	QString text = PullTextNode();
 
 	bool retVal;
-	value = text.toUInt(&retVal);
+	value = text.toInt(&retVal);
 
 	return retVal;
 }
