@@ -67,8 +67,10 @@ public:
 
 	/**
 		Get list of supported meta info types.
+		\param	allowReadOnly	if enabled read only types will be also listed out, if this flag is false only the writable types will be returned.
+								\sa IsMetaInfoWritable.
 	*/
-	virtual MetaInfoTypes GetSupportedMetaInfoTypes() const = 0;
+	virtual MetaInfoTypes GetSupportedMetaInfoTypes(bool allowReadOnly = true) const = 0;
 
 	/**
 		Get document's meta info.
@@ -89,6 +91,11 @@ public:
 		Get a human readable description for a given meta information type.
 	*/
 	virtual QString GetMetaInfoDescription(int metaInfoType) const = 0;
+
+	/**
+		Check if meta information can be changed.
+	*/
+	virtual bool IsMetaInfoWritable(int metaInfoType) const = 0;
 };
 
 

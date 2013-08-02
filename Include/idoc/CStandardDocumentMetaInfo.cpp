@@ -17,9 +17,9 @@ namespace idoc
 
 // public methods
 
-// reimplemented (IDocumentMetaInfo)
+// reimplemented (idoc::IDocumentMetaInfo)
 
-CStandardDocumentMetaInfo::MetaInfoTypes CStandardDocumentMetaInfo::GetSupportedMetaInfoTypes() const
+CStandardDocumentMetaInfo::MetaInfoTypes CStandardDocumentMetaInfo::GetSupportedMetaInfoTypes(bool /*allowReadOnly*/) const
 {
 	MetaInfoTypes retVal;
 
@@ -51,7 +51,6 @@ bool CStandardDocumentMetaInfo::SetDocumentMetaInfo(int metaInfoType, const QVar
 	MetaInfoTypes registeredTypes = GetSupportedMetaInfoTypes();
 
 	if (registeredTypes.contains(metaInfoType)){
-
 		if (m_infosMap[metaInfoType] != metaInfo){
 			istd::CChangeNotifier changePtr(this, CF_METAINFO | CF_MODEL);
 
@@ -72,21 +71,27 @@ QString CStandardDocumentMetaInfo::GetMetaInfoName(int metaInfoType) const
 	static QString emptyName;
 
 	switch (metaInfoType){
-		case MIT_TITLE:
-			return QObject::tr("Title");
-		case MIT_AUTHOR:
-			return QObject::tr("Author");
-		case MIT_CREATOR:
-			return QObject::tr("Creator");
-		case MIT_DESCRIPTION:
-			return QObject::tr("Description");
-		case MIT_CREATION_TIME:
-			return QObject::tr("Creation Time");
-		case MIT_MODIFICATION_TIME:
-			return QObject::tr("Modification Time");
-	}
+	case MIT_TITLE:
+		return QObject::tr("Title");
 
-	return emptyName;
+	case MIT_AUTHOR:
+		return QObject::tr("Author");
+
+	case MIT_CREATOR:
+		return QObject::tr("Creator");
+
+	case MIT_DESCRIPTION:
+		return QObject::tr("Description");
+
+	case MIT_CREATION_TIME:
+		return QObject::tr("Creation Time");
+
+	case MIT_MODIFICATION_TIME:
+		return QObject::tr("Modification Time");
+
+	default:
+		return emptyName;
+	}
 }
 
 
@@ -95,21 +100,33 @@ QString CStandardDocumentMetaInfo::GetMetaInfoDescription(int metaInfoType) cons
 	static QString emptyName;
 
 	switch (metaInfoType){
-		case MIT_TITLE:
-			return QObject::tr("Title of the document");
-		case MIT_AUTHOR:
-			return QObject::tr("Author of the document");
-		case MIT_CREATOR:
-			return QObject::tr("Creator of the document");
-		case MIT_DESCRIPTION:
-			return QObject::tr("Document description");
-		case MIT_CREATION_TIME:
-			return QObject::tr("Time of document's creation");
-		case MIT_MODIFICATION_TIME:
-			return QObject::tr("Time of last document's modification");
-	}
+	case MIT_TITLE:
+		return QObject::tr("Title of the document");
 
-	return emptyName;
+	case MIT_AUTHOR:
+		return QObject::tr("Author of the document");
+
+	case MIT_CREATOR:
+		return QObject::tr("Creator of the document");
+
+	case MIT_DESCRIPTION:
+		return QObject::tr("Document description");
+
+	case MIT_CREATION_TIME:
+		return QObject::tr("Time of document's creation");
+
+	case MIT_MODIFICATION_TIME:
+		return QObject::tr("Time of last document's modification");
+
+	default:
+		return emptyName;
+	}
+}
+
+
+bool CStandardDocumentMetaInfo::IsMetaInfoWritable(int metaInfoType) const
+{
+	return true;
 }
 
 
@@ -194,8 +211,7 @@ bool CStandardDocumentMetaInfo::Serialize(iser::IArchive& archive)
 bool CStandardDocumentMetaInfo::IsEqual(const IChangeable& object) const
 {
 	const CStandardDocumentMetaInfo* infoPtr = dynamic_cast<const CStandardDocumentMetaInfo*>(&object);
-	if (infoPtr != NULL)
-	{
+	if (infoPtr != NULL){
 		return (m_infosMap == infoPtr->m_infosMap);
 	}
 

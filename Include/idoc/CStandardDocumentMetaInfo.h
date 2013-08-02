@@ -22,12 +22,13 @@ class CStandardDocumentMetaInfo:
 			virtual public iser::ISerializable
 {
 public:
-	// reimplemented (IDocumentMetaInfo)
-	virtual MetaInfoTypes GetSupportedMetaInfoTypes() const;
+	// reimplemented (idoc::IDocumentMetaInfo)
+	virtual MetaInfoTypes GetSupportedMetaInfoTypes(bool allowReadOnly = true) const;
 	virtual QVariant GetDocumentMetaInfo(int metaInfoType) const;
 	virtual bool SetDocumentMetaInfo(int metaInfoType, const QVariant& metaInfo);
 	virtual QString GetMetaInfoName(int metaInfoType) const;
 	virtual QString GetMetaInfoDescription(int metaInfoType) const;
+	virtual bool IsMetaInfoWritable(int metaInfoType) const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
