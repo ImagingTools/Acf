@@ -1,23 +1,24 @@
-#ifndef iqtgui_CSingletonApplicationComp_included
-#define iqtgui_CSingletonApplicationComp_included
+#ifndef iqtdoc_CSingletonDocApplicationComp_included
+#define iqtdoc_CSingletonDocApplicationComp_included
 
 
 // Qt includes
 #include <QtCore/QSharedMemory>
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
+#include <QtCore/QString>
 #include <QtCore/QStringList>
 
 // ACF includes
 #include "imod/TSingleModelObserverBase.h"
 #include "icomp/CComponentBase.h"
-#include "ibase/IApplication.h"
 #include "ibase/IApplicationInfo.h"
-#include "idoc/IDocumentManager.h"
 #include "ibase/IRuntimeStatusProvider.h"
+#include "idoc/IDocumentManager.h"
+#include "iqtgui/IGuiApplication.h"
 
 
-namespace iqtgui
+namespace iqtdoc
 {
 
 
@@ -25,7 +26,7 @@ namespace iqtgui
 	Singleton application component.
 	This component wraps a "real" application component implementation and allows only a single execution of the application instance.
 */
-class CSingletonApplicationComp:
+class CSingletonDocApplicationComp:
 			public QObject,
 			public icomp::CComponentBase,
 			protected imod::TSingleModelObserverBase<ibase::IRuntimeStatusProvider>,
@@ -36,16 +37,17 @@ public:
 	typedef icomp::CComponentBase BaseClass;
 	typedef imod::TSingleModelObserverBase<ibase::IRuntimeStatusProvider> BaseClass2;
 
-	I_BEGIN_COMPONENT(CSingletonApplicationComp);
+	I_BEGIN_COMPONENT(CSingletonDocApplicationComp);
 		I_REGISTER_INTERFACE(ibase::IApplication);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info used to identify the application in the system", false, "ApplicationInfo");
 		I_ASSIGN(m_slaveApplicationCompPtr, "Application", "Application component to be executed", true, "Application");
+		I_ASSIGN_TO(m_slaveGuiApplicationCompPtr, m_slaveApplicationCompPtr, false);
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Document manager used for opening of documents triggered by the shell", false, "DocumentManager");
 		I_ASSIGN(m_runtimeStatusProviderCompPtr, "RuntimeStatus", "Runtime status of the application", false, "RuntimeStatus");
 		I_ASSIGN_TO(m_runtimeStatusProviderModelCompPtr, m_runtimeStatusProviderCompPtr, false);
 	I_END_COMPONENT;
 
-	CSingletonApplicationComp();
+	CSingletonDocApplicationComp();
 
 	// reimplemented (ibase::IApplication)
 	virtual bool InitializeApplication(int argc, char** argv);
@@ -90,8 +92,9 @@ private:
 
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
 	I_REF(ibase::IApplication, m_slaveApplicationCompPtr);
+	I_REF(iqtgui::IGuiApplication, m_slaveGuiApplicationCompPtr);
 
-	istd::TDelPtr<QSharedMemory> m_processData;
+	istd::TDelPtr<QSharedMemory> m_processDataPtr;
 	bool m_isAlreadyRunning;
 	QTimer m_documentUpdateTimer;
 
@@ -101,8 +104,8 @@ private:
 };
 
 
-} // namespace iqtgui
+} // namespace iqtdoc
 
 
-#endif // iqtgui_CSingletonApplicationComp_included
+#endif // !iqtdoc_CSingletonDocApplicationComp_included
 

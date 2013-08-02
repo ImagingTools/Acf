@@ -47,8 +47,11 @@ void CDocumentMetaInfoEditorComp::OnGuiModelAttached()
 			QString metaInfo = objectPtr->GetDocumentMetaInfo(metaInfoType).toString();
 
 			if (!metaInfoLabel.isEmpty()){
+				bool isWritable = objectPtr->IsMetaInfoWritable(metaInfoType);
+
 				metaInfoItem.labelPtr = new QLabel(metaInfoLabel, containerWidgetPtr);
 				metaInfoItem.editPtr = new QLineEdit(metaInfo, containerWidgetPtr);
+				metaInfoItem.editPtr->setEnabled(isWritable);
 
 				m_metaInfoItemsMap[metaInfoType] = metaInfoItem;
 

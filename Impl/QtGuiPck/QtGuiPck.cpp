@@ -93,7 +93,7 @@ I_EXPORT_COMPONENT(
 			"Composed Combine Button Stacked Widget Slaves" IM_TAG("Composition"));
 
 I_EXPORT_COMPONENT(
-			SingletonApplication,
+			SingletonDocApplication,
 			"General singleton application",
 			"Application Singleton Process" IM_TAG("Application"));
 

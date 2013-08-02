@@ -1,28 +1,19 @@
-#include "iqtgui/CSingletonApplicationComp.h"
+#include "iqtdoc/CSingletonDocApplicationComp.h"
 
 
 // Qt includes
-#include <QtCore/QString>
 #include <QtCore/QFileInfo>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif
 
 #ifdef Q_OS_MAC
 #include <Carbon/Carbon.h>
 #endif
 
-// ACF includes
-#include <iqtgui/IGuiApplication.h>
 
-
-namespace iqtgui
+namespace iqtdoc
 {
 
 
-CSingletonApplicationComp::CSingletonApplicationComp()
+CSingletonDocApplicationComp::CSingletonDocApplicationComp()
 	:m_isAlreadyRunning(false)
 {
 }
@@ -30,7 +21,7 @@ CSingletonApplicationComp::CSingletonApplicationComp()
 
 // reimplemented (ibase::IApplication)
 
-bool CSingletonApplicationComp::InitializeApplication(int argc, char** argv)
+bool CSingletonDocApplicationComp::InitializeApplication(int argc, char** argv)
 {
 	if (m_isAlreadyRunning){
 		ShareDocumentsForOpening(argc, argv);
@@ -48,7 +39,7 @@ bool CSingletonApplicationComp::InitializeApplication(int argc, char** argv)
 }
 
 
-int CSingletonApplicationComp::Execute(int argc, char** argv)
+int CSingletonDocApplicationComp::Execute(int argc, char** argv)
 {
 	if (m_isAlreadyRunning){
 		ShareDocumentsForOpening(argc, argv);
@@ -66,7 +57,7 @@ int CSingletonApplicationComp::Execute(int argc, char** argv)
 }
 
 
-QString CSingletonApplicationComp::GetHelpText() const
+QString CSingletonDocApplicationComp::GetHelpText() const
 {
 	if (m_slaveApplicationCompPtr.IsValid()){
 		return m_slaveApplicationCompPtr->GetHelpText();
@@ -76,7 +67,7 @@ QString CSingletonApplicationComp::GetHelpText() const
 }
 
 
-QStringList CSingletonApplicationComp::GetApplicationArguments() const
+QStringList CSingletonDocApplicationComp::GetApplicationArguments() const
 {
 	if (m_slaveApplicationCompPtr.IsValid()){
 		return m_slaveApplicationCompPtr->GetApplicationArguments();
@@ -90,7 +81,7 @@ QStringList CSingletonApplicationComp::GetApplicationArguments() const
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSingletonApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSingletonDocApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
 {
 	ibase::IRuntimeStatusProvider* objectPtr = GetObjectPtr();
 	if ((objectPtr != NULL) && objectPtr->GetRuntimeStatus() == ibase::IRuntimeStatusProvider::RS_RUNNING){
@@ -105,7 +96,7 @@ void CSingletonApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic
 
 // reimplemented (icomp::CComponentBase)
 
-void CSingletonApplicationComp::OnComponentCreated()
+void CSingletonDocApplicationComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
@@ -115,24 +106,24 @@ void CSingletonApplicationComp::OnComponentCreated()
 					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME, false))
 					.arg(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME, false));
 
-		m_processData.SetPtr(new QSharedMemory(applicationId));
+		m_processDataPtr.SetPtr(new QSharedMemory(applicationId));
 
 		m_isAlreadyRunning = false;
 
-		if (!m_processData->attach()){
-			if (m_processData->create(sizeof(RunningProcessInfo))){
-				if (m_processData->lock()){
-					RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data();
+		if (!m_processDataPtr->attach()){
+			if (m_processDataPtr->create(sizeof(RunningProcessInfo))){
+				if (m_processDataPtr->lock()){
+					RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processDataPtr->data();
 					if (dataPtr != NULL){
 						dataPtr->processId = QCoreApplication::applicationPid();
 					}
 				}
 
-				m_processData->unlock();
+				m_processDataPtr->unlock();
 			}
 		}
 		else{
-			RunningProcessInfo* dataPtr = (RunningProcessInfo*)(m_processData->data());
+			RunningProcessInfo* dataPtr = (RunningProcessInfo*)(m_processDataPtr->data());
 			if (dataPtr->processId == 0){
 				dataPtr->processId = QCoreApplication::applicationPid();
 			}
@@ -155,18 +146,18 @@ void CSingletonApplicationComp::OnComponentCreated()
 }
 
 
-void CSingletonApplicationComp::OnComponentDestroyed()
+void CSingletonDocApplicationComp::OnComponentDestroyed()
 {
 	m_documentUpdateTimer.stop();
 
 	EnsureModelDetached();
 
-	if (m_processData->isAttached()){
-		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data();
+	if (m_processDataPtr->isAttached()){
+		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processDataPtr->data();
 		if (dataPtr->processId == QCoreApplication::applicationPid()){
 			dataPtr->processId = 0;
 		}
-		m_processData->detach();
+		m_processDataPtr->detach();
 	}
 
 	BaseClass::OnComponentDestroyed();
@@ -175,11 +166,11 @@ void CSingletonApplicationComp::OnComponentDestroyed()
 
 // private methods
 
-void CSingletonApplicationComp::ShareDocumentsForOpening(int argc, char** argv)
+void CSingletonDocApplicationComp::ShareDocumentsForOpening(int argc, char** argv)
 {
 	// Set the list of documents need to be open by the document manager:
-	if (m_processData->lock()){
-		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data();
+	if (m_processDataPtr->lock()){
+		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processDataPtr->data();
 		if (dataPtr != NULL){
 			memset(dataPtr->requestedDocuments, 0, sizeof(dataPtr->requestedDocuments));
 
@@ -188,8 +179,7 @@ void CSingletonApplicationComp::ShareDocumentsForOpening(int argc, char** argv)
 				if (filePath.exists()){
 					int pathLength = qMin<int>(filePath.size(), MAX_DOCUMENT_PATH_LENGTH);
 
-					memcpy(
-								dataPtr->requestedDocuments[argIndex - 1],
+					memcpy(		dataPtr->requestedDocuments[argIndex - 1],
 								filePath.absoluteFilePath().toUtf8().constData(),
 								pathLength); 
 				}
@@ -197,17 +187,17 @@ void CSingletonApplicationComp::ShareDocumentsForOpening(int argc, char** argv)
 		}
 	}
 
-	m_processData->unlock();
+	m_processDataPtr->unlock();
 }
 
 
-QStringList CSingletonApplicationComp::PopDocumentsForOpening() const
+QStringList CSingletonDocApplicationComp::PopDocumentsForOpening() const
 {
 	QStringList retVal;
 
 	// Set the list of documents need to be open by the document manager:
-	if (m_processData->lock()){
-		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processData->data();
+	if (m_processDataPtr->lock()){
+		RunningProcessInfo* dataPtr = (RunningProcessInfo*)m_processDataPtr->data();
 		if (dataPtr != NULL){
 			for (int documentIndex = 0; documentIndex < MAX_DOCUMENTS_COUNT; ++documentIndex){
 				QString filePath(dataPtr->requestedDocuments[documentIndex]);
@@ -221,7 +211,7 @@ QStringList CSingletonApplicationComp::PopDocumentsForOpening() const
 		memset(dataPtr->requestedDocuments, 0, sizeof(dataPtr->requestedDocuments));
 	}
 
-	m_processData->unlock();
+	m_processDataPtr->unlock();
 
 	return retVal;
 }
@@ -229,7 +219,7 @@ QStringList CSingletonApplicationComp::PopDocumentsForOpening() const
 
 //private slots
 
-void CSingletonApplicationComp::OnUpdateDocumentList()
+void CSingletonDocApplicationComp::OnUpdateDocumentList()
 {
 	Q_ASSERT(m_documentManagerCompPtr.IsValid());
 
@@ -239,22 +229,19 @@ void CSingletonApplicationComp::OnUpdateDocumentList()
 		m_documentManagerCompPtr->OpenDocument(NULL, &documentsToOpen[documentIndex]);
 	}
 
-	if ((documentsToOpen.count() > 0) && m_slaveApplicationCompPtr.IsValid()){
-		iqtgui::IGuiApplication* guiAppPtr = dynamic_cast<iqtgui::IGuiApplication*>(m_slaveApplicationCompPtr.GetPtr());
-		if (guiAppPtr != NULL){
-			const iqtgui::IGuiObject* guiPtr = guiAppPtr->GetApplicationGui();
-			if (guiPtr != NULL){
-				QWidget* widgetPtr = guiPtr->GetWidget();
+	if ((documentsToOpen.count() > 0) && m_slaveGuiApplicationCompPtr.IsValid()){
+		const iqtgui::IGuiObject* guiPtr = m_slaveGuiApplicationCompPtr->GetApplicationGui();
+		if (guiPtr != NULL){
+			QWidget* widgetPtr = guiPtr->GetWidget();
 
-				widgetPtr->activateWindow();
-				widgetPtr->raise();
-			}
+			widgetPtr->activateWindow();
+			widgetPtr->raise();
 		}
 	}
 }
 
 
-} // namespace iqtgui
+} // namespace iqtdoc
 
 
 

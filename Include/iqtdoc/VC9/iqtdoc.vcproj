@@ -200,6 +200,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSingletonDocApplicationComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CStaticHelpFileProviderComp.cpp"
 				>
 			</File>
@@ -242,6 +246,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSingletonDocApplicationComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CStaticHelpFileProviderComp.h"
 				>
 			</File>
@@ -271,6 +279,10 @@
 				RelativePath="..\Generated\moc_CMultiDocumentWorkspaceGuiComp.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Generated\moc_CSingletonDocApplicationComp.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Moc Files"
@@ -285,6 +297,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiDocumentWorkspaceGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CSingletonDocApplicationComp.moc"
 				>
 			</File>
 		</Filter>
