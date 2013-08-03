@@ -1,5 +1,7 @@
-import "../../../Config/Qbs/ComponentProduct.qbs" as ComponentProduct
+import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 
-ComponentProduct{
+StaticProduct{
 	name: "AcfLoc"
+
+	files: ["../*.ts"]
 }

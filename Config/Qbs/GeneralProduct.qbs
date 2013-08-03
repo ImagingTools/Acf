@@ -33,11 +33,4 @@ Product{
 		condition: cpp.debugInformation == false
 		COMPILER_DIR: "Release" + COMPILER_NAME
 	}
-
-    Group{
-        files: '*.arx'
-        fileTags: ['arx']
-        
-        property string configFile
-    }
 }

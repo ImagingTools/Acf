@@ -9,4 +9,16 @@ ComponentProduct{
 	Depends{
 		name: "iqtgui"
 	}
+	Depends{
+		name: "ifilegui"
+	}
+	Depends{
+		name: "iqtprm"
+	}
+	Depends{
+		name: "iqtdoc"
+	}
+	Depends{
+		name: "iloggui"
+	}
 }
