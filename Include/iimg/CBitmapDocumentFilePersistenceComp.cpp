@@ -8,7 +8,6 @@
 // ACF includes
 #include "iimg/CBitmapDocument.h"
 #include "iimg/CBitmapLoaderComp.h"
-
 #include "iqt/CXmlFileWriteArchive.h"
 
 
@@ -148,7 +147,7 @@ bool CBitmapDocumentFilePersistenceComp::GetFileExtensions(QStringList& result, 
 
 	bool retVal = true;
 
-	result << "bdm";
+	result << "bid";
 
 	return retVal;
 }
@@ -157,8 +156,8 @@ bool CBitmapDocumentFilePersistenceComp::GetFileExtensions(QStringList& result, 
 QString CBitmapDocumentFilePersistenceComp::GetTypeDescription(const QString* extensionPtr) const
 {
 	if (extensionPtr != NULL){
-		if (extensionPtr->toLower() == "bdm"){
-			return "Bitmap Document Meta Information";
+		if (extensionPtr->toLower() == "bid"){
+			return "Bitmap Document";
 		}
 	}
 

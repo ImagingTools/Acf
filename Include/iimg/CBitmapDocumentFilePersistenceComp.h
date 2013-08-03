@@ -11,6 +11,15 @@ namespace iimg
 {
 
 
+/**
+	File based persistence of the multi-paged bitmap document.
+
+	Document persistence is realized as a list of bitmap files (for each document page) and meta info description file.
+	There are three operating modes for this component (controlled by component attribute 'OpeationMode'):
+	1. Page bitmaps and meta info are saved in the target directory with following naming convention: <DocumentFileName>_[PageIndex].<DocumentExtension> for bitmap pages and <DocumentFileName>.bdm for the document's meta info.
+	2. All files (page bitmaps and meta info) are saved in the document's own directory with the same name as a document file name: <DocumentFileName>.bid
+	3. The same as 2. but the document's directory will be zipped. 
+*/
 class CBitmapDocumentFilePersistenceComp:
 			public ilog::CLoggerComponentBase,
 			virtual public ifile::IFilePersistence
@@ -18,10 +27,18 @@ class CBitmapDocumentFilePersistenceComp:
 public:
 	typedef ilog::CLoggerComponentBase BaseClass;
 
+	enum OperationMode
+	{
+		OM_FLAT,
+		OM_FOLDER,
+		OM_COMPRESSED_FOLDER
+	};
+
 	I_BEGIN_COMPONENT(CBitmapDocumentFilePersistenceComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
 		I_ASSIGN(m_bitmapPersistenceCompPtr, "BitmapPersistence", "Component used for persistence of the single page of the bitmap document", true, "BitmapPersistence");
+		I_ASSIGN(m_operationModeAttrPtr, "OperationMode", "Operation mode", true, OM_COMPRESSED_FOLDER);
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFilePersistence)
@@ -39,6 +56,7 @@ public:
 
 private:
 	I_REF(ifile::IFilePersistence, m_bitmapPersistenceCompPtr);
+	I_ATTR(int, m_operationModeAttrPtr);
 };
 
 
@@ -46,3 +64,5 @@ private:
 
 
 #endif // !ifile_CBitmapDocumentFilePersistenceComp_included
+
+
