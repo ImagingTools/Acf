@@ -24,6 +24,8 @@ Product{
 		COMPILER_NAME: "VC9"
 	}
 
+	cpp.defines: ['I_QBS']
+
 	property string COMPILER_DIR
 	Properties{
 		condition: cpp.debugInformation == true

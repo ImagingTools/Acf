@@ -303,7 +303,20 @@ bool CPackagesLoaderComp::RegisterPackagesDir(const QString& path)
 	QDir packagesDir(path);
 
 	QStringList filters;
+#ifndef I_QBS
 	filters.append("*.arp");
+#else
+# if defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_SYMBIAN)
+	filters.append("*Pck.dll");
+# else
+#  if defined(Q_OS_DARWIN)
+	filters.append("*Pck.dylib");
+#  else  // Generic Unix
+	filters.append("*Pck.so");
+#  endif
+# endif
+#endif
+
 	QStringList filesInfo = packagesDir.entryList(filters, QDir::NoSymLinks | QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 	for (		QStringList::iterator iter = filesInfo.begin();
 				iter != filesInfo.end();

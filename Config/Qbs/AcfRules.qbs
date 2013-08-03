@@ -1,8 +1,10 @@
 // Custom build settings
 
+import qbs.base 1.0
+
 Module{
 	name: "AcfRules"
-	
+
 	property path configFile
 	property bool verbose: false
 
@@ -16,7 +18,7 @@ Module{
 
 	// custom build for Subversion Transformations
 
-    Rule {
+	Rule {
 		inputs: ["arx"]
 
 		Artifact {
@@ -38,5 +40,5 @@ Module{
 			cmd.highlight = "codegen";
 			return cmd;
 		}
-    }
+	}
 }
