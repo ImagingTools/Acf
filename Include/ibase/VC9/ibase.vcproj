@@ -246,10 +246,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSingletonApplicationComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CSize.cpp"
 				>
 			</File>
@@ -300,10 +296,6 @@
 			</File>
 			<File
 				RelativePath="..\CQtVersionInfoComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CSingletonApplicationComp.h"
 				>
 			</File>
 			<File
@@ -394,14 +386,6 @@
 				RelativePath="..\TVersionInfoBase.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Moc Files"
-			>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			>
 		</Filter>
 	</Files>
 	<Globals>
