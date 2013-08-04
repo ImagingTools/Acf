@@ -11,11 +11,7 @@ StaticProduct{
 	Depends{ name: "iqt" }
 	Depends{ name: "Qt.gui" }
 
-	Group{
-		name: "UI-Files"
-		files: "../*.ui"
-		fileTags: ["ui"]
-	}
+	files: ["../*.ui", "../*.cpp", "../*.h"]
 
 	Export{
 		Depends{ name: "icomp" }

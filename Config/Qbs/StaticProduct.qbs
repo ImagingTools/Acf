@@ -8,7 +8,7 @@ GeneralProduct{
 
 	cpp.includePaths: ['../..']
 
-	files: ["../*.h", "../*.cpp", "../*.qrc", "../*.ui"]
+	files: ["../*.h", "../*.cpp", "../*.qrc"]
 
 	destinationDirectory: "Lib"
 

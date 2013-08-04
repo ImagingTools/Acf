@@ -3,12 +3,8 @@
 import qbs.base 1.0
 
 Product{
-	Depends{
-		name: "Qt"; submodules: ["core"]
-	}
-	Depends{
-		name: "cpp"
-	}
+	Depends{ name: "Qt.core" }
+	Depends{ name: "cpp" }
 
 	property string COMPILER_NAME: "Qbs"
 	Properties{
