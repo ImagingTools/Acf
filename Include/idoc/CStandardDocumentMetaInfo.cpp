@@ -124,7 +124,7 @@ QString CStandardDocumentMetaInfo::GetMetaInfoDescription(int metaInfoType) cons
 }
 
 
-bool CStandardDocumentMetaInfo::IsMetaInfoWritable(int metaInfoType) const
+bool CStandardDocumentMetaInfo::IsMetaInfoWritable(int /*metaInfoType*/) const
 {
 	return true;
 }
