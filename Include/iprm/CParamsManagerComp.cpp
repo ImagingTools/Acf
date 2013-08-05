@@ -371,7 +371,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.Process(m_selectedIndex);
 	retVal = retVal && archive.EndTag(selectedIndexTag);
 
-	Q_ASSERT(m_selectedIndex < m_paramSets.count());
+	Q_ASSERT(m_selectedIndex < CParamsManagerComp::GetParamsSetsCount());
 
 	return retVal;
 }
