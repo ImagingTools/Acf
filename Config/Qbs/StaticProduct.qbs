@@ -6,16 +6,11 @@ import "GeneralProduct.qbs" as GeneralProduct
 GeneralProduct{
 	type: "staticlibrary"
 
-	cpp.includePaths: ['../..']
-
-	files: ["../*.h", "../*.cpp", "../*.qrc"]
-
 	destinationDirectory: "Lib"
 
+	cpp.includePaths: "../.."
+
 	Export{
-		Depends{
-			name: "cpp"
-		}
 		cpp.includePaths: "../.."
 	}
 }

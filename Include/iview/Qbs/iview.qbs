@@ -3,11 +3,15 @@ import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 StaticProduct{
 	name: "iview"
 
-	Depends { name: "iqt2d" }
-	Depends { name: "iqtgui" }
+	files: ["../*.h", "../*.cpp", "../*.ui"]
 
-	Export {
-		Depends { name: "iqt2d" }
-		Depends { name: "iqtgui" }
+	Depends{ name: "iqt2d" }
+	Depends{ name: "iqtgui" }
+	Depends{ name: "Qt.gui" }
+
+	Export{
+		Depends{ name: "iqt2d" }
+		Depends{ name: "iqtgui" }
+		Depends{ name: "Qt.gui" }
 	}
 }

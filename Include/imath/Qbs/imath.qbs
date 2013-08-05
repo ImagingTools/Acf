@@ -3,9 +3,9 @@ import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 StaticProduct{
 	name: "imath"
 
-	Depends{ name: "iser" }
+	files: ["../*.h", "../*.cpp"]
 
-	Export {
+	Export{
 		Depends{ name: "iser" }
 	}
 }

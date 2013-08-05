@@ -6,12 +6,14 @@ import "GeneralProduct.qbs" as GeneralProduct
 GeneralProduct{
 	type: "dynamiclibrary"
 
-	cpp.includePaths: ["../..", "../../../Include"]
-
-	files: ["../*.h", "../*.cpp"]
-
 	destinationDirectory: "Bin"
 
-	dynamicLibraryPrefix: ""
-	dynamicLibrarySuffix: ".arp"
+	cpp.includePaths: "../.."
+
+	cpp.dynamicLibraryPrefix: ""
+	cpp.dynamicLibrarySuffix: ".arp"
+
+	Export{
+		cpp.includePaths: "../.."
+	}
 }

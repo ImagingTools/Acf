@@ -3,9 +3,9 @@ import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 StaticProduct{
 	name: "icomp"
 
-	Depends { name: "imod" }
+	files: ["../*.h", "../*.cpp"]
 
-	Export {
-		Depends { name: "imod" }
+	Export{
+		Depends{ name: "imod" }
 	}
 }

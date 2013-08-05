@@ -3,11 +3,15 @@ import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 StaticProduct{
 	name: "iqtprm"
 
-	Depends { name: "iprm" }
-	Depends { name: "iqtgui" }
+	files: ["../*.h", "../*.cpp", "../*.ui"]
 
-	Export {
-		Depends { name: "iprm" }
-		Depends { name: "iqtgui" }
+	Depends{ name: "iprm" }
+	Depends{ name: "iqtgui" }
+	Depends{ name: "Qt.gui" }
+
+	Export{
+		Depends{ name: "iprm" }
+		Depends{ name: "iqtgui" }
+		Depends{ name: "Qt.gui" }
 	}
 }

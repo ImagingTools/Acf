@@ -3,6 +3,8 @@ import "../../../Config/Qbs/ComponentProduct.qbs" as ComponentProduct
 ComponentProduct{
 	name: "BasePck"
 
+	files: ["../*.h", "../*.cpp"]
+
 	Depends{ name: "ilog" }
 	Depends{ name: "ifile" }
 	Depends{ name: "idoc" }

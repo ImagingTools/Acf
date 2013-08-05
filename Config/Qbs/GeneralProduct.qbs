@@ -2,11 +2,18 @@
 
 import qbs.base 1.0
 
+
 Product{
 	Depends{ name: "Qt.core" }
 	Depends{ name: "cpp" }
 
+	Export{
+		Depends{ name: "cpp" }
+		Depends{ name: "Qt.core" }
+	}
+
 	property string COMPILER_NAME: "Qbs"
+
 	Properties{
 		condition: cpp.compilerPath.contains("2005") || cpp.compilerPath.contains("VC8")
 		COMPILER_NAME: "VC10"
