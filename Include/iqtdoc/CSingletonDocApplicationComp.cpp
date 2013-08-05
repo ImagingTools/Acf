@@ -244,4 +244,3 @@ void CSingletonDocApplicationComp::OnUpdateDocumentList()
 } // namespace iqtdoc
 
 
-

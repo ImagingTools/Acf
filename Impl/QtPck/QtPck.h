@@ -9,7 +9,6 @@
 #include "iqt/CApplicationSettingsProviderComp.h"
 #include "iqt/CIniSettingsProviderComp.h"
 #include "iqt/CClipboardSerializerComp.h"
-#include "iqt/CRenderedObjectFileLoaderComp.h"
 #include "iqt/CTranslationManagerComp.h"
 #include "iqt/CXmlFileReadArchive.h"
 #include "iqt/CXmlFileWriteArchive.h"
@@ -33,7 +32,6 @@ typedef iqt::CSettingsSerializerComp SettingsSerializer;
 typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CIniSettingsProviderComp IniSettingsProvider;
 typedef iqt::CClipboardSerializerComp ClipboardSerializer;
-typedef iqt::CRenderedObjectFileLoaderComp RenderedObjectFileLoader;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
 typedef ifile::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
 

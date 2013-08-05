@@ -184,10 +184,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CRenderedObjectFileLoaderComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CSettingsArchiveBase.cpp"
 				>
 			</File>
@@ -243,10 +239,6 @@
 			</File>
 			<File
 				RelativePath="..\CNetworkWriteArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CRenderedObjectFileLoaderComp.h"
 				>
 			</File>
 			<File

@@ -34,11 +34,6 @@ I_EXPORT_COMPONENT(
 			"System Clipboard Serializer Copy Paste" IM_TAG("Loader"));
 
 I_EXPORT_COMPONENT(
-			RenderedObjectFileLoader,
-			"Loader of the rendered preview for an object",
-			"File Loader Preview");
-
-I_EXPORT_COMPONENT(
 			TranslationManager,
 			"Text localization manager",
 			"Translation" IM_TAG("Localization"));
