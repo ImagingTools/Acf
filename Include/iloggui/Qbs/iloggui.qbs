@@ -4,12 +4,17 @@ import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
 StaticProduct{
 	name: "iloggui"
 
-	files: ["../*.h", "../*.cpp"]
+	files: ["../*.h", "../*.cpp", "../*.ui"]
 
 	Depends{ name: "iqtgui" }
+	Depends{ name: "ilog" }
+	Depends{ name: "Qt.widgets" }
+	Depends{ name: "Qt.gui" }
 
 	Export{
-		Depends{ name: "ilog" }
 		Depends{ name: "iqtgui" }
+		Depends{ name: "ilog" }
+		Depends{ name: "Qt.widgets" }
+		Depends{ name: "Qt.gui" }
 	}
 }

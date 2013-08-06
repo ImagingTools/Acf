@@ -6,6 +6,5 @@ ComponentProduct{
 
 	files: ["../*.h", "../*.cpp"]
 
-    Depends{ name: "ipackage" }
-    Depends{ name: "ilog" }
+	Depends{ name: "ilog" }
 }

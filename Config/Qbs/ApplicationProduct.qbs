@@ -6,9 +6,9 @@ import "GeneralProduct.qbs" as GeneralProduct
 GeneralProduct{
 	type: "application"
 
-	cpp.includePaths: ["../..", "../../../Include"]
-
 	files: ["../*.h", "../*.cpp"]
+
+	cpp.includePaths: ["../..", "../../../Include"]
 
 	destinationDirectory: "Bin"
 }

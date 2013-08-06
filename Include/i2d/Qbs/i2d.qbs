@@ -6,6 +6,9 @@ StaticProduct{
 
 	files: ["../*.h", "../*.cpp"]
 
+	Depends{ name: "imath" }
+	Depends{ name: "icomp" }
+
 	Export{
 		Depends{ name: "imath" }
 		Depends{ name: "icomp" }

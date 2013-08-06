@@ -6,7 +6,7 @@
 #include "iqtgui/TDesignerGuiCompBase.h"
 #include "iser/IVersionInfo.h"
 
-#include "Generated/ui_CVersionInfoGuiComp.h"
+#include "iqtgui/Generated/ui_CVersionInfoGuiComp.h"
 
 
 namespace iqtgui

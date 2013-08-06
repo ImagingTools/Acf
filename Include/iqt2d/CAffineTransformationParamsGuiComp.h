@@ -5,7 +5,8 @@
 #include <iview/CAffineTransformation2dShape.h>
 #include <i2d/CAffineTransformation2d.h>
 #include <iqt2d/TShapeParamsGuiCompBase.h>
-#include "Generated/ui_CAffineTransformationParamsGui.h"
+
+#include "iqt2d/Generated/ui_CAffineTransformationParamsGui.h"
 
 
 namespace iqt2d

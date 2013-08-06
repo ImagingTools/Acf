@@ -8,9 +8,11 @@ GeneralProduct{
 
 	destinationDirectory: "Lib"
 
-	cpp.includePaths: "../.."
+	cpp.includePaths: ["../..", product.buildDirectory]
 
 	Export{
-		cpp.includePaths: "../.."
+		cpp.includePaths: ["../..", product.buildDirectory]
 	}
+
+	qbs.install: true
 }

@@ -5,13 +5,11 @@ Project{
 
 	property path acfDir: "../.."
 
-	SubProject{
-		filePath: "Static.qbs"
-	}
-	SubProject{
-		filePath: "Component.qbs"
-	}
-	SubProject{
-		filePath: "Tool.qbs"
-	}
+	moduleSearchPaths: "qbs"
+
+	references: [
+		"Static.qbs",
+		"Component.qbs",
+		"Tool.qbs"
+	]
 }

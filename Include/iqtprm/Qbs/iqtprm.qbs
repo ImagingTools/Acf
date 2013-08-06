@@ -6,14 +6,14 @@ StaticProduct{
 
 	files: ["../*.h", "../*.cpp", "../*.ui"]
 
-	Depends{ name: "iprm" }
 	Depends{ name: "iqtgui" }
+	Depends{ name: "iprm" }
 	Depends{ name: "Qt.gui" }
 	Depends{ name: "Qt.widgets" }
 
 	Export{
-		Depends{ name: "iprm" }
 		Depends{ name: "iqtgui" }
+		Depends{ name: "iprm" }
 		Depends{ name: "Qt.gui" }
 		Depends{ name: "Qt.widgets" }
 	}

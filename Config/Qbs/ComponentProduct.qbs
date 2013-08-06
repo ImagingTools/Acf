@@ -8,12 +8,14 @@ GeneralProduct{
 
 	destinationDirectory: "Bin"
 
-	cpp.includePaths: "../.."
+	cpp.includePaths: ["../.."]
 
 	cpp.dynamicLibraryPrefix: ""
 	cpp.dynamicLibrarySuffix: ".arp"
 
 	Export{
-		cpp.includePaths: "../.."
+		cpp.includePaths: ["../.."]
 	}
+
+	Depends{ name: "ipackage" }
 }

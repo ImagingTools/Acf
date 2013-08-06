@@ -7,5 +7,4 @@ ComponentProduct{
 	files: ["../*.h", "../*.cpp"]
 
 	Depends{ name: "iimg" }
-	Depends{ name: "ipackage" }
 }

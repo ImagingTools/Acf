@@ -12,5 +12,4 @@ ComponentProduct{
 	Depends{ name: "ibase" }
 	Depends{ name: "iprm" }
 	Depends{ name: "i2d" }
-	Depends{ name: "ipackage" }
 }

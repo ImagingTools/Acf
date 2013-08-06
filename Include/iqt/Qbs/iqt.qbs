@@ -6,6 +6,7 @@ StaticProduct{
 
 	files: ["../*.h", "../*.cpp"]
 
+	Depends{ name: "icomp" }
 	Depends{ name: "Qt.xml" }
 
 	Export{

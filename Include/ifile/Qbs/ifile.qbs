@@ -6,6 +6,7 @@ StaticProduct{
 
 	files: ["../*.h", "../*.cpp"]
 
+	Depends{ name: "ilog" }
 	Depends{ name: "Qt.gui" }	// TODO: remove this dependency
 
 	Export{

@@ -6,9 +6,10 @@ StaticProduct{
 
 	files: ["../*.h", "../*.cpp"]
 
-    Depends{ name: "ifile" }
+	Depends{ name: "ifile" }
+	Depends{ name: "iprm" }
 
-    Export{
+	Export{
 		Depends{ name: "ilog" }
 		Depends{ name: "iprm" }
 	}

@@ -3,7 +3,7 @@
 
 
 // Local includes
-#include "Generated/ui_CDoubleRangeSpinEdit.h"
+#include "iqtgui/Generated/ui_CDoubleRangeSpinEdit.h"
 
 
 namespace iqtgui
