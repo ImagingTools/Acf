@@ -1,0 +1,98 @@
+ share/qbs/modules/Qt/core/core.qbs | 17 +++++++++--------
+ share/qbs/modules/Qt/gui/gui.qbs   |  2 +-
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/share/qbs/modules/Qt/core/core.qbs b/share/qbs/modules/Qt/core/core.qbs
+index 2376dc8..6bc3f78 100644
+--- a/share/qbs/modules/Qt/core/core.qbs
++++ b/share/qbs/modules/Qt/core/core.qbs
+@@ -33,7 +33,7 @@ Module {
+     property bool frameworkBuild
+     property bool staticBuild
+     property stringList buildVariant
+-    property string generatedFilesDir: 'GeneratedFiles/' + product.name // ### TODO: changing this property does not change the path in the rule ATM.
++    property string generatedFilesDir: product.name + '/Generated' // ### TODO: changing this property does not change the path in the rule ATM.
+     property string qmFilesDir: product.destinationDirectory
+ 
+     // private properties
+@@ -59,6 +59,7 @@ Module {
+         paths.push(incPath + '/QtCore');
+         paths.push(incPath);
+         paths.push(product.buildDirectory + '/' + generatedFilesDir);
++        paths.push(product.buildDirectory);
+         return paths;
+     }
+     cpp.libraryPaths: {
+@@ -165,7 +166,7 @@ Module {
+         inputs: ["moc_cpp"]
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/' + input.completeBaseName + '.moc'
++            fileName: product.name + '/Generated' + '/' + input.completeBaseName + '.moc'
+             fileTags: ["hpp"]
+         }
+ 
+@@ -182,7 +183,7 @@ Module {
+         inputs: ["moc_hpp"]
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/moc_' + input.completeBaseName + '.cpp'
++            fileName: product.name + '/Generated' + '/moc_' + input.completeBaseName + '.cpp'
+             fileTags: [ "cpp" ]
+         }
+ 
+@@ -199,7 +200,7 @@ Module {
+         inputs: ["moc_hpp_inc"]
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/moc_' + input.completeBaseName + '.cpp'
++            fileName: product.name + '/Generated' + '/moc_' + input.completeBaseName + '.cpp'
+             fileTags: [ "hpp" ]
+         }
+ 
+@@ -217,7 +218,7 @@ Module {
+ 
+         Artifact {
+ //  ### TODO we want to access the module's property "generatedFilesDir" here. But without evaluating all available properties a priori.
+-            fileName: 'GeneratedFiles/' + product.name + '/qrc_' + input.completeBaseName + '.cpp'
++            fileName: product.name + '/Generated' + '/qrc_' + input.completeBaseName + '.cpp'
+             fileTags: ["cpp"]
+         }
+         prepare: {
+@@ -255,12 +256,12 @@ Module {
+         explicitlyDependsOn: ["qdoc", "qdocconf"]
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/html'
++            fileName: product.name + '/Generated' + '/html'
+             fileTags: ["qdoc-html"]
+         }
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/html/'
++            fileName: product.name + '/Generated' + '/html/'
+                       + ModUtils.moduleProperty(product, "qdocQhpFileName")
+             fileTags: ["qhp"]
+         }
+@@ -287,7 +288,7 @@ Module {
+         inputs: "qhp"
+ 
+         Artifact {
+-            fileName: 'GeneratedFiles/' + product.name + '/' + input.completeBaseName + '.qch'
++            fileName: product.name + '/Generated' + '/' + input.completeBaseName + '.qch'
+             fileTags: ["qch"]
+         }
+ 
+diff --git a/share/qbs/modules/Qt/gui/gui.qbs b/share/qbs/modules/Qt/gui/gui.qbs
+index 319f070..f8dbf09 100644
+--- a/share/qbs/modules/Qt/gui/gui.qbs
++++ b/share/qbs/modules/Qt/gui/gui.qbs
+@@ -18,7 +18,7 @@ QtModule {
+ 
+         Artifact {
+ //  ### TODO we want to access the module's property "Qt.core.generatedFilesDir" here. But without evaluating all available properties a priori.
+-            fileName: 'GeneratedFiles/' + product.name + '/ui_' + input.completeBaseName + '.h'
++            fileName: product.name + '/Generated' + '/ui_' + input.completeBaseName + '.h'
+             fileTags: ["hpp"]
+         }
+ 
