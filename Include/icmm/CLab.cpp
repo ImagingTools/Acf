@@ -33,6 +33,12 @@ bool CLab::Serialize(iser::IArchive& archive)
 }
 
 
+double CLab::GetDeltaE(const CLab& lab) const
+{
+	return GetDistance(lab);
+}
+
+
 } // namespace icmm
 
 

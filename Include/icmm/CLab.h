@@ -40,6 +40,8 @@ public:
 
 	bool Serialize(iser::IArchive& archive);
 
+	double GetDeltaE(const CLab& lab) const;
+
 	// operators
 	CLab operator+(const CLab& color) const;
 	CLab operator-(const CLab& color) const;
