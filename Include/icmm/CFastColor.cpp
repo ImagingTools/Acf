@@ -14,16 +14,16 @@ namespace icmm
 
 uint qHash(const icmm::CFastColor& color)
 {
-	uint retVal = 0;
+	quint64 retVal = 0;
 
 	int elementsCount = color.GetElementsCount();
 	for (int i = 0; i < elementsCount; ++i){
 		double element = color[i];
 
-		retVal = (retVal << 1) ^ *((uint*)&element) + 1;
+		retVal = (retVal >> 1) ^ (*((uint*)&element) + 1);
 	}
 
-	return retVal;
+	return uint(retVal);
 }
 
 
