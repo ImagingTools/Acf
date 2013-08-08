@@ -5,13 +5,13 @@ StaticProduct{
 	name: "AcfLoc"
 
 	Group{
-		name: "translations"
+		name: "Translations"
 		files: ["../*.ts"]
 	}
 
 	Group{
 		name: "Resources"
-		files: ["../*.ts", "../*.qrc"]
+		files: ["../*.qrc"]
 		fileTags: ["qm"]
 	}
 
