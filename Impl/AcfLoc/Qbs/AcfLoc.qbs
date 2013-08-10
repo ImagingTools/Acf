@@ -6,14 +6,15 @@ StaticProduct{
 
 	Group{
 		name: "Translations"
-		files: ["../*.ts"]
+		files: ["*.ts"]
+		prefix: "../"
+		fileTags: ["qm"]
 	}
 
 	Group{
 		name: "Resources"
-		files: ["../*.qrc"]
-		fileTags: ["qm"]
+		prefix: "../"
+		files: ["*.qrc"]
+		fileTags: ["cpp"]
 	}
-
-	Depends{ name: "Qt.core" }
 }

@@ -8,4 +8,8 @@ ComponentProduct{
 
 	Depends{ name: "ifile" }
 	Depends{ name: "ilog" }
+	Export{
+		Depends{ name: "ifile" }
+		Depends{ name: "ilog" }
+	}
 }
