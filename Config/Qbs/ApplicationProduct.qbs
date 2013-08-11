@@ -1,14 +1,11 @@
 import qbs.base 1.0
 // Standard settings for an ACF application
 
-import "GeneralProduct.qbs" as GeneralProduct
-
-GeneralProduct{
-	type: "application"
-
-	files: ["../*.h", "../*.cpp"]
-
-	cpp.includePaths: ["../..", "../../../Include"]
-
+Application{
 	destinationDirectory: "Bin"
+
+	Depends{ name: "Qt.core" }
+	Depends{ name: "cpp" }
+
+	cpp.defines: ['I_QBS']
 }

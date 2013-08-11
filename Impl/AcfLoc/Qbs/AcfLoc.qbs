@@ -6,15 +6,15 @@ StaticProduct{
 
 	Group{
 		name: "Translations"
-		files: ["*.ts"]
-		prefix: "../"
-		fileTags: ["qm"]
+		files: ["../*.ts"]
 	}
 
 	Group{
 		name: "Resources"
-		prefix: "../"
-		files: ["*.qrc"]
-		fileTags: ["cpp"]
+		files: ["../*.qrc"]
+		fileTags: ["qrc_generated"]
 	}
+
+	Depends{ name: "acf" }
+	Qt.core.qmFilesDir: Qt.core.generatedFilesDir
 }

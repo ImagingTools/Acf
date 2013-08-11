@@ -5,12 +5,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QApplication>
-#else
-#include <QtGui/QApplication>
-#endif
-
 // ACF includes
 #include "istd/CSystem.h"
 #include "icomp/TSimComponentWrap.h"
@@ -43,7 +37,7 @@ static void ShowUsage()
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+	QCoreApplication app(argc, argv);
 
 	if (argc < 2){
 		ShowUsage();

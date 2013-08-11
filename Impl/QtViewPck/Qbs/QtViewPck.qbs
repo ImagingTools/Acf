@@ -9,5 +9,10 @@ ComponentProduct{
 	Depends{ name: "iqt2d" }
 	Depends{ name: "iview" }
 	Depends{ name: "iqtgui" }
-	Depends{ name: "ipackage" }
+
+	Export{
+		Depends{ name: "iqt2d" }
+		Depends{ name: "iview" }
+		Depends{ name: "iqtgui" }
+	}
 }

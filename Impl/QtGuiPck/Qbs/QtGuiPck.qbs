@@ -13,4 +13,14 @@ ComponentProduct{
 	Depends{ name: "iqtprm" }
 	Depends{ name: "iqtdoc" }
 	Depends{ name: "iloggui" }
+
+	Export{
+		Depends{ name: "icomp" }
+		Depends{ name: "iqtgui" }
+		Depends{ name: "ifilegui" }
+		Depends{ name: "iqt2d" }
+		Depends{ name: "iqtprm" }
+		Depends{ name: "iqtdoc" }
+		Depends{ name: "iloggui" }
+	}
 }

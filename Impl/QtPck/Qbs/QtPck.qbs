@@ -10,4 +10,11 @@ ComponentProduct{
 	Depends{ name: "iimg" }
 	Depends{ name: "ifile" }
 	Depends{ name: "iqtdoc" }
+
+	Export{
+		Depends{ name: "iqt" }
+		Depends{ name: "iimg" }
+		Depends{ name: "ifile" }
+		Depends{ name: "iqtdoc" }
+	}
 }

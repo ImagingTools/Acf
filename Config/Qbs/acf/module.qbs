@@ -52,9 +52,8 @@ Module{
 	}
 
 	Rule{
-        id: arxcompiler
+		id: arxCompiler
 		inputs: ["arx"]
-		auxiliaryInputs: ["Arxc"]
 
 		Artifact{
 			fileName: product.name + '/Generated/C' + input.baseName + '.cpp'
@@ -76,11 +75,10 @@ Module{
 
 			return cmd;
 		}
-		explicitlyDependsOn: "Arxc"
 	}
 
 	Rule{
-        id: acftransform
+		id: acftransform
 		inputs: ["xtracf"]
 
 		Artifact{
@@ -98,6 +96,50 @@ Module{
 			cmd.workingDirectory = 'Bin';
 
 			return cmd;
+		}
+	}
+
+	// Special rule for rcc compiler for resource files using generated files
+	// It set the rcc root to project in generated directory
+	Rule{
+		inputs: ["qrc_generated"]
+		explicitlyDependsOn: ["qm"]
+
+		Artifact{
+			fileName: product.name + '/Generated/qrc_' + input.completeBaseName + '.cpp'
+			fileTags: ["cpp"]
+		}
+		prepare:{
+			var tempResourceDir = product.buildDirectory + "/" + product.name + "/";
+			var tempResourceFile = tempResourceDir + FileInfo.fileName(input.fileName);
+
+			var copyCmd;
+			var rccCmd;
+			if (product.moduleProperty("qbs", "targetOS").contains("windows")){
+				copyCmd = new Command('xcopy', ['/Y', FileInfo.toWindowsSeparators(input.fileName), FileInfo.toWindowsSeparators(tempResourceDir)]);
+				rccCmd = new Command('rcc',
+							[tempResourceDir + FileInfo.fileName(input.fileName),
+							'-name', FileInfo.completeBaseName(input.fileName),
+							'-o', output.fileName]);
+			}
+			else{
+				copyCmd = new Command('copy', [input.fileName, tempResourceDir]);
+				rccCmd = new Command('rcc',
+							[tempResourceDir + FileInfo.fileName(input.fileName),
+							'-name', FileInfo.completeBaseName(input.fileName),
+							'-o', output.fileName]);
+			}
+
+			copyCmd.description = 'copy to generated ' + FileInfo.fileName(input.fileName);
+			copyCmd.highlight = 'codegen';
+
+			rccCmd.description = 'rcc from generated ' + FileInfo.fileName(input.fileName);
+			rccCmd.highlight = 'codegen';
+
+			var commands = [];
+			commands.push(copyCmd);
+			commands.push(rccCmd);
+			return commands;
 		}
 	}
 }

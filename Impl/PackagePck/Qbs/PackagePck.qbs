@@ -7,4 +7,7 @@ ComponentProduct{
 	files: ["../*.h", "../*.cpp"]
 
 	Depends{ name: "ilog" }
+	Export{
+		Depends{ name: "ilog" }
+	}
 }

@@ -6,8 +6,8 @@ ApplicationProduct{
 
 	files: ["../*.cpp"]
 
-	Depends{ name: "iqt" }
-	Depends{ name: "ipackage" }
-	Depends{ name: "Qt.widgets" }
-	Depends{ name: "Qt.gui" }
+	Depends{ name: "QtPck" }
+	Depends{ name: "BasePck" }
+	Depends{ name: "FilePck" }
+	Depends{ name: "PackagePck" }
 }
