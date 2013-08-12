@@ -6,7 +6,6 @@ namespace i2d
 
 
 CObject2dBase::CObject2dBase()
-:	m_calibrationPtr(NULL)
 {
 }
 
@@ -17,21 +16,21 @@ CObject2dBase::CObject2dBase(const CObject2dBase& object2d)
 }
 
 
-void CObject2dBase::SetCalibration(const ICalibration2d* calibrationPtr)
-{
-	m_calibrationPtr = calibrationPtr;
-}
-
-
 // reimplemented (i2d::ICalibrationProvider)
 
 const ICalibration2d* CObject2dBase::GetCalibration() const
 {
-	return m_calibrationPtr;
+	return m_calibrationPtr.GetPtr();
 }
 
 
 // reimplemented (i2d::IObject2d)
+
+void CObject2dBase::SetCalibration(const ICalibration2d* calibrationPtr, bool releaseFlag)
+{
+	m_calibrationPtr.SetPtr(calibrationPtr, releaseFlag);
+}
+
 
 bool CObject2dBase::Transform(
 			const ITransformation2d& /*transformation*/,
@@ -81,21 +80,23 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 	if (object2dPtr != NULL){
 		switch (mode){
 		case CM_STRICT:
-			if (m_calibrationPtr != object2dPtr->m_calibrationPtr){
+			if (m_calibrationPtr.GetPtr() != object2dPtr->m_calibrationPtr.GetPtr()){
 				return false;
 			}
 			break;
 
 		case CM_WITH_REFS:
-			m_calibrationPtr = object2dPtr->m_calibrationPtr;
+			if (!object2dPtr->m_calibrationPtr.IsValid() || !object2dPtr->m_calibrationPtr.IsToRelase()){
+				m_calibrationPtr = object2dPtr->m_calibrationPtr;
+			}
 			break;
 
 		case CM_CONVERT:
-			if (object2dPtr->m_calibrationPtr != NULL){
+			if (object2dPtr->m_calibrationPtr.IsValid()){
 				retVal = Transform(*object2dPtr->m_calibrationPtr) && retVal;
 			}
 
-			if (m_calibrationPtr != NULL){
+			if (m_calibrationPtr.IsValid()){
 				retVal = InvTransform(*m_calibrationPtr) && retVal;
 			}
 

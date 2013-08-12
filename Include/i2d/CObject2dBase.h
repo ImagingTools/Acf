@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include "istd/TOptDelPtr.h"
 #include "i2d/IObject2d.h"
 
 
@@ -20,15 +21,11 @@ public:
 	CObject2dBase();
 	CObject2dBase(const CObject2dBase& object2d);
 
-	/**
-		Set calibration of this object.
-	*/
-	virtual void SetCalibration(const ICalibration2d* calibrationPtr);
-
 	// reimplemented (i2d::ICalibrationProvider)
 	virtual const ICalibration2d* GetCalibration() const;
 
 	// reimplemented (i2d::IObject2d)
+	virtual void SetCalibration(const ICalibration2d* calibrationPtr, bool releaseFlag = false);
 	virtual bool Transform(
 				const ITransformation2d& transformation,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
@@ -52,7 +49,7 @@ public:
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
 private:
-	const ICalibration2d* m_calibrationPtr;
+	istd::TOptDelPtr<const ICalibration2d> m_calibrationPtr;
 };
 
 

@@ -46,6 +46,12 @@ public:
 	virtual CRectangle GetBoundingBox() const = 0;
 
 	/**
+		Set calibration of this object.
+		\param	releaseFlag	if true, pointed object will be automatically released. \sa istd::TOptDelPtr.
+	*/
+	virtual void SetCalibration(const ICalibration2d* calibrationPtr, bool releaseFlag = false) = 0;
+
+	/**
 		Transform this object using some transformation.
 		Please note, that this operation transforms logical coordinates, it means that the calibration will be ignored.
 		\param	mode			controls needed transformation exactness.
