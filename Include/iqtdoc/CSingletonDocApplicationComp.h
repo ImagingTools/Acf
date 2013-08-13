@@ -79,7 +79,9 @@ private:
 	/**
 		Maximal number of document, which can be opened from the shell.
 	*/
-	static const int MAX_DOCUMENTS_COUNT = 100;
+	enum{
+		MAX_DOCUMENTS_COUNT = 100
+	};
 
 	/**
 		Info about running application.
