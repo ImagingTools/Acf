@@ -121,7 +121,7 @@ Module{
 							'-o', output.fileName]);
 			}
 			else{
-				copyCmd = new Command('copy', [input.fileName, tempResourceDir]);
+				copyCmd = new Command('cp', [input.fileName, tempResourceDir]);
 				rccCmd = new Command('rcc',
 							[tempResourceDir + FileInfo.fileName(input.fileName),
 							'-name', FileInfo.completeBaseName(input.fileName),
