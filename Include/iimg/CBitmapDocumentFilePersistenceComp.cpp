@@ -1,5 +1,6 @@
 #include "iimg/CBitmapDocumentFilePersistenceComp.h"
 
+
 // Qt includes
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
@@ -8,9 +9,8 @@
 // ACF includes
 #include "iimg/CBitmapDocument.h"
 #include "iimg/CBitmapLoaderComp.h"
-
-#include "iqt/CXmlFileReadArchive.h"
-#include "iqt/CXmlFileWriteArchive.h"
+#include "ifile/CXmlFileReadArchive.h"
+#include "ifile/CXmlFileWriteArchive.h"
 
 
 #define DOCUMENT_SUFFIX "mbd"
@@ -67,7 +67,7 @@ int CBitmapDocumentFilePersistenceComp::LoadFromFile(istd::IChangeable& data, co
 
 	QFileInfo fileInfo(filePath);
 
-	iqt::CXmlFileReadArchive archive(filePath);
+	ifile::CXmlFileReadArchive archive(filePath);
 	bool retVal = true;
 
 	// Serialize meta info:
@@ -149,7 +149,7 @@ int CBitmapDocumentFilePersistenceComp::SaveToFile(const istd::IChangeable& data
 		fileName += "." + m_defaultSuffix;
 	}
 
-	iqt::CXmlFileWriteArchive archive(fileName);
+	ifile::CXmlFileWriteArchive archive(fileName);
 	bool retVal = true;
 	
 	// Serialize meta info:
