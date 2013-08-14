@@ -124,9 +124,15 @@ inline TOptDelPtr<Type, DelArray>::TOptDelPtr(Type* ptr, bool releaseFlag)
 
 
 template <class Type, bool DelArray>
-inline TOptDelPtr<Type, DelArray>::TOptDelPtr(const TOptDelPtr<Type, DelArray>& I_IF_DEBUG(ptr))
+inline TOptDelPtr<Type, DelArray>::TOptDelPtr(const TOptDelPtr<Type, DelArray>& ptr)
 :	BaseClass(NULL)
 {
+	if (!ptr.m_releaseFlag){
+		SetPtr(ptr.GetPtr(), false);
+
+		return;
+	}
+
 	Q_ASSERT(ptr.GetPtr() == NULL);
 }
 
