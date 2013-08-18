@@ -11,29 +11,30 @@ Module{
 	// root of the whole project
 	property path projectRoot
 
-	property string COMPILER_NAME: "Qbs"
+	property string compilerName: "Unix"
+	property string compileMode: "Release"
+	property string compilerDir: compilerName + compileMode
 
 	Properties{
-		condition: cpp.compilerPath.contains("2005") || cpp.compilerPath.contains("VC8")
-		COMPILER_NAME: "VC8"
+		condition: (qbs.targetOS === "osx")
+		compilerName: "OSX"
 	}
 	Properties{
-		condition: cpp.compilerPath.contains("2008") || cpp.compilerPath.contains("VC9")
-		COMPILER_NAME: "VC9"
+		condition: (qbs.toolchain === "msvc") && (cpp.compilerPath.contains("2005") || cpp.compilerPath.contains("VC8"))
+		compilerName: "VC8"
 	}
 	Properties{
-		condition: cpp.compilerPath.contains("2010") || cpp.compilerPath.contains("VC10")
-		COMPILER_NAME: "VC10"
+		condition: (qbs.toolchain === "msvc") && (cpp.compilerPath.contains("2008") || cpp.compilerPath.contains("VC9"))
+		compilerName: "VC9"
+	}
+	Properties{
+		condition: (qbs.toolchain === "msvc") && (cpp.compilerPath.contains("2010") || cpp.compilerPath.contains("VC10"))
+		compilerName: "VC10"
 	}
 
-	property string COMPILER_DIR
 	Properties{
-		condition: cpp.debugInformation == true
-		COMPILER_DIR: "Debug" + COMPILER_NAME
-	}
-	Properties{
-		condition: cpp.debugInformation == false
-		COMPILER_DIR: "Release" + COMPILER_NAME
+		condition: cpp.enableDebugCode === true
+		compileMode: "Debug"
 	}
 
 	readonly property path acfConfigurationFile: "undefined_file"
