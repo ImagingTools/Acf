@@ -15,15 +15,15 @@ Module{
 
 	Properties{
 		condition: cpp.compilerPath.contains("2005") || cpp.compilerPath.contains("VC8")
-		COMPILER_NAME: "VC10"
+		COMPILER_NAME: "VC8"
 	}
 	Properties{
 		condition: cpp.compilerPath.contains("2008") || cpp.compilerPath.contains("VC9")
-		COMPILER_NAME: "VC10"
+		COMPILER_NAME: "VC9"
 	}
 	Properties{
 		condition: cpp.compilerPath.contains("2010") || cpp.compilerPath.contains("VC10")
-		COMPILER_NAME: "VC9"
+		COMPILER_NAME: "VC10"
 	}
 
 	property string COMPILER_DIR
