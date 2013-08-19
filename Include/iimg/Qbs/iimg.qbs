@@ -10,6 +10,7 @@ StaticProduct{
 	Depends{ name: "i2d" }
 	Depends{ name: "iqt" }
 	Depends{ name: "icmm" }
+	Depends{ name: "ibase" }
 	Depends{ name: "icomp" }
 	Depends{ name: "Qt.gui" }
 
@@ -18,6 +19,7 @@ StaticProduct{
 		Depends{ name: "i2d" }
 		Depends{ name: "iqt" }
 		Depends{ name: "icmm" }
+		Depends{ name: "ibase" }
 		Depends{ name: "icomp" }
 		Depends{ name: "Qt.gui" }
 	}
