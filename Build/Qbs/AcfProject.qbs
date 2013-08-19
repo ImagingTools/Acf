@@ -1,7 +1,7 @@
 import qbs.base 1.0
 
 Project{
-	name: "AcfAll"
+	name: "ACF-Core"
 	id: acfCore
 
 	Project{

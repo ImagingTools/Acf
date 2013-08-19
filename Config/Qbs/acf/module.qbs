@@ -11,6 +11,7 @@ Module{
 	// root of the whole project
 	property path projectRoot
 
+	readonly property string acfRootDir: FileInfo.joinPaths(path, "/../../..")
 	property string compilerName
 	property string compileMode
 
@@ -45,10 +46,9 @@ Module{
 	}
 
 	property string compilerDir: compileMode + compilerName
-
-	readonly property path acfConfigurationFile: "undefined_file"
-	property path trConfigurationFile: acfConfigurationFile
-	property path trRegFile
+	property path acfConfigurationFile								// ACF configuration file ARX compiler
+	property path trConfigurationFile: acfConfigurationFile			// ACF configuration file for xtracf transformations
+	property path trRegFile											// ACF registry file for xtracf transformations
 
 	FileTagger{
 		pattern: "*.arx"
@@ -75,13 +75,18 @@ Module{
 		}
 
 		prepare:{
-			var cmd = new Command(product.buildDirectory + '/Bin/' + product.moduleProperty("cpp", "executablePrefix") + 'Arxc' + product.moduleProperty("cpp", "executableSuffix"), [
+			var arxcDirectory = product.moduleProperty("Arxc", "acfBinDirectory");
+			if (arxcDirectory == null){
+				arxcDirectory = product.buildDirectory + '/Bin';
+			}
+
+			var cmd = new Command(arxcDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
 						inputs.arx[0].fileName,
 						'-config', product.moduleProperty("acf", "acfConfigurationFile"),
 						'-o', outputs.cpp[0].fileName]);
 			cmd.description = 'arxc ' + FileInfo.fileName(inputs.arx[0].fileName)
 			cmd.highlight = 'codegen';
-			cmd.workingDirectory = product.buildDirectory + '/Bin/';
+			cmd.workingDirectory = arxcDirectory;
 
 			return cmd;
 		}
@@ -96,14 +101,19 @@ Module{
 		}
 
 		prepare:{
-			var cmd = new Command(product.buildDirectory + '/Bin/' + product.moduleProperty("cpp", "executablePrefix") + 'Acf' + product.moduleProperty("cpp", "executableSuffix"), [
+			var arxcDirectory = product.moduleProperty("Arxc", "acfBinDirectory");
+			if (arxcDirectory == null){
+				arxcDirectory = product.buildDirectory + '/Bin';
+			}
+
+			var cmd = new Command(arxcDirectory + '/' + product.moduleProperty("cpp", "executablePrefix") + 'Acf' + product.moduleProperty("cpp", "executableSuffix"), [
 						product.moduleProperty("acf", "trRegFile").fileName,
 						'-config', product.moduleProperty("acf", "trConfigurationFile").fileName,
 						'-input', input.fileName,
 						'-o', output.fileName]);
 			cmd.description = 'acf transformation ' + FileInfo.fileName(input.fileName)
 			cmd.highlight = 'codegen';
-			cmd.workingDirectory = 'Bin';
+			cmd.workingDirectory = arxcDirectory;
 
 			return cmd;
 		}
@@ -163,6 +173,8 @@ Module{
 			fileTags: ["acf_share"]
 		}
 		prepare:{
+			condition: product.name.indexOf("_") != 0	// prefix '_' will be used for temporary products
+
 			var cmd = new JavaScriptCommand();
 			cmd.description = "generating shared module " + product.name;
 			cmd.highlight = "codegen";
@@ -173,12 +185,26 @@ Module{
 				pkginfo.write("import qbs 1.0\n");
 				pkginfo.write("\n");
 				pkginfo.write("Module{\n");
-				pkginfo.write("	Depends{ name: 'cpp' }\n");
+
+				var dependencies = product.dependencies;
+				for (var dependencyIndex in dependencies) {
+					var dependencyName = dependencies[dependencyIndex].name.replace("/", ".");
+					if ((dependencyName != "qbs") && (dependencyName.indexOf("_") != 0)){
+						pkginfo.write("	Depends{ name: '" + dependencyName + "' }\n");
+					}
+				}
+
+				pkginfo.write("\n");
 
 				if (product.type.contains("staticlibrary")){
 					var libraryFileName = product.moduleProperty("cpp", "staticLibraryPrefix") + product.targetName + product.moduleProperty("cpp", "staticLibrarySuffix");
-					pkginfo.write("	cpp.staticLibraries: '../../../../" + product.destinationDirectory + "/" + libraryFileName + "'\n");
+					pkginfo.write("	cpp.staticLibraries: path + '/../../../../" + product.destinationDirectory + "/" + libraryFileName + "'\n");
 				}
+				if (product.type.contains("application")){
+					pkginfo.write("	readonly property path acfBinDirectory: path + '/../../../../" + product.destinationDirectory + "'\n");
+				}
+
+				pkginfo.write("\n");
 
 				var includePaths = product.moduleProperties("cpp", "includePaths");
 
@@ -200,8 +226,14 @@ Module{
 
 				var isFirst = true;
 				pkginfo.write("	cpp.includePaths: [");
-				for (var path in correctedPathsMap){
-					pkginfo.write((isFirst? "\n		'": ",\n		'") + path + "'");
+				for (var correctedPath in correctedPathsMap){
+					if (isFirst){
+						pkginfo.write("\n");
+					}
+					else{
+						pkginfo.write(",\n");
+					}
+					pkginfo.write("		path + '/" + correctedPath + "'");
 					isFirst = false;
 				}
 				pkginfo.write("\n	]\n");

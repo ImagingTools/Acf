@@ -11,8 +11,9 @@ DynamicLibrary{
 	Depends{ name: "Qt.core" }
 	Depends{ name: "cpp" }
 
-	cpp.defines: ['I_QBS']
+	acf.projectRoot: path + "/../../.."
 
+	cpp.defines: ['I_QBS']
 	cpp.dynamicLibraryPrefix: ""
 	cpp.dynamicLibrarySuffix: ".arp"
 

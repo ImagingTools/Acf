@@ -2,6 +2,8 @@ import qbs.base 1.0
 // Standard settings for an ACF application
 
 Application{
+	type: ["application", "acf_share"]
+
 	destinationDirectory: "Bin"
 
 	Depends{ name: "acf" }
