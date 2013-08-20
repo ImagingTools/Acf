@@ -14,7 +14,10 @@ namespace ilog
 
 
 CMessage::CMessage()
-:	m_timeStamp(QDateTime::currentDateTime())
+:	m_category(IC_NONE),
+	m_id(-1),
+	m_flags(0),
+	m_timeStamp(QDateTime::currentDateTime())
 {
 }
 

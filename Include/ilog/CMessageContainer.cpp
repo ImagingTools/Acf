@@ -341,7 +341,7 @@ CMessageContainer::MessageFactory& CMessageContainer::GetMessageFactory()
 }
 
 
-I_REGISTER_MESSAGE_TYPE(CMessage);
+I_REGISTER_MESSAGE_TYPE(CMessage, "DefaultMessage");
 
 
 } // namespace ilog

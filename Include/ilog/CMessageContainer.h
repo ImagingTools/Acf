@@ -116,13 +116,13 @@ bool CMessageContainer::RegisterMessageType(const QByteArray& messageTypeId)
 }
 
 
-#define I_REGISTER_MESSAGE_TYPE(messageType)\
-static struct DefaultMessageTypesRegistrator_##messageType\
+#define I_REGISTER_MESSAGE_TYPE(messageType, messageTypeId)\
+	static struct DefaultMessageTypesRegistrator_##messageType\
 {\
 	DefaultMessageTypesRegistrator_##messageType()\
-	{\
-		ilog::CMessageContainer::RegisterMessageType<messageType>();\
-	}\
+{\
+	ilog::CMessageContainer::RegisterMessageType<messageType>(messageTypeId);\
+}\
 } s_defaultMessageTypesRegistrator_##messageType;
 
 
