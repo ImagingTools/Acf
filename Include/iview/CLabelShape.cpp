@@ -33,9 +33,11 @@ CLabelShape::CLabelShape(TextAlign align, const istd::CIndex2d& offset)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton /*buttonType*/, bool downFlag)
+bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	Q_ASSERT(IsDisplayConnected());
+
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
 	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
 	if (labelPtr != NULL){

@@ -33,6 +33,8 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 {
 	Q_ASSERT(IsDisplayConnected());
 
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 	imod::IModel* modelPtr = GetModelPtr();
 	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
 	if (polygonPtr != NULL){

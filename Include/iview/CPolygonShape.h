@@ -21,12 +21,13 @@ class CPolygonShape: public CTransformableRectangleShape
 {
 public:
 	typedef CTransformableRectangleShape BaseClass;
-
+	typedef CInteractiveShapeBase ShapeBaseClass;
+	
 	CPolygonShape();
 
 	/**
 		Check if first point is always visible as ticker.
-		It is used to recognize wchich one point is the first.
+		It is used to recognize which one point is the first.
 	*/
 	virtual bool IsFirstVisible() const;
 	virtual void SetFirstVisible(bool state = true);

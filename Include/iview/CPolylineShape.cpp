@@ -26,6 +26,8 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 {
 	Q_ASSERT(IsDisplayConnected());
 
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 	imod::IModel* modelPtr = GetModelPtr();
 	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(modelPtr);
 	if (polylinePtr != NULL){

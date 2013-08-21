@@ -110,9 +110,11 @@ bool CLineShape::OnAttached(imod::IModel* modelPtr)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CLineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton /*buttonType*/, bool downFlag)
+bool CLineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	Q_ASSERT(IsDisplayConnected());
+
+	BaseClass::OnMouseButton(position, buttonType, downFlag);
 
 	const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(GetModelPtr());
 	if (linePtr != NULL){

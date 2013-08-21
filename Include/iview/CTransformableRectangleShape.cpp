@@ -78,9 +78,11 @@ bool CTransformableRectangleShape::OnAttached(imod::IModel* modelPtr)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CTransformableRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton /*buttonType*/, bool downFlag)
+bool CTransformableRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	if (IsDisplayConnected()){
+		ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 		m_mouseMode = MM_NONE;
 
 		if (downFlag && IsSelected()){

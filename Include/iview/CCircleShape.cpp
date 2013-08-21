@@ -62,6 +62,8 @@ bool CCircleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton button
 {
 	Q_ASSERT(IsDisplayConnected());
 
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
 	if (circlePtr != NULL){
 		if (downFlag && m_isEditableRadius){

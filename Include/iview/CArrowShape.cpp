@@ -115,9 +115,11 @@ bool CArrowShape::OnAttached(imod::IModel* modelPtr)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CArrowShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton /*buttonType*/, bool downFlag)
+bool CArrowShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	Q_ASSERT(IsDisplayConnected());
+
+	BaseClass::OnMouseButton(position, buttonType, downFlag);
 
 	EnsurePointsAreValid();
 

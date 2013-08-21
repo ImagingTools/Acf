@@ -203,6 +203,8 @@ i2d::CRect CTubePolylineShape::CalcBoundingBox() const
 
 bool CTubePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 	m_editMode = EM_NONE;
 
 	i2d::CTubePolyline* polylinePtr = dynamic_cast<i2d::CTubePolyline*>(GetModelPtr());

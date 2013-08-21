@@ -17,6 +17,7 @@ class CCenterPinShape: public CPinShape
 {
 public:
 	typedef CPinShape BaseClass;
+	typedef CInteractiveShapeBase ShapeBaseClass;
 
 	CCenterPinShape();
 

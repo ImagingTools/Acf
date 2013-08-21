@@ -17,6 +17,7 @@ class CPolylineShape: public CPolygonShape
 {
 public:
 	typedef CPolygonShape BaseClass;
+	typedef CInteractiveShapeBase ShapeBaseClass;
 
 	CPolylineShape();
 

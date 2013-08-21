@@ -13,6 +13,7 @@ class CCircleShape: public CPinShape
 {
 public:
 	typedef CPinShape BaseClass;
+	typedef CInteractiveShapeBase ShapeBaseClass;
 
 	CCircleShape();
 

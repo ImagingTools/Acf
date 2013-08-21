@@ -21,16 +21,18 @@ i2d::CVector2d CParallelogram::GetCenter() const
 void CParallelogram::MoveCenterTo(const i2d::CVector2d& position)
 {
 	if (m_transform.GetTranslation() != position){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
 
 		m_transform.SetTranslation(position);
 	}
 }
 
+
 i2d::CRectangle CParallelogram::GetBoundingBox() const
 {
 	return i2d::CRectangle();
 }
+
 
 bool CParallelogram::Transform(
 			const i2d::ITransformation2d& transformation,
@@ -39,7 +41,7 @@ bool CParallelogram::Transform(
 {
 	i2d::CAffine2d localTransform;
 	if (transformation.GetLocalTransform(GetCenter(), localTransform, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
 
 		m_transform.Apply(localTransform);
 
@@ -57,7 +59,7 @@ bool CParallelogram::InvTransform(
 {
 	i2d::CAffine2d localTransform;
 	if (transformation.GetLocalInvTransform(GetCenter(), localTransform, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
 
 		m_transform.Apply(localTransform);
 
@@ -115,7 +117,7 @@ bool CParallelogram::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CParallelogram* parallelogramPtr = dynamic_cast<const CParallelogram*>(&object);
 
 	if (parallelogramPtr != NULL){
-		istd::CChangeNotifier notifier(this);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
 		
 		SetTransform(parallelogramPtr->GetTransform());
 

@@ -40,6 +40,8 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 {
 	Q_ASSERT(IsDisplayConnected());
 
+	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
+
 	const i2d::CAnnulusSegment* objectPtr = dynamic_cast<const i2d::CAnnulusSegment*>(GetModelPtr());
 	if (objectPtr != NULL){
 		if (downFlag && IsEditableRadius()){

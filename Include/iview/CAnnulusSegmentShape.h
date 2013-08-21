@@ -13,6 +13,7 @@ class CAnnulusSegmentShape: public CAnnulusShape
 {
 public:
 	typedef CAnnulusShape BaseClass;
+	typedef CInteractiveShapeBase ShapeBaseClass;
 
 	CAnnulusSegmentShape();
 

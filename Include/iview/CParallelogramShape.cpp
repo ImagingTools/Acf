@@ -81,9 +81,11 @@ bool CParallelogramShape::OnAttached(imod::IModel* modelPtr)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton /*buttonType*/, bool downFlag)
+bool CParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
 	Q_ASSERT(IsDisplayConnected());
+
+	BaseClass::OnMouseButton(position, buttonType, downFlag);
 
 	if (downFlag){
 		EnsureValidNodes();

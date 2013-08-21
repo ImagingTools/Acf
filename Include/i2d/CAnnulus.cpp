@@ -44,12 +44,7 @@ double CAnnulus::GetInnerRadius() const
 void CAnnulus::SetInnerRadius(double innerRadius)
 {
 	if (m_radiusRange.GetMinValue() != innerRadius && innerRadius <= m_radiusRange.GetMaxValue()){
-		int flags = CF_MODEL;
-		if (!IsUndoAllowed()){
-			flags |= CF_NO_UNDO;
-		}
-
-		istd::CChangeNotifier notifier(this, flags);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
 
 		m_radiusRange.SetMinValue(innerRadius);
 	}
@@ -65,12 +60,7 @@ double CAnnulus::GetOuterRadius() const
 void CAnnulus::SetOuterRadius(double outerRadius)
 {
 	if (m_radiusRange.GetMaxValue() != outerRadius && outerRadius >= m_radiusRange.GetMinValue()){
-		int flags = CF_MODEL;
-		if (!IsUndoAllowed()){
-			flags |= CF_NO_UNDO;
-		}
-
-		istd::CChangeNotifier notifier(this, flags);
+		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
 	
 		m_radiusRange.SetMaxValue(outerRadius);
 	}
