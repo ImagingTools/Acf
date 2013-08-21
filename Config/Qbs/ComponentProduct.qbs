@@ -14,6 +14,7 @@ DynamicLibrary{
 	acf.projectRoot: path + "/../../.."
 
 	cpp.defines: ['I_QBS']
+	cpp.includePaths: ["../.."]
 	cpp.dynamicLibraryPrefix: ""
 	cpp.dynamicLibrarySuffix: ".arp"
 
