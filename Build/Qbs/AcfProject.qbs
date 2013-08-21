@@ -56,4 +56,22 @@ Project{
 			"../../Impl/ArxcExe/Qbs/Arxc.qbs"
 		]
 	}
+
+	Product{
+		name: "AcfCoreConfig"
+		type: ["xpc", "acf_share"]
+
+		files: ["../../Config/PartituraOnly.xpc"]
+
+		destinationDirectory: "Config"
+
+		Depends{ name: "BasePck" }
+		Depends{ name: "BitmapPck" }
+		Depends{ name: "QtPck" }
+		Depends{ name: "FilePck" }
+		Depends{ name: "QtGuiPck" }
+		Depends{ name: "QtViewPck" }
+		Depends{ name: "PackagePck" }
+		Depends{ name: "acf" }
+	}
 }

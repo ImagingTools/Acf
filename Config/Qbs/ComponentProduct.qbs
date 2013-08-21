@@ -2,7 +2,7 @@ import qbs.base 1.0
 // Standard settings for an ACF package project
 
 DynamicLibrary{
-	type: ["dynamiclibrary", "acf_share"]
+	type: ["dynamiclibrary", "acf_share", "acfComponent"]
 
 	destinationDirectory: "Bin"
 
