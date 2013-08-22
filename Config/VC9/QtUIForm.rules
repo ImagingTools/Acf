@@ -7,8 +7,8 @@
 		<CustomBuildRule
 			Name="QT Designer Form"
 			DisplayName="QT Form"
-			CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\Generated\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
-			Outputs="&quot;$(InputDir)\Generated\ui_$(InputName).h&quot;"
+			CommandLine="&quot;$(QTDIR)\bin\uic.exe&quot; -o &quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\ui_$(InputName).h&quot; &quot;$(InputPath)&quot;"
+			Outputs="&quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\ui_$(InputName).h&quot;"
 			AdditionalDependencies="$(QTDIR)\bin\uic.exe"
 			FileExtensions="*.ui"
 			ExecutionDescription="Uic&apos;ing $(InputFileName)..."
@@ -19,8 +19,8 @@
 		<CustomBuildRule
 			Name="QT Resources"
 			DisplayName="QT Resources"
-			CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; $(InputPath) -no-compress -o &quot;$(InputDir)\Generated\qrc_$(InputName).cpp&quot;"
-			Outputs="&quot;$(InputDir)\Generated\qrc_$(InputName).cpp&quot;"
+			CommandLine="&quot;$(QTDIR)\bin\rcc.exe&quot; -name &quot;$(InputName)&quot; $(InputPath) -no-compress -o &quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\qrc_$(InputName).cpp&quot;"
+			Outputs="&quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\qrc_$(InputName).cpp&quot;"
 			AdditionalDependencies="$(QTDIR)\bin\rcc.exe"
 			FileExtensions="*.qrc"
 			ExecutionDescription="Rcc&apos;ing $(InputFileName)..."
@@ -32,8 +32,8 @@
 		<CustomBuildRule
 			Name="QT Moc Metafile"
 			DisplayName="QT Moc"
-			CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot; &quot;$(InputDir)/$(InputName).h&quot; -o &quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot; -D_WIN32"
-			Outputs="&quot;$(InputDir)\Generated\moc_$(InputName).cpp&quot;"
+			CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot; &quot;$(InputDir)/$(InputName).h&quot; -o &quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\moc_$(InputName).cpp&quot; -D_WIN32"
+			Outputs="&quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\moc_$(InputName).cpp&quot;"
 			AdditionalDependencies="$(QTDIR)\bin\moc.exe;&quot;$(InputDir)/$(InputName).h&quot;"
 			FileExtensions="*.moc"
 			ExecutionDescription="Moc&apos;ing $(InputFileName)..."
@@ -44,8 +44,8 @@
 		<CustomBuildRule
 			Name="Qt Linguist"
 			DisplayName="QT Linguist"
-			CommandLine="&quot;$(QTDIR)\bin\lrelease.exe&quot; &quot;$(InputPath)&quot; -qm &quot;$(ProjectDir)\..\Generated\$(InputName).qm&quot;"
-			Outputs="&quot;$(ProjectDir)\..\Generated\$(InputName).qm&quot;"
+			CommandLine="&quot;$(QTDIR)\bin\lrelease.exe&quot; &quot;$(InputPath)&quot; -qm &quot;$(ProjectDir)\..\..\GeneratedFiles\$(ProjectName)\$(InputName).qm&quot;"
+			Outputs="&quot;$(ProjectDir)\..\..\GeneratedFiles\$(ProjectName)\$(InputName).qm&quot;"
 			AdditionalDependencies="$(QTDIR)\bin\lrelease.exe"
 			FileExtensions="*.ts"
 			ExecutionDescription="Creating translation of $(InputFileName)..."

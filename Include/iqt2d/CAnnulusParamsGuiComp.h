@@ -8,7 +8,7 @@
 #include "iview/CAnnulusShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_CAnnulusParamsGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CAnnulusParamsGuiComp.h"
 
 
 namespace iqt2d

@@ -26,7 +26,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "ifilegui/Generated/ui_CFileTreeViewGuiComp.h"
+#include "GeneratedFiles/ifilegui/ui_CFileTreeViewGuiComp.h"
 
 
 namespace ifilegui

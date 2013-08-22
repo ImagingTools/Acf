@@ -370,87 +370,87 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\Generated\moc_CAffineTransformationParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CAffineTransformationParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CAnnulusParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CAnnulusParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CAnnulusSegmentParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CAnnulusSegmentParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CCircleParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CCircleParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CLine2dParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CLine2dParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_COrientedCircleEditorComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_COrientedCircleEditorComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CPolygonParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CPolygonParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CPolylineParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CPolylineParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CQuadrangleParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CQuadrangleParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CRectangleParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CRectangleParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CTubePolylineParamsGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\moc_CTubePolylineParamsGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\qrc_iqt2d.cpp"
+				RelativePath="..\..\GeneratedFiles\iqt2d\qrc_iqt2d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAffineTransformationParamsGui.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CAffineTransformationParamsGui.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAnnulusParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CAnnulusParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CAnnulusSegmentParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CAnnulusSegmentParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CCircleParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CCircleParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CLine2dParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CLine2dParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CPolygonParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CPolygonParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CQuadrangleParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CQuadrangleParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CRectangleParamsGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CRectangleParamsGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSceneConnectorGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqt2d\ui_CSceneConnectorGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -561,17 +561,5 @@
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="MocDir"
-			Value="$(InputDir)\Generated"
-		/>
-		<Global
-			Name="QtVersion"
-			Value="4.2.3"
-		/>
-		<Global
-			Name="UicDir"
-			Value="$(InputDir)\Generated"
-		/>
 	</Globals>
 </VisualStudioProject>

@@ -10,7 +10,7 @@
 #include "ifile/IFilePersistence.h"
 #include "ifile/IFileNameParam.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "ifilegui/Generated/ui_CFilePreviewGuiComp.h"
+#include "GeneratedFiles/ifilegui/ui_CFilePreviewGuiComp.h"
 
 
 namespace ifilegui

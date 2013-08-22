@@ -7,7 +7,7 @@
 #include "iview/CCircleShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_CCircleParamsGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CCircleParamsGuiComp.h"
 
 
 namespace iqt2d

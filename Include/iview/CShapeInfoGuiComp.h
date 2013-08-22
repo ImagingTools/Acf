@@ -6,7 +6,7 @@
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
 #include "iview/IShapeStatusInfo.h"
-#include "iview/Generated/ui_CShapeInfoGuiComp.h"
+#include "GeneratedFiles/iview/ui_CShapeInfoGuiComp.h"
 
 
 namespace iview

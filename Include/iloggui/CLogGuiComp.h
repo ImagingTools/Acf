@@ -17,7 +17,7 @@
 #include "iqtgui/IVisualStatusProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iloggui/Generated/ui_CLogGuiComp.h"
+#include "GeneratedFiles/iloggui/ui_CLogGuiComp.h"
 
 
 namespace iloggui

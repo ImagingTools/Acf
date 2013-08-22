@@ -19,7 +19,7 @@
 #include "iqtgui/IIconProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iqtprm/Generated/ui_CButtonBasedSelectionParamGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_CButtonBasedSelectionParamGuiComp.h"
 
 
 namespace iqtprm

@@ -5,7 +5,7 @@
 #include "ifile/IFileListProvider.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "ifilegui/Generated/ui_CFileListProviderGuiComp.h"
+#include "GeneratedFiles/ifilegui/ui_CFileListProviderGuiComp.h"
 
 
 namespace ifilegui

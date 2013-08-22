@@ -7,4 +7,7 @@ DESTDIR = ../../../../../Bin/$$COMPILER_DIR
 
 QT += main core gui xml sql network
 
+FORMS += ../*.ui
+UI_DIR = ../../GeneratedFiles/TutorialPck
+
 INCLUDEPATH += ../..

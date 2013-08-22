@@ -5,4 +5,7 @@ TARGET = DocView
 
 DESTDIR = ../../../../../Lib/$$COMPILER_DIR
 
+FORMS += ../*.ui
+UI_DIR = ../../GeneratedFiles/DocView
+
 INCLUDEPATH += ..

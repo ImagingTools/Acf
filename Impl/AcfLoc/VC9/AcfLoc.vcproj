@@ -217,10 +217,10 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Generated"
+			Name="Generated Files"
 			>
 			<File
-				RelativePath="..\generated\qrc_AcfLoc.cpp"
+				RelativePath="..\..\GeneratedFiles\AcfLoc\qrc_AcfLoc.cpp"
 				>
 			</File>
 		</Filter>
@@ -235,7 +235,7 @@
 					>
 					<Tool
 						Name="QT Resources"
-						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;..\Generated\Acf_en_US.qm;..\Generated\Acf_de_DE.qm;..\Generated\Acf_ru_RU.qm;..\Generated\Acf_pl_PL.qm"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;..\GeneratedFiles\Acf_en_US.qm;..\GeneratedFiles\Acf_de_DE.qm;..\GeneratedFiles\Acf_ru_RU.qm;..\GeneratedFiles\Acf_pl_PL.qm"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -243,7 +243,7 @@
 					>
 					<Tool
 						Name="QT Resources"
-						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;..\Generated\Acf_en_US.qm;..\Generated\Acf_de_DE.qm;..\Generated\Acf_ru_RU.qm;..\Generated\Acf_pl_PL.qm"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;..\GeneratedFiles\Acf_en_US.qm;..\GeneratedFiles\Acf_de_DE.qm;..\GeneratedFiles\Acf_ru_RU.qm;..\GeneratedFiles\Acf_pl_PL.qm"
 					/>
 				</FileConfiguration>
 			</File>

@@ -8,7 +8,7 @@
 #include "iview/CLineShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_CLine2dParamsGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CLine2dParamsGuiComp.h"
 
 
 namespace iqt2d

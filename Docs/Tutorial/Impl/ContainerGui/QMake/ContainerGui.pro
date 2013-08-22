@@ -5,11 +5,10 @@ TARGET = ContainerGui
 
 DESTDIR = ../../../../../Bin/$$COMPILER_DIR
 
-LIBS += -lAcfStd -lAcfQt
+FORMS += ../*.ui
+UI_DIR = ../../GeneratedFiles/ContainerGui
 
-UI_DIR = ../Generated
-MOC_DIR = ../Generated
-RCC_DIR = ../Generated
+LIBS += -lAcfStd -lAcfQt
 
 QT += main core gui 
 

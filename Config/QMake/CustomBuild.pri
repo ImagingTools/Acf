@@ -15,7 +15,7 @@ else{
 win*{
 	svnTransformation.name = SVN-Rev-Transformation
 	svnTransformation.CONFIG += target_predeps
-	svnTransformation.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}
+	svnTransformation.output = ${QMAKE_FILE_IN_PATH}/../GeneratedFiles/$(QMAKE_TARGET)/${QMAKE_FILE_BASE}
 	svnTransformation.commands = SubWCRev.exe $${SVNTR_REPOSITORY} ${QMAKE_FILE_NAME} $${SVNTR_DESTINATION}/${QMAKE_FILE_BASE}
 	svnTransformation.input = SVNTR_FILES
 	QMAKE_EXTRA_COMPILERS += svnTransformation
@@ -26,12 +26,12 @@ win*{
 
 arxCompiler.name = ARX-Compiler
 arxCompiler.CONFIG += no_link target_predeps
-arxCompiler.output = ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.h
+arxCompiler.output = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.h
 CONFIG(debug, debug|release){
-	arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
+	arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
 }
 CONFIG(release, debug|release){
-	arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o ${QMAKE_FILE_IN_PATH}/Generated/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
+	arxCompiler.commands = $$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
 }
 arxCompiler.input = ARXC_FILES
 arxCompiler.variable_out = SOURCES
@@ -60,15 +60,8 @@ isEmpty(QMAKE_LRELEASE) {
 	QMAKE_LRELEASE = $$QT_INSTALL_BINS/lrelease
 }
 updateqm.input = ACF_TRANSLATIONS
-updateqm.output = ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}.qm
-updateqm.commands = $$[QT_INSTALL_BINS]$$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_IN_PATH}/Generated/${QMAKE_FILE_BASE}.qm
+updateqm.output = $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$[QT_INSTALL_BINS]$$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
 updateqm.CONFIG += no_link target_predeps
 updateqm.dependency_type = TYPE_QRC
 QMAKE_EXTRA_COMPILERS += updateqm
-
-copyQmToGenerate.input = COPYQMTOGENERATE
-copyQmToGenerate.output = ../Generated/${QMAKE_FILE_BASE}.qm
-win32:copyQmToGenerate.commands = xcopy ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
-else:copyQmToGenerate.commands = cp ${QMAKE_FILE_IN} ../Generated/${QMAKE_FILE_BASE}.qm
-copyQmToGenerate.CONFIG += no_link target_predeps
-QMAKE_EXTRA_COMPILERS += copyQmToGenerate

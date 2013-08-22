@@ -7,7 +7,7 @@
 
 #include "ibase/CDelegatedProgressManager.h"
 
-#include "iqtgui/Generated/ui_CProgressManagerGuiComp.h"
+#include "GeneratedFiles/iqtgui/ui_CProgressManagerGuiComp.h"
 
 
 namespace iqtgui

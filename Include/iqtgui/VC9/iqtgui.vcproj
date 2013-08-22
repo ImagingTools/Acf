@@ -678,91 +678,91 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\Generated\moc_CAboutWidgetGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CAboutWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CCheckableComboBox.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CCheckableComboBox.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CDialogGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CDialogGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CDockWidgetGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CDockWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CDoubleRangeSpinEdit.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CDoubleRangeSpinEdit.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CExtLineEdit.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CExtLineEdit.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CHierarchicalCommand.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CHierarchicalCommand.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CImagePropertiesFrameComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CImagePropertiesFrameComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CImagePropertyGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CImagePropertyGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CMultiPageWidget.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CMultiPageWidget.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CProgressManagerGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CProgressManagerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSelectableCommandsProviderComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CSelectableCommandsProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSettingsContainerGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CSettingsContainerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CSimpleMainWindowGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CTabbedMultiViewGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CTabbedMultiViewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\qrc_iqtgui.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtgui\qrc_iqtgui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CAboutWidgetGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CAboutWidgetGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CDoubleRangeSpinEdit.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CDoubleRangeSpinEdit.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CImagePropertiesFrameComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CImagePropertiesFrameComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CNumpadGui.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CNumpadGui.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CProgressManagerGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CProgressManagerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CSplashScreenGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CSplashScreenGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -864,17 +864,5 @@
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="MocDir"
-			Value="$(InputDir)\Generated"
-		/>
-		<Global
-			Name="QtVersion"
-			Value="4.2.3"
-		/>
-		<Global
-			Name="UicDir"
-			Value="$(InputDir)\Generated"
-		/>
 	</Globals>
 </VisualStudioProject>

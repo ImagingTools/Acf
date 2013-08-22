@@ -253,43 +253,43 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\Generated\moc_CFileListProviderGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileListProviderGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFilePersistenceGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFilePersistenceGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFilePreviewGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFilePreviewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFileSystemExplorerGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileSystemExplorerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFileTreeViewGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileTreeViewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFileListProviderGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileListProviderGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFilePersistenceGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFilePersistenceGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFilePreviewGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFilePreviewGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFileSystemExplorerGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileSystemExplorerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFileTreeViewGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileTreeViewGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -343,17 +343,5 @@
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="MocDir"
-			Value="$(InputDir)\Generated"
-		/>
-		<Global
-			Name="QtVersion"
-			Value="4.2.3"
-		/>
-		<Global
-			Name="UicDir"
-			Value="$(InputDir)\Generated"
-		/>
 	</Globals>
 </VisualStudioProject>

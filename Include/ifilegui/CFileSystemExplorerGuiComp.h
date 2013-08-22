@@ -23,7 +23,7 @@
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqtgui/CExtLineEdit.h"
 
-#include "ifilegui/Generated/ui_CFileSystemExplorerGuiComp.h"
+#include "GeneratedFiles/ifilegui/ui_CFileSystemExplorerGuiComp.h"
 
 
 namespace ifilegui

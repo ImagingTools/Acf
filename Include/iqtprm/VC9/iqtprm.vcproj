@@ -312,111 +312,111 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\generated\moc_CButtonBasedSelectionParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CButtonBasedSelectionParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CCheckableOptionsEditorComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CCheckableOptionsEditorComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CComposedParamsSetGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CComposedParamsSetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CEnableableParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CEnableableParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFileNameParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CFileNameParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CNameParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CNameParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_COptionsListEditorGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_COptionsListEditorGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_COptionsManagerGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_COptionsManagerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CParamsManagerGuiCompBase.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CParamsManagerGuiCompBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSelectableGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CSelectableGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSelectionParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CSelectionParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CSelectionParamIndexGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CSelectionParamIndexGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\moc_CVariableParamGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtprm\moc_CVariableParamGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CButtonBasedSelectionParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CButtonBasedSelectionParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CCheckableOptionsEditorComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CCheckableOptionsEditorComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CComboParamsManagerGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CComboParamsManagerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CComposedParamsSetGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CComposedParamsSetGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CEnableableParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CEnableableParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CFileNameParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CFileNameParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CNameParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CNameParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_COptionsListEditorGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_COptionsListEditorGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_COptionsManagerGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_COptionsManagerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CParamsManagerGuiCompBase.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CParamsManagerGuiCompBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSelectableGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CSelectableGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSelectionParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CSelectionParamGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CSelectionParamIndexGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CSelectionParamIndexGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\generated\ui_CVariableParamGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\iqtprm\ui_CVariableParamGuiComp.h"
 				>
 			</File>
 		</Filter>
@@ -534,17 +534,5 @@
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="MocDir"
-			Value="$(InputDir)\Generated"
-		/>
-		<Global
-			Name="QtVersion"
-			Value="4.2.3"
-		/>
-		<Global
-			Name="UicDir"
-			Value="$(InputDir)\Generated"
-		/>
 	</Globals>
 </VisualStudioProject>

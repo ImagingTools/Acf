@@ -7,7 +7,7 @@
 #include "iview/COrientedCircleShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_COrientedCircleEditorComp.h"
+#include "GeneratedFiles/iqt2d/ui_COrientedCircleEditorComp.h"
 
 
 namespace iqt2d

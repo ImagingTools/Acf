@@ -17,7 +17,7 @@
 
 #include "iqtgui/TDesignerGuiCompBase.h"
 
-#include "iqtgui/Generated/ui_CSplashScreenGuiComp.h"
+#include "GeneratedFiles/iqtgui/ui_CSplashScreenGuiComp.h"
 
 
 namespace iqtgui

@@ -241,11 +241,11 @@
 			Filter="moc;h;cpp"
 			>
 			<File
-				RelativePath="..\Generated\moc_CAbGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ModelObserver\moc_CAbGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\ui_CAbGuiComp.h"
+				RelativePath="..\..\GeneratedFiles\ModelObserver\ui_CAbGuiComp.h"
 				>
 			</File>
 		</Filter>

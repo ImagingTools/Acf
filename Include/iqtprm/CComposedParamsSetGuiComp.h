@@ -17,7 +17,7 @@
 #include "iqt2d/IViewExtender.h"
 
 #include "iqtprm/iqtprm.h"
-#include "iqtprm/Generated/ui_CComposedParamsSetGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_CComposedParamsSetGuiComp.h"
 
 
 namespace iqtprm

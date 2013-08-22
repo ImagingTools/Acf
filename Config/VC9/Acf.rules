@@ -7,8 +7,8 @@
 		<CustomBuildRule
 			Name="Arxc"
 			DisplayName="ARX Compiler"
-			CommandLine="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)Generated\C$(InputName).cpp&quot; [AllOptions] [AdditionalOptions]"
-			Outputs="&quot;$(InputDir)Generated\C$(InputName).cpp&quot;;&quot;$(InputDir)Generated\C$(InputName).h&quot;"
+			CommandLine="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\C$(InputName).cpp&quot; [AllOptions] [AdditionalOptions]"
+			Outputs="&quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\C$(InputName).cpp&quot;;&quot;$(InputDir)\..\GeneratedFiles\$(ProjectName)\C$(InputName).h&quot;"
 			AdditionalDependencies="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot;"
 			FileExtensions="*.arx"
 			ExecutionDescription="Compiling ACF Registry File..."

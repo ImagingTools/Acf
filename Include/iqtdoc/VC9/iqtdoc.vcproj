@@ -268,19 +268,19 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\Generated\moc_CDocumentMetaInfoEditorComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CDocumentMetaInfoEditorComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CMainWindowGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CMainWindowGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CMultiDocumentWorkspaceGuiComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CMultiDocumentWorkspaceGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CSingletonDocApplicationComp.cpp"
+				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CSingletonDocApplicationComp.cpp"
 				>
 			</File>
 		</Filter>
@@ -306,17 +306,5 @@
 		</Filter>
 	</Files>
 	<Globals>
-		<Global
-			Name="MocDir"
-			Value="$(InputDir)\Generated"
-		/>
-		<Global
-			Name="QtVersion"
-			Value="4.2.3"
-		/>
-		<Global
-			Name="UicDir"
-			Value="$(InputDir)\Generated"
-		/>
 	</Globals>
 </VisualStudioProject>

@@ -9,7 +9,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iqtprm/Generated/ui_CSelectableGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_CSelectableGuiComp.h"
 
 
 namespace iqtprm

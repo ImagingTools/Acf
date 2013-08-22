@@ -77,11 +77,11 @@ Module{
 		usings: ["application", "dynamiclibrary", "xpc"]
 
 		Artifact{
-			fileName: product.name + '/Generated/C' + input.baseName + '.cpp'
+			fileName: "GeneratedFiles/" + product.name + "/C" + input.baseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		Artifact{
-			fileName: product.name + '/Generated/C' + input.baseName + '.h'
+			fileName: "GeneratedFiles/" + product.name + "/C" + input.baseName + ".h"
 			fileTags: ["hpp", "c++_pch"]
 		}
 
@@ -127,7 +127,7 @@ Module{
 		inputs: ["xtracf"]
 
 		Artifact{
-			fileName: product.name + '/Generated/' + input.completeBaseName
+			fileName: "GeneratedFiles/" + product.name + "/" + input.completeBaseName
 		}
 
 		prepare:{
@@ -156,12 +156,11 @@ Module{
 		explicitlyDependsOn: ["qm"]
 
 		Artifact{
-			fileName: product.name + '/Generated/qrc_' + input.completeBaseName + '.cpp'
+			fileName: "GeneratedFiles/" + product.name + "/qrc_" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		prepare:{
-			var tempResourceDir = product.buildDirectory + "/" + product.name + "/";
-			var tempResourceFile = tempResourceDir + FileInfo.fileName(input.fileName);
+			var tempResourceDir = product.buildDirectory + "/GeneratedFiles/";
 
 			var copyCmd;
 			var rccCmd;

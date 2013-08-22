@@ -10,7 +10,7 @@
 #include "iqt2d/IViewProvider.h"
 #include "iqt2d/IViewExtender.h"
 
-#include "iqt2d/Generated/ui_CSceneConnectorGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CSceneConnectorGuiComp.h"
 
 
 namespace iqt2d

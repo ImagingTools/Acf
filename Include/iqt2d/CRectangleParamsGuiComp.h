@@ -7,7 +7,7 @@
 #include "iview/CRectangleShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_CRectangleParamsGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h"
 
 
 namespace iqt2d

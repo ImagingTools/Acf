@@ -7,7 +7,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iqtprm/Generated/ui_CNameParamGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_CNameParamGuiComp.h"
 
 
 namespace iqtprm

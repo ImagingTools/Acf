@@ -15,7 +15,7 @@
 #include "iqtgui/IIconProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqt2d/IViewExtender.h"
-#include "iqtprm/Generated/ui_CParamsManagerGuiCompBase.h"
+#include "GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h"
 
 
 namespace iqtprm

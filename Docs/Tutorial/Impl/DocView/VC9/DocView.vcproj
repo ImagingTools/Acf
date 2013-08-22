@@ -225,7 +225,7 @@
 			Filter="moc;h;cpp"
 			>
 			<File
-				RelativePath="..\Generated\moc_CTextEditorComp.cpp"
+				RelativePath="..\..\GeneratedFiles\DocView\moc_CTextEditorComp.cpp"
 				>
 			</File>
 		</Filter>

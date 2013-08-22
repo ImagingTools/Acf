@@ -18,7 +18,7 @@
 #include "iprm/IOptionsManager.h"
 #include "iqtgui/IIconProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "iqtprm/Generated/ui_COptionsManagerGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_COptionsManagerGuiComp.h"
 
 
 namespace iqtprm

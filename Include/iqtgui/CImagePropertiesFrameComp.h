@@ -5,7 +5,7 @@
 #include "iimg/IBitmap.h"
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "iqtgui/Generated/ui_CImagePropertiesFrameComp.h"
+#include "GeneratedFiles/iqtgui/ui_CImagePropertiesFrameComp.h"
 
 
 namespace iqtgui

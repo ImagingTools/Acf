@@ -7,7 +7,7 @@
 
 #include "iqtgui/TDesignerGuiCompBase.h"
 
-#include "iqt2d/Generated/ui_CExtendedConsoleGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CExtendedConsoleGuiComp.h"
 
 
 namespace iqt2d

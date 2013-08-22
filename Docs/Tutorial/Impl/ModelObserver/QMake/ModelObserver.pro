@@ -5,4 +5,7 @@ TARGET = ModelObserver
 
 DESTDIR = ../../../../../Lib/$$COMPILER_DIR
 
+FORMS += ../*.ui
+UI_DIR = ../../GeneratedFiles/ModelObserver
+
 INCLUDEPATH += ..

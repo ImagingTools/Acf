@@ -448,7 +448,7 @@
 			Name="Generated Files"
 			>
 			<File
-				RelativePath="..\Generated\moc_CEventBasedNotifier.cpp"
+				RelativePath="..\..\GeneratedFiles\istd\moc_CEventBasedNotifier.cpp"
 				>
 			</File>
 		</Filter>

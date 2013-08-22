@@ -352,11 +352,11 @@
 			Name="Generated Files"
 			>
 			<File
-				RelativePath="..\Generated\moc_CAutoPersistenceComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifile\moc_CAutoPersistenceComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Generated\moc_CFileListProviderComp.cpp"
+				RelativePath="..\..\GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
 				>
 			</File>
 		</Filter>

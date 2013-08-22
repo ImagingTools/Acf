@@ -15,7 +15,7 @@
 
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
-#include "iqtprm/Generated/ui_COptionsListEditorGuiComp.h"
+#include "GeneratedFiles/iqtprm/ui_COptionsListEditorGuiComp.h"
 
 
 namespace iqtprm

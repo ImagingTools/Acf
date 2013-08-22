@@ -7,11 +7,10 @@ DESTDIR = ../../../../../Bin/$$COMPILER_DIR
 
 LIBS += -lAcfStd -lAcfQt
 
-UI_DIR = ../Generated
-MOC_DIR = ../Generated
-RCC_DIR = ../Generated
+FORMS += ../*.ui
+UI_DIR = ../../GeneratedFiles/DocViewSimu
 
-QT += main core gui 
+QT += main core gui
 
 
 INCLUDEPATH += ../.. ../../../../../Impl "$(QScintilla)/include"

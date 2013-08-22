@@ -10,7 +10,7 @@
 #include "ilog/IMessageContainer.h"
 #include "ilog/CMessage.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "iloggui/Generated/ui_CTextLogGuiComp.h"
+#include "GeneratedFiles/iloggui/ui_CTextLogGuiComp.h"
 
 
 namespace iloggui

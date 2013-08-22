@@ -8,7 +8,7 @@
 #include "iview/CParallelogramShape.h"
 
 #include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "iqt2d/Generated/ui_CQuadrangleParamsGuiComp.h"
+#include "GeneratedFiles/iqt2d/ui_CQuadrangleParamsGuiComp.h"
 
 
 namespace iqt2d
