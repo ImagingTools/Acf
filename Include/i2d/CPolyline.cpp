@@ -117,7 +117,7 @@ bool CPolyline::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CPolyline* polylinePtr = dynamic_cast<const CPolyline*>(&object);
 
 	if (polylinePtr != NULL){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 
 		BaseClass::CopyFrom(object, mode);
 

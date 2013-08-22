@@ -52,32 +52,14 @@ void CAnnulusParamsGuiComp::UpdateGui(int /*updateFlags*/)
 
 	i2d::CAnnulus* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		bool updateViews = false;
-
 		const i2d::CVector2d& center = objectPtr->GetCenter();
-		if (center.GetX() != XSpin->value()){
-			updateViews = true;
-			XSpin->setValue(center.GetX());
-		}
+		XSpin->setValue(center.GetX());
+		YSpin->setValue(center.GetY());
 
-		if (center.GetY() != YSpin->value()){
-			updateViews = true;
-			YSpin->setValue(center.GetY());
-		}
+		InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
+		OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
 
-		if (objectPtr->GetInnerRadius() != InnerRadiusSpin->value()){
-			updateViews = true;
-			InnerRadiusSpin->setValue(objectPtr->GetInnerRadius());
-		}
-
-		if (objectPtr->GetOuterRadius() != OuterRadiusSpin->value()){
-			updateViews = true;
-			OuterRadiusSpin->setValue(objectPtr->GetOuterRadius());
-		}
-
-		if (updateViews){
-			UpdateAllViews();
-		}
+		UpdateAllViews();
 	}
 }
 

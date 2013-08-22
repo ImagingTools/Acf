@@ -30,10 +30,7 @@ CPosition2d::CPosition2d(const CVector2d& position)
 void CPosition2d::SetPosition(const CVector2d& position)
 {
 	if (position != m_position){
-		istd::CChangeNotifier notifier(this, 
-			IsUndoAllowed() ? 
-				CF_OBJECT_POSITION | CF_MODEL : 
-				CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_position = position;
 	}

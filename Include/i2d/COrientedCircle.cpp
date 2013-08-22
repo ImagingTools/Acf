@@ -28,7 +28,7 @@ COrientedCircle::COrientedCircle(double radius, const CVector2d& center, bool or
 void COrientedCircle::SetOrientedOutside(bool orientatedOutside)
 {
 	if (orientatedOutside != m_orientedOutside){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 
 		m_orientedOutside = orientatedOutside;
 	}
@@ -60,7 +60,7 @@ bool COrientedCircle::CopyFrom(const IChangeable& object, CompatibilityMode mode
 	const COrientedCircle* orientedCirclePtr = dynamic_cast<const COrientedCircle*>(&object);
 
 	if (orientedCirclePtr != NULL){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 		
 		SetPosition(orientedCirclePtr->GetPosition());
 		SetRadius(orientedCirclePtr->GetRadius());

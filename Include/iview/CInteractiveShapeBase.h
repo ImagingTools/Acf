@@ -3,15 +3,14 @@
 
 
 // ACF includes
+#include "istd/TChangeNotifier.h"
+
 #include "imod/IModel.h"
 
 #include "iview/IInteractiveShape.h"
 #include "iview/IDraggable.h"
 #include "iview/ISelectable.h"
 #include "iview/CShapeBase.h"
-
-#include "istd/IChangeable.h"
-#include "istd/TChangeNotifier.h"
 
 // Qt includes
 #include <QtGui/QPen>
@@ -87,6 +86,8 @@ protected:
 private:
 	bool m_isSelected;
 	bool m_isEditablePosition;
+
+	istd::TChangeNotifier<istd::IChangeable> m_changeNotifier;
 };
 
 
@@ -101,40 +102,6 @@ inline bool CInteractiveShapeBase::IsEditablePosition() const
 inline void CInteractiveShapeBase::SetEditablePosition(bool state)
 {
 	m_isEditablePosition = state;
-}
-
-
-// reimplemented (iview::IDraggable)
-
-inline bool CInteractiveShapeBase::IsDraggable() const
-{
-	return m_isEditablePosition;
-}
-
-
-inline void CInteractiveShapeBase::BeginDrag(const istd::CIndex2d& position)
-{
-	i2d::CObject2dBase* objectPtr = dynamic_cast<i2d::CObject2dBase*>(GetModelPtr());
-	if (objectPtr != NULL){
-		objectPtr->StartTransform();
-	}
-
-	BeginLogDrag(GetLogPosition(position));
-}
-
-
-inline void CInteractiveShapeBase::SetDragPosition(const istd::CIndex2d& position)
-{
-	SetLogDragPosition(GetLogPosition(position));
-}
-
-
-inline void CInteractiveShapeBase::EndDrag()
-{
-	i2d::CObject2dBase* objectPtr = dynamic_cast<i2d::CObject2dBase*>(GetModelPtr());
-	if (objectPtr != NULL){
-		objectPtr->FinishTransform();
-	}
 }
 
 

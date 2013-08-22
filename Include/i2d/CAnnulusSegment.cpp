@@ -40,7 +40,7 @@ double CAnnulusSegment::GetBeginAngle() const
 void CAnnulusSegment::SetBeginAngle(double angle)
 {
 	if (angle != m_angleRange.GetMinValue()){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 
 		m_angleRange.SetMinValue(angle);
 	}
@@ -56,7 +56,7 @@ double CAnnulusSegment::GetEndAngle() const
 void CAnnulusSegment::SetEndAngle(double angle)
 {
 	if (angle != m_angleRange.GetMaxValue()){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 
 		m_angleRange.SetMaxValue(angle);
 	}

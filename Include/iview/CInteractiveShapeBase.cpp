@@ -6,6 +6,7 @@
 
 
 // ACF includes
+#include "istd/IChangeable.h"
 #include "iqt/iqt.h"
 
 #include "iview/ISelectable.h"
@@ -64,13 +65,13 @@ void CInteractiveShapeBase::SetSelected(bool selectFlag)
 
 bool CInteractiveShapeBase::OnMouseButton(istd::CIndex2d /*position*/, Qt::MouseButton buttonType, bool downFlag)
 {
-	i2d::CObject2dBase* objectPtr = dynamic_cast<i2d::CObject2dBase*>(GetModelPtr());
-	if (objectPtr != NULL && buttonType == Qt::LeftButton){
+	if (buttonType == Qt::LeftButton){
 		if (downFlag){
-			objectPtr->StartTransform();
-		} 
-		else {
-			objectPtr->FinishTransform();
+			istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+			m_changeNotifier.SetPtr(objectPtr);
+		}
+		else{
+			m_changeNotifier.Reset();
 		}
 	}
 
@@ -106,6 +107,37 @@ bool CInteractiveShapeBase::OnDetached(imod::IModel* modelPtr)
 }
 
 
+// reimplemented (iview::IDraggable)
+
+bool CInteractiveShapeBase::IsDraggable() const
+{
+	return m_isEditablePosition;
+}
+
+
+void CInteractiveShapeBase::BeginDrag(const istd::CIndex2d& position)
+{
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+	m_changeNotifier.SetPtr(objectPtr);
+
+	BeginLogDrag(GetLogPosition(position));
+}
+
+
+void CInteractiveShapeBase::SetDragPosition(const istd::CIndex2d& position)
+{
+	SetLogDragPosition(GetLogPosition(position));
+
+	Invalidate(CS_CONSOLE);
+}
+
+
+void CInteractiveShapeBase::EndDrag()
+{
+	m_changeNotifier.Reset();
+}
+
+
 // protected methods
 
 void CInteractiveShapeBase::BeginModelChanges()
@@ -130,13 +162,11 @@ void CInteractiveShapeBase::EndModelChanges()
 
 void CInteractiveShapeBase::UpdateModelChanges()
 {
-	i2d::CObject2dBase* objectPtr = dynamic_cast<i2d::CObject2dBase*>(GetModelPtr());
-	int flags = istd::IChangeable::CF_MODEL;
-	if (!objectPtr->IsUndoAllowed()){
-		flags |= istd::IChangeable::CF_NO_UNDO;
-	}
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
 
-	istd::CChangeNotifier changePtr(objectPtr, flags);
+	istd::CChangeNotifier changePtr(objectPtr, istd::IChangeable::CF_MODEL);
+
+	Invalidate(CS_CONSOLE);
 }
 
 

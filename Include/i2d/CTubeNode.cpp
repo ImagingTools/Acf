@@ -34,7 +34,7 @@ const istd::CRange& CTubeNode::GetTubeRange() const
 void CTubeNode::SetTubeRange(const istd::CRange& tubeRange)
 {
 	if (m_tubeRange != tubeRange){
-		istd::CChangeNotifier notifier(this);
+		istd::CChangeNotifier changePtr(this);
 
 		m_tubeRange = tubeRange;
 	}
@@ -52,7 +52,7 @@ void CTubeNode::SetInterpolated(
 }
 
 
-// reimplemented (iser::ISerializable)
+// reimplemented (qcom::ISerializable)
 
 bool CTubeNode::Serialize(iser::IArchive& archive)
 {

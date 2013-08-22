@@ -53,7 +53,7 @@ bool CSpline::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 	const CSpline* splinePtr = dynamic_cast<const CSpline*>(&object);
 
 	if (splinePtr != NULL){	
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);		
 
 		BaseClass::CopyFrom(object);
 

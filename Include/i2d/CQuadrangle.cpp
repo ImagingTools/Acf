@@ -62,7 +62,7 @@ const CLine2d& CQuadrangle::GetFirstDiagonal() const
 void CQuadrangle::SetFirstDiagonal(const CLine2d& firstDiagonal)
 {
 	if (m_firstDiagonal != firstDiagonal){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier changePtr(this);
 		
 		m_firstDiagonal = firstDiagonal;
 	}
@@ -78,7 +78,7 @@ const CLine2d& CQuadrangle::GetSecondDiagonal() const
 void CQuadrangle::SetSecondDiagonal(const CLine2d& secondDiagonal)
 {
 	if (m_secondDiagonal != secondDiagonal){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier changePtr(this);
 		
 		m_secondDiagonal = secondDiagonal;
 	}
@@ -102,7 +102,7 @@ void CQuadrangle::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d delta = position - GetCenter();
 	if (delta != CVector2d(0, 0)){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 		m_firstDiagonal.MoveCenterTo(delta + m_firstDiagonal.GetCenter());
 		m_secondDiagonal.MoveCenterTo(delta + m_secondDiagonal.GetCenter());
@@ -121,7 +121,7 @@ bool CQuadrangle::Transform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -146,7 +146,7 @@ bool CQuadrangle::InvTransform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
@@ -241,7 +241,7 @@ bool CQuadrangle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CQuadrangle* quadranglesPtr = dynamic_cast<const CQuadrangle*>(&object);
 
 	if (quadranglesPtr != NULL){
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 		
 		SetFirstDiagonal(quadranglesPtr->GetFirstDiagonal());
 		SetSecondDiagonal(quadranglesPtr->GetSecondDiagonal());

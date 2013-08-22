@@ -29,7 +29,7 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d diffVector = position - CPolypoint::GetCenter();
 
-	istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_OBJECT_POSITION | CF_MODEL : CF_OBJECT_POSITION | CF_MODEL | CF_NO_UNDO);
+	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
 
 	for (		Points::Iterator iter = m_points.begin();
 				iter != m_points.end();
@@ -137,7 +137,7 @@ bool CPolypoint::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 
 	if (polypointPtr != NULL){
 
-		istd::CChangeNotifier notifier(this, IsUndoAllowed() ? CF_MODEL : CF_MODEL | CF_NO_UNDO);
+		istd::CChangeNotifier notifier(this);
 
 		int sourcePolypointCount = polypointPtr->GetPointsCount();
 		for (int pointIndex = 0; pointIndex < sourcePolypointCount; pointIndex++){		

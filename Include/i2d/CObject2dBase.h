@@ -21,10 +21,6 @@ public:
 	CObject2dBase();
 	CObject2dBase(const CObject2dBase& object2d);
 
-	void StartTransform();
-	void FinishTransform();
-	bool IsUndoAllowed() const;
-
 	// reimplemented (i2d::ICalibrationProvider)
 	virtual const ICalibration2d* GetCalibration() const;
 
@@ -54,8 +50,6 @@ public:
 
 private:
 	istd::TOptDelPtr<const ICalibration2d> m_calibrationPtr;
-
-	bool m_isUndoAllowed;
 };
 
 

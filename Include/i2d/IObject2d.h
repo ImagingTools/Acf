@@ -26,9 +26,7 @@ class IObject2d:
 public:
 	enum ChangeFlags
 	{
-		CF_OBJECT_POSITION = 1 << 20,
-		CF_OBJECT_START_TRANSFORM = 1 << 21,
-		CF_OBJECT_END_TRANSFORM = 1 << 22
+		CF_OBJECT_POSITION = 1 << 20
 	};
 
 	/**
