@@ -11,4 +11,10 @@ Application{
 	Depends{ name: "cpp" }
 
 	cpp.defines: ['I_QBS']
+
+	Group{
+		fileTagsFilter: ["application"]
+		qbs.install: true
+		qbs.installDir: "Bin/" + acf.compilerDir
+	}
 }

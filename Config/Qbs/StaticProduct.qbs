@@ -22,4 +22,10 @@ StaticLibrary{
 		cpp.defines: ['I_QBS']
 		cpp.includePaths: ["../..", product.buildDirectory]
 	}
+
+	Group{
+		fileTagsFilter: ["staticlibrary"]
+		qbs.install: true
+		qbs.installDir: "Lib/" + acf.compilerDir
+	}
 }

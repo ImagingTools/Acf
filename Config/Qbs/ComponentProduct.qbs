@@ -26,4 +26,10 @@ DynamicLibrary{
 		cpp.defines: ['I_QBS']
 		cpp.includePaths: ["../.."]
 	}
+
+	Group{
+		fileTagsFilter: ["dynamiclibrary"]
+		qbs.install: true
+		qbs.installDir: "Bin/" + acf.compilerDir
+	}
 }
