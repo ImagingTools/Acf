@@ -24,16 +24,20 @@ Module{
 		compilerName: "OSX"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc")
-		compilerName: "VC10"
-	}
-	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/2005/i) >= 0 || cpp.toolchainInstallPath.search(/VC8/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 8/i) >= 0 || cpp.toolchainInstallPath.search(/2005/i) >= 0)
 		compilerName: "VC8"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/2008/i) >= 0 || cpp.toolchainInstallPath.search(/VC9/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 9/i) >= 0 || cpp.toolchainInstallPath.search(/2008/i) >= 0)
 		compilerName: "VC9"
+	}
+	Properties{
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 10/i) >= 0 || cpp.toolchainInstallPath.search(/2010/i) >= 0)
+		compilerName: "VC10"
+	}
+	Properties{
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 11/i) >= 0)
+		compilerName: "VC11"
 	}
 
 	Properties{
