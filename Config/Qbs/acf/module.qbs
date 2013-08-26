@@ -120,7 +120,7 @@ Module{
 
 			// if there is no configuration - error
 			if (acfConfigurationFile == null){
-				return null;
+				throw new Error("no ACF configuration specified (using dependency or acf.acfConfigurationFile)");
 			}
 
 			var cmd = new Command(acfBinDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
@@ -169,7 +169,7 @@ Module{
 
 			// if there is no configuration - error
 			if (acfConfigurationFile == null){
-				return null;
+				throw new Error("no ACF configuration specified (using dependency or acf.acfConfigurationFile)");
 			}
 
 			var cmd = new Command(acfBinDirectory + '/' + product.moduleProperty("cpp", "executablePrefix") + 'Acf' + product.moduleProperty("cpp", "executableSuffix"), [
