@@ -16,6 +16,8 @@ Project{
 	ApplicationProduct{
 		name: "Arxc"
 
+		consoleApplication: true
+
 		files: ["../*.cpp"]
 
 		cpp.includePaths: "../.."
@@ -26,7 +28,5 @@ Project{
 		Depends{ name: "iqt" }
 		Depends{ name: "ibase" }
 		Depends{ name: "ipackage" }
-
-		consoleApplication: true
 	}
 }

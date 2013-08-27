@@ -4,8 +4,9 @@ import "../../../Config/Qbs/ApplicationProduct.qbs" as ApplicationProduct
 ApplicationProduct{
 	name: "Acf"
 
-	type: ["application", "acfTool"]
 	consoleApplication: true
+
+	type: ["application", "acfTool"]
 
 	files: ["../*.cpp"]
 
