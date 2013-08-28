@@ -22,10 +22,9 @@ class CTextWriteArchiveBase: public CWriteArchiveBase
 public:
 	typedef CWriteArchiveBase BaseClass;
 
-	using BaseClass::Process;
-
 	// reimplemented (iser::IArchive)
-	virtual bool Process(bool& value);
+    using BaseClass::Process;
+    virtual bool Process(bool& value);
 	virtual bool Process(char& value);
 	virtual bool Process(quint8& value);
 	virtual bool Process(qint8& value);

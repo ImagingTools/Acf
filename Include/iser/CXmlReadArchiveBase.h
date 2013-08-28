@@ -19,7 +19,7 @@ class CXmlReadArchiveBase:
 			public CXmlDocumentInfoBase
 {
 public:
-	typedef CReadArchiveBase BaseClass;
+    typedef CTextReadArchiveBase BaseClass;
 
 	enum MessageId
 	{
