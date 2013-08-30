@@ -104,11 +104,7 @@ QString CSystem::FindVariableValue(const QString& varName)
 #endif // !QT_NO_DEBUG
 	}
 	if (varName == "ConfigurationDir"){
-#ifndef I_QBS
 		return FindVariableValue("ConfigurationName") + "/";
-#else // I_QBS
-		return "";
-#endif // !QT_NO_DEBUG
 	}
 	else if (varName == "CompilerName"){
 #ifdef _MSC_VER
@@ -180,7 +176,7 @@ bool CSystem::RemoveDirectory(const QString& directoryPath)
 {
 	bool retVal = true;
 	QDir dir(directoryPath);
- 
+
 	if (dir.exists(directoryPath)){
 		QFileInfoList fileInfoList = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
 		for (QFileInfoList::ConstIterator fileItemIter = fileInfoList.constBegin(); fileItemIter != fileInfoList.constEnd(); fileItemIter++){
@@ -190,7 +186,7 @@ bool CSystem::RemoveDirectory(const QString& directoryPath)
 			else {
 				retVal = QFile::remove((*fileItemIter).absoluteFilePath());
 			}
- 
+
 			if (!retVal){
 				return retVal;
 			}
@@ -198,7 +194,7 @@ bool CSystem::RemoveDirectory(const QString& directoryPath)
 
 		retVal = dir.rmdir(directoryPath);
 	}
- 
+
 	return retVal;
 }
 
