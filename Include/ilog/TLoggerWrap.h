@@ -85,6 +85,62 @@ protected:
 				const QString& messageSource = QString(),
 				int flags = 0) const;
 
+	/**
+		Send once info message to log.
+		Agains to \c SendInfoMessage the message will be sent only first time.
+		\sa istd::IInformationProvider for message meaning documentation.
+		\param	id				binary id identifying this message type for automatic processing.
+		\param	message			message text will be send.
+		\param	messageSource	source of the message
+	*/
+	bool SendInfoMessageOnce(
+				int id,
+				const QString& message,
+				const QString& messageSource = QString(),
+				int flags = 0) const;
+
+	/**
+		Send once warning message to log.
+		Agains to \c SendWarningMessage the message will be sent only first time.
+		\sa istd::IInformationProvider for message meaning documentation.
+		\param	id				binary id identifying this message type for automatic processing.
+		\param	message			message text will be send.
+		\param	messageSource	source of the message
+	*/
+	bool SendWarningMessageOnce(
+				int id,
+				const QString& message,
+				const QString& messageSource = QString(),
+				int flags = 0) const;
+
+	/**
+		Send once error message to log.
+		Agains to \c SendErrorMessage the message will be sent only first time.
+		\sa istd::IInformationProvider for message meaning documentation.
+		\param	id				binary id identifying this message type for automatic processing.
+		\param	message			message text will be send.
+		\param	messageSource	source of the message
+	*/
+	bool SendErrorMessageOnce(
+				int id,
+				const QString& message,
+				const QString& messageSource = QString(),
+				int flags = 0) const;
+
+	/**
+		Send once critical message to log.
+		Agains to \c SendCriticalMessage the message will be sent only first time.
+		\sa istd::IInformationProvider for message meaning documentation.
+		\param	id				binary id identifying this message type for automatic processing.
+		\param	message			message text will be send.
+		\param	messageSource	optional human readable description of message source.
+	*/
+	bool SendCriticalMessageOnce(
+				int id,
+				const QString& message,
+				const QString& messageSource = QString(),
+				int flags = 0) const;
+
 	// reimplemented (istd::ILogger)
 	virtual bool IsLogConsumed(
 				const istd::IInformationProvider::InformationCategory* categoryPtr = NULL,
@@ -99,6 +155,7 @@ protected:
 private:
 	ilog::IMessageConsumer* m_logPtr;
 	bool m_isTracingEnabled;
+	mutable QSet<int> m_onceMessageIds;
 };
 
 
@@ -171,6 +228,76 @@ template <class Base>
 bool TLoggerWrap<Base>::SendCriticalMessage(int id, const QString& message, const QString& messageSource, int flags) const
 {
 	return SendLogMessage(istd::IInformationProvider::IC_CRITICAL, id, message, messageSource, flags);
+}
+
+
+template <class Base>
+bool TLoggerWrap<Base>::SendInfoMessageOnce(
+			int id,
+			const QString& message,
+			const QString& messageSource,
+			int flags) const
+{
+	if (!m_onceMessageIds.contains(id)){
+		m_onceMessageIds.insert(id);
+
+		return SendInfoMessage(id, message, messageSource, flags);
+	}
+
+	return false;
+}
+
+
+template <class Base>
+bool TLoggerWrap<Base>::SendWarningMessageOnce(
+			int id,
+			const QString& message,
+			const QString& messageSource,
+			int flags) const
+{
+	if (!m_onceMessageIds.contains(id)){
+		m_onceMessageIds.insert(id);
+
+		return SendWarningMessage(id, message, messageSource, flags);
+	}
+
+	return false;
+}
+
+
+
+template <class Base>
+bool TLoggerWrap<Base>::SendErrorMessageOnce(
+			int id,
+			const QString& message,
+			const QString& messageSource,
+			int flags) const
+{
+	if (!m_onceMessageIds.contains(id)){
+		m_onceMessageIds.insert(id);
+
+		return SendErrorMessage(id, message, messageSource, flags);
+	}
+
+	return false;
+}
+
+
+
+template <class Base>
+bool TLoggerWrap<Base>::SendCriticalMessageOnce(
+			int id,
+			const QString& message,
+			const QString& messageSource,
+			int flags) const
+{
+	if (!m_onceMessageIds.contains(id)){
+		m_onceMessageIds.insert(id);
+
+		return SendCriticalMessage(id, message, messageSource, flags);
+	}
+
+	return false;
 }
 
 
