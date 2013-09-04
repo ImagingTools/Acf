@@ -127,7 +127,7 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed();
 
-private:
+protected:
 	I_ATTR(int, m_horizontalViewsAttrPtr);
 	I_ATTR(int, m_verticalViewsAttrPtr);
 

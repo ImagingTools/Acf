@@ -56,6 +56,10 @@ void CMultiBitmapViewComp::OnModelChanged(int modelId, int /*changeFlags*/, istd
 		return;
 	}
 
+	if (modelId < 0){
+		return; 
+	}
+
 	// view index is equal to the modelId
 	UpdateInspectionCategory(modelId);
 }
