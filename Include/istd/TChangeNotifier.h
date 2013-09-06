@@ -112,9 +112,9 @@ inline void TChangeNotifier<Changeable>::Reset()
 	Changeable* changeablePtr = BaseClass::GetPtr();
 
 	if (changeablePtr != NULL){
-		changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
-
 		BaseClass::Reset();
+
+		changeablePtr->EndChanges(m_changeFlags, m_updateParamsPtr);
 	}
 }
 
