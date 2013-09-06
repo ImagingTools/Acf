@@ -613,14 +613,14 @@ i2d::CRectangle CScanlineMask::GetBoundingBox() const
 			}
 		}
 
-		if (rangeX.IsEmpty()){
-			m_boundingBox = i2d::CRect::GetEmpty();
-		}
-		else{
+		if (rangeX.IsValid()){
 			m_boundingBox.SetTop(m_firstLinePos);
 			m_boundingBox.SetLeft(rangeX.GetMinValue());
 			m_boundingBox.SetBottom(m_firstLinePos + m_scanlines.size());
 			m_boundingBox.SetRight(rangeX.GetMaxValue());
+		}
+		else{
+			m_boundingBox = i2d::CRect::GetEmpty();
 		}
 
 		m_isBoundingBoxValid = true;
