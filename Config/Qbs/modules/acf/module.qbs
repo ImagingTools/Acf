@@ -99,7 +99,7 @@ Module{
 
 		prepare:{
 			// get the ACF binary directory
-			var acfBinDirectory = product.moduleProperty("Arxc", "acfBinDirectory");
+            var acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
 			if (acfBinDirectory == null){
 				acfBinDirectory = product.buildDirectory + '/Bin/' + product.moduleProperty("acf", "compilerDir");
 			}
@@ -125,7 +125,7 @@ Module{
 				throw new Error("no ACF configuration specified (using dependency or acf.acfConfigurationFile)");
 			}
 
-			var cmd = new Command(acfBinDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
+            var cmd = new Command(acfBinDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
 						inputs.arx[0].fileName,
 						'-config', acfConfigurationFile,
 						'-o', outputs.cpp[0].fileName]);
@@ -148,7 +148,7 @@ Module{
 
 		prepare:{
 			// get the ACF binary directory
-			var acfBinDirectory = product.moduleProperty("Arxc", "acfBinDirectory");
+            var acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
 			if (acfBinDirectory == null){
 				acfBinDirectory = product.buildDirectory + '/Bin/' + compilerDir;
 			}

@@ -14,7 +14,8 @@ Project{
 	}
 
 	ApplicationProduct{
-		name: "Arxc"
+        name: "ArxcExe"
+        targetName: "Arxc"
 
 		consoleApplication: true
 
