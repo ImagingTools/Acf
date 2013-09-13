@@ -3,7 +3,6 @@
 
 // ACF includes
 #include "istd/IChangeable.h"
-
 #include "imod/IModel.h"
 
 
@@ -12,8 +11,8 @@ namespace imod
 
 
 CSingleModelObserverBase::CSingleModelObserverBase()
+	:m_modelPtr(NULL)
 {
-	m_modelPtr = NULL;
 }
 
 
