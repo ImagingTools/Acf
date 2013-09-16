@@ -582,3 +582,5 @@ void CHierarchicalHeaderView::PaintVerticalSection(
 
 
 } // namespace iqtgui
+
+

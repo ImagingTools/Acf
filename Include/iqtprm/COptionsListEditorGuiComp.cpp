@@ -50,6 +50,8 @@ void COptionsListEditorGuiComp::on_AddButton_clicked()
 					defaultOptionDescription,
 					m_lastSelectedIndex);
 	}
+
+	UpdateActions();
 }
 
 
@@ -63,6 +65,8 @@ void COptionsListEditorGuiComp::on_RemoveButton_clicked()
 			objectPtr->RemoveOption(m_lastSelectedIndex);
 		}
 	}
+
+	UpdateActions();
 }
 
 
@@ -81,6 +85,8 @@ void COptionsListEditorGuiComp::on_UpButton_clicked()
 		objectPtr->SwapOptions(m_lastSelectedIndex, m_lastSelectedIndex - 1);
 		--m_lastSelectedIndex;
 	}
+
+	UpdateActions();
 }
 
 
@@ -99,6 +105,8 @@ void COptionsListEditorGuiComp::on_DownButton_clicked()
 		objectPtr->SwapOptions(m_lastSelectedIndex, m_lastSelectedIndex + 1);
 		++m_lastSelectedIndex;
 	}
+
+	UpdateActions();
 }
 
 
@@ -106,13 +114,10 @@ void COptionsListEditorGuiComp::on_ParamsTree_itemSelectionChanged()
 {
 	m_lastSelectedIndex = GetSelectedIndex();
 
-	iprm::IOptionsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		UpButton->setEnabled(m_lastSelectedIndex > 0);
-		DownButton->setEnabled(m_lastSelectedIndex > -1 && m_lastSelectedIndex < objectPtr->GetOptionsCount() - 1);
+	iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObjectPtr());
+	if (selectionPtr != NULL){
+		selectionPtr->SetSelectedOptionIndex(m_lastSelectedIndex);
 	}
-
-	RemoveButton->setEnabled(m_lastSelectedIndex != -1);
 
 	UpdateActions();
 }
@@ -156,6 +161,8 @@ void COptionsListEditorGuiComp::on_ParamsTree_itemChanged(QTreeWidgetItem* item,
 void COptionsListEditorGuiComp::UpdateActions()
 {
 	Q_ASSERT(IsGuiCreated());
+
+	EnsureSelectedIndexUpdated();
 
 	iprm::IOptionsManager* objectPtr = GetObjectPtr();
 	if (objectPtr == NULL){
@@ -252,6 +259,15 @@ void COptionsListEditorGuiComp::EnsureParamsGuiDetached()
 }
 
 
+void COptionsListEditorGuiComp::EnsureSelectedIndexUpdated() const
+{
+	iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObjectPtr());
+	if (selectionPtr != NULL){
+		m_lastSelectedIndex = selectionPtr->GetSelectedOptionIndex();
+	}
+}
+
+
 // protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
@@ -270,12 +286,19 @@ void COptionsListEditorGuiComp::OnGuiModelAttached()
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr || *m_allowUpDownAttrPtr);
 	ParamsTree->setItemDelegate(new iqtgui::CItemDelegate());
+
+	ParamsTree->setVisible(true);
 }
 
 
 void COptionsListEditorGuiComp::OnGuiModelDetached()
 {
 	EnsureParamsGuiDetached();
+
+	ParamsTree->setVisible(false);
+
+	AddRemoveButtonsFrame->setVisible(false);
+	UpDownButtonsFrame->setVisible(false);
 
 	BaseClass::OnGuiModelDetached();
 }
@@ -293,7 +316,10 @@ void COptionsListEditorGuiComp::UpdateGui(int /*updateFlags*/)
 
 void COptionsListEditorGuiComp::OnGuiCreated()
 {
-	BaseClass::OnGuiCreated();
+	ParamsTree->setVisible(false);
+
+	AddRemoveButtonsFrame->setVisible(false);
+	UpDownButtonsFrame->setVisible(false);
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr);
 
@@ -303,6 +329,8 @@ void COptionsListEditorGuiComp::OnGuiCreated()
 	else{
 		ParamsTree->setColumnCount(1);
 	}
+
+	BaseClass::OnGuiCreated();
 
 	UpdateActions();
 }

@@ -57,6 +57,7 @@ protected:
 	void UpdateTree();
 	int GetSelectedIndex() const;
 	void EnsureParamsGuiDetached();
+	void EnsureSelectedIndexUpdated() const;
 	QByteArray GetSelectedParamsSetTypeId() const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
@@ -78,7 +79,7 @@ private:
 	imod::IObserver* m_lastObserverPtr;
 	QMenu m_startVariableMenus;
 
-	int m_lastSelectedIndex;
+	mutable int m_lastSelectedIndex;
 };
 
 
