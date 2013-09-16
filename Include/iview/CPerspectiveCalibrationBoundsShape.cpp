@@ -31,24 +31,23 @@ iview::ITouchable::TouchState CPerspectiveCalibrationBoundsShape::IsTouched(istd
 		calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
 		calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
-		const iview::CScreenTransform& transform = GetViewToScreenTransform();
-		const iview::IColorSchema& colorSchema = GetColorSchema();
-
-		i2d::CVector2d viewPos = transform.GetClientPosition(position);
+		i2d::CVector2d viewPos = GetLogPosition(i2d::CVector2d(position));
 
 		i2d::CLine2d viewLeft(viewLeftTop, viewLeftBottom);
 		i2d::CLine2d viewRight(viewRightTop, viewRightBottom);
 		i2d::CLine2d viewTop(viewLeftTop, viewRightTop);
 		i2d::CLine2d viewBottom(viewLeftBottom, viewRightBottom);
 
-		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
+		double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double maxDistance = colorSchema.GetLogicalLineWidth() / proportions;
+		const iview::IColorSchema& colorSchema = GetColorSchema();
 
-		if (			(viewLeft.GetDistance(viewPos) < maxDistance) ||
-						(viewRight.GetDistance(viewPos) < maxDistance) ||
-						(viewTop.GetDistance(viewPos) < maxDistance) ||
-						(viewBottom.GetDistance(viewPos) < maxDistance)){
+		double viewportLineWidth = colorSchema.GetLogicalLineWidth();
+
+		if (			(viewScale * viewLeft.GetDistance(viewPos) < viewportLineWidth) ||
+						(viewScale * viewRight.GetDistance(viewPos) < viewportLineWidth) ||
+						(viewScale * viewTop.GetDistance(viewPos) < viewportLineWidth) ||
+						(viewScale * viewBottom.GetDistance(viewPos) < viewportLineWidth)){
 			return TS_TICKER;
 		}
 	}
@@ -73,23 +72,21 @@ void CPerspectiveCalibrationBoundsShape::Draw(QPainter& drawContext) const
 		calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
 		calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
-		const iview::CScreenTransform& transform = GetViewToScreenTransform();
 		const iview::IColorSchema& colorSchema = GetColorSchema();
 
-		bool isSelected = IsSelected();
 		drawContext.save();
-		drawContext.setPen(colorSchema.GetPen(isSelected? iview::IColorSchema::SP_SELECTED: iview::IColorSchema::SP_NORMAL));
+		drawContext.setPen(colorSchema.GetPen(IsSelected()? iview::IColorSchema::SP_SELECTED: iview::IColorSchema::SP_NORMAL));
 
-		QPoint screenLeftTop = iqt::GetQPoint(transform.GetScreenPosition(viewLeftTop));
-		QPoint screenLeftBottom = iqt::GetQPoint(transform.GetScreenPosition(viewLeftBottom));
-		QPoint screenRightTop = iqt::GetQPoint(transform.GetScreenPosition(viewRightTop));
-		QPoint screenRightBottom = iqt::GetQPoint(transform.GetScreenPosition(viewRightBottom));
+		QPoint screenLeftTop = iqt::GetQPoint(GetScreenPosition(viewLeftTop).ToIndex2d());
+		QPoint screenLeftBottom = iqt::GetQPoint(GetScreenPosition(viewLeftBottom).ToIndex2d());
+		QPoint screenRightTop = iqt::GetQPoint(GetScreenPosition(viewRightTop).ToIndex2d());
+		QPoint screenRightBottom = iqt::GetQPoint(GetScreenPosition(viewRightBottom).ToIndex2d());
 
 		drawContext.drawLine(screenLeftTop, screenRightTop);
 		drawContext.drawLine(screenRightTop, screenRightBottom);
 		drawContext.drawLine(screenRightBottom, screenLeftBottom);
 		drawContext.drawLine(screenLeftBottom, screenLeftTop);
-		
+
 		drawContext.restore();
 	}
 }
@@ -116,36 +113,35 @@ bool CPerspectiveCalibrationBoundsShape::OnMouseButton(istd::CIndex2d position, 
 			calibPtr->GetInvPositionAt(bounds.GetLeftBottom(), viewLeftBottom);
 			calibPtr->GetInvPositionAt(bounds.GetRightBottom(), viewRightBottom);
 
-			const iview::CScreenTransform& transform = GetViewToScreenTransform();
 			const iview::IColorSchema& colorSchema = GetColorSchema();
 
-			i2d::CVector2d viewPos = transform.GetClientPosition(position);
+			i2d::CVector2d viewPos = GetLogPosition(i2d::CVector2d(position));
 
 			i2d::CLine2d viewLeft(viewLeftTop, viewLeftBottom);
 			i2d::CLine2d viewRight(viewRightTop, viewRightBottom);
 			i2d::CLine2d viewTop(viewLeftTop, viewRightTop);
 			i2d::CLine2d viewBottom(viewLeftBottom, viewRightBottom);
 
-			double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
+			double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-			double maxDistance = colorSchema.GetLogicalLineWidth() / proportions;
+			double viewportLineWidth = colorSchema.GetLogicalLineWidth();
 
-			if (viewLeft.GetDistance(viewPos) < maxDistance){
+			if (viewScale * viewLeft.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_LEFT;
 				BeginModelChanges();
 				return true;
 			}
-			if (viewRight.GetDistance(viewPos) < maxDistance){
+			if (viewScale * viewRight.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_RIGHT;
 				BeginModelChanges();
 				return true;
 			}
-			if (viewTop.GetDistance(viewPos) < maxDistance){
+			if (viewScale * viewTop.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_TOP;
 				BeginModelChanges();
 				return true;
 			}
-			if (viewBottom.GetDistance(viewPos) < maxDistance){
+			if (viewScale * viewBottom.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_BOTTOM;
 				BeginModelChanges();
 				return true;
@@ -170,8 +166,7 @@ bool CPerspectiveCalibrationBoundsShape::OnMouseMove(istd::CIndex2d position)
 	if (calibPtr != NULL){
 		i2d::CRectangle bounds = calibPtr->GetBounds();
 
-		iview::CScreenTransform transform = GetViewToScreenTransform();
-		i2d::CVector2d viewPos = transform.GetClientPosition(position);
+		i2d::CVector2d viewPos = GetLogPosition(i2d::CVector2d(position));
 
 		i2d::CVector2d logPos;
 		if (calibPtr->GetPositionAt(viewPos, logPos)){

@@ -134,15 +134,14 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 
 				double perspScale = (
 								viewLeftTop.GetDistance(viewRightTop) / bounds.GetWidth() +
-								viewLeftBottom.GetDistance(viewRightBottom) / bounds.GetWidth() + 
+								viewLeftBottom.GetDistance(viewRightBottom) / bounds.GetWidth() +
 								viewLeftTop.GetDistance(viewLeftBottom) / bounds.GetHeight() +
 								viewRightTop.GetDistance(viewRightBottom) / bounds.GetHeight()) * 0.25;
 
-				const CScreenTransform& transform = GetViewToScreenTransform();
-				double scale = transform.GetDeformMatrix().GetApproxScale() * perspScale;
+				double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
 				int levels[2];
-				double minGridDistance = calibInfoPtr->GetMinGridDistance() / scale;
+				double minGridDistance = calibInfoPtr->GetMinGridDistance() / (viewScale * perspScale);
 				double grid = qPow(10.0, qCeil(log10(minGridDistance)));
 				if (grid * 0.5 < minGridDistance){
 					levels[0] = 5;

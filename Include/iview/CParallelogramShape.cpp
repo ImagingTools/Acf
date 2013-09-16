@@ -92,7 +92,7 @@ bool CParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton
 		const IColorSchema& colorSchema = GetColorSchema();
 
 		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
-		
+
 		if ((m_isEditableHeight || m_isEditableAngle) && tickerBox.IsInside(position - m_nodes[EN_NODE12].ToIndex2d())){
 			m_editNode = EN_NODE12;
 
@@ -177,7 +177,7 @@ bool CParallelogramShape::OnMouseMove(istd::CIndex2d position)
 			else if (m_areAxesEqual){
 				newAxisX.Normalize(newAxisY.GetLength());
 			}
-			
+
 			break;
 
 		case EN_NODE21:
@@ -214,7 +214,7 @@ bool CParallelogramShape::OnMouseMove(istd::CIndex2d position)
 			else if (m_areAxesEqual){
 				newAxisY.Normalize(newAxisX.GetLength());
 			}
-			
+
 			break;
 
 		case EN_NODE22:
@@ -340,26 +340,25 @@ bool CParallelogramShape::IsFigureTouched(istd::CIndex2d position) const
 
 		i2d::CVector2d cp = GetLogPosition(position);
 
-		const CScreenTransform& transform = GetViewToScreenTransform();
-		double proportions = transform.GetDeformMatrix().GetApproxScale();
+		double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
+		double viewportLineWidth = colorSchema.GetLogicalLineWidth();
 
 		i2d::CLine2d line(parallPosition, parallPosition + axisX);
 
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < viewportLineWidth){
 			return true;
 		}
 		line.SetPoint1(parallPosition + axisX + axisY);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < viewportLineWidth){
 			return true;
 		}
 		line.SetPoint2(parallPosition + axisY);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < viewportLineWidth){
 			return true;
 		}
 		line.SetPoint1(parallPosition);
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < viewportLineWidth){
 			return true;
 		}
 	}

@@ -61,7 +61,7 @@ ITouchable::TouchState CRectangleShape::IsTouched(istd::CIndex2d position) const
 
 		i2d::CVector2d cp = GetLogPosition(position);
 
-		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
+		double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
 		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
@@ -70,19 +70,19 @@ ITouchable::TouchState CRectangleShape::IsTouched(istd::CIndex2d position) const
 		bool isEditablePosition = IsEditablePosition();
 
 		i2d::CLine2d line(modelArea.GetLeftTop(), modelArea.GetRightTop());
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 		line.SetPoint1(modelArea.GetRightBottom());
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 		line.SetPoint2(modelArea.GetLeftBottom());
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 		line.SetPoint1(modelArea.GetLeftTop());
-		if (proportions * line.GetDistance(cp) < logicalLineWidth){
+		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 	}
@@ -124,7 +124,7 @@ void CRectangleShape::Draw(QPainter& drawContext) const
 			colorSchema.DrawTicker(drawContext, m_corners[1][0], IColorSchema::TT_MOVE);
 			colorSchema.DrawTicker(drawContext, m_corners[1][1], IColorSchema::TT_MOVE);
 		}
-		
+
 		drawContext.restore();
 	}
 }
@@ -184,7 +184,7 @@ bool CRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 	}
 
 	EndModelChanges();
-	
+
 	return false;
 }
 
@@ -324,7 +324,7 @@ i2d::CRect CRectangleShape::CalcBoundingBox() const
 		boundingBox.Union(m_corners[1][1]);
 
 		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_MOVE: IColorSchema::TT_INACTIVE);
-		
+
 		boundingBox.Expand(tickerBox);
 		boundingBox.Expand(i2d::CRect(istd::CIndex2d(-1, -1), istd::CIndex2d(1, 1)));
 

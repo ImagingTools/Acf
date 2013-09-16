@@ -117,9 +117,9 @@ bool CSplineShape::IsCurveTouched(istd::CIndex2d position) const
 	const i2d::CSpline* splinePtr = dynamic_cast<const i2d::CSpline*>(GetModelPtr());
 	if (IsDisplayConnected() && (splinePtr != NULL)){
 		const IColorSchema& colorSchema = GetColorSchema();
-		double proportions = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
+		double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-		double minDistance = colorSchema.GetLogicalLineWidth() / proportions;
+		double minDistance = colorSchema.GetLogicalLineWidth() / viewScale;
 		i2d::CVector2d cp = GetLogPosition(position);
 
 		int segmentCount = splinePtr->GetSegmentCount();

@@ -27,12 +27,6 @@ CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPt
 }
 
 
-void CImageShape::SetPositionOffset(const QPoint& position)
-{
-	m_positionOffset = position;
-}
-
-
 // reimplemented (iview::IVisualizable)
 
 void CImageShape::Draw(QPainter& drawContext) const
@@ -43,21 +37,13 @@ void CImageShape::Draw(QPainter& drawContext) const
 		if (!bitmapSize.IsNull()){
 			i2d::CRect bitmapArea(istd::CIndex2d(0, 0), bitmapSize);
 
-			i2d::CAffine2d destTransform = GetViewToScreenTransform();
+			i2d::CVector2d corners[3];
+			corners[0] = GetScreenPosition(i2d::CVector2d(0, 0));
+			corners[1] = GetScreenPosition(i2d::CVector2d(bitmapSize.GetX(), 0));
+			corners[2] = GetScreenPosition(i2d::CVector2d(0, bitmapSize.GetY()));
 
-			i2d::CMatrix2d& deform = destTransform.GetDeformMatrixRef();
-
-			i2d::CMatrix2d::ColumnVector column0; 
-			i2d::CMatrix2d::ColumnVector column1;
-
-			deform.GetColumnVector(0, column0);
-			deform.GetColumnVector(1, column1);
-
-			column0 *= bitmapArea.GetRight();
-			column1 *= bitmapArea.GetBottom();
-
-			deform.SetColumnVector(0, column0);
-			deform.SetColumnVector(1, column1);
+			i2d::CMatrix2d destDeform(corners[1] - corners[0], corners[2] - corners[0]);
+			i2d::CAffine2d destTransform(destDeform, corners[0]);
 
 			DrawBitmap(drawContext, *bitmapPtr, bitmapArea, destTransform);
 		}
@@ -110,8 +96,6 @@ i2d::CRect CImageShape::CalcBoundingBox() const
 
 	const imod::IModel* modelPtr = GetModelPtr();
 	if (modelPtr != NULL){
-		const iview::CScreenTransform& transform = GetViewToScreenTransform();
-
 		const iimg::IBitmap& model = *dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(&model != NULL);
 
@@ -119,13 +103,10 @@ i2d::CRect CImageShape::CalcBoundingBox() const
 
 		istd::CIndex2d corners[4];
 
-		int offsetX = m_positionOffset.x();
-		int offsetY = m_positionOffset.y();
-
-		corners[0] = transform.GetScreenPosition(i2d::CVector2d(offsetX, offsetY));
-		corners[1] = transform.GetScreenPosition(i2d::CVector2d(offsetX + size.GetX(), offsetY));
-		corners[2] = transform.GetScreenPosition(i2d::CVector2d(offsetX, offsetY + size.GetY()));
-		corners[3] = transform.GetScreenPosition(i2d::CVector2d(offsetX + size.GetX(), offsetY + size.GetY()));
+		corners[0] = GetScreenPosition(i2d::CVector2d(0, 0)).ToIndex2d();
+		corners[1] = GetScreenPosition(i2d::CVector2d(size.GetX(), 0)).ToIndex2d();
+		corners[2] = GetScreenPosition(i2d::CVector2d(0, size.GetY())).ToIndex2d();
+		corners[3] = GetScreenPosition(i2d::CVector2d(size.GetX(), size.GetY())).ToIndex2d();
 
 		boundingBox = i2d::CRect(corners[0], corners[0]);
 		boundingBox.Union(corners[1]);
@@ -143,14 +124,12 @@ ITouchable::TouchState CImageShape::IsTouched(istd::CIndex2d position) const
 {
 	const imod::IModel* modelPtr = GetModelPtr();
 	if (modelPtr != NULL){
-		const iview::CScreenTransform& transform = GetViewToScreenTransform();
-
 		const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);
 
 		ibase::CSize size = bitmapPtr->GetImageSize();
 
-		istd::CIndex2d bitmapPosition = transform.GetClientPosition(position).ToIndex2d();
+		istd::CIndex2d bitmapPosition = GetLogPosition(i2d::CVector2d(position)).ToIndex2d();
 		if (		(bitmapPosition.GetX() >= 0) &&
 					(bitmapPosition.GetY() >= 0) &&
 					(bitmapPosition.GetX() < size.GetX()) &&
@@ -169,14 +148,12 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 	const imod::IModel* modelPtr = GetModelPtr();
 	if (modelPtr != NULL){
-		const iview::CScreenTransform& transform = GetViewToScreenTransform();
-
 		const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);
 
 		ibase::CSize size = bitmapPtr->GetImageSize();
 
-		istd::CIndex2d bitmapPosition = transform.GetClientPosition(position).ToIndex2d();
+		istd::CIndex2d bitmapPosition = GetLogPosition(i2d::CVector2d(position)).ToIndex2d();
 		if (		(bitmapPosition.GetX() >= 0) &&
 					(bitmapPosition.GetY() >= 0) &&
 					(bitmapPosition.GetX() < size.GetX()) &&
@@ -184,7 +161,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 			int pixelMode = bitmapPtr->GetPixelFormat();
 
 			icmm::CVarColor pixelValue = bitmapPtr->GetColorAt(bitmapPosition);
-			
+
 			retVal = QObject::tr("[%1, %2] px").arg(bitmapPosition.GetX()).arg(bitmapPosition.GetY());
 
 			QString pixelValueInfo;
@@ -199,7 +176,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 					icmm::CRgbToHsvTranformation rgbToHsvTransformation;
 					icmm::CRgb rgb(pixelValue[2], pixelValue[1], pixelValue[0]);
 					icmm::CHsv hsv;
-					
+
 					icmm::CVarColor rgbColor(rgb);
 					icmm::CVarColor hsvColor(hsv.GetElementsCount());
 					rgbToHsvTransformation.GetValueAt(rgbColor, hsvColor);
@@ -261,16 +238,16 @@ void CImageShape::DrawBitmap(
 						deform.GetAt(1, 1) / double(bitmapArea.GetHeight()),
 						pos.GetX(),
 						pos.GetY());
-		
+
 		painter.setMatrix(matrix);
 
 		painter.drawPixmap(
-			m_positionOffset.x(), 
-			m_positionOffset.y(),
-			m_pixmap, 
-			bitmapArea.GetLeft(), 
-			bitmapArea.GetTop(), 
-			bitmapArea.GetRight(), 
+			0,
+			0,
+			m_pixmap,
+			bitmapArea.GetLeft(),
+			bitmapArea.GetTop(),
+			bitmapArea.GetRight(),
 			bitmapArea.GetBottom());
 
 		painter.setMatrixEnabled(false);
@@ -285,7 +262,7 @@ void CImageShape::SetLookupTableToImage(QImage& image, const icmm::IColorTransfo
 	if (image.isGrayscale()){
 		QVector<QRgb> rgbTable;
 		for (int colorIndex = 0; colorIndex < 256; colorIndex++){
-			icmm::CVarColor argumentColor;	
+			icmm::CVarColor argumentColor;
 			argumentColor.SetElementsCount(1);
 			argumentColor.SetElement(0, colorIndex / 255.0);
 

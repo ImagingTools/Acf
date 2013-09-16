@@ -70,13 +70,12 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 				}
 
 				const iview::IColorSchema& colorSchema = GetColorSchema();
-				const iview::CScreenTransform& transform = GetViewToScreenTransform();
 
 				i2d::CVector2d logCorners[4];
-				logCorners[0] = transform.GetClientPosition(clientRect.GetLeftTop());
-				logCorners[1] = transform.GetClientPosition(clientRect.GetRightTop());
-				logCorners[2] = transform.GetClientPosition(clientRect.GetLeftBottom());
-				logCorners[3] = transform.GetClientPosition(clientRect.GetRightBottom());
+				logCorners[0] = GetLogPosition(i2d::CVector2d(clientRect.GetLeftTop()));
+				logCorners[1] = GetLogPosition(i2d::CVector2d(clientRect.GetRightTop()));
+				logCorners[2] = GetLogPosition(i2d::CVector2d(clientRect.GetLeftBottom()));
+				logCorners[3] = GetLogPosition(i2d::CVector2d(clientRect.GetRightBottom()));
 
 				double left = qMin(qMin(logCorners[0].GetX(), logCorners[1].GetX()), qMin(logCorners[2].GetX(), logCorners[3].GetX()));
 				double top = qMin(qMin(logCorners[0].GetY(), logCorners[1].GetY()), qMin(logCorners[2].GetY(), logCorners[3].GetY()));
@@ -85,10 +84,10 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 
 				i2d::CRectangle boundRectangle(left, top, right-left, bottom-top);
 
-				double scale = transform.GetDeformMatrix().GetApproxScale();
+				double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
 				int levels[2];
-				double minGridDistance = calibInfoPtr->GetMinGridDistance() / scale;
+				double minGridDistance = calibInfoPtr->GetMinGridDistance() / viewScale;
 				double grid = qPow(10.0, qCeil(log10(minGridDistance)));
 				if (grid * 0.5 < minGridDistance){
 					levels[0] = 5;
@@ -113,8 +112,8 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 				for (index = firstIndex; index <= lastIndex; ++index){
 					i2d::CVector2d position1(index * grid, boundRectangle.GetTop());
 					i2d::CVector2d position2(index * grid, boundRectangle.GetBottom());
-					QPoint point1 = iqt::GetQPoint(transform.GetScreenPosition(position1));
-					QPoint point2 = iqt::GetQPoint(transform.GetScreenPosition(position2));
+					QPoint point1 = iqt::GetQPoint(GetScreenPosition(position1).ToIndex2d());
+					QPoint point2 = iqt::GetQPoint(GetScreenPosition(position2).ToIndex2d());
 
 					int levelIndex = 0;
 
@@ -160,8 +159,8 @@ void CNoneCalibrationShape::Draw(QPainter& drawContext) const
 					i2d::CVector2d position1(boundRectangle.GetLeft(), index * grid);
 					i2d::CVector2d position2(boundRectangle.GetRight(), index * grid);
 
-					QPoint point1 = iqt::GetQPoint(transform.GetScreenPosition(position1));
-					QPoint point2 = iqt::GetQPoint(transform.GetScreenPosition(position2));
+					QPoint point1 = iqt::GetQPoint(GetScreenPosition(position1).ToIndex2d());
+					QPoint point2 = iqt::GetQPoint(GetScreenPosition(position2).ToIndex2d());
 
 					int levelIndex = 0;
 

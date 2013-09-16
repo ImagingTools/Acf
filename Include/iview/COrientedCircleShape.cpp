@@ -55,8 +55,7 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 
 	const int nodesCount = 8;
 
-	const i2d::CAffine2d& transform = GetViewToScreenTransform();
-	double viewScale = transform.GetDeformMatrix().GetApproxScale();
+	double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
 	for (int pointIndex = 0; pointIndex < nodesCount; ++pointIndex){
 		double angle = (pointIndex + 0.5) * I_2PI / nodesCount;
@@ -103,10 +102,9 @@ i2d::CRect COrientedCircleShape::CalcBoundingBox() const
 	i2d::CRect result = BaseClass::CalcBoundingBox();
 
 	// correct bounding box of circle considering maximal size of direction markers
-	const iview::CScreenTransform& transform = GetViewToScreenTransform();
-	double scale = transform.GetDeformMatrix().GetApproxScale();
+	double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
 
-	int maxMarkDistance = int(20 * scale);
+	int maxMarkDistance = int(20 * viewScale);
 
 	result.Expand(i2d::CRect(-maxMarkDistance, -maxMarkDistance, maxMarkDistance, maxMarkDistance));
 
