@@ -11,7 +11,7 @@ namespace iview
 
 void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, TickerType tickerType) const
 {
-	const i2d::CRect& tickerBox = GetTickerBox(tickerType);
+	const i2d::CRect& tickerBox = s_tickerDrawBoxes[tickerType];
 	i2d::CRect tickerRect;
 
 	switch (tickerType){
@@ -137,13 +137,13 @@ const i2d::CRect& CColorSchemaBase::GetTickerBox(TickerType tickerType) const
 	Q_ASSERT(tickerType >= 0);
 	Q_ASSERT(tickerType <= TT_LAST);
 
-	return s_tickersBoxes[tickerType];
+	return s_tickerBoundingBoxes[tickerType];
 }
 
 
 // static attributes
 
-i2d::CRect CColorSchemaBase::s_tickersBoxes[TT_LAST + 1] = {
+i2d::CRect CColorSchemaBase::s_tickerDrawBoxes[TT_LAST + 1] = {
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
 	i2d::CRect(-SMALL_TICKER_SIZE, -SMALL_TICKER_SIZE, SMALL_TICKER_SIZE + 1, SMALL_TICKER_SIZE + 1),
@@ -157,6 +157,21 @@ i2d::CRect CColorSchemaBase::s_tickersBoxes[TT_LAST + 1] = {
 	i2d::CRect(-TICKER_SIZE, -TICKER_SIZE, TICKER_SIZE + 1, TICKER_SIZE + 1),
 	i2d::CRect(-TICKER_SIZE, -TICKER_SIZE, TICKER_SIZE + 1, TICKER_SIZE + 1),
 	i2d::CRect(-TICKER_SIZE, -TICKER_SIZE, TICKER_SIZE + 1, TICKER_SIZE + 1)
+};
+i2d::CRect CColorSchemaBase::s_tickerBoundingBoxes[TT_LAST + 1] = {
+	i2d::CRect(-SMALL_TICKER_SIZE - 1, -SMALL_TICKER_SIZE - 1, SMALL_TICKER_SIZE + 2, SMALL_TICKER_SIZE + 2),
+	i2d::CRect(-SMALL_TICKER_SIZE - 1, -SMALL_TICKER_SIZE - 1, SMALL_TICKER_SIZE + 2, SMALL_TICKER_SIZE + 2),
+	i2d::CRect(-SMALL_TICKER_SIZE - 1, -SMALL_TICKER_SIZE - 1, SMALL_TICKER_SIZE + 2, SMALL_TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2),
+	i2d::CRect(-TICKER_SIZE - 1, -TICKER_SIZE - 1, TICKER_SIZE + 2, TICKER_SIZE + 2)
 };
 
 

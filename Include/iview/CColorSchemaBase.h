@@ -32,7 +32,8 @@ public:
 
 protected:
 	// static attributes
-	static i2d::CRect s_tickersBoxes[(int)TT_LAST + (int)1];
+	static i2d::CRect s_tickerDrawBoxes[(int)TT_LAST + (int)1];
+	static i2d::CRect s_tickerBoundingBoxes[(int)TT_LAST + (int)1];
 };
 
 
