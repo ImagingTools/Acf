@@ -61,7 +61,7 @@ public:
 	// operators
 	/**
 		Copy operator overtaking the pointer.
-		\param	pointer	pointer to overtake - WARNING: After this operation this pointer is invalid!
+		\param	pointer	pointer to overtake - \em warning: After this operation this pointer is invalid!
 	*/
 	TTransPtr& operator=(const TTransPtr& pointer);
 	Type& operator*() const;
