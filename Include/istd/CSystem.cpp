@@ -107,7 +107,9 @@ QString CSystem::FindVariableValue(const QString& varName)
 		return FindVariableValue("ConfigurationName") + "/";
 	}
 	else if (varName == "CompilerName"){
-#ifdef _MSC_VER
+#ifdef __MINGW32__
+	return "MinGW";
+#elif defined(_MSC_VER)
 	#if _MSC_VER >= 1600
 		return "VC10";
 	#elif _MSC_VER >= 1500
@@ -120,7 +122,7 @@ QString CSystem::FindVariableValue(const QString& varName)
 		return "VC";
 	#endif
 #else // _MSC_VER
-		return "QMake";
+	return "QMake";
 #endif // _MSC_VER
 	}
 	else if (varName == "."){
