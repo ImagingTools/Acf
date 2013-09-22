@@ -1,7 +1,7 @@
 import qbs.base 1.0
-import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
+import "../../../Config/Qbs/AcfStaticLibrary.qbs" as AcfStaticLibrary
 
-StaticProduct{
+AcfStaticLibrary{
 	name: "iloggui"
 
 	files: ["../*.h", "../*.cpp", "../*.ui"]

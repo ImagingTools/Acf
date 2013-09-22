@@ -1,7 +1,7 @@
 import qbs.base 1.0
-import "../../../Config/Qbs/ComponentProduct.qbs" as ComponentProduct
+import "../../../Config/Qbs/AcfPackage.qbs" as AcfPackage
 
-ComponentProduct{
+AcfPackage{
 	name: "QtViewPck"
 
 	files: ["../*.h", "../*.cpp"]

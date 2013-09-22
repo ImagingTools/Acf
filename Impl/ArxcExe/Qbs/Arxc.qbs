@@ -1,5 +1,5 @@
 import qbs.base 1.0
-import "../../../Config/Qbs/ApplicationProduct.qbs" as ApplicationProduct
+import "../../../Config/Qbs/AcfApplication.qbs" as AcfApplication
 
 Project{
 	StaticLibrary{
@@ -13,7 +13,7 @@ Project{
 		Depends{ name: "PackagePck" }
 	}
 
-	ApplicationProduct{
+	AcfApplication{
         name: "ArxcExe"
         targetName: "Arxc"
 

@@ -4,8 +4,6 @@ import qbs.base 1.0
 StaticLibrary{
 	type: ["staticlibrary", "acf_share"]
 
-	destinationDirectory: acf.libSubdir
-
 	Depends{ name: "acf" }
 	Depends{ name: "cpp" }
 	Depends{ name: "Qt.core" }
@@ -26,6 +24,6 @@ StaticLibrary{
 	Group{
 		fileTagsFilter: ["staticlibrary"]
 		qbs.install: true
-		qbs.installDir: acf.libSubdir
+		qbs.installDir: acf.targetLibSubdir
 	}
 }

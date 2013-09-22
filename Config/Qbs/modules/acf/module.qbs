@@ -56,8 +56,8 @@ Module{
 	}
 
 	property string compilerDir: compileMode + compilerName
-	property string binSubdir: 'Bin/' + compilerDir
-	property string libSubdir: 'Lib/' + compilerDir
+	property string targetBinSubdir: 'Bin/' + compilerDir
+	property string targetLibSubdir: 'Lib/' + compilerDir
 	property string generatedOutputDir								// Path where stuff will be generated if undefined "GeneratedPath/" + product.name will be taken
 	property path acfConfigurationFile								// ACF configuration file ARX compiler
 	property path trConfigurationFile: acfConfigurationFile			// ACF configuration file for xtracf transformations
@@ -103,7 +103,7 @@ Module{
 			// get the ACF binary directory
 			var acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
 			if (acfBinDirectory == null){
-				acfBinDirectory = product.buildDirectory + '/' + product.moduleProperty("acf", "binSubdir");
+				acfBinDirectory = product.buildDirectory + '/' + product.moduleProperty("acf", "targetBinSubdir");
 			}
 
 			// get the ACF configuration file
@@ -152,7 +152,7 @@ Module{
 			// get the ACF binary directory
 			var acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
 			if (acfBinDirectory == null){
-				acfBinDirectory = product.buildDirectory + '/' + binSubdir;
+				acfBinDirectory = product.buildDirectory + '/' + targetBinSubdir;
 			}
 
 			// get the ACF configuration file

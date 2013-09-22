@@ -1,8 +1,8 @@
 import qbs.base 1.0
-import "../../../Config/Qbs/StaticProduct.qbs" as StaticProduct
+import "../../../Config/Qbs/AcfStaticLibrary.qbs" as AcfStaticLibrary
 //import "../../../Config/Qbs/QtRules.qbs" as QtRules
 
-StaticProduct{
+AcfStaticLibrary{
 	name: "iqtgui"
 
 	files: ["../*.h", "../*.cpp", "../*.ui", "../*.qrc"]
