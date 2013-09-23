@@ -43,7 +43,6 @@ public:
 		I_ASSIGN(m_defaultSetNameAttrPtr, "DefaultSetName", "Default name of parameter set. Use %1 to insert automatic enumeration", true, "unnamed_%1");
 		I_ASSIGN(m_elementIndexParamId, "ElementIndexParamId", "ID of index of returned parameter set in manager list", false, "Index");
 		I_ASSIGN(m_elementNameParamId, "ElementNameParamId", "ID of index of returned parameter set in manager list", false, "Name");
-		I_ASSIGN(m_paramsSetTypeIdAttrPtr, "ParamsSetTypeId", "ID of factorisied parameter set", true, "Default");
 		I_ASSIGN(m_paramSetsFactPtr, "ParamsSetFactory", "Factory of variable parameter set", false, "ParamsSet");
 	I_END_COMPONENT;
 
@@ -90,7 +89,6 @@ private:
 	I_MULTIREF(IParamsSet, m_fixedParamSetsCompPtr);
 	I_MULTIATTR(QString, m_fixedSetNamesAttrPtr);
 	I_ATTR(QString, m_defaultSetNameAttrPtr);
-	I_ATTR(QByteArray, m_paramsSetTypeIdAttrPtr);
 	I_ATTR(QByteArray, m_elementIndexParamId);
 	I_ATTR(QByteArray, m_elementNameParamId);
 	I_FACT(IParamsSet, m_paramSetsFactPtr);
