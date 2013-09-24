@@ -139,7 +139,7 @@ void TParamsPtr<ParameterInterace>::Init(
 			BaseClass::SetPtr(paramImplPtr);
 
 			I_IF_DEBUG(
-				if ((paramImplPtr != NULL) && (paramPtr == NULL)){
+				if ((paramImplPtr == NULL) && (paramPtr != NULL)){
 					qDebug("Parameter %s in parameter set is not compatible, should be %s", qPrintable(*parameterIdAttribute), qPrintable(istd::CClassInfo::GetName<ParameterInterace>()));
 				}
 			)
