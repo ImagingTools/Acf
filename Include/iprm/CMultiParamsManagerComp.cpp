@@ -26,7 +26,7 @@ int CMultiParamsManagerComp::GetIndexOperationFlags(int index) const
 	int retVal = 0;
 
 	if (m_paramSetsFactoriesPtr.GetCount() > 0){
-		if ((index < 0) || (index > m_fixedParamSetsCompPtr.GetCount())){
+		if ((index < 0) || (index >= m_fixedParamSetsCompPtr.GetCount())){
 			retVal |= MF_SUPPORT_INSERT | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME;
 			
 			if (*m_allowDisabledAttrPtr){
