@@ -303,9 +303,9 @@ void CParamsManagerGuiCompBase::UpdateActions()
 {
 	Q_ASSERT(IsGuiCreated());
 
-	int flags = -1;
-	int prevFlags = -1;
-	int nextFlags = -1;
+	int flags = 0;
+	int prevFlags = 0;
+	int nextFlags = 0;
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
@@ -319,7 +319,7 @@ void CParamsManagerGuiCompBase::UpdateActions()
 			}
 
 			if (currentIndex < objectPtr->GetParamsSetsCount() - 1){
-				nextFlags = objectPtr->GetIndexOperationFlags(currentIndex + 2);
+				nextFlags = objectPtr->GetIndexOperationFlags(currentIndex + 1);
 			}
 		}
 	}
