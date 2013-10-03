@@ -34,7 +34,7 @@ int CDialogApplicationComp::Execute(int argc, char** argv)
 
 		TryShowSplashScreen();
 
-		m_mainDialogCompPtr.IsValid();
+		m_mainDialogCompPtr.EnsureInitialized();
 
 		HideSplashScreen();
 

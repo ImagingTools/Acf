@@ -30,8 +30,15 @@ public:
 
 	/**
 		Check if this reference can be resolved.
+		It calls \c EnsureInitialized().
 	*/
 	bool IsValid() const;
+
+	/**
+		Ensure that initlization process is closed.
+		Do the same as \c IsValid(), for convinience only (to provide better code clarify).
+	*/
+	bool EnsureInitialized() const;
 
 	/**
 		Access to interface of component at specified index.
@@ -41,8 +48,6 @@ public:
 
 protected:
 	TMultiReferenceMember(const TMultiReferenceMember& ptr);
-
-	bool EnsureInitialized() const;
 
 private:
 	const IComponent* m_definitionComponentPtr;
@@ -75,31 +80,6 @@ template <class Interface>
 bool TMultiReferenceMember<Interface>::IsValid() const
 {
 	return EnsureInitialized();
-}
-
-
-template <class Interface>
-Interface* TMultiReferenceMember<Interface>::operator[](int index) const
-{
-	Q_ASSERT(index >= 0);
-
-	EnsureInitialized();
-
-	Q_ASSERT(index < int(m_components.size()));
-
-	return m_components[index];
-}
-
-
-// protected methods
-
-template <class Interface>
-TMultiReferenceMember<Interface>::TMultiReferenceMember(const TMultiReferenceMember& ptr)
-:	BaseClass(ptr),
-	m_definitionComponentPtr(ptr.m_definitionComponentPtr),
-	m_components(ptr.m_components),
-	m_isInitialized(ptr.m_isInitialized)
-{
 }
 
 
@@ -137,6 +117,31 @@ bool TMultiReferenceMember<Interface>::EnsureInitialized() const
 	}
 
 	return m_isInitialized;
+}
+
+
+template <class Interface>
+Interface* TMultiReferenceMember<Interface>::operator[](int index) const
+{
+	Q_ASSERT(index >= 0);
+
+	EnsureInitialized();
+
+	Q_ASSERT(index < int(m_components.size()));
+
+	return m_components[index];
+}
+
+
+// protected methods
+
+template <class Interface>
+TMultiReferenceMember<Interface>::TMultiReferenceMember(const TMultiReferenceMember& ptr)
+:	BaseClass(ptr),
+	m_definitionComponentPtr(ptr.m_definitionComponentPtr),
+	m_components(ptr.m_components),
+	m_isInitialized(ptr.m_isInitialized)
+{
 }
 
 

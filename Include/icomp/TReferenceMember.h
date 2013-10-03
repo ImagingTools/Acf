@@ -33,8 +33,15 @@ public:
 
 	/**
 		Check if this reference can be resolved.
+		It calls \c EnsureInitialized().
 	*/
 	bool IsValid() const;
+
+	/**
+		Ensure that initlization process is closed.
+		Do the same as \c IsValid(), for convinience only (to provide better code clarify).
+	*/
+	bool EnsureInitialized() const;
 
 	/**
 		Direct cccess to internal pointer.
@@ -48,8 +55,6 @@ public:
 
 protected:
 	TReferenceMember(const TReferenceMember& ptr);
-
-	bool EnsureInitialized() const;
 
 private:
 	const IComponent* m_definitionComponentPtr;
@@ -84,6 +89,33 @@ bool TReferenceMember<Interface>::IsValid() const
 }
 
 
+template <class Interface>
+bool TReferenceMember<Interface>::EnsureInitialized() const
+{
+	if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
+		const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
+		if (parentPtr != NULL){
+			const QByteArray& componentId = BaseClass::operator*();
+
+			QByteArray baseId;
+			QByteArray subId;
+			BaseClass2::SplitId(componentId, baseId, subId);
+
+			IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
+			if (componentPtr != NULL){
+				m_componentPtr = BaseClass2::ExtractInterface<Interface>(componentPtr, subId);
+			}
+
+			m_isInitialized = true;
+		}
+		else{
+			qCritical("Component %s is defined, but definition component has no parent", BaseClass::operator*().constData());
+		}
+	}
+
+	return (m_componentPtr != NULL);
+}
+
 
 template <class Interface>
 Interface* TReferenceMember<Interface>::GetPtr() const
@@ -113,34 +145,6 @@ TReferenceMember<Interface>::TReferenceMember(const TReferenceMember& ptr)
 	m_componentPtr(ptr.m_componentPtr),
 	m_isInitialized(ptr.m_isInitialized)
 {
-}
-
-
-template <class Interface>
-bool TReferenceMember<Interface>::EnsureInitialized() const
-{
-	if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
-		const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
-		if (parentPtr != NULL){
-			const QByteArray& componentId = BaseClass::operator*();
-
-			QByteArray baseId;
-			QByteArray subId;
-			BaseClass2::SplitId(componentId, baseId, subId);
-
-			IComponent* componentPtr = parentPtr->GetSubcomponent(baseId);
-			if (componentPtr != NULL){
-				m_componentPtr = BaseClass2::ExtractInterface<Interface>(componentPtr, subId);
-			}
-
-			m_isInitialized = true;
-		}
-		else{
-			qCritical("Component %s is defined, but definition component has no parent", BaseClass::operator*().constData());
-		}
-	}
-
-	return (m_componentPtr != NULL);
 }
 
 
