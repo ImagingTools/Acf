@@ -27,6 +27,12 @@ public:
 	const i2d::CAffine2d& GetTransformation() const;
 
 	/**
+		Get reference to internal transformation object.
+		Please don forgot the update notifying.
+	*/
+	i2d::CAffine2d& GetTransformationRef();
+
+	/**
 		Set the transformation object
 	*/
 	void SetTransformation(const i2d::CAffine2d& transformation);
@@ -105,6 +111,20 @@ private:
 	const imath::IUnitInfo* m_argumentUnitInfoPtr;
 	const imath::IUnitInfo* m_resultUnitInfoPtr;
 };
+
+
+// inline methods
+
+inline const i2d::CAffine2d& CAffineTransformation2d::GetTransformation() const
+{
+	return m_transformation;
+}
+
+
+inline i2d::CAffine2d& CAffineTransformation2d::GetTransformationRef()
+{
+	return m_transformation;
+}
 
 
 } // namespace i2d

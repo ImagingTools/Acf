@@ -28,12 +28,6 @@ CAffineTransformation2d::CAffineTransformation2d(const i2d::CAffine2d& transform
 }
 
 
-const i2d::CAffine2d& CAffineTransformation2d::GetTransformation() const
-{
-	return m_transformation;
-}
-
-
 void CAffineTransformation2d::SetTransformation(const i2d::CAffine2d& transformation)
 {
 	istd::CChangeNotifier changePtr(this);
