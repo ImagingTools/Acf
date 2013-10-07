@@ -42,21 +42,6 @@ iview::IShapeView* CViewProviderGuiComp::GetView() const
 }
 
 
-// reimplemented (i2d::ICalibrationProvider)
-
-const i2d::ICalibration2d* CViewProviderGuiComp::GetCalibration() const
-{
-	iview::CConsoleGui* consolePtr = GetQtWidget();
-	if (consolePtr != NULL){
-		const iview::CViewport& view = consolePtr->GetView();
-
-		return view.GetCalibration();
-	}
-
-	return NULL;
-}
-
-
 // protected methods
 
 void CViewProviderGuiComp::OnGuiCreated()

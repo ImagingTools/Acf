@@ -96,7 +96,7 @@ private:
 	I_REF(imod::IModel, m_calibrationProviderModelCompPtr);
 
 	mutable istd::TOptDelPtr<i2d::ICalibration2d> m_workingCalibrationPtr;
-	mutable bool m_isCalibrationCalculated;
+	mutable bool m_isCalibrationValid;
 
 	static i2d::CAffineTransformation2d s_defaultTransform;
 };

@@ -8,7 +8,7 @@ namespace i2d
 // public methods
 
 CCalibration2dProxyComp::CCalibration2dProxyComp()
-	:m_isCalibrationCalculated(false)
+	:m_isCalibrationValid(false)
 {
 }
 
@@ -189,9 +189,9 @@ bool CCalibration2dProxyComp::Serialize(iser::IArchive& /*archive*/)
 
 void CCalibration2dProxyComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	m_isCalibrationCalculated = false;
-
 	BaseClass2::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
+
+	m_isCalibrationValid = false;
 }
 
 
@@ -230,8 +230,8 @@ const ICalibration2d* CCalibration2dProxyComp::GetCalibrationPtr() const
 
 void CCalibration2dProxyComp::EnsureWorkingCalibrationUpdated() const
 {
-	if (!m_isCalibrationCalculated && m_calibrationProviderCompPtr.IsValid()){
-		m_isCalibrationCalculated = true;
+	if (!m_isCalibrationValid && m_calibrationProviderCompPtr.IsValid()){
+		m_isCalibrationValid = true;
 
 		const i2d::ICalibration2d* calibrationPtr = m_calibrationProviderCompPtr->GetCalibration();
 		if (calibrationPtr != NULL){
@@ -248,6 +248,7 @@ void CCalibration2dProxyComp::EnsureWorkingCalibrationUpdated() const
 
 i2d::CAffineTransformation2d CCalibration2dProxyComp::s_defaultTransform(
 			i2d::CAffine2d(i2d::CMatrix2d(1, 0, 0, 1)));
+
 
 
 

@@ -29,7 +29,6 @@ class CViewProviderGuiComp:
 			public	iqtgui::TGuiComponentBase<iview::CConsoleGui>,
 			virtual public ibase::ICommandsProvider,
 			virtual public IViewProvider,
-			virtual public i2d::ICalibrationProvider,
 			protected imod::CMultiModelDispatcherBase
 {
 public:
@@ -86,9 +85,6 @@ public:
 	// reimplemented (iqt2d::IViewProvider)
 	virtual int GetViewId() const;
 	virtual iview::IShapeView* GetView() const;
-
-	// reimplemented (i2d::ICalibrationProvider)
-	virtual const i2d::ICalibration2d* GetCalibration() const;
 
 protected:
 	// reimplemented (CGuiComponentBase)
