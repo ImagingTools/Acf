@@ -93,7 +93,9 @@ bool TExtMessage<Element>::Serialize(iser::IArchive& archive)
 template<class Element> 
 bool TExtMessage<Element>::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
 {
-	 return BaseClass::CopyFrom(object, mode) && BaseClass2::CopyFrom(object, mode);
+	istd::CChangeNotifier notifier(this);
+
+	return BaseClass::CopyFrom(object, mode) && BaseClass2::CopyFrom(object, mode);
 }
 
 
