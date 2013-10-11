@@ -41,7 +41,6 @@ public:
 		I_ASSIGN_MULTI_0(m_pageNamesAttrPtr, "Names", "List of the page titles", true);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for page icons", false, 16);
 		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
-//		I_ASSIGN(m_designTypeAttrPtr, "DesignType", "Type of design:\n* 0 - simple\n* 1 - tool box\n* 2 - tab\n* 3 - widget stack\n* 4 - splitter", true, CMultiPageWidget::DT_SIMPLE);
 		I_ASSIGN(m_useSameStretchingFactorAttrPtr, "UseSameStretchingFactor", "Set the same stretching factor for all widgets. Only for group box mode", false, false);
 	I_END_COMPONENT;
 

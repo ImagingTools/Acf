@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "iqt/ISettingsProvider.h"
-
 #include "icomp/CComponentBase.h"
 
 
