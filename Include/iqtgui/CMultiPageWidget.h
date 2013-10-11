@@ -53,14 +53,14 @@ public:
 		DT_TAB_WIDGET,
 
 		/**
-			The pages are grouped in a stack layout.
-		*/
-		DT_STACK,
-
-		/**
 			The same as DT_SIMPLE but a splitter manager is used for lay outing of the pages.
 		*/
 		DT_SPLITTER,
+
+		/**
+			The pages are grouped in a stack layout.
+		*/
+		DT_STACK,
 
 		/**
 			User defined container implementation.
