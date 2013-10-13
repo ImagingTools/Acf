@@ -34,14 +34,18 @@ public:
 	I_BEGIN_COMPONENT(CStatusBarWidgetComp);
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
 		I_ASSIGN_MULTI_0(m_statusBarWidgetsCompPtr, "StatusBarWidgets", "Widgets to place into the status bar of the application", true);
+		I_ASSIGN(m_associatedDocumentTypeId, "AssociatedDocumentTypeId", "ID of the associated document type ID", false, "Default");
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
 	virtual bool AddToMainWindow(QMainWindow& mainWindow);
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
+	virtual QByteArray GetAssociatedDocumentTypeId() const;
+	virtual QString GetTitle() const;
 
 private:
 	I_MULTIREF(iqtgui::IGuiObject, m_statusBarWidgetsCompPtr);
+	I_ATTR(QByteArray, m_associatedDocumentTypeId);
 };
 
 

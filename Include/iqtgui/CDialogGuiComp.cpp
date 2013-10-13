@@ -125,6 +125,9 @@ void CDialogGuiComp::SetInitialDialogSize(QDialog& dialog) const
 		double screenFactor = qMin(0.99, *m_initialDialogSizeAttrPtr);
 
 		dialog.resize(int(screenRect.width() * screenFactor), int(screenRect.height() * screenFactor));
+		QSize dialogHalfSize = dialog.size() / 2;
+
+		dialog.move(screenRect.center() - QPoint(dialogHalfSize.width(), dialogHalfSize.height()));
 	}
 }
 

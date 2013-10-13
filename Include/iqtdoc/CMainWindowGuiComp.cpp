@@ -220,6 +220,8 @@ void CMainWindowGuiComp::OnActiveDocumentChanged()
 		return;
 	}
 
+	UpdateMainWindowComponentsVisibility();
+
 	BaseClass::UpdateMenuActions();
 }
 
@@ -324,6 +326,34 @@ void CMainWindowGuiComp::UpdateUndoMenu()
 	if (undoManagerPtr != NULL){
 		m_undoCommand.SetEnabled(undoManagerPtr->IsUndoAvailable());
 		m_redoCommand.SetEnabled(undoManagerPtr->IsRedoAvailable());
+	}
+}
+
+
+void CMainWindowGuiComp::UpdateMainWindowComponentsVisibility()
+{
+	if (m_documentManagerCompPtr.IsValid() && (m_activeDocumentPtr != NULL)){
+		for (int i = 0; i < m_mainWindowComponentsCompPtr.GetCount(); ++i){
+			iqtgui::IMainWindowComponent* mainWindowComponentPtr = m_mainWindowComponentsCompPtr[i];
+			if (mainWindowComponentPtr != NULL){
+				QByteArray activeDocumentTypeId = m_documentManagerCompPtr->GetDocumentTypeId(*m_activeDocumentPtr);
+
+				iqtgui::IGuiObject* guiPtr = dynamic_cast<iqtgui::IGuiObject*>(mainWindowComponentPtr);
+				if ((guiPtr != NULL) && guiPtr->IsGuiCreated()){
+					QByteArray associatedTypeId = mainWindowComponentPtr->GetAssociatedDocumentTypeId();
+
+					bool hideComponent = !associatedTypeId.isEmpty() && (associatedTypeId != activeDocumentTypeId);
+
+					if (!hideComponent){
+						hideComponent = !m_mainComponentVisibilityMap[mainWindowComponentPtr];
+					}
+
+					Q_ASSERT(guiPtr->GetWidget() != NULL);
+
+					guiPtr->GetWidget()->setHidden(hideComponent);
+				}
+			}
+		}
 	}
 }
 
@@ -623,7 +653,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 
 	mainWindowPtr->setAcceptDrops(true);
 
-	// load the document from command line:
+	// Load the document from command line:
 	if (m_applicationCompPtr.IsValid()){
 		QStringList applicationArguments = m_applicationCompPtr->GetApplicationArguments();
 		if (applicationArguments.count() > 1 && m_documentManagerCompPtr.IsValid()){

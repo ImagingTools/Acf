@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "iqtgui/iqtgui.h"
-
 #include "istd/IPolymorphic.h"
 
 
@@ -25,10 +24,23 @@ public:
 		Add this component to main window.
 	*/
 	virtual bool AddToMainWindow(QMainWindow& mainWindow) = 0;
+
 	/**
 		Remove this component from main window.
 	*/
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow) = 0;
+
+	/**
+		Get the type ID of the associated document.
+		The main window component will be only shown, if a document with associated type ID is currently active in the application.
+		\note This method is only used in the context of document-based applications.
+	*/
+	virtual QByteArray GetAssociatedDocumentTypeId() const = 0;
+
+	/**
+		Get the title of the main window component.
+	*/
+	virtual QString GetTitle() const = 0;
 };
 
 
@@ -36,4 +48,5 @@ public:
 
 
 #endif // !iqtgui_IMainWindowComponent_included
+
 

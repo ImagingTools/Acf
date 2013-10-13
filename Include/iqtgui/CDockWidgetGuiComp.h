@@ -23,25 +23,28 @@ namespace iqtgui
 	Wrapper for docking windows for main window.
 */
 class CDockWidgetGuiComp:
-			public iqtgui::TGuiComponentBase<QDockWidget>,
-			virtual public iqtgui::IMainWindowComponent
+			public TGuiComponentBase<QDockWidget>,
+			virtual public IMainWindowComponent
 {
 	Q_OBJECT
 public:
-	typedef iqtgui::TGuiComponentBase<QDockWidget> BaseClass;
+	typedef TGuiComponentBase<QDockWidget> BaseClass;
 
 	I_BEGIN_COMPONENT(CDockWidgetGuiComp);
-		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
+		I_REGISTER_INTERFACE(IMainWindowComponent);
 		I_ASSIGN(m_slaveGuiCompPtr, "SlaveGui", "Slave GUI for this dock widget", true, "SlaveGui");
 		I_ASSIGN(m_dockAreaAttrPtr, "DockArea", "Specify the dock area for this widget\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);
 		I_ASSIGN(m_dockFeaturesAttrPtr, "DockFeatures", "Specify the dock features for this widget\nIt is combination of options:\n 1 - closeable\n 2 - moveable\n 4 - floatable\n 8 - vertical title", false, 0);
 		I_ASSIGN(m_allowedDockAreasAttrPtr, "AllowedDockAreas", "Specify the allowed dock areas\nIt is combination of options:\n 1 - left\n 2 - right\n 4 - top\n 8 - bottom", false, 0);
 		I_ASSIGN(m_dockTitleAttrPtr, "DockTitle", "Specify the dock title ", false, "DockTitle");
+		I_ASSIGN(m_associatedDocumentTypeId, "AssociatedDocumentTypeId", "ID of the associated document type ID", false, "Default");
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
 	virtual bool AddToMainWindow(QMainWindow& mainWindow);
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
+	virtual QByteArray GetAssociatedDocumentTypeId() const;
+	virtual QString GetTitle() const;
 
 protected:
 	// reimplemented (CGuiComponentBase)
@@ -55,6 +58,7 @@ private:
 	I_ATTR(int, m_dockFeaturesAttrPtr);
 	I_ATTR(int, m_allowedDockAreasAttrPtr);
 	I_ATTR(QString, m_dockTitleAttrPtr);
+	I_ATTR(QByteArray, m_associatedDocumentTypeId);
 };
 
 

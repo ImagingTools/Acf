@@ -14,9 +14,7 @@
 
 // ACF includes
 #include "imod/CMultiModelDispatcherBase.h"
-
 #include "ibase/ICommandsProvider.h"
-
 #include "iqtgui/IMainWindowComponent.h"
 #include "iqtgui/IDialog.h"
 #include "iqtgui/TGuiComponentBase.h"
@@ -90,10 +88,14 @@ protected:
 	virtual void OnGuiDestroyed();
 	virtual void OnRetranslate();
 
+	// reimplemented (QObject)
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
 protected Q_SLOTS:
 	void OnShowToolbars();
-	void OnSettings();
 	void OnAbout();
+	void OnSettings();
+	void OnShowOtherCommandTriggered(bool enabled);
 
 private:
 	class CommandsObserver: public imod::CMultiModelDispatcherBase
@@ -113,10 +115,15 @@ private:
 protected:
 	CommandsObserver m_commandsObserver;
 
+	typedef QMap<iqtgui::IMainWindowComponent*, bool > MainComponentVisibilityMap;
+
+	MainComponentVisibilityMap m_mainComponentVisibilityMap;
+
+	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsCompPtr);
+
 private:
 	I_REF(iqtgui::IGuiObject, m_workspaceCompPtr);
 	I_REF(ibase::ICommandsProvider, m_workspaceCommandsCompPtr);
-	I_MULTIREF(iqtgui::IMainWindowComponent, m_mainWindowComponentsCompPtr);
 	I_MULTIREF(ibase::ICommandsProvider, m_mainWindowCommandsCompPtr);
 	I_REF(iqtgui::IDialog, m_aboutDialogCompPtr);
 	I_REF(iqtgui::IDialog, m_settingsDialogCompPtr);
@@ -140,6 +147,7 @@ private:
 
 	// view menu group
 	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
+	iqtgui::CHierarchicalCommand m_showOtherWindows;
 
 	// tools menu group
 	iqtgui::CHierarchicalCommand m_settingsCommand;

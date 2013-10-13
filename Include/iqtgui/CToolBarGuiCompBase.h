@@ -34,11 +34,14 @@ public:
 		I_ASSIGN(m_dockAreaAttrPtr, "ToolBarArea", "Specify the area for this toolbar\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);
 		I_ASSIGN(m_titleAttrPtr, "Title", "Tool bar title", false, "");
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of the icon used in the tool bar", false, 32);
+		I_ASSIGN(m_associatedDocumentTypeId, "AssociatedDocumentTypeId", "ID of the associated document type ID", false, "Default");
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::IMainWindowComponent)
 	virtual bool AddToMainWindow(QMainWindow& mainWindow);
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
+	virtual QByteArray GetAssociatedDocumentTypeId() const;
+	virtual QString GetTitle() const;
 
 protected:
 	// reimplemented (CGuiComponentBase)
@@ -48,6 +51,7 @@ private:
 	I_ATTR(int, m_dockAreaAttrPtr);
 	I_ATTR(QString, m_titleAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
+	I_ATTR(QByteArray, m_associatedDocumentTypeId);
 };
 
 

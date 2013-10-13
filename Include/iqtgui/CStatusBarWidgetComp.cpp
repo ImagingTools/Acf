@@ -77,6 +77,26 @@ bool CStatusBarWidgetComp::RemoveFromMainWindow(QMainWindow& /*mainWindow*/)
 }
 
 
+QByteArray CStatusBarWidgetComp::GetAssociatedDocumentTypeId() const
+{
+	static QByteArray emptyId;
+
+	if (m_associatedDocumentTypeId.IsValid()){
+		return *m_associatedDocumentTypeId;
+	}
+
+	return emptyId;
+}
+
+
+QString CStatusBarWidgetComp::GetTitle() const
+{
+	static QString emptyTitle;
+
+	return emptyTitle;
+}
+
+
 } // namespace iqtgui
 
 

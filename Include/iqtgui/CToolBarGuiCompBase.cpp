@@ -11,6 +11,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QComboBox>
 #include <QtGui/QMainWindow>
+#include <QtGui/QAction>
 #endif
 
 
@@ -75,6 +76,30 @@ bool CToolBarGuiCompBase::RemoveFromMainWindow(QMainWindow& /*mainWindow*/)
 }
 
 
+QByteArray CToolBarGuiCompBase::GetAssociatedDocumentTypeId() const
+{
+	static QByteArray emptyId;
+
+	if (m_associatedDocumentTypeId.IsValid()){
+		return *m_associatedDocumentTypeId;
+	}
+
+	return emptyId;
+}
+
+
+QString CToolBarGuiCompBase::GetTitle() const
+{
+	static QString emptyTitle;
+
+	if (m_titleAttrPtr.IsValid()){
+		return *m_titleAttrPtr;
+	}
+
+	return emptyTitle;
+}
+
+
 // protected methods
 
 // reimplemented (CGuiComponentBase)
@@ -89,6 +114,11 @@ void CToolBarGuiCompBase::OnGuiCreated()
 		return;
 	}
 
+	QAction* toggleViewAction = widgetPtr->toggleViewAction();
+	if (toggleViewAction != NULL){
+		toggleViewAction->setVisible(false);
+	}
+
 	if (m_titleAttrPtr.IsValid()){
 		widgetPtr->setWindowTitle(m_titleAttrPtr->GetValue());
 		widgetPtr->setObjectName(m_titleAttrPtr->GetValue());
@@ -97,8 +127,6 @@ void CToolBarGuiCompBase::OnGuiCreated()
 	if (m_iconSizeAttrPtr.IsValid()){
 		widgetPtr->setIconSize(QSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr));
 	}
-
-//	widgetPtr->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
 

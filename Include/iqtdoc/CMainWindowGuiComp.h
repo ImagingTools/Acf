@@ -86,6 +86,7 @@ protected:
 	void SetupNewCommand();
 	bool HasDocumentTemplate() const;
 	void UpdateUndoMenu();
+	void UpdateMainWindowComponentsVisibility();
 
 	void OnNewDocument(const QByteArray& documentTypeId);
 
