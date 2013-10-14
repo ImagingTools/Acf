@@ -169,9 +169,7 @@ inline void IChangeable::BeginChanges(int changeFlags, istd::IPolymorphic* chang
 
 inline void IChangeable::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 {
-	if ((changeFlags & CF_ABORTED) == 0){
-		OnEndChanges(changeFlags, changeParamsPtr);
-	}
+	OnEndChanges(changeFlags, changeParamsPtr);
 }
 
 

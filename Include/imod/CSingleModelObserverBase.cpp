@@ -80,7 +80,9 @@ void CSingleModelObserverBase::AfterUpdate(
 {
 	Q_ASSERT(m_modelPtr == modelPtr);
 
-	OnUpdate(updateFlags, updateParamsPtr);
+	if ((updateFlags & istd::IChangeable::CF_ABORTED) == 0){
+		OnUpdate(updateFlags, updateParamsPtr);
+	}
 }
 
 

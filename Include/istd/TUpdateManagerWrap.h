@@ -70,6 +70,9 @@ void TUpdateManagerWrap<BaseClass>::EndChanges(int changeFlags, istd::IPolymorph
 
 		BaseClass::EndChanges(m_cumulatedFlags, changeParamsPtr);
 	}
+	else{
+		m_cumulatedFlags &= ~CF_ABORTED;
+	}
 }
 
 
