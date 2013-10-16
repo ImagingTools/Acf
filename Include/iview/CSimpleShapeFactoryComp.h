@@ -6,6 +6,7 @@
 #include "icomp/CComponentBase.h"
 #include "iview/IShapeFactory.h"
 #include "iview/IColorSchema.h"
+#include "iview/CInteractiveShapeBase.h"
 
 
 namespace iview
@@ -32,7 +33,7 @@ public:
 	virtual IShape* CreateShape(const i2d::IObject2d& object, bool connectToModel = false) const;
 
 protected:
-	IShape* CreateShapeInstance(const i2d::IObject2d& object) const;
+	CInteractiveShapeBase* CreateShapeInstance(const i2d::IObject2d& object) const;
 
 private:
 	I_ATTR(bool, m_useInteractiveShapesAttrPtr);
