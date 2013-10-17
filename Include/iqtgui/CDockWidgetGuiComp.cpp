@@ -6,6 +6,7 @@
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QAction>
 #else
 #include <QtGui/QMainWindow>
 #include <QtGui/QVBoxLayout>
