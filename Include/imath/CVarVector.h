@@ -104,6 +104,13 @@ public:
 	Elements& GetElementsRef();
 
 	/**
+		Ensure, that number of elements is at least the specified value.
+		It resize the vector if the new size is bigger than the current one.
+		\return	always true, this value is provided for template implementations.
+	*/
+	bool EnsureElementsCount(int count, double value = 0);
+
+	/**
 		Translate the point.
 	*/
 	void Translate(const CVarVector& vector);

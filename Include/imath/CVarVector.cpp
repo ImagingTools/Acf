@@ -28,6 +28,23 @@ void CVarVector::SetElementsFrom(const CVarVector& vector, double expansionValue
 }
 
 
+bool CVarVector::EnsureElementsCount(int count, double value)
+{
+	int oldSize = m_elements.size();
+	if (count > oldSize){
+		m_elements.resize(count);
+
+		if (value != 0){
+			for (int i = oldSize; i < count; ++i){
+				m_elements[i] = value;
+			}
+		}
+	}
+
+	return true;
+}
+
+
 double CVarVector::GetElementsSum() const
 {
 	int elementsCount = GetElementsCount();
