@@ -44,6 +44,31 @@ CMessage::CMessage(
 }
 
 
+void CMessage::SetMessageValues(
+			istd::IInformationProvider::InformationCategory category,
+			int id,
+			const QString& text, 
+			const QString& source,
+			int flags,
+			const QDateTime* timeStampPtr)
+{
+	istd::CChangeNotifier notifier(this);
+
+	m_category = category;
+	m_id = id;
+	m_text = text;
+	m_source = source;
+	m_flags = flags;
+
+	if (timeStampPtr != NULL){
+		m_timeStamp = *timeStampPtr;
+	}
+	else{
+		m_timeStamp = QDateTime::currentDateTime();
+	}
+}
+
+
 void CMessage::SetCategory(istd::IInformationProvider::InformationCategory category)
 {
 	if (category != m_category){

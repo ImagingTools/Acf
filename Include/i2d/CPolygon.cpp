@@ -184,6 +184,34 @@ bool CPolygon::GetInvTransformed(
 }
 
 
+// reimplemented (iser::ISerializable)
+
+bool CPolygon::Serialize(iser::IArchive& archive)
+{
+	static iser::CArchiveTag polygonTag("Polygon", "Polygon");
+	static iser::CArchiveTag vectorTag("V", "Vector");
+
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+
+	int nodesCount = m_nodes.size();
+	bool retVal = true;
+
+	retVal = retVal && archive.BeginMultiTag(polygonTag, vectorTag, nodesCount);
+	if (!archive.IsStoring() && retVal){
+		SetNodesCount(nodesCount);
+	}
+
+	for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
+		retVal = retVal && archive.BeginTag(vectorTag);
+		retVal = retVal && m_nodes[nodeIndex].Serialize(archive);
+		retVal = retVal && archive.EndTag(vectorTag);
+	}
+	retVal = retVal && archive.EndTag(polygonTag);
+
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
 int CPolygon::GetSupportedOperations() const
@@ -233,34 +261,6 @@ bool CPolygon::IsEqual(const IChangeable& object) const
 	}
 
 	return false;
-}
-
-
-// reimplemented (iser::ISerializable)
-
-bool CPolygon::Serialize(iser::IArchive& archive)
-{
-	static iser::CArchiveTag polygonTag("Polygon", "Polygon");
-	static iser::CArchiveTag vectorTag("V", "Vector");
-
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
-
-	int nodesCount = m_nodes.size();
-	bool retVal = true;
-
-	retVal = retVal && archive.BeginMultiTag(polygonTag, vectorTag, nodesCount);
-	if (!archive.IsStoring() && retVal){
-		SetNodesCount(nodesCount);
-	}
-
-	for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
-		retVal = retVal && archive.BeginTag(vectorTag);
-		retVal = retVal && m_nodes[nodeIndex].Serialize(archive);
-		retVal = retVal && archive.EndTag(vectorTag);
-	}
-	retVal = retVal && archive.EndTag(polygonTag);
-
-	return retVal;
 }
 
 

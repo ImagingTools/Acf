@@ -17,11 +17,11 @@ namespace ilog
 template<class Element>
 class TExtMessage:
 			public CMessage,
-			public imod::TModelWrap<Element>
+			public Element
 {
 public:
 	typedef CMessage BaseClass;
-	typedef imod::TModelWrap<Element> BaseClass2;
+	typedef Element BaseClass2;
 
 	TExtMessage();
 	TExtMessage(istd::IInformationProvider::InformationCategory category,
@@ -117,6 +117,35 @@ template<class Element>
 QByteArray TExtMessage<Element>::GetTypeName()
 {
 	return istd::CClassInfo::GetName<TExtMessage<Element> >();
+}
+
+
+template<class Element> 
+class TExtMessageModel: public imod::TModelWrap<TExtMessage<Element> >
+{
+public:
+	typedef imod::TModelWrap<TExtMessage<Element> > BaseClass;
+
+	TExtMessageModel(
+				istd::IInformationProvider::InformationCategory category,
+				int id,
+				const QString& text, 
+				const QString& source,
+				int flags = 0,
+				const QDateTime* timeStampPtr = NULL);
+};
+
+
+template<class Element> 
+TExtMessageModel<Element>::TExtMessageModel(
+				istd::IInformationProvider::InformationCategory category,
+				int id,
+				const QString& text, 
+				const QString& source,
+				int flags,
+				const QDateTime* timeStampPtr)
+{
+	BaseClass::SetMessageValues(category, id, text, source, flags, timeStampPtr);
 }
 
 
