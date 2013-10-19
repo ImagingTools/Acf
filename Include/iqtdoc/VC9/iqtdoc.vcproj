@@ -168,6 +168,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\CDocumentImportExportCommandComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CDocumentMetaInfoEditorComp.cpp"
 				>
 			</File>
@@ -213,6 +217,10 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\CDocumentImportExportCommandComp.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CDocumentMetaInfoEditorComp.h"
 				>
@@ -268,6 +276,10 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
+				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CDocumentImportExportCommandComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CDocumentMetaInfoEditorComp.cpp"
 				>
 			</File>
@@ -287,6 +299,10 @@
 		<Filter
 			Name="Moc Files"
 			>
+			<File
+				RelativePath="..\CDocumentImportExportCommandComp.moc"
+				>
+			</File>
 			<File
 				RelativePath="..\CDocumentMetaInfoEditorComp.moc"
 				>

@@ -63,6 +63,7 @@
 #include "iqtdoc/CHtmlHelpViewerComp.h"
 #include "iqtdoc/CDocumentMetaInfoEditorComp.h"
 #include "iqtdoc/CSingletonDocApplicationComp.h"
+#include "iqtdoc/CDocumentImportExportCommandComp.h"
 
 #include "iloggui/CLogGuiComp.h"
 #include "iloggui/CTextLogGuiComp.h"
@@ -102,7 +103,7 @@ typedef iqtgui::CTableBasedModelEditorComp TableBasedModelEditor;
 typedef iqtgui::CStatusGuiComp StatusGui;
 typedef iqtgui::CSettingsContainerGuiComp SettingsContainerGui;
 typedef iqtdoc::CSingletonDocApplicationComp SingletonDocApplication;
-
+typedef iqtdoc::CDocumentImportExportCommandComp DocumentImportExportCommand;
 typedef ifilegui::CFileTreeViewGuiComp FileTreeViewGui;
 typedef ifilegui::CFileSystemExplorerGuiComp FileSystemExplorerGui;
 typedef ifilegui::CFilePersistenceGuiComp FilePersistenceGui;

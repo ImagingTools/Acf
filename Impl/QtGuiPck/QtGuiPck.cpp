@@ -98,6 +98,11 @@ I_EXPORT_COMPONENT(
 			"Application Singleton Process" IM_TAG("Application"));
 
 I_EXPORT_COMPONENT(
+			DocumentImportExportCommand,
+			"Menu command for document import/export in a document based application",
+			"Application File Persistence Format Import Export");
+
+I_EXPORT_COMPONENT(
 			AboutGui,
 			"About GUI for the application",
 			"Help About Widget" IM_TAG("Application"));
