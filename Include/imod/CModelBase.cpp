@@ -76,7 +76,7 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 	ObserversMap::Iterator findIter = m_observers.find(observerPtr);
 	if (findIter != m_observers.end()){
 		AttachingState& state = findIter.value();
-		if (state > AS_ATTACHED){
+		if (state >= AS_DETACHING){
 			qFatal("Observer is not attached");
 
 			// Observer was already detached or is not correctly attached
