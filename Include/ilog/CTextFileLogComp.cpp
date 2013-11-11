@@ -77,10 +77,10 @@ void CTextFileLogComp::OpenFileStream()
 	}
 
 	if (m_fileNameCompPtr.IsValid()){
-		QIODevice::OpenMode openMode = QIODevice::WriteOnly | QIODevice::Truncate;
+		QIODevice::OpenMode openMode = QIODevice::Text | QIODevice::WriteOnly;
 
 		if (*m_isAppendAttrPtr){
-			openMode = QIODevice::WriteOnly | QIODevice::Append;
+			openMode |= QIODevice::Append;
 		}
 
 		if (m_fileNameCompPtr->GetPath().isEmpty()){
