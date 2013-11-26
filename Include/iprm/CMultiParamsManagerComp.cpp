@@ -3,7 +3,6 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-
 #include "imod/IModel.h"
 
 
@@ -11,50 +10,7 @@ namespace iprm
 {
 
 
-CMultiParamsManagerComp::CMultiParamsManagerComp()
-:	m_selectedIndex(-1)
-{
-}
-
-
 // reimplemented (iprm::IParamsManager)
-
-int CMultiParamsManagerComp::GetIndexOperationFlags(int index) const
-{
-	Q_ASSERT(index < GetParamsSetsCount());
-
-	int retVal = 0;
-
-	if (m_paramSetsFactoriesPtr.GetCount() > 0){
-		if ((index < 0) || (index >= m_fixedParamSetsCompPtr.GetCount())){
-			retVal |= MF_SUPPORT_INSERT | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME;
-			
-			if (*m_allowDisabledAttrPtr){
-				retVal |= MF_DISABLE_ALLOWED;
-				
-				if (*m_supportEnablingAttrPtr){
-					retVal |= OOF_SUPPORT_ENABLING;
-				}
-			}
-
-			if (!m_paramSets.isEmpty()){
-				retVal |= MF_SUPPORT_DELETE;
-			}
-		}
-	}
-	else{
-		retVal |= MF_COUNT_FIXED;
-	}
-
-	return retVal;
-}
-
-
-int CMultiParamsManagerComp::GetParamsSetsCount() const
-{
-	return m_fixedParamSetsCompPtr.GetCount() + m_paramSets.size();
-}
-
 
 const IOptionsList* CMultiParamsManagerComp::GetParamsTypeConstraints() const
 {
@@ -237,42 +193,6 @@ bool CMultiParamsManagerComp::SetParamsSetName(int index, const QString& name)
 	}
 
 	return true;
-}
-
-
-// reimplemented (iprm::ISelectionParam)
-
-const IOptionsList* CMultiParamsManagerComp::GetSelectionConstraints() const
-{
-	return this;
-}
-
-
-int CMultiParamsManagerComp::GetSelectedOptionIndex() const
-{
-	return m_selectedIndex;
-}
-
-
-bool CMultiParamsManagerComp::SetSelectedOptionIndex(int index)
-{
-	if (index < GetOptionsCount()){
-		if (index != m_selectedIndex){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED | CF_MODEL);
-
-			m_selectedIndex = index;
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-
-ISelectionParam* CMultiParamsManagerComp::GetSubselection(int /*index*/) const
-{
-	return NULL;
 }
 
 
@@ -615,6 +535,20 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 	}
 
 	return true;
+}
+
+
+// reimplemented (CParamsManagerCompBase)
+
+bool CMultiParamsManagerComp::IsParameterCreationSupported() const
+{
+	return (m_paramSetsFactoriesPtr.GetCount() > 0);
+}
+
+
+int CMultiParamsManagerComp::GetCreatedParamsSetsCount() const
+{
+	return m_paramSets.count();
 }
 
 

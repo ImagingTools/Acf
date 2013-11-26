@@ -59,6 +59,11 @@ public:
 			Active if it is possible to get the disabled option.
 		*/
 		MF_DISABLE_ALLOWED = 32,
+
+		/**
+			Active if it is possible to edit parameter values.
+		*/
+		MF_SUPPORT_EDIT = 64
 	};
 
 	/**

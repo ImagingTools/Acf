@@ -6,13 +6,7 @@
 #include <QtCore/QVector>
 
 // ACF includes
-#include "istd/TSmartPtr.h"
-#include "imod/CMultiModelBridgeBase.h"
-#include "icomp/CComponentBase.h"
-#include "iprm/IParamsSet.h"
-#include "iprm/ISelectionParam.h"
-#include "iprm/IOptionsManager.h"
-#include "iprm/IParamsManager.h"
+#include "iprm/CParamsManagerCompBase.h"
 
 
 namespace iprm
@@ -22,37 +16,18 @@ namespace iprm
 /**
 	Implementation of parameter manager.
 */
-class CMultiParamsManagerComp:
-			public icomp::CComponentBase,
-			virtual public IParamsManager,
-			virtual public IOptionsManager,
-			protected imod::CMultiModelBridgeBase
+class CMultiParamsManagerComp: public CParamsManagerCompBase
 {
 public:
-	typedef icomp::CComponentBase BaseClass;
+	typedef CParamsManagerCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMultiParamsManagerComp);
-		I_REGISTER_INTERFACE(ISelectionParam);
-		I_REGISTER_INTERFACE(IParamsManager);
-		I_REGISTER_INTERFACE(iser::ISerializable);
-		I_REGISTER_INTERFACE(IOptionsList);
-		I_REGISTER_INTERFACE(IOptionsManager);
-		I_ASSIGN_MULTI_0(m_fixedParamSetsCompPtr, "FixedParamSets", "List of references to fixed parameter set", false);
-		I_ASSIGN_MULTI_0(m_fixedSetNamesAttrPtr, "FixedSetNames", "List of fixed parameter names", false);
-		I_ASSIGN(m_defaultSetNameAttrPtr, "DefaultSetName", "Default name of parameter set. Use %1 to insert automatic enumeration ", true, "<noname>");		
 		I_ASSIGN_MULTI_0(m_paramSetsFactoriesPtr, "ParamSetsFactories", "List of factories for parameter sets creation", true);		
 		I_ASSIGN_MULTI_0(m_factoryNameNameAttrPtr, "ParamSetsFactorieNames", "List of names associated with the parameter factories", true);
 		I_ASSIGN_MULTI_0(m_factoryDescriptionAttrPtr, "ParamSetsFactorieDesciption", "List of descriptions associated with the parameter factories", true);
-		I_ASSIGN(m_serializeSelectionAttrPtr, "SerializeSelection", "If enabled, the current parameter set selection will be serialized", true, true);
-		I_ASSIGN(m_allowDisabledAttrPtr, "AllowDisabled", "Control if disabled parameters are supported", true, false);
-		I_ASSIGN(m_supportEnablingAttrPtr, "SupportEnabling", "Control if enabling or disabling of parameters is allowed (works only if disabled parameters are supported)", true, true);
 	I_END_COMPONENT;
 
-	CMultiParamsManagerComp();	
-
 	// reimplemented (iprm::IParamsManager)
-	virtual int GetIndexOperationFlags(int index = -1) const;
-	virtual int GetParamsSetsCount() const;
 	virtual const IOptionsList* GetParamsTypeConstraints() const;
 	virtual int InsertParamsSet(int typeIndex = -1, int index = -1);
 	virtual bool RemoveParamsSet(int index);
@@ -60,12 +35,6 @@ public:
 	virtual IParamsSet* GetParamsSet(int index) const;
 	virtual QString GetParamsSetName(int index) const;
 	virtual bool SetParamsSetName(int index, const QString& name);
-
-	// reimplemented (iprm::ISelectionParam)
-	virtual const IOptionsList* GetSelectionConstraints() const;
-	virtual int GetSelectedOptionIndex() const;
-	virtual bool SetSelectedOptionIndex(int index);
-	virtual ISelectionParam* GetSubselection(int index) const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -125,6 +94,10 @@ protected:
 	*/
 	bool EnsureParamExist(int index, const QByteArray& typeId, const QString& name, bool isEnabled);
 
+	// reimplemented (CParamsManagerCompBase)
+	virtual bool IsParameterCreationSupported() const;
+	virtual int GetCreatedParamsSetsCount() const;
+
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
@@ -146,8 +119,6 @@ private:
 	typedef QList<ParamSet> ParamSets;
 
 	ParamSets m_paramSets;
-
-	int m_selectedIndex;
 
 	TypeInfoList m_typeInfoList;
 

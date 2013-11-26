@@ -200,6 +200,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CParamsManagerCompBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CParamsSet.cpp"
 				>
 			</File>
@@ -270,6 +274,10 @@
 			</File>
 			<File
 				RelativePath="..\CParamsManagerComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CParamsManagerCompBase.h"
 				>
 			</File>
 			<File

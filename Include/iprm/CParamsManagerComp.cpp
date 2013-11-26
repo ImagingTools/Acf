@@ -4,20 +4,12 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "istd/TChangeDelegator.h"
-
 #include "imod/IModel.h"
-
 #include "iprm/IParamsSet.h"
 
 
 namespace iprm
 {
-
-
-CParamsManagerComp::CParamsManagerComp()
-:	m_selectedIndex(-1)
-{
-}
 
 
 bool CParamsManagerComp::SetSetsCount(int count)
@@ -74,43 +66,6 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 
 // reimplemented (iprm::IParamsManager)
-
-int CParamsManagerComp::GetIndexOperationFlags(int index) const
-{
-	Q_ASSERT(index < GetParamsSetsCount());
-
-	int retVal = 0;
-
-	if (m_paramSetsFactPtr.IsValid()){
-		if ((index < 0) || (index >= m_fixedParamSetsCompPtr.GetCount())){
-			retVal |= MF_SUPPORT_INSERT | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME;
-			
-			if (*m_allowDisabledAttrPtr){
-				retVal |= MF_DISABLE_ALLOWED;
-				
-				if (*m_supportEnablingAttrPtr){
-					retVal |= OOF_SUPPORT_ENABLING;
-				}
-			}
-
-			if (!m_paramSets.isEmpty()){
-				retVal |= MF_SUPPORT_DELETE;
-			}
-		}
-	}
-	else{
-		retVal |= MF_COUNT_FIXED;
-	}
-
-	return retVal;
-}
-
-
-int CParamsManagerComp::GetParamsSetsCount() const
-{
-	return m_fixedParamSetsCompPtr.GetCount() + m_paramSets.size();
-}
-
 
 const IOptionsList* CParamsManagerComp::GetParamsTypeConstraints() const
 {
@@ -274,42 +229,6 @@ bool CParamsManagerComp::SetParamsSetName(int index, const QString& name)
 	}
 
 	return true;
-}
-
-
-// reimplemented (iprm::ISelectionParam)
-
-const IOptionsList* CParamsManagerComp::GetSelectionConstraints() const
-{
-	return this;
-}
-
-
-int CParamsManagerComp::GetSelectedOptionIndex() const
-{
-	return m_selectedIndex;
-}
-
-
-bool CParamsManagerComp::SetSelectedOptionIndex(int index)
-{
-	if (index < GetOptionsCount()){
-		if (index != m_selectedIndex){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_OPTIONS_CHANGED | CF_MODEL);
-
-			m_selectedIndex = index;
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
-
-ISelectionParam* CParamsManagerComp::GetSubselection(int /*index*/) const
-{
-	return NULL;
 }
 
 
@@ -536,6 +455,20 @@ QString CParamsManagerComp::GetNewSetName() const
 	}
 
 	return *m_defaultSetNameAttrPtr;
+}
+
+
+// reimplemented (CParamsManagerCompBase)
+
+bool CParamsManagerComp::IsParameterCreationSupported() const
+{
+	return m_paramSetsFactPtr.IsValid();
+}
+
+
+int CParamsManagerComp::GetCreatedParamsSetsCount() const
+{
+	return m_paramSets.count();
 }
 
 
