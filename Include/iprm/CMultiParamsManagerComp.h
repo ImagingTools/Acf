@@ -123,15 +123,9 @@ private:
 	TypeInfoList m_typeInfoList;
 
 private:
-	I_MULTIREF(IParamsSet, m_fixedParamSetsCompPtr);
-	I_MULTIATTR(QString, m_fixedSetNamesAttrPtr);
-	I_ATTR(QString, m_defaultSetNameAttrPtr);
 	I_MULTIFACT(iprm::IParamsSet, m_paramSetsFactoriesPtr);
 	I_MULTIATTR(QString, m_factoryNameNameAttrPtr);
 	I_MULTIATTR(QString, m_factoryDescriptionAttrPtr);
-	I_ATTR(bool, m_serializeSelectionAttrPtr);
-	I_ATTR(bool, m_allowDisabledAttrPtr);
-	I_ATTR(bool, m_supportEnablingAttrPtr);
 };
 
 
