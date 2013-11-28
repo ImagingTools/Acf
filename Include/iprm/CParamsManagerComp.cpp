@@ -56,7 +56,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 					paramsModelPtr->AttachObserver(this);
 				}
 
-				m_paramSets[i].TakeOver(paramsSetPtr);
+				m_paramSets[i - fixedSetsCount].TakeOver(paramsSetPtr);
 			}
 		}
 	}
