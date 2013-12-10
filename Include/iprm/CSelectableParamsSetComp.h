@@ -29,6 +29,7 @@ class CSelectableParamsSetComp:
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
+	typedef imod::CMultiModelBridgeBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CSelectableParamsSetComp);
 		I_REGISTER_INTERFACE(iser::ISerializable);
@@ -56,6 +57,9 @@ public:
 	virtual int GetSelectedOptionIndex() const;
 	virtual bool SetSelectedOptionIndex(int index);
 	virtual ISelectionParam* GetSubselection(int index) const;
+
+	// reimplemented (imod::IObserver)
+	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);

@@ -132,6 +132,19 @@ ISelectionParam* CSelectableParamsSetComp::GetSubselection(int /*index*/) const
 }
 
 
+// reimplemented (imod::IObserver)
+
+void CSelectableParamsSetComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+{
+	if (updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED)
+	{
+		SetSelectedOptionIndex(m_paramsManagerCompPtr->GetSelectedOptionIndex());
+	}
+
+	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CSelectableParamsSetComp::Serialize(iser::IArchive& archive)
