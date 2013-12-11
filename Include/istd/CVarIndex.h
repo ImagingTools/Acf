@@ -89,7 +89,7 @@ public:
 		\param	count	number of dimensions will be set.
 		\return			always true.
 	*/
-	bool SetDimensionsCount(int count);
+	bool SetDimensionsCount(int count, int value = 0);
 
 	/**
 		Get element stored at specified index.
@@ -181,6 +181,7 @@ public:
 	bool operator<=(const CVarIndex& index) const;
 	bool operator>=(const CVarIndex& index) const;
 
+	CVarIndex& operator=(const CVarIndex& index);
 	CVarIndex& operator+=(const CVarIndex& index);
 	CVarIndex& operator-=(const CVarIndex& index);
 
@@ -205,9 +206,15 @@ inline int CVarIndex::GetDimensionsCount() const
 }
 
 
-inline bool CVarIndex::SetDimensionsCount(int count)
+inline bool CVarIndex::SetDimensionsCount(int count, int value)
 {
+	int lastSize = m_elements.size();
+
 	m_elements.resize(count);
+
+	for (int i = lastSize; i < count; ++i){
+		m_elements[i] = value;
+	}
 
 	return true;
 }

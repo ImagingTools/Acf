@@ -173,6 +173,14 @@ bool CVarIndex::operator!=(const CVarIndex& index) const
 }
 
 
+CVarIndex& CVarIndex::operator=(const CVarIndex& index)
+{
+	m_elements = index.m_elements;
+
+	return *this;
+}
+
+
 CVarIndex& CVarIndex::operator+=(const CVarIndex& index)
 {
 	int dimensionsCount = qMin(GetDimensionsCount(), index.GetDimensionsCount());
