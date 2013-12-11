@@ -136,8 +136,7 @@ ISelectionParam* CSelectableParamsSetComp::GetSubselection(int /*index*/) const
 
 void CSelectableParamsSetComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	if (updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED)
-	{
+	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
 		SetSelectedOptionIndex(m_paramsManagerCompPtr->GetSelectedOptionIndex());
 	}
 
