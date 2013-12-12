@@ -175,7 +175,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSerializedUndoManager.cpp"
+				RelativePath="..\CSerializedUndoManagerComp.cpp"
 				>
 			</File>
 			<File
@@ -228,7 +228,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CSerializedUndoManager.h"
+				RelativePath="..\CSerializedUndoManagerComp.h"
 				>
 			</File>
 			<File

@@ -1,4 +1,4 @@
-#include "idoc/CSerializedUndoManager.h"
+#include "idoc/CSerializedUndoManagerComp.h"
 
 
 // ACF includes
@@ -11,7 +11,7 @@ namespace idoc
 {
 
 
-CSerializedUndoManager::CSerializedUndoManager()
+CSerializedUndoManagerComp::CSerializedUndoManagerComp()
 :	m_hasStoredDocumentState(false)
 {
 }
@@ -19,19 +19,19 @@ CSerializedUndoManager::CSerializedUndoManager()
 
 // reimplemented (idoc::IUndoManager)
 
-bool CSerializedUndoManager::IsUndoAvailable() const
+bool CSerializedUndoManagerComp::IsUndoAvailable() const
 {
 	return !m_undoList.isEmpty();
 }
 
 
-bool CSerializedUndoManager::IsRedoAvailable() const
+bool CSerializedUndoManagerComp::IsRedoAvailable() const
 {
 	return !m_redoList.isEmpty();
 }
 
 
-void CSerializedUndoManager::ResetUndo()
+void CSerializedUndoManagerComp::ResetUndo()
 {
 	istd::CChangeNotifier selfNotifierPtr(this);
 
@@ -40,7 +40,7 @@ void CSerializedUndoManager::ResetUndo()
 }
 
 
-bool CSerializedUndoManager::DoUndo()
+bool CSerializedUndoManagerComp::DoUndo()
 {
 	UndoArchivePtr redoArchivePtr(new iser::CMemoryWriteArchive());
 	if (IsUndoAvailable() && redoArchivePtr.IsValid()){
@@ -70,7 +70,7 @@ bool CSerializedUndoManager::DoUndo()
 }
 
 
-bool CSerializedUndoManager::DoRedo()
+bool CSerializedUndoManagerComp::DoRedo()
 {
 	UndoArchivePtr undoArchivePtr(new iser::CMemoryWriteArchive());
 	if (IsRedoAvailable() && undoArchivePtr.IsValid()){
@@ -102,9 +102,9 @@ bool CSerializedUndoManager::DoRedo()
 
 // reimplemented (imod::IObserver)
 
-bool CSerializedUndoManager::OnAttached(imod::IModel* modelPtr)
+bool CSerializedUndoManagerComp::OnAttached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnAttached(modelPtr)){
+	if (BaseClass2::OnAttached(modelPtr)){
 		m_hasStoredDocumentState = false;
 		m_storedStateArchive.Reset();
 
@@ -118,9 +118,9 @@ bool CSerializedUndoManager::OnAttached(imod::IModel* modelPtr)
 }
 
 
-bool CSerializedUndoManager::OnDetached(imod::IModel* modelPtr)
+bool CSerializedUndoManagerComp::OnDetached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnDetached(modelPtr)){
+	if (BaseClass2::OnDetached(modelPtr)){
 		m_hasStoredDocumentState = false;
 		m_storedStateArchive.Reset();
 
@@ -138,7 +138,7 @@ bool CSerializedUndoManager::OnDetached(imod::IModel* modelPtr)
 
 // reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 
-iser::ISerializable* CSerializedUndoManager::CastFromModel(imod::IModel* modelPtr) const
+iser::ISerializable* CSerializedUndoManagerComp::CastFromModel(imod::IModel* modelPtr) const
 {
 	return CompCastPtr<iser::ISerializable>(modelPtr);
 }
@@ -146,9 +146,9 @@ iser::ISerializable* CSerializedUndoManager::CastFromModel(imod::IModel* modelPt
 
 // reimplemented (imod::IObserver)
 
-void CSerializedUndoManager::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSerializedUndoManagerComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
-	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass2::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
 
 	if (((updateFlags & istd::IChangeable::CF_NO_UNDO) == 0) && !m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObjectPtr();
@@ -165,7 +165,7 @@ void CSerializedUndoManager::BeforeUpdate(imod::IModel* modelPtr, int updateFlag
 }
 
 
-void CSerializedUndoManager::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
 {
 	istd::CChangeNotifier selfNotifierPtr(NULL);
 
@@ -179,6 +179,10 @@ void CSerializedUndoManager::AfterUpdate(imod::IModel* modelPtr, int updateFlags
 
 				m_undoList.push_back(UndoArchivePtr());
 				m_undoList.back().TakeOver(m_beginStateArchivePtr);
+
+				if (m_maxBufferSizeAttrPtr.IsValid() && (GetUsedMemorySize() > *m_maxBufferSizeAttrPtr * (1 << 20))){
+					m_undoList.pop_front();
+				}
 				m_redoList.clear();
 			}
 		}
@@ -188,19 +192,19 @@ void CSerializedUndoManager::AfterUpdate(imod::IModel* modelPtr, int updateFlags
 
 	m_isStateChangedFlagValid = false;
 
-	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
 }
 
 
 // reimplemented (idoc::IDocumentStateComparator)
 
-bool CSerializedUndoManager::HasStoredDocumentState() const
+bool CSerializedUndoManagerComp::HasStoredDocumentState() const
 {
 	return m_hasStoredDocumentState;
 }
 
 
-bool CSerializedUndoManager::StoreDocumentState()
+bool CSerializedUndoManagerComp::StoreDocumentState()
 {
 	istd::CChangeNotifier selfNotifierPtr(this);
 
@@ -221,7 +225,7 @@ bool CSerializedUndoManager::StoreDocumentState()
 }
 
 
-bool CSerializedUndoManager::RestoreDocumentState()
+bool CSerializedUndoManagerComp::RestoreDocumentState()
 {
 	iser::CMemoryReadArchive restoreArchive(m_storedStateArchive);
 
@@ -247,7 +251,7 @@ bool CSerializedUndoManager::RestoreDocumentState()
 }
 
 
-IDocumentStateComparator::DocumentChangeFlag CSerializedUndoManager::GetDocumentChangeFlag() const
+IDocumentStateComparator::DocumentChangeFlag CSerializedUndoManagerComp::GetDocumentChangeFlag() const
 {
 	if (!m_isStateChangedFlagValid){
 		iser::CMemoryWriteArchive compareArchive;
@@ -265,6 +269,20 @@ IDocumentStateComparator::DocumentChangeFlag CSerializedUndoManager::GetDocument
 	}
 
 	return m_stateChangedFlag;
+}
+
+
+// private methods
+
+qint64 CSerializedUndoManagerComp::GetUsedMemorySize() const
+{
+	qint64 memorySize = 0;
+
+	for (UndoList::ConstIterator iter = m_undoList.constBegin(); iter != m_undoList.constEnd(); ++iter){
+		memorySize += (*iter)->GetBufferSize();
+	}
+
+	return memorySize;
 }
 
 
