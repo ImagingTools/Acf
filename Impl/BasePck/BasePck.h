@@ -24,7 +24,7 @@
 #include "idoc/CCompositeDocumentTemplateComp.h"
 #include "idoc/CDocumentManagerListenerComp.h"
 #include "idoc/CSelectedDocModelBinderComp.h"
-#include "idoc/CSerializedUndoManager.h"
+#include "idoc/CSerializedUndoManagerComp.h"
 #include "idoc/CTextFileLoaderComp.h"
 #include "idoc/CTextDocumentComp.h"
 
@@ -111,11 +111,7 @@ typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
 typedef icomp::TModelCompWrap<idoc::CDocumentManagerListenerComp> DocumentManagerListener;
 typedef idoc::CSelectedDocModelBinderComp SelectedDocModelBinder;
-typedef icomp::TModelCompWrap< icomp::TMakeComponentWrap<
-			idoc::CSerializedUndoManager,
-			idoc::IUndoManager,
-			idoc::IDocumentStateComparator,
-			imod::IObserver> > SerializedUndoManager;
+typedef icomp::TModelCompWrap<idoc::CSerializedUndoManagerComp> SerializedUndoManager;
 typedef idoc::CTextFileLoaderComp TextFileLoader;
 typedef icomp::TModelCompWrap<idoc::CTextDocumentComp> TextDocument;
 
