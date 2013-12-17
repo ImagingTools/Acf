@@ -35,7 +35,7 @@ function ProcessFolder(shell, folder)
 
 
 var fileSystem = WScript.CreateObject("Scripting.FileSystemObject");
-var fullPath = fileSystem.GetParentFolderName(WScript.ScriptFullName);
+var fullPath = fileSystem.GetParentFolderName(fileSystem.GetParentFolderName(fileSystem.GetParentFolderName(WScript.ScriptFullName)));
 var shell = WScript.CreateObject("WScript.Shell");
 var message = ProcessFolder(shell, fileSystem.GetFolder(fullPath));
 if (message.length > 0){
