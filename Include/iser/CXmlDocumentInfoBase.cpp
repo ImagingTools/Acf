@@ -39,27 +39,33 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QByteArray& text
 	for (;;){
 		int ampPos = xmlText.indexOf('&', actPos);
 		if (ampPos >= 0){
-			text += xmlText.mid(actPos, ampPos - actPos);
+			QString subString = xmlText.mid(actPos, ampPos - actPos);
+
+			text += subString;
 
 			int semicolonPos = xmlText.indexOf(';', actPos);
-			if ((semicolonPos < 0) || (ampPos >= semicolonPos - 2)){
-				return;
-			}
+			if ((semicolonPos >= 0) && (ampPos < semicolonPos - 2)){
+				actPos = semicolonPos + 1;
 
-			if (xmlText[ampPos + 1] == '#'){
-				QString number(xmlText.mid(ampPos + 2, semicolonPos - ampPos - 2));
+				if (xmlText[ampPos + 1] == '#'){
+					QString number(xmlText.mid(ampPos + 2, semicolonPos - ampPos - 2));
 
-				text += char(number.toInt());
-			}
-			else{
-				QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
-				EntityToChartMap::ConstIterator entityIter = s_entityToChartMap.constFind(entityId);
-				if (entityIter != s_entityToChartMap.constEnd()){
-					text += entityIter.value();
+					text += char(number.toInt());
+				}
+				else{
+					QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
+					EntityToChartMap::ConstIterator entityIter = s_entityToChartMap.constFind(entityId);
+					if (entityIter != s_entityToChartMap.constEnd()){
+						text += entityIter.value();
+					}
+					else{
+						text += entityId;
+					}
 				}
 			}
-
-			actPos = semicolonPos + 1;
+			else{
+				actPos = ampPos;
+			}
 		}
 		else{
 			text += xmlText.mid(actPos);
@@ -107,24 +113,28 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QString& text)
 			text += subString;
 
 			int semicolonPos = xmlText.indexOf(';', actPos);
-			if ((semicolonPos < 0) || (ampPos >= semicolonPos - 2)){
-				return;
-			}
+			if ((semicolonPos >= 0) && (ampPos < semicolonPos - 2)){
+				actPos = semicolonPos + 1;
 
-			if (xmlText[ampPos + 1] == '#'){
-				QByteArray numberString = xmlText.mid(ampPos + 2, semicolonPos - ampPos - 2);
+				if (xmlText[ampPos + 1] == '#'){
+					QString number(xmlText.mid(ampPos + 2, semicolonPos - ampPos - 2));
 
-				text += QChar(numberString.toInt());
-			}
-			else{
-				QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
-				EntityToWideChartMap::ConstIterator entityIter = s_entityToWideChartMap.constFind(entityId);
-				if (entityIter != s_entityToWideChartMap.constEnd()){
-					text += entityIter.value();
+					text += char(number.toInt());
+				}
+				else{
+					QByteArray entityId = xmlText.mid(ampPos, semicolonPos - ampPos + 1);
+					EntityToWideChartMap::ConstIterator entityIter = s_entityToWideChartMap.constFind(entityId);
+					if (entityIter != s_entityToWideChartMap.constEnd()){
+						text += entityIter.value();
+					}
+					else{
+						text += entityId;
+					}
 				}
 			}
-
-			actPos = semicolonPos + 1;
+			else{
+				actPos = ampPos;
+			}
 		}
 		else{
 			QString subString = xmlText.mid(actPos);
