@@ -4,10 +4,10 @@
 
 // Qt includes
 #include <QtCore/QByteArray>
+#include <QtCore/QString>
 
 // ACF includes
 #include "istd/IPolymorphic.h"
-#include <QtCore/QString>
 
 
 namespace ibase
