@@ -62,14 +62,15 @@ void CParamsManagerGuiCompBase::on_AddButton_clicked()
 		int selectedIndex = GetSelectedIndex();
 		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
-		objectPtr->InsertParamsSet(-1, selectedIndex);
+		int flags = objectPtr->GetIndexOperationFlags(selectedIndex);
+		if ((flags & iprm::IParamsManager::MF_SUPPORT_INSERT) == 0){ // Fixed parameter set is currently selected
+			selectedIndex = -1;
+		}
 
 		// auto select newly created element
-		if (objectPtr->GetParamsSetsCount() == 1){
-			objectPtr->SetSelectedOptionIndex(0);
-		}
-		else {
-			objectPtr->SetSelectedOptionIndex(selectedIndex);
+		int newIndex = objectPtr->InsertParamsSet(-1, selectedIndex);
+		if (newIndex >= 0){
+			objectPtr->SetSelectedOptionIndex(newIndex);
 		}
 	}
 }
@@ -324,7 +325,7 @@ void CParamsManagerGuiCompBase::UpdateActions()
 		}
 	}
 
-	AddButton->setEnabled((flags & iprm::IParamsManager::MF_SUPPORT_INSERT) != 0);
+	AddButton->setEnabled((flags & iprm::IParamsManager::MF_COUNT_FIXED) == 0);
 	RemoveButton->setEnabled((flags & iprm::IParamsManager::MF_SUPPORT_DELETE) != 0);
 	UpButton->setEnabled(
 				((prevFlags & iprm::IParamsManager::MF_SUPPORT_SWAP) != 0) &&

@@ -115,7 +115,7 @@ int CParamsManagerComp::InsertParamsSet(int /*typeIndex*/, int index)
 	else{
 		m_paramSets.last().TakeOver(paramsSetPtr);
 
-		return m_paramSets.size() - 1;
+		return GetParamsSetsCount() - 1;
 	}
 }
 
