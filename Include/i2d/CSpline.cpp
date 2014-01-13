@@ -57,10 +57,7 @@ bool CSpline::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 
 		BaseClass::CopyFrom(object);
 
-		int sourceSegmentCount = splinePtr->GetSegmentCount();
-		for (int segmentIndex = 0; segmentIndex < sourceSegmentCount; segmentIndex++){
-			InsertSplineSegment(splinePtr->GetSplineSegment(segmentIndex));			
-		}
+		m_segments = splinePtr->m_segments;
 
 		return true;
 	}	

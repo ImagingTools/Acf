@@ -139,10 +139,7 @@ bool CPolypoint::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 
 		istd::CChangeNotifier notifier(this);
 
-		int sourcePolypointCount = polypointPtr->GetPointsCount();
-		for (int pointIndex = 0; pointIndex < sourcePolypointCount; pointIndex++){		
-			Insert(polypointPtr->GetPoint(pointIndex));
-		}
+		m_points = polypointPtr->m_points; 
 
 		CObject2dBase::CopyFrom(object, mode);
 
