@@ -40,10 +40,21 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 	if (m_widgetPtr == NULL){
 		m_widgetPtr = InitWidgetToParent(parentPtr);
 
+		QByteArray componentId;
+		QByteArray widgetId;
+
 		if (m_widgetPtr != NULL){
 			if (m_objectIdAttrPtr.IsValid() && m_widgetPtr->objectName().isEmpty()){
-				m_widgetPtr->setObjectName(QString::fromUtf8(*m_objectIdAttrPtr));
+				widgetId = *m_objectIdAttrPtr;
 			}
+			else{
+				widgetId = GetComponentId(GetComponentContext());
+			}
+
+			componentId = QByteArray("Component [") + widgetId + QByteArray("]");
+
+			setObjectName(componentId);
+			m_widgetPtr->setObjectName(widgetId);
 
 			if (parentPtr != NULL){
 				QLayout* layoutPtr = parentPtr->layout();

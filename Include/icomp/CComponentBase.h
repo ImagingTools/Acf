@@ -69,6 +69,7 @@ protected:
 
 	// static protected methods
 	static const icomp::IRealComponentStaticInfo& InitStaticInfo(IComponent* componentPtr);
+	static QByteArray GetComponentId(const icomp::IComponentContext* componentContextPtr, const QByteArray& contextId = QByteArray());
 
 private:
 	const IComponentContext* m_contextPtr;

@@ -89,6 +89,25 @@ const icomp::IRealComponentStaticInfo& CComponentBase::InitStaticInfo(IComponent
 }
 
 
+QByteArray CComponentBase::GetComponentId(const icomp::IComponentContext* componentContextPtr, const QByteArray& contextId)
+{
+	if (componentContextPtr == NULL){
+		return contextId;
+	}
+
+	if (componentContextPtr->GetContextId().isEmpty()){
+		return contextId;
+	}
+
+	QByteArray retVal = componentContextPtr->GetContextId();
+	if (!contextId.isEmpty()){
+		retVal += "/" + contextId;
+	}
+
+	return GetComponentId(componentContextPtr->GetParentContext(), retVal);
+}
+
+
 } // namespace icomp
 
 
