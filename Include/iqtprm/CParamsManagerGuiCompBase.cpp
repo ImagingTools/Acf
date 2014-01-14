@@ -357,7 +357,10 @@ void CParamsManagerGuiCompBase::UpdateTree()
 		for (int paramSetIndex = 0; paramSetIndex < setsCount; ++paramSetIndex){
 			int flags = objectPtr->GetIndexOperationFlags(paramSetIndex);
 
+			bool isOptionEnabled = paramsListPtr->IsOptionEnabled(paramSetIndex);
+
 			Qt::ItemFlags itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
 			if ((flags & iprm::IParamsManager::MF_SUPPORT_RENAME) != 0){
 				itemFlags |= Qt::ItemIsEditable;
 			}
@@ -373,7 +376,7 @@ void CParamsManagerGuiCompBase::UpdateTree()
 			paramsSetItemPtr->setText(0, name);
 			paramsSetItemPtr->setData(0, Qt::UserRole, paramSetIndex);
 			if (*m_supportEnablingAttrPtr && (paramsListPtr != NULL) && (flags & iprm::IOptionsManager::OOF_SUPPORT_ENABLING) != 0){
-				paramsSetItemPtr->setCheckState(0, paramsListPtr->IsOptionEnabled(paramSetIndex) ? Qt::Checked : Qt::Unchecked);
+				paramsSetItemPtr->setCheckState(0, isOptionEnabled ? Qt::Checked : Qt::Unchecked);
 			}
 			
 			iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(paramSetIndex);
@@ -384,14 +387,15 @@ void CParamsManagerGuiCompBase::UpdateTree()
 					QIcon icon = m_stateIconsMap.value(iconIndex);
 					paramsSetItemPtr->setIcon(0, icon);						
 				}
-			}
-			
+			}			
 
 			ParamsTree->addTopLevelItem(paramsSetItemPtr);
 
 			paramsSetItemPtr->setSelected(paramSetIndex == selectedIndex);	
 		}
 	}
+
+	ParamsTree->setCurrentItem(ParamsTree->topLevelItem(selectedIndex));
 
 	UpdateParamsView(selectedIndex);
 }

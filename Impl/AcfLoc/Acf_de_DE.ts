@@ -149,7 +149,7 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>Radii</source>
-        <translation></translation>
+        <translation>Radien</translation>
     </message>
 </context>
 <context>
@@ -168,7 +168,7 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>Radii</source>
-        <translation></translation>
+        <translation>Radien</translation>
     </message>
     <message>
         <source>°</source>
