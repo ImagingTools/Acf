@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          3054
+          3248
         </Number>
         <Description>
           ACF
@@ -599,7 +599,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="14">
+        <AttributeInfoMap count="15">
           <AttributeInfo>
             <Id>
               AboutDialog
@@ -811,6 +811,22 @@
               <Value>
                 SettingsProvider
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ToolBarArea
+            </Id>
+            <Type>
+              Integer
+            </Type>
+            <ExportId>
+              ToolBarArea
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -1076,7 +1092,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="2">
+        <AttributeInfoMap count="3">
           <AttributeInfo>
             <Id>
               DocumentTemplate
@@ -1094,6 +1110,22 @@
               <Value>
                 DocumentTemplate
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              RememberOpenDocumentOnExit
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              RememberOpenDocumentOnExit
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
