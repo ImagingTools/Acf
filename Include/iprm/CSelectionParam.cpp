@@ -81,8 +81,10 @@ bool CSelectionParam::SetSelectedOptionIndex(int index)
 	}
 
 	if (m_selectedOptionIndex != index){
-		if ((m_constraintsPtr != NULL) && !m_constraintsPtr->IsOptionEnabled(index)){
-			return false;
+		if (index != iprm::ISelectionParam::NO_SELECTION){
+			if ((m_constraintsPtr != NULL) && !m_constraintsPtr->IsOptionEnabled(index)){
+				return false;
+			}
 		}
 
 		istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED | CF_MODEL);
