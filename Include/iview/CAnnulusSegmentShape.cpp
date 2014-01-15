@@ -225,7 +225,10 @@ void CAnnulusSegmentShape::Draw(QPainter& drawContext) const
 	}
 
 	DrawArea(	drawContext,
+				center,
 				screenCenter,
+				qMin(radius,radius2),
+				qMax(radius,radius2),
 				int(qMin(screenRadius, screenRadius2)),
 				int(qMax(screenRadius, screenRadius2)),
 				objectPtr->GetBeginAngle(),
@@ -367,7 +370,10 @@ ITouchable::TouchState CAnnulusSegmentShape::IsTouched(istd::CIndex2d position) 
 
 void CAnnulusSegmentShape::DrawArea(
 			QPainter& painter,
+			i2d::CVector2d realCenter,
 			i2d::CVector2d center,
+			double realMinRadius,
+			double realMaxRadius,
 			int minRadius,
 			int maxRadius,
 			double startAngle,
@@ -381,23 +387,68 @@ void CAnnulusSegmentShape::DrawArea(
 		startAngle = startAngle - 2 * I_PI;
 	}
 
-	double startAngleDeg = 360 - startAngle / I_PI * 180;
-	double stopAngleDeg = 360 - stopAngle / I_PI * 180;
-	qreal sweepLength = startAngleDeg - stopAngleDeg;
-
 	QRectF minRect = iqt::GetQRect(minBox);
 	QRectF maxRect = iqt::GetQRect(maxBox);
 
 	i2d::CVector2d deltaStartAngle;
-	deltaStartAngle.Init(startAngle, minRadius);
+	deltaStartAngle.Init(startAngle, realMinRadius);
+
+	QPointF startScreenPos = GetScreenPosition(realCenter + deltaStartAngle);
+	double startAngleDeg = GetDegreeAndleOfPoint(center, startScreenPos);
+
+	i2d::CVector2d deltaEndAngle;
+	deltaEndAngle.Init(stopAngle, realMinRadius);
+	
+	QPointF stopScreenPos = GetScreenPosition(realCenter + deltaEndAngle);
+	double stopAngleDeg = GetDegreeAndleOfPoint(center, stopScreenPos);
+
+	qreal sweepLength = startAngleDeg - stopAngleDeg;
+	if (sweepLength < 0)
+		sweepLength += 360;
+
+	// debug only
+	//painter.drawEllipse(startScreenPos, 10, 10);
+	//painter.drawEllipse(stopScreenPos, 10, 10);
 
 	QPainterPath painterPath;
-	painterPath.moveTo(center + deltaStartAngle);
+	painterPath.moveTo(startScreenPos);
 	painterPath.arcTo(maxRect, startAngleDeg, -sweepLength);
 	painterPath.arcTo(minRect, stopAngleDeg, sweepLength);
 	painterPath.closeSubpath();
 
 	painter.drawPath(painterPath);
+}
+
+
+double CAnnulusSegmentShape::GetDegreeAndleOfPoint(const i2d::CVector2d& center, const QPointF& point) const
+{
+	// check sector
+	if (point.x() <= center.GetX() && point.y() <= center.GetY()){
+		// sector 2
+		QPointF fallPos(point.x(), center.GetY());
+		double oppositeLength = fallPos.y() - point.y();
+		double adjancedLength = center.GetX() - fallPos.x();
+		double tangent = oppositeLength / adjancedLength;
+		double arcTan = atan(tangent);
+		return 180 - arcTan / I_PI * 180;
+	}
+	else if (point.x() <= center.GetX() && point.y() >= center.GetY()){
+		// sector 3
+		QPointF fallPos(point.x(), center.GetY());
+		double oppositeLength = point.y() - fallPos.y();
+		double adjancedLength = center.GetX() - fallPos.x();
+		double tangent = oppositeLength / adjancedLength;
+		double arcTan = atan(tangent);
+		return 180 + arcTan / I_PI * 180;	
+	}
+
+	// sector 1 or 4
+	QPointF fallPos(point.x(), center.GetY());
+	double oppositeLength = fallPos.y() - point.y();
+	double adjancedLength = fallPos.x() - center.GetX();
+	double tangent = oppositeLength / adjancedLength;
+	double arcTan = atan(tangent);
+	return arcTan / I_PI * 180;
 }
 
 
