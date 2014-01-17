@@ -292,10 +292,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CExternalOpenDocumentCommandComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\GeneratedFiles\iqtdoc\moc_CMainWindowGuiComp.cpp"
 				>
 			</File>
@@ -317,10 +313,6 @@
 			</File>
 			<File
 				RelativePath="..\CDocumentMetaInfoEditorComp.moc"
-				>
-			</File>
-			<File
-				RelativePath="..\CExternalOpenDocumentCommandComp.moc"
 				>
 			</File>
 			<File

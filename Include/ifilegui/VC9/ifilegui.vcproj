@@ -189,6 +189,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\CExternalOpenDocumentCommandCompBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileDialogLoaderComp.cpp"
 				>
 			</File>
@@ -218,6 +222,10 @@
 			Filter="h"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\CExternalOpenDocumentCommandCompBase.h"
+				>
+			</File>
 			<File
 				RelativePath="..\CFileDialogLoaderComp.h"
 				>
@@ -252,6 +260,10 @@
 			Filter="moc;h;cpp"
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
+			<File
+				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CExternalOpenDocumentCommandCompBase.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileListProviderGuiComp.cpp"
 				>
@@ -320,6 +332,10 @@
 		<Filter
 			Name="Moc Files"
 			>
+			<File
+				RelativePath="..\CExternalOpenDocumentCommandCompBase.moc"
+				>
+			</File>
 			<File
 				RelativePath="..\CFileListProviderGuiComp.moc"
 				>

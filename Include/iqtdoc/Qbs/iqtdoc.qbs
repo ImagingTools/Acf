@@ -6,13 +6,13 @@ AcfStaticLibrary{
 
 	files: ["../*.h", "../*.cpp", "../*.ui"]
 
-	Depends{ name: "iqtgui" }
+	Depends{ name: "ifilegui" }
 	Depends{ name: "idoc" }
 	Depends{ name: "Qt.widgets" }
 	Depends{ name: "Qt.gui" }
 
 	Export{
-		Depends{ name: "iqtgui" }
+		Depends{ name: "ifilegui" }
 		Depends{ name: "idoc" }
 		Depends{ name: "Qt.gui" }
 		Depends{ name: "Qt.widgets" }
