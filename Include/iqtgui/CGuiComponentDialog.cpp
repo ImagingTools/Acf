@@ -47,12 +47,8 @@ CGuiComponentDialog::CGuiComponentDialog(
 			}
 		}
 
-		if (isModal || (buttons != 0)){
-			QDialogButtonBox::StandardButtons buttonFlags = (buttons != 0)?
-						(QDialogButtonBox::StandardButtons)buttons:
-						QDialogButtonBox::Close;
-
-			m_buttonsBox = new QDialogButtonBox(buttonFlags, Qt::Horizontal, this);
+		if (buttons >= 0){
+			m_buttonsBox = new QDialogButtonBox(QDialogButtonBox::StandardButtons(buttons), Qt::Horizontal, this);
 			connect(m_buttonsBox, SIGNAL(accepted()), this, SLOT(accept()));
 			connect(m_buttonsBox, SIGNAL(rejected()), this, SLOT(reject()));
 
