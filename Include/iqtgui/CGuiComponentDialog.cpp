@@ -6,8 +6,12 @@
 #include <QtGui/QCloseEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QDesktopWidget>
 #else
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QApplication>
+#include <QtGui/QDesktopWidget>
 #endif
 
 
@@ -15,14 +19,18 @@ namespace iqtgui
 {
 
 
+// public methods
+
 CGuiComponentDialog::CGuiComponentDialog(
 			iqtgui::IGuiObject* guiObjectPtr,
 			int buttons,
 			bool isModal,
 			QWidget* parentWidgetPtr)
-:	BaseClass(parentWidgetPtr),
+	:BaseClass(parentWidgetPtr),
 	m_buttonsBox(NULL),
-	m_guiObjectPtr(NULL)
+	m_guiObjectPtr(NULL),
+	m_screenFactor(0.0),
+	m_screenPositionPtr(NULL)
 {
 	// GUI pointer must be valid:
 	Q_ASSERT(guiObjectPtr != NULL);
@@ -68,6 +76,16 @@ CGuiComponentDialog::~CGuiComponentDialog()
 		}
 	}
 }
+
+
+
+void CGuiComponentDialog::SetDialogGeometry(double screenFactor, const QPoint* positionPtr)
+{
+	m_screenFactor = screenFactor;
+
+	m_screenPositionPtr = positionPtr;
+}
+
 
 
 // protected methods
@@ -125,6 +143,38 @@ void CGuiComponentDialog::keyPressEvent(QKeyEvent* eventPtr)
 
 	BaseClass::keyPressEvent(eventPtr);
 }
+
+
+void CGuiComponentDialog::showEvent(QShowEvent* eventPtr)
+{
+	BaseClass::showEvent(eventPtr);
+
+	BaseClass::adjustSize();
+
+	const QDesktopWidget* desktopPtr = QApplication::desktop();
+	Q_ASSERT(desktopPtr != NULL);
+
+	QRect screenRect = desktopPtr->screenGeometry();
+
+	if (m_screenFactor > 0){
+		double screenFactor = qMin(0.99, m_screenFactor);
+
+		BaseClass::resize(int(screenRect.width() * screenFactor), int(screenRect.height() * screenFactor));
+	}
+	else{
+		BaseClass::resize(sizeHint());
+	}
+
+	if (m_screenPositionPtr == NULL){
+		QSize dialogHalfSize = size() / 2;
+	
+		BaseClass::move(screenRect.center() - QPoint(dialogHalfSize.width(), dialogHalfSize.height()));
+	}
+	else{
+		BaseClass::move(*m_screenPositionPtr);
+	}
+}
+
 
 
 } // namespace iqtgui

@@ -27,7 +27,8 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 	if (dialogPtr.IsValid()){
 		if (*m_isModalAttrPtr){
 			return dialogPtr->exec();
-		} else {
+		}
+		else{
 			dialogPtr->setModal(false);
 			dialogPtr->setAttribute(Qt::WA_DeleteOnClose);
 
@@ -81,7 +82,7 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 			dialogPtr->setWindowIcon(QApplication::windowIcon());
 		}
 
-		SetInitialDialogSize(*dialogPtr);
+		dialogPtr->SetDialogGeometry(m_initialDialogSizeAttrPtr.IsValid() ? *m_initialDialogSizeAttrPtr : 0.0);
 	}
 
 	return dialogPtr.PopPtr();
@@ -109,26 +110,6 @@ void CDialogGuiComp::OnComponentCreated()
 void CDialogGuiComp::OnCommandActivated()
 {
 	ExecuteDialog(NULL);
-}
-
-
-// private methods
-
-void CDialogGuiComp::SetInitialDialogSize(QDialog& dialog) const
-{
-	if (m_initialDialogSizeAttrPtr.IsValid()){
-		const QDesktopWidget* desktopPtr = QApplication::desktop();
-		Q_ASSERT(desktopPtr != NULL);
-
-		QRect screenRect = desktopPtr->screenGeometry();
-
-		double screenFactor = qMin(0.99, *m_initialDialogSizeAttrPtr);
-
-		dialog.resize(int(screenRect.width() * screenFactor), int(screenRect.height() * screenFactor));
-		QSize dialogHalfSize = dialog.size() / 2;
-
-		dialog.move(screenRect.center() - QPoint(dialogHalfSize.width(), dialogHalfSize.height()));
-	}
 }
 
 

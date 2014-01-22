@@ -48,6 +48,13 @@ public:
 	virtual ~CGuiComponentDialog();
 
 	/**
+		Set initial size and position of the dialog.
+		\param screenFactor	Size factor related to the screen size. If the value is smaller or equal 0.0 the default size will be used.
+		\param positionPtr	Position of the dialog on the screen. If not set, the dialog will be placed at the center of the screen.
+	*/
+	void SetDialogGeometry(double screenFactor = 0.0, const QPoint* positionPtr = NULL);
+
+	/**
 		Returns the internal button box.
 		You can use this function to create your own connections to the signals of the button group.
 	*/
@@ -62,10 +69,14 @@ protected:
 	// reimplemented (QWidget)
 	virtual void closeEvent(QCloseEvent* eventPtr);
 	virtual void keyPressEvent(QKeyEvent* eventPtr);
+	virtual void showEvent(QShowEvent* eventPtr);
 
 private:
 	QDialogButtonBox* m_buttonsBox;
 	iqtgui::IGuiObject* m_guiObjectPtr;
+
+	double m_screenFactor;
+	const QPoint* m_screenPositionPtr;
 };
 
 
