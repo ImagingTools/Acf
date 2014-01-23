@@ -42,6 +42,12 @@ public:
 	static bool RegisterMessageType(const QByteArray& messageTypeId = QByteArray());
 
 	/**
+		Get the number of messages in the container.
+		\note Messages in the child containers are not involved in the calculation.
+	*/
+	int GetMessagesCount() const;
+
+	/**
 		Add a child message container to this object.
 		GetMessages returns messages from this container and all its children.
 	*/

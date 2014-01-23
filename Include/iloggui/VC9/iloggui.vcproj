@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMessageBoxComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CTextLogGuiComp.cpp"
 				>
 			</File>
@@ -204,6 +208,10 @@
 			>
 			<File
 				RelativePath="..\CLogGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMessageBoxComp.h"
 				>
 			</File>
 			<File
@@ -225,6 +233,10 @@
 			>
 			<File
 				RelativePath="..\..\GeneratedFiles\iloggui\moc_CLogGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\GeneratedFiles\iloggui\moc_CMessageBoxComp.cpp"
 				>
 			</File>
 			<File
@@ -257,6 +269,10 @@
 			>
 			<File
 				RelativePath="..\CLogGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CMessageBoxComp.moc"
 				>
 			</File>
 			<File

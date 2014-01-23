@@ -16,7 +16,6 @@
 #include "ilog/CMessage.h"
 #include "iqtgui/IVisualStatusProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-
 #include "GeneratedFiles/iloggui/ui_CLogGuiComp.h"
 
 
