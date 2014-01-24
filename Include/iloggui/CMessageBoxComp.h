@@ -76,3 +76,4 @@ private:
 
 #endif // !iloggui_CMessageBoxComp_included
 
+

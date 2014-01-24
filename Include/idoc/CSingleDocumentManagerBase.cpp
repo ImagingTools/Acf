@@ -504,11 +504,11 @@ bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive)
 		retVal = retVal && archive.EndTag(filePathTag);
 
 		retVal = retVal && archive.BeginTag(documentTypeIdTag);
-		retVal = retVal && archive.Process(m_documentTypeId);
+		retVal = retVal && archive.Process(documentTypeId);
 		retVal = retVal && archive.EndTag(documentTypeIdTag);
 
 		retVal = retVal && archive.BeginTag(viewTypeIdTag);
-		retVal = retVal && archive.Process(m_viewTypeId);
+		retVal = retVal && archive.Process(viewTypeId);
 		retVal = retVal && archive.EndTag(viewTypeIdTag);		
 
 		if (retVal && !filePath.isEmpty()){
