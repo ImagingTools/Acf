@@ -139,7 +139,7 @@ typedef iqtdoc::CDocumentMetaInfoEditorComp DocumentMetaInfoEditor;
 
 typedef iloggui::CLogGuiComp LogGui;
 typedef iloggui::CTextLogGuiComp TextLogGui;
-typedef iloggui::CMessageBoxComp MessageBox;
+typedef iloggui::CMessageBoxComp MessageBoxBasedLog;
 
 
 } // namespace QtGuiPck

@@ -310,7 +310,7 @@ I_EXPORT_COMPONENT(
 			"File List");
 
 I_EXPORT_COMPONENT(
-			MessageBox,
+			MessageBoxBasedLog,
 			"Logging component use a dialog for message visualization",
 			"Message Log Dialog");
 
