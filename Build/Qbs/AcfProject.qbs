@@ -65,6 +65,7 @@ Project{
 
 		destinationDirectory: "Config"
 
+		Depends{ name: "acf" }
 		Depends{ name: "BasePck" }
 		Depends{ name: "BitmapPck" }
 		Depends{ name: "QtPck" }

@@ -4,7 +4,7 @@
 // Qt includes
 #include <QtCore/QFileInfo>
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) && (QT_VERSION < 0x050000)
 #include <Carbon/Carbon.h>
 #endif
 
@@ -128,7 +128,7 @@ void CSingletonDocApplicationComp::OnComponentCreated()
 				dataPtr->processId = QCoreApplication::applicationPid();
 			}
 			else{
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) && (QT_VERSION < 0x050000)
 				ProcessSerialNumber psn;
 				if (GetProcessForPID(dataPtr->processId, &psn) == 0){
 					m_isAlreadyRunning = true;

@@ -138,7 +138,7 @@ bool CViewport::OnSelectChange(
 }
 
 
-bool CViewport::OnMouseButton(
+bool CViewport::OnViewMouseButton(
 		const IShapeView& view,
 		const istd::CIndex2d& position,
 		Qt::MouseButton buttonType,
@@ -149,7 +149,7 @@ bool CViewport::OnMouseButton(
 		m_framePtr->UpdateButtonsState();
 	}
 
-	return m_framePtr->OnMouseButton(view, position, buttonType, state, shapePtr);
+	return m_framePtr->OnViewMouseButton(view, position, buttonType, state, shapePtr);
 }
 
 
@@ -287,7 +287,7 @@ void CViewport::mousePressEvent(QMouseEvent* eventPtr)
 {
 	Q_ASSERT(eventPtr != NULL);
 
-	SetKeysState(GetKeysState(*eventPtr));
+	SetKeysState(GetMouseKeysState(*eventPtr));
 
 	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 	Qt::MouseButton buttonState = eventPtr->button();
@@ -326,17 +326,17 @@ void CViewport::mouseMoveEvent(QMouseEvent* eventPtr)
 {
 	Q_ASSERT(eventPtr != NULL);
 
-	SetKeysState(GetKeysState(*eventPtr));
+	SetKeysState(GetMouseKeysState(*eventPtr));
 
 	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 
-	OnMouseMove(pos);
+{
+	Q_ASSERT(eventPtr != NULL);
 
-	BaseClass2::mouseMoveEvent(eventPtr);
-}
+	SetKeysState(GetMouseKeysState(*eventPtr));
 
+	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 
-// reimplemented (iview::CViewBase)
 
 void CViewport::SetMousePointer(MousePointerMode mode)
 {
@@ -357,7 +357,7 @@ void CViewport::UpdateRectArea(const i2d::CRect& rect)
 
 // static protected methods
 
-int CViewport::GetKeysState(const QMouseEvent& mouseEvent)
+int CViewport::GetMouseKeysState(const QMouseEvent& mouseEvent)
 {
 	Qt::MouseButtons buttons = mouseEvent.buttons();
 	Qt::KeyboardModifiers modifiers = mouseEvent.modifiers();

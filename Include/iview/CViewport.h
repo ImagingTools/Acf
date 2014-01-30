@@ -67,7 +67,7 @@ public:
 				const istd::CIndex2d& position,
 				const iview::IInteractiveShape& shape,
 				bool state);
-	virtual bool OnMouseButton(
+	virtual bool OnViewMouseButton(
 				const iview::IShapeView& view,
 				const istd::CIndex2d& position,
 				Qt::MouseButton buttonType,
@@ -110,7 +110,7 @@ protected:
 	virtual void OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox);
 
 	// static methods
-	int GetKeysState(const QMouseEvent& event);
+	int GetMouseKeysState(const QMouseEvent& event);
 
 private:
 	QCursor m_mousePointerModes[MPM_LAST + 1];

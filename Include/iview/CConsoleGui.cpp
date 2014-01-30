@@ -636,7 +636,7 @@ bool CConsoleGui::OnSelectChange(const iview::IShapeView& view, const istd::CInd
 }
 
 
-bool CConsoleGui::OnMouseButton(
+bool CConsoleGui::OnViewMouseButton(
 			const iview::IShapeView& view,
 			const istd::CIndex2d& position,
 			Qt::MouseButton buttonType,

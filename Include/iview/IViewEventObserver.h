@@ -33,7 +33,7 @@ public:
 	/**
 		Message handler for mouse button click.
 	*/
-	virtual bool OnMouseButton(const IShapeView& view, const istd::CIndex2d& position, Qt::MouseButton buttonType, bool state, const iview::IInteractiveShape* shapePtr) = 0;
+	virtual bool OnViewMouseButton(const IShapeView& view, const istd::CIndex2d& position, Qt::MouseButton buttonType, bool state, const iview::IInteractiveShape* shapePtr) = 0;
 };
 
 
