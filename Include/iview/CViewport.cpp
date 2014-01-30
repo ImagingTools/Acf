@@ -306,7 +306,7 @@ void CViewport::mouseReleaseEvent(QMouseEvent* eventPtr)
 {
 	Q_ASSERT(eventPtr != NULL);
 
-	SetKeysState(GetKeysState(*eventPtr));
+	SetKeysState(GetMouseKeysState(*eventPtr));
 
 	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 
@@ -330,13 +330,13 @@ void CViewport::mouseMoveEvent(QMouseEvent* eventPtr)
 
 	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 
-{
-	Q_ASSERT(eventPtr != NULL);
+	OnMouseMove(pos);
 
-	SetKeysState(GetMouseKeysState(*eventPtr));
+	BaseClass2::mouseMoveEvent(eventPtr);
+}
 
-	istd::CIndex2d pos = iqt::GetCIndex2d(eventPtr->pos());
 
+// reimplemented (iview::CViewBase)
 
 void CViewport::SetMousePointer(MousePointerMode mode)
 {
