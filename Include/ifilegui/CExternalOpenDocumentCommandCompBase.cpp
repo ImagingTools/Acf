@@ -63,7 +63,20 @@ void CExternalOpenDocumentCommandCompBase::OnOpenDocument()
 			QStringList arguments;
 			arguments << m_documentFileCompPtr->GetPath();
 
-			QProcess::startDetached(m_applicationPathCompPtr->GetPath(), arguments);
+			QString applicationPath = m_applicationPathCompPtr->GetPath();
+			QFileInfo applicationFileInfo(applicationPath);
+
+#ifdef Q_OS_WIN32
+			if (applicationFileInfo.suffix().isEmpty()){
+				applicationPath += ".exe";
+			}
+#endif
+#ifdef Q_OS_MACX
+			if (!applicationFileInfo.exists() && applicationFileInfo.suffix().isEmpty()){
+				applicationPath += ".app";
+			}
+#endif
+			QProcess::startDetached(applicationPath, arguments);
 		}
 	}
 }
