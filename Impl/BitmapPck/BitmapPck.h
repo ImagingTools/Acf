@@ -12,6 +12,7 @@
 #include "iimg/CBitmapDocument.h"
 #include "iimg/CComposedBitmapProviderComp.h"
 #include "iimg/CBitmapDocumentFilePersistenceComp.h"
+#include "iimg/CMultiLayerBitmap.h"
 
 
 /**
@@ -57,6 +58,11 @@ typedef icomp::TModelCompWrap<
 typedef icomp::TModelCompWrap<iimg::CComposedBitmapProviderComp> ComposedBitmapProvider;
 
 typedef iimg::CBitmapDocumentFilePersistenceComp BitmapDocumentLoader;
+
+typedef icomp::TModelCompWrap<
+			icomp::TMakeComponentWrap<
+						iimg::CMultiLayerBitmap,
+						iimg::IMultiBitmapProvider> > MultiLayerBitmap;
 
 
 } // namespace BitmapPck

@@ -4,6 +4,7 @@
 
 // ACF includes
 #include "imod/TModelWrap.h"
+#include "iimg/CGeneralBitmap.h"
 
 namespace iimg
 {
@@ -18,7 +19,7 @@ iimg::IBitmap* CMultiLayerBitmap::InsertBitmap(
 			bool releaseFlag, 
 			int linesDifference /*= 0*/)
 {
-	imod::TModelWrap<iimg::IBitmap>* resultPtr = new imod::TModelWrap<iimg::IBitmap>();
+	imod::TModelWrap<iimg::CGeneralBitmap>* resultPtr = new imod::TModelWrap<iimg::CGeneralBitmap>();
 	if (!resultPtr->CreateBitmap(pixelFormat, size, dataPtr, releaseFlag, linesDifference)){
 		delete resultPtr;
 

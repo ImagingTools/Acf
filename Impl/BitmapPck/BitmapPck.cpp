@@ -48,6 +48,11 @@ I_EXPORT_COMPONENT(
 			"Multi bitmap serializer",
 			"Bitmap Multi Loader File Serializer" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Bitmap Loader"));
 
+I_EXPORT_COMPONENT(
+			MultiLayerBitmap,
+			"Layered bitmap",
+			IM_TAG("Image Bitmap Multi Layer"));
+
 
 } // namespace BitmapPck
 
