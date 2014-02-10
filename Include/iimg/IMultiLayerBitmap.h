@@ -10,7 +10,7 @@ namespace iimg
 {
 
 
-class IMultiLayerBitmap: public iimg::IMultiBitmapProvider
+class IMultiLayerBitmap: virtual public iimg::IMultiBitmapProvider
 {
 public:
 	virtual void Reset() = 0;
@@ -31,4 +31,5 @@ public:
 
 
 #endif // iimg_IMultiLayerBitmap_included
+
 
