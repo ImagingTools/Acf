@@ -179,7 +179,7 @@ QWidget* CMultiPageGuiCompBase::InitWidgetToParent(QWidget* parentPtr)
 		widgetPtr->SetPageIconSize(QSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr));
 	}
 
-	connect(widgetPtr, SIGNAL(EmitPageIndexChanged(int)), this, SLOT(OnPageChanged(int pageIndex)));
+	connect(widgetPtr, SIGNAL(EmitPageIndexChanged(int)), this, SLOT(OnPageChanged(int)));
 
 	m_currentPageIndex = widgetPtr->GetCurrentPage();
 
