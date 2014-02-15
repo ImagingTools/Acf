@@ -16,13 +16,6 @@ CDocumentImportExportCommandComp::CDocumentImportExportCommandComp()
 	m_importCommand("Import...", 100, ibase::ICommand::CF_GLOBAL_MENU, iqtdoc::CMainWindowGuiComp::GI_DOCUMENT + 100),
 	m_exportCommand("Export...", 100, ibase::ICommand::CF_GLOBAL_MENU, iqtdoc::CMainWindowGuiComp::GI_DOCUMENT + 100)
 {
-	connect(&m_importCommand, SIGNAL(triggered()), this, SLOT(OnImport()));
-	m_fileCommands.InsertChild(&m_importCommand);
-
-	connect(&m_exportCommand, SIGNAL(triggered()), this, SLOT(OnExport()));
-	m_fileCommands.InsertChild(&m_exportCommand);
-
-	m_rootCommands.InsertChild(&m_fileCommands);
 }
 
 
@@ -54,8 +47,23 @@ void CDocumentImportExportCommandComp::OnComponentCreated()
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
 
-	m_importCommand.SetName(*m_importCommandNameAttrPtr);
-	m_exportCommand.SetName(*m_exportCommandNameAttrPtr);
+	if (m_importCommandNameAttrPtr.IsValid()){
+		m_importCommand.SetName(*m_importCommandNameAttrPtr);
+
+		connect(&m_importCommand, SIGNAL(triggered()), this, SLOT(OnImport()));
+
+		m_fileCommands.InsertChild(&m_importCommand);
+	}
+
+	if (m_exportCommandNameAttrPtr.IsValid()){
+		m_exportCommand.SetName(*m_exportCommandNameAttrPtr);
+
+		connect(&m_exportCommand, SIGNAL(triggered()), this, SLOT(OnExport()));
+
+		m_fileCommands.InsertChild(&m_exportCommand);
+	}
+
+	m_rootCommands.InsertChild(&m_fileCommands);
 
 	UpdateCommands();
 }
