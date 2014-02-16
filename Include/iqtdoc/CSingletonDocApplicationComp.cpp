@@ -23,16 +23,16 @@ CSingletonDocApplicationComp::CSingletonDocApplicationComp()
 
 bool CSingletonDocApplicationComp::InitializeApplication(int argc, char** argv)
 {
-	if (m_isAlreadyRunning){
-		ShareDocumentsForOpening(argc, argv);
-
-		qDebug("Application already started");
-
-		return false;
-	}
-
 	if (m_slaveApplicationCompPtr.IsValid()){
-		return m_slaveApplicationCompPtr->InitializeApplication(argc, argv);
+		if (m_slaveApplicationCompPtr->InitializeApplication(argc, argv)){
+			if (m_runtimeStatusProviderModelCompPtr.IsValid()){
+				if (m_runtimeStatusProviderModelCompPtr->AttachObserver(this)){
+					OnUpdate(0, NULL);
+				}
+			}
+
+			return true;
+		}
 	}
 
 	return false;
@@ -49,8 +49,10 @@ int CSingletonDocApplicationComp::Execute(int argc, char** argv)
 		return 0;
 	}
 
-	if (m_slaveApplicationCompPtr.IsValid()){
-		return m_slaveApplicationCompPtr->Execute(argc, argv);
+	if (InitializeApplication(argc, argv)){
+		if (m_slaveApplicationCompPtr.IsValid()){
+			return m_slaveApplicationCompPtr->Execute(argc, argv);
+		}
 	}
 
 	return -1;
@@ -138,10 +140,6 @@ void CSingletonDocApplicationComp::OnComponentCreated()
 #endif//!Q_OS_MAC
 			}
 		}
-	}
-
-	if (m_runtimeStatusProviderModelCompPtr.IsValid()){
-		m_runtimeStatusProviderModelCompPtr->AttachObserver(this);
 	}
 }
 

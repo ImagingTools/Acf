@@ -36,8 +36,8 @@ public:
 		I_ASSIGN(m_documentManagerCompPtr, "DocumentManager", "Manager of the documents in the MDI workspace", true, "DocumentManager");
 		I_ASSIGN_TO(m_documentManagerModelCompPtr, m_documentManagerCompPtr, true);
 		I_ASSIGN(m_documentTypeIdAttrPtr, "DocumentTypeId", "ID of the document type used by MDI workspace", true, "Default");
-		I_ASSIGN(m_importCommandNameAttrPtr, "ImportCommandName", "Name/Text of the import command shown in File menu", true, "Import...");
-		I_ASSIGN(m_exportCommandNameAttrPtr, "ExportCommandName", "Name/Text of the export command shown in File menu", true, "Export...");
+		I_ASSIGN(m_importCommandNameAttrPtr, "ImportCommandName", "Name/Text of the import command shown in File menu", false, "Import...");
+		I_ASSIGN(m_exportCommandNameAttrPtr, "ExportCommandName", "Name/Text of the export command shown in File menu", false, "Export...");
 	I_END_COMPONENT;
 
 	CDocumentImportExportCommandComp();
