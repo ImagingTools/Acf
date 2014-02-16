@@ -20,6 +20,20 @@ namespace iqtgui
 class IMainWindowComponent: virtual public istd::IPolymorphic
 {
 public:
+
+	/**
+		Flags describing behaviour of the main window component.
+	*/
+	enum MainWindowComponentFlags
+	{
+		WCF_NONE = 0x0,
+
+		/**
+			Window component is permanent shown and cannot be closed by user.
+		*/
+		WCF_PERMANENT = 0x1
+	};
+
 	/**
 		Add this component to main window.
 	*/
@@ -41,6 +55,12 @@ public:
 		Get the title of the main window component.
 	*/
 	virtual QString GetTitle() const = 0;
+
+	/**
+		Get properties of of the window component.
+		\sa MainWindowComponentFlags
+	*/
+	virtual int GetFlags() const = 0;
 };
 
 

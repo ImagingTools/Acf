@@ -100,6 +100,16 @@ QString CDockWidgetGuiComp::GetTitle() const
 }
 
 
+int CDockWidgetGuiComp::GetFlags() const
+{
+	if (*m_dockFeaturesAttrPtr == 0){
+		return WCF_PERMANENT;
+	}
+
+	return WCF_NONE;
+}
+
+
 // protected methods
 
 // reimplemented (CGuiComponentBase)

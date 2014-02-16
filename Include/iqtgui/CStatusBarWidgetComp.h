@@ -44,6 +44,7 @@ public:
 	virtual bool RemoveFromMainWindow(QMainWindow& mainWindow);
 	virtual QByteArray GetAssociatedDocumentTypeId() const;
 	virtual QString GetTitle() const;
+	virtual int GetFlags() const;
 
 private:
 	I_MULTIREF(iqtgui::IGuiObject, m_statusBarWidgetsCompPtr);

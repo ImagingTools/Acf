@@ -119,6 +119,16 @@ QString CToolBarGuiCompBase::GetTitle() const
 }
 
 
+int CToolBarGuiCompBase::GetFlags() const
+{
+	if (*m_dockFeaturesAttrPtr == 0){
+		return WCF_PERMANENT;
+	}
+
+	return WCF_NONE;
+}
+
+
 // protected methods
 
 // reimplemented (CGuiComponentBase)
