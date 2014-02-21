@@ -108,11 +108,6 @@ I_EXPORT_COMPONENT(
 			"Help About Widget" IM_TAG("Application"));
 
 I_EXPORT_COMPONENT(
-			TabbedMultiViewGui,
-			"Tabbed view container for different observer widgets",
-			"Widget Observer View Model" IM_TAG("Editor Composition"));
-
-I_EXPORT_COMPONENT(
 			SimpleMainGui,
 			"Simple UI for a main window based application",
 			"Simple Main" IM_TAG("Application"));
