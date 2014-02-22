@@ -29,12 +29,6 @@ class CToolBarGuiCompBase:
 public:
 	typedef iqtgui::TGuiComponentBase<QToolBar> BaseClass;
 
-	enum DockFeatures
-	{
-		DF_MOVEABLE = 1,
-		DF_FLOATABLE = 2
-	};
-
 	I_BEGIN_COMPONENT(CToolBarGuiCompBase);
 		I_REGISTER_INTERFACE(iqtgui::IMainWindowComponent);
 		I_ASSIGN(m_toolBarAreaAttrPtr, "ToolBarArea", "Specify the area for this toolbar\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);

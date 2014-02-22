@@ -20,6 +20,12 @@ namespace iqtgui
 class IMainWindowComponent: virtual public istd::IPolymorphic
 {
 public:
+	enum DockFeatures
+	{
+		DF_PERMANENT = 0,
+		DF_MOVEABLE = 1,
+		DF_FLOATABLE = 2
+	};
 
 	/**
 		Flags describing behaviour of the main window component.

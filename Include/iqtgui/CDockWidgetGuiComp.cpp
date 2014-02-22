@@ -102,7 +102,7 @@ QString CDockWidgetGuiComp::GetTitle() const
 
 int CDockWidgetGuiComp::GetFlags() const
 {
-	if (*m_dockFeaturesAttrPtr == 0){
+	if (*m_dockFeaturesAttrPtr == DF_PERMANENT){
 		return WCF_PERMANENT;
 	}
 

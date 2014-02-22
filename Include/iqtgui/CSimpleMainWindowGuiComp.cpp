@@ -310,7 +310,7 @@ void CSimpleMainWindowGuiComp::OnRestoreSettings(const QSettings& settings)
 
 	for (int i = 0; i < m_mainWindowComponentsCompPtr.GetCount(); ++i){
 		iqtgui::IMainWindowComponent* mainWindowComponentPtr = m_mainWindowComponentsCompPtr[i];
-		if ((mainWindowComponentPtr != NULL) && ((mainWindowComponentPtr->GetFlags() & iqtgui::IMainWindowComponent::WCF_PERMANENT) == 0)){
+		if (mainWindowComponentPtr != NULL){
 			iqtgui::IGuiObject* guiPtr = dynamic_cast<iqtgui::IGuiObject*>(mainWindowComponentPtr);
 			if ((guiPtr != NULL) && guiPtr->IsGuiCreated()){
 				QWidget* widgetPtr = guiPtr->GetWidget();
@@ -320,18 +320,24 @@ void CSimpleMainWindowGuiComp::OnRestoreSettings(const QSettings& settings)
 					isVisibleToParent = widgetPtr->isVisibleTo(parentPtr);
 				}
 
+				bool isPermanent = (mainWindowComponentPtr->GetFlags() & iqtgui::IMainWindowComponent::WCF_PERMANENT);
+				if (isPermanent){
+					isVisibleToParent = true;
+				}
+
 				widgetPtr->installEventFilter(this);
 
 				m_mainComponentVisibilityMap[mainWindowComponentPtr] = isVisibleToParent;
 
-				iqtgui::CHierarchicalCommand* commandPtr = new iqtgui::CHierarchicalCommand(mainWindowComponentPtr->GetTitle());
-				commandPtr->SetStaticFlags(iqtgui::CHierarchicalCommand::CF_ONOFF | iqtgui::CHierarchicalCommand::CF_GLOBAL_MENU);
+				if (!isPermanent){
+					iqtgui::CHierarchicalCommand* commandPtr = new iqtgui::CHierarchicalCommand(mainWindowComponentPtr->GetTitle());
+					commandPtr->SetStaticFlags(iqtgui::CHierarchicalCommand::CF_ONOFF | iqtgui::CHierarchicalCommand::CF_GLOBAL_MENU);
+					commandPtr->setChecked(isVisibleToParent);
 
-				commandPtr->setChecked(isVisibleToParent);
+					m_showOtherWindows.InsertChild(commandPtr, true);
 
-				m_showOtherWindows.InsertChild(commandPtr, true);
-
-				connect(commandPtr, SIGNAL(toggled(bool)), this, SLOT(OnShowOtherCommandTriggered(bool)));
+					connect(commandPtr, SIGNAL(toggled(bool)), this, SLOT(OnShowOtherCommandTriggered(bool)));
+				}
 			}
 		}
 	}
