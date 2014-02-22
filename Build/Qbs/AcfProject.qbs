@@ -45,6 +45,7 @@ Project{
 			"../../Impl/QtGuiPck/Qbs/QtGuiPck.qbs",
 			"../../Impl/QtViewPck/Qbs/QtViewPck.qbs",
 			"../../Impl/PackagePck/Qbs/PackagePck.qbs"
+			"../../Impl/FileGuiPck/Qbs/FileGuiPck.qbs"
 		]
 	}
 
@@ -73,5 +74,6 @@ Project{
 		Depends{ name: "QtGuiPck" }
 		Depends{ name: "QtViewPck" }
 		Depends{ name: "PackagePck" }
+		Depends{ name: "FileGuiPck" }
 	}
 }
