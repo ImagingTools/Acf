@@ -53,7 +53,7 @@ bool CStackWidgetDelegate::SetPageHeaderPosition(QWidget& /*containerWidget*/, P
 int CStackWidgetDelegate::InsertPage(
 		QWidget& containerWidget,
 		QWidget* pageWidgetPtr,
-		const QString& /*pageTitle*/,
+		const QString& pageTitle,
 		int pageIndex)
 {
 	QStackedWidget* stackedWidgetPtr = dynamic_cast<QStackedWidget*>(&containerWidget);
@@ -61,9 +61,14 @@ int CStackWidgetDelegate::InsertPage(
 		return -1;
 	}
 
-	QWidget* panelPtr = new QWidget(stackedWidgetPtr);
+	QWidget* panelPtr = pageTitle.isEmpty() ? new QWidget(&containerWidget) : new QGroupBox(pageTitle, &containerWidget);
+	panelPtr->setObjectName(QString("Page %1").arg(pageIndex));
 	QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-	panelLayoutPtr->setMargin(0);
+
+	if (pageTitle.isEmpty()){
+		panelLayoutPtr->setMargin(0);
+	}
+
 	panelLayoutPtr->addWidget(pageWidgetPtr);
 
 	return stackedWidgetPtr->insertWidget(pageIndex, panelPtr);
