@@ -300,6 +300,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IMultiPageDocumentProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\ITextDocument.h"
 				>
 			</File>
