@@ -14,6 +14,11 @@
 #endif
 
 
+#if defined(Q_OS_MACX) && (QT_VERSION >= 0x040000) && (QT_VERSION < 0x050000)
+void qt_mac_set_menubar_icons(bool enable);
+#endif
+
+
 namespace iqtgui
 {
 
@@ -39,6 +44,25 @@ const iqtgui::IGuiObject* CGuiApplicationComp::GetApplicationGui() const
 
 
 // reimplemented (ibase::IApplication)
+
+bool CGuiApplicationComp::InitializeApplication(int argc, char** argv)
+{
+#if QT_VERSION > 0x050000
+	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+
+#if defined(Q_OS_MACX) && (QT_VERSION >= 0x040000) && (QT_VERSION < 0x050000)
+	QCoreApplication::setAttribute(Qt::AA_DontShowIconsInMenus, !*m_useMenuIconsOnMacAttrPtr);
+	qt_mac_set_menubar_icons(*m_useMenuIconsOnMacAttrPtr);
+#endif
+
+	if (BaseClass::InitializeApplication(argc, argv)){
+		return true;
+	}
+
+	return false;
+}
+
 
 int CGuiApplicationComp::Execute(int argc, char** argv)
 {

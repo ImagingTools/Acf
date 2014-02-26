@@ -41,6 +41,7 @@ public:
 		I_ASSIGN_TO(m_allowApplicationCloseModelCompPtr, m_allowApplicationCloseCompPtr, false);
 		I_ASSIGN(m_frameSpaceSizeAttrPtr, "FrameSpaceSize", "Number of pixels will be added on the all window sides", false, 9);
 		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
+		I_ASSIGN(m_useMenuIconsOnMacAttrPtr, "UseMenuIconsOnMac", "If enabled, the menu icons will be used in the application's menu bar on Mac OS", true, false);
 	I_END_COMPONENT;
 
 	CGuiApplicationComp();
@@ -49,6 +50,7 @@ public:
 	virtual const iqtgui::IGuiObject* GetApplicationGui() const;
 
 	// reimplemented (ibase::IApplication)
+	virtual bool InitializeApplication(int argc, char** argv);
 	virtual int Execute(int argc, char** argv);
 	virtual QString GetHelpText() const;
 
@@ -94,6 +96,7 @@ private:
 	I_REF(imod::IModel, m_allowApplicationCloseModelCompPtr);
 	I_ATTR(int, m_frameSpaceSizeAttrPtr);
 	I_ATTR(int, m_uiStartModeAttrPtr);
+	I_ATTR(bool, m_useMenuIconsOnMacAttrPtr);
 
 	/**
 		\note The main widget must be deleted manually.
