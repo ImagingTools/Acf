@@ -78,7 +78,6 @@ private:
 
 	QString m_description;
 	QString m_keywords;
-	int m_category;
 
 	const icomp::IRegistry& m_registry;
 };

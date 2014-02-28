@@ -182,7 +182,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 					rgbToHsvTransformation.GetValueAt(rgbColor, hsvColor);
 					hsv = hsvColor;
 
-					pixelValueInfo = QObject::tr("[Red:%1% (%2), Green:%3% (%4), Blue:%5% (%6) Hue: %7°, Saturation: %8, Value: %9]")
+					pixelValueInfo = QObject::tr("[Red:%1% (%2), Green:%3% (%4), Blue:%5% (%6) Hue: %7, Saturation: %8, Value: %9]")
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED)* 100))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED)* 255))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_BLUE)* 100))

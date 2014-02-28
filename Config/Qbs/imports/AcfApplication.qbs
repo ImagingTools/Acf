@@ -1,4 +1,4 @@
-import qbs.base 1.0
+	import qbs.base 1.0
 // Standard settings for an ACF application
 
 Application{
@@ -7,6 +7,11 @@ Application{
 	Depends{ name: "acf" }
 	Depends{ name: "Qt.core" }
 	Depends{ name: "cpp" }
+
+	Properties{
+		condition: qbs.toolchain.contains("clang")
+		cpp.cxxFlags: ['-Wno-format-security', '-Wno-unknown-pragmas']
+	}
 
 	cpp.defines: ['I_QBS']
 

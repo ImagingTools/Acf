@@ -70,8 +70,9 @@ Project{
 		Depends{ name: "BasePck" }
 		Depends{ name: "BitmapPck" }
 		Depends{ name: "QtPck" }
-		Depends{ name: "FilePck" }
-		Depends{ name: "QtGuiPck" }
+        Depends{ name: "FilePck" }
+        Depends{ name: "FileGuiPck" }
+        Depends{ name: "QtGuiPck" }
 		Depends{ name: "QtViewPck" }
 		Depends{ name: "PackagePck" }
 		Depends{ name: "FileGuiPck" }

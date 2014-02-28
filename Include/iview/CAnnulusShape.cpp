@@ -361,9 +361,7 @@ void CAnnulusShape::DrawAnnulus(QPainter& painter, istd::CIndex2d center, int mi
 
 	i2d::CRect maxBox1(center.GetX() - maxRadius, center.GetY() - maxRadius, center.GetX() + maxRadius + 1, center.GetY() + maxRadius + 1);
 	i2d::CRect minBox1(center.GetX() - minRadius, center.GetY() - minRadius, center.GetX() + minRadius + 1, center.GetY() + minRadius + 1);
-	i2d::CRect bitmapBox1 = maxBox1.GetIntersection(iqt::GetCRect(painter.clipRegion().boundingRect()));
 
-	QRect tempBitmapRect1(iqt::GetQRect(i2d::CRect(bitmapBox1.GetSize())));
 	QPainterPath painterPatch;
 
 	painterPatch.addEllipse(iqt::GetQRect(minBox1));

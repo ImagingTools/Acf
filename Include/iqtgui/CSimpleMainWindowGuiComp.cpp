@@ -18,8 +18,8 @@ CSimpleMainWindowGuiComp::CSimpleMainWindowGuiComp()
 	:m_commandsObserver(*this),
 	m_menuCommands("Global"),
 	m_showToolBarsCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
-	m_settingsCommand("", 200, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
-	m_showOtherWindows("", 300)
+	m_showOtherWindows("", 300),
+	m_settingsCommand("", 200, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
 {
 	connect(&m_showToolBarsCommand, SIGNAL(triggered()), this, SLOT(OnShowToolbars()));
 	connect(&m_settingsCommand, SIGNAL(triggered()), this, SLOT(OnSettings()));

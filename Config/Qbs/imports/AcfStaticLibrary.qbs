@@ -10,6 +10,11 @@ StaticLibrary{
 
 	acf.projectRoot: path + "/../../.."
 
+	Properties{
+		condition: qbs.toolchain.contains("clang")
+		cpp.cxxFlags: ['-Wno-format-security', '-Wno-unknown-pragmas']
+	}
+
 	cpp.defines: ['I_QBS']
 	cpp.includePaths: ["../..", product.buildDirectory]
 
