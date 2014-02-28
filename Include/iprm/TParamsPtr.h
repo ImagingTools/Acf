@@ -101,7 +101,9 @@ template <class ParameterInterace>
 void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool I_IF_DEBUG(isObligatory))
 {
 	if ((parameterSetPtr != NULL) && !parameterId.isEmpty()){
-		BaseClass::SetPtr(dynamic_cast<const ParameterInterace*>(parameterSetPtr->GetParameter(parameterId)));
+		const iser::ISerializable* parameterPtr = parameterSetPtr->GetParameter(parameterId);
+
+		BaseClass::SetPtr(dynamic_cast<const ParameterInterace*>(parameterPtr));
 
 		I_IF_DEBUG(
 			if (!BaseClass::IsValid() && isObligatory){
@@ -113,7 +115,12 @@ void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, cons
 
 				QString idList = existingIds.join(", ");
 
-				qDebug("Parameter %s was not found in the parameter set. Following parameter IDs are registered: %s", qPrintable(parameterId), qPrintable(idList));
+				if (parameterPtr == NULL){
+					qDebug("Parameter %s was not found in the parameter set. Following parameter IDs are registered: %s", qPrintable(parameterId), qPrintable(idList));
+				}
+				else{
+					qDebug("Parameter %s was found in the parameter set, but it doesn't implement the required interface: %s", qPrintable(parameterId), qPrintable(typeid(ParameterInterace).name()));				
+				}
 			}
 		)
 	}
