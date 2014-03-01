@@ -104,7 +104,7 @@ typedef icomp::TModelCompWrap<iprm::CVariableParamComp> VariableParam;
 typedef icomp::TModelCompWrap<iprm::CEnableableParamComp> EnableableParam;
 typedef icomp::TModelCompWrap<iprm::CSelectionParamComp> SelectionParam;
 typedef iprm::CManagerParamsSetShadowerComp ManagerParamsSetShadower;
-typedef iprm::CSelectionConstraintsComp SelectionConstraints;
+typedef icomp::TModelCompWrap<iprm::CSelectionConstraintsComp> SelectionConstraints;
 typedef icomp::TModelCompWrap<iprm::CNameParamComp> NameParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;

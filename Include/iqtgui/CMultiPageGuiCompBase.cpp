@@ -353,39 +353,32 @@ int CMultiPageGuiCompBase::PageModel::GetOptionsCount() const
 {
 	Q_ASSERT(m_parentPtr != NULL);
 
-	return m_parentPtr->m_pageNamesAttrPtr.GetCount();
+	return m_parentPtr->GetPagesCount();
 }
 
 
 QString CMultiPageGuiCompBase::PageModel::GetOptionName(int index) const
 {
 	Q_ASSERT(m_parentPtr != NULL);
-	Q_ASSERT(index < m_parentPtr->m_pageNamesAttrPtr.GetCount());
-
-	return m_parentPtr->m_pageNamesAttrPtr[index];
-}
-
-
-QString CMultiPageGuiCompBase::PageModel::GetOptionDescription(int index) const
-{
-	Q_ASSERT(m_parentPtr != NULL);
 	Q_ASSERT(index >= 0);
 
-	CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<CMultiPageWidget*>(m_parentPtr->GetWidget());
-	if (multiPageWidgetPtr != NULL){
-		return multiPageWidgetPtr->GetPageTitle(index);
+	if (index < m_parentPtr->m_pageNamesAttrPtr.GetCount()){
+		return m_parentPtr->m_pageNamesAttrPtr[index];
 	}
 
 	return QString();
 }
 
 
+QString CMultiPageGuiCompBase::PageModel::GetOptionDescription(int /*index*/) const
+{
+	return QString();
+}
+
+
 QByteArray CMultiPageGuiCompBase::PageModel::GetOptionId(int index) const
 {
-	Q_ASSERT(m_parentPtr != NULL);
-	Q_ASSERT(index < m_parentPtr->m_pageNamesAttrPtr.GetCount());
-
-	return m_parentPtr->m_pageNamesAttrPtr[index].toUtf8();
+	return GetOptionName(index).toUtf8();
 }
 
 
@@ -406,6 +399,20 @@ bool CMultiPageGuiCompBase::PageModel::IsOptionEnabled(int index) const
 	}
 
 	return true;
+}
+
+
+// reimplemented (IMultiVisualStatusProvider)
+
+int CMultiPageGuiCompBase::PageModel::GetStatusesCount() const
+{
+	return m_parentPtr->m_slaveWidgetsVisualCompPtr.GetCount();
+}
+
+
+const IVisualStatus* CMultiPageGuiCompBase::PageModel::GetVisualStatus(int statusIndex) const
+{
+	return m_parentPtr->m_slaveWidgetsVisualCompPtr[statusIndex];
 }
 
 
