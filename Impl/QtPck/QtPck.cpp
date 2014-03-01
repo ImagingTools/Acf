@@ -25,7 +25,7 @@ I_EXPORT_COMPONENT(
 
 I_EXPORT_COMPONENT(
 			IniSettingsProvider,
-			"Provider for the settings taken from INI file",
+			"Provider for the settings taken from the INI file",
 			"INI Settings QSettings Registry Saver" IM_TAG("Application Persistence"));
 
 I_EXPORT_COMPONENT(

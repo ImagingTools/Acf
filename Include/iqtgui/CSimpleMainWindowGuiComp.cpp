@@ -4,6 +4,13 @@
 // Qt includes
 #include <QtCore/QSettings>
 
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QStatusBar>
+#else
+#include <QtGui/QStatusBar>
+#endif
+
+
 // ACF includes
 #include "iqt/CSignalBlocker.h"
 
@@ -18,10 +25,14 @@ CSimpleMainWindowGuiComp::CSimpleMainWindowGuiComp()
 	:m_commandsObserver(*this),
 	m_menuCommands("Global"),
 	m_showToolBarsCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
+	m_fullScreenCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
 	m_showOtherWindows("", 300),
 	m_settingsCommand("", 200, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
 {
+	m_fullScreenCommand.setShortcut(Qt::Key_F11);
+
 	connect(&m_showToolBarsCommand, SIGNAL(triggered()), this, SLOT(OnShowToolbars()));
+	connect(&m_fullScreenCommand, SIGNAL(triggered()), this, SLOT(OnFullScreen()));
 	connect(&m_settingsCommand, SIGNAL(triggered()), this, SLOT(OnSettings()));
 	connect(&m_aboutCommand, SIGNAL(triggered()), this, SLOT(OnAbout()));
 
@@ -247,6 +258,8 @@ void CSimpleMainWindowGuiComp::UpdateViewCommands(iqtgui::CHierarchicalCommand& 
 		viewCommand.InsertChild(&m_showToolBarsCommand, false);
 	}
 
+	viewCommand.InsertChild(&m_fullScreenCommand, false);
+
 	viewCommand.InsertChild(&m_showOtherWindows, false);
 }
 
@@ -465,10 +478,11 @@ void CSimpleMainWindowGuiComp::OnRetranslate()
 	
 	// View commands
 	m_showToolBarsCommand.SetVisuals(tr("&Show Toolbars"), tr("Show Toolbars"), tr("Show and hide toolbars"));
+	m_fullScreenCommand.SetVisuals(tr("&Full Screen"), tr("Full Screen"), tr("Turn full screen mode on/off"));
 	m_showOtherWindows.SetVisuals(tr("Other Windows"), tr("Other Windows"), tr("Show additional windows"));
 
 	// Tools commands
-	m_settingsCommand.SetVisuals(tr("&Settings"), tr("Settings"), tr("Show global application settings"), QIcon(":/Icons/Settings.svg"));
+	m_settingsCommand.SetVisuals(tr("&Preferences"), tr("Preferences"), tr("Show global application preferences"), QIcon(":/Icons/Settings.svg"));
 	m_settingsCommand.setMenuRole(QAction::PreferencesRole);
 
 	// Help commands
@@ -533,6 +547,40 @@ bool CSimpleMainWindowGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 void CSimpleMainWindowGuiComp::OnShowToolbars()
 {
 	SetToolBarsVisible(m_showToolBarsCommand.isChecked());
+}
+
+
+void CSimpleMainWindowGuiComp::OnFullScreen()
+{
+	QMainWindow* mainWidgetPtr = GetQtWidget();
+
+	Q_ASSERT(mainWidgetPtr != NULL);
+
+	QWidget* parentWidgetPtr = mainWidgetPtr->parentWidget();
+	if (parentWidgetPtr == NULL){
+		parentWidgetPtr = mainWidgetPtr;
+	}
+
+	if (parentWidgetPtr == NULL){
+		return;
+	}
+
+	QStatusBar* statusBarPtr = mainWidgetPtr->statusBar();
+	if (parentWidgetPtr->isFullScreen()){
+		parentWidgetPtr->showNormal();
+		statusBarPtr->show();
+
+		mainWidgetPtr->restoreGeometry(m_beforeFullScreenGeometry);
+		mainWidgetPtr->restoreState(m_beforeFullScreenState);
+	}
+	else{
+		m_beforeFullScreenGeometry = mainWidgetPtr->saveGeometry();
+		m_beforeFullScreenState = mainWidgetPtr->saveState();
+
+		statusBarPtr->hide();
+		SetToolBarsVisible(false);
+		parentWidgetPtr->showFullScreen();
+	}
 }
 
 

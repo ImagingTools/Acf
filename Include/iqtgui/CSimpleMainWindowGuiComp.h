@@ -101,6 +101,7 @@ protected:
 
 protected Q_SLOTS:
 	void OnShowToolbars();
+	void OnFullScreen();
 	void OnAbout();
 	void OnSettings();
 	void OnShowOtherCommandTriggered(bool enabled);
@@ -158,6 +159,7 @@ private:
 	// view menu group
 	iqtgui::CHierarchicalCommand m_showToolBarsCommand;
 	iqtgui::CHierarchicalCommand m_showOtherWindows;
+	iqtgui::CHierarchicalCommand m_fullScreenCommand;
 
 	// tools menu group
 	iqtgui::CHierarchicalCommand m_settingsCommand;
@@ -166,6 +168,9 @@ private:
 	iqtgui::CHierarchicalCommand m_aboutCommand;
 
 	iqtgui::CHierarchicalCommand m_fixedCommands;
+
+	QByteArray m_beforeFullScreenGeometry;
+	QByteArray m_beforeFullScreenState;
 };
 
 
