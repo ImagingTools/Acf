@@ -169,7 +169,7 @@ void COptionsListEditorGuiComp::UpdateActions()
 }
 
 
-void COptionsListEditorGuiComp::UpdateTree()
+void COptionsListEditorGuiComp::UpdateList()
 {
 	UpdateBlocker updateBlocker(this);
 
@@ -183,12 +183,12 @@ void COptionsListEditorGuiComp::UpdateTree()
 
 		for (int optionIndex = 0; optionIndex < optionsCount; ++optionIndex){
 
-			Qt::ItemFlags itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+			Qt::ItemFlags itemFlags = objectPtr->IsOptionEnabled(optionIndex) ? Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::NoItemFlags;
 
 			iprm::IOptionsManager* managerPtr = dynamic_cast<iprm::IOptionsManager*>(objectPtr);
 			if (managerPtr != NULL){
 				int operationFlags = managerPtr->GetOptionOperationFlags(optionIndex);
-				if (operationFlags & iprm::IOptionsManager::OOF_SUPPORT_RENAME){
+				if (objectPtr->IsOptionEnabled(optionIndex) && (operationFlags & iprm::IOptionsManager::OOF_SUPPORT_RENAME)){
 					itemFlags |= Qt::ItemIsEditable;
 				}
 			}
@@ -211,7 +211,9 @@ void COptionsListEditorGuiComp::UpdateTree()
 
 			OptionsList->addItem(optionItemPtr);
 
-			optionItemPtr->setSelected(optionIndex == lastSelectedIndex);
+			if (itemFlags == Qt::ItemIsSelectable){
+				optionItemPtr->setSelected(optionIndex == lastSelectedIndex);
+			}
 		}
 	}
 }
@@ -281,7 +283,7 @@ void COptionsListEditorGuiComp::UpdateGui(int /*updateFlags*/)
 {
 	Q_ASSERT(IsGuiCreated());
 	
-	UpdateTree();
+	UpdateList();
 }
 
 

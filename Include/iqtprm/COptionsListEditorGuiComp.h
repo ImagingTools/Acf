@@ -54,7 +54,7 @@ protected Q_SLOTS:
 
 protected:
 	void UpdateActions();
-	void UpdateTree();
+	void UpdateList();
 	int GetSelectedIndex() const;
 	void EnsureSelectedIndexUpdated() const;
 	QByteArray GetSelectedParamsSetTypeId() const;

@@ -153,6 +153,13 @@ void CMultiPageGuiCompBase::CreatePages()
 		CreatePage(pageIndex);
 	}
 
+	for (int pageIndex = 0; pageIndex < pagesCount; pageIndex++){
+		if (m_pageModel.IsOptionEnabled(pageIndex)){
+			m_pageModel.SetSelectedOptionIndex(pageIndex);
+			break;
+		}
+	}
+
 	UpdateVisualElements();
 }
 
