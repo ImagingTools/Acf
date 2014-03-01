@@ -157,7 +157,7 @@ private:
 	}
 
 protected:
-	I_MULTIREF(IVisualStatusProvider, m_slaveWidgetsVisualCompPtr);
+	I_MULTIREF(IVisualStatus, m_slaveWidgetsVisualCompPtr);
 	I_MULTIREF(imod::IModel, m_slaveWidgetsModelCompPtr);
 	I_MULTIREF(iprm::IEnableableParam, m_pageActivatorsCompPtr);
 	I_MULTIREF(imod::IModel, m_pageActivatorsModelCompPtr);

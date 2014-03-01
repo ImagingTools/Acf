@@ -12,7 +12,7 @@
 #include "icomp/CComponentBase.h"
 
 #include "iqtgui/IGuiObject.h"
-#include "iqtgui/IVisualStatusProvider.h"
+#include "iqtgui/IVisualStatus.h"
 
 
 namespace iqtgui
@@ -33,7 +33,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(CGuiComponentBase);
 		I_REGISTER_INTERFACE(IGuiObject);
 		I_REGISTER_SUBELEMENT(VisualStatus);
-		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, IVisualStatusProvider, ExtractVisualStatus);
+		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, IVisualStatus, ExtractVisualStatus);
 		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, istd::IChangeable, ExtractVisualStatus);
 		I_REGISTER_SUBELEMENT_INTERFACE_T(VisualStatus, imod::IModel, ExtractVisualStatus);
 		I_ASSIGN(m_defaultStatusIconPathAttrPtr, "DefaultStatusIcon", "Path of status icon used by default", false, "");
@@ -58,10 +58,10 @@ public:
 #else
 protected:
 #endif
-	class VisualStatus: virtual public IVisualStatusProvider
+	class VisualStatus: virtual public IVisualStatus
 	{
 	public:
-		// reimplemented (iqtgui::IVisualStatusProvider)
+		// reimplemented (iqtgui::IVisualStatus)
 		virtual QIcon GetStatusIcon() const;
 		virtual QString GetStatusText() const;
 

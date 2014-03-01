@@ -1,5 +1,5 @@
-#ifndef iqtgui_IStatusIconProvider_included
-#define iqtgui_IStatusIconProvider_included
+#ifndef iqtgui_IVisualStatus_included
+#define iqtgui_IVisualStatus_included
 
 
 // Qt includes
@@ -16,11 +16,11 @@ namespace iqtgui
 /**
 	Extends standard information provider to provide additional visual informations.
 */
-class IVisualStatusProvider: virtual public istd::IChangeable
+class IVisualStatus: virtual public istd::IChangeable
 {
 public:
 	/**
-		Get icon describing current status.
+		Get the icon describing current status.
 	*/
 	virtual QIcon GetStatusIcon() const = 0;
 	/**
@@ -34,6 +34,6 @@ public:
 } // namespace iqtgui
 
 
-#endif // !iqtgui_IStatusIconProvider_included
+#endif // !iqtgui_IVisualStatus_included
 
 
