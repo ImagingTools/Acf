@@ -605,7 +605,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IVisualStatusProvider.h"
+				RelativePath="..\IVisualStatus.h"
 				>
 			</File>
 			<File
