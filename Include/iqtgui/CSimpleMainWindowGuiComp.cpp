@@ -25,8 +25,8 @@ CSimpleMainWindowGuiComp::CSimpleMainWindowGuiComp()
 	:m_commandsObserver(*this),
 	m_menuCommands("Global"),
 	m_showToolBarsCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
-	m_fullScreenCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
 	m_showOtherWindows("", 300),
+	m_fullScreenCommand("", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_ONOFF),
 	m_settingsCommand("", 200, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
 {
 	m_fullScreenCommand.setShortcut(Qt::Key_F11);
