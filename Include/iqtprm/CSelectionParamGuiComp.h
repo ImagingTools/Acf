@@ -93,6 +93,7 @@ public:
 		I_ASSIGN(m_labelPositionAttrPtr, "LabelPosition", "Selection label position.\n0 - Left from the selector,\n1 - On top of the selector", false, LP_LEFT);
 		I_ASSIGN(m_labelAlignAttrPtr, "LabelAlignment", "Selection label alignment.\n0 - Left-Top,\n1 - Center-Top,\n2 - Right-Top,\n3 - Left-Center,\n4 - Center,\n5 - Right-Center,\n6 - Left-Bottom,\n7 - Center-Bottom,\n8 - Right-Bottom", false, LA_LEFT_CENTER);
 		I_ASSIGN(m_labelWidthAttrPtr, "LabelWidth", "Fixed label width (in pixels)", false, 100);
+		I_ASSIGN(m_disableWhenEmptyAttrPtr, "DisableWhenEmpty", "Disable the control when no Option is availabe", false, false);
 	I_END_COMPONENT;
 
 protected:
@@ -133,6 +134,7 @@ private:
 	I_ATTR(int, m_labelWidthAttrPtr);
 	I_REF(iqtgui::IIconProvider, m_infoIconProviderCompPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
+	I_ATTR(bool, m_disableWhenEmptyAttrPtr);
 
 	class RadioButtonWidget: public QFrame
 	{
