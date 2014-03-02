@@ -74,6 +74,16 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 
 			MakeAutoSlotConnection();
 
+			if (m_fixedWidthAttrPtr.IsValid()){
+				m_widgetPtr->setMinimumWidth(*m_fixedWidthAttrPtr);
+				m_widgetPtr->setSizePolicy(QSizePolicy::Maximum, m_widgetPtr->sizePolicy().verticalPolicy());
+			}
+
+			if (m_fixedHeightAttrPtr.IsValid()){
+				m_widgetPtr->setMinimumHeight(*m_fixedHeightAttrPtr);
+				m_widgetPtr->setSizePolicy(m_widgetPtr->sizePolicy().horizontalPolicy(), QSizePolicy::Maximum);
+			}
+
 			OnGuiCreated();
 			OnGuiRetranslate();
 

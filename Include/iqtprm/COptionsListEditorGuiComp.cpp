@@ -300,16 +300,6 @@ void COptionsListEditorGuiComp::OnGuiCreated()
 
 	BaseClass::OnGuiCreated();
 
-	if (m_fixedWidthAttrPtr.IsValid()){
-		OptionsList->setMinimumWidth(*m_fixedWidthAttrPtr);
-		OptionsList->setSizePolicy(QSizePolicy::Maximum, OptionsList->sizePolicy().verticalPolicy());
-	}
-
-	if (m_fixedHeightAttrPtr.IsValid()){
-		OptionsList->setMinimumHeight(*m_fixedHeightAttrPtr);
-		OptionsList->setSizePolicy(OptionsList->sizePolicy().horizontalPolicy(), QSizePolicy::Maximum);
-	}
-
 	if (m_iconSizeAttrPtr.IsValid()){
 		OptionsList->setIconSize(QSize(*m_iconSizeAttrPtr, *m_iconSizeAttrPtr));
 	}

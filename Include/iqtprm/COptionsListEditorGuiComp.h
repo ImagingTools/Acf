@@ -36,8 +36,6 @@ public:
 	I_BEGIN_COMPONENT(COptionsListEditorGuiComp);
 		I_ASSIGN(m_allowAddRemoveAttrPtr, "AllowAddRemove", "If it is false, 'Add' and 'Remove' buttons will be always hidden", true, true);
 		I_ASSIGN(m_allowUpDownAttrPtr, "AllowUpDown", "If it is false, 'Up' and 'Down' buttons will be always hidden", true, true);
-		I_ASSIGN(m_fixedWidthAttrPtr, "FixedWidth", "Fixed width of the list items", false, 100);
-		I_ASSIGN(m_fixedHeightAttrPtr, "FixedHeight", "Fixed height of the list items", false, 32);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for page icons", false, 32);
 	I_END_COMPONENT;
 
@@ -70,8 +68,6 @@ protected:
 private:
 	I_ATTR(bool, m_allowAddRemoveAttrPtr);
 	I_ATTR(bool, m_allowUpDownAttrPtr);
-	I_ATTR(int, m_fixedWidthAttrPtr);
-	I_ATTR(int, m_fixedHeightAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 
 	QMenu m_startVariableMenus;
