@@ -35,15 +35,9 @@ public:
 	typedef iqtgui::TRestorableGuiWrap<
 					iqtgui::TGuiComponentBase<QMainWindow> > BaseClass;
 
-	enum DockFeatures
-	{
-		DF_MOVEABLE = 1,
-		DF_FLOATABLE = 2
-	};
-
 	I_BEGIN_COMPONENT(CSimpleMainWindowGuiComp);
-		I_ASSIGN(m_workspaceCommandsCompPtr, "Workspace", "Main widget", false, "Workspace");
-		I_ASSIGN_TO(m_workspaceCompPtr, m_workspaceCommandsCompPtr, true);
+		I_ASSIGN(m_workspaceCompPtr, "Workspace", "Main widget", true, "Workspace");
+		I_ASSIGN_TO(m_workspaceCommandsCompPtr, m_workspaceCompPtr, false);
 		I_ASSIGN(m_aboutDialogCompPtr, "AboutDialog", "Gui displayed if 'About' action is triggered", false, "AboutDialog");
 		I_ASSIGN(m_settingsDialogCompPtr, "SettingsDialog", "Dialog window displayed if 'Settings' action is triggered", false, "SettingsDialog");
 		I_ASSIGN_MULTI_0(m_mainWindowComponentsCompPtr, "MainWindowComponents", "Additional GUI components", false);
@@ -53,7 +47,7 @@ public:
 		I_ASSIGN(m_isMenuVisibleAttrPtr, "IsMenuVisible", "If true, menu bar will be visible", true, true);
 		I_ASSIGN(m_isToolbarVisibleAttrPtr, "IsToolbarVisible", "If true, tool bar will be visible", true, true);
 		I_ASSIGN(m_toolBarAreaAttrPtr, "ToolBarArea", "Specify the area where the standard toolbar will be placed\n 0 - left\n 1 - right\n 2 - top\n 3 - bottom", false, 0);
-		I_ASSIGN(m_toolBarDockFeaturesAttrPtr, "ToolBarDockFeatures", "Specify the dock features for the standard tool bar\nIt is combination of options:\n1 - moveable\n 2 - floatable", true, DF_MOVEABLE | DF_FLOATABLE);
+		I_ASSIGN(m_toolBarDockFeaturesAttrPtr, "ToolBarDockFeatures", "Specify the dock features for the standard tool bar\nIt is combination of options:\n1 - moveable\n 2 - floatable", true, IMainWindowComponent::DF_MOVEABLE | IMainWindowComponent::DF_FLOATABLE);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size of icons using in the main window", false, 16);
 		I_ASSIGN(m_useIconTextAttrPtr, "UseIconText", "Enable text under the tool bar icons", false, false);
 	I_END_COMPONENT;

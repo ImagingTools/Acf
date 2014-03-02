@@ -192,8 +192,8 @@ void CSimpleMainWindowGuiComp::CreateDefaultToolBar()
 				m_standardToolBarPtr->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 			}
 
-			m_standardToolBarPtr->setFloatable(*m_toolBarDockFeaturesAttrPtr & DF_FLOATABLE);
-			m_standardToolBarPtr->setMovable(*m_toolBarDockFeaturesAttrPtr & DF_MOVEABLE);
+			m_standardToolBarPtr->setFloatable(*m_toolBarDockFeaturesAttrPtr & IMainWindowComponent::DF_FLOATABLE);
+			m_standardToolBarPtr->setMovable(*m_toolBarDockFeaturesAttrPtr & IMainWindowComponent::DF_MOVEABLE);
 		}
 	}
 }
