@@ -305,7 +305,7 @@ void CMultiPageGuiCompBase::PageModel::SetParent(CMultiPageGuiCompBase* parentPt
 			for (int pageIndex = 0; pageIndex < activatorsCount; ++pageIndex){
 				imod::IModel* modelPtr = parentPtr->m_pageActivatorsModelCompPtr[pageIndex];
 
-				if (!modelPtr->IsAttached(this)){
+				if ((modelPtr != NULL) && !modelPtr->IsAttached(this)){
 					modelPtr->AttachObserver(this);
 				}
 			}
