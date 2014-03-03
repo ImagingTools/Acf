@@ -12,7 +12,7 @@ DynamicLibrary{
 	acf.projectRoot: path + "/../../.."
 
 	Properties{
-		condition: qbs.toolchain.contains("clang")
+		condition: qbs.toolchain.contains("gcc") || qbs.toolchain.contains("clang")
 		cpp.cxxFlags: ['-Wno-format-security', '-Wno-unknown-pragmas']
 	}
 

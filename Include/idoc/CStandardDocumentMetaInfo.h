@@ -24,7 +24,7 @@ class CStandardDocumentMetaInfo:
 public:
 	// reimplemented (idoc::IDocumentMetaInfo)
 	virtual MetaInfoTypes GetSupportedMetaInfoTypes(bool allowReadOnly = true) const;
-	virtual QVariant GetDocumentMetaInfo(int metaInfoType) const;
+	virtual QVariant GetMetaInfo(int metaInfoType) const;
 	virtual bool SetDocumentMetaInfo(int metaInfoType, const QVariant& metaInfo);
 	virtual QString GetMetaInfoName(int metaInfoType) const;
 	virtual QString GetMetaInfoDescription(int metaInfoType) const;

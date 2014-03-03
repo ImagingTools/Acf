@@ -158,7 +158,7 @@ QString TMultiPageDocumentWrap<Base>::GetOptionName(int index) const
 	Q_ASSERT(index < m_documentPages.count());
 	Q_ASSERT(index>= 0);
 
-	return m_documentPages[index].pageMetaInfo.GetDocumentMetaInfo(idoc::IDocumentMetaInfo::MIT_TITLE).toString();
+	return m_documentPages[index].pageMetaInfo.GetMetaInfo(idoc::IDocumentMetaInfo::MIT_TITLE).toString();
 }
 
 

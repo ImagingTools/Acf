@@ -44,7 +44,7 @@ void CDocumentMetaInfoEditorComp::OnGuiModelAttached()
 			MetaInfoItem metaInfoItem;
 
 			QString metaInfoLabel = objectPtr->GetMetaInfoName(metaInfoType);
-			QString metaInfo = objectPtr->GetDocumentMetaInfo(metaInfoType).toString();
+			QString metaInfo = objectPtr->GetMetaInfo(metaInfoType).toString();
 
 			if (!metaInfoLabel.isEmpty()){
 				bool isWritable = objectPtr->IsMetaInfoWritable(metaInfoType);

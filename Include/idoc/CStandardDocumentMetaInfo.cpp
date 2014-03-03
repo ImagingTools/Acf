@@ -34,7 +34,7 @@ CStandardDocumentMetaInfo::MetaInfoTypes CStandardDocumentMetaInfo::GetSupported
 }
 
 
-QVariant CStandardDocumentMetaInfo::GetDocumentMetaInfo(int metaInfoType) const
+QVariant CStandardDocumentMetaInfo::GetMetaInfo(int metaInfoType) const
 {
 	static QVariant emptyValue;
 

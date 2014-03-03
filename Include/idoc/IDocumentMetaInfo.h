@@ -75,7 +75,7 @@ public:
 	/**
 		Get document's meta info.
 	*/
-	virtual QVariant GetDocumentMetaInfo(int metaInfoType) const = 0;
+	virtual QVariant GetMetaInfo(int metaInfoType) const = 0;
 
 	/**
 		Set new document's meta information for a given meta type.
