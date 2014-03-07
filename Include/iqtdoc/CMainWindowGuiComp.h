@@ -96,7 +96,7 @@ protected:
 	// reimplemented (iqtgui::CSimpleMainWindowGuiComp)
 	virtual void UpdateFixedCommands(iqtgui::CHierarchicalCommand& fixedCommands);
 	virtual void UpdateToolsCommands(iqtgui::CHierarchicalCommand& toolsCommand);
-	virtual void UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCommands);
+	virtual void AppendMenuActions(iqtgui::CHierarchicalCommand& menuCommands);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();

@@ -79,7 +79,7 @@ protected:
 	virtual void UpdateViewCommands(iqtgui::CHierarchicalCommand& viewCommand);
 	virtual void UpdateToolsCommands(iqtgui::CHierarchicalCommand& toolsCommand);
 	virtual void UpdateHelpCommands(iqtgui::CHierarchicalCommand& helpCommand);
-	virtual void UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCommands);
+	virtual void AppendMenuActions(iqtgui::CHierarchicalCommand& menuCommands);
 
 	// reimplemented (TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings);

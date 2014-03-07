@@ -74,7 +74,7 @@ void CSimpleMainWindowGuiComp::UpdateMenuActions()
 
 	UpdateFixedCommands(m_fixedCommands);
 
-	UpdateMenuActions(m_menuCommands);
+	AppendMenuActions(m_menuCommands);
 
 	if (m_menuBarPtr.IsValid()){
 		m_menuBarPtr->clear();
@@ -283,7 +283,7 @@ void CSimpleMainWindowGuiComp::UpdateHelpCommands(iqtgui::CHierarchicalCommand& 
 }
 
 
-void CSimpleMainWindowGuiComp::UpdateMenuActions(iqtgui::CHierarchicalCommand& menuCommands)
+void CSimpleMainWindowGuiComp::AppendMenuActions(iqtgui::CHierarchicalCommand& menuCommands)
 {
 	menuCommands.JoinLinkFrom(&m_fixedCommands);
 
