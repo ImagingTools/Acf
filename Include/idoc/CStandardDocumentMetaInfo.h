@@ -25,7 +25,7 @@ public:
 	// reimplemented (idoc::IDocumentMetaInfo)
 	virtual MetaInfoTypes GetSupportedMetaInfoTypes(bool allowReadOnly = true) const;
 	virtual QVariant GetMetaInfo(int metaInfoType) const;
-	virtual bool SetDocumentMetaInfo(int metaInfoType, const QVariant& metaInfo);
+	virtual bool SetMetaInfo(int metaInfoType, const QVariant& metaInfo);
 	virtual QString GetMetaInfoName(int metaInfoType) const;
 	virtual QString GetMetaInfoDescription(int metaInfoType) const;
 	virtual bool IsMetaInfoWritable(int metaInfoType) const;

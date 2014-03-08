@@ -80,7 +80,7 @@ public:
 	/**
 		Set new document's meta information for a given meta type.
 	*/
-	virtual bool SetDocumentMetaInfo(int metaInfoType, const QVariant& metaInfo) = 0;
+	virtual bool SetMetaInfo(int metaInfoType, const QVariant& metaInfo) = 0;
 
 	/**
 		Get a human readable name for a given meta information type.

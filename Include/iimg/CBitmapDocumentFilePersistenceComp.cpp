@@ -92,7 +92,7 @@ int CBitmapDocumentFilePersistenceComp::LoadFromFile(istd::IChangeable& data, co
 		retVal = retVal && archive.EndTag(pageFileTag);
 
 		idoc::CStandardDocumentMetaInfo pageMetaInfo;
-		pageMetaInfo.SetDocumentMetaInfo(idoc::IDocumentMetaInfo::MIT_TITLE, pageFileName);
+		pageMetaInfo.SetMetaInfo(idoc::IDocumentMetaInfo::MIT_TITLE, pageFileName);
 
 		iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(docPtr->InsertPage(&pageMetaInfo));
 		if (bitmapPtr == NULL || pageFileName.isEmpty()){

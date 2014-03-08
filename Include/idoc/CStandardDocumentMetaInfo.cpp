@@ -46,7 +46,7 @@ QVariant CStandardDocumentMetaInfo::GetMetaInfo(int metaInfoType) const
 }
 
 
-bool CStandardDocumentMetaInfo::SetDocumentMetaInfo(int metaInfoType, const QVariant& metaInfo)
+bool CStandardDocumentMetaInfo::SetMetaInfo(int metaInfoType, const QVariant& metaInfo)
 {
 	MetaInfoTypes registeredTypes = GetSupportedMetaInfoTypes();
 

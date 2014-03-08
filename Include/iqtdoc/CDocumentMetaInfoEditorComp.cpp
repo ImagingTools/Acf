@@ -51,7 +51,9 @@ void CDocumentMetaInfoEditorComp::OnGuiModelAttached()
 
 				metaInfoItem.labelPtr = new QLabel(metaInfoLabel, containerWidgetPtr);
 				metaInfoItem.editPtr = new QLineEdit(metaInfo, containerWidgetPtr);
+				connect(metaInfoItem.editPtr, SIGNAL(editingFinished()), this, SLOT(OnItemEditingFinished()));
 				metaInfoItem.editPtr->setEnabled(isWritable);
+				metaInfoItem.editPtr->setProperty("MetaInfoType", metaInfoType);
 
 				m_metaInfoItemsMap[metaInfoType] = metaInfoItem;
 
@@ -88,6 +90,22 @@ void CDocumentMetaInfoEditorComp::OnGuiCreated()
 	containerWidgetPtr->setLayout(formLayoutPtr);
 
 	BaseClass::OnGuiCreated();
+}
+
+
+// protected slots
+
+void CDocumentMetaInfoEditorComp::OnItemEditingFinished()
+{
+	QLabel* editorPtr = dynamic_cast<QLabel*>(sender());
+	Q_ASSERT(editorPtr != NULL);
+
+	idoc::IDocumentMetaInfo* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		int metaInfoType = editorPtr->property("MetaInfoType").toInt();
+
+		objectPtr->SetMetaInfo(metaInfoType, editorPtr->text());
+	}
 }
 
 
