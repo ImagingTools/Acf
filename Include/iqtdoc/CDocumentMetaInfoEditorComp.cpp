@@ -86,6 +86,7 @@ void CDocumentMetaInfoEditorComp::OnGuiCreated()
 	Q_ASSERT(containerWidgetPtr != NULL);
 
 	QFormLayout* formLayoutPtr = new QFormLayout(containerWidgetPtr);
+	formLayoutPtr->setContentsMargins(0, 0, 0, 0);
 
 	containerWidgetPtr->setLayout(formLayoutPtr);
 
@@ -97,7 +98,7 @@ void CDocumentMetaInfoEditorComp::OnGuiCreated()
 
 void CDocumentMetaInfoEditorComp::OnItemEditingFinished()
 {
-	QLabel* editorPtr = dynamic_cast<QLabel*>(sender());
+	QLineEdit* editorPtr = dynamic_cast<QLineEdit*>(sender());
 	Q_ASSERT(editorPtr != NULL);
 
 	idoc::IDocumentMetaInfo* objectPtr = GetObjectPtr();
