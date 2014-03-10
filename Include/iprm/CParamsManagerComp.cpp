@@ -32,6 +32,12 @@ bool CParamsManagerComp::SetSetsCount(int count)
 		}
 
 		while (m_paramSets.size() > (count - fixedSetsCount)){
+			ParamSetPtr& paramsPtr = m_paramSets.back();
+			imod::IModel* paramModelPtr = dynamic_cast<imod::IModel*>(paramsPtr.GetPtr());
+			if (paramModelPtr != NULL){
+				paramModelPtr->DetachAllObservers();
+			}
+
 			m_paramSets.pop_back();
 		}
 
