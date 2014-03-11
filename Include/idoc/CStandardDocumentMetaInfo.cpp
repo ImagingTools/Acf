@@ -122,9 +122,15 @@ QString CStandardDocumentMetaInfo::GetMetaInfoDescription(int metaInfoType) cons
 }
 
 
-bool CStandardDocumentMetaInfo::IsMetaInfoWritable(int /*metaInfoType*/) const
+bool CStandardDocumentMetaInfo::IsMetaInfoWritable(int metaInfoType) const
 {
-	return true;
+	switch (metaInfoType){
+		case MIT_CREATION_TIME:
+		case MIT_MODIFICATION_TIME:
+			return false;
+		default:
+			return true;
+	}
 }
 
 
