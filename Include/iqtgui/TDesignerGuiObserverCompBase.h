@@ -37,8 +37,50 @@ public:
 
 	I_BEGIN_BASE_COMPONENT(TDesignerGuiObserverCompBase);
 		I_REGISTER_INTERFACE(imod::IModelEditor);
+		I_ASSIGN(m_isReadOnlyAttrPtr, "EditorReadOnly", "If enabled, the editor for the data model is always read only", false, false);
 	I_END_COMPONENT;
+
+	// reimplemented (imod::IModelEditor)
+	virtual void SetReadOnly(bool state);
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+
+private:
+	I_ATTR(bool, m_isReadOnlyAttrPtr);
 };
+
+
+// public methods
+
+// reimplemented (imod::IModelEditor)
+
+template <class UI, class Model, class WidgetType>
+void TDesignerGuiObserverCompBase<UI, Model, WidgetType>::SetReadOnly(bool state)
+{
+	// Skip state changes for "permanent-read-only" configured editors:
+	if (m_isReadOnlyAttrPtr.IsValid() && *m_isReadOnlyAttrPtr){
+		return;
+	}
+	
+	BaseClass::SetReadOnly(state);
+}
+
+
+// protected methods
+
+// reimplemented (icomp::CComponentBase)
+
+template <class UI, class Model, class WidgetType>
+void TDesignerGuiObserverCompBase<UI, Model, WidgetType>::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	if (m_isReadOnlyAttrPtr.IsValid()){
+		m_isReadOnly = *m_isReadOnlyAttrPtr;
+	}
+}
 
 
 } // namespace iqtgui
