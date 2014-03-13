@@ -43,8 +43,12 @@ Module{
 		compilerName: "VC10"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 11/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 11/i) >= 0 || cpp.toolchainInstallPath.search(/2012/i) >= 0)
 		compilerName: "VC11"
+	}
+	Properties{
+		condition: qbs.toolchain.contains("msvc") && (cpp.toolchainInstallPath.search(/Studio 12/i) >= 0 || cpp.toolchainInstallPath.search(/2013/i) >= 0)
+		compilerName: "VC12"
 	}
 
 	Properties{
