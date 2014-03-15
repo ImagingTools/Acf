@@ -43,6 +43,8 @@ int CComposedFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QS
 	for (int i = 0; i < slavesCount; ++i){
 		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
 		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
+			m_lastOpenInfo = QFileInfo(filePath);
+
 			return loaderPtr->LoadFromFile(data, filePath);
 		}
 	}
@@ -65,6 +67,8 @@ int CComposedFilePersistenceComp::SaveToFile(const istd::IChangeable& data, cons
 	for (int i = 0; i < slavesCount; ++i){
 		ifile::IFilePersistence* loaderPtr = m_slaveLoadersCompPtr[i];
 		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
+			m_lastSaveInfo = QFileInfo(filePath);
+
 			return loaderPtr->SaveToFile(data, filePath);
 		}
 	}
@@ -117,6 +121,43 @@ QString CComposedFilePersistenceComp::GetTypeDescription(const QString* extensio
 	}
 
 	return "";
+}
+
+// reimplemented (ifile::IFilePersistenceInfo)
+
+QString CComposedFilePersistenceComp::GetLastFilePath(OperationType operationType, PathType pathType) const
+{
+	switch (operationType){
+	case OT_LOAD:
+		return GetPathForType(m_lastOpenInfo, pathType);
+
+	case OT_SAVE:
+		return GetPathForType(m_lastSaveInfo, pathType);
+
+	default:
+		if (!m_lastOpenInfo.filePath().isEmpty()){
+			return GetPathForType(m_lastOpenInfo, pathType);
+		}
+		else{
+			return GetPathForType(m_lastOpenInfo, pathType);
+		}
+	}
+}
+
+// protected methods
+
+QString CComposedFilePersistenceComp::GetPathForType(const QFileInfo& fileInfo, PathType pathType) const
+{
+	switch (pathType){
+	case OT_FILENAME:
+		return fileInfo.fileName();
+
+	case OT_DIR:
+		return fileInfo.absolutePath();
+
+	default:
+		return fileInfo.absoluteFilePath();
+	}
 }
 
 
