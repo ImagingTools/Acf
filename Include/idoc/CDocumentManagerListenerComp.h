@@ -13,6 +13,9 @@ namespace idoc
 {		
 
 
+/**
+	\deprecated
+*/
 class CDocumentManagerListenerComp:
 			public icomp::CComponentBase,
 			public imod::TSingleModelObserverBase<idoc::IDocumentManager>,

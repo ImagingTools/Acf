@@ -15,6 +15,7 @@ namespace ibase
 
 /**
 	Implementation of a model proxy for containers containing selectable model objects.
+	\deprecated
 */
 class CModelProxyComp: public icomp::CComponentBase, public imod::CModelProxy
 {

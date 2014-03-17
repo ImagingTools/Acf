@@ -2,8 +2,8 @@
 #define imod_IModelSelection_included
 
 
+// ACF includes
 #include "istd/IChangeable.h"
-
 #include "imod/IModel.h"
 
 
@@ -12,7 +12,8 @@ namespace imod
 
 
 /**
-	Interface for model selection.	
+	Interface for model selection.
+	\deprecated
 
 	\ingroup ModelObserver
 */

@@ -7,7 +7,6 @@
 
 // ACF includes
 #include "istd/IChangeable.h"
-
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
 
