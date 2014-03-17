@@ -21,21 +21,61 @@ class CAnnulus: public CPosition2d
 public:
 	typedef i2d::CPosition2d BaseClass;
 
+	/**
+		Construct an empty annulus object.
+	*/
 	CAnnulus();
+
+	/**
+		Construct an annulus object by the given position, inner and outer radius.
+	*/
 	CAnnulus(const i2d::CVector2d& center, double innerRadius, double outerRadius);
 
+	/**
+		Check, if the annulus is valid.
+		An annulus is valid, if its radius range is valid.
+		\sa TRange::IsValid()
+	*/
 	bool IsAnnulusValid() const;
 
+	/**
+		Get the inner radius of the annulus.
+	*/
 	double GetInnerRadius() const;
+
+	/**
+		Set the inner radius of the annulus.
+	*/
 	void SetInnerRadius(double innerRadius);
 
+	/**
+		Get the outer radius of the annulus.
+	*/
 	double GetOuterRadius() const;
+
+	/**
+		Set the outer radius of the annulus.
+	*/
 	void SetOuterRadius(double outerRadius);
 
+	/**
+		Set the inner circle of the annulus object.
+	*/
 	CCircle GetInnerCircle() const;
+
+	/**
+		Set the outer circle of the annulus object.
+	*/
 	CCircle GetOuterCircle() const;
 
+	/**
+		Compare with another annulus.
+	*/
 	bool operator == (const CAnnulus & annulus) const;
+
+	/**
+		Compare with another annulus.
+	*/
 	bool operator != (const CAnnulus & annulus) const;
 
 	// reimplemented (i2d::IObject2d)

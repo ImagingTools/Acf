@@ -12,8 +12,8 @@ namespace i2d
 
 
 /**
-	Implementation of a annulus as a component.
-	It gives the possibility to define a annulus model via component attributes.
+	Implementation of an annulus as a component.
+	It gives the possibility to define the annulus model via component attributes.
 */
 class CAnnulusComp: public TObject2dCompWrap<CAnnulus>
 {

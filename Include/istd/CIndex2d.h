@@ -14,6 +14,9 @@ namespace istd
 {
 
 
+/**
+	Index implementation for addressing elements in 2D-space.
+*/
 class CIndex2d: public TIndex<2>
 {
 public:
@@ -35,8 +38,24 @@ public:
 	bool operator<=(const CIndex2d& index) const;
 	bool operator>=(const CIndex2d& index) const;
 
+	/**
+		Cast/convert index to QSize object.
+	*/
 	operator QSize() const;
 
+	/**
+		Cast/convert index to QPoint object.
+	*/
+	operator QPoint() const;
+
+	/**
+		Cast/convert index to QPointF object.
+	*/
+	operator QPointF() const;
+
+	/**
+		Assign value from a general defined 2D-index.
+	*/
 	CIndex2d& operator=(const TIndex<2>& index);
 };
 
@@ -143,6 +162,18 @@ inline CIndex2d& CIndex2d::operator=(const TIndex<2>& index)
 inline CIndex2d::operator QSize() const
 {
 	return QSize(GetX(), GetY());
+}
+
+
+inline CIndex2d::operator QPoint() const
+{
+	return QPoint(GetX(), GetY());
+}
+
+
+inline CIndex2d::operator QPointF() const
+{
+	return QPointF(GetX(), GetY());
 }
 
 

@@ -17,7 +17,7 @@ namespace istd
 
 
 /**
-	Implementation of global system helpers based on QT.
+	Implementation of global system helpers.
 */
 class CSystem
 {

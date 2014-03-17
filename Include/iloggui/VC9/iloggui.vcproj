@@ -218,6 +218,10 @@
 				RelativePath="..\CTextLogGuiComp.h"
 				>
 			</File>
+			<File
+				RelativePath="..\iloggui.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

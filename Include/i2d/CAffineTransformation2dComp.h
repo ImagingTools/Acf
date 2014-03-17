@@ -13,7 +13,7 @@ namespace i2d
 
 
 /**
-	Attributable component for affine transformation.
+	Attributable component for affine 2D-transformation.
 */
 class CAffineTransformation2dComp: public icomp::CComponentBase, public CAffineTransformation2d
 {

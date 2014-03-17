@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "imath/TMatrix.h"
-
 #include "i3d/CVector3d.h"
 
 
@@ -13,7 +12,7 @@ namespace i3d
 
 
 /**
-	3d matrix.
+	3D-matrix definition.
 */
 class CMatrix3d: public imath::TMatrix<3, 3>
 {
@@ -41,7 +40,7 @@ public:
 	/**
 		Default reset to identity.
 	*/
-	void Reset();	
+	void Reset();
 
 	// operations
 	using BaseClass::GetMultiplied;
@@ -54,6 +53,7 @@ public:
 		Get axis X vector.
 	*/
 	CVector3d GetAxisX() const;
+
 	/**
 		Get axis Y vector.
 	*/
@@ -68,14 +68,17 @@ public:
 		Get lengths of axes vectors.
 	*/
 	CVector3d GetAxesLengths() const;
+
 	/**
 		Get lengths of axes vectors.
 	*/
 	void GetAxesLengths(CVector3d& result) const;
+
 	/**
 		Inverted operation to GetApply().
 	*/
 	i3d::CVector3d GetInvMultiplied(const i3d::CVector3d& position) const;
+
 	/**
 		Inverted operation to GetApply().
 	*/
@@ -85,12 +88,14 @@ public:
 		Calculate inverted matrix.
 	*/
 	CMatrix3d GetInverted() const;
+
 	/**
 		Calculate inverted matrix.
 	*/
 	bool GetInverted(CMatrix3d& result) const;
 
 	using BaseClass::GetTransposed;
+
 	/**
 		Calculate transposed matrix.
 	*/
