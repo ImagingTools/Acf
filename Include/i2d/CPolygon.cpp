@@ -16,18 +16,28 @@ namespace i2d
 
 void CPolygon::Clear()
 {
-	m_nodes.clear();
+	if (!m_nodes.isEmpty()){
+		istd::CChangeNotifier notifier(this);
+
+		m_nodes.clear();
+	}
 }
 
 
 void CPolygon::SetNodesCount(int nodesCount)
 {
-	m_nodes.resize(nodesCount);
+	if (nodesCount != m_nodes.count()){
+		istd::CChangeNotifier notifier(this);
+
+		m_nodes.resize(nodesCount);
+	}
 }
 
 
 bool CPolygon::InsertNode(const i2d::CVector2d& node)
 {
+	istd::CChangeNotifier notifier(this);
+
 	m_nodes.push_back(node);
 
 	return true;
@@ -36,6 +46,8 @@ bool CPolygon::InsertNode(const i2d::CVector2d& node)
 
 bool CPolygon::InsertNode(int index, const i2d::CVector2d& node)
 {
+	istd::CChangeNotifier notifier(this);
+
 	QVector<i2d::CVector2d>::iterator iter = m_nodes.begin();
 	iter += index;
 	m_nodes.insert(iter, node);
@@ -46,6 +58,8 @@ bool CPolygon::InsertNode(int index, const i2d::CVector2d& node)
 
 bool CPolygon::RemoveNode(int index)
 {
+	istd::CChangeNotifier notifier(this);
+
 	QVector<i2d::CVector2d>::iterator iter = m_nodes.begin();
 	iter += index;
 	m_nodes.erase(iter);

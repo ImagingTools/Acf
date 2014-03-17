@@ -63,18 +63,8 @@ void CInteractiveShapeBase::SetSelected(bool selectFlag)
 
 // reimplemented (iview::IMouseActionObserver)
 
-bool CInteractiveShapeBase::OnMouseButton(istd::CIndex2d /*position*/, Qt::MouseButton buttonType, bool downFlag)
+bool CInteractiveShapeBase::OnMouseButton(istd::CIndex2d /*position*/, Qt::MouseButton /*buttonType*/, bool /*downFlag*/)
 {
-	if (buttonType == Qt::LeftButton){
-		if (downFlag){
-			istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
-			m_changeNotifier.SetPtr(objectPtr);
-		}
-		else{
-			m_changeNotifier.Reset();
-		}
-	}
-
 	return false;
 }
 
@@ -117,15 +107,15 @@ bool CInteractiveShapeBase::IsDraggable() const
 
 void CInteractiveShapeBase::BeginDrag(const istd::CIndex2d& position)
 {
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+	m_changeNotifier.SetPtr(objectPtr);
+
 	BeginLogDrag(GetLogPosition(position));
 }
 
 
 void CInteractiveShapeBase::SetDragPosition(const istd::CIndex2d& position)
 {
-	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
-	m_changeNotifier.SetPtr(objectPtr);
-
 	SetLogDragPosition(GetLogPosition(position));
 
 	Invalidate(CS_CONSOLE);
@@ -142,6 +132,9 @@ void CInteractiveShapeBase::EndDrag()
 
 void CInteractiveShapeBase::BeginModelChanges()
 {
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+	m_changeNotifier.SetPtr(objectPtr);
+
 	ISelectable* controllerPtr = dynamic_cast<ISelectable*>(GetDisplayPtr());
 	if (controllerPtr != NULL){
 		controllerPtr->OnShapeFocused(this);
@@ -157,15 +150,13 @@ void CInteractiveShapeBase::EndModelChanges()
 	if (controllerPtr != NULL){
 		controllerPtr->OnShapeDefocused(this);
 	}
+
+	m_changeNotifier.Reset();
 }
 
 
 void CInteractiveShapeBase::UpdateModelChanges()
 {
-	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
-
-	istd::CChangeNotifier changePtr(objectPtr, istd::IChangeable::CF_MODEL);
-
 	Invalidate(CS_CONSOLE);
 }
 
