@@ -160,9 +160,19 @@ bool COptionsManager::IsOptionEnabled(int index) const
 
 // reimplemented (iprm::IOptionsManager)
 
-int COptionsManager::GetOptionOperationFlags(int /*index*/) const
+int COptionsManager::GetOptionOperationFlags(int index) const
 {
-	return OOF_SUPPORT_INSERT | OOF_SUPPORT_DELETE;
+	int retVal = OOF_SUPPORT_INSERT;
+
+	int fixedOptionsCount = 0;
+	if (m_slaveSelectionConstraintsPtr != NULL) {
+		fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+	}
+
+	if (index >= fixedOptionsCount) {
+		retVal = retVal | OOF_SUPPORT_DELETE | OOF_SUPPORT_RENAME;
+	}
+	return retVal;
 }
 
 

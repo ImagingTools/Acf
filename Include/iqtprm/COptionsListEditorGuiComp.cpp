@@ -264,10 +264,13 @@ void COptionsListEditorGuiComp::OnGuiModelAttached()
 		m_startVariableMenus.clear();
 	}
 
-	AddRemoveButtonsFrame->setVisible((objectPtr != NULL) && *m_allowAddRemoveAttrPtr);
-	UpDownButtonsFrame->setVisible((objectPtr != NULL) && *m_allowUpDownAttrPtr);
+	bool addRemoveVisible = (objectPtr != NULL) && *m_allowAddRemoveAttrPtr;
+	bool upDownVisible = (objectPtr != NULL) && *m_allowUpDownAttrPtr;
 
-	ButtonsFrame->setVisible(AddRemoveButtonsFrame->isVisible() || UpDownButtonsFrame->isVisible());
+	ButtonsFrame->setVisible(addRemoveVisible || upDownVisible);
+	AddRemoveButtonsFrame->setVisible(addRemoveVisible);
+	UpDownButtonsFrame->setVisible(upDownVisible);
+
 
 	OptionsList->setVisible(true);
 }
