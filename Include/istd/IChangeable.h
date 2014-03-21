@@ -2,6 +2,7 @@
 #define istd_IChangeable_included
 
 
+// ACF includes
 #include "istd/istd.h"
 #include "istd/IPolymorphic.h"
 
@@ -11,8 +12,8 @@ namespace istd
 
 
 /**
-	Common interface for model objects, which can be changed.
-	Model changes are executed in two steps: begin and end.
+	Common interface for data model objects, which can be changed.
+	Data model changes are executed in two steps: begin and end.
 	The caller can also put some flags and additional data to the update functions, to control the update logic.
 */
 class IChangeable: virtual public IPolymorphic  
@@ -128,7 +129,7 @@ public:
 
 	/**
 		Copy this object from another one.
-		Default implementation in istd::IChangeable do nothing.
+		Default implementation in istd::IChangeable does nothing.
 	*/
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
@@ -144,6 +145,13 @@ public:
 		\return	new instance or NULL, if this operation is not supported.
 	*/
 	virtual IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
+
+	/**
+		Reset data to its default state.
+		Default implementation in istd::IChangeable does nothing.
+		\return \c true if the operation was successful, and \c false otherwise.
+	*/
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
 	/**
@@ -194,6 +202,12 @@ inline bool IChangeable::IsEqual(const IChangeable& /*object*/) const
 inline IChangeable* IChangeable::CloneMe(CompatibilityMode /*mode*/) const
 {
 	return NULL;
+}
+
+
+inline bool IChangeable::ResetData(CompatibilityMode /*mode*/)
+{
+	return false;
 }
 
 
