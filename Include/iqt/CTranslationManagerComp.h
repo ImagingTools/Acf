@@ -9,23 +9,23 @@
 
 // ACF includes
 #include "istd/TPointerVector.h"
-
 #include "icomp/CComponentBase.h"
-
 #include "imod/TSingleModelObserverBase.h"
-
 #include "iprm/ISelectionParam.h"
 #include "iprm/IOptionsList.h"
-
 #include "iqt/ITranslationManager.h"
-
 #include "ilog/TLoggerCompWrap.h"
 
 
 namespace iqt
 {
 
+	
+/**
+	A translation manager component.
 
+	Translation manager based on using a set of Qt translation files.
+*/
 class CTranslationManagerComp:
 			public ilog::CLoggerComponentBase, 
 			virtual public iqt::ITranslationManager,
@@ -45,6 +45,9 @@ public:
 		I_ASSIGN_TO(m_languageSelectionModelCompPtr, m_languageSelectionCompPtr, false);
 	I_END_COMPONENT;
 
+	/**
+		Default constructor.
+	*/
 	CTranslationManagerComp();
 
 	// reimplemented (icomp:CComponentBase)
@@ -68,6 +71,10 @@ public:
 	virtual bool IsOptionEnabled(int index) const;
 
 private:
+	/**
+		\internal
+		Internally used language selection observer.
+	*/
 	class LanguageSelectionObserver: public imod::TSingleModelObserverBase<iprm::ISelectionParam>
 	{
 	public:

@@ -5,10 +5,8 @@
 // Qt includes
 #include <QtCore/QSettings>
 
-
 // ACF includes
 #include "istd/IPolymorphic.h"
-
 #include "iqt/iqt.h"
 
 
@@ -22,6 +20,9 @@ namespace iqt
 class ISettingsProvider: virtual public istd::IPolymorphic
 {
 public:
+	/**
+		Get the instance of the Qt settings.
+	*/
 	virtual QSettings& GetSettings() const = 0;
 };
 

@@ -12,7 +12,9 @@ class QTranslator;
 namespace iqt
 {
 
-
+/**
+	Common interface for the localization manager.
+*/
 class ITranslationManager: virtual public istd::IPolymorphic
 {
 public:

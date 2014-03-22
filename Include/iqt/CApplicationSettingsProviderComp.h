@@ -2,17 +2,21 @@
 #define iqt_CApplicationSettingsProviderComp_included
 
 
+// ACF includes
 #include "icomp/CComponentBase.h"
-
 #include "ibase/IApplicationInfo.h"
-
 #include "iqt/ISettingsProvider.h"
 
 
 namespace iqt
 {
 
+	
+/**
+	An application settings provider component.
 
+	This component provides access to the application's specific settings object.
+*/
 class CApplicationSettingsProviderComp: 
 			public icomp::CComponentBase,
 			virtual public iqt::ISettingsProvider
@@ -24,8 +28,6 @@ public:
 		I_REGISTER_INTERFACE(iqt::ISettingsProvider);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Application info", true, "ApplicationInfo");
 	I_END_COMPONENT;
-
-	CApplicationSettingsProviderComp();
 
 	// reimplemented (iqt::ISettingsProvider)
 	virtual QSettings& GetSettings() const;

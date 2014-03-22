@@ -2,11 +2,10 @@
 #define iqt_CClipboardSerializerComp_included
 
 
+// ACF includes
 #include "iser/IVersionInfo.h"
 #include "ifile/IFilePersistence.h"
-
 #include "ilog/TLoggerCompWrap.h"
-
 #include "iqt/iqt.h"
 
 
@@ -14,6 +13,11 @@ namespace iqt
 {
 
 
+/**
+	A clipboard serializer component.
+
+	\ingroup Persistence
+*/
 class CClipboardSerializerComp:
 			public ilog::CLoggerComponentBase,
 			virtual public ifile::IFilePersistence
@@ -23,7 +27,6 @@ public:
 
 	I_BEGIN_COMPONENT(CClipboardSerializerComp);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
-
 		I_ASSIGN(m_versionInfoCompPtr, "VersionInfo", "Provide information about archive versions", false, "VersionInfo");
 		I_ASSIGN(m_mimeTypeAttrPtr, "MimeType", "Describe clipboard type", true, "acf/generic");
 	I_END_COMPONENT;

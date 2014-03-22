@@ -13,12 +13,24 @@
 namespace iqt
 {
 
+	
+/**
+	Basic implementation for an archive used Qt settings implementation as persistence medium.
 
+	\ingroup Persistence
+*/
 class CSettingsArchiveBase: protected QSettings
 {
 public:
 	typedef QSettings BaseClass;
 
+	/**
+	Constructor.
+		\param	organizationName	Name of the organization.
+		\param	applicationName 	Name of the application.
+		\param	rootKey				The root key.
+		\param	settingsScope   	(Optional) the settings scope.
+	*/
 	CSettingsArchiveBase(
 				const QString& organizationName,
 				const QString& applicationName,

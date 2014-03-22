@@ -2,8 +2,8 @@
 #define iqt_CSettingsWriteArchive_included
 
 
+// ACF includes
 #include "iser/CTextWriteArchiveBase.h"
-
 #include "iqt/CSettingsArchiveBase.h"
 
 
@@ -12,7 +12,9 @@ namespace iqt
 
 
 /**
-	Archive class for serialization based on QSettings implementation
+	Write archive implementation for serialization based on QSettings.
+
+	\ingroup Persistence
 */
 class CSettingsWriteArchive: public iser::CTextWriteArchiveBase, public iqt::CSettingsArchiveBase
 {
@@ -20,6 +22,15 @@ public:
 	typedef iser::CTextWriteArchiveBase BaseClass;
 	typedef iqt::CSettingsArchiveBase BaseClass2;
 
+	/**
+		Constructor.
+		
+		\param	organizationName	Name of the organization.
+		\param	applicationName 	Name of the application.
+		\param	rootKey				The root key.
+		\param	settingsScope   	(Optional) the settings scope.
+		\param	versionInfoPtr  	(Optional) pointer to the version information instance.
+	*/
 	CSettingsWriteArchive(
 				const QString& organizationName,
 				const QString& applicationName,
