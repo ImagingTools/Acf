@@ -20,11 +20,20 @@ class IDocumentMetaInfo: virtual public istd::IChangeable
 {
 public:
 
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
+		/**
+			Meta information has been changed.
+		*/
 		CF_METAINFO = 1 << 21
 	};
 
+	/**
+		Type of the meta information.
+	*/
 	enum MetaInfoType
 	{
 		/**

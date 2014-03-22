@@ -17,11 +17,11 @@ ACF is open source and released under the terms of the GNU Lesser General Public
 See http://www.ilena.org or write info@imagingtools.de or contact
 by Skype to ACF_infoline for further information about the ACF.
 
-\section How it works
+\section Basics
 The main idea behind ACF is to see each software product as a composition of components with clearly defined interfaces. Interface is also the only way for communication between components. The usual steps to implement a component are:
 
-- An C++ interface must be defined.
-- A class which implements this interface must be created.There are several ways to make a "normal" C++ class to a ACF-Component, simplest is to derive from a corresponding basic implementation or use a generic macro. A component can have dependencies from other components (e.g. component A needs component B to realize some functionality) and can have attributes. Via attributes it is possible, to parameterize some behaviour aspects of the component.Another way to create a component is to combine more existing components into a composition. This composition is also perceived by the framework as a component. Creates a composition with the framework tool called Compositor. Compositor provides graphical editing for the component dependencies and attributes. The compositions are stored in so-called ARX files (we also call them registries).
+- A C++ interface must be defined.
+- A class which implements this interface must be created.There are several ways to make a "normal" C++ class to a ACF-Component, simplest is to derive from a corresponding basic implementation or use a generic macro. A component can have dependencies from other components (e.g. component <b>A</b> needs component <b>B</b> to realize some functionality) and can have attributes. Via attributes it is possible, to parameterize some behaviour aspects of the component. Another way to create a component is to combine more existing components into a composition. This composition is also perceived by the framework as a component. Creates a composition with the framework tool called <b>ACF Compositor</b>. ACF Compositor provides graphical editing for the component dependencies and attributes. The compositions are stored in so-called ARX files (we also call them registries).
 - After a component is implemented, it must be registered in a so called Package. Component packages are logical containers of components. There are two kinds of packages:
 	- For C++ based component the package is a DLL with special export interface.
 	- For component compositions the package is a special folder in the file system.
@@ -61,7 +61,7 @@ See \c Docs/Tutorial for tutorials.
 /**
 	\defgroup ModelObserver Model/Observer concept
 	The main use-case of this concept is to get information on the observer side about changes of model.
-	It can be used e.g. to realize GUI update if releted model changes.
+	It can be used e.g. to realize GUI update if related data model changes.
 
 	\ingroup ACF
 */

@@ -22,7 +22,7 @@ OutputDir=..\Setup
 LicenseFile=$LICENSE_INSTALL_PATH$
 VersionInfoDescription=$AcfProductName$ v. $AcfVersion:0$ ($AcfRawVersion:0$) by $AcfCompanyName$
 AppComments=Compiled using $CompilerName$, see www.imagingtools.de to find out more about ACF
-AppCopyright=Copyright (C) 2007-2011 Witold Gantzke and Kirill Lepskiy
+AppCopyright=Copyright (C) 2007-2014 Witold Gantzke and Kirill Lepskiy
 VersionInfoVersion=$AcfVersion:0$
 ChangesEnvironment=yes
 
