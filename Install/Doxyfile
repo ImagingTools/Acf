@@ -850,7 +850,9 @@ EXCLUDE_SYMBOLS        = Ui \
                          I_TASSIGN_MULTI_4 \
                          I_TASSIGN_MULTI_5 \
                          I_REGISTER_SUBELEMENT \
-                         I_REGISTER_SUBELEMENT_INTERFACE
+                         I_REGISTER_SUBELEMENT_INTERFACE \
+                         I_ASSIGN_TO \
+                         I_TASSIGN_TO
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
