@@ -30,7 +30,6 @@
 #include "ibase/CInstantiatorComp.h"
 #include "ibase/CVersionInfoComp.h"
 #include "ibase/CApplicationInfoComp.h"
-#include "ibase/CModelProxyComp.h"
 #include "ibase/CModelBinderComp.h"
 #include "ibase/CUuidComp.h"
 #include "ibase/CObjectQueueComp.h"
@@ -88,7 +87,6 @@ typedef ifile::CFileTypeInfoComp FileTypeInfo;
 typedef ibase::CInstantiatorComp Instantiator;
 typedef ibase::CVersionInfoComp VersionInfo;
 typedef ibase::CApplicationInfoComp ApplicationInfo;
-typedef ibase::CModelProxyComp ModelProxy;
 typedef ibase::CModelBinderComp ModelBinder;
 typedef icomp::TModelCompWrap<ibase::CUuidComp> Uuid;
 typedef ibase::CObjectQueueComp ObjectQueue;

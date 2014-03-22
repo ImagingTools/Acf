@@ -54,11 +54,6 @@ I_EXPORT_COMPONENT(
 			"Application Meta Information" IM_CATEGORY(I_SERVICE) IM_TAG("Version"));
 
 I_EXPORT_COMPONENT(
-			ModelProxy,
-			"Model proxy",
-			"Proxy" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
-
-I_EXPORT_COMPONENT(
 			ModelBinder,
 			"Model binder",
 			"Observer Bind Composition Connection" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Composition"));
