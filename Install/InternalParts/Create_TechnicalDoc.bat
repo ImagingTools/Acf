@@ -8,4 +8,6 @@ doxygen
 
 cd ..\..
 
+qhelpgenerator .\Docs\TechnicalDoc\index.qhp
+
 echo Technical documentation created
