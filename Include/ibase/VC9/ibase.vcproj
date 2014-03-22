@@ -226,10 +226,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CModelProxyComp.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CMultiObserverBinderComp.cpp"
 				>
 			</File>
@@ -276,10 +272,6 @@
 			</File>
 			<File
 				RelativePath="..\CModelBinderComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CModelProxyComp.h"
 				>
 			</File>
 			<File
