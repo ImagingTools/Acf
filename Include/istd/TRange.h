@@ -12,8 +12,6 @@ namespace istd
 
 /**
 	Implementation of a abstract range defined by two values - minimum and maximum.
-
-	\ingroup Main
 */
 template <typename ValueType>
 class TRange

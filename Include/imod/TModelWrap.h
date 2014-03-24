@@ -19,7 +19,6 @@ namespace imod
 	\c istd::IChangeable implementation and a model.
 
 	\ingroup ModelObserver
-	\ingroup Helpers
 */
 template <class Base>
 class TModelWrap: public iser::TCopySerializedWrap<Base>, public imod::CModelBase

@@ -14,7 +14,6 @@
 	\li	iser
 
 	\ingroup Main
-
 	\ingroup ModelObserver
 */
 namespace imod

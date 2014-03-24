@@ -16,7 +16,7 @@ namespace istd
 
 	\ingroup ModelObserver
 	\ingroup Main
-	\ingroup Helpers
+	\ingroup DataModel
 */
 template <class Changeable>
 class TChangeNotifier: public istd::TPointerBase<Changeable>
@@ -165,7 +165,6 @@ inline TChangeNotifier<Changeable>::operator Changeable*() const
 
 	\ingroup ModelObserver
 	\ingroup Main
-	\ingroup Helpers
 */
 typedef TChangeNotifier<IChangeable> CChangeNotifier;
 

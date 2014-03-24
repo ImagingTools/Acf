@@ -12,8 +12,6 @@ namespace istd
 
 /**
 	Generic interface for a factory.
-
-	\ingroup Main
 */
 template <class Interface>
 class TIFactory: virtual public IFactoryInfo  

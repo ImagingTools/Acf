@@ -12,8 +12,6 @@ namespace iprm
 
 /**
 	Implementation of a named object over iprm::INameParam interface.
-
-	\ingroup Helpers
 */
 class CNameParam: virtual public INameParam
 {

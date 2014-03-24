@@ -14,6 +14,8 @@ namespace istd
 	Common interface for all classes that supports delegation of their data updates to
 	another class. This is usefull for composed objects to delegate information about data changes
 	from a child element to its owner.
+
+	\ingroup DataModel
  */
 class IChangeDelegator: virtual public istd::IChangeable
 {

@@ -16,7 +16,6 @@ namespace iser
 	Try copy of two objects using of serialization.
 
 	\ingroup Persistence
-	\ingroup Helpers
 */
 extern bool CopyByArchive(const istd::IChangeable& object, istd::IChangeable& result);
 extern bool CompareByArchive(const istd::IChangeable& object1, const istd::IChangeable& object2);

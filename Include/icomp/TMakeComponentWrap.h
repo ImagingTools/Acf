@@ -14,7 +14,6 @@ namespace icomp
 	Simple wrapper making component from non-component class.
 
 	\ingroup ComponentConcept
-	\ingroup Helpers
 */
 template <	class Base,
 			typename Interface1 = void,

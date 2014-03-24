@@ -16,6 +16,8 @@ class IPolymorphic;
 /**
 	Help wrapper class allowing to reduce nested update notifying by counting of changes.
 	If nested update is started, base class implementation of BeginChanges and EndChanges will be blocked.
+
+	\ingroup DataModel
 */
 template <class Base>
 class TUpdateManagerWrap: virtual public Base

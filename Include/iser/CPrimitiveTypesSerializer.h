@@ -19,8 +19,6 @@ namespace iser
 
 /**
 	Implementation range serializer.
-
-	\ingroup Main
 */
 class CPrimitiveTypesSerializer
 {

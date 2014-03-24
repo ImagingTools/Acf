@@ -13,6 +13,8 @@ namespace istd
 /**
 	Binder of two istd::IChangeable implementations
 	\sa CChangeDelegator
+
+	\ingroup DataModel
 */
 template <class Base, class Base2>
 class TChangeBinder: public Base, public Base2

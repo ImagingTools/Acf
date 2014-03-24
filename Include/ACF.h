@@ -16,7 +16,7 @@ ACF is open source and released under the terms of the GNU Lesser General Public
 See http://www.ilena.org or write info@imagingtools.de or contact
 by Skype to ACF_infoline for further information about the ACF.
 
-More theoretical considerations about the component-based development can be found at the following link:
+More theoretical considerations about the component-based development can be found at the following location:
 http://en.wikipedia.org/wiki/Component-based_software_engineering
 
 \section Basics
@@ -55,38 +55,112 @@ Below are some of the main features of ACF:
 	- zlib
 	- QScintilla
 */
+
+
+/**
+	\defgroup DataModel Data model
+	Several basic interfaces and implementation for abstract definition of the data model.
+	
+	The most important interface for a general data model definition is istd::IChangeable.
+	This is a common interface for describing of objects which change their state during the run time of the application.
+	The interface provides methods for managing data change transaction (istd::IChangeable::BeginChanges() and istd::IChangeable::EndChanges()), methods for coping, cloning, reseting and comparison of objects. The realization of change notification mechanism is also based on this interface.
+	Following example demonstrates implementation of a simple data object:
+	\code
+	class CPerson: virtual public istd::IChangeable
+	{
+	public:
+		QString GetFirstName() const;
+		void SetFirstName(const QString& firstName);
+		QString GetLastName() const;
+		void SetLastName(const QString& name);
+
+	private:
+		QString m_firstName;
+		QString m_lastName;
+	};
+
+	QString CPerson::GetFirstName() const
+	{
+		return m_firstName;
+	}
+
+	QString CPerson::SetFirstName(const QString& firstName)
+	{
+		if (m_firstName != firstName){
+			BeginChanges();
+
+			m_firstName = firstName;
+
+			EndChanges();
+		}
+	}
+
+	QString CPerson::GetLastName() const
+	{
+		return m_lastName;
+	}
+
+	QString CPerson::SetLastName(const QString& lastName)
+	{
+		if (m_lastName != lastName){
+			BeginChanges();
+
+			m_lastName = lastName;
+
+			EndChanges();
+		}
+	}
+	\endcode
+
+	In order to guarantee that the transaction block is always consistent, you could also use a helper class - istd::CChangeNotifier:
+
+	\code
+	QString CPerson::SetFirstName(const QString& firstName)
+	{
+		if (m_firstName != firstName){
+			istd::CChangeNotifier changeNotifier(this);
+
+			m_firstName = firstName;
+		}
+	}
+	\endcode
+
+	istd::CChangeNotifier calls BeginChanges in its constructor and EndChanges in the destructor.
+
+	\ingroup ACF
+*/
+
 /**
 	\defgroup ModelObserver Model/Observer concept
-	The main use-case of this concept is to get information on the observer side about changes of model.
+	The main use-case of this concept is to get information on the observer side about changes of the data.
 	It can be used e.g. to realize GUI update if related data model changes.
 
+	\sa DataModel
+
 	\ingroup ACF
 */
 
 /**
-	\defgroup Persistence Persistence concept.
+	\defgroup Persistence Persistence concept
+	Common interfaces and implementations for file based persistence and general object serialization.
+	
+	ACF provides own implementation of an archive-based serialization.
+
+	\sa DataModel
 
 	\ingroup ACF
 */
-
-
-/**
-	\defgroup Helpers Set of helper classes.
-
-	\ingroup ACF
-*/
-
 
 /**
 	\defgroup Main Main concepts and implementations
-	If you can learn how to use ACF you should begin with elements defined in this module.
+	If you want to learn how to use ACF, you should begin with elements defined in this module.
 
 	\ingroup ACF
 */
 
-
 /**
-	\defgroup System Defines access to operating system dependent implementation
+	\defgroup SystemDefines Operation system services
+	Access to operating system related functionality.
 
 	\ingroup ACF
 */
@@ -94,8 +168,8 @@ Below are some of the main features of ACF:
 /**
 	\defgroup ComponentConcept Component concept
 	This concept allows to divide application into smaller modules.
-	At the implementation level you don't need to care on the application topology.
-	The topology will be described separatelly using \em .arx files and can be started using
+	At the implementation level you don't need to care about the application topology.
+	The topology will be described separately using \em .arx files and can be started using
 	runtime environment over ACF tool or compiled to C++ code using ARXC compiler.
 	Additionally you can use component simulation to use components as "normal" classes.
 

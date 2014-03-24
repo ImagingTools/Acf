@@ -12,6 +12,8 @@ namespace istd
 
 /**
 	Delegates calls of IChangeable methods to the given slave.
+
+	\ingroup DataModel
 */
 class CChangeDelegator: virtual public istd::IChangeDelegator 
 {

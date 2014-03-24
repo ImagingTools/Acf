@@ -19,6 +19,8 @@ class NotificationTarget;
 
 /**
 	Implementation of model changes notification between different threads.
+
+	\ingroup DataModel
 */
 class CEventBasedNotifier
 {

@@ -7,15 +7,11 @@
 
 /**
 	Mathematical constant value PI.
-
-	\ingroup Main
 */
 static const double I_PI = 3.14159265358979323846;
 
 /**
 	Mathematical constant value 2 * PI.
-
-	\ingroup Main
 */
 static const double I_2PI = 6.2831853071795864769;
 
@@ -26,8 +22,6 @@ static const double I_2PI = 6.2831853071795864769;
 	This package use following ACF packages:
 	\li istd
 	\li iser
-
-	\ingroup Main
 */
 namespace imath
 {

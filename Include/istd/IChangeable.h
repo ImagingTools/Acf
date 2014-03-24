@@ -15,6 +15,8 @@ namespace istd
 	Common interface for data model objects, which can be changed.
 	Data model changes are executed in two steps: begin and end.
 	The caller can also put some flags and additional data to the update functions, to control the update logic.
+
+	\ingroup DataModel
 */
 class IChangeable: virtual public IPolymorphic  
 {
