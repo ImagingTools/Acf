@@ -7,7 +7,7 @@
 
 \mainpage
 \section Introduction
-ACF is a C++ based, cross-plattform component framework, that was especially designed for creation of very complex, customizable and highly scalable applications.
+ACF is a C++ based, cross-plattform component framework, that was especially designed for creation of complex, customizable and highly scalable applications.
 ACF follows the component-oriented programming paradigm and provides instruments to build software from reusable components and serves interfaces and concepts to create those components.
 ACF contains a set of libraries with implementations of most usefull design patterns, such Serialization, Model/Observer, Factory, Dependency Injection etc..
 ACF implements a powerfull component concept and includes many well designed components, which you can directly use in your application.
@@ -210,8 +210,13 @@ Below are some of the main features of ACF:
 	\defgroup Persistence Persistence concept
 	Common interfaces and implementations for file based persistence and general object serialization.
 	
-	\section Archive-based object serialization.
-	\section File-based persistence.
+	\section ObjectSerialization Archive-based object serialization
+	Objects that provide serialization must implement the iser::ISerializable interface. The most important method of this interface is Serialize().
+	Serialize method becomes as input an so called archive (iser::IArchive). An archive provides an abstract low level read/write access to a data medium.
+	By example an archive can represent a file, a memory block, a database or a network resource, but the concrete kind of the archive is completely hidden from data object's point of view.
+	Thus, we create a complete separation between the data model and the medium on which it is to be made persistent.
+
+	\section FilePersistence File-based persistence
 
 	\sa DataModel
 
