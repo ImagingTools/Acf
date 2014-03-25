@@ -46,7 +46,10 @@ bool CBitmapDocumentFilePersistenceComp::IsOperationSupported(
 }
 
 
-int CBitmapDocumentFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QString& filePath) const
+int CBitmapDocumentFilePersistenceComp::LoadFromFile(
+			istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (!m_bitmapPersistenceCompPtr.IsValid()){
 		SendCriticalMessage(0, "Bad component configuration! Component 'BitmapPersistence' was not set");
@@ -116,7 +119,10 @@ int CBitmapDocumentFilePersistenceComp::LoadFromFile(istd::IChangeable& data, co
 }
 
 
-int CBitmapDocumentFilePersistenceComp::SaveToFile(const istd::IChangeable& data, const QString& filePath) const
+int CBitmapDocumentFilePersistenceComp::SaveToFile(
+			const istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (!m_bitmapPersistenceCompPtr.IsValid()){
 		SendCriticalMessage(0, "Bad component configuration! Component 'BitmapPersistence' was not set");

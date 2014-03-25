@@ -41,13 +41,19 @@ bool CTextFileLogStreamerComp::IsOperationSupported(
 }
 
 
-int CTextFileLogStreamerComp::LoadFromFile(istd::IChangeable& /*data*/, const QString& /*filePath*/) const
+int CTextFileLogStreamerComp::LoadFromFile(
+			istd::IChangeable& /*data*/,
+			const QString& /*filePath*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	return OS_FAILED;
 }
 
 
-int CTextFileLogStreamerComp::SaveToFile(const istd::IChangeable& data, const QString& filePath) const
+int CTextFileLogStreamerComp::SaveToFile(
+			const istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return OS_FAILED;

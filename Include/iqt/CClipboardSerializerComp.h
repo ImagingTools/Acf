@@ -37,8 +37,14 @@ public:
 				const QString* filePathPtr = NULL,
 				int flags = -1,
 				bool beQuiet = true) const;
-	virtual int LoadFromFile(istd::IChangeable& data, const QString& filePath = QString()) const;
-	virtual int SaveToFile(const istd::IChangeable& data, const QString& filePath = QString()) const;
+	virtual int LoadFromFile(
+				istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const;
+	virtual int SaveToFile(
+				const istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const;
 
 	// reimplemented (ifile::IFileTypeInfo)
 	virtual bool GetFileExtensions(QStringList& result, int flags = -1, bool doAppend = false) const;

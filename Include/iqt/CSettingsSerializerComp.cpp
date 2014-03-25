@@ -34,7 +34,10 @@ bool CSettingsSerializerComp::IsOperationSupported(
 }
 
 
-int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const QString& /*filePath*/) const
+int CSettingsSerializerComp::LoadFromFile(
+			istd::IChangeable& data,
+			const QString& /*filePath*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (IsOperationSupported(&data, NULL, QF_LOAD | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(&data);
@@ -62,7 +65,10 @@ int CSettingsSerializerComp::LoadFromFile(istd::IChangeable& data, const QString
 }
 
 
-int CSettingsSerializerComp::SaveToFile(const istd::IChangeable& data, const QString& /*filePath*/) const
+int CSettingsSerializerComp::SaveToFile(
+			const istd::IChangeable& data,
+			const QString& /*filePath*/,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (IsOperationSupported(&data, NULL, QF_SAVE | QF_ANONYMOUS, false)){
 		iser::ISerializable* serializeblePtr = dynamic_cast<iser::ISerializable*>(const_cast<istd::IChangeable*>(&data));

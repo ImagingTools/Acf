@@ -11,12 +11,18 @@
 #include "ifile/IFileTypeInfo.h"
 
 
+namespace ibase
+{
+	class IProgressManager;
+}
+
+
 namespace ifile
 {
 
 
 /**
-	Provide loading and saving of objects.
+	Interface providing loading and saving of data objects.
 
 	\ingroup Persistence
 */
@@ -66,12 +72,23 @@ public:
 	};
 
 	/**
-		List of possible message ids used in context of this interface.
+		List of possible message IDs used in context of this interface.
 	*/
 	enum MessageId
 	{
+		/**
+			Data object is not supported.
+		*/
 		MI_BAD_OBJECT_TYPE = 0xabf0,
+
+		/**
+			Data object could not be loaded.
+		*/
 		MI_CANNOT_LOAD,
+
+		/**
+			Data object could not be saved.
+		*/
 		MI_CANNOT_SAVE
 	};
 
@@ -95,13 +112,19 @@ public:
 		This function loads data \c data from file \c filePath
 		\returns File loading state. \sa OperationState
 	*/
-	virtual int LoadFromFile(istd::IChangeable& data, const QString& filePath = QString()) const = 0;
+	virtual int LoadFromFile(
+				istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const = 0;
 
 	/**
 		This function saves data \c data to file \c filePath
 		\returns File saving state. \sa OperationState
 	*/
-	virtual int SaveToFile(const istd::IChangeable& data, const QString& filePath = QString()) const = 0;
+	virtual int SaveToFile(
+				const istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const = 0;
 };
 
 

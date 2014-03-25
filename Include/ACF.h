@@ -214,9 +214,71 @@ Below are some of the main features of ACF:
 	Objects that provide serialization must implement the iser::ISerializable interface. The most important method of this interface is Serialize().
 	Serialize method becomes as input an so called archive (iser::IArchive). An archive provides an abstract low level read/write access to a data medium.
 	By example an archive can represent a file, a memory block, a database or a network resource, but the concrete kind of the archive is completely hidden from data object's point of view.
-	Thus, we create a complete separation between the data model and the medium on which it is to be made persistent.
+	Thus, we create a complete separation between the data model and the medium on which it is to be made persistent. Following archive types are provided by ACF core libraries:
+	- Read from memory block - iser::CMemoryReadArchive
+	- Write to memory block - iser::CMemoryWriteArchive
+	- Read from binary file - ifile::CFileReadArchive
+	- Write to binary file - ifile::CFileWriteArchive
+	- Read from XML given as a string - iser::CXmlStringReadArchive
+	- Write to a XML-string - iser::CXmlStringWriteArchive
+	- Read from XML file - ifile::CXmlFileReadArchive
+	- Write to XML file - ifile::CXmlFileWriteArchive
+	- Read from memory block bitwise - iser::CBitMemoryReadArchive
+	- Write to memory block bitwise - iser::CBitMemoryWriteArchive
+	- Write to TCP/IP socket - iqt::CNetworkWriteArchive
+
+	We demonstrate the implementation of object serialization on example of CPerson class introduced in the \ref DataModel section. 
+	First of all we change CPerson to be inherited from iser::ISerializable. Because iser::ISerializable is already derived from istd::IChangeable, we have nothing else to change in this aspect.
+	Also we rewrite:
+
+	\code
+	class CPerson: virtual public iser::ISerializable
+	{
+	public:
+		
+		// reimplemented (iser::ISerializable)
+		virtual bool Serialize(iser::IArchive& archive);
+
+	private:
+		QString m_firstName;
+		QString m_lastName;
+	};
+
+	// reimplemented (iser::ISerializable)
+
+	virtual bool CPerson::Serialize(iser::IArchive& archive)
+	{
+		bool retVal = true;
+
+		// Use data model change notification only if the object will be reading from archive:
+		istd::CChangeNotifier changeNotification(!archive.IsStoring() ? this : NULL);
+
+		// Serialize object using tags:
+
+		// Serialize first name of the person:
+		static iser::CArchiveTag firstNameTag("FirstName", "First name of the person");
+		retVal = retVal && archive.BeginTag(firstNameTag); // Begin tag
+		retVal = retVal && archive.Process(m_firstName); // Process first name by archive	
+		retVal = retVal && archive.EndTag(firstNameTag); // Close tag
+
+		// Serialize last name of the person:
+		static iser::CArchiveTag lastNameTag("LastName", "Last name of the person");
+		retVal = retVal && archive.BeginTag(lastNameTag);
+		retVal = retVal && archive.Process(m_lastName);
+		retVal = retVal && archive.EndTag(lastNameTag);
+
+		return retVal;
+	}
+
+	\endcode
 
 	\section FilePersistence File-based persistence
+
+	Serialization is a low-level persistence mechanism, in which the structure of the data on the medium depends on implementation inside of data object.
+	But often you will offer persistence functionality, that is not depending on concrete object implementation.
+	A such situation is supporting of known data formats (by example reading or writing of PNG images, OpenOffice documents and so on).
+
+	For such situations ACF provides ifile::IFilePersistence interface.
 
 	\sa DataModel
 

@@ -9,7 +9,7 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "istd/CSystem.h"
-
+#include "ibase/IProgressManager.h"
 #include "ifile/CFileSerializerCompBase.h"
 
 
@@ -31,8 +31,14 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFilePersistence)
-	virtual int LoadFromFile(istd::IChangeable& data, const QString& filePath = QString()) const;
-	virtual int SaveToFile(const istd::IChangeable& data, const QString& filePath = QString()) const;
+	virtual int LoadFromFile(
+				istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const;
+	virtual int SaveToFile(
+				const istd::IChangeable& data,
+				const QString& filePath = QString(),
+				ibase::IProgressManager* progressManagerPtr = NULL) const;
 
 protected:
 	class ReadArchiveEx: public ReadArchive
@@ -128,7 +134,10 @@ protected:
 // reimplemented (ifile::IFilePersistence)
 
 template <class ReadArchive, class WriteArchive>
-int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeable& data, const QString& filePath) const
+int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(
+			istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		ReadArchiveEx archive(filePath, this);
@@ -161,7 +170,10 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(istd::IChangeab
 
 
 template <class ReadArchive, class WriteArchive>
-int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(const istd::IChangeable& data, const QString& filePath) const
+int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
+			const istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (*m_autoCreateDirectoryAttrPtr){
 		QFileInfo fileInfo(filePath);

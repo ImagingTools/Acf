@@ -32,7 +32,10 @@ bool CTextFileLoaderComp::IsOperationSupported(
 }
 
 
-int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const QString& filePath) const
+int CTextFileLoaderComp::LoadFromFile(
+			istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
 		return OS_FAILED;
@@ -61,7 +64,10 @@ int CTextFileLoaderComp::LoadFromFile(istd::IChangeable& data, const QString& fi
 }
 
 
-int CTextFileLoaderComp::SaveToFile(const istd::IChangeable& data, const QString& filePath) const
+int CTextFileLoaderComp::SaveToFile(
+			const istd::IChangeable& data,
+			const QString& filePath,
+			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
 	if (!IsOperationSupported(&data, &filePath, QF_SAVE | QF_FILE, false)){
 		return OS_FAILED;
