@@ -48,7 +48,7 @@
         </property>
         <property name="icon">
          <iconset resource="../iqtgui/iqtgui.qrc">
-          <normaloff>:/Icons/Open.svg</normaloff>:/Icons/Open.svg</iconset>
+          <normaloff>:/Icons/Open</normaloff>:/Icons/Open</iconset>
         </property>
        </widget>
       </item>
@@ -65,7 +65,7 @@
         </property>
         <property name="icon">
          <iconset resource="../iqtgui/iqtgui.qrc">
-          <normaloff>:/Icons/Save.svg</normaloff>:/Icons/Save.svg</iconset>
+          <normaloff>:/Icons/Save</normaloff>:/Icons/Save</iconset>
         </property>
        </widget>
       </item>

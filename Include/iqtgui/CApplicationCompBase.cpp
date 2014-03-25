@@ -147,7 +147,7 @@ void CApplicationCompBase::InitializeComponentApplication()
 		icon = QIcon(*m_iconPathAttrPtr);
 	}
 	else{
-		icon.addFile(":/Icons/AcfLogo.svg");
+		icon.addFile(":/Icons/AcfLogo");
 	}
 	m_applicationPtr->setWindowIcon(icon);
 

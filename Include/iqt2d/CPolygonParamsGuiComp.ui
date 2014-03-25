@@ -70,7 +70,7 @@
        </property>
        <property name="icon">
         <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Add.svg</normaloff>:/Icons/Add.svg</iconset>
+         <normaloff>:/Icons/Add</normaloff>:/Icons/Add</iconset>
        </property>
        <property name="shortcut">
         <string>Ctrl+Ins</string>
@@ -87,7 +87,7 @@
        </property>
        <property name="icon">
         <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Delete.svg</normaloff>:/Icons/Delete.svg</iconset>
+         <normaloff>:/Icons/Delete</normaloff>:/Icons/Delete</iconset>
        </property>
        <property name="shortcut">
         <string>Shift+Del</string>
@@ -164,7 +164,7 @@
        </property>
        <property name="icon">
         <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Tools.svg</normaloff>:/Icons/Tools.svg</iconset>
+         <normaloff>:/Icons/Tools</normaloff>:/Icons/Tools</iconset>
        </property>
       </widget>
      </item>

@@ -559,21 +559,21 @@ void CConsoleGui::UpdateCommands()
 
 	// zoom commands
 	if (AreZoomsVisible()){
-		m_zoomInCommand.setIcon(QIcon(":/Icons/ZoomIn.svg"));
+		m_zoomInCommand.setIcon(QIcon(":/Icons/ZoomIn"));
 		m_zoomInCommand.setToolTip(tr("Zoom In"));
 		m_commands.InsertChild(&m_zoomInCommand);
 
-		m_zoomOutCommand.setIcon(QIcon(":/Icons/ZoomOut.svg"));
+		m_zoomOutCommand.setIcon(QIcon(":/Icons/ZoomOut"));
 		m_zoomOutCommand.setToolTip(tr("Zoom Out"));
 		m_commands.InsertChild(&m_zoomOutCommand);
 
-		m_zoomResetCommand.setIcon(QIcon(":/Icons/ZoomReset.svg"));
+		m_zoomResetCommand.setIcon(QIcon(":/Icons/ZoomReset"));
 		m_zoomResetCommand.setToolTip(tr("Reset Zoom"));
 		m_commands.InsertChild(&m_zoomResetCommand);
 	}
 
 	if (IsZoomToFitVisible()){
-		m_zoomToFitCommand.setIcon(QIcon(":/Icons/ZoomToFit.svg"));
+		m_zoomToFitCommand.setIcon(QIcon(":/Icons/ZoomToFit"));
 		m_zoomToFitCommand.setToolTip(tr("Zoom to Fit"));
 		m_commands.InsertChild(&m_zoomToFitCommand);
 	}

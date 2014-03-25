@@ -203,9 +203,9 @@ void CTextLogGuiComp::InsertText(QTextTableCell cell, const QString& text, const
 QIcon CTextLogGuiComp::GetCategoryIcon(int category) const
 {
 	static QIcon logIcon(":/Icons/Log");
-	static QIcon infoIcon(":/Icons/Info.svg");
-	static QIcon warningIcon(":/Icons/Warning.svg");
-	static QIcon errorIcon(":/Icons/Error.svg");
+	static QIcon infoIcon(":/Icons/Info");
+	static QIcon warningIcon(":/Icons/Warning");
+	static QIcon errorIcon(":/Icons/Error");
 
 	switch (category){
 	case istd::IInformationProvider::IC_INFO:
@@ -227,9 +227,9 @@ QIcon CTextLogGuiComp::GetCategoryIcon(int category) const
 QImage CTextLogGuiComp::GetCategoryImage(int category) const
 {
 	static QImage logImage(":/Icons/Log");
-	static QImage infoImage(":/Icons/Info.svg");
-	static QImage warningImage(":/Icons/Warning.svg");
-	static QImage errorImage(":/Icons/Error.svg");
+	static QImage infoImage(":/Icons/Info");
+	static QImage warningImage(":/Icons/Warning");
+	static QImage errorImage(":/Icons/Error");
 
 	static bool initialized = false;
 	if (!initialized){

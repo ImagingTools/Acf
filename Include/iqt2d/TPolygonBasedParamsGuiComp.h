@@ -332,12 +332,12 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToo
 		QMenu& menu = *BaseClass::ToolsButton->menu();
 		menu.clear();
 
-		menu.addAction(QIcon(":/Icons/FlipHorizontal.svg"), tr("Flip horizontally"))->setData(ActionFlipHorizontally);
-		menu.addAction(QIcon(":/Icons/FlipVertical.svg"), tr("Flip vertically"))->setData(ActionFlipVertically);
-		menu.addAction(QIcon(":/Icons/RotateRight.svg"), tr("Rotate clockwise"))->setData(ActionRotateClockwise);
-		menu.addAction(QIcon(":/Icons/RotateLeft.svg"), tr("Rotate counterclockwise"))->setData(ActionRotateCounterclockwise);
+		menu.addAction(QIcon(":/Icons/FlipHorizontal"), tr("Flip horizontally"))->setData(ActionFlipHorizontally);
+		menu.addAction(QIcon(":/Icons/FlipVertical"), tr("Flip vertically"))->setData(ActionFlipVertically);
+		menu.addAction(QIcon(":/Icons/RotateRight"), tr("Rotate clockwise"))->setData(ActionRotateClockwise);
+		menu.addAction(QIcon(":/Icons/RotateLeft"), tr("Rotate counterclockwise"))->setData(ActionRotateCounterclockwise);
 		if (polylinePtr != NULL){
-			menu.addAction(QIcon(":/Icons/Reverse.svg"), tr("Reverse line"))->setData(ActionReverseLine);
+			menu.addAction(QIcon(":/Icons/Reverse"), tr("Reverse line"))->setData(ActionReverseLine);
 		}
 	}
 }

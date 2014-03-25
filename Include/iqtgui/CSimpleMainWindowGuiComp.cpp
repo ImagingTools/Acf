@@ -492,7 +492,7 @@ void CSimpleMainWindowGuiComp::OnRetranslate()
 	m_showOtherWindows.SetVisuals(tr("Other Windows"), tr("Other Windows"), tr("Show additional windows"));
 
 	// Tools commands
-	m_settingsCommand.SetVisuals(tr("&Preferences"), tr("Preferences"), tr("Show global application preferences"), QIcon(":/Icons/Settings.svg"));
+	m_settingsCommand.SetVisuals(tr("&Preferences"), tr("Preferences"), tr("Show global application preferences"), QIcon(":/Icons/Settings"));
 	m_settingsCommand.setMenuRole(QAction::PreferencesRole);
 
 	// Help commands

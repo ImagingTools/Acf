@@ -23,15 +23,15 @@ int main(int argc, char *argv[])
 
 	QLabel page1("Page 1");
 	tabContainer.InsertPage(&page1, "Page 1");
-	tabContainer.SetPageIcon(0, QIcon(":/Icons/StateOk.svg"));
+	tabContainer.SetPageIcon(0, QIcon(":/Icons/StateOk"));
 
 	QLabel page2("Page 2");
 	tabContainer.InsertPage(&page2, "Page 2");
-	tabContainer.SetPageIcon(1, QIcon(":/Icons/StateWarning.svg"));
+	tabContainer.SetPageIcon(1, QIcon(":/Icons/StateWarning"));
 
 	QLabel page3("Page 3");
 	tabContainer.InsertPage(&page3, "Page 3");
-	tabContainer.SetPageIcon(2, QIcon(":/Icons/StateInvalid.svg"));
+	tabContainer.SetPageIcon(2, QIcon(":/Icons/StateInvalid"));
 
 	tabContainer.showMaximized();
 

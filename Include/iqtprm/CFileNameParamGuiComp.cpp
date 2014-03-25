@@ -124,7 +124,7 @@ void CFileNameParamGuiComp::OnGuiCreated()
 	if (!*m_readOnlyAttrPtr){
 		QToolButton* cdUpButton = new QToolButton(lineEdit);
 		cdUpButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-		cdUpButton->setIcon(QIcon(":/Icons/UpDir.svg"));
+		cdUpButton->setIcon(QIcon(":/Icons/UpDir"));
 		connect(cdUpButton, SIGNAL(clicked()), this, SLOT(OnDirectoryUp()));
 
 		lineEdit->AddWidget(cdUpButton, Qt::AlignRight);
@@ -344,7 +344,7 @@ QIcon CFileNameParamGuiComp::GetFileIcon(const QString& filePath) const
 		return QIcon();
 	}
 
-	QIcon fileIcon = QIcon(":/Icons/Warning.svg");
+	QIcon fileIcon = QIcon(":/Icons/Warning");
 
 	QModelIndex index = m_directoryModel.index(istd::CSystem::GetEnrolledPath(filePath));
 	if (index.isValid()){

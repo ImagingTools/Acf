@@ -32,9 +32,9 @@ CMessageBoxComp::CMessageBoxComp()
 
 QIcon CMessageBoxComp::GetCategoryIcon(int category) const
 {
-	static QIcon infoIcon(":/Icons/Info.svg");
-	static QIcon warningIcon(":/Icons/Warning.svg");
-	static QIcon errorIcon(":/Icons/Error.svg");
+	static QIcon infoIcon(":/Icons/Info");
+	static QIcon warningIcon(":/Icons/Warning");
+	static QIcon errorIcon(":/Icons/Error");
 
 	switch (category){
 	case istd::IInformationProvider::IC_INFO:

@@ -21,10 +21,10 @@ namespace iqt2d
 
 QIcon CMultiBitmapViewComp::GetCategoryIcon(istd::IInformationProvider::InformationCategory category)
 {
-	static QIcon defaultIcon(":/Icons/StateUnknown.svg");
-	static QIcon infoIcon(":/Icons/StateOk.svg");
-	static QIcon warningIcon(":/Icons/StateWarning.svg");
-	static QIcon errorIcon(":/Icons/StateInvalid.svg");
+	static QIcon defaultIcon(":/Icons/StateUnknown");
+	static QIcon infoIcon(":/Icons/StateOk");
+	static QIcon warningIcon(":/Icons/StateWarning");
+	static QIcon errorIcon(":/Icons/StateInvalid");
 
 	switch (category){
 	case istd::IInformationProvider::IC_INFO:

@@ -85,9 +85,9 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 QIcon CLogGuiComp::GetCategoryIcon(int category) const
 {
 	static QIcon logIcon(":/Icons/Log");
-	static QIcon infoIcon(":/Icons/Info.svg");
-	static QIcon warningIcon(":/Icons/Warning.svg");
-	static QIcon errorIcon(":/Icons/Error.svg");
+	static QIcon infoIcon(":/Icons/Info");
+	static QIcon warningIcon(":/Icons/Warning");
+	static QIcon errorIcon(":/Icons/Error");
 
 	switch (category){
 	case istd::IInformationProvider::IC_INFO:
@@ -188,7 +188,7 @@ void CLogGuiComp::OnGuiCreated()
 	QActionGroup* actionGroup = new QActionGroup(this);
 	actionGroup->setExclusive(true);
 
-	static QIcon infoIcon(":/Icons/Info.svg");
+	static QIcon infoIcon(":/Icons/Info");
 	m_infoActionPtr = new QAction(infoIcon, tr("Info"), ToolBarFrame);
 	m_infoActionPtr->setCheckable(true);
 	m_infoActionPtr->setData(MM_INFO);
@@ -198,7 +198,7 @@ void CLogGuiComp::OnGuiCreated()
 		m_infoActionPtr->setChecked(true);
 	}
 
-	static QIcon warningIcon(":/Icons/Warning.svg");
+	static QIcon warningIcon(":/Icons/Warning");
 	m_warningActionPtr = new QAction(warningIcon, tr("Warning"), ToolBarFrame);
 	m_warningActionPtr->setCheckable(true);
 	m_warningActionPtr->setData(MM_WARNING);
@@ -208,7 +208,7 @@ void CLogGuiComp::OnGuiCreated()
 		m_warningActionPtr->setChecked(true);
 	}
 
-	static QIcon errorIcon(":/Icons/Error.svg");
+	static QIcon errorIcon(":/Icons/Error");
 	m_errorActionPtr = new QAction(errorIcon, tr("Error"), ToolBarFrame);
 	m_errorActionPtr->setCheckable(true);
 	m_errorActionPtr->setData(MM_ERROR);
@@ -231,7 +231,7 @@ void CLogGuiComp::OnGuiCreated()
 	toolBar->insertSeparator(m_clearActionPtr);
 
 	if (m_fileLoaderCompPtr.IsValid()){
-		static QIcon exportIcon(":/Icons/DocumentExport.svg");
+		static QIcon exportIcon(":/Icons/DocumentExport");
 
 		m_exportActionPtr = new QAction(exportIcon, tr("Export..."), ToolBarFrame);
 		connect(m_exportActionPtr, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
