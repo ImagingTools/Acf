@@ -22,16 +22,17 @@ namespace ifile
 
 
 /**
-	The component for automatic object peristence.
-
-	Referenced object can be stored and restored according to the configuration mode defined by component attributes.
+	The component for automatic object persistence. With the help of this component data objects can be backed up at specific time points and restored.
+	The data object that should be restored or backed up, will be connected via component reference.
+	The backup or restoring of data is done according to the component configuration, that is given by the component's attributes.
 	Enable \c RestoreOnBegin attribute if you want to restore the object from the file during component initialization.
 	Enable \c StoreOnEnd attribute if you want to save the object to the file during component de-initialization.
 	Enable \c StoreOnChange attribute if you want to save the object to the file each time if the object data was changed.
 	Also you can specify some time interval for permanently data storing.
-	If this parameter is set, then the object will be stored to the file in the given time interval,
-	but only if the object data was changed.
-	\note If time interval for object storing is set, the \c StoreOnChange attribute will be ignored.
+	If this parameter is set, then the object will be stored to the file in the given time interval, but only if the object data was changed.
+	\note If the time interval for the object storing is set, the \c StoreOnChange attribute will be ignored.
+	\note Please note, that this component doesn't provide any public interfaces. The data object will be attached to the internal observer during the initialization phase of the component.
+	To enforce the instatiation of this component, you should activate 'Automatically create instance' flag in the Compositor.
 
 	\ingroup Persistence
 */

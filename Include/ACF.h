@@ -54,6 +54,13 @@ Below are some of the main features of ACF:
 	- FFMpeg
 	- zlib
 	- QScintilla
+
+\section BasicTutorials Tutorials
+Hier you will find beginner tutorials:
+- Say hello to ACF world:
+http://ilena.org/redmine/projects/acf/wiki/HelloWorld
+- Big brother is watching you (Model/Observer):
+http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 */
 
 
