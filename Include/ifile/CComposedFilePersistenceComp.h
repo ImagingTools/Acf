@@ -2,10 +2,9 @@
 #define ifile_CComposedFilePersistenceComp_included
 
 
+// ACF includes
 #include "ifile/IFilePersistence.h"
 #include "ifile/IFilePersistenceInfo.h"
-
-
 #include "icomp/CComponentBase.h"
 
 // Qt includes
@@ -18,6 +17,8 @@ namespace ifile
 
 /**
 	Loader component, which delegates the persistence functionality to its slave loaders.
+
+	\ingroup Persistence
 */
 class CComposedFilePersistenceComp:
 			public icomp::CComponentBase,

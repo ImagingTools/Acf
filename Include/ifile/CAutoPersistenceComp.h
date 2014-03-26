@@ -22,7 +22,8 @@ namespace ifile
 
 
 /**
-	Allow automatic object persistence.
+	The component for automatic object peristence.
+
 	Referenced object can be stored and restored according to the configuration mode defined by component attributes.
 	Enable \c RestoreOnBegin attribute if you want to restore the object from the file during component initialization.
 	Enable \c StoreOnEnd attribute if you want to save the object to the file during component de-initialization.
@@ -31,6 +32,8 @@ namespace ifile
 	If this parameter is set, then the object will be stored to the file in the given time interval,
 	but only if the object data was changed.
 	\note If time interval for object storing is set, the \c StoreOnChange attribute will be ignored.
+
+	\ingroup Persistence
 */
 class CAutoPersistenceComp:
 			public QObject,
@@ -54,11 +57,20 @@ public:
 		I_ASSIGN(m_storeIntervalAttrPtr, "StoreInterval", "Time interval in seconds for automatic object storing", false, 10)
 	I_END_COMPONENT;
 
+	/**
+		Default constructor.
+	*/
 	CAutoPersistenceComp();
 
 protected:
+	/**
+		Store object copy in a separate thread.
+	*/
 	void SaveObjectSnapshot();
 
+	/**
+		Store data object using pre-configured persistence component and file path.
+	*/
 	virtual void StoreObject(const istd::IChangeable& object) const;
 
 	// reimplemented (imod::CSingleModelObserverBase)
@@ -69,23 +81,58 @@ protected:
 	virtual void OnComponentDestroyed();
 
 private Q_SLOTS:
+	/**
+		Slot triggered if the persistence timer expired and trigger object saving.
+	*/
 	void OnTimeout();
 
 private:
+	/**
+		Ensure that the peristence timer was connected to the timeout slot.
+	*/
 	void EnsureTimerConnected();
 
 private:
+	/**
+		Reference to the object to be made persisitent.
+	*/
 	I_REF(istd::IChangeable, m_objectCompPtr);
 	I_REF(iser::ISerializable, m_serializeableObjectCompPtr);
 	I_REF(imod::IModel, m_objectModelCompPtr);
+
+	/**
+		Reference to the file persistence component used for data object saving/loading.
+	*/
 	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
+
+	/**
+		Reference to the file path component used for data object saving/loading.
+	*/
 	I_REF(ifile::IFileNameParam, m_filePathCompPtr);
+
+	/**
+		Attribute for enabling the reading of the data object during component initialization (eg. on application's start)
+	*/
 	I_ATTR(bool, m_restoreOnBeginAttrPtr);
+
+	/**
+		Attribute for enabling the storing of the data object during component deinitialization (eg. on application's finish)
+	*/
 	I_ATTR(bool, m_storeOnEndAttrPtr);
+
+	/**
+		Attribute for enabling the storing of the data object on each data change.
+	*/
 	I_ATTR(bool, m_storeOnChangeAttrPtr);
+
+	/**
+		Attribute for defining the store interval.
+		If set the data object wil be saved in the given interval, of the object's data has been changed.
+	*/
 	I_ATTR(double, m_storeIntervalAttrPtr);
 
 	iser::CMemoryWriteArchive m_lastStoredObjectState;
+
 	bool m_isDataWasChanged;
 
 	QTimer m_storingTimer;

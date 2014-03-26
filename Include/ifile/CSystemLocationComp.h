@@ -2,11 +2,10 @@
 #define ifile_CSystemLocationComp_included
 
 
-#include "icomp/CComponentBase.h"
-
+// ACF includes
 #include "iser/ISerializable.h"
+#include "icomp/CComponentBase.h"
 #include "ifile/IFileTypeInfo.h"
-
 #include "ifile/IFileNameParam.h"
 
 

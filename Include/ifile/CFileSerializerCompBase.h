@@ -7,6 +7,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QFileInfo>
 
+
 // ACF includes
 #include "ilog/TLoggerCompWrap.h"
 #include "ifile/IFilePersistence.h"
@@ -20,6 +21,8 @@ namespace ifile
 /**
 	Base implementation of file serializer.
 	Serializer allows to load and save objects implementing iser::ISerializable interface.
+
+	\ingroup Persistence
 */
 class CFileSerializerCompBase:
 			public ilog::TLoggerCompWrap<CFileTypeInfoComp>,
@@ -28,9 +31,19 @@ class CFileSerializerCompBase:
 public:	
 	typedef ilog::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
 
+	/**
+		List if possible message IDs.
+	*/
 	enum MessageId
 	{
+		/**
+			File path hase an unsupported file exptension.
+		*/
 		MI_BAD_EXTENSION = 0xac10,
+
+		/*
+			Archive used for serialization uses has an unsupported version.
+		*/
 		MI_UNSUPPORTED_VERSION
 	};
 
@@ -54,7 +67,7 @@ protected:
 	virtual const iser::IVersionInfo* GetVersionInfo() const;
 
 	/**
-		Check if minimal version of some serializable object is supported by version info.
+		Check if the minimal version of some serializable object is supported by version info.
 	*/
 	bool CheckMinimalVersion(const iser::ISerializable& object, const iser::IVersionInfo& versionInfo) const;
 

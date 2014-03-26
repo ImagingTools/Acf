@@ -2,6 +2,7 @@
 #define ifile_CFileArchiveInfo_included
 
 
+// ACF includes
 #include "ifile/IFileArchiveInfo.h"
 
 
@@ -11,6 +12,8 @@ namespace ifile
 
 /**
 	Basic implementation of interface ifile::IFileArchiveInfo.
+
+	\ingroup Persistence
 */
 class CFileArchiveInfo: virtual public IFileArchiveInfo
 {

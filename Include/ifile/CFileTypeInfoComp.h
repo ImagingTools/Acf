@@ -13,6 +13,8 @@ namespace ifile
 
 /**
 	Simple implementation of ifile::IFileTypeInfo using user defined extension list and descriptions.
+
+	\ingroup Persistence
 */
 class CFileTypeInfoComp:
 			public icomp::CComponentBase,

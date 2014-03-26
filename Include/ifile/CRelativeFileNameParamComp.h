@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "imod/CMultiModelBridgeBase.h"
-
 #include "ifile/CFileNameParamComp.h"
 
 

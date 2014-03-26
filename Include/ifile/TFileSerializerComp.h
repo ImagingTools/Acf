@@ -19,6 +19,8 @@ namespace ifile
 
 /**
 	Template implementation of file serializer using loading and storing archive implementation.
+
+	\ingroup Persistence
 */
 template <class ReadArchive, class WriteArchive>
 class TFileSerializerComp: public CFileSerializerCompBase
