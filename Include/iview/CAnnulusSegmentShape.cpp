@@ -58,7 +58,7 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 			if (tickerBox.IsInside(position - ticker1)){
 				m_editMode = EM_INNER_RADIUS;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
@@ -66,7 +66,7 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 			if (tickerBox.IsInside(position - ticker2)){
 				m_editMode = EM_OUTER_RADIUS;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
@@ -91,7 +91,7 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 			if (tickerBox.IsInside(position - ticker3)){
 				m_editMode = EM_ANGLE1;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
@@ -99,7 +99,7 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 			if (tickerBox.IsInside(position - ticker4)){
 				m_editMode = EM_ANGLE2;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}

@@ -128,28 +128,39 @@ bool CPerspectiveCalibrationBoundsShape::OnMouseButton(istd::CIndex2d position, 
 
 			if (viewScale * viewLeft.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_LEFT;
-				BeginModelChanges();
+
+				BeginTickerDrag();
+
 				return true;
 			}
+
 			if (viewScale * viewRight.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_RIGHT;
-				BeginModelChanges();
+
+				BeginTickerDrag();
+
 				return true;
 			}
+
 			if (viewScale * viewTop.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_TOP;
-				BeginModelChanges();
+
+				BeginTickerDrag();
+
 				return true;
 			}
+
 			if (viewScale * viewBottom.GetDistance(viewPos) < viewportLineWidth){
 				m_editBound = EB_BOTTOM;
-				BeginModelChanges();
+
+				BeginTickerDrag();
+
 				return true;
 			}
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }

@@ -130,7 +130,7 @@ void CInteractiveShapeBase::EndDrag()
 
 // protected methods
 
-void CInteractiveShapeBase::BeginModelChanges()
+void CInteractiveShapeBase::BeginTickerDrag()
 {
 	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
 	m_changeNotifier.SetPtr(objectPtr);
@@ -142,7 +142,7 @@ void CInteractiveShapeBase::BeginModelChanges()
 }
 
 
-void CInteractiveShapeBase::EndModelChanges()
+void CInteractiveShapeBase::EndTickerDrag()
 {
 	UpdateModelChanges();
 

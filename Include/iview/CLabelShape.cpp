@@ -55,7 +55,7 @@ bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonT
 				m_referenceOffset = position;
 				m_isAlignFixed = true;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
@@ -64,14 +64,14 @@ bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonT
 				m_editMode = EM_POSITION;
 				m_referencePosition = cp - GetLogPosition(position);
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	m_isAlignFixed = false;
 

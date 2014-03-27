@@ -134,20 +134,21 @@ bool CArrowShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonT
 				m_referencePosition = linePtr->GetPoint2() - GetLogPosition(position);
 				m_referenceIndex = 1;
 
-				BeginModelChanges();
+				BeginTickerDrag();
 				return true;
 			}
 			else  if (tickerBox.IsInside(position - m_points[0])){
 				m_referencePosition = linePtr->GetPoint1() - GetLogPosition(position);
 				m_referenceIndex = 0;
 
-				BeginModelChanges();
+				BeginTickerDrag();
+
 				return true;
 			}
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }
@@ -257,13 +258,11 @@ void CArrowShape::SetLogDragPosition(const i2d::CVector2d& position)
 			i2d::CLine2d& line = *dynamic_cast<i2d::CLine2d*>(modelPtr);
 			Q_ASSERT(&line != NULL);
 
-			BeginModelChanges();
-
 			line.SetPoint1(line.GetPoint1() + position - m_referencePosition);
 			line.SetPoint2(line.GetPoint2() + position - m_referencePosition);
 			m_referencePosition = position;
 
-			EndModelChanges();
+			UpdateModelChanges();
 		}
 	}
 }

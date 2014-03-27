@@ -247,12 +247,12 @@ bool CTubePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton 
 
 			if (m_editedNodeIndex >= 0 && (m_editMode == EM_LEFT || m_editMode == EM_RIGHT)){
 				if (downFlag){
-					BeginModelChanges();
+					BeginTickerDrag();
 
 					return true;
 				}
 
-				EndModelChanges();
+				EndTickerDrag();
 
 				return false;
 			}
@@ -285,7 +285,7 @@ bool CTubePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton 
 		return true;
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }

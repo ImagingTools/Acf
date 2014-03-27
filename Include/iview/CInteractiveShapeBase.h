@@ -55,8 +55,8 @@ public:
 	virtual bool OnDetached(imod::IModel* modelPtr);
 
 protected:
-	void BeginModelChanges();
-	void EndModelChanges();
+	void BeginTickerDrag();
+	void EndTickerDrag();
 	void UpdateModelChanges();
 
 	/**

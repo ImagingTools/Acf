@@ -171,19 +171,19 @@ bool CRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 				m_editNode = EN_CORNER22;
 			}
 			else{
-				EndModelChanges();
+				EndTickerDrag();
 
 				return false;
 			}
 			m_referencePosition = GetLogPosition(position);
 
-			BeginModelChanges();
+			BeginTickerDrag();
 
 			return true;
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }
@@ -295,12 +295,10 @@ void CRectangleShape::SetLogDragPosition(const i2d::CVector2d& position)
 		i2d::CRectangle& rectangle = *dynamic_cast<i2d::CRectangle*>(modelPtr);
 		Q_ASSERT(&rectangle != NULL);
 
-		BeginModelChanges();
-
 		rectangle.Translate(position - m_referencePosition);
 		m_referencePosition = position;
 
-		EndModelChanges();
+		UpdateModelChanges();
 	}
 }
 

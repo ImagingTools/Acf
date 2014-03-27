@@ -57,7 +57,7 @@ bool CCenterPinShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
 	if (!IsEditablePosition()){
-		EndModelChanges();
+		EndTickerDrag();
 
 		return false;
 	}
@@ -73,14 +73,14 @@ bool CCenterPinShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 			if (tickerBox.IsInside(position - sp)){
 				m_referencePosition = cp - GetLogPosition(position);
 
-				BeginModelChanges();
+				BeginTickerDrag();
 
 				return true;
 			}
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }

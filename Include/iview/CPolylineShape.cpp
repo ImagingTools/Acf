@@ -56,7 +56,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 								m_referencePosition = cp - GetLogPosition(position);
 								m_referenceIndex = i;
 
-								BeginModelChanges();
+								BeginTickerDrag();
 
 								return true;
 							}
@@ -77,7 +77,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 						}
 						istd::CIndex2d spLast = GetScreenPosition(cpLast).ToIndex2d();
 						if (tickerBox.IsInside(position - spLast)){
-							BeginModelChanges();
+							BeginTickerDrag();
 
 							if (polylinePtr->InsertNode(cpLast)){
 								m_referencePosition = cpLast - GetLogPosition(position);
@@ -92,7 +92,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 							i2d::CVector2d middle = GetSegmentMiddle(i);
 							istd::CIndex2d sp = GetScreenPosition(middle).ToIndex2d();
 							if (tickerBox.IsInside(position - sp)){
-								BeginModelChanges();
+								BeginTickerDrag();
 
 								if (polylinePtr->InsertNode(i + 1, middle)){
 									m_referencePosition = middle - GetLogPosition(position);
@@ -108,7 +108,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 							i2d::CVector2d cpFirst = polylinePtr->GetNode(0);
 							istd::CIndex2d spFirst = GetScreenPosition(cpFirst).ToIndex2d();
 							if (tickerBox.IsInside(position - spFirst)){
-								BeginModelChanges();
+								BeginTickerDrag();
 
 								if (polylinePtr->InsertNode(0, cpFirst)){
 									m_referencePosition = cpFirst - GetLogPosition(position);
@@ -131,11 +131,12 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 							const i2d::CVector2d& cp = polylinePtr->GetNode(i);
 							istd::CIndex2d sp = GetScreenPosition(cp).ToIndex2d();
 							if (tickerBox.IsInside(position - sp)){
-								BeginModelChanges();
+								BeginTickerDrag();
 
 								polylinePtr->RemoveNode(i);
 
-								EndModelChanges();
+								EndTickerDrag();
+
 								return true;
 							}
 						}
@@ -145,7 +146,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 			}
 		}
 
-		EndModelChanges();
+		EndTickerDrag();
 	}
 
 	return false;

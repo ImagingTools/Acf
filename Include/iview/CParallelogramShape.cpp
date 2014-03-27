@@ -96,27 +96,29 @@ bool CParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton
 		if ((m_isEditableHeight || m_isEditableAngle) && tickerBox.IsInside(position - m_nodes[EN_NODE12].ToIndex2d())){
 			m_editNode = EN_NODE12;
 
-			BeginModelChanges();
+			BeginTickerDrag();
 
 			return true;
 		}
+
 		if ((m_isEditableWidth || m_isEditableAngle) && tickerBox.IsInside(position - m_nodes[EN_NODE21].ToIndex2d())){
 			m_editNode = EN_NODE21;
 
-			BeginModelChanges();
+			BeginTickerDrag();
 
 			return true;
 		}
+
 		if (m_isEditableRotation && tickerBox.IsInside(position - m_nodes[EN_NODE22].ToIndex2d())){
 			m_editNode = EN_NODE22;
 
-			BeginModelChanges();
+			BeginTickerDrag();
 
 			return true;
 		}
 	}
 
-	EndModelChanges();
+	EndTickerDrag();
 
 	return false;
 }
@@ -454,11 +456,9 @@ void CParallelogramShape::SetLogDragPosition(const i2d::CVector2d& position)
 	imod::IModel* modelPtr = GetModelPtr();
 	i2d::CParallelogram* parallelogramPtr = dynamic_cast<i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
-		BeginModelChanges();
-
 		parallelogramPtr->MoveCenterTo(m_referencePosition + position);
 
-		EndModelChanges();
+		UpdateModelChanges();
 	}
 }
 
