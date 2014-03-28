@@ -37,7 +37,7 @@ public:
 		*/
 		CF_ABORTED = 1 << 2,
 		/**
-			Change flag indicate that this change was delegated (is indirect) for example from agregated object.
+			Change flag indicate that this change was delegated (is indirect) for example from aggregated object.
 		*/
 		CF_DELEGATED = 1 << 3,
 		/**

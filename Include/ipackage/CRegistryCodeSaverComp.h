@@ -8,17 +8,14 @@
 #include <QtCore/QTextStream>
 
 // ACF includes
-#include "ifile/IFilePersistence.h"
-
 #include "icomp/IRegistry.h"
 #include "icomp/IExtPackagesManager.h"
 #include "icomp/IRegistriesManager.h"
-
 #include "iprm/ISelectionParam.h"
 #include "iprm/IOptionsList.h"
-#include "ifile/IFileNameParam.h"
-
 #include "ilog/TLoggerCompWrap.h"
+#include "ifile/IFilePersistence.h"
+#include "ifile/IFileNameParam.h"
 
 
 namespace ipackage

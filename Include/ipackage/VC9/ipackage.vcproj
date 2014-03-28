@@ -193,17 +193,10 @@
 				RelativePath="..\CRegistryCodeSaverComp.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			Filter="h;cpp"
-			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
-			>
-		</Filter>
-		<Filter
-			Name="Moc Files"
-			Filter="moc"
-			>
+			<File
+				RelativePath="..\ipackage.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

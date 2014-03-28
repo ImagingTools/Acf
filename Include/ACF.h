@@ -67,7 +67,12 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 /**
 	\defgroup DataModel Data model
 	Basic interfaces and implementations for abstract definition of the data model.
-	
+
+	\section BasicMotivation Motivation
+	A fundamental problem in the implementation of complex software applications is ensuring a clean separation between the data model, business logic (controller) and data presentation (GUI).
+	Such a separation allows for a high degree of reusability of source code. 
+
+	\section DataModelOverview Overview
 	The most important interface for a general data model definition is istd::IChangeable.
 	This is a common interface for describing of objects which change their state during the run time of the application.
 	The interface provides methods for managing data change transaction (istd::IChangeable::BeginChanges() and istd::IChangeable::EndChanges()), methods for coping, cloning, reseting and comparison of objects. The realization of change notification mechanism is also based on this interface.
@@ -138,7 +143,8 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	istd::CChangeNotifier calls BeginChanges in its constructor and EndChanges in the destructor.
 
 	\section DelegatingOfChanges Delegating of changes
-	Let us consider also the following situation - the data object of class CPerson could "live" in any container class (eg. in a database).
+	An important aspect in the management of data change notifications is the delegating of changes from a part of data to another.
+	Let us consider the following situation - the data object of class CPerson could "live" in any container class (eg. in a database).
 	In this case we want the container implentation will also notice about the changes of the CPerson instance.
 	What we have to do is to extend our CPerson implementation as following:
 
@@ -191,7 +197,9 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	void CPersonDatabase::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
 	{
+		// Use CF_DELEGATED masking to filter out the delegated changes:
 		if (changeFlags & CF_DELEGATED){
+			// We will end up here, every time when CPerson::SetFirstName or CPerson::SetLastName were called:
 			qDebug("Some person data have been changed");
 		}
 	}
@@ -281,11 +289,10 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	\section FilePersistence File-based persistence
 
-	Serialization is a low-level persistence mechanism, in which the structure of the data on the medium depends on implementation inside of data object.
+	Serialization is a low-level persistence mechanism, in which the structure of the archived data on the medium depends on Serialize method implementation inside of the data object.
 	But often you will offer persistence functionality, that is not depending on concrete object implementation.
-	A such situation is supporting of known data formats (by example reading or writing of PNG images, OpenOffice documents and so on).
-
-	For such situations ACF provides ifile::IFilePersistence interface.
+	A such situation is the supporting of known data formats (for example reading or writing of PNG images, OpenOffice documents and so on).
+	For such persistence implementations ACF provides ifile::IFilePersistence interface.
 
 	\sa DataModel
 
@@ -313,6 +320,8 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	The topology will be described separately using \em .arx files and can be started using
 	runtime environment over ACF tool or compiled to C++ code using ARXC compiler.
 	Additionally you can use component simulation to use components as "normal" classes.
+
+	\section Expectation
 
 	\ingroup AcfCore
 */
