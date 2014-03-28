@@ -27,7 +27,7 @@ public:
 protected:
 	/**
 		Constructor.
-		Please note no header will be serialized during contruction.
+		\note Please note no header will be serialized during contruction.
 		You have to explicite call method SerializeAcfHeader in your derrived implementation.
 	*/
 	CWriteArchiveBase(const IVersionInfo* versionInfoPtr);
