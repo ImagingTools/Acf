@@ -2,9 +2,9 @@
 #define ibase_TModelObserverCompWrap_included
 
 
+// ACF includes
 #include "imod/IModel.h"
 #include "imod/TSingleModelObserverBase.h"
-
 #include "ilog/TLoggerCompWrap.h"
 
 
@@ -13,7 +13,11 @@ namespace ibase
 
 
 /**
-	Implementation of component wrapper for model observer classes.
+	Generic basic implementation of component wrapper for model observer classes.
+
+	The model can be connected on component level during the initialization phase using component reference \c m_defaultModelCompPtr
+
+	\ingroup DataModel
 */
 template <class ObserverComponent>
 class TModelObserverCompWrap: public ObserverComponent

@@ -7,7 +7,6 @@
 
 // ACF includes
 #include "istd/IContainerInfo.h"
-
 #include "istd/TChangeNotifier.h"
 
 

@@ -4,14 +4,16 @@
 
 // ACF includes
 #include "istd/IChangeable.h"
-
 #include "ibase/ICommand.h"
 
 
 namespace ibase
 {
 
-
+	
+/**
+	Interface for a provider of the heriarchical commands.
+*/
 class ICommandsProvider: virtual public istd::IChangeable
 {
 public:

@@ -2,10 +2,9 @@
 #define ibase_CObjectSynchronizerComp_included
 
 
+// ACF includes
 #include "icomp/CComponentBase.h"
-
 #include "imod/CSingleModelObserverBase.h"
-
 #include "istd/IChangeable.h"
 
 
@@ -17,6 +16,8 @@ namespace ibase
 	Component for synchronization between some master data object and its "slaves".
 	On component initialization the slave objects are initialized with data of "master" object.
 	On each change of the "master" data, the slave objects will be automatically synchronized.
+
+	\ingroup DataModel
 */
 class CObjectSynchronizerComp:
 			public icomp::CComponentBase,

@@ -359,10 +359,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\THierarchicalBase.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TModelObserverCompWrap.h"
 				>
 			</File>

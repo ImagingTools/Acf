@@ -2,8 +2,8 @@
 #define ibase_CVersionInfoComp_included
 
 
+// ACF includes
 #include "iser/IVersionInfo.h"
-
 #include "icomp/CComponentBase.h"
 
 

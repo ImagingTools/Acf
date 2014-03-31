@@ -5,6 +5,8 @@
 /**
 \defgroup AcfCore ACF Core Libraries
 
+ACF Core Libraries is a set of implementations of most important concepts and design patterns.
+
 \mainpage
 \section Introduction
 ACF is a C++ based, cross-plattform component framework, that was especially designed for creation of complex, customizable and highly scalable applications.
@@ -70,7 +72,13 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	\section BasicMotivation Motivation
 	A fundamental problem in the implementation of complex software applications is ensuring a clean separation between the data model, business logic (controller) and data presentation (GUI).
-	Such a separation allows a high degree of reusability of source code. 
+	Such a separation allows a high degree of reusability of source code. The following aspects have to be represented by interfaces:
+	- Data changes. Transaction concept.
+	- Notification of data changes.
+	- Forwarding of data changes.
+	- Subscribing/Unsubscribing for the entire data object or for concrete data change notifications.
+	- General concept of the data visualization and editing.
+	- Undo/Redo mechanism to roll back the data changes.
 
 	\section DataModelOverview Overview
 	The most important interface for a general data model definition is istd::IChangeable.
@@ -142,6 +150,11 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	istd::CChangeNotifier calls BeginChanges in its constructor and EndChanges in the destructor.
 
+	\subsection WhyTransaction Why do we need begin-end notification of the changes of data?
+	Often you want to be informed about the upcoming changes. A simple example you want to save the existing data before it is overwritten with the changed data.
+	This is responsibility of the istd::IChangeable::BeginChanges method. 
+	The end change notification you will need, if you want to know when the data changes are complete, for example to update a GUI.
+	
 	\section DelegatingOfChanges Delegating of changes
 	An important aspect in the management of data change notifications is the delegating of changes from a part of data to another.
 	Let us consider the following situation - the data object of class CPerson could "live" in any container class (eg. in a database).

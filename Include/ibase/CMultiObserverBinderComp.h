@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "icomp/CComponentBase.h"
-
 #include "imod/IModelEditor.h"
 #include "imod/IObserver.h"
 #include "imod/IModel.h"
@@ -13,7 +12,16 @@
 namespace ibase
 {
 
+	
+/**
+	Component for binding of more observers to a data model.
 
+	All methods calls of imod::IModelEditor and imod::IObserver interfaces are delegated to underlaying observers
+	specified in multi-component-reference \c m_observersCompPtr and \c m_modelEditorsCompPtr.
+	This allows forking of observer functionality from a central location.
+
+	\ingroup ModelObserver
+*/
 class CMultiObserverBinderComp: 
 		public icomp::CComponentBase,
 		virtual public imod::IModelEditor,

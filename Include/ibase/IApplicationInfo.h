@@ -2,11 +2,12 @@
 #define ibase_IApplicationInfo_included
 
 
-#include "istd/IPolymorphic.h"
+// Qt includes
 #include <QtCore/QString>
 
+// ACF includes
+#include "istd/IPolymorphic.h"
 #include "iser/IVersionInfo.h"
-
 #include "ibase/ibase.h"
 
 

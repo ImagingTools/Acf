@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "istd/TIHierarchical.h"
-
 #include "iprm/INameParam.h"
 #include "iprm/IEnableableParam.h"
 
