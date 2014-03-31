@@ -13,6 +13,8 @@
 	\li iser
 	\li imath
 	\li icomp
+
+	\ingroup Geometry
 */
 namespace i2d
 {

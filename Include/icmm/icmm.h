@@ -13,6 +13,8 @@
 	\li	istd
 	\li	iser
 	\li	imath
+
+	\ingroup Color
 */
 namespace icmm
 {

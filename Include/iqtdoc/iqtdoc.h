@@ -16,6 +16,8 @@
 	\li iser
 	\li	icomp
 	\li	iqt
+
+	\ingroup DocumentBasedFramework
 */
 namespace iqtdoc
 {

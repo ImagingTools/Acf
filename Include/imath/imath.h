@@ -22,6 +22,8 @@ static const double I_2PI = 6.2831853071795864769;
 	This package use following ACF packages:
 	\li istd
 	\li iser
+
+	\ingroup NumericalBase
 */
 namespace imath
 {

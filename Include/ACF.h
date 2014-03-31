@@ -344,5 +344,66 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	\ingroup AcfCore
 */
 
+/**
+	\defgroup ApplicationFramework Application Framework
+
+	Set of components and basic implementations for general definition of a software application.
+*/
+
+/*
+	\defgroup Logging Logging
+	Interfaces and implementations related to informations logging.
+
+
+	\ingroup ApplicationFramework
+*/
+
+/**
+	\defgroup BasicUi Basic UI
+	Basic implementation for UI-based components.
+
+	\ingroup ApplicationFramework
+*/
+
+/**
+	\defgroup UiEditors UI-based Editors
+	Basic implementation for UI-based data editors.
+
+	\sa DataModel
+
+	\ingroup ApplicationFramework
+*/
+
+/**
+	\defgroup ParameterManagement Parameter Management
+	Implementation of parameter management concept.
+
+	\ingroup ApplicationFramework
+*/
+
+/**
+	\defgroup DocumentBasedFramework Document-based Framework
+	Framework for document-based applications (MDI, SDI)
+
+	\ingroup ApplicationFramework
+*/
+
+/**
+	\defgroup NumericalBase Numerical Basics & Algorithms
+	Basic implementations of mathematical and algorithmical primitives.
+*/
+
+/**
+	\defgroup Geometry
+	Basic implementations of geometrical primitives in 2D- and 3D-space.
+
+	\ingroup NumericalBase
+*/
+
+/**
+	\defgroup Color Color
+	Data primitives and algorithms related to color definition and management.
+*/
+
 
 #endif // !ACF_included
