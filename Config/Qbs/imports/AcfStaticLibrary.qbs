@@ -34,7 +34,7 @@ StaticLibrary{
 	}
 
 	Group{
-		condition: acf.installProject === undefined || acf.installProject == acf.projectName
+		condition: (acf.installProject === undefined || acf.installProject == acf.projectName) && (acf.targetLibSubdir !== undefined)
 		fileTagsFilter: ["staticlibrary"]
 		qbs.install: true
 		qbs.installDir: acf.targetLibSubdir

@@ -64,8 +64,8 @@ Module{
 	property string installProject									// if set, only single project will be installed
 	property string compilerDir: compileMode + compilerName
 	property string targetBinSubdir: ""
-	property string targetPckSubdir: ""
-	property string targetLibSubdir: ""
+	property string targetPckSubdir
+	property string targetLibSubdir
 	property string generatedOutputDir								// Path where stuff will be generated, if undefined "GeneratedPath/" + product.name will be taken
 	property path acfConfigurationFile								// ACF configuration file ARX compiler
 	property path trConfigurationFile: acfConfigurationFile			// ACF configuration file for xtracf transformations

@@ -31,7 +31,7 @@ DynamicLibrary{
 	}
 
 	Group{
-		condition: acf.installProject === undefined || acf.installProject == acf.projectName
+		condition: (acf.installProject === undefined || acf.installProject == acf.projectName) && (acf.targetPckSubdir !== undefined)
 		fileTagsFilter: ["dynamiclibrary"]
 		qbs.install: true
 		qbs.installDir: acf.targetPckSubdir
