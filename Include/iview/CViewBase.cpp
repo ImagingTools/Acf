@@ -236,6 +236,21 @@ void CViewBase::InsertDefaultLayers()
 }
 
 
+IInteractiveShape* CViewBase::GetFirstActiveShape() const
+{
+	for (Layers::const_iterator iter = m_layers.begin(); iter != m_layers.end(); ++iter){
+		const CInteractiveViewLayer* layerPtr = dynamic_cast<const CInteractiveViewLayer*>(*iter);
+		if (layerPtr != NULL){
+			IInteractiveShape* shapePtr = layerPtr->GetFirstActiveShape();
+			if (shapePtr != NULL)
+				return shapePtr;
+		}
+	}
+
+	return NULL;
+}
+
+
 // reimplemented (iview::IShapeView)
 
 void CViewBase::Update()

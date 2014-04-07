@@ -25,6 +25,10 @@ public:
 	
 	CPolygonShape();
 
+	// reimplemented (iview::IInteractiveShape)
+	virtual bool IsActionAvailable(ShapeAction action) const;
+	virtual bool ExecuteAction(ShapeAction action);
+
 	/**
 		Check if first point is always visible as ticker.
 		It is used to recognize which one point is the first.

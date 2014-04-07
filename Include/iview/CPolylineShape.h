@@ -24,6 +24,10 @@ public:
 	bool IsOrientationVisible() const;
 	void SetOrientationVisible(bool state = true);
 
+	// reimplemented (iview::IInteractiveShape)
+	virtual bool IsActionAvailable(ShapeAction action) const;
+	virtual bool ExecuteAction(ShapeAction action);
+
 	// reimplemented (iview::IMouseActionObserver)
 	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
 

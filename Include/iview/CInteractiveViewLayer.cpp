@@ -33,6 +33,21 @@ CInteractiveViewLayer::~CInteractiveViewLayer()
 }
 
 
+IInteractiveShape* CInteractiveViewLayer::GetFirstActiveShape() const
+{
+	if (!m_activeShapes.isEmpty()){
+		ShapeMap::const_iterator iter;
+		for (iter = m_activeShapes.constBegin(); iter != m_activeShapes.constEnd(); ++iter){
+			iview::IInteractiveShape* shapePtr = dynamic_cast<iview::IInteractiveShape*>(iter.key());
+			if (shapePtr != NULL)
+				return shapePtr;
+		}
+	}
+
+	return NULL;
+}
+
+
 // reimplemented (iview::CViewLayer)
 
 i2d::CRect CInteractiveViewLayer::RecalcAllShapes(int changeFlag)

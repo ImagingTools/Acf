@@ -4,11 +4,11 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "imod/IModel.h"
 #include "i2d/CPolygon.h"
+#include "i2d/CAffineTransformation2d.h"
 #include "iqt/iqt.h"
 #include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
@@ -24,6 +24,81 @@ CPolygonShape::CPolygonShape()
 	m_referenceIndex = 0;
 	m_isFirstVisible = false;
 	m_isAlwaysDraggable = false;
+}
+
+
+// reimplemented (iview::IInteractiveShape)
+
+bool CPolygonShape::IsActionAvailable(IInteractiveShape::ShapeAction action) const
+{
+	return (action >= ActionFlipHorizontally && action <= ActionRotateCounterclockwise);
+}
+
+
+bool CPolygonShape::ExecuteAction(IInteractiveShape::ShapeAction action)
+{
+	imod::IModel* modelPtr = GetModelPtr();
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
+	if (polygonPtr == NULL){
+		return false;
+	}
+
+	istd::CChangeNotifier notifier(polygonPtr);
+
+	i2d::CVector2d center = polygonPtr->GetCenter();
+	int count = polygonPtr->GetNodesCount();
+
+	switch (action){
+		case ActionFlipHorizontally:
+			for (int i = 0; i < count; i++){
+				i2d::CVector2d node = polygonPtr->GetNode(i);
+				node.SetX(center.GetX() + (center.GetX() - node.GetX()));
+				polygonPtr->SetNode(i, node);
+			}
+			return true;
+
+		case ActionFlipVertically:
+			for (int i = 0; i < count; i++){
+				i2d::CVector2d node = polygonPtr->GetNode(i);
+				node.SetY(center.GetY() + (center.GetY() - node.GetY()));
+				polygonPtr->SetNode(i, node);
+			}
+			return true;
+
+		case ActionRotateClockwise:
+			{
+				i2d::CAffineTransformation2d translateTo00;
+				translateTo00.Reset(-center);
+				i2d::CAffineTransformation2d rotate;
+				rotate.Reset(i2d::CVector2d(0, 0), M_PI / 2);
+				i2d::CAffineTransformation2d translateBackToCenter;
+				translateBackToCenter.Reset(center);
+				polygonPtr->Transform(translateTo00);
+				polygonPtr->Transform(rotate);
+				polygonPtr->Transform(translateBackToCenter);
+			}
+			return true;
+
+		case ActionRotateCounterclockwise:
+			{
+				i2d::CAffineTransformation2d translateTo00;
+				translateTo00.Reset(-center);
+				i2d::CAffineTransformation2d rotate;
+				rotate.Reset(i2d::CVector2d(0, 0), -M_PI / 2);
+				i2d::CAffineTransformation2d translateBackToCenter;
+				translateBackToCenter.Reset(center);
+				polygonPtr->Transform(translateTo00);
+				polygonPtr->Transform(rotate);
+				polygonPtr->Transform(translateBackToCenter);
+			}
+			return true;
+
+		default:;
+	}
+
+	notifier.SetPtr(NULL);
+
+	return false;
 }
 
 

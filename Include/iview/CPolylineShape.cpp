@@ -20,6 +20,46 @@ CPolylineShape::CPolylineShape()
 }
 
 
+// reimplemented (iview::IInteractiveShape)
+
+bool CPolylineShape::IsActionAvailable(IInteractiveShape::ShapeAction action) const
+{
+	return (action >= ActionFlipHorizontally && action <= ActionReverseLine);
+}
+
+
+bool CPolylineShape::ExecuteAction(IInteractiveShape::ShapeAction action)
+{
+	if (BaseClass::ExecuteAction(action)){
+		return true;
+	}
+
+	imod::IModel* modelPtr = GetModelPtr();
+	i2d::CPolyline* polygonPtr = dynamic_cast<i2d::CPolyline*>(modelPtr);
+	if (polygonPtr == NULL){
+		return false;
+	}
+
+	if (action == ActionReverseLine){
+		istd::CChangeNotifier notifier(polygonPtr);
+
+		i2d::CVector2d center = polygonPtr->GetCenter();
+		int count = polygonPtr->GetNodesCount();
+
+		for (int i = 0; i < count / 2; i++){
+			i2d::CVector2d node1 = polygonPtr->GetNode(i);
+			i2d::CVector2d node2 = polygonPtr->GetNode(count - 1 - i);
+			polygonPtr->SetNode(i, node2);
+			polygonPtr->SetNode(count - 1 - i, node1);
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
 // reimplemented (iview::IMouseActionObserver)
 
 bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)

@@ -21,6 +21,8 @@ public:
 	CInteractiveViewLayer();
 	virtual ~CInteractiveViewLayer();
 
+	IInteractiveShape* GetFirstActiveShape() const;
+
 	// reimplemented (iview::CViewLayer)
 	virtual i2d::CRect RecalcAllShapes(int changeFlag);
 	i2d::CRect CalcBoundingBox() const;
