@@ -62,7 +62,10 @@
         <file alias="ColorRing">Resources/Icons/ColorRing.svg</file>
         <file alias="Statistics">Resources/Icons/Statistics.svg</file>
         <file alias="Diagnostics">Resources/Icons/Diagnose.svg</file>
-		<file alias="Battery">Resources/Icons/Battery.svg</file>
+      <file alias="Battery">Resources/Icons/Battery.svg</file>
+      <file alias="Question">Resources/Icons/Question.svg</file>
+      <file alias="QuestionSign">Resources/Icons/QuestionSign.svg</file>
+      <file alias="ExclamationSign">Resources/Icons/ExclamationSign.svg</file>
     </qresource>
     <qresource prefix="/Style">
         <file>Resources/Style/AcfStyle.ass</file>
