@@ -65,7 +65,7 @@ void CFilePreviewGuiComp::OnGuiCreated()
 		m_objectGuiCompPtr->CreateGui(ObjectViewFrame);	
 	}
 
-	connect(&m_fileSystemObserver, SIGNAL(fileChanged(const QString&)), this, SLOT(UpdateObjectFromFile()));
+	connect(&m_fileSystemObserver, SIGNAL(fileChanged(const QString&)), this, SLOT(UpdateFilePreview()));
 }
 
 
