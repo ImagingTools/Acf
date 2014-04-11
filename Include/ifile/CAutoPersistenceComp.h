@@ -10,7 +10,7 @@
 // ACF includes
 #include "istd/IChangeable.h"
 #include "imod/IModel.h"
-#include "imod/CSingleModelObserverBase.h"
+#include "imod/CMultiModelDispatcherBase.h"
 #include "icomp/CComponentBase.h"
 #include "iser/CMemoryWriteArchive.h"
 #include "ifile/IFilePersistence.h"
@@ -39,12 +39,26 @@ namespace ifile
 class CAutoPersistenceComp:
 			public QObject,
 			public icomp::CComponentBase,
-			protected imod::CSingleModelObserverBase
+			protected imod::CMultiModelDispatcherBase
 {
 	Q_OBJECT
 
 public:
 	typedef icomp::CComponentBase BaseClass;
+	typedef imod::CMultiModelDispatcherBase BaseClass2;
+
+	enum ModelIds
+	{
+		/**
+			Object was changed
+		*/
+		MI_OBJECT,
+
+		/**
+			File path was changed
+		*/
+		MI_FILEPATH
+	};
 
 	I_BEGIN_COMPONENT(CAutoPersistenceComp);
 		I_ASSIGN(m_objectCompPtr, "Object", "Object will be restored and stored", true, "Object");
@@ -74,12 +88,12 @@ protected:
 	*/
 	virtual void StoreObject(const istd::IChangeable& object) const;
 
-	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
-
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
+
+	// reimplemented (imod::CMultiModelDispatcherBase)
+	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
 
 private Q_SLOTS:
 	/**
@@ -126,6 +140,7 @@ private:
 	*/
 	I_ATTR(bool, m_storeOnChangeAttrPtr);
 
+
 	/**
 		Attribute for defining the store interval.
 		If set the data object wil be saved in the given interval, of the object's data has been changed.
@@ -134,7 +149,15 @@ private:
 
 	iser::CMemoryWriteArchive m_lastStoredObjectState;
 
+	/**
+		Data has beem changed.
+	*/
 	bool m_isDataWasChanged;
+
+	/**
+		Loading of the object was successfull.
+	*/
+	bool m_wasLoadingSuceeded;
 
 	QTimer m_storingTimer;
 

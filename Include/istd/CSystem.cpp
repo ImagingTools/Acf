@@ -202,7 +202,7 @@ bool CSystem::CopyDirectory(const QString& sourcePath, const QString& destinatio
 			}
 		}
 		else{
-			qDebug() << "CopyDirectory: Unhandled item" << info.filePath();
+			qDebug(qPrintable(QString("CSystem::CopyDirectory: Unhandled item").arg(info.filePath())));
 		}
 	}
 

@@ -10,6 +10,9 @@
 #include <QtCore>
 #endif
 
+// ACF includes
+#include "ifile/IFileNameParam.h"
+
 
 namespace ifile
 {
@@ -18,7 +21,8 @@ namespace ifile
 // public methods
 
 CAutoPersistenceComp::CAutoPersistenceComp()
-	:m_isDataWasChanged(false)
+	:m_isDataWasChanged(false),
+	m_wasLoadingSuceeded(false)
 {
 }
 
@@ -68,24 +72,6 @@ void CAutoPersistenceComp::StoreObject(const istd::IChangeable& object) const
 }
 
 
-// reimplemented (imod::CSingleModelObserverBase)
-
-void CAutoPersistenceComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
-{
-	bool storeByTimer = m_storeIntervalAttrPtr.IsValid() ? *m_storeIntervalAttrPtr : false;
-	if (storeByTimer){
-		EnsureTimerConnected();
-	}
-	else{
-		if (*m_storeOnChangeAttrPtr && m_objectCompPtr.IsValid()){
-			StoreObject(*m_objectCompPtr.GetPtr());
-		}
-	}
-
-	m_isDataWasChanged = true;
-}
-
-
 // reimplemented (icomp::CComponentBase)
 
 void CAutoPersistenceComp::OnComponentCreated()
@@ -99,14 +85,24 @@ void CAutoPersistenceComp::OnComponentCreated()
 				filePath = m_filePathCompPtr->GetPath();
 			}
 
-			m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, filePath);
+			if (m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, filePath) == ifile::IFilePersistence::OS_OK)
+			{
+				m_wasLoadingSuceeded = true;
+			}
 		}
 	}
 
 	if (m_objectModelCompPtr.IsValid())
 	{
-		m_objectModelCompPtr->AttachObserver(this);
+		BaseClass2::RegisterModel(m_objectModelCompPtr.GetPtr(), MI_OBJECT);
 	}
+
+	imod::IModel* filePathModelPtr = dynamic_cast<imod::IModel*>(m_filePathCompPtr.GetPtr());
+	if (filePathModelPtr != NULL)
+	{
+		BaseClass2::RegisterModel(filePathModelPtr, MI_FILEPATH);
+	}
+
 
 	EnsureTimerConnected();
 }
@@ -118,13 +114,63 @@ void CAutoPersistenceComp::OnComponentDestroyed()
 
 	m_storingFuture.waitForFinished();
 
-	EnsureModelDetached();
+	BaseClass2::UnregisterAllModels();
 
 	if (*m_storeOnEndAttrPtr && m_objectCompPtr.IsValid()){
 		StoreObject(*m_objectCompPtr.GetPtr());
 	}
 
 	BaseClass::OnComponentDestroyed();
+}
+
+
+// reimplemented (imod::CMultiModelDispatcherBase)
+
+void CAutoPersistenceComp::OnModelChanged(int modelId, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+{
+	switch (modelId)
+	{
+		case MI_OBJECT:
+		{
+			bool storeByTimer = m_storeIntervalAttrPtr.IsValid() ? *m_storeIntervalAttrPtr : false;
+			if (storeByTimer){
+				EnsureTimerConnected();
+			}
+			else{
+				if (*m_storeOnChangeAttrPtr && m_objectCompPtr.IsValid()){
+					StoreObject(*m_objectCompPtr.GetPtr());
+				}
+			}
+
+			m_isDataWasChanged = true;
+		}
+		break;
+
+		case MI_FILEPATH:
+		{
+			if (*m_restoreOnBeginAttrPtr && !m_wasLoadingSuceeded)
+			{
+				QString fileName;
+				if (m_filePathCompPtr.IsValid()){
+					fileName = m_filePathCompPtr->GetPath();
+				}
+
+				QFileInfo fileInfo(fileName);
+				if(fileInfo.exists()){
+					QString filePath = fileInfo.absoluteFilePath();
+					if (m_fileLoaderCompPtr.IsValid() && m_objectCompPtr.IsValid()){
+						if(m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, filePath) == ifile::IFilePersistence::OS_OK){
+							m_wasLoadingSuceeded = true;
+						}
+					}
+				}
+			}
+		}
+		break;
+
+		default:
+			break;
+	}
 }
 
 

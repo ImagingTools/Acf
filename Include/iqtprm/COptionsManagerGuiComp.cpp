@@ -292,7 +292,7 @@ void COptionsManagerGuiComp::OnTextEdited(const QString& /*text*/)
 
 void COptionsManagerGuiComp::UpdateComboBox()
 {
-	iqt:: CSignalBlocker blockSelector(Selector, true);
+	iqt::CSignalBlocker blockSelector(Selector, true);
 
 	Selector->clear();
 

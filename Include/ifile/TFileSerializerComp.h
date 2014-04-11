@@ -146,8 +146,9 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(
 
 		Q_ASSERT(!archive.IsStoring());
 
-		// TODO: change CompCastPtr to be sure that firstly the data will be casted to the interface,
-		// but NOT the first ISerializable in the composition.
+		/**
+			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
+		*/
 		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
 		if (serializablePtr == NULL){
 			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
@@ -189,7 +190,13 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 		WriteArchiveEx archive(filePath, GetVersionInfo(), this);
 		Q_ASSERT(archive.IsStoring());
 
-		const iser::ISerializable* serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		/**
+			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
+		*/
+		const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
+		if(serializablePtr == NULL){
+			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
+		}
 		Q_ASSERT(serializablePtr != NULL);
 
 		if (!CheckMinimalVersion(*serializablePtr, archive.GetVersionInfo())){

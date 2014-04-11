@@ -70,7 +70,7 @@ public:
 	/** 
 		Copy files and directories from one folder to another.
 	*/
-	static bool CopyDir(const QString &srcPath, const QString &dstPath);
+	static bool CopyDirectory(const QString &srcPath, const QString &dstPath);
 
 	/**
 		Remove a given directory with all contents.
