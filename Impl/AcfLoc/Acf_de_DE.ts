@@ -113,20 +113,8 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
 <context>
     <name>CAffineTransformationParamsGui</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Translation</source>
         <translation>Verschiebung</translation>
-    </message>
-    <message>
-        <source>X</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Y</source>
-        <translation></translation>
     </message>
     <message>
         <source>Set to no transformation (zero translation and rotation angle and 1:1 scale)</source>
@@ -136,9 +124,25 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <source>Reset</source>
         <translation>Zurücksetzen</translation>
     </message>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>X</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Y</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>CAnnulusParamsGuiComp</name>
+    <message>
+        <source>Radii</source>
+        <translation>Radien</translation>
+    </message>
     <message>
         <source>Form</source>
         <translation></translation>
@@ -146,10 +150,6 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     <message>
         <source>Position</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Radii</source>
-        <translation>Radien</translation>
     </message>
 </context>
 <context>
@@ -159,18 +159,18 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation>Winkel</translation>
     </message>
     <message>
+        <source>Radii</source>
+        <translation>Radien</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
         <source>Position</source>
-        <translation></translation>
+        <translation>Position</translation>
     </message>
-    <message>
-        <source>Radii</source>
-        <translation>Radien</translation>
-    </message>
-    <message>
+    <message utf8="both">
         <source>°</source>
         <translation></translation>
     </message>
@@ -246,6 +246,13 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
 </context>
 <context>
+    <name>CCheckableOptionsEditorComp</name>
+    <message>
+        <source>CCheckableOptionsEditorComp</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CCircleParamsGuiComp</name>
     <message>
         <source>Form</source>
@@ -253,11 +260,11 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>Position</source>
-        <translation></translation>
+        <translation>Position</translation>
     </message>
     <message>
         <source>Radius</source>
-        <translation></translation>
+        <translation>Radius</translation>
     </message>
 </context>
 <context>
@@ -291,14 +298,33 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
 </context>
 <context>
-    <name>CEnableableParamGuiComp</name>
+    <name>CDoubleRangeSpinEdit</name>
     <message>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
+        <source>from</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>mm</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>bis</translation>
+    </message>
+</context>
+<context>
+    <name>CEnableableParamGuiComp</name>
+    <message>
         <source>Enabled</source>
         <translation>Aktiv</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -319,12 +345,12 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation>Navigationsleiste anzeigen</translation>
     </message>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>File</source>
         <translation>Datei</translation>
+    </message>
+    <message>
+        <source>Form</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -366,9 +392,63 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
 </context>
 <context>
+    <name>CFilePreviewGuiComp</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Display navigation bar</source>
+        <translation>Navigationsleiste anzeigen</translation>
+    </message>
+</context>
+<context>
     <name>CFileSystemExplorerGuiComp</name>
     <message>
         <source>Form</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>CFileTreeViewGuiComp</name>
+    <message>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Wildcards * and ? are allowed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type filter text here...</source>
+        <translation>Bitte den Filtertext hier eintippen...</translation>
+    </message>
+    <message>
+        <source>Reset filter</source>
+        <translation>Filter zurücksetzen</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Expand all items</source>
+        <translation>Alles aufklappen</translation>
+    </message>
+    <message>
+        <source>Collapse all items</source>
+        <translation>Alles zuklappen</translation>
+    </message>
+    <message>
+        <source>Update in progress...</source>
+        <translation>Einträge werden aktualisiert</translation>
+    </message>
+    <message>
+        <source>Refresh view</source>
+        <translation>Ansicht aktualisieren</translation>
+    </message>
+    <message>
+        <source>F5</source>
         <translation></translation>
     </message>
 </context>
@@ -466,22 +546,14 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     <name>CObjectPreviewGuiComp</name>
     <message>
         <source>Display navigation bar</source>
-        <translation>Navigationsleiste anzeigen</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation></translation>
+        <translation type="obsolete">Navigationsleiste anzeigen</translation>
     </message>
 </context>
 <context>
     <name>COptionsListEditorGuiComp</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>List</source>
-        <translation>Liste</translation>
+        <translation type="obsolete">Liste</translation>
     </message>
     <message>
         <source>Insert new item</source>
@@ -504,12 +576,16 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation>Ausgewählten Eintrag nach oben verschieben</translation>
     </message>
     <message>
-        <source>...</source>
+        <source>Move selected item down</source>
+        <translation>Ausgewählten Eintrag nach unten verschieben</translation>
+    </message>
+    <message>
+        <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <source>Move selected item down</source>
-        <translation>Ausgewählten Eintrag nach unten verschieben</translation>
+        <source>...</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -530,6 +606,14 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
 <context>
     <name>COrientedCircleEditorComp</name>
     <message>
+        <source>Axis orientation</source>
+        <translation>Axenausrichtung</translation>
+    </message>
+    <message>
+        <source>Outside</source>
+        <translation>Außerhalb</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation></translation>
     </message>
@@ -540,14 +624,6 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     <message>
         <source>Radius</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Axis orientation</source>
-        <translation>Axenausrichtung</translation>
-    </message>
-    <message>
-        <source>Outside</source>
-        <translation>Außerhalb</translation>
     </message>
 </context>
 <context>
@@ -619,10 +695,6 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
 <context>
     <name>CParamsManagerGuiCompBase</name>
     <message>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>List</source>
         <translation>Liste</translation>
     </message>
@@ -647,12 +719,16 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation>Ausgewählten Eintrag nach oben verschieben</translation>
     </message>
     <message>
-        <source>...</source>
+        <source>Move selected item down</source>
+        <translation>Ausgewählten Eintrag nach unten verschieben</translation>
+    </message>
+    <message>
+        <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <source>Move selected item down</source>
-        <translation>Ausgewählten Eintrag nach unten verschieben</translation>
+        <source>...</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -689,6 +765,26 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation>Entfernen</translation>
     </message>
     <message>
+        <source>Remove current point</source>
+        <translation>Ausgewählten Punkt entfernen</translation>
+    </message>
+    <message>
+        <source>Copy parameters to clipboard</source>
+        <translation>Parameter in die Zwischenablage kopieren</translation>
+    </message>
+    <message>
+        <source>Paste parameters from clipboard</source>
+        <translation>Parameter aus der Zwischenablage einfügen</translation>
+    </message>
+    <message>
+        <source>Closed</source>
+        <translation>Geschlossen</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Werkzeuge</translation>
+    </message>
+    <message>
         <source>Form</source>
         <translation></translation>
     </message>
@@ -705,24 +801,12 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation></translation>
     </message>
     <message>
-        <source>Remove current point</source>
-        <translation>Ausgewählten Punkt entfernen</translation>
-    </message>
-    <message>
         <source>Shift+Del</source>
         <translation></translation>
     </message>
     <message>
-        <source>Copy parameters to clipboard</source>
-        <translation>Parameter in die Zwischenablage kopieren</translation>
-    </message>
-    <message>
         <source>Ctrl+C</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Paste parameters from clipboard</source>
-        <translation>Parameter aus der Zwischenablage einfügen</translation>
     </message>
     <message>
         <source>Ctrl+V</source>
@@ -730,15 +814,7 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close the line by connecting its last and first point with a line segment.&lt;/p&gt;&lt;p&gt;To uncheck, select a pair of coordinates in the table: the polyline will be opened at that point.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Closed</source>
-        <translation>Geschlossen</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <translation>Werkzeuge</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1243,11 +1319,59 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>The runtime version of Qt framework doesn&apos;t match the version used by creation of ACF</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Author</translation>
+    </message>
+    <message>
+        <source>Creator</source>
+        <translation>Erstellt von</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beschreibung</translation>
+    </message>
+    <message>
+        <source>Creation Time</source>
+        <translation>Erstellt am</translation>
+    </message>
+    <message>
+        <source>Modification Time</source>
+        <translation>Modifiziert am</translation>
+    </message>
+    <message>
+        <source>Title of the document</source>
+        <translation>Dokumenttitel</translation>
+    </message>
+    <message>
+        <source>Author of the document</source>
+        <translation>Dokumentauthor</translation>
+    </message>
+    <message>
+        <source>Creator of the document</source>
+        <translation>Dokumen erstellt von</translation>
+    </message>
+    <message>
+        <source>Document description</source>
+        <translation>Dokumentbeschreibung</translation>
+    </message>
+    <message>
+        <source>Time of document&apos;s creation</source>
+        <translation>Zeitpunkt der Dokumenterstellung</translation>
+    </message>
+    <message>
+        <source>Time of last document&apos;s modification</source>
+        <translation>Zeitpunkt der letzten Modifikation des Dokuments</translation>
     </message>
     <message>
         <source>Directory %1 could not be created</source>
-        <translation type="unfinished"></translation>
+        <translation>Verzeichnis %1 konnte nicht erzeugt werden</translation>
     </message>
     <message>
         <source>Cannot create path to file</source>
@@ -1275,11 +1399,11 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
     </message>
     <message>
         <source>Load configuration file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Konfigurationsdatei: %1</translation>
     </message>
     <message>
         <source>Cannot open configuration file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Konfigurationsdatei %1 nicht laden</translation>
     </message>
     <message>
         <source>dependency file</source>
@@ -1326,7 +1450,7 @@ Lesen Sie  &apos;License.txt&apos; für weitere Informationen</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>[Red:%1% (%2), Green:%3% (%4), Blue:%5% (%6) Hue: %7�, Saturation: %8, Value: %9]</source>
+        <source>[Red:%1% (%2), Green:%3% (%4), Blue:%5% (%6) Hue: %7, Saturation: %8, Value: %9]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1960,11 +2084,52 @@ in %1 generiert werden</translation>
     <name>ifile::CFileListProviderComp</name>
     <message>
         <source>File</source>
-        <translation>Datei</translation>
+        <translation type="obsolete">Datei</translation>
     </message>
     <message>
         <source>Modification time</source>
-        <translation>Zuletzt geändert</translation>
+        <translation type="obsolete">Zuletzt geändert</translation>
+    </message>
+    <message>
+        <source>Specified path &apos;%1&apos; is not a directory</source>
+        <translation>Der angegebener Datepfad &apos;%1&apos; ist kein gültiges Verzeichnis</translation>
+    </message>
+    <message>
+        <source>Specified path &apos;%1&apos; is not exist</source>
+        <translation>Der angegebener Datepfad &apos;%1&apos; existiert nicht</translation>
+    </message>
+</context>
+<context>
+    <name>ifilegui::CFileDialogLoaderComp</name>
+    <message>
+        <source>%1 (%2)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>All known file types (%1)</source>
+        <translation>Alle bekannte Datentypen (%1)</translation>
+    </message>
+    <message>
+        <source>Enter file name</source>
+        <translation>Geben Sie den Dateinamen ein</translation>
+    </message>
+    <message>
+        <source>Select a file to open</source>
+        <translation>Wählen Sie eine Datei</translation>
+    </message>
+</context>
+<context>
+    <name>ifilegui::CFileSystemExplorerGuiComp</name>
+    <message>
+        <source>Enter text to filter file items</source>
+        <translation>Geben Sie den Text ein, um Dateien zu filtern</translation>
+    </message>
+</context>
+<context>
+    <name>ifilegui::CFileTreeViewGuiComp</name>
+    <message>
+        <source>File</source>
+        <translation>Datei</translation>
     </message>
 </context>
 <context>
@@ -2039,6 +2204,10 @@ in %1 generiert werden</translation>
     <message>
         <source>Export...</source>
         <translation>Exportieren...</translation>
+    </message>
+    <message>
+        <source>Diagnostic Mode</source>
+        <translation>Diagnostikmode</translation>
     </message>
 </context>
 <context>
@@ -2346,15 +2515,15 @@ in %1 generiert werden</translation>
     </message>
     <message>
         <source>&amp;Full Screen</source>
-        <translation>&amp;Vollbild</translation>
+        <translation type="obsolete">&amp;Vollbild</translation>
     </message>
     <message>
         <source>Full Screen</source>
-        <translation>Vollbild</translation>
+        <translation type="obsolete">Vollbild</translation>
     </message>
     <message>
         <source>Turn full screen mode on/off</source>
-        <translation>Vollbildmodus ein- und ausschalten</translation>
+        <translation type="obsolete">Vollbildmodus ein- und ausschalten</translation>
     </message>
     <message>
         <source>&amp;Copy Document Path</source>
@@ -2499,12 +2668,12 @@ in %1 generiert werden</translation>
         <translation>Fenster in einer Registerkarte zeigen</translation>
     </message>
     <message>
-        <source>%1 &lt;%2&gt;</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Close document</source>
         <translation>Dokument schließen</translation>
+    </message>
+    <message>
+        <source>%1 &lt;%2&gt;</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2548,26 +2717,22 @@ in %1 generiert werden</translation>
     <name>iqtgui::CFileDialogLoaderComp</name>
     <message>
         <source>All known file types (%1)</source>
-        <translation>Alle bekannte Datentypen (%1)</translation>
+        <translation type="obsolete">Alle bekannte Datentypen (%1)</translation>
     </message>
     <message>
         <source>Enter file name</source>
-        <translation>Geben Sie den Dateinamen ein</translation>
+        <translation type="obsolete">Geben Sie den Dateinamen ein</translation>
     </message>
     <message>
         <source>Select a file to open</source>
-        <translation>Wählen Sie eine Datei</translation>
-    </message>
-    <message>
-        <source>%1 (%2)</source>
-        <translation></translation>
+        <translation type="obsolete">Wählen Sie eine Datei</translation>
     </message>
 </context>
 <context>
     <name>iqtgui::CFileSystemExplorerGuiComp</name>
     <message>
         <source>Enter text to filter file items</source>
-        <translation>Geben Sie den Text ein, um Dateien zu filtern</translation>
+        <translation type="obsolete">Geben Sie den Text ein, um Dateien zu filtern</translation>
     </message>
 </context>
 <context>
@@ -2670,15 +2835,15 @@ in %1 generiert werden</translation>
     </message>
     <message>
         <source>&amp;Settings</source>
-        <translation>&amp;Einstellungen</translation>
+        <translation type="obsolete">&amp;Einstellungen</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Einstellungen</translation>
+        <translation type="obsolete">Einstellungen</translation>
     </message>
     <message>
         <source>Show global application settings</source>
-        <translation>Globale Applikationseinstellungen anzeigen</translation>
+        <translation type="obsolete">Globale Applikationseinstellungen anzeigen</translation>
     </message>
     <message>
         <source>&amp;About...</source>
@@ -2695,6 +2860,38 @@ in %1 generiert werden</translation>
     <message>
         <source>Standard</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>&amp;Full Screen</source>
+        <translation>&amp;Vollbild</translation>
+    </message>
+    <message>
+        <source>Full Screen</source>
+        <translation>Vollbild</translation>
+    </message>
+    <message>
+        <source>Turn full screen mode on/off</source>
+        <translation>Vollbildmodus ein- und ausschalten</translation>
+    </message>
+    <message>
+        <source>Other Windows</source>
+        <translation>Andere Ansichten</translation>
+    </message>
+    <message>
+        <source>Show additional windows</source>
+        <translation>Zeige andere Ansichten</translation>
+    </message>
+    <message>
+        <source>&amp;Preferences</source>
+        <translation>&amp;Einstellungen</translation>
+    </message>
+    <message>
+        <source>Preferences</source>
+        <translation>Einstellungen</translation>
+    </message>
+    <message>
+        <source>Show global application preferences</source>
+        <translation>Zeige globale Applikationseinstellungen</translation>
     </message>
 </context>
 <context>
@@ -2793,6 +2990,26 @@ in %1 generiert werden</translation>
     </message>
     <message>
         <source>Points Removing Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flip current shape in its bounding box horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flip current shape in its bounding box vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate current shape counterclockwise around its center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotate current shape clockwise around its center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reverse current shape orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
