@@ -22,19 +22,13 @@ public:
 	typedef CParamsManagerCompBase BaseClass;
 
 	I_BEGIN_COMPONENT(CMultiParamsManagerComp);
-		I_ASSIGN_MULTI_0(m_paramSetsFactoriesPtr, "ParamSetsFactories", "List of factories for parameter sets creation", true);		
+		I_ASSIGN_MULTI_0(m_paramSetsFactoriesPtr, "ParamSetsFactories", "List of factories for parameter set creation", true);		
 		I_ASSIGN_MULTI_0(m_factoryNameNameAttrPtr, "ParamSetsFactorieNames", "List of names associated with the parameter factories", true);
 		I_ASSIGN_MULTI_0(m_factoryDescriptionAttrPtr, "ParamSetsFactorieDesciption", "List of descriptions associated with the parameter factories", true);
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::IParamsManager)
 	virtual const IOptionsList* GetParamsTypeConstraints() const;
-	virtual int InsertParamsSet(int typeIndex = -1, int index = -1);
-	virtual bool RemoveParamsSet(int index);
-	virtual bool SwapParamsSet(int index1, int index2);
-	virtual IParamsSet* GetParamsSet(int index) const;
-	virtual QString GetParamsSetName(int index) const;
-	virtual bool SetParamsSetName(int index, const QString& name);
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
@@ -97,29 +91,13 @@ protected:
 	// reimplemented (CParamsManagerCompBase)
 	virtual bool IsParameterCreationSupported() const;
 	virtual int GetCreatedParamsSetsCount() const;
+	virtual iprm::IParamsSet* CreateParamsSet(int typeIndex = -1) const;
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
 private:
-	void EnsureParamsSetModelDetached(iprm::IParamsSet* paramsSetPtr) const;
-	int FindParamSetIndex(const QString& name) const;
-
-	struct ParamSet
-	{
-		ParamSet();
-
-		istd::TSmartPtr<IParamsSet> paramSetPtr;
-		QByteArray typeId;
-		QString name;
-		bool isEnabled;
-	};
-
-	typedef QList<ParamSet> ParamSets;
-
-	ParamSets m_paramSets;
-
 	TypeInfoList m_typeInfoList;
 
 private:

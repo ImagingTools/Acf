@@ -3,7 +3,7 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-#include "imod/IModel.h"
+#include "imod/TModelWrap.h"
 
 
 namespace iprm
@@ -15,184 +15,6 @@ namespace iprm
 const IOptionsList* CMultiParamsManagerComp::GetParamsTypeConstraints() const
 {
 	return &m_typeInfoList;
-}
-
-
-int CMultiParamsManagerComp::InsertParamsSet(int typeIndex, int index)
-{
-	if (typeIndex >= m_typeInfoList.typeInfos.size()){
-		return -1;
-	}
-
-	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
-
-	if ((index >= 0) && (index < fixedParamsCount)){
-		return -1;
-	}
-
-	const TypeInfo& info = (typeIndex >= 0)? m_typeInfoList.typeInfos[typeIndex]: m_typeInfoList.typeInfos[0];
-
-	IParamsSet* newParamsSetPtr = m_paramSetsFactoriesPtr.CreateInstance(info.factoryIndex);
-	if (newParamsSetPtr == NULL){
-		return -1;
-	}
-
-	Q_ASSERT(newParamsSetPtr->GetFactoryId() == info.id);
-
-	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
-
-	QString defaultSetName;
-	if (m_defaultSetNameAttrPtr.IsValid()){
-		defaultSetName = info.name + " " + *m_defaultSetNameAttrPtr;
-		if (defaultSetName.contains("%1")){			
-			QString tmpName;
-			for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
-				tmpName = defaultSetName;
-				tmpName.replace(QString("%1"), QString::number(suffixIndex));
-				if (FindParamSetIndex(tmpName) < 0){
-					defaultSetName = tmpName;
-					break;
-				}
-			}
-		}
-	}
-	else {
-		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
-			defaultSetName = info.name + " " + QObject::tr("unnamed%1").arg(suffixIndex);
-			if (FindParamSetIndex(defaultSetName) < 0){
-				break;
-			}
-		}		
-	}
-
-	ParamSet paramSet;
-	
-	paramSet.paramSetPtr.SetPtr(newParamsSetPtr);
-	paramSet.typeId = info.id;
-	paramSet.name = defaultSetName;
-
-	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
-	if (modelPtr != NULL){
-		modelPtr->AttachObserver(this);
-	}
-
-	if (index >= 0){
-		int insertIndex = index - fixedParamsCount;
-
-		m_paramSets.insert(m_paramSets.begin() + insertIndex, paramSet);
-
-		return index;
-	}
-	else{
-		m_paramSets.push_back(paramSet);
-
-		return int(m_paramSets.size()) - 1;
-	}	
-}
-
-
-bool CMultiParamsManagerComp::RemoveParamsSet(int index)
-{
-	Q_ASSERT(index >= 0);
-	Q_ASSERT(index < CMultiParamsManagerComp::GetParamsSetsCount());
-
-	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
-
-	if (index < fixedParamsCount){
-		return false;
-	}
-
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
-	
-	int removeIndex = index - fixedParamsCount;
-
-	m_paramSets.removeAt(removeIndex);
-
-	m_selectedIndex = index - 1;
-
-	return true;
-}
-
-
-bool CMultiParamsManagerComp::SwapParamsSet(int index1, int index2)
-{
-	Q_ASSERT(index1 >= 0);
-	Q_ASSERT(index1 < CMultiParamsManagerComp::GetParamsSetsCount());
-	Q_ASSERT(index2 >= 0);
-	Q_ASSERT(index2 < CMultiParamsManagerComp::GetParamsSetsCount());
-
-	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
-
-	if ((index1 < fixedParamsCount) || (index2 < fixedParamsCount)){
-		return false;
-	}
-
-	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
-
-	ParamSet& paramsSet1 = m_paramSets[index1 - fixedParamsCount];
-	ParamSet& paramsSet2 = m_paramSets[index2 - fixedParamsCount];
-
-	paramsSet1.paramSetPtr.Swap(paramsSet2.paramSetPtr);
-	qSwap(paramsSet1.typeId, paramsSet2.typeId);
-	qSwap(paramsSet1.name, paramsSet2.name);
-	qSwap(paramsSet1.isEnabled, paramsSet2.isEnabled);
-
-	Q_ASSERT(paramsSet1.paramSetPtr->GetFactoryId() == paramsSet1.typeId);
-	Q_ASSERT(paramsSet2.paramSetPtr->GetFactoryId() == paramsSet2.typeId);
-
-	return true;
-}
-
-
-IParamsSet* CMultiParamsManagerComp::GetParamsSet(int index) const
-{
-	Q_ASSERT((index >= 0) && (index < CMultiParamsManagerComp::GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedSetsCount){
-		return m_fixedParamSetsCompPtr[index];
-	}
-
-	return const_cast<IParamsSet*>(m_paramSets[index - fixedSetsCount].paramSetPtr.GetPtr());
-}
-
-
-QString CMultiParamsManagerComp::GetParamsSetName(int index) const
-{
-	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedSetsCount){
-		int namesCount = m_fixedSetNamesAttrPtr.GetCount();
-
-		if (index < namesCount){
-			return m_fixedSetNamesAttrPtr[index];
-		}
-		else{
-			return QObject::tr("%1_%2").arg(m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr : "unnamed").arg(index - namesCount + 1);
-		}
-	}
-
-	return m_paramSets[index - fixedSetsCount].name;
-}
-
-
-bool CMultiParamsManagerComp::SetParamsSetName(int index, const QString& name)
-{
-	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
-	if (index < fixedSetsCount){
-		return false;
-	}
-
-	if (m_paramSets[index - fixedSetsCount].name != name){
-		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED | CF_MODEL);
-
-		m_paramSets[index - fixedSetsCount].name = name;
-	}
-
-	return true;
 }
 
 
@@ -218,9 +40,9 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 		int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 
 		while (m_paramSets.size() > fixedSetsCount){
-			ParamSet& parameterSetToRemove = m_paramSets.back();
+			ParamSetPtr& parameterSetToRemove = m_paramSets.back();
 
-			EnsureParamsSetModelDetached(parameterSetToRemove.paramSetPtr.GetPtr());
+			EnsureParamsSetModelDetached(parameterSetToRemove->paramSetPtr.GetPtr());
 
 			m_paramSets.removeLast();
 		}
@@ -251,7 +73,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 				}
 			}
 			else{
-				typeId = m_paramSets[i - fixedSetsCount].typeId;
+				typeId = m_paramSets[i - fixedSetsCount]->typeId;
 			}
 
 			retVal = retVal && archive.Process(typeId);
@@ -326,6 +148,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 	return retVal;
 }
 
+
 // reimplemented (iprm::IOptionsManager)
 
 int CMultiParamsManagerComp::GetOptionOperationFlags(int index) const
@@ -343,10 +166,10 @@ bool CMultiParamsManagerComp::SetOptionEnabled(int index, bool isEnabled)
 		return false;
 	}
 
-	if (m_paramSets[index - fixedSetsCount].isEnabled != isEnabled){
+	if (m_paramSets[index - fixedSetsCount]->isEnabled != isEnabled){
 		istd::CChangeNotifier notifier(this, CF_MODEL);
 
-		m_paramSets[index - fixedSetsCount].isEnabled = isEnabled;
+		m_paramSets[index - fixedSetsCount]->isEnabled = isEnabled;
 	}
 
 	return true;
@@ -407,9 +230,9 @@ QString CMultiParamsManagerComp::GetOptionName(int index) const
 }
 
 
-QString CMultiParamsManagerComp::GetOptionDescription(int /*index*/) const
+QString CMultiParamsManagerComp::GetOptionDescription(int index) const
 {
-	return QString();
+	return GetParamsSetDescription(index);
 }
 
 
@@ -422,7 +245,7 @@ bool CMultiParamsManagerComp::IsOptionEnabled(int index) const
 		return true;
 	}
 
-	return m_paramSets[index - fixedSetsCount].isEnabled;
+	return m_paramSets[index - fixedSetsCount]->isEnabled;
 }
 
 
@@ -448,7 +271,7 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 	}
 
 	if (paramSetsIndex < m_paramSets.size()){
-		ParamSet& paramSet = m_paramSets[paramSetsIndex];
+		ParamSet& paramSet = *m_paramSets[paramSetsIndex];
 
 		istd::CChangeNotifier notifier(NULL, CF_OPTIONS_CHANGED | CF_MODEL);
 
@@ -519,18 +342,20 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 
 		istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED | CF_MODEL);	
 
-		ParamSet paramSet;
+		ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
 
-		paramSet.paramSetPtr.SetPtr(newParamsSetPtr);
-		paramSet.typeId = typeId;
-		paramSet.name = name;
-		paramSet.isEnabled = isEnabled;
+		paramsSetPtr->paramSetPtr.SetPtr(newParamsSetPtr);
+		paramsSetPtr->name = CalculateNewDefaultName();
+		paramsSetPtr->isEnabled = isEnabled;
+		paramsSetPtr->typeId = newParamsSetPtr->GetFactoryId();
+		paramsSetPtr->parentPtr = this;
 
-		m_paramSets.push_back(paramSet);
+		m_paramSets.push_back(paramsSetPtr);
 
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
-		if (modelPtr != NULL){
-			modelPtr->AttachObserver(this);
+		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
+		if (paramsModelPtr != NULL){
+			paramsModelPtr->AttachObserver(paramsSetPtr.GetPtr());
+			paramsModelPtr->AttachObserver(this);
 		}
 	}
 
@@ -549,6 +374,25 @@ bool CMultiParamsManagerComp::IsParameterCreationSupported() const
 int CMultiParamsManagerComp::GetCreatedParamsSetsCount() const
 {
 	return m_paramSets.count();
+}
+
+
+iprm::IParamsSet* CMultiParamsManagerComp::CreateParamsSet(int typeIndex) const
+{
+	if (typeIndex >= m_typeInfoList.typeInfos.size()){
+		return NULL;
+	}
+
+	const TypeInfo& info = (typeIndex >= 0)? m_typeInfoList.typeInfos[typeIndex]: m_typeInfoList.typeInfos[0];
+
+	IParamsSet* newParamsSetPtr = m_paramSetsFactoriesPtr.CreateInstance(info.factoryIndex);
+	if (newParamsSetPtr == NULL){
+		return NULL;
+	}
+
+	Q_ASSERT(newParamsSetPtr->GetFactoryId() == info.id);
+
+	return newParamsSetPtr;
 }
 
 
@@ -614,30 +458,6 @@ void CMultiParamsManagerComp::OnComponentDestroyed()
 }
 
 
-// private methods
-
-void CMultiParamsManagerComp::EnsureParamsSetModelDetached(iprm::IParamsSet* paramsSetPtr) const
-{
-	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr);
-	if (modelPtr != NULL){
-		modelPtr->DetachAllObservers();				
-	}
-}
-
-
-int CMultiParamsManagerComp::FindParamSetIndex(const QString& name) const
-{
-	int paramsCount = m_paramSets.size();
-	for (int i = 0; i < paramsCount; ++i){
-		if (m_paramSets.at(i).name == name){
-			return i;
-		}
-	}
-
-	return -1;
-}
-
-
 // public methods of embedded class TypeInfoList
 
 // reimplemented (iprm::IOptionsList)
@@ -690,13 +510,6 @@ QByteArray CMultiParamsManagerComp::TypeInfoList::GetOptionId(int index) const
 bool CMultiParamsManagerComp::TypeInfoList::IsOptionEnabled(int /*index*/) const
 {
 	return true;
-}
-
-// public methods of embedded class ParamSet
-
-CMultiParamsManagerComp::ParamSet::ParamSet()
-:	isEnabled(true)
-{
 }
 
 

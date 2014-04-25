@@ -139,6 +139,16 @@ public:
 		Set name of specified parameter set.
 	*/
 	virtual bool SetParamsSetName(int index, const QString& name) = 0;
+
+	/**
+		Get the description of the specified parameter set.
+	*/
+	virtual QString GetParamsSetDescription(int index) const = 0;
+
+	/**
+		Set the description of the specified parameter set.
+	*/
+	virtual void SetParamsSetDescription(int index, const QString& description) = 0;
 };
 
 

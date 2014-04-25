@@ -4,6 +4,8 @@
 // ACF includes
 #include "istd/TChangeNotifier.h"
 #include "imod/IModel.h"
+#include "imod/TModelWrap.h"
+#include "iprm/ISelectionParam.h"
 
 
 namespace iprm
@@ -17,6 +19,128 @@ CParamsManagerCompBase::CParamsManagerCompBase()
 
 
 // reimplemented (iprm::IParamsManager)
+
+int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
+{
+	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
+
+	if ((index >= 0) && (index < fixedParamsCount)){
+		return -1;
+	}
+
+	IParamsSet* newParamsSetPtr = CreateParamsSet(typeIndex);
+	if (newParamsSetPtr == NULL){
+		return -1;
+	}
+
+	istd::CChangeNotifier notifier(this, CF_SET_INSERTED | CF_OPTIONS_CHANGED | CF_MODEL);
+
+	ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
+
+	paramsSetPtr->paramSetPtr.SetPtr(newParamsSetPtr);
+	paramsSetPtr->name = CalculateNewDefaultName();
+	paramsSetPtr->typeId = newParamsSetPtr->GetFactoryId();
+	paramsSetPtr->parentPtr = this;
+
+	imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
+	if (paramsModelPtr != NULL){
+		paramsModelPtr->AttachObserver(paramsSetPtr.GetPtr());
+		paramsModelPtr->AttachObserver(this);
+	}
+
+	m_paramSets.push_back(ParamSetPtr());
+	if (index >= 0){
+		int insertIndex = index - fixedParamsCount;
+
+		for (int i = m_paramSets.size() - 1; i > insertIndex; --i){
+			m_paramSets[i].TakeOver(m_paramSets[i - 1]);
+		}
+		m_paramSets[insertIndex].TakeOver(paramsSetPtr);
+
+		return index;
+	}
+	else{
+		m_paramSets.last().TakeOver(paramsSetPtr);
+
+		return GetParamsSetsCount() - 1;
+	}
+}
+
+
+bool CParamsManagerCompBase::RemoveParamsSet(int index)
+{
+	Q_ASSERT(index >= 0);
+	Q_ASSERT(index < CParamsManagerCompBase::GetParamsSetsCount());
+
+	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
+
+	if (index < fixedParamsCount){
+		return false;
+	}
+
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
+	
+	int removeIndex = index - fixedParamsCount;
+
+	for (int i = removeIndex; i < m_paramSets.size() - 1; ++i){
+		m_paramSets[i].TakeOver(m_paramSets[i + 1]);
+	}
+
+	m_paramSets.pop_back();
+
+	m_selectedIndex = index - 1;
+
+	return true;
+}
+
+
+bool CParamsManagerCompBase::SwapParamsSet(int index1, int index2)
+{
+	Q_ASSERT(index1 >= 0);
+	Q_ASSERT(index1 < CParamsManagerCompBase::GetParamsSetsCount());
+	Q_ASSERT(index2 >= 0);
+	Q_ASSERT(index2 < CParamsManagerCompBase::GetParamsSetsCount());
+
+	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
+
+	if ((index1 < fixedParamsCount) || (index2 < fixedParamsCount)){
+		return false;
+	}
+
+	istd::CChangeNotifier notifier(this, CF_SET_REMOVED | CF_OPTIONS_CHANGED | CF_SELECTION_CHANGED | CF_MODEL);
+
+	ParamSet& paramsSet1 = *m_paramSets[index1 - fixedParamsCount];
+	ParamSet& paramsSet2 = *m_paramSets[index2 - fixedParamsCount];
+
+	paramsSet1.paramSetPtr.Swap(paramsSet2.paramSetPtr);
+	qSwap(paramsSet1.typeId, paramsSet2.typeId);
+	qSwap(paramsSet1.name, paramsSet2.name);
+	qSwap(paramsSet1.isEnabled, paramsSet2.isEnabled);
+
+	Q_ASSERT(paramsSet1.paramSetPtr->GetFactoryId() == paramsSet1.typeId);
+	Q_ASSERT(paramsSet2.paramSetPtr->GetFactoryId() == paramsSet2.typeId);
+
+	return true;
+}
+
+
+IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
+{
+	Q_ASSERT((index >= 0) && (index < CParamsManagerCompBase::GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
+		return m_fixedParamSetsCompPtr[index];
+	}
+
+	if (m_elementIndexParamId.IsValid() || m_elementNameParamId.IsValid()){
+		return const_cast<ParamSet*>(m_paramSets[index - fixedSetsCount].GetPtr());
+	}
+	else{
+		return const_cast<IParamsSet*>(m_paramSets[index - fixedSetsCount]->paramSetPtr.GetPtr());
+	}
+}
+
 
 int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 {
@@ -63,6 +187,82 @@ int CParamsManagerCompBase::GetParamsSetsCount() const
 }
 
 
+QString CParamsManagerCompBase::GetParamsSetName(int index) const
+{
+	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
+		int namesCount = m_fixedSetNamesAttrPtr.GetCount();
+
+		if (index < namesCount){
+			return m_fixedSetNamesAttrPtr[index];
+		}
+		else{
+			return QObject::tr("%1_%2").arg(m_defaultSetNameAttrPtr.IsValid() ? *m_defaultSetNameAttrPtr : "unnamed").arg(index - namesCount + 1);
+		}
+	}
+
+	return m_paramSets[index - fixedSetsCount]->name;
+}
+
+
+bool CParamsManagerCompBase::SetParamsSetName(int index, const QString& name)
+{
+	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
+	if (index < fixedSetsCount){
+		return false;
+	}
+
+	if (m_paramSets[index - fixedSetsCount]->name != name){
+		istd::CChangeNotifier notifier(this, CF_SET_NAME_CHANGED | CF_OPTION_RENAMED | CF_MODEL);
+
+		m_paramSets[index - fixedSetsCount]->name = name;
+	}
+
+	return true;
+}	
+
+
+QString CParamsManagerCompBase::GetParamsSetDescription(int index) const
+{
+	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
+		int descriptionsCount = m_fixedSetDescriptionsAttrPtr.GetCount();
+
+		if (index < descriptionsCount){
+			return m_fixedSetDescriptionsAttrPtr[index];
+		}
+		else{
+			return QString();
+		}
+	}
+
+	return m_paramSets[index - fixedSetsCount]->description;
+}
+
+
+void CParamsManagerCompBase::SetParamsSetDescription(int index, const QString& description)
+{
+	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
+	if (index < fixedSetsCount){
+		return;
+	}
+
+	if (m_paramSets[index - fixedSetsCount]->description != description){
+		istd::CChangeNotifier notifier(this, CF_OPTIONS_CHANGED | CF_MODEL);
+
+		m_paramSets[index - fixedSetsCount]->description = description;
+	}
+}
+
+
 // reimplemented (iprm::ISelectionParam)
 
 const IOptionsList* CParamsManagerCompBase::GetSelectionConstraints() const
@@ -97,6 +297,186 @@ ISelectionParam* CParamsManagerCompBase::GetSubselection(int /*index*/) const
 {
 	return NULL;
 }
+
+
+// protected methods
+
+void CParamsManagerCompBase::EnsureParamsSetModelDetached(iprm::IParamsSet* paramsSetPtr) const
+{
+	imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr);
+	if (modelPtr != NULL){
+		modelPtr->DetachAllObservers();				
+	}
+}
+
+
+QString CParamsManagerCompBase::CalculateNewDefaultName() const
+{
+	QString defaultSetName;
+	if (m_defaultSetNameAttrPtr.IsValid()){
+		defaultSetName = *m_defaultSetNameAttrPtr;
+		if (defaultSetName.contains("%1")){			
+			QString tmpName;
+			for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+				tmpName = defaultSetName;
+				tmpName.replace(QString("%1"), QString::number(suffixIndex));
+				if (FindParamSetIndex(tmpName) < 0){
+					defaultSetName = tmpName;
+					break;
+				}
+			}
+		}
+	}
+	else {
+		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
+			defaultSetName = QObject::tr("unnamed-%1").arg(suffixIndex);
+			if (FindParamSetIndex(defaultSetName) < 0){
+				break;
+			}
+		}		
+	}
+
+	return defaultSetName;
+}
+
+
+int CParamsManagerCompBase::FindParamSetIndex(const QString& name) const
+{
+	int paramsCount = m_paramSets.size();
+	for (int i = 0; i < paramsCount; ++i){
+		const ParamSetPtr& paramSetPtr = m_paramSets[i];
+		if (paramSetPtr.IsValid() && (paramSetPtr->name == name)){
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+
+// public methods of embedded class ParamSet
+
+CParamsManagerCompBase::ParamSet::ParamSet()
+:	isEnabled(true)
+{
+	parentPtr = NULL;
+}
+
+
+// reimplemented (iprm::IParamsSet)
+
+IParamsSet::Ids CParamsManagerCompBase::ParamSet::GetParamIds(bool editableOnly) const
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+	Q_ASSERT(parentPtr != NULL);
+
+	IParamsSet::Ids ids = paramSetPtr->GetParamIds(editableOnly);
+
+	if (!editableOnly){
+		if (parentPtr->m_elementIndexParamId.IsValid()){
+			ids += *(parentPtr->m_elementIndexParamId);
+		}
+
+		if (parentPtr->m_elementNameParamId.IsValid()){
+			ids += *(parentPtr->m_elementNameParamId);
+		}
+	}
+
+	return ids;
+}
+
+
+const iser::ISerializable* CParamsManagerCompBase::ParamSet::GetParameter(const QByteArray& id) const
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+	Q_ASSERT(parentPtr != NULL);
+
+	if (parentPtr->m_elementIndexParamId.IsValid() && (id == *(parentPtr->m_elementIndexParamId))){
+		return this;
+	}
+
+	if (parentPtr->m_elementNameParamId.IsValid() && (id == *(parentPtr->m_elementNameParamId))){
+		return this;
+	}
+
+	return paramSetPtr->GetParameter(id);
+}
+
+
+iser::ISerializable* CParamsManagerCompBase::ParamSet::GetEditableParameter(const QByteArray& id)
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+
+	return paramSetPtr->GetEditableParameter(id);
+}
+
+
+// reimplemented (iprm::ISelectionParam)
+
+const IOptionsList* CParamsManagerCompBase::ParamSet::GetSelectionConstraints() const
+{
+	return parentPtr;
+}
+
+
+int CParamsManagerCompBase::ParamSet::GetSelectedOptionIndex() const
+{
+	Q_ASSERT(parentPtr != NULL);
+
+	int retIndex = 0;
+	for (		ParamSets::ConstIterator iter = parentPtr->m_paramSets.constBegin();
+				iter != parentPtr->m_paramSets.constEnd();
+				++iter, ++retIndex){
+		if (iter->GetPtr() == this){
+			return retIndex + parentPtr->m_fixedParamSetsCompPtr.GetCount();
+		}
+	}
+
+	return -1;
+}
+
+
+bool CParamsManagerCompBase::ParamSet::SetSelectedOptionIndex(int /*index*/)
+{
+	return false;
+}
+
+
+ISelectionParam* CParamsManagerCompBase::ParamSet::GetSubselection(int /*index*/) const
+{
+	return NULL;
+}
+
+
+// reimplemented (iser::INameParam)
+
+const QString& CParamsManagerCompBase::ParamSet::GetName() const
+{
+	return name;
+}
+
+
+void CParamsManagerCompBase::ParamSet::SetName(const QString& /*name*/)
+{	// it is read only interface imeplementation
+}
+
+
+bool CParamsManagerCompBase::ParamSet::IsNameFixed() const
+{
+	return true;
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CParamsManagerCompBase::ParamSet::Serialize(iser::IArchive& archive)
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+
+	return paramSetPtr->Serialize(archive);
+}
+
+
 
 
 } // namespace iprm
