@@ -127,21 +127,29 @@ void CExtParamsManagerGuiComp::UpdateGui(int /*updateFlags = 0*/)
 
 void CExtParamsManagerGuiComp::on_AddButton_clicked()
 {
-	if (ElementTypeSelector->currentIndex() < 0){
-		return;
-	}
-
-	QByteArray parameterTypeId = ElementTypeSelector->itemData(ElementTypeSelector->currentIndex(), Qt::UserRole).toByteArray();
-
-	int parameterTypeIndex = GetParameterTypeIndexById(parameterTypeId);
+	int parameterTypeIndex = -1;
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
+		const iprm::IOptionsList* parameterTypeConstraintsPtr = objectPtr->GetParamsTypeConstraints();
+		if (parameterTypeConstraintsPtr != NULL){
+			int typesCount = parameterTypeConstraintsPtr->GetOptionsCount();
+			if (typesCount > 1){
+				if (ElementTypeSelector->currentIndex() < 0){
+					return;
+				}
+				else{
+					QByteArray parameterTypeId = ElementTypeSelector->itemData(ElementTypeSelector->currentIndex(), Qt::UserRole).toByteArray();
+
+					parameterTypeIndex = GetParameterTypeIndexById(parameterTypeId);
+				}
+			}
+		}
+
 		int newIndex = objectPtr->InsertParamsSet(parameterTypeIndex);
 
 		ElementList->setCurrentRow(newIndex);
 
-		// change defaults as well
 		on_EditButton_clicked();
 	}
 }
