@@ -57,6 +57,11 @@ public:
 		GI_SETTINGS = 0x400
 	};
 
+	enum ModelId
+	{
+		MI_PREFERENCE_COMMAND = 0x1000
+	};
+
 	CSimpleMainWindowGuiComp();
 
 	// reimplemented (iqtgui::IGuiObject)

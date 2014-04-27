@@ -275,9 +275,16 @@ void CSimpleMainWindowGuiComp::UpdateToolsCommands(iqtgui::CHierarchicalCommand&
 {
 	toolsCommand.ResetChilds();
 
+	m_commandsObserver.UnregisterModel(MI_PREFERENCE_COMMAND);
+
 	if (m_settingsDialogCompPtr.IsValid()){
 		m_settingsCommand.SetGroupId(GI_SETTINGS);
 		toolsCommand.InsertChild(&m_settingsCommand, false);
+
+		imod::IModel* settingsDialogCommandModelPtr = CompCastPtr<imod::IModel>(m_settingsDialogCompPtr.GetPtr());
+		if (settingsDialogCommandModelPtr != NULL){
+			m_commandsObserver.RegisterModel(settingsDialogCommandModelPtr, MI_PREFERENCE_COMMAND, ibase::ICommandsProvider::CF_COMMANDS);
+		}
 	}
 }
 
@@ -491,6 +498,8 @@ void CSimpleMainWindowGuiComp::OnRetranslate()
 	// Help commands
 	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), QIcon(":/Icons/About"));
 	m_aboutCommand.setMenuRole(QAction::AboutRole);
+
+	UpdateMenuActions();
 }
 
 

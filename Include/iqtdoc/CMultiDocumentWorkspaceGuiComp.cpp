@@ -494,6 +494,8 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 {
 	BaseClass::OnRetranslate();
 
+	istd::CChangeNotifier changePtr(this, CF_COMMANDS);
+
 	m_windowCommand.SetName(tr("&Window"));
 	// Window commands
 	m_cascadeCommand.SetVisuals(tr("Casca&de"), tr("Cascade"), tr("Lays out all document windows in cascaded mode"));

@@ -4,7 +4,7 @@
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"
-
+#include "imod/TModelWrap.h"
 #include "iqtgui/IDialog.h"
 #include "iqtgui/CGuiComponentDialog.h"
 #include "iqtgui/CHierarchicalCommand.h"
@@ -21,16 +21,19 @@ namespace iqtgui
 class CDialogGuiComp:
 			public QObject,
 			public icomp::CComponentBase,
-			virtual public iqtgui::IDialog,
-			virtual public ibase::ICommandsProvider
+			virtual public iqtgui::IDialog
 {
 	Q_OBJECT
 public:
 	typedef icomp::CComponentBase BaseClass;
+	typedef QObject BaseClass2;
 
 	I_BEGIN_COMPONENT(CDialogGuiComp);
 		I_REGISTER_INTERFACE(iqtgui::IDialog);
-		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
+		I_REGISTER_SUBELEMENT(Command);
+		I_REGISTER_SUBELEMENT_INTERFACE(Command, ibase::ICommandsProvider, GetCommandsProvider);
+		I_REGISTER_SUBELEMENT_INTERFACE(Command, imod::IModel, GetCommandsProvider);
+		I_REGISTER_SUBELEMENT_INTERFACE(Command, istd::IChangeable, GetCommandsProvider);
 		I_ASSIGN(m_guiCompPtr, "Gui", "UI to show in the dialog", true, "Gui");
 		I_ASSIGN(m_dialogTitleAttrPtr, "DialogTitle", "Title for the dialog", false, "DialogTitle");
 		I_ASSIGN(m_dialogIconPathAttrPtr, "DialogIconPath", "Icon path for the dialog", false, "IconPath");
@@ -44,17 +47,40 @@ public:
 	// reimplemented (iqtgui::IDialog)
 	virtual int ExecuteDialog(IGuiObject* parentPtr);
 
-	// reimplemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
-
 protected:
 	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;
+	virtual void OnRetranslate();
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 
+	// reimplemented (QObject)
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
 protected Q_SLOTS:
 	void OnCommandActivated();
+
+private:
+	class CommandsProvider: virtual public ibase::ICommandsProvider
+	{
+	public:
+		CommandsProvider();
+
+		void SetParent(CDialogGuiComp* parentPtr);
+
+		// reimplemented (ibase::ICommandsProvider)
+		virtual const ibase::IHierarchicalCommand* GetCommands() const;
+
+	private:
+		CDialogGuiComp* m_parentPtr;
+	};
+
+
+	template <class InterfaceType>
+	static InterfaceType* GetCommandsProvider(CDialogGuiComp& parent)
+	{
+		return &parent.m_commandsProvider;
+	}
 
 private:
 	I_REF(iqtgui::IGuiObject, m_guiCompPtr);
@@ -69,6 +95,8 @@ private:
 	iqtgui::CHierarchicalCommand m_rootCommand;
 	iqtgui::CHierarchicalCommand m_rootMenuCommand;
 	iqtgui::CHierarchicalCommand m_dialogCommand;
+
+	imod::TModelWrap<CommandsProvider> m_commandsProvider;
 };
 
 
