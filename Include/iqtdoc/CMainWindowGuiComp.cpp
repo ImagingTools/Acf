@@ -179,11 +179,12 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName)
 	if (m_documentManagerCompPtr.IsValid()){
 		idoc::IDocumentManager::FileToTypeMap fileMap;
 
-		retVal = m_documentManagerCompPtr->OpenDocument(NULL, &fileName, true, "", NULL, &fileMap);
+		bool ignoredFlag = false;
+		retVal = m_documentManagerCompPtr->OpenDocument(NULL, &fileName, true, "", NULL, &fileMap, false, &ignoredFlag);
 		if (retVal){
 			UpdateRecentFileList(fileMap);
 		}
-		else{
+		else if (!ignoredFlag){
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
 
 			RemoveFromRecentFileList(QString(fileName));
@@ -367,9 +368,9 @@ void CMainWindowGuiComp::UpdateMainWindowComponentsVisibility()
 void CMainWindowGuiComp::OnNewDocument(const QByteArray& documentFactoryId)
 {
 	if (m_documentManagerCompPtr.IsValid()){
-		if (!m_documentManagerCompPtr->InsertNewDocument(documentFactoryId)){
+		bool ignoredFlag = false;
+		if (!m_documentManagerCompPtr->InsertNewDocument(documentFactoryId, true, "", NULL, false, &ignoredFlag) && !ignoredFlag){
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be created"));
-			return;
 		}
 	}
 }
@@ -841,10 +842,11 @@ void CMainWindowGuiComp::OnSave()
 	if (m_documentManagerCompPtr.IsValid()){
 		idoc::IDocumentManager::FileToTypeMap fileMap;
 
-		if (m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap)){
+		bool ignoredFlag = false;
+		if (m_documentManagerCompPtr->SaveDocument(-1, false, &fileMap, false, &ignoredFlag)){
 			UpdateRecentFileList(fileMap);
 		}
-		else{
+		else if (!ignoredFlag){
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 
@@ -858,10 +860,11 @@ void CMainWindowGuiComp::OnSaveAs()
 	if (m_documentManagerCompPtr.IsValid()){
 		idoc::IDocumentManager::FileToTypeMap fileMap;
 
-		if (m_documentManagerCompPtr->SaveDocument(-1, true, &fileMap)){
+		bool ignoredFlag = false;
+		if (m_documentManagerCompPtr->SaveDocument(-1, true, &fileMap, false, &ignoredFlag)){
 			UpdateRecentFileList(fileMap);
 		}
-		else{
+		else if (!ignoredFlag){
 			QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 		}
 
@@ -874,11 +877,12 @@ void CMainWindowGuiComp::OnOpenDocument(const QByteArray* documentTypeIdPtr)
 {
 	idoc::IDocumentManager::FileToTypeMap fileMap;
 
+	bool ignoredFlag = false;
 	if (m_documentManagerCompPtr.IsValid()){
-		if (m_documentManagerCompPtr->OpenDocument(documentTypeIdPtr, NULL, true, "", NULL, &fileMap)){
+		if (m_documentManagerCompPtr->OpenDocument(documentTypeIdPtr, NULL, true, "", NULL, &fileMap, false, &ignoredFlag)){
 			UpdateRecentFileList(fileMap);
 		}
-		else{
+		else if (!ignoredFlag){
 			QMessageBox::warning(GetWidget(), "", tr("Document could not be opened"));
 		}
 

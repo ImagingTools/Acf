@@ -51,8 +51,13 @@ public:
 								If document type is undefined (empty), this field will be used to return ID of used type.
 		\param	initialize		If true, document should be filled with initial data (operation new),
 								otherwise initialization is not needed (e.g. for document loading - filling of data will be done by loader).
+		\param	ignoredFlagPtr	optional output flag indicating that the user canceled this operation.
 	*/
-	virtual istd::IChangeable* CreateDocument(QByteArray& documentTypeId, bool initialize = true) const = 0;
+	virtual istd::IChangeable* CreateDocument(
+				QByteArray& documentTypeId,
+				bool initialize = true,
+				bool beQuiet = false,
+				bool* ignoredFlagPtr = NULL) const = 0;
 
 	/**
 		Creates a view instance for document \c document of type \c viewTypeId.

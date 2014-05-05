@@ -113,7 +113,9 @@ protected:
 				const QString& filePath,
 				bool createView,
 				const QByteArray& viewTypeId,
-				QByteArray& documentTypeId);
+				QByteArray& documentTypeId,
+				bool beQuiet,
+				bool* ignoredPtr);
 	virtual void SetActiveView(istd::IPolymorphic* viewPtr);
 
 	// reimplemented (QObject)

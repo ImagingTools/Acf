@@ -132,15 +132,15 @@ bool CSingleDocumentManagerBase::InsertNewDocument(
 			const QByteArray& documentTypeId,
 			bool createView,
 			const QByteArray& viewTypeId,
-			istd::IChangeable** newDocumentPtr)
+			istd::IChangeable** newDocumentPtr,
+			bool beQuiet,
+			bool* ignoredPtr)
 {
 	istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
 
-	bool isCloseIgnored = false;
+	CloseDocument(-1, beQuiet, ignoredPtr);
 
-	CloseDocument(-1, false, &isCloseIgnored);
-
-	if (isCloseIgnored){
+	if ((ignoredPtr != NULL) && *ignoredPtr){
 		if (newDocumentPtr != NULL){
 			*newDocumentPtr = m_documentPtr.GetPtr();
 		}
@@ -148,7 +148,7 @@ bool CSingleDocumentManagerBase::InsertNewDocument(
 		return true;
 	}
 
-	if (NewDocument(documentTypeId, createView, viewTypeId, true)){
+	if (NewDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr)){
 		if (newDocumentPtr != NULL){
 			*newDocumentPtr = m_documentPtr.GetPtr();
 		}
@@ -166,8 +166,14 @@ bool CSingleDocumentManagerBase::OpenDocument(
 			bool createView,
 			const QByteArray& viewTypeId,
 			istd::IChangeable** documentPtr,
-			FileToTypeMap* loadedMapPtr)
+			FileToTypeMap* loadedMapPtr,
+			bool beQuiet,
+			bool* ignoredPtr)
 {
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
+
 	bool retVal = true;
 
 	QString fileName;
@@ -176,12 +182,16 @@ bool CSingleDocumentManagerBase::OpenDocument(
 		fileName = *fileNamePtr;
 	}
 	else{
+		if (beQuiet){
+			return false;
+		}
+
 		fileName = GetOpenFilePath(documentTypeIdPtr);
 	}
 
 	if (!fileName.isEmpty()){
 		QByteArray documentTypeId;
-		if (OpenDocument(fileName, createView, viewTypeId, documentTypeId)){
+		if (OpenDocument(fileName, createView, viewTypeId, documentTypeId, beQuiet, ignoredPtr)){
 			if (loadedMapPtr != NULL){
 				loadedMapPtr->operator[](fileName) = documentTypeId;
 			}
@@ -202,8 +212,14 @@ bool CSingleDocumentManagerBase::OpenDocument(
 bool CSingleDocumentManagerBase::SaveDocument(
 			int /*documentIndex*/,
 			bool requestFileName,
-			FileToTypeMap* savedMapPtr)
+			FileToTypeMap* savedMapPtr,
+			bool beQuiet,
+			bool* ignoredPtr)
 {
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
+
 	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
 	if ((documentTemplatePtr == NULL) || !m_documentPtr.IsValid()){
 		return false;
@@ -214,6 +230,10 @@ bool CSingleDocumentManagerBase::SaveDocument(
 	requestFileName  = requestFileName || filePath.isEmpty();
 
 	if (requestFileName){
+		if (beQuiet){
+			return false;
+		}
+
 		filePath = GetSaveFilePath(m_documentTypeId, filePath);
 
 		if (filePath.isEmpty()){
@@ -227,9 +247,15 @@ bool CSingleDocumentManagerBase::SaveDocument(
 	}
 
 	const ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(m_documentTypeId);
-	if ((loaderPtr != NULL) && loaderPtr->SaveToFile(*m_documentPtr, filePath) == ifile::IFilePersistence::OS_OK){
+	if (loaderPtr == NULL){
+		return false;
+	}
+
+	int saveState = loaderPtr->SaveToFile(*m_documentPtr, filePath);
+	if (saveState == ifile::IFilePersistence::OS_OK){
 		if ((m_filePath != filePath) || m_isDirty){
-			istd::CChangeNotifier notifierPtr(this);
+			istd::CChangeNotifier notifier(this);
+			Q_UNUSED(notifier);
 
 			m_filePath = filePath;
 			m_isDirty = false;
@@ -244,6 +270,9 @@ bool CSingleDocumentManagerBase::SaveDocument(
 		}
 
 		return true;
+	}
+	else if ((saveState == ifile::IFilePersistence::OS_CANCELED) && (ignoredPtr != NULL)){
+		*ignoredPtr = true;
 	}
 
 	return false;
@@ -276,7 +305,7 @@ bool CSingleDocumentManagerBase::SaveDirtyDocuments(bool beQuiet, bool* ignoredP
 }
 
 
-void CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQuiet, bool* ignoredPtr)
+bool CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQuiet, bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){
 		*ignoredPtr = false;
@@ -288,7 +317,7 @@ void CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 		}
 
 		if ((ignoredPtr != NULL) && *ignoredPtr){
-			return;
+			return false;
 		}
 
 		istd::CChangeNotifier notifier(this, CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED | CF_VIEW_ACTIVATION_CHANGED | CF_MODEL);
@@ -299,13 +328,17 @@ void CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 		m_documentTypeId = "";
 		m_documentPtr.Reset();
 		m_undoManagerPtr.Reset();
+
+		return true;
 	}
+
+	return false;
 }
 
 
-void CSingleDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
+bool CSingleDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
 {
-	CloseDocument(-1, beQuiet, ignoredPtr);
+	return CloseDocument(-1, beQuiet, ignoredPtr);
 }
 
 
@@ -315,8 +348,14 @@ bool CSingleDocumentManagerBase::OpenDocument(
 			const QString& filePath,
 			bool createView,
 			const QByteArray& viewTypeId,
-			QByteArray& documentTypeId)
+			QByteArray& documentTypeId,
+			bool beQuiet,
+			bool* ignoredPtr)
 {
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
+
 	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
 	if (filePath.isEmpty() || (documentTemplatePtr == NULL)){
 		return false;
@@ -348,13 +387,12 @@ bool CSingleDocumentManagerBase::OpenDocument(
 		return true;
 	}
 
-	bool isCloseIgnored = false;
+	istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_MODEL);
+	Q_UNUSED(notifier);
 
-	istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_MODEL);
+	CloseDocument(-1, beQuiet, ignoredPtr);
 
-	CloseDocument(-1, false, &isCloseIgnored);
-
-	if (isCloseIgnored){
+	if ((ignoredPtr != NULL) && *ignoredPtr){
 		documentTypeId = m_documentTypeId;
 
 		return true;
@@ -365,32 +403,38 @@ bool CSingleDocumentManagerBase::OpenDocument(
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
 
-		istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+		istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+		Q_UNUSED(notifier);
 
-		if (NewDocument(documentTypeId, createView, viewTypeId, false)){
+		if (NewDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr)){
 			Q_ASSERT(m_documentPtr.IsValid());
 
 			istd::CChangeNotifier documentNotifier(m_documentPtr.GetPtr(), istd::IChangeable::CF_NO_UNDO);
 
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
-			if (		(loaderPtr != NULL) &&
-						(loaderPtr->LoadFromFile(*m_documentPtr, filePath) == ifile::IFilePersistence::OS_OK)){
-				m_filePath = filePath;
-				documentNotifier.Reset();
+			if (loaderPtr != NULL){
+				int loadState = loaderPtr->LoadFromFile(*m_documentPtr, filePath);
+				if (loadState == ifile::IFilePersistence::OS_OK){
+					m_filePath = filePath;
+					documentNotifier.Reset();
 
-				m_isDirty = false;
+					m_isDirty = false;
 
-				if (m_undoManagerPtr.IsValid()){
-					m_undoManagerPtr->ResetUndo();
+					if (m_undoManagerPtr.IsValid()){
+						m_undoManagerPtr->ResetUndo();
 
-					m_undoManagerPtr->StoreDocumentState();
+						m_undoManagerPtr->StoreDocumentState();
+					}
+
+					return true;
 				}
-
-				return true;
+				else if ((loadState == ifile::IFilePersistence::OS_OK) && (ignoredPtr != NULL)){
+					*ignoredPtr = true;
+				}
 			}
 		}
 		else{
-			CloseDocument(-1, true, &isCloseIgnored);
+			CloseDocument(-1, true);
 		}
 	}
 
@@ -402,14 +446,20 @@ bool CSingleDocumentManagerBase::NewDocument(
 			const QByteArray& documentTypeId,
 			bool createView,
 			const QByteArray& viewTypeId,
-			bool initialize)
+			bool initialize,
+			bool beQuiet,
+			bool* ignoredPtr)
 {
+	if (ignoredPtr != NULL){
+		*ignoredPtr = false;
+	}
+
 	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
 
 	if (documentTemplatePtr != NULL){
 		QByteArray realDocumentTypeId = documentTypeId;
 
-		istd::TDelPtr<istd::IChangeable> documentPtr(documentTemplatePtr->CreateDocument(realDocumentTypeId, initialize));
+		istd::TDelPtr<istd::IChangeable> documentPtr(documentTemplatePtr->CreateDocument(realDocumentTypeId, initialize, beQuiet, ignoredPtr));
 
 		if (documentPtr.IsValid()){
 			istd::IPolymorphic* viewPtr = NULL;
@@ -520,7 +570,7 @@ bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive)
 		retVal = retVal && archive.EndTag(viewTypeIdTag);
 
 		if (retVal && !filePath.isEmpty()){
-			retVal = retVal & OpenDocument(filePath, true, viewTypeId, documentTypeId);
+			OpenDocument(filePath, true, viewTypeId, documentTypeId, true, NULL);
 		}
 	}
 

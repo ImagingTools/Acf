@@ -129,13 +129,17 @@ public:
 		\param	createView		if true, view will be automatically created.
 		\param	viewTypeId		ID of view type, if it will be created.
 		\param	newDocumentPtr	optional pointer where new created document will be returned.
+		\param	beQuiet			if true, no user interaction will be done.
+		\param	ignoredPtr		optional return flag indicating that creating was aborted by user.
 		\return	true, if success.
 	*/
 	virtual bool InsertNewDocument(
 				const QByteArray& documentTypeId, 
 				bool createView = true, 
 				const QByteArray& viewTypeId = "",
-				istd::IChangeable** newDocumentPtr = NULL) = 0;
+				istd::IChangeable** newDocumentPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL) = 0;
 
 	/**
 		Opens document(s) from the file list.
@@ -144,6 +148,7 @@ public:
 		\param	createView			if true, view will be automatically created.
 		\param	viewTypeId			ID of view type, if it will be created.
 		\param	loadedMapPtr		optional list of loaded files and its document type ID's.
+		\param	ignoredPtr			optional return flag indicating that opening was aborted by user.
 	*/
 	virtual bool OpenDocument(
 				const QByteArray* documentTypeIdPtr = NULL,
@@ -151,17 +156,22 @@ public:
 				bool createView = true,
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** documentPtr = NULL,
-				FileToTypeMap* loadedMapPtr = NULL) = 0;
+				FileToTypeMap* loadedMapPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL) = 0;
 
 	/**
 		Save document.
 		\param	documentIndex	optional index of document to save, if negative then current active document will be saved.
 		\param	requestFileName	if true, file name will be always requested by user.
+		\param	ignoredPtr		optional return flag indicating that saving was aborted by user.
 	*/
 	virtual bool SaveDocument(
 				int documentIndex = -1,
 				bool requestFileName = false,
-				FileToTypeMap* savedMapPtr = NULL) = 0;
+				FileToTypeMap* savedMapPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL) = 0;
 
 	/**
 		Ask user (optional) and save all dirty (changed) documents.
@@ -179,7 +189,7 @@ public:
 								Typically user will be asked for saving document.
 		\param	ignoredPtr		optional return flag indicating that closing was aborted by user.
 	*/
-	virtual void CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
+	virtual bool CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
 
 	/**
 		Close current view.
@@ -187,7 +197,7 @@ public:
 								Typically user will be asked for saving document.
 		\param	ignoredPtr		optional return flag indicating that closing was aborted by user.
 	*/
-	virtual void CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
+	virtual bool CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
 };
 
 

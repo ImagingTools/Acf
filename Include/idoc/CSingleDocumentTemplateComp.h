@@ -39,7 +39,11 @@ public:
 
 	// reimplemented (idoc::IDocumentTemplate)
 	virtual ifile::IFilePersistence* GetFileLoader(const QByteArray& documentTypeId) const;
-	virtual istd::IChangeable* CreateDocument(QByteArray& documentTypeId, bool initialize = true) const;
+	virtual istd::IChangeable* CreateDocument(
+				QByteArray& documentTypeId,
+				bool initialize = true,
+				bool beQuiet = false,
+				bool* ignoredFlagPtr = NULL) const;
 	virtual istd::IPolymorphic* CreateView(
 				const QByteArray& documentTypeId,
 				istd::IChangeable* documentPtr,

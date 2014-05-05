@@ -27,8 +27,16 @@ ifile::IFilePersistence* CSingleDocumentTemplateComp::GetFileLoader(const QByteA
 }
 
 
-istd::IChangeable* CSingleDocumentTemplateComp::CreateDocument(QByteArray& documentTypeId, bool /*initialize*/) const
+istd::IChangeable* CSingleDocumentTemplateComp::CreateDocument(
+			QByteArray& documentTypeId,
+			bool /*initialize*/,
+			bool /*beQuiet*/,
+			bool* ignoredFlagPtr) const
 {
+	if (ignoredFlagPtr != NULL){
+		*ignoredFlagPtr = false;
+	}
+
 	if (m_documentCompFact.IsValid() && IsDocumentTypeSupported(documentTypeId)){
 		if (documentTypeId.isEmpty()){
 			documentTypeId = BaseClass2::GetDocumentTypeId();

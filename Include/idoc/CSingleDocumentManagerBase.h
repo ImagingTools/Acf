@@ -39,21 +39,27 @@ public:
 				const QByteArray& documentTypeId,
 				bool createView = true,
 				const QByteArray& viewTypeId = "",
-				istd::IChangeable** newDocumentPtr = NULL);
+				istd::IChangeable** newDocumentPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL);
 	virtual bool OpenDocument(
 				const QByteArray* documentTypeIdPtr,
 				const QString* fileNamePtr = NULL,
 				bool createView = true,
 				const QByteArray& viewTypeId = "",
 				istd::IChangeable** documentPtr = NULL,
-				FileToTypeMap* loadedMapPtr = NULL);
+				FileToTypeMap* loadedMapPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL);
 	virtual bool SaveDocument(
 				int documentIndex = -1,
 				bool requestFileName = false,
-				FileToTypeMap* savedMapPtr = NULL);
+				FileToTypeMap* savedMapPtr = NULL,
+				bool beQuiet = false,
+				bool* ignoredPtr = NULL);
 	virtual bool SaveDirtyDocuments(bool beQuiet = false, bool* ignoredPtr = NULL);
-	virtual void CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL);
-	virtual void CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual bool CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual bool CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL);
 
 protected:
 	/**
@@ -68,7 +74,9 @@ protected:
 				const QString& filePath,
 				bool createView,
 				const QByteArray& viewTypeId,
-				QByteArray& documentTypeId);
+				QByteArray& documentTypeId,
+				bool beQuiet,
+				bool* ignoredPtr);
 
 	/**
 		Create instance of specified document without attaching to this manager.
@@ -77,7 +85,9 @@ protected:
 				const QByteArray& documentTypeId,
 				bool createView,
 				const QByteArray& viewTypeId,
-				bool initialize);
+				bool initialize,
+				bool beQuiet,
+				bool* ignoredPtr);
 	void EnsureViewRemoved();
 
 	QString GetCurrentDocumentFilePath() const;
