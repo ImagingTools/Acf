@@ -31,6 +31,7 @@ class CSimpleMainWindowGuiComp:
 						iqtgui::TGuiComponentBase<QMainWindow> >
 {
 	Q_OBJECT
+
 public:
 	typedef iqtgui::TRestorableGuiWrap<
 					iqtgui::TGuiComponentBase<QMainWindow> > BaseClass;
