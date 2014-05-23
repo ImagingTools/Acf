@@ -31,7 +31,7 @@ void SetConsoleColor(TextColors color)
 	switch (color){
 		case TC_DEFAULT:
 			#ifdef Q_OS_WIN
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE);
 			#else
 			std::wcout << "\033[0m";
 			#endif
@@ -82,6 +82,8 @@ void CConsoleLogComp::WriteText(const QString& text, istd::IInformationProvider:
 
 		std::wcout << text.toLocal8Bit().constData();
 	}
+
+	SetConsoleColor(TC_DEFAULT);
 }
 
 
