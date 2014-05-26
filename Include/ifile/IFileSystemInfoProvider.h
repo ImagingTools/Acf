@@ -5,6 +5,7 @@
 // ACF includes
 #include "istd/IChangeable.h"
 #include "istd/CSystem.h"
+#include "iprm/IOptionsList.h"
 
 
 namespace ifile
