@@ -11,7 +11,7 @@
 #include "ifile/CGeneratedFileNameParamComp.h"
 #include "ifile/CFileListProviderComp.h"
 #include "ifile/CAutoPersistenceComp.h"
-
+#include "ifile/CFileSystemInfoProviderComp.h"
 
 /**
 	Package for file system primitives management.
@@ -27,6 +27,7 @@ typedef icomp::TModelCompWrap<ifile::CGeneratedFileNameParamComp> GeneratedFileN
 typedef icomp::TModelCompWrap<ifile::CFileListProviderComp> FileListProvider;
 typedef icomp::TModelCompWrap<ifile::CFileListProviderComp> FileListProvider;
 typedef ifile::CAutoPersistenceComp AutoPersistence;
+typedef  icomp::TModelCompWrap<ifile::CFileSystemInfoProviderComp> FileSystemInfoProvider;
 
 
 } // namespace FilePck

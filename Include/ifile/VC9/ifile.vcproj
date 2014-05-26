@@ -215,6 +215,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFileSystemInfoProviderComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CFileTypeInfoComp.cpp"
 				>
 			</File>
@@ -273,6 +277,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileSerializerCompBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFileSystemInfoProviderComp.h"
 				>
 			</File>
 			<File
@@ -351,6 +359,10 @@
 				RelativePath="..\CFileListProviderComp.moc"
 				>
 			</File>
+			<File
+				RelativePath="..\CFileSystemInfoProviderComp.moc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Generated Files"
@@ -361,6 +373,10 @@
 			</File>
 			<File
 				RelativePath="..\..\GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\GeneratedFiles\ifile\moc_CFileSystemInfoProviderComp.cpp"
 				>
 			</File>
 		</Filter>

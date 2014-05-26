@@ -43,6 +43,11 @@ I_EXPORT_COMPONENT(
 			"Allows object persistence using files",
 			"Free Create Store Restore Load Save" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Persistence File"));
 
+I_EXPORT_COMPONENT(
+			FileSystemInfoProvider,
+			"Allows access to information about the local file system",
+			"Free System Info" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("File System"));
+
 
 } // namespace FilePck
 
