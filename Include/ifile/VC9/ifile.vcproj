@@ -328,6 +328,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\IFileSystemInfoProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\IFileTypeInfo.h"
 				>
 			</File>

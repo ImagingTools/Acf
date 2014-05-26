@@ -172,6 +172,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFilteredOptionsListComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CManagerParamsSetShadowerComp.cpp"
 				>
 			</File>
@@ -246,6 +250,10 @@
 			</File>
 			<File
 				RelativePath="..\CFileNameParamComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFilteredOptionsListComp.h"
 				>
 			</File>
 			<File
