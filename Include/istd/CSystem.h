@@ -26,6 +26,19 @@ class CSystem
 public:
 	typedef QMap<QString, QString> EnvironmentVariables;
 
+	struct FileDriveInfo
+	{
+		FileDriveInfo()
+			:totalBytes(0),
+			freeBytes(0)
+		{
+		}
+
+		quint64 totalBytes;
+		quint64 freeBytes;
+	};
+
+
 	// static methods
 
 	/**
@@ -91,6 +104,11 @@ public:
 		Get the name of the currently logged user.
 	*/
 	static QString GetCurrentUserName();
+
+	/** 
+		Get the free space information for the given file drive.
+	*/
+	static FileDriveInfo GetFileDriveInfo(const QString& fileDrivePath);
 };
 
 

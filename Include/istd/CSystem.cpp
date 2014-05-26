@@ -6,6 +6,12 @@
 #include <QtCore/QThread>
 #include <QtCore/QProcess>
 
+// Windows includes
+#ifdef Q_OS_WIN32
+	#include <Windows.h>
+	#undef RemoveDirectory
+#endif
+
 // ACF includes
 #include <istd/istd.h>
 
@@ -180,7 +186,7 @@ void CSystem::Sleep(double seconds)
 
 bool CSystem::CopyDirectory(const QString& sourcePath, const QString& destinationPath)
 {
-	RemoveDirectory(destinationPath);
+	CSystem::RemoveDirectory(destinationPath);
 
 	QDir parentDstDir(QFileInfo(destinationPath).path());
 	if (!parentDstDir.mkdir(QFileInfo(destinationPath).fileName())){
@@ -305,6 +311,25 @@ QString CSystem::GetCurrentUserName()
 #endif
 
 	return userName;
+}
+
+
+CSystem::FileDriveInfo CSystem::GetFileDriveInfo(const QString& fileDrivePath)
+{
+	FileDriveInfo fileDriveInfo;
+
+#if defined(Q_OS_WIN32)
+	ULARGE_INTEGER lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes;
+	bool isOk = GetDiskFreeSpaceExA(fileDrivePath.toLatin1().data(), &lpFreeBytesAvailable, &lpTotalNumberOfBytes, &lpTotalNumberOfFreeBytes);
+	if (isOk){
+		fileDriveInfo.freeBytes = lpFreeBytesAvailable.QuadPart;
+		fileDriveInfo.totalBytes = lpTotalNumberOfBytes.QuadPart;
+	}
+#else
+	// TODO: Add implementation for other plattforms
+#endif
+
+	return fileDriveInfo;
 }
 
 
