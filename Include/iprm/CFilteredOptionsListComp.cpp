@@ -98,9 +98,9 @@ void CFilteredOptionsListComp::UpdateOptions()
 			Option option;
 
 			option.id = id;
-			option.name = m_inputOptionsCompPtr->GetOptionName(i);
-			option.description = m_inputOptionsCompPtr->GetOptionDescription(i);
-			option.isEnabled = m_inputOptionsCompPtr->IsOptionEnabled(i);
+			option.name = m_inputOptionsCompPtr->GetOptionName(index);
+			option.description = m_inputOptionsCompPtr->GetOptionDescription(index);
+			option.isEnabled = m_inputOptionsCompPtr->IsOptionEnabled(index);
 
 			m_options.push_back(option);
 		}
