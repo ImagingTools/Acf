@@ -67,7 +67,7 @@ bool CLabel::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 		CObject2dBase::CopyFrom(object, mode);
 
 		return true;
-	}	
+	}
 
 	return false;
 }

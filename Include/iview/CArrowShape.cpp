@@ -4,13 +4,10 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "imod/IModel.h"
 #include "i2d/CPosition2d.h"
-
 #include "iqt/iqt.h"
-
 #include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
@@ -33,6 +30,7 @@ CArrowShape::CArrowShape()
 void CArrowShape::InvalidateBoundingBox()
 {
 	m_arePointsValid = false;
+
 	BaseClass::InvalidateBoundingBox();
 }
 
@@ -61,9 +59,9 @@ ITouchable::TouchState CArrowShape::IsTouched(istd::CIndex2d position) const
 	}
 	double distance = colorSchema.GetLogicalLineWidth();
 
-	if (			CheckLine(m_points[0], m_points[1], position, distance) ||
-					CheckLine(m_points[1], m_points[2], position, distance) ||
-					CheckLine(m_points[1], m_points[3], position, distance)){
+	if (		CheckLine(m_points[0], m_points[1], position, distance) ||
+				CheckLine(m_points[1], m_points[2], position, distance) ||
+				CheckLine(m_points[1], m_points[3], position, distance)){
 		return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 	}
 
@@ -191,8 +189,8 @@ bool CArrowShape::OnMouseMove(istd::CIndex2d position)
 void CArrowShape::CalcPoints(const i2d::CLine2d& line) const
 {
 	i2d::CLine2d screenLine(
-					GetScreenPosition(line.GetPoint1()),
-					GetScreenPosition(line.GetPoint2()));
+				GetScreenPosition(line.GetPoint1()),
+				GetScreenPosition(line.GetPoint2()));
 	i2d::CVector2d delta = screenLine.GetDiffVector() * m_arrowLinesProportion;
 	if (delta.GetLength2() > m_maxArrowLines * m_maxArrowLines){
 		delta.Normalize(m_maxArrowLines);
@@ -271,10 +269,10 @@ void CArrowShape::SetLogDragPosition(const i2d::CVector2d& position)
 // static methods
 
 bool CArrowShape::CheckLine(
-				const istd::CIndex2d& firstPoint,
-				const istd::CIndex2d& secondPoint,
-				const istd::CIndex2d& point,
-				double maxDistance)
+			const istd::CIndex2d& firstPoint,
+			const istd::CIndex2d& secondPoint,
+			const istd::CIndex2d& point,
+			double maxDistance)
 {
 	i2d::CLine2d line = i2d::CLine2d(i2d::CVector2d(firstPoint), i2d::CVector2d(secondPoint));
 	double distance = line.GetDistance(i2d::CVector2d(point));

@@ -161,7 +161,7 @@ bool TDataNodePolyline<NodeData>::CopyFrom(const IChangeable& object, Compatibil
 		CObject2dBase::CopyFrom(object, mode);
 
 		return true;
-	}	
+	}
 
 	return false;
 }

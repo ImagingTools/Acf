@@ -187,6 +187,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CArc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCalibration2dProxyComp.cpp"
 				>
 			</File>
@@ -345,6 +353,14 @@
 			</File>
 			<File
 				RelativePath="..\CAnnulusSegmentComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcComp.h"
 				>
 			</File>
 			<File

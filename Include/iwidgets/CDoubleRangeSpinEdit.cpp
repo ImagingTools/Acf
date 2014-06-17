@@ -146,7 +146,7 @@ void CDoubleRangeSpinEdit::OnMinValueChanged(double val)
 {
 	if (m_validateRangesEnabled && val > GetMaxValue()){
 		m_ui.ValueToSpinBox->setValue(val);
-	}	
+	}
 
 	Q_EMIT ValuesChanged();
 }
@@ -156,7 +156,7 @@ void CDoubleRangeSpinEdit::OnMaxValueChanged(double val)
 {
 	if (m_validateRangesEnabled && val < GetMinValue()){
 		m_ui.ValueFromSpinBox->setValue(val);
-	}	
+	}
 
 	Q_EMIT ValuesChanged();
 }

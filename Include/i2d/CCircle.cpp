@@ -3,10 +3,8 @@
 
 // ACF includes
 #include "istd/TChangeNotifier.h"
-
 #include "i2d/CAffine2d.h"
 #include "i2d/CRectangle.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 #include "istd/TDelPtr.h"
@@ -304,7 +302,7 @@ bool CCircle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 		CObject2dBase::CopyFrom(object, mode);
 
 		return true;
-	}	
+	}
 
 	return false;
 }

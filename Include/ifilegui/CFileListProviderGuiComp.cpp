@@ -25,7 +25,7 @@ void CFileListProviderGuiComp::UpdateGui(int /*updateFlags*/)
 			fileItemPtr->setText(0, fileList[fileIndex].absoluteFilePath());
 
 			FileList->addTopLevelItem(fileItemPtr);
-		}	
+		}
 	}
 }
 

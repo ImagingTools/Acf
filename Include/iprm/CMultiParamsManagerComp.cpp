@@ -82,7 +82,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(typeId);
 			if (!retVal){
 				return false;
-			}			
+			}		
 		}
 
 		retVal = retVal && archive.EndTag(typeIdTag);
@@ -110,7 +110,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 		if (!isStoring){
 			if (!retVal){
 				return false;
-			}			
+			}		
 
 			if (!EnsureParamExist(i, typeId, name, isEnabled)){
 				return false;

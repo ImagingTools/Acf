@@ -136,6 +136,11 @@ I_EXPORT_COMPONENT(
 			"Bitmap visualization for multi bitmap provider", 
 			"Image Bitmap Multiple View");
 
+I_EXPORT_COMPONENT(
+			ArcParamsGui,
+			"Arc parameter GUI displaying a arc using scene",
+			"Arc Parameters Observer Display" IM_TAG("GUI Editor 2D"));
+
 
 } // namespace QtViewPck
 

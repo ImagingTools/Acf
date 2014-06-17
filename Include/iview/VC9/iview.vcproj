@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CArcShape.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CArrowShape.cpp"
 				>
 			</File>
@@ -351,6 +355,10 @@
 			</File>
 			<File
 				RelativePath="..\CAnnulusShape.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcShape.h"
 				>
 			</File>
 			<File

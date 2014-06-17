@@ -53,7 +53,7 @@ void CEnableableParamGuiComp::UpdateGui(int /*updateFlags*/)
 		
 		EnableableCheck->setChecked(objectPtr->IsEnabled());
 		EnableableCheck->setEnabled(objectPtr->IsEnablingAllowed());		
-	}	
+	}
 }
 
 
@@ -63,7 +63,7 @@ void CEnableableParamGuiComp::OnGuiCreated()
 {
 	if (m_enableableLabelAttrPtr.IsValid()){
 		EnableableCheck->setText(*m_enableableLabelAttrPtr);
-	}	
+	}
 
 	BaseClass::OnGuiCreated();
 }
@@ -72,7 +72,7 @@ void CEnableableParamGuiComp::OnGuiRetranslate()
 {
 	if (m_enableableLabelAttrPtr.IsValid()){
 		EnableableCheck->setText(*m_enableableLabelAttrPtr);
-	}	
+	}
 }
 
 // protected slots

@@ -180,6 +180,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CArcParamsGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCircleParamsGuiComp.cpp"
 				>
 			</File>
@@ -255,6 +259,10 @@
 			</File>
 			<File
 				RelativePath="..\CAnnulusSegmentParamsGuiComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcParamsGuiComp.h"
 				>
 			</File>
 			<File
@@ -471,6 +479,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CArcParamsGuiComp.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CCircleParamsGuiComp.ui"
 				>
 			</File>
@@ -516,6 +528,10 @@
 			</File>
 			<File
 				RelativePath="..\CAnnulusSegmentParamsGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcParamsGuiComp.moc"
 				>
 			</File>
 			<File

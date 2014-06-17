@@ -392,7 +392,7 @@ void CParamsManagerGuiCompBase::UpdateTree()
 					QIcon icon = m_stateIconsMap.value(iconIndex);
 					paramsSetItemPtr->setIcon(0, icon);						
 				}
-			}			
+			}		
 
 			ParamsTree->addTopLevelItem(paramsSetItemPtr);
 

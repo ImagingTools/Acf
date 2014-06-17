@@ -74,7 +74,7 @@ bool CParamsManagerComp::SetSetsCount(int count)
 const IOptionsList* CParamsManagerComp::GetParamsTypeConstraints() const
 {
 	return NULL;
-}	
+}
 
 
 // reimplemented (iser::ISerializable)

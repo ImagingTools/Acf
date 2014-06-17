@@ -239,6 +239,11 @@ I_EXPORT_COMPONENT(
 			"2D Tranformation Calibration Proxy Provider" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D"));
 
 I_EXPORT_COMPONENT(
+			Arc,
+			"Arc 2D object",
+			"Arc Circle Position Radius 2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+
+I_EXPORT_COMPONENT(
 			TextDocument,
 			"Simple text document",
 			IM_CATEGORY(I_DATA_MODEL) IM_TAG("Text Document"));
