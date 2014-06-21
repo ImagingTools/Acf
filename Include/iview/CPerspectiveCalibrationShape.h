@@ -21,7 +21,7 @@ public:
 	typedef iview::CNoneCalibrationShape BaseClass;
 
 	// reimplemented (imod::IObserver)
-	virtual void Invalidate(int changeFlags = 0);
+	virtual void Invalidate();
 
 	// reimplemented (iview::IVisualizable)
 	virtual void Draw(QPainter& drawContext) const;

@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace ibase
@@ -64,7 +64,8 @@ int CDelegatedProgressManager::BeginProgressSession(
 			const QString& /*description*/,
 			bool isCancelable)
 {
-	istd::CChangeNotifier notifier(this, CF_MODEL | CF_SESSIONS_NUMBER | CF_PROGRESS_CHANGED);
+	static ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	int id = m_nextSessionId++;
 	m_progressSum = 0.0;
@@ -87,7 +88,8 @@ int CDelegatedProgressManager::BeginProgressSession(
 
 void CDelegatedProgressManager::EndProgressSession(int sessionId)
 {
-	istd::CChangeNotifier notifier(this, CF_MODEL | CF_SESSIONS_NUMBER | CF_PROGRESS_CHANGED);
+	static ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	ProgressMap::iterator iter = m_progressMap.find(sessionId);
 	Q_ASSERT(iter != m_progressMap.constEnd());
@@ -111,7 +113,8 @@ void CDelegatedProgressManager::OnProgress(int sessionId, double currentProgress
 {
 	Q_ASSERT(m_progressMap.contains(sessionId));
 
-	istd::CChangeNotifier notifier(this, CF_MODEL | CF_PROGRESS_CHANGED);
+	static ChangeSet changeSet(CF_PROGRESS_CHANGED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	ProgressInfo& value = m_progressMap[sessionId];
 
@@ -145,7 +148,7 @@ void CDelegatedProgressManager::OnCancelable(bool /*cancelState*/)
 
 // reimplemented (istd::IChangeable)
 
-void CDelegatedProgressManager::OnEndChanges(int /*changeFlags*/, istd::IPolymorphic* /*changeParamsPtr*/)
+void CDelegatedProgressManager::OnEndChanges(const ChangeSet& /*changeSet*/)
 {
 	if (m_slaveManagerPtr != NULL){
 		m_slaveManagerPtr->OnProgress(m_slaveSessionId, GetCumulatedProgress());

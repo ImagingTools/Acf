@@ -71,11 +71,11 @@ void CParallelogramShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CParallelogramShape::OnAttached(imod::IModel* modelPtr)
+bool CParallelogramShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CParallelogram*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

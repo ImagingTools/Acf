@@ -15,28 +15,26 @@ namespace iqtprm
 CSelectableParamsSetGuiComp::CSelectableParamsSetGuiComp()
 	:m_currentParamsSetIndex(-1)
 {
+	static istd::IChangeable::ChangeSet changeMask(iprm::ISelectionParam::CF_SELECTION_CHANGED);
+	SetObservedIds(changeMask);
 }
 
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSelectableParamsSetGuiComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableParamsSetGuiComp::BeforeUpdate(imod::IModel* modelPtr)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
-		EnsureDetachLastEditor();
-	}
+	EnsureDetachLastEditor();
 
-	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass::BeforeUpdate(modelPtr);
 }
 
 
-void CSelectableParamsSetGuiComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableParamsSetGuiComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
-		ConnectCurrentEditor();
-	}
+	BaseClass::AfterUpdate(modelPtr, changeSet);
 
-	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	ConnectCurrentEditor();
 }
 
 

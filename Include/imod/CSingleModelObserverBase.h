@@ -38,12 +38,17 @@ public:
 	*/
 	void EnsureModelDetached();
 
+	/**
+		Set list of ID's beeing observed.
+	*/
+	void SetObservedIds(const istd::IChangeable::ChangeSet& changeMask);
+
 	// reimplemented (imod::IObserver)
 	virtual bool IsModelAttached(const imod::IModel* modelPtr = NULL) const;
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 protected:
 	/**
@@ -51,10 +56,12 @@ protected:
 	*/
 	void SetModelPtr(imod::IModel* modelPtr);
 
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	imod::IModel* m_modelPtr;
+
+	istd::IChangeable::ChangeSet m_observedIds;
 };
 
 

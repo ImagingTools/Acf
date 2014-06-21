@@ -126,7 +126,7 @@ void CAutoPersistenceComp::OnComponentDestroyed()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CAutoPersistenceComp::OnModelChanged(int modelId, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CAutoPersistenceComp::OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	switch (modelId)
 	{

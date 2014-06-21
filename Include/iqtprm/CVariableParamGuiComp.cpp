@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
@@ -27,9 +27,9 @@ CVariableParamGuiComp::CVariableParamGuiComp()
 
 // reimplemented (imod::IObserver)
 
-bool CVariableParamGuiComp::OnDetached(imod::IModel* modelPtr)
+bool CVariableParamGuiComp::OnModelDetached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnDetached(modelPtr)){
+	if (BaseClass::OnModelDetached(modelPtr)){
 		DetachCurrentType();
 
 		return true;
@@ -160,7 +160,7 @@ void CVariableParamGuiComp::DetachCurrentType()
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CVariableParamGuiComp::UpdateGui(int updateFlags)
+void CVariableParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
@@ -199,7 +199,7 @@ void CVariableParamGuiComp::UpdateGui(int updateFlags)
 				(m_currentTypeIndex < m_editorsCompPtr.GetCount())){
 		imod::IModelEditor* editorPtr = m_editorsCompPtr[m_currentTypeIndex];
 		if (editorPtr != NULL){
-			editorPtr->UpdateEditor(updateFlags);
+			editorPtr->UpdateEditor(changeSet);
 		}
 	}
 
@@ -252,10 +252,12 @@ void CVariableParamGuiComp::on_TypeSelectorCB_currentIndexChanged(int index)
 		return;
 	}
 
-	istd::TChangeNotifier<iprm::IVariableParam> variableParamPtr(GetObjectPtr());
-	if (!variableParamPtr.IsValid()){
+	iprm::IVariableParam* variableParamPtr = GetObjectPtr();
+	if (variableParamPtr == NULL){
 		return;
 	}
+
+	istd::CChangeNotifier notifier(variableParamPtr);
 
 	if ((index >= 0) && (index < m_typeIdsAttrPtr.GetCount())){
 		variableParamPtr->AssignTypeId(m_typeIdsAttrPtr[index].toLocal8Bit());

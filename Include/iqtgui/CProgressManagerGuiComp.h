@@ -48,7 +48,7 @@ protected:
 	virtual bool IsCanceled(int sessionId) const;
 
 	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();

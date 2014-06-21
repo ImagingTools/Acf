@@ -12,7 +12,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iqt/iqt.h"
 
@@ -213,9 +213,9 @@ CTranslationManagerComp::LanguageSelectionObserver::LanguageSelectionObserver(CT
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CTranslationManagerComp::LanguageSelectionObserver::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+void CTranslationManagerComp::LanguageSelectionObserver::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
 		iprm::ISelectionParam* objectPtr = GetObjectPtr();
 		Q_ASSERT(objectPtr != NULL);
 		if (objectPtr != NULL){

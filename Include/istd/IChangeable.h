@@ -2,6 +2,9 @@
 #define istd_IChangeable_included
 
 
+// Qt includes
+#include <QtCore/QSet>
+
 // ACF includes
 #include "istd/istd.h"
 #include "istd/IPolymorphic.h"
@@ -21,29 +24,92 @@ namespace istd
 class IChangeable: virtual public IPolymorphic  
 {
 public:
+	/**
+		Set of change flags (its IDs).
+	*/
+	class ChangeSet
+	{
+	public:
+		ChangeSet();
+		explicit ChangeSet(int id1);
+		ChangeSet(int id1, int id2);
+		ChangeSet(int id1, int id2, int id3);
+		ChangeSet(int id1, int id2, int id3, int id4);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5, int id6);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5, int id6, int id7);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5, int id6, int id7, int id8);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5, int id6, int id7, int id8, int id9);
+		ChangeSet(int id1, int id2, int id3, int id4, int id5, int id6, int id7, int id8, int id9, int id10);
+
+		/**
+			Remove all IDs.
+		*/
+		void Reset();
+
+		/**
+			Check if there is any change in the set.
+		*/
+		bool IsEmpty() const;
+		/**
+			Check if there is specific change in the set.
+		*/
+		bool Contains(int changeId) const;
+		/**
+			Check if any of IDs is changed.
+		*/
+		bool ContainsAny(const ChangeSet& changeSet) const;
+
+		/**
+			Remove the IDs from the second set.
+		*/
+		void MaskOut(const ChangeSet& changeSet);
+
+		/**
+			Get the union of two change sets.
+		*/
+		ChangeSet operator+(const ChangeSet& changeSet) const;
+
+		/**
+			Add some change flag.
+		*/
+		ChangeSet& operator+=(int changeId);
+
+		/**
+			Add some change set.
+		*/
+		ChangeSet& operator+=(const ChangeSet& changeSet);
+
+	private:
+		QSet<int> m_ids;
+	};
+
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
 		/**
 			Internal ACF flag.
 			Indicate that internal update is done.
 		*/
-		CF_ACF_INTERNAL = 1 << 0,
+		CF_ACF_INTERNAL = 0,
 		/**
-			Indicate that data model is changed.
+			All object data are changed.
 		*/
-		CF_MODEL = 1 << 1,
+		CF_ALL_DATA,
 		/**
-			Indicate, that update was aborted by user.
+			Indicate anonymous change.
 		*/
-		CF_ABORTED = 1 << 2,
+		CF_ANY,
 		/**
 			Change flag indicate that this change was delegated (is indirect) for example from aggregated object.
 		*/
-		CF_DELEGATED = 1 << 3,
+		CF_DELEGATED,
 		/**
 			Used to avoid adding of changes to undo list.
 		*/
-		CF_NO_UNDO = 1 << 5
+		CF_NO_UNDO
 	};
 
 	/**
@@ -108,22 +174,6 @@ public:
 	};
 
 	/**
-		Starts the change transaction. 
-		\note Please note that the \c changeFlags and \c changeParamsPtr must not be identical with the
-		corresponded parameters in EndChanges().
-		\sa EndChanges()
-	*/
-	virtual void BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
-
-	/**
-		Ends the change transaction. 
-		\note Please note that the \c changeFlags and \c changeParamsPtr must not be identical with the
-		corresponded parameters in BeginChanges().
-		\sa BeginChanges()
-	*/
-	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
-
-	/**
 		Get set of flags for supported operations.
 		\sa SupportedOperations
 	*/
@@ -155,33 +205,74 @@ public:
 	*/
 	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS);
 
+	/**
+		Starts the change transaction.
+		\note It should be never called or override by user. Please use \c OnBeginChanges instead.
+		\sa \c EndChanges
+	*/
+	virtual void BeginChanges(const ChangeSet& changeSet);
+
+	/**
+		Ends the change transaction.
+		\note It should be never override called or by user. Please use \c OnEndChanges instead.
+		\param	changeSet	set of IDs used to identify what kind of change was done.
+							for the empty set you can assume, that no change was done.
+		\sa \c BeginChanges
+	*/
+	virtual void EndChanges(const ChangeSet& changeSet);
+
+	/**
+		Starts group of changes.
+		It doesn't start signaling of changes, it allows simply to group set of changes into single transaction block.
+		\note It should be never called or override by user.
+		\sa EndChangeGroup()
+	*/
+	virtual void BeginChangeGroup(const ChangeSet& changeSet);
+
+	/**
+		Ends group of changes.
+		It doesn't start signaling of changes, it allows simply to group set of changes into single transaction block.
+		\note It should be never called or override by user.
+		\sa BeginChangeGroup
+	*/
+	virtual void EndChangeGroup(const ChangeSet& changeSet);
+
+	// static methods
+	/**
+		Get empty set of changes.
+	*/
+	static const ChangeSet& GetNoChanges();
+
+	/**
+		Get anonymous change set.
+	*/
+	static const ChangeSet& GetAnyChange();
+
+	/**
+		Get anonymous change set.
+	*/
+	static const ChangeSet& GetAllChanges();
+
 protected:
 	/**
 		Callback function for begin change event.
 		Please note, that in some cases no following OnEndChanges can be called.
 	*/
-	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnBeginChanges();
 
 	/**
 		Callback function for end change event.
 	*/
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
+
+	// static attributes
+	static ChangeSet s_emptyChanges;
+	static ChangeSet s_anyChanges;
+	static ChangeSet s_allChanges;
 };
 
 
-// public methods
-
-inline void IChangeable::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	OnBeginChanges(changeFlags, changeParamsPtr);
-}
-
-
-inline void IChangeable::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	OnEndChanges(changeFlags, changeParamsPtr);
-}
-
+// public inline methods
 
 inline int IChangeable::GetSupportedOperations() const
 {
@@ -213,14 +304,58 @@ inline bool IChangeable::ResetData(CompatibilityMode /*mode*/)
 }
 
 
-// protected methods
+inline void IChangeable::BeginChanges(const ChangeSet& /*changeSet*/)
+{
+	OnBeginChanges();
+}
 
-inline void IChangeable::OnBeginChanges(int /*changeFlags*/, istd::IPolymorphic* /*changeParamsPtr*/)
+
+inline void IChangeable::EndChanges(const ChangeSet& changeSet)
+{
+	OnEndChanges(changeSet);
+}
+
+
+inline void IChangeable::BeginChangeGroup(const ChangeSet& /*changeSet*/)
 {
 }
 
 
-inline void IChangeable::OnEndChanges(int /*changeFlags*/, istd::IPolymorphic* /*changeParamsPtr*/)
+inline void IChangeable::EndChangeGroup(const ChangeSet& /*changeSet*/)
+{
+}
+
+
+// public static inline methods
+/**
+	Get empty set of changes.
+*/
+inline const IChangeable::ChangeSet& IChangeable::GetNoChanges()
+{
+	return s_emptyChanges;
+}
+
+
+inline const IChangeable::ChangeSet& IChangeable::GetAnyChange()
+{
+	return s_anyChanges;
+}
+
+
+inline const IChangeable::ChangeSet& IChangeable::GetAllChanges()
+{
+	return s_allChanges;
+}
+
+
+// protected inline methods
+
+inline void IChangeable::OnBeginChanges()
+{
+}
+
+
+inline void IChangeable::OnEndChanges(const ChangeSet& /*changeSet*/)
 {
 }
 

@@ -16,7 +16,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "idoc/IDocumentTemplate.h"
 
@@ -116,7 +116,8 @@ void CSingleDocumentWorkspaceGuiComp::OnViewRegistered(istd::IPolymorphic* viewP
 {
 	Q_ASSERT(viewPtr != NULL);
 
-	istd::CChangeNotifier changePtr(this, CF_VIEW_ACTIVATION_CHANGED);
+	istd::IChangeable::ChangeSet changeSet(CF_VIEW_ACTIVATION_CHANGED);
+	istd::CChangeNotifier changePtr(this, changeSet);
 
 	iqtgui::IGuiObject* guiObjectPtr = CompCastPtr<iqtgui::IGuiObject>(viewPtr);
 	QWidget* widgetPtr = GetQtWidget();
@@ -235,9 +236,9 @@ void CSingleDocumentWorkspaceGuiComp::OnComponentCreated()
 
 // reimplemented (istd:IChangeable)
 
-void CSingleDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CSingleDocumentWorkspaceGuiComp::OnEndChanges(const ChangeSet& changeSet)
 {
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	BaseClass::OnEndChanges(changeSet);
 
 	if (IsGuiCreated()){
 		UpdateTitle();

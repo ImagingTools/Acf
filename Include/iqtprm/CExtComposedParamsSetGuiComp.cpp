@@ -22,7 +22,6 @@
 #endif
 
 // ACF includes
-#include "istd/CChangeDelegator.h"
 #include "imod/IModel.h"
 #include "imod/IObserver.h"
 #include "iqt/CSignalBlocker.h"
@@ -60,11 +59,11 @@ void CExtComposedParamsSetGuiComp::UpdateModel() const
 }
 
 
-void CExtComposedParamsSetGuiComp::UpdateEditor(int updateFlags)
+void CExtComposedParamsSetGuiComp::UpdateEditor(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
-	if ((updateFlags & istd::CChangeDelegator::CF_DELEGATED) == 0){
+	if (!changeSet.Contains(istd::IChangeable::CF_DELEGATED)){
 		int editorsCount = m_editorsCompPtr.GetCount();
 		for (int i = 0; i < editorsCount; ++i){
 			iqtgui::IGuiObject* guiPtr = GetPageGuiComponent(i);
@@ -78,7 +77,7 @@ void CExtComposedParamsSetGuiComp::UpdateEditor(int updateFlags)
 
 				m_connectedEditorsMap[editorPtr] = true;
 
-				editorPtr->UpdateEditor(updateFlags);
+				editorPtr->UpdateEditor(changeSet);
 			}
 		}
 	}

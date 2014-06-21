@@ -10,7 +10,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "iprm/IOptionsList.h"
 #include "iprm/INameParam.h"
 
@@ -88,7 +88,7 @@ void COptionsManagerGuiComp::OnGuiModelDetached()
 }
 
 
-void COptionsManagerGuiComp::UpdateGui(int updateFlags)
+void COptionsManagerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
@@ -99,8 +99,11 @@ void COptionsManagerGuiComp::UpdateGui(int updateFlags)
 		Selector->setEditable(supplortedFlags & iprm::IOptionsManager::OOF_SUPPORT_INSERT);
 	}
 
-	if ((updateFlags & (imod::IModelEditor::CF_INIT_EDITOR | iprm::IOptionsManager::CF_OPTION_ADDED | iprm::IOptionsManager::CF_OPTION_REMOVED | iprm::ISelectionParam::CF_SELECTION_CHANGED)) != 0)
-	{
+	if (		changeSet.Contains(iprm::IOptionsManager::CF_OPTION_ADDED) ||
+				changeSet.Contains(iprm::IOptionsManager::CF_OPTION_REMOVED) ||
+				changeSet.Contains(iprm::IOptionsManager::CF_OPTIONS_CHANGED) ||
+				changeSet.Contains(iprm::IOptionsManager::CF_OPTION_RENAMED) ||
+				changeSet.Contains(imod::IModelEditor::CF_INIT_EDITOR)){
 		UpdateComboBox();
 	}
 }
@@ -205,14 +208,14 @@ void COptionsManagerGuiComp::OnGuiRetranslate()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void COptionsManagerGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void COptionsManagerGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
 	if (!IsUpdateBlocked()){
 		UpdateBlocker updateBlocker(this);
 
-		UpdateGui();
+		UpdateGui(changeSet);
 	}
 }
 

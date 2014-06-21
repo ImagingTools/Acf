@@ -279,7 +279,7 @@ void CMultiPageGuiCompBase::OnComponentDestroyed()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CMultiPageGuiCompBase::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiPageGuiCompBase::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	if (IsGuiCreated()){
 		UpdateVisualElements();
@@ -440,11 +440,11 @@ const IVisualStatus* CMultiPageGuiCompBase::PageModel::GetVisualStatus(int statu
 
 // reimplemented (istd::IChangeable)
 
-void CMultiPageGuiCompBase::PageModel::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CMultiPageGuiCompBase::PageModel::OnEndChanges(const ChangeSet& changeSet)
 {
 	Q_ASSERT(m_parentPtr != NULL);
 
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	BaseClass::OnEndChanges(changeSet);
 
 	if (m_parentPtr->IsGuiCreated()){
 		UpdatePageState();

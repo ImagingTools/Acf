@@ -100,11 +100,11 @@ void CLineShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CLineShape::OnAttached(imod::IModel* modelPtr)
+bool CLineShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CLine2d*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

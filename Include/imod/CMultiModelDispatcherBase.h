@@ -22,7 +22,7 @@ namespace imod
 	You can register several data models objects that you want to observe with RegisterModel method.
 	You will get a notification event on each change in the observed data model via OnModelChanged method call of your notification consumer.  
 	\note Notification consumer class must implement the method
-	void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr) to support the notification callback.
+	void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) to support the notification callback.
 	\sa imod::CMultiModelBridgeBase.
 
 	\ingroup ModelObserver
@@ -36,7 +36,7 @@ public:
 		\param modelId	Logical model ID for possible event filtering in the notification callback.
 		\param relefantFlags	The notification will only be triggered if the value of \c relevantFlags matches the model change flags.
 	*/
-	bool RegisterModel(IModel* modelPtr, int modelId = 0, int relevantFlags = istd::IChangeable::CF_MODEL);
+	bool RegisterModel(IModel* modelPtr, int modelId = 0, const istd::IChangeable::ChangeSet& relevantFlags = istd::IChangeable::GetNoChanges());
 	
 	/**
 		Unregister the data model object.
@@ -62,19 +62,18 @@ protected:
 	public:
 		typedef CSingleModelObserverBase BaseClass;
 
-		ObserverProxy(CMultiModelDispatcherBase* parentPtr, int modelId, int relevantFlags);
+		ObserverProxy(CMultiModelDispatcherBase* parentPtr, int modelId, const istd::IChangeable::ChangeSet& relevantFlags);
 
 		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void OnUpdate(int changeFlags, istd::IPolymorphic* updateParamsPtr);
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	private:
 		CMultiModelDispatcherBase& m_parent;
 		int m_modelId;
-		int m_relevantFlags;
 	};
 
 	// abstract methods
-	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr) = 0;
+	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 private:
 	typedef istd::TDelPtr<ObserverProxy> ObserverProxyPtr;

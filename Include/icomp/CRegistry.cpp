@@ -1,7 +1,7 @@
 #include "icomp/CRegistry.h"
 
 
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -67,7 +67,8 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 		}
 	}
 
-	istd::TChangeNotifier<IRegistry> changePtr(this, CF_MODEL | CF_ELEMENT_ADDED);
+	static ChangeSet changeSet(CF_ELEMENT_ADDED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	ElementInfo& newElement = m_componentsMap[elementId];
 	newElement.address = address;
@@ -79,7 +80,8 @@ IRegistry::ElementInfo* CRegistry::InsertElementInfo(
 
 bool CRegistry::RemoveElementInfo(const QByteArray& elementId)
 {
-	istd::TChangeNotifier<IRegistry> changePtr(this, CF_MODEL | CF_ELEMENT_REMOVED);
+	static ChangeSet changeSet(CF_ELEMENT_REMOVED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	// remove interfaces exported by this component:
 	bool isDone = false;
@@ -256,7 +258,8 @@ bool CRegistry::RenameElement(const QByteArray& oldElementId, const QByteArray& 
 		return false;
 	}
 
-	istd::TChangeNotifier<IRegistry> changePtr(this, CF_MODEL | CF_ELEMENT_RENAMED);
+	static ChangeSet changeSet(CF_ELEMENT_RENAMED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	// calculate new component exports:
 	IRegistry::ExportedElementsMap newExportedComponentsMap;
@@ -363,7 +366,7 @@ bool CRegistry::RenameElement(const QByteArray& oldElementId, const QByteArray& 
 		return true;
 	}
 
-	changePtr.Abort();
+	notifier.Abort();
 
 	return false;
 }

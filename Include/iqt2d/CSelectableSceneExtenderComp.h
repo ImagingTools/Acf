@@ -34,8 +34,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 	// reimplemented (iqt2d::IViewExtender)
 	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
@@ -46,8 +46,7 @@ protected:
 	void DetachCurrent();
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	I_MULTIREF(iqt2d::IViewExtender, m_extendersCompPtr);

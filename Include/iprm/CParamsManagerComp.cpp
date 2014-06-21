@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TChangeDelegator.h"
 #include "imod/IModel.h"
 #include "iprm/IParamsSet.h"
@@ -25,7 +25,8 @@ bool CParamsManagerComp::SetSetsCount(int count)
 			return false;
 		}
 
-		istd::CChangeNotifier notifier(this, CF_OPTIONS_CHANGED | CF_MODEL);
+		static ChangeSet changeSet(CF_OPTIONS_CHANGED);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		while (m_paramSets.size() < (count - fixedSetsCount)){
 			m_paramSets.append(ParamSetPtr());
@@ -46,7 +47,8 @@ bool CParamsManagerComp::SetSetsCount(int count)
 					return false;
 				}
 
-				istd::CChangeNotifier notifier(this, CF_MODEL | CF_OPTIONS_CHANGED);
+				static ChangeSet changeSet(CF_OPTIONS_CHANGED);
+				istd::CChangeNotifier notifier(this, changeSet);
 
 				ParamSetPtr paramsSetPtr(new imod::TModelWrap<ParamSet>());
 
@@ -202,7 +204,8 @@ bool CParamsManagerComp::SetOptionEnabled(int index, bool isEnabled)
 	}
 
 	if (m_paramSets[index - fixedSetsCount]->isEnabled != isEnabled){
-		istd::CChangeNotifier notifier(this, CF_MODEL);
+		static ChangeSet changeSet(CF_SET_ENABLE_CHANGED);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		m_paramSets[index - fixedSetsCount]->isEnabled = isEnabled;
 	}

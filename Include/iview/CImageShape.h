@@ -29,8 +29,8 @@ public:
 	virtual void Draw(QPainter& drawContext) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const;

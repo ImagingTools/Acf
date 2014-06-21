@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "istd/IChangeable.h"
-#include "istd/TUpdateManagerWrap.h"
 
 
 namespace iser
@@ -23,12 +22,13 @@ extern bool CompareByArchive(const istd::IChangeable& object1, const istd::IChan
 
 
 template <class Base>
-class TCopySerializedWrap: public istd::TUpdateManagerWrap<Base>
+class TCopySerializedWrap: public Base
 {
 public:
-	typedef istd::TUpdateManagerWrap<Base> BaseClass;
+	typedef Base BaseClass;
 
 	// pseudo-reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = BaseClass::CM_WITHOUT_REFS);
 	virtual bool IsEqual(const istd::IChangeable& object) const;
 };
@@ -37,6 +37,13 @@ public:
 // public methods
 
 // pseudo-reimplemented (istd::IChangeable)
+
+template <class Base>
+int TCopySerializedWrap<Base>::GetSupportedOperations() const
+{
+	return BaseClass::GetSupportedOperations() | istd::IChangeable::SO_COPY | istd::IChangeable::SO_COMPARE;
+}
+
 
 template <class Base>
 bool TCopySerializedWrap<Base>::CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode)
@@ -56,7 +63,7 @@ bool TCopySerializedWrap<Base>::CopyFrom(const istd::IChangeable& object, istd::
 template <class Base>
 bool TCopySerializedWrap<Base>::IsEqual(const istd::IChangeable& object) const
 {
-	if ((BaseClass::GetSupportedOperations() & istd::IChangeable::SO_COMPARE) && (object.GetSupportedOperations() & istd::IChangeable::SO_COMPARE)){
+	if ((BaseClass::GetSupportedOperations() & istd::IChangeable::SO_COMPARE) != 0){
 		return BaseClass::IsEqual(object);
 	}
 

@@ -6,7 +6,7 @@
 #include <QtGui/QPainter>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iqt/iqt.h"
 
@@ -23,9 +23,9 @@ namespace iview
 
 // reimplemented (imod::IObserver)
 
-void CPerspectiveCalibrationShape::Invalidate(int changeFlags)
+void CPerspectiveCalibrationShape::Invalidate()
 {
-	BaseClass::Invalidate(changeFlags);
+	BaseClass::Invalidate();
 
 	iview::IDisplay* displayPtr = GetDisplayPtr();
 	iview::CViewBase* parentViewPtr = NULL;
@@ -37,8 +37,10 @@ void CPerspectiveCalibrationShape::Invalidate(int changeFlags)
 
 		displayPtr = displayPtr->GetParentDisplayPtr();
 	}
+
 	if (parentViewPtr != NULL){
-		parentViewPtr->UpdateAllShapes(CF_CALIB);
+		static istd::IChangeable::ChangeSet calibChangeSet(CF_CALIB);
+		parentViewPtr->UpdateAllShapes(calibChangeSet);
 	}
 }
 
@@ -79,17 +81,17 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 		const i3d::CVector3d& logAxisX = calibPtr->GetLogAxisGetX();
 		const i2d::CRectangle& bounds = calibPtr->GetBounds();
 
-		istd::TChangeNotifier<iview::IRuler> leftRulerPtr(NULL);
-		istd::TChangeNotifier<iview::IRuler> topRulerPtr(NULL);
+		iview::IRuler* leftRulerPtr = NULL;
+		iview::IRuler* topRulerPtr = NULL;
 
 		if (rulersAccessorPtr != NULL){
 			if (qAbs(logAxisX.GetX()) >= qAbs(logAxisX.GetY())){
-				leftRulerPtr.SetPtr(rulersAccessorPtr->GetLeftRulerPtr());
-				topRulerPtr.SetPtr(rulersAccessorPtr->GetTopRulerPtr());
+				leftRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
+				topRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
 			}
 			else{
-				topRulerPtr.SetPtr(rulersAccessorPtr->GetLeftRulerPtr());
-				leftRulerPtr.SetPtr(rulersAccessorPtr->GetTopRulerPtr());
+				topRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
+				leftRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
 			}
 		}
 
@@ -98,7 +100,10 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 			i2d::CLine2d leftRulerLine;
 
 			bool isGridVisible = calibInfoPtr->IsGridVisible();
-			if (isGridVisible || leftRulerPtr.IsValid() || topRulerPtr.IsValid()){
+			if (isGridVisible || (leftRulerPtr != NULL) || (topRulerPtr != NULL)){
+				istd::CChangeNotifier leftRulerNotifier(leftRulerPtr);
+				istd::CChangeNotifier topRulerNotifier(topRulerPtr);
+
 				if (topRulerPtr != NULL){
 					if (topRulerPtr->GetLevelsCount() < 3){
 						topRulerPtr->SetLevelsCount(3);
@@ -107,7 +112,7 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 					topRulerLine = topRulerPtr->GetScreenLine();
 				}
 
-				if (leftRulerPtr.IsValid()){
+				if (leftRulerPtr != NULL){
 					if (leftRulerPtr->GetLevelsCount() < 3){
 						leftRulerPtr->SetLevelsCount(3);
 					}
@@ -256,7 +261,7 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 						levelIndex = 2;
 					}
 
-					if (leftRulerPtr.IsValid()){
+					if (leftRulerPtr != NULL){
 						i2d::CLine2d screenLine;
 						screenLine.SetPoint1(i2d::CVector2d(point1.x(), point1.y()));
 						screenLine.SetPoint2(i2d::CVector2d(point2.x(), point2.y()));

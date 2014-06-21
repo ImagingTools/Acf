@@ -50,7 +50,7 @@ public:
 
 protected:
 	// reimpemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimpemented (icomp::IComponent)
 	virtual void OnComponentCreated();

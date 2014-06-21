@@ -7,7 +7,7 @@ namespace iview
 
 // protected methods
 
-void CShapeInfoGuiComp::UpdateGui(int /*updateFlags*/)
+void CShapeInfoGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

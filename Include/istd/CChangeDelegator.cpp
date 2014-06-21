@@ -21,18 +21,21 @@ CChangeDelegator::CChangeDelegator(IChangeable* slavePtr)
 
 // reimplemented (istd::IChangeable)
 
-void CChangeDelegator::BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CChangeDelegator::OnBeginChanges()
 {
 	if (m_slavePtr != NULL){
-		m_slavePtr->BeginChanges(changeFlags | CF_DELEGATED, changeParamsPtr);
+		static ChangeSet delegateIds(CF_DELEGATED);
+
+		m_slavePtr->BeginChanges(delegateIds);
 	}
 }
 
 
-void CChangeDelegator::EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CChangeDelegator::OnEndChanges(const ChangeSet& changeSet)
 {
-	if (m_slavePtr != NULL){
-		m_slavePtr->EndChanges(changeFlags | CF_DELEGATED, changeParamsPtr);
+	if ((m_slavePtr != NULL) && !changeSet.IsEmpty()){
+		static ChangeSet delegateIds(CF_DELEGATED);
+		m_slavePtr->EndChanges(delegateIds);
 	}
 }
 

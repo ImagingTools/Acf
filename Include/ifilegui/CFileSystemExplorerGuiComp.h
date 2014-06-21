@@ -64,7 +64,7 @@ protected:
 	QStringList GetDefaultFilters() const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void UpdateGui(int updateFlags = 0);
+	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();

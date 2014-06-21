@@ -19,6 +19,36 @@ class IDisplay: public IShapeObserver
 {
 public:
 	/**
+		Define possible display change flags.
+	*/
+	enum ChangeFlags
+	{
+		/**
+			View transform is changed.
+		*/
+		CF_TRANSFORM = 0x3f67360,
+		
+		/**
+			View colors are changed.
+		*/
+		CF_COLORS,
+		
+		/**
+			View size is changed.
+		*/
+		CF_SIZE,
+		
+		/**
+			Edit mode is changed.
+		*/
+		CF_EDIT_MODE,
+		/**	
+			Indicate, that changes come from display console shapes.
+		*/
+		CS_CONSOLE
+	};
+
+	/**
 		Get parent object of this display.
 		If this display is root, it returns NULL.
 	*/

@@ -4,6 +4,7 @@
 
 // ACF includes
 #include "istd/IPolymorphic.h"
+#include "istd/IChangeable.h"
 #include "imod/imod.h"
 
 
@@ -18,20 +19,23 @@ namespace imod
 class IModelEditor: virtual public istd::IPolymorphic
 {
 public:
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
 		/**
 			Called at begin of editor initialization.
 		*/
-		CF_INIT_EDITOR = 1 << 4
+		CF_INIT_EDITOR = 0x3720694
 	};
 
 	/**
 		Updates editor with model data.
 		This method will be called only if GUI is connected.
-		\param	updateFlags	the same as \c changeFlag in istd::IChangeable.
+		\param	changeSet	the same as \c changeSet in \c istd::IChangeable.
 	*/
-	virtual void UpdateEditor(int updateFlags = 0) = 0;
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 	/**
 		Updates model from editor.

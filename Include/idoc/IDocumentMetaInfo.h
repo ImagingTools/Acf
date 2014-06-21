@@ -28,7 +28,7 @@ public:
 		/**
 			Meta information has been changed.
 		*/
-		CF_METAINFO = 1 << 21
+		CF_METAINFO = 0xd83067d
 	};
 
 	/**

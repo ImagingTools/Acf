@@ -6,7 +6,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "imod/IModel.h"
 #include "imod/IModelEditor.h"
@@ -178,7 +178,7 @@ bool CMultiDocumentManagerBase::InsertNewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
-	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
+	istd::TDelPtr<SingleDocumentData> newInfoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr));
 	if (newInfoPtr.IsValid() && RegisterDocument(newInfoPtr.PopPtr())){
 		SingleDocumentData* newDocumentDataPtr = m_documentInfos.GetAt(m_documentInfos.GetCount() - 1);
 		Q_ASSERT(newDocumentDataPtr != NULL);
@@ -443,14 +443,13 @@ bool CMultiDocumentManagerBase::CloseDocument(int documentIndex, bool beQuiet, b
 		viewIter = infoPtr->views.erase(viewIter);
 	}
 
-	int changeFlags = CF_MODEL | CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED;
+	static ChangeSet changeSet(CF_DOCUMENT_REMOVED, CF_DOCUMENT_COUNT_CHANGED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	// If last document was closed, force view activation update:
 	if (m_documentInfos.GetCount() == 1){
-		changeFlags |= CF_VIEW_ACTIVATION_CHANGED;
+		notifier.AppendChangeId(CF_VIEW_ACTIVATION_CHANGED);
 	}
-
-	istd::CChangeNotifier notifier(this, changeFlags);
 
 	m_documentInfos.RemoveAt(documentIndex);
 
@@ -501,7 +500,8 @@ bool CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
 void CMultiDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
 {
 	if (m_activeViewPtr != viewPtr){
-		istd::CChangeNotifier notifier(this, CF_VIEW_ACTIVATION_CHANGED | CF_MODEL);
+		static ChangeSet changeSet(CF_VIEW_ACTIVATION_CHANGED);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		m_activeViewPtr = viewPtr;
 	}
@@ -563,29 +563,23 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
-		istd::TDelPtr<SingleDocumentData> infoPtr(CreateDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
+		istd::TDelPtr<SingleDocumentData> infoPtr(CreateUnregisteredDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr));
 		if (infoPtr.IsValid()){
 			Q_ASSERT(infoPtr->documentPtr.IsValid());
 
 			infoPtr->filePath = filePath;
 			infoPtr->documentTypeId = documentTypeId;
 
-			istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+			static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+			istd::CChangeNotifier notifier(this, changeSet);
 			Q_UNUSED(notifier);
-			istd::CChangeNotifier documentNotifier(infoPtr->documentPtr.GetPtr(), istd::IChangeable::CF_NO_UNDO);
 
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (		(loaderPtr != NULL) &&
 						(loaderPtr->LoadFromFile(*infoPtr->documentPtr, filePath) == ifile::IFilePersistence::OS_OK)){
 				RegisterDocument(infoPtr.GetPtr());
 
-				documentNotifier.Reset();
-
 				infoPtr->isDirty = false;
-
-				if (infoPtr->undoManagerPtr.IsValid()){
-					infoPtr->undoManagerPtr->StoreDocumentState();
-				}
 
 				return infoPtr.PopPtr()->documentPtr.GetPtr();
 			}
@@ -599,7 +593,8 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenDocument(
 void CMultiDocumentManagerBase::CloseAllDocuments()
 {
 	if (!m_documentInfos.IsEmpty()){
-		istd::CChangeNotifier notifierPtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_REMOVED | CF_MODEL);
+		static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED);
+		istd::CChangeNotifier notifierPtr(this, changeSet);
 
 		m_documentInfos.Reset();
 	}
@@ -679,7 +674,7 @@ int CMultiDocumentManagerBase::GetDocumentIndex(const SingleDocumentData& docume
 }
 
 
-CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::CreateDocument(
+CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::CreateUnregisteredDocument(
 			const QByteArray& documentTypeId,
 			bool createView,
 			const QByteArray& viewTypeId,
@@ -700,18 +695,12 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 		istd::TDelPtr<SingleDocumentData> infoPtr(new SingleDocumentData(
 					const_cast<CMultiDocumentManagerBase*>(this),
 					realDocumentTypeId,
-					documentPtr,
-					documentTemplatePtr->CreateUndoManager(realDocumentTypeId, documentPtr)));
+					documentPtr));
 
 		if (infoPtr->documentPtr.IsValid()){
 			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(documentPtr);
 			if (documentModelPtr != NULL){
 				documentModelPtr->AttachObserver(infoPtr.GetPtr());
-			}
-
-			imod::IModel* undoManagerModelPtr = CompCastPtr<imod::IModel>(infoPtr->undoManagerPtr.GetPtr());
-			if (undoManagerModelPtr != NULL){
-				undoManagerModelPtr->AttachObserver(infoPtr.GetPtr());
 			}
 
 			if (createView){
@@ -742,10 +731,28 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 {
 	Q_ASSERT(infoPtr != NULL);
 
-	istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+	static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	m_documentInfos.PushBack(infoPtr);
 
+	// create and connect undo manager
+	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
+	if (documentTemplatePtr != NULL){
+		infoPtr->undoManagerPtr.SetPtr(documentTemplatePtr->CreateUndoManager(infoPtr->documentTypeId, infoPtr->documentPtr.GetPtr()));
+
+		if (infoPtr->undoManagerPtr.IsValid()){
+			// connect undo manager to single document descriptor to provide general dirty flag
+			imod::IModel* undoManagerModelPtr = CompCastPtr<imod::IModel>(infoPtr->undoManagerPtr.GetPtr());
+			if (undoManagerModelPtr != NULL){
+				undoManagerModelPtr->AttachObserver(infoPtr);
+			}
+
+			infoPtr->undoManagerPtr->StoreDocumentState();
+		}
+	}
+
+	// registration feedback for all views
 	for (		Views::iterator viewIter = infoPtr->views.begin();
 				viewIter != infoPtr->views.end();
 				++viewIter){
@@ -888,24 +895,18 @@ bool CMultiDocumentManagerBase::SerializeOpenDocumentList(iser::IArchive& archiv
 CMultiDocumentManagerBase::SingleDocumentData::SingleDocumentData(
 			CMultiDocumentManagerBase* parentPtr,
 			const QByteArray& documentTypeId,
-			istd::IChangeable* documentPtr,
-			idoc::IUndoManager* undoManagerPtr)
+			istd::IChangeable* documentPtr)
 {
 	this->parentPtr = parentPtr;
 	this->documentTypeId = documentTypeId;
 	this->documentPtr.SetPtr(documentPtr);
-	this->undoManagerPtr.SetPtr(undoManagerPtr);
 	isDirty = false;
-
-	if ((documentPtr != NULL) && (undoManagerPtr != NULL)){
-		undoManagerPtr->StoreDocumentState();
-	}
 }
 // protected methods of embedded class SingleDocumentData
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(imod::IModel* /*modelPtr*/, const ChangeSet& /*changeSet*/)
 {
 	bool newDirty = true;
 	if (documentPtr.IsValid() && undoManagerPtr.IsValid()){

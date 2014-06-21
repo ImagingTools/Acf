@@ -118,7 +118,7 @@ void CViewProviderGuiComp::OnGuiCreated()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CViewProviderGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CViewProviderGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	if (IsGuiCreated() && m_calibrationProviderCompPtr.IsValid()){
 		const i2d::ICalibration2d* calibrationPtr = m_calibrationProviderCompPtr->GetCalibration();

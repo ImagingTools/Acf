@@ -27,8 +27,8 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 protected:
 	typedef typename BaseClass::Shapes Shapes;
@@ -51,9 +51,9 @@ protected:
 // reimplemented (imod::IObserver)
 
 template <class Ui, class Shape, class ShapeModel>
-bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnAttached(imod::IModel* modelPtr)
+bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
-	if (BaseClass::OnAttached(modelPtr)){
+	if (BaseClass::OnModelAttached(modelPtr, changeMask)){
 		const ShapesMap& shapesMap = BaseClass::GetShapesMap();
 		for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
 					iter != shapesMap.end();
@@ -79,9 +79,9 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnAttached(imod::IModel* mo
 
 
 template <class Ui, class Shape, class ShapeModel>
-bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnDetached(imod::IModel* modelPtr)
+bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnDetached(modelPtr)){
+	if (BaseClass::OnModelDetached(modelPtr)){
 		const ShapesMap& shapesMap = BaseClass::GetShapesMap();
 		for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
 					iter != shapesMap.end();

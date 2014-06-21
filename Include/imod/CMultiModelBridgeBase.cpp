@@ -53,7 +53,7 @@ bool CMultiModelBridgeBase::IsModelAttached(const imod::IModel* modelPtr) const
 }
 
 
-bool CMultiModelBridgeBase::OnAttached(imod::IModel* modelPtr)
+bool CMultiModelBridgeBase::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(modelPtr != NULL);
 
@@ -63,11 +63,13 @@ bool CMultiModelBridgeBase::OnAttached(imod::IModel* modelPtr)
 
 	m_models.push_back(modelPtr);
 
+	changeMask = istd::IChangeable::GetAllChanges();
+
 	return true;
 }
 
 
-bool CMultiModelBridgeBase::OnDetached(IModel* modelPtr)
+bool CMultiModelBridgeBase::OnModelDetached(IModel* modelPtr)
 {
 	Models::iterator iter = qFind(m_models.begin(), m_models.end(), modelPtr);
 	if (iter != m_models.end()){
@@ -80,19 +82,21 @@ bool CMultiModelBridgeBase::OnDetached(IModel* modelPtr)
 }
 
 
-void CMultiModelBridgeBase::BeforeUpdate(IModel* I_IF_DEBUG(modelPtr), int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CMultiModelBridgeBase::BeforeUpdate(IModel* I_IF_DEBUG(modelPtr))
 {
 	Q_ASSERT(IsModelAttached(modelPtr));
 
-	BeginChanges(updateFlags | CF_DELEGATED, updateParamsPtr);
+	static ChangeSet delegatedIds(CF_DELEGATED);
+	BeginChanges(delegatedIds);
 }
 
 
-void CMultiModelBridgeBase::AfterUpdate(IModel* I_IF_DEBUG(modelPtr), int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CMultiModelBridgeBase::AfterUpdate(IModel* I_IF_DEBUG(modelPtr), const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsModelAttached(modelPtr));
 
-	EndChanges(updateFlags | CF_DELEGATED, updateParamsPtr);
+	static ChangeSet delegatedIds(CF_DELEGATED);
+	EndChanges(delegatedIds);
 }
 
 

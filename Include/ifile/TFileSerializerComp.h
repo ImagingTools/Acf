@@ -7,7 +7,7 @@
 #include <QtCore/QDir>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/CSystem.h"
 #include "ibase/IProgressManager.h"
 #include "ifile/CFileSerializerCompBase.h"
@@ -156,11 +156,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(
 
 		Q_ASSERT(serializablePtr != NULL);
 
-		istd::CChangeNotifier changePtr(NULL, istd::IChangeable::CF_MODEL);
-
 		if (serializablePtr->Serialize(archive)){
-			changePtr.SetPtr(&data);
-
 			return OS_OK;
 		}
 		else{

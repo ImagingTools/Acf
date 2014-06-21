@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "imod/IModel.h"
 
@@ -65,7 +65,7 @@ void CManagerParamsSetShadowerComp::OnComponentDestroyed()
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CManagerParamsSetShadowerComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CManagerParamsSetShadowerComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(m_paramsManagerCompPtr.IsValid());
 	Q_ASSERT(m_selectionParamCompPtr.IsValid());
@@ -99,7 +99,7 @@ CManagerParamsSetShadowerComp::CurrentParamsSetObserver::CurrentParamsSetObserve
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CManagerParamsSetShadowerComp::CurrentParamsSetObserver::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CManagerParamsSetShadowerComp::CurrentParamsSetObserver::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	m_parent.CopyParamsSetToShadow();
 }

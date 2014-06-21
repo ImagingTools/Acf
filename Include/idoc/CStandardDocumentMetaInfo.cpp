@@ -6,7 +6,7 @@
 #include <QtCore/QDataStream>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -55,7 +55,8 @@ bool CStandardDocumentMetaInfo::SetMetaInfo(int metaInfoType, const QVariant& me
 	}
 
 	if (m_infosMap[metaInfoType] != metaInfo){
-		istd::CChangeNotifier changePtr(this, CF_METAINFO | CF_MODEL);
+		static ChangeSet changeSet(CF_METAINFO);
+		istd::CChangeNotifier changePtr(this, changeSet);
 
 		m_infosMap[metaInfoType] = metaInfo;
 	}
@@ -175,7 +176,8 @@ bool CStandardDocumentMetaInfo::Serialize(iser::IArchive& archive)
 		}
 	}
 	else{
-		istd::CChangeNotifier changePtr(this, CF_METAINFO | CF_MODEL);
+		static ChangeSet changeSet(CF_ALL_DATA, CF_METAINFO);
+		istd::CChangeNotifier changePtr(this, changeSet);
 
 		m_infosMap.clear();
 

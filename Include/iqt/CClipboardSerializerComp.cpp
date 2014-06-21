@@ -12,7 +12,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/CMemoryReadArchive.h"
 #include "iser/CMemoryWriteArchive.h"
@@ -68,11 +68,7 @@ int CClipboardSerializerComp::LoadFromFile(
 			if (!mimeData.isEmpty()){
 				iser::CMemoryReadArchive archive(mimeData.constData(), mimeData.size());
 
-				istd::CChangeNotifier changePtr(NULL, istd::IChangeable::CF_MODEL);
-
 				if (serializablePtr->Serialize(archive)){
-					changePtr.SetPtr(&data);
-
 					return OS_OK;
 				}
 				else{

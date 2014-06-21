@@ -16,10 +16,13 @@ namespace iprm
 class IOptionsManager: virtual public IOptionsList
 {
 public:
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_OPTION_ADDED = 1 << 7,
-		CF_OPTION_REMOVED = 1 << 8
+		CF_OPTION_ADDED = 0x26be73a,
+		CF_OPTION_REMOVED
 	};
 	
 	/**

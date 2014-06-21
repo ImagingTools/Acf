@@ -12,7 +12,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace iqtgui
@@ -258,14 +258,14 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 
 #if QT_VERSION < 0X050000
 	const QObjectList list = qFindChildren<QObject *>(m_widgetPtr, QString());
-    #define GetMethodSignature signature
+	#define GetMethodSignature signature
 #else
 	const QObjectList list = m_widgetPtr->findChildren<QObject*>(QString());
-    #define GetMethodSignature methodSignature
+	#define GetMethodSignature methodSignature
 #endif
 
 	for (int i = 0; i < mo->methodCount(); ++i){
-        QByteArray methodSignature = mo->method(i).GetMethodSignature();
+		QByteArray methodSignature = mo->method(i).GetMethodSignature();
 
 		const char* slot = methodSignature.constData();
 		if (slot[0] != 'o' || slot[1] != 'n' || slot[2] != '_'){

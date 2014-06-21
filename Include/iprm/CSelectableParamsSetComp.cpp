@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "imod/IModel.h"
 
@@ -114,7 +114,8 @@ bool CSelectableParamsSetComp::SetSelectedOptionIndex(int index)
 		Q_ASSERT(m_paramsManagerCompPtr.IsValid());
 
 		if (m_paramsManagerCompPtr->SetSelectedOptionIndex(index)){
-			istd::CChangeNotifier notifier(this, CF_SELECTION_CHANGED | CF_MODEL);
+			static ChangeSet changeSet(CF_SELECTION_CHANGED);
+			istd::CChangeNotifier notifier(this, changeSet);
 
 			m_selectedIndex = index;
 
@@ -134,13 +135,13 @@ ISelectionParam* CSelectableParamsSetComp::GetSubselection(int /*index*/) const
 
 // reimplemented (imod::IObserver)
 
-void CSelectableParamsSetComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableParamsSetComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
 		SetSelectedOptionIndex(m_paramsManagerCompPtr->GetSelectedOptionIndex());
 	}
 
-	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass2::AfterUpdate(modelPtr, changeSet);
 }
 
 
@@ -321,15 +322,21 @@ CSelectableParamsSetComp::CurrentParamsSetObserver::CurrentParamsSetObserver(CSe
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSelectableParamsSetComp::CurrentParamsSetObserver::BeforeUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableParamsSetComp::CurrentParamsSetObserver::BeforeUpdate(imod::IModel* I_IF_DEBUG(modelPtr))
 {
-	m_parent.BeginChanges(updateFlags | istd::IChangeable::CF_DELEGATED, updateParamsPtr);
+	Q_ASSERT(IsModelAttached(modelPtr));
+
+	static ChangeSet delegatedIds(CF_DELEGATED);
+	m_parent.BeginChanges(delegatedIds);
 }
 
 
-void CSelectableParamsSetComp::CurrentParamsSetObserver::AfterUpdate(imod::IModel* /*modelPtr*/, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableParamsSetComp::CurrentParamsSetObserver::AfterUpdate(imod::IModel* I_IF_DEBUG(modelPtr), const ChangeSet& /*changeSet*/)
 {
-	m_parent.EndChanges(updateFlags | istd::IChangeable::CF_DELEGATED, updateParamsPtr);
+	Q_ASSERT(IsModelAttached(modelPtr));
+
+	static ChangeSet delegatedIds(CF_DELEGATED);
+	m_parent.EndChanges(delegatedIds);
 }
 
 

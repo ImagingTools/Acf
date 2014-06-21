@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -154,7 +154,8 @@ bool CAnnulusSegment::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag beginAngleTag("BeginAngle", "Start angle of the segment");
 	static iser::CArchiveTag endAngleTag("EndAngle", "End angle of the segment");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	bool retVal = BaseClass::Serialize(archive);
 

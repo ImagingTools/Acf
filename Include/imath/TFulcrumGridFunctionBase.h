@@ -7,7 +7,7 @@
 #include <QtCore/QVector>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TCachedUpdateManagerWrap.h"
 
 #include "iser/ISerializable.h"
@@ -46,9 +46,12 @@ public:
 	typedef typename Fulcrums::SizesType FulcrumSizes;
 	typedef typename TIMathFunction<Argument, Result>::ArgumentType ArgumentType;
 
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_SORT_LAYERS = 1 << 29
+		CF_SORT_LAYERS = 0x8352707
 	};
 
 	/**
@@ -145,7 +148,7 @@ protected:
 	typename Fulcrums::IndexType FindIndices(const ArgumentType& argument) const;
 
 	// reimplemented (istd::TCachedUpdateManagerWrap)
-	virtual bool CalculateCache(int changeFlags);
+	virtual bool CalculateCache(const ChangeSet& changeSet);
 
 private:
 	Fulcrums m_fulcrums;
@@ -248,7 +251,8 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetLayerPosition(int 
 	Q_ASSERT(layerIndex >= 0);
 	Q_ASSERT(layerIndex < int(positions.size()));
 
-	istd::CChangeNotifier notifier(this, CF_SORT_LAYERS | CF_MODEL);
+	static ChangeSet changeSet(CF_SORT_LAYERS);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	positions[layerIndex] = position;
 }
@@ -528,11 +532,11 @@ typename Fulcrums::IndexType
 // reimplemented (istd::TCachedUpdateManagerWrap)
 
 template <class Argument, class Result, class Fulcrums>
-bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::CalculateCache(int changeFlags)
+bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::CalculateCache(const istd::IChangeable::ChangeSet& changeSet)
 {
-	bool retVal = BaseClass::CalculateCache(changeFlags);
+	bool retVal = BaseClass::CalculateCache(changeSet);
 
-	if ((changeFlags & CF_SORT_LAYERS) != 0){
+	if (changeSet.Contains(CF_SORT_LAYERS)){
 		SortFulcrums();
 	}
 

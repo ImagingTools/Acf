@@ -5,7 +5,7 @@
 #include <QtGui/QPainter>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "imod/IModel.h"
 #include "i2d/CPolygon.h"
 #include "i2d/CAffineTransformation2d.h"
@@ -43,7 +43,8 @@ bool CPolygonShape::ExecuteAction(IInteractiveShape::ShapeAction action)
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(polygonPtr);
+	static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
+	istd::CChangeNotifier notifier(polygonPtr, changeSet);
 
 	i2d::CVector2d center = polygonPtr->GetCenter();
 	int count = polygonPtr->GetNodesCount();
@@ -93,10 +94,9 @@ bool CPolygonShape::ExecuteAction(IInteractiveShape::ShapeAction action)
 			}
 			return true;
 
-		default:;
+		default:
+			break;
 	}
-
-	notifier.SetPtr(NULL);
 
 	return false;
 }
@@ -214,13 +214,13 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 
 bool CPolygonShape::OnMouseMove(istd::CIndex2d position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
-	if (modelPtr != NULL){
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	if (polygonPtr != NULL){
 		int editMode = GetEditMode();
 
 		if ((editMode == ISelectable::EM_MOVE) || (editMode == ISelectable::EM_ADD)){
-			istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
-			Q_ASSERT(polygonPtr.IsValid());
+			static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
+			istd::CChangeNotifier notifier(polygonPtr);
 
 			polygonPtr->SetNode(m_referenceIndex, m_referencePosition + GetLogPosition(position));
 
@@ -235,8 +235,8 @@ bool CPolygonShape::OnMouseMove(istd::CIndex2d position)
 			i2d::CAffine2d moveTransform = CalcMoveTransform(cp, m_castTransform);
 			m_castAxis = moveTransform.GetDeformMatrix().GetMultiplied(m_castAxis);
 
-			istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
-			Q_ASSERT(polygonPtr.IsValid());
+			static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
+			istd::CChangeNotifier notifier(polygonPtr, changeSet);
 
 			int nodesCount = polygonPtr->GetNodesCount();
 			for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
@@ -294,11 +294,11 @@ void CPolygonShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CPolygonShape::OnAttached(imod::IModel* modelPtr)
+bool CPolygonShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CPolygon*>(modelPtr) != NULL);
 
-	return CInteractiveShapeBase::OnAttached(modelPtr);
+	return CInteractiveShapeBase::OnModelAttached(modelPtr, changeMask);
 }
 
 
@@ -658,10 +658,10 @@ void CPolygonShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CPolygonShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
-	if (modelPtr != NULL){
-		istd::TChangeNotifier<i2d::CPolygon> polygonPtr(dynamic_cast<i2d::CPolygon*>(modelPtr));
-		Q_ASSERT(polygonPtr.IsValid());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	if (polygonPtr != NULL){
+		static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
+		istd::CChangeNotifier notifier(polygonPtr, changeSet);
 
 		int nodesCount = polygonPtr->GetNodesCount();
 		if (nodesCount == int(m_references.size())){

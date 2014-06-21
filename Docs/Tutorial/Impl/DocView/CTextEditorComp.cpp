@@ -38,7 +38,7 @@ void CTextEditorComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CTextEditorComp::UpdateGui(int /*updateFlags*/)
+void CTextEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

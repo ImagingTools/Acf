@@ -30,12 +30,12 @@ public:
 		/**
 			Option list updated.
 		*/
-		CF_OPTIONS_CHANGED = 1 << 18,
+		CF_OPTIONS_CHANGED = 0x8263d86,
 
 		/**
 			One or more options were renamed.
 		*/
-		CF_OPTION_RENAMED = 1 << 19
+		CF_OPTION_RENAMED
 	};
 
 	/**

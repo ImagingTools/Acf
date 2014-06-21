@@ -98,7 +98,7 @@ CTextFileLogComp::FilePathObserver::FilePathObserver(CTextFileLogComp& parent)
 
 // reimplemented (imod::CSingleModelObserverBase)
 	
-void CTextFileLogComp::FilePathObserver::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CTextFileLogComp::FilePathObserver::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	m_parent.OpenFileStream();
 }

@@ -86,7 +86,8 @@ void CFilteredOptionsListComp::UpdateOptions()
 		return;
 	}
 
-	istd::CChangeNotifier changePtr(this, CF_MODEL | CF_OPTIONS_CHANGED);
+	static istd::IChangeable::ChangeSet changeSet(CF_OPTIONS_CHANGED);
+	istd::CChangeNotifier changePtr(this, changeSet);
 
 	m_options.clear();
 

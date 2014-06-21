@@ -50,7 +50,7 @@ void CShapeBase::SetVisible(bool state)
 	if (m_isVisible != state){
 		m_isVisible = state;
 
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -67,7 +67,7 @@ bool CShapeBase::AssignToLayer(int layerType)
 }
 
 
-void CShapeBase::Invalidate(int /*changeFlags*/)
+void CShapeBase::Invalidate()
 {
 	InvalidateBoundingBox();
 
@@ -94,7 +94,7 @@ void CShapeBase::SetTransformMode(ShapeTransformMode mode)
 	if (m_shapeTransformMode != mode){
 		m_shapeTransformMode = mode;
 
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -171,9 +171,9 @@ void CShapeBase::OnDisconnectDisplay(IDisplay* I_IF_DEBUG(displayPtr))
 }
 
 
-bool CShapeBase::OnDisplayChange(int flags)
+bool CShapeBase::OnDisplayChange(const istd::IChangeable::ChangeSet& changeSet)
 {
-	if (flags & GetDisplayChangesMask()){
+	if (IsDisplayChangeImportant(changeSet)){
 		InvalidateBoundingBox();
 
 		return true;
@@ -203,9 +203,9 @@ QString CShapeBase::GetShapeDescriptionAt(istd::CIndex2d /*position*/) const
 
 // reimplemented (imod::IObserver)
 
-bool CShapeBase::OnAttached(imod::IModel* modelPtr)
+bool CShapeBase::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
-	bool retVal = BaseClass::OnAttached(modelPtr);
+	bool retVal = BaseClass::OnModelAttached(modelPtr, changeMask);
 
 	const i2d::IObject2d* object2dPtr = dynamic_cast<const i2d::IObject2d*>(modelPtr);
 	if (object2dPtr != NULL){
@@ -215,25 +215,25 @@ bool CShapeBase::OnAttached(imod::IModel* modelPtr)
 		}
 	}
 
-	Invalidate(CS_CONSOLE);
+	Invalidate();
 
 	return retVal;
 }
 
 
-bool CShapeBase::OnDetached(imod::IModel* modelPtr)
+bool CShapeBase::OnModelDetached(imod::IModel* modelPtr)
 {
 	m_calibrationObserver.EnsureModelDetached();
 
-	bool retVal = BaseClass::OnDetached(modelPtr);
+	bool retVal = BaseClass::OnModelDetached(modelPtr);
 
-	Invalidate(CS_CONSOLE);
+	Invalidate();
 
 	return retVal;
 }
 
 
-void CShapeBase::OnUpdate(int changeFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+void CShapeBase::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	const i2d::IObject2d* object2dPtr = dynamic_cast<const i2d::IObject2d*>(GetModelPtr());
 	if (object2dPtr != NULL){
@@ -243,7 +243,7 @@ void CShapeBase::OnUpdate(int changeFlags, istd::IPolymorphic* /*updateParamsPtr
 		}
 	}
 
-	Invalidate(changeFlags);
+	Invalidate();
 }
 
 
@@ -304,9 +304,9 @@ i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition) 
 }
 
 
-int CShapeBase::GetDisplayChangesMask()
+bool CShapeBase::IsDisplayChangeImportant(const istd::IChangeable::ChangeSet& changeSet)
 {
-	return CF_TRANSFORM | CF_COLORS;
+	return changeSet.Contains(IDisplay::CF_TRANSFORM) || changeSet.Contains(IDisplay::CF_COLORS);
 }
 
 
@@ -381,11 +381,11 @@ CShapeBase::CalibrationObserver::CalibrationObserver(CShapeBase* parentPtr)
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CShapeBase::CalibrationObserver::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CShapeBase::CalibrationObserver::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(m_parentPtr != NULL);
 
-	m_parentPtr->Invalidate(CS_CONSOLE);
+	m_parentPtr->Invalidate();
 }
 
 

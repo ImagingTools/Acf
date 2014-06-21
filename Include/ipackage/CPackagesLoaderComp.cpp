@@ -8,7 +8,7 @@
 #include <QtCore/QFileInfo>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/CSystem.h"
 #include "icomp/CXpcModel.h"
 #include "ifile/CXmlFileReadArchive.h"

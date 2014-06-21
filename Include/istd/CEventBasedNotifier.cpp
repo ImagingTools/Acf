@@ -12,95 +12,63 @@ namespace istd
 
 // public methods
 
-CEventBasedNotifier::CEventBasedNotifier(istd::IChangeable* slavePtr,  int changeFlags, istd::IPolymorphic* changeParamsPtr)
+CEventBasedNotifier::CEventBasedNotifier(istd::IChangeable* slavePtr,  const IChangeable::ChangeSet& changeSet)
 {
-	m_notificationTarget = new NotificationTarget(slavePtr, changeFlags, changeParamsPtr);
-
-	if (QCoreApplication::instance() != NULL){
-		m_notificationTarget->moveToThread(QCoreApplication::instance()->thread());
+	if (slavePtr != NULL){
+		m_assyncNotifierPtr = new CAssyncNotifier(slavePtr, changeSet);
 	}
-
-	m_notificationTarget->connect(m_notificationTarget, SIGNAL(EmitBeginChanges()), m_notificationTarget, SLOT(DoBeginChanges()));
-	m_notificationTarget->connect(m_notificationTarget, SIGNAL(EmitEndChanges()), m_notificationTarget, SLOT(DoEndChanges()));
-
-	Q_EMIT m_notificationTarget->EmitBeginChanges();
+	else{
+		m_assyncNotifierPtr = NULL;
+	}
 }
 
 
 CEventBasedNotifier::~CEventBasedNotifier()
 {
-	m_notificationTarget->Reset();
-
-	m_notificationTarget->deleteLater();
+	if (m_assyncNotifierPtr != NULL){
+		m_assyncNotifierPtr->deleteLater();
+	}
 }
 
 
-// public methods of the internal class NotificationTarget
+// public methods of the internal class CAssyncNotifier
 
-NotificationTarget::NotificationTarget(istd::IChangeable* slavePtr, int changeFlags, istd::IPolymorphic* changeParamsPtr)
+CAssyncNotifier::CAssyncNotifier(istd::IChangeable* slavePtr, const IChangeable::ChangeSet& changeSet)
 :	m_slavePtr(slavePtr),
-	m_changeFlags(changeFlags),
- 	m_isBeginPending(true)
+	m_changeIds(changeSet),
+ 	m_isBeginCalled(false)
 {
-	QThread* applicationThreadPtr = NULL;
+	Q_ASSERT(slavePtr != NULL);
+
 	if (QCoreApplication::instance() != NULL){
-		applicationThreadPtr = QCoreApplication::instance()->thread();
-		Q_ASSERT(applicationThreadPtr != NULL);
+		moveToThread(QCoreApplication::instance()->thread());
 	}
 
-	QThread* objectThread = thread();
+	connect(this, SIGNAL(EmitBeginChanges()), this, SLOT(DoBeginChanges()));
 
-	// If event notifier lives in the application (main) thread, no parameter cloning is neccassary:
-	if (objectThread == applicationThreadPtr){
-		m_changeParamsPtr.SetPtr(changeParamsPtr, false);
-	}
-	else{
-		if (changeParamsPtr != NULL){
-			istd::IChangeable* changeablePtr = dynamic_cast<istd::IChangeable* >(changeParamsPtr);
-			if (changeablePtr != NULL){
-				istd::TOptDelPtr<istd::IChangeable> clonedParamsPtr(changeablePtr->CloneMe());
-				if (clonedParamsPtr.IsValid()){
-					m_changeParamsPtr.SetPtr(clonedParamsPtr.PopPtr(), true);
-				}
-				else{
-					qDebug("Update parameter could not be cloned. Change notifying will be processed without parameter instance");
-				}
-			}
-			else{
-				qDebug("Notification parameter doesn't support clone operation. Change notifying will be processed without parameter instance");			
-			}
-		}
-	}
+	Q_EMIT EmitBeginChanges();
 }
 
 
-void NotificationTarget::Reset()
+CAssyncNotifier::~CAssyncNotifier()
 {
-	Q_EMIT EmitEndChanges();
+	Q_ASSERT(m_isBeginCalled);
+
+	if (m_isBeginCalled){
+		m_slavePtr->EndChanges(m_changeIds);
+	}
 }
 
 
 // protected slots
 
-void NotificationTarget::DoBeginChanges()
+void CAssyncNotifier::DoBeginChanges()
 {
-	Q_ASSERT(m_isBeginPending == true);
+	Q_ASSERT(!m_isBeginCalled);
 
-	m_isBeginPending = false;
+	m_isBeginCalled = true;
 
-	if (m_slavePtr != NULL){
-		m_slavePtr->BeginChanges(m_changeFlags, m_changeParamsPtr.GetPtr());
-	}
-}
-
-
-void NotificationTarget::DoEndChanges()
-{
-	Q_ASSERT(!m_isBeginPending);
-
-	if ((m_slavePtr != NULL) && !m_isBeginPending){
-		m_slavePtr->EndChanges(m_changeFlags, m_changeParamsPtr.GetPtr());
-	}
+	m_slavePtr->BeginChanges(m_changeIds);
 }
 
 

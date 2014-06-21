@@ -41,13 +41,13 @@ public:
 
 	// reimplemented (IObserver)
 	virtual bool IsModelAttached(const imod::IModel* modelPtr = NULL) const;
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (IModelEditor)
-	virtual void UpdateEditor(int updateFlags = 0);
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void UpdateModel() const;
 	virtual bool IsReadOnly() const;
 	virtual void SetReadOnly(bool state);

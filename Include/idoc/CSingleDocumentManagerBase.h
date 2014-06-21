@@ -88,13 +88,18 @@ protected:
 				bool initialize,
 				bool beQuiet,
 				bool* ignoredPtr);
+	/**
+		Register (attach) created document as new working document.
+	*/
+	bool RegisterDocument();
+
 	void EnsureViewRemoved();
 
 	QString GetCurrentDocumentFilePath() const;
 	bool HasDocumentPendingChanges() const;
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	// abstract methods
 

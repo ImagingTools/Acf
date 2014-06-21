@@ -89,11 +89,11 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 }
 
 
-bool COrientedCircleShape::OnAttached(imod::IModel* modelPtr)
+bool COrientedCircleShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::COrientedCircle*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

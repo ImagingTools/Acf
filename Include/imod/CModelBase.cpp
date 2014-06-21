@@ -10,8 +10,7 @@ namespace imod
 
 
 CModelBase::CModelBase()
-:	m_notifyState(NS_NONE),
-	m_notifyFlags(0)
+:	m_changesCounter(0)
 {
 }
 
@@ -42,26 +41,20 @@ bool CModelBase::AttachObserver(IObserver* observerPtr)
 		return false;
 	}
 
-	Q_ASSERT_X(!m_observers.contains(observerPtr) || (m_observers[observerPtr] >= AS_DETACHING), "Attaching observer", "Observer is already connected to this model");
+	Q_ASSERT_X(!m_observers.contains(observerPtr) || (m_observers[observerPtr].state >= AS_DETACHING), "Attaching observer", "Observer is already connected to this model");
 
-	AttachingState& state = m_observers[observerPtr];
-	state = AS_ATTACHING;
+	ObserverInfo& info = m_observers[observerPtr];
+	info.state = AS_ATTACHING;
+	info.mask.Reset();
 
-	if (observerPtr->OnAttached(this)){
-		state = AS_ATTACHED;
+	if (observerPtr->OnModelAttached(this, info.mask)){
+		info.state = AS_ATTACHED;
 
 		// If the model already sent a notification about the begin of the transaction, do it also for the newly connected observer:
-		if (m_notifyState > NS_NONE){
-			observerPtr->BeforeUpdate(this, m_notifyFlags, NULL);
+		if ((m_changesCounter > 0) && m_cumulatedChangeIds.ContainsAny(info.mask)){
+			observerPtr->BeforeUpdate(this);
 
-			state = AS_ATTACHED_UPDATING;
-		}
-
-		// If the model already sent a notification about the end of the transaction, do it also for the newly connected observer:
-		if (m_notifyState > NS_UPDATE){
-			observerPtr->AfterUpdate(this, m_notifyFlags, NULL);
-
-			state = AS_ATTACHED;
+			info.state = AS_ATTACHED_UPDATING;
 		}
 
 		return true;
@@ -81,26 +74,26 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 	// try to remove from current observer list
 	ObserversMap::Iterator findIter = m_observers.find(observerPtr);
 	if (findIter != m_observers.end()){
-		AttachingState& state = findIter.value();
+		ObserverInfo& info = findIter.value();
 
-		if (state >= AS_DETACHING){
+		if (info.state >= AS_DETACHING){
 			Q_ASSERT_X(false, "Detaching observer", "Observer was already detached");
 			return;
 		}
 
-		if (state == AS_ATTACHED_UPDATING){
+		if (info.state == AS_ATTACHED_UPDATING){
 			IObserver* observerPtr = findIter.key();
 
-			observerPtr->AfterUpdate(this, m_notifyFlags, NULL);
+			observerPtr->AfterUpdate(this, m_cumulatedChangeIds);
 		}
 
-		state = AS_DETACHING;
+		info.state = AS_DETACHING;
 
-		observerPtr->OnDetached(this);
+		observerPtr->OnModelDetached(this);
 		
-		state = AS_DETACHED;
+		info.state = AS_DETACHED;
 
-		if (m_notifyState == NS_NONE){
+		if (m_changesCounter <= 0){
 			m_observers.erase(findIter);
 		}
 
@@ -115,22 +108,22 @@ void CModelBase::DetachAllObservers()
 		IObserver* observerPtr = iter.key();
 		Q_ASSERT(observerPtr != NULL);
 
-		AttachingState& state = iter.value();
+		ObserverInfo& info = iter.value();
 
-		if (state == AS_ATTACHED_UPDATING){
-			observerPtr->AfterUpdate(this, m_notifyFlags, NULL);
+		if (info.state == AS_ATTACHED_UPDATING){
+			observerPtr->AfterUpdate(this, m_cumulatedChangeIds);
 		}
 
-		if (state < AS_DETACHING){
-			state = AS_DETACHING;
+		if (info.state < AS_DETACHING){
+			info.state = AS_DETACHING;
 
-			observerPtr->OnDetached(this);
+			observerPtr->OnModelDetached(this);
 
-			state = AS_DETACHED;
+			info.state = AS_DETACHED;
 		}
 	}
 
-	if (m_notifyState == NS_NONE){
+	if (m_changesCounter <= 0){
 		m_observers.clear();
 	}
 }
@@ -140,7 +133,8 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 {
 	ObserversMap::ConstIterator findIter = m_observers.constFind(const_cast<IObserver*>(observerPtr));
 	if (findIter != m_observers.end()){
-		return findIter.value() < AS_DETACHING;
+		const ObserverInfo& info = findIter.value();
+		return info.state < AS_DETACHING;
 	}
 
 	return false;
@@ -149,50 +143,62 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 
 // protected methods
 
-void CModelBase::NotifyBeforeUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
+bool CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSet, bool isGroup)
 {
-	m_notifyState = NS_SENDING_BEFORE;
-	m_notifyFlags = updateFlags;
+	bool retVal = false;
 
-	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
-		AttachingState& state = iter.value();
+	if (m_changesCounter++ > 0){
+		m_cumulatedChangeIds += changeSet;
+	}
+	else{
+		m_cumulatedChangeIds = changeSet;
+	}
 
-		if (state == AS_ATTACHED){
-			state = AS_ATTACHED_UPDATING;
+	if (!isGroup){
+		for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
+			ObserverInfo& info = iter.value();
 
-			IObserver* observerPtr = iter.key();
+			if ((info.state == AS_ATTACHED) && m_cumulatedChangeIds.ContainsAny(info.mask)){
+				info.state = AS_ATTACHED_UPDATING;
 
-			observerPtr->BeforeUpdate(this, updateFlags, updateParamsPtr);
+				IObserver* observerPtr = iter.key();
+
+				observerPtr->BeforeUpdate(this);
+
+				retVal = true;
+			}
 		}
 	}
 
-	m_notifyState = NS_UPDATE;
+	return retVal;
 }
 
 
-void CModelBase::NotifyAfterUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr)
+bool CModelBase::NotifyAfterChange()
 {
-	Q_ASSERT(m_notifyState == NS_UPDATE);
+	Q_ASSERT(m_changesCounter > 0);
 
-	m_notifyState = NS_SENDING_AFTER;
-	m_notifyFlags = updateFlags;
+	bool retVal = false;
 
-	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
-		AttachingState& state = iter.value();
+	if (--m_changesCounter <= 0){
+		for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
+			ObserverInfo& info = iter.value();
 
-		if (state == AS_ATTACHED_UPDATING){
-			IObserver* observerPtr = iter.key();
+			if (info.state == AS_ATTACHED_UPDATING){
+				IObserver* observerPtr = iter.key();
 
-			state = AS_ATTACHED;
+				info.state = AS_ATTACHED;
 
-			observerPtr->AfterUpdate(this, updateFlags, updateParamsPtr);
-		}
+				observerPtr->AfterUpdate(this, m_cumulatedChangeIds);
+
+				retVal = true;
+			}
+		}	
+		
+		CleanupObserverState();
 	}
-	
-	CleanupObserverState();
 
-	m_notifyState = NS_NONE;
-	m_notifyFlags = 0;
+	return retVal;
 }
 
 
@@ -207,9 +213,9 @@ void CModelBase::CleanupObserverState()
 {
 	ObserversMap::Iterator iter = m_observers.begin();
 	while (iter != m_observers.end()){
-		AttachingState& state = iter.value();
+		ObserverInfo& info = iter.value();
 
-		if (state == AS_DETACHED){
+		if (info.state == AS_DETACHED){
 			iter = m_observers.erase(iter);
 		}
 		else{

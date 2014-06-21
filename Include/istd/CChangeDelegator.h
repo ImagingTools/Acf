@@ -15,7 +15,7 @@ namespace istd
 
 	\ingroup DataModel
 */
-class CChangeDelegator: virtual public istd::IChangeDelegator 
+class CChangeDelegator: virtual public IChangeDelegator 
 {
 public:
 	typedef istd::IChangeable BaseClass;
@@ -28,8 +28,8 @@ public:
 	virtual istd::IChangeable* GetSlavePtr() const;
 
 	// reimplemented (istd::IChangeable)
-	virtual void BeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
-	virtual void EndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual void OnBeginChanges();
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 	
 private:
 	istd::IChangeable* m_slavePtr;

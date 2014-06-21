@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -93,7 +93,8 @@ bool COrientedCircle::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag orientatedOutsideTag("IsOrientedOutside", "Flag if this circle is oriented inside or outside");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	bool retVal = true;
 

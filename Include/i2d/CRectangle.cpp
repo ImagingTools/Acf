@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "i2d/CVector2d.h"
 #include "i2d/CRect.h"
@@ -467,7 +467,8 @@ CRectangle CRectangle::GetTranslated(const i2d::CVector2d& delta) const
 
 void CRectangle::Translate(const i2d::CVector2d& delta)
 {
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	m_horizontalRange.SetMinValue(m_horizontalRange.GetMinValue() + delta.GetX());
 	m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + delta.GetY());
@@ -510,7 +511,8 @@ void CRectangle::MoveCenterTo(const CVector2d& position)
 {
 	i2d::CVector2d offset = position - GetCenter();
 	if (offset != i2d::CVector2d(0, 0)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + offset.GetY());
 		m_verticalRange.SetMaxValue(m_verticalRange.GetMaxValue() + offset.GetY());
@@ -540,7 +542,8 @@ bool CRectangle::Transform(
 
 	if (		transformation.GetPositionAt(leftTop, transLeftTop, mode) &&
 				transformation.GetPositionAt(rightBottom, transRightBottom, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(this, changeSet);
 		
 		if (errorFactorPtr != NULL){
 			*errorFactorPtr = 0;
@@ -572,7 +575,8 @@ bool CRectangle::InvTransform(
 
 	if (		transformation.GetInvPositionAt(leftTop, transLeftTop, mode) &&
 				transformation.GetInvPositionAt(rightBottom, transRightBottom, mode)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(this, changeSet);
 		
 		if (errorFactorPtr != NULL){
 			*errorFactorPtr = 0;
@@ -669,7 +673,8 @@ bool CRectangle::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag leftTag("Left", "Rectangle left edge position");
 	static iser::CArchiveTag rightTag("Right", "Rectangle right edge position");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	double& top = m_verticalRange.GetMinValueRef();
 	double& bottom = m_verticalRange.GetMaxValueRef();

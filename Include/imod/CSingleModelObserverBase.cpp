@@ -11,8 +11,9 @@ namespace imod
 
 
 CSingleModelObserverBase::CSingleModelObserverBase()
-	:m_modelPtr(NULL)
+:	m_modelPtr(NULL)
 {
+	m_observedIds = istd::IChangeable::GetAllChanges();
 }
 
 
@@ -32,24 +33,33 @@ void CSingleModelObserverBase::EnsureModelDetached()
 }
 
 
+void CSingleModelObserverBase::SetObservedIds(const istd::IChangeable::ChangeSet& changeMask)
+{
+	m_observedIds = changeMask;
+}
+
+
 // reimplemented (imod::IObserver)
 
-bool CSingleModelObserverBase::OnAttached(imod::IModel* modelPtr)
+bool CSingleModelObserverBase::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(modelPtr != NULL);
 	Q_ASSERT(m_modelPtr == NULL);
 
-	BeforeUpdate(NULL, istd::IChangeable::CF_NO_UNDO, NULL);
+	BeforeUpdate(NULL);
 
 	m_modelPtr = modelPtr;
 
-	AfterUpdate(m_modelPtr, istd::IChangeable::CF_NO_UNDO, NULL);
+	changeMask = m_observedIds;
+
+	static istd::IChangeable::ChangeSet changeSet(istd::IChangeable::CF_NO_UNDO);
+	AfterUpdate(m_modelPtr, changeSet);
 
 	return true;
 }
 
 
-bool CSingleModelObserverBase::OnDetached(imod::IModel* modelPtr)
+bool CSingleModelObserverBase::OnModelDetached(imod::IModel* modelPtr)
 {
 	Q_ASSERT(modelPtr != NULL);
 	Q_ASSERT(m_modelPtr == modelPtr);
@@ -64,31 +74,25 @@ bool CSingleModelObserverBase::OnDetached(imod::IModel* modelPtr)
 }
 
 
-void CSingleModelObserverBase::BeforeUpdate(
-			imod::IModel* I_IF_DEBUG(modelPtr),
-			int /*updateFlags*/,
-			istd::IPolymorphic* /*updateParamsPtr*/)
+void CSingleModelObserverBase::BeforeUpdate(imod::IModel* I_IF_DEBUG(modelPtr))
 {
 	Q_ASSERT(m_modelPtr == modelPtr);
 }
 
 
-void CSingleModelObserverBase::AfterUpdate(
-			imod::IModel* I_IF_DEBUG(modelPtr),
-			int updateFlags,
-			istd::IPolymorphic* updateParamsPtr)
+void CSingleModelObserverBase::AfterUpdate(imod::IModel* I_IF_DEBUG(modelPtr), const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(m_modelPtr == modelPtr);
 
-	if ((updateFlags & istd::IChangeable::CF_ABORTED) == 0){
-		OnUpdate(updateFlags, updateParamsPtr);
+	if (!changeSet.IsEmpty()){
+		OnUpdate(changeSet);
 	}
 }
 
 
 // protected methods
 
-void CSingleModelObserverBase::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSingleModelObserverBase::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 }
 

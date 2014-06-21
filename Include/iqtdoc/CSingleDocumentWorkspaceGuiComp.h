@@ -78,7 +78,7 @@ protected:
 	virtual void OnComponentCreated();
 
 	// reimplemented (istd:IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 
 	// reimplemented (TRestorableGuiWrap)
 	virtual void OnRestoreSettings(const QSettings& settings);

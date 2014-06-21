@@ -36,7 +36,7 @@ public:
 	
 protected:
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	I_REF(i2d::CPolygon, m_slaveObjectCompPtr);

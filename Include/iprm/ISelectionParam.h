@@ -23,9 +23,12 @@ class IOptionsList;
 class ISelectionParam: virtual public iser::ISerializable
 {
 public:
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_SELECTION_CHANGED = 1 << 17
+		CF_SELECTION_CHANGED = 0x67364be
 	};
 
 	enum 

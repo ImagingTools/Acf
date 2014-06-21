@@ -4,7 +4,7 @@
 // ACF includes
 #include "i2d/CLine2d.h"
 
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TDelPtr.h"
 
 
@@ -96,7 +96,8 @@ void CPolygon::MoveCenterTo(const CVector2d& position)
 {
 	i2d::CVector2d offset = position - GetCenter();
 	if (offset != i2d::CVector2d(0, 0)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		int nodesCount = GetNodesCount();
 		for (int i = 0; i < nodesCount; i++){
@@ -132,7 +133,8 @@ bool CPolygon::Transform(
 			double* errorFactorPtr)
 {
 	if (ApplyTransform(m_nodes, transformation, mode, errorFactorPtr)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		return true;
 	}
@@ -147,7 +149,8 @@ bool CPolygon::InvTransform(
 			double* errorFactorPtr)
 {
 	if (ApplyInverseTransform(m_nodes, transformation, mode, errorFactorPtr)){
-		istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		return true;
 	}
@@ -164,11 +167,12 @@ bool CPolygon::GetTransformed(
 {
 	CPolygon* polygonPtr = dynamic_cast<CPolygon*>(&result);
 	if (polygonPtr != NULL){
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(polygonPtr, changeSet);
+
 		polygonPtr->m_nodes = m_nodes;
 
 		if (ApplyTransform(polygonPtr->m_nodes, transformation, mode, errorFactorPtr)){
-			istd::CChangeNotifier notifier(polygonPtr, CF_OBJECT_POSITION | CF_MODEL);
-
 			return true;
 		}
 	}
@@ -185,11 +189,12 @@ bool CPolygon::GetInvTransformed(
 {
 	CPolygon* polygonPtr = dynamic_cast<CPolygon*>(&result);
 	if (polygonPtr != NULL){
+		static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+		istd::CChangeNotifier notifier(polygonPtr, changeSet);
+
 		polygonPtr->m_nodes = m_nodes;
 
 		if (ApplyInverseTransform(polygonPtr->m_nodes, transformation, mode, errorFactorPtr)){
-			istd::CChangeNotifier notifier(polygonPtr, CF_OBJECT_POSITION | CF_MODEL);
-
 			return true;
 		}
 	}
@@ -205,7 +210,8 @@ bool CPolygon::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag polygonTag("Polygon", "Polygon");
 	static iser::CArchiveTag vectorTag("V", "Vector");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	int nodesCount = m_nodes.size();
 	bool retVal = true;

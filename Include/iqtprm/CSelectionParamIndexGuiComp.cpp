@@ -11,7 +11,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iprm/IOptionsList.h"
 
@@ -42,7 +42,7 @@ void CSelectionParamIndexGuiComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CSelectionParamIndexGuiComp::UpdateGui(int /*updateFlags*/)
+void CSelectionParamIndexGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

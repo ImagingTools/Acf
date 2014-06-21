@@ -65,7 +65,7 @@ void CFileTreeViewGuiComp::OnGuiCreated()
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CFileTreeViewGuiComp::UpdateGui(int /*updateFlags*/)
+void CFileTreeViewGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
@@ -75,7 +75,7 @@ void CFileTreeViewGuiComp::UpdateGui(int /*updateFlags*/)
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CFileTreeViewGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CFileTreeViewGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	UpdateCurrentSelection();
 }

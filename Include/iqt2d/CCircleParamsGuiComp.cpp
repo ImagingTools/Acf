@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -20,19 +20,13 @@ void CCircleParamsGuiComp::UpdateModel() const
 	i2d::CCircle* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup changeGroup(objectPtr);
 
 	i2d::CVector2d postion(XSpin->value(), YSpin->value());
-	if (objectPtr->GetCenter() != postion){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetPosition(postion);
-	}
+	objectPtr->SetPosition(postion);
 
 	double radius = RadiusSpin->value();
-	if (objectPtr->GetRadius() != radius){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetRadius(radius);
-	}
+	objectPtr->SetRadius(radius);
 }
 
 
@@ -40,7 +34,7 @@ void CCircleParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CCircleParamsGuiComp::UpdateGui(int /*updateFlags*/)
+void CCircleParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

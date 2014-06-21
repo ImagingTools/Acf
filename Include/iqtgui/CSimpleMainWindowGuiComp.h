@@ -145,7 +145,7 @@ protected:
 		CommandsObserver(CSimpleMainWindowGuiComp& parent);
 
 		// reimplemented (imod::CMultiModelDispatcherBase)
-		void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+		void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 	private:
 		CSimpleMainWindowGuiComp& m_parent;

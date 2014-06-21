@@ -18,9 +18,9 @@ CSelectableSceneExtenderComp::CSelectableSceneExtenderComp()
 
 // reimplemented (imod::IObserver)
 
-bool CSelectableSceneExtenderComp::OnAttached(imod::IModel* modelPtr)
+bool CSelectableSceneExtenderComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
-	if (BaseClass2::OnAttached(modelPtr)){
+	if (BaseClass2::OnModelAttached(modelPtr, changeMask)){
 		AttachCurrent();
 
 		return true;
@@ -30,11 +30,11 @@ bool CSelectableSceneExtenderComp::OnAttached(imod::IModel* modelPtr)
 }
 
 
-bool CSelectableSceneExtenderComp::OnDetached(imod::IModel* modelPtr)
+bool CSelectableSceneExtenderComp::OnModelDetached(imod::IModel* modelPtr)
 {
 	DetachCurrent();
 
-	return BaseClass2::OnDetached(modelPtr);
+	return BaseClass2::OnModelDetached(modelPtr);
 }
 
 
@@ -134,23 +134,14 @@ void CSelectableSceneExtenderComp::DetachCurrent()
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSelectableSceneExtenderComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectableSceneExtenderComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
 		DetachCurrent();
-	}
-
-	BaseClass2::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
-}
-
-
-void CSelectableSceneExtenderComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
 		AttachCurrent();
 	}
 
-	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	BaseClass2::AfterUpdate(modelPtr, changeSet);
 }
 
 

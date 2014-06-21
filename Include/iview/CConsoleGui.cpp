@@ -21,7 +21,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iwidgets/CWidgetUpdateBlocker.h"
 
@@ -117,8 +117,9 @@ void CConsoleGui::SetShapeStatusInfo(IShapeStatusInfo* shapeStatusInfoPtr)
 
 void CConsoleGui::UpdateCursorInfo(const QString& infoText)
 {
-	istd::TChangeNotifier<IShapeStatusInfo> shapeInfoPtr(m_shapeStatusInfoPtr);
-	if (shapeInfoPtr.IsValid()){
+	if (m_shapeStatusInfoPtr != NULL){
+		istd::CChangeNotifier statusNotifier(m_shapeStatusInfoPtr);
+
 		m_shapeStatusInfoPtr->SetInfoText(infoText);
 	}
 }
@@ -639,7 +640,8 @@ void CConsoleGui::UpdateComponentsPosition()
 
 void CConsoleGui::UpdateCommands()
 {
-	istd::CChangeNotifier changePtr(this, ibase::ICommandsProvider::CF_COMMANDS);
+	static istd::IChangeable::ChangeSet commandsChangeSet(IDisplay::CS_CONSOLE, ibase::ICommandsProvider::CF_COMMANDS);
+	istd::CChangeNotifier commandsNotifier(this, commandsChangeSet);
 
 	m_rootCommands.ResetChilds();
 	m_commands.ResetChilds();

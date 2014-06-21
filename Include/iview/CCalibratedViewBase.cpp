@@ -38,7 +38,8 @@ void CCalibratedViewBase::SetDisplayCalibration(const i2d::ICalibration2d* calib
 
 		InvalidateBackground();
 
-		UpdateAllShapes(iview::IShape::CF_CALIB);
+		static istd::IChangeable::ChangeSet changeSet(IShape::CF_CALIB);
+		UpdateAllShapes(changeSet);
 	}
 }
 
@@ -58,13 +59,13 @@ void CCalibratedViewBase::ConnectCalibrationShape(iview::IShape* shapePtr)
 
 // reimplemented (iview::CViewBase)
 
-void CCalibratedViewBase::UpdateAllShapes(int changeFlag)
+void CCalibratedViewBase::UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((changeFlag & iview::CF_TRANSFORM) != 0){
+	if (changeSet.Contains(CF_TRANSFORM)){
 		SetBackgroundBufferValid(false);
 	}
 
-	BaseClass::UpdateAllShapes(changeFlag);
+	BaseClass::UpdateAllShapes(changeSet);
 }
 
 

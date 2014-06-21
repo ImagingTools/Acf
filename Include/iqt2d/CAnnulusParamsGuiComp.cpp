@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -20,25 +20,16 @@ void CAnnulusParamsGuiComp::UpdateModel() const
 	i2d::CAnnulus* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup changeGroup(objectPtr);
 
 	i2d::CVector2d postion(XSpin->value(), YSpin->value());
-	if (objectPtr->GetCenter() != postion){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetPosition(postion);
-	}
+	objectPtr->SetPosition(postion);
 
 	double innerRadius = InnerRadiusSpin->value();
-	if (objectPtr->GetInnerRadius() != innerRadius){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetInnerRadius(innerRadius);
-	}
+	objectPtr->SetInnerRadius(innerRadius);
 
 	double outerRadius = OuterRadiusSpin->value();
-	if (objectPtr->GetOuterRadius() != outerRadius){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetOuterRadius(outerRadius);
-	}
+	objectPtr->SetOuterRadius(outerRadius);
 }
 
 
@@ -46,7 +37,7 @@ void CAnnulusParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CAnnulusParamsGuiComp::UpdateGui(int /*updateFlags*/)
+void CAnnulusParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

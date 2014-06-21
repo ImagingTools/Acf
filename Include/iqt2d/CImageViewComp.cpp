@@ -13,7 +13,7 @@ namespace iqt2d
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CImageViewComp::UpdateGui(int /*updateFlags*/)
+void CImageViewComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	Q_ASSERT(consolePtr != NULL);

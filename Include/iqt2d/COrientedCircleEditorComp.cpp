@@ -1,7 +1,7 @@
 #include "iqt2d/COrientedCircleEditorComp.h"
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -17,20 +17,14 @@ void COrientedCircleEditorComp::UpdateModel() const
 	i2d::COrientedCircle* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup changeGroup(objectPtr);
 
 	i2d::CVector2d position(XSpin->value(), YSpin->value());
 
-	if (objectPtr->GetCenter() != position){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetPosition(position);
-	}
+	objectPtr->SetPosition(position);
 
 	double radius = RadiusSpin->value();
-	if (objectPtr->GetRadius() != radius){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetRadius(radius);
-	}
+	objectPtr->SetRadius(radius);
 
 	objectPtr->SetOrientedOutside(AxisOrientationCheckBox->checkState() == Qt::Checked);
 }
@@ -38,7 +32,7 @@ void COrientedCircleEditorComp::UpdateModel() const
 
 // protected methods
 
-void COrientedCircleEditorComp::UpdateGui(int /*updateFlags*/)
+void COrientedCircleEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

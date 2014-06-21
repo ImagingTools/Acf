@@ -26,11 +26,14 @@ class IMessageContainer: virtual public iser::ISerializable
 public:
 	typedef QVector<ilog::IMessageConsumer::MessagePtr> Messages;
 
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_MESSAGE_ADDED = 1 << 6,
-		CF_MESSAGE_REMOVED = 1 << 7,
-		CF_RESET = 1 << 8
+		CF_MESSAGE_ADDED = 0x1d32820,
+		CF_MESSAGE_REMOVED,
+		CF_RESET
 	};
 
 	/**

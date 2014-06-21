@@ -38,6 +38,8 @@ public:
 	*/
 	virtual Observers GetObservers() const;
 
+	const istd::IChangeable::ChangeSet& GetCumulatedChanges() const;
+
 	// reimplemented (imod::IModel)
 	virtual bool AttachObserver(imod::IObserver* observerPtr);
 	virtual void DetachObserver(imod::IObserver* observerPtr);
@@ -46,20 +48,15 @@ public:
 
 protected:
 	/**
-		Notifies all observers about begin of changes in the data model.
-		For updating control you can use some specified flags \c updateFlags
-		and for additional data transfer \c udpateParamsPtr.
-		\sa NotifyAfterUpdate()
+		Called before each change.
+		\return	true, if some notification was done.
 	*/
-	virtual void NotifyBeforeUpdate(int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
-
+	virtual bool NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSet, bool isGroup);
 	/**
-		Notifies all observers that the changes are finished.
-		For updating control you can use some specified flags \c updateFlags
-		and for additional data transfer \c udpateParamsPtr.
-		\sa NotifyBeforeUpdate()
+		Called after each change.
+		\return	true, if end notification was done.
 	*/
-	virtual void NotifyAfterUpdate(int updateFlags = 0, istd::IPolymorphic* updateParamsPtr = NULL);
+	virtual bool NotifyAfterChange();
 
 private:
 	CModelBase(const CModelBase& modelBase);
@@ -81,6 +78,9 @@ private:
 			Observer is connected to the model.
 		*/
 		AS_ATTACHED,
+		/**
+			Observer is connected to the model and it is during the update.
+		*/
 		AS_ATTACHED_UPDATING,
 		/**
 			Observer is in detaching stage.
@@ -93,19 +93,26 @@ private:
 		AS_DETACHED
 	};
 
-	typedef QMap<IObserver*, AttachingState> ObserversMap;
+	struct ObserverInfo
+	{
+		AttachingState state;
+		istd::IChangeable::ChangeSet mask;
+	};
+
+	typedef QMap<IObserver*, ObserverInfo> ObserversMap;
 	ObserversMap m_observers;
 
-	enum NotifyState
-	{
-		NS_NONE,
-		NS_SENDING_BEFORE,
-		NS_UPDATE,
-		NS_SENDING_AFTER
-	};
-	NotifyState m_notifyState;
-	int m_notifyFlags;
+	int m_changesCounter;
+	istd::IChangeable::ChangeSet m_cumulatedChangeIds;
 };
+
+
+// public inline methods
+
+inline const istd::IChangeable::ChangeSet& CModelBase::GetCumulatedChanges() const
+{
+	return m_cumulatedChangeIds;
+}
 
 
 } // namespace imod

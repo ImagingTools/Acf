@@ -48,16 +48,16 @@ public:
 	virtual bool DoRedo();
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 protected:
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const;
 
 	// reimplemented (imod::IObserver)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (idoc::IDocumentStateComparator)
 	virtual bool HasStoredDocumentState() const;
@@ -77,6 +77,8 @@ private:
 	UndoArchivePtr m_beginStateArchivePtr;
 
 	bool m_hasStoredDocumentState;
+	bool m_isBlocked;
+
 	iser::CMemoryWriteArchive m_storedStateArchive;
 
 	mutable DocumentChangeFlag m_stateChangedFlag;

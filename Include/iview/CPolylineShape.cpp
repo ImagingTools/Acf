@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "imod/IModel.h"
 #include "i2d/CPolyline.h"
 #include "iqt/iqt.h"
@@ -41,7 +41,8 @@ bool CPolylineShape::ExecuteAction(IInteractiveShape::ShapeAction action)
 	}
 
 	if (action == ActionReverseLine){
-		istd::CChangeNotifier notifier(polygonPtr);
+		static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
+		istd::CChangeNotifier notifier(polygonPtr, changeSet);
 
 		i2d::CVector2d center = polygonPtr->GetCenter();
 		int count = polygonPtr->GetNodesCount();
@@ -195,11 +196,11 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 
 // reimplemented (imod::IObserver)
 
-bool CPolylineShape::OnAttached(imod::IModel* modelPtr)
+bool CPolylineShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CPolyline*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

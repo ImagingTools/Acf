@@ -2,16 +2,21 @@
 
 
 // ACF includes
-#include <istd/TChangeNotifier.h>
+#include "istd/CChangeNotifier.h"
 
 
 namespace iser
 {
 
 
+// local variables
+static istd::IChangeable::ChangeSet versionChangeIds(CReaderVersionInfo::CF_VERSIONS_UPDATED);
+static istd::IChangeable::ChangeSet allDataChangeIds(CReaderVersionInfo::CF_VERSIONS_UPDATED, istd::IChangeable::CF_ALL_DATA);
+
+
 void CReaderVersionInfo::Reset()
 {
-	istd::CChangeNotifier notifier(this);
+	istd::CChangeNotifier notifier(this, versionChangeIds);
 
 	m_versionIdList.clear();
 }
@@ -19,7 +24,7 @@ void CReaderVersionInfo::Reset()
 
 bool CReaderVersionInfo::InsertVersionId(int versionId, quint32 versionNumber, const QString& description)
 {
-	istd::CChangeNotifier notifier(this);
+	istd::CChangeNotifier notifier(this, versionChangeIds);
 
 	VersionIdElement& element = m_versionIdList[versionId];
 	element.versionNumber = versionNumber;
@@ -31,7 +36,7 @@ bool CReaderVersionInfo::InsertVersionId(int versionId, quint32 versionNumber, c
 
 bool CReaderVersionInfo::RemoveVersionId(int versionId)
 {
-	istd::CChangeNotifier notifier(this);
+	istd::CChangeNotifier notifier(this, versionChangeIds);
 
 	return m_versionIdList.remove(versionId) > 0;
 }
@@ -86,6 +91,8 @@ bool CReaderVersionInfo::CopyFrom(const istd::IChangeable& object, Compatibility
 		return false;
 	}
 
+	istd::CChangeNotifier notifier(this, allDataChangeIds);
+
 	iser::IVersionInfo::VersionIds ids = versionInfoPtr->GetVersionIds();
 	for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
 				iter != ids.end();
@@ -101,6 +108,7 @@ bool CReaderVersionInfo::CopyFrom(const istd::IChangeable& object, Compatibility
 		element.versionNumber = versionNumber;
 		element.description = versionInfoPtr->GetVersionIdDescription(versionId);
 	}
+
 	return true;
 }
 

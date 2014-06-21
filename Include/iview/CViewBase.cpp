@@ -164,7 +164,8 @@ void CViewBase::SetZoom(ZoomMode zoom)
 		return;
 	}
 
-	UpdateAllShapes(CF_TRANSFORM);
+	static istd::IChangeable::ChangeSet changeSet(CF_TRANSFORM);
+	UpdateAllShapes(changeSet);
 }
 
 
@@ -172,11 +173,12 @@ void CViewBase::SetEditMode(int mode)
 {
 	m_editMode = mode;
 
-	UpdateAllShapes(CF_EDIT_MODE);
+	static istd::IChangeable::ChangeSet changeSet(CF_EDIT_MODE);
+	UpdateAllShapes(changeSet);
 }
 
 
-void CViewBase::UpdateAllShapes(int changeFlag)
+void CViewBase::UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet)
 {
 	i2d::CRect lastBoundingBox;
 	if (m_isBoundingBoxValid){
@@ -189,7 +191,7 @@ void CViewBase::UpdateAllShapes(int changeFlag)
 	for (Layers::iterator iter = m_layers.begin(); iter != m_layers.end(); ++iter){
 		IViewLayer* layerPtr = *iter;
 		Q_ASSERT(layerPtr != NULL);
-		layerPtr->UpdateAllShapes(changeFlag);
+		layerPtr->UpdateAllShapes(changeSet);
 	}
 
 	InvalidateBoundingBox();
@@ -545,7 +547,8 @@ void CViewBase::SetTransform(const i2d::CAffine2d& transform)
 	if (m_transform != transform){
 		m_transform = transform;
 
-		UpdateAllShapes(CF_TRANSFORM);
+		static istd::IChangeable::ChangeSet changeSet(CF_TRANSFORM);
+		UpdateAllShapes(changeSet);
 	}
 }
 

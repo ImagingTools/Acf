@@ -118,7 +118,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
-	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 protected Q_SLOTS:
 	virtual void OnPageChanged(int pageIndex);
@@ -155,7 +155,7 @@ private:
 
 	protected:
 		// reimplemented (istd::IChangeable)
-		virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+		virtual void OnEndChanges(const ChangeSet& changeSet);
 
 	private:
 		CMultiPageGuiCompBase* m_parentPtr;

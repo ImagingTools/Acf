@@ -19,7 +19,7 @@ class ICommandsProvider: virtual public istd::IChangeable
 public:
 	enum ChangeFlags
 	{
-		CF_COMMANDS = 1 << 14
+		CF_COMMANDS = 0x62b7e8
 	};
 
 	/**

@@ -39,8 +39,8 @@ public:
 	bool AttachOrSetObject(ModelInterface* objectPtr);
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 protected:
 	virtual ModelInterface* CastFromModel(imod::IModel* modelPtr) const;
@@ -87,7 +87,7 @@ bool TSingleModelObserverBase<ModelInterface>::AttachOrSetObject(ModelInterface*
 // reimplemented (imod::IObserver)
 
 template <class ModelInterface>
-bool TSingleModelObserverBase<ModelInterface>::OnAttached(imod::IModel* modelPtr)
+bool TSingleModelObserverBase<ModelInterface>::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	m_objectPtr = CastFromModel(modelPtr);
 
@@ -99,7 +99,7 @@ bool TSingleModelObserverBase<ModelInterface>::OnAttached(imod::IModel* modelPtr
 		}
 	)
 
-	if ((m_objectPtr != NULL) && BaseClass::OnAttached(modelPtr)){
+	if ((m_objectPtr != NULL) && BaseClass::OnModelAttached(modelPtr, changeMask)){
 		return true;
 	}
 
@@ -110,9 +110,9 @@ bool TSingleModelObserverBase<ModelInterface>::OnAttached(imod::IModel* modelPtr
 
 
 template <class ModelInterface>
-bool TSingleModelObserverBase<ModelInterface>::OnDetached(imod::IModel* modelPtr)
+bool TSingleModelObserverBase<ModelInterface>::OnModelDetached(imod::IModel* modelPtr)
 {
-	if (BaseClass::OnDetached(modelPtr)){
+	if (BaseClass::OnModelDetached(modelPtr)){
 		// If model was correctly attached m_objectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
 		Q_ASSERT(m_objectPtr != NULL);
 

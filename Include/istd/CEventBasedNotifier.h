@@ -6,7 +6,7 @@
 #include <QtCore/QObject>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TOptDelPtr.h"
 
 
@@ -14,7 +14,7 @@ namespace istd
 {
 
 
-class NotificationTarget;
+class CAssyncNotifier;
 
 
 /**
@@ -25,47 +25,52 @@ class NotificationTarget;
 class CEventBasedNotifier
 {
 public:
-	explicit CEventBasedNotifier(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+	explicit CEventBasedNotifier(istd::IChangeable* slavePtr, const IChangeable::ChangeSet& changeSet);
 	virtual ~CEventBasedNotifier();
 
 private:
-	NotificationTarget* m_notificationTarget;
+	CAssyncNotifier* m_assyncNotifierPtr;
 };
 
 
 /**
 	\internal
 
-	Help class to realize the post-processing of istd::IChangeable::EndChanges()
+	Help class to realize the post-processing of \c istd::IChangeable::EndChanges
 */
-class NotificationTarget: protected QObject
+class CAssyncNotifier: protected QObject
 {
 	Q_OBJECT
 
 	friend class CEventBasedNotifier;
 
-protected:
-	NotificationTarget(istd::IChangeable* slavePtr, int changeFlags = 0, istd::IPolymorphic* changeParamsPtr = NULL);
+public:
+	~CAssyncNotifier();
 
-	void Reset();
+protected:
+	CAssyncNotifier(istd::IChangeable* slavePtr, const IChangeable::ChangeSet& changeSet);
 
 protected Q_SLOTS:
 	void DoBeginChanges();
-	void DoEndChanges();
 
 Q_SIGNALS:
 	void EmitBeginChanges();
-	void EmitEndChanges();
 
 private:
+	/**
+		Target object should be updated. Cannot be \c NULL.
+	*/
 	istd::IChangeable* m_slavePtr;
-	int m_changeFlags;
-	istd::TOptDelPtr<istd::IPolymorphic> m_changeParamsPtr;
 
 	/**
-		Flag to inidicate, that BeginChange notification was sent.
+		Set of changes.
 	*/
-	bool m_isBeginPending;
+	const IChangeable::ChangeSet& m_changeIds;
+
+	/**
+		Inidicates that \c BeginChange was called on slave object.
+	*/
+	bool m_isBeginCalled;
 };
 
 

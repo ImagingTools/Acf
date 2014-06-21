@@ -29,9 +29,12 @@ class IShape:
 			virtual public ITouchable
 {
 public:
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_CALIB = 1 << 20
+		CF_CALIB = 0x3663adf
 	};
 
 	/**

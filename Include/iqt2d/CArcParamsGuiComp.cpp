@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -20,35 +20,12 @@ void CArcParamsGuiComp::UpdateModel() const
 	i2d::CArc* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup changeGroup(objectPtr);
 
-	i2d::CVector2d postion(XSpin->value(), YSpin->value());
-	if (objectPtr->GetCenter() != postion){
-		notifier.SetPtr(objectPtr);
-
-		objectPtr->SetPosition(postion);
-	}
-
-	double radius = RadiusSpin->value();
-	if (objectPtr->GetRadius() != radius){
-		notifier.SetPtr(objectPtr);
-
-		objectPtr->SetRadius(radius);
-	}
-
-	double startAngle = StartAngleSpin->value();
-	if (objectPtr->GetStartAngle() != startAngle){
-		notifier.SetPtr(objectPtr);
-
-		objectPtr->SetStartAngle(startAngle);
-	}
-
-	double endAngle = EndAngleSpin->value();
-	if (objectPtr->GetEndAngle() != endAngle){
-		notifier.SetPtr(objectPtr);
-		
-		objectPtr->SetEndAngle(endAngle);
-	}
+	objectPtr->SetPosition(i2d::CVector2d(XSpin->value(), YSpin->value()));
+	objectPtr->SetRadius(RadiusSpin->value());
+	objectPtr->SetStartAngle(StartAngleSpin->value());
+	objectPtr->SetEndAngle(EndAngleSpin->value());
 }
 
 
@@ -56,7 +33,7 @@ void CArcParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CArcParamsGuiComp::UpdateGui(int /*updateFlags*/)
+void CArcParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

@@ -103,11 +103,11 @@ void CArrowShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CArrowShape::OnAttached(imod::IModel* modelPtr)
+bool CArrowShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CLine2d*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

@@ -15,7 +15,7 @@ namespace iqtgui
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CImagePropertiesFrameComp::UpdateGui(int /*updateFlags*/)
+void CImagePropertiesFrameComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

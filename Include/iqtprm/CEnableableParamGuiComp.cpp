@@ -44,7 +44,7 @@ void CEnableableParamGuiComp::OnGuiModelAttached()
 }
 
 
-void CEnableableParamGuiComp::UpdateGui(int /*updateFlags*/)
+void CEnableableParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

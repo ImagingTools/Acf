@@ -26,12 +26,12 @@ public:
 		/**
 			State of A was changed
 		*/
-		CF_A_CHANGED = 1 << 4,
+		CF_A_CHANGED = 0xba3530,	// some unique random value
 
 		/**
 			State of B was changed
 		*/
-		CF_B_CHANGED = 1 << 5
+		CF_B_CHANGED
 	};
 
 	/**

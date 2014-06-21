@@ -71,7 +71,7 @@ public:
 	virtual void Draw(QPainter& drawContext) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 
 	// reimplemented (iview::IMouseActionObserver)
 	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);

@@ -6,7 +6,7 @@
 #include <QtCore/QVector>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TSmartPtr.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"

@@ -72,7 +72,7 @@ void CDocumentMetaInfoEditorComp::OnGuiModelDetached()
 }
 
 
-void CDocumentMetaInfoEditorComp::UpdateGui(int /*updateFlags*/)
+void CDocumentMetaInfoEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 }

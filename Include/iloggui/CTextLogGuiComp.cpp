@@ -21,7 +21,7 @@ namespace iloggui
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CTextLogGuiComp::UpdateGui(int /*updateFlags*/)
+void CTextLogGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	UpdateFilters();
 

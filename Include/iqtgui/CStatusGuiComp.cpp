@@ -22,7 +22,7 @@ namespace iqtgui
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CStatusGuiComp::UpdateGui(int /*updateFlags*/)
+void CStatusGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	static QIcon stateUnknownIcon(":/Icons/StateUnknown");
 	static QIcon stateOkIcon(":/Icons/StateOk");

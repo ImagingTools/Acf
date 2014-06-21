@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -20,27 +20,12 @@ void CRectangleParamsGuiComp::UpdateModel() const
 	i2d::CRectangle* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup notifier(objectPtr);
 
-	if (objectPtr->GetLeft() != LeftSpin->value()){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetLeft(LeftSpin->value());
-	}
-
-	if (objectPtr->GetRight() != RightSpin->value()){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetRight(RightSpin->value());
-	}
-
-	if (objectPtr->GetTop() != TopSpin->value()){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetTop(TopSpin->value());
-	}
-
-	if (objectPtr->GetBottom() != BottomSpin->value()){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetBottom(BottomSpin->value());
-	}
+	objectPtr->SetLeft(LeftSpin->value());
+	objectPtr->SetRight(RightSpin->value());
+	objectPtr->SetTop(TopSpin->value());
+	objectPtr->SetBottom(BottomSpin->value());
 }
 
 
@@ -70,7 +55,7 @@ void CRectangleParamsGuiComp::OnGuiModelDetached()
 }
 
 
-void CRectangleParamsGuiComp::UpdateGui(int /*updateFlags*/)
+void CRectangleParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

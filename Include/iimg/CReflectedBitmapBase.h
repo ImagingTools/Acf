@@ -21,9 +21,12 @@ class CReflectedBitmapBase:
 			virtual public IQImageProvider
 {
 public:
+	/**
+		Data model change notification flags.
+	*/
 	enum ChangeFlags
 	{
-		CF_BLOCK_BITMAP_CONVERSION = 1 << 21
+		CF_BLOCK_BITMAP_CONVERSION = 0x8e37293
 	};
 
 	// reimplemented (iimg::IQImageProvider)
@@ -35,7 +38,7 @@ protected:
 	virtual bool ConvertToQImage(QImage& result) const = 0;
 
 	// reimplmented (istd::TCachedUpdateManagerWrap)
-	virtual bool CalculateCache(int changeFlags);
+	virtual bool CalculateCache(const ChangeSet& changeSet);
 
 private:
 	QImage m_image;

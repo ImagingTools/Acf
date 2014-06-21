@@ -41,11 +41,11 @@ ITouchable::TouchState CPinShape::IsTouched(istd::CIndex2d position) const
 
 // reimplemented (imod::IObserver)
 
-bool CPinShape::OnAttached(imod::IModel* modelPtr)
+bool CPinShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CPosition2d*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

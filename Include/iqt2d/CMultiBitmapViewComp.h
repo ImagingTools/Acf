@@ -116,10 +116,10 @@ protected:
 	virtual void OnViewCreated(int index, CSingleView* viewPtr);
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
-	virtual void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void UpdateGui(int updateFlags);
+	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void OnGuiModelAttached();
 
 	// reimplemented (iqtgui::CGuiComponentBase)

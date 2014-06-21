@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -87,7 +87,8 @@ bool CSelectionParam::SetSelectedOptionIndex(int index)
 			}
 		}
 
-		istd::CChangeNotifier changeNotifier(this, CF_SELECTION_CHANGED | CF_MODEL);
+		static ChangeSet changeSet(CF_SELECTION_CHANGED);
+		istd::CChangeNotifier changeNotifier(this, changeSet);
 
 		m_selectedOptionIndex = index;
 	}

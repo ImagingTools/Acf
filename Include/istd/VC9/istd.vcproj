@@ -219,6 +219,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CChangeGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CChangeNotifier.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CClassInfo.cpp"
 				>
 			</File>
@@ -250,6 +258,10 @@
 				RelativePath="..\CVarIndex.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\IChangeable.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -265,6 +277,14 @@
 			</File>
 			<File
 				RelativePath="..\CChangeDelegator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CChangeGroup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CChangeNotifier.h"
 				>
 			</File>
 			<File
@@ -356,15 +376,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\TChangeBinder.h"
-				>
-			</File>
-			<File
 				RelativePath="..\TChangeDelegator.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TChangeNotifier.h"
 				>
 			</File>
 			<File
@@ -425,10 +437,6 @@
 			</File>
 			<File
 				RelativePath="..\TTransPtr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\TUpdateManagerWrap.h"
 				>
 			</File>
 			<File

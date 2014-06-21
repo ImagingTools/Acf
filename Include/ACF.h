@@ -83,12 +83,17 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	\section DataModelOverview Overview
 	The most important interface for a general data model definition is istd::IChangeable.
 	This is a common interface for describing of objects which change their state during the run time of the application.
-	The interface provides methods for managing data change transaction (istd::IChangeable::BeginChanges() and istd::IChangeable::EndChanges()), methods for coping, cloning, reseting and comparison of objects. The realization of change notification mechanism is also based on this interface.
+	The interface provides methods for managing data change transaction (\c istd::IChangeable::BeginChanges and \c istd::IChangeable::EndChanges), methods for coping, cloning, reseting and comparison of objects. The realization of change notification mechanism is also based on this interface.
 	Following example demonstrates implementation of a simple data object:
 	\code
 	class CPerson: virtual public istd::IChangeable
 	{
 	public:
+		enum ChangeFlags
+		{
+			CF_NAME_CHANGED = 0x74b520	// Some random, unique number
+		}
+
 		CPerson(const QString& firstName = QString(), const QString& lastName = QString());
 		CPerson(const CPerson& person);
 
@@ -110,11 +115,12 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	QString CPerson::SetFirstName(const QString& firstName)
 	{
 		if (m_firstName != firstName){
-			BeginChanges();
+			BeginChanges(changeSet);
 
 			m_firstName = firstName;
 
-			EndChanges();
+			static ChangeSet changeSet(CF_NAME_CHANGED);
+			EndChanges(changeSet);
 		}
 	}
 
@@ -126,11 +132,12 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	QString CPerson::SetLastName(const QString& lastName)
 	{
 		if (m_lastName != lastName){
-			BeginChanges();
+			BeginChanges(changeSet);
 
 			m_lastName = lastName;
 
-			EndChanges();
+			static ChangeSet changeSet(CF_NAME_CHANGED);
+			EndChanges(changeSet);
 		}
 	}
 	\endcode
@@ -141,7 +148,8 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	QString CPerson::SetFirstName(const QString& firstName)
 	{
 		if (m_firstName != firstName){
-			istd::CChangeNotifier changeNotifier(this);
+			static ChangeSet changeSet(CF_NAME_CHANGED);
+			istd::CChangeNotifier changeNotifier(this, changeSet);
 
 			m_firstName = firstName;
 		}
@@ -184,7 +192,7 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	protected:
 		// reimplemented (istd::IChangeable)
-		virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+		virtual void OnEndChanges(const ChangeSet& changeSet)
 
 	private:
 		QVector<CPerson> m_persons;
@@ -208,10 +216,10 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	\code
 	// reimplemented (istd::IChangeable)
 
-	void CPersonDatabase::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+	void CPersonDatabase::OnEndChanges(const ChangeSet& changeSet)
 	{
 		// Use CF_DELEGATED masking to filter out the delegated changes:
-		if (changeFlags & CF_DELEGATED){
+		if (changeSet.Contains(CF_DELEGATED)){
 			// We will end up here, every time when CPerson::SetFirstName or CPerson::SetLastName were called:
 			qDebug("Some person data have been changed");
 		}
@@ -284,7 +292,7 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 		bool retVal = true;
 
 		// Use data model change notification only if the object will be reading from archive:
-		istd::CChangeNotifier changeNotification(!archive.IsStoring() ? this : NULL);
+		istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
 
 		// Serialize object using tags:
 

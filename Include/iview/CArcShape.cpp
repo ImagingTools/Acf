@@ -35,7 +35,7 @@ void CArcShape::SetEditableRadius(bool editable)
 {
 	if (m_isEditableRadius != editable){
 		m_isEditableRadius = editable;
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -50,7 +50,7 @@ void CArcShape::SetEditableStartAngle(bool editable)
 {
 	if (m_isEditableStartAngle != editable){
 		m_isEditableStartAngle = editable;
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -65,7 +65,7 @@ void CArcShape::SetEditableAngleWidth(bool editable)
 {
 	if (m_isEditableAngleWidth != editable){
 		m_isEditableAngleWidth = editable;
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -80,7 +80,7 @@ void CArcShape::SetCenterVisible(bool state)
 	if (m_isCenterVisible != state){
 		m_isCenterVisible = state;
 
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -276,11 +276,11 @@ void CArcShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CArcShape::OnAttached(imod::IModel* modelPtr)
+bool CArcShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CArc*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

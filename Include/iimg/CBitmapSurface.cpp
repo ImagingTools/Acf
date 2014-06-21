@@ -7,7 +7,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace iimg
@@ -28,12 +28,12 @@ CBitmapSurface::CBitmapSurface(const CBitmapSurface& bitmap)
 
 // reimplemented (istd::IChangeable)
 
-void CBitmapSurface::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CBitmapSurface::OnEndChanges(const ChangeSet& changeSet)
 {
 	CreateSurfaceFromBitmap();
 
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
-	BaseClass2::OnEndChanges(changeFlags, changeParamsPtr);
+	BaseClass::OnEndChanges(changeSet);
+	BaseClass2::OnEndChanges(changeSet);
 }
 
 

@@ -24,8 +24,8 @@ public:
 	CSelectableParamsSetGuiComp();
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)

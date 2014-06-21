@@ -4,7 +4,6 @@
 
 // ACF includes
 #include "istd/CChangeDelegator.h"
-#include "istd/TChangeBinder.h"
 
 
 namespace istd
@@ -18,13 +17,20 @@ namespace istd
 	\ingroup DataModel
 */
 template <class Base>
-class TChangeDelegator: public istd::TChangeBinder<Base, CChangeDelegator>
+class TChangeDelegator:
+			public Base,
+			public CChangeDelegator
 {
 public:
-	typedef istd::TChangeBinder<Base, CChangeDelegator> BaseClass;
+	typedef Base BaseClass;
+	typedef CChangeDelegator BaseClass2;
 
 	TChangeDelegator();
 	explicit TChangeDelegator(istd::IChangeable* slavePtr);
+
+	// reimplemented (istd::IChangeable)
+	virtual void OnBeginChanges();
+	virtual void OnEndChanges(const istd::IChangeable::ChangeSet& changeSet);
 };
 
 
@@ -39,7 +45,27 @@ TChangeDelegator<Base>::TChangeDelegator()
 template <class Base>
 TChangeDelegator<Base>::TChangeDelegator(IChangeable* slavePtr)
 {
-	BaseClass::SetSlavePtr(slavePtr);
+	BaseClass2::SetSlavePtr(slavePtr);
+}
+
+
+// pseudo-reimplemented (istd::IChangeable)
+
+template <class Base>
+void TChangeDelegator<Base>::OnBeginChanges()
+{
+	BaseClass2::OnBeginChanges();
+
+	BaseClass::OnBeginChanges();
+}
+
+
+template <class Base>
+void TChangeDelegator<Base>::OnEndChanges(const istd::IChangeable::ChangeSet& changeSet)
+{
+	BaseClass::OnEndChanges(changeSet);
+
+	BaseClass2::OnEndChanges(changeSet);
 }
 
 

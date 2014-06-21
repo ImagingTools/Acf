@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 
@@ -18,7 +18,8 @@ bool CDataNodePolylineBase::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag nodesDataTag("UserData", "User data stored in the nodes of polyline");
 	static iser::CArchiveTag nodeDataTag("Node", "Data stored in the polyline node");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	bool retVal = BaseClass::Serialize(archive);
 

@@ -1,7 +1,7 @@
 #include "iprm/CEnableableParam.h"
 
 
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"

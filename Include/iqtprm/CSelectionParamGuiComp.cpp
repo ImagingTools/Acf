@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "iprm/IOptionsList.h"
 #include "iqt/CSignalBlocker.h"
 
@@ -42,7 +42,7 @@ void CSelectionParamGuiComp::OnGuiModelDetached()
 }
 
 
-void CSelectionParamGuiComp::UpdateGui(int /*updateFlags*/)
+void CSelectionParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
@@ -121,14 +121,14 @@ void CSelectionParamGuiComp::OnGuiRetranslate()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CSelectionParamGuiComp::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSelectionParamGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
 	if (!IsUpdateBlocked() && IsModelAttached()){
 		UpdateBlocker updateBlocker(this);
 		
-		UpdateGui();
+		UpdateGui(istd::IChangeable::GetAllChanges());
 	}
 }
 

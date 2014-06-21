@@ -16,7 +16,7 @@ public:
 	typedef CPolylineShape BaseClass;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 
 protected:
 	virtual void DrawPolyBezier(QPainter& drawContext, const i2d::CVector2d* pointsPtr, int pointsCount) const;

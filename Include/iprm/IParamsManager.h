@@ -76,9 +76,10 @@ public:
 	*/
 	enum ChangeFlags
 	{
-		CF_SET_INSERTED = 1 << 14,
-		CF_SET_REMOVED = 1 << 15,
-		CF_SET_NAME_CHANGED = 1 << 16
+		CF_SET_INSERTED = 0x5af60,
+		CF_SET_REMOVED,
+		CF_SET_NAME_CHANGED,
+		CF_SET_ENABLE_CHANGED
 	};
 
 	/**

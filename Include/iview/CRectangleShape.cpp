@@ -132,11 +132,11 @@ void CRectangleShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CRectangleShape::OnAttached(imod::IModel* modelPtr)
+bool CRectangleShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CRectangle*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

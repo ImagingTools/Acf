@@ -6,7 +6,7 @@
 #include <cstring>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "iser/ISerializable.h"
 #include "iser/CArchiveTag.h"
 #include "imath/IDoubleManip.h"
@@ -369,7 +369,8 @@ bool TComposedColor<Size>::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag colorComponentsTag("ColorComponents", "List of color components");
 	static iser::CArchiveTag componentTag("Component", "Single component");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
+	static ChangeSet changeSet(CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	bool retVal = true;
 

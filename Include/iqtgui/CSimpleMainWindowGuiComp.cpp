@@ -283,7 +283,8 @@ void CSimpleMainWindowGuiComp::UpdateToolsCommands(iqtgui::CHierarchicalCommand&
 
 		imod::IModel* settingsDialogCommandModelPtr = CompCastPtr<imod::IModel>(m_settingsDialogCompPtr.GetPtr());
 		if (settingsDialogCommandModelPtr != NULL){
-			m_commandsObserver.RegisterModel(settingsDialogCommandModelPtr, MI_PREFERENCE_COMMAND, ibase::ICommandsProvider::CF_COMMANDS);
+			static istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
+			m_commandsObserver.RegisterModel(settingsDialogCommandModelPtr, MI_PREFERENCE_COMMAND, commandsChangeSet);
 		}
 	}
 }
@@ -387,6 +388,8 @@ void CSimpleMainWindowGuiComp::OnSaveSettings(QSettings& settings) const
 
 void CSimpleMainWindowGuiComp::OnGuiCreated()
 {
+	static istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
+
 	BaseClass::OnGuiCreated();
 
 	QMainWindow* mainWindowPtr = GetQtWidget();
@@ -433,7 +436,7 @@ void CSimpleMainWindowGuiComp::OnGuiCreated()
 	if (m_workspaceCommandsCompPtr.IsValid()){
 		imod::IModel* modelPtr = CompCastPtr<imod::IModel>(m_workspaceCommandsCompPtr.GetPtr());
 		if (modelPtr != NULL){
-			m_commandsObserver.RegisterModel(modelPtr, 0, ibase::ICommandsProvider::CF_COMMANDS);
+			m_commandsObserver.RegisterModel(modelPtr, 0, commandsChangeSet);
 		}
 	}
 
@@ -443,7 +446,7 @@ void CSimpleMainWindowGuiComp::OnGuiCreated()
 		for (int index = 0; index < commandsProviderCount; index++){
 			imod::IModel* modelPtr = CompCastPtr<imod::IModel>(m_mainWindowCommandsCompPtr[index]);
 			if (modelPtr != NULL){
-				m_commandsObserver.RegisterModel(modelPtr, index + 1, ibase::ICommandsProvider::CF_COMMANDS);
+				m_commandsObserver.RegisterModel(modelPtr, index + 1, commandsChangeSet);
 			}
 		}
 	}
@@ -651,7 +654,7 @@ CSimpleMainWindowGuiComp::CommandsObserver::CommandsObserver(CSimpleMainWindowGu
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CSimpleMainWindowGuiComp::CommandsObserver::OnModelChanged(int /*modelId*/, int /*changeFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSimpleMainWindowGuiComp::CommandsObserver::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	m_parent.UpdateMenuActions();
 }

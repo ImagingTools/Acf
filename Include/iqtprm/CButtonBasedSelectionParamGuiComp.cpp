@@ -69,12 +69,12 @@ void CButtonBasedSelectionParamGuiComp::OnGuiModelDetached()
 }
 
 
-void CButtonBasedSelectionParamGuiComp::UpdateGui(int updateFlags)
+void CButtonBasedSelectionParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
 	const iprm::ISelectionParam* paramPtr = GetObjectPtr();
-	if ((paramPtr != NULL) && (updateFlags & istd::IChangeable::CF_MODEL)){
+	if ((paramPtr != NULL) && !changeSet.IsEmpty()){
 		QList<QAbstractButton*> buttons = m_buttonsGroup.buttons();
 		for (int i = 0; i < buttons.size(); i++){
 			m_buttonsGroup.removeButton(buttons[i]);
@@ -180,7 +180,7 @@ void CButtonBasedSelectionParamGuiComp::OnButtonClicked(int index)
 		}
 	}
 
-	UpdateGui(0);
+	UpdateGui(istd::IChangeable::GetAllChanges());
 }
 
 

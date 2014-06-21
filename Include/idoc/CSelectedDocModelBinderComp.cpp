@@ -8,6 +8,11 @@ namespace idoc
 CSelectedDocModelBinderComp::CSelectedDocModelBinderComp()
 :	m_isActive(false)
 {
+	static istd::IChangeable::ChangeSet changeMask(
+				IDocumentManager::CF_DOCUMENT_CREATED,
+				IDocumentManager::CF_DOCUMENT_REMOVED,
+				IDocumentManager::CF_VIEW_ACTIVATION_CHANGED);
+	SetObservedIds(changeMask);
 }
 
 
@@ -46,8 +51,8 @@ void CSelectedDocModelBinderComp::TryConnectObservers()
 		for (int i = 0; i < observersCount; ++i){
 			imod::IObserver* observerPtr = m_observersCompPtr[i];
 
-			if (observerPtr != NULL){
-				m_modelCompPtr->AttachObserver(observerPtr);
+			if ((observerPtr != NULL) && m_modelCompPtr->AttachObserver(observerPtr)){
+				m_connectedMap[observerPtr] = m_modelCompPtr.GetPtr();
 			}
 		}
 	}
@@ -56,46 +61,37 @@ void CSelectedDocModelBinderComp::TryConnectObservers()
 
 void CSelectedDocModelBinderComp::TryDisconnectObservers()
 {
-	if (m_isActive){
-		int observersCount = m_observersCompPtr.GetCount();
-		for (int i = 0; i < observersCount; ++i){
-			imod::IObserver* observerPtr = m_observersCompPtr[i];
+	for (		ModelObserverMap::ConstIterator iter = m_connectedMap.constBegin();
+				iter != m_connectedMap.constEnd();
+				++iter){
+		imod::IModel* modelPtr = iter.value();
+		Q_ASSERT(modelPtr != NULL);
 
-			if ((observerPtr != NULL) && m_modelCompPtr->IsAttached(observerPtr)){
-				m_modelCompPtr->DetachObserver(observerPtr);
-			}
+		imod::IObserver* observerPtr = iter.key();
+		Q_ASSERT(observerPtr != NULL);
+
+		if (modelPtr->IsAttached(observerPtr)){
+			modelPtr->DetachObserver(observerPtr);
 		}
-
-		m_isActive = false;
 	}
+
+	m_connectedMap.clear();
+
+	m_isActive = false;
 }
 
 
 // reimplemented (imod::IObserver)
 
-void CSelectedDocModelBinderComp::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectedDocModelBinderComp::BeforeUpdate(imod::IModel* modelPtr)
 {
-	BaseClass2::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
-
-	if (		m_documentManagerCompPtr.IsValid() &&
-				m_observedObjectCompPtr.IsValid() &&
-				m_modelCompPtr.IsValid() &&
-				((updateFlags & RELEVANT_FLAGS) != 0)){
-		TryDisconnectObservers();
-	}
+	TryDisconnectObservers();
 }
 
 
-void CSelectedDocModelBinderComp::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CSelectedDocModelBinderComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	if (		m_documentManagerCompPtr.IsValid() &&
-				m_observedObjectCompPtr.IsValid() &&
-				m_modelCompPtr.IsValid() &&
-				((updateFlags & RELEVANT_FLAGS) != 0)){
-		TryConnectObservers();
-	}
-
-	BaseClass2::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
+	TryConnectObservers();
 }
 
 
@@ -105,7 +101,9 @@ void CSelectedDocModelBinderComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_documentManagerModelCompPtr.IsValid()){
+	if (		m_documentManagerCompPtr.IsValid() &&
+				m_observedObjectCompPtr.IsValid() &&
+				m_modelCompPtr.IsValid()){
 		m_documentManagerModelCompPtr->AttachObserver(this);
 	}
 
@@ -115,11 +113,11 @@ void CSelectedDocModelBinderComp::OnComponentCreated()
 
 void CSelectedDocModelBinderComp::OnComponentDestroyed()
 {
+	TryDisconnectObservers();
+
 	if (m_documentManagerModelCompPtr.IsValid() && m_documentManagerModelCompPtr->IsAttached(this)){
 		m_documentManagerModelCompPtr->DetachObserver(this);
 	}
-
-	TryDisconnectObservers();
 
 	BaseClass::OnComponentDestroyed();
 }

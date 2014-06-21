@@ -1,7 +1,7 @@
 #include "iqtgui/CCommandsBinderComp.h"
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace iqtgui
@@ -28,7 +28,7 @@ const ibase::IHierarchicalCommand* CCommandsBinderComp::GetCommands() const
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CCommandsBinderComp::OnModelChanged(int /*modelId*/, int changeFlags, istd::IPolymorphic* updateParamsPtr)
+void CCommandsBinderComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& changeSet)
 {
 	if (m_isUpdateLocked){
 		return;
@@ -36,7 +36,7 @@ void CCommandsBinderComp::OnModelChanged(int /*modelId*/, int changeFlags, istd:
 
 	UnregisterAllModels();
 
-	istd::CChangeNotifier changePtr(this, changeFlags, updateParamsPtr);
+	istd::CChangeNotifier changePtr(this, changeSet);
 
 	m_commands.ResetChilds();
 
@@ -72,7 +72,8 @@ void CCommandsBinderComp::CreateCommands()
 
 			imod::IModel* commandsProviderModelPtr = dynamic_cast<imod::IModel*>(commandsProviderPtr);
 			if (commandsProviderModelPtr != NULL){
-				RegisterModel(commandsProviderModelPtr, index, ibase::ICommandsProvider::CF_COMMANDS);
+				static istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
+				RegisterModel(commandsProviderModelPtr, index, commandsChangeSet);
 			}
 		}
 	}

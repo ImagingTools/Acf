@@ -24,7 +24,7 @@ public:
 	CBitmapSurface(const CBitmapSurface& bitmap);
 
 	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 
 private:
 	void CreateSurfaceFromBitmap();

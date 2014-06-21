@@ -51,7 +51,7 @@ public:
 	virtual void SetVisible(bool state = true);
 	virtual bool AssignToLayer(int layerType);
 
-	virtual void Invalidate(int changeFlags = 0);
+	virtual void Invalidate();
 
 	/**
 		Get access to currently connected display.
@@ -81,16 +81,16 @@ public:
 	virtual bool IsDisplayAccepted(const IDisplay& display) const;
 	virtual void OnConnectDisplay(IDisplay* displayPtr);
 	virtual void OnDisconnectDisplay(IDisplay* displayPtr);
-	virtual bool OnDisplayChange(int flags);
+	virtual bool OnDisplayChange(const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (iview::ITouchable)
 	virtual ITouchable::TouchState IsTouched(istd::CIndex2d position) const;
 	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
-	virtual void OnUpdate(int changeFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 protected:
 	/**
@@ -106,12 +106,12 @@ protected:
 		Get display changes mask.
 		Only changes there are in mask will be accepted, rest will be ignored.
 	*/
-	virtual int GetDisplayChangesMask();
+	virtual bool IsDisplayChangeImportant(const istd::IChangeable::ChangeSet& changeSet);
 
 	/**
 		Invalidate bounding box.
 		You can overload this method to provide validation of your internal attributes,
-		because this method is called from Invalidate(int) and OnDisplayChange(int) methods.
+		because this method is called from \c Invalidate and \c OnDisplayChange methods.
 		Please don't forget base method call in your implementations.
 	*/
 	virtual void InvalidateBoundingBox();
@@ -153,7 +153,7 @@ private:
 		CalibrationObserver(CShapeBase* parentPtr);
 
 		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	private:
 		CShapeBase* m_parentPtr;

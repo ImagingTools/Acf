@@ -32,11 +32,10 @@ public:
 	// pseudo-reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual istd::IChangeable* CloneMe(istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) const;
-
-protected:
-	// pseudo-reimplemented (istd::IChangeable)
-	virtual void OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void BeginChanges(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void EndChanges(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void BeginChangeGroup(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void EndChangeGroup(const istd::IChangeable::ChangeSet& changeSet);
 };
 
 
@@ -56,12 +55,7 @@ int TModelWrap<Base>::GetSupportedOperations() const
 {
 	int baseOperations = Base::GetSupportedOperations();
 
-	if ((baseOperations & istd::IChangeable::SO_COPY) != 0){
-		return baseOperations | istd::IChangeable::SO_CLONE | istd::IChangeable::SO_OBSERVE | istd::IChangeable::SO_COMPARE;
-	}
-	else{
-		return baseOperations | istd::IChangeable::SO_OBSERVE | istd::IChangeable::SO_COMPARE;
-	}
+	return baseOperations | istd::IChangeable::SO_CLONE | istd::IChangeable::SO_OBSERVE;
 }
 
 
@@ -78,25 +72,37 @@ istd::IChangeable* TModelWrap<Base>::CloneMe(istd::IChangeable::CompatibilityMod
 }
 
 
-// protected methods
-
-// pseudo-reimplemented (istd::IChangeable)
-
 template <class Base>
-void TModelWrap<Base>::OnBeginChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void TModelWrap<Base>::BeginChanges(const istd::IChangeable::ChangeSet& changeSet)
 {
-	BaseClass::OnBeginChanges(changeFlags, changeParamsPtr);
-
-	NotifyBeforeUpdate(changeFlags, changeParamsPtr);
+	if (BaseClass2::NotifyBeforeChange(changeSet, false)){
+		BaseClass::BeginChanges(BaseClass2::GetCumulatedChanges());
+	}
 }
 
 
 template <class Base>
-void TModelWrap<Base>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void TModelWrap<Base>::EndChanges(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	if (BaseClass2::NotifyAfterChange()){
+		BaseClass::EndChanges(BaseClass2::GetCumulatedChanges());
+	}
+}
 
-	NotifyAfterUpdate(changeFlags, changeParamsPtr);
+
+template <class Base>
+void TModelWrap<Base>::BeginChangeGroup(const istd::IChangeable::ChangeSet& changeSet)
+{
+	BaseClass2::NotifyBeforeChange(changeSet, true);
+}
+
+
+template <class Base>
+void TModelWrap<Base>::EndChangeGroup(const istd::IChangeable::ChangeSet& /*changeSet*/)
+{
+	if (BaseClass2::NotifyAfterChange()){
+		BaseClass::OnEndChanges(BaseClass2::GetCumulatedChanges());
+	}
 }
 
 

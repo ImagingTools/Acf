@@ -23,7 +23,7 @@ public:
 	virtual TouchState IsTouched(istd::CIndex2d position) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 
 	// reimplemented (iview::IVisualizable)
 	virtual void Draw(QPainter& drawContext) const;

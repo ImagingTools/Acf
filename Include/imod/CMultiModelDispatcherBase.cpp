@@ -9,7 +9,7 @@ namespace imod
 {
 
 
-bool CMultiModelDispatcherBase::RegisterModel(IModel* modelPtr, int modelId, int relevantFlags)
+bool CMultiModelDispatcherBase::RegisterModel(IModel* modelPtr, int modelId, const istd::IChangeable::ChangeSet& relevantFlags)
 {
 	ObserverProxyPtr& proxyPtr = m_modelMap[modelId];
 	if (!proxyPtr.IsValid()){
@@ -40,24 +40,21 @@ void CMultiModelDispatcherBase::UnregisterAllModels()
 
 // protected methods of the embedded class ObserverProxy
 
-CMultiModelDispatcherBase::ObserverProxy::ObserverProxy(CMultiModelDispatcherBase* parentPtr, int modelId, int relevantFlags)
+CMultiModelDispatcherBase::ObserverProxy::ObserverProxy(CMultiModelDispatcherBase* parentPtr, int modelId, const istd::IChangeable::ChangeSet& relevantFlags)
 :	m_parent(*parentPtr),
-	m_modelId(modelId),
-	m_relevantFlags(relevantFlags)
+	m_modelId(modelId)
 {
 	Q_ASSERT(parentPtr != NULL);
+
+	SetObservedIds(relevantFlags);
 }
 
 
 // reimplemented (imod::CMultiModelObserverBase)
 
-void CMultiModelDispatcherBase::ObserverProxy::OnUpdate(int changeFlags, istd::IPolymorphic* updateParamsPtr)
+void CMultiModelDispatcherBase::ObserverProxy::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((m_relevantFlags != 0) && (m_relevantFlags & changeFlags) == 0){
-		return;
-	}
-		
-	m_parent.OnModelChanged(m_modelId, changeFlags, updateParamsPtr);
+	m_parent.OnModelChanged(m_modelId, changeSet);
 }
 
 

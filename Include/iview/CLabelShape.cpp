@@ -99,7 +99,7 @@ bool CLabelShape::OnMouseMove(istd::CIndex2d position)
 			if (IsEditableOffset()){
 				m_drawOffset = m_drawOffset + position - m_referenceOffset;
 				m_referenceOffset = position;
-				Invalidate(CS_CONSOLE);
+				Invalidate();
 			}
 			break;
 		default:
@@ -190,11 +190,11 @@ void CLabelShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CLabelShape::OnAttached(imod::IModel* modelPtr)
+bool CLabelShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CLabel*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

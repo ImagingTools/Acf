@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeGroup.h"
 
 
 namespace iqt2d
@@ -20,19 +20,13 @@ void CLine2dParamsGuiComp::UpdateModel() const
 	i2d::CLine2d* objectPtr = GetObjectPtr();
 	Q_ASSERT(objectPtr != NULL);
 
-	istd::CChangeNotifier notifier(NULL);
+	istd::CChangeGroup changeGroup(objectPtr);
 
 	i2d::CVector2d point1(Point1XSB->value(), Point1YSB->value());
-	if (objectPtr->GetPoint1() != point1){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetPoint1(point1);
-	}
+	objectPtr->SetPoint1(point1);
 
 	i2d::CVector2d point2(Point2XSB->value(), Point2YSB->value());
-	if (objectPtr->GetPoint2() != point2){
-		notifier.SetPtr(objectPtr);
-		objectPtr->SetPoint2(point2);
-	}
+	objectPtr->SetPoint2(point2);
 }
 
 
@@ -40,7 +34,7 @@ void CLine2dParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CLine2dParamsGuiComp::UpdateGui(int /*updateFlags*/)
+void CLine2dParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 

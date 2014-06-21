@@ -142,7 +142,7 @@ protected:
 	virtual void OnComponentCreated();
 
 	// reimplemented (istd:IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 
 protected Q_SLOTS:
 	void OnWindowActivated(QMdiSubWindow* window);

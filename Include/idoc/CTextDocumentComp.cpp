@@ -3,7 +3,7 @@
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace idoc

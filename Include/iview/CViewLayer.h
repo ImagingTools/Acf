@@ -35,7 +35,7 @@ public:
 	virtual bool IsShapeConnected(IShape* shapePtr);
 	virtual bool ConnectShape(IShape* shapePtr);
 	virtual int GetShapesCount() const;
-	virtual void UpdateAllShapes(int changeFlag);
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void DisconnectAllShapes();
 	virtual void DrawShapes(QPainter& drawContext);
 	virtual bool IsVisible() const;
@@ -79,7 +79,7 @@ protected:
 	/**
 		Recalculate all shapes after view changes.
 	*/
-	virtual i2d::CRect RecalcAllShapes(int changeFlag);
+	virtual i2d::CRect RecalcAllShapes(const istd::IChangeable::ChangeSet& changeSet);
 	/**
 		Calculate bounding box for all shapes.
 	*/

@@ -2,8 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
-#include "istd/CChangeDelegator.h"
+#include "istd/CChangeNotifier.h"
 #include "iprm/IParamsSet.h"
 #include "iprm/IOptionsManager.h"
 #include "iwidgets/CItemDelegate.h"
@@ -19,9 +18,14 @@ namespace iqtprm
 // public methods
 
 CParamsManagerGuiCompBase::CParamsManagerGuiCompBase()
-	:m_lastConnectedModelPtr(NULL)
+:	m_lastConnectedModelPtr(NULL)
 {
-	SetUpdateFilter(~istd::IChangeable::CF_DELEGATED);
+	static istd::IChangeable::ChangeSet changeMask(
+				iprm::IOptionsList::CF_OPTIONS_CHANGED,
+				iprm::IParamsManager::CF_SET_INSERTED,
+				iprm::IParamsManager::CF_SET_REMOVED,
+				CF_INIT_EDITOR);
+	SetObservedIds(changeMask);
 }
 
 
@@ -641,18 +645,9 @@ void CParamsManagerGuiCompBase::OnGuiModelDetached()
 }
 
 
-void CParamsManagerGuiCompBase::UpdateGui(int updateFlags)
+void CParamsManagerGuiCompBase::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
-
-	bool forceUpdate =
-				((updateFlags & iprm::IOptionsList::CF_OPTIONS_CHANGED) != 0) ||
-				((updateFlags & iprm::IParamsManager::CF_SET_INSERTED) != 0) ||
-				((updateFlags & iprm::IParamsManager::CF_SET_REMOVED) != 0);
-
-	if (!forceUpdate && ((updateFlags & CF_INIT_EDITOR) == 0) && (updateFlags & istd::IChangeable::CF_DELEGATED)){
-		return;
-	}
 
 	if (*m_comboBoxViewAttrPtr){
 		UpdateComboBox();
@@ -694,21 +689,12 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CParamsManagerGuiCompBase::BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
+void CParamsManagerGuiCompBase::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
+	BaseClass::AfterUpdate(modelPtr, changeSet);
+
+	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
 		DetachCurrentExtender();
-	}
-
-	BaseClass::BeforeUpdate(modelPtr, updateFlags, updateParamsPtr);
-}
-
-
-void CParamsManagerGuiCompBase::AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr)
-{
-	BaseClass::AfterUpdate(modelPtr, updateFlags, updateParamsPtr);
-
-	if ((updateFlags & iprm::ISelectionParam::CF_SELECTION_CHANGED) != 0){
 		AttachCurrentExtender();
 	}
 }

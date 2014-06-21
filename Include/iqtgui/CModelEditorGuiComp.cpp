@@ -63,12 +63,12 @@ void CModelEditorGuiComp::OnTryClose(bool* ignoredPtr)
 
 // reimplemented (imod::IModelEditor)
 
-void CModelEditorGuiComp::UpdateEditor(int updateFlags)
+void CModelEditorGuiComp::UpdateEditor(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(IsGuiCreated());
 
 	if (m_slaveEditorCompPtr.IsValid()){
-		m_slaveEditorCompPtr->UpdateEditor(updateFlags);
+		m_slaveEditorCompPtr->UpdateEditor(changeSet);
 	}
 }
 

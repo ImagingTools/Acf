@@ -91,7 +91,7 @@ protected:
 	virtual void OnGuiCreated();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
-	void OnModelChanged(int modelId, int changeFlags, istd::IPolymorphic* updateParamsPtr);
+	void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();

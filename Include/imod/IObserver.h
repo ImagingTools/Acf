@@ -4,7 +4,7 @@
 
 // ACF includes
 #include "istd/IPolymorphic.h"
-
+#include "istd/IChangeable.h"
 #include "imod/imod.h"
 
 
@@ -33,26 +33,28 @@ public:
 	/**
 		This call back function will be called, if an observable object is about to be attached.
 		This function returns a \c true, if observable object is accepted 
-		by the implementation logic of the observer, otherwise the function 
+		by the implementation logic of the observer, otherwise returns false.
+		\param	modelPtr	pointer to model object being attached.
+		\param	changeMask	output parameter returning set of change ID's will be accepted.
 		returns a \c false.
 	*/
-	virtual bool OnAttached(IModel* modelPtr) = 0;
+	virtual bool OnModelAttached(IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask) = 0;
 
 	/**
 		This call back function will be called, if an observable object is about to be detached.
 	*/
-	virtual bool OnDetached(IModel* modelPtr) = 0;
+	virtual bool OnModelDetached(IModel* modelPtr) = 0;
 
 	/**
 		This function will be called before update of the observer contents occures.
 		Please note, that in some cases no following AfterUpdate can be called.
 	*/
-	virtual void BeforeUpdate(IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr) = 0;
+	virtual void BeforeUpdate(IModel* modelPtr) = 0;
 
 	/**
 		This function will be called after update of the observer contents occures.
 	*/
-	virtual void AfterUpdate(IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr) = 0;
+	virtual void AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) = 0;
 };
 
 

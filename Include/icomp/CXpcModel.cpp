@@ -6,7 +6,7 @@
 #include <QtCore/QDir>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 #include "iser/IVersionInfo.h"

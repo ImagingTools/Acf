@@ -25,8 +25,8 @@ class CDelegatedProgressManager:
 public:
 	enum ChangeFlags
 	{
-		CF_SESSIONS_NUMBER = 1 << 22,
-		CF_PROGRESS_CHANGED = 1 << 23
+		CF_SESSIONS_NUMBER = 0x8621d0,
+		CF_PROGRESS_CHANGED
 	};
 
 	/**
@@ -63,7 +63,7 @@ protected:
 	virtual void OnCancelable(bool cancelState);
 
 	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr);
+	virtual void OnEndChanges(const ChangeSet& changeSet);
 
 private:
 	struct ProgressInfo

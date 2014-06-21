@@ -27,7 +27,7 @@ public:
 	ModelInterface* GetObjectPtr(int objectIndex) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 };
 
 
@@ -46,14 +46,14 @@ ModelInterface* TMultiModelObserverBase<ModelInterface>::GetObjectPtr(int object
 // reimplemented (imod::IObserver)
 
 template<class ModelInterface>
-bool TMultiModelObserverBase<ModelInterface>::OnAttached(imod::IModel* modelPtr)
+bool TMultiModelObserverBase<ModelInterface>::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	ModelInterface* objectPtr = dynamic_cast<ModelInterface*>(modelPtr);
 	if (objectPtr == NULL){
 		return false;
 	}
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

@@ -46,7 +46,7 @@ public:
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
-	virtual void UpdateEditor(int updateFlags = 0);
+	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void SetReadOnly(bool state);
 
 	// reimplemented (iqtgui::CGuiComponentBase)

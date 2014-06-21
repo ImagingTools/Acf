@@ -37,7 +37,7 @@ void CPolypointShape::SetSmallTickersMode(bool state)
 {
 	if (m_isSmallTickersMode != state){
 		m_isSmallTickersMode = state;
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -76,11 +76,11 @@ void CPolypointShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CPolypointShape::OnAttached(imod::IModel* modelPtr)
+bool CPolypointShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CPolypoint*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

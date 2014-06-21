@@ -20,7 +20,7 @@ public:
 	virtual void Draw(QPainter& drawContext) const;
 
 	// reimplemented (imod::IObserver)
-	virtual bool OnAttached(imod::IModel* modelPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 	
 	// reimplemented (iview::CCircleShape)
 	virtual i2d::CRect CalcBoundingBox() const;

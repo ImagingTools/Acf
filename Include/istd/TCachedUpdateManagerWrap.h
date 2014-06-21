@@ -2,8 +2,7 @@
 #define istd_TCachedUpdateManagerWrap_included
 
 
-// ACF includes
-#include "istd/TUpdateManagerWrap.h"
+#include "istd/IChangeable.h"
 
 
 namespace istd
@@ -12,15 +11,18 @@ namespace istd
 
 /**
 	Help wrapper class supporting of cached parts.
-	If nested update is started, base class implementation of BeginChanges and EndChanges will be blocked.
 */
 template <class Base>
-class TCachedUpdateManagerWrap: public TUpdateManagerWrap<Base>
+class TCachedUpdateManagerWrap: public Base
 {
 public:
-	typedef TUpdateManagerWrap<Base> BaseClass;
+	typedef Base BaseClass;
 
 	TCachedUpdateManagerWrap();
+
+	// reimplemented (istd::IChangeable)
+	virtual void BeginChanges(const IChangeable::ChangeSet& changeSet);
+	virtual void EndChanges(const IChangeable::ChangeSet& changeSet);
 
 protected:
 	/**
@@ -32,7 +34,7 @@ protected:
 		Make cache invalid.
 		This is automatically done when model/observer mechanism is used.
 	*/
-	void InvalidateCache(int changeFlags = 0);
+	void InvalidateCache(const IChangeable::ChangeSet& changeSet);
 	/**
 		Say that cache is valid.
 	*/
@@ -43,15 +45,40 @@ protected:
 		Default implementation does nothing and is provided to ensure
 		that base class for all derived classes implement this method.
 	*/
-	virtual bool CalculateCache(int changeFlags);
-
-	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr = NULL);
+	virtual bool CalculateCache(const IChangeable::ChangeSet& changeSet);
 
 private:
+	int m_changesCounter;
 	mutable bool m_isCacheValid;
-	mutable int m_cumulatedFlags;
+	mutable IChangeable::ChangeSet m_cumulatedSet;
 };
+
+
+// public inline methods
+
+// reimplemented (istd::IChangeable)
+
+template <class Base>
+void TCachedUpdateManagerWrap<Base>::BeginChanges(const IChangeable::ChangeSet& changeSet)
+{
+	Q_ASSERT(m_changesCounter >= 0);
+
+	InvalidateCache(changeSet);
+
+	BaseClass::BeginChanges(changeSet);
+
+	++m_changesCounter;
+}
+
+
+template <class Base>
+void TCachedUpdateManagerWrap<Base>::EndChanges(const IChangeable::ChangeSet& changeSet)
+{
+	--m_changesCounter;
+	Q_ASSERT(m_changesCounter >= 0);
+
+	BaseClass::EndChanges(changeSet);
+}
 
 
 // protected inline methods
@@ -59,10 +86,12 @@ private:
 template <class Base>
 inline bool TCachedUpdateManagerWrap<Base>::EnsureCacheValid() const
 {
-	if (!m_isCacheValid){
+	if (!m_isCacheValid && (m_changesCounter <= 0)){
 		m_isCacheValid = true;	// set to avoid recursion
-		m_isCacheValid = const_cast<TCachedUpdateManagerWrap<Base>*>(this)->CalculateCache(m_cumulatedFlags);
-		m_cumulatedFlags = 0;
+
+		m_isCacheValid = const_cast<TCachedUpdateManagerWrap<Base>*>(this)->CalculateCache(m_cumulatedSet);
+
+		m_cumulatedSet.Reset();
 	}
 
 	return m_isCacheValid;
@@ -70,9 +99,10 @@ inline bool TCachedUpdateManagerWrap<Base>::EnsureCacheValid() const
 
 
 template <class Base>
-void TCachedUpdateManagerWrap<Base>::InvalidateCache(int changeFlags)
+void TCachedUpdateManagerWrap<Base>::InvalidateCache(const IChangeable::ChangeSet& changeSet)
 {
-	m_cumulatedFlags |= changeFlags;
+	m_cumulatedSet += changeSet;
+
 	m_isCacheValid = false;
 }
 
@@ -80,14 +110,14 @@ void TCachedUpdateManagerWrap<Base>::InvalidateCache(int changeFlags)
 template <class Base>
 inline void TCachedUpdateManagerWrap<Base>::SetCacheValid()
 {
-	m_cumulatedFlags = 0;
+	m_cumulatedSet.Reset();
 
 	m_isCacheValid = true;
 }
 
 
 template <class Base>
-inline bool TCachedUpdateManagerWrap<Base>::CalculateCache(int /*changeFlags*/)
+inline bool TCachedUpdateManagerWrap<Base>::CalculateCache(const IChangeable::ChangeSet& /*changeSet*/)
 {
 	return true;
 }
@@ -97,19 +127,9 @@ inline bool TCachedUpdateManagerWrap<Base>::CalculateCache(int /*changeFlags*/)
 
 template <class Base>
 TCachedUpdateManagerWrap<Base>::TCachedUpdateManagerWrap()
-:	m_isCacheValid(false), m_cumulatedFlags(0)
+:	m_changesCounter(0),
+	m_isCacheValid(false)
 {
-}
-
-
-// reimplemented (istd::IChangeable)
-
-template <class Base>
-void TCachedUpdateManagerWrap<Base>::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
-{
-	InvalidateCache(changeFlags);
-
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
 }
 
 

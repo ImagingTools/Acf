@@ -29,10 +29,9 @@ const ibase::IHierarchicalCommand* CSelectableCommandsProviderComp::GetCommands(
 
 // reimpemented (imod::CSingleModelObserverBase)
 
-void CSelectableCommandsProviderComp::OnUpdate(int updateFlags, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSelectableCommandsProviderComp::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
 {
-	int relevantFlags = iprm::IOptionsList::CF_OPTIONS_CHANGED | iprm::IOptionsList::CF_OPTION_RENAMED;
-	if ((updateFlags & relevantFlags) == 0){
+	if (!changeSet.Contains(iprm::IOptionsList::CF_OPTIONS_CHANGED) && !changeSet.Contains(iprm::IOptionsList::CF_OPTION_RENAMED)){
 		return;
 	}
 
@@ -92,7 +91,8 @@ void CSelectableCommandsProviderComp::BuildCommands()
 	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
 	Q_ASSERT(selectionPtr != NULL);
 
-	istd::CChangeNotifier changePtr(this, CF_COMMANDS | CF_MODEL);
+	static ChangeSet commandsChangeSet(CF_COMMANDS);
+	istd::CChangeNotifier commandsNotifier(this, commandsChangeSet);
 
 	m_commandsList.ResetChilds();
 	m_commandsList.setVisible(false);

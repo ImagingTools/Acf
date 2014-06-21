@@ -31,7 +31,7 @@ const ibase::IHierarchicalCommand* CDocumentImportExportCommandComp::GetCommands
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CDocumentImportExportCommandComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CDocumentImportExportCommandComp::OnUpdate(const ChangeSet& /*changeSet*/)
 {
 	UpdateCommands();
 }

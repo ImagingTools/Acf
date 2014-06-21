@@ -22,6 +22,11 @@ namespace iser
 class CReaderVersionInfo: virtual public IVersionInfo
 {
 public:
+	enum ChangeFlags
+	{
+		CF_VERSIONS_UPDATED = 0xb6eca0
+	};
+
 	/**
 		Remove all stored version infos.
 	*/

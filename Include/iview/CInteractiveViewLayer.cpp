@@ -50,16 +50,16 @@ IInteractiveShape* CInteractiveViewLayer::GetFirstActiveShape() const
 
 // reimplemented (iview::CViewLayer)
 
-i2d::CRect CInteractiveViewLayer::RecalcAllShapes(int changeFlag)
+i2d::CRect CInteractiveViewLayer::RecalcAllShapes(const istd::IChangeable::ChangeSet& changeSet)
 {
-	i2d::CRect boundingBox = BaseClass::RecalcAllShapes(changeFlag);
+	i2d::CRect boundingBox = BaseClass::RecalcAllShapes(changeSet);
 
 	ShapeMap::iterator iter;
 	for (iter = m_activeShapes.begin(); iter != m_activeShapes.end(); ++iter){
 		iview::IShape* shapePtr = iter.key();
 		i2d::CRect& shapeBox = iter.value();
 
-		if (shapePtr->OnDisplayChange(changeFlag)){
+		if (shapePtr->OnDisplayChange(changeSet)){
 			shapeBox = shapePtr->GetBoundingBox();
 		}
 		boundingBox.Union(shapeBox);
@@ -89,7 +89,9 @@ bool CInteractiveViewLayer::ConnectInteractiveShape(IInteractiveShape* shapePtr)
 {
 	if (shapePtr->IsSelected()){
 		shapePtr->OnConnectDisplay(this);
-		shapePtr->OnDisplayChange(CF_ALL);
+
+		static istd::IChangeable::ChangeSet changeSet(istd::IChangeable::CF_ALL_DATA);
+		shapePtr->OnDisplayChange(changeSet);
 
 		i2d::CRect boundingBox = shapePtr->GetBoundingBox();
 

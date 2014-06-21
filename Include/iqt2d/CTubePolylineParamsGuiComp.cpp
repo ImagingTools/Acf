@@ -96,9 +96,9 @@ void CTubePolylineParamsGuiComp::OnInsertNode()
 
 // reimplemented (iqtgui::TGuiObserverWrap)
 
-void CTubePolylineParamsGuiComp::UpdateGui(int updateFlags)
+void CTubePolylineParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
 {
-	BaseClass::UpdateGui(updateFlags);
+	BaseClass::UpdateGui(changeSet);
 
 	Q_ASSERT(IsGuiCreated());
 

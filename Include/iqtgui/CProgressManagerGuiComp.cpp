@@ -97,14 +97,14 @@ bool CProgressManagerGuiComp::IsCanceled(int sessionId) const
 
 // reimplemented (istd::IChangeable)
 
-void CProgressManagerGuiComp::OnEndChanges(int changeFlags, istd::IPolymorphic* /*changeParamsPtr*/)
+void CProgressManagerGuiComp::OnEndChanges(const ChangeSet& changeSet)
 {
 	if (IsGuiCreated()){
-		if ((changeFlags & CF_SESSIONS_NUMBER) != 0){
+		if (changeSet.Contains(CF_SESSIONS_NUMBER)){
 			UpdateVisibleComponents();
 		}
 
-		if ((changeFlags & CF_PROGRESS_CHANGED) != 0){
+		if (changeSet.Contains(CF_PROGRESS_CHANGED)){
 			UpdateProgressBar();
 		}
 	}

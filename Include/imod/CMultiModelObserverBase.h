@@ -22,6 +22,7 @@ namespace imod
 class CMultiModelObserverBase: virtual public IObserver
 {
 public:
+	CMultiModelObserverBase();
 	virtual ~CMultiModelObserverBase();
 
 	/**
@@ -34,22 +35,29 @@ public:
 	*/
 	int GetModelCount() const;
 
+	/**
+		Set list of ID's beeing observed.
+	*/
+	void SetObservedIds(const istd::IChangeable::ChangeSet& changeMask);
+
 	// reimplemented (imod::IObserver)
 	virtual bool IsModelAttached(const IModel* modelPtr) const;
-	virtual bool OnAttached(IModel* modelPtr);
-	virtual bool OnDetached(IModel* modelPtr);
-	virtual void BeforeUpdate(IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(IModel* modelPtr);
+	virtual void BeforeUpdate(IModel* modelPtr);
+	virtual void AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 protected:
 	void EnsureModelsDetached();
 
-	virtual void OnUpdate(IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	typedef QVector<IModel*> Models;
 
 	Models m_models;
+
+	istd::IChangeable::ChangeSet m_observedIds;
 };
 
 

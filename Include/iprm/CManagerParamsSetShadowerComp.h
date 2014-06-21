@@ -53,7 +53,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	/**
@@ -66,7 +66,7 @@ private:
 		CurrentParamsSetObserver(CManagerParamsSetShadowerComp* parentPtr);
 
 		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	private:
 		CManagerParamsSetShadowerComp& m_parent;

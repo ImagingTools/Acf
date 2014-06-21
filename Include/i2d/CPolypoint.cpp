@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "i2d/CRectangle.h"
 
 
@@ -29,7 +29,8 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d diffVector = position - CPolypoint::GetCenter();
 
-	istd::CChangeNotifier notifier(this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION);
+	istd::CChangeNotifier notifier(this, changeSet);
 
 	for (		Points::Iterator iter = m_points.begin();
 				iter != m_points.end();
@@ -169,7 +170,8 @@ bool CPolypoint::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag polypointTag("Polypoint", "Polypoint");
 	static iser::CArchiveTag vectorTag("V", "Vector");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	int pointsCount = m_points.size();
 	bool retVal = true;

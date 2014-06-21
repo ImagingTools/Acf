@@ -16,7 +16,7 @@ namespace imod
 
 
 /**
-	Allow to connect as observer to multiple models and call BeginChanges and EndChanges on some its changes.
+	Allow to connect as observer to multiple models and call \c BeginChanges and \c EndChanges on some its changes.
 	In other words: it reflects the changes of observed objects as its own changes.
 	\sa imod::CMultiModelDispatcherBase.
 
@@ -45,10 +45,10 @@ public:
 
 	// reimplemented (imod::IObserver)
 	virtual bool IsModelAttached(const imod::IModel* modelPtr) const;
-	virtual bool OnAttached(imod::IModel* modelPtr);
-	virtual bool OnDetached(imod::IModel* modelPtr);
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
+	virtual bool OnModelDetached(imod::IModel* modelPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	typedef QVector<imod::IModel*> Models;

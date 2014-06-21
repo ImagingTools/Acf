@@ -5,8 +5,7 @@
 #include <QtCore/QUuid>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
-#include "istd/CChangeDelegator.h"
+#include "istd/CChangeNotifier.h"
 #include "iprm/IParamsSet.h"
 #include "iprm/IOptionsList.h"
 #include "iprm/ISelectionParam.h"
@@ -117,7 +116,8 @@ void COptionsListEditorGuiComp::on_OptionsList_itemSelectionChanged()
 
 		iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObjectPtr());
 		if (selectionPtr != NULL){
-			istd::CChangeNotifier changePtr(selectionPtr, iprm::ISelectionParam::CF_SELECTION_CHANGED);
+			static istd::IChangeable::ChangeSet changeSet(iprm::ISelectionParam::CF_SELECTION_CHANGED);
+			istd::CChangeNotifier selectionNotifier(selectionPtr, changeSet);
 
 			selectionPtr->SetSelectedOptionIndex(m_lastSelectedIndex);
 		}
@@ -286,7 +286,7 @@ void COptionsListEditorGuiComp::OnGuiModelDetached()
 }
 
 
-void COptionsListEditorGuiComp::UpdateGui(int /*updateFlags*/)
+void COptionsListEditorGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 	

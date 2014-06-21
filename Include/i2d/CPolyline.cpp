@@ -3,7 +3,7 @@
 
 // ACF includes
 #include "istd/TDelPtr.h"
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 
 namespace i2d

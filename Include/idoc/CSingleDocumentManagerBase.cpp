@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "imod/IModel.h"
 #include "imod/IModelEditor.h"
@@ -136,7 +136,8 @@ bool CSingleDocumentManagerBase::InsertNewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
-	istd::CChangeNotifier changePtr(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+	static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	istd::CChangeNotifier changePtr(this, changeSet);
 
 	CloseDocument(-1, beQuiet, ignoredPtr);
 
@@ -149,6 +150,8 @@ bool CSingleDocumentManagerBase::InsertNewDocument(
 	}
 
 	if (NewDocument(documentTypeId, createView, viewTypeId, true, beQuiet, ignoredPtr)){
+		RegisterDocument();
+
 		if (newDocumentPtr != NULL){
 			*newDocumentPtr = m_documentPtr.GetPtr();
 		}
@@ -320,7 +323,8 @@ bool CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 			return false;
 		}
 
-		istd::CChangeNotifier notifier(this, CF_DOCUMENT_REMOVED | CF_DOCUMENT_COUNT_CHANGED | CF_VIEW_ACTIVATION_CHANGED | CF_MODEL);
+		static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED, CF_VIEW_ACTIVATION_CHANGED);
+		istd::CChangeNotifier notifier(this, changeSet);
 
 		EnsureViewRemoved();
 
@@ -387,7 +391,8 @@ bool CSingleDocumentManagerBase::OpenDocument(
 		return true;
 	}
 
-	istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_MODEL);
+	static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	istd::CChangeNotifier notifier(this, changeSet);
 	Q_UNUSED(notifier);
 
 	CloseDocument(-1, beQuiet, ignoredPtr);
@@ -403,28 +408,20 @@ bool CSingleDocumentManagerBase::OpenDocument(
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
 
-		istd::CChangeNotifier notifier(this, CF_DOCUMENT_COUNT_CHANGED | CF_DOCUMENT_CREATED | CF_MODEL);
+		static ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+		istd::CChangeNotifier notifier(this, changeSet);
 		Q_UNUSED(notifier);
 
 		if (NewDocument(documentTypeId, createView, viewTypeId, false, beQuiet, ignoredPtr)){
 			Q_ASSERT(m_documentPtr.IsValid());
-
-			istd::CChangeNotifier documentNotifier(m_documentPtr.GetPtr(), istd::IChangeable::CF_NO_UNDO);
 
 			ifile::IFilePersistence* loaderPtr = documentTemplatePtr->GetFileLoader(documentTypeId);
 			if (loaderPtr != NULL){
 				int loadState = loaderPtr->LoadFromFile(*m_documentPtr, filePath);
 				if (loadState == ifile::IFilePersistence::OS_OK){
 					m_filePath = filePath;
-					documentNotifier.Reset();
 
-					m_isDirty = false;
-
-					if (m_undoManagerPtr.IsValid()){
-						m_undoManagerPtr->ResetUndo();
-
-						m_undoManagerPtr->StoreDocumentState();
-					}
+					RegisterDocument();
 
 					return true;
 				}
@@ -450,12 +447,13 @@ bool CSingleDocumentManagerBase::NewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
+	m_undoManagerPtr.Reset();
+
 	if (ignoredPtr != NULL){
 		*ignoredPtr = false;
 	}
 
 	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
-
 	if (documentTemplatePtr != NULL){
 		QByteArray realDocumentTypeId = documentTypeId;
 
@@ -483,26 +481,36 @@ bool CSingleDocumentManagerBase::NewDocument(
 			}
 
 			m_documentPtr.TakeOver(documentPtr);
-			m_undoManagerPtr.SetPtr(documentTemplatePtr->CreateUndoManager(realDocumentTypeId, m_documentPtr.GetPtr()));
-
-			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(m_documentPtr.GetPtr());
-			if (documentModelPtr != NULL){
-				documentModelPtr->AttachObserver(this);
-			}
 
 			m_documentTypeId = realDocumentTypeId;
-
-			m_isDirty = false;
-
-			if (m_undoManagerPtr.IsValid()){
-				m_undoManagerPtr->StoreDocumentState();
-			}
 
 			return true;
 		}
 	}
 
 	return false;
+}
+
+
+bool CSingleDocumentManagerBase::RegisterDocument()
+{
+	m_isDirty = false;
+
+	const IDocumentTemplate* documentTemplatePtr = GetDocumentTemplate();
+	if (documentTemplatePtr != NULL){
+		m_undoManagerPtr.SetPtr(documentTemplatePtr->CreateUndoManager(m_documentTypeId, m_documentPtr.GetPtr()));
+
+		if (m_undoManagerPtr.IsValid()){
+			m_undoManagerPtr->StoreDocumentState();
+
+			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(m_documentPtr.GetPtr());
+			if (documentModelPtr != NULL){
+				documentModelPtr->AttachObserver(this);
+			}
+		}
+	}
+
+	return true;
 }
 
 
@@ -582,7 +590,7 @@ bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive)
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSingleDocumentManagerBase::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSingleDocumentManagerBase::OnUpdate(const ChangeSet& /*changeSet*/)
 {
 	bool newDirty = true;
 	if (m_documentPtr.IsValid() && m_undoManagerPtr.IsValid()){

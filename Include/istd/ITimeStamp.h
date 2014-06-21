@@ -22,6 +22,14 @@ class ITimeStamp: virtual public istd::IChangeable
 {
 public:
 	/**
+		Data model change notification flags.
+	*/
+	enum ChangeFlags
+	{
+		CF_START_SET = 0xa623a
+	};
+
+	/**
 		Start the timer.
 		\param	elapsed	optional current elapsed time.
 	*/

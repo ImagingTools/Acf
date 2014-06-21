@@ -12,7 +12,7 @@
 #endif
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "idoc/IDocumentTemplate.h"
 #include "iqt/CSettingsWriteArchive.h"
 #include "iqt/CSettingsReadArchive.h"
@@ -497,7 +497,8 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 {
 	BaseClass::OnRetranslate();
 
-	istd::CChangeNotifier changePtr(this, CF_COMMANDS);
+	static istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
+	istd::CChangeNotifier commandsNotifier(this, commandsChangeSet);
 
 	m_windowCommand.SetName(tr("&Window"));
 	// Window commands
@@ -531,9 +532,9 @@ void CMultiDocumentWorkspaceGuiComp::OnComponentCreated()
 
 // reimplemented (istd:IChangeable)
 
-void CMultiDocumentWorkspaceGuiComp::OnEndChanges(int changeFlags, istd::IPolymorphic* changeParamsPtr)
+void CMultiDocumentWorkspaceGuiComp::OnEndChanges(const ChangeSet& changeSet)
 {
-	BaseClass::OnEndChanges(changeFlags, changeParamsPtr);
+	BaseClass::OnEndChanges(changeSet);
 
 	if (IsGuiCreated()){
 		UpdateAllTitles();
@@ -681,7 +682,8 @@ bool CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::SetSelectedOptionInd
 	}
 
 	if (m_selectedDocumentIndex != index){
-		istd::CChangeNotifier changePtr(this, CF_SELECTION_CHANGED);
+		static ChangeSet changeSet(CF_SELECTION_CHANGED);
+		istd::CChangeNotifier changePtr(this, changeSet);
 
 		m_selectedDocumentIndex = index;
 

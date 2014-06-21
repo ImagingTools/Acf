@@ -27,7 +27,7 @@ bool CSingletonDocApplicationComp::InitializeApplication(int argc, char** argv)
 		if (m_slaveApplicationCompPtr->InitializeApplication(argc, argv)){
 			if (m_runtimeStatusProviderModelCompPtr.IsValid()){
 				if (m_runtimeStatusProviderModelCompPtr->AttachObserver(this)){
-					OnUpdate(0, NULL);
+					OnUpdate(istd::IChangeable::GetNoChanges());
 				}
 			}
 
@@ -83,7 +83,7 @@ QStringList CSingletonDocApplicationComp::GetApplicationArguments() const
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CSingletonDocApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CSingletonDocApplicationComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	ibase::IRuntimeStatusProvider* objectPtr = GetObjectPtr();
 	if ((objectPtr != NULL) && objectPtr->GetRuntimeStatus() == ibase::IRuntimeStatusProvider::RS_RUNNING){

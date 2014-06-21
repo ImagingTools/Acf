@@ -35,7 +35,7 @@ void CCircleShape::SetEditableRadius(bool editable)
 {
 	if (m_isEditableRadius != editable){
 		m_isEditableRadius = editable;
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -51,7 +51,7 @@ void CCircleShape::SetCenterVisible(bool state)
 	if (m_isCenterVisible != state){
 		m_isCenterVisible = state;
 
-		Invalidate(CS_CONSOLE);
+		Invalidate();
 	}
 }
 
@@ -187,11 +187,11 @@ void CCircleShape::Draw(QPainter& drawContext) const
 
 // reimplemented (imod::IObserver)
 
-bool CCircleShape::OnAttached(imod::IModel* modelPtr)
+bool CCircleShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(dynamic_cast<i2d::CCircle*>(modelPtr) != NULL);
 
-	return BaseClass::OnAttached(modelPtr);
+	return BaseClass::OnModelAttached(modelPtr, changeMask);
 }
 
 

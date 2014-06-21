@@ -153,7 +153,7 @@ CModelProxy::ModelObserver::ModelObserver(CModelProxy& parent)
 
 // reimplemented (imod::IObserver)
 
-bool CModelProxy::ModelObserver::OnDetached(imod::IModel* modelPtr)
+bool CModelProxy::ModelObserver::OnModelDetached(imod::IModel* modelPtr)
 {
 	Q_ASSERT(modelPtr == m_parent.m_modelPtr);
 
@@ -161,7 +161,7 @@ bool CModelProxy::ModelObserver::OnDetached(imod::IModel* modelPtr)
 		m_parent.ResetModel();
 	}
 
-	return BaseClass::OnDetached(modelPtr);
+	return BaseClass::OnModelDetached(modelPtr);
 }
 
 

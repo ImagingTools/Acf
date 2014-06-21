@@ -20,21 +20,24 @@ bool CMultiObserverBinderComp::IsModelAttached(const imod::IModel* modelPtr) con
 }
 
 
-bool CMultiObserverBinderComp::OnAttached(imod::IModel* modelPtr)
+bool CMultiObserverBinderComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
 	Q_ASSERT(m_attachedModelPtr == NULL);
 
-	bool retVal = true;
+	bool retVal = false;
 
 	int count = m_observersCompPtr.GetCount();
 	for (int i = 0; i < count; ++i){
 		imod::IObserver* observerPtr = m_observersCompPtr[i];
 		if (observerPtr != NULL){
-			retVal = modelPtr->AttachObserver(observerPtr) || retVal;
+			if (modelPtr->AttachObserver(observerPtr)){
+				retVal = true;
+			}
 		}
 	}
 
 	if (retVal){
+		changeMask = istd::IChangeable::GetAllChanges();
 		m_attachedModelPtr = modelPtr;
 	}
 
@@ -42,7 +45,7 @@ bool CMultiObserverBinderComp::OnAttached(imod::IModel* modelPtr)
 }
 
 
-bool CMultiObserverBinderComp::OnDetached(imod::IModel* modelPtr)
+bool CMultiObserverBinderComp::OnModelDetached(imod::IModel* modelPtr)
 {
 	Q_ASSERT(m_attachedModelPtr == modelPtr);
 
@@ -60,23 +63,23 @@ bool CMultiObserverBinderComp::OnDetached(imod::IModel* modelPtr)
 }
 
 
-void CMultiObserverBinderComp::BeforeUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiObserverBinderComp::BeforeUpdate(imod::IModel* /*modelPtr*/)
 {
 }
 
 
-void CMultiObserverBinderComp::AfterUpdate(imod::IModel* /*modelPtr*/, int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CMultiObserverBinderComp::AfterUpdate(imod::IModel* /*modelPtr*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 }
 
 
-void CMultiObserverBinderComp::UpdateEditor(int updateFlags)
+void CMultiObserverBinderComp::UpdateEditor(const istd::IChangeable::ChangeSet& changeSet)
 {
 	int count = m_modelEditorsCompPtr.GetCount();
 	for (int i = 0; i < count; ++i){
 		imod::IModelEditor* editorPtr = m_modelEditorsCompPtr[i];
 		if (editorPtr != NULL){
-			editorPtr->UpdateEditor(updateFlags);
+			editorPtr->UpdateEditor(changeSet);
 		}
 	}
 }

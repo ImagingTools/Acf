@@ -32,7 +32,7 @@ protected:
 	virtual const istd::IChangeable* GetDocumentPtr() const;
 
 	// reimplemented (imod::CSingleModelObserverBase)
-	virtual void OnUpdate(int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();

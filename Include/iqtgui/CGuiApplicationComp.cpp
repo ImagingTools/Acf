@@ -140,7 +140,7 @@ QString CGuiApplicationComp::GetHelpText() const
 
 // reimplemented (imod::TSingleModelObserverBase)
 
-void CGuiApplicationComp::OnUpdate(int /*updateFlags*/, istd::IPolymorphic* /*updateParamsPtr*/)
+void CGuiApplicationComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	if (m_mainWidgetPtr.IsValid()){
 		m_lastWidgetGeometry = m_mainWidgetPtr->geometry();

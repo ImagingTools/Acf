@@ -54,7 +54,7 @@ public:
 		It is called e.g. after view transformation change.
 		\return	true, if this change follow shape changes.
 	*/
-	virtual bool OnDisplayChange(int flags) = 0;
+	virtual bool OnDisplayChange(const istd::IChangeable::ChangeSet& changeSet) = 0;
 };
 
 

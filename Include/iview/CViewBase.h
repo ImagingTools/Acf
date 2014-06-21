@@ -57,7 +57,7 @@ public:
 	/**
 		Inform all shapes about changes.
 	*/
-	virtual void UpdateAllShapes(int changeFlag);
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
 	
 	/**
 		It sets position to become transformation of client point to specified screen position.

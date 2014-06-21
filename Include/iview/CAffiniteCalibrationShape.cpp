@@ -6,7 +6,7 @@
 #include <QtGui/QPainter>
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 
 #include "iqt/iqt.h"
 
@@ -39,8 +39,8 @@ void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 			return;
 		}
 
-		istd::TChangeNotifier<iview::IRuler> leftRulerPtr(NULL);
-		istd::TChangeNotifier<iview::IRuler> topRulerPtr(NULL);
+		iview::IRuler* leftRulerPtr = NULL;
+		iview::IRuler* topRulerPtr = NULL;
 
 		iview::IViewRulersAccessor*  rulersAccessorPtr = NULL;
 		iview::IVisualCalibrationInfo* calibInfoPtr = NULL;
@@ -63,8 +63,8 @@ void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 		}
 
 		if (rulersAccessorPtr != NULL){
-			leftRulerPtr.SetPtr(rulersAccessorPtr->GetLeftRulerPtr());
-			topRulerPtr.SetPtr(rulersAccessorPtr->GetTopRulerPtr());
+			leftRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
+			topRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
 		}
 
 		if (calibInfoPtr != NULL){
@@ -72,15 +72,18 @@ void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 			i2d::CLine2d leftRulerLine;
 
 			bool isGridVisible = calibInfoPtr->IsGridVisible();
-			if (isGridVisible || leftRulerPtr.IsValid() || topRulerPtr.IsValid()){
-				if (topRulerPtr.IsValid()){
+			if (isGridVisible || (leftRulerPtr != NULL) || (topRulerPtr != NULL)){
+				istd::CChangeNotifier leftRulerNotifier(leftRulerPtr);
+				istd::CChangeNotifier topRulerNotifier(topRulerPtr);
+
+				if (topRulerPtr != NULL){
 					if (topRulerPtr->GetLevelsCount() < 3){
 						topRulerPtr->SetLevelsCount(3);
 					}
 					topRulerPtr->Clear();
 				}
 
-				if (leftRulerPtr.IsValid()){
+				if (leftRulerPtr != NULL){
 					if (leftRulerPtr->GetLevelsCount() < 3){
 						leftRulerPtr->SetLevelsCount(3);
 					}
@@ -214,7 +217,7 @@ void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 						levelIndex = 2;
 					}
 
-					if ((leftRulerPtr.IsValid()) && (point1.x() != point2.x())){
+					if ((leftRulerPtr != NULL) && (point1.x() != point2.x())){
 						int rulerY = point1.y() - (point2.y() - point1.y()) * point1.x() / (point2.x() - point1.x());
 						iview::IRuler::Mark mark(double(rulerY) / clientRect.GetHeight(), index * grid);
 						if ((mark.first >= 0) && (mark.first <= 1)){

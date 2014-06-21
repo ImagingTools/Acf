@@ -37,17 +37,12 @@ public:
 	CSelectedDocModelBinderComp();
 
 protected:
-	enum
-	{
-		RELEVANT_FLAGS = IDocumentManager::CF_DOCUMENT_CREATED | IDocumentManager::CF_DOCUMENT_REMOVED | IDocumentManager::CF_VIEW_ACTIVATION_CHANGED
-	};
-
 	void TryConnectObservers();
 	void TryDisconnectObservers();
 
 	// reimplemented (imod::IObserver)
-	virtual void BeforeUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
-	virtual void AfterUpdate(imod::IModel* modelPtr, int updateFlags, istd::IPolymorphic* updateParamsPtr);
+	virtual void BeforeUpdate(imod::IModel* modelPtr);
+	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
@@ -61,6 +56,9 @@ private:
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 
 	bool m_isActive;
+
+	typedef QMap<imod::IObserver*, imod::IModel*> ModelObserverMap;
+	ModelObserverMap m_connectedMap;
 };
 
 

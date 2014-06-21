@@ -91,7 +91,7 @@ public:
 	/**
 		Send update to all shapes after view changes.
 	*/
-	virtual void UpdateAllShapes(int changeFlag) = 0;
+	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet) = 0;
 	
 	/**
 		Disconnect all shapes from this layer.

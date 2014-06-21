@@ -2,7 +2,7 @@
 
 
 // ACF includes
-#include "istd/TChangeNotifier.h"
+#include "istd/CChangeNotifier.h"
 #include "istd/TDelPtr.h"
 #include "iser/CArchiveTag.h"
 
@@ -32,7 +32,8 @@ bool CLabel::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag textTag("Text", "Text of label");
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, CF_OBJECT_POSITION | CF_MODEL);
+	static ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, changeSet);
 
 	bool retVal = true;
 
