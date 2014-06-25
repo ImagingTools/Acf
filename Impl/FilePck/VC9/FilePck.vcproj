@@ -56,7 +56,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="QtCore4.lib QtGui4.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -121,7 +120,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="QtCored4.lib QtGuid4.lib"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="1"

@@ -72,7 +72,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="QtGui4.lib"
+				AdditionalDependencies=" "
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
@@ -154,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="qtmaind.lib QtCored4.lib QtGuid4.lib"
+				AdditionalDependencies=" "
 				OutputFile="$(OutDir)/$(ProjectName).exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"

@@ -72,6 +72,17 @@ CONFIG(release, debug|release){
 	CONFIG += sse2
 }
 
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    CONFIG(debug, debug|release){
+            COMPILER_DIR = "Debug$$COMPILER_NAME"_Qt5
+    }
+    CONFIG(release, debug|release){
+            COMPILER_DIR = "Release$$COMPILER_NAME"_Qt5
+    }
+}
+
+
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics
