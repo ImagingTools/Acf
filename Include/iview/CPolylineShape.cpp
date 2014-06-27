@@ -44,7 +44,6 @@ bool CPolylineShape::ExecuteAction(IInteractiveShape::ShapeAction action)
 		static istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION);
 		istd::CChangeNotifier notifier(polygonPtr, changeSet);
 
-		i2d::CVector2d center = polygonPtr->GetCenter();
 		int count = polygonPtr->GetNodesCount();
 
 		for (int i = 0; i < count / 2; i++){

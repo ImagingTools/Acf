@@ -645,7 +645,7 @@ void CParamsManagerGuiCompBase::OnGuiModelDetached()
 }
 
 
-void CParamsManagerGuiCompBase::UpdateGui(const istd::IChangeable::ChangeSet& changeSet)
+void CParamsManagerGuiCompBase::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
