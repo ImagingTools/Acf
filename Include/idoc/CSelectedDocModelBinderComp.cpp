@@ -83,13 +83,13 @@ void CSelectedDocModelBinderComp::TryDisconnectObservers()
 
 // reimplemented (imod::IObserver)
 
-void CSelectedDocModelBinderComp::BeforeUpdate(imod::IModel* modelPtr)
+void CSelectedDocModelBinderComp::BeforeUpdate(imod::IModel* /*modelPtr*/)
 {
 	TryDisconnectObservers();
 }
 
 
-void CSelectedDocModelBinderComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
+void CSelectedDocModelBinderComp::AfterUpdate(imod::IModel* /*modelPtr*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	TryConnectObservers();
 }
