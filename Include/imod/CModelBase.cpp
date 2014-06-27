@@ -6,7 +6,7 @@
 
 
 namespace imod
-{		
+{
 
 
 CModelBase::CModelBase()
@@ -145,13 +145,13 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 
 bool CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSet, bool isGroup)
 {
-	bool retVal = false;
+	bool retVal = m_cumulatedChangeIds.IsEmpty() && !changeSet.IsEmpty();
 
-	if (m_changesCounter++ > 0){
-		m_cumulatedChangeIds += changeSet;
-	}
-	else{
-		m_cumulatedChangeIds = changeSet;
+	m_changesCounter++;
+	m_cumulatedChangeIds += changeSet;
+
+	if (changeSet.IsEmpty()){
+		return false;
 	}
 
 	if (!isGroup){
@@ -193,7 +193,9 @@ bool CModelBase::NotifyAfterChange()
 
 				retVal = true;
 			}
-		}	
+		}
+
+		m_cumulatedChangeIds.Reset();
 		
 		CleanupObserverState();
 	}
