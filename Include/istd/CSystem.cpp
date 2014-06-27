@@ -330,6 +330,7 @@ CSystem::FileDriveInfo CSystem::GetFileDriveInfo(const QString& fileDrivePath)
 		fileDriveInfo.totalBytes = lpTotalNumberOfBytes.QuadPart;
 	}
 #else
+    Q_UNUSED(fileDrivePath);
 	// TODO: Add implementation for other plattforms
 #endif
 
