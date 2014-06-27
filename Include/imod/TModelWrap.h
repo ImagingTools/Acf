@@ -112,14 +112,14 @@ void TModelWrap<Base>::EndChangeGroup(const istd::IChangeable::ChangeSet& /*chan
 template <class Base>
 void TModelWrap<Base>::OnBeginGlobalChanges()
 {
-	BaseClass::OnBeginChanges();
+	OnBeginChanges();
 }
 
 
 template <class Base>
 void TModelWrap<Base>::OnEndGlobalChanges(const istd::IChangeable::ChangeSet& changeSet)
 {
-	BaseClass::OnEndChanges(changeSet);
+	OnEndChanges(changeSet);
 }
 
 
