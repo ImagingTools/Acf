@@ -16,7 +16,7 @@ namespace iwidgets
 class CStackWidgetDelegate: virtual public IMultiPageWidgetDelegate
 {
 public:
-	// reimplemented (IMultiPageWidgetDelegate)
+	// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 	virtual QWidget* CreateContainerWidget(
 				QWidget* parentWidgetPtr,
 				int containerGuiFlags = CGF_NONE,

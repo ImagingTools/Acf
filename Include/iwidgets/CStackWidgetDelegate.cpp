@@ -22,7 +22,7 @@ namespace iwidgets
 
 // public methods
 
-// reimplemented (IMultiPageWidgetDelegate)
+// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CStackWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*containerGuiFlags*/, int /*orientation*/)
 {	

@@ -32,7 +32,7 @@ public:
 	typedef Base BaseClass;
 	typedef CStandardDocumentMetaInfo BaseClass2;
 
-	// pseudo-reimplemented (IMultiPageDocument)
+	// pseudo-reimplemented (idoc::IMultiPageDocument)
 	virtual int GetPagesCount() const;
 	virtual const istd::IChangeable& GetDocumentPage(int pageIndex) const;
 	virtual const idoc::IDocumentMetaInfo* GetPageMetaInfo(int pageIndex) const;
@@ -76,7 +76,7 @@ protected:
 
 // public methods
 
-// pseudo-reimplemented (IMultiPageDocument)
+// pseudo-reimplemented (idoc::IMultiPageDocument)
 
 template <class Base>
 int TMultiPageDocumentWrap<Base>::GetPagesCount() const

@@ -13,7 +13,7 @@ namespace i2d
 
 // public methods
 
-// reimplemented (ICalibration2d)
+// reimplemented (i2d::ICalibration2d)
 
 const imath::IUnitInfo* CCalibration2dProxyComp::GetArgumentUnitInfo() const
 {
@@ -50,7 +50,7 @@ const ICalibration2d* CCalibration2dProxyComp::CreateCombinedCalibration(const I
 }
 
 
-// reimplemented (ITransformation2d)
+// reimplemented (i2d::ITransformation2d)
 
 int CCalibration2dProxyComp::GetTransformationFlags() const
 {

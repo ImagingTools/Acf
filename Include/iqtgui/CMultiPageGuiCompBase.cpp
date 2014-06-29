@@ -422,7 +422,7 @@ bool CMultiPageGuiCompBase::PageModel::IsOptionEnabled(int index) const
 }
 
 
-// reimplemented (IMultiVisualStatusProvider)
+// reimplemented (iqtgui::IMultiVisualStatusProvider)
 
 int CMultiPageGuiCompBase::PageModel::GetStatusesCount() const
 {

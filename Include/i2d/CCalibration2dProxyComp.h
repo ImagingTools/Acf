@@ -32,12 +32,12 @@ public:
 		I_ASSIGN_TO(m_calibrationProviderModelCompPtr, m_calibrationProviderCompPtr, true);
 	I_END_COMPONENT;
 
-	// reimplemented (ICalibration2d)
+	// reimplemented (i2d::ICalibration2d)
 	virtual const imath::IUnitInfo* GetArgumentUnitInfo() const;
 	virtual const imath::IUnitInfo* GetResultUnitInfo() const;
 	virtual const ICalibration2d* CreateCombinedCalibration(const ICalibration2d& calibration) const;
 
-	// reimplemented (ITransformation2d)
+	// reimplemented (i2d::ITransformation2d)
 	virtual int GetTransformationFlags() const;
 	virtual bool GetDistance(
 				const CVector2d& origPos1,

@@ -19,7 +19,7 @@ namespace iwidgets
 
 // public methods
 
-// reimplemented (IMultiPageWidgetDelegate)
+// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CToolBoxDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*containerGuiFlags*/, int /*orientation*/)
 {	

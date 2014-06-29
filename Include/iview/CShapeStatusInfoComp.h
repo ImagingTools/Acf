@@ -25,7 +25,7 @@ public:
 
 	CShapeStatusInfoComp();
 
-	// reimplemented (IShapeStatusInfo)
+	// reimplemented (iview::IShapeStatusInfo)
 	virtual i2d::CVector2d GetLogicalPosition() const;
 	virtual void SetLogicalPosition(const i2d::CVector2d& logicalPosition);
 	virtual i2d::CVector2d GetPixelPosition() const;

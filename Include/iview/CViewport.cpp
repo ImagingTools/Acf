@@ -126,7 +126,7 @@ i2d::CRect CViewport::GetClientRect() const
 }
 
 
-// reimplement (IViewEventObserver)
+// reimplemented (iview::IViewEventObserver)
 
 bool CViewport::OnSelectChange(
 		const iview::IShapeView& view,
@@ -153,7 +153,7 @@ bool CViewport::OnViewMouseButton(
 }
 
 
-// reimplemented (IMouseActionObserver)
+// reimplemented (iview::IMouseActionObserver)
 
 bool CViewport::OnMouseMove(istd::CIndex2d position)
 {

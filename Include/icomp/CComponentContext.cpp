@@ -38,7 +38,7 @@ QByteArray CComponentContext::GetCompleteContextId() const
 }
 
 
-// reimplemented (IComponentContext)
+// reimplemented (icomp::IComponentContext)
 
 const QByteArray& CComponentContext::GetContextId() const
 {

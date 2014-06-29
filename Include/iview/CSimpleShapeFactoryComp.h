@@ -29,7 +29,7 @@ public:
 		I_ASSIGN(m_colorSchemaCompPtr, "ShapeColorSchema", "Color schema used by displayed shape", false, "ShapeColorSchema");
 	I_END_COMPONENT;
 
-	// reimplemented (IShapeFactory)
+	// reimplemented (iview::IShapeFactory)
 	virtual IShape* CreateShape(const i2d::IObject2d& object, bool connectToModel = false) const;
 
 protected:

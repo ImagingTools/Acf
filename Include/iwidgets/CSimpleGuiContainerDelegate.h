@@ -18,7 +18,7 @@ class CSimpleGuiContainerDelegate: virtual public IMultiPageWidgetDelegate
 public:
 	CSimpleGuiContainerDelegate();
 
-	// reimplemented (IMultiPageWidgetDelegate)
+	// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 	virtual QWidget* CreateContainerWidget(
 				QWidget* parentWidgetPtr,
 				int containerGuiFlags = CGF_NONE,

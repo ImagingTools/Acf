@@ -24,7 +24,7 @@ public:
 		LOGICAL_LINE_WIDTH = 4
 	};
 
-	// reimplemented (IColorSchema)
+	// reimplemented (iview::IColorSchema)
 	virtual void Assign(const IColorSchema& colorSchema);
 	virtual void DrawTicker(QPainter& drawContext, istd::CIndex2d point, IColorSchema::TickerType tickerType) const;
 	virtual const i2d::CRect& GetTickerBox(IColorSchema::TickerType tickerType) const;
@@ -36,6 +36,10 @@ protected:
 	static i2d::CRect s_tickerBoundingBoxes[(int)TT_LAST + (int)1];
 };
 
+
+// public inline methods
+
+// reimplemented (iview::IColorSchema)
 
 inline int CColorSchemaBase::GetLogicalLineWidth() const
 {

@@ -41,7 +41,7 @@ public:
 	virtual bool IsVisible() const;
 	virtual void SetVisible(bool state = true);
 	
-	// reimplemented (IDisplay)
+	// reimplemented (iview::IDisplay)
 	virtual IDisplay* GetParentDisplayPtr() const;
 	virtual const CScreenTransform& GetTransform() const;
 	virtual i2d::CRect GetBoundingBox() const;

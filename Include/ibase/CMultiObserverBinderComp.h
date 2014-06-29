@@ -39,14 +39,14 @@ public:
 
 	CMultiObserverBinderComp();
 
-	// reimplemented (IObserver)
+	// reimplemented (imod::IObserver)
 	virtual bool IsModelAttached(const imod::IModel* modelPtr = NULL) const;
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 	virtual bool OnModelDetached(imod::IModel* modelPtr);
 	virtual void BeforeUpdate(imod::IModel* modelPtr);
 	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
-	// reimplemented (IModelEditor)
+	// reimplemented (imod::IModelEditor)
 	virtual void UpdateEditor(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void UpdateModel() const;
 	virtual bool IsReadOnly() const;

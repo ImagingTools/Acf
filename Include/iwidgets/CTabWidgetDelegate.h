@@ -31,7 +31,7 @@ public:
 	void SetTabPosition(QWidget& containerWidget, QTabWidget::TabPosition tabPosition);
 	void SetDocumentModeEnabled(QWidget& containerWidget, bool isDocumentModeEnabled = true);
 
-	// reimplemented (IMultiPageWidgetDelegate)
+	// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 	virtual QWidget* CreateContainerWidget(
 				QWidget* parentWidgetPtr,
 				int containerGuiFlags = CGF_NONE,

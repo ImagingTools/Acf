@@ -149,7 +149,7 @@ private:
 		virtual QByteArray GetOptionId(int index) const;
 		virtual bool IsOptionEnabled(int index) const;
 
-		// reimplemented (IMultiVisualStatusProvider)
+		// reimplemented (iqtgui::IMultiVisualStatusProvider)
 		virtual int GetStatusesCount() const;
 		virtual const IVisualStatus* GetVisualStatus(int statusIndex) const;
 

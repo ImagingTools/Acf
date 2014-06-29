@@ -21,7 +21,7 @@ namespace iwidgets
 
 // public methods
 
-// reimplemented (IMultiPageWidgetDelegate)
+// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CSplitterDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int /*containerGuiFlags*/, int orientation)
 {	

@@ -21,7 +21,7 @@ namespace iview
 
 // public methds
 
-// reimplemented (IShapeFactory)
+// reimplemented (iview::IShapeFactory)
 
 IShape* CSimpleShapeFactoryComp::CreateShape(const i2d::IObject2d& object, bool connectToModel) const
 {

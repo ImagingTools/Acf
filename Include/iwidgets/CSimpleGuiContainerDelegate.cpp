@@ -29,7 +29,7 @@ CSimpleGuiContainerDelegate::CSimpleGuiContainerDelegate()
 
 // public methods
 
-// reimplemented (IMultiPageWidgetDelegate)
+// reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CSimpleGuiContainerDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int containerGuiFlags, int orientation)
 {	

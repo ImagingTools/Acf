@@ -47,21 +47,11 @@ public:
 
 	virtual void SetEditMode(int mode);
 
-	/**
-		Get number of digits after point used to display mouse position in pixel.
-	*/
-	int GetPixelPositionExact() const;
-
-	/**
-		Get number of digits after point used to display mouse position in logical units.
-	*/
-	int GetLogicalPositionExact() const;
-
 	// reimplemented (iview::IShapeView)
 	virtual void SetFitArea(const i2d::CRectangle& area);
 	virtual i2d::CRect GetClientRect() const;
 
-	// reimplemented (IViewEventObserver)
+	// reimplemented (iview::IViewEventObserver)
 	virtual bool OnSelectChange(
 				const iview::IShapeView& view,
 				const istd::CIndex2d& position,
@@ -74,7 +64,7 @@ public:
 				bool state,
 				const iview::IInteractiveShape* shapePtr);
 
-	// reimplemented (IMouseActionObserver)
+	// reimplemented (iview::IMouseActionObserver)
 	virtual bool OnMouseMove(istd::CIndex2d position);
 
 	// reimplemented (iview::CCalibratedViewBase)
@@ -103,10 +93,10 @@ protected:
 	virtual void SetMousePointer(MousePointerMode mode);
 	void UpdateRectArea(const i2d::CRect& rect);
 
-	// reimplemented (CViewBase)
+	// reimplemented (iview::CViewBase)
 	virtual i2d::CRect CalcBoundingBox() const;
 
-	// reimplemented (IDisplay)
+	// reimplemented (iview::IDisplay)
 	virtual void OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox);
 
 	// static methods
