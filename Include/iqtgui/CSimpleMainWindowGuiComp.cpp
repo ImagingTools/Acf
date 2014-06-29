@@ -672,9 +672,11 @@ bool CSimpleMainWindowGuiComp::VisibleWindowsManager::SetOptionEnabled(int index
 {
 	Q_ASSERT(m_parentPtr != NULL);
 
-	ibase::ICommand* commandPtr = m_parentPtr->m_showOtherWindows.GetChild(index);
-	if (commandPtr != NULL){
-		return commandPtr->SetEnabled(isEnabled);
+	QAction* commandPtr = dynamic_cast<QAction*>(m_parentPtr->m_showOtherWindows.GetChild(index));
+	if ((commandPtr != NULL) && (commandPtr->isCheckable())){
+		commandPtr->setChecked(isEnabled);
+
+		return true;
 	}
 
 	return false;
@@ -773,9 +775,9 @@ bool CSimpleMainWindowGuiComp::VisibleWindowsManager::IsOptionEnabled(int index)
 {
 	Q_ASSERT(m_parentPtr != NULL);
 
-	const ibase::ICommand* commandPtr = m_parentPtr->m_showOtherWindows.GetChild(index);
+	QAction* commandPtr = dynamic_cast<QAction*>(m_parentPtr->m_showOtherWindows.GetChild(index));
 	if (commandPtr != NULL){
-		return commandPtr->IsEnabled();
+		return commandPtr->isChecked();
 	}
 
 	return false;
