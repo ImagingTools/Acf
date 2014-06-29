@@ -137,7 +137,7 @@ Module{
 			}
 
 			var cmd = new Command(acfBinDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
-						input.filePath,
+						input.arx[0].filePath,
 						'-config', acfConfigurationFile,
 						'-o', outputs.cpp[0].filePath]);
 			cmd.description = 'arxc ' + FileInfo.fileName(inputs.arx[0].filePath)
