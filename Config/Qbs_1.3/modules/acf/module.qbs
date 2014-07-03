@@ -100,11 +100,11 @@ Module{
 		usings: ["application", "dynamiclibrary", "xpc"]
 
 		Artifact{
-			filePath: AcfService.getGeneratedPath() + "/C" + input.baseName + ".cpp"
+			fileName: AcfService.getGeneratedPath() + "/C" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		Artifact{
-			filePath: AcfService.getGeneratedPath() + "/C" + input.baseName + ".h"
+			fileName: AcfService.getGeneratedPath() + "/C" + input.completeBaseName + ".h"
 			fileTags: ["hpp", "c++_pch"]
 		}
 
@@ -137,7 +137,7 @@ Module{
 			}
 
 			var cmd = new Command(acfBinDirectory + "/" + product.moduleProperty("cpp", "executablePrefix") + "Arxc" + product.moduleProperty("cpp", "executableSuffix"), [
-						input.arx[0].filePath,
+						inputs.arx[0].filePath,
 						'-config', acfConfigurationFile,
 						'-o', outputs.cpp[0].filePath]);
 			cmd.description = 'arxc ' + FileInfo.fileName(inputs.arx[0].filePath)
@@ -205,7 +205,7 @@ Module{
 		explicitlyDependsOn: ["qm"]
 
 		Artifact{
-			filePath: AcfService.getGeneratedPath() + "/qrc_" + input.completeBaseName + ".cpp"
+			fileName: AcfService.getGeneratedPath() + "/qrc_" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		prepare:{
@@ -235,7 +235,7 @@ Module{
 			return commands;
 		}
 	}
-/*
+
 	Rule{
 		condition: product.name.indexOf("_") != 0	// prefix '_' will be used for temporary products
 		id: acfShareGenerator
@@ -243,7 +243,7 @@ Module{
 		inputs: ["cpp", "c", "objcpp", "objc", "xpc_file"]
 
 		Artifact{
-			filePath: "share/qbs/modules/" + product.name + "/" + product.name + ".qbs"
+			fileName: "share/qbs/modules/" + product.name + "/" + product.name + ".qbs"
 			fileTags: ["acf_share"]
 		}
 		prepare:{
@@ -325,7 +325,7 @@ Module{
 			return cmd;
 		}
 	}
-*/
+
 	// Rule for generating XPC files
 	Rule{
 		id: acfXpcGenerator
@@ -333,7 +333,7 @@ Module{
 		inputs: ["xpc_file"]
 
 		Artifact{
-			filePath: product.destinationDirectory + "/" + product.name + ".xpc"
+			fileName: product.destinationDirectory + "/" + product.name + ".xpc"
 			fileTags: ["xpc"]
 		}
 		prepare:{
