@@ -32,23 +32,23 @@ Module{
 		compilerName: "MinGW"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 8/i) >= 0 || cpp.compilerPath.search(/2005/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 8/i) >= 0 || cpp.compilerPath.search(/2005/i) >= 0 || cpp.toolchainInstallPath.search(/Studio 8/i) >= 0)
 		compilerName: "VC8"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 9/i) >= 0 || cpp.compilerPath.search(/2008/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 9/i) >= 0 || cpp.compilerPath.search(/2008/i) >= 0 || cpp.toolchainInstallPath.search(/Studio 9/i) >= 0)
 		compilerName: "VC9"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 10/i) >= 0 || cpp.compilerPath.search(/2010/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 10/i) >= 0 || cpp.compilerPath.search(/2010/i) >= 0 || cpp.toolchainInstallPath.search(/Studio 10/i) >= 0)
 		compilerName: "VC10"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 11/i) >= 0 || cpp.compilerPath.search(/2012/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 11/i) >= 0 || cpp.compilerPath.search(/2012/i) >= 0 || cpp.toolchainInstallPath.search(/Studio 11/i) >= 0)
 		compilerName: "VC11"
 	}
 	Properties{
-		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 12/i) >= 0 || cpp.compilerPath.search(/2013/i) >= 0)
+		condition: qbs.toolchain.contains("msvc") && (cpp.compilerPath.search(/Studio 12/i) >= 0 || cpp.compilerPath.search(/2013/i) >= 0 || cpp.toolchainInstallPath.search(/Studio 12/i) >= 0)
 		compilerName: "VC12"
 	}
 
