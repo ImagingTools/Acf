@@ -16,8 +16,6 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication::setStyle("plastique");
-
 	QString configFilePath;
 
 	QString registryFilePath = "default.arx";
