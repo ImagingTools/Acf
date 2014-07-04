@@ -8,8 +8,6 @@ StaticLibrary{
 	Depends{ name: "cpp" }
 	Depends{ name: "Qt.core" }
 
-	acf.projectRoot: path + "/../../.."
-
 	Properties{
 		condition: qbs.toolchain.contains("gcc") || qbs.toolchain.contains("clang")
 		cpp.cxxFlags: ['-Wno-format-security', '-Wno-unknown-pragmas']
@@ -34,7 +32,7 @@ StaticLibrary{
 	}
 
 	Group{
-		condition: (acf.installProject === undefined || acf.installProject == acf.projectName) && (acf.targetLibSubdir !== undefined)
+		condition: (acf.installProject === undefined || acf.installProject == project.projectName) && (acf.targetLibSubdir !== undefined)
 		fileTagsFilter: ["staticlibrary"]
 		qbs.install: true
 		qbs.installDir: acf.targetLibSubdir

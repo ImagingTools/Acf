@@ -1,7 +1,7 @@
-function getGeneratedPath()
+function getGeneratedPath(product)
 {
     var outputDir = product.moduleProperty("acf", "generatedOutputDir");
-	if (outputDir === null){
+	if ((outputDir === undefined) || (outputDir === null)){
         return "GeneratedFiles/" + product.name;
     }
     else{

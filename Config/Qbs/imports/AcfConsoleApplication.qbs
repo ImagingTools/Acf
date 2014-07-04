@@ -17,7 +17,7 @@ CppApplication{
 	cpp.defines: ['I_QBS']
 
 	Group{
-		condition: acf.installProject === undefined || acf.installProject == acf.projectName
+		condition: acf.installProject === undefined || acf.installProject == project.projectName
 		fileTagsFilter: ["application"]
 		qbs.install: true
 		qbs.installDir: acf.targetBinSubdir

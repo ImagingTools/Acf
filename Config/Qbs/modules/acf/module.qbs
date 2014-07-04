@@ -11,10 +11,6 @@ Module{
 
 	readonly property string qtBinPath: Qt.core.binPath
 
-	// root of the whole project
-	property path projectRoot
-	property path projectName
-
 	readonly property string acfRootDir: FileInfo.joinPaths(path, "/../../..")
 	property string compilerName
 	property string compileMode
@@ -100,11 +96,11 @@ Module{
 		usings: ["application", "dynamiclibrary", "xpc"]
 
 		Artifact{
-			fileName: AcfService.getGeneratedPath() + "/C" + input.completeBaseName + ".cpp"
+			fileName: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		Artifact{
-			fileName: AcfService.getGeneratedPath() + "/C" + input.completeBaseName + ".h"
+			fileName: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".h"
 			fileTags: ["hpp", "c++_pch"]
 		}
 
@@ -153,7 +149,7 @@ Module{
 		inputs: ["xtracf"]
 
 		Artifact{
-			filePath: AcfService.getGeneratedPath() + "/" + input.completeBaseName
+			filePath: AcfService.getGeneratedPath(product) + "/" + input.completeBaseName
 			fileTags: { return product.moduleProperty("acf", "trOutputType"); }
 		}
 
@@ -205,7 +201,7 @@ Module{
 		explicitlyDependsOn: ["qm"]
 
 		Artifact{
-			fileName: AcfService.getGeneratedPath() + "/qrc_" + input.completeBaseName + ".cpp"
+			fileName: AcfService.getGeneratedPath(product) + "/qrc_" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		prepare:{
@@ -291,7 +287,7 @@ Module{
 
 					var outputDir = FileInfo.path(outputFilePath);
 
-					var projectRoot = product.moduleProperty("acf", "projectRoot");
+					var projectRoot = project.projectRoot;
 					if (projectRoot !== undefined && !FileInfo.isAbsolutePath(projectRoot)){
 						projectRoot = FileInfo.joinPaths(product.sourceDirectory, projectRoot);
 					}

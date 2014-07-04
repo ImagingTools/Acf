@@ -2,7 +2,9 @@ import qbs.base 1.0
 
 Project{
 	name: "ACF-Core"
-	id: acfCore
+
+	property string projectName: "ACF-Core"
+	property string projectRoot: path + "/../../.."
 
 	Project{
 		name: "ACF-Static"

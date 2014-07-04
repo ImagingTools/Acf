@@ -9,8 +9,6 @@ DynamicLibrary{
 	Depends{ name: "Qt.core" }
 	Depends{ name: "cpp" }
 
-	acf.projectRoot: path + "/../../.."
-
 	Properties{
 		condition: qbs.toolchain.contains("gcc") || qbs.toolchain.contains("clang")
 		cpp.cxxFlags: ['-Wno-format-security', '-Wno-unknown-pragmas']
@@ -31,7 +29,7 @@ DynamicLibrary{
 	}
 
 	Group{
-		condition: (acf.installProject === undefined || acf.installProject == acf.projectName) && (acf.targetPckSubdir !== undefined)
+		condition: (acf.installProject === undefined || acf.installProject == project.projectName) && (acf.targetPckSubdir !== undefined)
 		fileTagsFilter: ["dynamiclibrary"]
 		qbs.install: true
 		qbs.installDir: acf.targetPckSubdir
