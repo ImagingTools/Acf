@@ -113,27 +113,39 @@ QString CSystem::FindVariableValue(const QString& varName, bool osEnv)
 		return FindVariableValue("ConfigurationName") + "/";
 	}
 	else if (varName == "CompilerName"){
-#ifdef __MINGW32__
+#ifdef __clang__
+	return "Clang";
+#elif defined(__MINGW32__)
 	return "MinGW";
+#elif defined(__MINGW64__)
+	return "MinGW_64";
 #elif defined(_MSC_VER)
     #if _MSC_VER >= 1800
-        return "VC12";
+	QString retVal = "VC12";
     #elif _MSC_VER >= 1700
-        return "VC11";
+	QString retVal = "VC11";
     #elif _MSC_VER >= 1600
-		return "VC10";
+	QString retVal = "VC10";
 	#elif _MSC_VER >= 1500
-		return "VC9";
+	QString retVal = "VC9";
 	#elif _MSC_VER >= 1400
-		return "VC8";
+	QString retVal = "VC8";
 	#elif _MSC_VER >= 1300
-		return "VC7";
+	QString retVal = "VC7";
 	#else
-		return "VC";
+	QString retVal = "VC";
 	#endif
-#else // _MSC_VER
-	return "QMake";
-#endif // _MSC_VER
+
+	if (sizeof(void*) > 4){
+		return retVal + "_64";
+	}
+	else{
+		return retVal;
+	}
+
+#else
+	return "Unknown";
+#endif
 	}
 	else if (varName == "."){
 		return QDir::currentPath();
