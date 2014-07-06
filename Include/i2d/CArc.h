@@ -27,6 +27,12 @@ public:
 	bool operator==(const CArc& arc) const;
 	bool operator!=(const CArc& arc) const;
 
+	/**
+	Get position of point using normed 'alpha' value.
+	Value 0 will be mapped to point 1 and value 1 will be mapped to point 2.
+	*/
+	CVector2d GetPositionFromAlpha(double alpha) const;
+
 	// reimplemented (i2d::IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 	virtual bool Transform(

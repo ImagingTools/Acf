@@ -69,6 +69,17 @@ bool CArc::operator!=(const CArc& ref) const
 }
 
 
+CVector2d CArc::GetPositionFromAlpha(double alpha) const
+{
+	double angle = m_startAngle + ((m_endAngle - m_startAngle) * alpha);
+	i2d::CVector2d line;
+	line.Init(imath::GetRadianFromDegree(angle), m_radius);
+	line = line.GetTranslated(GetCenter());
+
+	return line;
+}
+
+
 // reimplemented (i2d::IObject2d)
 
 CRectangle CArc::GetBoundingBox() const
