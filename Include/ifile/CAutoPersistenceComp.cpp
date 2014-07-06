@@ -247,12 +247,10 @@ void CAutoPersistenceComp::OnFileContentsChanged(const QString& path)
 
 			m_isReloading = true;
 
-			if (m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, tempFileName) == ifile::IFilePersistence::OS_OK)
-			{
+			if (m_fileLoaderCompPtr->LoadFromFile(*m_objectCompPtr, tempFileName) == ifile::IFilePersistence::OS_OK){
 				m_wasLoadingSuceeded = true;
 			}
-			else
-			{
+			else{
 				qDebug(qPrintable("File could not be loaded"));
 			}
 
