@@ -23,7 +23,7 @@ public:
 
 
 // pseudo-reimplemented (istd::IChangeable)
-	
+
 template <class BaseClass>
 istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
@@ -33,7 +33,7 @@ istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::Co
 
 		const ICompositeComponent* parentComponentPtr = BaseClass::GetParentComponent();
 		if (parentComponentPtr != NULL){
-            if ((mode == istd::IChangeable::CM_WITH_REFS) || (mode == istd::IChangeable::CM_CONVERT)){
+			if ((mode == istd::IChangeable::CM_WITH_REFS) || (mode == istd::IChangeable::CM_CONVERT)){
 				// we have to check if our owner has a parent composite component.
 				// In this case we have to factorize not our component, but the complete parent composite component:
 				const CCompositeComponent* parentCompositeComponentPtr = dynamic_cast<const CCompositeComponent*>(parentComponentPtr->GetParentComponent());
