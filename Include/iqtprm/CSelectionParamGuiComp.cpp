@@ -149,11 +149,14 @@ void CSelectionParamGuiComp::OnSelectionChanged(int /*index*/)
 			for (		int switchIndex = 0;
 						(selectionPtr != NULL) && switchIndex < switchesCount;
 						++switchIndex){
-				const QComboBox* switchBoxPtr = m_comboBoxes.GetAt(switchIndex);
+				QComboBox* switchBoxPtr = m_comboBoxes.GetAt(switchIndex);
 				Q_ASSERT(switchBoxPtr != NULL);
 
 				int currentIndex = switchBoxPtr->currentIndex();
 				int selectonIndex = switchBoxPtr->itemData(currentIndex, Qt::UserRole).toInt();
+				if (selectonIndex < 0){
+					switchBoxPtr->setCurrentIndex(-1);
+				}
 
 				if (!selectionPtr->SetSelectedOptionIndex(selectonIndex) && (switchIndex == 0)){
 					UpdateComboBoxesView();
@@ -255,15 +258,20 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 					switchBoxPtr->addItem(name);
 					switchBoxPtr->setItemData(itemIndex++, i);
 				}
-				else if(i == selectedIndex){
+				else if (i == selectedIndex){
 					selectedIndex = -1;
 				}
 			}
 
+			if (*m_noSelectionAllowedAttrPtr){
+				switchBoxPtr->insertSeparator(optionsCount);
+				switchBoxPtr->addItem(tr("Reset"));
+				switchBoxPtr->setItemData(optionsCount+1, -1);
+			}
+
 			switchBoxPtr->setCurrentIndex(selectedIndex);
 
-			if(m_disableWhenEmptyAttrPtr.IsValid() && *m_disableWhenEmptyAttrPtr && optionsCount == 0)
-			{
+			if (*m_disableWhenEmptyAttrPtr && optionsCount == 0){
 				switchBoxPtr->setEnabled(false);
 			}
 		}

@@ -406,7 +406,9 @@ void CParamsManagerGuiCompBase::UpdateTree()
 
 	ParamsTree->setCurrentItem(ParamsTree->topLevelItem(selectedIndex));
 
-	UpdateParamsView(selectedIndex);
+	if (selectedIndex < 0){
+		UpdateParamsView(selectedIndex);
+	}
 }
 
 
