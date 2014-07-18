@@ -69,7 +69,7 @@ AcfModule{
 		inputs: ["xtracf"]
 
 		Artifact{
-			filePath: AcfService.getGeneratedPath(product) + "/" + input.completeBaseName
+			fileName: AcfService.getGeneratedPath(product) + "/" + input.completeBaseName
 			fileTags: { return product.moduleProperty("acf", "trOutputType"); }
 		}
 
@@ -79,6 +79,8 @@ AcfModule{
 			if (acfBinDirectory == null){
 				acfBinDirectory = product.buildDirectory;
 			}
+
+			var acfRegistryFile = product.moduleProperty("acf", "trRegFile");
 
 			// get the ACF configuration file
 			var acfConfigurationFile = product.moduleProperty("acf", "trConfigurationFile");
@@ -96,19 +98,24 @@ AcfModule{
 				}
 			}
 
+			// if there is no registry file - error
+			if (acfRegistryFile == null){
+				throw new Error("no ACF registry specified for transformation (using dependency or acf.trRegFile) in " + product.name);
+			}
+
 			// if there is no configuration - error
 			if (acfConfigurationFile == null){
-				throw new Error("no ACF configuration specified (using dependency or acf.acfConfigurationFile) in " + product.name);
+				throw new Error("no ACF configuration specified (using dependency or acf.trConfigurationFile) in " + product.name);
 			}
 
 			var cmd = new Command(acfBinDirectory + '/' + product.moduleProperty("cpp", "executablePrefix") + 'Acf' + product.moduleProperty("cpp", "executableSuffix"), [
-						product.moduleProperty("acf", "trRegFile").filePath,
+						acfRegistryFile,
 						'-config', acfConfigurationFile,
 						'-input', input.filePath,
 						'-o', output.filePath]);
 			cmd.description = 'acf transformation ' + FileInfo.fileName(input.filePath)
 			cmd.highlight = 'codegen';
-			cmd.workingDirectory = acfBinDirectory;
+			cmd.workingDirectory = product.moduleProperty(product.moduleName, "qtBinPath");
 
 			return cmd;
 		}
