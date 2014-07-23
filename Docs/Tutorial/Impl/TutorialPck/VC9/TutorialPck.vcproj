@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib QtGui4.lib QtXml4.lib QtSql4.lib QtNetwork4.lib"
+				AdditionalDependencies="AcfStd.lib AcfQt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\..\..\Lib\$(ConfigurationName)VC9&quot;"
 				GenerateDebugInformation="false"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AcfStd.lib AcfQt.lib qtmaind.lib QtCored4.lib QtGuid4.lib QtXmld4.lib QtSqld4.lib QtNetworkd4.lib"
+				AdditionalDependencies="AcfStd.lib AcfQt.lib"
 				OutputFile="$(OutDir)\$(ProjectName).arp"
 				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;..\..\..\..\..\Lib\$(ConfigurationName)VC9&quot;"
 				GenerateDebugInformation="true"

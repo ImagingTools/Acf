@@ -22,7 +22,8 @@ More theoretical considerations about the component-based development can be fou
 http://en.wikipedia.org/wiki/Component-based_software_engineering
 
 \section HowItWorks How it works
-The main idea behind ACF is to see each software product as a composition of components with clearly defined interfaces. Interface is also the only way for communication between components. The usual steps to implement a component are:
+The main idea behind ACF is to see each software product as a composition of components with clearly defined interfaces. Interface is also the only way for communication between components.
+The usual steps to implement a component are:
 
 - A C++ interface must be defined.
 - A class that implements this interface must be created.There are several ways to make a "normal" C++ class to a ACF-Component, the simplest way is to derive from a corresponding basic implementation or use a generic macro. A component can have dependencies from other components (e.g. component <b>A</b> needs component <b>B</b> to realize some functionality) and can have attributes. Via attributes it is possible, to parameterize some behaviour aspects of the component. Another way to create a component is to combine more existing components into a composition. This composition is also perceived by the framework as a component. A component composition is created with the framework tool called <b>ACF Compositor</b>. ACF Compositor provides graphical editing for the component dependencies and attributes. The compositions are stored in so-called ARX files (we also call them registries).
@@ -256,20 +257,20 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	Serialize method becomes as input an so called archive (iser::IArchive). An archive provides an abstract low level read/write access to a data medium.
 	By example an archive can represent a file, a memory block, a database or a network resource, but the concrete kind of the archive is completely hidden from data object's point of view.
 	Thus, we create a complete separation between the data model and the medium on which it is to be made persistent. Following archive types are provided by ACF core libraries:
-	- Read from memory block - iser::CMemoryReadArchive
-	- Write to memory block - iser::CMemoryWriteArchive
-	- Read from binary file - ifile::CFileReadArchive
-	- Write to binary file - ifile::CFileWriteArchive
-	- Read from XML given as a string - iser::CXmlStringReadArchive
+	- Read from a memory block - iser::CMemoryReadArchive
+	- Write to a memory block - iser::CMemoryWriteArchive
+	- Read from a binary file - ifile::CFileReadArchive
+	- Write to a binary file - ifile::CFileWriteArchive
+	- Read from a XML document given as a string - iser::CXmlStringReadArchive
 	- Write to a XML-string - iser::CXmlStringWriteArchive
-	- Read from XML file - ifile::CXmlFileReadArchive
-	- Write to XML file - ifile::CXmlFileWriteArchive
-	- Read from memory block bitwise - iser::CBitMemoryReadArchive
-	- Write to memory block bitwise - iser::CBitMemoryWriteArchive
-	- Write to TCP/IP socket - iqt::CNetworkWriteArchive
+	- Read from a XML file - ifile::CXmlFileReadArchive
+	- Write to a XML file - ifile::CXmlFileWriteArchive
+	- Read from a memory block bitwise - iser::CBitMemoryReadArchive
+	- Write to a memory block bitwise - iser::CBitMemoryWriteArchive
+	- Write to a TCP/IP socket - iqt::CNetworkWriteArchive
 
 	We demonstrate the implementation of object serialization on example of CPerson class introduced in the \ref DataModel section. 
-	First of all we change CPerson to be inherited from iser::ISerializable. Because iser::ISerializable is already derived from istd::IChangeable, we have nothing else to change in this aspect.
+	First of all we have to change the CPerson class to be inherited from iser::ISerializable. Because iser::ISerializable is already derived from istd::IChangeable, we have nothing else to change in this aspect.
 	Also we rewrite:
 
 	\code
@@ -287,7 +288,7 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 
 	// reimplemented (iser::ISerializable)
 
-	virtual bool CPerson::Serialize(iser::IArchive& archive)
+	bool CPerson::Serialize(iser::IArchive& archive)
 	{
 		bool retVal = true;
 
