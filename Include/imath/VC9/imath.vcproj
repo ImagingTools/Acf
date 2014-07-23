@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLinearInterpolator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSampledFunction2d.cpp"
 				>
 			</File>
@@ -217,6 +221,10 @@
 			</File>
 			<File
 				RelativePath="..\CGeneralUnitInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CLinearInterpolator.h"
 				>
 			</File>
 			<File
