@@ -23,54 +23,31 @@ void CLinearInterpolator::SetNodes(double* positions, double* values, int nodesC
 
 bool CLinearInterpolator::GetValueAt(const double& argument, double& result) const
 {
-	if (m_nodes.count() < 2){
-		return false;
-	}
+	Nodes::ConstIterator nextIter = m_nodes.lowerBound(argument);
+	if ((nextIter != m_nodes.constEnd()) && (nextIter != m_nodes.constBegin())){
+		double nextPosition = nextIter.key();
+		Q_ASSERT(nextPosition >= argument);
+		double nextValue = nextIter.value();
 
-	if (argument < m_nodes.firstKey() || argument > m_nodes.lastKey()){
-		return false;
-	}
+		Nodes::ConstIterator prevIter = nextIter - 1;
 
-	if (m_nodes.contains(argument)){
-		result = m_nodes.value(argument);
+		double prevPosition = prevIter.key();
+		Q_ASSERT(prevPosition <= argument);
+		double prevValue = prevIter.value();
 
-		return true;
-	}
+		// interpolation in segment
+		double nodeDiff = (nextPosition - prevPosition);
+		Q_ASSERT(nodeDiff > 0);
 
-	QList<double> keys = m_nodes.keys();
+		double alpha = (argument - prevPosition) / nodeDiff;
 
-	double prevKey = keys[0];
-	double nextKey = keys[0];
-
-	for (int i = 1; i < keys.count(); i++){
-		if (argument > nextKey){
-			prevKey = nextKey;
-			
-			nextKey = keys[i];
-		}
-		else{
-			break;
-		}
-	}
-
-	double preValue = m_nodes.value(prevKey);
-	double nextValue = m_nodes.value(nextKey);
-
-	if (preValue == nextValue){
-		result = preValue;
+		result =	prevValue * (1 - alpha) +
+					nextValue * alpha;
 
 		return true;
 	}
 
-	double keyDiff = nextKey - prevKey;
-	double argDiff = argument - prevKey;
-	double argRatio = argDiff / keyDiff;
-
-	double valueDiff = nextValue - preValue;
-
-	result = preValue + (valueDiff * argRatio);
-
-	return true;
+	return false;
 }
 
 

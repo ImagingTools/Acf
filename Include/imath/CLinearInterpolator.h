@@ -26,7 +26,8 @@ public:
 	virtual double GetValueAt(const double& argument) const;
 
 private:
-	QMap<double, double> m_nodes;
+	typedef QMap<double, double> Nodes;
+	Nodes m_nodes;
 };
 
 
