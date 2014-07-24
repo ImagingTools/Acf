@@ -19,6 +19,9 @@ namespace imath
 class CAkimaInterpolator: public virtual IDoubleFunction
 {
 public:
+	CAkimaInterpolator();
+	CAkimaInterpolator(double* positions, double* values, int nodesCount);
+
 	void SetNodes(double* positions, double* values, int nodesCount);
 
 	// reimplemented (imath::TIMathFunction<double, double>)

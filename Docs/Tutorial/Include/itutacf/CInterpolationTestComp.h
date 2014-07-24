@@ -32,6 +32,7 @@ public:
 	I_BEGIN_COMPONENT(CInterpolationTestComp);
 		I_ASSIGN(m_slaveObjectCompPtr, "SlaveObject", "Reference data object", true, "SlaveObject");
 		I_ASSIGN(m_interpolatedNodesCountAttrPtr, "InterpolatedNodesCount", "Number of interpolated nodes", true, 100);
+		I_ASSIGN(m_interpolatorTypeAttrPtr, "InterpolatorType", "Type of interpolator:\n0 - linear\n1 - Akima", true, 0);
 	I_END_COMPONENT;
 	
 protected:
@@ -41,6 +42,7 @@ protected:
 private:
 	I_REF(i2d::CPolygon, m_slaveObjectCompPtr);
 	I_ATTR(int, m_interpolatedNodesCountAttrPtr);
+	I_ATTR(int, m_interpolatorTypeAttrPtr);
 };
 
 

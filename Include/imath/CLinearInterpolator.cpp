@@ -9,6 +9,17 @@ namespace imath
 {
 
 
+CLinearInterpolator::CLinearInterpolator()
+{
+}
+
+
+CLinearInterpolator::CLinearInterpolator(double* positions, double* values, int nodesCount)
+{
+	SetNodes(positions, values, nodesCount);
+}
+
+
 void CLinearInterpolator::SetNodes(double* positions, double* values, int nodesCount)
 {
 	m_nodes.clear();
@@ -29,31 +40,28 @@ bool CLinearInterpolator::GetValueAt(const double& argument, double& result) con
 		Q_ASSERT(nextPosition >= argument);
 		double nextValue = nextIter.value();
 
-		if (nextValue == argument){
+		if ((nextValue == argument) || (nextIter == m_nodes.constBegin())){
 			result = nextValue;
 
 			return true;
 		}
 
-		if (nextIter != m_nodes.constBegin()){
+		Nodes::ConstIterator prevIter = nextIter - 1;
 
-			Nodes::ConstIterator prevIter = nextIter - 1;
+		double prevPosition = prevIter.key();
+		Q_ASSERT(prevPosition <= argument);
+		double prevValue = prevIter.value();
 
-			double prevPosition = prevIter.key();
-			Q_ASSERT(prevPosition <= argument);
-			double prevValue = prevIter.value();
+		// interpolation in segment
+		double nodeDiff = (nextPosition - prevPosition);
+		Q_ASSERT(nodeDiff > 0);
 
-			// interpolation in segment
-			double nodeDiff = (nextPosition - prevPosition);
-			Q_ASSERT(nodeDiff > 0);
+		double alpha = (argument - prevPosition) / nodeDiff;
 
-			double alpha = (argument - prevPosition) / nodeDiff;
+		result =	prevValue * (1 - alpha) +
+					nextValue * alpha;
 
-			result =	prevValue * (1 - alpha) +
-						nextValue * alpha;
-
-			return true;
-		}
+		return true;
 	}
 
 	return false;

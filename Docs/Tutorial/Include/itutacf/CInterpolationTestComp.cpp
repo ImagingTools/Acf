@@ -5,6 +5,7 @@
 #include "istd/CChangeNotifier.h"
 #include "istd/TRange.h"
 #include "imod/IModel.h"
+#include "imath/CLinearInterpolator.h"
 #include "imath/CAkimaInterpolator.h"
 
 
@@ -42,18 +43,32 @@ void CInterpolationTestComp::OnUpdate(const istd::IChangeable::ChangeSet& /*chan
 		Q_ASSERT(positions.size() == values.size());
 
 		if (positions.size() >= 2){
-			imath::CAkimaInterpolator interpolator;
-			interpolator.SetNodes(&positions[0], &values[0], positions.size());
+			istd::TDelPtr<imath::IDoubleFunction> interpolationFunctionPtr;
 
-			istd::CRange positionRange(positions.first(), positions.last());
+			switch (*m_interpolatorTypeAttrPtr){
+			case 0:
+				interpolationFunctionPtr = new imath::CLinearInterpolator(&positions[0], &values[0], positions.size());
+				break;
 
-			int interpolatedNodesCount = *m_interpolatedNodesCountAttrPtr;
+			case 1:
+				interpolationFunctionPtr = new imath::CAkimaInterpolator(&positions[0], &values[0], positions.size());
+				break;
 
-			for (int interIndex = 0; interIndex < interpolatedNodesCount; ++interIndex){
-				double position = positionRange.GetValueFromAlpha(double(interIndex) / (interpolatedNodesCount - 1));
-				double interpolatedValue = interpolator.GetValueAt(position);
+			default:
+				break;
+			}
 
-				m_slaveObjectCompPtr->InsertNode(i2d::CVector2d(position, interpolatedValue));
+			if (interpolationFunctionPtr.IsValid()){
+				istd::CRange positionRange(positions.first(), positions.last());
+
+				int interpolatedNodesCount = *m_interpolatedNodesCountAttrPtr;
+
+				for (int interIndex = 0; interIndex < interpolatedNodesCount; ++interIndex){
+					double position = positionRange.GetValueFromAlpha(double(interIndex) / (interpolatedNodesCount - 1));
+					double interpolatedValue = interpolationFunctionPtr->GetValueAt(position);
+
+					m_slaveObjectCompPtr->InsertNode(i2d::CVector2d(position, interpolatedValue));
+				}
 			}
 		}
 	}

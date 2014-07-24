@@ -12,6 +12,17 @@ namespace imath
 {
 
 
+CAkimaInterpolator::CAkimaInterpolator()
+{
+}
+
+
+CAkimaInterpolator::CAkimaInterpolator(double* positions, double* values, int nodesCount)
+{
+	SetNodes(positions, values, nodesCount);
+}
+
+
 void CAkimaInterpolator::SetNodes(double* positions, double* values, int nodesCount)
 {
 	m_nodes.clear();
@@ -114,7 +125,7 @@ bool CAkimaInterpolator::GetValueAt(const double& argument, double& result) cons
 				double leftDerivativeFactor = CSplineSegmentFunction::GetDerivativeKernelAt(alpha) * nodeDiff;
 				double rightDerivativeFactor = -CSplineSegmentFunction::GetDerivativeKernelAt(1 - alpha) * nodeDiff;
 
-				result =	prevNode.value * leftValueFactor+
+				result =	prevNode.value * leftValueFactor +
 							prevNode.derivative * leftDerivativeFactor +
 							nextNode.value * rightValueFactor +
 							nextNode.derivative * rightDerivativeFactor;

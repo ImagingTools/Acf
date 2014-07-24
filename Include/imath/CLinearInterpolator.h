@@ -19,6 +19,9 @@ namespace imath
 class CLinearInterpolator: public virtual IDoubleFunction
 {
 public:
+	CLinearInterpolator();
+	CLinearInterpolator(double* positions, double* values, int nodesCount);
+
 	void SetNodes(double* positions, double* values, int nodesCount);
 
 	// reimplemented (imath::TIMathFunction<double, double>)
