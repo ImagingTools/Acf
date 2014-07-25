@@ -1,10 +1,6 @@
 #include "imath/CLinearInterpolator.h"
 
 
-// Qt includes
-#include <QtCore/QVector>
-
-
 namespace imath
 {
 
