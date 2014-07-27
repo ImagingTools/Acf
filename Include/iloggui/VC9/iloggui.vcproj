@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -236,23 +236,23 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\iloggui\moc_CLogGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iloggui\moc_CLogGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iloggui\moc_CMessageBoxComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iloggui\moc_CMessageBoxComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iloggui\moc_CTextLogGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iloggui\moc_CTextLogGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iloggui\ui_CLogGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iloggui\ui_CLogGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iloggui\ui_CTextLogGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iloggui\ui_CTextLogGuiComp.h"
 				>
 			</File>
 		</Filter>

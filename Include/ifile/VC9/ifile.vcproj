@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -140,7 +140,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				BasicRuntimeChecks="3"
@@ -368,15 +368,15 @@
 			Name="Generated Files"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifile\moc_CAutoPersistenceComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CAutoPersistenceComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifile\moc_CFileSystemInfoProviderComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CFileSystemInfoProviderComp.cpp"
 				>
 			</File>
 		</Filter>

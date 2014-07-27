@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -313,23 +313,23 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\iwidgets\moc_CCheckableComboBox.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\moc_CCheckableComboBox.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iwidgets\moc_CDoubleRangeSpinEdit.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\moc_CDoubleRangeSpinEdit.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iwidgets\moc_CExtLineEdit.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\moc_CExtLineEdit.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iwidgets\moc_CMultiPageWidget.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\moc_CMultiPageWidget.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iwidgets\ui_CDoubleRangeSpinEdit.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\ui_CDoubleRangeSpinEdit.h"
 				>
 			</File>
 		</Filter>

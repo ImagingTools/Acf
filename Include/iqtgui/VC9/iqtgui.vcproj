@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -542,63 +542,63 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CAboutWidgetGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CAboutWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CDialogGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CDialogGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CDockWidgetGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CDockWidgetGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CHierarchicalCommand.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CHierarchicalCommand.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CImagePropertiesFrameComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CImagePropertiesFrameComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CImagePropertyGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CImagePropertyGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CMultiPageGuiCompBase.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CMultiPageGuiCompBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CProgressManagerGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CProgressManagerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CSelectableCommandsProviderComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CSelectableCommandsProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\moc_CSimpleMainWindowGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CSimpleMainWindowGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\qrc_iqtgui.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\qrc_iqtgui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CAboutWidgetGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\ui_CAboutWidgetGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CImagePropertiesFrameComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\ui_CImagePropertiesFrameComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CProgressManagerGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\ui_CProgressManagerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iqtgui\ui_CSplashScreenGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\ui_CSplashScreenGuiComp.h"
 				>
 			</File>
 		</Filter>

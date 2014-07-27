@@ -65,7 +65,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -261,47 +261,47 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CExternalOpenDocumentCommandCompBase.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CExternalOpenDocumentCommandCompBase.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileListProviderGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CFileListProviderGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFilePersistenceGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CFilePersistenceGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFilePreviewGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CFilePreviewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileSystemExplorerGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CFileSystemExplorerGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\moc_CFileTreeViewGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\moc_CFileTreeViewGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileListProviderGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\ui_CFileListProviderGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFilePersistenceGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\ui_CFilePersistenceGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFilePreviewGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\ui_CFilePreviewGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileSystemExplorerGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\ui_CFileSystemExplorerGuiComp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ifilegui\ui_CFileTreeViewGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifilegui\ui_CFileTreeViewGuiComp.h"
 				>
 			</File>
 		</Filter>

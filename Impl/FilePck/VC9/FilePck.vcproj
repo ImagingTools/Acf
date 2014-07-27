@@ -38,7 +38,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\Include"
+				AdditionalIncludeDirectories="../../../Include;../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="2"
@@ -103,7 +103,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\Include"
+				AdditionalIncludeDirectories="../../../Include;../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=""

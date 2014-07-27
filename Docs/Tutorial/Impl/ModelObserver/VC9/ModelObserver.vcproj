@@ -63,7 +63,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..;..\..\..\..\..\Include;&quot;$(QTDIR)/Include&quot;;&quot;$(QTDIR)/Include/QtCore&quot;;&quot;$(QTDIR)/Include/QtGui&quot;;&quot;$(QTDIR)/Include/QtXml&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
+				AdditionalIncludeDirectories="..;../../../AuxInclude/Qt5;../../../../../Include;../../../../../AuxInclude/Qt5;&quot;$(QTDIR)/include&quot;;&quot;$(QTDIR)/include/QtCore&quot;;&quot;$(QTDIR)/include/QtGui&quot;;&quot;$(QTDIR)/include/QtXml&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -149,7 +149,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\..\..\..\Include;&quot;$(QTDIR)/Include&quot;;&quot;$(QTDIR)/Include/QtCore&quot;;&quot;$(QTDIR)/Include/QtGui&quot;;&quot;$(QTDIR)/Include/QtXml&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
+				AdditionalIncludeDirectories="..;../../../AuxInclude/Qt5;../../../../../Include;../../../../../AuxInclude/Qt5;&quot;$(QTDIR)/include&quot;;&quot;$(QTDIR)/include/QtCore&quot;;&quot;$(QTDIR)/include/QtGui&quot;;&quot;$(QTDIR)/include/QtXml&quot;;&quot;$(QTDIR)\include\QtXmlPatterns&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -241,11 +241,11 @@
 			Filter="moc;h;cpp"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\ModelObserver\moc_CAbGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ModelObserver\moc_CAbGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\ModelObserver\ui_CAbGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ModelObserver\ui_CAbGuiComp.h"
 				>
 			</File>
 		</Filter>

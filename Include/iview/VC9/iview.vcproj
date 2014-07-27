@@ -53,7 +53,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=""
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
 				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB"
 				StringPooling="true"
 				RuntimeLibrary="3"
@@ -600,19 +600,19 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="..\..\GeneratedFiles\iview\moc_CConsoleGui.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iview\moc_CConsoleGui.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iview\moc_CShapeInfoGuiComp.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iview\moc_CShapeInfoGuiComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iview\moc_CViewport.cpp"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iview\moc_CViewport.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\GeneratedFiles\iview\ui_CShapeInfoGuiComp.h"
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iview\ui_CShapeInfoGuiComp.h"
 				>
 			</File>
 		</Filter>

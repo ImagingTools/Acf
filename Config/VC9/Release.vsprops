@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ACF Release"
-	IntermediateDirectory="..\..\GeneratedFiles\$(ConfigurationName)\$(ProjectName)"
+	IntermediateDirectory="..\..\..\AuxInclude\Qt5\GeneratedFiles\$(ConfigurationName)\$(ProjectName)"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
