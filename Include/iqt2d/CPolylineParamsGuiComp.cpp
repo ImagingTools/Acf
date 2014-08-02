@@ -68,15 +68,13 @@ void CPolylineParamsGuiComp::on_CloseLineCheckBox_stateChanged(int state)
 		if (state == Qt::Checked){
 			if (!polylinePtr->IsClosed()){
 				polylinePtr->SetClosed(true);
-				// ensure the checkbox is disabled if there's no selection
-				CloseLineCheckBox->setDisabled(NodeParamsTable->currentRow() < 0);
 			}
 		}
 		else if (state == Qt::Unchecked){
 			// open a line at selected point
 			if (polylinePtr->IsClosed()){
 				// get selected node coordinates from the table
-				int row = NodeParamsTable->currentRow();
+				int row = qMax(NodeParamsTable->currentRow(), 0);
 				if (row > 0){
 					double x = NodeParamsTable->item(row, 0)->data(Qt::DisplayRole).toDouble();
 					double y = NodeParamsTable->item(row, 1)->data(Qt::DisplayRole).toDouble();
@@ -114,6 +112,7 @@ void CPolylineParamsGuiComp::on_CloseLineCheckBox_stateChanged(int state)
 void CPolylineParamsGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
+
 	UpdateClosedLineCheckBox(false, false);
 }
 
@@ -127,6 +126,7 @@ void CPolylineParamsGuiComp::OnToolsButtonMenuActionTriggered(QAction* action)
 void CPolylineParamsGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
+
 	UpdateClosedLineCheckBox(false, false);
 }
 
@@ -139,16 +139,14 @@ void CPolylineParamsGuiComp::OnGuiModelDetached()
 }
 
 
-void CPolylineParamsGuiComp::UpdateClosedLineCheckBox(bool forceEnabled, bool forceHidden)
+void CPolylineParamsGuiComp::UpdateClosedLineCheckBox(bool /*forceEnabled*/, bool forceHidden)
 {
 	CloseLineCheckBox->setHidden(true);
-	CloseLineCheckBox->setDisabled(true);
 
 	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(GetModelPtr());
 	if (!forceHidden && polylinePtr != NULL){
 		CloseLineCheckBox->setChecked(polylinePtr->IsClosed());
 		CloseLineCheckBox->setHidden(false);
-		CloseLineCheckBox->setEnabled(forceEnabled || !polylinePtr->IsClosed());
 	}
 }
 

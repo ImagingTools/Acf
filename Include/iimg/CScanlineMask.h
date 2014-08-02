@@ -202,4 +202,3 @@ inline CScanlineMask::Scanlines& CScanlineMask::GetScanLines()
 #endif // !iimg_CScanlineMask_included
 
 
-
