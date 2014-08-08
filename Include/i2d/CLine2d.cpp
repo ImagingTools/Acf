@@ -371,7 +371,7 @@ bool CLine2d::GetCutPoint(const CLine2d& otherLine, i2d::CVector2d& cutPoint) co
 
 i2d::CVector2d CLine2d::GetNearestPoint(const i2d::CVector2d& point) const
 {
-	double alpha = GetDistance(point);
+	double alpha = GetCastAlpha(point);
 
 	if (alpha <= 0){
 		return m_point1;
