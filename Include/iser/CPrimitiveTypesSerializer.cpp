@@ -3,6 +3,7 @@
 
 // Qt includes
 #include <QtCore/QString>
+#include <QtCore/QStringList>
 
 // ACF includes
 #include "iser/CArchiveTag.h"
@@ -89,14 +90,13 @@ bool CPrimitiveTypesSerializer::SerializeRanges(iser::IArchive& archive, istd::C
 	}
 
 	if (isStoring){
-		for (		istd::CRanges::SwitchPoints::iterator iter = switchPoints.begin();
+		for (		istd::CRanges::SwitchPoints::const_iterator iter = switchPoints.begin();
 					iter != switchPoints.end();
 					++iter){
 			retVal = retVal && archive.BeginTag(positionTag);
 
-			double position = 0;
+			double position = *iter;
 			retVal = retVal && archive.Process(position);
-			switchPoints.insert(position);
 
 			retVal = retVal && archive.EndTag(positionTag);
 		}
@@ -109,7 +109,9 @@ bool CPrimitiveTypesSerializer::SerializeRanges(iser::IArchive& archive, istd::C
 
 			double position = 0;
 			retVal = retVal && archive.Process(position);
-			switchPoints.insert(position);
+			if(retVal){
+				switchPoints.insert(position);
+			}
 
 			retVal = retVal && archive.EndTag(positionTag);
 		}
@@ -158,14 +160,13 @@ bool CPrimitiveTypesSerializer::SerializeIntRanges(iser::IArchive& archive, istd
 	}
 
 	if (isStoring){
-		for (		istd::CIntRanges::SwitchPoints::iterator iter = switchPoints.begin();
+		for (		istd::CIntRanges::SwitchPoints::const_iterator iter = switchPoints.begin();
 					iter != switchPoints.end();
 					++iter){
 			retVal = retVal && archive.BeginTag(positionTag);
 
-			int position = 0;
+			int position = *iter;
 			retVal = retVal && archive.Process(position);
-			switchPoints.insert(position);
 
 			retVal = retVal && archive.EndTag(positionTag);
 		}
@@ -178,7 +179,9 @@ bool CPrimitiveTypesSerializer::SerializeIntRanges(iser::IArchive& archive, istd
 
 			int position = 0;
 			retVal = retVal && archive.Process(position);
-			switchPoints.insert(position);
+			if (retVal){
+				switchPoints.insert(position);
+			}
 
 			retVal = retVal && archive.EndTag(positionTag);
 		}
@@ -232,6 +235,57 @@ bool CPrimitiveTypesSerializer::SerializeQPointF(iser::IArchive& archive, QPoint
 	if (!archive.IsStoring()){
 		point = QPoint(x, y);
 	}
+
+	return retVal;
+}
+
+
+bool CPrimitiveTypesSerializer::SerializeQStringList(
+			iser::IArchive& archive,
+			QStringList& stringList,
+			const QByteArray& containerTagName,
+			const QByteArray& elementTagName)
+{
+	static iser::CArchiveTag elementsTag(containerTagName, "List of elements", iser::CArchiveTag::TT_MULTIPLE);
+	static iser::CArchiveTag elementTag(elementTagName, "Single container element", iser::CArchiveTag::TT_LEAF, &elementsTag);
+
+	bool retVal = true;
+
+	bool isStoring = archive.IsStoring();
+	int elementsCount = stringList.count();
+
+	retVal = retVal && archive.BeginMultiTag(elementsTag, elementTag, elementsCount);
+	if (!retVal){
+		return false;
+	}
+
+	if (isStoring){
+		for (int i = 0; i < elementsCount; ++i){
+			retVal = retVal && archive.BeginTag(elementTag);
+
+			QString element = stringList[i];
+			retVal = retVal && archive.Process(element);
+
+			retVal = retVal && archive.EndTag(elementTag);
+		}
+	}
+	else{
+		stringList.clear();
+
+		for (int i = 0; i < elementsCount; ++i){
+			retVal = retVal && archive.BeginTag(elementTag);
+
+			QString element;
+			retVal = retVal && archive.Process(element);
+			if (retVal){
+				stringList.push_back(element);
+			}
+
+			retVal = retVal && archive.EndTag(elementTag);
+		}
+	}
+
+	retVal = retVal && archive.EndTag(elementsTag);
 
 	return retVal;
 }

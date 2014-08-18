@@ -18,21 +18,55 @@ namespace iser
 
 
 /**
-	Implementation range serializer.
+	Implementation of serialize method for some common data types.
 */
 class CPrimitiveTypesSerializer
 {
 public:
+	/**
+		Serialize a range object.
+	*/
 	static bool SerializeRange(iser::IArchive& archive, istd::CRange& range);
+
+	/**
+		Serialize an integer-based range object.
+	*/
 	static bool SerializeIntRange(iser::IArchive& archive, istd::CIntRange& range);
+
+	/**
+		Serialize list of range objects.
+	*/
 	static bool SerializeRanges(iser::IArchive& archive, istd::CRanges& ranges);
+
+	/**
+		Serialize list of integer-based ranges.
+	*/
 	static bool SerializeIntRanges(iser::IArchive& archive, istd::CIntRanges& ranges);
+
+	/**
+		Serialize QDateTime object.
+	*/
 	static bool SerializeDateTime(iser::IArchive& archive, QDateTime& dateTime);
 
+	/**
+		Serialize a generic index object.
+	*/
 	template <int Dimensions>
 	static bool SerializeIndex(iser::IArchive& archive, istd::TIndex<Dimensions>& index);
 
+	/**
+		Serialize a QPointF object.
+	*/
 	static bool SerializeQPointF(iser::IArchive& archive, QPointF& point);
+
+	/**
+		Serialize a QStringList sobject.
+	*/
+	static bool SerializeQStringList(
+				iser::IArchive& archive,
+				QStringList& stringList,
+				const QByteArray& containerTagName = "Elements",
+				const QByteArray& elementTagName = "Element");
 };
 
 
