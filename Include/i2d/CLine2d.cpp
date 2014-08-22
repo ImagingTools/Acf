@@ -436,7 +436,7 @@ CLine2d CLine2d::GetShortestConnectionToNext(const CLine2d& line) const
 
 CLine2d CLine2d::GetShortestConnection(const i2d::CVector2d& point) const
 {
-	double alpha = GetDistance(point);
+	double alpha = GetCastAlpha(point);
 
 	if (alpha <= 0){
 		return CLine2d(m_point1, point);

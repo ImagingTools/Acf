@@ -15,7 +15,7 @@ namespace iqtgui
 
 
 /**
-	Base class for all Qt GUI componentes, which use the Qt designer's UI.
+	Base class for all Qt GUI components, which use the Qt designer's UI.
  */
 template <class UI, class WidgetType = QWidget>
 class TDesignerGuiCompBase: public TGuiComponentBase<WidgetType>, public UI

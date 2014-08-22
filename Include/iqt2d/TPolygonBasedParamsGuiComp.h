@@ -353,21 +353,37 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnToolsBu
 		i2d::CVector2d center = polygonPtr->GetCenter();
 		int count = polygonPtr->GetNodesCount();
 
+		const i2d::ICalibration2d* calibrationPtr = polygonPtr->GetCalibration();
+
 		switch (action->data().toInt()){
 			case ActionFlipHorizontally:
+				if (calibrationPtr != NULL)
+					polygonPtr->InvTransform(*calibrationPtr);
+
 				for (int i = 0; i < count; i++){
 					i2d::CVector2d node = polygonPtr->GetNode(i);
 					node.SetX(center.GetX() + (center.GetX() - node.GetX()));
 					polygonPtr->SetNode(i, node);
 				}
+
+				if (calibrationPtr != NULL)
+					polygonPtr->Transform(*calibrationPtr);
+
 				break;
 
 			case ActionFlipVertically:
+				if (calibrationPtr != NULL)
+					polygonPtr->InvTransform(*calibrationPtr);
+
 				for (int i = 0; i < count; i++){
 					i2d::CVector2d node = polygonPtr->GetNode(i);
 					node.SetY(center.GetY() + (center.GetY() - node.GetY()));
 					polygonPtr->SetNode(i, node);
 				}
+
+				if (calibrationPtr != NULL)
+					polygonPtr->Transform(*calibrationPtr);
+
 				break;
 
 			case ActionRotateClockwise:

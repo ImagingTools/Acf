@@ -148,7 +148,7 @@ public:
 
 	/**
 		Get direction angle of this line.
-		It will be returned in radians conform to \c i2d::CVector::GetAngle().
+		It will be returned in radians conform to \c i2d::CVector2d::GetAngle().
 	*/
 	double GetDirectionAngle() const;
 
