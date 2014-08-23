@@ -100,6 +100,16 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual bool IsEqual(const istd::IChangeable& object) const;
+
+	// operators
+	bool operator==(const CHierarchicalCommand& command) const;
+	bool operator!=(const CHierarchicalCommand& command) const;
+	CHierarchicalCommand& operator=(const CHierarchicalCommand& command);
+
 protected Q_SLOTS:
 	void OnTriggered();
 

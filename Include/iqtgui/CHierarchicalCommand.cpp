@@ -166,7 +166,7 @@ ibase::ICommand* CHierarchicalCommand::GetChild(int index) const
 void CHierarchicalCommand::SetName(const QString& name)
 {
 	BaseClass::setText(name);
-	BaseClass3::SetName(name);
+	BaseClass3::SetName(QString(name).replace('&', ""));
 }
 
 
@@ -185,6 +185,107 @@ bool CHierarchicalCommand::SetEnabled(bool isEnabled)
 bool CHierarchicalCommand::Serialize(iser::IArchive& /*archive*/)
 {
 	return false;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CHierarchicalCommand::GetSupportedOperations() const
+{
+	return SO_COPY | SO_COMPARE;
+}
+
+
+bool CHierarchicalCommand::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CHierarchicalCommand* commandPtr = dynamic_cast<const CHierarchicalCommand*>(&object);
+	if (commandPtr != NULL){
+		*this = *commandPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CHierarchicalCommand::IsEqual(const istd::IChangeable& object) const
+{
+	const CHierarchicalCommand* commandPtr = dynamic_cast<const CHierarchicalCommand*>(&object);
+	if (commandPtr != NULL){
+		return (*this == *commandPtr);
+	}
+
+	return false;
+}
+
+
+// operators
+
+bool CHierarchicalCommand::operator==(const CHierarchicalCommand& command) const
+{
+	int childsCount = GetChildsCount();
+	if (childsCount != command.GetChildsCount()){
+		return false;
+	}
+
+	if (GetName() != command.GetName()){
+		return false;
+	}
+
+	for (int i = 0; i < childsCount; ++i){
+		const CHierarchicalCommand* childPtr = dynamic_cast<const CHierarchicalCommand*>(GetChild(i));
+		const CHierarchicalCommand* commandChildPtr = dynamic_cast<const CHierarchicalCommand*>(command.GetChild(i));
+		if (childPtr != commandChildPtr){
+			if (childPtr == NULL){
+				return false;
+			}
+
+			if (commandChildPtr == NULL){
+				return false;
+			}
+
+			if (*childPtr != *commandChildPtr){
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+
+bool CHierarchicalCommand::operator!=(const CHierarchicalCommand& command) const
+{
+	return !operator==(command);
+}
+
+
+CHierarchicalCommand& CHierarchicalCommand::operator=(const CHierarchicalCommand& command)
+{
+	ResetChilds();
+
+	int childsCount = command.GetChildsCount();
+
+	m_priority = command.m_priority;
+	m_staticFlags = command.m_staticFlags;
+	m_groupId = command.m_groupId;
+
+	setText(command.text());
+	setIcon(command.icon());
+	setToolTip(command.toolTip());
+
+	for (int i = 0; i < childsCount; ++i){
+		const CHierarchicalCommand* commandChildPtr = dynamic_cast<const CHierarchicalCommand*>(command.GetChild(i));
+		if (commandChildPtr != NULL){
+			CHierarchicalCommand* childPtr = new CHierarchicalCommand();
+			*childPtr = *commandChildPtr;
+
+			InsertChild(childPtr, true);
+		}
+	}
+
+	return *this;
 }
 
 
