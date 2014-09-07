@@ -4,17 +4,6 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          0
-        </Id>
-        <Number>
-          3542
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           1
         </Id>
         <Number>
@@ -22,6 +11,17 @@
         </Number>
         <Description>
           ACF-Solutions
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          3516
+        </Number>
+        <Description>
+          ACF
         </Description>
       </Version>
       <Version>
@@ -38,34 +38,6 @@
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
-    <Element>
-      <ComponentName>
-        SettingsProvider
-      </ComponentName>
-      <X>
-        575
-      </X>
-      <X>
-        575
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        MainGui
-      </ComponentName>
-      <X>
-        575
-      </X>
-      <X>
-        400
-      </X>
-      <Note>
-        
-      </Note>
-    </Element>
     <Element>
       <ComponentName>
         GuiApplication
@@ -89,6 +61,34 @@
       </X>
       <X>
         225
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        SettingsProvider
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        575
+      </X>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        MainGui
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <X>
+        400
       </X>
       <Note>
         

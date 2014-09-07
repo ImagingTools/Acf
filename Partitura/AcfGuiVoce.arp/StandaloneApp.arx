@@ -4,17 +4,6 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          0
-        </Id>
-        <Number>
-          3542
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           1
         </Id>
         <Number>
@@ -22,6 +11,17 @@
         </Number>
         <Description>
           ACF-Solutions
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          3516
+        </Number>
+        <Description>
+          ACF
         </Description>
       </Version>
       <Version>
@@ -204,7 +204,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="11">
+        <AttributeInfoMap count="12">
           <AttributeInfo>
             <Id>
               AllowClose
@@ -383,6 +383,22 @@
             </Type>
             <ExportId>
               UiStartMode
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              UseMenuIconsOnMac
+            </Id>
+            <Type>
+              Boolean
+            </Type>
+            <ExportId>
+              UseMenuIconsOnMac
             </ExportId>
             <Data>
               <IsEnabled>

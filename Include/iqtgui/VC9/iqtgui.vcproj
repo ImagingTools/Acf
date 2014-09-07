@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCalendarGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCommandsBinderComp.cpp"
 				>
 			</File>
@@ -324,6 +328,10 @@
 			</File>
 			<File
 				RelativePath="..\CApplicationCompBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCalendarGuiComp.h"
 				>
 			</File>
 			<File
@@ -546,6 +554,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\iqtgui\moc_CCalendarGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\moc_CDialogGuiComp.cpp"
 				>
 			</File>
@@ -590,6 +602,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\iqtgui\ui_CCalendarGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqtgui\ui_CImagePropertiesFrameComp.h"
 				>
 			</File>
@@ -607,6 +623,10 @@
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.ui"
+				>
+			</File>
+			<File
+				RelativePath="..\CCalendarGuiComp.ui"
 				>
 			</File>
 			<File
@@ -635,6 +655,10 @@
 			>
 			<File
 				RelativePath="..\CAboutWidgetGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CCalendarGuiComp.moc"
 				>
 			</File>
 			<File
