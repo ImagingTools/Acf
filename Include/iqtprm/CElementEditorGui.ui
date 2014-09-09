@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Job tempate properties</string>
+   <string>Element Properties</string>
   </property>
   <property name="modal">
    <bool>true</bool>
