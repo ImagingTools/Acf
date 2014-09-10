@@ -170,6 +170,9 @@ i2d::CRect CSplineShape::CalcBoundingBox() const
 				switch (editMode){
 				case ISelectable::EM_NONE:
 					boundingBox.Expand(i2d::CRect(-2, -2, 2, 2));
+					tickerType = IColorSchema::TT_NORMAL;
+					break;
+
 				case ISelectable::EM_MOVE:
 					tickerType = IColorSchema::TT_MOVE;
 					break;

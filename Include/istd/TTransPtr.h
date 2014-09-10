@@ -210,6 +210,7 @@ inline Type* TTransPtr<Type>::operator->() const
 
 template <class Type>
 TTransPtr<Type>::TTransPtr()
+:	m_counterPtr(NULL)
 {
 }
 

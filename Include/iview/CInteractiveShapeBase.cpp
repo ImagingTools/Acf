@@ -18,16 +18,17 @@ namespace iview
 
 
 CInteractiveShapeBase::CInteractiveShapeBase()
+	:m_isSelected(false),
+	 m_isEditablePosition(true)
 {
-	m_isSelected = false;
-	m_isEditablePosition = true;
-
 	AssignToLayer(IViewLayer::LT_ACTIVE);
 }
 
 
 CInteractiveShapeBase::CInteractiveShapeBase(const CInteractiveShapeBase& shape)
-	:BaseClass(shape)
+	:BaseClass(shape),
+	 m_isSelected(false),
+	 m_isEditablePosition(true)
 {
 }
 

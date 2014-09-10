@@ -6,7 +6,10 @@ namespace iser
 
 
 CArchiveTag::CArchiveTag()
-:	m_parentPtr(NULL)
+:	m_parentPtr(NULL),
+ 	m_tagType(TT_UNKNOWN),
+ 	m_isTagSkippingUsed(false),
+ 	m_binaryId(0)
 {
 }
 

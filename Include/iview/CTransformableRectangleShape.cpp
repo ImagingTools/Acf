@@ -21,6 +21,7 @@ namespace iview
 
 
 CTransformableRectangleShape::CTransformableRectangleShape()
+:	m_mouseMode(MM_NONE)
 {
 	m_isEditableRotation = true;
 	m_isEditableWidth = true;

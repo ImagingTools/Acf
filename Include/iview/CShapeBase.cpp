@@ -295,6 +295,7 @@ i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition) 
 				}
 			}
 		}
+		break;
 
 	default:
 		break;
