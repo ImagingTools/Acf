@@ -49,7 +49,7 @@ public:
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
-	typedef QList<ItemClass> Items;
+    typedef QList<ItemClass> Items;
 
 	Items m_items;
 };
@@ -77,9 +77,11 @@ template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::PushBack(const ItemClass& item)
 {
 	static ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier changePtr(this, changeSet);
+ 	BeginChanges(changeSet);
 
 	m_items.append(item);
+
+	EndChanges(changeSet);
 
 	return m_items.back();
 }
@@ -89,9 +91,11 @@ template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::PushFront(const ItemClass& item)
 {
 	static ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier changePtr(this, changeSet);
+	BeginChanges(changeSet);
 
 	m_items.prepend(item);
+
+	EndChanges(changeSet);
 
 	return m_items.front();
 }
@@ -101,15 +105,19 @@ template <typename ItemClass>
 ItemClass& TContainer<ItemClass>::InsertAt(const ItemClass& item, int index)
 {
 	static ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier changePtr(this, changeSet);
+	BeginChanges(changeSet);
 
 	if ((index < 0) || (index >= m_items.size())){
 		m_items.append(item);
+
+ 		EndChanges(changeSet);
 
 		return m_items.back();
 	}
 	else{
 		m_items.insert(index, item);
+
+		EndChanges(changeSet);
 
 		return m_items[index];
 	}
@@ -120,9 +128,11 @@ template <typename ItemClass>
 void TContainer<ItemClass>::PopBack()
 {
 	static ChangeSet changeSet(CF_ELEMENT_REMOVED);
-	istd::CChangeNotifier changePtr(this, changeSet);
+	BeginChanges(changeSet);
 
 	m_items.pop_back();
+
+	EndChanges(changeSet);
 }
 
 
@@ -130,9 +140,11 @@ template <typename ItemClass>
 void TContainer<ItemClass>::PopFront()
 {
 	static ChangeSet changeSet(CF_ELEMENT_REMOVED);
-	istd::CChangeNotifier changePtr(this, changeSet);
+	BeginChanges(changeSet);
 
 	m_items.pop_front();
+
+	EndChanges(changeSet);
 }
 
 
@@ -144,9 +156,11 @@ void TContainer<ItemClass>::RemoveAt(int index)
 
 	if (index < int(m_items.size())){
 		static ChangeSet changeSet(CF_ELEMENT_REMOVED);
-		istd::CChangeNotifier changePtr(this, changeSet);
+		BeginChanges(changeSet);
 	
 		m_items.erase(m_items.begin()  + index);
+
+		EndChanges(changeSet);
 	}
 }
 
@@ -155,9 +169,11 @@ template <typename ItemClass>
 void TContainer<ItemClass>::Reset()
 {
 	static ChangeSet changeSet(CF_RESET, CF_ALL_DATA);
-	istd::CChangeNotifier changePtr(this, changeSet);
+	BeginChanges(changeSet);
 
 	m_items.clear();
+
+	EndChanges(changeSet);
 }
 
 
