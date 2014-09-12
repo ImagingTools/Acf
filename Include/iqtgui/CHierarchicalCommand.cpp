@@ -229,7 +229,9 @@ bool CHierarchicalCommand::operator==(const CHierarchicalCommand& command) const
 		return false;
 	}
 
-	if (GetName() != command.GetName()){
+	if (		(GetName() != command.GetName()) ||
+				(isChecked() != command.isChecked()) ||
+				(isVisible() != command.isVisible())){
 		return false;
 	}
 
