@@ -115,6 +115,8 @@ void CSelectedDocModelBinderComp::OnComponentDestroyed()
 {
 	TryDisconnectObservers();
 
+	m_isActive = true;
+
 	if (m_documentManagerModelCompPtr.IsValid() && m_documentManagerModelCompPtr->IsAttached(this)){
 		m_documentManagerModelCompPtr->DetachObserver(this);
 	}
