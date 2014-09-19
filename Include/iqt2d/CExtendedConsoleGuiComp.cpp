@@ -19,6 +19,12 @@ void CExtendedConsoleGuiComp::OnGuiCreated()
 
 	if (m_toolBarCompPtr.IsValid()){
 		m_toolBarCompPtr->CreateGui(CommandsFrame);
+
+		if (*m_isFloatingToolbarAttr){
+			CommandsFrame->setParent(ViewFrame);
+			CommandsFrame->setFrameShape(QFrame::StyledPanel);
+			CommandsFrame->setAutoFillBackground(true);
+		}
 	}
 	else
 		CommandsFrame->hide();
@@ -46,6 +52,21 @@ void CExtendedConsoleGuiComp::OnGuiDestroyed()
 	}
 
 	BaseClass::OnGuiDestroyed();
+}
+
+
+// reimplemented (QObject)
+
+bool CExtendedConsoleGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
+{
+	if (eventPtr->type() == QEvent::Resize){
+		if (CommandsFrame->isVisible() && *m_isFloatingToolbarAttr){
+			CommandsFrame->adjustSize();
+			CommandsFrame->setMaximumWidth(ViewFrame->width());
+		}
+	}
+
+	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

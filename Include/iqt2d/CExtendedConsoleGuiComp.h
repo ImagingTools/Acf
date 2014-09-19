@@ -23,6 +23,7 @@ public:
 		I_ASSIGN(m_viewProviderGuiCompPtr, "ViewProvider", "Provider of the 2D-View", true, "ViewProvider");
 		I_ASSIGN(m_toolBarCompPtr, "ToolBar", "Tool bar showing the commands of the view provider", false, "ToolBar");
 		I_ASSIGN(m_statusInfoGuiCompPtr, "StatusInfoGui", "UI for status information of the 2D-console", false, "StatusInfoGui");
+		I_ASSIGN(m_isFloatingToolbarAttr, "FloatingToolbar", "Makes the toolbar floating", true, false);
 	I_END_COMPONENT;
 
 protected:
@@ -30,10 +31,14 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
 
+	// reimplemented (QObject)
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+
 private:
 	I_REF(iqtgui::IGuiObject, m_viewProviderGuiCompPtr);
 	I_REF(iqtgui::IGuiObject, m_toolBarCompPtr);
 	I_REF(iqtgui::IGuiObject, m_statusInfoGuiCompPtr);
+	I_ATTR(bool, m_isFloatingToolbarAttr);
 };
 
 
