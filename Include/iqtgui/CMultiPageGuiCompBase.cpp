@@ -93,15 +93,15 @@ bool CMultiPageGuiCompBase::CreatePage(int guiIndex)
 
 void CMultiPageGuiCompBase::RemovePage(int pageIndex)
 {
-	Q_ASSERT(m_pageToGuiIndexMap.contains(pageIndex));
+	if (m_pageToGuiIndexMap.contains(pageIndex)){
+		int guiIndex = m_pageToGuiIndexMap[pageIndex];
+		UnregisterModel(guiIndex);
 
-	int guiIndex = m_pageToGuiIndexMap[pageIndex];
-	UnregisterModel(guiIndex);
+		iwidgets::CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<iwidgets::CMultiPageWidget*>(GetWidget());
+		Q_ASSERT(multiPageWidgetPtr != NULL);
 
-	iwidgets::CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<iwidgets::CMultiPageWidget*>(GetWidget());
-	Q_ASSERT(multiPageWidgetPtr != NULL);
-
-	multiPageWidgetPtr->RemovePage(pageIndex);
+		multiPageWidgetPtr->RemovePage(pageIndex);
+	}
 }
 
 
