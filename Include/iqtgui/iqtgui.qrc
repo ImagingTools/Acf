@@ -68,6 +68,7 @@
     <file alias="QuestionSign">Resources/Icons/QuestionSign.svg</file>
     <file alias="ExclamationSign">Resources/Icons/ExclamationSign.svg</file>
     <file alias="Print">Resources/Icons/document_print.png</file>
+    <file alias="PrintPreview">Resources/Icons/document_print_preview.png</file>
   </qresource>
   <qresource prefix="/Style">
     <file>Resources/Style/AcfStyle.ass</file>

@@ -178,15 +178,13 @@ protected:
 	I_ATTR(bool, m_useSameStretchingFactorAttrPtr);
 	I_ATTR(bool, m_insertSpacerAttrPtr);
 
-	int m_currentPageIndex;
+	imod::TModelWrap<PageModel> m_pageModel;
 
 private:
 	typedef QMap<int /*page index in the widget container*/, int /*logical GUI element index*/> PageToGuiIndexMap;
 	PageToGuiIndexMap m_pageToGuiIndexMap;
 
 	QMap<const iqtgui::IGuiObject*, QString> m_guiNamesMap;
-
-	imod::TModelWrap<PageModel> m_pageModel;
 };
 
 
