@@ -119,12 +119,6 @@ protected:
 			return editorPtr;
 		}
 	}; // CPolygonParamsGuiItemDelegate
-
-
-	enum MenuAction
-	{
-		ActionFlipHorizontally, ActionFlipVertically, ActionRotateClockwise, ActionRotateCounterclockwise, ActionReverseLine
-	};
 };
 
 
@@ -332,12 +326,12 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToo
 		QMenu& menu = *BaseClass::ToolsButton->menu();
 		menu.clear();
 
-		menu.addAction(QIcon(":/Icons/FlipHorizontal"), tr("Flip horizontally"))->setData(ActionFlipHorizontally);
-		menu.addAction(QIcon(":/Icons/FlipVertical"), tr("Flip vertically"))->setData(ActionFlipVertically);
-		menu.addAction(QIcon(":/Icons/RotateRight"), tr("Rotate clockwise"))->setData(ActionRotateClockwise);
-		menu.addAction(QIcon(":/Icons/RotateLeft"), tr("Rotate counterclockwise"))->setData(ActionRotateCounterclockwise);
+		menu.addAction(QIcon(":/Icons/FlipHorizontal"), tr("Flip horizontally"))->setData(iview::IInteractiveShape::ActionFlipHorizontally);
+		menu.addAction(QIcon(":/Icons/FlipVertical"), tr("Flip vertically"))->setData(iview::IInteractiveShape::ActionFlipVertically);
+		menu.addAction(QIcon(":/Icons/RotateRight"), tr("Rotate clockwise"))->setData(iview::IInteractiveShape::ActionRotateClockwise);
+		menu.addAction(QIcon(":/Icons/RotateLeft"), tr("Rotate counterclockwise"))->setData(iview::IInteractiveShape::ActionRotateCounterclockwise);
 		if (polylinePtr != NULL){
-			menu.addAction(QIcon(":/Icons/Reverse"), tr("Reverse line"))->setData(ActionReverseLine);
+			menu.addAction(QIcon(":/Icons/Reverse"), tr("Reverse line"))->setData(iview::IInteractiveShape::ActionReverseLine);
 		}
 	}
 }
@@ -346,85 +340,20 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToo
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnToolsButtonMenuActionTriggered(QAction* action)
 {
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetModelPtr());
-	if (polygonPtr != NULL){
-		istd::CChangeNotifier notifier(polygonPtr);
+	int actionId = action->data().toInt();
 
-		i2d::CVector2d center = polygonPtr->GetCenter();
-		int count = polygonPtr->GetNodesCount();
-
-		const i2d::ICalibration2d* calibrationPtr = polygonPtr->GetCalibration();
-
-		switch (action->data().toInt()){
-			case ActionFlipHorizontally:
-				if (calibrationPtr != NULL)
-					polygonPtr->InvTransform(*calibrationPtr);
-
-				for (int i = 0; i < count; i++){
-					i2d::CVector2d node = polygonPtr->GetNode(i);
-					node.SetX(center.GetX() + (center.GetX() - node.GetX()));
-					polygonPtr->SetNode(i, node);
+	const ShapesMap& shapesMap = BaseClass::GetShapesMap();
+	for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
+		iter != shapesMap.end();
+		++iter){
+			const Shapes& shapes = iter.value();
+			int shapesCount = shapes.GetCount();
+			for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
+				PolygonBasedShape* shapePtr = dynamic_cast<PolygonBasedShape*>(shapes.GetAt(shapeIndex));
+				if (shapePtr != NULL){
+					shapePtr->ExecuteAction((iview::IInteractiveShape::ShapeAction)actionId);
 				}
-
-				if (calibrationPtr != NULL)
-					polygonPtr->Transform(*calibrationPtr);
-
-				break;
-
-			case ActionFlipVertically:
-				if (calibrationPtr != NULL)
-					polygonPtr->InvTransform(*calibrationPtr);
-
-				for (int i = 0; i < count; i++){
-					i2d::CVector2d node = polygonPtr->GetNode(i);
-					node.SetY(center.GetY() + (center.GetY() - node.GetY()));
-					polygonPtr->SetNode(i, node);
-				}
-
-				if (calibrationPtr != NULL)
-					polygonPtr->Transform(*calibrationPtr);
-
-				break;
-
-			case ActionRotateClockwise:
-			{
-				i2d::CAffineTransformation2d translateTo00;
-				translateTo00.Reset(-center);
-				i2d::CAffineTransformation2d rotate;
-				rotate.Reset(i2d::CVector2d(0, 0), M_PI / 2);
-				i2d::CAffineTransformation2d translateBackToCenter;
-				translateBackToCenter.Reset(center);
-				polygonPtr->Transform(translateTo00);
-				polygonPtr->Transform(rotate);
-				polygonPtr->Transform(translateBackToCenter);
 			}
-				break;
-
-			case ActionRotateCounterclockwise:
-			{
-				i2d::CAffineTransformation2d translateTo00;
-				translateTo00.Reset(-center);
-				i2d::CAffineTransformation2d rotate;
-				rotate.Reset(i2d::CVector2d(0, 0), -M_PI / 2);
-				i2d::CAffineTransformation2d translateBackToCenter;
-				translateBackToCenter.Reset(center);
-				polygonPtr->Transform(translateTo00);
-				polygonPtr->Transform(rotate);
-				polygonPtr->Transform(translateBackToCenter);
-			}
-				break;
-
-			case ActionReverseLine:
-				for (int i = 0; i < count / 2; i++){
-					i2d::CVector2d node1 = polygonPtr->GetNode(i);
-					i2d::CVector2d node2 = polygonPtr->GetNode(count - 1 - i);
-					polygonPtr->SetNode(i, node2);
-					polygonPtr->SetNode(count - 1 - i, node1);
-				}
-				break;
-
-			default: break;
-		}
 	}
 }
 

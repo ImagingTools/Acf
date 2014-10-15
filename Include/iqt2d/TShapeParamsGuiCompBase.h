@@ -41,6 +41,7 @@ protected:
 	// reimplemented (iqt2d::TViewExtenderCompBase)
 	virtual void CreateShapes(int sceneId, Shapes& result);
 
+private:
 	I_REF(imath::IUnitInfo, m_defaultUnitInfoAttrPtr);
 	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
 };

@@ -19,6 +19,7 @@ public:
 	// reimplemented (iview::CCircleShape)
 	virtual void Draw(QPainter& drawContext) const;
 
+protected:
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 	

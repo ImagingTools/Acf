@@ -360,6 +360,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\TPolygonBasedParamsGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\TShapeParamsGuiCompBase.h"
 				>
 			</File>
