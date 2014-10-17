@@ -23,7 +23,8 @@ const QString& CNameParam::GetName() const
 void CNameParam::SetName(const QString& name)
 {
 	if (m_name != name){
-		istd::CChangeNotifier changePtr(this);
+		istd::CChangeNotifier notifier(this);
+		Q_UNUSED(notifier);
 
 		m_name = name;
 	}
