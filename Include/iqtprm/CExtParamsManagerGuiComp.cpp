@@ -2,17 +2,11 @@
 
 
 // Qt includes
-#if QT_VERSION >= 0x050000
+#include <QtGui/QPainter>
 #include <QtWidgets/QMessageBox>
-#include <QtWidgets/QStylePainter>
-#else
-#include <QtGui/QMessageBox>
-#include <QtGui/QStylePainter>
-#endif
-
 
 // ACF includes
-#include "istd/CChangeNotifier.h"
+#include <istd/CChangeNotifier.h>
 #include <iprm/IOptionsList.h>
 #include <iprm/TParamsPtr.h>
 #include <iprm/CParamsSet.h>
@@ -25,21 +19,13 @@ namespace iqtprm
 
 // protected methods
 
-int CExtParamsManagerGuiComp::GetParameterTypeIndexById(const QByteArray& parameterTypeId) const
+void CExtParamsManagerGuiComp::UpdateCommands()
 {
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		const iprm::IOptionsList* parameterTypeConstraintsPtr = objectPtr->GetParamsTypeConstraints();
-		if (parameterTypeConstraintsPtr != NULL){
-			for (int typeIndex = 0; typeIndex < parameterTypeConstraintsPtr->GetOptionsCount(); ++ typeIndex){
-				if (parameterTypeConstraintsPtr->GetOptionId(typeIndex) == parameterTypeId){
-					return typeIndex;
-				}
-			}
-		}
-	}
+	QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
 
-	return -1;
+	CloneButton->setEnabled(!selectedItems.isEmpty());
+	EditButton->setEnabled(!selectedItems.isEmpty());
+	RemoveButton->setEnabled(!selectedItems.isEmpty());
 }
 
 
@@ -52,27 +38,26 @@ void CExtParamsManagerGuiComp::OnGuiCreated()
 	ElementList->setItemDelegate(new CElementItemDelegate());
 	ElementList->setIconSize(QSize(32,32));
 
-	CloneButton->setEnabled(false);
-	EditButton->setEnabled(false);
-	RemoveButton->setEnabled(false);
-	ConfigureButton->setEnabled(false);
-
 	// Build mapping between parameter editors and worker type IDs:
-	int editorsCount = qMin(_parameterEditorIdsAttrPtr.GetCount(), _parameterGuisCompPtr.GetCount());
-	for (int i = 0; i < editorsCount; ++i){
+	int editorsCount = qMin(m_parameterEditorIdsAttrPtr.GetCount(), m_parameterGuisCompPtr.GetCount());
+	for (int i = 0; i < editorsCount; ++i)
+	{
 		ParameterEditor parameterEditor;
-		parameterEditor.guiPtr = _parameterGuisCompPtr[i];
+		parameterEditor.guiPtr = m_parameterGuisCompPtr[i];
 
-		if (i < _parameterObserversCompPtr.GetCount()){
-			parameterEditor.observerPtr = _parameterObserversCompPtr[i];
+		if (i < m_parameterObserversCompPtr.GetCount())
+		{
+			parameterEditor.observerPtr = m_parameterObserversCompPtr[i];
 		}
 
-		if (i < _parameterEditorsCompPtr.GetCount()){
-			parameterEditor.editorPtr = _parameterEditorsCompPtr[i];
+		if (i < m_parameterEditorsCompPtr.GetCount())
+		{
+			parameterEditor.editorPtr = m_parameterEditorsCompPtr[i];
 		}
 
-		if ( (parameterEditor.guiPtr != NULL) && (parameterEditor.observerPtr != NULL) && (parameterEditor.editorPtr != NULL)){
-			_parameterEditorMap[_parameterEditorIdsAttrPtr[i]] = parameterEditor;
+		if ( (parameterEditor.guiPtr != NULL) && (parameterEditor.observerPtr != NULL) && (parameterEditor.editorPtr != NULL))
+		{
+			m_parameterEditorMap[m_parameterEditorIdsAttrPtr[i]] = parameterEditor;
 		}
 	}
 }
@@ -80,52 +65,70 @@ void CExtParamsManagerGuiComp::OnGuiCreated()
 
 void CExtParamsManagerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
+	QByteArray lastSelectedTemplateId = m_lastSelectedParameterSetId;
+
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
 		ElementList->clear();
-		ElementTypeSelector->clear();
+		ParameterTypeSelector->clear();
 
-		const iprm::IOptionsList* parameterTypeConstraintsPtr = objectPtr->GetParamsTypeConstraints();
-		if (parameterTypeConstraintsPtr != NULL){
-			for (int typeIndex = 0; typeIndex < parameterTypeConstraintsPtr->GetOptionsCount(); ++ typeIndex){
-				ElementTypeSelector->addItem(parameterTypeConstraintsPtr->GetOptionName(typeIndex), parameterTypeConstraintsPtr->GetOptionId(typeIndex));
+		const iprm::IOptionsList* templateTypeListPtr = objectPtr->GetParamsTypeConstraints();
+		if (templateTypeListPtr != NULL)
+		{
+			for (int typeIndex = 0; typeIndex < templateTypeListPtr->GetOptionsCount(); ++ typeIndex)
+			{
+				if (m_parameterEditorMap.contains(templateTypeListPtr->GetOptionId(typeIndex)))
+				{
+					ParameterTypeSelector->addItem(templateTypeListPtr->GetOptionName(typeIndex), templateTypeListPtr->GetOptionId(typeIndex));
+				}
 			}
 		}
-		else{
-			ElementTypeSelector->hide();
+		else
+		{
+			ParameterTypeSelector->setVisible(false);
 		}
 
-		const iprm::IOptionsList* elementListPtr = objectPtr->GetSelectionConstraints();
-		if (elementListPtr == NULL){
-			return;
-		}
+		int itemsCount = objectPtr->GetParamsSetsCount();
 
-		int itemsCount = elementListPtr->GetOptionsCount();
+		const iprm::IOptionsList* elementListPtr = dynamic_cast<const iprm::IOptionsList*>(objectPtr);
 
 		for (int i = 0; i < itemsCount; i++){
-			const QString name = elementListPtr->GetOptionName(i);
-			QString description = elementListPtr->GetOptionDescription(i);
+			const iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(i);
 
-			QListWidgetItem* itemPtr = new QListWidgetItem(name, ElementList);
-			itemPtr->setData(DR_DESCRIPTION_ROLE, description);
+			if ((paramsSetPtr == NULL) || m_parameterEditorMap.contains(paramsSetPtr->GetFactoryId()))
+			{
+				const QString name = objectPtr->GetParamsSetName(i);
+				QString description = objectPtr->GetParamsSetDescription(i);
 
-			const iprm::IParamsSet* parameterSetPtr = objectPtr->GetParamsSet(i);
-			if (parameterSetPtr != NULL){
-				itemPtr->setData(DR_PARAMETER_TYPE_ROLE, parameterSetPtr->GetFactoryId());
+				QListWidgetItem* itemPtr = new QListWidgetItem(name, ElementList);
+				itemPtr->setData(DR_DESCRIPTION, description);
+
+				if (paramsSetPtr != NULL)
+				{
+					itemPtr->setData(DR_PARAMETER_TYPE, paramsSetPtr->GetFactoryId());
+				}
+
+				itemPtr->setData(DR_INDEX, QVariant::fromValue(i));
+
+				if (elementListPtr != NULL){
+					QByteArray templateId = elementListPtr->GetOptionId(i);
+					itemPtr->setData(DR_UUID, templateId);
+					itemPtr->setSelected(lastSelectedTemplateId == templateId);
+				}
 			}
-
-			itemPtr->setData(DR_INDEX_ROLE, QVariant::fromValue(i));
 		}
+
+		UpdateCommands();
 	}
-	else{
+	else
+	{
 		AddButton->setEnabled(false);
 		CloneButton->setEnabled(false);
 		EditButton->setEnabled(false);
 		RemoveButton->setEnabled(false);
-		ConfigureButton->setEnabled(false);
 	}
 
-	ElementTypeSelector->setCurrentIndex(0);
+	ParameterTypeSelector->setVisible(ParameterTypeSelector->count() > 1);
 }
 
 
@@ -133,63 +136,122 @@ void CExtParamsManagerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*c
 
 void CExtParamsManagerGuiComp::on_AddButton_clicked()
 {
-	int parameterTypeIndex = -1;
+	int parameterTypeIndex = ParameterTypeSelector->currentIndex();
 
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		const iprm::IOptionsList* parameterTypeConstraintsPtr = objectPtr->GetParamsTypeConstraints();
-		if (parameterTypeConstraintsPtr != NULL){
-			int typesCount = parameterTypeConstraintsPtr->GetOptionsCount();
-			if (typesCount > 1){
-				if (ElementTypeSelector->currentIndex() < 0){
-					return;
-				}
-				else{
-					QByteArray parameterTypeId = ElementTypeSelector->itemData(ElementTypeSelector->currentIndex(), Qt::UserRole).toByteArray();
+		int newTemplateIndex = objectPtr->InsertParamsSet(parameterTypeIndex);
+		if (newTemplateIndex >= 0)
+		{
+/*
+			QByteArray newTemplateId = objectPtr->GetJobTemplateInfoList().GetOptionId(newTemplateIndex);
+			for (int i = 0; i < ElementList->count(); ++i)
+			{
+				QListWidgetItem* newItemPtr = ElementList->item(i);
 
-					parameterTypeIndex = GetParameterTypeIndexById(parameterTypeId);
+				if (newItemPtr->data(DR_UUID).toByteArray() == newTemplateId)
+				{
+					newItemPtr->setSelected(true);
+					break;
 				}
 			}
+*/
+			// Change defaults as well:
+			on_EditButton_clicked();
 		}
-
-		int newIndex = objectPtr->InsertParamsSet(parameterTypeIndex);
-
-		ElementList->setCurrentRow(newIndex);
-
-		on_EditButton_clicked();
 	}
 }
 
 
-void CExtParamsManagerGuiComp::on_ConfigureButton_clicked()
+void CExtParamsManagerGuiComp::on_CloneButton_clicked()
 {
-	iprm::IParamsManager* paramsManagerPtr = GetObjectPtr();
-	if (paramsManagerPtr == NULL){
+/*	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr != NULL){
+		QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
+		if (!selectedItems.isEmpty())
+		{
+			int paramSetIndex = selectedItems.at(0)->data(DR_INDEX).toInt();
+			if (paramSetIndex >= 0){
+
+				if (!objectPtr->DuplicateJobTemplate(paramSetIndex))
+				{
+					// TODO: Show error message!
+				}
+			}
+		}
+	}
+	*/
+}
+
+
+void CExtParamsManagerGuiComp::on_EditButton_clicked()
+{
+	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	if (objectPtr == NULL)
+	{
 		return;
 	}
 
 	QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
-	if (!selectedItems.isEmpty()){
-		int elementIndex = selectedItems.at(0)->data(DR_INDEX_ROLE).toInt();
-		QByteArray parameterTypeId = selectedItems.at(0)->data(DR_PARAMETER_TYPE_ROLE).toByteArray();
+	if (!selectedItems.isEmpty())
+	{
+		int paramSetIndex = selectedItems.at(0)->data(DR_INDEX).toInt();
+		QByteArray parameterTypeId = selectedItems.at(0)->data(DR_PARAMETER_TYPE).toByteArray();
 
-		iprm::IParamsSet* parameterSetPtr = const_cast<iprm::IParamsSet*>(paramsManagerPtr->GetParamsSet(elementIndex));
-		imod::IModel* parameterSetModelPtr = dynamic_cast<imod::IModel*>(parameterSetPtr);
-		if (parameterSetModelPtr != NULL){
-			// Exists an editor for the worker type:
-			if (_parameterEditorMap.contains(parameterTypeId)){
-				ParameterEditor& editor = _parameterEditorMap[parameterTypeId];
+		QString name = objectPtr->GetParamsSetName(paramSetIndex);
+		QString description = objectPtr->GetParamsSetDescription(paramSetIndex);
 
-				// ...then connect the parameter model to the editor and shows it:
-				if (!parameterSetModelPtr->IsAttached(editor.observerPtr)){
-					if (parameterSetModelPtr->AttachObserver(editor.observerPtr)){
-						iqtgui::CGuiComponentDialog dialog(_parameterEditorMap[parameterTypeId].guiPtr, QDialogButtonBox::Close, true, GetWidget());
-						dialog.setWindowTitle(tr("Configuration"));
-						dialog.resize(480, 320);
+		QString oldName(name);
 
-						dialog.exec();
+		iprm::IParamsSet* paramsSetPtr = objectPtr->GetParamsSet(paramSetIndex);
+		if (paramsSetPtr != NULL){
+			// Create working instance of the Parameter set parameters:
+			istd::TDelPtr<iprm::IParamsSet> workingParametersPtr;
+			workingParametersPtr.SetCastedOrRemove(paramsSetPtr->CloneMe(istd::IChangeable::CM_WITH_REFS));
 
-						parameterSetModelPtr->DetachObserver(editor.observerPtr);
+			if (workingParametersPtr.IsValid()){
+				imod::IModel* paramsSetModelPtr = dynamic_cast<imod::IModel*>(workingParametersPtr.GetPtr());
+				if (paramsSetModelPtr == NULL){
+					return;
+				}
+
+				// Editor for the worker type does exist?
+				if (m_parameterEditorMap.contains(parameterTypeId))
+				{
+					ParameterEditor& editor = m_parameterEditorMap[parameterTypeId];
+
+					// ...then connect the parameter model to the editor and show it:
+					if (!paramsSetModelPtr->IsAttached(editor.observerPtr))
+					{
+						if (paramsSetModelPtr->AttachObserver(editor.observerPtr))
+						{
+							CElementEditorDialog editDialog;
+							editDialog.setWindowTitle(tr("Edit Parameters"));
+
+							if (editDialog.Execute(name, description, m_parameterEditorMap[parameterTypeId].guiPtr) == QDialog::Accepted)
+							{
+								istd::CChangeNotifier updatePtr(objectPtr);
+
+								if (!objectPtr->SetParamsSetName(paramSetIndex, name))
+								{
+									QMessageBox::critical(
+										NULL,
+										tr("Rename error"),
+										tr("Parameter set '%1' can not be renamed to '%2'").arg(oldName, name));
+								}
+
+								objectPtr->SetParamsSetDescription(paramSetIndex, description);
+
+								if (!paramsSetPtr->CopyFrom(*workingParametersPtr.GetPtr(), istd::IChangeable::CM_WITH_REFS)){
+									QMessageBox::critical(
+												NULL,
+												tr("Parameter error"),
+												tr("Parameter set '%1'can not be changed").arg(oldName));
+								}
+							}
+
+							paramsSetModelPtr->DetachObserver(editor.observerPtr);
+						}
 					}
 				}
 			}
@@ -198,121 +260,37 @@ void CExtParamsManagerGuiComp::on_ConfigureButton_clicked()
 }
 
 
-void CExtParamsManagerGuiComp::on_CloneButton_clicked()
-{
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int index = ElementList->currentIndex().row();
-		if (index >= 0){
-			const iprm::IParamsSet* sourceParamsSetPtr = objectPtr->GetParamsSet(index);
-			if (sourceParamsSetPtr != NULL){
-
-				istd::CChangeNotifier changePtr(objectPtr);
-
-				int insertedIndex = objectPtr->InsertParamsSet(GetParameterTypeIndexById(sourceParamsSetPtr->GetFactoryId()), index + 1);
-				if (insertedIndex >= 0){
-					iprm::IParamsSet* targetParamsSetPtr = objectPtr->GetParamsSet(insertedIndex);
-					Q_ASSERT(targetParamsSetPtr != NULL);
-
-					targetParamsSetPtr->CopyFrom(*sourceParamsSetPtr);
-
-					const iprm::IOptionsList* elementListPtr = objectPtr->GetSelectionConstraints();
-					Q_ASSERT(elementListPtr != NULL);
-
-					// Restore element index here:
-					ElementList->setCurrentRow(elementListPtr->GetOptionsCount() - 1);
-				}
-			}
-		}
-	}
-}
-
-
-void CExtParamsManagerGuiComp::on_EditButton_clicked()
-{
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		int index = ElementList->currentIndex().row();
-		if (index >= 0){
-			const iprm::IOptionsList* elementListPtr = objectPtr->GetSelectionConstraints();
-			Q_ASSERT(elementListPtr != NULL);
-
-			QString name = elementListPtr->GetOptionName(index);
-			QString description = elementListPtr->GetOptionDescription(index);
-
-			QString oldName(name);
-
-			CElementEditorDialog elementEditor;
-			if (elementEditor.Execute(name, description)){
-				istd::CChangeNotifier changePtr(objectPtr);
-
-				if (!objectPtr->SetParamsSetName(index, name)){
-					QMessageBox::critical(
-								NULL,
-								tr("Rename error"),
-								tr("Parameter set '%1' can not be renamed to '%2'").arg(oldName, name));
-
-					// restore element index here 
-					ElementList->setCurrentRow(index);
-
-					return;
-				}
-
-				objectPtr->SetParamsSetDescription(index, description);
-			}
-			else{
-				return;
-			}
-
-			// restore element index here 
-			ElementList->setCurrentRow(index);
-		}
-	}
-}
-
-
 void CExtParamsManagerGuiComp::on_RemoveButton_clicked()
 {
+	QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
+	if (selectedItems.isEmpty()){
+		return;
+	}
+
+	int paramSetIndex = selectedItems.at(0)->data(DR_INDEX).toInt();
+	if (paramSetIndex < 0){
+		return;
+	}
+
 	iprm::IParamsManager* objectPtr = GetObjectPtr();
 	if (objectPtr != NULL){
-		const iprm::IOptionsList* elementListPtr = objectPtr->GetSelectionConstraints();
-		Q_ASSERT(elementListPtr != NULL);
-
-		int index = ElementList->currentIndex().row();
-		if (index >= 0){
-			int result = QMessageBox::question(NULL, 
-						tr("Remove parameter set"), 
-						tr("Are you sure to remove the parameter set '%1'?").arg(elementListPtr->GetOptionName(index)),
-						QMessageBox::Ok | QMessageBox::Cancel, 
-						QMessageBox::Cancel);
+		int result = QMessageBox::question(NULL, 
+					tr("Remove parameter set"), 
+					tr("Are you sure to remove the parameter set '%1'?").arg(objectPtr->GetParamsSetName(paramSetIndex)),
+					QMessageBox::Ok | QMessageBox::Cancel, 
+					QMessageBox::Cancel);
 			
-			if (result == QMessageBox::Ok){
-				if (objectPtr->RemoveParamsSet(index)){
-					ElementList->setCurrentRow(qMin(index, elementListPtr->GetOptionsCount()-1));
-				}
+		if (result == QMessageBox::Ok){
+			if (!objectPtr->RemoveParamsSet(paramSetIndex)){
+				// TODO: Show error message!
 			}
 		}
 	}
 }
 
 
-void CExtParamsManagerGuiComp::on_ElementList_currentRowChanged(int index)
+void CExtParamsManagerGuiComp::on_ReloadButton_clicked()
 {
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
-	if (objectPtr != NULL){
-		AddButton->setEnabled(true);
-		CloneButton->setEnabled(index >= 0);
-		EditButton->setEnabled(index >= 0);
-		RemoveButton->setEnabled(index >= 0);
-		ConfigureButton->setEnabled(index >= 0);
-	}
-	else{
-		AddButton->setEnabled(false);
-		CloneButton->setEnabled(false);
-		EditButton->setEnabled(false);
-		RemoveButton->setEnabled(false);
-		ConfigureButton->setEnabled(false);
-	}
 }
 
 
@@ -321,6 +299,20 @@ void CExtParamsManagerGuiComp::on_ElementList_doubleClicked(const QModelIndex &i
 	if (index.isValid()){
 		on_EditButton_clicked();
 	}
+}
+
+
+void CExtParamsManagerGuiComp::on_ElementList_itemSelectionChanged()
+{
+	m_lastSelectedParameterSetId.clear();
+
+	QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
+	if (!selectedItems.isEmpty())
+	{
+		m_lastSelectedParameterSetId = selectedItems[0]->data(DR_UUID).toByteArray();
+	}
+
+	UpdateCommands();
 }
 
 
@@ -375,7 +367,7 @@ void CExtParamsManagerGuiComp::CElementItemDelegate::paint(QPainter *painter, co
 	fnt.setPointSize(12);
 	painter->setFont(fnt);
 
-	QByteArray parameterType = index.data(DR_PARAMETER_TYPE_ROLE).toByteArray();
+	QByteArray parameterType = index.data(DR_PARAMETER_TYPE).toByteArray();
 
 	fnt.setPointSize(8);
 	QString version = QString("%1").arg(parameterType.constData());
@@ -393,7 +385,7 @@ void CExtParamsManagerGuiComp::CElementItemDelegate::paint(QPainter *painter, co
 	fnt.setPointSize(8);
 	painter->setFont(fnt);
 
-	QString descriptionToPaint(painter->fontMetrics().elidedText(index.data(DR_DESCRIPTION_ROLE).toString(), option.textElideMode, textRect.width()));
+	QString descriptionToPaint(painter->fontMetrics().elidedText(index.data(DR_DESCRIPTION).toString(), option.textElideMode, textRect.width()));
 	painter->drawText(textRect, Qt::AlignLeft | Qt::AlignBottom, descriptionToPaint);
 
 	// version
@@ -411,26 +403,41 @@ QSize CExtParamsManagerGuiComp::CElementItemDelegate::sizeHint(const QStyleOptio
 
 CExtParamsManagerGuiComp::CElementEditorDialog::CElementEditorDialog()
 {
-	_ui.setupUi(this);
+	m_ui.setupUi(this);
+
+	connect(m_ui.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_ui.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));}
+
+
+CExtParamsManagerGuiComp::CElementEditorDialog::~CElementEditorDialog()
+{
+	if ((m_guiObjectPtr != NULL) && m_guiObjectPtr->IsGuiCreated())
+	{
+		m_guiObjectPtr->DestroyGui();
+	}
 }
 
 
-bool CExtParamsManagerGuiComp::CElementEditorDialog::Execute(QString &name, QString &description)
+int CExtParamsManagerGuiComp::CElementEditorDialog::Execute(QString &name, QString &description, iqtgui::IGuiObject* paramsGuiPtr)
 {
-	_ui.NameEdit->setText(name);
-	_ui.NameEdit->selectAll();
-	_ui.NameEdit->setFocus();
+	m_guiObjectPtr = paramsGuiPtr;
 
-	_ui.DescriptionEdit->setText(description);
+	m_ui.NameEdit->setText(name);
+	m_ui.NameEdit->selectAll();
+	m_ui.NameEdit->setFocus();
 
-	if (exec() == QDialog::Accepted){
-		name = _ui.NameEdit->text();
-		description = _ui.DescriptionEdit->text();
+	m_ui.DescriptionEdit->setText(description);
 
-		return true;
+	bool isGuiCreated = (paramsGuiPtr != NULL) ? paramsGuiPtr->CreateGui(m_ui.ParamsFrame) : true;
+
+	if (isGuiCreated && (exec() == QDialog::Accepted)){
+		name = m_ui.NameEdit->text();
+		description = m_ui.DescriptionEdit->text();
+
+		return QDialog::Accepted;
 	}
 
-	return false;
+	return QDialog::Rejected;
 }
 
 

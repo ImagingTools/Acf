@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>724</width>
-    <height>493</height>
+    <width>693</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,16 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -75,7 +84,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QComboBox" name="ElementTypeSelector"/>
+      <widget class="QComboBox" name="ParameterTypeSelector"/>
      </item>
      <item>
       <widget class="QCommandLinkButton" name="AddButton">
@@ -107,9 +116,15 @@
       </widget>
      </item>
      <item>
-      <widget class="QCommandLinkButton" name="ConfigureButton">
+      <widget class="QCommandLinkButton" name="EditButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Configure</string>
+        <string>Edit</string>
        </property>
        <property name="icon">
         <iconset resource="../iqtgui/iqtgui.qrc">
@@ -121,8 +136,11 @@
          <height>24</height>
         </size>
        </property>
+       <property name="shortcut">
+        <string>Return</string>
+       </property>
        <property name="description">
-        <string>Configure selected element</string>
+        <string>Change properties of the selected element</string>
        </property>
       </widget>
      </item>
@@ -152,35 +170,6 @@
        </property>
        <property name="description">
         <string>Duplicate selected element</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCommandLinkButton" name="EditButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Edit</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../iqtgui/iqtgui.qrc">
-         <normaloff>:/Icons/Edit</normaloff>:/Icons/Edit</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-       <property name="shortcut">
-        <string>Return</string>
-       </property>
-       <property name="description">
-        <string>Change properties of the selected element</string>
        </property>
       </widget>
      </item>
@@ -231,12 +220,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>ElementTypeSelector</tabstop>
   <tabstop>AddButton</tabstop>
-  <tabstop>ConfigureButton</tabstop>
   <tabstop>CloneButton</tabstop>
-  <tabstop>EditButton</tabstop>
-  <tabstop>RemoveButton</tabstop>
   <tabstop>ElementList</tabstop>
  </tabstops>
  <resources>

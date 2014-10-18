@@ -49,6 +49,11 @@ public:
 	static bool SerializeDateTime(iser::IArchive& archive, QDateTime& dateTime);
 
 	/**
+		Serialize QDate object.
+	*/
+	static bool SerializeDate(iser::IArchive& archive, QDate& date);
+
+	/**
 		Serialize a generic index object.
 	*/
 	template <int Dimensions>

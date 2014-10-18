@@ -218,6 +218,29 @@ bool CPrimitiveTypesSerializer::SerializeDateTime(iser::IArchive& archive, QDate
 }
 
 
+bool CPrimitiveTypesSerializer::SerializeDate(iser::IArchive& archive, QDate& date)
+{
+	const static QString dateFormat("yyyy-MM-dd");
+
+	if (archive.IsStoring()){
+		QString dateString = date.toString(dateFormat);
+
+		return archive.Process(dateString);
+	}
+	else{
+		QString dateString;
+
+		if (archive.Process(dateString)){
+			date = QDate::fromString(dateString, dateFormat);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 bool CPrimitiveTypesSerializer::SerializeQPointF(iser::IArchive& archive, QPointF& point)
 {
 	static iser::CArchiveTag xTag("X", "Horizontal position", iser::CArchiveTag::TT_LEAF);

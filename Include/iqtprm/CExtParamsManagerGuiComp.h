@@ -16,10 +16,11 @@
 #endif
 
 // ACF includes
-#include "iqtgui/TDesignerGuiObserverCompBase.h"
-#include "iprm/IParamsManager.h"
-#include "GeneratedFiles/iqtprm/ui_CExtParamsManagerGuiComp.h"
-#include "GeneratedFiles/iqtprm/ui_CElementEditorGui.h"
+#include <iqtgui/IIconProvider.h>
+#include <iprm/IParamsManager.h>
+#include <iqtgui/TDesignerGuiObserverCompBase.h>
+#include <GeneratedFiles/iqtprm/ui_CExtParamsManagerGuiComp.h>
+#include <GeneratedFiles/iqtprm/ui_CElementEditorGui.h>
 
 
 namespace iqtprm
@@ -41,14 +42,15 @@ public:
 				Ui::CExtParamsManagerGuiComp, iprm::IParamsManager> BaseClass;
 
 	I_BEGIN_COMPONENT(CExtParamsManagerGuiComp);
-		I_ASSIGN_MULTI_0(_parameterEditorIdsAttrPtr, "ParameterEditorIds", "List of parameter editors type IDs used for showing the job's parameter for the corresponding worker types", false);
-		I_ASSIGN_MULTI_0(_parameterGuisCompPtr, "ParameterEditors", "List of parameter editors used for showing the job's parameter for the corresponding worker types", false);
-		I_ASSIGN_TO(_parameterObserversCompPtr, _parameterGuisCompPtr, true);
-		I_ASSIGN_TO(_parameterEditorsCompPtr, _parameterGuisCompPtr, true);
+		I_ASSIGN_MULTI_0(m_parameterEditorIdsAttrPtr, "ParameterEditorIds", "List of parameter editors type IDs used for showing the job's parameter for the corresponding worker types", false);
+		I_ASSIGN_MULTI_0(m_parameterGuisCompPtr, "ParameterEditors", "List of parameter editors used for showing the job's parameter for the corresponding worker types", false);
+		I_ASSIGN_TO(m_parameterObserversCompPtr, m_parameterGuisCompPtr, true);
+		I_ASSIGN_TO(m_parameterEditorsCompPtr, m_parameterGuisCompPtr, true);
 	I_END_COMPONENT;
 
 protected:
 	int GetParameterTypeIndexById(const QByteArray& parameterTypeId) const;
+	void UpdateCommands();
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiCreated();
@@ -56,12 +58,12 @@ protected:
 
 protected Q_SLOTS:
 	void on_AddButton_clicked();
-	void on_ConfigureButton_clicked();
 	void on_CloneButton_clicked();
 	void on_EditButton_clicked();
 	void on_RemoveButton_clicked();
-	void on_ElementList_currentRowChanged(int);
+	void on_ReloadButton_clicked();
 	void on_ElementList_doubleClicked(const QModelIndex &index);
+	void on_ElementList_itemSelectionChanged();
 
 protected:
 
@@ -71,24 +73,24 @@ protected:
 	enum DataRoles
 	{
 		/**
-			Description of the parameter set.
+			Parameter set description
 		*/
-		DR_DESCRIPTION_ROLE = Qt::UserRole + 1,
+		DR_DESCRIPTION = Qt::UserRole + 1,
 
 		/**
-			Version of the parameter set.
+			Parameter type ID.
 		*/
-		DR_VERSION_ROLE,
-
-		/**
-			Index of the parameter type.
-		*/
-		DR_PARAMETER_TYPE_ROLE,
+		DR_PARAMETER_TYPE,
 
 		/**
 			Index of the parameter set in the list.
 		*/
-		DR_INDEX_ROLE
+		DR_INDEX,
+
+		/**
+			ID of the parameter set
+		*/
+		DR_UUID
 	};
 
 	/**
@@ -110,18 +112,21 @@ protected:
 	{
 	public:
 		CElementEditorDialog();
+		virtual ~CElementEditorDialog();
 
 		/**
 			Start the dialog with the predefined name and description parameters. 
 		*/
-		bool Execute(QString &name, QString &description);
+		int Execute(QString &name, QString &description, iqtgui::IGuiObject* paramsGuiPtr);
 
 	private:
-		Ui::CElementEditorGui _ui;
+		Ui::CElementEditorGui m_ui;
+
+		iqtgui::IGuiObject* m_guiObjectPtr;
 	};
 
 	/**
-		Internal structure used for binding of model editor, observer and gui editor for the job parameters in a one object
+		Internal structure used for binding of model editor, observer and gui editor for the parameter set in a one object
 	*/
 	struct ParameterEditor
 	{
@@ -137,22 +142,24 @@ protected:
 	};
 
 	/**
-		Mapping between the worker type ID and corresponding editor.
+		Mapping between the parameter type ID and corresponding editor.
 	*/
 	typedef QMap<QByteArray, ParameterEditor> ParameterEditorMap;
-	ParameterEditorMap _parameterEditorMap;
+	ParameterEditorMap m_parameterEditorMap;
 
 	/**
-		List of parameter editors type IDs used for showing the job's parameter for the corresponding worker types.
+		List of parameter editors type IDs used for showing the job's parameter for the corresponding parameter set type.
 	*/
-	I_MULTIATTR(QByteArray, _parameterEditorIdsAttrPtr);
+	I_MULTIATTR(QByteArray, m_parameterEditorIdsAttrPtr);
 
 	/**
-		List of parameter editors used for showing the job's parameter for the corresponding worker types.
+		List of parameter editors used for showing the parameter for the corresponding parameter set type.
 	*/
-	I_MULTIREF(iqtgui::IGuiObject, _parameterGuisCompPtr);
-	I_MULTIREF(imod::IObserver, _parameterObserversCompPtr);
-	I_MULTIREF(imod::IModelEditor, _parameterEditorsCompPtr);
+	I_MULTIREF(iqtgui::IGuiObject, m_parameterGuisCompPtr);
+	I_MULTIREF(imod::IObserver, m_parameterObserversCompPtr);
+	I_MULTIREF(imod::IModelEditor, m_parameterEditorsCompPtr);
+
+	QByteArray m_lastSelectedParameterSetId;
 };
 
 
