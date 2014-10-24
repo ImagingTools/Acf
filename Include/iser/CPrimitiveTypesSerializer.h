@@ -5,6 +5,8 @@
 // Qt includes
 #include <QtCore/QDateTime>
 #include <QtCore/QPointF>
+#include <QtCore/QMetaObject>
+#include <QtCore/QMetaEnum>
 
 // ACF includes
 #include "istd/TRange.h"
@@ -72,6 +74,17 @@ public:
 				QStringList& stringList,
 				const QByteArray& containerTagName = "Elements",
 				const QByteArray& elementTagName = "Element");
+
+	/**
+		Method for serialization of the enumerated value.
+		This implementation supports both methods for serialization of the enumerator - as integer value or in textual form.
+		The second variant is only possible if the owner of the enumeration is a class which is directly or indirectly derived from QObject.
+	*/
+	template <typename EnumType>
+	static bool SerializeEnum(
+				iser::IArchive& archive,
+				EnumType& enumValue,
+				const QObject* objectPtr = NULL);
 };
 
 
@@ -84,6 +97,66 @@ bool CPrimitiveTypesSerializer::SerializeIndex(iser::IArchive& archive, istd::TI
 
 	for (int i = 0; i < Dimensions; ++i){
 		retVal = retVal && archive.Process(index[i]);
+	}
+
+	return retVal;
+}
+
+
+template <typename EnumType>
+bool CPrimitiveTypesSerializer::SerializeEnum(
+			iser::IArchive& archive,
+			EnumType& enumValue,
+			const QObject* objectPtr)
+{
+	QByteArray enumValueAsText;
+	QMetaEnum enumMeta;
+
+	QString enumTypeName = typeid(EnumType).name();
+	enumTypeName = enumTypeName.mid(enumTypeName.lastIndexOf(":") + 1);
+
+	if (objectPtr != NULL){
+		const QMetaObject* metaObjectPtr = objectPtr->metaObject();
+
+		// Iterate over all enums of the class:
+		int enumeratorsCount = metaObjectPtr->enumeratorCount();
+		for (int enumeratorIndex = 0; enumeratorIndex < enumeratorsCount; ++enumeratorIndex){
+			enumMeta = metaObjectPtr->enumerator(enumeratorIndex);
+			QString enumName = enumMeta.name();
+
+			if (enumTypeName == enumName){
+				// Find the enum value:
+				int keysCount = enumMeta.keyCount();
+				for (int keyIndex = 0; keyIndex < keysCount; ++keyIndex){
+				
+					if (enumMeta.value(keyIndex) == enumValue){
+						enumValueAsText = enumMeta.valueToKey(keyIndex);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	bool retVal = true;
+
+	// Enum value is defined in textual form:
+	if (!enumValueAsText.isEmpty()){
+		retVal = retVal && archive.Process(enumValueAsText);
+		
+		if (retVal && !archive.IsStoring()){
+			enumValue = EnumType(enumMeta.keyToValue(enumValueAsText.constData(), &retVal));
+		}
+	}
+	else{
+		int value = enumValue;
+
+		retVal = retVal && archive.Process(value);
+
+		if (!archive.IsStoring()){
+			// TODO: check if the readed value is in range of the enum values!
+			enumValue = EnumType(value);
+		}		
 	}
 
 	return retVal;
