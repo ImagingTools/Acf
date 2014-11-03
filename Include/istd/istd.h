@@ -62,5 +62,51 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #endif // !NULL
 
 
+#define I_DECLARE_ENUM(Enum, ...)\
+	inline static QList<int> Enum##GetValues(){\
+		QList<int> values;\
+		int vars[] = {0, __VA_ARGS__};\
+		int count = (sizeof(vars) / sizeof(int));\
+		for(int i = 0; i < count; ++i){\
+			if (i > 0){\
+				values << vars[i];\
+			}\
+		}\
+		return values;\
+	}\
+	inline static QByteArray ToString(Enum enumValue){\
+		static QByteArray emptyString;\
+		QString enumValuesString = #__VA_ARGS__;\
+		QStringList values = enumValuesString.split(",");\
+		for (int i = 0; i < values.count(); ++i){\
+			values[i] = values[i].simplified();\
+		}\
+		QList<int> enumValues = Enum##GetValues();\
+		Q_ASSERT(enumValues.count() == values.count());\
+		for (int i = 0; i < enumValues.count(); ++i){\
+			if (enumValues[i] == enumValue){\
+				return values[i].toUtf8();\
+			}\
+		}\
+		return emptyString;\
+	}\
+	inline static bool FromString(const QByteArray& enumString, Enum& enumValue){\
+		QString enumValuesString = #__VA_ARGS__;\
+		QStringList values = enumValuesString.split(",");\
+		for (int i = 0; i < values.count(); ++i){\
+			values[i] = values[i].simplified();\
+		}\
+		QList<int> enumValues = Enum##GetValues();\
+		Q_ASSERT(enumValues.count() == values.count());\
+		for (int i = 0; i < enumValues.count(); ++i){\
+			if (values[i].toUtf8() == enumString){\
+				enumValue = Enum(enumValues[i]);\
+				return true;\
+			}\
+		}\
+		return false;\
+	}\
+
+
 #endif // !istd_included
 
