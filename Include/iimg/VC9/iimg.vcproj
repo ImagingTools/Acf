@@ -196,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CMultiPageBitmapSequenceComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CReflectedBitmapBase.cpp"
 				>
 			</File>
@@ -242,6 +246,10 @@
 			</File>
 			<File
 				RelativePath="..\CMultiPageBitmapComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CMultiPageBitmapSequenceComp.h"
 				>
 			</File>
 			<File
