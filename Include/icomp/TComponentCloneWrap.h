@@ -46,9 +46,9 @@ istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::Co
 					for (IRegistry::Ids::ConstIterator elemIter = elementIds.constBegin(); elemIter != elementIds.constEnd(); ++elemIter){
 						const icomp::ICompositeComponent* subComponentPtr = dynamic_cast<const icomp::ICompositeComponent*>(parentCompositeComponentPtr->GetSubcomponent(*elemIter));
 						if (subComponentPtr != NULL){
-							const icomp::IComponent* sourceComponentPtr = subComponentPtr->GetSubcomponent(contextId);
-							bool isCompostite = (dynamic_cast<const icomp::ICompositeComponent*>(sourceComponentPtr) != NULL);
-							if (isCompostite && (sourceComponentPtr != NULL)){
+							const icomp::IComponentContext* subComponentContextPtr = subComponentPtr->GetComponentContext();
+
+							if ((subComponentPtr->GetSubcomponent(contextId) != NULL) && (subComponentContextPtr == parentComponentPtr->GetComponentContext())){
 								contextId = *elemIter;
 
 								parentComponentPtr = parentCompositeComponentPtr;
