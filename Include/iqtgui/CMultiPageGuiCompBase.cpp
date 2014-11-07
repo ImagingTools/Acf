@@ -186,6 +186,8 @@ void CMultiPageGuiCompBase::ResetPages()
 	Q_ASSERT(multiPageWidgetPtr != NULL);
 
 	multiPageWidgetPtr->ResetPages();
+
+	m_pageModel.SetSelectedOptionIndex(-1);
 }
 
 

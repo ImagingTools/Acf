@@ -67,7 +67,7 @@ public:
 	static bool SerializeQPointF(iser::IArchive& archive, QPointF& point);
 
 	/**
-		Serialize a QStringList sobject.
+		Serialize a QStringList object.
 	*/
 	static bool SerializeQStringList(
 				iser::IArchive& archive,
