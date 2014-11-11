@@ -76,9 +76,10 @@ public:
 				const QByteArray& elementTagName = "Element");
 
 	/**
-		Method for serialization of the enumerated value.
+		Method for serialization of the enumerated value using ACF's meta information extensions for the C++ enums.
 		This implementation supports both methods for serialization of the enumerator - as integer value or in textual form.
 		The second variant is only possible if the enumeration was defined using I_DECLARE_ENUM macro.
+		\sa I_DECLARE_ENUM I_DECLARE_FLAGS
 	*/
 	template <typename EnumType, QByteArray(*ToString)(EnumType), bool(*FromString)(const QByteArray&, EnumType&)>
 	static bool SerializeEnum(
@@ -86,7 +87,7 @@ public:
 				EnumType& enumValue);
 
 	/**
-		Method for serialization of the enumerated value.
+		Method for serialization of the enumerated value using Qt's meta information system.
 		This implementation supports both methods for serialization of the enumerator - as integer value or in textual form.
 		The second variant is only possible if the owner of the enumeration is a class which is directly or indirectly derived from QObject
 	*/
