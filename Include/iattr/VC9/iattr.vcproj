@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="iattr"
+	ProjectGUID="{4F6A2148-C11F-4554-91A0-A94F535B6E88}"
 	RootNamespace="iattr"
 	TargetFrameworkVersion="0"
 	>
@@ -184,15 +185,15 @@
 			Filter="cpp"
 			>
 			<File
-				RelativePath="..\CPropertiesEditorComp.cpp"
+				RelativePath="..\CAttributesManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPropertiesManager.cpp"
+				RelativePath="..\CEnumAttributeMetaInfo.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\CPropertyBase.cpp"
+				RelativePath="..\CStandardAttributesFactory.cpp"
 				>
 			</File>
 		</Filter>
@@ -201,15 +202,15 @@
 			Filter="h"
 			>
 			<File
-				RelativePath="..\CPropertiesEditorComp.h"
+				RelativePath="..\CAttributesManager.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPropertiesManager.h"
+				RelativePath="..\CEnumAttributeMetaInfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\CPropertyBase.h"
+				RelativePath="..\CStandardAttributesFactory.h"
 				>
 			</File>
 			<File
@@ -217,52 +218,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\IPropertiesManager.h"
+				RelativePath="..\IAttributeMetaInfo.h"
 				>
 			</File>
 			<File
-				RelativePath="..\IProperty.h"
+				RelativePath="..\IAttributesManager.h"
 				>
 			</File>
 			<File
-				RelativePath="..\TMultiProperty.h"
+				RelativePath="..\IAttributesMetaInfoProvider.h"
 				>
 			</File>
 			<File
-				RelativePath="..\TObjectProperty.h"
+				RelativePath="..\IAttributesProvider.h"
 				>
 			</File>
 			<File
-				RelativePath="..\TProperty.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Designer Files"
-			Filter="ui"
-			>
-			<File
-				RelativePath="..\CPropertiesEditorComp.ui"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Moc Files"
-			>
-			<File
-				RelativePath="..\CPropertiesEditorComp.moc"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Generated Files"
-			>
-			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iattr\moc_CPropertiesEditorComp.cpp"
+				RelativePath="..\IEnumAttributeMetaInfo.h"
 				>
 			</File>
 			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iattr\ui_CPropertiesEditorComp.h"
+				RelativePath="..\TAttribute.h"
+				>
+			</File>
+			<File
+				RelativePath="..\TMultiAttribute.h"
 				>
 			</File>
 		</Filter>

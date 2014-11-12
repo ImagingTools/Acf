@@ -67,7 +67,7 @@ iattr::IAttributesProvider::AttributeIds CComponentStaticInfoBase::GetAttributeM
 }
 
 
-const iattr::IAttributeMetaInfo* CComponentStaticInfoBase::GetAttributeMetaInfo(const QByteArray& attributeId) const
+const iattr::IAttributeMetaInfo* CComponentStaticInfoBase::GetAttributeMetaInfo(const QByteArray& /*attributeId*/) const
 {
 	return NULL;
 }
