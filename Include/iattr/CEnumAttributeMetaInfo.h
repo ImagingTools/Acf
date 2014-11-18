@@ -10,7 +10,7 @@
 
 // ACF-Solutions includes
 #include "iattr/IEnumAttributeMetaInfo.h"
-#include "iattr/IAttributesProvider.h"
+#include "iattr/CAttributeMetaInfo.h"
 
 
 namespace iattr
@@ -21,13 +21,19 @@ namespace iattr
 	Represents constraints of properties allowing values from enumerated set.
 */
 class CEnumAttributeMetaInfo:
-				virtual public IEnumAttributeMetaInfo,
-				virtual protected IAttributesProvider
+			public CAttributeMetaInfo,
+			virtual public IEnumAttributeMetaInfo
 {
 public:
 	CEnumAttributeMetaInfo();
 
 	void SetOtherValueAllowed(bool state);
+	/**
+		Insert new enumeration element.
+		\param	description	human readable description of this enumeration element.
+		\param	valuePtr	value of this enumeration element.
+		\param	releaseFlag	if true, the value object will be managed by this object, it means it will be deleted from memory during destruction.
+	*/
 	bool InsertOption(const QString& description, const iser::IObject* valuePtr, bool releaseFlag);
 
 	// reimplemented (iattr::IEnumAttributeMetaInfo)

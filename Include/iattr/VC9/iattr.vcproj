@@ -185,11 +185,23 @@
 			Filter="cpp"
 			>
 			<File
+				RelativePath="..\CAttributeMetaInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CAttributesManager.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\CAttributesMetaInfoProvider.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CEnumAttributeMetaInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CNumericAttributeMetaInfo.cpp"
 				>
 			</File>
 			<File
@@ -202,11 +214,23 @@
 			Filter="h"
 			>
 			<File
+				RelativePath="..\CAttributeMetaInfo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CAttributesManager.h"
 				>
 			</File>
 			<File
+				RelativePath="..\CAttributesMetaInfoProvider.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CEnumAttributeMetaInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CNumericAttributeMetaInfo.h"
 				>
 			</File>
 			<File
@@ -235,6 +259,10 @@
 			</File>
 			<File
 				RelativePath="..\IEnumAttributeMetaInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\INumericAttributeMetaInfo.h"
 				>
 			</File>
 			<File
