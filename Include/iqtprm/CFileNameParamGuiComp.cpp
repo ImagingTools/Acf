@@ -196,7 +196,10 @@ void CFileNameParamGuiComp::on_BrowseButton_clicked()
 				}
 			}
 
-			QString pathToSearch = QFileInfo(GetPathFromEditor()).dir().absolutePath();
+			QString pathToSearch = GetPathFromEditor();
+			if (!pathToSearch.isEmpty()){
+				pathToSearch = QFileInfo(pathToSearch).absoluteFilePath();
+			}
 			if (!QFile::exists(pathToSearch) && m_defaultDirPtr.IsValid()){
 				pathToSearch = m_defaultDirPtr->GetPath();
 			}
