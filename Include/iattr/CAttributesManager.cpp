@@ -81,6 +81,25 @@ bool CAttributesManager::InsertAttribute(
 }
 
 
+// reimplemented (iattr::IAttributesProvider)
+
+IAttributesProvider::AttributeIds CAttributesManager::GetAttributeIds() const
+{
+	return m_attributesMap.keys().toSet();
+}
+
+
+iser::IObject* CAttributesManager::GetAttribute(const QByteArray& attributeId) const
+{
+	AttributesMap::ConstIterator findIter = m_attributesMap.constFind(attributeId);
+	if (findIter != m_attributesMap.constEnd()){
+		return findIter.value().GetPtr();
+	}
+
+	return NULL;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CAttributesManager::Serialize(iser::IArchive& archive)

@@ -12,7 +12,7 @@ namespace iattr
 /**
 	Represents constraints of properties allowing values from enumerated set.
 */
-class IEnumAttributeMetaInfo: public IAttributeMetaInfo
+class IEnumAttributeMetaInfo: virtual public IAttributeMetaInfo
 {
 public:
 	/**

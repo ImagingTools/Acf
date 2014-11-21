@@ -22,8 +22,6 @@ class CNumericAttributeMetaInfo:
 			virtual public INumericAttributeMetaInfo
 {
 public:
-	CNumericAttributeMetaInfo();
-
 	/**
 		Set minimal value of attribute.
 		\param	releaseFlag	if true, the value object will be managed by this object, it means it will be deleted from memory during destruction.
