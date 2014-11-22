@@ -46,14 +46,6 @@ public:
 	virtual bool SetOptionName(int optionIndex, const QString& optionName);
 	virtual bool SetOptionDescription(int optionIndex, const QString& optionDescription);
 
-	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
-
 protected:
 	struct TypeInfo
 	{

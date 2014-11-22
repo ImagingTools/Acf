@@ -72,6 +72,14 @@ public:
 	virtual bool SetSelectedOptionIndex(int index);
 	virtual ISelectionParam* GetSubselection(int index) const;
 
+	// reimplemented (iprm::IOptionsList)
+	virtual int GetOptionsFlags() const;
+	virtual int GetOptionsCount() const;
+	virtual QString GetOptionName(int index) const;
+	virtual QString GetOptionDescription(int index) const;
+	virtual QByteArray GetOptionId(int index) const;
+	virtual bool IsOptionEnabled(int index) const;
+
 protected:
 	void EnsureParamsSetModelDetached(iprm::IParamsSet* paramsSetPtr) const;
 	QString CalculateNewDefaultName() const;

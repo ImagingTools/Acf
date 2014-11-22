@@ -213,65 +213,6 @@ bool CMultiParamsManagerComp::SetOptionDescription(int /*optionIndex*/, const QS
 }
 
 
-// reimplemented (iprm::IOptionsList)
-
-int CMultiParamsManagerComp::GetOptionsFlags() const
-{
-	return GetIndexOperationFlags(-1);
-}
-
-
-int CMultiParamsManagerComp::GetOptionsCount() const
-{
-	return GetParamsSetsCount();
-}
-
-
-QString CMultiParamsManagerComp::GetOptionName(int index) const
-{
-	return GetParamsSetName(index);
-}
-
-
-QString CMultiParamsManagerComp::GetOptionDescription(int index) const
-{
-	return GetParamsSetDescription(index);
-}
-
-
-bool CMultiParamsManagerComp::IsOptionEnabled(int index) const
-{
-	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (!*m_allowDisabledAttrPtr || (index < fixedSetsCount)){
-		return true;
-	}
-
-	return m_paramSets[index - fixedSetsCount]->isEnabled;
-}
-
-
-QByteArray CMultiParamsManagerComp::GetOptionId(int index) const
-{
-	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
-
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (index < fixedSetsCount){
-		int idsCount = m_fixedSetIdsAttrPtr.GetCount();
-
-		if (index < idsCount){
-			return m_fixedSetIdsAttrPtr[index];
-		}
-		else{
-			return QByteArray();
-		}
-	}
-
-	return GetParamsSetName(index).toLocal8Bit();
-}
-
-
 // protected methods
 
 bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& typeId, const QString& name, bool isEnabled)
