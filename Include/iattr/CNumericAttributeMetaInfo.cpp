@@ -15,7 +15,7 @@ bool CNumericAttributeMetaInfo::SetMinAttributeValue(const iser::IObject* valueP
 
 bool CNumericAttributeMetaInfo::SetMaxAttributeValue(const iser::IObject* valuePtr, bool releaseFlag)
 {
-	m_minAttributePtr.SetPtr(valuePtr, releaseFlag);
+	m_maxAttributePtr.SetPtr(valuePtr, releaseFlag);
 
 	return true;
 }
