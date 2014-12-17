@@ -88,6 +88,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag nameTag("Name", "Name of set", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
 	static iser::CArchiveTag enabledTag("Enabled", "Is parameter set enabled", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
 	static iser::CArchiveTag valueTag("Value", "Value of set", iser::CArchiveTag::TT_GROUP, &paramsSetTag, true);
+	static iser::CArchiveTag uuidTag("Uuid", "UUID of the parameter set", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
 
 	bool retVal = true;
 
@@ -139,8 +140,6 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 		quint32 version = 0;
 		if (		!archive.GetVersionInfo().GetVersionNumber(iser::IVersionInfo::AcfVersionId, version) ||
 					(version > 3185)){
-			bool isEnabled = true;
-
 			retVal = retVal && archive.BeginTag(enabledTag);
 			retVal = retVal && archive.Process(isEnabled);
 			retVal = retVal && archive.EndTag(enabledTag);
@@ -149,6 +148,21 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 			}
 		}
 
+		QByteArray uuid = GetOptionId(i);
+		
+		if (		!archive.GetVersionInfo().GetVersionNumber(iser::IVersionInfo::AcfVersionId, version) ||
+					(version > 3649)){
+
+			retVal = retVal && archive.BeginTag(uuidTag);
+			retVal = retVal && archive.Process(uuid);
+			retVal = retVal && archive.EndTag(uuidTag);
+			if (retVal){
+				m_paramSets[i]->uuid = uuid;
+			}
+			else{
+				return false;
+			}
+		}
 		if (!isStoring){
 			SetOptionEnabled(i, isEnabled);
 		}

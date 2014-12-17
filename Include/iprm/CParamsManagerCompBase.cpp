@@ -347,7 +347,12 @@ QByteArray CParamsManagerCompBase::GetOptionId(int index) const
 		}
 	}
 
-	return GetParamsSetName(index).toLocal8Bit();
+	QByteArray uuid = m_paramSets[index - fixedSetsCount]->uuid;
+	if (uuid.isEmpty()){
+		uuid = GetParamsSetName(index).toLocal8Bit();
+	}
+
+	return uuid;
 }
 
 

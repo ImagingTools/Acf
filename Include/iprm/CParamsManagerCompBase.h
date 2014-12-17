@@ -148,6 +148,7 @@ protected:
 
 		istd::TDelPtr<IParamsSet> paramSetPtr;
 		QByteArray typeId;
+		QByteArray uuid;
 		QString name;
 		iprm::CNameParam description;
 		bool isEnabled;
