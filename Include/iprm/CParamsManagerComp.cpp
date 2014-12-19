@@ -157,7 +157,10 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(uuid);
 			retVal = retVal && archive.EndTag(uuidTag);
 			if (retVal){
-				m_paramSets[i]->uuid = uuid;
+				int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+				if (i >= fixedSetsCount){
+					m_paramSets[i - fixedSetsCount]->uuid = uuid;
+				}
 			}
 			else{
 				return false;
