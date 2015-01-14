@@ -342,7 +342,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnToolsBu
 {
 	int actionId = action->data().toInt();
 
-	const ShapesMap& shapesMap = BaseClass::GetShapesMap();
+    typename const ShapesMap& shapesMap = BaseClass::GetShapesMap();
 	for (		typename ShapesMap::const_iterator iter = shapesMap.begin();
 		iter != shapesMap.end();
 		++iter){

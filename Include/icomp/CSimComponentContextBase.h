@@ -9,6 +9,7 @@
 // ACF includes
 #include "istd/TIFactory.h"
 #include "istd/CIdManipBase.h"
+#include "icomp/IAttributeStaticInfo.h"
 #include "iattr/TAttribute.h"
 #include "iattr/TMultiAttribute.h"
 #include "icomp/IComponent.h"
