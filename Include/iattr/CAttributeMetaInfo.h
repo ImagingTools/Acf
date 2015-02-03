@@ -19,6 +19,8 @@ namespace iattr
 class CAttributeMetaInfo: virtual public IAttributeMetaInfo
 {
 public:
+	CAttributeMetaInfo();
+
 	void SetAttributeDescription(const QString& description);
 	void SetAttributeTypeId(const QByteArray& typeId);
 	void SetAttributeFlags(int attributeFlags);

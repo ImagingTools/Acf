@@ -5,6 +5,12 @@ namespace iattr
 {
 
 
+CAttributeMetaInfo::CAttributeMetaInfo()
+:	m_attributeFlags(0)
+{
+}
+
+
 void CAttributeMetaInfo::SetAttributeDescription(const QString& description)
 {
 	m_description = description;
