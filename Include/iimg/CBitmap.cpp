@@ -298,6 +298,11 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 			istd::CChangeNotifier notifier(this);
 			istd::CIndex2d size = bitmapPtr->GetImageSize();
 			if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
+				// do not copy empty image
+				if (size.IsSizeEmpty()){	
+					return true;
+				}
+
 				int lineBytesCount = qMin(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
 				Q_ASSERT(lineBytesCount >= 0);
 				if (lineBytesCount <= 0){
