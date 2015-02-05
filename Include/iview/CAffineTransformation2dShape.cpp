@@ -1,6 +1,7 @@
-#include "CAffineTransformation2dShape.h"
+#include "iview/CAffineTransformation2dShape.h"
 
-// Acf includes
+
+// ACF includes
 #include <iview/IColorSchema.h>
 #include <iview/CConsoleBase.h>
 
@@ -16,7 +17,9 @@ static const double baseScale = 100;
 
 
 CAffineTransformation2dShape::CAffineTransformation2dShape(void)
-:	m_activeControlPoints(ALL_POINTS), m_currentPoint(NO_POINT)
+	:m_referencePosition(0.0, 0.0),
+	m_activeControlPoints(ALL_POINTS),
+	m_currentPoint(NO_POINT)
 {
 }
 
@@ -24,6 +27,7 @@ CAffineTransformation2dShape::CAffineTransformation2dShape(void)
 void CAffineTransformation2dShape::SetActiveControlPoints(ControlPoint points)
 {
 	m_activeControlPoints = points;
+
 	Invalidate();
 }
 

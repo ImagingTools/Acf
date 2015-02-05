@@ -17,6 +17,7 @@ namespace iview
 // constructors
 
 CPinShape::CPinShape()
+	:m_referencePosition(0.0, 0.0)
 {
 }
 

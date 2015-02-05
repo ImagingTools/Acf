@@ -20,7 +20,8 @@ namespace iview
 
 
 CParallelogramShape::CParallelogramShape()
-:	m_editNode(EN_NONE)
+	:m_editNode(EN_NONE),
+	m_referencePosition(0.0, 0.0)
 {
 	m_isEditableRotation = true;
 	m_isEditableWidth = true;

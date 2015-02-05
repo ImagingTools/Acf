@@ -224,7 +224,7 @@ void CCalibration2dProxyComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_calibrationProviderModelCompPtr.IsValid()){
+	if (m_calibrationProviderCompPtr.IsValid() && m_calibrationProviderModelCompPtr.IsValid()){
 		m_calibrationProviderModelCompPtr->AttachObserver(this);
 	}
 }

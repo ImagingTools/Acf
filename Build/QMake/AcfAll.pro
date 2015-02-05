@@ -23,6 +23,9 @@ i2d.file = ../../Include/i2d/QMake/i2d.pro
 SUBDIRS += i3d
 i3d.file = ../../Include/i3d/QMake/i3d.pro
 
+SUBDIRS += iattr
+iattr.file = ../../Include/iattr/QMake/iattr.pro
+
 SUBDIRS += iimg
 iimg.file = ../../Include/iimg/QMake/iimg.pro
 

@@ -142,11 +142,11 @@ void CCircleShape::Draw(QPainter& drawContext) const
 	}
 
 	const imod::IModel* modelPtr = GetModelPtr();
-	const i2d::CCircle& circle = *dynamic_cast<const i2d::CCircle*>(modelPtr);
-	Q_ASSERT(&circle != NULL);
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(modelPtr);
+	Q_ASSERT(circlePtr != NULL);
 
-	const i2d::CVector2d& center = circle.GetPosition();
-	double radius = circle.GetRadius();
+	const i2d::CVector2d& center = circlePtr->GetPosition();
+	double radius = circlePtr->GetRadius();
 
 	i2d::CVector2d screenCenter = GetScreenPosition(center);
 	i2d::CVector2d ticker1 = GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));

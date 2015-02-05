@@ -20,9 +20,10 @@ namespace iview
 
 
 CLineShape::CLineShape()
+	:m_referencePosition(0.0, 0.0),
+	m_referenceIndex(-1),
+	m_arePointsValid(false)
 {
-	m_arePointsValid = false;
-	m_referenceIndex = -1;
 }
 
 

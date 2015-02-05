@@ -2,6 +2,9 @@
 #define istd_TSmartPtr_included
 
 
+// Qt includes
+#include <QMutexLocker>
+
 // ACF includes
 #include "istd/TTransPtr.h"
 
@@ -71,30 +74,50 @@ protected:
 		:	BaseClass(pointer)
 		{
 			m_count = 1;
+
+			m_lockPtr = new QMutex(QMutex::Recursive);
+		}
+
+		virtual ~RefCounter()
+		{
+			delete m_lockPtr;
 		}
 
 		// reimplemented (RefCountBase)
 		virtual void OnAttached()
 		{
+			m_lockPtr->lock();
+
 			Q_ASSERT(BaseClass::IsValid());
 			Q_ASSERT(m_count > 0);
 
 			++m_count;
+
+			m_lockPtr->unlock();
 		}
 
 		virtual void OnDetached()
 		{
+			m_lockPtr->lock();
+
 			Q_ASSERT(BaseClass::IsValid());
 			Q_ASSERT(m_count > 0);
 
 			if (--m_count <= 0){
 				Accessor::Delete(BaseClass::GetPtr());
 
+				m_lockPtr->unlock();
+
 				delete this;
+
+				return;
 			}
+
+			m_lockPtr->unlock();
 		}
 
 	private:
+		QMutex *m_lockPtr;
 		int m_count;
 	};
 };

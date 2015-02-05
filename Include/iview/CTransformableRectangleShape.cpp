@@ -4,14 +4,10 @@
 // Qt includes
 #include <QtGui/QPainter>
 
-
 // ACF includes
 #include "i2d/CLine2d.h"
-
 #include "imod/IModel.h"
-
 #include "iqt/iqt.h"
-
 #include "iview/IColorSchema.h"
 #include "iview/CScreenTransform.h"
 
@@ -21,7 +17,8 @@ namespace iview
 
 
 CTransformableRectangleShape::CTransformableRectangleShape()
-:	m_mouseMode(MM_NONE)
+:	m_mouseMode(MM_NONE),
+	m_referencePosition(0.0, 0.0)
 {
 	m_isEditableRotation = true;
 	m_isEditableWidth = true;

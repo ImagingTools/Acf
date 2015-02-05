@@ -6,11 +6,8 @@
 
 // ACF includes
 #include "imod/IModel.h"
-
 #include "i2d/CLine2d.h"
-
 #include "iqt/iqt.h"
-
 #include "iview/IColorSchema.h"
 
 
@@ -19,7 +16,8 @@ namespace iview
 
 
 CRectangleShape::CRectangleShape()
-	:m_editNode(EN_NONE),
+	:m_referencePosition(0.0, 0.0),
+	m_editNode(EN_NONE),
 	m_arePointsValid(false)
 {
 }

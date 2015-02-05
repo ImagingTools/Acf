@@ -425,9 +425,7 @@ bool CViewBase::ConnectShape(IShape* shapePtr)
 
 	IViewLayer& layer = GetLayer(layerIndex);
 
-	layer.ConnectShape(shapePtr);
-
-	return true;
+	return layer.ConnectShape(shapePtr);
 }
 
 
