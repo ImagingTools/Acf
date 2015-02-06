@@ -84,8 +84,10 @@ public:
 		Create bitmap with specified size and format.
 		\param	pixelFormat		bitmap format. \sa PixelFormat
 		\param	size			bitmap size.
+		\param	pixelBitsCount	bits per pixel. Default value \c 0 means that the number of bits per pixel is defined by format specification.
+		\param	componentsCount	components per pixel. Default value \c 0 means that the number of bits per pixel is defined by format specification.
 	*/
-	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size) = 0;
+	virtual bool CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, int pixelBitsCount = 0, int componentsCount = 0) = 0;
 
 	/**
 		Create bitmap with specified size and format using external image data buffer.

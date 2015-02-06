@@ -96,7 +96,7 @@ iimg::IBitmap::PixelFormat CBitmap::GetPixelFormat() const
 }
 
 
-bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
+bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, int /*pixelBitsCount*/, int /*componentsCount*/)
 {
 	if (size.IsSizeEmpty()){
 		ResetImage();

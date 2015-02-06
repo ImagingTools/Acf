@@ -36,25 +36,37 @@ IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
 }
 
 
-bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size)
+bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, int pixelBitsCount, int componentsCount)
 {
 	switch(pixelFormat){
-	case PF_GRAY:
-		return CreateBitmap(size, 8, 1, pixelFormat);
+		case PF_GRAY:
+			componentsCount = 1;
+			pixelBitsCount = 8;
+			break;
 
-	case PF_RGB:
-	case PF_RGBA:
-		return CreateBitmap(size, 32, 4, pixelFormat);
+		case PF_RGB:
+		case PF_RGBA:
+			componentsCount = 4;
+			pixelBitsCount = 32;
+			break;
 
-	case PF_GRAY16:
-		return CreateBitmap(size, 16, 1, pixelFormat);
+		case PF_GRAY16:
+			componentsCount = 1;
+			pixelBitsCount = 16;
+			break;
 
-	case PF_GRAY32:
-		return CreateBitmap(size, 32, 1, pixelFormat);
+		case PF_GRAY32:
+			componentsCount = 1;
+			pixelBitsCount = 32;
+			break;
+	}
 
-	default:
+	// Unknown pixel format and missing user format specification:
+	if ((componentsCount <= 0) || (pixelBitsCount <= 0)){
 		return false;
 	}
+
+	return CreateBitmap(size, pixelBitsCount, componentsCount, pixelFormat);
 }
 
 
