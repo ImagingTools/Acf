@@ -35,12 +35,14 @@ class CExtLineEdit: public QLineEdit
 public:
 	typedef QLineEdit BaseClass;
 
+	CExtLineEdit(QWidget* parent = NULL);
+
 	/**
 		Construct a line edit with the given properties.
 	*/
 	CExtLineEdit(
-				const QString& startupText = QString(),
-				int margins = 2,
+				const QString& startupText,
+				int margins,
 				QWidget* parent = NULL);
 
 	/**
@@ -82,6 +84,7 @@ private Q_SLOTS:
 private:
 	void UpdateLayout();
 	void UpdateStartupText();
+	void InitWidget();
 
 private:
 	QString m_startupText;

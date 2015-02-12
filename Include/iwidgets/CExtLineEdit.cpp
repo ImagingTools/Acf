@@ -14,25 +14,23 @@ namespace iwidgets
 
 // public methods
 
-CExtLineEdit::CExtLineEdit(
-				const QString& startupText,
-				int margins,
-				QWidget* parent)
+CExtLineEdit::CExtLineEdit(QWidget* parent)
 	:BaseClass(parent),
+	m_margins(2)
+{
+	InitWidget();
+}
+
+
+CExtLineEdit::CExtLineEdit(
+	const QString& startupText,
+	int margins,
+	QWidget* parent)
+	:BaseClass(parent),
+	m_startupText(startupText),
 	m_margins(margins)
 {
-	m_iconPtr = new QLabel(this);
-
-	m_iconPtr->move(m_margins, 0);
-	m_iconPtr->setCursor(QCursor(Qt::ArrowCursor));
-	m_iconPtr->setScaledContents(true);
-
-	m_iconPtr->hide();
-
-	SetStartupText(startupText);
-
-	connect(this, SIGNAL(editingFinished()), this, SLOT(OnEditingFinished()));
-	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(OnTextChanged(const QString&)));
+	InitWidget();
 }
 
 
@@ -65,7 +63,7 @@ QString CExtLineEdit::GetText() const
 void CExtLineEdit::SetIcon(const QIcon& icon)
 {
 	if (!icon.isNull()){
-		int lineEditHeight = height();
+		int lineEditHeight = height() - (hasFrame() ? 2 : 0);
 		m_iconPtr->setPixmap(icon.pixmap(lineEditHeight - m_margins, lineEditHeight - m_margins));
 		m_iconPtr->setVisible(true);
 	}
@@ -87,7 +85,7 @@ void CExtLineEdit::AddWidget(QWidget* widgetPtr, int alignmentFlags)
 
 		return;
 	}
-	
+
 	if (widgetPtr->parentWidget() != this){
 		widgetPtr->setParent(this);
 	}
@@ -173,7 +171,7 @@ void CExtLineEdit::UpdateLayout()
 
 		if (info.alignmentFlags == Qt::AlignRight){
 			lastRightPos -= (info.widget->width() + m_margins);
-			
+
 			info.widget->move(lastRightPos, 1);
 		}
 	}
@@ -195,6 +193,23 @@ void CExtLineEdit::UpdateStartupText()
 	else{
 		setStyleSheet(QString("QLineEdit{color: palette text}"));
 	}
+}
+
+
+void CExtLineEdit::InitWidget()
+{
+	m_iconPtr = new QLabel(this);
+
+	m_iconPtr->move(m_margins, 0);
+	m_iconPtr->setCursor(QCursor(Qt::ArrowCursor));
+	m_iconPtr->setScaledContents(true);
+
+	m_iconPtr->hide();
+
+	SetStartupText(m_startupText);
+
+	connect(this, SIGNAL(editingFinished()), this, SLOT(OnEditingFinished()));
+	connect(this, SIGNAL(textChanged(const QString&)), this, SLOT(OnTextChanged(const QString&)));
 }
 
 
