@@ -1,6 +1,9 @@
 #include "iprm/COptionsManager.h"
 
 
+// Qt includes
+#include <QtCore/QUuid>
+
 // ACF includes
 #include "istd/CChangeNotifier.h"
 
@@ -234,7 +237,12 @@ bool COptionsManager::InsertOption(
 					const QString& optionDescription,
 					int index)
 {
-	OptionInfo optionInfo(optionName, optionId, optionDescription);
+	QByteArray realOptionId = optionId;
+	if (realOptionId.isEmpty()){
+		realOptionId = QUuid::createUuid().toByteArray();
+	}
+
+	OptionInfo optionInfo(optionName, realOptionId, optionDescription);
 
 	if (index < 0 || index >= int(m_options.size())){
 		static ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_OPTION_ADDED);

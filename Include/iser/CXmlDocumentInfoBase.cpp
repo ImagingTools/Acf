@@ -49,7 +49,7 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QByteArray& text
 
 			text += subString;
 
-			int semicolonPos = xmlText.indexOf(';', actPos);
+			int semicolonPos = xmlText.indexOf(';', ampPos);
 			if ((semicolonPos >= 0) && (ampPos < semicolonPos - 2)){
 				actPos = semicolonPos + 1;
 

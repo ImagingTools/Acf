@@ -1,3 +1,4 @@
+/********************************************************************************
 #include "iprm/CSelectionParamComp.h"
 
 
@@ -30,8 +31,8 @@ void CSelectionParamComp::OnComponentCreated()
 
 	SetSelectionConstraints(m_constraintsCompPtr.GetPtr());
 
-	bool defaultIndexValid = true;
-	if (m_constraintsCompPtr.IsValid()){
+	bool defaultIndexValid = m_defaultIndexAttrPtr.IsValid();
+	if (m_constraintsCompPtr.IsValid() && defaultIndexValid){
 		defaultIndexValid = (*m_defaultIndexAttrPtr < m_constraintsCompPtr->GetOptionsCount());
 	}
 

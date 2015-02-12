@@ -29,7 +29,7 @@ public:
 		I_REGISTER_INTERFACE(ISelectionParam);
 		I_ASSIGN(m_constraintsCompPtr, "Constraints", "Constraints describing allowed value ranges", false, "Constraints");
 		I_ASSIGN(m_subselectionCompPtr, "Subselection", "Subselection object", false, "Subselection");
-		I_ASSIGN(m_defaultIndexAttrPtr, "DefaultIndex", "Default value of selected index", true, 0);
+		I_ASSIGN(m_defaultIndexAttrPtr, "DefaultIndex", "Default value of selected index", false, 0);
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::ISelectionParam)

@@ -390,7 +390,7 @@ void CSelectionParamGuiComp::UpdateDescriptionFrame()
 		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 		
 		const iprm::IOptionsList* constraintsPtr = selectionPtr->GetSelectionConstraints();
-		if (constraintsPtr != NULL && selectedIndex >= 0){
+		if ((constraintsPtr != NULL) && (selectedIndex >= 0) && (selectedIndex < constraintsPtr->GetOptionsCount())){
 
 			QString optionDescription = constraintsPtr->GetOptionDescription(selectedIndex);
 			DescriptionLabel->setText(optionDescription);

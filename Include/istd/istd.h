@@ -7,6 +7,9 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
+#include <QtCore/QByteArray>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
 
 /**
@@ -62,8 +65,11 @@ static const double I_BIG_EPSILON = 1.0e-8;
 #endif // !NULL
 
 
-#define I_DECLARE_ENUM(Enum, ...)\
-	inline static QList<int> Enum##GetValues(){\
+/**
+	Get all values of an enumeration as a list of intergers.
+*/
+#define I_ENUM_GET_VALUES(Enum, ...)\
+	static QList<int> Enum##GetValues(){\
 		QList<int> values;\
 		int vars[] = {0, __VA_ARGS__};\
 		int count = (sizeof(vars) / sizeof(int));\
@@ -73,14 +79,47 @@ static const double I_BIG_EPSILON = 1.0e-8;
 			}\
 		}\
 		return values;\
-	}\
-	inline static QByteArray ToString(Enum enumValue){\
-		static QByteArray emptyString;\
+	}
+
+/**
+	Get all values of an enumeration as strings.
+*/
+#define I_ENUM_GET_STRINGS(Enum, ...)\
+	static QStringList Enum##GetStrings(){\
 		QString enumValuesString = #__VA_ARGS__;\
 		QStringList values = enumValuesString.split(",");\
 		for (int i = 0; i < values.count(); ++i){\
-			values[i] = values[i].simplified();\
+			QString rawValue = values[i].simplified();\
+			QStringList splitNames = rawValue.split("_");\
+			if (splitNames.isEmpty()){\
+				values[i] = rawValue;\
+			}\
+			else{\
+				QString formattedValue = rawValue;\
+				for (int partIndex = 1; partIndex < splitNames.count(); ++partIndex){\
+					QString partValue = splitNames[partIndex].toLower();\
+					if (partIndex == 1){\
+						formattedValue = partValue;\
+					}\
+					else{\
+						formattedValue += partValue.at(0).toUpper() + partValue.mid(1);\
+					}\
+				}\
+				values[i] = formattedValue;\
+			}\
 		}\
+		return values;\
+	}
+
+/**
+	Create meta information for an existing enumeration.
+*/
+#define I_DECLARE_ENUM(Enum, ...)\
+	I_ENUM_GET_VALUES(Enum, __VA_ARGS__)\
+	I_ENUM_GET_STRINGS(Enum, __VA_ARGS__)\
+	static QByteArray ToString(Enum enumValue){\
+		static QByteArray emptyString;\
+		QStringList values = Enum##GetStrings();\
 		QList<int> enumValues = Enum##GetValues();\
 		Q_ASSERT(enumValues.count() == values.count());\
 		for (int i = 0; i < enumValues.count(); ++i){\
@@ -90,12 +129,8 @@ static const double I_BIG_EPSILON = 1.0e-8;
 		}\
 		return emptyString;\
 	}\
-	inline static bool FromString(const QByteArray& enumString, Enum& enumValue){\
-		QString enumValuesString = #__VA_ARGS__;\
-		QStringList values = enumValuesString.split(",");\
-		for (int i = 0; i < values.count(); ++i){\
-			values[i] = values[i].simplified();\
-		}\
+	static bool FromString(const QByteArray& enumString, Enum& enumValue){\
+		QStringList values = Enum##GetStrings();\
 		QList<int> enumValues = Enum##GetValues();\
 		Q_ASSERT(enumValues.count() == values.count());\
 		for (int i = 0; i < enumValues.count(); ++i){\
@@ -105,7 +140,42 @@ static const double I_BIG_EPSILON = 1.0e-8;
 			}\
 		}\
 		return false;\
+	}
+
+#define I_DECLARE_FLAGS(Enum, ...)\
+	I_ENUM_GET_VALUES(Enum, __VA_ARGS__)\
+	I_ENUM_GET_STRINGS(Enum, __VA_ARGS__)\
+	static QByteArray Enum##ToString(int flags){\
+		QByteArray retVal;\
+		QStringList values = Enum##GetStrings();\
+		QList<int> enumValues = Enum##GetValues();\
+		Q_ASSERT(enumValues.count() == values.count());\
+		for (int i = 0; i < enumValues.count(); ++i){\
+			if (enumValues[i] & flags){\
+				if (!retVal.isEmpty()){\
+					retVal += "|";\
+				}\
+				retVal += values[i].toUtf8();\
+			}\
+		}\
+		return retVal;\
 	}\
+	static bool Enum##FromString(const QByteArray& enumString, int& flags){\
+		QStringList values = Enum##GetStrings();\
+		QList<int> enumValues = Enum##GetValues();\
+		flags = 0;\
+		Q_ASSERT(enumValues.count() == values.count());\
+		QList<QByteArray> separatedValues = enumString.split('|');\
+		for (int valueIndex = 0; valueIndex < separatedValues.count(); ++valueIndex){\
+			QByteArray value = separatedValues[valueIndex];\
+			for (int i = 0; i < enumValues.count(); ++i){\
+				if (values[i].toUtf8() == value){\
+					flags |= enumValues[i];\
+				}\
+			}\
+		}\
+		return true;\
+	}
 
 
 #endif // !istd_included
