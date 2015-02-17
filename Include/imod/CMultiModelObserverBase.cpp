@@ -34,6 +34,16 @@ int CMultiModelObserverBase::GetModelCount() const
 }
 
 
+void CMultiModelObserverBase::EnsureModelsDetached()
+{
+	while (!m_models.isEmpty()){
+		imod::IModel* modelPtr = m_models.front();
+		Q_ASSERT(modelPtr != NULL);
+
+		modelPtr->DetachObserver(this);
+	}
+}
+
 
 void CMultiModelObserverBase::SetObservedIds(const istd::IChangeable::ChangeSet& changeMask)
 {
@@ -101,17 +111,6 @@ void CMultiModelObserverBase::AfterUpdate(IModel* modelPtr, const istd::IChangea
 
 
 // protected methods
-
-void CMultiModelObserverBase::EnsureModelsDetached()
-{
-	while (!m_models.isEmpty()){
-		imod::IModel* modelPtr = m_models.front();
-		Q_ASSERT(modelPtr != NULL);
-
-		modelPtr->DetachObserver(this);
-	}
-}
-
 
 void CMultiModelObserverBase::OnUpdate(imod::IModel* /*modelPtr*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {

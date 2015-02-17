@@ -36,6 +36,12 @@ public:
 	int GetModelCount() const;
 
 	/**
+		Ensure all attached models are detached.
+		If there are some attached models they will be detached and removed from observed list.
+	*/
+	void EnsureModelsDetached();
+
+	/**
 		Set list of ID's beeing observed.
 	*/
 	void SetObservedIds(const istd::IChangeable::ChangeSet& changeMask);
@@ -48,8 +54,10 @@ public:
 	virtual void AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 protected:
-	void EnsureModelsDetached();
-
+	/**
+		Called on update of observed model.
+		This method is designed to be overload by derrived classes.
+	*/
 	virtual void OnUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 private:

@@ -56,6 +56,10 @@ protected:
 	*/
 	void SetModelPtr(imod::IModel* modelPtr);
 
+	/**
+		Called on update of observed model.
+		This method is designed to be overload by derrived classes.
+	*/
 	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
 private:
