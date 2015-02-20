@@ -54,6 +54,16 @@ void CSystemLocationComp::OnComponentCreated()
 
 	Q_ASSERT(m_locationTypeAttrPtr.IsValid());
 
+	QString organizationName = QCoreApplication::organizationName();
+	if (m_applicationInfoCompPtr.IsValid()){
+		organizationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+	}
+
+	QString organizationNameSubPath;
+	if (!organizationName.isEmpty()){
+		organizationNameSubPath = QString("/") + organizationName;
+	}
+
 #if QT_VERSION < 0x050000
 	m_storagePath = QDesktopServices::storageLocation(QDesktopServices::StandardLocation(*m_locationTypeAttrPtr));
 #else
@@ -79,6 +89,15 @@ void CSystemLocationComp::OnComponentCreated()
 				m_storagePath += "../../";
 			}
 			break;
+
+		case SL_SHARED_APPDATA_DIRECTORY:
+#ifdef Q_OS_WIN
+			m_storagePath = QDir::toNativeSeparators(QString("C:/Users/Public") + organizationNameSubPath);
+#else
+			m_storagePath = QDir::toNativeSeparators(QString("/Users/Shared")  + organizationNameSubPath);
+#endif
+			break;
+
 		default:
 			break;
 	}
