@@ -106,7 +106,7 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
-	//reimplemented istd::IChangeable
+	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;

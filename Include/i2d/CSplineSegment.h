@@ -82,7 +82,7 @@ public:
 	const i2d::CVector2d& D() const;
 	void D(const i2d::CVector2d& value);
 
-	//reimplemented istd::IChangeable
+	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;

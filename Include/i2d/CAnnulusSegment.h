@@ -39,7 +39,7 @@ public:
 	// reimplemented (i2d::IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 
-	//reimplemented istd::IChangeable
+	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
