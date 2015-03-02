@@ -66,9 +66,9 @@ int CMultiPageDocumentFilePersistenceComp::LoadFromFile(
 		return OS_FAILED;
 	}
 
-	QFileInfo fileInfo(filePath);
+	QString bundleInfoFilePath = GetInfoFilePath(filePath);
 
-	ifile::CXmlFileReadArchive archive(filePath);
+	ifile::CXmlFileReadArchive archive(bundleInfoFilePath);
 	bool retVal = true;
 
 	// Serialize meta info:
@@ -95,9 +95,11 @@ int CMultiPageDocumentFilePersistenceComp::LoadFromFile(
 			retVal = false;
 		}
 		else{
-			QString bitmapFilePath = fileInfo.absolutePath() + "/" + pageFileName;
+			QFileInfo fileInfo(bundleInfoFilePath);
+		
+			QString pageFilePath = fileInfo.absolutePath() + "/" + pageFileName;
 
-			int loadState = m_pageObjectPersistenceCompPtr->LoadFromFile(*pageObjectPtr, bitmapFilePath);
+			int loadState = m_pageObjectPersistenceCompPtr->LoadFromFile(*pageObjectPtr, pageFilePath);
 
 			retVal = retVal && (loadState == ifile::IFilePersistence::OS_OK);
 		}
@@ -133,21 +135,20 @@ int CMultiPageDocumentFilePersistenceComp::SaveToFile(
 		return OS_FAILED;
 	}
 
-	QFileInfo filePathInfo(filePath);
-	QDir outDir(filePathInfo.absolutePath());
+	QString bundleInfoFilePath = GetInfoFilePath(filePath);
+
+	QFileInfo documentFileInfo(filePath);
+
+	QFileInfo bundleFilePathInfo(bundleInfoFilePath);
+	QDir outDir(bundleFilePathInfo.absolutePath());
 	if (!outDir.exists()){
 		if (!outDir.mkpath(".")){
 			return OS_FAILED;
 		}
 	}
 
-	// add suffixes
-	QString fileName(filePath);
-	if (filePathInfo.suffix().toLower() != m_defaultSuffix.toLower()){
-		fileName += "." + m_defaultSuffix;
-	}
+	ifile::CXmlFileWriteArchive archive(bundleInfoFilePath);
 
-	ifile::CXmlFileWriteArchive archive(fileName);
 	bool retVal = true;
 	
 	// Serialize meta info:
@@ -169,8 +170,8 @@ int CMultiPageDocumentFilePersistenceComp::SaveToFile(
 			pageName = QString::number(pageIndex + 1);
 		}
 
-		QString pageFileName = QString("%1_%2.%3")
-			.arg(filePathInfo.completeBaseName())
+		QString pageFileName = QString("%1 - %2.%3")
+			.arg(documentFileInfo.completeBaseName())
 			.arg(pageName)
 			.arg(m_defaultPageSuffix);
 
@@ -273,6 +274,24 @@ bool CMultiPageDocumentFilePersistenceComp::SerializePageMetaInfo(idoc::IMultiPa
 	}
 
 	return retVal;
+}
+
+
+// private methods
+
+QString CMultiPageDocumentFilePersistenceComp::GetInfoFilePath(const QString documentFilePath) const
+{
+	QFileInfo fileInfo(documentFilePath);
+
+	switch (*m_operationModeAttrPtr){
+		case 0:
+			return documentFilePath;
+		case 1:
+		case 2:
+			return documentFilePath + "/Contents.xml";
+	}
+
+	return QString();
 }
 
 

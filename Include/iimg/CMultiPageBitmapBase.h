@@ -25,16 +25,11 @@ class CMultiPageBitmapBase:
 public:
 	typedef idoc::CMultiPageDocumentBase BaseClass;
 
-	enum
-	{
-		MIT_CAMERA_MODEL = idoc::IDocumentMetaInfo::MIT_USER + 1
-	};
-
 	// reimplemented (idoc::IMultiPageDocument)
 	virtual istd::IChangeable* InsertPage(
-		const idoc::IDocumentMetaInfo* pageMetaInfoPtr = NULL,
-		const iprm::IParamsSet* pageParameterPtr = NULL,
-		int position = -1);
+				const idoc::IDocumentMetaInfo* pageMetaInfoPtr = NULL,
+				const iprm::IParamsSet* pageParameterPtr = NULL,
+				int position = -1);
 
 	// reimplemented (iimg::IMultiBitmapProvider)
 	virtual const iprm::IOptionsList* GetBitmapListInfo() const;
@@ -44,15 +39,18 @@ public:
 	// reimplemented (iimg::IMultiPageBitmapController)
 	virtual void Reset();
 	virtual iimg::IBitmap* InsertBitmap(
-		iimg::IBitmap::PixelFormat pixelFormat,
-		const istd::CIndex2d& size);
+				iimg::IBitmap::PixelFormat pixelFormat,
+				const istd::CIndex2d& size);
 	virtual iimg::IBitmap* InsertBitmap(
-		iimg::IBitmap::PixelFormat pixelFormat,
-		const istd::CIndex2d& size,
-		void* dataPtr,
-		bool releaseFlag,
-		int linesDifference = 0);
+				iimg::IBitmap::PixelFormat pixelFormat,
+				const istd::CIndex2d& size,
+				void* dataPtr,
+				bool releaseFlag,
+				int linesDifference = 0);
 	virtual void RemoveBitmap(int index);
+
+	// reimplemented (istd::IChangeable)
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
 	// abstract methods

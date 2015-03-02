@@ -106,6 +106,50 @@ void CMultiPageBitmapBase::RemoveBitmap(int index)
 }
 
 
+// reimplemented (istd::IChangeable)
+
+bool CMultiPageBitmapBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const IMultiBitmapProvider* sourcePtr = dynamic_cast<const IMultiBitmapProvider*>(&object);
+	if (sourcePtr != NULL){
+		istd::CChangeNotifier changeNotifier(this);
+
+		Reset();
+
+		Q_ASSERT(m_documentPages.isEmpty());
+
+		int bitmapsCount = sourcePtr->GetBitmapsCount();
+
+		bool retVal = true;
+
+		for (int bitmapIndex = 0; bitmapIndex < bitmapsCount; ++bitmapIndex){
+			const iimg::IBitmap* sourceBitmapPtr = sourcePtr->GetBitmap(bitmapIndex);
+			if (sourceBitmapPtr != NULL){
+				const idoc::IDocumentMetaInfo* pageMetaInfoPtr = NULL;
+				const idoc::IMultiPageDocument* documentPtr = dynamic_cast<const idoc::IMultiPageDocument*>(&object);
+				if (documentPtr != NULL){
+					pageMetaInfoPtr = documentPtr->GetPageMetaInfo(bitmapIndex);
+				}
+
+				istd::IChangeable* newPagePtr = InsertPage(pageMetaInfoPtr);
+				if (newPagePtr != NULL){
+					retVal  = retVal && m_documentPages[bitmapIndex].pagePtr->CopyFrom(*sourcePtr->GetBitmap(bitmapIndex));
+				}
+				else{
+					Reset();
+
+					return false;
+				}
+			}
+		}
+
+		return retVal;
+	}
+
+	return false;
+}
+
+
 } // namespace iimg
 
 
