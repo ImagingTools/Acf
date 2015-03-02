@@ -36,7 +36,11 @@ QSize CItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIn
 {
 	QSize size = QItemDelegate::sizeHint(option, index);
 
-	size.setHeight(m_itemHeight);
+	QFontMetrics fontMetrics(option.font);
+
+	int height = qMax(fontMetrics.height(), m_itemHeight);
+
+	size.setHeight(height);
 
 	return size;
 }
@@ -54,7 +58,6 @@ void CItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
 
 	painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 }
-
 
 
 } // namespace iwidgets

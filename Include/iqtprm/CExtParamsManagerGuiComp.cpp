@@ -399,7 +399,13 @@ void CExtParamsManagerGuiComp::CElementItemDelegate::paint(QPainter *painter, co
 
 QSize CExtParamsManagerGuiComp::CElementItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	return QSize(QStyledItemDelegate::sizeHint(option, index).width(), 48);
+	QFontMetrics fontMetrics(option.font);
+
+	int minHeight = 2 * fontMetrics.height() + fontMetrics.lineSpacing();
+
+	int height = qMax(minHeight, 48);
+
+	return QSize(QStyledItemDelegate::sizeHint(option, index).width(), height);
 }
 
 
