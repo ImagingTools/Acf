@@ -17,16 +17,41 @@ namespace ibase
 /**
 	Common implementation of an abstract container. 
 */
-template <typename ItemClass>
+template <typename ItemClass, class ContainerType = QList<ItemClass> >
 class TContainer: virtual public istd::IContainerInfo
 {
 public:
+	typedef ContainerType Container;
+
 	enum ChangeFlags
 	{
 		CF_ELEMENT_ADDED = 0x382b230,
 		CF_ELEMENT_REMOVED,
 		CF_RESET
 	};
+
+	template <class ContainerType>
+	static void Reserve(ContainerType& /*container*/, int /*count*/)
+	{
+	}
+
+	template <class ContainerType>
+	static void Resize(ContainerType& /*container*/, int /*count*/)
+	{
+	}
+
+	template<>
+	static void Reserve(std::vector<ItemClass>& container, int count)
+	{
+		container.reserve(count);
+	}
+
+	template<>
+	static void Reserve(QVector<ItemClass>& container, int count)
+	{
+		container.reserve(count);
+	}
+
 
 	const ItemClass& GetAt(int index) const;
 	ItemClass& GetAt(int index);
@@ -49,37 +74,37 @@ public:
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
-    typedef QList<ItemClass> Items;
-
+	typedef ContainerType Items;
+	
 	Items m_items;
 };
 
 
-template <typename ItemClass>
-ItemClass& TContainer<ItemClass>::GetAt(int index)
+template <typename ItemClass, typename ContainerType>
+ItemClass& TContainer<ItemClass, ContainerType>::GetAt(int index)
 {
-	Q_ASSERT(TContainer<ItemClass>::IsIndexValid(index));
+	Q_ASSERT(TContainer::IsIndexValid(index));
 
 	return m_items[index];
 }
 
 
-template <typename ItemClass>
-const ItemClass& TContainer<ItemClass>::GetAt(int index) const
+template <typename ItemClass, typename ContainerType>
+const ItemClass& TContainer<ItemClass, ContainerType>::GetAt(int index) const
 {
-	Q_ASSERT(TContainer<ItemClass>::IsIndexValid(index));
+	Q_ASSERT(TContainer::IsIndexValid(index));
 
 	return m_items[index];
 }
 
 
-template <typename ItemClass>
-ItemClass& TContainer<ItemClass>::PushBack(const ItemClass& item)
+template <typename ItemClass, typename ContainerType>
+ItemClass& TContainer<ItemClass, ContainerType>::PushBack(const ItemClass& item)
 {
-	static ChangeSet changeSet(CF_ELEMENT_ADDED);
+	ChangeSet changeSet(CF_ELEMENT_ADDED);
  	BeginChanges(changeSet);
 
-	m_items.append(item);
+	m_items.push_back(item);
 
 	EndChanges(changeSet);
 
@@ -87,13 +112,13 @@ ItemClass& TContainer<ItemClass>::PushBack(const ItemClass& item)
 }
 
 
-template <typename ItemClass>
-ItemClass& TContainer<ItemClass>::PushFront(const ItemClass& item)
+template <typename ItemClass, typename ContainerType>
+ItemClass& TContainer<ItemClass, ContainerType>::PushFront(const ItemClass& item)
 {
-	static ChangeSet changeSet(CF_ELEMENT_ADDED);
+	ChangeSet changeSet(CF_ELEMENT_ADDED);
 	BeginChanges(changeSet);
 
-	m_items.prepend(item);
+	m_items.push_front(item);
 
 	EndChanges(changeSet);
 
@@ -101,14 +126,14 @@ ItemClass& TContainer<ItemClass>::PushFront(const ItemClass& item)
 }
 
 
-template <typename ItemClass>
-ItemClass& TContainer<ItemClass>::InsertAt(const ItemClass& item, int index)
+template <typename ItemClass, typename ContainerType>
+ItemClass& TContainer<ItemClass, ContainerType>::InsertAt(const ItemClass& item, int index)
 {
-	static ChangeSet changeSet(CF_ELEMENT_ADDED);
+	ChangeSet changeSet(CF_ELEMENT_ADDED);
 	BeginChanges(changeSet);
 
 	if ((index < 0) || (index >= m_items.size())){
-		m_items.append(item);
+		m_items.push_back(item);
 
  		EndChanges(changeSet);
 
@@ -124,10 +149,10 @@ ItemClass& TContainer<ItemClass>::InsertAt(const ItemClass& item, int index)
 }
 
 
-template <typename ItemClass>
-void TContainer<ItemClass>::PopBack()
+template <typename ItemClass, typename ContainerType>
+void TContainer<ItemClass, ContainerType>::PopBack()
 {
-	static ChangeSet changeSet(CF_ELEMENT_REMOVED);
+	ChangeSet changeSet(CF_ELEMENT_REMOVED);
 	BeginChanges(changeSet);
 
 	m_items.pop_back();
@@ -136,10 +161,10 @@ void TContainer<ItemClass>::PopBack()
 }
 
 
-template <typename ItemClass>
-void TContainer<ItemClass>::PopFront()
+template <typename ItemClass, typename ContainerType>
+void TContainer<ItemClass, ContainerType>::PopFront()
 {
-	static ChangeSet changeSet(CF_ELEMENT_REMOVED);
+	ChangeSet changeSet(CF_ELEMENT_REMOVED);
 	BeginChanges(changeSet);
 
 	m_items.pop_front();
@@ -148,14 +173,14 @@ void TContainer<ItemClass>::PopFront()
 }
 
 
-template <typename ItemClass>
-void TContainer<ItemClass>::RemoveAt(int index)
+template <typename ItemClass, typename ContainerType>
+void TContainer<ItemClass, ContainerType>::RemoveAt(int index)
 {
 	Q_ASSERT(index >= 0);
 	Q_ASSERT(index < int(m_items.size()));
 
 	if (index < int(m_items.size())){
-		static ChangeSet changeSet(CF_ELEMENT_REMOVED);
+		ChangeSet changeSet(CF_ELEMENT_REMOVED);
 		BeginChanges(changeSet);
 	
 		m_items.erase(m_items.begin()  + index);
@@ -165,10 +190,10 @@ void TContainer<ItemClass>::RemoveAt(int index)
 }
 
 
-template <typename ItemClass>
-void TContainer<ItemClass>::Reset()
+template <typename ItemClass, typename ContainerType>
+void TContainer<ItemClass, ContainerType>::Reset()
 {
-	static ChangeSet changeSet(CF_RESET, CF_ALL_DATA);
+	ChangeSet changeSet(CF_RESET, CF_ALL_DATA);
 	BeginChanges(changeSet);
 
 	m_items.clear();
@@ -177,8 +202,8 @@ void TContainer<ItemClass>::Reset()
 }
 
 
-template <typename ItemClass>
-TContainer<ItemClass>& TContainer<ItemClass>::operator=(const TContainer& container)
+template <typename ItemClass, typename ContainerType>
+TContainer<ItemClass, ContainerType>& TContainer<ItemClass, ContainerType>::operator=(const TContainer& container)
 {
 	m_items = container.m_items;
 
@@ -188,22 +213,22 @@ TContainer<ItemClass>& TContainer<ItemClass>::operator=(const TContainer& contai
 
 // reimplemented (istd::IContainerInfo)
 
-template <typename ItemClass>
-int TContainer<ItemClass>::GetItemsCount() const
+template <typename ItemClass, typename ContainerType>
+int TContainer<ItemClass, ContainerType>::GetItemsCount() const
 {
 	return int(m_items.size());
 }
 
 
-template <typename ItemClass>
-bool TContainer<ItemClass>::IsEmpty() const
+template <typename ItemClass, typename ContainerType>
+bool TContainer<ItemClass, ContainerType>::IsEmpty() const
 {
-	return m_items.isEmpty();
+	return (m_items.size() == 0);
 }
 
 
-template <typename ItemClass>
-bool TContainer<ItemClass>::IsIndexValid(int index) const
+template <typename ItemClass, typename ContainerType>
+bool TContainer<ItemClass, ContainerType>::IsIndexValid(int index) const
 {
 	return (index >= 0 && index < int(m_items.size()));
 }
@@ -211,8 +236,8 @@ bool TContainer<ItemClass>::IsIndexValid(int index) const
 
 // reimplemented (istd::IChangeable)
 
-template <typename ItemClass>
-bool TContainer<ItemClass>::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+template <typename ItemClass, typename ContainerType>
+bool TContainer<ItemClass, ContainerType>::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
 {
 	const TContainer* containerPtr = dynamic_cast<const TContainer*>(&object);
 	if (containerPtr != NULL){

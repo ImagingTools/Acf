@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CArcPointsCalculator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CCalibration2dProxyComp.cpp"
 				>
 			</File>
@@ -361,6 +365,10 @@
 			</File>
 			<File
 				RelativePath="..\CArcComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CArcPointsCalculator.h"
 				>
 			</File>
 			<File

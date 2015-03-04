@@ -100,7 +100,7 @@ i2d::CRect CPolypointShape::CalcBoundingBox() const
 		const IColorSchema& colorSchema = GetColorSchema();
 		const i2d::CPolypoint::Points& points = polypoint.GetPoints();
 
-		if (!points.isEmpty()){
+		if (!points.empty()){
 			istd::CIndex2d sp = GetScreenPosition(points[0]).ToIndex2d();
 
 			i2d::CRect boundingBox(sp, sp);

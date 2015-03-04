@@ -51,7 +51,7 @@ void CTranslationManagerComp::OnComponentCreated()
 			istd::TDelPtr<QTranslator> qtTranslatorPtr(new QTranslator(qApp));
 
 			if (!qtTranslatorPtr->load(translatorFile)){
-				SendErrorMessage(0, QString("Cannot load translator for: %1").arg(translatorFile), "TranslationManager");
+				SendVerboseMessage(QString("Cannot load translator for: %1").arg(translatorFile), "TranslationManager");
 			}
 
 			m_translatorsList.PushBack(qtTranslatorPtr.PopPtr());

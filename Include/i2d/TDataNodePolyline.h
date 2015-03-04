@@ -2,8 +2,8 @@
 #define i2d_TDataNodePolyline_included
 
 
-// Qt includes
-#include <QVector>
+// STL includes
+#include <vector>
 
 // ACF includes
 #include "i2d/CDataNodePolylineBase.h"
@@ -52,7 +52,7 @@ protected:
 	virtual void SetNodesCount(int count);
 
 private:
-	typedef QVector<NodeData> NodesData;
+	typedef std::vector<NodeData> NodesData;
 	NodesData m_nodesData;
 };
 

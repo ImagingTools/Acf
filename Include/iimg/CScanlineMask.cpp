@@ -3,6 +3,7 @@
 
 // STL includes
 #include <set>
+#include <vector>
 
 // Qt includes
 #include <QtCore/qmath.h>
@@ -300,7 +301,7 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 
 	// QVector of lines by Y coordinates;
 	// every line is QList of X coordinates of the polygon lines points 
-	QVector< std::set<int> > scanVector(linesCount);
+	std::vector< std::set<int> > scanVector(linesCount);
 
 	int nodesCount = recalibratedPolygon.GetNodesCount();
 	for (int i = 0; i < nodesCount; i++){
@@ -762,8 +763,8 @@ bool CScanlineMask::Serialize(iser::IArchive& archive)
 		int indicesCount = m_scanlines.size();
 
 		retVal = retVal && archive.BeginMultiTag(containerIndicesTag, indexTag, indicesCount);
-		for (		Scanlines::ConstIterator indexIter = m_scanlines.constBegin();
-					indexIter != m_scanlines.constEnd();
+		for (		Scanlines::const_iterator indexIter = m_scanlines.begin();
+					indexIter != m_scanlines.end();
 					++indexIter){
 			int containerIndex = *indexIter;
 

@@ -2,6 +2,9 @@
 #define imath_CVarVector_included
 
 
+// STL includes
+#include <vector>
+
 // Qt includes
 #include <QtCore/qmath.h>
 #include <QtCore/QVector>
@@ -26,7 +29,7 @@ namespace imath
 class CVarVector
 {
 public:
-	typedef QVector<double> Elements;
+	typedef std::vector<double> Elements;
 
 	/**
 		Create the vector without components.
@@ -93,7 +96,7 @@ public:
 	void Clear();
 
 	/**
-		Set elemenents from other vector without resizing.
+		Set elements from other vector without resizing.
 		\param	vector			source of element values will be copied.
 		\param	expansionValue	if actual vector has more elements than \c vector, rest will be replaced with this value.
 	*/
@@ -147,7 +150,7 @@ public:
 	double GetDotProduct(const CVarVector& vector) const;
 
 	/**
-		Return euclidian length square.
+		Return euclidean length square.
 	*/
 	double GetLength2() const;
 
@@ -250,7 +253,7 @@ inline CVarVector::CVarVector(const CVarVector& vector)
 
 inline bool CVarVector::IsEmpty() const
 {
-	return m_elements.isEmpty();
+	return m_elements.empty();
 }
 
 

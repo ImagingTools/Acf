@@ -2,8 +2,8 @@
 #define istd_TArray_included
 
 
-// Qt includes
-#include <QtCore/QVector>
+// STL includes
+#include <vector>
 
 // ACF includes
 #include "istd/TIndex.h"
@@ -148,7 +148,7 @@ public:
 	Element& operator[](const IndexType& index);
 
 protected:
-	typedef QVector<Element> Elements;
+	typedef std::vector<Element> Elements;
 
 	/**
 		Get index of element in one dimensional array.
@@ -361,7 +361,7 @@ bool TArray<Element, Dimensions>::SetSize(int dimension, int size)
 template <class Element, int Dimensions>
 void TArray<Element, Dimensions>::SetAllElements(const Element& value)
 {
-	for (		typename Elements::Iterator iter = m_elements.begin();
+	for (		typename Elements::iterator iter = m_elements.begin();
 				iter != m_elements.end();
 				++iter){
 		*iter = value;

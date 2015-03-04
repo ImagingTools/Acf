@@ -19,7 +19,6 @@ IBitmap* CMultiPageBitmapComp::CreateBitmap() const
 }
 
 
-
 } // namespace iimg
 
 

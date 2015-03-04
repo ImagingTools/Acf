@@ -183,6 +183,15 @@ public:
 	void PushEndPoint(const i2d::CVector2d& newEndPoint);
 
 	/**
+		Quiet methods do not trigger any notification changes (to be used inside of algorithms)
+	*/
+	void PushBeginPointQuiet(const i2d::CVector2d& newBeginPoint);
+	void PushEndPointQuiet(const i2d::CVector2d& newEndPoint);
+
+	void SetPoint1Quiet(const CVector2d& point);
+	void SetPoint2Quiet(const CVector2d& point);
+
+	/**
 		Get a proportion of lines cut point to line length (called also 'alpha value').
 	*/
 	double GetCutAlpha(const CLine2d& line) const;
@@ -330,7 +339,6 @@ inline double CLine2d::GetCutXPos(double linePosY) const
 }
 
 
-
 inline double CLine2d::GetCutYPos(double linePosX) const
 {
 	CVector2d diff = GetDiffVector();
@@ -374,6 +382,31 @@ inline QPair<double, double> CLine2d::GetAlphaAndCastDistance(const i2d::CVector
 	return QPair<double, double>(dotProduct / deltaLength2, field / ::sqrt(deltaLength2));
 }
 
+
+inline void CLine2d::PushBeginPointQuiet(const i2d::CVector2d& newBeginPoint)
+{
+	m_point2 = m_point1;
+	m_point1 = newBeginPoint;
+}
+
+
+inline void CLine2d::PushEndPointQuiet(const i2d::CVector2d& newEndPoint)
+{
+	m_point1 = m_point2;
+	m_point2 = newEndPoint;
+}
+
+
+inline void CLine2d::SetPoint1Quiet(const CVector2d& point)
+{
+	m_point1 = point;
+}
+
+
+inline void CLine2d::SetPoint2Quiet(const CVector2d& point)
+{
+	m_point2 = point;
+}
 
 
 } // namespace i2d
