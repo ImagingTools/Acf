@@ -6,6 +6,7 @@
 #include <QtCore/QDataStream>
 
 // ACF includes
+#include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -223,6 +224,18 @@ bool CStandardDocumentMetaInfo::CopyFrom(const IChangeable& object, Compatibilit
 	}
 
 	return false;
+}
+
+
+istd::IChangeable* CStandardDocumentMetaInfo::CloneMe(CompatibilityMode mode) const
+{
+	istd::TDelPtr<CStandardDocumentMetaInfo> clonePtr(new CStandardDocumentMetaInfo);
+	if (clonePtr->CopyFrom(*this, mode))
+	{
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 

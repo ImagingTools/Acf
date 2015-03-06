@@ -36,6 +36,7 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool IsEqual(const IChangeable& object) const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
 
 private:
 	typedef QMap<int, QVariant> MetaInfoMap;
