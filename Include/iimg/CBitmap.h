@@ -72,6 +72,9 @@ protected:
 private:
 	istd::TOptDelPtr<quint8, true> m_externalBuffer;
 	QImage m_image;
+
+	static QVector<QRgb> s_colorTableGray;
+	static QMutex s_colorTableLock;
 };
 
 

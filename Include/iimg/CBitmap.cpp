@@ -107,8 +107,21 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 	istd::CChangeNotifier changePtr(this);
 
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
+	QSize imageSize(size.GetX(), size.GetY());
+
+	// check if we need to recreate the image
+	if (m_image.format() == imageFormat && m_image.size() == imageSize){
+		m_image.setDotsPerMeterX(1000);
+		m_image.setDotsPerMeterY(1000);
+
+		m_externalBuffer.Reset();
+
+		return true;
+	}
+
+	// else recreate the image
 	if (imageFormat != QImage::Format_Invalid){
-		QImage image(size.GetX(), size.GetY(), imageFormat);
+		QImage image(imageSize, imageFormat);
 
 		Q_ASSERT(!image.isNull());
 		if (image.isNull()){
@@ -402,17 +415,26 @@ bool CBitmap::SetQImage(const QImage& image)
 	}
 
 	if (m_image.format() == QImage::Format_Indexed8){
-		QVector<QRgb> colorTable(256);
+		QMutexLocker lock(&s_colorTableLock);
+		if (s_colorTableGray.isEmpty()){
+			s_colorTableGray.resize(256);
 
-		for (int colorIndex = 0; colorIndex < 256; ++colorIndex){
-			colorTable[colorIndex] = ::qRgb(colorIndex, colorIndex, colorIndex);
+			for (int colorIndex = 0; colorIndex < 256; ++colorIndex){
+				s_colorTableGray[colorIndex] = ::qRgb(colorIndex, colorIndex, colorIndex);
+			}
 		}
 
-		m_image.setColorTable(colorTable);
+		m_image.setColorTable(s_colorTableGray);
 	}
 
 	return !(m_image.isNull());
 }
+
+
+// static members
+
+QVector<QRgb> CBitmap::s_colorTableGray;
+QMutex CBitmap::s_colorTableLock;
 
 
 } // namespace iimg
