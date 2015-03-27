@@ -4,16 +4,11 @@
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"
-
 #include "imod/CMultiModelDispatcherBase.h"
-
 #include "iqtgui/TGuiComponentBase.h"
-
-
 #include "iview/IColorSchema.h"
 #include "iview/CConsoleGui.h"
 #include "iview/CAffiniteCalibrationShape.h"
-
 #include "iqt2d/IViewProvider.h"
 
 
@@ -89,6 +84,7 @@ public:
 protected:
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
+	virtual void OnGuiDestroyed();
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
 	void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);

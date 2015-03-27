@@ -116,6 +116,18 @@ void CViewProviderGuiComp::OnGuiCreated()
 }
 
 
+void CViewProviderGuiComp::OnGuiDestroyed()
+{
+	// Quit full screen mode on exit:
+	iview::CConsoleGui* consolePtr = GetQtWidget();
+	if ((consolePtr != NULL) && consolePtr->IsFullScreenMode()){
+		consolePtr->SetFullScreenMode(false);	
+	}
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
 // reimplemented (imod::CMultiModelDispatcherBase)
 
 void CViewProviderGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)

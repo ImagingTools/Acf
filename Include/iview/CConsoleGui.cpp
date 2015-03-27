@@ -115,6 +115,64 @@ void CConsoleGui::SetShapeStatusInfo(IShapeStatusInfo* shapeStatusInfoPtr)
 }
 
 
+bool CConsoleGui::IsFullScreenMode() const
+{
+	return m_isFullScreenMode;
+}
+
+
+void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
+{
+	if (!IsFullScreenAllowed()){
+		if (!m_isFullScreenMode){
+			return;
+		}
+
+		// force fullscreen to be off
+		fullScreenMode = false;
+	}
+
+	if (fullScreenMode != m_isFullScreenMode){
+		m_isFullScreenMode = fullScreenMode;
+
+		if (m_isFullScreenMode){
+			m_horizontalScrollbarPtr->setVisible(false);
+			m_verticalScrollbarPtr->setVisible(false);
+
+			m_savedTransform = m_viewPtr->GetTransform();
+			m_isViewMaximized = isMaximized();
+
+			layout()->removeWidget(m_viewWidget);
+
+			m_viewWidget->setParent(NULL);
+			Qt::WindowFlags flags = m_viewWidget->windowFlags();
+			m_viewWidget->setWindowFlags(flags | Qt::WindowStaysOnTopHint);
+			m_viewWidget->showFullScreen();
+
+			// center image on the screen
+			m_viewPtr->SetZoom(iview::CViewBase::ZM_FIT);
+			m_viewPtr->Update();
+		}
+		else{
+			Qt::WindowFlags flags = m_viewWidget->windowFlags();
+			m_viewWidget->setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
+
+			m_viewWidget->showNormal();
+
+			m_viewWidget->setParent(this);
+			layout()->addWidget(m_viewWidget);
+
+			if (m_isViewMaximized){
+				showMaximized();
+			}
+
+			m_viewPtr->SetTransform(m_savedTransform);
+			m_viewPtr->Update();
+		}
+	}
+}
+
+
 // reimplemented (iview::CConsoleBase)
 
 void CConsoleGui::UpdateCursorInfo(const QString& infoText)
@@ -443,64 +501,6 @@ void CConsoleGui::UpdateScrollbarsValues()
 		if(IsFullScreenMode()){
 			m_horizontalScrollbarPtr->setVisible(m_horizontalScrollbarPtr->isEnabled());
 			m_verticalScrollbarPtr->setVisible(m_verticalScrollbarPtr->isEnabled());
-		}
-	}
-}
-
-
-bool CConsoleGui::IsFullScreenMode() const
-{
-	return m_isFullScreenMode;
-}
-
-
-void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
-{
-	if (!IsFullScreenAllowed()){
-		if (!m_isFullScreenMode){
-			return;
-		}
-
-		// force fullscreen to be off
-		fullScreenMode = false;
-	}
-
-	if (fullScreenMode != m_isFullScreenMode){
-		m_isFullScreenMode = fullScreenMode;
-
-		if (m_isFullScreenMode){
-			m_horizontalScrollbarPtr->setVisible(false);
-			m_verticalScrollbarPtr->setVisible(false);
-
-			m_savedTransform = m_viewPtr->GetTransform();
-			m_isViewMaximized = isMaximized();
-
-			layout()->removeWidget(m_viewWidget);
-
-			m_viewWidget->setParent(NULL);
-			Qt::WindowFlags flags = m_viewWidget->windowFlags();
-			m_viewWidget->setWindowFlags(flags | Qt::WindowStaysOnTopHint);
-			m_viewWidget->showFullScreen();
-
-			// center image on the screen
-			m_viewPtr->SetZoom(iview::CViewBase::ZM_FIT);
-			m_viewPtr->Update();
-		}
-		else{
-			Qt::WindowFlags flags = m_viewWidget->windowFlags();
-			m_viewWidget->setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
-
-			m_viewWidget->showNormal();
-
-			m_viewWidget->setParent(this);
-			layout()->addWidget(m_viewWidget);
-
-			if (m_isViewMaximized){
-				showMaximized();
-			}
-
-			m_viewPtr->SetTransform(m_savedTransform);
-			m_viewPtr->Update();
 		}
 	}
 }

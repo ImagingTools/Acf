@@ -4,9 +4,7 @@
 
 // ACF includes
 #include "iqtgui/CHierarchicalCommand.h"
-
 #include "ibase/ICommandsProvider.h"
-
 #include "iview/CConsoleBase.h"
 #include "iview/CViewport.h"
 #include "iview/IShapeStatusInfo.h"
@@ -68,6 +66,9 @@ public:
 	*/
 	void SetShapeStatusInfo(IShapeStatusInfo* shapeStatusInfoPtr);
 
+	bool IsFullScreenMode() const;
+	void SetFullScreenMode(bool isFullScreen);	
+
 	// reimplemented (iview::CConsoleBase)
 	virtual const CViewport& GetView() const;
 	virtual CViewport& GetViewRef();
@@ -106,8 +107,6 @@ Q_SIGNALS:
 protected:
 	void UpdateZoomInOutState();
 	void UpdateScrollbarsValues();
-	bool IsFullScreenMode() const;
-	void SetFullScreenMode(bool isFullScreen);	
 
 	// events
 	virtual bool OnWheelEvent(QWheelEvent* eventPtr);
