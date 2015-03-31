@@ -36,7 +36,6 @@ protected:
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
 	virtual void OnGuiRetranslate();
 
 private Q_SLOTS:

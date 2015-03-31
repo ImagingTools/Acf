@@ -32,7 +32,7 @@ void CTextLogGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*
 }
 
 
-// reimplemented (CGuiComponentBase)
+// reimplemented (iqtgui::CGuiComponentBase)
 
 void CTextLogGuiComp::OnGuiCreated()
 {
@@ -48,12 +48,6 @@ void CTextLogGuiComp::OnGuiCreated()
 	connect(SeverityFilterCB, SIGNAL(currentIndexChanged(int)), this, SLOT(DoFilter()));
 	connect(SourceFilterCB, SIGNAL(currentIndexChanged(int)), this, SLOT(DoFilter()));
 	connect(FilterText, SIGNAL(textChanged(QString)), this, SLOT(DoFilter()));
-}
-
-
-void CTextLogGuiComp::OnGuiDestroyed()
-{
-	BaseClass::OnGuiDestroyed();
 }
 
 
@@ -73,9 +67,9 @@ void CTextLogGuiComp::OnGuiRetranslate()
 void CTextLogGuiComp::DoFilter()
 {
 	GenerateDocument(
-		SeverityFilterCB->currentIndex(),
-		SourceFilterCB->currentIndex() == 0 ? "" : SourceFilterCB->currentText(), 
-		FilterText->text());
+				SeverityFilterCB->currentIndex(),
+				SourceFilterCB->currentIndex() == 0 ? "" : SourceFilterCB->currentText(), 
+				FilterText->text());
 }
 
 
