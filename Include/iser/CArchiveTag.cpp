@@ -6,10 +6,10 @@ namespace iser
 
 
 CArchiveTag::CArchiveTag()
-:	m_parentPtr(NULL),
- 	m_tagType(TT_UNKNOWN),
- 	m_isTagSkippingUsed(false),
- 	m_binaryId(0)
+:	m_binaryId(0),
+	m_tagType(TT_UNKNOWN),
+	m_parentPtr(NULL),
+	m_isTagSkippingUsed(false)
 {
 }
 
@@ -21,12 +21,12 @@ CArchiveTag::CArchiveTag(
 			CArchiveTag* parentPtr,
 			bool isTagSkippingUsed)
 :	m_id(id),
+	m_binaryId(0),
 	m_comment(comment),
 	m_tagType(tagType),
 	m_parentPtr(parentPtr),
 	m_isTagSkippingUsed(isTagSkippingUsed)
 {
-	m_binaryId = 0;
 	int idSize = int(m_id.size());
 
 	for (int i = 0; i < idSize; ++i){

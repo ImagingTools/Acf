@@ -15,9 +15,9 @@ int CXmlStreamReadArchiveBase::GetLastReadLine() const
 
 CXmlStreamReadArchiveBase::CXmlStreamReadArchiveBase(const CArchiveTag& rootTag)
 :	BaseClass(rootTag),
+	m_lastReadChar(0),
 	m_useLastReadChar(false),
-	m_lastReadLine(0),
-	m_lastReadChar(0)
+	m_lastReadLine(0)
 {
 }
 
