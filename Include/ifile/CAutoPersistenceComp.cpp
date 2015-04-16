@@ -70,11 +70,12 @@ void CAutoPersistenceComp::StoreObject(const istd::IChangeable& object) const
 			filePath = m_filePathCompPtr->GetPath();
 		}
 
-		LockFile();
+		if (LockFile())
+		{
+			m_fileLoaderCompPtr->SaveToFile(object, filePath);
 
-		m_fileLoaderCompPtr->SaveToFile(object, filePath);
-
-		UnlockFile();
+			UnlockFile();
+		}
 	}
 }
 
@@ -281,6 +282,9 @@ void CAutoPersistenceComp::OnFileContentsChanged(const QString& path)
 			m_fileWatcher.removePaths(m_fileWatcher.files());
 			m_fileWatcher.addPath(path);
 		}
+		else{
+			UnlockFile();
+		}
 	}
 }
 
@@ -307,21 +311,22 @@ bool CAutoPersistenceComp::LockFile() const
 	}
 
 	QFileInfo fileInfo(filePath);
-	if (!fileInfo.exists()){
-		return false;
-	}
+	if (fileInfo.exists()){
+		filePath += ".lock";
 
-	filePath += ".lock";
+		// Try to remove "dead" lock file, if exists:
+		QFile::remove(filePath);
 
 #if QT_VERSION >= 0x050000
-	if (!m_lockFilePtr.IsValid()){
-		m_lockFilePtr = new QLockFile(filePath);
-	}
+		if (!m_lockFilePtr.IsValid()){
+			m_lockFilePtr = new QLockFile(filePath);
+		}
 
-	Q_ASSERT(m_lockFilePtr.IsValid());
+		Q_ASSERT(m_lockFilePtr.IsValid());
 
-	return m_lockFilePtr->lock();
+		return m_lockFilePtr->lock();
 #endif
+	}
 
 	return true;
 }
