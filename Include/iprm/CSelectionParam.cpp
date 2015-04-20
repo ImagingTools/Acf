@@ -16,7 +16,8 @@ namespace iprm
 
 CSelectionParam::CSelectionParam()
 :	m_selectedOptionIndex(-1),
-	m_constraintsPtr(NULL)
+	m_constraintsPtr(NULL),
+	m_constraintsObserver(*this)
 {
 }
 
@@ -24,6 +25,14 @@ CSelectionParam::CSelectionParam()
 void CSelectionParam::SetSelectionConstraints(const IOptionsList* constraintsPtr)
 {
 	m_constraintsPtr = constraintsPtr;
+	if (m_constraintsPtr != NULL){
+		if (m_constraintsPtr->GetOptionsFlags() & IOptionsList::SCF_SUPPORT_UNIQUE_ID){
+			imod::IModel* constraintsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(m_constraintsPtr));
+			if (constraintsModelPtr != NULL){
+				constraintsModelPtr->AttachObserver(&m_constraintsObserver);
+			}
+		}
+	}
 }
 
 
@@ -51,6 +60,24 @@ bool CSelectionParam::SetSelectedOptionById(const QByteArray& selectedOptionId)
 	}
 
 	return false;
+}
+
+
+int CSelectionParam::GetOptionIndexById(const QByteArray& optionId) const
+{
+	if (m_constraintsPtr != NULL){
+		int optionsCount = m_constraintsPtr->GetOptionsCount();
+
+		for (int optionIndex = 0; optionIndex < optionsCount; optionIndex++){
+			QByteArray currentOptionId = m_constraintsPtr->GetOptionId(optionIndex);
+
+			if (currentOptionId == optionId){
+				return optionIndex;
+			}
+		}
+	}
+
+	return -1;
 }
 
 
@@ -91,6 +118,15 @@ bool CSelectionParam::SetSelectedOptionIndex(int index)
 		istd::CChangeNotifier changeNotifier(this, changeSet);
 
 		m_selectedOptionIndex = index;
+
+		if (m_constraintsPtr != NULL){
+			if (index >= 0){
+				m_selectedOptionId = m_constraintsPtr->GetOptionId(index);
+			}
+			else{
+				m_selectedOptionId.clear();
+			}
+		}
 	}
 
 	return true;
@@ -141,7 +177,7 @@ bool CSelectionParam::Serialize(iser::IArchive& archive)
 		if (		(m_constraintsPtr != NULL) &&
 					((m_constraintsPtr->GetOptionsFlags() & iprm::IOptionsList::SCF_SUPPORT_UNIQUE_ID) != 0) &&
 					!selectedOptionId.isEmpty()){
-			if (!SetSelectedOptionById(selectedOptionId) && !SetSelectedOptionIndex(selectionOptionIndex)){
+			if (!SetSelectedOptionById(selectedOptionId)){
 				SetSelectedOptionIndex(-1);
 			}
 		}
@@ -151,6 +187,45 @@ bool CSelectionParam::Serialize(iser::IArchive& archive)
 	}
 
 	return retVal;
+}
+
+
+// public methods of the embedded class ConstraintsObserver
+
+CSelectionParam::ConstraintsObserver::ConstraintsObserver(CSelectionParam& parent)
+	:m_parent(parent)
+{
+}
+
+
+// reimplemented (imod::TSingleModelObserverBase<iprm::IOptionsList>)
+
+void CSelectionParam::ConstraintsObserver::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
+{
+	Q_ASSERT(m_parent.m_constraintsPtr != NULL);
+	Q_ASSERT(m_parent.m_constraintsPtr->GetOptionsFlags() & IOptionsList::SCF_SUPPORT_UNIQUE_ID);
+
+	I_IF_DEBUG(
+		if (m_parent.m_selectedOptionIndex >= 0){
+			Q_ASSERT(!m_parent.m_selectedOptionId.isEmpty());
+		}
+		else{
+			Q_ASSERT(m_parent.m_selectedOptionId.isEmpty());
+		}
+	)
+
+	int selectedIndexById = m_parent.GetOptionIndexById(m_parent.m_selectedOptionId);
+
+	if (m_parent.m_selectedOptionIndex != selectedIndexById){
+		istd::IChangeable::ChangeSet changeSet(iprm::ISelectionParam::CF_SELECTION_CHANGED);
+		istd::CChangeNotifier changeNotifier(&m_parent, changeSet);
+
+		m_parent.m_selectedOptionIndex = selectedIndexById;
+
+		if (m_parent.m_selectedOptionIndex < 0){
+			m_parent.m_selectedOptionId.clear();
+		}
+	}
 }
 
 

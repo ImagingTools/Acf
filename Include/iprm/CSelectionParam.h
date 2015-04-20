@@ -6,8 +6,8 @@
 #include <QtCore/QMap>
 
 // ACF includes 
+#include "imod/TSingleModelObserverBase.h"
 #include "iser/ISerializable.h"
-
 #include "iprm/ISelectionParam.h"
 
 
@@ -39,6 +39,11 @@ public:
 	bool SetSelectedOptionById(const QByteArray& selectedOptionId);
 
 	/**
+		Get index of an option by ID.
+	*/
+	int GetOptionIndexById(const QByteArray& optionId) const;
+
+	/**
 		Get sub-selection for the currently selected option.
 	*/
 	ISelectionParam* GetActiveSubselection() const;
@@ -53,6 +58,19 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
+	class ConstraintsObserver: public imod::TSingleModelObserverBase<iprm::IOptionsList>
+	{
+	public:
+		ConstraintsObserver(CSelectionParam& parent);
+
+		// reimplemented (imod::TSingleModelObserverBase<iprm::IOptionsList>)
+		virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
+
+	private:
+		CSelectionParam& m_parent;
+	};
+
+protected:
 	int m_selectedOptionIndex;
 
 private:
@@ -61,6 +79,10 @@ private:
 	const IOptionsList* m_constraintsPtr;
 
 	SubselectionMap m_subselectionMap;
+
+	QByteArray m_selectedOptionId;
+
+	ConstraintsObserver m_constraintsObserver;
 };
 
 
