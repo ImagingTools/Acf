@@ -57,6 +57,10 @@ void CSystemLocationComp::OnComponentCreated()
 	QString organizationName = QCoreApplication::organizationName();
 	if (m_applicationInfoCompPtr.IsValid()){
 		organizationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
+		QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+
+		QCoreApplication::setOrganizationName(organizationName);
+		QCoreApplication::setApplicationName(applicationName);
 	}
 
 	QString organizationNameSubPath;
