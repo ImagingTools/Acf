@@ -3,6 +3,7 @@
 
 
 // Qt includes
+#include <QtCore/QString>
 #include <QtCore/QSet>
 
 // ACF includes
