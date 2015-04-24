@@ -37,6 +37,7 @@ public:
 	I_BEGIN_COMPONENT(CFilePreviewGuiComp);
 		I_ASSIGN(m_fileLoaderCompPtr, "FileLoader", "Object loader", true, "FileLoader");
 		I_ASSIGN(m_objectFactoryCompPtr, "ObjectFactory", "Factory for creation of data object to be previewed", true, "ObjectFactory");
+		I_ASSIGN(m_objectCopyCompPtr, "ObjectCopy", "Current object will be copied here if set", false, "ObjectCopy");
 		I_ASSIGN(m_objectObserverCompPtr, "ObjectView", "View component for the object", true, "ObjectView");
 		I_ASSIGN_TO(m_objectGuiCompPtr, m_objectObserverCompPtr, true);
 	I_END_COMPONENT;
@@ -65,7 +66,8 @@ private:
 	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
 	I_FACT(istd::IChangeable, m_objectFactoryCompPtr);
 	I_REF(imod::IObserver, m_objectObserverCompPtr);
-	I_REF(iqtgui::IGuiObject, m_objectGuiCompPtr);
+	I_REF(iqtgui::IGuiObject, m_objectGuiCompPtr);	
+	I_REF(istd::IChangeable, m_objectCopyCompPtr);
 
 	QFileSystemWatcher m_fileSystemObserver;
 

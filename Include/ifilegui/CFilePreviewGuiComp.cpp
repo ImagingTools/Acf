@@ -168,6 +168,10 @@ void CFilePreviewGuiComp::UpdateObjectFromFile()
 {
 	QMutexLocker lock(&m_mutex);
 
+	if (m_objectCopyCompPtr.IsValid()){
+		m_objectCopyCompPtr->ResetData();
+	}
+
 	if (!m_workingObjectPtr.IsValid()){
 		return;
 	}
@@ -187,6 +191,9 @@ void CFilePreviewGuiComp::UpdateObjectFromFile()
 			int retVal = m_fileLoaderCompPtr->LoadFromFile(*m_workingObjectPtr.GetPtr(), m_lastFilePath);
 			if (retVal != ifile::IFilePersistence::OS_OK){
 				m_workingObjectPtr->ResetData();
+			}
+			else if (m_objectCopyCompPtr.IsValid()){
+				m_objectCopyCompPtr->CopyFrom(*m_workingObjectPtr);
 			}
 		}
 	}
