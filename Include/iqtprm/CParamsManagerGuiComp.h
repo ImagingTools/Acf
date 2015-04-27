@@ -10,6 +10,10 @@ namespace iqtprm
 {
 
 
+/**
+	Simple parameter manager editor using single paramer element editor.
+	Due of single editor instance only one kind of elements is supported.
+*/
 class CParamsManagerGuiComp: public CParamsManagerGuiCompBase
 {
 public:
@@ -17,7 +21,7 @@ public:
 
 	I_BEGIN_COMPONENT(CParamsManagerGuiComp);
 		I_ASSIGN(m_paramsGuiCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui");
-		I_ASSIGN(m_paramsObserverCompPtr, "ParamsGui", "GUI object used to display parameters", false, "ParamsGui");
+		I_ASSIGN_TO(m_paramsObserverCompPtr, m_paramsGuiCompPtr, false);
 	I_END_COMPONENT;
 
 protected:
