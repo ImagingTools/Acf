@@ -18,7 +18,7 @@
           0
         </Id>
         <Number>
-          3653
+          3705
         </Number>
         <Description>
           ACF
@@ -29,7 +29,7 @@
           1
         </Id>
         <Number>
-          1213
+          1251
         </Number>
         <Description>
           ACF-Solutions
@@ -573,23 +573,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="6">
-    <Interface>
-      <InterfaceId>
-        ifile::IFileNameParam
-      </InterfaceId>
-      <ComponentId>
-        FilePath
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        imod::IModel
-      </InterfaceId>
-      <ComponentId>
-        FilePath
-      </ComponentId>
-    </Interface>
+  <ExportedInterfaces count="2">
     <Interface>
       <InterfaceId>
         iqtgui::IGuiObject
@@ -606,24 +590,16 @@
         DockWidgetGui
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        iser::ISerializable
-      </InterfaceId>
-      <ComponentId>
-        FilePath
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        istd::IChangeable
-      </InterfaceId>
-      <ComponentId>
-        FilePath
-      </ComponentId>
-    </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="0">
+  <ExportedComponents count="1">
+    <Component>
+      <ExportedId>
+        FilePath
+      </ExportedId>
+      <ComponentId>
+        FilePath
+      </ComponentId>
+    </Component>
   </ExportedComponents>
   <Description>
     General file selector with external preview

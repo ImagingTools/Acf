@@ -4,10 +4,21 @@
     <VersionInfos count="3">
       <Version>
         <Id>
+          1023
+        </Id>
+        <Number>
+          328449
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
+      <Version>
+        <Id>
           0
         </Id>
         <Number>
-          2934
+          3705
         </Number>
         <Description>
           ACF
@@ -18,21 +29,10 @@
           1
         </Id>
         <Number>
-          920
+          1251
         </Number>
         <Description>
           ACF-Solutions
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          1023
-        </Id>
-        <Number>
-          264194
-        </Number>
-        <Description>
-          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -327,7 +327,7 @@
                 true
               </IsEnabled>
               <Value>
-                BitmapFileExplorer
+                BitmapFileExplorer/BitmapFilePath
               </Value>
             </Data>
           </AttributeInfo>

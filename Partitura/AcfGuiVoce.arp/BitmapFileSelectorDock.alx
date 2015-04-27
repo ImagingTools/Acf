@@ -18,7 +18,7 @@
           0
         </Id>
         <Number>
-          3653
+          3705
         </Number>
         <Description>
           ACF
@@ -29,7 +29,7 @@
           1
         </Id>
         <Number>
-          1213
+          1251
         </Number>
         <Description>
           ACF-Solutions
@@ -38,20 +38,6 @@
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
-    <Element>
-      <ComponentName>
-        Bitmap
-      </ComponentName>
-      <X>
-        175
-      </X>
-      <Y>
-        350
-      </Y>
-      <Note>
-        Bitmap data model
-      </Note>
-    </Element>
     <Element>
       <ComponentName>
         BitmapLoader
@@ -64,6 +50,20 @@
       </Y>
       <Note>
         Loader for the bitmap data
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        ImageView
+      </ComponentName>
+      <X>
+        550
+      </X>
+      <Y>
+        150
+      </Y>
+      <Note>
+        Bitmap preview
       </Note>
     </Element>
     <Element>
@@ -82,16 +82,16 @@
     </Element>
     <Element>
       <ComponentName>
-        ImageView
+        Bitmap
       </ComponentName>
       <X>
-        550
+        175
       </X>
       <Y>
-        150
+        350
       </Y>
       <Note>
-        Bitmap preview
+        Bitmap data model
       </Note>
     </Element>
   </PositionMap>

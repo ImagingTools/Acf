@@ -18,7 +18,7 @@
           0
         </Id>
         <Number>
-          3653
+          3705
         </Number>
         <Description>
           ACF
@@ -29,7 +29,7 @@
           1
         </Id>
         <Number>
-          1213
+          1251
         </Number>
         <Description>
           ACF-Solutions
@@ -447,31 +447,7 @@
   </ElementsList>
   <EmbeddedRegistriesList count="0">
   </EmbeddedRegistriesList>
-  <ExportedInterfaces count="8">
-    <Interface>
-      <InterfaceId>
-        ifile::IFileNameParam
-      </InterfaceId>
-      <ComponentId>
-        FileSelectorDockWithPreview
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        ifile::IFileTypeInfo
-      </InterfaceId>
-      <ComponentId>
-        BitmapLoader
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        imod::IModel
-      </InterfaceId>
-      <ComponentId>
-        FileSelectorDockWithPreview
-      </ComponentId>
-    </Interface>
+  <ExportedInterfaces count="3">
     <Interface>
       <InterfaceId>
         iqt2d::IViewProvider
@@ -496,30 +472,22 @@
         FileSelectorDockWithPreview
       </ComponentId>
     </Interface>
-    <Interface>
-      <InterfaceId>
-        iser::ISerializable
-      </InterfaceId>
-      <ComponentId>
-        FileSelectorDockWithPreview
-      </ComponentId>
-    </Interface>
-    <Interface>
-      <InterfaceId>
-        istd::IChangeable
-      </InterfaceId>
-      <ComponentId>
-        FileSelectorDockWithPreview
-      </ComponentId>
-    </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="2">
+  <ExportedComponents count="3">
     <Component>
       <ExportedId>
         Bitmap
       </ExportedId>
       <ComponentId>
         Bitmap
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        BitmapFilePath
+      </ExportedId>
+      <ComponentId>
+        FileSelectorDockWithPreview/FilePath
       </ComponentId>
     </Component>
     <Component>
