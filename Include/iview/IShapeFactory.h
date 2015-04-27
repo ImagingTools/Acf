@@ -29,7 +29,7 @@ public:
 		\param	connectToModel	If this flag is enabled, the shape will be attached to model of object using
 								observer/observable mechanism.
 	*/
-	virtual IShape* CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel = false) const = 0;
+	virtual IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const = 0;
 };
 
 

@@ -23,7 +23,7 @@ namespace iview
 
 // reimplemented (iview::IShapeFactory)
 
-IShape* CSimpleShapeFactoryComp::CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel) const
+IShape* CSimpleShapeFactoryComp::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
 {
 	if (objectPtr == NULL){
 		return NULL;
@@ -42,7 +42,7 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const i2d::IObject2d* objectPtr, bo
 		}
 
 		if (connectToModel){
-			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<i2d::IObject2d*>(objectPtr));
+			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
 			if (modelPtr != NULL){
 				if (!modelPtr->AttachObserver(shapePtr.GetPtr())){
 					return NULL;
@@ -57,7 +57,7 @@ IShape* CSimpleShapeFactoryComp::CreateShape(const i2d::IObject2d* objectPtr, bo
 
 // protected methods
 
-CInteractiveShapeBase* CSimpleShapeFactoryComp::CreateShapeInstance(const i2d::IObject2d& object) const
+CInteractiveShapeBase* CSimpleShapeFactoryComp::CreateShapeInstance(const istd::IChangeable& object) const
 {
 	const i2d::CAnnulusSegment* annulusSegmentPtr = dynamic_cast<const i2d::CAnnulusSegment*>(&object);
 	if (annulusSegmentPtr != NULL){

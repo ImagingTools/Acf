@@ -34,7 +34,7 @@ public:
 	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 	// reimplemented (iview::IShapeFactory)
-	virtual iview::IShape* CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel = false) const;
+	virtual iview::IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
 
 protected:
 	typedef typename BaseClass::Shapes Shapes;
@@ -116,12 +116,12 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetached(imod::IMode
 // reimplemented (iview::IShapeFactory)
 
 template <class Ui, class Shape, class ShapeModel>
-iview::IShape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel) const
+iview::IShape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
 {
 	Shape* shapePtr = new Shape();
 
 	if (connectToModel){
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<i2d::IObject2d*>(objectPtr));
+		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
 		if (modelPtr != NULL){
 			if (modelPtr->AttachObserver(shapePtr)){
 				shapePtr->SetVisible(true);

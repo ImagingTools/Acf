@@ -26,7 +26,7 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iview::IShapeFactory)
-	virtual iview::IShape* CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel = false) const;
+	virtual iview::IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
 
 protected:
 	protected Q_SLOTS:

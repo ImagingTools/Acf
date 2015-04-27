@@ -11,7 +11,8 @@
 #include "iprm/IParamsSet.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iqt2d/IViewExtender.h"
-#include "iqtprm/iqtprm.h"
+#include "iview/IShapeFactory.h"
+
 
 #include "GeneratedFiles/iqtprm/ui_CComposedParamsSetGuiComp.h"
 
@@ -22,7 +23,8 @@ namespace iqtprm
 
 class CComposedParamsSetGuiComp:
 			public iqtgui::TDesignerGuiObserverCompBase<Ui::CComposedParamsSetGuiComp, iprm::IParamsSet>,
-			public iqt2d::IViewExtender
+			virtual public iqt2d::IViewExtender,
+			virtual public iview::IShapeFactory
 {
 	Q_OBJECT
 
@@ -42,6 +44,7 @@ public:
 		I_ASSIGN_TO(m_guisCompPtr, m_editorsCompPtr, true);
 		I_ASSIGN_TO(m_observersCompPtr, m_editorsCompPtr, true);
 		I_ASSIGN_TO(m_extendersCompPtr, m_editorsCompPtr, false);
+		I_ASSIGN_TO(m_shapeFactoriesCompPtr, m_editorsCompPtr, false);
 		I_ASSIGN(m_paramsLoaderCompPtr, "ParamsLoader", "Loader for the parameter set", false, "ParamsLoader");
 		I_ASSIGN_MULTI_0(m_idsAttrPtr, "Ids", "List of parameter ID's according to defined editors, if ID equals '*' then the observed parameter set will be used, if it is empty than only GUI will be shown, but no parameter will be connected", true);
 		I_ASSIGN_MULTI_0(m_namesAttrPtr, "Names", "List of of gui names", false);
@@ -66,6 +69,9 @@ public:
 	virtual void AddItemsToScene(iqt2d::IViewProvider* providerPtr, int flags);
 	virtual void RemoveItemsFromScene(iqt2d::IViewProvider* providerPtr);
 
+	// reimplemented (iview::IShapeFactory)
+	virtual iview::IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
+
 protected:
 	void AttachToScene(iqt2d::IViewProvider* providerPtr, int flags);
 	void DetachFromScene(iqt2d::IViewProvider* providerPtr);
@@ -84,6 +90,7 @@ private:
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_MULTIREF(imod::IObserver, m_observersCompPtr);
 	I_MULTIREF(iqt2d::IViewExtender, m_extendersCompPtr);
+	I_MULTIREF(iview::IShapeFactory, m_shapeFactoriesCompPtr);
 	I_REF(ifile::IFilePersistence, m_paramsLoaderCompPtr);
 	I_MULTIATTR(QByteArray, m_idsAttrPtr);
 	I_MULTIATTR(QString, m_namesAttrPtr);

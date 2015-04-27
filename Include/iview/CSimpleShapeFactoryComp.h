@@ -30,10 +30,10 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (iview::IShapeFactory)
-	virtual IShape* CreateShape(const i2d::IObject2d* objectPtr, bool connectToModel = false) const;
+	virtual IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
 
 protected:
-	virtual CInteractiveShapeBase* CreateShapeInstance(const i2d::IObject2d& object) const;
+	virtual CInteractiveShapeBase* CreateShapeInstance(const istd::IChangeable& object) const;
 
 protected:
 	I_ATTR(bool, m_useInteractiveShapesAttrPtr);

@@ -197,6 +197,41 @@ void CComposedParamsSetGuiComp::RemoveItemsFromScene(iqt2d::IViewProvider* provi
 }
 
 
+// reimplemented (iview::IShapeFactory)
+
+iview::IShape* CComposedParamsSetGuiComp::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
+{
+	const iprm::IParamsSet* paramsSetPtr = dynamic_cast<const iprm::IParamsSet*>(objectPtr);
+
+	if (paramsSetPtr != NULL){
+		int elementsCount = qMin(m_shapeFactoriesCompPtr.GetCount(), m_idsAttrPtr.GetCount());
+		for (int i = 0; i < elementsCount; ++i){
+			const QByteArray& paramId = m_idsAttrPtr[i];
+			if (paramId.isEmpty()){
+				continue;
+			}
+
+			const iview::IShapeFactory* factoryPtr = m_shapeFactoriesCompPtr[i];
+			if (factoryPtr == NULL){
+				continue;
+			}
+
+			const istd::IChangeable* subObjectPtr = objectPtr;
+			if (paramId != "*"){
+				subObjectPtr = paramsSetPtr->GetParameter(paramId);
+			}
+
+			iview::IShape* shapePtr = factoryPtr->CreateShape(subObjectPtr, connectToModel);
+			if (shapePtr != NULL){
+				return shapePtr;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+
 // protected methods
 
 void CComposedParamsSetGuiComp::AttachToScene(iqt2d::IViewProvider* providerPtr, int flags)
@@ -473,18 +508,19 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 	int elementsCount = qMin(m_observersCompPtr.GetCount(), m_idsAttrPtr.GetCount());
 	for (int i = 0; i < elementsCount; ++i){
 		const QByteArray& paramId = m_idsAttrPtr[i];
+		if (paramId.isEmpty()){
+			continue;
+		}
 
-		if (!paramId.isEmpty()){
-			imod::IModel* parameterModelPtr = GetModelPtr();
-			if (paramId != "*"){
-				iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
-				parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
-			}
+		imod::IModel* parameterModelPtr = GetModelPtr();
+		if (paramId != "*"){
+			iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
+			parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
+		}
 
-			imod::IObserver* observerPtr = m_observersCompPtr[i];
-			if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
-				parameterModelPtr->DetachObserver(observerPtr);
-			}
+		imod::IObserver* observerPtr = m_observersCompPtr[i];
+		if ((parameterModelPtr != NULL) && (observerPtr != NULL) && parameterModelPtr->IsAttached(observerPtr)){
+			parameterModelPtr->DetachObserver(observerPtr);
 		}
 	}
 
