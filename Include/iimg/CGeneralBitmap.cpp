@@ -39,26 +39,32 @@ IBitmap::PixelFormat CGeneralBitmap::GetPixelFormat() const
 bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, int pixelBitsCount, int componentsCount)
 {
 	switch(pixelFormat){
-		case PF_GRAY:
-			componentsCount = 1;
-			pixelBitsCount = 8;
-			break;
+	case PF_GRAY:
+		componentsCount = 1;
+		pixelBitsCount = 8;
+		break;
 
-		case PF_RGB:
-		case PF_RGBA:
-			componentsCount = 4;
-			pixelBitsCount = 32;
-			break;
+	case PF_RGB:
+	case PF_RGBA:
+		componentsCount = 4;
+		pixelBitsCount = 32;
+		break;
 
-		case PF_GRAY16:
-			componentsCount = 1;
-			pixelBitsCount = 16;
-			break;
+	case PF_GRAY16:
+		componentsCount = 1;
+		pixelBitsCount = 16;
+		break;
 
-		case PF_GRAY32:
-			componentsCount = 1;
-			pixelBitsCount = 32;
-			break;
+	case PF_GRAY32:
+		componentsCount = 1;
+		pixelBitsCount = 32;
+		break;
+
+	case PF_USER:
+		break;
+
+	default:
+		return false;
 	}
 
 	// Unknown pixel format and missing user format specification:
