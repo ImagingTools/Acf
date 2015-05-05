@@ -31,6 +31,17 @@ public:
 
 	void SetOtherValueAllowed(bool state);
 	/**
+		Get descrition of unknown value;
+		\sa	iattr::IEnumAttributeMetaInfo::GetValueDescription()
+	*/
+	const QString& GetUnknownDescription() const;
+	/**
+		Set descrition of unknown value;
+		\sa	iattr::IEnumAttributeMetaInfo::GetValueDescription()
+	*/
+	void SetUnknownDescription(const QString& description);
+
+	/**
 		Insert new enumeration element.
 		\param	description	human readable description of this enumeration element.
 		\param	valuePtr	value of this enumeration element.
@@ -41,7 +52,7 @@ public:
 	// reimplemented (iattr::IEnumAttributeMetaInfo)
 	virtual bool IsAnyValueAllowed() const;
 	virtual int GetEnumsCount() const;
-	virtual QString GetEnumDescription(int index) const;
+	virtual QString GetValueDescription(const iser::IObject& value) const;
 	virtual const iser::IObject& GetEnum(int index) const;
 
 private:
@@ -51,7 +62,13 @@ private:
 		QString description;
 		istd::TOptDelPtr<const iser::IObject> attributePtr;
 	};
-	QList<EnumInfo> m_enums;
+	typedef QList<EnumInfo> Enums;
+	Enums m_enums;
+
+	/**
+		Description of unknown type;
+	*/
+	QString m_unknownDescription;
 };
 
 

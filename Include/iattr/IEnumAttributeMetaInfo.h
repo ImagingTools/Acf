@@ -25,9 +25,10 @@ public:
 	*/
 	virtual int GetEnumsCount() const = 0;
 	/**
-		Gets single enumeration.
+		Gets description of single enumeration.
+		\param	index	index of enumeration.
 	*/
-	virtual QString GetEnumDescription(int index) const = 0;
+	virtual QString GetValueDescription(const iser::IObject& value) const = 0;
 	/**
 		Gets single enumeration.
 	*/

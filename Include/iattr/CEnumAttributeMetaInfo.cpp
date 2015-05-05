@@ -1,6 +1,10 @@
 #include "iattr/CEnumAttributeMetaInfo.h"
 
 
+// ACF includes
+#include "istd/CChangeNotifier.h"
+
+
 namespace iattr
 {
 
@@ -18,9 +22,29 @@ void CEnumAttributeMetaInfo::SetOtherValueAllowed(bool state)
 }
 
 
+const QString& CEnumAttributeMetaInfo::GetUnknownDescription() const
+{
+	return m_unknownDescription;
+}
+
+
+void CEnumAttributeMetaInfo::SetUnknownDescription(const QString& description)
+{
+	if (description != m_unknownDescription){
+		istd::CChangeNotifier notifier(this);
+		Q_UNUSED(notifier);
+
+		m_unknownDescription = description;
+	}
+}
+
+
 bool CEnumAttributeMetaInfo::InsertOption(const QString& description, const iser::IObject* valuePtr, bool releaseFlag)
 {
 	Q_ASSERT(valuePtr != NULL);
+
+	istd::CChangeNotifier notifier(this);
+	Q_UNUSED(notifier);
 
 	m_enums.append(EnumInfo());
 
@@ -47,9 +71,20 @@ int CEnumAttributeMetaInfo::GetEnumsCount() const
 }
 
 
-QString CEnumAttributeMetaInfo::GetEnumDescription(int index) const
+QString CEnumAttributeMetaInfo::GetValueDescription(const iser::IObject& value) const
 {
-	return m_enums[index].description;
+	for (		Enums::ConstIterator iter = m_enums.constBegin();
+				iter != m_enums.constEnd();
+				++iter){
+		const EnumInfo& info = *iter;
+		Q_ASSERT(info.attributePtr.IsValid());
+
+		if (info.attributePtr->IsEqual(value)){
+			return info.description;
+		}
+	}
+
+	return m_unknownDescription;
 }
 
 
