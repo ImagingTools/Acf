@@ -8,7 +8,7 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		AdditionalIncludeDirectories="../../../Include"
+		AdditionalIncludeDirectories="../../../Include;../../../Impl"
 		ProgramDataBaseFileName="$(OutDir)\$(ProjectName).pdb"
 	/>
 	<Tool
