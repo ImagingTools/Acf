@@ -107,11 +107,11 @@ public:
 
 	/**
 		Insert new parameters set at selected position.
-		\param	index		position in list of parameters or negative value to use default position.
 		\param	typeIndex	Index of parameter type.
 							This index is context specified and is used to indicate type of parameters should be added.
 							If equals negative value the type will be automatically selected.
-		\return				position of inserted new entry or negative value if no insert was possible.
+		\param	index		Position in list of parameters or negative value to use default position.
+		\return				Position of inserted new entry or negative value if no insert was possible.
 							For specified index positions (positive \c index value) it will return the same index or negative value.
 	*/
 	virtual int InsertParamsSet(int typeIndex = -1, int index = -1) = 0;
@@ -130,6 +130,15 @@ public:
 		Get selected parameter set.
 	*/
 	virtual IParamsSet* GetParamsSet(int index) const = 0;
+
+	/**
+		\param	typeIndex	Index of parameter type.
+							This index is context specified and is used to indicate type of parameters should be created.
+							If equals negative value, the type will be automatically selected.
+		\param	index		If \c index is not negative, the parameter set data at the given position will be copied to the created instance.
+		\note The caller is responsible for the memory mangement of the created parameter set.
+	*/
+	virtual IParamsSet* CreateParameterSet(int typeIndex = -1, int index = -1) const = 0;
 
 	/**
 		Get name of specified parameter set.

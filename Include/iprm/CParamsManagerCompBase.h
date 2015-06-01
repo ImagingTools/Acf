@@ -85,6 +85,7 @@ public:
 	virtual bool RemoveParamsSet(int index);
 	virtual bool SwapParamsSet(int index1, int index2);
 	virtual IParamsSet* GetParamsSet(int index) const;
+	virtual IParamsSet* CreateParameterSet(int typeIndex = -1, int index = -1) const;
 	virtual int GetIndexOperationFlags(int index = -1) const;
 	virtual int GetParamsSetsCount() const;
 	virtual QString GetParamsSetName(int index) const;
@@ -156,6 +157,9 @@ protected:
 		virtual const QString& GetName() const;
 		virtual void SetName(const QString& name);
 		virtual bool IsNameFixed() const;
+
+		// reimplemented (iser::IObject)
+		virtual QByteArray GetFactoryId() const;
 
 		// reimplemented (iser::ISerializable)
 		virtual bool Serialize(iser::IArchive& archive);

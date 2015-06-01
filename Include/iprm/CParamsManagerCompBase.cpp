@@ -157,6 +157,51 @@ IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
 }
 
 
+IParamsSet* CParamsManagerCompBase::CreateParameterSet(int typeIndex, int index) const
+{
+	ParamSet* sourceParamsSetPtr = NULL;;
+	if ((index >= 0)){
+		sourceParamsSetPtr = dynamic_cast<ParamSet*>(GetParamsSet(index));
+	}
+
+	// If the type index is not specified, try to get it from the source parameter set:
+	if ((typeIndex < 0) && (sourceParamsSetPtr != NULL)){
+		QByteArray sourceTypeId = sourceParamsSetPtr->GetFactoryId();
+		const IOptionsList* typesListPtr = GetParamsTypeConstraints();
+		if (!sourceTypeId.isEmpty() && (typesListPtr != NULL)){
+			for (int i = 0; i < typesListPtr->GetOptionsCount(); ++i){
+				if (typesListPtr->GetOptionId(i) == sourceTypeId){
+					typeIndex = i;
+					break;
+				}
+			}
+		}
+	}
+
+	IParamsSet* newParamsSetPtr = CreateParamsSet(typeIndex);
+	if (newParamsSetPtr == NULL){
+		return NULL;
+	}
+
+	ParamSet* retVal = new imod::TModelWrap<ParamSet>();
+
+	retVal->paramSetPtr.SetPtr(newParamsSetPtr);
+	retVal->isEnabled = true;
+	retVal->uuid = QUuid::createUuid().toByteArray();
+
+	if (sourceParamsSetPtr != NULL){
+		newParamsSetPtr->CopyFrom(*sourceParamsSetPtr->paramSetPtr.GetPtr());
+		retVal->isEnabled = sourceParamsSetPtr->isEnabled;
+		retVal->name = sourceParamsSetPtr->name;
+		retVal->typeId = sourceParamsSetPtr->typeId;
+		retVal->description = sourceParamsSetPtr->description;
+		retVal->uuid = sourceParamsSetPtr->uuid;
+	}
+
+	return retVal;
+}
+
+
 int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 {
 	Q_ASSERT(index < GetParamsSetsCount());
@@ -575,6 +620,14 @@ void CParamsManagerCompBase::ParamSet::SetName(const QString& /*name*/)
 bool CParamsManagerCompBase::ParamSet::IsNameFixed() const
 {
 	return true;
+}
+
+
+// reimplemented (iser::IObject)
+
+QByteArray CParamsManagerCompBase::ParamSet::GetFactoryId() const
+{
+	return typeId;
 }
 
 
