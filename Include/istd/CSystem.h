@@ -98,9 +98,14 @@ public:
 	static bool RemoveDirectory(const QString& directoryPath);
 
 	/**
-		Copy file to directory. When result directory doesn't exist, create it.
+		Copy file to directory. If the target directory doesn't exist, it will be created.
 	*/
 	static bool FileCopy(const QString& source, const QString& result, bool overWrite = false);
+
+	/**
+		Move a file to another directory. If the target directory doesn't exist, it will be created.
+	*/
+	static bool FileMove(const QString& source, const QString& targetFolder, bool overWrite = false);
 
 	/**
 		Ensure that the given path exists.

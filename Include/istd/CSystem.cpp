@@ -306,6 +306,61 @@ bool CSystem::FileCopy(const QString& source, const QString& result, bool overWr
 }
 
 
+bool CSystem::FileMove(const QString& source, const QString& targetFolder, bool overWrite)
+{
+	QFileInfo sourceFile(source);
+	if (!sourceFile.exists())
+	{
+		return false;
+	}
+
+	if (targetFolder.isEmpty())
+	{
+		return false;
+	}
+
+	QString targetFilePath = targetFolder + "/" + sourceFile.fileName();
+
+	QFileInfo resultFile(targetFilePath);
+	resultFile.setCaching(false);
+
+	const QDir&  resultDir = resultFile.absoluteDir();
+	if (!resultDir.exists())
+	{
+		if (!resultDir.mkpath(resultDir.absolutePath()))
+		{
+			return false;
+		}
+	}
+	Q_ASSERT(resultDir.exists());
+
+	if (resultFile.exists())
+	{
+		if (overWrite)
+		{
+			if (!QFile::remove(resultFile.absoluteFilePath())){
+				qDebug(qPrintable(QString("File '%1' could not be overwritten").arg(resultFile.absoluteFilePath())));
+
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	Q_ASSERT(!resultFile.exists());
+	if (!QFile::rename(source, resultFile.absoluteFilePath()))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+
 bool CSystem::EnsurePathExists(const QString& filePath)
 {
 	QFileInfo inputInfo(filePath);
