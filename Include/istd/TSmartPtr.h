@@ -111,8 +111,8 @@ protected:
 		}
 
 	private:
-		QMutex m_lock;
 		int m_count;
+		QMutex m_lock;
 	};
 };
 
