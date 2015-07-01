@@ -4,28 +4,6 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          1
-        </Id>
-        <Number>
-          1204
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          3615
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           1023
         </Id>
         <Number>
@@ -33,6 +11,28 @@
         </Number>
         <Description>
           Qt Framework
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          3694
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          1244
+        </Number>
+        <Description>
+          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -783,13 +783,21 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="3">
+  <ExportedComponents count="4">
     <Component>
       <ExportedId>
         ApplicationInfo
       </ExportedId>
       <ComponentId>
         ApplicationInfo
+      </ComponentId>
+    </Component>
+    <Component>
+      <ExportedId>
+        MainGui
+      </ExportedId>
+      <ComponentId>
+        MainGui
       </ComponentId>
     </Component>
     <Component>

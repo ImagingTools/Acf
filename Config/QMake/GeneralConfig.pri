@@ -11,6 +11,11 @@ win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
 	PLATFORM_CODE = x64
 }
 
+CONFIG(release, debug|release){
+	#sse support
+	CONFIG += sse2
+}
+
 COMPILER_NAME = QMake
 PLATFORM_NAME = Unix
 
@@ -26,6 +31,10 @@ win32-msvc*{
 	}
 	win32-msvc2008{
 		COMPILER_NAME = VC9
+		QMAKE_CXXFLAGS -= /Gd
+		QMAKE_CXXFLAGS -= /GD
+		QMAKE_CXXFLAGS -= -Gd
+		QMAKE_CXXFLAGS -= -GD
 	}
 	win32-msvc2010{
 		QMAKE_CXXFLAGS += /wd4996
@@ -36,8 +45,20 @@ win32-msvc*{
 		COMPILER_NAME = VC11
 	}
 	win32-msvc2013{
-		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw
+		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
 		COMPILER_NAME = VC12
+
+		# output path
+		AUXINCLUDEDIR = AuxInclude/Qt5_VS2013
+		AUXINCLUDEPATH = ../../../AuxInclude/Qt5_VS2013
+	}
+	win32-msvc2015{
+		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
+		COMPILER_NAME = VC14
+
+		# output path
+		AUXINCLUDEDIR = AuxInclude/Qt5_VS2015
+		AUXINCLUDEPATH = ../../../AuxInclude/Qt5_VS2015
 	}
 
 	contains(QMAKE_HOST.arch, x86_64){
@@ -60,20 +81,34 @@ win32-msvc*{
 	LIBS += -lgomp
 }
 
-LIBRARY_SUFIX =
-
 CONFIG(debug, debug|release){
 	COMPILER_DIR = Debug$$COMPILER_NAME
-	LIBRARY_SUFIX = d
 }
+
 CONFIG(release, debug|release){
 	COMPILER_DIR = Release$$COMPILER_NAME
-	CONFIG += sse2
 }
+
+contains(QMAKE_HOST.arch, x86_64){
+	COMPILER_DIR = $$COMPILER_DIR"_64"
+}
+
 
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics
 }
+
+win32-msvc*{
+	# activate debug info
+	QMAKE_CXXFLAGS += /Zi /Fd../../../Bin/$$COMPILER_DIR/"$$TARGET".pdb
+	QMAKE_LFLAGS += /DEBUG
+}
+
+# path definition
+INCLUDEPATH += $$AUXINCLUDEPATH
+UI_DIR = $$AUXINCLUDEPATH/GeneratedFiles/"$$TARGET"
+MOC_DIR = $$AUXINCLUDEPATH/GeneratedFiles/"$$TARGET"
+ACF_TRANSLATIONS_OUTDIR = ../../GeneratedFiles/"$$TARGET"
 
 INCLUDEPATH += $$PWD/../../Include

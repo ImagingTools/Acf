@@ -9,6 +9,7 @@
 #include "imod/TSingleModelObserverBase.h"
 #include "iser/ISerializable.h"
 #include "iprm/ISelectionParam.h"
+#include "iprm/IOptionsList.h"
 
 
 namespace iprm

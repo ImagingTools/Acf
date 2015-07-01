@@ -4,28 +4,6 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          1
-        </Id>
-        <Number>
-          1204
-        </Number>
-        <Description>
-          ACF-Solutions
-        </Description>
-      </Version>
-      <Version>
-        <Id>
-          0
-        </Id>
-        <Number>
-          3615
-        </Number>
-        <Description>
-          ACF
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           1023
         </Id>
         <Number>
@@ -35,18 +13,40 @@
           Qt Framework
         </Description>
       </Version>
+      <Version>
+        <Id>
+          0
+        </Id>
+        <Number>
+          3694
+        </Number>
+        <Description>
+          ACF
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1
+        </Id>
+        <Number>
+          1244
+        </Number>
+        <Description>
+          ACF-Solutions
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
     <Element>
       <ComponentName>
-        MainGui
+        SettingsProvider
       </ComponentName>
       <X>
         575
       </X>
       <Y>
-        400
+        575
       </Y>
       <Note>
         
@@ -68,20 +68,6 @@
     </Element>
     <Element>
       <ComponentName>
-        SettingsProvider
-      </ComponentName>
-      <X>
-        575
-      </X>
-      <Y>
-        575
-      </Y>
-      <Note>
-        
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
         ApplicationInfo
       </ComponentName>
       <X>
@@ -89,6 +75,20 @@
       </X>
       <Y>
         225
+      </Y>
+      <Note>
+        
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        MainGui
+      </ComponentName>
+      <X>
+        575
+      </X>
+      <Y>
+        400
       </Y>
       <Note>
         
