@@ -31,7 +31,7 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 		return -1;
 	}
 
-	IParamsSet* newParamsSetPtr = CreateParamsSet(typeIndex);
+	IParamsSet* newParamsSetPtr = CreateParamsSetInstance(typeIndex);
 	if (newParamsSetPtr == NULL){
 		return -1;
 	}
@@ -159,9 +159,9 @@ IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
 
 IParamsSet* CParamsManagerCompBase::CreateParameterSet(int typeIndex, int index) const
 {
-	ParamSet* sourceParamsSetPtr = NULL;;
+	IParamsSet* sourceParamsSetPtr = NULL;;
 	if ((index >= 0)){
-		sourceParamsSetPtr = dynamic_cast<ParamSet*>(GetParamsSet(index));
+		sourceParamsSetPtr = GetParamsSet(index);
 	}
 
 	// If the type index is not specified, try to get it from the source parameter set:
@@ -178,24 +178,30 @@ IParamsSet* CParamsManagerCompBase::CreateParameterSet(int typeIndex, int index)
 		}
 	}
 
-	IParamsSet* newParamsSetPtr = CreateParamsSet(typeIndex);
+	IParamsSet* newParamsSetPtr = CreateParamsSetInstance(typeIndex);
 	if (newParamsSetPtr == NULL){
 		return NULL;
 	}
 
 	ParamSet* retVal = new imod::TModelWrap<ParamSet>();
-
 	retVal->paramSetPtr.SetPtr(newParamsSetPtr);
 	retVal->isEnabled = true;
 	retVal->uuid = QUuid::createUuid().toByteArray();
 
 	if (sourceParamsSetPtr != NULL){
-		newParamsSetPtr->CopyFrom(*sourceParamsSetPtr->paramSetPtr.GetPtr());
-		retVal->isEnabled = sourceParamsSetPtr->isEnabled;
-		retVal->name = sourceParamsSetPtr->name;
-		retVal->typeId = sourceParamsSetPtr->typeId;
-		retVal->description = sourceParamsSetPtr->description;
-		retVal->uuid = sourceParamsSetPtr->uuid;
+		ParamSet* sourceParamsSetImplPtr = dynamic_cast<ParamSet*>(sourceParamsSetPtr);
+		if (sourceParamsSetImplPtr != NULL){
+			newParamsSetPtr->CopyFrom(*sourceParamsSetImplPtr->paramSetPtr.GetPtr());
+
+			retVal->isEnabled = sourceParamsSetImplPtr->isEnabled;
+			retVal->name = sourceParamsSetImplPtr->name;
+			retVal->typeId = sourceParamsSetImplPtr->typeId;
+			retVal->description = sourceParamsSetImplPtr->description;
+			retVal->uuid = sourceParamsSetImplPtr->uuid;
+		}
+		else{
+			newParamsSetPtr->CopyFrom(*sourceParamsSetPtr);
+		}
 	}
 
 	return retVal;
@@ -505,9 +511,9 @@ int CParamsManagerCompBase::FindFixedParamSetIndex(const QString& name) const
 
 CParamsManagerCompBase::ParamSet::ParamSet()
 :	CMultiModelBridgeBase(this),
-	isEnabled(true)
+	isEnabled(true),
+	parentPtr(NULL)
 {
-	parentPtr = NULL;
 }
 
 
@@ -516,20 +522,19 @@ CParamsManagerCompBase::ParamSet::ParamSet()
 IParamsSet::Ids CParamsManagerCompBase::ParamSet::GetParamIds(bool editableOnly) const
 {
 	Q_ASSERT(paramSetPtr.IsValid());
-	Q_ASSERT(parentPtr != NULL);
 
 	IParamsSet::Ids ids = paramSetPtr->GetParamIds(editableOnly);
 
 	if (!editableOnly){
-		if (parentPtr->m_elementIndexParamIdAttrPtr.IsValid()){
+		if ((parentPtr != NULL) && parentPtr->m_elementIndexParamIdAttrPtr.IsValid()){
 			ids += *(parentPtr->m_elementIndexParamIdAttrPtr);
 		}
 
-		if (parentPtr->m_elementNameParamIdAttrPtr.IsValid()){
+		if ((parentPtr != NULL) && parentPtr->m_elementNameParamIdAttrPtr.IsValid()){
 			ids += *(parentPtr->m_elementNameParamIdAttrPtr);
 		}
 
-		if (parentPtr->m_elementDescriptionParamIdAttrPtr.IsValid()){
+		if ((parentPtr != NULL) && parentPtr->m_elementDescriptionParamIdAttrPtr.IsValid()){
 			ids += *(parentPtr->m_elementDescriptionParamIdAttrPtr);
 		}
 	}
@@ -541,17 +546,16 @@ IParamsSet::Ids CParamsManagerCompBase::ParamSet::GetParamIds(bool editableOnly)
 const iser::ISerializable* CParamsManagerCompBase::ParamSet::GetParameter(const QByteArray& id) const
 {
 	Q_ASSERT(paramSetPtr.IsValid());
-	Q_ASSERT(parentPtr != NULL);
 
-	if (parentPtr->m_elementIndexParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementIndexParamIdAttrPtr))){
+	if ((parentPtr != NULL) && parentPtr->m_elementIndexParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementIndexParamIdAttrPtr))){
 		return this;
 	}
 
-	if (parentPtr->m_elementNameParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementNameParamIdAttrPtr))){
+	if ((parentPtr != NULL) && parentPtr->m_elementNameParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementNameParamIdAttrPtr))){
 		return this;
 	}
 
-	if (parentPtr->m_elementDescriptionParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementDescriptionParamIdAttrPtr))){
+	if ((parentPtr != NULL) && parentPtr->m_elementDescriptionParamIdAttrPtr.IsValid() && (id == *(parentPtr->m_elementDescriptionParamIdAttrPtr))){
 		return &description;
 	}
 
@@ -577,14 +581,15 @@ const IOptionsList* CParamsManagerCompBase::ParamSet::GetSelectionConstraints() 
 
 int CParamsManagerCompBase::ParamSet::GetSelectedOptionIndex() const
 {
-	Q_ASSERT(parentPtr != NULL);
+	if (parentPtr != NULL){
+		int retIndex = 0;
 
-	int retIndex = 0;
-	for (		ParamSets::ConstIterator iter = parentPtr->m_paramSets.constBegin();
-				iter != parentPtr->m_paramSets.constEnd();
-				++iter, ++retIndex){
-		if (iter->GetPtr() == this){
-			return retIndex + parentPtr->m_fixedParamSetsCompPtr.GetCount();
+		for (		ParamSets::ConstIterator iter = parentPtr->m_paramSets.constBegin();
+					iter != parentPtr->m_paramSets.constEnd();
+					++iter, ++retIndex){
+			if (iter->GetPtr() == this){
+				return retIndex + parentPtr->m_fixedParamSetsCompPtr.GetCount();
+			}
 		}
 	}
 
@@ -639,8 +644,6 @@ bool CParamsManagerCompBase::ParamSet::Serialize(iser::IArchive& archive)
 
 	return paramSetPtr->Serialize(archive);
 }
-
-
 
 
 } // namespace iprm

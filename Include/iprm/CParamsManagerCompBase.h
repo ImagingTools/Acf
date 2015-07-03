@@ -128,7 +128,7 @@ protected:
 	/**
 		Create a new instance of the parameter set.
 	*/
-	virtual iprm::IParamsSet* CreateParamsSet(int typeIndex = -1) const = 0;
+	virtual iprm::IParamsSet* CreateParamsSetInstance(int typeIndex = -1) const = 0;
 
 protected:
 	int m_selectedIndex;

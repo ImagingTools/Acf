@@ -287,7 +287,7 @@ int CParamsManagerComp::GetCreatedParamsSetsCount() const
 }
 
 
-iprm::IParamsSet* CParamsManagerComp::CreateParamsSet(int /*typeIndex*/) const
+iprm::IParamsSet* CParamsManagerComp::CreateParamsSetInstance(int /*typeIndex*/) const
 {
 	if (m_paramSetsFactPtr.IsValid()){
 		return m_paramSetsFactPtr.CreateInstance();

@@ -346,7 +346,7 @@ int CMultiParamsManagerComp::GetCreatedParamsSetsCount() const
 }
 
 
-iprm::IParamsSet* CMultiParamsManagerComp::CreateParamsSet(int typeIndex) const
+iprm::IParamsSet* CMultiParamsManagerComp::CreateParamsSetInstance(int typeIndex) const
 {
 	if (typeIndex >= m_typeInfoList.typeInfos.size()){
 		return NULL;
