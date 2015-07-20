@@ -29,7 +29,7 @@ CDialogGuiComp::CDialogGuiComp()
 
 int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 {
-	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(QDialogButtonBox::Close, parentPtr));
+	istd::TDelPtr<iqtgui::CGuiComponentDialog> dialogPtr(CreateComponentDialog(*m_dialogButtonsAttrPtr, parentPtr));
 	if (dialogPtr.IsValid()){
 		if (*m_isModalAttrPtr){
 			return dialogPtr->exec();

@@ -42,6 +42,7 @@ public:
 		I_ASSIGN(m_rootMenuNameAttrPtr, "RootMenu", "Name of the root command", true, "RootMenu");
 		I_ASSIGN(m_initialDialogSizeAttrPtr, "DialogSize", "Initial size of the dialog. The value is proportion of dialog size to desktop size", false, 0.5);
 		I_ASSIGN(m_isModalAttrPtr, "IsModal", "Modality of the dialog", true, true);
+		I_ASSIGN(m_dialogButtonsAttrPtr, "DialogButtons", "Dialog buttons. See QDialogButtonBox::StandardButton for details", true, QDialogButtonBox::Ok);
 	I_END_COMPONENT;
 
 	CDialogGuiComp();
@@ -93,6 +94,7 @@ private:
 	I_ATTR(QString, m_rootMenuNameAttrPtr);
 	I_ATTR(double, m_initialDialogSizeAttrPtr);
 	I_ATTR(bool, m_isModalAttrPtr);
+	I_ATTR(int, m_dialogButtonsAttrPtr);
 
 	iqtgui::CHierarchicalCommand m_rootCommand;
 	iqtgui::CHierarchicalCommand m_rootMenuCommand;
