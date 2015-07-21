@@ -24,7 +24,7 @@ win32-msvc*{
 	PLATFORM_NAME = Win
 	QMAKE_CXXFLAGS += /wd4127 /wd4250 /wd4347 /wd4355 /wd4365 /wd4505 /wd4510 /wd4511 /wd4512 /wd4548 /wd4571 /wd4619 /wd4625 /wd4626 /wd4640 /wd4702 /wd4710 /wd4820 /wd4826
 	QMAKE_CXXFLAGS_WARN_ON = -W4
-	QMAKE_CXXFLAGS += /MP /openmp- /fp:fast /arch:SSE2
+	QMAKE_CXXFLAGS += /MP /openmp- /fp:fast
 
 	win32-msvc2005{
 		COMPILER_NAME = VC8
@@ -47,25 +47,19 @@ win32-msvc*{
 	win32-msvc2013{
 		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
 		COMPILER_NAME = VC12
-
-		# output path
-		AUXINCLUDEDIR = AuxInclude/Qt5_VS2013
-		AUXINCLUDEPATH = ../../../AuxInclude/Qt5_VS2013
 	}
 	win32-msvc2015{
 		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
 		COMPILER_NAME = VC14
-
-		# output path
-		AUXINCLUDEDIR = AuxInclude/Qt5_VS2015
-		AUXINCLUDEPATH = ../../../AuxInclude/Qt5_VS2015
 	}
 
 	contains(QMAKE_HOST.arch, x86_64){
 		PLATFORM_NAME = Win64
+		# SSE2 enabled by default for x86_64
 	}
 	else{
 		PLATFORM_NAME = Win32
+		QMAKE_CXXFLAGS += /arch:SSE2
 	}
 }
 
@@ -89,8 +83,13 @@ CONFIG(release, debug|release){
 	COMPILER_DIR = Release$$COMPILER_NAME
 }
 
+AUXINCLUDEDIR = AuxInclude/Qt5_$$COMPILER_NAME
+AUXINCLUDEPATH = ../../../AuxInclude/Qt5_$$COMPILER_NAME
+
 contains(QMAKE_HOST.arch, x86_64){
 	COMPILER_DIR = $$COMPILER_DIR"_64"
+	AUXINCLUDEDIR = $$AUXINCLUDEDIR"_64"
+	AUXINCLUDEPATH = $$AUXINCLUDEPATH"_64"
 }
 
 

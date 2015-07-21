@@ -3,10 +3,12 @@
 win32{
 	ARX_COMPILER = Arxc.exe
 	ACF_TOOL = Acf.exe
+	QMAKE_RCC = rcc.exe
 }
 else{
 	ARX_COMPILER = Arxc
 	ACF_TOOL = Acf
+	QMAKE_RCC = rcc
 }
 
 
@@ -53,3 +55,17 @@ updateqm.commands = $$[QT_INSTALL_BINS]$$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $${
 updateqm.CONFIG += no_link target_predeps
 updateqm.dependency_type = TYPE_QRC
 QMAKE_EXTRA_COMPILERS += updateqm
+
+
+# custom build for Qt resources containing generated files
+
+generatedResources.name = Generated Resources Compiler
+generatedResources.CONFIG += no_link target_predeps
+generatedResources.output = $${ACF_TRANSLATIONS_OUTDIR}/qrc_${QMAKE_FILE_BASE}.cpp
+generatedResources.commands = $$QMAKE_COPY $$system_quote($$system_path($$OUT_PWD/../${QMAKE_FILE_BASE}.qrc)) $$system_quote($$system_path($$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc)) && $$system_quote($$system_path($$[QT_INSTALL_BINS]/$$QMAKE_RCC)) -name ${QMAKE_FILE_BASE} $$system_quote($$system_path($$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc)) -o $$system_quote($$system_path($${ACF_TRANSLATIONS_OUTDIR}//qrc_${QMAKE_FILE_BASE}.cpp))
+
+generatedResources.input = GENERATED_RESOURCES
+generatedResources.variable_out = SOURCES
+generatedResources.dependency_type = TYPE_C
+generatedResources.depends += $$[QT_INSTALL_BINS]/$$QMAKE_RCC
+QMAKE_EXTRA_COMPILERS += generatedResources

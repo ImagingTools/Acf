@@ -4,7 +4,7 @@ include(../../../Config/QMake/StaticConfig.pri)
 
 HEADERS =
 SOURCES =
-RESOURCES += ../*.qrc
+GENERATED_RESOURCES += ../*.qrc
 
 ACF_TRANSLATIONS += ../*.ts
 
