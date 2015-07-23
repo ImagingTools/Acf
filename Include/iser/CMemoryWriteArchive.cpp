@@ -52,11 +52,7 @@ bool CMemoryWriteArchive::ProcessData(void* data, int size)
 		return false;
 	}
 
-	int previousSize = m_dataBuffer.size();
-
-	m_dataBuffer.resize(previousSize + size);
-
-	std::memcpy(m_dataBuffer.data() + previousSize, data, size);
+	m_dataBuffer.append((const char*)data, size);
 
 	return true;
 }
