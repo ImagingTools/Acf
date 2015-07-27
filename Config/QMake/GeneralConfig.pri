@@ -54,7 +54,7 @@ win32-msvc*{
 	}
 
 	contains(QMAKE_HOST.arch, x86_64){
-		PLATFORM_NAME = Win64
+		PLATFORM_NAME = x64
 		# SSE2 enabled by default for x86_64
 	}
 	else{
