@@ -50,6 +50,9 @@ protected:
 	bool IsViewIdSupported(int viewId) const;
 	const ShapesMap& GetShapesMap() const;
 
+	/**
+		It calls \c Update for all used views.
+	*/
 	void UpdateAllViews();
 
 	// abstract methods
