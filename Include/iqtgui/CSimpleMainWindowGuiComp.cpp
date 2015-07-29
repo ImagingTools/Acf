@@ -15,6 +15,7 @@
 
 // ACF includes
 #include "iqt/CSignalBlocker.h"
+#include "ilog/CMessage.h"
 
 
 namespace iqtgui
@@ -455,6 +456,12 @@ void CSimpleMainWindowGuiComp::OnSaveSettings(QSettings& settings) const
 
 void CSimpleMainWindowGuiComp::OnGuiCreated()
 {
+	if (m_progressMessagesComsumerCompPtr.IsValid()){
+		m_progressMessagesComsumerCompPtr->AddMessage(
+			istd::TSmartPtr<const istd::IInformationProvider>
+				(new ilog::CMessage(istd::IInformationProvider::IC_INFO, 0, QObject::tr("Initializing User Interface..."), "CSimpleMainWindowGuiComp")));
+	}
+
 	static const istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
 
 	BaseClass::OnGuiCreated();

@@ -18,7 +18,7 @@
           0
         </Id>
         <Number>
-          3694
+          3770
         </Number>
         <Description>
           ACF
@@ -29,7 +29,7 @@
           1
         </Id>
         <Number>
-          1244
+          1317
         </Number>
         <Description>
           ACF-Solutions
@@ -426,7 +426,7 @@
         <Flags>
           0
         </Flags>
-        <AttributeInfoMap count="18">
+        <AttributeInfoMap count="19">
           <AttributeInfo>
             <Id>
               AboutDialog
@@ -610,6 +610,22 @@
               <Value>
                 MainWindow
               </Value>
+            </Data>
+          </AttributeInfo>
+          <AttributeInfo>
+            <Id>
+              ProgressMessagesConsumer
+            </Id>
+            <Type>
+              Reference
+            </Type>
+            <ExportId>
+              ProgressMessagesConsumer
+            </ExportId>
+            <Data>
+              <IsEnabled>
+                false
+              </IsEnabled>
             </Data>
           </AttributeInfo>
           <AttributeInfo>

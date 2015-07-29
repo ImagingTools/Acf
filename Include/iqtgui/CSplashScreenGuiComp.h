@@ -14,6 +14,7 @@
 #include "iattr/TAttribute.h"
 #include "ibase/IApplicationInfo.h"
 #include "iqtgui/TDesignerGuiCompBase.h"
+#include "ilog/IMessageConsumer.h"
 
 #include "GeneratedFiles/iqtgui/ui_CSplashScreenGuiComp.h"
 
@@ -26,12 +27,16 @@ namespace iqtgui
 	Splash screen component.
 	This component allows to create splash screen with additionally information about version, copyright an so on.
 */
-class CSplashScreenGuiComp: public TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, QSplashScreen>
+class CSplashScreenGuiComp: 
+			public TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, QSplashScreen>,
+			virtual public ilog::IMessageConsumer
 {
+	Q_OBJECT
 public:
 	typedef TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, QSplashScreen> BaseClass;
 
 	I_BEGIN_COMPONENT(CSplashScreenGuiComp);
+		I_REGISTER_INTERFACE(ilog::IMessageConsumer);
 		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Version management for application", false, "Application");
 		I_ASSIGN(m_imagePathAttrPtr, "ImagePath", "Path of image shown as splash screen", true, "Splash.jpg");
 		I_ASSIGN(m_showProductNameAttrPtr, "ShowProductName", "If true, product name will be shown, disable it, if it was painted on background image", true, true);
@@ -45,10 +50,23 @@ public:
 	
 	CSplashScreenGuiComp();
 
+	// reimplemented (ilog::IMessageConsumer)
+	virtual bool IsMessageSupported(
+		int messageCategory = -1,
+		int messageId = -1,
+		const istd::IInformationProvider* messagePtr = NULL) const;
+	virtual void AddMessage(const MessagePtr& messagePtr);
+
+Q_SIGNALS:
+	void EmitAddMessage(const MessagePtr& messagePtr);
+
 protected:
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiRetranslate();
+
+protected Q_SLOTS:
+	void OnAddMessage(const MessagePtr& messagePtr);
 
 private:
 	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);

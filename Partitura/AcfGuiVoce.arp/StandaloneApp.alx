@@ -18,7 +18,7 @@
           0
         </Id>
         <Number>
-          3694
+          3770
         </Number>
         <Description>
           ACF
@@ -29,7 +29,7 @@
           1
         </Id>
         <Number>
-          1244
+          1317
         </Number>
         <Description>
           ACF-Solutions
@@ -40,13 +40,13 @@
   <PositionMap count="4">
     <Element>
       <ComponentName>
-        SettingsProvider
+        ApplicationInfo
       </ComponentName>
       <X>
-        575
+        925
       </X>
       <Y>
-        575
+        225
       </Y>
       <Note>
         
@@ -68,13 +68,13 @@
     </Element>
     <Element>
       <ComponentName>
-        ApplicationInfo
+        SettingsProvider
       </ComponentName>
       <X>
-        925
+        575
       </X>
       <Y>
-        225
+        575
       </Y>
       <Note>
         

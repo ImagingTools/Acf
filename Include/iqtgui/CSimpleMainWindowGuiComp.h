@@ -22,6 +22,7 @@
 #include "iqtgui/TGuiComponentBase.h"
 #include "iqtgui/TRestorableGuiWrap.h"
 #include "iqtgui/CCommandTools.h"
+#include "ilog/IMessageConsumer.h"
 
 
 namespace iqtgui
@@ -91,6 +92,7 @@ public:
 		I_REGISTER_SUBELEMENT_INTERFACE(VisibleWindowsManager, iprm::IOptionsList, GetVisibleWindowsManager);
 		I_REGISTER_SUBELEMENT_INTERFACE(VisibleWindowsManager, imod::IModel, GetVisibleWindowsManager);
 		I_REGISTER_SUBELEMENT_INTERFACE(VisibleWindowsManager, istd::IChangeable, GetVisibleWindowsManager);
+		I_ASSIGN(m_progressMessagesComsumerCompPtr, "ProgressMessagesConsumer", "Consumer of the progress messages", false, "");
 	I_END_COMPONENT;
 
 	enum GroupId
@@ -243,6 +245,8 @@ private:
 	typedef QMap<int, int> IndexToIndexMap;
 
 	IndexToIndexMap m_commandIndexToMainCompMap;
+
+	I_REF(ilog::IMessageConsumer, m_progressMessagesComsumerCompPtr);
 };
 
 
