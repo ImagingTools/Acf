@@ -391,6 +391,15 @@ istd::IChangeable* CMessageContainer::CloneMe(CompatibilityMode mode) const
 	return NULL;
 }
 
+
+bool CMessageContainer::ResetData(CompatibilityMode /*mode*/)
+{
+	ClearMessages();
+
+	return true;
+}
+
+
 // private static methods
 
 CMessageContainer::MessageFactory& CMessageContainer::GetMessageFactory()

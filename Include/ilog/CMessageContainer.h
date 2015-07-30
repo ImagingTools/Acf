@@ -88,6 +88,7 @@ public:
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
+	virtual bool ResetData(CompatibilityMode mode);
 
 private:
 	typedef istd::TComposedFactory<iser::IObject> MessageFactory;
