@@ -147,6 +147,10 @@ protected:
 	virtual i2d::CRect CalcBoundingBox() const = 0;
 
 private:
+	/**
+		\internal
+		Observes changes of calibration to force shape update if calibration has changed.
+	*/
 	class CalibrationObserver: public imod::TSingleModelObserverBase<i2d::ICalibration2d>
 	{
 	public:

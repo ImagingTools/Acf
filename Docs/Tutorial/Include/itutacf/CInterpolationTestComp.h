@@ -13,6 +13,9 @@ namespace itutacf
 {
 
 
+/**
+	\internal
+*/
 class CInterpolationTestCompBase:
 			public icomp::CComponentBase,
 			public imod::TSingleModelObserverBase<i2d::CPolygon>

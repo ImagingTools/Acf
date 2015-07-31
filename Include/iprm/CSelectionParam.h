@@ -59,6 +59,10 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
+	/**
+		\internal
+		Observes changes of contraints to reflect is in object state.
+	*/
 	class ConstraintsObserver: public imod::TSingleModelObserverBase<iprm::IOptionsList>
 	{
 	public:
