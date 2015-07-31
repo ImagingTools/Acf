@@ -48,6 +48,11 @@ I_EXPORT_COMPONENT(
 			"Allows access to information about the local file system",
 			"Free System Info" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("File System"));
 
+I_EXPORT_COMPONENT(
+			ComposedFileMetaInfoProvider,
+			"Composed provider of file's meta informations",
+			"File Info Information Provider Composition" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("File"));
+
 
 } // namespace FilePck
 
