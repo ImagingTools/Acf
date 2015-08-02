@@ -15,9 +15,6 @@ namespace ilog
 {
 
 
-const CMessageContainer::ChangeSet CMessageContainer::s_addMessageChangeSet(IMessageContainer::CF_MESSAGE_ADDED);
-
-
 // public methods
 
 CMessageContainer::CMessageContainer()
@@ -248,7 +245,7 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 		return;
 	}
 
-	BeginChanges(s_addMessageChangeSet);
+	istd::CChangeNotifier changeNotifier(this);
 
 	m_messages.push_front(messagePtr);
 	int messageCategory = messagePtr->GetInformationCategory();
@@ -273,15 +270,13 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 	if (m_slaveConsumerPtr != NULL){
 		m_slaveConsumerPtr->AddMessage(messagePtr);
 	}
-
-	EndChanges(s_addMessageChangeSet);
 }
 
 
 void CMessageContainer::ClearMessages()
 {
 	if (!m_messages.isEmpty()){
-		static const ChangeSet changeSet(CF_RESET, CF_MESSAGE_REMOVED, "Remove messages");
+		ChangeSet changeSet(CF_RESET, "Remove all messages");
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 	
@@ -319,11 +314,11 @@ IHierarchicalMessageContainer* CMessageContainer::GetChild(int index) const
 
 bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
 {
-	m_messages.clear();
-
-	static const ChangeSet changeSet(CF_ALL_DATA, CF_RESET, CF_MESSAGE_ADDED, CF_MESSAGE_REMOVED);
+	ChangeSet changeSet(CF_ALL_DATA, CF_RESET);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
+
+	m_messages.clear();
 
 	switch (mode){
 		case CM_STRICT:

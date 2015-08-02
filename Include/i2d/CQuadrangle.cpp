@@ -2,13 +2,11 @@
 
 
 // ACF includes
+#include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
-
-#include "i2d/CVector2d.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
-#include "istd/TDelPtr.h"
+#include "i2d/CVector2d.h"
 
 
 namespace i2d
@@ -62,11 +60,11 @@ const CLine2d& CQuadrangle::GetFirstDiagonal() const
 void CQuadrangle::SetFirstDiagonal(const CLine2d& firstDiagonal)
 {
 	if (m_firstDiagonal != firstDiagonal){
-		BeginChanges(GetAnyChange());
+		ChangeSet changeSet(CF_OBJECT_POSITION, "Set diagnal");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 		
 		m_firstDiagonal = firstDiagonal;
-
-		EndChanges(GetAnyChange());
 	}
 }
 
@@ -80,11 +78,11 @@ const CLine2d& CQuadrangle::GetSecondDiagonal() const
 void CQuadrangle::SetSecondDiagonal(const CLine2d& secondDiagonal)
 {
 	if (m_secondDiagonal != secondDiagonal){
-		BeginChanges(GetAnyChange());
+		ChangeSet changeSet(CF_OBJECT_POSITION, "Set diagonal");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 		
 		m_secondDiagonal = secondDiagonal;
-
-		EndChanges(GetAnyChange());
 	}
 }
 
@@ -106,12 +104,12 @@ void CQuadrangle::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d delta = position - GetCenter();
 	if (delta != CVector2d(0, 0)){
-		BeginChanges(s_objectPositionChangeSet);
+		ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 
 		m_firstDiagonal.MoveCenterTo(delta + m_firstDiagonal.GetCenter());
 		m_secondDiagonal.MoveCenterTo(delta + m_secondDiagonal.GetCenter());
-
-		EndChanges(s_objectPositionChangeSet);
 	}
 }
 
@@ -127,24 +125,22 @@ bool CQuadrangle::Transform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	BeginChanges(s_objectPositionAllDataChangeSet);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = false;
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
 		double errorFactor2 = 0;
-		retVal = m_firstDiagonal.Transform(transformation, mode, &errorFactor1) &&
-					m_secondDiagonal.Transform(transformation, mode, &errorFactor2);
+		retVal = m_firstDiagonal.Transform(transformation, mode, &errorFactor1) && m_secondDiagonal.Transform(transformation, mode, &errorFactor2);
 
 		*errorFactorPtr = errorFactor1 + errorFactor2;	   
 	}
 	else{	   
-		retVal = m_firstDiagonal.Transform(transformation, mode) &&
-					m_secondDiagonal.Transform(transformation, mode);
+		retVal = m_firstDiagonal.Transform(transformation, mode) && m_secondDiagonal.Transform(transformation, mode);
 	}
-
-	EndChanges(s_objectPositionAllDataChangeSet);
 
 	return retVal;
 }
@@ -155,26 +151,23 @@ bool CQuadrangle::InvTransform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	BeginChanges(s_objectPositionAllDataChangeSet);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = false;
 
 	if (errorFactorPtr != NULL){
 		double errorFactor1 = 0;
 		double errorFactor2 = 0;
-		retVal =
-					m_firstDiagonal.InvTransform(transformation, mode, &errorFactor1) &&
-					m_secondDiagonal.InvTransform(transformation, mode, &errorFactor2);
+		retVal = m_firstDiagonal.InvTransform(transformation, mode, &errorFactor1) && m_secondDiagonal.InvTransform(transformation, mode, &errorFactor2);
 
 		*errorFactorPtr = errorFactor1 + errorFactor2;
 
 	}
 	else{
-		retVal = 	m_firstDiagonal.InvTransform(transformation, mode) &&
-				m_secondDiagonal.InvTransform(transformation, mode);
+		retVal = m_firstDiagonal.InvTransform(transformation, mode) && m_secondDiagonal.InvTransform(transformation, mode);
 	}
-
-	EndChanges(s_objectPositionAllDataChangeSet);
 
 	return retVal;
 }
@@ -191,7 +184,9 @@ bool CQuadrangle::GetTransformed(
 		return false;
 	}
 
-	resultQuadranglePtr->BeginChanges(s_objectPositionAllDataChangeSet);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(resultQuadranglePtr, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = false;
 
@@ -209,8 +204,6 @@ bool CQuadrangle::GetTransformed(
 				m_secondDiagonal.GetTransformed(transformation, resultQuadranglePtr->m_secondDiagonal, mode);
 	}
 
-	 resultQuadranglePtr->EndChanges(s_objectPositionAllDataChangeSet);
-
 	 return retVal;
 }
 
@@ -226,7 +219,9 @@ bool CQuadrangle::GetInvTransformed(
 		return false;
 	}
 
-	resultQuadranglePtr->BeginChanges(s_objectPositionAllDataChangeSet);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(resultQuadranglePtr, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = false;
 
@@ -243,8 +238,6 @@ bool CQuadrangle::GetInvTransformed(
 		retVal =		m_firstDiagonal.GetInvTransformed(transformation, resultQuadranglePtr->m_firstDiagonal, mode) &&
 					m_secondDiagonal.GetInvTransformed(transformation, resultQuadranglePtr->m_secondDiagonal, mode);
 	}
-
-	resultQuadranglePtr->EndChanges(s_objectPositionAllDataChangeSet);
 
 	return retVal;
 }
@@ -263,14 +256,14 @@ bool CQuadrangle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CQuadrangle* quadranglesPtr = dynamic_cast<const CQuadrangle*>(&object);
 
 	if (quadranglesPtr != NULL){
-		BeginChanges(GetAnyChange());
+		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 		
 		SetFirstDiagonal(quadranglesPtr->GetFirstDiagonal());
 		SetSecondDiagonal(quadranglesPtr->GetSecondDiagonal());
 
 		CObject2dBase::CopyFrom(object, mode);
-
-		EndChanges(GetAnyChange());
 
 		return true;
 	}
@@ -298,8 +291,9 @@ bool CQuadrangle::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag firstDiagonalTag("FirstDiagonal", "FirstDiagonal", iser::CArchiveTag::TT_GROUP);
 	static iser::CArchiveTag secondDiagonalTag("SecondDiagonal", "SecondDiagonal", iser::CArchiveTag::TT_GROUP);
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
-	Q_UNUSED(notifier);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = archive.BeginTag(firstDiagonalTag);
 	retVal = retVal && m_firstDiagonal.Serialize(archive);

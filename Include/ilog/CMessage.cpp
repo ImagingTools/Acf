@@ -13,10 +13,6 @@ namespace ilog
 {
 
 
-// local variables
-static const istd::IChangeable::ChangeSet allDataChangeIds(istd::IChangeable::CF_ALL_DATA);
-
-
 CMessage::CMessage()
 :	m_category(IC_NONE),
 	m_id(-1),
@@ -56,7 +52,8 @@ void CMessage::SetMessageValues(
 			int flags,
 			const QDateTime* timeStampPtr)
 {
-	BeginChanges(allDataChangeIds);
+	istd::CChangeNotifier changeNotifier(this);
+	Q_UNUSED(changeNotifier);
 
 	m_category = category;
 	m_id = id;
@@ -70,19 +67,16 @@ void CMessage::SetMessageValues(
 	else{
 		m_timeStamp = QDateTime::currentDateTime();
 	}
-
-	EndChanges(allDataChangeIds);
 }
 
 
 void CMessage::SetCategory(istd::IInformationProvider::InformationCategory category)
 {
 	if (category != m_category){
-		BeginChanges(allDataChangeIds);
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		m_category = category;
-
-		EndChanges(allDataChangeIds);
 	}
 }
 
@@ -90,11 +84,10 @@ void CMessage::SetCategory(istd::IInformationProvider::InformationCategory categ
 void CMessage::SetText(const QString& text)
 {
 	if (text != m_text){
-		BeginChanges(allDataChangeIds);
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		m_text = text;
-
-		EndChanges(allDataChangeIds);
 	}
 }
 
@@ -102,11 +95,10 @@ void CMessage::SetText(const QString& text)
 void CMessage::SetSource(const QString& source)
 {
 	if (source != m_source){
-		BeginChanges(allDataChangeIds);
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		m_source = source;
-
-		EndChanges(allDataChangeIds);
 	}
 }
 
@@ -174,7 +166,8 @@ bool CMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mod
 {
 	const CMessage* sourcePtr = dynamic_cast<const CMessage*>(&object);
 	if (sourcePtr){
-		BeginChanges(allDataChangeIds);
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		m_category = sourcePtr->m_category;
 		m_id = sourcePtr->m_id;
@@ -183,14 +176,13 @@ bool CMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mod
 		m_flags = sourcePtr->m_flags;
 		m_timeStamp = sourcePtr->m_timeStamp;
 
-		EndChanges(allDataChangeIds);
-
 		return true;
 	}
 
 	const istd::IInformationProvider* informationProviderPtr = dynamic_cast<const istd::IInformationProvider*>(&object);
 	if (informationProviderPtr != NULL){
-		BeginChanges(allDataChangeIds);
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		m_category = informationProviderPtr->GetInformationCategory();
 		m_id = informationProviderPtr->GetInformationId();
@@ -198,8 +190,6 @@ bool CMessage::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mod
 		m_source = informationProviderPtr->GetInformationSource();
 		m_flags = informationProviderPtr->GetInformationFlags();
 		m_timeStamp = informationProviderPtr->GetInformationTimeStamp();
-
-		EndChanges(allDataChangeIds);
 
 		return true;
 	}

@@ -29,15 +29,15 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d diffVector = position - CPolypoint::GetCenter();
 
-	BeginChanges(s_objectPositionChangeSet);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	for (		Points::iterator iter = m_points.begin();
 				iter != m_points.end();
 				++iter){
 		*iter += diffVector;
 	}
-
-	EndChanges(s_objectPositionChangeSet);
 }
 
 
@@ -70,6 +70,10 @@ bool CPolypoint::Transform(
 		ITransformation2d::ExactnessMode mode,
 		double* /*errorFactorPtr*/)
 {
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
+
 	for (		Points::iterator iter = m_points.begin();
 				iter != m_points.end();
 				++iter){
@@ -90,6 +94,10 @@ bool CPolypoint::InvTransform(
 		ITransformation2d::ExactnessMode mode,
 		double* /*errorFactorPtr*/)
 {
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	Q_UNUSED(changeNotifier);
+
 	for (		Points::iterator iter = m_points.begin();
 				iter != m_points.end();
 				++iter){
@@ -138,13 +146,13 @@ bool CPolypoint::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CPolypoint* polypointPtr = dynamic_cast<const CPolypoint*>(&object);
 
 	if (polypointPtr != NULL){
-		BeginChanges(GetAnyChange());
+		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 
 		m_points = polypointPtr->m_points; 
 
 		CObject2dBase::CopyFrom(object, mode);
-
-		EndChanges(GetAnyChange());
 
 		return true;
 	}
@@ -172,8 +180,8 @@ bool CPolypoint::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag polypointTag("Polypoint", "Polypoint", iser::CArchiveTag::TT_MULTIPLE);
 	static iser::CArchiveTag vectorTag("V", "Vector", iser::CArchiveTag::TT_GROUP, &polypointTag);
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
-	Q_UNUSED(notifier);
+	istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &GetAllChanges());
+	Q_UNUSED(changeNotifier);
 
 	int pointsCount = int(m_points.size());
 	bool retVal = true;

@@ -34,7 +34,7 @@ void CAttributesManager::SetAttributesFactory(const iser::IObjectFactory* factor
 void CAttributesManager::RemoveAllAttributes()
 {
 	if (!m_attributesMap.isEmpty()){
-		static const ChangeSet changeSet(CF_RESET, CF_ATTR_REMOVED, "Remove all attributes");
+		ChangeSet changeSet(CF_RESET, CF_ATTR_REMOVED, "Remove all attributes");
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -58,14 +58,14 @@ bool CAttributesManager::InsertAttribute(
 			iser::IObject* attributePtr,
 			bool releaseFlag)
 {
-	static const ChangeSet groupChangeSet("Insert attribute");
+	ChangeSet groupChangeSet("Insert attribute");
 	istd::CChangeGroup changeGroup(this, &groupChangeSet);
 	Q_UNUSED(changeGroup);
 
 	AttributePtr& newAttributePtr = m_attributesMap[attributeId];
 
 	if (newAttributePtr.IsValid()){
-		static const ChangeSet changeSet(CF_ATTR_REMOVED);
+		ChangeSet changeSet(CF_ATTR_REMOVED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -76,7 +76,7 @@ bool CAttributesManager::InsertAttribute(
 	}
 
 	if (attributePtr != NULL){
-		static const ChangeSet changeSet(CF_ATTR_ADDED);
+		ChangeSet changeSet(CF_ATTR_ADDED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 

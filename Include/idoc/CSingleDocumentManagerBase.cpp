@@ -42,7 +42,7 @@ int CSingleDocumentManagerBase::GetDocumentsCount() const
 
 istd::IChangeable& CSingleDocumentManagerBase::GetDocumentFromIndex(int I_IF_DEBUG(index), DocumentInfo* documentInfoPtr) const
 {
-	Q_ASSERT(index >= 0);
+	I_IF_DEBUG(Q_ASSERT(index >= 0));
 	I_IF_DEBUG(Q_ASSERT(index < GetDocumentsCount()));
 	Q_ASSERT(m_documentPtr.IsValid());
 
@@ -142,7 +142,7 @@ bool CSingleDocumentManagerBase::InsertNewDocument(
 			bool beQuiet,
 			bool* ignoredPtr)
 {
-	static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -330,7 +330,7 @@ bool CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 			return false;
 		}
 
-		static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED, CF_VIEW_ACTIVATION_CHANGED);
+		ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED, CF_VIEW_ACTIVATION_CHANGED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -399,7 +399,7 @@ bool CSingleDocumentManagerBase::OpenSingleDocument(
 		return true;
 	}
 
-	static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -416,7 +416,7 @@ bool CSingleDocumentManagerBase::OpenSingleDocument(
 	if (!documentIds.isEmpty()){
 		documentTypeId = documentIds.front();
 
-		static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+		ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 

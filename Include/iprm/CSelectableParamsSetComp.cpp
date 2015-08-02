@@ -115,7 +115,7 @@ bool CSelectableParamsSetComp::SetSelectedOptionIndex(int index)
 		Q_ASSERT(m_paramsManagerCompPtr.IsValid());
 
 		if (m_paramsManagerCompPtr->SetSelectedOptionIndex(index)){
-			static const ChangeSet changeSet(CF_SELECTION_CHANGED);
+			ChangeSet changeSet(CF_SELECTION_CHANGED);
 			istd::CChangeNotifier notifier(this, &changeSet);
 			Q_UNUSED(notifier);
 

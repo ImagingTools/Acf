@@ -503,7 +503,7 @@ bool CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
 void CMultiDocumentManagerBase::SetActiveView(istd::IPolymorphic* viewPtr)
 {
 	if (m_activeViewPtr != viewPtr){
-		static const ChangeSet changeSet(CF_VIEW_ACTIVATION_CHANGED);
+		ChangeSet changeSet(CF_VIEW_ACTIVATION_CHANGED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -574,7 +574,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenSingleDocument(
 			infoPtr->filePath = filePath;
 			infoPtr->documentTypeId = documentTypeId;
 
-			static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+			ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
 			istd::CChangeNotifier notifier(this, &changeSet);
 			Q_UNUSED(notifier);
 
@@ -597,7 +597,7 @@ istd::IChangeable* CMultiDocumentManagerBase::OpenSingleDocument(
 void CMultiDocumentManagerBase::CloseAllDocuments()
 {
 	if (!m_documentInfos.IsEmpty()){
-		static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED);
+		ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_REMOVED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -736,7 +736,7 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 {
 	Q_ASSERT(infoPtr != NULL);
 
-	static const ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
+	ChangeSet changeSet(CF_DOCUMENT_COUNT_CHANGED, CF_DOCUMENT_CREATED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 

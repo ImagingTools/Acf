@@ -105,9 +105,6 @@ private:
 	ilog::IMessageConsumer* m_slaveConsumerPtr;
 	int m_maxMessagesCount;
 	int m_worstCategory;
-
-protected:
-	static const ChangeSet s_addMessageChangeSet;
 };
 
 

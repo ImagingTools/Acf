@@ -2,13 +2,11 @@
 
 
 // ACF includes
+#include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
-
-#include "i2d/CRectangle.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
-#include "istd/TDelPtr.h"
+#include "i2d/CRectangle.h"
 
 
 namespace i2d
@@ -30,11 +28,11 @@ CPosition2d::CPosition2d(const CVector2d& position)
 void CPosition2d::SetPosition(const CVector2d& position)
 {
 	if (position != m_position){
-		BeginChanges(s_objectPositionChangeSet);
+		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
+		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		Q_UNUSED(changeNotifier);
 
 		m_position = position;
-
-		EndChanges(s_objectPositionChangeSet);
 	}
 }
 
@@ -164,13 +162,12 @@ bool CPosition2d::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CPosition2d* position2dPtr = dynamic_cast<const CPosition2d*>(&object);
 
 	if (position2dPtr != NULL){
-		BeginChanges(GetAnyChange());
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		SetPosition(position2dPtr->GetPosition());
 
 		CObject2dBase::CopyFrom(object, mode);
-
-		EndChanges(GetAnyChange());
 
 		return true;
 	}
@@ -208,8 +205,9 @@ bool CPosition2d::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag centerTag("Center", "Center position", iser::CArchiveTag::TT_GROUP);
 
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &s_objectPositionChangeSet);
-	Q_UNUSED(notifier);
+	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Modify object");
+	istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &changeSet);
+	Q_UNUSED(changeNotifier);
 
 	bool retVal = true;
 

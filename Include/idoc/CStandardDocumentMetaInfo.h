@@ -41,9 +41,6 @@ public:
 private:
 	typedef QMap<int, QVariant> MetaInfoMap;
 	MetaInfoMap m_infosMap;
-
-	// static members
-	static const ChangeSet s_metaInfoChangeSet;
 };
 
 

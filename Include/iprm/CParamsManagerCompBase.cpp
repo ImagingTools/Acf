@@ -36,7 +36,7 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 		return -1;
 	}
 
-	static const ChangeSet changeSet(CF_SET_INSERTED, CF_OPTIONS_CHANGED, "Insert parameter");
+	ChangeSet changeSet(CF_SET_INSERTED, CF_OPTIONS_CHANGED, "Insert parameter");
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -84,7 +84,7 @@ bool CParamsManagerCompBase::RemoveParamsSet(int index)
 		return false;
 	}
 
-	static const ChangeSet changeSet(CF_SET_REMOVED, CF_OPTIONS_CHANGED, CF_SELECTION_CHANGED, "Remove parameter");
+	ChangeSet changeSet(CF_SET_REMOVED, CF_OPTIONS_CHANGED, CF_SELECTION_CHANGED, "Remove parameter");
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 	
@@ -120,7 +120,7 @@ bool CParamsManagerCompBase::SwapParamsSet(int index1, int index2)
 		return false;
 	}
 
-	static const ChangeSet changeSet(CF_SET_ENABLE_CHANGED, CF_SET_REMOVED, CF_SELECTION_CHANGED, "Move parameter");
+	ChangeSet changeSet(CF_SET_ENABLE_CHANGED, CF_SET_REMOVED, CF_SELECTION_CHANGED, "Move parameter");
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -283,7 +283,7 @@ bool CParamsManagerCompBase::SetParamsSetName(int index, const QString& name)
 	}
 
 	if (m_paramSets[index - fixedSetsCount]->name != name){
-		static const ChangeSet changeSet(CF_SET_NAME_CHANGED, CF_OPTION_RENAMED, "Rename");
+		ChangeSet changeSet(CF_SET_NAME_CHANGED, CF_OPTION_RENAMED, "Rename");
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -324,7 +324,7 @@ void CParamsManagerCompBase::SetParamsSetDescription(int index, const QString& d
 	}
 
 	if (m_paramSets[index - fixedSetsCount]->description.GetName() != description){
-		static const ChangeSet changeSet(CF_OPTIONS_CHANGED);
+		ChangeSet changeSet(CF_OPTIONS_CHANGED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
@@ -351,7 +351,7 @@ bool CParamsManagerCompBase::SetSelectedOptionIndex(int index)
 {
 	if (index < GetOptionsCount()){
 		if (index != m_selectedIndex){
-			static const ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_SELECTION_CHANGED, "Change selection");
+			ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_SELECTION_CHANGED, "Change selection");
 			istd::CChangeNotifier notifier(this, &changeSet);
 			Q_UNUSED(notifier);
 

@@ -68,6 +68,7 @@ void CImageShape::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::C
 {
 	const iimg::IQImageProvider* providerPtr = dynamic_cast<const iimg::IQImageProvider*>(modelPtr);
 	istd::TDelPtr<iimg::CBitmap> qtBitmapPtr;
+
 	if (providerPtr == NULL){
 		qtBitmapPtr.SetPtr(new iimg::CBitmap);
 		providerPtr = qtBitmapPtr.GetPtr();

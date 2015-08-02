@@ -100,14 +100,13 @@ bool CSplineSegment::CopyFrom(const IChangeable& object, CompatibilityMode /*mod
 	const CSplineSegment* splineSegmentPtr = dynamic_cast<const CSplineSegment*>(&object);
 
 	if (splineSegmentPtr != NULL){	
-		BeginChanges(GetAnyChange());
+		istd::CChangeNotifier changeNotifier(this);
+		Q_UNUSED(changeNotifier);
 
 		A(splineSegmentPtr->A());
 		B(splineSegmentPtr->B());
 		C(splineSegmentPtr->C());
 		D(splineSegmentPtr->D());
-
-		EndChanges(GetAnyChange());
 
 		return true;
 	}

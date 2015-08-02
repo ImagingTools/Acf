@@ -64,7 +64,7 @@ int CDelegatedProgressManager::BeginProgressSession(
 			const QString& /*description*/,
 			bool isCancelable)
 {
-	static const ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
+	ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -89,7 +89,7 @@ int CDelegatedProgressManager::BeginProgressSession(
 
 void CDelegatedProgressManager::EndProgressSession(int sessionId)
 {
-	static const ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
+	ChangeSet changeSet(CF_SESSIONS_NUMBER, CF_PROGRESS_CHANGED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
@@ -115,7 +115,7 @@ void CDelegatedProgressManager::OnProgress(int sessionId, double currentProgress
 {
 	Q_ASSERT(m_progressMap.contains(sessionId));
 
-	static const ChangeSet changeSet(CF_PROGRESS_CHANGED);
+	ChangeSet changeSet(CF_PROGRESS_CHANGED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 

@@ -90,7 +90,7 @@ bool CFileListProviderComp::CreateDirectoryList(
 						istd::IInformationProvider::IC_ERROR,
 						0,
 						QString(tr("Specified path '%1' is not a directory")).arg(root.absolutePath()),
-						"File List Provder",
+						"File List Provider",
 						0);
 		}
 

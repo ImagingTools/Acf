@@ -114,7 +114,7 @@ bool CSelectionParam::SetSelectedOptionIndex(int index)
 			}
 		}
 
-		static const ChangeSet changeSet(CF_SELECTION_CHANGED, "Change selection");
+		ChangeSet changeSet(CF_SELECTION_CHANGED, "Change selection");
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
