@@ -19,6 +19,8 @@ CONFIG(release, debug|release){
 COMPILER_NAME = QMake
 PLATFORM_NAME = Unix
 
+ CONFIG += depend_includepath
+
 win32-msvc*{
 	COMPILER_NAME = VC
 	PLATFORM_NAME = Win
