@@ -6,7 +6,7 @@ var qmakeDirName = "QMake"
 var projectExt = "vcproj";
 var projectExp = new RegExp(".*\." + projectExt + "$");
 var projectNewExt = "vcxproj";
-var projectNewExp = new RegExp(".*\." + projectNewExt + "$");
+var projectNewExp = new RegExp(".*\." + projectNewExt);
 var solutionExt = "sln";
 var solutionExp = new RegExp(".*\." + solutionExt + "$");
 
