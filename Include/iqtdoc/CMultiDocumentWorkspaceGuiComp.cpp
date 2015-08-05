@@ -686,7 +686,7 @@ bool CMultiDocumentWorkspaceGuiComp::DocumentSelectionInfo::SetSelectedOptionInd
 	}
 
 	if (m_selectedDocumentIndex != index){
-		ChangeSet changeSet(CF_SELECTION_CHANGED);
+		static const ChangeSet changeSet(CF_SELECTION_CHANGED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 

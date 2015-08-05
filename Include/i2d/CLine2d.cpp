@@ -493,8 +493,7 @@ void CLine2d::MoveCenterTo(const CVector2d& position)
 	i2d::CVector2d offset = position - GetCenter();
 
 	if (offset != i2d::CVector2d(0, 0)){
-		ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 
 		SetPoint1(GetPoint1() + offset);
 		SetPoint2(GetPoint2() + offset);
@@ -541,8 +540,7 @@ bool CLine2d::Transform(
 		}
 	}
 
-	ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 
 	m_point1 = transPos1;
 	m_point2 = transPos2;
@@ -579,8 +577,7 @@ bool CLine2d::InvTransform(
 		}
 	}
 
-	ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 
 	m_point1 = transPos1;
 	m_point2 = transPos2;
@@ -623,8 +620,7 @@ bool CLine2d::GetTransformed(
 		}
 	}
 
-	ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(resultLinePtr, &changeSet);
+	istd::CChangeNotifier changeNotifier(resultLinePtr, &s_objectMovedChange);
 
 	resultLinePtr->SetPoint1(transPos1);
 	resultLinePtr->SetPoint2(transPos2);
@@ -667,8 +663,7 @@ bool CLine2d::GetInvTransformed(
 		}
 	}
 
-	ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(resultLinePtr, &changeSet);
+	istd::CChangeNotifier changeNotifier(resultLinePtr, &s_objectMovedChange);
 
 	resultLinePtr->SetPoint1(transPos1);
 	resultLinePtr->SetPoint2(transPos2);
@@ -690,8 +685,7 @@ bool CLine2d::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CLine2d* line2dPtr = dynamic_cast<const CLine2d*>(&object);
 
 	if (line2dPtr != NULL){
-		ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 			
 		SetPoint1(line2dPtr->GetPoint1());
 		SetPoint2(line2dPtr->GetPoint2());

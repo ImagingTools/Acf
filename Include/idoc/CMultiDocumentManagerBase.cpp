@@ -7,12 +7,9 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
 #include "imod/IModel.h"
 #include "imod/IModelEditor.h"
-
 #include "icomp/CComponentBase.h"
-
 #include "idoc/IDocumentTemplate.h"
 
 

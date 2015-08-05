@@ -14,6 +14,22 @@ namespace i2d
 {
 
 
+static istd::IChangeable::ChangeSet s_resetRectangeChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Reset rectangle");
+static istd::IChangeable::ChangeSet s_setLeftSideChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectangle's left side");
+static istd::IChangeable::ChangeSet s_setTopSideChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectangle's top side");
+static istd::IChangeable::ChangeSet s_setRightSideChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectangle's right side");
+static istd::IChangeable::ChangeSet s_setBottomSideChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectangle's bottom side");
+static istd::IChangeable::ChangeSet s_setTopLeftChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectange's top-left position");
+static istd::IChangeable::ChangeSet s_setTopRightChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectange's top-right position");
+static istd::IChangeable::ChangeSet s_setBottomLeftChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectange's bottom-left position");
+static istd::IChangeable::ChangeSet s_setBottomRightChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Set rectange's bottom-right position");
+static istd::IChangeable::ChangeSet s_uniteChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Unite rectangle which another");
+static istd::IChangeable::ChangeSet s_expandChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Expand rectangle");
+static istd::IChangeable::ChangeSet s_intersectChange(CRectangle::CF_OBJECT_POSITION, CRectangle::CF_ALL_DATA, "Intersect with another rectangle");
+
+
+// public methods
+
 CRectangle::CRectangle()
 {
 }
@@ -74,8 +90,7 @@ bool CRectangle::IsValidNonEmpty() const
 
 void CRectangle::Reset()
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Reset rectangle");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_resetRectangeChange);
 	Q_UNUSED(changeNotifier);
 
 	m_horizontalRange.Reset();
@@ -86,8 +101,7 @@ void CRectangle::Reset()
 void CRectangle::SetLeft(double left)
 {
 	if (GetLeft() != left){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectangle's left side");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setLeftSideChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMinValue(left);
@@ -98,8 +112,7 @@ void CRectangle::SetLeft(double left)
 void CRectangle::SetTop(double top)
 {
 	if (GetTop() != top){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectangle's top side");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setTopSideChange);
 		Q_UNUSED(changeNotifier);
 
 		m_verticalRange.SetMinValue(top);
@@ -110,8 +123,7 @@ void CRectangle::SetTop(double top)
 void CRectangle::SetRight(double right)
 {
 	if (GetRight() != right){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectangle's right side");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setRightSideChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMaxValue(right);
@@ -122,8 +134,7 @@ void CRectangle::SetRight(double right)
 void CRectangle::SetBottom(double bottom)
 {
 	if (GetBottom() != bottom){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectangle's bottom side");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setBottomSideChange);
 		Q_UNUSED(changeNotifier);
 
 		m_verticalRange.SetMaxValue(bottom);
@@ -134,8 +145,7 @@ void CRectangle::SetBottom(double bottom)
 void CRectangle::SetHorizontalRange(const istd::CRange& range)
 {
 	if (range != m_horizontalRange){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange = range;
@@ -146,8 +156,7 @@ void CRectangle::SetHorizontalRange(const istd::CRange& range)
 void CRectangle::SetVerticalRange(const istd::CRange& range)
 {
 	if (range != m_verticalRange){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 
 		m_verticalRange = range;
@@ -164,8 +173,7 @@ CVector2d CRectangle::GetLeftTop() const
 void CRectangle::SetTopLeft(const CVector2d& topLeft)
 {
 	if (topLeft != GetLeftTop()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectange's  top-left position");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setTopLeftChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMinValue(topLeft.GetX());
@@ -183,8 +191,7 @@ CVector2d CRectangle::GetRightTop() const
 void CRectangle::SetTopRight(const CVector2d& topRight)
 {
 	if (topRight != GetRightTop()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectange's  top-right position");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setTopRightChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMaxValue(topRight.GetX());
@@ -202,8 +209,7 @@ CVector2d CRectangle::GetLeftBottom() const
 void CRectangle::SetBottomLeft(const CVector2d& bottomLeft)
 {
 	if (bottomLeft != GetLeftBottom()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectange's  bottom-left position");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setBottomLeftChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMinValue(bottomLeft.GetX());
@@ -221,8 +227,7 @@ CVector2d CRectangle::GetRightBottom() const
 void CRectangle::SetBottomRight(const CVector2d& bottomRight)
 {
 	if (bottomRight != GetRightBottom()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Set rectange's  bottom-right position");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_setBottomRightChange);
 		Q_UNUSED(changeNotifier);
 
 		m_horizontalRange.SetMaxValue(bottomRight.GetX());
@@ -331,8 +336,7 @@ CLine2d CRectangle::GetIntersection(const CLine2d& line) const
 
 void CRectangle::Intersect(const CRectangle& rectangle)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Intersect with another rectangle");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_intersectChange);
 	Q_UNUSED(changeNotifier);
 
 	*this = GetIntersection(rectangle);
@@ -352,8 +356,7 @@ CRectangle CRectangle::GetUnion(const CRectangle& rect) const
 
 void CRectangle::Unite(const CRectangle& rect)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Unite with another rectangle");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_uniteChange);
 	Q_UNUSED(changeNotifier);
 
 	double outputLeft = qMin(rect.GetLeft(), GetLeft());
@@ -408,8 +411,7 @@ CRectangle CRectangle::GetExpanded(const CRectangle& rect) const
 
 void CRectangle::Expand(const CRectangle& rect)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Expand rectangle");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_expandChange);
 	Q_UNUSED(changeNotifier);
 
 	m_horizontalRange.Expand(rect.m_horizontalRange);
@@ -497,8 +499,7 @@ CRectangle CRectangle::GetTranslated(const i2d::CVector2d& delta) const
 
 void CRectangle::Translate(const i2d::CVector2d& delta)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 	Q_UNUSED(changeNotifier);
 
 	m_horizontalRange.SetMinValue(m_horizontalRange.GetMinValue() + delta.GetX());
@@ -542,8 +543,7 @@ void CRectangle::MoveCenterTo(const CVector2d& position)
 {
 	i2d::CVector2d offset = position - GetCenter();
 	if (offset != i2d::CVector2d(0, 0)){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 		Q_UNUSED(changeNotifier);
 
 		m_verticalRange.SetMinValue(m_verticalRange.GetMinValue() + offset.GetY());
@@ -578,8 +578,7 @@ bool CRectangle::Transform(
 				transformation.GetPositionAt(rightBottom, transRightBottom, mode) &&
 				transformation.GetPositionAt(leftBottom, transLeftBottom, mode) &&
 				transformation.GetPositionAt(rightTop, transRightTop, mode)			){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 		
 		if (errorFactorPtr != NULL){
@@ -618,8 +617,7 @@ bool CRectangle::InvTransform(
 
 	if (		transformation.GetInvPositionAt(leftTop, transLeftTop, mode) &&
 				transformation.GetInvPositionAt(rightBottom, transRightBottom, mode)){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 		
 		if (errorFactorPtr != NULL){
@@ -682,8 +680,7 @@ bool CRectangle::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CRectangle* rectanglePtr = dynamic_cast<const CRectangle*>(&object);
 
 	if (rectanglePtr != NULL){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 
 		SetHorizontalRange(rectanglePtr->GetHorizontalRange());

@@ -54,6 +54,10 @@ public:
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
+	static const ChangeSet s_elementAddChange;
+	static const ChangeSet s_elementRemoveChange;
+	static const ChangeSet s_resetChange;
+
 	typedef ContainerType Items;
 	
 	Items m_items;
@@ -95,8 +99,7 @@ const ItemClass& TContainer<ItemClass, ContainerType>::GetAt(int index) const
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::PushBack(const ItemClass& item)
 {
-	ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_elementAddChange);
 	Q_UNUSED(notifier);
 
 	m_items.push_back(item);
@@ -108,8 +111,7 @@ ItemClass& TContainer<ItemClass, ContainerType>::PushBack(const ItemClass& item)
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::PushFront(const ItemClass& item)
 {
-	ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_elementAddChange);
 	Q_UNUSED(notifier);
 
 	m_items.push_front(item);
@@ -121,8 +123,7 @@ ItemClass& TContainer<ItemClass, ContainerType>::PushFront(const ItemClass& item
 template <typename ItemClass, typename ContainerType>
 ItemClass& TContainer<ItemClass, ContainerType>::InsertAt(const ItemClass& item, int index)
 {
-	ChangeSet changeSet(CF_ELEMENT_ADDED);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_elementAddChange);
 	Q_UNUSED(notifier);
 
 	if ((index < 0) || (index >= m_items.size())){
@@ -141,8 +142,7 @@ ItemClass& TContainer<ItemClass, ContainerType>::InsertAt(const ItemClass& item,
 template <typename ItemClass, typename ContainerType>
 void TContainer<ItemClass, ContainerType>::PopBack()
 {
-	ChangeSet changeSet(CF_ELEMENT_REMOVED);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
 	Q_UNUSED(notifier);
 
 	m_items.pop_back();
@@ -152,8 +152,7 @@ void TContainer<ItemClass, ContainerType>::PopBack()
 template <typename ItemClass, typename ContainerType>
 void TContainer<ItemClass, ContainerType>::PopFront()
 {
-	ChangeSet changeSet(CF_ELEMENT_REMOVED);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
 	Q_UNUSED(notifier);
 
 	m_items.pop_front();
@@ -167,8 +166,7 @@ void TContainer<ItemClass, ContainerType>::RemoveAt(int index)
 	Q_ASSERT(index < int(m_items.size()));
 
 	if (index < int(m_items.size())){
-		ChangeSet changeSet(CF_ELEMENT_REMOVED);
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_elementRemoveChange);
 		Q_UNUSED(notifier);
 	
 		m_items.erase(m_items.begin()  + index);
@@ -179,8 +177,7 @@ void TContainer<ItemClass, ContainerType>::RemoveAt(int index)
 template <typename ItemClass, typename ContainerType>
 void TContainer<ItemClass, ContainerType>::Reset()
 {
-	ChangeSet changeSet(CF_RESET, CF_ALL_DATA);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_resetChange);
 	Q_UNUSED(notifier);
 
 	m_items.clear();
@@ -233,6 +230,18 @@ bool TContainer<ItemClass, ContainerType>::CopyFrom(const IChangeable& object, C
 
 	return false;
 }
+
+
+// protected static members
+
+template <typename ItemClass, typename ContainerType>
+const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_elementAddChange(CF_ELEMENT_ADDED);
+
+template <typename ItemClass, typename ContainerType>
+const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_elementRemoveChange(CF_ELEMENT_REMOVED);
+
+template <typename ItemClass, typename ContainerType>
+const istd::IChangeable::ChangeSet TContainer<ItemClass, ContainerType>::s_resetChange(CF_RESET);
 
 
 } // namespace ibase

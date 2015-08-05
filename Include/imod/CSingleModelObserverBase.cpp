@@ -10,6 +10,9 @@ namespace imod
 {
 
 
+const istd::IChangeable::ChangeSet CSingleModelObserverBase::s_undoChanges(istd::IChangeable::CF_NO_UNDO);
+
+
 CSingleModelObserverBase::CSingleModelObserverBase()
 :	m_modelPtr(NULL)
 {
@@ -52,8 +55,7 @@ bool CSingleModelObserverBase::OnModelAttached(imod::IModel* modelPtr, istd::ICh
 
 	changeMask = m_observedIds;
 
-	static const istd::IChangeable::ChangeSet changeSet(istd::IChangeable::CF_NO_UNDO);
-	AfterUpdate(m_modelPtr, changeSet);
+	AfterUpdate(m_modelPtr, s_undoChanges);
 
 	return true;
 }

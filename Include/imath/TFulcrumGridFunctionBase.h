@@ -150,6 +150,9 @@ protected:
 	// reimplemented (istd::TCachedUpdateManagerWrap)
 	virtual bool CalculateCache(const ChangeSet& changeSet);
 
+protected:
+	static const ChangeSet s_fulcrumPositionChange(CF_SORT_LAYERS, "Change fulcrum position");
+
 private:
 	Fulcrums m_fulcrums;
 
@@ -251,8 +254,7 @@ void TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::SetLayerPosition(int 
 	Q_ASSERT(layerIndex >= 0);
 	Q_ASSERT(layerIndex < int(positions.size()));
 
-	ChangeSet changeSet(CF_SORT_LAYERS, "Change fulcrum position");
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_fulcrumPositionChange);
 	Q_UNUSED(notifier);
 
 	positions[layerIndex] = position;
@@ -543,6 +545,12 @@ bool TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::CalculateCache(const 
 
 	return retVal;
 }
+
+
+// protected static members
+
+template <class Argument, class Result, class Fulcrums>
+const istd::IChangeable::ChangeSet TFulcrumGridFunctionBase<Argument, Result, Fulcrums>::s_fulcrumPositionChange(CF_SORT_LAYERS, "Change fulcrum position");
 
 
 } // namespace imath

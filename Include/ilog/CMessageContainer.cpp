@@ -15,6 +15,9 @@ namespace ilog
 {
 
 
+static const istd::IChangeable::ChangeSet s_resetChange(CMessageContainer::CF_ALL_DATA, CMessageContainer::CF_RESET);
+
+
 // public methods
 
 CMessageContainer::CMessageContainer()
@@ -276,8 +279,7 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 void CMessageContainer::ClearMessages()
 {
 	if (!m_messages.isEmpty()){
-		ChangeSet changeSet(CF_RESET, "Remove all messages");
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_resetChange);
 		Q_UNUSED(notifier);
 	
 		m_messages.clear();
@@ -314,8 +316,7 @@ IHierarchicalMessageContainer* CMessageContainer::GetChild(int index) const
 
 bool CMessageContainer::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
 {
-	ChangeSet changeSet(CF_ALL_DATA, CF_RESET);
-	istd::CChangeNotifier notifier(this, &changeSet);
+	istd::CChangeNotifier notifier(this, &s_resetChange);
 	Q_UNUSED(notifier);
 
 	m_messages.clear();

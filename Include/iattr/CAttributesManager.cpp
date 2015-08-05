@@ -14,6 +14,12 @@ namespace iattr
 {
 
 
+static const istd::IChangeable::ChangeSet s_removeAllAttributesChange(CAttributesManager::CF_RESET, CAttributesManager::CF_ATTR_REMOVED, "Remove all attributes");
+static const istd::IChangeable::ChangeSet s_removeAttributeChange(CAttributesManager::CF_ATTR_REMOVED);
+static const istd::IChangeable::ChangeSet s_addAttributeChange(CAttributesManager::CF_ATTR_ADDED);
+static const istd::IChangeable::ChangeSet s_insertGroupChange("Insert attribute");
+
+
 // public methods
 
 CAttributesManager::CAttributesManager(const iser::IObjectFactory* factoryPtr)
@@ -34,8 +40,7 @@ void CAttributesManager::SetAttributesFactory(const iser::IObjectFactory* factor
 void CAttributesManager::RemoveAllAttributes()
 {
 	if (!m_attributesMap.isEmpty()){
-		ChangeSet changeSet(CF_RESET, CF_ATTR_REMOVED, "Remove all attributes");
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_removeAllAttributesChange);
 		Q_UNUSED(notifier);
 
 		for (		AttributesMap::Iterator iter = m_attributesMap.begin();
@@ -58,15 +63,13 @@ bool CAttributesManager::InsertAttribute(
 			iser::IObject* attributePtr,
 			bool releaseFlag)
 {
-	ChangeSet groupChangeSet("Insert attribute");
-	istd::CChangeGroup changeGroup(this, &groupChangeSet);
+	istd::CChangeGroup changeGroup(this, &s_insertGroupChange);
 	Q_UNUSED(changeGroup);
 
 	AttributePtr& newAttributePtr = m_attributesMap[attributeId];
 
 	if (newAttributePtr.IsValid()){
-		ChangeSet changeSet(CF_ATTR_REMOVED);
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_removeAttributeChange);
 		Q_UNUSED(notifier);
 
 		imod::IModel* oldAttrModelPtr = dynamic_cast<imod::IModel*>(newAttributePtr.GetPtr());
@@ -76,8 +79,7 @@ bool CAttributesManager::InsertAttribute(
 	}
 
 	if (attributePtr != NULL){
-		ChangeSet changeSet(CF_ATTR_ADDED);
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_addAttributeChange);
 		Q_UNUSED(notifier);
 
 		newAttributePtr.SetPtr(attributePtr, releaseFlag);

@@ -5,7 +5,13 @@ namespace i2d
 {
 
 
-// public members
+// protected static members
+
+const istd::IChangeable::ChangeSet CObject2dBase::s_objectMovedChange(CF_OBJECT_POSITION, "Move object");
+const istd::IChangeable::ChangeSet CObject2dBase::s_objectModifiedChange(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
+
+
+// public methods
 
 CObject2dBase::CObject2dBase()
 {

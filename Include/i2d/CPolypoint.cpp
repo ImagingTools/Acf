@@ -29,8 +29,7 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 {
 	CVector2d diffVector = position - CPolypoint::GetCenter();
 
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 	Q_UNUSED(changeNotifier);
 
 	for (		Points::iterator iter = m_points.begin();
@@ -70,8 +69,7 @@ bool CPolypoint::Transform(
 		ITransformation2d::ExactnessMode mode,
 		double* /*errorFactorPtr*/)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 	Q_UNUSED(changeNotifier);
 
 	for (		Points::iterator iter = m_points.begin();
@@ -94,8 +92,7 @@ bool CPolypoint::InvTransform(
 		ITransformation2d::ExactnessMode mode,
 		double* /*errorFactorPtr*/)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 	Q_UNUSED(changeNotifier);
 
 	for (		Points::iterator iter = m_points.begin();
@@ -146,8 +143,7 @@ bool CPolypoint::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	const CPolypoint* polypointPtr = dynamic_cast<const CPolypoint*>(&object);
 
 	if (polypointPtr != NULL){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 		Q_UNUSED(changeNotifier);
 
 		m_points = polypointPtr->m_points; 

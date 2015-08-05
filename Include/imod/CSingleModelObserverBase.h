@@ -62,6 +62,9 @@ protected:
 	*/
 	virtual void OnUpdate(const istd::IChangeable::ChangeSet& changeSet);
 
+protected:
+	static const istd::IChangeable::ChangeSet s_undoChanges;
+
 private:
 	imod::IModel* m_modelPtr;
 

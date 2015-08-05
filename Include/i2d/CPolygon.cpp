@@ -11,13 +11,18 @@ namespace i2d
 {
 
 
+static const istd::IChangeable::ChangeSet s_clearAllNodesChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Clear all polygon nodes");
+static const istd::IChangeable::ChangeSet s_createPolygonNodesChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Create polygon nodes");
+static const istd::IChangeable::ChangeSet s_insertPolygonNodeChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Insert polygon node");
+static const istd::IChangeable::ChangeSet s_removePolygonNodeChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Remove polygon node");
+
+
 // public methods
 
 void CPolygon::Clear()
 {
 	if (!m_nodes.empty()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Clear all polygon nodes");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_clearAllNodesChange);
 		Q_UNUSED(changeNotifier);
 
 		m_nodes.clear();
@@ -28,8 +33,7 @@ void CPolygon::Clear()
 void CPolygon::SetNodesCount(int nodesCount)
 {
 	if (nodesCount != (int)m_nodes.size()){
-		istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Create polygon nodes");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_createPolygonNodesChange);
 		Q_UNUSED(changeNotifier);
 
 		m_nodes.resize(nodesCount);
@@ -39,8 +43,7 @@ void CPolygon::SetNodesCount(int nodesCount)
 
 bool CPolygon::InsertNode(const i2d::CVector2d& node)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Insert polygon node");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_insertPolygonNodeChange);
 	Q_UNUSED(changeNotifier);
 
 	m_nodes.push_back(node);
@@ -51,8 +54,7 @@ bool CPolygon::InsertNode(const i2d::CVector2d& node)
 
 bool CPolygon::InsertNode(int index, const i2d::CVector2d& node)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Insert polygon node");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_insertPolygonNodeChange);
 	Q_UNUSED(changeNotifier);
 
 	Nodes::iterator iter = m_nodes.begin();
@@ -65,8 +67,7 @@ bool CPolygon::InsertNode(int index, const i2d::CVector2d& node)
 
 bool CPolygon::RemoveNode(int index)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Remove node");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_removePolygonNodeChange);
 	Q_UNUSED(changeNotifier);
 
 	Nodes::iterator iter = m_nodes.begin();
@@ -105,8 +106,7 @@ void CPolygon::MoveCenterTo(const CVector2d& position)
 {
 	i2d::CVector2d offset = position - GetCenter();
 	if (offset != i2d::CVector2d(0, 0)){
-		ChangeSet changeSet(CF_OBJECT_POSITION, "Move object");
-		istd::CChangeNotifier changeNotifier(this, &changeSet);
+		istd::CChangeNotifier changeNotifier(this, &s_objectMovedChange);
 		Q_UNUSED(changeNotifier);
 
 		int nodesCount = GetNodesCount();
@@ -142,8 +142,7 @@ bool CPolygon::Transform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 
 	if (ApplyTransform(m_nodes, transformation, mode, errorFactorPtr)){
 		return true;
@@ -160,8 +159,7 @@ bool CPolygon::InvTransform(
 			ITransformation2d::ExactnessMode mode,
 			double* errorFactorPtr)
 {
-	istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-	istd::CChangeNotifier changeNotifier(this, &changeSet);
+	istd::CChangeNotifier changeNotifier(this, &s_objectModifiedChange);
 
 	if (ApplyInverseTransform(m_nodes, transformation, mode, errorFactorPtr)){
 		return true;
@@ -184,8 +182,7 @@ bool CPolygon::GetTransformed(
 		Nodes nodes = m_nodes;
 
 		if (ApplyTransform(nodes, transformation, mode, errorFactorPtr)){
-			istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-			istd::CChangeNotifier changeNotifier(polygonPtr, &changeSet);
+			istd::CChangeNotifier changeNotifier(polygonPtr, &s_objectModifiedChange);
 			Q_UNUSED(changeNotifier);
 
 			polygonPtr->m_nodes = nodes;
@@ -209,8 +206,7 @@ bool CPolygon::GetInvTransformed(
 		Nodes nodes = m_nodes;
 
 		if (ApplyInverseTransform(nodes, transformation, mode, errorFactorPtr)){
-			istd::IChangeable::ChangeSet changeSet(CF_OBJECT_POSITION, CF_ALL_DATA, "Modify object");
-			istd::CChangeNotifier changeNotifier(polygonPtr, &changeSet);
+			istd::CChangeNotifier changeNotifier(polygonPtr, &s_objectModifiedChange);
 			Q_UNUSED(changeNotifier);
 
 			polygonPtr->m_nodes = nodes;
