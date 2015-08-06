@@ -46,21 +46,6 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName)
                     var re2 = /IntermediateDirectory=\"debug\\\"/g;
                     text = text.replace(re2, "InheritedPropertySheets=\"..\\..\\..\\Config\\" + vcDirName + "\\General.vsprops;..\\..\\..\\Config\\" + vcDirName + "\\Debug.vsprops\"");
 
-                    var re3 = /&quot;([:A-Za-z0-9_.\\]+\\Qt[:A-Za-z0-9_.\\]+)(\\include[:A-Za-z0-9_.\\]*)&quot;/g
-                    text = text.replace(re3, "&quot;$(QTDIR)$2&quot;");
-
-                    var re4 = /&quot;([:A-Za-z0-9_.\\]+\\Qt[:A-Za-z0-9_.\\]+)(\\bin[:A-Za-z0-9_.\\]*)&quot;/g
-                    text = text.replace(re4, "&quot;$(QTDIR)$2&quot;");
-
-                    var re5 = /&quot;([:A-Za-z0-9_.\\]+\\Qt[:A-Za-z0-9_.\\]+)(\\lib[:A-Za-z0-9_.\\]*)&quot;/g
-                    text = text.replace(re5, "&quot;$(QTDIR)$2&quot;");
-
-                    var re6 = / ([:A-Za-z0-9_.\\]+\\Qt[:A-Za-z0-9_.\\]+)(\\bin\\[:A-Za-z0-9_.\\]*\.exe) /g
-                    text = text.replace(re6, " $(QTDIR)$2 ");
-
-                    var re6 = / ([:A-Za-z0-9_.\\]+\\Qt[:A-Za-z0-9_.\\]+)(\\mkspecs\\[:A-Za-z0-9_.\\]) /g
-                    text = text.replace(re6, " $(QTDIR)$2 ");
-
                     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
                     outputFile.write(text);
                     
