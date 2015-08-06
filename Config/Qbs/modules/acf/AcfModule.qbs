@@ -1,5 +1,11 @@
 import qbs.base 1.0
 
+/**
+	Use following project properties:
+	- property string acfGenerateShare	if true, the generating of folder "Share" for using ACF as 3rd party will be enabled
+	- property string acfInstallSubDir	if defined the installation output will be prefixed with this subdirectory
+*/
+
 Module{
     condition: false
 

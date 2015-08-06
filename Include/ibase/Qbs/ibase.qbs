@@ -1,7 +1,7 @@
 import qbs.base 1.0
-import AcfStaticLibrary as AcfStaticLibrary
+import AcfLibrary as AcfLibrary
 
-AcfStaticLibrary{
+AcfLibrary{
 	name: "ibase"
 
 	files: ["../*.h", "../*.cpp"]

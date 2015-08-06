@@ -139,7 +139,7 @@ AcfModule{
 	}
 
 	Rule{
-		condition: product.name.indexOf("_") != 0	// prefix '_' will be used for temporary products
+		condition: (project.acfGenerateShare == true) && (product.name.indexOf("_") != 0)	// prefix '_' will be used for temporary products
 		id: acfShareGenerator
 		multiplex: true
 		inputs: ["cpp", "c", "objcpp", "objc", "xpc_file"]

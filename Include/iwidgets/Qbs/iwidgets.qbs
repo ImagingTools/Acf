@@ -1,8 +1,8 @@
 import qbs.base 1.0
-import AcfStaticLibrary as AcfStaticLibrary
+import AcfLibrary as AcfLibrary
 //import "../../../Config/Qbs/QtRules.qbs" as QtRules
 
-AcfStaticLibrary{
+AcfLibrary{
 	name: "iwidgets"
 
 	files: ["../*.h", "../*.cpp", "../*.ui", "../*.qrc"]
