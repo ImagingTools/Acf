@@ -12,6 +12,7 @@
 
 // ACF includes
 #include "ibase/ICommandsProvider.h"
+#include "idoc/IDocumentTemplate.h"
 #include "idoc/CSingleDocumentManagerBase.h"
 
 #include "iqtgui/TGuiComponentBase.h"
