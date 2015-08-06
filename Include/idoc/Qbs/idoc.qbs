@@ -8,9 +8,13 @@ AcfLibrary{
 
 	Depends{ name: "imod" }
 	Depends{ name: "iser" }
+	Depends{ name: "icomp" }
+	Depends{ name: "ifile" }
 
 	Export{
 		Depends{ name: "imod" }
 		Depends{ name: "iser" }
+		Depends{ name: "icomp" }
+		Depends{ name: "ifile" }
 	}
 }

@@ -7,8 +7,10 @@ AcfLibrary{
 	files: ["../*.h", "../*.cpp"]
 
 	Depends{ name: "iser" }
+	Depends{ name: "icomp" }
 
 	Export{
 		Depends{ name: "iser" }
+		Depends{ name: "icomp" }
 	}
 }
