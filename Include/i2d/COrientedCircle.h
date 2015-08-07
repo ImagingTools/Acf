@@ -11,12 +11,8 @@ namespace i2d
 
 /**
 	Definition of an oriented graphical circle object.
- 
 	The circle can be oriented outside or inside.
-	
-	\todo Determine what is the reference point of orientation (camera or screen) 
-	and if it's camera, update COrientedCircleShape to reflect this (currently 
-	displays orientation relative to the screen).
+	Interpretation what it means 'outside oriented' is user dependend.
 */
 class COrientedCircle: public CCircle
 {
@@ -26,7 +22,15 @@ public:
 	COrientedCircle();
 	COrientedCircle(double radius, const CVector2d& center, bool orientedOutside);
 
+	/**
+		Check if this circle is oriented outside.
+		Interpretation what it means 'outside oriented' is user dependend.
+	*/
 	bool IsOrientedOutside() const;
+	/**
+		Set this circle oriented outside or inside.
+		Interpretation what it means 'outside oriented' is user dependend.
+	*/
 	void SetOrientedOutside(bool orientedOutside);
 
 	bool operator==(const COrientedCircle& circle) const;
