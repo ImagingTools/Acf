@@ -228,22 +228,25 @@ bool COptionsManager::RemoveOption(int index)
 	Q_ASSERT(index >= 0);
 	Q_ASSERT(index < COptionsManager::GetOptionsCount());
 
+	int fixedOptionsCount = 0;
 	if (m_slaveSelectionConstraintsPtr != NULL){
-		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+		fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
 
 		if (index < fixedOptionsCount){
 			return false;
 		}
-
-		index -= fixedOptionsCount;
 	}
 
 	ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_OPTION_REMOVED);
 	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
-	Q_ASSERT(index < m_options.size());
-	m_options.erase(m_options.begin() + index);
+	Q_ASSERT(index - fixedOptionsCount < m_options.size());
+	m_options.erase(m_options.begin() + index - fixedOptionsCount);
+
+	if (index == BaseClass::GetSelectedOptionIndex()){
+		BaseClass::SetSelectedOptionIndex(index - 1);
+	}
 
 	return true;
 }
@@ -262,7 +265,12 @@ bool COptionsManager::InsertOption(
 
 	OptionInfo optionInfo(optionName, realOptionId, optionDescription);
 
-	if (index < 0 || index >= int(m_options.size())){
+	int fixedOptionsCount = 0;
+	if (m_slaveSelectionConstraintsPtr != NULL){
+		fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+	}
+
+	if ((index < 0) || (index >= m_options.size() + fixedOptionsCount)){
 		ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_OPTION_ADDED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
@@ -270,21 +278,17 @@ bool COptionsManager::InsertOption(
 		m_options.push_back(optionInfo);
 	}
 	else{
-		if (m_slaveSelectionConstraintsPtr != NULL){
-			int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
-
-			if (index < fixedOptionsCount){
-				return false;
-			}
-
-			index -= fixedOptionsCount;
+		if (index < fixedOptionsCount){
+			return false;
 		}
 
 		ChangeSet changeSet(CF_OPTIONS_CHANGED, CF_OPTION_ADDED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
-		m_options.insert(m_options.begin() + index, optionInfo);
+		m_options.insert(m_options.begin() + index - fixedOptionsCount, optionInfo);
+
+		BaseClass::SetSelectedOptionIndex(index);
 	}
 
 	return true;
@@ -298,28 +302,34 @@ bool COptionsManager::SwapOptions(int index1, int index2)
 	Q_ASSERT(index2 >= 0);
 	Q_ASSERT(index2 < COptionsManager::GetOptionsCount());
 
+	int fixedOptionsCount = 0;
 	if (m_slaveSelectionConstraintsPtr != NULL){
-		int fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
+		fixedOptionsCount = m_slaveSelectionConstraintsPtr->GetOptionsCount();
 
 		if ((index1 < fixedOptionsCount) || (index2 < fixedOptionsCount)){
 			return false;
 		}
-
-		index1 -= fixedOptionsCount;
-		index2 -= fixedOptionsCount;
 	}
 
-	Q_ASSERT(index1 < m_options.size());
-	Q_ASSERT(index2 < m_options.size());
+	Q_ASSERT(index1 < m_options.size() + fixedOptionsCount);
+	Q_ASSERT(index2 < m_options.size() + fixedOptionsCount);
 
 	if (index1 != index2){
 		ChangeSet changeSet(CF_OPTIONS_CHANGED);
 		istd::CChangeNotifier notifier(this, &changeSet);
 		Q_UNUSED(notifier);
 
-		OptionInfo tempInfo = m_options[index1];
-		m_options[index1] = m_options[index2];
-		m_options[index2] = tempInfo;
+		OptionInfo tempInfo = m_options[index1 - fixedOptionsCount];
+		m_options[index1 - fixedOptionsCount] = m_options[index2 - fixedOptionsCount];
+		m_options[index2 - fixedOptionsCount] = tempInfo;
+
+		int selectedOptionIndex = BaseClass::GetSelectedOptionIndex();
+		if (selectedOptionIndex = index1){
+			BaseClass::SetSelectedOptionIndex(index2);
+		}
+		else if (selectedOptionIndex = index2){
+			BaseClass::SetSelectedOptionIndex(index1);
+		}
 	}
 
 	return true;
