@@ -55,9 +55,12 @@ void CSystemLocationComp::OnComponentCreated()
 	Q_ASSERT(m_locationTypeAttrPtr.IsValid());
 
 	QString organizationName = QCoreApplication::organizationName();
+	QString applicationName = QCoreApplication::applicationName();
+	QString productName;
 	if (m_applicationInfoCompPtr.IsValid()){
 		organizationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME);
-		QString applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+		applicationName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME);
+		productName = m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_PRODUCT_NAME);
 
 		QCoreApplication::setOrganizationName(organizationName);
 		QCoreApplication::setApplicationName(applicationName);
@@ -67,6 +70,23 @@ void CSystemLocationComp::OnComponentCreated()
 	if (!organizationName.isEmpty()){
 		organizationNameSubPath = QString("/") + organizationName;
 	}
+
+	QString sharedApplicationDataPath = productName;
+	if (!applicationName.isEmpty()){
+		sharedApplicationDataPath += QString("/") + applicationName;
+	}
+
+	if (!organizationNameSubPath.isEmpty()){
+		sharedApplicationDataPath = organizationNameSubPath + QString("/") + sharedApplicationDataPath;
+	}
+
+
+#ifdef Q_OS_WIN
+	QString publicSharedFolder("C:/Users/Public");
+#else
+	QString publicSharedFolder("/Users/Shared");
+#endif
+
 
 #if QT_VERSION < 0x050000
 	m_storagePath = QDesktopServices::storageLocation(QDesktopServices::StandardLocation(*m_locationTypeAttrPtr));
@@ -94,12 +114,12 @@ void CSystemLocationComp::OnComponentCreated()
 			}
 			break;
 
+		case SL_SHARED_COMPANY_DIRECTORY:
+			m_storagePath = QDir::toNativeSeparators(publicSharedFolder + organizationNameSubPath);
+			break;
+
 		case SL_SHARED_APPDATA_DIRECTORY:
-#ifdef Q_OS_WIN
-			m_storagePath = QDir::toNativeSeparators(QString("C:/Users/Public") + organizationNameSubPath);
-#else
-			m_storagePath = QDir::toNativeSeparators(QString("/Users/Shared")  + organizationNameSubPath);
-#endif
+			m_storagePath = QDir::toNativeSeparators(publicSharedFolder + sharedApplicationDataPath);
 			break;
 
 		default:
