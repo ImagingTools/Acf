@@ -90,7 +90,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag paramsSetTag("ParamsSet", "Single parameter set", iser::CArchiveTag::TT_GROUP, &paramsSetListTag, true);
 	static iser::CArchiveTag nameTag("Name", "Name of set", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
 	static iser::CArchiveTag enabledTag("Enabled", "Is parameter set enabled", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
-	static iser::CArchiveTag valueTag("Value", "Value of set", iser::CArchiveTag::TT_GROUP, &paramsSetTag, true);
+	static iser::CArchiveTag valueTag("Value", "Value of set", iser::CArchiveTag::TT_WEAK, &paramsSetTag, true);
 	static iser::CArchiveTag uuidTag("Uuid", "UUID of the parameter set", iser::CArchiveTag::TT_LEAF, &paramsSetTag);
 
 	bool retVal = true;

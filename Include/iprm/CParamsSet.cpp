@@ -159,14 +159,19 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 	bool retVal = true;
 
 	static iser::CArchiveTag paramsSetTag("ParamsSet", "List of parameters", iser::CArchiveTag::TT_MULTIPLE);
+	static iser::CArchiveTag parametersTag("Parameters", "List of parameters", iser::CArchiveTag::TT_MULTIPLE);
 	static iser::CArchiveTag parameterTag("Parameter", "Single parameter", iser::CArchiveTag::TT_GROUP, &paramsSetTag, true);
 	static iser::CArchiveTag parameterIdTag("Id", "ID of parameter", iser::CArchiveTag::TT_LEAF, &parameterTag);
-	static iser::CArchiveTag parameterValueTag("Value", "Value of parameter", iser::CArchiveTag::TT_GROUP, &parameterTag);
+	static iser::CArchiveTag parameterValueTag("Value", "Value of parameter", iser::CArchiveTag::TT_WEAK, &parameterTag);
+
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();	// TODO: remove it when no more backwards compability needed
+	quint32 frameworkVersion = 0;
+	versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion);
 
 	if (archive.IsStoring()){
 		int paramsCount = m_params.GetCount();
 
-		retVal = retVal && archive.BeginMultiTag(paramsSetTag, parameterTag, paramsCount);
+		retVal = retVal && archive.BeginMultiTag((frameworkVersion > 3815)? parametersTag: paramsSetTag, parameterTag, paramsCount);
 
 		for (int parameterIndex = 0; parameterIndex < m_params.GetCount(); parameterIndex++){
 			ParameterInfo* parameterInfoPtr = m_params.GetAt(parameterIndex);
@@ -186,12 +191,12 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.EndTag(parameterTag);
 		}
 
-		retVal = retVal && archive.EndTag(paramsSetTag);
+		retVal = retVal && archive.EndTag((frameworkVersion > 3815)? parametersTag: paramsSetTag);
 	}
 	else{
 		int paramsCount = 0;
 
-		retVal = retVal && archive.BeginMultiTag(paramsSetTag, parameterTag, paramsCount);
+		retVal = retVal && archive.BeginMultiTag((frameworkVersion > 3815)? parametersTag: paramsSetTag, parameterTag, paramsCount);
 
 		if (!retVal){
 			return false;
@@ -224,7 +229,7 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.EndTag(parameterTag);
 		}
 
-		retVal = retVal && archive.EndTag(paramsSetTag);
+		retVal = retVal && archive.EndTag((frameworkVersion > 3815)? parametersTag: paramsSetTag);
 	}
 
 	return retVal;

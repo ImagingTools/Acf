@@ -12,12 +12,14 @@
 #include "iqt/CTranslationManagerComp.h"
 #include "iqt/CXmlFileReadArchive.h"
 #include "iqt/CXmlFileWriteArchive.h"
+#include "iqt/CCompactXmlFileReadArchive.h"
+#include "iqt/CCompactXmlFileWriteArchive.h"
 
 #include "iqtdoc/CExtendedDocumentTemplateComp.h"
 #include "iqtdoc/CStaticHelpFileProviderComp.h"
 #include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
-#include "ifile/TFileSerializerComp.h"
+#include "ifile/TXmlFileSerializerComp.h"
 
 
 /**
@@ -33,7 +35,8 @@ typedef iqt::CApplicationSettingsProviderComp ApplicationSettingsProvider;
 typedef iqt::CIniSettingsProviderComp IniSettingsProvider;
 typedef iqt::CClipboardSerializerComp ClipboardSerializer;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
-typedef ifile::TFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
+typedef ifile::TXmlFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
+typedef ifile::TXmlFileSerializerComp<iqt::CCompactXmlFileReadArchive, iqt::CCompactXmlFileWriteArchive> CompactXmlFileSerializer;
 
 typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
 typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
