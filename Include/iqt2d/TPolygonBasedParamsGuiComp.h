@@ -69,6 +69,7 @@ public:
 				PolygonBasedModel> BaseClass;
 
 	I_BEGIN_COMPONENT(TPolygonBasedParamsGuiComp);
+		I_ASSIGN(m_nodeListSizeAttrPtr, "NodeListSize", "Fixed height of the node list if set (0 - hide)", false, 0);
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
@@ -129,6 +130,9 @@ protected:
 			return editorPtr;
 		}
 	}; // CPolygonParamsGuiItemDelegate
+
+protected:
+	I_ATTR(int, m_nodeListSizeAttrPtr);
 };
 
 
@@ -311,15 +315,32 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 {
 	BaseClass::OnGuiCreated();
 
+	bool isNodeTable = true;
+	if (m_nodeListSizeAttrPtr.IsValid()){
+		if (*m_nodeListSizeAttrPtr > 0){
+			NodeParamsTable->setFixedHeight(qMax(40, *m_nodeListSizeAttrPtr));	// 40 is minimum visible size for 1 row
+		}
+		else{
+			InsertButton->hide();
+			RemoveButton->hide();
+			NodeParamsTable->hide();
+			isNodeTable = false;
+		}
+
+		GetQtWidget()->adjustSize();
+	}
+
+	if (isNodeTable){
 #if QT_VERSION < 0x050000
-	NodeParamsTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+		NodeParamsTable->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 #else
-	NodeParamsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+		NodeParamsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #endif
 
-	CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate(NodeParamsTable);
-	NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
-	NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
+		CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate(NodeParamsTable);
+		NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
+		NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
+	}
 
 	BaseClass::CloseLineCheckBox->setHidden(true);
 
