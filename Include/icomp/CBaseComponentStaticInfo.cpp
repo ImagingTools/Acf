@@ -11,6 +11,13 @@ namespace icomp
 {
 
 
+// public static members
+
+istd::CClassInfo CBaseComponentStaticInfo::s_compInterfaceType(typeid(icomp::IComponent));
+
+
+// public methods
+
 CBaseComponentStaticInfo::CBaseComponentStaticInfo(const IRealComponentStaticInfo* baseComponentPtr)
 :	m_baseComponentPtr(baseComponentPtr)
 {
@@ -62,9 +69,7 @@ void* CBaseComponentStaticInfo::GetComponentInterface(
 		}
 	}
 	else{
-		static istd::CClassInfo compInterfaceType(typeid(icomp::IComponent));
-
-		if (!interfaceType.IsValid() || interfaceType.IsVoid() || (interfaceType == compInterfaceType)){
+		if (!interfaceType.IsValid() || interfaceType.IsVoid() || (interfaceType == s_compInterfaceType)){
 			return &component;
 		}
 

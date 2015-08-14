@@ -119,9 +119,7 @@ void* TSubelementStaticInfo<ComponentType>::GetComponentInterface(
 {
 	ComponentType* nativeTypePtr = dynamic_cast<ComponentType*>(&component);
 	if ((nativeTypePtr != NULL) && subId.isEmpty()){
-		static istd::CClassInfo compInterfaceType(typeid(icomp::IComponent));
-
-		if (!interfaceType.IsValid() || interfaceType.IsVoid() || (interfaceType == compInterfaceType)){
+		if (!interfaceType.IsValid() || interfaceType.IsVoid() || (interfaceType == CBaseComponentStaticInfo::s_compInterfaceType)){
 			return &component;
 		}
 
