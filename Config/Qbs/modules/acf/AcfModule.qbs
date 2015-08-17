@@ -93,13 +93,8 @@ Module{
 	property stringList xpcPackageDirs								// Extra directories placed into generated XPC file
 
 	FileTagger{
-		patterns: ["*.arx"]
+		patterns: ["*.arx", "*.carx"]
 		fileTags: ["arx"]
-	}
-
-	FileTagger{
-		patterns: ["*.carx"]
-		fileTags: ["carx"]
 	}
 
 	FileTagger{

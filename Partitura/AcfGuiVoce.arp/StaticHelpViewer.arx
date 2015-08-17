@@ -139,7 +139,7 @@
         StaticHelpFileProvider
       </Id>
       <PackageId>
-        QtPck
+        QtGuiPck
       </PackageId>
       <ComponentId>
         StaticHelpFileProvider

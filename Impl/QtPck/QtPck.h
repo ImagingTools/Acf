@@ -15,10 +15,6 @@
 #include "iqt/CCompactXmlFileReadArchive.h"
 #include "iqt/CCompactXmlFileWriteArchive.h"
 
-#include "iqtdoc/CExtendedDocumentTemplateComp.h"
-#include "iqtdoc/CStaticHelpFileProviderComp.h"
-#include "iqtdoc/CDoxygenHelpFileProviderComp.h"
-
 #include "ifile/TXmlFileSerializerComp.h"
 
 
@@ -37,10 +33,6 @@ typedef iqt::CClipboardSerializerComp ClipboardSerializer;
 typedef icomp::TModelCompWrap<iqt::CTranslationManagerComp> TranslationManager;
 typedef ifile::TXmlFileSerializerComp<iqt::CXmlFileReadArchive, iqt::CXmlFileWriteArchive> QtXmlFileSerializer;
 typedef ifile::TXmlFileSerializerComp<iqt::CCompactXmlFileReadArchive, iqt::CCompactXmlFileWriteArchive> CompactXmlFileSerializer;
-
-typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
-typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
-typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
 
 
 } // namespace QtPck

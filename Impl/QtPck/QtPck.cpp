@@ -48,21 +48,6 @@ I_EXPORT_COMPONENT(
 		   "File loader serializing objects compact XML format",
 		   "Save Serializer Archive Format Compact Attributes" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("XML Loader File"));
 
-I_EXPORT_COMPONENT(
-			ExtendedDocumentTemplate,
-			"Extended serialized document template",
-			"Serialized Template" IM_TAG("Document"));
-
-I_EXPORT_COMPONENT(
-			StaticHelpFileProvider,
-			"Provide static html help file path",
-			"File Provider Document Html Description Qt" IM_TAG("Help"));
-
-I_EXPORT_COMPONENT(
-			DoxygenHelpFileProvider,
-			"Provide html help file path converting class type using doxygen format",
-			"Doxygen File Provider Document Html Description Class Interface Qt" IM_TAG("Help"));
-
 
 } // namespace QtPck
 

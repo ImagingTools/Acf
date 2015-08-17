@@ -183,6 +183,21 @@ I_EXPORT_COMPONENT(
 			"Document Meta Information Editor" IM_TAG("Document"));
 
 I_EXPORT_COMPONENT(
+			ExtendedDocumentTemplate,
+			"Extended serialized document template",
+			"Serialized Template" IM_TAG("Document"));
+
+I_EXPORT_COMPONENT(
+			StaticHelpFileProvider,
+			"Provide static html help file path",
+			"File Provider Document Html Description Qt" IM_TAG("Help"));
+
+I_EXPORT_COMPONENT(
+			DoxygenHelpFileProvider,
+			"Provide html help file path converting class type using doxygen format",
+			"Doxygen File Provider Document Html Description Class Interface Qt" IM_TAG("Help"));
+
+I_EXPORT_COMPONENT(
 			ProgressManagerGui,
 			"Progress manager GUI using progress bar widget to visualize progress",
 			"Progress Manager" IM_TAG("Processing"));

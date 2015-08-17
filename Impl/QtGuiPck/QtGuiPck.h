@@ -32,6 +32,9 @@
 #include "iqtgui/CCalendarGuiComp.h"
 #include "iqtgui/CCalendarGuiComp.h"
 #include "iqtgui/CCommandsMultiplexerComp.h"
+#include "iqtdoc/CExtendedDocumentTemplateComp.h"
+#include "iqtdoc/CStaticHelpFileProviderComp.h"
+#include "iqtdoc/CDoxygenHelpFileProviderComp.h"
 
 // ParamGuiPck
 #include "iqtprm/CFileNameParamGuiComp.h"
@@ -133,6 +136,9 @@ typedef icomp::TModelCompWrap<iqtdoc::CMultiDocumentWorkspaceGuiComp> MultiDocWo
 typedef iqtdoc::CHtmlHelpGuiComp HtmlHelpGui;
 typedef iqtdoc::CHtmlHelpViewerComp HtmlHelpViewer;
 typedef iqtdoc::CDocumentMetaInfoEditorComp DocumentMetaInfoEditor;
+typedef iqtdoc::CExtendedDocumentTemplateComp ExtendedDocumentTemplate;
+typedef iqtdoc::CStaticHelpFileProviderComp StaticHelpFileProvider;
+typedef iqtdoc::CDoxygenHelpFileProviderComp DoxygenHelpFileProvider;
 
 typedef iloggui::CLogGuiComp LogGui;
 typedef iloggui::CTextLogGuiComp TextLogGui;
