@@ -19,6 +19,43 @@ public:
 
 	CLineShape();
 
+	enum LineDisplayMode
+	{
+		LDM_SIMPLE,
+		LDM_ARROW
+	};
+
+	/**
+		Get displayed of line.
+	*/
+	int GetLineDisplayMode() const;
+	/**
+		Set display mode of this line.
+	*/
+	void SetLineDisplayMode(int mode);
+
+	/**
+		Get proportion of arrow side lines to line length.
+		If there is no arrow display mode, this value has no effect.
+	*/
+	double GetArrowLinesProportion() const;
+	/**
+		Set proportion of arrow side lines to line length.
+		If there is no arrow display mode, this value has no effect.
+	*/
+	void SetArrowLinesProportion(double value);
+
+	/**
+		Get maximal length of arrow lines.
+		If there is no arrow display mode, this value has no effect.
+	*/
+	double GetMaxArrowLineLength() const;
+	/**
+		Set maximal length of arrow lines.
+		If there is no arrow display mode, this value has no effect.
+	*/
+	void SetMaxArrowLineLength(double value);
+
 	// reimplemented (iview::CInteractiveShapeBase)
 	virtual void InvalidateBoundingBox();
 
@@ -55,9 +92,13 @@ protected:
 					const istd::CIndex2d& point,
 					double maxDistance);
 
+	int m_lineDisplayMode;
+	double m_arrowLinesProportion;
+	double m_maxArrowLineLength;
+
 	i2d::CVector2d m_referencePosition;
 	int m_referenceIndex;
-	mutable istd::CIndex2d m_points[2];
+	mutable istd::CIndex2d m_points[4];
 	mutable bool m_arePointsValid;
 };
 

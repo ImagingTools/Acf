@@ -20,10 +20,61 @@ namespace iview
 
 
 CLineShape::CLineShape()
-	:m_referencePosition(0.0, 0.0),
+:	m_lineDisplayMode(LDM_SIMPLE),
+	m_arrowLinesProportion(0.4),
+	m_maxArrowLineLength(10),
+	m_referencePosition(0.0, 0.0),
 	m_referenceIndex(-1),
 	m_arePointsValid(false)
 {
+}
+
+
+int CLineShape::GetLineDisplayMode() const
+{
+	return m_lineDisplayMode;
+}
+
+
+void CLineShape::SetLineDisplayMode(int mode)
+{
+	if (mode != m_lineDisplayMode){
+		m_lineDisplayMode = mode;
+
+		Invalidate();
+	}
+}
+
+
+double CLineShape::GetArrowLinesProportion() const
+{
+	return m_arrowLinesProportion;
+}
+
+
+void CLineShape::SetArrowLinesProportion(double value)
+{
+	if (value != m_arrowLinesProportion){
+		m_arrowLinesProportion = value;
+
+		Invalidate();
+	}
+}
+
+
+double CLineShape::GetMaxArrowLineLength() const
+{
+	return m_maxArrowLineLength;
+}
+
+
+void CLineShape::SetMaxArrowLineLength(double value)
+{
+	if (value != m_maxArrowLineLength){
+		m_maxArrowLineLength = value;
+
+		Invalidate();
+	}
 }
 
 
@@ -65,6 +116,13 @@ ITouchable::TouchState CLineShape::IsTouched(istd::CIndex2d position) const
 		return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 	}
 
+	if (m_lineDisplayMode == LDM_ARROW){
+		if (		CheckLine(m_points[1], m_points[2], position, distance) ||
+					CheckLine(m_points[1], m_points[3], position, distance)){
+			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
+		}
+	}
+
 	return TS_NONE;
 }
 
@@ -89,6 +147,11 @@ void CLineShape::Draw(QPainter& drawContext) const
 	}
 
 	drawContext.drawLine(iqt::GetQPoint(m_points[0]), iqt::GetQPoint(m_points[1]));
+
+	if (m_lineDisplayMode == LDM_ARROW){
+		drawContext.drawLine(iqt::GetQPoint(m_points[1]), iqt::GetQPoint(m_points[2]));
+		drawContext.drawLine(iqt::GetQPoint(m_points[1]), iqt::GetQPoint(m_points[3]));
+	}
 
 	drawContext.restore();
 
@@ -193,6 +256,17 @@ void CLineShape::CalcPoints(const i2d::CLine2d& line) const
 
 	m_points[0] = screenLine.GetPoint1().ToIndex2d();
 	m_points[1] = screenLine.GetPoint2().ToIndex2d();
+
+	if (m_lineDisplayMode == LDM_ARROW){
+		i2d::CVector2d delta = screenLine.GetDiffVector() * m_arrowLinesProportion;
+		if (delta.GetLength2() > m_maxArrowLineLength * m_maxArrowLineLength){
+			delta.Normalize(m_maxArrowLineLength);
+		}
+		i2d::CVector2d orthogonal = delta.GetOrthogonal();
+
+		m_points[2] = (screenLine.GetPoint2() - delta + orthogonal).ToIndex2d();
+		m_points[3] = (screenLine.GetPoint2() - delta - orthogonal).ToIndex2d();
+	}
 }
 
 
@@ -202,6 +276,8 @@ void CLineShape::ResetPoints() const
 
 	m_points[0] = point;
 	m_points[1] = point;
+	m_points[2] = point;
+	m_points[3] = point;
 }
 
 
@@ -216,7 +292,9 @@ i2d::CRect CLineShape::CalcBoundingBox() const
 	const IColorSchema& colorSchema = GetColorSchema();
 
 	i2d::CRect boundingBox(m_points[0], ibase::CSize(1, 1));
-	for (int i = 1; i < 2; ++i){
+
+	int pointsCount = (m_lineDisplayMode == LDM_ARROW)? 4: 2;
+	for (int i = 1; i < pointsCount; ++i){
 		boundingBox.Union(m_points[i]);
 	}
 

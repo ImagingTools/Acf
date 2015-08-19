@@ -42,6 +42,11 @@ protected:
 
 	QString GetUnitName() const;
 
+	/**
+		Simple creation of shape instance.
+	*/
+	virtual Shape* CreateShapeInstance() const;
+
 	// reimplemented (iqt2d::TViewExtenderCompBase)
 	virtual void CreateShapes(int sceneId, Shapes& result);
 
@@ -118,7 +123,7 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetached(imod::IMode
 template <class Ui, class Shape, class ShapeModel>
 iview::IShape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
 {
-	Shape* shapePtr = new Shape();
+	Shape* shapePtr = CreateShapeInstance();
 
 	if (connectToModel){
 		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
@@ -156,6 +161,13 @@ QString TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetUnitName() const
 	}
 
 	return "";
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+typename Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() const
+{
+	return new Shape();
 }
 
 

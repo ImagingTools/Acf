@@ -332,10 +332,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CArrowShape.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CCalibratedViewBase.cpp"
 				>
 			</File>
@@ -503,10 +499,6 @@
 			</File>
 			<File
 				RelativePath="..\CArcShape.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CArrowShape.h"
 				>
 			</File>
 			<File

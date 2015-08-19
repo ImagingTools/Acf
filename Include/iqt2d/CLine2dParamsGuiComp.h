@@ -30,12 +30,16 @@ public:
 				i2d::CLine2d> BaseClass;
 
 	I_BEGIN_COMPONENT(CLine2dParamsGuiComp);
+		I_ASSIGN(m_displayArrowAttrPtr, "DisplayArrow", "If enabled arrow will be displayed instead of line", true, false);
 	I_END_COMPONENT;
 
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 
 protected:
+	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+	virtual iview::CLineShape* CreateShapeInstance() const;
+
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
 
@@ -46,6 +50,9 @@ protected:
 
 protected Q_SLOTS:
 	void OnParamsChanged(double value);
+
+private:
+	I_ATTR(bool, m_displayArrowAttrPtr);
 };
 
 
