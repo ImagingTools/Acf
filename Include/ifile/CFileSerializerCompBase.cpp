@@ -108,7 +108,7 @@ bool CFileSerializerCompBase::CheckInputFile(const QString filePath, bool beQuie
 	QFileInfo fileInfo(filePath);
 	if (!fileInfo.exists()){
 		if (!beQuiet){
-			SendWarningMessage(MI_CANNOT_LOAD, QString("File %1 does not exist").arg(filePath));
+			SendWarningMessage(MI_FILE_NOT_EXIST, QString("File %1 does not exist").arg(filePath));
 		}
 
 		return false;
@@ -121,11 +121,10 @@ bool CFileSerializerCompBase::CheckInputFile(const QString filePath, bool beQuie
 bool CFileSerializerCompBase::CheckOutputFile(const QString filePath, bool beQuiet) const
 {
 	QFileInfo fileInfo(filePath);
-
 	QDir directory = fileInfo.dir();
 	if (!directory.exists()){
 		if (!beQuiet){
-			SendWarningMessage(MI_CANNOT_SAVE, QString("Save target directory %1 does not exist").arg(directory.canonicalPath()));
+			SendWarningMessage(MI_FILE_NOT_EXIST, QString("Save target directory %1 does not exist").arg(directory.canonicalPath()));
 		}
 
 		return false;

@@ -31,22 +31,6 @@ class CFileSerializerCompBase:
 public:	
 	typedef ilog::TLoggerCompWrap<CFileTypeInfoComp> BaseClass;
 
-	/**
-		List if possible message IDs.
-	*/
-	enum MessageId
-	{
-		/**
-			File path hase an unsupported file exptension.
-		*/
-		MI_BAD_EXTENSION = 0xac10,
-
-		/*
-			Archive used for serialization uses has an unsupported version.
-		*/
-		MI_UNSUPPORTED_VERSION
-	};
-
 	I_BEGIN_BASE_COMPONENT(CFileSerializerCompBase);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);

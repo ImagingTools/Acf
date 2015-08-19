@@ -42,13 +42,13 @@ public:
 				const QString& filePath = QString(),
 				ibase::IProgressManager* progressManagerPtr = NULL) const;
 
-protected:
+	// Wrapper classes for archives
 	class ReadArchiveEx: public ReadArchive
 	{
 	public:
 		typedef ReadArchive BaseClass;
 
-		ReadArchiveEx(const QString& filePath, const TFileSerializerComp* loggerPtr)
+		ReadArchiveEx(const QString& filePath, const istd::ILogger* loggerPtr)
 		:	ReadArchive(filePath),
 			m_loggerPtr(loggerPtr)
 		{
@@ -79,7 +79,7 @@ protected:
 		}
 
 	private:
-		const TFileSerializerComp* m_loggerPtr;
+		const istd::ILogger* m_loggerPtr;
 	};
 
 	class WriteArchiveEx: public WriteArchive
@@ -87,7 +87,7 @@ protected:
 	public:
 		typedef WriteArchive BaseClass;
 
-		WriteArchiveEx(const QString& filePath, const iser::IVersionInfo* infoPtr, const TFileSerializerComp* loggerPtr)
+		WriteArchiveEx(const QString& filePath, const iser::IVersionInfo* infoPtr, const istd::ILogger* loggerPtr)
 		:	WriteArchive(filePath, infoPtr),
 			m_loggerPtr(loggerPtr)
 		{
@@ -118,15 +118,15 @@ protected:
 		}
 
 	private:
-		const TFileSerializerComp* m_loggerPtr;
+		const istd::ILogger* m_loggerPtr;
 	};
 
+protected:
 	/**
 		Called if read error is occurred.
 	*/
 	virtual void OnReadError(const ReadArchive& archive, const istd::IChangeable& data, const QString& filePath) const;
 
-protected:
 	I_ATTR(bool, m_autoCreateDirectoryAttrPtr);
 };
 
@@ -178,7 +178,7 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 		QFileInfo fileInfo(filePath);
 
 		if (!istd::CSystem::EnsurePathExists(fileInfo.dir().absolutePath())){
-			SendErrorMessage(MI_CANNOT_SAVE, QObject::tr("Cannot create path to file"));
+			SendErrorMessage(MI_FILE_NOT_EXIST, QObject::tr("Cannot create path to file"));
 		}
 	}
 

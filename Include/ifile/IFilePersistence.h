@@ -88,7 +88,21 @@ public:
 		/**
 			Data object could not be saved.
 		*/
-		MI_CANNOT_SAVE
+		MI_CANNOT_SAVE,
+
+		/**
+			File path has an unsupported file exptension.
+		*/
+		MI_BAD_EXTENSION,
+
+		/**
+			File or directory not exists.
+		*/
+		MI_FILE_NOT_EXIST,
+		/*
+			Version of file in no more supported.
+		*/
+		MI_UNSUPPORTED_VERSION
 	};
 
 	/**

@@ -23,12 +23,6 @@ class CFileTypeInfoComp:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	enum MessageId
-	{
-		MI_BAD_EXTENSION = 0xac10,
-		MI_UNSUPPORTED_VERSION
-	};
-
 	I_BEGIN_COMPONENT(CFileTypeInfoComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_ASSIGN_MULTI_0(m_fileExtensionsAttrPtr, "FileExtensions", "List of supported file extensions", false);

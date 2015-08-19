@@ -32,9 +32,7 @@ public:
 
 	enum MessageId
 	{
-		MI_BAD_EXTENSION = 0xa7d0,
-		MI_FILE_NOT_EXIST,
-		MI_BAD_FORMAT
+		MI_BAD_FORMAT = 0xe1a7d0
 	};
 
 	I_BEGIN_COMPONENT(CBitmapLoaderComp);

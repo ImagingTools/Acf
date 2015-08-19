@@ -192,7 +192,7 @@ int TXmlFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 		QFileInfo fileInfo(filePath);
 
 		if (!istd::CSystem::EnsurePathExists(fileInfo.dir().absolutePath())){
-			SendErrorMessage(MI_CANNOT_SAVE, QObject::tr("Cannot create path to file"));
+			SendErrorMessage(MI_FILE_NOT_EXIST, QObject::tr("Cannot create path to file"));
 		}
 	}
 
