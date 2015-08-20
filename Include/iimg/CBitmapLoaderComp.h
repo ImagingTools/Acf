@@ -38,6 +38,7 @@ public:
 	I_BEGIN_COMPONENT(CBitmapLoaderComp);
 		I_REGISTER_INTERFACE(ifile::IFileTypeInfo);
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
+		I_ASSIGN_MULTI_0(m_extensionFilterAttrPtr, "ExtensionFilter", "Optional filter of extensions, lowercase as returned by QT", false)
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFilePersistence)
@@ -66,6 +67,9 @@ protected:
 				bool forLoading,
 				bool forSaving,
 				bool useLog) const;
+
+private:
+	I_MULTIATTR(QByteArray, m_extensionFilterAttrPtr);
 };
 
 

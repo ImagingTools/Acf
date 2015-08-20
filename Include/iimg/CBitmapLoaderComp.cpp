@@ -5,6 +5,7 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QByteArray>
 #include <QtGui/QImageReader>
+#include <QtGui/QImageWriter>
 
 
 // ACF includes
@@ -149,20 +150,39 @@ int CBitmapLoaderComp::SaveToFile(
 
 // reimplemented (ifile::IFileTypeInfo)
 
-bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChangeable* /*dataObjectPtr*/, int /*flags*/, bool doAppend) const
+bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChangeable* /*dataObjectPtr*/, int flags, bool doAppend) const
 {
 	if (!doAppend){
 		result.clear();
 	}
 
-	QList<QByteArray> formatList = QImageReader::supportedImageFormats();
+	QSet<QByteArray> formatList;
 
-	for (		QList<QByteArray>::const_iterator iter = formatList.begin();
-				iter != formatList.end();
-				++iter){
-		const QByteArray& format = *iter;
+	if ((flags & QF_LOAD) != 0){
+		formatList += QImageReader::supportedImageFormats().toSet();
+	}
+	if ((flags & QF_SAVE) != 0){
+		formatList += QImageWriter::supportedImageFormats().toSet();
+	}
 
-		result.push_back(QString(format));
+	if (m_extensionFilterAttrPtr.IsValid()){
+		int extensionsCount = m_extensionFilterAttrPtr.GetCount();
+		for (int i = 0; i < extensionsCount; ++i){
+			const QByteArray& format = m_extensionFilterAttrPtr[i];
+
+			if (formatList.contains(format)){
+				result.push_back(QString(format));
+			}
+		}
+	}
+	else{
+		for (		QSet<QByteArray>::const_iterator iter = formatList.begin();
+					iter != formatList.end();
+					++iter){
+			const QByteArray& format = *iter;
+
+			result.push_back(QString(format));
+		}
 	}
 
 	return true;
@@ -171,15 +191,67 @@ bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChan
 
 QString CBitmapLoaderComp::GetTypeDescription(const QString* extensionPtr) const
 {
-	if (		(extensionPtr == NULL) ||
-				(extensionPtr->compare("bmp", Qt::CaseInsensitive) == 0) ||
-				(extensionPtr->compare("png", Qt::CaseInsensitive) == 0) ||
-				(extensionPtr->compare("jpeg", Qt::CaseInsensitive) == 0) ||
-				(extensionPtr->compare("jpg", Qt::CaseInsensitive) == 0)){
-		return tr("Bitmap");
+	if (extensionPtr != NULL){
+		if (		(extensionPtr->compare("jpeg", Qt::CaseInsensitive) == 0) ||
+					(extensionPtr->compare("jpg", Qt::CaseInsensitive) == 0)){
+			return tr("Joint Photographic Experts Group Image");
+		}
+
+		if (		(extensionPtr->compare("tiff", Qt::CaseInsensitive) == 0) ||
+					(extensionPtr->compare("tif", Qt::CaseInsensitive) == 0)){
+			return tr("Tagged Image File Format");
+		}
+
+		if (extensionPtr->compare("bmp", Qt::CaseInsensitive) == 0){
+			return tr("Windows Bitmap");
+		}
+
+		if (extensionPtr->compare("gif", Qt::CaseInsensitive) == 0){
+			return tr("Graphic Interchange Format");
+		}
+
+		if (extensionPtr->compare("png", Qt::CaseInsensitive) == 0){
+			return tr("Portable Network Graphics");
+		}
+
+		if (extensionPtr->compare("pbm", Qt::CaseInsensitive) == 0){
+			return tr("Portable Bitmap");
+		}
+
+		if (extensionPtr->compare("pgm", Qt::CaseInsensitive) == 0){
+			return tr("Portable Graymap");
+		}
+
+		if (extensionPtr->compare("ppm", Qt::CaseInsensitive) == 0){
+			return tr("Portable Pixmap");
+		}
+
+		if (extensionPtr->compare("xbm", Qt::CaseInsensitive) == 0){
+			return tr("X11 Bitmap");
+		}
+
+		if (extensionPtr->compare("xpm", Qt::CaseInsensitive) == 0){
+			return tr("X11 Pixmap");
+		}
+
+		if (extensionPtr->compare("svg", Qt::CaseInsensitive) == 0){
+			return tr("Scalable Vector Graphics");
+		}
+
+		if (extensionPtr->compare("svgz", Qt::CaseInsensitive) == 0){
+			return tr("Compressed Scalable Vector Graphics");
+		}
+
+		if (extensionPtr->compare("ico", Qt::CaseInsensitive) == 0){
+			return tr("Windows Icon");
+		}
+
+		if (extensionPtr->compare("icns", Qt::CaseInsensitive) == 0){
+			return tr("MAC Icon");
+		}
 	}
 
-	return "";
+	return tr("Bitmap");
 }
 
 
