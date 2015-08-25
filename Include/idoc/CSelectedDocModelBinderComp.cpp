@@ -101,7 +101,8 @@ void CSelectedDocModelBinderComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (		m_documentManagerCompPtr.IsValid() &&
+	if (		m_documentManagerModelCompPtr.IsValid() &&
+				m_documentManagerCompPtr.IsValid() &&
 				m_observedObjectCompPtr.IsValid() &&
 				m_modelCompPtr.IsValid()){
 		m_documentManagerModelCompPtr->AttachObserver(this);
