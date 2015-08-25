@@ -27,11 +27,12 @@ win32-msvc*{
 	QMAKE_CXXFLAGS += /wd4127 /wd4250 /wd4347 /wd4355 /wd4365 /wd4481 /wd4505 /wd4510 /wd4511 /wd4512 /wd4548 /wd4571 /wd4619 /wd4625 /wd4626 /wd4640 /wd4702 /wd4710 /wd4820 /wd4826
 	QMAKE_CXXFLAGS_WARN_ON = -W4
 	QMAKE_CXXFLAGS += /MP /openmp- /fp:fast
+	QMAKE_CXXFLAGS += -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS
 
-		# Qt-BUG 31516. Remove it after the fix in Qt!!!
-		QMAKE_CXXFLAGS += /wd4718
+	# Qt-BUG 31516. Remove it after the fix in Qt!!!
+	QMAKE_CXXFLAGS += /wd4718
 
-		win32-msvc2005{
+	win32-msvc2005{
 		COMPILER_NAME = VC8
 	}
 	win32-msvc2008{
@@ -107,11 +108,6 @@ AUXINCLUDEPATH = ../../../$$AUXINCLUDEDIR
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads
 	QMAKE_CXXFLAGS += -fno-threadsafe-statics
-}
-
-win32-msvc*{
-	# activate debug info also for release builds
-	QMAKE_LFLAGS += /DEBUG
 }
 
 # path definition
