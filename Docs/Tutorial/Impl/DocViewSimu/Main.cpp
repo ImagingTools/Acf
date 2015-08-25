@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 	icomp::TSimComponentWrap<BasePck::TextFileLoader> loaderComp;
 	loaderComp.InitComponent();
 
-	icomp::TSimComponentWrap<QtPck::ExtendedDocumentTemplate> documentTemplateComp;
+	icomp::TSimComponentWrap<QtGuiPck::ExtendedDocumentTemplate> documentTemplateComp;
 	documentTemplateComp.SetFactory("DocumentFactory", &modelFactoryComp);
 	documentTemplateComp.SetFactory("ViewFactory", &viewFactoryComp);
 	documentTemplateComp.SetRef("DocumentLoader", &loaderComp);
