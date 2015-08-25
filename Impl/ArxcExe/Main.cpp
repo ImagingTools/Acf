@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	oldFormatLoaderComp.InitComponent();
 
 	icomp::TSimComponentWrap<QtPck::CompactXmlFileSerializer> newFormatLoaderComp;
-	newFormatLoaderComp.InsertMultiAttr("FileExtensions", QString("carx"));
+	newFormatLoaderComp.InsertMultiAttr("FileExtensions", QString("xar"));
 	newFormatLoaderComp.SetRef("Log", &log);
 	newFormatLoaderComp.SetRef("VersionInfo", &applicationInfo);
 	newFormatLoaderComp.SetBoolAttr("EnableVerbose", verboseEnabled);
