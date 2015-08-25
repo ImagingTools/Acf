@@ -75,15 +75,18 @@ QString CSystem::GetNormalizedPath(const QString& path)
 QString CSystem::FindVariableValue(const QString& varName, bool envVars, bool embeddedVars)
 {
 	if (embeddedVars){
-		if (varName == "ConfigurationName"){
+		if (varName == "CompileMode"){
 #ifndef QT_NO_DEBUG
-			return "Debug" + FindVariableValue("CompilerName", false, embeddedVars);
+			return "Debug";
 #else // QT_NO_DEBUG
-			return "Release" + FindVariableValue("CompilerName", false, embeddedVars);
+			return "Release";
 #endif // !QT_NO_DEBUG
 		}
-		if (varName == "ConfigurationDir"){
-			return FindVariableValue("ConfigurationName", false, embeddedVars) + "/";
+		else if (varName == "ConfigurationName"){
+			return FindVariableValue("CompileMode", false, true) + FindVariableValue("CompilerName", false, true);
+		}
+		else if (varName == "ConfigurationDir"){
+			return FindVariableValue("ConfigurationName", false, true) + "/";
 		}
 		else if (varName == "CompilerName"){
 #ifdef __clang__
