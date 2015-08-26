@@ -28,7 +28,7 @@ public:
 	virtual bool GetValueAt(const double& argument, double& result) const;
 	virtual double GetValueAt(const double& argument) const;
 
-private:
+protected:
 	struct Node
 	{
 		double value;
