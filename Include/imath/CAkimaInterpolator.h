@@ -19,6 +19,12 @@ namespace imath
 class CAkimaInterpolator: public virtual IDoubleFunction
 {
 public:
+	struct Node
+	{
+		double value;
+		double derivative;
+	};
+
 	CAkimaInterpolator();
 	CAkimaInterpolator(double* positions, double* values, int nodesCount);
 
@@ -29,11 +35,6 @@ public:
 	virtual double GetValueAt(const double& argument) const;
 
 protected:
-	struct Node
-	{
-		double value;
-		double derivative;
-	};
 	typedef QMap<double, Node> Nodes;
 
 	Nodes m_nodes;
