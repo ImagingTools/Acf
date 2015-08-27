@@ -2,6 +2,7 @@
 
 
 // ACF includes
+#include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
@@ -198,6 +199,53 @@ bool CSelectionParam::Serialize(iser::IArchive& archive)
 	}
 
 	return retVal;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+bool CSelectionParam::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
+{
+	const CSelectionParam* sourcePtr = dynamic_cast<const CSelectionParam*>(&object);
+	if (sourcePtr != NULL)
+	{
+		switch (mode)
+		{
+		case CM_WITHOUT_REFS:
+			if (m_selectedOptionIndex != sourcePtr->m_selectedOptionIndex)
+			{
+				ChangeSet changeSet(CF_SELECTION_CHANGED, "Change selection");
+				istd::CChangeNotifier changeNotifier(this, &changeSet);
+
+				m_selectedOptionIndex = sourcePtr->m_selectedOptionIndex;
+
+				return true;
+			}
+			break;
+
+		case CM_WITH_REFS:
+			SetSelectionConstraints(m_constraintsPtr);
+			return SetSelectedOptionIndex(sourcePtr->GetSelectedOptionIndex());
+
+		default:
+			return false;
+		}
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CSelectionParam::CloneMe(CompatibilityMode mode) const
+{
+	istd::TDelPtr<CSelectionParam> clonePtr(new CSelectionParam);
+
+	if (clonePtr->CopyFrom(*this, mode))
+	{
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 
