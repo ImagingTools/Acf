@@ -135,6 +135,12 @@ public:
 	*/
 	void InsertElementAt(int index, const ElementType& element);
 
+	/**
+		Switch two elements.
+		This operation is done very performant without any allocation.
+	*/
+	void SwapElements(int index1, int index2);
+
 private:
 	typedef std::vector<ElementType> Elements;
 
@@ -308,6 +314,20 @@ void TPointerVector<Pointer, AccessAdapter>::InsertElementAt(int index, const El
 	Q_ASSERT(HasElement(AccessAdapter::GetPtr(element)) == InvalidIndex);
 
 	m_elements.insert(m_elements.begin() + index, element);
+}
+
+
+template <typename Pointer, class AccessAdapter>
+void TPointerVector<Pointer, AccessAdapter>::SwapElements(int index1, int index2)
+{
+	Q_ASSERT(index1 >= 0);
+	Q_ASSERT(index1 <= GetCount());
+	Q_ASSERT(index2 >= 0);
+	Q_ASSERT(index2 <= GetCount());
+
+	ElementType element1 = m_elements[index1];
+	m_elements[index1] = m_elements[index2];
+	m_elements[index2] = element1;
 }
 
 
