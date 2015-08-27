@@ -2,8 +2,6 @@ import qbs.base 1.0
 import AcfPackage as AcfPackage
 
 AcfPackage{
-	name: "QtPck"
-
 	files: ["../*.h", "../*.cpp"]
 
 	Depends{ name: "iqt" }

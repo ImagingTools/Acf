@@ -3,8 +3,6 @@ import AcfLibrary as AcfLibrary
 //import "../../../Config/Qbs/QtRules.qbs" as QtRules
 
 AcfLibrary{
-	name: "iwidgets"
-
 	files: ["../*.h", "../*.cpp", "../*.ui", "../*.qrc"]
 
 	Depends{ name: "iqt" }

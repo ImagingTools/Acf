@@ -2,8 +2,6 @@ import qbs.base 1.0
 import AcfLibrary as AcfLibrary
 
 AcfLibrary{
-	name: "iloggui"
-
 	files: ["../*.h", "../*.cpp", "../*.ui"]
 
 	Depends{ name: "iqtgui" }

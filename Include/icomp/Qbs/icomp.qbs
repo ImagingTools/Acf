@@ -2,8 +2,6 @@ import qbs.base 1.0
 import AcfLibrary as AcfLibrary
 
 AcfLibrary{
-	name: "icomp"
-
 	files: ["../*.h", "../*.cpp"]
 
 	Depends{ name: "imod" }
