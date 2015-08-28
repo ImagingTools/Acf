@@ -75,6 +75,15 @@ QString CSystem::GetNormalizedPath(const QString& path)
 QString CSystem::FindVariableValue(const QString& varName, bool envVars, bool embeddedVars)
 {
 	if (embeddedVars){
+		if (varName == "PlatformCode"){
+			if (sizeof(void*) > 4){
+				return "x64";
+			}
+			else{
+				return QString();
+			}
+		}
+
 		if (varName == "CompileMode"){
 #ifndef QT_NO_DEBUG
 			return "Debug";
