@@ -133,7 +133,13 @@ void CFilePreviewGuiComp::UpdateFilePreview()
 
 				m_lastModificationTimeStamp = QDateTime();
 
-				m_previewGenerationWatcher.setFuture(QtConcurrent::run(this, &CFilePreviewGuiComp::UpdateObjectFromFile));
+				if (*m_isAsynchronPreviewGenerationEnabledAttrPtr){
+					m_previewGenerationWatcher.setFuture(QtConcurrent::run(this, &CFilePreviewGuiComp::UpdateObjectFromFile));
+				}
+				else{
+					UpdateObjectFromFile();
+					OnPreviewGenerationFinished();
+				}
 			}
 		}
 		else{

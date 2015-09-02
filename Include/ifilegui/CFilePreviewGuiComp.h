@@ -40,6 +40,7 @@ public:
 		I_ASSIGN(m_currentPreviewObjectCompPtr, "CurrentPreviewObject", "Current object will be copied here if set", false, "CurrentPreviewObject");
 		I_ASSIGN(m_objectObserverCompPtr, "ObjectView", "View component for the object", true, "ObjectView");
 		I_ASSIGN_TO(m_objectGuiCompPtr, m_objectObserverCompPtr, true);
+		I_ASSIGN(m_isAsynchronPreviewGenerationEnabledAttrPtr, "AsynchronPreviewGenerationEnabled", "If enabled, the preview generation will be done in a separate thread", true, true);
 	I_END_COMPONENT;
 
 protected:
@@ -68,6 +69,7 @@ private:
 	I_REF(imod::IObserver, m_objectObserverCompPtr);
 	I_REF(iqtgui::IGuiObject, m_objectGuiCompPtr);	
 	I_REF(istd::IChangeable, m_currentPreviewObjectCompPtr);
+	I_ATTR(bool, m_isAsynchronPreviewGenerationEnabledAttrPtr);
 
 	QFileSystemWatcher m_fileSystemObserver;
 
