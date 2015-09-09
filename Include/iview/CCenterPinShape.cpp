@@ -27,7 +27,7 @@ void CCenterPinShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
+	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetObservedModel());
 	if (pinPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -62,7 +62,7 @@ bool CCenterPinShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 		return false;
 	}
 
-	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
+	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetObservedModel());
 	if (IsDisplayConnected() && (pinPtr != NULL)){
 		if (downFlag){
 			const IColorSchema& colorSchema = GetColorSchema();
@@ -92,7 +92,7 @@ bool CCenterPinShape::OnMouseMove(istd::CIndex2d position)
 		return false;
 	}
 
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		i2d::CPosition2d& pin = *dynamic_cast<i2d::CPosition2d*>(modelPtr);
 		Q_ASSERT(&pin != NULL);
@@ -116,7 +116,7 @@ i2d::CRect CCenterPinShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetModelPtr());
+	const i2d::CPosition2d* pinPtr = dynamic_cast<const i2d::CPosition2d*>(GetObservedModel());
 	if (pinPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 

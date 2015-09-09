@@ -36,7 +36,7 @@ void CAffineTransformation2dShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
+	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedModel());
 	if (transformationPtr == NULL){
 		return;
 	}
@@ -154,7 +154,7 @@ bool CAffineTransformation2dShape::OnModelAttached(imod::IModel* modelPtr, istd:
 
 ITouchable::TouchState CAffineTransformation2dShape::IsTouched(istd::CIndex2d position) const
 {
-	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(GetModelPtr());
+	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(GetObservedModel());
 	if (IsDisplayConnected() && (transformationPtr != NULL)){
 		const iview::IColorSchema& colorSchema = GetColorSchema();
 		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_NORMAL);
@@ -231,7 +231,7 @@ i2d::CRect CAffineTransformation2dShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
+	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedModel());
 	if (transformationPtr == NULL){
 		return i2d::CRect::GetEmpty();
 	}
@@ -270,7 +270,7 @@ void CAffineTransformation2dShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
 	m_referencePosition = reference;
 
-	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(GetModelPtr());
+	const i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(GetObservedModel());
 	if (transformationPtr == NULL){
 		return;
 	}
@@ -299,7 +299,7 @@ void CAffineTransformation2dShape::SetLogDragPosition(const i2d::CVector2d& posi
 		return;
 	}
 
-	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetModelPtr());
+	i2d::CAffineTransformation2d* transformationPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedModel());
 	if (transformationPtr == NULL){
 		return;
 	}

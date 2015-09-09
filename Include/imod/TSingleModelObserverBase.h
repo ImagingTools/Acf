@@ -31,6 +31,14 @@ public:
 
 	TSingleModelObserverBase();
 
+	/**
+		Get instance of observed object.
+	*/
+	ModelInterface* GetObservedObject() const;
+	/**
+		Get instance of observed object.
+		\deprecated use \c GetObservedObject instead.
+	*/
 	ModelInterface* GetObjectPtr() const;
 
 	/**
@@ -46,7 +54,7 @@ protected:
 	virtual ModelInterface* CastFromModel(imod::IModel* modelPtr) const;
 
 private:
-	ModelInterface* m_objectPtr;
+	ModelInterface* m_observedObjectPtr;
 };
 
 
@@ -55,14 +63,21 @@ private:
 template <class ModelInterface>
 TSingleModelObserverBase<ModelInterface>::TSingleModelObserverBase()
 {
-	m_objectPtr = NULL;
+	m_observedObjectPtr = NULL;
+}
+
+
+template <class ModelInterface>
+ModelInterface* TSingleModelObserverBase<ModelInterface>::GetObservedObject() const
+{
+	return m_observedObjectPtr;
 }
 
 
 template <class ModelInterface>
 ModelInterface* TSingleModelObserverBase<ModelInterface>::GetObjectPtr() const
 {
-	return m_objectPtr;
+	return m_observedObjectPtr;
 }
 
 
@@ -78,7 +93,7 @@ bool TSingleModelObserverBase<ModelInterface>::AttachOrSetObject(ModelInterface*
 		retVal = true;
 	}
 
-	m_objectPtr = objectPtr;
+	m_observedObjectPtr = objectPtr;
 
 	return retVal;
 }
@@ -89,17 +104,17 @@ bool TSingleModelObserverBase<ModelInterface>::AttachOrSetObject(ModelInterface*
 template <class ModelInterface>
 bool TSingleModelObserverBase<ModelInterface>::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask)
 {
-	m_objectPtr = CastFromModel(modelPtr);
+	m_observedObjectPtr = CastFromModel(modelPtr);
 
 	I_IF_DEBUG(
-		if (m_objectPtr == NULL){
+		if (m_observedObjectPtr == NULL){
 			QString exptectedObjectInterface = typeid(ModelInterface).name();
 
 			qDebug("Data model interface is not supported by this observer. Expected interface is: %s", qPrintable(exptectedObjectInterface));
 		}
 	)
 
-	if ((m_objectPtr != NULL) && BaseClass::OnModelAttached(modelPtr, changeMask)){
+	if ((m_observedObjectPtr != NULL) && BaseClass::OnModelAttached(modelPtr, changeMask)){
 		return true;
 	}
 
@@ -113,10 +128,10 @@ template <class ModelInterface>
 bool TSingleModelObserverBase<ModelInterface>::OnModelDetached(imod::IModel* modelPtr)
 {
 	if (BaseClass::OnModelDetached(modelPtr)){
-		// If model was correctly attached m_objectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
-		Q_ASSERT(m_objectPtr != NULL);
+		// If model was correctly attached m_observedObjectPtr cannot be NULL. OnDetach returns true only if model was correctly attached.
+		Q_ASSERT(m_observedObjectPtr != NULL);
 
-		m_objectPtr = NULL;
+		m_observedObjectPtr = NULL;
 
 		return true;
 	}

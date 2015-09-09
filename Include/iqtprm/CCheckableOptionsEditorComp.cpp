@@ -27,7 +27,7 @@ void CCheckableOptionsEditorComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::IOptionsManager* managerPtr = GetObjectPtr();
+	iprm::IOptionsManager* managerPtr = GetObservedObject();
 	if (managerPtr == NULL){
 		return;
 	}
@@ -63,7 +63,7 @@ void CCheckableOptionsEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& 
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::IOptionsManager* managerPtr = GetObjectPtr();
+	iprm::IOptionsManager* managerPtr = GetObservedObject();
 	if (managerPtr == NULL){
 		return;
 	}

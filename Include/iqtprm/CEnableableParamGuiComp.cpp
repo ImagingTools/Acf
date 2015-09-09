@@ -13,7 +13,7 @@ void CEnableableParamGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::IEnableableParam* objectPtr = GetObjectPtr();
+	iprm::IEnableableParam* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	UpdateBlocker updateBlocker(const_cast<CEnableableParamGuiComp*>(this));
@@ -35,7 +35,7 @@ void CEnableableParamGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iprm::IEnableableParam* objectPtr = GetObjectPtr();
+	iprm::IEnableableParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		
 		EnableableCheck->setChecked(objectPtr->IsEnabled());	
@@ -48,7 +48,7 @@ void CEnableableParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*ch
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::IEnableableParam* objectPtr = GetObjectPtr();
+	iprm::IEnableableParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		
 		EnableableCheck->setChecked(objectPtr->IsEnabled());

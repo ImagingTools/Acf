@@ -26,7 +26,7 @@ void CNameParamGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::INameParam* objectPtr = GetObjectPtr();
+	iprm::INameParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		objectPtr->SetName(NameEdit->text());
 	}
@@ -39,7 +39,7 @@ void CNameParamGuiComp::UpdateModel() const
 
 void CNameParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	iprm::INameParam* objectPtr = GetObjectPtr();
+	iprm::INameParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		NameEdit->setText(objectPtr->GetName());
 	}

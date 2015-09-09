@@ -15,7 +15,7 @@ void CImagePropertyGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*chan
 
 	PropertyTree->clear();
 
-	iimg::IBitmap* bitmapPtr = GetObjectPtr();
+	iimg::IBitmap* bitmapPtr = GetObservedObject();
 	if (bitmapPtr != NULL && IsGuiCreated()){
 		QTreeWidgetItem* widthItemPtr = new QTreeWidgetItem();
 		widthItemPtr->setText(0, tr("Width"));

@@ -17,7 +17,7 @@ void CRectangleParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CRectangle* objectPtr = GetObjectPtr();
+	i2d::CRectangle* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -60,7 +60,7 @@ void CRectangleParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*ch
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CRectangle* objectPtr = GetObjectPtr();
+	i2d::CRectangle* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		LeftSpin->setValue(objectPtr->GetLeft());
 		RightSpin->setValue(objectPtr->GetRight());

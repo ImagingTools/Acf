@@ -180,7 +180,7 @@ bool CLineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonTy
 
 	BaseClass::OnMouseButton(position, buttonType, downFlag);
 
-	const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(GetModelPtr());
+	const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(GetObservedModel());
 	if (linePtr != NULL){
 		EnsurePointsAreValid(*linePtr);
 
@@ -220,7 +220,7 @@ bool CLineShape::OnMouseMove(istd::CIndex2d position)
 		return false;
 	}
 
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 
 	if (modelPtr != NULL){
 		i2d::CLine2d& line = *dynamic_cast<i2d::CLine2d*>(modelPtr);
@@ -319,7 +319,7 @@ void CLineShape::BeginLogDrag(const i2d::CVector2d& reference)
 void CLineShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
 	if (IsEditablePosition()){
-		imod::IModel* modelPtr = GetModelPtr();
+		imod::IModel* modelPtr = GetObservedModel();
 		if (modelPtr != NULL){
 			i2d::CLine2d& line = *dynamic_cast<i2d::CLine2d*>(modelPtr);
 			Q_ASSERT(&line != NULL);

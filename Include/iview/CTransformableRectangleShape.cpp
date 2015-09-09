@@ -148,7 +148,7 @@ bool CTransformableRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::Mo
 
 bool CTransformableRectangleShape::OnMouseMove(istd::CIndex2d position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CParallelogram* parallelogramPtr = dynamic_cast<i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		const i2d::CAffine2d& parallTransform = parallelogramPtr->GetTransform();
@@ -213,7 +213,7 @@ void CTransformableRectangleShape::ResetNodes() const
 void CTransformableRectangleShape::EnsureValidNodes() const
 {
 	if (!AreNodesValid()){
-		const imod::IModel* modelPtr = GetModelPtr();
+		const imod::IModel* modelPtr = GetObservedModel();
 		const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(modelPtr);
 		if (parallelogramPtr != NULL){
 			const i2d::CAffine2d& parallTransform = parallelogramPtr->GetTransform();
@@ -319,7 +319,7 @@ bool CTransformableRectangleShape::IsTickerTouched(istd::CIndex2d position) cons
 
 bool CTransformableRectangleShape::IsFigureTouched(istd::CIndex2d position) const
 {
-	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(GetModelPtr());
+	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(GetObservedModel());
 	if (parallelogramPtr != NULL){
 		return IsParallTouched(parallelogramPtr->GetTransform(), position);
 	}
@@ -521,7 +521,7 @@ i2d::CAffine2d CTransformableRectangleShape::CalcRotatedTransform(
 
 void CTransformableRectangleShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		m_referencePosition = parallelogramPtr->GetCenter() - reference;
@@ -531,7 +531,7 @@ void CTransformableRectangleShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CTransformableRectangleShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CParallelogram* parallelogramPtr = dynamic_cast<i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		parallelogramPtr->MoveCenterTo(m_referencePosition + position);

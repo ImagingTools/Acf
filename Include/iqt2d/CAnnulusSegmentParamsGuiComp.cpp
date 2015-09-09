@@ -17,7 +17,7 @@ void CAnnulusSegmentParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
+	i2d::CAnnulusSegment* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -54,7 +54,7 @@ void CAnnulusSegmentParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet&
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAnnulusSegment* objectPtr = GetObjectPtr();
+	i2d::CAnnulusSegment* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 		XSpin->setValue(center.GetX());

@@ -43,7 +43,7 @@ CComposedParamsSetGuiComp::CComposedParamsSetGuiComp()
 
 void CComposedParamsSetGuiComp::UpdateModel() const
 {
-	Q_ASSERT(IsGuiCreated() && (GetObjectPtr() != NULL));
+	Q_ASSERT(IsGuiCreated() && (GetObservedObject() != NULL));
 
 	int editorsCount = m_editorsCompPtr.GetCount();
 	for (int i = 0; i < editorsCount; ++i){
@@ -312,7 +312,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 
 	iqt::CSignalBlocker blocker(m_guiContainerPtr);
 
-	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
+	iprm::IParamsSet* paramsSetPtr = GetObservedObject();
 	Q_ASSERT(paramsSetPtr != NULL);
 
 	int guiMode = *m_designTypeAttrPtr;
@@ -326,7 +326,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 		bool keepVisible = true;
 
 		if (!paramId.isEmpty()){
-			imod::IModel* parameterModelPtr = GetModelPtr();
+			imod::IModel* parameterModelPtr = GetObservedModel();
 			if (paramId != "*"){
 				iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
 				parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
@@ -467,7 +467,7 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 
 void CComposedParamsSetGuiComp::OnGuiModelDetached()
 {
-	iprm::IParamsSet* paramsSetPtr = GetObjectPtr();
+	iprm::IParamsSet* paramsSetPtr = GetObservedObject();
 	Q_ASSERT(paramsSetPtr != NULL);
 
 	iqt::CSignalBlocker blocker(m_guiContainerPtr);
@@ -512,7 +512,7 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 			continue;
 		}
 
-		imod::IModel* parameterModelPtr = GetModelPtr();
+		imod::IModel* parameterModelPtr = GetObservedModel();
 		if (paramId != "*"){
 			iser::ISerializable* parameterPtr = paramsSetPtr->GetEditableParameter(paramId);
 			parameterModelPtr = dynamic_cast<imod::IModel*>(parameterPtr);
@@ -558,7 +558,7 @@ void CComposedParamsSetGuiComp::OnEditorChanged(int index)
 
 void CComposedParamsSetGuiComp::on_LoadParamsButton_clicked()
 {
-	iprm::IParamsSet* objectPtr = GetObjectPtr();
+	iprm::IParamsSet* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		m_paramsLoaderCompPtr->LoadFromFile(*objectPtr);
 	}
@@ -567,7 +567,7 @@ void CComposedParamsSetGuiComp::on_LoadParamsButton_clicked()
 
 void CComposedParamsSetGuiComp::on_SaveParamsButton_clicked()
 {
-	iprm::IParamsSet* objectPtr = GetObjectPtr();
+	iprm::IParamsSet* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		m_paramsLoaderCompPtr->SaveToFile(*objectPtr);
 	}

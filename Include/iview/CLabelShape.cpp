@@ -39,7 +39,7 @@ bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonT
 
 	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
-	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetObservedModel());
 	if (labelPtr != NULL){
 		if (downFlag){
 			const IColorSchema& colorSchema = GetColorSchema();
@@ -82,7 +82,7 @@ bool CLabelShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonT
 
 bool CLabelShape::OnMouseMove(istd::CIndex2d position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		i2d::CLabel& label = *dynamic_cast<i2d::CLabel*>(modelPtr);
 		Q_ASSERT(&label != NULL);
@@ -120,7 +120,7 @@ void CLabelShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetObservedModel());
 	if (labelPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -204,7 +204,7 @@ ITouchable::TouchState CLabelShape::IsTouched(istd::CIndex2d position) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetObservedModel());
 	if (labelPtr != NULL){
 		if (IsPositionVisible()){
 			ITouchable::TouchState touchState = BaseClass::IsTouched(position);
@@ -241,7 +241,7 @@ ITouchable::TouchState CLabelShape::IsTouched(istd::CIndex2d position) const
 void CLabelShape::CalculateTextOriginSize(i2d::CRect& textBox) const
 {
 	const IDisplay* displayPtr = GetDisplayPtr();
-	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetObservedModel());
 	if (IsDisplayConnected() && (displayPtr != NULL) && (labelPtr != NULL)){
 		const IColorSchema& colorSchema = GetColorSchema();
 		const QFont& font = colorSchema.GetFont(iview::IColorSchema::SF_NORMAL);
@@ -347,7 +347,7 @@ i2d::CRect CLabelShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetModelPtr());
+	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(GetObservedModel());
 	if (labelPtr != NULL){
 		i2d::CRect boundingBox = i2d::CRect::GetEmpty();
 

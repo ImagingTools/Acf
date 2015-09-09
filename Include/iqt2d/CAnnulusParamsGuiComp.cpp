@@ -17,7 +17,7 @@ void CAnnulusParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAnnulus* objectPtr = GetObjectPtr();
+	i2d::CAnnulus* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -42,7 +42,7 @@ void CAnnulusParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*chan
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAnnulus* objectPtr = GetObjectPtr();
+	i2d::CAnnulus* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 		XSpin->setValue(center.GetX());

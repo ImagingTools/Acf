@@ -145,7 +145,7 @@ QString TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetUnitName() const
 {
 	const imath::IUnitInfo* unitInfoPtr = m_defaultUnitInfoAttrPtr.GetPtr();
 
-	const ShapeModel* objectPtr = BaseClass::GetObjectPtr();
+	const ShapeModel* objectPtr = BaseClass::GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::ICalibrationProvider* calibrationProviderPtr = dynamic_cast<const i2d::ICalibrationProvider*>(objectPtr);
 		if (calibrationProviderPtr != NULL){
@@ -176,7 +176,7 @@ typename Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInsta
 template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*/, Shapes& result)
 {
-	iview::IShape* shapePtr = CreateShape(BaseClass::GetObjectPtr(), true);
+	iview::IShape* shapePtr = CreateShape(BaseClass::GetObservedObject(), true);
 	if (shapePtr != NULL){
 		if (m_colorSchemaCompPtr.IsValid()){
 			shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());

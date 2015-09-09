@@ -68,7 +68,7 @@ void CSelectableParamsSetGuiComp::EnsureDetachLastEditor()
 
 	int observerIndex = qMin(m_currentParamsSetIndex, observersCount - 1);
 
-	iprm::IParamsSet* paramsSetPtr = dynamic_cast<iprm::IParamsSet*>(GetObjectPtr());
+	iprm::IParamsSet* paramsSetPtr = dynamic_cast<iprm::IParamsSet*>(GetObservedObject());
 	if (paramsSetPtr != NULL && observerIndex >= 0){
 		imod::IObserver* observerPtr = m_slaveObserversCompPtr[observerIndex];
 		imod::IModel* paramsSetModelPtr = dynamic_cast<imod::IModel*>(paramsSetPtr);
@@ -85,7 +85,7 @@ void CSelectableParamsSetGuiComp::EnsureDetachLastEditor()
 
 void CSelectableParamsSetGuiComp::ConnectCurrentEditor()
 {
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	if (selectionPtr != NULL){
 		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 

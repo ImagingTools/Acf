@@ -99,7 +99,7 @@ bool CAnnulusShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 
 	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
-	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetModelPtr());
+	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetObservedModel());
 	if (annulusPtr != NULL){
 		if (downFlag && IsEditableRadius()){
 			const IColorSchema& colorSchema = GetColorSchema();
@@ -159,7 +159,7 @@ bool CAnnulusShape::OnMouseMove(istd::CIndex2d position)
 		return BaseClass::OnMouseMove(position);
 	}
 
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CAnnulus& annulus = *dynamic_cast<i2d::CAnnulus*>(modelPtr);
 	Q_ASSERT(&annulus != NULL);
 
@@ -193,7 +193,7 @@ void CAnnulusShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	Q_ASSERT(modelPtr != NULL);
 
 	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
@@ -281,7 +281,7 @@ ITouchable::TouchState CAnnulusShape::IsTouched(istd::CIndex2d position) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	const i2d::CAnnulus& annulus = *dynamic_cast<const i2d::CAnnulus*>(modelPtr);
 	Q_ASSERT(&annulus != NULL);
 
@@ -378,7 +378,7 @@ i2d::CRect CAnnulusShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetModelPtr());
+	const i2d::CAnnulus* annulusPtr = dynamic_cast<const i2d::CAnnulus*>(GetObservedModel());
 	if (annulusPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 

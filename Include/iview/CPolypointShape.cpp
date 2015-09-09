@@ -48,7 +48,7 @@ void CPolypointShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
 		Q_ASSERT(&polypoint != NULL);
@@ -92,7 +92,7 @@ i2d::CRect CPolypointShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const i2d::CPolypoint& polypoint = *dynamic_cast<const i2d::CPolypoint*>(modelPtr);
 		Q_ASSERT(&polypoint != NULL);

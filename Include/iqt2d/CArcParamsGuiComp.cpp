@@ -17,7 +17,7 @@ void CArcParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CArc* objectPtr = GetObjectPtr();
+	i2d::CArc* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -38,7 +38,7 @@ void CArcParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSe
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CArc* objectPtr = GetObjectPtr();
+	i2d::CArc* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 

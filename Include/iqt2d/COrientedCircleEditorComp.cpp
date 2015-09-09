@@ -14,7 +14,7 @@ void COrientedCircleEditorComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::COrientedCircle* objectPtr = GetObjectPtr();
+	i2d::COrientedCircle* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -37,7 +37,7 @@ void COrientedCircleEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& /*
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::COrientedCircle* objectPtr = GetObjectPtr();
+	i2d::COrientedCircle* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& center = objectPtr->GetCenter();
 

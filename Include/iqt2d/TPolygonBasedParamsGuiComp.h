@@ -107,7 +107,7 @@ protected:
 	virtual void OnToolsButtonMenuActionTriggered(QAction* action);
 
 protected:
-	using BaseClass::GetObjectPtr;
+	using BaseClass::GetObservedObject;
 	using BaseClass::DoUpdateModel;
 	using BaseClass::NodeParamsTable;
 	using BaseClass::tr;
@@ -145,7 +145,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateMod
 {
 	Q_ASSERT(BaseClass::IsGuiCreated());
 
-	i2d::CPolygon* objectPtr = GetObjectPtr();
+	i2d::CPolygon* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	PolygonBasedModel editorObject;
@@ -210,7 +210,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnInsertN
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnCopyData()
 {
-	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObjectPtr());
+	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObservedObject());
 	if (objectPtr == NULL){
 		return;
 	}
@@ -231,7 +231,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnCopyDat
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnPasteData()
 {
-	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObjectPtr());
+	PolygonBasedModel* objectPtr = dynamic_cast<PolygonBasedModel*>(GetObservedObject());
 	if (objectPtr == NULL){
 		return;
 	}
@@ -292,7 +292,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateGui
 {
 	Q_ASSERT(BaseClass::IsGuiCreated());
 
-	i2d::CPolygon* objectPtr = GetObjectPtr();
+	i2d::CPolygon* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		NodeParamsTable->clearContents();
 
@@ -352,8 +352,8 @@ template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToolsMenuButton()
 {
 	BaseClass::ToolsButton->setHidden(true);
-	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(BaseClass::GetModelPtr());
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetModelPtr());
+	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(BaseClass::GetObservedModel());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetObservedModel());
 
 	if (polylinePtr != NULL || polygonPtr != NULL){
 		BaseClass::ToolsButton->setHidden(false);

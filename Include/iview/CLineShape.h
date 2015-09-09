@@ -108,7 +108,7 @@ protected:
 inline void CLineShape::EnsurePointsAreValid() const
 {
 	if (!m_arePointsValid){
-		const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(GetModelPtr());
+		const i2d::CLine2d* linePtr = dynamic_cast<const i2d::CLine2d*>(GetObservedModel());
 		if (linePtr != NULL){
 			CalcPoints(*linePtr);
 		}

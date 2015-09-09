@@ -74,7 +74,7 @@ void CCommandBasedSelectionControllerComp::OnCommandActivated()
 	QAction* actionPtr = dynamic_cast<QAction*>(sender());
 	Q_ASSERT(actionPtr != NULL);
 
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	Q_ASSERT(selectionPtr != NULL);
 
 	int optionIndex = actionPtr->data().toInt();
@@ -88,7 +88,7 @@ void CCommandBasedSelectionControllerComp::OnCommandActivated()
 
 void CCommandBasedSelectionControllerComp::BuildCommands()
 {
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	Q_ASSERT(selectionPtr != NULL);
 
 	ChangeSet commandsChangeSet(CF_COMMANDS);

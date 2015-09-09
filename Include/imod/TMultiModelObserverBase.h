@@ -24,6 +24,15 @@ public:
 	typedef CMultiModelObserverBase BaseClass;
 	typedef ModelInterface ModelType;
 
+	/**
+		Get instance of observed object.
+		\param	objectIndex index of object
+	*/
+	ModelInterface* GetObservedObject(int objectIndex) const;
+	/**
+		Get instance of observed object.
+		\deprecated use \c GetObservedObject instead.
+	*/
 	ModelInterface* GetObjectPtr(int objectIndex) const;
 
 	// reimplemented (imod::IObserver)
@@ -34,14 +43,24 @@ public:
 // public methods
 
 template<class ModelInterface>
+ModelInterface* TMultiModelObserverBase<ModelInterface>::GetObservedObject(int objectIndex) const
+{
+	Q_ASSERT(objectIndex >= 0);
+	Q_ASSERT(objectIndex < GetModelCount());
+
+	return dynamic_cast<ModelInterface*>(GetObservedModel(objectIndex));
+}
+
+
+template<class ModelInterface>
 ModelInterface* TMultiModelObserverBase<ModelInterface>::GetObjectPtr(int objectIndex) const
 {
 	Q_ASSERT(objectIndex >= 0);
 	Q_ASSERT(objectIndex < GetModelCount());
 
-	return dynamic_cast<ModelInterface*>(GetModelPtr(objectIndex));
+	return dynamic_cast<ModelInterface*>(GetObservedModel(objectIndex));
 }
-	
+
 
 // reimplemented (imod::IObserver)
 

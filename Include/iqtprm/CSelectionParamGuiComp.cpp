@@ -19,7 +19,7 @@ void CSelectionParamGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iprm::ISelectionParam* selectionParamsPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionParamsPtr = GetObservedObject();
 	if (selectionParamsPtr != NULL){
 		const iprm::IOptionsList* constraintsPtr = selectionParamsPtr->GetSelectionConstraints();
 		if (constraintsPtr != NULL){
@@ -142,7 +142,7 @@ void CSelectionParamGuiComp::OnSelectionChanged(int /*index*/)
 	if (!IsUpdateBlocked()){
 		UpdateBlocker updateBlocker(this);
 
-		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+		iprm::ISelectionParam* selectionPtr = GetObservedObject();
 		if (selectionPtr != NULL){
 			int switchesCount = m_comboBoxes.GetCount();
 
@@ -182,7 +182,7 @@ void CSelectionParamGuiComp::OnRadioButtonSelectionChanged(bool isSelected)
 	QRadioButton* senderPtr = dynamic_cast<QRadioButton*>(sender());
 	Q_ASSERT(senderPtr != NULL);
 
-	iprm::ISelectionParam* objectPtr = GetObjectPtr();
+	iprm::ISelectionParam* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 	if (objectPtr != NULL){
 		bool needUpdateGui = false;
@@ -211,7 +211,7 @@ void CSelectionParamGuiComp::OnRadioButtonSelectionChanged(bool isSelected)
 
 void CSelectionParamGuiComp::OnResetButtonClicked()
 {
-	iprm::ISelectionParam* objectPtr = GetObjectPtr();
+	iprm::ISelectionParam* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 	if (objectPtr != NULL){
 		objectPtr->SetSelectedOptionIndex(-1);
@@ -231,7 +231,7 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 	}
 
 	int switchIndex = 0;
-	for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	for (		iprm::ISelectionParam* selectionPtr = GetObservedObject();
 				selectionPtr != NULL;
 				selectionPtr = GetActiveSubselection(selectionPtr), ++switchIndex){
 		QComboBox* switchBoxPtr = NULL;
@@ -301,7 +301,7 @@ void CSelectionParamGuiComp::UpdateRadioButtonView()
 	m_radioButtonGroups.Reset();
 	m_radioButtonFramePtr.Reset();
 
-	for (		iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	for (		iprm::ISelectionParam* selectionPtr = GetObservedObject();
 				selectionPtr != NULL;
 				selectionPtr = GetActiveSubselection(selectionPtr)){
 		QLayout* mainLayoutPtr = SelectionFrame->layout();
@@ -385,7 +385,7 @@ void CSelectionParamGuiComp::UpdateDescriptionFrame()
 		return;
 	}
 
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	if (selectionPtr != NULL){
 		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 		

@@ -31,6 +31,12 @@ public:
 		Get access to observed model.
 		\return	pointer to observed model, or NULL if no model is connected.
 	*/
+	imod::IModel* GetObservedModel() const;
+	/**
+		Get access to observed model.
+		\deprecated use \c GetObservedModel instead.
+		\return	pointer to observed model, or NULL if no model is connected.
+	*/
 	imod::IModel* GetModelPtr() const;
 	/**
 		Make sure this observer is detached.
@@ -73,6 +79,12 @@ private:
 
 
 // inline methods
+
+inline imod::IModel* CSingleModelObserverBase::GetObservedModel() const
+{
+	return m_modelPtr;
+}
+
 
 inline imod::IModel* CSingleModelObserverBase::GetModelPtr() const
 {

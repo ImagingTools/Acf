@@ -13,7 +13,7 @@ void CFileListProviderGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*c
 {
 	Q_ASSERT(IsGuiCreated());
 
-	ifile::IFileListProvider* objectPtr = GetObjectPtr();
+	ifile::IFileListProvider* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		FileList->clear();
 

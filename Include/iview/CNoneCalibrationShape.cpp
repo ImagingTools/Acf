@@ -235,7 +235,7 @@ bool CNoneCalibrationShape::OnMouseMove(istd::CIndex2d /*position*/)
 
 const i2d::ICalibration2d* CNoneCalibrationShape::GetCalibrationPtr() const
 {
-	const i2d::ICalibration2d* calibrationPtr = dynamic_cast<const i2d::ICalibration2d*>(GetModelPtr());
+	const i2d::ICalibration2d* calibrationPtr = dynamic_cast<const i2d::ICalibration2d*>(GetObservedModel());
 	if (calibrationPtr == NULL){
 		const iview::IDisplay* displayPtr = GetDisplayPtr();
 		while (displayPtr != NULL){

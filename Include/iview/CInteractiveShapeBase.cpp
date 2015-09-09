@@ -115,7 +115,7 @@ void CInteractiveShapeBase::BeginDrag(const istd::CIndex2d& position)
 void CInteractiveShapeBase::SetDragPosition(const istd::CIndex2d& position)
 {
 	if (!m_dragNotifierPtr.IsValid()){
-		istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+		istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetObservedModel());
 
 		static const istd::IChangeable::ChangeSet dragChangeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION, "Drag object");
 		m_dragNotifierPtr.SetPtr(new istd::CChangeGroup(objectPtr, &dragChangeSet));
@@ -137,7 +137,7 @@ void CInteractiveShapeBase::EndDrag()
 
 void CInteractiveShapeBase::BeginTickerDrag()
 {
-	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetModelPtr());
+	istd::IChangeable* objectPtr = dynamic_cast<istd::IChangeable*>(GetObservedModel());
 	static const istd::IChangeable::ChangeSet dragChangeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION, "Drag object");
 	m_dragNotifierPtr.SetPtr(new istd::CChangeGroup(objectPtr, &dragChangeSet));
 

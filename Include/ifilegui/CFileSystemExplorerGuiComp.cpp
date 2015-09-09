@@ -48,7 +48,7 @@ void CFileSystemExplorerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /
 {
 	Q_ASSERT(IsGuiCreated());
 
-	ifile::IFileNameParam* objectPtr = GetObjectPtr();
+	ifile::IFileNameParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		QString currentFilePath = istd::CSystem::GetEnrolledPath(objectPtr->GetPath());
 
@@ -186,7 +186,7 @@ void CFileSystemExplorerGuiComp::OnSelectionChanged(const QItemSelection& select
 	UpdateBlocker blocker(this);
 
 	if (!selected.indexes().isEmpty()){
-		ifile::IFileNameParam* objectPtr = GetObjectPtr();
+		ifile::IFileNameParam* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			QModelIndex selectedIndex = selected.indexes().at(0);
 

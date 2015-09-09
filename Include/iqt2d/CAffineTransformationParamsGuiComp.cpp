@@ -11,7 +11,7 @@ void CAffineTransformationParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObjectPtr());
+	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedObject());
 	if (objectPtr != NULL){
 		i2d::CVector2d translation(TranslationSpinX->value(), TranslationSpinY->value());
 		if (objectPtr->GetTransformation().GetTranslation() != translation){
@@ -58,7 +58,7 @@ void CAffineTransformationParamsGuiComp::UpdateGui(const istd::IChangeable::Chan
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObjectPtr());
+	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedObject());
 	if (objectPtr != NULL){
 		i2d::CVector2d translation = objectPtr->GetTransformation().GetTranslation();
 
@@ -81,7 +81,7 @@ void CAffineTransformationParamsGuiComp::OnParamsChanged(double /*value*/)
 
 void CAffineTransformationParamsGuiComp::on_ResetButton_clicked(bool)
 {
-	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObjectPtr());
+	i2d::CAffineTransformation2d* objectPtr = dynamic_cast<i2d::CAffineTransformation2d*>(GetObservedObject());
 	if (objectPtr != NULL){
 		objectPtr->Reset();
 	}

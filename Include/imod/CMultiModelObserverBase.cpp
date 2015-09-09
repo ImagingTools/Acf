@@ -19,6 +19,15 @@ CMultiModelObserverBase::~CMultiModelObserverBase()
 }
 
 
+IModel* CMultiModelObserverBase::GetObservedModel(int modelIndex) const
+{
+	Q_ASSERT(modelIndex >= 0);
+	Q_ASSERT(modelIndex < GetModelCount());
+
+	return m_models.at(modelIndex);
+}
+
+
 IModel* CMultiModelObserverBase::GetModelPtr(int modelIndex) const
 {
 	Q_ASSERT(modelIndex >= 0);

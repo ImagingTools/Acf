@@ -128,7 +128,7 @@ bool CParallelogramShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton
 
 bool CParallelogramShape::OnMouseMove(istd::CIndex2d position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CParallelogram* parallelogramPtr = dynamic_cast<i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		const i2d::CAffine2d& parallTransform = parallelogramPtr->GetTransform();
@@ -288,7 +288,7 @@ void CParallelogramShape::ResetNodes() const
 void CParallelogramShape::EnsureValidNodes() const
 {
 	if (!AreNodesValid()){
-		const imod::IModel* modelPtr = GetModelPtr();
+		const imod::IModel* modelPtr = GetObservedModel();
 		const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(modelPtr);
 		if (parallelogramPtr != NULL){
 			const i2d::CAffine2d& parallTransform = parallelogramPtr->GetTransform();
@@ -332,7 +332,7 @@ bool CParallelogramShape::IsTickerTouched(istd::CIndex2d position) const
 
 bool CParallelogramShape::IsFigureTouched(istd::CIndex2d position) const
 {
-	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(GetModelPtr());
+	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(GetObservedModel());
 	if (IsDisplayConnected() && (parallelogramPtr != NULL)){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -445,7 +445,7 @@ i2d::CRect CParallelogramShape::CalcBoundingBox() const
 
 void CParallelogramShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	const i2d::CParallelogram* parallelogramPtr = dynamic_cast<const i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		m_referencePosition = parallelogramPtr->GetCenter() - reference;
@@ -455,7 +455,7 @@ void CParallelogramShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CParallelogramShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CParallelogram* parallelogramPtr = dynamic_cast<i2d::CParallelogram*>(modelPtr);
 	if (parallelogramPtr != NULL){
 		parallelogramPtr->MoveCenterTo(m_referencePosition + position);

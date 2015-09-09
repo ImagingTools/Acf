@@ -31,7 +31,7 @@ void COrientedCircleShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::COrientedCircle* circlePtr = dynamic_cast<const i2d::COrientedCircle*>(GetModelPtr());
+	const i2d::COrientedCircle* circlePtr = dynamic_cast<const i2d::COrientedCircle*>(GetObservedModel());
 	if (circlePtr != NULL){
 		const i2d::CVector2d& center = circlePtr->GetCenter();
 		double radius = circlePtr->GetRadius();

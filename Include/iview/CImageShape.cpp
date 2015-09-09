@@ -31,7 +31,7 @@ CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPt
 
 void CImageShape::Draw(QPainter& drawContext) const
 {
-	const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(GetModelPtr());
+	const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(GetObservedModel());
 	if (IsDisplayConnected() && bitmapPtr != NULL){
 		ibase::CSize bitmapSize = bitmapPtr->GetImageSize();
 		if (!bitmapSize.IsNull()){
@@ -95,7 +95,7 @@ i2d::CRect CImageShape::CalcBoundingBox() const
 {
 	i2d::CRect boundingBox = i2d::CRect::GetEmpty();
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const iimg::IBitmap& model = *dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(&model != NULL);
@@ -123,7 +123,7 @@ i2d::CRect CImageShape::CalcBoundingBox() const
 
 ITouchable::TouchState CImageShape::IsTouched(istd::CIndex2d position) const
 {
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);
@@ -147,7 +147,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 {
 	QString retVal;
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);

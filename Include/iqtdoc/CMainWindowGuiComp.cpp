@@ -74,7 +74,7 @@ bool CMainWindowGuiComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 	bool retVal = BaseClass2::OnModelAttached(modelPtr, changeMask);
 
 	if (retVal){
-		const idoc::IDocumentManager* managerPtr = GetObjectPtr();
+		const idoc::IDocumentManager* managerPtr = GetObservedObject();
 		if (managerPtr != NULL){
 			m_fileCommand.ResetChilds();
 			m_editCommand.ResetChilds();
@@ -102,7 +102,7 @@ bool CMainWindowGuiComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 
 			// Create recent file list:
 			if (showOpenCommand){
-				const idoc::IDocumentManager* managerPtr = GetObjectPtr();
+				const idoc::IDocumentManager* managerPtr = GetObservedObject();
 				if (managerPtr != NULL){
 					idoc::IDocumentTypesInfo::Ids ids = managerPtr->GetDocumentTypeIds();
 					for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
@@ -207,13 +207,13 @@ void CMainWindowGuiComp::OnActiveViewChanged()
 
 void CMainWindowGuiComp::OnActiveDocumentChanged()
 {
-	imod::IModel* oldModelPtr = m_activeUndoManager.GetModelPtr();
+	imod::IModel* oldModelPtr = m_activeUndoManager.GetObservedModel();
 	if (oldModelPtr != NULL){
 		oldModelPtr->DetachObserver(&m_activeUndoManager);
 	}
 
 	bool hasUndoManager = false;
-	idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
+	idoc::IDocumentManager* documentManagerPtr = GetObservedObject();
 	if (documentManagerPtr != NULL){
 		imod::IModel* activeUndoManagerModelPtr = dynamic_cast<imod::IModel*>(documentManagerPtr->GetUndoManagerForDocument(m_activeDocumentPtr));
 		if (activeUndoManagerModelPtr != NULL){
@@ -334,7 +334,7 @@ bool CMainWindowGuiComp::HasDocumentTemplate() const
 
 void CMainWindowGuiComp::UpdateUndoMenu()
 {
-	idoc::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObjectPtr();
+	idoc::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObservedObject();
 	if (undoManagerPtr != NULL){
 		m_undoCommand.SetEnabled(undoManagerPtr->IsUndoAvailable());
 		m_redoCommand.SetEnabled(undoManagerPtr->IsRedoAvailable());
@@ -703,7 +703,7 @@ void CMainWindowGuiComp::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
 	static const istd::IChangeable::ChangeSet commandsChangeSet(ibase::ICommandsProvider::CF_COMMANDS);
 
 	if (changeSet.Contains(idoc::IDocumentManager::CF_VIEW_ACTIVATION_CHANGED)){
-		idoc::IDocumentManager* documentManagerPtr = GetObjectPtr();
+		idoc::IDocumentManager* documentManagerPtr = GetObservedObject();
 		if (documentManagerPtr != NULL){
 			istd::IChangeable* documentPtr = NULL;
 
@@ -898,9 +898,9 @@ void CMainWindowGuiComp::OnQuit()
 
 void CMainWindowGuiComp::OnUndo()
 {
-	Q_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
+	Q_ASSERT(m_activeUndoManager.GetObservedObject() != NULL);
 
-	m_activeUndoManager.GetObjectPtr()->DoUndo();
+	m_activeUndoManager.GetObservedObject()->DoUndo();
 
 	UpdateUndoMenu();
 }
@@ -908,9 +908,9 @@ void CMainWindowGuiComp::OnUndo()
 
 void CMainWindowGuiComp::OnRedo()
 {
-	Q_ASSERT(m_activeUndoManager.GetObjectPtr() != NULL);
+	Q_ASSERT(m_activeUndoManager.GetObservedObject() != NULL);
 
-	m_activeUndoManager.GetObjectPtr()->DoRedo();
+	m_activeUndoManager.GetObservedObject()->DoRedo();
 
 	UpdateUndoMenu();
 }

@@ -38,7 +38,7 @@ void COptionsManagerGuiComp::UpdateModel() const
 		return;
 	}
 
-	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObjectPtr());
+	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObservedObject());
 	if (selectionPtr != NULL){
 		selectionPtr->SetSelectedOptionIndex(Selector->currentIndex());
 	}
@@ -53,7 +53,7 @@ void COptionsManagerGuiComp::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObjectPtr());
+	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObservedObject());
 	if (selectionPtr != NULL){
 		const iprm::IOptionsList* constraintsPtr = selectionPtr->GetSelectionConstraints();
 		if (constraintsPtr != NULL){
@@ -64,7 +64,7 @@ void COptionsManagerGuiComp::OnGuiModelAttached()
 		}
 	}
 
-	iprm::IOptionsManager* optionManagerPtr = GetObjectPtr();
+	iprm::IOptionsManager* optionManagerPtr = GetObservedObject();
 	if (optionManagerPtr != NULL){
 		Selector->setEditable(true);
 
@@ -92,7 +92,7 @@ void COptionsManagerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& chang
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::IOptionsManager* optionManagerPtr = GetObjectPtr();
+	iprm::IOptionsManager* optionManagerPtr = GetObservedObject();
 	if (optionManagerPtr != NULL){
 		int supplortedFlags = optionManagerPtr->GetOptionOperationFlags();
 
@@ -243,7 +243,7 @@ void COptionsManagerGuiComp::OnEditingFinished()
 	}
 
 	QString newOptionName;
-	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObjectPtr());
+	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObservedObject());
 	if (nameParamsPtr != NULL){
 		newOptionName = nameParamsPtr->GetName();
 	}
@@ -253,7 +253,7 @@ void COptionsManagerGuiComp::OnEditingFinished()
 	}
 
 	bool addNewOption = true;
-	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObjectPtr());
+	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObservedObject());
 	if (selectionPtr != NULL){
 		const iprm::IOptionsList* constraintsPtr = selectionPtr->GetSelectionConstraints();
 		if (constraintsPtr != NULL){
@@ -272,7 +272,7 @@ void COptionsManagerGuiComp::OnEditingFinished()
 			}
 		}
 
-		iprm::IOptionsManager* optionManagerPtr = GetObjectPtr();
+		iprm::IOptionsManager* optionManagerPtr = GetObservedObject();
 		if ((optionManagerPtr != NULL) && addNewOption){
 			optionManagerPtr->InsertOption(newOptionName, newOptionName.toLocal8Bit());
 		}
@@ -288,7 +288,7 @@ void COptionsManagerGuiComp::OnTextChanged(const QString& text)
 		return;
 	}
 
-	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObjectPtr());
+	iprm::INameParam* nameParamsPtr = CompCastPtr<iprm::INameParam>(GetObservedObject());
 	if (nameParamsPtr != NULL){
 		UpdateBlocker updateBlocker(this);
 
@@ -313,7 +313,7 @@ void COptionsManagerGuiComp::UpdateComboBox()
 {
 	Selector->clear();
 
-	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObjectPtr());
+	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObservedObject());
 	if (selectionPtr != NULL){
 		m_isUpdateBlocked = true;
 
@@ -345,7 +345,7 @@ void COptionsManagerGuiComp::UpdateDescriptionFrame()
 {
 	DescriptionFrame->setVisible(false);
 
-	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObjectPtr());
+	iprm::ISelectionParam* selectionPtr = CompCastPtr<iprm::ISelectionParam>(GetObservedObject());
 	if (selectionPtr != NULL){
 		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 

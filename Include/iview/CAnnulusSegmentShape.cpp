@@ -39,7 +39,7 @@ bool CAnnulusSegmentShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButto
 
 	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
-	const i2d::CAnnulusSegment* objectPtr = dynamic_cast<const i2d::CAnnulusSegment*>(GetModelPtr());
+	const i2d::CAnnulusSegment* objectPtr = dynamic_cast<const i2d::CAnnulusSegment*>(GetObservedModel());
 	if (objectPtr != NULL){
 		if (downFlag && IsEditableRadius()){
 			const IColorSchema& colorSchema = GetColorSchema();
@@ -118,7 +118,7 @@ bool CAnnulusSegmentShape::OnMouseMove(istd::CIndex2d position)
 		return CPinShape::OnMouseMove(position);
 	}
 
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CAnnulusSegment* objectPtr = dynamic_cast<i2d::CAnnulusSegment*>(modelPtr);
 	Q_ASSERT(objectPtr != NULL);
 
@@ -191,7 +191,7 @@ void CAnnulusSegmentShape::Draw(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	Q_ASSERT(modelPtr != NULL);
 
 	const i2d::CAnnulusSegment* objectPtr = dynamic_cast<const i2d::CAnnulusSegment*>(modelPtr);
@@ -276,7 +276,7 @@ ITouchable::TouchState CAnnulusSegmentShape::IsTouched(istd::CIndex2d position) 
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	const i2d::CAnnulusSegment* objectPtr = dynamic_cast<const i2d::CAnnulusSegment*>(modelPtr);
 	Q_ASSERT(objectPtr != NULL);
 

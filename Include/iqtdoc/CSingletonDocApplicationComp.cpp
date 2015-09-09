@@ -86,7 +86,7 @@ QStringList CSingletonDocApplicationComp::GetApplicationArguments() const
 
 void CSingletonDocApplicationComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	ibase::IRuntimeStatusProvider* objectPtr = GetObjectPtr();
+	ibase::IRuntimeStatusProvider* objectPtr = GetObservedObject();
 	if ((objectPtr != NULL) && objectPtr->GetRuntimeStatus() == ibase::IRuntimeStatusProvider::RS_RUNNING){
 		if (m_documentManagerCompPtr.IsValid()){
 			connect(&m_documentUpdateTimer, SIGNAL(timeout()), this, SLOT(OnUpdateDocumentList()));

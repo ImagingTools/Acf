@@ -218,7 +218,7 @@ CTranslationManagerComp::LanguageSelectionObserver::LanguageSelectionObserver(CT
 void CTranslationManagerComp::LanguageSelectionObserver::OnUpdate(const istd::IChangeable::ChangeSet& changeSet)
 {
 	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
-		iprm::ISelectionParam* objectPtr = GetObjectPtr();
+		iprm::ISelectionParam* objectPtr = GetObservedObject();
 		Q_ASSERT(objectPtr != NULL);
 		if (objectPtr != NULL){
 			int selectedIndex = objectPtr->GetSelectedOptionIndex();

@@ -39,7 +39,7 @@ void CExtParamsManagerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*c
 {
 	QByteArray lastSelectedParamsSetId = m_lastSelectedParameterSetId;
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iprm::IParamsManager* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		ElementList->clear();
 		ParameterTypeSelector->clear();
@@ -144,7 +144,7 @@ void CExtParamsManagerGuiComp::on_AddButton_clicked()
 {
 	int parameterTypeIndex = ParameterTypeSelector->currentIndex();
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iprm::IParamsManager* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		int newParamsSetIndex = objectPtr->InsertParamsSet(parameterTypeIndex);
 		if (newParamsSetIndex >= 0){
@@ -174,7 +174,7 @@ void CExtParamsManagerGuiComp::on_AddButton_clicked()
 
 void CExtParamsManagerGuiComp::on_CloneButton_clicked()
 {
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iprm::IParamsManager* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		QList<QListWidgetItem*> selectedItems = ElementList->selectedItems();
 		if (!selectedItems.isEmpty()){
@@ -237,7 +237,7 @@ void CExtParamsManagerGuiComp::on_CloneButton_clicked()
 
 void CExtParamsManagerGuiComp::on_EditButton_clicked()
 {
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iprm::IParamsManager* objectPtr = GetObservedObject();
 	if (objectPtr == NULL)
 	{
 		return;
@@ -321,7 +321,7 @@ void CExtParamsManagerGuiComp::on_RemoveButton_clicked()
 		return;
 	}
 
-	iprm::IParamsManager* objectPtr = GetObjectPtr();
+	iprm::IParamsManager* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		int result = QMessageBox::question(NULL, 
 					tr("Remove parameter set"), 

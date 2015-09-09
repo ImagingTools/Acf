@@ -19,7 +19,7 @@ CMultiModelBridgeBase::~CMultiModelBridgeBase()
 }
 
 
-IModel* CMultiModelBridgeBase::GetModelPtr(int modelIndex) const
+IModel* CMultiModelBridgeBase::GetObservedModel(int modelIndex) const
 {
 	Q_ASSERT(modelIndex >= 0);
 	Q_ASSERT(modelIndex < GetModelCount());

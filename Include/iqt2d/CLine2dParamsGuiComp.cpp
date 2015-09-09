@@ -17,7 +17,7 @@ void CLine2dParamsGuiComp::UpdateModel() const
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CLine2d* objectPtr = GetObjectPtr();
+	i2d::CLine2d* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -52,7 +52,7 @@ void CLine2dParamsGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*chang
 {
 	Q_ASSERT(IsGuiCreated());
 
-	i2d::CLine2d* objectPtr = GetObjectPtr();
+	i2d::CLine2d* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		const i2d::CVector2d& point1 = objectPtr->GetPoint1();
 

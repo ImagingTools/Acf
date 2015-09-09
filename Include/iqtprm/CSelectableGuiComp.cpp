@@ -17,7 +17,7 @@ namespace iqtprm
 
 void CSelectableGuiComp::OnGuiModelAttached()
 {
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	if (selectionPtr != NULL && m_slaveGuisCompPtr.IsValid()){
 		const iprm::IOptionsList* constraintsPtr = selectionPtr->GetSelectionConstraints();
 		if (constraintsPtr != NULL){
@@ -42,7 +42,7 @@ void CSelectableGuiComp::OnGuiModelAttached()
 		}
 	}
 
-	imod::IModel* selectionModelPtr = GetModelPtr();
+	imod::IModel* selectionModelPtr = GetObservedModel();
 	Q_ASSERT(selectionModelPtr != NULL);
 
 	if (m_selectorObserverCompPtr.IsValid()){
@@ -73,7 +73,7 @@ void CSelectableGuiComp::OnGuiModelDetached()
 
 	m_widgetToGuiMap.clear();
 
-	imod::IModel* selectionModelPtr = GetModelPtr();
+	imod::IModel* selectionModelPtr = GetObservedModel();
 	Q_ASSERT(selectionModelPtr != NULL);
 
 	if (m_selectorObserverCompPtr.IsValid() && selectionModelPtr->IsAttached(m_selectorObserverCompPtr.GetPtr())){
@@ -88,7 +88,7 @@ void CSelectableGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeS
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iprm::ISelectionParam* selectionPtr = GetObjectPtr();
+	iprm::ISelectionParam* selectionPtr = GetObservedObject();
 	if (selectionPtr != NULL){
 		int selectedIndex = selectionPtr->GetSelectedOptionIndex();
 

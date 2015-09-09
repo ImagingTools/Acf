@@ -71,7 +71,7 @@ void CMultiBitmapViewComp::UpdateGui(const istd::IChangeable::ChangeSet& /*chang
 {
 	EnsureViewsCreated();
 
-	iimg::IMultiBitmapProvider* objectPtr = GetObjectPtr();
+	iimg::IMultiBitmapProvider* objectPtr = GetObservedObject();
 	if (objectPtr == NULL){
 		return;
 	}
@@ -154,7 +154,7 @@ void CMultiBitmapViewComp::OnComponentDestroyed()
 
 void CMultiBitmapViewComp::EnsureViewsCreated()
 {
-	iimg::IMultiBitmapProvider* objectPtr = GetObjectPtr();
+	iimg::IMultiBitmapProvider* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 	if (objectPtr == NULL){
 		return;

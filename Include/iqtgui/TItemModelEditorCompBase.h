@@ -38,7 +38,7 @@ public:
 	I_END_COMPONENT;
 
 protected:
-	using BaseClass::GetObjectPtr;
+	using BaseClass::GetObservedObject;
 	using BaseClass::GetQtWidget;
 
 	// reimplemented (CGuiComponentBase)
@@ -61,7 +61,7 @@ void TItemModelEditorCompBase<ItemWidgetClass>::OnGuiModelAttached()
 {
 	BaseClass::OnGuiModelAttached();
 
-	ibase::IQtItemModelProvider* objectPtr = BaseClass::GetObjectPtr();
+	ibase::IQtItemModelProvider* objectPtr = BaseClass::GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	QAbstractItemModel* itemModelPtr = const_cast<QAbstractItemModel*>(objectPtr->GetItemModel());

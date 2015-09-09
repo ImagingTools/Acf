@@ -64,7 +64,7 @@ bool CCircleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton button
 
 	ShapeBaseClass::OnMouseButton(position, buttonType, downFlag);
 
-	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetObservedModel());
 	if (circlePtr != NULL){
 		if (downFlag && m_isEditableRadius){
 			const IColorSchema& colorSchema = GetColorSchema();
@@ -105,7 +105,7 @@ bool CCircleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton button
 bool CCircleShape::OnMouseMove(istd::CIndex2d position)
 {
 	if (m_editMode == EM_RADIUS){
-		imod::IModel* modelPtr = GetModelPtr();
+		imod::IModel* modelPtr = GetObservedModel();
 		i2d::CCircle& circle = *dynamic_cast<i2d::CCircle*>(modelPtr);
 		Q_ASSERT(&circle != NULL);
 
@@ -141,7 +141,7 @@ void CCircleShape::Draw(QPainter& drawContext) const
 		BaseClass::Draw(drawContext);
 	}
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(modelPtr);
 	Q_ASSERT(circlePtr != NULL);
 
@@ -199,7 +199,7 @@ bool CCircleShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::Ch
 
 ITouchable::TouchState CCircleShape::IsTouched(istd::CIndex2d position) const
 {
-	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetObservedModel());
 	if (IsDisplayConnected() && (circlePtr != NULL)){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -255,7 +255,7 @@ i2d::CRect CCircleShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetModelPtr());
+	const i2d::CCircle* circlePtr = dynamic_cast<const i2d::CCircle*>(GetObservedModel());
 	if (circlePtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 

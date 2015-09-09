@@ -19,7 +19,7 @@ void CImagePropertiesFrameComp::UpdateGui(const istd::IChangeable::ChangeSet& /*
 {
 	Q_ASSERT(IsGuiCreated());
 
-	iimg::IBitmap* bitmapPtr = GetObjectPtr();
+	iimg::IBitmap* bitmapPtr = GetObservedObject();
 	if (bitmapPtr != NULL && IsGuiCreated()){
 		SizeLabel->setText(QString("%1x%2").arg(bitmapPtr->GetImageSize().GetX()).arg(bitmapPtr->GetImageSize().GetY()));
 		DepthLabel->setText(QString("%1 bits").arg(bitmapPtr->GetComponentBitsCount() * bitmapPtr->GetComponentsCount()));

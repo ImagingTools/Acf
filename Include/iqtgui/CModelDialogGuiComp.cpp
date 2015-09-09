@@ -20,7 +20,7 @@ int CModelDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 	}
 
 	istd::IChangeable* sourceDataPtr = m_dataCompPtr.GetPtr();
-	istd::IChangeable* objectPtr = GetObjectPtr();
+	istd::IChangeable* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		sourceDataPtr = objectPtr;
 	}

@@ -26,14 +26,21 @@ public:
 	virtual ~CMultiModelObserverBase();
 
 	/**
-		Get access to connected model with the index \c index.
-	*/
-	IModel* GetModelPtr(int modelIndex) const;
-
-	/**
 		Gets the number of connected models.	
 	*/
 	int GetModelCount() const;
+
+	/**
+		Get access to connected model with the index \c index.
+		\param	modelIndex index of model.
+	*/
+	IModel* GetObservedModel(int modelIndex) const;
+
+	/**
+		Get access to connected model with the index \c index.
+		\deprecated use \c GetObservedModel instead.
+	*/
+	IModel* GetModelPtr(int modelIndex) const;
 
 	/**
 		Ensure all attached models are detached.

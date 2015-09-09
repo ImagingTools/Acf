@@ -13,7 +13,7 @@
 
 void CAbGuiComp::UpdateModel() const
 {
-	IAb* objectPtr = GetObjectPtr();
+	IAb* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	istd::CChangeGroup changeGroup(objectPtr);
@@ -32,7 +32,7 @@ void CAbGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
 	Q_ASSERT(IsGuiCreated());
 
-	IAb* objectPtr = GetObjectPtr();
+	IAb* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		AValueSpinBox->setValue(objectPtr->GetA());
 
@@ -43,7 +43,7 @@ void CAbGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
 void CAbGuiComp::OnGuiModelAttached()
 {
 	// Set data model constraints to the editor of A:
-	IAb* objectPtr = GetObjectPtr();
+	IAb* objectPtr = GetObservedObject();
 	Q_ASSERT(objectPtr != NULL);
 
 	const IAConstraints& constraints = objectPtr->GetAConstraints();

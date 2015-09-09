@@ -18,7 +18,7 @@ void CImageViewComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	Q_ASSERT(consolePtr != NULL);
 
-	const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(GetModelPtr());
+	const iimg::IRasterImage* imagePtr = dynamic_cast<const iimg::IRasterImage*>(GetObservedModel());
 	if (imagePtr != NULL){
 		i2d::CRectangle areaRect(imagePtr->GetImageSize());
 

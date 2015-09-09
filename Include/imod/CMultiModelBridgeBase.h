@@ -33,7 +33,7 @@ public:
 	/**
 		Get access to connected model with the index \c index.
 	*/
-	imod::IModel* GetModelPtr(int modelIndex) const;
+	imod::IModel* GetObservedModel(int modelIndex) const;
 
 	/**
 		Gets the number of connected models.	

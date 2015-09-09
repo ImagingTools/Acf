@@ -37,7 +37,7 @@ bool CPolygonShape::IsActionAvailable(IInteractiveShape::ShapeAction action) con
 
 bool CPolygonShape::ExecuteAction(IInteractiveShape::ShapeAction action)
 {
-	imod::IModel* modelPtr = GetModelPtr();
+	imod::IModel* modelPtr = GetObservedModel();
 	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
 	if (polygonPtr == NULL){
 		return false;
@@ -110,7 +110,7 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 	Q_ASSERT(IsDisplayConnected());
 
 	if (!ShapeBaseClass::OnMouseButton(position, buttonType, downFlag) && IsEditablePosition()){
-		imod::IModel* modelPtr = GetModelPtr();
+		imod::IModel* modelPtr = GetObservedModel();
 		i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
 		if (polygonPtr != NULL){
 			if (downFlag){
@@ -215,7 +215,7 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 
 bool CPolygonShape::OnMouseMove(istd::CIndex2d position)
 {
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		int editMode = GetEditMode();
 
@@ -260,7 +260,7 @@ bool CPolygonShape::OnMouseMove(istd::CIndex2d position)
 
 void CPolygonShape::Draw(QPainter& drawContext) const
 {
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (IsDisplayConnected() && (polygonPtr != NULL)){
 		int nodesCount = polygonPtr->GetNodesCount();
 		if (nodesCount > 0){
@@ -309,7 +309,7 @@ bool CPolygonShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::C
 
 ITouchable::TouchState CPolygonShape::IsTouched(istd::CIndex2d position) const
 {
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		int editMode = GetEditMode();
 
@@ -405,7 +405,7 @@ bool CPolygonShape::IsDraggable() const
 
 i2d::CVector2d CPolygonShape::GetSegmentMiddle(int index) const
 {
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
 		Q_ASSERT(&polygon != NULL);
@@ -427,7 +427,7 @@ void CPolygonShape::DrawCurve(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
 		Q_ASSERT(&polygon != NULL);
@@ -464,7 +464,7 @@ void CPolygonShape::DrawArea(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -500,7 +500,7 @@ void CPolygonShape::DrawSelectionElements(QPainter& drawContext) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 
@@ -558,7 +558,7 @@ bool CPolygonShape::IsCurveTouched(istd::CIndex2d position) const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		int nodesCount = polygonPtr->GetNodesCount();
 		if (nodesCount < 2){
@@ -591,7 +591,7 @@ bool CPolygonShape::IsCurveTouched(istd::CIndex2d position) const
 void CPolygonShape::EnsureValidNodes() const
 {
 	if (!AreNodesValid()){
-		const imod::IModel* modelPtr = GetModelPtr();
+		const imod::IModel* modelPtr = GetObservedModel();
 		if (modelPtr != NULL){
 			const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
 			Q_ASSERT(&polygon != NULL);
@@ -645,7 +645,7 @@ void CPolygonShape::EnsureValidNodes() const
 
 void CPolygonShape::BeginLogDrag(const i2d::CVector2d& reference)
 {
-	const imod::IModel* modelPtr = GetModelPtr();
+	const imod::IModel* modelPtr = GetObservedModel();
 	if (modelPtr != NULL){
 		const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
 		Q_ASSERT(&polygon != NULL);
@@ -661,7 +661,7 @@ void CPolygonShape::BeginLogDrag(const i2d::CVector2d& reference)
 
 void CPolygonShape::SetLogDragPosition(const i2d::CVector2d& position)
 {
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetModelPtr());
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		static const istd::IChangeable::ChangeSet changeSet(IDisplay::CS_CONSOLE, i2d::IObject2d::CF_OBJECT_POSITION, "Drag polygon");
 		istd::CChangeNotifier notifier(polygonPtr, &changeSet);
@@ -685,7 +685,7 @@ i2d::CRect CPolygonShape::CalcBoundingBox() const
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetModelPtr());
+	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 

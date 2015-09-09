@@ -110,7 +110,7 @@ void CFilePreviewGuiComp::UpdateFilePreview()
 		m_currentPreviewObjectCompPtr->ResetData();
 	}
 
-	ifile::IFileNameParam* objectPtr = GetObjectPtr();
+	ifile::IFileNameParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		QString newFilePath = objectPtr->GetPath();
 

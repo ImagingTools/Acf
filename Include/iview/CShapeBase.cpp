@@ -192,7 +192,7 @@ ITouchable::TouchState CShapeBase::IsTouched(istd::CIndex2d /*position*/) const
 
 QString CShapeBase::GetShapeDescriptionAt(istd::CIndex2d /*position*/) const
 {
-	const istd::IInformationProvider* infoPtr = dynamic_cast<const istd::IInformationProvider*>(GetModelPtr());
+	const istd::IInformationProvider* infoPtr = dynamic_cast<const istd::IInformationProvider*>(GetObservedModel());
 	if (infoPtr != NULL){
 		return infoPtr->GetInformationDescription();
 	}
@@ -235,10 +235,10 @@ bool CShapeBase::OnModelDetached(imod::IModel* modelPtr)
 
 void CShapeBase::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	const i2d::IObject2d* object2dPtr = dynamic_cast<const i2d::IObject2d*>(GetModelPtr());
+	const i2d::IObject2d* object2dPtr = dynamic_cast<const i2d::IObject2d*>(GetObservedModel());
 	if (object2dPtr != NULL){
 		i2d::ICalibration2d* calibrationPtr = const_cast<i2d::ICalibration2d*>(object2dPtr->GetCalibration());
-		if ((calibrationPtr != NULL) && (calibrationPtr != m_calibrationObserver.GetObjectPtr())){
+		if ((calibrationPtr != NULL) && (calibrationPtr != m_calibrationObserver.GetObservedObject())){
 			m_calibrationObserver.AttachOrSetObject(calibrationPtr);
 		}
 	}
@@ -256,7 +256,7 @@ i2d::CVector2d CShapeBase::GetScreenPosition(const i2d::CVector2d& logPosition) 
 	switch (m_shapeTransformMode){
 	case STM_SHAPE:
 		{
-			const i2d::ITransformation2d* calibrationPtr = m_calibrationObserver.GetObjectPtr();
+			const i2d::ITransformation2d* calibrationPtr = m_calibrationObserver.GetObservedObject();
 
 			if (calibrationPtr != NULL){
 				i2d::CVector2d calibratedPosition;
@@ -286,7 +286,7 @@ i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition) 
 	switch (m_shapeTransformMode){
 	case STM_SHAPE:
 		{
-			const i2d::ITransformation2d* calibrationPtr = m_calibrationObserver.GetObjectPtr();
+			const i2d::ITransformation2d* calibrationPtr = m_calibrationObserver.GetObservedObject();
 
 			if (calibrationPtr != NULL){
 				i2d::CVector2d calibratedPosition;

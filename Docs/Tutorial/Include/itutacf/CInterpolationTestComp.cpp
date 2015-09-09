@@ -27,7 +27,7 @@ void CInterpolationTestComp::OnUpdate(const istd::IChangeable::ChangeSet& /*chan
 
 	m_slaveObjectCompPtr->Clear();
 
-	const i2d::CPolygon* objectPtr = GetObjectPtr();
+	const i2d::CPolygon* objectPtr = GetObservedObject();
 
 	if (objectPtr != NULL){
 		QMap<double, double> positionMap;

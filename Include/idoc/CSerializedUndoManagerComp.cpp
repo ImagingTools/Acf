@@ -53,7 +53,7 @@ bool CSerializedUndoManagerComp::DoUndo()
 		istd::CChangeNotifier notifier(this);
 		Q_UNUSED(notifier);
 
-		iser::ISerializable* objectPtr = GetObjectPtr();
+		iser::ISerializable* objectPtr = GetObservedObject();
 
 		if (objectPtr != NULL){
 			Q_ASSERT(!m_isBlocked);
@@ -92,7 +92,7 @@ bool CSerializedUndoManagerComp::DoRedo()
 		istd::CChangeNotifier notifier(this);
 		Q_UNUSED(notifier);
 
-		iser::ISerializable* objectPtr = GetObjectPtr();
+		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			Q_ASSERT(!m_isBlocked);
 			m_isBlocked = true;
@@ -170,7 +170,7 @@ void CSerializedUndoManagerComp::BeforeUpdate(imod::IModel* modelPtr)
 	BaseClass2::BeforeUpdate(modelPtr);
 
 	if (!m_isBlocked && !m_beginStateArchivePtr.IsValid()){
-		iser::ISerializable* objectPtr = GetObjectPtr();
+		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
@@ -193,7 +193,7 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 	if (		!m_isBlocked &&
 				!changeSet.Contains(istd::IChangeable::CF_NO_UNDO) &&
 				m_beginStateArchivePtr.IsValid()){
-		iser::ISerializable* objectPtr = GetObjectPtr();
+		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			UndoArchivePtr archivePtr(new iser::CMemoryWriteArchive());
 
@@ -239,7 +239,7 @@ bool CSerializedUndoManagerComp::StoreDocumentState()
 
 	m_storedStateArchive.Reset();
 
-	iser::ISerializable* serializablePtr = GetObjectPtr();
+	iser::ISerializable* serializablePtr = GetObservedObject();
 	if ((serializablePtr != NULL) && serializablePtr->Serialize(m_storedStateArchive)){
 		m_stateChangedFlag = DCF_EQUAL;
 		m_hasStoredDocumentState = true;
@@ -262,7 +262,7 @@ bool CSerializedUndoManagerComp::RestoreDocumentState()
 		istd::CChangeNotifier notifier(this);
 		Q_UNUSED(notifier);
 
-		iser::ISerializable* objectPtr = GetObjectPtr();
+		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
 			Q_ASSERT(!m_isBlocked);
 			m_isBlocked = true;
@@ -296,7 +296,7 @@ IDocumentStateComparator::DocumentChangeFlag CSerializedUndoManagerComp::GetDocu
 		if (m_hasStoredDocumentState){
 			iser::CMemoryWriteArchive compareArchive;
 
-			iser::ISerializable* serializablePtr = GetObjectPtr();
+			iser::ISerializable* serializablePtr = GetObservedObject();
 			if ((serializablePtr != NULL) && const_cast<iser::ISerializable*>(serializablePtr)->Serialize(compareArchive)){
 				m_stateChangedFlag = (compareArchive != m_storedStateArchive)? DCF_DIFFERENT: DCF_EQUAL;
 			}

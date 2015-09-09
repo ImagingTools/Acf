@@ -32,7 +32,7 @@ void CDocumentMetaInfoEditorComp::OnGuiModelAttached()
 
 	typedef idoc::IDocumentMetaInfo::MetaInfoTypes MetaInfoTypes;
 
-	idoc::IDocumentMetaInfo* objectPtr = GetObjectPtr();
+	idoc::IDocumentMetaInfo* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		MetaInfoTypes types = objectPtr->GetMetaInfoTypes();
 
@@ -101,7 +101,7 @@ void CDocumentMetaInfoEditorComp::OnItemEditingFinished()
 	QLineEdit* editorPtr = dynamic_cast<QLineEdit*>(sender());
 	Q_ASSERT(editorPtr != NULL);
 
-	idoc::IDocumentMetaInfo* objectPtr = GetObjectPtr();
+	idoc::IDocumentMetaInfo* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		int metaInfoType = editorPtr->property("MetaInfoType").toInt();
 

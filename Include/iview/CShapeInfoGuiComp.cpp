@@ -11,7 +11,7 @@ void CShapeInfoGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSe
 {
 	Q_ASSERT(IsGuiCreated());
 
-	IShapeStatusInfo* objectPtr = GetObjectPtr();
+	IShapeStatusInfo* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 //		i2d::CVector2d logicalPosition = objectPtr->GetLogicalPosition();
 //		LogicalPosition->setText(tr("%1, %2").arg(logicalPosition.GetX(), 2, 'f', 2).arg(logicalPosition.GetY(), 2, 'f', 2));
