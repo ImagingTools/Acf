@@ -165,7 +165,7 @@ QString TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetUnitName() const
 
 
 template <class Ui, class Shape, class ShapeModel>
-typename Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() const
+Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() const
 {
 	return new Shape();
 }
