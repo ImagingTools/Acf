@@ -46,7 +46,7 @@ CONFIG(debug, debug|release){
 	arxCompiler.commands = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
 }
 CONFIG(release, debug|release){
-	arxCompiler.commands = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
+	arxCompiler.commands = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
 }
 arxCompiler.input = ARXC_FILES
 arxCompiler.variable_out = SOURCES
@@ -74,15 +74,24 @@ QMAKE_EXTRA_COMPILERS += acfFileConvertCopy
 isEmpty(QMAKE_LRELEASE) {
 	QMAKE_LRELEASE = $$QT_INSTALL_BINS/lrelease
 }
+
+UPDATE_QM_COMMAND = $$[QT_INSTALL_BINS]$$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
+TRANSLATION_OUTPUT_FILE = $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
+win32{
+	UPDATE_QM_COMMAND ~= s,/,\\,g
+	TRANSLATION_OUTPUT_FILE ~= s,/,\\,g
+}
+
 updateqm.input = ACF_TRANSLATIONS
-updateqm.output = $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
-updateqm.commands = $$[QT_INSTALL_BINS]$$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm $${ACF_TRANSLATIONS_OUTDIR}/${QMAKE_FILE_BASE}.qm
+updateqm.output = $$TRANSLATION_OUTPUT_FILE
+updateqm.commands = $$UPDATE_QM_COMMAND
 updateqm.CONFIG += no_link target_predeps
 updateqm.dependency_type = TYPE_QRC
 QMAKE_EXTRA_COMPILERS += updateqm
 
 
 # custom build for Qt resources containing generated files
+
 greaterThan(QT_MAJOR_VERSION, 4):GENERATE_RESOURCE_COMMANDS = $$COPY_FILE $$system_quote($$system_path($$_PRO_FILE_PWD_/../${QMAKE_FILE_BASE}.qrc)) $$system_quote($$system_path($$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc)) && $$system_quote($$system_path($$[QT_INSTALL_BINS]/$$QMAKE_RCC)) -name ${QMAKE_FILE_BASE} $$system_quote($$system_path($$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc)) -o $$system_quote($$system_path($${ACF_TRANSLATIONS_OUTDIR}//qrc_${QMAKE_FILE_BASE}.cpp))
 else{
 	GENERATE_RESOURCE_COMMANDS = $$COPY_FILE $$_PRO_FILE_PWD_/../${QMAKE_FILE_BASE}.qrc $$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc && $$[QT_INSTALL_BINS]/$$QMAKE_RCC -name ${QMAKE_FILE_BASE} $$AUXINCLUDEPATH/GeneratedFiles/${QMAKE_FILE_BASE}.qrc -o $${ACF_TRANSLATIONS_OUTDIR}//qrc_${QMAKE_FILE_BASE}.cpp
