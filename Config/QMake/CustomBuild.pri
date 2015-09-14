@@ -18,7 +18,7 @@ else{
 ACFDIRBUILD = $$(ACFDIR_BUILD)
 
 # for non-shadow build use arx compiler inside source tree
-isEmpty( ACFDIRBUILD ) {
+isEmpty( ACFDIRBUILD ){
 	ARXCBIN=$$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER
 }
 
@@ -33,7 +33,7 @@ isEmpty( ACFDIRBUILD ) {
 }
 
 # set acf tool from shadow build
-!isEmpty( ACFDIRBUILD ) {
+!isEmpty( ACFDIRBUILD ){
 	ACFTOOLBIN=$$(ACFDIR_BUILD)/Bin/$$COMPILER_DIR/$$ACF_TOOL
 }
 
