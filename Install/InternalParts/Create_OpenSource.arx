@@ -7,7 +7,7 @@
           0
         </Id>
         <Number>
-          2934
+          3887
         </Number>
         <Description>
           ACF
@@ -15,24 +15,24 @@
       </Version>
       <Version>
         <Id>
-          1
+          1023
         </Id>
         <Number>
-          920
+          328706
         </Number>
         <Description>
-          ACF-Solutions
+          Qt Framework
         </Description>
       </Version>
       <Version>
         <Id>
-          1023
+          1
         </Id>
         <Number>
-          264194
+          1400
         </Number>
         <Description>
-          Qt Framework
+          ACF-Solutions
         </Description>
       </Version>
     </VersionInfos>
@@ -192,7 +192,7 @@
         <Flags>
           1
         </Flags>
-        <AttributeInfoMap count="7">
+        <AttributeInfoMap count="5">
           <AttributeInfo>
             <Id>
               ApplicationInfo
@@ -210,48 +210,6 @@
               <Value>
                 Application/ApplicationInfo
               </Value>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              InstallScriptTags
-            </Id>
-            <Type>
-              String[]
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Values count="1">
-                <Value>
-                  LicensePath
-                </Value>
-              </Values>
-            </Data>
-          </AttributeInfo>
-          <AttributeInfo>
-            <Id>
-              InstallScriptValues
-            </Id>
-            <Type>
-              String[]
-            </Type>
-            <ExportId>
-              
-            </ExportId>
-            <Data>
-              <IsEnabled>
-                true
-              </IsEnabled>
-              <Values count="1">
-                <Value>
-                  ../LGPL/LicenseLGPL.txt
-                </Value>
-              </Values>
             </Data>
           </AttributeInfo>
           <AttributeInfo>
@@ -306,18 +264,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
+              <Values count="2">
                 <Value>
                   GeneratedFiles
                 </Value>
                 <Value>
                   generated
-                </Value>
-                <Value>
-                  Xcd
-                </Value>
-                <Value>
-                  VC8
                 </Value>
               </Values>
             </Data>
@@ -336,18 +288,12 @@
               <IsEnabled>
                 true
               </IsEnabled>
-              <Values count="4">
+              <Values count="2">
                 <Value>
                   GeneratedFiles
                 </Value>
                 <Value>
                   generated
-                </Value>
-                <Value>
-                  Xcd
-                </Value>
-                <Value>
-                  VC8
                 </Value>
               </Values>
             </Data>

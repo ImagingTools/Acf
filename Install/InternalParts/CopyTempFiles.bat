@@ -1,4 +1,4 @@
 echo off
 
 echo Copying files to Temp directory...
-"%ACFDIR%/Bin/Debug%COMPILER_EXT%/Acf.exe" Install/InternalParts/Create_%COMPILER_EXT%_%LICENSE_TYPE%.arx -config $(ACFSLNDIR)/Config/Core.xpc -input . -output Install/Temp
+"%~dp0\..\..\Bin\Release%COMPILER_EXT%\Acf.exe" Install/InternalParts/Create_%LICENSE_TYPE%.arx -config %ACF_CONFIG_FILE% -input . -output Install/Temp

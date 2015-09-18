@@ -1,7 +1,7 @@
 echo Generating %COMPILER_EXT% projects...
 cd Build/QMake
-qmake -recursive -tp vc AcfAll.pro
+qmake -recursive -tp vc *All.pro
 cd ../..
 
-call %ACFDIR%/Config/QMake/CopyVCProjToSubdir.js %COMPILER_EXT%
+call %~dp0\..\..\Config\QMake\CopyVCProjToSubdir.js %COMPILER_EXT%
 
