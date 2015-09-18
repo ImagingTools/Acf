@@ -11,28 +11,25 @@ var solutionExt = "sln";
 var solutionExp = new RegExp(".*\." + solutionExt + "$");
 
 
-function ProcessFolder(shell, fileSystem, folder, vcDirName, qtDir)
-{
-	var retVal = new String;
+function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
+    var retVal = new String;
 
-	var subFolderIter = new Enumerator(folder.SubFolders);
-	for (; !subFolderIter.atEnd(); subFolderIter.moveNext()){
-		var subfolder = subFolderIter.item();
-		if (subfolder.Name == qmakeDirName){
-		    var destDir = folder + "\\" + vcDirName;
-		    if (!fileSystem.FolderExists(destDir)){
-		        fileSystem.CreateFolder(destDir);
-		    }
+    for (var subFolderIter = new Enumerator(folder.SubFolders); !subFolderIter.atEnd() ; subFolderIter.moveNext()) {
+        var subfolder = subFolderIter.item();
+        if (subfolder.Name == qmakeDirName) {
+            var destDir = folder + "\\" + vcDirName;
+            if (!fileSystem.FolderExists(destDir)) {
+                fileSystem.CreateFolder(destDir);
+            }
 
-    		var fileIter = new Enumerator(subfolder.files);
-    		for (; !fileIter.atEnd(); fileIter.moveNext()){
-        		var file = fileIter.item();
+            for (var fileIter = new Enumerator(subfolder.files); !fileIter.atEnd() ; fileIter.moveNext()) {
+                var file = fileIter.item();
 
-        		if (projectExp.exec(file.Name) || projectNewExp.exec(file.Name)){
+                if (projectExp.exec(file.Name) || projectNewExp.exec(file.Name)) {
                     // Move project to destination dir
-    		        var outputPath = destDir + "\\" + file.Name;
+                    var outputPath = destDir + "\\" + file.Name;
 
-                    if (fileSystem.FileExists(outputPath)){
+                    if (fileSystem.FileExists(outputPath)) {
                         fileSystem.DeleteFile(outputPath);
                     }
 
@@ -45,20 +42,24 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, qtDir)
 
                     var re2 = /IntermediateDirectory=\"debug\\\"/g;
                     text = text.replace(re2, "InheritedPropertySheets=\"..\\..\\..\\Config\\" + vcDirName + "\\General.vsprops;..\\..\\..\\Config\\" + vcDirName + "\\Debug.vsprops\"");
-                    if (qtDir != "") {
-                        text = text.split(qtDir).join("$(QTDIR)");
+
+                    for (var replFolderIter = new Enumerator(replaceDirs); !replFolderIter.atEnd() ; replFolderIter.moveNext()) {
+                        var repl = replFolderIter.item();
+                        if (repl.key != "") {
+                            text = text.split(repl.key).join(repl.value);
+                        }
                     }
 
                     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
                     outputFile.write(text);
-                    
-                    fileSystem.DeleteFile(file);
-    		    }
-    		    else if (solutionExp.exec(file.Name)){
-                    // Move corrected solution to destination dir
-    		        var outputPath = destDir + "\\" + file.Name;
 
-                    if (fileSystem.FileExists(outputPath)){
+                    fileSystem.DeleteFile(file);
+                }
+                else if (solutionExp.exec(file.Name)) {
+                    // Move corrected solution to destination dir
+                    var outputPath = destDir + "\\" + file.Name;
+
+                    if (fileSystem.FileExists(outputPath)) {
                         fileSystem.DeleteFile(outputPath);
                     }
 
@@ -71,42 +72,47 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, qtDir)
 
                     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
                     outputFile.write(text);
-                    
+
                     fileSystem.DeleteFile(file);
-    		    }
-    		}
-    		
-    		// Copy directories for Qt generated files
-    		if (fileSystem.FolderExists(subfolder + "\\debug")){
-    		    if (fileSystem.FolderExists(destDir + "\\Debug")){
-            		fileSystem.DeleteFolder(subfolder + "\\debug");
-            	}
-            	else{
-            		fileSystem.MoveFolder(subfolder + "\\debug", destDir + "\\Debug");
-            	}
-        	}
-    		if (fileSystem.FolderExists(subfolder + "\\release")){
-    		    if (fileSystem.FolderExists(destDir + "\\Release")){
-            		fileSystem.DeleteFolder(subfolder + "\\release");
-            	}
-            	else{
-            		fileSystem.MoveFolder(subfolder + "\\release", destDir + "\\Release");
-            	}
-        	}
-	    }
-	    else{
-		    ProcessFolder(shell, fileSystem, subfolder, vcDirName, qtDir);
-		}
-	}
+                }
+            }
+
+            // Copy directories for Qt generated files
+            if (fileSystem.FolderExists(subfolder + "\\debug")) {
+                if (fileSystem.FolderExists(destDir + "\\Debug")) {
+                    fileSystem.DeleteFolder(subfolder + "\\debug");
+                }
+                else {
+                    fileSystem.MoveFolder(subfolder + "\\debug", destDir + "\\Debug");
+                }
+            }
+            if (fileSystem.FolderExists(subfolder + "\\release")) {
+                if (fileSystem.FolderExists(destDir + "\\Release")) {
+                    fileSystem.DeleteFolder(subfolder + "\\release");
+                }
+                else {
+                    fileSystem.MoveFolder(subfolder + "\\release", destDir + "\\Release");
+                }
+            }
+        }
+        else {
+            ProcessFolder(shell, fileSystem, subfolder, vcDirName, replaceDirs);
+        }
+    }
 }
 
 
 var fileSystem = WScript.CreateObject("Scripting.FileSystemObject");
 var shell = WScript.CreateObject("WScript.Shell");
 
-if (WScript.Arguments.length >= 1){
+if (WScript.Arguments.length >= 1) {
     var vcDirName = WScript.Arguments(0).toString();
-    var qtDir = shell.ExpandEnvironmentStrings("%QTDIR%");
 
-    ProcessFolder(shell, fileSystem, fileSystem.GetFolder("."), vcDirName, qtDir);
+    var replaceDirs = [];
+    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%QTDIR%"), value: "$(QTDIR)" });
+    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%QTDIR%").split("\\").join("/"), value: "$(QTDIR)" });
+    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%ACFDIR%"), value: "$(ACFDIR)" });
+    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%ACFDIR%").split("\\").join("/"), value: "$(ACFDIR)" });
+
+    ProcessFolder(shell, fileSystem, fileSystem.GetFolder("."), vcDirName, replaceDirs);
 }
