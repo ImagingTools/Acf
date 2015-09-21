@@ -9,7 +9,49 @@ var projectNewExt = "vcxproj";
 var projectNewExp = new RegExp(".*\." + projectNewExt);
 var solutionExt = "sln";
 var solutionExp = new RegExp(".*\." + solutionExt + "$");
+var projectTagExp = new RegExp("^Project.*");
 
+
+function relativePath(base, rel) {
+    var basel = base.split('\\');
+    var rell = rel.split('\\');
+
+    for (var i = basel.length; i-- >= 0; ) {
+        if (basel[i] === '.')
+            basel.splice(i, 1);
+    }
+    for (var i = basel.length; i-- >= 1; ) {
+        if (basel[i] === '')
+            basel.splice(i, 1);
+    }
+    for (var i = rell.length; i-- >= 0; ) {
+        if (rell[i] === '.')
+            rell.splice(i, 1);
+    }
+    for (var i = rell.length; i-- >= 1; ) {
+        if (rell[i] === '')
+            rell.splice(i, 1);
+    }
+
+    i = 0;
+    while (i < basel.length && i < rell.length && basel[i] === rell[i])
+        i++;
+
+    var j = i;
+    var r = [];
+
+	var useAbsolutePath = (i == 0) && (rell.length > 0) && (rell[0] == "" || (rell[0].search(":") >= 0));
+
+    if (!useAbsolutePath) {
+        for (; i < basel.length; i++)
+            r.push('..');
+    }
+
+    for (; j < rell.length; j++)
+        r.push(rell[j]);
+
+    return r.join('\\');
+}
 
 function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
     var retVal = new String;
@@ -64,17 +106,28 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
                     }
 
                     var inputFile = fileSystem.OpenTextFile(file, 1);
-
-                    var text = inputFile.readAll();
-                    inputFile.close();
-                    var re1 = /QMake/g;
-                    text = text.replace(re1, vcDirName);
-
                     var outputFile = fileSystem.OpenTextFile(outputPath, 2, true);
-                    outputFile.write(text);
+					
+					while (!inputFile.AtEndOfStream){
+						var text = inputFile.ReadLine();
+						var re1 = /QMake/g;
+						text = text.replace(re1, vcDirName);
+						
+						if (projectTagExp.exec(text)){
+							var textParts = text.split('", "');
+							
+							textParts[1] = relativePath(destDir, textParts[1].split('/').join('\\'));
+
+							text = textParts.join("\", \"");
+						}
+
+						outputFile.WriteLine(text);
+					}
+
+					inputFile.close();
 
                     fileSystem.DeleteFile(file);
-                }
+				}
             }
 
             // Copy directories for Qt generated files
