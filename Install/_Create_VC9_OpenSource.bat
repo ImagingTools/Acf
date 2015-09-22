@@ -11,6 +11,7 @@ call %~dp0\..\Build\VC12\_CreateVCProjectsFromQMake.bat
 
 cd %~dp0\..
 
+set COMPILER_EXT=VC9
 call Install\InternalParts\CreateTempDirs.bat
 
 call Install\InternalParts\CreateScripts.bat
