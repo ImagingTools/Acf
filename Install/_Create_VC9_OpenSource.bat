@@ -1,6 +1,5 @@
 echo off
 
-set COMPILER_EXT=VC9
 set LICENSE_TYPE=OpenSource
 set LICENSE_DIR=Install/LGPL
 set LICENSE_INSTALL_PATH=../LGPL/License.txt
