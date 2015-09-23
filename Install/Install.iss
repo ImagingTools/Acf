@@ -34,13 +34,13 @@ Source: ..\Temp\Config\*; DestDir: {app}\Config; Flags: recursesubdirs; Componen
 Source: ..\Temp\Partitura\*; DestDir: {app}\Partitura; Flags: recursesubdirs; Components: standardComp
 Source: ..\Temp\*; DestDir: {app}; Components: standardComp
 Source: ..\Temp\Docs\*.txt; DestDir: {app}\Docs; Components: standardComp
-Source: ..\Temp\Include\*; Excludes: "*.cpp,*.qrc,*.ui,\Resources\*"; DestDir: {app}\Include\*; Flags: recursesubdirs; Components: standardComp
-Source: ..\Temp\Impl\*; Excludes: "*.cpp"; DestDir: {app}\Impl\*; Flags: recursesubdirs; Components: standardComp
+Source: ..\Temp\Include\*; Excludes: "*.cpp,*.qrc,*.ui,\Resources"; DestDir: {app}\Include; Flags: recursesubdirs; Components: standardComp
+Source: ..\Temp\Impl\*; Excludes: "*.cpp"; DestDir: {app}\Impl; Flags: recursesubdirs; Components: standardComp
 
 Source: ..\Temp\Docs\*; DestDir: {app}\Docs; Flags: recursesubdirs; Components: docuComp
 
-Source: ..\Temp\Include\*; DestDir: {app}\Include\*; Flags: recursesubdirs; Components: sourceComp
-Source: ..\Temp\Impl\*; DestDir: {app}\Impl\*; Flags: recursesubdirs; Components: sourceComp
+Source: ..\Temp\Include\*; DestDir: {app}\Include; Flags: recursesubdirs; Components: sourceComp
+Source: ..\Temp\Impl\*; DestDir: {app}\Impl; Flags: recursesubdirs; Components: sourceComp
 
 Source: {#QTDIR}\bin\icu*.dll; DestDir: {app}\Bin\Debug$CompilerName$; Components: qtBinaryComp
 Source: {#QTDIR}\bin\icu*.dll; DestDir: {app}\Bin\Release$CompilerName$; Components: qtBinaryComp
