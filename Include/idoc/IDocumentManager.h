@@ -195,12 +195,13 @@ public:
 	virtual bool CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
 
 	/**
-		Close current view.
+		Close view.
+		\param	viewPtr			pointer to view should be closed or \c NULL if current active view should be closed.
 		\param	beQuiet			if true, no user interaction will be done.
 								Typically user will be asked for saving document.
 		\param	ignoredPtr		optional return flag indicating that closing was aborted by user.
 	*/
-	virtual bool CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
+	virtual bool CloseView(istd::IPolymorphic* viewPtr = NULL, bool beQuiet = false, bool* ignoredPtr = NULL) = 0;
 };
 
 

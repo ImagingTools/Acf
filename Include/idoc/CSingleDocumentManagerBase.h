@@ -61,7 +61,7 @@ public:
 				bool* ignoredPtr = NULL);
 	virtual bool SaveDirtyDocuments(bool beQuiet = false, bool* ignoredPtr = NULL);
 	virtual bool CloseDocument(int documentIndex = -1, bool beQuiet = false, bool* ignoredPtr = NULL);
-	virtual bool CloseCurrentView(bool beQuiet = false, bool* ignoredPtr = NULL);
+	virtual bool CloseView(istd::IPolymorphic* viewPtr = NULL, bool beQuiet = false, bool* ignoredPtr = NULL);
 
 protected:
 	/**

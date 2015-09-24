@@ -348,9 +348,14 @@ bool CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 }
 
 
-bool CSingleDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
+bool CSingleDocumentManagerBase::CloseView(istd::IPolymorphic* viewPtr, bool beQuiet, bool* ignoredPtr)
 {
-	return CloseDocument(-1, beQuiet, ignoredPtr);
+	if ((viewPtr == NULL) || (viewPtr = m_viewPtr.GetPtr())){
+		return CloseDocument(-1, beQuiet, ignoredPtr);
+	}
+	else{
+		return NULL;
+	}
 }
 
 

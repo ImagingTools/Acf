@@ -457,10 +457,14 @@ bool CMultiDocumentManagerBase::CloseDocument(int documentIndex, bool beQuiet, b
 }
 
 
-bool CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
+bool CMultiDocumentManagerBase::CloseView(istd::IPolymorphic* viewPtr, bool beQuiet, bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){
 		*ignoredPtr = false;
+	}
+
+	if (viewPtr == NULL){
+		viewPtr = m_activeViewPtr;
 	}
 
 	int documentsCount = m_documentInfos.GetCount();
@@ -474,7 +478,7 @@ bool CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
 			ViewInfo& viewInfo = *viewIter;
 			Q_ASSERT(viewInfo.viewPtr.IsValid());
 
-			if (viewInfo.viewPtr == m_activeViewPtr){
+			if (viewInfo.viewPtr == viewPtr){
 				if (infoPtr->views.size() == 1){	// is it the last view? If yes then simple close document
 					return CloseDocument(documentIndex, beQuiet, ignoredPtr);
 				}
@@ -483,7 +487,9 @@ bool CMultiDocumentManagerBase::CloseCurrentView(bool beQuiet, bool* ignoredPtr)
 
 					infoPtr->views.erase(viewIter);	// remove active view
 
-					m_activeViewPtr = NULL;
+					if (viewPtr == m_activeViewPtr){
+						m_activeViewPtr = NULL;
+					}
 				}
 
 				return true;
