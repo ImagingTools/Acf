@@ -70,7 +70,7 @@ public:
 	virtual istd::CRange GetValueRange() const = 0;
 
 	/**
-		Return number manipulator object for filter length value.
+		Return number manipulator object for numeric value.
 	*/
 	virtual const imath::IDoubleManip& GetValueManip() const = 0;
 };
