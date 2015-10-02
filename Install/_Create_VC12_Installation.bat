@@ -13,8 +13,6 @@ cd %~dp0\..
 set COMPILER_EXT=VC12
 call Install\InternalParts\CreateTempDirs.bat
 
-call Install\InternalParts\CopyDlls.bat
-
 echo Compiling...
 vcbuild /r %~dp0\..\Build\%COMPILER_EXT%\AcfAll.sln $All
 vcbuild /r %~dp0\..\Docs\Tutorial\Build\%COMPILER_EXT%\TutorialAcf.sln $All
