@@ -3,6 +3,10 @@ TARGET = Arxc
 include(../../../Config/QMake/ApplicationConfig.pri)
 include(../../../Config/QMake/QtBaseConfig.pri)
 
+win32-msvc*{
+	# copying all Qt DLLs to destination directory
+	greaterThan(QT_MAJOR_VERSION, 4): QMAKE_POST_LINK = set path=$(QTDIR)\bin;%path% && $(QTDIR)\bin\windeployqt $$DESTDIR
+}
 mac*{
 	CONFIG -= app_bundle
 }
