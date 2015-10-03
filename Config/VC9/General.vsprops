@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="ACF General"
-	OutputDirectory="$(ConfigurationName)"
 	BuildLogFile="$(IntDir)\$(ProjectName)-$(ConfigurationName).htm"
 	>
 	<Tool

@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Plattform Win32"
-	OutputDirectory="$(PlattformDependentBaseOutputDir)\$(ConfigurationName)VC9"
-	IntermediateDirectory="..\..\..\AuxInclude\Qt5\GeneratedFiles\$(ConfigurationName)\$(ProjectName)"
+	OutputDirectory="$(PlattformDependentBaseOutputDir)\$(ConfigurationName)$(CompilerCode)"
+	IntermediateDirectory="..\..\..\AuxInclude\Qt5\GeneratedFiles\$(ConfigurationName)$(CompilerCode)\$(ProjectName)"
 	>
 	<UserMacro
 		Name="QTDIR"
