@@ -5,6 +5,7 @@
 #include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
 #include "i2d/CLine2d.h"
+#include "i2d/CAffineTransformation2d.h"
 
 
 namespace i2d
@@ -15,6 +16,9 @@ static const istd::IChangeable::ChangeSet s_clearAllNodesChange(CPolygon::CF_OBJ
 static const istd::IChangeable::ChangeSet s_createPolygonNodesChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Create polygon nodes");
 static const istd::IChangeable::ChangeSet s_insertPolygonNodeChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Insert polygon node");
 static const istd::IChangeable::ChangeSet s_removePolygonNodeChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Remove polygon node");
+static const istd::IChangeable::ChangeSet s_flipPolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Flip polygon");
+static const istd::IChangeable::ChangeSet s_rotatePolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Rotate polygon");
+static const istd::IChangeable::ChangeSet s_reversePolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, "Reverse polygon nodes");
 
 
 // public methods
@@ -90,7 +94,79 @@ double CPolygon::GetOutlineLength() const
 			length += segmentLine.GetLength();
 		}
 	}
+
 	return length;
+}
+
+
+void CPolygon::FlipByX()
+{
+	int count = GetNodesCount();
+	if (count){
+		istd::CChangeNotifier changeNotifier(this, &s_flipPolygonChange);
+		Q_UNUSED(changeNotifier);
+
+		i2d::CVector2d center = GetCenter();
+
+		for (int i = 0; i < count; i++){
+			m_nodes[i].SetX(center.GetX() + (center.GetX() - m_nodes[i].GetX()));
+		}
+	}
+}
+
+
+void CPolygon::FlipByY()
+{
+	int count = GetNodesCount();
+	if (count){
+		istd::CChangeNotifier changeNotifier(this, &s_flipPolygonChange);
+		Q_UNUSED(changeNotifier);
+
+		i2d::CVector2d center = GetCenter();
+
+		for (int i = 0; i < count; i++){
+			m_nodes[i].SetY(center.GetY() + (center.GetY() - m_nodes[i].GetY()));
+		}
+	}
+}
+
+
+void CPolygon::Rotate(double radians)
+{
+	int count = GetNodesCount();
+	if (count){
+		istd::CChangeNotifier changeNotifier(this, &s_rotatePolygonChange);
+		Q_UNUSED(changeNotifier);
+
+		i2d::CVector2d center = GetCenter();
+
+		i2d::CAffineTransformation2d translateTo00;
+		translateTo00.Reset(-center);
+		i2d::CAffineTransformation2d rotate;
+		rotate.Reset(i2d::CVector2d(0, 0), radians);
+		i2d::CAffineTransformation2d translateBackToCenter;
+		translateBackToCenter.Reset(center);
+		Transform(translateTo00);
+		Transform(rotate);
+		Transform(translateBackToCenter);
+	}
+}
+
+
+void CPolygon::ReverseNodes()
+{
+	int count = GetNodesCount();
+	if (count){
+		istd::CChangeNotifier changeNotifier(this, &s_reversePolygonChange);
+		Q_UNUSED(changeNotifier);
+
+		for (int i = 0; i < count / 2; i++){
+			i2d::CVector2d node1 = GetNode(i);
+			i2d::CVector2d node2 = GetNode(count - 1 - i);
+			SetNode(i, node2);
+			SetNode(count - 1 - i, node1);
+		}
+	}
 }
 
 

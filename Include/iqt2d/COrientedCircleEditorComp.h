@@ -2,12 +2,10 @@
 #define iqt2d_COrientedCircleEditorComp_included
 
 
+// ACF includes
 #include "i2d/COrientedCircle.h"
-
 #include "iview/COrientedCircleShape.h"
-
-#include "iqt2d/TShapeParamsGuiCompBase.h"
-#include "GeneratedFiles/iqt2d/ui_COrientedCircleEditorComp.h"
+#include "iqt2d/TCircleBasedParamsGuiComp.h"
 
 
 namespace iqt2d
@@ -15,37 +13,32 @@ namespace iqt2d
 
 
 class COrientedCircleEditorComp:
-			public iqt2d::TShapeParamsGuiCompBase<
-						Ui::COrientedCircleEditorComp,
+			public iqt2d::TCircleBasedParamsGuiComp<
 						iview::COrientedCircleShape,
 						i2d::COrientedCircle>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TShapeParamsGuiCompBase<
-				Ui::COrientedCircleEditorComp,
+	typedef iqt2d::TCircleBasedParamsGuiComp<
 				iview::COrientedCircleShape,
 				i2d::COrientedCircle> BaseClass;
 
 	I_BEGIN_COMPONENT(COrientedCircleEditorComp);
 	I_END_COMPONENT;
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
+	COrientedCircleEditorComp();
 
 protected:
-	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
-
-	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-	virtual void OnGuiRetranslate();
+	// reimplemented (iqt2d::TCircleBasedParamsGuiComp)
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 
 protected Q_SLOTS:
 	void OnParamsChanged(double value);
-	void on_AxisOrientationCheckBox_stateChanged(int state);
+	void OnActionTriggered(QAction* actionPtr);
+
+protected:
+	QAction m_reversePolarityAction;
 };
 
 

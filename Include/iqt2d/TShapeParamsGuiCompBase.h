@@ -2,12 +2,25 @@
 #define iqt2d_TShapeParamsGuiCompBase_included
 
 
+// Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QToolBar>
+#else
+#include <QtGui/QMenu>
+#include <QtGui/QPushButton>
+#include <QtGui/QToolBar>
+#endif
+
 // ACF includes
 #include "i2d/ICalibration2d.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 #include "iview/IColorSchema.h"
 #include "iview/IShapeFactory.h"
 #include "iqt2d/TViewExtenderCompBase.h"
+#include "iqt2d/CIntParamAction.h"
 
 
 namespace iqt2d
@@ -28,7 +41,11 @@ public:
 		I_ASSIGN(m_defaultUnitInfoCompPtr, "DefaultUnitInfo", "Provide default information about the logical value units e.g. mm, this will be used if no unit information found in model", false, "DefaultUnitInfo");
 		I_ASSIGN(m_colorSchemaCompPtr, "ShapeColorSchema", "Color schema used by displayed shape", false, "ShapeColorSchema");
 		I_ASSIGN(m_fixedPositionAttrPtr, "FixedPosition", "If enabled, the shape position will be not editable", true, false);
+		I_ASSIGN(m_allowToolsMenuAttrPtr, "ShowTools", "Show extended shape edit tools", true, true);
+		I_ASSIGN(m_toolBarGuiCompPtr, "ToolBarGui", "Toolbar GUI object to fill with actions", false, "");
 	I_END_COMPONENT;
+
+	TShapeParamsGuiCompBase();
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
@@ -43,6 +60,18 @@ protected:
 
 	QString GetUnitName() const;
 	bool IsPositionFixed() const;
+	bool IsToolsMenuAllowed() const;
+	QToolBar* GetToolBar() const;
+
+	/**
+		Maintenance of the tools actions.
+	*/
+	virtual void CreateActions() {}
+	virtual void CreateToolsMenu(QPushButton* buttonPtr);
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
+	void ProcessActions(QWidget& host);
+	virtual void OnModelAttachedAndGuiShown(imod::IModel* modelPtr);
+	virtual void OnModelDetachedOrGuiHidden(imod::IModel* modelPtr);
 
 	/**
 		Simple creation of shape instance.
@@ -52,14 +81,35 @@ protected:
 	// reimplemented (iqt2d::TViewExtenderCompBase)
 	virtual void CreateShapes(int sceneId, Shapes& result);
 
+	// reimplemented (iqtgui::TGuiObserverWrap)
+	virtual void OnGuiCreated();
+	virtual void OnGuiModelAttached();
+	virtual void OnGuiModelDetached();
+	virtual void OnGuiShown();
+	virtual void OnGuiHidden();
+
 private:
 	I_REF(imath::IUnitInfo, m_defaultUnitInfoCompPtr);
 	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
 	I_ATTR(bool, m_fixedPositionAttrPtr);
+	I_ATTR(bool, m_allowToolsMenuAttrPtr);
+	I_REF(iqtgui::IGuiObject, m_toolBarGuiCompPtr);
+
+	QMenu* m_menuPtr;
+	QAbstractButton* m_menuButtonPtr;
 };
 
 
 // public methods
+
+template <class Ui, class Shape, class ShapeModel>
+TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::TShapeParamsGuiCompBase()
+:	m_menuPtr(NULL),
+	m_menuButtonPtr(NULL)
+{
+
+}
+
 
 // reimplemented (imod::IObserver)
 
@@ -154,6 +204,20 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::IsPositionFixed() const
 
 
 template <class Ui, class Shape, class ShapeModel>
+bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::IsToolsMenuAllowed() const
+{
+	return *m_allowToolsMenuAttrPtr;
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+QToolBar* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetToolBar() const
+{
+	return m_toolBarGuiCompPtr.IsValid() ? dynamic_cast<QToolBar*>(m_toolBarGuiCompPtr->GetWidget()) : NULL;
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
 QString TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetUnitName() const
 {
 	const imath::IUnitInfo* unitInfoPtr = m_defaultUnitInfoCompPtr.GetPtr();
@@ -184,6 +248,100 @@ Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() con
 }
 
 
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateToolsMenu(QPushButton* buttonPtr)
+{
+	m_menuButtonPtr = buttonPtr;
+
+	if (buttonPtr == NULL){
+		return;
+	}
+
+	if (!IsToolsMenuAllowed()){
+		buttonPtr->hide();
+		return;
+	}
+
+	if (m_menuPtr == NULL){
+		buttonPtr->setMenu(m_menuPtr = new QMenu(buttonPtr));
+
+		QObject::connect(m_menuPtr, SIGNAL(triggered(QAction*)), this, SLOT(OnActionTriggered(QAction*)));
+	}
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::PopulateActions(QWidget& /*host*/, imod::IModel* /*modelPtr*/)
+{
+	return true;
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::ProcessActions(QWidget& host)
+{
+	QList<QAction*> menuActions = host.actions();
+	for (int i = menuActions.count()-1; i >= 0; i--){
+		QAction* actionPtr = menuActions.at(i);
+		CIntParamAction* intActionPtr = dynamic_cast<CIntParamAction*>(actionPtr);
+		if (intActionPtr){
+			host.insertAction(
+				i < menuActions.count()-1 ? menuActions.at(i+1) : NULL, 
+				intActionPtr->GetWidgetAction());
+		}
+	}
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(imod::IModel* modelPtr)
+{
+	if (m_menuPtr){
+		m_menuPtr->clear();
+
+		if (PopulateActions(*m_menuPtr, modelPtr)){
+			ProcessActions(*m_menuPtr);
+			
+			m_menuButtonPtr->setEnabled(true);
+		}
+		else
+			m_menuButtonPtr->setEnabled(false);
+	}
+
+	QToolBar* toolBarPtr = GetToolBar();
+	if (toolBarPtr){
+		toolBarPtr->clear();
+
+		if (PopulateActions(*toolBarPtr, modelPtr)){
+			//ProcessActions(*toolBarPtr);
+
+			toolBarPtr->setVisible(true);
+
+			QObject::connect(toolBarPtr, SIGNAL(triggered(QAction*)), this, SLOT(OnActionTriggered(QAction*)));
+		}
+		else{
+			toolBarPtr->disconnect();
+			toolBarPtr->hide();
+		}
+	}
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetachedOrGuiHidden(imod::IModel* /*modelPtr*/)
+{
+	if (m_menuButtonPtr){
+		m_menuButtonPtr->setEnabled(false);
+	}
+
+	QToolBar* toolBarPtr = GetToolBar();
+	if (toolBarPtr){
+		toolBarPtr->disconnect();
+		toolBarPtr->hide();
+	}
+}
+
+
 // reimplemented (iqt2d::TViewExtenderCompBase)
 
 template <class Ui, class Shape, class ShapeModel>
@@ -197,6 +355,55 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*
 
 		result.PushBack(shapePtr);
 	}
+}
+
+
+// reimplemented (iqtgui::TGuiObserverWrap)
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiCreated()
+{
+	BaseClass::OnGuiCreated();
+
+	CreateActions();
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiModelAttached()
+{
+	BaseClass::OnGuiModelAttached();
+
+	if (IsGuiShown()){
+		OnModelAttachedAndGuiShown(BaseClass::GetObservedModel());
+	}
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiModelDetached()
+{
+	OnModelDetachedOrGuiHidden(BaseClass::GetObservedModel());
+
+	BaseClass::OnGuiModelDetached();
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiShown()
+{
+	BaseClass::OnGuiShown();
+
+	OnModelAttachedAndGuiShown(BaseClass::GetObservedModel());
+}
+
+
+template <class Ui, class Shape, class ShapeModel>
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiHidden()
+{
+	OnModelDetachedOrGuiHidden(BaseClass::GetObservedModel());
+
+	BaseClass::OnGuiHidden();
 }
 
 

@@ -43,8 +43,7 @@ protected Q_SLOTS:
 	void OnGuiModelAttached();
 	void OnGuiModelDetached();
 	void OnGuiCreated();
-
-	void OnToolsButtonMenuActionTriggered(QAction* action);
+	void OnActionTriggered(QAction* actionPtr);
 
 private:
 	/**

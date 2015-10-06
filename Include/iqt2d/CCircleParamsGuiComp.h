@@ -2,11 +2,11 @@
 #define iqt2d_CCircleParamsGuiComp_included
 
 
+// ACF includes
 #include "i2d/CCircle.h"
-
 #include "iview/CCircleShape.h"
+#include "iqt2d/TCircleBasedParamsGuiComp.h"
 
-#include "iqt2d/TShapeParamsGuiCompBase.h"
 #include "GeneratedFiles/iqt2d/ui_CCircleParamsGuiComp.h"
 
 
@@ -15,36 +15,25 @@ namespace iqt2d
 
 
 class CCircleParamsGuiComp: 
-			public iqt2d::TShapeParamsGuiCompBase<
-						Ui::CCircleParamsGuiComp,
+			public iqt2d::TCircleBasedParamsGuiComp<
 						iview::CCircleShape,
 						i2d::CCircle>
 {
 	Q_OBJECT
 
 public:
-	typedef iqt2d::TShapeParamsGuiCompBase<
-				Ui::CCircleParamsGuiComp,
+	typedef iqt2d::TCircleBasedParamsGuiComp<
 				iview::CCircleShape,
 				i2d::CCircle> BaseClass;
 
 	I_BEGIN_COMPONENT(CCircleParamsGuiComp);
 	I_END_COMPONENT;
 
-	// reimplemented (imod::IModelEditor)
-	virtual void UpdateModel() const;
-
 protected:
-	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
-
-	// reimplemented (iqtgui::CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-	virtual void OnGuiRetranslate();
 
 protected Q_SLOTS:
 	void OnParamsChanged(double value);
+	void OnActionTriggered(QAction* actionPtr);
 };
 
 

@@ -64,7 +64,9 @@ public:
 	*/
 	virtual bool RemoveNode(int index);
 
-	// Following "quiet" methods are intended to directly change data without change notification (for performance reasons)
+	/**
+		Following "quiet" methods are intended to directly change data without change notification (for performance reasons)
+	*/
 	void InsertNodeQuiet(const i2d::CVector2d& node);
 	void InsertNodeQuiet(int index, const i2d::CVector2d& node);
 	void SetNodesCountQuiet(int count);
@@ -73,6 +75,23 @@ public:
 		Get outline length of this polygon.
 	*/
 	virtual double GetOutlineLength() const;
+
+	/** 
+		Flip object by X-axis.
+	*/
+	virtual void FlipByX();
+	/** 
+		Flip object by Y-axis.
+	*/
+	virtual void FlipByY();
+	/** 
+		Rotate object around its center.
+	*/
+	virtual void Rotate(double radians);
+	/** 
+		Reverses nodes order.
+	*/
+	virtual void ReverseNodes();
 
 	// reimplemented (i2d::IObject2d)
 	virtual CVector2d GetCenter() const;

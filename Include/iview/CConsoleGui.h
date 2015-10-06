@@ -87,11 +87,6 @@ public Q_SLOTS:
 	void OnPoinsMove();
 	void OnPointsAdd();
 	void OnPointsSub();
-	void OnFlipHorizontal();
-	void OnFlipVertical();
-	void OnRotateCW();
-	void OnRotateCCW();
-	void OnReverse();
 	void OnShowScrollbars(bool state);
 	void OnShowGrid(bool state);
 	void OnShowRuler(bool state);
@@ -154,12 +149,6 @@ private:
 	iqtgui::CHierarchicalCommand m_pointsMoveCommand;
 	iqtgui::CHierarchicalCommand m_pointsAddCommand;
 	iqtgui::CHierarchicalCommand m_pointsSubCommand;
-
-	iqtgui::CHierarchicalCommand m_flipHorizontalCommand;
-	iqtgui::CHierarchicalCommand m_flipVerticalCommand;
-	iqtgui::CHierarchicalCommand m_rotateCWCommand;
-	iqtgui::CHierarchicalCommand m_rotateCCWCommand;
-	iqtgui::CHierarchicalCommand m_reverseLineCommand;
 
 	IShapeStatusInfo* m_shapeStatusInfoPtr;
 

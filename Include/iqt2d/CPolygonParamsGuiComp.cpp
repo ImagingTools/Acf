@@ -5,11 +5,22 @@ namespace iqt2d
 {
 
 
+CPolygonParamsGuiComp::CPolygonParamsGuiComp() 
+{
+}
+
+
 // protected slots
 
 void CPolygonParamsGuiComp::OnParamsChanged()
 {
 	DoUpdateModel();
+}
+
+
+void CPolygonParamsGuiComp::OnActionTriggered(QAction* actionPtr)
+{
+	BaseClass::OnActionTriggered(actionPtr);
 }
 
 
@@ -34,12 +45,6 @@ void CPolygonParamsGuiComp::on_CopyButton_clicked()
 void CPolygonParamsGuiComp::on_PasteButton_clicked()
 {
 	OnPasteData();
-}
-
-
-void CPolygonParamsGuiComp::OnToolsButtonMenuActionTriggered(QAction* action)
-{
-	BaseClass::OnToolsButtonMenuActionTriggered(action);
 }
 
 

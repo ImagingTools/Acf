@@ -1,59 +1,37 @@
 #include "iqt2d/COrientedCircleEditorComp.h"
 
-// ACF includes
-#include "istd/CChangeGroup.h"
-
 
 namespace iqt2d
 {
 
 
-// reimplemented (imod::IModelEditor)
-
-void COrientedCircleEditorComp::UpdateModel() const
+COrientedCircleEditorComp::COrientedCircleEditorComp()
+:	m_reversePolarityAction(QIcon(":/Icons/Reverse"), QCoreApplication::translate("iqt2d", "Reverse orientation"), this)
 {
-	Q_ASSERT(IsGuiCreated());
 
-	i2d::COrientedCircle* objectPtr = GetObservedObject();
-	Q_ASSERT(objectPtr != NULL);
-
-	istd::CChangeGroup changeGroup(objectPtr);
-	Q_UNUSED(changeGroup);
-
-	i2d::CVector2d position(XSpin->value(), YSpin->value());
-
-	objectPtr->SetPosition(position);
-
-	double radius = RadiusSpin->value();
-	objectPtr->SetRadius(radius);
-
-	objectPtr->SetOrientedOutside(AxisOrientationCheckBox->checkState() == Qt::Checked);
 }
 
 
 // protected methods
 
-void COrientedCircleEditorComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
+// reimplemented (iqt2d::TCircleBasedParamsGuiComp)
+
+bool COrientedCircleEditorComp::PopulateActions(QWidget& host, imod::IModel* modelPtr)
 {
-	Q_ASSERT(IsGuiCreated());
-
-	i2d::COrientedCircle* objectPtr = GetObservedObject();
-	if (objectPtr != NULL){
-		const i2d::CVector2d& center = objectPtr->GetCenter();
-
-		XSpin->setValue(center.GetX());
-		YSpin->setValue(center.GetY());
-
-		RadiusSpin->setValue(objectPtr->GetRadius());
-
-		AxisOrientationCheckBox->setCheckState(objectPtr->IsOrientedOutside() ? Qt::Checked : Qt::Unchecked);
-
-		UpdateAllViews();
+	if (!BaseClass::PopulateActions(host, modelPtr)){
+		return false;
 	}
+
+	i2d::COrientedCircle* circlePtr = dynamic_cast<i2d::COrientedCircle*>(modelPtr);
+	if (circlePtr != NULL){
+		host.addAction(&m_reversePolarityAction);
+	}
+
+	return true;
 }
 
 
-// reimplemented (iqtgui::TGuiObserverWrap)
+// protected slots
 
 void COrientedCircleEditorComp::OnParamsChanged(double /*value*/)
 {
@@ -61,60 +39,18 @@ void COrientedCircleEditorComp::OnParamsChanged(double /*value*/)
 }
 
 
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void COrientedCircleEditorComp::OnGuiCreated()
+void COrientedCircleEditorComp::OnActionTriggered(QAction* actionPtr)
 {
-	BaseClass::OnGuiCreated();
+	if (actionPtr == &m_reversePolarityAction){
+		i2d::COrientedCircle* circlePtr = dynamic_cast<i2d::COrientedCircle*>(BaseClass::GetObservedModel());
+		if (circlePtr){
+			circlePtr->SetOrientedOutside(!circlePtr->IsOrientedOutside());
+		}
 
-	if (IsPositionFixed()){
-		XSpin->setEnabled(false);
-		YSpin->setEnabled(false);
-	}
-	else{
-		QObject::connect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-		QObject::connect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
+		return;
 	}
 
-	QObject::connect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-}
-
-
-void COrientedCircleEditorComp::OnGuiDestroyed()
-{
-	if (!IsPositionFixed()){
-		QObject::disconnect(XSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-		QObject::disconnect(YSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-	}
-
-	QObject::disconnect(RadiusSpin, SIGNAL(valueChanged(double)), this, SLOT(OnParamsChanged(double)));
-
-	BaseClass::OnGuiDestroyed();
-}
-
-
-void COrientedCircleEditorComp::OnGuiRetranslate()
-{
-	BaseClass::OnGuiRetranslate();
-
-	QString unitName = GetUnitName();
-
-	if (!unitName.isEmpty()){
-		PositionUnitLabel->setText(unitName);
-		RadiusUnitLabel->setText(unitName);
-		PositionUnitLabel->setVisible(true);
-		RadiusUnitLabel->setVisible(true);
-	}
-	else{
-		PositionUnitLabel->setVisible(false);
-		RadiusUnitLabel->setVisible(false);
-	}
-}
-
-
-void COrientedCircleEditorComp::on_AxisOrientationCheckBox_stateChanged(int /*state*/)
-{
-	DoUpdateModel();
+	BaseClass::OnActionTriggered(actionPtr);
 }
 
 

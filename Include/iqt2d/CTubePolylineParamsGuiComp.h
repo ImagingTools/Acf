@@ -29,13 +29,12 @@ public:
 
 protected Q_SLOTS:
 	void OnParamsChanged();
+	void OnActionTriggered(QAction* actionPtr);
 
 	void on_InsertButton_clicked();
 	void on_RemoveButton_clicked();
 	void on_CopyButton_clicked();
 	void on_PasteButton_clicked();
-
-	void OnToolsButtonMenuActionTriggered(QAction* action);
 
 protected:
 	// reimplemented (iqt2d::TPolygonBasedParamsGuiComp)

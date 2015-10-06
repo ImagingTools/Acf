@@ -10,11 +10,9 @@
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QItemDelegate>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QMenu>
 #else
 #include <QtGui/QItemDelegate>
 #include <QtGui/QLineEdit>
-#include <QtGui/QMenu>
 #endif
 
 // ACF includes
@@ -35,10 +33,11 @@ namespace iqt2d
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-class TPolygonBasedParamsGuiComp: public iqt2d::TShapeParamsGuiCompBase<
-			Ui::CPolygonParamsGuiComp,
-			PolygonBasedShape,
-			PolygonBasedModel>
+class TPolygonBasedParamsGuiComp: 
+			public iqt2d::TShapeParamsGuiCompBase<
+						Ui::CPolygonParamsGuiComp,
+						PolygonBasedShape,
+						PolygonBasedModel>
 {
 public:
 
@@ -72,6 +71,8 @@ public:
 		I_ASSIGN(m_nodeListSizeAttrPtr, "NodeListSize", "Fixed height of the node list if set (0 - hide)", false, 0);
 	I_END_COMPONENT;
 
+	TPolygonBasedParamsGuiComp();
+
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 
@@ -95,16 +96,15 @@ protected:
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
 	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnGuiShown();
+	virtual void OnGuiHidden();
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 
-	/**
-		Enable or disable the tools button depending on model type and dynamically build its menu.
-	*/
-	virtual void UpdateToolsMenuButton();
-
-	virtual void OnToolsButtonMenuActionTriggered(QAction* action);
+	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
+	virtual void OnActionTriggered(QAction* actionPtr);
 
 protected:
 	using BaseClass::GetObservedObject;
@@ -124,7 +124,6 @@ protected:
 	public:
 		CPolygonParamsGuiItemDelegate(QObject* parent): QItemDelegate(parent)
 		{
-
 		}
 
 		virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex&) const
@@ -137,10 +136,28 @@ protected:
 
 protected:
 	I_ATTR(int, m_nodeListSizeAttrPtr);
+
+	// actions
+	QAction m_flipHorizontalAction;
+	QAction m_flipVerticalAction;
+	QAction m_rotateCwAction;
+	QAction m_rotateCcwAction;
+	QAction m_reversePolarityAction;
 };
 
 
 // public methods
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::TPolygonBasedParamsGuiComp()
+:	m_flipHorizontalAction(QIcon(":/Icons/FlipHorizontal"), QCoreApplication::translate("iqt2d", "Flip horizontally"), this),
+	m_flipVerticalAction(QIcon(":/Icons/FlipVertical"), QCoreApplication::translate("iqt2d", "Flip vertically"), this),
+	m_rotateCwAction(QIcon(":/Icons/RotateRight"), QCoreApplication::translate("iqt2d", "Rotate clockwise"), this),
+	m_rotateCcwAction(QIcon(":/Icons/RotateLeft"), QCoreApplication::translate("iqt2d", "Rotate counterclockwise"), this),
+	m_reversePolarityAction(QIcon(":/Icons/Reverse"), QCoreApplication::translate("iqt2d", "Reverse line"), this)
+{
+}
+
 
 // reimplemented (imod::IModelEditor)
 
@@ -275,19 +292,29 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiMode
 	BaseClass::OnGuiModelAttached();
 
 	QObject::connect(NodeParamsTable, SIGNAL(cellChanged(int, int)), this, SLOT(OnParamsChanged()));
-
-	UpdateToolsMenuButton();
 }
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
 void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiModelDetached()
 {
-	UpdateToolsMenuButton();
-
 	NodeParamsTable->disconnect();
 
 	BaseClass::OnGuiModelDetached();
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiShown()
+{
+	BaseClass::OnGuiShown();
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiHidden()
+{
+	BaseClass::OnGuiHidden();
 }
 
 
@@ -348,56 +375,65 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 
 	BaseClass::CloseLineCheckBox->setHidden(true);
 
-	UpdateToolsMenuButton();
+	// tools actions
+	CreateToolsMenu(ToolsButton);
 }
 
 
+// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+
 template <class PolygonBasedShape, class PolygonBasedModel>
-void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateToolsMenuButton()
+bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::PopulateActions(QWidget& host, imod::IModel* modelPtr)
 {
-	BaseClass::ToolsButton->setHidden(true);
-	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(BaseClass::GetObservedModel());
-	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(BaseClass::GetObservedModel());
-
-	if (polylinePtr != NULL || polygonPtr != NULL){
-		BaseClass::ToolsButton->setHidden(false);
-		if (BaseClass::ToolsButton->menu() == NULL){
-			BaseClass::ToolsButton->setMenu(new QMenu(BaseClass::ToolsButton));
-
-			BaseClass::connect(BaseClass::ToolsButton->menu(), SIGNAL(triggered(QAction*)), this, SLOT(OnToolsButtonMenuActionTriggered(QAction*)));
-		}
-
-		QMenu& menu = *BaseClass::ToolsButton->menu();
-		menu.clear();
-
-		menu.addAction(QIcon(":/Icons/FlipHorizontal"), QCoreApplication::translate("iqt2d", "Flip horizontally"))->setData(iview::IInteractiveShape::ActionFlipHorizontally);
-		menu.addAction(QIcon(":/Icons/FlipVertical"), QCoreApplication::translate("iqt2d", "Flip vertically"))->setData(iview::IInteractiveShape::ActionFlipVertically);
-		menu.addAction(QIcon(":/Icons/RotateRight"), QCoreApplication::translate("iqt2d", "Rotate clockwise"))->setData(iview::IInteractiveShape::ActionRotateClockwise);
-		menu.addAction(QIcon(":/Icons/RotateLeft"), QCoreApplication::translate("iqt2d", "Rotate counterclockwise"))->setData(iview::IInteractiveShape::ActionRotateCounterclockwise);
-		if (polylinePtr != NULL){
-			menu.addAction(QIcon(":/Icons/Reverse"), QCoreApplication::translate("iqt2d", "Reverse line"))->setData(iview::IInteractiveShape::ActionReverseLine);
-		}
+	if (!BaseClass::PopulateActions(host, modelPtr)){
+		return false;
 	}
+
+	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(modelPtr);
+	i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
+	if (polygonPtr == NULL && polylinePtr == NULL){
+		return false;
+	}
+
+	host.addAction(&m_flipHorizontalAction);
+	host.addAction(&m_flipVerticalAction);
+	host.addAction(&m_rotateCwAction);
+	host.addAction(&m_rotateCcwAction);
+
+	if (polylinePtr){
+		host.addAction(&m_reversePolarityAction);
+	}
+
+	return true;
 }
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnToolsButtonMenuActionTriggered(QAction* action)
+void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnActionTriggered(QAction* actionPtr)
 {
-	int actionId = action->data().toInt();
+	Q_ASSERT(actionPtr);
 
-	const typename BaseClass::ShapesMap& shapesMap = BaseClass::GetShapesMap();
-	for (		typename BaseClass::ShapesMap::const_iterator iter = shapesMap.begin();
-				iter != shapesMap.end();
-				++iter){
-		const typename BaseClass::Shapes& shapes = iter.value();
-		int shapesCount = shapes.GetCount();
-		for (int shapeIndex = 0; shapeIndex < shapesCount; ++shapeIndex){
-			PolygonBasedShape* shapePtr = dynamic_cast<PolygonBasedShape*>(shapes.GetAt(shapeIndex));
-			if (shapePtr != NULL){
-				shapePtr->ExecuteAction((iview::IInteractiveShape::ShapeAction)actionId);
-			}
-		}
+	PolygonBasedModel* modelPtr = dynamic_cast<PolygonBasedModel*>(BaseClass::GetObservedModel());
+	Q_ASSERT(modelPtr);
+
+	if (actionPtr == NULL || modelPtr == NULL){
+		return;
+	}
+
+	if (actionPtr == &m_flipHorizontalAction){
+		modelPtr->FlipByX();
+	}
+	else if (actionPtr == &m_flipVerticalAction){
+		modelPtr->FlipByY();
+	}
+	else if (actionPtr == &m_rotateCwAction){
+		modelPtr->Rotate(M_PI/2);
+	}
+	else if (actionPtr == &m_rotateCcwAction){
+		modelPtr->Rotate(-M_PI/2);
+	}
+	else if (actionPtr == &m_reversePolarityAction){
+		modelPtr->ReverseNodes();
 	}
 }
 

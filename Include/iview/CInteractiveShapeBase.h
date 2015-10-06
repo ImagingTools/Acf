@@ -38,8 +38,6 @@ public:
 	// reimplemented (iview::IInteractiveShape)
 	virtual bool IsSelected() const;
 	virtual void SetSelected(bool selectFlag = true);
-	virtual bool IsActionAvailable(ShapeAction action) const;
-	virtual bool ExecuteAction(ShapeAction action);
 
 	// reimplemented (iview::IMouseActionObserver)
 	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
@@ -129,20 +127,6 @@ inline int CInteractiveShapeBase::GetEditMode() const
 	else{
 		return ISelectable::EM_NONE;
 	}
-}
-
-
-// reimplemented (iview::IInteractiveShape)
-
-inline bool CInteractiveShapeBase::IsActionAvailable(IInteractiveShape::ShapeAction /*action*/) const
-{
-	return false;
-}
-
-
-inline bool CInteractiveShapeBase::ExecuteAction(IInteractiveShape::ShapeAction /*action*/)
-{
-	return false;
 }
 
 

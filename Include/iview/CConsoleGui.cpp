@@ -49,11 +49,6 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_pointsMoveCommand("Modify Mode", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
 	m_pointsAddCommand("Add Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
 	m_pointsSubCommand("Remove Points", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE | ibase::ICommand::CF_ONOFF, CGI_SHAPE_EDITOR),
-	m_flipHorizontalCommand("Flip Horizontal", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_SHAPE_TOOLS),
-	m_flipVerticalCommand("Flip Vertical", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_SHAPE_TOOLS),
-	m_rotateCWCommand("Rotate Clockwise", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_SHAPE_TOOLS),
-	m_rotateCCWCommand("Rotate Counterclockwise", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_SHAPE_TOOLS),
- 	m_reverseLineCommand("Reverse Line", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_SHAPE_TOOLS),
 	m_shapeStatusInfoPtr(NULL),
 	m_isFullScreenMode(false),
 	m_isViewMaximized(false)
@@ -258,51 +253,6 @@ void CConsoleGui::OnPointsSub()
 }
 
 
-void CConsoleGui::OnFlipHorizontal()
-{
-	IInteractiveShape* shapePtr = (m_viewPtr->GetFirstActiveShape());
-	if (shapePtr != NULL){
-		shapePtr->ExecuteAction(IInteractiveShape::ActionFlipHorizontally);
-	}
-}
-
-
-void CConsoleGui::OnFlipVertical()
-{
-	IInteractiveShape* shapePtr = (m_viewPtr->GetFirstActiveShape());
-	if (shapePtr != NULL){
-		shapePtr->ExecuteAction(IInteractiveShape::ActionFlipVertically);
-	}
-}
-
-
-void CConsoleGui::OnRotateCW()
-{
-	IInteractiveShape* shapePtr = (m_viewPtr->GetFirstActiveShape());
-	if (shapePtr != NULL){
-		shapePtr->ExecuteAction(IInteractiveShape::ActionRotateClockwise);
-	}
-}
-
-
-void CConsoleGui::OnRotateCCW()
-{
-	IInteractiveShape* shapePtr = (m_viewPtr->GetFirstActiveShape());
-	if (shapePtr != NULL){
-		shapePtr->ExecuteAction(IInteractiveShape::ActionRotateCounterclockwise);
-	}
-}
-
-
-void CConsoleGui::OnReverse()
-{
-	IInteractiveShape* shapePtr = (m_viewPtr->GetFirstActiveShape());
-	if (shapePtr != NULL){
-		shapePtr->ExecuteAction(IInteractiveShape::ActionReverseLine);
-	}
-}
-
-
 void CConsoleGui::OnShowScrollbars(bool state)
 {
 	SetScrollbarsVisible(state);
@@ -386,30 +336,6 @@ void CConsoleGui::UpdateView()
 	m_pointsMoveCommand.setEnabled(isSelected);
 	m_pointsAddCommand.setEnabled(isSelected);
 	m_pointsSubCommand.setEnabled(isSelected);
-
-	bool isFlipHorizontal = false;
-	bool isFlipVertical = false;
-	bool isRotateCW = false;
-	bool isRotateCCW = false;
-	bool isReverse = false;
-
-	bool isSelectedOne = (selectedShapesCount == 1);
-	if (isSelectedOne){
-		IInteractiveShape* shapePtr = m_viewPtr->GetFirstActiveShape();
-		if (shapePtr){
-			isFlipHorizontal = shapePtr->IsActionAvailable(IInteractiveShape::ActionFlipHorizontally);
-			isFlipVertical = shapePtr->IsActionAvailable(IInteractiveShape::ActionFlipVertically);
-			isRotateCW = shapePtr->IsActionAvailable(IInteractiveShape::ActionRotateClockwise);
-			isRotateCCW = shapePtr->IsActionAvailable(IInteractiveShape::ActionRotateCounterclockwise);
-			isReverse = shapePtr->IsActionAvailable(IInteractiveShape::ActionReverseLine);
-		}
-	}
-
-	m_flipHorizontalCommand.setEnabled(isFlipHorizontal);
-	m_flipVerticalCommand.setEnabled(isFlipVertical);
-	m_rotateCCWCommand.setEnabled(isRotateCCW);
-	m_rotateCWCommand.setEnabled(isRotateCW);
-	m_reverseLineCommand.setEnabled(isReverse);
 }
 
 
@@ -645,11 +571,6 @@ void CConsoleGui::UpdateComponentsPosition()
 	m_pointsMoveCommand.setVisible(polyVisible);
 	m_pointsAddCommand.setVisible(polyVisible);
 	m_pointsSubCommand.setVisible(polyVisible);
-	m_flipHorizontalCommand.setVisible(polyVisible);
-	m_flipVerticalCommand.setVisible(polyVisible);
-	m_rotateCWCommand.setVisible(polyVisible);
-	m_rotateCCWCommand.setVisible(polyVisible);
-	m_reverseLineCommand.setVisible(polyVisible);
 
 	m_scrollVisibleCommand.setVisible(areButtonsVisible && IsScrollbarsButtonVisible());
 	m_gridVisibleCommand.setVisible(areButtonsVisible && IsGridButtonVisible());
@@ -707,26 +628,6 @@ void CConsoleGui::UpdateCommands()
 		m_pointsSubCommand.setIcon(QIcon(":/Icons/PointsSub"));
 		m_pointsSubCommand.setToolTip(tr("Points Removing Mode"));
 		m_commands.InsertChild(&m_pointsSubCommand);
-
-		m_flipHorizontalCommand.setIcon(QIcon(":/Icons/FlipHorizontal"));
-		m_flipHorizontalCommand.setToolTip(tr("Flip current shape in its bounding box horizontally"));
-		m_commands.InsertChild(&m_flipHorizontalCommand);
-
-		m_flipVerticalCommand.setIcon(QIcon(":/Icons/FlipVertical"));
-		m_flipVerticalCommand.setToolTip(tr("Flip current shape in its bounding box vertically"));
-		m_commands.InsertChild(&m_flipVerticalCommand);
-
-		m_rotateCCWCommand.setIcon(QIcon(":/Icons/RotateLeft"));
-		m_rotateCCWCommand.setToolTip(tr("Rotate current shape counterclockwise around its center"));
-		m_commands.InsertChild(&m_rotateCCWCommand);
-
-		m_rotateCWCommand.setIcon(QIcon(":/Icons/RotateRight"));
-		m_rotateCWCommand.setToolTip(tr("Rotate current shape clockwise around its center"));
-		m_commands.InsertChild(&m_rotateCWCommand);
-
-		m_reverseLineCommand.setIcon(QIcon(":/Icons/Reverse"));
-		m_reverseLineCommand.setToolTip(tr("Reverse current shape orientation"));
-		m_commands.InsertChild(&m_reverseLineCommand);
 	}
 
 	// components visibility commands
@@ -842,12 +743,6 @@ bool CConsoleGui::ConnectSignalSlots()
 	retVal = connect(&m_pointsMoveCommand, SIGNAL(triggered()), this, SLOT(OnPoinsMove())) && retVal;
 	retVal = connect(&m_pointsAddCommand, SIGNAL(triggered()), this, SLOT(OnPointsAdd())) && retVal;
 	retVal = connect(&m_pointsSubCommand, SIGNAL(triggered()), this, SLOT(OnPointsSub())) && retVal;
-
-	retVal = connect(&m_flipHorizontalCommand, SIGNAL(triggered()), this, SLOT(OnFlipHorizontal())) && retVal;
-	retVal = connect(&m_flipVerticalCommand, SIGNAL(triggered()), this, SLOT(OnFlipVertical())) && retVal;
-	retVal = connect(&m_rotateCWCommand, SIGNAL(triggered()), this, SLOT(OnRotateCW())) && retVal;
-	retVal = connect(&m_rotateCCWCommand, SIGNAL(triggered()), this, SLOT(OnRotateCCW())) && retVal;
-	retVal = connect(&m_reverseLineCommand, SIGNAL(triggered()), this, SLOT(OnReverse())) && retVal;
 
 	retVal = connect(&m_scrollVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowScrollbars(bool))) && retVal;
 	retVal = connect(&m_gridVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGrid(bool))) && retVal;
