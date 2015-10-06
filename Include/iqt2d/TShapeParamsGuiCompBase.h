@@ -7,10 +7,12 @@
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QToolBar>
 #else
 #include <QtGui/QMenu>
 #include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
 #endif
 
@@ -67,7 +69,7 @@ protected:
 		Maintenance of the tools actions.
 	*/
 	virtual void CreateActions() {}
-	virtual void CreateToolsMenu(QPushButton* buttonPtr);
+	virtual void CreateToolsMenu(QAbstractButton* buttonPtr);
 	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 	void ProcessActions(QWidget& host);
 	virtual void OnModelAttachedAndGuiShown(imod::IModel* modelPtr);
@@ -249,7 +251,7 @@ Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() con
 
 
 template <class Ui, class Shape, class ShapeModel>
-void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateToolsMenu(QPushButton* buttonPtr)
+void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateToolsMenu(QAbstractButton* buttonPtr)
 {
 	m_menuButtonPtr = buttonPtr;
 
@@ -263,9 +265,19 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateToolsMenu(QPushButton
 	}
 
 	if (m_menuPtr == NULL){
-		buttonPtr->setMenu(m_menuPtr = new QMenu(buttonPtr));
-
+		m_menuPtr = new QMenu(buttonPtr);
 		QObject::connect(m_menuPtr, SIGNAL(triggered(QAction*)), this, SLOT(OnActionTriggered(QAction*)));
+
+		QPushButton* pushButtonPtr = dynamic_cast<QPushButton*>(buttonPtr);
+		if (pushButtonPtr != NULL){
+			pushButtonPtr->setMenu(m_menuPtr = new QMenu(buttonPtr));
+		}
+		else{
+			QToolButton* toolButtonPtr = dynamic_cast<QToolButton*>(buttonPtr);
+			if (toolButtonPtr != NULL){
+				toolButtonPtr->setMenu(m_menuPtr = new QMenu(buttonPtr));
+			}
+		}
 	}
 }
 
