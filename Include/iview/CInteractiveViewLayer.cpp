@@ -157,6 +157,9 @@ bool CInteractiveViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButt
 						uiShapePtr->OnMouseButton(position, buttonType, downFlag);
 					}
 				}
+				else{	// right button
+					uiShapePtr->OnMouseButton(position, buttonType, downFlag);
+				}
 
 				return true;
 			}
