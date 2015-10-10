@@ -104,6 +104,11 @@ I_EXPORT_COMPONENT(
 			"Synchronization Data Object" IM_TAG("Model"));
 
 I_EXPORT_COMPONENT(
+			ConsoleApplication,
+			"Console application",
+			"Application Service" IM_CATEGORY(I_APPLICATION));
+
+I_EXPORT_COMPONENT(
 			SelectableParamsSet,
 			"Composed set of parameters",
 			"Parameters Set Selection Options List" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model Parameter"));

@@ -1,0 +1,65 @@
+#pragma once
+
+
+// Qt includes
+#include <QtCore/QCoreApplication>
+#include <QtCore/QStringList>
+
+// ACF includes
+#include <istd/TOptDelPtr.h>
+#include <ilog/TLoggerCompWrap.h>
+#include <iqt/CConsoleReader.h>
+#include <ibase/IApplication.h>
+#include <ibase/IApplicationInfo.h>
+
+
+namespace ibase
+{
+
+
+/**
+	Console (non-gui) application.
+*/
+class CConsoleApplicationComp:
+			public QObject,
+			public ilog::CLoggerComponentBase,
+			virtual public ibase::IApplication
+{
+	Q_OBJECT
+
+public:
+	typedef ilog::CLoggerComponentBase BaseClass;
+
+	I_BEGIN_COMPONENT(CConsoleApplicationComp);
+		I_REGISTER_INTERFACE(ibase::IApplication);
+		I_ASSIGN(m_applicationInfoCompPtr, "ApplicationInfo", "Info about the worker application", true, "ApplicationInfo");
+		I_ASSIGN_MULTI_0(m_componentsToInitializeCompPtr, "ComponentsToInitialize", "List of components to be initialized after creation of the application instance (QCoreApplication)", false);
+	I_END_COMPONENT;
+
+	// reimplemented (ibase::IApplication)
+	virtual bool InitializeApplication(int argc, char** argv);
+	virtual int Execute(int argc, char** argv);
+	virtual QString GetHelpText() const;
+	virtual QStringList GetApplicationArguments() const;
+
+protected:
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentDestroyed();
+
+private slots:
+	void OnKeyPressed(char ch);
+
+private:
+	I_REF(ibase::IApplicationInfo, m_applicationInfoCompPtr);
+	I_MULTIREF(istd::IPolymorphic, m_componentsToInitializeCompPtr);
+
+	QStringList m_applicationArguments;
+	istd::TOptDelPtr<QCoreApplication> m_applicationPtr;
+
+	iqt::CConsoleReader m_consoleReader;
+};
+
+
+} // namespace ibase
+
+

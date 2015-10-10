@@ -460,6 +460,10 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\iqt\moc_CConsoleReader.cpp"
+				>
+			</File>
+			<File
 				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqt\moc_CNetworkWriteArchive.cpp"
 				>
 			</File>
@@ -468,10 +472,18 @@
 			Name="Moc Files"
 			>
 			<File
+				RelativePath="..\CConsoleReader.moc"
+				>
+			</File>
+			<File
 				RelativePath="..\CNetworkWriteArchive.moc"
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\ClassDiagram1.cd"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -38,6 +38,7 @@
 #include "ibase/CMultiObserverBinderComp.h"
 #include "ibase/CQtVersionInfoComp.h"
 #include "ibase/CObjectSynchronizerComp.h"
+#include "ibase/CConsoleApplicationComp.h"
 
 #include "iprm/CSelectableParamsSetComp.h"
 #include "iprm/CParamsManagerComp.h"
@@ -97,6 +98,7 @@ typedef ibase::CObjectQueueComp ObjectQueue;
 typedef ibase::CMultiObserverBinderComp MultiObserverBinder;
 typedef ibase::CQtVersionInfoComp QtVersionInfo;
 typedef ibase::CObjectSynchronizerComp ObjectSynchronizer;
+typedef ibase::CConsoleApplicationComp ConsoleApplication;
 
 typedef icomp::TModelCompWrap<iprm::CSelectableParamsSetComp> SelectableParamsSet;
 typedef icomp::TModelCompWrap<iprm::CParamsManagerComp> ParamsManager;
