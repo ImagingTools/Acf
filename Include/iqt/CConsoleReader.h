@@ -55,8 +55,8 @@ protected:
 		virtual void run();
 
 	private:
-		bool m_shouldBeFinished;
 		CConsoleReader& m_parent;
+		bool m_shouldBeFinished;
 	};
 
 private:

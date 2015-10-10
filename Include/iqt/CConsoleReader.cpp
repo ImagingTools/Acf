@@ -39,7 +39,8 @@ bool CConsoleReader::IsRunning() const
 // public methods of the embedded class InputObserver
 
 CConsoleReader::InputObserver::InputObserver(CConsoleReader& parent)
-	:m_parent(parent)
+	:m_parent(parent),
+	m_shouldBeFinished(false)
 {
 }
 
