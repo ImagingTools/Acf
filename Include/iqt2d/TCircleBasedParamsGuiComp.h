@@ -40,9 +40,6 @@ protected:
 	virtual void OnGuiCreated();
 	virtual void OnGuiRetranslate();
 
-	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual void OnActionTriggered(QAction* actionPtr);
-
 protected:
 	using BaseClass::GetObservedObject;
 	using BaseClass::GetObservedModel;
@@ -157,14 +154,6 @@ void TCircleBasedParamsGuiComp<CircleBasedShape, CircleBasedModel>::OnGuiRetrans
 		PositionUnitLabel->setVisible(false);
 		RadiusUnitLabel->setVisible(false);
 	}
-}
-
-
-// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-
-template <class CircleBasedShape, class CircleBasedModel>
-void TCircleBasedParamsGuiComp<CircleBasedShape, CircleBasedModel>::OnActionTriggered(QAction* /*actionPtr*/)
-{
 }
 
 

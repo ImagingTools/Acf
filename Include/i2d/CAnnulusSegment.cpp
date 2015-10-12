@@ -150,13 +150,27 @@ int CAnnulusSegment::GetSupportedOperations() const
 bool CAnnulusSegment::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 {
 	const CAnnulusSegment* annulusSegmentPtr = dynamic_cast<const CAnnulusSegment*>(&object);
-
 	if (annulusSegmentPtr != NULL){
 		istd::CChangeNotifier notifier(this);
 
 		m_position = annulusSegmentPtr->m_position;
 		m_radiusRange = annulusSegmentPtr->m_radiusRange;
 		m_angleRange = annulusSegmentPtr->m_angleRange;
+
+		CObject2dBase::CopyFrom(object, mode);
+
+		return true;
+	}
+
+	const CAnnulus* annulusPtr = dynamic_cast<const CAnnulus*>(&object);
+	if (annulusPtr != NULL){
+		istd::CChangeNotifier notifier(this);
+
+		m_position = annulusPtr->GetPosition();
+		m_radiusRange.SetMinValue(annulusPtr->GetInnerRadius());
+		m_radiusRange.SetMaxValue(annulusPtr->GetOuterRadius());
+		m_angleRange.SetMinValue(0);
+		m_angleRange.SetMaxValue(I_2PI-0.0001);
 
 		CObject2dBase::CopyFrom(object, mode);
 
