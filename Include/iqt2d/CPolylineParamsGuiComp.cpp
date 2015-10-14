@@ -6,7 +6,7 @@ namespace iqt2d
 
 
 CPolylineParamsGuiComp::CPolylineParamsGuiComp()
-:	m_openCloseAction(QCoreApplication::translate("iqt2d", "Open/close line"), this)
+:	m_openCloseAction(QIcon(":/Icons/OpenCloseLine"), QCoreApplication::translate("iqt2d", "Open/close line"), this)
 {
 }
 
@@ -96,10 +96,7 @@ void CPolylineParamsGuiComp::on_PasteButton_clicked()
 bool CPolylineParamsGuiComp::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
 {
 	if (BaseClass::PopulateActions(host, modelPtr)){
-		// add to menu only
-		if (dynamic_cast<QMenu*>(host.GetWidget())){
-			host.AddAction(m_openCloseAction);
-		}
+		host.AddAction(m_openCloseAction);
 
 		return true;
 	}
@@ -115,8 +112,6 @@ void CPolylineParamsGuiComp::OnActionTriggered(QAction* actionPtr)
 	if (actionPtr == &m_openCloseAction){
 		i2d::CPolyline* polylinePtr = GetObjectPtr();
 		if (polylinePtr){
-			istd::CChangeNotifier changePtr(polylinePtr);
-
 			polylinePtr->SetClosed(!polylinePtr->IsClosed());
 		}
 

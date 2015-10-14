@@ -78,6 +78,12 @@ public:
 	*/
 	bool operator != (const CAnnulus & annulus) const;
 
+	/**
+		Performs conversion of the annulus splitting it to \a segmentsCount segments to the polygon \a result.
+		If segmentsCount <= 0 then number of segments will be calculated automatically, otherwise segmentsCount must be equal or greater then 3.
+	*/
+	bool ConvertToPolygon(i2d::CPolygon& result, int segmentsCount = 0) const;
+
 	// reimplemented (i2d::IObject2d)
 	virtual CRectangle GetBoundingBox() const;
 	virtual bool Transform(

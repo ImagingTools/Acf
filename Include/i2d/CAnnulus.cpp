@@ -1,13 +1,15 @@
 #include "i2d/CAnnulus.h"
 
-
 // ACF includes
+#include "istd/TDelPtr.h"
 #include "istd/CChangeNotifier.h"
 #include "i2d/CAffine2d.h"
 #include "i2d/CRectangle.h"
+#include "i2d/CAnnulusSegment.h"
+#include "i2d/CPolygon.h"
+#include "i2d/CPolyline.h"
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
-#include "istd/TDelPtr.h"
 
 
 namespace i2d
@@ -102,6 +104,64 @@ bool CAnnulus::operator == (const CAnnulus & ref) const
 bool CAnnulus::operator != (const CAnnulus & ref) const
 {
 	return !operator ==(ref);
+}
+
+
+bool CAnnulus::ConvertToPolygon(i2d::CPolygon& result, int segmentsCount) const
+{
+	double beginAngle = 0;
+	double endAngle = 2 * I_PI;
+	const i2d::CAnnulusSegment* segmentPtr = dynamic_cast<const i2d::CAnnulusSegment*>(this);
+	if (segmentPtr != NULL){
+		beginAngle = segmentPtr->GetBeginAngle();
+		endAngle = segmentPtr->GetEndAngle();
+	}
+
+	double minRadius = m_radiusRange.GetMinValue();
+	double maxRadius = m_radiusRange.GetMaxValue();
+
+	if (segmentsCount < 3){
+		segmentsCount = int(minRadius + maxRadius) * (endAngle - beginAngle) * 0.5 + 1;
+	}
+
+	i2d::CVector2d directionVector;
+
+	std::vector<i2d::CVector2d> innerPoints(segmentsCount + 1);
+	std::vector<i2d::CVector2d> outerPoints(segmentsCount + 1);
+
+	for (int i = 0; i < segmentsCount; ++i){
+		double alpha = (double)i / segmentsCount;
+		double angle = alpha * (endAngle - beginAngle) + beginAngle;
+
+		directionVector.Init(angle);
+
+		innerPoints[i] = m_position + directionVector * minRadius;
+		outerPoints[i] = m_position + directionVector * maxRadius;
+	}
+
+	// last point
+	directionVector.Init(endAngle);
+	innerPoints[segmentsCount] = m_position + directionVector * minRadius;
+	outerPoints[segmentsCount] = m_position + directionVector * maxRadius;
+
+	result.SetNodesCountQuiet(segmentsCount * 2 + 2);
+	result.SetCalibration(GetCalibration());
+
+	int index = 0;
+	for (int i = 0; i <= segmentsCount; ++i){
+		result.SetNode(index++, outerPoints.at(i));
+	}				
+	for (int i = segmentsCount; i >= 0 ; --i){
+		result.SetNode(index++, innerPoints.at(i));
+	}				
+
+	// close if polyline
+	i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(&result);
+	if (polylinePtr){
+		polylinePtr->SetClosed(true);
+	}
+
+	return true;
 }
 
 

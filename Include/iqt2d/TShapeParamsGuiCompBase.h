@@ -316,7 +316,11 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(
 		if (PopulateActions(toolBarAdapter, modelPtr)){
 			toolBarPtr->setVisible(true);
 
-			QObject::connect(toolBarPtr, SIGNAL(actionTriggered(QAction*)), this, SLOT(OnActionTriggered(QAction*)));
+			// connect toolbar signals ONLY if there is no menu
+			// because of a Qt issue, an action added to both of menu and toolbar will emit actionTriggered() signal twice :(
+			if (m_menuPtr == NULL){
+				QObject::connect(toolBarPtr, SIGNAL(actionTriggered(QAction*)), this, SLOT(OnActionTriggered(QAction*)));
+			}
 		}
 		else{
 			toolBarPtr->disconnect();
