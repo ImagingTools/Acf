@@ -336,8 +336,35 @@ void CMainWindowGuiComp::UpdateUndoMenu()
 {
 	idoc::IUndoManager* undoManagerPtr = m_activeUndoManager.GetObservedObject();
 	if (undoManagerPtr != NULL){
-		m_undoCommand.SetEnabled(undoManagerPtr->IsUndoAvailable());
-		m_redoCommand.SetEnabled(undoManagerPtr->IsRedoAvailable());
+		int undoSteps = undoManagerPtr->GetAvailableUndoSteps();
+		m_undoCommand.SetEnabled(undoSteps > 0);
+
+		QString undoStepDescription;
+		if (undoSteps > 0){
+			undoStepDescription = undoManagerPtr->GetUndoLevelDescription(1);
+		}
+
+		if (!undoStepDescription.isEmpty()){
+			m_undoCommand.setToolTip(tr("Undo: %1").arg(undoStepDescription));
+		}
+		else{
+			m_undoCommand.setToolTip("");
+		}
+
+		int redoSteps = undoManagerPtr->GetAvailableRedoSteps();
+		m_redoCommand.SetEnabled(redoSteps > 0);
+
+		QString redoStepDescription;
+		if (redoSteps > 0){
+			redoStepDescription = undoManagerPtr->GetRedoLevelDescription(1);
+		}
+
+		if (!redoStepDescription.isEmpty()){
+			m_redoCommand.setToolTip(tr("Redo: %1").arg(redoStepDescription));
+		}
+		else{
+			m_redoCommand.setToolTip("");
+		}
 	}
 }
 

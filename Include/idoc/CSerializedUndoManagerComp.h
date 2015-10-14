@@ -41,17 +41,29 @@ public:
 	CSerializedUndoManagerComp();
 
 	// reimplemented (idoc::IUndoManager)
-	virtual bool IsUndoAvailable() const;
-	virtual bool IsRedoAvailable() const;
+	virtual int GetAvailableUndoSteps() const;
+	virtual int GetAvailableRedoSteps() const;
+	virtual QString GetUndoLevelDescription(int stepIndex) const;
+	virtual QString GetRedoLevelDescription(int stepIndex) const;
 	virtual void ResetUndo();
-	virtual bool DoUndo();
-	virtual bool DoRedo();
+	virtual bool DoUndo(int steps = 1);
+	virtual bool DoRedo(int steps = 1);
 
 	// reimplemented (imod::IObserver)
 	virtual bool OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::ChangeSet& changeMask);
 	virtual bool OnModelDetached(imod::IModel* modelPtr);
 
 protected:
+	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
+	struct UndoStepInfo
+	{
+		UndoArchivePtr archivePtr;
+		QString description;
+	};
+	typedef QList<UndoStepInfo> UndoList;
+
+	bool DoListShift(int steps, UndoList& fromList, UndoList& toList);
+
 	// reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 	virtual iser::ISerializable* CastFromModel(imod::IModel* modelPtr) const;
 
@@ -68,9 +80,6 @@ protected:
 private:
 	qint64 GetUsedMemorySize() const;
 
-private:
-	typedef istd::TDelPtr<iser::CMemoryWriteArchive> UndoArchivePtr;
-	typedef QList<UndoArchivePtr> UndoList;
 	UndoList m_undoList;
 	UndoList m_redoList;
 

@@ -56,7 +56,7 @@ protected:
 		Called after each change.
 		\return	true, if end notification was done.
 	*/
-	void NotifyAfterChange();
+	void NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet);
 
 	/**
 		Called before global changes will be started.

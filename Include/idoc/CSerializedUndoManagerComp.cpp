@@ -21,15 +21,35 @@ CSerializedUndoManagerComp::CSerializedUndoManagerComp()
 
 // reimplemented (idoc::IUndoManager)
 
-bool CSerializedUndoManagerComp::IsUndoAvailable() const
+int CSerializedUndoManagerComp::GetAvailableUndoSteps() const
 {
-	return !m_undoList.isEmpty();
+	return m_undoList.size();
 }
 
 
-bool CSerializedUndoManagerComp::IsRedoAvailable() const
+int CSerializedUndoManagerComp::GetAvailableRedoSteps() const
 {
-	return !m_redoList.isEmpty();
+	return m_redoList.size();
+}
+
+
+QString CSerializedUndoManagerComp::GetUndoLevelDescription(int stepIndex) const
+{
+	if ((stepIndex > 0) && (stepIndex <= m_undoList.size())){
+		return m_undoList[m_undoList.size() - stepIndex].description;
+	}
+
+	return "";
+}
+
+
+QString CSerializedUndoManagerComp::GetRedoLevelDescription(int stepIndex) const
+{
+	if ((stepIndex > 0) && (stepIndex <= m_redoList.size())){
+		return m_redoList[m_redoList.size() - stepIndex].description;
+	}
+
+	return "";
 }
 
 
@@ -44,80 +64,15 @@ void CSerializedUndoManagerComp::ResetUndo()
 }
 
 
-bool CSerializedUndoManagerComp::DoUndo()
+bool CSerializedUndoManagerComp::DoUndo(int steps)
 {
-	bool retVal = false;
-
-	UndoArchivePtr redoArchivePtr(new iser::CMemoryWriteArchive());
-	if (IsUndoAvailable() && redoArchivePtr.IsValid()){
-		istd::CChangeNotifier notifier(this);
-		Q_UNUSED(notifier);
-
-		iser::ISerializable* objectPtr = GetObservedObject();
-
-		if (objectPtr != NULL){
-			Q_ASSERT(!m_isBlocked);
-			m_isBlocked = true;
-
-			if (objectPtr->Serialize(*redoArchivePtr)){
-				m_redoList.push_back(UndoArchivePtr());
-				m_redoList.back().TakeOver(redoArchivePtr);
-			}
-
-			const UndoArchivePtr& writeArchivePtr = m_undoList.back();
-			Q_ASSERT(writeArchivePtr.IsValid());
-
-			iser::CMemoryReadArchive readArchive(*writeArchivePtr);
-
-			if (objectPtr->Serialize(readArchive)){
-				m_undoList.pop_back();
-
-				retVal = true;
-			}
-
-			m_isBlocked = false;
-		}
-	}
-
-	return retVal;
+	return DoListShift(steps, m_undoList, m_redoList);
 }
 
 
-bool CSerializedUndoManagerComp::DoRedo()
+bool CSerializedUndoManagerComp::DoRedo(int steps)
 {
-	bool retVal = false;
-
-	UndoArchivePtr undoArchivePtr(new iser::CMemoryWriteArchive());
-	if (IsRedoAvailable() && undoArchivePtr.IsValid()){
-		istd::CChangeNotifier notifier(this);
-		Q_UNUSED(notifier);
-
-		iser::ISerializable* objectPtr = GetObservedObject();
-		if (objectPtr != NULL){
-			Q_ASSERT(!m_isBlocked);
-			m_isBlocked = true;
-
-			if (objectPtr->Serialize(*undoArchivePtr)){
-				m_undoList.push_back(UndoArchivePtr());
-				m_undoList.back().TakeOver(undoArchivePtr);
-			}
-
-			const UndoArchivePtr& writeArchivePtr = m_redoList.back();
-			Q_ASSERT(writeArchivePtr.IsValid());
-
-			iser::CMemoryReadArchive readArchive(*writeArchivePtr);
-
-			if (objectPtr->Serialize(readArchive)){
-				m_redoList.pop_back();
-
-				retVal = true;
-			}
-
-			m_isBlocked = false;
-		}
-	}
-
-	return retVal;
+	return DoListShift(steps, m_redoList, m_undoList);
 }
 
 
@@ -155,6 +110,68 @@ bool CSerializedUndoManagerComp::OnModelDetached(imod::IModel* modelPtr)
 
 // protected methods
 
+bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, UndoList& toList)
+{
+	bool retVal = false;
+
+	UndoArchivePtr currentStateArchivePtr(new iser::CMemoryWriteArchive());
+	if ((steps > 0) && (fromList.size() >= steps) && currentStateArchivePtr.IsValid()){
+		istd::CChangeNotifier notifier(this);
+		Q_UNUSED(notifier);
+
+		iser::ISerializable* objectPtr = GetObservedObject();
+
+		if (objectPtr != NULL){
+			Q_ASSERT(!m_isBlocked);
+			m_isBlocked = true;
+
+			// stores pointer to last processed description container, necessary due of description shift
+			// in undo list the state corresponds to state before changes, in redo - after changes. It causes description shift.
+			QString* lastDescriptionPtr = NULL;
+
+			if (objectPtr->Serialize(*currentStateArchivePtr)){
+				toList.push_back(UndoStepInfo());
+
+				UndoStepInfo& currentStep = toList.back();
+
+				currentStep.archivePtr.TakeOver(currentStateArchivePtr);
+				lastDescriptionPtr = &currentStep.description;
+			}
+
+			const UndoArchivePtr& writeArchivePtr = fromList[fromList.size() - steps].archivePtr;
+			Q_ASSERT(writeArchivePtr.IsValid());
+
+			iser::CMemoryReadArchive readArchive(*writeArchivePtr);
+
+			if (objectPtr->Serialize(readArchive)){
+				for (int i = 1; i < steps; ++i){
+					if (lastDescriptionPtr != NULL){
+						*lastDescriptionPtr = fromList.back().description;
+					}
+
+					toList.push_back(UndoStepInfo());
+					toList.back().archivePtr.TakeOver(fromList.back().archivePtr);
+					lastDescriptionPtr = &toList.back().description;
+
+					fromList.pop_back();
+				}
+
+				if (lastDescriptionPtr != NULL){
+					*lastDescriptionPtr = fromList.back().description;
+				}
+				fromList.pop_back();
+
+				retVal = true;
+			}
+
+			m_isBlocked = false;
+		}
+	}
+
+	return retVal;
+}
+
+
 // reimplemented (imod::TSingleModelObserverBase<iser::ISerializable>)
 
 iser::ISerializable* CSerializedUndoManagerComp::CastFromModel(imod::IModel* modelPtr) const
@@ -176,7 +193,7 @@ void CSerializedUndoManagerComp::BeforeUpdate(imod::IModel* modelPtr)
 
 			if (		archivePtr.IsValid() &&
 						objectPtr->Serialize(*archivePtr) &&
-						(m_undoList.isEmpty() || *archivePtr != *m_undoList.back())){
+						(m_undoList.isEmpty() || *archivePtr != *(m_undoList.back().archivePtr))){
 				m_beginStateArchivePtr.TakeOver(archivePtr);
 			}
 		}
@@ -202,8 +219,9 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 					istd::CChangeNotifier notifier(this);
 					Q_UNUSED(notifier);
 
-					m_undoList.push_back(UndoArchivePtr());
-					m_undoList.back().TakeOver(m_beginStateArchivePtr);
+					m_undoList.push_back(UndoStepInfo());
+					m_undoList.back().archivePtr.TakeOver(m_beginStateArchivePtr);
+					m_undoList.back().description = changeSet.GetDescription();
 
 					if (m_maxBufferSizeAttrPtr.IsValid() && (GetUsedMemorySize() > *m_maxBufferSizeAttrPtr * (1 << 20))){
 						m_undoList.pop_front();
@@ -316,7 +334,7 @@ qint64 CSerializedUndoManagerComp::GetUsedMemorySize() const
 	qint64 memorySize = 0;
 
 	for (UndoList::ConstIterator iter = m_undoList.constBegin(); iter != m_undoList.constEnd(); ++iter){
-		memorySize += (*iter)->GetBufferSize();
+		memorySize += iter->archivePtr->GetBufferSize();
 	}
 
 	return memorySize;

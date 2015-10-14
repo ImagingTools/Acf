@@ -151,7 +151,6 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSet, bool isGroup)
 {
 	Q_ASSERT(m_blockCounter >= 0);
-	Q_ASSERT((m_blockCounter > 0) || m_cumulatedChangeIds.IsEmpty());
 	Q_ASSERT((m_blockCounter > 0) || !m_isDuringChanges);
 
 	m_blockCounter++;
@@ -159,8 +158,6 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 	if (changeSet.IsEmpty()){
 		return;
 	}
-
-	m_cumulatedChangeIds += changeSet;
 
 	if (isGroup){
 		return;
@@ -172,7 +169,7 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
 		ObserverInfo& info = iter.value();
 
-		if ((info.state == AS_ATTACHED) && m_cumulatedChangeIds.ContainsAny(info.mask)){
+		if ((info.state == AS_ATTACHED) && changeSet.ContainsAny(info.mask)){
 			info.state = AS_ATTACHED_UPDATING;
 
 			IObserver* observerPtr = iter.key();
@@ -187,9 +184,11 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 }
 
 
-void CModelBase::NotifyAfterChange()
+void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet)
 {
 	Q_ASSERT(m_blockCounter > 0);
+
+	m_cumulatedChangeIds += changeSet;
 
 	// check if we are at end of outer change block
 	if (--m_blockCounter > 0){

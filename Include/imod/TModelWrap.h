@@ -85,9 +85,9 @@ void TModelWrap<Base>::BeginChanges(const istd::IChangeable::ChangeSet& changeSe
 
 
 template <class Base>
-void TModelWrap<Base>::EndChanges(const istd::IChangeable::ChangeSet& /*changeSet*/)
+void TModelWrap<Base>::EndChanges(const istd::IChangeable::ChangeSet& changeSet)
 {
-	BaseClass2::NotifyAfterChange();
+	BaseClass2::NotifyAfterChange(changeSet);
 }
 
 
@@ -99,9 +99,9 @@ void TModelWrap<Base>::BeginChangeGroup(const istd::IChangeable::ChangeSet& chan
 
 
 template <class Base>
-void TModelWrap<Base>::EndChangeGroup(const istd::IChangeable::ChangeSet& /*changeSet*/)
+void TModelWrap<Base>::EndChangeGroup(const istd::IChangeable::ChangeSet& changeSet)
 {
-	BaseClass2::NotifyAfterChange();
+	BaseClass2::NotifyAfterChange(changeSet);
 }
 
 

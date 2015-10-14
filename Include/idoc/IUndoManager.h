@@ -17,25 +17,37 @@ class IUndoManager: virtual public IDocumentStateComparator
 {
 public:
 	/**
-		Check, if UNDO operation is available.
+		Get number of available UNDO levels.
+		\return	number of UNDO levels, or 0 if there is no UNDO available.
 	*/
-	virtual bool IsUndoAvailable() const = 0;
+	virtual int GetAvailableUndoSteps() const = 0;
 	/**
-		Check, if REDO operation is available.
+		Get number of available REDO levels.
+		\return	number of REDO levels, or 0 if there is no REDO available.
 	*/
-	virtual bool IsRedoAvailable() const = 0;
+	virtual int GetAvailableRedoSteps() const = 0;
+	/**
+		Get description of single UNDO level.
+	*/
+	virtual QString GetUndoLevelDescription(int stepIndex) const = 0;
+	/**
+		Get description of single UNDO level.
+	*/
+	virtual QString GetRedoLevelDescription(int stepIndex) const = 0;
 	/**
 		Reset all UNDO and REDO steps.
 	*/
 	virtual void ResetUndo() = 0;
 	/**
-		Process single UNDO step.
+		Process UNDO steps.
+		\param	level	level of UNDO.
 	*/
-	virtual bool DoUndo() = 0;
+	virtual bool DoUndo(int steps = 1) = 0;
 	/**
-		Process single REDO step.
+		Process REDO steps.
+		\param	level	level of REDO.
 	*/
-	virtual bool DoRedo() = 0;
+	virtual bool DoRedo(int steps = 1) = 0;
 };
 
 
