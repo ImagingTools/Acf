@@ -1,8 +1,6 @@
 <RCC>
   <qresource prefix="/Icons">
     <file alias="Camera">Resources/Icons/Camera.svg</file>
-    <file alias="FlipVertical">Resources/Icons/FlipVertical.svg</file>
-    <file alias="FlipHorizontal">Resources/Icons/FlipHorizontal.svg</file>
     <file alias="Calendar">Resources/Icons/calendar.png</file>
     <file alias="Reverse">Resources/Icons/Reverse.svg</file>
     <file alias="Tools">Resources/Icons/ScrewTool.svg</file>
@@ -71,7 +69,6 @@
     <file alias="PrintPreview">Resources/Icons/document_print_preview.png</file>
     <file alias="ContiniousSave">Resources/Icons/ContiniousSave.svg</file>
     <file alias="ShowScrollbar">Resources/Icons/ShowScrollbar.svg</file>
-    <file alias="OpenCloseLine">Resources/Icons/OpenCloseLine.svg</file>
   </qresource>
   <qresource prefix="/Style">
     <file>Resources/Style/AcfStyle.ass</file>
