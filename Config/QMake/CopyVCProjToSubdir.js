@@ -10,6 +10,7 @@ var projectNewExp = new RegExp(".*\." + projectNewExt);
 var solutionExt = "sln";
 var solutionExp = new RegExp(".*\." + solutionExt + "$");
 var projectTagExp = new RegExp("^Project.*");
+var relativePathTagExp = new RegExp("\\$\\(RelativePath\\)(.*)$");
 
 
 function relativePath(base, rel) {
@@ -86,11 +87,17 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
                             var repl = replFolderIter.item();
                             if (repl.key != "") {
                                 replValue = repl.value;
-                                if (repl.value == "$RelativePath") {
-                                    replValue = relativePath(destDir, repl.key.split("/").join("\\"));
-                                    if (repl.separator == "/") {
-                                        replValue = replValue.split("\\").join("/");
-                                    }
+
+                                var relPathTagArray = relativePathTagExp.exec(repl.value);
+                                if (relPathTagArray) {
+                                    replValue = relativePath(destDir, repl.key.split("/").join("\\")) + relPathTagArray[1];
+                                }
+
+                                if (repl.separator == "/") {
+                                    replValue = replValue.split("\\").join("/");
+                                }
+                                else if (repl.separator == "\\") {
+                                    replValue = replValue.split("/").join("\\");
                                 }
 
                                 text = text.split(repl.key).join(replValue);
@@ -187,11 +194,6 @@ if (WScript.Arguments.length > 0) {
             replaceDirs.push({ key: replaceArray[1].split("\\").join("/"), value: replaceArray[2], separator: "/" });
         }
     }
-
-    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%QTDIR%").split("/").join("\\"), value: "$(QTDIR)", separator: "\\" });
-    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%QTDIR%").split("\\").join("/"), value: "$(QTDIR)", separator: "\\" });
-    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%ACFDIR%").split("/").join("\\"), value: "$(ACFDIR)", separator: "\\" });
-    replaceDirs.push({ key: shell.ExpandEnvironmentStrings("%ACFDIR%").split("\\").join("/"), value: "$(ACFDIR)", separator: "\\" });
 
     ProcessFolder(shell, fileSystem, fileSystem.GetFolder("."), vcDirName, replaceDirs);
 }
