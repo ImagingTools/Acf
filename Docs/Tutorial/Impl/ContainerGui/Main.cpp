@@ -39,6 +39,24 @@ int main(int argc, char *argv[])
 
 	tabContainer.showMaximized();
 
+	iwidgets::CMultiPageWidget groupWidget(NULL, iwidgets::CMultiPageWidget::DT_COLLAPSIBLE_GROUPS);
+	groupWidget.setWindowTitle("Group container");
+
+	QLabel page11("Content of page 1");
+	groupWidget.InsertPage(&page11, "Page 1");
+	groupWidget.SetPageIcon(0, QIcon(":/Icons/StateOk"));
+
+	QLabel page22("Content of page 2");
+	groupWidget.InsertPage(&page22, "Page 2");
+	groupWidget.SetPageIcon(1, QIcon(":/Icons/StateWarning"));
+
+	QLabel page33("Content of page 3");
+	groupWidget.InsertPage(&page33, "Page 3");
+	groupWidget.SetPageIcon(2, QIcon(":/Icons/StateInvalid"));
+
+	groupWidget.SetPageIconSize(QSize(24, 24));
+	groupWidget.showMaximized();
+
 	return app.exec();
 }
 

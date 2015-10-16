@@ -26,6 +26,7 @@
 #include <iwidgets/CSplitterDelegate.h>
 #include <iwidgets/CSimpleGuiContainerDelegate.h>
 #include <iwidgets/CStackWidgetDelegate.h>
+#include <iwidgets/CCollapsibleGroupWidgetDelegate.h>
 
 
 namespace iwidgets
@@ -41,11 +42,12 @@ CMultiPageWidget::CMultiPageWidget(QWidget* parentWidgetPtr, int designMode, int
 	m_orientation(orientation)
 {
 	// Register default delegates:
-	RegisterMultiPageWidgetDelegate<iwidgets::CSimpleGuiContainerDelegate>(DT_SIMPLE);
-	RegisterMultiPageWidgetDelegate<iwidgets::CTabWidgetDelegate>(DT_TAB_WIDGET);
-	RegisterMultiPageWidgetDelegate<iwidgets::CToolBoxDelegate>(DT_TOOL_BOX);
-	RegisterMultiPageWidgetDelegate<iwidgets::CSplitterDelegate>(DT_SPLITTER);
-	RegisterMultiPageWidgetDelegate<iwidgets::CStackWidgetDelegate>(DT_STACK);
+	RegisterMultiPageWidgetDelegate<CSimpleGuiContainerDelegate>(DT_SIMPLE);
+	RegisterMultiPageWidgetDelegate<CTabWidgetDelegate>(DT_TAB_WIDGET);
+	RegisterMultiPageWidgetDelegate<CToolBoxDelegate>(DT_TOOL_BOX);
+	RegisterMultiPageWidgetDelegate<CSplitterDelegate>(DT_SPLITTER);
+	RegisterMultiPageWidgetDelegate<CStackWidgetDelegate>(DT_STACK);
+	RegisterMultiPageWidgetDelegate<CCollapsibleGroupWidgetDelegate>(DT_COLLAPSIBLE_GROUPS);
 
 	CreateContainerGui();
 }

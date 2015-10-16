@@ -105,84 +105,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Win32"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Debug.vsprops;..\..\..\Config\VC9\Win32.vsprops"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="QT Resources"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="QT Designer Form"
-			/>
-			<Tool
-				Name="Qt Linguist"
-			/>
-			<Tool
-				Name="Arxc"
-			/>
-			<Tool
-				Name="DeployCopy"
-			/>
-			<Tool
-				Name="FileConvertCopy"
-			/>
-			<Tool
-				Name="QT Moc Metafile"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
-				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
-				StringPooling="true"
-				RuntimeLibrary="3"
-				PrecompiledHeaderFile=""
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Release.vsprops;..\..\..\Config\VC9\Win64.vsprops"
@@ -233,6 +155,84 @@
 				EnableEnhancedInstructionSet="2"
 				PrecompiledHeaderFile=""
 				DebugInformationFormat="0"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Win32"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Debug.vsprops;..\..\..\Config\VC9\Win32.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
+				Name="Arxc"
+			/>
+			<Tool
+				Name="DeployCopy"
+			/>
+			<Tool
+				Name="FileConvertCopy"
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="../../../AuxInclude/Qt5"
+				PreprocessorDefinitions="UNICODE;WIN32;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;QT_SQL_LIB;QT_OPENGL_LIB;QT_NETWORK_LIB;NO_QT_STL_SUPPORT"
+				StringPooling="true"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=""
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -355,6 +355,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCollapsibleGroupWidgetDelegate.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CDoubleRangeSpinEdit.cpp"
 				>
 			</File>
@@ -410,6 +414,10 @@
 			>
 			<File
 				RelativePath="..\CCheckableComboBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCollapsibleGroupWidgetDelegate.h"
 				>
 			</File>
 			<File
@@ -491,6 +499,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\iwidgets\ui_CCollapsibleGroup.h"
+				>
+			</File>
+			<File
 				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iwidgets\ui_CDoubleRangeSpinEdit.h"
 				>
 			</File>
@@ -499,22 +511,12 @@
 			Name="Qt Designer Files"
 			>
 			<File
+				RelativePath="..\CCollapsibleGroup.ui"
+				>
+			</File>
+			<File
 				RelativePath="..\CDoubleRangeSpinEdit.ui"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Designer Form"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="QT Designer Form"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -523,74 +525,18 @@
 			<File
 				RelativePath="..\CCheckableComboBox.moc"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CDoubleRangeSpinEdit.moc"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CExtLineEdit.moc"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\CMultiPageWidget.moc"
 				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="QT Moc Metafile"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 	</Files>
