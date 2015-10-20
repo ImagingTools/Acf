@@ -1852,7 +1852,7 @@
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Edytuj</translation>
+        <translation>&amp;Edycja</translation>
     </message>
     <message>
         <location line="+3"/>
