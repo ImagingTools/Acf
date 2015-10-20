@@ -149,107 +149,15 @@ bool CCompactXmlFileWriteArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 }
 
 
-bool CCompactXmlFileWriteArchive::Process(bool& value)
-{
-	return PushTextNode(value? "true": "false");
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(char& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(quint8& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(qint8& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(quint16& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(qint16& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(quint32& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(qint32& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(quint64& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(qint64& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(float& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(double& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CCompactXmlFileWriteArchive::Process(QByteArray& value)
-{
-	QByteArray xmlText;
-	EncodeXml(value, xmlText);
-
-	return PushTextNode(xmlText);
-}
-
-
 bool CCompactXmlFileWriteArchive::Process(QString& value)
 {
-	QByteArray xmlText;
-	EncodeXml(value, xmlText);
-
-	return PushTextNode(xmlText);
-}
-
-
-bool CCompactXmlFileWriteArchive::ProcessData(void* dataPtr, int size)
-{
-	QByteArray encodedString = QByteArray((const char*)dataPtr, size).toBase64();
-
-	return PushTextNode(encodedString);
+	return WriteStringNode(value);
 }
 
 
 // protected methods
 
-bool CCompactXmlFileWriteArchive::PushTextNode(const QString& text)
+bool CCompactXmlFileWriteArchive::WriteStringNode(const QString& text)
 {
 	if (m_currentAttribute.isEmpty()){
 		if (m_isSeparatorNeeded){
@@ -268,6 +176,14 @@ bool CCompactXmlFileWriteArchive::PushTextNode(const QString& text)
 	m_isSeparatorNeeded = true;
 
 	return true;
+}
+
+
+// reimplemented (iser::CTextWriteArchiveBase)
+
+bool CCompactXmlFileWriteArchive::WriteTextNode(const QByteArray& text)
+{
+	return WriteStringNode(text);
 }
 
 

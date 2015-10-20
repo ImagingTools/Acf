@@ -43,8 +43,11 @@ public:
 	virtual bool BeginTag(const iser::CArchiveTag& tag);
 	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const iser::CArchiveTag& tag);
-	virtual bool Process(QByteArray& value);
 	virtual bool Process(QString& value);
+
+protected:
+	// reimplemented (iser::CTextWriteArchiveBase)
+	bool WriteTextNode(const QByteArray& text);
 };
 
 

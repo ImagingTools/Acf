@@ -41,8 +41,13 @@ public:
 	virtual bool BeginTag(const iser::CArchiveTag& tag);
 	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const iser::CArchiveTag& tag);
-	virtual bool Process(QByteArray& value);
 	virtual bool Process(QString& value);
+
+protected:
+	bool ReadStringNode(QString& text);
+
+	// reimplemented (iser::CTextReadArchiveBase)
+	virtual bool ReadTextNode(QByteArray& text);
 };
 
 

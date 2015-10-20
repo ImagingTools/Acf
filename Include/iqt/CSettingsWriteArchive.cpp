@@ -52,20 +52,6 @@ bool CSettingsWriteArchive::EndTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CSettingsWriteArchive::Process(QByteArray& value)
-{
-	QString registryKey = CreateNextValueKey();
-
-	if (registryKey.isEmpty()){
-		return false;
-	}
-
-	BaseClass2::setValue(registryKey, QString(value));
-
-	return true;
-}
-
-
 bool CSettingsWriteArchive::Process(QString& value)
 {
 	QString registryKey = CreateNextValueKey();
@@ -75,6 +61,24 @@ bool CSettingsWriteArchive::Process(QString& value)
 	}
 
 	BaseClass2::setValue(registryKey, value);
+
+	return true;
+}
+
+
+// protected methods
+
+// reimplemented (iser::CTextWriteArchiveBase)
+
+bool CSettingsWriteArchive::WriteTextNode(const QByteArray& text)
+{
+	QString registryKey = CreateNextValueKey();
+
+	if (registryKey.isEmpty()){
+		return false;
+	}
+
+	BaseClass2::setValue(registryKey, text);
 
 	return true;
 }

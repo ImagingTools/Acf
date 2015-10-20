@@ -228,157 +228,27 @@ bool CXmlReadArchiveBase::EndTag(const CArchiveTag& tag)
 
 bool CXmlReadArchiveBase::Process(QByteArray& value)
 {
-	if (m_isTagEmpty){
-		if (m_isSeparatorNeeded){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::IInformationProvider::IC_ERROR,
-							MI_TAG_SKIPPED,
-							"Could not read second string from empty tag",
-							"iser::CXmlReadArchiveBase",
-							istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		value = "";
-
-		m_isSeparatorNeeded = true;
-
-		return true;
-	}
-
 	QByteArray xmlText;
-
-	if (m_isSeparatorNeeded){
-		if (!ReadToDelimeter("<", xmlText) || !ReadToDelimeter("/>", xmlText, false)){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::IInformationProvider::IC_ERROR,
-							MI_TAG_SKIPPED,
-							"Cannot find separator between multiple elements in the same tag",
-							"iser::CXmlReadArchiveBase",
-							istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		if (xmlText != GetElementSeparator().toLocal8Bit()){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::IInformationProvider::IC_ERROR,
-							MI_TAG_ERROR,
-							"Bad separator tag",
-							"iser::CXmlReadArchiveBase",
-							istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		ReadToDelimeter(">", xmlText);
-	}
-	else{
-		m_isSeparatorNeeded = true;
-	}
-
-	if (ReadToDelimeter("<", xmlText, false)){
+	if (ReadTextNode(xmlText)){
 		DecodeXml(xmlText, value);
 
 		return true;
 	}
-	else{
-		if (IsLogConsumed()){
-			SendLogMessage(
-						istd::IInformationProvider::IC_ERROR,
-						MI_TAG_ERROR,
-						"Cannot find begin of enclosing tag",
-						"iser::CXmlReadArchiveBase",
-						istd::IInformationProvider::ITF_SYSTEM);
-		}
 
-		return false;
-	}
+	return false;
 }
 
 
 bool CXmlReadArchiveBase::Process(QString& value)
 {
-	if (m_isTagEmpty){
-		if (m_isSeparatorNeeded){
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::IInformationProvider::IC_ERROR,
-							MI_TAG_SKIPPED,
-							"Could not read second string from empty tag",
-							"iser::CXmlReadArchiveBase",
-							istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		value.clear();
-
-		m_isSeparatorNeeded = true;
-
-		return true;
-	}
-
 	QByteArray xmlText;
-
-	if (m_isSeparatorNeeded){
-		if (!ReadToDelimeter("<", xmlText) || !ReadToDelimeter("/>", xmlText, false)){
-			if (IsLogConsumed()){
-				SendLogMessage(
-					istd::IInformationProvider::IC_ERROR,
-					MI_TAG_SKIPPED,
-					"Cannot find separator between multiple elements in the same tag",
-					"iser::CXmlReadArchiveBase",
-					istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		if (xmlText != GetElementSeparator().toLocal8Bit()){
-			if (IsLogConsumed()){
-				SendLogMessage(
-					istd::IInformationProvider::IC_ERROR,
-					MI_TAG_ERROR,
-					"Bad separator tag",
-					"iser::CXmlReadArchiveBase",
-					istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
-
-		ReadToDelimeter(">", xmlText);
-	}
-	else{
-		m_isSeparatorNeeded = true;
-	}
-
-	if (ReadToDelimeter("<", xmlText, false)){
+	if (ReadTextNode(xmlText)){
 		DecodeXml(xmlText, value);
 
 		return true;
 	}
-	else{
-		if (IsLogConsumed()){
-			SendLogMessage(
-				istd::IInformationProvider::IC_ERROR,
-				MI_TAG_ERROR,
-				"Cannot find begin of enclosing tag",
-				"iser::CXmlReadArchiveBase",
-				istd::IInformationProvider::ITF_SYSTEM);
-		}
 
-		return false;
-	}
+	return false;
 }
 
 
@@ -483,6 +353,84 @@ bool CXmlReadArchiveBase::ReadXmlHeader()
 bool CXmlReadArchiveBase::ReadXmlFooter()
 {
 	return EndTag(m_rootTag);
+}
+
+
+// reimplemented (iser::CTextReadArchiveBase)
+
+bool CXmlReadArchiveBase::ReadTextNode(QByteArray& text)
+{
+	if (m_isTagEmpty){
+		if (m_isSeparatorNeeded){
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_SKIPPED,
+							"Could not read second string from empty tag",
+							"iser::CXmlReadArchiveBase",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
+
+			return false;
+		}
+
+		text = "";
+
+		m_isSeparatorNeeded = true;
+
+		return true;
+	}
+
+	QByteArray xmlText;
+
+	if (m_isSeparatorNeeded){
+		if (!ReadToDelimeter("<", xmlText) || !ReadToDelimeter("/>", xmlText, false)){
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_SKIPPED,
+							"Cannot find separator between multiple elements in the same tag",
+							"iser::CXmlReadArchiveBase",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
+
+			return false;
+		}
+
+		if (xmlText != GetElementSeparator().toLocal8Bit()){
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_ERROR,
+							"Bad separator tag",
+							"iser::CXmlReadArchiveBase",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
+
+			return false;
+		}
+
+		ReadToDelimeter(">", xmlText);
+	}
+	else{
+		m_isSeparatorNeeded = true;
+	}
+
+	if (ReadToDelimeter("<", text, false)){
+		return true;
+	}
+	else{
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						"Cannot find begin of enclosing tag",
+						"iser::CXmlReadArchiveBase",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
+		return false;
+	}
 }
 
 

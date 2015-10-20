@@ -28,13 +28,13 @@ public:
 	};
 
 	// reimplemented (iser::IArchive)
-	using BaseClass::Process;
 	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginTag(const CArchiveTag& tag);
 	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const CArchiveTag& tag);
 	virtual bool Process(QByteArray& value);
 	virtual bool Process(QString& value);
+	using BaseClass::Process;
 
 protected:
 	CXmlReadArchiveBase(const CArchiveTag& rootTag);
@@ -48,6 +48,9 @@ protected:
 
 	virtual bool ReadXmlHeader();
 	virtual bool ReadXmlFooter();
+
+	// reimplemented (iser::CTextReadArchiveBase)
+	virtual bool ReadTextNode(QByteArray& text);
 
 	// abstract methods
 	/**

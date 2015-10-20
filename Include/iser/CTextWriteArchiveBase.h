@@ -23,7 +23,6 @@ public:
 	typedef CWriteArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	using BaseClass::Process;
 	virtual bool Process(bool& value);
 	virtual bool Process(char& value);
 	virtual bool Process(quint8& value);
@@ -36,32 +35,17 @@ public:
 	virtual bool Process(qint64& value);
 	virtual bool Process(float& value);
 	virtual bool Process(double& value);
+	virtual bool Process(QByteArray& value);
 	virtual bool ProcessData(void* dataPtr, int size);
 
 protected:
 	CTextWriteArchiveBase(const IVersionInfo* versionInfoPtr);
 
-	// template methods
-	template <typename Type>
-	bool ProcessInternal(const Type& value);
+	/**
+		Write single unformatted text node.
+	*/
+	virtual bool WriteTextNode(const QByteArray& text) = 0;
 };
-
-
-// template methods
-
-template <typename Type>
-bool CTextWriteArchiveBase::ProcessInternal(const Type& value)
-{
-	QByteArray string;
-
-	{
-		QTextStream stream(&string,  QIODevice::WriteOnly);
-
-		stream << value;
-	}
-
-	return Process(string);
-}
 
 
 } // namespace iser

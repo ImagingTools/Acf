@@ -13,12 +13,18 @@ namespace iser
 
 bool CTextReadArchiveBase::Process(bool& value)
 {
-	QByteArray elementText;
+	QByteArray text;
+	if (ReadTextNode(text)){
+		if (text == "true"){
+			value = true;
 
-	if (Process(elementText)){
-		value = (elementText == "true");
+			return true;
+		}
+		else if (text == "false"){
+			value = false;
 
-		return true;
+			return true;
+		}
 	}
 
 	return false;
@@ -27,113 +33,168 @@ bool CTextReadArchiveBase::Process(bool& value)
 
 bool CTextReadArchiveBase::Process(char& value)
 {
-	return ProcessInternal(value);
+	QByteArray text;
+	if (ReadTextNode(text)){
+		if (!text.isEmpty()){
+			value = text.at(0);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 
 bool CTextReadArchiveBase::Process(quint8& value)
 {
-	QByteArray elementText;
+	bool retVal = false;
 
-	if (Process(elementText) && !elementText.isEmpty()){
-		QTextStream stream(&elementText, QIODevice::ReadOnly);
-
-		int val;
-		stream >> val;
-		value = (quint8)val;
-
-		return true;
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = quint8(text.toShort(&retVal));
 	}
 
-	return false;
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(qint8& value)
 {
-	QByteArray elementText;
+	bool retVal = false;
 
-	if (Process(elementText) && !elementText.isEmpty()){
-		QTextStream stream(&elementText, QIODevice::ReadOnly);
-
-		int val;
-		stream >> val;
-		value = (qint8)val;
-
-		return true;
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = qint8(text.toShort(&retVal));
 	}
 
-	return false;
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(quint16& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toUShort(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(qint16& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toShort(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(quint32& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toUInt(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(qint32& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toInt(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(quint64& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toULongLong(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(qint64& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toLongLong(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(float& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toFloat(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(double& value)
 {
-	return ProcessInternal(value);
+	bool retVal = false;
+
+	QByteArray text;
+	if (ReadTextNode(text)){
+		value = text.toDouble(&retVal);
+	}
+
+	return retVal;
 }
 
 
 bool CTextReadArchiveBase::Process(QByteArray& value)
 {
-	return ProcessInternal(value);
+	return ReadTextNode(value);
 }
 
 
 bool CTextReadArchiveBase::ProcessData(void* dataPtr, int size)
 {
 	QByteArray text;
-	bool retVal = Process(text);
-
-	if (retVal){
+	if (ReadTextNode(text)){
 		QByteArray decodedData = QByteArray::fromBase64(text);
 		Q_ASSERT(size == int(decodedData.size()));
 
 		std::memcpy(dataPtr, decodedData.constData(), size);
+
+		return true;
 	}
 
-	return retVal;
+	return false;
 }
 
 

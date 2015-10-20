@@ -111,188 +111,16 @@ bool CXmlFileReadArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 }
 
 
-bool CXmlFileReadArchive::Process(bool& value)
-{
-	QString text = PullTextNode();
-
-	if (text == "true"){
-		value = true;
-
-		return true;
-	}
-
-	if (text == "false"){
-		value = false;
-
-		return true;
-	}
-
-	return false;
-}
-
-
-bool CXmlFileReadArchive::Process(char& value)
-{
-	QString text = PullTextNode();
-
-	if (!text.isEmpty()){
-		value = text.at(0).toLatin1();
-
-		return true;
-	}
-
-	return false;
-}
-
-
-bool CXmlFileReadArchive::Process(quint8& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = quint8(text.toShort(&retVal));
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(qint8& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = qint8(text.toShort(&retVal));
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(quint16& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toUShort(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(qint16& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toShort(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(quint32& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toUInt(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(qint32& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toInt(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(quint64& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toULongLong(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(qint64& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toLongLong(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(float& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toFloat(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(double& value)
-{
-	QString text = PullTextNode();
-
-	bool retVal;
-	value = text.toDouble(&retVal);
-
-	return retVal;
-}
-
-
-bool CXmlFileReadArchive::Process(QByteArray& value)
-{
-	QByteArray text = PullTextNode().toUtf8();
-
-	DecodeXml(text, value);
-
-	return true;
-}
-
-
 bool CXmlFileReadArchive::Process(QString& value)
 {
-	QByteArray text = PullTextNode().toUtf8();
-
-	DecodeXml(text, value);
-
-	return !m_currentNode.isNull();
-}
-
-
-bool CXmlFileReadArchive::ProcessData(void* dataPtr, int size)
-{
-	QString text = PullTextNode();
-
-	QByteArray decodedData = QByteArray::fromBase64(text.toLocal8Bit());
-	Q_ASSERT(size == int(decodedData.size()));
-
-	std::memcpy(dataPtr, decodedData.constData(), size);
-
-	return !m_currentNode.isNull();
+	return ReadStringNode(value);
 }
 
 
 // protected methods
 
-QString CXmlFileReadArchive::PullTextNode()
+bool CXmlFileReadArchive::ReadStringNode(QString& text)
 {
-	QString text;
 	QDomNode node = m_currentNode.firstChild();
 	//Kill separator tags (<br/>)
 	while (node.nodeName() == "br"){
@@ -305,7 +133,23 @@ QString CXmlFileReadArchive::PullTextNode()
 
 	m_currentNode.removeChild(node);
 
-	return text;
+	return !m_currentNode.isNull();
+}
+
+
+// reimplemented (iser::CTextReadArchiveBase)
+
+bool CXmlFileReadArchive::ReadTextNode(QByteArray& text)
+{
+	QString stringText;
+
+	if (ReadStringNode(stringText)){
+		text = stringText.toLocal8Bit();
+
+		return true;
+	}
+
+	return false;
 }
 
 

@@ -54,20 +54,6 @@ bool CSettingsReadArchive::EndTag(const iser::CArchiveTag& tag)
 }
 
 
-bool CSettingsReadArchive::Process(QByteArray& value)
-{
-	QString registryKey = CreateNextValueKey();
-
-	if (registryKey.isEmpty()){
-		return false;
-	}
-
-	value = BaseClass2::value(registryKey).toString().toLocal8Bit();
-
-	return true;
-}
-
-
 bool CSettingsReadArchive::Process(QString& value)
 {
 	QString registryKey = CreateNextValueKey();
@@ -79,6 +65,38 @@ bool CSettingsReadArchive::Process(QString& value)
 	value = BaseClass2::value(registryKey).toString();
 
 	return true;
+}
+
+
+// protected methods
+
+bool CSettingsReadArchive::ReadStringNode(QString& text)
+{
+	QString registryKey = CreateNextValueKey();
+
+	if (registryKey.isEmpty()){
+		return false;
+	}
+
+	text = BaseClass2::value(registryKey).toString();
+
+	return true;
+}
+
+
+// reimplemented (iser::CTextReadArchiveBase)
+
+bool CSettingsReadArchive::ReadTextNode(QByteArray& text)
+{
+	QString stringText;
+
+	if (ReadStringNode(stringText)){
+		text = stringText.toLocal8Bit();
+
+		return true;
+	}
+
+	return false;
 }
 
 

@@ -115,107 +115,15 @@ bool CXmlFileWriteArchive::EndTag(const iser::CArchiveTag& /*tag*/)
 }
 
 
-bool CXmlFileWriteArchive::Process(bool& value)
-{
-	return PushTextNode(value? "true": "false");
-}
-
-
-bool CXmlFileWriteArchive::Process(char& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(quint8& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(qint8& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(quint16& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(qint16& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(quint32& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(qint32& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(quint64& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(qint64& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(float& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(double& value)
-{
-	return PushTextNode(QString::number(value));
-}
-
-
-bool CXmlFileWriteArchive::Process(QByteArray& value)
-{
-	QByteArray xmlText;
-	EncodeXml(value, xmlText);
-
-	return PushTextNode(xmlText);
-}
-
-
 bool CXmlFileWriteArchive::Process(QString& value)
 {
-	QByteArray xmlText;
-	EncodeXml(value, xmlText);
-
-	return PushTextNode(xmlText);
-}
-
-
-bool CXmlFileWriteArchive::ProcessData(void* dataPtr, int size)
-{
-	QByteArray encodedString = QByteArray((const char*)dataPtr, size).toBase64();
-
-	return PushTextNode(encodedString);
+	return WriteStringNode(value);
 }
 
 
 // protected methods
 
-bool CXmlFileWriteArchive::PushTextNode(const QString& text)
+bool CXmlFileWriteArchive::WriteStringNode(const QString& text)
 {
 	if (m_isSeparatorNeeded){
 		QDomElement separator = m_document.createElement(GetElementSeparator());
@@ -228,6 +136,14 @@ bool CXmlFileWriteArchive::PushTextNode(const QString& text)
 	m_isSeparatorNeeded = true;
 
 	return true;
+}
+
+	
+// reimplemented (iser::CTextWriteArchiveBase)
+
+bool CXmlFileWriteArchive::WriteTextNode(const QByteArray& text)
+{
+	return WriteStringNode(text);
 }
 
 

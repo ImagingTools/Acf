@@ -39,29 +39,11 @@ public:
 	virtual bool ProcessData(void* dataPtr, int size);
 
 protected:
-	// template methods
-	template <typename Type>
-	bool ProcessInternal(Type& value);
+	/**
+		Read single unformatted text node.
+	*/
+	virtual bool ReadTextNode(QByteArray& text) = 0;
 };
-
-
-// template methods
-
-template <typename Type>
-bool CTextReadArchiveBase::ProcessInternal(Type& value)
-{
-	QByteArray elementText;
-
-	if (Process(elementText) && !elementText.isEmpty()){
-		QTextStream stream(&elementText, QIODevice::ReadOnly);
-
-		stream >> value;
-
-		return true;
-	}
-
-	return false;
-}
 
 
 } // namespace iser
