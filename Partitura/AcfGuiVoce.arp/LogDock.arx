@@ -4,21 +4,10 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          1023
-        </Id>
-        <Number>
-          328449
-        </Number>
-        <Description>
-          Qt Framework
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           0
         </Id>
         <Number>
-          3684
+          3961
         </Number>
         <Description>
           ACF
@@ -29,10 +18,21 @@
           1
         </Id>
         <Number>
-          1240
+          1450
         </Number>
         <Description>
           ACF-Solutions
+        </Description>
+      </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          328706
+        </Number>
+        <Description>
+          Qt Framework
         </Description>
       </Version>
     </VersionInfos>
@@ -436,10 +436,10 @@
         XmlLogSerializer
       </Id>
       <PackageId>
-        BasePck
+        QtPck
       </PackageId>
       <ComponentId>
-        XmlFileSerializer
+        CompactXmlFileSerializer
       </ComponentId>
       <Data>
         <IsEnabled>
@@ -465,7 +465,7 @@
               </IsEnabled>
               <Values count="1">
                 <Value>
-                  xlog
+                  alog
                 </Value>
               </Values>
             </Data>
@@ -539,7 +539,7 @@
       </ComponentId>
     </Interface>
   </ExportedInterfaces>
-  <ExportedComponents count="3">
+  <ExportedComponents count="2">
     <Component>
       <ExportedId>
         LogGui
@@ -554,14 +554,6 @@
       </ExportedId>
       <ComponentId>
         LogGui/VisualStatus
-      </ComponentId>
-    </Component>
-    <Component>
-      <ExportedId>
-        XmlLogSerializer
-      </ExportedId>
-      <ComponentId>
-        XmlLogSerializer
       </ComponentId>
     </Component>
   </ExportedComponents>

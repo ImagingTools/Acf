@@ -4,21 +4,10 @@
     <VersionInfos count="3">
       <Version>
         <Id>
-          1023
-        </Id>
-        <Number>
-          328449
-        </Number>
-        <Description>
-          Qt Framework
-        </Description>
-      </Version>
-      <Version>
-        <Id>
           0
         </Id>
         <Number>
-          3684
+          3961
         </Number>
         <Description>
           ACF
@@ -29,43 +18,26 @@
           1
         </Id>
         <Number>
-          1240
+          1450
         </Number>
         <Description>
           ACF-Solutions
         </Description>
       </Version>
+      <Version>
+        <Id>
+          1023
+        </Id>
+        <Number>
+          328706
+        </Number>
+        <Description>
+          Qt Framework
+        </Description>
+      </Version>
     </VersionInfos>
   </AcfHeader>
   <PositionMap count="4">
-    <Element>
-      <ComponentName>
-        PersistentFileDialogLoader
-      </ComponentName>
-      <X>
-        325
-      </X>
-      <Y>
-        375
-      </Y>
-      <Note>
-        File loader for log import/export
-      </Note>
-    </Element>
-    <Element>
-      <ComponentName>
-        LogGui
-      </ComponentName>
-      <X>
-        325
-      </X>
-      <Y>
-        250
-      </Y>
-      <Note>
-        GUI representation of LOG model container
-      </Note>
-    </Element>
     <Element>
       <ComponentName>
         XmlLogSerializer
@@ -82,6 +54,20 @@
     </Element>
     <Element>
       <ComponentName>
+        PersistentFileDialogLoader
+      </ComponentName>
+      <X>
+        325
+      </X>
+      <Y>
+        375
+      </Y>
+      <Note>
+        File loader for log import/export
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
         LogDock
       </ComponentName>
       <X>
@@ -92,6 +78,20 @@
       </Y>
       <Note>
         Dock widget where the log window is placed.
+      </Note>
+    </Element>
+    <Element>
+      <ComponentName>
+        LogGui
+      </ComponentName>
+      <X>
+        325
+      </X>
+      <Y>
+        250
+      </Y>
+      <Note>
+        GUI representation of LOG model container
       </Note>
     </Element>
   </PositionMap>
