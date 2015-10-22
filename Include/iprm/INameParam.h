@@ -21,6 +21,14 @@ class INameParam: virtual public iser::ISerializable
 {
 public:
 	/**
+		Data model change notification flags.
+	*/
+	enum ChangeFlags
+	{
+		CF_RENAME = 0x15345e0
+	};
+
+	/**
 		Get the object name.
 	*/
 	virtual const QString& GetName() const = 0;

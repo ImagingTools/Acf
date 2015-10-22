@@ -13,7 +13,8 @@ namespace iprm
 {
 
 
-const istd::IChangeable::ChangeSet s_selectionChangeSet(ISelectionParam::CF_SELECTION_CHANGED, "Change selection");
+// static constants
+const static istd::IChangeable::ChangeSet s_selectionChangeSet(ISelectionParam::CF_SELECTION_CHANGED, "Change selection");
 
 
 CSelectionParam::CSelectionParam()

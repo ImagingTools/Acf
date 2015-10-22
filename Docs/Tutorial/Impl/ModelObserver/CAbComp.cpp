@@ -8,6 +8,11 @@
 #include "iser/CArchiveTag.h"
 
 
+// static constants
+const static istd::IChangeble::ChangeSet s_changeAChangeSet(iprm::IAbConstraints::CF_A_CHANGED, QObject::tr("Change A"));
+const static istd::IChangeble::ChangeSet s_changeBChangeSet(iprm::IAbConstraints::CF_B_CHANGED, QObject::tr("Change B"));
+
+
 // public methods
 
 CAbComp::CAbComp()
@@ -41,8 +46,7 @@ bool CAbComp::SetA(int a)
 	// If new value of A differs from the old,
 	// set the new value and fire notification about this change:
 	if (m_a != a){
-		static ChangeSet changeSet(CF_A_CHANGED, "Change A");
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_changeAChangeSet);
 		Q_UNUSED(notifier);
 
 		m_a = a;
@@ -63,8 +67,7 @@ void CAbComp::SetB(const QByteArray& b)
 	// If new value of B differs from the old,
 	// set the new value and fire notification about this change:
 	if (m_b != b){
-		static ChangeSet changeSet(CF_B_CHANGED, "Change B");
-		istd::CChangeNotifier notifier(this, &changeSet);
+		istd::CChangeNotifier notifier(this, &s_changeBChangeSet);
 		Q_UNUSED(notifier);
 
 		m_b = b;
