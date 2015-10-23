@@ -6,11 +6,9 @@
 #include <QtXml/QDomNode>
 #include <QtCore/QFile>
 
-#include "iser/CTextWriteArchiveBase.h"
+// ACF includes
 #include "ifile/CFileArchiveInfo.h"
-#include "iser/CXmlDocumentInfoBase.h"
-
-#include "iqt/iqt.h"
+#include "iqt/CCompactXmlWriteArchiveBase.h"
 
 
 namespace iqt
@@ -18,59 +16,34 @@ namespace iqt
 
 
 /**
-	Qt-based implementation of archive for writing in XML format.
-	Please note that it doesn't create \c counter attribute needed by \c ifile::CXmlFileReadArchive.
+	Qt-based implementation of archive for writing in compact XML format.
 
 	\ingroup Persistence
 */
 class CCompactXmlFileWriteArchive:
-			public iser::CTextWriteArchiveBase,
-			public ifile::CFileArchiveInfo,
-			public iser::CXmlDocumentInfoBase
+			public CCompactXmlWriteArchiveBase,
+			public ifile::CFileArchiveInfo
 {
 public:
-	typedef iser::CTextWriteArchiveBase BaseClass;
+	typedef CCompactXmlWriteArchiveBase BaseClass;
 	typedef ifile::CFileArchiveInfo BaseClass2;
 
+	/**
+		Constructor initializing archive to open file immediatelly.
+	*/
 	CCompactXmlFileWriteArchive(
-				const QString& filePath = "",
+				const QString& filePath,
 				const iser::IVersionInfo* versionInfoPtr = NULL,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
 	~CCompactXmlFileWriteArchive();
 
-	bool Flush();
-
 	bool OpenFile(const QString& filePath);
 
-	// reimplemented (iser::IArchive)
-	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginTag(const iser::CArchiveTag& tag);
-	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
-	virtual bool EndTag(const iser::CArchiveTag& tag);
-	virtual bool Process(QString& value);
-	using BaseClass::Process;
-
-protected:
-	bool WriteStringNode(const QString& text);
-
-		// reimplemented (iser::CTextWriteArchiveBase)
-	bool WriteTextNode(const QByteArray& text);
+	bool Flush();
 
 private:
-	QDomDocument m_document;
-	QDomElement m_currentParent;
-
 	QFile m_file;
-
-	QByteArray m_currentAttribute;
-
-	bool m_serializeHeader;
-	iser::CArchiveTag m_rootTag;
-
-	bool m_isSeparatorNeeded;
-
-	QList<const iser::CArchiveTag*> m_tagsStack;
 };
 
 

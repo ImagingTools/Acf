@@ -1,5 +1,5 @@
-#ifndef iqt_CCompactXmlFileReadArchive_included
-#define iqt_CCompactXmlFileReadArchive_included
+#ifndef iqt_CCompactXmlMemReadArchive_included
+#define iqt_CCompactXmlMemReadArchive_included
 
 
 // Qt includes
@@ -19,20 +19,18 @@ namespace iqt
 
 	\ingroup Persistence
 */
-class CCompactXmlFileReadArchive: public CCompactXmlReadArchiveBase
+class CCompactXmlMemReadArchive: public CCompactXmlReadArchiveBase
 {
 public:
 	typedef CCompactXmlReadArchiveBase BaseClass;
 
 	/**
-		Constructor initializing archive to work with file.
+		Constructor initializing archive from memory.
 	*/
-	CCompactXmlFileReadArchive(
-				const QString& filePath = "",
+	CCompactXmlMemReadArchive(
+				const QByteArray& inputString,
 				bool serializeHeader = true,
 				const iser::CArchiveTag& rootTag = s_acfRootTag);
-
-	bool OpenFile(const QString& filePath);
 
 protected:
 	// reimplemented (istd::ILogger)
@@ -42,16 +40,12 @@ protected:
 				int flags,
 				QString& message,
 				QString& messageSource) const;
-
-private:
-	bool m_serializeHeader;
-	QString m_openFileName;
 };
 
 
 } // namespace iqt
 
 
-#endif // !iqt_CCompactXmlFileReadArchive_included
+#endif // !iqt_CCompactXmlMemReadArchive_included
 
 
