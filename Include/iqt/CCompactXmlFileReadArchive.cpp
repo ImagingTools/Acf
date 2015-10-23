@@ -28,10 +28,14 @@ CCompactXmlFileReadArchive::CCompactXmlFileReadArchive(
 
 bool CCompactXmlFileReadArchive::OpenFile(const QString& filePath)
 {
+	m_openFileName = "";
+
 	QFile file(filePath);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
 		return false;
 	}
+
+	m_openFileName = filePath;
 
 	if (!m_document.setContent(&file)){
 		file.close();
@@ -91,10 +95,22 @@ bool CCompactXmlFileReadArchive::BeginTag(const iser::CArchiveTag& tag)
 	if (!element.isNull()){
 		m_currentParent = element;
 	}
+	else{
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Tag '%1' not found!").arg(QString(tagId)),
+						"CompactXmlReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
+		return false;
+	}
 
 	m_tagsStack.push_back(&tag);
 
-	return !element.isNull();
+	return true;
 }
 
 
@@ -107,6 +123,15 @@ bool CCompactXmlFileReadArchive::BeginMultiTag(const iser::CArchiveTag& tag, con
 		m_currentParent = element;
 	}
 	else{
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Tag '%1' not found!").arg(QString(tagId)),
+						"CompactXmlReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
+
 		return false;
 	}
 
@@ -173,7 +198,21 @@ bool CCompactXmlFileReadArchive::ReadStringNode(QString& text)
 		m_currentParent.removeChild(node);
 	}
 	else{
-		text = m_currentParent.attribute(m_currentAttribute);
+		if (m_currentParent.hasAttribute(m_currentAttribute)){
+			text = m_currentParent.attribute(m_currentAttribute);
+		}
+		else{
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_ERROR,
+							QString("No attribute '%1' found!").arg(QString(m_currentAttribute)),
+							"CompactXmlReader",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
+
+			return false;
+		}
 	}
 
 	return !m_currentParent.isNull();
@@ -193,6 +232,38 @@ bool CCompactXmlFileReadArchive::ReadTextNode(QByteArray& text)
 	}
 
 	return false;
+}
+
+
+// reimplemented (istd::ILogger)
+
+void CCompactXmlFileReadArchive::DecorateMessage(
+			istd::IInformationProvider::InformationCategory category,
+			int id,
+			int flags,
+			QString& message,
+			QString& messageSource) const
+{
+	BaseClass::DecorateMessage(category, id, flags, message, messageSource);
+
+	QStringList nodesList;
+
+	for (QDomNode el = m_currentParent; el.isElement(); el = el.parentNode()){
+		nodesList.push_front(el.nodeName());
+	}
+
+	QString nodePath = nodesList.join("/");
+	if (!m_currentAttribute.isEmpty()){
+		nodePath += QString("@") + QString(m_currentAttribute);
+	}
+
+	int lineNumber = m_currentParent.lineNumber();
+	if (lineNumber >= 0){
+		message = QObject::tr("%2(%4) : %1 (node: %3)").arg(message).arg(m_openFileName).arg(nodePath).arg(lineNumber);
+	}
+	else{
+		message = QObject::tr("%2 : %1 (node: %3)").arg(message).arg(m_openFileName).arg(nodePath);
+	}
 }
 
 

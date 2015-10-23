@@ -21,12 +21,6 @@ class CXmlReadArchiveBase:
 public:
 	typedef CTextReadArchiveBase BaseClass;
 
-	enum MessageId
-	{
-		MI_TAG_ERROR = 0x3f320a0,
-		MI_TAG_SKIPPED
-	};
-
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginTag(const CArchiveTag& tag);

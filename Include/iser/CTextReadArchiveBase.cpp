@@ -25,6 +25,16 @@ bool CTextReadArchiveBase::Process(bool& value)
 
 			return true;
 		}
+		else{
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_ERROR,
+							QString("Expected boolean value, found '%1'").arg(QString(text)),
+							"TextReader",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
+		}
 	}
 
 	return false;
@@ -40,6 +50,15 @@ bool CTextReadArchiveBase::Process(char& value)
 
 			return true;
 		}
+
+		if (IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected sigle character"),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return false;
@@ -53,6 +72,15 @@ bool CTextReadArchiveBase::Process(quint8& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = quint8(text.toShort(&retVal));
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -66,6 +94,15 @@ bool CTextReadArchiveBase::Process(qint8& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = qint8(text.toShort(&retVal));
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -79,6 +116,15 @@ bool CTextReadArchiveBase::Process(quint16& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toUShort(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -92,6 +138,15 @@ bool CTextReadArchiveBase::Process(qint16& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toShort(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -105,6 +160,15 @@ bool CTextReadArchiveBase::Process(quint32& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toUInt(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -118,6 +182,15 @@ bool CTextReadArchiveBase::Process(qint32& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toInt(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -131,6 +204,15 @@ bool CTextReadArchiveBase::Process(quint64& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toULongLong(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -144,6 +226,15 @@ bool CTextReadArchiveBase::Process(qint64& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toLongLong(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected integer value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -157,6 +248,15 @@ bool CTextReadArchiveBase::Process(float& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toFloat(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected numeric value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;
@@ -170,6 +270,15 @@ bool CTextReadArchiveBase::Process(double& value)
 	QByteArray text;
 	if (ReadTextNode(text)){
 		value = text.toDouble(&retVal);
+
+		if (!retVal && IsLogConsumed()){
+			SendLogMessage(
+						istd::IInformationProvider::IC_ERROR,
+						MI_TAG_ERROR,
+						QString("Expected numeric value, found '%1'").arg(QString(text)),
+						"TextReader",
+						istd::IInformationProvider::ITF_SYSTEM);
+		}
 	}
 
 	return retVal;

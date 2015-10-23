@@ -20,8 +20,7 @@ public:
 
 	enum MessageId
 	{
-		MI_TAG_ERROR = 0x3f320b0,
-		MI_STRING_TOO_LONG
+		MI_STRING_TOO_LONG = 0x3f320b0
 	};
 
 	// reimplemented (iser::IArchive)

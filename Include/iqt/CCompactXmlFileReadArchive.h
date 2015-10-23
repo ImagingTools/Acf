@@ -46,6 +46,14 @@ protected:
 	// reimplemented (iser::CTextReadArchiveBase)
 	virtual bool ReadTextNode(QByteArray& text);
 
+	// reimplemented (istd::ILogger)
+	virtual void DecorateMessage(
+				istd::IInformationProvider::InformationCategory category,
+				int id,
+				int flags,
+				QString& message,
+				QString& messageSource) const;
+
 private:
 	QDomDocument m_document;
 	QDomElement m_currentParent;
@@ -55,7 +63,10 @@ private:
 	bool m_serializeHeader;
 	iser::CArchiveTag m_rootTag;
 
-	QList<const iser::CArchiveTag*> m_tagsStack;
+	typedef QList<const iser::CArchiveTag*> TagsList;
+	TagsList m_tagsStack;
+
+	QString m_openFileName;
 };
 
 

@@ -30,6 +30,12 @@ class CArchiveTag;
 class IArchive: virtual public istd::IPolymorphic
 {
 public:
+	enum MessageId
+	{
+		MI_TAG_ERROR = 0x3f320a0,
+		MI_TAG_SKIPPED
+	};
+
 	/**
 		Check if this archive is loading or storing.
 	 */
