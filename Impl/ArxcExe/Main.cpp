@@ -8,7 +8,6 @@
 // ACF includes
 #include "istd/CSystem.h"
 #include "icomp/TSimComponentWrap.h"
-#include "icomp/TSimComponentsFactory.h"
 #include "icomp/TModelCompWrap.h"
 
 // ACF packages includes

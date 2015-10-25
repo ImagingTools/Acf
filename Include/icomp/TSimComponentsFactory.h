@@ -63,7 +63,7 @@ istd::IFactoryInfo::KeyList TSimComponentsFactory<Base>::GetFactoryKeys() const
 template <class Base>
 icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const QByteArray& keyId) const
 {
-	if (keyId.isEmpty() || (keyId == m_factoryKeys.back())){
+	if (keyId.isEmpty() || m_factoryKeys.contains(keyId)){
 		icomp::IComponent* retVal = new TComponentWrap<Base>();
 		if (retVal != NULL){
 			retVal->SetComponentContext(this, this, false);
