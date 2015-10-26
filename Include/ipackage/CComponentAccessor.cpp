@@ -60,7 +60,7 @@ CComponentAccessor::CComponentAccessor(
 	static Loader loader;
 	loader.packagesLoaderComp.LoadPackages(configFile);
 
-	QString usedRegistryFile = registryFile.isEmpty()? QString("default.arx"): registryFile;
+	QString usedRegistryFile = registryFile.isEmpty()? QString("default.acc"): registryFile;
 	const icomp::IRegistry* registryPtr = loader.packagesLoaderComp.GetRegistryFromFile(usedRegistryFile);
 	if (registryPtr != NULL){
 		static icomp::CRegistryElement dummyElement;

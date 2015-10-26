@@ -26,7 +26,7 @@ public:
 		*/
 		PT_REAL,
 		/**
-			Composed packages are stored in folders containing registry files (\c arx files).
+			Composed packages are stored in folders containing registry files (\c acc files).
 		*/
 		PT_COMPOSED
 	};

@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 {
 	QString configFilePath;
 
-	QString registryFilePath = "default.arx";
+	QString registryFilePath = "default.acc";
 	bool showApplicationInfo = false;
 	QByteArray componentId;
 	bool waitOnEnd = false;

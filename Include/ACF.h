@@ -348,7 +348,7 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	\defgroup ComponentConcept Component concept
 	This concept allows to divide application into smaller modules.
 	At the implementation level you don't need to care about the application topology.
-	The topology will be described separately using \em .arx files and can be started using
+	The topology will be described separately using \em .acc files and can be started using
 	runtime environment over ACF tool or compiled to C++ code using ARXC compiler.
 	Additionally you can use component simulation to use components as "normal" classes.
 

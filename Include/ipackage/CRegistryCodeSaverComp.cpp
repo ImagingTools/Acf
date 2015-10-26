@@ -978,7 +978,7 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 
 			QDir packageDir(QDir::cleanPath(m_packagesManagerCompPtr->GetPackagePath(packageId)));
 
-			stream << packageDir.absoluteFilePath(address.GetComponentId() + ".arx") << "\n";
+			stream << packageDir.absoluteFilePath(address.GetComponentId() + ".acc") << "\n";
 		}
 
 		if (allDependencies){
