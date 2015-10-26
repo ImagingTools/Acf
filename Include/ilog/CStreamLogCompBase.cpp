@@ -52,7 +52,8 @@ bool CStreamLogCompBase::IsMessageSupported(
 void CStreamLogCompBase::AddMessage(const MessagePtr& messagePtr)
 {
 	if (messagePtr.IsValid() && IsMessageSupported(messagePtr->GetInformationCategory())){
-		bool isMainThread = (QThread::currentThread() == QCoreApplication::instance()->thread());
+		QCoreApplication* applicationPtr = QCoreApplication::instance();
+		bool isMainThread = (applicationPtr == NULL) || (QThread::currentThread() == applicationPtr->thread());
 		if (!isMainThread){
 			Q_EMIT EmitAddMessage(messagePtr);
 		}
