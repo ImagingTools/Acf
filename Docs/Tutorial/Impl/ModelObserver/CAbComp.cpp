@@ -3,14 +3,13 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
 
 // static constants
-const static istd::IChangeble::ChangeSet s_changeAChangeSet(iprm::IAbConstraints::CF_A_CHANGED, QObject::tr("Change A"));
-const static istd::IChangeble::ChangeSet s_changeBChangeSet(iprm::IAbConstraints::CF_B_CHANGED, QObject::tr("Change B"));
+const static istd::IChangeable::ChangeSet s_changeAChangeSet(IAb::CF_A_CHANGED, QObject::tr("Change A"));
+const static istd::IChangeable::ChangeSet s_changeBChangeSet(IAb::CF_B_CHANGED, QObject::tr("Change B"));
 
 
 // public methods
