@@ -45,7 +45,7 @@ private:
 template <class Base>
 TSimComponentsFactory<Base>::TSimComponentsFactory()
 {
-	m_factoryKeys.push_back(istd::CClassInfo::GetName<Base>());
+	m_factoryKeys.insert(istd::CClassInfo::GetName<Base>());
 }
 
 
