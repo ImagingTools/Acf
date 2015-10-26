@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="575" Y="300" ComponentName="ProgressStatus"/>
+        <Element Note="" X="575" Y="425" ComponentName="ProgressManagerGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

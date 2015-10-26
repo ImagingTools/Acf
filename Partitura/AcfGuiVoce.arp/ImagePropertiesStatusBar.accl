@@ -1,0 +1,11 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="925" Y="350" ComponentName="ShapeInfoGui"/>
+        <Element Note="Widget to show image properties" X="300" Y="350" ComponentName="ImagePropertiesFrame"/>
+        <Element Note="General status bar widget, where the image frame will be placed." X="575" Y="225" ComponentName="StatusBarWidget"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

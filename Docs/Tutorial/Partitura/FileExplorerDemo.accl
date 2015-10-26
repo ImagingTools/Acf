@@ -1,0 +1,13 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="250" Y="225" ComponentName="BitmapFileExplorer"/>
+        <Element Note="" X="950" Y="225" ComponentName="VersionInfo"/>
+        <Element Note="" X="250" Y="575" ComponentName="FileNameParamGui"/>
+        <Element Note="" X="625" Y="225" ComponentName="StandaloneApp"/>
+        <Element Note="" X="625" Y="400" ComponentName="ComposedGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

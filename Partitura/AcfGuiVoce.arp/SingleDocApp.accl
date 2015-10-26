@@ -1,0 +1,16 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="925" Y="700" ComponentName="AboutDialog"/>
+        <Element Note="" X="375" Y="275" ComponentName="SettingsProvider"/>
+        <Element Note="" X="925" Y="425" ComponentName="ApplicationInfo"/>
+        <Element Note="" X="200" Y="425" ComponentName="Workspace"/>
+        <Element Note="" X="650" Y="150" ComponentName="App"/>
+        <Element Note="" X="200" Y="700" ComponentName="DocumentTemplate"/>
+        <Element Note="" X="650" Y="575" ComponentName="MainGui"/>
+        <Element Note="" X="1025" Y="150" ComponentName="SplashScreen"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

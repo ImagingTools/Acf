@@ -1,0 +1,54 @@
+<Acf Keywords="Explorer Dock Main Window" Description="File explorer dock widget">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="ExplorerDock" ComponentId="DockWidgetGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AllowedDockAreas" ExportId="DockAreas" Type="Integer">
+                        <Data IsEnabled="true" Value="3"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockArea" ExportId="DockArea" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockFeatures" ExportId="DockFeatures" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockTitle" ExportId="DockTitle" Type="String">
+                        <Data IsEnabled="true" Value="Files"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SlaveGui" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="FileSystemExplorerGui"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="FileGuiPck" Id="FileSystemExplorerGui" ComponentId="FileSystemExplorerGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AllowOpenFile" ExportId="AllowOpenFile" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FilterInfo" ExportId="FilterInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ShowFileType" ExportId="ShowFileType" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ShowUserFilter" ExportId="ShowUserFilter" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseSystemDecoratedIcons" ExportId="UseSystemDecoratedIcons" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="ExplorerDock"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

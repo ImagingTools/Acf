@@ -1,0 +1,11 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="575" Y="275" ComponentName="StaticHelpFileProvider"/>
+        <Element Note="" X="575" Y="150" ComponentName="HtmlHelpViewer"/>
+        <Element Note="" X="575" Y="400" ComponentName="FileNameParam"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

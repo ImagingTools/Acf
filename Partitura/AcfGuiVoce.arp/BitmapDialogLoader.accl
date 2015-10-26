@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="425" Y="400" ComponentName="BitmapLoader"/>
+        <Element Note="" X="850" Y="400" ComponentName="FileDialogLoader"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

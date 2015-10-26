@@ -1,0 +1,55 @@
+<Acf Keywords="&quot;Help File Static&quot;" Description="Help file provider based on fixed html pages">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="FilePck" Id="FileNameParam" ComponentId="FileNameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultPath" ExportId="DefaultHelpFileDir" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="PathType" ExportId="" Type="Integer">
+                        <Data IsEnabled="true" Value="2"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="HtmlHelpViewer" ComponentId="HtmlHelpViewer">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="HelpFileProvider" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="StaticHelpFileProvider"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="StaticHelpFileProvider" ComponentId="StaticHelpFileProvider">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ContextPrefix" ExportId="ContextPrefix" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ContextSuffix" ExportId="ContextSuffix" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultHelpFileName" ExportId="DefaultHelpFileName" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="HelpFileDir" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="FileNameParam"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="idoc::IHelpViewer" ComponentId="HtmlHelpViewer"/>
+        <Interface InterfaceId="ifile::IFileNameParam" ComponentId="FileNameParam"/>
+        <Interface InterfaceId="imod::IModel" ComponentId="FileNameParam"/>
+        <Interface InterfaceId="iser::ISerializable" ComponentId="FileNameParam"/>
+        <Interface InterfaceId="istd::IChangeable" ComponentId="FileNameParam"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

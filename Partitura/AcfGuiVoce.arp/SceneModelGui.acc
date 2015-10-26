@@ -1,0 +1,35 @@
+<Acf Keywords="Scene Model Observer Editor Gui Binder Delegator" Description="Binder of model editor and scene extender">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="ModelEditorGui" ComponentId="ModelEditorGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Model" ExportId="Model" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SlaveEditorGui" ExportId="Gui" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="SceneExtenderDelegator" ComponentId="SceneExtenderDelegator">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="SlaveSceneExtender" ExportId="Gui" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="imod::IModelEditor" ComponentId="ModelEditorGui"/>
+        <Interface InterfaceId="iqt2d::IViewExtender" ComponentId="SceneExtenderDelegator"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ModelEditorGui"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

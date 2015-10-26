@@ -1,0 +1,12 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="Loader for the bitmap data" X="975" Y="350" ComponentName="BitmapLoader"/>
+        <Element Note="File selection component with integrated preview for the file contents" X="550" Y="350" ComponentName="FileSelectorDockWithPreview"/>
+        <Element Note="Bitmap preview" X="550" Y="150" ComponentName="ImageView"/>
+        <Element Note="Bitmap data model" X="175" Y="350" ComponentName="Bitmap"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

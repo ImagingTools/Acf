@@ -1,0 +1,63 @@
+<Acf Keywords="Selection" Description="General single selection management component">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="BasePck" Id="SelectionConstraints" ComponentId="SelectionConstraints">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="OptionNames" ExportId="OptionNames" Type="String[]">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="SelectionGui" ComponentId="ModelEditorGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Model" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="SelectionParam"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SlaveEditorGui" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="SelectionParamGui"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="BasePck" Id="SelectionParam" ComponentId="SelectionParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="Constraints" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="SelectionConstraints"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultIndex" ExportId="DefaultSelectedIndex" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="SelectionParamGui" ComponentId="SelectionParamGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="OptionsLabel" ExportId="OptionsLabel" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UiMode" ExportId="SelectionGuiLayout" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="imod::IModel" ComponentId="SelectionParam"/>
+        <Interface InterfaceId="imod::IModelEditor" ComponentId="SelectionGui"/>
+        <Interface InterfaceId="iprm::IOptionsList" ComponentId="SelectionConstraints"/>
+        <Interface InterfaceId="iprm::ISelectionParam" ComponentId="SelectionParam"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="SelectionGui"/>
+        <Interface InterfaceId="iser::ISerializable" ComponentId="SelectionParam"/>
+        <Interface InterfaceId="istd::IChangeable" ComponentId="SelectionParam"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

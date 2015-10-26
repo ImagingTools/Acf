@@ -1,0 +1,114 @@
+<Acf Keywords="" Description="">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="InstallVoce" Id="Application" ComponentId="ComplexCopyApplication">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ApplicationName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ACF"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ApplicationType" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="LGPL"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="CompanyName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ImagingTools"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileCopiers" ExportId="" Type="Reference[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>CopyAll</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="MainVersionId" ExportId="" Type="Integer">
+                        <Data IsEnabled="true" Value="10"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ProductName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ACF"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="InstallVoce" Id="CopyAll" ComponentId="CopyFull">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ApplicationInfo" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="Application/ApplicationInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="LicensePath" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="Install/LGPL/Header.txt"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Log" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="Application/Log"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="OtherExcludeFilters" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>GeneratedFiles</Value>
+                                <Value>generated</Value>
+                                <Value>QMake</Value>
+                                <Value>QBS</Value>
+                                <Value>VC9</Value>
+                                <Value>VC10</Value>
+                                <Value>VC12</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ProjectsSubstitutionTags" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>ACFDIR</Value>
+                                <Value>ACFCONFIGDIR</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ProjectsSubstitutionValues" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>$RelativeToInputFile:$(ACFDIR)</Value>
+                                <Value>$RelativeToInputFile:$(ACFDIR)/Config</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SourceExcludeFilters" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>GeneratedFiles</Value>
+                                <Value>generated</Value>
+                                <Value>QMake</Value>
+                                <Value>QBS</Value>
+                                <Value>VC9</Value>
+                                <Value>VC10</Value>
+                                <Value>VC12</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="WinProjectsSubstitutionTags" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>ACFDIR</Value>
+                                <Value>ACFCONFIGDIR</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="WinProjectsSubstitutionValues" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>$RelativeToInputFileWin:$(ACFDIR)</Value>
+                                <Value>$RelativeToInputFileWin:$(ACFDIR)/Config</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::IApplication" ComponentId="Application"/>
+        <Interface InterfaceId="istd::IPolymorphic" ComponentId="Application"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

@@ -1,0 +1,12 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="400" Y="125" ComponentName="SelectionConstraints"/>
+        <Element Note="" X="400" Y="250" ComponentName="SelectionParam"/>
+        <Element Note="" X="400" Y="425" ComponentName="SelectionParamGui"/>
+        <Element Note="" X="750" Y="325" ComponentName="SelectionGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

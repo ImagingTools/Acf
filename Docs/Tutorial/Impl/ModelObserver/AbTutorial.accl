@@ -1,0 +1,13 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="325" Y="400" ComponentName="XmlFilePersistence"/>
+        <Element Note="" X="550" Y="200" ComponentName="Application"/>
+        <Element Note="" X="550" Y="300" ComponentName="AbGui"/>
+        <Element Note="" X="550" Y="400" ComponentName="AB"/>
+        <Element Note="" X="325" Y="500" ComponentName="ABPersistenceFile"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

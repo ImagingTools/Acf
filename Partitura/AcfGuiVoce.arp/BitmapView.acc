@@ -1,0 +1,68 @@
+<Acf Keywords="Controller Image Bitmap Display Viewer Observer Qt GUI" Description="Bitmap viewer with integrated bitmap object">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="BitmapPck" Id="Bitmap" ComponentId="Bitmap">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ImageView" ComponentId="ImageView">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="BackgroundMode" ExportId="BackgroundMode" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="CalibrationProvider" ExportId="CalibrationProvider" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultModel" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="Bitmap"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusIcon" ExportId="DefaultStatusIcon" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusText" ExportId="DefaultStatusText" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FitMode" ExportId="FitMode" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ShapeStatusInfo" ExportId="ShapeStatusInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseAntialiasing" ExportId="UseAntialiasing" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseGridCommands" ExportId="UseGridCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseScrollBarCommands" ExportId="UseScrollBarCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseShapeEditCommands" ExportId="UseShapeEditCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ViewId" ExportId="" Type="Integer">
+                        <Data IsEnabled="true" Value="0"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ZoomToFitEnabled" ExportId="ZoomToFitEnabled" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::ICommandsProvider" ComponentId="ImageView"/>
+        <Interface InterfaceId="imod::IObserver" ComponentId="ImageView"/>
+        <Interface InterfaceId="iqt2d::IViewProvider" ComponentId="ImageView"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ImageView"/>
+    </ExportedInterfaces>
+    <ExportedComponents>
+        <Component ExportedId="Bitmap" ComponentId="Bitmap"/>
+        <Component ExportedId="VisualStatus" ComponentId="ImageView/VisualStatus"/>
+    </ExportedComponents>
+</Acf>

@@ -1,0 +1,43 @@
+<Acf Keywords="Image Properties &quot;Status bar&quot; Category='GUI'" Description="Image properties status bar">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="ImagePropertiesFrame" ComponentId="ImagePropertiesFrame">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ShapeInfoGui" ComponentId="ShapeInfoGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultModel" ExportId="ShapeStatusInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="StatusBarWidget" ComponentId="StatusBarWidget">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="StatusBarWidgets" ExportId="" Type="Reference[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>ShapeInfoGui</Value>
+                                <Value>ImagePropertiesFrame</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="imod::IModelEditor" ComponentId="ImagePropertiesFrame"/>
+        <Interface InterfaceId="imod::IObserver" ComponentId="ImagePropertiesFrame"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ImagePropertiesFrame"/>
+        <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="StatusBarWidget"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

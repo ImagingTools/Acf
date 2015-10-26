@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="600" Y="425" ComponentName="BinaryFileSerializer"/>
+        <Element Note="" X="600" Y="300" ComponentName="AutoPersistence"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

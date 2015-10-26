@@ -1,0 +1,42 @@
+<Acf Keywords="Progress Status Main Window GUI" Description="Progress manager GUI integrated in status bar">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="ProgressManagerGui" ComponentId="ProgressManagerGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AutomaticHide" ExportId="AutomaticHide" Type="Boolean">
+                        <Data IsEnabled="true" Value="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Description" ExportId="Description" Type="String">
+                        <Data IsEnabled="true" Value="Progress"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ShowCancel" ExportId="ShowCancel" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="ProgressStatus" ComponentId="StatusBarWidget">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="StatusBarWidgets" ExportId="" Type="Reference[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>ProgressManagerGui</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::IProgressManager" ComponentId="ProgressManagerGui"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ProgressManagerGui"/>
+        <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="ProgressStatus"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

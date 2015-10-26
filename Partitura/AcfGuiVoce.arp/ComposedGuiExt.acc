@@ -1,0 +1,65 @@
+<Acf Keywords="&quot;Composed Composition GUI Collection Set Commands Joiner List&quot; Author='&quot;Witold Gantzke&quot;'" Description="Composed GUI with support of commands">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="CommandsBinder" ComponentId="CommandsBinder">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="CommandProviders" ExportId="CommandProviders" Type="Reference[]">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="ComposedGui" ComponentId="ComposedGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultStatusIcon" ExportId="DefaultStatusIcon" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusText" ExportId="DefaultStatusText" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DesignType" ExportId="DesignType" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Guis" ExportId="Guis" Type="Reference[]">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="InsertSpacer" ExportId="InsertSpacer" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Names" ExportId="Names" Type="String[]">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SettingsKey" ExportId="SettingsKey" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SettingsProvider" ExportId="SettingsProvider" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StyleSheet" ExportId="StyleSheet" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="TabBarOrientation" ExportId="TabBarOrientation" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseHorizontalLayout" ExportId="UseHorizontalLayout" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::ICommandsProvider" ComponentId="CommandsBinder"/>
+        <Interface InterfaceId="imod::IModel" ComponentId="CommandsBinder"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ComposedGui"/>
+        <Interface InterfaceId="istd::IChangeable" ComponentId="CommandsBinder"/>
+    </ExportedInterfaces>
+    <ExportedComponents>
+        <Component ExportedId="VisualStatus" ComponentId="ComposedGui/VisualStatus"/>
+    </ExportedComponents>
+</Acf>

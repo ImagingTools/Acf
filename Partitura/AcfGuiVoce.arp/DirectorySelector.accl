@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="750" Y="400" ComponentName="DirectoryGui"/>
+        <Element Note="" X="450" Y="400" ComponentName="Directory"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

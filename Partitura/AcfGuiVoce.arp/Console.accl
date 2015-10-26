@@ -1,0 +1,13 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="575" Y="225" ComponentName="ShapeInfoGui"/>
+        <Element Note="" X="175" Y="225" ComponentName="ShapeStatusInfo"/>
+        <Element Note="" X="825" Y="550" ComponentName="CommandsToolBar"/>
+        <Element Note="" X="600" Y="350" ComponentName="ExtendedConsoleGui"/>
+        <Element Note="" X="175" Y="450" ComponentName="ViewProvider"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="725" Y="375" ComponentName="SceneExtenderDelegator"/>
+        <Element Note="" X="475" Y="375" ComponentName="ModelEditorGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

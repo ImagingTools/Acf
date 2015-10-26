@@ -1,0 +1,12 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="575" Y="575" ComponentName="SettingsProvider"/>
+        <Element Note="" X="925" Y="225" ComponentName="ApplicationInfo"/>
+        <Element Note="" X="575" Y="400" ComponentName="MainGui"/>
+        <Element Note="" X="575" Y="225" ComponentName="GuiApplication"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

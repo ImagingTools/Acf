@@ -10,7 +10,7 @@
 			CommandLine="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)\..\..\AuxInclude\Qt5\GeneratedFiles\$(ProjectName)\C$(InputName).cpp&quot; [AllOptions] [AdditionalOptions]"
 			Outputs="&quot;$(InputDir)\..\..\AuxInclude\Qt5\GeneratedFiles\$(ProjectName)\C$(InputName).cpp&quot;;&quot;$(InputDir)\..\..\AuxInclude\Qt5\GeneratedFiles\$(ProjectName)\C$(InputName).h&quot;"
 			AdditionalDependencies="&quot;..\..\..\Bin\$(ConfigurationName)VC9\Arxc.exe&quot;"
-			FileExtensions="*.arx"
+			FileExtensions="*.acc;*.arx"
 			ExecutionDescription="Compiling ACF Registry File..."
 			>
 			<Properties>
@@ -77,7 +77,7 @@
 					DisplayName="Application Registry File"
 					Category="Environment"
 					Description="ACF registry file with exported interface ibase::IApplication"
-					DefaultValue="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.arx"
+					DefaultValue="..\..\..\Partitura\AcfVoce.arp\FileSubstitCopyApp.acc"
 					Delimited="true"
 					Inheritable="true"
 				/>

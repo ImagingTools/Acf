@@ -1,0 +1,11 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="600" Y="400" ComponentName="SettingsPersistence"/>
+        <Element Note="" X="600" Y="250" ComponentName="FileDialogLoader"/>
+        <Element Note="" X="275" Y="325" ComponentName="StartupDirectory"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

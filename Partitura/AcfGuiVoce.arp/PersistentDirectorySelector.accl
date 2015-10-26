@@ -1,0 +1,12 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="700" Y="475" ComponentName="XmlFileSerializer"/>
+        <Element Note="" X="700" Y="325" ComponentName="AutoPersistence"/>
+        <Element Note="" X="400" Y="325" ComponentName="DirectorySelector"/>
+        <Element Note="" X="975" Y="325" ComponentName="File"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

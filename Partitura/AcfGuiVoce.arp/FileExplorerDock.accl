@@ -1,0 +1,10 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="450" Y="400" ComponentName="ExplorerDock"/>
+        <Element Note="" X="775" Y="400" ComponentName="FileSystemExplorerGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

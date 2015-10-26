@@ -1,0 +1,125 @@
+<Acf Keywords="File Name Selector Preview Explorer Choice Category='GUI'" Description="General file selector with external preview">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="DockWidgetGui" ComponentId="DockWidgetGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AllowedDockAreas" ExportId="AllowedDockAreas" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockArea" ExportId="DockArea" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockFeatures" ExportId="DockFeatures" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DockTitle" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="File Selector"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SlaveGui" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="SplittedGui"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="FileGuiPck" Id="FileExplorerGui" ComponentId="FileSystemExplorerGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AllowOpenFile" ExportId="AllowOpenFile" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultModel" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="FilePath"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FilterInfo" ExportId="FileInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="FilePck" Id="FilePath" ComponentId="FileNameParam">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultPath" ExportId="DefaultPath" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="PathType" ExportId="PathType" Type="Integer">
+                        <Data IsEnabled="true" Value="1"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="FileGuiPck" Id="PreviewGui" ComponentId="FilePreviewGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultModel" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="FilePath"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileLoader" ExportId="PreviewObjectLoader" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ObjectFactory" ExportId="ObjectFactory" Type="Factory">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ObjectView" ExportId="PreviewObjectView" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="AcfGuiVoce" Id="SettingsPersistence" ComponentId="SettingsPersistence">
+            <Data IsEnabled="true" Flags="1">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ApplicationInfo" ExportId="ApplicationInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Log" ExportId="Log" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Object" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="FilePath"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="RootKey" ExportId="PathPersistenceSettingsKey" Type="Id">
+                        <Data IsEnabled="true" Value="RecentFileSelectorPath"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtGuiPck" Id="SplittedGui" ComponentId="ComposedGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DesignType" ExportId="" Type="Integer">
+                        <Data IsEnabled="true" Value="3"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Guis" ExportId="" Type="Reference[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>FileExplorerGui</Value>
+                                <Value>PreviewGui</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SettingsKey" ExportId="FileExplorerSettingsKey" Type="String">
+                        <Data IsEnabled="true" Value="FileExplorer"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SettingsProvider" ExportId="SettingsProvider" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseHorizontalLayout" ExportId="UseHorizontalLayout" Type="Boolean">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="SplittedGui"/>
+        <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="DockWidgetGui"/>
+    </ExportedInterfaces>
+    <ExportedComponents>
+        <Component ExportedId="FilePath" ComponentId="FilePath"/>
+    </ExportedComponents>
+</Acf>

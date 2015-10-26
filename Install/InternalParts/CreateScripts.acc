@@ -1,0 +1,71 @@
+<Acf Keywords="" Description="">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="InstallVoce" Id="Application" ComponentId="ComplexCopyApplication">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ApplicationName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ACF"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ApplicationType" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="LGPL"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="CompanyName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ImagingTools"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileCopiers" ExportId="" Type="Reference[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>CopyScriptFiles</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="MainVersionId" ExportId="" Type="Integer">
+                        <Data IsEnabled="true" Value="10"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ProductName" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="ACF"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="InstallVoce" Id="CopyScriptFiles" ComponentId="CopyInfoProcessor">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="ApplicationInfo" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="Application/ApplicationInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Filters" ExportId="" Type="String[]">
+                        <Data IsEnabled="true">
+                            <Values>
+                                <Value>Doxyfile</Value>
+                                <Value>*.iss</Value>
+                                <Value>Commit.log</Value>
+                            </Values>
+                        </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Log" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="Application/Log"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ReplaceEmbeddedVariables" ExportId="" Type="Boolean">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ReplaceEnvironmentVariables" ExportId="" Type="Boolean">
+                        <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="SubstitutionTagExpr" ExportId="" Type="String">
+                        <Data IsEnabled="true" Value="\$(.+)\$"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::IApplication" ComponentId="Application"/>
+        <Interface InterfaceId="istd::IPolymorphic" ComponentId="Application"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

@@ -1,0 +1,14 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="550" Y="550" ComponentName="SettingsPersistence"/>
+        <Element Note="" X="550" Y="200" ComponentName="SplittedGui"/>
+        <Element Note="" X="550" Y="450" ComponentName="FilePath"/>
+        <Element Note="" X="800" Y="325" ComponentName="PreviewGui"/>
+        <Element Note="" X="550" Y="50" ComponentName="DockWidgetGui"/>
+        <Element Note="" X="275" Y="325" ComponentName="FileExplorerGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

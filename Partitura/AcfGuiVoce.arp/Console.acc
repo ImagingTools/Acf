@@ -1,0 +1,101 @@
+<Acf Keywords="&quot;View Display Scene Console Viewport&quot;" Description="2D-Console with tool bar and status info">
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <ElementsList>
+        <Element PackageId="QtGuiPck" Id="CommandsToolBar" ComponentId="CommandsToolBar">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="CommandsProvider" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="ViewProvider"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IconSize" ExportId="IconSize" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ExtendedConsoleGui" ComponentId="ExtendedConsoleGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="StatusInfoGui" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="ShapeInfoGui"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ToolBar" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="CommandsToolBar"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ViewProvider" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="ViewProvider"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ShapeInfoGui" ComponentId="ShapeInfoGui">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultModel" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="ShapeStatusInfo"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ShapeStatusInfo" ComponentId="ShapeStatusInfo">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap/>
+            </Data>
+        </Element>
+        <Element PackageId="QtViewPck" Id="ViewProvider" ComponentId="ViewProvider">
+            <Data IsEnabled="true" Flags="0">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="BackgroundMode" ExportId="BackgroundMode" Type="Integer">
+                        <Data IsEnabled="true" Value="1"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="CalibrationProvider" ExportId="CalibrationProvider" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ColorSchema" ExportId="ColorSchema" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusIcon" ExportId="DefaultStatusIcon" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusText" ExportId="DefaultStatusText" Type="String">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FitMode" ExportId="FitMode" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ShapeStatusInfo" ExportId="" Type="Reference">
+                        <Data IsEnabled="true" Value="ShapeStatusInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseAntialiasing" ExportId="UseAntialiasing" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseGridCommands" ExportId="UseGridCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseScrollBarCommands" ExportId="UseScrollBarCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="UseShapeEditCommands" ExportId="UseShapeEditCommands" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ViewId" ExportId="ViewId" Type="Integer">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ZoomToFitEnabled" ExportId="ZoomToFitEnabled" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="ibase::ICommandsProvider" ComponentId="ViewProvider"/>
+        <Interface InterfaceId="imod::IModel" ComponentId="ViewProvider"/>
+        <Interface InterfaceId="iqt2d::IViewProvider" ComponentId="ViewProvider"/>
+        <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ExtendedConsoleGui"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>

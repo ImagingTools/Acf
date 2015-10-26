@@ -1,0 +1,12 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos/>
+    </AcfHeader>
+    <PositionMap>
+        <Element Note="" X="875" Y="300" ComponentName="SettingsPersistence"/>
+        <Element Note="" X="325" Y="375" ComponentName="ModelBinder"/>
+        <Element Note="" X="600" Y="300" ComponentName="UrlParam"/>
+        <Element Note="" X="600" Y="450" ComponentName="UrlParamGui"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>
