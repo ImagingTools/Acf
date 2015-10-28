@@ -1,0 +1,14 @@
+<Acf>
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="1" Description="ACF-Solutions" Number="1469"/>
+            <Version Id="1023" Description="Qt Framework" Number="328450"/>
+            <Version Id="0" Description="ACF" Number="3995"/>
+        </VersionInfos>
+    </AcfHeader>
+    <PositionMap>
+        <Element Y="425" Note="" ComponentName="XmlFileSerializer" X="600"/>
+        <Element Y="300" Note="" ComponentName="AutoPersistence" X="600"/>
+    </PositionMap>
+    <EmbeddedRegistries/>
+</Acf>

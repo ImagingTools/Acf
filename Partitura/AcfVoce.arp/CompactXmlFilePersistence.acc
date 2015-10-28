@@ -1,0 +1,70 @@
+<Acf Description="XML-based persistence for automatic object serialization at begining and finalization of the application" Keywords="Persistence XML">
+    <AcfHeader>
+        <VersionInfos>
+            <Version Id="1" Description="ACF-Solutions" Number="1469"/>
+            <Version Id="1023" Description="Qt Framework" Number="328450"/>
+            <Version Id="0" Description="ACF" Number="3995"/>
+        </VersionInfos>
+    </AcfHeader>
+    <ElementsList>
+        <Element Id="AutoPersistence" PackageId="FilePck" ComponentId="AutoPersistence">
+            <Data Flags="1" IsEnabled="true">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AutoReload" ExportId="AutoReload" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileLoader" ExportId="" Type="Reference">
+                        <Data Value="XmlFileSerializer" IsEnabled="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FilePath" ExportId="FilePath" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Object" ExportId="Object" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="RestoreOnBegin" ExportId="RestoreOnBegin" Type="Boolean">
+                        <Data Value="true" IsEnabled="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="RuntimeStatus" ExportId="RuntimeStatus" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StoreInterval" ExportId="StoreInterval" Type="Real">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StoreOnChange" ExportId="StoreOnChange" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StoreOnEnd" ExportId="StoreOnEnd" Type="Boolean">
+                        <Data Value="true" IsEnabled="true"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="XmlFileSerializer" PackageId="QtPck" ComponentId="CompactXmlFileSerializer">
+            <Data Flags="0" IsEnabled="true">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="AutoCreatePath" ExportId="AutoCreatePath" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="EnableVerbose" ExportId="EnableVerbose" Type="Boolean">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FileExtensions" ExportId="FileExtensions" Type="String[]">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="Log" ExportId="Log" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="VersionInfo" ExportId="VersionInfo" Type="Reference">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+    </ElementsList>
+    <EmbeddedRegistriesList/>
+    <ExportedInterfaces>
+        <Interface InterfaceId="istd::IPolymorphic" ComponentId="AutoPersistence"/>
+    </ExportedInterfaces>
+    <ExportedComponents/>
+</Acf>
