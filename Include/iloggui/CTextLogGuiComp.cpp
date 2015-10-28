@@ -134,7 +134,7 @@ void CTextLogGuiComp::GenerateDocument(
 	textCursor.beginEditBlock();
 
 	for (int i = 0; i < messagesCount; i++){
-		const ilog::IMessageConsumer::MessagePtr messagePtr = messages.at(i);
+		const ilog::IMessageConsumer::MessagePtr& messagePtr = messages.at(i);
 
 		// filter the message
 		int category = messagePtr->GetInformationCategory();

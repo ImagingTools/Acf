@@ -1,6 +1,5 @@
 #include "ilog/CTextFileLogStreamerComp.h"
 
-
 // Qt includes
 #include <QtCore/QStringList>
 
@@ -8,6 +7,7 @@
 #include "istd/IInformationProvider.h"
 #include "imod/IModel.h"
 #include "ilog/IMessageContainer.h"
+#include "ilog/CMessage.h"
 
 
 namespace ilog
@@ -35,6 +35,11 @@ bool CTextFileLogStreamerComp::IsOperationSupported(
 		return false;
 	}
 
+	// can load a file 
+	if ((flags & QF_FILE) && (flags & QF_LOAD)){
+		return true;
+	}
+
 	return		(dynamic_cast<const ilog::IMessageContainer*>(dataObjectPtr) != NULL) &&
 				((flags & QF_SAVE) != 0) &&
 				((flags & QF_FILE) != 0);
@@ -42,11 +47,75 @@ bool CTextFileLogStreamerComp::IsOperationSupported(
 
 
 int CTextFileLogStreamerComp::LoadFromFile(
-			istd::IChangeable& /*data*/,
-			const QString& /*filePath*/,
+			istd::IChangeable& data,
+			const QString& filePath,
 			ibase::IProgressManager* /*progressManagerPtr*/) const
 {
-	return OS_FAILED;
+	if (!IsOperationSupported(&data, &filePath, QF_LOAD | QF_FILE, false)){
+		return OS_FAILED;
+	}
+
+	int retVal = OS_FAILED;
+
+	ilog::IMessageContainer* resetContainerPtr = dynamic_cast<ilog::IMessageContainer*>(&data);
+	if (resetContainerPtr){
+		resetContainerPtr->ClearMessages();
+	}
+
+	ilog::IMessageConsumer* containerPtr = dynamic_cast<ilog::IMessageConsumer*>(&data);
+	if (containerPtr != NULL){
+		QFile textFile(filePath);
+		if (textFile.open(QIODevice::ReadOnly)){
+			retVal = OS_OK;
+
+			QTextStream ts(&textFile);
+
+			while (!ts.atEnd()){
+				QString textString = ts.readLine().simplified();
+				if (!textString.isEmpty()){
+					int timeStartIndex = textString.indexOf('[');
+					int timeEndIndex = textString.indexOf(']');
+					if (timeStartIndex >= 0 && timeEndIndex >= 0){
+						QString timeStampText = textString.mid(timeStartIndex+1, timeEndIndex-timeStartIndex-1);
+						QDateTime timeStamp = QDateTime::fromString(timeStampText);
+						
+						QString text = textString.mid(timeEndIndex + 2);
+
+						QString severityText = textString.left(timeStartIndex - 2);
+						istd::IInformationProvider::InformationCategory severtity = istd::IInformationProvider::IC_NONE;
+						int id = 0;
+						
+						if (severityText.startsWith("w")){
+							severtity = istd::IInformationProvider::IC_WARNING;
+							id = severityText.mid(severityText.lastIndexOf("W")+1).toInt();
+						}
+						else
+						if (severityText.startsWith("e")){
+							severtity = istd::IInformationProvider::IC_ERROR;
+							id = severityText.mid(severityText.lastIndexOf("E")+1).toInt();
+						}
+						else
+						if (severityText.startsWith("f")){
+							severtity = istd::IInformationProvider::IC_CRITICAL;
+							id = severityText.mid(severityText.lastIndexOf("!")+1).toInt();
+						}
+						else
+						if (severityText.startsWith("I")){
+							severtity = istd::IInformationProvider::IC_INFO;
+							id = severityText.mid(1).toInt();
+						}
+
+						containerPtr->AddMessage(
+							istd::TSmartPtr<const istd::IInformationProvider>
+								(new ilog::CMessage(severtity, id, text, severityText, 0, &timeStamp))
+							);
+					}
+				}
+			}
+		}
+	}
+
+	return retVal;
 }
 
 
