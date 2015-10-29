@@ -102,8 +102,9 @@ void CConsoleReader::InputObserver::run()
 #else
 			emit m_parent.KeyPressedSignal(hit);
 #endif
-			msleep(100);
 		}
+
+		msleep(100);
 	}
 }
 
