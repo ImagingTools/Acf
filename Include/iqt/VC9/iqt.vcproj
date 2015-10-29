@@ -320,30 +320,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CCompactXmlFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlFileWriteArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlMemReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlMemWriteArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlReadArchiveBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlWriteArchiveBase.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\CConsoleReader.cpp"
 				>
 			</File>
@@ -380,14 +356,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\iqt.cpp"
 				>
 			</File>
@@ -403,30 +371,6 @@
 			</File>
 			<File
 				RelativePath="..\CClipboardSerializerComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlFileWriteArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlMemReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlMemWriteArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlReadArchiveBase.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CCompactXmlWriteArchiveBase.h"
 				>
 			</File>
 			<File
@@ -466,14 +410,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h"
-				>
-			</File>
-			<File
 				RelativePath="..\iqt.h"
 				>
 			</File>
@@ -496,7 +432,7 @@
 				>
 			</File>
 			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqt\moc_CNetworkWriteArchive.cpp"
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\iqt\moc_CNetworkWriteArchive.cpp"
 				>
 			</File>
 		</Filter>

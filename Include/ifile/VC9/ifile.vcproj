@@ -354,11 +354,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCompactXmlFileReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompactXmlFileWriteArchive.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedFileMetaInfoProviderComp.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\CComposedFilePersistenceComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompressedXmlFileReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompressedXmlFileWriteArchive.cpp"
 				>
 			</File>
 			<File
@@ -402,15 +418,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSimpleXmlFileReadArchive.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\CSimpleXmlFileWriteArchive.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CSystemLocationComp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.cpp"
 				>
 			</File>
 		</Filter>
@@ -423,11 +439,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CCompactXmlFileReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompactXmlFileWriteArchive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CComposedFileMetaInfoProviderComp.h"
 				>
 			</File>
 			<File
 				RelativePath="..\CComposedFilePersistenceComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompressedXmlFileReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CCompressedXmlFileWriteArchive.h"
 				>
 			</File>
 			<File
@@ -471,15 +503,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CSimpleXmlFileReadArchive.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CSimpleXmlFileWriteArchive.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CSystemLocationComp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileReadArchive.h"
-				>
-			</File>
-			<File
-				RelativePath="..\CXmlFileWriteArchive.h"
 				>
 			</File>
 			<File
@@ -508,6 +540,14 @@
 			</File>
 			<File
 				RelativePath="..\IFilePersistenceInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFileResourcesManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\IFileResourceTypeConstraints.h"
 				>
 			</File>
 			<File
@@ -547,15 +587,15 @@
 			Name="Generated Files"
 			>
 			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CAutoPersistenceComp.cpp"
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\ifile\moc_CAutoPersistenceComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\ifile\moc_CFileListProviderComp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\ifile\moc_CFileSystemInfoProviderComp.cpp"
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\ifile\moc_CFileSystemInfoProviderComp.cpp"
 				>
 			</File>
 		</Filter>
