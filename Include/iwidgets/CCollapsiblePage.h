@@ -10,7 +10,7 @@ namespace iwidgets
 {
 
 
-class CCollapsiblePage: public QWidget
+class CCollapsiblePage: public QWidget, public Ui::CCollapsiblePage
 {
 	Q_OBJECT
 public:
@@ -27,7 +27,6 @@ private Q_SLOTS:
 	void SetPageVisible(bool visible);
 
 private:
-	Ui::CCollapsiblePage m_ui;
 	QIcon m_icon;
 	QWidget* m_pageWidgetPtr;
 };

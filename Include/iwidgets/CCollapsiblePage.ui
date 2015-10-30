@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1091</width>
+    <height>665</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="HeaderFrame">
+    <widget class="QFrame" name="CollapsiblePageHeaderFrame">
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -54,7 +54,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="IconLabel">
+       <widget class="QLabel" name="CollapsiblePageIconLabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -98,7 +98,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QFrame" name="PageFrame">
+    <widget class="QFrame" name="CollapsiblePageFrame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>

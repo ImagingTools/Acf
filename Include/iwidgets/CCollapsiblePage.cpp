@@ -10,23 +10,23 @@ CCollapsiblePage::CCollapsiblePage(QWidget* parentPtr)
 	:BaseClass(parentPtr),
 	m_pageWidgetPtr(NULL)
 {
-	m_ui.setupUi(this);
+	setupUi(this);
 
-	m_ui.IconLabel->setHidden(true);
+	CollapsiblePageIconLabel->setHidden(true);
 
-	connect(m_ui.CollapseButton, SIGNAL(toggled(bool)), this, SLOT(SetPageVisible(bool)));
+	connect(CollapseButton, SIGNAL(toggled(bool)), this, SLOT(SetPageVisible(bool)));
 }
 
 
 void CCollapsiblePage::SetTitle(const QString& text)
 {
-	m_ui.CollapseButton->setText(text);
+	CollapseButton->setText(text);
 }
 
 
 void CCollapsiblePage::SetWidget(QWidget* pageWidgetPtr)
 {
-	m_ui.PageFrame->layout()->addWidget(pageWidgetPtr);
+	CollapsiblePageFrame->layout()->addWidget(pageWidgetPtr);
 
 	m_pageWidgetPtr = pageWidgetPtr;
 }
@@ -34,10 +34,10 @@ void CCollapsiblePage::SetWidget(QWidget* pageWidgetPtr)
 
 void CCollapsiblePage::SetIconSize(const QSize& size)
 {
-	m_ui.IconLabel->setMinimumSize(size);
-	m_ui.IconLabel->setMaximumSize(size);
+	CollapsiblePageIconLabel->setMinimumSize(size);
+	CollapsiblePageIconLabel->setMaximumSize(size);
 
-	m_ui.IconLabel->setPixmap(m_icon.pixmap(m_ui.IconLabel->minimumSize()));
+	CollapsiblePageIconLabel->setPixmap(m_icon.pixmap(CollapsiblePageIconLabel->minimumSize()));
 }
 
 
@@ -45,9 +45,9 @@ void CCollapsiblePage::SetIcon(const QIcon& icon)
 {
 	m_icon = icon;
 
-	m_ui.IconLabel->setVisible(!m_icon.isNull());
+	CollapsiblePageIconLabel->setVisible(!m_icon.isNull());
 
-	m_ui.IconLabel->setPixmap(m_icon.pixmap(m_ui.IconLabel->minimumSize()));
+	CollapsiblePageIconLabel->setPixmap(m_icon.pixmap(CollapsiblePageIconLabel->minimumSize()));
 }
 
 
@@ -55,15 +55,13 @@ void CCollapsiblePage::SetIcon(const QIcon& icon)
 
 void CCollapsiblePage::SetPageVisible(bool visible)
 {
-	if (m_pageWidgetPtr != NULL){
-		m_pageWidgetPtr->setVisible(visible);
+	CollapsiblePageFrame->setVisible(visible);
 
-		if (visible){
-			setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-		}
-		else{
-			setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-		}
+	if (visible){
+		setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	}
+	else{
+		setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
 	}
 }
 
