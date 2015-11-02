@@ -3,8 +3,6 @@
 
 // Qt includes
 #include <QtCore/QDateTime>
-#include <QtCore/QThread>
-#include <QtCore/QMetaType>
 
 // ACF includes
 #include "istd/IInformationProvider.h"
@@ -17,18 +15,11 @@ namespace ilog
 // public methods
 
 CStreamLogCompBase::CStreamLogCompBase()
-:	m_isLastDotShown(false),
+:	BaseClass(),
+	m_isLastDotShown(false),
 	m_lastDotCategory(istd::IInformationProvider::IC_NONE),
 	m_worseCategory(istd::IInformationProvider::IC_NONE)
 {
-	qRegisterMetaType<MessagePtr>("MessagePtr");
-
-	connect(
-				this,
-				SIGNAL(EmitAddMessage(const MessagePtr&)),
-				this,
-				SLOT(OnAddMessage(const MessagePtr&)),
-				Qt::QueuedConnection);
 }
 
 
@@ -46,21 +37,6 @@ bool CStreamLogCompBase::IsMessageSupported(
 			const istd::IInformationProvider* /*messagePtr*/) const
 {
 	return true;
-}
-
-
-void CStreamLogCompBase::AddMessage(const MessagePtr& messagePtr)
-{
-	if (messagePtr.IsValid() && IsMessageSupported(messagePtr->GetInformationCategory())){
-		QCoreApplication* applicationPtr = QCoreApplication::instance();
-		bool isMainThread = (applicationPtr == NULL) || (QThread::currentThread() == applicationPtr->thread());
-		if (!isMainThread){
-			Q_EMIT EmitAddMessage(messagePtr);
-		}
-		else{
-			OnAddMessage(messagePtr);
-		}
-	}
 }
 
 
@@ -120,25 +96,9 @@ QString CStreamLogCompBase::GenerateMessageText(const istd::IInformationProvider
 }
 
 
-// reimplemented (icomp::CComponentBase)
+// reimplemented (ilog::CLogCompBase)
 
-void CStreamLogCompBase::OnComponentDestroyed()
-{
-	BaseClass::OnComponentDestroyed();
-
-	if (m_isLastDotShown){
-		WriteText("\n", m_lastDotCategory);
-
-		m_isLastDotShown = false;
-	}
-
-	m_worseCategory = istd::IInformationProvider::IC_NONE;
-}
-
-
-// private slots
-
-void CStreamLogCompBase::OnAddMessage(const MessagePtr& messagePtr)
+void CStreamLogCompBase::WriteMessageToLog(const MessagePtr& messagePtr)
 {
 	if (messagePtr.IsValid()){
 		istd::IInformationProvider::InformationCategory category = messagePtr->GetInformationCategory();
@@ -161,9 +121,23 @@ void CStreamLogCompBase::OnAddMessage(const MessagePtr& messagePtr)
 		if (category > m_worseCategory){
 			m_worseCategory = category;
 		}
-
-		BaseClass::AddMessage(messagePtr);
 	}
+}
+
+
+// reimplemented (icomp::CComponentBase)
+
+void CStreamLogCompBase::OnComponentDestroyed()
+{
+	BaseClass::OnComponentDestroyed();
+
+	if (m_isLastDotShown){
+		WriteText("\n", m_lastDotCategory);
+
+		m_isLastDotShown = false;
+	}
+
+	m_worseCategory = istd::IInformationProvider::IC_NONE;
 }
 
 

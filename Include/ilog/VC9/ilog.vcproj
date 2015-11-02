@@ -401,6 +401,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CLogCompBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CMessage.cpp"
 				>
 			</File>
@@ -431,6 +435,10 @@
 			</File>
 			<File
 				RelativePath="..\CLogComp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CLogCompBase.h"
 				>
 			</File>
 			<File
@@ -490,7 +498,7 @@
 			Name="Moc Files"
 			>
 			<File
-				RelativePath="..\CStreamLogCompBase.moc"
+				RelativePath="..\CLogCompBase.moc"
 				>
 			</File>
 		</Filter>
@@ -498,7 +506,7 @@
 			Name="Generated Files"
 			>
 			<File
-				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\ilog\moc_CStreamLogCompBase.cpp"
+				RelativePath="..\..\..\AuxInclude\Qt5\GeneratedFiles\ilog\moc_CLogCompBase.cpp"
 				>
 			</File>
 		</Filter>
