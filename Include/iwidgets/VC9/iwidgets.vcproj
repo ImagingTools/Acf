@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CFocusDecorator.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CHierarchicalHeaderView.cpp"
 				>
 			</File>
@@ -434,6 +438,10 @@
 			</File>
 			<File
 				RelativePath="..\CExtLineEdit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\CFocusDecorator.h"
 				>
 			</File>
 			<File
