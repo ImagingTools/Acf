@@ -41,7 +41,6 @@
 			<Tool
 				Name="QT Resources"
 				ExecutionBucket="4"
-				IsGenerated="true"
 			/>
 			<Tool
 				Name="QT Designer Form"
@@ -120,6 +119,88 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Release.vsprops;..\..\..\Config\VC9\Win64.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				CommandLine=""
+			/>
+			<Tool
+				Name="QT Moc Metafile"
+			/>
+			<Tool
+				Name="Qt Linguist"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="QT Resources"
+			/>
+			<Tool
+				Name="QT Designer Form"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="3"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories=""
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
+				StringPooling="true"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				UsePrecompiledHeader="0"
+				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1031"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				LinkLibraryDependencies="true"
+				OutputFile="$(OutDir)/$(ProjectName).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Debug.vsprops;..\..\..\Config\VC9\Win32.vsprops"
@@ -138,7 +219,6 @@
 			<Tool
 				Name="QT Resources"
 				ExecutionBucket="4"
-				IsGenerated="true"
 			/>
 			<Tool
 				Name="QT Designer Form"
@@ -218,89 +298,6 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|x64"
-			ConfigurationType="4"
-			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Release.vsprops;..\..\..\Config\VC9\Win64.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine=""
-			/>
-			<Tool
-				Name="QT Moc Metafile"
-			/>
-			<Tool
-				Name="Qt Linguist"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="QT Resources"
-				IsGenerated="true"
-			/>
-			<Tool
-				Name="QT Designer Form"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="3"
-				HeaderFileName=""
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=""
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="0"
-				DisableSpecificWarnings="4250;4355;4505;4510;4511;4512;4127;4702"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1031"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				LinkLibraryDependencies="true"
-				OutputFile="$(OutDir)/$(ProjectName).lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
 			InheritedPropertySheets="..\..\..\Config\VC9\Static.vsprops;..\..\..\Config\VC9\Debug.vsprops;..\..\..\Config\VC9\Win64.vsprops"
@@ -321,7 +318,6 @@
 			/>
 			<Tool
 				Name="QT Resources"
-				IsGenerated="true"
 			/>
 			<Tool
 				Name="QT Designer Form"
@@ -410,6 +406,14 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="QT Resources"
+						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_en_US.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_de_DE.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_ru_RU.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_pl_PL.qm"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
@@ -418,95 +422,11 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="QT Resources"
-						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_en_US.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_de_DE.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_ru_RU.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_pl_PL.qm"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|x64"
 					>
 					<Tool
 						Name="QT Resources"
 						AdditionalDependencies="$(QTDIR)\bin\rcc.exe;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_en_US.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_de_DE.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_ru_RU.qm;../../../AuxInclude/Qt5/GeneratedFiles\AcfLoc\Acf_pl_PL.qm"
-					/>
-				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Translations"
-			>
-			<File
-				RelativePath="..\Acf_de_DE.ts"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Acf_en_US.ts"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Acf_pl_PL.ts"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\Acf_ru_RU.ts"
-				>
-				<FileConfiguration
-					Name="Release|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|x64"
-					>
-					<Tool
-						Name="Qt Linguist"
 					/>
 				</FileConfiguration>
 			</File>
