@@ -48,8 +48,8 @@ public:
 	*/
 	bool RemoveVersionId(int versionId);
 
-	bool SerializeArchiveHeader(iser::IArchive& archive);
-	static bool WriteArchiveHeader(iser::IArchive& archive, const const IVersionInfo* versionInfoPtr);
+	bool SerializeArchiveHeader(IArchive& archive);
+	static bool WriteArchiveHeader(IArchive& archive, const IVersionInfo* versionInfoPtr);
 
 	// reimplemented (iser::IVersionInfo)
 	virtual VersionIds GetVersionIds() const;

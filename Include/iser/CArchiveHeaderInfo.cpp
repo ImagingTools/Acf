@@ -16,12 +16,12 @@ namespace iser
 static const istd::IChangeable::ChangeSet versionChangeIds(CArchiveHeaderInfo::CF_VERSIONS_UPDATED);
 static const istd::IChangeable::ChangeSet allDataChangeIds(CArchiveHeaderInfo::CF_VERSIONS_UPDATED, istd::IChangeable::CF_ALL_DATA);
 
-static const CArchiveTag s_headerTag("AcfHeader", "Header of ACF archive", iser::CArchiveTag::TT_GROUP);
-static const CArchiveTag s_versionInfosTag("VersionInfos", "List of version infos", iser::CArchiveTag::TT_MULTIPLE, &s_headerTag);
-static const CArchiveTag s_versionInfoTag("Version", "Version info", iser::CArchiveTag::TT_GROUP, &s_versionInfosTag);
-static const CArchiveTag s_versionIdTag("Id", "Version ID", iser::CArchiveTag::TT_LEAF, &s_versionInfoTag);
-static const CArchiveTag s_versionNumberTag("Number", "Version number", iser::CArchiveTag::TT_LEAF, &s_versionInfoTag);
-static const CArchiveTag s_versionDescriptionTag("Description", "Version description", iser::CArchiveTag::TT_LEAF, &s_versionInfoTag);
+static const CArchiveTag s_headerTag("AcfHeader", "Header of ACF archive", CArchiveTag::TT_GROUP);
+static const CArchiveTag s_versionInfosTag("VersionInfos", "List of version infos", CArchiveTag::TT_MULTIPLE, &s_headerTag);
+static const CArchiveTag s_versionInfoTag("Version", "Version info", CArchiveTag::TT_GROUP, &s_versionInfosTag);
+static const CArchiveTag s_versionIdTag("Id", "Version ID", CArchiveTag::TT_LEAF, &s_versionInfoTag);
+static const CArchiveTag s_versionNumberTag("Number", "Version number", CArchiveTag::TT_LEAF, &s_versionInfoTag);
+static const CArchiveTag s_versionDescriptionTag("Description", "Version description", CArchiveTag::TT_LEAF, &s_versionInfoTag);
 
 
 void CArchiveHeaderInfo::Reset()
@@ -55,7 +55,7 @@ bool CArchiveHeaderInfo::RemoveVersionId(int versionId)
 }
 
 
-bool CArchiveHeaderInfo::SerializeArchiveHeader(iser::IArchive& archive)
+bool CArchiveHeaderInfo::SerializeArchiveHeader(IArchive& archive)
 {
 	if (archive.IsStoring()){
 		return WriteArchiveHeader(archive, this);
@@ -104,7 +104,7 @@ bool CArchiveHeaderInfo::SerializeArchiveHeader(iser::IArchive& archive)
 }
 
 
-bool CArchiveHeaderInfo::WriteArchiveHeader(iser::IArchive& archive, const IVersionInfo* versionInfoPtr)
+bool CArchiveHeaderInfo::WriteArchiveHeader(IArchive& archive, const IVersionInfo* versionInfoPtr)
 {
 	Q_ASSERT(archive.IsStoring());
 	if (!archive.IsStoring()){
@@ -209,7 +209,7 @@ QString CArchiveHeaderInfo::GetEncodedVersionName(int /*versionId*/, quint32 /*v
 
 bool CArchiveHeaderInfo::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
 {
-	const iser::IVersionInfo* versionInfoPtr = dynamic_cast<const iser::IVersionInfo*>(&object);
+	const IVersionInfo* versionInfoPtr = dynamic_cast<const IVersionInfo*>(&object);
 	if (versionInfoPtr == NULL){
 		return false;
 	}
@@ -217,8 +217,8 @@ bool CArchiveHeaderInfo::CopyFrom(const istd::IChangeable& object, Compatibility
 	istd::CChangeNotifier notifier(this, &allDataChangeIds);
 	Q_UNUSED(notifier);
 
-	iser::IVersionInfo::VersionIds ids = versionInfoPtr->GetVersionIds();
-	for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
+	IVersionInfo::VersionIds ids = versionInfoPtr->GetVersionIds();
+	for (		IVersionInfo::VersionIds::const_iterator iter = ids.begin();
 				iter != ids.end();
 				++iter){
 		int versionId = *iter;
