@@ -7,6 +7,7 @@
 #include "icomp/CComponentContext.h"
 #include "icomp/CCompositeComponent.h"
 #include "icomp/CCompositeComponentContext.h"
+#include "icomp/CSimComponentContextBase.h"
 
 
 namespace icomp
@@ -27,7 +28,7 @@ public:
 template <class BaseClass>
 istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::CompatibilityMode mode) const
 {
-	const CComponentContext* contextPtr = dynamic_cast<const CComponentContext*>(BaseClass::GetComponentContext());
+	const IComponentContext* contextPtr = BaseClass::GetComponentContext();
 	if (contextPtr != NULL){
 		QByteArray contextId = contextPtr->GetContextId();
 

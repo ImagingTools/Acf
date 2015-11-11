@@ -35,6 +35,9 @@ public:
 	// reimplemented (istd::TIFactory<icomp::IComponent>)
 	virtual icomp::IComponent* CreateInstance(const QByteArray& keyId = "") const;
 
+	// reimplemented (icomp::ICompositeComponent)
+	virtual IComponent* CreateSubcomponent(const QByteArray& componentId) const;
+
 private:
 	KeyList m_factoryKeys;
 };
@@ -72,6 +75,20 @@ icomp::IComponent* TSimComponentsFactory<Base>::CreateInstance(const QByteArray&
 	}
 
 	return NULL;
+}
+
+
+// reimplemented (icomp::ICompositeComponent)
+
+template <class Base>
+IComponent* TSimComponentsFactory<Base>::CreateSubcomponent(const QByteArray& componentId) const
+{
+	IComponent* componentPtr = BaseClass::CreateSubcomponent(componentId);
+	if (componentPtr != NULL){
+		return componentPtr;
+	}
+
+	return CreateInstance(componentId);
 }
 
 
