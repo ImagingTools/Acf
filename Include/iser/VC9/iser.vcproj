@@ -360,7 +360,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CReaderVersionInfo.cpp"
+				RelativePath="..\CArchiveHeaderInfo.cpp"
 				>
 			</File>
 			<File
@@ -469,7 +469,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\CReaderVersionInfo.h"
+				RelativePath="..\CArchiveHeaderInfo.h"
 				>
 			</File>
 			<File
