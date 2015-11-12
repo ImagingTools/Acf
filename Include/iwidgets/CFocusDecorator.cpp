@@ -42,14 +42,13 @@ void CFocusDecorator::UnregisterWidget(QWidget* widgetPtr)
 		return;
 	}
 
-	Q_ASSERT(m_widgetEffectsMap.contains(widgetPtr));
 	if (m_widgetEffectsMap.contains(widgetPtr)){
 		widgetPtr->removeEventFilter(this);
+
+		widgetPtr->setGraphicsEffect(NULL);
+
+		m_widgetEffectsMap.remove(widgetPtr);
 	}
-
-	m_widgetEffectsMap.remove(widgetPtr);
-
-	widgetPtr->setGraphicsEffect(NULL);
 }
 
 
