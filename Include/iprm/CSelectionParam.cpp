@@ -27,20 +27,23 @@ CSelectionParam::CSelectionParam()
 
 void CSelectionParam::SetSelectionConstraints(const IOptionsList* constraintsPtr)
 {
-	m_constraintsPtr = constraintsPtr;
-	if (m_constraintsPtr != NULL){
-		if (m_constraintsPtr->GetOptionsFlags() & IOptionsList::SCF_SUPPORT_UNIQUE_ID){
-			if (m_selectedOptionIndex >= 0){
-				if (m_selectedOptionIndex < m_constraintsPtr->GetOptionsCount()){
-					m_selectedOptionId = m_constraintsPtr->GetOptionId(m_selectedOptionIndex);
+	if (m_constraintsPtr != constraintsPtr){
+		m_constraintsPtr = constraintsPtr;
+
+		if (m_constraintsPtr != NULL){
+			if (m_constraintsPtr->GetOptionsFlags() & IOptionsList::SCF_SUPPORT_UNIQUE_ID){
+				if (m_selectedOptionIndex >= 0){
+					if (m_selectedOptionIndex < m_constraintsPtr->GetOptionsCount()){
+						m_selectedOptionId = m_constraintsPtr->GetOptionId(m_selectedOptionIndex);
+					}
+					else{
+						CSelectionParam::SetSelectedOptionIndex(NO_SELECTION);
+					}
 				}
-				else{
-					CSelectionParam::SetSelectedOptionIndex(NO_SELECTION);
+				imod::IModel* constraintsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(m_constraintsPtr));
+				if (constraintsModelPtr != NULL){
+					constraintsModelPtr->AttachObserver(&m_constraintsObserver);
 				}
-			}
-			imod::IModel* constraintsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>(m_constraintsPtr));
-			if (constraintsModelPtr != NULL){
-				constraintsModelPtr->AttachObserver(&m_constraintsObserver);
 			}
 		}
 	}
