@@ -18,7 +18,7 @@ const istd::IChangeable::ChangeSet s_insertChangeSet(IParamsManager::CF_SET_INSE
 const istd::IChangeable::ChangeSet s_removeChangeSet(IParamsManager::CF_SET_REMOVED, IOptionsList::CF_OPTIONS_CHANGED, ISelectionParam::CF_SELECTION_CHANGED, QObject::tr("Remove parameter"));
 const istd::IChangeable::ChangeSet s_moveChangeSet(IParamsManager::CF_SET_ENABLE_CHANGED, IOptionsList::CF_OPTIONS_CHANGED, IParamsManager::CF_SET_REMOVED, ISelectionParam::CF_SELECTION_CHANGED, QObject::tr("Move parameter"));
 const istd::IChangeable::ChangeSet s_renameChangeSet(IParamsManager::CF_SET_NAME_CHANGED, IOptionsList::CF_OPTION_RENAMED, QObject::tr("Rename"));
-const istd::IChangeable::ChangeSet s_selectChangeSet(IOptionsList::CF_OPTIONS_CHANGED, ISelectionParam::CF_SELECTION_CHANGED, QObject::tr("Change selection"));
+const istd::IChangeable::ChangeSet s_selectChangeSet(ISelectionParam::CF_SELECTION_CHANGED, QObject::tr("Change selection"));
 const istd::IChangeable::ChangeSet s_setDescriptionChangeSet(IOptionsList::CF_OPTIONS_CHANGED, QObject::tr("Change description"));
 
 
@@ -136,6 +136,7 @@ bool CParamsManagerCompBase::SwapParamsSet(int index1, int index2)
 	qSwap(paramsSet1.typeId, paramsSet2.typeId);
 	qSwap(paramsSet1.name, paramsSet2.name);
 	qSwap(paramsSet1.isEnabled, paramsSet2.isEnabled);
+	qSwap(paramsSet1.uuid, paramsSet2.uuid);
 
 	Q_ASSERT(paramsSet1.paramSetPtr->GetFactoryId() == paramsSet1.typeId);
 	Q_ASSERT(paramsSet2.paramSetPtr->GetFactoryId() == paramsSet2.typeId);

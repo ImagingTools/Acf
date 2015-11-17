@@ -22,6 +22,7 @@ CParamsManagerGuiCompBase::CParamsManagerGuiCompBase()
 	m_lastObserverPtr(NULL)
 {
 	static const istd::IChangeable::ChangeSet changeMask(
+				iprm::ISelectionParam::CF_SELECTION_CHANGED,
 				iprm::IOptionsList::CF_OPTIONS_CHANGED,
 				iprm::IParamsManager::CF_SET_INSERTED,
 				iprm::IParamsManager::CF_SET_REMOVED,
