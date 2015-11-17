@@ -69,7 +69,7 @@ int CRegistryCodeSaverComp::SaveToFile(
 
 	Addresses realAddresses;
 	Addresses composedAddresses;
-	if (!AppendAddresses(*registryPtr, realAddresses, composedAddresses)){
+	if (!AppendAddresses(*registryPtr, QStringList(), realAddresses, composedAddresses)){
 		SendErrorMessage(0, "Component tree could not be created", "Source code generator");
 
 		return OS_FAILED;
@@ -202,6 +202,7 @@ QString CRegistryCodeSaverComp::GetTypeDescription(const QString* extensionPtr) 
 
 bool CRegistryCodeSaverComp::AppendAddresses(
 			const icomp::IRegistry& registry,
+			const QStringList& registryPath,
 			Addresses& realAddresses,
 			Addresses& composedAddresses) const
 {
@@ -214,6 +215,9 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 				elementIter != ids.end();
 				++elementIter){
 		const QByteArray& componentId = *elementIter;
+
+		QStringList componentPath = registryPath;
+		componentPath << componentId;
 
 		const icomp::IRegistry::ElementInfo* infoPtr = registry.GetElementInfo(componentId);
 		Q_ASSERT(infoPtr != NULL);	// used element ID was returned by registry, info must exist.
@@ -237,14 +241,14 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 					if (registryPtr != NULL){
 						composedAddresses.insert(infoPtr->address);
 
-						if (!AppendAddresses(*registryPtr, realAddresses, composedAddresses)){
+						if (!AppendAddresses(*registryPtr, componentPath, realAddresses, composedAddresses)){
 							return false;
 						}
 					}
 					else{
 						SendErrorMessage(
 									MI_UNDEFINED_COMPONENT,
-									QObject::tr("Composite component '%1' is undefined").arg(infoPtr->address.ToString()));
+									QObject::tr("%1: Composite component '%1' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
 
 						return false;
 					}
@@ -254,7 +258,7 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 			default:
 				SendErrorMessage(
 							MI_UNDEFINED_PACKAGE,
-							QObject::tr("Package '%1' is undefined").arg(QString(packageId)));
+							QObject::tr("%1: Package '%2' is undefined").arg(componentPath.join("/")).arg(QString(packageId)));
 				return false;
 			}
 		}
@@ -262,14 +266,14 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 			// embedded components will be processed recursive
 			const icomp::IRegistry* registryPtr = registry.GetEmbeddedRegistry(infoPtr->address.GetComponentId());
 			if (registryPtr != NULL){
-				if (!AppendAddresses(*registryPtr, realAddresses, composedAddresses)){
+				if (!AppendAddresses(*registryPtr, componentPath, realAddresses, composedAddresses)){
 					return false;
 				}
 			}
 			else{
 				SendErrorMessage(
 						MI_UNDEFINED_COMPONENT,
-						QObject::tr("Composite component '%1' is undefined").arg(infoPtr->address.ToString()));
+						QObject::tr("%1: Composite component '%2' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
 
 				return false;
 			}

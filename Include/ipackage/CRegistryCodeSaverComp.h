@@ -97,6 +97,7 @@ protected:
 	*/
 	bool AppendAddresses(
 				const icomp::IRegistry& registry,
+				const QStringList& registryPath,
 				Addresses& realAddresses,
 				Addresses& composedAddresses) const;
 	Ids ExtractPackageIds(const Addresses& addresses) const;
