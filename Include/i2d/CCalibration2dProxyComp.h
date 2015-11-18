@@ -83,7 +83,7 @@ protected:
 	virtual void OnComponentDestroyed();
 
 private:
-	const ICalibration2d* GetCalibrationPtr() const;
+	const ICalibration2d* GetCalibration() const;
 
 private:
 	I_REF(ICalibrationProvider, m_calibrationProviderCompPtr);

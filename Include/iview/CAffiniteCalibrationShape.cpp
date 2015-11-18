@@ -25,7 +25,7 @@ namespace iview
 
 void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 {
-	const i2d::ICalibration2d* calibrationPtr = GetCalibrationPtr();
+	const i2d::ICalibration2d* calibrationPtr = GetCalibration();
 	const i2d::CAffineTransformation2d* calibPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(calibrationPtr);
 	if (calibPtr == NULL){
 		BaseClass::Draw(drawContext);

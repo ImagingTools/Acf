@@ -32,7 +32,7 @@ protected:
 	/**
 		Get access to calibration.
 	*/
-	virtual const i2d::ICalibration2d* GetCalibrationPtr() const;
+	virtual const i2d::ICalibration2d* GetCalibration() const;
 
 	// reimplemented (iview::CInteractiveShapeBase)
 	virtual void BeginLogDrag(const i2d::CVector2d& reference);

@@ -49,7 +49,7 @@ void CPerspectiveCalibrationShape::Invalidate()
 
 void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 {
-	const CPerspectiveCalibration* calibPtr = dynamic_cast<const CPerspectiveCalibration*>(GetCalibrationPtr());
+	const CPerspectiveCalibration* calibPtr = dynamic_cast<const CPerspectiveCalibration*>(GetCalibration());
 	if (calibPtr == NULL){
 		BaseClass::Draw(drawContext);
 

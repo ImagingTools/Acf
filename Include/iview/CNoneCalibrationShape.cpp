@@ -233,7 +233,7 @@ bool CNoneCalibrationShape::OnMouseMove(istd::CIndex2d /*position*/)
 
 // protected methods
 
-const i2d::ICalibration2d* CNoneCalibrationShape::GetCalibrationPtr() const
+const i2d::ICalibration2d* CNoneCalibrationShape::GetCalibration() const
 {
 	const i2d::ICalibration2d* calibrationPtr = dynamic_cast<const i2d::ICalibration2d*>(GetObservedModel());
 	if (calibrationPtr == NULL){
