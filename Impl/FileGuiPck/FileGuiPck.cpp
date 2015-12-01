@@ -46,6 +46,11 @@ I_EXPORT_COMPONENT(
 			"UI for showing a list of files",
 			"File List");
 
+I_EXPORT_COMPONENT(
+			SimpleFilePathParamGui,
+			"Simplified file path editor",
+			"File Path");
+
 
 } // namespace FileGuiPck
 

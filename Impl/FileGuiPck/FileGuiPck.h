@@ -8,6 +8,7 @@
 #include "ifilegui/CFileDialogLoaderComp.h"
 #include "ifilegui/CFilePreviewGuiComp.h"
 #include "ifilegui/CFileListProviderGuiComp.h"
+#include "ifilegui/CSimpleFilePathParamGuiComp.h"
 
 
 /**
@@ -23,6 +24,7 @@ typedef ifilegui::CFilePersistenceGuiComp FilePersistenceGui;
 typedef ifilegui::CFileDialogLoaderComp FileDialogLoader;
 typedef ifilegui::CFilePreviewGuiComp FilePreviewGui;
 typedef ifilegui::CFileListProviderGuiComp FileListProviderGui;
+typedef ifilegui::CSimpleFilePathParamGuiComp SimpleFilePathParamGui;
 
 
 } // namespace FileGuiPck

@@ -5,6 +5,7 @@
 // ACF includes
 #include "imod/CMultiModelBridgeBase.h"
 #include "ifile/CFileNameParamComp.h"
+#include "ifile/IRelativeFilePath.h"
 
 
 namespace ifile
@@ -12,6 +13,7 @@ namespace ifile
 
 
 class CRelativeFileNameParamComp:
+			virtual public IRelativeFilePath,
 			public ifile::CFileNameParamComp,
 			protected imod::CMultiModelBridgeBase
 {
@@ -19,11 +21,15 @@ public:
 	typedef ifile::CFileNameParamComp BaseClass;
 
 	I_BEGIN_COMPONENT(CRelativeFileNameParamComp);
+		I_REGISTER_INTERFACE(IRelativeFilePath);
 		I_ASSIGN(m_relativeToCompPtr, "ReferencePath", "Reference path, relative to this file or directory internal path representation will be calculated", false, "ReferencePath");
 		I_ASSIGN_TO(m_relativeToModelCompPtr, m_relativeToCompPtr, false);
 	I_END_COMPONENT;
 
 	CRelativeFileNameParamComp();
+
+	// reimplemented (ifile::IRelativeFilePath)
+	virtual QString GetBasePath() const;
 
 	// reimplemented (ifile::IFileNameParam)
 	virtual const QString& GetPath() const;
