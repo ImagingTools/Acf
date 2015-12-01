@@ -18,6 +18,7 @@ CCompactXmlFileReadArchive::CCompactXmlFileReadArchive(
 			bool serializeHeader,
 			const iser::CArchiveTag& rootTag)
 :	BaseClass(rootTag),
+	BaseClass2(filePath),
 	m_serializeHeader(serializeHeader)
 {
 	if (!filePath.isEmpty()){

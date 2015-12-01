@@ -8,6 +8,7 @@
 
 // ACF includes
 #include "iser/CCompactXmlReadArchiveBase.h"
+#include "ifile/CFileArchiveInfo.h"
 
 
 namespace ifile
@@ -19,10 +20,13 @@ namespace ifile
 
 	\ingroup Persistence
 */
-class CCompactXmlFileReadArchive: public iser::CCompactXmlReadArchiveBase
+class CCompactXmlFileReadArchive:
+			public iser::CCompactXmlReadArchiveBase,
+			public ifile::CFileArchiveInfo
 {
 public:
 	typedef iser::CCompactXmlReadArchiveBase BaseClass;
+	typedef ifile::CFileArchiveInfo BaseClass2;
 
 	/**
 		Constructor initializing archive to work with file.
