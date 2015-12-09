@@ -44,6 +44,7 @@ protected:
 
 private:
 	void OpenFileStream();
+	void CloseFileStream();
 
 private:
 	I_REF(ifile::IFileNameParam, m_fileNameCompPtr);
@@ -69,6 +70,8 @@ private:
 	};
 
 	FilePathObserver m_filePathObserver;
+
+	QMutex m_mutex;
 };
 
 
