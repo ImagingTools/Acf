@@ -16,7 +16,9 @@ CCompactXmlMemWriteArchive::CCompactXmlMemWriteArchive(
 			const iser::CArchiveTag& rootTag)
 :	BaseClass(versionInfoPtr, serializeHeader, rootTag)
 {
-	InitArchive(&m_textBuffer);
+	if (m_textBuffer.open(QIODevice::WriteOnly | QIODevice::Text)){
+		InitArchive(&m_textBuffer);
+	}
 }
 
 

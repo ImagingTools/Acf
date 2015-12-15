@@ -201,6 +201,8 @@ bool CCompactXmlReadArchiveBase::SetContent(QIODevice* devicePtr)
 
 		retVal = !m_currentParent.isNull();
 
+		m_allowAttribute = true;
+
 		if (m_serializeHeader){
 			retVal = retVal && SerializeAcfHeader();
 		}
