@@ -1,21 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <Acf>
-  <Description>Version information for modules based directly on ACF</Description>
-  <Keywords>Application Tag=Version Info Author='&quot;Witold Gantzke&quot;'</Keywords>
-  <AcfHeader>
+    <AcfHeader>
         <VersionInfos>
-            <Version Description="ACF-Solutions" Number="1483" Id="1"/>
-            <Version Description="ACF" Number="4056" Id="0"/>
-            <Version Description="Qt Framework" Number="328961" Id="1023"/>
+            <Version Id="0" Number="4056" Description="ACF"/>
+            <Version Id="1" Number="1506" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="328706" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
+    <Description>Version information for modules based directly on ACF</Description>
+    <Keywords>Application Tag=Version Info Author='&quot;Witold Gantzke&quot;'</Keywords>
     <ElementsList>
-        <Element PackageId="BasePck" Id="BaseInfo" ComponentId="VersionInfo">
+        <Element Id="BaseInfo" PackageId="BasePck" ComponentId="VersionInfo">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="IsExtensionUsed" ExportId="" Type="Boolean">
+                    <AttributeInfo Id="IsExtensionUsed" Type="Boolean" ExportId="">
                         <Data IsEnabled="true" Value="true"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="KnownVersionNames" ExportId="" Type="String[]">
+                    <AttributeInfo Id="KnownVersionNames" Type="String[]" ExportId="">
                         <Data IsEnabled="true">
                             <Values>
                                 <Value>0.9.0</Value>
@@ -53,7 +54,7 @@
                             </Values>
                         </Data>
                     </AttributeInfo>
-                    <AttributeInfo Id="KnownVersions" ExportId="" Type="Integer[]">
+                    <AttributeInfo Id="KnownVersions" Type="Integer[]" ExportId="">
                         <Data IsEnabled="true">
                             <Values>
                                 <Value>940</Value>
@@ -91,55 +92,55 @@
                             </Values>
                         </Data>
                     </AttributeInfo>
-                    <AttributeInfo Id="SlaveVersionInfo" ExportId="" Type="Reference">
+                    <AttributeInfo Id="SlaveVersionInfo" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="QtVersionInfo"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionId" ExportId="" Type="Integer">
+                    <AttributeInfo Id="VersionId" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="0"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionIdDesc" ExportId="" Type="String">
+                    <AttributeInfo Id="VersionIdDesc" Type="String" ExportId="">
                         <Data IsEnabled="true" Value="ACF"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionNumber" ExportId="" Type="Integer">
+                    <AttributeInfo Id="VersionNumber" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="$WCREV$"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
             </Data>
         </Element>
-        <Element PackageId="BasePck" Id="QtVersionInfo" ComponentId="QtVersionInfo">
+        <Element Id="QtVersionInfo" PackageId="BasePck" ComponentId="QtVersionInfo">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="Log" ExportId="Log" Type="Reference">
+                    <AttributeInfo Id="Log" Type="Reference" ExportId="Log">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="SlaveVersionInfo" ExportId="SlaveVersionInfo" Type="Reference">
+                    <AttributeInfo Id="SlaveVersionInfo" Type="Reference" ExportId="SlaveVersionInfo">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
             </Data>
         </Element>
-        <Element PackageId="BasePck" Id="VersionInfo" ComponentId="VersionInfo">
+        <Element Id="VersionInfo" PackageId="BasePck" ComponentId="VersionInfo">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="IsExtensionUsed" ExportId="IsExtensionUsed" Type="Boolean">
+                    <AttributeInfo Id="IsExtensionUsed" Type="Boolean" ExportId="IsExtensionUsed">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="KnownVersionNames" ExportId="KnownVersionNames" Type="String[]">
+                    <AttributeInfo Id="KnownVersionNames" Type="String[]" ExportId="KnownVersionNames">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="KnownVersions" ExportId="KnownVersions" Type="Integer[]">
+                    <AttributeInfo Id="KnownVersions" Type="Integer[]" ExportId="KnownVersions">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="SlaveVersionInfo" ExportId="" Type="Reference">
+                    <AttributeInfo Id="SlaveVersionInfo" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="BaseInfo"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionId" ExportId="VersionId" Type="Integer">
+                    <AttributeInfo Id="VersionId" Type="Integer" ExportId="VersionId">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionIdDesc" ExportId="VersionIdDesc" Type="String">
+                    <AttributeInfo Id="VersionIdDesc" Type="String" ExportId="VersionIdDesc">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="VersionNumber" ExportId="VersionNumber" Type="Integer">
+                    <AttributeInfo Id="VersionNumber" Type="Integer" ExportId="VersionNumber">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
