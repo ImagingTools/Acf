@@ -59,8 +59,10 @@ public:
 		/**
 			Check if there is specific change flag in the set explicit set by user.
 			There are some control flags, used to indicate that all changes were done. The functionality of this flags will be omitted by this check.
+			\param	changeId	ID of requested change.
+			\param	singleOnly	if it is true, than this function return tru only if the set contains only requested change and nothing more.
 		*/
-		bool ContainsExplicit(int changeId) const;
+		bool ContainsExplicit(int changeId, bool singleOnly = false) const;
 		/**
 			Check if any of IDs is changed.
 		*/
@@ -75,6 +77,12 @@ public:
 			Get textual description of this change set.
 		*/
 		const QString& GetDescription() const;
+
+		/**
+			Get set of all stored IDs.
+			Please note, that there are some special IDs changing interpretation of this set. It will be exported in raw form.
+		*/
+		QSet<int> GetIds() const;
 
 		/**
 			Get the union of two change sets.

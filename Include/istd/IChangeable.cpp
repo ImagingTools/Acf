@@ -154,8 +154,12 @@ bool IChangeable::ChangeSet::Contains(int changeId) const
 }
 
 
-bool IChangeable::ChangeSet::ContainsExplicit(int changeId) const
+bool IChangeable::ChangeSet::ContainsExplicit(int changeId, bool singleOnly) const
 {
+	if (singleOnly && (m_ids.size() != 1)){
+		return false;
+	}
+
 	return m_ids.contains(changeId);
 }
 
@@ -183,6 +187,12 @@ void IChangeable::ChangeSet::MaskOut(const ChangeSet& changeSet)
 const QString& IChangeable::ChangeSet::GetDescription() const
 {
 	return m_description;
+}
+
+
+QSet<int> IChangeable::ChangeSet::GetIds() const
+{
+	return m_ids;
 }
 
 
