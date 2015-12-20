@@ -86,14 +86,14 @@ QIcon CLogGuiComp::GetCategoryIcon(int category) const
 {
 	static QIcon emptyIcon;
 
-	static QIcon diagnosticsIcon(":/Icons/Diagnostics");
+	static QIcon logIcon(":/Icons/Log");
 	static QIcon infoIcon(":/Icons/Info");
 	static QIcon warningIcon(":/Icons/Warning");
 	static QIcon errorIcon(":/Icons/Error");
 
 	switch (category){
 	case istd::IInformationProvider::IC_NONE:
-		return diagnosticsIcon;
+		return logIcon;
 
 	case istd::IInformationProvider::IC_INFO:
 		return infoIcon;
@@ -114,8 +114,8 @@ QIcon CLogGuiComp::GetActionIcon(int functionType) const
 {
 	static QIcon emptyIcon;
 	static QIcon clearIcon(":/Icons/Clear");
-	static QIcon exportIcon(":/Icons/Info");
-	static QIcon diagnosticsIcon(":/Icons/Warning");
+	static QIcon exportIcon(":/Icons/DocumentExport");
+	static QIcon diagnosticsIcon(":/Icons/Diagnostics");
 	
 	switch (functionType){
 	case AT_CLEAR:
