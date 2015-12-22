@@ -30,11 +30,7 @@ CViewport::CViewport(CConsoleBase* framePtr, QWidget* parent)
 
 	setMouseTracking(true);
 
-	m_blockBBoxEvent = false;
-
 	AddViewEventObserver(this);
-
-	m_lastBoundingBox.Reset();
 }
 
 
@@ -53,7 +49,6 @@ CConsoleBase* CViewport::GetFramePtr() const
 void CViewport::UpdateFitTransform()
 {
 	if (m_framePtr->m_isZoomToFit){
-		m_framePtr->m_isZoomToFit = false;
 		switch (m_framePtr->m_fitMode){
 			case CConsoleBase::FM_RESET:
 				SetZoom(iview::CViewBase::ZM_RESET);
@@ -79,17 +74,9 @@ void CViewport::UpdateFitTransform()
 				SetZoom(iview::CViewBase::ZM_FIT_COVER);
 				break;
 		}
-		m_framePtr->m_isZoomToFit = true;
 	}
 
 	m_framePtr->UpdateButtonsState();
-
-	CalcBoundingBox();
-
-	i2d::CRect boundingBox = GetBoundingBox();
-	if (boundingBox != GetBoundingBox()){
-		OnBoundingBoxChanged();
-	}
 }
 
 
@@ -242,14 +229,6 @@ void CViewport::SetBackgroundBufferValid(bool state)
 }
 
 
-void CViewport::OnBoundingBoxChanged()
-{
-	if (m_framePtr != NULL){
-		m_framePtr->OnBoundingBoxChanged();
-	}
-}
-
-
 void CViewport::OnResize()
 {
 	BaseClass::OnResize();
@@ -359,6 +338,14 @@ void CViewport::UpdateRectArea(const i2d::CRect& rect)
 }
 
 
+void CViewport::OnBoundingBoxChanged()
+{
+	if (m_framePtr != NULL){
+		m_framePtr->OnBoundingBoxChanged();
+	}
+}
+
+
 // static protected methods
 
 int CViewport::GetMouseKeysState(const QMouseEvent& mouseEvent)
@@ -388,47 +375,13 @@ int CViewport::GetMouseKeysState(const QMouseEvent& mouseEvent)
 }
 
 
-// reimplemented (iview::CViewBase)
-
-i2d::CRect CViewport::CalcBoundingBox() const
-{
-	if (!m_blockBBoxEvent){
-		m_blockBBoxEvent = true;
-
-		const i2d::CRect& lastBox = GetBoundingBox();
-
-		i2d::CRect boundingBox = BaseClass::CalcBoundingBox();
-
-		if (lastBox != GetBoundingBox()){
-			const_cast<CViewport*>(this)->OnBoundingBoxChanged();
-		}
-
-		m_blockBBoxEvent = false;
-
-		return boundingBox;
-	}
-	else{
-		return BaseClass::CalcBoundingBox();
-	}
-}
-
-
 // reimplemented (iview::IDisplay)
 
 void CViewport::OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox)
 {
 	BaseClass::OnAreaInvalidated(beforeBox, afterBox);
 
-	if (!m_blockBBoxEvent){
-		m_blockBBoxEvent = true;
-		i2d::CRect boundingBox = GetBoundingBox();
-		if (boundingBox != m_lastBoundingBox){
-			OnBoundingBoxChanged();
-			m_lastBoundingBox = boundingBox;
-		}
-
-		m_blockBBoxEvent = false;
-	}
+	EnsureBoundingBoxValid();
 
 	Q_EMIT ShapesChanged();
 }

@@ -226,11 +226,21 @@ protected:
 		Invalidate bounding box.
 	*/
 	virtual void InvalidateBoundingBox();
+	/**
+		Calculate bounding box if it was invalid.
+		\return	true, if the new bounding box was calculated.
+	*/
+	bool EnsureBoundingBoxValid();
 	
 	/**
 		Calculate bounding box of all shapes.
+		It doesn't update current bounding box.
 	*/
 	virtual i2d::CRect CalcBoundingBox() const;
+	/**
+		Called when bounding box has been changed.
+	*/
+	virtual void OnBoundingBoxChanged();
 
 	virtual MousePointerMode CalcMousePointer(istd::CIndex2d position) const;
 
@@ -334,11 +344,13 @@ private:
 	mutable istd::CIndex2d m_lastMousePosition;
 	mutable bool m_isSelectEventActive;
 
-	mutable i2d::CRect m_boundingBox;
-	mutable bool m_isBoundingBoxValid;
+	i2d::CRect m_boundingBox;
+	bool m_isBoundingBoxValid;
 
 	mutable IInteractiveShape* m_mouseShapePtr;
 	mutable bool m_isMouseShapeValid;
+
+	mutable bool m_blockBBoxEvent;
 };
 
 
@@ -437,11 +449,7 @@ inline const iview::CScreenTransform& CViewBase::GetTransform() const
 
 inline i2d::CRect CViewBase::GetBoundingBox() const
 {
-	if (!m_isBoundingBoxValid){
-		m_boundingBox = CalcBoundingBox();
-
-		m_isBoundingBoxValid = true;
-	}
+	const_cast<CViewBase*>(this)->EnsureBoundingBoxValid();
 
 	return m_boundingBox;
 }

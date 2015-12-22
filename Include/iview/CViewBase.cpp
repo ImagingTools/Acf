@@ -26,6 +26,7 @@ CViewBase::CViewBase()
 
 	m_invalidatedBox.Reset();
 	m_isBackgroundBufferValid = false;
+	m_boundingBox = i2d::CRect::GetInvalid();
 	m_isBoundingBoxValid = false;
 	m_mouseShapePtr = NULL;
 	m_isMouseShapeValid = false;
@@ -47,6 +48,8 @@ CViewBase::CViewBase()
 	m_backgroundLayerIndex = -1;
 	m_inactiveLayerIndex = -1;
 	m_activeLayerIndex = -1;
+
+	m_blockBBoxEvent = false;
 }
 
 
@@ -303,11 +306,22 @@ int CViewBase::InsertLayer(IViewLayer* layerPtr, int index, int layerType)
 	layerPtr->OnConnectView(this);
 
 	i2d::CRect layerBoundingBox = layerPtr->GetBoundingBox();
+
 	if (m_isBoundingBoxValid){
+		i2d::CRect lastBoundingBox = m_boundingBox;
+
 		m_boundingBox.Union(layerBoundingBox);
+
+		if ((lastBoundingBox != m_boundingBox) && !m_blockBBoxEvent){
+			m_blockBBoxEvent = true;
+
+			OnBoundingBoxChanged();
+
+			m_blockBBoxEvent = false;
+		}
 	}
 
-	OnAreaInvalidated(i2d::CRect::GetEmpty(), layerPtr->GetBoundingBox());
+	OnAreaInvalidated(i2d::CRect::GetEmpty(), layerBoundingBox);
 
 	return index;
 }
@@ -744,6 +758,32 @@ void CViewBase::InvalidateBoundingBox()
 }
 
 
+bool CViewBase::EnsureBoundingBoxValid()
+{
+	if (!m_isBoundingBoxValid){
+		i2d::CRect boundingBox = CalcBoundingBox();
+
+		if (boundingBox != m_boundingBox){
+			m_boundingBox = boundingBox;
+
+			if (!m_blockBBoxEvent){
+				m_blockBBoxEvent = true;
+
+				OnBoundingBoxChanged();
+
+				m_blockBBoxEvent = false;
+			}
+		}
+
+		m_isBoundingBoxValid = true;
+
+		return true;
+	}
+
+	return false;
+}
+
+
 i2d::CRect CViewBase::CalcBoundingBox() const
 {
 	i2d::CRect boundingBox = i2d::CRect::GetEmpty();
@@ -880,6 +920,11 @@ bool CViewBase::OnMouseMove(istd::CIndex2d position)
 	UpdateMousePointer();
 
 	return result;
+}
+
+
+void CViewBase::OnBoundingBoxChanged()
+{
 }
 
 

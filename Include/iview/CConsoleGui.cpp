@@ -533,7 +533,7 @@ void CConsoleGui::UpdateComponentsPosition()
 	iwidgets::CWidgetUpdateBlocker viewBlocker(m_viewPtr);
 
 	// scroll bars
-	if(m_isFullScreenMode){
+	if (m_isFullScreenMode){
 		UpdateScrollbarsValues();
 	}
 	else{

@@ -39,21 +39,10 @@ void CConsoleBase::SetZoomToFit(bool state)
 		CViewport& view = GetViewRef();
 
 		if (m_isZoomToFit){
-			iview::CScreenTransform viewTransform = view.GetTransform();
-			if (m_storedTransform != viewTransform){
-				m_storedTransform = viewTransform;
-
-				UpdateComponentsPosition();
-
-				view.UpdateFitTransform();
-			}
-
+			m_storedFitTransform.SetDeformMatrix(i2d::CMatrix2d(0, 0, 0, 0));
 		}
-		else{
-			UpdateComponentsPosition();
 
-			view.SetTransform(m_storedTransform);
-		}
+		UpdateComponentsPosition();
 
 		UpdateButtonsState();
 	}
@@ -64,9 +53,11 @@ void CConsoleBase::SetFitMode(FitMode mode)
 {
 	if (m_fitMode != mode){
 		m_fitMode = mode;
-		CViewport& view = GetViewRef();
-		view.UpdateFitTransform();
+
 		if (m_isZoomToFit){
+			CViewport& view = GetViewRef();
+			view.UpdateFitTransform();
+
 			UpdateComponentsPosition();
 		}
 	}
@@ -216,8 +207,9 @@ void CConsoleBase::UpdateView()
 	CViewport& view = GetViewRef();
 	if (m_isZoomToFit){
 		iview::CScreenTransform viewTransform = view.GetTransform();
-		if (m_storedTransform != viewTransform){
-			m_storedTransform = viewTransform;
+
+		if (viewTransform != m_storedFitTransform){
+			m_storedFitTransform = viewTransform;
 
 			UpdateComponentsPosition();
 
