@@ -26,7 +26,7 @@ CGuiComponentDialog::CGuiComponentDialog(
 			int buttons,
 			bool isModal,
 			QWidget* parentWidgetPtr)
-	:BaseClass(parentWidgetPtr),
+	:BaseClass(parentWidgetPtr, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint),
 	m_buttonsBox(NULL),
 	m_guiObjectPtr(NULL),
 	m_screenFactor(0.0),
