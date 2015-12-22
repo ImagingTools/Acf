@@ -749,6 +749,7 @@ bool CRectangle::Serialize(iser::IArchive& archive)
 
 // static attributes
 CRectangle CRectangle::s_empty(0, 0, 0, 0);
+CRectangle CRectangle::s_invalid(0, -1, 0, -1);
 
 
 } // namespace i2d
