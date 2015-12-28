@@ -106,6 +106,9 @@ protected:
 				const istd::IInformationProvider* messagePtr = NULL) const;
 	virtual void AddMessage(const MessagePtr& messagePtr);
 
+	// reimplemented (ilog::IMessageContainer)
+	virtual void ClearMessages();
+
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();
