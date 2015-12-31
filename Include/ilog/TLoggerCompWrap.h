@@ -26,6 +26,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
 		I_ASSIGN(m_verboseEnabledAttrPtr, "EnableVerbose", "If enabled, verbose messages can be produced", true, false);
+		I_ASSIGN(m_showComponentIdAttrPtr, "ShowComponentId", "If enabled the component ID will be shown as a part of the message source", true, true);
 	I_END_COMPONENT;
 
 protected:
@@ -54,6 +55,7 @@ protected:
 private:
 	I_REF(ilog::IMessageConsumer, m_logCompPtr);
 	I_ATTR(bool, m_verboseEnabledAttrPtr);
+	I_ATTR(bool, m_showComponentIdAttrPtr);
 };
 
 
@@ -89,13 +91,15 @@ void TLoggerCompWrap<Base>::DecorateMessage(
 {
 	BaseClass::DecorateMessage(category, id, flags, message, messageSource);
 
-	const icomp::CComponentContext* contextPtr = dynamic_cast<const icomp::CComponentContext*>(BaseClass::GetComponentContext());
-	if (contextPtr != NULL){
-		if (messageSource.isEmpty()){
-			messageSource = contextPtr->GetContextId();
-		}
-		else{
-			messageSource = QString(contextPtr->GetContextId()) + " (" + messageSource + ")";
+	if (*m_showComponentIdAttrPtr){
+		const icomp::CComponentContext* contextPtr = dynamic_cast<const icomp::CComponentContext*>(BaseClass::GetComponentContext());
+		if (contextPtr != NULL){
+			if (messageSource.isEmpty()){
+				messageSource = contextPtr->GetContextId();
+			}
+			else{
+				messageSource = QString(contextPtr->GetContextId()) + " (" + messageSource + ")";
+			}
 		}
 	}
 }

@@ -38,7 +38,9 @@ bool CFileListProviderComp::CreateFileList(
 			istd::ILogger* loggerPtr)
 {
 	QFileInfoList directories;
-	if (!CreateDirectoryList(root, minRecursionDepth, maxRecursionDepth, directories, loggerPtr)){
+	static QStringList noNameFilters;
+
+	if (!CreateDirectoryList(root, minRecursionDepth, maxRecursionDepth, noNameFilters, sortSpec, directories, loggerPtr)){
 		return false;
 	}
 
@@ -72,6 +74,8 @@ bool CFileListProviderComp::CreateDirectoryList(
 			const QDir& root,
 			int minRecursionDepth,
 			int maxRecursionDepth,
+			const QStringList& nameFilters,
+			QDir::SortFlags sortSpec,
 			QFileInfoList& directoryList,
 			istd::ILogger* loggerPtr)
 {
@@ -97,7 +101,7 @@ bool CFileListProviderComp::CreateDirectoryList(
 		return false;
 	}
 
-	EnumerateDirectory(root, minRecursionDepth, maxRecursionDepth, directoryList);
+	EnumerateDirectory(root, minRecursionDepth, maxRecursionDepth, nameFilters, sortSpec, directoryList);
 
 	return true;
 }
@@ -109,6 +113,8 @@ void CFileListProviderComp::EnumerateDirectory(
 			const QDir& root,
 			int minRecursionDepth,
 			int maxRecursionDepth,
+			const QStringList& nameFilters,
+			QDir::SortFlags sortSpec,
 			QFileInfoList& directories)
 {
 	if (minRecursionDepth <= 0){
@@ -121,7 +127,7 @@ void CFileListProviderComp::EnumerateDirectory(
 		return;
 	}
 
-	QStringList entries = root.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+	QStringList entries = root.entryList(nameFilters, QDir::Drives | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks, sortSpec);
 
 	for (		QStringList::const_iterator iter = entries.begin();
 				iter != entries.end();
@@ -131,7 +137,7 @@ void CFileListProviderComp::EnumerateDirectory(
 		QDir subDir = root;
 		subDir.setPath(root.absoluteFilePath(subDirName));
 
-		EnumerateDirectory(subDir, minRecursionDepth - 1, maxRecursionDepth - 1, directories);
+		EnumerateDirectory(subDir, minRecursionDepth - 1, maxRecursionDepth - 1, nameFilters, sortSpec, directories);
 	}
 }
 

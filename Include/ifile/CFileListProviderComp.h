@@ -68,6 +68,8 @@ public:
 	static bool CreateDirectoryList(const QDir& root,
 				int minRecursionDepth,
 				int maxRecursionDepth,
+				const QStringList& nameFilters,
+				QDir::SortFlags sortSpec,
 				QFileInfoList& directoryList,
 				istd::ILogger* loggerPtr = NULL);
 protected:
@@ -86,6 +88,8 @@ private:
 				const QDir& root,
 				int minRecursionDepth,
 				int maxRecursionDepth,
+				const QStringList& nameFilters,
+				QDir::SortFlags sortSpec,
 				QFileInfoList& directoryList);
 
 private:
