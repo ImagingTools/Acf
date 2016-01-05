@@ -300,6 +300,18 @@ bool CParamsSet::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
+bool CParamsSet::ResetData(CompatibilityMode /*mode*/)
+{
+	istd::CChangeNotifier notifier(this);
+
+	EnsureModelsDetached();
+
+	m_params.Reset();
+
+	return true;
+}
+
+
 // protected methods
 
 const CParamsSet::ParameterInfo* CParamsSet::FindParameterInfo(const QByteArray& parameterId) const
