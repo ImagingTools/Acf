@@ -84,6 +84,13 @@ QString TQtDocumentManagerWrap<Base, Gui>::GetSaveFilePath(const QByteArray& doc
 	QStringList filters = CreateFileDialogFilters(&documentTypeId, dataObjectPtr, ifile::IFilePersistence::QF_FILE | ifile::IFilePersistence::QF_SAVE);
 
 	QString defaultFilter = "*." + QFileInfo(currentFilePath).completeSuffix();
+	for (QStringList::ConstIterator filterIter = filters.constBegin(); filterIter != filters.constEnd(); ++filterIter){
+		if (filterIter->contains(defaultFilter)){
+			defaultFilter = *filterIter;
+			break;
+		}
+	}
+
 	QString filePath = QFileDialog::getSaveFileName(
 				Gui::GetWidget(),
 				Gui::tr("Save..."),
