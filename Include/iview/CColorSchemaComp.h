@@ -2,9 +2,12 @@
 #define iview_CColorSchemaComp_included
 
 
+// QT includes
+#include <QtCore/QByteArray>
+#include <QtCore/QString>
+
 // ACF includes
 #include "icomp/CComponentBase.h"
-
 #include "iview/CColorSchema.h"
 
 
@@ -78,6 +81,9 @@ public:
 		I_ASSIGN(m_halfTransparentBrushColorAttrPtr, "HalfTransparentBrushColor", "Half-Transparent brush color", false, "mediumslateblue");
 		I_ASSIGN(m_halfTransparent2BrushColorAttrPtr, "HalfTransparent2BrushColor", "Half-Transparent2 brush color", false, "mediumslateblue");
 		I_ASSIGN(m_backgroundBrushColorAttrPtr, "BackgroundBrushColor", "Background brush color", false, "AppColor");
+		I_ASSIGN(m_normalFontFamilyAttrPtr, "NormalFontFamily", "Name of family of normal font", false, "Helvetica");
+		I_ASSIGN(m_normalFontSizeAttrPtr, "NormalFontSize", "Size of normal font", false, 10);
+		I_ASSIGN(m_normalFontWeightAttrPtr, "NormalFontWeight", "Size of normal font", false, 50);
 	I_END_COMPONENT;
 
 protected:
@@ -88,7 +94,9 @@ private:
 	I_ATTR(QByteArray, m_halfTransparentBrushColorAttrPtr);
 	I_ATTR(QByteArray, m_halfTransparent2BrushColorAttrPtr);
 	I_ATTR(QByteArray, m_backgroundBrushColorAttrPtr);
-	
+	I_ATTR(QString, m_normalFontFamilyAttrPtr);
+	I_ATTR(int, m_normalFontSizeAttrPtr);
+	I_ATTR(int, m_normalFontWeightAttrPtr);
 };
 
 

@@ -132,9 +132,10 @@ const IColorSchema* CShapeBase::GetUserColorSchema() const
 
 void CShapeBase::SetUserColorSchema(const IColorSchema* schemaPtr)
 {
-	m_userColorSchemaPtr = schemaPtr;
-	if (m_displayPtr != NULL){
-		m_displayPtr->OnChangeShape(this);
+	if (schemaPtr != m_userColorSchemaPtr){
+		m_userColorSchemaPtr = schemaPtr;
+
+		Invalidate();
 	}
 }
 

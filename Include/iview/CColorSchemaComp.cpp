@@ -113,8 +113,21 @@ void CColorSchemaComp::OnComponentCreated()
 		SetBrush(SB_BACKGROUND, QBrush(c));
 	}
 
-}
+	if (m_normalFontFamilyAttrPtr.IsValid()){
+		m_fonts[SF_NORMAL].setFamily(*m_normalFontFamilyAttrPtr);
+	}
 
+	if (m_normalFontSizeAttrPtr.IsValid()){
+		m_fonts[SF_NORMAL].setPointSize(*m_normalFontSizeAttrPtr);
+	}
+	else{
+		m_fonts[SF_NORMAL].setPointSizeF(m_pens[SP_NORMAL].widthF() * 5);
+	}
+
+	if (m_normalFontWeightAttrPtr.IsValid()){
+		m_fonts[SF_NORMAL].setWeight(*m_normalFontWeightAttrPtr);
+	}
+}
 
 
 } // namespace iview

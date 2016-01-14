@@ -40,7 +40,7 @@ public:
 	virtual const QBrush& GetBrush(IColorSchema::StandardBrush brushType) const;
 	virtual void SetBrush(iview::IColorSchema::StandardBrush brushType, const QBrush& brush);
 
-private:
+protected:
 	QPen m_pens[int(IColorSchema::SP_LAST) + 1];
 	QBrush m_brushes[int(IColorSchema::SB_LAST) + 1];
 	QFont m_fonts[int(IColorSchema::SF_LAST) + 1];

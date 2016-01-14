@@ -152,8 +152,6 @@ void CLabelShape::Draw(QPainter& drawContext) const
 		}
 
 		//draw text
-		qreal penWidth = colorSchema.GetPen(iview::IColorSchema::SP_NORMAL).widthF();
-		(const_cast<QFont&>(colorSchema.GetFont(iview::IColorSchema::SF_NORMAL))).setPointSizeF(penWidth*5);
 		drawContext.setFont(colorSchema.GetFont(iview::IColorSchema::SF_NORMAL));
 		DrawText(drawContext, textBox.GetLeftTop(), labelPtr->GetText());
 
