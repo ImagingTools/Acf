@@ -1,6 +1,10 @@
 #include "idoc/CSelectedDocModelBinderComp.h"
 
 
+// Qt includes
+#include <QtCore/QFileInfo>
+
+
 namespace idoc
 {
 
@@ -41,7 +45,20 @@ void CSelectedDocModelBinderComp::TryConnectObservers()
 	}
 
 	const icomp::IComponent* viewCompPtr = dynamic_cast<const icomp::IComponent*>(viewPtr);
-	const icomp::IComponent* documentCompPtr = dynamic_cast<const icomp::IComponent*>(m_documentManagerCompPtr->GetDocumentFromView(*viewPtr));
+	IDocumentManager::DocumentInfo documentInfo;
+	const icomp::IComponent* documentCompPtr = dynamic_cast<const icomp::IComponent*>(m_documentManagerCompPtr->GetDocumentFromView(*viewPtr, &documentInfo));
+
+	if (documentInfo.filePath != m_selectedDocumentInfo.filePath){
+		istd::CChangeNotifier infoNotifier(&m_selectedDocumentInfo);
+		Q_UNUSED(infoNotifier);
+
+		m_selectedDocumentInfo.filePath = documentInfo.filePath;
+
+		QFileInfo fileInfo(documentInfo.filePath);
+
+		m_selectedDocumentInfo.filePath = fileInfo.fileName();
+	}
+
 	m_isActive =
 				((viewCompPtr != NULL) && (observedObjectPtr == viewCompPtr)) ||
 				((documentCompPtr != NULL) && (observedObjectPtr == documentCompPtr));
@@ -123,6 +140,54 @@ void CSelectedDocModelBinderComp::OnComponentDestroyed()
 	}
 
 	BaseClass::OnComponentDestroyed();
+}
+
+
+// public methods of embedded class DocumentInfo
+
+// reimplemented (iprm::INameParam)
+
+const QString& CSelectedDocModelBinderComp::DocumentInfo::GetName() const
+{
+	return name;
+}
+
+
+void CSelectedDocModelBinderComp::DocumentInfo::SetName(const QString& /*name*/)
+{
+}
+
+
+bool CSelectedDocModelBinderComp::DocumentInfo::IsNameFixed() const
+{
+	return true;
+}
+
+
+// reimplemented (ifile::IFileNameParam)
+
+int CSelectedDocModelBinderComp::DocumentInfo::GetPathType() const
+{
+	return PT_FILE;
+}
+
+
+const QString& CSelectedDocModelBinderComp::DocumentInfo::GetPath() const
+{
+	return filePath;
+}
+
+
+void CSelectedDocModelBinderComp::DocumentInfo::SetPath(const QString& /*path*/)
+{
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CSelectedDocModelBinderComp::DocumentInfo::Serialize(iser::IArchive& /*archive*/)
+{
+	return false;
 }
 
 
