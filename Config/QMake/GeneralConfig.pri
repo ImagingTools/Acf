@@ -55,10 +55,11 @@ win32-msvc*{
 		CONFIG += c++11
 	}
 	win32-msvc2015{
-		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
+		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS
 		COMPILER_NAME = VC14
-		CONFIG += c++11
+		#CONFIG += c++11
 	}
+
 
 	contains(QMAKE_HOST.arch, x86_64){
 		PLATFORM_CODE = x64
