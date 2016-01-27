@@ -1,8 +1,12 @@
 #include "ilog/CTextFileLogComp.h"
 
 
+// Qt includes
+#include <QtCore/QFileInfo>
+
 // ACF includes
 #include "istd/IInformationProvider.h"
+#include "istd/CSystem.h"
 #include "imod/IModel.h"
 
 
@@ -73,17 +77,23 @@ void CTextFileLogComp::OpenFileStream()
 	}
 
 	if (m_fileNameCompPtr.IsValid()){
+		QString logFilePath = m_fileNameCompPtr->GetPath();
+
+		if (logFilePath.isEmpty()){
+			return;
+		}
+
 		QIODevice::OpenMode openMode = QIODevice::Text | QIODevice::WriteOnly;
 
 		if (*m_isAppendAttrPtr){
 			openMode |= QIODevice::Append;
 		}
 
-		if (m_fileNameCompPtr->GetPath().isEmpty()){
-			return;
-		}
+		QFileInfo fileInfo(logFilePath);
 
-		m_outputFile.setFileName(m_fileNameCompPtr->GetPath());
+		istd::CSystem::EnsurePathExists(fileInfo.absolutePath());
+
+		m_outputFile.setFileName(logFilePath);
 		m_outputFile.open(openMode);
 	}
 }
