@@ -50,7 +50,7 @@ function relativePath(base, rel) {
     return r.join('\\');
 }
 
-function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
+function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVersions) {
     var retVal = new String;
 
     for (var subFolderIter = new Enumerator(folder.SubFolders); !subFolderIter.atEnd() ; subFolderIter.moveNext()) {
@@ -104,10 +104,17 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
                             }
                         }
 
-						if (text == "</Project>"){
+						if ((qtVersions != null) && (text == "</Project>")){
                           outputFile.WriteLine("  <ProjectExtensions>");
                           outputFile.WriteLine("    <VisualStudio>");
-						  outputFile.WriteLine("      <UserProperties Qt5Version_x0020_Win32=\"$(DefaultQtVersion)\" />");
+                          outputFile.Write("      <UserProperties");
+
+                          for (var versionIter = new Enumerator(qtVersions) ; !versionIter.atEnd() ; versionIter.moveNext()) {
+                              var versionInfo = versionIter.item();
+                              outputFile.Write(" Qt5Version_x0020_" + versionInfo.configuration + "=\"" + versionInfo.version + "\"");
+                          }
+
+                          outputFile.WriteLine(" />");
                           outputFile.WriteLine("    </VisualStudio>");
                           outputFile.WriteLine("  </ProjectExtensions>");
                         }
@@ -171,7 +178,7 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs) {
             }
         }
         else {
-            ProcessFolder(shell, fileSystem, subfolder, vcDirName, replaceDirs);
+            ProcessFolder(shell, fileSystem, subfolder, vcDirName, replaceDirs, qtVersions);
         }
     }
 }
@@ -184,16 +191,24 @@ if (WScript.Arguments.length > 0) {
     var vcDirName = WScript.Arguments(0).toString();
 
     var replaceDirs = [];
+    var qtVersions = [];
 
     var replaceExp = new RegExp("-replace(.*)=(.*)$");
+    var qtVerExp = new RegExp("-qt_ver(.*)=(.*)$");
     for (var argIndex = 1; argIndex < WScript.Arguments.length; ++argIndex) {
         var arg = WScript.Arguments(argIndex).toString();
+
         var replaceArray = replaceExp.exec(arg)
         if (replaceArray) {
             replaceDirs.push({ key: replaceArray[1].split("/").join("\\"), value: replaceArray[2], separator: "\\" });
             replaceDirs.push({ key: replaceArray[1].split("\\").join("/"), value: replaceArray[2], separator: "/" });
         }
+
+        var qtVerArray = qtVerExp.exec(arg)
+        if (qtVerArray) {
+            qtVersions.push({ configuration: qtVerArray[1], version: qtVerArray[2] });
+        }
     }
 
-    ProcessFolder(shell, fileSystem, fileSystem.GetFolder("."), vcDirName, replaceDirs);
+    ProcessFolder(shell, fileSystem, fileSystem.GetFolder("."), vcDirName, replaceDirs, qtVersions);
 }
