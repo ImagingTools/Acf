@@ -83,7 +83,15 @@ win32-msvc*{
 	QMAKE_CXXFLAGS_WARN_ON += -wformat-security
 	QMAKE_CXXFLAGS += /openmp
 	LIBS += -lgomp
+        COMPILER_NAME = GCC
 }
+
+
+*-g++*{
+        QMAKE_CXXFLAGS += -fpermissive
+        COMPILER_NAME = GCC
+}
+
 
 CONFIGURATION_NAME = Unknown
 

@@ -106,6 +106,8 @@ QString CSystem::FindVariableValue(const QString& varName, bool envVars, bool em
 			else{
 				return retVal;
 			}
+#elif defined(__GNUC__)
+            return "GCC";
 #elif defined(__MINGW32__)
 			return "MinGW";
 #elif defined(__MINGW64__)
