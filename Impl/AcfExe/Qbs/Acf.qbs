@@ -2,6 +2,8 @@ import qbs.base 1.0
 import AcfConsoleApplication as AcfConsoleApplication
 
 AcfConsoleApplication{
+	condition: acf.acfToolsBin == null
+
 	name: "AcfExe"
 	targetName: "Acf"
 

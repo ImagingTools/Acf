@@ -134,8 +134,10 @@ OBJECTS_DIR = $$AUXINCLUDEPATH/GeneratedFiles/$$CONFIGURATION_NAME/"$$TARGET"
 INCLUDEPATH += $$PWD/../../Include
 INCLUDEPATH += $$PWD/../../$$AUXINCLUDEDIR
 
-# get build output directory of shadow build and add include path
+# Get build output directory of shadow build:
 ACFDIRBUILD = $$(ACFDIR_BUILD)
+
+# Add build output directory to include path
 !isEmpty( ACFDIRBUILD ){
 	INCLUDEPATH += $$(ACFDIR_BUILD)/$$AUXINCLUDEDIR
 }

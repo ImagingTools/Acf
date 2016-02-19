@@ -84,6 +84,8 @@ Module{
 	property string compilerCode: is64Bit? compilerName + "_64": compilerName;
 	property string compilerDir: compileMode + compilerCode;
 	property string compilerAndQtDir: (Qt.core.versionMajor != 5)? compilerDir + "_Qt" + Qt.core.versionMajor: compilerDir
+
+	property string acfToolsBin										// Path where ACF tools like Arxc or Acf are placed, if undefined the tools from current distribution tools will be taken.
 	property string generatedOutputDir								// Path where stuff will be generated, if undefined "GeneratedPath/" + product.name will be taken
 	property path acfConfigurationFile								// ACF configuration file ARX compiler
 	property bool arxcToBinary										// Enable generating of binary coded source code by ARX compiler, by default is enabled

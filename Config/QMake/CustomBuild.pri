@@ -13,29 +13,30 @@ else{
 	COPY_FILE = cp
 }
 
-# Get build output directory of shadow build:
-ACFDIRBUILD = $$(ACFDIR_BUILD)
-
 # Get path to the ACF tools folder from the external variable:
 ACFTOOLS = $$(ACF_TOOLS_BIN)
 
-# for non-shadow build use ARX compiler inside source tree
-isEmpty(ACFDIRBUILD){
-	ARXCBIN=$$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER
-	ACFBIN = $$PWD/../../Bin/$$COMPILER_DIR/$$ACF_TOOL
-}
-# set ARX compiler from shadow build
-!isEmpty(ACFDIRBUILD){
-	ARXCBIN=$$(ACFDIR_BUILD)/Bin/$$COMPILER_DIR/$$ARX_COMPILER
-	ACFBIN=$$(ACFDIR_BUILD)/Bin/$$COMPILER_DIR/$$ACF_TOOL
-}
+isEmpty(ACFTOOLS){
+	# for non-cross compiling use local generated tools
 
-!isEmpty(ACFTOOLS){
-	ARXCBIN=$$(ACF_TOOLS_BIN)/$$ARX_COMPILER
-	ACFBIN=$$(ACF_TOOLS_BIN)/$$ACF_TOOL
+	isEmpty(ACFDIRBUILD){
+		# for non-shadow build use ARX compiler inside source tree
 
-	message(ARX Compiler path: $$ARXCBIN)
-	message(ACF Tool path: $$ACFBIN)
+		ARXCBIN=$$PWD/../../Bin/$$COMPILER_DIR/$$ARX_COMPILER
+		ACFBIN = $$PWD/../../Bin/$$COMPILER_DIR/$$ACF_TOOL
+	}
+	!isEmpty(ACFDIRBUILD){
+		# set ARX compiler from shadow build
+
+		ARXCBIN=$$ACFDIRBUILD/Bin/$$COMPILER_DIR/$$ARX_COMPILER
+		ACFBIN=$$ACFDIRBUILD/Bin/$$COMPILER_DIR/$$ACF_TOOL
+	}
+}
+else{
+	# for cross compiling use external tools
+
+	ARXCBIN=$$ACFTOOLS/$$ARX_COMPILER
+	ACFBIN=$$ACFTOOLS/$$ACF_TOOL
 }
 
 # Correct ACF paths for windows

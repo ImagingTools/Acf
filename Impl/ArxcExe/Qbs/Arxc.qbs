@@ -3,19 +3,24 @@ import AcfConsoleApplication as AcfConsoleApplication
 
 Project{
 	StaticLibrary{
+		condition: acf.acfToolsBin == null
+
 		name: "_Arxc"
 
 		files: ["empty.cpp"]
 
+		Depends{ name: "acf" }
 		Depends{ name: "QtPck" }
 		Depends{ name: "BasePck" }
 		Depends{ name: "FilePck" }
 		Depends{ name: "PackagePck" }
 	}
 
-    AcfConsoleApplication{
-        name: "ArxcExe"
-        targetName: "Arxc"
+	AcfConsoleApplication{
+		condition: acf.acfToolsBin == null
+
+		name: "ArxcExe"
+		targetName: "Arxc"
 
 		files: ["../*.cpp"]
 

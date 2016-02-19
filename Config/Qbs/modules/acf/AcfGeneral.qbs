@@ -4,30 +4,37 @@ import qbs.FileInfo
 import "AcfService.js" as AcfService
 
 AcfModule{
-    condition: true
+	condition: true
 
 	Depends{ name: "Qt.core" }
 	Depends{ name: "Qt.gui" }
 
-    name: "acf"
+	name: "acf"
 
 	Rule{
 		id: arxCompiler
 		inputs: ["acc"]
 
 		Artifact{
-            filePath: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".cpp"
+			filePath: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		Artifact{
-            filePath: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".h"
+			filePath: AcfService.getGeneratedPath(product) + "/C" + input.completeBaseName + ".h"
 			fileTags: ["hpp", "c++_pch"]
 		}
 
 		prepare:{
 			// get the ACF binary directory
-			var acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
+			var acfBinDirectory = product.moduleProperty("acf", "acfToolsBin");
+			if (acfBinDirectory == null){
+				acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
+			}
 			var acfConfigurationFile = product.moduleProperty("acf", "acfConfigurationFile");
+			var compilerDir = product.moduleProperty("acf", "compilerDir");
+			if (compilerDir == null){
+				throw new Error("Internal error: unset 'acf.compilerDir'");
+			}
 
 			// check all dependencies
 			var dependencies = product.dependencies;
@@ -55,7 +62,7 @@ AcfModule{
 
 			// if there is no ArxcExe directory - error
 			if (acfBinDirectory == null){
-				throw new Error("No ArxcExe dependency specified in " + product.name);
+				throw new Error("No ArxcExe dependency specified and no 'acf.acfToolsBin' property set for " + product.name);
 			}
 
 			var parameters = [
@@ -80,13 +87,16 @@ AcfModule{
 		inputs: ["xtracf"]
 
 		Artifact{
-            filePath: AcfService.getGeneratedPath(product) + "/" + input.completeBaseName
+			filePath: AcfService.getGeneratedPath(product) + "/" + input.completeBaseName
 			fileTags: { return product.moduleProperty("acf", "trOutputType"); }
 		}
 
 		prepare:{
 			// get the ACF binary directory
-			var acfBinDirectory = product.moduleProperty("AcfExe", "acfBinDirectory");
+			var acfBinDirectory = product.moduleProperty("acf", "acfToolsBin");
+			if (acfBinDirectory == null){
+				acfBinDirectory = product.moduleProperty("AcfExe", "acfBinDirectory");
+			}
 			var acfRegistryFile = product.moduleProperty("acf", "trRegFile");
 			var acfConfigurationFile = product.moduleProperty("acf", "trConfigurationFile");
 
@@ -122,7 +132,7 @@ AcfModule{
 
 			// if there is no AcfExe directory - error
 			if (acfBinDirectory == null){
-				throw new Error("No ArxcExe dependency specified in " + product.name);
+				throw new Error("No AcfExe dependency specified and no 'acf.acfToolsBin' property set for " + product.name);
 			}
 
 			var cmd = new Command(acfBinDirectory + '/' + product.moduleProperty("cpp", "executablePrefix") + 'Acf' + product.moduleProperty("cpp", "executableSuffix"), [
@@ -145,7 +155,7 @@ AcfModule{
 		inputs: ["cpp", "c", "objcpp", "objc", "awc_file"]
 
 		Artifact{
-            filePath: "share/qbs/modules/" + product.name + "/" + product.name + ".qbs"
+			filePath: "share/qbs/modules/" + product.name + "/" + product.name + ".qbs"
 			fileTags: ["acf_share"]
 		}
 		prepare:{
@@ -205,8 +215,8 @@ AcfModule{
 					var correctedPathsMap = {};
 					for (i in includePaths){
 						var includePath = includePaths[i];
-                        if (		AcfService.isSubpath(product.buildDirectory, includePath) ||
-                                    (projectRoot !== undefined && AcfService.isSubpath(projectRoot, includePath))){
+						if (		AcfService.isSubpath(product.buildDirectory, includePath) ||
+									(projectRoot !== undefined && AcfService.isSubpath(projectRoot, includePath))){
 							correctedPathsMap[AcfService.relativePath(outputDir, includePath)] = true;
 						}
 					}
@@ -239,7 +249,7 @@ AcfModule{
 		inputs: ["awc_file"]
 
 		Artifact{
-            filePath: product.destinationDirectory + "/" + product.name + ".awc"
+			filePath: product.destinationDirectory + "/" + product.name + ".awc"
 			fileTags: ["awc"]
 		}
 		prepare:{
@@ -327,7 +337,7 @@ AcfModule{
 			}
 			return cmd;
 		}
-    }
+	}
 
 	// Special rule for rcc compiler for resource files using generated files
 	// It set the rcc root to project in generated directory
@@ -336,7 +346,7 @@ AcfModule{
 		explicitlyDependsOn: ["qm"]
 
 		Artifact{
-            filePath: AcfService.getGeneratedPath(product) + "/qrc_" + input.completeBaseName + ".cpp"
+			filePath: AcfService.getGeneratedPath(product) + "/qrc_" + input.completeBaseName + ".cpp"
 			fileTags: ["cpp"]
 		}
 		prepare:{
@@ -368,23 +378,23 @@ AcfModule{
 	}
 
 	// Correction of QT directory structure
-    Rule{
-        inputs: ["ui_corr"]
+	Rule{
+		inputs: ["ui_corr"]
 
-        Artifact{
-            filePath: AcfService.getGeneratedPath(product) + '/ui_' + input.completeBaseName + '.h'
-            fileTags: ["hpp"]
-        }
+		Artifact{
+			filePath: AcfService.getGeneratedPath(product) + '/ui_' + input.completeBaseName + '.h'
+			fileTags: ["hpp"]
+		}
 
-        prepare:{
-            var cmd = new Command(product.moduleProperty("Qt.core", "binPath") + '/'
-                                  + product.moduleProperty("Qt.gui", "uicName"),
-                                  [input.filePath, '-o', output.filePath])
-            cmd.description = 'uic ' + input.fileName;
-            cmd.highlight = 'codegen';
-            return cmd;
-        }
-    }
+		prepare:{
+			var cmd = new Command(product.moduleProperty("Qt.core", "binPath") + '/'
+									+ product.moduleProperty("Qt.gui", "uicName"),
+									[input.filePath, '-o', output.filePath])
+			cmd.description = 'uic ' + input.fileName;
+			cmd.highlight = 'codegen';
+			return cmd;
+		}
+	}
 
 	cpp.includePaths: product.buildDirectory
 	Qt.core.generatedFilesDir : product.buildDirectory + "/GeneratedFiles/" + product.name
