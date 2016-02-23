@@ -31,6 +31,7 @@ static void ShowUsage()
 	std::cout << "\t-sources [on|off]        - enables/disables C++ sources output, default is 'on'" << std::endl;
 	std::cout << "\t-v                       - enable verbose mode" << std::endl;
 	std::cout << "\t-no_binary               - disable generating of binary coded registries" << std::endl;
+	std::cout << "\t-conf_name name          - name of configuration, e.g. 'DebugVC12_64'" << std::endl;
 	std::cout << "\t-h or -help              - showing this help" << std::endl;
 }
 
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
 	}
 
 	QString configFile;
+	QString configName;
 	bool verboseEnabled = false;
 	int workingMode = 0;
 	bool useBinaryCode = true;
@@ -83,7 +85,35 @@ int main(int argc, char *argv[])
 						workingMode = 1;
 					}
 				}
+				else if (option == "conf_name"){
+					configName = argv[++index];
+				}
 			}
+		}
+	}
+
+	if (!configName.isEmpty()){
+		QString compilerMode = istd::CSystem::GetCompilerVariable("CompileMode");
+		QString platformCode = istd::CSystem::GetCompilerVariable("PlatformCode");
+
+		if (configName.startsWith("Debug"), Qt::CaseInsensitive){
+			compilerMode = "Debug";
+		}
+		else if (configName.startsWith("Release"), Qt::CaseInsensitive){
+			compilerMode = "Release";
+		}
+
+		configName = configName.mid(compilerMode.length());
+
+		if (configName.endsWith("_64", Qt::CaseInsensitive)){
+			platformCode = "x64";
+			configName = configName.mid(0, configName.length() - platformCode.length());
+		}
+
+		istd::CSystem::SetUserVariables(compilerMode, configName, platformCode);
+
+		if (verboseEnabled){
+			std::cout << "Extra configuration: compilerMode='" << compilerMode.toStdString() << "' compilerName='" << configName.toStdString() << "' platformCode='" << platformCode.toStdString() << "'" << std::endl;
 		}
 	}
 

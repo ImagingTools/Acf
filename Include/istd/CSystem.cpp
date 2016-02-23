@@ -76,71 +76,19 @@ QString CSystem::FindVariableValue(const QString& varName, bool envVars, bool em
 {
 	if (embeddedVars){
 		if (varName == "PlatformCode"){
-			if (sizeof(void*) > 4){
-				return "x64";
-			}
-			else{
-				return QString();
-			}
+			return s_platformCode;
 		}
-
-		if (varName == "CompileMode"){
-#ifndef QT_NO_DEBUG
-			return "Debug";
-#else // QT_NO_DEBUG
-			return "Release";
-#endif // !QT_NO_DEBUG
-		}
-		else if (varName == "ConfigurationName"){
-			return FindVariableValue("CompileMode", false, true) + FindVariableValue("CompilerName", false, true);
-		}
-		else if (varName == "ConfigurationDir"){
-			return FindVariableValue("ConfigurationName", false, true) + "/";
+		else if (varName == "CompileMode"){
+			return s_compilerMode;
 		}
 		else if (varName == "CompilerName"){
-#ifdef __clang__
-			QString retVal = "Clang";
-			if (sizeof(void*) > 4){
-				return retVal + "_64";
-			}
-			else{
-				return retVal;
-			}
-#elif defined(__MINGW32__)
-			return "MinGW";
-#elif defined(__MINGW64__)
-			return "MinGW_64";
-#elif defined(__GNUC__)
-			return "GCC";
-#elif defined(_MSC_VER)
-#if _MSC_VER >= 1900
-			QString retVal = "VC14";
-#elif _MSC_VER >= 1800
-			QString retVal = "VC12";
-#elif _MSC_VER >= 1700
-			QString retVal = "VC11";
-#elif _MSC_VER >= 1600
-			QString retVal = "VC10";
-#elif _MSC_VER >= 1500
-			QString retVal = "VC9";
-#elif _MSC_VER >= 1400
-			QString retVal = "VC8";
-#elif _MSC_VER >= 1300
-			QString retVal = "VC7";
-#else
-			QString retVal = "VC";
-#endif
-
-			if (sizeof(void*) > 4){
-				return retVal + "_64";
-			}
-			else{
-				return retVal;
-			}
-
-#else
-			return "Unknown";
-#endif
+			return s_compilerName;
+		}
+		else if (varName == "ConfigurationName"){
+			return s_compilerMode + s_compilerName;
+		}
+		else if (varName == "ConfigurationDir"){
+			return s_compilerMode + s_compilerName + "/";
 		}
 		else if (varName == "."){
 			return QDir::currentPath();
@@ -433,6 +381,94 @@ CSystem::FileDriveInfo CSystem::GetFileDriveInfo(const QString& fileDrivePath)
 
 	return fileDriveInfo;
 }
+
+
+QString CSystem::GetCompilerVariable(const QString& varName)
+{
+	if (varName == "PlatformCode"){
+		if (sizeof(void*) > 4){
+			return "x64";
+		}
+		else{
+			return QString();
+		}
+	}
+	else if (varName == "CompileMode"){
+#ifndef QT_NO_DEBUG
+		return "Debug";
+#else // QT_NO_DEBUG
+		return "Release";
+#endif // !QT_NO_DEBUG
+	}
+	else if (varName == "ConfigurationName"){
+		return GetCompilerVariable("CompileMode") + GetCompilerVariable("CompilerName");
+	}
+	else if (varName == "ConfigurationDir"){
+		return GetCompilerVariable("ConfigurationName") + "/";
+	}
+	else if (varName == "CompilerName"){
+#ifdef __clang__
+		QString retVal = "Clang";
+		if (sizeof(void*) > 4){
+			return retVal + "_64";
+		}
+		else{
+			return retVal;
+		}
+#elif defined(__MINGW32__)
+		return "MinGW";
+#elif defined(__MINGW64__)
+		return "MinGW_64";
+#elif defined(__GNUC__)
+		return "GCC";
+#elif defined(_MSC_VER)
+#if _MSC_VER >= 1900
+		QString retVal = "VC14";
+#elif _MSC_VER >= 1800
+		QString retVal = "VC12";
+#elif _MSC_VER >= 1700
+		QString retVal = "VC11";
+#elif _MSC_VER >= 1600
+		QString retVal = "VC10";
+#elif _MSC_VER >= 1500
+		QString retVal = "VC9";
+#elif _MSC_VER >= 1400
+		QString retVal = "VC8";
+#elif _MSC_VER >= 1300
+		QString retVal = "VC7";
+#else
+		QString retVal = "VC";
+#endif
+
+		if (sizeof(void*) > 4){
+			return retVal + "_64";
+		}
+		else{
+			return retVal;
+		}
+
+#else
+		return "Unknown";
+#endif
+	}
+
+	return "";
+}
+
+
+void CSystem::SetUserVariables(const QString& compilerMode, const QString& compilerName, const QString& platformCode)
+{
+	s_compilerMode = compilerMode;
+	s_compilerName = compilerName;
+	s_platformCode = platformCode;
+}
+
+
+// private static attributes
+
+QString CSystem::s_compilerMode = CSystem::GetCompilerVariable("CompileMode");
+QString CSystem::s_compilerName = CSystem::GetCompilerVariable("CompilerName");
+QString CSystem::s_platformCode = CSystem::GetCompilerVariable("PlatformCode");
 
 
 } // namespace istd

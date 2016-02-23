@@ -48,11 +48,14 @@ win32{
 
 # custom build for ACF Registry Compiler (Arxc)
 ARX_COMPILER_OUTPUT = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.h
-CONFIG(warn_on, warn_on|warn_off){
-	ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -v
+ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
+
+!isEmpty(ACFTOOLS){
+	ARX_COMPILER_COMMAND = $$ARX_COMPILER_COMMAND -conf_name $$COMPILER_DIR
 }
-else{
-	ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG}
+
+CONFIG(warn_on, warn_on|warn_off){
+	ARX_COMPILER_COMMAND = $$ARX_COMPILER_COMMAND -v
 }
 
 win32{
@@ -68,7 +71,7 @@ arxCompiler.input = ARXC_FILES
 arxCompiler.variable_out = SOURCES
 arxCompiler.dependency_type = TYPE_C
 arxCompiler.depends += $$ARXCBIN
-arxCompiler.depend_command = $$ARXCBIN ${QMAKE_FILE_IN} -mode depends -config $${ARXC_CONFIG}
+arxCompiler.depend_command = $$ARXCBIN ${QMAKE_FILE_IN} -mode depends -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR
 QMAKE_EXTRA_COMPILERS += arxCompiler
 
 

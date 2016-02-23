@@ -26,7 +26,9 @@ AcfModule{
 
 		prepare:{
 			// get the ACF binary directory
-			var acfBinDirectory = product.moduleProperty("acf", "acfToolsBin");
+			var acfToolsDirectory = product.moduleProperty("acf", "acfToolsBin");
+
+			var acfBinDirectory = acfToolsDirectory;
 			if (acfBinDirectory == null){
 				acfBinDirectory = product.moduleProperty("ArxcExe", "acfBinDirectory");
 			}
@@ -69,6 +71,16 @@ AcfModule{
 						inputs.acc[0].filePath,
 						'-config', acfConfigurationFile,
 						'-o', outputs.cpp[0].filePath];
+
+			var hostOs = product.moduleProperty("qbs", "hostOS");
+			var targetOS = product.moduleProperty("qbs", "targetOS");
+			var isCrossCompiled = (hostOs != undefined) && (targetOS != undefined) && (hostOs != targetOS);
+
+			if ((acfToolsDirectory != null) && !isCrossCompiled){
+				parameters.push('-conf_name');
+				parameters.push(product.moduleProperty("acf", "compilerDir"));
+			}
+
 			if (product.moduleProperty("acf", "arxcToBinary") === false){
 				parameters.push("-no_binary");
 			}
