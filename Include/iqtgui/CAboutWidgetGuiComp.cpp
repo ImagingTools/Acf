@@ -71,8 +71,8 @@ void CAboutWidgetGuiComp::OnGuiRetranslate()
 				}
 			}
 			else{
-				int rowCount = 0;
-				
+				QMap<QString, QString> versions;	// sorted by key
+			
 				iser::IVersionInfo::VersionIds ids = versionInfo.GetVersionIds();
 				for (		iser::IVersionInfo::VersionIds::const_iterator iter = ids.begin();
 							iter != ids.end();
@@ -84,12 +84,17 @@ void CAboutWidgetGuiComp::OnGuiRetranslate()
 						QString description = versionInfo.GetVersionIdDescription(versionId);
 						QString versionText = versionInfo.GetEncodedVersionName(versionId, version);
 
-						QLabel* descriptionLabelPtr = new QLabel(description, VersionsFrame);
-						layoutPtr->addWidget(descriptionLabelPtr, rowCount, 0);
-
-						QLabel* versionLabelPtr = new QLabel(versionText, VersionsFrame);
-						layoutPtr->addWidget(versionLabelPtr, rowCount++, 1);
+						versions[description] = versionText;
 					}
+				}
+
+				int rowCount = 0;
+				for (QMap<QString, QString>::const_iterator it = versions.begin(); it != versions.end(); ++it){
+					QLabel* descriptionLabelPtr = new QLabel(it.key(), VersionsFrame);
+					layoutPtr->addWidget(descriptionLabelPtr, rowCount, 0);
+
+					QLabel* versionLabelPtr = new QLabel(it.value(), VersionsFrame);
+					layoutPtr->addWidget(versionLabelPtr, rowCount++, 1);
 				}
 			}
 		}
