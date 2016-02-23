@@ -7,11 +7,7 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
 #include "iqt/iqt.h"
-
-#include "i2d/CAffineTransformation2d.h"
-
 #include "iview/IRuler.h"
 #include "iview/IViewRulersAccessor.h"
 #include "iview/CCalibratedViewBase.h"
@@ -26,8 +22,7 @@ namespace iview
 void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 {
 	const i2d::ICalibration2d* calibrationPtr = GetCalibration();
-	const i2d::CAffineTransformation2d* calibPtr = dynamic_cast<const i2d::CAffineTransformation2d*>(calibrationPtr);
-	if (calibPtr == NULL){
+	if ((calibrationPtr == NULL) || ((calibrationPtr->GetTransformationFlags() & i2d::ITransformation2d::TF_AFFINE) == 0)){
 		BaseClass::Draw(drawContext);
 
 		return;
@@ -93,7 +88,8 @@ void CAffiniteCalibrationShape::Draw(QPainter& drawContext) const
 				const iview::IColorSchema& colorSchema = GetColorSchema();
 				iview::CScreenTransform transform = GetViewToScreenTransform();
 
-				const i2d::CAffine2d& calibTransform = calibPtr->GetTransformation();
+				i2d::CAffine2d calibTransform;
+				calibrationPtr->GetLocalTransform(i2d::CVector2d::GetZero(), calibTransform);
 
 				transform.Apply(calibTransform);
 
