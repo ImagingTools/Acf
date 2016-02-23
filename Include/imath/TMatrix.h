@@ -308,6 +308,10 @@ public:
 
 	TMatrix<Width, Height, Element> operator*(double value) const;
 
+	TMatrix<Width, Height, Element>& operator+=(const TMatrix<Width, Height, Element>& matrix);
+	TMatrix<Width, Height, Element>& operator-=(const TMatrix<Width, Height, Element>& matrix);
+	TMatrix<Width, Height, Element>& operator*=(double value);
+
 	bool operator==(const TMatrix<Width, Height, Element>& matrix) const;
 	bool operator!=(const TMatrix<Width, Height, Element>& matrix) const;
 
@@ -397,6 +401,33 @@ inline TMatrix<Width, Height, Element> TMatrix<Width, Height, Element>::operator
 	GetScaled(value, retVal);
 
 	return retVal;
+}
+
+
+template <int Width, int Height, typename Element>
+TMatrix<Width, Height, Element>& TMatrix<Width, Height, Element>::operator+=(const TMatrix<Width, Height, Element>& matrix)
+{
+	GetAdded(matrix, *this);
+
+	return *this;
+}
+
+
+template <int Width, int Height, typename Element>
+TMatrix<Width, Height, Element>& TMatrix<Width, Height, Element>::operator-=(const TMatrix<Width, Height, Element>& matrix)
+{
+	GetSubstracted(matrix, *this);
+
+	return *this;
+}
+
+
+template <int Width, int Height, typename Element>
+TMatrix<Width, Height, Element>& TMatrix<Width, Height, Element>::operator*=(double value)
+{
+	GetScaled(value, *this);
+
+	return *this;
 }
 
 

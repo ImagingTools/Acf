@@ -115,11 +115,15 @@ public:
 	*/
 	double GetDet() const;
 
+	// operators
 	/**
 		Copy operator.
 	*/
 	CMatrix2d& operator=(const CMatrix2d& matrix);
 
+	CMatrix2d operator+(const BaseClass& matrix) const;
+	CMatrix2d operator-(const BaseClass& matrix) const;
+	CMatrix2d operator-();
 	/**
 		Multiplication by scalar number.
 	*/
@@ -241,6 +245,36 @@ inline double CMatrix2d::GetDet() const
 
 
 // operators
+
+inline CMatrix2d CMatrix2d::operator+(const BaseClass& matrix) const
+{
+	CMatrix2d retVal;
+
+	BaseClass::GetAdded(matrix, retVal);
+
+	return retVal;
+}
+
+
+inline CMatrix2d CMatrix2d::operator-(const BaseClass& matrix) const
+{
+	CMatrix2d retVal;
+
+	BaseClass::GetSubstracted(matrix, retVal);
+
+	return retVal;
+}
+
+
+inline CMatrix2d CMatrix2d::operator-()
+{
+	CMatrix2d retVal;
+
+	BaseClass::GetNegated(retVal);
+
+	return retVal;
+}
+
 
 inline CMatrix2d& CMatrix2d::operator=(const CMatrix2d& matrix)
 {
