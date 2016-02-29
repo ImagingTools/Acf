@@ -124,40 +124,32 @@ bool CXpcModel::Serialize(iser::IArchive& archive)
 
 	retVal = retVal && archive.EndTag(s_packageFilesTag);
 
-	//Checking version of configuration file for registry files support
-	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
-
-	quint32 versionNumber = 0;
-	if (!versionInfo.GetVersionNumber(0, versionNumber) || (versionNumber > 2473)){
-		//List of registry files is available
-
-		int registryFilesCount = 0;
-		if (isStoring){
-			registryFilesCount = m_registryFiles.size();
-		}
-
-		retVal = retVal && archive.BeginMultiTag(s_registryFilesTag, s_registryFilePathTag, registryFilesCount);
-
-		if (!retVal){
-			return false;
-		}
-
-		for (int i = 0; i < registryFilesCount; ++i){
-			retVal = retVal && archive.BeginTag(s_registryFilePathTag);
-			QString filePath;
-			if (isStoring){
-				filePath = m_registryFiles[i];
-			}
-			retVal = retVal && archive.Process(filePath);
-			if (retVal && !isStoring){
-				m_registryFiles.push_back(filePath);
-			}
-
-			retVal = retVal && archive.EndTag(s_registryFilePathTag);
-		}
-
-		retVal = retVal && archive.EndTag(s_registryFilesTag);
+	int registryFilesCount = 0;
+	if (isStoring){
+		registryFilesCount = m_registryFiles.size();
 	}
+
+	retVal = retVal && archive.BeginMultiTag(s_registryFilesTag, s_registryFilePathTag, registryFilesCount);
+
+	if (!retVal){
+		return false;
+	}
+
+	for (int i = 0; i < registryFilesCount; ++i){
+		retVal = retVal && archive.BeginTag(s_registryFilePathTag);
+		QString filePath;
+		if (isStoring){
+			filePath = m_registryFiles[i];
+		}
+		retVal = retVal && archive.Process(filePath);
+		if (retVal && !isStoring){
+			m_registryFiles.push_back(filePath);
+		}
+
+		retVal = retVal && archive.EndTag(s_registryFilePathTag);
+	}
+
+	retVal = retVal && archive.EndTag(s_registryFilesTag);
 
 	return retVal;
 }

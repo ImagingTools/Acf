@@ -204,20 +204,9 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 
 	bool retVal = true;
 
-	bool isStoring = archive.IsStoring();
-
-	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
-	quint32 versionNumber = 0xffffffff;
-	versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, versionNumber);
-
-	if (versionNumber >= 1052){
-		retVal = retVal && archive.BeginTag(s_flagsTag);
-		retVal = retVal && archive.Process(m_elementFlags);
-		retVal = retVal && archive.EndTag(s_flagsTag);
-	}
-	else if (!isStoring){
-		m_elementFlags = 0;
-	}
+	retVal = retVal && archive.BeginTag(s_flagsTag);
+	retVal = retVal && archive.Process(m_elementFlags);
+	retVal = retVal && archive.EndTag(s_flagsTag);
 
 	if (archive.IsStoring()){
 		int attributesCount = 0;
