@@ -7,6 +7,7 @@
 
 // ACF includes
 #include "istd/TDelPtr.h"
+#include "imod/TModelWrap.h"
 #include "imod/CMultiModelBridgeBase.h"
 #include "icomp/CComponentBase.h"
 #include "iprm/IParamsSet.h"
@@ -76,6 +77,12 @@ public:
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(IOptionsManager);
 		I_REGISTER_INTERFACE(IOptionsList);
+		I_REGISTER_SUBELEMENT(SelectedParams);
+		I_REGISTER_SUBELEMENT_INTERFACE(SelectedParams, iprm::IParamsSet, ExtractCurrentParams);
+		I_REGISTER_SUBELEMENT_INTERFACE(SelectedParams, iser::IObject, ExtractCurrentParams);
+		I_REGISTER_SUBELEMENT_INTERFACE(SelectedParams, iser::ISerializable, ExtractCurrentParams);
+		I_REGISTER_SUBELEMENT_INTERFACE(SelectedParams, istd::IChangeable, ExtractCurrentParams);
+		I_REGISTER_SUBELEMENT_INTERFACE(SelectedParams, imod::IModel, ExtractCurrentParams);
 	I_END_COMPONENT;
 
 	CParamsManagerCompBase();
@@ -134,7 +141,7 @@ protected:
 	int m_selectedIndex;
 
 	class ParamSet:
-				public CMultiModelBridgeBase,
+				public imod::CMultiModelBridgeBase,
 				virtual public IParamsSet,
 				virtual public ISelectionParam,
 				virtual public INameParam
@@ -173,11 +180,40 @@ protected:
 		CParamsManagerCompBase* parentPtr;
 	};
 	
+	class SelectedParams: virtual public IParamsSet
+	{
+	public:
+		SelectedParams();
+
+		// reimplemented (iprm::IParamsSet)
+		virtual Ids GetParamIds(bool editableOnly = false) const;
+		virtual const iser::ISerializable* GetParameter(const QByteArray& id) const;
+		virtual iser::ISerializable* GetEditableParameter(const QByteArray& id);
+
+		// reimplemented (iser::IObject)
+		virtual QByteArray GetFactoryId() const;
+
+		// reimplemented (iser::ISerializable)
+		virtual bool Serialize(iser::IArchive& archive);
+
+		CParamsManagerCompBase* parentPtr;
+	};
+
 	typedef istd::TDelPtr<ParamSet> ParamSetPtr;
 
 	typedef QList<ParamSetPtr> ParamSets;
 
 	ParamSets m_paramSets;
+
+private:
+	// static template methods for subelement access
+	template <class InterfaceType>
+	static InterfaceType* ExtractCurrentParams(CParamsManagerCompBase& component)
+	{
+		return &component.m_selectedParams;
+	}
+
+	imod::TModelWrap<SelectedParams> m_selectedParams;
 };
 
 

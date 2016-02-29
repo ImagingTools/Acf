@@ -26,6 +26,7 @@ CParamsManagerCompBase::CParamsManagerCompBase()
 :	imod::CMultiModelBridgeBase(this),
 	m_selectedIndex(-1)
 {
+	m_selectedParams.parentPtr = this;
 }
 
 
@@ -87,18 +88,14 @@ bool CParamsManagerCompBase::RemoveParamsSet(int index)
 
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
-	if (index < fixedParamsCount){
-		return false;
-	}
-
-	istd::CChangeNotifier notifier(this, &s_removeChangeSet);
-	Q_UNUSED(notifier);
-	
 	int removeIndex = index - fixedParamsCount;
 
-	m_selectedIndex = index - 1;
+	if ((removeIndex >= 0) && (removeIndex < m_paramSets.count())){
+		istd::CChangeNotifier notifier(this, &s_removeChangeSet);
+		Q_UNUSED(notifier);
+	
+		m_selectedIndex = index - 1;
 
-	if (removeIndex >= 0 && removeIndex < m_paramSets.count()){
 		istd::TDelPtr<ParamSet> removedParamsSetPtr;
 		removedParamsSetPtr.TakeOver(m_paramSets[removeIndex]);
 
@@ -107,9 +104,11 @@ bool CParamsManagerCompBase::RemoveParamsSet(int index)
 		m_paramSets.removeAt(removeIndex);
 
 		notifier.Reset();
+
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 
@@ -635,6 +634,66 @@ bool CParamsManagerCompBase::ParamSet::Serialize(iser::IArchive& archive)
 	Q_ASSERT(paramSetPtr.IsValid());
 
 	return paramSetPtr->Serialize(archive);
+}
+
+
+// public methods of embedded class SelectedParams
+
+CParamsManagerCompBase::SelectedParams::SelectedParams()
+:	parentPtr(NULL)
+{
+}
+
+
+// reimplemented (iprm::IParamsSet)
+
+iprm::IParamsSet::Ids CParamsManagerCompBase::SelectedParams::GetParamIds(bool editableOnly) const
+{
+	if (!editableOnly && (parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
+		const ParamSetPtr& selectedParamsSetPtr = parentPtr->m_paramSets[parentPtr->m_selectedIndex];
+
+		return selectedParamsSetPtr->GetParamIds();
+	}
+
+	return iprm::IParamsSet::Ids();
+}
+
+
+const iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetParameter(const QByteArray& id) const
+{
+	if ((parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
+		const ParamSetPtr& selectedParamsSetPtr = parentPtr->m_paramSets[parentPtr->m_selectedIndex];
+		return selectedParamsSetPtr->GetParameter(id);
+	}
+
+	return NULL;
+}
+
+
+iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetEditableParameter(const QByteArray& /*id*/)
+{
+	return NULL;
+}
+
+
+// reimplemented (iser::IObject)
+
+QByteArray CParamsManagerCompBase::SelectedParams::GetFactoryId() const
+{
+	if ((parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
+		const ParamSetPtr& selectedParamsSetPtr = parentPtr->m_paramSets[parentPtr->m_selectedIndex];
+		return selectedParamsSetPtr->typeId;
+	}
+
+	return "";
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CParamsManagerCompBase::SelectedParams::Serialize(iser::IArchive& /*archive*/)
+{
+	return false;
 }
 
 
