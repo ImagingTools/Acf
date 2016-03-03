@@ -104,20 +104,20 @@ void CViewProviderGuiComp::OnGuiCreated()
 
 	if (m_backgroundModeAttrPtr.IsValid()){
 		switch (*m_backgroundModeAttrPtr){
-			case BM_COLOR_SCHEMA:
-				if (!m_colorSchemaCompPtr.IsValid()){
-					iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
-					newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
+		case BM_COLOR_SCHEMA:
+			if (!m_colorSchemaCompPtr.IsValid()){
+				iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
+				newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
 
-					QBrush backgroundBrush(qRgb(192, 192, 192));
-					newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, backgroundBrush);
+				QBrush backgroundBrush(qRgb(192, 192, 192));
+				newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, backgroundBrush);
 
-					consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
-				}
-				else{
-					consolePtr->GetViewRef().SetDefaultColorSchema(m_colorSchemaCompPtr.GetPtr(), false);
-				}
-				break;
+				consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
+			}
+			else{
+				consolePtr->GetViewRef().SetDefaultColorSchema(m_colorSchemaCompPtr.GetPtr(), false);
+			}
+			break;
 		}
 	}
 }
