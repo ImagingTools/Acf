@@ -4,7 +4,7 @@ import qbs.FileInfo
 import "AcfService.js" as AcfService
 
 AcfModule{
-	condition: true
+	condition: !qbs.targetOS.contains('windows')
 
 	Depends{ name: "Qt.core" }
 	Depends{ name: "Qt.gui" }
