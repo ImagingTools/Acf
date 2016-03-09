@@ -5,12 +5,13 @@ set LICENSE_DIR=Install/LGPL
 set LICENSE_INSTALL_PATH=../LGPL/License.txt
 set ACF_CONFIG_FILE=$(ACFSLNDIR)/Config/AcfSlnConfig.awc
 
-call %~dp0\..\Build\VC12\_CreateVCProjectsFromQMake.bat
-
-cd %~dp0\..
+call Install\InternalParts\CreateTempDirs.bat
 
 set COMPILER_EXT=VC12
-call Install\InternalParts\CreateTempDirs.bat
+
+call %~dp0\..\Build\%COMPILER_EXT%\_CreateVCProjectsFromQMake.bat
+
+cd %~dp0\..
 
 echo Compiling...
 msbuild %~dp0\..\Build\%COMPILER_EXT%\AcfAll.sln /p:Configuration=Debug
