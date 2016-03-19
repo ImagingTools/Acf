@@ -2,21 +2,10 @@
 #define ifilegui_CSimpleFilePathParamGuiComp_included
 
 
-// Qt includes
-#include <QtCore/QtGlobal>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QFileSystemModel>
-#else
-#include <QtGui/QFileSystemModel>
-#endif
-
 // ACF includes
 #include "ifile/IFileTypeInfo.h"
-
 #include "ifile/IFileNameParam.h"
-
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
-
 #include "GeneratedFiles/ifilegui/ui_CSimpleFilePathParamGuiComp.h"
 
 
@@ -44,6 +33,7 @@ public:
 		I_ASSIGN(m_labelWidthAttrPtr, "LabelWidth", "Fixed label width (in pixels)", false, 100);
 		I_ASSIGN(m_defaultDirPtr, "DefaultPath", "Default path to search", false, "C:/");
 		I_ASSIGN(m_showBrowseButtonAttrPtr, "ShowBrowseButton", "If enabled, the browse button will be shown", true, true);
+		I_ASSIGN(m_filePathValidationExpressionAttrPtr, "ValidationExpression", "Regular expression used for path validation", false, "^[/,\\\\,\\w,\\s-]+");
 	I_END_COMPONENT;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
@@ -74,10 +64,9 @@ private:
 	I_ATTR(bool, m_filesComboAttrPtr);
 	I_ATTR(int, m_labelWidthAttrPtr);
 	I_ATTR(bool,m_showBrowseButtonAttrPtr);
+	I_ATTR(QString, m_filePathValidationExpressionAttrPtr);
 	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoPtr);
 	I_REF(ifile::IFileNameParam, m_defaultDirPtr);
-
-	QFileSystemModel m_directoryModel;
 };
 
 
