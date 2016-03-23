@@ -129,7 +129,12 @@ template <class Type, class Accessor>
 TSmartPtr<Type, Accessor>::TSmartPtr(Type* pointer)
 	:BaseClass()
 {
-	BaseClass::m_counterPtr = new RefCounter(pointer);
+	if (pointer != NULL){
+		BaseClass::m_counterPtr = new RefCounter(pointer);
+	}
+	else{
+		BaseClass::m_counterPtr = NULL;
+	}
 }
 
 
