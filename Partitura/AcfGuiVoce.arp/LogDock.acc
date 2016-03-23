@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4054" Description="ACF"/>
-            <Version Id="1" Number="1505" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="328706" Description="Qt Framework"/>
+            <Version Id="0" Number="4136" Description="ACF"/>
+            <Version Id="1" Number="1556" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="328449" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Log widget used as dock window</Description>
@@ -120,6 +120,7 @@
         <Interface InterfaceId="iqtgui::IMainWindowComponent" ComponentId="LogDock"/>
     </ExportedInterfaces>
     <ExportedComponents>
+        <Component ExportedId="FileDialogLoader" ComponentId="PersistentFileDialogLoader"/>
         <Component ExportedId="LogGui" ComponentId="LogGui"/>
         <Component ExportedId="VisualStatus" ComponentId="LogGui/VisualStatus"/>
     </ExportedComponents>
