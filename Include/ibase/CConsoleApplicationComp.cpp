@@ -61,8 +61,7 @@ bool CConsoleApplicationComp::InitializeApplication(int argc, char** argv)
 		rootComponentPtr->EnsureAutoInitComponentsCreated();
 	}
 
-	for (int i = 0; i < m_componentsToInitializeCompPtr.GetCount(); ++i)
-	{
+	for (int i = 0; i < m_componentsToInitializeCompPtr.GetCount(); ++i){
 		istd::IPolymorphic* componentPtr = m_componentsToInitializeCompPtr[i];
 		Q_UNUSED(componentPtr);
 	}
