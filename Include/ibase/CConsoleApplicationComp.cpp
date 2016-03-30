@@ -106,6 +106,11 @@ QStringList CConsoleApplicationComp::GetApplicationArguments() const
 
 // protected methods
 
+void CConsoleApplicationComp::OnApplicationShutdown()
+{
+}
+
+
 // reimplemented (icomp::CComponentBase)
 
 void CConsoleApplicationComp::OnComponentDestroyed()
