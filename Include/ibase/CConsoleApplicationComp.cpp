@@ -132,7 +132,6 @@ void CConsoleApplicationComp::OnKeyPressed(char ch)
 }
 
 
-
 // public methods of the embedded class RuntimeStatus
 
 CConsoleApplicationComp::RuntimeStatus::RuntimeStatus()
