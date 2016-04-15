@@ -87,20 +87,21 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 		return true;
 	}
 
-	istd::CChangeNotifier changePtr(this);
-
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	QSize imageSize(size.GetX(), size.GetY());
 
+	istd::CChangeNotifier notifier(this);
+	Q_UNUSED(notifier);
+
 	// check if we need to recreate the image
-	if (m_image.format() == imageFormat && m_image.size() == imageSize){
+	if (!m_externalBuffer.IsValid() && (m_image.format() == imageFormat) && (m_image.size() == imageSize)){
 		m_image.setDotsPerMeterX(1000);
 		m_image.setDotsPerMeterY(1000);
 
-		m_externalBuffer.Reset();
-
 		return true;
 	}
+
+	m_externalBuffer.Reset();
 
 	// else recreate the image
 	if (imageFormat != QImage::Format_Invalid){
@@ -113,8 +114,6 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 
 		image.setDotsPerMeterX(1000);
 		image.setDotsPerMeterY(1000);
-
-		m_externalBuffer.Reset();
 
 		Q_ASSERT(!image.isNull());
 		if (image.isNull()){
@@ -283,12 +282,15 @@ int CBitmap::GetSupportedOperations() const
 
 bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
 {
-	const CBitmap* bitmapPtr = dynamic_cast<const CBitmap*>(&object);
+	const CBitmap* bitmapImplPtr = dynamic_cast<const CBitmap*>(&object);
 
-	if (bitmapPtr != NULL){
+	if (bitmapImplPtr != NULL){
 		istd::CChangeNotifier notifier(this);
+		Q_UNUSED(notifier);
 
-		m_image = bitmapPtr->GetQImage();
+		m_externalBuffer.Reset();
+
+		m_image = bitmapImplPtr->GetQImage();
 
 		return true;
 	}
@@ -296,6 +298,8 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 		const IBitmap* bitmapPtr = dynamic_cast<const IBitmap*>(&object);
 		if (bitmapPtr != NULL){
 			istd::CChangeNotifier notifier(this);
+			Q_UNUSED(notifier);
+
 			istd::CIndex2d size = bitmapPtr->GetImageSize();
 			if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
 				// do not copy empty image
