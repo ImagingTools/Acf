@@ -7,6 +7,7 @@
 
 // ACF includes
 #include <istd/TSmartPtr.h>
+#include <ilog/IMessageConsumer.h>
 #include <iprm/IOptionsList.h>
 #include <idoc/IDocumentMetaInfo.h>
 
@@ -26,6 +27,28 @@ class IFileResourcesManager: virtual public istd::IChangeable
 public:
 	typedef istd::TSmartPtr<istd::IChangeable> DataObjectPtr;
 	typedef QList<QByteArray> Ids;
+
+	/**
+		Status of the resource license.
+	*/
+	enum LicenseStatus
+	{
+		/**
+			The resource is not licensed. It means, the resource can be used and edited without any restrictions.
+		*/
+		LS_NONE,
+
+		/**
+			The resource is licensed and the user of the repository has all neccessary rights for using it.
+		*/
+		LS_OK,
+
+		/**
+			The resource is licensed, but the user of the repository has no valid licenes for using it.
+		*/
+		LS_NOT_VALID
+	};
+
 
 	/**
 		Get list of file/resource IDs in the repository.
@@ -66,7 +89,7 @@ public:
 	virtual bool RemoveFile(const QByteArray& fileId) = 0;
 
 	/**
-		Get data object if the given resource.
+		Get data object for the given resource.
 	*/
 	virtual DataObjectPtr GetDataObject(const QByteArray& fileId) const = 0;
 
@@ -102,6 +125,12 @@ public:
 		\param description	Description of the file resource.
 	*/
 	virtual bool SetResourceDescription(const QByteArray& resourceId, const QString& description) = 0;
+
+	/**
+		Get the license status of the given resource.
+		\sa LicenseStatus
+	*/
+	virtual LicenseStatus GetLicenseStatus(const QByteArray& resourceId, ilog::IMessageConsumer* messageConsumerPtr = NULL) const = 0;
 };
 
 
