@@ -16,6 +16,8 @@
 
 int main(int argc, char *argv[])
 {
+	QCoreApplication coreApp(argc, argv);
+
 	QString configFilePath;
 
 	QString registryFilePath = "default.acc";
