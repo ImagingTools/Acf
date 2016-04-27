@@ -96,10 +96,10 @@ int main(int argc, char *argv[])
 		QString compilerMode = istd::CSystem::GetCompilerVariable("CompileMode");
 		QString platformCode = istd::CSystem::GetCompilerVariable("PlatformCode");
 
-		if (configName.startsWith("Debug"), Qt::CaseInsensitive){
+		if (configName.startsWith("Debug", Qt::CaseInsensitive)){
 			compilerMode = "Debug";
 		}
-		else if (configName.startsWith("Release"), Qt::CaseInsensitive){
+		else if (configName.startsWith("Release", Qt::CaseInsensitive)){
 			compilerMode = "Release";
 		}
 

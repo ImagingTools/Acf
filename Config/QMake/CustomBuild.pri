@@ -66,7 +66,6 @@ arxCompiler.commands = $$ARX_COMPILER_COMMAND
 arxCompiler.input = ARXC_FILES
 arxCompiler.variable_out = SOURCES
 arxCompiler.dependency_type = TYPE_C
-arxCompiler.depends += $$ARXCBIN
 arxCompiler.depend_command = $$ARXCBIN ${QMAKE_FILE_IN} -mode depends -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR
 QMAKE_EXTRA_COMPILERS += arxCompiler
 
@@ -84,7 +83,6 @@ acfFileConvertCopy.name = ACF-FileConvertCopy
 acfFileConvertCopy.CONFIG += no_link target_predeps
 acfFileConvertCopy.output = $$ACF_CONVERT_OUTPUT
 acfFileConvertCopy.commands = $$ACF_CONVERT_COMMAND
-acfFileConvertCopy.depends += $$ACFBIN
 acfFileConvertCopy.depend_command = $$ARXCBIN $${ACF_CONVERT_REGISTRY} -mode depends -config $${ACF_CONVERT_CONFIG}
 acfFileConvertCopy.input = ACF_CONVERT_FILES
 acfFileConvertCopy.variable_out =

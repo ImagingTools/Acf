@@ -13,6 +13,6 @@ cd %~dp0\..\..\Docs\Tutorial\Build\QMake
 %QTDIR%\bin\qmake -recursive -tp vc
 
 cd %~dp0\..\..
-call Config\QMake\CopyVCProjToSubdir.js %COMPILER_EXT% -replace%QTDIR%=$(QTDIR) -replace%CD%\=$(RelativePath)\ -qt_verx64=QT_64
+call Config\QMake\CopyVCProjToSubdir.js %COMPILER_EXT% -replace%QTDIR%=$(QTDIR) -replace%ACF_TOOLS_BIN%\=$(ACF_TOOLS_BIN)\ -replace%CD%\=$(RelativePath)\ -qt_verx64=QT_64
 
 cd %~dp0\

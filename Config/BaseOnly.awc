@@ -8,9 +8,9 @@
     </AcfHeader>
     <ConfigFiles/>
     <PackageDirs>
-        <Dir>$(ApplicationDir)</Dir>
     </PackageDirs>
     <PackageFiles>
+        <FilePath>$(ApplicationDir)/BasePck.arp</FilePath>
         <FilePath>../Partitura/AcfVoce.arp</FilePath>
     </PackageFiles>
     <RegistryFiles/>
