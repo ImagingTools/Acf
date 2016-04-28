@@ -396,7 +396,12 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 	for (int i = 0; i < packageDirsCount; ++i){
 		QString correctedPath;
 		if (CheckAndMarkPath(baseDir, configurationData.GetPackageDir(i), correctedPath)){
+			SendVerboseMessage(tr("Register package directory: %1").arg(correctedPath));
+
 			RegisterPackagesDir(correctedPath);
+		}
+		else{
+			SendErrorMessage(0, tr("Package directory check failed: %1").arg(configurationData.GetPackageDir(i)));
 		}
 	}
 
@@ -404,7 +409,12 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 	for (int i = 0; i < packagesCount; ++i){
 		QString correctedPath;
 		if (CheckAndMarkPath(baseDir, configurationData.GetPackage(i), correctedPath)){
+			SendVerboseMessage(tr("Register package: %1").arg(correctedPath));
+
 			RegisterPackageFile(correctedPath);
+		}
+		else{
+			SendErrorMessage(0, tr("Package file check failed: %1").arg(configurationData.GetPackage(i)));
 		}
 	}
 
@@ -467,7 +477,11 @@ CPackagesLoaderComp::LogingRegistry::ElementInfo* CPackagesLoaderComp::LogingReg
 
 bool CPackagesLoaderComp::CheckAndMarkPath(const QDir& directory, const QString& path, QString& resultPath) const
 {
-	QString fullPath = QFileInfo(directory.filePath(istd::CSystem::GetEnrolledPath(path))).canonicalFilePath();
+	QString enrolledPath = istd::CSystem::GetEnrolledPath(path);
+
+	SendVerboseMessage(QString("Converted '%1' into '%2'").arg(path).arg(enrolledPath));
+
+	QString fullPath = QFileInfo(directory.filePath(enrolledPath)).canonicalFilePath();
 	if (!fullPath.isEmpty() && (m_usedFilesList.find(fullPath) == m_usedFilesList.end())){
 		m_usedFilesList.insert(fullPath);
 
