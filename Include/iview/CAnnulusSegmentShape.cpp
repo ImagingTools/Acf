@@ -397,7 +397,6 @@ void CAnnulusSegmentShape::DrawArea(
 
 	i2d::CVector2d deltaEndAngle;
 	deltaEndAngle.Init(stopAngle, realMaxRadius);
-	QPointF stopScreenPos = GetScreenPosition(realCenter + deltaEndAngle);
 	
 	temp.Init(stopAngle);
 	double stopAngleDeg = GetDegreeAndleOfPoint(center, GetScreenPosition(realCenter + temp));
@@ -408,6 +407,7 @@ void CAnnulusSegmentShape::DrawArea(
 
 	// debug only
 	//painter.drawEllipse(startScreenPos, 10, 10);
+	//QPointF stopScreenPos = GetScreenPosition(realCenter + deltaEndAngle);
 	//painter.drawEllipse(stopScreenPos, 10, 10);
 
 	QPainterPath painterPath;

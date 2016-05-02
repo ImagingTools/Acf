@@ -221,12 +221,6 @@ ITouchable::TouchState CCircleShape::IsTouched(istd::CIndex2d position) const
 		i2d::CVector2d center = circlePtr->GetPosition();
 		double radius = circlePtr->GetRadius();
 
-		i2d::CVector2d screenCenter = GetScreenPosition(center);
-		i2d::CVector2d ticker1 = GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY()));
-		i2d::CVector2d ticker2 = GetScreenPosition(i2d::CVector2d(center.GetX() - radius, center.GetY()));
-		i2d::CVector2d ticker3 = GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() + radius));
-		i2d::CVector2d ticker4 = GetScreenPosition(i2d::CVector2d(center.GetX(), center.GetY() - radius));
-
 		if (IsEditableRadius() && IsSelected()){
 			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_NORMAL: IColorSchema::TT_INACTIVE);
 
