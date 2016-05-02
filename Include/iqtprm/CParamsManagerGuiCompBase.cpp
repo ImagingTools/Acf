@@ -74,6 +74,9 @@ void CParamsManagerGuiCompBase::on_AddButton_clicked()
 			selectedIndex = -1;
 		}
 
+		istd::CChangeNotifier notifier(objectPtr);
+		Q_UNUSED(notifier);
+
 		int newIndex = objectPtr->InsertParamsSet(-1, selectedIndex + 1);
 		if (newIndex >= 0){
 			// select newly created element
@@ -93,19 +96,15 @@ void CParamsManagerGuiCompBase::on_RemoveButton_clicked()
 		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
 
 		if (selectedIndex >= 0){
+			istd::CChangeNotifier notifier(objectPtr);
+			Q_UNUSED(notifier);
+
 			// successfully removed
 			if (objectPtr->RemoveParamsSet(selectedIndex)){
-				// auto select element next to removed
-				int count = objectPtr->GetParamsSetsCount();
-				if (count > 0){
-					if (selectedIndex < count){
-						objectPtr->SetSelectedOptionIndex(selectedIndex);
-					}
-					else{
-						objectPtr->SetSelectedOptionIndex(count-1);
-					}
-				}
-			} else {	// not removed by any reason
+				// select element before the removed
+				objectPtr->SetSelectedOptionIndex(selectedIndex - 1);
+			}
+			else{	// not removed by any reason
 				UpdateParamsView(selectedIndex);
 			}
 		}
@@ -125,6 +124,7 @@ void CParamsManagerGuiCompBase::on_UpButton_clicked()
 		}
 
 		istd::CChangeNotifier notifier(objectPtr);
+		Q_UNUSED(notifier);
 
 		objectPtr->SwapParamsSet(selectedIndex, selectedIndex - 1);
 		objectPtr->SetSelectedOptionIndex(selectedIndex - 1);
@@ -144,6 +144,7 @@ void CParamsManagerGuiCompBase::on_DownButton_clicked()
 		}
 
 		istd::CChangeNotifier notifier(objectPtr);
+		Q_UNUSED(notifier);
 
 		objectPtr->SwapParamsSet(selectedIndex, selectedIndex + 1);
 		objectPtr->SetSelectedOptionIndex(selectedIndex + 1);
@@ -278,6 +279,9 @@ void CParamsManagerGuiCompBase::OnAddMenuOptionClicked(QAction* action)
 
 		int selectedIndex = GetSelectedIndex();
 		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
+
+		istd::CChangeNotifier notifier(objectPtr);
+		Q_UNUSED(notifier);
 
 		int newIndex = objectPtr->InsertParamsSet(typeIndex, selectedIndex + 1);
 		if (newIndex >= 0){
