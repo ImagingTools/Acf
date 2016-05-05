@@ -157,7 +157,7 @@ bool CMessageContainer::Serialize(iser::IArchive& archive)
 					}
 				}
 				else{
-					qDebug("Message type: '%s' not supported", qPrintable(messageTypeId));
+					qDebug("Message type: '%s' not supported", messageTypeId.constData());
 				}
 			}
 

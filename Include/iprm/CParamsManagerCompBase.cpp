@@ -52,7 +52,12 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 
 	paramsSetPtr->paramSetPtr.SetPtr(newParamsSetPtr);
 	paramsSetPtr->name = CalculateNewDefaultName();
+#if QT_VERSION >= 0x050000
 	paramsSetPtr->uuid = QUuid::createUuid().toByteArray();
+#else
+	paramsSetPtr->uuid = QUuid::createUuid().toString().toLatin1();
+#endif
+
 	paramsSetPtr->typeId = newParamsSetPtr->GetFactoryId();
 	paramsSetPtr->parentPtr = this;
 
@@ -191,7 +196,11 @@ IParamsSet* CParamsManagerCompBase::CreateParameterSet(int typeIndex, int index)
 	ParamSet* retVal = new imod::TModelWrap<ParamSet>();
 	retVal->paramSetPtr.SetPtr(newParamsSetPtr);
 	retVal->isEnabled = true;
+#if QT_VERSION >= 0x050000
 	retVal->uuid = QUuid::createUuid().toByteArray();
+#else
+	retVal->uuid = QUuid::createUuid().toString().toLatin1();
+#endif
 
 	if (sourceParamsSetPtr != NULL){
 		ParamSet* sourceParamsSetImplPtr = dynamic_cast<ParamSet*>(sourceParamsSetPtr);

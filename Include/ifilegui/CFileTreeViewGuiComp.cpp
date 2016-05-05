@@ -172,10 +172,11 @@ void CFileTreeViewGuiComp::OnTreeModelUpdated()
 
 	QString infoText = QString("Files: %1  Dirs: %2").arg(m_filesCount).arg(m_dirsCount);
 
+#if QT_VERSION >= 0x050000
 #ifdef PERFORMANCE_TEST
 	infoText += QString("  Time: %1 ms").arg(m_performanceTimer.nsecsElapsed() / 1000000.0);
 #endif
-
+#endif
 	InfoLabel->setText(infoText);
 
 	FileList->setUpdatesEnabled(true);

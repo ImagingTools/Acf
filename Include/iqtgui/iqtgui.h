@@ -5,8 +5,14 @@
 // Qt includes
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+
+#if QT_VERSION > 0x040704
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QStyle>
+#else
+#include <QtGui/QWidget>
+#include <QtGui/QStyle>
+#endif
 
 // ACF includes
 #include "iqt/iqt.h"

@@ -881,7 +881,7 @@ void CMainWindowGuiComp::OnSave()
 		}
 		else{
 			QFileInfo fileInfo(activeDocumentInfo.filePath);
-			if (fileInfo.exists() && !fileInfo.permission(QFileDevice::WriteUser)){
+			if (fileInfo.exists() && !fileInfo.permission(QFile::WriteUser)){
 				saveMode = QMessageBox::warning(
 							GetWidget(),
 							tr("Save file"),
@@ -901,7 +901,7 @@ void CMainWindowGuiComp::OnSave()
 		case 1:
 			{
 				QFile file(activeDocumentInfo.filePath);
-				if (!file.setPermissions(QFileDevice::WriteUser)){
+				if (!file.setPermissions(QFile::WriteUser)){
 					QMessageBox::critical(
 								GetWidget(),
 								tr("Save file"),

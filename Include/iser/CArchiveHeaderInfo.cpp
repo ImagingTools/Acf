@@ -124,7 +124,7 @@ bool CArchiveHeaderInfo::WriteArchiveHeader(IArchive& archive, const IVersionInf
 	retVal = retVal && archive.BeginMultiTag(s_versionInfosTag, s_versionInfoTag, versionIdsCount);
 
 	QList<int> sortedIds = ids.toList();
-	std::sort(sortedIds.begin(), sortedIds.end());
+	qSort(sortedIds.begin(), sortedIds.end());
 
 	for (		QList<int>::iterator iter = sortedIds.begin();
 				retVal && (iter != sortedIds.end());

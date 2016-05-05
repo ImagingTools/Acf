@@ -287,7 +287,7 @@ void CAutoPersistenceComp::OnFileContentsChanged(const QString& path)
 				m_wasLoadingSuceeded = true;
 			}
 			else{
-				qDebug(qPrintable("File could not be loaded"));
+				qDebug("File could not be loaded");
 			}
 
 			QFile::remove(tempFileName);

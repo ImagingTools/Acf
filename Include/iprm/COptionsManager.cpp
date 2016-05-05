@@ -7,7 +7,6 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
 
@@ -277,7 +276,11 @@ bool COptionsManager::InsertOption(
 {
 	QByteArray realOptionId = optionId;
 	if (realOptionId.isEmpty()){
+#if QT_VERSION >= 0x050000
 		realOptionId = QUuid::createUuid().toByteArray();
+#else
+		realOptionId = QUuid::createUuid().toString().toLatin1();
+#endif
 	}
 
 	OptionInfo optionInfo(optionName, realOptionId, optionDescription);

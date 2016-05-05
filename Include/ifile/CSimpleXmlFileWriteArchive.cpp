@@ -24,7 +24,7 @@ CSimpleXmlFileWriteArchive::CSimpleXmlFileWriteArchive(
 		}
 	}
 	else{
-#if QT_VERSION >= 0x040700
+#if QT_VERSION >= 0x040800
 		m_stream.setStatus(QTextStream::WriteFailed);
 #endif
 	}

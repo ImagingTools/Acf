@@ -96,11 +96,13 @@ void CSimpleFilePathParamGuiComp::OnGuiCreated()
 
 	PathEdit->setPlaceholderText(startHint);
 
+#if QT_VERSION >= 0x040800
 	if (m_filePathValidationExpressionAttrPtr.IsValid()){
 		QRegExp validationExpr = QRegExp(*m_filePathValidationExpressionAttrPtr);
 
 		PathEdit->setValidator(new QRegExpValidator(validationExpr));
 	}
+#endif
 
 	if (m_labelWidthAttrPtr.IsValid()){
 		int width = *m_labelWidthAttrPtr;
