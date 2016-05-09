@@ -156,12 +156,16 @@ void CAutoPersistenceComp::OnComponentDestroyed()
 
 // reimplemented (imod::CMultiModelDispatcherBase)
 
-void CAutoPersistenceComp::OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& /*changeSet*/)
+void CAutoPersistenceComp::OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet)
 {
 	switch (modelId)
 	{
 		case MI_OBJECT:
 		{
+			if (changeSet.Contains(istd::IChangeable::CF_NO_UNDO)){
+				return;
+			}
+
 			bool storeByTimer = m_storeIntervalAttrPtr.IsValid() ? *m_storeIntervalAttrPtr : false;
 			if (storeByTimer){
 				EnsureTimerConnected();
