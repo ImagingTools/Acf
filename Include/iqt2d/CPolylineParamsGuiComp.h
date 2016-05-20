@@ -25,15 +25,15 @@ public:
 
 	CPolylineParamsGuiComp();
 
-	// reimplemented (iview::IShapeFactory)
-	virtual iview::IShape* CreateShape(const istd::IChangeable* objectPtr, bool connectToModel = false) const;
-
 	// reimplemented (imod::IModelEditor)
 	virtual void UpdateModel() const;
 
 protected:
 	// reimplemented (TPolygonBasedParamsGuiComp)
 	virtual bool PopulateActions(CActionAdapter& host, imod::IModel* modelPtr);
+
+	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiRetranslate();

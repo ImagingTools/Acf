@@ -35,14 +35,14 @@ void CLine2dParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqt2d::TShapeParamsGuiCompBase)
 
-iview::CLineShape* CLine2dParamsGuiComp::CreateShapeInstance() const
+iview::CInteractiveShapeBase* CLine2dParamsGuiComp::CreateShapeInstance() const
 {
-	iview::CLineShape* retVal = BaseClass::CreateShapeInstance();
-	if (retVal != NULL){
-		retVal->SetLineDisplayMode(*m_displayArrowAttrPtr? iview::CLineShape::LDM_ARROW: iview::CLineShape::LDM_SIMPLE);
+	iview::CLineShape* shapePtr = new iview::CLineShape();
+	if (shapePtr != NULL){
+		shapePtr->SetLineDisplayMode(*m_displayArrowAttrPtr? iview::CLineShape::LDM_ARROW: iview::CLineShape::LDM_SIMPLE);
 	}
 
-	return retVal;
+	return shapePtr;
 }
 
 

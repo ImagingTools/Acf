@@ -38,7 +38,7 @@ public:
 
 protected:
 	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual iview::CLineShape* CreateShapeInstance() const;
+	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);

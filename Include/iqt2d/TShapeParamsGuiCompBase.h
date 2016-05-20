@@ -79,7 +79,7 @@ protected:
 	/**
 		Simple creation of shape instance.
 	*/
-	virtual Shape* CreateShapeInstance() const;
+	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqt2d::TViewExtenderCompBase)
 	virtual void CreateShapes(int sceneId, Shapes& result);
@@ -179,9 +179,17 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetached(imod::IMode
 template <class Ui, class Shape, class ShapeModel>
 iview::IShape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
 {
-	Shape* shapePtr = CreateShapeInstance();
+	iview::CInteractiveShapeBase* shapePtr = CreateShapeInstance();
 	if (shapePtr != NULL){	
 		shapePtr->SetEditablePosition(!IsPositionFixed());
+
+		if (m_colorSchemaCompPtr.IsValid()){
+		shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());
+		}
+
+		if (IsReadOnly()){
+			shapePtr->AssignToLayer(iview::IViewLayer::LT_INACTIVE);
+		}
 
 		if (connectToModel){
 			imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
@@ -249,7 +257,7 @@ QString TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::GetUnitName() const
 
 
 template <class Ui, class Shape, class ShapeModel>
-Shape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() const
+iview::CInteractiveShapeBase* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapeInstance() const
 {
 	return new Shape();
 }
@@ -360,10 +368,6 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShapes(int /*sceneId*
 {
 	iview::IShape* shapePtr = CreateShape(BaseClass::GetObservedObject(), true);
 	if (shapePtr != NULL){
-		if (m_colorSchemaCompPtr.IsValid()){
-			shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());
-		}
-
 		result.PushBack(shapePtr);
 	}
 }

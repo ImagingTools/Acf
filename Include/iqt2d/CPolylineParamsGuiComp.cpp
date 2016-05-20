@@ -11,29 +11,6 @@ CPolylineParamsGuiComp::CPolylineParamsGuiComp()
 }
 
 
-// reimplemented (iview::IShapeFactory)
-
-iview::IShape* CPolylineParamsGuiComp::CreateShape(const istd::IChangeable* objectPtr, bool connectToModel) const
-{
-	iview::CPolylineShape* shapePtr = new iview::CPolylineShape();
-
-	if (*m_showOrientationAttrPtr){
-		shapePtr->SetOrientationVisible(true);
-	}
-
-	if (connectToModel){
-		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(const_cast<istd::IChangeable*>(objectPtr));
-		if (modelPtr != NULL){
-			if (modelPtr->AttachObserver(shapePtr)){
-				shapePtr->SetVisible(true);
-			}
-		}
-	}
-
-	return shapePtr;
-}
-
-
 // reimplemented (imod::IModelEditor)
 
 void CPolylineParamsGuiComp::UpdateModel() const
@@ -102,6 +79,20 @@ bool CPolylineParamsGuiComp::PopulateActions(CActionAdapter& host, imod::IModel*
 	}
 
 	return false;
+}
+
+
+// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+
+iview::CInteractiveShapeBase* CPolylineParamsGuiComp::CreateShapeInstance() const
+{
+	iview::CPolylineShape* shapePtr = new iview::CPolylineShape();
+
+	if (*m_showOrientationAttrPtr){
+		shapePtr->SetOrientationVisible(true);
+	}
+
+	return shapePtr;
 }
 
 
