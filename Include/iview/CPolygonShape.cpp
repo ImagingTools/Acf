@@ -37,7 +37,7 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	if (!ShapeBaseClass::OnMouseButton(position, buttonType, downFlag) && IsEditablePosition()){
+	if (!ShapeBaseClass::OnMouseButton(position, buttonType, downFlag)){
 		imod::IModel* modelPtr = GetObservedModel();
 		i2d::CPolygon* polygonPtr = dynamic_cast<i2d::CPolygon*>(modelPtr);
 		if (polygonPtr != NULL){
@@ -45,24 +45,24 @@ bool CPolygonShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butto
 				const IColorSchema& colorSchema = GetColorSchema();
 
 				int nodesCount = polygonPtr->GetNodesCount();
-				int editMode = GetEditMode();
 
+				int editMode = GetEditMode();
 				switch (editMode){
 				case ISelectable::EM_NONE:
-					if (IsSelected() && BaseClass::OnMouseButton(position, buttonType, downFlag)){
+					if (IsSelected() && IsEditablePosition() && CTransformableRectangleShape::OnMouseButton(position, buttonType, downFlag)){
 						return true;
 					}
 					break;
 
 				case ISelectable::EM_MOVE:
-					{
+					if (IsEditablePosition()){
 						const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
 						for (int i = nodesCount - 1; i >= 0; --i){
 							const i2d::CVector2d& cp = polygonPtr->GetNode(i);
 							istd::CIndex2d sp = GetScreenPosition(cp).ToIndex2d();
 
-							if (tickerBox.IsInside(sp - position)){
+							if (tickerBox.IsInside(position - sp)){
 								m_referencePosition = cp - GetLogPosition(position);
 								m_referenceIndex = i;
 
@@ -202,15 +202,13 @@ void CPolygonShape::Draw(QPainter& drawContext) const
 			drawContext.save();
 			drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_TICKER));
 
-			if (IsEditablePosition()){
-				if (IsSelected()){
-					DrawSelectionElements(drawContext);
-				}
-				else{
-					if (m_isFirstVisible && (nodesCount > 0)){
-						sp = GetScreenPosition(polygonPtr->GetNode(0)).ToIndex2d();
-						colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE);
-					}
+			if (IsSelected()){
+				DrawSelectionElements(drawContext);
+			}
+			else{
+				if (m_isFirstVisible && (nodesCount > 0)){
+					sp = GetScreenPosition(polygonPtr->GetNode(0)).ToIndex2d();
+					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE);
 				}
 			}
 
@@ -235,66 +233,67 @@ bool CPolygonShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::C
 
 ITouchable::TouchState CPolygonShape::IsTouched(istd::CIndex2d position) const
 {
+	Q_ASSERT(IsDisplayConnected());
+
 	const i2d::CPolygon* polygonPtr = dynamic_cast<const i2d::CPolygon*>(GetObservedModel());
 	if (polygonPtr != NULL){
 		int editMode = GetEditMode();
 
-		if (IsEditablePosition()){
-			const IColorSchema& colorSchema = GetColorSchema();
+		const IColorSchema& colorSchema = GetColorSchema();
 
-			int nodesCount = polygonPtr->GetNodesCount();
+		int nodesCount = polygonPtr->GetNodesCount();
 
-			switch (editMode){
-			case ISelectable::EM_NONE:
-				if (IsSelected()){
-					EnsureValidNodes();
-					if (BaseClass::IsTickerTouched(position)){
+		switch (editMode){
+		case ISelectable::EM_NONE:
+			if (IsEditablePosition() && IsSelected()){
+				EnsureValidNodes();
+				if (BaseClass::IsTickerTouched(position)){
+					return TS_TICKER;
+				}
+
+				if (BaseClass::IsParallTouched(m_castTransform, position)){
+					bool isEditablePosition = IsEditablePosition();
+
+					return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
+				}
+			}
+			break;
+
+		case ISelectable::EM_MOVE:
+			if (IsEditablePosition()){
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_MOVE: IColorSchema::TT_INACTIVE);
+				for (int i = 0; i < nodesCount; i++){
+					istd::CIndex2d sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
 						return TS_TICKER;
 					}
-
-					if (BaseClass::IsParallTouched(m_castTransform, position)){
-						bool isEditablePosition = IsEditablePosition();
-						return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
-					}
 				}
-				break;
-
-			case ISelectable::EM_MOVE:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_MOVE: IColorSchema::TT_INACTIVE);
-					for (int i = 0; i < nodesCount; i++){
-						istd::CIndex2d sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-				break;
-
-			case ISelectable::EM_REMOVE:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_DELETE: IColorSchema::TT_INACTIVE);
-					for (int i = 0; i < nodesCount; i++){
-						istd::CIndex2d sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-				break;
-
-			case ISelectable::EM_ADD:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_INSERT: IColorSchema::TT_INACTIVE);
-					for (int i = 0; i < nodesCount; i++){
-						istd::CIndex2d sp = GetScreenPosition(GetSegmentMiddle(i)).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-				break;
 			}
+			break;
+
+		case ISelectable::EM_REMOVE:
+			{
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_DELETE: IColorSchema::TT_INACTIVE);
+				for (int i = 0; i < nodesCount; i++){
+					istd::CIndex2d sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+			}
+			break;
+
+		case ISelectable::EM_ADD:
+			{
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_INSERT: IColorSchema::TT_INACTIVE);
+				for (int i = 0; i < nodesCount; i++){
+					istd::CIndex2d sp = GetScreenPosition(GetSegmentMiddle(i)).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+			}
+			break;
 		}
 
 		if (IsCurveTouched(position)){
@@ -438,15 +437,19 @@ void CPolygonShape::DrawSelectionElements(QPainter& drawContext) const
 			int i;
 
 		case ISelectable::EM_NONE:
-			DrawFigure(drawContext);
-			DrawTickers(drawContext);
+			if (IsEditablePosition()){
+				CTransformableRectangleShape::DrawFigure(drawContext);
+				CTransformableRectangleShape::DrawTickers(drawContext);
+			}
 			break;
 
 		case ISelectable::EM_MOVE:
-			for (i = 0; i < nodesCount; i++){
-				sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
+			if (IsEditablePosition()){
+				for (i = 0; i < nodesCount; i++){
+					sp = GetScreenPosition(polygonPtr->GetNode(i)).ToIndex2d();
 
-				colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_MOVE);
+					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_MOVE);
+				}
 			}
 			break;
 
@@ -626,11 +629,17 @@ i2d::CRect CPolygonShape::CalcBoundingBox() const
 
 			boundingBox.Expand(i2d::CRect(-1,-1, 1, 1));
 
-			IColorSchema::TickerType tickerType;
+			IColorSchema::TickerType tickerType = IColorSchema::TT_INACTIVE;
 
 			if (IsSelected()){
 				int editMode = GetEditMode();
 				switch (editMode){
+				case ISelectable::EM_NONE:
+					if (IsEditablePosition()){
+						return boundingBox.GetUnion(BaseClass::CalcBoundingBox());
+					}
+					break;
+
 				case ISelectable::EM_MOVE:
 					tickerType = IColorSchema::TT_MOVE;
 					break;
@@ -644,11 +653,8 @@ i2d::CRect CPolygonShape::CalcBoundingBox() const
 					break;
 
 				default:
-					return boundingBox.GetUnion(BaseClass::CalcBoundingBox());
+					break;
 				}
-			}
-			else{
-				tickerType = IColorSchema::TT_INACTIVE;
 			}
 
 			return boundingBox.GetExpanded(colorSchema.GetTickerBox(tickerType));

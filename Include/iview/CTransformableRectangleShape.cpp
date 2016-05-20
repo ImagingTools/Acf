@@ -335,7 +335,7 @@ void CTransformableRectangleShape::DrawTickers(QPainter& drawContext) const
 
 		EnsureValidNodes();
 
-		if (IsSelected()){
+		if (IsSelected() && IsEditablePosition()){
 			drawContext.save();
 			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_SELECTED));
 			if (m_isEditableRotation){

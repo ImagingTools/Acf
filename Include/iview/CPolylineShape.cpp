@@ -25,7 +25,7 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 {
 	Q_ASSERT(IsDisplayConnected());
 
-	if (!ShapeBaseClass::OnMouseButton(position, buttonType, downFlag) && IsEditablePosition()){
+	if (!ShapeBaseClass::OnMouseButton(position, buttonType, downFlag)){
 		imod::IModel* modelPtr = GetObservedModel();
 		i2d::CPolyline* polylinePtr = dynamic_cast<i2d::CPolyline*>(modelPtr);
 		if (polylinePtr != NULL){
@@ -37,13 +37,13 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 				int editMode = GetEditMode();
 				switch (editMode){
 				case ISelectable::EM_NONE:
-					if (IsSelected() && CTransformableRectangleShape::OnMouseButton(position, buttonType, downFlag)){
+					if (IsSelected() && IsEditablePosition() && CTransformableRectangleShape::OnMouseButton(position, buttonType, downFlag)){
 						return true;
 					}
 					break;
 
 				case ISelectable::EM_MOVE:
-					{
+					 if (IsEditablePosition()){
 						const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
 						for (int i = nodesCount - 1; i >= 0; --i){
@@ -65,8 +65,6 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 
 				case ISelectable::EM_ADD:
 					{
-						const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_INSERT);
-
 						i2d::CVector2d cpLast;
 						if (!polylinePtr->IsClosed()){
 							cpLast = polylinePtr->GetNode(nodesCount - 1);
@@ -75,6 +73,8 @@ bool CPolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton butt
 							cpLast = GetSegmentMiddle(nodesCount - 1);
 						}
 						istd::CIndex2d spLast = GetScreenPosition(cpLast).ToIndex2d();
+						const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_INSERT);
+
 						if (tickerBox.IsInside(position - spLast)){
 							BeginTickerDrag();
 
@@ -180,6 +180,126 @@ bool CPolylineShape::OnModelAttached(imod::IModel* modelPtr, istd::IChangeable::
 	Q_ASSERT(dynamic_cast<i2d::CPolyline*>(modelPtr) != NULL);
 
 	return BaseClass::OnModelAttached(modelPtr, changeMask);
+}
+
+
+// reimplemented (iview::ITouchable)
+
+ITouchable::TouchState CPolylineShape::IsTouched(istd::CIndex2d position) const
+{
+	Q_ASSERT(IsDisplayConnected());
+
+	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(GetObservedModel());
+	if (polylinePtr != NULL){
+		int editMode = GetEditMode();
+
+		const IColorSchema& colorSchema = GetColorSchema();
+
+		istd::CIndex2d sp;
+		i2d::CVector2d point;
+		int nodesCount = polylinePtr->GetNodesCount();
+
+		switch (editMode){
+		case ISelectable::EM_NONE:
+			if (IsEditablePosition() && IsSelected()){
+				EnsureValidNodes();
+				if (BaseClass::IsTickerTouched(position)){
+					return TS_TICKER;
+				}
+
+				if (BaseClass::IsParallTouched(m_castTransform, position)){
+					bool isEditablePosition = IsEditablePosition();
+					return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
+				}
+			}
+			break;
+
+		case ISelectable::EM_MOVE:
+			if (IsEditablePosition()){
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
+				for (int i = 0; i < nodesCount; i++){
+					sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+			}
+			break;
+
+		case ISelectable::EM_REMOVE:
+			{
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_DELETE);
+				for (int i = 0; i < nodesCount; i++){
+					sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+			}
+			break;
+
+		case ISelectable::EM_ADD:
+			{
+				const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_INACTIVE);
+				int lastIndex;
+
+				bool isOpened = !polylinePtr->IsClosed();
+
+				if (isOpened){
+					lastIndex = nodesCount - 2;
+
+					point = polylinePtr->GetNode(0);
+					sp = GetScreenPosition(point).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+
+					point = polylinePtr->GetNode(nodesCount - 1);
+					sp = GetScreenPosition(point).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+				else{
+					lastIndex = nodesCount - 1;
+				}
+
+				for (int i = 0; i <= lastIndex; i++){
+					point = (polylinePtr->GetNode(i) + polylinePtr->GetNode((i + 1) % nodesCount)) * 0.5;
+					sp = GetScreenPosition(point).ToIndex2d();
+					if (tickerBox.IsInside(position - sp)){
+						return TS_TICKER;
+					}
+				}
+			}
+		}
+
+		if (IsCurveTouched(position)){
+			if (IsAlwaysMovable() || (editMode == ISelectable::EM_NONE)){
+				bool isEditablePosition = IsEditablePosition();
+				return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
+			}
+			else{
+				return TS_INACTIVE;
+			}
+		}
+	}
+
+	return TS_NONE;
+}
+
+
+QString CPolylineShape::GetShapeDescriptionAt(istd::CIndex2d position) const
+{
+	QString result = BaseClass::GetShapeDescriptionAt(position);
+
+	if (GetEditMode() == ISelectable::EM_REMOVE){
+		if (IsTouched(position) == TS_TICKER){
+			return QObject::tr("Left click: remove selected node, right click: break at the selected node");
+		}
+	}
+
+	return result;
 }
 
 
@@ -347,15 +467,19 @@ void CPolylineShape::DrawSelectionElements(QPainter& drawContext) const
 			int i;
 
 		case ISelectable::EM_NONE:
-			DrawFigure(drawContext);
-			DrawTickers(drawContext);
+			if (IsEditablePosition()){
+				CTransformableRectangleShape::DrawFigure(drawContext);
+				CTransformableRectangleShape::DrawTickers(drawContext);
+			}
 			break;
 
 		case ISelectable::EM_MOVE:
-			for (i = 0; i < nodesCount; i++){
-				sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
+			if (IsEditablePosition()){
+				for (i = 0; i < nodesCount; i++){
+					sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
 
-				colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_MOVE);
+					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_MOVE);
+				}
 			}
 			break;
 
@@ -440,128 +564,6 @@ bool CPolylineShape::IsCurveTouched(istd::CIndex2d position) const
 	}
 
 	return false;
-}
-
-
-// reimplemented (iview::ITouchable)
-
-ITouchable::TouchState CPolylineShape::IsTouched(istd::CIndex2d position) const
-{
-	Q_ASSERT(IsDisplayConnected());
-
-	const i2d::CPolyline* polylinePtr = dynamic_cast<const i2d::CPolyline*>(GetObservedModel());
-	if (polylinePtr != NULL){
-		int editMode = GetEditMode();
-
-		if (IsEditablePosition()){
-			const IColorSchema& colorSchema = GetColorSchema();
-
-			istd::CIndex2d sp;
-			i2d::CVector2d point;
-			int nodesCount = polylinePtr->GetNodesCount();
-
-			switch (editMode){
-			case ISelectable::EM_NONE:
-				if (IsSelected()){
-					EnsureValidNodes();
-					if (BaseClass::IsTickerTouched(position)){
-						return TS_TICKER;
-					}
-
-					if (BaseClass::IsParallTouched(m_castTransform, position)){
-						bool isEditablePosition = IsEditablePosition();
-						return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
-					}
-				}
-				break;
-
-			case ISelectable::EM_MOVE:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
-					for (int i = 0; i < nodesCount; i++){
-						sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-				break;
-
-			case ISelectable::EM_REMOVE:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_DELETE);
-					for (int i = 0; i < nodesCount; i++){
-						sp = GetScreenPosition(polylinePtr->GetNode(i)).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-				break;
-
-			case ISelectable::EM_ADD:
-				{
-					const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_INACTIVE);
-					int lastIndex;
-
-					bool isOpened = !polylinePtr->IsClosed();
-
-					if (isOpened){
-						lastIndex = nodesCount - 2;
-
-						point = polylinePtr->GetNode(0);
-						sp = GetScreenPosition(point).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-
-						point = polylinePtr->GetNode(nodesCount - 1);
-						sp = GetScreenPosition(point).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-					else{
-						lastIndex = nodesCount - 1;
-					}
-
-					for (int i = 0; i <= lastIndex; i++){
-						point = (polylinePtr->GetNode(i) + polylinePtr->GetNode((i + 1) % nodesCount)) * 0.5;
-						sp = GetScreenPosition(point).ToIndex2d();
-						if (tickerBox.IsInside(position - sp)){
-							return TS_TICKER;
-						}
-					}
-				}
-			}
-		}
-
-		if (IsCurveTouched(position)){
-			if (IsAlwaysMovable() || (editMode == ISelectable::EM_NONE)){
-				bool isEditablePosition = IsEditablePosition();
-				return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
-			}
-			else{
-				return TS_INACTIVE;
-			}
-		}
-	}
-
-	return TS_NONE;
-}
-
-
-QString CPolylineShape::GetShapeDescriptionAt(istd::CIndex2d position) const
-{
-	QString result = BaseClass::GetShapeDescriptionAt(position);
-
-	if (GetEditMode() == ISelectable::EM_REMOVE){
-		if (IsTouched(position) == TS_TICKER){
-			return QObject::tr("Left click: remove selected node, right click: break at the selected node");
-		}
-	}
-
-	return result;
 }
 
 
