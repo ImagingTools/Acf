@@ -187,7 +187,7 @@ iview::IShape* TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateShape(const
 		shapePtr->SetUserColorSchema(m_colorSchemaCompPtr.GetPtr());
 		}
 
-		if (IsReadOnly()){
+		if (BaseClass::IsReadOnly()){
 			shapePtr->AssignToLayer(iview::IViewLayer::LT_INACTIVE);
 		}
 
