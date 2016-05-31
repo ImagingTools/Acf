@@ -163,7 +163,7 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 	static iser::CArchiveTag parametersTag("Parameters", "List of parameters", iser::CArchiveTag::TT_MULTIPLE);
 	static iser::CArchiveTag parameterTag("Parameter", "Single parameter", iser::CArchiveTag::TT_GROUP, &paramsSetTag, true);
 	static iser::CArchiveTag parameterIdTag("Id", "ID of parameter", iser::CArchiveTag::TT_LEAF, &parameterTag);
-	static iser::CArchiveTag parameterValueTag("Value", "Value of parameter", iser::CArchiveTag::TT_WEAK, &parameterTag);
+	static iser::CArchiveTag parameterValueTag("Value", "Value of parameter", iser::CArchiveTag::TT_WEAK, &parameterTag, true);
 
 	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();	// TODO: remove it when no more backwards compability needed
 	quint32 frameworkVersion = 0;
@@ -218,15 +218,15 @@ bool CParamsSet::Serialize(iser::IArchive& archive)
 				return false;
 			}
 
+			retVal = retVal && archive.BeginTag(parameterValueTag);
 			const ParameterInfo* parameterInfoPtr = FindParameterInfo(id);
 			if (parameterInfoPtr != NULL){
-				retVal = retVal && archive.BeginTag(parameterValueTag);
 				retVal = retVal && parameterInfoPtr->parameterPtr->Serialize(archive);
-				retVal = retVal && archive.EndTag(parameterValueTag);
 			}
-			else{
+			else if (!archive.IsTagSkippingSupported()){
 				return false;
 			}
+			retVal = retVal && archive.EndTag(parameterValueTag);
 
 			retVal = retVal && archive.EndTag(parameterTag);
 		}
