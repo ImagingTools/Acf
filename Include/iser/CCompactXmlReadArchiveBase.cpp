@@ -118,7 +118,7 @@ bool CCompactXmlReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, con
 }
 
 
-bool CCompactXmlReadArchiveBase::EndTag(const iser::CArchiveTag& /*tag*/)
+bool CCompactXmlReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 {
 	m_currentAttribute.clear();
 
@@ -132,6 +132,19 @@ bool CCompactXmlReadArchiveBase::EndTag(const iser::CArchiveTag& /*tag*/)
 	if (lastTagPtr == NULL){
 		return true;
 	}
+
+	if (&tag != lastTagPtr){
+		SendLogMessage(
+					istd::IInformationProvider::IC_ERROR,
+					MI_TAG_ERROR,
+					QString("Closing tag '%1' was not opened!").arg(QString(tag.GetId())),
+					"CompactXmlReader",
+					istd::IInformationProvider::ITF_SYSTEM);
+
+		return false;
+	}
+
+	Q_ASSERT (lastTagPtr->GetId() == m_currentParent.tagName().toLatin1());
 
 	QDomNode parent = m_currentParent.parentNode();
 	
