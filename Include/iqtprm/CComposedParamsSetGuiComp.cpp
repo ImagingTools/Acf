@@ -566,7 +566,7 @@ void CComposedParamsSetGuiComp::on_LoadParamsButton_clicked()
 
 void CComposedParamsSetGuiComp::on_SaveParamsButton_clicked()
 {
-	iprm::IParamsSet* objectPtr = GetObservedObject();
+	const iprm::IParamsSet* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		m_paramsLoaderCompPtr->SaveToFile(*objectPtr);
 	}
