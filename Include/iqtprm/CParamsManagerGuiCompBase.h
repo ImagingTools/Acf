@@ -11,6 +11,7 @@
 #endif
 
 // ACF includes
+#include "ifile/IFilePersistence.h"
 #include "iprm/IParamsManager.h"
 #include "iqtgui/IIconProvider.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
@@ -42,6 +43,7 @@ public:
 		I_ASSIGN(m_comboBoxViewAttrPtr, "CompactView", "Shows parameters list as a combo box", true, false);
 		I_ASSIGN(m_comboBoxEditableAttrPtr, "CompactViewComboEditable", "Combo box in compact mode is editable", true, true);
 		I_ASSIGN(m_iconProviderCompPtr, "IconProvider", "Icons for drop-down types menu", false, "IconProvider");
+		I_ASSIGN(m_paramsLoaderCompPtr, "ParamsLoader", "Loader for the parameter set", false, "ParamsLoader");
 	I_END_COMPONENT;
 
 	CParamsManagerGuiCompBase();
@@ -59,6 +61,8 @@ protected Q_SLOTS:
 	void on_ParamsTree_itemChanged(QTreeWidgetItem* item, int column);
 	void on_ParamsComboBox_currentIndexChanged(int index);
 	void on_ParamsComboBox_editTextChanged(const QString& text);
+	void on_LoadParamsButton_clicked();
+	void on_SaveParamsButton_clicked();
 	void OnAddMenuOptionClicked(QAction* action);
 
 protected:
@@ -103,13 +107,14 @@ private:
 	void DetachCurrentExtender();
 
 private:
-	I_REF(iqtgui::IIconProvider, m_iconProviderCompPtr);
 	I_ATTR(bool, m_allowAddRemoveAttrPtr);
 	I_ATTR(bool, m_allowUpDownAttrPtr);
 	I_ATTR(bool, m_supportEnablingAttrPtr);
 	I_ATTR(bool, m_comboBoxViewAttrPtr);
 	I_ATTR(bool, m_comboBoxEditableAttrPtr);
 	I_REF(iqt2d::IViewExtender, m_extenderCompPtr);
+	I_REF(iqtgui::IIconProvider, m_iconProviderCompPtr);
+	I_REF(ifile::IFilePersistence, m_paramsLoaderCompPtr);
 
 	typedef QMap<int, QIcon> StateIconsMap;
 

@@ -271,6 +271,24 @@ void CParamsManagerGuiCompBase::on_ParamsComboBox_editTextChanged(const QString&
 }
 
 
+void CParamsManagerGuiCompBase::on_LoadParamsButton_clicked()
+{
+	iprm::IParamsManager* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->LoadFromFile(*objectPtr);
+	}
+}
+
+
+void CParamsManagerGuiCompBase::on_SaveParamsButton_clicked()
+{
+	const iprm::IParamsManager* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->SaveToFile(*objectPtr);
+	}
+}
+
+
 void CParamsManagerGuiCompBase::OnAddMenuOptionClicked(QAction* action)
 {
 	iprm::IParamsManager* objectPtr = GetObservedObject();
@@ -697,6 +715,17 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 	}
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr);
+
+	bool isLoadAvailable = false;
+	bool isSaveAvailable = false;
+
+	if (m_paramsLoaderCompPtr.IsValid()){
+		isLoadAvailable = m_paramsLoaderCompPtr->IsOperationSupported(NULL, NULL, ifile::IFilePersistence::QF_LOAD, true);
+		isSaveAvailable = m_paramsLoaderCompPtr->IsOperationSupported(NULL, NULL, ifile::IFilePersistence::QF_SAVE, true);
+	}
+
+	LoadParamsButton->setVisible(isLoadAvailable);
+	SaveParamsButton->setVisible(isSaveAvailable);
 }
 
 

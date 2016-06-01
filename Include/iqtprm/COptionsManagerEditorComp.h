@@ -11,6 +11,7 @@
 #endif
 
 // ACF includes
+#include "ifile/IFilePersistence.h"
 #include "iprm/IOptionsManager.h"
 #include "iqtgui/TDesignerGuiObserverCompBase.h"
 
@@ -37,6 +38,7 @@ public:
 		I_ASSIGN(m_allowUpDownAttrPtr, "AllowUpDown", "If it is false, 'Up' and 'Down' buttons will be always hidden", true, true);
 		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for page icons", false, 32);
 		I_ASSIGN(m_defaultOptionNameAttrPtr, "DefaultOptionName", "Default name of parameter set. Use %1 to insert automatic enumeration", true, "Option %1");
+		I_ASSIGN(m_paramsLoaderCompPtr, "ParamsLoader", "Loader for the parameter set", false, "ParamsLoader");
 	I_END_COMPONENT;
 
 	COptionsManagerEditorComp();
@@ -48,6 +50,8 @@ protected Q_SLOTS:
 	void on_DownButton_clicked();
 	void on_OptionsList_itemSelectionChanged();
 	void on_OptionsList_itemChanged(QListWidgetItem* item);
+	void on_LoadParamsButton_clicked();
+	void on_SaveParamsButton_clicked();
 
 protected:
 	void UpdateActions();
@@ -71,6 +75,7 @@ private:
 	I_ATTR(bool, m_allowUpDownAttrPtr);
 	I_ATTR(int, m_iconSizeAttrPtr);
 	I_ATTR(QString, m_defaultOptionNameAttrPtr);
+	I_REF(ifile::IFilePersistence, m_paramsLoaderCompPtr);
 
 	mutable int m_lastSelectedIndex;
 };

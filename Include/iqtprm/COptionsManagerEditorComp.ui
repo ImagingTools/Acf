@@ -11,7 +11,16 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -33,13 +42,31 @@
    <item>
     <widget class="QWidget" name="ButtonsFrame" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
        <widget class="QWidget" name="AddRemoveButtonsFrame" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
@@ -89,16 +116,22 @@
       <item>
        <widget class="QWidget" name="UpDownButtonsFrame" native="true">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
           <widget class="QToolButton" name="UpButton">
            <property name="toolTip">
             <string>Move selected item up</string>
-           </property>
-           <property name="text">
-            <string>...</string>
            </property>
            <property name="icon">
             <iconset resource="../iqtgui/iqtgui.qrc">
@@ -111,9 +144,6 @@
            <property name="toolTip">
             <string>Move selected item down</string>
            </property>
-           <property name="text">
-            <string>...</string>
-           </property>
            <property name="icon">
             <iconset resource="../iqtgui/iqtgui.qrc">
              <normaloff>:/Icons/Down</normaloff>:/Icons/Down</iconset>
@@ -123,6 +153,28 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QToolButton" name="LoadParamsButton">
+        <property name="toolTip">
+         <string>Load all parameters from file</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Open</normaloff>:/Icons/Open</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="SaveParamsButton">
+        <property name="toolTip">
+         <string>Save all parameters to file</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../iqtgui/iqtgui.qrc">
+          <normaloff>:/Icons/Save</normaloff>:/Icons/Save</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -130,6 +182,12 @@
  </widget>
  <tabstops>
   <tabstop>OptionsList</tabstop>
+  <tabstop>AddButton</tabstop>
+  <tabstop>RemoveButton</tabstop>
+  <tabstop>UpButton</tabstop>
+  <tabstop>DownButton</tabstop>
+  <tabstop>LoadParamsButton</tabstop>
+  <tabstop>SaveParamsButton</tabstop>
  </tabstops>
  <resources>
   <include location="../iqtgui/iqtgui.qrc"/>

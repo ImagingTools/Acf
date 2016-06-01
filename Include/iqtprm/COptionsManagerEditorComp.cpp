@@ -147,6 +147,24 @@ void COptionsManagerEditorComp::on_OptionsList_itemChanged(QListWidgetItem* item
 }
 
 
+void COptionsManagerEditorComp::on_LoadParamsButton_clicked()
+{
+	iprm::IOptionsManager* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->LoadFromFile(*objectPtr);
+	}
+}
+
+
+void COptionsManagerEditorComp::on_SaveParamsButton_clicked()
+{
+	const iprm::IOptionsManager* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		m_paramsLoaderCompPtr->SaveToFile(*objectPtr);
+	}
+}
+
+
 // protected methods
 
 void COptionsManagerEditorComp::UpdateActions()
@@ -329,6 +347,17 @@ void COptionsManagerEditorComp::OnGuiCreated()
 	UpDownButtonsFrame->setVisible(false);
 
 	ButtonsFrame->setVisible(*m_allowAddRemoveAttrPtr);
+
+	bool isLoadAvailable = false;
+	bool isSaveAvailable = false;
+
+	if (m_paramsLoaderCompPtr.IsValid()){
+		isLoadAvailable = m_paramsLoaderCompPtr->IsOperationSupported(NULL, NULL, ifile::IFilePersistence::QF_LOAD, true);
+		isSaveAvailable = m_paramsLoaderCompPtr->IsOperationSupported(NULL, NULL, ifile::IFilePersistence::QF_SAVE, true);
+	}
+
+	LoadParamsButton->setVisible(isLoadAvailable);
+	SaveParamsButton->setVisible(isSaveAvailable);
 
 	BaseClass::OnGuiCreated();
 
