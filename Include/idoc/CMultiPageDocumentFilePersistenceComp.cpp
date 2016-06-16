@@ -234,11 +234,15 @@ void CMultiPageDocumentFilePersistenceComp::OnComponentCreated()
 
 	m_defaultSuffix = "mpd";
 
-	if (m_pageObjectPersistenceCompPtr.IsValid()){
-		QStringList bitmapSuffixes;
-		if (m_pageObjectPersistenceCompPtr->GetFileExtensions(bitmapSuffixes, NULL, ifile::IFileTypeInfo::QF_FILE)){
-			if (!bitmapSuffixes.isEmpty()){
-				m_defaultPageSuffix = bitmapSuffixes.first();
+	if (m_defaultPageSuffixAttrPtr.IsValid()){
+		m_defaultPageSuffix = *m_defaultPageSuffixAttrPtr;
+	}
+
+	if (m_defaultPageSuffix.isEmpty() && m_pageObjectPersistenceCompPtr.IsValid()){
+		QStringList pageFileExtensions;
+		if (m_pageObjectPersistenceCompPtr->GetFileExtensions(pageFileExtensions, NULL, ifile::IFileTypeInfo::QF_LOAD | ifile::IFileTypeInfo::QF_SAVE)){
+			if (!pageFileExtensions.isEmpty()){
+				m_defaultPageSuffix = pageFileExtensions.first();
 			}
 		}
 	}

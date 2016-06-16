@@ -15,7 +15,7 @@ namespace idoc
 /**
 	File based persistence of the multi-paged bitmap document.
 
-	Document persistence is realized as a list of bitmap files (for each document page) and meta info description file.
+	Document persistence is realized as a list of document page	 files (for each document page) and meta info description file.
 	There are three operating modes for this component (controlled by component attribute 'OpeationMode'):
 	1. Document pages and meta info are saved in the target directory with following naming convention: <DocumentFileName>_[PageIndex].<DocumentExtension> for bitmap pages and <DocumentFileName>.bdm for the document's meta info.
 	2. All files (document pages and meta info) are saved in the document's own directory with the same name as a document file name: <DocumentFileName>.bid
@@ -40,6 +40,7 @@ public:
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
 		I_ASSIGN(m_pageObjectPersistenceCompPtr, "BitmapPersistence", "Component used for persistence of the single page of the bitmap document", true, "BitmapPersistence");
 		I_ASSIGN(m_operationModeAttrPtr, "OperationMode", "Operation mode. 0 - flat structure, all files will be placed into the target folder\n1 - Files will be placed into the document's own folder\n2 - Same as 1, but the folder wll be compressed", true, OM_FOLDER);
+		I_ASSIGN(m_defaultPageSuffixAttrPtr, "DefaultPageFileExtension", "Default extension used for the page files", false, "");	
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFilePersistence)
@@ -77,6 +78,7 @@ private:
 private:
 	I_REF(ifile::IFilePersistence, m_pageObjectPersistenceCompPtr);
 	I_ATTR(int, m_operationModeAttrPtr);
+	I_ATTR(QByteArray, m_defaultPageSuffixAttrPtr);
 
 	QString m_defaultSuffix;
 	QString m_defaultPageSuffix;
