@@ -93,7 +93,7 @@ void CSplineShape::DrawCurve(QPainter& drawContext) const
 		int segmentsCount = splinePtr->GetSegmentCount();
 		if (segmentsCount > 0){
 			i2d::CVector2d points[4];
-			points[0] = GetScreenPosition(splinePtr->GetNode(0));
+			points[0] = GetScreenPosition(splinePtr->GetNodePos(0));
 			for (int i = 0; i < segmentsCount; i++){
 				const i2d::CSplineSegment& segment = splinePtr->GetSplineSegment(i);
 

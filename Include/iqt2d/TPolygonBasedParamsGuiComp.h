@@ -335,7 +335,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateGui
 		NodeParamsTable->setRowCount(count);
 
 		for (int i = 0; i < count; i++){
-			i2d::CVector2d coord = objectPtr->GetNode(i);
+			const i2d::CVector2d& coord = objectPtr->GetNodePos(i);
 			NodeParamsTable->setItem(i, 0, new QTableWidgetItem(QString::number(coord.GetX(), 'f', 12)));
 			NodeParamsTable->setItem(i, 1, new QTableWidgetItem(QString::number(coord.GetY(), 'f', 12)));
 		}

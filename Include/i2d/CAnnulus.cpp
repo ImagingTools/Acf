@@ -160,15 +160,18 @@ bool CAnnulus::ConvertToPolygon(i2d::CPolygon& result, int segmentsCount) const
 	innerPoints[segmentsCount] = m_position + directionVector * minRadius;
 	outerPoints[segmentsCount] = m_position + directionVector * maxRadius;
 
-	result.SetNodesCountQuiet(segmentsCount * 2 + 2);
+	istd::CChangeNotifier notifier(&result, &GetAllChanges());
+	Q_UNUSED(notifier);
+
+	result.SetNodesCount(segmentsCount * 2 + 2);
 	result.SetCalibration(GetCalibration());
 
 	int index = 0;
 	for (int i = 0; i <= segmentsCount; ++i){
-		result.SetNode(index++, outerPoints.at(i));
+		result.SetNodePos(index++, outerPoints.at(i));
 	}				
 	for (int i = segmentsCount; i >= 0 ; --i){
-		result.SetNode(index++, innerPoints.at(i));
+		result.SetNodePos(index++, innerPoints.at(i));
 	}				
 
 	// close if polyline

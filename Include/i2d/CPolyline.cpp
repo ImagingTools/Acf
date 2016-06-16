@@ -42,7 +42,7 @@ i2d::CLine2d CPolyline::GetSegmentLine(int segmentIndex) const
 	Q_ASSERT(segmentIndex < GetSegmentsCount());
 
 	int size = GetNodesCount();
-	return i2d::CLine2d(GetNode(segmentIndex), GetNode((segmentIndex + 1) % size));
+	return i2d::CLine2d(GetNodePos(segmentIndex), GetNodePos((segmentIndex + 1) % size));
 }
 
 
@@ -56,9 +56,9 @@ double CPolyline::GetLength() const
 	int nodesCount = GetNodesCount();
 	if (nodesCount > 0){
 		i2d::CLine2d segmentLine;
-		segmentLine.SetPoint2(GetNode(0));
+		segmentLine.SetPoint2(GetNodePos(0));
 		for (int nodeIndex = 1; nodeIndex < nodesCount; ++nodeIndex){
-			segmentLine.PushEndPoint(GetNode(nodeIndex));
+			segmentLine.PushEndPoint(GetNodePos(nodeIndex));
 
 			length += segmentLine.GetLength();
 		}
@@ -82,16 +82,16 @@ i2d::CVector2d CPolyline::GetKneeVector(int nodeIndex) const
 
 	if (!isClosed){
 		if (nodeIndex == 0){
-			return (GetNode(1) - GetNode(0)).GetOrthogonal().GetNormalized();
+			return (GetNodePos(1) - GetNodePos(0)).GetOrthogonal().GetNormalized();
 		}
 		if (nodeIndex == nodesCount - 1){
-			return (GetNode(nodeIndex) - GetNode(nodeIndex - 1)).GetOrthogonal().GetNormalized();
+			return (GetNodePos(nodeIndex) - GetNodePos(nodeIndex - 1)).GetOrthogonal().GetNormalized();
 		}
 	}
 
-	const i2d::CVector2d& prevPoint = GetNode((nodeIndex + nodesCount - 1) % nodesCount);
-	const i2d::CVector2d& point = GetNode(nodeIndex);
-	const i2d::CVector2d& nextPoint = GetNode((nodeIndex + 1) % nodesCount);
+	const i2d::CVector2d& prevPoint = GetNodePos((nodeIndex + nodesCount - 1) % nodesCount);
+	const i2d::CVector2d& point = GetNodePos(nodeIndex);
+	const i2d::CVector2d& nextPoint = GetNodePos((nodeIndex + 1) % nodesCount);
 
 	i2d::CVector2d prevNormal = (point - prevPoint).GetOrthogonal().GetNormalized();
 	i2d::CVector2d nextNormal = (nextPoint - point).GetOrthogonal().GetNormalized();

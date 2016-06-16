@@ -56,11 +56,9 @@ void CPolypointShape::Draw(QPainter& drawContext) const
 		const IColorSchema& colorSchema = GetColorSchema();
 		const i2d::CRect& clientArea = GetClientRect();
 
-		const i2d::CPolypoint::Points& points = polypoint.GetPoints();
-
-		int pointsCount = int(points.size());
+		int pointsCount = polypoint.GetNodesCount();
 		for (int pointIndex = 0; pointIndex < pointsCount; ++pointIndex){
-			istd::CIndex2d sp = GetScreenPosition(points[pointIndex]).ToIndex2d();
+			istd::CIndex2d sp = GetScreenPosition(polypoint.GetNodePos(pointIndex)).ToIndex2d();
 			if (clientArea.IsInside(sp)){
 				if (m_isSmallTickersMode){
 					colorSchema.DrawTicker(drawContext, sp, IColorSchema::TT_INACTIVE | IColorSchema::TT_SMALL);
@@ -98,16 +96,15 @@ i2d::CRect CPolypointShape::CalcBoundingBox() const
 		Q_ASSERT(&polypoint != NULL);
 
 		const IColorSchema& colorSchema = GetColorSchema();
-		const i2d::CPolypoint::Points& points = polypoint.GetPoints();
+		int pointsCount = polypoint.GetNodesCount();
 
-		if (!points.empty()){
-			istd::CIndex2d sp = GetScreenPosition(points[0]).ToIndex2d();
+		if (pointsCount > 0){
+			istd::CIndex2d sp = GetScreenPosition(polypoint.GetNodePos(0)).ToIndex2d();
 
 			i2d::CRect boundingBox(sp, sp);
 
-			int pointsCount = int(points.size());
 			for (int pointIndex = 1; pointIndex < pointsCount; ++pointIndex){
-				sp = GetScreenPosition(points[pointIndex]).ToIndex2d();
+				sp = GetScreenPosition(polypoint.GetNodePos(pointIndex)).ToIndex2d();
 
 				boundingBox.Union(sp);
 			}

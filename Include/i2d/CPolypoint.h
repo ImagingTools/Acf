@@ -2,14 +2,11 @@
 #define i2d_CPolypoint_included
 
 
-// STL includes
-#include <vector>
-
 // ACF includes
 #include "iser/CArchiveTag.h"
 #include "i2d/CObject2dBase.h"
 #include "i2d/CVector2d.h"
-#include "istd/TDelPtr.h"
+#include "i2d/CRectangle.h"
 
 
 namespace i2d
@@ -17,25 +14,68 @@ namespace i2d
 
 
 /**
-	2D-object given by the simple set of points.
+	Definition of the data model for a polygon.
 */
 class CPolypoint: public CObject2dBase
 {
 public:
-	CPolypoint();
+	/**
+		Removes all nodes.
+	*/
+	virtual void Clear();
 
-	typedef std::vector<i2d::CVector2d> Points;
+	/**
+		Set new nodes count.
+	*/
+	virtual void SetNodesCount(int nodesCount);
 
-	const i2d::CVector2d& GetPoint(int index) const;
-	int GetPointsCount() const;
-	void Insert(const i2d::CVector2d& vector);
-	void Clear();
-	const Points& GetPoints() const;
+	/**
+		Return size of node table.
+	*/
+	virtual int GetNodesCount() const;
+
+	/**
+		Return position of node at specified index.
+		\param	index	an index in node table.
+	*/
+	virtual const i2d::CVector2d& GetNodePos(int index) const;
+
+	/**
+		Get reference to position object for node.
+		Please note, that the change notification cannot be done if you use this method to change node position.
+		\param	index	an index in node table.
+	*/
+	i2d::CVector2d& GetNodePosRef(int index);
+
+	/**
+		Set node at specified index.
+		\param	index	Index in node table.
+		\param	node	New node value.
+	*/
+	virtual void SetNodePos(int index, const i2d::CVector2d& position);
+
+	/**
+		Insert a node at the end of node table.
+	*/
+	virtual bool InsertNode(const i2d::CVector2d& position);
+
+	/**
+		Insert a node at specified index.
+	*/
+	virtual bool InsertNode(int index, const i2d::CVector2d& position);
+
+	/**
+		Remove a node at specified index.
+	*/
+	virtual bool RemoveNode(int index);
 
 	// reimplemented (i2d::IObject2d)
 	virtual CVector2d GetCenter() const;
 	virtual void MoveCenterTo(const CVector2d& position);
-	virtual CRectangle GetBoundingBox() const;
+	/**
+		Calculate bounding box (the same as above but returns result directly).
+	*/
+	virtual i2d::CRectangle GetBoundingBox() const;
 	virtual bool Transform(
 				const ITransformation2d& transformation,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
@@ -55,55 +95,70 @@ public:
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
 
-	// reimplemented istd::IChangeable
-	virtual int GetSupportedOperations() const;
-	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
-	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
-
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
+	virtual bool IsEqual(const IChangeable& object) const;
+
 private:
-	Points m_points;
+	// std::vector can be faster than QVector
+	typedef std::vector<i2d::CVector2d> Nodes;
+
+	/**
+		Apply 2D-transformation to the list of nodes.
+	*/
+	static bool ApplyTransform(Nodes& nodes,
+				const ITransformation2d& transformation,
+				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
+				double* errorFactorPtr = NULL);
+
+	/**
+		Apply inverse 2D-transformation to the list of nodes.
+	*/
+	static bool ApplyInverseTransform(
+				Nodes& nodes,
+				const ITransformation2d& transformation,
+				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
+				double* errorFactorPtr = NULL);
+
+private:
+	Nodes m_positions;
 };
 
 
-// inline methods
+// inline functions
 
-inline CPolypoint::CPolypoint()
+inline int CPolypoint::GetNodesCount() const
 {
+	return int(m_positions.size());
 }
 
 
-inline const i2d::CVector2d& CPolypoint::GetPoint(int index) const
+inline const i2d::CVector2d& CPolypoint::GetNodePos(int index) const
 {
-	Q_ASSERT(index >= 0 && index < int(m_points.size()));
+	Q_ASSERT(index >= 0 && index < int(m_positions.size()));
 
-	return m_points[index];
+	return m_positions[index];
 }
 
 
-inline int CPolypoint::GetPointsCount() const
+inline i2d::CVector2d& CPolypoint::GetNodePosRef(int index)
 {
-	return int(m_points.size());
+	Q_ASSERT(index >= 0 && index < int(m_positions.size()));
+
+	return m_positions[index];
 }
 
 
-inline void CPolypoint::Insert(const i2d::CVector2d& vector)
+inline void CPolypoint::SetNodePos(int index, const i2d::CVector2d& position)
 {
-	m_points.push_back(vector);
-}
+	Q_ASSERT(index >= 0 && index < int(m_positions.size()));
 
-
-inline void CPolypoint::Clear()
-{
-	m_points.clear();
-}
-
-
-inline const CPolypoint::Points &CPolypoint::GetPoints() const
-{
-	return m_points;
+	m_positions[index] = position;
 }
 
 
@@ -111,4 +166,5 @@ inline const CPolypoint::Points &CPolypoint::GetPoints() const
 
 
 #endif // !i2d_CPolypoint_included
+
 

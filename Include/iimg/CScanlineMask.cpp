@@ -310,8 +310,8 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 			nextIndex = 0;
 		}
 
-		i2d::CVector2d startPoint = recalibratedPolygon.GetNode(i);
-		i2d::CVector2d endPoint = recalibratedPolygon.GetNode(nextIndex);
+		i2d::CVector2d startPoint = recalibratedPolygon.GetNodePos(i);
+		i2d::CVector2d endPoint = recalibratedPolygon.GetNodePos(nextIndex);
 
 		double y1 = startPoint.GetY() - m_firstLinePos;
 		double y2 = endPoint.GetY() - m_firstLinePos;
@@ -413,15 +413,15 @@ void CScanlineMask::CreateFromTube(const i2d::CTubePolyline& tube, const i2d::CR
 
 		for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
 			i2d::CVector2d kneeVector = tube.GetKneeVector(nodeIndex);
-			const i2d::CVector2d& nodePosition = tube.GetNode(nodeIndex);
+			const i2d::CVector2d& nodePosition = tube.GetNodePos(nodeIndex);
 			const i2d::CTubeNode& tubeNode = tube.GetTNodeData(nodeIndex);
 			istd::CRange range = tubeNode.GetTubeRange();
 
 			i2d::CVector2d leftPos = nodePosition - kneeVector * range.GetMinValue();
 			i2d::CVector2d rightPos = nodePosition - kneeVector * range.GetMaxValue();
 		
-			polygon.SetNode(leftIndex++, leftPos);
-			polygon.SetNode(rightIndex--, rightPos);
+			polygon.SetNodePos(leftIndex++, leftPos);
+			polygon.SetNodePos(rightIndex--, rightPos);
 		}
 	}
 

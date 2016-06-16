@@ -95,8 +95,8 @@ void CSpline::CalcAllSegments() const
 	coeffY = new double[nodesCount];
 	if ((coeffX != NULL) && (coeffY != NULL)){
 		for (i = 1; i < nodesCount - 1; i++){
-			coeffX[i]=(GetNode(i + 1).GetX() + GetNode(i-1).GetX() - 2 * GetNode(i).GetX()) / 2;
-			coeffY[i]=(GetNode(i + 1).GetY() + GetNode(i-1).GetY() - 2 * GetNode(i).GetY()) / 2;
+			coeffX[i] = (GetNodePos(i + 1).GetX() + GetNodePos(i - 1).GetX() - 2 * GetNodePos(i).GetX()) / 2;
+			coeffY[i] = (GetNodePos(i + 1).GetY() + GetNodePos(i - 1).GetY() - 2 * GetNodePos(i).GetY()) / 2;
 		}
 		coeffX[nodesCount - 1] = coeffX[0] = 0;
 		coeffY[nodesCount - 1] = coeffY[0] = 0;
@@ -106,8 +106,8 @@ void CSpline::CalcAllSegments() const
 
 		for (i = 0; i < nodesCount - 1; i++){
 			CSplineSegment& segment = m_segments[i];
-			segment.D(GetNode(i));
-			segment.C(GetNode(i+1)-GetNode(i) - i2d::CVector2d(coeffX[i + 1] + 2 * coeffX[i], coeffY[i + 1] + 2 * coeffY[i]));
+			segment.D(GetNodePos(i));
+			segment.C(GetNodePos(i + 1) - GetNodePos(i) - i2d::CVector2d(coeffX[i + 1] + 2 * coeffX[i], coeffY[i + 1] + 2 * coeffY[i]));
 			segment.B(i2d::CVector2d(3 * coeffX[i], 3 * coeffY[i]));
 			segment.A(i2d::CVector2d(coeffX[i + 1] - coeffX[i], coeffY[i + 1] - coeffY[i]));
 		}

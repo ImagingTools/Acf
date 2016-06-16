@@ -155,7 +155,7 @@ bool TDataNodePolyline<NodeData>::CopyFrom(const IChangeable& object, Compatibil
 
 		int sourceNodesCount = polygonPtr->GetNodesCount();
 		for (int nodesIndex = 0; nodesIndex < sourceNodesCount; nodesIndex++){		
-			InsertNode(polygonPtr->GetNode(nodesIndex));
+			InsertNode(polygonPtr->GetNodePos(nodesIndex));
 
 			m_nodesData[nodesIndex] = polygonPtr->m_nodesData[nodesIndex];
 		}

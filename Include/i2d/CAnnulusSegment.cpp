@@ -205,10 +205,8 @@ bool CAnnulusSegment::Serialize(iser::IArchive& archive)
 
 	bool retVal = BaseClass::Serialize(archive);
 
-	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();
-
 	quint32 versionNumber = 0;
-	if (!versionInfo.GetVersionNumber(1, versionNumber) || (versionNumber > 1177)){
+	if (!archive.GetVersionInfo().GetVersionNumber(iser::IVersionInfo::AcfVersionId, versionNumber) || (versionNumber > 1177)){
 		retVal = retVal && archive.BeginTag(s_beginAngleTag);
 		retVal = retVal && archive.Process(m_angleRange.GetMinValueRef());
 		retVal = retVal && archive.EndTag(s_beginAngleTag);

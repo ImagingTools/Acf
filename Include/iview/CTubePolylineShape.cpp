@@ -35,7 +35,7 @@ void CTubePolylineShape::DrawCurve(QPainter& drawContext) const
 			int segmentsCount = polylinePtr->GetSegmentsCount();
 
 			i2d::CVector2d firstKneeVector = polylinePtr->GetKneeVector(0);
-			i2d::CVector2d firstPos = polylinePtr->GetNode(0);
+			i2d::CVector2d firstPos = polylinePtr->GetNodePos(0);
 
 			bool showOrientation = IsOrientationVisible();
 
@@ -60,7 +60,7 @@ void CTubePolylineShape::DrawCurve(QPainter& drawContext) const
 			for (int segmentIndex = 0; segmentIndex < segmentsCount; ++segmentIndex){
 				int nodeIndex = (segmentIndex + 1) % nodesCount;
 				i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-				const i2d::CVector2d& nodePosition = polylinePtr->GetNode(nodeIndex);
+				const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
 				i2d::CVector2d screenPoint = GetScreenPosition(nodePosition);
 
@@ -124,7 +124,7 @@ void CTubePolylineShape::DrawSelectionElements(QPainter& drawContext) const
 
 		for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
 			i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-			const i2d::CVector2d& nodePosition = polylinePtr->GetNode(nodeIndex);
+			const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
 			const i2d::CTubeNode& nodeData = polylinePtr->GetTNodeData(nodeIndex);
 			istd::CRange range = nodeData.GetTubeRange();
@@ -167,7 +167,7 @@ i2d::CRect CTubePolylineShape::CalcBoundingBox() const
 
 			for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
 				i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-				const i2d::CVector2d& nodePosition = polylinePtr->GetNode(nodeIndex);
+				const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
 				const i2d::CTubeNode& tubeNode = polylinePtr->GetTNodeData(nodeIndex);
 				istd::CRange range = tubeNode.GetTubeRange();
@@ -219,7 +219,7 @@ bool CTubePolylineShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton 
 			int nodesCount = polylinePtr->GetNodesCount();
 			for (int nodeIndex = nodesCount - 1; nodeIndex >= 0; --nodeIndex){
 				i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-				const i2d::CVector2d& nodePosition = polylinePtr->GetNode(nodeIndex);
+				const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
 				const i2d::CTubeNode& nodeData = polylinePtr->GetTNodeData(nodeIndex);
 				istd::CRange range = nodeData.GetTubeRange();
@@ -301,7 +301,7 @@ bool CTubePolylineShape::OnMouseMove(istd::CIndex2d position)
 				i2d::CTubePolyline* polylinePtr = dynamic_cast<i2d::CTubePolyline*>(GetObservedModel());
 				if (IsDisplayConnected() && (polylinePtr != NULL)){
 					i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(m_editedNodeIndex);
-					const i2d::CVector2d& nodePosition = polylinePtr->GetNode(m_editedNodeIndex);
+					const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(m_editedNodeIndex);
 
 					i2d::CTubeNode& nodeData = polylinePtr->GetTNodeDataRef(m_editedNodeIndex);
 					istd::CRange range = nodeData.GetTubeRange();
@@ -395,7 +395,7 @@ ITouchable::TouchState CTubePolylineShape::IsTouched(istd::CIndex2d position) co
 
 		for (int nodeIndex = nodesCount - 1; nodeIndex >= 0; --nodeIndex){
 			i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-			const i2d::CVector2d& nodePosition = polylinePtr->GetNode(nodeIndex);
+			const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
 			const i2d::CTubeNode& nodeData = polylinePtr->GetTNodeData(nodeIndex);
 			istd::CRange range = nodeData.GetTubeRange();
