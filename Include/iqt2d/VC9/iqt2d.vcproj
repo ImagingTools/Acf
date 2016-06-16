@@ -368,6 +368,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CPosition2dParamsGuiComp.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\CQuadrangleParamsGuiComp.cpp"
 				>
 			</File>
@@ -498,6 +502,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\CPosition2dParamsGuiComp.h"
+				>
+			</File>
+			<File
 				RelativePath="..\CQuadrangleParamsGuiComp.h"
 				>
 			</File>
@@ -601,6 +609,10 @@
 			</File>
 			<File
 				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqt2d\moc_CPolylineParamsGuiComp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="../../../AuxInclude/Qt5/GeneratedFiles\iqt2d\moc_CPosition2dParamsGuiComp.cpp"
 				>
 			</File>
 			<File
@@ -746,6 +758,10 @@
 			</File>
 			<File
 				RelativePath="..\CPolylineParamsGuiComp.moc"
+				>
+			</File>
+			<File
+				RelativePath="..\CPosition2dParamsGuiComp.moc"
 				>
 			</File>
 			<File
