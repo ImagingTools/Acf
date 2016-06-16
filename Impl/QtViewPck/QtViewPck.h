@@ -14,6 +14,7 @@
 #include "iqt2d/TMultiViewExtenderDelegatorCompWrap.h"
 #include "iqt2d/CSceneConnectorGuiComp.h"
 #include "iqt2d/CImageViewComp.h"
+#include "iqt2d/CPosition2dParamsGuiComp.h"
 #include "iqt2d/CLine2dParamsGuiComp.h"
 #include "iqt2d/CRectangleParamsGuiComp.h"
 #include "iqt2d/CCircleParamsGuiComp.h"
@@ -49,6 +50,7 @@ typedef iqt2d::CViewExtenderDelegatorComp SceneExtenderDelegator;
 typedef iqt2d::CMultiViewExtenderDelegatorComp MultiSceneExtenderDelegator;
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;
 typedef icomp::TModelCompWrap<iqt2d::CImageViewComp> ImageView;
+typedef iqt2d::CPosition2dParamsGuiComp Position2dParamsGui;
 typedef iqt2d::CLine2dParamsGuiComp Line2dParamsGui;
 typedef iqt2d::CRectangleParamsGuiComp RectangleParamsGui;
 typedef iqt2d::CCircleParamsGuiComp CircleParamsGui;

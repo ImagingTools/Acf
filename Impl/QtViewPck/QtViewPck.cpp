@@ -57,6 +57,11 @@ I_EXPORT_COMPONENT(
 			"Bitmap Display Viewer Observer" IM_TAG("GUI Image 2D"));
 
 I_EXPORT_COMPONENT(
+			Position2dParamsGui,
+			"Position parameter GUI displaying its using scene",
+			"Position Point Parameters Observer Display" IM_TAG("GUI Editor 2D"));
+
+I_EXPORT_COMPONENT(
 			Line2dParamsGui,
 			"Line parameter GUI displaying line using scene",
 			"Line Parameters Observer Display" IM_TAG("GUI Editor 2D"));
