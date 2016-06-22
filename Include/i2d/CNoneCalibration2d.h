@@ -17,9 +17,11 @@ class CNoneCalibration2d: virtual public i2d::ICalibration2d
 {
 public:
 	// reimplemented (i2d::ICalibration2d)
+	virtual const i2d::CRectangle* GetArgumentArea() const;
+	virtual const i2d::CRectangle* GetResultArea() const;
 	virtual const imath::IUnitInfo* GetArgumentUnitInfo() const;
 	virtual const imath::IUnitInfo* GetResultUnitInfo() const;
-	virtual const ICalibration2d* CreateCombinedCalibration(const ICalibration2d& calibration) const;
+	virtual const ICalibration2d* CreateCombinedCalibration(const ITransformation2d& transformation) const;
 
 	// reimplemented (i2d::ITransformation2d)
 	virtual int GetTransformationFlags() const;

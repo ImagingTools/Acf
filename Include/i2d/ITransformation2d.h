@@ -49,6 +49,9 @@ public:
 		EM_ANY
 	};
 
+	/**
+		Flags indication type of this transformation and supported operations.
+	*/
 	enum TransformationFlags
 	{
 		/**

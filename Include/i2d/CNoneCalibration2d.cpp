@@ -13,6 +13,18 @@ namespace i2d
 
 // reimplemented (i2d::ICalibration2d)
 
+const i2d::CRectangle* CNoneCalibration2d::GetArgumentArea() const
+{
+	return NULL;
+}
+
+
+const i2d::CRectangle* CNoneCalibration2d::GetResultArea() const
+{
+	return NULL;
+}
+
+
 const imath::IUnitInfo* CNoneCalibration2d::GetArgumentUnitInfo() const
 {
 	return NULL;
@@ -25,7 +37,7 @@ const imath::IUnitInfo* CNoneCalibration2d::GetResultUnitInfo() const
 }
 
 
-const i2d::ICalibration2d* CNoneCalibration2d::CreateCombinedCalibration(const i2d::ICalibration2d& /*calibration*/) const
+const i2d::ICalibration2d* CNoneCalibration2d::CreateCombinedCalibration(const i2d::ITransformation2d& /*transformation*/) const
 {
 	return new CNoneCalibration2d();
 }
@@ -35,7 +47,7 @@ const i2d::ICalibration2d* CNoneCalibration2d::CreateCombinedCalibration(const i
 
 int CNoneCalibration2d::GetTransformationFlags() const
 {
-	return TF_FORWARD | TF_INJECTIVE | TF_SURJECTIVE | TF_PRESERVE_NULL | TF_PRESERVE_DISTANCE | TF_PRESERVE_ANGLE;
+	return TF_FORWARD | TF_INJECTIVE | TF_SURJECTIVE | TF_PRESERVE_NULL | TF_PRESERVE_DISTANCE | TF_PRESERVE_ANGLE | TF_SUPPORT_COMBINE;
 }
 
 

@@ -3,7 +3,7 @@
 
 
 // ACF includes
-#include "i2d/ICalibration2d.h"
+#include "i2d/ITransformation2d.h"
 #include "i2d/CAffine2d.h"
 
 
@@ -14,7 +14,7 @@ namespace i2d
 /**
 	Definition of an affine transformation for 2D-spaces.
 */
-class CAffineTransformation2d: virtual public ICalibration2d
+class CAffineTransformation2d: virtual public ITransformation2d
 {
 public:
 	CAffineTransformation2d();
@@ -57,14 +57,6 @@ public:
 	*/
 	void Reset(const CVector2d& translation, double angle, const CVector2d& scale);
 
-	void SetArgumentUnitInfo(const imath::IUnitInfo* unitInfoPtr);
-	void SetResultUnitInfo(const imath::IUnitInfo* unitInfoPtr);
-
-	// reimplemented (i2d::ICalibration2d)
-	virtual const imath::IUnitInfo* GetArgumentUnitInfo() const;
-	virtual const imath::IUnitInfo* GetResultUnitInfo() const;
-	virtual const ICalibration2d* CreateCombinedCalibration(const ICalibration2d& transform) const;
-
 	// reimplemented (i2d::ITransformation2d)
 	virtual int GetTransformationFlags() const;
 	virtual bool GetDistance(
@@ -106,10 +98,6 @@ public:
 
 protected:
 	CAffine2d m_transformation;
-
-private:
-	const imath::IUnitInfo* m_argumentUnitInfoPtr;
-	const imath::IUnitInfo* m_resultUnitInfoPtr;
 };
 
 

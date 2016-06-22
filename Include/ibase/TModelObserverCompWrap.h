@@ -2,6 +2,9 @@
 #define ibase_TModelObserverCompWrap_included
 
 
+// QT includes
+#include <QtCore/QDebug>
+
 // ACF includes
 #include "imod/IModel.h"
 #include "imod/TSingleModelObserverBase.h"
@@ -83,10 +86,7 @@ void TModelObserverCompWrap<ObserverComponent>::OnComponentCreated()
 
 			QString exptectedObjectInterface = typeid(typename ObserverComponent::ModelType).name();
 
-			qDebug("Component %s: Component model %s doesn't implement observed interface %s",
-						observerComponentId.constData(),
-						modelComponentId.constData(),
-						exptectedObjectInterface.constData());
+			qDebug() << "Component " << observerComponentId << " Component model " << modelComponentId << " doesn't implement observed interface " << exptectedObjectInterface;
 		}
 	)
 

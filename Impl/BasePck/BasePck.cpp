@@ -204,9 +204,14 @@ I_EXPORT_COMPONENT(
 			"Polyline2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
 
 I_EXPORT_COMPONENT(
-			AffineTransformation2d,
-			"Affine transformation",
-			"Affine 2D Tranformation" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+			AffineCalibration2d,
+			"Affine calibration",
+			"Affine Calibration Tranformation" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+
+I_EXPORT_COMPONENT(
+			PerspectiveCalibration2d,
+			"Perspectivic calibration",
+			"Perspective Calibration Tranformation" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
 
 I_EXPORT_COMPONENT(
 			StaticCalibrationProvider,

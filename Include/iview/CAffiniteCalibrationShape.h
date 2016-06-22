@@ -13,8 +13,8 @@ namespace iview
 
 /**
 	Shape object for affinite calibration.
-	You need this shape to visualize calibration
-	of type iview::CAffiniteCalibration on display console.
+	You may use this shape to visualize affine calibration object on display console.
+	\sa simple implementation of affine transformation: \c i2d::CAffineTransformation2d.
 */
 class CAffiniteCalibrationShape: public iview::CNoneCalibrationShape
 {

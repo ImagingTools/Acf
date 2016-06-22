@@ -7,13 +7,10 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
-#include "iqt/iqt.h"
-
+#include "i2d/ICalibration2d.h"
 #include "iview/IRuler.h"
 #include "iview/IViewRulersAccessor.h"
 #include "iview/CCalibratedViewBase.h"
-#include "iview/CPerspectiveCalibration.h"
 
 
 
@@ -49,7 +46,7 @@ void CPerspectiveCalibrationShape::Invalidate()
 
 void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 {
-	const CPerspectiveCalibration* calibPtr = dynamic_cast<const CPerspectiveCalibration*>(GetCalibration());
+	const i2d::ICalibration2d* calibPtr = GetCalibration();
 	if (calibPtr == NULL){
 		BaseClass::Draw(drawContext);
 
@@ -78,20 +75,22 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 			}
 		}
 
-		const i3d::CVector3d& logAxisX = calibPtr->GetLogAxisGetX();
-		const i2d::CRectangle& bounds = calibPtr->GetBounds();
-
 		iview::IRuler* leftRulerPtr = NULL;
 		iview::IRuler* topRulerPtr = NULL;
 
-		if (rulersAccessorPtr != NULL){
-			if (qAbs(logAxisX.GetX()) >= qAbs(logAxisX.GetY())){
-				leftRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
-				topRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
-			}
-			else{
-				topRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
-				leftRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
+		i2d::CAffine2d zeroPosTransform;
+		if (calibPtr->GetLocalTransform(i2d::CVector2d::GetZero(), zeroPosTransform)){
+			if (rulersAccessorPtr != NULL){
+				const i2d::CVector2d& logAxisX = zeroPosTransform.GetDeformMatrix().GetAxisX();
+
+				if (qAbs(logAxisX.GetX()) >= qAbs(logAxisX.GetY())){
+					leftRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
+					topRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
+				}
+				else{
+					topRulerPtr = rulersAccessorPtr->GetLeftRulerPtr();
+					leftRulerPtr = rulersAccessorPtr->GetTopRulerPtr();
+				}
 			}
 		}
 
@@ -127,6 +126,12 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 				logCorners[1] = GetLogPosition(clientRect.GetRightTop());
 				logCorners[2] = GetLogPosition(clientRect.GetLeftBottom());
 				logCorners[3] = GetLogPosition(clientRect.GetRightBottom());
+
+				i2d::CRectangle bounds(-100, -100, 200, 200);
+				const i2d::CRectangle* argumentAreaPtr = calibPtr->GetArgumentArea();
+				if (argumentAreaPtr != NULL){
+					bounds = *argumentAreaPtr;
+				}
 
 				i2d::CVector2d viewLeftTop;
 				calibPtr->GetInvPositionAt(bounds.GetLeftTop(), viewLeftTop);
@@ -169,14 +174,12 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 
 				int index;
 				for (index = firstIndex; index <= lastIndex; ++index){
-					i2d::CVector2d logPos1(index * grid, bounds.GetTop());
-					i2d::CVector2d logPos2(index * grid, bounds.GetBottom());
-					i2d::CVector2d viewPos1;
-					i2d::CVector2d viewPos2;
-					calibPtr->GetInvPositionAt(logPos1, viewPos1);
-					calibPtr->GetInvPositionAt(logPos2, viewPos2);
-					QPointF point1 = GetScreenPosition(viewPos1);
-					QPointF point2 = GetScreenPosition(viewPos2);
+					i2d::CLine2d logLine(index * grid, bounds.GetTop(), index * grid, bounds.GetBottom());
+					QPointF point1;
+					QPointF point2;
+					if (!GetLineScreenPosition(*calibPtr, logLine, lastIndex - firstIndex + 1, point1, point2)){
+						continue;
+					}
 
 					int levelIndex = 0;
 
@@ -223,15 +226,12 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 				lastIndex = int(qCeil(bounds.GetBottom() / grid));
 
 				for (index = firstIndex; index <= lastIndex; ++index){
-					i2d::CVector2d logPos1(bounds.GetLeft(), index * grid);
-					i2d::CVector2d logPos2(bounds.GetRight(), index * grid);
-					i2d::CVector2d viewPos1;
-					i2d::CVector2d viewPos2;
-					calibPtr->GetInvPositionAt(logPos1, viewPos1);
-					calibPtr->GetInvPositionAt(logPos2, viewPos2);
-
-					QPointF point1 = GetScreenPosition(viewPos1);
-					QPointF point2 = GetScreenPosition(viewPos2);
+					i2d::CLine2d logLine(bounds.GetLeft(), index * grid, bounds.GetRight(), index * grid);
+					QPointF point1;
+					QPointF point2;
+					if (!GetLineScreenPosition(*calibPtr, logLine, lastIndex - firstIndex + 1, point1, point2)){
+						continue;
+					}
 
 					int levelIndex = 0;
 
@@ -278,6 +278,54 @@ void CPerspectiveCalibrationShape::Draw(QPainter& drawContext) const
 			}
 		}
 	}
+}
+
+
+// protected methods
+
+bool CPerspectiveCalibrationShape::GetLineScreenPosition(const i2d::ICalibration2d& calib, const i2d::CLine2d& logLine, int gridSize, QPointF& point1, QPointF& point2) const
+{
+	const iview::CScreenTransform& transform = GetViewToScreenTransform();
+
+	int leftGridIndex = 0;
+	bool isLeftValid = false;
+	i2d::CVector2d leftPosition;
+
+	int rightGridIndex = gridSize;
+	bool isRightValid = false;
+	i2d::CVector2d rightPosition;
+
+	while (leftGridIndex < rightGridIndex){
+		if (!isLeftValid){
+			if (calib.GetPositionAt(logLine.GetPositionFromAlpha(double(leftGridIndex) / gridSize), leftPosition)){
+				isLeftValid = true;
+			}
+			else{
+				++leftGridIndex;
+			}
+		}
+		if (!isRightValid){
+			if (calib.GetPositionAt(logLine.GetPositionFromAlpha(double(rightGridIndex) / gridSize), rightPosition)){
+				isRightValid = true;
+			}
+			else{
+				--rightGridIndex;
+			}
+		}
+
+		if (isLeftValid && isRightValid){
+			point1 = transform.GetApply(leftPosition);
+			point2 = transform.GetApply(rightPosition);
+
+			return true;
+		}
+
+		if (!isLeftValid && !isRightValid){
+			break;
+		}
+	}
+
+	return false;
 }
 
 

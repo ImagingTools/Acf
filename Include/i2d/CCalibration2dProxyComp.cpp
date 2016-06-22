@@ -19,6 +19,28 @@ CCalibration2dProxyComp::CCalibration2dProxyComp()
 
 // reimplemented (i2d::ICalibration2d)
 
+const i2d::CRectangle* CCalibration2dProxyComp::GetArgumentArea() const
+{
+	const ICalibration2d* calibrationPtr = GetCalibration();
+	if (calibrationPtr != NULL){
+		return calibrationPtr->GetArgumentArea();
+	}
+
+	return NULL;
+}
+
+
+const i2d::CRectangle* CCalibration2dProxyComp::GetResultArea() const
+{
+	const ICalibration2d* calibrationPtr = GetCalibration();
+	if (calibrationPtr != NULL){
+		return calibrationPtr->GetResultArea();
+	}
+
+	return NULL;
+}
+
+
 const imath::IUnitInfo* CCalibration2dProxyComp::GetArgumentUnitInfo() const
 {
 	const ICalibration2d* calibrationPtr = GetCalibration();
@@ -40,15 +62,15 @@ const imath::IUnitInfo* CCalibration2dProxyComp::GetResultUnitInfo() const
 	return NULL;
 }
 
-const ICalibration2d* CCalibration2dProxyComp::CreateCombinedCalibration(const ICalibration2d& calibration) const
+const ICalibration2d* CCalibration2dProxyComp::CreateCombinedCalibration(const ITransformation2d& transformation) const
 {
 	const ICalibration2d* calibrationPtr = GetCalibration();
 	if (calibrationPtr != NULL){
-		return calibrationPtr->CreateCombinedCalibration(calibration);
+		return calibrationPtr->CreateCombinedCalibration(transformation);
 	}
 
 	istd::TDelPtr<ICalibration2d> retVal;
-	retVal.SetCastedOrRemove(calibration.CloneMe());
+	retVal.SetCastedOrRemove(transformation.CloneMe());
 
 	return retVal.PopPtr();
 }

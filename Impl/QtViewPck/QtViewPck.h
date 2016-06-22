@@ -2,14 +2,16 @@
 #define QtViewPck_included
 
 
+// ACF includes
 #include "icomp/TModelCompWrap.h"
 #include "icomp/TMakeComponentWrap.h"
-
 #include "iview/CShapeStatusInfoComp.h"
 #include "iview/CShapeInfoGuiComp.h"
 #include "iview/CSimpleShapeFactoryComp.h"
 #include "iview/CColorSchemaComp.h"
-
+#include "iview/CNoneCalibrationShape.h"
+#include "iview/CAffiniteCalibrationShape.h"
+#include "iview/CPerspectiveCalibrationShape.h"
 #include "iqt2d/TViewExtenderDelegatorCompWrap.h"
 #include "iqt2d/TMultiViewExtenderDelegatorCompWrap.h"
 #include "iqt2d/CSceneConnectorGuiComp.h"
@@ -45,7 +47,9 @@ typedef icomp::TModelCompWrap<iview::CShapeStatusInfoComp> ShapeStatusInfo;
 typedef iview::CShapeInfoGuiComp ShapeInfoGui;
 typedef iview::CSimpleShapeFactoryComp SimpleShapeFactory;
 typedef iview::CColorSchemaComp ColorSchema;
-
+typedef icomp::TMakeComponentWrap<iview::CNoneCalibrationShape, iview::IShape, imod::IObserver, iview::IVisualizable, iview::ITouchable> NoneCalibrationShape;
+typedef icomp::TMakeComponentWrap<iview::CAffiniteCalibrationShape, iview::IShape, imod::IObserver, iview::IVisualizable, iview::ITouchable> AffiniteCalibrationShape;
+typedef icomp::TMakeComponentWrap<iview::CPerspectiveCalibrationShape, iview::IShape, imod::IObserver, iview::IVisualizable, iview::ITouchable> PerspectiveCalibrationShape;
 typedef iqt2d::CViewExtenderDelegatorComp SceneExtenderDelegator;
 typedef iqt2d::CMultiViewExtenderDelegatorComp MultiSceneExtenderDelegator;
 typedef iqt2d::CSceneConnectorGuiComp SceneConnector;

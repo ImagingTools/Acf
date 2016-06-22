@@ -1,4 +1,8 @@
-#include "i2d/CAffineTransformation2dComp.h"
+#include "i2d/CAffineCalibration2dComp.h"
+
+
+// ACF incldues
+#include "istd/CChangeGroup.h"
 
 
 namespace i2d
@@ -9,7 +13,7 @@ namespace i2d
 
 // reimplemented (icomp::CComponentBase)
 
-void CAffineTransformation2dComp::OnComponentCreated()
+void CAffineCalibration2dComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
@@ -39,6 +43,21 @@ void CAffineTransformation2dComp::OnComponentCreated()
 	if (m_translationYAttrPtr.IsValid()){
 		translationRef.SetY(*m_translationYAttrPtr);
 	}
+
+	SetArgumentUnitInfo(m_argumentUnitInfoCompPtr.GetPtr());
+	SetResultUnitInfo(m_resultUnitInfoCompPtr.GetPtr());
+}
+
+
+void CAffineCalibration2dComp::OnComponentDestroyed()
+{
+	BaseClass::OnComponentDestroyed();
+
+	istd::CChangeGroup changeGroup(this);
+	Q_UNUSED(changeGroup);
+
+	SetArgumentUnitInfo(NULL);
+	SetResultUnitInfo(NULL);
 }
 
 

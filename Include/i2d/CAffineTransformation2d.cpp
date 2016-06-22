@@ -13,17 +13,13 @@ namespace i2d
 // public methods
 
 CAffineTransformation2d::CAffineTransformation2d()
-:	m_argumentUnitInfoPtr(NULL),
-	m_resultUnitInfoPtr(NULL)
 {
 	m_transformation.Reset();
 }
 
 
 CAffineTransformation2d::CAffineTransformation2d(const i2d::CAffine2d& transformation)
-:	m_transformation(transformation),
-	m_argumentUnitInfoPtr(NULL),
-	m_resultUnitInfoPtr(NULL)
+:	m_transformation(transformation)
 {
 }
 
@@ -65,47 +61,6 @@ void CAffineTransformation2d::Reset(const CVector2d& translation, double angle, 
 	istd::CChangeNotifier changeNotifier(this);
 
 	m_transformation.Reset(translation, angle, scale);
-}
-
-
-void CAffineTransformation2d::SetArgumentUnitInfo(const imath::IUnitInfo* unitInfoPtr)
-{
-	m_argumentUnitInfoPtr = unitInfoPtr;
-}
-
-
-void CAffineTransformation2d::SetResultUnitInfo(const imath::IUnitInfo* unitInfoPtr)
-{
-	m_resultUnitInfoPtr = unitInfoPtr;
-}
-
-
-// reimplemented (i2d::ICalibration2d)
-
-const imath::IUnitInfo* CAffineTransformation2d::GetArgumentUnitInfo() const
-{
-	return m_argumentUnitInfoPtr;
-}
-
-
-const imath::IUnitInfo* CAffineTransformation2d::GetResultUnitInfo() const
-{
-	return m_resultUnitInfoPtr;
-}
-
-
-const ICalibration2d* CAffineTransformation2d::CreateCombinedCalibration(const ICalibration2d& calibration) const
-{
-	const CAffineTransformation2d* affineTransformPtr = dynamic_cast<const CAffineTransformation2d*>(&calibration);
-	if (affineTransformPtr != NULL){
-		i2d::CAffineTransformation2d* combinedTransformPtr = new imod::TModelWrap<CAffineTransformation2d>();
-
-		m_transformation.GetApply(affineTransformPtr->m_transformation, combinedTransformPtr->m_transformation);
-
-		return combinedTransformPtr;
-	}
-
-	return NULL;
 }
 
 
@@ -203,7 +158,7 @@ CVector2d CAffineTransformation2d::GetValueAt(const CVector2d& argument) const
 
 bool CAffineTransformation2d::Serialize(iser::IArchive& archive)
 {
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this);
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
 
 	return m_transformation.Serialize(archive);
 }
@@ -211,54 +166,24 @@ bool CAffineTransformation2d::Serialize(iser::IArchive& archive)
 
 // reimplemented (istd::IChangeable)
 
-bool CAffineTransformation2d::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
+bool CAffineTransformation2d::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
 {
 	const CAffineTransformation2d* sourcePtr = dynamic_cast<const CAffineTransformation2d*>(&object);
 	if (sourcePtr != NULL){
-		if ((mode == CM_STRICT) || (mode == CM_CONVERT)){	// we cannot convert different units, we do than strict check
-			// check argument compatibility
-			if (m_argumentUnitInfoPtr != sourcePtr->m_argumentUnitInfoPtr){
-				QString unitName;
-				if (m_argumentUnitInfoPtr != NULL){
-					unitName = m_argumentUnitInfoPtr->GetUnitName();
-				}
-
-				QString sourceUnitName;
-				if (sourcePtr->m_argumentUnitInfoPtr != NULL){
-					sourceUnitName = sourcePtr->m_argumentUnitInfoPtr->GetUnitName();
-				}
-
-				if (unitName != sourceUnitName){
-					return false;
-				}
-			}
-
-			// check result compatibility
-			if (m_resultUnitInfoPtr != sourcePtr->m_resultUnitInfoPtr){
-				QString unitName;
-				if (m_resultUnitInfoPtr != NULL){
-					unitName = m_resultUnitInfoPtr->GetUnitName();
-				}
-
-				QString sourceUnitName;
-				if (sourcePtr->m_resultUnitInfoPtr != NULL){
-					sourceUnitName = sourcePtr->m_resultUnitInfoPtr->GetUnitName();
-				}
-
-				if (unitName != sourceUnitName){
-					return false;
-				}
-			}
-		}
-
-		istd::CChangeNotifier changeNotifier(this);
+		istd::CChangeNotifier notifier(this, &GetAllChanges());
+		Q_UNUSED(notifier);
 		
 		m_transformation = sourcePtr->m_transformation;
 
-		if (mode == CM_WITH_REFS){
-			m_argumentUnitInfoPtr = sourcePtr->m_argumentUnitInfoPtr;
-			m_resultUnitInfoPtr = sourcePtr->m_resultUnitInfoPtr;
-		}
+		return true;
+	}
+
+	const CAffine2d* affine2dPtr = dynamic_cast<const CAffine2d*>(&object);
+	if (affine2dPtr != NULL){
+		istd::CChangeNotifier notifier(this, &GetAllChanges());
+		Q_UNUSED(notifier);
+		
+		m_transformation = *affine2dPtr;
 
 		return true;
 	}

@@ -11,9 +11,41 @@ namespace i2d
 {
 
 
+class CRectangle;
+
+
 class ICalibration2d: virtual public ITransformation2d
 {
 public:
+	enum ChangeFlags
+	{
+		CF_CALIBRATION_CHANGED = 0x8d89e2,
+		CF_AREA_CHANGED,
+		CF_UNITS_CHANGED
+	};
+
+	/**
+		Extension of \c i2d::ITransformation2d::TransformationFlags.
+	*/
+	enum TransformationFlags
+	{
+		/**
+			This calibration supports combinating with other calibrations, at least of the same type.
+		*/
+		TF_SUPPORT_COMBINE = 1 << 10
+	};
+
+	/**
+		Get optional area where arguments are defined properly.
+		\return	pointer to restriction area object or NULL if there is no defined restrictions.
+	*/
+	virtual const CRectangle* GetArgumentArea() const = 0;
+	/**
+		Get optional area where results are defined properly.
+		\return	pointer to restriction area object or NULL if there is no defined restrictions.
+	*/
+	virtual const CRectangle* GetResultArea() const = 0;
+
 	/**
 		Get unit description of calibration input (transformation function argument).
 		\return	unit description of function argument or \c NULL, if this information is unsupported.
@@ -30,7 +62,7 @@ public:
 		Please note, that created object is owned by the caller and the caller must remove them.
 		\return	new calibration object (owned by the caller) or NULL if creation was impossible.
 	*/
-	virtual const ICalibration2d* CreateCombinedCalibration(const ICalibration2d& calibration) const = 0;
+	virtual const ICalibration2d* CreateCombinedCalibration(const ITransformation2d& transformation) const = 0;
 };
 
 
