@@ -20,6 +20,7 @@ namespace iqtgui
 // public methods
 
 CDialogGuiComp::CDialogGuiComp()
+	:m_dialogCommand("Show Dialog", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
 {
 	m_commandsProvider.SetParent(this);
 }
@@ -118,7 +119,13 @@ void CDialogGuiComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
-	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr);
+
+	QIcon commandIcon;
+	if (m_dialogIconPathAttrPtr.IsValid()){
+		commandIcon = QIcon(*m_dialogIconPathAttrPtr);
+	}
+
+	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
 
 	m_rootMenuCommand.InsertChild(&m_dialogCommand);
 	m_rootCommand.InsertChild(&m_rootMenuCommand);
