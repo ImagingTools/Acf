@@ -177,13 +177,28 @@ void CSimpleFilePathParamGuiComp::on_BrowseButton_clicked()
 				pathToSearch = m_defaultDirPtr->GetPath();
 			}
 
-			QString filePath = QFileDialog::getOpenFileName(
-						GetQtWidget(),
-						tr("Select file"),
-						pathToSearch,
-						filterList.join("\n"));
-			if (!filePath.isEmpty()){
-				OnPathEdited(filePath);
+			// if we want to save: use save dialog
+			if (m_useSaveDialogAttrPtr.IsValid()){
+				QString filePath = QFileDialog::getSaveFileName(
+					GetQtWidget(),
+					tr("Select file to save"),
+					pathToSearch,
+					filterList.join("\n"));
+
+				if (!filePath.isEmpty()){
+					OnPathEdited(filePath);
+				}
+			}
+			else{	// we want to load: use open dialog
+				QString filePath = QFileDialog::getOpenFileName(
+					GetQtWidget(),
+					tr("Select file"),
+					pathToSearch,
+					filterList.join("\n"));
+
+				if (!filePath.isEmpty()){
+					OnPathEdited(filePath);
+				}
 			}
 		}
 	}
