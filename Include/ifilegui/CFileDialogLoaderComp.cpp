@@ -142,7 +142,13 @@ QString CFileDialogLoaderComp::GetLastFilePath(OperationType operationType, Path
 
 // static methods
 
-void CFileDialogLoaderComp::AppendLoaderFilterList(const ifile::IFileTypeInfo& fileTypeInfo, const istd::IChangeable* dataObjectPtr, int flags, QStringList& allExt, QStringList& result)
+void CFileDialogLoaderComp::AppendLoaderFilterList(
+			const ifile::IFileTypeInfo& fileTypeInfo,
+			const istd::IChangeable* dataObjectPtr,
+			int flags,
+			QStringList& allExt,
+			QStringList& result,
+			bool allowCommonDescription)
 {
 	QStringList docExtensions;
 	if (!fileTypeInfo.GetFileExtensions(docExtensions, dataObjectPtr, flags)){
@@ -150,7 +156,7 @@ void CFileDialogLoaderComp::AppendLoaderFilterList(const ifile::IFileTypeInfo& f
 	}
 
 	QString commonDescription = fileTypeInfo.GetTypeDescription();
-	if (!commonDescription.isEmpty() && ((flags & QF_SAVE) == 0)){
+	if (allowCommonDescription && !commonDescription.isEmpty() && ((flags & QF_SAVE) == 0)){
 		if (!docExtensions.isEmpty()){
 			allExt += docExtensions;
 
@@ -205,7 +211,7 @@ QString CFileDialogLoaderComp::GetFileName(const istd::IChangeable& data, const 
 		for (int i = 0; i < loadersCount; ++i){
 			ifile::IFilePersistence* loaderPtr = m_loadersCompPtr[i];
 			if (loaderPtr != NULL){
-				AppendLoaderFilterList(*loaderPtr, &data, isSaving? QF_SAVE: QF_LOAD, allExt, filterList);
+				AppendLoaderFilterList(*loaderPtr, &data, isSaving ? QF_SAVE : QF_LOAD, allExt, filterList, loadersCount > 1);
 			}
 		}
 

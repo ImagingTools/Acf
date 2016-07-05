@@ -119,7 +119,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilters(const QBy
 	if (documentTypeIdPtr != NULL){
 		ifile::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*documentTypeIdPtr);
 		if (typeInfoPtr != NULL){
-			ifilegui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, dataObjectPtr, flags, allExt, filters);
+			ifilegui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, dataObjectPtr, flags, allExt, filters, false);
 		}
 	}
 	else{
@@ -128,7 +128,7 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::CreateFileDialogFilters(const QBy
 					++docTypeIter){
 			ifile::IFileTypeInfo* typeInfoPtr = BaseClass::GetDocumentFileTypeInfo(*docTypeIter);
 			if (typeInfoPtr != NULL){
-				ifilegui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, dataObjectPtr, flags, allExt, filters);
+				ifilegui::CFileDialogLoaderComp::AppendLoaderFilterList(*typeInfoPtr, dataObjectPtr, flags, allExt, filters, docTypeIds.count() > 1);
 			}
 		}
 	}

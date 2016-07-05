@@ -77,7 +77,13 @@ public:
 		\param	result	input/output list of filters with description separated with next line character.
 		\return			number of filters.
 	*/
-	static void AppendLoaderFilterList(const ifile::IFileTypeInfo& fileTypeInfo, const istd::IChangeable* dataObjectPtr, int flags, QStringList& allExt, QStringList& result);
+	static void AppendLoaderFilterList(
+				const ifile::IFileTypeInfo& fileTypeInfo,
+				const istd::IChangeable* dataObjectPtr,
+				int flags,
+				QStringList& allExt,
+				QStringList& result,
+				bool allowCommonDescription = true);
 
 protected:
 	QString GetPathForType(const QFileInfo& fileInfo, PathType pathType) const;
