@@ -58,9 +58,7 @@ ITouchable::TouchState CRectangleShape::IsTouched(istd::CIndex2d position) const
 			}
 		}
 
-		i2d::CVector2d cp = GetLogPosition(position);
-
-		double viewScale = GetViewToScreenTransform().GetDeformMatrix().GetApproxScale();
+		i2d::CVector2d sp = position;
 
 		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
 
@@ -68,20 +66,25 @@ ITouchable::TouchState CRectangleShape::IsTouched(istd::CIndex2d position) const
 
 		bool isEditablePosition = IsEditablePosition();
 
-		i2d::CLine2d line(modelArea.GetLeftTop(), modelArea.GetRightTop());
-		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
+		i2d::CVector2d screenLeftTop = GetScreenPosition(modelArea.GetLeftTop());
+		i2d::CVector2d screenRightTop = GetScreenPosition(modelArea.GetRightTop());
+		i2d::CVector2d screenLeftBottom = GetScreenPosition(modelArea.GetLeftBottom());
+		i2d::CVector2d screenRightBottom = GetScreenPosition(modelArea.GetRightBottom());
+
+		i2d::CLine2d line(screenLeftTop, screenRightTop);
+		if (line.GetDistance(sp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint1(modelArea.GetRightBottom());
-		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint1(screenRightBottom);
+		if (line.GetDistance(sp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint2(modelArea.GetLeftBottom());
-		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint2(screenLeftBottom);
+		if (line.GetDistance(sp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint1(modelArea.GetLeftTop());
-		if (viewScale * line.GetDistance(cp) < logicalLineWidth){
+		line.SetPoint1(screenLeftTop);
+		if (line.GetDistance(sp) < logicalLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 	}
