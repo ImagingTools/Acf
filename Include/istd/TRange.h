@@ -185,6 +185,11 @@ public:
 	void Expand(const TRange& range);
 
 	/**
+		Get distance from value to range.
+		Distance is the smallest absolute value difference of given value and the values belonging to range.
+	*/
+	ValueType GetDistance(ValueType value) const;
+	/**
 		Get nearest value belonging to range.
 	*/
 	ValueType GetNearestInside(ValueType value) const;
@@ -558,6 +563,21 @@ inline void TRange<ValueType>::Expand(const TRange& range)
 {
 	m_minValue += range.m_minValue;
 	m_maxValue += range.m_maxValue;
+}
+
+
+template <typename ValueType>
+inline ValueType TRange<ValueType>::GetDistance(ValueType value) const
+{
+	if (value > m_maxValue){
+		return value - m_maxValue;
+	}
+
+	if (value < m_minValue){
+		return m_minValue - value;
+	}
+
+	return 0;
 }
 
 
