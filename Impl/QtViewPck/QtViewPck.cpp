@@ -161,6 +161,11 @@ I_EXPORT_COMPONENT(
 			"Arc parameter GUI displaying a arc using scene",
 			"Arc Parameters Observer Display" IM_TAG("GUI Editor 2D"));
 
+I_EXPORT_COMPONENT(
+			PerspectiveCalibEditor,
+			"Editor of perspective calibration parameters",
+			"Perspective Calibration Transformation Matrix Translation" IM_TAG("GUI Editor 2D"));
+
 
 } // namespace QtViewPck
 
