@@ -2,10 +2,14 @@
 
 
 // Qt includes
+#include <QtCore/QtGlobal>
 #include <QtCore/QDir>
 #include <QtCore/QThread>
 #include <QtCore/QProcess>
 #include <QtCore/QCoreApplication>
+#if QT_VERSION >= 0x050400
+	#include <QtCore/QStorageInfo>
+#endif
 
 // Windows includes
 #ifdef Q_OS_WIN
@@ -381,22 +385,27 @@ QString CSystem::GetCurrentUserName()
 
 CSystem::FileDriveInfo CSystem::GetFileDriveInfo(const QString& fileDrivePath)
 {
-	// TODO: Remove this code after switching to Qt 5.5,
-	// use QStorageInfo instead of this implementation!
-
 	FileDriveInfo fileDriveInfo;
 
-#if defined(Q_OS_WIN)
-	ULARGE_INTEGER lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes;
-	bool isOk = GetDiskFreeSpaceExA(fileDrivePath.toLatin1().data(), &lpFreeBytesAvailable, &lpTotalNumberOfBytes, &lpTotalNumberOfFreeBytes);
-	if (isOk){
-		fileDriveInfo.freeBytes = lpFreeBytesAvailable.QuadPart;
-		fileDriveInfo.totalBytes = lpTotalNumberOfBytes.QuadPart;
-	}
+#if QT_VERSION >= 0x050400
+	QStorageInfo storageInfo(fileDrivePath);
+	fileDriveInfo.totalBytes = storageInfo.bytesAvailable();
+	fileDriveInfo.freeBytes = storageInfo.bytesFree();
 #else
-	Q_UNUSED(fileDrivePath);
-	// TODO: Add implementation for other platforms
-#endif
+	// TODO: Remove this code after switching to Qt 5.5,
+	// use QStorageInfo instead of this implementation!
+	#if defined(Q_OS_WIN)
+		ULARGE_INTEGER lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes;
+		bool isOk = GetDiskFreeSpaceExA(fileDrivePath.toLatin1().data(), &lpFreeBytesAvailable, &lpTotalNumberOfBytes, &lpTotalNumberOfFreeBytes);
+		if (isOk){
+			fileDriveInfo.freeBytes = lpFreeBytesAvailable.QuadPart;
+			fileDriveInfo.totalBytes = lpTotalNumberOfBytes.QuadPart;
+		}
+	#else
+		Q_UNUSED(fileDrivePath);
+		// TODO: Add implementation for other platforms
+	#endif
+#endif // Qt < 5.4.0
 
 	return fileDriveInfo;
 }
