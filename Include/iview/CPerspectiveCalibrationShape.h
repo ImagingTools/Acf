@@ -9,8 +9,6 @@ namespace iview
 {
 
 
-// TODO: Redesign it to ACF transformation concept.
-
 /**
 	Shape object for perspective calibration.
 	You need this shape to visualize calibration of type iview::CPerspectiveCalibration on the shape view.

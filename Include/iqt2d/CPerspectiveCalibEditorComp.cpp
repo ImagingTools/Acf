@@ -24,7 +24,7 @@ void CPerspectiveCalibEditorComp::UpdateModel() const
 
 	i2d::CMatrix2d deform(Rotation11Spin->value(), Rotation12Spin->value(), Rotation21Spin->value(), Rotation22Spin->value());
 	i2d::CVector2d translation(TranslationXSpin->value(), TranslationYSpin->value());
-	i2d::CVector2d perspective(PerspectiveXSpin->value() / 1000, PerspectiveYSpin->value() / 1000);
+	i2d::CVector2d perspective(PerspectiveXSpin->value() / 1000.0, PerspectiveYSpin->value() / 1000.0);
 
 	istd::CChangeGroup changeGroup(objectPtr);
 	Q_UNUSED(changeGroup);

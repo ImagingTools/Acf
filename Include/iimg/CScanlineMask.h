@@ -176,6 +176,8 @@ public:
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
+	void EnsureBoundingBoxValid() const;
+	void CalculateBoundingBox() const;
 	void InitFromBoudingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
 
 private:
