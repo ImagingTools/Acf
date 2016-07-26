@@ -177,7 +177,7 @@ public:
 
 protected:
 	void EnsureBoundingBoxValid() const;
-	void CalculateBoundingBox() const;
+	void CalcBoundingBox() const;
 	void InitFromBoudingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
 
 private:
@@ -203,6 +203,16 @@ inline CScanlineMask::RangesContainer& CScanlineMask::GetRangesContainer()
 inline CScanlineMask::Scanlines& CScanlineMask::GetScanLines()
 {
 	return m_scanlines;
+}
+
+
+// protected inline methods
+
+inline void CScanlineMask::EnsureBoundingBoxValid() const
+{
+	if (!m_isBoundingBoxValid){
+		CalcBoundingBox();
+	}
 }
 
 

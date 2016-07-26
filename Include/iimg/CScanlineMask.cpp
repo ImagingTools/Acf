@@ -87,7 +87,6 @@ void CScanlineMask::CreateFilled(const i2d::CRect& clipArea)
 	}
 
 	m_boundingBox = clipArea;
-
 	m_isBoundingBoxValid = true;
 }
 
@@ -636,6 +635,8 @@ void CScanlineMask::Translate(int dx, int dy)
 
 i2d::CVector2d CScanlineMask::GetCenter() const
 {
+	EnsureBoundingBoxValid();
+
 	return i2d::CRectangle(m_boundingBox).GetCenter();
 }
 
@@ -650,43 +651,7 @@ void CScanlineMask::MoveCenterTo(const i2d::CVector2d& position)
 
 i2d::CRectangle CScanlineMask::GetBoundingBox() const
 {
-	if (!m_isBoundingBoxValid){
-		istd::CIntRange rangeX = istd::CIntRange::GetInvalid();
-
-		for (int i = 0; i < int(m_scanlines.size()); ++i){
-			int containerIndex = m_scanlines[i];
-
-			if (containerIndex >= 0){
-				const istd::CIntRanges scanLine = m_rangesContainer[containerIndex];
-
-				const istd::CIntRanges::SwitchPoints& points = scanLine.GetSwitchPoints();
-
-				if (!points.empty()){
-					int minX = *points.begin();
-					int maxX = *points.rbegin();
-
-					if (rangeX.IsValid()){
-						rangeX.Unite(istd::CIntRange(minX, maxX));
-					}
-					else{
-						rangeX = istd::CIntRange(minX, maxX);
-					}
-				}
-			}
-		}
-
-		if (rangeX.IsValid()){
-			m_boundingBox.SetTop(m_firstLinePos);
-			m_boundingBox.SetLeft(rangeX.GetMinValue());
-			m_boundingBox.SetBottom(m_firstLinePos + int(m_scanlines.size()));
-			m_boundingBox.SetRight(rangeX.GetMaxValue());
-		}
-		else{
-			m_boundingBox = i2d::CRect::GetEmpty();
-		}
-
-		m_isBoundingBoxValid = true;
-	}
+	EnsureBoundingBoxValid();
 
 	return m_boundingBox;
 }
@@ -706,6 +671,7 @@ void CScanlineMask::ResetImage()
 	m_scanlines.clear();
 
 	m_boundingBox = i2d::CRect::GetEmpty();
+	m_isBoundingBoxValid = true;
 }
 
 
@@ -852,6 +818,46 @@ bool CScanlineMask::Serialize(iser::IArchive& archive)
 
 
 // protected methods
+
+void CScanlineMask::CalcBoundingBox() const
+{
+	istd::CIntRange rangeX = istd::CIntRange::GetInvalid();
+
+	for (int i = 0; i < int(m_scanlines.size()); ++i){
+		int containerIndex = m_scanlines[i];
+
+		if (containerIndex >= 0){
+			const istd::CIntRanges scanLine = m_rangesContainer[containerIndex];
+
+			const istd::CIntRanges::SwitchPoints& points = scanLine.GetSwitchPoints();
+
+			if (!points.empty()){
+				int minX = *points.begin();
+				int maxX = *points.rbegin();
+
+				if (rangeX.IsValid()){
+					rangeX.Unite(istd::CIntRange(minX, maxX));
+				}
+				else{
+					rangeX = istd::CIntRange(minX, maxX);
+				}
+			}
+		}
+	}
+
+	if (rangeX.IsValid()){
+		m_boundingBox.SetTop(m_firstLinePos);
+		m_boundingBox.SetLeft(rangeX.GetMinValue());
+		m_boundingBox.SetBottom(m_firstLinePos + int(m_scanlines.size()));
+		m_boundingBox.SetRight(rangeX.GetMaxValue());
+	}
+	else{
+		m_boundingBox = i2d::CRect::GetEmpty();
+	}
+
+	m_isBoundingBoxValid = true;
+}
+
 
 void CScanlineMask::InitFromBoudingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr)
 {
