@@ -52,6 +52,11 @@ public:
 	virtual i2d::CRect GetBoundingBox() const = 0;
 
 	/**
+		Make shape to be visible or not.
+	*/
+	virtual void SetVisible(bool state = true) = 0;
+
+	/**
 		Set color schema to draw shape.
 	*/
 	virtual void SetUserColorSchema(const IColorSchema* schemaPtr) = 0;

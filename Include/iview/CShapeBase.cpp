@@ -46,16 +46,6 @@ CShapeBase::~CShapeBase()
 }
 
 
-void CShapeBase::SetVisible(bool state)
-{
-	if (m_isVisible != state){
-		m_isVisible = state;
-
-		Invalidate();
-	}
-}
-
-
 bool CShapeBase::AssignToLayer(int layerType)
 {
 	if (m_displayPtr != NULL){
@@ -122,6 +112,16 @@ i2d::CRect CShapeBase::GetBoundingBox() const
 	}
 
 	return m_boundingBox;
+}
+
+
+void CShapeBase::SetVisible(bool state)
+{
+	if (m_isVisible != state){
+		m_isVisible = state;
+
+		Invalidate();
+	}
 }
 
 
