@@ -5,6 +5,7 @@
 #include "i2d/CAnnulusSegment.h"
 #include "i2d/CTubePolyline.h"
 #include "i2d/CArc.h"
+#include "iimg/IBitmap.h"
 #include "iview/IViewLayer.h"
 #include "iview/CAnnulusSegmentShape.h"
 #include "iview/CCircleShape.h"
@@ -13,6 +14,7 @@
 #include "iview/CTubePolylineShape.h"
 #include "iview/CLabelShape.h"
 #include "iview/CArcShape.h"
+#include "iview/CImageShape.h"
 
 
 namespace iview
@@ -146,6 +148,13 @@ CShapeBase* CSimpleShapeFactoryComp::CreateShapeInstance(const istd::IChangeable
 	const i2d::CArc* arcPtr = dynamic_cast<const i2d::CArc*>(&object);
 	if (arcPtr != NULL){
 		iview::CArcShape* objectShapePtr = new iview::CArcShape();
+
+		return objectShapePtr;
+	}
+
+	const iimg::IBitmap* imagePtr = dynamic_cast<const iimg::IBitmap*>(&object);
+	if (imagePtr != NULL){
+		iview::CImageShape* objectShapePtr = new iview::CImageShape();
 
 		return objectShapePtr;
 	}
