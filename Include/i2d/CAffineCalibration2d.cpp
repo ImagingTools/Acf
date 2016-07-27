@@ -19,7 +19,9 @@ static const istd::IChangeable::ChangeSet s_unitsChangedChangeSet(ICalibration2d
 // public methods
 
 CAffineCalibration2d::CAffineCalibration2d()
-:	m_argumentUnitInfoPtr(NULL),
+:	m_argumentAreaPtr(NULL),
+	m_resultAreaPtr(NULL),
+	m_argumentUnitInfoPtr(NULL),
 	m_resultUnitInfoPtr(NULL)
 {
 	m_transformation.Reset();
