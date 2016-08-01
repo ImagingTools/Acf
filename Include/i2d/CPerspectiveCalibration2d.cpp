@@ -20,7 +20,9 @@ static const istd::IChangeable::ChangeSet s_unitsChangedChangeSet(ICalibration2d
 
 CPerspectiveCalibration2d::CPerspectiveCalibration2d()
 :	m_argumentAreaPtr(NULL),
-	m_resultAreaPtr(NULL)
+	m_resultAreaPtr(NULL),
+	m_argumentUnitInfoPtr(NULL),
+	m_resultUnitInfoPtr(NULL)
 {
 	m_affinePart.Reset();
 	m_perspAxis.Reset();
@@ -30,7 +32,11 @@ CPerspectiveCalibration2d::CPerspectiveCalibration2d()
 
 CPerspectiveCalibration2d::CPerspectiveCalibration2d(const i2d::CAffine2d& affinePart, const i2d::CVector2d& perspectiveAxis)
 :	m_affinePart(affinePart),
-	m_perspAxis(perspectiveAxis)
+	m_perspAxis(perspectiveAxis),
+	m_argumentAreaPtr(NULL),
+	m_resultAreaPtr(NULL),
+	m_argumentUnitInfoPtr(NULL),
+	m_resultUnitInfoPtr(NULL)
 {
 	CalcTransformationFlags();
 }
