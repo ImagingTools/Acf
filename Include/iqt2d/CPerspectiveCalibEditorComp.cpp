@@ -129,6 +129,19 @@ void CPerspectiveCalibEditorComp::OnModelChanged(int /*modelId*/, const istd::IC
 
 // protected slots
 
+void CPerspectiveCalibEditorComp::on_CalibrateButton_clicked()
+{
+	Q_ASSERT(m_calibProviderCompPtr.IsValid());
+
+	const i2d::ICalibration2d* newCalibrationPtr = m_calibProviderCompPtr->GetCalibration();
+
+	i2d::CPerspectiveCalibration2d* objectPtr = GetObservedObject();
+	if ((objectPtr != NULL) && (newCalibrationPtr != NULL)){
+		objectPtr->CopyFrom(*newCalibrationPtr);
+	}
+}
+
+
 void CPerspectiveCalibEditorComp::OnParamsChanged(double /*value*/)
 {
 	DoUpdateModel();

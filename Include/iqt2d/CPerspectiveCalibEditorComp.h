@@ -42,6 +42,7 @@ protected:
 	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
 
 protected Q_SLOTS:
+	void on_CalibrateButton_clicked();
 	void OnParamsChanged(double value);
 
 private:
