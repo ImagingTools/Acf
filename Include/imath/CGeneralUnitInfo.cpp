@@ -13,11 +13,13 @@ CGeneralUnitInfo::CGeneralUnitInfo(
 			int type,
 			const QString& name,
 			double displayMultFactor,
-			const istd::CRange& range)
+			const istd::CRange& range,
+			const imath::IDoubleManip* valueManipPtr)
 :	m_type(type),
 	m_name(name),
 	m_displayMultFactor(displayMultFactor),
-	m_range(range)
+	m_range(range),
+	m_valueManipPtr(valueManipPtr)
 {
 }
 
@@ -74,6 +76,10 @@ istd::CRange CGeneralUnitInfo::GetValueRange() const
 
 const imath::IDoubleManip& CGeneralUnitInfo::GetValueManip() const
 {
+	if (m_valueManipPtr != NULL){
+		return *m_valueManipPtr;
+	}
+
 	static imath::CDoubleManip manip;
 
 	return manip;
