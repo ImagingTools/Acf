@@ -64,7 +64,10 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVers
             for (var fileIter = new Enumerator(subfolder.files); !fileIter.atEnd() ; fileIter.moveNext()) {
                 var file = fileIter.item();
 
-                if (projectExp.exec(file.Name) || projectNewExp.exec(file.Name)) {
+                var isOldProject = projectExp.exec(file.Name);
+                var isNewProject = projectNewExp.exec(file.Name);
+
+                if (isOldProject || isNewProject) {
                     // Move project to destination dir
                     var outputPath = destDir + "\\" + file.Name;
 
@@ -77,6 +80,11 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVers
 
                     while (!inputFile.AtEndOfStream) {
                         var text = inputFile.ReadLine();
+
+                        if (isOldProject && text == "\tProgramDataBaseFileName=\"\""){
+                            continue;
+                        }
+
                         var re1 = /IntermediateDirectory=\"release\\\"/g;
                         text = text.replace(re1, "InheritedPropertySheets=\"..\\..\\..\\Config\\" + vcDirName + "\\General.vsprops;..\\..\\..\\Config\\" + vcDirName + "\\Release.vsprops\"");
 
@@ -105,17 +113,7 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVers
                         }
 
                         if (qtVersions != null){
-                            if (text === "	</Globals>"){
-                                for (var versionIter = new Enumerator(qtVersions) ; !versionIter.atEnd() ; versionIter.moveNext()) {
-                                    var versionInfo = versionIter.item();
-                                    outputFile.WriteLine("		<Global");
-                                    outputFile.WriteLine("			Name=\"Qt5Version " + versionInfo.configuration + "\"");
-                                    outputFile.WriteLine("			Value=\"" + versionInfo.version + "\"");
-                                    outputFile.WriteLine("		/>");
-                                }
-                            }
-
-                            if (text === "</Project>"){
+                            if (text == "</Project>"){
                                 outputFile.WriteLine("  <ProjectExtensions>");
                                 outputFile.WriteLine("    <VisualStudio>");
                                 outputFile.Write("      <UserProperties");
@@ -128,6 +126,15 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVers
                                 outputFile.WriteLine(" />");
                                 outputFile.WriteLine("    </VisualStudio>");
                                 outputFile.WriteLine("  </ProjectExtensions>");
+                            }
+                            else if (text == "	</Globals>") {
+                                for (var versionIter = new Enumerator(qtVersions) ; !versionIter.atEnd() ; versionIter.moveNext()) {
+                                    var versionInfo = versionIter.item();
+                                    outputFile.WriteLine("		<Global");
+                                    outputFile.WriteLine("			Name=\"Qt5Version " + versionInfo.configuration + "\"");
+                                    outputFile.WriteLine("			Value=\"" + versionInfo.version + "\"");
+                                    outputFile.WriteLine("		/>");
+                                }
                             }
                         }
 
