@@ -81,7 +81,7 @@ function ProcessFolder(shell, fileSystem, folder, vcDirName, replaceDirs, qtVers
                     while (!inputFile.AtEndOfStream) {
                         var text = inputFile.ReadLine();
 
-                        if (isOldProject && text == "\tProgramDataBaseFileName=\"\""){
+                        if (isOldProject && text == "\t\t\t\tProgramDataBaseFileName=\"\""){
                             continue;
                         }
 
