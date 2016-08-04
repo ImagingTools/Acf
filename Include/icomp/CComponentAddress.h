@@ -106,7 +106,7 @@ inline bool CComponentAddress::operator<(const CComponentAddress& address) const
 
 inline uint qHash(const icomp::CComponentAddress& address, uint seed = 0)
 {
-	Q_ASSERT(seed);
+	Q_UNUSED(seed);
 
 	return qHash(address.m_packageId) + qHash(address.m_packageId);
 }
