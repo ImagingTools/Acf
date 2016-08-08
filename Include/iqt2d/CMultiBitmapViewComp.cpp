@@ -346,7 +346,7 @@ void CMultiBitmapViewComp::CSingleView::UpdateImage(const iimg::IBitmap* bitmapP
 		m_backgroundModel.ResetImage();
 	}
 	else{
-		m_backgroundModel.CopyFrom(*bitmapPtr);
+		m_backgroundModel.CopyFrom(*bitmapPtr, istd::IChangeable::CM_CONVERT);
 
 		istd::CIndex2d imageSize = bitmapPtr->GetImageSize();
 

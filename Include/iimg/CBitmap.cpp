@@ -18,6 +18,62 @@ namespace iimg
 {
 
 
+// global functions
+
+template <	typename PixelType,
+			typename WorkingType>
+bool ConvertToGrayImage(const IBitmap& inputBitmap, CBitmap& outputBitmap)
+{
+	istd::CIndex2d size = inputBitmap.GetImageSize();
+
+	if (outputBitmap.CreateBitmap(IBitmap::PF_GRAY, size)){
+		// do not copy empty image
+		if (size.IsSizeEmpty()){	
+			return true;
+		}
+
+		PixelType minValue = *(const PixelType*)inputBitmap.GetLinePtr(0);
+		PixelType maxValue = minValue;
+
+		for (int y = 0; y < size.GetY(); ++y){
+			const PixelType* inputLinePtr = (const PixelType*)inputBitmap.GetLinePtr(y);
+
+			for (int x = 0; x < size.GetX(); ++x){
+				PixelType value = inputLinePtr[x];
+
+				if (value < minValue){
+					minValue = value;
+				}
+
+				if (value > maxValue){
+					maxValue = value;
+				}
+			}
+		}
+
+		if (maxValue > minValue){
+			for (int y = 0; y < size.GetY(); ++y){
+				const PixelType* inputLinePtr = (const PixelType*)inputBitmap.GetLinePtr(y);
+				quint8* outputLinePtr = (quint8*)outputBitmap.GetLinePtr(y);
+
+				for (int x = 0; x < size.GetX(); ++x){
+					WorkingType value = inputLinePtr[x];
+
+					outputLinePtr[x] = quint8(255 * (value - minValue) / (maxValue - minValue));
+				}
+			}
+		}
+		else{
+			outputBitmap.ClearImage();
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
 CBitmap::CBitmap()
 {
 }
@@ -280,7 +336,7 @@ int CBitmap::GetSupportedOperations() const
 }
 
 
-bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
 {
 	const CBitmap* bitmapImplPtr = dynamic_cast<const CBitmap*>(&object);
 
@@ -301,23 +357,45 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 			Q_UNUSED(notifier);
 
 			istd::CIndex2d size = bitmapPtr->GetImageSize();
-			if (CreateBitmap(bitmapPtr->GetPixelFormat(), size)){
-				// do not copy empty image
-				if (size.IsSizeEmpty()){	
+
+			iimg::IBitmap::PixelFormat pixelFormat = bitmapPtr->GetPixelFormat();
+			if (IsFormatSupported(pixelFormat)){
+				if (CreateBitmap(pixelFormat, size)){
+					// do not copy empty image
+					if (size.IsSizeEmpty()){	
+						return true;
+					}
+
+					int lineBytesCount = qMin(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
+					Q_ASSERT(lineBytesCount >= 0);
+					if (lineBytesCount <= 0){
+						return false;
+					}
+
+					for (int y = 0; y < size.GetY(); ++y){
+						std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
+					}
+
 					return true;
 				}
+			}
+			else if (mode == CM_CONVERT){
+				switch (pixelFormat){
+				case PF_FLOAT32:
+					return ConvertToGrayImage<float, float>(*bitmapPtr, *this);
 
-				int lineBytesCount = qMin(GetLineBytesCount(), bitmapPtr->GetLineBytesCount());
-				Q_ASSERT(lineBytesCount >= 0);
-				if (lineBytesCount <= 0){
-					return false;
+				case PF_FLOAT64:
+					return ConvertToGrayImage<double, double>(*bitmapPtr, *this);
+
+				case PF_GRAY16:
+					return ConvertToGrayImage<quint16, quint32>(*bitmapPtr, *this);
+
+				case PF_GRAY32:
+					return ConvertToGrayImage<quint32, quint64>(*bitmapPtr, *this);
+
+				default:
+					break;
 				}
-
-				for (int y = 0; y < size.GetY(); ++y){
-					std::memcpy(GetLinePtr(y), bitmapPtr->GetLinePtr(y), lineBytesCount);
-				}
-
-				return true;
 			}
 		}
 	}

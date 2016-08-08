@@ -58,6 +58,16 @@ public:
 		PF_GRAY32,
 
 		/**
+			32-bit floating point coded bitmap (type float).
+		*/
+		PF_FLOAT32,
+
+		/**
+			64-bit floating point coded bitmap (type double).
+		*/
+		PF_FLOAT64,
+
+		/**
 			First user defined pixel format.
 		*/
 		PF_USER = 256

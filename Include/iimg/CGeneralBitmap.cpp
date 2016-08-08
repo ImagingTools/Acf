@@ -60,6 +60,16 @@ bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d&
 		pixelBitsCount = 32;
 		break;
 
+	case PF_FLOAT32:
+		componentsCount = 1;
+		pixelBitsCount = 32;
+		break;
+
+	case PF_FLOAT64:
+		componentsCount = 1;
+		pixelBitsCount = 64;
+		break;
+
 	case PF_USER:
 		break;
 
