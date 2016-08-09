@@ -128,12 +128,18 @@ int CGeneralBitmap::GetPixelBitsCount() const
 
 const void* CGeneralBitmap::GetLinePtr(int positionY) const
 {
+	Q_ASSERT(positionY >= 0);
+	Q_ASSERT(positionY < m_size.GetY());
+
 	return m_buffer.GetPtr() + m_linesDifference * positionY;
 }
 
 
 void* CGeneralBitmap::GetLinePtr(int positionY)
 {
+	Q_ASSERT(positionY >= 0);
+	Q_ASSERT(positionY < m_size.GetY());
+
 	return m_buffer.GetPtr() + m_linesDifference * positionY;
 }
 
