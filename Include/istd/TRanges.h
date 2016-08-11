@@ -692,9 +692,9 @@ void TRanges<ValueType>::Dilate(ValueType leftValue, ValueType rightValue)
 			}
 
 			// range can be moved using kernel size
-			if (leftValueCorr > 0){
+			if (rightValueCorr > 0){
 				iter = m_switchPoints.erase(iter);
-				iter = m_switchPoints.insert(iter, point - leftValueCorr);
+				iter = m_switchPoints.insert(iter, point - rightValueCorr);
 			}
 		}
 		else{
@@ -712,10 +712,10 @@ void TRanges<ValueType>::Dilate(ValueType leftValue, ValueType rightValue)
 				}
 			}
 
-			if (rightValueCorr > 0){
+			if (leftValueCorr > 0){
 				// range can be moved using kernel size
 				iter = m_switchPoints.erase(iter);
-				iter = m_switchPoints.insert(iter, point + rightValueCorr);
+				iter = m_switchPoints.insert(iter, point + leftValueCorr);
 			}
 		}
 

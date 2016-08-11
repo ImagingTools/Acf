@@ -42,6 +42,13 @@ public:
 	bool IsBitmapRegionEmpty() const;
 
 	/**
+		Get rectangle containing all active pixels.
+		If this mask is infinite, it returns \c i2d::CRect::GetInvalid() rectangle.
+		Agains the method \c GetBoundingBox() from \c i2d::IObject2d it returns integer rectangle.
+	*/
+	i2d::CRect GetBoundingRect() const;
+
+	/**
 		Set this mask to empty set for some vertical range.
 	*/
 	void ResetScanlines(const istd::CIntRange& verticalRange);
