@@ -149,6 +149,18 @@ public:
 	void Translate(int dx, int dy);
 
 	/**
+		Calculate erosion of this range list with rectangle structured element.
+		Result is stored in this object.
+	*/
+	void Erode(int leftValue, int rightValue, int topValue, int bottomValue);
+
+	/**
+		Calculate dilatation of this range list with rectangle structured element.
+		Result is stored in this object.
+	*/
+	void Dilate(int leftValue, int rightValue, int topValue, int bottomValue);
+
+	/**
 		Get access to internal range container.
 	*/
 	RangesContainer& GetRangesContainer();

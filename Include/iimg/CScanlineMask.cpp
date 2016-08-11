@@ -631,6 +631,94 @@ void CScanlineMask::Translate(int dx, int dy)
 }
 
 
+void CScanlineMask::Erode(int leftValue, int rightValue, int topValue, int bottomValue)
+{
+	CScanlineMask::Dilate(-leftValue, -rightValue, -topValue, -bottomValue);
+}
+
+
+void CScanlineMask::Dilate(int leftValue, int rightValue, int topValue, int bottomValue)
+{
+	int newScanLinesCount = int(m_scanlines.size()) + topValue + bottomValue;
+	if (newScanLinesCount <= 0){
+		ResetImage();
+
+		return;
+	}
+
+	for (		RangesContainer::Iterator lineIter = m_rangesContainer.begin();
+				lineIter != m_rangesContainer.end();
+				++lineIter){
+		istd::CIntRanges& lineRanges = *lineIter;
+
+		lineRanges.Dilate(leftValue, rightValue);
+	}
+
+	m_firstLinePos -= topValue;
+
+	int dilLines = topValue + bottomValue;
+
+	if (dilLines == 0){
+		return;
+	}
+
+	if (m_rangesContainer.size() <= 1){	// special case: rectangles
+		m_scanlines.resize(newScanLinesCount, -1);
+
+		int downCounter = 0;
+
+		for (		Scanlines::iterator iter = m_scanlines.begin();
+					iter != m_scanlines.begin();
+					++iter){
+			int rangeIndex = *iter;
+			if (rangeIndex < 0){
+				if (dilLines > 0){
+					if (downCounter-- > 0){
+						*iter = 0;	// set the range
+					}
+				}
+				else{
+					downCounter = -dilLines;
+				}
+			}
+			else{
+				if (dilLines > 0){
+					downCounter = dilLines;
+				}
+				else{
+					if (downCounter-- > 0){
+						*iter = -1;	// remove the range
+					}
+				}
+			}
+		}
+
+		return;
+	}
+
+	if (dilLines > 0){
+		int restDilLines = dilLines;
+
+		for (int shiftY = 1; restDilLines > 0; shiftY <<= 1, restDilLines -= shiftY){
+			CScanlineMask shiftedMask;
+			GetTranslated(0, qMin(shiftY, restDilLines), shiftedMask);
+
+			Union(shiftedMask);
+		}
+	}
+	else{
+		int restErodeLines = -dilLines;
+
+		for (int shiftY = 1; restErodeLines > 0; shiftY <<= 1, restErodeLines -= shiftY){
+			CScanlineMask shiftedMask;
+			GetTranslated(0, qMin(shiftY, restErodeLines), shiftedMask);
+
+			Intersection(shiftedMask);
+		}
+	}
+}
+
+
 // reimplemented (i2d::IObject2d)
 
 i2d::CVector2d CScanlineMask::GetCenter() const
