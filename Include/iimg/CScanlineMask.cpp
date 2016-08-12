@@ -734,7 +734,7 @@ void CScanlineMask::Dilate(int leftValue, int rightValue, int topValue, int bott
 	else{
 		int restErodeLines = -dilLines;
 
-		for (int shiftY = 1; restErodeLines > 0; shiftY <<= 1, restErodeLines -= shiftY){
+		for (int shiftY = 1; restErodeLines > 0; restErodeLines -= shiftY, shiftY <<= 1){
 			CScanlineMask shiftedMask;
 			GetTranslated(0, -qMin(shiftY, restErodeLines), shiftedMask);
 
