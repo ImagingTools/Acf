@@ -127,6 +127,8 @@ void CSelectionParamGuiComp::OnModelChanged(int /*modelId*/, const istd::IChange
 
 	if (!IsUpdateBlocked() && IsModelAttached()){
 		UpdateBlocker updateBlocker(this);
+
+		UpdateCompletionModel();
 		
 		UpdateGui(istd::IChangeable::GetAllChanges());
 	}
@@ -241,6 +243,16 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 		else{
 			switchBoxPtr = new QComboBox(SelectionFrame);
 			switchBoxPtr->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+			if (*m_useCompleterAttrPtr){
+				switchBoxPtr->setEditable(true);
+
+				QCompleter* completer = new QCompleter(switchBoxPtr);
+				completer->setModel(&m_completionModel);
+				completer->setCompletionMode(QCompleter::PopupCompletion);
+				completer->setCaseSensitivity(Qt::CaseInsensitive);
+				switchBoxPtr->lineEdit()->setCompleter(completer);
+			}
 
 			m_comboBoxes.PushBack(switchBoxPtr);
 
@@ -547,6 +559,29 @@ QPixmap CSelectionParamGuiComp::GetInfoIcon() const
 	}
 
 	return infoIconPixmap;
+}
+
+
+void CSelectionParamGuiComp::UpdateCompletionModel()
+{
+	m_completionModel.clear();
+	m_completionModel.setColumnCount(1);
+
+	iprm::ISelectionParam* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		const iprm::IOptionsList* constraintsPtr = objectPtr->GetSelectionConstraints();
+		if (constraintsPtr != NULL){
+			int optionsCount = constraintsPtr->GetOptionsCount();
+			for (int i = 0; i < optionsCount; ++i){
+				QStandardItem* item = new QStandardItem;
+				item->setColumnCount(1);
+				item->setData(constraintsPtr->GetOptionName(i), Qt::EditRole);
+				item->setData(constraintsPtr->GetOptionName(i), Qt::DisplayRole);
+
+				m_completionModel.appendRow(item);
+			}
+		}
+	}
 }
 
 

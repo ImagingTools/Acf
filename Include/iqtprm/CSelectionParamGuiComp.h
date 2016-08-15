@@ -4,14 +4,19 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
+#include <QtGui/QStandardItemModel>
 #if QT_VERSION >= 0x050000
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QCompleter>
 #else
+#include <QtGui/QLineEdit>
 #include <QtGui/QComboBox>
 #include <QtGui/QRadioButton>
 #include <QtGui/QPushButton>
+#include <QtGui/QCompleter>
 #endif
 
 // ACF includes
@@ -98,6 +103,7 @@ public:
 		I_ASSIGN(m_disableWhenEmptyAttrPtr, "DisableWhenEmpty", "Disable the control when no Option is available", true, false);
 		I_ASSIGN(m_noSelectionAllowedAttrPtr, "NoSelectionAllowed", "Allow the control to reset current index (i.e. set to -1)", true, false);
 		I_ASSIGN(m_fillWithDisabledOptionsEnabledAttrPtr, "FillWithDisabledOptionsEnabled", "Fill combo box also with disabled options, if enabled", true, false);
+		I_ASSIGN(m_useCompleterAttrPtr, "UseCompleter", "Enable completer for combo box", true, false);
 	I_END_COMPONENT;
 
 protected:
@@ -129,6 +135,7 @@ private:
 	iprm::ISelectionParam* GetActiveSubselection(const iprm::ISelectionParam* selectionPtr) const;
 	void SetupInfoLabelIcon(QLabel& label);
 	QPixmap GetInfoIcon() const;
+	void UpdateCompletionModel();
 
 private:
 	I_ATTR(QString, m_optionsLabelAttrPtr);
@@ -142,6 +149,7 @@ private:
 	I_ATTR(bool, m_disableWhenEmptyAttrPtr);
 	I_ATTR(bool, m_noSelectionAllowedAttrPtr);
 	I_ATTR(bool, m_fillWithDisabledOptionsEnabledAttrPtr);
+	I_ATTR(bool, m_useCompleterAttrPtr);
 
 	class RadioButtonWidget: public QFrame
 	{
@@ -168,6 +176,8 @@ private:
 	istd::TPointerVector<QButtonGroup> m_radioButtonGroups;
 	istd::TDelPtr<QFrame> m_radioButtonFramePtr;
 	QPushButton* m_resetButtonWidget;
+
+	QStandardItemModel m_completionModel;
 };
 
 
