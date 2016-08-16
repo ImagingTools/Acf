@@ -31,6 +31,7 @@ class CScanlineMask:
 			virtual public IRasterImage
 {
 public:
+	typedef i2d::CObject2dBase BaseClass;
 	typedef QList<istd::CIntRanges> RangesContainer;
 	typedef std::vector<int> Scanlines;	// Index of container element for each scan line, negative value for empty element
 
@@ -193,6 +194,11 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+	// reimplemented (istd::IChangeable)
+	virtual int GetSupportedOperations() const;
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
 	void EnsureBoundingBoxValid() const;

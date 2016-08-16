@@ -930,6 +930,33 @@ bool CScanlineMask::Serialize(iser::IArchive& archive)
 }
 
 
+int CScanlineMask::GetSupportedOperations() const
+{
+	return SO_COPY | SO_RESET;
+}
+
+
+bool CScanlineMask::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
+{
+	const CScanlineMask* maskPtr = dynamic_cast<const CScanlineMask*>(&object);
+	if ((maskPtr != NULL) && ((mode != CM_CONVERT) || (GetCalibration() == maskPtr->GetCalibration()))){
+		*this = *maskPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CScanlineMask::ResetData(CompatibilityMode /*mode*/)
+{
+	ResetImage();
+
+	return true;
+}
+
+
 // protected methods
 
 void CScanlineMask::CalcBoundingBox() const
