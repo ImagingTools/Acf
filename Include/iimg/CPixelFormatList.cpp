@@ -136,6 +136,19 @@ bool CPixelFormatList::IsOptionEnabled(int index) const
 }
 
 
+// static methods
+
+const CPixelFormatList& CPixelFormatList::GetInstance()
+{
+	return s_instance;
+}
+
+
+// static attributes
+
+CPixelFormatList CPixelFormatList::s_instance;
+
+
 } // namespace iimg
 
 

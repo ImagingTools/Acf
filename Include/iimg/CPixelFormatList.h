@@ -28,8 +28,13 @@ public:
 	virtual QByteArray GetOptionId(int index) const;
 	virtual bool IsOptionEnabled(int index) const;
 
+	// static methods
+	static const CPixelFormatList& GetInstance();
+
 private:
 	ActiveFormats m_activeFormats;
+
+	static CPixelFormatList s_instance;
 };
 
 
