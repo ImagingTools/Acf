@@ -249,27 +249,36 @@ bool CGeneralBitmap::CreateBitmap(
 		return false;
 	}
 
-	istd::CChangeNotifier notifier(this);
+	if ((size == m_size) && (pixelBitsCount == m_pixelBitsCount) && (componentsCount == m_componentsCount) && (pixelFormat = m_pixelFormat)){
+		return true;	// nothing to do
+	}
 
-	m_linesDifference = (pixelBitsCount * size.GetX() + 7) >> 3;
-	Q_ASSERT(m_linesDifference >= 0);
+	int oldBufferSize = m_linesDifference * size.GetY();
+
+	int linesDifference = (pixelBitsCount * size.GetX() + 7) >> 3;
+	Q_ASSERT(linesDifference >= 0);
+	int bufferSize = linesDifference * size.GetY();
+
+	istd::CChangeNotifier notifier(this);
 
 	m_size = size;
 	m_pixelBitsCount = pixelBitsCount;
 	m_componentsCount = componentsCount;
 	m_pixelFormat = pixelFormat;
+	m_linesDifference = linesDifference;
 
-	int bufferSize = m_linesDifference * size.GetY();
-	if (bufferSize > 0){
-		m_buffer.SetPtr(new quint8[bufferSize], true);
+	if (oldBufferSize != bufferSize){
+		if (bufferSize > 0){
+			m_buffer.SetPtr(new quint8[bufferSize], true);
 
-		return m_buffer.IsValid();
+			return m_buffer.IsValid();
+		}
+		else{
+			m_buffer.Reset();
+		}
 	}
-	else{
-		m_buffer.Reset();
 
-		return true;
-	}
+	return true;
 }
 
 
