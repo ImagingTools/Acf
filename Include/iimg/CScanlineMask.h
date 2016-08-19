@@ -107,6 +107,13 @@ public:
 	void CreateFromTube(const i2d::CTubePolyline& tube, const i2d::CRect* clipAreaPtr = NULL);
 
 	/**
+		Get inverted mask.
+		\param	clipArea	clipping area.
+		\param	result		result object, will be filled with inverted mask.
+	*/
+	void GetInverted(const i2d::CRect& clipArea, CScanlineMask& result) const;
+
+	/**
 		Get union of two masks.
 	*/
 	CScanlineMask GetUnion(const CScanlineMask& mask) const;

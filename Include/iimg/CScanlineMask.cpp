@@ -138,10 +138,10 @@ bool CScanlineMask::CreateFromGeometry(const i2d::IObject2d& geometry, const i2d
 
 	const CScanlineMask* scanLinePtr = dynamic_cast<const CScanlineMask*>(&geometry);
 	if (scanLinePtr != NULL){
-		if ((clipAreaPtr != NULL) && scanLinePtr->GetBoundingRect().IsOutside(*clipAreaPtr)){
+		if ((clipAreaPtr != NULL) && !clipAreaPtr->IsInside(scanLinePtr->GetBoundingRect())){
 			// we need to clip
 			CreateFilled(*clipAreaPtr);
-			scanLinePtr->GetIntersection(*this);
+			Intersection(*scanLinePtr);
 		}
 		else{
 			// we dont need to clip
@@ -475,6 +475,44 @@ void CScanlineMask::CreateFromTube(const i2d::CTubePolyline& tube, const i2d::CR
 }
 
 
+void CScanlineMask::GetInverted(const i2d::CRect& clipArea, CScanlineMask& result) const
+{
+	result.m_rangesContainer.clear();
+	result.m_scanlines.clear();
+	result.m_firstLinePos = 0;
+	result.m_isBoundingBoxValid = false;
+
+	if (clipArea.IsEmpty()){
+		return;
+	}
+
+	int scanLinesCount = clipArea.GetHeight();
+	result.m_scanlines.resize(scanLinesCount, 0);
+	result.m_firstLinePos = clipArea.GetTop();
+
+	istd::CIntRanges fullRange(clipArea.GetHorizontalRange());
+
+	result.m_rangesContainer.push_back(fullRange);
+
+	for (int scanLineIndex = 0; scanLineIndex < scanLinesCount; ++scanLineIndex){
+		const istd::CIntRanges* lineRangesPtr = this->GetPixelRanges(clipArea.GetTop() + scanLineIndex);
+		if (lineRangesPtr != NULL){
+			istd::CIntRanges invRanges;
+			lineRangesPtr->GetInverted(invRanges, &clipArea.GetHorizontalRange());
+			if (invRanges.IsEmpty()){
+				result.m_scanlines[scanLineIndex] = -1;
+				continue;
+			}
+
+			if (invRanges != fullRange){
+				result.m_rangesContainer.push_back(invRanges);
+				result.m_scanlines[scanLineIndex] = result.m_rangesContainer.size() - 1;
+			}
+		}
+	}
+}
+
+
 CScanlineMask CScanlineMask::GetUnion(const CScanlineMask& mask) const
 {
 	CScanlineMask result;
@@ -724,7 +762,7 @@ void CScanlineMask::Dilate(int leftValue, int rightValue, int topValue, int bott
 	if (dilLines > 0){
 		int restDilLines = dilLines;
 
-		for (int shiftY = 1; restDilLines > 0; shiftY <<= 1, restDilLines -= shiftY){
+		for (int shiftY = 1; restDilLines > 0; restDilLines -= shiftY, shiftY <<= 1){
 			CScanlineMask shiftedMask;
 			GetTranslated(0, qMin(shiftY, restDilLines), shiftedMask);
 
