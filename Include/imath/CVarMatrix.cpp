@@ -6,10 +6,8 @@
 
 // ACF includes
 #include "istd/CChangeNotifier.h"
-
 #include "iser/IArchive.h"
 #include "iser/CArchiveTag.h"
-
 #include "imath/CVarVector.h"
 
 
@@ -288,7 +286,7 @@ bool CVarMatrix::GetTriangleDecomposed(
 
 		double element0 = result[istd::CIndex2d(hhIndex, hhIndex)];
 
-		double hhLength = (element0 >= 0)? qSqrt(hhNorm2): -sqrt(hhNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
+		double hhLength = (element0 >= 0)? qSqrt(hhNorm2): -qSqrt(hhNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
 
 		double hhVector0 = element0 + hhLength;	// element 0 of householder vector, rest of ist will be taken directly from matrix elements
 		double hhVectorNorm2 = hhNorm2 + hhVector0 * hhVector0 - element0 * element0;	// sqare of norm of householder vector, first element replaced from original column norm sqare
@@ -583,7 +581,7 @@ void CVarMatrix::SolveRobustLSP(CVarMatrix matrixA, CVarMatrix& matrixY, CVarMat
 
 		double element0 = matrixA[istd::CIndex2d(realColumnIndex, stepIndex)];
 
-		double hhLength = (element0 >= 0)? qSqrt(maxNorm2): -sqrt(maxNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
+		double hhLength = (element0 >= 0)? qSqrt(maxNorm2): -qSqrt(maxNorm2);	// destination diagonal value of current processed column, sign is choosen optimal for maximal householder vector length
 
 		double hhVector0 = element0 + hhLength;	// element 0 of householder vector, rest of ist will be taken directly from matrix elements
 		double hhVectorNorm2 = maxNorm2 + hhVector0 * hhVector0 - element0 * element0;	// sqare of norm of householder vector, first element replaced from original column norm sqare
