@@ -389,7 +389,7 @@ CSystem::FileDriveInfo CSystem::GetFileDriveInfo(const QString& fileDrivePath)
 
 #if QT_VERSION >= 0x050400
 	QStorageInfo storageInfo(fileDrivePath);
-	fileDriveInfo.totalBytes = storageInfo.bytesAvailable();
+	fileDriveInfo.totalBytes = storageInfo.bytesTotal();
 	fileDriveInfo.freeBytes = storageInfo.bytesFree();
 #else
 	// TODO: Remove this code after switching to Qt 5.5,
