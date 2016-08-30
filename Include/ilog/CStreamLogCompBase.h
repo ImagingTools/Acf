@@ -26,6 +26,7 @@ public:
 		I_ASSIGN(m_useCategoryAttrPtr, "UseCategory", "Use error category for the messsages (e.g warning or error)", true, true);
 		I_ASSIGN(m_useCodeAttrPtr, "UseCode", "Use error code for the messsages", true, true);
 		I_ASSIGN(m_useTimeStampAttrPtr, "UseTimeStamp", "Use time stamp for the messsages", true, false);
+		I_ASSIGN(m_timeFormatAttrPtr, "TimeFormat", "Format used for timestamp output", false, "dd.MM hh:mm:ss:zzz");
 	I_END_COMPONENT;
 
 	CStreamLogCompBase();
@@ -71,6 +72,7 @@ private:
 	I_ATTR(bool, m_useCategoryAttrPtr);
 	I_ATTR(bool, m_useCodeAttrPtr);
 	I_ATTR(bool, m_useTimeStampAttrPtr);
+	I_ATTR(QByteArray, m_timeFormatAttrPtr); 
 
 	bool m_isLastDotShown;
 	istd::IInformationProvider::InformationCategory m_lastDotCategory;

@@ -85,7 +85,14 @@ QString CStreamLogCompBase::GenerateMessageText(const istd::IInformationProvider
 	}
 
 	if (*m_useTimeStampAttrPtr){
-		QString timeStampText = message.GetInformationTimeStamp().toString();
+		QString timeStampText;
+
+		if (m_timeFormatAttrPtr.IsValid()){
+			timeStampText = message.GetInformationTimeStamp().toString((*m_timeFormatAttrPtr).constData());
+		}
+		else{
+			timeStampText = message.GetInformationTimeStamp().toString();
+		}
 
 		messageText += "[" + timeStampText + "] ";
 	}
