@@ -105,7 +105,7 @@ protected:
 	virtual void OnCopyData();
 	virtual void OnPasteData();
 
-	// delegated from QAbstractTableModel
+	// pseudo-reimplemented (QAbstractTableModel)
 	virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
@@ -134,30 +134,11 @@ protected:
 	using BaseClass::GetQtWidget;
 	using BaseClass::RemoveButton;
 	using BaseClass::InsertButton;
-    using BaseClass::ToolsButton;
+	using BaseClass::ToolsButton;
 
-	/**
-		Internal item delegate class for input validation
-	*/
-/*	class CPolygonParamsGuiItemDelegate: public QItemDelegate
-	{
-	public:
-		CPolygonParamsGuiItemDelegate(QObject* parent): QItemDelegate(parent)
-		{
-		}
-
-		virtual QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex&) const
-		{
-			QLineEdit* editorPtr = new QLineEdit(parent);
-			editorPtr->setValidator(new QDoubleValidator(editorPtr));
-			return editorPtr;
-		}
-	}; // CPolygonParamsGuiItemDelegate
-*/
 protected:
 	I_ATTR(int, m_nodeListSizeAttrPtr);
 
-	// actions
 	QAction m_flipHorizontalAction;
 	QAction m_flipVerticalAction;
 	QAction m_rotateCwAction;
@@ -267,7 +248,6 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnRemoveN
 {
 	i2d::CPolygon* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
-
 		QItemSelectionModel *select = NodeParamsTable->selectionModel();
 		QModelIndexList selected = select->selectedRows();
 
@@ -279,12 +259,13 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnRemoveN
 }
 
 
-// delegated from QAbstractTableModel
+// psuedo-reimplemented (QAbstractTableModel)
 
 template <class PolygonBasedShape, class PolygonBasedModel>
 int TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::rowCount(const QModelIndex& /*parent*/) const
 {
 	int retVal = 0;
+
 	i2d::CPolygon* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
 		retVal = objectPtr->GetNodesCount();
@@ -309,8 +290,9 @@ QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::data(
 		i2d::CPolygon* objectPtr = GetObservedObject();
 		if ((objectPtr != NULL) && (index.column() <= 1) && (index.column() >= 0)){
 			retVal = objectPtr->GetNodePos(index.row());
+
 			return retVal[index.column()];
-		}		
+		}
 	}
 
 	return QVariant();
@@ -394,10 +376,6 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 #else
 		NodeParamsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #endif
-
-//		CPolygonParamsGuiItemDelegate* columnDelegate = new CPolygonParamsGuiItemDelegate(NodeParamsTable);
-//		NodeParamsTable->setItemDelegateForColumn(0, columnDelegate);
-//		NodeParamsTable->setItemDelegateForColumn(1, columnDelegate);
 	}
 
 	// tools actions
