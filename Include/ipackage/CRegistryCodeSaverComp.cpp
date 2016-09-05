@@ -248,7 +248,7 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 					else{
 						SendErrorMessage(
 									MI_UNDEFINED_COMPONENT,
-									QObject::tr("%1: Composite component '%1' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
+									QObject::tr("%1: Composite component '%2' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
 
 						return false;
 					}
@@ -276,7 +276,7 @@ bool CRegistryCodeSaverComp::AppendAddresses(
 			else{
 				SendErrorMessage(
 						MI_UNDEFINED_COMPONENT,
-						QObject::tr("%1: Composite component '%2' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
+						QObject::tr("%1: Embedded component '%2' is undefined").arg(componentPath.join("/")).arg(infoPtr->address.ToString()));
 
 				return false;
 			}
