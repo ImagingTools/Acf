@@ -111,6 +111,7 @@ protected:
 	virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 	virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -356,6 +357,13 @@ QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::heade
 }
 
 
+template <class PolygonBasedShape, class PolygonBasedModel>
+Qt::ItemFlags TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::flags(const QModelIndex& /*index*/) const
+{
+	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
+
 // reimplemented (iqtgui::CGuiComponentBase)
 
 template <class PolygonBasedShape, class PolygonBasedModel>
@@ -550,9 +558,13 @@ QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::Table
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-Qt::ItemFlags TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::TableModel::flags(const QModelIndex& /*index*/) const
+Qt::ItemFlags TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::TableModel::flags(const QModelIndex& index) const
 {
-	return Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+	if (m_parentPtr != NULL){
+		return m_parentPtr->flags(index);
+	}
+
+	return Qt::ItemIsSelectable;
 }
 
 
