@@ -21,8 +21,7 @@ namespace iqtgui
 
 CGuiComponentBase::CGuiComponentBase()
 :	m_widgetPtr(NULL),
-	m_isGuiShown(false),
-	m_languageChangeEventFilter(*this)
+	m_isGuiShown(false)
 {
 }
 
@@ -66,11 +65,7 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 
 			m_widgetPtr->installEventFilter(this);
 
-			QCoreApplication* applicationPtr = QCoreApplication::instance();
-			Q_ASSERT(applicationPtr != NULL);
-			if (applicationPtr != NULL){
-				applicationPtr->installEventFilter(&m_languageChangeEventFilter);
-			}
+			EnableLocalization(true);
 
 			MakeAutoSlotConnection();
 
@@ -105,6 +100,8 @@ bool CGuiComponentBase::DestroyGui()
 {
 	if (m_widgetPtr != NULL){
 		OnGuiDestroyed();
+
+		EnableLocalization(false);
 
 		m_widgetPtr->deleteLater();
 
@@ -179,6 +176,18 @@ void CGuiComponentBase::SetStatusText(const QString& text)
 }
 
 
+// reimplemented (ibase::TLocalizableWrap)
+
+void CGuiComponentBase::OnLanguageChanged()
+{
+	OnRetranslate();
+
+	if (IsGuiCreated()){
+		OnGuiRetranslate();
+	}
+}
+
+
 // reimplemented (QObject)
 
 bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
@@ -233,11 +242,6 @@ bool CGuiComponentBase::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 void CGuiComponentBase::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
-
-	QCoreApplication* applicationPtr = QCoreApplication::instance();
-	if (applicationPtr != NULL){
-		applicationPtr->installEventFilter(&m_languageChangeEventFilter);
-	}
 
 	if (m_defaultStatusIconPathAttrPtr.IsValid()){
 		m_visualStatus.m_statusIcon = QIcon(*m_defaultStatusIconPathAttrPtr);
@@ -310,32 +314,6 @@ void CGuiComponentBase::MakeAutoSlotConnection()
 			qWarning("QMetaObject::connectSlotsByName: No matching signal for %s", slot);
 		}
 	}
-}
-
-
-// public methods of the embedded class LanguageChangeEventFilter
-
-CGuiComponentBase::LanguageChangeEventFilter::LanguageChangeEventFilter(CGuiComponentBase& parent)
-:	m_parent(parent)
-{
-}
-
-
-// 	protected methods
-
-// reimplemented (QObject)
-
-bool CGuiComponentBase::LanguageChangeEventFilter::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
-{
-	if ((eventPtr->type() == QEvent::LanguageChange) && (sourcePtr == &m_parent)){
-		m_parent.OnRetranslate();
-
-		if (m_parent.IsGuiCreated()){
-			m_parent.OnGuiRetranslate();
-		}
-	}
-
-	return BaseClass::eventFilter(sourcePtr, eventPtr);
 }
 
 

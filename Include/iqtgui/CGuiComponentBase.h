@@ -8,9 +8,8 @@
 
 // ACF includes
 #include "imod/TModelWrap.h"
-
 #include "icomp/CComponentBase.h"
-
+#include "ibase/TLocalizableWrap.h"
 #include "iqtgui/IGuiObject.h"
 #include "iqtgui/IVisualStatus.h"
 
@@ -24,7 +23,7 @@ namespace iqtgui
 */
 class CGuiComponentBase:
 			public QObject, 
-			public icomp::CComponentBase,
+			public ibase::TLocalizableWrap<icomp::CComponentBase>,
 			virtual public IGuiObject
 {
 public:
@@ -120,6 +119,9 @@ protected:
 	*/
 	void SetStatusText(const QString& text);
 
+	// reimplemented (ibase::TLocalizableWrap)
+	virtual void OnLanguageChanged();
+
 	// reimplemented (QObject)
 	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
 
@@ -138,21 +140,6 @@ protected:
 private:
 	void MakeAutoSlotConnection();
 
-	class LanguageChangeEventFilter: public QObject
-	{
-	public:
-		typedef QObject BaseClass;
-
-		LanguageChangeEventFilter(CGuiComponentBase& parent);
-
-	protected:
-		// reimplemented (QObject)
-		virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
-	
-	private:
-		CGuiComponentBase& m_parent;
-	};
-
 	I_ATTR(QString, m_defaultStatusIconPathAttrPtr);
 	I_ATTR(QString, m_defaultStatusTextAttrPtr);
 	I_ATTR(QString, m_styleSheetPathAttrPtr);
@@ -162,7 +149,6 @@ private:
 
 	QWidget* m_widgetPtr;
 	bool m_isGuiShown;
-	LanguageChangeEventFilter m_languageChangeEventFilter;
 
 	QIcon m_defaultStatusIcon;
 
