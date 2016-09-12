@@ -295,9 +295,7 @@ void CExtComposedParamsSetGuiComp::OnGuiModelDetached()
 
 	iqt::CSignalBlocker blocker(GetPageContainerWidget());
 
-	for (int pageIndex = 0; pageIndex < GetPagesCount(); ++pageIndex){
-		RemovePage(pageIndex);
-	}
+	ResetPages();
 
 	m_connectedEditorsMap.clear();
 
