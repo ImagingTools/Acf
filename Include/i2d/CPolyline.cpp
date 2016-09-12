@@ -98,10 +98,10 @@ i2d::CVector2d CPolyline::GetKneeVector(int nodeIndex) const
 
 	i2d::CVector2d kneeVector;
 
-	double dotProduct = prevNormal.GetDotProduct(nextNormal);
+	double factor = prevNormal.GetDotProduct(nextNormal) + 1;
 
-	if (dotProduct > -1.0){
-		kneeVector = (prevNormal + nextNormal) / (1 + dotProduct);
+	if (factor > I_BIG_EPSILON){
+		kneeVector = (prevNormal + nextNormal) / factor;
 	}
 	else{
 		kneeVector = i2d::CVector2d(1, 0);
