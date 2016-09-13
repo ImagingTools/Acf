@@ -69,6 +69,23 @@ void CTabContainerGuiComp::OnGuiCreated()
 }
 
 
+void CTabContainerGuiComp::OnGuiDestroyed()
+{
+	if (m_cornerGuiCompPtr.IsValid()){
+		iwidgets::CMultiPageWidget* widgetPtr = dynamic_cast<iwidgets::CMultiPageWidget*>(GetWidget());
+		Q_ASSERT(widgetPtr != NULL);
+		QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(widgetPtr->GetContainerWidgetPtr());
+		if (tabWidgetPtr != NULL){
+			tabWidgetPtr->setCornerWidget(NULL);
+		}
+
+		if (m_cornerGuiCompPtr->IsGuiCreated()){
+			m_cornerGuiCompPtr->DestroyGui();
+		}
+	}
+}
+
+
 } // namespace iqtgui
 
 
