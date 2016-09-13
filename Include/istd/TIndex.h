@@ -547,6 +547,21 @@ template <int Dimensions>
 TIndex<Dimensions> TIndex<Dimensions>::s_invalidInstance(-1);
 
 
+// related global functions
+
+template <int Dimensions>
+inline uint qHash(const TIndex<Dimensions>& key, uint seed = 0)
+{
+	uint retVal;
+
+	for (int i = 0; i < Dimensions; ++i){
+		retVal ^= ::qHash(key[i], seed);
+	}
+
+	return retVal;
+}
+
+
 } // namespace istd
 
 
