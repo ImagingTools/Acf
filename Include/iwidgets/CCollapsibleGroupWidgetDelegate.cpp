@@ -38,8 +38,9 @@ CCollapsibleGroupWidgetDelegate::CCollapsibleGroupWidgetDelegate()
 // reimplemented (iwidgets::IMultiPageWidgetDelegate)
 
 QWidget* CCollapsibleGroupWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, int containerGuiFlags, int orientation)
-{	
+{
 	QScrollArea* scrollAreaPtr = new QScrollArea(parentWidgetPtr);
+	scrollAreaPtr->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	scrollAreaPtr->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	scrollAreaPtr->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	scrollAreaPtr->setWidgetResizable(true);
@@ -102,7 +103,10 @@ int CCollapsibleGroupWidgetDelegate::InsertPage(
 	QLayout* containerLayoutPtr = containerWidgetPtr->layout();
 	Q_ASSERT(containerLayoutPtr != NULL);
 
+	bool even = ((containerLayoutPtr->count()) % 2) == 0;
+
 	CCollapsiblePage* groupPanelPtr = new CCollapsiblePage(containerWidgetPtr);
+	groupPanelPtr->setProperty("IsAlternating", QVariant(even));
 	groupPanelPtr->SetTitle(pageTitle);
 	groupPanelPtr->SetWidget(pageWidgetPtr);
 	groupPanelPtr->SetIconSize(m_iconSize);
@@ -123,9 +127,17 @@ int CCollapsibleGroupWidgetDelegate::InsertPage(
 				boxLayoutPtr->setStretchFactor(widgetPtr, 1);
 			}
 		}
+
+		if (layoutItemPtr->spacerItem()){
+			boxLayoutPtr->removeItem(layoutItemPtr);
+			--elementsCount;
+			--i;
+		}
 	}
 
-	return containerLayoutPtr->count() - 1;
+	boxLayoutPtr->addStretch();
+
+	return containerLayoutPtr->count() - 2;
 }
 
 
@@ -159,7 +171,6 @@ void CCollapsibleGroupWidgetDelegate::ResetPages(QWidget& containerWidget)
 }
 
 
-
 int CCollapsibleGroupWidgetDelegate::GetPagesCount(const QWidget& containerWidget) const
 {
 	const QScrollArea* scrollAreaPtr = dynamic_cast<const QScrollArea*>(&containerWidget);
@@ -171,7 +182,7 @@ int CCollapsibleGroupWidgetDelegate::GetPagesCount(const QWidget& containerWidge
 	QLayout* containerLayoutPtr = containerWidgetPtr->layout();
 	Q_ASSERT(containerLayoutPtr != NULL);
 
-	return containerLayoutPtr->count();
+	return containerLayoutPtr->count() - 1;
 }
 
 
