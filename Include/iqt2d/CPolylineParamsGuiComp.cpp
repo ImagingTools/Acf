@@ -19,6 +19,42 @@ void CPolylineParamsGuiComp::UpdateModel() const
 }
 
 
+// reimplemented (iqt2d::TShapeParamsGuiCompBase)
+
+bool CPolylineParamsGuiComp::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
+{
+	if (BaseClass::PopulateActions(host, modelPtr)){
+		host.AddAction(m_openCloseAction);
+
+		return true;
+	}
+
+	return false;
+}
+
+
+iview::CInteractiveShapeBase* CPolylineParamsGuiComp::CreateShapeInstance() const
+{
+	iview::CPolylineShape* shapePtr = new iview::CPolylineShape();
+
+	if (*m_showOrientationAttrPtr){
+		shapePtr->SetOrientationVisible(true);
+	}
+
+	return shapePtr;
+}
+
+
+// reimplemented (iqtgui::CGuiComponentBase)
+
+void CPolylineParamsGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	m_openCloseAction.setText(tr("Open/close line"));
+}
+
+
 // protected slots
 
 void CPolylineParamsGuiComp::OnParamsChanged()
@@ -53,18 +89,6 @@ void CPolylineParamsGuiComp::on_PasteButton_clicked()
 
 // reimplemented (iqt2d::TShapeParamsGuiCompBase)
 
-bool CPolylineParamsGuiComp::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
-{
-	if (BaseClass::PopulateActions(host, modelPtr)){
-		host.AddAction(m_openCloseAction);
-
-		return true;
-	}
-
-	return false;
-}
-
-
 void CPolylineParamsGuiComp::OnActionTriggered(QAction* actionPtr)
 {
 	if (actionPtr == &m_openCloseAction){
@@ -80,26 +104,6 @@ void CPolylineParamsGuiComp::OnActionTriggered(QAction* actionPtr)
 }
 
 
-iview::CInteractiveShapeBase* CPolylineParamsGuiComp::CreateShapeInstance() const
-{
-	iview::CPolylineShape* shapePtr = new iview::CPolylineShape();
-
-	if (*m_showOrientationAttrPtr){
-		shapePtr->SetOrientationVisible(true);
-	}
-
-	return shapePtr;
-}
-
-
-// reimplemented (iqtgui::CGuiComponentBase)
-
-void CPolylineParamsGuiComp::OnGuiRetranslate()
-{
-	BaseClass::OnGuiRetranslate();
-
-	m_openCloseAction.setText(tr("Open/close line"));
-}
 
 
 } // namespace iqt2d
