@@ -24,6 +24,12 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId, bool allo
 		}
 		break;
 
+	case AA_PRODUCT_EDITION:
+		if (m_productEditionAttrPtr.IsValid()){
+			return allowTranslation? *m_productEditionAttrPtr: m_productEditionAttrPtr.GetOriginalValue();
+		}
+		break;
+
 	case AA_APPLICATION_NAME:
 		if (m_applicationNameAttrPtr.IsValid()){
 			return allowTranslation? *m_applicationNameAttrPtr: m_applicationNameAttrPtr.GetOriginalValue();
@@ -65,7 +71,7 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId, bool allo
 		break;
 	}
 
-	return "";
+	return QString();
 }
 
 
