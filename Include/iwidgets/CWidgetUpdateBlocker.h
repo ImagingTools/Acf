@@ -18,7 +18,6 @@ public:
 
 private:
 	QWidget* m_widgetPtr;
-	bool m_updatesEnabled;
 };
 
 
@@ -29,14 +28,13 @@ inline CWidgetUpdateBlocker::CWidgetUpdateBlocker(QWidget* widgetPtr)
 {
 	Q_ASSERT(widgetPtr != NULL);
 
-	m_updatesEnabled = m_widgetPtr->updatesEnabled();
 	m_widgetPtr->setUpdatesEnabled(false);
 }
 
 
 inline CWidgetUpdateBlocker::~CWidgetUpdateBlocker()
 {
-	m_widgetPtr->setUpdatesEnabled(m_updatesEnabled);
+	m_widgetPtr->setUpdatesEnabled(true);
 }
 
 
