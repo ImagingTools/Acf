@@ -85,6 +85,60 @@ private:
 };
 
 
+// inline methods
+
+// reimplemented (iimg::IBitmap)
+
+inline int CGeneralBitmap::GetLinesDifference() const
+{
+	return m_linesDifference;
+}
+
+
+inline int CGeneralBitmap::GetPixelsDifference() const
+{
+	return m_pixelBitsCount >> 3;
+}
+
+
+inline int CGeneralBitmap::GetPixelBitsCount() const
+{
+	return m_pixelBitsCount;
+}
+
+
+inline const void* CGeneralBitmap::GetLinePtr(int positionY) const
+{
+	Q_ASSERT(positionY >= 0);
+	Q_ASSERT(positionY < m_size.GetY());
+
+	return m_buffer.GetPtr() + m_linesDifference * positionY;
+}
+
+
+inline void* CGeneralBitmap::GetLinePtr(int positionY)
+{
+	Q_ASSERT(positionY >= 0);
+	Q_ASSERT(positionY < m_size.GetY());
+
+	return m_buffer.GetPtr() + m_linesDifference * positionY;
+}
+
+
+// reimplemented (iimg::IRasterImage)
+
+inline istd::CIndex2d CGeneralBitmap::GetImageSize() const
+{
+	return m_size;
+}
+
+
+inline int CGeneralBitmap::GetComponentsCount() const
+{
+	return m_componentsCount;
+}
+
+
 } // namespace iimg
 
 
