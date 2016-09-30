@@ -1109,7 +1109,7 @@ uint qHash(const CScanlineMask& key, uint seed)
 	uint retVal = seed;
 
 	int lineIndex = key.m_firstLinePos;
-	for (CScanlineMask::Scanlines::const_iterator iter = key.m_scanlines.cbegin(); iter != key.m_scanlines.cend(); ++iter, ++lineIndex){
+	for (CScanlineMask::Scanlines::const_iterator iter = key.m_scanlines.begin(); iter != key.m_scanlines.end(); ++iter, ++lineIndex){
 		int containerIndex = *iter;
 
 		if (containerIndex >= 0){
