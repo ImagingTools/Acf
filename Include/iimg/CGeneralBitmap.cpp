@@ -201,11 +201,9 @@ bool CGeneralBitmap::CreateBitmap(
 		return false;
 	}
 
-	if ((size == m_size) && (pixelBitsCount == m_pixelBitsCount) && (componentsCount == m_componentsCount) && (pixelFormat = m_pixelFormat)){
+	if (m_buffer.IsToRelase() && (size == m_size) && (pixelBitsCount == m_pixelBitsCount) && (componentsCount == m_componentsCount) && (pixelFormat = m_pixelFormat)){
 		return true;	// nothing to do
 	}
-
-	int oldBufferSize = m_linesDifference * size.GetY();
 
 	int linesDifference = (pixelBitsCount * size.GetX() + 7) >> 3;
 	Q_ASSERT(linesDifference >= 0);
@@ -219,15 +217,13 @@ bool CGeneralBitmap::CreateBitmap(
 	m_pixelFormat = pixelFormat;
 	m_linesDifference = linesDifference;
 
-	if (oldBufferSize != bufferSize){
-		if (bufferSize > 0){
-			m_buffer.SetPtr(new quint8[bufferSize], true);
+	if (bufferSize > 0){
+		m_buffer.SetPtr(new quint8[bufferSize], true);
 
-			return m_buffer.IsValid();
-		}
-		else{
-			m_buffer.Reset();
-		}
+		return m_buffer.IsValid();
+	}
+	else{
+		m_buffer.Reset();
 	}
 
 	return true;
