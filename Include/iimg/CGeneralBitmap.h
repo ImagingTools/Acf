@@ -18,6 +18,7 @@ class CGeneralBitmap: public CBitmapBase
 {
 public:
 	CGeneralBitmap();
+	CGeneralBitmap(const CGeneralBitmap& bitmap);
 
 	// reimplemented (iimg::IBitmap)
 	virtual bool IsFormatSupported(PixelFormat pixelFormat) const;
@@ -40,6 +41,8 @@ public:
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
+
+	CGeneralBitmap& operator=(const CGeneralBitmap& bitmap);
 
 protected:
 	/**

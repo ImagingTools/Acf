@@ -22,6 +22,33 @@ CGeneralBitmap::CGeneralBitmap()
 }
 
 
+CGeneralBitmap::CGeneralBitmap(const CGeneralBitmap& bitmap)
+{
+	if (!bitmap.m_buffer.IsToRelase()){
+		// copy structure refering to external buffer
+		m_buffer.SetPtr(bitmap.m_buffer.GetPtr(), false);
+		m_size = bitmap.m_size;
+		m_linesDifference;
+		m_pixelBitsCount;
+		m_componentsCount;
+		m_pixelFormat;
+	}
+	else{
+		// copy structure refering to external buffer
+		if (CGeneralBitmap::CreateBitmap(bitmap.m_size, bitmap.m_pixelBitsCount, bitmap.m_componentsCount, bitmap.m_pixelFormat)){
+			int linesSize = (m_pixelBitsCount * m_size.GetX() + 7) >> 3;
+
+			for (int y = 0; y < m_size.GetY(); ++y){
+				const void* sourceLinePtr = bitmap.GetLinePtr(y);
+				void* destLinePtr = CGeneralBitmap::GetLinePtr(y);
+
+				std::memcpy(destLinePtr, sourceLinePtr, linesSize);
+			}
+		}
+	}
+}
+
+
 // reimplemented (iimg::IBitmap)
 
 bool CGeneralBitmap::IsFormatSupported(PixelFormat /*pixelFormat*/) const
@@ -182,6 +209,34 @@ istd::IChangeable* CGeneralBitmap::CloneMe(CompatibilityMode mode) const
 	}
 
 	return NULL;
+}
+
+
+CGeneralBitmap& CGeneralBitmap::operator=(const CGeneralBitmap& bitmap)
+{
+	if (!bitmap.m_buffer.IsToRelase()){
+		// copy structure refering to external buffer
+		m_buffer.SetPtr(bitmap.m_buffer.GetPtr(), false);
+		m_size = bitmap.m_size;
+		m_linesDifference;
+		m_pixelBitsCount;
+		m_componentsCount;
+		m_pixelFormat;
+	}
+	else{
+		// copy structure refering to external buffer
+		if (CGeneralBitmap::CreateBitmap(bitmap.m_size, bitmap.m_pixelBitsCount, bitmap.m_componentsCount, bitmap.m_pixelFormat)){
+			int linesSize = (m_pixelBitsCount * m_size.GetX() + 7) >> 3;
+
+			for (int y = 0; y < m_size.GetY(); ++y){
+				const void* sourceLinePtr = bitmap.GetLinePtr(y);
+				void* destLinePtr = CGeneralBitmap::GetLinePtr(y);
+
+				std::memcpy(destLinePtr, sourceLinePtr, linesSize);
+			}
+		}
+	}
+	return *this;
 }
 
 
