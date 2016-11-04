@@ -432,12 +432,14 @@ void CLogGuiComp::OnClearAction()
 {
 	BaseClass2::ClearMessages();
 
-	LogView->clear();
+	if (IsGuiCreated()){
+		LogView->clear();
 
-	if (m_statusCategory != istd::IInformationProvider::IC_NONE){
-		m_statusCategory = istd::IInformationProvider::IC_NONE;
+		if (m_statusCategory != istd::IInformationProvider::IC_NONE){
+			m_statusCategory = istd::IInformationProvider::IC_NONE;
 
-		UpdateVisualStatus();
+			UpdateVisualStatus();
+		}
 	}
 }
 
