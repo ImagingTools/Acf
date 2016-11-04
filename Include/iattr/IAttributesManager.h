@@ -25,9 +25,9 @@ public:
 
 	/**
 		Insert an property into the object.
-		\param	attributeId		unique ID of the property in the properties repository.
-		\param	attributePtr		property data object.
-		\param	releaseFlag		if true, this attribute will be deleted by manager.
+		\param	attributeId		Unique ID of the property in the properties repository.
+		\param	attributePtr	QCoreApplicationProperty data object.
+		\param	releaseFlag		If true, this attribute will be deleted by manager.
 		\return	true, if this attribute could be added or false elesewhere.
 	*/
 	virtual bool InsertAttribute(

@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
-    <height>320</height>
+    <width>334</width>
+    <height>373</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -24,34 +24,149 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="ObjectViewFrame">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+    <widget class="QStackedWidget" name="PreviewStack">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-     </layout>
+     <widget class="QWidget" name="DefaultPage">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>219</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>247</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="NoPreviewAvailableIcon">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../iqtgui/iqtgui.qrc">:/Icons/Cancel</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="NoPreviewAvailableLabel">
+           <property name="font">
+            <font>
+             <pointsize>20</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>No Preview Available</string>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>247</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>218</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="PreviewPage">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QFrame" name="ObjectViewFrame">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <resources>
-  <include location="iqtgui.qrc"/>
-  <include location="iqtgui.qrc"/>
+  <include location="../iqtgui/iqtgui.qrc"/>
+  <include location="../iqtgui/iqtgui.qrc"/>
+  <include location="../iqtgui/iqtgui.qrc"/>
  </resources>
  <connections/>
 </ui>

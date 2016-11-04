@@ -18,6 +18,14 @@ namespace ifilegui
 {
 
 
+// public methods
+
+CFilePreviewGuiComp::CFilePreviewGuiComp()
+	:m_previewWasGenerated(false)
+{
+}
+
+
 // protected methods
 
 // reimplemented (imod::TGuiObserverWrap)
@@ -74,6 +82,16 @@ void CFilePreviewGuiComp::OnGuiCreated()
 
 	connect(&m_fileSystemObserver, SIGNAL(fileChanged(const QString&)), this, SLOT(UpdateFilePreview()));
 	connect(&m_previewGenerationWatcher, SIGNAL(finished()), this, SLOT(OnPreviewGenerationFinished()));
+
+	PreviewStack->setCurrentIndex(0);
+
+	if (m_noAvailableLabelAttrPtr.IsValid()){
+		NoPreviewAvailableLabel->setText(*m_noAvailableLabelAttrPtr);
+	}
+
+	if (m_noAvailableIconPathAttrPtr.IsValid()){
+		NoPreviewAvailableIcon->setPixmap(QPixmap(QString(*m_noAvailableIconPathAttrPtr)));
+	}
 }
 
 
@@ -86,6 +104,16 @@ void CFilePreviewGuiComp::OnGuiDestroyed()
 	}
 
 	BaseClass::OnGuiDestroyed();
+}
+
+
+void CFilePreviewGuiComp::OnGuiRetranslate()
+{
+	BaseClass::OnGuiRetranslate();
+
+	if (m_noAvailableLabelAttrPtr.IsValid()){
+		NoPreviewAvailableLabel->setText(*m_noAvailableLabelAttrPtr);
+	}
 }
 
 
@@ -145,9 +173,7 @@ void CFilePreviewGuiComp::UpdateFilePreview()
 		else{
 			m_lastFilePath = QString();
 
-			if (m_previewObjectPtr.IsValid()){
-				m_previewObjectPtr->ResetData();
-			}
+			ResetPreview();
 
 			if (!newFilePath.isEmpty()){
 				 QTimer::singleShot(1000, this, SLOT(UpdateFilePreview()));
@@ -155,9 +181,7 @@ void CFilePreviewGuiComp::UpdateFilePreview()
 		}
 	}
 	else{
-		if (m_previewObjectPtr.IsValid()){
-			m_previewObjectPtr->ResetData();
-		}
+		ResetPreview();
 	}
 }
 
@@ -166,18 +190,23 @@ void CFilePreviewGuiComp::OnPreviewGenerationFinished()
 {
 	QMutexLocker lock(&m_mutex);
 
-	if (m_previewObjectPtr.IsValid() && m_workingObjectPtr.IsValid()){
+	if (m_workingObjectPtr.IsValid()){
+		if (m_previewObjectPtr.IsValid()){
+			// Copy data from working object to the preview:
+			istd::CChangeNotifier changePtr(m_previewObjectPtr.GetPtr());
 
-		// Copy data from working object to the preview:
-		istd::CChangeNotifier changePtr(m_previewObjectPtr.GetPtr());
-
-		m_previewObjectPtr->CopyFrom(*m_workingObjectPtr.GetPtr());
+			m_previewObjectPtr->CopyFrom(*m_workingObjectPtr.GetPtr());
+		}
 
 		if (m_currentPreviewObjectCompPtr.IsValid()){
 			istd::CChangeNotifier copyChangePtr(m_currentPreviewObjectCompPtr.GetPtr());
 
 			m_currentPreviewObjectCompPtr->CopyFrom(*m_workingObjectPtr);
 		}
+
+		int pageIndex = (!m_previewWasGenerated || m_lastFilePath.isEmpty()) ? 0 : 1;
+
+		PreviewStack->setCurrentIndex(pageIndex);
 	}
 }
 
@@ -197,6 +226,8 @@ void CFilePreviewGuiComp::UpdateObjectFromFile()
 	if (!fileInfo.exists()){
 		m_workingObjectPtr->ResetData();
 
+		m_previewWasGenerated = false;
+
 		return;
 	}
 
@@ -207,9 +238,26 @@ void CFilePreviewGuiComp::UpdateObjectFromFile()
 			int retVal = m_fileLoaderCompPtr->LoadFromFile(*m_workingObjectPtr.GetPtr(), m_lastFilePath);
 			if (retVal != ifile::IFilePersistence::OS_OK){
 				m_workingObjectPtr->ResetData();
+
+				m_previewWasGenerated = false;
+			}
+			else{
+				m_previewWasGenerated = true;
 			}
 		}
 	}
+}
+
+
+void CFilePreviewGuiComp::ResetPreview()
+{
+	m_previewWasGenerated = false;
+
+	if (m_previewObjectPtr.IsValid()){
+		m_previewObjectPtr->ResetData();
+	}
+
+	PreviewStack->setCurrentIndex(0);
 }
 
 
