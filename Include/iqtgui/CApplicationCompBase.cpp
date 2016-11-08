@@ -11,11 +11,9 @@
 #endif
 #include <QtGui/QIcon>
 #if QT_VERSION >= 0x050000
-#include <QtWidgets/QApplication>
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QVBoxLayout>
 #else
-#include <QtGui/QApplication>
 #include <QtGui/QStyle>
 #include <QtGui/QVBoxLayout>
 #endif

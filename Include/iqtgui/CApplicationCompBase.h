@@ -2,6 +2,14 @@
 #define iqtgui_CApplicationCompBase_included
 
 
+// Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QApplication>
+#else
+#include <QtGui/QApplication>
+#endif
+
 // ACF includes
 #include <istd/CGeneralTimeStamp.h>
 #include <icomp/CComponentBase.h>
