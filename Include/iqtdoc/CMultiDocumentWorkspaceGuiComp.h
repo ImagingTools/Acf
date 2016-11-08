@@ -57,6 +57,7 @@ public:
 		I_REGISTER_SUBELEMENT_INTERFACE(DocumentSelection, iprm::IOptionsList, ExtractSelectionInfo);
 		I_ASSIGN(m_documentTemplateCompPtr, "DocumentTemplate", "Document template", true, "DocumentTemplate");
 		I_ASSIGN(m_showMaximizedAttrPtr, "ShowViewMaximized", "At start shows the document view maximized", false, true);
+		I_ASSIGN(m_showPathAsTipAttrPtr, "ShowFilePathAsToolTip", "if enabled, the current document file path will be shown as tool tip of document tab", true, false);
 		I_ASSIGN(m_allowViewRepeatingAttrPtr, "AllowViewRepeating", "If enabled, multiple views for the same document are allowed", false, true);
 		I_ASSIGN(m_rememberOpenDocumentsParamPtr, "RememberOpenDocumentsOnExit", "If enabled, restores open documents from previous session", false, "RememberOpenDocumentsOnExit");
 	I_END_COMPONENT;
@@ -198,6 +199,7 @@ private:
 	I_REF(idoc::IDocumentTemplate, m_documentTemplateCompPtr);
 	I_REF(iprm::IEnableableParam, m_rememberOpenDocumentsParamPtr);
 	I_ATTR(bool, m_showMaximizedAttrPtr);
+	I_ATTR(bool, m_showPathAsTipAttrPtr);
 	I_ATTR(bool, m_allowViewRepeatingAttrPtr);
 
 	mutable QString m_lastDirectory;
