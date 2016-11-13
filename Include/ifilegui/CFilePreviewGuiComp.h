@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QFileSystemWatcher>
+#include <QtCore/QTimer>
 #include <QtCore/QDateTime>
 #include <QtCore/QFutureWatcher>
 #include <QtCore/QTimer>

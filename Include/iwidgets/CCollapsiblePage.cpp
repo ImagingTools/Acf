@@ -6,6 +6,7 @@ namespace iwidgets
 
 
 // public methods
+
 CCollapsiblePage::CCollapsiblePage(QWidget* parentPtr)
 	:BaseClass(parentPtr),
 	m_pageWidgetPtr(NULL),
