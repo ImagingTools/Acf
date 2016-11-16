@@ -2,12 +2,13 @@
 #define iview_IShape_included
 
 
+// Qt includes
+#include <QtCore/QString.h>
+
 // ACF includes
 #include <imod/IModel.h>
 #include <imod/IObserver.h>
-
 #include <i2d/CRect.h>
-
 #include <iview/IVisualizable.h>
 #include <iview/ITouchable.h>
 
@@ -57,14 +58,18 @@ public:
 	virtual void SetVisible(bool state = true) = 0;
 
 	/**
-		Set color schema to draw shape.
-	*/
-	virtual void SetUserColorSchema(const IColorSchema* schemaPtr) = 0;
- 
-	/**
 		Get color schema from view or user defined.
 	*/
 	virtual const iview::IColorSchema* GetUserColorSchema() const = 0;
+	/**
+		Set color schema to draw shape.
+	*/
+	virtual void SetUserColorSchema(const IColorSchema* schemaPtr) = 0;
+
+	/**
+		Set default description will be used to display on console.
+	*/
+	virtual void SetDefaultDescription(const QString& description) = 0;
 };
 
 
