@@ -125,8 +125,8 @@ void CConsoleApplicationComp::OnComponentDestroyed()
 
 void CConsoleApplicationComp::OnKeyPressed(char ch)
 {
-	if (ch == 'Q' || ch == 'q' ) //if Q key pressed exit the application
-	{
+	//if Q key pressed exit the application
+	if (ch == 'Q' || ch == 'q'){
 		QCoreApplication::exit();
 	}
 }

@@ -7,7 +7,6 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDateTime>
 #include <QtCore/QFutureWatcher>
-#include <QtCore/QTimer>
 
 // ACF includes
 #include <ifile/IFilePersistence.h>
