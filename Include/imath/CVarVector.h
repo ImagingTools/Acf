@@ -6,7 +6,7 @@
 #include <vector>
 
 // Qt includes
-#include <QtCore/qmath.h>
+#include <QtCore/QtMath>
 #include <QtCore/QVector>
 
 // ACF includes

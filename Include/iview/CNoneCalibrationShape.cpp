@@ -2,7 +2,7 @@
 
 
 // Qt includes
-#include <QtCore/qmath.h>
+#include <QtCore/QtMath>
 #include <QtGui/QPainter>
 
 // ACF includes

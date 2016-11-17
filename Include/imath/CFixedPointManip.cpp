@@ -3,7 +3,7 @@
 
 // Qt includes
 #include <QtCore/QVector>
-#include <QtCore/qmath.h>
+#include <QtCore/QtMath>
 
 
 namespace imath
