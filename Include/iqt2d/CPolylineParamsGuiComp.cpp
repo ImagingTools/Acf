@@ -92,7 +92,7 @@ void CPolylineParamsGuiComp::on_PasteButton_clicked()
 void CPolylineParamsGuiComp::OnActionTriggered(QAction* actionPtr)
 {
 	if (actionPtr == &m_openCloseAction){
-		i2d::CPolyline* polylinePtr = GetObjectPtr();
+		i2d::CPolyline* polylinePtr = GetObservedObject();
 		if (polylinePtr){
 			polylinePtr->SetClosed(!polylinePtr->IsClosed());
 		}
