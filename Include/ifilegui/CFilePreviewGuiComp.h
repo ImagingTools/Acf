@@ -65,10 +65,24 @@ protected:
 private Q_SLOTS:
 	void UpdateFilePreview();
 	void OnPreviewGenerationFinished();
+	void UpdatePreviewSize();
 
 private:
 	void UpdateObjectFromFile();
 	void ResetPreview();
+	
+protected:
+	/**
+		Helper class to watch after Resize and Show Events
+	*/
+	class ResizeWatcher : public QObject
+	{
+	public:
+		ResizeWatcher(CFilePreviewGuiComp& parent);
+		virtual bool eventFilter(QObject* watched, QEvent *event);
+	private:
+		CFilePreviewGuiComp& m_parent;
+	};
 
 protected:
 	I_REF(ifile::IFilePersistence, m_fileLoaderCompPtr);
@@ -94,6 +108,8 @@ protected:
 
 	bool m_previewWasGenerated;
 	QTimer m_timer;
+
+	ResizeWatcher m_resizeWatcher;
 };
 
 

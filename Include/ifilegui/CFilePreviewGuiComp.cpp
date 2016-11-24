@@ -9,6 +9,7 @@
 #else
 #include <QtCore/QtConcurrentRun>
 #endif
+#include <QtSvg/QGraphicsSvgItem>
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
@@ -21,7 +22,8 @@ namespace ifilegui
 // public methods
 
 CFilePreviewGuiComp::CFilePreviewGuiComp()
-	:m_previewWasGenerated(false)
+	:m_previewWasGenerated(false),
+	m_resizeWatcher(*this)
 {
 }
 
@@ -89,9 +91,20 @@ void CFilePreviewGuiComp::OnGuiCreated()
 		NoPreviewAvailableLabel->setText(*m_noAvailableLabelAttrPtr);
 	}
 
+	// select QGraphicsSvgItem
+	QGraphicsSvgItem* item = NULL;
 	if (m_noAvailableIconPathAttrPtr.IsValid()){
-		NoPreviewAvailableIcon->setPixmap(QPixmap(QString(*m_noAvailableIconPathAttrPtr)));
+		item = new QGraphicsSvgItem(*m_noAvailableIconPathAttrPtr);
+	} else{
+		item = new QGraphicsSvgItem(":/Icons/Cancel");
 	}
+
+	// make them dance together
+	QGraphicsScene *scene = new QGraphicsScene(NoPreviewAvailableGraphicsView);
+	scene->addItem(item);
+	NoPreviewAvailableGraphicsView->setScene(scene);
+	NoPreviewAvailableGraphicsView->installEventFilter(&m_resizeWatcher);
+	connect(&m_resizeWatcher, SIGNAL(Resized()), this, SLOT(UpdatePreviewSize()));
 
 	m_timer.setSingleShot(true);
 	m_timer.setInterval(1000);
@@ -226,6 +239,16 @@ void CFilePreviewGuiComp::OnPreviewGenerationFinished()
 }
 
 
+void CFilePreviewGuiComp::UpdatePreviewSize()
+{
+	QList<QGraphicsItem*> itemList = NoPreviewAvailableGraphicsView->items();
+	if (!itemList.isEmpty()){
+		// only one item expected
+		NoPreviewAvailableGraphicsView->fitInView(itemList.first(), Qt::KeepAspectRatio);
+	}
+}
+
+
 // private methods
 
 void CFilePreviewGuiComp::UpdateObjectFromFile()
@@ -277,6 +300,23 @@ void CFilePreviewGuiComp::ResetPreview()
 
 		PreviewStack->setCurrentIndex(0);
 	}
+}
+
+
+// public methods of nested class ResizeWatcher
+
+CFilePreviewGuiComp::ResizeWatcher::ResizeWatcher(CFilePreviewGuiComp& parent)
+	:m_parent(parent)
+{
+}
+
+bool CFilePreviewGuiComp::ResizeWatcher::eventFilter(QObject* /*watched*/, QEvent *event)
+{
+	if ((event->type() == QEvent::Resize) || (event->type() == QEvent::Paint)){
+		m_parent.UpdatePreviewSize();
+	}
+
+	return false;
 }
 
 
