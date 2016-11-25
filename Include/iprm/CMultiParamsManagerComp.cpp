@@ -328,9 +328,10 @@ bool CMultiParamsManagerComp::EnsureParamExist(int index, const QByteArray& type
 
 		imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
 		if (paramsModelPtr != NULL){
-			paramsModelPtr->AttachObserver(&paramsSetPtr->updateBridge);
+			paramsModelPtr->AttachObserver(&m_paramSets.back()->updateBridge);
 			paramsModelPtr->AttachObserver(&m_updateBridge);
 		}
+
 	}
 
 	return true;
