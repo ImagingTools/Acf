@@ -194,7 +194,7 @@ void CFileNameParamGuiComp::on_BrowseButton_clicked()
 							filterList);
 
 				if (allExt.size() > 1){
-					filterList += tr("All supported files (%1)").arg("*." + allExt.join(" *."));
+					filterList.push_front(tr("All supported files (%1)").arg("*." + allExt.join(" *.")));
 				}
 			}
 
