@@ -91,6 +91,11 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		if (m_mainGuiCompPtr.IsValid()){
 			if (m_frameSpaceSizeAttrPtr.IsValid()){
 				m_mainWidgetPtr.SetPtr(new QWidget());
+
+#if defined(Q_OS_MACX)
+				m_mainWidgetPtr->setAttribute(Qt::WA_MacNormalSize, true);
+#endif
+
 				QVBoxLayout* frameLayout = new QVBoxLayout(m_mainWidgetPtr.GetPtr());
 
 				frameLayout->setMargin(*m_frameSpaceSizeAttrPtr);
