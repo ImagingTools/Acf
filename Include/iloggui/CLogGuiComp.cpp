@@ -23,6 +23,36 @@ namespace iloggui
 {
 
 
+class ItemDelegate: public iwidgets::CItemDelegate
+{
+public:
+	typedef iwidgets::CItemDelegate BaseClass;
+
+	ItemDelegate(int itemHeight = 20, QObject* parent = NULL)
+		:BaseClass(itemHeight, parent)
+	{
+	}
+
+	// reimplemented (QItemDelegate)
+	virtual QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+	{
+		QSize retVal = BaseClass::sizeHint(option, index);
+
+		QTreeWidgetItem* itemPtr = reinterpret_cast<QTreeWidgetItem*>(index.internalPointer());
+
+		QString message = itemPtr->text(CLogGuiComp::CT_MESSAGE);
+
+		int lineCount = message.count('\n') + 1;
+
+		int height = qMax(retVal.height(), option.fontMetrics.height() * lineCount + 4);
+
+		retVal.setHeight(height);
+
+		return retVal;
+	}
+};
+
+
 // public methods
 
 CLogGuiComp::CLogGuiComp()
@@ -199,7 +229,7 @@ void CLogGuiComp::OnGuiCreated()
 
 	LogView->header()->setStretchLastSection(true);
 
-	iwidgets::CItemDelegate* itemDelegate = new iwidgets::CItemDelegate(20, this);
+	ItemDelegate* itemDelegate = new ItemDelegate(20, this);
 	LogView->setItemDelegate(itemDelegate);
 	LogView->header()->hide();
 

@@ -36,6 +36,14 @@ public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CLogGuiComp> BaseClass;
 	typedef ilog::CMessageContainer BaseClass2;
 
+	enum ColumnType
+	{
+		CT_ICON,
+		CT_TIME,
+		CT_SOURCE,
+		CT_MESSAGE
+	};
+
 	I_BEGIN_COMPONENT(CLogGuiComp);
 		I_REGISTER_INTERFACE(ilog::IMessageConsumer);
 		I_REGISTER_SUBELEMENT(DiagnosticState);
@@ -57,14 +65,6 @@ public:
 	CLogGuiComp();
 
 protected:
-	enum ColumnType
-	{
-		CT_ICON,
-		CT_TIME,
-		CT_SOURCE,
-		CT_MESSAGE
-	};
-
 	enum MessageMode
 	{
 		MM_INFO = istd::IInformationProvider::IC_NONE,
