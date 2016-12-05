@@ -22,94 +22,44 @@ namespace iprm
 */
 class CSelectableParamsSetComp:
 			public icomp::CComponentBase,
-			protected imod::CModelUpdateBridge,
-			virtual public iprm::IParamsSet,
-			virtual public iprm::ISelectionParam,
-			virtual protected iprm::IOptionsList
+			virtual public iprm::IParamsSet
 {
 public:
 	typedef icomp::CComponentBase BaseClass;
-	typedef imod::CModelUpdateBridge BaseClass2;
 
 	I_BEGIN_COMPONENT(CSelectableParamsSetComp);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(IParamsSet);
-		I_REGISTER_INTERFACE(ISelectionParam);
-		I_ASSIGN(m_selectionIdAttrPtr, "SelectionId", "ID of selection in parameter set", true, "Input");
-		I_ASSIGN(m_defaultIndexAttrPtr, "DefaultIndex", "Default selected index", false, 0);
+		I_ASSIGN(m_selectionParamIdAttrPtr, "SelectionParamId", "ID of selection in this parameter set", false, "Input");
+		I_ASSIGN(m_currentSelectionCompPtr, "CurrentSelection", "Current selected index, if unspecified the selection from manager will be used", true, "CurrentSelection");
+		I_ASSIGN_TO(m_currentSelectionModelCompPtr, m_currentSelectionCompPtr, false);
 		I_ASSIGN(m_paramsManagerCompPtr, "ParamsManager", "Manager of parameter set used to realize selection", true, "ParamsManager");
-		I_ASSIGN(m_serializeParamsManagerAttrPtr, "SerializeManager", "If enabled, the connected parameter manager will be part of the object persistence", false, false);
-		I_ASSIGN(m_typeIdAttrPtr, "TypeId", "ID of this parameter set", true, "Default");
+		I_ASSIGN_TO(m_paramsManagerModelCompPtr, m_paramsManagerCompPtr, false);
 	I_END_COMPONENT;
 
 	CSelectableParamsSetComp();
-
-	// reimplemented (iser::IObject)
-	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented (iprm::IParamsSet)
 	virtual Ids GetParamIds(bool editableOnly = false) const;
 	virtual const iser::ISerializable* GetParameter(const QByteArray& id) const;
 	virtual iser::ISerializable* GetEditableParameter(const QByteArray& id);
 
-	// reimplemented (iprm::ISelectionParam)
-	virtual const IOptionsList* GetSelectionConstraints() const;
-	virtual int GetSelectedOptionIndex() const;
-	virtual bool SetSelectedOptionIndex(int index);
-	virtual ISelectionParam* GetSubselection(int index) const;
-
-	// reimplemented (imod::IObserver)
-	virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
-
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
-	/**
-		Set the bridge to the currently selected parameter set.
-		Over this mechanism the changes in the slave parameter set will be reflected by this object.
-		\sa CurrentParamsSetObserver
-	*/
-	void SetupCurrentParamsSetBridge();
-
-	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
-
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
 private:
-	/**
-		Observer for the selected parameter set.
-		On changes in the observed model the change event will be delegated to the observers of the CSelectableParamsSetComp object.
-	*/
-	class CurrentParamsSetObserver: public imod::CSingleModelObserverBase
-	{
-	public:
-		CurrentParamsSetObserver(CSelectableParamsSetComp& parent);
-
-		// reimplemented (imod::CSingleModelObserverBase)
-		virtual void BeforeUpdate(imod::IModel* modelPtr);
-		virtual void AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
-
-	private:
-		CSelectableParamsSetComp& m_parent;
-	};
-
-	int m_selectedIndex;
-	CurrentParamsSetObserver m_currentParamsSetObserver;
-
-	I_ATTR(QByteArray, m_selectionIdAttrPtr);
-	I_ATTR(int, m_defaultIndexAttrPtr);
+	I_ATTR(QByteArray, m_selectionParamIdAttrPtr);
+	I_REF(iprm::ISelectionParam, m_currentSelectionCompPtr);
+	I_REF(imod::IModel, m_currentSelectionModelCompPtr);
 	I_REF(IParamsManager, m_paramsManagerCompPtr);
-	I_ATTR(bool, m_serializeParamsManagerAttrPtr);
-	I_ATTR(QByteArray, m_typeIdAttrPtr);
+	I_REF(imod::IModel, m_paramsManagerModelCompPtr);
+
+	imod::CModelUpdateBridge m_updateBridge;
 };
 
 

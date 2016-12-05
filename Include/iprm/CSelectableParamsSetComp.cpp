@@ -18,18 +18,8 @@ static const iser::CArchiveTag s_paramsManagerTag("Parameters", "All parameters"
 
 
 CSelectableParamsSetComp::CSelectableParamsSetComp()
-:	BaseClass2(this),
-	m_selectedIndex(-1),
-	m_currentParamsSetObserver(*this)
+:	m_updateBridge(this)
 {
-}
-
-
-// reimplemented (iser::IObject)
-
-QByteArray CSelectableParamsSetComp::GetFactoryId() const
-{
-	return *m_typeIdAttrPtr;
 }
 
 
@@ -39,13 +29,20 @@ IParamsSet::Ids CSelectableParamsSetComp::GetParamIds(bool editableOnly) const
 {
 	Ids retVal;
 
-	Q_ASSERT(m_selectionIdAttrPtr.IsValid());
-	retVal.insert(*m_selectionIdAttrPtr);
+	if (!editableOnly){
+		if (m_selectionParamIdAttrPtr.IsValid()){
+			const QByteArray& selectionId = *m_selectionParamIdAttrPtr;
+			retVal += selectionId;
+		}
 
-	if (m_paramsManagerCompPtr.IsValid() && (m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
-		const IParamsSet* paramsSetPtr = m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex);
-		if (paramsSetPtr != NULL){
-			retVal += paramsSetPtr->GetParamIds(editableOnly);
+		if (m_paramsManagerCompPtr.IsValid() && m_currentSelectionCompPtr.IsValid()){
+			int selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+			if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
+				const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
+				if (paramsPtr != NULL){
+					retVal += paramsPtr->GetParamIds(false);
+				}
+			}
 		}
 	}
 
@@ -55,17 +52,20 @@ IParamsSet::Ids CSelectableParamsSetComp::GetParamIds(bool editableOnly) const
 
 const iser::ISerializable* CSelectableParamsSetComp::GetParameter(const QByteArray& id) const
 {
-	Q_ASSERT(m_selectionIdAttrPtr.IsValid());
-
-	const QByteArray& selectionId = *m_selectionIdAttrPtr;
-	if (id == selectionId){
-		return static_cast<const ISelectionParam*>(this);
+	if (m_selectionParamIdAttrPtr.IsValid()){
+		const QByteArray& selectionId = *m_selectionParamIdAttrPtr;
+		if (id == selectionId){
+			return m_currentSelectionCompPtr.GetPtr();
+		}
 	}
 
-	if (m_paramsManagerCompPtr.IsValid() && (m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
-		const IParamsSet* paramsSetPtr = m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex);
-		if (paramsSetPtr != NULL){
-			return paramsSetPtr->GetParameter(id);
+	if (m_paramsManagerCompPtr.IsValid() && m_currentSelectionCompPtr.IsValid()){
+		int selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+		if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
+			const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
+			if (paramsPtr != NULL){
+				return paramsPtr->GetParameter(id);
+			}
 		}
 	}
 
@@ -73,216 +73,21 @@ const iser::ISerializable* CSelectableParamsSetComp::GetParameter(const QByteArr
 }
 
 
-iser::ISerializable* CSelectableParamsSetComp::GetEditableParameter(const QByteArray& id)
-{
-	Q_ASSERT(m_selectionIdAttrPtr.IsValid());
-
-	const QByteArray& selectionId = *m_selectionIdAttrPtr;
-	if (id == selectionId){
-		return static_cast<ISelectionParam*>(this);
-	}
-
-	if (m_paramsManagerCompPtr.IsValid() && (m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
-		IParamsSet* paramsSetPtr = m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex);
-		if (paramsSetPtr != NULL){
-			return paramsSetPtr->GetEditableParameter(id);
-		}
-	}
-
-	return NULL;
-}
-
-
-// reimplemented (iprm::ISelectionParam)
-
-const IOptionsList* CSelectableParamsSetComp::GetSelectionConstraints() const
-{
-	return this;
-}
-
-
-int CSelectableParamsSetComp::GetSelectedOptionIndex() const
-{
-	return m_selectedIndex;
-}
-
-
-bool CSelectableParamsSetComp::SetSelectedOptionIndex(int index)
-{
-	if (!m_paramsManagerCompPtr.IsValid() && (index > 0)){
-		return false;
-	}
-
-	if (index >= GetOptionsCount()){
-		return false;
-	}
-
-	if (index != m_selectedIndex){
-		Q_ASSERT(m_paramsManagerCompPtr.IsValid());
-
-		if (m_paramsManagerCompPtr->SetSelectedOptionIndex(index)){
-			istd::CChangeNotifier notifier(this, &s_selectionChangeSet);
-			Q_UNUSED(notifier);
-
-			m_selectedIndex = index;
-
-			SetupCurrentParamsSetBridge();
-		}
-	}
-
-	return true;
-}
-
-
-ISelectionParam* CSelectableParamsSetComp::GetSubselection(int /*index*/) const
+iser::ISerializable* CSelectableParamsSetComp::GetEditableParameter(const QByteArray& /*id*/)
 {
 	return NULL;
-}
-
-
-// reimplemented (imod::IObserver)
-
-void CSelectableParamsSetComp::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
-{
-	if (changeSet.Contains(iprm::ISelectionParam::CF_SELECTION_CHANGED)){
-		SetSelectedOptionIndex(m_paramsManagerCompPtr->GetSelectedOptionIndex());
-	}
-
-	BaseClass2::AfterUpdate(modelPtr, changeSet);
 }
 
 
 // reimplemented (iser::ISerializable)
 
-bool CSelectableParamsSetComp::Serialize(iser::IArchive& archive)
+bool CSelectableParamsSetComp::Serialize(iser::IArchive& /*archive*/)
 {
-	bool isStoring = archive.IsStoring();
-
-	istd::CChangeNotifier notifier(isStoring? NULL: this, &GetAllChanges());
-	Q_UNUSED(notifier);
-
-	bool retVal = true;
-
-	int selectedIndex = m_selectedIndex;
-
-	retVal = retVal && archive.BeginTag(s_selectedIndexTag);
-	retVal = retVal && archive.Process(selectedIndex);
-	retVal = retVal && archive.EndTag(s_selectedIndexTag);
-
-	if (m_serializeParamsManagerAttrPtr.IsValid() && *m_serializeParamsManagerAttrPtr){
-		if (m_paramsManagerCompPtr.IsValid()){
-			retVal = retVal && archive.BeginTag(s_paramsManagerTag);
-			retVal = retVal && m_paramsManagerCompPtr->Serialize(archive);
-			retVal = retVal && archive.EndTag(s_paramsManagerTag);
-		}
-	}
-
-	if (!isStoring && (selectedIndex != m_selectedIndex)){
-		SetSelectedOptionIndex(selectedIndex);
-	}
-
-	return retVal;
+	return false;
 }
 
 
 // protected methods
-
-void CSelectableParamsSetComp::SetupCurrentParamsSetBridge()
-{
-	Q_ASSERT(m_paramsManagerCompPtr.IsValid());
-
-	if ((m_selectedIndex >= 0) && (m_selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
-		imod::IModel* paramsModelPtr = const_cast<imod::IModel*>(dynamic_cast<const imod::IModel*>((
-					m_paramsManagerCompPtr->GetParamsSet(m_selectedIndex))));
-		if (paramsModelPtr != NULL){
-			if (m_currentParamsSetObserver.IsModelAttached(paramsModelPtr)){
-				m_currentParamsSetObserver.EnsureModelDetached();
-
-				paramsModelPtr->AttachObserver(&m_currentParamsSetObserver);
-			}
-		}
-		else{
-			m_currentParamsSetObserver.EnsureModelDetached();
-		}
-	}
-}
-
-
-// reimplemented (iprm::IOptionsList)
-
-int CSelectableParamsSetComp::GetOptionsFlags() const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		const iprm::IOptionsList* constraintsPtr = m_paramsManagerCompPtr->GetSelectionConstraints();
-		if (constraintsPtr != NULL){
-			return constraintsPtr->GetOptionsFlags();
-		}
-	}
-
-	return SCF_NONE;
-}
-
-
-int CSelectableParamsSetComp::GetOptionsCount() const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		return m_paramsManagerCompPtr->GetParamsSetsCount();
-	}
-
-	return 0;
-}
-
-
-QString CSelectableParamsSetComp::GetOptionName(int index) const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		return m_paramsManagerCompPtr->GetParamsSetName(index);
-	}
-
-	static QString noname("<noname>");
-
-	return noname;
-}
-
-
-QString CSelectableParamsSetComp::GetOptionDescription(int index) const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		const iprm::IOptionsList* constraintsPtr = m_paramsManagerCompPtr->GetSelectionConstraints();
-		if (constraintsPtr != NULL){
-			return constraintsPtr->GetOptionDescription(index);
-		}
-	}
-
-	return QString();
-}
-
-
-QByteArray CSelectableParamsSetComp::GetOptionId(int index) const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		const iprm::IOptionsList* constraintsPtr = m_paramsManagerCompPtr->GetSelectionConstraints();
-		if (constraintsPtr != NULL){
-			return constraintsPtr->GetOptionId(index);
-		}
-	}
-
-	return QByteArray();
-}
-
-
-bool CSelectableParamsSetComp::IsOptionEnabled(int index) const
-{
-	if (m_paramsManagerCompPtr.IsValid()){
-		const iprm::IOptionsList* constraintsPtr = m_paramsManagerCompPtr->GetSelectionConstraints();
-		if (constraintsPtr != NULL){
-			return constraintsPtr->IsOptionEnabled(index);
-		}
-	}
-
-	return true;
-}
-
 
 // reimplemented (icomp::CComponentBase)
 
@@ -290,56 +95,21 @@ void CSelectableParamsSetComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_defaultIndexAttrPtr.IsValid()){
-		SetSelectedOptionIndex(*m_defaultIndexAttrPtr);
+	if (m_currentSelectionModelCompPtr.IsValid()){
+		m_currentSelectionModelCompPtr->AttachObserver(&m_updateBridge);
 	}
 
-	if (m_paramsManagerCompPtr.IsValid()){
-		imod::IModel* managerModePtr = dynamic_cast<imod::IModel*>(m_paramsManagerCompPtr.GetPtr());
-		if (managerModePtr != NULL){
-			managerModePtr->AttachObserver(this);
-		}
+	if (m_paramsManagerModelCompPtr.IsValid()){
+		m_paramsManagerModelCompPtr->AttachObserver(&m_updateBridge);
 	}
 }
 
 
 void CSelectableParamsSetComp::OnComponentDestroyed()
 {
-	if (m_paramsManagerCompPtr.IsValid()){
-		imod::IModel* managerModePtr = dynamic_cast<imod::IModel*>(m_paramsManagerCompPtr.GetPtr());
-		if (managerModePtr != NULL && managerModePtr->IsAttached(this)){
-			managerModePtr->DetachObserver(this);
-		}
-	}
+	m_updateBridge.EnsureModelsDetached();
 
 	BaseClass::OnComponentDestroyed();
-}
-
-
-
-// public methods of the embedded class CurrentParamsSetObserver
-
-CSelectableParamsSetComp::CurrentParamsSetObserver::CurrentParamsSetObserver(CSelectableParamsSetComp& parent)
-:	m_parent(parent)
-{
-}
-
-
-// reimplemented (imod::CSingleModelObserverBase)
-
-void CSelectableParamsSetComp::CurrentParamsSetObserver::BeforeUpdate(imod::IModel* I_IF_DEBUG(modelPtr))
-{
-	I_IF_DEBUG(Q_ASSERT(IsModelAttached(modelPtr)));
-
-	m_parent.BeginChanges(GetDelegatedChanges());
-}
-
-
-void CSelectableParamsSetComp::CurrentParamsSetObserver::AfterUpdate(imod::IModel* I_IF_DEBUG(modelPtr), const ChangeSet& /*changeSet*/)
-{
-	I_IF_DEBUG(Q_ASSERT(IsModelAttached(modelPtr)));
-
-	m_parent.EndChanges(GetDelegatedChanges());
 }
 
 
