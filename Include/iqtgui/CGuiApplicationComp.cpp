@@ -106,6 +106,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 				m_mainWidgetPtr.SetPtr(m_mainGuiCompPtr->GetWidget());
 			}
 
+
 			QString operationSystemName = istd::CSystem::GetOperationSystemName();
 			m_mainWidgetPtr->setProperty("OperatingSystem", operationSystemName);
 
@@ -115,6 +116,8 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 			m_mainWidgetPtr->setWindowTitle(QCoreApplication::applicationName());
 			m_mainWidgetPtr->setWindowIcon(QApplication::windowIcon());
+
+			ApplyStyleSheet();
 		}
 
 		HideSplashScreen();

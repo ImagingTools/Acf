@@ -159,12 +159,7 @@ void CApplicationCompBase::InitializeComponentApplication()
 		QApplication::setStyle(m_appStyle);
 	}
 
-	// set up style sheet
-	if (!m_styleSheetFile.isEmpty()){
-		if (!iqtgui::SetStyleSheetFromFile(*m_applicationPtr, m_styleSheetFile)){
-			qDebug("Style sheet file could not be set: %s", m_styleSheetFile.toLocal8Bit().constData());
-		}
-	}
+	ApplyStyleSheet();
 
 	// set up application name
 	QString applicationFullName;
@@ -205,6 +200,20 @@ void CApplicationCompBase::InitializeComponentApplication()
 	// set up current language
 	if (m_translationManagerCompPtr.IsValid() && (m_translationManagerCompPtr->GetCurrentLanguageIndex() < 0)){
 		m_translationManagerCompPtr->SetSystemLanguage();
+	}
+}
+
+
+void CApplicationCompBase::ApplyStyleSheet()
+{
+	// Reset style sheet:
+	m_applicationPtr->setStyleSheet("");
+
+	// Set up style sheet:
+	if (!m_styleSheetFile.isEmpty()){
+		if (!iqtgui::SetStyleSheetFromFile(*m_applicationPtr, m_styleSheetFile)){
+			qDebug("Style sheet file could not be set: %s", m_styleSheetFile.toLocal8Bit().constData());
+		}
 	}
 }
 

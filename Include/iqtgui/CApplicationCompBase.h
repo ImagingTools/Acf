@@ -56,8 +56,8 @@ protected:
 	QApplication* GetQtApplication() const;
 	bool TryShowSplashScreen();
 	void HideSplashScreen();
-
 	void InitializeComponentApplication();
+	void ApplyStyleSheet();
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
