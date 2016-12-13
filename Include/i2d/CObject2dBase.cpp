@@ -126,6 +126,16 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 }
 
 
+bool CObject2dBase::ResetData(CompatibilityMode mode)
+{
+	if (mode == CM_WITH_REFS){
+		m_calibrationPtr = NULL;
+	}
+
+	return true;
+}
+
+
 } // namespace i2d
 
 

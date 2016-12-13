@@ -47,6 +47,7 @@ public:
 
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual bool ResetData(CompatibilityMode mode = CM_WITHOUT_REFS);
 
 protected:
 	static const ChangeSet s_objectMovedChange;
