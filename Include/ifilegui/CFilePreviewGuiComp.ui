@@ -46,26 +46,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0" colspan="2">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QGraphicsView" name="NoPreviewAvailableGraphicsView">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="verticalScrollBarPolicy">
-            <enum>Qt::ScrollBarAlwaysOff</enum>
-           </property>
-           <property name="horizontalScrollBarPolicy">
-            <enum>Qt::ScrollBarAlwaysOff</enum>
-           </property>
-          </widget>
-         </item>
+        <layout class="QVBoxLayout" name="PreviewLayout">
          <item>
           <widget class="QLabel" name="NoPreviewAvailableLabel">
            <property name="sizePolicy">
