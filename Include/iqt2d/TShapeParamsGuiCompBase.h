@@ -69,7 +69,6 @@ protected:
 	/**
 		Maintenance of the tools actions.
 	*/
-	virtual void CreateActions() {}
 	virtual void CreateToolsMenu(QAbstractButton* buttonPtr);
 	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 	virtual void OnModelAttachedAndGuiShown(imod::IModel* modelPtr);
@@ -91,6 +90,10 @@ protected:
 	virtual void OnGuiShown();
 	virtual void OnGuiHidden();
 
+protected:
+	QMenu* m_menuPtr;
+	QAbstractButton* m_menuButtonPtr;
+
 private:
 	I_REF(imath::IUnitInfo, m_defaultUnitInfoCompPtr);
 	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
@@ -98,9 +101,6 @@ private:
 	I_ATTR(bool, m_allowToolsMenuAttrPtr);
 	I_REF(iqtgui::IGuiObject, m_toolBarGuiCompPtr);
 	I_ATTR(QString, m_shapeToolTipAttrPtr);
-
-	QMenu* m_menuPtr;
-	QAbstractButton* m_menuButtonPtr;
 };
 
 
@@ -344,7 +344,7 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(
 template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelDetachedOrGuiHidden(imod::IModel* /*modelPtr*/)
 {
-	if (m_menuButtonPtr){
+	if (m_menuButtonPtr != NULL){
 		m_menuButtonPtr->setEnabled(false);
 	}
 
@@ -382,8 +382,6 @@ template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
-
-	CreateActions();
 }
 
 
