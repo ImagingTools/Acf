@@ -23,7 +23,6 @@
 #include <iview/IShapeFactory.h>
 #include <iview/CInteractiveShapeBase.h>
 #include <iqt2d/TViewExtenderCompBase.h>
-#include <iqt2d/CActionAdapter.h>
 
 
 namespace iqt2d
@@ -72,7 +71,7 @@ protected:
 	*/
 	virtual void CreateActions() {}
 	virtual void CreateToolsMenu(QAbstractButton* buttonPtr);
-	virtual bool PopulateActions(CActionAdapter& host, imod::IModel* modelPtr);
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 	virtual void OnModelAttachedAndGuiShown(imod::IModel* modelPtr);
 	virtual void OnModelDetachedOrGuiHidden(imod::IModel* modelPtr);
 	virtual void OnActionTriggered(QAction* actionPtr);
@@ -302,7 +301,7 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::CreateToolsMenu(QAbstractBu
 
 
 template <class Ui, class Shape, class ShapeModel>
-bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::PopulateActions(CActionAdapter& /*host*/, imod::IModel* /*modelPtr*/)
+bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::PopulateActions(QWidget& /*host*/, imod::IModel* /*modelPtr*/)
 {
 	return true;
 }
@@ -311,11 +310,10 @@ bool TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::PopulateActions(CActionAdap
 template <class Ui, class Shape, class ShapeModel>
 void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(imod::IModel* modelPtr)
 {
-	if (m_menuPtr){
-		CActionAdapter menuAdapter(*m_menuPtr);
+	if (m_menuPtr != NULL){
 		m_menuPtr->clear();
 
-		if (PopulateActions(menuAdapter, modelPtr)){
+		if (PopulateActions(*m_menuPtr, modelPtr)){
 			m_menuButtonPtr->setEnabled(true);
 		}
 		else
@@ -323,11 +321,10 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(
 	}
 
 	QToolBar* toolBarPtr = GetToolBar();
-	if (toolBarPtr){
-		CActionAdapter toolBarAdapter(*toolBarPtr);
+	if (toolBarPtr != NULL){
 		toolBarPtr->clear();
 
-		if (PopulateActions(toolBarAdapter, modelPtr)){
+		if (PopulateActions(*toolBarPtr, modelPtr)){
 			toolBarPtr->setVisible(true);
 
 			// connect toolbar signals ONLY if there is no menu

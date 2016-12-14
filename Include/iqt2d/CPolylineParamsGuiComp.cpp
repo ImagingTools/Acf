@@ -21,10 +21,10 @@ void CPolylineParamsGuiComp::UpdateModel() const
 
 // reimplemented (iqt2d::TShapeParamsGuiCompBase)
 
-bool CPolylineParamsGuiComp::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
+bool CPolylineParamsGuiComp::PopulateActions(QWidget& host, imod::IModel* modelPtr)
 {
 	if (BaseClass::PopulateActions(host, modelPtr)){
-		host.AddAction(m_openCloseAction);
+		host.addAction(&m_openCloseAction);
 
 		return true;
 	}

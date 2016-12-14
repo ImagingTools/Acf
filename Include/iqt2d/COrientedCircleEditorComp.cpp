@@ -16,7 +16,7 @@ COrientedCircleEditorComp::COrientedCircleEditorComp()
 
 // reimplemented (iqt2d::TCircleBasedParamsGuiComp)
 
-bool COrientedCircleEditorComp::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
+bool COrientedCircleEditorComp::PopulateActions(QWidget& host, imod::IModel* modelPtr)
 {
 	if (!BaseClass::PopulateActions(host, modelPtr)){
 		return false;
@@ -24,7 +24,7 @@ bool COrientedCircleEditorComp::PopulateActions(CActionAdapter& host, imod::IMod
 
 	i2d::COrientedCircle* circlePtr = dynamic_cast<i2d::COrientedCircle*>(modelPtr);
 	if (circlePtr != NULL){
-		host.AddAction(m_reversePolarityAction);
+		host.addAction(&m_reversePolarityAction);
 	}
 
 	return true;

@@ -116,7 +116,7 @@ protected:
 	virtual void OnGuiRetranslate();
 
 	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual bool PopulateActions(CActionAdapter& host, imod::IModel* modelPtr);
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 	virtual void OnActionTriggered(QAction* actionPtr);
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
@@ -397,7 +397,7 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiRetr
 // reimplemented (iqt2d::TShapeParamsGuiCompBase)
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::PopulateActions(CActionAdapter& host, imod::IModel* modelPtr)
+bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::PopulateActions(QWidget& host, imod::IModel* modelPtr)
 {
 	if (!BaseClass::PopulateActions(host, modelPtr)){
 		return false;
@@ -409,13 +409,13 @@ bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::PopulateA
 		return false;
 	}
 
-	host.AddAction(m_flipHorizontalAction);
-	host.AddAction(m_flipVerticalAction);
-	host.AddAction(m_rotateCwAction);
-	host.AddAction(m_rotateCcwAction);
+	host.addAction(&m_flipHorizontalAction);
+	host.addAction(&m_flipVerticalAction);
+	host.addAction(&m_rotateCwAction);
+	host.addAction(&m_rotateCcwAction);
 
-	if (polylinePtr){
-		host.AddAction(m_reversePolarityAction);
+	if (polylinePtr != NULL){
+		host.addAction(&m_reversePolarityAction);
 	}
 
 	return true;

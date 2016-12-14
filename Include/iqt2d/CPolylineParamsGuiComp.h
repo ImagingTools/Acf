@@ -30,7 +30,7 @@ public:
 
 protected:
 	// reimplemented (iqt2d::TShapeParamsGuiCompBase)
-	virtual bool PopulateActions(CActionAdapter& host, imod::IModel* modelPtr);
+	virtual bool PopulateActions(QWidget& host, imod::IModel* modelPtr);
 	virtual iview::CInteractiveShapeBase* CreateShapeInstance() const;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
