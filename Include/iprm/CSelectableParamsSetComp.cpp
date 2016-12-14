@@ -35,8 +35,15 @@ IParamsSet::Ids CSelectableParamsSetComp::GetParamIds(bool editableOnly) const
 			retVal += selectionId;
 		}
 
-		if (m_paramsManagerCompPtr.IsValid() && m_currentSelectionCompPtr.IsValid()){
-			int selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+		if (m_paramsManagerCompPtr.IsValid()){
+			int selectedIndex = -1;
+			if (m_currentSelectionCompPtr.IsValid()){
+				selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+			}
+			else{
+				selectedIndex = m_paramsManagerCompPtr->GetSelectedOptionIndex();
+			}
+
 			if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
 				const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
 				if (paramsPtr != NULL){
@@ -55,12 +62,23 @@ const iser::ISerializable* CSelectableParamsSetComp::GetParameter(const QByteArr
 	if (m_selectionParamIdAttrPtr.IsValid()){
 		const QByteArray& selectionId = *m_selectionParamIdAttrPtr;
 		if (id == selectionId){
-			return m_currentSelectionCompPtr.GetPtr();
+			if (m_currentSelectionCompPtr.IsValid()){
+				return m_currentSelectionCompPtr.GetPtr();
+			}
+
+			return m_paramsManagerCompPtr.GetPtr();
 		}
 	}
 
-	if (m_paramsManagerCompPtr.IsValid() && m_currentSelectionCompPtr.IsValid()){
-		int selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+	if (m_paramsManagerCompPtr.IsValid()){
+		int selectedIndex = -1;
+		if (m_currentSelectionCompPtr.IsValid()){
+			selectedIndex = m_currentSelectionCompPtr->GetSelectedOptionIndex();
+		}
+		else{
+			selectedIndex = m_paramsManagerCompPtr->GetSelectedOptionIndex();
+		}
+
 		if ((selectedIndex >= 0) && (selectedIndex < m_paramsManagerCompPtr->GetParamsSetsCount())){
 			const iprm::IParamsSet* paramsPtr = m_paramsManagerCompPtr->GetParamsSet(selectedIndex);
 			if (paramsPtr != NULL){
@@ -99,7 +117,7 @@ void CSelectableParamsSetComp::OnComponentCreated()
 		m_currentSelectionModelCompPtr->AttachObserver(&m_updateBridge);
 	}
 
-	if (m_paramsManagerModelCompPtr.IsValid()){
+	if (m_paramsManagerModelCompPtr.IsValid() && (m_paramsManagerModelCompPtr.GetPtr() != m_currentSelectionModelCompPtr.GetPtr())){
 		m_paramsManagerModelCompPtr->AttachObserver(&m_updateBridge);
 	}
 }

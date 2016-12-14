@@ -30,14 +30,12 @@ void CSelectionParamComp::OnComponentCreated()
 
 	SetSelectionConstraints(m_constraintsCompPtr.GetPtr());
 
-	bool defaultIndexValid = m_defaultIndexAttrPtr.IsValid();
-	if (m_constraintsCompPtr.IsValid() && defaultIndexValid){
-		defaultIndexValid = (*m_defaultIndexAttrPtr < m_constraintsCompPtr->GetOptionsCount());
+	int selectedIndex = *m_defaultIndexAttrPtr;
+	if (m_constraintsCompPtr.IsValid() && (selectedIndex >= m_constraintsCompPtr->GetOptionsCount())){
+		selectedIndex = -1;
 	}
 
-	if (defaultIndexValid){
-		SetSelectedOptionIndex(*m_defaultIndexAttrPtr);
-	}
+	SetSelectedOptionIndex(selectedIndex);
 }
 
 

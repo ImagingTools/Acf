@@ -31,7 +31,7 @@ public:
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(IParamsSet);
 		I_ASSIGN(m_selectionParamIdAttrPtr, "SelectionParamId", "ID of selection in this parameter set", false, "Input");
-		I_ASSIGN(m_currentSelectionCompPtr, "CurrentSelection", "Current selected index, if unspecified the selection from manager will be used", true, "CurrentSelection");
+		I_ASSIGN(m_currentSelectionCompPtr, "CurrentSelection", "Current selected index, if unspecified the selection from manager will be used", false, "CurrentSelection");
 		I_ASSIGN_TO(m_currentSelectionModelCompPtr, m_currentSelectionCompPtr, false);
 		I_ASSIGN(m_paramsManagerCompPtr, "ParamsManager", "Manager of parameter set used to realize selection", true, "ParamsManager");
 		I_ASSIGN_TO(m_paramsManagerModelCompPtr, m_paramsManagerCompPtr, false);
