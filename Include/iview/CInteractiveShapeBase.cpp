@@ -95,9 +95,12 @@ bool CInteractiveShapeBase::OnModelAttached(imod::IModel* modelPtr, istd::IChang
 
 bool CInteractiveShapeBase::OnModelDetached(imod::IModel* modelPtr)
 {
-	Invalidate();
+	bool retVal = BaseClass::OnModelDetached(modelPtr);
+	if (retVal){
+		Invalidate();
+	}
 
-	return BaseClass::OnModelDetached(modelPtr);
+	return retVal;
 }
 
 
