@@ -6,7 +6,7 @@
 #include <QtCore/QByteArray>
 
 // ACF includes
-#include <istd/IChangeable.h>
+#include <icomp/IComponentListProvider.h>
 
 
 namespace icomp
@@ -14,13 +14,12 @@ namespace icomp
 
 
 class IRegistry;
-class CComponentAddress;
 
 
 /**
 	Allow access to registries defined by composed components.
 */
-class IRegistriesManager: virtual public istd::IChangeable
+class IRegistriesManager: virtual public IComponentListProvider
 {
 public:
 	/**

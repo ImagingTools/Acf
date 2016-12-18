@@ -2,33 +2,18 @@
 #define icomp_IMetaInfoManager_included
 
 
-#include <istd/IChangeable.h>
-
+// ACF includes
 #include <icomp/IComponentStaticInfo.h>
-#include <icomp/CComponentAddress.h>
+#include <icomp/IComponentListProvider.h>
 
 
 namespace icomp
 {
 
 
-class IMetaInfoManager: virtual public istd::IChangeable
+class IMetaInfoManager: virtual public IComponentListProvider
 {
 public:
-	enum ComponentTypeFlag
-	{
-		CTF_REAL = 1 << IComponentStaticInfo::CT_REAL,
-		CTF_COMPOSITE = 1 << IComponentStaticInfo::CT_COMPOSITE,
-		CTF_ALL = -1
-	};
-
-	typedef QSet<CComponentAddress> ComponentAddresses;
-
-	/**
-		Get addresses of known components.
-	*/
-	virtual ComponentAddresses GetComponentAddresses(int typeFlag = CTF_ALL) const = 0;
-
 	/**
 		Get access to static info of some component.
 		\param	address	component address.

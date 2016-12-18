@@ -43,6 +43,12 @@ public:
 		Get list of files used for configuration.
 	*/
 	virtual PathList GetConfigurationPathList(PathType pathType) const = 0;
+	/**
+		Get level of package definition in configuration.
+		The packages defined direct in loaded configuration file returns 0, the packages in the derrived configuration 1 etc.
+		It returns negative value if the definition level cannot be calculated.
+	*/
+	virtual int GetPackageDefinitionLevel(const QByteArray& packageId) const = 0;
 };
 
 

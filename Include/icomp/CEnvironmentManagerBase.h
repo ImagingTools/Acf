@@ -28,8 +28,10 @@ public:
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const IRegistry* GetRegistry(const CComponentAddress& address, const IRegistry* contextRegistryPtr = NULL) const;
 
-	// reimplemented (icomp::IMetaInfoManager)
+	// reimplemented (icomp::IComponentListProvider)
 	virtual ComponentAddresses GetComponentAddresses(int typeFlag = CTF_ALL) const;
+
+	// reimplemented (icomp::IMetaInfoManager)
 	virtual const IComponentStaticInfo* GetComponentMetaInfo(const CComponentAddress& address) const;
 	virtual const IComponentStaticInfo* GetPackageMetaInfo(const QByteArray& packageId) const;
 };

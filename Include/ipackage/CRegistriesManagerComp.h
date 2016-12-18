@@ -50,25 +50,29 @@ public:
 		I_ASSIGN(m_ignoreRealPackagesAttrPtr, "AreRealPackagesIgnored", "If set to true, all real packages will be ignored", true, false);
 	I_END_COMPONENT;
 
+	// reimplemented (icomp::IExtPackagesManager)
+	virtual PathList GetConfigurationPathList(PathType pathType) const;
+	virtual int GetPackageDefinitionLevel(const QByteArray& packageId) const;
+
 	// reimplemented (icomp::IPackagesManager)
 	virtual bool LoadPackages(const QString& configFilePath = QString());
 	virtual int GetPackageType(const QByteArray& packageId) const;
 	virtual QString GetPackagePath(const QByteArray& packageId) const;
 	virtual QString GetRegistryPath(const icomp::CComponentAddress& address) const;
 
-	// reimplemented (icomp::IExtRegistriesManager)
-	virtual PathList GetConfigurationPathList(PathType pathType) const;
-
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr = NULL) const;
+
+	// reimplemented (icomp::IComponentListProvider)
+	virtual ComponentAddresses GetComponentAddresses(int typeFlag = CTF_ALL) const;
 
 	// reimplemented (icomp::IRegistryLoader)
 	virtual const icomp::IRegistry* GetRegistryFromFile(const QString& path) const;
 
 protected:
-	void RegisterPackageFile(const QString& file);
-	void RegisterPackagesDir(const QString& subDir);
-	bool LoadConfigFile(const QString& configFile);
+	void RegisterPackageFile(const QString& file, int definitionLevel);
+	void RegisterPackagesDir(const QString& subDir, int definitionLevel);
+	bool LoadConfigFile(const QString& configFile, int definitionLevel);
 
 	bool CheckAndMarkPath(PathList& pathList, const QDir& directory, const QString& path, QString& resultPath) const;
 
@@ -76,10 +80,15 @@ protected:
 	virtual void OnComponentCreated();
 
 private:
+	struct RealPackageInfo
+	{
+		QString filePath;
+		int definitionLevel;
+	};
 	/**
 		Map package ID to package file path.
 	*/
-	typedef QMap<QByteArray, QString> RealPackagesMap;
+	typedef QMap<QByteArray, RealPackageInfo> RealPackagesMap;
 	RealPackagesMap m_realPackagesMap;
 
 	typedef QMap<QByteArray, QString> ComponentIdToRegistryFileMap;
@@ -87,6 +96,7 @@ private:
 	{
 		QDir directory;
 		ComponentIdToRegistryFileMap componentIdToRegistryFileMap;
+		int definitionLevel;
 	};
 	/**
 		Map package ID to directory.

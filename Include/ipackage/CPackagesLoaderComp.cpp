@@ -163,9 +163,9 @@ const icomp::IRegistry* CPackagesLoaderComp::GetRegistry(const icomp::CComponent
 }
 
 
-// reimplemented (icomp::IMetaInfoManager)
+// reimplemented (icomp::IComponentListProvider)
 
-CPackagesLoaderComp::ComponentAddresses CPackagesLoaderComp::GetComponentAddresses(int typeFlag) const
+icomp::IComponentListProvider::ComponentAddresses CPackagesLoaderComp::GetComponentAddresses(int typeFlag) const
 {
 	ComponentAddresses retVal;
 

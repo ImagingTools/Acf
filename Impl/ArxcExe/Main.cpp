@@ -25,15 +25,16 @@ static void ShowUsage()
 	std::cout << "Usage:" << std::endl;
 	std::cout << "\tArxc.exe [registryName] {options}" << std::endl;
 	std::cout << "Options:" << std::endl;
-	std::cout << "\t-mode [sources|depends]  - working mode - source generation or dependencies output, default is 'sources'" << std::endl;
-	std::cout << "\t-o outputFile            - output file path" << std::endl;
-	std::cout << "\t-config configFile       - specify ACF packages configuration file" << std::endl;
-	std::cout << "\t-sources [on|off]        - enables/disables C++ sources output, default is 'on'" << std::endl;
-	std::cout << "\t-v                       - enable verbose mode" << std::endl;
-	std::cout << "\t-check_real              - check if used real packages exist" << std::endl;
-	std::cout << "\t-no_binary               - disable generating of binary coded registries" << std::endl;
-	std::cout << "\t-conf_name name          - name of configuration, e.g. 'DebugVC12_64'" << std::endl;
-	std::cout << "\t-h or -help              - showing this help" << std::endl;
+	std::cout << "\t-mode [sources|depends]      - working mode - source generation or dependencies output, default is 'sources'" << std::endl;
+	std::cout << "\t-o outputFile                - output file path" << std::endl;
+	std::cout << "\t-config configFile           - specify ACF packages configuration file" << std::endl;
+	std::cout << "\t-sources [on|off]            - enables/disables C++ sources output, default is 'on'" << std::endl;
+	std::cout << "\t-v                           - enable verbose mode" << std::endl;
+	std::cout << "\t-check_real                  - check if used real packages exist" << std::endl;
+	std::cout << "\t-no_binary                   - disable generating of binary coded registries" << std::endl;
+	std::cout << "\t-conf_name name              - name of configuration, e.g. 'DebugVC12_64'" << std::endl;
+	std::cout << "\t-translate [off|project|all] - control generation of translation macros, default is 'all'" << std::endl;
+	std::cout << "\t-h or -help                  - showing this help" << std::endl;
 }
 
 
@@ -51,6 +52,7 @@ int main(int argc, char *argv[])
 	QString configName;
 	bool verboseEnabled = false;
 	int workingMode = 0;
+	int translateMode = -1;
 	bool useBinaryCode = true;
 	bool checkRealPackages = false;
 
@@ -98,6 +100,18 @@ int main(int argc, char *argv[])
 				}
 				else if (option == "conf_name"){
 					configName = argv[++index];
+				}
+				else if (option == "translate"){
+					QString modeText = argv[++index];
+					if (modeText == "none"){
+						translateMode = 0;
+					}
+					else if (modeText == "project"){
+						translateMode = 1;
+					}
+					else if (modeText == "all"){
+						translateMode = -1;
+					}
 				}
 			}
 		}
@@ -198,6 +212,9 @@ int main(int argc, char *argv[])
 	codeSaverComp.SetRef("PackagesManager", &registriesManagerComp);
 	codeSaverComp.SetRef("RegistriesManager", &registriesManagerComp);
 	codeSaverComp.SetIntAttr("WorkingMode", workingMode);
+	if (translateMode >= 0){
+		codeSaverComp.SetIntAttr("TranslationLevel", (translateMode > 0)? 0: -1);
+	}
 	codeSaverComp.SetBoolAttr("UseBinaryCode", useBinaryCode);
 	codeSaverComp.InitComponent();
 

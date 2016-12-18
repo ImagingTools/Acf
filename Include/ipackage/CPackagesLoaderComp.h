@@ -72,7 +72,7 @@ public:
 	// reimplemented (icomp::IRegistriesManager)
 	virtual const icomp::IRegistry* GetRegistry(const icomp::CComponentAddress& address, const icomp::IRegistry* contextRegistryPtr = NULL) const;
 
-	// reimplemented (icomp::IMetaInfoManager)
+	// reimplemented (icomp::IComponentListProvider)
 	virtual ComponentAddresses GetComponentAddresses(int typeFlag = CTF_ALL) const;
 
 	// reimplemented (icomp::CComponentBase)

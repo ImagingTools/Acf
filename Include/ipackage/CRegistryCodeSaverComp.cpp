@@ -860,7 +860,9 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 
 			const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address);
 			if (registryPtr != NULL){
-				WriteRegistryTranslation(*registryPtr, isTranslationFound, stream);
+				if (!m_translationLevelAttrPtr.IsValid()){
+					WriteRegistryTranslation(*registryPtr, isTranslationFound, stream);
+				}
 
 				cachedManager.AddComposedComponent(address, *registryPtr);
 			}
@@ -1334,6 +1336,31 @@ bool CRegistryCodeSaverComp::WriteRegistryTranslation(
 }
 
 
+bool CRegistryCodeSaverComp::WritePackagesTranslation(
+			int level,
+			bool& translationFound,
+			QTextStream& stream) const
+{
+	if ((level >= 0) && m_extPackagesManagerCompPtr.IsValid() && m_registriesManagerCompPtr.IsValid()){
+		icomp::IComponentListProvider::ComponentAddresses addresses = m_registriesManagerCompPtr->GetComponentAddresses();
+
+		for (		icomp::IComponentListProvider::ComponentAddresses::ConstIterator iter = addresses.constBegin();
+					iter != addresses.constEnd();
+					++iter){
+			const icomp::CComponentAddress& address = *iter;
+			if (m_extPackagesManagerCompPtr->GetPackageDefinitionLevel(address.GetPackageId()) <= level){
+				const icomp::IRegistry* registryPtr = m_registriesManagerCompPtr->GetRegistry(address);
+				if (registryPtr != NULL){
+					WriteRegistryTranslation(*registryPtr, translationFound, stream);
+				}
+			}
+		}
+	}
+
+	return stream.status() == QTextStream::Ok;
+}
+
+
 bool CRegistryCodeSaverComp::WriteComponentTranslation(
 			const QByteArray& componentId,
 			const icomp::IRegistry::ElementInfo& componentInfo,
@@ -1458,7 +1485,13 @@ bool CRegistryCodeSaverComp::WriteRegistryClassBody(
 
 	if (*m_useBinaryCodeAttrPtr){
 		bool isTranslationFound = false;
-		WriteRegistryTranslation(registry, isTranslationFound, stream);
+		if (m_translationLevelAttrPtr.IsValid()){
+			WritePackagesTranslation(*m_translationLevelAttrPtr, isTranslationFound, stream);
+		}
+		else{
+			WriteRegistryTranslation(registry, isTranslationFound, stream);
+		}
+
 		if (isTranslationFound){
 			stream << "\n";
 		}
