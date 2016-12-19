@@ -2,6 +2,240 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="pl_PL">
 <context>
+    <name>Attribute</name>
+    <message>
+        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/AcfLoc/CAcfLoc.cpp" line="+28"/>
+        <source>About</source>
+        <translation>O programie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Files</source>
+        <translation>Pliki</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>FileExplorer</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>File Selector</source>
+        <translation>Selektor Pliku</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Log</source>
+        <translation>Protokół</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>:/Icons/Info</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-4"/>
+        <source>Log XML file</source>
+        <translation>Plik XML Protokołu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>alog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Progress</source>
+        <translation>Postęp</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>$(AppName) by $(CompanyName)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <location line="+2"/>
+        <source>:/Translations</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>ACF</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.6</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.7</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.8</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.9</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.0.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.0.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.1.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.2.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.3.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.4.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.4.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.7.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.8.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.9.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>2.0.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>2.0.1</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>CAbGuiComp</name>
     <message>
         <location filename="../../../Docs/Tutorial/Impl/ModelObserver/CAbGuiComp.ui" line="+28"/>
@@ -23,19 +257,7 @@
         <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqtgui/ui_CAboutWidgetGuiComp.h" line="+199"/>
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqtgui/ui_CAboutWidgetGuiComp.h" line="+199"/>
         <source>About...</source>
-        <translation>O produkcie</translation>
-    </message>
-    <message>
-        <source>Product</source>
-        <translation type="vanished">Produkt</translation>
-    </message>
-    <message>
-        <source>ApplicationName</source>
-        <translation type="vanished">Nazwa programu</translation>
-    </message>
-    <message>
-        <source>ApplicationType</source>
-        <translation type="vanished">Typ programu</translation>
+        <translation>O produkcie...</translation>
     </message>
     <message>
         <location line="+169"/>
@@ -173,13 +395,6 @@
     </message>
 </context>
 <context>
-    <name>CCalendarGuiComp</name>
-    <message>
-        <source>About...</source>
-        <translation type="vanished">O...</translation>
-    </message>
-</context>
-<context>
     <name>CCircleParamsGuiComp</name>
     <message>
         <location filename="../../../Include/iqt2d/CCircleParamsGuiComp.ui" line="+35"/>
@@ -187,10 +402,6 @@
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CCircleParamsGuiComp.h" line="+130"/>
         <source>Position</source>
         <translation>Pozycja</translation>
-    </message>
-    <message>
-        <source>mm</source>
-        <translation type="vanished">mm</translation>
     </message>
     <message>
         <location line="+94"/>
@@ -210,9 +421,9 @@
 <context>
     <name>CCollapsiblePage</name>
     <message>
-        <location filename="../../../Include/iwidgets/CCollapsiblePage.ui" line="+90"/>
-        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iwidgets/ui_CCollapsiblePage.h" line="+103"/>
-        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iwidgets/ui_CCollapsiblePage.h" line="+103"/>
+        <location filename="../../../Include/iwidgets/CCollapsiblePage.ui" line="+89"/>
+        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iwidgets/ui_CCollapsiblePage.h" line="+109"/>
+        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iwidgets/ui_CCollapsiblePage.h" line="+109"/>
         <source>Page</source>
         <translation>Strona</translation>
     </message>
@@ -385,10 +596,6 @@
 <context>
     <name>CFileListProviderGuiComp</name>
     <message>
-        <source>Display navigation bar</source>
-        <translation type="vanished">Pasek nawigacji dla podglądu</translation>
-    </message>
-    <message>
         <location filename="../../../Include/ifilegui/CFileListProviderGuiComp.ui" line="+33"/>
         <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/ifilegui/ui_CFileListProviderGuiComp.h" line="+52"/>
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/ifilegui/ui_CFileListProviderGuiComp.h" line="+52"/>
@@ -447,13 +654,9 @@
 <context>
     <name>CFilePreviewGuiComp</name>
     <message>
-        <source>Display navigation bar</source>
-        <translation type="vanished">Pasek nawigacji dla podglądu</translation>
-    </message>
-    <message>
-        <location filename="../../../Include/ifilegui/CFilePreviewGuiComp.ui" line="+76"/>
-        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/ifilegui/ui_CFilePreviewGuiComp.h" line="+131"/>
-        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/ifilegui/ui_CFilePreviewGuiComp.h" line="+131"/>
+        <location filename="../../../Include/ifilegui/CFilePreviewGuiComp.ui" line="+64"/>
+        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/ifilegui/ui_CFilePreviewGuiComp.h" line="+107"/>
+        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/ifilegui/ui_CFilePreviewGuiComp.h" line="+107"/>
         <source>No Preview Available</source>
         <translation>Podgląd niedostępny</translation>
     </message>
@@ -532,13 +735,6 @@
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/ifilegui/ui_CFileTreeViewGuiComp.h" line="+3"/>
         <source>F5</source>
         <translation></translation>
-    </message>
-</context>
-<context>
-    <name>CImagePropertiesFrameComp</name>
-    <message>
-        <source>Display navigation bar</source>
-        <translation type="vanished">Pasek nawigacji dla podglądu</translation>
     </message>
 </context>
 <context>
@@ -621,33 +817,6 @@
     </message>
 </context>
 <context>
-    <name>COptionsListEditorGuiComp</name>
-    <message>
-        <source>Insert new item</source>
-        <translation type="vanished">Wstaw nowy element</translation>
-    </message>
-    <message>
-        <source>Add</source>
-        <translation type="vanished">Dodaj</translation>
-    </message>
-    <message>
-        <source>Remove selected item</source>
-        <translation type="vanished">Usuń zaznaczony element</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Usuń</translation>
-    </message>
-    <message>
-        <source>Move selected item up</source>
-        <translation type="vanished">Przenieś element w górę</translation>
-    </message>
-    <message>
-        <source>Move selected item down</source>
-        <translation type="vanished">Przenieś element na dół</translation>
-    </message>
-</context>
-<context>
     <name>COptionsManagerEditorComp</name>
     <message>
         <location filename="../../../Include/iqtprm/COptionsManagerEditorComp.ui" line="+75"/>
@@ -699,34 +868,11 @@
         <translation>Zapisz wszystkie parametry do pliku</translation>
     </message>
     <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
-    <message>
         <location line="-25"/>
         <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqtprm/ui_COptionsManagerEditorComp.h" line="-6"/>
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqtprm/ui_COptionsManagerEditorComp.h" line="-6"/>
         <source>Move selected item down</source>
         <translation>Przenieś element na dół</translation>
-    </message>
-</context>
-<context>
-    <name>COrientedCircleEditorComp</name>
-    <message>
-        <source>Position</source>
-        <translation type="vanished">Pozycja</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <translation type="vanished">Promień</translation>
-    </message>
-    <message>
-        <source>Axis orientation</source>
-        <translation type="vanished">Zwrot osi</translation>
-    </message>
-    <message>
-        <source>Outside</source>
-        <translation type="vanished">Na zewnątrz</translation>
     </message>
 </context>
 <context>
@@ -798,9 +944,9 @@
 <context>
     <name>CPerspectiveCalibEditorComp</name>
     <message>
-        <location filename="../../../Include/iqt2d/CPerspectiveCalibEditorComp.ui" line="+17"/>
-        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqt2d/ui_CPerspectiveCalibEditorComp.h" line="+174"/>
-        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CPerspectiveCalibEditorComp.h" line="+174"/>
+        <location filename="../../../Include/iqt2d/CPerspectiveCalibEditorComp.ui" line="+29"/>
+        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqt2d/ui_CPerspectiveCalibEditorComp.h" line="+175"/>
+        <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CPerspectiveCalibEditorComp.h" line="+175"/>
         <source>Rotation Matrix</source>
         <translation>Macież rotacji</translation>
     </message>
@@ -871,10 +1017,6 @@
         <translation>Wklej</translation>
     </message>
     <message>
-        <source>Closed</source>
-        <translation type="vanished">Domknij</translation>
-    </message>
-    <message>
         <location line="+27"/>
         <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqt2d/ui_CPolygonParamsGuiComp.h" line="+2"/>
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CPolygonParamsGuiComp.h" line="+2"/>
@@ -894,14 +1036,6 @@
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CPolygonParamsGuiComp.h" line="+2"/>
         <source>Remove</source>
         <translation>Usuń</translation>
-    </message>
-    <message>
-        <source>X</source>
-        <translation type="vanished">X</translation>
-    </message>
-    <message>
-        <source>Y</source>
-        <translation type="vanished">Y</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -930,10 +1064,6 @@
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqt2d/ui_CPolygonParamsGuiComp.h" line="+5"/>
         <source>Ctrl+V</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Closes the line by connecting its last and first point with a line segment.&lt;/p&gt;&lt;p&gt;Uncloses the line at the selected coordinates in the table (or, if nothing selected, at the latest closing coordinates).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zamyka linię łącząc punkt początkowy z końcowym.&lt;/p&gt;&lt;p&gt;Przerywa linię w wybranym punkcie lub w ostatio połączonym miejscu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1102,18 +1232,6 @@
 <context>
     <name>CSplashScreenGuiComp</name>
     <message>
-        <source>ProductName</source>
-        <translation type="vanished">Nazwa produktu</translation>
-    </message>
-    <message>
-        <source>ApplicationName</source>
-        <translation type="obsolete">Nazwa programu</translation>
-    </message>
-    <message>
-        <source>ApplicationType</source>
-        <translation type="obsolete">Typ programu</translation>
-    </message>
-    <message>
         <location filename="../../../Include/iqtgui/CSplashScreenGuiComp.ui" line="+384"/>
         <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/iqtgui/ui_CSplashScreenGuiComp.h" line="+223"/>
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqtgui/ui_CSplashScreenGuiComp.h" line="+223"/>
@@ -1212,14 +1330,6 @@
         <source>Search</source>
         <translation>Szukaj</translation>
     </message>
-    <message>
-        <source>Type filter text here...</source>
-        <translation type="vanished">Wprowadź tutaj tekst filtra...</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="vanished">...</translation>
-    </message>
 </context>
 <context>
     <name>CVersionInfoGuiComp</name>
@@ -1236,21 +1346,6 @@
         <location filename="../../../AuxInclude/Qt5_VC12_64/GeneratedFiles/iqtgui/ui_CVersionInfoGuiComp.h" line="-1"/>
         <source>Version</source>
         <translation>Wersja</translation>
-    </message>
-</context>
-<context>
-    <name>Gui</name>
-    <message>
-        <source>Save...</source>
-        <translation type="vanished">Zapisz...</translation>
-    </message>
-    <message>
-        <source>All known documents (%1)</source>
-        <translation type="vanished">Wszystkie znane dokumenty (%1)</translation>
-    </message>
-    <message>
-        <source>Open Files...</source>
-        <translation type="vanished">Otwarte pliki...</translation>
     </message>
 </context>
 <context>
@@ -1297,10 +1392,6 @@
         <translation>Nie można zapisać objektu do pliku: &apos;%1&apos;</translation>
     </message>
     <message>
-        <source>Cannot serialize object to file</source>
-        <translation type="vanished">Nie można zapisać obiektu do pliku</translation>
-    </message>
-    <message>
         <location line="+13"/>
         <location filename="../../../Include/ifile/TXmlFileSerializerComp.h" line="+13"/>
         <source>Cannot load object from file </source>
@@ -1314,13 +1405,13 @@
     </message>
     <message>
         <location line="-9"/>
-        <location filename="../../../Include/ipackage/CRegistriesManagerComp.cpp" line="+202"/>
+        <location filename="../../../Include/ipackage/CRegistriesManagerComp.cpp" line="+249"/>
         <source>Second real package definition was ignored %1 (previous: %2)</source>
         <translation>Nowa definicja binarnego pakietu zignorowana: %1 (poprzednia: %2)</translation>
     </message>
     <message>
         <location line="+70"/>
-        <location filename="../../../Include/ipackage/CRegistriesManagerComp.cpp" line="+41"/>
+        <location filename="../../../Include/ipackage/CRegistriesManagerComp.cpp" line="+42"/>
         <source>Second composed package definition was ignored %1 (previous: %2)</source>
         <translation>Nowa definicja pakietu złożonego została yignorowana: %1 (poprzednia: %2)</translation>
     </message>
@@ -1356,10 +1447,6 @@
         <translation>Plik zależności qmake</translation>
     </message>
     <message>
-        <source>%1: Composite component &apos;%1&apos; is undefined</source>
-        <translation type="vanished">%1: Komponent złożony &apos;%2&apos; nie jest zdefiniowany</translation>
-    </message>
-    <message>
         <location line="+69"/>
         <source>%1: Package &apos;%2&apos; is undefined</source>
         <translation>%1: Pakiet &apos;%2&apos; nie jest zdefiniowany</translation>
@@ -1381,20 +1468,12 @@
         <translation>%1: Komponent wewnętrzny &apos;%2&apos; jest niezdefiniowany</translation>
     </message>
     <message>
-        <source>Composite component &apos;%1&apos; is undefined</source>
-        <translation type="vanished">Komponent złożony &apos;%1&apos; nie jest zdefiniowany</translation>
-    </message>
-    <message>
-        <source>Package &apos;%1&apos; is undefined</source>
-        <translation type="vanished">Pakiet &apos;%1&apos; nie jest zdefiniowany</translation>
-    </message>
-    <message>
-        <location line="+1016"/>
+        <location line="+1018"/>
         <source>Unknown attribute type: %1</source>
         <translation>Nieznany typ atrybutu: %1</translation>
     </message>
     <message>
-        <location filename="../../../Include/iqtgui/CApplicationCompBase.cpp" line="+182"/>
+        <location filename="../../../Include/iqtgui/CApplicationCompBase.cpp" line="+177"/>
         <source>ACF application</source>
         <translation>Aplikacja ACF</translation>
     </message>
@@ -1412,10 +1491,6 @@
         <location line="+25"/>
         <source>[RGBA=(%1%,%3%,%5%,%7)=(%2,%4,%6,%8), HSV=(%9,%10,%11)]</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>RGBA value %1%, %2%, %3%, %4%</source>
-        <translation type="vanished">Wartość RGBA %1%, %2%, %3%, %4%</translation>
     </message>
     <message>
         <location filename="../../../Include/ibase/CQtVersionInfoComp.cpp" line="+63"/>
@@ -1498,7 +1573,7 @@
         <translation>Nie mogę wczytać meta opisu rejestru %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../../Include/ipackage/CRegistryCodeSaverComp.cpp" line="-1114"/>
+        <location filename="../../../Include/ipackage/CRegistryCodeSaverComp.cpp" line="-1116"/>
         <source>dependency file</source>
         <translation>plik zależności</translation>
     </message>
@@ -1528,10 +1603,6 @@
         <translation>%1_%2</translation>
     </message>
     <message>
-        <source>unnamed-%1</source>
-        <translation type="vanished">bez-nazwy-%1</translation>
-    </message>
-    <message>
         <location filename="../../../Include/iser/CBinaryReadArchiveBase.cpp" line="+31"/>
         <location line="+26"/>
         <source>Bad tag begin code, is %1, should be %2 (tag &apos;%3&apos;)</source>
@@ -1546,10 +1617,6 @@
         <location filename="../../../Include/iview/CImageShape.cpp" line="-45"/>
         <source>[%1, %2] px</source>
         <translation>[%1, %2] px</translation>
-    </message>
-    <message>
-        <source>[Red:%1% (%2), Green:%3% (%4), Blue:%5% (%6) Hue: %7, Saturation: %8, Value: %9]</source>
-        <translation type="vanished">[R:%1% (%2), G:%3% (%4), B:%5% (%6) Barwa: %7, Nasycenie: %8, Wartość: %9]</translation>
     </message>
     <message>
         <location line="+65"/>
@@ -1889,7 +1956,7 @@
         <translation>Blokada pliku &apos;%1&apos; nie powiodła się (zapis)</translation>
     </message>
     <message>
-        <location line="+180"/>
+        <location line="+188"/>
         <source>Detected change of file %1</source>
         <translation>Rozpoznano zmianę w pliku &apos;%1&apos;</translation>
     </message>
@@ -2096,7 +2163,7 @@
 <context>
     <name>iloggui::CLogGuiComp</name>
     <message>
-        <location filename="../../../Include/iloggui/CLogGuiComp.cpp" line="+138"/>
+        <location filename="../../../Include/iloggui/CLogGuiComp.cpp" line="+168"/>
         <source>New informations available</source>
         <translation>Dostępne są nowe informacje</translation>
     </message>
@@ -2209,10 +2276,6 @@
         <location filename="../../../Include/iqt2d/COrientedCircleEditorComp.cpp" line="+40"/>
         <source>Reverse orientation</source>
         <translation>Odwróć orientację</translation>
-    </message>
-    <message>
-        <source>Open/close line</source>
-        <translation type="vanished">Otwórz/zamknij linię</translation>
     </message>
 </context>
 <context>
@@ -2478,42 +2541,6 @@
         <translation>&amp;Okno</translation>
     </message>
     <message>
-        <source>Casca&amp;de</source>
-        <translation type="vanished">Kaska&amp;da</translation>
-    </message>
-    <message>
-        <source>Cascade</source>
-        <translation type="vanished">Kaskada</translation>
-    </message>
-    <message>
-        <source>Lays out all document windows in cascaded mode</source>
-        <translation type="vanished">Układa dokumenty kaskadowo</translation>
-    </message>
-    <message>
-        <source>Tile &amp;Horizontaly</source>
-        <translation type="vanished">Rozmieść &amp;poziomo</translation>
-    </message>
-    <message>
-        <source>Horizontal</source>
-        <translation type="vanished">Poziomo</translation>
-    </message>
-    <message>
-        <source>Lays out all document windows horizontaly</source>
-        <translation type="vanished">Układa dokumenty poziomo</translation>
-    </message>
-    <message>
-        <source>Tile &amp;Verticaly</source>
-        <translation type="vanished">Rozmieść p&amp;ionowo</translation>
-    </message>
-    <message>
-        <source>Vertical</source>
-        <translation type="vanished">Pionowo</translation>
-    </message>
-    <message>
-        <source>Lays out all document windows verticaly</source>
-        <translation type="vanished">Układa dokumenty pionowo</translation>
-    </message>
-    <message>
         <location line="+2"/>
         <source>&amp;Close All Documents</source>
         <translation>&amp;Zamknij wszystkie dokumenty</translation>
@@ -2527,42 +2554,6 @@
         <location line="+0"/>
         <source>&amp;Closes all opened documents</source>
         <translation>&amp;Zamyka wszystkie dokumenty</translation>
-    </message>
-    <message>
-        <source>&amp;Workspace Mode</source>
-        <translation type="vanished">&amp;Tryb przestrzeni roboczej</translation>
-    </message>
-    <message>
-        <source>Workspace Mode</source>
-        <translation type="vanished">Tryb przestrzeni roboczej</translation>
-    </message>
-    <message>
-        <source>Switch workspace mode</source>
-        <translation type="vanished">Przełącz tryb przestrzeni roboczej</translation>
-    </message>
-    <message>
-        <source>&amp;Multiple Documents</source>
-        <translation type="vanished">&amp;Wiele dokumentów</translation>
-    </message>
-    <message>
-        <source>Multiple Documents</source>
-        <translation type="vanished">Wiele dokumentów</translation>
-    </message>
-    <message>
-        <source>Show each window in own frame</source>
-        <translation type="vanished">Pokaż każde okno w oddzielnej ramce</translation>
-    </message>
-    <message>
-        <source>&amp;Tabbed Documents</source>
-        <translation type="vanished">&amp;Dokumenty w zakładkach</translation>
-    </message>
-    <message>
-        <source>Tabbed Documents</source>
-        <translation type="vanished">Dokumenty w zakładkach</translation>
-    </message>
-    <message>
-        <source>Show windows in tabbed frame</source>
-        <translation type="vanished">Pokaż okna w zakładkach</translation>
     </message>
     <message>
         <location line="-387"/>
@@ -2615,7 +2606,7 @@
 <context>
     <name>iqtgui::CGuiApplicationComp</name>
     <message>
-        <location filename="../../../Include/iqtgui/CGuiApplicationComp.cpp" line="+124"/>
+        <location filename="../../../Include/iqtgui/CGuiApplicationComp.cpp" line="+140"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
@@ -2885,26 +2876,6 @@
         <location line="+7"/>
         <source>Show/Hide Scrollbars</source>
         <translation>Pokaż/ukryj paski przewijania</translation>
-    </message>
-    <message>
-        <source>Flip current shape in its bounding box horizontally</source>
-        <translation type="vanished">Odbij wybrany kształt w poziomie</translation>
-    </message>
-    <message>
-        <source>Flip current shape in its bounding box vertically</source>
-        <translation type="vanished">Odbij wybrany kształt w pionie</translation>
-    </message>
-    <message>
-        <source>Rotate current shape counterclockwise around its center</source>
-        <translation type="vanished">Obróć wybrany kształt w lewo</translation>
-    </message>
-    <message>
-        <source>Rotate current shape clockwise around its center</source>
-        <translation type="vanished">Obróć wybrany kształt w prawo</translation>
-    </message>
-    <message>
-        <source>Reverse current shape orientation</source>
-        <translation type="vanished">Odwróć kierunek w wybranym kształcie</translation>
     </message>
 </context>
 <context>
