@@ -26,7 +26,7 @@ CMultiPageGuiCompBase::CMultiPageGuiCompBase()
 
 bool CMultiPageGuiCompBase::IsPageCreated(int index) const
 {
-	if (m_pageCreatedFlags.size() <= index){
+	if (index >= m_pageCreatedFlags.count()){
 		return false;
 	}
 
@@ -36,7 +36,7 @@ bool CMultiPageGuiCompBase::IsPageCreated(int index) const
 
 void CMultiPageGuiCompBase::SetPageCreated(int index)
 {
-	if (m_pageCreatedFlags.size() <= index){
+	if (index >= m_pageCreatedFlags.count()){
 		m_pageCreatedFlags.resize(index + 1);
 	}
 

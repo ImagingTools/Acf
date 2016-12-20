@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QMap>
+#include <QtCore/QVector>
 
 // ACF includes
 #include <imod/CMultiModelDispatcherBase.h>
@@ -14,6 +15,7 @@
 #include <iqtgui/IMultiVisualStatusProvider.h>
 #include <iqtgui/CGuiComponentBase.h>
 #include <iwidgets/CMultiPageWidget.h>
+
 
 namespace iqtgui
 {
@@ -199,7 +201,7 @@ private:
 	PageToGuiIndexMap m_pageToGuiIndexMap;
 
 	QMap<const iqtgui::IGuiObject*, QString> m_guiNamesMap;
-	mutable std::vector<bool> m_pageCreatedFlags;
+	mutable QVector<bool> m_pageCreatedFlags;
 };
 
 
