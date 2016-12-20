@@ -116,8 +116,6 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 			m_mainWidgetPtr->setWindowTitle(QCoreApplication::applicationName());
 			m_mainWidgetPtr->setWindowIcon(QApplication::windowIcon());
-
-			ApplyStyleSheet();
 		}
 
 		HideSplashScreen();
