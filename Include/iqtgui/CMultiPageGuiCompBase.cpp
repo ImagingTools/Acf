@@ -335,8 +335,8 @@ void CMultiPageGuiCompBase::OnPageChanged(int pageIndex)
 // public methods of the embedded class PageModel
 
 CMultiPageGuiCompBase::PageModel::PageModel()
-:	imod::CModelUpdateBridge(this),
-	m_parentPtr(NULL)
+:	m_parentPtr(NULL),
+	m_updateBridge(this)
 {
 }
 
@@ -345,7 +345,7 @@ void CMultiPageGuiCompBase::PageModel::SetParent(CMultiPageGuiCompBase* parentPt
 {
 	if (parentPtr != m_parentPtr){
 		if (m_parentPtr != NULL){
-			EnsureModelsDetached();
+			m_updateBridge.EnsureModelsDetached();
 		}
 
 		if (parentPtr != NULL){
@@ -353,8 +353,18 @@ void CMultiPageGuiCompBase::PageModel::SetParent(CMultiPageGuiCompBase* parentPt
 			for (int pageIndex = 0; pageIndex < activatorsCount; ++pageIndex){
 				imod::IModel* modelPtr = parentPtr->m_pageActivatorsModelCompPtr[pageIndex];
 
-				if ((modelPtr != NULL) && !modelPtr->IsAttached(this)){
-					modelPtr->AttachObserver(this);
+				if ((modelPtr != NULL) && !modelPtr->IsAttached(&m_updateBridge)){
+					modelPtr->AttachObserver(&m_updateBridge);
+				}
+			}
+
+
+			int visActivatorsCount = qMin(parentPtr->m_pageVisibilityActivatorsModelCompPtr.GetCount(), parentPtr->GetPagesCount());
+			for (int pageIndex = 0; pageIndex < visActivatorsCount; ++pageIndex){
+				imod::IModel* modelPtr = parentPtr->m_pageVisibilityActivatorsModelCompPtr[pageIndex];
+
+				if ((modelPtr != NULL) && !modelPtr->IsAttached(&m_updateBridge)){
+					modelPtr->AttachObserver(&m_updateBridge);
 				}
 			}
 		}
@@ -390,6 +400,13 @@ void CMultiPageGuiCompBase::PageModel::UpdatePageState()
 				const iprm::IEnableableParam* paramPtr = m_parentPtr->m_pageActivatorsCompPtr[pageIndex];
 				if (paramPtr != NULL){
 					multiPageWidgetPtr->SetPageEnabled(pageInfo.widgetIndex, paramPtr->IsEnabled());
+				}
+			}
+
+			if (pageIndex < m_parentPtr->m_pageVisibilityActivatorsCompPtr.GetCount()){
+				const iprm::IEnableableParam* paramPtr = m_parentPtr->m_pageVisibilityActivatorsCompPtr[pageIndex];
+				if (paramPtr != NULL){
+					multiPageWidgetPtr->SetPageVisible(pageInfo.widgetIndex, paramPtr->IsEnabled());
 				}
 			}
 		}
@@ -470,14 +487,22 @@ bool CMultiPageGuiCompBase::PageModel::IsOptionEnabled(int index) const
 		return false;
 	}
 
+	bool retVal = true;
 	if (index < m_parentPtr->m_pageActivatorsCompPtr.GetCount()){
 		const iprm::IEnableableParam* paramPtr = m_parentPtr->m_pageActivatorsCompPtr[index];
 		if (paramPtr != NULL){
-			return paramPtr->IsEnabled();
+			retVal = paramPtr->IsEnabled();
 		}
 	}
 
-	return true;
+	if (retVal && (index < m_parentPtr->m_pageVisibilityActivatorsCompPtr.GetCount())){
+		const iprm::IEnableableParam* paramPtr = m_parentPtr->m_pageVisibilityActivatorsCompPtr[index];
+		if (paramPtr != NULL){
+			retVal = paramPtr->IsEnabled();
+		}
+	}
+
+	return retVal;
 }
 
 
