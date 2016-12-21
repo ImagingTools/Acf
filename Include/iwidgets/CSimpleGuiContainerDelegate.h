@@ -24,15 +24,15 @@ public:
 				int containerGuiFlags = CGF_NONE,
 				int orientation = Qt::Horizontal);
 	virtual bool ConnectPageIndexListener(
-		QWidget& containerWidget,
-		QObject* receiverPtr,
-		const char* receiverSlotName);
+				QWidget& containerWidget,
+				QObject* receiverPtr,
+				const char* receiverSlotName);
 	virtual bool SetPageHeaderPosition(QWidget& containerWidget, PageHeaderPosition pageHeaderPosition);
 	virtual int InsertPage(
-		QWidget& containerWidget,
-		QWidget* pageWidgetPtr,
-		const QString& pageTitle,
-		int pageIndex = -1);
+				QWidget& containerWidget,
+				QWidget* pageWidgetPtr,
+				const QString& pageTitle,
+				int pageIndex = -1);
 	virtual void RemovePage(QWidget& containerWidget, int pageIndex);
 	virtual void ResetPages(QWidget& containerWidget);
 	virtual int GetPagesCount(const QWidget& containerWidget) const; 

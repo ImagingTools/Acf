@@ -221,6 +221,12 @@ public:
 	template<class DelegateImpl>
 	void RegisterMultiPageWidgetDelegate(int uiMode);
 
+	// static methods
+	/**
+		Check if switching of pages is supported for this UI mode.
+	*/
+	static bool IsPageIndexChangeSupported(int designMode);
+
 Q_SIGNALS:
 	/**
 		Signal will be emitted whenever the currently selected page will be changed. 

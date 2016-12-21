@@ -316,6 +316,23 @@ bool CMultiPageWidget::SetPageIconSize(const QSize& pageIconSize)
 }
 
 
+// static public methods
+
+bool CMultiPageWidget::IsPageIndexChangeSupported(int designMode)
+{
+	switch (designMode){
+	case DT_TAB_WIDGET:
+	case DT_TOOL_BOX:
+	case DT_SPLITTER:
+	case DT_STACK:
+		return true;
+
+	default:
+		return false;
+	}
+}
+
+
 // protected slots
 
 void CMultiPageWidget::OnPageIndexChanged(int pageIndex)

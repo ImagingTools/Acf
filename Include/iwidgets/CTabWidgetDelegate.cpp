@@ -120,7 +120,7 @@ int CTabWidgetDelegate::InsertPage(
 
 	panelLayoutPtr->addWidget(pageWidgetPtr);
 
-	if (m_containerGuiFlags & CGF_COMPACT){
+	if ((m_containerGuiFlags & CGF_COMPACT) != 0){
 		// Add a spacer on the bottom the tab page:
 		QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
 		panelLayoutPtr->addItem(spacerPtr);

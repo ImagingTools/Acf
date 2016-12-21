@@ -78,19 +78,9 @@ protected:
 	virtual int GetDesignType() const = 0;
 
 	/**
-		Add a new page to the widget container.
-	*/
-	virtual int AddPageToContainerWidget(const QString& pageTitle);
-
-	/**
-		Get the name corresponding to a page GUI element.
-	*/
-	virtual QString GetPageGuiName(const iqtgui::IGuiObject& pageGui) const;
-
-	/**
 		Create a page in the page container widget.
 	*/
-	virtual bool CreatePage(int guiIndex);
+	virtual bool CreatePage(int pageIndex);
 
 	/**
 		Remove a page from the container widget.
@@ -179,9 +169,7 @@ private:
 	}
 
 protected:
-	bool IsPageCreated(int index) const;
-	void SetPageCreated(int index);
-	void InitPageGui(int pageIndex);
+	bool EnsurePageInitialized(int pageIndex);
 
 	I_MULTIREF(IVisualStatus, m_slaveWidgetsVisualCompPtr);
 	I_MULTIREF(imod::IModel, m_slaveWidgetsModelCompPtr);
@@ -197,11 +185,17 @@ protected:
 	imod::TModelWrap<PageModel> m_pageModel;
 
 private:
-	typedef QMap<int /*page index in the widget container*/, int /*logical GUI element index*/> PageToGuiIndexMap;
-	PageToGuiIndexMap m_pageToGuiIndexMap;
+	struct PageInfo
+	{
+		PageInfo(): isCreated(false), widgetIndex(-1), widgetPtr(NULL){}
 
-	QMap<const iqtgui::IGuiObject*, QString> m_guiNamesMap;
-	mutable QVector<bool> m_pageCreatedFlags;
+		bool isCreated;		// true, if page was created
+		QString pageTitle;	// title of this page
+		int widgetIndex;	// index of widget in widget container
+		QWidget* widgetPtr;	// widget whera page contents will be placed
+	};
+	typedef QMap<int, PageInfo> PageIndexToInfoMap;
+	PageIndexToInfoMap m_pageIndexToInfoMap;
 };
 
 
