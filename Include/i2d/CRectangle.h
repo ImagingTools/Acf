@@ -148,6 +148,23 @@ public:
 	void SetBottomRight(const CVector2d& bottomRight);
 
 	/**
+		Get point in center of left edge.
+	*/
+	CVector2d GetLeftCenter() const;
+	/**
+		Get point in center of right edge.
+	*/
+	CVector2d GetRightCenter() const;
+	/**
+		Get point in center of top edge.
+	*/
+	CVector2d GetTopCenter() const;
+	/**
+		Get point in center of bottom edge.
+	*/
+	CVector2d GetBottomCenter() const;
+
+	/**
 		Check if some point is contained in this rectangle.
 	*/
 	bool Contains(const CVector2d& point) const;

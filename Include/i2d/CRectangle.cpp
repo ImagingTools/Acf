@@ -245,6 +245,30 @@ void CRectangle::SetBottomRight(const CVector2d& bottomRight)
 }
 
 
+CVector2d CRectangle::GetLeftCenter() const
+{
+	return CVector2d(m_horizontalRange.GetMinValue(), (m_verticalRange.GetMinValue() + m_verticalRange.GetMaxValue()) * 0.5); 
+}
+
+
+CVector2d CRectangle::GetRightCenter() const
+{
+	return CVector2d(m_horizontalRange.GetMaxValue(), (m_verticalRange.GetMinValue() + m_verticalRange.GetMaxValue()) * 0.5); 
+}
+
+
+CVector2d CRectangle::GetTopCenter() const
+{
+	return CVector2d((m_horizontalRange.GetMinValue() + m_horizontalRange.GetMaxValue()) * 0.5, m_verticalRange.GetMinValue()); 
+}
+
+
+CVector2d CRectangle::GetBottomCenter() const
+{
+	return CVector2d((m_horizontalRange.GetMinValue() + m_horizontalRange.GetMaxValue()) * 0.5, m_verticalRange.GetMaxValue()); 
+}
+
+
 bool CRectangle::Contains(const CVector2d& point) const
 {
 	return m_horizontalRange.Contains(point.GetX()) && m_verticalRange.Contains(point.GetY());
