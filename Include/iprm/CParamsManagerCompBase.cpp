@@ -273,7 +273,7 @@ QString CParamsManagerCompBase::GetParamsSetName(int index) const
 
 	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 	if (index < fixedSetsCount){
-		int namesCount = m_fixedSetNamesAttrPtr.GetCount();
+		int namesCount = qMin(m_fixedSetNamesAttrPtr.GetCount(), m_fixedParamSetsCompPtr.GetCount());
 
 		if (index < namesCount){
 			return m_fixedSetNamesAttrPtr[index];
@@ -291,7 +291,7 @@ bool CParamsManagerCompBase::SetParamsSetName(int index, const QString& name)
 {
 	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
-	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 	if (index < fixedSetsCount){
 		return false;
 	}
@@ -311,7 +311,7 @@ QString CParamsManagerCompBase::GetParamsSetDescription(int index) const
 {
 	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
-	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	int fixedSetsCount = qMin(m_fixedSetDescriptionsAttrPtr.GetCount(), m_fixedParamSetsCompPtr.GetCount());
 	if (index < fixedSetsCount){
 		int descriptionsCount = m_fixedSetDescriptionsAttrPtr.GetCount();
 
@@ -331,7 +331,7 @@ void CParamsManagerCompBase::SetParamsSetDescription(int index, const QString& d
 {
 	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
-	int fixedSetsCount = m_fixedSetNamesAttrPtr.GetCount();
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 	if (index < fixedSetsCount){
 		return;
 	}
