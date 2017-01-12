@@ -169,7 +169,7 @@ public:
 		SO_CLONE = 1 << 2,
 
 		/**
-			Comparsion with another object.
+			Comparison with another object.
 		*/
 		SO_COMPARE = 1 << 3,
 
