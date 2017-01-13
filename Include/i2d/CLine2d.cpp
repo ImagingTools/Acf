@@ -6,6 +6,7 @@
 #include <istd/CChangeNotifier.h>
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
+#include <i2d/CMatrix2d.h>
 #include <i2d/CRectangle.h>
 
 
@@ -467,6 +468,50 @@ CLine2d CLine2d::GetShortestConnection(const CLine2d& line) const
 	}
 }
 
+
+bool CLine2d::ApproxFromPoints(const QSet<i2d::CVector2d>& points)
+{
+	// calulate of position center
+	i2d::CVector2d sumPos(0, 0);
+	for (		QSet<i2d::CVector2d>::ConstIterator pointIter = points.constBegin();
+				pointIter != points.constEnd();
+				++pointIter){
+		const i2d::CVector2d& pos = *pointIter;
+
+		sumPos += pos;
+	}
+	i2d::CVector2d centerPos = sumPos / points.size();
+
+	// calulate correlation matrix
+	i2d::CMatrix2d correlationMatrix(0, 0, 0, 0);
+	for (		QSet<i2d::CVector2d>::ConstIterator pointIter = points.constBegin();
+				pointIter != points.constEnd();
+				++pointIter){
+		const i2d::CVector2d& pos = *pointIter;
+
+		i2d::CVector2d diff = pos - centerPos;
+		correlationMatrix.GetAtRef(0, 0) += diff.GetX() * diff.GetX();
+		correlationMatrix.GetAtRef(0, 1) += diff.GetX() * diff.GetY();
+		correlationMatrix.GetAtRef(1, 1) += diff.GetY() * diff.GetY();
+	}
+	correlationMatrix.SetAt(1, 0, correlationMatrix.GetAt(0, 1));
+
+	// take first principial vector
+	i2d::CVector2d eigenVector1;
+	i2d::CVector2d eigenVector2;
+	double eigenValue1;
+	double eigenValue2;
+	if (!correlationMatrix.GetEigenVectors(eigenVector1, eigenVector2, eigenValue1, eigenValue2)){
+		return false;
+	}
+
+	i2d::CVector2d diffVector = eigenVector1.GetNormalized(qSqrt(eigenValue1) * 0.5);
+
+	m_point1 = centerPos - diffVector;
+	m_point2 = centerPos + diffVector;
+
+	return true;
+}
 
 // reimplemented (i2d::IObject2d)
 

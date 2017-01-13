@@ -244,6 +244,11 @@ public:
 	*/
 	CLine2d GetShortestConnection(const CLine2d& line) const;
 
+	/**
+		Calculate this line as approximation of set of points.
+	*/
+	bool ApproxFromPoints(const QSet<i2d::CVector2d>& points);
+
 	// reimplemented (i2d::IObject2d)
 	virtual CVector2d GetCenter() const;
 	virtual void MoveCenterTo(const CVector2d& position);
