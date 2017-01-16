@@ -20,17 +20,17 @@ namespace icomp
 /**
 	Pointer to component attribute.
 	\internal
-	Don't use direct this class, use macros I_ATTR and I_ASSIGN instead.
+	Don't use direct this class, use macros \c I_ATTR, \c I_TEXTATTR and \c I_ASSIGN instead.
 */
 template <typename Attribute>
-class TAttributeMemberBase
+class TAttributeMember
 {
 public:
 	typedef Attribute AttributeType;
 	typedef typename Attribute::ValueType AttributeValueType;
 	typedef void InterfaceType;
 
-	TAttributeMemberBase();
+	TAttributeMember();
 
 	/**
 		Initialize this attribute.
@@ -88,7 +88,7 @@ private:
 // public methods
 
 template <typename Attribute>
-TAttributeMemberBase<Attribute>::TAttributeMemberBase()
+TAttributeMember<Attribute>::TAttributeMember()
 :	m_attributePtr(NULL),
 	m_isAssigned(false)
 {
@@ -96,7 +96,7 @@ TAttributeMemberBase<Attribute>::TAttributeMemberBase()
 
 
 template <typename Attribute>
-void TAttributeMemberBase<Attribute>::Init(
+void TAttributeMember<Attribute>::Init(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo)
 {
@@ -104,7 +104,7 @@ void TAttributeMemberBase<Attribute>::Init(
 }
 
 template <typename Attribute>
-bool TAttributeMemberBase<Attribute>::IsValid() const
+bool TAttributeMember<Attribute>::IsValid() const
 {
 	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
 
@@ -113,7 +113,7 @@ bool TAttributeMemberBase<Attribute>::IsValid() const
 
 
 template <typename Attribute>
-const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
+const Attribute* TAttributeMember<Attribute>::GetAttributePtr() const
 {
 	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
 
@@ -122,7 +122,7 @@ const Attribute* TAttributeMemberBase<Attribute>::GetAttributePtr() const
 
 
 template <typename Attribute>
-const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMemberBase<Attribute>::GetOriginalValue() const
+const typename TAttributeMember<Attribute>::AttributeValueType& TAttributeMember<Attribute>::GetOriginalValue() const
 {
 	Q_ASSERT(m_attributePtr != NULL);	// GetOriginalValue() was called for invalid object, or no IsValid() check was called.
 
@@ -131,7 +131,7 @@ const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMe
 
 
 template <typename Attribute>
-const Attribute* TAttributeMemberBase<Attribute>::operator->() const
+const Attribute* TAttributeMember<Attribute>::operator->() const
 {
 	Q_ASSERT_X(m_isAssigned, "Component initialization", "No I_ASSIGN used or attribute is used out of component context");
 
@@ -140,7 +140,7 @@ const Attribute* TAttributeMemberBase<Attribute>::operator->() const
 
 
 template <typename Attribute>
-const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMemberBase<Attribute>::operator*() const
+const typename TAttributeMember<Attribute>::AttributeValueType& TAttributeMember<Attribute>::operator*() const
 {
 	Q_ASSERT(m_attributePtr != NULL);	// operator* was called for invalid object, or no IsValid() check was called.
 
@@ -151,14 +151,14 @@ const typename TAttributeMemberBase<Attribute>::AttributeValueType& TAttributeMe
 // protected methods
 
 template <typename Attribute>
-void TAttributeMemberBase<Attribute>::SetAttribute(const Attribute* attributePtr)
+void TAttributeMember<Attribute>::SetAttribute(const Attribute* attributePtr)
 {
 	m_attributePtr = attributePtr;
 }
 
 
 template <typename Attribute>
-bool TAttributeMemberBase<Attribute>::InitInternal(
+bool TAttributeMember<Attribute>::InitInternal(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo,
 			const IComponent** definitionComponentPtr)
@@ -224,21 +224,49 @@ bool TAttributeMemberBase<Attribute>::InitInternal(
 }
 
 
-// other constructs used for special template for QString attribute
+// Translatable attribute
 
-template <typename Attribute>
-class TAttributeMember: public TAttributeMemberBase<Attribute>
+class CTextAttribute: public iattr::CStringAttribute
 {
+public:
+	typedef iattr::CStringAttribute BaseClass;
+
+	CTextAttribute()
+	{
+	}
+
+	explicit CTextAttribute(const QString& value)
+	:	BaseClass(value)
+	{
+	}
+
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = iattr::CStringAttribute::DAF_OBLIGATORY | IAttributeStaticInfo::AF_TRANSLATABLE,
+		DAF_OPTIONAL = iattr::CStringAttribute::DAF_OPTIONAL | IAttributeStaticInfo::AF_TRANSLATABLE
+	};
+
+	static QByteArray GetTypeName()
+	{
+		return "Text";
+	}
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const
+	{
+		return GetTypeName();
+	}
 };
 
 
-template <>
-class TAttributeMember< iattr::TAttribute<QString> >: public TAttributeMemberBase< iattr::TAttribute<QString> >
+class CTextAttributeMember: public TAttributeMember<CTextAttribute>
 {
 public:
+	typedef TAttributeMember<CTextAttribute> BaseClass;
+
 	QString operator*() const
 	{
-		return QCoreApplication::translate("Attribute", TAttributeMemberBase< iattr::TAttribute<QString> >::operator*().toUtf8());
+		return QCoreApplication::translate("Attribute", BaseClass::operator*().toUtf8());
 	}
 };
 

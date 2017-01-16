@@ -7,6 +7,8 @@
 #include <iser/CArchiveTag.h>
 #include <iattr/TAttribute.h>
 #include <iattr/TMultiAttribute.h>
+#include <icomp/TAttributeMember.h>
+#include <icomp/TMultiAttributeMember.h>
 #include <icomp/IAttributeStaticInfo.h>
 #include <icomp/IComponentStaticInfo.h>
 #include <icomp/CReferenceAttribute.h>
@@ -82,68 +84,7 @@ IRegistryElement::AttributeInfo* CRegistryElement::InsertAttributeInfo(
 
 iser::IObject* CRegistryElement::CreateAttribute(const QByteArray& attributeType) const
 {
-	static QByteArray integerAttrTypeName = iattr::CIntegerAttribute::GetTypeName();
-	static QByteArray realAttrTypeName = iattr::CRealAttribute::GetTypeName();
-	static QByteArray booleanAttrTypeName = iattr::CBooleanAttribute::GetTypeName();
-	static QByteArray stringAttrTypeName = iattr::CStringAttribute::GetTypeName();
-	static QByteArray idAttrTypeName = iattr::CIdAttribute::GetTypeName();
-
-	static QByteArray boolListAttrTypeName = iattr::CBooleanListAttribute::GetTypeName();
-	static QByteArray realListAttrTypeName = iattr::CRealListAttribute::GetTypeName();
-	static QByteArray integerListAttrTypeName = iattr::CIntegerListAttribute::GetTypeName();
-	static QByteArray stringListAttrTypeName = iattr::CStringListAttribute::GetTypeName();
-	static QByteArray idListAttrTypeName = iattr::CIdListAttribute::GetTypeName();
-
-	static QByteArray referenceAttrTypeName = icomp::CReferenceAttribute::GetTypeName();
-	static QByteArray multiReferenceAttrTypeName = icomp::CMultiReferenceAttribute::GetTypeName();
-	static QByteArray factoryAttrTypeName = icomp::CFactoryAttribute::GetTypeName();
-	static QByteArray multiFactoryAttrTypeName = icomp::CMultiFactoryAttribute::GetTypeName();
-
-	if (attributeType == integerAttrTypeName){
-		return new iattr::CIntegerAttribute();
-	}
-	else if (attributeType == realAttrTypeName){
-		return new iattr::CRealAttribute();
-	}
-	else if (attributeType == booleanAttrTypeName){
-		return new iattr::CBooleanAttribute();
-	}
-	else if (attributeType == stringAttrTypeName){
-		return new iattr::CStringAttribute();
-	}
-	else if (attributeType == idAttrTypeName){
-		return new iattr::CIdAttribute();
-	}
-	else if (attributeType == integerListAttrTypeName){
-		return new iattr::CIntegerListAttribute();
-	}
-	else if (attributeType == realListAttrTypeName){
-		return new iattr::CRealListAttribute();
-	}
-	else if (attributeType == boolListAttrTypeName){
-		return new iattr::CBooleanListAttribute();
-	}
-	else if (attributeType == stringListAttrTypeName){
-		return new iattr::CStringListAttribute();
-	}
-	else if (attributeType == idListAttrTypeName){
-		return new iattr::CIdListAttribute();
-	}
-	else if (attributeType == referenceAttrTypeName){
-		return new icomp::CReferenceAttribute();
-	}
-	else if (attributeType == multiReferenceAttrTypeName){
-		return new icomp::CMultiReferenceAttribute();
-	}
-	else if (attributeType == factoryAttrTypeName){
-		return new icomp::CFactoryAttribute();
-	}
-	else if (attributeType == multiFactoryAttrTypeName){
-		return new icomp::CMultiFactoryAttribute();
-	}
-	else{
-		return NULL;
-	}
+	return CreateAttributeIntern(attributeType);
 }
 
 
@@ -202,6 +143,11 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
 	Q_UNUSED(notifier);
 
+	quint32 version = quint32(-1);
+	archive.GetVersionInfo().GetVersionNumber(iser::IVersionInfo::AcfVersionId, version);
+
+	bool isOldFormat = (version < 4423);
+
 	bool retVal = true;
 
 	retVal = retVal && archive.BeginTag(s_flagsTag);
@@ -242,6 +188,14 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 
 			bool isEnabled = info.attributePtr.IsValid();
 			QByteArray attributeType = isEnabled? info.attributePtr->GetFactoryId(): info.attributeTypeName;
+			if (isOldFormat){
+				if (attributeType == icomp::CTextAttribute::GetTypeName()){
+					attributeType = iattr::CStringAttribute::GetTypeName();
+				}
+				else if (attributeType == icomp::CMultiTextAttribute::GetTypeName()){
+					attributeType = iattr::CStringListAttribute::GetTypeName();
+				}
+			}
 
 			retVal = retVal && archive.BeginTag(s_attributeTypeTag);
 			retVal = retVal && archive.Process(attributeType);
@@ -309,6 +263,15 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 				return false;
 			}
 
+			if (isOldFormat){
+				if (attributeType == iattr::CStringAttribute::GetTypeName()){
+					attributeType = CTextAttribute::GetTypeName();
+				}
+				else if (attributeType == iattr::CStringListAttribute::GetTypeName()){
+					attributeType = CMultiTextAttribute::GetTypeName();
+				}
+			}
+
 			AttributeInfo* infoPtr = InsertAttributeInfo(attributeId, attributeType);
 
 			if (infoPtr != NULL){
@@ -316,7 +279,7 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 				infoPtr->attributeTypeName = attributeType;
 
 				if (isEnabled){
-					iser::IObject* attributePtr = CreateAttribute(attributeType);
+					iser::IObject* attributePtr = CreateAttributeIntern(attributeType);
 					if (attributePtr == NULL){
 						return false;
 					}
@@ -339,6 +302,83 @@ bool CRegistryElement::Serialize(iser::IArchive& archive)
 	}
 
 	return retVal;
+}
+
+
+// protected members
+
+iser::IObject* CRegistryElement::CreateAttributeIntern(const QByteArray& attributeType) const
+{
+	static QByteArray integerAttrTypeName = iattr::CIntegerAttribute::GetTypeName();
+	static QByteArray realAttrTypeName = iattr::CRealAttribute::GetTypeName();
+	static QByteArray booleanAttrTypeName = iattr::CBooleanAttribute::GetTypeName();
+	static QByteArray stringAttrTypeName = iattr::CStringAttribute::GetTypeName();
+	static QByteArray idAttrTypeName = iattr::CIdAttribute::GetTypeName();
+	static QByteArray textAttrTypeName = icomp::CTextAttribute::GetTypeName();
+
+	static QByteArray boolListAttrTypeName = iattr::CBooleanListAttribute::GetTypeName();
+	static QByteArray realListAttrTypeName = iattr::CRealListAttribute::GetTypeName();
+	static QByteArray integerListAttrTypeName = iattr::CIntegerListAttribute::GetTypeName();
+	static QByteArray stringListAttrTypeName = iattr::CStringListAttribute::GetTypeName();
+	static QByteArray idListAttrTypeName = iattr::CIdListAttribute::GetTypeName();
+	static QByteArray textListAttrTypeName = icomp::CMultiTextAttribute::GetTypeName();
+
+	static QByteArray referenceAttrTypeName = icomp::CReferenceAttribute::GetTypeName();
+	static QByteArray multiReferenceAttrTypeName = icomp::CMultiReferenceAttribute::GetTypeName();
+	static QByteArray factoryAttrTypeName = icomp::CFactoryAttribute::GetTypeName();
+	static QByteArray multiFactoryAttrTypeName = icomp::CMultiFactoryAttribute::GetTypeName();
+
+	if (attributeType == integerAttrTypeName){
+		return new iattr::CIntegerAttribute();
+	}
+	else if (attributeType == realAttrTypeName){
+		return new iattr::CRealAttribute();
+	}
+	else if (attributeType == booleanAttrTypeName){
+		return new iattr::CBooleanAttribute();
+	}
+	else if (attributeType == stringAttrTypeName){
+		return new iattr::CStringAttribute();
+	}
+	else if (attributeType == idAttrTypeName){
+		return new iattr::CIdAttribute();
+	}
+	else if (attributeType == textAttrTypeName){
+		return new icomp::CTextAttribute();
+	}
+	else if (attributeType == integerListAttrTypeName){
+		return new iattr::CIntegerListAttribute();
+	}
+	else if (attributeType == realListAttrTypeName){
+		return new iattr::CRealListAttribute();
+	}
+	else if (attributeType == boolListAttrTypeName){
+		return new iattr::CBooleanListAttribute();
+	}
+	else if (attributeType == stringListAttrTypeName){
+		return new iattr::CStringListAttribute();
+	}
+	else if (attributeType == idListAttrTypeName){
+		return new iattr::CIdListAttribute();
+	}
+	else if (attributeType == textListAttrTypeName){
+		return new icomp::CMultiTextAttribute();
+	}
+	else if (attributeType == referenceAttrTypeName){
+		return new icomp::CReferenceAttribute();
+	}
+	else if (attributeType == multiReferenceAttrTypeName){
+		return new icomp::CMultiReferenceAttribute();
+	}
+	else if (attributeType == factoryAttrTypeName){
+		return new icomp::CFactoryAttribute();
+	}
+	else if (attributeType == multiFactoryAttrTypeName){
+		return new icomp::CMultiFactoryAttribute();
+	}
+	else{
+		return NULL;
+	}
 }
 
 

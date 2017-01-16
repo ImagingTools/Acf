@@ -14,17 +14,17 @@ namespace icomp
 /**
 	Pointer to component attribute.
 	\internal
-	Don't use direct this class, use macros \c I_ATTR and \c I_ASSIGN_MULTI_* instead.
+	Don't use direct this class, use macros \c I_ATTR, \c I_MULTITEXTATTR and \c I_ASSIGN_MULTI_* instead.
 */
 template <typename Attribute>
-class TMultiAttributeMemberBase
+class TMultiAttributeMember
 {
 public:
 	typedef Attribute AttributeType;
 	typedef typename Attribute::ValueType AttributeValueType;
 	typedef void InterfaceType;
 
-	TMultiAttributeMemberBase();
+	TMultiAttributeMember();
 
 	/**
 		Internal initialize of attribute.
@@ -71,14 +71,14 @@ private:
 // public methods
 
 template <typename Attribute>
-TMultiAttributeMemberBase<Attribute>::TMultiAttributeMemberBase()
+TMultiAttributeMember<Attribute>::TMultiAttributeMember()
 :	m_attributePtr(NULL)
 {
 }
 
 
 template <typename Attribute>
-void TMultiAttributeMemberBase<Attribute>::Init(
+void TMultiAttributeMember<Attribute>::Init(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo)
 {
@@ -87,14 +87,14 @@ void TMultiAttributeMemberBase<Attribute>::Init(
 
 
 template <typename Attribute>
-bool TMultiAttributeMemberBase<Attribute>::IsValid() const
+bool TMultiAttributeMember<Attribute>::IsValid() const
 {
 	return (m_attributePtr != NULL);
 }
 
 
 template <typename Attribute>
-int TMultiAttributeMemberBase<Attribute>::GetCount() const
+int TMultiAttributeMember<Attribute>::GetCount() const
 {
 	if (m_attributePtr != NULL){
 		return m_attributePtr->GetValuesCount();
@@ -106,7 +106,7 @@ int TMultiAttributeMemberBase<Attribute>::GetCount() const
 
 
 template <typename Attribute>
-const typename TMultiAttributeMemberBase<Attribute>::AttributeValueType& TMultiAttributeMemberBase<Attribute>::operator[](int index) const
+const typename TMultiAttributeMember<Attribute>::AttributeValueType& TMultiAttributeMember<Attribute>::operator[](int index) const
 {
 	Q_ASSERT(index >= 0);
 	Q_ASSERT(index < GetCount());
@@ -118,7 +118,7 @@ const typename TMultiAttributeMemberBase<Attribute>::AttributeValueType& TMultiA
 
 
 template <typename Attribute>
-int TMultiAttributeMemberBase<Attribute>::FindValue(const AttributeValueType& value) const
+int TMultiAttributeMember<Attribute>::FindValue(const AttributeValueType& value) const
 {
 	if (m_attributePtr != NULL){
 		return m_attributePtr->FindValue(value);
@@ -131,7 +131,7 @@ int TMultiAttributeMemberBase<Attribute>::FindValue(const AttributeValueType& va
 // protected methods
 
 template <typename Attribute>
-bool TMultiAttributeMemberBase<Attribute>::InitInternal(
+bool TMultiAttributeMember<Attribute>::InitInternal(
 			const IComponent* ownerPtr,
 			const IRealAttributeStaticInfo& staticInfo,
 			const IComponent** definitionComponentPtr)
@@ -170,21 +170,49 @@ bool TMultiAttributeMemberBase<Attribute>::InitInternal(
 }
 
 
-// other constructs used for special template for QString attribute
+// Translatable attribute
 
-template <typename Attribute>
-class TMultiAttributeMember: public TMultiAttributeMemberBase<Attribute>
+class CMultiTextAttribute: public iattr::CStringListAttribute
 {
+public:
+	typedef iattr::CStringListAttribute BaseClass;
+
+	CMultiTextAttribute()
+	{
+	}
+
+	explicit CMultiTextAttribute(int elementsCount, QString* valuesPtr)
+	:	BaseClass(elementsCount, valuesPtr)
+	{
+	}
+
+	enum DefaultAttributeFlags
+	{
+		DAF_OBLIGATORY = BaseClass::DAF_OBLIGATORY | IAttributeStaticInfo::AF_TRANSLATABLE,
+		DAF_OPTIONAL = BaseClass::DAF_OPTIONAL | IAttributeStaticInfo::AF_TRANSLATABLE
+	};
+
+	static QByteArray GetTypeName()
+	{
+		return "Text[]";
+	}
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const
+	{
+		return GetTypeName();
+	}
 };
 
 
-template <>
-class TMultiAttributeMember< iattr::TMultiAttribute<QString> >: public TMultiAttributeMemberBase< iattr::TMultiAttribute<QString> >
+class CMultiTextAttributeMember: public TMultiAttributeMember<CMultiTextAttribute>
 {
 public:
+	typedef TMultiAttributeMember<CMultiTextAttribute> BaseClass;
+
 	QString operator[](int index) const
 	{
-		return QCoreApplication::translate("Attribute", TMultiAttributeMemberBase< iattr::TMultiAttribute<QString> >::operator[](index).toLatin1());
+		return QCoreApplication::translate("Attribute", BaseClass::operator[](index).toLatin1());
 	}
 };
 

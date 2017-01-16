@@ -146,30 +146,38 @@ bool CSimComponentContextBase::InsertMultiFactory(const QByteArray& factoryId, c
 
 bool CSimComponentContextBase::SetBoolAttr(const QByteArray& attributeId, bool value)
 {
-	return SetSingleAttr<bool>(attributeId, value);
+	Q_ASSERT(IsAttributeTypeCorrect< iattr::TAttribute<bool> >(attributeId));
+
+	return SetAttr(attributeId, new iattr::TAttribute<bool>(value));
 }
 
 
 bool CSimComponentContextBase::SetIntAttr(const QByteArray& attributeId, int value)
 {
-	return SetSingleAttr<int>(attributeId, value);
+	Q_ASSERT(IsAttributeTypeCorrect< iattr::TAttribute<int> >(attributeId));
+
+	return SetAttr(attributeId, new iattr::TAttribute<int>(value));
 }
 
 
 bool CSimComponentContextBase::SetDoubleAttr(const QByteArray& attributeId, double value)
 {
-	return SetSingleAttr<double>(attributeId, value);
+	Q_ASSERT(IsAttributeTypeCorrect< iattr::TAttribute<double> >(attributeId));
+
+	return SetAttr(attributeId, new iattr::TAttribute<double>(value));
 }
 
 
 bool CSimComponentContextBase::SetStringAttr(const QByteArray& attributeId, const QString& value)
 {
-	return SetSingleAttr<QString>(attributeId, value);
+	return SetAttr(attributeId, new icomp::CTextAttribute(value));
 }
 
 
 bool CSimComponentContextBase::SetIdAttr(const QByteArray& attributeId, const QByteArray& value){
-	return SetSingleAttr<QByteArray>(attributeId, value);
+	Q_ASSERT(IsAttributeTypeCorrect< iattr::TAttribute<QByteArray> >(attributeId));
+
+	return SetAttr(attributeId, new iattr::TAttribute<QByteArray>(value));
 }
 
 
@@ -220,6 +228,38 @@ const iser::IObject* CSimComponentContextBase::GetAttribute(const QByteArray& at
 	}
 
 	return NULL;
+}
+
+
+// specialisation of template methods
+
+bool CSimComponentContextBase::InsertMultiAttr(const QByteArray& attributeId, const QString& attribute)
+{
+	CMultiTextAttribute* multiAttrPtr = NULL;
+
+	const IRegistryElement::AttributeInfo* existingInfoPtr = m_registryElement.GetAttributeInfo(attributeId);
+	if (existingInfoPtr != NULL){
+		multiAttrPtr = dynamic_cast<CMultiTextAttribute*>(existingInfoPtr->attributePtr.GetPtr());
+	}
+	else{
+		IRegistryElement::AttributeInfo* newInfoPtr = m_registryElement.InsertAttributeInfo(attributeId, istd::CClassInfo::GetName<CMultiTextAttribute>());
+		if (newInfoPtr != NULL){
+			IRegistryElement::AttributePtr& attributePtr = newInfoPtr->attributePtr;
+			if (!attributePtr.IsValid()){
+				attributePtr.SetPtr(new CMultiTextAttribute);
+			}
+
+			multiAttrPtr = dynamic_cast<CMultiTextAttribute*>(attributePtr.GetPtr());
+		}
+	}
+
+	if (multiAttrPtr != NULL){
+		multiAttrPtr->InsertValue(attribute);
+
+		return true;
+	}
+
+	return false;
 }
 
 

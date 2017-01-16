@@ -35,7 +35,11 @@ public:
 		/**
 			Attribute is factory of another component.
 		*/
-		AF_FACTORY = 1 << 6
+		AF_FACTORY = 1 << 6,
+		/**
+			Attribute is able to translate.
+		*/
+		AF_TRANSLATABLE = 1 << 7
 	};
 
 	/**

@@ -39,6 +39,9 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+protected:
+	iser::IObject* CreateAttributeIntern(const QByteArray& attributeType) const;
+
 private:
 	quint32 m_elementFlags;
 

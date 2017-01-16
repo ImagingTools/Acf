@@ -15,6 +15,8 @@
 #include <icomp/IComponent.h>
 #include <icomp/IComponentContext.h>
 #include <icomp/IComponentStaticInfo.h>
+#include <icomp/TAttributeMember.h>
+#include <icomp/TMultiAttributeMember.h>
 #include <icomp/CRegistryElement.h>
 
 
@@ -78,21 +80,6 @@ public:
 	*/
 	bool SetStringAttr(const QByteArray& attributeId, const QString& value);
 
-	/**
-		Set instance of \c QByteArray attribute.
-	*/
-	bool SetIdAttr(const QByteArray& attributeId, const QByteArray& value);
-
-	/**
-		Set instance of simple attribute.
-	*/
-	template <class Attribute>
-	bool SetSingleAttr(const QByteArray& attributeId, const Attribute& attribute)
-	{
-		Q_ASSERT(IsAttributeTypeCorrect<iattr::TAttribute<Attribute> >(attributeId));
-
-		return SetAttr(attributeId, new iattr::TAttribute<Attribute>(attribute));
-	}
 
 	/**
 		Insert new attribute to multi attributes.
@@ -131,6 +118,8 @@ public:
 		return false;
 	}
 
+	bool InsertMultiAttr(const QByteArray& attributeId, const QString& attribute);
+
 	// reimplemeted (icomp::IComponentContext)
 	virtual const IRegistryElement& GetRegistryElement() const;
 	virtual const IComponentStaticInfo& GetStaticInfo() const;
@@ -143,6 +132,11 @@ protected:
 	*/
 	template <class AttrType>
 	bool IsAttributeTypeCorrect(const QByteArray& attributeId);
+
+	/**
+		Set instance of \c QByteArray attribute.
+	*/
+	bool SetIdAttr(const QByteArray& attributeId, const QByteArray& value);
 
 	typedef QMap<QByteArray, IComponent*> ComponentsMap;
 	ComponentsMap m_componentsMap;
