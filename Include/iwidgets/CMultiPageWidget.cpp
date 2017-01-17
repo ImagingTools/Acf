@@ -43,7 +43,8 @@ CMultiPageWidget::CMultiPageWidget(
 	:BaseClass(parentWidgetPtr),
 	m_designMode(designMode),
 	m_containerGuiFlags(containerGuiFlags),
-	m_orientation(orientation)
+	m_orientation(orientation),
+	m_pageSwitchingBlocked(false)
 {
 	// Register default delegates:
 	RegisterMultiPageWidgetDelegate<CSimpleGuiContainerDelegate>(DT_SIMPLE);
@@ -107,10 +108,18 @@ void CMultiPageWidget::SetLayoutOrientation(Qt::Orientation orientation)
 
 void CMultiPageWidget::ResetPages()
 {
+	m_pageSwitchingBlocked = true;
+
 	MultiPageWidgetDelegatePtr delegatePtr = GetCurrentDelegate();
 	if (delegatePtr.IsValid()){
 		delegatePtr->ResetPages(*m_guiContainerPtr);
 	}
+
+	m_pageSwitchingBlocked = false;
+
+	int pagesCount = delegatePtr->GetPagesCount(*m_guiContainerPtr);
+
+	Q_EMIT EmitPageIndexChanged((pagesCount == 0) ? -1 : 0);
 }
 
 
@@ -337,7 +346,9 @@ bool CMultiPageWidget::IsPageIndexChangeSupported(int designMode)
 
 void CMultiPageWidget::OnPageIndexChanged(int pageIndex)
 {
-	Q_EMIT EmitPageIndexChanged(pageIndex);
+	if (!m_pageSwitchingBlocked){
+		Q_EMIT EmitPageIndexChanged(pageIndex);
+	}
 }
 
 

@@ -266,6 +266,11 @@ private:
 	Qt::Orientation m_orientation;
 
 	QSize m_pageIconSize;
+
+	/**
+		If enabled, no notification about changes of the current page will be done.
+	*/
+	bool m_pageSwitchingBlocked;
 };
 
 
