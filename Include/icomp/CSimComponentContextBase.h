@@ -80,6 +80,10 @@ public:
 	*/
 	bool SetStringAttr(const QByteArray& attributeId, const QString& value);
 
+	/**
+		Set instance of \c QByteArray attribute.
+	*/
+	bool SetIdAttr(const QByteArray& attributeId, const QByteArray& value);
 
 	/**
 		Insert new attribute to multi attributes.
@@ -132,11 +136,6 @@ protected:
 	*/
 	template <class AttrType>
 	bool IsAttributeTypeCorrect(const QByteArray& attributeId);
-
-	/**
-		Set instance of \c QByteArray attribute.
-	*/
-	bool SetIdAttr(const QByteArray& attributeId, const QByteArray& value);
 
 	typedef QMap<QByteArray, IComponent*> ComponentsMap;
 	ComponentsMap m_componentsMap;
