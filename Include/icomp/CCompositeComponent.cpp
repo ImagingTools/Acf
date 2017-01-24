@@ -1,10 +1,16 @@
 #include <icomp/CCompositeComponent.h>
 
 
-#include <istd/CClassInfo.h>
+#ifndef QT_NO_DEBUG
+// Qt includes
+#include <QtCore/QThread>
+#include <QtCore/QCoreApplication>
+#endif //QT_NO_DEBUG
 
+
+// ACF includes
+#include <istd/CClassInfo.h>
 #include <icomp/IComponentEnvironmentManager.h>
-#include <icomp/CCompositeComponentContext.h>
 #include <icomp/CBaseComponentStaticInfo.h>
 
 
@@ -75,6 +81,12 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 IComponent* CCompositeComponent::GetSubcomponent(const QByteArray& componentId) const
 {
 	if (m_contextPtr != NULL){
+#ifndef QT_NO_DEBUG
+		if ((qApp != NULL) && QThread::currentThread() != qApp->thread()){
+			qWarning("Component %s initialized outside of an application thread\n", m_contextPtr->GetCompleteContextId().constData());
+		}
+#endif //QT_NO_DEBUG
+
 		ComponentInfo& componentInfo = m_componentMap[componentId];
 		if (!componentInfo.isComponentInitialized){
 			componentInfo.isComponentInitialized = true;
@@ -276,7 +288,7 @@ void CCompositeComponent::SetComponentContext(
 
 	const CCompositeComponentContext* compositeContextPtr = dynamic_cast<const CCompositeComponentContext*>(contextPtr);
 	if (compositeContextPtr != NULL){
-		m_contextPtr = contextPtr;
+		m_contextPtr = compositeContextPtr;
 
 		const IRegistry& registry = compositeContextPtr->GetRegistry();
 
