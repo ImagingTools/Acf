@@ -59,7 +59,9 @@ protected:
 	i2d::CVector2d m_referencePosition;
 	EditNode m_editNode;
 
-	mutable istd::CIndex2d m_corners[2][2];
+	mutable i2d::CVector2d m_corners[4];
+	mutable i2d::CVector2d m_ctrlsLeft[4];
+	mutable i2d::CVector2d m_ctrlsRight[4];
 	mutable bool m_arePointsValid;
 };
 

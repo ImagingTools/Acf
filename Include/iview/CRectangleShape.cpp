@@ -50,41 +50,36 @@ ITouchable::TouchState CRectangleShape::IsTouched(istd::CIndex2d position) const
 		if (IsSelected()){
 			i2d::CRect tbox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
-			if (			tbox.IsInside(position - m_corners[0][0]) ||
-							tbox.IsInside(position - m_corners[0][1]) ||
-							tbox.IsInside(position - m_corners[1][0]) ||
-							tbox.IsInside(position - m_corners[1][1])){
+			if (		tbox.IsInside(position - m_corners[0].ToIndex2d()) ||
+						tbox.IsInside(position - m_corners[1].ToIndex2d()) ||
+						tbox.IsInside(position - m_corners[2].ToIndex2d()) ||
+						tbox.IsInside(position - m_corners[3].ToIndex2d())){
 				return TS_TICKER;
 			}
 		}
 
-		i2d::CVector2d sp = position;
+		double localLineWidth = GetLocalLineWidth(position);
 
-		double logicalLineWidth = colorSchema.GetLogicalLineWidth();
+		i2d::CVector2d cp = GetLogPosition(position);
 
 		const i2d::CRectangle& modelArea = *rectanglePtr;
 
 		bool isEditablePosition = IsEditablePosition();
 
-		i2d::CVector2d screenLeftTop = GetScreenPosition(modelArea.GetLeftTop());
-		i2d::CVector2d screenRightTop = GetScreenPosition(modelArea.GetRightTop());
-		i2d::CVector2d screenLeftBottom = GetScreenPosition(modelArea.GetLeftBottom());
-		i2d::CVector2d screenRightBottom = GetScreenPosition(modelArea.GetRightBottom());
-
-		i2d::CLine2d line(screenLeftTop, screenRightTop);
-		if (line.GetDistance(sp) < logicalLineWidth){
+		i2d::CLine2d line(modelArea.GetLeftTop(), modelArea.GetRightTop());
+		if (line.GetDistance(cp) < localLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint1(screenRightBottom);
-		if (line.GetDistance(sp) < logicalLineWidth){
+		line.SetPoint1(modelArea.GetRightBottom());
+		if (line.GetDistance(cp) < localLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint2(screenLeftBottom);
-		if (line.GetDistance(sp) < logicalLineWidth){
+		line.SetPoint2(modelArea.GetLeftBottom());
+		if (line.GetDistance(cp) < localLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
-		line.SetPoint1(screenLeftTop);
-		if (line.GetDistance(sp) < logicalLineWidth){
+		line.SetPoint1(modelArea.GetLeftTop());
+		if (line.GetDistance(cp) < localLineWidth){
 			return isEditablePosition? TS_DRAGGABLE: TS_INACTIVE;
 		}
 	}
@@ -115,16 +110,25 @@ void CRectangleShape::Draw(QPainter& drawContext) const
 			drawContext.setPen(colorSchema.GetPen(IColorSchema::SP_NORMAL));
 		}
 
-		drawContext.drawLine(iqt::GetQPoint(m_corners[0][0]), iqt::GetQPoint(m_corners[0][1]));
-		drawContext.drawLine(iqt::GetQPoint(m_corners[0][1]), iqt::GetQPoint(m_corners[1][1]));
-		drawContext.drawLine(iqt::GetQPoint(m_corners[1][1]), iqt::GetQPoint(m_corners[1][0]));
-		drawContext.drawLine(iqt::GetQPoint(m_corners[1][0]), iqt::GetQPoint(m_corners[0][0]));
+		QBrush emptyBrush(QColor(0, 0, 0), Qt::NoBrush);
+		drawContext.setBrush(emptyBrush);
+
+		QPainterPath painterPatch;
+
+		painterPatch.moveTo(m_corners[0]);
+		painterPatch.cubicTo(m_ctrlsRight[0], m_ctrlsLeft[1], m_corners[1]);
+		painterPatch.cubicTo(m_ctrlsRight[1], m_ctrlsLeft[2], m_corners[2]);
+		painterPatch.cubicTo(m_ctrlsRight[2], m_ctrlsLeft[3], m_corners[3]);
+		painterPatch.cubicTo(m_ctrlsRight[3], m_ctrlsLeft[0], m_corners[0]);
+		painterPatch.closeSubpath();
+
+		drawContext.drawPath(painterPatch);
 
 		if (IsSelected()){
-			colorSchema.DrawTicker(drawContext, m_corners[0][0], IColorSchema::TT_MOVE);
-			colorSchema.DrawTicker(drawContext, m_corners[0][1], IColorSchema::TT_MOVE);
-			colorSchema.DrawTicker(drawContext, m_corners[1][0], IColorSchema::TT_MOVE);
-			colorSchema.DrawTicker(drawContext, m_corners[1][1], IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[0].ToIndex2d(), IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[1].ToIndex2d(), IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[2].ToIndex2d(), IColorSchema::TT_MOVE);
+			colorSchema.DrawTicker(drawContext, m_corners[3].ToIndex2d(), IColorSchema::TT_MOVE);
 		}
 
 		drawContext.restore();
@@ -160,17 +164,17 @@ bool CRectangleShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton but
 
 			const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IColorSchema::TT_MOVE);
 
-			if (tickerBox.IsInside(position - m_corners[0][0])){
+			if (tickerBox.IsInside(position - m_corners[0].ToIndex2d())){
 				m_editNode = EN_CORNER11;
 			}
-			else if (tickerBox.IsInside(position - m_corners[0][1])){
+			else if (tickerBox.IsInside(position - m_corners[1].ToIndex2d())){
 				m_editNode = EN_CORNER12;
 			}
-			else if (tickerBox.IsInside(position - m_corners[1][0])){
-				m_editNode = EN_CORNER21;
-			}
-			else if (tickerBox.IsInside(position - m_corners[1][1])){
+			else if (tickerBox.IsInside(position - m_corners[2].ToIndex2d())){
 				m_editNode = EN_CORNER22;
+			}
+			else if (tickerBox.IsInside(position - m_corners[3].ToIndex2d())){
+				m_editNode = EN_CORNER21;
 			}
 			else{
 				EndTickerDrag();
@@ -273,10 +277,23 @@ bool CRectangleShape::OnMouseMove(istd::CIndex2d position)
 
 void CRectangleShape::CalcPoints(const i2d::CRectangle& rectangle) const
 {
-	m_corners[0][0] = GetScreenPosition(rectangle.GetLeftTop()).ToIndex2d();
-	m_corners[0][1] = GetScreenPosition(rectangle.GetRightTop()).ToIndex2d();
-	m_corners[1][0] = GetScreenPosition(rectangle.GetLeftBottom()).ToIndex2d();
-	m_corners[1][1] = GetScreenPosition(rectangle.GetRightBottom()).ToIndex2d();
+	m_corners[0] = GetScreenPosition(rectangle.GetLeftTop());
+	m_corners[1] = GetScreenPosition(rectangle.GetRightTop());
+	m_corners[2] = GetScreenPosition(rectangle.GetRightBottom());
+	m_corners[3] = GetScreenPosition(rectangle.GetLeftBottom());
+	m_ctrlsLeft[0] = GetScreenPosition(rectangle.GetLeftTop() * 0.99 + rectangle.GetLeftBottom() * 0.01);
+	m_ctrlsLeft[1] = GetScreenPosition(rectangle.GetRightTop() * 0.99 + rectangle.GetLeftTop() * 0.01);
+	m_ctrlsLeft[2] = GetScreenPosition(rectangle.GetRightBottom() * 0.99 + rectangle.GetRightTop() * 0.01);
+	m_ctrlsLeft[3] = GetScreenPosition(rectangle.GetLeftBottom() * 0.99 + rectangle.GetRightBottom() * 0.01);
+	m_ctrlsRight[0] = GetScreenPosition(rectangle.GetLeftTop() * 0.99 + rectangle.GetRightTop() * 0.01);
+	m_ctrlsRight[1] = GetScreenPosition(rectangle.GetRightTop() * 0.99 + rectangle.GetRightBottom() * 0.01);
+	m_ctrlsRight[2] = GetScreenPosition(rectangle.GetRightBottom() * 0.99 + rectangle.GetLeftBottom() * 0.01);
+	m_ctrlsRight[3] = GetScreenPosition(rectangle.GetLeftBottom() * 0.99 + rectangle.GetLeftTop() * 0.01);
+
+	for (int i = 0; i < 4; ++i){
+		m_ctrlsLeft[i] += (m_ctrlsLeft[i] - m_corners[i]) * 42;
+		m_ctrlsRight[i] += (m_ctrlsRight[i] - m_corners[i]) * 42;
+	}
 
 	m_arePointsValid = true;
 }
@@ -318,10 +335,12 @@ i2d::CRect CRectangleShape::CalcBoundingBox() const
 			CalcPoints(*framePtr);
 		}
 
-		i2d::CRect boundingBox(m_corners[0][0], m_corners[0][0]);
-		boundingBox.Union(m_corners[0][1]);
-		boundingBox.Union(m_corners[1][0]);
-		boundingBox.Union(m_corners[1][1]);
+		i2d::CRect boundingBox(m_corners[0].ToIndex2d(), m_corners[0].ToIndex2d());
+		for (int i = 0; i < 4; ++i){
+			boundingBox.Union(m_corners[i].ToIndex2d());
+			boundingBox.Union(m_ctrlsLeft[i].ToIndex2d());
+			boundingBox.Union(m_ctrlsRight[i].ToIndex2d());
+		}
 
 		const i2d::CRect& tickerBox = colorSchema.GetTickerBox(IsSelected()? IColorSchema::TT_MOVE: IColorSchema::TT_INACTIVE);
 
