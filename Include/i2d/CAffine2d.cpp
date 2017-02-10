@@ -119,20 +119,11 @@ bool CAffine2d::GetInvertedApply(const i2d::CVector2d& position, i2d::CVector2d&
 
 bool CAffine2d::GetInverted(CAffine2d& result) const
 {
-	double det = m_deformMatrix.GetAt(0, 0) * m_deformMatrix.GetAt(1, 1) - m_deformMatrix.GetAt(0, 1) * m_deformMatrix.GetAt(1, 0);
-	if (qAbs(det) < I_BIG_EPSILON){
+	if (!m_deformMatrix.GetInverted(result.m_deformMatrix)){
 		return false;
 	}
 
-	result.m_deformMatrix.SetAt(0, 0, m_deformMatrix.GetAt(1, 1) / det);
-	result.m_deformMatrix.SetAt(1, 0, m_deformMatrix.GetAt(0, 1) / det);
-	result.m_deformMatrix.SetAt(0, 1, m_deformMatrix.GetAt(1, 0) / det);
-	result.m_deformMatrix.SetAt(1, 1, m_deformMatrix.GetAt(0, 0) / det);
-
-	CVector2d resultNegTranslation;
-	result.m_deformMatrix.GetMultiplied(m_translation, resultNegTranslation);
-
-	result.m_translation = -resultNegTranslation;
+	result.m_deformMatrix.GetMultiplied(-m_translation, result.m_translation);
 
 	return true;
 }
