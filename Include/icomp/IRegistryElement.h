@@ -47,7 +47,11 @@ public:
 		/**
 			Indicate that instance of this element should be automatically created.
 		*/
-		EF_AUTO_INSTANCE = 0x0001
+		EF_AUTO_INSTANCE = 0x0001,
+		/**
+			Indicate that this element is detached from container and can be used as factory.
+		*/
+		EF_IS_DETACHED = 0x0002
 	};
 
 	/**
