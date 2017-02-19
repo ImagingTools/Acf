@@ -1,6 +1,6 @@
 /********************************************************************************
 **
-**	Copyright (C) 2007-2015 Witold Gantzke & Kirill Lepskiy
+**	Copyright (C) 2007-2017 Witold Gantzke & Kirill Lepskiy
 **
 **	This file is part of the ACF Toolkit.
 **
