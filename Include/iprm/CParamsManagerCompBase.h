@@ -170,7 +170,6 @@ protected:
 		virtual bool Serialize(iser::IArchive& archive);
 
 		istd::TDelPtr<IParamsSet> paramSetPtr;
-		QByteArray typeId;
 		QByteArray uuid;
 		QString name;
 		iprm::CNameParam description;

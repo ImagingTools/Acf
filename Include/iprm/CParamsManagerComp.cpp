@@ -55,7 +55,6 @@ bool CParamsManagerComp::SetSetsCount(int count)
 
 				paramsSetPtr->paramSetPtr.SetPtr(newParamsSetPtr);
 				paramsSetPtr->name = CalculateNewDefaultName();
-				paramsSetPtr->typeId = newParamsSetPtr->GetFactoryId();
 				paramsSetPtr->parentPtr = this;
 
 				imod::IModel* paramsModelPtr = dynamic_cast<imod::IModel*>(newParamsSetPtr);
