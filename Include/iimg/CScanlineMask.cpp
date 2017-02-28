@@ -520,6 +520,61 @@ void CScanlineMask::GetInverted(const i2d::CRect& clipArea, CScanlineMask& resul
 }
 
 
+void CScanlineMask::Invert(const i2d::CRect& clipArea)
+{
+	if (clipArea.IsEmpty()){
+		ResetImage();
+	}
+
+	istd::CChangeNotifier notifier(this);
+	Q_UNUSED(notifier);
+
+	m_isBoundingBoxValid = false;
+
+	for (		RangesContainer::Iterator lineIter = m_rangesContainer.begin();
+				lineIter != m_rangesContainer.end();
+				++lineIter){
+		istd::CIntRanges& lineRanges = *lineIter;
+
+		lineRanges.Invert(&clipArea.GetHorizontalRange());
+	}
+
+	istd::CIntRanges fullRange(clipArea.GetHorizontalRange());
+	m_rangesContainer.append(fullRange);
+	int fullRangeIndex = m_rangesContainer.size() - 1;
+
+	int scanLinesCount = clipArea.GetHeight();
+	int vertShift = m_firstLinePos - clipArea.GetTop();
+	if (vertShift > 0){
+		int totalLines = qMin(scanLinesCount, int(m_scanlines.size()));
+		m_scanlines.resize(totalLines, fullRangeIndex);
+
+		for (int lineIndex = totalLines - 1; lineIndex >= vertShift; --lineIndex){
+			m_scanlines[lineIndex] = m_scanlines[lineIndex - vertShift];
+		}
+
+		for (int lineIndex = 0; lineIndex < vertShift; ++lineIndex){
+			m_scanlines[lineIndex] = fullRangeIndex;
+		}
+	}
+	else if (vertShift < 0){
+		int totalLines = qMin(scanLinesCount, int(m_scanlines.size()));
+		m_scanlines.resize(totalLines, fullRangeIndex);
+
+		for (int lineIndex = 0; lineIndex < totalLines + vertShift; ++lineIndex){
+			m_scanlines[lineIndex] = m_scanlines[lineIndex - vertShift];
+		}
+
+		for (int lineIndex = totalLines + vertShift; lineIndex < totalLines; ++lineIndex){
+			m_scanlines[lineIndex] = fullRangeIndex;
+		}
+	}
+	m_scanlines.resize(scanLinesCount, fullRangeIndex);
+
+	m_firstLinePos = clipArea.GetTop();
+}
+
+
 CScanlineMask CScanlineMask::GetUnion(const CScanlineMask& mask) const
 {
 	CScanlineMask result;

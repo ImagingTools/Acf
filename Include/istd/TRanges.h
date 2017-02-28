@@ -98,6 +98,11 @@ public:
 	void GetInverted(TRanges<ValueType>& result, const TRange<ValueType>* clipRangePtr) const;
 
 	/**
+		Invert this range in place.
+	*/
+	void Invert(const TRange<ValueType>* clipRangePtr);
+
+	/**
 		Get union of two range list.
 	*/
 	TRanges<ValueType> GetUnion(const TRanges<ValueType>& rangesList) const;
@@ -365,17 +370,19 @@ void TRanges<ValueType>::GetInverted(TRanges<ValueType>& result, const TRange<Va
 				break;
 			}
 
+			state = !state;
+
 			if (position > prevPosition){
-				result.m_switchPoints.insert(prevPosition);
-				result.m_switchPoints.insert(position);
+				if (!state){
+					result.m_switchPoints.insert(prevPosition);
+					result.m_switchPoints.insert(position);
+				}
 
 				prevPosition = position;
 			}
-
-			state = !state;
 		}
 
-		if (state){
+		if (!state){
 			result.m_switchPoints.insert(prevPosition);
 			result.m_switchPoints.insert(clipRangePtr->GetMaxValue());
 		}
@@ -383,6 +390,54 @@ void TRanges<ValueType>::GetInverted(TRanges<ValueType>& result, const TRange<Va
 	else{
 		result.m_switchPoints = m_switchPoints;
 		result.m_beginState = !m_beginState;
+	}
+}
+
+
+template <typename ValueType>
+void TRanges<ValueType>::Invert(const TRange<ValueType>* clipRangePtr)
+{
+	if (clipRangePtr != NULL){
+		int prevPosition = clipRangePtr->GetMinValue();
+
+		bool state = m_beginState;
+
+		// remove all points before
+		for (		typename SwitchPoints::const_iterator iter = m_switchPoints.begin();
+					(iter != m_switchPoints.end()) && (*iter < prevPosition);
+					iter = m_switchPoints.erase(iter)){
+			state = !state;
+		}
+
+		typename SwitchPoints::const_iterator iter = m_switchPoints.begin();
+
+		if (!state){
+			if ((iter != m_switchPoints.end()) && (*iter > prevPosition)){	// no first element? add it!
+				m_switchPoints.insert(prevPosition);
+			}
+		}
+
+		for (; iter != m_switchPoints.end(); ++iter){
+			ValueType position = *iter;
+			if (position >= clipRangePtr->GetMaxValue()){	// remove all points after
+				m_switchPoints.erase(iter, m_switchPoints.end());
+
+				break;
+			}
+
+			state = !state;
+
+			++iter;
+		}
+
+		if (!state){
+			m_switchPoints.insert(clipRangePtr->GetMaxValue());
+		}
+
+		m_beginState = false;
+	}
+	else{
+		m_beginState = !m_beginState;
 	}
 }
 
