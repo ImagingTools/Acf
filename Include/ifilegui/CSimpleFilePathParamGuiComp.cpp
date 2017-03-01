@@ -243,11 +243,13 @@ void CSimpleFilePathParamGuiComp::SetPathToEditor(const QString& path) const
 	if (relativeFilePathPtr != NULL){
 		QString basePath = relativeFilePathPtr->GetBasePath();
 
-		QDir baseDir(basePath);
+		if (!basePath.isEmpty()){
+			QDir baseDir(basePath);
 
-		normalizedPath = baseDir.relativeFilePath(normalizedPath);
-		if (addSeparator){
-			normalizedPath += separator;
+			normalizedPath = baseDir.relativeFilePath(normalizedPath);
+			if (addSeparator){
+				normalizedPath += separator;
+			}
 		}
 	}
 
