@@ -202,7 +202,9 @@ bool CAttributesManager::Serialize(iser::IArchive& archive)
 				}
 			}
 
+			retVal = retVal && archive.BeginTag(s_objectTag);
 			retVal = retVal && attributePtr->Serialize(archive);
+			retVal = retVal && archive.EndTag(s_objectTag);
 
 			retVal = retVal && archive.EndTag(s_attributeTag);
 		}
