@@ -64,25 +64,7 @@ void CParamsManagerGuiCompBase::RemoveItemsFromScene(iqt2d::IViewProvider* provi
 
 void CParamsManagerGuiCompBase::on_AddButton_clicked()
 {
-	iprm::IParamsManager* objectPtr = GetObservedObject();
-	if (objectPtr != NULL){
-		int selectedIndex = GetSelectedIndex();
-		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
-
-		int flags = objectPtr->GetIndexOperationFlags(selectedIndex);
-		if ((flags & iprm::IParamsManager::MF_SUPPORT_INSERT) == 0){ // Fixed parameter set is currently selected
-			selectedIndex = -1;
-		}
-
-		istd::CChangeNotifier notifier(objectPtr);
-		Q_UNUSED(notifier);
-
-		int newIndex = objectPtr->InsertParamsSet(-1, selectedIndex + 1);
-		if (newIndex >= 0){
-			// select newly created element
-			objectPtr->SetSelectedOptionIndex(newIndex);
-		}
-	}
+	InsertNewParamsSet();
 }
 
 
@@ -291,22 +273,11 @@ void CParamsManagerGuiCompBase::on_SaveParamsButton_clicked()
 
 void CParamsManagerGuiCompBase::OnAddMenuOptionClicked(QAction* action)
 {
-	iprm::IParamsManager* objectPtr = GetObservedObject();
-	if (objectPtr != NULL){
-		int typeIndex = action->data().toInt();
+	Q_ASSERT(action != NULL);
 
-		int selectedIndex = GetSelectedIndex();
-		Q_ASSERT(selectedIndex < objectPtr->GetParamsSetsCount());
+	int typeIndex = action->data().toInt();
 
-		istd::CChangeNotifier notifier(objectPtr);
-		Q_UNUSED(notifier);
-
-		int newIndex = objectPtr->InsertParamsSet(typeIndex, selectedIndex + 1);
-		if (newIndex >= 0){
-			// select newly created element
-			objectPtr->SetSelectedOptionIndex(newIndex);
-		}
-	}
+	InsertNewParamsSet(typeIndex);
 }
 
 
@@ -597,6 +568,34 @@ QByteArray CParamsManagerGuiCompBase::GetSelectedParamsSetTypeId() const
 
 	return QByteArray();
 }
+
+
+void CParamsManagerGuiCompBase::InsertNewParamsSet(int typeIndex)
+{
+	iprm::IParamsManager* objectPtr = GetObservedObject();
+	if (objectPtr != NULL){
+		int insertIndex = GetSelectedIndex();
+		Q_ASSERT(insertIndex < objectPtr->GetParamsSetsCount());
+
+		int flags = objectPtr->GetIndexOperationFlags(insertIndex);
+		if ((flags & iprm::IParamsManager::MF_SUPPORT_INSERT) == 0){ // Fixed parameter set is currently selected
+			insertIndex = -1;
+		}
+		else{
+			++insertIndex;
+		}
+
+		istd::CChangeNotifier notifier(objectPtr);
+		Q_UNUSED(notifier);
+
+		int newIndex = objectPtr->InsertParamsSet(typeIndex, insertIndex);
+		if (newIndex >= 0){
+			// select newly created element
+			objectPtr->SetSelectedOptionIndex(newIndex);
+		}
+	}
+}
+
 
 
 // protected methods
