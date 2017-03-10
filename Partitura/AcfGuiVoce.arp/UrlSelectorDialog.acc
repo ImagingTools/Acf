@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4054" Description="ACF"/>
-            <Version Id="1" Number="1505" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="328706" Description="Qt Framework"/>
+            <Version Id="0" Number="4446" Description="ACF"/>
+            <Version Id="1" Number="1794" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="329217" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Persistent directory selector</Description>
@@ -13,10 +13,10 @@
         <Element Id="ModelDialogGui" PackageId="QtGuiPck" ComponentId="ModelDialogGui">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DialogIconPath" Type="String" ExportId="IconPath">
+                    <AttributeInfo Id="DialogIconPath" Type="Text" ExportId="IconPath">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DialogTitle" Type="String" ExportId="Title">
+                    <AttributeInfo Id="DialogTitle" Type="Text" ExportId="Title">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Gui" Type="Reference" ExportId="">
@@ -26,7 +26,7 @@
                         <Data IsEnabled="true" Value="UrlParam"/>
                     </AttributeInfo>
                     <AttributeInfo Id="WorkingDataFactory" Type="Factory" ExportId="">
-                        <Data IsEnabled="true" Value="UrlParam"/>
+                        <Data IsEnabled="true" Value="UrlParamFactory"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
             </Data>
@@ -52,7 +52,19 @@
         <Element Id="UrlParam" PackageId="FilePck" ComponentId="FileNameParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultPath" Type="String" ExportId="DefaultUrl">
+                    <AttributeInfo Id="DefaultPath" Type="Text" ExportId="DefaultUrl">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="PathType" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="3"/>
+                    </AttributeInfo>
+                </AttributeInfoMap>
+            </Data>
+        </Element>
+        <Element Id="UrlParamFactory" PackageId="FilePck" ComponentId="FileNameParam">
+            <Data IsEnabled="true" Flags="2">
+                <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultPath" Type="Text" ExportId="DefaultUrl">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="PathType" Type="Integer" ExportId="">
