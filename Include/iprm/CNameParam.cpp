@@ -5,8 +5,8 @@
 #include <QtCore/QObject>
 
 // ACF includes
+#include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
-
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
 
@@ -58,6 +58,32 @@ bool CNameParam::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(nameTag);
 
 	return retVal;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+bool CNameParam::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const INameParam* sourcePtr = dynamic_cast<const INameParam*>(&object);
+	if (sourcePtr != NULL){
+		SetName(sourcePtr->GetName());
+
+		return true;
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CNameParam::CloneMe(istd::IChangeable::CompatibilityMode mode) const
+{
+	istd::TDelPtr<CNameParam> clonePtr(new CNameParam);
+	if (clonePtr->CopyFrom(*this, mode)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
 }
 
 
