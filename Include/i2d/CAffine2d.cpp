@@ -6,15 +6,15 @@ namespace i2d
 
 
 CAffine2d::CAffine2d(const CMatrix2d& deform, const CVector2d& translation)
-:	m_deformMatrix(deform),
-	m_translation(translation)
+:	m_translation(translation),
+	m_deformMatrix(deform)
 {
 }
 
 
 CAffine2d::CAffine2d(const CVector2d& translation)
-:	m_deformMatrix(CMatrix2d::GetIdentity()),
-	m_translation(translation)
+:	m_translation(translation),
+	m_deformMatrix(CMatrix2d::GetIdentity())
 {
 }
 
