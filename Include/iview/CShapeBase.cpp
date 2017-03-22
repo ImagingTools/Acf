@@ -27,7 +27,7 @@ CShapeBase::CShapeBase()
 CShapeBase::CShapeBase(const CShapeBase& shape)
 :	imod::CSingleModelObserverBase(),
 	m_displayPtr(NULL),
-	m_calibrationObserver(this)
+	m_calibrationObserver(this),
 	m_userColorSchemaPtr(shape.m_userColorSchemaPtr),
 	m_isBoundingBoxValid(false),
 	m_boundingBox(),
