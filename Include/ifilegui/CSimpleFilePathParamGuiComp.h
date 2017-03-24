@@ -35,6 +35,7 @@ public:
 		I_ASSIGN(m_showBrowseButtonAttrPtr, "ShowBrowseButton", "If enabled, the browse button will be shown", true, true);
 		I_ASSIGN(m_filePathValidationExpressionAttrPtr, "ValidationExpression", "Regular expression used for path validation", false, "^[/,\\\\,\\w,\\s-]+");
 		I_ASSIGN(m_useSaveDialogAttrPtr, "UseSaveDialog", "Use save dialog instead of open one", true, false);
+		I_ASSIGN(m_updateOnEveryChangeAttrPtr, "UpdateOnEveryTextChange", "If set the model will be updated after every text change, else only if Enter pressed or focus lost", true, false);
 	I_END_COMPONENT;
 
 protected:
@@ -50,6 +51,7 @@ protected:
 protected Q_SLOTS:
 	void on_BrowseButton_clicked();
 	void on_PathEdit_textChanged(const QString& text);
+	void on_PathEdit_editingFinished();
 
 private:
 	void SetPathToEditor(const QString& path) const;
@@ -66,6 +68,7 @@ private:
 	I_ATTR(bool, m_showBrowseButtonAttrPtr);
 	I_ATTR(bool, m_useSaveDialogAttrPtr);
 	I_ATTR(QString, m_filePathValidationExpressionAttrPtr);
+	I_ATTR(bool, m_updateOnEveryChangeAttrPtr);
 	I_REF(ifile::IFileTypeInfo, m_fileTypeInfoPtr);
 	I_REF(ifile::IFileNameParam, m_defaultDirPtr);
 };

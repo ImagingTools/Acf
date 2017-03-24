@@ -203,7 +203,17 @@ void CSimpleFilePathParamGuiComp::on_BrowseButton_clicked()
 
 void CSimpleFilePathParamGuiComp::on_PathEdit_textChanged(const QString& text)
 {
-	OnPathEdited(text);
+	if (*m_updateOnEveryChangeAttrPtr){
+		OnPathEdited(text);
+	}
+}
+
+
+void CSimpleFilePathParamGuiComp::on_PathEdit_editingFinished()
+{
+	if (!*m_updateOnEveryChangeAttrPtr){
+		OnPathEdited(PathEdit->text());
+	}
 }
 
 
