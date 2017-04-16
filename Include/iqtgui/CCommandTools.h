@@ -34,10 +34,27 @@ namespace iqtgui
 class CCommandTools
 {
 public:
+	/**
+		Create menu according to the given commands.
+	*/
 	template <class MenuType>
 	static void CreateMenu(const iqtgui::CHierarchicalCommand& command, MenuType& result);
 
-	static int SetupToolbar(const iqtgui::CHierarchicalCommand& command, QToolBar& result, int prevGroupId = ibase::ICommand::GI_NONE);
+	/**
+		Fill a toolbar with the commands.
+	*/
+	static int SetupToolbar(
+				const iqtgui::CHierarchicalCommand& command,
+				QToolBar& result,
+				int prevGroupId = ibase::ICommand::GI_NONE);
+
+	/**
+		Fill a context menu of a widget with the commands.
+	*/
+	static int SetupContextMenu(
+				const iqtgui::CHierarchicalCommand& command,
+				QWidget& menuOwner,
+				int prevGroupId = ibase::ICommand::GI_NONE);
 };
 
 

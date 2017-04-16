@@ -68,6 +68,75 @@ int CCommandTools::SetupToolbar(const iqtgui::CHierarchicalCommand& command, QTo
 }
 
 
+int CCommandTools::SetupContextMenu(
+			const iqtgui::CHierarchicalCommand& command,
+			QWidget& menuOwner,
+			int prevGroupId)
+{
+	QMap<int, QActionGroup*> groups;
+
+	int childsCount = command.GetChildsCount();
+
+	menuOwner.setContextMenuPolicy(Qt::ActionsContextMenu);
+
+	for (int i = 0; i < childsCount; ++i){
+		iqtgui::CHierarchicalCommand* hierarchicalPtr = const_cast<iqtgui::CHierarchicalCommand*>(
+					dynamic_cast<const iqtgui::CHierarchicalCommand*>(command.GetChild(i)));
+
+		if (hierarchicalPtr != NULL){
+			int groupId = hierarchicalPtr->GetGroupId();
+			int flags = hierarchicalPtr->GetStaticFlags();
+
+			if ((flags & ibase::ICommand::CF_CONTEXT_MENU) != 0){
+				if (hierarchicalPtr->GetChildsCount() > 0){
+					
+					QMenu* newMenuPtr = new QMenu(&menuOwner);
+					if (newMenuPtr != NULL){
+						newMenuPtr->setTitle(hierarchicalPtr->GetName());
+
+						CreateMenu<QMenu>(*hierarchicalPtr, *newMenuPtr);
+
+						newMenuPtr->setIcon(hierarchicalPtr->icon());
+						menuOwner.addAction(newMenuPtr->menuAction());
+					}
+				}
+				else{
+					if ((groupId != prevGroupId) && (prevGroupId != ibase::ICommand::GI_NONE)){
+						QAction* separator = new QAction(&menuOwner);
+						separator->setSeparator(true);
+						menuOwner.addAction(separator);
+					}
+
+					QString actionName = hierarchicalPtr->GetName();
+
+					menuOwner.addAction(hierarchicalPtr);
+
+					if ((flags & ibase::ICommand::CF_EXCLUSIVE) != 0){
+						QActionGroup*& groupPtr = groups[hierarchicalPtr->GetGroupId()];
+						if (groupPtr == NULL){
+							groupPtr = new QActionGroup(&menuOwner);
+							groupPtr->setExclusive(true);
+						}
+
+						groupPtr->addAction(hierarchicalPtr);
+						hierarchicalPtr->setCheckable(true);
+					}
+				}
+
+				if (groupId != ibase::ICommand::GI_NONE){
+					prevGroupId = groupId;
+				}
+			}
+			else if (hierarchicalPtr->GetChildsCount() > 0){
+				prevGroupId = SetupContextMenu(*hierarchicalPtr, menuOwner, prevGroupId);
+			}
+		}
+	}
+
+	return prevGroupId;
+}
+
+
 } // namespace iqtgui
 
 
