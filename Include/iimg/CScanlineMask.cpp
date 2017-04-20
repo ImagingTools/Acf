@@ -224,7 +224,12 @@ void CScanlineMask::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::
 
 	int linesCount = int(m_scanlines.size());
 
-	if (linesCount <= 0){
+	istd::CIntRange horRange(int(recalibratedRect.GetLeft() + 0.5), int(recalibratedRect.GetRight() + 0.5));
+	if (clipAreaPtr != NULL){
+		horRange.Intersection(clipAreaPtr->GetHorizontalRange());
+	}
+
+	if ((linesCount <= 0) || horRange.IsEmpty()){
 		ResetImage();
 
 		return;
@@ -232,9 +237,8 @@ void CScanlineMask::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::
 
 	m_rangesContainer.push_back(istd::CIntRanges());
 	istd::CIntRanges& rangeList = m_rangesContainer.back();
-	rangeList.InsertSwitchPoint(int(recalibratedRect.GetLeft() + 0.5));
-	rangeList.InsertSwitchPoint(int(recalibratedRect.GetRight() + 0.5));
-
+	rangeList.InsertSwitchPoint(horRange.GetMinValue());
+	rangeList.InsertSwitchPoint(horRange.GetMaxValue());
 
 	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
 		m_scanlines[lineIndex] = 0;	// set all lines to the same range
