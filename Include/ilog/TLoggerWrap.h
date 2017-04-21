@@ -141,6 +141,13 @@ protected:
 				const QString& messageSource = QString(),
 				int flags = 0) const;
 
+	/**
+		Reset message lock. Enable message to be send again.
+		Agains to \c SendXXXlMessageOnce for id will be sent once again.
+		\param	id				binary id identifying this message type for automatic processing.
+	*/
+	bool AllowMessageOnceAgain(int id);
+
 	// reimplemented (istd::ILogger)
 	virtual bool IsLogConsumed(
 				const istd::IInformationProvider::InformationCategory* categoryPtr = NULL,
@@ -334,6 +341,12 @@ bool TLoggerWrap<Base>::SendLogMessage(
 	}
 
 	return false;
+}
+
+template <class Base>
+bool TLoggerWrap<Base>::AllowMessageOnceAgain(int id)
+{
+	return m_onceMessageIds.remove(id);
 }
 
 
