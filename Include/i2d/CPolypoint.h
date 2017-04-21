@@ -3,6 +3,7 @@
 
 
 // ACF includes
+#include <istd/CChangeNotifier.h>
 #include <iser/CArchiveTag.h>
 #include <i2d/CObject2dBase.h>
 #include <i2d/CVector2d.h>
@@ -162,6 +163,9 @@ inline i2d::CVector2d& CPolypoint::GetNodePosRef(int index)
 inline void CPolypoint::SetNodePos(int index, const i2d::CVector2d& position)
 {
 	Q_ASSERT(index >= 0 && index < int(m_positions.size()));
+
+	istd::CChangeNotifier changeNotifier(this);
+	Q_UNUSED(changeNotifier);
 
 	m_positions[index] = position;
 }

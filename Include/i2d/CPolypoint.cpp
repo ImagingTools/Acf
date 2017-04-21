@@ -6,7 +6,6 @@
 
 // ACF includes
 #include <istd/TDelPtr.h>
-#include <istd/CChangeNotifier.h>
 #include <i2d/CLine2d.h>
 #include <i2d/CAffineTransformation2d.h>
 
