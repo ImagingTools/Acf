@@ -16,7 +16,7 @@
 #include <i2d/CAnnulus.h>
 #include <i2d/CPolygon.h>
 #include <i2d/CTubePolyline.h>
-#include <iimg/IRasterImage.h>
+#include <iimg/IBitmap.h>
 
 
 namespace iimg
@@ -105,6 +105,13 @@ public:
 		\param	clipAreaPtr	optional clipping area.
 	*/
 	void CreateFromTube(const i2d::CTubePolyline& tube, const i2d::CRect* clipAreaPtr = NULL);
+
+	/**
+		Create 2D-region from a bitmap.
+		\param	bitmap		Mask bitmap. Non-zero pixels of the image represent the object in the resulting mask.
+		\param	clipAreaPtr	optional clipping area.
+	*/
+	void CreateFromBitmap(const iimg::IBitmap& bitmap, const i2d::CRect* clipAreaPtr = NULL);
 
 	/**
 		Get inverted mask.
@@ -211,7 +218,10 @@ public:
 protected:
 	void EnsureBoundingBoxValid() const;
 	void CalcBoundingBox() const;
-	void InitFromBoudingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
+	void InitFromBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr);
+
+	template <typename PixelType>
+	void CalculateMaskFromBitmap(const iimg::IBitmap& bitmap, const i2d::CRect* clipAreaPtr = NULL);
 
 private:
 	RangesContainer m_rangesContainer;
@@ -239,6 +249,80 @@ inline void CScanlineMask::EnsureBoundingBoxValid() const
 {
 	if (!m_isBoundingBoxValid){
 		CalcBoundingBox();
+	}
+}
+
+
+// protected methods
+
+template <typename PixelType>
+void CScanlineMask::CalculateMaskFromBitmap(const iimg::IBitmap& bitmap, const i2d::CRect* clipAreaPtr)
+{
+	InitFromBoundingBox(bitmap.GetBoundingBox(), clipAreaPtr);
+
+	int linesCount = int(m_scanlines.size());
+	if (linesCount <= 0){
+		ResetImage();
+
+		return;
+	}
+
+#if QT_VERSION >= 0x040700
+	m_rangesContainer.reserve(linesCount);
+#endif
+
+	Q_ASSERT(bitmap.GetImageSize().GetY() == (linesCount));
+
+	int imageWidth = bitmap.GetImageSize().GetX();
+
+	for (int lineIndex = 0; lineIndex < linesCount; lineIndex++){
+		istd::CIntRanges rangeList;
+
+		PixelType* imageLinePtr = (PixelType*)bitmap.GetLinePtr(lineIndex);
+		Q_ASSERT(imageLinePtr != NULL);
+
+		int left = -1;
+		int right = -1;
+
+		for (int x = 0; x < imageWidth; ++x){
+			PixelType pixel = *(imageLinePtr + x);
+			if ((pixel > 0) && (left < 0)){
+				left = x;
+			}
+
+			if ((pixel == 0) && (left >= 0)){
+				if (clipAreaPtr != NULL){
+					if (left < clipAreaPtr->GetLeft()){
+						left = clipAreaPtr->GetLeft();
+					}
+
+					if (right > clipAreaPtr->GetRight()){
+						right = clipAreaPtr->GetRight();
+					}
+				}
+
+				if (left < right){
+					rangeList.InsertSwitchPoint(left);
+					rangeList.InsertSwitchPoint(right);
+				}
+
+				left = -1;
+				right = -1;
+			}
+		}
+
+		if ((left >= 0) && (right < 0)){
+			rangeList.InsertSwitchPoint(left);
+		}
+
+		if (!rangeList.IsEmpty()){
+			m_rangesContainer.push_back(rangeList);
+
+			m_scanlines[lineIndex] = m_rangesContainer.size() - 1;
+		}
+		else{
+			m_scanlines[lineIndex] =  -1;
+		}
 	}
 }
 

@@ -161,7 +161,7 @@ void CScanlineMask::CreateFromCircle(const i2d::CCircle& circle, const i2d::CRec
 	recalibratedCircle.SetCalibration(GetCalibration());
 	recalibratedCircle.CopyFrom(circle, istd::IChangeable::CM_CONVERT);
 
-	InitFromBoudingBox(recalibratedCircle.GetBoundingBox(), clipAreaPtr);
+	InitFromBoundingBox(recalibratedCircle.GetBoundingBox(), clipAreaPtr);
 
 	int linesCount = int(m_scanlines.size());
 
@@ -220,7 +220,7 @@ void CScanlineMask::CreateFromRectangle(const i2d::CRectangle& rect, const i2d::
 	recalibratedRect.SetCalibration(GetCalibration());
 	recalibratedRect.CopyFrom(rect, istd::IChangeable::CM_CONVERT);
 
-	InitFromBoudingBox(recalibratedRect, clipAreaPtr);
+	InitFromBoundingBox(recalibratedRect, clipAreaPtr);
 
 	int linesCount = int(m_scanlines.size());
 
@@ -252,7 +252,7 @@ void CScanlineMask::CreateFromAnnulus(const i2d::CAnnulus& annulus, const i2d::C
 	recalibratedAnnulus.SetCalibration(GetCalibration());
 	recalibratedAnnulus.CopyFrom(annulus, istd::IChangeable::CM_CONVERT);
 
-	InitFromBoudingBox(recalibratedAnnulus.GetBoundingBox(), clipAreaPtr);
+	InitFromBoundingBox(recalibratedAnnulus.GetBoundingBox(), clipAreaPtr);
 	int linesCount = int(m_scanlines.size());
 
 	if (linesCount <= 0){
@@ -340,7 +340,7 @@ void CScanlineMask::CreateFromPolygon(const i2d::CPolygon& polygon, const i2d::C
 	recalibratedPolygon.SetCalibration(GetCalibration());
 	recalibratedPolygon.CopyFrom(polygon, istd::IChangeable::CM_CONVERT);
 
-	InitFromBoudingBox(recalibratedPolygon.GetBoundingBox(), clipAreaPtr);
+	InitFromBoundingBox(recalibratedPolygon.GetBoundingBox(), clipAreaPtr);
 	int linesCount = int(m_scanlines.size());
 
 	if (linesCount <= 0){
@@ -483,6 +483,40 @@ void CScanlineMask::CreateFromTube(const i2d::CTubePolyline& tube, const i2d::CR
 	}
 
 	return CreateFromPolygon(polygon, clipAreaPtr);
+}
+
+
+void CScanlineMask::CreateFromBitmap(const iimg::IBitmap& bitmap, const i2d::CRect* clipAreaPtr)
+{
+	switch (bitmap.GetPixelFormat()){
+	case iimg::IBitmap::PF_GRAY:
+	case iimg::IBitmap::PF_MONO:
+		CalculateMaskFromBitmap<quint8>(bitmap, clipAreaPtr);
+		break;
+
+	case iimg::IBitmap::PF_GRAY16:
+		CalculateMaskFromBitmap<quint16>(bitmap, clipAreaPtr);
+		break;
+
+	case iimg::IBitmap::PF_FLOAT32:
+		CalculateMaskFromBitmap<float>(bitmap, clipAreaPtr);
+		break;
+
+	case iimg::IBitmap::PF_FLOAT64:
+		CalculateMaskFromBitmap<double>(bitmap, clipAreaPtr);
+		break;
+
+	case iimg::IBitmap::PF_RGB:
+	case iimg::IBitmap::PF_RGBA:
+	case iimg::IBitmap::PF_GRAY32:
+		CalculateMaskFromBitmap<quint32>(bitmap, clipAreaPtr);
+		break;
+
+	default:
+		ResetImage();
+
+		return;
+	}
 }
 
 
@@ -1156,7 +1190,7 @@ void CScanlineMask::CalcBoundingBox() const
 }
 
 
-void CScanlineMask::InitFromBoudingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr)
+void CScanlineMask::InitFromBoundingBox(const i2d::CRectangle& objectBoundingBox, const i2d::CRect* clipAreaPtr)
 {
 	int firstLinePos = int(qFloor(objectBoundingBox.GetTop()));
 	int endLinePos = int(qCeil(objectBoundingBox.GetBottom()));
