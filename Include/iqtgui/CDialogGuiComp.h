@@ -101,6 +101,8 @@ private:
 	iqtgui::CHierarchicalCommand m_dialogCommand;
 
 	imod::TModelWrap<CommandsProvider> m_commandsProvider;
+
+	QDialog* m_dialogPtr;
 };
 
 

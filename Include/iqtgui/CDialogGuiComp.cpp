@@ -4,6 +4,7 @@
 // Qt includes
 #include <QtGui/QIcon>
 #include <QtCore/QtGlobal>
+#include <QtGui/QKeyEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDesktopWidget>
@@ -20,7 +21,8 @@ namespace iqtgui
 // public methods
 
 CDialogGuiComp::CDialogGuiComp()
-	:m_dialogCommand("Show Dialog", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR)
+	:m_dialogCommand("Show Dialog", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR),
+	m_dialogPtr(NULL)
 {
 	m_commandsProvider.SetParent(this);
 }
@@ -36,8 +38,14 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 			return dialogPtr->exec();
 		}
 		else{
+			m_dialogPtr = dialogPtr.GetPtr();
+
 			dialogPtr->setModal(false);
+			m_dialogCommand.SetEnabled(false);
+
 			dialogPtr->setAttribute(Qt::WA_DeleteOnClose);
+
+			dialogPtr->installEventFilter(this);
 
 			dialogPtr->show();
 
@@ -106,6 +114,16 @@ bool CDialogGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	if ((eventPtr->type() == QEvent::LanguageChange) && (sourcePtr == qApp)){
 		OnRetranslate();
+	}
+
+	if (sourcePtr == m_dialogPtr){
+		if (eventPtr->type() == QEvent::Close){
+			m_dialogCommand.setEnabled(true);
+		}
+
+		if (eventPtr->type() == QEvent::Hide){
+			m_dialogCommand.setEnabled(true);
+		}
 	}
 
 	return BaseClass2::eventFilter(sourcePtr, eventPtr);
