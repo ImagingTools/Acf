@@ -6,7 +6,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 
-#if QT_VERSION > 0x040704
+#if QT_VERSION > 0x050000
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QStyle>
 #else
