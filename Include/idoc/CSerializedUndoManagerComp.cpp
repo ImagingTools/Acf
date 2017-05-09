@@ -172,6 +172,8 @@ bool CSerializedUndoManagerComp::DoListShift(int steps, UndoList& fromList, Undo
 				retVal = true;
 			}
 
+			objectNotifier.Reset();
+
 			m_isBlocked = false;
 		}
 	}
@@ -215,8 +217,10 @@ void CSerializedUndoManagerComp::AfterUpdate(imod::IModel* modelPtr, const istd:
 
 	m_isStateChangedFlagValid = false;
 
+	bool skipUndo = changeSet.ContainsExplicit(istd::IChangeable::CF_NO_UNDO, true);
+
 	if (		!m_isBlocked &&
-				!changeSet.Contains(istd::IChangeable::CF_NO_UNDO) &&
+				!skipUndo &&
 				m_beginStateArchivePtr.IsValid()){
 		iser::ISerializable* objectPtr = GetObservedObject();
 		if (objectPtr != NULL){
