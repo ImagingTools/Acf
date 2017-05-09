@@ -430,13 +430,24 @@ inline double CVarVector::GetDistance(const CVarVector& vector) const
 
 inline bool CVarVector::operator==(const CVarVector& vector) const
 {
-	return m_elements == vector.m_elements;
+	if (m_elements.size() != vector.m_elements.size()){
+		return false;
+	}
+
+	bool retVal = true;
+	for (		Elements::const_iterator iter1 = m_elements.cbegin(), iter2 = vector.m_elements.cbegin();
+				iter1 != m_elements.cend();
+				++iter1,++iter2){
+		retVal = retVal && qFuzzyCompare(*iter1, *iter2);
+	}
+
+	return retVal;
 }
 
 
 inline bool CVarVector::operator!=(const CVarVector& vector) const
 {
-	return m_elements != vector.m_elements;
+	return !operator==(vector);
 }
 
 
