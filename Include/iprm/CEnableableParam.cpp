@@ -71,6 +71,26 @@ bool CEnableableParam::Serialize(iser::IArchive& archive)
 }
 
 
+// reimplemented (istd::IChangeable)
+
+bool CEnableableParam::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const IEnableableParam* sourceParamPtr = dynamic_cast<const IEnableableParam*>(&object);
+	if (sourceParamPtr != NULL){
+		bool sourceValue = sourceParamPtr->IsEnabled();
+		if (m_isEnabled != sourceValue){
+			istd::CChangeNotifier notifier(this);
+
+			m_isEnabled = sourceValue;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
 } // namespace iprm
 
 
