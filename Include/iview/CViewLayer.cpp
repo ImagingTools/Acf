@@ -198,20 +198,19 @@ void CViewLayer::OnAreaInvalidated(const i2d::CRect& prevArea, const i2d::CRect&
 	Q_ASSERT(!m_isBoundingBoxValid || m_boundingBox.IsInside(prevArea));
 
 	if (m_isBoundingBoxValid){
-		Q_ASSERT(!m_isBoundingBoxValid || m_boundingBox.IsInside(prevArea));
-
-		if (prevArea.IsEmpty() || (
-						(m_boundingBox.GetLeft() <= prevArea.GetLeft()) &&
-						(m_boundingBox.GetRight() >= prevArea.GetRight()) &&
-						(m_boundingBox.GetTop() <= prevArea.GetTop()) &&
-						(m_boundingBox.GetBottom() >= prevArea.GetBottom()))){
+		if (newArea.IsInside(prevArea) || (
+					(prevArea.GetLeft() > m_boundingBox.GetLeft()) &&
+					(prevArea.GetRight() < m_boundingBox.GetRight()) &&
+					(prevArea.GetTop() > m_boundingBox.GetTop()) &&
+					(prevArea.GetBottom() < m_boundingBox.GetBottom()))){
 			m_boundingBox.Union(newArea);
 		}
 		else{
 			m_isBoundingBoxValid = false;
 		}
-		Q_ASSERT(!m_isBoundingBoxValid || m_boundingBox.IsInside(newArea));
 	}
+
+	Q_ASSERT(!m_isBoundingBoxValid || m_boundingBox.IsInside(newArea));
 
 	if (m_viewPtr != NULL){
 		m_viewPtr->OnLayerInvalidated(*this, prevArea, newArea);
