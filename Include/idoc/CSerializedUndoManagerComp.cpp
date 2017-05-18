@@ -280,7 +280,7 @@ bool CSerializedUndoManagerComp::StoreDocumentState()
 	}
 	m_isStateChangedFlagValid = true;
 
-	return false;
+	return m_hasStoredDocumentState;
 }
 
 
@@ -300,6 +300,8 @@ bool CSerializedUndoManagerComp::RestoreDocumentState()
 			if (objectPtr->Serialize(restoreArchive)){
 				m_stateChangedFlag = DCF_EQUAL;
 				m_isStateChangedFlagValid = true;
+
+				m_isBlocked = false;
 
 				return true;
 			}
