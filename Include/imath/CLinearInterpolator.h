@@ -15,12 +15,16 @@ namespace imath
 
 /**
 	Implementation of a linear interpolator.
-*/
+	*/
+
 class CLinearInterpolator: public virtual IDoubleFunction
 {
 public:
 	CLinearInterpolator();
-	CLinearInterpolator(double* positions, double* values, int nodesCount);
+	/**
+		\param isExtrapolationEnabled  If enabled, the values will be extrapolatied also outside of defined domain, otherwise returned value for argument outside[positionMin, positionMax] is the last value.
+	*/
+	CLinearInterpolator(double* positions, double* values, int nodesCount, bool isExtrapolationEnabled = false);
 
 	void SetNodes(double* positions, double* values, int nodesCount);
 
@@ -31,6 +35,7 @@ public:
 private:
 	typedef QMap<double, double> Nodes;
 	Nodes m_nodes;
+	bool m_isExtrapolationEnabled;
 };
 
 
