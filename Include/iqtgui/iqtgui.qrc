@@ -1,4 +1,4 @@
-<RCC>
+ <RCC>
   <qresource prefix="/Icons">
     <file alias="Camera">Resources/Icons/Camera.svg</file>
     <file alias="Calendar">Resources/Icons/calendar.png</file>
@@ -70,7 +70,7 @@
     <file alias="ContiniousSave">Resources/Icons/ContiniousSave.svg</file>
     <file alias="ShowScrollbar">Resources/Icons/ShowScrollbar.svg</file>
   </qresource>
-  <qresource prefix="/Style">
-    <file>Resources/Style/AcfStyle.ass</file>
+  <qresource prefix="/Styles">
+    <file alias="Acf">Resources/Style/AcfStyle.ass</file>
   </qresource>
 </RCC>
