@@ -130,7 +130,10 @@ public:
 		Get the license status of the given resource.
 		\sa LicenseStatus
 	*/
-	virtual LicenseStatus GetLicenseStatus(const QByteArray& resourceId, ilog::IMessageConsumer* messageConsumerPtr = NULL) const = 0;
+	virtual LicenseStatus GetLicenseStatus(
+				const QByteArray& resourceId,
+				const QByteArray& resourceTypeId = QByteArray(),
+				ilog::IMessageConsumer* messageConsumerPtr = NULL) const = 0;
 };
 
 
