@@ -78,7 +78,7 @@
                         <Data IsEnabled="true" Value="../../../Docs/Images/AcfSplashScreen.png"/>
                     </AttributeInfo>
                     <AttributeInfo Id="StyleSheet" Type="Text" ExportId="">
-                        <Data IsEnabled="true" Value=":/Style/Resources/Style/AcfStyle.ass"/>
+                        <Data IsEnabled="true" Value=":/Styles/AcfDark.qss"/>
                     </AttributeInfo>
                     <AttributeInfo Id="UiStartMode" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="3"/>
