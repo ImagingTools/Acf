@@ -116,21 +116,21 @@ bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d&
 bool CGeneralBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	switch(pixelFormat){
-		case PF_GRAY:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 8, 1, PF_GRAY);
+	case PF_GRAY:
+		return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 8, 1, PF_GRAY);
 
-		case PF_RGB:
-		case PF_RGBA:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 4, pixelFormat);
+	case PF_RGB:
+	case PF_RGBA:
+		return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 4, pixelFormat);
 
-		case PF_GRAY16:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 16, 1, PF_GRAY16);
+	case PF_GRAY16:
+		return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 16, 1, PF_GRAY16);
 
-		case PF_GRAY32:
-			return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 1, PF_GRAY32);
+	case PF_GRAY32:
+		return CreateBitmap(size, dataPtr, releaseFlag, linesDifference, 32, 1, PF_GRAY32);
 
-		default:
-			return false;
+	default:
+		return false;
 	}
 }
 
