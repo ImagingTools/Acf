@@ -8,6 +8,7 @@
 #include <iser/CArchiveTag.h>
 #include <i2d/CMatrix2d.h>
 #include <i2d/CRectangle.h>
+#include <istd/CClassInfo.h>
 
 
 namespace i2d
@@ -19,7 +20,15 @@ static const iser::CArchiveTag s_beginPointTag("BeginPoint", "First point of lin
 static const iser::CArchiveTag s_endPointTag("EndPoint", "Second point of line", iser::CArchiveTag::TT_GROUP);
 
 
-// public members
+// public static methods
+
+QByteArray CLine2d::GetTypeName()
+{
+	return istd::CClassInfo::GetName<CLine2d>();
+}
+
+
+// public methods
 
 CLine2d::CLine2d()
 :	m_point1(0, 0),
@@ -705,6 +714,33 @@ bool CLine2d::GetInvTransformed(
 }
 
 
+// reimplemented (iser::IObject)
+
+QByteArray CLine2d::GetFactoryId() const
+{
+	return GetTypeName();
+}
+
+
+// reimplemented (iser::ISerializable)
+
+bool CLine2d::Serialize(iser::IArchive& archive)
+{
+	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
+	Q_UNUSED(notifier);
+
+	bool retVal = archive.BeginTag(s_beginPointTag);
+	retVal = retVal && m_point1.Serialize(archive);
+	retVal = retVal && archive.EndTag(s_beginPointTag);
+
+	retVal = retVal && archive.BeginTag(s_endPointTag);
+	retVal = retVal && m_point2.Serialize(archive);
+	retVal = retVal && archive.EndTag(s_endPointTag);
+
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
 int CLine2d::GetSupportedOperations() const
@@ -741,25 +777,6 @@ istd::IChangeable* CLine2d::CloneMe(CompatibilityMode mode) const
 	}
 
 	return NULL;
-}
-
-
-// reimplemented (iser::ISerializable)
-
-bool CLine2d::Serialize(iser::IArchive& archive)
-{
-	istd::CChangeNotifier notifier(archive.IsStoring()? NULL: this, &GetAllChanges());
-	Q_UNUSED(notifier);
-
-	bool retVal = archive.BeginTag(s_beginPointTag);
-	retVal = retVal && m_point1.Serialize(archive);
-	retVal = retVal && archive.EndTag(s_beginPointTag);
-
-	retVal = retVal && archive.BeginTag(s_endPointTag);
-	retVal = retVal && m_point2.Serialize(archive);
-	retVal = retVal && archive.EndTag(s_endPointTag);
-
-	return retVal;
 }
 
 

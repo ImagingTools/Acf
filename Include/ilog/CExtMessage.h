@@ -55,7 +55,7 @@ public:
 	const QString& GetAttachedObjectDescription(int index) const;
 	/**
 		Add some object to this container.
-		\param	objectPtr	attached object, ownership of this object belongs to container (it will be removed autoamtically).
+		\param	objectPtr	attached object, ownership of this object belongs to container (it will be removed automatically).
 	*/
 	void InsertAttachedObject(const iser::IObject* objectPtr, const QString& description = "");
 
