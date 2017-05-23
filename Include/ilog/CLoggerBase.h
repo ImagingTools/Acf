@@ -144,6 +144,13 @@ protected:
 				int flags = 0) const;
 
 	/**
+		Send message with user object.
+		\param	messagePtr	pointer to user message object.
+							This function overtake ownership to this object.
+	*/
+	bool SendUserMessage(const istd::IInformationProvider* messagePtr) const;
+
+	/**
 		Reset message lock. Enable message to be send again.
 		Agains to \c SendXXXlMessageOnce for id will be sent once again.
 		\param	id				binary id identifying this message type for automatic processing.

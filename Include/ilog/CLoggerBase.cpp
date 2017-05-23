@@ -177,6 +177,20 @@ bool CLoggerBase::SendLogMessage(
 }
 
 
+bool CLoggerBase::SendUserMessage(const istd::IInformationProvider* messagePtr) const
+{
+	istd::TSmartPtr<const istd::IInformationProvider> smartMessagePtr(messagePtr);
+
+	if (m_logPtr != NULL){
+		m_logPtr->AddMessage(smartMessagePtr);
+	
+		return true;
+	}
+
+	return false;
+}
+
+
 bool CLoggerBase::AllowMessageOnceAgain(int id)
 {
 	return m_onceMessageIds.remove(id);
