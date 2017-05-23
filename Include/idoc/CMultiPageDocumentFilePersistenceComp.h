@@ -45,10 +45,10 @@ public:
 
 	// reimplemented (ifile::IFilePersistence)
 	virtual bool IsOperationSupported(
-		const istd::IChangeable* dataObjectPtr,
-		const QString* filePathPtr = NULL,
-		int flags = -1,
-		bool beQuiet = true) const;
+				const istd::IChangeable* dataObjectPtr,
+				const QString* filePathPtr = NULL,
+				int flags = -1,
+				bool beQuiet = true) const;
 	virtual int LoadFromFile(
 				istd::IChangeable& data,
 				const QString& filePath = QString(),

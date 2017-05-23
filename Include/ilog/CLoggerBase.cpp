@@ -19,13 +19,13 @@ CLoggerBase::CLoggerBase()
 
 // reimplemented (ilog::ILoggable)
 
-inline void CLoggerBase::SetLogPtr(ilog::IMessageConsumer* logPtr)
+void CLoggerBase::SetLogPtr(ilog::IMessageConsumer* logPtr)
 {
 	m_logPtr = logPtr;
 }
 
 
-inline ilog::IMessageConsumer* CLoggerBase::GetLogPtr() const
+ilog::IMessageConsumer* CLoggerBase::GetLogPtr() const
 {
 	return m_logPtr;
 }

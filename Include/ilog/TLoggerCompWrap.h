@@ -5,7 +5,6 @@
 // ACF includes
 #include <icomp/CComponentBase.h>
 #include <icomp/CComponentContext.h>
-#include <istd/ILogger.h>
 #include <ilog/CLoggerBase.h>
 
 
