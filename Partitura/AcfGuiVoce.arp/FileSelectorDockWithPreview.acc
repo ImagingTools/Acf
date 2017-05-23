@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4054" Description="ACF"/>
-            <Version Id="1" Number="1505" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="328706" Description="Qt Framework"/>
+            <Version Id="0" Number="4504" Description="ACF"/>
+            <Version Id="1" Number="1840" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="329472" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>General file selector with external preview</Description>
@@ -22,7 +22,7 @@
                     <AttributeInfo Id="DockFeatures" Type="Integer" ExportId="DockFeatures">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DockTitle" Type="String" ExportId="">
+                    <AttributeInfo Id="DockTitle" Type="Text" ExportId="">
                         <Data IsEnabled="true" Value="File Selector"/>
                     </AttributeInfo>
                     <AttributeInfo Id="SlaveGui" Type="Reference" ExportId="">
@@ -49,7 +49,7 @@
         <Element Id="FilePath" PackageId="FilePck" ComponentId="FileNameParam">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="DefaultPath" Type="String" ExportId="DefaultPath">
+                    <AttributeInfo Id="DefaultPath" Type="Text" ExportId="DefaultPath">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="PathType" Type="Integer" ExportId="PathType">
@@ -61,6 +61,9 @@
         <Element Id="PreviewGui" PackageId="FileGuiPck" ComponentId="FilePreviewGui">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="CurrentPreviewObject" Type="Reference" ExportId="CurrentPreviewObject">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="DefaultModel" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="FilePath"/>
                     </AttributeInfo>
@@ -108,7 +111,7 @@
                             </Values>
                         </Data>
                     </AttributeInfo>
-                    <AttributeInfo Id="SettingsKey" Type="String" ExportId="FileExplorerSettingsKey">
+                    <AttributeInfo Id="SettingsKey" Type="Text" ExportId="FileExplorerSettingsKey">
                         <Data IsEnabled="true" Value="FileExplorer"/>
                     </AttributeInfo>
                     <AttributeInfo Id="SettingsProvider" Type="Reference" ExportId="SettingsProvider">
