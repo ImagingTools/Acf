@@ -282,7 +282,7 @@ void CComposedParamsSetGuiComp::DetachFromScene(iqt2d::IViewProvider* providerPt
 }
 
 
-// reimplemented (imod::IObserver)
+// reimplemented (iqtgui::TGuiObserverWrap)
 
 void CComposedParamsSetGuiComp::OnGuiModelAttached()
 {
