@@ -56,7 +56,6 @@ bool CConsoleApplicationComp::InitializeApplication(int argc, char** argv)
 		rootComponentPtr = dynamic_cast<icomp::CCompositeComponent*>(componentPtr);
 	}
 
-
 	if (rootComponentPtr != NULL){
 		rootComponentPtr->EnsureAutoInitComponentsCreated();
 	}
