@@ -412,6 +412,11 @@ bool CCompositeComponent::CreateSubcomponentInfo(
 			}
 
 			(*subComponentPtr)->SetComponentContext(subContextPtr.GetPtr(), this, isOwned);
+
+			icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>((*subComponentPtr).GetPtr());
+			if (compositeComponentPtr != NULL){
+				compositeComponentPtr->EnsureAutoInitComponentsCreated();
+			}
 		}
 	}
 
