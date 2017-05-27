@@ -399,6 +399,10 @@ bool CRegistryCodeSaverComp::WriteHeader(
 	stream << className << "(const icomp::IRegistryElement* userMainElementPtr = NULL);";
 	stream << "\n";
 
+	NextLine(stream);
+	stream << "using BaseClass::EnsureAutoInitComponentsCreated;";
+	stream << "\n";
+
 	ChangeIndent(-1);
 	NextLine(stream);
 	stream << "protected:";
