@@ -512,25 +512,26 @@ QToolBox::tab:!selected
 
 QSlider::groove:horizontal
 {
-	border: 1px solid #202020;
+	border: 1px solid #252525;
 	height: 6px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
 	background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #505050, stop:1 #606060);
 	margin: 2px 0;
 	border-radius: 2px;
 }
 
-QSlider::handle:horizontal
+QSlider::handle:horizontal 
 {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #505050, stop:1 #606060);
-	border: 1px solid #303030;
+	border: 1px solid #252525;
 	width: 6px;
 	margin: -6px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
 	border-radius: 2px;
 }
 
+
 QSlider::sub-page:horizontal
 {
-	border: 1px solid #202020;
+	border: 1px solid #252525;
 	height: 6px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
 	background: #d7801a;
 	margin: 2px 0;
@@ -539,7 +540,7 @@ QSlider::sub-page:horizontal
 
 QSlider::groove:vertical
 {
-	border: 1px solid #202020;
+	border: 1px solid #252525;
 	width: 6px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #505050, stop:1 #606060);
 	margin: 0 -2px;
@@ -549,7 +550,7 @@ QSlider::groove:vertical
 QSlider::handle:vertical
 {
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #505050, stop:1 #606060);
-	border: 1px solid #303030;
+	border: 1px solid #252525;
 	height: 6px;
 	margin:  0 -6px; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
 	border-radius: 2px;
@@ -557,7 +558,7 @@ QSlider::handle:vertical
 
 QSlider::sub-page:vertical
 {
-	border: 1px solid #202020;
+	border: 1px solid #252525;
 	width: 6px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
 	background: #d7801a;
 	margin: 0 -2px;
