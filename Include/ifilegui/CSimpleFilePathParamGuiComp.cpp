@@ -64,11 +64,17 @@ void CSimpleFilePathParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& 
 		QString path = objectPtr->GetPath();
 		ifile::IRelativeFilePath* relativeFilePathPtr = dynamic_cast<ifile::IRelativeFilePath*>(objectPtr);
 		if (relativeFilePathPtr != NULL){
-			QString basePath = relativeFilePathPtr->GetBasePath();
+			QFileInfo fileInfo(path);
+			QFileInfo baseInfo(relativeFilePathPtr->GetBasePath());
+			path = fileInfo.absoluteFilePath();
+			QString basePath = baseInfo.absoluteFilePath();
 
-			QDir baseDir(basePath);
-
-			path = baseDir.relativeFilePath(path);
+			if (!basePath.isEmpty() && path.startsWith(basePath)){
+				path.remove(basePath);
+				if (path.startsWith("/")){
+					path.remove(0, 1);
+				}
+			}
 		}
 
 		SetPathToEditor(path);
