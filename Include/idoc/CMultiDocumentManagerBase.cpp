@@ -725,7 +725,7 @@ CMultiDocumentManagerBase::SingleDocumentData* CMultiDocumentManagerBase::Create
 		if (infoPtr->documentPtr.IsValid()){
 			imod::IModel* documentModelPtr = CompCastPtr<imod::IModel>(documentPtr);
 			if (documentModelPtr != NULL){
-				documentModelPtr->AttachObserver(infoPtr.GetPtr());
+				infoPtr->RegisterModel(documentModelPtr, MI_DOCUMENT);
 			}
 
 			if (createView){
@@ -770,7 +770,7 @@ bool CMultiDocumentManagerBase::RegisterDocument(SingleDocumentData* infoPtr)
 			// connect undo manager to single document descriptor to provide general dirty flag
 			imod::IModel* undoManagerModelPtr = CompCastPtr<imod::IModel>(infoPtr->undoManagerPtr.GetPtr());
 			if (undoManagerModelPtr != NULL){
-				undoManagerModelPtr->AttachObserver(infoPtr);
+				infoPtr->RegisterModel(undoManagerModelPtr, MI_UNDO_MANAGER);
 			}
 
 			infoPtr->undoManagerPtr->StoreDocumentState();
@@ -922,6 +922,8 @@ CMultiDocumentManagerBase::SingleDocumentData::SingleDocumentData(
 
 CMultiDocumentManagerBase::SingleDocumentData::~SingleDocumentData()
 {
+	UnregisterAllModels();
+
 	// enforce the correct destruction order
 	undoManagerPtr.Reset();
 	documentPtr.Reset();
@@ -933,17 +935,19 @@ CMultiDocumentManagerBase::SingleDocumentData::~SingleDocumentData()
 
 // reimplemented (imod::CSingleModelObserverBase)
 
-void CMultiDocumentManagerBase::SingleDocumentData::OnUpdate(imod::IModel* /*modelPtr*/, const ChangeSet& /*changeSet*/)
+void CMultiDocumentManagerBase::SingleDocumentData::OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& /*changeSet*/)
 {
-	bool newDirty = true;
-	if (documentPtr.IsValid() && undoManagerPtr.IsValid()){
-		newDirty = (undoManagerPtr->GetDocumentChangeFlag() != IDocumentStateComparator::DCF_EQUAL);
-	}
+	if (modelId == MI_UNDO_MANAGER){
+		bool newDirty = true;
+		if (documentPtr.IsValid() && undoManagerPtr.IsValid()){
+			newDirty = (undoManagerPtr->GetDocumentChangeFlag() != IDocumentStateComparator::DCF_EQUAL);
+		}
 
-	if (isDirty != newDirty){
-		istd::CChangeNotifier notifier(parentPtr);
+		if (isDirty != newDirty){
+			istd::CChangeNotifier notifier(parentPtr);
 
-		isDirty = newDirty;
+			isDirty = newDirty;
+		}
 	}
 }
 
