@@ -68,7 +68,7 @@ protected:
 	virtual void OnEndGlobalChanges(const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 private:
-	CModelBase(const CModelBase& modelBase);
+	Q_DISABLE_COPY(CModelBase);
 
 	void CleanupObserverState();
 

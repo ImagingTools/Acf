@@ -221,11 +221,6 @@ void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet
 
 // private methods
 
-CModelBase::CModelBase(const CModelBase& /*modelBase*/)
-{
-}
-
-
 void CModelBase::CleanupObserverState()
 {
 	ObserversMap::Iterator iter = m_observers.begin();

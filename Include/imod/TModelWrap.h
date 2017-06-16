@@ -27,6 +27,8 @@ public:
 	typedef iser::TCopySerializedWrap<Base> BaseClass;
 	typedef imod::CModelBase BaseClass2;
 
+	TModelWrap();
+
 	void SetBaseObject(const Base& baseObject);
 
 	// pseudo-reimplemented (istd::IChangeable)
@@ -41,10 +43,19 @@ protected:
 	// reimplemented (imod::CModelBase)
 	virtual void OnBeginGlobalChanges();
 	virtual void OnEndGlobalChanges(const istd::IChangeable::ChangeSet& changeSet);
+
+private:
+	Q_DISABLE_COPY(TModelWrap);
 };
 
 
 // public methods
+
+template <class Base>
+TModelWrap<Base>::TModelWrap()
+{
+}
+
 
 template <class Base>
 void TModelWrap<Base>::SetBaseObject(const Base& baseObject)
