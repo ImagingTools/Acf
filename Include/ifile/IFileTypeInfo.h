@@ -28,13 +28,13 @@ public:
 	enum QueryFlags
 	{
 		/**
-			No loading operation should be considered.
+			Check for load operation.
 		*/
-		QF_SAVE = 1 << 0,
+		QF_LOAD = 1 << 0,
 		/**
-			No saving operation should be considered.
+			Check for save operation.
 		*/
-		QF_LOAD = 1 << 1,
+		QF_SAVE = 1 << 1,
 		/**
 			Operations with specified file name should be considered.
 		*/
