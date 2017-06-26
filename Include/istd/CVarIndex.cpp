@@ -150,6 +150,23 @@ bool CVarIndex::Decrease(const CVarIndex& boundaries)
 }
 
 
+int CVarIndex::GetIterationIndex(const CVarIndex& boundaries) const
+{
+	int retVal = 0;
+
+	int positionBase = 1;
+	int dimensionsCount = qMin(GetDimensionsCount(), boundaries.GetDimensionsCount());
+
+	for (int i = 0; i < dimensionsCount; ++i){
+		retVal += m_elements[i] * positionBase;
+
+		positionBase *= boundaries.m_elements[i];
+	}
+
+	return retVal;
+}
+
+
 bool CVarIndex::operator==(const CVarIndex& index) const
 {
 	int minDimensionsCount = GetMinDimensionsCount();

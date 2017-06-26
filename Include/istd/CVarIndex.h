@@ -149,6 +149,11 @@ public:
 	int GetProductVolume() const;
 
 	/**
+		Get index of iteration from zero to current index inside some boundaries.
+	*/
+	int GetIterationIndex(const CVarIndex& boundaries) const;
+
+	/**
 		Get minimal number of dimensions needed to to represent this index.
 		In other words this is index of last non-zero component + 1.
 	*/
