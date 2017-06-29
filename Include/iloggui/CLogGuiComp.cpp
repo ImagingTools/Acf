@@ -104,7 +104,7 @@ QTreeWidgetItem* CLogGuiComp::CreateGuiItem(const istd::IInformationProvider& me
 		treeItemPtr->setData(0, DR_CATEGORY, message.GetInformationCategory());
 
 		istd::IInformationProvider::InformationCategory category = message.GetInformationCategory();
-		QIcon messageIcon = GetCategoryIcon(category).pixmap(QSize(12, 12), QIcon::Normal, QIcon::On);
+		QIcon messageIcon = GetCategoryIcon(category);
 
 		treeItemPtr->setIcon(CT_ICON, messageIcon);
 	}
@@ -245,8 +245,8 @@ void CLogGuiComp::OnGuiCreated()
 #if QT_VERSION >= 0x050200
 	FilterText->setClearButtonEnabled(true);
 #endif
-
-	LogView->header()->resizeSection(CT_ICON, LogView->iconSize().width() + 4);
+	LogView->header()->resizeSection(CT_ICON, 22);
+	LogView->setIconSize(QSize(16, 16));
 
 	QToolBar* toolBar = new QToolBar(ToolBarFrame);
 	if (ToolBarFrame->layout()){
