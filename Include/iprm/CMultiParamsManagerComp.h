@@ -75,10 +75,11 @@ protected:
 		\param	index		position in list of parameters.
 		\param	typeid		ID of parameter type.
 		\param	name		name of parameter (attribute).
+		\param  uuid		uuid of parameter set
 		\param	isEnabled	enebling status of parameter (attribute).
 		\return			\c true if element exists (was present or could be created).
 	*/
-	bool EnsureParamExist(int index, const QByteArray& typeId, const QString& name, bool isEnabled);
+	bool EnsureParamExist(int index, const QByteArray& typeId, const QString& name, const QByteArray& uuid, bool isEnabled);
 
 	// reimplemented (CParamsManagerCompBase)
 	virtual bool IsParameterCreationSupported() const;
