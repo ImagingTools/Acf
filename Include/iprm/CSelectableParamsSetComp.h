@@ -35,6 +35,7 @@ public:
 		I_ASSIGN_TO(m_currentSelectionModelCompPtr, m_currentSelectionCompPtr, false);
 		I_ASSIGN(m_paramsManagerCompPtr, "ParamsManager", "Manager of parameter set used to realize selection", true, "ParamsManager");
 		I_ASSIGN_TO(m_paramsManagerModelCompPtr, m_paramsManagerCompPtr, false);
+		I_ASSIGN(m_allowEditingAttrPtr, "AllowEditing", "If enabled, the selected parameter set will be editable", true, false);
 	I_END_COMPONENT;
 
 	CSelectableParamsSetComp();
@@ -54,6 +55,7 @@ protected:
 
 private:
 	I_ATTR(QByteArray, m_selectionParamIdAttrPtr);
+	I_ATTR(bool, m_allowEditingAttrPtr);
 	I_REF(iprm::ISelectionParam, m_currentSelectionCompPtr);
 	I_REF(imod::IModel, m_currentSelectionModelCompPtr);
 	I_REF(IParamsManager, m_paramsManagerCompPtr);
