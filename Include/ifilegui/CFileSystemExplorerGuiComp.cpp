@@ -48,6 +48,41 @@ QStringList CFileSystemExplorerGuiComp::GetDefaultFilters() const
 }
 
 
+void CFileSystemExplorerGuiComp::InvalidateFileSystemModel(const QString& currentFilePath)
+{
+	QString currentPath = QFileInfo(currentFilePath).absolutePath();
+
+	QString saveRootPath = m_fileSystemModel.rootPath();
+
+	m_fileSystemModel.setRootPath(currentPath);
+
+	m_fileSystemModel.setRootPath(saveRootPath);
+}
+
+
+void CFileSystemExplorerGuiComp::UpdateFileRoot()
+{
+	if (IsGuiCreated()){
+		QString currentRootFilePath;
+
+		QModelIndex rootIndex;
+
+		if (m_rootPathParamCompPtr.IsValid()){
+			currentRootFilePath = istd::CSystem::GetEnrolledPath(m_rootPathParamCompPtr->GetPath());
+		}
+
+		if (!currentRootFilePath.isEmpty() && QFile::exists(currentRootFilePath)){
+			rootIndex = m_fileSystemModel.setRootPath(currentRootFilePath);
+		}
+		else {
+			rootIndex = m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString());
+		}
+
+		FileTree->setRootIndex(rootIndex);
+	}
+}
+
+
 // reimplemented (iqtgui::TGuiObserverWrap)
 
 void CFileSystemExplorerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*changeSet*/)
@@ -75,10 +110,12 @@ void CFileSystemExplorerGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /
 }
 
 
-// reimplemented (CGuiComponentBase)
+// reimplemented (iqtgui::CGuiComponentBase)
 
 void CFileSystemExplorerGuiComp::OnGuiCreated()
 {
+	BaseClass::OnGuiCreated();
+
 	if (!m_useSystemDecoratedIconsAttrPtr.IsValid() || !*m_useSystemDecoratedIconsAttrPtr){
 		m_fileSystemModel.setIconProvider(&m_fileIconProvider);
 	}
@@ -89,22 +126,7 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 
 	FileTree->setModel(&m_fileSystemModel);
 
-	QModelIndex rootIndex;
-
-	QString currentRootFilePath;
-
-	if (m_rootPathParamCompPtr.IsValid()){
-		currentRootFilePath = istd::CSystem::GetEnrolledPath(m_rootPathParamCompPtr->GetPath());
-	}
-
-	if (!currentRootFilePath.isEmpty() && QFile::exists(currentRootFilePath)){
-		rootIndex = m_fileSystemModel.setRootPath(currentRootFilePath);
-	}
-	else {
-		rootIndex = m_fileSystemModel.setRootPath(m_fileSystemModel.myComputer().toString());
-	}
-
-	FileTree->setRootIndex(rootIndex);
+	UpdateFileRoot();
 
 	QItemSelectionModel* selectionModelPtr = FileTree->selectionModel();
 	if (selectionModelPtr != NULL){
@@ -163,7 +185,17 @@ void CFileSystemExplorerGuiComp::OnGuiCreated()
 		connect(FileTree, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(OnDoubleClicked(const QModelIndex&)));
 	}
 
-	BaseClass::OnGuiCreated();
+	if (m_rootPathParamModelCompPtr.IsValid()){
+		RegisterModel(m_rootPathParamModelCompPtr.GetPtr(), 0);
+	}
+}
+
+
+// reimplemented (imod::CMultiModelDispatcherBase)
+
+void CFileSystemExplorerGuiComp::OnModelChanged(int /*modelId*/, const istd::IChangeable::ChangeSet& /*changeSet*/)
+{
+	UpdateFileRoot();
 }
 
 
@@ -232,18 +264,6 @@ void CFileSystemExplorerGuiComp::OnDoubleClicked(const QModelIndex& modelIndex)
 	}
 
 	QDesktopServices::openUrl(fileInfo.canonicalFilePath());
-}
-
-
-void CFileSystemExplorerGuiComp::InvalidateFileSystemModel(const QString& currentFilePath)
-{
-	QString currentPath = QFileInfo(currentFilePath).absolutePath();
-
-	QString saveRootPath = m_fileSystemModel.rootPath();
-
-	m_fileSystemModel.setRootPath(currentPath);
-
-	m_fileSystemModel.setRootPath(saveRootPath);
 }
 
 
