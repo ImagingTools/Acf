@@ -7,7 +7,6 @@
 // Qt includes
 #include <QtCore/QVector>
 #include <QtCore/QMutexLocker>
-#include <QtGui/QColor>
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
@@ -315,11 +314,11 @@ icmm::CVarColor CBitmap::GetColorAt(const istd::CIndex2d& position) const
 	PixelFormat pixelFormat = GetPixelFormat();
 	if (pixelFormat == PF_RGB){
 		icmm::CVarColor rgbValue(3);
-		QColor color(m_image.pixel(position.GetX(), position.GetY()));
+		QRgb pixel = m_image.pixel(position.GetX(), position.GetY());
 
-		rgbValue[2] = color.red() / 255.0;
-		rgbValue[1] = color.green() / 255.0;
-		rgbValue[0] = color.blue() / 255.0;
+		rgbValue[2] = qRed(pixel) / 255.0;
+		rgbValue[1] = qGreen(pixel) / 255.0;
+		rgbValue[0] = qBlue(pixel) / 255.0;
 
 		return rgbValue;
 	}

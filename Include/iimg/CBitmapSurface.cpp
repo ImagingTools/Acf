@@ -1,10 +1,6 @@
 #include <iimg/CBitmapSurface.h>
 
 
-// Qt includes
-#include <QtCore/QVector>
-#include <QtGui/QColor>
-
 
 // ACF includes
 #include <istd/CChangeNotifier.h>

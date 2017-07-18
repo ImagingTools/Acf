@@ -3,10 +3,10 @@
 
 // Qt includes
 #include <QtCore/QDir>
-#if QT_VERSION < 0x050000
-	#include <QtGui/QDesktopServices>
-#else
+#if QT_VERSION >= 0x050000
 	#include <QtCore/QStandardPaths>
+#else
+	#include <QtGui/QDesktopServices>
 #endif
 
 

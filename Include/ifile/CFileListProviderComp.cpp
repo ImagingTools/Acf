@@ -3,12 +3,6 @@
 
 // Qt includes
 #include <QtCore/QStringList>
-#include <QtCore/QDateTime>
-#if QT_VERSION >= 0x050000
-#include <QtWidgets/QFileIconProvider>
-#else
-#include <QtGui/QFileIconProvider>
-#endif
 
 // ACF includes
 #include <istd/CChangeNotifier.h>

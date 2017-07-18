@@ -3,16 +3,13 @@
 
 // Qt includes
 #include <QtCore/QDateTime>
-#include <QtGui/QPainter>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QItemDelegate>
 #else
 #include <QtGui/QHeaderView>
 #include <QtGui/QToolBar>
-#include <QtGui/QScrollBar>
 #endif
 
 // ACF includes
