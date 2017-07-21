@@ -40,9 +40,9 @@ public:
 	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
 
 protected:
-	virtual void DrawBitmap(
+	virtual void DrawPixmap(
 				QPainter& painter,
-				const iimg::IBitmap& bitmap,
+				const QPixmap& pixmap,
 				const i2d::CRect& bitmapArea,
 				const i2d::CAffine2d& destTransform) const;
 private:

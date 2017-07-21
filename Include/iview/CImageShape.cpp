@@ -31,10 +31,9 @@ CImageShape::CImageShape(const icmm::IColorTransformation* colorTransformationPt
 
 void CImageShape::Draw(QPainter& drawContext) const
 {
-	const iimg::IBitmap* bitmapPtr = dynamic_cast<const iimg::IBitmap*>(GetObservedModel());
-	if (IsDisplayConnected() && bitmapPtr != NULL){
-		ibase::CSize bitmapSize = bitmapPtr->GetImageSize();
-		if (!bitmapSize.IsNull()){
+	if (IsDisplayConnected()){
+		ibase::CSize bitmapSize = m_pixmap.size();
+		if (!bitmapSize.IsSizeEmpty()){
 			i2d::CRect bitmapArea(istd::CIndex2d(0, 0), bitmapSize);
 
 			i2d::CVector2d corners[3];
@@ -45,7 +44,7 @@ void CImageShape::Draw(QPainter& drawContext) const
 			i2d::CMatrix2d destDeform(corners[1] - corners[0], corners[2] - corners[0]);
 			i2d::CAffine2d destTransform(destDeform, corners[0]);
 
-			DrawBitmap(drawContext, *bitmapPtr, bitmapArea, destTransform);
+			DrawPixmap(drawContext, m_pixmap, bitmapArea, destTransform);
 		}
 	}
 }
@@ -242,38 +241,34 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 // protected methods
 
-void CImageShape::DrawBitmap(
+void CImageShape::DrawPixmap(
 			QPainter& painter,
-			const iimg::IBitmap& bitmap,
+			const QPixmap& pixmap,
 			const i2d::CRect& bitmapArea,
 			const i2d::CAffine2d& destTransform) const
 {
-	const iimg::CBitmap* bitmapPtr = dynamic_cast<const iimg::CBitmap*>(&bitmap);
+	const i2d::CMatrix2d& deform = destTransform.GetDeformMatrix();
+	const i2d::CVector2d& pos = destTransform.GetTranslation();
 
-	if (bitmapPtr != NULL){
-		const i2d::CMatrix2d& deform = destTransform.GetDeformMatrix();
-		const i2d::CVector2d& pos = destTransform.GetTranslation();
+	QMatrix matrix(	deform.GetAt(0, 0) / double(bitmapArea.GetWidth()),
+					deform.GetAt(1, 0) / double(bitmapArea.GetWidth()),
+					deform.GetAt(0, 1) / double(bitmapArea.GetHeight()),
+					deform.GetAt(1, 1) / double(bitmapArea.GetHeight()),
+					pos.GetX(),
+					pos.GetY());
 
-		QMatrix matrix(	deform.GetAt(0, 0) / double(bitmapArea.GetWidth()),
-						deform.GetAt(1, 0) / double(bitmapArea.GetWidth()),
-						deform.GetAt(0, 1) / double(bitmapArea.GetHeight()),
-						deform.GetAt(1, 1) / double(bitmapArea.GetHeight()),
-						pos.GetX(),
-						pos.GetY());
+	painter.setMatrix(matrix);
 
-		painter.setMatrix(matrix);
+	painter.drawPixmap(
+				0,
+				0,
+				pixmap,
+				bitmapArea.GetLeft(),
+				bitmapArea.GetTop(),
+				bitmapArea.GetRight(),
+				bitmapArea.GetBottom());
 
-		painter.drawPixmap(
-			0,
-			0,
-			m_pixmap,
-			bitmapArea.GetLeft(),
-			bitmapArea.GetTop(),
-			bitmapArea.GetRight(),
-			bitmapArea.GetBottom());
-
-		painter.setMatrixEnabled(false);
-	}
+	painter.setMatrixEnabled(false);
 }
 
 
