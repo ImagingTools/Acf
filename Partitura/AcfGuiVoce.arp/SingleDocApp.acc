@@ -19,7 +19,7 @@
                     <AttributeInfo Id="DialogIconPath" Type="String" ExportId="AboutDialogIconPath">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DialogTitle" Type="String" ExportId="AboutDialogTitle">
+                    <AttributeInfo Id="DialogTitle" Type="Text" ExportId="AboutDialogTitle">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="LogoPath" Type="String" ExportId="AboutLogoPath">
@@ -97,25 +97,25 @@
         <Element Id="ApplicationInfo" PackageId="BasePck" ComponentId="ApplicationInfo">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
-                    <AttributeInfo Id="ApplicationName" Type="String" ExportId="ApplicationName">
+                    <AttributeInfo Id="ApplicationName" Type="Text" ExportId="ApplicationName">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="ApplicationSubname" Type="String" ExportId="ApplicationSubname">
+                    <AttributeInfo Id="ApplicationSubname" Type="Text" ExportId="ApplicationSubname">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="ApplicationType" Type="String" ExportId="ApplicationType">
+                    <AttributeInfo Id="ApplicationType" Type="Text" ExportId="ApplicationType">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="CompanyName" Type="String" ExportId="CompanyName">
+                    <AttributeInfo Id="CompanyName" Type="Text" ExportId="CompanyName">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="LegalCopyright" Type="String" ExportId="LegalCopyright">
+                    <AttributeInfo Id="LegalCopyright" Type="Text" ExportId="LegalCopyright">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="MainVersionId" Type="Integer" ExportId="MainVersionId">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="ProductName" Type="String" ExportId="ProductName">
+                    <AttributeInfo Id="ProductName" Type="Text" ExportId="ProductName">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="VersionInfo" Type="Reference" ExportId="VersionInfo">

@@ -49,7 +49,7 @@
                     <AttributeInfo Id="DialogIconPath" Type="String" ExportId="DialogIconPath">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DialogTitle" Type="String" ExportId="DialogTitle">
+                    <AttributeInfo Id="DialogTitle" Type="Text" ExportId="DialogTitle">
                         <Data IsEnabled="true" Value="About"/>
                     </AttributeInfo>
                     <AttributeInfo Id="Gui" Type="Reference" ExportId="">

@@ -19,7 +19,7 @@
                     <AttributeInfo Id="DockArea" Type="Integer" ExportId="DockArea">
                         <Data IsEnabled="true" Value="3"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DockTitle" Type="String" ExportId="">
+                    <AttributeInfo Id="DockTitle" Type="Text" ExportId="">
                         <Data IsEnabled="true" Value="Log"/>
                     </AttributeInfo>
                     <AttributeInfo Id="SlaveGui" Type="Reference" ExportId="">
