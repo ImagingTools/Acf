@@ -37,7 +37,7 @@
                     <AttributeInfo Id="InsertSpacer" Type="Boolean" ExportId="InsertSpacer">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="Names" Type="String[]" ExportId="Names">
+                    <AttributeInfo Id="Names" Type="Text[]" ExportId="Names">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="SettingsKey" Type="String" ExportId="SettingsKey">
