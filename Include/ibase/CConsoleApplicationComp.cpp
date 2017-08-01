@@ -46,8 +46,7 @@ bool CConsoleApplicationComp::InitializeApplication(int argc, char** argv)
 
 	m_consoleReader.Start();
 
-	if (m_applicationInfoCompPtr.IsValid())
-	{
+	if (m_applicationInfoCompPtr.IsValid()){
 		QCoreApplication::setOrganizationName(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
 		QCoreApplication::setApplicationName(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
 	}

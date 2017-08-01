@@ -71,6 +71,11 @@ bool CApplicationCompBase::InitializeApplication(int argc, char** argv)
 
 		if (IsComponentActive()){
 			InitializeComponentApplication();
+
+			for (int i = 0; i < m_componentsToInitializeCompPtr.GetCount(); ++i){
+				istd::IPolymorphic* componentPtr = m_componentsToInitializeCompPtr[i];
+				Q_UNUSED(componentPtr);
+			}
 		}
 	}
 

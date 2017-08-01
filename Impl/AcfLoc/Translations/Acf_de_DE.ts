@@ -4,12 +4,177 @@
 <context>
     <name>Attribute</name>
     <message>
-        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/AcfLoc/CAcfLoc.cpp" line="+39"/>
+        <location filename="../../../AuxInclude/Qt5_VC12/GeneratedFiles/AcfLoc/CAcfLoc.cpp" line="+55"/>
+        <source>0.9.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.6</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.7</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.8</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>0.9.9</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.0.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.0.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+40"/>
+        <source>2.0.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>1.9.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-36"/>
+        <source>1.1.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-40"/>
+        <source>alog</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>.</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+36"/>
+        <source>1.2.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.3.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.4.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.4.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.5.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>1.6.4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.5</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.7.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.8.0</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>2.0.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>ACF</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-88"/>
+        <source>FileExplorer</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-2"/>
         <source>File Selector</source>
         <translation>Dateiauswahl</translation>
     </message>
@@ -19,25 +184,58 @@
         <translation>Protokoll</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+4"/>
         <source>Log XML file</source>
         <translation>XML-Logdatei</translation>
     </message>
     <message>
-        <source>$(AppName) by $(CompanyName)</source>
-        <translation type="vanished">$(AppName) von $(CompanyName)</translation>
+        <location line="+10"/>
+        <location line="+2"/>
+        <source>:/Translations</source>
+        <translation></translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="+66"/>
+        <source>2.0.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-18"/>
+        <source>1.6.1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1.6.3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-56"/>
+        <source>$(AppName) by $(CompanyName)</source>
+        <translation>$(AppName) von $(CompanyName)</translation>
+    </message>
+    <message>
+        <location line="-20"/>
         <source>About</source>
         <translation>Applikationsinfo</translation>
     </message>
     <message>
+        <location line="+18"/>
         <source>Progress</source>
-        <translation type="vanished">Fortschritt</translation>
+        <translation>Fortschritt</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-4"/>
+        <source>:/Icons/Info</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="-12"/>
         <source>Files</source>
         <translation>Dateien</translation>
     </message>
