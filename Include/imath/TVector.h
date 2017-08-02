@@ -50,6 +50,11 @@ public:
 	void SetElement(int i, const Element& value);
 
 	/**
+		Set some value to all elements.
+	*/
+	void SetAllElements(const Element& value);
+
+	/**
 		Set all coordinates to zero.
 		It makes the same as Clear() and is used for compatibility with other vector implementations.
 	*/
@@ -241,6 +246,15 @@ template <int Size, class Element>
 inline void TVector<Size, Element>::SetElement(int i, const Element& value)
 {
 	operator[](i) = value;
+}
+
+
+template <int Size, class Element>
+inline void TVector<Size, Element>::SetAllElements(const Element& value)
+{
+	for (int i = 0; i < Size; ++i){
+		m_elements[i] = value;
+	}
 }
 
 

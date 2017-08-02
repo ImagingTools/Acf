@@ -87,6 +87,11 @@ public:
 	void SetElement(int index, double value);
 
 	/**
+		Set some value to all elements.
+	*/
+	void SetAllElements(double value);
+
+	/**
 		Set size to zero.
 	*/
 	void Reset();
@@ -307,6 +312,15 @@ inline double& CVarVector::GetElementRef(int i)
 inline void CVarVector::SetElement(int i, double value)
 {
 	operator[](i) = value;
+}
+
+
+inline void CVarVector::SetAllElements(double value)
+{
+	int elementsCount = GetElementsCount();
+	for (int i = 0; i < elementsCount; ++i){
+		m_elements[i] = value;
+	}
 }
 
 
