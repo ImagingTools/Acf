@@ -27,11 +27,14 @@ public:
 
 	/**
 		Return \c true if the parameter set is consistent or \c false otherwise.
-		\param paramsSet	Parameter set to be validated
-		\param validationMessagesConsumerPtr (optional) Consumer for validation messages.
+		\param validationContextId				ID of the validation context
+		\param paramsSet						Parameter set to be validated
+		\param validationMessagesConsumerPtr	(optional) Consumer for validation messages.
 	*/
-	virtual bool IsParamsSetConsistent(const IParamsSet& paramsSet, ilog::IMessageConsumer* validationMessagesConsumerPtr = NULL) const = 0;
-
+	virtual bool IsParamsSetConsistent(
+				const QByteArray& validationContextId,
+				const IParamsSet& paramsSet,
+				ilog::IMessageConsumer* validationMessagesConsumerPtr = NULL) const = 0;
 };
 
 
