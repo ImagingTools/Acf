@@ -489,7 +489,7 @@ void CMultiDocumentWorkspaceGuiComp::OnRetranslate()
 
 	m_windowCommand.SetName(tr("&Window"));
 	// Window commands
-	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("&Closes all opened documents"));
+	m_closeAllDocumentsCommand.SetVisuals(tr("&Close All Documents"), tr("Close All"), tr("Closes all opened documents"));
 }
 
 
