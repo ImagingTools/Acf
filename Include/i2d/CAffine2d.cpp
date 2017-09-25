@@ -152,7 +152,7 @@ CAffine2d& CAffine2d::operator=(const CAffine2d& transform)
 
 // static members
 
-CAffine2d CAffine2d::s_identity(CMatrix2d::GetIdentity(), CVector2d(0, 0));
+CAffine2d CAffine2d::s_identity(CMatrix2d(1.0, 0.0, 0.0, 1.0), CVector2d(0, 0));
 
 
 } // namespace i2d
