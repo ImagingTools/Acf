@@ -292,6 +292,8 @@ i2d::CRect CCircleShape::CalcBoundingBox() const
 			boundingBox.Union(ctrls2[i].ToIndex2d());
 		}
 
+		boundingBox.Expand(i2d::CRect(-1, -1, 1, 1));
+
 		if (IsSelected()){
 			i2d::CVector2d tickers[4] = {
 						GetScreenPosition(i2d::CVector2d(center.GetX() + radius, center.GetY())),
