@@ -39,6 +39,9 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 {
 	if (m_widgetPtr == NULL){
 		m_widgetPtr = CreateQtWidget(parentPtr);
+		Q_ASSERT(m_widgetPtr != NULL);
+
+		m_widgetPtr->setWindowIcon(m_visualStatus.m_statusIcon);
 
 		QString operationSystemName = istd::CSystem::GetOperationSystemName();
 		m_widgetPtr->setProperty("OperatingSystem", operationSystemName);

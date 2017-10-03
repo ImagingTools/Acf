@@ -467,6 +467,10 @@ void CMultiDocumentWorkspaceGuiComp::OnGuiCreated()
 	mdiAreaPtr->setDocumentMode(true);
 #endif
 
+	if (m_workspaceBackgroundColorAttrPtr.IsValid()){
+		mdiAreaPtr->setBackground(QBrush(QColor(*m_workspaceBackgroundColorAttrPtr)));
+	}
+
 	OnViewsCountChanged();
 }
 
