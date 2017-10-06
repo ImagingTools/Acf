@@ -309,8 +309,9 @@ QCheckBox::indicator
 	color: #b1b1b1;
 	background-color: #323232;
 	border: 1px solid #b1b1b1;
-	width: 9px;
-	height: 9px;
+	width: 14px;
+	height: 14px;
+	padding: -2px;
 }
 
 QCheckBox::indicator:checked
@@ -320,7 +321,7 @@ QCheckBox::indicator:checked
 
 QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
 {
-border: 1px solid #444;
+	border: 1px solid #444;
 }
 
 
@@ -383,8 +384,8 @@ QProgressBar
 
 QProgressBar::chunk
 {
-	background-color: #d7801a;
-	width: 2.15px;
+	background-color: #814C0F;
+	width: 5px;
 	margin: 0.5px;
 }
 
@@ -428,6 +429,10 @@ QTabBar::tab:bottom
 	border-bottom-right-radius: 4px;
 }
 
+QTabBar::tab:top:selected
+{
+	icon-size:48px;
+}
 
 QTabBar::tab:top:selected, QTabBar::tab:bottom:selected
 {
