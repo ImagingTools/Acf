@@ -177,6 +177,20 @@ QPushButton:pressed, QToolButton:pressed
 }
 
 
+QToolButton::menu-button
+{
+	background: transparent;
+	width: 8px;
+}
+
+QToolButton::menu-arrow
+{
+	image:url(:/Style/AcfDark/Images/ArrowDown.svg);
+	width:8px;
+	height:8px;
+}
+
+
 QTextEdit:focus
 {
 	border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
