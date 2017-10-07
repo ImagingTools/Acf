@@ -378,8 +378,8 @@ QToolBar > QToolButton
 
 QToolBar > QToolButton:on
 {
-	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #303030, stop: 1 #454545);
-	border: 1px inset #303030;
+	background-color: #252525;
+	border: 1px inset #353535;
 }
 
 QToolBar > QToolButton:pressed
