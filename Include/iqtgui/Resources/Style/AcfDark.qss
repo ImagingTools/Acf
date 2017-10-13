@@ -29,9 +29,22 @@ QWidget:disabled
 
 QWidget:item:selected
 {
-	background-color: #606060;
+	background-color: #505050;
+	border: none;
 }
 
+
+QWidget::item:selected:active
+{
+	background: #504030;
+}
+
+
+QWidget::item:hover
+{
+	background: #303030;
+	border: none;
+}
 
 QGroupBox::title
 {
