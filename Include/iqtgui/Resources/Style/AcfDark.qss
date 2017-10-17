@@ -46,6 +46,7 @@ QWidget::item:hover
 	border: none;
 }
 
+
 QGroupBox::title
 {
 	subcontrol-position: top left;
@@ -137,12 +138,30 @@ QAbstractItemView
 	outline: 0;
 }
 
+QAbstractItemView
+{
+	border: 1px solid #505050;
+	padding: 2px;
+	border-radius: 4px;
+}
+
+QAbstractItemView:focus
+{
+	border: 1px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+}
+
 QAbstractItemView::item
 {
 	padding-top:5px;
 	padding-bottom:5px;
 }
 
+
+QHeaderView
+{
+	border: none;
+	padding: 0px;
+}
 
 QHeaderView::section
 {
@@ -864,18 +883,17 @@ QTabWidget::pane
 QSplitter::handle:horizontal
 {
 	image:url(:/Style/AcfDark/Images/SplitVertical.svg);
-	width: 4px;
+	width: 6px;
+	max-width: 6px;
+	max-height: 40px;
 }
 
 QSplitter::handle:vertical
 {
 	image:url(:/Style/AcfDark/Images/SplitHorizontal.svg);
-	height: 4px;
-}
-
-QSplitter::handle:pressed
-{
-	url(images/splitter_pressed.png);
+	height: 6px;
+	max-height: 6px;
+	max-width: 40px;
 }
 
 
