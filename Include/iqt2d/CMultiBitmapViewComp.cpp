@@ -94,6 +94,22 @@ void CMultiBitmapViewComp::UpdateGui(const istd::IChangeable::ChangeSet& /*chang
 			viewPtr->setTitle(title.isEmpty() ? " " : title);
 		}
 	}
+	else{
+		const iprm::IOptionsList* bitmapListPtr = objectPtr->GetBitmapListInfo();
+		if (bitmapListPtr != NULL){
+			int bitmapsCount = bitmapListPtr->GetOptionsCount();
+			for (int i = 0; i < bitmapsCount; ++i){
+				Q_ASSERT(i < viewsCount);
+
+				QString title = bitmapListPtr->GetOptionName(i);
+
+				CSingleView* viewPtr = m_views.GetAt(i);
+				Q_ASSERT(viewPtr != NULL);
+
+				viewPtr->setTitle(title);
+			}
+		}
+	}
 
 	if (*m_showStatusBackgroundAttrPtr || *m_showStatusLabelAttrPtr){
 		for (int viewIndex = 0; viewIndex < viewsCount; viewIndex++){
