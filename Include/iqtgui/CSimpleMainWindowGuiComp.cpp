@@ -577,6 +577,26 @@ void CSimpleMainWindowGuiComp::OnRetranslate()
 }
 
 
+void CSimpleMainWindowGuiComp::OnGuiShown()
+{
+	BaseClass::OnGuiShown();
+
+	QMainWindow* mainWidgetPtr = GetQtWidget();
+	Q_ASSERT(mainWidgetPtr != NULL);
+
+	QWidget* parentWidgetPtr = mainWidgetPtr->parentWidget();
+	if (parentWidgetPtr == NULL){
+		parentWidgetPtr = mainWidgetPtr;
+	}
+
+	if (parentWidgetPtr == NULL){
+		return;
+	}
+
+	m_fullScreenCommand.setChecked(parentWidgetPtr->isFullScreen());
+}
+
+
 // reimplemented (QObject)
 
 bool CSimpleMainWindowGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
