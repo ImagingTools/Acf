@@ -593,7 +593,9 @@ void CSimpleMainWindowGuiComp::OnGuiShown()
 		return;
 	}
 
+#if !defined(Q_OS_MAC)
 	m_fullScreenCommand.setChecked(parentWidgetPtr->isFullScreen());
+#endif
 }
 
 
