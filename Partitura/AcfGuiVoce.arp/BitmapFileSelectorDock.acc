@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4504" Description="ACF"/>
-            <Version Id="1" Number="1840" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="329472" Description="Qt Framework"/>
+            <Version Id="0" Number="4562" Description="ACF"/>
+            <Version Id="1" Number="1916" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="329217" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Bitmap file selector with preview</Description>
@@ -84,6 +84,12 @@
         <Element Id="ImageView" PackageId="QtViewPck" ComponentId="ImageView">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="BackgroundMode" Type="Integer" ExportId="">
+                        <Data IsEnabled="true" Value="1"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ColorSchema" Type="Reference" ExportId="ColorSchema">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="FitMode" Type="Integer" ExportId="">
                         <Data IsEnabled="true" Value="1"/>
                     </AttributeInfo>
