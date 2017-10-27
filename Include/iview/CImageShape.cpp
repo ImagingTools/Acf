@@ -225,6 +225,15 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 				break;
 
 			default:
+				pixelValueInfo = "[";
+				for (int i = 0; i < pixelValue.GetElementsCount(); ++i){
+					pixelValueInfo += QString("%1% (%2)").arg(int(pixelValue.GetElement(i) * 100)).arg(int(pixelValue.GetElement(i) * 255));
+
+					if (i < pixelValue.GetElementsCount() - 1){
+						pixelValueInfo += ", ";
+					}
+				}
+				pixelValueInfo = "]";
 				break;
 			}
 
