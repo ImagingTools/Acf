@@ -180,19 +180,25 @@ bool CLine2d::GetExtendedIntersection(const CLine2d& line, CVector2d& result) co
 
 double CLine2d::GetDistance(const CVector2d& position) const
 {
-	CVector2d diff = GetDiffVector();
-	double diffLength = diff.GetLength();
-
+	CVector2d diff = m_point2 - m_point1;
 	CVector2d point1Diff = position - m_point1;
+
 	double dotProduct = point1Diff.GetDotProduct(diff);
+
 	if (dotProduct <= 0.0){	// if the first point is the nearest
 		return m_point1.GetDistance(position);
 	}
-	else if (dotProduct >= diffLength * diffLength){	// if the second point is the nearest
-		return m_point2.GetDistance(position);
+	else{
+		double diffLength2 = diff.GetLength2();
+
+		if (dotProduct >= diffLength2){	// if the second point is the nearest
+			return m_point2.GetDistance(position);
+		}
+		else{
+			return qAbs(diff.GetCrossProductZ(point1Diff) / qSqrt(diffLength2));	// return distance to the line
+		}
 	}
 
-	return qAbs(diff.GetCrossProductZ(point1Diff) / diffLength);	// return distance to the line
 }
 
 
