@@ -292,7 +292,9 @@ bool CXmlReadArchiveBase::InternEndTag(const CArchiveTag& tag, bool& wasTagSkipp
 			}
 		}
 		else if (tag.IsTagSkippingUsed()){
-			++nestedTagsCount;
+			if (!tagText.endsWith('/')){	// empty tag like: <Tag/>
+				++nestedTagsCount;
+			}
 			wasTagSkipped = true;
 		}
 		else{
