@@ -2,8 +2,16 @@
 #define imath_included
 
 
-#include <iser/iser.h>
+// Qt includes
+#include <QtCore/QtGlobal>
+#if QT_VERSION < 0x050000
+#include <limits>
+#define qInf std::numeric_limits<double>::infinity
+inline bool qIsNaN(double x){ return x != x; }
+#endif
 
+// ACF includes
+#include <iser/iser.h>
 
 /**
 	Mathematical constant value PI.
