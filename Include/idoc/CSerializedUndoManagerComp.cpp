@@ -342,6 +342,16 @@ IDocumentStateComparator::DocumentChangeFlag CSerializedUndoManagerComp::GetDocu
 }
 
 
+// reimplemented (icomp::CComponentBase)
+
+void CSerializedUndoManagerComp::OnComponentDestroyed()
+{
+	EnsureModelDetached();
+
+	BaseClass::OnComponentDestroyed();
+}
+
+
 // private methods
 
 qint64 CSerializedUndoManagerComp::GetUsedMemorySize() const

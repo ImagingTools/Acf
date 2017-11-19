@@ -77,6 +77,9 @@ protected:
 	virtual bool RestoreDocumentState();
 	virtual DocumentChangeFlag GetDocumentChangeFlag() const;
 
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentDestroyed();
+
 private:
 	qint64 GetUsedMemorySize() const;
 
