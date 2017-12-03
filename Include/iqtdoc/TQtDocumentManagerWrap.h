@@ -155,7 +155,14 @@ QStringList TQtDocumentManagerWrap<Base, Gui>::GetOpenFilePathesFromDialog(const
 {
 	QStringList filters = CreateFileDialogFilters(documentTypeIdPtr, NULL, ifile::IFilePersistence::QF_FILE | ifile::IFilePersistence::QF_LOAD);
 
-	return QFileDialog::getOpenFileNames(Gui::GetWidget(), Gui::tr("Open Files..."), m_lastDirectory, filters.join(";;"));
+	QString lastUsedDirectory = m_lastDirectory;
+
+	QFileInfo fileInfo(lastUsedDirectory);
+	if (!fileInfo.exists()){
+		lastUsedDirectory.clear();
+	}
+
+	return QFileDialog::getOpenFileNames(Gui::GetWidget(), Gui::tr("Open Files..."), lastUsedDirectory, filters.join(";;"));
 }
 
 
