@@ -21,6 +21,7 @@
 #include <QtGui/QCompleter>
 #endif
 
+
 // ACF includes
 #include <istd/TPointerVector.h>
 
@@ -33,8 +34,7 @@
 
 namespace iqtprm
 {
-
-
+	 
 /**
 	Simple editor for an exclusive option selection.
 */
@@ -111,6 +111,8 @@ public:
 	CSelectionParamGuiComp();
 
 protected:
+	virtual void DoGuiRetranslate();
+	
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
@@ -129,6 +131,7 @@ protected Q_SLOTS:
 	void OnSelectionChanged(int index);
 	void OnRadioButtonSelectionChanged(bool isSelected);
 	void OnResetButtonClicked();
+	void OnFilterTextEdited(const QString& text);
 
 private:
 	void UpdateComboBoxesView();
@@ -140,7 +143,6 @@ private:
 	void SetupInfoLabelIcon(QLabel& label);
 	QPixmap GetInfoIcon() const;
 	void UpdateCompletionModel();
-	void ApplyFilterToProxyModel(const QString& filter) const;
 
 private:
 	I_TEXTATTR(m_optionsLabelAttrPtr);
