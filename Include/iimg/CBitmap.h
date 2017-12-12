@@ -23,8 +23,10 @@ class CBitmap:
 			public iimg::CBitmapBase,
 			virtual public IQImageProvider
 {
-public:
 	typedef iimg::CBitmapBase BaseClass;
+
+public:
+	static QByteArray GetTypeName();
 
 	CBitmap();
 	CBitmap(const CBitmap& bitmap);
@@ -53,6 +55,9 @@ public:
 	virtual istd::CIndex2d GetImageSize() const;
 	virtual int GetComponentsCount() const;
 	virtual icmm::CVarColor GetColorAt(const istd::CIndex2d& position) const;
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;

@@ -20,6 +20,8 @@ class CLabel: public i2d::CPosition2d
 public:
 	typedef i2d::CPosition2d BaseClass;
 
+	static QByteArray GetTypeName();
+
 	/**
 		Construct the label object with predefined parameters.
 		\param position	Center position of the label.
@@ -39,6 +41,9 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented istd::IChangeable
 	virtual int GetSupportedOperations() const;

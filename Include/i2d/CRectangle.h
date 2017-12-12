@@ -26,6 +26,8 @@ class CLine2d;
 class CRectangle: public CObject2dBase
 {
 public:
+	static QByteArray GetTypeName();
+
 	CRectangle();
 	CRectangle(double left, double top, double width, double height);
 	CRectangle(const CVector2d& topLeft, const CVector2d& bottomRight);
@@ -296,14 +298,17 @@ public:
 				IObject2d& result,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 	
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
-
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
 
 	// static methods
 	/**

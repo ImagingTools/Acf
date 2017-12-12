@@ -7,6 +7,7 @@
 // ACF includes
 #include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
+#include <istd/CClassInfo.h>
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
 #include <i2d/CVector2d.h>
@@ -36,6 +37,15 @@ static const iser::CArchiveTag s_bottomTag("Bottom", "Rectangle bottom edge posi
 static const iser::CArchiveTag s_leftTag("Left", "Rectangle left edge position", iser::CArchiveTag::TT_LEAF);
 static const iser::CArchiveTag s_rightTag("Right", "Rectangle right edge position", iser::CArchiveTag::TT_LEAF);
 
+
+
+// public static methods
+
+
+QByteArray CRectangle::GetTypeName()
+{
+	return istd::CClassInfo::GetName<CRectangle>();
+}
 
 
 // public methods
@@ -705,6 +715,47 @@ bool CRectangle::GetInvTransformed(
 }
 
 
+// reimplemented (iser::IObject)
+
+QByteArray CRectangle::GetFactoryId() const
+{
+
+	return GetTypeName();
+}
+
+
+
+// reimplemented (iser::ISerializable)
+
+bool CRectangle::Serialize(iser::IArchive& archive)
+{
+	istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &GetAllChanges());
+	Q_UNUSED(changeNotifier);
+
+	double& top = m_verticalRange.GetMinValueRef();
+	bool retVal = archive.BeginTag(s_topTag);
+	retVal = retVal && archive.Process(top);
+	retVal = retVal && archive.EndTag(s_topTag);
+
+	double& bottom = m_verticalRange.GetMaxValueRef();
+	retVal = retVal && archive.BeginTag(s_bottomTag);
+	retVal = retVal && archive.Process(bottom);
+	retVal = retVal && archive.EndTag(s_bottomTag);
+
+	double& left = m_horizontalRange.GetMinValueRef();
+	retVal = retVal && archive.BeginTag(s_leftTag);
+	retVal = retVal && archive.Process(left);
+	retVal = retVal && archive.EndTag(s_leftTag);
+
+	double& right = m_horizontalRange.GetMaxValueRef();
+	retVal = retVal && archive.BeginTag(s_rightTag);
+	retVal = retVal && archive.Process(right);
+	retVal = retVal && archive.EndTag(s_rightTag);
+	
+	return retVal;
+}
+
+
 // reimplemented (istd::IChangeable)
 
 int CRectangle::GetSupportedOperations() const
@@ -744,36 +795,6 @@ istd::IChangeable* CRectangle::CloneMe(CompatibilityMode mode) const
 	return NULL;
 }
 
-
-// reimplemented (iser::ISerializable)
-
-bool CRectangle::Serialize(iser::IArchive& archive)
-{
-	istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &GetAllChanges());
-	Q_UNUSED(changeNotifier);
-
-	double& top = m_verticalRange.GetMinValueRef();
-	bool retVal = archive.BeginTag(s_topTag);
-	retVal = retVal && archive.Process(top);
-	retVal = retVal && archive.EndTag(s_topTag);
-
-	double& bottom = m_verticalRange.GetMaxValueRef();
-	retVal = retVal && archive.BeginTag(s_bottomTag);
-	retVal = retVal && archive.Process(bottom);
-	retVal = retVal && archive.EndTag(s_bottomTag);
-
-	double& left = m_horizontalRange.GetMinValueRef();
-	retVal = retVal && archive.BeginTag(s_leftTag);
-	retVal = retVal && archive.Process(left);
-	retVal = retVal && archive.EndTag(s_leftTag);
-
-	double& right = m_horizontalRange.GetMaxValueRef();
-	retVal = retVal && archive.BeginTag(s_rightTag);
-	retVal = retVal && archive.Process(right);
-	retVal = retVal && archive.EndTag(s_rightTag);
-	
-	return retVal;
-}
 
 
 // static attributes

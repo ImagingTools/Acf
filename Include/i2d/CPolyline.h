@@ -20,6 +20,8 @@ class CPolyline: public CPolygon
 public:
 	typedef CPolygon BaseClass;
 
+	static QByteArray GetTypeName();
+
 	CPolyline();
 
 	virtual bool IsClosed() const;
@@ -52,6 +54,9 @@ public:
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented istd::IChangeable
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);

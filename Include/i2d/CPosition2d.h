@@ -17,6 +17,8 @@ namespace i2d
 class CPosition2d: public CObject2dBase
 {
 public:
+	static QByteArray GetTypeName();
+
 	CPosition2d();
 	CPosition2d(const CVector2d& center);
 
@@ -48,14 +50,17 @@ public:
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
 
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
+
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive);
+
 	// reimplemented (istd::IChangeable)
 	virtual int GetSupportedOperations() const;
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
 	virtual bool IsEqual(const istd::IChangeable& object) const;
 	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
-
-	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
 
 protected:
 	CVector2d m_position;

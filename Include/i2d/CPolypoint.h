@@ -20,6 +20,8 @@ namespace i2d
 class CPolypoint: public CObject2dBase
 {
 public:
+	static QByteArray GetTypeName();
+
 	/**
 		Removes all nodes.
 	*/
@@ -95,6 +97,9 @@ public:
 				IObject2d& result,
 				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
 				double* errorFactorPtr = NULL) const;
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);

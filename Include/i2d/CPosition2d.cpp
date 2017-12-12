@@ -4,6 +4,7 @@
 // ACF includes
 #include <istd/TDelPtr.h>
 #include <istd/CChangeNotifier.h>
+#include <istd/CClassInfo.h>
 #include <iser/IArchive.h>
 #include <iser/CArchiveTag.h>
 #include <i2d/CRectangle.h>
@@ -12,6 +13,17 @@
 namespace i2d
 {
 
+
+// public static methods
+
+
+QByteArray CPosition2d::GetTypeName()
+{
+	return istd::CClassInfo::GetName<CPosition2d>();
+}
+
+
+// public methods
 
 CPosition2d::CPosition2d()
 :	m_position(0, 0)
@@ -148,6 +160,42 @@ bool CPosition2d::GetInvTransformed(
 }
 
 
+// reimplemented (iser::IObject)
+
+QByteArray CPosition2d::GetFactoryId() const
+{
+
+	return GetTypeName();
+}
+
+
+
+
+// reimplemented (iser::ISerializable)
+
+bool CPosition2d::Serialize(iser::IArchive& archive)
+{
+	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();	// TODO: Remove it when backward compatibility to older versions will not be no more important
+	quint32 frameworkVersion = 0;
+	if (versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) && (frameworkVersion < 4019)){
+		static iser::CArchiveTag centerTag("Center", "Center position", iser::CArchiveTag::TT_GROUP);
+
+		istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &GetAllChanges());
+		Q_UNUSED(changeNotifier);
+
+		bool retVal = true;
+
+		retVal = retVal && archive.BeginTag(centerTag);
+		retVal = retVal && m_position.Serialize(archive);
+		retVal = retVal && archive.EndTag(centerTag);
+
+		return retVal;
+	}
+
+	return m_position.Serialize(archive);
+}
+
+
 // reimplemented (istd::IChangeable)
 
 int CPosition2d::GetSupportedOperations() const
@@ -195,31 +243,6 @@ istd::IChangeable* CPosition2d::CloneMe(CompatibilityMode mode) const
 	}
 
 	return NULL;
-}
-
-
-// reimplemented (iser::ISerializable)
-
-bool CPosition2d::Serialize(iser::IArchive& archive)
-{
-	const iser::IVersionInfo& versionInfo = archive.GetVersionInfo();	// TODO: Remove it when backward compatibility to older versions will not be no more important
-	quint32 frameworkVersion = 0;
-	if (versionInfo.GetVersionNumber(iser::IVersionInfo::AcfVersionId, frameworkVersion) && (frameworkVersion < 4019)){
-		static iser::CArchiveTag centerTag("Center", "Center position", iser::CArchiveTag::TT_GROUP);
-
-		istd::CChangeNotifier changeNotifier(archive.IsStoring()? NULL: this, &GetAllChanges());
-		Q_UNUSED(changeNotifier);
-
-		bool retVal = true;
-
-		retVal = retVal && archive.BeginTag(centerTag);
-		retVal = retVal && m_position.Serialize(archive);
-		retVal = retVal && archive.EndTag(centerTag);
-
-		return retVal;
-	}
-
-	return m_position.Serialize(archive);
 }
 
 

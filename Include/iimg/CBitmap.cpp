@@ -11,6 +11,7 @@
 // ACF includes
 #include <istd/CChangeNotifier.h>
 #include <istd/TDelPtr.h>
+#include <istd/CClassInfo.h>
 
 
 namespace iimg
@@ -72,6 +73,16 @@ bool ConvertToGrayImage(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 	return false;
 }
 
+
+// public static methods
+
+QByteArray CBitmap::GetTypeName()
+{
+	return istd::CClassInfo::GetName<CBitmap>();
+}
+
+
+// public methods
 
 CBitmap::CBitmap()
 {
@@ -324,6 +335,14 @@ icmm::CVarColor CBitmap::GetColorAt(const istd::CIndex2d& position) const
 	}
 
 	return BaseClass::GetColorAt(position);
+}
+
+
+// reimplemented (iser::IObject)
+
+QByteArray CBitmap::GetFactoryId() const
+{
+	return GetTypeName();
 }
 
 
