@@ -53,17 +53,8 @@ win32{
 
 
 # custom build for ACF Registry Compiler (Arxc)
+ARX_COMPILER_OUTPUT = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.h
 ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR
-ARX_COMPILER_OUTPUT_CPP = $${ARXC_OUTDIR}/${QMAKE_FILE_BASE}.cpp
-ARX_COMPILER_OUTPUT_H = $${ARXC_OUTDIR}/${QMAKE_FILE_BASE}.h
-ARX_COMPILER_OUT = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.arxout
-
-win32{
-	ARX_COMPILER_TOUCH = type nul > $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.arxout
-}
-else{
-	ARX_COMPILER_TOUCH = touch $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.arxout
-}
 
 CONFIG(warn_on, warn_on|warn_off){
 	ARX_COMPILER_COMMAND = $$ARX_COMPILER_COMMAND -v
@@ -72,36 +63,19 @@ CONFIG(warn_on, warn_on|warn_off){
 win32{
 	ARX_COMPILER_OUTPUT ~= s,/,\\,g
 	ARX_COMPILER_COMMAND ~= s,/,\\,g
-	ARX_COMPILER_TOUCH ~= s,/,\\,g
-	ARX_COMPILER_OUT ~= s,/,\\,g
-	ARX_COMPILER_OUTPUT_CPP ~= s,/,\\,g
-	ARX_COMPILER_OUTPUT_H ~= s,/,\\,g
 }
 
 arxCompiler.name = ARX-Compiler
+arcCompiler.target = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.h
 arxCompiler.CONFIG += no_link
-arxCompiler.output = $$ARX_COMPILER_OUT
-arxCompiler.commands = $$ARX_COMPILER_COMMAND && $$ARX_COMPILER_TOUCH
+arxCompiler.CONFIG += target_predeps
+arxCompiler.output = $$ARX_COMPILER_OUTPUT
+arxCompiler.commands = $$ARX_COMPILER_COMMAND
 arxCompiler.input = ARXC_FILES
-arxCompiler.variable_out = ARX_ADD
+arxCompiler.variable_out = SOURCES
+arxCompiler.dependency_type = TYPE_C
 arxCompiler.depend_command = $$ARXCBIN ${QMAKE_FILE_IN} -mode depends -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR
-
-# add arx generated cpp and header
-arxAdd_cpp.depends =  $$ARX_COMPILER_OUTPUT_H
-arxAdd_cpp.output =  $$ARX_COMPILER_OUTPUT_CPP
-arxAdd_cpp.input = ARX_ADD
-arxAdd_cpp.commands = echo "Add $$ARX_COMPILER_OUTPUT_CPP to project GENERATED_SOURCES"
-arxAdd_cpp.variable_out = GENERATED_SOURCES
-arxAdd_cpp.dependency_type = TYPE_C
-arxAdd_cpp.CONFIG = no_link
-
-arxAdd_h.output = $$ARX_COMPILER_OUTPUT_H
-arxAdd_h.input = ARX_ADD
-arxAdd_h.commands = echo "Add $$ARX_COMPILER_OUTPUT_H to project HEADERS"
-arxAdd_h.variable_out = HEADERS
-arxAdd_h.CONFIG = no_link
-
-QMAKE_EXTRA_COMPILERS += arxCompiler arxAdd_h arxAdd_cpp
+QMAKE_EXTRA_COMPILERS += arxCompiler
 
 
 # custom build for ACF transformations
