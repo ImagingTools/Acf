@@ -460,6 +460,8 @@ void CParamsManagerGuiCompBase::UpdateComboBox()
 
 void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 {
+	iwidgets::CWidgetUpdateBlocker blocker(GetQtWidget());
+
 	imod::IModel* modelPtr = NULL;
 	imod::IObserver* paramsSetObserverPtr = NULL;
 
@@ -475,11 +477,7 @@ void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 	}
 
 	if (modelPtr != m_lastConnectedModelPtr){
-		iwidgets::CWidgetUpdateBlocker blocker(ParamsFrame);
-
 		EnsureParamsGuiDetached();
-
-		bool paramsFrameVisible = false;
 
 		if (modelPtr != NULL){
 			Q_ASSERT(!modelPtr->IsAttached(paramsSetObserverPtr));
@@ -487,8 +485,6 @@ void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 			if (modelPtr->AttachObserver(paramsSetObserverPtr)){
 				m_lastConnectedModelPtr = modelPtr;
 				m_lastObserverPtr = paramsSetObserverPtr;
-
-				paramsFrameVisible = true;
 
 				bool setReadOnly = ((objectPtr->GetIndexOperationFlags(selectedIndex) & iprm::IParamsManager::MF_SUPPORT_EDIT) == 0);
 				imod::IModelEditor* modelEditorPtr = CompCastPtr<imod::IModelEditor>(paramsSetObserverPtr);
@@ -498,15 +494,13 @@ void CParamsManagerGuiCompBase::UpdateParamsView(int selectedIndex)
 			}
 		}
 
-		ParamsFrame->setVisible(paramsFrameVisible);
-
-		ParamsFrame->setUpdatesEnabled(true);
 	}
 
 	RemoveButton->setEnabled(selectedIndex >= 0);
 
-	if (modelPtr == NULL){
-		ParamsFrame->hide();
+	bool paramsVisible = (m_lastConnectedModelPtr != NULL);
+	if (paramsVisible != ParamsFrame->isVisible()){
+		ParamsFrame->setVisible(paramsVisible);
 	}
 
 	UpdateActions();
