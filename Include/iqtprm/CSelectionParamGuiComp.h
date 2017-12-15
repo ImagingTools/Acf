@@ -111,8 +111,6 @@ public:
 	CSelectionParamGuiComp();
 
 protected:
-	virtual void DoGuiRetranslate();
-	
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void OnGuiModelAttached();
 	virtual void OnGuiModelDetached();
