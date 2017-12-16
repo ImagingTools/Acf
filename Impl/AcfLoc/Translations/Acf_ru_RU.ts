@@ -3962,7 +3962,7 @@ Interfaces:</source>
     <message>
         <location line="+3"/>
         <source>Reset Zoom</source>
-        <translation>Сбросить скалирование</translation>
+        <translation>Сбросить</translation>
     </message>
     <message>
         <source>Zoom to Fit</source>
@@ -3987,82 +3987,82 @@ Interfaces:</source>
     <message>
         <location line="-11"/>
         <source>&amp;View</source>
-        <translation type="unfinished">&amp;Вид</translation>
+        <translation>&amp;Вид</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Fit Contents To View</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоскалирование</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Fit To View</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоскалирование</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Zoom to fit content area</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическое скалирование контента</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Selection Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим выбора обьектов</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Object Selection Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим выбора обьектов</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Modify Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим изменения обьекта</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Object Modification Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим изменения обьекта</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Add Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить новую точку</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Point Adding Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим добавления точек</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Add</source>
-        <translation type="unfinished">Добавить</translation>
+        <translation>Добавить</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Remove Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранную точку</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Point Removing Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим удаления точек</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Remove</source>
-        <translation type="unfinished">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4072,7 +4072,7 @@ Interfaces:</source>
     <message>
         <location line="+0"/>
         <source>Show Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать сетку масштаба</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4082,7 +4082,7 @@ Interfaces:</source>
     <message>
         <location line="+0"/>
         <source>Show Ruler</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать линейку</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4092,7 +4092,7 @@ Interfaces:</source>
     <message>
         <location line="+0"/>
         <source>Grid in Millimeter</source>
-        <translation type="unfinished"></translation>
+        <translation>Миллиметры</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -4102,7 +4102,7 @@ Interfaces:</source>
     <message>
         <location line="+0"/>
         <source>Show Scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать элементы прокрутки</translation>
     </message>
 </context>
 <context>
