@@ -204,6 +204,11 @@ I_EXPORT_COMPONENT(
 			"Arc Circle Position Radius 2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
 
 I_EXPORT_COMPONENT(
+			Parallelogram,
+			"Parallelogram representation",
+			"Parallelogram Position 2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+
+I_EXPORT_COMPONENT(
 			TextDocument,
 			"Simple text document",
 			IM_CATEGORY(I_DATA_MODEL) IM_TAG("Text Document"));
