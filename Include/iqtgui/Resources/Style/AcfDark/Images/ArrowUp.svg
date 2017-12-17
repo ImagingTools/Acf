@@ -14,7 +14,7 @@
    style="enable-background:new 0 0 16 16;"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91pre3 r13670"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="ArrowUp.svg">
   <metadata
      id="metadata10">
@@ -43,15 +43,16 @@
      id="namedview6"
      showgrid="false"
      inkscape:zoom="9.8333333"
-     inkscape:cx="-32.440678"
+     inkscape:cx="-54.661017"
      inkscape:cy="12"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2" />
   <path
-     d="M 11.933 1.077 L 22.638 22.858 L 1.228 22.858 L 11.933 1.077 Z"
-     style="fill:#ac9d93;fill-opacity:1"
+     d="M 12,4 22.705,20 H 1.295 Z"
+     style="fill:#ac9d93;fill-opacity:1;stroke-width:0.85707945"
      bx:shape="triangle 1.228 1.077 21.41 21.781 0.5 0 1@02169cea"
-     id="path4" />
+     id="path4"
+     inkscape:connector-curvature="0" />
 </svg>
