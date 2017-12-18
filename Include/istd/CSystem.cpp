@@ -464,6 +464,8 @@ QString CSystem::GetCompilerVariable(const QString& varName)
 		return "MinGW_64";
 #elif defined(__GNUC__)
 		return "GCC";
+#elif defined(__INTEL_COMPILER)
+		return "ICC";
 #elif defined(_MSC_VER)
 #if _MSC_VER >= 1900
 		QString retVal = "VC14";

@@ -56,10 +56,25 @@ win32-msvc*{
 	win32-msvc2015{
 		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS
 		COMPILER_NAME = VC14
-		#CONFIG += c++11
+
+		CONFIG(release, debug|release){
+			#extra optimizations
+			QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		}
+
+		win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
+			QMAKE_LFLAGS += /MACHINE:X64
+		}
 	}
 
+	CONFIG(release, debug|release){
+		# activate debug info also for release builds
+		QMAKE_LFLAGS += /DEBUG
 
+		# activate debug info also for release builds
+		QMAKE_CXXFLAGS += /Zi /Fd$$DESTDIR/"$$TARGET".pdb
+	}
+	
 	contains(QMAKE_HOST.arch, x86_64){
 		PLATFORM_CODE = x64
 		# SSE2 enabled by default for x86_64
@@ -68,6 +83,12 @@ win32-msvc*{
 		PLATFORM_CODE = Win32
 		QMAKE_CXXFLAGS += /arch:SSE2
 	}
+}
+
+*-icc*{
+	COMPILER_NAME = ICC
+	CONFIG += c++11
+	MAKE_CXXFLAGS += /arch:SSE3
 }
 
 *-clang* | *-llvm*{
