@@ -47,6 +47,19 @@ void CImageViewComp::OnGuiCreated()
 }
 
 
+void CImageViewComp::OnGuiDestroyed()
+{
+	iview::CConsoleGui* consolePtr = GetQtWidget();
+	Q_ASSERT(consolePtr != NULL);
+
+	iview::CViewport& view = consolePtr->GetViewRef();
+
+	view.DisconnectShape(this);
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
 } // namespace iview
 
 
