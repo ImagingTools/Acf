@@ -14,13 +14,14 @@
 namespace iview
 {
 
+
 class CColorSchemaPenAttr: public icomp::CComponentBase, public CColorSchema
 {
 public:
-	typedef icomp::CComponentBase BaseClass;	
+	typedef icomp::CComponentBase BaseClass;
 
 	I_BEGIN_COMPONENT(CColorSchemaPenAttr);
-		I_REGISTER_INTERFACE(IColorSchema);		
+		I_REGISTER_INTERFACE(IColorSchema);
 		I_ASSIGN(m_normalPenColorAttrPtr, "NormalPenColor", "Normal pen color", false, "green");
 		I_ASSIGN(m_normalPenWidthAttrPtr, "NormalPenWidth", "Normal pen width", false, 1.5);
 		I_ASSIGN(m_selectedPenColorAttrPtr, "SelectedPenColor", "Selected pen color", false, "yellow");
@@ -58,7 +59,7 @@ public:
 
 	I_BEGIN_COMPONENT(CColorSchemaBrushAttr);
 		I_ASSIGN(m_normalBrushColorAttrPtr, "NormalBrushColor", "Normal brush color", false, "rosybrown");
-		I_ASSIGN(m_selectedBrushColorAttrPtr, "SelectedBrushColor", "Selected brush color", false, "lightpink");	
+		I_ASSIGN(m_selectedBrushColorAttrPtr, "SelectedBrushColor", "Selected brush color", false, "lightpink");
 		I_ASSIGN(m_selectedTickerBrushColorAttrPtr, "SelectedTickerBrushColor", "Selected ticker brush color", false, "lightcoral");
 		I_ASSIGN(m_tickerBrushColorAttrPtr, "TickerBrushColor", "Ticker brush color", false, "mediumslateblue");
 		I_ASSIGN(m_importantBrushColorAttrPtr, "ImportantBrushColor", "Important brush color", false, "blue");
@@ -79,7 +80,7 @@ protected:
 class CColorSchemaComp: public CColorSchemaBrushAttr
 {
 public:
-	typedef CColorSchemaBrushAttr BaseClass;	
+	typedef CColorSchemaBrushAttr BaseClass;
 
 	I_BEGIN_COMPONENT(CColorSchemaComp);	
 		I_ASSIGN(m_halfTransparentBrushColorAttrPtr, "HalfTransparentBrushColor", "Half-Transparent brush color", false, "mediumslateblue");
@@ -88,6 +89,7 @@ public:
 		I_ASSIGN(m_normalFontFamilyAttrPtr, "NormalFontFamily", "Name of family of normal font", false, "Helvetica");
 		I_ASSIGN(m_normalFontSizeAttrPtr, "NormalFontSize", "Size of normal font", false, 10);
 		I_ASSIGN(m_normalFontWeightAttrPtr, "NormalFontWeight", "Size of normal font", false, 50);
+		I_ASSIGN(m_opacityAttrPtr, "Opacity", "Level opacity (0.0 - fully transparent 1.0 - fully opaque", true, 0.2);
 	I_END_COMPONENT;
 
 protected:
@@ -101,6 +103,7 @@ private:
 	I_ATTR(QString, m_normalFontFamilyAttrPtr);
 	I_ATTR(int, m_normalFontSizeAttrPtr);
 	I_ATTR(int, m_normalFontWeightAttrPtr);
+	I_ATTR(double, m_opacityAttrPtr);
 };
 
 
