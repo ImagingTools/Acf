@@ -453,6 +453,9 @@ QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 		case PF_RGBA:
 			return QImage::Format_ARGB32;
 
+		case PF_RGB24:
+			return QImage::Format_RGB888;
+
 		case PF_GRAY:
 #if QT_VERSION >= 0x050500
 			return QImage::Format_Grayscale8;
