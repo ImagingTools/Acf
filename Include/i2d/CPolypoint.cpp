@@ -101,7 +101,7 @@ void CPolypoint::MoveCenterTo(const CVector2d& position)
 		Q_UNUSED(changeNotifier);
 
 		int nodesCount = GetNodesCount();
-		for (int i = 0; i < nodesCount; i++){
+		for (int i = 0; i < nodesCount; ++i){
 			SetNodePos(i, GetNodePos(i) + offset);
 		}
 	}
@@ -114,8 +114,10 @@ i2d::CRectangle CPolypoint::GetBoundingBox() const
 
 	if (nodesCount > 0){
 		const i2d::CVector2d& firstPoint = GetNodePos(0);
+
 		i2d::CRectangle boundingBox(firstPoint, firstPoint);
-		for (int i = 1; i < nodesCount; i++){
+
+		for (int i = 1; i < nodesCount; ++i){
 			const i2d::CVector2d& point = GetNodePos(i);
 
 			boundingBox.Unite(point);
