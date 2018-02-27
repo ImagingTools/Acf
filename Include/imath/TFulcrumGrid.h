@@ -30,7 +30,7 @@ namespace imath
 						\li \c SizesType	type using to represent array size. This type muss define public typedef \c IndexType.
 */
 template <class Position, class Fulcrums>
-class TFulcrumGrid: public istd::IChangeable
+class TFulcrumGrid: virtual public iser::ISerializable
 {
 public:
 	typedef typename Fulcrums::ElementType FulcrumType;
@@ -482,8 +482,6 @@ int TFulcrumGrid<Position, Fulcrums>::FindLayerIndex(int dimension, double value
 {
 	Q_ASSERT(dimension >= 0);
 	Q_ASSERT(dimension < GetDimensionsCount());
-
-	EnsureCacheValid();
 
 	const LayerPositions& positions = m_layers[dimension];
 
