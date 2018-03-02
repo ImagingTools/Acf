@@ -14,8 +14,17 @@ namespace i2d
 /**
 	Definition of tube region based on polyline.
 */
-typedef TDataNodePolyline<CTubeNode> CTubePolyline;
+class CTubePolyline: public TDataNodePolyline<CTubeNode>
+{
+public:
+	typedef TDataNodePolyline<CTubeNode> BaseClass;
 
+	// reimplemented (i2d::IObject2d)
+	virtual bool Transform(
+				const ITransformation2d& transformation,
+				ITransformation2d::ExactnessMode mode = ITransformation2d::EM_NONE,
+				double* errorFactorPtr = NULL);
+};
 
 
 } // namespace i2d

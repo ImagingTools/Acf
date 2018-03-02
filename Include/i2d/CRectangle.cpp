@@ -569,9 +569,9 @@ CRectangle::operator QRectF() const
 {
 	return QRectF(
 				m_horizontalRange.GetMinValue(),
-				m_verticalRange.GetMinValue(),
+				m_verticalRange.GetMaxValue(),
 				m_horizontalRange.GetMinValue(),
-				m_verticalRange.GetMinValue());
+				m_verticalRange.GetMaxValue());
 }
 
 

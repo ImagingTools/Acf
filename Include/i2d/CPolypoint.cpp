@@ -312,8 +312,8 @@ bool CPolypoint::ApplyTransform(Nodes& nodes,
 			double* errorFactorPtr)
 {
 	int nodesCount = int(nodes.size());
-	
-    Nodes transPoints;
+
+	Nodes transPoints;
 
 	for (int nodeIndex = 0; nodeIndex < nodesCount; nodeIndex++){
 		i2d::CVector2d transPoint;
@@ -324,7 +324,7 @@ bool CPolypoint::ApplyTransform(Nodes& nodes,
 		transPoints.push_back(transPoint);
 	}
 
-	nodes = transPoints;
+	nodes = std::move(transPoints);
 
 	if (errorFactorPtr != NULL){
 		*errorFactorPtr = 0;

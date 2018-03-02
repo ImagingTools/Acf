@@ -70,6 +70,13 @@ void CTubePolylineComp::OnComponentCreated()
 					qMin(*m_minTubeRangeValueAttrPtr, *m_maxTubeRangeValueAttrPtr),
 					qMax(*m_minTubeRangeValueAttrPtr, *m_maxTubeRangeValueAttrPtr));
 	}
+
+	if (		GetNodesCount() == 0 && 
+				m_defaultAXPtr.IsValid() && m_defaultAYPtr.IsValid() && 
+				m_defaultBXPtr.IsValid() && m_defaultBYPtr.IsValid()){
+		InsertNode(CVector2d(*m_defaultAXPtr, *m_defaultAYPtr));
+		InsertNode(CVector2d(*m_defaultBXPtr, *m_defaultBYPtr));
+	}
 }
 
 
