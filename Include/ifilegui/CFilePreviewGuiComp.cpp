@@ -243,9 +243,11 @@ void CFilePreviewGuiComp::OnPreviewGenerationFinished()
 			m_currentPreviewObjectCompPtr->CopyFrom(*m_workingObjectPtr);
 		}
 
-		int pageIndex = (!m_previewWasGenerated || m_lastFilePath.isEmpty()) ? 0 : 1;
+		if (IsGuiCreated()){
+			int pageIndex = (!m_previewWasGenerated || m_lastFilePath.isEmpty()) ? 0 : 1;
 
-		PreviewStack->setCurrentIndex(pageIndex);
+			PreviewStack->setCurrentIndex(pageIndex);
+		}
 	}
 }
 
