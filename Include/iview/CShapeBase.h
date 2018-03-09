@@ -48,6 +48,10 @@ public:
 	CShapeBase(const CShapeBase& shape);
 	virtual ~CShapeBase();
 
+	/**
+		Assign this shape to same layer.
+		See \c iview::IViewLayer::LayerType for layer types.
+	*/
 	virtual bool AssignToLayer(int layerType);
 
 	virtual void Invalidate();
