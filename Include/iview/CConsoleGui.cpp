@@ -20,12 +20,9 @@
 #include <QtGui/QStatusBar>
 #endif
 
-
 // ACF includes
 #include <istd/CChangeNotifier.h>
-
 #include <iwidgets/CWidgetUpdateBlocker.h>
-
 #include <iview/IInteractiveShape.h>
 #include <iview/CInteractiveShapeBase.h>
 
@@ -53,16 +50,16 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_isFullScreenMode(false),
 	m_isViewMaximized(false)
 {
-	m_viewWidget = new QWidget();
+	m_viewWidget = new QWidget(this);
 
 	m_viewPtr = new iview::CViewport(this, m_viewWidget);
 
 	m_mainLayoutPtr = new QVBoxLayout(m_viewWidget);
-	m_centerLayoutPtr = new QGridLayout();
+	m_centerLayoutPtr = new QGridLayout(m_viewWidget);
 
-	m_verticalScrollbarPtr = new QScrollBar(Qt::Vertical);
+	m_verticalScrollbarPtr = new QScrollBar(Qt::Vertical, m_viewWidget);
 	m_verticalScrollbarPtr->setTracking(false);
-	m_horizontalScrollbarPtr = new QScrollBar(Qt::Horizontal);
+	m_horizontalScrollbarPtr = new QScrollBar(Qt::Horizontal, m_viewWidget);
 	m_horizontalScrollbarPtr->setTracking(false);
 
 	// main layout
@@ -226,6 +223,7 @@ void CConsoleGui::OnZoomToFit(bool state)
 
 	UpdateZoomInOutState();
 }
+
 
 void CConsoleGui::OnFitContentsToView()
 {
@@ -440,36 +438,37 @@ void CConsoleGui::UpdateScrollbarsValues()
 
 bool CConsoleGui::OnWheelEvent(QWheelEvent* eventPtr)
 {
-	bool isZoomToFit = IsZoomToFit();
-	if ((m_viewPtr != NULL) && !isZoomToFit){
-		iview::CScreenTransform transform = m_viewPtr->GetTransform();
-
-		int factor = eventPtr->delta() / 120;
-		double actualScale = transform.GetDeformMatrix().GetFrobeniusNorm() / ::sqrt(2.0);
-		double scale;
-
-		if (factor > 0 && actualScale < 100){
-			scale = double(1 << factor);
-		}
-		else if (factor < 0 && actualScale > 0.01){
-			scale = 1.0 / double(1 << -factor);
-		}
-		else{
-			return true;
-		}
-
-		istd::CIndex2d screenPos = iqt::GetCIndex2d(eventPtr->pos());
-		i2d::CVector2d logPos = transform.GetClientPosition(screenPos);
-
-		i2d::CAffine2d zoomTransform;
-		zoomTransform.Reset(logPos * (1 - scale), 0, scale);
-
-		transform.Apply(zoomTransform);
-
-		m_viewPtr->SetTransform(transform);
-
-		UpdateZoomInOutState();
+	if (!m_viewPtr || IsZoomToFit()){
+		return true;
 	}
+
+	static const double mouseWheelZoomStep = 0.25;
+	static const double minZoomScale = 0.01;
+	static const double maxZoomScale = 250;
+
+	iview::CScreenTransform transform = m_viewPtr->GetTransform();
+	const double actualScale = transform.GetDeformMatrix().GetFrobeniusNorm();
+	const double factor = mouseWheelZoomStep * eventPtr->delta() / 120.0;
+
+	if (
+		(actualScale < minZoomScale && factor < 0) || 
+		(actualScale > maxZoomScale && factor > 0)
+	){
+			return true;
+	}
+
+	const double scale = ::exp2(factor);
+	const istd::CIndex2d screenPos = iqt::GetCIndex2d(eventPtr->pos());
+	const i2d::CVector2d logPos = transform.GetClientPosition(screenPos);
+
+	i2d::CAffine2d zoomTransform;
+	zoomTransform.Reset(logPos * (1 - scale), 0, scale);
+
+	transform.Apply(zoomTransform);
+
+	m_viewPtr->SetTransform(transform);
+
+	UpdateZoomInOutState();
 
 	return true;
 }
@@ -744,9 +743,11 @@ bool CConsoleGui::ConnectSignalSlots()
 	retVal = connect(&m_rulerVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowRuler(bool))) && retVal;
 	retVal = connect(&m_gridInMmVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGridInMm(bool))) && retVal;
 	
+	retVal = connect(m_horizontalScrollbarPtr, SIGNAL(valueChanged(int)), this, SLOT(OnHScrollbarChanged(int))) && retVal;
+	retVal = connect(m_verticalScrollbarPtr, SIGNAL(valueChanged(int)), this, SLOT(OnVScrollbarChanged(int))) && retVal;
 	retVal = connect(m_horizontalScrollbarPtr, SIGNAL(sliderMoved(int)), this, SLOT(OnHScrollbarChanged(int))) && retVal;
 	retVal = connect(m_verticalScrollbarPtr, SIGNAL(sliderMoved(int)), this, SLOT(OnVScrollbarChanged(int))) && retVal;
-	
+
 	retVal = connect(m_viewPtr, SIGNAL(ShapesChanged()), this, SLOT(UpdateView()), Qt::QueuedConnection) && retVal;
 
 	return retVal;
