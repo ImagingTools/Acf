@@ -298,7 +298,14 @@ iqt2d::IViewExtender* CParamsManagerGuiCompBase::GetCurrentViewExtenderPtr() con
 		return NULL;
 	}
 
-	return dynamic_cast<iqt2d::IViewExtender*>(GetEditorGuiPtr(paramSetPtr));
+	iqtgui::IGuiObject* parameterEditorPtr = GetEditorGuiPtr(paramSetPtr);
+
+	iqt2d::IViewExtender* viewExtenderPtr = dynamic_cast<iqt2d::IViewExtender*>(parameterEditorPtr);
+	if (viewExtenderPtr == NULL){
+		viewExtenderPtr = CompCastPtr<iqt2d::IViewExtender>(parameterEditorPtr);
+	}
+
+	return viewExtenderPtr;
 }
 
 
