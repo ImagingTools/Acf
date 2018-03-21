@@ -501,6 +501,22 @@ int CParamsManagerCompBase::FindFixedParamSetIndex(const QString& name) const
 }
 
 
+// reimplemented (icomp::CComponentBase)
+
+void CParamsManagerCompBase::OnComponentCreated()
+{
+	BaseClass::OnComponentCreated();
+
+	m_selectedIndex = -1;
+
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+
+	if (m_defaultSelectedIndexAttrPtr.IsValid() && (*m_defaultSelectedIndexAttrPtr < fixedSetsCount)){
+		m_selectedIndex = *m_defaultSelectedIndexAttrPtr;
+	}
+}
+
+
 // public methods of embedded class ParamSet
 
 CParamsManagerCompBase::ParamSet::ParamSet()

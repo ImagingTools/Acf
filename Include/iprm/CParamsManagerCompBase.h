@@ -136,6 +136,9 @@ protected:
 	*/
 	virtual iprm::IParamsSet* CreateParamsSetInstance(int typeIndex = -1) const = 0;
 
+	// reimplemented (icomp::CComponentBase)
+	virtual void OnComponentCreated();
+
 protected:
 	int m_selectedIndex;
 
