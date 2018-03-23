@@ -46,6 +46,8 @@ public:
 		CF_SORT_LAYERS = 0x8352707
 	};
 
+	TFulcrumGrid();
+
 	/**
 		Removes all fulcrum points.
 	*/
@@ -198,6 +200,13 @@ inline double TFulcrumGrid<Position, Fulcrums>::GetLayerPosition(int dimension, 
 // public methods
 
 template <class Position, class Fulcrums>
+TFulcrumGrid<Position, Fulcrums>::TFulcrumGrid()
+{
+	m_layers.resize(m_fulcrums.GetDimensionsCount());
+}
+
+
+template <class Position, class Fulcrums>
 void TFulcrumGrid<Position, Fulcrums>::Reset()
 {
 	m_fulcrums.Reset();
@@ -205,6 +214,8 @@ void TFulcrumGrid<Position, Fulcrums>::Reset()
 	for (Layers::iterator iter = m_layers.begin(); iter != m_layers.end(); ++iter){
 		iter->clear();
 	}
+
+	m_layers.resize(m_fulcrums.GetDimensionsCount());
 }
 
 
