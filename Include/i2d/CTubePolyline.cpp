@@ -1,10 +1,8 @@
-
 #include <i2d/CTubePolyline.h>
 
 
 namespace i2d
 {
-
 
 
 // reimplemented (i2d::IObject2d)
