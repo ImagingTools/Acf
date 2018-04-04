@@ -148,6 +148,9 @@ public:
 	*/
 	const Iterator& End() const;
 
+	// operators
+	bool operator==(const TArray<Element, Dimensions>& value) const;
+	bool operator!=(const TArray<Element, Dimensions>& value) const;
 	const Element& operator[](const IndexType& index) const;
 	Element& operator[](const IndexType& index);
 
@@ -377,6 +380,22 @@ void TArray<Element, Dimensions>::SetAllElements(const Element& value)
 				++iter){
 		*iter = value;
 	}
+}
+
+
+// operators
+
+template <class Element, int Dimensions>
+bool TArray<Element, Dimensions>::operator==(const TArray<Element, Dimensions>& value) const
+{
+	return (m_sizes == value.m_sizes) && (m_elements == value.m_elements);
+}
+
+
+template <class Element, int Dimensions>
+bool TArray<Element, Dimensions>::operator!=(const TArray<Element, Dimensions>& value) const
+{
+	return (m_sizes != value.m_sizes) || (m_elements != value.m_elements);
 }
 
 

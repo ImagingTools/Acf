@@ -122,6 +122,10 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+	// operators
+	bool operator==(const TFulcrumGrid<Position, Fulcrums>& value) const;
+	bool operator!=(const TFulcrumGrid<Position, Fulcrums>& value) const;
+
 protected:
 	/**
 		Sort fulcrums in this collection.
@@ -472,6 +476,22 @@ bool TFulcrumGrid<Position, Fulcrums>::Serialize(iser::IArchive& archive)
 	retVal = retVal && archive.EndTag(fulcrumsTag);
 
 	return retVal;
+}
+
+
+// operators
+
+template <class Position, class Fulcrums>
+bool TFulcrumGrid<Position, Fulcrums>::operator==(const TFulcrumGrid<Position, Fulcrums>& value) const
+{
+	return (m_fulcrums == value.m_fulcrums) && (m_layers == value.m_layers);
+}
+
+
+template <class Position, class Fulcrums>
+bool TFulcrumGrid<Position, Fulcrums>::operator!=(const TFulcrumGrid<Position, Fulcrums>& value) const
+{
+	return (m_fulcrums != value.m_fulcrums) || (m_layers != value.m_layers);
 }
 
 
