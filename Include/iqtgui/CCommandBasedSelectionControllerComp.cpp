@@ -66,6 +66,10 @@ void CCommandBasedSelectionControllerComp::OnComponentCreated()
 		m_commandSelectionModelCompPtr->AttachObserver(this);
 	}
 
+	m_rootMenuCommand.SetPriority(*m_commandPriorityAttrPtr);
+	m_mainMenuCommand.SetPriority(*m_commandPriorityAttrPtr);
+	m_commandsList.SetPriority(*m_commandPriorityAttrPtr);
+
 	BuildCommands();
 
 	OnLanguageChanged();

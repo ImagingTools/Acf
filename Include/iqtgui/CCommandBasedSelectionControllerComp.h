@@ -41,6 +41,7 @@ public:
 		I_ASSIGN(m_menuDescriptionAttrPtr, "MenuDescription", "Description for the action group", true, "");
 		I_ASSIGN(m_rootMenuNameAttrPtr, "RootMenu", "Name of the root command", true, "");
 		I_ASSIGN(m_showInToolBarAttrPtr, "ShowInToolBar", "If enabled, the action will be shown in the application's tool bar", false, false);
+		I_ASSIGN(m_commandPriorityAttrPtr, "CommandPriority", "Defines the used command priority for the menu", true, 100);
 	I_END_COMPONENT;
 
 	CCommandBasedSelectionControllerComp();
@@ -74,6 +75,7 @@ protected:
 	I_TEXTATTR(m_menuDescriptionAttrPtr);
 	I_TEXTATTR(m_rootMenuNameAttrPtr);
 	I_ATTR(bool, m_showInToolBarAttrPtr);
+	I_ATTR(int, m_commandPriorityAttrPtr);
 
 	iqtgui::CHierarchicalCommand m_rootMenuCommand;
 	iqtgui::CHierarchicalCommand m_mainMenuCommand;
