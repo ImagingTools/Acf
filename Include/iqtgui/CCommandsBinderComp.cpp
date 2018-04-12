@@ -34,9 +34,13 @@ void CCommandsBinderComp::OnModelChanged(int /*modelId*/, const istd::IChangeabl
 		return;
 	}
 
+	ChangeSet workingChanges = changeSet;
+	workingChanges += istd::IChangeable::CF_ALL_DATA;
+
+	istd::CChangeNotifier notifier(this, &workingChanges);
+
 	UnregisterAllModels();
 
-	istd::CChangeNotifier notifier(this, &changeSet);
 	Q_UNUSED(notifier);
 
 	m_commands.ResetChilds();
