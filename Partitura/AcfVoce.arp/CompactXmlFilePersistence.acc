@@ -2,8 +2,8 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4358" Description="ACF"/>
-            <Version Id="1" Number="1687" Description="ACF-Solutions"/>
+            <Version Id="0" Number="4650" Description="ACF"/>
+            <Version Id="1" Number="1955" Description="ACF-Solutions"/>
             <Version Id="1023" Number="329217" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
@@ -14,6 +14,9 @@
             <Data IsEnabled="true" Flags="1">
                 <AttributeInfoMap>
                     <AttributeInfo Id="AutoReload" Type="Boolean" ExportId="AutoReload">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="EnableLockForRead" Type="Boolean" ExportId="EnableLockForRead">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="EnableVerbose" Type="Boolean" ExportId="EnableVerbose">
@@ -37,6 +40,9 @@
                     <AttributeInfo Id="RuntimeStatus" Type="Reference" ExportId="RuntimeStatus">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
+                    <AttributeInfo Id="StaleLockTime" Type="Real" ExportId="StaleLockTime">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="StoreInterval" Type="Real" ExportId="StoreInterval">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
@@ -48,6 +54,9 @@
                     </AttributeInfo>
                     <AttributeInfo Id="StoreOnEnd" Type="Boolean" ExportId="StoreOnEnd">
                         <Data IsEnabled="true" Value="true"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="TryLockTimeout" Type="Real" ExportId="TryLockTimeout">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                 </AttributeInfoMap>
             </Data>
