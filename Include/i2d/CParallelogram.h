@@ -2,11 +2,12 @@
 #define i2d_CParallelogram_included
 
 
+
+// Qt includes
+#include <QtCore/QVector>
+
 // ACF includes
 #include <iser/CArchiveTag.h>
-
-
-// ACF includes
 #include <i2d/CObject2dBase.h>
 #include <i2d/CAffine2d.h>
 #include <i2d/CRectangle.h>
@@ -25,10 +26,22 @@ namespace i2d
 class CParallelogram: public CObject2dBase
 {
 public:
+	CParallelogram();
+
 	virtual const i2d::CAffine2d& GetTransform() const;
 	virtual void SetTransform(const i2d::CAffine2d& transform);
 	virtual const i2d::CMatrix2d& GetDeformMatrix() const;
 	virtual void SetDeformMatrix(const i2d::CMatrix2d& deform);
+
+	double GetWidth() const;
+	void SetWidth(double w);
+	double GetHeight() const;
+	void SetHeight(double h);
+	QVector<i2d::CVector2d> GetNodes() const;
+	double GetRotation() const;
+	void SetRotation(double angle);
+	i2d::CVector2d GetTranslation() const;
+	void SetTranslation(const i2d::CVector2d& translation);
 
 	// reimplemented (i2d::IObject2d)
 	virtual i2d::CVector2d GetCenter() const;
@@ -61,6 +74,9 @@ public:
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive);
 
+protected:
+	virtual i2d::CVector2d GetCenter(const i2d::CMatrix2d& deformMatrix) const;
+
 private:
 	i2d::CAffine2d m_transform;
 };
@@ -72,13 +88,6 @@ inline const i2d::CAffine2d& CParallelogram::GetTransform() const
 {
 	return m_transform;
 }
-
-
-inline void CParallelogram::SetTransform(const i2d::CAffine2d& transform)
-{
-	m_transform = transform;
-}
-
 
 
 inline const i2d::CMatrix2d& CParallelogram::GetDeformMatrix() const
