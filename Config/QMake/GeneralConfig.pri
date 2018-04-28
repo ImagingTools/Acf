@@ -31,66 +31,116 @@ win32-msvc*{
 	QMAKE_CXXFLAGS += /wd4718
 }
 
-eval(COMPAT_MKSPEC = win32-msvc2005){
-	COMPILER_NAME = VC8
-}
+!isEmpty($$COMPAT_MKSPEC){
+	eval(COMPAT_MKSPEC = win32-msvc2005){
+		COMPILER_NAME = VC8
 
-eval(COMPAT_MKSPEC = win32-msvc2008){
-	COMPILER_NAME = VC9
-	QMAKE_CXXFLAGS -= /Gd
-	QMAKE_CXXFLAGS -= /GD
-	QMAKE_CXXFLAGS -= -Gd
-	QMAKE_CXXFLAGS -= -GD
-}
-
-eval(COMPAT_MKSPEC = win32-msvc2010){
-	QMAKE_CXXFLAGS += /wd4996
-	COMPILER_NAME = VC10
-}
-
-eval(COMPAT_MKSPEC = win32-msvc2012){
-	QMAKE_CXXFLAGS += /wd4996
-	COMPILER_NAME = VC11
-}
-
-eval(COMPAT_MKSPEC = win32-msvc2013){
-	QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
-	COMPILER_NAME = VC12
-	CONFIG += c++11
-
-	message("Using Visual Studio 2013");
-}
-
-equals($$COMPAT_MKSPEC, win32-msvc2015){
-	QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit-
-	COMPILER_NAME = VC14
-
-	CONFIG(release, debug|release){
-		#extra optimizations
-		QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		message("Using Visual Studio 2005");
 	}
 
-	win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
-		QMAKE_LFLAGS += /MACHINE:X64
+	eval(COMPAT_MKSPEC = win32-msvc2008){
+		COMPILER_NAME = VC9
+		QMAKE_CXXFLAGS -= /Gd
+		QMAKE_CXXFLAGS -= /GD
+		QMAKE_CXXFLAGS -= -Gd
+		QMAKE_CXXFLAGS -= -GD
+
+		message("Using Visual Studio 2008");
+	}
+
+	eval(COMPAT_MKSPEC = win32-msvc2010){
+		QMAKE_CXXFLAGS += /wd4996
+		COMPILER_NAME = VC10
+
+		message("Using Visual Studio 2010");
+	}
+
+	eval(COMPAT_MKSPEC = win32-msvc2012){
+		QMAKE_CXXFLAGS += /wd4996
+		COMPILER_NAME = VC11
+
+		message("Using Visual Studio 2012");
+	}
+
+	eval(COMPAT_MKSPEC = win32-msvc2013){
+		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
+		COMPILER_NAME = VC12
+		CONFIG += c++11
+
+		message("Using Visual Studio 2013");
+	}
+
+	equals(COMPAT_MKSPEC, win32-msvc2015){
+		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit-
+		COMPILER_NAME = VC14
+
+		CONFIG(release, debug|release){
+			#extra optimizations
+			QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		}
+
+		win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
+			QMAKE_LFLAGS += /MACHINE:X64
+		}
+
+		message("Using Visual Studio 2015");
+	}
+
+	equals(COMPAT_MKSPEC, win32-msvc2017){
+		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit-
+		COMPILER_NAME = VC15
+
+		CONFIG(release, debug|release){
+			#extra optimizations
+			QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		}
+
+		win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
+			QMAKE_LFLAGS += /MACHINE:X64
+		}
+
+		message("Using Visual Studio 2017");
 	}
 }
+else{
+	win32-msvc2005{
+		COMPILER_NAME = VC8
 
-equals($$COMPAT_MKSPEC, win32-msvc2017){
-	QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit-
-	COMPILER_NAME = VC15
-
-	CONFIG(release, debug|release){
-		#extra optimizations
-		QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		message("Using Visual Studio 2005");
 	}
 
-	win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
-		QMAKE_LFLAGS += /MACHINE:X64
+	win32-msvc2008{
+		COMPILER_NAME = VC9
+		QMAKE_CXXFLAGS -= /Gd
+		QMAKE_CXXFLAGS -= /GD
+		QMAKE_CXXFLAGS -= -Gd
+		QMAKE_CXXFLAGS -= -GD
+
+		message("Using Visual Studio 2008");
 	}
 
-	message("Using Visual Studio 2017");
+	win32-msvc2010{
+		QMAKE_CXXFLAGS += /wd4996
+		COMPILER_NAME = VC10
+
+		message("Using Visual Studio 2010");
+	}
+
+	win32-msvc2012{
+		QMAKE_CXXFLAGS += /wd4996
+		COMPILER_NAME = VC11
+
+		message("Using Visual Studio 2012");
+	}
+
+	win32-msvc2013{
+		QMAKE_CXXFLAGS += /wd4996 /Qpar /Gy /Gw /FS
+		COMPILER_NAME = VC12
+		CONFIG += c++11
+
+		message("Using Visual Studio 2013");
+	}
 }
-
 
 *-icc*{
 	COMPILER_NAME = ICC
