@@ -456,54 +456,42 @@ void CPolygonShape::DrawSelectionElements(QPainter& drawContext) const
 
 void CPolygonShape::EnsureValidNodes() const
 {
-	if (!AreNodesValid()){
-		const imod::IModel* modelPtr = GetObservedModel();
-		if (modelPtr != NULL){
-			const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
-			Q_ASSERT(&polygon != NULL);
-
-			i2d::CVector2d axisX = m_castAxis.GetNormalized();
-			i2d::CVector2d axisY = axisX.GetOrthogonal();
-
-			int nodesCount = polygon.GetNodesCount();
-			if (nodesCount > 0){
-				const i2d::CVector2d& firstNode = polygon.GetNodePos(0);
-
-				i2d::CVector2d minPosition(axisX.GetDotProduct(firstNode), axisY.GetDotProduct(firstNode));
-				i2d::CVector2d maxPosition = minPosition;
-
-				for (int i = 1; i < nodesCount; i++){
-					const i2d::CVector2d& position = polygon.GetNodePos(i);
-
-					i2d::CVector2d castedPosition(axisX.GetDotProduct(position), axisY.GetDotProduct(position));
-
-					if (castedPosition.GetX() < minPosition.GetX()){
-						minPosition.SetX(castedPosition.GetX());
-					}
-					if (castedPosition.GetY() < minPosition.GetY()){
-						minPosition.SetY(castedPosition.GetY());
-					}
-
-					if (castedPosition.GetX() > maxPosition.GetX()){
-						maxPosition.SetX(castedPosition.GetX());
-					}
-					if (castedPosition.GetY() > maxPosition.GetY()){
-						maxPosition.SetY(castedPosition.GetY());
-					}
-				}
-				i2d::CVector2d delta = maxPosition - minPosition;
-				m_castTransform = i2d::CAffine2d(
-								i2d::CMatrix2d(axisX * delta.GetX(), axisY * delta.GetY()),
-								axisX * minPosition.GetX() + axisY * minPosition.GetY());
-
-				CalcNodes(m_castTransform);
-
-				return;
-			}
-		}
-
-		ResetNodes();
+	if (AreNodesValid()){
+		return;
 	}
+
+	const imod::IModel* modelPtr = GetObservedModel();
+	if (modelPtr == NULL){
+		ResetNodes();
+		return;
+	}
+
+	const i2d::CPolygon& polygon = *dynamic_cast<const i2d::CPolygon*>(modelPtr);
+	Q_ASSERT(&polygon != NULL);
+
+	int nodesCount = polygon.GetNodesCount();
+	if (nodesCount < 1){
+		ResetNodes();
+		return;
+	}
+
+	i2d::CVector2d axisX = m_castAxis.GetNormalized();
+	i2d::CVector2d axisY = axisX.GetOrthogonal();
+	const i2d::CVector2d& firstNode = polygon.GetNodePos(0);
+	i2d::CVector2d castedPosition(axisX.GetDotProduct(firstNode), axisY.GetDotProduct(firstNode));
+	i2d::CRectangle rect(castedPosition, castedPosition);
+
+	for (int i = 1; i < nodesCount; i++){
+		const i2d::CVector2d& position = polygon.GetNodePos(i);
+		rect.Unite(i2d::CVector2d(axisX.GetDotProduct(position), axisY.GetDotProduct(position)));
+	}
+
+	i2d::CVector2d delta = rect.GetRightBottom() - rect.GetLeftTop();
+	m_castTransform = i2d::CAffine2d(
+					i2d::CMatrix2d(axisX * delta.GetX(), axisY * delta.GetY()),
+					axisX * rect.GetLeftTop().GetX() + axisY * rect.GetLeftTop().GetY());
+
+	CalcNodes(m_castTransform);
 }
 
 

@@ -59,6 +59,10 @@ protected:
 	virtual void DrawCurve(QPainter& drawContext) const;
 	virtual void DrawSelectionElements(QPainter& drawContext) const;
 
+	// reimplemented (iview::CRectControlledShapeBase)
+	virtual void EnsureValidNodes() const;
+	virtual bool IsCurveTouched(istd::CIndex2d position) const;
+
 protected:
 	enum EditMode
 	{
