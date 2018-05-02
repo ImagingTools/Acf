@@ -29,6 +29,15 @@ win32-msvc*{
 
 	# Qt-BUG 31516. Remove it after the fix in Qt!!!
 	QMAKE_CXXFLAGS += /wd4718
+
+	contains(QMAKE_HOST.arch, x86_64){
+		PLATFORM_CODE = x64
+		# SSE2 enabled by default for x86_64
+	}
+	else{
+		PLATFORM_CODE = Win32
+		QMAKE_CXXFLAGS += /arch:SSE2
+	}
 }
 
 !isEmpty(MSVC_VER){
