@@ -189,6 +189,12 @@ TPointerVector<Pointer, AccessAdapter>::~TPointerVector()
 template <typename Pointer, class AccessAdapter>
 void TPointerVector<Pointer, AccessAdapter>::SetCount(int count)
 {
+	while (m_elements.size() > count){
+		AccessAdapter::Delete(m_elements.back());
+
+		m_elements.pop_back();
+	}
+
 	m_elements.resize(count);
 }
 
