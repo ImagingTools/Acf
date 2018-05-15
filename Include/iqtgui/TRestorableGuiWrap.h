@@ -33,7 +33,7 @@ protected:
 	virtual bool CreateGui(QWidget* parentPtr);
 	virtual bool DestroyGui();
 
-private:
+protected:
 	I_REF(iqt::ISettingsProvider, m_settingsProviderCompPtr);
 };
 
