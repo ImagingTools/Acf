@@ -6,7 +6,7 @@
 #include <QtCore/QString>
 
 // ACF includes
-#include <istd/IPolymorphic.h>
+#include <istd/IChangeable.h>
 #include <istd/TRange.h>
 #include <imath/IDoubleManip.h>
 
@@ -18,7 +18,7 @@ namespace imath
 /**
 	Common interface to get information about a measurement unit.
 */
-class IUnitInfo: virtual public istd::IPolymorphic
+class IUnitInfo: virtual public istd::IChangeable
 {
 public:
 	/**
