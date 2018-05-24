@@ -489,6 +489,7 @@ QTabBar::tab:top, QTabBar::tab:bottom
 	max-height: 2em;
 	padding-left: 5px;
 	padding-right: 5px;
+	margin-left:5px;
 }
 
 QTabBar::tab:top
@@ -507,41 +508,6 @@ QTabBar::tab:bottom
 }
 
 
-QTabBar::tab:top:selected, QTabBar::tab:bottom:selected
-{
-	margin-left:5px;
-}
-
-/* CRASH in MDI-Area
-QTabBar::tab:top:selected
-{
-	margin-bottom: -3px;
-}
-
-QTabBar::tab:bottom:selected
-{
-	margin-top: 3px;
-}
-*/
-
-QTabBar::tab:top:!selected, QTabBar::tab:bottom:!selected
-{
-	margin-right: 3px;
-	margin-left: 5px;
-}
-
-/* CRASH in MDI-Area
-QTabBar::tab:top:!selected
-{
-	margin-top: 2px;
-}
-
-QTabBar::tab:bottom:!selected
-{
-	margin-bottom: 2px;
-}
-*/
-
 QTabBar::tab:left, QTabBar::tab:right
 {
 	border-top: 1px solid #404040;
@@ -549,6 +515,9 @@ QTabBar::tab:left, QTabBar::tab:right
 	width: 2em;
 	min-width: 2em;
 	max-width: 2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 5px;
 }
 
 
@@ -560,8 +529,6 @@ QTabBar::tab:left
 	width: 2em;
 	min-width: 2em;
 	max-width: 2em;
-	padding-top: 5px;
-	padding-bottom: 5px;
 }
 
 QTabBar::tab:right
@@ -572,33 +539,8 @@ QTabBar::tab:right
 	width: 2em;
 	min-width: 2em;
 	max-width: 2em;
-	padding-top: 5px;
-	padding-bottom: 5px;
 }
 
-QTabBar::tab:left:selected, QTabBar::tab:right:selected
-{
-	margin-top: 5px;
-}
-
-
-QTabBar::tab:left:selected
-{
-	margin-right: 3px;
-}
-
-QTabBar::tab:right:selected
-{
-	margin-right: -3px;
-}
-
-
-QTabBar::tab:left:!selected, QTabBar::tab:right:!selected
-{
-	margin-right: 2px;
-	margin-bottom: 3px;
-	margin-top: 5px;
-}
 
 QTabBar::tab:!selected:hover
 {
@@ -611,15 +553,26 @@ QTabBar::tab:disabled
 	border: none;
 }
 
-QTabBar::tab:first
+QTabBar::tab:top:first, QTabBar::tab:bottom:first
 {
-	margin-left: 0px;
+	margin-left: 2px;
 }
 
-QTabBar::tab:last
+QTabBar::tab:top:last, QTabBar::tab:bottom:last
 {
-	margin-right: 0px;
+	margin-right: 2px;
 }
+
+QTabBar::tab:left:first, QTabBar::tab:right:first
+{
+	margin-top: 2px;
+}
+
+QTabBar::tab:left:last, QTabBar::tab:right:last
+{
+	margin-bottom: 2px;
+}
+
 
 QTabBar::tab:only-one
 {
