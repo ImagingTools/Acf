@@ -209,6 +209,11 @@ I_EXPORT_COMPONENT(
 			"Parallelogram Position 2D Object Parameter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
 
 I_EXPORT_COMPONENT(
+			Object2dProxy,
+			"Proxy for 2D-object provider",
+			"2D Object Provider Proxy" IM_CATEGORY(I_DATA_MODEL) IM_TAG("2D Model"));
+
+I_EXPORT_COMPONENT(
 			TextDocument,
 			"Simple text document",
 			IM_CATEGORY(I_DATA_MODEL) IM_TAG("Text Document"));

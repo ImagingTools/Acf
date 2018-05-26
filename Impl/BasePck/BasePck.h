@@ -57,6 +57,7 @@
 #include <i2d/CTubePolylineComp.h>
 #include <i2d/CArcComp.h>
 #include <i2d/CParallelogramComp.h>
+#include <i2d/CObject2dProxyComp.h>
 #include <imath/CSampledFunction2d.h>
 
 
@@ -115,6 +116,7 @@ typedef icomp::TModelCompWrap<i2d::CPolylineComp> Polyline;
 typedef icomp::TModelCompWrap<i2d::CTubePolylineComp> TubePolyline;
 typedef icomp::TModelCompWrap<i2d::CArcComp> Arc;
 typedef icomp::TModelCompWrap<i2d::CParallelogramComp> Parallelogram;
+typedef icomp::TModelCompWrap<i2d::CObject2dProxyComp> Object2dProxy;
 
 typedef icomp::TMakeComponentWrap<
 			imod::TModelWrap<imath::CSampledFunction2d>,
