@@ -22,6 +22,35 @@ static const istd::IChangeable::ChangeSet s_reversePolygonChange(CPolygon::CF_OB
 
 // public methods
 
+bool CPolygon::Contains(const i2d::CVector2d& point) const
+{
+	int nodesCount = GetNodesCount();
+
+	if (GetNodesCount() < 3){
+		return false;
+	}
+
+	i2d::CLine2d extreme(point, i2d::CVector2d(std::numeric_limits<int>::max(), point.GetY()));
+
+	int count = 0;
+	int i = 0;
+
+	do{
+		int next = (i + 1) % nodesCount;
+		i2d::CLine2d line(GetNodePos(i), GetNodePos(next));
+
+		if (line.IsIntersectedBy(extreme)){
+			count++;
+		}
+
+		i = next;
+
+	} while (i != 0);
+
+	return count & 1;
+}
+
+
 double CPolygon::GetOutlineLength() const
 {
 	double length = 0;
@@ -135,7 +164,6 @@ bool CPolygon::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	}
 
 	return BaseClass::CopyFrom(object, mode);
-
 }
 
 

@@ -18,6 +18,9 @@ class CPolygon: public CPolypoint
 public:
 	typedef CPolypoint BaseClass;
 
+
+	bool Contains(const i2d::CVector2d& point) const;
+
 	/**
 		Get outline length of this polygon.
 	*/

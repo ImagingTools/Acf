@@ -117,36 +117,33 @@ void CTubePolylineShape::DrawSelectionElements(QPainter& drawContext) const
 	}
 
 	const i2d::CTubePolyline* polylinePtr = dynamic_cast<const i2d::CTubePolyline*>(GetObservedModel());
-	if (IsDisplayConnected() && (polylinePtr != NULL)){
-		const iview::IColorSchema& colorSchema = GetColorSchema();
+	if (!IsDisplayConnected() || (polylinePtr == NULL)){
+		return;
+	}
 
-		int nodesCount = polylinePtr->GetNodesCount();
+	const iview::IColorSchema& colorSchema = GetColorSchema();
 
-		for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
-			i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
-			const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
+	int nodesCount = polylinePtr->GetNodesCount();
 
-			const i2d::CTubeNode& nodeData = polylinePtr->GetTNodeData(nodeIndex);
-			istd::CRange range = nodeData.GetTubeRange();
+	for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
+		i2d::CVector2d kneeVector = polylinePtr->GetKneeVector(nodeIndex);
+		const i2d::CVector2d& nodePosition = polylinePtr->GetNodePos(nodeIndex);
 
-			i2d::CVector2d screenPoint = GetScreenPosition(nodePosition);
+		const i2d::CTubeNode& nodeData = polylinePtr->GetTNodeData(nodeIndex);
+		istd::CRange range = nodeData.GetTubeRange();
 
-			i2d::CVector2d leftPos = nodePosition - kneeVector * range.GetMinValue();
-			i2d::CVector2d rightPos = nodePosition - kneeVector * range.GetMaxValue();
-			i2d::CVector2d leftScreenPoint = GetScreenPosition(leftPos);
-			i2d::CVector2d rightScreenPoint = GetScreenPosition(rightPos);
+		i2d::CVector2d screenPoint = GetScreenPosition(nodePosition);
 
-			if (true){
-				colorSchema.DrawTicker(drawContext, leftScreenPoint.ToIndex2d(), iview::IColorSchema::TT_MOVE);
-				colorSchema.DrawTicker(drawContext, rightScreenPoint.ToIndex2d(), iview::IColorSchema::TT_MOVE);
+		i2d::CVector2d leftPos = nodePosition - kneeVector * range.GetMinValue();
+		i2d::CVector2d rightPos = nodePosition - kneeVector * range.GetMaxValue();
+		i2d::CVector2d leftScreenPoint = GetScreenPosition(leftPos);
+		i2d::CVector2d rightScreenPoint = GetScreenPosition(rightPos);
 
-				if ((nodeIndex > 0) && (nodeIndex < nodesCount - 1)){
-					colorSchema.DrawTicker(drawContext, screenPoint.ToIndex2d(), iview::IColorSchema::TT_CHECKBOX_ON);
-				}
-			}
-			else{
-				colorSchema.DrawTicker(drawContext, screenPoint.ToIndex2d(), iview::IColorSchema::TT_CHECKBOX_OFF);
-			}
+		colorSchema.DrawTicker(drawContext, leftScreenPoint.ToIndex2d(), iview::IColorSchema::TT_MOVE);
+		colorSchema.DrawTicker(drawContext, rightScreenPoint.ToIndex2d(), iview::IColorSchema::TT_MOVE);
+
+		if ((nodeIndex > 0) && (nodeIndex < nodesCount - 1)){
+			colorSchema.DrawTicker(drawContext, screenPoint.ToIndex2d(), iview::IColorSchema::TT_CHECKBOX_ON);
 		}
 	}
 }

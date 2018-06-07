@@ -70,6 +70,7 @@ private:
 	*/
 	QString GetSettingsKey() const;
 
+private:
 	I_MULTIREF(iqtgui::IGuiObject, m_guisCompPtr);
 	I_ATTR(int, m_designTypeAttrPtr);
 	I_ATTR(QString, m_settingsKeyAttrPtr);
