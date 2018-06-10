@@ -30,7 +30,7 @@ void CColorSchemaBase::Assign(const IColorSchema& colorSchema)
 void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, TickerType tickerType) const
 {
 	const i2d::CRect& tickerBox = s_tickerDrawBoxes[tickerType];
-	i2d::CRect tickerRect;
+	QRect tickerRect = iqt::GetQRect(tickerBox.GetTranslated(point));
 
 	switch (tickerType){
 	case TT_INACTIVE:
@@ -54,11 +54,8 @@ void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, T
 	case TT_MOVE:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		drawContext.drawRect(iqt::GetQRect(tickerBox.GetTranslated(point)));
-		drawContext.drawPoint(iqt::GetQPoint(point));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
@@ -70,80 +67,67 @@ void CColorSchemaBase::DrawTicker(QPainter& drawContext, istd::CIndex2d point, T
 		drawContext.restore();
 		break;
 
-	case TT_INSERT:
+	case TT_INSERT:{
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		tickerRect = tickerBox.GetTranslated(point);
-		drawContext.drawRect(iqt::GetQRect(tickerRect).adjusted(-1,-1,0,0));
-		drawContext.drawLine(QPoint(tickerRect.GetLeft(), point.GetY()), QPoint(tickerRect.GetRight(), point.GetY()));
-		drawContext.drawLine(QPoint(point.GetX(), tickerRect.GetTop()), QPoint(point.GetX(), tickerRect.GetBottom()));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
+
+		QRectF insertMarkerRect = QRectF(tickerRect).adjusted(1, 1, -1, -1);
+		drawContext.drawLine(QPointF(insertMarkerRect.left(), point.GetY() + 0.5), QPointF(insertMarkerRect.right(), point.GetY() + 0.5));
+		drawContext.drawLine(QPointF(point.GetX() + 0.5, insertMarkerRect.top()), QPointF(point.GetX() + 0.5, insertMarkerRect.bottom()));
 		drawContext.restore();
 		break;
+	}
 
-	case TT_DELETE:
+	case TT_DELETE:{
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		tickerRect = tickerBox.GetTranslated(point);
-		drawContext.drawRect(iqt::GetQRect(tickerRect).adjusted(-1,-1,0,0));
-		drawContext.drawLine(QPoint(tickerRect.GetLeft(), tickerRect.GetTop()), QPoint(tickerRect.GetRight() - 1, tickerRect.GetBottom() - 1));
-		drawContext.drawLine(QPoint(tickerRect.GetRight() - 1, tickerRect.GetTop()), QPoint(tickerRect.GetLeft(), tickerRect.GetBottom() - 1));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
+
+		QRectF deleteMarkerRect = QRectF(tickerRect).adjusted(2.42, 2.42, -2.42, -2.42);
+		drawContext.drawLine(QPointF(deleteMarkerRect.left(), deleteMarkerRect.top()), QPointF(deleteMarkerRect.right(), deleteMarkerRect.bottom()));
+		drawContext.drawLine(QPointF(deleteMarkerRect.right(), deleteMarkerRect.top()), QPointF(deleteMarkerRect.left(), deleteMarkerRect.bottom()));
 		drawContext.restore();
 		break;
-
+	}
 	case TT_ROTATE:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		tickerRect = tickerBox.GetTranslated(point);
-		drawContext.drawEllipse(iqt::GetQRect(tickerRect));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
 	case TT_SKEW:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.drawLine(QPoint(point.GetX() + tickerBox.GetLeft(), point.GetY() + tickerBox.GetTop()), QPoint(point.GetX() + tickerBox.GetRight(), point.GetY() + tickerBox.GetBottom()));
-		drawContext.drawLine(QPoint(point.GetX() + tickerBox.GetRight() - 1, point.GetY() + tickerBox.GetTop()), QPoint(point.GetX() + tickerBox.GetLeft() - 1, point.GetY() + tickerBox.GetBottom()));
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
 	case TT_CHECKBOX_ON:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_IMPORTANT));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_IMPORTANT));
-		tickerRect = tickerBox.GetTranslated(point);
-		drawContext.drawRect(iqt::GetQRect(tickerRect));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
 	case TT_CHECKBOX_OFF:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_IMPORTANT));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		tickerRect = tickerBox.GetTranslated(point);
-		drawContext.drawRect(iqt::GetQRect(tickerRect));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 
 	default:
 		drawContext.save();
 		drawContext.setPen(GetPen(SP_SELECTED_TICKER));
-		drawContext.save();
 		drawContext.setBrush(GetBrush(SB_SELECTED_TICKER));
-		drawContext.drawRect(iqt::GetQRect(tickerBox.GetTranslated(point)));
-		drawContext.restore();
+		drawContext.drawEllipse(tickerRect);
 		drawContext.restore();
 		break;
 	}
