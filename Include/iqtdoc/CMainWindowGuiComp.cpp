@@ -102,31 +102,28 @@ bool CMainWindowGuiComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 
 			// Create recent file list:
 			if (showOpenCommand){
-				const idoc::IDocumentManager* managerPtr = GetObservedObject();
-				if (managerPtr != NULL){
-					idoc::IDocumentTypesInfo::Ids ids = managerPtr->GetDocumentTypeIds();
-					for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
-								iter != ids.end();
-								++iter){
-						const QByteArray& documentTypeId = *iter;
-						Q_ASSERT(!documentTypeId.isEmpty());
+				idoc::IDocumentTypesInfo::Ids ids = managerPtr->GetDocumentTypeIds();
+				for (idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
+					iter != ids.end();
+					++iter) {
+					const QByteArray& documentTypeId = *iter;
+					Q_ASSERT(!documentTypeId.isEmpty());
 
-						RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
+					RecentGroupCommandPtr& groupCommandPtr = m_recentFilesMap[documentTypeId];
 
-						QString documentTypeName = managerPtr->GetDocumentTypeName(documentTypeId);
+					QString documentTypeName = managerPtr->GetDocumentTypeName(documentTypeId);
 
-						QString recentListTitle = (ids.size() > 1)?
-									tr("Recent %1 Files").arg(documentTypeName):
-									tr("Recent Files");
-						iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(recentListTitle);
+					QString recentListTitle = (ids.size() > 1) ?
+						tr("Recent %1 Files").arg(documentTypeName) :
+						tr("Recent Files");
+					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(recentListTitle);
 
-						if (fileListCommandPtr != NULL){
-							fileListCommandPtr->SetPriority(130);
+					if (fileListCommandPtr != NULL) {
+						fileListCommandPtr->SetPriority(130);
 
-							groupCommandPtr.SetPtr(fileListCommandPtr);
+						groupCommandPtr.SetPtr(fileListCommandPtr);
 
-							m_fileCommand.InsertChild(fileListCommandPtr, false);
-						}
+						m_fileCommand.InsertChild(fileListCommandPtr, false);
 					}
 				}
 			}
@@ -249,17 +246,39 @@ void CMainWindowGuiComp::OnDragEnterEvent(QDragEnterEvent* dragEnterEventPtr)
 void CMainWindowGuiComp::OnDropEvent(QDropEvent* dropEventPtr)
 {
 	const QMimeData* mimeData = dropEventPtr->mimeData();
-	if (mimeData->hasUrls()){
-		QList<QUrl> files = mimeData->urls();
+	Q_ASSERT(mimeData != NULL);
 
-		for (int fileIndex = 0; fileIndex < files.count(); fileIndex++){
-			QString filePath = files.at(fileIndex).toLocalFile();
+	bool acceptedByExternal = false;
+	if (m_dropConsumerCompPtr.IsValid()){
+		QStringList acceptedTypeIds = m_dropConsumerCompPtr->GetAcceptedMimeIds();
+		QStringList mimeFormats = mimeData->formats();
 
-			if (m_documentManagerCompPtr.IsValid()){
-				idoc::IDocumentTypesInfo::Ids availableDocumentIds = m_documentManagerCompPtr->GetDocumentTypeIdsForFile(filePath);
-				if (!availableDocumentIds.isEmpty()){
+		for (int i = 0; i < mimeFormats.count(); ++i){
+			if (acceptedTypeIds.contains(mimeFormats[i])){
+				acceptedByExternal = true;
+				break;
+			}
+		}
+	}
 
-					OpenFile(filePath);
+	if (acceptedByExternal){
+		Q_ASSERT(m_dropConsumerCompPtr.IsValid());
+
+		m_dropConsumerCompPtr->OnDropFinished(*mimeData, dropEventPtr);
+	}
+	else{
+		if (mimeData->hasUrls()){
+			QList<QUrl> files = mimeData->urls();
+
+			for (int fileIndex = 0; fileIndex < files.count(); fileIndex++){
+				QString filePath = files.at(fileIndex).toLocalFile();
+
+				if (m_documentManagerCompPtr.IsValid()){
+					idoc::IDocumentTypesInfo::Ids availableDocumentIds = m_documentManagerCompPtr->GetDocumentTypeIdsForFile(filePath);
+					if (!availableDocumentIds.isEmpty()){
+
+						OpenFile(filePath);
+					}
 				}
 			}
 		}
