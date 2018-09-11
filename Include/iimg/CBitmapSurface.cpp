@@ -45,7 +45,7 @@ void CBitmapSurface::CreateSurfaceFromBitmap()
 
 	int componentBitsCount = GetComponentBitsCount();
 	int pixelBitsCount = GetPixelBitsCount();
-	int bufferIncrement = 	pixelBitsCount >> 3;
+	int bufferIncrement = pixelBitsCount >> 3;
 
 	for (int y = 0; y < GetImageSize().GetY(); y++){
 		quint8* bufferPtr = (quint8*)GetLinePtr(y);

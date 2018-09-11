@@ -18,7 +18,11 @@ class CPolygon: public CPolypoint
 public:
 	typedef CPolypoint BaseClass;
 
+	static QByteArray GetTypeName();
 
+	/**
+		Check if the polygon contains a given point.
+	*/
 	bool Contains(const i2d::CVector2d& point) const;
 
 	/**
@@ -45,6 +49,9 @@ public:
 
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+
+	// reimplemented (iser::IObject)
+	virtual QByteArray GetFactoryId() const;
 };
 
 

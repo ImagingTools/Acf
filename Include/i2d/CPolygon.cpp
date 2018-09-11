@@ -6,6 +6,7 @@
 
 // ACF includes
 #include <istd/TDelPtr.h>
+#include <istd/CClassInfo.h>
 #include <istd/CChangeNotifier.h>
 #include <i2d/CLine2d.h>
 #include <i2d/CAffineTransformation2d.h>
@@ -18,6 +19,14 @@ namespace i2d
 static const istd::IChangeable::ChangeSet s_flipPolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, QObject::tr("Flip"));
 static const istd::IChangeable::ChangeSet s_rotatePolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, QObject::tr("Rotate"));
 static const istd::IChangeable::ChangeSet s_reversePolygonChange(CPolygon::CF_OBJECT_POSITION, CPolygon::CF_ALL_DATA, QObject::tr("Reverse nodes"));
+
+
+// public static methods
+
+QByteArray CPolygon::GetTypeName()
+{
+	return istd::CClassInfo::GetName<CPolygon>();
+}
 
 
 // public methods
@@ -50,6 +59,8 @@ bool CPolygon::Contains(const i2d::CVector2d& point) const
 	return count & 1;
 }
 
+
+// public methods
 
 double CPolygon::GetOutlineLength() const
 {
@@ -164,6 +175,14 @@ bool CPolygon::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	}
 
 	return BaseClass::CopyFrom(object, mode);
+}
+
+
+// reimplemented (iser::IObject)
+
+QByteArray CPolygon::GetFactoryId() const
+{
+	return GetTypeName();
 }
 
 

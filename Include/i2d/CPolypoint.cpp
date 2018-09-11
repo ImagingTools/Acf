@@ -216,7 +216,6 @@ bool CPolypoint::GetInvTransformed(
 
 QByteArray CPolypoint::GetFactoryId() const
 {
-
 	return GetTypeName();
 }
 
