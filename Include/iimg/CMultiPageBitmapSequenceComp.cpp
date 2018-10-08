@@ -6,7 +6,7 @@ namespace iimg
 
 
 // protected methods
-	
+
 // reimplemented (idoc::IMultiPageDocument)
 
 istd::IChangeable* CMultiPageBitmapSequenceComp::InsertPage(
