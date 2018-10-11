@@ -2,14 +2,14 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4054" Description="ACF"/>
-            <Version Id="1" Number="1505" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="328706" Description="Qt Framework"/>
+            <Version Id="0" Number="4714" Description="ACF"/>
+            <Version Id="1" Number="1995" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="330496" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <PositionMap>
-        <Element ComponentName="ProgressStatus" X="575" Y="300" Note=""/>
         <Element ComponentName="ProgressManagerGui" X="575" Y="425" Note=""/>
+        <Element ComponentName="ProgressStatus" X="575" Y="300" Note=""/>
     </PositionMap>
     <EmbeddedRegistries/>
 </Acf>

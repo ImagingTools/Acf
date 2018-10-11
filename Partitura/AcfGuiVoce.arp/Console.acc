@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4136" Description="ACF"/>
-            <Version Id="1" Number="1556" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="328961" Description="Qt Framework"/>
+            <Version Id="0" Number="4709" Description="ACF"/>
+            <Version Id="1" Number="1995" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="330496" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>2D-Console with tool bar and status info</Description>
@@ -107,5 +107,7 @@
         <Interface InterfaceId="iqt2d::IViewProvider" ComponentId="ViewProvider"/>
         <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ExtendedConsoleGui"/>
     </ExportedInterfaces>
-    <ExportedComponents/>
+    <ExportedComponents>
+        <Component ExportedId="VisualStatus" ComponentId="ExtendedConsoleGui/VisualStatus"/>
+    </ExportedComponents>
 </Acf>

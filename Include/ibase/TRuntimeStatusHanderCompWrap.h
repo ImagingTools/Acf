@@ -2,8 +2,10 @@
 
 
 // ACF includes
+#include <imod/IModel.h>
 #include <ibase/IRuntimeStatusProvider.h>
 #include <imod/CMultiModelDispatcherBase.h>
+#include <icomp/CComponentBase.h>
 
 
 namespace ibase
