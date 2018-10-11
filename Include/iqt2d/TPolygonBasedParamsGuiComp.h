@@ -486,7 +486,7 @@ QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::GetVa
 		return value;
 	}
 
-	double p = pow(10, round);
+	double p = pow(10.0, round);
 	return qRound(value * p)/p;
 }
 
