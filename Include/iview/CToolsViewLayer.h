@@ -21,6 +21,7 @@ public:
 	// reimplemented (iview::ISelectableLayer)
 	virtual bool ConnectInteractiveShape(IInteractiveShape* shapePtr);
 	virtual int GetUnselectedShapesCount() const;
+	virtual void DrawFocusedShape(QPainter& drawContext);
 	virtual bool OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
 	virtual bool OnFocusedMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag);
 	virtual bool OnFocusedMouseMove(istd::CIndex2d position);
