@@ -360,15 +360,17 @@ void CPolygonShape::DrawArea(QPainter& drawContext) const
 	if (polygonPtr != NULL){
 		const IColorSchema& colorSchema = GetColorSchema();
 
+		QPolygonF qtPolygon;
+
 		int nodesCount = polygonPtr->GetNodesCount();
 
 		if (nodesCount > 2){
-			if (m_screenPoints.size() != nodesCount){
-				m_screenPoints.resize(nodesCount);
+			if (qtPolygon.size() != nodesCount){
+				qtPolygon.resize(nodesCount);
 			}
 
-			for (int i = 0; i < m_screenPoints.size(); i++){
-				m_screenPoints[i] = GetScreenPosition(polygonPtr->GetNodePos(i));
+			for (int i = 0; i < qtPolygon.size(); i++){
+				qtPolygon[i] = polygonPtr->GetNodePos(i);
 			}
 
 			drawContext.save();
@@ -382,8 +384,8 @@ void CPolygonShape::DrawArea(QPainter& drawContext) const
 				drawContext.setBrush(colorSchema.GetBrush(IColorSchema::SB_HALF_TRANSPARENT2));
 			}
 			
-			drawContext.drawPolygon(m_screenPoints);
-			
+			drawContext.drawPolygon(qtPolygon);
+
 			drawContext.restore();
 		}
 	}

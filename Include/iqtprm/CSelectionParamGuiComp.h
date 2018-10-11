@@ -12,6 +12,7 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QCompleter>
+#include <QtWidgets/QButtonGroup>
 #else
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QLineEdit>
@@ -19,6 +20,7 @@
 #include <QtGui/QRadioButton>
 #include <QtGui/QPushButton>
 #include <QtGui/QCompleter>
+#include <QtGui/QButtonGroup>
 #endif
 
 

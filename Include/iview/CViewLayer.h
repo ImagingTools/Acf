@@ -21,12 +21,8 @@ namespace iview
 class CViewLayer: virtual public IViewLayer
 {
 public:
-	typedef QList<IShape*> Shapes;
-
 	CViewLayer();
 	virtual ~CViewLayer();
-
-	Shapes GetAllShapes() const;
 
 	// reimplemented (iview::IViewLayer)
 	virtual void OnConnectView(IShapeView* viewPtr);
@@ -35,6 +31,7 @@ public:
 	virtual bool IsShapeConnected(IShape* shapePtr);
 	virtual bool ConnectShape(IShape* shapePtr);
 	virtual int GetShapesCount() const;
+	virtual Shapes GetShapes() const;
 	virtual void UpdateAllShapes(const istd::IChangeable::ChangeSet& changeSet);
 	virtual void DisconnectAllShapes();
 	virtual void DrawShapes(QPainter& drawContext);

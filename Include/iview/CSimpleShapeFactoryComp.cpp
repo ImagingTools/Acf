@@ -143,6 +143,8 @@ CShapeBase* CSimpleShapeFactoryComp::CreateShapeInstance(const istd::IChangeable
 	const i2d::CLabel* labelPtr = dynamic_cast<const i2d::CLabel*>(&object);
 	if (labelPtr != NULL){
 		iview::CLabelShape* objectShapePtr = new iview::CLabelShape();
+		objectShapePtr->SetEditableOffset(*m_useInteractiveShapesAttrPtr);
+		objectShapePtr->SetEditablePosition(*m_useInteractiveShapesAttrPtr);
 
 		return objectShapePtr;
 	}

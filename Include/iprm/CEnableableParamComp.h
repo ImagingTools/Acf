@@ -4,7 +4,6 @@
 
 // ACF includes
 #include <icomp/CComponentBase.h>
-
 #include <iprm/CEnableableParam.h>
 
 

@@ -15,19 +15,10 @@ namespace iqt2d
 {
 
 
-/**
-	Standard 2D-View provider.
-	It allows setting of display calibration and supports \c i2d::ICalibrationProvider to get it.
-*/
-class CViewProviderGuiComp: 
-			public iqtgui::TGuiComponentBase<iview::CConsoleGui>,
-			virtual public ibase::ICommandsProvider,
-			virtual public IViewProvider,
-			protected imod::CMultiModelDispatcherBase
+class CViewProviderGuiCompAttr: public iqtgui::TGuiComponentBase<iview::CConsoleGui>
 {
 public:
 	typedef iqtgui::TGuiComponentBase<iview::CConsoleGui> BaseClass;
-	typedef imod::CMultiModelDispatcherBase BaseClass2;
 
 	/**
 		Background type for the 2D-view.
@@ -55,15 +46,7 @@ public:
 		BM_DOT_GRID
 	};
 
-	I_BEGIN_COMPONENT(CViewProviderGuiComp);	
-		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
-		I_REGISTER_INTERFACE(IViewProvider);
-		I_REGISTER_INTERFACE(i2d::ICalibrationProvider);
-		I_ASSIGN(m_shapeStatusInfoCompPtr, "ShapeStatusInfo", "Shape status info consumer", false, "ShapeStatusInfo");
-		I_ASSIGN(m_calibrationProviderCompPtr, "CalibrationProvider", "Provider of 2D-calibration for the entire view", false, "CalibrationProvider");
-		I_ASSIGN_TO(m_calibrationProviderModelCompPtr, m_calibrationProviderCompPtr, false);
-		I_ASSIGN(m_colorSchemaCompPtr, "ColorSchema", "Color schema used for console", false, "ColorSchema");
-		I_ASSIGN(m_calibrationShapeCompPtr, "CalibrationShape", "Calibration shape displaying calibration grid, if not choosen default affine calibration shape will be used", false, "CalibrationShape");
+	I_BEGIN_COMPONENT(CViewProviderGuiCompAttr);
 		I_ASSIGN(m_viewIdAttrPtr, "ViewId", "ID allowing identifying this view", true, 0);
 		I_ASSIGN(m_useAntialiasingAttrPtr, "UseAntialiasing", "Enables using of antialiasing", false, false);
 		I_ASSIGN(m_zoomToFitEnabledAttrPtr, "ZoomToFitEnabled", "If true, the shapes will be fit to the view according to the defined fitting mode", false, false);
@@ -75,6 +58,45 @@ public:
 		I_ASSIGN(m_fullScreenModeSupportedAttrPtr, "FullScreenModeSupported", "If enabled, the view will be switched into full screen mode on mouse double click", true, true);
 	I_END_COMPONENT;
 
+protected:
+	I_ATTR(int, m_viewIdAttrPtr);
+	I_ATTR(bool, m_useAntialiasingAttrPtr);
+	I_ATTR(bool, m_useShapeEditCommandsAttrPtr);
+	I_ATTR(bool, m_useGridCommandsAttrPtr);
+	I_ATTR(bool, m_useScollBarCommandsAttrPtr);
+	I_ATTR(bool, m_useStatusBarCommandsAttrPtr);
+	I_ATTR(bool, m_zoomToFitEnabledAttrPtr);
+	I_ATTR(int, m_fitModeAttrPtr);
+	I_ATTR(int, m_backgroundModeAttrPtr);
+	I_ATTR(bool, m_fullScreenModeSupportedAttrPtr);
+};
+
+
+/**
+	Standard 2D-View provider.
+	It allows setting of display calibration and supports \c i2d::ICalibrationProvider to get it.
+*/
+class CViewProviderGuiComp: 
+			public CViewProviderGuiCompAttr,
+			virtual public ibase::ICommandsProvider,
+			virtual public IViewProvider,
+			protected imod::CMultiModelDispatcherBase
+{
+public:
+	typedef CViewProviderGuiCompAttr BaseClass;
+	typedef imod::CMultiModelDispatcherBase BaseClass2;
+
+	I_BEGIN_COMPONENT(CViewProviderGuiComp);
+		I_REGISTER_INTERFACE(ibase::ICommandsProvider);
+		I_REGISTER_INTERFACE(IViewProvider);
+		I_REGISTER_INTERFACE(i2d::ICalibrationProvider);
+		I_ASSIGN(m_shapeStatusInfoCompPtr, "ShapeStatusInfo", "Shape status info consumer", false, "ShapeStatusInfo");
+		I_ASSIGN(m_calibrationProviderCompPtr, "CalibrationProvider", "Provider of 2D-calibration for the entire view", false, "CalibrationProvider");
+		I_ASSIGN_TO(m_calibrationProviderModelCompPtr, m_calibrationProviderCompPtr, false);
+		I_ASSIGN(m_colorSchemaCompPtr, "ColorSchema", "Color schema used for console", false, "ColorSchema");
+		I_ASSIGN(m_calibrationShapeCompPtr, "CalibrationShape", "Calibration shape displaying calibration grid, if not choosen default affine calibration shape will be used", false, "CalibrationShape");
+		I_ASSIGN(m_distanceShapeCompPtr, "DistanceShape", "Distance measurement shape", false, "DistanceShape");
+	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
 	virtual const ibase::IHierarchicalCommand* GetCommands() const;
@@ -96,22 +118,13 @@ protected:
 	virtual void OnComponentCreated();
 	virtual void OnComponentDestroyed();
 
-protected:
+private:
 	I_REF(iview::IShapeStatusInfo, m_shapeStatusInfoCompPtr);
 	I_REF(i2d::ICalibrationProvider, m_calibrationProviderCompPtr);
 	I_REF(imod::IModel, m_calibrationProviderModelCompPtr);
 	I_REF(iview::IColorSchema, m_colorSchemaCompPtr);
 	I_REF(iview::IShape, m_calibrationShapeCompPtr);
-	I_ATTR(int, m_viewIdAttrPtr);
-	I_ATTR(bool, m_useAntialiasingAttrPtr);
-	I_ATTR(bool, m_useShapeEditCommandsAttrPtr);
-	I_ATTR(bool, m_useGridCommandsAttrPtr);
-	I_ATTR(bool, m_useScollBarCommandsAttrPtr);
-	I_ATTR(bool, m_useStatusBarCommandsAttrPtr);
-	I_ATTR(bool, m_zoomToFitEnabledAttrPtr);
-	I_ATTR(int, m_fitModeAttrPtr);
-	I_ATTR(int, m_backgroundModeAttrPtr);
-	I_ATTR(bool, m_fullScreenModeSupportedAttrPtr);
+	I_REF(iview::IShape, m_distanceShapeCompPtr);
 };
 
 

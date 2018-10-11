@@ -27,6 +27,11 @@ I_EXPORT_COMPONENT(
 			"ColorSchema Color" IM_TAG("Color Schema"));
 
 I_EXPORT_COMPONENT(
+			DistanceToolShape,
+			"Distance measuring shape for the 2D-Console",
+			"Ruler Distance Measurement Console Shape Info" IM_TAG("GUI 2D"));
+
+I_EXPORT_COMPONENT(
 			ShapeInfoGui,
 			"GUI for the status information about a shape in the 2D-Console",
 			"Display Console Shape Info" IM_TAG("GUI 2D"));

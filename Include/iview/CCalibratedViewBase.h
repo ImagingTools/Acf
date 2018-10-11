@@ -10,9 +10,11 @@
 #include <i2d/CRect.h>
 #include <i2d/ICalibration2d.h>
 #include <iview/IVisualCalibrationInfo.h>
+#include <iview/IToolsLayerInfo.h>
 #include <iview/CViewBase.h>
 #include <iview/CDrawBuffer.h>
 #include <iview/CColorSchema.h>
+#include <iview/CToolsViewLayer.h>
 
 
 namespace iview
@@ -27,7 +29,8 @@ namespace iview
 class CCalibratedViewBase:
 			public CViewBase,
 			virtual public i2d::ICalibrationProvider,
-			virtual public IVisualCalibrationInfo
+			virtual public IVisualCalibrationInfo,
+			virtual public IToolsLayerInfo
 {
 public:
 	typedef CViewBase BaseClass;
@@ -50,6 +53,16 @@ public:
 	virtual void ConnectCalibrationShape(iview::IShape* shapePtr);
 
 	/**
+		Set distance tool active.
+	*/
+	virtual void SetDistanceToolActive(bool state = true);
+
+	/**
+		Connect visualisation shape for ruler object.
+	*/
+	virtual void ConnectToolShape(iview::IShape* shapePtr);
+
+	/**
 		Set minimal grid size.
 		It determines minimal distance between grid lines.
 	*/
@@ -61,6 +74,8 @@ public:
 	void SetGridInMm(bool state = true);
 
 	const iview::IViewLayer& GetCalibrationLayer() const;
+
+	const iview::IViewLayer& GetToolsLayer() const;
 
 	/**
 		Set default color schema object.
@@ -103,6 +118,9 @@ public:
 	virtual double GetMinGridDistance() const;
 	virtual bool IsGridInMm() const;
 
+	// reimplemented (iview::IToolsLayerInfo)
+	virtual bool IsDistanceToolActive() const;
+
 	// reimplemented (i2d::ICalibrationProvider)
 	virtual const i2d::ICalibration2d* GetCalibration() const;
 
@@ -127,11 +145,14 @@ private:
 	bool m_isGridVisible;
 	bool m_isGridInMm;
 	double m_minGridDistance;
+	bool m_isDistanceToolActive;
 
 	int m_calibrationLayerIndex;
+	int m_toolsLayerIndex;
 
 	// default layers
 	iview::CViewLayer m_calibrationLayer;
+	iview::CToolsViewLayer m_toolsLayer;
 };
 
 
@@ -172,6 +193,12 @@ inline const iview::IViewLayer& CCalibratedViewBase::GetCalibrationLayer() const
 }
 
 
+inline const iview::IViewLayer& CCalibratedViewBase::GetToolsLayer() const
+{
+	return m_toolsLayer;
+}
+
+
 inline bool CCalibratedViewBase::IsGridVisible() const
 {
 	return m_isGridVisible;
@@ -190,6 +217,22 @@ inline bool CCalibratedViewBase::IsGridInMm() const
 }
 
 
+inline bool CCalibratedViewBase::IsDistanceToolActive() const
+{
+	return m_isDistanceToolActive;
+}
+
+
+inline void CCalibratedViewBase::SetDistanceToolActive(bool state)
+{
+	if (m_isDistanceToolActive != state){
+		m_isDistanceToolActive = state;
+
+		InvalidateBackground();
+	}
+}
+
+
 // reimplemented (i2d::ICalibrationProvider)
 
 inline const i2d::ICalibration2d* CCalibratedViewBase::GetCalibration() const
@@ -198,9 +241,7 @@ inline const i2d::ICalibration2d* CCalibratedViewBase::GetCalibration() const
 }
 
 
-
 } // namespace iview
-
 
 
 #endif // !iview_CCalibratedViewBase_included

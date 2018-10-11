@@ -135,8 +135,8 @@ ITouchable::TouchState CImageShape::IsTouched(istd::CIndex2d position) const
 		ibase::CSize size = bitmapPtr->GetImageSize();
 
 		istd::CIndex2d bitmapPosition = GetLogPosition(i2d::CVector2d(position)).ToIndex2d();
-		bitmapPosition.SetX(bitmapPosition.GetX() - m_pixmapOffset.x() - 1);
-		bitmapPosition.SetY(bitmapPosition.GetY() - m_pixmapOffset.y() - 1);
+		bitmapPosition.SetX(bitmapPosition.GetX() - m_pixmapOffset.x());
+		bitmapPosition.SetY(bitmapPosition.GetY() - m_pixmapOffset.y());
 
 		if (		(bitmapPosition.GetX() >= 0) &&
 					(bitmapPosition.GetY() >= 0) &&
@@ -162,8 +162,8 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 		ibase::CSize size = bitmapPtr->GetImageSize();
 
 		istd::CIndex2d bitmapPosition = GetLogPosition(i2d::CVector2d(position)).ToIndex2d();
-		bitmapPosition.SetX(bitmapPosition.GetX() - m_pixmapOffset.x() - 1);
-		bitmapPosition.SetY(bitmapPosition.GetY() - m_pixmapOffset.y() - 1);
+		bitmapPosition.SetX(bitmapPosition.GetX() - m_pixmapOffset.x());
+		bitmapPosition.SetY(bitmapPosition.GetY() - m_pixmapOffset.y());
 
 		if (		(bitmapPosition.GetX() >= 0) &&
 					(bitmapPosition.GetY() >= 0) &&
@@ -177,9 +177,10 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 			QString pixelValueInfo;
 
-			switch (pixelMode){
+			switch (pixelMode)
+			{
 			case iimg::IBitmap::PF_GRAY:
-				pixelValueInfo = QObject::tr("Gray value %1%").arg(int(pixelValue[0] * 100));
+				pixelValueInfo = QObject::tr("Gray value %1% (%2)").arg(int(pixelValue[0] * 100)).arg(int(pixelValue[0] * 255));
 				break;
 
 			case iimg::IBitmap::PF_RGB:
@@ -193,7 +194,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 					rgbToHsvTransformation.GetValueAt(rgbColor, hsvColor);
 					hsv = hsvColor;
 
-					pixelValueInfo = QObject::tr("[RGB=(%1%,%3%,%5%)=(%2,%4,%6), HSV=(%7,%8,%9)]")
+					pixelValueInfo = QString("[RGB=(%1%,%3%,%5%)=(%2,%4,%6), HSV=(%7,%8,%9)]")
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED) * 100))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED) * 255))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_GREEN) * 100))
@@ -218,7 +219,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 					rgbToHsvTransformation.GetValueAt(rgbColor, hsvColor);
 					hsv = hsvColor;
 
-					pixelValueInfo = QObject::tr("[RGBA=(%1%,%3%,%5%,%7)=(%2,%4,%6,%8), HSV=(%9,%10,%11)]")
+					pixelValueInfo = QString("[RGBA=(%1%,%3%,%5%,%7)=(%2,%4,%6,%8), HSV=(%9,%10,%11)]")
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED) * 100))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_RED) * 255))
 								.arg(int(rgb.GetElement(icmm::CRgb::CI_GREEN) * 100))
@@ -247,7 +248,7 @@ QString CImageShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 			}
 
 			if (!pixelValueInfo.isEmpty()){
-				retVal += QObject::tr(", ");
+				retVal += QString(", ");
 				retVal += pixelValueInfo;
 			}
 		}

@@ -21,9 +21,11 @@ CCalibratedViewBase::CCalibratedViewBase()
 :	m_calibrationPtr(NULL),
 	m_isGridVisible(false),
 	m_isGridInMm(true),
-	m_minGridDistance(10)
+	m_minGridDistance(10),
+	m_isDistanceToolActive(false),
+	m_calibrationLayerIndex(-1),
+	m_toolsLayerIndex(-1)
 {
-	m_calibrationLayerIndex = -1;
 	m_lastClientArea.Reset();
 	m_isBackgroundBufferActive = true;
 	m_isDoubleBufferActive = true;
@@ -46,14 +48,24 @@ void CCalibratedViewBase::SetDisplayCalibration(const i2d::ICalibration2d* calib
 void CCalibratedViewBase::ConnectCalibrationShape(iview::IShape* shapePtr)
 {
 	Q_ASSERT(shapePtr != NULL);
-	if (GetLayersCount() <= 0){
-		InsertDefaultLayers();
-	}
+	InsertDefaultLayers();
 	Q_ASSERT(m_calibrationLayerIndex >= 0);
 
 	iview::IViewLayer& layer = GetLayer(m_calibrationLayerIndex);
 	layer.ConnectShape(shapePtr);
 }
+
+
+ void CCalibratedViewBase::ConnectToolShape(iview::IShape* shapePtr)
+ {
+	Q_ASSERT(shapePtr != NULL);
+	InsertDefaultLayers();
+	Q_ASSERT(m_toolsLayerIndex >= 0);
+
+	iview::IViewLayer& layer = GetLayer(m_toolsLayerIndex);
+	layer.ConnectShape(shapePtr);
+ }
+
 
 
 // reimplemented (iview::CViewBase)
@@ -70,11 +82,17 @@ void CCalibratedViewBase::UpdateAllShapes(const istd::IChangeable::ChangeSet& ch
 
 void CCalibratedViewBase::InsertDefaultLayers()
 {
+	if (GetLayersCount() > 0){
+		return;
+	}
+
 	BaseClass::InsertDefaultLayers();
 
-	int layerIndex = InsertLayer(&m_calibrationLayer, 1, IViewLayer::LT_CALIBRATION);
+	int lastLayerIndex = InsertLayer(&m_calibrationLayer, 1, IViewLayer::LT_CALIBRATION);
 
-	SetLastBackgroundLayerIndex(layerIndex);
+	InsertLayer(&m_toolsLayer, -1, IViewLayer::LT_TOOLS);
+
+	SetLastBackgroundLayerIndex(lastLayerIndex);
 }
 
 
@@ -89,6 +107,13 @@ int CCalibratedViewBase::InsertLayer(iview::IViewLayer* layerPtr, int index, int
 	}
 	else if (m_calibrationLayerIndex >= result){
 		m_calibrationLayerIndex++;
+	}
+
+	if (layerType == IViewLayer::LT_TOOLS){
+		m_toolsLayerIndex = result;
+	}
+	else if (m_toolsLayerIndex >= result){
+		m_toolsLayerIndex++;
 	}
 
 	return result;

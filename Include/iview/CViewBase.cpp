@@ -837,14 +837,12 @@ bool CViewBase::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonTyp
 				EndDrag();
 
 				m_isSelectEventActive = false;
-				return true;
 			}
 
 			if (m_viewMode == VM_MOVE){
 				m_viewMode = VM_NONE;
 
 				m_isSelectEventActive = false;
-				return true;
 			}
 		}
 
@@ -898,10 +896,7 @@ bool CViewBase::OnMouseMove(istd::CIndex2d position)
 
 	bool result = false;
 
-	if ((m_keysState & Qt::LeftButton) == 0){
-		m_viewMode = VM_NONE;
-	}
-	else if (m_viewMode == VM_DRAG){
+	if (m_viewMode == VM_DRAG){
 		SetDragPosition(position);
 		Update();
 		result = true;

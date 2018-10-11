@@ -33,6 +33,7 @@ class CConsoleGui:
 	Q_PROPERTY(bool ZoomToFit READ IsZoomToFit WRITE SetZoomToFit)
 	Q_PROPERTY(bool GridVisible READ IsGridVisible WRITE SetGridVisible)
 	Q_PROPERTY(bool RulerVisible READ IsRulerVisible WRITE SetRulerVisible)
+	Q_PROPERTY(bool DistanceToolActive READ IsDistanceToolActive WRITE SetDistanceToolActive)
 	Q_PROPERTY(bool GridInMm READ IsGridInMm WRITE SetGridInMm)
 	Q_PROPERTY(bool ShowButtonPanel READ IsButtonsPanelVisible WRITE SetButtonsPanelVisible)
 	Q_PROPERTY(bool ButtonPanelVertical READ IsButtonsPanelVertical WRITE SetButtonsPanelVertical)
@@ -92,6 +93,7 @@ public Q_SLOTS:
 	void OnShowScrollbars(bool state);
 	void OnShowGrid(bool state);
 	void OnShowRuler(bool state);
+	void OnActivateDistanceTool(bool state);
 	void OnShowGridInMm(bool state);
 	void OnHScrollbarChanged(int newPos);
 	void OnVScrollbarChanged(int newPos);
@@ -139,6 +141,7 @@ private:
 
 	iqtgui::CHierarchicalCommand m_gridVisibleCommand;
 	iqtgui::CHierarchicalCommand m_rulerVisibleCommand;
+	iqtgui::CHierarchicalCommand m_distanceToolCommand;
 	iqtgui::CHierarchicalCommand m_gridInMmVisibleCommand;
 	iqtgui::CHierarchicalCommand m_scrollVisibleCommand;
 

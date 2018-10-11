@@ -39,6 +39,7 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	m_commands("&View", 100),
 	m_gridVisibleCommand("Show Grid", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_rulerVisibleCommand("Show Ruler", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
+	m_distanceToolCommand("Distance", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_gridInMmVisibleCommand("Grid in Millimeter", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_CALIBRATION),
 	m_scrollVisibleCommand("Show Scrollbars", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CGI_VIEW_CONTROL),
 	m_zoomInCommand("Zoom In", 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CGI_ZOOM),
@@ -83,8 +84,6 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 
 	//	languageChange();
 	resize(QSize(604, 480).expandedTo(minimumSizeHint()));
-
-	SetRulerButtonVisible(false);
 
 	UpdateEditModeButtons();
 	UpdateButtonsState();
@@ -277,6 +276,12 @@ void CConsoleGui::OnShowGrid(bool state)
 void CConsoleGui::OnShowRuler(bool state)
 {
 	SetRulerVisible(state);
+}
+
+
+void CConsoleGui::OnActivateDistanceTool(bool state)
+{
+	SetDistanceToolActive(state);
 }
 
 
@@ -529,6 +534,7 @@ void CConsoleGui::UpdateButtonsState()
 	m_gridVisibleCommand.SetEnabled(isGridLayerActive);
 	m_gridVisibleCommand.setChecked(IsGridVisible());
 	m_rulerVisibleCommand.setChecked(IsRulerVisible());
+	m_distanceToolCommand.setChecked(IsDistanceToolActive());
 	m_gridInMmVisibleCommand.setChecked(IsGridInMm());
 }
 
@@ -642,6 +648,12 @@ void CConsoleGui::UpdateCommands()
 		m_commands.InsertChild(&m_rulerVisibleCommand);
 	}
 
+	if (IsDistanceButtonVisible()){
+		m_distanceToolCommand.SetVisuals(tr("Distance"), tr("Distance"), tr("Activate distance measurement tool"), QIcon(":/Icons/Ruler"));
+		m_distanceToolCommand.setChecked(IsDistanceToolActive());
+		m_commands.InsertChild(&m_distanceToolCommand);
+	}
+
 	if (IsMmButtonVisible()){
 		m_gridInMmVisibleCommand.SetVisuals(tr("Grid in Millimeter"), tr("Grid in Millimeter"), tr("Show/Hide Millimeters"), QIcon(":/Icons/LogicalUnit"));
 		m_gridInMmVisibleCommand.setChecked(IsGridInMm());
@@ -742,6 +754,7 @@ bool CConsoleGui::ConnectSignalSlots()
 	retVal = connect(&m_scrollVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowScrollbars(bool))) && retVal;
 	retVal = connect(&m_gridVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGrid(bool))) && retVal;
 	retVal = connect(&m_rulerVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowRuler(bool))) && retVal;
+	retVal = connect(&m_distanceToolCommand, SIGNAL(toggled(bool)), this, SLOT(OnActivateDistanceTool(bool))) && retVal;
 	retVal = connect(&m_gridInMmVisibleCommand, SIGNAL(toggled(bool)), this, SLOT(OnShowGridInMm(bool))) && retVal;
 	
 	retVal = connect(m_horizontalScrollbarPtr, SIGNAL(valueChanged(int)), this, SLOT(OnHScrollbarChanged(int))) && retVal;

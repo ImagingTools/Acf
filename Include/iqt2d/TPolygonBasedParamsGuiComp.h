@@ -31,7 +31,7 @@ namespace iqt2d
 
 
 template <class PolygonBasedShape, class PolygonBasedModel>
-class TPolygonBasedParamsGuiComp: 
+class TPolygonBasedParamsGuiComp:
 			public iqt2d::TShapeParamsGuiCompBase<
 						Ui::CPolygonParamsGuiComp,
 						PolygonBasedShape,
@@ -66,6 +66,7 @@ public:
 
 	I_BEGIN_COMPONENT(TPolygonBasedParamsGuiComp);
 		I_ASSIGN(m_nodeListSizeAttrPtr, "NodeListSize", "Fixed height of the node list if set (0 - hide)", false, 0);
+		I_ASSIGN(m_hideCopyPasteAttrPtr, "HideCopyPaste", "Hide Copy & Paste buttons", true, true);
 	I_END_COMPONENT;
 
 	TPolygonBasedParamsGuiComp();
@@ -122,6 +123,9 @@ protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
 	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
 
+	static bool SetValue(const QVariant& variant, double& result);
+	static QVariant GetValue(double value, int round = 2);
+
 protected:
 	using BaseClass::GetObservedObject;
 	using BaseClass::GetObservedModel;
@@ -133,9 +137,12 @@ protected:
 	using BaseClass::RemoveButton;
 	using BaseClass::InsertButton;
 	using BaseClass::ToolsButton;
+	using BaseClass::CopyButton;
+	using BaseClass::PasteButton;
 
 protected:
 	I_ATTR(int, m_nodeListSizeAttrPtr);
+	I_ATTR(bool, m_hideCopyPasteAttrPtr);
 
 	QAction m_flipHorizontalAction;
 	QAction m_flipVerticalAction;
@@ -280,7 +287,7 @@ QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::data(
 		if ((objectPtr != NULL) && (index.column() <= 1) && (index.column() >= 0)){
 			retVal = objectPtr->GetNodePos(index.row());
 
-			return retVal[index.column()];
+			return GetValue(retVal[index.column()]);
 		}
 	}
 
@@ -294,14 +301,9 @@ bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::setData(c
 	if (role == Qt::EditRole){
 		i2d::CPolygon* objectPtr = GetObservedObject();
 		if ((objectPtr != NULL) && (index.column() <= 1) && (index.column() >= 0)){
-			i2d::CVector2d pos = objectPtr->GetNodePos(index.row());
-			bool isOk = false;
-			pos[index.column()] = value.toDouble(&isOk);
-			if (isOk){
-				objectPtr->SetNodePos(index.row(), pos);
-
-				return true;
-			}
+			i2d::CVector2d& pos = objectPtr->GetNodePosRef(index.row());
+			
+			return SetValue(value, pos[index.column()]);
 		}
 	}
 
@@ -343,6 +345,11 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::OnGuiCrea
 	BaseClass::OnGuiCreated();
 
 	NodeParamsTable->setModel(&m_tableModel);
+
+	if (*m_hideCopyPasteAttrPtr){
+		CopyButton->hide();
+		PasteButton->hide();
+	}
 
 	bool isNodeTable = true;
 	if (m_nodeListSizeAttrPtr.IsValid()){
@@ -455,6 +462,32 @@ void TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::UpdateGui
 	Q_EMIT m_tableModel.layoutChanged();
 
 	BaseClass::UpdateGui(changeSet);
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+bool TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::SetValue(const QVariant& variant, double& result)
+{
+	bool ok;
+	double res = variant.toDouble(&ok);
+
+	if (ok){
+		result = res;
+	}
+
+	return ok;
+}
+
+
+template <class PolygonBasedShape, class PolygonBasedModel>
+QVariant TPolygonBasedParamsGuiComp<PolygonBasedShape, PolygonBasedModel>::GetValue(double value, int round)
+{
+	if (round < 0){
+		return value;
+	}
+
+	double p = pow(10, round);
+	return qRound(value * p)/p;
 }
 
 

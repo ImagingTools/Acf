@@ -99,6 +99,14 @@ void CViewProviderGuiComp::OnGuiCreated()
 		view.ConnectCalibrationShape(m_calibrationShapeCompPtr.GetPtr());
 	}
 
+	if (m_distanceShapeCompPtr.IsValid()){
+		view.ConnectToolShape(m_distanceShapeCompPtr.GetPtr());
+		consolePtr->SetDistanceButtonVisible(true);
+	}
+	else{
+		consolePtr->SetDistanceButtonVisible(false);
+	}
+
 	if (m_backgroundModeAttrPtr.IsValid()){
 		switch (*m_backgroundModeAttrPtr){
 		case BM_COLOR_SCHEMA:
@@ -127,6 +135,7 @@ void CViewProviderGuiComp::OnGuiDestroyed()
 	if (consolePtr != NULL){
 		iview::CViewport& view = consolePtr->GetViewRef();
 		const_cast<iview::IViewLayer&>(view.GetCalibrationLayer()).DisconnectAllShapes();
+		const_cast<iview::IViewLayer&>(view.GetToolsLayer()).DisconnectAllShapes();
 
 		if (consolePtr->IsFullScreenMode()){
 			consolePtr->SetFullScreenMode(false);

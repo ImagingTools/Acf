@@ -316,10 +316,10 @@ i2d::CVector2d CShapeBase::GetLogPosition(const i2d::CVector2d& screenPosition) 
 
 double CShapeBase::GetLocalLineWidth(const i2d::CVector2d& screenPosition) const
 {
-	const iview::CScreenTransform& transform = GetViewToScreenTransform();
+	const iview::CScreenTransform& viewToScreenTransform = GetViewToScreenTransform();
 
 	const IColorSchema& schema = GetColorSchema();
-	double logWidth = schema.GetLogicalLineWidth() / transform.GetDeformMatrix().GetApproxScale();
+	double logWidth = schema.GetLogicalLineWidth() / viewToScreenTransform.GetDeformMatrix().GetApproxScale();
 
 	switch (m_shapeTransformMode){
 	case STM_SHAPE:
