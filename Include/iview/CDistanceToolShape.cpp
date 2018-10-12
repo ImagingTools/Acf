@@ -16,8 +16,8 @@ namespace iview
 {
 
 
-CDistanceToolShape::CDistanceToolShape() : 
-	m_measureState(CDistanceToolShape::MS_NONE),
+CDistanceToolShape::CDistanceToolShape()
+	:m_measureState(CDistanceToolShape::MS_NONE),
 	m_dragNodeIndex(-1),
 	m_isSelected(false)
 {

@@ -532,7 +532,23 @@ bool CBitmap::SetQImage(const QImage& image)
 			}
 		}
 
+		QVector<QRgb> oldTable = m_image.colorTable();
 		m_image.setColorTable(s_colorTableGray);
+
+		if (!oldTable.isEmpty())
+		{
+			// decode color table first
+			int h = m_image.height();
+			int w = m_image.width();
+			for (int y = 0; y < h; y++)
+			{
+				uchar* scanlinePtr = m_image.scanLine(y);
+				for (int x = 0; x < w; x++)
+				{
+					scanlinePtr[x] = oldTable.at(scanlinePtr[x]);
+				}
+			}
+		}
 	}
 
 	return !(m_image.isNull());
