@@ -85,7 +85,7 @@ bool CLinearInterpolator::GetValueAt(const double& argument, double& result) con
 
 	else if (m_isExtrapolationEnabled){
 		/*extrapolate x > last_x*/
-		Nodes::ConstIterator nextIter = m_nodes.constEnd() - 1;
+		nextIter = m_nodes.constEnd() - 1;
 		double prevPosition = nextIter.key();
 		Q_ASSERT(prevPosition <= argument);
 		double prevValue = nextIter.value();

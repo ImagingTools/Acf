@@ -40,7 +40,8 @@ public:
 		I_REGISTER_INTERFACE(ifile::IFilePersistence);
 		I_ASSIGN(m_pageObjectPersistenceCompPtr, "BitmapPersistence", "Component used for persistence of the single page of the bitmap document", true, "BitmapPersistence");
 		I_ASSIGN(m_operationModeAttrPtr, "OperationMode", "Operation mode. 0 - flat structure, all files will be placed into the target folder\n1 - Files will be placed into the document's own folder\n2 - Same as 1, but the folder wll be compressed", true, OM_FOLDER);
-		I_ASSIGN(m_defaultPageSuffixAttrPtr, "DefaultPageFileExtension", "Default extension used for the page files", false, "");	
+		I_ASSIGN(m_defaultPageSuffixAttrPtr, "DefaultPageFileExtension", "Default extension used for the page files", false, "png");	
+		I_ASSIGN(m_defaultDocumentSuffixAttrPtr, "DefaultDocumentFileExtension", "Default extension used for the document files", true, "mbd");
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFilePersistence)
@@ -78,6 +79,7 @@ private:
 private:
 	I_REF(ifile::IFilePersistence, m_pageObjectPersistenceCompPtr);
 	I_ATTR(int, m_operationModeAttrPtr);
+	I_ATTR(QByteArray, m_defaultDocumentSuffixAttrPtr);
 	I_ATTR(QByteArray, m_defaultPageSuffixAttrPtr);
 
 	QString m_defaultSuffix;

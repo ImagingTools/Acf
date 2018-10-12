@@ -98,7 +98,7 @@ bool CParamsManagerComp::Serialize(iser::IArchive& archive)
 
 	bool isStoring = archive.IsStoring();
 
-	istd::CChangeNotifier notifier(isStoring? NULL: this);
+	istd::CChangeNotifier notifier(isStoring? NULL: this, &istd::IChangeable::GetAllChanges());
 
 	if (!isStoring){
 		if (!retVal || !SetSetsCount(paramsCount)){

@@ -165,10 +165,11 @@ void CCheckableComboBox::CCheckBoxDelegate::setModelData(QWidget *editor, QAbstr
 	if (myEditor != NULL){
 		bool value = myEditor->isChecked();
 
-		QMap<int,QVariant> data;
-		data.insert(Qt::DisplayRole, myEditor->text());
-		data.insert(Qt::UserRole, value);
-		model->setItemData(index, data);
+		QMap<int,QVariant> dataMap;
+		dataMap.insert(Qt::DisplayRole, myEditor->text());
+		dataMap.insert(Qt::UserRole, value);
+
+		model->setItemData(index, dataMap);
 	}
 	else{
 		BaseClass::setModelData(editor, model, index);

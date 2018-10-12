@@ -232,7 +232,7 @@ void CMultiPageDocumentFilePersistenceComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	m_defaultSuffix = "mpd";
+	m_defaultSuffix = *m_defaultDocumentSuffixAttrPtr;
 
 	if (m_defaultPageSuffixAttrPtr.IsValid()){
 		m_defaultPageSuffix = *m_defaultPageSuffixAttrPtr;

@@ -83,7 +83,7 @@ void* CBaseComponentStaticInfo::GetComponentInterface(
 		if (interfaceType.IsConst()){
 			istd::CClassInfo nonConstType = interfaceType.GetConstCasted(false);
 
-			InterfaceExtractors::ConstIterator foundIter = m_interfaceExtractors.constFind(nonConstType.GetName());
+			foundIter = m_interfaceExtractors.constFind(nonConstType.GetName());
 			if (foundIter != m_interfaceExtractors.constEnd()){
 				InterfaceExtractorPtr extractorPtr = foundIter.value();
 

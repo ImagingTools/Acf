@@ -504,8 +504,8 @@ bool CVarMatrix::GetDecompositionQDQ(CVarMatrix& matrixQ, CVarVector& diagonalD,
 		}
 
 		if (residue <= tolerance){
-			for (int i = 0; i < size.GetX(); ++i){
-				diagonalD[i] = matrixR.GetAt(istd::CIndex2d(i, i));
+			for (int j = 0; j < size.GetX(); ++j){
+				diagonalD[j] = matrixR.GetAt(istd::CIndex2d(j, j));
 			}
 
 			return true;

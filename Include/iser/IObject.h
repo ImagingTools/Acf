@@ -2,6 +2,9 @@
 #define iser_IObject_included
 
 
+// Qt includes
+#include <QByteArray>
+
 // ACF includes
 #include <istd/TIFactory.h>
 #include <iser/ISerializable.h>

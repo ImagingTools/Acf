@@ -103,9 +103,9 @@ bool CMainWindowGuiComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 			// Create recent file list:
 			if (showOpenCommand){
 				idoc::IDocumentTypesInfo::Ids ids = managerPtr->GetDocumentTypeIds();
-				for (idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
-					iter != ids.end();
-					++iter) {
+				for (		idoc::IDocumentTypesInfo::Ids::const_iterator iter = ids.begin();
+							iter != ids.end();
+							++iter){
 					const QByteArray& documentTypeId = *iter;
 					Q_ASSERT(!documentTypeId.isEmpty());
 
@@ -113,12 +113,12 @@ bool CMainWindowGuiComp::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 
 					QString documentTypeName = managerPtr->GetDocumentTypeName(documentTypeId);
 
-					QString recentListTitle = (ids.size() > 1) ?
-						tr("Recent %1 Files").arg(documentTypeName) :
-						tr("Recent Files");
+					QString recentListTitle = (ids.size() > 1)?
+								tr("Recent %1 Files").arg(documentTypeName):
+								tr("Recent Files");
 					iqtgui::CHierarchicalCommand* fileListCommandPtr = new iqtgui::CHierarchicalCommand(recentListTitle);
 
-					if (fileListCommandPtr != NULL) {
+					if (fileListCommandPtr != NULL){
 						fileListCommandPtr->SetPriority(130);
 
 						groupCommandPtr.SetPtr(fileListCommandPtr);

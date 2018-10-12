@@ -69,6 +69,15 @@ const QString& CApplicationInfoBasedFileNameComp::GetPath() const
 						Qt::CaseInsensitive);
 		}
 	}
+	else{
+		if (relativePath.contains(s_applicationNameVariable, Qt::CaseInsensitive)){
+			relativePath = relativePath.replace(
+						s_applicationNameVariable,
+						QCoreApplication::applicationName(),
+						Qt::CaseInsensitive);
+		}
+
+	}
 
 	m_calculatedPath = relativePath;
 
