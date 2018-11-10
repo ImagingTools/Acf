@@ -194,8 +194,13 @@ I_EXPORT_COMPONENT(
 
 I_EXPORT_COMPONENT(
 			DoxygenHelpFileProvider,
-			"Provide html help file path converting class type using doxygen format",
-			"Doxygen File Provider Document Html Description Class Interface Qt" IM_TAG("Help"));
+			"Provide HTML help file path converting class type using doxygen format",
+			"Doxygen File Provider Document HTML Description Class Interface Qt" IM_TAG("Help"));
+
+I_EXPORT_COMPONENT(
+			UndoManagerCommandsProvider,
+			"Provider of the commands for the undo-manager",
+			"Document Data Persistence Undo Redo Command");
 
 I_EXPORT_COMPONENT(
 			ProgressManagerGui,
