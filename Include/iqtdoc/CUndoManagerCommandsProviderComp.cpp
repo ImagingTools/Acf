@@ -1,7 +1,6 @@
 #include <iqtdoc/CUndoManagerCommandsProviderComp.h>
 
 
-
 namespace iqtdoc
 {
 
@@ -22,8 +21,11 @@ CUndoManagerCommandsProviderComp::CUndoManagerCommandsProviderComp()
 	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), QIcon(":/Icons/Undo"));
 	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), QIcon(":/Icons/Redo"));
 
-	m_undoCommand.setVisible(true);
-	m_redoCommand.setVisible(true);
+	m_undoCommand.setShortcut(Qt::CTRL + Qt::Key_Z);
+	m_redoCommand.setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_Z);
+
+	m_undoCommand.setVisible(false);
+	m_redoCommand.setVisible(false);
 
 }
 
@@ -75,7 +77,10 @@ void CUndoManagerCommandsProviderComp::OnComponentCreated()
 	BaseClass::OnComponentCreated();
 
 	if (m_undoManagerModelCompPtr.IsValid()){
-		m_undoManagerModelCompPtr->AttachObserver(this);
+		if (m_undoManagerModelCompPtr->AttachObserver(this)){
+			m_undoCommand.setVisible(true);
+			m_redoCommand.setVisible(true);
+		}
 	}
 }
 
