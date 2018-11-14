@@ -25,6 +25,20 @@ CVarIndex::CVarIndex(const CVarIndex& index)
 }
 
 
+CVarIndex::CVarIndex(const std::vector<IndexType>& values)
+{
+	for (std::vector<IndexType>::const_iterator iter = values.cbegin(); iter != values.cend(); ++iter){
+		m_elements.push_back(*iter);
+	}
+}
+
+
+CVarIndex::CVarIndex(const Elements& values)
+	:m_elements(values)
+{
+}
+
+
 bool CVarIndex::IsValid() const
 {
 	for (int i = 0; i < int(m_elements.size()); ++i){
