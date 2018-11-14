@@ -318,7 +318,7 @@ inline istd::CVarIndex CVarIndex::GetExpanded(const istd::CVarIndex& other) cons
 {
 	istd::CVarIndex retVal(*this);
 
-	retVal.m_elements.append(other.m_elements);
+	retVal.m_elements += other.m_elements;
 
 	return retVal;
 }
