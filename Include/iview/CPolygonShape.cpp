@@ -169,8 +169,9 @@ bool CPolygonShape::OnMouseMove(istd::CIndex2d position)
 
 			int nodesCount = polygonPtr->GetNodesCount();
 			for (int nodeIndex = 0; nodeIndex < nodesCount; ++nodeIndex){
-				const i2d::CVector2d position = polygonPtr->GetNodePos(nodeIndex);
-				polygonPtr->SetNodePos(nodeIndex, moveTransform.GetApply(position));
+				const i2d::CVector2d nodePosition = polygonPtr->GetNodePos(nodeIndex);
+
+				polygonPtr->SetNodePos(nodeIndex, moveTransform.GetApply(nodePosition));
 			}
 
 			UpdateModelChanges();
