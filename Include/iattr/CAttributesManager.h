@@ -37,6 +37,7 @@ public:
 				const QByteArray& attributeId,
 				iser::IObject* attributePtr,
 				bool releaseFlag);
+	virtual bool RemoveAttribute(const QByteArray& attributeId);
 
 	// reimplemented (iattr::IAttributesProvider)
 	virtual AttributeIds GetAttributeIds() const;

@@ -105,6 +105,19 @@ bool CAttributesManager::InsertAttribute(
 }
 
 
+bool CAttributesManager::RemoveAttribute(const QByteArray& attributeId)
+{
+	if (m_attributesMap.contains(attributeId)){
+		istd::CChangeNotifier notifier(this, &s_removeAttributeChange);
+		Q_UNUSED(notifier);
+
+		m_attributesMap.remove(attributeId);
+	}
+
+	return true;
+}
+
+
 // reimplemented (iattr::IAttributesProvider)
 
 IAttributesProvider::AttributeIds CAttributesManager::GetAttributeIds() const

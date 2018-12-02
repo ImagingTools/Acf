@@ -28,12 +28,18 @@ public:
 		\param	attributeId		Unique ID of the property in the properties repository.
 		\param	attributePtr	QCoreApplicationProperty data object.
 		\param	releaseFlag		If true, this attribute will be deleted by manager.
-		\return	true, if this attribute could be added or false elesewhere.
+		\return	\c true, if this attribute could be added or \c false elesewhere.
 	*/
 	virtual bool InsertAttribute(
 				const QByteArray& attributeId,
 				iser::IObject* attributePtr,
 				bool releaseFlag) = 0;
+
+	/**
+		Remove an existing property from the object.
+		\return	\c true, if this attribute could be removed or \c false elesewhere.
+	*/
+	virtual bool RemoveAttribute(const QByteArray& attributeId) = 0;
 };
 
 
