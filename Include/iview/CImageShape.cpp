@@ -74,7 +74,7 @@ void CImageShape::AfterUpdate(imod::IModel* modelPtr, const istd::IChangeable::C
 		iimg::IBitmap* bitmapPtr = dynamic_cast<iimg::IBitmap*>(modelPtr);
 		Q_ASSERT(bitmapPtr != NULL);
 
-		qtBitmapPtr->CopyFrom(*bitmapPtr);
+		qtBitmapPtr->CopyFrom(*bitmapPtr, istd::IChangeable::CM_CONVERT);
 	}
 	else{
 		m_pixmapOffset = providerPtr->GetQImage().offset();
