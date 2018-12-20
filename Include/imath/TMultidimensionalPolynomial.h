@@ -133,9 +133,7 @@ bool TMultidimensionalPolynomial<Dimensions, Element>::ApproximateCoefficientsFr
 		destValueVector.SetAt(istd::CIndex2d(0, matrixRow), measValue);
 	}
 
-	imath::CVarMatrix resultMatrix = imath::CVarMatrix(istd::CIndex2d(coeffGridSize.GetProductVolume(), 1));
-	resultMatrix.Clear();
-
+	imath::CVarMatrix resultMatrix;
 	if (!valueMatrix.GetSolvedLSP(destValueVector, resultMatrix)){
 		return false;
 	}
