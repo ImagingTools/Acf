@@ -3,8 +3,6 @@
 
 
 // ACF includes
-#include <istd/IChangeable.h>
-#include <i2d/ITransformation2d.h>
 #include <iprm/IOptionsList.h>
 #include <iimg/IBitmap.h>
 
