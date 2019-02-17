@@ -159,6 +159,11 @@ public:
 		Set the description of the specified parameter set.
 	*/
 	virtual void SetParamsSetDescription(int index, const QString& description) = 0;
+
+	/**
+		Enable/Disable of the specified parameter set.
+	*/
+	virtual void SetParamsSetEnabled(int index, bool enable) = 0;
 };
 
 

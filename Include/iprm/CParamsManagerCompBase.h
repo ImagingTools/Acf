@@ -100,6 +100,7 @@ public:
 	virtual bool SetParamsSetName(int index, const QString& name);
 	virtual QString GetParamsSetDescription(int index) const;
 	virtual void SetParamsSetDescription(int index, const QString& description);
+	virtual void SetParamsSetEnabled(int index, bool enable);
 
 	// reimplemented (iprm::ISelectionParam)
 	virtual const IOptionsList* GetSelectionConstraints() const;
@@ -174,7 +175,10 @@ protected:
 		// reimplemented (iser::ISerializable)
 		virtual bool Serialize(iser::IArchive& archive);
 
-		class UuidParam: virtual public INameParam
+		// reimplemented (istd::IChangeable)
+		virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = CM_WITHOUT_REFS);
+
+		class UuidParam : virtual public INameParam
 		{
 		public:
 			UuidParam(const ParamSet& parent) : m_parent(parent) {}
@@ -231,6 +235,8 @@ protected:
 	ParamSets m_paramSets;
 
 	imod::CModelUpdateBridge m_updateBridge;
+
+	QMap<int, bool> m_isFixedParamsSetEnable;
 
 private:
 	// static template methods for subelement access

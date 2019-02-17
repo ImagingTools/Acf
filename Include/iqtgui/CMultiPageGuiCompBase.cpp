@@ -561,7 +561,7 @@ bool CMultiPageGuiCompBase::PageModel::IsOptionEnabled(int index) const
 	if (retVal && (index < m_parentPtr->m_pageVisibilityActivatorsCompPtr.GetCount())){
 		const iprm::IEnableableParam* paramPtr = m_parentPtr->m_pageVisibilityActivatorsCompPtr[index];
 		if (paramPtr != NULL){
-			retVal = paramPtr->IsEnabled();
+			retVal = retVal && paramPtr->IsEnabled();
 		}
 	}
 

@@ -20,6 +20,7 @@ const istd::IChangeable::ChangeSet s_moveChangeSet(IParamsManager::CF_SET_ENABLE
 const istd::IChangeable::ChangeSet s_renameChangeSet(IParamsManager::CF_SET_NAME_CHANGED, IOptionsList::CF_OPTION_RENAMED, QObject::tr("Rename"));
 const istd::IChangeable::ChangeSet s_selectChangeSet(ISelectionParam::CF_SELECTION_CHANGED, QObject::tr("Change selection"));
 const istd::IChangeable::ChangeSet s_setDescriptionChangeSet(IOptionsList::CF_OPTIONS_CHANGED, QObject::tr("Change description"));
+const istd::IChangeable::ChangeSet s_setEnableChangeSet(IOptionsList::CF_OPTIONS_CHANGED, QObject::tr("Enable/Disable"));
 
 
 CParamsManagerCompBase::CParamsManagerCompBase()
@@ -343,6 +344,28 @@ void CParamsManagerCompBase::SetParamsSetDescription(int index, const QString& d
 	}
 }
 
+void CParamsManagerCompBase::SetParamsSetEnabled(int index, bool enable)
+{
+	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
+
+	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
+	if (index < fixedSetsCount){
+		if (!m_isFixedParamsSetEnable.contains(index) || m_isFixedParamsSetEnable[index] != enable){
+			istd::CChangeNotifier notifier(this, &s_setEnableChangeSet);
+			Q_UNUSED(notifier);
+			m_isFixedParamsSetEnable[index] = enable;
+		}
+		return;
+	}
+
+	if (m_paramSets[index - fixedSetsCount]->isEnabled != enable){
+		istd::CChangeNotifier notifier(this, &s_setEnableChangeSet);
+		Q_UNUSED(notifier);
+
+		m_paramSets[index - fixedSetsCount]->isEnabled = enable;
+	}
+}
+
 
 // reimplemented (iprm::ISelectionParam)
 
@@ -438,6 +461,10 @@ bool CParamsManagerCompBase::IsOptionEnabled(int index) const
 
 	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
 	if (!*m_allowDisabledAttrPtr || (index < fixedSetsCount)){
+		if (m_isFixedParamsSetEnable.contains(index)){
+			return m_isFixedParamsSetEnable[index];
+		}
+
 		return true;
 	}
 
@@ -668,6 +695,16 @@ bool CParamsManagerCompBase::ParamSet::Serialize(iser::IArchive& archive)
 	Q_ASSERT(paramSetPtr.IsValid());
 
 	return paramSetPtr->Serialize(archive);
+}
+
+
+// reimplemented (istd::IChangeable)
+
+bool CParamsManagerCompBase::ParamSet::CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode)
+{
+	Q_ASSERT(paramSetPtr.IsValid());
+
+	return paramSetPtr->CopyFrom(object, mode);
 }
 
 
