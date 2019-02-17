@@ -16,6 +16,7 @@
 #include <istd/TRanges.h>
 #include <istd/TIndex.h>
 #include <iser/IArchive.h>
+#include <iser/CArchiveTag.h>
 
 
 namespace iser
@@ -146,7 +147,7 @@ bool CPrimitiveTypesSerializer::SerializeContainer(
 
 	if (isStoring){
 		for (int i = 0; i < elementsCount; ++i){
-			ContainerType::value_type element = container[i];
+			typename ContainerType::value_type element = container[i];
 
 			retVal = retVal && archive.BeginTag(elementTag);
 			retVal = retVal && archive.Process(element);
@@ -157,7 +158,7 @@ bool CPrimitiveTypesSerializer::SerializeContainer(
 		container.clear();
 
 		for (int i = 0; i < elementsCount; ++i){
-			ContainerType::value_type element;
+			typename ContainerType::value_type element;
 			retVal = retVal && archive.BeginTag(elementTag);
 			retVal = retVal && archive.Process(element);
 			retVal = retVal && archive.EndTag(elementTag);

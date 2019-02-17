@@ -5,10 +5,6 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 
-// ACF includes
-#include <iser/CArchiveTag.h>
-
-
 namespace iser
 {
 
