@@ -113,7 +113,17 @@ private:
 		A container that depends on \c DesignType, i.e. QWidget, QToolBox or QTabWidget
 	*/
 	QWidget* m_guiContainerPtr;
-	QMap<iqtgui::IGuiObject*, QString> m_guiNames;
+	struct PanelData
+	{
+		PanelData()
+		{
+			pagePtr = NULL;
+			paramWidgetPtr = NULL;
+		}
+		QWidget* pagePtr;
+		QWidget* paramWidgetPtr;
+	};
+	QMap<iqtgui::IGuiObject*, PanelData> m_guiToWidgetMap;
 };
 
 

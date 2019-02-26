@@ -87,32 +87,39 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 			layoutPtr = new QVBoxLayout(ParamsFrame);
 		}
 	}
-	layoutPtr->setMargin(0);
+	layoutPtr->setContentsMargins(0, 0, 0, 0);
 
-	QToolBox* toolBoxPtr;
-	QTabWidget* tabWidgetPtr;
 	switch (guiMode){
-		case DT_TAB_WIDGET:
+	case DT_TAB_WIDGET:
+		{
 			ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-			m_guiContainerPtr = tabWidgetPtr = new QTabWidget(ParamsFrame);
+			QTabWidget* tabWidgetPtr = new QTabWidget(ParamsFrame);
 			tabWidgetPtr->setTabPosition(QTabWidget::TabPosition(*m_tabOrientationAttrPtr));
 			QObject::connect(tabWidgetPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
 			layoutPtr->addWidget(tabWidgetPtr);
-			m_currentGuiIndex = 0;
-			break;
 
-		case DT_TOOL_BOX:
+			m_guiContainerPtr = tabWidgetPtr;
+			m_currentGuiIndex = 0;
+		}
+		break;
+
+	case DT_TOOL_BOX:
+		{
 			ParamsFrame->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-			m_guiContainerPtr = toolBoxPtr = new QToolBox(ParamsFrame);
+
+			QToolBox* toolBoxPtr = new QToolBox(ParamsFrame);
 			toolBoxPtr->setBackgroundRole(QPalette::Window);
 			QObject::connect(toolBoxPtr, SIGNAL(currentChanged(int)), this, SLOT(OnEditorChanged(int)));
 			layoutPtr->addWidget(toolBoxPtr);
-			m_currentGuiIndex = 0;
-			break;
 
-		default:
-			m_guiContainerPtr = ParamsFrame;
-			m_currentGuiIndex = -1;
+			m_guiContainerPtr = toolBoxPtr;
+			m_currentGuiIndex = 0;
+		}
+		break;
+
+	default:
+		m_guiContainerPtr = ParamsFrame;
+		m_currentGuiIndex = -1;
 	}
 
 	// map gui objects with their names (the container will be filled by OnGuiModelAttached())
@@ -127,11 +134,57 @@ void CComposedParamsSetGuiComp::OnGuiCreated()
 		if (i < m_namesAttrPtr.GetCount()){
 			name = m_namesAttrPtr[i];
 		}
-		else{
-			continue;
-		}
 
-		m_guiNames[guiPtr] = name;
+		PanelData& panelData = m_guiToWidgetMap[guiPtr];
+
+		if (guiMode == DT_TAB_WIDGET){
+			panelData.pagePtr = new QWidget(m_guiContainerPtr);
+			QVBoxLayout* panelLayoutPtr = new QVBoxLayout(panelData.pagePtr);
+
+			panelData.paramWidgetPtr = new QWidget(panelData.pagePtr);
+			QVBoxLayout* paramLayoutPtr = new QVBoxLayout(panelData.paramWidgetPtr);
+			paramLayoutPtr->setContentsMargins(0, 0, 0, 0);
+			panelLayoutPtr->addWidget(panelData.paramWidgetPtr);
+
+			QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Maximum, QSizePolicy::Maximum);
+			panelLayoutPtr->addItem(spacerPtr);
+		}
+		else if (guiMode == DT_TOOL_BOX){
+			panelData.pagePtr = new QWidget(m_guiContainerPtr);
+
+			QVBoxLayout* panelLayoutPtr = new QVBoxLayout(panelData.pagePtr);
+			panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
+
+			panelData.paramWidgetPtr = new QWidget(panelData.pagePtr);
+			QVBoxLayout* paramLayoutPtr = new QVBoxLayout(panelData.paramWidgetPtr);
+			paramLayoutPtr->setContentsMargins(0, 0, 0, 0);
+			panelLayoutPtr->addWidget(panelData.paramWidgetPtr);
+
+			QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Maximum, QSizePolicy::Maximum);
+			panelLayoutPtr->addItem(spacerPtr);
+		}
+		else{
+			if (!name.isEmpty()){
+				panelData.pagePtr = panelData.paramWidgetPtr = new QGroupBox(name, m_guiContainerPtr);
+				new QVBoxLayout(panelData.pagePtr);
+			}
+			else{
+				panelData.pagePtr = panelData.paramWidgetPtr = new QWidget(m_guiContainerPtr);
+				QVBoxLayout* panelLayoutPtr = new QVBoxLayout(panelData.pagePtr);
+				panelLayoutPtr->setContentsMargins(0, 0, 0, 0);
+			}
+
+			m_guiContainerPtr->layout()->addWidget(panelData.pagePtr);
+		}
+	}
+
+	if (*m_useVerticalSpacerAttrPtr){
+		QLayout* layoutPtr = m_guiContainerPtr->layout();
+		if (layoutPtr != NULL){
+			QSpacerItem* verticalSpacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+			layoutPtr->addItem(verticalSpacer);
+		}
 	}
 
 	BaseClass::OnGuiCreated();
@@ -148,6 +201,10 @@ void CComposedParamsSetGuiComp::OnGuiDestroyed()
 			guiPtr->DestroyGui();
 		}
 	}
+
+	delete m_guiContainerPtr;
+
+	m_guiContainerPtr = NULL;
 
 	BaseClass::OnGuiDestroyed();
 }
@@ -301,6 +358,11 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 	for (int i = 0; i < elementsCount; ++i){
 		const QByteArray& paramId = m_idsAttrPtr[i];
 
+		QString name;
+		if (i < m_namesAttrPtr.GetCount()){
+			name = m_namesAttrPtr[i];
+		}
+
 		bool keepVisible = true;
 
 		if (!paramId.isEmpty()){
@@ -327,91 +389,58 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 			}
 		}
 
-		iqtgui::IGuiObject* guiObject = m_guisCompPtr[i];
-		if (guiObject){
-			iprm::IParamsSet::Ids::const_iterator iter;
+		iqtgui::IGuiObject* guiObjectPtr = m_guisCompPtr[i];
+		if (guiObjectPtr != NULL){
+			const PanelData& panelData = m_guiToWidgetMap[guiObjectPtr];
 
-			// add or remove gui items to the container
-			if (keepVisible){
-				bool addSpacer = false;
+			if ((panelData.pagePtr != NULL) && (panelData.paramWidgetPtr != NULL)){
+				iprm::IParamsSet::Ids::const_iterator iter;
 
-				QString name = m_guiNames[guiObject];
-				QWidget* panelPtr;
-				if (guiMode == DT_TAB_WIDGET){
-					panelPtr = new QWidget(m_guiContainerPtr);
-					new QVBoxLayout(panelPtr);
-					QTabWidget* tabWidgetPtr = static_cast<QTabWidget*>(m_guiContainerPtr);
-					tabWidgetPtr->addTab(panelPtr, name);
-
-					addSpacer = true;
-				}
-				else if (guiMode == DT_TOOL_BOX){
-					panelPtr = new QWidget(m_guiContainerPtr);
-					QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-					panelLayoutPtr->setContentsMargins(6, 0, 6, 0);
-					QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
-					toolBoxPtr->addItem(panelPtr, name);
-
-					addSpacer = true;
-				}
-				else{
-					if (!name.isEmpty()){
-						panelPtr = new QGroupBox(name, m_guiContainerPtr);
-						new QVBoxLayout(panelPtr);
-					}
-					else{
-						panelPtr = new QWidget(m_guiContainerPtr);
-						QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
-						panelLayoutPtr->setContentsMargins(0, 0, 0, 0);
-					}
-					QLayout* parentLayoutPtr = m_guiContainerPtr->layout();
-					if (parentLayoutPtr != NULL){
-						parentLayoutPtr->addWidget(panelPtr);
-					}
-				}
-
-				if (guiObject->GetWidget()){
-					QLayout* panelLayoutPtr = panelPtr->layout();
-					if (panelLayoutPtr != NULL){
-						panelLayoutPtr->addWidget(guiObject->GetWidget());
-					}
-					else{
-						guiObject->GetWidget()->setParent(panelPtr);
-					}
-				}
-				else{
-					guiObject->CreateGui(panelPtr);
-				}
-
-				if (addSpacer){
-					QLayout* panelLayoutPtr = panelPtr->layout();
-					if (panelLayoutPtr != NULL){
-						QSpacerItem* spacerPtr = new QSpacerItem(0, 0, QSizePolicy::Maximum, QSizePolicy::Maximum);
-						panelLayoutPtr->addItem(spacerPtr);
-					}
-				}
-			}
-			else if (guiObject->GetWidget()){
-				QWidget* guiWidgetPtr = guiObject->GetWidget();
-				QWidget* framePtr = guiWidgetPtr->parentWidget();
-				if (framePtr){
+				// add or remove gui items to the container
+				if (keepVisible){
 					if (guiMode == DT_TAB_WIDGET){
 						QTabWidget* tabWidgetPtr = static_cast<QTabWidget*>(m_guiContainerPtr);
-						int index = tabWidgetPtr->indexOf(framePtr);
+						tabWidgetPtr->addTab(panelData.pagePtr, name);
+					}
+					else if (guiMode == DT_TOOL_BOX){
+						QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
+						toolBoxPtr->addItem(panelData.pagePtr, name);
+					}
+					else{
+						panelData.pagePtr->setVisible(true);
+					}
+
+					QWidget* guiObjectWidgetPtr = guiObjectPtr->GetWidget();
+					if (guiObjectWidgetPtr != NULL){
+						QLayout* panelLayoutPtr = panelData.paramWidgetPtr->layout();
+						if (panelLayoutPtr != NULL){
+							panelLayoutPtr->addWidget(guiObjectWidgetPtr);
+						}
+						else{
+							guiObjectWidgetPtr->setParent(panelData.paramWidgetPtr);
+						}
+					}
+					else{
+						guiObjectPtr->CreateGui(panelData.paramWidgetPtr);
+					}
+				}
+				else{
+					if (guiMode == DT_TAB_WIDGET){
+						QTabWidget* tabWidgetPtr = static_cast<QTabWidget*>(m_guiContainerPtr);
+						int index = tabWidgetPtr->indexOf(panelData.pagePtr);
 						if (index >= 0){
 							tabWidgetPtr->removeTab(index);
 						}
 					}
 					else if (guiMode == DT_TOOL_BOX){
 						QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
-						int index = toolBoxPtr->indexOf(framePtr);
+						int index = toolBoxPtr->indexOf(panelData.pagePtr);
 						if (index >= 0){
 							toolBoxPtr->removeItem(index);
 						}
 					}
 					else{
-						m_guiContainerPtr->layout()->removeWidget(framePtr);
-						framePtr->setParent(NULL);
+						panelData.pagePtr->setVisible(false);
 					}
 				}
 			}
@@ -428,15 +457,6 @@ void CComposedParamsSetGuiComp::OnGuiModelAttached()
 	else if (guiMode == DT_TOOL_BOX){
 		QToolBox* toolBoxPtr = static_cast<QToolBox*>(m_guiContainerPtr);
 		toolBoxPtr->setCurrentIndex(m_currentGuiIndex);
-	}
-
-	if (*m_useVerticalSpacerAttrPtr){
-		QLayout* layoutPtr = m_guiContainerPtr->layout();
-		if (layoutPtr != NULL){
-			QSpacerItem* verticalSpacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-			layoutPtr->addItem(verticalSpacer);
-		}
 	}
 
 	GetWidget()->setVisible(keepGlobalVisible);
@@ -463,22 +483,6 @@ void CComposedParamsSetGuiComp::OnGuiModelDetached()
 		for (int i = toolBox->count() - 1; i >= 0; i--){
 			toolBox->removeItem(i);
 		}
-	}
-	else{
-		QLayout* layout = m_guiContainerPtr->layout();
-		int layoutWidgetsCount = layout->count();
-		for (int i = layoutWidgetsCount - 1; i >= 0; i--){
-			QLayoutItem* layoutItemPtr = layout->itemAt(i);
-			Q_ASSERT(layoutItemPtr != NULL);
-
-			QWidget* widgetPtr = layoutItemPtr->widget();
-
-			if (widgetPtr != NULL){
-				widgetPtr->hide();
-			}
-		}
-
-		qDeleteAll(layout->children());
 	}
 
 	m_connectedEditorsMap.clear();
