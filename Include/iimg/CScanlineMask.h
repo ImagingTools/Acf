@@ -291,6 +291,7 @@ void CScanlineMask::CalculateMaskFromBitmap(const iimg::IBitmap& bitmap, const i
 			}
 
 			if ((pixel == 0) && (left >= 0)){
+				right = x;
 				if (clipAreaPtr != NULL){
 					if (left < clipAreaPtr->GetLeft()){
 						left = clipAreaPtr->GetLeft();
