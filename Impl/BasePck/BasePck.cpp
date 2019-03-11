@@ -248,6 +248,11 @@ I_EXPORT_COMPONENT(
 			"Filtered list of options",
 			"Option Options List Filter" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
 
+I_EXPORT_COMPONENT(
+			ParamsSetDelegator,
+			"Delegator of parameter set",
+			"Parameter Data Delegate" IM_CATEGORY(I_DATA_MODEL) IM_TAG("Model"));
+
 
 } // namespace BasePck
 
