@@ -65,15 +65,18 @@ void CSimpleFilePathParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& 
 		QString path = objectPtr->GetPath();
 		ifile::IRelativeFilePath* relativeFilePathPtr = dynamic_cast<ifile::IRelativeFilePath*>(objectPtr);
 		if (relativeFilePathPtr != NULL){
-			QFileInfo fileInfo(path);
-			QFileInfo baseInfo(relativeFilePathPtr->GetBasePath());
-			path = fileInfo.absoluteFilePath();
-			QString basePath = baseInfo.absoluteFilePath();
+			if (path.contains("/") || path.contains("\\")){
+				QFileInfo fileInfo(path);
+				path = fileInfo.absoluteFilePath();
 
-			if (!basePath.isEmpty() && path.startsWith(basePath)){
-				path.remove(basePath);
-				if (path.startsWith("/")){
-					path.remove(0, 1);
+				QFileInfo baseInfo(relativeFilePathPtr->GetBasePath());
+				QString basePath = baseInfo.absoluteFilePath();
+
+				if (!basePath.isEmpty() && path.startsWith(basePath)){
+					path.remove(basePath);
+					if (path.startsWith("/")){
+						path.remove(0, 1);
+					}
 				}
 			}
 		}
