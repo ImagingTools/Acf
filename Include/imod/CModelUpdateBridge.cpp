@@ -9,7 +9,8 @@ namespace imod
 
 CModelUpdateBridge::CModelUpdateBridge(istd::IChangeable* changeablePtr, int updateFlags)
 :	m_changeablePtr(changeablePtr),
-	m_updateFlags(updateFlags)
+	m_updateFlags(updateFlags),
+	m_mutex(QMutex::Recursive)
 {
 }
 
