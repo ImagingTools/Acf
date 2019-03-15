@@ -12,9 +12,6 @@
 #include <imod/IObserver.h>
 
 
-#include <atomic>
-
-
 namespace imod
 {
 
@@ -75,6 +72,7 @@ public:
 private:
 	bool IsAttached(const imod::IModel* modelPtr) const;
 
+private:
 	typedef QVector<imod::IModel*> Models;
 	Models m_models;
 
