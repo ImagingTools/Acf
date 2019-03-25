@@ -2,8 +2,8 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4709" Description="ACF"/>
-            <Version Id="1" Number="1995" Description="ACF-Solutions"/>
+            <Version Id="0" Number="4766" Description="ACF"/>
+            <Version Id="1" Number="2052" Description="ACF-Solutions"/>
             <Version Id="1023" Number="330496" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
@@ -25,8 +25,26 @@
         <Element Id="ExtendedConsoleGui" PackageId="QtViewPck" ComponentId="ExtendedConsoleGui">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="DefaultStatusIcon" Type="String" ExportId="DefaultStatusIcon">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="DefaultStatusText" Type="Text" ExportId="DefaultStatusText">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FixedHeight" Type="Integer" ExportId="FixedHeight">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FixedWidth" Type="Integer" ExportId="FixedWidth">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="FloatingToolbar" Type="Boolean" ExportId="FloatingToolbar">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="StatusInfoGui" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="ShapeInfoGui"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StyleSheet" Type="String" ExportId="StyleSheet">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="ToolBar" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="CommandsToolBar"/>
@@ -66,17 +84,20 @@
                     <AttributeInfo Id="ColorSchema" Type="Reference" ExportId="ColorSchema">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
-                    <AttributeInfo Id="DefaultStatusIcon" Type="String" ExportId="DefaultStatusIcon">
-                        <Data IsEnabled="false"/>
-                    </AttributeInfo>
-                    <AttributeInfo Id="DefaultStatusText" Type="Text" ExportId="DefaultStatusText">
+                    <AttributeInfo Id="DistanceShape" Type="Reference" ExportId="DistanceShape">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FitMode" Type="Integer" ExportId="FitMode">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
+                    <AttributeInfo Id="FullScreenModeSupported" Type="Boolean" ExportId="FullScreenModeSupported">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="ShapeStatusInfo" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="ShapeStatusInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="StyleSheet" Type="String" ExportId="StyleSheet">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="UseAntialiasing" Type="Boolean" ExportId="UseAntialiasing">
                         <Data IsEnabled="false"/>
@@ -106,6 +127,7 @@
         <Interface InterfaceId="imod::IModel" ComponentId="ViewProvider"/>
         <Interface InterfaceId="iqt2d::IViewProvider" ComponentId="ViewProvider"/>
         <Interface InterfaceId="iqtgui::IGuiObject" ComponentId="ExtendedConsoleGui"/>
+        <Interface InterfaceId="istd::IPolymorphic" ComponentId="ExtendedConsoleGui"/>
     </ExportedInterfaces>
     <ExportedComponents>
         <Component ExportedId="VisualStatus" ComponentId="ExtendedConsoleGui/VisualStatus"/>
