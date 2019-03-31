@@ -6,6 +6,7 @@
 #include <istd/TArray.h>
 #include <imath/TVector.h>
 #include <imath/TFulcrumGridFunctionBase.h>
+#include <imath/CVarMatrix.h>
 #include <imath/CSplineSegmentFunction.h>
 
 
