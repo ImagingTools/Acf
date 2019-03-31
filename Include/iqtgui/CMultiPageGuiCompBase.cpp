@@ -54,11 +54,13 @@ bool CMultiPageGuiCompBase::EnsurePageInitialized(int pageIndex)
 
 int CMultiPageGuiCompBase::GetLogicalPageIndex(int physicalWidgetIndex) const
 {
-	for (		PageIndexToInfoMap::ConstIterator pageInfoIter = m_pageIndexToInfoMap.constBegin();
-				pageInfoIter != m_pageIndexToInfoMap.constEnd();
-				++pageInfoIter){
-		if (pageInfoIter->widgetIndex == physicalWidgetIndex){
-			return pageInfoIter.key();
+	if (physicalWidgetIndex >= 0){
+		for (		PageIndexToInfoMap::ConstIterator pageInfoIter = m_pageIndexToInfoMap.constBegin();
+					pageInfoIter != m_pageIndexToInfoMap.constEnd();
+					++pageInfoIter){
+			if (pageInfoIter->widgetIndex == physicalWidgetIndex){
+				return pageInfoIter.key();
+			}
 		}
 	}
 
