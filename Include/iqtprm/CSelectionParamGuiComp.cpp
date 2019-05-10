@@ -73,6 +73,8 @@ void CSelectionParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*cha
 		case UM_RADIOBUTTON_VERTICAL:
 			UpdateRadioButtonView();
 			break;
+		default:
+			Q_ASSERT(false);
 	}
 
 	UpdateDescriptionFrame();
