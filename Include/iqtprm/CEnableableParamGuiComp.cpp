@@ -4,7 +4,6 @@
 namespace iqtprm
 {
 
-
 // protected methods
 
 // reimplemented (iqtgui::TGuiObserverWrap)
@@ -33,8 +32,6 @@ void CEnableableParamGuiComp::UpdateModel() const
 
 	bool isEnabled = EnableableCheck->isChecked();
 	if (isEnabled != objectPtr->IsEnabled()){
-		istd::CChangeNotifier notifier(objectPtr);
-
 		objectPtr->SetEnabled(isEnabled);
 	}
 }
@@ -46,7 +43,6 @@ void CEnableableParamGuiComp::UpdateGui(const istd::IChangeable::ChangeSet& /*ch
 
 	iprm::IEnableableParam* objectPtr = GetObservedObject();
 	if (objectPtr != NULL){
-		
 		EnableableCheck->setChecked(objectPtr->IsEnabled());
 		EnableableCheck->setEnabled(objectPtr->IsEnablingAllowed());		
 	}

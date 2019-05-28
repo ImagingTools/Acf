@@ -15,6 +15,12 @@ namespace iprm
 class IEnableableParam: virtual public iser::ISerializable
 {
 public:
+
+	enum ChangeFlags
+	{
+		CF_ENABLED = 0x089347
+	};
+
 	/**
 		Return a \c true, if something is enabled.
 	*/

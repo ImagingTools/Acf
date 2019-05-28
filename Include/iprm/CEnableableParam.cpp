@@ -11,6 +11,11 @@ namespace iprm
 {
 
 
+// static constants
+static istd::IChangeable::ChangeSet s_enabledChange(iprm::IEnableableParam::CF_ENABLED, "Enabled");
+static istd::IChangeable::ChangeSet s_disabledChange(iprm::IEnableableParam::CF_ENABLED, "Disabled");
+
+
 CEnableableParam::CEnableableParam(bool isEnabled)
 :	m_isEnabled(isEnabled)
 {
@@ -38,8 +43,8 @@ bool CEnableableParam::SetEnabled(bool isEnabled)
 	}
 
 	if (isEnabled != m_isEnabled){
-		istd::CChangeNotifier changePtr(this);
-	
+		istd::CChangeNotifier notifier(this, isEnabled? &s_enabledChange: &s_disabledChange);
+
 		m_isEnabled = isEnabled;
 	}
 
