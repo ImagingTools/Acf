@@ -58,8 +58,9 @@ protected:
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentDestroyed();
 
-private slots:
+private Q_SLOTS:
 	void OnKeyPressed(char ch);
+	void OnEventLoopStarted();
 
 private:
 	class RuntimeStatus: public ibase::IRuntimeStatusProvider

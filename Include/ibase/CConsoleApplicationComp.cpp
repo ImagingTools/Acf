@@ -1,6 +1,9 @@
 #include <ibase/CConsoleApplicationComp.h>
 
 
+// Qt includes
+#include<QtCore/QTimer>
+
 // ACF includes
 #include <icomp/CCompositeComponent.h>
 
@@ -28,18 +31,23 @@ bool CConsoleApplicationComp::InitializeApplication(int argc, char** argv)
 	}
 
 	if (!m_applicationPtr.IsValid()){
-		if (QCoreApplication::instance() != NULL)
-		{
+		if (QCoreApplication::instance() != NULL){
 			m_applicationPtr.SetPtr(QCoreApplication::instance(), false);
 		}
-		else
-		{
+		else{
 			s_argc = argc;
+
 			m_applicationPtr.SetPtr(new QCoreApplication(s_argc, argv), true);
 			if (!m_applicationPtr.IsValid()){
 				return false;
 			}
 		}
+	}
+
+	if (!m_applicationPtr.IsValid()){
+		SendCriticalMessage(0, "Application could not be initialized");
+
+		return false;
 	}
 
 	connect(&m_consoleReader, SIGNAL(KeyPressedSignal(char)), this, SLOT(OnKeyPressed(char)));
@@ -49,11 +57,6 @@ bool CConsoleApplicationComp::InitializeApplication(int argc, char** argv)
 	if (m_applicationInfoCompPtr.IsValid()){
 		QCoreApplication::setOrganizationName(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_COMPANY_NAME));
 		QCoreApplication::setApplicationName(m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_NAME));
-	}
-
-	for (int i = 0; i < m_componentsToInitializeCompPtr.GetCount(); ++i){
-		istd::IPolymorphic* componentPtr = m_componentsToInitializeCompPtr[i];
-		Q_UNUSED(componentPtr);
 	}
 
 	return true;
@@ -70,8 +73,8 @@ int CConsoleApplicationComp::Execute(int argc, char** argv)
 		return -1;
 	}
 
-	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
-
+	QTimer::singleShot(0, this, SLOT(OnEventLoopStarted()));
+	
 	int retVal = m_applicationPtr->exec();
 
 	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_SHUTDOWN);
@@ -108,6 +111,19 @@ void CConsoleApplicationComp::OnComponentDestroyed()
 	m_consoleReader.Stop();
 
 	BaseClass::OnComponentDestroyed();
+}
+
+
+void CConsoleApplicationComp::OnEventLoopStarted()
+{
+	Q_ASSERT(qApp->startingUp() == false);
+
+	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+
+	for (int i = 0; i < m_componentsToInitializeCompPtr.GetCount(); ++i){
+		istd::IPolymorphic* componentPtr = m_componentsToInitializeCompPtr[i];
+		Q_UNUSED(componentPtr);
+	}
 }
 
 

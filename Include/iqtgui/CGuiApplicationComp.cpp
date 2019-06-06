@@ -3,6 +3,7 @@
 
 // Qt includes
 #include <QtCore/QString>
+#include <QtCore/QTimer>
 #include <QtCore/QtGlobal>
 #include <QtGui/QIcon>
 #if QT_VERSION >= 0x050000
@@ -155,7 +156,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 			m_lastWidgetGeometry = m_mainWidgetPtr->geometry();
 
-			m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+			QTimer::singleShot(0, this, SLOT(OnEventLoopStarted()));
 
 			// Start application loop:
 			retVal = QApplication::exec();
@@ -169,7 +170,7 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 		}
 		else{
 			if (m_trayIconPtr.IsValid()){
-				m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+				QTimer::singleShot(0, this, SLOT(OnEventLoopStarted()));
 
 				// Start application loop:
 				retVal = QApplication::exec();
@@ -277,6 +278,14 @@ void CGuiApplicationComp::ShowWindow()
 		default:
 			m_mainWidgetPtr->show();
 	}
+}
+
+
+void CGuiApplicationComp::OnEventLoopStarted()
+{
+	m_runtimeStatus.SetRuntimeStatus(ibase::IRuntimeStatusProvider::RS_RUNNING);
+
+	Q_ASSERT(qApp->startingUp() == false);
 }
 
 
