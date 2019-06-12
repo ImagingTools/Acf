@@ -230,9 +230,10 @@ int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 	Q_ASSERT(index < GetParamsSetsCount());
 
 	int retVal = 0;
+	int fixedCount = m_fixedParamSetsCompPtr.GetCount();
 
 	if (IsParameterCreationSupported()){
-		if ((index < 0) || (index >= m_fixedParamSetsCompPtr.GetCount())){
+		if ((index < 0) || (index >= fixedCount)){
 			retVal |= MF_SUPPORT_INSERT | MF_SUPPORT_SWAP | MF_SUPPORT_RENAME;
 			
 			if (*m_allowDisabledAttrPtr){
@@ -253,8 +254,9 @@ int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 	}
 
 	int userFlags = 0;
-	if ((index >= m_fixedParamSetsCompPtr.GetCount()) && (index < CParamsManagerCompBase::GetParamsSetsCount())){
-		userFlags = m_paramSets[index]->userFlags;
+
+	if ((index >= fixedCount) && (index < CParamsManagerCompBase::GetParamsSetsCount())){
+		userFlags = m_paramSets[index - fixedCount]->userFlags;
 	}
 	else{
 		if (m_fixedParamsSetFlagsMap.contains(index)){
@@ -265,7 +267,7 @@ int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 	if ((index >= 0) && (index < CParamsManagerCompBase::GetParamsSetsCount())){
 		retVal |= MF_SUPPORT_EDIT;
 
-		if (index < m_fixedParamSetsCompPtr.GetCount() && !*m_allowEditFixedAttrPtr){
+		if (index < fixedCount && !*m_allowEditFixedAttrPtr){
 			retVal &= ~MF_SUPPORT_EDIT;
 		}
 	}
