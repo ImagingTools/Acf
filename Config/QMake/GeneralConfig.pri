@@ -110,6 +110,22 @@ win32-msvc*{
 
 		message("Using Visual Studio 2017");
 	}
+
+	contains(MSVC_VER, "16.0"){
+		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
+		COMPILER_NAME = VC15
+
+		CONFIG(release, debug|release){
+			#extra optimizations
+			QMAKE_CXXFLAGS += /Ot /Oi /Ob2 /GS-
+		}
+
+		win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
+			QMAKE_LFLAGS += /MACHINE:X64
+		}
+
+		message("Using Visual Studio 2019");
+	}
 }
 else{
 	win32-msvc2005{
@@ -190,11 +206,12 @@ win32{
 	}
 }
 
-
-CONFIGURATION_NAME = Release
-
 CONFIG(debug, debug|release){
 	CONFIGURATION_NAME = Debug
+}
+
+CONFIG(release, debug|release){
+	CONFIGURATION_NAME = Release
 }
 
 COMPILER_CODE = $$COMPILER_NAME
