@@ -10,7 +10,7 @@ namespace imod
 CModelUpdateBridge::CModelUpdateBridge(istd::IChangeable* changeablePtr, int updateFlags)
 :	m_changeablePtr(changeablePtr),
 	m_updateFlags(updateFlags),
-	m_mutex(QMutex::Recursive)
+	m_modelListMutex(QReadWriteLock::Recursive)
 {
 }
 
@@ -23,10 +23,10 @@ CModelUpdateBridge::~CModelUpdateBridge()
 
 IModel* CModelUpdateBridge::GetObservedModel(int modelIndex) const
 {
-	QMutexLocker lock(&m_mutex);
+	QReadLocker lock(&m_modelListMutex);
 
 	Q_ASSERT(modelIndex >= 0);
-	Q_ASSERT(modelIndex < m_models.size());
+	Q_ASSERT(modelIndex < m_models.count());
 
 	return m_models.at(modelIndex);
 }
@@ -34,14 +34,16 @@ IModel* CModelUpdateBridge::GetObservedModel(int modelIndex) const
 
 int CModelUpdateBridge::GetModelCount() const
 {
-	QMutexLocker lock(&m_mutex);
+	QReadLocker lock(&m_modelListMutex);
 
-	return int(m_models.size());
+	return m_models.count();
 }
 
 
 void CModelUpdateBridge::EnsureModelsDetached()
 {
+	QWriteLocker lock(&m_modelListMutex);
+
 	while (!m_models.isEmpty()){
 		imod::IModel* modelPtr = m_models.front();
 		Q_ASSERT(modelPtr != NULL);
@@ -55,7 +57,7 @@ void CModelUpdateBridge::EnsureModelsDetached()
 
 bool CModelUpdateBridge::IsModelAttached(const imod::IModel* modelPtr) const
 {
-	QMutexLocker lock(&m_mutex);
+	QReadLocker lock(&m_modelListMutex);
 
 	return IsAttached(modelPtr);
 }
@@ -65,7 +67,7 @@ bool CModelUpdateBridge::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 {
 	Q_ASSERT(modelPtr != NULL);
 
-	QMutexLocker lock(&m_mutex);
+	QWriteLocker lock(&m_modelListMutex);
 
 	if (!IsAttached(modelPtr)){
 		m_models.push_back(modelPtr);
@@ -81,7 +83,7 @@ bool CModelUpdateBridge::OnModelAttached(imod::IModel* modelPtr, istd::IChangeab
 
 bool CModelUpdateBridge::OnModelDetached(IModel* modelPtr)
 {
-	QMutexLocker lock(&m_mutex);
+	QWriteLocker lock(&m_modelListMutex);
 
 	Models::iterator iter = qFind(m_models.begin(), m_models.end(), modelPtr);
 	if (iter != m_models.end()){
@@ -96,13 +98,15 @@ bool CModelUpdateBridge::OnModelDetached(IModel* modelPtr)
 
 void CModelUpdateBridge::BeforeUpdate(IModel* modelPtr)
 {
-	QMutexLocker lock(&m_mutex);
+	QReadLocker lock(&m_modelListMutex);
 
 	if (IsAttached(modelPtr)) {
 		istd::IChangeable::ChangeSet changeSet = istd::IChangeable::GetAnyChange();
 		if (m_updateFlags & UF_DELEGATED){
 			changeSet = istd::IChangeable::GetDelegatedChanges();
 		}
+
+		lock.unlock();
 
 		m_changeablePtr->BeginChanges(changeSet);
 	}
@@ -111,7 +115,7 @@ void CModelUpdateBridge::BeforeUpdate(IModel* modelPtr)
 
 void CModelUpdateBridge::AfterUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet)
 {
-	QMutexLocker lock(&m_mutex);
+	QReadLocker lock(&m_modelListMutex);
 
 	if (IsAttached(modelPtr)) {
 		istd::IChangeable::ChangeSet changes(changeSet.GetDescription());
@@ -122,6 +126,8 @@ void CModelUpdateBridge::AfterUpdate(IModel* modelPtr, const istd::IChangeable::
 		if (m_updateFlags & UF_SOURCE){
 			changes += changeSet;
 		}
+
+		lock.unlock();
 
 		m_changeablePtr->EndChanges(changes);
 	}

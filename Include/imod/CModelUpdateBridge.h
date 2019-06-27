@@ -4,7 +4,7 @@
 
 // Qt includes
 #include <QtCore/QVector>
-#include <QtCore/QMutex>
+#include <QtCore/QReadWriteLock>
 
 // ACF includes
 #include <istd/IChangeable.h>
@@ -80,7 +80,7 @@ private:
 
 	int m_updateFlags;
 
-	mutable QMutex m_mutex;
+	mutable QReadWriteLock m_modelListMutex;
 };
 
 
