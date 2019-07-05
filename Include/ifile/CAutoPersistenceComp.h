@@ -242,6 +242,7 @@ private:
 #if QT_VERSION >= 0x050000
 	mutable istd::TDelPtr<QLockFile> m_lockFilePtr;
 #endif
+	mutable QMutex m_fileLockMutex;
 };
 
 
