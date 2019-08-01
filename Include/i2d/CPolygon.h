@@ -2,6 +2,9 @@
 #define i2d_CPolygon_included
 
 
+// Qt includes
+#include <QtGui/QPolygonF>
+
 // ACF includes
 #include <i2d/CPolypoint.h>
 
@@ -20,6 +23,10 @@ public:
 
 	static QByteArray GetTypeName();
 
+	CPolygon(const QPolygonF& qpolygon = QPolygonF());
+
+	operator QPolygonF() const;
+
 	/**
 		Check if the polygon contains a given point.
 	*/
@@ -34,17 +41,14 @@ public:
 		Flip object by X-axis.
 	*/
 	virtual void FlipByX();
-
 	/** 
 		Flip object by Y-axis.
 	*/
 	virtual void FlipByY();
-
 	/** 
 		Rotate object around its center.
 	*/
 	virtual void Rotate(double radians);
-
 	/** 
 		Reverses nodes order.
 	*/

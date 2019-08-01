@@ -31,6 +31,26 @@ QByteArray CPolygon::GetTypeName()
 
 // public methods
 
+CPolygon::CPolygon(const QPolygonF& qpolygon)
+{
+	for (int i = 0; i < qpolygon.size(); ++i){
+		InsertNode(qpolygon.at(i));
+	}
+}
+
+
+CPolygon::operator QPolygonF() const
+{
+	QPolygonF p;
+
+	for (int i = 0; i < GetNodesCount(); ++i){
+		p << QPointF(GetNodePos(i));
+	}
+
+	return p;
+}
+
+
 bool CPolygon::Contains(const i2d::CVector2d& point) const
 {
 	int nodesCount = GetNodesCount();
@@ -178,6 +198,14 @@ bool CPolygon::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
+// reimplemented (iser::IObject)
+
+QByteArray CPolygon::GetFactoryId() const
+{
+	return GetTypeName();
+}
+
+
 double CPolygon::GetArea(bool oriented) const
 {
 	const int nodesCount = GetNodesCount();
@@ -224,12 +252,6 @@ double CPolygon::GetPerimeter() const
 
 
 
-// reimplemented (iser::IObject)
-
-QByteArray CPolygon::GetFactoryId() const
-{
-	return GetTypeName();
-}
 
 
 } // namespace i2d
