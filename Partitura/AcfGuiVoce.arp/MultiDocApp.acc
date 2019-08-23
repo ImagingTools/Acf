@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4720" Description="ACF"/>
-            <Version Id="1" Number="2009" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="330496" Description="Qt Framework"/>
+            <Version Id="0" Number="4790" Description="ACF"/>
+            <Version Id="1" Number="2079" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="331008" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Framework for multi-document applications</Description>
@@ -57,6 +57,9 @@
                     </AttributeInfo>
                     <AttributeInfo Id="ApplicationInfo" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="ApplicationInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ComponentsToInitialize" Type="Reference[]" ExportId="ComponentsToInitialize">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="IconPath" Type="String" ExportId="IconPath">
                         <Data IsEnabled="false"/>

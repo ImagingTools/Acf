@@ -248,7 +248,7 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 	istd::CChangeNotifier notifier(this);
 	Q_UNUSED(notifier);
 
-	// check if we need to recreate the image
+	// Check if we need to recreate the image:
 	if (!m_externalBuffer.IsValid() && (m_image.format() == imageFormat) && (m_image.size() == imageSize)){
 		m_image.setDotsPerMeterX(1000);
 		m_image.setDotsPerMeterY(1000);
@@ -258,22 +258,11 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 
 	m_externalBuffer.Reset();
 
-	// else recreate the image
+	// Re-create the image:
 	if (imageFormat != QImage::Format_Invalid){
 		QImage image(imageSize, imageFormat);
-
-		Q_ASSERT(!image.isNull());
-		if (image.isNull()){
-			return false;
-		}
-
 		image.setDotsPerMeterX(1000);
 		image.setDotsPerMeterY(1000);
-
-		Q_ASSERT(!image.isNull());
-		if (image.isNull()){
-			return false;
-		}
 
 		return SetQImage(image);
 	}
@@ -628,16 +617,13 @@ bool CBitmap::SetQImage(const QImage& image)
 		QVector<QRgb> oldTable = m_image.colorTable();
 		m_image.setColorTable(s_colorTableGray);
 
-		if (!oldTable.isEmpty())
-		{
+		if (!oldTable.isEmpty()){
 			// decode color table first
 			int h = m_image.height();
 			int w = m_image.width();
-			for (int y = 0; y < h; y++)
-			{
+			for (int y = 0; y < h; y++){
 				uchar* scanlinePtr = m_image.scanLine(y);
-				for (int x = 0; x < w; x++)
-				{
+				for (int x = 0; x < w; x++){
 					scanlinePtr[x] = oldTable.at(scanlinePtr[x]);
 				}
 			}
