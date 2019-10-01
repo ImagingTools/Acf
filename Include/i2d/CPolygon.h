@@ -66,6 +66,7 @@ public:
 
 	// reimplemented (istd::IChangeable)
 	virtual bool CopyFrom(const IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual istd::IChangeable* CloneMe(CompatibilityMode mode = CM_WITHOUT_REFS) const;
 
 	// reimplemented (iser::IObject)
 	virtual QByteArray GetFactoryId() const;

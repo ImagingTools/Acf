@@ -198,6 +198,19 @@ bool CPolygon::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 }
 
 
+istd::IChangeable* CPolygon::CloneMe(CompatibilityMode mode) const
+{
+	istd::TDelPtr<CPolygon> clonePtr(new CPolygon);
+
+	if (clonePtr->CopyFrom(*this, mode)){
+		return clonePtr.PopPtr();
+	}
+
+	return NULL;
+}
+
+
+
 // reimplemented (iser::IObject)
 
 QByteArray CPolygon::GetFactoryId() const
