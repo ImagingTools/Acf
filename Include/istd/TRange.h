@@ -637,7 +637,7 @@ inline ValueType TRange<ValueType>::GetValueFromAlpha(double alpha) const
 template <typename ValueType>
 inline double TRange<ValueType>::GetAlphaFromValue(ValueType value) const
 {
-	return (value - GetMinValue()) / GetLength();
+	return static_cast<double>(value - GetMinValue()) / static_cast<double>(GetLength());
 }
 
 
