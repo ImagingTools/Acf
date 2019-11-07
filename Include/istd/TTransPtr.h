@@ -1,12 +1,9 @@
-#ifndef istd_TRetSmartPtr_included
-#define istd_TRetSmartPtr_included
+#ifndef istd_TTransPtr_included
+#define istd_TTransPtr_included
 
 
-// Qt includes
-#include <QtCore/QtGlobal>
-
-// ACF includes
-#include <istd/TPointerBase.h>
+// STD includes
+#include <memory>
 
 
 namespace istd
@@ -24,13 +21,6 @@ template <class Type>
 class TTransPtr
 {
 public:
-	/**
-		Constructor overtaking the pointer.
-		\param	pointer	pointer to overtake - \em warning: After this operation this pointer is invalid!
-	*/
-	TTransPtr(const TTransPtr& pointer);
-	~TTransPtr();
-
 	/**
 		Check, whether the object is in valid state.
 	*/
@@ -67,176 +57,76 @@ public:
 		Copy operator overtaking the pointer.
 		\param	pointer	pointer to overtake - \em warning: After this operation this pointer is invalid!
 	*/
-	TTransPtr& operator=(const TTransPtr& pointer);
 	Type& operator*() const;
 	Type* operator->() const;
 
+	std::shared_ptr<Type> m_impl;
+
 protected:
-	class RefCountBase: public TPointerBase<Type>
-	{
-	public:
-		typedef TPointerBase<Type> BaseClass;
-
-		explicit RefCountBase(Type* pointer)
-		:	BaseClass(pointer)
-		{
-			Q_ASSERT(pointer != NULL);
-		}
-		virtual ~RefCountBase(){}
-
-		// abstract methods
-		/**
-			Called if new pointer is attached to this internal handler.
-		*/
-		virtual void OnAttached() = 0;
-		/**
-			Called if pointer is detached from this internal handler.
-		*/
-		virtual void OnDetached() = 0;
-	};
-
 	TTransPtr();
-
-	/**
-		Detach counter object without changing of internal counter pointer.
-	*/
-	void Detach();
-	/**
-		Get internal counter.
-	*/
-	RefCountBase* GetInternalCounter(const TTransPtr& pointer) const;
-
-	RefCountBase* m_counterPtr;
 };
 
 
 // public methods
 
-template <class Type>
-TTransPtr<Type>::TTransPtr(const TTransPtr& pointer)
-:	m_counterPtr(pointer.m_counterPtr)
+template<class Type>
+inline bool TTransPtr<Type>::IsValid() const
 {
-	const_cast<TTransPtr&>(pointer).m_counterPtr = NULL;
+	return m_impl.get() != NULL;
 }
 
 
-template <class Type>
-TTransPtr<Type>::~TTransPtr()
+template<class Type>
+inline const Type * TTransPtr<Type>::GetPtr() const
 {
-	Detach();
+	return m_impl.get();
 }
 
 
-template <class Type>
-bool TTransPtr<Type>::IsValid() const
+template<class Type>
+inline Type * TTransPtr<Type>::GetPtr()
 {
-	return (m_counterPtr != NULL) && (m_counterPtr->GetPtr() != NULL);
+	return m_impl.get();
 }
 
 
-template <class Type>
-inline const Type* TTransPtr<Type>::GetPtr() const
+template<class Type>
+inline void TTransPtr<Type>::Reset()
 {
-	if (m_counterPtr != NULL){
-		return m_counterPtr->GetPtr();
-	}
-	else{
-		return NULL;
-	}
+	m_impl.reset();
 }
 
 
-template <class Type>
-inline Type* TTransPtr<Type>::GetPtr()
+template<class Type>
+inline void TTransPtr<Type>::Swap(TTransPtr<Type> & pointer)
 {
-	if (m_counterPtr != NULL){
-		return m_counterPtr->GetPtr();
-	}
-	else{
-		return NULL;
-	}
+	m_impl.swap(pointer);
 }
 
 
-template <class Type>
-void TTransPtr<Type>::Reset()
+template<class Type>
+inline Type & TTransPtr<Type>::operator*() const
 {
-	Detach();
-
-	m_counterPtr = NULL;
+	return *m_impl;
 }
 
 
-template <class Type>
-void TTransPtr<Type>::Swap(TTransPtr& pointer)
+template<class Type>
+inline Type * TTransPtr<Type>::operator->() const
 {
-	qSwap(m_counterPtr, pointer.m_counterPtr);
+	return m_impl.get();
 }
 
 
-template <class Type>
-TTransPtr<Type>& TTransPtr<Type>::operator=(const TTransPtr& pointer)
+template<class Type>
+inline TTransPtr<Type>::TTransPtr()
 {
-	if (m_counterPtr != pointer.m_counterPtr){
-		Detach();
-
-		m_counterPtr = pointer.m_counterPtr;
-
-		const_cast<TTransPtr&>(pointer).m_counterPtr = NULL;
-	}
-
-	return *this;
-}
-
-
-template <class Type>
-inline Type& TTransPtr<Type>::operator*() const
-{
-	Q_ASSERT(m_counterPtr != NULL);
-	Q_ASSERT(m_counterPtr->GetPtr() != NULL);
-
-	return *m_counterPtr->GetPtr();
-}
-
-
-template <class Type>
-inline Type* TTransPtr<Type>::operator->() const
-{
-	Q_ASSERT(m_counterPtr != NULL);
-	Q_ASSERT(m_counterPtr->GetPtr() != NULL);
-
-	return m_counterPtr->GetPtr();
-}
-
-
-// protected methods
-
-template <class Type>
-TTransPtr<Type>::TTransPtr()
-:	m_counterPtr(NULL)
-{
-}
-
-
-template <class Type>
-inline void TTransPtr<Type>::Detach()
-{
-	if (m_counterPtr != NULL){
-		m_counterPtr->OnDetached();
-	}
-}
-
-
-template <class Type>
-typename TTransPtr<Type>::RefCountBase* TTransPtr<Type>::GetInternalCounter(const TTransPtr& pointer) const
-{
-	return pointer.m_counterPtr;
 }
 
 
 } // namespace istd
 
 
-#endif // !istd_TRetSmartPtr_included
+#endif // !istd_TTransPtr_included
 
 
