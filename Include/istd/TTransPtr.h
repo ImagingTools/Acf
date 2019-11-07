@@ -72,21 +72,21 @@ protected:
 template<class Type>
 inline bool TTransPtr<Type>::IsValid() const
 {
-	return m_impl.get() != NULL;
+	return m_impl.data() != NULL;
 }
 
 
 template<class Type>
 inline const Type * TTransPtr<Type>::GetPtr() const
 {
-	return m_impl.get();
+	return m_impl.data();
 }
 
 
 template<class Type>
 inline Type * TTransPtr<Type>::GetPtr()
 {
-	return m_impl.get();
+	return m_impl.data();
 }
 
 
@@ -114,7 +114,7 @@ inline Type & TTransPtr<Type>::operator*() const
 template<class Type>
 inline Type * TTransPtr<Type>::operator->() const
 {
-	return m_impl.get();
+	return m_impl.data();
 }
 
 
