@@ -486,6 +486,8 @@ bool COptionsManager::CopyFrom(const IChangeable& object, CompatibilityMode /*mo
 {
 	const iprm::COptionsManager* sourcePtr = dynamic_cast<const iprm::COptionsManager*>(&object);
 	if (sourcePtr != NULL){
+		istd::CChangeNotifier changeNotifier(this);
+
 		m_options.clear();
 
 		int optionsCount = sourcePtr->m_options.count();
