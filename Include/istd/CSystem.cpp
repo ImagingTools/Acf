@@ -467,7 +467,9 @@ QString CSystem::GetCompilerVariable(const QString& varName)
 #elif defined(__INTEL_COMPILER)
 		return "ICC";
 #elif defined(_MSC_VER)
-#if _MSC_VER >= 1910
+#if _MSC_VER >= 1920
+		QString retVal = "VC16";
+#elif _MSC_VER >= 1910
 		QString retVal = "VC15";
 #elif _MSC_VER >= 1900
 		QString retVal = "VC14";
