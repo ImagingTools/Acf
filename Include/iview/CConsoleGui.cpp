@@ -6,6 +6,7 @@
 
 // Qt includes
 #include <QtCore/QDebug>
+#include <QtCore/QTimer>
 #include <QtGui/QWheelEvent>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QFrame>
@@ -727,11 +728,28 @@ bool CConsoleGui::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 		break;
 	}
 
+	case QEvent::Close:
+	{
+		if (IsFullScreenMode())
+		{
+			eventPtr->accept();
+			QTimer::singleShot(0, this, SLOT(OnStopFullScreen()));
+			return true;
+		}
+		break;
+	}
+
 	default:
 		break;
 	}
 
 	return BaseClass::eventFilter(sourcePtr, eventPtr);
+}
+
+
+void CConsoleGui::OnStopFullScreen()
+{
+	SetFullScreenMode(false);
 }
 
 
