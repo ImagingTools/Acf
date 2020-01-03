@@ -20,18 +20,20 @@ namespace iwidgets
 
 void ClearLayout(QLayout* layout)
 {
-	while (QLayoutItem* item = layout->takeAt(0)){
-		QWidget* widgetPtr = item->widget();
-		if (widgetPtr != NULL) {
-			delete widgetPtr;
-		}
+	if (layout != NULL){
+		while (QLayoutItem* item = layout->takeAt(0)){
+			QWidget* widgetPtr = item->widget();
+			if (widgetPtr != NULL) {
+				delete widgetPtr;
+			}
 		
-		QLayout* childLayoutPtr = item->layout();
-		if (childLayoutPtr != NULL){
-			ClearLayout(childLayoutPtr);
-		}
+			QLayout* childLayoutPtr = item->layout();
+			if (childLayoutPtr != NULL){
+				ClearLayout(childLayoutPtr);
+			}
 
-		delete item;
+			delete item;
+		}
 	}
 }
 
