@@ -80,6 +80,9 @@ iqtprm.file = ../../Include/iqtprm/QMake/iqtprm.pro
 SUBDIRS += ipackage
 ipackage.file = ../../Include/ipackage/QMake/ipackage.pro
 
+SUBDIRS += itest
+itest.file = ../../Include/itest/QMake/itest.pro
+
 
 # Component packages (build only for desktop platforms)
 !macx-ios*{

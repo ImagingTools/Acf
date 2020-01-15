@@ -730,10 +730,11 @@ bool CConsoleGui::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 
 	case QEvent::Close:
 	{
-		if (IsFullScreenMode())
-		{
+		if (IsFullScreenMode()){
 			eventPtr->accept();
+	
 			QTimer::singleShot(0, this, SLOT(OnStopFullScreen()));
+			
 			return true;
 		}
 		break;
