@@ -67,6 +67,21 @@ public:
 		MIT_MODIFICATION_TIME,
 
 		/**
+			Version of the creation tool given as a QString.
+		*/
+		MIT_CREATOR_VERSION,
+
+		/**
+			Version of the document given as a QString.
+		*/
+		MIT_DOCUMENT_VERSION,
+
+		/**
+			Checksum of the document data.
+		*/
+		MIT_CONTENT_CHECKSUM,
+
+		/**
 			Starting of user defined meta info types.
 		*/
 		MIT_USER = 1024

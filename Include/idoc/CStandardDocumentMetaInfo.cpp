@@ -83,6 +83,15 @@ QString CStandardDocumentMetaInfo::GetMetaInfoName(int metaInfoType) const
 	case MIT_MODIFICATION_TIME:
 		return QObject::tr("Modification Time");
 
+	case MIT_CREATOR_VERSION:
+		return QObject::tr("Creator Version");
+
+	case MIT_DOCUMENT_VERSION:
+		return QObject::tr("Version");
+
+	case MIT_CONTENT_CHECKSUM:
+		return QObject::tr("Checksum");
+
 	default:
 		return emptyName;
 	}
@@ -111,6 +120,15 @@ QString CStandardDocumentMetaInfo::GetMetaInfoDescription(int metaInfoType) cons
 
 	case MIT_MODIFICATION_TIME:
 		return QObject::tr("Time of last document's modification");
+
+	case MIT_CREATOR_VERSION:
+		return QObject::tr("Version of the creation tool");
+
+	case MIT_DOCUMENT_VERSION:
+		return QObject::tr("Version of the document");
+
+	case MIT_CONTENT_CHECKSUM:
+		return QObject::tr("Checksum of the document content");
 
 	default:
 		return emptyName;
