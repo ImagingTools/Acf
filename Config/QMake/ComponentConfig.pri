@@ -17,6 +17,11 @@ CONFIG += link_prl
 	CONFIG += plugin no_plugin_name_prefix
 	QMAKE_CFLAGS += -fPIC
 	QMAKE_EXTENSION_SHLIB = arp
+
+	# due a bug in QMake we need manual renaming of the package files:
+	linux{
+		QMAKE_POST_LINK += mv $$DESTDIR/$${TARGET}.so $$DESTDIR/$${TARGET}.arp
+	}
 }
 else{
 	CONFIG += dll
@@ -28,3 +33,4 @@ SOURCES += $$_PRO_FILE_PWD_/../*.cpp
 isEqual(DEBUG_INFO_ENABLED_FOR_RELEASE, true){
 	include(MsvcEnableDebugInfo.pri)
 }
+
