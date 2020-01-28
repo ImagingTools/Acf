@@ -71,12 +71,22 @@ void CQtVersionInfoComp::OnComponentCreated()
 quint32 CQtVersionInfoComp::GetRuntimeVersion()
 {
 	QString qtVersionString = qVersion();
-	int major = qtVersionString.mid(0, 1).toInt();
-	int minor = qtVersionString.mid(2, 1).toInt();
-	int fix = qtVersionString.mid(4, 1).toInt();
-			
+	
+	int majorVersionSeparatorIndex = qtVersionString.indexOf(".");
+	int minorVersionSeparatorIndex = qtVersionString.indexOf(".", majorVersionSeparatorIndex + 1);
+
+	QString majorVersionString = qtVersionString.mid(0, majorVersionSeparatorIndex);
+	QString minorVersionString = qtVersionString.mid(majorVersionSeparatorIndex + 1, minorVersionSeparatorIndex - (majorVersionString.count() + 1));
+	QString fixVersionString = qtVersionString.right(qtVersionString.count() - minorVersionSeparatorIndex - 1);
+
+	int major = majorVersionString.toInt();
+	int minor = minorVersionString.toInt();
+	int fix = fixVersionString.toInt();
+
 	return (major << 16) | (minor << 8) | fix;
 }
 
 
 } // namespace ibase
+
+
