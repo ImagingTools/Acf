@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>396</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">QWidget[MiniWidgetContainer=true]
 {
-	background-color: #ebebee;
+	background-color: white;
 	color: #aaccff;
 	boder-radius: 5px;
 }
@@ -32,10 +32,11 @@ QLabel#PageLabel
 QWidget#PageHeaderFrame
 {
 	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 rgb(235,235,238), stop: 0.9 rgb(220,220,223),
-                                 stop: 0.97 rgb(220,220,223), stop: 1.0 rgb(190,190,193));
-	border-bottom: 1px solid  rgb(170,170,170);
-}</string>
+                                 stop: 0 rgb(252,252,255), stop: 0.9 rgb(242,242,245),
+                                 stop: 0.97 rgb(242,242,245), stop: 1.0 rgb(237,237,237));
+	border-bottom: 1px solid  rgb(225,225,230);
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="spacing">

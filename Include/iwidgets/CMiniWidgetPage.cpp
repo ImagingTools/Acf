@@ -25,8 +25,8 @@ CMiniWidgetPage::CMiniWidgetPage(QWidget* parentPtr)
 	QGraphicsDropShadowEffect* shadowPtr = new QGraphicsDropShadowEffect;
 	shadowPtr->setXOffset(0);
 	shadowPtr->setYOffset(0);
-	shadowPtr->setBlurRadius(8);
-	shadowPtr->setColor(qRgb(128, 128, 128));
+	shadowPtr->setBlurRadius(3);
+	shadowPtr->setColor(qRgb(170, 170, 170));
 
 	setGraphicsEffect(shadowPtr);
 }
@@ -94,25 +94,25 @@ void CMiniWidgetPage::OnUpdatePalette()
 	currentPalette.setBrush(QPalette::ButtonText, QColor("#335777"));
 	currentPalette.setBrush(QPalette::BrightText, QColor("#335777"));
 
-	currentPalette.setBrush(QPalette::Active, QPalette::Button, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Inactive, QPalette::Button, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Disabled, QPalette::Button, QColor("#ebebee"));
+	//currentPalette.setBrush(QPalette::Active, QPalette::Button, QColor("white"));
+	//currentPalette.setBrush(QPalette::Inactive, QPalette::Button, QColor("white"));
+	//currentPalette.setBrush(QPalette::Disabled, QPalette::Button, QColor("white"));
 
-	currentPalette.setBrush(QPalette::Active, QPalette::Shadow, QColor("#7d785b"));
-	currentPalette.setBrush(QPalette::Inactive, QPalette::Shadow, QColor("#7d785b"));
-	currentPalette.setBrush(QPalette::Disabled, QPalette::Shadow, QColor("#7d785b"));
+	//currentPalette.setBrush(QPalette::Active, QPalette::Shadow, QColor("#fefefe"));
+	//currentPalette.setBrush(QPalette::Inactive, QPalette::Shadow, QColor("#fefefe"));
+	//currentPalette.setBrush(QPalette::Disabled, QPalette::Shadow, QColor("#fefefe"));
 
-	currentPalette.setBrush(QPalette::Active, QPalette::Highlight, QColor("#7d785b"));
-	currentPalette.setBrush(QPalette::Inactive, QPalette::Highlight, QColor("#7d785b"));
-	currentPalette.setBrush(QPalette::Disabled, QPalette::Highlight, QColor("#7d785b"));
-	
-	currentPalette.setBrush(QPalette::Active, QPalette::Base, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Inactive, QPalette::Base, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Disabled, QPalette::Base, QColor("#ebebee"));
+	//currentPalette.setBrush(QPalette::Active, QPalette::Highlight, QColor("#fefefe"));
+	//currentPalette.setBrush(QPalette::Inactive, QPalette::Highlight, QColor("#fefefe"));
+	//currentPalette.setBrush(QPalette::Disabled, QPalette::Highlight, QColor("#fefefe"));
+	//
+	//currentPalette.setBrush(QPalette::Active, QPalette::Base, QColor("white"));
+	//currentPalette.setBrush(QPalette::Inactive, QPalette::Base, QColor("white"));
+	//currentPalette.setBrush(QPalette::Disabled, QPalette::Base, QColor("white"));
 
-	currentPalette.setBrush(QPalette::Active, QPalette::Background, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Inactive, QPalette::Background, QColor("#ebebee"));
-	currentPalette.setBrush(QPalette::Disabled, QPalette::Background, QColor("#ebebee"));
+	//currentPalette.setBrush(QPalette::Active, QPalette::Background, QColor("white"));
+	//currentPalette.setBrush(QPalette::Inactive, QPalette::Background, QColor("white"));
+	//currentPalette.setBrush(QPalette::Disabled, QPalette::Background, QColor("white"));
 
 	m_pageWidgetPtr->setPalette(currentPalette);
 

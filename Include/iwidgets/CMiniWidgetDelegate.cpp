@@ -55,8 +55,7 @@ QWidget* CMiniWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, in
 
 	Q_ASSERT(boxLayoutPtr != NULL);
 
-	boxLayoutPtr->setMargin(11);
-	boxLayoutPtr->setSpacing(11);
+	boxLayoutPtr->setMargin(6);
 
 	m_containerGuiFlags = containerGuiFlags;
 	m_orientation = orientation;
