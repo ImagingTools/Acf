@@ -623,10 +623,10 @@ void CConsoleGui::UpdateCommands()
 
 	// points commands
 	if (ArePolylineButtonsVisible()){
-		m_pointsSelectCommand.SetVisuals(tr("Selection Mode"), tr("Selection"), tr("Object Selection Mode"), QIcon(":/Icons/PointsNone"));
+		m_pointsSelectCommand.SetVisuals(tr("Object Area Mode"), tr("Area"), tr("Object Area Mode"), QIcon(":/Icons/PointsNone"));
 		m_commands.InsertChild(&m_pointsSelectCommand);
 
-		m_pointsMoveCommand.SetVisuals(tr("Modify Mode"), tr("Modify"), tr("Object Modification Mode"), QIcon(":/Icons/PointsMove"));
+		m_pointsMoveCommand.SetVisuals(tr("Move Mode"), tr("Move"), tr("Object Move Mode"), QIcon(":/Icons/PointsMove"));
 		m_commands.InsertChild(&m_pointsMoveCommand);
 
 		m_pointsAddCommand.SetVisuals(tr("Add Points"), tr("Add"), tr("Point Adding Mode"), QIcon(":/Icons/PointsAdd"));
