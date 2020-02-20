@@ -75,6 +75,9 @@ protected:
 	};
 
 	// abstract methods
+	/**
+		Called when some model observed by dispatcher will be changed.
+	*/
 	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) = 0;
 
 private:
