@@ -40,7 +40,6 @@ QWidget* CMiniWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, in
 	QWidget* containerPtr = new QWidget(parentWidgetPtr);
 	containerPtr->setObjectName("WidgetsPanel");
 	containerPtr->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	containerPtr->setStyleSheet("QWidget#WidgetsPanel{background:white;}");
 
 	QBoxLayout* boxLayoutPtr = NULL;
 
@@ -55,7 +54,7 @@ QWidget* CMiniWidgetDelegate::CreateContainerWidget(QWidget* parentWidgetPtr, in
 
 	Q_ASSERT(boxLayoutPtr != NULL);
 
-	boxLayoutPtr->setMargin(6);
+	boxLayoutPtr->setMargin(0);
 
 	m_containerGuiFlags = containerGuiFlags;
 	m_orientation = orientation;

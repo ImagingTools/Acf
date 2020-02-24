@@ -16,16 +16,10 @@
   <property name="styleSheet">
    <string notr="true">QLabel#PageLabel
 {
-	color: #656565;
-	font-size: 12pt;
+	color: #757575;
+	font-size: 14pt;
 	font-weight: bold;
 	font-family: &quot;Segoe UI&quot;;
-}
-
-QWidget#PageHeaderFrame
-{
-	background: rgb(245,245,247);
-	border-bottom: 1px solid  rgb(235,235,238);
 }
 </string>
   </property>
