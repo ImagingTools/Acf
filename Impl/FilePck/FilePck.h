@@ -29,6 +29,7 @@
 #include <ifile/CApplicationInfoBasedFileNameComp.h>
 #include <ifile/CTextFileLogComp.h>
 #include <ifile/CTextFileLogStreamerComp.h>
+#include <ifile/CTempFileManagerComp.h>
 
 
 /**
@@ -57,6 +58,7 @@ typedef icomp::TModelCompWrap<ifile::CTimeStampFileNameParamComp> TimeStampFileN
 typedef icomp::TModelCompWrap<ifile::CApplicationInfoBasedFileNameComp> ApplicationInfoBasedFileName;
 typedef ifile::CTextFileLogComp TextFileLog;
 typedef ifile::CTextFileLogStreamerComp TextFileLogStreamer;
+typedef ifile::CTempFileManagerComp TempFileManager;
 
 
 } // namespace FilePck
