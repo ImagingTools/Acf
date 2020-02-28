@@ -278,6 +278,8 @@ bool CParamsManagerComp::CopyFrom(const istd::IChangeable& object, istd::IChange
 		return false;
 	}
 
+	istd::CChangeNotifier notifier(this, &istd::IChangeable::GetAllChanges());
+
 	int paramsCount = sourcePtr->GetParamsSetsCount();
 	if (!SetSetsCount(paramsCount)){
 		return false;
