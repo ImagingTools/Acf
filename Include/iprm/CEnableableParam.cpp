@@ -104,7 +104,7 @@ istd::IChangeable* CEnableableParam::CloneMe(istd::IChangeable::CompatibilityMod
 		return clonedPtr.PopPtr();
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 
