@@ -220,7 +220,7 @@ istd::IChangeable* CHierarchicalCommand::CloneMe(istd::IChangeable::Compatibilit
 		return clonedPtr.PopPtr();
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 
