@@ -199,15 +199,20 @@ bool CPrimitiveTypesSerializer::SerializeIntRanges(iser::IArchive& archive, istd
 bool CPrimitiveTypesSerializer::SerializeDateTime(iser::IArchive& archive, QDateTime& dateTime)
 {
 	if (archive.IsStoring()){
-		QString dateTimeString = dateTime.toString(s_timeFormat);
+		QString dateTimeString = dateTime.toString(Qt::ISODateWithMs);
 
 		return archive.Process(dateTimeString);
 	}
 	else{
 		QString dateTimeString;
-
 		if (archive.Process(dateTimeString)){
-			dateTime = QDateTime::fromString(dateTimeString, s_timeFormat);
+			// Check whether this string is an ISO-String
+			if (dateTimeString.contains("T")){
+				dateTime = QDateTime::fromString(dateTimeString, Qt::ISODateWithMs);
+			}
+			else{
+				dateTime = QDateTime::fromString(dateTimeString, s_timeFormat);
+			}
 
 			return true;
 		}
