@@ -206,6 +206,7 @@ bool CPrimitiveTypesSerializer::SerializeDateTime(iser::IArchive& archive, QDate
 	else{
 		QString dateTimeString;
 		if (archive.Process(dateTimeString)){
+#if QT_VERSION >= 0x050800
 			// Check whether this string is an ISO-String
 			if (dateTimeString.contains("T")){
 				dateTime = QDateTime::fromString(dateTimeString, Qt::ISODateWithMs);
@@ -213,7 +214,9 @@ bool CPrimitiveTypesSerializer::SerializeDateTime(iser::IArchive& archive, QDate
 			else{
 				dateTime = QDateTime::fromString(dateTimeString, s_timeFormat);
 			}
-
+#else
+			dateTime = QDateTime::fromString(dateTimeString, s_timeFormat);
+#endif
 			return true;
 		}
 	}
