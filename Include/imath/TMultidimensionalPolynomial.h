@@ -29,6 +29,11 @@ public:
 	typedef istd::TArray<Element, Dimensions> Coefficients;
 	typedef typename Coefficients::SizesType CoeffGridSize;
 
+#if _MSC_VER >= 1900
+	using ArgumentType = typename BaseClass::ArgumentType;
+	using ResultType = typename BaseClass::ResultType;
+#endif
+ 
 	TMultidimensionalPolynomial();
 	explicit TMultidimensionalPolynomial(const Coefficients& coefficients);
 
