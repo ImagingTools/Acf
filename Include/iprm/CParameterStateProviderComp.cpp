@@ -25,7 +25,7 @@ iprm::IParameterStateProvider::ParameterState CParameterStateProviderComp::GetSt
 		if (index >= 0){
 			iprm::TParamsPtr<iprm::IEnableableParam> stateParamPtr(&paramSet, *m_editActivationIdAttrPtr);
 			if (stateParamPtr.IsValid()){
-				return stateParamPtr->IsEnabled() ? PS_TRUE : PS_FALSE;
+				return stateParamPtr->IsEnabled() ? PS_ON : PS_OFF;
 			}
 		}
 	}

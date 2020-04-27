@@ -35,8 +35,8 @@ public:
 	enum ParameterState
 	{
 		PS_UNKNOWN,
-		PS_TRUE,
-		PS_FALSE
+		PS_ON,
+		PS_OFF
 	};
 
 	/**

@@ -77,9 +77,9 @@ void CComposedParamsSetGuiComp::UpdateEditor(const istd::IChangeable::ChangeSet&
 		Q_ASSERT(observedIds.size() == editors.size());
 
 		for (int i = 0; i < observedIds.size(); ++i){
-			bool editState = stateProviderPtr->GetState(*paramsSetPtr, observedIds[i], iprm::IParameterStateProvider::ST_EDIT);
+			iprm::IParameterStateProvider::ParameterState editState = stateProviderPtr->GetState(*paramsSetPtr, observedIds[i], iprm::IParameterStateProvider::ST_EDIT);
 			if (editors[i] != NULL){
-				editors[i]->SetReadOnly(!editState);
+				editors[i]->SetReadOnly(editState == iprm::IParameterStateProvider::PS_OFF);
 			}
 		}
 	}
