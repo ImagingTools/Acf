@@ -47,7 +47,7 @@
 #include <iprm/CParamsSetDelegatorComp.h>
 #include <iprm/CParameterStateProviderComp.h>
 #include <iprm/CTextParamComp.h>
-#include <iprm/CIdParam.h>
+#include <iprm/CIdParamComp.h>
 
 #include <i2d/CPosition2dComp.h>
 #include <i2d/CRectangleComp.h>
@@ -104,9 +104,7 @@ typedef icomp::TModelCompWrap<iprm::CFilteredOptionsListComp> FilteredOptionsLis
 typedef icomp::TModelCompWrap<iprm::CParamsSetDelegatorComp> ParamsSetDelegator;
 typedef iprm::CParameterStateProviderComp ParameterStateProvider;
 typedef icomp::TModelCompWrap<iprm::CTextParamComp> TextParam;
-typedef icomp::TModelCompWrap<
-			icomp::TMakeComponentWrap<
-							iprm::CIdParam, iprm::IIdParam, iser::ISerializable> > IdParam;
+typedef icomp::TModelCompWrap<iprm::CIdParamComp> IdParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
