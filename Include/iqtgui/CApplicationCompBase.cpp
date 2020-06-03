@@ -3,12 +3,10 @@
 
 // Qt includes
 #include <QtCore/QString>
-#include <QtCore/QTextStream>
-#include <QtCore/QFile>
-#ifdef Q_OS_LINUX
 #include <QtCore/QTimer>
 #include <QtCore/QEventLoop>
-#endif
+#include <QtCore/QTextStream>
+#include <QtCore/QFile>
 #include <QtGui/QIcon>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QStyle>
@@ -112,6 +110,9 @@ bool CApplicationCompBase::TryShowSplashScreen()
 #else
 		m_applicationPtr->processEvents(QEventLoop::ExcludeUserInputEvents);
 #endif
+		QEventLoop loop;
+		QTimer::singleShot(*m_splashTimeAttrPtr * 1000, &loop, &QEventLoop::quit);
+		loop.exec();
 
 		return true;
 	}
