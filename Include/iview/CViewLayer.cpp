@@ -66,7 +66,13 @@ IShapeView* CViewLayer::GetViewPtr() const
 
 bool CViewLayer::IsShapeConnected(IShape* shapePtr)
 {
-	return (m_shapes.find(shapePtr) != m_shapes.end());
+	for (ShapeList::iterator it = m_shapes.begin(); it != m_shapes.end(); ++it) {
+		if (it->shapePtr == shapePtr) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 
@@ -80,7 +86,7 @@ bool CViewLayer::ConnectShape(IShape* shapePtr)
 	i2d::CRect boundingBox = shapePtr->GetBoundingBox();
 	Q_ASSERT(boundingBox.IsValid());
 
-	m_shapes[shapePtr] = boundingBox;
+	m_shapes.push_back(ShapeWithBoundingBox(shapePtr, boundingBox));
 
 	OnAreaInvalidated(i2d::CRect::GetEmpty(), boundingBox);
 
@@ -96,7 +102,11 @@ int CViewLayer::GetShapesCount() const
 
 QList<iview::IShape*> CViewLayer::GetShapes() const
 {
-	return m_shapes.keys();
+	QList<iview::IShape*> result;
+	for (ShapeList::const_iterator it = m_shapes.begin(); it != m_shapes.end(); ++it) {
+		result.push_back(it->shapePtr);
+	}
+	return result;
 }
 
 
@@ -118,10 +128,10 @@ void CViewLayer::DisconnectAllShapes()
 void CViewLayer::DrawShapes(QPainter& drawContext)
 {
 	if (IsVisible()){
-		for (ShapeMap::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-			iview::IShape* shapePtr = iter.key();
+		for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+			iview::IShape* shapePtr = iter->shapePtr;
 			if (shapePtr->IsVisible()){
-				const i2d::CRect& boundingBox = iter.value();
+				const i2d::CRect& boundingBox = iter->box;
 				i2d::CRect updateRect = iqt::GetCRect(drawContext.clipRegion().boundingRect());
 
 				if (!updateRect.IsOutside(boundingBox)){
@@ -224,7 +234,13 @@ void CViewLayer::OnChangeShape(IShape* shapePtr)
 {
 	Q_ASSERT(shapePtr != NULL);
 
-	ShapeMap::iterator iter = m_shapes.find(shapePtr);
+	ShapeList::iterator iter = m_shapes.begin();
+	for (; iter != m_shapes.end(); ++iter) {
+		if (iter->shapePtr == shapePtr) {
+			break;
+		}
+	}
+
 	Q_ASSERT(iter != m_shapes.end());
 
 	OnChangeShapeElement(iter);
@@ -235,7 +251,13 @@ bool CViewLayer::DisconnectShape(IShape* shapePtr)
 {
 	Q_ASSERT(shapePtr != NULL);
 
-	ShapeMap::iterator iter = m_shapes.find(shapePtr);
+	ShapeList::iterator iter = m_shapes.begin();
+	for (; iter != m_shapes.end(); ++iter) {
+		if (iter->shapePtr == shapePtr) {
+			break;
+		}
+	}
+
 	if (iter != m_shapes.end()){
 		DisconnectShapeElement(m_shapes, iter);
 
@@ -251,9 +273,9 @@ bool CViewLayer::DisconnectShape(IShape* shapePtr)
 ITouchable::TouchState CViewLayer::IsTouched(istd::CIndex2d position) const
 {
 	if (IsVisible()){
-		for (ShapeMap::const_iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-			const iview::IShape* shapePtr = iter.key();
-			const i2d::CRect& boundingBox = iter.value();
+		for (ShapeList::const_iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+			const iview::IShape* shapePtr = iter->shapePtr;
+			const i2d::CRect& boundingBox = iter->box;
 			if (boundingBox.IsInside(position) && shapePtr->IsVisible()){
 				ITouchable::TouchState touchState = shapePtr->IsTouched(position);
 				if (touchState > ITouchable::TS_NONE){
@@ -270,9 +292,9 @@ ITouchable::TouchState CViewLayer::IsTouched(istd::CIndex2d position) const
 QString CViewLayer::GetShapeDescriptionAt(istd::CIndex2d position) const
 {
 	if (IsVisible()){
-		for (ShapeMap::const_iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-			const iview::IShape* shapePtr = iter.key();
-			const i2d::CRect& boundingBox = iter.value();
+		for (ShapeList::const_iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+			const iview::IShape* shapePtr = iter->shapePtr;
+			const i2d::CRect& boundingBox = iter->box;
 			if (boundingBox.IsInside(position) && shapePtr->IsVisible()){
 				ITouchable::TouchState touchState = shapePtr->IsTouched(position);
 				if (touchState > ITouchable::TS_NONE){
@@ -288,27 +310,27 @@ QString CViewLayer::GetShapeDescriptionAt(istd::CIndex2d position) const
 
 // protected methods
 
-bool CViewLayer::OnChangeShapeElement(ShapeMap::Iterator elementIter)
+bool CViewLayer::OnChangeShapeElement(ShapeList::Iterator elementIter)
 {
-	Q_ASSERT(elementIter.key() != NULL);
-	Q_ASSERT(GetBoundingBox().IsInside(elementIter.value()));
+	Q_ASSERT(elementIter->shapePtr != NULL);
+	Q_ASSERT(GetBoundingBox().IsInside(elementIter->box));
 
-	const i2d::CRect oldBoundingBox = elementIter.value();
-	const iview::IShape* shapePtr = elementIter.key();
+	const i2d::CRect oldBoundingBox = elementIter->box;
+	const iview::IShape* shapePtr = elementIter->shapePtr;
 	Q_ASSERT(shapePtr != NULL);
 
-	elementIter.value() = shapePtr->GetBoundingBox();
+	elementIter->box = shapePtr->GetBoundingBox();
 
-	OnAreaInvalidated(oldBoundingBox, elementIter.value());
+	OnAreaInvalidated(oldBoundingBox, elementIter->box);
 
 	return true;
 }
 
 
-void CViewLayer::DisconnectShapeElement(ShapeMap& map, ShapeMap::iterator iter)
+void CViewLayer::DisconnectShapeElement(ShapeList& map, ShapeList::iterator iter)
 {
-	iview::IShape* shapePtr = iter.key();
-	const i2d::CRect boundingBox = iter.value();
+	iview::IShape* shapePtr = iter->shapePtr;
+	const i2d::CRect boundingBox = iter->box;
 	map.erase(iter);
 
 	OnAreaInvalidated(i2d::CRect::GetEmpty(), boundingBox);
@@ -340,9 +362,9 @@ i2d::CRect CViewLayer::RecalcAllShapes(const istd::IChangeable::ChangeSet& chang
 	i2d::CRect boundingBox = i2d::CRect::GetEmpty();
 
 	if (IsVisible()){
-		for (ShapeMap::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-			IShape* shapePtr = iter.key();
-			i2d::CRect& shapeBox = iter.value();
+		for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+			IShape* shapePtr = iter->shapePtr;
+			i2d::CRect& shapeBox = iter->box;
 
 			if (shapePtr->OnDisplayChange(changeSet)){
 				shapeBox = shapePtr->GetBoundingBox();
@@ -359,8 +381,8 @@ i2d::CRect CViewLayer::CalcBoundingBox() const
 {
 	i2d::CRect boundingBox = i2d::CRect::GetEmpty();
 
-	for (ShapeMap::ConstIterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-		const i2d::CRect& shapeBox = iter.value();
+	for (ShapeList::ConstIterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+		const i2d::CRect& shapeBox = iter->box;
 		
 		boundingBox.Union(shapeBox);
 	}

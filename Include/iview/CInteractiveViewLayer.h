@@ -68,7 +68,7 @@ public:
 	virtual bool IsDraggable() const;
 
 protected:
-	ShapeMap m_activeShapes;
+	ShapeList m_activeShapes;
 
 private:
 	IInteractiveShape* m_focusedShapePtr;

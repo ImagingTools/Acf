@@ -43,12 +43,8 @@ void CToolsViewLayer::DrawFocusedShape(QPainter& drawContext)
 
 bool CToolsViewLayer::OnMouseButton(istd::CIndex2d position, Qt::MouseButton buttonType, bool downFlag)
 {
-	QMapIterator<IShape*, i2d::CRect> inactiveIter(m_shapes);
-	inactiveIter.toBack();
-	while (inactiveIter.hasPrevious()){
-		inactiveIter.previous();
-
-		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter.key());
+	for (ShapeList::reverse_iterator inactiveIter = m_shapes.rbegin(); inactiveIter != m_shapes.rend(); ++inactiveIter) {
+		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter->shapePtr);
 
 		if (uiShapePtr->OnMouseButton(position, buttonType, downFlag)){
 			return true;
@@ -67,12 +63,8 @@ bool CToolsViewLayer::OnFocusedMouseButton(istd::CIndex2d /*position*/, Qt::Mous
 
 bool CToolsViewLayer::OnFocusedMouseMove(istd::CIndex2d position)
 {
-	QMapIterator<IShape*, i2d::CRect> inactiveIter(m_shapes);
-	inactiveIter.toBack();
-	while (inactiveIter.hasPrevious()){
-		inactiveIter.previous();
-
-		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter.key());
+	for (ShapeList::reverse_iterator inactiveIter = m_shapes.rbegin(); inactiveIter != m_shapes.rend(); ++inactiveIter) {
+		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter->shapePtr);
 
 		if (uiShapePtr->OnMouseMove(position)){
 			return true;
@@ -85,11 +77,8 @@ bool CToolsViewLayer::OnFocusedMouseMove(istd::CIndex2d position)
 
 ITouchable::TouchState CToolsViewLayer::IsTouched(istd::CIndex2d position, IInteractiveShape** shapePtrPtr) const
 {
-	QMapIterator<IShape*, i2d::CRect> inactiveIter(m_shapes);
-	inactiveIter.toBack();
-	while (inactiveIter.hasPrevious()){
-		inactiveIter.previous();
-		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter.key());
+	for (ShapeList::const_reverse_iterator inactiveIter = m_shapes.rbegin(); inactiveIter != m_shapes.rend(); ++inactiveIter) {
+		iview::IInteractiveShape* uiShapePtr = dynamic_cast<iview::IInteractiveShape*>(inactiveIter->shapePtr);
 		if (uiShapePtr == NULL){
 			continue;
 		}
@@ -117,8 +106,8 @@ int CToolsViewLayer::GetSelectedShapesCount() const
 
 void CToolsViewLayer::InsertSelectedShapes(SelectedShapes& result) const
 {
-	for (ShapeMap::ConstIterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-		IInteractiveShape* uiShape = dynamic_cast<IInteractiveShape*>(iter.key());
+	for (ShapeList::ConstIterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+		IInteractiveShape* uiShape = dynamic_cast<IInteractiveShape*>(iter->shapePtr);
 		if (uiShape != NULL){
 			result.insert(uiShape);
 		}
@@ -182,8 +171,8 @@ ITouchable::TouchState CToolsViewLayer::IsTouched(istd::CIndex2d position) const
 
 void CToolsViewLayer::BeginDrag(const istd::CIndex2d& position)
 {
-	for (ShapeMap::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter.key());
+	for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter->shapePtr);
 		if ((draggablePtr != NULL) && draggablePtr->IsDraggable()){
 			draggablePtr->BeginDrag(position);
 		}
@@ -193,8 +182,8 @@ void CToolsViewLayer::BeginDrag(const istd::CIndex2d& position)
 
 void CToolsViewLayer::SetDragPosition(const istd::CIndex2d& position)
 {
-	for (ShapeMap::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
-		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter.key());
+	for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
+		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter->shapePtr);
 		if ((draggablePtr != NULL) && draggablePtr->IsDraggable()){
 			draggablePtr->SetDragPosition(position);
 		}
@@ -204,9 +193,8 @@ void CToolsViewLayer::SetDragPosition(const istd::CIndex2d& position)
 
 void CToolsViewLayer::EndDrag()
 {
-	QList<IShape*> keys  = m_shapes.keys();
-	for (int keyIndex = 0; keyIndex < keys.size(); ++keyIndex){
-		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(keys[keyIndex]);
+	for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter) {
+		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter->shapePtr);
 		if ((draggablePtr != NULL) && draggablePtr->IsDraggable()){
 			draggablePtr->EndDrag();
 		}

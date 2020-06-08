@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QtCore/QMap>
+#include <QtCore/QVector>
 
 // ACF includes
 #include <iview/IViewLayer.h>
@@ -55,19 +55,27 @@ public:
 	virtual QString GetShapeDescriptionAt(istd::CIndex2d position) const;
 
 protected:
-	typedef QMap<IShape*, i2d::CRect> ShapeMap;
+	struct ShapeWithBoundingBox
+	{
+		ShapeWithBoundingBox() {}
+		ShapeWithBoundingBox(IShape* shapePtr, const i2d::CRect& box) : shapePtr(shapePtr), box(box) {}
+
+		IShape* shapePtr;
+		i2d::CRect box;
+	};
+	typedef QVector<ShapeWithBoundingBox> ShapeList;
 
 	/**
 		\internal
 		Internal invalidate shape method.
 	*/
-	bool OnChangeShapeElement(ShapeMap::Iterator elementIter);
+	bool OnChangeShapeElement(ShapeList::Iterator elementIter);
 	
 	/**
 		\internal
 		Internal disconnect shape method.
 	*/
-	void DisconnectShapeElement(ShapeMap& map, ShapeMap::iterator iter);
+	void DisconnectShapeElement(ShapeList& map, ShapeList::iterator iter);
 
 	void InvalidateBoundingBox();
 	i2d::CRect& GetBoundingBoxRef() const;
@@ -82,7 +90,7 @@ protected:
 	*/
 	virtual i2d::CRect CalcBoundingBox() const;
 
-	ShapeMap m_shapes;
+	ShapeList m_shapes;
 
 private:
 	IShapeView* m_viewPtr;
