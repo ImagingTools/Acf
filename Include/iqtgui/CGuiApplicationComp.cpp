@@ -14,6 +14,12 @@
 #include <QtGui/QVBoxLayout>
 #endif
 
+#if defined (Q_OS_WIN)
+	#if QT_VERSION >= 0x050500
+	#include <QtPlatformHeaders/QWindowsWindowFunctions>
+	#endif
+#endif
+
 // ACF includes
 #include <istd/CSystem.h>
 #include <iqtgui/CCommandTools.h>
@@ -258,8 +264,20 @@ void CGuiApplicationComp::ShowWindow()
 		uiStartMode = *m_uiStartModeAttrPtr;
 	}
 
+	bool usedFullscreenBorder = false;
+
+#if defined (Q_OS_WIN)
+	#if QT_VERSION >= 0x050500
+		usedFullscreenBorder = *m_useFullScreenBorderOnWindowsAttrPtr;
+	#endif
+#endif
+
 	switch (uiStartMode){
 		case 1:
+#if QT_VERSION >= 0x050500
+	QWindowsWindowFunctions::setHasBorderInFullScreen(m_mainWidgetPtr->windowHandle(), usedFullscreenBorder);
+#endif
+
 #if QT_VERSION >= 0x050000
 			// workaround to go full screen after start (Windows, Qt 5.6 - 5.10)
 			m_mainWidgetPtr->showMaximized();
