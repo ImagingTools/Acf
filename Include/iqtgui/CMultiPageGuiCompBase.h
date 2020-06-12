@@ -20,14 +20,41 @@
 namespace iqtgui
 {
 
+class CMultiPageGuiCompAttr: public iqtgui::CGuiComponentBase
+{
+public:
+	typedef iqtgui::CGuiComponentBase BaseClass;
+
+	I_BEGIN_BASE_COMPONENT(CMultiPageGuiCompAttr);
+		I_ASSIGN_MULTI_0(m_pageNamesAttrPtr, "Names", "List of the page titles", true);
+		I_ASSIGN_MULTI_0(m_pageIdsAttrPtr, "PageIds", "List of unique page IDs", true);
+		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for page icons", false, 16);
+		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
+		I_ASSIGN(m_useSameStretchingFactorAttrPtr, "UseSameStretchingFactor", "Set the same stretching factor for all widgets. Only for group box mode", false, false);
+		I_ASSIGN(m_insertSpacerAttrPtr, "InsertSpacer", "If enabled, insert spacer after the last page widget", false, false);
+		I_ASSIGN(m_lazyPagesInitializationAttrPtr, "LazyPagesInitialization", "If enabled, CreateGui for a page will be called only when this page will be selected", true, false);
+		I_ASSIGN(m_supressPageTitleAttrPtr, "SupressPageTitle", "Supress page title on the container widget", true, false);
+	I_END_COMPONENT;
+
+protected:
+	I_MULTITEXTATTR(m_pageNamesAttrPtr);
+	I_MULTIATTR(QByteArray, m_pageIdsAttrPtr);
+	I_ATTR(int, m_iconSizeAttrPtr);
+	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);
+	I_ATTR(bool, m_useSameStretchingFactorAttrPtr);
+	I_ATTR(bool, m_insertSpacerAttrPtr);
+	I_ATTR(bool, m_lazyPagesInitializationAttrPtr);
+	I_ATTR(bool, m_supressPageTitleAttrPtr);
+};
+
 
 class CMultiPageGuiCompBase:
-			public iqtgui::CGuiComponentBase,
+			public CMultiPageGuiCompAttr,
 			protected imod::CMultiModelDispatcherBase
 {
 	Q_OBJECT
 public:
-	typedef iqtgui::CGuiComponentBase BaseClass;
+	typedef CMultiPageGuiCompAttr BaseClass;
 	typedef imod::CMultiModelDispatcherBase BaseClass2;
 
 	enum ModelId
@@ -50,15 +77,8 @@ public:
 		I_ASSIGN_TO(m_slaveWidgetsModelCompPtr, m_slaveWidgetsVisualCompPtr, false);
 		I_ASSIGN_MULTI_0(m_pageActivatorsCompPtr, "PageActivators", "Optional activators for each page (enable/disable)", false);
 		I_ASSIGN_TO(m_pageActivatorsModelCompPtr, m_pageActivatorsCompPtr, false);
-		I_ASSIGN_MULTI_0(m_pageNamesAttrPtr, "Names", "List of the page titles", true);
-		I_ASSIGN(m_iconSizeAttrPtr, "IconSize", "Size for page icons", false, 16);
-		I_ASSIGN(m_useHorizontalLayoutAttrPtr, "UseHorizontalLayout", "Use horizontal layout", true, false);
-		I_ASSIGN(m_useSameStretchingFactorAttrPtr, "UseSameStretchingFactor", "Set the same stretching factor for all widgets. Only for group box mode", false, false);
-		I_ASSIGN(m_insertSpacerAttrPtr, "InsertSpacer", "If enabled, insert spacer after the last page widget", false, false);
 		I_ASSIGN_MULTI_0(m_pageVisibilityActivatorsCompPtr, "PageVisibilityActivators", "Optional visibility activators for each page (show/hide)", false);
 		I_ASSIGN_TO(m_pageVisibilityActivatorsModelCompPtr, m_pageVisibilityActivatorsCompPtr, false);
-		I_ASSIGN(m_lazyPagesInitializationAttrPtr, "LazyPagesInitialization", "If enabled, CreateGui for a page will be called only when this page will be selected", true, false);
-		I_ASSIGN(m_supressPageTitleAttrPtr, "SupressPageTitle", "Supress page title on the container widget", true, false);
 	I_END_COMPONENT;
 
 	CMultiPageGuiCompBase();
@@ -188,15 +208,8 @@ protected:
 	I_MULTIREF(imod::IModel, m_slaveWidgetsModelCompPtr);
 	I_MULTIREF(iprm::IEnableableParam, m_pageActivatorsCompPtr);
 	I_MULTIREF(imod::IModel, m_pageActivatorsModelCompPtr);
-	I_MULTITEXTATTR(m_pageNamesAttrPtr);
-	I_ATTR(int, m_iconSizeAttrPtr);
-	I_ATTR(bool, m_useHorizontalLayoutAttrPtr);
-	I_ATTR(bool, m_useSameStretchingFactorAttrPtr);
-	I_ATTR(bool, m_insertSpacerAttrPtr);
 	I_MULTIREF(iprm::IEnableableParam, m_pageVisibilityActivatorsCompPtr);
 	I_MULTIREF(imod::IModel, m_pageVisibilityActivatorsModelCompPtr);
-	I_ATTR(bool, m_lazyPagesInitializationAttrPtr);
-	I_ATTR(bool, m_supressPageTitleAttrPtr);
 
 	imod::TModelWrap<PageModel> m_pageModel;
 
@@ -207,6 +220,7 @@ private:
 
 		bool isCreated;		// true, if page was created
 		QString pageTitle;	// title of this page
+		QByteArray pageId;
 		int widgetIndex;	// index of widget in widget container
 		QWidget* widgetPtr;	// widget whera page contents will be placed
 	};

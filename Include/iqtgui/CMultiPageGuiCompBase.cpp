@@ -345,6 +345,11 @@ void CMultiPageGuiCompBase::OnComponentCreated()
 			continue;
 		}
 
+		QByteArray pageId;
+		if (pageIndex < m_pageIdsAttrPtr.GetCount()){
+			pageId = m_pageIdsAttrPtr[pageIndex];
+		}
+
 		m_pageIndexToInfoMap[pageIndex].pageTitle = name;
 	}
 
@@ -511,7 +516,7 @@ iprm::ISelectionParam* CMultiPageGuiCompBase::PageModel::GetSubselection(int ind
 
 int CMultiPageGuiCompBase::PageModel::GetOptionsFlags() const
 {
-	return SFC_DISABLE_ALLOWED;
+	return SFC_DISABLE_ALLOWED | SCF_SUPPORT_UNIQUE_ID;
 }
 
 
@@ -544,6 +549,13 @@ QString CMultiPageGuiCompBase::PageModel::GetOptionDescription(int /*index*/) co
 
 QByteArray CMultiPageGuiCompBase::PageModel::GetOptionId(int index) const
 {
+	Q_ASSERT(m_parentPtr != NULL);
+	Q_ASSERT(index >= 0);
+
+	if (index < m_parentPtr->m_pageIdsAttrPtr.GetCount()){
+		return m_parentPtr->m_pageIdsAttrPtr[index];
+	}
+
 	return GetOptionName(index).toUtf8();
 }
 
