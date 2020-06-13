@@ -273,14 +273,6 @@ void CGuiApplicationComp::ShowWindow()
 #endif
 	QWindow* windowHandle = NULL;
 
-	QWidget* parentPtr = m_mainWidgetPtr->parentWidget();
-	if (parentPtr != nullptr){
-		windowHandle = parentPtr->windowHandle();
-	}
-	else{
-		windowHandle = m_mainWidgetPtr->windowHandle();
-	}
-
 	switch (uiStartMode){
 		case 1:
 #if QT_VERSION >= 0x050000
