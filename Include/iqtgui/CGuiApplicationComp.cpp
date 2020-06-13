@@ -271,16 +271,27 @@ void CGuiApplicationComp::ShowWindow()
 		usedFullscreenBorder = *m_useFullScreenBorderOnWindowsAttrPtr;
 	#endif
 #endif
+	QWindow* windowHandle = NULL;
+
+	QWidget* parentPtr = m_mainWidgetPtr->parentWidget();
+	if (parentPtr != nullptr){
+		windowHandle = parentPtr->windowHandle();
+	}
+	else{
+		windowHandle = m_mainWidgetPtr->windowHandle();
+	}
 
 	switch (uiStartMode){
 		case 1:
-#if QT_VERSION >= 0x050500
-	QWindowsWindowFunctions::setHasBorderInFullScreen(m_mainWidgetPtr->windowHandle(), usedFullscreenBorder);
-#endif
-
 #if QT_VERSION >= 0x050000
 			// workaround to go full screen after start (Windows, Qt 5.6 - 5.10)
 			m_mainWidgetPtr->showMaximized();
+#endif
+#if QT_VERSION >= 0x050500
+			windowHandle = m_mainWidgetPtr->windowHandle();
+			if (windowHandle != NULL){
+				QWindowsWindowFunctions::setHasBorderInFullScreen(windowHandle, usedFullscreenBorder);
+			}
 #endif
 			m_mainWidgetPtr->showFullScreen();
 			break;
