@@ -23,9 +23,19 @@ iprm::IParameterStateProvider::ParameterState CParameterStateProviderComp::GetSt
 	if (stateType == ST_EDIT){
 		int index = m_controlledIdsAttrPtr.FindValue(parameterId);
 		if (index >= 0){
-			iprm::TParamsPtr<iprm::IEnableableParam> stateParamPtr(&paramSet, *m_editActivationIdAttrPtr);
-			if (stateParamPtr.IsValid()){
-				return stateParamPtr->IsEnabled() ? PS_ON : PS_OFF;
+			const iprm::IEnableableParam* stateParamPtr = dynamic_cast<const iprm::IEnableableParam*>(paramSet.GetParameter(*m_editActivationIdAttrPtr));
+			if (stateParamPtr != NULL){
+				bool isEnabled = stateParamPtr->IsEnabled();
+				if (isEnabled){
+					if (m_slaveStateProviderCompPtr.IsValid()){
+						ParameterState slaveState = m_slaveStateProviderCompPtr->GetState(paramSet, parameterId, stateType);
+						if (slaveState == PS_OFF){
+							isEnabled = false;
+						}
+					}
+				}
+
+				return isEnabled ? PS_ON : PS_OFF;
 			}
 		}
 	}

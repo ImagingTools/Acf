@@ -46,6 +46,7 @@
 #include <iprm/CFilteredOptionsListComp.h>
 #include <iprm/CParamsSetDelegatorComp.h>
 #include <iprm/CParameterStateProviderComp.h>
+#include <iprm/CSelectionBasedParameterStateProviderComp.h>
 #include <iprm/CTextParamComp.h>
 #include <iprm/CIdParamComp.h>
 
@@ -103,6 +104,7 @@ typedef icomp::TModelCompWrap<iprm::COptionsManagerComp> OptionsManager;
 typedef icomp::TModelCompWrap<iprm::CFilteredOptionsListComp> FilteredOptionsList;
 typedef icomp::TModelCompWrap<iprm::CParamsSetDelegatorComp> ParamsSetDelegator;
 typedef iprm::CParameterStateProviderComp ParameterStateProvider;
+typedef iprm::CSelectionBasedParameterStateProviderComp SelectionBasedParameterStateProvider;
 typedef icomp::TModelCompWrap<iprm::CTextParamComp> TextParam;
 typedef icomp::TModelCompWrap<iprm::CIdParamComp> IdParam;
 

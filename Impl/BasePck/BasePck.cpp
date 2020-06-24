@@ -155,6 +155,11 @@ I_EXPORT_COMPONENT(
 			"Parameter State" IM_TAG("Parameter"));
 
 I_EXPORT_COMPONENT(
+			SelectionBasedParameterStateProvider,
+			"Provider of the parameter states based on selection",
+			"Parameter State Selection Selector Option" IM_TAG("Parameter"));
+
+I_EXPORT_COMPONENT(
 			TextParam,
 			"Text parameter",
 			"Text Parameter" IM_CATEGORY(I_DATA_MODEL));
