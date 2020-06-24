@@ -24,7 +24,7 @@ iprm::IParameterStateProvider::ParameterState CSelectionBasedParameterStateProvi
 		int index = m_controlledIdsAttrPtr.FindValue(parameterId);
 		if (index >= 0){
 			const iprm::ISelectionParam* selectorPtr = dynamic_cast<const iprm::ISelectionParam*>(paramSet.GetParameter(*m_editSelectorIdAttrPtr));
-			if (selectorPtr != nullptr){
+			if (selectorPtr != NULL){
 				int selectedIndex = selectorPtr->GetSelectedOptionIndex();
 
 				return m_editActiveIndexesAttrPtr.FindValue(selectedIndex) >= 0 ? PS_ON : PS_OFF;
