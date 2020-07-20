@@ -62,6 +62,9 @@ public:
 	virtual bool IsDraggable() const;
 
 protected:
+	static const istd::IChangeable::ChangeSet& GetMoveChangeSet();
+	static const istd::IChangeable::ChangeSet& GetMoveAllChangeSet();
+
 	virtual i2d::CVector2d GetSegmentMiddle(int index) const;
 	virtual void DrawCurve(QPainter& drawContext) const;
 	virtual void DrawArea(QPainter& drawContext) const;
@@ -78,6 +81,7 @@ protected:
 	// reimplemented (iview::CShapeBase)
 	virtual i2d::CRect CalcBoundingBox() const;
 
+protected:
 	int m_referenceIndex;
 	QVector<i2d::CVector2d> m_references;
 

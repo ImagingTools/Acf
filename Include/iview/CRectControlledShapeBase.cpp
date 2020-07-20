@@ -397,20 +397,24 @@ i2d::CAffine2d CRectControlledShapeBase::CalcScaleTransform(
 	i2d::CVector2d isDelta = isPos - center;
 	double isLength2 = isDelta.GetLength2();
 
+	i2d::CAffine2d resultTransform = i2d::CAffine2d::GetIdentity();
 	if (isLength2 > I_EPSILON){
 		i2d::CVector2d shouldDelta = shouldPos - center;
 		i2d::CVector2d isNormalized = isDelta / ::sqrt(isLength2);
-		double proportion = shouldDelta.GetDotProduct(isDelta) / isLength2;
-		i2d::CMatrix2d isDeform(isNormalized, isNormalized.GetOrthogonal());
+		const double scaleFactor = shouldDelta.GetDotProduct(isDelta) / isLength2;
+
+		i2d::CMatrix2d isDeform(isNormalized, isNormalized.GetOrthogonal()); // involutive
 		i2d::CMatrix2d shouldDeform(
-						isNormalized * proportion, 
-						m_isProportionalScaled? isNormalized.GetOrthogonal() * proportion: isNormalized.GetOrthogonal());
-		i2d::CMatrix2d rotation(shouldDeform.GetMultiplied(isDeform.GetInverted()));
-		i2d::CAffine2d rotTransform(rotation, center - rotation.GetMultiplied(center));
-		return rotTransform;
+						isNormalized * scaleFactor,
+						m_isProportionalScaled? isNormalized.GetOrthogonal() * scaleFactor : isNormalized.GetOrthogonal());
+
+		i2d::CMatrix2d scaling(shouldDeform.GetMultiplied(isDeform));
+
+		resultTransform.SetDeformMatrix(scaling);
+		resultTransform.SetTranslation(center - scaling.GetMultiplied(center));
 	}
 	
-	return i2d::CAffine2d::GetIdentity();
+	return resultTransform;
 }
 
 

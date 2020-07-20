@@ -340,6 +340,20 @@ bool CPolygonShape::IsDraggable() const
 }
 
 
+// protected static methods
+
+const istd::IChangeable::ChangeSet& CPolygonShape::GetMoveChangeSet()
+{
+	return s_moveChangeSet;
+}
+
+
+const istd::IChangeable::ChangeSet& CPolygonShape::GetMoveAllChangeSet()
+{
+	return s_moveAllChangeSet;
+}
+
+
 // protected methods
 
 i2d::CVector2d CPolygonShape::GetSegmentMiddle(int index) const
