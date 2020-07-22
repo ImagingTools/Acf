@@ -37,6 +37,13 @@ CSingleDocumentWorkspaceGuiComp::CSingleDocumentWorkspaceGuiComp()
 }
 
 
+// reimplemented (idoc::IDocumentManager)
+
+void CSingleDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* /*viewPtr*/)
+{
+}
+
+
 // reimplemented (iqtgui::IGuiObject)
 
 void CSingleDocumentWorkspaceGuiComp::OnTryClose(bool* ignoredPtr)

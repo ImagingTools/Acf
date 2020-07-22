@@ -41,6 +41,43 @@ CMultiDocumentWorkspaceGuiComp::CMultiDocumentWorkspaceGuiComp()
 }
 
 
+// reimplemented (idoc::IDocumentManager)
+
+void CMultiDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* viewPtr)
+{
+	if (viewPtr != GetActiveView()){
+		QMdiArea* workspacePtr = GetQtWidget();
+		Q_ASSERT(workspacePtr != NULL);
+
+		QList<QMdiSubWindow*> windows = workspacePtr->subWindowList();
+		for (int viewIndex = 0; viewIndex < windows.count(); viewIndex++){
+			QMdiSubWindow* windowPtr = windows.at(viewIndex);
+			if (windowPtr != NULL){
+				QWidget* viewWidgetPtr = windowPtr->widget();
+				if (viewWidgetPtr != NULL){
+					iqtgui::IGuiObject* guiObjectPtr = GetViewFromWidget(*viewWidgetPtr);
+					if (viewPtr == guiObjectPtr){
+						workspacePtr->setActiveSubWindow(windowPtr);
+					}
+				}
+			}
+		}
+
+		idoc::CMultiDocumentManagerBase::SingleDocumentData* activeDocumentInfoPtr = GetDocumentInfoFromView(*viewPtr);
+		if (activeDocumentInfoPtr == NULL){
+			m_documentSelectionInfo.SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);
+		}
+		else{
+			int documentIndex = GetDocumentIndex(*activeDocumentInfoPtr);
+
+			m_documentSelectionInfo.SetSelectedOptionIndex(documentIndex);
+		}
+	}
+
+	BaseClass::SetActiveView(viewPtr);
+}
+
+
 // reimplemented (ibase::ICommandsProvider)
 
 const ibase::IHierarchicalCommand* CMultiDocumentWorkspaceGuiComp::GetCommands() const
@@ -225,41 +262,6 @@ istd::IChangeable* CMultiDocumentWorkspaceGuiComp::OpenSingleDocument(
 	}
 
 	return BaseClass::OpenSingleDocument(filePath, createView, viewTypeId, documentTypeId, beQuiet, ignoredPtr, progressManagerPtr);
-}
-
-
-void CMultiDocumentWorkspaceGuiComp::SetActiveView(istd::IPolymorphic* viewPtr)
-{
-	if (viewPtr != GetActiveView()){
-		QMdiArea* workspacePtr = GetQtWidget();
-		Q_ASSERT(workspacePtr != NULL);
-
-		QList<QMdiSubWindow*> windows = workspacePtr->subWindowList();
-		for (int viewIndex = 0; viewIndex < windows.count(); viewIndex++){
-			QMdiSubWindow* windowPtr = windows.at(viewIndex);
-			if (windowPtr != NULL){
-				QWidget* viewWidgetPtr = windowPtr->widget();
-				if (viewWidgetPtr != NULL){
-					iqtgui::IGuiObject* guiObjectPtr = GetViewFromWidget(*viewWidgetPtr);
-					if (viewPtr == guiObjectPtr){
-						workspacePtr->setActiveSubWindow(windowPtr);
-					}
-				}
-			}
-		}
-
-		idoc::CMultiDocumentManagerBase::SingleDocumentData* activeDocumentInfoPtr = GetDocumentInfoFromView(*viewPtr);
-		if (activeDocumentInfoPtr == NULL){
-			m_documentSelectionInfo.SetSelectedOptionIndex(iprm::ISelectionParam::NO_SELECTION);
-		}
-		else{
-			int documentIndex = GetDocumentIndex(*activeDocumentInfoPtr);
-
-			m_documentSelectionInfo.SetSelectedOptionIndex(documentIndex);
-		}
-	}
-
-	BaseClass::SetActiveView(viewPtr);
 }
 
 
