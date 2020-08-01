@@ -382,7 +382,7 @@ void CMultiPageGuiCompBase::OnModelChanged(int /*modelId*/, const istd::IChangea
 void CMultiPageGuiCompBase::OnPageChanged(int widgetIndex)
 {
 	int pageIndex = GetLogicalPageIndex(widgetIndex);
-	if (pageIndex > 0){
+	if (pageIndex >= 0){
 		EnsurePageInitialized(pageIndex);
 	}
 
