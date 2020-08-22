@@ -7,7 +7,6 @@
 
 // ACF includes
 #include <istd/IChangeable.h>
-#include <i2d/CVector2d.h>
 
 
 namespace iview
@@ -20,26 +19,6 @@ namespace iview
 class IShapeStatusInfo: virtual public istd::IChangeable
 {
 public:
-	/**
-		Get logical position on the bitmap.
-	*/
-//	virtual i2d::CVector2d GetLogicalPosition() const = 0;
-
-	/**
-		Set logical position on the bitmap.
-	*/
-//	virtual void SetLogicalPosition(const i2d::CVector2d& logicalPosition) = 0;
-
-	/**
-		Get position in pixel on the bitmap.
-	*/
-//	virtual i2d::CVector2d GetPixelPosition() const = 0;
-
-	/**
-		Set position in pixel on the bitmap.
-	*/
-//	virtual void SetPixelPosition(const i2d::CVector2d& pixelPosition) = 0;
-
 	/**
 		Get information text for the current position.
 	*/

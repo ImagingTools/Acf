@@ -1,7 +1,7 @@
-
 #include <iview/CDistanceToolShape.h>
 
-//Qt includes
+
+// Qt includes
 #include <QPainter>
 
 // ACF includes
@@ -196,6 +196,86 @@ ITouchable::TouchState CDistanceToolShape::IsTouched(istd::CIndex2d position) co
 
 // protected methods
 
+const i2d::ICalibration2d* CDistanceToolShape::GetCalibration() const
+{
+	i2d::CLine2d* linePtr = dynamic_cast<i2d::CLine2d*>(GetObservedModel());
+	if (linePtr == NULL){
+		return NULL;
+	}
+
+	const i2d::ICalibration2d* calibrationPtr = linePtr->GetCalibration();
+
+	if (calibrationPtr != NULL){
+		return calibrationPtr;
+	}
+
+	const iview::IDisplay* displayPtr = GetDisplayPtr();
+	while (displayPtr != NULL){
+		const i2d::ICalibrationProvider* calibrationProviderPtr = dynamic_cast<const i2d::ICalibrationProvider*>(displayPtr);
+		if ((calibrationProviderPtr != NULL)){
+			return calibrationProviderPtr->GetCalibration();
+		}
+
+		displayPtr = displayPtr->GetParentDisplayPtr();
+	}
+
+	return NULL;
+}
+
+
+void CDistanceToolShape::DrawLabel(QPainter& drawContext) const
+{
+	i2d::CLine2d* linePtr = dynamic_cast<i2d::CLine2d*>(GetObservedModel());
+	if (linePtr == NULL){
+		return;
+	}
+	const i2d::CLine2d screenLine(GetScreenPosition(linePtr->GetPoint1()), GetScreenPosition(linePtr->GetPoint2()));
+	const i2d::CVector2d diffVect = screenLine.GetDiffVector();
+
+	drawContext.save();
+	const int fontSize = 8;
+	const int paddings = 5;
+	const QPointF paddingDisp(paddings, paddings);
+	const QFont font = QFont("Arial", fontSize, QFont::Bold);
+
+	const i2d::ICalibration2d* calibration = GetCalibration();
+	const QString label = calibration != NULL ? QObject::tr("%1 mm") : QObject::tr("%1 px");
+	double length = linePtr->GetLength();
+
+	if (calibration != NULL && linePtr->GetCalibration() == NULL){
+		i2d::CLine2d decalibratedLine;
+		if (linePtr->GetInvTransformed(*calibration, decalibratedLine)){
+			length = decalibratedLine.GetLength();
+		}
+	}
+
+	const QString lengthLabel = label.arg(QString::number(length, 'f', 1));
+
+	const QFontMetricsF fm(font);
+	const QSizeF pixelsSize = fm.size(Qt::TextSingleLine, lengthLabel);
+	const float textRectX = diffVect.GetX() > 0 ? 
+		screenLine.GetPoint2().GetX() + 15 + paddings : 
+		screenLine.GetPoint2().GetX() - 15 - paddings - pixelsSize.width();
+	const QRectF textRect(QPointF(textRectX, screenLine.GetPoint2().GetY() - 0.5*pixelsSize.height()), pixelsSize);
+	const QRectF backRect(textRect.topLeft() - paddingDisp, textRect.bottomRight() + paddingDisp);
+	drawContext.setBrush(QColor::fromRgba(qRgba(32, 32, 32, 150)));
+	QPen rectPen(QColor::fromRgb(20, 20, 20));
+	drawContext.setPen(rectPen);
+
+	drawContext.drawRoundRect(backRect, 5, 5);
+
+	drawContext.setBrush(Qt::lightGray);
+	drawContext.setPen(Qt::lightGray);
+	drawContext.setFont(font);
+
+	drawContext.drawText(textRect, lengthLabel);
+
+	drawContext.restore();
+}
+
+
+// reimplemented (iview::IVisualizable)
+
 void CDistanceToolShape::Draw(QPainter& drawContext) const
 {
 	if (!IsDisplayConnected()){
@@ -261,56 +341,6 @@ void CDistanceToolShape::Draw(QPainter& drawContext) const
 	DrawLabel(drawContext);
 }
 
-void CDistanceToolShape::DrawLabel(QPainter& drawContext) const
-{
-	i2d::CLine2d* linePtr = dynamic_cast<i2d::CLine2d*>(GetObservedModel());
-	if (linePtr == NULL){
-		return;
-	}
-	const i2d::CLine2d screenLine(GetScreenPosition(linePtr->GetPoint1()), GetScreenPosition(linePtr->GetPoint2()));
-	const i2d::CVector2d diffVect = screenLine.GetDiffVector();
-
-	drawContext.save();
-	const int fontSize = 8;
-	const int paddings = 5;
-	const QPointF paddingDisp(paddings, paddings);
-	const QFont font = QFont("Arial", fontSize, QFont::Bold);
-
-	const i2d::ICalibration2d* calibration = GetCalibration();
-	const QString label = calibration != NULL ? QObject::tr("%1 mm") : QObject::tr("%1 px");
-	double length = linePtr->GetLength();
-
-	if (calibration != NULL && linePtr->GetCalibration() == NULL){
-		i2d::CLine2d decalibratedLine;
-		if (linePtr->GetInvTransformed(*calibration, decalibratedLine)){
-			length = decalibratedLine.GetLength();
-		}
-	}
-
-	const QString lengthLabel = label.arg(QString::number(length, 'f', 1));
-
-	const QFontMetricsF fm(font);
-	const QSizeF pixelsSize = fm.size(Qt::TextSingleLine, lengthLabel);
-	const float textRectX = diffVect.GetX() > 0 ? 
-		screenLine.GetPoint2().GetX() + 15 + paddings : 
-		screenLine.GetPoint2().GetX() - 15 - paddings - pixelsSize.width();
-	const QRectF textRect(QPointF(textRectX, screenLine.GetPoint2().GetY() - 0.5*pixelsSize.height()), pixelsSize);
-	const QRectF backRect(textRect.topLeft() - paddingDisp, textRect.bottomRight() + paddingDisp);
-	drawContext.setBrush(QColor::fromRgba(qRgba(32, 32, 32, 150)));
-	QPen rectPen(QColor::fromRgb(20, 20, 20));
-	drawContext.setPen(rectPen);
-
-	drawContext.drawRoundRect(backRect, 5, 5);
-
-	drawContext.setBrush(Qt::lightGray);
-	drawContext.setPen(Qt::lightGray);
-	drawContext.setFont(font);
-
-	drawContext.drawText(textRect, lengthLabel);
-
-	drawContext.restore();
-}
-
 
 // reimplemented (iview::CShapeBase)
 
@@ -359,32 +389,6 @@ void CDistanceToolShape::EndDrag()
 	}
 }
 
-
-const i2d::ICalibration2d* CDistanceToolShape::GetCalibration() const
-{
-	i2d::CLine2d* linePtr = dynamic_cast<i2d::CLine2d*>(GetObservedModel());
-	if (linePtr == NULL){
-		return NULL;
-	}
-
-	const i2d::ICalibration2d* calibrationPtr = linePtr->GetCalibration();
-
-	if (calibrationPtr != NULL){
-		return calibrationPtr;
-	}
-
-	const iview::IDisplay* displayPtr = GetDisplayPtr();
-	while (displayPtr != NULL){
-		const i2d::ICalibrationProvider* calibrationProviderPtr = dynamic_cast<const i2d::ICalibrationProvider*>(displayPtr);
-		if ((calibrationProviderPtr != NULL)){
-			return calibrationProviderPtr->GetCalibration();
-		}
-
-		displayPtr = displayPtr->GetParentDisplayPtr();
-	}
-
-	return NULL;
-}
 
 } // namespace iview
 
