@@ -335,11 +335,12 @@ void CMultiPageGuiCompBase::OnTryClose(bool* ignoredPtr)
 	int pageCount = GetPagesCount();
 	for (int i = 0; i < pageCount; i++){
 		iqtgui::IGuiObject* guiObjectPtr = GetPageGuiComponent(i);
-		if (guiObjectPtr != nullptr){
+		if (guiObjectPtr != NULL){
 			guiObjectPtr->OnTryClose(ignoredPtr);
 
-			if (ignoredPtr != nullptr && *ignoredPtr == true){
+			if ((ignoredPtr != NULL) && (*ignoredPtr)){
 				SetCurrentPage(i);
+
 				return;
 			}
 		}
