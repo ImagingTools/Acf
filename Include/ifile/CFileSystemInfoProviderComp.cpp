@@ -13,7 +13,7 @@ namespace ifile
 // public methods
 
 CFileSystemInfoProviderComp::CFileSystemInfoProviderComp()
-:	m_sleepInterval(0),
+	:m_sleepInterval(0.0),
 	m_threadTerminationRequested(false)
 {
 	qRegisterMetaType<DriveInfos>("DriveInfos");
@@ -30,6 +30,8 @@ const iprm::IOptionsList& CFileSystemInfoProviderComp::GetDriveList() const
 
 const istd::CSystem::FileDriveInfo* CFileSystemInfoProviderComp::GetFileDriveInfo(int driveIndex) const
 {
+	QMutexLocker locker(&m_lock);
+
 	Q_ASSERT((driveIndex >= 0) && (driveIndex < int(m_driveInfos.size())));
 
 	return &m_driveInfos[driveIndex].info;
@@ -40,18 +42,22 @@ const istd::CSystem::FileDriveInfo* CFileSystemInfoProviderComp::GetFileDriveInf
 
 int CFileSystemInfoProviderComp::GetOptionsFlags() const
 {
-	return 0;
+	return SCF_SUPPORT_UNIQUE_ID;
 }
 
 
 int CFileSystemInfoProviderComp::GetOptionsCount() const
 {
+	QMutexLocker locker(&m_lock);
+
 	return int(m_driveInfos.size());
 }
 
 
 QString CFileSystemInfoProviderComp::GetOptionName(int index) const
 {
+	QMutexLocker locker(&m_lock);
+
 	Q_ASSERT((index >= 0) && (index < int(m_driveInfos.size())));
 
 	return m_driveInfos[index].name;
@@ -60,6 +66,8 @@ QString CFileSystemInfoProviderComp::GetOptionName(int index) const
 
 QString CFileSystemInfoProviderComp::GetOptionDescription(int index) const
 {
+	QMutexLocker locker(&m_lock);
+
 	Q_ASSERT((index >= 0) && (index < int(m_driveInfos.size())));
 
 	return m_driveInfos[index].name;
@@ -68,6 +76,8 @@ QString CFileSystemInfoProviderComp::GetOptionDescription(int index) const
 
 QByteArray CFileSystemInfoProviderComp::GetOptionId(int index) const
 {
+	QMutexLocker locker(&m_lock);
+
 	Q_ASSERT((index >= 0) && (index < int(m_driveInfos.size())));
 
 	return m_driveInfos[index].id;
@@ -108,6 +118,8 @@ void CFileSystemInfoProviderComp::OnComponentDestroyed()
 {
 	m_threadTerminationRequested = true;
 
+	m_pollingWait.wakeAll();
+
 	wait();
 
 	BaseClass::OnComponentDestroyed();
@@ -122,6 +134,8 @@ void CFileSystemInfoProviderComp::OnModelChanged(int modelId, const istd::IChang
 		if (m_runtimeStatusCompPtr->GetRuntimeStatus() == ibase::IRuntimeStatusProvider::RS_SHUTDOWN){
 			m_threadTerminationRequested = true;
 
+			m_pollingWait.wakeAll();
+
 			wait();
 		}
 	}
@@ -132,17 +146,16 @@ void CFileSystemInfoProviderComp::OnModelChanged(int modelId, const istd::IChang
 
 void CFileSystemInfoProviderComp::run()
 {
-	while (!m_threadTerminationRequested){
-		m_lock.lock();
+	QMutexLocker lock(&m_pollingMutex);
 
+	while (!m_threadTerminationRequested){
 		DriveInfos driveInfos = CalculateDriveInfos();
+
 		if (driveInfos != m_driveInfos){
 			Q_EMIT EmitUpdate(driveInfos);
 		}
 
-		m_lock.unlock();
-
-		sleep(m_sleepInterval);
+		m_pollingWait.wait(&m_pollingMutex, m_sleepInterval * 1000);
 	}
 }
 
@@ -151,9 +164,13 @@ void CFileSystemInfoProviderComp::run()
 
 void CFileSystemInfoProviderComp::OnUpdate(const DriveInfos& driveInfos)
 {
-	istd::CChangeNotifier updatePtr(this);
+	istd::CChangeNotifier changeNotifier(this);
 
-	m_driveInfos = driveInfos;
+	{
+		QMutexLocker locker(&m_lock);
+
+		m_driveInfos = driveInfos;
+	}
 }
 
 

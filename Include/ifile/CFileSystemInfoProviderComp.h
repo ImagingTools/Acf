@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QThread>
 #include <QtCore/QMutex>
+#include <QtCore/QWaitCondition>
 
 // ACF includes
 #include <ilog/TLoggerCompWrap.h>
@@ -19,7 +20,7 @@ namespace ifile
 
 class CFileSystemInfoProviderComp:
 			protected QThread,
-			public ilog::CLoggerComponentBase, 
+			public ilog::CLoggerComponentBase,
 			virtual public ifile::IFileSystemInfoProvider,
 			virtual public iprm::IOptionsList,
 			protected imod::CMultiModelDispatcherBase
@@ -36,7 +37,7 @@ public:
 	I_BEGIN_COMPONENT(CFileSystemInfoProviderComp);
 		I_REGISTER_INTERFACE(ifile::IFileSystemInfoProvider);
 		I_REGISTER_INTERFACE(iprm::IOptionsList);
-		I_ASSIGN(m_autoUpdatePeriodAttr, "AutomaticUpdatePeriod", "Automatic updates period, s", false, 10);
+		I_ASSIGN(m_autoUpdatePeriodAttr, "AutomaticUpdatePeriod", "Automatic updates period in seconds", false, 10);
 		I_ASSIGN(m_runtimeStatusCompPtr, "RuntimeStatus", "Application's runtime status", false, "RuntimeStatus");
 		I_ASSIGN_TO(m_runtimeStatusModelCompPtr, m_runtimeStatusCompPtr, false);
 	I_END_COMPONENT;
@@ -93,12 +94,14 @@ private:
 private:
 	DriveInfos m_driveInfos;
 
-	int m_sleepInterval;
+	double m_sleepInterval;
 	bool m_threadTerminationRequested;
 
 	mutable QMutex m_lock;
+	mutable QMutex m_pollingMutex;
+	mutable QWaitCondition m_pollingWait;
 
-	I_ATTR(int, m_autoUpdatePeriodAttr);
+	I_ATTR(double, m_autoUpdatePeriodAttr);
 
 	I_REF(ibase::IRuntimeStatusProvider, m_runtimeStatusCompPtr);
 	I_REF(imod::IModel, m_runtimeStatusModelCompPtr);
