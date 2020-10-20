@@ -221,9 +221,16 @@ bool ConvertXyzToRgb(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 					float y = inputLinePtr[k + 1];
 					float z = inputLinePtr[k + 2];
 
-					outputLinePtr[k] = quint8(255 * (x - minX) / (maxX - minX));
-					outputLinePtr[k + 1] = quint8(255 * (y - minY) / (maxY - minY));
-					outputLinePtr[k + 2] = quint8(255 * (z - minZ) / (maxZ - minZ));
+					if (qIsNaN(x) || qIsNaN(y) || qIsNaN(z)) {
+						outputLinePtr[k] = 0;
+						outputLinePtr[k + 1] = 0;
+						outputLinePtr[k + 2] = 0;
+					}
+					else {
+						outputLinePtr[k] = quint8(255 * (x - minX) / (maxX - minX));
+						outputLinePtr[k + 1] = quint8(255 * (y - minY) / (maxY - minY));
+						outputLinePtr[k + 2] = quint8(255 * (z - minZ) / (maxZ - minZ));
+					}
 				}
 			}
 		}
@@ -506,7 +513,7 @@ int CBitmap::GetSupportedOperations() const
 }
 
 
-bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode*/)
+bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode mode)
 {
 	const iimg::IBitmap* sourcePtr = dynamic_cast<const IBitmap*>(&object);
 	if (sourcePtr != NULL){
