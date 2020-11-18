@@ -13,6 +13,7 @@
 #endif
 
 // ACF includes
+#include <istd/CSystem.h>
 #include <ifile/IFileNameParam.h>
 
 
@@ -109,15 +110,29 @@ bool CAutoPersistenceComp::StoreObject(const istd::IChangeable& object)
 					m_blockLoadingOnFileChanges = true;
 				}
 
-				int operationState = m_fileLoaderCompPtr->SaveToFile(object, filePath);
+				QString tempFilePath;
+				if (!filePath.isEmpty()){
+					tempFilePath = QDir::tempPath() + "/" + QFileInfo(filePath).fileName();
+				}
 
-				m_loadSaveMutex.unlock();
-
+				int operationState = m_fileLoaderCompPtr->SaveToFile(object, tempFilePath);
 				if (operationState == ifile::IFilePersistence::OS_OK){
 					retVal = true;
 
-					m_isLoadedFromFile = true;
+					if (!filePath.isEmpty()){
+						QString targetFolder = QFileInfo(filePath).absolutePath();
+						if (istd::CSystem::FileMove(tempFilePath, targetFolder, true)){
+							m_isLoadedFromFile = true;
+						}
+						else{
+							SendErrorMessage(0, tr("File could not be moved to the target location '%1'").arg(targetFolder));
+
+							retVal = false;
+						}
+					}
 				}
+
+				m_loadSaveMutex.unlock();
 			}
 		}
 		else{
