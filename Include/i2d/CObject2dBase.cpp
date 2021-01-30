@@ -102,7 +102,7 @@ bool CObject2dBase::CopyFrom(const istd::IChangeable& object, CompatibilityMode 
 				m_calibrationPtr.SetPtr(object2dPtr->m_calibrationPtr.GetPtr());
 			}
 			else{
-				m_calibrationPtr.SetCastedOrRemove(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS));
+				m_calibrationPtr.SetCastedOrRemove(object2dPtr->m_calibrationPtr->CloneMe(CM_WITH_REFS), true);
 			}
 			break;
 
