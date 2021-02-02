@@ -54,7 +54,7 @@ win32{
 
 # custom build for ACF Registry Compiler (Arxc)
 ARX_COMPILER_OUTPUT = $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.h
-ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR
+ARX_COMPILER_COMMAND = $$ARXCBIN ${QMAKE_FILE_IN} -o $${ARXC_OUTDIR}/C${QMAKE_FILE_BASE}.cpp -config $${ARXC_CONFIG} -conf_name $$COMPILER_DIR -env_vars $$ENV_VARS
 
 CONFIG(warn_on, warn_on|warn_off){
 	ARX_COMPILER_COMMAND = $$ARX_COMPILER_COMMAND -v
@@ -80,7 +80,7 @@ QMAKE_EXTRA_COMPILERS += arxCompiler
 
 # custom build for ACF transformations
 
-ACF_CONVERT_COMMAND = $$ACFBIN $${ACF_CONVERT_REGISTRY} -console -config $${ACF_CONVERT_CONFIG} -input ${QMAKE_FILE_IN} -o $${ACF_CONVERT_OUTDIR}/${QMAKE_FILE_BASE}
+ACF_CONVERT_COMMAND = $$ACFBIN $${ACF_CONVERT_REGISTRY} -console -config $${ACF_CONVERT_CONFIG} -input ${QMAKE_FILE_IN} -o $${ACF_CONVERT_OUTDIR}/${QMAKE_FILE_BASE} -env_vars $$ENV_VARS
 ACF_CONVERT_OUTPUT = $${ACF_CONVERT_OUTDIR}/${QMAKE_FILE_BASE}
 win32{
 	ACF_CONVERT_COMMAND ~= s,/,\\,g
@@ -91,7 +91,7 @@ acfFileConvertCopy.name = ACF-FileConvertCopy
 acfFileConvertCopy.CONFIG += no_link target_predeps
 acfFileConvertCopy.output = $$ACF_CONVERT_OUTPUT
 acfFileConvertCopy.commands = $$ACF_CONVERT_COMMAND
-acfFileConvertCopy.depend_command = $$ARXCBIN $${ACF_CONVERT_REGISTRY} -mode depends -config $${ACF_CONVERT_CONFIG}
+acfFileConvertCopy.depend_command = $$ARXCBIN $${ACF_CONVERT_REGISTRY} -mode depends -config $${ACF_CONVERT_CONFIG} -env_vars $$ENV_VARS
 acfFileConvertCopy.input = ACF_CONVERT_FILES
 acfFileConvertCopy.variable_out =
 QMAKE_EXTRA_COMPILERS += acfFileConvertCopy

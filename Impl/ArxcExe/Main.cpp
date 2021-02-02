@@ -33,6 +33,7 @@ static void ShowUsage()
 	std::cout << "\t-check_real                  - check if used real packages exist" << std::endl;
 	std::cout << "\t-no_binary                   - disable generating of binary coded registries" << std::endl;
 	std::cout << "\t-conf_name name              - name of configuration, e.g. 'DebugVC12_64'" << std::endl;
+	std::cout << "\t-env_vars environment variables - list of external environment variables" << std::endl;
 	std::cout << "\t-translate [off|project|all] - control generation of translation macros, default is 'project'" << std::endl;
 	std::cout << "\t-h or -help                  - showing this help" << std::endl;
 }
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
 	int translateMode = 1;
 	bool useBinaryCode = true;
 	bool checkRealPackages = false;
-
+	QString environment;
 	QString inputFilePath = argv[1];
 	QString outputFilePath;
 
@@ -101,6 +102,9 @@ int main(int argc, char *argv[])
 				else if (option == "conf_name"){
 					configName = argv[++index];
 				}
+				else if (option == "env_vars"){
+					environment = argv[++index];
+				}
 				else if (option == "translate"){
 					QString modeText = argv[++index];
 					if (modeText == "none"){
@@ -139,6 +143,27 @@ int main(int argc, char *argv[])
 
 		if (verboseEnabled){
 			std::cout << "Extra configuration: compilerMode='" << compilerMode.toStdString() << "' compilerName='" << configName.toStdString() << "' platformCode='" << platformCode.toStdString() << "'" << std::endl;
+		}
+	}
+
+	if (!environment.isEmpty()){
+		QStringList environmentVars = environment.split(";");
+		for (int varIndex = 0; varIndex < environmentVars.count(); ++varIndex){
+			QString variableItem = environmentVars[varIndex];
+			QStringList keyValue = variableItem.split("=");
+			if (keyValue.count() == 2){
+				QString variableName = keyValue[0];
+				QString variableValue = keyValue[1];
+
+				if (qputenv(variableName.toStdString().c_str(), variableValue.toUtf8())){
+					if (verboseEnabled){
+						std::cout << "External environment variable " << variableName.toStdString() << " was set to: " << variableValue.toStdString() << std::endl;
+					}
+				}
+				else{
+					std::cerr << "External environment variable " << variableName.toStdString() << " could not be set to: " << variableValue.toStdString() << std::endl;
+				}
+			}
 		}
 	}
 

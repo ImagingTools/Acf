@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 	bool waitOnEnd = false;
 	bool isVerboseEnabled = false;
 	bool isConsoleMode = false;
+	QString environment;
 
 	QTextStream out(stdout);
 
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
 				out << "\t-wait                    - wait on application end" << endl;
 				out << "\t-v                       - enable verbose messages" << endl;
 				out << "\t-console                 - optimize the application for console mode" << endl;
-
+				out << "\t-env_vars environment variables - list of external environment variables" << endl;
 				return 0;
 			}
 			else if (option == "info"){
@@ -60,6 +61,9 @@ int main(int argc, char *argv[])
 			else if (option == "console"){
 				isConsoleMode = true;
 			}
+			else if (option == "env_vars") {
+				environment = argv[++index];
+			}
 			else if (index < argc - 1){
 				if (option == "id"){
 					componentId = argv[++index];
@@ -71,6 +75,20 @@ int main(int argc, char *argv[])
 		}
 		else if (index == 1){
 			registryFilePath = QString::fromLocal8Bit(argument);
+		}
+	}
+
+	if (!environment.isEmpty()){
+		QStringList environmentVars = environment.split(";");
+		for (int varIndex = 0; varIndex < environmentVars.count(); ++varIndex){
+			QString variableItem = environmentVars[varIndex];
+			QStringList keyValue = variableItem.split("=");
+			if (keyValue.count() == 2){
+				QString variableName = keyValue[0];
+				QString variableValue = keyValue[1];
+
+				qputenv(variableName.toStdString().c_str(), variableValue.toUtf8());
+			}
 		}
 	}
 
