@@ -53,6 +53,17 @@ public:
 	const CMatrix2d& GetDeformMatrix() const;
 
 	/**
+		Get scale vector of this affine transformation (right-hand side matrix-vector multiplication assumed,
+		i.e. deformation matrix D = R * S. Here D is the deformation matrix, R - rotation matrix, S - scale diagonal matrix
+	*/
+	CVector2d GetScaleVector() const;
+
+	/**
+		Get rotational part of this affine transformation
+	*/
+	CMatrix2d GetRotationMatrix() const;
+
+	/**
 		Set rotation, skew and scale part of this affine transformation.
 	*/
 	void SetDeformMatrix(const CMatrix2d& deform);

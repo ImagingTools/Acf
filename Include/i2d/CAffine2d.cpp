@@ -1,5 +1,8 @@
 #include <i2d/CAffine2d.h>
 
+// std includes
+#include <cmath>
+
 
 namespace i2d
 {
@@ -18,6 +21,27 @@ CAffine2d::CAffine2d(const CVector2d& translation)
 {
 }
 
+CVector2d CAffine2d::GetScaleVector() const
+{
+	const CMatrix2d& D = GetDeformMatrix();
+	const double s1 = std::sqrt(D.GetAt(0, 0) * D.GetAt(0, 0) + D.GetAt(0, 1) * D.GetAt(0, 1));
+	const double s2 = std::sqrt(D.GetAt(1, 0) * D.GetAt(1, 0) + D.GetAt(1, 1) * D.GetAt(1, 1));
+
+	return CVector2d(s1, s2);
+}
+
+CMatrix2d CAffine2d::GetRotationMatrix() const
+{
+	CMatrix2d result = GetDeformMatrix();
+	const CVector2d& scale = GetScaleVector();
+
+	result.GetAtRef(0, 0) = result.GetAt(0, 0) / scale.GetX();
+	result.GetAtRef(0, 1) = result.GetAt(0, 1) / scale.GetX();
+	result.GetAtRef(1, 0) = result.GetAt(1, 0) / scale.GetY();
+	result.GetAtRef(1, 1) = result.GetAt(1, 1) / scale.GetY();
+
+	return result;
+}
 
 // init operations
 
