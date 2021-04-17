@@ -19,17 +19,57 @@ namespace iqtgui
 
 // protected methods
 
+// reimplemented (imod::TSingleModelObserverBase)
+
+void CCommandsToolBarGuiComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
+{
+	UpdateCommands();
+}
+
+
 // reimplemented (CGuiComponentBase)
 
 void CCommandsToolBarGuiComp::OnGuiCreated()
 {
 	BaseClass::OnGuiCreated();
 
+	if (m_commandsProviderCompPtr.IsValid() && m_commandsProviderModelCompPtr.IsValid()){
+		m_commandsProviderModelCompPtr->AttachObserver(this);
+	}
+
+	UpdateCommands();
+}
+
+
+void CCommandsToolBarGuiComp::OnGuiDestroyed()
+{
+	if (m_commandsProviderModelCompPtr.IsValid() && m_commandsProviderModelCompPtr->IsAttached(this)){
+		m_commandsProviderModelCompPtr->DetachObserver(this);
+	}
+
+	m_toolBarCommands.ResetChilds();
+
+	BaseClass::OnGuiDestroyed();
+}
+
+
+// private methods
+
+void CCommandsToolBarGuiComp::UpdateCommands()
+{
+	m_toolBarCommands.ResetChilds();
+
+	if (!IsGuiCreated()){
+		return;
+	}
+
 	QToolBar* toolBarPtr = GetQtWidget();
 	Q_ASSERT(toolBarPtr != NULL);
 	if (toolBarPtr == NULL){
 		return;
 	}
+
+	toolBarPtr->clear();
 
 	if (m_commandsProviderCompPtr.IsValid()){
 		const ibase::IHierarchicalCommand* commandsPtr = m_commandsProviderCompPtr->GetCommands();
@@ -39,14 +79,6 @@ void CCommandsToolBarGuiComp::OnGuiCreated()
 
 		CCommandTools::SetupToolbar(m_toolBarCommands, *toolBarPtr);
 	}
-}
-
-
-void CCommandsToolBarGuiComp::OnGuiDestroyed()
-{
-	m_toolBarCommands.ResetChilds();
-
-	BaseClass::OnGuiDestroyed();
 }
 
 
