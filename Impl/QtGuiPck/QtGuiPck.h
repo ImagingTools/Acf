@@ -1,3 +1,25 @@
+/********************************************************************************
+**
+**	Copyright (C) 2007-2017 Witold Gantzke & Kirill Lepskiy
+**
+**	This file is part of the ACF Toolkit.
+**
+**	This file may be used under the terms of the GNU Lesser
+**	General Public License version 2.1 as published by the Free Software
+**	Foundation and appearing in the file LicenseLGPL.txt included in the
+**	packaging of this file.  Please review the following information to
+**	ensure the GNU Lesser General Public License version 2.1 requirements
+**	will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+**	If you are unsure which license is appropriate for your use, please
+**	contact us at info@imagingtools.de.
+**
+** 	See http://www.ilena.org or write info@imagingtools.de for further
+** 	information about the ACF.
+**
+********************************************************************************/
+
+
 #ifndef QtGuiPck_included
 #define QtGuiPck_included
 
@@ -9,6 +31,7 @@
 #include <iqtgui/CGuiApplicationComp.h>
 #include <iqtgui/CDialogApplicationComp.h>
 #include <iqtgui/CSplashScreenGuiComp.h>
+#include <iqtgui/CVersionInfoSplashScreenGuiComp.h>
 #include <iqtgui/CComposedGuiComp.h>
 #include <iqtgui/CIconProviderComp.h> 
 #include <iqtgui/CDockWidgetGuiComp.h>
@@ -45,6 +68,7 @@
 #include <iqtprm/CSelectableGuiComp.h>
 #include <iqtprm/CSelectableParamsSetGuiComp.h>
 #include <iqtprm/CNameParamGuiComp.h>
+#include <iqtprm/CTextParamGuiComp.h>
 #include <iqtprm/COptionsManagerGuiComp.h>
 #include <iqtprm/CEnableableParamGuiComp.h>
 #include <iqtprm/CButtonBasedSelectionParamGuiComp.h>
@@ -86,6 +110,7 @@ namespace QtGuiPck
 typedef iqtgui::CGuiApplicationComp GuiApplication;
 typedef iqtgui::CDialogApplicationComp DialogApplication;
 typedef iqtgui::CSplashScreenGuiComp SplashScreen;
+typedef iqtgui::CVersionInfoSplashScreenGuiComp VersionInfoSplashScreen;
 typedef iqtgui::CComposedGuiComp ComposedGui;
 typedef iqtgui::CIconProviderComp IconProvider;
 typedef iqtgui::CDockWidgetGuiComp DockWidgetGui;
@@ -124,6 +149,7 @@ typedef iqtprm::CSelectionParamIndexGuiComp SelectionParamIndexGui;
 typedef iqtprm::CSelectableGuiComp SelectableGui;
 typedef iqtprm::CSelectableParamsSetGuiComp SelectableParamsSetGui;
 typedef iqtprm::CNameParamGuiComp NameParamGui;
+typedef iqtprm::CTextParamGuiComp TextParamGui;
 typedef iqtprm::COptionsManagerGuiComp OptionsManagerGui;
 typedef iqtprm::COptionsListEditorComp OptionsListEditor;
 typedef iqtprm::COptionsManagerEditorComp OptionsManagerEditor;
