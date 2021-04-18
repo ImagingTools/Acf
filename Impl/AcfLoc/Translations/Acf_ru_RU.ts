@@ -1900,12 +1900,12 @@ See &apos;License.txt&apos; for license information</source>
     <message>
         <location line="+3"/>
         <source>Version</source>
-        <translation type="unfinished">Версия</translation>
+        <translation>Версия</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Checksum</source>
-        <translation type="unfinished"></translation>
+        <translation>Контрольная сумма</translation>
     </message>
     <message>
         <location line="+14"/>
