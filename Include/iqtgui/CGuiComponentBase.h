@@ -101,6 +101,11 @@ protected:
 	virtual void OnGuiRetranslate();
 
 	/**
+		Called from widget event filter when GUI should be polished (e.g. after change of color palette or style)
+	*/
+	virtual void OnGuiPolished();
+
+	/**
 		Called just after GUI is initialized.
 	*/
 	virtual void OnGuiCreated();
