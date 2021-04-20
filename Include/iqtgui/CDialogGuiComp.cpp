@@ -100,8 +100,15 @@ void CDialogGuiComp::OnRetranslate()
 {
 	istd::CChangeNotifier changePtr(&m_commandsProvider);
 
+	QIcon commandIcon;
+	if (m_dialogIconPathAttrPtr.IsValid()){
+		QString iconPath = *m_dialogIconPathAttrPtr;
+
+		commandIcon = QIcon(iconPath);
+	}
+
 	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
-	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr);
+	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
 }
 
 
@@ -140,11 +147,13 @@ void CDialogGuiComp::OnComponentCreated()
 
 	QIcon commandIcon;
 	if (m_dialogIconPathAttrPtr.IsValid()){
-		commandIcon = QIcon(*m_dialogIconPathAttrPtr);
+		QString iconPath = *m_dialogIconPathAttrPtr;
+
+		commandIcon = QIcon(iconPath);
 	}
 
 	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
-
+	
 	m_rootMenuCommand.InsertChild(&m_dialogCommand);
 	m_rootCommand.InsertChild(&m_rootMenuCommand);
 
