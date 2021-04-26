@@ -16,16 +16,7 @@ file(GLOB PROJECT_SRC
 
 message("SOURCES_FILE_AUX " "${SOURCES_FILE_AUX}")
 
-if(WIN32)
-	set(CMAKE_EXE_LINKER_FLAGS "/MANIFEST:NO /DEBUG:FULL /LIBPATH:${ACFDIR}/Lib/${TARGETNAME} /LIBPATH:${ACFSLNDIR}/Lib/${TARGETNAME} /VERBOSE /SUBSYSTEM:WINDOWS")
-	add_executable(${PROJECT_NAME} ${PROJECT_SRC})
-else()
-	add_executable(${PROJECT_NAME} ${PROJECT_SRC})
-endif()
-
-#add_custom_target(CONVERT${PROJECT_NAME} ALL DEPENDS ${RC_FILE})
-#add_dependencies(${PROJECT_NAME} CONVERT${PROJECT_NAME})
-
+add_executable(${PROJECT_NAME} ${PROJECT_SRC})
 
 acf_create_moc(MOC_SOURCES "${HEADER_FILES}")
 acf_wrap_resources(RESOURCES_FILES "${QRC_FILES}")
@@ -40,11 +31,9 @@ target_sources(${PROJECT_NAME} PRIVATE ${RC_FILE})
 
 qt5_use_modules(${PROJECT_NAME} Core Widgets Gui Xml Network XmlPatterns Svg Concurrent)
 
-set(outbindir "${AUX_INCLUDE_DIR}/../../../Bin/${TARGETNAME}")
+set(outbindir "${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}")
 set_property(
     TARGET ${PROJECT_NAME}
     PROPERTY RUNTIME_OUTPUT_DIRECTORY ${outbindir})
 
 #set(EXECUTABLE_OUTPUT_PATH "${ACFDIRBUILD}")
-
-

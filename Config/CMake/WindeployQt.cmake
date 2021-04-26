@@ -17,7 +17,7 @@ function(windeployqt target)
 		COMMAND "${Qt5_DIR}/../../../bin/windeployqt.exe"
 #COMMAND "$ENV{QTDIR}/bin/windeployqt.exe"
 #COMMAND "${_qt_bin_dir}/windeployqt.exe"
-#ARGS --verbose 1 ${AUX_INCLUDE_DIR}/../../../Bin/${TARGETNAME}
+#ARGS --verbose 1 ${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}
                 --verbose 1
 #                --release
 #                --no-svg
@@ -27,7 +27,7 @@ function(windeployqt target)
 #                --no-compiler-runtime
 #                --no-system-d3d-compiler
 #                \"$<TARGET_FILE:${target}>\"
-                \"${AUX_INCLUDE_DIR}/../../../Bin/${TARGETNAME}\"
+                \"${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}\"
 
 		COMMENT "Deploying Qt libraries using windeployqt for compilation target '${target}' ..."
     )

@@ -54,5 +54,5 @@ macro(get_target_name target_name)
 	message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID " "${CMAKE_CL_64}")
 
 
-	set(${target_name} "${CMAKE_BUILD_TYPE}${COMPILER_NAME}")
+	set(${target_name} "${COMPILER_NAME}")
 endmacro()

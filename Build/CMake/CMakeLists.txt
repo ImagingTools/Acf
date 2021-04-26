@@ -1,4 +1,6 @@
+message(${CMAKE_CURRENT_LIST_DIR})
 cmake_minimum_required(VERSION 3.1.0)
+#cmake_minimum_required(VERSION 3.13.0)
 
 project(Acf)
 
@@ -11,28 +13,35 @@ include("${ACFDIR}/Config/CMake/Macro.cmake")
 set(INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../Include")
 set(IMPL_DIR "${CMAKE_CURRENT_LIST_DIR}/../../Impl")
 
+message(${INCLUDE_DIR})
+
 subdirlist(INCLUDE_DIRS ${INCLUDE_DIR})
 subdirlist(IMPL_DIRS ${IMPL_DIR})
 
 get_target_name(TARGETNAME)
 
 set(AUX_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../AuxInclude/Qt${QT_DEFAULT_MAJOR_VERSION}_${TARGETNAME}/GeneratedFiles")
-set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${TARGETNAME}")
+
+set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}")
 
 include_directories(${AUX_INCLUDE_DIR}/..)
 
-# Includes
+
+# Include
+
 add_subdirectory("${INCLUDE_DIR}/istd/CMake" "${AUX_INCLUDE_DIR}/istd")
 add_subdirectory("${INCLUDE_DIR}/iser/CMake" "${AUX_INCLUDE_DIR}/iser")
 add_subdirectory("${INCLUDE_DIR}/ilog/CMake" "${AUX_INCLUDE_DIR}/ilog")
 add_subdirectory("${INCLUDE_DIR}/i2d/CMake" "${AUX_INCLUDE_DIR}/i2d")
 add_subdirectory("${INCLUDE_DIR}/i3d/CMake" "${AUX_INCLUDE_DIR}/i3d")
+#
 add_subdirectory("${INCLUDE_DIR}/iattr/CMake" "${AUX_INCLUDE_DIR}/iattr")
 add_subdirectory("${INCLUDE_DIR}/iimg/CMake" "${AUX_INCLUDE_DIR}/iimg")
 add_subdirectory("${INCLUDE_DIR}/imath/CMake" "${AUX_INCLUDE_DIR}/imath")
 add_subdirectory("${INCLUDE_DIR}/icmm/CMake" "${AUX_INCLUDE_DIR}/icmm")
 add_subdirectory("${INCLUDE_DIR}/imod/CMake" "${AUX_INCLUDE_DIR}/imod")
 add_subdirectory("${INCLUDE_DIR}/icomp/CMake" "${AUX_INCLUDE_DIR}/icomp")
+
 add_subdirectory("${INCLUDE_DIR}/idoc/CMake" "${AUX_INCLUDE_DIR}/idoc")
 add_subdirectory("${INCLUDE_DIR}/iprm/CMake" "${AUX_INCLUDE_DIR}/iprm")
 add_subdirectory("${INCLUDE_DIR}/ibase/CMake" "${AUX_INCLUDE_DIR}/ibase")
@@ -47,9 +56,11 @@ add_subdirectory("${INCLUDE_DIR}/ifilegui/CMake" "${AUX_INCLUDE_DIR}/ifilegui")
 add_subdirectory("${INCLUDE_DIR}/iloggui/CMake" "${AUX_INCLUDE_DIR}/iloggui")
 add_subdirectory("${INCLUDE_DIR}/iqtprm/CMake" "${AUX_INCLUDE_DIR}/iqtprm")
 add_subdirectory("${INCLUDE_DIR}/ipackage/CMake" "${AUX_INCLUDE_DIR}/ipackage")
+
 add_subdirectory("${INCLUDE_DIR}/itest/CMake" "${AUX_INCLUDE_DIR}/itest")
 
-# Impls
+# Impl
+
 add_subdirectory("${IMPL_DIR}/BasePck/CMake" "${AUX_INCLUDE_DIR}/BasePck")
 add_subdirectory("${IMPL_DIR}/BitmapPck/CMake" "${AUX_INCLUDE_DIR}/BitmapPck")
 add_subdirectory("${IMPL_DIR}/QtPck/CMake" "${AUX_INCLUDE_DIR}/QtPck")
@@ -61,4 +72,3 @@ add_subdirectory("${IMPL_DIR}/FileGuiPck/CMake" "${AUX_INCLUDE_DIR}/FileGuiPck")
 add_subdirectory("${IMPL_DIR}/ArxcExe/CMake" "${AUX_INCLUDE_DIR}/ArxcExe")
 add_subdirectory("${IMPL_DIR}/AcfExe/CMake" "${AUX_INCLUDE_DIR}/AcfExe")
 add_subdirectory("${IMPL_DIR}/AcfLoc/CMake" "${AUX_INCLUDE_DIR}/AcfLoc")
-

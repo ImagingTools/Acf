@@ -1,24 +1,29 @@
+
 if(WIN32)
-	set(ARX_COMPILER "Arxc.exe")
-	set(ACF_TOOL "Acf.exe")
-	set(QMAKE_RCC "rcc.exe")
-	set(COPY_FILE "copy")
+    set(ARX_COMPILER "Arxc.exe")
+    set(ACF_TOOL "Acf.exe")
+    set(QMAKE_RCC "rcc.exe")
+    set(COPY_FILE "copy")
 	set(QMAKE_LRELEASE "lrelease.exe")
 else()
-	set(ARX_COMPILER "Arxc")
-	set(ACF_TOOL "Acf")
-	set(QMAKE_RCC "rcc")
-	set(COPY_FILE "cp")
+    set(ARX_COMPILER "Arxc")
+    set(ACF_TOOL "Acf")
+    set(QMAKE_RCC "rcc")
+    set(COPY_FILE "cp")
 	set(QMAKE_LRELEASE "lrelease")
 endif()
 
 set(PROJECT_BINARY_DIR ${AUX_INCLUDE_DIR}/${PROJECT_NAME})
+message("PROJECT_BINARY_DIR " ${PROJECT_BINARY_DIR})
+
 set(ACFTOOLS "$ENV{ACFDIR}/../AcfTools")
-set(ARXCBIN "${ACFDIR}/Bin/${TARGETNAME}/${ARX_COMPILER}")
-set(ACFBIN "${ACFDIR}/Bin/${TARGETNAME}/${ACF_TOOL}")
+
+set(ARXCBIN "${ACFDIR}/Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}/${ARX_COMPILER}")
+set(ACFBIN "${ACFDIR}/Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}/${ACF_TOOL}")
 
 set(ARXC_OUTFILE_NAME C${PROJECT_NAME}.cpp)
 set(ARXC_OUTFILE_PATH ${ARXC_OUTDIR}/GeneratedFiles/${PROJECT_NAME}/${ARXC_OUTFILE_NAME})
+
 
 add_custom_command(OUTPUT ${ARXC_OUTFILE_NAME}
 	COMMAND ${ARXCBIN}
@@ -27,6 +32,7 @@ add_custom_command(OUTPUT ${ARXC_OUTFILE_NAME}
 
 set(HEADER_FILE_AUX "${ARXC_OUTDIR}/${PROJECT_NAME}/C${PROJECT_NAME}.h")
 set(SOURCES_FILE_AUX "${ARXC_OUTDIR}/${PROJECT_NAME}/C${PROJECT_NAME}.cpp")
+
 
 if(WIN32)
 	if(ACF_CONVERT_FILES)
@@ -38,6 +44,7 @@ if(WIN32)
 endif()
 
 
+
 if(ACF_TRANSLATIONS)
 	add_custom_command(OUTPUT ${TRANSLATION_OUTPUT_FILE}
 		COMMAND ${QMAKE_LRELEASE}
@@ -45,7 +52,6 @@ if(ACF_TRANSLATIONS)
 		DEPENDS ${ACF_TRANSLATIONS})
 	add_custom_target(LRELEASE${PROJECT_NAME} ALL DEPENDS ${TRANSLATION_OUTPUT_FILE})
 endif()
-
 
 set_property(SOURCE ${SOURCES_FILE_AUX} PROPERTY SKIP_AUTOMOC ON)
 set_property(SOURCE ${HEADER_FILE_AUX} PROPERTY SKIP_AUTOMOC ON)
