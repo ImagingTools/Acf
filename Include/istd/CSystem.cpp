@@ -453,13 +453,7 @@ QString CSystem::GetCompilerVariable(const QString& varName)
 	}
 	else if (varName == "CompilerName"){
 #ifdef __clang__
-		QString retVal = "Clang";
-		if (sizeof(void*) > 4){
-			return retVal + "_64";
-		}
-		else{
-			return retVal;
-		}
+		return "Clang";
 #elif defined(__MINGW32__)
 		return "MinGW";
 #elif defined(__MINGW64__)
