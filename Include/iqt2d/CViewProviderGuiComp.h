@@ -9,7 +9,6 @@
 #include <iview/IColorSchema.h>
 #include <iview/CConsoleGui.h>
 #include <iqt2d/IViewProvider.h>
-#include <iqt2d/IViewActivationHandler.h>
 
 
 namespace iqt2d
@@ -132,7 +131,6 @@ private:
 	I_REF(iview::IShape, m_calibrationShapeCompPtr);
 	I_REF(iview::IShape, m_distanceMeasureShapeCompPtr);
 	I_REF(iview::IShape, m_pointMeasureShapeCompPtr);
-	I_REF(IViewActivationHandler, m_viewActivationHandlerCompPtr);
 };
 
 
