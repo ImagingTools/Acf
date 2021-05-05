@@ -98,7 +98,6 @@ public:
 		I_ASSIGN(m_calibrationShapeCompPtr, "CalibrationShape", "Calibration shape displaying calibration grid, if not choosen default affine calibration shape will be used", false, "CalibrationShape");
 		I_ASSIGN(m_distanceMeasureShapeCompPtr, "DistanceMeasureShape", "Distance measurement shape", false, "DistanceMeasureShape");
 		I_ASSIGN(m_pointMeasureShapeCompPtr, "PointMeasureShape", "Point measurement shape", false, "PointMeasureShape");
-		I_ASSIGN(m_viewActivationHandlerCompPtr, "ViewActivationHandler", "Handler for observation the visual status of the view provider", false, "ViewActivationHandler");
 	I_END_COMPONENT;
 
 	// reimplemented (ibase::ICommandsProvider)
