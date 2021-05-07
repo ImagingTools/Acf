@@ -3,14 +3,12 @@
 
 // Qt includes
 #include <QtGui/QPainter>
+#include <QtGui/QPainterPath>
 
 // ACF includes
 #include <imod/IModel.h>
-
 #include <i2d/CAnnulus.h>
-
 #include <iqt/iqt.h>
-
 #include <iview/IColorSchema.h>
 #include <iview/CScreenTransform.h>
 

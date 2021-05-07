@@ -3,5 +3,5 @@ TARGET = iview
 include(../../../Config/QMake/StaticConfig.pri)
 include(../../../Config/QMake/QtGuiBaseConfig.pri)
 
-FORMS += $$_PRO_FILE_PWD_/../*.ui
+FORMS += $$files($$_PRO_FILE_PWD_/../*.ui, true)
 

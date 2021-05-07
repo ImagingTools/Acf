@@ -3,15 +3,13 @@
 
 // Qt includes
 #include <QtGui/QPainter>
+#include <QtGui/QPainterPath>
 
 // ACF includes
 #include <imod/IModel.h>
-
 #include <i2d/CSpline.h>
 #include <i2d/CSplineSegment.h>
-
 #include <iqt/iqt.h>
-
 #include <iview/IColorSchema.h>
 #include <iview/CScreenTransform.h>
 
@@ -148,12 +146,12 @@ i2d::CRect CSplineShape::CalcBoundingBox() const
 
 		int segmentCount = splinePtr->GetSegmentCount();
 		if (segmentCount > 0){
-			const i2d::CSplineSegment& segment = splinePtr->GetSplineSegment(0);
+			const i2d::CSplineSegment& firstSegment = splinePtr->GetSplineSegment(0);
 
-			istd::CIndex2d sp = GetScreenPosition(segment.GetBezierPointBegin()).ToIndex2d();
+			istd::CIndex2d sp = GetScreenPosition(firstSegment.GetBezierPointBegin()).ToIndex2d();
 			i2d::CRect boundingBox(sp, sp);
 
-			sp = GetScreenPosition(segment.GetBezierPointEnd()).ToIndex2d();
+			sp = GetScreenPosition(firstSegment.GetBezierPointEnd()).ToIndex2d();
 			boundingBox.Union(sp);
 
 			for (int i = 1; i < segmentCount; ++i){
@@ -161,6 +159,7 @@ i2d::CRect CSplineShape::CalcBoundingBox() const
 
 				sp = GetScreenPosition(segment.GetBezierPointBegin()).ToIndex2d();
 				boundingBox.Union(sp);
+
 				sp = GetScreenPosition(segment.GetBezierPointEnd()).ToIndex2d();
 				boundingBox.Union(sp);
 			}
