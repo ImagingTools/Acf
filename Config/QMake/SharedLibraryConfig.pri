@@ -17,8 +17,8 @@ CONFIG += shared
 	QMAKE_CFLAGS += -fPIC
 }
 
-HEADERS += $$files($$_PRO_FILE_PWD_/../*.h, true)
-SOURCES += $$files($$_PRO_FILE_PWD_/../*.cpp, true)
+HEADERS += $$files($$_PRO_FILE_PWD_/../*.h, false)
+SOURCES += $$files($$_PRO_FILE_PWD_/../*.cpp, false)
 
 isEqual(DEBUG_INFO_ENABLED_FOR_RELEASE, true){
 	include(MsvcEnableDebugInfo.pri)

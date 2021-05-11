@@ -11,8 +11,8 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../../
 INCLUDEPATH += $$OUT_PWD/../../
 
 DESTDIR = $$OUT_PWD/../../../Lib/$$COMPILER_DIR
-HEADERS += $$files($$_PRO_FILE_PWD_/../*.h, true)
-SOURCES += $$files($$_PRO_FILE_PWD_/../*.cpp, true)
+HEADERS += $$files($$_PRO_FILE_PWD_/../*.h, false)
+SOURCES += $$files($$_PRO_FILE_PWD_/../*.cpp, false)
 
 isEqual(DEBUG_INFO_ENABLED_FOR_RELEASE, true){
 	include(MsvcEnableDebugInfo.pri)
