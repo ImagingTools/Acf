@@ -15,30 +15,14 @@ if(NOT DEFINED ACFDIR)
 	set(ACFDIR "$ENV{ACFDIR}")
 endif()
 if(NOT DEFINED ACFCONFIGDIR)
-	set(ACFCONFIGDIR "$ENV{ACFDIR}/Config")
+	set(ACFCONFIGDIR "$ENV{ACFCONFIGDIR}")
 endif()
 
-#Sln
-if(NOT DEFINED ACFSLNDIR)
-	set(ACFSLNDIR "$ENV{ACFSLNDIR}")
-endif()
-if(NOT DEFINED CONFIGSLN_DIR)
-	set(CONFIGSLN_DIR "$ENV{ACFSLNDIR}/Config")
-endif()
+include("${ACFDIR}/Config/CMake/Macro.cmake")
 
-#Iacf
-if(NOT DEFINED IACFDIR)
-	set(IACFDIR "$ENV{IACFDIR}")
-endif()
+get_target_name(TARGETNAME)
 
 include_directories("${ACFDIR}/AuxInclude/Qt${QT_DEFAULT_MAJOR_VERSION}_${TARGETNAME}")
 include_directories("${ACFDIR}/Include")
 include_directories("${ACFDIR}/Impl")
 
-include_directories("${ACFSLNDIR}/AuxInclude/Qt${QT_DEFAULT_MAJOR_VERSION}_${TARGETNAME}")
-include_directories("${ACFSLNDIR}/Include")
-include_directories("${ACFSLNDIR}/Impl")
-
-include_directories("${IACFDIR}/AuxInclude/Qt${QT_DEFAULT_MAJOR_VERSION}_${TARGETNAME}")
-include_directories("${IACFDIR}/Include")
-include_directories("${IACFDIR}/Impl")
