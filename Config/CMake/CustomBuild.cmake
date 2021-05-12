@@ -40,6 +40,7 @@ if(WIN32)
 		COMMAND ${ACFBIN}
 		ARGS ${ACF_CONVERT_REGISTRY} -console -config ${ACF_CONVERT_CONFIG} -input ${ACF_CONVERT_FILES} -o ${RC_FILE} -env_vars ${ENV_VARS}
 		DEPENDS ${ACFBIN} VERBATIM)
+                add_custom_target(CONVERT_FILES${PROJECT_NAME} ALL DEPENDS ${RC_FILE})
 	endif()
 endif()
 

@@ -11,7 +11,7 @@ file(GLOB QRC_FILES "${PROJECT_SOURCE_DIR}/../*.qrc")
 file(GLOB PROJECT_SRC
     ${HEADER_FILES}
     ${SOURCES_FILES}
-#	${RC_FILE}
+	${RC_FILE}
 )
 
 message("SOURCES_FILE_AUX " "${SOURCES_FILE_AUX}")
