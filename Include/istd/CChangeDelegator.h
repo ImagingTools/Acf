@@ -15,7 +15,7 @@ namespace istd
 
 	\ingroup DataModel
 */
-class CChangeDelegator: virtual public IChangeDelegator 
+class CChangeDelegator: virtual public IChangeDelegator
 {
 public:
 	typedef istd::IChangeable BaseClass;
