@@ -13,6 +13,7 @@
 #include <iqtgui/IGuiObject.h>
 #include <iqtgui/IVisualStatus.h>
 #include <iqtgui/TDesignSchemaHandlerWrap.h>
+#include <iqtgui/TMakeIconProviderCompWrap.h>
 
 
 namespace iqtgui
@@ -24,13 +25,15 @@ namespace iqtgui
 */
 class CGuiComponentBase:
 			public QObject,
-			public TDesignSchemaHandlerWrap<
-						ibase::TLocalizableWrap<icomp::CComponentBase>>,
+			public TMakeIconProviderCompWrap<
+						TDesignSchemaHandlerWrap<
+									ibase::TLocalizableWrap<icomp::CComponentBase>>>,
 			virtual public IGuiObject
 {
 public:
-	typedef TDesignSchemaHandlerWrap<
-				ibase::TLocalizableWrap<icomp::CComponentBase>> BaseClass;
+	typedef TMakeIconProviderCompWrap<
+				TDesignSchemaHandlerWrap<
+							ibase::TLocalizableWrap<icomp::CComponentBase>>> BaseClass;
 
 	I_BEGIN_BASE_COMPONENT(CGuiComponentBase);
 		I_REGISTER_INTERFACE(IGuiObject);
