@@ -54,8 +54,25 @@ QByteArray CSelectionConstraintsComp::GetOptionId(int index) const
 }
 
 
-bool CSelectionConstraintsComp::IsOptionEnabled(int /*index*/) const
+bool CSelectionConstraintsComp::IsOptionEnabled(int index) const
 {
+	Q_ASSERT(index >= 0);
+	if (index < 0){
+		return false;
+	}
+
+	if (m_optionsEnablersCompPtr.IsValid()){
+		if (index < m_optionsEnablersCompPtr.GetCount()){
+			iprm::IEnableableParam* enabledPtr = m_optionsEnablersCompPtr[index];
+			if (enabledPtr != nullptr){
+				return enabledPtr->IsEnabled();
+			}
+			else{
+				return false;
+			}
+		}
+	}
+
 	return true;
 }
 

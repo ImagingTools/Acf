@@ -6,6 +6,7 @@
 #include <iser/ISerializable.h>
 #include <icomp/CComponentBase.h>
 #include <iprm/IOptionsList.h>
+#include <iprm/IEnableableParam.h>
 
 
 namespace iprm
@@ -28,6 +29,7 @@ public:
 		I_ASSIGN_MULTI_0(m_optionNamesAttrPtr, "OptionNames", "Names of selectable options", true);
 		I_ASSIGN_MULTI_0(m_optionDescriptionsAttrPtr, "OptionDescriptions", "Descriptions of selectable options", true);
 		I_ASSIGN_MULTI_0(m_optionIdsAttrPtr, "OptionIds", "List of option IDs", true);
+		I_ASSIGN_MULTI_0(m_optionsEnablersCompPtr, "OptionEnablers", "List of enablers for the options", false);
 	I_END_COMPONENT;
 
 	// reimplemented (iprm::IOptionsList)
@@ -42,6 +44,7 @@ private:
 	I_MULTITEXTATTR(m_optionNamesAttrPtr);
 	I_MULTITEXTATTR(m_optionDescriptionsAttrPtr);
 	I_MULTIATTR(QByteArray, m_optionIdsAttrPtr);
+	I_MULTIREF(iprm::IEnableableParam, m_optionsEnablersCompPtr);
 };
 
 
