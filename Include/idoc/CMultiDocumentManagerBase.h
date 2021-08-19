@@ -207,7 +207,7 @@ protected:
 	*/
 	virtual void OnDocumentSaved();
 
-private:
+protected:
 	typedef istd::TPointerVector<SingleDocumentData> DocumentInfos;
 
 	DocumentInfos m_documentInfos;
