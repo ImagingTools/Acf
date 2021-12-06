@@ -271,7 +271,10 @@ bool CStandardDocumentMetaInfo::CopyFrom(const IChangeable& object, Compatibilit
 {
 	const CStandardDocumentMetaInfo* infoPtr = dynamic_cast<const CStandardDocumentMetaInfo*>(&object);
 	if (infoPtr != NULL){
+		istd::CChangeNotifier notifier(this, &s_setMetaInfoChangeSet);
+
 		m_infosMap = infoPtr->m_infosMap;
+
 		return true;
 	}
 
@@ -288,6 +291,18 @@ istd::IChangeable* CStandardDocumentMetaInfo::CloneMe(CompatibilityMode mode) co
 	}
 
 	return NULL;
+}
+
+
+bool CStandardDocumentMetaInfo::ResetData(CompatibilityMode /*mode*/)
+{
+	if (!m_infosMap.isEmpty()){
+		istd::CChangeNotifier notifier(this, &s_setMetaInfoChangeSet);
+
+		m_infosMap.clear();
+	}
+
+	return true;
 }
 
 
