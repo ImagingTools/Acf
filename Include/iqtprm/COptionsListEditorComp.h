@@ -44,8 +44,7 @@ protected Q_SLOTS:
 
 protected:
 	void UpdateList();
-	int GetSelectedIndex() const;
-	void EnsureSelectedIndexUpdated() const;
+	int GetSelectedListOption() const;
 	QByteArray GetSelectedParamsSetTypeId() const;
 
 	// reimplemented (iqtgui::TGuiObserverWrap)
@@ -59,8 +58,6 @@ protected:
 
 private:
 	I_ATTR(int, m_iconSizeAttrPtr);
-
-	mutable int m_lastSelectedIndex;
 };
 
 

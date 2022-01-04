@@ -21,7 +21,6 @@ namespace iqtprm
 // public methods
 
 COptionsListEditorComp::COptionsListEditorComp()
-	:m_lastSelectedIndex(-1)
 {
 }
 
@@ -33,15 +32,13 @@ void COptionsListEditorComp::on_OptionsList_itemSelectionChanged()
 	if (!IsUpdateBlocked()){
 		UpdateBlocker updateBlocker(this);
 
-		m_lastSelectedIndex = GetSelectedIndex();
-
 		iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObservedObject());
 		if (selectionPtr != NULL){
 			static const istd::IChangeable::ChangeSet changeSet(iprm::ISelectionParam::CF_SELECTION_CHANGED);
 			istd::CChangeNotifier selectionNotifier(selectionPtr, &changeSet);
 			Q_UNUSED(selectionNotifier);
 
-			selectionPtr->SetSelectedOptionIndex(m_lastSelectedIndex);
+			selectionPtr->SetSelectedOptionIndex(GetSelectedListOption());
 		}
 	}
 }
@@ -53,7 +50,12 @@ void COptionsListEditorComp::UpdateList()
 {
 	UpdateBlocker updateBlocker(this);
 
-	int lastSelectedIndex = m_lastSelectedIndex;
+	int lastSelectedIndex = -1;
+
+	iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObservedObject());
+	if (selectionPtr != NULL){
+		lastSelectedIndex = selectionPtr->GetSelectedOptionIndex();
+	}
 
 	OptionsList->clear();
 	
@@ -62,7 +64,6 @@ void COptionsListEditorComp::UpdateList()
 		int optionsCount = objectPtr->GetOptionsCount();
 
 		for (int optionIndex = 0; optionIndex < optionsCount; ++optionIndex){
-
 			Qt::ItemFlags itemFlags = objectPtr->IsOptionEnabled(optionIndex) ? Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::NoItemFlags;
 
 			iprm::IOptionsManager* managerPtr = dynamic_cast<iprm::IOptionsManager*>(objectPtr);
@@ -103,7 +104,7 @@ void COptionsListEditorComp::UpdateList()
 }
 
 
-int COptionsListEditorComp::GetSelectedIndex() const
+int COptionsListEditorComp::GetSelectedListOption() const
 {
 	Q_ASSERT(IsGuiCreated());
 
@@ -119,15 +120,6 @@ int COptionsListEditorComp::GetSelectedIndex() const
 	}
 
 	return retVal;
-}
-
-
-void COptionsListEditorComp::EnsureSelectedIndexUpdated() const
-{
-	iprm::ISelectionParam* selectionPtr = dynamic_cast<iprm::ISelectionParam*>(GetObservedObject());
-	if (selectionPtr != NULL){
-		m_lastSelectedIndex = selectionPtr->GetSelectedOptionIndex();
-	}
 }
 
 
