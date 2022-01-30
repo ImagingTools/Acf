@@ -26,7 +26,7 @@ if(NOT DEFINED OPENCVDIR_3_3_1)
 	set(OPENCVDIR_3_3_1 "${ACFDIR}/../3rdParty/OpenCV/3.3.1")
 endif()
 
-include("${ACFDIR}/Config/CMake/Macro.cmake")
+include("${ACFDIR}/Config/CMake/ProjectRoot.cmake")
 
 get_target_name(TARGETNAME)
 
