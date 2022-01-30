@@ -1,6 +1,9 @@
 #include <iqtprm/CExtComposedParamsSetGuiComp.h>
 
 
+// Qt includes
+#include <QtCore/QtDebug>
+
 // ACF includes
 #include <iqt/CSignalBlocker.h>
 #include <iview/IShapeView.h>
@@ -248,7 +251,7 @@ void CExtComposedParamsSetGuiComp::OnGuiModelAttached()
 					}
 				}
 				else{
-					qDebug(qPrintable(QString("Parameter with ID '%1' could not be connected to the editor").arg(paramId.constData())));
+					qDebug() << QString("Parameter with ID '%1' could not be connected to the editor").arg(paramId.constData());
 				}
 			}
 		}

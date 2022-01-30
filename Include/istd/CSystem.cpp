@@ -7,6 +7,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QProcess>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #if QT_VERSION >= 0x050400
 	#include <QtCore/QStorageInfo>
 #endif
@@ -250,7 +251,7 @@ bool CSystem::CopyDirectory(const QString& sourcePath, const QString& destinatio
 			}
 		}
 		else{
-			qDebug(qPrintable(QString("CSystem::CopyDirectory: Unhandled item (%1)").arg(info.filePath())));
+			qDebug() << QString("CSystem::CopyDirectory: Unhandled item (%1)").arg(info.filePath());
 		}
 	}
 
@@ -316,7 +317,7 @@ bool CSystem::FileCopy(const QString& source, const QString& result, bool overWr
 		if (overWrite)
 		{
 			if (!QFile::remove(resultFile.absoluteFilePath())){
-				qDebug(qPrintable(QString("File '%1' could not be overwritten").arg(resultFile.absoluteFilePath())));
+				qDebug() << QString("File '%1' could not be overwritten").arg(resultFile.absoluteFilePath());
 
 				return false;
 			}
@@ -370,7 +371,7 @@ bool CSystem::FileMove(const QString& source, const QString& targetFolder, bool 
 		if (overWrite)
 		{
 			if (!QFile::remove(resultFile.absoluteFilePath())){
-				qDebug(qPrintable(QString("File '%1' could not be overwritten").arg(resultFile.absoluteFilePath())));
+				qDebug() << QString("File '%1' could not be overwritten").arg(resultFile.absoluteFilePath());
 
 				return false;
 			}
