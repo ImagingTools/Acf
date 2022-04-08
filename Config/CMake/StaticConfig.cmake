@@ -56,6 +56,5 @@ set_property(
 	TARGET ${PROJECT_NAME}
 	PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-message(" CMAKE_PREFIX_PATH " ${CMAKE_PREFIX_PATH})
 target_link_libraries(${PROJECT_NAME} Qt5::Core )
 

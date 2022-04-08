@@ -58,7 +58,7 @@ add_subdirectory("${INCLUDE_DIR}/ipackage/CMake" "${AUX_INCLUDE_DIR}/ipackage")
 add_subdirectory("${INCLUDE_DIR}/itest/CMake" "${AUX_INCLUDE_DIR}/itest")
 
 # Impl
-
+if(NOT ANDROID)
 add_subdirectory("${IMPL_DIR}/BasePck/CMake" "${AUX_INCLUDE_DIR}/BasePck")
 add_subdirectory("${IMPL_DIR}/BitmapPck/CMake" "${AUX_INCLUDE_DIR}/BitmapPck")
 add_subdirectory("${IMPL_DIR}/QtPck/CMake" "${AUX_INCLUDE_DIR}/QtPck")
@@ -70,3 +70,5 @@ add_subdirectory("${IMPL_DIR}/FileGuiPck/CMake" "${AUX_INCLUDE_DIR}/FileGuiPck")
 add_subdirectory("${IMPL_DIR}/ArxcExe/CMake" "${AUX_INCLUDE_DIR}/ArxcExe")
 add_subdirectory("${IMPL_DIR}/AcfExe/CMake" "${AUX_INCLUDE_DIR}/AcfExe")
 add_subdirectory("${IMPL_DIR}/AcfLoc/CMake" "${AUX_INCLUDE_DIR}/AcfLoc")
+endif()
+

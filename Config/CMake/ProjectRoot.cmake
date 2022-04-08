@@ -63,9 +63,5 @@ macro(get_target_name target_name)
 		endif()
 	endif()
 
-	message("CMAKE_SYSTEM_NAME" "${CMAKE_SYSTEM_NAME}")
-	message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID " "${CMAKE_CL_64}")
-
-
 	set(${target_name} "${COMPILER_NAME}")
 endmacro()

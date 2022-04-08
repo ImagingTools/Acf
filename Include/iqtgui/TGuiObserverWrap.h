@@ -144,7 +144,7 @@ TGuiObserverWrap<Gui, Observer>::TGuiObserverWrap()
 :	m_isReadOnly(false),
 	m_disableUiIfReadOnly(true),
 	m_ignoreUpdatesCounter(0),
-	m_isUpdatePending(true),
+	m_isUpdatePending(false),
 	m_onShowChangeIds(istd::IChangeable::GetAllChanges())
 {
 }

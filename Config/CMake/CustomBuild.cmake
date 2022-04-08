@@ -14,7 +14,6 @@ else()
 endif()
 
 set(PROJECT_BINARY_DIR ${AUX_INCLUDE_DIR}/${PROJECT_NAME})
-message("PROJECT_BINARY_DIR " ${PROJECT_BINARY_DIR})
 
 set(ACFTOOLS "$ENV{ACFDIR}/../AcfTools")
 
@@ -27,13 +26,12 @@ set(ARXC_OUTFILE_NAME C${ARXC_FILES_NAME}.cpp)
 
 # collecting additional deps for ARX
 set(ARX_DEPS_LIST)
-if(ARXC_CONFIG AND ARX_GENERATE_DEPENDENCIES_LIST)
+if(ARXC_CONFIG AND NOT ARX_DISABLE_GENERATE_DEPENDENCIES_LIST)
 	set(ARX_DEPS_FILE_PATH "${AUX_INCLUDE_DIR}/${PROJECT_NAME}/ArxDependsList.txt")
 	set(ARX_ERRORS_FILE_PATH "${AUX_INCLUDE_DIR}/${PROJECT_NAME}/ArxDependsList_errors.txt")
 
 	message("Collectiong ARX dependences for ${PROJECT_NAME}")
-	message("Executing: ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ENV_VARS}")
-
+	
 	execute_process(
 		COMMAND
 			${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ENV_VARS}
@@ -46,13 +44,18 @@ if(ARXC_CONFIG AND ARX_GENERATE_DEPENDENCIES_LIST)
 	)
 
 	if(NOT ARX_DEPS_GENERATION_RESULT_CODE EQUAL 0)
-		message(FATAL_ERROR "Cannot to create dependens [${ARX_DEPS_GENERATION_RESULT_CODE}] see '${ARX_DEPS_FILE_PATH}' and ${ARX_ERRORS_FILE_PATH}' files for detales")
+		message("!!! ARX Cannot to create dependens")
+
+		file(STRINGS ${ARX_DEPS_FILE_PATH} ERRORS1_ARX_DEPS_LIST)
+		message(${ERRORS1_ARX_DEPS_LIST})
+
+		file(STRINGS ${ARX_ERRORS_FILE_PATH} ERRORS2_ARX_DEPS_LIST)
+		message(${ERRORS2_ARX_DEPS_LIST})
+
+		message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")
 	endif()
 
 	file(STRINGS ${ARX_DEPS_FILE_PATH} ARX_DEPS_LIST)
-	message("${PROJECT_NAME} ARX deps detected:-----------------------------")
-	message("${ARX_DEPS_LIST}")
-	message("-----------------------------")
 endif()
 
 add_custom_command(OUTPUT ${ARXC_OUTFILE_NAME}

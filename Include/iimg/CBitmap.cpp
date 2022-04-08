@@ -633,7 +633,7 @@ QImage::Format CBitmap::CalcQtFormat(PixelFormat pixelFormat) const
 
 		// just pixel mapped formats
 		case PF_GRAY16:
-			return QImage::Format_RGB16;
+			return QImage::Format_Grayscale16;
 
 		case PF_GRAY32:
 			return QImage::Format_ARGB32;
@@ -668,6 +668,7 @@ iimg::IBitmap::PixelFormat CBitmap::CalcFromQtFormat(QImage::Format imageFormat)
 		return PF_MONO;
 
 	// just pixel mapped formats
+	case QImage::Format_Grayscale16:
 	case QImage::Format_RGB16:
 	case QImage::Format_RGB555:
 	case QImage::Format_RGB444:

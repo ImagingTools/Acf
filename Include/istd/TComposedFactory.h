@@ -7,7 +7,7 @@
 
 // ACF includes
 #include <istd/TIFactory.h>
-#include <istd/TOptDelPtr.h>
+#include <istd/TSmartPtr.h>
 
 
 namespace istd
@@ -23,13 +23,19 @@ class TComposedFactory: virtual public TIFactory<InterfaceType>
 public:
 	typedef TIFactory<InterfaceType> FactoryInterface;
 
-	/**
-		Registers object factory \c factoryPtr that will be mapped to the \c keyId.
-		\param	factoryPtr	pointer to slave factory object.
-							It cannot be NULL.
-		\param	releaseFlag	if it is true, factory object will be automatically removed from memory.
-	*/
-	bool RegisterFactory(FactoryInterface* factoryPtr, bool releaseFlag = false);
+	template <class FactoryImpl>
+	bool RegisterFactory(const QByteArray& typeId)
+	{
+		istd::TSmartPtr<FactoryInterface> factoryPtr(new FactoryImpl(typeId));
+
+		if (factoryPtr->GetFactoryKeys().isEmpty()){
+			return false;
+		}
+
+		m_factoryList.push_back(factoryPtr);
+
+		return true;
+	}
 
 	// reimplemented (istd::IFactoryInfo)
 	virtual IFactoryInfo::KeyList GetFactoryKeys() const;
@@ -38,31 +44,13 @@ public:
 	virtual InterfaceType* CreateInstance(const QByteArray& keyId = "") const;
 
 protected:
-	typedef istd::TOptDelPtr<FactoryInterface> FactoryPtr;
+	typedef istd::TSmartPtr<FactoryInterface> FactoryPtr;
 	typedef QList<FactoryPtr> FactoryList;
 
 	FactoryList m_factoryList;
 };
 
 
-// public methods
-
-template <class InterfaceType>
-bool TComposedFactory<InterfaceType>::RegisterFactory(FactoryInterface* factoryPtr, bool releaseFlag)
-{
-	Q_ASSERT(factoryPtr != NULL);
-
-	if ((factoryPtr == NULL) || factoryPtr->GetFactoryKeys().isEmpty()){
-		return false;
-	}
-
-	m_factoryList.push_back(FactoryPtr());
-	m_factoryList.back().SetPtr(factoryPtr, releaseFlag);
-
-	return true;
-}
-
-	
 // reimplemented (istd::IFactoryInfo)
 
 template <class InterfaceType>

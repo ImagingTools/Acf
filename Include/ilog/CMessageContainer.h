@@ -120,8 +120,10 @@ bool CMessageContainer::RegisterMessageType(const QByteArray& messageTypeId)
 	if (realTypeId.isEmpty()){
 		realTypeId = istd::CClassInfo::GetName<MessageType>();
 	}
+
+	typedef istd::TSingleFactory<iser::IObject, MessageType> FactoryImpl;
 	
-	return GetMessageFactory().RegisterFactory(new istd::TSingleFactory<iser::IObject, MessageType>(realTypeId), true);
+	return GetMessageFactory().RegisterFactory<FactoryImpl>(realTypeId);
 }
 
 

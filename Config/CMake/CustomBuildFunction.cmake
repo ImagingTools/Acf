@@ -82,8 +82,6 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 
 	get_target_name(TARGETNAME)
 
-	message("PROJECT_BINARY_DIR " ${PROJECT_BINARY_DIR})
-
 	set(ACFTOOLS "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../../AcfTools")
 
 	set(ARXCBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}/${ARX_COMPILER}")
@@ -104,7 +102,6 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 		set(ARX_ERRORS_FILE_PATH "${PROJECT_BINARY_DIR}/Generated/${PROJECT_NAME}/ArxDependsList_errors.txt")
 
 		message("Collectiong ARX dependences for ${PROJECT_NAME}")
-		message("Executing: ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ENV_VARS}")
 
 		execute_process(
 			COMMAND
@@ -118,13 +115,18 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 		)
 
 		if(NOT ARX_DEPS_GENERATION_RESULT_CODE EQUAL 0)
-			message(FATAL_ERROR "Cannot to create dependens [${ARX_DEPS_GENERATION_RESULT_CODE}] see '${ARX_DEPS_FILE_PATH}' and ${ARX_ERRORS_FILE_PATH}' files for detales")
+			message("!!! ARX Cannot to create dependens")
+
+			file(STRINGS ${ARX_DEPS_FILE_PATH} ERRORS1_ARX_DEPS_LIST)
+			message(${ERRORS1_ARX_DEPS_LIST})
+
+			file(STRINGS ${ARX_ERRORS_FILE_PATH} ERRORS2_ARX_DEPS_LIST)
+			message(${ERRORS2_ARX_DEPS_LIST})
+
+			message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")		
 		endif()
 
 		file(STRINGS ${ARX_DEPS_FILE_PATH} ARX_DEPS_LIST)
-		message("${PROJECT_NAME} ARX deps detected:-----------------------------")
-		message("${ARX_DEPS_LIST}")
-		message("-----------------------------")
 	endif()
 
 	add_custom_command(
@@ -157,7 +159,7 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 			add_custom_target(CONVERT_FILES${PROJECT_NAME} ALL DEPENDS ${RC_FILE})
 			add_custom_command(
 				OUTPUT ${RC_COMPILE_FILE}
-				COMMAND ${CMAKE_RC_COMPILER} ${RC_FILE}  #/fo ${RC_COMPILE_FILE}
+				COMMAND ${CMAKE_RC_COMPILER} ${RC_FILE}
 				WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 				COMMENT "Start ${PROJECT_NAME}.rc compiler"
 				DEPENDS ${RC_FILE} ${ARX_DEPS_LIST} VERBATIM)
