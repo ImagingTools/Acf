@@ -17,14 +17,24 @@ namespace ifile
 
 // public methods
 
+#if QT_VERSION >= 0x060000
 CTextFileLogComp:: CTextFileLogComp()
 :	m_outputFile(),
 	m_outputFileStream(&m_outputFile),
-	m_filePathObserver(*this),
-	m_mutex()
+	m_filePathObserver(*this)
 {
 	m_lastDay = QDate::currentDate().day();
 }
+#else
+CTextFileLogComp::CTextFileLogComp()
+	: m_outputFile(),
+	m_outputFileStream(&m_outputFile),
+	m_filePathObserver(*this),
+	m_mutex(QMutex::Recursive)
+{
+	m_lastDay = QDate::currentDate().day();
+}
+#endif
 
 
 // protected methods

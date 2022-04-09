@@ -73,8 +73,13 @@ private:
 
 	FilePathObserver m_filePathObserver;
 
-	QRecursiveMutex m_mutex;
 	int m_lastDay;
+
+#if QT_VERSION >= 0x060000
+	mutable QRecursiveMutex m_mutex;
+#else
+	mutable QMutex m_mutex;
+#endif
 };
 
 

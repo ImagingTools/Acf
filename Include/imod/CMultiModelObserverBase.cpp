@@ -7,12 +7,19 @@ namespace imod
 
 // public methods
 
+
+#if QT_VERSION >= 0x060000
 CMultiModelObserverBase::CMultiModelObserverBase()
-:	m_observedIds(istd::IChangeable::GetAllChanges()),
-	m_mutex()
+	:m_observedIds(istd::IChangeable::GetAllChanges())
 {
 }
-
+#else
+CMultiModelObserverBase::CMultiModelObserverBase()
+	:m_observedIds(istd::IChangeable::GetAllChanges()),
+	m_mutex(QMutex::Recursive)
+{
+}
+#endif
 
 CMultiModelObserverBase::~CMultiModelObserverBase()
 {

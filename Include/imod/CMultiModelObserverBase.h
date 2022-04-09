@@ -76,7 +76,11 @@ private:
 
 	istd::IChangeable::ChangeSet m_observedIds;
 
+#if QT_VERSION >= 0x060000
 	mutable QRecursiveMutex m_mutex;
+#else
+	mutable QMutex m_mutex;
+#endif
 };
 
 
