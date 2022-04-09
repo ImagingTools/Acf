@@ -34,8 +34,13 @@ int CModelBase::GetObserverCount() const
 
 CModelBase::Observers CModelBase::GetObservers() const
 {
-	QList<IObserver*> keys  = m_observers.keys();
-	return QSet<IObserver*>(keys.begin(), keys.end());
+#if QT_VERSION >= 0x600000
+	QList<int> keys = m_observers.keys();
+
+	return QSet<int>(keys.begin(), keys.end());
+#else
+	return m_observers.keys().toSet();
+#endif
 }
 
 
