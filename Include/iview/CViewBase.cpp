@@ -218,7 +218,7 @@ void CViewBase::SetScreenPosition(const i2d::CVector2d& client, istd::CIndex2d s
 
 void CViewBase::AddViewEventObserver(iview::IViewEventObserver* listenerPtr)
 {
-	QVector<iview::IViewEventObserver*>::iterator foundIter = qFind(m_viewListeners.begin(), m_viewListeners.end(), listenerPtr);
+	QVector<iview::IViewEventObserver*>::iterator foundIter = std::find(m_viewListeners.begin(), m_viewListeners.end(), listenerPtr);
 	if (foundIter == m_viewListeners.end()){
 		m_viewListeners.push_back(listenerPtr);
 	}
@@ -227,7 +227,7 @@ void CViewBase::AddViewEventObserver(iview::IViewEventObserver* listenerPtr)
 
 void CViewBase::RemoveViewEventObserver(iview::IViewEventObserver* listenerPtr)
 {
-	QVector<iview::IViewEventObserver*>::iterator foundIter = qFind(m_viewListeners.begin(), m_viewListeners.end(), listenerPtr);
+	QVector<iview::IViewEventObserver*>::iterator foundIter = std::find(m_viewListeners.begin(), m_viewListeners.end(), listenerPtr);
 	if (foundIter != m_viewListeners.end()){
 		m_viewListeners.erase(foundIter);
 	}

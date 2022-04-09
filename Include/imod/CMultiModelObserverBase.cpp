@@ -9,7 +9,7 @@ namespace imod
 
 CMultiModelObserverBase::CMultiModelObserverBase()
 :	m_observedIds(istd::IChangeable::GetAllChanges()),
-	m_mutex(QMutex::Recursive)
+	m_mutex()
 {
 }
 
@@ -94,7 +94,7 @@ bool CMultiModelObserverBase::OnModelDetached(IModel* modelPtr)
 {
 	QMutexLocker lock(&m_mutex);
 
-	Models::iterator iter = qFind(m_models.begin(), m_models.end(), modelPtr);
+	Models::iterator iter = std::find(m_models.begin(), m_models.end(), modelPtr);
 	if (iter != m_models.end()){
 		m_models.erase(iter);
 		return true;
@@ -129,7 +129,7 @@ bool CMultiModelObserverBase::IsAttached(const imod::IModel* modelPtr) const
 		return !m_models.isEmpty();
 	}
 
-	Models::const_iterator foundIter = qFind(m_models.begin(), m_models.end(), modelPtr);
+	Models::const_iterator foundIter = std::find(m_models.begin(), m_models.end(), modelPtr);
 
 	return (foundIter != m_models.end());
 }

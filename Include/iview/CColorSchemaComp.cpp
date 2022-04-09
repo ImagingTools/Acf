@@ -131,7 +131,7 @@ void CColorSchemaComp::OnComponentCreated()
 	}
 
 	if (m_normalFontWeightAttrPtr.IsValid()){
-		m_fonts[SF_NORMAL].setWeight(*m_normalFontWeightAttrPtr);
+		m_fonts[SF_NORMAL].setWeight(QFont::Weight(*m_normalFontWeightAttrPtr));
 	}
 }
 

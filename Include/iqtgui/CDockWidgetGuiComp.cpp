@@ -3,14 +3,19 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+#include <QtWidgets/QAction>
+#else
+#include <QtGui/QAction>
+#endif
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QAction>
 #else
 #include <QtGui/QMainWindow>
 #include <QtGui/QVBoxLayout>
-#include <QtGui/QAction>
 #endif
 
 
@@ -124,7 +129,7 @@ void CDockWidgetGuiComp::OnGuiCreated()
 
 	istd::TDelPtr<QWidget> containerWidgetPtr(new QWidget(NULL));
 	QVBoxLayout* layoutPtr = new QVBoxLayout(containerWidgetPtr.GetPtr());
-	layoutPtr->setMargin(1);
+	layoutPtr->setContentsMargins(1, 1, 1, 1);
 	containerWidgetPtr->setLayout(layoutPtr);
 
 	if (m_slaveGuiCompPtr.IsValid() && m_slaveGuiCompPtr->CreateGui(containerWidgetPtr.GetPtr())){

@@ -25,9 +25,6 @@ void CFileTreeViewGuiComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	m_filterMatcher.setCaseSensitivity(Qt::CaseInsensitive);
-	m_filterMatcher.setPatternSyntax(QRegExp::Wildcard);
-
 	m_fileModelUpdateAllowed = true;
 
 	m_fileTypeInfoCompPtr.EnsureInitialized();
@@ -149,7 +146,7 @@ void CFileTreeViewGuiComp::UpdateChildItems(QStandardItem* itemPtr)
 		if (m_extToIconMap.contains(fileExtension)){
 			itemPtr->setIcon(m_extToIconMap[fileExtension]);
 		} else {
-			QIcon icon(m_iconProvider.icon(filePath));
+			QIcon icon(m_iconProvider.icon(QFileInfo(filePath)));
 			m_extToIconMap[fileExtension] = icon;
 			itemPtr->setIcon(icon);
 		}
@@ -279,7 +276,7 @@ void CFileTreeViewGuiComp::DoTreeModelUpdate()
 		}
 	}
 
-	m_filterMatcher.setPattern(m_userFilter);
+	m_filterMatcher = QRegularExpression(QRegularExpression::wildcardToRegularExpression(m_userFilter), QRegularExpression::CaseInsensitiveOption);
 
 	CreateDirectoryList(rootDirPtr->GetPath(),
 		filters,
@@ -330,8 +327,10 @@ bool CFileTreeViewGuiComp::CreateFileList(
 
 		// check if can be filtered
 		if (!m_userFilter.isEmpty()){
-			if (m_filterMatcher.indexIn(fileName) < 0)
+			QRegularExpressionMatch match;
+			if (fileName.indexOf(m_filterMatcher, 0, &match) < 0){
 				continue;
+			}
 		}
 
 		const QString& filePath = fileInfo.absoluteFilePath();

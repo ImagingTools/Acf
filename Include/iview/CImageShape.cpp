@@ -285,14 +285,14 @@ void CImageShape::DrawPixmap(
 	const i2d::CMatrix2d& deform = destTransform.GetDeformMatrix();
 	const i2d::CVector2d& pos = destTransform.GetTranslation();
 
-	QMatrix matrix(	deform.GetAt(0, 0) / double(bitmapArea.GetWidth()),
+	QTransform transform(	deform.GetAt(0, 0) / double(bitmapArea.GetWidth()),
 					deform.GetAt(1, 0) / double(bitmapArea.GetWidth()),
 					deform.GetAt(0, 1) / double(bitmapArea.GetHeight()),
 					deform.GetAt(1, 1) / double(bitmapArea.GetHeight()),
 					pos.GetX(),
 					pos.GetY());
 
-	painter.setMatrix(matrix);
+	painter.setTransform(transform);
 
 	painter.drawPixmap(
 				0,
@@ -303,7 +303,7 @@ void CImageShape::DrawPixmap(
 				bitmapArea.GetRight(),
 				bitmapArea.GetBottom());
 
-	painter.setMatrixEnabled(false);
+	painter.resetTransform();
 }
 
 

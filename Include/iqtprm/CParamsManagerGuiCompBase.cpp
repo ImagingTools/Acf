@@ -392,7 +392,7 @@ void CParamsManagerGuiCompBase::UpdateTree()
 
 			// for inactive items, no operations are allowed
 			if (flags & iprm::IParamsManager::MF_INACTIVE){
-				itemFlags = 0;
+				itemFlags = Qt::ItemFlags(0);
 			}
 
 			QString name = objectPtr->GetParamsSetName(paramSetIndex);
@@ -451,7 +451,7 @@ void CParamsManagerGuiCompBase::UpdateComboBox()
 
 			// for inactive items, no operations are allowed
 			if (flags & iprm::IParamsManager::MF_INACTIVE){
-				itemFlags = 0;
+				itemFlags = Qt::ItemFlags(0);
 			}
 
 			QString name = objectPtr->GetParamsSetName(paramSetIndex);

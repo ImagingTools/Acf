@@ -104,7 +104,7 @@ void CMultiParamsManagerGuiComp::OnGuiCreated()
 		if (guiPtr != NULL){
 			QWidget* stackPage = new QWidget(m_parameterEditorStackPtr);
 			QVBoxLayout* pageLayoutPtr = new QVBoxLayout(stackPage);
-			pageLayoutPtr->setMargin(0);
+			pageLayoutPtr->setContentsMargins(0,0,0,0);
 
 			if (guiPtr->CreateGui(stackPage)){
 				m_parameterEditorStackPtr->insertWidget(editorIndex, stackPage);

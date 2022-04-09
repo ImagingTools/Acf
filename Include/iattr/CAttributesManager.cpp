@@ -122,7 +122,8 @@ bool CAttributesManager::RemoveAttribute(const QByteArray& attributeId)
 
 IAttributesProvider::AttributeIds CAttributesManager::GetAttributeIds() const
 {
-	return m_attributesMap.keys().toSet();
+	QList<QByteArray> keys = m_attributesMap.keys();
+	return QSet<QByteArray>(keys.begin(), keys.end());
 }
 
 

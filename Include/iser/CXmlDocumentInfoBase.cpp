@@ -1,5 +1,18 @@
 #include <iser/CXmlDocumentInfoBase.h>
 
+#ifdef Q_OS_WIN
+//
+// On Windows, all strings are wide
+//
+#define _XPLATSTR(x) L##x
+
+#else
+//
+// On POSIX platforms, all strings are narrow
+//
+#define _XPLATSTR(x) x
+
+#endif
 
 namespace iser
 {
@@ -43,7 +56,7 @@ void CXmlDocumentInfoBase::DecodeXml(const QByteArray& xmlText, QByteArray& text
 		if (ampPos >= 0){
 			QString subString = xmlText.mid(actPos, ampPos - actPos);
 
-			text += subString;
+			text += subString.toUtf8();
 
 			int semicolonPos = xmlText.indexOf(';', ampPos);
 			if ((semicolonPos >= 0) && (ampPos < semicolonPos - 2)){
@@ -181,9 +194,9 @@ CXmlDocumentInfoBase::EntityToChartMap::EntityToChartMap()
 
 CXmlDocumentInfoBase::WideCharToEntityMap::WideCharToEntityMap()
 {
-	operator[](L'<') = "&lt;";
-	operator[](L'>') = "&gt;";
-	operator[](L'&') = "&amp;";
+	operator[](_XPLATSTR('<')) = "&lt;";
+	operator[](_XPLATSTR('>')) = "&gt;";
+	operator[](_XPLATSTR('&')) = "&amp;";
 }
 
 
@@ -191,9 +204,9 @@ CXmlDocumentInfoBase::WideCharToEntityMap::WideCharToEntityMap()
 
 CXmlDocumentInfoBase::EntityToWideChartMap::EntityToWideChartMap()
 {
-	operator[]("&lt;") = L'<';
-	operator[]("&gt;") = L'>';
-	operator[]("&amp;") = L'&';
+	operator[]("&lt;") = _XPLATSTR('<');
+	operator[]("&gt;") = _XPLATSTR('>');
+	operator[]("&amp;") = _XPLATSTR('&');
 }
 
 

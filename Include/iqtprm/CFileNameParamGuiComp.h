@@ -4,7 +4,7 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= 0x050000
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
 #include <QtWidgets/QFileSystemModel>
 #else
 #include <QtGui/QFileSystemModel>

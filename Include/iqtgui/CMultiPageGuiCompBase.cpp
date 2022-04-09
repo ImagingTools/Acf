@@ -82,7 +82,7 @@ bool CMultiPageGuiCompBase::CreatePage(int pageIndex)
 		if (pageInfo.widgetPtr == NULL){
 			pageInfo.widgetPtr = new QWidget(GetWidget());
 			QVBoxLayout* pageContainerLayoutPtr = new QVBoxLayout(pageInfo.widgetPtr);
-			pageContainerLayoutPtr->setMargin(0);
+			pageContainerLayoutPtr->setContentsMargins(0,0,0,0);
 		}
 
 		iwidgets::CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<iwidgets::CMultiPageWidget*>(GetWidget());

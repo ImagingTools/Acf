@@ -413,7 +413,7 @@ bool CMultiPageWidget::CreateContainerGui()
 		layoutPtr = new QVBoxLayout(this);
 	}
 
-	layoutPtr->setMargin(0);
+	layoutPtr->setContentsMargins(0,0,0,0);
 
 	m_guiContainerPtr.SetPtr(delegatePtr->CreateContainerWidget(this, m_containerGuiFlags, m_orientation));
 	if (!m_guiContainerPtr.IsValid()){

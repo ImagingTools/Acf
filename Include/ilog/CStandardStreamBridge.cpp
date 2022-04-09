@@ -60,7 +60,7 @@ std::basic_streambuf<char>::int_type CStandardStreamBridge::overflow(int_type v)
 		m_textBuffer.clear();
 	}
 	else{
-		m_textBuffer += v;
+		m_textBuffer += QChar(v);
 	}
 
 	return v;

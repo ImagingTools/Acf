@@ -25,7 +25,8 @@ const istd::IChangeable::ChangeSet s_setMetaInfoChangeSet(idoc::IDocumentMetaInf
 
 CStandardDocumentMetaInfo::MetaInfoTypes CStandardDocumentMetaInfo::GetMetaInfoTypes(bool /*allowReadOnly*/) const
 {
-	return m_infosMap.keys().toSet();
+	QList<int> keys = m_infosMap.keys();
+	return QSet<int>(keys.begin(), keys.end());
 }
 
 

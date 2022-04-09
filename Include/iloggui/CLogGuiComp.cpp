@@ -3,6 +3,13 @@
 
 // Qt includes
 #include <QtCore/QDateTime>
+
+#if QT_VERSION < 0x060000
+#include <QtWidgets/QActionGroup>
+#else
+#include <QtGui/QActionGroup>
+#endif
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QToolBar>

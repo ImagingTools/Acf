@@ -154,7 +154,12 @@ void CExtLineEdit::UpdateLayout()
 	int contentsWidth = contentsRect().width();
 
 	int subWidgetHeight = lineEditHeight - m_margins;
-	int iconSize = (m_iconPtr->pixmap() != NULL) ? m_iconPtr->pixmap()->width() : 0;
+
+#if QT_VERSION >= 0x060000
+	int iconSize = (m_iconPtr != nullptr) ? m_iconPtr->pixmap().width() : 0;
+#else
+	int iconSize = (m_iconPtr != nullptr && m_iconPtr->pixmap() != nullptr) ? m_iconPtr->pixmap()->width() : 0;
+#endif
 
 	int lastLeftPos = iconSize > 0 ? iconSize + m_margins : 0;
 	int lastRightPos = contentsWidth;

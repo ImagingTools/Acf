@@ -102,7 +102,8 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 
 				QVBoxLayout* frameLayout = new QVBoxLayout(m_mainWidgetPtr.GetPtr());
 
-				frameLayout->setMargin(*m_frameSpaceSizeAttrPtr);
+				int space = *m_frameSpaceSizeAttrPtr;
+				frameLayout->setContentsMargins(space, space, space, space);
 
 				// Create application's main widget:
 				m_mainGuiCompPtr->CreateGui(m_mainWidgetPtr.GetPtr());

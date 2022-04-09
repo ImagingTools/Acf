@@ -27,7 +27,8 @@ CVarIndex::CVarIndex(const CVarIndex& index)
 
 CVarIndex::CVarIndex(const std::vector<IndexType>& values)
 {
-	for (std::vector<IndexType>::const_iterator iter = values.begin(); iter != values.end(); ++iter){
+	std::vector<IndexType>::const_iterator iter = values.begin();
+	for (iter; iter != values.end(); ++iter){
 		m_elements.push_back(*iter);
 	}
 }

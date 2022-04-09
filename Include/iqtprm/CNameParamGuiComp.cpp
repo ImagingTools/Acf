@@ -3,7 +3,7 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QLabel>
 #else
@@ -85,9 +85,9 @@ void CNameParamGuiComp::OnGuiCreated()
 	}
 
 	if (m_regularExpressionAttrPtr.IsValid()){
-		QRegExp expression(*m_regularExpressionAttrPtr);
+		QRegularExpression expression(*m_regularExpressionAttrPtr);
 
-		QRegExpValidator* validatorPtr = new QRegExpValidator(expression, NameEdit);
+		QRegularExpressionValidator* validatorPtr = new QRegularExpressionValidator(expression, NameEdit);
 
 		NameEdit->setValidator(validatorPtr);
 	}

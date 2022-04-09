@@ -426,7 +426,7 @@ void CExtParamsManagerGuiComp::CElementItemDelegate::paint(QPainter *painter, co
 	fnt.setPointSize(8);
 	QString version = QString("%1").arg(parameterType.constData());
 
-	int versionWidth = QFontMetrics(fnt).width(version);
+	int versionWidth = QFontMetrics(fnt).horizontalAdvance(version);
 	
 	QString textToPaint(painter->fontMetrics().elidedText(itemOption.text, option.textElideMode, textRect.width() - versionWidth));
 	painter->drawText(textRect, Qt::AlignLeft | Qt::AlignTop, textToPaint);

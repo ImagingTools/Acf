@@ -64,7 +64,7 @@ int CSplitterDelegate::InsertPage(
 	panelLayoutPtr->addWidget(pageWidgetPtr);
 
 	if (pageTitle.isEmpty()){
-		panelLayoutPtr->setMargin(0);
+		panelLayoutPtr->setContentsMargins(0,0,0,0);
 	}
 
 	splitterPtr->insertWidget(pageIndex, panelPtr);

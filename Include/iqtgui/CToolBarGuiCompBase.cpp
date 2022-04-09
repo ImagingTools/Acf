@@ -3,16 +3,20 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+#include <QtWidgets/QAction>
+#else
+#include <QtGui/QAction>
+#endif
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QAction>
 #else
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QComboBox>
 #include <QtGui/QMainWindow>
-#include <QtGui/QAction>
 #endif
 
 

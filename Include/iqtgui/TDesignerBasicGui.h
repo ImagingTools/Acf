@@ -22,7 +22,7 @@ class TDesignerBasicGui: public WidgetType, public UI
 public:
 	typedef WidgetType BaseClass;
 
-	TDesignerBasicGui(QWidget* parentPtr = 0, Qt::WindowFlags f = 0);
+	TDesignerBasicGui(QWidget* parentPtr = 0, Qt::WindowFlags f = Qt::WindowFlags(0));
 };
 
 

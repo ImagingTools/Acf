@@ -31,7 +31,8 @@ bool CAttributesMetaInfoProvider::HasAttributeMetaId(const QByteArray& attribute
 
 IAttributesProvider::AttributeIds CAttributesMetaInfoProvider::GetAttributeMetaIds() const
 {
-	return m_attributesMetaInfoMap.keys().toSet();
+	QList<QByteArray> keys = m_attributesMetaInfoMap.keys();
+	return QSet<QByteArray>(keys.begin(), keys.end());
 }
 
 

@@ -4,7 +4,8 @@
 // Qt includes
 #include <QtCore/QFileInfo>
 #include <QtCore/QtGlobal>
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QLineEdit>
@@ -103,11 +104,11 @@ void CSimpleFilePathParamGuiComp::OnGuiCreated()
 
 	PathEdit->setPlaceholderText(startHint);
 
-#if QT_VERSION >= 0x040800
+#if QT_VERSION >= 0x050100
 	if (m_filePathValidationExpressionAttrPtr.IsValid()){
-		QRegExp validationExpr = QRegExp(*m_filePathValidationExpressionAttrPtr);
+		QRegularExpression validationExpr = QRegularExpression(*m_filePathValidationExpressionAttrPtr);
 
-		PathEdit->setValidator(new QRegExpValidator(validationExpr, this));
+		PathEdit->setValidator(new QRegularExpressionValidator(validationExpr, this));
 	}
 #endif
 

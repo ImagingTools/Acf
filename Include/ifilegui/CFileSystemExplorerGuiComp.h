@@ -7,13 +7,17 @@
 #if QT_VERSION >= 0x050000
 #include <QtCore/QItemSelectionModel>
 #include <QtWidgets/QTreeWidget>
-#include <QtWidgets/QFileSystemModel>
 #include <QtWidgets/QFileIconProvider>
 #else
 #include <QtGui/QItemSelectionModel>
 #include <QtGui/QTreeWidget>
-#include <QtGui/QFileSystemModel>
 #include <QtGui/QFileIconProvider>
+#endif
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+#include <QtWidgets/QFileSystemModel>
+#else
+#include <QtGui/QFileSystemModel>
 #endif
 
 // ACF includes

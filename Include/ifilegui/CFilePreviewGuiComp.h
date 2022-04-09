@@ -3,9 +3,11 @@
 
 
 // Qt includes
+
 #include <QtCore/QFileSystemWatcher>
 #include <QtCore/QTimer>
 #include <QtCore/QDateTime>
+
 #include <QtCore/QFutureWatcher>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QGraphicsView>

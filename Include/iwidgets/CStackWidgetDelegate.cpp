@@ -66,7 +66,7 @@ int CStackWidgetDelegate::InsertPage(
 	QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
 
 	if (pageTitle.isEmpty()){
-		panelLayoutPtr->setMargin(0);
+		panelLayoutPtr->setContentsMargins(0,0,0,0);
 	}
 
 	panelLayoutPtr->addWidget(pageWidgetPtr);

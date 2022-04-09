@@ -652,8 +652,8 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 		stream << "\n";
 		stream << "// ACF component includes" << "\n";
 
-		QList<QByteArray> sortedList = packageIds.toList();
-		qSort(sortedList);
+		QList<QByteArray> sortedList(packageIds.begin(), packageIds.end());
+		std::sort(sortedList.begin(), sortedList.end());
 
 		for (		QList<QByteArray>::ConstIterator packageIter = sortedList.constBegin();
 					packageIter != sortedList.constEnd();
@@ -990,8 +990,8 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 	}
 
 	if (!composedAddresses.isEmpty() && !realAddresses.isEmpty()){
-		QList<icomp::CComponentAddress> sortedComponentAdresses = composedAddresses.toList();
-		qSort(sortedComponentAdresses);
+		QList<icomp::CComponentAddress> sortedComponentAdresses(composedAddresses.begin(), composedAddresses.end());
+		std::sort(sortedComponentAdresses.begin(), sortedComponentAdresses.end());
 
 		for (		QList<icomp::CComponentAddress>::const_iterator addressIter = sortedComponentAdresses.constBegin();
 					addressIter != sortedComponentAdresses.constEnd();
@@ -1024,8 +1024,8 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 			packageIdsList.insert(address.GetPackageId());
 		}
 
-		QList<QByteArray> sortedPackageIdsList = packageIdsList.toList();
-		qSort(sortedPackageIdsList);
+		QList<QByteArray> sortedPackageIdsList(packageIdsList.begin(), packageIdsList.end());
+		std::sort(sortedPackageIdsList.begin(), sortedPackageIdsList.end());
 
 		for (		QList<QByteArray>::const_iterator packageIter = sortedPackageIdsList.begin();
 					packageIter != sortedPackageIdsList.end();
@@ -1045,8 +1045,8 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 	if (m_extPackagesManagerCompPtr.IsValid()){
 		icomp::IExtPackagesManager::PathList configFilesList = m_extPackagesManagerCompPtr->GetConfigurationPathList(icomp::IExtPackagesManager::PT_CONFIG);
 
-		QStringList sortedConfigFilesList = configFilesList.toList();
-		qSort(sortedConfigFilesList);
+		QStringList sortedConfigFilesList(configFilesList.begin(), configFilesList.end());
+		std::sort(sortedConfigFilesList.begin(), sortedConfigFilesList.end());
 
 		for (		QStringList::const_iterator pathIter = sortedConfigFilesList.constBegin();
 					pathIter != sortedConfigFilesList.constEnd();

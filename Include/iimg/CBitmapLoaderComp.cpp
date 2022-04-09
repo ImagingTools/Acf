@@ -159,10 +159,12 @@ bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChan
 	QSet<QByteArray> formatList;
 
 	if ((flags & QF_LOAD) != 0){
-		formatList += QImageReader::supportedImageFormats().toSet();
+		QList<QByteArray> imageFormats = QImageReader::supportedImageFormats();
+		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
 	}
 	if ((flags & QF_SAVE) != 0){
-		formatList += QImageWriter::supportedImageFormats().toSet();
+		QList<QByteArray> imageFormats = QImageWriter::supportedImageFormats();
+		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
 	}
 
 	if (m_extensionFilterAttrPtr.IsValid()){

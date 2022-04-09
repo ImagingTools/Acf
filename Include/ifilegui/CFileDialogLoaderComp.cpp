@@ -3,11 +3,16 @@
 
 // Qt includes
 #include <QtCore/QObject>
-#if QT_VERSION >= 0x050000
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
 #include <QtWidgets/QAction>
-#include <QtWidgets/QFileDialog>
 #else
 #include <QtGui/QAction>
+#endif
+
+#if QT_VERSION >= 0x050000
+#include <QtWidgets/QFileDialog>
+#else
 #include <QtGui/QFileDialog>
 #endif
 

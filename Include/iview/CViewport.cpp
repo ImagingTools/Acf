@@ -358,9 +358,17 @@ int CViewport::GetMouseKeysState(const QMouseEvent& mouseEvent)
 	if ((buttons & Qt::LeftButton) != 0){
 		retVal |= Qt::LeftButton;
 	}
+
+#if QT_VERSION < 0x060000
 	if ((buttons & Qt::MidButton) != 0){
 		retVal |= Qt::MidButton;
 	}
+#else
+	if ((buttons & Qt::MiddleButton) != 0){
+		retVal |= Qt::MiddleButton;
+	}
+#endif
+
 	if ((buttons & Qt::RightButton) != 0){
 		retVal |= Qt::RightButton;
 	}

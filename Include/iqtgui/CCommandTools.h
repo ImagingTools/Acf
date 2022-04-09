@@ -4,16 +4,21 @@
 
 // Qt includes
 #include <QtCore/QtGlobal>
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QActionGroup>
 #else
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QToolBar>
+#endif
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+#include <QtWidgets/QAction>
+#include <QtWidgets/QActionGroup>
+#else
 #include <QtGui/QAction>
 #include <QtGui/QActionGroup>
 #endif

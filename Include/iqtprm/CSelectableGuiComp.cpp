@@ -28,7 +28,7 @@ void CSelectableGuiComp::OnGuiModelAttached()
 			for (int i = 0; i < guisCount; i++){
 				QWidget* newPage = new QWidget();
 				QVBoxLayout* pageLayoutPtr = new QVBoxLayout(newPage);
-				pageLayoutPtr->setMargin(0);
+				pageLayoutPtr->setContentsMargins(0,0,0,0);
 
 				iqtgui::IGuiObject* guiPtr = m_slaveGuisCompPtr[i];
 				Q_ASSERT(guiPtr);

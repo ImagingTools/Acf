@@ -58,9 +58,12 @@ macro(get_target_name target_name)
 
 		if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 			set(COMPILER_NAME "GCCLinux_64")
+			add_compile_definitions(COMPILER_NAME=GCCLinux)
 		else()
-			set(COMPILER_NAME "${COMPILER_NAME}_64")
+			set(COMPILER_NAME "ClangLinux_64")
+			add_compile_definitions(COMPILER_NAME=ClangLinux)
 		endif()
+		add_compile_definitions(PLATFORM_CODE=x64)
 	endif()
 
 	set(${target_name} "${COMPILER_NAME}")

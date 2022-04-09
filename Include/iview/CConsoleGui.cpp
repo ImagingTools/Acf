@@ -70,12 +70,12 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 
 	// main layout
 	m_mainLayoutPtr->addLayout(m_centerLayoutPtr);
-	m_mainLayoutPtr->setMargin(0);
+	m_mainLayoutPtr->setContentsMargins(0,0,0,0);
 
 	m_centerLayoutPtr->addWidget(m_viewPtr, 0, 0);
 	m_centerLayoutPtr->addWidget(m_verticalScrollbarPtr, 0, 1);
 	m_centerLayoutPtr->addWidget(m_horizontalScrollbarPtr, 1, 0);
-	m_centerLayoutPtr->setMargin(0);
+	m_centerLayoutPtr->setContentsMargins(0,0,0,0);
 	m_centerLayoutPtr->setSpacing(1);
 
 	QSizePolicy emptyPolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
@@ -99,7 +99,7 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 
 	//Add widget view wrapper - to persist layout when switching from full screen
 	QVBoxLayout* vLayout = new QVBoxLayout(this);
-	vLayout->setMargin(0);
+	vLayout->setContentsMargins(0,0,0,0);
 	m_viewWidget->setParent(this);
 	vLayout->addWidget(m_viewWidget);
 }
@@ -468,7 +468,7 @@ bool CConsoleGui::OnWheelEvent(QWheelEvent* eventPtr)
 
 	iview::CScreenTransform transform = m_viewPtr->GetTransform();
 	const double actualScale = transform.GetDeformMatrix().GetFrobeniusNorm();
-	const double factor = mouseWheelZoomStep * eventPtr->delta() / 120.0;
+	const double factor = mouseWheelZoomStep * eventPtr->angleDelta().y() / 120.0;
 
 	if (		((actualScale < minZoomScale) && (factor < 0)) || 
 				((actualScale > maxZoomScale) && (factor > 0))){
@@ -476,7 +476,7 @@ bool CConsoleGui::OnWheelEvent(QWheelEvent* eventPtr)
 	}
 
 	const double scale = pow(2.0, factor);
-	const istd::CIndex2d screenPos = iqt::GetCIndex2d(eventPtr->pos());
+	const istd::CIndex2d screenPos = iqt::GetCIndex2d(eventPtr->pixelDelta());
 	const i2d::CVector2d logPos = transform.GetClientPosition(screenPos);
 
 	i2d::CAffine2d zoomTransform;

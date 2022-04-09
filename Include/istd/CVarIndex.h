@@ -8,6 +8,9 @@
 // ACF includes
 #include <istd/TIndex.h>
 
+// std includes
+#include <vector>
+
 
 namespace istd
 {
@@ -56,7 +59,7 @@ public:
 
 	std::vector<int> ToStdVector() const
 	{
-		return m_elements.toStdVector();
+		return std::vector<int>(m_elements.begin(), m_elements.end());
 	}
 
 	/**

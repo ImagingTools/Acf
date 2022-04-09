@@ -61,7 +61,7 @@ set(AUXINCLUDEDIR "AuxInclude/Qt${QT_VERSION_MAJOR}_${TARGETNAME}/GeneratedFiles
 set(AUXINCLUDEPATH "${PROJECT_SOURCE_DIR}/../../../${AUXINCLUDEDIR}")
 set(ACF_TRANSLATIONS_OUTDIR "${AUXINCLUDEPATH}/${TARGETNAME}")
 
-find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network XmlPatterns Svg Concurrent REQUIRED)
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
 
 include_directories("${PROJECT_SOURCE_DIR}/../../")
 
@@ -99,3 +99,13 @@ endfunction()
 if(${MSVC})
 	link_libraries("Mpr.lib")
 endif()
+
+function(acf_use_qt_modules)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Core)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Widgets)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Gui)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Xml)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Network)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Svg)
+	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Concurrent)
+endfunction()

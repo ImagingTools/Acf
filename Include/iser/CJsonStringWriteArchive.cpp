@@ -20,7 +20,10 @@ CJsonStringWriteArchive::CJsonStringWriteArchive(
 	m_stream(&inputString),
 	m_jsonFormat(jsonFormat)
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 	m_stream.setCodec("UTF-8");
+#endif
+
 	m_firstTag = true;
 }
 

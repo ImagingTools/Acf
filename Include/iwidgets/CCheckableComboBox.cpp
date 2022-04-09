@@ -40,7 +40,7 @@ void CCheckableComboBox::SetItemsChecked(const QStringList& items, bool isChecke
 		QString currentItemText = itemText(itemIndex);
 		setItemData(itemIndex, false, Qt::UserRole);
 
-		if (qFind(items, currentItemText) != items.end()){
+		if (std::find(items.begin(),items.end(), currentItemText) != items.end()){
 			bool currentState = itemData(itemIndex, Qt::UserRole).toBool();
 			if (currentState != isChecked){
 				setItemData(itemIndex, isChecked, Qt::UserRole);

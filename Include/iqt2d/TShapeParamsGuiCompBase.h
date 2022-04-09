@@ -334,11 +334,13 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(
 	QToolBar* toolBarPtr = GetToolBar();
 	if (toolBarPtr != NULL){
 		// get actual toolbar actions
-		QSet<QAction*> oldActions = toolBarPtr->actions().toSet();
+		QList<QAction*> actions = toolBarPtr->actions();
+		QSet<QAction*> oldActions(actions.begin(), actions.end());
 
 		if (PopulateActions(*toolBarPtr, modelPtr)){
 			// store added actions
-			QSet<QAction*> newActions = toolBarPtr->actions().toSet();
+			QList<QAction*> actions = toolBarPtr->actions();
+			QSet<QAction*> newActions(actions.begin(), actions.end());
 			m_toolBarActions = newActions - oldActions;
 
 			toolBarPtr->setVisible(true);

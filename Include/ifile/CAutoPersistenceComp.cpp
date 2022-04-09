@@ -308,8 +308,11 @@ void CAutoPersistenceComp::OnTimeout()
 		return;
 	}
 
+#if QT_VERSION >= 0x060000
+	m_storingFuture = QtConcurrent::run(&CAutoPersistenceComp::SaveObjectSnapshot, this);
+#else
 	m_storingFuture = QtConcurrent::run(this, &CAutoPersistenceComp::SaveObjectSnapshot);
-
+#endif
 	m_isObjectChanged = false;
 }
 

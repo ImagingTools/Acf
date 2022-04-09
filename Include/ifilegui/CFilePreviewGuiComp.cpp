@@ -9,7 +9,12 @@
 #else
 #include <QtCore/QtConcurrentRun>
 #endif
+
+#if QT_VERSION >= 0x060000
+#include <QtSvgWidgets/QGraphicsSvgItem>
+#else
 #include <QtSvg/QGraphicsSvgItem>
+#endif
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
@@ -199,7 +204,11 @@ void CFilePreviewGuiComp::UpdateFilePreview()
 				m_lastModificationTimeStamp = QDateTime();
 
 				if (*m_isAsynchronPreviewGenerationEnabledAttrPtr){
+#if QT_VERSION >= 0x060000
+					m_previewGenerationWatcher.setFuture(QtConcurrent::run(&CFilePreviewGuiComp::UpdateObjectFromFile, this));
+#else
 					m_previewGenerationWatcher.setFuture(QtConcurrent::run(this, &CFilePreviewGuiComp::UpdateObjectFromFile));
+#endif
 				}
 				else{
 					UpdateObjectFromFile();

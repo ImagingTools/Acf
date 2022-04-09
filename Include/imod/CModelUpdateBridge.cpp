@@ -89,7 +89,7 @@ bool CModelUpdateBridge::OnModelDetached(IModel* modelPtr)
 {
 	QWriteLocker lock(&m_modelListMutex);
 
-	Models::iterator iter = qFind(m_models.begin(), m_models.end(), modelPtr);
+	Models::iterator iter = std::find(m_models.begin(), m_models.end(), modelPtr);
 	if (iter != m_models.end()){
 		m_models.erase(iter);
 		
@@ -143,7 +143,7 @@ void CModelUpdateBridge::AfterUpdate(IModel* modelPtr, const istd::IChangeable::
 bool CModelUpdateBridge::IsAttached(const imod::IModel* modelPtr) const
 {
 	if (modelPtr != NULL){
-		Models::const_iterator foundIter = qFind(m_models.begin(), m_models.end(), modelPtr);
+		Models::const_iterator foundIter = std::find(m_models.begin(), m_models.end(), modelPtr);
 		return (foundIter != m_models.end());
 	}
 

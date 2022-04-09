@@ -76,7 +76,7 @@ void CModelProxy::DetachObserver(IObserver* observerPtr)
 		m_modelPtr->DetachObserver(observerPtr);
 	}
 
-	m_proxyObservers.erase(qFind(m_proxyObservers.begin(), m_proxyObservers.end(), observerPtr));
+	m_proxyObservers.erase(std::find(m_proxyObservers.begin(), m_proxyObservers.end(), observerPtr));
 }
 
 
@@ -94,7 +94,7 @@ bool CModelProxy::IsAttached(const IObserver* observerPtr) const
 		return m_modelPtr->IsAttached(observerPtr);
 	}
 
-	Observers::const_iterator waitingIter = qFind(m_proxyObservers.begin(), m_proxyObservers.end(), observerPtr);
+	Observers::const_iterator waitingIter = std::find(m_proxyObservers.begin(), m_proxyObservers.end(), observerPtr);
 	if (waitingIter != m_proxyObservers.end()){
 		return true;
 	}

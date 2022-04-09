@@ -56,5 +56,5 @@ set_property(
 	TARGET ${PROJECT_NAME}
 	PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Core )
+target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core )
 

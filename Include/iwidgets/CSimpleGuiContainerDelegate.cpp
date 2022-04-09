@@ -48,7 +48,7 @@ QWidget* CSimpleGuiContainerDelegate::CreateContainerWidget(QWidget* parentWidge
 
 	Q_ASSERT(boxLayoutPtr != NULL);
 
-	boxLayoutPtr->setMargin(0);
+	boxLayoutPtr->setContentsMargins(0,0,0,0);
 
 	m_containerGuiFlags = containerGuiFlags;
 	m_orientation = orientation;
@@ -86,7 +86,7 @@ int CSimpleGuiContainerDelegate::InsertPage(
 	QLayout* panelLayoutPtr = new QVBoxLayout(panelPtr);
 
 	if (pageTitle.isEmpty()){
-		panelLayoutPtr->setMargin(0);
+		panelLayoutPtr->setContentsMargins(0,0,0,0);
 	}
 
 	panelLayoutPtr->addWidget(pageWidgetPtr);

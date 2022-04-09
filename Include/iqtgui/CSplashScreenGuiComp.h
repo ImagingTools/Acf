@@ -27,13 +27,23 @@ namespace iqtgui
 	Splash screen component.
 	This component allows to create splash screen with additionally information about version, copyright an so on.
 */
+
+class CSplashScreenCustom: public QSplashScreen
+{
+public:
+	CSplashScreenCustom(QWidget* parent = nullptr)
+			:QSplashScreen()
+	{ }
+};
+
+
 class CSplashScreenGuiComp: 
-			public TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, QSplashScreen>,
+			public TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, CSplashScreenCustom>,
 			virtual public ilog::IMessageConsumer
 {
 	Q_OBJECT
 public:
-	typedef TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, QSplashScreen> BaseClass;
+	typedef TDesignerGuiCompBase<Ui::CSplashScreenGuiComp, CSplashScreenCustom> BaseClass;
 
 	I_BEGIN_COMPONENT(CSplashScreenGuiComp);
 		I_REGISTER_INTERFACE(ilog::IMessageConsumer);

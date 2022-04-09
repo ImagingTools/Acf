@@ -306,10 +306,10 @@ void CDistanceToolShape::Draw(QPainter& drawContext) const
 	const int tickerSize = 10;
 
 	drawContext.setPen(colorSchema.GetPen(iview::IColorSchema::SP_TICKER));
-	drawContext.drawLine(screenLine.GetPoint1(), screenLine.GetPoint1() - tickerSize*screenLineDir);
-	drawContext.drawLine(screenLine.GetPoint1() - tickerSize*screenLineOrt, screenLine.GetPoint1() + tickerSize*screenLineOrt);
-	drawContext.drawLine(screenLine.GetPoint2(), screenLine.GetPoint2() + tickerSize*screenLineDir);
-	drawContext.drawLine(screenLine.GetPoint2() - tickerSize*screenLineOrt, screenLine.GetPoint2() + tickerSize*screenLineOrt);
+	drawContext.drawLine(screenLine.GetPoint1(), screenLine.GetPoint1() - screenLineDir*tickerSize);
+	drawContext.drawLine(screenLine.GetPoint1() - screenLineOrt*tickerSize, screenLine.GetPoint1() + screenLineOrt*tickerSize);
+	drawContext.drawLine(screenLine.GetPoint2(), screenLine.GetPoint2() + screenLineDir*tickerSize);
+	drawContext.drawLine(screenLine.GetPoint2() - screenLineOrt*tickerSize, screenLine.GetPoint2() + screenLineOrt*tickerSize);
 
 	const int partLength = 10;
 	const double screenLength = screenLine.GetLength();

@@ -121,8 +121,8 @@ void CButtonBasedSelectionParamGuiComp::UpdateGui(const istd::IChangeable::Chang
 		}
 		else{
 			if (isCompactDescription){
-				if (commandButtonPtr != NULL){
-					commandButtonPtr->setDescription(QString::null);
+				if (commandButtonPtr != nullptr){
+					commandButtonPtr->setDescription(QString());
 				}
 
 				if (useHorizontalLayout){
@@ -131,7 +131,7 @@ void CButtonBasedSelectionParamGuiComp::UpdateGui(const istd::IChangeable::Chang
 					buttonPtr->setSizePolicy(sizePolicy);
 					buttonPtr->setMinimumWidth(
 						minWidth + 
-						QFontMetrics(buttonPtr->font()).width(buttonPtr->text()));						
+						QFontMetrics(buttonPtr->font()).horizontalAdvance(buttonPtr->text()));
 				}
 			}
 		}
