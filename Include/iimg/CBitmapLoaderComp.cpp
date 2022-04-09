@@ -161,7 +161,7 @@ bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChan
 	if ((flags & QF_LOAD) != 0){
 		QList<QByteArray> imageFormats = QImageReader::supportedImageFormats();
 
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
 #else
 		formatList += imageFormats.toSet();
@@ -169,7 +169,7 @@ bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChan
 	}
 	if ((flags & QF_SAVE) != 0){
 		QList<QByteArray> imageFormats = QImageWriter::supportedImageFormats();
-#if QT_VERSION >= 0x060000
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
 #else
 		formatList += imageFormats.toSet();

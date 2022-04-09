@@ -335,12 +335,23 @@ void TShapeParamsGuiCompBase<Ui, Shape, ShapeModel>::OnModelAttachedAndGuiShown(
 	if (toolBarPtr != NULL){
 		// get actual toolbar actions
 		QList<QAction*> actions = toolBarPtr->actions();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 		QSet<QAction*> oldActions(actions.begin(), actions.end());
+#else
+		QSet<QAction*> oldActions = actions.toSet();
+#endif
 
 		if (PopulateActions(*toolBarPtr, modelPtr)){
 			// store added actions
-			QList<QAction*> actions = toolBarPtr->actions();
+			actions = toolBarPtr->actions();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 			QSet<QAction*> newActions(actions.begin(), actions.end());
+#else
+			QSet<QAction*> newActions = actions.toSet();
+#endif
+
 			m_toolBarActions = newActions - oldActions;
 
 			toolBarPtr->setVisible(true);

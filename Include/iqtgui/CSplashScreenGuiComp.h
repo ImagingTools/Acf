@@ -32,8 +32,10 @@ class CSplashScreenCustom: public QSplashScreen
 {
 public:
 	CSplashScreenCustom(QWidget* parent = nullptr)
-			:QSplashScreen()
-	{ }
+		:QSplashScreen()
+	{
+		Q_UNUSED(parent);
+	}
 };
 
 
