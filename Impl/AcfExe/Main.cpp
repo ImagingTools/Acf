@@ -15,6 +15,13 @@
 #include <ibase/IApplication.h>
 
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+	#define QT_ENDL Qt::endl
+#else
+	define QT_ENDL endl
+#endif
+
+
 int main(int argc, char *argv[])
 {
 	QString configFilePath;
@@ -36,15 +43,15 @@ int main(int argc, char *argv[])
 
 			if ((option == "h") || (option == "help")){
 				out << "Usage";
-				out << "\tAcf.exe [registryName] {options}      - normal registry start" << Qt::endl;
-				out << "\t-h or -help              - showing help" << Qt::endl;
-				out << "\t-id componentId          - specify component ID." << Qt::endl;
-				out << "\t-config configFile       - load config file" << Qt::endl;
-				out << "\t-info                    - application parameter info" << Qt::endl;
-				out << "\t-wait                    - wait on application end" << Qt::endl;
-				out << "\t-v                       - enable verbose messages" << Qt::endl;
-				out << "\t-console                 - optimize the application for console mode" << Qt::endl;
-				out << "\t-env_vars environment variables - list of external environment variables" << Qt::endl;
+				out << "\tAcf.exe [registryName] {options}      - normal registry start" << QT_ENDL;
+				out << "\t-h or -help              - showing help" << QT_ENDL;
+				out << "\t-id componentId          - specify component ID." << QT_ENDL;
+				out << "\t-config configFile       - load config file" << QT_ENDL;
+				out << "\t-info                    - application parameter info" << QT_ENDL;
+				out << "\t-wait                    - wait on application end" << QT_ENDL;
+				out << "\t-v                       - enable verbose messages" << QT_ENDL;
+				out << "\t-console                 - optimize the application for console mode" << QT_ENDL;
+				out << "\t-env_vars environment variables - list of external environment variables" << QT_ENDL;
 				return 0;
 			}
 			else if (option == "info"){
@@ -107,14 +114,14 @@ int main(int argc, char *argv[])
 
 	// Restore current working directory before executing the application:
 	if (currentWorkingDirectory != QDir::currentPath()){
-		out << "The working directory of the process has been changed during loading of the component packages!" << Qt::endl;
+		out << "The working directory of the process has been changed during loading of the component packages!" << QT_ENDL;
 	}
 
 	QDir::setCurrent(currentWorkingDirectory);
 
 	ibase::IApplication* applicationPtr = componentAccessor.GetComponentInterface<ibase::IApplication>(componentId);
 	if (applicationPtr == NULL){
-		out << "Application interface cannot be found" << Qt::endl;
+		out << "Application interface cannot be found" << QT_ENDL;
 
 		retVal = -1;
 	}
