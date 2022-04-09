@@ -160,11 +160,20 @@ bool CBitmapLoaderComp::GetFileExtensions(QStringList& result, const istd::IChan
 
 	if ((flags & QF_LOAD) != 0){
 		QList<QByteArray> imageFormats = QImageReader::supportedImageFormats();
+
+#if QT_VERSION >= 0x060000
 		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
+#else
+		formatList += imageFormats.toSet();
+#endif
 	}
 	if ((flags & QF_SAVE) != 0){
 		QList<QByteArray> imageFormats = QImageWriter::supportedImageFormats();
+#if QT_VERSION >= 0x060000
 		formatList += QSet<QByteArray>(imageFormats.begin(), imageFormats.end());
+#else
+		formatList += imageFormats.toSet();
+#endif
 	}
 
 	if (m_extensionFilterAttrPtr.IsValid()){
