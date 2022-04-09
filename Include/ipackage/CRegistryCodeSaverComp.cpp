@@ -652,7 +652,12 @@ bool CRegistryCodeSaverComp::WriteIncludes(
 		stream << "\n";
 		stream << "// ACF component includes" << "\n";
 
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
 		QList<QByteArray> sortedList(packageIds.begin(), packageIds.end());
+#else
+		QList<QByteArray> sortedList  = packageIds.toList();
+#endif
+
 		std::sort(sortedList.begin(), sortedList.end());
 
 		for (		QList<QByteArray>::ConstIterator packageIter = sortedList.constBegin();
