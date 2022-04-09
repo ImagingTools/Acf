@@ -4,7 +4,13 @@
 // Qt includes
 #include <QtCore/QtGlobal>
 #include <QtGui/QCloseEvent>
+
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
 #include <QtGui/QScreen>
+#else
+#include <QtWidgets/QDesktopWidget>
+#endif
+
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QApplication>
@@ -151,6 +157,7 @@ void CGuiComponentDialog::showEvent(QShowEvent* eventPtr)
 	BaseClass::adjustSize();
 
 	QRect screenRect;
+#if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
 	QScreen* screenPtr = nullptr;
 
 	if (m_guiObjectPtr != nullptr){
@@ -163,6 +170,12 @@ void CGuiComponentDialog::showEvent(QShowEvent* eventPtr)
 	if (screenPtr != nullptr){
 		screenRect = screenPtr->geometry();
 	}
+#else
+	const QDesktopWidget* desktopPtr = QApplication::desktop();
+	Q_ASSERT(desktopPtr != NULL);
+
+	screenRect = desktopPtr->screenGeometry((m_guiObjectPtr != NULL) ? m_guiObjectPtr->GetWidget() : NULL);
+#endif
 
 	if (m_screenFactor > 0){
 		double screenFactor = qMin(0.99, m_screenFactor);
