@@ -28,8 +28,8 @@ include("${ACFDIR}/Config/CMake/ProjectRoot.cmake")
 
 get_target_name(TARGETNAME)
 
-include_directories("${ACFDIR}/AuxInclude/Qt${QT_VERSION_MAJOR}_${TARGETNAME}")
+include_directories("${ACFDIR}/AuxInclude/${TARGETNAME}")
 include_directories("${ACFDIR}/Include")
 include_directories("${ACFDIR}/Impl")
 
-link_directories(${ACFDIR}/Lib/${CMAKE_BUILD_TYPE}${TARGETNAME})
+link_directories(${ACFDIR}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})

@@ -107,11 +107,10 @@ win32-msvc*{
 		win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
 			QMAKE_LFLAGS += /MACHINE:X64
 		}
-
 #		message("Using Visual Studio 2017");
 	}
 
-	contains(MSVC_VER, "16.0"){
+        greaterThan(QMAKE_MSC_VER, 1919) {
 		QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
 		COMPILER_NAME = VC16
 
@@ -197,14 +196,30 @@ else{
 # MinGW compiler used under Windows instead of GCC
 win32{
 	*-gcc* | *-g++*{
-		contains(QMAKE_HOST.arch, x86_64){
-			COMPILER_NAME = MinGW_64
-		}
-		else{
-			COMPILER_NAME = MinGW
-		}
+		COMPILER_NAME = MinGW
 	}
 }
+
+# Additional defines for CSystem
+macx{
+	COMPILER_NAME=ClangOSX
+	contains(QMAKE_TARGET.arch, x86_64) {
+		PLATFORM_CODE = x64
+	}
+	else{
+		PLATFORM_CODE = arm64
+	}
+}
+
+linux { !macx { !android {
+	PLATFORM_CODE = x64
+	*-clang*{
+		COMPILER_NAME = ClangLinux
+	}
+	else{
+		COMPILER_NAME = GCCLinux
+	}
+} } }
 
 CONFIG(debug, debug|release){
 	CONFIGURATION_NAME = Debug
@@ -214,19 +229,18 @@ CONFIG(release, debug|release){
 	CONFIGURATION_NAME = Release
 }
 
-COMPILER_CODE = $$COMPILER_NAME
-contains(QMAKE_HOST.arch, x86_64){
-	!macx-clang-32{
-		COMPILER_CODE = $$COMPILER_NAME"_64"
-	}
-}
+#message("COMPILER_NAME $$COMPILER_NAME MSVC_VER $$MSVC_VER QMAKE_MSC_VER $$QMAKE_MSC_VER");
 
+DEFINES += "ACF_QT_VERSION=Qt$${QT_MAJOR_VERSION}"
+DEFINES += "COMPILER_NAME=$$COMPILER_NAME"
+DEFINES += "PLATFORM_CODE=$$PLATFORM_CODE"
 
-COMPILER_DIR = $$CONFIGURATION_NAME$$COMPILER_CODE
+COMPILER_CODE = $$COMPILER_NAME"_"$$PLATFORM_CODE
+
+COMPILER_DIR = $$CONFIGURATION_NAME"_Qt"$${QT_MAJOR_VERSION}_$$COMPILER_CODE
 
 AUXINCLUDEDIR = AuxInclude/Qt$${QT_MAJOR_VERSION}_$$COMPILER_CODE
 AUXINCLUDEPATH = ../../../$$AUXINCLUDEDIR
-
 
 !win32-msvc*{
 	QMAKE_LFLAGS -= -mthreads

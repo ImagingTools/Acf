@@ -35,7 +35,7 @@ set_property(
 acf_use_qt_modules()
 
 if(NOT ANDROID)
-set(outbindir "${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}")
+set(outbindir "${AUX_INCLUDE_DIR}/../../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 set_property(
 	TARGET ${PROJECT_NAME}
 	PROPERTY RUNTIME_OUTPUT_DIRECTORY ${outbindir})

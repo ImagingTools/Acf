@@ -154,7 +154,7 @@ public:
 		\param	compilerName	code of compiler, e.g. 'VC12' or 'GCC'.
 		\param	platformCode	suffix used typically to differentiate 32 and 64 bit mode - empty for 32 bit and 'x64' for 64 bit mode.
 	*/
-	static void SetUserVariables(const QString& compilerMode, const QString& compilerName, const QString& platformCode);
+	static void SetUserVariables(const QString& compilerMode, const QString &acfQtVersion, const QString& compilerName, const QString& platformCode);
 
 	/**
 		Convert a mapped network path to UNC representation.
@@ -170,6 +170,7 @@ private:
 	static QString s_compilerMode;
 	static QString s_compilerName;
 	static QString s_platformCode;
+	static QString s_acfQtVersion;
 };
 
 

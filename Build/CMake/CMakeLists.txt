@@ -18,9 +18,9 @@ subdirlist(IMPL_DIRS ${IMPL_DIR})
 
 get_target_name(TARGETNAME)
 
-set(AUX_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../AuxInclude/Qt${QT_VERSION_MAJOR}_${TARGETNAME}/GeneratedFiles")
+set(AUX_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../AuxInclude/${TARGETNAME}/GeneratedFiles")
 
-set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}")
+set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
 include_directories(${AUX_INCLUDE_DIR}/..)
 

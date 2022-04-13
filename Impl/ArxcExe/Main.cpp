@@ -1,6 +1,3 @@
-// STL includes
-#include <iostream>
-
 // Qt includes
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -122,27 +119,18 @@ int main(int argc, char *argv[])
 	}
 
 	if (!configName.isEmpty()){
-		QString compilerMode = istd::CSystem::GetCompilerVariable("CompileMode");
-		QString platformCode = istd::CSystem::GetCompilerVariable("PlatformCode");
+		QStringList configParts = configName.split("_");
+		if (configParts.count() > 3){
+			QString compilerMode = configParts[0];
+			QString acfQtVersion = configParts[1];
+			QString compilerName = configParts[2];
+			QString platformCode = configParts[3];
 
-		if (configName.startsWith("Debug", Qt::CaseInsensitive)){
-			compilerMode = "Debug";
-		}
-		else if (configName.startsWith("Release", Qt::CaseInsensitive)){
-			compilerMode = "Release";
-		}
+			istd::CSystem::SetUserVariables(compilerMode, acfQtVersion, compilerName, platformCode);
 
-		configName = configName.mid(compilerMode.length());
-
-		if (configName.endsWith("_64", Qt::CaseInsensitive)){
-			platformCode = "x64";
-			configName = configName.mid(0, configName.length() - platformCode.length());
-		}
-
-		istd::CSystem::SetUserVariables(compilerMode, configName, platformCode);
-
-		if (verboseEnabled){
-			std::cout << "Extra configuration: compilerMode='" << compilerMode.toStdString() << "' compilerName='" << configName.toStdString() << "' platformCode='" << platformCode.toStdString() << "'" << std::endl;
+			if (verboseEnabled){
+				std::cout << "Extra configuration: compilerMode='" << compilerMode.toStdString() << "' acfQtVersion='" << acfQtVersion.toStdString() << "' compilerName='" << configName.toStdString() << "' platformCode='" << platformCode.toStdString() << "'" << std::endl;
+			}
 		}
 	}
 

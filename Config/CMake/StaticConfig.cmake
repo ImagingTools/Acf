@@ -25,7 +25,7 @@ target_sources(${PROJECT_NAME} PRIVATE ${UI_SOURCES})
 target_sources(${PROJECT_NAME} PRIVATE ${RESOURCES_FILES})
 target_sources(${PROJECT_NAME} PRIVATE ${SOURCES_FILE_AUX})
 
-set(outlibdir "${AUX_INCLUDE_DIR}/../../../Lib/${CMAKE_BUILD_TYPE}${TARGETNAME}")
+set(outlibdir "${AUX_INCLUDE_DIR}/../../../Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
 set_property(
 	TARGET ${PROJECT_NAME}
