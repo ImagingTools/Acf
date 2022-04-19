@@ -35,5 +35,5 @@ set_target_properties( ${PROJECT_NAME}
 	POSITION_INDEPENDENT_CODE ON
 )
 
-target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core )
+acf_use_qt_modules()
 
