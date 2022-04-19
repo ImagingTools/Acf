@@ -84,7 +84,11 @@
                                 <Value>VC9</Value>
                                 <Value>VC10</Value>
                                 <Value>VC12</Value>
-                            </Values>
+								<Value>VC14</Value>
+								<Value>VC15</Value>
+								<Value>VC16</Value>
+								<Value>VC17</Value>
+							</Values>
                         </Data>
                     </AttributeInfo>
                     <AttributeInfo Id="WinProjectsSubstitutionTags" Type="String[]" ExportId="">

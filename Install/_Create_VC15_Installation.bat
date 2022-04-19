@@ -5,12 +5,12 @@ set LICENSE_DIR=Install/LGPL
 set LICENSE_INSTALL_PATH=../LGPL/License.txt
 set ACF_CONFIG_FILE=$(ACFSLNDIR)/Config/AcfSlnConfig.awc
 
-call %~dp0\..\Build\VC10\_CreateVCProjectsFromQMake.bat
-call %~dp0\..\Build\VC12\_CreateVCProjectsFromQMake.bat
+call %~dp0\..\Build\VC15_64\_CreateVCProjectsFromQMake.bat
 
 cd %~dp0\..
 
-set COMPILER_EXT=VC9
+set COMPILER_EXT=Qt5_VC15_x64
+
 call Install\InternalParts\CreateTempDirs.bat
 
 echo Compiling...

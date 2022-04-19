@@ -7,7 +7,7 @@ set ACF_CONFIG_FILE=$(ACFSLNDIR)/Config/AcfSlnConfig.awc
 
 cd %~dp0\..
 
-set COMPILER_EXT=VC15_64
+set COMPILER_EXT=Qt5_VC15_x64
 call Install\InternalParts\CreateTempDirs.bat
 
 call Install\InternalParts\CreateScripts.bat
