@@ -139,7 +139,7 @@ QString CComposedFilePersistenceComp::GetLastFilePath(OperationType operationTyp
 			return GetPathForType(m_lastOpenInfo, pathType);
 		}
 		else{
-			return GetPathForType(m_lastSaveInfo, pathType);
+			return GetPathForType(m_lastOpenInfo, pathType);
 		}
 	}
 }
