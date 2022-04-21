@@ -1,6 +1,6 @@
 project(Acf LANGUAGES CXX)
 
-set(ARX_DISABLE_GENERATE_DEPENDENCIES_LIST ON)
+set(ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OFF)
 
 include(${ACFDIR}/Config/CMake/ApplicationConfig.cmake)
 include(${ACFDIR}/Config/CMake/AcfQt.cmake)

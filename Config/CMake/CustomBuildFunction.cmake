@@ -1,58 +1,4 @@
-macro(get_target_name target_name)
-	set(COMPILER_NAME "Clang")
-    if(${MSVC})
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 100)
-            set(COMPILER_NAME "VC10")
-        endif()
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 110)
-            set(COMPILER_NAME "VC11")
-        endif()
-
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 120)
-            set(COMPILER_NAME}"VC12")
-        endif()
-
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 140)
-            set(COMPILER_NAME "VC14")
-        endif()
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 141)
-            set(COMPILER_NAME "VC15")
-        endif()
-        if(${MSVC_TOOLSET_VERSION} STREQUAL 142)
-            set(COMPILER_NAME "VC16")
-        endif()
-
-		if(${CMAKE_CL_64} STREQUAL 1)
-			set(COMPILER_NAME "${COMPILER_NAME}_64")
-		endif()
-
-	elseif(${APPLE})
-
-		if("${CMAKE_OSX_ARCHITECTURES}" STREQUAL "arm64")
-			set(COMPILER_NAME "${COMPILER_NAME}OSX_arm64")
-			add_compile_definitions(COMPILER_NAME=ClangOSX)
-			add_compile_definitions(PLATFORM_CODE=arm64)
-		else()
-			set(COMPILER_NAME "${COMPILER_NAME}OSX_64")
-			add_compile_definitions(COMPILER_NAME=ClangOSX)
-			add_compile_definitions(PLATFORM_CODE=x64)
-		endif()
-
-	elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-
-		if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-			set(COMPILER_NAME "GCCLinux_64")
-		else()
-			set(COMPILER_NAME "${COMPILER_NAME}_64")
-		endif()
-	endif()
-
-	message("CMAKE_SYSTEM_NAME" "${CMAKE_SYSTEM_NAME}")
-	message("CMAKE_CXX_COMPILER_ARCHITECTURE_ID " "${CMAKE_CL_64}")
-
-
-	set(${target_name} "${COMPILER_NAME}")
-endmacro()
+include(${CMAKE_CURRENT_LIST_DIR}/ProjectRoot.cmake)
 
 function(acf_get_root_dir identifier_to_use)
     set(${identifier_to_use} "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../.." PARENT_SCOPE)
@@ -84,8 +30,8 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 
 	set(ACFTOOLS "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../../AcfTools")
 
-	set(ARXCBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}/${ARX_COMPILER}")
-	set(ACFBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}${TARGETNAME}/${ACF_TOOL}")
+	set(ARXCBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ARX_COMPILER}")
+	set(ACFBIN "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}/${ACF_TOOL}")
 
 	set(ARXC_OUTFILE_NAME C${PROJECT_NAME})
 	set(ARXC_OUTFILE "${PROJECT_BINARY_DIR}/Generated/${PROJECT_NAME}/${ARXC_OUTFILE_NAME}")
@@ -105,7 +51,7 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 
 		execute_process(
 			COMMAND
-				${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}
+				${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}
 			OUTPUT_FILE
 				${ARX_DEPS_FILE_PATH}
 			ERROR_FILE
@@ -116,13 +62,15 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 
 		if(NOT ARX_DEPS_GENERATION_RESULT_CODE EQUAL 0)
 			message("!!! ARX Cannot to create dependens")
+		        message("TARGETNAME ${TARGETNAME}")
 
 			file(STRINGS ${ARX_DEPS_FILE_PATH} ERRORS1_ARX_DEPS_LIST)
-			message(${ERRORS1_ARX_DEPS_LIST})
+			message("${ERRORS1_ARX_DEPS_LIST}")
 
 			file(STRINGS ${ARX_ERRORS_FILE_PATH} ERRORS2_ARX_DEPS_LIST)
-			message(${ERRORS2_ARX_DEPS_LIST})
+			message("${ERRORS2_ARX_DEPS_LIST}")
 
+			message("COMMAND!!! ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}")		
 			message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")		
 		endif()
 
@@ -132,7 +80,7 @@ function (acf_custom_build PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CONVERT
 	add_custom_command(
 		OUTPUT ${ARXC_OUTFILE} ${HEADER_FILE_AUX}
 		COMMAND ${ARXCBIN}
-		ARGS ${ARXC_FILES} -o ${ARXC_OUTFILE} -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v
+		ARGS ${ARXC_FILES} -o ${ARXC_OUTFILE} -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v
 		DEPENDS ${ARXCBIN} ${ARXC_FILES} ${ARX_DEPS_LIST} VERBATIM
 		COMMENT "ArxcBinStarts: ${ARXCBIN} ${ARXC_FILES} -o ${ARXC_OUTFILE} -config ${ARXC_CONFIG} -conf_name ${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING} -v"
 		)
