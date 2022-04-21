@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4490" Description="ACF"/>
-            <Version Id="1" Number="1832" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="329217" Description="Qt Framework"/>
+            <Version Id="0" Number="4985" Description="ACF"/>
+            <Version Id="1" Number="2164" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="331522" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Bitmap viewer with integrated bitmap object</Description>
