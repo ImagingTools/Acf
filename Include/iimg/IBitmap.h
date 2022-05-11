@@ -53,6 +53,16 @@ public:
 		PF_RGB24,
 
 		/**
+			48-bit RGB-bitmap packed bitmap (16-16-16).
+		*/
+		PF_RGB48,
+
+		/**
+			64-bit RGBA-bitmap packed bitmap (16-16-16-16).
+		*/
+		PF_RGBA64,
+
+		/**
 			16-bit grayscale bitmap.
 		*/
 		PF_GRAY16,

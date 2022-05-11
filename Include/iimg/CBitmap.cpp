@@ -591,7 +591,10 @@ iimg::IBitmap::PixelFormat CBitmap::CalcFromQtFormat(QImage::Format imageFormat)
 
 	case QImage::Format_RGB32:
 		return PF_RGB;
-
+	case QImage::Format_RGBA64:
+		return PF_RGBA64;
+	case QImage::Format_RGBX64:
+		return PF_RGB48;
 	case QImage::Format_ARGB32:
 	case QImage::Format_ARGB32_Premultiplied:
 		return PF_RGBA;

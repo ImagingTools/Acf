@@ -122,31 +122,55 @@ icmm::CVarColor CBitmapBase::GetColorAt(const istd::CIndex2d& position) const
 	Q_ASSERT(position.IsValid());
 	Q_ASSERT(position.IsInside(GetImageSize()));
 
-	switch (GetPixelFormat()){
+	iimg::IBitmap::PixelFormat pixelFormat = GetPixelFormat();
+
+	switch (pixelFormat){
 	case PF_RGB:
 	case PF_RGBA:
 	case PF_RGB24:
-		{
-			const int componentsCount = GetComponentsCount();
+	{
+		const int componentsCount = GetComponentsCount();
 
-			icmm::CVarColor retVal(componentsCount);
+		icmm::CVarColor retVal(componentsCount);
 
-			const int byteOffsetX = (GetPixelBitsCount() * position.GetX()) >> 3;
+		const int byteOffsetX = (GetPixelBitsCount() * position.GetX()) >> 3;
 
-			quint8* pixelPtr = (quint8*)GetLinePtr(position.GetY());
-			Q_ASSERT(pixelPtr != NULL);
-			pixelPtr += byteOffsetX;
+		quint8* pixelPtr = (quint8*)GetLinePtr(position.GetY());
+		Q_ASSERT(pixelPtr != NULL);
+		pixelPtr += byteOffsetX;
 
-			for (int i = 0; i < componentsCount; ++i){
-				const quint8 componentValue = GetComponentBitsCount(i) == 8 ? pixelPtr[i] : 0;
-				retVal.SetElement(i, componentValue / 255.0);
-			}
-
-			if (GetPixelFormat() == PF_RGB)
-				retVal.SetElement(3, 1.0); // alpha channel is always 255
-
-			return retVal;
+		for (int i = 0; i < componentsCount; ++i) {
+			const quint8 componentValue = GetComponentBitsCount(i) == 8 ? pixelPtr[i] : 0;
+			retVal.SetElement(i, componentValue / 255.0);
 		}
+
+		if (pixelFormat == PF_RGB)
+			retVal.SetElement(3, 1.0); // alpha channel is always 255
+
+		return retVal;
+	}
+	case PF_RGB48:
+	case PF_RGBA64:
+	{
+		const int componentsCount = GetComponentsCount();
+
+		icmm::CVarColor retVal(componentsCount);
+
+		const int byteOffsetX = (GetPixelBitsCount() * position.GetX()) >> 4;
+
+		quint16* pixelPtr = (quint16*)GetLinePtr(position.GetY());
+		Q_ASSERT(pixelPtr != NULL);
+		pixelPtr += byteOffsetX;
+
+		int maxValue = (1 << 16) - 1;
+
+		for (int i = 0; i < componentsCount; ++i) {
+			const quint16 componentValue = GetComponentBitsCount(i) == 16 ? pixelPtr[i] : 0;
+			retVal.SetElement(i, componentValue / double(maxValue));
+		}
+
+		return retVal;
+	}
 
 	case PF_GRAY:
 		{
@@ -333,11 +357,13 @@ int CBitmapBase::GetComponentsCount(IBitmap::PixelFormat format)
 			return 2;
 
 		case PF_RGB24:
+		case PF_RGB48:
 		case PF_XYZ32:
 			return 3;
 
 		case PF_RGB: // hidden alpha-channel
 		case PF_RGBA:
+		case PF_RGBA64:
 			return 4;
 
 		default:
@@ -359,6 +385,8 @@ int CBitmapBase::GetComponentBitsCount(IBitmap::PixelFormat format, int)
 			return 8;
 
 		case PF_GRAY16:
+		case PF_RGB48:
+		case PF_RGBA64:
 			return 16;
 
 		case PF_GRAY32:
@@ -403,6 +431,8 @@ int CBitmapBase::GetPixelBitsCount(IBitmap::PixelFormat format)
 		case PF_FLOAT32:
 			return 32;
 
+		case PF_RGB48:
+		case PF_RGBA64:
 		case PF_FLOAT64:
 		case PF_XY32:
 			return 64;
