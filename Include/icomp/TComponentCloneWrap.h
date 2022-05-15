@@ -62,7 +62,9 @@ istd::IChangeable* TComponentCloneWrap<BaseClass>::CloneMe(istd::IChangeable::Co
 
 			istd::TDelPtr<istd::IChangeable> clonedPtr;
 
-			clonedPtr.SetCastedOrRemove(ExtractInterface<istd::IChangeable>(parentComponentPtr->CreateSubcomponent(contextId)));
+			if (parentComponentPtr != NULL) {
+				clonedPtr.SetCastedOrRemove(ExtractInterface<istd::IChangeable>(parentComponentPtr->CreateSubcomponent(contextId)));
+			}
 
 			if (clonedPtr.IsValid()){
 				if (clonedPtr->CopyFrom(*this, mode)){
