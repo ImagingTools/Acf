@@ -107,6 +107,11 @@ public:
 	virtual bool SetMetaInfo(int metaInfoType, const QVariant& metaInfo) = 0;
 
 	/**
+		Get an unique ID of the meta information.
+	*/
+	virtual QByteArray GetMetaInfoId(int metaInfoType) const = 0;
+
+	/**
 		Get a human readable name for a given meta information type.
 	*/
 	virtual QString GetMetaInfoName(int metaInfoType) const = 0;

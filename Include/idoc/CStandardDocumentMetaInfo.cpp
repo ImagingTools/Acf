@@ -66,6 +66,44 @@ bool CStandardDocumentMetaInfo::SetMetaInfo(int metaInfoType, const QVariant& me
 }
 
 
+QByteArray CStandardDocumentMetaInfo::GetMetaInfoId(int metaInfoType) const
+{
+	static QByteArray emptyId;
+
+	switch (metaInfoType){
+	case MIT_TITLE:
+		return ("Title");
+
+	case MIT_AUTHOR:
+		return ("Author");
+
+	case MIT_CREATOR:
+		return ("Creator");
+
+	case MIT_DESCRIPTION:
+		return ("Description");
+
+	case MIT_CREATION_TIME:
+		return ("CreationTime");
+
+	case MIT_MODIFICATION_TIME:
+		return ("ModificationTime");
+
+	case MIT_CREATOR_VERSION:
+		return ("CreatorVersion");
+
+	case MIT_DOCUMENT_VERSION:
+		return ("Version");
+
+	case MIT_CONTENT_CHECKSUM:
+		return ("Checksum");
+
+	default:
+		return emptyId;
+	}
+}
+
+
 QString CStandardDocumentMetaInfo::GetMetaInfoName(int metaInfoType) const
 {
 	static QString emptyName;
@@ -183,7 +221,6 @@ bool CStandardDocumentMetaInfo::Serialize(iser::IArchive& archive)
 			retVal = retVal && archive.Process(type);
 			retVal = retVal && archive.EndTag(typeTag);
 
-
 			QByteArray variantData;
 			QDataStream variantStream(&variantData, QIODevice::ReadWrite);
 			QVariant value = index.value();
@@ -280,7 +317,6 @@ bool CStandardDocumentMetaInfo::CopyFrom(const IChangeable& object, Compatibilit
 		istd::CChangeNotifier notifier(this, &s_setMetaInfoChangeSet);
 
 		m_infosMap = infoPtr->m_infosMap;
-
 		return true;
 	}
 
