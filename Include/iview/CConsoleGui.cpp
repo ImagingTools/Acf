@@ -103,8 +103,6 @@ CConsoleGui::CConsoleGui(QWidget* parent)
 	vLayout->setContentsMargins(0,0,0,0);
 	m_viewWidget->setParent(this);
 	vLayout->addWidget(m_viewWidget);
-
-	m_uiResourcesManager.EnableDesignHandler();
 }
 
 
@@ -173,6 +171,12 @@ void CConsoleGui::SetFullScreenMode(bool fullScreenMode)
 
 
 void CConsoleGui::RetranslateGui()
+{
+	UpdateCommands();
+}
+
+
+void CConsoleGui::UpdateDesign()
 {
 	UpdateCommands();
 }

@@ -180,6 +180,8 @@ void CViewProviderGuiComp::OnGuiDesignChanged()
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	Q_ASSERT(consolePtr != nullptr);
 
+	consolePtr->UpdateDesign();
+
 	consolePtr->GetViewRef().SetDefaultColorSchema(nullptr);
 	consolePtr->GetViewRef().InvalidateBackground();
 }
