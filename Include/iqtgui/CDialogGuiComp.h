@@ -1,3 +1,25 @@
+/********************************************************************************
+**
+**	Copyright (C) 2007-2017 Witold Gantzke & Kirill Lepskiy
+**
+**	This file is part of the ACF Toolkit.
+**
+**	This file may be used under the terms of the GNU Lesser
+**	General Public License version 2.1 as published by the Free Software
+**	Foundation and appearing in the file LicenseLGPL.txt included in the
+**	packaging of this file.  Please review the following information to
+**	ensure the GNU Lesser General Public License version 2.1 requirements
+**	will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+**	If you are unsure which license is appropriate for your use, please
+**	contact us at info@imagingtools.de.
+**
+** 	See http://www.ilena.org or write info@imagingtools.de for further
+** 	information about the ACF.
+**
+********************************************************************************/
+
+
 #ifndef iqtgui_CDialogGuiComp_included
 #define iqtgui_CDialogGuiComp_included
 
@@ -43,6 +65,7 @@ public:
 		I_ASSIGN(m_initialDialogSizeAttrPtr, "DialogSize", "Initial size of the dialog. The value is proportion of dialog size to desktop size", false, 0.5);
 		I_ASSIGN(m_isModalAttrPtr, "IsModal", "Modality of the dialog", true, true);
 		I_ASSIGN(m_dialogButtonsAttrPtr, "DialogButtons", "Dialog buttons. See QDialogButtonBox::StandardButton for details", true, QDialogButtonBox::Ok);
+		I_ASSIGN(m_windowFlagsAttrPtr, "WindowFlags", "Window flags is used to specify various window-system properties for the widget (see Qt::WindowFlags)", true, 134295555);
 	I_END_COMPONENT;
 
 	CDialogGuiComp();
@@ -95,6 +118,7 @@ private:
 	I_ATTR(double, m_initialDialogSizeAttrPtr);
 	I_ATTR(bool, m_isModalAttrPtr);
 	I_ATTR(int, m_dialogButtonsAttrPtr);
+	I_ATTR(int, m_windowFlagsAttrPtr);
 
 	iqtgui::CHierarchicalCommand m_rootCommand;
 	iqtgui::CHierarchicalCommand m_rootMenuCommand;
