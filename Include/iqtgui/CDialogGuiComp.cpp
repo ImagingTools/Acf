@@ -20,6 +20,28 @@
 ********************************************************************************/
 
 
+/********************************************************************************
+**
+**	Copyright (C) 2007-2017 Witold Gantzke & Kirill Lepskiy
+**
+**	This file is part of the ACF Toolkit.
+**
+**	This file may be used under the terms of the GNU Lesser
+**	General Public License version 2.1 as published by the Free Software
+**	Foundation and appearing in the file LicenseLGPL.txt included in the
+**	packaging of this file.  Please review the following information to
+**	ensure the GNU Lesser General Public License version 2.1 requirements
+**	will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+**	If you are unsure which license is appropriate for your use, please
+**	contact us at info@imagingtools.de.
+**
+** 	See http://www.ilena.org or write info@imagingtools.de for further
+** 	information about the ACF.
+**
+********************************************************************************/
+
+
 #include <iqtgui/CDialogGuiComp.h>
 
 
@@ -27,6 +49,7 @@
 #include <QtGui/QIcon>
 #include <QtCore/QtGlobal>
 #include <QtGui/QKeyEvent>
+#include <QtWidgets/QPushButton>
 #if QT_VERSION >= 0x050000
 #include <QtWidgets/QApplication>
 #else
@@ -120,6 +143,28 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 		}
 
 		dialogPtr->SetDialogGeometry(m_initialDialogSizeAttrPtr.IsValid() ? *m_initialDialogSizeAttrPtr : 0.0);
+
+		if (*m_defaultButtonAttrPtr != 0){
+			QDialogButtonBox* boxPtr = const_cast<QDialogButtonBox*>(dialogPtr->GetButtonBoxPtr());
+			if (boxPtr != nullptr){
+				QList<QAbstractButton*> buttons = boxPtr->buttons();
+				for (QAbstractButton* buttonPtr : buttons){
+					QPushButton* pushButtonPtr = dynamic_cast<QPushButton*>(buttonPtr);
+					if (pushButtonPtr != nullptr){
+						pushButtonPtr->setDefault(false);
+						pushButtonPtr->setAutoDefault(false);
+					}
+				}
+
+				QPushButton* pushButtonPtr = boxPtr->button((QDialogButtonBox::StandardButton)*m_defaultButtonAttrPtr);
+				if (pushButtonPtr != nullptr){
+					pushButtonPtr->setDefault(true);
+					if (!(*m_defaultButtonPropertyAttrPtr).isEmpty()){
+						pushButtonPtr->setProperty(*m_defaultButtonPropertyAttrPtr, true);
+					}
+				}
+			}
+		}
 	}
 
 	return dialogPtr.PopPtr();
