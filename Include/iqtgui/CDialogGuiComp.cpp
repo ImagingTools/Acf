@@ -117,6 +117,8 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 					pushButtonPtr->setDefault(true);
 					if (!(*m_defaultButtonPropertyAttrPtr).isEmpty()){
 						pushButtonPtr->setProperty(*m_defaultButtonPropertyAttrPtr, true);
+
+						qApp->style()->polish(dialogPtr.GetPtr());
 					}
 				}
 			}

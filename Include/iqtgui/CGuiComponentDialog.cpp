@@ -92,7 +92,6 @@ void CGuiComponentDialog::SetDialogGeometry(double screenFactor, const QPoint* p
 }
 
 
-
 // protected methods
 
 // reimplemented (QWidget)
@@ -195,7 +194,6 @@ void CGuiComponentDialog::showEvent(QShowEvent* eventPtr)
 		BaseClass::move(*m_screenPositionPtr);
 	}
 }
-
 
 
 } // namespace iqtgui
