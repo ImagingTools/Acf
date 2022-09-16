@@ -1,4 +1,4 @@
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 
 macro(subdirlist result curdir)
 	file(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -28,11 +28,17 @@ macro(get_target_name target_name)
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 140)
 			set(COMPILER_NAME "VC14")
 		endif()
+
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 141)
 			set(COMPILER_NAME "VC15")
 		endif()
+
 		if(${MSVC_TOOLSET_VERSION} STREQUAL 142)
 			set(COMPILER_NAME "VC16")
+		endif()
+
+		if(${MSVC_TOOLSET_VERSION} STREQUAL 143)
+			set(COMPILER_NAME "VC17")
 		endif()
 
 		add_compile_definitions(COMPILER_NAME=${COMPILER_NAME})
