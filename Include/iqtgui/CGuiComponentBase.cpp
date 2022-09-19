@@ -89,6 +89,7 @@ bool CGuiComponentBase::CreateGui(QWidget* parentPtr)
 
 			OnGuiCreated();
 			OnGuiRetranslate();
+			OnGuiDesignChanged();
 
 			return true;
 		}
