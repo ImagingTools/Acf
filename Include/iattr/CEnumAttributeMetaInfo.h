@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QtCore/QList>
+#include <list>
 
 // ACF includes
 #include <istd/TOptDelPtr.h>
@@ -62,7 +62,7 @@ private:
 		QString description;
 		istd::TOptDelPtr<const iser::IObject> attributePtr;
 	};
-	typedef QList<EnumInfo> Enums;
+	typedef std::list<EnumInfo> Enums;
 	Enums m_enums;
 
 	/**

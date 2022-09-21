@@ -46,7 +46,7 @@ bool CEnumAttributeMetaInfo::InsertOption(const QString& description, const iser
 	istd::CChangeNotifier notifier(this);
 	Q_UNUSED(notifier);
 
-	m_enums.append(EnumInfo());
+	m_enums.push_back(EnumInfo());
 
 	EnumInfo& info = m_enums.back();
 
@@ -67,14 +67,14 @@ bool CEnumAttributeMetaInfo::IsAnyValueAllowed() const
 
 int CEnumAttributeMetaInfo::GetEnumsCount() const
 {
-	return m_enums.count();
+	return int(m_enums.size());
 }
 
 
 QString CEnumAttributeMetaInfo::GetValueDescription(const iser::IObject& value) const
 {
-	for (		Enums::ConstIterator iter = m_enums.constBegin();
-				iter != m_enums.constEnd();
+	for (		Enums::const_iterator iter = m_enums.cbegin();
+				iter != m_enums.cend();
 				++iter){
 		const EnumInfo& info = *iter;
 		Q_ASSERT(info.attributePtr.IsValid());
@@ -90,7 +90,14 @@ QString CEnumAttributeMetaInfo::GetValueDescription(const iser::IObject& value) 
 
 const iser::IObject& CEnumAttributeMetaInfo::GetEnum(int index) const
 {
-	const iser::IObject* attributePtr = m_enums[index].attributePtr.GetPtr();
+	Q_ASSERT(index >= 0);
+
+	Enums::const_iterator iter = m_enums.cbegin();
+	while (index-- != 0){
+		++iter;
+	}
+
+	const iser::IObject* attributePtr = (*iter).attributePtr.GetPtr();
 	Q_ASSERT(attributePtr != NULL);
 
 	return *attributePtr;
