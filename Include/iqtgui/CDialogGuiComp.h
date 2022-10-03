@@ -8,6 +8,7 @@
 #include <iqtgui/IDialog.h>
 #include <iqtgui/CGuiComponentDialog.h>
 #include <iqtgui/CHierarchicalCommand.h>
+#include <iqtgui/IDialogElementStateController.h>
 
 
 namespace iqtgui
@@ -39,7 +40,8 @@ protected:
 class CDialogGuiComp:
 			public QObject,
 			public CDialogGuiCompAttr,
-			virtual public iqtgui::IDialog
+			virtual public iqtgui::IDialog,
+			virtual public iqtgui::IDialogElementStateController
 {
 	Q_OBJECT
 public:
@@ -67,12 +69,19 @@ public:
 
 	CDialogGuiComp();
 
+	// reimplemented (iqtgui::IDialogElementStateController)
+	virtual int GetAvailableButtons() const override;
+	virtual bool IsButtonEnabled(QDialogButtonBox::StandardButton button) const override;
+	virtual void EnableButton(QDialogButtonBox::StandardButton button, bool enable) override;
+
 	// reimplemented (iqtgui::IDialog)
 	virtual int ExecuteDialog(IGuiObject* parentPtr);
 
 protected:
 	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;
 	virtual void OnRetranslate();
+	bool IsOneBitSet(int value) const;
+	void UpdateButtonState();
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
@@ -124,7 +133,9 @@ private:
 
 	imod::TModelWrap<CommandsProvider> m_commandsProvider;
 
-	QDialog* m_dialogPtr;
+	QSet<int> m_disabledButtons;
+
+	CGuiComponentDialog* m_dialogPtr;
 };
 
 

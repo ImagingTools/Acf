@@ -29,6 +29,35 @@ CDialogGuiComp::CDialogGuiComp()
 }
 
 
+// reimplemented (iqtgui::IDialogElementStateController)
+
+int CDialogGuiComp::GetAvailableButtons() const
+{
+	return *m_dialogButtonsAttrPtr;
+}
+
+bool CDialogGuiComp::IsButtonEnabled(QDialogButtonBox::StandardButton button) const
+{
+	Q_ASSERT(IsOneBitSet(button));
+
+	return !m_disabledButtons.contains(button);
+}
+
+void CDialogGuiComp::EnableButton(QDialogButtonBox::StandardButton button, bool enable)
+{
+	Q_ASSERT(IsOneBitSet(button));
+
+	if (enable){
+		m_disabledButtons -= button;
+	}
+	else{
+		m_disabledButtons += button;
+	}
+
+	UpdateButtonState();
+}
+
+
 // reimplemented (iqtgui::IDialog)
 
 int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
@@ -37,7 +66,9 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 	if (dialogPtr.IsValid()){
 		if (*m_isModalAttrPtr){
 			m_dialogPtr = dialogPtr.GetPtr();
-		
+
+			UpdateButtonState();
+
 			int retVal = dialogPtr->exec();
 		
 			m_dialogPtr = NULL;
@@ -46,6 +77,8 @@ int CDialogGuiComp::ExecuteDialog(IGuiObject* parentPtr)
 		}
 		else{
 			m_dialogPtr = dialogPtr.GetPtr();
+
+			UpdateButtonState();
 
 			dialogPtr->setModal(false);
 			m_dialogCommand.SetEnabled(false);
@@ -156,6 +189,38 @@ void CDialogGuiComp::OnRetranslate()
 
 	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
 	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
+}
+
+
+bool CDialogGuiComp::IsOneBitSet(int value) const
+{
+	int count = 0;
+
+	while (value > 0){
+		if (value & 1){
+			count++;
+		}
+
+		value >>= 1;
+	}
+
+	return count == 1;
+}
+
+
+void CDialogGuiComp::UpdateButtonState()
+{
+	if (m_dialogPtr != nullptr){
+		QDialogButtonBox* boxPtr = const_cast<QDialogButtonBox*>(m_dialogPtr->GetButtonBoxPtr());
+		if (boxPtr != nullptr){
+			QList<QAbstractButton*> buttons = boxPtr->buttons();
+			for (QAbstractButton* buttonPtr : buttons){
+				QDialogButtonBox::StandardButton standartButton = boxPtr->standardButton(buttonPtr);
+
+				buttonPtr->setEnabled(!m_disabledButtons.contains(standartButton));
+			}
+		}
+	}
 }
 
 
