@@ -36,6 +36,11 @@ public:
 	TDelPtr(const TDelPtr& ptr);
 
 	/**
+		Move constructor.
+	*/
+	TDelPtr(TDelPtr&& ptr);
+
+	/**
 		Destructor.
 		It calls Reset() to delete pointed object.
 	 */
@@ -68,6 +73,12 @@ public:
 		The source pointer must be invalid (NULL).
 	*/
 	TDelPtr& operator=(const TDelPtr& ptr);
+
+	/**
+		Move operator.
+	*/
+	TDelPtr& operator=(TDelPtr&& ptr);
+
 	/**
 		Assign operator.
 		It removes refererenced object before new is assigned.
@@ -123,6 +134,14 @@ inline TDelPtr<Type, Accessor>::TDelPtr(const TDelPtr<Type, Accessor>& I_IF_DEBU
 
 
 template <class Type, class Accessor>
+inline TDelPtr<Type, Accessor>::TDelPtr(TDelPtr<Type, Accessor>&& ptr)
+:	BaseClass(NULL)
+{
+	SetPtr(ptr.PopPtr());
+}
+
+
+template <class Type, class Accessor>
 inline TDelPtr<Type, Accessor>::~TDelPtr()
 {
 	TDelPtr::Detach();
@@ -170,6 +189,15 @@ TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(const TDelPtr& I_IF_
 	I_IF_DEBUG(Q_ASSERT(ptr.GetPtr() == NULL));
 
 	Reset();
+
+	return *this;
+}
+
+
+template <class Type, class Accessor>
+TDelPtr<Type, Accessor>& TDelPtr<Type, Accessor>::operator=(TDelPtr&& ptr)
+{
+	SetPtr(ptr.PopPtr());
 
 	return *this;
 }
