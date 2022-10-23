@@ -67,6 +67,16 @@ public:
 
 protected:
 	/**
+		Ñalled just before the document is saved via persistence
+	*/
+	virtual void BeforeSavingDocument(const QString& filePath);
+
+	/**
+		Called immediately after saving the document via persistence
+	*/
+	virtual void AfterSavingDocument(bool saveState);
+
+	/**
 		Open single document using its file path.
 		\param	filePath		file path.
 		\param	createView		if true, instance of view will be created.

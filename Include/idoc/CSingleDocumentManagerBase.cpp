@@ -271,7 +271,10 @@ bool CSingleDocumentManagerBase::SaveDocument(
 		return false;
 	}
 
+	BeforeSavingDocument(filePath);
 	int saveState = loaderPtr->SaveToFile(*m_documentPtr, filePath, progressManagerPtr);
+	AfterSavingDocument(saveState == ifile::IFilePersistence::OS_OK);
+
 	if (saveState == ifile::IFilePersistence::OS_OK){
 		if ((m_filePath != filePath) || m_isDirty){
 			istd::CChangeNotifier notifier(this);
@@ -368,6 +371,16 @@ bool CSingleDocumentManagerBase::CloseView(istd::IPolymorphic* viewPtr, bool beQ
 
 
 // protected methods
+
+void CSingleDocumentManagerBase::BeforeSavingDocument(const QString& filePath)
+{
+}
+
+
+void CSingleDocumentManagerBase::AfterSavingDocument(bool saveState)
+{
+}
+
 
 bool CSingleDocumentManagerBase::OpenSingleDocument(
 			const QString& filePath,
