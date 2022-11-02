@@ -63,6 +63,7 @@ public:
 		I_ASSIGN(m_defaultButtonAttrPtr, "DefaultDialogButton", "Default dialog button.See Qt::StandardButton for details", true, 0);
 		I_ASSIGN(m_defaultButtonPropertyAttrPtr, "DefaultDialogButtonProperty", "Key of the boolean property that will be set to TRUE in context of the default button. Can be used for defining custom style of the primary action of the dialog", true, "DefaultButton");
 		I_ASSIGN(m_windowFlagsAttrPtr, "WindowFlags", "Window flags is used to specify various window-system properties for the widget. See Qt::WindowFlags for details", true, 134295555);
+		I_ASSIGN(m_commandIdAttrPtr, "CommandId", "Dialog activation command ID", true, "");
 	I_END_COMPONENT;
 
 	CDialogGuiComp();
@@ -117,6 +118,7 @@ private:
 	I_ATTR(int, m_defaultButtonAttrPtr);
 	I_ATTR(QByteArray, m_defaultButtonPropertyAttrPtr);
 	I_ATTR(int, m_windowFlagsAttrPtr);
+	I_ATTR(QByteArray, m_commandIdAttrPtr);
 
 	iqtgui::CHierarchicalCommand m_rootCommand;
 	iqtgui::CHierarchicalCommand m_rootMenuCommand;

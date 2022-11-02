@@ -40,10 +40,11 @@ public:
 	typedef iprm::CEnableableParam BaseClass2;
 	typedef iprm::CNameParam BaseClass3;
 
-	explicit CHierarchicalCommand(const QString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL);
+	explicit CHierarchicalCommand(const QString& name = "", int priority = 100, int staticFlags = CF_GLOBAL_MENU, int groupId = GI_NORMAL, const QByteArray& commandId = QByteArray());
 
 	void SetPriority(int priority);
 	void SetStaticFlags(int flags);
+	void SetCommandId(const QByteArray& commandId);
 	void SetGroupId(int groupId);
 
 	/**
@@ -84,6 +85,7 @@ public:
 
 	// reimplemented (ibase::ICommand)
 	virtual int GetPriority() const;
+	virtual QByteArray GetCommandId() const;
 	virtual int GetGroupId() const;
 	virtual int GetStaticFlags() const;
 	virtual bool Execute(istd::IPolymorphic* contextPtr);
@@ -131,6 +133,7 @@ private:
 	int m_priority;
 	int m_staticFlags;
 	int m_groupId;
+	QByteArray m_commandId;
 
 	typedef istd::TOptPointerVector<CHierarchicalCommand> Childs;
 	Childs m_childs;

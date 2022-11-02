@@ -199,6 +199,7 @@ void CDialogGuiComp::OnComponentCreated()
 		commandIcon = QIcon(iconPath);
 	}
 
+	m_dialogCommand.SetCommandId(*m_commandIdAttrPtr);
 	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
 	
 	m_rootMenuCommand.InsertChild(&m_dialogCommand);

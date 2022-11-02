@@ -76,6 +76,13 @@ public:
 	virtual int GetPriority() const = 0;
 
 	/**
+		Get command ID used to identify the command in the command hierarchy.
+		\sa	CommandId.
+		\return	Command ID.
+	*/
+	virtual QByteArray GetCommandId() const = 0;
+
+	/**
 		Get group ID used to decide if separator should be used.
 		\sa	GroupId.
 		\return	group ID or negative value, if no group is assigned.
