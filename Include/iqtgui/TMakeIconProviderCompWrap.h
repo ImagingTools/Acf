@@ -24,43 +24,43 @@ template <class Base>
 QIcon TMakeIconProviderCompWrap<Base>::GetIcon(const QString& iconName) const
 {
 	QIcon icon;
-	QPixmap pixmap;
+	const bool isDefaultIconAvailable = QFileInfo(iconName).exists();
 
-	if (pixmap.load(iconName)){
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
+	if (QFileInfo(iconName + "_Off_Normal").exists()){
+		icon.addFile(iconName + "_Off_Normal", QSize(), QIcon::Normal, QIcon::Off);
+	}
+	else if (isDefaultIconAvailable){
+		icon.addFile(iconName, QSize(), QIcon::Normal, QIcon::Off);
 	}
 
-	if (pixmap.load(iconName + "_Off_Normal")){
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
+	if (QFileInfo(iconName + "_On_Normal").exists()){
+		icon.addFile(iconName + "_On_Normal", QSize(), QIcon::Normal, QIcon::On);
+	}
+	else if (isDefaultIconAvailable){
+		icon.addFile(iconName, QSize(), QIcon::Normal, QIcon::On);
 	}
 
-	if (pixmap.load(iconName + "_Off_Disabled")){
-		icon.addPixmap(pixmap, QIcon::Disabled, QIcon::Off);
+	if (QFileInfo(iconName + "_Off_Disabled").exists()){
+		icon.addFile(iconName + "_Off_Disabled", QSize(), QIcon::Disabled, QIcon::Off);
+
+	if (QFileInfo(iconName + "_Off_Active").exists()){
+		icon.addFile(iconName + "_Off_Active", QSize(), QIcon::Active, QIcon::Off);
 	}
 
-	if (pixmap.load(iconName + "_Off_Active")){
-		icon.addPixmap(pixmap, QIcon::Active, QIcon::Off);
+	if (QFileInfo(iconName + "_Off_Selected").exists()){
+		icon.addFile(iconName + "_Off_Selected", QSize(), QIcon::Selected, QIcon::Off);
 	}
 
-	if (pixmap.load(iconName + "_Off_Selected")){
-		icon.addPixmap(pixmap, QIcon::Selected, QIcon::Off);
+	if (QFileInfo(iconName + "_On_Disabled").exists()){
+		icon.addFile(iconName + "_On_Disabled", QSize(), QIcon::Disabled, QIcon::On);
 	}
 
-	if (pixmap.load(iconName + "_On_Normal")){
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
+	if (QFileInfo(iconName + "_On_Active").exists()){
+		icon.addFile(iconName + "_On_Active", QSize(), QIcon::Active, QIcon::On);
 	}
 
-	if (pixmap.load(iconName + "_On_Disabled")){
-		icon.addPixmap(pixmap, QIcon::Disabled, QIcon::On);
-	}
-
-	if (pixmap.load(iconName + "_On_Active")){
-		icon.addPixmap(pixmap, QIcon::Active, QIcon::On);
-	}
-
-	if (pixmap.load(iconName + "_On_Selected")){
-		icon.addPixmap(pixmap, QIcon::Selected, QIcon::On);
+	if (QFileInfo(iconName + "_On_Selected").exists()){
+		icon.addFile(iconName + "_On_Selected", QSize(), QIcon::Selected, QIcon::On);
 	}
 
 	return icon;
