@@ -92,7 +92,7 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 		}
 
 		if (m_dialogIconPathAttrPtr.IsValid()){
-			dialogPtr->setWindowIcon(QIcon(*m_dialogIconPathAttrPtr));
+			dialogPtr->setWindowIcon(GetIcon(*m_dialogIconPathAttrPtr));
 		}
 		else{
 			dialogPtr->setWindowIcon(QApplication::windowIcon());
@@ -134,31 +134,6 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 }
 
 
-void CDialogGuiComp::OnRetranslate()
-{
-	if (m_dialogPtr != NULL){
-		if (m_dialogTitleAttrPtr.IsValid()){
-			m_dialogPtr->setWindowTitle((*m_dialogTitleAttrPtr));
-		}
-		else{
-			m_dialogPtr->setWindowTitle(QCoreApplication::applicationName());
-		}
-	}
-
-	istd::CChangeNotifier changePtr(&m_commandsProvider);
-
-	QIcon commandIcon;
-	if (m_dialogIconPathAttrPtr.IsValid()){
-		QString iconPath = *m_dialogIconPathAttrPtr;
-
-		commandIcon = QIcon(iconPath);
-	}
-
-	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
-	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
-}
-
-
 // reimplemented (QObject)
 
 bool CDialogGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
@@ -166,21 +141,58 @@ bool CDialogGuiComp::eventFilter(QObject* sourcePtr, QEvent* eventPtr)
 	Q_ASSERT(eventPtr != NULL);
 	Q_ASSERT(sourcePtr != NULL);
 
-	if ((eventPtr->type() == QEvent::LanguageChange) && (sourcePtr == qApp)){
-		OnRetranslate();
-	}
-
 	if (sourcePtr == m_dialogPtr){
-		if (eventPtr->type() == QEvent::Close){
-			m_dialogCommand.setEnabled(true);
-		}
-
-		if (eventPtr->type() == QEvent::Hide){
+		if (eventPtr->type() == QEvent::Close || eventPtr->type() == QEvent::Hide){
 			m_dialogCommand.setEnabled(true);
 		}
 	}
 
 	return BaseClass2::eventFilter(sourcePtr, eventPtr);
+}
+
+
+// protected methods
+
+void CDialogGuiComp::UpdateVisuals()
+{
+	istd::CChangeNotifier changeNotifier(&m_commandsProvider);
+
+	QIcon icon;
+	if (m_dialogIconPathAttrPtr.IsValid()){
+		QString iconPath = *m_dialogIconPathAttrPtr;
+
+		icon = GetIcon(iconPath);
+	}
+
+	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
+	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, icon);
+
+	if (m_dialogPtr != NULL){
+		m_dialogPtr->setWindowIcon(icon);
+
+		if (m_dialogTitleAttrPtr.IsValid()){
+			m_dialogPtr->setWindowTitle((*m_dialogTitleAttrPtr));
+		}
+		else{
+			m_dialogPtr->setWindowTitle(QCoreApplication::applicationName());
+		}
+	}
+}
+
+
+// reimplemented (ibase::TLocalizableWrap)
+
+void CDialogGuiComp::OnLanguageChanged()
+{
+	UpdateVisuals();
+}
+
+
+// reimplemented (iqtgui::TDesignSchemaHandlerWrap)
+
+void CDialogGuiComp::OnDesignSchemaChanged()
+{
+	UpdateVisuals();
 }
 
 
@@ -190,24 +202,17 @@ void CDialogGuiComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	m_rootMenuCommand.SetName(*m_rootMenuNameAttrPtr);
-
-	QIcon commandIcon;
-	if (m_dialogIconPathAttrPtr.IsValid()){
-		QString iconPath = *m_dialogIconPathAttrPtr;
-
-		commandIcon = QIcon(iconPath);
-	}
-
 	m_dialogCommand.SetCommandId(*m_commandIdAttrPtr);
-	m_dialogCommand.SetVisuals(*m_menuNameAttrPtr, *m_menuNameAttrPtr, *m_menuDescriptionAttrPtr, commandIcon);
-	
+
 	m_rootMenuCommand.InsertChild(&m_dialogCommand);
 	m_rootCommand.InsertChild(&m_rootMenuCommand);
 
 	connect(&m_dialogCommand, SIGNAL(triggered()), this, SLOT(OnCommandActivated()));
 
-	qApp->installEventFilter(this);
+	EnableLocalization(true);
+	EnableDesignHandler(true);
+
+	UpdateVisuals();
 }
 
 

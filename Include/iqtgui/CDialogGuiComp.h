@@ -3,11 +3,14 @@
 
 
 // ACF includes
+#include <ibase/TLocalizableWrap.h>
 #include <ibase/ICommandsProvider.h>
 #include <imod/TModelWrap.h>
 #include <iqtgui/IDialog.h>
 #include <iqtgui/CGuiComponentDialog.h>
 #include <iqtgui/CHierarchicalCommand.h>
+#include <iqtgui/TMakeIconProviderCompWrap.h>
+#include <iqtgui/TDesignSchemaHandlerWrap.h>
 
 
 namespace iqtgui
@@ -38,12 +41,16 @@ protected:
 */
 class CDialogGuiComp:
 			public QObject,
-			public CDialogGuiCompAttr,
+			public TDesignSchemaHandlerWrap<
+						TMakeIconProviderCompWrap<
+									ibase::TLocalizableWrap<CDialogGuiCompAttr>>>,
 			virtual public iqtgui::IDialog
 {
 	Q_OBJECT
 public:
-	typedef CDialogGuiCompAttr BaseClass;
+	typedef TDesignSchemaHandlerWrap<
+				TMakeIconProviderCompWrap<
+							ibase::TLocalizableWrap<CDialogGuiCompAttr>>> BaseClass;
 	typedef QObject BaseClass2;
 
 	I_BEGIN_COMPONENT(CDialogGuiComp);
@@ -73,7 +80,15 @@ public:
 
 protected:
 	virtual iqtgui::CGuiComponentDialog* CreateComponentDialog(int buttons, IGuiObject* parentPtr) const;
-	virtual void OnRetranslate();
+
+protected:
+	void UpdateVisuals();
+
+	// reimplemented (ibase::TLocalizableWrap)
+	virtual void OnLanguageChanged();
+
+	// reimplemented (iqtgui::TDesignSchemaHandlerWrap)
+	virtual void OnDesignSchemaChanged();
 
 	// reimplemented (icomp::CComponentBase)
 	virtual void OnComponentCreated();
