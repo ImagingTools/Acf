@@ -129,6 +129,11 @@ protected:
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr) = 0;
 
 	/**
+		Called after document is registered.
+	*/
+	virtual void OnDocumentRegistered() = 0;
+
+	/**
 		Gets open file names.
 	*/
 	virtual QString GetOpenFilePath(const QByteArray* documentTypeIdPtr = NULL) const  = 0;

@@ -162,6 +162,11 @@ void CSingleDocumentWorkspaceGuiComp::OnViewRemoved(istd::IPolymorphic* viewPtr)
 }
 
 
+void CSingleDocumentWorkspaceGuiComp::OnDocumentRegistered()
+{
+}
+
+
 bool CSingleDocumentWorkspaceGuiComp::QueryDocumentSave(bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){

@@ -540,6 +540,8 @@ bool CSingleDocumentManagerBase::RegisterDocument()
 		}
 	}
 
+	OnDocumentRegistered();
+
 	return true;
 }
 
