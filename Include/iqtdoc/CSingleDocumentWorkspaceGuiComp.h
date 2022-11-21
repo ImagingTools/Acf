@@ -80,6 +80,7 @@ protected:
 	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr);
 	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
 	virtual void OnDocumentRegistered();
+	virtual void OnDocumentClosed();
 	virtual bool QueryDocumentSave(bool* ignoredPtr);
 
 	// reimplemented (iqt:CGuiComponentBase)

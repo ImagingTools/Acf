@@ -167,6 +167,11 @@ void CSingleDocumentWorkspaceGuiComp::OnDocumentRegistered()
 }
 
 
+void CSingleDocumentWorkspaceGuiComp::OnDocumentClosed()
+{
+}
+
+
 bool CSingleDocumentWorkspaceGuiComp::QueryDocumentSave(bool* ignoredPtr)
 {
 	if (ignoredPtr != NULL){
