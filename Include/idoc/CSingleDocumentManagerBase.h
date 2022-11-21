@@ -134,6 +134,11 @@ protected:
 	virtual void OnDocumentRegistered() = 0;
 
 	/**
+		Called before document is closed.
+	*/
+	virtual void OnDocumentClosed() = 0;
+
+	/**
 		Gets open file names.
 	*/
 	virtual QString GetOpenFilePath(const QByteArray* documentTypeIdPtr = NULL) const  = 0;

@@ -346,6 +346,8 @@ bool CSingleDocumentManagerBase::CloseDocument(int /*documentIndex*/, bool beQui
 		istd::CChangeNotifier notifier(this, &s_closeViewChangeSet);
 		Q_UNUSED(notifier);
 
+		OnDocumentClosed();
+
 		EnsureViewRemoved();
 
 		m_filePath = "";
