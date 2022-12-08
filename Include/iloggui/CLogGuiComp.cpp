@@ -466,10 +466,12 @@ void CLogGuiComp::OnComponentCreated()
 
 void CLogGuiComp::UpdateVisualStatus()
 {
-	istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
+	if (*m_autoUpdateVisualStatusAttrPtr) {
+		istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
 
-	SetStatusIcon(GetCategoryIcon(m_statusCategory));
-	SetStatusText(GetCategoryText(m_statusCategory));
+		SetStatusIcon(GetCategoryIcon(m_statusCategory));
+		SetStatusText(GetCategoryText(m_statusCategory));
+	}
 }
 
 

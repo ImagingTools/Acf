@@ -64,6 +64,7 @@ public:
 		I_ASSIGN(m_showLogDescriptionAttrPtr, "ShowLogDescription", "Sets the log tables description visible", true, false);
 		I_ASSIGN(m_showMessageTextFilterAttrPtr, "ShowMessageTextFilter", "If enabled, the text filter for the messages will be shown", true, true);
 		I_ASSIGN(m_showPanelAttrPtr, "ShowPanel", "If enabled, the text filter and filter buttons will be shown", true, true);
+		I_ASSIGN(m_autoUpdateVisualStatusAttrPtr, "AutoUpdateVisualStatus", "Automatically update visual status when messages reseived or message mode changed", true, true);
 		I_ASSIGN(m_logTimeFormatAttrPtr, "TimeFormat", "Format of the date/time used for displaing message's time stamp", true, "");
 	I_END_COMPONENT;
 
@@ -206,6 +207,7 @@ private:
 	I_ATTR(bool, m_showLogDescriptionAttrPtr);
 	I_ATTR(bool, m_showMessageTextFilterAttrPtr);
 	I_ATTR(bool, m_showPanelAttrPtr);
+	I_ATTR(bool, m_autoUpdateVisualStatusAttrPtr);
 	I_ATTR(QString, m_logTimeFormatAttrPtr);
 
 	int m_currentMessageMode;
