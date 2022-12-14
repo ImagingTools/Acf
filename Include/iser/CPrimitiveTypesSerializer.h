@@ -158,7 +158,7 @@ bool CPrimitiveTypesSerializer::SerializeContainer(
 		container.clear();
 
 		for (int i = 0; i < elementsCount; ++i){
-			typename ContainerType::value_type element;
+			typename ContainerType::value_type element = ContainerType::value_type();
 			retVal = retVal && archive.BeginTag(elementTag);
 			retVal = retVal && archive.Process(element);
 			retVal = retVal && archive.EndTag(elementTag);
