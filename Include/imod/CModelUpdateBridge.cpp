@@ -42,17 +42,14 @@ int CModelUpdateBridge::GetModelCount() const
 
 void CModelUpdateBridge::EnsureModelsDetached()
 {
-	QReadLocker lock(&m_modelListMutex);
+	Models models;
+	{
+		QReadLocker lock(&m_modelListMutex);
+		models = m_models;
+	}
 
-	while (!m_models.isEmpty()){
-		imod::IModel* modelPtr = m_models.front();
-		Q_ASSERT(modelPtr != NULL);
-
-		lock.unlock();
-
-		modelPtr->DetachObserver(this);
-
-		lock.relock();
+	for (Models::iterator it = models.begin(); it != models.end(); ++it) {
+		(*it)->DetachObserver(this);
 	}
 }
 
