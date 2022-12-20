@@ -1,3 +1,25 @@
+/********************************************************************************
+**
+**	Copyright (C) 2007-2017 Witold Gantzke & Kirill Lepskiy
+**
+**	This file is part of the ACF Toolkit.
+**
+**	This file may be used under the terms of the GNU Lesser
+**	General Public License version 2.1 as published by the Free Software
+**	Foundation and appearing in the file LicenseLGPL.txt included in the
+**	packaging of this file.  Please review the following information to
+**	ensure the GNU Lesser General Public License version 2.1 requirements
+**	will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+**	If you are unsure which license is appropriate for your use, please
+**	contact us at info@imagingtools.de.
+**
+** 	See http://www.ilena.org or write info@imagingtools.de for further
+** 	information about the ACF.
+**
+********************************************************************************/
+
+
 #ifndef iqt_CTranslationManagerComp_included
 #define iqt_CTranslationManagerComp_included
 
@@ -20,14 +42,14 @@
 namespace iqt
 {
 
-	
+
 /**
 	A translation manager component.
 
 	Translation manager based on using a set of Qt translation files.
 */
 class CTranslationManagerComp:
-			public ilog::CLoggerComponentBase, 
+			public ilog::CLoggerComponentBase,
 			virtual public iqt::ITranslationManager,
 			virtual public iprm::IOptionsList
 {
@@ -38,6 +60,7 @@ public:
 		I_REGISTER_INTERFACE(iqt::ITranslationManager);
 		I_REGISTER_INTERFACE(iprm::IOptionsList);
 		I_ASSIGN(m_ignoreLocaleAttrPtr, "IgnoreLocale", "Ignore locale in language IDs", true, false);
+		I_ASSIGN(m_installTranslator, "InstallTranslator", "Install translator when switch language", true, false);
 		I_ASSIGN(m_translationFilePathAttrPtr, "TranslationFilePath", "Base file path got translations", true, "");
 		I_ASSIGN(m_translationFilePrefixAttrPtr, "TranslationFilePrefix", "Prefix of the translation file", true, "");
 		I_ASSIGN_MULTI_0(m_languagesAttrPtr, "LanguageIds", "List of language IDs in ISO-format", true);
@@ -95,6 +118,7 @@ protected:
 
 protected:
 	I_ATTR(bool, m_ignoreLocaleAttrPtr);
+	I_ATTR(bool, m_installTranslator);
 	I_ATTR(QString, m_translationFilePathAttrPtr);
 	I_ATTR(QByteArray, m_translationFilePrefixAttrPtr);
 	I_MULTIATTR(QByteArray, m_languagesAttrPtr);
