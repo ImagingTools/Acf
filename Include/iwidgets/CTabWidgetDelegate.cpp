@@ -267,14 +267,35 @@ bool CTabWidgetDelegate::SetPageEnabled(QWidget& containerWidget, int pageIndex,
 }
 
 
-bool CTabWidgetDelegate::IsPageVisible(const QWidget& /*containerWidget*/, int /*pageIndex*/) const
+bool CTabWidgetDelegate::IsPageVisible(const QWidget& containerWidget, int pageIndex) const
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+	const QTabWidget* tabWidgetPtr = dynamic_cast<const QTabWidget*>(&containerWidget);
+	Q_ASSERT_X(tabWidgetPtr != NULL, __FILE__, "Tab widget is null");
+
+	if (tabWidgetPtr != NULL){
+		return tabWidgetPtr->isTabVisible(pageIndex);
+	}
+	else{
+		return true;
+	}
+#endif
+
 	return true;
 }
 
 
-bool CTabWidgetDelegate::SetPageVisible(QWidget& /*containerWidget*/, int /*pageIndex*/, bool /*isPageVisible*/)
+bool CTabWidgetDelegate::SetPageVisible(QWidget& containerWidget, int pageIndex, bool isPageVisible)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+	QTabWidget* tabWidgetPtr = dynamic_cast<QTabWidget*>(&containerWidget);
+	if (tabWidgetPtr != NULL){
+		tabWidgetPtr->setTabVisible(pageIndex, isPageVisible);
+
+		return true;
+	}
+#endif
+
 	return false;
 }
 
