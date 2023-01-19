@@ -130,31 +130,35 @@ bool CJsonWriteArchiveBase::Process(QString &value)
 
 // protected methods
 
-void CJsonWriteArchiveBase::InitStream()
+bool CJsonWriteArchiveBase::InitStream()
 {
 	Q_ASSERT(m_stream.IsValid());
 	if (!m_stream.IsValid()){
-		return;
+		return false;
 	}
 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 	m_stream->setCodec("UTF-8");
 #endif
 	m_firstTag = true;
+
+	return true;
 }
 
 
-void CJsonWriteArchiveBase::InitArchive(QIODevice *devicePtr)
+bool CJsonWriteArchiveBase::InitArchive(QIODevice *devicePtr)
 {
 	m_stream.SetPtr(new QTextStream(devicePtr));
-	InitStream();
+	
+	return InitStream();
 }
 
 
-void CJsonWriteArchiveBase::InitArchive(QByteArray &inputString)
+bool CJsonWriteArchiveBase::InitArchive(QByteArray &inputString)
 {
 	m_stream.SetPtr(new QTextStream(&inputString));
-	InitStream();
+	
+	return InitStream();
 }
 
 
@@ -162,7 +166,6 @@ void CJsonWriteArchiveBase::WriteTag(const CArchiveTag &tag, QString separator, 
 {
 	Q_ASSERT(m_stream.IsValid());
 	if (!m_stream.IsValid()){
-
 		return;
 	}
 
@@ -185,7 +188,6 @@ bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 {
 	Q_ASSERT(m_stream.IsValid());
 	if (!m_stream.IsValid()){
-
 		return false;
 	}
 

@@ -34,7 +34,7 @@ public:
 	virtual bool Process(QString& value);
 
 protected:
-	void initArchive(const QByteArray& inputString);
+	bool InitArchive(const QByteArray& inputString);
 	bool ReadStringNode(QString& text);
 
 	// reimplemented (iser::CTextReadArchiveBase)

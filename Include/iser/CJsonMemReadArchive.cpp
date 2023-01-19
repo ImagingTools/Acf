@@ -7,10 +7,9 @@ namespace iser
 
 // public methods
 
-CJsonMemReadArchive::CJsonMemReadArchive(const QByteArray &inputString)
-	: CJsonReadArchiveBase()
+CJsonMemReadArchive::CJsonMemReadArchive(const QByteArray& data)
 {
-	initArchive(inputString);
+	InitArchive(data);
 }
 
 

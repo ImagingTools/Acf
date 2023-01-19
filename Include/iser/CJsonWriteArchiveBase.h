@@ -41,9 +41,9 @@ public:
 	using BaseClass::Process;
 
 protected:
-	void InitStream();
-	void InitArchive(QIODevice* devicePtr);
-	void InitArchive(QByteArray& inputString);
+	bool InitStream();
+	bool InitArchive(QIODevice* devicePtr);
+	bool InitArchive(QByteArray& inputString);
 	void WriteTag(const iser::CArchiveTag& tag, QString separator, bool isWriteTag = true);
 
 	// reimplemented (iser::CTextWriteArchiveBase)

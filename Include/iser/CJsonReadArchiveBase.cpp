@@ -149,7 +149,7 @@ bool CJsonReadArchiveBase::Process(QString& value)
 
 // protected methods
 
-void CJsonReadArchiveBase::initArchive(const QByteArray &inputString)
+bool CJsonReadArchiveBase::InitArchive(const QByteArray &inputString)
 {
 	QJsonParseError error;
 	m_document = QJsonDocument::fromJson(inputString, &error);
@@ -160,7 +160,11 @@ void CJsonReadArchiveBase::initArchive(const QByteArray &inputString)
 					error.errorString(),
 					"CJsonStringReadArchive",
 					istd::IInformationProvider::ITF_SYSTEM);
+
+		return false;
 	}
+
+	return true;
 }
 
 

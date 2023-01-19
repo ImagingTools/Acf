@@ -14,13 +14,14 @@ namespace iser
 
 
 CJsonMemWriteArchive::CJsonMemWriteArchive(
-				QByteArray &inputString,
-				const IVersionInfo* versionInfoPtr,
-				QJsonDocument::JsonFormat jsonFormat)
-		: CJsonWriteArchiveBase(versionInfoPtr)
+			QByteArray &inputString,
+			const IVersionInfo* versionInfoPtr,
+			QJsonDocument::JsonFormat jsonFormat)
+	:BaseClass(versionInfoPtr)
 {
 	InitArchive(inputString);
 }
+
 
 } // namespace iser
 
