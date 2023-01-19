@@ -30,6 +30,8 @@
 #include <ifile/CTextFileLogComp.h>
 #include <ifile/CTextFileLogStreamerComp.h>
 #include <ifile/CTempFileManagerComp.h>
+#include <ifile/CJsonFileReadArchive.h>
+#include <ifile/CJsonFileWriteArchive.h>
 
 
 /**
@@ -59,6 +61,7 @@ typedef icomp::TModelCompWrap<ifile::CApplicationInfoBasedFileNameComp> Applicat
 typedef ifile::CTextFileLogComp TextFileLog;
 typedef ifile::CTextFileLogStreamerComp TextFileLogStreamer;
 typedef ifile::CTempFileManagerComp TempFileManager;
+typedef ifile::TFileSerializerComp<ifile::CJsonFileReadArchive, ifile::CJsonFileWriteArchive> JsonFileSerializer;
 
 
 } // namespace FilePck

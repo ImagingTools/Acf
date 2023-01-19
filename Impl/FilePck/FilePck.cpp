@@ -108,6 +108,11 @@ I_EXPORT_COMPONENT(
 			"Manager of the temporary files",
 			"Temporary File");
 
+I_EXPORT_COMPONENT(
+			JsonFileSerializer,
+			"Stores and loads objects to/from files  using JSON format",
+			"Save Serializer Archive Format JSON Attributes" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("JSON Loader File"));
+
 
 } // namespace FilePck
 
