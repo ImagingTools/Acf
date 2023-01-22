@@ -27,6 +27,8 @@ class CJsonReadArchiveBase : public iser::CTextReadArchiveBase
 public:
 	typedef CTextReadArchiveBase BaseClass;
 
+	CJsonReadArchiveBase();
+
 	// reimplemented (iser::IArchive)
 	virtual bool BeginTag(const iser::CArchiveTag& tag);
 	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
@@ -42,16 +44,49 @@ protected:
 
 protected:
 	QJsonDocument m_document;
+
+	class HelperIterator
+	{
+	public:
+		void SetKey(QString& key) { m_key = key; }
+		const QString GetKey() { return m_key; }
+		QString GetValue() { return m_value.toString(); }
+		QJsonObject GetObject()
+		{
+			if (m_value.isObject()){
+
+				return m_value.toObject();
+			}
+			if (m_value.isArray()){
+				return m_arrayIterator->toObject();
+			}
+			return QJsonObject();
+		}
+		bool NextElementArray() { m_arrayIterator++; return m_arrayIterator != m_array.constEnd(); }
+		void SetValue(const QJsonValue value)
+		{
+			m_value = value;
+			if (m_value.isArray()){
+				m_array = m_value.toArray();
+				m_arrayIterator = m_array.constBegin();
+			}
+		}
+		bool isObject() { return m_value.isObject(); }
+		bool isArray() { return m_value.isArray(); }
+	private:
+		QJsonArray m_array;
+		QJsonArray::ConstIterator m_arrayIterator;
+		QJsonValue m_value;
+		QString m_key;
+	};
 		
-	QVector<QJsonObject::const_iterator> m_objectsStack;
+	QVector<HelperIterator> m_iterators;
 
-	bool m_isNewFormat;			// idicate that new format is enabled
-	bool m_allowAttribute;		// indicate if attribute outputting is allowed now
 
-	QByteArray m_currentAttribute;
+//	typedef QList<const iser::CArchiveTag*> TagsList;
+//	TagsList m_tagsStack;
+	iser::CArchiveTag m_rootTag;
 
-	typedef QList<const iser::CArchiveTag*> TagsList;
-	TagsList m_tagsStack;
 };
 
 

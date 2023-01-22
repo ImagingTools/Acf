@@ -6,7 +6,8 @@
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonArray>
 #include <QtCore/QVector>
-#include <QtCore/QTextStream>
+#include <QtCore/QDataStream>
+#include <QtCore/QBuffer>
 
 // ACF includes
 #include <iser/CTextWriteArchiveBase.h>
@@ -29,14 +30,13 @@ public:
 				const iser::IVersionInfo* versionInfoPtr = NULL,
 				QJsonDocument::JsonFormat jsonFormat = QJsonDocument::Compact);
 
-	virtual ~CJsonWriteArchiveBase();
-
 	// reimplemented (iser::IArchive)
 	virtual bool IsTagSkippingSupported() const;
 	virtual bool BeginTag(const iser::CArchiveTag& tag);
 	virtual bool BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count);
 	virtual bool EndTag(const iser::CArchiveTag& tag);
 	virtual bool Process(QString& value);
+	virtual bool Process(QByteArray& value);
 
 	using BaseClass::Process;
 
@@ -44,18 +44,16 @@ protected:
 	bool InitStream();
 	bool InitArchive(QIODevice* devicePtr);
 	bool InitArchive(QByteArray& inputString);
-	void WriteTag(const iser::CArchiveTag& tag, QString separator, bool isWriteTag = true);
+	bool WriteTag(const iser::CArchiveTag& tag, QString separator, bool isWriteTag = true);
 
 	// reimplemented (iser::CTextWriteArchiveBase)
 	virtual bool WriteTextNode(const QByteArray& text);
 
 protected:
-	istd::TDelPtr<QTextStream> m_stream;
+	QTextStream m_stream;
+	QBuffer m_buffer;
 	bool m_firstTag;
 	QJsonDocument::JsonFormat m_jsonFormat;
-
-	QByteArray m_currentAttribute;
-
 	bool m_serializeHeader;
 	iser::CArchiveTag m_rootTag;
 

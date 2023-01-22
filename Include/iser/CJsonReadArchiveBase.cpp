@@ -7,39 +7,53 @@ namespace iser
 
 // public methods
 
+CJsonReadArchiveBase::CJsonReadArchiveBase()
+			: CTextReadArchiveBase(),
+			m_rootTag("", "", iser::CArchiveTag::TT_GROUP)
+{
+
+}
+
+
 // reimplemented (iser::IArchive)
 
 bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 {
-	Q_ASSERT(m_currentAttribute.isEmpty());
-
 	QString tagId(tag.GetId());
 
-	m_currentAttribute.clear();
+	int tagType = tag.GetTagType();
 
-	if (m_tagsStack.isEmpty() || (m_tagsStack.back() == NULL) || (m_tagsStack.back()->GetTagType() != iser::CArchiveTag::TT_MULTIPLE)){
-		int tagType = tag.GetTagType();
-		if (m_allowAttribute && (tagType == iser::CArchiveTag::TT_LEAF)){
-			m_currentAttribute = tag.GetId();
+	if (m_iterators.isEmpty()){
+		if (&tag != &m_rootTag){
 
-			m_tagsStack.push_back(NULL);
-
-			return true;
+			return false;
 		}
-		else if (tagType == iser::CArchiveTag::TT_WEAK){
-			m_tagsStack.push_back(NULL);
 
-			return true;
+		HelperIterator newHelperIterator;
+		bool isObject = m_document.isObject();
+		QJsonObject jsonObject = m_document.object();
+		newHelperIterator.SetValue(jsonObject);
+		QString value = newHelperIterator.GetValue();
+		m_iterators.push_back(newHelperIterator);
+
+		return true;
+	}
+
+	HelperIterator helperIterator = m_iterators.last();
+
+	if (helperIterator.isArray()){
+		if (tagType == iser::CArchiveTag::TT_LEAF){
+
+				return false;
 		}
 	}
-	QJsonObject::const_iterator objIterator;
 
-	objIterator = m_objectsStack.last();
-
-	QJsonObject jsonObject = (*objIterator).toObject();
-	objIterator = jsonObject.find(tagId);
-	if (objIterator != jsonObject.end() && jsonObject.value(tagId).isObject()){
-		m_objectsStack.push_back(objIterator);
+	QJsonObject jsonObject = helperIterator.GetObject();
+	if (jsonObject.contains(tagId)){
+		HelperIterator newHelperIterator;
+		newHelperIterator.SetValue(jsonObject.value(tagId));
+		newHelperIterator.SetKey(tagId);
+		m_iterators.push_back(newHelperIterator);
 	}
 	else{
 		if (IsLogConsumed()){
@@ -53,10 +67,6 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 
 		return false;
 	}
-
-	m_tagsStack.push_back(&tag);
-
-	m_allowAttribute = true;
 
 	return true;
 }
@@ -65,14 +75,22 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const iser::CArchiveTag& subTag, int& count)
 {
 	QString tagId(tag.GetId());
-	QJsonObject::const_iterator objIterator;
+	HelperIterator helperIterator = m_iterators.last();
+	QJsonObject jsonObject;
 
-	objIterator = m_objectsStack.last();
+	if (helperIterator.isObject()){
+		jsonObject = helperIterator.GetObject();
+	}
+	else{
 
-	QJsonObject jsonObject = (*objIterator).toObject();
-	objIterator = jsonObject.find(tagId);
-	if (objIterator != jsonObject.end() && jsonObject.value(tagId).isArray()){
-		m_objectsStack.push_back(objIterator);
+		return false;
+	}
+
+	if (jsonObject.contains(tagId)){
+		HelperIterator newHelperIterator;
+		newHelperIterator.SetValue(jsonObject.value(tagId));
+		newHelperIterator.SetKey(tagId);
+		m_iterators.push_back(newHelperIterator);
 	}
 	else{
 		if (IsLogConsumed()){
@@ -87,32 +105,23 @@ bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const ise
 		return false;
 	}
 
-	count = jsonObject.value(tagId).toArray().count();
-
-	m_tagsStack.push_back(&tag);
-
-	m_allowAttribute = true;
-
 	return true;
 }
 
 
 bool CJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 {
-	m_currentAttribute.clear();
 
-	if (m_tagsStack.isEmpty()){
+	if (m_iterators.isEmpty()){
+
 		return false;
 	}
 
-	const iser::CArchiveTag* lastTagPtr = m_tagsStack.back();
-	m_tagsStack.pop_back();
-
-	if (lastTagPtr == NULL){
-		return true;
+	HelperIterator helperIterator = m_iterators.last();
+	if (helperIterator.GetKey() == tag.GetId()){
+		m_iterators.pop_back();
 	}
-
-	if (&tag != lastTagPtr){
+	else{
 		SendLogMessage(
 					istd::IInformationProvider::IC_ERROR,
 					MI_TAG_ERROR,
@@ -121,20 +130,6 @@ bool CJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 					istd::IInformationProvider::ITF_SYSTEM);
 
 		return false;
-	}
-
-	QString tagId(tag.GetId());
-	QJsonObject::const_iterator objIterator;
-
-	objIterator = m_objectsStack.last();
-	QJsonObject jsonObject = (*objIterator).toObject();
-
-	Q_ASSERT (jsonObject.contains(lastTagPtr->GetId()));
-
-	m_objectsStack.pop_back();
-
-	if (m_isNewFormat){
-		m_allowAttribute = false;
 	}
 
 	return true;
@@ -153,6 +148,7 @@ bool CJsonReadArchiveBase::InitArchive(const QByteArray &inputString)
 {
 	QJsonParseError error;
 	m_document = QJsonDocument::fromJson(inputString, &error);
+
 	if (error.error != QJsonParseError::NoError && IsLogConsumed()){
 		SendLogMessage(
 					istd::IInformationProvider::IC_ERROR,
@@ -164,36 +160,22 @@ bool CJsonReadArchiveBase::InitArchive(const QByteArray &inputString)
 		return false;
 	}
 
+	BeginTag(m_rootTag);
+
 	return true;
 }
 
 
 bool CJsonReadArchiveBase::ReadStringNode(QString &text)
 {
-	if (m_currentAttribute.isEmpty()){
-		return false;
+	HelperIterator helperIterator = m_iterators.last();
+	QJsonObject jsonObject;
+
+	if (!helperIterator.isObject() && !helperIterator.isArray()){
+		text = helperIterator.GetValue();
 	}
 	else{
-		QJsonObject::const_iterator objIterator;
-
-		objIterator = m_objectsStack.last();
-		QJsonObject jsonObject = (*objIterator).toObject();
-
-		if (jsonObject.contains(m_currentAttribute)){
-			text = jsonObject.value(m_currentAttribute).toString();
-		}
-		else{
-			if (IsLogConsumed()){
-				SendLogMessage(
-							istd::IInformationProvider::IC_ERROR,
-							MI_TAG_ERROR,
-							QString("No attribute '%1' found!").arg(QString(m_currentAttribute)),
-							"JSON Reader",
-							istd::IInformationProvider::ITF_SYSTEM);
-			}
-
-			return false;
-		}
+		return false;
 	}
 
 	return true;

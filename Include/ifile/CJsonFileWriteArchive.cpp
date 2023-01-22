@@ -40,6 +40,15 @@ CJsonFileWriteArchive::CJsonFileWriteArchive(const QString& filePath, const iser
 	OpenFile(filePath);
 }
 
+CJsonFileWriteArchive::~CJsonFileWriteArchive()
+{
+	if (m_file.isOpen()){
+		EndTag(m_rootTag);
+
+		m_file.close();
+	}
+}
+
 
 bool CJsonFileWriteArchive::OpenFile(const QString &filePath)
 {
