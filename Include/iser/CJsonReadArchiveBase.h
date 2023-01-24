@@ -48,36 +48,21 @@ protected:
 	class HelperIterator
 	{
 	public:
-		void SetKey(QString& key) { m_key = key; }
-		const QString GetKey() { return m_key; }
-		QString GetValue() { return m_value.toString(); }
-		QJsonObject GetObject()
-		{
-			if (m_value.isObject()){
-
-				return m_value.toObject();
-			}
-			if (m_value.isArray()){
-				return m_arrayIterator->toObject();
-			}
-			return QJsonObject();
-		}
-		bool NextElementArray() { m_arrayIterator++; return m_arrayIterator != m_array.constEnd(); }
-		void SetValue(const QJsonValue value)
-		{
-			m_value = value;
-			if (m_value.isArray()){
-				m_array = m_value.toArray();
-				m_arrayIterator = m_array.constBegin();
-			}
-		}
-		bool isObject() { return m_value.isObject(); }
-		bool isArray() { return m_value.isArray(); }
+		HelperIterator();
+		void SetKey(const QString& key);
+		const QString GetKey();
+		QString GetValue();
+		QJsonObject GetObject();
+		bool NextElementArray();
+		void SetValue(const QJsonValue value);
+		bool isObject();
+		bool isArray();
 	private:
 		QJsonArray m_array;
 		QJsonArray::ConstIterator m_arrayIterator;
 		QJsonValue m_value;
 		QString m_key;
+		int activeArrayIndex;
 	};
 		
 	QVector<HelperIterator> m_iterators;

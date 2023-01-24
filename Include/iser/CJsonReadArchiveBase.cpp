@@ -46,26 +46,32 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 
 				return false;
 		}
-	}
-
-	QJsonObject jsonObject = helperIterator.GetObject();
-	if (jsonObject.contains(tagId)){
+		QJsonObject jsonObject = helperIterator.GetObject();
 		HelperIterator newHelperIterator;
-		newHelperIterator.SetValue(jsonObject.value(tagId));
+		newHelperIterator.SetValue(jsonObject);
 		newHelperIterator.SetKey(tagId);
 		m_iterators.push_back(newHelperIterator);
 	}
-	else{
-		if (IsLogConsumed()){
-			SendLogMessage(
-						istd::IInformationProvider::IC_ERROR,
-						MI_TAG_ERROR,
-						QString("Tag '%1' not found!").arg(QString(tagId)),
-						"CJsonStringReadArchive",
-						istd::IInformationProvider::ITF_SYSTEM);
+	else {
+		QJsonObject jsonObject = helperIterator.GetObject();
+		if (jsonObject.contains(tagId)){
+			HelperIterator newHelperIterator;
+			newHelperIterator.SetValue(jsonObject.value(tagId));
+			newHelperIterator.SetKey(tagId);
+			m_iterators.push_back(newHelperIterator);
 		}
+		else{
+			if (IsLogConsumed()){
+				SendLogMessage(
+							istd::IInformationProvider::IC_ERROR,
+							MI_TAG_ERROR,
+							QString("Tag '%1' not found!").arg(QString(tagId)),
+							"CJsonStringReadArchive",
+							istd::IInformationProvider::ITF_SYSTEM);
+			}
 
-		return false;
+			return false;
+		}
 	}
 
 	return true;
@@ -87,10 +93,14 @@ bool CJsonReadArchiveBase::BeginMultiTag(const iser::CArchiveTag& tag, const ise
 	}
 
 	if (jsonObject.contains(tagId)){
-		HelperIterator newHelperIterator;
-		newHelperIterator.SetValue(jsonObject.value(tagId));
-		newHelperIterator.SetKey(tagId);
-		m_iterators.push_back(newHelperIterator);
+		QJsonValue jsonValue = jsonObject.value(tagId);
+		if (jsonValue.isArray()){
+			HelperIterator newHelperIterator;
+			newHelperIterator.SetValue(jsonValue);
+			newHelperIterator.SetKey(tagId);
+			m_iterators.push_back(newHelperIterator);
+			count = jsonValue.toArray().count();
+		}
 	}
 	else{
 		if (IsLogConsumed()){
@@ -120,6 +130,9 @@ bool CJsonReadArchiveBase::EndTag(const iser::CArchiveTag& tag)
 	HelperIterator helperIterator = m_iterators.last();
 	if (helperIterator.GetKey() == tag.GetId()){
 		m_iterators.pop_back();
+		if (!m_iterators.isEmpty() && m_iterators.last().isArray()){
+			m_iterators.last().NextElementArray();
+		}
 	}
 	else{
 		SendLogMessage(
@@ -193,6 +206,80 @@ bool CJsonReadArchiveBase::ReadTextNode(QByteArray &text)
 	}
 
 	return false;
+}
+
+CJsonReadArchiveBase::HelperIterator::HelperIterator()
+			: activeArrayIndex(0)
+{
+
+}
+
+void CJsonReadArchiveBase::HelperIterator::SetKey(const QString &key)
+{
+	m_key = key;
+}
+
+
+const QString CJsonReadArchiveBase::HelperIterator::GetKey()
+{
+	return m_key;
+}
+
+
+QString CJsonReadArchiveBase::HelperIterator::GetValue()
+{
+	return m_value.toString();
+}
+
+
+QJsonObject CJsonReadArchiveBase::HelperIterator::GetObject()
+{
+	if (m_value.isObject()){
+
+		return m_value.toObject();
+	}
+
+	if (m_value.isArray() && activeArrayIndex > -1 && activeArrayIndex < m_array.count()){
+
+		return m_array[activeArrayIndex].toObject();
+	}
+
+	return QJsonObject();
+}
+
+
+bool CJsonReadArchiveBase::HelperIterator::NextElementArray()
+{
+	if (isArray()){
+		activeArrayIndex++;
+
+		return activeArrayIndex < m_array.count();
+	}
+
+	return false;
+}
+
+
+void CJsonReadArchiveBase::HelperIterator::SetValue(const QJsonValue value)
+{
+	m_value = value;
+
+	if (m_value.isArray()){
+		m_array = m_value.toArray();
+		activeArrayIndex = 0;
+	}
+}
+
+
+bool CJsonReadArchiveBase::HelperIterator::isObject()
+{
+	return m_value.isObject();
+}
+
+
+bool CJsonReadArchiveBase::HelperIterator::isArray()
+{
+	return m_value.isArray();
 }
 
 
