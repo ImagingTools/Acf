@@ -647,9 +647,11 @@ bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive)
 void CSingleDocumentManagerBase::OnUpdate(const ChangeSet& /*changeSet*/)
 {
 	if (m_undoManagerObserver.GetObservedModel() == nullptr){
-		istd::CChangeNotifier notifier(this);
+		if (!m_isDirty) {
+			istd::CChangeNotifier notifier(this);
 
-		m_isDirty = true;
+			m_isDirty = true;
+		}
 	}
 }
 
