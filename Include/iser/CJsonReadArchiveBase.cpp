@@ -24,7 +24,7 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 	int tagType = tag.GetTagType();
 
 	if (m_iterators.isEmpty()){
-		if (&tag != &m_rootTag){
+		if (tagType == iser::CArchiveTag::TT_LEAF){
 
 			return false;
 		}
@@ -33,6 +33,7 @@ bool CJsonReadArchiveBase::BeginTag(const iser::CArchiveTag& tag)
 		bool isObject = m_document.isObject();
 		QJsonObject jsonObject = m_document.object();
 		newHelperIterator.SetValue(jsonObject);
+		newHelperIterator.SetKey(tagId);
 		QString value = newHelperIterator.GetValue();
 		m_iterators.push_back(newHelperIterator);
 
@@ -173,7 +174,7 @@ bool CJsonReadArchiveBase::InitArchive(const QByteArray &inputString)
 		return false;
 	}
 
-	BeginTag(m_rootTag);
+	//BeginTag(m_rootTag);
 
 	return true;
 }

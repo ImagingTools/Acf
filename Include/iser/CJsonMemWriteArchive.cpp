@@ -19,7 +19,15 @@ CJsonMemWriteArchive::CJsonMemWriteArchive(
 			QJsonDocument::JsonFormat jsonFormat)
 	:BaseClass(versionInfoPtr)
 {
-	InitArchive(inputString);
+	InitArchive(inputString);	
+}
+
+
+CJsonMemWriteArchive::~CJsonMemWriteArchive()
+{
+	if (m_buffer.isOpen()){
+		m_buffer.close();
+	}
 }
 
 

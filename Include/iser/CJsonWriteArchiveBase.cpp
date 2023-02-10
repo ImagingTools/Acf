@@ -99,12 +99,20 @@ bool CJsonWriteArchiveBase::EndTag(const CArchiveTag &tag)
 
 bool CJsonWriteArchiveBase::Process(QString &value)
 {
-	return WriteTextNode("\"" + value.toUtf8() + "\"");
+	QByteArray valueData = value.toUtf8();
+
+	return Process(valueData);
 }
 
 
 bool CJsonWriteArchiveBase::Process(QByteArray &value)
 {
+	value.replace('\\', "\\\\");
+	value.replace('\"', "\\\"");
+	value.replace('\n', "\\n");
+	value.replace('\r', "\\r");
+	value.replace('\t', "\\t");
+
 	return WriteTextNode("\"" + value + "\"");
 }
 
@@ -117,7 +125,6 @@ bool CJsonWriteArchiveBase::InitStream()
 	m_stream.setCodec("UTF-8");
 #endif
 	m_firstTag = true;
-	BeginTag(m_rootTag);
 
 	return true;
 }
@@ -155,6 +162,15 @@ bool CJsonWriteArchiveBase::WriteTag(const CArchiveTag &tag, QString separator)
 		if (lastTagPtr->GetTagType() == iser::CArchiveTag::TT_MULTIPLE){
 			isWritePrefix = false;
 		}
+	}
+
+//	if (tag.GetTagType() == iser::CArchiveTag::TT_GROUP
+//			|| tag.GetTagType() == iser::CArchiveTag::TT_MULTIPLE ){
+//		isWritePrefix = false;
+//	}
+
+	if (m_tagsStack.isEmpty()){
+		isWritePrefix = false;
 	}
 
 	if (!tag.GetId().isEmpty() && isWritePrefix){
