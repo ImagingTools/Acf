@@ -26,6 +26,7 @@ public:
 	virtual MetaInfoTypes GetMetaInfoTypes(bool allowReadOnly = true) const;
 	virtual QVariant GetMetaInfo(int metaInfoType) const;
 	virtual bool SetMetaInfo(int metaInfoType, const QVariant& metaInfo);
+	virtual void RemoveMetaInfo(int metaInfoType);
 	virtual QByteArray GetMetaInfoId(int metaInfoType) const;
 	virtual QString GetMetaInfoName(int metaInfoType) const;
 	virtual QString GetMetaInfoDescription(int metaInfoType) const;

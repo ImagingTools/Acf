@@ -108,6 +108,11 @@ public:
 	virtual bool SetMetaInfo(int metaInfoType, const QVariant& metaInfo) = 0;
 
 	/**
+		Remove document's meta information for a given meta type.
+	*/
+	virtual void RemoveMetaInfo(int metaInfoType) = 0;
+
+	/**
 		Get an unique ID of the meta information.
 	*/
 	virtual QByteArray GetMetaInfoId(int metaInfoType) const = 0;

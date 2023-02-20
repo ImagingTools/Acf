@@ -66,6 +66,12 @@ bool CStandardDocumentMetaInfo::SetMetaInfo(int metaInfoType, const QVariant& me
 }
 
 
+void CStandardDocumentMetaInfo::RemoveMetaInfo(int metaInfoType)
+{
+	m_infosMap.remove(metaInfoType);
+}
+
+
 QByteArray CStandardDocumentMetaInfo::GetMetaInfoId(int metaInfoType) const
 {
 	static QByteArray emptyId;
