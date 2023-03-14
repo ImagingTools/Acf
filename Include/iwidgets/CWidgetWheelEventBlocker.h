@@ -31,7 +31,7 @@ public:
 		AW_COMBO_BOXES = 1 << 1
 	};
 
-	CWidgetWheelEventBlocker(QWidget* parentPtr, int flags = AW_SPIN_BOXES | AW_COMBO_BOXES);
+	CWidgetWheelEventBlocker(QWidget* parentPtr, int flags = AW_SPIN_BOXES | AW_COMBO_BOXES, bool setStrongFocusToAffectedWidgets = true);
 
 protected:
 	typedef QList<QObject*> ObjectPtrList;
@@ -63,6 +63,7 @@ private:
 
 private:
 	int m_processingFlags;
+	bool m_isSetStrongFocusToAffectedWidgets;
 	QSet<QWidget*> m_filteredWidgets;
 
 };
