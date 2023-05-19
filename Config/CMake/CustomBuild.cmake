@@ -39,7 +39,7 @@ if(ARXC_CONFIG AND (ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OR NOT DEFINED ARX_ENA
 	
 	execute_process(
 		COMMAND
-		    ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ENV_VARS}
+		    ${ARXCBIN} ${ARXC_FILES} -v -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ENV_VARS}
 		OUTPUT_FILE
 		    ${ARX_DEPS_FILE_PATH}
 		ERROR_FILE
@@ -62,7 +62,7 @@ if(ARXC_CONFIG AND (ARX_ENABLE_GENERATE_DEPENDENCIES_LIST OR NOT DEFINED ARX_ENA
 			    ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -v -env_vars ${ENV_VARS}
 		)
 		message("${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ENV_VARS}")
-		message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")
+		message(FATAL_ERROR "!!! ARX finished unexpected. Error code: [${ARX_DEPS_GENERATION_RESULT_CODE}]")
     endif()
 
 	file(STRINGS ${ARX_DEPS_FILE_PATH} ARX_DEPS_LIST)
