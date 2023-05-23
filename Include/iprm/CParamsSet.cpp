@@ -295,6 +295,11 @@ bool CParamsSet::CopyFrom(const IChangeable& object, CompatibilityMode mode)
 	m_params.Reset();
 
 	while (!tempSet.m_params.IsEmpty()){
+		imod::IModel* modelPtr = dynamic_cast<imod::IModel*>(tempSet.m_params.GetAt(0)->parameterPtr.GetPtr());
+		if (modelPtr != nullptr){
+			modelPtr->AttachObserver(&m_updateBridge);
+		}
+
 		m_params.PushBack(tempSet.m_params.PopAt(0));
 	}
 
