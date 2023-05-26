@@ -3,7 +3,7 @@
 
 
 // Qt includes
-#include <QtCore/QVector>
+#include <QtCore/QMutex>
 
 // ACF includes
 #include <imod/IModel.h>
@@ -29,10 +29,10 @@ public:
 	void ResetModel();
 
 	// reimplemented (imod::IModel)
-	virtual bool AttachObserver(IObserver* observerPtr);
-	virtual void DetachObserver(IObserver* observerPtr);
-	virtual void DetachAllObservers();
-	virtual bool IsAttached(const IObserver* observerPtr) const;
+	virtual bool AttachObserver(IObserver* observerPtr) override;
+	virtual void DetachObserver(IObserver* observerPtr) override;
+	virtual void DetachAllObservers() override;
+	virtual bool IsAttached(const IObserver* observerPtr) const override;
 
 private:
 	void AttachProxyObservers();
@@ -47,7 +47,7 @@ private:
 		explicit ModelObserver(CModelProxy& parent);
 
 		// reimplemented (imod::IObserver)
-		virtual bool OnModelDetached(imod::IModel* modelPtr);
+		virtual bool OnModelDetached(imod::IModel* modelPtr) override;
 
 	private:
 		CModelProxy& m_parent;
@@ -74,11 +74,12 @@ private:
 	};
 
 	typedef PendingObserver Observer;
-	typedef QVector<Observer> Observers;
+	typedef std::vector<Observer> Observers;
 
 	Observers m_proxyObservers;
 	ModelObserver m_modelObserver;
 	imod::IModel* m_modelPtr;
+	mutable QMutex m_modelMutex;
 };
 
 
