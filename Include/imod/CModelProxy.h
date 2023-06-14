@@ -79,7 +79,11 @@ private:
 	Observers m_proxyObservers;
 	ModelObserver m_modelObserver;
 	imod::IModel* m_modelPtr;
+#if QT_VERSION >= 0x060000
+	mutable QRecursiveMutex m_modelMutex;
+#else
 	mutable QMutex m_modelMutex;
+#endif
 };
 
 

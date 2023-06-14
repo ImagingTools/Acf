@@ -7,12 +7,20 @@ namespace imod
 
 // public methods
 
+#if QT_VERSION >= 0x060000
+CModelProxy::CModelProxy()
+	:m_modelObserver(*this),
+	m_modelPtr(NULL)
+{
+}
+#else
 CModelProxy::CModelProxy()
 	:m_modelObserver(*this),
 	m_modelPtr(NULL),
 	m_modelMutex(QMutex::Recursive)
 {
 }
+#endif
 
 
 void CModelProxy::SetModelPtr(imod::IModel* modelPtr)
