@@ -127,17 +127,17 @@ void CGuiComponentBase::OnTryClose(bool* ignoredPtr)
 
 void CGuiComponentBase::OnGuiDesignChanged()
 {
-	if (!IsGuiCreated()) {
+	if (!IsGuiCreated()){
 		return;
 	}
 
 	if (m_styleSheetPathAttrPtr.IsValid()){
-		if (!iqtgui::SetStyleSheetFromFile(m_widgetPtr, *m_styleSheetPathAttrPtr)) {
+		if (!iqtgui::SetStyleSheetFromFile(m_widgetPtr, *m_styleSheetPathAttrPtr)){
 			qDebug("Style sheet file could not be set: %s", (*m_styleSheetPathAttrPtr).toLocal8Bit().constData());
 		}
 	}
 
-	if (m_defaultStatusIconPathAttrPtr.IsValid()) {
+	if (m_defaultStatusIconPathAttrPtr.IsValid()){
 		istd::CChangeNotifier changeNotifier(&m_visualStatus);
 
 		m_visualStatus.m_statusIcon = GetIcon(*m_defaultStatusIconPathAttrPtr);

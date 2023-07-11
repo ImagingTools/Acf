@@ -108,8 +108,8 @@ iqtgui::CGuiComponentDialog* CDialogGuiComp::CreateComponentDialog(int buttons, 
 		if (*m_defaultButtonAttrPtr != 0){
 			QDialogButtonBox* boxPtr = const_cast<QDialogButtonBox*>(dialogPtr->GetButtonBoxPtr());
 			if (boxPtr != nullptr){
-				QList<QAbstractButton*> buttons = boxPtr->buttons();
-				for (QAbstractButton* buttonPtr : buttons){
+				QList<QAbstractButton*> buttonList = boxPtr->buttons();
+				for (QAbstractButton* buttonPtr : buttonList){
 					QPushButton* pushButtonPtr = dynamic_cast<QPushButton*>(buttonPtr);
 					if (pushButtonPtr != nullptr){
 						pushButtonPtr->setDefault(false);

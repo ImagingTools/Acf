@@ -4,6 +4,7 @@
 
 // Qt includes
 #include <QtCore/QFile>
+#include <QtCore/QDebug>
 #include <QtCore/QTextStream>
 
 #if QT_VERSION > 0x050000
@@ -31,7 +32,7 @@ namespace iqtgui
 template <class StyleSheetConsumer>
 static bool SetStyleSheetFromFile(StyleSheetConsumer* styleSheetConsumer, const QString& styleSheetFilePath)
 {
-	if (styleSheetConsumer == NULL) {
+	if (styleSheetConsumer == NULL){
 		return false;
 	}
 
@@ -54,6 +55,9 @@ static bool SetStyleSheetFromFile(StyleSheetConsumer* styleSheetConsumer, const 
 		styleSheetConsumer->setStyleSheet(styleSheetText);
 
 		return true;
+	}
+	else{
+		qDebug(qPrintable(QString("Style sheet file could not be opened: '%1'").arg(styleSheetFilePath)));
 	}
 
 	return false;
