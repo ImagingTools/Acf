@@ -412,27 +412,27 @@ bool CPackagesLoaderComp::LoadConfigFile(const QString& configFile)
 
 	int configFilesCount = configurationData.GetConfigFilesCount();
 	for (int i = 0; i < configFilesCount; ++i){
-		QString configFilePath = istd::CSystem::GetEnrolledPath(configurationData.GetConfFile(i));
-		retVal = LoadConfigFile(baseDir.absoluteFilePath(configFilePath)) && retVal;
+		QString currentConfigPath = istd::CSystem::GetEnrolledPath(configurationData.GetConfFile(i));
+		retVal = LoadConfigFile(baseDir.absoluteFilePath(currentConfigPath)) && retVal;
 	}
 
 	int packageDirsCount = configurationData.GetPackageDirsCount();
 	for (int i = 0; i < packageDirsCount; ++i){
-		QString correctedPath;
-		if (CheckAndMarkPath(baseDir, configurationData.GetPackageDir(i), correctedPath)){
-			SendVerboseMessage(tr("Register package directory: %1").arg(correctedPath));
+		QString currentPackagePath;
+		if (CheckAndMarkPath(baseDir, configurationData.GetPackageDir(i), currentPackagePath)){
+			SendVerboseMessage(tr("Register package directory: %1").arg(currentPackagePath));
 
-			RegisterPackagesDir(correctedPath);
+			RegisterPackagesDir(currentPackagePath);
 		}
 	}
 
 	int packagesCount = configurationData.GetPackagesCount();
 	for (int i = 0; i < packagesCount; ++i){
-		QString correctedPath;
-		if (CheckAndMarkPath(baseDir, configurationData.GetPackage(i), correctedPath)){
-			SendVerboseMessage(tr("Register package: %1").arg(correctedPath));
+		QString packagePath;
+		if (CheckAndMarkPath(baseDir, configurationData.GetPackage(i), packagePath)){
+			SendVerboseMessage(tr("Register package: %1").arg(packagePath));
 
-			RegisterPackageFile(correctedPath);
+			RegisterPackageFile(packagePath);
 		}
 	}
 
