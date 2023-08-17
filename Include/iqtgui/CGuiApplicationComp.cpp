@@ -136,6 +136,11 @@ int CGuiApplicationComp::Execute(int argc, char** argv)
 			m_trayIconPtr->setIcon(QApplication::windowIcon());
 #endif
 
+			if (m_trayIconToolTip.IsValid()){
+				QString toolTipText = *m_trayIconToolTip;
+				m_trayIconPtr->setToolTip(toolTipText);
+			}
+
 			QMenu* trayMenuPtr = new QMenu;
 
 			if (m_trayIconCommandsCompPtr.IsValid()){

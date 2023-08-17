@@ -66,6 +66,7 @@ public:
 		I_ASSIGN(m_uiStartModeAttrPtr, "UiStartMode", "UI mode by application start up.\n0 - normal\n1 - full screen\n2 - minimized\n3 - maximized", false, 0);
 		I_ASSIGN(m_useMenuIconsOnMacAttrPtr, "UseMenuIconsOnMac", "If enabled, the menu icons will be used in the application's menu bar on Mac OS", true, false);
 		I_ASSIGN(m_useTrayIconAttrPtr, "UseTrayIcon", "If enabled, the tray icon for the application will be used", true, false);
+		I_ASSIGN(m_trayIconToolTip, "TrayIconToolTip", "This property holds the tooltip for the system tray entry \n Note: On some systems, the tooltip's length is limited. The tooltip will be truncated if necessary.", false, "");
 		I_ASSIGN(m_useFullScreenBorderOnWindowsAttrPtr, "UseFullScreenBorderOnWindows", "If enabled, 1-pixel border will be created by Windows in full screen mode", true, false);
 	I_END_COMPONENT;
 
@@ -126,6 +127,7 @@ protected:
 	I_ATTR(int, m_uiStartModeAttrPtr);
 	I_ATTR(bool, m_useMenuIconsOnMacAttrPtr);
 	I_ATTR(bool, m_useTrayIconAttrPtr);
+	I_TEXTATTR(m_trayIconToolTip);
 
 	/**
 		If enabled, the 1-pixel border will be created for in the full screen mode.
