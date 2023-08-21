@@ -1,3 +1,1 @@
-#target_link_libraries(${PROJECT_NAME} iqt ipackage idoc ifile iimg icmm i2d i3d iprm ilog ibase icomp iattr iser imod imath istd)
-
-target_link_libraries(${PROJECT_NAME} ipackage icmm i3d iprm ilog ibase icomp iattr iser imod imath istd)
+target_link_libraries(${PROJECT_NAME} iqt ipackage icmm i3d iprm ilog ibase icomp iattr iser imod imath istd)
