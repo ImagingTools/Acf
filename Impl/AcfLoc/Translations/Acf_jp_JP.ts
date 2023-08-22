@@ -14,17 +14,17 @@
         <translation>ファイルセレクター</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+2"/>
         <source>Log</source>
         <translation>ログ</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="+2"/>
         <source>Log XML file</source>
         <translation>ログXMLファイル</translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-8"/>
         <source>About</source>
         <translation>詳細</translation>
     </message>
@@ -600,8 +600,8 @@
 <context>
     <name>CParamsManagerGuiCompBase</name>
     <message>
-        <location filename="../../../Include/iqtprm/CParamsManagerGuiCompBase.ui" line="+52"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h" line="+215"/>
+        <location filename="../../../Include/iqtprm/CParamsManagerGuiCompBase.ui" line="+65"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h" line="+267"/>
         <source>List</source>
         <translation>リスト</translation>
     </message>
@@ -630,8 +630,20 @@
         <translation>削除</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+57"/>
         <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h" line="+2"/>
+        <source>Copy</source>
+        <translation type="unfinished">コピー</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h" line="+4"/>
+        <source>Paste</source>
+        <translation type="unfinished">ペースト</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CParamsManagerGuiCompBase.h" line="+4"/>
         <source>Move selected item up</source>
         <translation>選択した項目を上に移動</translation>
     </message>
@@ -793,26 +805,32 @@
 <context>
     <name>CRectangleParamsGuiComp</name>
     <message>
-        <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="+104"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="+134"/>
+        <location filename="../../../Include/iqt2d/CRectangleParamsGuiComp.ui" line="+51"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="+152"/>
         <source>Left</source>
         <translation>左</translation>
     </message>
     <message>
-        <location line="+26"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="+2"/>
+        <location line="-26"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="-2"/>
         <source>Right</source>
         <translation>右</translation>
     </message>
     <message>
-        <location line="-13"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="-1"/>
+        <location line="+39"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="+3"/>
         <source>Top</source>
         <translation>上</translation>
     </message>
     <message>
-        <location line="-62"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="-4"/>
+        <location line="+75"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="+3"/>
+        <source>Move to center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-101"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqt2d/ui_CRectangleParamsGuiComp.h" line="-5"/>
         <source>Bottom</source>
         <translation>下</translation>
     </message>
@@ -829,13 +847,13 @@
 <context>
     <name>CSelectionParamGuiComp</name>
     <message>
-        <location filename="../../../Include/iqtprm/CSelectionParamGuiComp.ui" line="+83"/>
-        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CSelectionParamGuiComp.h" line="+111"/>
+        <location filename="../../../Include/iqtprm/CSelectionParamGuiComp.ui" line="+98"/>
+        <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CSelectionParamGuiComp.h" line="+113"/>
         <source>InfoLabel</source>
         <translation>情報ラベル</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+37"/>
         <location filename="../../../AuxInclude/Qt5_VC15_64/GeneratedFiles/iqtprm/ui_CSelectionParamGuiComp.h" line="+1"/>
         <source>OptionDescriptionLabel</source>
         <translation>OptionDescriptionLabel</translation>
@@ -1020,7 +1038,7 @@
         <translation>ドキュメント情報を変更</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+94"/>
         <source>Title</source>
         <translation>タイトル</translation>
     </message>
@@ -1240,7 +1258,7 @@
         <translation>%1: 合成コンポーネント&apos;%2&apos;が定義されていません</translation>
     </message>
     <message>
-        <location line="+1066"/>
+        <location line="+1083"/>
         <source>Unknown attribute type: %1</source>
         <translation>不明な属性タイプ: %1</translation>
     </message>
@@ -1337,7 +1355,7 @@
         <translation>ノードを削除</translation>
     </message>
     <message>
-        <location filename="../../../Include/i2d/CPolygon.cpp" line="+41"/>
+        <location filename="../../../Include/i2d/CPolygon.cpp" line="+42"/>
         <source>Flip</source>
         <translation>はじく</translation>
     </message>
@@ -1656,6 +1674,26 @@
         <translation>
 翻訳マネージャー</translation>
     </message>
+    <message>
+        <location filename="../../../Include/i2d/CLineList.cpp" line="+387"/>
+        <source>Clear all lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Create lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Insert line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Remove line</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ifile::CAutoPersistenceComp</name>
@@ -1716,7 +1754,7 @@
 <context>
     <name>ifilegui::CFileDialogLoaderComp</name>
     <message>
-        <location filename="../../../Include/ifilegui/CFileDialogLoaderComp.cpp" line="+185"/>
+        <location filename="../../../Include/ifilegui/CFileDialogLoaderComp.cpp" line="+190"/>
         <source>%1 (%2)</source>
         <translation>%1 (%2)</translation>
     </message>
@@ -1747,7 +1785,7 @@
 <context>
     <name>ifilegui::CFileTreeViewGuiComp</name>
     <message>
-        <location filename="../../../Include/ifilegui/CFileTreeViewGuiComp.cpp" line="+281"/>
+        <location filename="../../../Include/ifilegui/CFileTreeViewGuiComp.cpp" line="+278"/>
         <source>File</source>
         <translation>ファイル</translation>
     </message>
@@ -1798,17 +1836,17 @@
         <translation>画像形式が正しくありません</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+61"/>
         <source>Object is not supported image</source>
         <translation>オブジェクトはサポートされている画像ではありません</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-37"/>
         <source>Cannot load file %1</source>
         <translation>ファイル%1を読み込めません</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+19"/>
         <source>Cannot set the loaded data to the end-point object</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1818,7 +1856,7 @@
         <translation>ファイル%1を保存できません</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+63"/>
         <source>Joint Photographic Experts Group Image</source>
         <translation>JPEG画像</translation>
     </message>
@@ -1896,7 +1934,7 @@
 <context>
     <name>iloggui::CLogGuiComp</name>
     <message>
-        <location filename="../../../Include/iloggui/CLogGuiComp.cpp" line="+210"/>
+        <location filename="../../../Include/iloggui/CLogGuiComp.cpp" line="+217"/>
         <source>New informations available</source>
         <translation>新しい情報が利用できます</translation>
     </message>
@@ -1918,47 +1956,47 @@
     <message>
         <location line="-129"/>
         <location line="+190"/>
-        <location line="+93"/>
+        <location line="+85"/>
         <source>Info</source>
         <translation>情報</translation>
     </message>
     <message>
-        <location line="-282"/>
+        <location line="-274"/>
         <location line="+190"/>
-        <location line="+102"/>
+        <location line="+94"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location line="-291"/>
+        <location line="-283"/>
         <location line="+190"/>
-        <location line="+111"/>
+        <location line="+103"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
     <message>
-        <location line="-300"/>
+        <location line="-292"/>
         <location line="+190"/>
-        <location line="+120"/>
+        <location line="+112"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
     <message>
-        <location line="-309"/>
+        <location line="-301"/>
         <location line="+190"/>
-        <location line="+133"/>
+        <location line="+125"/>
         <source>Export...</source>
         <translation>エクスポート...</translation>
     </message>
     <message>
-        <location line="-322"/>
+        <location line="-314"/>
         <location line="+190"/>
-        <location line="+141"/>
+        <location line="+133"/>
         <source>Diagnostic Mode</source>
         <translation>診断モード</translation>
     </message>
     <message>
-        <location line="-146"/>
+        <location line="-138"/>
         <source>Show all messages</source>
         <translation>すべてのメッセージを表示</translation>
     </message>
@@ -1996,7 +2034,7 @@
 <context>
     <name>iloggui::CTextLogGuiComp</name>
     <message>
-        <location filename="../../../Include/iloggui/CTextLogGuiComp.cpp" line="+110"/>
+        <location filename="../../../Include/iloggui/CTextLogGuiComp.cpp" line="+104"/>
         <source>Any</source>
         <translation>任意</translation>
     </message>
@@ -2028,7 +2066,7 @@
 <context>
     <name>iqt2d</name>
     <message>
-        <location filename="../../../Include/iqt2d/TPolygonBasedParamsGuiComp.h" line="+410"/>
+        <location filename="../../../Include/iqt2d/TPolygonBasedParamsGuiComp.h" line="+414"/>
         <source>Flip horizontally</source>
         <translation>水平方向にはじく</translation>
     </message>
@@ -2433,7 +2471,7 @@
 <context>
     <name>iqtgui::CGuiApplicationComp</name>
     <message>
-        <location filename="../../../Include/iqtgui/CGuiApplicationComp.cpp" line="+171"/>
+        <location filename="../../../Include/iqtgui/CGuiApplicationComp.cpp" line="+172"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
@@ -2636,16 +2674,22 @@
 <context>
     <name>iqtprm::CSelectionParamGuiComp</name>
     <message>
-        <location filename="../../../Include/iqtprm/CSelectionParamGuiComp.cpp" line="+354"/>
-        <location line="+83"/>
+        <location filename="../../../Include/iqtprm/CSelectionParamGuiComp.cpp" line="+364"/>
+        <location line="+84"/>
         <source>Reset</source>
         <translation>リセット</translation>
+    </message>
+    <message>
+        <location line="-83"/>
+        <location line="+84"/>
+        <source>Reset current selection</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>iview::CConsoleGui</name>
     <message>
-        <location filename="../../../Include/iview/CConsoleGui.cpp" line="+643"/>
+        <location filename="../../../Include/iview/CConsoleGui.cpp" line="+657"/>
         <source>Zoom In</source>
         <translation>ズームイン</translation>
     </message>
