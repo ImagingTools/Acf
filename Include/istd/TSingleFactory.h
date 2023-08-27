@@ -26,10 +26,10 @@ public:
 	explicit TSingleFactory(const QByteArray& keyId);
 
 	// reimplemented (istd::IFactoryInfo)
-	virtual IFactoryInfo::KeyList GetFactoryKeys() const;
+	virtual IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 	// reimplemented (istd::TIFactory)
-	virtual Interface* CreateInstance(const QByteArray& keyId = "") const;
+	virtual Interface* CreateInstance(const QByteArray& keyId = "") const override;
 
 private:
 	QByteArray m_keyId;

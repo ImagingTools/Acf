@@ -273,10 +273,6 @@ public:
 private:
 	ValueType m_minValue;
 	ValueType m_maxValue;
-
-	// static attributes
-	static TRange s_null;
-	static TRange s_invalid;
 };
 
 
@@ -373,14 +369,14 @@ template <typename ValueType>
 void TRange<ValueType>::Reset()
 {
 	m_minValue = ValueType(0);
-	m_maxValue  = ValueType(0);
+	m_maxValue = ValueType(0);
 }
 
 
 template <typename ValueType>
 inline ValueType TRange<ValueType>::GetLength() const
 {
-	return IsValid()? m_maxValue - m_minValue: 0;
+	return IsValid() ? m_maxValue - m_minValue: 0;
 }
 
 
@@ -637,14 +633,22 @@ inline ValueType TRange<ValueType>::GetValueFromAlpha(double alpha) const
 template <typename ValueType>
 inline double TRange<ValueType>::GetAlphaFromValue(ValueType value) const
 {
-	return static_cast<double>(value - GetMinValue()) / static_cast<double>(GetLength());
+	auto length = static_cast<double>(GetLength());
+	if (length)
+		return static_cast<double>(value - GetMinValue()) / length;
+	else
+		return 0.0;
 }
 
 
 template <typename ValueType>
 inline ValueType TRange<ValueType>::GetMappedTo(ValueType value, const TRange& range) const
 {
-	return ValueType(range.GetMinValue() + (value - GetMinValue()) * (range.GetLength() / GetLength()));
+	ValueType length = GetLength();
+	if (length)
+		return ValueType(range.GetMinValue() + (value - GetMinValue()) * (range.GetLength() / length));
+	else
+		return (ValueType) 0.0;
 }
 
 
@@ -664,9 +668,16 @@ TRange<ValueType> TRange<ValueType>::GetInvertApply(const TRange& range) const
 {
 	TRange result;
 
-	ValueType length = GetLength();
-	result.m_minValue = ValueType((range.m_minValue - m_minValue) / (double)length);
-	result.m_maxValue = ValueType((range.m_maxValue - m_minValue) / (double)length);
+	double length = GetLength();
+	if (length)
+	{
+		result.m_minValue = ValueType((range.m_minValue - m_minValue) / length);
+		result.m_maxValue = ValueType((range.m_maxValue - m_minValue) / length);
+	}
+	else
+	{
+		result.m_minValue = result.m_maxValue = 0.0;
+	}
 
 	return result;
 }
@@ -678,8 +689,15 @@ TRange<ValueType> TRange<ValueType>::GetInverted() const
 	TRange result;
 
 	ValueType minusWidth = m_minValue - m_maxValue;
-	result.m_minValue = ValueType(m_minValue / (double)minusWidth);
-	result.m_maxValue = ValueType((m_minValue - 1) / (double)minusWidth);
+	if (minusWidth)
+	{
+		result.m_minValue = ValueType(m_minValue / (double)minusWidth);
+		result.m_maxValue = ValueType((m_minValue - 1) / (double)minusWidth);
+	}
+	else
+	{
+		result.m_minValue = result.m_maxValue = 0.0;
+	}
 
 	return result;
 }
@@ -737,8 +755,15 @@ inline TRange<ValueType> TRange<ValueType>::operator/(double value) const
 {
 	TRange result = *this;
 
-	result.m_minValue /= value;
-	result.m_maxValue /= value;
+	if (value)
+	{
+		result.m_minValue /= value;
+		result.m_maxValue /= value;
+	}
+	else
+	{
+		result.m_minValue = result.m_maxValue = 0.0;
+	}
 
 	return result;
 }
@@ -757,8 +782,15 @@ inline TRange<ValueType>& TRange<ValueType>::operator*=(double value)
 template <typename ValueType>
 inline TRange<ValueType>& TRange<ValueType>::operator/=(double value)
 {
-	m_minValue /= value;
-	m_maxValue /= value;
+	if (value)
+	{
+		m_minValue /= value;
+		m_maxValue /= value;
+	}
+	else
+	{
+		m_minValue = m_maxValue = 0.0;
+	}
 
 	return this;
 }
@@ -778,6 +810,7 @@ inline TRange<ValueType> TRange<ValueType>::GetValid(ValueType value1, ValueType
 template <typename ValueType>
 inline const TRange<ValueType>& TRange<ValueType>::GetNull()
 {
+	static const TRange<ValueType> s_null(0, 0);
 	return s_null;
 }
 
@@ -785,17 +818,9 @@ inline const TRange<ValueType>& TRange<ValueType>::GetNull()
 template <typename ValueType>
 inline const TRange<ValueType>& TRange<ValueType>::GetInvalid()
 {
+	static const TRange<ValueType> s_invalid(0, -1);
 	return s_invalid;
 }
-
-
-// static attributes
-
-template <typename ValueType>
-TRange<ValueType> TRange<ValueType>::s_null(0, 0);
-
-template <typename ValueType>
-TRange<ValueType> TRange<ValueType>::s_invalid(0, -1);
 
 
 // typedefs

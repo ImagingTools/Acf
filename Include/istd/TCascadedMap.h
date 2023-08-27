@@ -106,14 +106,14 @@ public:
 	void GetLocalKeys(Keys& result, bool doAppend = false) const;
 
 	// reimplemented (istd::TIMap)
-	virtual int GetElementsCount() const;
-	virtual ValueType& operator[](const KeyType& key);
-	virtual const ValueType& operator[](const KeyType& key) const;
-	virtual int FindIndex(const KeyType& key) const;
-	virtual const ValueType* FindElement(const KeyType& key) const;
-	virtual void GetKeys(Keys& result, bool doAppend = false) const;
-	virtual const KeyType& GetKeyAt(int index) const;
-	virtual const ValueType& GetValueAt(int index) const;
+	virtual int GetElementsCount() const override;
+	virtual ValueType& operator[](const KeyType& key) override;
+	virtual const ValueType& operator[](const KeyType& key) const override;
+	virtual int FindIndex(const KeyType& key) const override;
+	virtual const ValueType* FindElement(const KeyType& key) const override;
+	virtual void GetKeys(Keys& result, bool doAppend = false) const override;
+	virtual const KeyType& GetKeyAt(int index) const override;
+	virtual const ValueType& GetValueAt(int index) const override;
 
 	// TODO: add element removing and correct comment in class header.
 

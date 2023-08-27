@@ -38,10 +38,10 @@ public:
 	}
 
 	// reimplemented (istd::IFactoryInfo)
-	virtual IFactoryInfo::KeyList GetFactoryKeys() const;
+	virtual IFactoryInfo::KeyList GetFactoryKeys() const override;
 
 	// reimplemented (istd::TIFactory)
-	virtual InterfaceType* CreateInstance(const QByteArray& keyId = "") const;
+	virtual InterfaceType* CreateInstance(const QByteArray& keyId = "") const override;
 
 protected:
 	typedef istd::TSmartPtr<FactoryInterface> FactoryPtr;

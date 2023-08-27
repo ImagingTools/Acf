@@ -28,7 +28,7 @@ public:
 		/**
 			Information is unimportant, for example can be used for diagnostic.
 		*/
-		IC_NONE,
+		IC_NONE = 0,
 		/**
 			Normal information level.
 		*/

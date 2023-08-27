@@ -29,8 +29,8 @@ public:
 	explicit TChangeDelegator(istd::IChangeable* slavePtr);
 
 	// reimplemented (istd::IChangeable)
-	virtual void OnBeginChanges();
-	virtual void OnEndChanges(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnBeginChanges() override;
+	virtual void OnEndChanges(const istd::IChangeable::ChangeSet& changeSet) override;
 };
 
 

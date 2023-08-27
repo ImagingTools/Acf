@@ -25,10 +25,10 @@ public:
 	virtual void SetParentPtr(Interface* parentPtr);
 
 	// pseudo-reimplemented (istd::TIHierarchical<Interface>)
-	virtual int GetHierarchicalFlags() const;
-	virtual int GetChildsCount() const;
-	virtual Interface* GetChild(int index) const;
-	virtual Interface* GetParent() const;
+	virtual int GetHierarchicalFlags() const override;
+	virtual int GetChildsCount() const override;
+	virtual Interface* GetChild(int index) const override;
+	virtual Interface* GetParent() const override;
 
 protected:
 	Interface* m_parentPtr;

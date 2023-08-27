@@ -21,8 +21,8 @@ public:
 	TCachedUpdateManagerWrap();
 
 	// reimplemented (istd::IChangeable)
-	virtual void BeginChanges(const IChangeable::ChangeSet& changeSet);
-	virtual void EndChanges(const IChangeable::ChangeSet& changeSet);
+	virtual void BeginChanges(const IChangeable::ChangeSet& changeSet) override;
+	virtual void EndChanges(const IChangeable::ChangeSet& changeSet) override;
 
 protected:
 	/**
