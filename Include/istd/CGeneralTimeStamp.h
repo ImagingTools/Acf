@@ -29,21 +29,21 @@ public:
 	double GetTimeTo(const CGeneralTimeStamp& timeStamp) const;
 
 	// reimplemented (istd::ITimeStamp)
-	virtual void Start(double elapsedTime = 0);
-	virtual QDateTime GetStartTime() const;
-	virtual double GetElapsed() const;
-	virtual double GetTimeTo(const ITimeStamp& timeStamp) const;
-	virtual void WaitTo(double time) const;
-	virtual double GetTimerResolution() const;
+	virtual void Start(double elapsedTime = 0) override;
+	virtual QDateTime GetStartTime() const override;
+	virtual double GetElapsed() const override;
+	virtual double GetTimeTo(const ITimeStamp& timeStamp) const override;
+	virtual void WaitTo(double time) const override;
+	virtual double GetTimerResolution() const override;
 
-private:
+protected:
 #if QT_VERSION >= 0x040700
 	QElapsedTimer m_timer;
 #else
 	QDateTime m_timer;
 #endif
 
-	double m_timeShift;
+	double m_timeShift = 0;
 };
 
 

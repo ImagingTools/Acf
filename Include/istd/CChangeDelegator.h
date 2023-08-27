@@ -24,12 +24,12 @@ public:
 	explicit CChangeDelegator(istd::IChangeable* slavePtr);
 
 	// reimplemented (istd::IChangeDelegator)
-	virtual void SetSlavePtr(istd::IChangeable* slavePtr);
-	virtual istd::IChangeable* GetSlavePtr() const;
+	virtual void SetSlavePtr(istd::IChangeable* slavePtr) override;
+	virtual istd::IChangeable* GetSlavePtr() const override;
 
 	// reimplemented (istd::IChangeable)
-	virtual void OnBeginChanges();
-	virtual void OnEndChanges(const ChangeSet& changeSet);
+	virtual void OnBeginChanges() override;
+	virtual void OnEndChanges(const ChangeSet& changeSet) override;
 	
 private:
 	istd::IChangeable* m_slavePtr;

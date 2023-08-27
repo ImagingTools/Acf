@@ -38,7 +38,8 @@ void CChangeNotifier::Abort()
 // private methods
 
 CChangeNotifier::CChangeNotifier(const CChangeNotifier& /*notifier*/)
-:	m_changeSet(istd::IChangeable::GetNoChanges())
+:	m_changeablePtr(NULL), 
+	m_changeSet(istd::IChangeable::GetNoChanges())	
 {
 }
 

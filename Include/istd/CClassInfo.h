@@ -32,6 +32,7 @@ public:
 		It is valid if stored RTTI type info is set.
 	*/
 	bool IsValid() const;
+
 	/**
 		Get undecorated and platform undependent class name.
 		This name has format "namespace::class_name", for example "iser::ISerializable".
@@ -62,11 +63,13 @@ public:
 		Check if this class information represents template class.
 	*/
 	bool IsTemplateClass() const;
+
 	/**
 		Get number of template parameters if this class is template class.
 		\return	number of parameters of negative value, if this class is not a template.
 	*/
 	int GetTemplateParamsCount() const;
+
 	/**
 		Get class info of some template parameter if this class is template.
 	*/
@@ -83,20 +86,24 @@ public:
 	bool operator>(const CClassInfo& info) const;
 
 	// static methods
+
 	/**
 		Get class name defined as template parameter.
 	*/
 	template <class C>
 	static CClassInfo GetInfo();
+
 	/**
 		Get class name defined as template parameter.
 	*/
 	template <class C>
 	static QByteArray GetName();
+
 	/**
 		Get class name from RTTI.
 	*/
 	static QByteArray GetName(const std::type_info& info);
+
 	/**
 		Get class name of polymorphic object.
 	*/

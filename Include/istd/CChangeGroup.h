@@ -45,7 +45,8 @@ private:
 	// blocked copy constructor
 	CChangeGroup(const CChangeGroup& group);
 
-	IChangeable* m_changeablePtr;
+	IChangeable* m_changeablePtr = nullptr;
+
 	const IChangeable::ChangeSet& m_changeSet;
 };
 
