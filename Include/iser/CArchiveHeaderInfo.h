@@ -52,13 +52,13 @@ public:
 	static bool WriteArchiveHeader(IArchive& archive, const IVersionInfo* versionInfoPtr);
 
 	// reimplemented (iser::IVersionInfo)
-	virtual VersionIds GetVersionIds() const;
-	virtual bool GetVersionNumber(int versionId, quint32& result) const;
-	virtual QString GetVersionIdDescription(int versionId) const;
-	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
+	virtual VersionIds GetVersionIds() const override;
+	virtual bool GetVersionNumber(int versionId, quint32& result) const override;
+	virtual QString GetVersionIdDescription(int versionId) const override;
+	virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const override;
 
 	// reimplemented (istd::IChangeable)
-	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
 
 protected:
 	struct VersionIdElement

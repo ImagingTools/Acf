@@ -45,7 +45,7 @@ public:
 	virtual bool IsValid() const;
 
 	// reimplemented (iser::IArchive)
-	virtual bool ProcessData(void* data, int size);
+	virtual bool ProcessData(void* data, int size) override;
 
 	// static methods
 	/**
@@ -55,7 +55,7 @@ public:
 	
 protected:
 	// reimplemented (iser::CArchiveBase)
-	virtual int GetMaxStringLength() const;
+	virtual int GetMaxStringLength() const override;
 
 	const quint8* m_bufferPtr;
 	int m_bufferSize;

@@ -40,7 +40,7 @@ public:
 	bool operator!=(const CMemoryWriteArchive& archive) const;
 
 	// reimplemented (iser::IArchive)
-	virtual bool ProcessData(void* data, int size);
+	virtual bool ProcessData(void* data, int size) override;
 	
 protected:
 	typedef QByteArray DataBuffer;

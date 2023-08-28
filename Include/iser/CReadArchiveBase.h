@@ -18,9 +18,9 @@ class CReadArchiveBase: public CArchiveBase
 {
 public:
 	// reimplemented (iser::IArchive)
-	virtual bool IsStoring() const;
-	virtual const IVersionInfo& GetVersionInfo() const;
-	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount);
+	virtual bool IsStoring() const override;
+	virtual const IVersionInfo& GetVersionInfo() const override;
+	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount) override;
 
 protected:
 	/**

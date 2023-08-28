@@ -43,12 +43,12 @@ public:
 	virtual quint32 ReadValue(int bits);
 
 	// reimplemented (iser::IArchive)
-	virtual bool ProcessData(void* data, int size);
-	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount);
+	virtual bool ProcessData(void* data, int size) override;
+	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount) override;
 
 	// reimplemented (iser::CMemoryReadArchive)
-	virtual void ResetPosition();
-	virtual bool IsValid() const;
+	virtual void ResetPosition() override;
+	virtual bool IsValid() const override;
 
 protected:
 	int m_bitPosition;

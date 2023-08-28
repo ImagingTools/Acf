@@ -33,9 +33,9 @@ public:
 	typedef Base BaseClass;
 
 	// pseudo-reimplemented (istd::IChangeable)
-	virtual int GetSupportedOperations() const;
-	virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS);
-	virtual bool IsEqual(const istd::IChangeable& object) const;
+	virtual int GetSupportedOperations() const override;
+	virtual bool CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode mode = istd::IChangeable::CM_WITHOUT_REFS) override;
+	virtual bool IsEqual(const istd::IChangeable& object) const override;
 };
 
 

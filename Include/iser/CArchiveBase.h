@@ -23,8 +23,8 @@ class CArchiveBase:
 {
 public:
 	// reimplemented (iser::IArchive)
-	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
+	virtual bool IsTagSkippingSupported() const override;
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count) override;
 
 	static const CArchiveTag& GetAcfRootTag();
 

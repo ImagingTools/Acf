@@ -22,12 +22,12 @@ public:
 	typedef CTextReadArchiveBase BaseClass;
 
 	// reimplemented (iser::IArchive)
-	virtual bool IsTagSkippingSupported() const;
-	virtual bool BeginTag(const CArchiveTag& tag);
-	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count);
-	virtual bool EndTag(const CArchiveTag& tag);
-	virtual bool Process(QByteArray& value);
-	virtual bool Process(QString& value);
+	virtual bool IsTagSkippingSupported() const override;
+	virtual bool BeginTag(const CArchiveTag& tag) override;
+	virtual bool BeginMultiTag(const CArchiveTag& tag, const CArchiveTag& subTag, int& count) override;
+	virtual bool EndTag(const CArchiveTag& tag) override;
+	virtual bool Process(QByteArray& value) override;
+	virtual bool Process(QString& value) override;
 	using BaseClass::Process;
 
 protected:
@@ -44,7 +44,7 @@ protected:
 	virtual bool ReadXmlFooter();
 
 	// reimplemented (iser::CTextReadArchiveBase)
-	virtual bool ReadTextNode(QByteArray& text);
+	virtual bool ReadTextNode(QByteArray& text) override;
 
 	// abstract methods
 	/**

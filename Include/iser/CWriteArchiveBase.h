@@ -20,9 +20,9 @@ class CWriteArchiveBase: public CArchiveBase
 {
 public:
 	// reimplemented (iser::IArchive)
-	virtual bool IsStoring() const;
-	virtual const IVersionInfo& GetVersionInfo() const;
-	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount);
+	virtual bool IsStoring() const override;
+	virtual const IVersionInfo& GetVersionInfo() const override;
+	virtual bool ProcessBits(void* dataPtr, int bitsCount, int bytesCount) override;
 
 protected:
 	/**
@@ -42,10 +42,10 @@ protected:
 	{
 	public:
 		// reimplemented (iser::IVersionInfo)
-		virtual bool GetVersionNumber(int versionId, quint32& result) const;
-		virtual QString GetVersionIdDescription(int versionId) const;
-		virtual VersionIds GetVersionIds() const;
-		virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const;
+		virtual bool GetVersionNumber(int versionId, quint32& result) const override;
+		virtual QString GetVersionIdDescription(int versionId) const override;
+		virtual VersionIds GetVersionIds() const override;
+		virtual QString GetEncodedVersionName(int versionId, quint32 versionNumber) const override;
 	};
 
 private:
