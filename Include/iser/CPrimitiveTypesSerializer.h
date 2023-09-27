@@ -107,6 +107,19 @@ public:
 				iser::IArchive& archive,
 				EnumType& enumValue,
 				const QObject* objectPtr);
+
+	/**
+		This method can be used for serialization associatime containers i.e.: \c QHash, \c QMap \c std::map (since c++17)...
+	 */
+	template <typename ContainerType>
+	static bool SerializeAssociativeContainer(
+				iser::IArchive& archive,
+				ContainerType& container,
+				const QByteArray& containerTagName,
+				const QByteArray& elementTagName = "Element",
+				const QByteArray& keyTagId = "Key",
+				const QByteArray& valueTagId = "Value",
+				const QByteArray& containerComment = "List of elements");
 };
 
 
@@ -284,6 +297,86 @@ bool CPrimitiveTypesSerializer::SerializeEnum(
 			// TODO: check if the readed value is in range of the enum values!
 			enumValue = EnumType(value);
 		}
+	}
+
+	return retVal;
+}
+
+
+
+template<typename ContainerType>
+bool CPrimitiveTypesSerializer::SerializeAssociativeContainer(
+			IArchive& archive,
+			ContainerType& container,
+			const QByteArray& containerTagName,
+			const QByteArray& elementTagName,
+			const QByteArray& keyTagId,
+			const QByteArray& valueTagId,
+			const QByteArray& containerComment)
+{
+	bool retVal = true;
+
+	static iser::CArchiveTag parametersTag(containerTagName, containerComment, iser::CArchiveTag::TT_MULTIPLE);
+	static iser::CArchiveTag parameterTag(elementTagName, "Single element", iser::CArchiveTag::TT_GROUP, &parametersTag, true);
+	static iser::CArchiveTag parameterKeyTag(keyTagId, "Key of parameter", iser::CArchiveTag::TT_LEAF, &parameterTag);
+	static iser::CArchiveTag parameterValueTag(valueTagId, "Value of parameter", iser::CArchiveTag::TT_WEAK, &parameterTag, true);
+
+	if (archive.IsStoring()){
+		int paramsCount = container.count();
+
+		retVal = retVal && archive.BeginMultiTag(parametersTag, parameterTag, paramsCount);
+
+		for (typename ContainerType::iterator iterator = container.begin(); iterator != container.end(); ++iterator){
+			retVal = retVal && archive.BeginTag(parameterTag);
+
+			typename ContainerType::key_type key = iterator.key();
+			retVal = retVal && archive.BeginTag(parameterKeyTag);
+			retVal = retVal && archive.Process(key);
+			retVal = retVal && archive.EndTag(parameterKeyTag);
+
+			typename ContainerType::mapped_type value = iterator.value();
+			retVal = retVal && archive.BeginTag(parameterValueTag);
+			retVal = retVal && archive.Process(value);
+			retVal = retVal && archive.EndTag(parameterValueTag);
+
+			retVal = retVal && archive.EndTag(parameterTag);
+		}
+
+		retVal = retVal && archive.EndTag(parametersTag);
+	}
+	else{
+		int paramsCount = 0;
+		container.clear();
+
+		retVal = retVal && archive.BeginMultiTag(parametersTag, parameterTag, paramsCount);
+
+		if (!retVal){
+			return false;
+		}
+
+		for (int i = 0; i < paramsCount; ++i){
+			retVal = retVal && archive.BeginTag(parameterTag);
+
+			typename ContainerType::key_type key;
+			retVal = retVal && archive.BeginTag(parameterKeyTag);
+			retVal = retVal && archive.Process(key);
+			retVal = retVal && archive.EndTag(parameterKeyTag);
+
+			if (!retVal){
+				return false;
+			}
+
+			typename ContainerType::mapped_type value;
+			retVal = retVal && archive.BeginTag(parameterValueTag);
+			retVal = retVal && archive.Process(value);
+			retVal = retVal && archive.EndTag(parameterValueTag);
+
+			retVal = retVal && archive.EndTag(parameterTag);
+
+			container.insert(key, value);
+		}
+
+		retVal = retVal && archive.EndTag(parametersTag);
 	}
 
 	return retVal;
