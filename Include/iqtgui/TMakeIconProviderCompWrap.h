@@ -118,6 +118,7 @@ QIcon TMakeIconProviderCompWrap<Base>::GetIcon(const QString& iconName) const
 	return icon;
 }
 
+
 template <class Base>
 QString TMakeIconProviderCompWrap<Base>::GetIconPath(const QString& iconName) const
 {
@@ -125,12 +126,13 @@ QString TMakeIconProviderCompWrap<Base>::GetIconPath(const QString& iconName) co
 
 	QByteArray currentThemeId = GetCurrentThemeId();
 	if (!currentThemeId.isEmpty()){
-		QFileInfo fileInfo(iconName);
-
-		QString path = fileInfo.dir().path();
-		QString baseIconName = fileInfo.baseName();
-
-		retVal = path + "/" + currentThemeId + "/" + baseIconName;
+		int index = retVal.indexOf(":/");
+		if (index >= 0){
+			retVal = retVal.insert(index + 1, "/" + currentThemeId);
+		}
+		else{
+			retVal = currentThemeId + "/" + retVal;
+		}
 	}
 
 	return retVal;
