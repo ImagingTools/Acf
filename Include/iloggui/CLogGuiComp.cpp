@@ -71,13 +71,7 @@ CLogGuiComp::CLogGuiComp()
 	m_exportActionPtr(NULL),
 	m_diagnosticModeActionPtr(NULL),
 	m_currentMessageMode(MM_ALL),
-	m_statusCategory(istd::IInformationProvider::IC_NONE),
-	m_infoCommand(tr("Info"), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE, CG_FILTER),
-	m_warningCommand(tr("Warning"), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE, CG_FILTER),
-	m_errorCommand(tr("Error"), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE, CG_FILTER),
-	m_clearCommand(tr("Clear"), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CG_EDIT),
-	m_exportCommand(tr("Export..."), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR, CG_EDIT),
-	m_diagnosticCommand(tr("Diagnostic Mode"), 100, ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_ONOFF, CG_EDIT)
+	m_statusCategory(istd::IInformationProvider::IC_NONE)
 {
 	m_diagnosticState.SetEnabled(false);
 
@@ -85,9 +79,13 @@ CLogGuiComp::CLogGuiComp()
 
 	connect(	this,
 				SIGNAL(EmitAddMessage(const MessagePtr&)),
-				this,
 				SLOT(OnAddMessage(const MessagePtr&)),
 				Qt::QueuedConnection);
+
+	connect(this,
+		SIGNAL(EmitClearAction()),
+		SLOT(OnClearAction()),
+		Qt::QueuedConnection);
 }
 
 
@@ -104,7 +102,7 @@ void CLogGuiComp::OnGuiRetranslate()
 const ibase::IHierarchicalCommand* CLogGuiComp::GetCommands() const
 {
 	if (!*m_showPanelAttrPtr){
-		return &m_rootCommands;
+		return m_rootCommands.GetPtr();
 	}
 
 	return NULL;
@@ -211,44 +209,44 @@ QString CLogGuiComp::GetCategoryText(int category) const
 
 void CLogGuiComp::SetupCommands()
 {
-	m_rootCommands.ResetChilds();
+	m_rootCommands->ResetChilds();
 
-	m_infoCommand.setData(MM_INFO);
-	m_infoCommand.setCheckable(true);
-	m_warningCommand.setData(MM_WARNING);
-	m_warningCommand.setCheckable(true);
-	m_errorCommand.setData(MM_ERROR);
-	m_errorCommand.setCheckable(true);
+	m_infoCommand->setData(MM_INFO);
+	m_infoCommand->setCheckable(true);
+	m_warningCommand->setData(MM_WARNING);
+	m_warningCommand->setCheckable(true);
+	m_errorCommand->setData(MM_ERROR);
+	m_errorCommand->setCheckable(true);
 
-	connect(&m_infoCommand, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(&m_warningCommand, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(&m_errorCommand, SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
-	connect(&m_clearCommand, SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
-	connect(&m_exportCommand, SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
-	connect(&m_diagnosticCommand, SIGNAL(toggled(bool)), this, SLOT(EnableDiagnosticMessages(bool)));
+	connect(m_infoCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_warningCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_errorCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(OnMessageModeChanged()), Qt::QueuedConnection);
+	connect(m_clearCommand.GetPtr(), SIGNAL(triggered()), this, SLOT(OnClearAction()), Qt::QueuedConnection);
+	connect(m_exportCommand.GetPtr(), SIGNAL(triggered()), this, SLOT(OnExportAction()), Qt::QueuedConnection);
+	connect(m_diagnosticCommand.GetPtr(), SIGNAL(toggled(bool)), this, SLOT(EnableDiagnosticMessages(bool)));
 
-	m_rootCommands.InsertChild(&m_infoCommand);
-	m_rootCommands.InsertChild(&m_warningCommand);
-	m_rootCommands.InsertChild(&m_errorCommand);
-	m_rootCommands.InsertChild(&m_clearCommand);
+	m_rootCommands->InsertChild(m_infoCommand.GetPtr());
+	m_rootCommands->InsertChild(m_warningCommand.GetPtr());
+	m_rootCommands->InsertChild(m_errorCommand.GetPtr());
+	m_rootCommands->InsertChild(m_clearCommand.GetPtr());
 
 	if (m_fileLoaderCompPtr.IsValid()){
-		m_rootCommands.InsertChild(&m_exportCommand);
+		m_rootCommands->InsertChild(m_exportCommand.GetPtr());
 	}
 
 	if (*m_allowDiagnosticMessagesAttrPtr){
-		m_rootCommands.InsertChild(&m_diagnosticCommand);
+		m_rootCommands->InsertChild(m_diagnosticCommand.GetPtr());
 	}
 
 	switch (*m_defaultModeAttrPtr){
 	case 0:
-		m_infoCommand.setChecked(true);
+		m_infoCommand->setChecked(true);
 		break;
 	case 1:
-		m_warningCommand.setChecked(true);
+		m_warningCommand->setChecked(true);
 		break;
 	case 2:
-		m_errorCommand.setChecked(true);
+		m_errorCommand->setChecked(true);
 		break;
 	}
 }
@@ -262,12 +260,12 @@ void CLogGuiComp::SetCommandsVisuals()
 	const QIcon& exportIcon = GetActionIcon(AT_EXPORT);
 	const QIcon& diagnosticModeIcon = GetActionIcon(AT_DIAGNOSTICS);
 
-	m_infoCommand.SetVisuals(tr("Info"), tr("Info"), tr("Show all messages"), infoIcon);
-	m_warningCommand.SetVisuals(tr("Warning"), tr("Warning"), tr("Show warinig and error messages"), warningIcon);
-	m_errorCommand.SetVisuals(tr("Error"), tr("Error"), tr("Show only error messages"), errorIcon);
-	m_clearCommand.SetVisuals(tr("Clear"), tr("Clear"), tr("Remove all messages"), clearIcon);
-	m_exportCommand.SetVisuals(tr("Export..."), tr("Export..."), tr("Export log to file"), exportIcon);
-	m_diagnosticCommand.SetVisuals(tr("Diagnostic Mode"), tr("Switch to Diagnostic Mode"), tr("Import existing file into the collection"), diagnosticModeIcon);
+	m_infoCommand->SetVisuals(tr("Info"), tr("Info"), tr("Show all messages"), infoIcon);
+	m_warningCommand->SetVisuals(tr("Warning"), tr("Warning"), tr("Show warinig and error messages"), warningIcon);
+	m_errorCommand->SetVisuals(tr("Error"), tr("Error"), tr("Show only error messages"), errorIcon);
+	m_clearCommand->SetVisuals(tr("Clear"), tr("Clear"), tr("Remove all messages"), clearIcon);
+	m_exportCommand->SetVisuals(tr("Export..."), tr("Export..."), tr("Export log to file"), exportIcon);
+	m_diagnosticCommand->SetVisuals(tr("Diagnostic Mode"), tr("Switch to Diagnostic Mode"), tr("Import existing file into the collection"), diagnosticModeIcon);
 }
 
 
@@ -300,7 +298,7 @@ void CLogGuiComp::AddMessage(const MessagePtr& messagePtr)
 
 void CLogGuiComp::ClearMessages()
 {
-	QTimer::singleShot(0, this, SIGNAL(OnClearAction()));
+	emit EmitClearAction();
 }
 
 
@@ -308,6 +306,45 @@ void CLogGuiComp::ClearMessages()
 
 void CLogGuiComp::OnGuiCreated()
 {
+	m_rootCommands.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_infoCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_warningCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_errorCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_clearCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_exportCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+	m_diagnosticCommand.SetPtr(new iqtgui::CHierarchicalCommand());
+
+	m_infoCommand->setData(MM_INFO);
+	m_infoCommand->setCheckable(true);
+	m_warningCommand->setData(MM_WARNING);
+	m_warningCommand->setCheckable(true);
+	m_errorCommand->setData(MM_ERROR);
+	m_errorCommand->setCheckable(true);
+
+	m_infoCommand->SetGroupId(CG_FILTER);
+	m_infoCommand->SetPriority(100);
+	m_infoCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE);
+
+	m_warningCommand->SetGroupId(CG_FILTER);
+	m_warningCommand->SetPriority(100);
+	m_warningCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE);
+
+	m_errorCommand->SetGroupId(CG_FILTER);
+	m_errorCommand->SetPriority(100);
+	m_errorCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR | ibase::ICommand::CF_EXCLUSIVE);
+
+	m_clearCommand->SetGroupId(CG_EDIT);
+	m_clearCommand->SetPriority(100);
+	m_clearCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR);
+
+	m_exportCommand->SetGroupId(CG_EDIT);
+	m_exportCommand->SetPriority(100);
+	m_exportCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR);
+
+	m_diagnosticCommand->SetGroupId(CG_EDIT);
+	m_diagnosticCommand->SetPriority(100);
+	m_diagnosticCommand->SetStaticFlags(ibase::ICommand::CF_GLOBAL_MENU | ibase::ICommand::CF_TOOLBAR);
+
 	BaseClass::OnGuiCreated();
 
 #if QT_VERSION < 0x050000
@@ -441,7 +478,6 @@ void CLogGuiComp::OnGuiDesignChanged()
 	BaseClass::OnGuiDesignChanged();
 
 	SetCommandsVisuals();
-
 	UpdateVisualStatus();
 }
 
@@ -469,11 +505,11 @@ void CLogGuiComp::OnComponentCreated()
 void CLogGuiComp::UpdateVisualStatus()
 {
 	if (*m_autoUpdateVisualStatusAttrPtr) {
-		istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
+	istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
 
-		SetStatusIcon(GetCategoryIcon(m_statusCategory));
-		SetStatusText(GetCategoryText(m_statusCategory));
-	}
+	SetStatusIcon(GetCategoryIcon(m_statusCategory));
+	SetStatusText(GetCategoryText(m_statusCategory));
+}
 }
 
 
@@ -498,8 +534,8 @@ void CLogGuiComp::GenerateMessageList()
 {
 	const Messages& messageList = BaseClass2::GetMessages();
 
-	Messages::ConstIterator iter = messageList.constEnd();
-	while (iter != messageList.constBegin()){
+	Messages::const_iterator iter = messageList.cend();
+	while (iter != messageList.cbegin()){
 		--iter;
 		AddMessageToList(*iter);
 	}

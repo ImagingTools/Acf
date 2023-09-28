@@ -11,6 +11,7 @@
 #endif
 
 // ACF includes
+#include <istd/TDelPtr.h>
 #include <ibase/ICommandsProvider.h>
 #include <ifile/IFilePersistence.h>
 #include <iprm/CEnableableParam.h>
@@ -163,6 +164,7 @@ protected Q_SLOTS:
 
 Q_SIGNALS:
 	void EmitAddMessage(const MessagePtr& messagePtr);
+	void EmitClearAction();
 
 protected:
 	enum CommandGroup
@@ -180,13 +182,13 @@ protected:
 	QAction* m_diagnosticModeActionPtr;
 
 	// commands
-	iqtgui::CHierarchicalCommand m_rootCommands;
-	iqtgui::CHierarchicalCommand m_infoCommand;
-	iqtgui::CHierarchicalCommand m_warningCommand;
-	iqtgui::CHierarchicalCommand m_errorCommand;
-	iqtgui::CHierarchicalCommand m_clearCommand;
-	iqtgui::CHierarchicalCommand m_exportCommand;
-	iqtgui::CHierarchicalCommand m_diagnosticCommand;
+	istd::TDelPtr<iqtgui::CHierarchicalCommand> m_rootCommands;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_infoCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_warningCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_errorCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_clearCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_exportCommand;
+	istd::TDelPtr < iqtgui::CHierarchicalCommand> m_diagnosticCommand;
 
 private:
 	// static template methods for subelement access
