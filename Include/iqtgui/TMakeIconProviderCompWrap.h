@@ -146,12 +146,13 @@ QString TMakeIconProviderCompWrap<Base>::GetStyleSheetPath(const QString& styleS
 
 	QByteArray currentThemeId = GetCurrentThemeId();
 	if (!currentThemeId.isEmpty()){
-		QFileInfo fileInfo(styleSheetPath);
-
-		QString path = fileInfo.dir().path();
-		QString baseName = fileInfo.baseName();
-
-		retVal = path + "/" + currentThemeId + "/" + baseName;
+		int index = retVal.indexOf(":/");
+		if (index >= 0){
+			retVal = retVal.insert(index + 1, "/" + currentThemeId);
+		}
+		else{
+			retVal = currentThemeId + "/" + retVal;
+		}
 	}
 
 	return retVal;
