@@ -175,12 +175,20 @@ void CSimpleFilePathParamGuiComp::on_BrowseButton_clicked()
 		else if (pathType == ifile::IFileNameParam::PT_FILE){
 			QStringList filterList;
 
+			int flags = 0;
+			if (m_useSaveDialogAttrPtr.IsValid() && *m_useSaveDialogAttrPtr){
+				flags = ifile::IFilePersistence::QF_SAVE;
+			}
+			else{
+				flags = ifile::IFilePersistence::QF_LOAD;
+			}
+
 			if (m_fileTypeInfoPtr.IsValid()){
 				QStringList allExt;
 				ifilegui::CFileDialogLoaderComp::AppendLoaderFilterList(
 							*m_fileTypeInfoPtr,
 							NULL,
-							0,
+							flags,
 							allExt,
 							filterList);
 
