@@ -12,15 +12,22 @@ namespace imod
 CModelBase::CModelBase()
 :	m_blockCounter(0),
 	m_isDuringChanges(false)
+#if QT_VERSION < 0x060000
+	,m_mutex(QMutex::Recursive)
+#endif
 {
 }
 
 
 CModelBase::~CModelBase()
 {
+	QMutexLocker lock(&m_mutex);
+
 	m_cumulatedChangeIds += istd::IChangeable::CF_DESTROYING;
 	m_blockCounter++;
 	m_isDuringChanges = true;
+
+	lock.unlock();
 
 	DetachAllObservers();
 }
@@ -28,12 +35,16 @@ CModelBase::~CModelBase()
 
 int CModelBase::GetObserverCount() const
 {
+	QMutexLocker lock(&m_mutex);
+
 	return m_observers.size();
 }
 
 
 CModelBase::Observers CModelBase::GetObservers() const
 {
+	QMutexLocker lock(&m_mutex);
+
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
 	QList<IObserver*> keys = m_observers.keys();
 
@@ -48,6 +59,8 @@ CModelBase::Observers CModelBase::GetObservers() const
 
 bool CModelBase::AttachObserver(IObserver* observerPtr)
 {
+	QMutexLocker lock(&m_mutex);
+
 	if (observerPtr == NULL){
 		return false;
 	}
@@ -80,6 +93,8 @@ bool CModelBase::AttachObserver(IObserver* observerPtr)
 
 void CModelBase::DetachObserver(IObserver* observerPtr)
 {
+	QMutexLocker lock(&m_mutex);
+
 	Q_ASSERT(observerPtr != NULL);
 
 	// try to remove from current observer list
@@ -113,6 +128,8 @@ void CModelBase::DetachObserver(IObserver* observerPtr)
 
 void CModelBase::DetachAllObservers()
 {
+	QMutexLocker lock(&m_mutex);
+
 	for (ObserversMap::Iterator iter = m_observers.begin(); iter != m_observers.end(); ++iter){
 		IObserver* observerPtr = iter.key();
 		Q_ASSERT(observerPtr != NULL);
@@ -140,6 +157,8 @@ void CModelBase::DetachAllObservers()
 
 bool CModelBase::IsAttached(const IObserver* observerPtr) const
 {
+	QMutexLocker lock(&m_mutex);
+
 	ObserversMap::ConstIterator findIter = m_observers.constFind(const_cast<IObserver*>(observerPtr));
 	if (findIter != m_observers.end()){
 		const ObserverInfo& info = findIter.value();
@@ -154,6 +173,8 @@ bool CModelBase::IsAttached(const IObserver* observerPtr) const
 
 void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSet, bool isGroup)
 {
+	QMutexLocker lock(&m_mutex);
+
 	Q_ASSERT(m_blockCounter >= 0);
 	Q_ASSERT((m_blockCounter > 0) || !m_isDuringChanges);
 
@@ -196,6 +217,8 @@ void CModelBase::NotifyBeforeChange(const istd::IChangeable::ChangeSet& changeSe
 
 void CModelBase::NotifyAfterChange(const istd::IChangeable::ChangeSet& changeSet)
 {
+	QMutexLocker lock(&m_mutex);
+
 	Q_ASSERT(m_blockCounter > 0);
 
 	if (changeSet.Contains(istd::IChangeable::CF_ALL_DATA)){
