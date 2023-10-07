@@ -4,8 +4,6 @@
 
 // Qt includes
 #include <QtCore/QByteArray>
-#include <QtCore/QMutexLocker>
-#include <QtCore/QMutex>
 
 // ACF includes
 #include <istd/CIdManipBase.h>
@@ -34,8 +32,6 @@ protected:
 template <class Interface>
 Interface* CInterfaceManipBase::ExtractInterface(IComponent* componentPtr, const QByteArray& subId)
 {
-	QMutexLocker lock(&s_lock);
-
 	if (componentPtr != NULL){
 		static istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
 
