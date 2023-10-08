@@ -33,7 +33,7 @@ template <class Interface>
 Interface* CInterfaceManipBase::ExtractInterface(IComponent* componentPtr, const QByteArray& subId)
 {
 	if (componentPtr != NULL){
-		static istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
+		istd::CClassInfo info = istd::CClassInfo::GetInfo<Interface>();
 
 		return static_cast<Interface*>(componentPtr->GetInterface(info, subId));
 	}
