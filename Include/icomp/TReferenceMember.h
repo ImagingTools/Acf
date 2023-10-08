@@ -61,6 +61,12 @@ private:
 
 	mutable Interface* m_componentPtr;
 	mutable bool m_isInitialized;
+
+#if QT_VERSION >= 0x060000
+	mutable QRecursiveMutex m_mutex;
+#else
+	mutable QMutex m_mutex;
+#endif
 };
 
 
@@ -68,7 +74,12 @@ private:
 
 template <class Interface>
 TReferenceMember<Interface>::TReferenceMember()
-:	m_definitionComponentPtr(NULL), m_componentPtr(NULL), m_isInitialized(false)
+		:	m_definitionComponentPtr(NULL), 
+			m_componentPtr(NULL),
+			m_isInitialized(false),
+#if QT_VERSION < 0x060000
+			m_mutex(QMutex::Recursive)
+#endif
 {
 }
 
@@ -92,6 +103,8 @@ bool TReferenceMember<Interface>::IsValid() const
 template <class Interface>
 bool TReferenceMember<Interface>::EnsureInitialized() const
 {
+	QMutexLocker lock(&m_mutex);
+
 	if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
 		const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
 		if (parentPtr != NULL){
