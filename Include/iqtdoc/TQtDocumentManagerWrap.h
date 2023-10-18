@@ -42,7 +42,7 @@ protected:
 		Creates the filter for the file selection dialog.
 		\param	documentTypeIdPtr	optional ID of document type if only filter for single document type should be created.
 	*/
-	QStringList CreateFileDialogFilters(const QByteArray* documentTypeIdPtr, const istd::IChangeable* dataObjectPtr, int flags) const;
+	virtual QStringList CreateFileDialogFilters(const QByteArray* documentTypeIdPtr, const istd::IChangeable* dataObjectPtr, int flags) const;
 
 	void UpdateLastDirectory(const QString& filePath) const;
 	virtual QStringList GetOpenFilePathesFromDialog(const QByteArray* documentTypeIdPtr) const;
