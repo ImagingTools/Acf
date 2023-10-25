@@ -1,1 +1,1 @@
-target_link_libraries(${PROJECT_NAME} idoc ifile iimg i2d)
+target_link_libraries(${PROJECT_NAME} idoc iimg i2d)
