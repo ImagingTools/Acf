@@ -2,6 +2,10 @@
 #define icomp_CRegistry_included
 
 
+// Qt includes
+#include <QtCore/QMutex>
+
+// ACF includes
 #include <istd/TChangeDelegator.h>
 #include <imod/TModelWrap.h>
 #include <icomp/IRegistry.h>
