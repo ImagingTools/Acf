@@ -196,6 +196,9 @@ void CMultiPageGuiCompBase::CreatePages()
 	bool firstPageInitialized = false;
 
 	int intialPageIndex = *m_defaultPageIndexAttrPtr;
+	if (m_pageModel.GetSelectedOptionIndex() >= 0){
+		intialPageIndex = m_pageModel.GetSelectedOptionIndex();
+	}
 
 	int pagesCount = GetPagesCount();
 	for (int pageIndex = 0; pageIndex < pagesCount; pageIndex++){
@@ -285,7 +288,9 @@ QWidget* CMultiPageGuiCompBase::CreateQtWidget(QWidget* parentPtr)
 
 	connect(widgetPtr, SIGNAL(EmitPageIndexChanged(int)), this, SLOT(OnPageChanged(int)));
 
-	m_pageModel.SetSelectedOptionIndex(GetLogicalPageIndex(widgetPtr->GetCurrentPage()));
+	if (m_pageModel.GetSelectedOptionIndex() < 0){
+		m_pageModel.SetSelectedOptionIndex(GetLogicalPageIndex(widgetPtr->GetCurrentPage()));
+	}
 
 	return widgetPtr;
 }
@@ -505,7 +510,13 @@ bool CMultiPageGuiCompBase::PageModel::SetSelectedOptionIndex(int index)
 	istd::CChangeGroup changeGroup(this);
 
 	iwidgets::CMultiPageWidget* multiPageWidgetPtr = dynamic_cast<iwidgets::CMultiPageWidget*>(m_parentPtr->GetWidget());
-	if ((multiPageWidgetPtr != NULL) && BaseClass::SetSelectedOptionIndex(index)){
+	if (multiPageWidgetPtr == nullptr){
+		int pagesCount = m_parentPtr->GetPagesCount();
+		if (index >= -1 && index < pagesCount){
+			return BaseClass::SetSelectedOptionIndex(index);
+		}
+	}
+	else if (BaseClass::SetSelectedOptionIndex(index)){
 		int widgetIndex = -1;
 		if (index >= 0){
 			const PageInfo& pageInfo = m_parentPtr->m_pageIndexToInfoMap[index];
