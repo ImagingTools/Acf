@@ -5,6 +5,7 @@
 // Qt includes
 #include <QtCore/QByteArray>
 #include <QtCore/QMap>
+#include <QtCore/QReadWriteLock>
 
 // ACF includes
 #include <istd/CClassInfo.h>
@@ -112,11 +113,7 @@ private:
 	mutable bool m_autoInitialized;
 	mutable IRegistry::Ids m_autoInitComponentIds;
 
-#if QT_VERSION >= 0x060000
-	mutable QRecursiveMutex m_mutex;
-#else
-	mutable QMutex m_mutex;
-#endif
+	mutable QReadWriteLock m_mutex;
 };
 
 
