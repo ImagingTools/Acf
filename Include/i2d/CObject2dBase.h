@@ -20,6 +20,7 @@ class CObject2dBase: virtual public IObject2d
 public:
 	CObject2dBase();
 	CObject2dBase(const CObject2dBase& object2d);
+    CObject2dBase& operator=(const CObject2dBase& object2d) = default;
 
 	// reimplemented (i2d::ICalibrationProvider)
 	virtual const ICalibration2d* GetCalibration() const;

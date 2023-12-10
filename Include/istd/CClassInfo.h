@@ -26,8 +26,9 @@ public:
 	explicit CClassInfo(const std::type_info& info);
 	explicit CClassInfo(const QByteArray& name);
 	explicit CClassInfo(const istd::IPolymorphic& object);
+    CClassInfo(CClassInfo const&) = default;
 
-	/**
+    /**
 		Check if this class info object is valid.
 		It is valid if stored RTTI type info is set.
 	*/

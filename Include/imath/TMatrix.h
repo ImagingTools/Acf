@@ -329,6 +329,8 @@ public:
 	const ElementType& operator[](const IndexType& index) const;
 	ElementType& operator[](const IndexType& index);
 
+    TMatrix<Width, Height, Element>& operator=(const TMatrix<Width, Height, Element>& matrix) = default;
+
 private:
 	typedef Element Elements[Width][Height];
 

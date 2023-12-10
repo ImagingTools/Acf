@@ -139,7 +139,7 @@ inline bool CComponentBase::IsComponentActive() const
 #define I_END_COMPONENT\
 		return staticInfo;\
 	}\
-	virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const\
+    virtual const icomp::IRealComponentStaticInfo& GetComponentStaticInfo() const override\
 	{\
 		return InitStaticInfo(NULL);\
 	}

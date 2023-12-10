@@ -28,19 +28,19 @@ public:
 	CRelativeFileNameParamComp();
 
 	// reimplemented (ifile::IRelativeFilePath)
-	virtual QString GetBasePath() const;
+    virtual QString GetBasePath() const override;
 
 	// reimplemented (ifile::IFileNameParam)
-	virtual const QString& GetPath() const;
-	virtual void SetPath(const QString& path);
+    virtual const QString& GetPath() const override;
+    virtual void SetPath(const QString& path) override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+    virtual bool Serialize(iser::IArchive& archive) override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+    virtual void OnComponentCreated() override;
+    virtual void OnComponentDestroyed() override;
 
 private:
 	I_REF(ifile::IFileNameParam, m_relativeToCompPtr);

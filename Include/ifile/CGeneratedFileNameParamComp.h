@@ -27,12 +27,12 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFileNameParam)
-	virtual void SetPath(const QString& path);
+    virtual void SetPath(const QString& path) override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+    virtual void OnComponentCreated() override;
+    virtual void OnComponentDestroyed() override;
 
 private:
 	I_ATTR(bool, m_autoDeleteAttrPtr);

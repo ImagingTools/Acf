@@ -45,27 +45,27 @@ public:
 	CFileSystemInfoProviderComp();
 
 	// reimplemented (ifile::IFileSystemInfoProvider)
-	virtual const iprm::IOptionsList& GetDriveList() const;
-	virtual const istd::CSystem::FileDriveInfo* GetFileDriveInfo(int driveIndex = -1) const;
+    virtual const iprm::IOptionsList& GetDriveList() const override;
+    virtual const istd::CSystem::FileDriveInfo* GetFileDriveInfo(int driveIndex = -1) const override;
 
 	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
+    virtual int GetOptionsFlags() const override;
+    virtual int GetOptionsCount() const override;
+    virtual QString GetOptionName(int index) const override;
+    virtual QString GetOptionDescription(int index) const override;
+    virtual QByteArray GetOptionId(int index) const override;
+    virtual bool IsOptionEnabled(int index) const override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
-	virtual void OnComponentDestroyed();
+    virtual void OnComponentCreated() override;
+    virtual void OnComponentDestroyed() override;
 
 	// reimplemented (imod::CMultiModelDispatcherBase)
-	virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet);
+    virtual void OnModelChanged(int modelId, const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (QThread)
-	virtual void run();
+    virtual void run() override;
 
 protected:
 	typedef std::vector<istd::CSystem::FileDriveDescriptor> DriveInfos;

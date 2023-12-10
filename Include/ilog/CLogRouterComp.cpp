@@ -58,11 +58,12 @@ void CLogRouterComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 	IMessageContainer::Messages::iterator iter = messages.begin();
 	while (iter != messages.end()){
 		ilog::IMessageConsumer::MessagePtr value = *iter;
-		if (!value.IsValid() ||
-			value->GetInformationCategory() < *m_minimalCategoryAttr ||
-			value->GetInformationTimeStamp() < m_lastMessageTimestamp ||
-			m_lastProcessed.contains(value.GetPtr()) && value->GetInformationTimeStamp() <= m_lastMessageTimestamp
-		) {
+
+        if (        !value.IsValid() ||
+                    value->GetInformationCategory() < *m_minimalCategoryAttr ||
+                    value->GetInformationTimeStamp() < m_lastMessageTimestamp ||
+                    (m_lastProcessed.contains(value.GetPtr()) &&
+                    value->GetInformationTimeStamp() <= m_lastMessageTimestamp)){
 			iter = messages.erase(iter);
 		}
 	}

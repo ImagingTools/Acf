@@ -37,11 +37,11 @@ public:
 	I_END_COMPONENT;
 
 	// reimplemented (ifile::IFileNameParam)
-	virtual int GetPathType() const;
+    virtual int GetPathType() const override;
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+    virtual void OnComponentCreated() override;
 
 private:
 	I_ATTR(QString, m_defaultDirAttrPtr);

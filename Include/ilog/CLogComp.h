@@ -33,15 +33,15 @@ public:
 	virtual bool IsMessageSupported(
 				int messageCategory = -1,
 				int messageId = -1,
-				const istd::IInformationProvider* messagePtr = NULL) const;
-	virtual void AddMessage(const MessagePtr& messagePtr);
+                const istd::IInformationProvider* messagePtr = NULL) const override;
+    virtual void AddMessage(const MessagePtr& messagePtr) override;
 
 protected:
 	// reimplemented (ilog::CLogCompBase)
-	virtual void WriteMessageToLog(const MessagePtr& messagePtr);
+    virtual void WriteMessageToLog(const MessagePtr& messagePtr) override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+    virtual void OnComponentCreated() override;
 
 private:
 	I_ATTR(int, m_maxMessageCountAttrPtr);

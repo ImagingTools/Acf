@@ -167,9 +167,11 @@ public:
 	bool operator<(const TVector<Size, Element>& vector) const;
 	bool operator>(const TVector<Size, Element>& vector) const;
 	bool operator<=(const TVector<Size, Element>& vector) const;
-	bool operator>=(const TVector<Size, Element>& vector) const;
+    bool operator>=(const TVector<Size, Element>& vector) const;
 
-	TVector<Size, Element> operator-() const;
+    TVector<Size, Element>& operator=(const TVector<Size, Element>& vector) = default;
+
+    TVector<Size, Element> operator-() const;
 
 	TVector<Size, Element> operator+(const TVector<Size, Element>& vector) const;
 	TVector<Size, Element> operator-(const TVector<Size, Element>& vector) const;
