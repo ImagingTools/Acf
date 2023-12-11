@@ -49,11 +49,11 @@ protected:
 				int id,
 				int flags,
 				QString& message,
-                QString& messageSource) const override;
+				QString& messageSource) const override;
 
 	// reimplemented (icomp::CComponentBase)
-    virtual void OnComponentCreated() override;
-    virtual void OnComponentDestroyed() override;
+	virtual void OnComponentCreated() override;
+	virtual void OnComponentDestroyed() override;
 
 private:
 	I_REF(ilog::IMessageConsumer, m_logCompPtr);
