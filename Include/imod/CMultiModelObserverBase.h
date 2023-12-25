@@ -66,7 +66,7 @@ protected:
 		Called on update of observed model.
 		This method is designed to be overload by derrived classes.
 	*/
-	virtual void OnUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet) override;
+	virtual void OnUpdate(IModel* modelPtr, const istd::IChangeable::ChangeSet& changeSet);
 
 private:
 	bool IsAttached(const imod::IModel* modelPtr) const;
