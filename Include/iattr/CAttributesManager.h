@@ -32,19 +32,19 @@ public:
 	void SetAttributesFactory(const iser::IObjectFactory* factoryPtr);
 
 	// reimplemented (iattr::IAttributesManager)
-	virtual void RemoveAllAttributes();
+	virtual void RemoveAllAttributes() override;
 	virtual bool InsertAttribute(
 				const QByteArray& attributeId,
 				iser::IObject* attributePtr,
 				bool releaseFlag);
-	virtual bool RemoveAttribute(const QByteArray& attributeId);
+	virtual bool RemoveAttribute(const QByteArray& attributeId) override;
 
 	// reimplemented (iattr::IAttributesProvider)
-	virtual AttributeIds GetAttributeIds() const;
-	virtual iser::IObject* GetAttribute(const QByteArray& attributeId) const;
+	virtual AttributeIds GetAttributeIds() const override;
+	virtual iser::IObject* GetAttribute(const QByteArray& attributeId) const override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 private:
 	typedef istd::TOptDelPtr<iser::IObject> AttributePtr;
