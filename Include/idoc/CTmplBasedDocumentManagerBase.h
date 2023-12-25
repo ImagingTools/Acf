@@ -24,15 +24,15 @@ public:
 	CTmplBasedDocumentManagerBase();
 
 	// reimplemented (idoc::IDocumentManager)
-	virtual int GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr = NULL) const;
+	virtual int GetAllowedOperationFlags(const istd::IPolymorphic* viewPtr = NULL) const override;
 
 	// reimplemented (idoc::IDocumentTypesInfo)
-	virtual bool IsFeatureSupported(int featureFlags, const QByteArray& documentTypeId) const;
-	virtual Ids GetDocumentTypeIds() const;
-	virtual QString GetDocumentTypeName(const QByteArray& documentTypeId) const;
-	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const;
-	virtual Ids GetDocumentTypeIdsForFile(const QString& filePath) const;
-	virtual QString GetDefaultDirectory(const QString& sugestedDir = "", const QByteArray* documentTypeIdPtr = NULL) const;
+	virtual bool IsFeatureSupported(int featureFlags, const QByteArray& documentTypeId) const override;
+	virtual Ids GetDocumentTypeIds() const override;
+	virtual QString GetDocumentTypeName(const QByteArray& documentTypeId) const override;
+	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const override;
+	virtual Ids GetDocumentTypeIdsForFile(const QString& filePath) const override;
+	virtual QString GetDefaultDirectory(const QString& sugestedDir = "", const QByteArray* documentTypeIdPtr = NULL) const override;
 
 protected:
 	virtual const idoc::IDocumentTemplate* GetDocumentTemplate() const;

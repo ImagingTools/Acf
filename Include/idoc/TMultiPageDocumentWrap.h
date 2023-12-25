@@ -34,27 +34,27 @@ public:
 	typedef CStandardDocumentMetaInfo BaseClass2;
 
 	// pseudo-reimplemented (idoc::IMultiPageDocument)
-	virtual int GetPagesCount() const;
-	virtual const istd::IChangeable& GetDocumentPage(int pageIndex) const;
-	virtual const idoc::IDocumentMetaInfo* GetPageMetaInfo(int pageIndex) const;
-	virtual void ResetPages();
-	virtual bool RemovePage(int pageIndex);
-	virtual const IDocumentMetaInfo& GetDocumentMetaInfo() const;
+	virtual int GetPagesCount() const override;
+	virtual const istd::IChangeable& GetDocumentPage(int pageIndex) const override;
+	virtual const idoc::IDocumentMetaInfo* GetPageMetaInfo(int pageIndex) const override;
+	virtual void ResetPages() override;
+	virtual bool RemovePage(int pageIndex) override;
+	virtual const IDocumentMetaInfo& GetDocumentMetaInfo() const override;
 
 	// reimplemented (iprm::IOptionsList)
-	virtual int GetOptionsFlags() const;
-	virtual int GetOptionsCount() const;
-	virtual QString GetOptionName(int index) const;
-	virtual QString GetOptionDescription(int index) const;
-	virtual QByteArray GetOptionId(int index) const;
-	virtual bool IsOptionEnabled(int index) const;
+	virtual int GetOptionsFlags() const override;
+	virtual int GetOptionsCount() const override;
+	virtual QString GetOptionName(int index) const override;
+	virtual QString GetOptionDescription(int index) const override;
+	virtual QByteArray GetOptionId(int index) const override;
+	virtual bool IsOptionEnabled(int index) const override;
 
 	// reimplemented (iser::ISerializable)
-	virtual bool Serialize(iser::IArchive& archive);
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 	// reimplemented (istd::IChangeable)
-	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS);
-	virtual bool ResetData(CompatibilityMode mode);
+	virtual bool CopyFrom(const istd::IChangeable& object, CompatibilityMode mode = CM_WITHOUT_REFS) override;
+	virtual bool ResetData(CompatibilityMode mode) override;
 
 protected:
 	struct Page

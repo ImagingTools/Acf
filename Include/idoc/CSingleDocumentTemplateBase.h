@@ -31,18 +31,18 @@ public:
 	virtual void SetDefaultDirectory(const QString& defaultDirectory);
 
 	// reimplemented (idoc::IDocumentTypesInfo)
-	virtual bool IsFeatureSupported(int featureFlags, const QByteArray& documentTypeId) const;
-	virtual Ids GetDocumentTypeIds() const;
-	virtual QString GetDocumentTypeName(const QByteArray& documentTypeId) const;
-	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const;
-	virtual Ids GetDocumentTypeIdsForFile(const QString& filePath) const;
-	virtual QString GetDefaultDirectory(const QString& sugestedDir = "", const QByteArray* documentTypeIdPtr = NULL) const;
+	virtual bool IsFeatureSupported(int featureFlags, const QByteArray& documentTypeId) const override;
+	virtual Ids GetDocumentTypeIds() const override;
+	virtual QString GetDocumentTypeName(const QByteArray& documentTypeId) const override;
+	virtual ifile::IFileTypeInfo* GetDocumentFileTypeInfo(const QByteArray& documentTypeId) const override;
+	virtual Ids GetDocumentTypeIdsForFile(const QString& filePath) const override;
+	virtual QString GetDefaultDirectory(const QString& sugestedDir = "", const QByteArray* documentTypeIdPtr = NULL) const override;
 
 	// reimplemented (idoc::IDocumentTemplate)
-	virtual Ids GetViewTypeIds(const QByteArray& documentTypeId) const;
+	virtual Ids GetViewTypeIds(const QByteArray& documentTypeId) const override;
 	virtual QString GetViewTypeName(
 				const QByteArray& documentTypeId,
-				const QByteArray& viewTypeId) const;
+				const QByteArray& viewTypeId) const override;
 
 protected:
 	bool IsDocumentTypeSupported(const QByteArray& documentTypeId) const;
