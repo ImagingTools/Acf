@@ -42,10 +42,7 @@ int CParamsManagerCompBase::InsertParamsSet(int typeIndex, int index)
 	int fixedParamsCount = m_fixedParamSetsCompPtr.GetCount();
 
 	if ((index >= 0) && (index < fixedParamsCount)){
-		qDebug() << "Attemp to insert new ParamSet with index < FixedParamSetsCount";
-		qDebug() << "New ParamsSet automatically added to the end";
 		index = -1;
-		//return -1;
 	}
 
 	IParamsSet* newParamsSetPtr = CreateParamsSetInstance(typeIndex);
@@ -513,22 +510,11 @@ bool CParamsManagerCompBase::IsOptionEnabled(int index) const
 	Q_ASSERT((index >= 0) && (index < GetParamsSetsCount()));
 
 	int fixedSetsCount = m_fixedParamSetsCompPtr.GetCount();
-	if (!*m_allowDisabledAttrPtr){
+	if (!*m_allowDisabledAttrPtr || (index < fixedSetsCount)){
 		return true;
 	}
 
-	if (index < fixedSetsCount){
-		QByteArray oneId = QByteArray();
-
-		iprm::IParamsSet::Ids ids = m_fixedParamSetsCompPtr[index]->GetParamIds();
-		if (ids.count() > 0){
-			oneId = ids.values()[0];
-		}
-		return m_fixedParamSetsCompPtr[index]->IsParameterEnable(oneId);
-	}
-
 	return m_paramSets[index - fixedSetsCount]->isEnabled;
-
 }
 
 
