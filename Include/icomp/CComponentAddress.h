@@ -108,7 +108,7 @@ inline uint qHash(const CComponentAddress& address, uint seed = 0)
 {
 	Q_UNUSED(seed);
 
-	return qHash(address.m_packageId) + qHash(address.m_packageId);
+	return uint(qHash(address.m_packageId) + qHash(address.m_packageId));
 }
 
 
