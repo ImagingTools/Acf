@@ -29,8 +29,12 @@ public:
 	// reimplemented (ibase::TDesignSchemaHandlerWrap)
 	virtual void OnDesignSchemaChanged(const QByteArray& themeId) override;
 
+protected:
+	virtual QIcon CreateIcon(const QString& iconName) const;
+
 private:
 	QByteArray m_themeId;
+	mutable QMap<QString, QIcon> m_iconCache;
 };
 
 
@@ -54,68 +58,13 @@ QIcon TMakeIconProviderCompWrap<Base>::GetIcon(const QString& iconName) const
 {
 	QString themeIconName = GetIconPath(iconName);
 
-	QString defaultIconName = themeIconName;
-	const bool isDefaultIconAvailable = QFileInfo(defaultIconName).exists();
+	if (!m_iconCache.contains(themeIconName)){
+		QIcon icon = CreateIcon(themeIconName);
 
-	QIcon icon;
-
-	if (QFileInfo(themeIconName + "_Off_Normal").exists()){
-		icon.addFile(themeIconName + "_Off_Normal", QSize(), QIcon::Normal, QIcon::Off);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::Off);
+		m_iconCache[themeIconName] = icon;
 	}
 
-	if (QFileInfo(themeIconName + "_On_Normal").exists()){
-		icon.addFile(themeIconName + "_On_Normal", QSize(), QIcon::Normal, QIcon::On);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::On);
-	}
-
-	if (QFileInfo(themeIconName + "_Off_Disabled").exists()){
-		icon.addFile(themeIconName + "_Off_Disabled", QSize(), QIcon::Disabled, QIcon::Off);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::Off);
-	}
-
-	if (QFileInfo(themeIconName + "_Off_Active").exists()){
-		icon.addFile(themeIconName + "_Off_Active", QSize(), QIcon::Active, QIcon::Off);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::Off);
-	}
-
-	if (QFileInfo(themeIconName + "_Off_Selected").exists()){
-		icon.addFile(themeIconName + "_Off_Selected", QSize(), QIcon::Selected, QIcon::Off);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::Off);
-	}
-
-	if (QFileInfo(themeIconName + "_On_Disabled").exists()){
-		icon.addFile(themeIconName + "_On_Disabled", QSize(), QIcon::Disabled, QIcon::On);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::On);
-	}
-
-	if (QFileInfo(themeIconName + "_On_Active").exists()){
-		icon.addFile(themeIconName + "_On_Active", QSize(), QIcon::Active, QIcon::On);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::On);
-	}
-
-	if (QFileInfo(themeIconName + "_On_Selected").exists()){
-		icon.addFile(themeIconName + "_On_Selected", QSize(), QIcon::Selected, QIcon::On);
-	}
-	else if (isDefaultIconAvailable){
-		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::On);
-	}
-
-	return icon;
+	return m_iconCache[themeIconName];
 }
 
 
@@ -165,6 +114,76 @@ template <class Base>
 void TMakeIconProviderCompWrap<Base>::OnDesignSchemaChanged(const QByteArray& themeId)
 {
 	m_themeId = themeId;
+}
+
+
+// protected methods
+
+template <class Base>
+QIcon TMakeIconProviderCompWrap<Base>::CreateIcon(const QString& themeIconName) const
+{
+	QString defaultIconName = themeIconName;
+	const bool isDefaultIconAvailable = QFileInfo(defaultIconName).exists();
+
+	QIcon icon;
+
+	if (QFileInfo(themeIconName + "_Off_Normal").exists()) {
+		icon.addFile(themeIconName + "_Off_Normal", QSize(), QIcon::Normal, QIcon::Off);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::Off);
+	}
+
+	if (QFileInfo(themeIconName + "_On_Normal").exists()) {
+		icon.addFile(themeIconName + "_On_Normal", QSize(), QIcon::Normal, QIcon::On);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::On);
+	}
+
+	if (QFileInfo(themeIconName + "_Off_Disabled").exists()) {
+		icon.addFile(themeIconName + "_Off_Disabled", QSize(), QIcon::Disabled, QIcon::Off);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::Off);
+	}
+
+	if (QFileInfo(themeIconName + "_Off_Active").exists()) {
+		icon.addFile(themeIconName + "_Off_Active", QSize(), QIcon::Active, QIcon::Off);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::Off);
+	}
+
+	if (QFileInfo(themeIconName + "_Off_Selected").exists()) {
+		icon.addFile(themeIconName + "_Off_Selected", QSize(), QIcon::Selected, QIcon::Off);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::Off);
+	}
+
+	if (QFileInfo(themeIconName + "_On_Disabled").exists()) {
+		icon.addFile(themeIconName + "_On_Disabled", QSize(), QIcon::Disabled, QIcon::On);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::On);
+	}
+
+	if (QFileInfo(themeIconName + "_On_Active").exists()) {
+		icon.addFile(themeIconName + "_On_Active", QSize(), QIcon::Active, QIcon::On);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::On);
+	}
+
+	if (QFileInfo(themeIconName + "_On_Selected").exists()) {
+		icon.addFile(themeIconName + "_On_Selected", QSize(), QIcon::Selected, QIcon::On);
+	}
+	else if (isDefaultIconAvailable) {
+		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::On);
+	}
+
+	return icon;
 }
 
 
