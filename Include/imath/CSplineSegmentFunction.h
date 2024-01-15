@@ -1,5 +1,4 @@
-#ifndef imath_CSplineSegmentFunction_included
-#define imath_CSplineSegmentFunction_included
+#pragma once
 
 
 namespace imath
