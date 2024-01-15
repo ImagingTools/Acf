@@ -41,6 +41,3 @@ inline double CSplineSegmentFunction::GetDerivativeKernelAt(double alpha)
 } // namespace imath
 
 
-#endif // !imath_CSplineSegmentFunction_included
-
-
