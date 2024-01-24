@@ -783,13 +783,13 @@ void CMainWindowGuiComp::OnRetranslate()
 	m_editCommand.SetName(tr("&Edit"));
 
 	// File commands
-	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), QIcon(":/Icons/New"));
-	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), QIcon(":/Icons/Open"));
-	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), QIcon(":/Icons/Save"));
+	m_newCommand.SetVisuals(tr("&New"), tr("New"), tr("Creates new document"), GetIcon(":/Icons/New"));
+	m_openCommand.SetVisuals(tr("&Open..."), tr("Open"), tr("Opens document from file"), GetIcon(":/Icons/Open"));
+	m_saveCommand.SetVisuals(tr("&Save"), tr("Save"), tr("Saves document to actual working file"), GetIcon(":/Icons/Save"));
 	m_saveAsCommand.SetVisuals(tr("&Save As..."), tr("Save As"), tr("Saves document into selected file"));
-	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), QIcon(":/Icons/Shutdown"));
-	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), QIcon(":/Icons/Undo"));
-	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), QIcon(":/Icons/Redo"));
+	m_quitCommand.SetVisuals(tr("&Quit"), tr("Quit"), tr("Quits this application"), GetIcon(":/Icons/Shutdown"));
+	m_undoCommand.SetVisuals(tr("&Undo"), tr("Undo"), tr("Undo last document changes"), GetIcon(":/Icons/Undo"));
+	m_redoCommand.SetVisuals(tr("&Redo"), tr("Redo"), tr("Redo last document changes"), GetIcon(":/Icons/Redo"));
 
 	// Tools commands
 	m_copyPathToClipboardCommand.SetVisuals(tr("&Copy Document Path"), tr("Copy Path"), tr("Copy current document path to system clipboard"));

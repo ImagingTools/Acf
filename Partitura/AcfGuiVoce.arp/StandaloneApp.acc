@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4545" Description="ACF"/>
-            <Version Id="1" Number="1895" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="329217" Description="Qt Framework"/>
+            <Version Id="0" Number="5131" Description="ACF"/>
+            <Version Id="1" Number="2198" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="393732" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Base frame of standalone applications without documents</Description>
@@ -50,6 +50,9 @@
                         <Data IsEnabled="true" Value="ApplicationInfo"/>
                     </AttributeInfo>
                     <AttributeInfo Id="ComponentsToInitialize" Type="Reference[]" ExportId="ComponentsToInitialize">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ComponentsToPreInitialize" Type="Reference[]" ExportId="ComponentsToPreInitialize">
                         <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="FrameSpaceSize" Type="Integer" ExportId="FrameSpaceSize">

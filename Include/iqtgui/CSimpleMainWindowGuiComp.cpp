@@ -563,15 +563,15 @@ void CSimpleMainWindowGuiComp::OnRetranslate()
 	m_showOtherWindows.SetVisuals(tr("Other Windows"), tr("Other Windows"), tr("Show additional windows"));
 
 	// Tools commands
-	m_settingsCommand.SetVisuals(tr("&Preferences"), tr("Preferences"), tr("Show global application preferences"), QIcon(":/Icons/Settings"));
+	m_settingsCommand.SetVisuals(tr("&Preferences"), tr("Preferences"), tr("Show global application preferences"), GetIcon(":/Icons/Settings"));
 	m_settingsCommand.setShortcut(QKeySequence::Preferences);
 	m_settingsCommand.setMenuRole(QAction::PreferencesRole);
 
 	// Help commands
-	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), QIcon(":/Icons/About"));
+	m_aboutCommand.SetVisuals(tr("&About..."), tr("About"), tr("Shows information about this application"), GetIcon(":/Icons/About"));
 	m_aboutCommand.setMenuRole(QAction::AboutRole);
 
-	m_manualCommand.SetVisuals(tr("&Help..."), tr("Help"), tr("Shows application manual"), QIcon(":/Icons/Help"));
+	m_manualCommand.SetVisuals(tr("&Help..."), tr("Help"), tr("Shows application manual"), GetIcon(":/Icons/Help"));
 	m_manualCommand.setShortcut(QKeySequence::HelpContents);
 	m_manualCommand.setMenuRole(QAction::AboutRole);
 

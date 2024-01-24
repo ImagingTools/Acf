@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4325" Description="ACF"/>
-            <Version Id="1" Number="1672" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="329217" Description="Qt Framework"/>
+            <Version Id="0" Number="5131" Description="ACF"/>
+            <Version Id="1" Number="2198" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="393732" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>Framework for single document applications</Description>
@@ -57,6 +57,12 @@
                     </AttributeInfo>
                     <AttributeInfo Id="ApplicationInfo" Type="Reference" ExportId="">
                         <Data IsEnabled="true" Value="ApplicationInfo"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ComponentsToInitialize" Type="Reference[]" ExportId="ComponentsToInitialize">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="ComponentsToPreInitialize" Type="Reference[]" ExportId="ComponentsToPreInitialize">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="IconPath" Type="String" ExportId="IconPath">
                         <Data IsEnabled="false"/>
