@@ -1,5 +1,4 @@
-#ifndef iqtdoc_CUndoCommandsProviderComp_included
-#define iqtdoc_CUndoCommandsProviderComp_included
+#pragma once
 
 
 // Qt includes
@@ -65,8 +64,5 @@ private:
 
 
 } // namespace iqtdoc
-
-
-#endif // !iqtdoc_CUndoCommandsProviderComp_included
 
 

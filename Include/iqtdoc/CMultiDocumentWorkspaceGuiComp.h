@@ -1,5 +1,4 @@
-#ifndef iqtdoc_CMultiDocumentWorkspaceGuiComp_included
-#define iqtdoc_CMultiDocumentWorkspaceGuiComp_included
+#pragma once
 
 
 // Qt includes
@@ -74,16 +73,16 @@ public:
 	CMultiDocumentWorkspaceGuiComp();
 
 	// reimplemented (idoc::IDocumentManager)
-	virtual void SetActiveView(istd::IPolymorphic* viewPtr);
+	virtual void SetActiveView(istd::IPolymorphic* viewPtr) override;
 
 	// reimplemented (ibase::ICommandsProvider)
-	virtual const ibase::IHierarchicalCommand* GetCommands() const;
+	virtual const ibase::IHierarchicalCommand* GetCommands() const override;
 
 	// reimplemented (iqtgui::IGuiObject)
-	virtual void OnTryClose(bool* ignoredPtr = NULL);
+	virtual void OnTryClose(bool* ignoredPtr = NULL) override;
+	virtual void OnGuiDesignChanged() override;
 
 protected:
-
 /**
 		Update titles of views or all views of specified document.
 		\param	optional document object, if you want to update only views of single document.
@@ -122,33 +121,33 @@ protected:
 				QByteArray& documentTypeId,
 				bool beQuiet,
 				bool* ignoredPtr,
-				ibase::IProgressManager* progressManagerPtr);
+				ibase::IProgressManager* progressManagerPtr) override;
 
 	// reimplemented (QObject)
-	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr);
+	virtual bool eventFilter(QObject* sourcePtr, QEvent* eventPtr) override;
 
 	// reimplemented (TRestorableGuiWrap)
-	virtual void OnRestoreSettings(const QSettings& settings);
-	virtual void OnSaveSettings(QSettings& settings) const;
+	virtual void OnRestoreSettings(const QSettings& settings) override;
+	virtual void OnSaveSettings(QSettings& settings) const override;
 
 	// reimplemented (idoc::CMultiDocumentManagerBase)
-	virtual void CloseAllDocuments();
-	virtual QStringList GetOpenFilePaths(const QByteArray* documentTypeIdPtr = NULL) const;
-	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr, const SingleDocumentData& documentData);
-	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr);
-	virtual bool QueryDocumentSave(const SingleDocumentData& info, bool* ignoredPtr);
+	virtual void CloseAllDocuments() override;
+	virtual QStringList GetOpenFilePaths(const QByteArray* documentTypeIdPtr = NULL) const override;
+	virtual void OnViewRegistered(istd::IPolymorphic* viewPtr, const SingleDocumentData& documentData) override;
+	virtual void OnViewRemoved(istd::IPolymorphic* viewPtr) override;
+	virtual bool QueryDocumentSave(const SingleDocumentData& info, bool* ignoredPtr) override;
 
 	// reimplemented (iqt:CGuiComponentBase)
-	virtual void OnGuiCreated();
-	virtual void OnGuiDestroyed();
-	virtual void OnRetranslate();
-	virtual void OnGuiRetranslate();
+	virtual void OnGuiCreated() override;
+	virtual void OnGuiDestroyed() override;
+	virtual void OnRetranslate() override;
+	virtual void OnGuiRetranslate() override;
 
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	virtual void OnComponentCreated() override;
 
 	// reimplemented (istd:IChangeable)
-	virtual void OnEndChanges(const ChangeSet& changeSet);
+	virtual void OnEndChanges(const ChangeSet& changeSet) override;
 
 protected Q_SLOTS:
 	void OnWindowActivated(QMdiSubWindow* window);
@@ -163,21 +162,21 @@ private:
 		void SetParent(CMultiDocumentWorkspaceGuiComp& parent);
 
 		// reimplemented (iprm::ISelectionParam)
-		virtual const iprm::IOptionsList* GetSelectionConstraints() const;
-		virtual int GetSelectedOptionIndex() const;
-		virtual bool SetSelectedOptionIndex(int index);
-		virtual iprm::ISelectionParam* GetSubselection(int index) const;
+		virtual const iprm::IOptionsList* GetSelectionConstraints() const override;
+		virtual int GetSelectedOptionIndex() const override;
+		virtual bool SetSelectedOptionIndex(int index) override;
+		virtual iprm::ISelectionParam* GetSubselection(int index) const override;
 
 		// reimplemented (iprm::IOptionsList)
-		virtual int GetOptionsFlags() const;
-		virtual int GetOptionsCount() const;
-		virtual QString GetOptionName(int index) const;
-		virtual QString GetOptionDescription(int index) const;
-		virtual QByteArray GetOptionId(int index) const;
-		virtual bool IsOptionEnabled(int index) const;
+		virtual int GetOptionsFlags() const override;
+		virtual int GetOptionsCount() const override;
+		virtual QString GetOptionName(int index) const override;
+		virtual QString GetOptionDescription(int index) const override;
+		virtual QByteArray GetOptionId(int index) const override;
+		virtual bool IsOptionEnabled(int index) const override;
 
 		// reimplemented (iser::ISerializable)
-		virtual bool Serialize(iser::IArchive& archive);
+		virtual bool Serialize(iser::IArchive& archive) override;
 
 	private:
 		int m_selectedDocumentIndex;
@@ -223,8 +222,5 @@ private:
 
 
 } // namespace iqtdoc
-
-
-#endif // !iqtdoc_CMultiDocumentWorkspaceGuiComp_included
 
 

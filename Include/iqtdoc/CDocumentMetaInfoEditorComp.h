@@ -1,5 +1,4 @@
-#ifndef iqtdoc_CDocumentMetaInfoEditorComp_included
-#define iqtdoc_CDocumentMetaInfoEditorComp_included
+#pragma once
 
 
 // Qt includes
@@ -39,12 +38,12 @@ public:
 
 protected:
 	// reimplemented (iqtgui::TGuiObserverWrap)
-	virtual void OnGuiModelAttached();
-	virtual void OnGuiModelDetached();
-	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet);
+	virtual void OnGuiModelAttached() override;
+	virtual void OnGuiModelDetached() override;
+	virtual void UpdateGui(const istd::IChangeable::ChangeSet& changeSet) override;
 
 	// reimplemented (iqtgui::CComponentBase)
-	virtual void OnGuiCreated();
+	virtual void OnGuiCreated() override;
 
 protected Q_SLOTS:
 	void OnItemEditingFinished();
@@ -72,8 +71,5 @@ private:
 
 
 } // namespace iqtdoc
-
-
-#endif // !iqtdoc_CDocumentMetaInfoEditorComp_included
 
 
