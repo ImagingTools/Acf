@@ -76,7 +76,8 @@ QByteArray CTempFileManagerComp::BeginSession(const QString& subPath, const QByt
 
 QByteArray CTempFileManagerComp::AddFileItem(
 			const QByteArray& sessionId,
-			const QString& filePath)
+			const QString& filePath,
+			const QByteArray& proposedSessionId)
 {
 	if (filePath.isEmpty()){
 		return QByteArray();
@@ -85,7 +86,7 @@ QByteArray CTempFileManagerComp::AddFileItem(
 	if (m_sessionsMap.contains(sessionId)){
 		Session& session = m_sessionsMap[sessionId];
 
-		QString itemId = QUuid::createUuid().toString().remove('{').remove('-').remove('}');
+		QString itemId = proposedSessionId.isEmpty() ? QUuid::createUuid().toString().remove('{').remove('-').remove('}') : proposedSessionId;
 		QString itemSubPath = itemId + "/" + filePath;
 
 		QString targetPath = session.basePath + "/" + itemSubPath;

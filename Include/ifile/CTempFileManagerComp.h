@@ -26,7 +26,7 @@ public:
 
 	// reimplemented (ifile::ITempFileManager)
 	virtual QByteArray BeginSession(const QString& subPath = QString(), const QByteArray& proposedSessionId = QByteArray()) override;
-	virtual QByteArray AddFileItem(const QByteArray& sessionId, const QString& filePath) override;
+	virtual QByteArray AddFileItem(const QByteArray& sessionId, const QString& filePath, const QByteArray& proposedSessionId = QByteArray()) override;
 	virtual QString GetPath(const QByteArray& sessionId, const QByteArray& id) const override;
 	virtual bool RemoveFileItem(const QByteArray& sessionId, const QByteArray& id) override;
 	virtual void FinishSession(const QByteArray& sessionId) override;
