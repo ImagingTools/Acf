@@ -29,7 +29,7 @@ bool CComposedFilePersistenceComp::IsOperationSupported(
 }
 
 
-int CComposedFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QString& filePath, ibase::IProgressManager* /*progressManagerPtr*/) const
+int CComposedFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QString& filePath, ibase::IProgressManager* progressManagerPtr) const
 {
 	int fileQueryFlags = QF_LOAD;
 	if (!filePath.isEmpty()){
@@ -45,7 +45,7 @@ int CComposedFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QS
 		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
 			m_lastOpenInfo = QFileInfo(filePath);
 
-			return loaderPtr->LoadFromFile(data, filePath);
+			return loaderPtr->LoadFromFile(data, filePath, progressManagerPtr);
 		}
 	}
 
@@ -53,7 +53,7 @@ int CComposedFilePersistenceComp::LoadFromFile(istd::IChangeable& data, const QS
 }
 
 
-int CComposedFilePersistenceComp::SaveToFile(const istd::IChangeable& data, const QString& filePath, ibase::IProgressManager* /*progressManagerPtr*/) const
+int CComposedFilePersistenceComp::SaveToFile(const istd::IChangeable& data, const QString& filePath, ibase::IProgressManager* progressManagerPtr) const
 {
 	int fileQueryFlags = QF_SAVE;
 	if (!filePath.isEmpty()){
@@ -69,7 +69,7 @@ int CComposedFilePersistenceComp::SaveToFile(const istd::IChangeable& data, cons
 		if ((loaderPtr != NULL) && loaderPtr->IsOperationSupported(&data, &filePath, fileQueryFlags)){
 			m_lastSaveInfo = QFileInfo(filePath);
 
-			return loaderPtr->SaveToFile(data, filePath);
+			return loaderPtr->SaveToFile(data, filePath, progressManagerPtr);
 		}
 	}
 

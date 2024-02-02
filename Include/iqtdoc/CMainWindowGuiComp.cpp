@@ -182,7 +182,7 @@ bool CMainWindowGuiComp::OpenFile(const QString& fileName, const QByteArray* doc
 		bool ignoredFlag = false;
 
 		if (m_persistenceProgressDialogPtr.IsValid()){
-			m_persistenceProgressDialogPtr->setWindowTitle(tr("Loading the document..."));
+			m_persistenceProgressDialogPtr->setWindowTitle(QString(tr("Loading '%1'...")).arg(fileName));
 		}
 
 		retVal = m_documentManagerCompPtr->OpenDocument(
@@ -737,6 +737,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 								false));
 		m_persistenceProgressDialogPtr->setWindowModality(Qt::WindowModal);
 		m_persistenceProgressDialogPtr->setWindowFlags(((m_persistenceProgressDialogPtr->windowFlags() | Qt::CustomizeWindowHint) & ~(Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint)));
+		m_persistenceProgressDialogPtr->SetDialogGeometry(0.3, 0.05);
 
 		m_persistenceProgressPtr.SetPtr (new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr(), "Persistence", QString()));
 	}
@@ -771,6 +772,8 @@ void CMainWindowGuiComp::OnGuiCreated()
 void CMainWindowGuiComp::OnGuiDestroyed()
 {
 	BaseClass::OnGuiDestroyed();
+
+	m_persistenceProgressDialogPtr.Reset();
 
 	m_persistenceProgressPtr.Reset();
 }
