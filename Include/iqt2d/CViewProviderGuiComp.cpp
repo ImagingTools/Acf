@@ -75,7 +75,7 @@ void CViewProviderGuiComp::SetupBackground()
 			QPainter p(&backgroundPixmap);
 
 			QColor color1 = QGuiApplication::palette().color(QPalette::Window);
-			QColor color2 = QGuiApplication::palette().color(QPalette::Mid);
+			QColor color2 = QGuiApplication::palette().color(QPalette::Midlight);
 			p.fillRect(0, 0, 16, 16, QBrush(color1));
 			p.fillRect(0, 16, 16, 16, QBrush(color2));
 			p.fillRect(16, 0, 16, 16, QBrush(color2));
