@@ -108,6 +108,8 @@ public:
 	virtual iview::IShapeView* GetView() const;
 
 protected:
+	virtual void SetupBackground();
+
 	// reimplemented (CGuiComponentBase)
 	virtual void OnGuiCreated();
 	virtual void OnGuiDestroyed();

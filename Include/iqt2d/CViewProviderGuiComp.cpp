@@ -48,6 +48,49 @@ iview::IShapeView* CViewProviderGuiComp::GetView() const
 
 // protected methods
 
+void CViewProviderGuiComp::SetupBackground()
+{
+	iview::CConsoleGui* consolePtr = GetQtWidget();
+	Q_ASSERT(consolePtr != NULL);
+
+	if (m_backgroundModeAttrPtr.IsValid()) {
+		switch (*m_backgroundModeAttrPtr) {
+		case BM_COLOR_SCHEMA:
+			if (!m_colorSchemaCompPtr.IsValid()) {
+				iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
+				newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
+
+				QBrush backgroundBrush(QGuiApplication::palette().color(QPalette::Window));
+				newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, backgroundBrush);
+
+				consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
+			}
+			else {
+				consolePtr->GetViewRef().SetDefaultColorSchema(m_colorSchemaCompPtr.GetPtr(), false);
+			}
+			break;
+		case BM_CHECKERBOARD: {
+			QPixmap backgroundPixmap(32, 32);
+
+			QPainter p(&backgroundPixmap);
+
+			QColor color1 = QGuiApplication::palette().color(QPalette::Window);
+			QColor color2 = QGuiApplication::palette().color(QPalette::Mid);
+			p.fillRect(0, 0, 16, 16, QBrush(color1));
+			p.fillRect(0, 16, 16, 16, QBrush(color2));
+			p.fillRect(16, 0, 16, 16, QBrush(color2));
+			p.fillRect(16, 16, 16, 16, QBrush(color1));
+			iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
+			newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
+			newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, QBrush(backgroundPixmap));
+			consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
+			}
+			break;
+		}
+	}
+}
+
+
 // reimplemented (CGuiComponentBase)
 
 void CViewProviderGuiComp::OnGuiCreated()
@@ -121,24 +164,7 @@ void CViewProviderGuiComp::OnGuiCreated()
 		consolePtr->SetPointMeasureButtonVisible(false);
 	}
 
-	if (m_backgroundModeAttrPtr.IsValid()){
-		switch (*m_backgroundModeAttrPtr){
-		case BM_COLOR_SCHEMA:
-			if (!m_colorSchemaCompPtr.IsValid()){
-				iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
-				newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
-
-				QBrush backgroundBrush(QGuiApplication::palette().color(QPalette::Window));
-				newColorSchemaPtr->SetBrush(iview::IColorSchema::SB_BACKGROUND, backgroundBrush);
-
-				consolePtr->GetViewRef().SetDefaultColorSchema(newColorSchemaPtr, true);
-			}
-			else{
-				consolePtr->GetViewRef().SetDefaultColorSchema(m_colorSchemaCompPtr.GetPtr(), false);
-			}
-			break;
-		}
-	}
+	SetupBackground();
 }
 
 
@@ -182,7 +208,8 @@ void CViewProviderGuiComp::OnGuiDesignChanged()
 
 	consolePtr->UpdateDesign();
 
-	consolePtr->GetViewRef().SetDefaultColorSchema(nullptr);
+	SetupBackground();
+
 	consolePtr->GetViewRef().InvalidateBackground();
 }
 
