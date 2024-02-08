@@ -107,7 +107,7 @@ inline const void* CGeneralBitmap::GetLinePtr(int positionY) const
 	Q_ASSERT(positionY >= 0);
 	Q_ASSERT(positionY < m_size.GetY());
 
-	return m_buffer.GetPtr() + m_linesDifference * positionY;
+	return m_buffer.GetPtr() + quint64(m_linesDifference) * quint64(positionY);
 }
 
 
@@ -116,7 +116,7 @@ inline void* CGeneralBitmap::GetLinePtr(int positionY)
 	Q_ASSERT(positionY >= 0);
 	Q_ASSERT(positionY < m_size.GetY());
 
-	return m_buffer.GetPtr() + m_linesDifference * positionY;
+	return m_buffer.GetPtr() + quint64(m_linesDifference) * quint64(positionY);
 }
 
 
