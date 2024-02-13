@@ -20,10 +20,13 @@ CJsonWriteArchiveBase::CJsonWriteArchiveBase(
 			QJsonDocument::JsonFormat jsonFormat)
 			:  CTextWriteArchiveBase(versionInfoPtr),
 			m_jsonFormat(jsonFormat),
-			m_rootTag("", "", iser::CArchiveTag::TT_GROUP),
-			m_rootTagEnabled(false)
+			m_rootTag("", "", iser::CArchiveTag::TT_GROUP)
 {
+}
 
+
+CJsonWriteArchiveBase::~CJsonWriteArchiveBase()
+{
 }
 
 
@@ -40,11 +43,6 @@ bool CJsonWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 	bool retVal = true;
 	QString tagId(tag.GetId());
 	int tagType = tag.GetTagType();
-
-	if (m_tagsStack.isEmpty() && !tagId.isEmpty()){
-		retVal = retVal && BeginTag(m_rootTag);
-		m_rootTagEnabled = true;
-	}
 
 	if (tagType == iser::CArchiveTag::TT_LEAF){
 		retVal = retVal && WriteTag(tag, "");
@@ -131,7 +129,7 @@ bool CJsonWriteArchiveBase::InitStream(bool serializeHeader)
 #endif
 	m_firstTag = true;
 
-//	BeginTag(m_rootTag);
+	WriteJsonHeader();
 
 	if (serializeHeader){
 		SerializeAcfHeader();
@@ -190,6 +188,30 @@ bool CJsonWriteArchiveBase::WriteTag(const CArchiveTag &tag, QString separator)
 
 	return true;
 }
+
+
+bool CJsonWriteArchiveBase::WriteJsonHeader()
+{
+	return BeginTag(m_rootTag);
+}
+
+
+bool CJsonWriteArchiveBase::Flush()
+{
+	QIODevice* devicePtr = m_stream.device();
+	if (devicePtr != nullptr){
+		if (devicePtr->isOpen()){
+			bool retVal = EndTag(m_rootTag);
+
+			devicePtr->close();
+
+			return retVal;
+		}
+	}
+
+	return false;
+}
+
 
 // reimplemented (iser::CTextWriteArchiveBase)
 

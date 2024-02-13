@@ -22,9 +22,8 @@ CJsonFileWriteArchive::CJsonFileWriteArchive(const QString& filePath, const iser
 CJsonFileWriteArchive::~CJsonFileWriteArchive()
 {
 	if (m_file.isOpen()){
-		if (m_rootTagEnabled){
-			EndTag(m_rootTag);
-		}
+		Flush();
+
 		m_file.close();
 	}
 }
@@ -36,6 +35,7 @@ bool CJsonFileWriteArchive::OpenFile(const QString &filePath, bool serializeHead
 
 	if (m_file.open(QIODevice::WriteOnly)){
 		InitArchive(&m_file, serializeHeader);
+
 		return true;
 	}
 

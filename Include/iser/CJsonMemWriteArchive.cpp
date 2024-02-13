@@ -18,18 +18,14 @@ CJsonMemWriteArchive::CJsonMemWriteArchive(
 	:BaseClass(versionInfoPtr)
 {
 	bool serializeHeader = versionInfoPtr != nullptr;
+
 	InitArchive(inputString, serializeHeader);
 }
 
 
 CJsonMemWriteArchive::~CJsonMemWriteArchive()
 {
-	if (m_buffer.isOpen()){
-		if (m_rootTagEnabled){
-			EndTag(m_rootTag);
-		}
-		m_buffer.close();
-	}
+	Flush();
 }
 
 
