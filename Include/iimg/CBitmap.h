@@ -18,6 +18,9 @@ namespace iimg
 
 /**
 	Bitmap implementation based on Qt QImage.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class CBitmap:
 			public iimg::CBitmapBase,

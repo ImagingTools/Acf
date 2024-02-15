@@ -16,6 +16,9 @@ namespace iimg
 	\tparam	SourcePixel	Type of the source pixel.
 	\tparam	DestPixel  	Type of the destination pixel.
 	\tparam	DestPixel  	Type of the destination pixel.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 template <typename SourcePixel, typename DestPixel, typename CalcPixel = DestPixel>
 class TPixelConversion

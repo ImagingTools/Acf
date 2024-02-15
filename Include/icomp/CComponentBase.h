@@ -192,6 +192,7 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Declare user type attribute member.
+	\ingroup ComponentConcept
 */
 #define I_USER_ATTR(attrType, member)\
 	typedef icomp::TAttributeMember< attrType > member##_Type;\
@@ -225,6 +226,7 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Declare multiple user type attribute member.
+	\ingroup ComponentConcept
 */
 #define I_USER_MULTIATTR(attrType, member)\
 	typedef icomp::TMultiAttributeMember< attrType > member##_Type;\
@@ -267,6 +269,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Declare single reference to another component with \c interfaceType as template argument.
+
+	\ingroup ComponentConcept
 */
 #define I_TREF(interfaceType, member)\
 	typedef icomp::TReferenceMember<interfaceType> member##_Type;\
@@ -275,6 +279,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Declare multiple reference to another component with \c interfaceType as template argument.
+
+	\ingroup ComponentConcept
 */
 #define I_TMULTIREF(interfaceType, member)\
 	typedef icomp::TMultiReferenceMember<interfaceType> member##_Type;\
@@ -302,10 +308,16 @@ inline bool CComponentBase::IsComponentActive() const
 	typedef icomp::TFactoryMember<interfaceType>::AttributeType member##_AttrType;\
 	icomp::TFactoryMember<interfaceType> member;
 
+/**
+	Declare single generic factory of components.
+
+	\ingroup ComponentConcept
+*/
 #define I_TFACT(interfaceType, member)\
 	typedef icomp::TFactoryMember<interfaceType> member##_Type;\
 	typedef typename icomp::TFactoryMember<interfaceType>::AttributeType member##_AttrType;\
 	icomp::TFactoryMember<interfaceType> member
+
 /**
 	Declare multiple factories of components.
 
@@ -318,6 +330,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for single parameter (attribute, reference or factory).
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_BASE(member, id, description, isObligatory)\
 	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
@@ -362,6 +376,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters (attributes, references or factories) with 2 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_MULTI_2(member, id, description, isObligatory, defaultValue1, defaultValue2)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2};\
@@ -369,6 +385,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters (attributes, references or factories) with 3 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_MULTI_3(member, id, description, isObligatory, defaultValue1, defaultValue2, defaultValue3)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2, defaultValue3};\
@@ -376,6 +394,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters (attributes, references or factories) with 3 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_MULTI_4(member, id, description, isObligatory, defaultValue1, defaultValue2, defaultValue3, defaultValue4)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2, defaultValue3, defaultValue4};\
@@ -383,14 +403,17 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters (attributes, references or factories) with 3 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_MULTI_5(member, id, description, isObligatory, defaultValue1, defaultValue2, defaultValue3, defaultValue4, defaultValue5)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2, defaultValue3, defaultValue4, defaultValue5};\
 	I_ASSIGN_MULTI_BASE(member, id, description, isObligatory, defaultValue)
 
-
 /**
 	Used to assign value for single parameter with template type (attribute, reference or factory).
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_BASE(member, id, description, isObligatory)\
 	static icomp::TAttributeStaticInfo<member##_AttrType> member##_Info(staticInfo, id, description, &member##_Default, isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>());\
@@ -400,6 +423,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for single parameter with template type (attribute, reference or factory).
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN(member, id, description, isObligatory, defaultValue)\
 	static member##_AttrType member##_Default(defaultValue);\
@@ -407,6 +432,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters with template type (attributes, references or factories).
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_BASE(member, id, description, isObligatory, defaultValue)\
 	static member##_AttrType member##_Default(int(sizeof(member##_DefaultElements) / sizeof(member##_AttrType::ValueType)), member##_DefaultElements);\
@@ -414,6 +441,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters with template type (attributes, references or factories) with no default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_0(member, id, description, isObligatory)\
 	static member##_AttrType member##_Default(0, NULL);\
@@ -421,6 +450,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters with template type (attributes, references or factories) with 1 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_1(member, id, description, isObligatory, defaultValue1)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1};\
@@ -428,6 +459,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters with template type (attributes, references or factories) with 2 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_2(member, id, description, isObligatory, defaultValue1, defaultValue2)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2};\
@@ -435,6 +468,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for multiply parameters (with template type attributes, references or factories) with 3 default parameter.
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_MULTI_3(member, id, description, isObligatory, defaultValue1, defaultValue2, defaultValue3)\
 	static member##_AttrType::ValueType member##_DefaultElements[] = {defaultValue1, defaultValue2, defaultValue3};\
@@ -443,6 +478,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for overloaded attributes or references.
+
+	\ingroup ComponentConcept
 */
 #define I_ASSIGN_TO(member, baseAttribute, isObligatory)\
 	static icomp::CRelatedInfoRegistrator member##_Info(baseAttribute##_Info, icomp::IComponentStaticInfo::MGI_INTERFACES, istd::CClassInfo::GetInfo<member##_Type::InterfaceType>().GetName(), isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL);\
@@ -453,6 +490,8 @@ inline bool CComponentBase::IsComponentActive() const
 
 /**
 	Used to assign value for overloaded attributes or references.
+
+	\ingroup ComponentConcept
 */
 #define I_TASSIGN_TO(member, baseAttribute, isObligatory)\
 	static icomp::CRelatedInfoRegistrator member##_Info(baseAttribute##_Info, icomp::IComponentStaticInfo::MGI_INTERFACES, istd::CClassInfo::GetInfo<typename member##_Type::InterfaceType>().GetName(), isObligatory? member##_AttrType::DAF_OBLIGATORY: member##_AttrType::DAF_OPTIONAL);\
@@ -464,6 +503,8 @@ inline bool CComponentBase::IsComponentActive() const
 /**
 	Cast to specified interface trying to use component interface query.
 	It extends standard dynamic_cast functinality when you use composed components.
+
+	\ingroup ComponentConcept
 */
 template <class Dest>
 Dest* CompCastPtr(istd::IPolymorphic* objectPtr)
@@ -487,6 +528,8 @@ Dest* CompCastPtr(istd::IPolymorphic* objectPtr)
 
 /**
 	Query for a given interface.
+
+	\ingroup ComponentConcept
 */
 template <class Dest>
 Dest* QueryInterface(istd::IPolymorphic* objectPtr, const QByteArray& componentId = QByteArray())
@@ -512,6 +555,8 @@ Dest* QueryInterface(istd::IPolymorphic* objectPtr, const QByteArray& componentI
 	Cast to specified interface trying to use component interface query.
 	It extends standard dynamic_cast functinality when you use composed components.
 	\overload
+
+	\ingroup ComponentConcept
 */
 template <class Dest>
 const Dest* CompCastPtr(const istd::IPolymorphic* objectPtr)

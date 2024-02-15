@@ -15,6 +15,9 @@ namespace iimg
 
 /**
 	Definition of a multi-page bitmap document.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class CMultiPageBitmapBase:
 			public idoc::CMultiPageDocumentBase,

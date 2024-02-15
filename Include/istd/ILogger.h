@@ -16,6 +16,8 @@ namespace istd
 /**
 	Common interface for classes sending some log info.
 	Default implementation is provided for convinience and it does nothing.
+
+	\ingroup Logging
 */
 class ILogger: virtual public IPolymorphic
 {

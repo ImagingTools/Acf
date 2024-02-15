@@ -18,6 +18,7 @@ namespace imod
 	This model wrapper provides a simple connection between a concrete
 	\c istd::IChangeable implementation and a model.
 
+	\ingroup DataModel
 	\ingroup ModelObserver
 */
 template <class Base>

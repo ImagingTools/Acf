@@ -16,6 +16,9 @@ namespace iimg
 
 /**
 	Component for composition/grouping of more single bitmap providers.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class CComposedBitmapProviderComp: 
 			public icomp::CComponentBase,

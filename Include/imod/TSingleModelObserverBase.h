@@ -20,6 +20,7 @@ namespace imod
 /**
 	Basic implementation for a single model observer with binding to concrete data object interface.
 
+	\ingroup DataModel
 	\ingroup ModelObserver
 */
 template <class ModelInterface>

@@ -13,9 +13,8 @@ ACF is a C++ based, cross-plattform component framework, that was especially des
 ACF follows the component-oriented programming paradigm and provides instruments to build software from reusable components and serves interfaces and concepts to create those components.
 ACF contains a set of libraries with implementations of most usefull design patterns, such Serialization, Model/Observer, Factory, Dependency Injection etc..
 ACF implements a powerfull component concept and includes many well designed components, which you can directly use in your application.
-The UI-part of the framework is based on Qt library provided by Digia.
+The UI-part of the framework is based on Qt library provided by Qt Company.
 ACF is open source and released under the terms of the GNU Lesser General Public License (LGPL).
-See http://www.ilena.org or write info@imagingtools.de for further information about the ACF.
 
 More theoretical considerations about the component-based development can be found at the following location:
 http://en.wikipedia.org/wiki/Component-based_software_engineering
@@ -45,11 +44,18 @@ Below are some of the main features of ACF:
 - C++ library containing several implementatons of common business logik components, which can be used in every application
 - Component library for abstract data model definition, visualization and processing
 - High level components for data binding and persistence
+	- JSON
+	- XML
+	- XSLT
+	- Generic object serialization
 - Multi-Document Interface application framework
 - Component library for industrial and scientic image processing
 - Component library for 2D and 3D visualization
-- Component wrappers for popular 3rd-party libraries such:
-	- Qt/Qt Solutions
+- Component wrappers for popular 3rd-party libraries and solutions such:
+	- Boost
+	- MongoDB
+	- postgreSQL
+	- Qt
 	- Qwt
 	- Qwt3d
 	- OpenCV
@@ -57,13 +63,10 @@ Below are some of the main features of ACF:
 	- FFMpeg
 	- zlib
 	- QScintilla
-
-\section BasicTutorials Tutorials
-Hier you will find beginner tutorials:
-- Say hello to ACF world:
-http://ilena.org/redmine/projects/acf/wiki/HelloWorld
-- Big brother is watching you (Model/Observer):
-http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
+\section Gallery
+\image html Compositor1.png "Compositor Application" width=50%
+\image html Compositor2.png "Multi Document Application Framework" width=50%
+\image html HttServerFramework.png "HTTP-based Server Framework" width=50%
 */
 
 
@@ -269,10 +272,14 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 	- Read from a memory block bitwise - iser::CBitMemoryReadArchive
 	- Write to a memory block bitwise - iser::CBitMemoryWriteArchive
 	- Write to a TCP/IP socket - iqt::CNetworkWriteArchive
-	- Read from a compact XML document given as a string - iqt::CCompactXmlMemReadArchive
-	- Write to a compact XML-string - iqt::CCompactXmlMemWriteArchive
-	- Read from a compact XML file - iqt::CCompactXmlFileReadArchive
-	- Write to a compact XML file - iqt::CCompactXmlFileWriteArchive
+	- Read from a compact XML document given as a string - iser::CCompactXmlMemReadArchive
+	- Write to a compact XML-string - iser::CCompactXmlMemWriteArchive
+	- Read from a compact XML file - ifile::CCompactXmlFileReadArchive
+	- Write to a compact XML file - ifile::CCompactXmlFileWriteArchive
+	- Read from a JSON file - ifile:CJsonFileReadArchive
+	- Write to a JSON file - ifile::CJsonFileWriteArchive
+	- Read from a JSON representation in memory - ifile:CJsonMemReadArchive
+	- Write to a JSON representation in memory - ifile::CJsonMemWriteArchive
 
 	We demonstrate the implementation of object serialization on example of CPerson class introduced in the \ref DataModel section. 
 	First of all we have to change the CPerson class to be inherited from iser::ISerializable. Because iser::ISerializable is already derived from istd::IChangeable, we have nothing else to change in this aspect.
@@ -363,9 +370,8 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 */
 
 /*
-	\defgroup Logging Logging
+	\defgroup Logging Diagnostic Management
 	Interfaces and implementations related to informations logging.
-
 
 	\ingroup ApplicationFramework
 */
@@ -403,6 +409,12 @@ http://ilena.org/redmine/projects/acf/wiki/ModelObserver-Tutorial
 /**
 	\defgroup NumericalBase Numerical Basics & Algorithms
 	Basic implementations of mathematical and algorithmical primitives.
+*/
+
+
+/**
+	\defgroup ImageProcessing
+	Image-based data definition and algorithms.
 */
 
 /**

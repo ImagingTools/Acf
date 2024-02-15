@@ -13,6 +13,9 @@ namespace iimg
 
 /**
 	Bitmap supplier allowing to access of produced bitmap.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class IBitmapProvider: virtual public istd::IChangeable
 {

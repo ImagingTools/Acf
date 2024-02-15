@@ -15,6 +15,9 @@ namespace iimg
 /**
 	General definition of image contains pixels in regular grid.
 	All pixels are using the same number of color components.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class IRasterImage: virtual public i2d::IObject2d
 {

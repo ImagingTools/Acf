@@ -25,6 +25,9 @@ namespace iimg
 
 /**
 	Representation of a 2D-region as container of bitmap line scans.
+
+	\ingroup ImageProcessing
+	\ingroup Geometry
 */
 class CScanlineMask:
 			public i2d::CObject2dBase,
