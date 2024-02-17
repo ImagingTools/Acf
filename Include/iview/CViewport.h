@@ -48,8 +48,8 @@ public:
 	virtual void SetEditMode(int mode);
 
 	// reimplemented (iview::IShapeView)
-	virtual void SetFitArea(const i2d::CRectangle& area);
-	virtual i2d::CRect GetClientRect() const;
+	virtual void SetFitArea(const i2d::CRectangle& area) override;
+	virtual i2d::CRect GetClientRect() const override;
 
 	// reimplemented (iview::IViewEventObserver)
 	virtual bool OnSelectChange(
@@ -62,13 +62,16 @@ public:
 				const istd::CIndex2d& position,
 				Qt::MouseButton buttonType,
 				bool state,
-				const iview::IInteractiveShape* shapePtr);
+				const iview::IInteractiveShape* shapePtr) override;
+	virtual bool OnViewMouseMove(
+				const iview::IShapeView& view,
+				const istd::CIndex2d& position) override;
 
 	// reimplemented (iview::IMouseActionObserver)
-	virtual bool OnMouseMove(istd::CIndex2d position);
+	virtual bool OnMouseMove(istd::CIndex2d position) override;
 
 	// reimplemented (iview::CCalibratedViewBase)
-	virtual void ConnectCalibrationShape(iview::IShape* shapePtr);
+	virtual void ConnectCalibrationShape(iview::IShape* shapePtr) override;
 
 Q_SIGNALS:
 	/**
@@ -82,19 +85,19 @@ protected:
 	virtual bool CanBeMoved() const;
 
 	// reimplemented (QWidget)
-	virtual void paintEvent(QPaintEvent* event);
-	virtual void resizeEvent (QResizeEvent* event);
-	virtual void mousePressEvent(QMouseEvent* event);
-	virtual void mouseReleaseEvent(QMouseEvent* event);
-	virtual void mouseMoveEvent(QMouseEvent* event);
+	virtual void paintEvent(QPaintEvent* event) override;
+	virtual void resizeEvent (QResizeEvent* event) override;
+	virtual void mousePressEvent(QMouseEvent* event) override;
+	virtual void mouseReleaseEvent(QMouseEvent* event) override;
+	virtual void mouseMoveEvent(QMouseEvent* event) override;
 
 	// reimplemented (iview::CViewBase)
-	virtual void SetMousePointer(MousePointerMode mode);
-	void UpdateRectArea(const i2d::CRect& rect);
-	virtual void OnBoundingBoxChanged();
+	virtual void SetMousePointer(MousePointerMode mode) override;
+	void UpdateRectArea(const i2d::CRect& rect) override;
+	virtual void OnBoundingBoxChanged() override;
 
 	// reimplemented (iview::IDisplay)
-	virtual void OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox);
+	virtual void OnAreaInvalidated(const i2d::CRect& beforeBox, const i2d::CRect& afterBox) override;
 
 	// static methods
 	int GetMouseKeysState(const QMouseEvent& event);

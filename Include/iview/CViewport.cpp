@@ -144,6 +144,12 @@ bool CViewport::OnViewMouseButton(
 }
 
 
+bool CViewport::OnViewMouseMove(const iview::IShapeView& /*view*/, const istd::CIndex2d& /*position*/)
+{
+	return false;
+}
+
+
 // reimplemented (iview::IMouseActionObserver)
 
 bool CViewport::OnMouseMove(istd::CIndex2d position)
