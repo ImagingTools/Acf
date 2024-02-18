@@ -60,6 +60,9 @@ QIcon TMakeIconProviderCompWrap<Base>::GetIcon(const QString& iconName) const
 
 	if (!m_iconCache.contains(themeIconName)){
 		QIcon icon = CreateIcon(themeIconName);
+		if (icon.isNull()){
+			qDebug(qPrintable(QString("Icon was not found: '%1'").arg(themeIconName)));
+		}
 
 		m_iconCache[themeIconName] = icon;
 	}
