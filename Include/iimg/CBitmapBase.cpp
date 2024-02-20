@@ -257,6 +257,12 @@ bool CBitmapBase::SetColorAt(const istd::CIndex2d& position, const icmm::CVarCol
 }
 
 
+const icmm::IColorModel* CBitmapBase::GetColorModel() const
+{
+	return nullptr;
+}
+
+
 // reimplemented (iser::ISerializable)
 
 bool CBitmapBase::Serialize(iser::IArchive& archive)

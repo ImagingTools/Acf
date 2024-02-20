@@ -1,10 +1,10 @@
-#ifndef iimg_IRasterImage_included
-#define iimg_IRasterImage_included
+#pragma once
 
 
 // ACF includes
 #include <istd/CIndex2d.h>
 #include <i2d/IObject2d.h>
+#include <icmm/IColorModel.h>
 #include <icmm/CVarColor.h>
 
 
@@ -62,12 +62,14 @@ public:
 		\return				true, if pixel color was changed.
 	*/
 	virtual bool SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color) = 0;
+
+	/**
+		Get theb color model related to the image.
+	*/
+	virtual const icmm::IColorModel* GetColorModel() const = 0;
 };
 
 
 } // namespace iimg
-
-
-#endif // !iimg_IRasterImage_included
 
 

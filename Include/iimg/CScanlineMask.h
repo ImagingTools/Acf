@@ -204,6 +204,7 @@ public:
 	virtual int GetComponentsCount() const override;
 	virtual icmm::CVarColor GetColorAt(const istd::CIndex2d& position) const override;
 	virtual bool SetColorAt(const istd::CIndex2d& position, const icmm::CVarColor& color) override;
+	virtual const icmm::IColorModel* GetColorModel() const override;
 
 	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;

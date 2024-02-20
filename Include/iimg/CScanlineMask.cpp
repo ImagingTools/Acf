@@ -970,6 +970,12 @@ icmm::CVarColor CScanlineMask::GetColorAt(const istd::CIndex2d& position) const
 }
 
 
+const icmm::IColorModel* CScanlineMask::GetColorModel() const
+{
+	return nullptr;
+}
+
+
 bool CScanlineMask::SetColorAt(const istd::CIndex2d& /*position*/, const icmm::CVarColor& /*color*/)
 {
 	return false;	// this is not editable using color set at pixel index
