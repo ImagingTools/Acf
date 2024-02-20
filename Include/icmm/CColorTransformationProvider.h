@@ -1,5 +1,4 @@
-#ifndef icmm_CColorTransformationProvider_included
-#define icmm_CColorTransformationProvider_included
+#pragma once
 
 
 // ACF includes
@@ -37,8 +36,5 @@ private:
 };
 
 } // namespace icmm
-
-
-#endif // !icmm_CColorTransformationProvider_included
 
 

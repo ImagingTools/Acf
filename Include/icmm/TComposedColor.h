@@ -1,5 +1,4 @@
-#ifndef icmm_TComposedColor_included
-#define icmm_TComposedColor_included
+#pragma once
 
 
 // STL includes
@@ -417,8 +416,5 @@ uint qHash(const TComposedColor<Size>& color, uint seed = 0)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_TComposedColor_included
 
 

@@ -1,5 +1,4 @@
-#ifndef icmm_CRgb_included
-#define icmm_CRgb_included
+#pragma once
 
 
 // ACF includes
@@ -235,8 +234,5 @@ inline const CRgb& CRgb::operator/=(double value)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CRgb_included
 
 

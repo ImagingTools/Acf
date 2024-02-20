@@ -1,5 +1,4 @@
-#ifndef icmm_CLab_included
-#define icmm_CLab_included
+#pragma once
 
 
 // ACF includes
@@ -236,8 +235,5 @@ inline const CLab& CLab::operator/=(double value)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CLab_included
 
 

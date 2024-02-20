@@ -1,5 +1,4 @@
-#ifndef icmm_CHsvToRgbTransformation_included
-#define icmm_CHsvToRgbTransformation_included
+#pragma once
 
 
 // ACF includes
@@ -23,8 +22,5 @@ public:
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CHsvToRgbTransformation_included
 
 

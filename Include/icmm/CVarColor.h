@@ -1,5 +1,4 @@
-#ifndef icmm_CVarColor_included
-#define icmm_CVarColor_included
+#pragma once
 
 
 // ACF includes
@@ -217,8 +216,5 @@ inline const CVarColor& CVarColor::operator/=(double value)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CVarColor_included
 
 

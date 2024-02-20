@@ -1,5 +1,4 @@
-#ifndef icmm_CFastColor_included
-#define icmm_CFastColor_included
+#pragma once
 
 
 // Qt includes
@@ -507,8 +506,5 @@ uint qHash(const CFastColor& color, uint seed = 0);
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CFastColor_included
 
 

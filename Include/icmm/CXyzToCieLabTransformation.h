@@ -1,5 +1,4 @@
-#ifndef icmm_CXyzToCieLabTransformation_included
-#define icmm_CXyzToCieLabTransformation_included
+#pragma once
 
 
 // ACF includes
@@ -24,8 +23,5 @@ public:
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CXyzToCieLabTransformation_included
 
 

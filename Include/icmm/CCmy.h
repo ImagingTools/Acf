@@ -1,9 +1,8 @@
-#ifndef icmm_CCmy_included
-#define icmm_CCmy_included
+#pragma once
 
 
+// ACF includes
 #include <iser/IArchive.h>
-
 #include <icmm/TComposedColor.h>
 
 
@@ -175,8 +174,5 @@ inline const CCmy& CCmy::operator/=(double value)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CCmy_included
 
 

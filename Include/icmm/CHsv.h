@@ -1,5 +1,4 @@
-#ifndef icmm_CHsv_included
-#define icmm_CHsv_included
+#pragma once
 
 
 // ACF includes
@@ -183,8 +182,5 @@ inline const CHsv& CHsv::operator/=(double value)
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CHsv_included
 
 

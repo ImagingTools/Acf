@@ -1,5 +1,4 @@
-#ifndef icmm_included
-#define icmm_included
+#pragma once
 
 
 // ACF includes
@@ -22,6 +21,4 @@ namespace icmm
 
 } // namespace icmm
 
-
-#endif // !icmm_included
 

@@ -1,5 +1,4 @@
-#ifndef icmm_CRgbToHsvTranformation_included
-#define icmm_CRgbToHsvTranformation_included
+#pragma once
 
 
 // ACF includes
@@ -23,8 +22,5 @@ public:
 
 
 } // namespace icmm
-
-
-#endif // !icmm_CRgbToHsvTranformation_included
 
 
