@@ -3,6 +3,7 @@
 
 // ACF includes
 #include <istd/CChangeNotifier.h>
+#include <istd/TDelPtr.h>
 
 
 namespace imath
@@ -44,6 +45,16 @@ CSampledFunction::CSampledFunction(int size, double defaultValue)
 	:m_logicalRange(0, size)
 {
 	Initialize(size, defaultValue);
+}
+
+
+bool CSampledFunction::operator==(const CSampledFunction& other) const
+{
+	bool retVal = m_samplesContainer == other.m_samplesContainer;
+	retVal = retVal && m_logicalRange == other.m_logicalRange;
+	retVal = retVal && m_interpolatorPtr == other.m_interpolatorPtr;
+
+	return retVal;
 }
 
 
@@ -167,6 +178,62 @@ CSampledFunction::ResultType CSampledFunction::GetValueAt(const ArgumentType& ar
 	GetValueAt(argument, result);
 
 	return result;
+}
+
+
+// reimplemented (istd::IChangeable)
+
+int CSampledFunction::GetSupportedOperations() const
+{
+	return SO_CLONE | SO_COMPARE | SO_COPY | SO_RESET;
+}
+
+
+bool CSampledFunction::CopyFrom(const IChangeable& object, CompatibilityMode /*mode*/)
+{
+	const CSampledFunction* objectPtr = dynamic_cast<const CSampledFunction*>(&object);
+
+	if (objectPtr != nullptr){
+		*this = *objectPtr;
+
+		return true;
+	}
+
+	return false;
+}
+
+
+bool CSampledFunction::IsEqual(const IChangeable& object) const
+{
+	const CSampledFunction* objectPtr = dynamic_cast<const CSampledFunction*>(&object);
+
+	if (objectPtr != nullptr){
+		return *this == *objectPtr;
+	}
+
+	return false;
+}
+
+
+istd::IChangeable* CSampledFunction::CloneMe(CompatibilityMode /*mode*/) const
+{
+	istd::TDelPtr<CSampledFunction> clonePtr(new CSampledFunction());
+
+	if (clonePtr->CopyFrom(*this)){
+		return clonePtr.PopPtr();
+	}
+
+	return nullptr;
+}
+
+
+bool CSampledFunction::ResetData(CompatibilityMode mode)
+{
+	m_samplesContainer.clear();
+	m_logicalRange.Reset();
+	m_interpolatorPtr = nullptr;
+
+	return true;
 }
 
 
