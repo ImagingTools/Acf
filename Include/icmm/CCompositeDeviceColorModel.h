@@ -15,16 +15,14 @@ public:
 	// reimplemented (icmm::IColorantList)
 	virtual QByteArrayList GetColorantIds() const override;
 	virtual QString GetColorantName(const QByteArray& colorantId) const override;
-	virtual ColorantType GetColorantType(const QByteArray& colorantId) const override;
-	virtual ProcessColorantUsage GetProcessColorantUsage(const QByteArray& colorantId) const override;
+	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const override;
 
 protected:
 	struct ColorantInfo
 	{
 		QByteArray id;
 		QString name;
-		ColorantType type = CT_PROCESS;
-		ProcessColorantUsage usage = PCU_NONE;
+		ColorantUsage usage = CU_NONE;
 	};
 
 	typedef QVector<ColorantInfo> ColorantInfoList;

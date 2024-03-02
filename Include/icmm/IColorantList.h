@@ -27,14 +27,9 @@ public:
 	virtual QString GetColorantName(const QByteArray& colorantId) const = 0;
 
 	/**
-		Get type of the colorant with the given ID.
-	*/
-	virtual ColorantType GetColorantType(const QByteArray& colorantId) const = 0;
-
-	/**
 		Get type of the colorant with the given ID. 
 	*/
-	virtual ProcessColorantUsage GetProcessColorantUsage(const QByteArray& colorantId) const = 0;
+	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const = 0;
 };
 
 

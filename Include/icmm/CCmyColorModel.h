@@ -15,8 +15,7 @@ public:
 	// reimplemented (icmm::IColorantList)
 	virtual QByteArrayList GetColorantIds() const override;
 	virtual QString GetColorantName(const QByteArray& colorantId) const override;
-	virtual ColorantType GetColorantType(const QByteArray& colorantId) const override;
-	virtual ProcessColorantUsage GetProcessColorantUsage(const QByteArray& colorantId) const override;
+	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const override;
 };
 
 
@@ -41,19 +40,11 @@ QString CCmyColorModel::GetColorantName(const QByteArray& colorantId) const
 }
 
 
-icmm::ColorantType CCmyColorModel::GetColorantType(const QByteArray& colorantId) const
+icmm::ColorantUsage CCmyColorModel::GetColorantUsage(const QByteArray& colorantId) const
 {
 	Q_ASSERT(GetColorantIds().contains(colorantId));
 
-	return CT_PROCESS;
-}
-
-
-icmm::ProcessColorantUsage CCmyColorModel::GetProcessColorantUsage(const QByteArray& colorantId) const
-{
-	Q_ASSERT(GetColorantIds().contains(colorantId));
-
-	return PCU_NONE;
+	return CU_NONE;
 }
 
 

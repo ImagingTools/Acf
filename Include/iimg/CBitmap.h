@@ -7,6 +7,7 @@
 
 // ACF includes
 #include <istd/TOptDelPtr.h>
+#include <istd/TDelPtr.h>
 #include <i2d/ICalibrationProvider.h>
 #include <iimg/CBitmapBase.h>
 #include <iimg/IQImageProvider.h>
@@ -68,6 +69,7 @@ protected:
 	QImage::Format CalcQtFormat(PixelFormat pixelFormat) const;
 	PixelFormat CalcFromQtFormat(QImage::Format imageFormat) const;
 	bool SetQImage(const QImage& image);
+	void InitializeColorModel();
 
 private:
 	QImage m_image;
@@ -75,6 +77,8 @@ private:
 
 	static QVector<QRgb> s_colorTableGray;
 	static QMutex s_colorTableLock;
+
+	istd::TDelPtr<icmm::IColorModel> m_colorModelPtr;
 };
 
 

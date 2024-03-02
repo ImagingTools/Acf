@@ -1,8 +1,6 @@
 #include <iimg/CBitmap.h>
 
 
-#include <cstring>// include std::memcpy
-
 // Qt includes
 #include <QtCore/QVector>
 #include <QtCore/QMutexLocker>
@@ -11,6 +9,8 @@
 #include <istd/CChangeNotifier.h>
 #include <istd/TDelPtr.h>
 #include <istd/CClassInfo.h>
+#include <icmm/CRgbColorModel.h>
+#include <icmm/CRgbaColorModel.h>
 
 
 namespace iimg
@@ -259,10 +259,11 @@ CBitmap::CBitmap()
 
 
 CBitmap::CBitmap(const CBitmap& bitmap)
-:	BaseClass(bitmap), 
+:	BaseClass(bitmap),
 	m_image(bitmap.m_image.copy()),
 	m_externalBuffer(NULL)
 {
+	InitializeColorModel();
 }
 
 
@@ -283,6 +284,8 @@ const QImage& CBitmap::GetQImage() const
 bool CBitmap::CopyImageFrom(const QImage& image)
 {
 	istd::CChangeNotifier changePtr(this);
+
+	m_colorModelPtr.Reset();
 
 	m_externalBuffer.Reset();
 
@@ -318,6 +321,11 @@ iimg::IBitmap::PixelFormat CBitmap::GetPixelFormat() const
 
 bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, int /*pixelBitsCount*/, int /*componentsCount*/)
 {
+	istd::CChangeNotifier notifier(this);
+	Q_UNUSED(notifier);
+
+	m_colorModelPtr.Reset();
+
 	if (size.IsSizeEmpty()){
 		ResetImage();
 
@@ -327,13 +335,12 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	QSize imageSize(size.GetX(), size.GetY());
 
-	istd::CChangeNotifier notifier(this);
-	Q_UNUSED(notifier);
-
 	// Check if we need to recreate the image:
 	if (!m_externalBuffer.IsValid() && (m_image.format() == imageFormat) && (m_image.size() == imageSize)){
 		m_image.setDotsPerMeterX(1000);
 		m_image.setDotsPerMeterY(1000);
+
+		InitializeColorModel();
 
 		return true;
 	}
@@ -356,6 +363,8 @@ bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, 
 bool CBitmap::CreateBitmap(PixelFormat pixelFormat, const istd::CIndex2d& size, void* dataPtr, bool releaseFlag, int linesDifference)
 {
 	istd::CChangeNotifier changePtr(this);
+
+	m_colorModelPtr.Reset();
 
 	QImage::Format imageFormat = CalcQtFormat(pixelFormat);
 	if (imageFormat != QImage::Format_Invalid){
@@ -420,6 +429,8 @@ void CBitmap::ResetImage()
 
 	m_image = QImage();
 
+	m_colorModelPtr.Reset();
+
 	m_image.setDotsPerMeterX(1000);
 	m_image.setDotsPerMeterY(1000);
 
@@ -475,11 +486,15 @@ bool CBitmap::CopyFrom(const istd::IChangeable& object, CompatibilityMode /*mode
 	istd::CChangeNotifier notifier(this);
 	Q_UNUSED(notifier);
 
+	m_colorModelPtr.Reset();
+
 	const CBitmap* bitmapImplPtr = dynamic_cast<const CBitmap*>(&object);
 	if (bitmapImplPtr != NULL){
 		m_externalBuffer.Reset();
 
 		m_image = bitmapImplPtr->GetQImage().copy();
+
+		InitializeColorModel();
 
 		return true;
 	}
@@ -623,6 +638,8 @@ bool CBitmap::SetQImage(const QImage& image)
 {
 	m_image = image;
 
+	InitializeColorModel();
+
 	if (m_image.isNull()){
 		return false;
 	}
@@ -654,6 +671,21 @@ bool CBitmap::SetQImage(const QImage& image)
 	}
 
 	return !(m_image.isNull());
+}
+
+
+void CBitmap::InitializeColorModel()
+{
+	m_colorModelPtr.Reset();
+	
+	if (!m_image.isNull()){
+		if (m_image.hasAlphaChannel()) {
+			m_colorModelPtr.SetPtr(new icmm::CRgbaColorModel);
+		}
+		else {
+			m_colorModelPtr.SetPtr(new icmm::CRgbColorModel);
+		}
+	}
 }
 
 

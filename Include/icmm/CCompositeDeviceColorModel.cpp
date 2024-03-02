@@ -33,19 +33,7 @@ QString icmm::CCompositeDeviceColorModel::GetColorantName(const QByteArray& colo
 }
 
 
-icmm::ColorantType icmm::CCompositeDeviceColorModel::GetColorantType(const QByteArray& colorantId) const
-{
-	for (const ColorantInfo& colorant : m_colorants){
-		if (colorantId == colorant.id){
-			return colorant.type;
-		}
-	}
-
-	return CT_NONE;
-}
-
-
-icmm::ProcessColorantUsage icmm::CCompositeDeviceColorModel::GetProcessColorantUsage(const QByteArray& colorantId) const
+icmm::ColorantUsage icmm::CCompositeDeviceColorModel::GetColorantUsage(const QByteArray& colorantId) const
 {
 	for (const ColorantInfo& colorant : m_colorants){
 		if (colorantId == colorant.id){
@@ -53,7 +41,7 @@ icmm::ProcessColorantUsage icmm::CCompositeDeviceColorModel::GetProcessColorantU
 		}
 	}
 
-	return PCU_NONE;
+	return CU_NONE;
 }
 
 
