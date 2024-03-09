@@ -2,9 +2,9 @@
 <Acf>
     <AcfHeader>
         <VersionInfos>
-            <Version Id="0" Number="4606" Description="ACF"/>
-            <Version Id="1" Number="1937" Description="ACF-Solutions"/>
-            <Version Id="1023" Number="329217" Description="Qt Framework"/>
+            <Version Id="0" Number="5196" Description="ACF"/>
+            <Version Id="1" Number="2203" Description="ACF-Solutions"/>
+            <Version Id="1023" Number="393732" Description="Qt Framework"/>
         </VersionInfos>
     </AcfHeader>
     <Description>ACF strings localization</Description>
@@ -13,6 +13,15 @@
         <Element Id="AcfLocalization" PackageId="QtPck" ComponentId="TranslationManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="EnableVerbose" Type="Boolean" ExportId="EnableVerbose">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IgnoreLocale" Type="Boolean" ExportId="IgnoreLocale">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="InstallTranslator" Type="Boolean" ExportId="InstallTranslator">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="LanguageIds" Type="Id[]" ExportId="LanguageIds">
                         <Data IsEnabled="true">
                             <Values>
@@ -22,6 +31,9 @@
                                 <Value>pl_PL</Value>
                             </Values>
                         </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="LanguageNames" Type="Text[]" ExportId="LanguageNames">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="LanguageSelection" Type="Reference" ExportId="LanguageSelection">
                         <Data IsEnabled="false"/>
@@ -44,6 +56,15 @@
         <Element Id="QtLocalization" PackageId="QtPck" ComponentId="TranslationManager">
             <Data IsEnabled="true" Flags="0">
                 <AttributeInfoMap>
+                    <AttributeInfo Id="EnableVerbose" Type="Boolean" ExportId="EnableVerbose">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="IgnoreLocale" Type="Boolean" ExportId="IgnoreLocale">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
+                    <AttributeInfo Id="InstallTranslator" Type="Boolean" ExportId="InstallTranslator">
+                        <Data IsEnabled="false"/>
+                    </AttributeInfo>
                     <AttributeInfo Id="LanguageIds" Type="Id[]" ExportId="LanguageIds">
                         <Data IsEnabled="true">
                             <Values>
@@ -53,6 +74,9 @@
                                 <Value>pl_PL</Value>
                             </Values>
                         </Data>
+                    </AttributeInfo>
+                    <AttributeInfo Id="LanguageNames" Type="Text[]" ExportId="LanguageNames">
+                        <Data IsEnabled="false"/>
                     </AttributeInfo>
                     <AttributeInfo Id="LanguageSelection" Type="Reference" ExportId="LanguageSelection">
                         <Data IsEnabled="false"/>
