@@ -265,7 +265,7 @@ void CLogGuiComp::SetCommandsVisuals()
 	m_errorCommand->SetVisuals(tr("Error"), tr("Error"), tr("Show only error messages"), errorIcon);
 	m_clearCommand->SetVisuals(tr("Clear"), tr("Clear"), tr("Remove all messages"), clearIcon);
 	m_exportCommand->SetVisuals(tr("Export..."), tr("Export..."), tr("Export log to file"), exportIcon);
-	m_diagnosticCommand->SetVisuals(tr("Diagnostic Mode"), tr("Switch to Diagnostic Mode"), tr("Import existing file into the collection"), diagnosticModeIcon);
+	m_diagnosticCommand->SetVisuals(tr("Diagnostic Mode"), tr("Switch to Diagnostic Mode"), tr("Enable diagnostic mode"), diagnosticModeIcon);
 
 	if (m_infoActionPtr != nullptr) {
 		m_infoActionPtr->setText(tr("Info"));

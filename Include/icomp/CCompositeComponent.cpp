@@ -42,12 +42,12 @@ CCompositeComponent::~CCompositeComponent()
 
 bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 {
-	QWriteLocker lock(&m_mutex);
-
 	bool retVal = false;
 
 	if ((m_contextPtr != NULL) && !m_autoInitialized){
 		m_autoInitialized = true;
+
+		QWriteLocker writeLock(&m_mutex);
 
 		while (!m_autoInitComponentIds.isEmpty()){
 			QByteArray autoInitId = *m_autoInitComponentIds.begin();
@@ -59,21 +59,36 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 				autoInitInfo.isComponentInitialized = true;
 				autoInitInfo.isContextInitialized = true;
 
+				writeLock.unlock();
+
 				CreateSubcomponentInfo(autoInitId, autoInitInfo.contextPtr, &autoInitInfo.componentPtr, true);
 
 				retVal = true;
 			}
 		}
 
+		writeLock.unlock();
+
+		QReadLocker lock(&m_mutex);
+		
+		QList<icomp::CCompositeComponent*> subComponentsList;
+
 		for (		ComponentMap::iterator iter = m_componentMap.begin();
 					iter != m_componentMap.end();
-					++iter){
+					++iter) {
 			ComponentInfo& info = iter.value();
-
 			icomp::CCompositeComponent* compositeComponentPtr = dynamic_cast<icomp::CCompositeComponent*>(info.componentPtr.GetPtr());
-			if (compositeComponentPtr != NULL){
-				retVal = compositeComponentPtr->EnsureAutoInitComponentsCreated() || retVal;
+			if (compositeComponentPtr != NULL) {
+				subComponentsList.push_back(compositeComponentPtr);
 			}
+		}
+
+		lock.unlock();
+
+		for (		QList<icomp::CCompositeComponent*>::const_iterator iter = subComponentsList.cbegin();
+					iter != subComponentsList.cend();
+					++iter){
+			retVal = (*iter)->EnsureAutoInitComponentsCreated() || retVal;
 		}
 	}
 
@@ -86,10 +101,29 @@ bool CCompositeComponent::EnsureAutoInitComponentsCreated() const
 IComponent* CCompositeComponent::GetSubcomponent(const QByteArray& componentId) const
 {
 	if (m_contextPtr != NULL){
-		QWriteLocker lock(&m_mutex);
+		QReadLocker readLock(&m_mutex);
+
+		ComponentMap::ConstIterator iter = m_componentMap.constFind(componentId);
+		if (iter == m_componentMap.constEnd()) {
+			readLock.unlock();
+
+			QWriteLocker lock(&m_mutex);
+
+			ComponentInfo& componentInfo = m_componentMap[componentId];
+			if (!componentInfo.isComponentInitialized) {
+				componentInfo.isComponentInitialized = true;
+				componentInfo.isContextInitialized = true;
+
+				lock.unlock();
+
+				CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &componentInfo.componentPtr, true);
+			}
+
+			return componentInfo.componentPtr.GetPtr();
+		}
 
 		ComponentInfo& componentInfo = m_componentMap[componentId];
-		if (!componentInfo.isComponentInitialized){
+		if (!componentInfo.isComponentInitialized) {
 			componentInfo.isComponentInitialized = true;
 			componentInfo.isContextInitialized = true;
 
@@ -97,6 +131,7 @@ IComponent* CCompositeComponent::GetSubcomponent(const QByteArray& componentId) 
 		}
 
 		return componentInfo.componentPtr.GetPtr();
+
 	}
 	else{
 		QReadLocker lock(&m_mutex);
@@ -150,6 +185,9 @@ IComponent* CCompositeComponent::CreateSubcomponent(const QByteArray& componentI
 		ComponentInfo& componentInfo = m_componentMap[componentId];
 
 		componentInfo.isContextInitialized = true;
+
+		lock.unlock();
+
 		CreateSubcomponentInfo(componentId, componentInfo.contextPtr, &retVal, false);
 
 		return retVal.PopPtr();
