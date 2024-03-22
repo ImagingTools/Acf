@@ -404,7 +404,7 @@ bool CSingleDocumentManagerBase::OpenSingleDocument(
 		return false;
 	}
 
-	if (filePath == m_filePath){
+	if (filePath == m_filePath && !HasDocumentPendingChanges()){
 		Q_ASSERT(m_documentPtr.IsValid());
 
 		if (viewTypeId != m_viewTypeId){
