@@ -243,16 +243,11 @@ QString CJsonReadArchiveBase::HelperIterator::GetValue()
 		retVal = m_value.toBool() ? "true" : "false";
 	}
 	else{
-		if (m_value.isDouble()){
-			retVal = QString::number(m_value.toDouble());
+		if (m_value.isArray() && activeArrayIndex > -1 && activeArrayIndex < m_array.count()){
+			retVal = m_array[activeArrayIndex].toVariant().toString();
 		}
 		else{
-			if (m_value.isArray() && activeArrayIndex > -1 && activeArrayIndex < m_array.count()){
-				retVal = m_array[activeArrayIndex].toString();
-			}
-			else{
-				retVal = m_value.toString();
-			}
+			retVal = m_value.toVariant().toString();
 		}
 	}
 
