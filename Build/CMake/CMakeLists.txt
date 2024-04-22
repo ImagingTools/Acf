@@ -24,6 +24,8 @@ set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETN
 
 include_directories(${AUX_INCLUDE_DIR}/..)
 
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
 
 # Include
 

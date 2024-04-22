@@ -1,5 +1,3 @@
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-
 macro(subdirlist result curdir)
 	file(GLOB children RELATIVE ${curdir} ${curdir}/*)
 	set(dirlist "")
