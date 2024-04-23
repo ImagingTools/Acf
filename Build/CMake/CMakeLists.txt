@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.1.0)
 
 project(Acf)
 
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
+
 set(ACFDIR "${CMAKE_CURRENT_LIST_DIR}/../../../Acf")
 
 include("${ACFDIR}/Config/CMake/ProjectRoot.cmake")
@@ -23,9 +26,6 @@ set(AUX_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../AuxInclude/${TARGETNAME}/Ge
 set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
 include_directories(${AUX_INCLUDE_DIR}/..)
-
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-find_package("Qt${QT_VERSION_MAJOR}" COMPONENTS Core Widgets Core Gui Xml Network Svg Concurrent REQUIRED)
 
 # Include
 
