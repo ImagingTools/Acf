@@ -28,6 +28,10 @@ I_EXPORT_COMPONENT(
 			"Bridge between STL-streams and message consumer",
 			IM_TAG("Log"));
 
+I_EXPORT_COMPONENT(
+			TracingConfiguration,
+			"Tracing configuration for log messages",
+			IM_TAG("Log"));
 
 I_EXPORT_COMPONENT(
 			TextFileLoader,

@@ -6,6 +6,7 @@
 #include <icomp/CComponentBase.h>
 #include <icomp/CComponentContext.h>
 #include <ilog/CLoggerBase.h>
+#include <ilog/ITracingConfiguration.h>
 
 
 namespace ilog
@@ -29,6 +30,7 @@ public:
 	I_BEGIN_BASE_COMPONENT(TLoggerCompWrap);
 		I_ASSIGN(m_logCompPtr, "Log", "Consumer log messages", false, "Log");
 		I_ASSIGN(m_verboseEnabledAttrPtr, "EnableVerbose", "If enabled, verbose messages can be produced", true, false);
+		I_ASSIGN(m_tracingConfigurationCompPtr, "TracingConfiguration", "If enabled, verbose messages can be produced with tracing level", false, "TracingConfiguration");
 		I_ASSIGN(m_showComponentIdAttrPtr, "ShowComponentId", "If enabled the component ID will be shown as a part of the message source", true, true);
 	I_END_COMPONENT;
 
@@ -58,6 +60,7 @@ protected:
 private:
 	I_REF(ilog::IMessageConsumer, m_logCompPtr);
 	I_ATTR(bool, m_verboseEnabledAttrPtr);
+	I_REF(ilog::ITracingConfiguration, m_tracingConfigurationCompPtr);
 	I_ATTR(bool, m_showComponentIdAttrPtr);
 };
 
@@ -69,14 +72,22 @@ bool TLoggerCompWrap<Base>::IsVerboseEnabled() const
 {
 	static const istd::IInformationProvider::InformationCategory categoryNone = istd::IInformationProvider::IC_NONE;
 
-	return *m_verboseEnabledAttrPtr && BaseClass2::IsLogConsumed(&categoryNone);
+	bool retVal = *m_verboseEnabledAttrPtr;;
+
+	if (m_tracingConfigurationCompPtr.IsValid()){
+		retVal = m_tracingConfigurationCompPtr->GetTracingLevel() > -1;
+	}
+
+	retVal = retVal && BaseClass2::IsLogConsumed(&categoryNone);
+
+	return retVal;
 }
 
 
 template <class Base>
 void TLoggerCompWrap<Base>::SendVerboseMessage(const QString& message, const QString& messageSource) const
 {
-	if (*m_verboseEnabledAttrPtr){
+	if (IsVerboseEnabled()){
 		BaseClass2::SendLogMessage(istd::IInformationProvider::IC_NONE, 0, message, messageSource);
 	}
 }
