@@ -11,7 +11,7 @@ namespace ilog
 {
 
 
-class CTracingConfiguration:
+class CTracingConfigurationComp:
 			public icomp::CComponentBase,
 			virtual public ilog::ITracingConfiguration,
 			virtual public iser::ISerializable
@@ -19,13 +19,13 @@ class CTracingConfiguration:
 public:
 	typedef icomp::CComponentBase BaseClass;
 
-	I_BEGIN_COMPONENT(CTracingConfiguration);
+	I_BEGIN_COMPONENT(CTracingConfigurationComp);
 		I_REGISTER_INTERFACE(ilog::ITracingConfiguration);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_ASSIGN(m_defaultTracingLevel, "DefaulTracingtLevel", "Default tracing level, -1 tracing off, 0 tracing all", true, -1);
 	I_END_COMPONENT;
 
-	CTracingConfiguration();
+	CTracingConfigurationComp();
 
 	// reimplemented (ilog::ITracingConfiguration)
 	virtual int GetTracingLevel() const override;
@@ -36,7 +36,7 @@ public:
 
 protected:
 	// reimplemented (icomp::CComponentBase)
-	virtual void OnComponentCreated();
+	virtual void OnComponentCreated() override;
 
 private:
 	I_ATTR(int, m_defaultTracingLevel);

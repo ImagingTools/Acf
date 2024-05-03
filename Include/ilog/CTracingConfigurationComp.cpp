@@ -1,4 +1,4 @@
-#include <ilog/CTracingConfiguration.h>
+#include <ilog/CTracingConfigurationComp.h>
 
 
 // ACF includes
@@ -12,27 +12,27 @@ namespace ilog
 
 // public methods
 
-CTracingConfiguration::CTracingConfiguration(): m_tracingLevel(-1)
+CTracingConfigurationComp::CTracingConfigurationComp(): m_tracingLevel(-1)
 {
 
 }
 
 
 // reimplemented (ilog::ITracingConfiguration)
-int CTracingConfiguration::GetTracingLevel() const
+int CTracingConfigurationComp::GetTracingLevel() const
 {
 	return m_tracingLevel;
 }
 
 
-void CTracingConfiguration::SetTracingLevel(int tracingLevel)
+void CTracingConfigurationComp::SetTracingLevel(int tracingLevel)
 {
 	m_tracingLevel = tracingLevel;
 }
 
 
 // reimplemented (iser::ISerializable)
-bool CTracingConfiguration::Serialize(iser::IArchive& archive)
+bool CTracingConfigurationComp::Serialize(iser::IArchive& archive)
 {
 	static iser::CArchiveTag tacingLevelTag("TacingLevel", "Level of tracing messages", iser::CArchiveTag::TT_LEAF);
 
@@ -50,7 +50,7 @@ bool CTracingConfiguration::Serialize(iser::IArchive& archive)
 
 // protected methods
 // reimplemented (icomp::CComponentBase)
-void CTracingConfiguration::OnComponentCreated()
+void CTracingConfigurationComp::OnComponentCreated()
 {
 	if (m_defaultTracingLevel.IsValid()){
 		m_tracingLevel = *m_defaultTracingLevel;
