@@ -28,8 +28,16 @@ include("${ACFDIR}/Config/CMake/ProjectRoot.cmake")
 
 get_target_name(TARGETNAME)
 
-include_directories("${ACFDIR}/AuxInclude/${TARGETNAME}")
+if(DEFINED ENV{ACFDIR_BUILD})
+	set(ACFDIR_BUILD "$ENV{ACFDIR_BUILD}")
+else()
+	set(ACFDIR_BUILD ${BUILDDIR}/Acf)
+endif()
+
+include_directories("${ACFDIR_BUILD}/AuxInclude/${TARGETNAME}")
 include_directories("${ACFDIR}/Include")
 include_directories("${ACFDIR}/Impl")
 
-link_directories(${ACFDIR}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})
+link_directories(${ACFDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME})
+
+message("Acf link_directories ${ACFSLNDIR_BUILD}/Lib/${CMAKE_BUILD_TYPE}_${TARGETNAME}")

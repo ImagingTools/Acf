@@ -21,9 +21,12 @@ subdirlist(IMPL_DIRS ${IMPL_DIR})
 
 get_target_name(TARGETNAME)
 
-set(AUX_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../AuxInclude/${TARGETNAME}/GeneratedFiles")
+if(NOT DEFINED BUILDDIR)
+	set(BUILDDIR "${CMAKE_CURRENT_LIST_DIR}/../../../")
+endif()
 
-set(ACFBINDIR "${CMAKE_CURRENT_LIST_DIR}/../../Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
+set(AUX_INCLUDE_DIR "${BUILDDIR}/Acf/AuxInclude/${TARGETNAME}/GeneratedFiles")
+set(ACFBINDIR "${BUILDDIR}/Acf/Bin/${CMAKE_BUILD_TYPE}_${TARGETNAME}")
 
 include_directories(${AUX_INCLUDE_DIR}/..)
 
