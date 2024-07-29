@@ -4,8 +4,7 @@
 
 // ACF includes
 #include <iqtgui/TDesignerGuiCompBase.h>
-
-#include <ibase/CDelegatedProgressManager.h>
+#include <ibase/CCumulatedProgressManagerBase.h>
 
 #include <GeneratedFiles/iqtgui/ui_CProgressManagerGuiComp.h>
 
@@ -16,13 +15,13 @@ namespace iqtgui
 
 class CProgressManagerGuiComp:
 			public iqtgui::TDesignerGuiCompBase<Ui::CProgressManagerGuiComp>,
-			public ibase::CDelegatedProgressManager
+			public ibase::CCumulatedProgressManagerBase
 {
 	Q_OBJECT
 
 public:
 	typedef iqtgui::TDesignerGuiCompBase<Ui::CProgressManagerGuiComp> BaseClass;
-	typedef ibase::CDelegatedProgressManager BaseClass2;
+	typedef ibase::CCumulatedProgressManagerBase BaseClass2;
 
 	I_BEGIN_COMPONENT(CProgressManagerGuiComp);
 		I_REGISTER_INTERFACE(IProgressManager);
@@ -31,24 +30,10 @@ public:
 		I_ASSIGN(m_descriptionAttrPtr, "Description", "Description text show left to progress bar", false, "Progress");
 	I_END_COMPONENT;
 
-	CProgressManagerGuiComp();
-
 protected:
-	void UpdateVisibleComponents();
-	void UpdateProgressBar();
-
-	// reimplemented (ibase::CDelegatedProgressManager)
-	void OnCancelable(bool cancelState);
-
-	// reimplemented (ibase::IProgressManager)
-	virtual int BeginProgressSession(
-				const QByteArray& progressId,
-				const QString& description,
-				bool isCancelable);
-	virtual bool IsCanceled(int sessionId) const;
-
-	// reimplemented (istd::IChangeable)
-	virtual void OnEndChanges(const ChangeSet& changeSet);
+	// reimplemented (ibase::CCumulatedProgressManagerBase)
+	void OnProgressChanged(double cumulatedValue) override;
+	void OnTasksChanged() override;
 
 	// reimplemented (iqtgui::CGuiComponentBase)
 	virtual void OnGuiCreated();
@@ -60,10 +45,6 @@ private:
 	I_ATTR(bool, m_showCancelAttrPtr);
 	I_ATTR(bool, m_automaticHideAttrPtr);
 	I_TEXTATTR(m_descriptionAttrPtr);
-
-	bool m_isCanceled;
-
-	bool m_isCancelable;
 };
 
 

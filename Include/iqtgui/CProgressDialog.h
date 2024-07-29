@@ -5,28 +5,32 @@
 #include <QtWidgets/QProgressDialog>
 
 // ACF includes
-#include <ibase/IProgressManager.h>
+#include <ibase/CCumulatedProgressManagerBase.h>
 
 
 namespace iqtgui
 {
 
 
-class CProgressDialog: public QProgressDialog, virtual public ibase::IProgressManager
+class CProgressDialog: public QProgressDialog, public ibase::CCumulatedProgressManagerBase
 {
 public:
 	typedef QProgressDialog BaseClass;
 
-	CProgressDialog(QWidget* parentWidget = NULL);
+	CProgressDialog(const QString& title, const QString& defaultText, QWidget* parentWidget = NULL);
 
-	// reimplemented (ibase::IProgressManager)
-	virtual int BeginProgressSession(
-				const QByteArray& progressId,
-				const QString& description,
-				bool isCancelable) override;
-	virtual void EndProgressSession(int sessionId);
-	virtual void OnProgress(int sessionId, double currentProgress) override;
-	virtual bool IsCanceled(int sessionId) const override;
+protected:
+	// reimplemented (ibase::CCumulatedProgressManagerBase)
+	void OnProgressChanged(double cumulatedValue) override;
+	void OnTasksChanged() override;
+
+Q_SIGNALS:
+	void TaskTextChanged(const QString& text);
+	void ProgressChanged(int progress);
+
+private:
+	QString m_lastTaskText;
+	int m_lastProgressValue;
 };
 
 

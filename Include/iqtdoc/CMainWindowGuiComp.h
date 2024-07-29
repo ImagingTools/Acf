@@ -17,7 +17,7 @@
 #include <ibase/IApplication.h>
 #include <ibase/IApplicationInfo.h>
 #include <ibase/ICommandsProvider.h>
-#include <ibase/CDelegatedProgressManager.h>
+#include <ibase/CCumulatedProgressManagerBase.h>
 #include <idoc/IUndoManager.h>
 #include <idoc/IDocumentManager.h>
 #include <iqtgui/IDropConsumer.h>
@@ -239,24 +239,24 @@ private:
 		CMainWindowGuiComp& m_parent;
 	};
 
-	class ProgressObserver: public ibase::CDelegatedProgressManager
+	class ProgressObserver: public ibase::CCumulatedProgressManagerBase
 	{
 	public:
-		typedef ibase::CDelegatedProgressManager BaseClass;
+		typedef ibase::IProgressManager BaseClass;
 
-		ProgressObserver(
-					CMainWindowGuiComp& parent,
-					ibase::IProgressManager* slaveManagerPtr,
-					const QByteArray& progressId,
-					const QString& description,
-					bool isCancelable = false);
+		ProgressObserver(CMainWindowGuiComp& parent, ibase::IProgressManager* slaveManagerPtr);
+
 
 	protected:
-		// reimplemented (istd::IChangeable)
-		virtual void OnEndChanges(const ChangeSet& changeSet) override;
+		// reimplemented (ibase::CCumulatedProgressManagerBase)
+		virtual void OnProgressChanged(double cumulatedValue);
+		virtual void OnTasksChanged();
 
 	private:
 		CMainWindowGuiComp& m_parent;
+
+		ibase::IProgressManager* m_slaveManagerPtr;
+		std::unique_ptr<ibase::IProgressLogger> m_currentLoggerPtr;
 	};
 
 	template <class InterfaceType>

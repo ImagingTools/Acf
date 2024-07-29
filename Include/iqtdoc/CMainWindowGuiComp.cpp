@@ -46,11 +46,11 @@ CMainWindowGuiComp::CMainWindowGuiComp()
 {
 	m_quitCommand.setMenuRole(QAction::QuitRole);
 
-	m_newCommand.setShortcut(Qt::CTRL + Qt::Key_N);
-	m_openCommand.setShortcut(Qt::CTRL + Qt::Key_O);
-	m_saveCommand.setShortcut(Qt::CTRL + Qt::Key_S);
-	m_undoCommand.setShortcut(Qt::CTRL + Qt::Key_Z);
-	m_redoCommand.setShortcut(int(Qt::CTRL) + int(Qt::SHIFT) + Qt::Key_Z);
+	m_newCommand.setShortcut(Qt::CTRL | Qt::Key_N);
+	m_openCommand.setShortcut(Qt::CTRL | Qt::Key_O);
+	m_saveCommand.setShortcut(Qt::CTRL | Qt::Key_S);
+	m_undoCommand.setShortcut(Qt::CTRL | Qt::Key_Z);
+	m_redoCommand.setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_Z);
 
 	m_undoCommand.setVisible(false);
 	m_redoCommand.setVisible(false);
@@ -739,7 +739,7 @@ void CMainWindowGuiComp::OnGuiCreated()
 		m_persistenceProgressDialogPtr->setWindowFlags(((m_persistenceProgressDialogPtr->windowFlags() | Qt::CustomizeWindowHint) & ~(Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint)));
 		m_persistenceProgressDialogPtr->SetDialogGeometry(0.3, 0.05);
 
-		m_persistenceProgressPtr.SetPtr (new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr(), "Persistence", QString()));
+		m_persistenceProgressPtr.SetPtr (new ProgressObserver(*this, m_persistenceProgressCompPtr.GetPtr()));
 	}
 
 	UpdateUndoMenu();
@@ -1155,36 +1155,44 @@ void CMainWindowGuiComp::ActiveUndoManager::OnUpdate(const istd::IChangeable::Ch
 
 // public methods of embedded class ProgressObserver
 
-CMainWindowGuiComp::ProgressObserver::ProgressObserver(
-			CMainWindowGuiComp & parent,
-			ibase::IProgressManager* slaveManagerPtr,
-			const QByteArray& progressId,
-			const QString& description,
-			bool isCancelable)
-	:BaseClass(slaveManagerPtr, progressId, description, isCancelable),
-	m_parent(parent)
+CMainWindowGuiComp::ProgressObserver::ProgressObserver(CMainWindowGuiComp & parent, ibase::IProgressManager* slaveManagerPtr)
+:	m_parent(parent),
+	m_slaveManagerPtr(slaveManagerPtr)
 {
 }
 
 
 // protected methods of embedded class ProgressObserver
 
-// reimplemented (istd::IChangeable)
+// reimplemented (ibase::CCumulatedProgressManagerBase)
 
-void CMainWindowGuiComp::ProgressObserver::OnEndChanges(const ChangeSet& changeSet)
+void CMainWindowGuiComp::ProgressObserver::OnProgressChanged(double cumulatedValue)
 {
-	if (changeSet.Contains(ibase::CDelegatedProgressManager::CF_SESSIONS_NUMBER)){
-		if (m_parent.m_persistenceProgressDialogPtr.IsValid()){
-			if (GetOpenSessionsCount() > 0){
-				m_parent.m_persistenceProgressDialogPtr->show();
-			}
-			else{
+	if (m_currentLoggerPtr != nullptr) {
+		m_currentLoggerPtr->OnProgress(cumulatedValue);
+	}
+}
+void CMainWindowGuiComp::ProgressObserver::OnTasksChanged()
+{
+	if ((m_parent.m_persistenceProgressCompPtr.IsValid()) && (m_parent.m_persistenceProgressDialogPtr != nullptr)) {
+		auto tasks = GetProcessedTasks();
+		if (tasks.empty()) {
+			if (m_currentLoggerPtr != nullptr) {
+				m_currentLoggerPtr = nullptr;
+
 				m_parent.m_persistenceProgressDialogPtr->hide();
 			}
 		}
-	}
+		else {
+			if (m_currentLoggerPtr == nullptr) {
+				m_currentLoggerPtr = m_parent.m_persistenceProgressCompPtr->StartProgressLogger(false);
 
-	BaseClass::OnEndChanges(changeSet);
+				if (m_currentLoggerPtr != nullptr) {
+					m_parent.m_persistenceProgressDialogPtr->show();
+				}
+			}
+		}
+	}
 }
 
 

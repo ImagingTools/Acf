@@ -8,46 +8,34 @@ namespace iqtgui
 // public methods
 
 CProgressGuiBridge::CProgressGuiBridge(QProgressBar* progressWidget, QAbstractButton* cancelButton)
-	:m_progresBarPtr(progressWidget),
+:	m_progresBarPtr(progressWidget),
 	m_cancelButtonPtr(cancelButton),
-	m_isCanceled(false)
+	m_lastProgressValue(0)
 {
 	if (m_cancelButtonPtr != NULL){
 		connect(m_cancelButtonPtr, SIGNAL(clicked()), this, SLOT(OnCancelButtonClicked()));
 	}
-}
 
-
-// reimplemented (ibase::IProgressManager)
-
-int CProgressGuiBridge::BeginProgressSession(
-			const QByteArray& /*progressId*/,
-			const QString& /*description*/,
-			bool /*isCancelable*/)
-{
-	return 0;
-}
-
-
-void CProgressGuiBridge::EndProgressSession(int /*sessionId*/)
-{
-	if (m_progresBarPtr != NULL){
+	if (m_progresBarPtr != NULL) {
 		m_progresBarPtr->setValue(0);
+
+		connect(this, SIGNAL(ProgressChanged(int)), m_progresBarPtr, SLOT(setValue(int)), Qt::QueuedConnection);
 	}
 }
 
 
-void CProgressGuiBridge::OnProgress(int /*sessionId*/, double currentProgress)
+// protected methods
+
+// reimplemented (ibase::CCumulatedProgressManagerBase)
+
+void CProgressGuiBridge::OnProgressChanged(double cumulatedValue)
 {
-	if (m_progresBarPtr != NULL){
-		m_progresBarPtr->setValue(currentProgress * 100);
+	int progressValue = int(cumulatedValue * 100);
+	if (progressValue != m_lastProgressValue) {
+		m_lastProgressValue = progressValue;
+
+		Q_EMIT ProgressChanged(progressValue);
 	}
-}
-
-
-bool CProgressGuiBridge::IsCanceled(int /*sessionId*/) const
-{
-	return m_isCanceled;
 }
 
 
@@ -55,7 +43,7 @@ bool CProgressGuiBridge::IsCanceled(int /*sessionId*/) const
 
 void CProgressGuiBridge::OnCancelButtonClicked()
 {
-	m_isCanceled = true;
+	SetCanceled();
 }
 
 

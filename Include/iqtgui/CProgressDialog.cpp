@@ -7,44 +7,51 @@ namespace iqtgui
 
 // public methods
 
-CProgressDialog::CProgressDialog(QWidget* parentWidget)
-	:BaseClass(parentWidget)
+CProgressDialog::CProgressDialog(const QString& description, const QString& defaultText, QWidget* parentWidget)
+:	BaseClass(parentWidget),
+	m_lastTaskText(defaultText),
+	m_lastProgressValue(0)
 {
 	setAutoClose(true);
 	setMaximum(100);
 	setMinimum(0);
 	setWindowModality(Qt::WindowModal);
-}
-
-
-// reimplemented (ibase::IProgressManager)
-
-int CProgressDialog::BeginProgressSession(
-			const QByteArray& /*progressId*/,
-			const QString& description,
-			bool /*isCancelable*/)
-{
 	setWindowTitle(description);
+	setLabelText(defaultText);
 
-	return 0;
+	connect(this, SIGNAL(TaskTextChanged(QString)), this, SLOT(setLabelText(QString)), Qt::QueuedConnection);
+	connect(this, SIGNAL(ProgressChanged(int)), this, SLOT(setValue(int)), Qt::QueuedConnection);
 }
 
 
-void CProgressDialog::EndProgressSession(int /*sessionId*/)
+// protected methods
+
+// reimplemented (ibase::CCumulatedProgressManagerBase)
+
+void CProgressDialog::OnProgressChanged(double cumulatedValue)
 {
-	close();
+	int progressValue = int(cumulatedValue * 100);
+	if (progressValue != m_lastProgressValue) {
+		m_lastProgressValue = progressValue;
+
+		Q_EMIT ProgressChanged(progressValue);
+	}
 }
 
 
-void CProgressDialog::OnProgress(int /*sessionId*/, double currentProgress)
+void CProgressDialog::OnTasksChanged()
 {
-	setValue(currentProgress * 100);
-}
+	QString taskName;
+	auto tasksInfo = GetProcessedTasks(true, 1);
+	if (!tasksInfo.empty()) {
+		taskName = tasksInfo[0].description;
+	}
 
+	if (taskName != m_lastTaskText) {
+		m_lastTaskText = taskName;
 
-bool CProgressDialog::IsCanceled(int /*sessionId*/) const
-{
-	return false;
+		Q_EMIT TaskTextChanged(taskName);
+	}
 }
 
 
