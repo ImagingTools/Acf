@@ -14,6 +14,8 @@ namespace iqtgui
 
 class CProgressDialog: public QProgressDialog, public ibase::CCumulatedProgressManagerBase
 {
+	Q_OBJECT
+
 public:
 	typedef QProgressDialog BaseClass;
 
