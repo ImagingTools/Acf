@@ -31,7 +31,7 @@ get_target_name(TARGETNAME)
 if(DEFINED ENV{ACFDIR_BUILD})
 	set(ACFDIR_BUILD "$ENV{ACFDIR_BUILD}")
 else()
-	set(ACFDIR_BUILD ${BUILDDIR}/Acf)
+	set(ACFDIR_BUILD ${ACFDIR})
 endif()
 
 include_directories("${ACFDIR_BUILD}/AuxInclude/${TARGETNAME}")
