@@ -19,6 +19,20 @@ namespace icmm
 {
 
 
+enum ObserverType
+{
+	OT_2,
+	OT_10
+};
+
+
+enum StandardIlluminant
+{
+	SI_D50,
+	SI_D65
+};
+
+
 /**
 	Usage of a colorant.
 */
