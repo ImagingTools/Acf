@@ -4,7 +4,7 @@
 // ACF includes
 #include <imath/IUnitInfo.h>
 #include <icmm/IColorTransformation.h>
-
+#include <icmm/IColorSpecification.h>
 
 namespace icmm
 {
@@ -97,7 +97,17 @@ public:
 	virtual const icmm::IColorTransformation* CreateColorTranformation(
 				const IColorModel& otherColorModel,
 				const QByteArray& transformationId = QByteArray()) const = 0;
+
+	/**
+		Get model specification if available.
+	*/
+	virtual IColorSpecification::ConstColorSpecPtr GetSpecification() const
+	{
+		return IColorSpecification::ConstColorSpecPtr();
+	}
 };
 
 
 } // namespace icmm
+
+

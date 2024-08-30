@@ -3,6 +3,7 @@
 
 // ACF includes
 #include <icmm/IColorModel.h>
+#include <icmm/CTristimulusSpecification.h>
 
 
 namespace icmm
@@ -12,10 +13,7 @@ namespace icmm
 class CCieLabColorModel: virtual public icmm::IColorModel
 {
 public:
-	StandardIlluminant GetIlluminant() const;
-	ObserverType GetObserverType() const;
-
-	CCieLabColorModel(ObserverType observer = OT_2, StandardIlluminant illuminant = SI_D65);
+	CCieLabColorModel(const CTristimulusSpecification& spec = CTristimulusSpecification());
 
 	// reimplemented (icmm::IColorModel)
 	virtual ModelType GetModelType() const override;
@@ -27,10 +25,10 @@ public:
 	virtual const icmm::IColorTransformation* CreateColorTranformation(
 				const IColorModel& otherColorModel,
 				const QByteArray& transformationId = QByteArray()) const override;
+	virtual IColorSpecification::ConstColorSpecPtr GetSpecification() const override;
 
 private:
-	StandardIlluminant m_illuminant;
-	ObserverType m_observerType;
+	CTristimulusSpecification m_spec;
 };
 
 

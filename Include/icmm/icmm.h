@@ -19,17 +19,133 @@ namespace icmm
 {
 
 
-enum ObserverType
+enum class AstmTableType
 {
-	OT_2,
-	OT_10
+	E308Table5,
+	E308Table6,
+	E3081nm,
+	Unknown
 };
 
 
-enum StandardIlluminant
+enum class SphereType
 {
-	SI_D50,
-	SI_D65
+	SpecularIncluded,
+	SpecularExcluded,
+	Diffuse
+};
+
+
+enum class StandardIlluminant
+{
+	A,
+	B,
+	C,
+	D50,
+	D55,
+	D60,
+	D65,
+	D75,
+	E,
+	F2,
+	F3,
+	F7,
+	F9,
+	F10,
+	F11,
+	F12,
+	Illuminant9300,
+	TL83,
+	YL84,
+	UL30,
+	UL35,
+	UL50,
+	Custom
+};
+
+
+enum class ObserverType
+{
+	TwoDegree,
+	TenDegree
+};
+
+enum class DensityFileType
+{
+	Visual,
+	Cyan,
+	Magenta,
+	Yellow,
+	Black,
+	Red,
+	Green,
+	Blue,
+	A,
+	B
+};
+
+
+enum class SpectrumType
+{
+	Reflectance,
+	Transmittance,
+	TotalTransmittance,
+	Emissive,
+	ColorimetricReflectance,
+	ColorimetricTransmittance,
+	ColorimetricEmissive
+};
+
+
+enum class DensityStatusType
+{
+};
+
+
+// Device-related
+
+enum class DeviceTypeFlags
+{
+	Spot = 1,
+	Scanning = 2
+};
+
+
+enum class FilterType
+{
+	None,
+	UvExcluded,
+	UvD65,
+	Partial,
+	Custom
+};
+
+
+enum class DeviceIlluminationType
+{
+	Incandescent, // M0
+	Daylight, // M1
+	UvExculded, //M2
+	Polarized, //M3
+	Flash,
+	Led,
+	Ambient,
+	Custom
+};
+
+
+enum class EmmisiveModelType
+{
+	Diffuser,
+	Reflected,
+	Other
+};
+
+
+enum class SingleAngleConfigurationType
+{
+	Annular,
+	Uniplanar
 };
 
 
