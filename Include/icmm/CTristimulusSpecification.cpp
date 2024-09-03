@@ -8,11 +8,16 @@ namespace icmm
 CTristimulusSpecification::CTristimulusSpecification(
 			ObserverType observerType,
 			AstmTableType method,
-			const CIlluminant& illuminant)
+			const IIlluminant* illuminantPtr,
+			std::shared_ptr<ISpectralColorSpecification> baseSpec)
 	:m_observerType(observerType),
-	m_method(method),
-	m_illuminant(illuminant)
+	m_method(method)
 {
+	m_baseSpec = baseSpec;
+
+	if (illuminantPtr != nullptr){
+		m_illuminant.CopyFrom(*illuminantPtr);
+	}
 }
 
 
@@ -26,7 +31,7 @@ CTristimulusSpecification::CTristimulusSpecification(const CTristimulusSpecifica
 
 // reimplemented (ITristimulusSpecification)
 
-const IIluminant& icmm::CTristimulusSpecification::GetIlluminant() const
+const IIlluminant& icmm::CTristimulusSpecification::GetIlluminant() const
 {
 	return m_illuminant;
 }
@@ -41,6 +46,12 @@ ObserverType CTristimulusSpecification::GetObserverType() const
 AstmTableType CTristimulusSpecification::GetMethod() const
 {
 	return m_method;
+}
+
+
+std::shared_ptr<ISpectralColorSpecification> CTristimulusSpecification::GetBaseSpecification() const
+{
+	return m_baseSpec;
 }
 
 

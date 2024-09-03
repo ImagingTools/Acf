@@ -2,8 +2,8 @@
 
 
 // ACF includes
-#include <icmm/IColorSpecification.h>
-#include <icmm/IIluminant.h>
+#include <icmm/ISpectralColorSpecification.h>
+#include <icmm/IIlluminant.h>
 
 
 namespace icmm
@@ -13,9 +13,14 @@ namespace icmm
 class ITristimulusSpecification: virtual public IColorSpecification
 {
 public:
-	virtual const IIluminant& GetIlluminant() const = 0;
+	virtual const IIlluminant& GetIlluminant() const = 0;
 	virtual ObserverType GetObserverType() const = 0;
 	virtual AstmTableType GetMethod() const = 0;
+
+	/**
+		Get the base spectral specification, if exists.
+	*/
+	virtual std::shared_ptr<ISpectralColorSpecification> GetBaseSpecification() const = 0;
 
 protected:
 	// reimplemented (IColorSpecification)
@@ -23,7 +28,7 @@ protected:
 };
 
 
-inline ITristimulusSpecification::SpecType ITristimulusSpecification::GetSpecificationType() const
+inline IColorSpecification::SpecType ITristimulusSpecification::GetSpecificationType() const
 {
 	return SpecType::Tristimulus;
 }

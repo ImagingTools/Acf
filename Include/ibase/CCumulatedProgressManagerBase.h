@@ -68,7 +68,7 @@ protected:
 	virtual void OnProgressChanged(double cumulatedValue);
 	virtual void OnTasksChanged();
 
-	class TaskBase : virtual public istd::IPolymorphic
+	class TaskBase: virtual public istd::IPolymorphic
 	{
 	public:
 		TaskBase(CCumulatedProgressManagerBase* parentPtr, const TaskInfo& taskInfo, double weight, bool isCancelable);

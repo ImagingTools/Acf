@@ -2,14 +2,14 @@
 
 
 // ACF includes
-#include <icmm/IIluminant.h>
+#include <icmm/IIlluminant.h>
 
 
 namespace icmm
 {
 
 
-class CIlluminant: virtual public IIluminant
+class CIlluminant: virtual public IIlluminant
 {
 public:
 	CIlluminant(

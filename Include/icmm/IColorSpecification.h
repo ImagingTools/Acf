@@ -24,15 +24,12 @@ public:
 		Spectral
 	};
 
+	/**
+		Get the logical type of the specification. Can be tristimulus or spectral-based.
+		\sa SpecType
+	*/
 	virtual SpecType GetSpecificationType() const = 0;
-	virtual ConstColorSpecPtr GetBaseSpecification() const;
 };
-
-
-inline IColorSpecification::ConstColorSpecPtr IColorSpecification::GetBaseSpecification() const
-{
-	return ConstColorSpecPtr();
-}
 
 
 } // namespace icmm

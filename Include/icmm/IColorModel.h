@@ -108,6 +108,10 @@ public:
 };
 
 
+typedef std::shared_ptr<IColorModel> ColorModelPtr;
+typedef std::shared_ptr<const IColorModel> ConstColorModelPtr;
+
+
 } // namespace icmm
 
 
