@@ -139,7 +139,7 @@ icmm::CVarColor CBitmapBase::GetColorAt(const istd::CIndex2d& position) const
 		Q_ASSERT(pixelPtr != NULL);
 		pixelPtr += byteOffsetX;
 
-		for (int i = 0; i < componentsCount; ++i) {
+		for (int i = 0; i < componentsCount; ++i){
 			const quint8 componentValue = GetComponentBitsCount(i) == 8 ? pixelPtr[i] : 0;
 			retVal.SetElement(i, componentValue / 255.0);
 		}
@@ -164,7 +164,7 @@ icmm::CVarColor CBitmapBase::GetColorAt(const istd::CIndex2d& position) const
 
 		int maxValue = (1 << 16) - 1;
 
-		for (int i = 0; i < componentsCount; ++i) {
+		for (int i = 0; i < componentsCount; ++i){
 			const quint16 componentValue = GetComponentBitsCount(i) == 16 ? pixelPtr[i] : 0;
 			retVal.SetElement(i, componentValue / double(maxValue));
 		}

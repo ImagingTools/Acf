@@ -77,7 +77,7 @@ bool CDistanceToolShape::OnMouseButton(istd::CIndex2d position, Qt::MouseButton 
 		return false;
 	}
 	else{
-		if (tickerBoxMove.IsInside(position - m_screenPos)) {
+		if (tickerBoxMove.IsInside(position - m_screenPos)){
 			if (m_measureState != CDistanceToolShape::MS_START){
 				const i2d::CVector2d beginPos = GetLogPosition(m_screenPos);
 				linePtr->SetPoint1(beginPos);

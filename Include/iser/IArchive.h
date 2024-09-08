@@ -154,7 +154,7 @@ public:
 	virtual bool Process(QString& value) = 0;
 
 	template<typename Primitive>
-	bool TagAndProcess(const CArchiveTag& tag, Primitive& value) {
+	bool TagAndProcess(const CArchiveTag& tag, Primitive& value){
 		static_assert(!std::is_const_v<Primitive>, "Input value is const-qualified");
 		
 		return BeginTag(tag) && Process(value) && EndTag(tag);

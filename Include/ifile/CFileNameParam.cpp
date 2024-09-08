@@ -100,7 +100,7 @@ bool CFileNameParam::IsEqual(const IChangeable& object) const
 	if (sourcePtr != NULL){
 		QString pathThis = GetPath();
 		QString partSource = sourcePtr->GetPath();
-		if (pathThis.isEmpty() && partSource.isEmpty()) {
+		if (pathThis.isEmpty() && partSource.isEmpty()){
 			return true;
 		}
 

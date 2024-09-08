@@ -75,15 +75,15 @@ bool ConvertToGrayImage(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 
 bool ConvertXyToRgb(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 {
-	if (inputBitmap.GetPixelFormat() != IBitmap::PF_XY32) {
+	if (inputBitmap.GetPixelFormat() != IBitmap::PF_XY32){
 		return false;
 	}
 
 	istd::CIndex2d size = inputBitmap.GetImageSize();
 
-	if (outputBitmap.CreateBitmap(IBitmap::PF_RGB24, size)) {
+	if (outputBitmap.CreateBitmap(IBitmap::PF_RGB24, size)){
 		// do not copy empty image
-		if (size.IsSizeEmpty()) {
+		if (size.IsSizeEmpty()){
 			return true;
 		}
 
@@ -92,41 +92,41 @@ bool ConvertXyToRgb(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 		float minY = std::numeric_limits<float>::max();
 		float maxY = -std::numeric_limits<float>::max();
 
-		for (int j = 0; j < size.GetY(); ++j) {
+		for (int j = 0; j < size.GetY(); ++j){
 			const float* inputLinePtr = (const float*)inputBitmap.GetLinePtr(j);
 
-			for (int i = 0; i < size.GetX(); ++i) {
+			for (int i = 0; i < size.GetX(); ++i){
 				float x = inputLinePtr[i * 2];
 				float y = inputLinePtr[i * 2 + 1];
 
-				if (!qIsNaN(x)) {
-					if (x < minX) {
+				if (!qIsNaN(x)){
+					if (x < minX){
 						minX = x;
 					}
 
-					if (x > maxX) {
+					if (x > maxX){
 						maxX = x;
 					}
 				}
 
-				if (!qIsNaN(y)) {
-					if (y < minY) {
+				if (!qIsNaN(y)){
+					if (y < minY){
 						minY = y;
 					}
 
-					if (y > maxY) {
+					if (y > maxY){
 						maxY = y;
 					}
 				}
 			}
 		}
 
-		if (maxX > minX && maxY > minY) {
-			for (int j = 0; j < size.GetY(); ++j) {
+		if (maxX > minX && maxY > minY){
+			for (int j = 0; j < size.GetY(); ++j){
 				const float* inputLinePtr = (const float*)inputBitmap.GetLinePtr(j);
 				quint8* outputLinePtr = (quint8*)outputBitmap.GetLinePtr(j);
 
-				for (int i = 0; i < size.GetX(); ++i) {
+				for (int i = 0; i < size.GetX(); ++i){
 					float x = inputLinePtr[i * 2];
 					float y = inputLinePtr[i * 2 + 1];
 
@@ -220,7 +220,7 @@ bool ConvertXyzToRgb(const IBitmap& inputBitmap, CBitmap& outputBitmap)
 					float y = inputLinePtr[k + 1];
 					float z = inputLinePtr[k + 2];
 
-					if (qIsNaN(x) || qIsNaN(y) || qIsNaN(z)) {
+					if (qIsNaN(x) || qIsNaN(y) || qIsNaN(z)){
 						outputLinePtr[k] = 0;
 						outputLinePtr[k + 1] = 0;
 						outputLinePtr[k + 2] = 0;
@@ -679,7 +679,7 @@ void CBitmap::InitializeColorModel()
 	m_colorModelPtr.Reset();
 	
 	if (!m_image.isNull()){
-		if (m_image.hasAlphaChannel()) {
+		if (m_image.hasAlphaChannel()){
 			m_colorModelPtr.SetPtr(new icmm::CRgbaColorModel);
 		}
 		else {

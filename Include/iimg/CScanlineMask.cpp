@@ -672,7 +672,7 @@ void CScanlineMask::GetUnion(const CScanlineMask& mask, CScanlineMask& result) c
 			}
 		}
 
-		if ((!rangesPtr || rangesPtr->IsEmpty()) && (!maskRangesPtr || maskRangesPtr->IsEmpty())) {
+		if ((!rangesPtr || rangesPtr->IsEmpty()) && (!maskRangesPtr || maskRangesPtr->IsEmpty())){
 			result.m_scanlines[resultLineIndex] = -1;
 			continue;
 		}

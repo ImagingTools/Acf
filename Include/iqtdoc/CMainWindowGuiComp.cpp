@@ -225,7 +225,7 @@ bool CMainWindowGuiComp::SaveActiveDocument()
 	if (retVal){
 		UpdateRecentFileList(fileMap);
 	}
-	else if (!ignoredFlag) {
+	else if (!ignoredFlag){
 		QMessageBox::critical(GetWidget(), "", tr("File could not be saved!"));
 	}
 
@@ -1168,26 +1168,26 @@ CMainWindowGuiComp::ProgressObserver::ProgressObserver(CMainWindowGuiComp & pare
 
 void CMainWindowGuiComp::ProgressObserver::OnProgressChanged(double cumulatedValue)
 {
-	if (m_currentLoggerPtr != nullptr) {
+	if (m_currentLoggerPtr != nullptr){
 		m_currentLoggerPtr->OnProgress(cumulatedValue);
 	}
 }
 void CMainWindowGuiComp::ProgressObserver::OnTasksChanged()
 {
-	if ((m_parent.m_persistenceProgressCompPtr.IsValid()) && (m_parent.m_persistenceProgressDialogPtr != nullptr)) {
+	if ((m_parent.m_persistenceProgressCompPtr.IsValid()) && (m_parent.m_persistenceProgressDialogPtr != nullptr)){
 		auto tasks = GetProcessedTasks();
-		if (tasks.empty()) {
-			if (m_currentLoggerPtr != nullptr) {
+		if (tasks.empty()){
+			if (m_currentLoggerPtr != nullptr){
 				m_currentLoggerPtr = nullptr;
 
 				m_parent.m_persistenceProgressDialogPtr->hide();
 			}
 		}
 		else {
-			if (m_currentLoggerPtr == nullptr) {
+			if (m_currentLoggerPtr == nullptr){
 				m_currentLoggerPtr = m_parent.m_persistenceProgressCompPtr->StartProgressLogger(false);
 
-				if (m_currentLoggerPtr != nullptr) {
+				if (m_currentLoggerPtr != nullptr){
 					m_parent.m_persistenceProgressDialogPtr->show();
 				}
 			}

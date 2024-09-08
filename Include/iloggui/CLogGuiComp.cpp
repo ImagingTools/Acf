@@ -267,27 +267,27 @@ void CLogGuiComp::SetCommandsVisuals()
 	m_exportCommand->SetVisuals(tr("Export..."), tr("Export..."), tr("Export log to file"), exportIcon);
 	m_diagnosticCommand->SetVisuals(tr("Diagnostic Mode"), tr("Switch to Diagnostic Mode"), tr("Enable diagnostic mode"), diagnosticModeIcon);
 
-	if (m_infoActionPtr != nullptr) {
+	if (m_infoActionPtr != nullptr){
 		m_infoActionPtr->setText(tr("Info"));
 	}
 
-	if (m_warningActionPtr != nullptr) {
+	if (m_warningActionPtr != nullptr){
 		m_warningActionPtr->setText(tr("Warning"));
 	}
 
-	if (m_errorActionPtr != nullptr) {
+	if (m_errorActionPtr != nullptr){
 		m_errorActionPtr->setText(tr("Error"));
 	}
 
-	if (m_clearActionPtr != nullptr) {
+	if (m_clearActionPtr != nullptr){
 		m_clearActionPtr->setText(tr("Clear"));
 	}
 
-	if (m_exportActionPtr != nullptr) {
+	if (m_exportActionPtr != nullptr){
 		m_exportActionPtr->setText(tr("Export..."));
 	}
 
-	if (m_diagnosticModeActionPtr != nullptr) {
+	if (m_diagnosticModeActionPtr != nullptr){
 		m_diagnosticModeActionPtr->setText(tr("Diagnostic Mode"));
 	}
 }
@@ -528,7 +528,7 @@ void CLogGuiComp::OnComponentCreated()
 
 void CLogGuiComp::UpdateVisualStatus()
 {
-	if (*m_autoUpdateVisualStatusAttrPtr) {
+	if (*m_autoUpdateVisualStatusAttrPtr){
 	istd::CChangeNotifier visualStatusNotifier(&m_visualStatus);
 
 	SetStatusIcon(GetCategoryIcon(m_statusCategory));
@@ -543,7 +543,7 @@ void CLogGuiComp::UpdateItemVisibility(QTreeWidgetItem* itemPtr, const QString& 
 
 	bool hideItem = (itemCategory < m_currentMessageMode);
 
-	if (!hideItem) {
+	if (!hideItem){
 		const QString& messageText = itemPtr->text(CT_MESSAGE);
 		if (!filterText.isEmpty() && !messageText.contains(filterText, Qt::CaseInsensitive)){
 			hideItem = true;

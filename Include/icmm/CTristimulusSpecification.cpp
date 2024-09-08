@@ -56,7 +56,7 @@ bool CTristimulusSpecification::IsEqual(const IChangeable& other) const
 {
 	const CTristimulusSpecification* objectPtr = dynamic_cast<const CTristimulusSpecification*>(&other);
 
-	if (objectPtr == nullptr) {
+	if (objectPtr == nullptr){
 		return false;
 	}
 

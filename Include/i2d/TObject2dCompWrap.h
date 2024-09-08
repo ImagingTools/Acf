@@ -52,15 +52,15 @@ void TObject2dCompWrap<BaseObject2d>::OnComponentCreated()
 
 	BaseClass2::SetCalibration(m_calibrationCompPtr.GetPtr(), false);
 
-	if (m_defaultObjectProviderCompPtr.IsValid()) {
+	if (m_defaultObjectProviderCompPtr.IsValid()){
 		const i2d::IObject2d* defaultGeomPtr = m_defaultObjectProviderCompPtr->GetObject2d();
-		if (defaultGeomPtr != nullptr) {
+		if (defaultGeomPtr != nullptr){
 			BaseClass2::CopyFrom(*defaultGeomPtr);
 		}
 
 		const i2d::ICalibration2d* calibrationPtr = BaseClass2::GetCalibration();
 
-		if (calibrationPtr != NULL) {
+		if (calibrationPtr != NULL){
 			BaseClass2::InvTransform(*calibrationPtr);
 			BaseClass2::SetCalibration(calibrationPtr);
 		}

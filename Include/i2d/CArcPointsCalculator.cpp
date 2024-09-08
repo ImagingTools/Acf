@@ -110,7 +110,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 45 && start < 90){
 			int startIndex = gradStep * (start - 45);
 			int endIndex = bufferSize;
-			if (end >= 45 && end < 90 && start <= end) {
+			if (end >= 45 && end < 90 && start <= end){
 				endIndex = gradStep * (end - 45);
 				isFinished = true;
 			}
@@ -132,7 +132,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 90 && start < 135){
 			int startIndex = gradStep * (start - 90);
 			int endIndex = bufferSize;
-			if (end >= 90 && end < 135 && start <= end) {
+			if (end >= 90 && end < 135 && start <= end){
 				endIndex = gradStep * (end - 90);
 				isFinished = true;
 			}
@@ -154,7 +154,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 135 && start < 180){
 			int startIndex = gradStep * (start - 135);
 			int endIndex = bufferSize;
-			if (end >= 135 && end < 180 && start <= end) {
+			if (end >= 135 && end < 180 && start <= end){
 				endIndex = gradStep * (end - 135);
 				isFinished = true;
 			}
@@ -176,7 +176,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 180 && start < 225){
 			int startIndex = gradStep * (start - 180);
 			int endIndex = bufferSize;
-			if (end >= 180 && end < 225 && start <= end) {
+			if (end >= 180 && end < 225 && start <= end){
 				endIndex = gradStep * (end - 180);
 				isFinished = true;
 			}
@@ -198,7 +198,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 225 && start < 270){
 			int startIndex = gradStep * (start - 225);
 			int endIndex = bufferSize;
-			if (end >= 225 && end < 270 && start <= end) {
+			if (end >= 225 && end < 270 && start <= end){
 				endIndex = gradStep * (end - 225);
 				isFinished = true;
 			}
@@ -220,7 +220,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 270 && start < 315){
 			int startIndex = gradStep * (start - 270);
 			int endIndex = bufferSize;
-			if (end >= 270 && end < 315 && start <= end) {
+			if (end >= 270 && end < 315 && start <= end){
 				endIndex = gradStep * (end - 270);
 				isFinished = true;
 			}
@@ -242,7 +242,7 @@ bool CArcPointsCalculator::GetArcPoints(
 		if (start >= 315 && start < 360){
 			int startIndex = gradStep * (start - 315);
 			int endIndex = bufferSize;
-			if (end >= 315 && end < 360 && start <= end) {
+			if (end >= 315 && end < 360 && start <= end){
 				endIndex = gradStep * (end - 315);
 				isFinished = true;
 			}

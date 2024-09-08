@@ -130,59 +130,59 @@ QIcon TMakeIconProviderCompWrap<Base>::CreateIcon(const QString& themeIconName) 
 
 	QIcon icon;
 
-	if (QFileInfo(themeIconName + "_Off_Normal").exists()) {
+	if (QFileInfo(themeIconName + "_Off_Normal").exists()){
 		icon.addFile(themeIconName + "_Off_Normal", QSize(), QIcon::Normal, QIcon::Off);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::Off);
 	}
 
-	if (QFileInfo(themeIconName + "_On_Normal").exists()) {
+	if (QFileInfo(themeIconName + "_On_Normal").exists()){
 		icon.addFile(themeIconName + "_On_Normal", QSize(), QIcon::Normal, QIcon::On);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Normal, QIcon::On);
 	}
 
-	if (QFileInfo(themeIconName + "_Off_Disabled").exists()) {
+	if (QFileInfo(themeIconName + "_Off_Disabled").exists()){
 		icon.addFile(themeIconName + "_Off_Disabled", QSize(), QIcon::Disabled, QIcon::Off);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::Off);
 	}
 
-	if (QFileInfo(themeIconName + "_Off_Active").exists()) {
+	if (QFileInfo(themeIconName + "_Off_Active").exists()){
 		icon.addFile(themeIconName + "_Off_Active", QSize(), QIcon::Active, QIcon::Off);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::Off);
 	}
 
-	if (QFileInfo(themeIconName + "_Off_Selected").exists()) {
+	if (QFileInfo(themeIconName + "_Off_Selected").exists()){
 		icon.addFile(themeIconName + "_Off_Selected", QSize(), QIcon::Selected, QIcon::Off);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::Off);
 	}
 
-	if (QFileInfo(themeIconName + "_On_Disabled").exists()) {
+	if (QFileInfo(themeIconName + "_On_Disabled").exists()){
 		icon.addFile(themeIconName + "_On_Disabled", QSize(), QIcon::Disabled, QIcon::On);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Disabled, QIcon::On);
 	}
 
-	if (QFileInfo(themeIconName + "_On_Active").exists()) {
+	if (QFileInfo(themeIconName + "_On_Active").exists()){
 		icon.addFile(themeIconName + "_On_Active", QSize(), QIcon::Active, QIcon::On);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Active, QIcon::On);
 	}
 
-	if (QFileInfo(themeIconName + "_On_Selected").exists()) {
+	if (QFileInfo(themeIconName + "_On_Selected").exists()){
 		icon.addFile(themeIconName + "_On_Selected", QSize(), QIcon::Selected, QIcon::On);
 	}
-	else if (isDefaultIconAvailable) {
+	else if (isDefaultIconAvailable){
 		icon.addFile(defaultIconName, QSize(), QIcon::Selected, QIcon::On);
 	}
 

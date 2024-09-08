@@ -12,7 +12,7 @@ void CQuadrangleComp::OnComponentCreated()
 {
 	BaseClass::OnComponentCreated();
 
-	if (m_defaultObjectProviderCompPtr.IsValid()) {
+	if (m_defaultObjectProviderCompPtr.IsValid()){
 		return;
 	}
 

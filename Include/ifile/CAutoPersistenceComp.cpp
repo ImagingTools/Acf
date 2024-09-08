@@ -395,7 +395,7 @@ bool CAutoPersistenceComp::LockFile(const QString& filePath, bool store) const
 	QFileInfo fileInfo(filePath);
 	bool lockRequired = !filePath.isEmpty();
 	lockRequired = lockRequired && fileInfo.exists();
-	if (!store) {
+	if (!store){
 		//load operation -> Lock is not required when writing is not possible
 		lockRequired = lockRequired && *m_enableLockForLoadAttrPtr;
 		lockRequired = lockRequired && fileInfo.isWritable();

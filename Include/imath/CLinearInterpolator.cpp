@@ -37,7 +37,7 @@ bool CLinearInterpolator::InitFromFunction(const ISampledFunction& function)
 	istd::CRange logicalRange = function.GetLogicalRange(0);
 	istd::CIntRange sampleRange = istd::CIntRange(0, function.GetTotalSamplesCount());
 
-	for (int i = 0; i < function.GetTotalSamplesCount(); i++) {
+	for (int i = 0; i < function.GetTotalSamplesCount(); i++){
 		double sampleAlpha = sampleRange.GetAlphaFromValue(i);
 
 		double logicalPosition = logicalRange.GetValueFromAlpha(sampleAlpha);

@@ -53,10 +53,10 @@ void CViewProviderGuiComp::SetupBackground()
 	iview::CConsoleGui* consolePtr = GetQtWidget();
 	Q_ASSERT(consolePtr != NULL);
 
-	if (m_backgroundModeAttrPtr.IsValid()) {
-		switch (*m_backgroundModeAttrPtr) {
+	if (m_backgroundModeAttrPtr.IsValid()){
+		switch (*m_backgroundModeAttrPtr){
 		case BM_COLOR_SCHEMA:
-			if (!m_colorSchemaCompPtr.IsValid()) {
+			if (!m_colorSchemaCompPtr.IsValid()){
 				iview::CColorSchema* newColorSchemaPtr = new iview::CColorSchema;
 				newColorSchemaPtr->Assign(consolePtr->GetViewRef().GetColorSchema());
 
@@ -156,7 +156,7 @@ void CViewProviderGuiComp::OnGuiCreated()
 		consolePtr->SetDistanceMeasureButtonVisible(false);
 	}
 
-	if (m_pointMeasureShapeCompPtr.IsValid()) {
+	if (m_pointMeasureShapeCompPtr.IsValid()){
 		view.ConnectToolShape(m_pointMeasureShapeCompPtr.GetPtr());
 		consolePtr->SetPointMeasureButtonVisible(true);
 	}

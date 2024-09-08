@@ -23,7 +23,7 @@ void ClearLayout(QLayout* layout)
 	if (layout != NULL){
 		while (QLayoutItem* item = layout->takeAt(0)){
 			QWidget* widgetPtr = item->widget();
-			if (widgetPtr != NULL) {
+			if (widgetPtr != NULL){
 				delete widgetPtr;
 			}
 		

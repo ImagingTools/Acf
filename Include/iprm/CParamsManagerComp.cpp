@@ -340,7 +340,7 @@ bool CParamsManagerComp::IsEqual(const IChangeable& object) const
 	}
 
 	int paramsCount = GetParamsSetsCount();
-	for (int i = 0; i < paramsCount; ++i) {
+	for (int i = 0; i < paramsCount; ++i){
 		IParamsSet* paramsSetPtr = GetParamsSet(i);
 
 		const IParamsSet* objectParamSetPtr = objectPtr->GetParamsSet(i);

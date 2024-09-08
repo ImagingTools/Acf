@@ -543,7 +543,7 @@ bool CSingleDocumentManagerBase::RegisterDocument()
 				documentModelPtr->AttachObserver(this);
 
 				imod::IModel* undoManagerModelPtr = CompCastPtr<imod::IModel>(m_undoManagerPtr.GetPtr());
-				if (undoManagerModelPtr != NULL) {
+				if (undoManagerModelPtr != NULL){
 					undoManagerModelPtr->AttachObserver(&m_undoManagerObserver);
 				}
 			}
@@ -647,7 +647,7 @@ bool CSingleDocumentManagerBase::SerializeOpenDocument(iser::IArchive& archive)
 void CSingleDocumentManagerBase::OnUpdate(const ChangeSet& /*changeSet*/)
 {
 	if (m_undoManagerObserver.GetObservedModel() == nullptr){
-		if (!m_isDirty) {
+		if (!m_isDirty){
 			istd::CChangeNotifier notifier(this);
 
 			m_isDirty = true;

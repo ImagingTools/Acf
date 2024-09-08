@@ -315,8 +315,8 @@ QString CPolygonShape::GetShapeDescriptionAt(istd::CIndex2d position) const
 {
 	QString result = BaseClass::GetShapeDescriptionAt(position);
 
-	if (GetEditMode() == ISelectable::EM_REMOVE) {
-		if (IsTouched(position) == TS_TICKER) {
+	if (GetEditMode() == ISelectable::EM_REMOVE){
+		if (IsTouched(position) == TS_TICKER){
 			return QObject::tr("Left click: remove selected node");
 		}
 	}

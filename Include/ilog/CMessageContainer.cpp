@@ -252,7 +252,7 @@ void CMessageContainer::AddMessage(const IMessageConsumer::MessagePtr& messagePt
 	istd::CChangeNotifier changeNotifier(this);
 
 	m_messages.push_front(messagePtr);
-	if (m_worstCategory >= 0) {
+	if (m_worstCategory >= 0){
 		int messageCategory = messagePtr->GetInformationCategory();
 		if (messageCategory > m_worstCategory){
 			m_worstCategory = messageCategory;

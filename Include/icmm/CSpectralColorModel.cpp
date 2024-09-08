@@ -40,7 +40,7 @@ int CSpectralColorModel::GetColorSpaceDimensionality() const
 	const ISpectrumInfo* infoPtr = m_spec->GetSpectrumInfo();
 	if (infoPtr != nullptr){
 		int step = infoPtr->GetStep();
-		if (step > 0) {
+		if (step > 0){
 			istd::CIntRange range = infoPtr->GetSpectralRange();
 
 			componentCount = 1 + range.GetLength() / step;

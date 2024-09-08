@@ -151,7 +151,7 @@ bool CParamsManagerCompBase::SwapParamsSet(int index1, int index2)
 
 IParamsSet* CParamsManagerCompBase::GetParamsSet(int index) const
 {
-	if (index < 0) {
+	if (index < 0){
 		return nullptr;
 	}
 
@@ -260,11 +260,11 @@ int CParamsManagerCompBase::GetIndexOperationFlags(int index) const
 	int userFlags = 0;
 	const int fixedCount = m_fixedParamSetsCompPtr.GetCount();
 
-	if ((index >= fixedCount) && (index < CParamsManagerCompBase::GetParamsSetsCount())) {
+	if ((index >= fixedCount) && (index < CParamsManagerCompBase::GetParamsSetsCount())){
 		userFlags = m_paramSets[index - fixedCount]->userFlags;
 	}
 	else{
-		if (m_fixedParamsSetFlagsMap.contains(index)) {
+		if (m_fixedParamsSetFlagsMap.contains(index)){
 			userFlags = m_fixedParamsSetFlagsMap[index];
 		}
 	}
@@ -314,7 +314,7 @@ bool CParamsManagerCompBase::SetIndexOperationFlags(int index, int flags)
 	if (flags & MF_INACTIVE){
 		int selectedIndex = GetSelectedOptionIndex();
 		if (selectedIndex == index){
-			for (int i = 0; i < GetOptionsCount(); ++i) {
+			for (int i = 0; i < GetOptionsCount(); ++i){
 				if ((GetIndexOperationFlags(i) & MF_INACTIVE) == 0){
 					SetSelectedOptionIndex(i);
 
@@ -806,7 +806,7 @@ iprm::IParamsSet::Ids CParamsManagerCompBase::SelectedParams::GetParamIds(bool e
 {
 	if (!editableOnly && (parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
 		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
-		if (selectedParamsSetPtr != NULL) {
+		if (selectedParamsSetPtr != NULL){
 			return selectedParamsSetPtr->GetParamIds();
 		}
 	}
@@ -819,7 +819,7 @@ const iser::ISerializable* CParamsManagerCompBase::SelectedParams::GetParameter(
 {
 	if ((parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
 		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
-		if (selectedParamsSetPtr != NULL) {
+		if (selectedParamsSetPtr != NULL){
 			return selectedParamsSetPtr->GetParameter(id);
 		}
 	}
@@ -840,7 +840,7 @@ QByteArray CParamsManagerCompBase::SelectedParams::GetFactoryId() const
 {
 	if ((parentPtr != NULL) && (parentPtr->m_selectedIndex >= 0)){
 		const IParamsSet* selectedParamsSetPtr = parentPtr->GetParamsSet(parentPtr->m_selectedIndex);
-		if (selectedParamsSetPtr != NULL) {
+		if (selectedParamsSetPtr != NULL){
 			return selectedParamsSetPtr->GetFactoryId();
 		}
 	}

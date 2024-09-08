@@ -108,7 +108,7 @@ bool CAkimaInterpolator::InitFromFunction(const ISampledFunction& function)
 	std::vector<double> positions;
 	std::vector<double> values;
 
-	for (int i = 0; i < function.GetTotalSamplesCount(); i++) {
+	for (int i = 0; i < function.GetTotalSamplesCount(); i++){
 		double sampleAlpha = sampleRange.GetAlphaFromValue(i);
 
 		double position = logicalRange.GetValueFromAlpha(sampleAlpha);

@@ -52,7 +52,7 @@ bool CMultiParamsManagerComp::Serialize(iser::IArchive& archive)
 	if (m_selectedIndex >= 0){
 		if (m_selectedIndex < GetParamsSetsCount())
 			selectedId = GetOptionId(m_selectedIndex);
-		else if (isStoring) {
+		else if (isStoring){
 			m_selectedIndex = -1;
 		}
 	}
@@ -264,22 +264,22 @@ bool CMultiParamsManagerComp::SetOptionDescription(int /*optionIndex*/, const QS
 bool CMultiParamsManagerComp::CopyFrom(const istd::IChangeable& object, istd::IChangeable::CompatibilityMode /*mode*/ /*= CM_WITHOUT_REFS*/)
 {
 	const CMultiParamsManagerComp* sourcePtr = dynamic_cast<const CMultiParamsManagerComp*>(&object);
-	if (sourcePtr == NULL) {
+	if (sourcePtr == NULL){
 		return false;
 	}
 
 	istd::CChangeNotifier notifier(this, &istd::IChangeable::GetAllChanges());
 
-	if (!CopyByArchive(object, *this)) {
+	if (!CopyByArchive(object, *this)){
 		return false;
 	}
 
 	// update UUID of the paramsets
 	int paramsCount = m_paramSets.size();
 
-	for (int i = 0; i < paramsCount; ++i) {
+	for (int i = 0; i < paramsCount; ++i){
 
-		if (i >= m_fixedParamSetsCompPtr.GetCount()) {
+		if (i >= m_fixedParamSetsCompPtr.GetCount()){
 			int paramIndex = i - m_fixedParamSetsCompPtr.GetCount();
 
 			Q_ASSERT(paramIndex < m_paramSets.count());
@@ -297,23 +297,23 @@ bool CMultiParamsManagerComp::CopyFrom(const istd::IChangeable& object, istd::IC
 
 QString CMultiParamsManagerComp::CalculateNewDefaultName(int typeIndex) const
 {
-	if (typeIndex < 0 || typeIndex >= m_factoryNameNameAttrPtr.GetCount()) {
+	if (typeIndex < 0 || typeIndex >= m_factoryNameNameAttrPtr.GetCount()){
 		return BaseClass::CalculateNewDefaultName(typeIndex);
 	}
 
 	QString defaultSetName = *m_defaultSetNameAttrPtr;
 
-	if (defaultSetName.contains("%0")) {
+	if (defaultSetName.contains("%0")){
 		QString factoryName = m_factoryNameNameAttrPtr[typeIndex];
 		defaultSetName = defaultSetName.replace("%0", factoryName);
 	}
 
-	if (defaultSetName.contains("%1")) {
+	if (defaultSetName.contains("%1")){
 		QString tmpName;
-		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex) {
+		for (int suffixIndex = 1; suffixIndex < 1000; ++suffixIndex){
 			tmpName = defaultSetName;
 			tmpName.replace(QString("%1"), QString::number(suffixIndex));
-			if (FindParamSetIndex(tmpName) < 0 && FindFixedParamSetIndex(tmpName) < 0) {
+			if (FindParamSetIndex(tmpName) < 0 && FindFixedParamSetIndex(tmpName) < 0){
 				defaultSetName = tmpName;
 				break;
 			}

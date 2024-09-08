@@ -399,7 +399,7 @@ void CParamsManagerGuiCompBase::CopyParamsSet(const int index)
 		// #10946
 		QByteArray mimeType(ParamsSetMimeType);
 
-		if (const iprm::IOptionsList* typeInfos = objectPtr->GetParamsTypeConstraints()) {
+		if (const iprm::IOptionsList* typeInfos = objectPtr->GetParamsTypeConstraints()){
 			// search for available mime format
 			auto factoryId = paramsPtr->GetFactoryId();
 			if (factoryId.size())
@@ -437,12 +437,12 @@ void CParamsManagerGuiCompBase::PasteParamsSet(const int index)
 	if (!mimeDataPtr)
 		return;	// cannot paste if nothing is in the clipboard
 
-	if (const iprm::IOptionsList* typeInfos = objectPtr->GetParamsTypeConstraints()) {
+	if (const iprm::IOptionsList* typeInfos = objectPtr->GetParamsTypeConstraints()){
 		// search for available mime format
 		//QStringList mimeFormats = mimeDataPtr->formats();
-		for (int i = 0; i < typeInfos->GetOptionsCount(); i++) {
+		for (int i = 0; i < typeInfos->GetOptionsCount(); i++){
 			QByteArray tempType(QByteArray(ParamsSetMimeType) + ':' + typeInfos->GetOptionId(i));
-			if (mimeDataPtr->hasFormat(tempType)) {
+			if (mimeDataPtr->hasFormat(tempType)){
 				factoryIndex = i;
 				mimeType = tempType;
 				break;
@@ -965,7 +965,7 @@ void CParamsManagerGuiCompBase::OnGuiCreated()
 		RemoveButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	}
 
-	if (!(*m_comboBoxViewAttrPtr) || *m_comboBoxHiddenAttrPtr) {
+	if (!(*m_comboBoxViewAttrPtr) || *m_comboBoxHiddenAttrPtr){
 		ParamsComboBox->hide();
 	}
 

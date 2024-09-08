@@ -48,7 +48,7 @@ void CModelUpdateBridge::EnsureModelsDetached()
 		models = m_models;
 	}
 
-	for (Models::iterator it = models.begin(); it != models.end(); ++it) {
+	for (Models::iterator it = models.begin(); it != models.end(); ++it){
 		(*it)->DetachObserver(this);
 	}
 }
@@ -101,7 +101,7 @@ void CModelUpdateBridge::BeforeUpdate(IModel* modelPtr)
 {
 	QReadLocker lock(&m_modelListMutex);
 
-	if (IsAttached(modelPtr)) {
+	if (IsAttached(modelPtr)){
 		istd::IChangeable::ChangeSet changeSet = istd::IChangeable::GetAnyChange();
 		if (m_updateFlags & UF_DELEGATED){
 			changeSet = istd::IChangeable::GetDelegatedChanges();

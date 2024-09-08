@@ -258,7 +258,7 @@ void CSelectionParamGuiComp::OnFilterTextEdited(const QString& text)
 		QComboBox* comboBoxPtr = dynamic_cast<QComboBox*>(signalSenderPtr->parentWidget());
 		if (comboBoxPtr != NULL){
 			QSortFilterProxyModel* modelPtr = dynamic_cast<QSortFilterProxyModel*>(comboBoxPtr->lineEdit()->completer()->model());
-			if (modelPtr != NULL) {
+			if (modelPtr != NULL){
 				QString stringFilter = text;
 				// some recover special symbols in string, may be should add another translate for special symbols
 				stringFilter.replace("*", ".*");
@@ -422,7 +422,7 @@ void CSelectionParamGuiComp::UpdateComboBoxesView()
 			}
 
 			if (constraintsPtr != nullptr){
-				if (switchIndex < m_descriptionLabelList.count()) {
+				if (switchIndex < m_descriptionLabelList.count()){
 					QLabel* descriptionLabelPtr = m_descriptionLabelList.at(switchIndex);
 					QString description = constraintsPtr->GetOptionDescription(selectedIndex);
 					descriptionLabelPtr->setText(description);

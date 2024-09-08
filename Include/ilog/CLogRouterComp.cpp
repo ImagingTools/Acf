@@ -77,7 +77,7 @@ void CLogRouterComp::OnUpdate(const istd::IChangeable::ChangeSet& /*changeSet*/)
 		const IMessageConsumer::MessagePtr message = sortedMessages[i];
 
 		ilog::CMessage* messageCopy = new ilog::CMessage();
-		if (!message.IsValid() || !messageCopy->CopyFrom(*message)) {
+		if (!message.IsValid() || !messageCopy->CopyFrom(*message)){
 			delete messageCopy;
 			continue;
 		}

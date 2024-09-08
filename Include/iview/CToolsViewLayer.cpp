@@ -207,7 +207,7 @@ void CToolsViewLayer::SetDragPosition(const istd::CIndex2d& position)
 
 void CToolsViewLayer::EndDrag()
 {
-	for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter) {
+	for (ShapeList::iterator iter = m_shapes.begin(); iter != m_shapes.end(); ++iter){
 		IDraggable* draggablePtr = dynamic_cast<IDraggable*>(iter->shapePtr);
 		if ((draggablePtr != NULL) && draggablePtr->IsDraggable()){
 			draggablePtr->EndDrag();
