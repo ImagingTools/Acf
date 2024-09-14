@@ -37,11 +37,14 @@ bool CSpectralColor::SetColor(const CVarColor& otherSpectrals)
 	return true;
 }
 
+
 ISpectralColorSpecification::ConstSpectralColorSpecPtr CSpectralColor::GetSpecification() const
 {
 	auto spectralColorDef = std::dynamic_pointer_cast<const ISpectralColorSpecification>(m_modelPtr->GetSpecification());
+
 	return spectralColorDef;
 }
+
 
 // reimplemented (icmm::IColorObject)
 
@@ -50,15 +53,20 @@ icmm::CVarColor CSpectralColor::GetColor() const
 	return m_spectrumValues;
 }
 
+
 ConstColorModelPtr CSpectralColor::GetColorModel() const
 {
 	return m_modelPtr;
 }
 
+
 std::unique_ptr<IColorObject> CSpectralColor::CloneIntoUniquePtr() const
 {
 	return std::make_unique<CSpectralColor>(*this);
 }
+
+
+// reimplemented (iser::ISerializable)
 
 bool CSpectralColor::Serialize(iser::IArchive& /*archive*/)
 {

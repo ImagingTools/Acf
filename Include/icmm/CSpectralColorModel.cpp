@@ -39,16 +39,16 @@ IColorModel::ColorSpaceClass CSpectralColorModel::GetColorSpaceClass() const
 
 int CSpectralColorModel::GetColorSpaceDimensionality() const
 {
-    if (m_spec == nullptr){
-        return 0;
-    }
+	if (m_spec == nullptr) {
+		return 0;
+	}
 
 	int componentCount = 0;
 
 	const ISpectrumInfo* infoPtr = m_spec->GetSpectrumInfo();
-	if (infoPtr != nullptr){
+	if (infoPtr != nullptr) {
 		int step = infoPtr->GetStep();
-		if (step > 0){
+		if (step > 0) {
 			istd::CIntRange range = infoPtr->GetSpectralRange();
 
 			componentCount = 1 + range.GetLength() / step;

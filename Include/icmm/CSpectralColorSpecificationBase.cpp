@@ -11,30 +11,47 @@ CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const ISpectrum
 	m_info.CopyFrom(spectrumInfo);
 }
 
+
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(istd::CIntRange range, int step)
 {
 	m_info.SetRange(range);
 	m_info.SetStep(step);
 }
 
-// reimplemented (ISpectrumInfoProvider)
+
+CSpectralColorSpecificationBase::~CSpectralColorSpecificationBase()
+{
+}
+
+
 CSpectralColorSpecificationBase::CSpectralColorSpecificationBase(const CSpectralColorSpecificationBase& spec)
 {
 	m_info.CopyFrom(*spec.GetSpectrumInfo());
 	m_spectrumType = spec.GetSpectrumType();
 }
 
+
+// reimplemented (ISpectrumInfoProvider)
+
 const ISpectrumInfo* CSpectralColorSpecificationBase::GetSpectrumInfo() const
 {
 	return &m_info;
 }
 
+
+
+ISpectralColorSpecification::SpectrumType CSpectralColorSpecificationBase::GetSpectrumType() const
+{
+	return m_spectrumType;
+}
+
+
+// reimplemented (istd::IChangeable)
+
 bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 {
-	const CSpectralColorSpecificationBase* objectPtr =
-		dynamic_cast<const CSpectralColorSpecificationBase*>(&other);
-
-	if (objectPtr == nullptr) {
+	const CSpectralColorSpecificationBase* objectPtr = dynamic_cast<const CSpectralColorSpecificationBase*>(&other);
+	if (objectPtr == nullptr){
 		return false;
 	}
 
@@ -45,10 +62,6 @@ bool CSpectralColorSpecificationBase::IsEqual(const IChangeable& other) const
 
 }
 
-ISpectralColorSpecification::SpectrumType CSpectralColorSpecificationBase::GetSpectrumType() const
-{
-	return m_spectrumType;
-}
 
 } // namespace icmm
 

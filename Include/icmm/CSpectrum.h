@@ -18,10 +18,10 @@ namespace icmm
 	Standard spectrum implementation.
 */
 class CSpectrum:
-		public imath::CSampledFunction,
-		virtual public ISpectrum,
-		virtual protected ISpectrumInfo,
-		virtual public iser::ISerializable
+			public imath::CSampledFunction,
+			virtual public ISpectrum,
+			virtual protected ISpectrumInfo,
+			virtual public iser::ISerializable
 {
 public:
 	typedef imath::CSampledFunction BaseClass;

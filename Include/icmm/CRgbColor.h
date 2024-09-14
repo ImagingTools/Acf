@@ -36,7 +36,7 @@ public:
 	virtual ConstColorModelPtr GetColorModel() const override;
 	virtual std::unique_ptr<IColorObject> CloneIntoUniquePtr() const override;
 
-	// reimplemented (iser::IObject)
+	// reimplemented (iser::ISerializable)
 	virtual bool Serialize(iser::IArchive& archive) override;
 
 private:
