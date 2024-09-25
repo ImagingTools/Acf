@@ -23,6 +23,7 @@ static void ShowUsage()
 	std::cout << "Options:" << std::endl;
 	std::cout << "\t-mode [sources|depends]      - working mode - source generation or dependencies output, default is 'sources'" << std::endl;
 	std::cout << "\t-o outputFile                - output file path" << std::endl;
+	std::cout << "\t-d depfile                   - optional CMake compatible dependency file" << std::endl;
 	std::cout << "\t-config configFile           - specify ACF packages configuration file" << std::endl;
 	std::cout << "\t-sources [on|off]            - enables/disables C++ sources output, default is 'on'" << std::endl;
 	std::cout << "\t-v                           - enable verbose mode" << std::endl;
@@ -55,6 +56,7 @@ int main(int argc, char *argv[])
 	QString environment;
 	QString inputFilePath = argv[1];
 	QString outputFilePath;
+	QString depfilePath;
 
 	if ((inputFilePath == "-h") || (inputFilePath == "-help")){
 		ShowUsage();
@@ -87,6 +89,10 @@ int main(int argc, char *argv[])
 				}
 				else if ((option == "o") || (option == "output")){
 					outputFilePath = QString::fromLocal8Bit(argv[index + 1]);
+					++index;
+				}
+				else if ((option == "d") || (option == "depfile")) {
+					depfilePath = QString::fromLocal8Bit(argv[index + 1]);
 					++index;
 				}
 				else if (option == "mode"){
@@ -228,6 +234,9 @@ int main(int argc, char *argv[])
 		codeSaverComp.SetIntAttr("TranslationLevel", (translateMode > 0)? 0: -1);
 	}
 	codeSaverComp.SetBoolAttr("UseBinaryCode", useBinaryCode);
+	if (!depfilePath.isEmpty()) {
+		codeSaverComp.SetStringAttr("DepfilePath", depfilePath);
+	}
 	codeSaverComp.InitComponent();
 
 	// registry model

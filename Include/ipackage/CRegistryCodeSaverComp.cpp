@@ -84,7 +84,8 @@ int CRegistryCodeSaverComp::SaveToFile(
 			return OS_FAILED;
 		}
 
-		QFile headerFile(baseFilePath + ".h");
+		QString headerFilePath = baseFilePath + ".h";
+		QFile headerFile(headerFilePath);
 		QFile codeFile(filePath);
 
 		if (		!codeFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) ||
@@ -110,11 +111,46 @@ int CRegistryCodeSaverComp::SaveToFile(
 
 			return OS_FAILED;
 		}
+
+		if (m_depfillePathAttrPtr.IsValid()) {
+			QFileInfo depFileInfo(*m_depfillePathAttrPtr);
+			QDir depFileDir = depFileInfo.absoluteDir();
+			QFile depsFile(depFileInfo.absoluteFilePath());
+
+			if (!depsFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+				depsFile.remove();
+				SendErrorMessage(0, "Dependency file could not be opened", "Source code generator");
+
+				return OS_FAILED;
+			}
+
+			QTextStream depsStream(&depsFile);
+
+			depsStream << depFileDir.relativeFilePath(headerFilePath) << ":";
+			if (!WriteDependencies(Addresses(), realAddresses, true, depsStream)) {
+				depsFile.remove();
+
+				SendErrorMessage(0, "Depfile could not be written", "Source code generator");
+
+				return OS_FAILED;
+			}
+			depsStream << "\n";
+
+			depsStream << depFileDir.relativeFilePath(filePath);
+			if (!WriteDependencies(composedAddresses, realAddresses, true, depsStream)) {
+				depsFile.remove();
+
+				SendErrorMessage(0, "Depfile could not be written", "Source code generator");
+
+				return OS_FAILED;
+			}
+			depsStream << "\n";
+		}
 	}
 	else if (*m_workingModeAttrPtr == WM_DEPENDENCIES){
 		if (filePath.isEmpty()){
 			QTextStream depsStream(stdout);
-			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
+			if (!WriteDependencies(composedAddresses, realAddresses, false, depsStream)){
 				SendErrorMessage(0, "Build dependencies could not be written", "Source code generator");
 
 				return OS_FAILED;
@@ -131,7 +167,7 @@ int CRegistryCodeSaverComp::SaveToFile(
 			}
 
 			QTextStream depsStream(&depsFile);
-			if (!WriteDependencies(composedAddresses, realAddresses, depsStream)){
+			if (!WriteDependencies(composedAddresses, realAddresses, false, depsStream)){
 				depsFile.remove();
 
 				SendErrorMessage(0, "Build dependencies could not be written", "Source code generator");
@@ -988,13 +1024,14 @@ bool CRegistryCodeSaverComp::WriteClassDefinitions(
 bool CRegistryCodeSaverComp::WriteDependencies(
 			const Addresses& composedAddresses,
 			const Addresses& realAddresses,
+			bool singleLine,
 			QTextStream& stream) const
 {
 	if (!m_packagesManagerCompPtr.IsValid()){
 		return false;
 	}
 
-	if (!composedAddresses.isEmpty() && !realAddresses.isEmpty()){
+	if (!composedAddresses.isEmpty()) {
 #if QT_VERSION > QT_VERSION_CHECK(5, 15, 0)
 		QList<icomp::CComponentAddress> sortedComponentAdresses(composedAddresses.begin(), composedAddresses.end());
 #else
@@ -1002,34 +1039,40 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 #endif
 		std::sort(sortedComponentAdresses.begin(), sortedComponentAdresses.end());
 
-		for (		QList<icomp::CComponentAddress>::const_iterator addressIter = sortedComponentAdresses.constBegin();
-					addressIter != sortedComponentAdresses.constEnd();
-					++addressIter){
-			const icomp::CComponentAddress& address = *addressIter;
+		for (const auto& address: sortedComponentAdresses) {
 			const QByteArray& packageId = address.GetPackageId();
 
 			QString packagePath = m_packagesManagerCompPtr->GetPackagePath(packageId);
 
-			if (!packagePath.isEmpty()){
+			if (!packagePath.isEmpty()) {
 				QDir packageDir(QDir::cleanPath(packagePath));
 
 				QFileInfo outputFilePathOld(packageDir.absoluteFilePath(address.GetComponentId() + ".arx"));
 				QFileInfo outputFilePathNew(packageDir.absoluteFilePath(address.GetComponentId() + ".acc"));
 
-				if (outputFilePathOld.exists()){
-					stream << outputFilePathOld.absoluteFilePath() << "\n";
+				QString filePath;
+				if (outputFilePathOld.exists()) {
+					filePath = outputFilePathOld.absoluteFilePath();
 				}
-				else if (outputFilePathNew.exists()){
-					stream << outputFilePathNew.absoluteFilePath() << "\n";
+				else if (outputFilePathNew.exists()) {
+					filePath = outputFilePathNew.absoluteFilePath();
+				}
+
+				if (!filePath.isEmpty()) {
+					if (singleLine) {
+						stream << " " << filePath;
+					}
+					else {
+						stream << filePath << "\n";
+					}
 				}
 			}
 		}
+	}
 
+	if (!realAddresses.isEmpty()) {
 		Ids packageIdsList;
-		for (		Addresses::const_iterator addressIter = realAddresses.constBegin();
-					addressIter != realAddresses.constEnd();
-					++addressIter){
-			const icomp::CComponentAddress& address = *addressIter;
+		for (const auto& address: realAddresses) {
 			packageIdsList.insert(address.GetPackageId());
 		}
 
@@ -1050,7 +1093,14 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 			if (!packagePath.isEmpty()){
 				QFileInfo packageFilePath(QDir::cleanPath(packagePath));
 
-				stream << packageFilePath.absoluteFilePath() << "\n";
+				auto filePath = packageFilePath.absoluteFilePath();
+
+				if (singleLine) {
+					stream << " " << filePath;
+				}
+				else {
+					stream << filePath << "\n";
+				}
 			}
 		}
 	}
@@ -1070,7 +1120,15 @@ bool CRegistryCodeSaverComp::WriteDependencies(
 					++pathIter){
 			QFileInfo configFilePath(*pathIter);
 
-			stream << configFilePath.absoluteFilePath().toLocal8Bit().constData() << "\n";
+			auto filePath = configFilePath.absoluteFilePath();
+
+			if (singleLine) {
+				stream << " " << filePath;
+			}
+			else {
+				stream << filePath << "\n";
+			}
+
 		}
 	}
 

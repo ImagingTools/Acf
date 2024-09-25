@@ -355,8 +355,8 @@ bool CRegistriesManagerComp::LoadConfigFile(const QString& configFile, int defin
 
 	int configFilesCount = configurationData.GetConfigFilesCount();
 	for (int i = 0; i < configFilesCount; ++i){
-		QString configFilePath = istd::CSystem::GetEnrolledPath(configurationData.GetConfFile(i));
-		retVal = LoadConfigFile(baseDir.absoluteFilePath(configFilePath), definitionLevel + 1) && retVal;
+		QString filePath = istd::CSystem::GetEnrolledPath(configurationData.GetConfFile(i));
+		retVal = LoadConfigFile(baseDir.absoluteFilePath(filePath), definitionLevel + 1) && retVal;
 	}
 
 	int packageDirsCount = configurationData.GetPackageDirsCount();
