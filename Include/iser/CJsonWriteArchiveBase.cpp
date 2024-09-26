@@ -46,14 +46,14 @@ bool CJsonWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 
 	if (tagType == iser::CArchiveTag::TT_LEAF){
 		retVal = retVal && WriteTag(tag, "");
-		m_tagsStack.push_back(&tag);
+		m_tagsStack.push_back({ &tag, false });
 
 		return retVal;
 	}
-	else if (tagType == iser::CArchiveTag::TT_GROUP){
+	else if (tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN){
 		retVal = WriteTag(tag, "{");
 		m_firstTag = true;
-		m_tagsStack.push_back(&tag);
+		m_tagsStack.push_back({ &tag, false });
 
 		return retVal;
 	}
@@ -67,7 +67,7 @@ bool CJsonWriteArchiveBase::BeginMultiTag(const CArchiveTag& tag, const CArchive
 	bool retVal = WriteTag(tag,"[");
 	m_firstTag = true;
 
-	m_tagsStack.push_back(&tag);
+	m_tagsStack.push_back({ &tag, true });
 
 	m_allowAttribute = true;
 
@@ -81,17 +81,19 @@ bool CJsonWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 		return false;
 	}
 
-	const iser::CArchiveTag* lastTagPtr = m_tagsStack.back();
+	TagsStackItem lastItem = m_tagsStack.last();
 	m_tagsStack.pop_back();
 
-	if (lastTagPtr == NULL){
+	if (lastItem.m_tagPtr == NULL){
 		return false;
 	}
 
-	if (lastTagPtr->GetTagType() == iser::CArchiveTag::TT_MULTIPLE){
+	int tagType = lastItem.m_tagPtr->GetTagType();
+
+	if (lastItem.m_isMultiTag){
 		m_stream << "]";
 	}
-	else if (lastTagPtr->GetTagType() == iser::CArchiveTag::TT_GROUP){
+	else if (tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN){
 		m_stream << "}";
 	}
 	m_firstTag = false;
@@ -116,7 +118,18 @@ bool CJsonWriteArchiveBase::Process(QByteArray &value)
 	value.replace('\r', "\\r");
 	value.replace('\t', "\\t");
 
-	return WriteTextNode("\"" + value + "\"");
+
+	m_quotationMarksRequired = true;
+
+	return WriteTextNode(value);
+}
+
+
+bool CJsonWriteArchiveBase::ProcessData(void* dataPtr, int size)
+{
+	m_quotationMarksRequired = true;
+
+	return BaseClass::ProcessData(dataPtr, size);
 }
 
 
@@ -167,9 +180,8 @@ bool CJsonWriteArchiveBase::WriteTag(const CArchiveTag &tag, QString separator)
 	bool isWritePrefix = true;
 	int tagType = tag.GetTagType();
 
-	if ((tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_LEAF) && !m_tagsStack.isEmpty()){
-		const iser::CArchiveTag* lastTagPtr = m_tagsStack.last();
-		if (lastTagPtr->GetTagType() == iser::CArchiveTag::TT_MULTIPLE){
+	if ((tagType == iser::CArchiveTag::TT_UNKNOWN || tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_LEAF) && !m_tagsStack.isEmpty()){
+		if (m_tagsStack.last().m_isMultiTag){
 			isWritePrefix = false;
 		}
 	}
@@ -217,7 +229,25 @@ bool CJsonWriteArchiveBase::Flush()
 
 bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 {
+	int tagType = m_tagsStack.last().m_tagPtr->GetTagType();
+
+	bool createFakeTag = tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN;
+
+	if (createFakeTag){
+		m_stream << "\"" << m_tagsStack.last().m_tagPtr->GetId() << "\": ";
+	}
+
+	if (m_quotationMarksRequired){
+		m_stream << "\"";
+	}
+
 	m_stream << text;
+	
+	if (m_quotationMarksRequired){
+		m_stream << "\"";
+	}
+
+	m_quotationMarksRequired = false;
 
 	return true;
 }

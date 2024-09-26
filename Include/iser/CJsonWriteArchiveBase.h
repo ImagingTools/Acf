@@ -39,6 +39,7 @@ public:
 	virtual bool EndTag(const iser::CArchiveTag& tag);
 	virtual bool Process(QString& value);
 	virtual bool Process(QByteArray& value);
+	virtual bool ProcessData(void* dataPtr, int size) override;
 
 	using BaseClass::Process;
 
@@ -64,7 +65,15 @@ protected:
 	bool m_isSeparatorNeeded;	// idicate that separator must be added before something is outputted
 	bool m_allowAttribute;		// indicate if attribute outputting is allowed now
 
-	QList<const iser::CArchiveTag*> m_tagsStack;
+	struct TagsStackItem
+	{
+		const iser::CArchiveTag* m_tagPtr;
+		bool m_isMultiTag;
+	};
+
+	bool m_quotationMarksRequired = false;
+
+	QList<TagsStackItem> m_tagsStack;
 };
 
 
