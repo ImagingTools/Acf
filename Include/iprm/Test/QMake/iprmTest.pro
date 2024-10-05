@@ -1,7 +1,7 @@
 TARGET = iprmTest
 
-include($(ACFCONFIGDIR)/QMake/TestConfig.pri)
-include($(ACFCONFIGDIR)/QMake/QtBaseConfig.pri)
+include(../../../../Config/QMake/TestConfig.pri)
+include(../../../../Config/QMake/QtBaseConfig.pri)
 
 LIBS += -liprm
 
