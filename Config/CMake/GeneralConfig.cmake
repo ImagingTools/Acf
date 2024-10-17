@@ -118,3 +118,49 @@ function(acf_use_qt_graphics_modules)
 	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Gui)
 	target_link_libraries(${PROJECT_NAME}  Qt${QT_VERSION_MAJOR}::Svg)
 endfunction()
+
+
+function (mac_deploy_qt)
+	if (NOT APPLE)
+		return()
+	endif()
+
+	set(booleanArgs REMOVE_DEBUGSYM)
+	set(oneValueArgs TARGET TARGET_FILE_NAME)
+	set(multiValueArgs OPTIONS)
+	cmake_parse_arguments(ARG "${booleanArgs}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+	get_target_property(qmake_executable Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
+	get_filename_component(qt_bin_dir "${qmake_executable}" DIRECTORY)
+	set(DEPLOY_QT_EXECUTABLE "NOTFOUND")
+
+	set_property(
+		TARGET ${ARG_TARGET}
+		PROPERTY MACOSX_BUNDLE TRUE)
+
+	get_property(OUTPUT_DIRECTORY
+		TARGET ${PROJECT_NAME}
+		PROPERTY RUNTIME_OUTPUT_DIRECTORY)
+
+	set(BUNDLE_BIN_DIRECTORY "${OUTPUT_DIRECTORY}/${ARG_TARGET_FILE_NAME}.app")
+	set(DEPLOY_QT_EXECUTABLE ${qt_bin_dir}/macdeployqt)
+	set(DEPLOY_OPTIONS "${ARG_OPTIONS}")
+
+	if (NOT ARG_REMOVE_DEBUGSYM)
+		if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+			list(APPEND DEPLOY_OPTIONS "--no-strip")
+		endif()
+	endif()
+
+	if(DEPLOY_QT_EXECUTABLE)
+		add_custom_command(
+			TARGET ${PROJECT_NAME} POST_BUILD
+			COMMAND ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS}
+			DEPENDS ${BUNDLE_BIN_DIRECTORY}
+			COMMENT "Deploying Qt libraries using ${DEPLOY_QT_EXECUTABLE} ${BUNDLE_BIN_DIRECTORY} ${DEPLOY_OPTIONS} ..."
+			)
+	else()
+		message(FATAL_ERROR "Unable to find the DEPLOY_QT_EXECUTABLE programm ")
+	endif()
+
+endfunction()
