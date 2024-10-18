@@ -31,6 +31,11 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 		set(QMAKE_LRELEASE "lrelease")
 	endif()
 
+	if (APPLE)
+		set(ARX_COMPILER "Arxc.app/Contents/MacOS/Arxc")
+		set(ACF_TOOL "Acf.app/Contents/MacOS/Acf")
+	endif()
+
 	get_target_name(TARGETNAME)
 
 	set(ACFTOOLS "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../../AcfTools")
