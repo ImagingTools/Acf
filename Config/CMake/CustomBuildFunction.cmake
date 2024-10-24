@@ -81,7 +81,11 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 			message("${ERRORS2_ARX_DEPS_LIST}")
 
 			message("COMMAND!!! ${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -env_vars ${ACF_ENV_VARS_SINGLE_STRING}")		
-			message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")		
+			execute_process(
+			COMMAND
+				${ARXCBIN} ${ARXC_FILES} -mode depends -config ${ARXC_CONFIG} -conf_name ${CMAKE_BUILD_TYPE}_${TARGETNAME} -v -env_vars ${ENV_VARS}
+			)	
+			message(FATAL_ERROR "!!! ARX finished unexpected [${ARX_DEPS_GENERATION_RESULT_CODE}]")	
 		endif()
 
 		file(STRINGS ${ARX_DEPS_FILE_PATH} ARX_DEPS_LIST)
