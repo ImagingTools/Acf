@@ -1,5 +1,4 @@
-#ifndef ibase_CApplicationInfoComp_included
-#define ibase_CApplicationInfoComp_included
+#pragma once
 
 
 // ACF includes
@@ -28,6 +27,7 @@ public:
 		I_ASSIGN(m_companyNameAttrPtr, "CompanyName", "Company name", false, "<my company>");
 		I_ASSIGN(m_productNameAttrPtr, "ProductName", "Product name, the same for all applications in one product", false, "<my product>");
 		I_ASSIGN(m_productEditionAttrPtr, "ProductEdition", "Product edition", false, "");
+		I_ASSIGN(m_applicationIdAttrPtr, "ApplicationId", "Application-ID", true, "ApplicationId");
 		I_ASSIGN(m_applicationNameAttrPtr, "ApplicationName", "Application name", false, "ACF Application");
 		I_ASSIGN(m_applicationSubnameAttrPtr, "ApplicationSubname", "Sub-name of application", false, "");
 		I_ASSIGN(m_applicationTypeAttrPtr, "ApplicationType", "Application type", false, "Server");
@@ -52,6 +52,7 @@ private:
 	I_TEXTATTR(m_companyNameAttrPtr);
 	I_TEXTATTR(m_productNameAttrPtr);
 	I_TEXTATTR(m_productEditionAttrPtr);
+	I_ATTR(QByteArray, m_applicationIdAttrPtr);
 	I_TEXTATTR(m_applicationNameAttrPtr);
 	I_TEXTATTR(m_applicationSubnameAttrPtr);
 	I_TEXTATTR(m_applicationTypeAttrPtr);
@@ -62,8 +63,5 @@ private:
 
 
 } // namespace ibase
-
-
-#endif // !ibase_CApplicationInfoComp_included
 
 

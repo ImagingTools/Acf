@@ -30,6 +30,12 @@ QString CApplicationInfoComp::GetApplicationAttribute(int attributeId, bool allo
 		}
 		break;
 
+	case AA_APPLICATION_ID:
+		if (m_applicationIdAttrPtr.IsValid()){
+			return *m_applicationIdAttrPtr;
+		}
+		break;
+
 	case AA_APPLICATION_NAME:
 		if (m_applicationNameAttrPtr.IsValid()){
 			return allowTranslation? *m_applicationNameAttrPtr: m_applicationNameAttrPtr.GetOriginalValue();
