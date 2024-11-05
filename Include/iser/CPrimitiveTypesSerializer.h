@@ -542,7 +542,7 @@ bool CPrimitiveTypesSerializer::SerializeAssociativeObjectContainer(
 
 
 template <typename ObjectType>
-static bool CPrimitiveTypesSerializer::SerializeOptionalObject(
+bool CPrimitiveTypesSerializer::SerializeOptionalObject(
 	iser::IArchive& archive,
 	std::shared_ptr<ObjectType>& objectPtrRef,
 	const QByteArray& tagName)
