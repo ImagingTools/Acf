@@ -4,6 +4,7 @@ CONFIG += stl
 CONFIG -= exceptions
 CONFIG -= silent
 CONFIG += rtti
+CONFIG += force_debug_info
 
 PLATFORM_CODE = i86
 win32:contains(QMAKE_HOST.arch, x86_64) | *-64{
@@ -21,6 +22,7 @@ CONFIG += depend_includepath
 
 win32-msvc*{
 	COMPILER_NAME = VC
+    COMPILER_TYPE = MSVC
 	QMAKE_CXXFLAGS += /wd4127 /wd4250 /wd4347 /wd4355 /wd4365 /wd4481 /wd4505 /wd4510 /wd4511 /wd4512 /wd4548 /wd4571 /wd4619 /wd4625 /wd4626 /wd4640 /wd4702 /wd4710 /wd4820 /wd4826 /wd4714
 	QMAKE_CXXFLAGS_WARN_ON = -W4
 	QMAKE_CXXFLAGS += /MP /fp:fast
