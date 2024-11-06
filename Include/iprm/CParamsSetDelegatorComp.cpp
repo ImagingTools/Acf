@@ -72,7 +72,7 @@ bool CParamsSetDelegatorComp::Serialize(iser::IArchive& archive)
 		return m_slaveParamsSetCompPtr->Serialize(archive);
 	}
 
-	return false;
+	return true;
 }
 
 
@@ -84,7 +84,7 @@ bool CParamsSetDelegatorComp::CopyFrom(const IChangeable& object, CompatibilityM
 		return m_slaveParamsSetCompPtr->CopyFrom(object, mode);
 	}
 
-	return false;
+	return true;
 }
 
 

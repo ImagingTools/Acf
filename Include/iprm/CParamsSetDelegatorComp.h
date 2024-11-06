@@ -29,7 +29,7 @@ public:
 		I_REGISTER_INTERFACE(iser::IObject);
 		I_REGISTER_INTERFACE(iser::ISerializable);
 		I_REGISTER_INTERFACE(istd::IChangeable);
-		I_ASSIGN(m_slaveParamsSetCompPtr, "SlaveParamsSet", "Delegated parameters set", true, "SlaveParamsSet");
+		I_ASSIGN(m_slaveParamsSetCompPtr, "SlaveParamsSet", "Delegated parameters set", false, "SlaveParamsSet");
 		I_ASSIGN(m_typeIdAttrPtr, "TypeId", "Type ID if differs from slave object", false, "Default");
 		I_ASSIGN(m_modelCompPtr, "SlaveChangesModel", "Model to intercept changes from (can be differ from SlaveParamsSet)", false, "SlaveChangesModel");
 	I_END_COMPONENT;
