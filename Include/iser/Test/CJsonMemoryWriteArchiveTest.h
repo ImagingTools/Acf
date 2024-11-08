@@ -37,6 +37,7 @@ private slots:
 
 	void WriteTest();
 	void ReadTest();
+	void ParamsSetSerializeTest();
 	void _Test();
 
 	void cleanupTestCase();

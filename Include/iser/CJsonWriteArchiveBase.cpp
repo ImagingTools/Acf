@@ -44,13 +44,16 @@ bool CJsonWriteArchiveBase::BeginTag(const CArchiveTag& tag)
 	QString tagId(tag.GetId());
 	int tagType = tag.GetTagType();
 
-	if (tagType == iser::CArchiveTag::TT_LEAF || tagType == iser::CArchiveTag::TT_WEAK){
+	if (tagType == iser::CArchiveTag::TT_LEAF){
 		retVal = retVal && WriteTag(tag, "");
 		m_tagsStack.push_back({ &tag, false });
 
 		return retVal;
 	}
-	else if (tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN){
+	else if (
+				tagType == iser::CArchiveTag::TT_GROUP
+				|| tagType == iser::CArchiveTag::TT_WEAK
+				|| tagType == iser::CArchiveTag::TT_UNKNOWN){
 		retVal = WriteTag(tag, "{");
 		m_firstTag = true;
 		m_tagsStack.push_back({ &tag, false });
@@ -93,7 +96,10 @@ bool CJsonWriteArchiveBase::EndTag(const CArchiveTag& /*tag*/)
 	if (lastItem.m_isMultiTag){
 		m_stream << "]";
 	}
-	else if (tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN){
+	else if (
+				tagType == iser::CArchiveTag::TT_GROUP
+				|| tagType == iser::CArchiveTag::TT_WEAK
+				|| tagType == iser::CArchiveTag::TT_UNKNOWN){
 		m_stream << "}";
 	}
 	m_firstTag = false;
@@ -180,7 +186,12 @@ bool CJsonWriteArchiveBase::WriteTag(const CArchiveTag &tag, QString separator)
 	bool isWritePrefix = true;
 	int tagType = tag.GetTagType();
 
-	if ((tagType == iser::CArchiveTag::TT_UNKNOWN || tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_LEAF || tagType == iser::CArchiveTag::TT_WEAK) && !m_tagsStack.isEmpty()){
+	if (
+				(tagType == iser::CArchiveTag::TT_UNKNOWN
+				|| tagType == iser::CArchiveTag::TT_GROUP
+				|| tagType == iser::CArchiveTag::TT_LEAF
+				|| tagType == iser::CArchiveTag::TT_WEAK)
+				&& !m_tagsStack.isEmpty()){
 		if (m_tagsStack.last().m_isMultiTag){
 			isWritePrefix = false;
 		}
@@ -231,7 +242,10 @@ bool CJsonWriteArchiveBase::WriteTextNode(const QByteArray &text)
 {
 	int tagType = m_tagsStack.last().m_tagPtr->GetTagType();
 
-	bool createFakeTag = tagType == iser::CArchiveTag::TT_GROUP || tagType == iser::CArchiveTag::TT_UNKNOWN;
+	bool createFakeTag = (
+				tagType == iser::CArchiveTag::TT_GROUP
+				|| tagType == iser::CArchiveTag::TT_WEAK
+				|| tagType == iser::CArchiveTag::TT_UNKNOWN);
 
 	if (createFakeTag){
 		m_stream << "\"" << m_tagsStack.last().m_tagPtr->GetId() << "\": ";
