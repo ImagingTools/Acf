@@ -18,11 +18,11 @@ bool CFileSerializerCompBase::IsOperationSupported(
 			bool beQuiet) const
 {
 	const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(dataObjectPtr);
-	if (serializablePtr == NULL){
+	if (serializablePtr == nullptr){
 		serializablePtr = CompCastPtr<iser::ISerializable>(dataObjectPtr);
 	}
 
-	if ((dataObjectPtr != NULL) && (serializablePtr == NULL)){
+	if ((dataObjectPtr != nullptr) && (serializablePtr == nullptr)){
 		if (!beQuiet){
 			SendInfoMessage(MI_BAD_OBJECT_TYPE, QObject::tr("Object is not serializable"));
 		}
@@ -34,7 +34,7 @@ bool CFileSerializerCompBase::IsOperationSupported(
 		return false;
 	}
 
-	if (filePathPtr != NULL){
+	if (filePathPtr != nullptr){
 		if ((flags & (QF_LOAD | QF_SAVE)) == QF_LOAD){
 			if (!CheckInputFile(*filePathPtr, beQuiet)){
 				return false;

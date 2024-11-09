@@ -55,7 +55,7 @@ public:
 
 		virtual bool SendLogMessage(istd::IInformationProvider::InformationCategory category, int id, const QString& message, const QString& messageSource, int flags = 0) const
 		{
-			if (m_loggerPtr != NULL){
+			if (m_loggerPtr != nullptr){
 				QString correctedMessage = message;
 				QString correctedMessageSource = messageSource;
 
@@ -71,11 +71,11 @@ public:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
 					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
-					const int* flagsPtr = NULL) const override
+					const int* flagsPtr = nullptr) const override
 		{
 			static const istd::IInformationProvider::InformationCategory slaveCategory = istd::IInformationProvider::IC_INFO;
 
-			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
+			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
 
 	private:
@@ -95,7 +95,7 @@ public:
 
 		virtual bool SendLogMessage(istd::IInformationProvider::InformationCategory category, int id, const QString& message, const QString& messageSource, int flags = 0) const
 		{
-			if (m_loggerPtr != NULL){
+			if (m_loggerPtr != nullptr){
 				QString correctedMessage = message;
 				QString correctedMessageSource = messageSource;
 
@@ -111,11 +111,11 @@ public:
 		// reimplemented (istd::ILogger)
 		virtual bool IsLogConsumed(
 					const istd::IInformationProvider::InformationCategory* /*categoryPtr*/,
-					const int* flagsPtr = NULL) const override
+					const int* flagsPtr = nullptr) const override
 		{
 			static const istd::IInformationProvider::InformationCategory slaveCategory = istd::IInformationProvider::IC_INFO;
 
-			return (m_loggerPtr != NULL) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
+			return (m_loggerPtr != nullptr) && m_loggerPtr->IsLogConsumed(&slaveCategory, flagsPtr);
 		}
 
 	private:
@@ -151,11 +151,11 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::LoadFromFile(
 			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
 		*/
 		iser::ISerializable* serializablePtr = dynamic_cast<iser::ISerializable*>(&data);
-		if (serializablePtr == NULL){
+		if (serializablePtr == nullptr){
 			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
 		}
 
-		Q_ASSERT(serializablePtr != NULL);
+		Q_ASSERT(serializablePtr != nullptr);
 
 		if (serializablePtr->Serialize(archive)){
 			return OS_OK;
@@ -191,10 +191,10 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 			\todo Change CompCastPtr to be sure that firstly the data will be casted to the interface, but NOT the first ISerializable in the composition.
 		*/
 		const iser::ISerializable* serializablePtr = dynamic_cast<const iser::ISerializable*>(&data);
-		if(serializablePtr == NULL){
+		if(serializablePtr == nullptr){
 			serializablePtr = CompCastPtr<iser::ISerializable>(&data);
 		}
-		Q_ASSERT(serializablePtr != NULL);
+		Q_ASSERT(serializablePtr != nullptr);
 
 		if (!CheckMinimalVersion(*serializablePtr, archive.GetVersionInfo())){
 			SendWarningMessage(MI_UNSUPPORTED_VERSION, QObject::tr("Archive version is not supported, possible lost of data"));
@@ -215,7 +215,10 @@ int TFileSerializerComp<ReadArchive, WriteArchive>::SaveToFile(
 // protected methods
 
 template <class ReadArchive, class WriteArchive>
-void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(const ReadArchive& /*archive*/, const istd::IChangeable& /*data*/, const QString& filePath) const
+void TFileSerializerComp<ReadArchive, WriteArchive>::OnReadError(
+			const ReadArchive& /*archive*/,
+			const istd::IChangeable& /*data*/,
+			const QString& filePath) const
 {
 	SendWarningMessage(MI_CANNOT_LOAD, QString(QObject::tr("Cannot load object from file ")) + filePath);
 }

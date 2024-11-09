@@ -38,7 +38,7 @@ public:
 	// reimplemented (ifile::IFilePersistence)
 	virtual bool IsOperationSupported(
 				const istd::IChangeable* dataObjectPtr,
-				const QString* filePathPtr = NULL,
+				const QString* filePathPtr = nullptr,
 				int flags = -1,
 				bool beQuiet = true) const override;
 
