@@ -11,6 +11,7 @@ CJsonMemReadArchive::CJsonMemReadArchive(const QByteArray& data, bool serializeH
 	:BaseClass(serializeHeader)
 {
 	m_buffer.setData(data);
+	m_buffer.open(QIODevice::ReadOnly);
 
 	SetContent(&m_buffer);
 }
