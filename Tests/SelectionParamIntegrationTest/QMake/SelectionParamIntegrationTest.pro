@@ -12,7 +12,7 @@ CONFIG += console
 
 # Set configuration of custom builds:
 # ARX Compiler:
-ARXC_CONFIG = $$PWD/../../Config/AcfTestConfig.awc
+ARXC_CONFIG = $$PWD/../../Config/AcfTestsConfig.awc
 ARXC_FILES += $$files($$_PRO_FILE_PWD_/../*.acc, false)
 ARXC_OUTDIR = $$OUT_PWD/$$AUXINCLUDEPATH/GeneratedFiles/$$TARGET
 
