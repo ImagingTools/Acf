@@ -133,6 +133,6 @@ iprmTest.file = ../../Include/iprm/Test/QMake/iprmTest.pro
 SUBDIRS += ifileTest
 ifileTest.file = ../../Include/ifile/Test/QMake/ifileTest.pro
 
-SUBDIRS += AcfTests
-AcfTests.file = ../../Tests/QMake/AcfTests.pro
-AcfTests.depends = Arxc
+SUBDIRS += SelectionParamIntegrationTest
+SelectionParamIntegrationTest.file = ../../Tests/SelectionParamIntegrationTest/QMake/SelectionParamIntegrationTest.pro
+SelectionParamIntegrationTest.depends = Arxc iprm iser itest
