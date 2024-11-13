@@ -165,6 +165,14 @@ void CApplicationCompBase::InitializeComponentApplication()
 		applicationFullName.replace("$(AppSubName)", m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_SUBNAME));
 		applicationFullName.replace("$(AppType)", m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_APPLICATION_TYPE));
 		applicationFullName.replace("$(Version)", m_applicationInfoCompPtr->GetApplicationAttribute(ibase::IApplicationInfo::AA_MAIN_VERSION));
+
+		const iser::IVersionInfo& applicationVersion = m_applicationInfoCompPtr->GetVersionInfo();
+		quint32 versionNumber = 0;
+		bool versionSet = applicationVersion.GetVersionNumber(m_applicationInfoCompPtr->GetMainVersionId(), versionNumber);
+		if (versionSet){
+			QString appilcationVersionName = applicationVersion.GetEncodedVersionName(m_applicationInfoCompPtr->GetMainVersionId(), versionNumber);
+			m_applicationPtr->setApplicationVersion(appilcationVersionName);
+		}
 	}
 	else{
 		applicationFullName = QObject::tr("ACF application");
