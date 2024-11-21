@@ -59,7 +59,7 @@ protected:
 private:
 	const IComponent* m_definitionComponentPtr;
 
-	mutable std::atomic<Interface*> m_componentPtr;
+	mutable Interface* m_componentPtr;
 	mutable std::atomic<bool> m_isInitialized;
 };
 
