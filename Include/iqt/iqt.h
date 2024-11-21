@@ -22,6 +22,8 @@
 #include <i2d/CLine2d.h>
 #include <i2d/CRect.h>
 
+#include <iqt/ITranslationManager.h>
+
 
 /**
 	This namespace contains non-UI utility classes based on Qt.
@@ -44,6 +46,13 @@ extern QLineF GetQLineF(const i2d::CLine2d& line);
 extern QRect GetQRect(const i2d::CRect& rect);
 extern i2d::CRect GetCRect(const QRect& rect);
 
+/**
+	Function to get phrase tranlate.
+	Check all connect translation manager
+	and return translate when finds it.
+	If not found, returns the original phrase.
+*/
+QByteArray GetTranslation(const iqt::ITranslationManager* translationManagerPtr, const QByteArray& phrase, const QByteArray& languageId, const QByteArray& context);
 
 } // namespace iqt
 
