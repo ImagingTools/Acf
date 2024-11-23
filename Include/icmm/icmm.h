@@ -201,7 +201,6 @@ I_DECLARE_ENUM(
 			CU_SPOT);
 
 
-
 } // namespace icmm
 
 
