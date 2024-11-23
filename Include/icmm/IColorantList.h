@@ -16,20 +16,18 @@ namespace icmm
 class IColorantList: virtual public istd::IChangeable
 {
 public:
+	typedef QString ColorantId;
+	typedef QStringList ColorantIds;
+
 	/**
 		Get the list of colorant-IDs.
 	*/
-	virtual QByteArrayList GetColorantIds() const = 0;
-
-	/**
-		Get display name of the colorant with the given ID.
-	*/
-	virtual QString GetColorantName(const QByteArray& colorantId) const = 0;
+	virtual ColorantIds GetColorantIds() const = 0;
 
 	/**
 		Get type of the colorant with the given ID. 
 	*/
-	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const = 0;
+	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const = 0;
 };
 
 

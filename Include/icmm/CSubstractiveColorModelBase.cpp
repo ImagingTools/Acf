@@ -41,12 +41,12 @@ const imath::IUnitInfo* CSubstractiveColorModelBase::GetColorSpaceComponentInfo(
 
 QString CSubstractiveColorModelBase::GetColorSpaceComponentName(int componentIndex) const
 {
-	QByteArrayList colorantIds = GetColorantIds();
+	ColorantIds colorantIds = GetColorantIds();
 
 	Q_ASSERT(componentIndex < colorantIds.count());
 	Q_ASSERT(componentIndex >= 0);
 
-	return GetColorantName(colorantIds[componentIndex]);
+	return colorantIds[componentIndex];
 }
 
 

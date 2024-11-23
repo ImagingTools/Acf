@@ -9,19 +9,17 @@ namespace icmm
 {
 
 
-class CCompositeDeviceColorModel: public CSubstractiveColorModelBase
+class CSubstractiveColorModel: public CSubstractiveColorModelBase
 {
 public:
 	// reimplemented (icmm::IColorantList)
-	virtual QByteArrayList GetColorantIds() const override;
-	virtual QString GetColorantName(const QByteArray& colorantId) const override;
-	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const override;
+	virtual ColorantIds GetColorantIds() const override;
+	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 
 protected:
 	struct ColorantInfo
 	{
 		QByteArray id;
-		QString name;
 		ColorantUsage usage = CU_NONE;
 	};
 

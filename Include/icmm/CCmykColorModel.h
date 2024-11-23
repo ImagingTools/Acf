@@ -15,8 +15,8 @@ public:
 	typedef CCmyColorModel BaseClass;
 
 	// reimplemented (icmm::IColorantList)
-	virtual QByteArrayList GetColorantIds() const override;
-	icmm::ColorantUsage GetColorantUsage(const QByteArray& colorantId) const override;
+	virtual ColorantIds GetColorantIds() const override;
+	icmm::ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 };
 
 
@@ -24,13 +24,13 @@ public:
 
 // reimplemented (icmm::IColorantList)
 
-inline QByteArrayList CCmykColorModel::GetColorantIds() const
+inline IColorantList::ColorantIds CCmykColorModel::GetColorantIds() const
 {
 	return {"Cyan", "Magenta", "Yellow", "Black"};
 }
 
 
-icmm::ColorantUsage CCmykColorModel::GetColorantUsage(const QByteArray& colorantId) const
+icmm::ColorantUsage CCmykColorModel::GetColorantUsage(const ColorantId& colorantId) const
 {
 	Q_ASSERT(GetColorantIds().contains(colorantId));
 

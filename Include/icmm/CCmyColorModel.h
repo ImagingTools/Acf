@@ -13,9 +13,8 @@ class CCmyColorModel: public CSubstractiveColorModelBase
 {
 public:
 	// reimplemented (icmm::IColorantList)
-	virtual QByteArrayList GetColorantIds() const override;
-	virtual QString GetColorantName(const QByteArray& colorantId) const override;
-	virtual ColorantUsage GetColorantUsage(const QByteArray& colorantId) const override;
+	virtual ColorantIds GetColorantIds() const override;
+	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 };
 
 
@@ -23,24 +22,13 @@ public:
 
 // reimplemented (icmm::IColorantList)
 
-QByteArrayList CCmyColorModel::GetColorantIds() const
+IColorantList::ColorantIds CCmyColorModel::GetColorantIds() const
 {
 	return {"Cyan", "Magenta", "Yellow"};
 }
 
 
-QString CCmyColorModel::GetColorantName(const QByteArray& colorantId) const
-{
-	QByteArrayList colorantIds = CCmyColorModel::GetColorantIds();
-	if (colorantIds.contains(colorantId)){
-		return QString(colorantId);
-	}
-
-	return QString();
-}
-
-
-icmm::ColorantUsage CCmyColorModel::GetColorantUsage(const QByteArray& colorantId) const
+icmm::ColorantUsage CCmyColorModel::GetColorantUsage(const ColorantId& colorantId) const
 {
 	Q_ASSERT(GetColorantIds().contains(colorantId));
 
