@@ -4,6 +4,8 @@
 // ACF includes
 #include <istd/CChangeNotifier.h>
 #include <icmm/CCmykColorModel.h>
+#include <iser/IArchive.h>
+#include <iser/CPrimitiveTypesSerializer.h>
 
 
 namespace icmm
@@ -46,7 +48,7 @@ CSubstractiveColorModel::CSubstractiveColorModel(const ISubstractiveColorModel& 
 bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, ColorantUsage usage, int index)
 {
 	int existingIndex = FindColorantIndex(colorantId);
-	if (existingIndex >= 0) {
+	if (existingIndex >= 0){
 		return false;
 	}
 
@@ -86,7 +88,7 @@ bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& ot
 
 		// Check if the current model contains the colorant from the other model:
 		int existingIndex = FindColorantIndex(otherColorantId);
-		if (existingIndex >= 0) {
+		if (existingIndex >= 0){
 			// If yes, check the corresponding colorant usage:
 			ColorantUsage myUsage = GetColorantUsage(otherColorantId);
 			
@@ -210,6 +212,40 @@ icmm::ColorantUsage CSubstractiveColorModel::GetColorantUsage(const ColorantId& 
 }
 
 
+// reimplemented (iser::ISerializable)
+
+bool CSubstractiveColorModel::Serialize(iser::IArchive& archive)
+{
+	bool retVal = true;
+
+	int colorantCount = m_colorants.count();
+
+	const iser::CArchiveTag colorantListTag("Colorants", "List of colorants", iser::CArchiveTag::TT_MULTIPLE);
+	const iser::CArchiveTag colorantInfoTag("ColorantInfo", "Single colorant description", iser::CArchiveTag::TT_GROUP, &colorantListTag);
+
+	retVal = retVal && archive.BeginMultiTag(colorantListTag, colorantInfoTag, colorantCount);
+	if (!retVal){
+		return false;
+	}
+
+	istd::CChangeNotifier changeNotifier(archive.IsStoring() ? nullptr : this);
+
+	if (!archive.IsStoring()){
+		m_colorants.resize(colorantCount);
+	}
+
+	for (int i = 0; i < colorantCount; ++i){
+		retVal = retVal && archive.BeginTag(colorantInfoTag);
+		retVal = retVal && SerializeColorantInfo(archive, m_colorants[i], &colorantInfoTag);
+		retVal = retVal && archive.EndTag(colorantInfoTag);
+	}
+
+	retVal = retVal && archive.EndTag(colorantListTag);
+
+	return retVal;
+}
+
+
 // protected static methods
 
 icmm::ColorantUsage CSubstractiveColorModel::GetDefaultUsageFromColorantName(const ColorantId& colorantId)
@@ -285,6 +321,27 @@ int CSubstractiveColorModel::FindColorantIndex(const ColorantId& colorantId) con
 	}
 
 	return -1;
+}
+
+
+bool CSubstractiveColorModel::SerializeColorantInfo(
+			iser::IArchive& archive,
+			ColorantInfo& colorantInfo,
+			const iser::CArchiveTag* parentTagPtr) const
+{
+	bool retVal = true;
+
+	const iser::CArchiveTag colorantIdTag("ColorantId", "ID of the colorant", iser::CArchiveTag::TT_LEAF, parentTagPtr);
+	retVal = retVal && archive.BeginTag(colorantIdTag);
+	retVal = retVal && archive.Process(colorantInfo.id);
+	retVal = retVal && archive.EndTag(colorantIdTag);
+
+	const iser::CArchiveTag usageTag("Usage", "Usage of the colorant", iser::CArchiveTag::TT_LEAF, parentTagPtr);
+	retVal = retVal && archive.BeginTag(usageTag);
+	retVal = retVal && I_SERIALIZE_ENUM(ColorantUsage, archive,colorantInfo.usage);
+	retVal = retVal && archive.EndTag(usageTag);
+
+	return retVal;
 }
 
 

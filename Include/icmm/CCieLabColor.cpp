@@ -58,6 +58,9 @@ std::unique_ptr<IColorObject> CCieLabColor::CloneIntoUniquePtr() const
 	return std::make_unique<CCieLabColor>(*this);
 }
 
+
+// reimplemented (ISerializable)
+
 bool CCieLabColor::Serialize(iser::IArchive& /*archive*/)
 {
 	return false;

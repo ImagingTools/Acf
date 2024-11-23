@@ -2,6 +2,8 @@
 
 
 // ACF includes
+#include <iser/ISerializable.h>
+#include <iser/CArchiveTag.h>
 #include <icmm/CSubstractiveColorModelBase.h>
 
 
@@ -10,10 +12,12 @@ namespace icmm
 
 
 /**
-	Common implementation of the general substractive color model based on the list of colorants.
+	Common implementation of the general device-based, substractive color model based on the list of colorants.
 	All kinds of colorants (Process, ECG and Spot) can be combined in this color model.
 */
-class CSubstractiveColorModel: public CSubstractiveColorModelBase
+class CSubstractiveColorModel:
+			public CSubstractiveColorModelBase,
+			virtual public iser::ISerializable
 {
 public:
 	CSubstractiveColorModel();
@@ -75,15 +79,8 @@ public:
 	virtual ColorantIds GetColorantIds() const override;
 	virtual ColorantUsage GetColorantUsage(const ColorantId& colorantId) const override;
 
-protected:
-	static icmm::ColorantUsage GetDefaultUsageFromColorantName(const ColorantId& colorantId);
-	static ColorantId GetEcgGreen();
-	static ColorantId GetEcgOrange();
-	static ColorantId GetEcgViolet();
-	static ColorantId GetEcgRed();
-	static ColorantId GetEcgBlue();
-
-	int FindColorantIndex(const ColorantId& colorantId) const;
+	// reimplemented (iser::ISerializable)
+	virtual bool Serialize(iser::IArchive& archive) override;
 
 protected:
 	struct ColorantInfo
@@ -93,6 +90,20 @@ protected:
 	};
 
 	typedef QVector<ColorantInfo> ColorantInfoList;
+
+protected:
+	static icmm::ColorantUsage GetDefaultUsageFromColorantName(const ColorantId& colorantId);
+	static ColorantId GetEcgGreen();
+	static ColorantId GetEcgOrange();
+	static ColorantId GetEcgViolet();
+	static ColorantId GetEcgRed();
+	static ColorantId GetEcgBlue();
+
+	int FindColorantIndex(const ColorantId& colorantId) const;
+	bool SerializeColorantInfo(
+				iser::IArchive& archive,
+				ColorantInfo& colorantInfo,
+				const iser::CArchiveTag* parentTagPtr) const;
 
 private:
 	ColorantInfoList m_colorants;
