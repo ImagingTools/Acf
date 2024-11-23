@@ -18,6 +18,8 @@ class CSubstraactiveColorModelTest: public QObject
 
 private Q_SLOTS:
 	void DoSerializeTest();
+	void DoAppendColorantTest();
+	void DoCreateModelFromNamesTest();
 	void DoAppendModelTest();
 	void CheckColorantsTest();
 	void RemoveColorantTest();

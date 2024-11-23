@@ -29,6 +29,44 @@ void CSubstraactiveColorModelTest::DoSerializeTest()
 }
 
 
+void CSubstraactiveColorModelTest::DoAppendColorantTest()
+{
+	icmm::CSubstractiveColorModel model;
+	model.InsertColorant("Cyan", icmm::CU_CYAN);
+	QVERIFY(model.ContainsColorant("Cyan"));
+	QVERIFY(model.HasProcessColorants());
+
+	model.InsertColorant("PANTONE", icmm::CU_SPOT);
+	QVERIFY(model.ContainsColorant("PANTONE"));
+	QVERIFY(model.HasSpot());
+	QVERIFY(model.HasProcessColorants());
+
+	model.InsertColorant("Violet", icmm::CU_ECG);
+	QVERIFY(model.ContainsColorant("Violet"));
+	QVERIFY(model.HasSpot());
+	QVERIFY(model.HasEcg());
+	QVERIFY(model.HasProcessColorants());
+}
+
+
+void CSubstraactiveColorModelTest::DoCreateModelFromNamesTest()
+{
+	QStringList colorants = {"Cyan", "Magenta", "Violet", "Red", "Blue", "Green", "Orange"};
+
+	icmm::CSubstractiveColorModel model(colorants);
+	QVERIFY(!model.HasSpot());
+	QVERIFY(model.HasEcg());
+	QVERIFY(model.HasProcessColorants());
+
+	// Create with spot color:
+	QStringList colorants2 = { "Cyan2", "Magenta", "Violet", "Red", "Blue", "Green", "Orange" };
+	icmm::CSubstractiveColorModel model2(colorants2);
+	QVERIFY(model2.HasSpot());
+	QVERIFY(model2.HasEcg());
+	QVERIFY(model2.HasProcessColorants());
+}
+
+
 void CSubstraactiveColorModelTest::DoAppendModelTest()
 {
 	icmm::CSubstractiveColorModel model;
