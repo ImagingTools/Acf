@@ -1,6 +1,8 @@
-#ifndef icomp_TMultiReferenceMember_included
-#define icomp_TMultiReferenceMember_included
+#pragma once
 
+
+// Qt includes
+#include <QtCore/QMutex>
 
 // ACF includes
 #include <icomp/TMultiAttributeMember.h>
@@ -56,6 +58,8 @@ private:
 	mutable Components m_components;
 
 	mutable std::atomic<bool> m_isInitialized;
+
+	mutable QRecursiveMutex m_mutex;
 };
 
 
@@ -63,7 +67,8 @@ private:
 
 template <class Interface>
 TMultiReferenceMember<Interface>::TMultiReferenceMember()
-:	m_definitionComponentPtr(NULL), m_isInitialized(false)
+	:m_definitionComponentPtr(NULL),
+	m_isInitialized(false)
 {
 }
 
@@ -71,6 +76,8 @@ TMultiReferenceMember<Interface>::TMultiReferenceMember()
 template <class Interface>
 void TMultiReferenceMember<Interface>::Init(const IComponent* ownerPtr, const IRealAttributeStaticInfo& staticInfo)
 {
+	QMutexLocker lock(&m_mutex);
+
 	BaseClass::InitInternal(ownerPtr, staticInfo, &m_definitionComponentPtr);
 
 	m_components.clear();
@@ -87,6 +94,8 @@ bool TMultiReferenceMember<Interface>::IsValid() const
 template <class Interface>
 bool TMultiReferenceMember<Interface>::EnsureInitialized() const
 {
+	QMutexLocker lock(&m_mutex);
+
 	if (!m_isInitialized && (m_definitionComponentPtr != NULL) && BaseClass::IsValid()){
 		const ICompositeComponent* parentPtr = m_definitionComponentPtr->GetParentComponent();
 		if (parentPtr != NULL){
@@ -145,8 +154,5 @@ TMultiReferenceMember<Interface>::TMultiReferenceMember(const TMultiReferenceMem
 
 
 } // namespace icomp
-
-
-#endif // !icomp_TMultiReferenceMember_included
 
 
