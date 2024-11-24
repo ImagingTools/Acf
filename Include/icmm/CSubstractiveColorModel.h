@@ -42,7 +42,7 @@ public:
 	virtual bool InsertColorant(const ColorantId& colorantId, ColorantUsage usage, int index = -1);
 
 	/**
-		Remove a colorant with the given index.
+		Remove a colorant with the given ID.
 		\return Returns \c true, if the operation was succesful or \c false otherwise.
 	*/
 	virtual bool RemoveColorant(const ColorantId& colorantId);
