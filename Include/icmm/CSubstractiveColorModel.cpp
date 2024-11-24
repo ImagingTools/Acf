@@ -82,7 +82,7 @@ bool CSubstractiveColorModel::InsertColorant(const ColorantId & colorantId, Colo
 
 bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 {
-	QMutableListIterator<ColorantInfo> colorantIterator(m_colorants);
+	QMutableVectorIterator<ColorantInfo> colorantIterator(m_colorants);
 	while (colorantIterator.hasNext()){
 		ColorantInfo& colorantInfo = colorantIterator.next();
 		if (colorantInfo.id == colorantId){
