@@ -21,7 +21,7 @@ CJsonWriteArchiveBase::CJsonWriteArchiveBase(
 			const iser::CArchiveTag& /*rootTag*/)
 	:BaseClass(versionInfoPtr),
 	m_serializeHeader(serializeHeader),
-	m_jsonFormat(QJsonDocument::Compact),
+	m_jsonFormat(QJsonDocument::Indented),
 	m_rootTag("", "", iser::CArchiveTag::TT_GROUP)
 {
 }
