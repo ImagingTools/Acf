@@ -285,10 +285,11 @@ bool CPrimitiveTypesSerializer::SerializeQVariant(iser::IArchive& archive, QVari
 
 	QByteArray variantData;
 	QDataStream variantStream(&variantData, QIODevice::ReadWrite);
-	int dataSize = variantData.size();
+	int dataSize = 0;
 
 	if (archive.IsStoring()){
 		variantStream << variant;
+		dataSize = variantData.size();
 
 		retVal = retVal && archive.BeginTag(sizeTag);
 		retVal = retVal && archive.Process(dataSize);
