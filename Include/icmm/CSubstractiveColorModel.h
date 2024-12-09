@@ -31,7 +31,7 @@ public:
 	/**
 		Returns \c true if the colorant with the given ID exists in the color model.
 	*/
-	virtual bool ContainsColorant(const ColorantId& colorantId) const;
+	bool ContainsColorant(const ColorantId& colorantId) const;
 
 	/**
 		Insert a new colorant at the given position.
@@ -39,49 +39,59 @@ public:
 		\param index	Position, where the new colorant will be inserted.
 		A negative value means the new colorant will be inserted at the end of the colorant list.
 	*/
-	virtual bool InsertColorant(const ColorantId& colorantId, ColorantUsage usage, int index = -1);
+	bool InsertColorant(const ColorantId& colorantId, ColorantUsage usage, int index = -1);
 
 	/**
 		Remove a colorant with the given ID.
 		\return Returns \c true, if the operation was succesful or \c false otherwise.
 	*/
-	virtual bool RemoveColorant(const ColorantId& colorantId);
+	bool RemoveColorant(const ColorantId& colorantId);
+
+	/**
+		Set a colorant usage for an existing colorant.
+	*/
+	bool SetColorantUsage(const ColorantId& colorantId, ColorantUsage usage);
+
+	/**
+		Set a new ID for an existing colorant.
+	*/
+	bool SetColorantId(const ColorantId& colorantId, const ColorantId& newColorantId);
 
 	/**
 		Append colorants from from another model to this one.
 		\return Returns \c true, if the operation was succesful or \c false otherwise.
 	*/
-	virtual bool AppendColorModel(const ISubstractiveColorModel& other);
+	bool AppendColorModel(const ISubstractiveColorModel& other);
 
 	/**
 		Check if the color model contains process colorants.
 	*/
-	virtual bool HasProcessColorants() const;
+	bool HasProcessColorants() const;
 
 	/**
 		Check if the color model contains ECG colorants.
 	*/
-	virtual bool HasEcg() const;
+	bool HasEcg() const;
 
 	/**
 		Check if the color model contains any spot colors.
 	*/
-	virtual bool HasSpot() const;
+	bool HasSpot() const;
 
 	/**
 		Get the list of process colors in this color model.
 	*/
-	virtual ColorantIds GetProcessColorants() const;
+	ColorantIds GetProcessColorants() const;
 
 	/**
 		Get the list of ECG colorants in this color model.
 	*/
-	virtual ColorantIds GetEcgColorants() const;
+	ColorantIds GetEcgColorants() const;
 
 	/**
 		Get the list of spot colors in this color model.
 	*/
-	virtual ColorantIds GetSpotColorants() const;
+	ColorantIds GetSpotColorants() const;
 
 	// reimplemented (icmm::IColorantList)
 	virtual ColorantIds GetColorantIds() const override;

@@ -98,6 +98,46 @@ bool CSubstractiveColorModel::RemoveColorant(const ColorantId & colorantId)
 }
 
 
+bool CSubstractiveColorModel::SetColorantUsage(const ColorantId& colorantId, ColorantUsage usage)
+{
+	int colorantIndex = FindColorantIndex(colorantId);
+	if (colorantIndex >= 0) {
+		if (m_colorants[colorantIndex].usage != usage){
+			istd::CChangeNotifier changeNotifier(this);
+
+			m_colorants[colorantIndex].usage = usage;
+		}
+
+		return true;
+	}
+
+	Q_ASSERT_X(false, "CSubstractiveColorModel::SetColorantUsage", "Trying to change a non-existing colorant");
+
+	return false;
+}
+
+
+bool CSubstractiveColorModel::SetColorantId(const ColorantId& colorantId, const ColorantId& newColorantId)
+{
+	if (colorantId == newColorantId) {
+		return true;
+	}
+
+	int colorantIndex = FindColorantIndex(colorantId);
+	if (colorantIndex >= 0){
+		istd::CChangeNotifier changeNotifier(this);
+		
+		m_colorants[colorantIndex].id = newColorantId;
+
+		return true;
+	}
+
+	Q_ASSERT_X(false, "CSubstractiveColorModel::SetColorantId", "Trying to change a non-existing colorant");
+
+	return false;
+}
+
+
 bool CSubstractiveColorModel::AppendColorModel(const ISubstractiveColorModel& other)
 {
 	CSubstractiveColorModel temp(*this);
