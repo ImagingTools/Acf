@@ -124,6 +124,11 @@ I_EXPORT_COMPONENT(
 			"Writes and read objects to/from an abstract I/O device using JSON format",
 			"Serializer Archive Format JSON" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("JSON Loader Persistence Stream I/O Device"));
 
+I_EXPORT_COMPONENT(
+			SecureFileSerializer,
+			"Simple encrypted file serializer",
+			"Serializer Encryption Decryption Loader Persistence" IM_CATEGORY(I_DATA_PERSISTENCE) IM_TAG("Loader Persistence Encryption"));
+
 
 } // namespace FilePck
 
