@@ -174,6 +174,11 @@ I_EXPORT_COMPONENT(
 			"ID Parameter" IM_CATEGORY(I_DATA_MODEL));
 
 I_EXPORT_COMPONENT(
+			DelegatedEnableableParam,
+			"Delegated enableable parameter",
+			"Delegated Enable Boolean Parameter" IM_CATEGORY(I_DATA_MODEL));
+
+I_EXPORT_COMPONENT(
 			SingleDocumentTemplate,
 			"Single document template for only one type of documents",
 			"Single Template MVC" IM_CATEGORY(I_APPLICATION_LOGIC) IM_TAG("Document"));

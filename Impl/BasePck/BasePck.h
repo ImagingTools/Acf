@@ -50,6 +50,7 @@
 #include <iprm/CSelectionBasedParameterStateProviderComp.h>
 #include <iprm/CTextParamComp.h>
 #include <iprm/CIdParamComp.h>
+#include <iprm/CDelegatedEnableableParamComp.h>
 
 #include <i2d/CPosition2dComp.h>
 #include <i2d/CRectangleComp.h>
@@ -109,6 +110,7 @@ typedef iprm::CParameterStateProviderComp ParameterStateProvider;
 typedef iprm::CSelectionBasedParameterStateProviderComp SelectionBasedParameterStateProvider;
 typedef icomp::TModelCompWrap<iprm::CTextParamComp> TextParam;
 typedef icomp::TModelCompWrap<iprm::CIdParamComp> IdParam;
+typedef icomp::TModelCompWrap<iprm::CDelegatedEnableableParamComp> DelegatedEnableableParam;
 
 typedef idoc::CSingleDocumentTemplateComp SingleDocumentTemplate;
 typedef idoc::CCompositeDocumentTemplateComp CompositeDocumentTemplate;
