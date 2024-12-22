@@ -115,7 +115,7 @@ win32-msvc*{
 
 	greaterThan(QMAKE_MSC_VER, 1919){
 		greaterThan(QMAKE_MSC_VER, 1929){
-			QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
+			QMAKE_CXXFLAGS += /Gy /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
 			COMPILER_NAME = VC17
 			CONFIG += c++17
 
@@ -128,10 +128,10 @@ win32-msvc*{
 				QMAKE_LFLAGS += /MACHINE:X64
 			}
 
-			message("Using Visual Studio 2022");
+#			message("Using Visual Studio 2022");
 		}
 		else{
-			QMAKE_CXXFLAGS += /Qpar /Gy /Gw /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
+			QMAKE_CXXFLAGS += /Gy /FS /Zc:threadSafeInit- /D__STDC_LIMIT_MACROS
 			COMPILER_NAME = VC16
 			CONFIG += c++17
 

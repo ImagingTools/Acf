@@ -53,7 +53,7 @@ if(${MSVC})
 	endif()
 
 	if(${MSVC_TOOLSET_VERSION} STREQUAL 143)
-		set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /Qpar /Gy /Gw /FS /Zc:threadSafeInit-")
+		set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /Gy /FS /Zc:threadSafeInit-")
 		set(CMAKE_CXX_FLAGS_RELEASE_INIT "${CMAKE_CXX_FLAGS_RELEASE_INIT} /Ot /Oi /Ob2 /GS-")
 	endif()
 
