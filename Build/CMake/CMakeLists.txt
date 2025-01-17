@@ -1,6 +1,6 @@
-message(${CMAKE_CURRENT_LIST_DIR})
-cmake_minimum_required(VERSION 3.1.0)
-#cmake_minimum_required(VERSION 3.13.0)
+cmake_minimum_required(VERSION 3.26)
+
+message(VERBOSE ${CMAKE_CURRENT_LIST_DIR})
 
 project(Acf)
 
