@@ -47,7 +47,7 @@ public:
 		This function should be called once at the start of the task if it provides progress information.
 		\param	isCancelable	informs, that this task can be cancel during the processing.
 	*/
-	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false) = 0;
+	virtual std::unique_ptr<IProgressLogger> StartProgressLogger(bool isCancelable = false, const QString& description = {}) = 0;
 };
 
 

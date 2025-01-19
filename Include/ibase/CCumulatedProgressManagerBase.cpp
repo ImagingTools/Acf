@@ -21,14 +21,26 @@ namespace ibase
 class SubTaskManager: public CCumulatedProgressManagerBase::TaskBase, public CCumulatedProgressManagerBase
 {
 public:
-	SubTaskManager(CCumulatedProgressManagerBase* parentPtr, const TaskInfo& taskInfo, double weight, bool isCancelable) : CCumulatedProgressManagerBase::TaskBase(parentPtr, taskInfo, weight, isCancelable)	{}
+	SubTaskManager(CCumulatedProgressManagerBase* parentPtr, const TaskInfo& taskInfo, double weight, bool isCancelable)
+		:CCumulatedProgressManagerBase::TaskBase(parentPtr, taskInfo, weight, isCancelable)
+		{
+		}
 
 protected:
 	// reimplemented (ibase::CCumulatedProgressManagerBase)
-	void OnProgressChanged(double cumulatedValue) override
+	virtual void OnProgressChanged(double cumulatedValue) override
 	{
 		if (m_parentPtr != nullptr){
-			m_parentPtr->ReportTaskProgress(this, cumulatedValue);
+			m_parentPtr->ReportTaskProgress(this, cumulatedValue, TaskStatus::Running);
+		}
+	}
+
+	virtual void OnTasksChanged() override
+	{
+		if (m_parentPtr != nullptr){
+			if (GetProcessedTasks().size() == 0){
+				m_parentPtr->ReportTaskProgress(this, GetCumulatedProgress(), TaskStatus::Finished);
+			}
 		}
 	}
 };
@@ -74,7 +86,7 @@ double CCumulatedProgressManagerBase::GetCumulatedProgress() const
 }
 
 
-std::vector<CCumulatedProgressManagerBase::TaskInfo> CCumulatedProgressManagerBase::GetProcessedTasks(bool preferSorted, int maxCount) const
+std::vector<CCumulatedProgressManagerBase::TaskProgressInfo> CCumulatedProgressManagerBase::GetProcessedTasks(bool preferSorted, int maxCount) const
 {
 	QMutexLocker locker(&m_tasksMutex);
 
@@ -91,9 +103,9 @@ std::vector<CCumulatedProgressManagerBase::TaskInfo> CCumulatedProgressManagerBa
 		taskList.resize(maxCount);
 	}
 
-	std::vector<CCumulatedProgressManagerBase::TaskInfo> retVal;
+	std::vector<CCumulatedProgressManagerBase::TaskProgressInfo> retVal;
 	for (auto&& pinfo: taskList){
-		retVal.push_back(pinfo.taskInfo);
+		retVal.push_back({ pinfo.taskInfo, pinfo.status, pinfo.progress });
 	}
 
 	return retVal;
@@ -152,13 +164,13 @@ std::unique_ptr<IProgressManager> CCumulatedProgressManagerBase::CreateSubtaskMa
 }
 
 
-std::unique_ptr<IProgressLogger> CCumulatedProgressManagerBase::StartProgressLogger(bool isCancelable)
+std::unique_ptr<IProgressLogger> CCumulatedProgressManagerBase::StartProgressLogger(bool isCancelable, const QString& description)
 {
 	Q_ASSERT_X(!m_isProgressLoggerStarted, "StartProgressLogger", "Main progress logger can be started only once for progress manager!");
 
 	m_isProgressLoggerStarted = true;
 
-	return std::unique_ptr<IProgressLogger>(new Logger(this, m_defaultTaskInfo, isCancelable));
+	return std::unique_ptr<IProgressLogger>(new Logger(this, { m_defaultTaskInfo.id, !description.isEmpty() ? description : m_defaultTaskInfo.description }, isCancelable));
 }
 
 
@@ -180,7 +192,7 @@ void CCumulatedProgressManagerBase::OpenTask(TaskBase* taskPtr, const TaskInfo& 
 {
 	QMutexLocker locker(&m_tasksMutex);
 
-	m_openTasks[taskPtr] = ProgressInfo{0, weight, isCancelable, taskInfo};
+	m_openTasks[taskPtr] = ProgressInfo{TaskStatus::Created, 0, weight, isCancelable, taskInfo};
 
 	if (isCancelable){
 		m_cancelableCounter++;
@@ -218,12 +230,13 @@ void CCumulatedProgressManagerBase::CloseTask(TaskBase* taskPtr)
 }
 
 
-void CCumulatedProgressManagerBase::ReportTaskProgress(TaskBase* taskPtr, double progress)
+void CCumulatedProgressManagerBase::ReportTaskProgress(TaskBase* taskPtr, double progress, TaskStatus taskStatus)
 {
 	QMutexLocker locker(&m_tasksMutex);
 
 	if (auto taskIter = m_openTasks.find(taskPtr); taskIter != m_openTasks.end()){
 		taskIter->second.progress = progress;
+		taskIter->second.status = taskStatus;
 	}
 
 	locker.unlock();
@@ -275,6 +288,7 @@ void CCumulatedProgressManagerBase::TaskBase::StopLogging()
 CCumulatedProgressManagerBase::TaskBase::~TaskBase()
 {
 	if (m_parentPtr != nullptr){
+		m_parentPtr->ReportTaskProgress(this, 1., TaskStatus::Finished);
 		m_parentPtr->CloseTask(this);
 	}
 }
@@ -285,6 +299,9 @@ CCumulatedProgressManagerBase::TaskBase::~TaskBase()
 CCumulatedProgressManagerBase::Logger::Logger(CCumulatedProgressManagerBase* parentPtr, const TaskInfo& taskInfo, bool isCancelable)
 :	TaskBase(parentPtr, taskInfo, 1, isCancelable)
 {
+	if (m_parentPtr != nullptr) {
+		m_parentPtr->ReportTaskProgress(this, 0., TaskStatus::Running);
+	}
 }
 
 
@@ -293,7 +310,7 @@ CCumulatedProgressManagerBase::Logger::Logger(CCumulatedProgressManagerBase* par
 void CCumulatedProgressManagerBase::Logger::OnProgress(double currentProgress)
 {
 	if (m_parentPtr != nullptr){
-		m_parentPtr->ReportTaskProgress(this, currentProgress);
+		m_parentPtr->ReportTaskProgress(this, currentProgress, TaskStatus::Running);
 	}
 }
 
