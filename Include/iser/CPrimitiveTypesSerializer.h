@@ -1,5 +1,4 @@
-#ifndef iser_CPrimitiveTypesSerializer_included
-#define iser_CPrimitiveTypesSerializer_included
+#pragma once
 
 
 // STL includes
@@ -555,6 +554,4 @@ bool CPrimitiveTypesSerializer::SerializeAssociativeObjectContainer(
 
 } // namespace iser
 
-
-#endif // !iser_CPrimitiveTypesSerializer_included
 
