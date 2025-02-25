@@ -1,5 +1,4 @@
-#ifndef iprm_TParamsPtr_included
-#define iprm_TParamsPtr_included
+#pragma once
 
 
 // Qt includes
@@ -22,13 +21,14 @@ namespace iprm
 /**
 	Help pointer wrapper for management of a parameter from the parameter set.
 */
-template <class ParameterInterace>
-class TParamsPtr: public istd::TPointerBase<const ParameterInterace>
+template <class ParamsSet, class ParameterInterace>
+class TParamsPtrBase: public istd::TPointerBase<ParameterInterace>
 {
 public:
-	typedef istd::TPointerBase<const ParameterInterace> BaseClass;
+	typedef istd::TPointerBase<ParameterInterace> BaseClass;
+	using NonConstParameterInterface = std::remove_const_t<ParameterInterace>;
 
-	TParamsPtr(const ParameterInterace* ptr = NULL);
+	TParamsPtrBase(ParameterInterace* ptr = NULL);
 
 	/**
 		Construct and initialize the pointer with the given parameter set and parameter ID.
@@ -36,7 +36,7 @@ public:
 		\param	parameterId		ID of parameter in the set.
 		\param	isObligatory	indicate, that this parameter is obligatory.
 	*/
-	TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
+	TParamsPtrBase(ParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
 
 	/**
 		Construct and initialize the pointer with the component parameters.
@@ -45,9 +45,9 @@ public:
 		\param	defaultRef				component reference used if parameter is not found in the set.
 		\param	isObligatory			indicate, that this parameter is obligatory.
 	*/
-	TParamsPtr(	const IParamsSet* parameterSetPtr,
+	TParamsPtrBase(ParamsSet* parameterSetPtr,
 				const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
-				const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+				const icomp::TReferenceMember<NonConstParameterInterface>& defaultRef,
 				bool isObligatory = true);
 
 	/**
@@ -56,7 +56,7 @@ public:
 		\param	parameterId		ID of parameter in the set.
 		\param	isObligatory	indicate, that this parameter is obligatory.
 	*/
-	void Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
+	void Init(ParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true);
 
 	/**
 		Initialize the pointer with the component parameters.
@@ -65,49 +65,63 @@ public:
 		\param	defaultRef				component reference used if parameter is not found in the set.
 		\param	isObligatory			indicate, that this parameter is obligatory.
 	*/
-	void Init(	const IParamsSet* parameterSetPtr,
+	void Init(ParamsSet* parameterSetPtr,
 				const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
-				const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+				const icomp::TReferenceMember<NonConstParameterInterface>& defaultRef,
 				bool isObligatory = true);
 };
 
 
 // public methods
 
-template <class ParameterInterace>
-TParamsPtr<ParameterInterace>::TParamsPtr(const ParameterInterace* ptr)
+template <class ParamsSet, class ParameterInterace>
+TParamsPtrBase<ParamsSet, ParameterInterace>::TParamsPtrBase(ParameterInterace* ptr)
 :	BaseClass(ptr)
 {
 }
 
 
-template <class ParameterInterace>
-TParamsPtr<ParameterInterace>::TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
+template <class ParamsSet, class ParameterInterace>
+TParamsPtrBase<ParamsSet, ParameterInterace>::TParamsPtrBase(
+	ParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
 {
 	Init(parameterSetPtr, parameterId, isObligatory);
 }
 
 
-template <class ParameterInterace>
-TParamsPtr<ParameterInterace>::TParamsPtr(
-			const IParamsSet* parameterSetPtr,
+template <class ParamsSet, class ParameterInterace>
+TParamsPtrBase<ParamsSet, ParameterInterace>::TParamsPtrBase(
+			ParamsSet* parameterSetPtr,
 			const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
-			const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+			const icomp::TReferenceMember<NonConstParameterInterface>& defaultRef,
 			bool isObligatory)
 {
 	Init(parameterSetPtr, parameterIdAttribute, defaultRef, isObligatory);
 }
 
 
-template <class ParameterInterace>
-void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
+template <class ParamsSet, class ParameterInterace>
+void TParamsPtrBase<ParamsSet, ParameterInterace>::Init(
+	ParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory)
 {
 	Q_UNUSED(isObligatory);
+	Q_STATIC_ASSERT(std::is_const<ParamsSet>{} == std::is_const<ParameterInterace>{});
+
+	BaseClass::Reset();
 
 	if ((parameterSetPtr != NULL) && !parameterId.isEmpty()){
-		const iser::ISerializable* parameterPtr = parameterSetPtr->GetParameter(parameterId);
+		const iser::ISerializable* constParameterPtr = nullptr;
 
-		BaseClass::SetPtr(dynamic_cast<const ParameterInterace*>(parameterPtr));
+		if constexpr (std::is_const<ParamsSet>{}){
+			constParameterPtr = parameterSetPtr->GetParameter(parameterId);
+			BaseClass::SetPtr(dynamic_cast<ParameterInterace*>(constParameterPtr));
+		}
+		else{
+			iser::ISerializable* parameterPtr = parameterSetPtr->GetEditableParameter(parameterId);
+			BaseClass::SetPtr(dynamic_cast<ParameterInterace*>(parameterPtr));
+
+			constParameterPtr = parameterPtr;
+		}
 
 #if QT_VERSION >= 0x040800
 		I_IF_DEBUG(
@@ -120,7 +134,7 @@ void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, cons
 
 				QString idList = existingIds.join(", ");
 
-				if (parameterPtr == NULL){
+				if (constParameterPtr == NULL){
 					qDebug("Parameter %s was not found in the parameter set. Following parameter IDs are registered: %s", qPrintable(parameterId), qPrintable(idList));
 				}
 				else{
@@ -136,26 +150,36 @@ void TParamsPtr<ParameterInterace>::Init(const IParamsSet* parameterSetPtr, cons
 }
 
 
-template <class ParameterInterace>
-void TParamsPtr<ParameterInterace>::Init(
-			const IParamsSet* parameterSetPtr,
+template <class ParamsSet, class ParameterInterace>
+void TParamsPtrBase<ParamsSet, ParameterInterace>::Init(
+			ParamsSet* parameterSetPtr,
 			const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
-			const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+			const icomp::TReferenceMember<NonConstParameterInterface>& defaultRef,
 			bool isObligatory)
 {
 	Q_UNUSED(isObligatory);
+	Q_STATIC_ASSERT(std::is_const<ParamsSet>{} == std::is_const<ParameterInterace>{});
 
 	BaseClass::Reset();
 
 	if (parameterIdAttribute.IsValid()){
 		if (parameterSetPtr != NULL){
-			const iser::ISerializable* paramPtr = parameterSetPtr->GetParameter(*parameterIdAttribute);
-			const ParameterInterace* paramImplPtr = dynamic_cast<const ParameterInterace*>(paramPtr);
-			BaseClass::SetPtr(paramImplPtr);
+			const iser::ISerializable* constParameterPtr = nullptr;
+
+			if constexpr (std::is_const<ParamsSet>{}){
+				constParameterPtr = parameterSetPtr->GetParameter(*parameterIdAttribute);
+				BaseClass::SetPtr(dynamic_cast<ParameterInterace*>(constParameterPtr));
+			}
+			else{
+				iser::ISerializable* parameterPtr = parameterSetPtr->GetEditableParameter(*parameterIdAttribute);
+				BaseClass::SetPtr(dynamic_cast<ParameterInterace*>(parameterPtr));
+
+				constParameterPtr = parameterPtr;
+			}
 
 #if QT_VERSION >= 0x050000
 #ifndef QT_NO_DEBUG
-			if ((paramImplPtr == NULL) && (paramPtr != NULL)){
+			if ((!BaseClass::IsValid()) && (constParameterPtr != NULL)){
 				qDebug("Parameter %s in parameter set is not compatible, should be %s", qPrintable(*parameterIdAttribute), qPrintable(istd::CClassInfo::GetName<ParameterInterace>()));
 			}
 #endif
@@ -204,9 +228,85 @@ void TParamsPtr<ParameterInterace>::Init(
 }
 
 
+template <class ParameterInterace>
+class TParamsPtr: public TParamsPtrBase<const IParamsSet, const ParameterInterace>{
+public:
+	typedef TParamsPtrBase<const IParamsSet, const ParameterInterace> BaseClass;
+
+	TParamsPtr(const ParameterInterace* ptr = NULL)
+		:BaseClass(ptr)
+	{
+	}
+
+	TParamsPtr(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true)
+		:BaseClass(parameterSetPtr, parameterId, isObligatory)
+	{
+	}
+
+	TParamsPtr(
+		const IParamsSet* parameterSetPtr,
+		const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
+		const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+		bool isObligatory = true)
+		:BaseClass(parameterSetPtr, parameterIdAttribute, defaultRef, isObligatory)
+	{
+	}
+
+	void Init(const IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true)
+	{
+		BaseClass::Init(parameterSetPtr, parameterId, isObligatory);
+	}
+
+	void Init(const IParamsSet* parameterSetPtr,
+		const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
+		const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+		bool isObligatory = true)
+	{
+		BaseClass::Init(parameterSetPtr, parameterIdAttribute, defaultRef, isObligatory);
+	}
+};
+
+
+template <class ParameterInterace>
+class TEditableParamsPtr : public TParamsPtrBase<IParamsSet, ParameterInterace>
+{
+public:
+	typedef TParamsPtrBase<IParamsSet, ParameterInterace> BaseClass;
+
+	TEditableParamsPtr(ParameterInterace* ptr = NULL)
+		:BaseClass(ptr)
+	{
+	}
+
+	TEditableParamsPtr(IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true)
+		:BaseClass(parameterSetPtr, parameterId, isObligatory)
+	{
+	}
+
+	TEditableParamsPtr(
+		IParamsSet* parameterSetPtr,
+		const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
+		const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+		bool isObligatory = true)
+		:BaseClass(parameterSetPtr, parameterIdAttribute, defaultRef, isObligatory)
+	{
+	}
+
+	void Init(IParamsSet* parameterSetPtr, const QByteArray& parameterId, bool isObligatory = true)
+	{
+		BaseClass::Init(parameterSetPtr, parameterId, isObligatory);
+	}
+
+	void Init(IParamsSet* parameterSetPtr,
+		const icomp::TAttributeMember<iattr::CIdAttribute>& parameterIdAttribute,
+		const icomp::TReferenceMember<ParameterInterace>& defaultRef,
+		bool isObligatory = true)
+	{
+		BaseClass::Init(parameterSetPtr, parameterIdAttribute, defaultRef, isObligatory);
+	}
+};
+
+
 } // namespace iprm
-
-
-#endif // !iprm_TParamsPtr_included
 
 
