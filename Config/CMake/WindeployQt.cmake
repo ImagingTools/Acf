@@ -16,6 +16,6 @@ function(windeploy target listOptions listFiles)
 		${listFiles}
 		DEPENDS ${listFiles}
 		COMMENT "Deploying Qt libraries using windeployqt for compilation target '${target}' ..."
-    	)
+		)
 endfunction()
 

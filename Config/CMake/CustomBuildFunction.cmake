@@ -1,7 +1,7 @@
 include(${CMAKE_CURRENT_LIST_DIR}/ProjectRoot.cmake)
 
 function(acf_get_root_dir identifier_to_use)
-    set(${identifier_to_use} "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../.." PARENT_SCOPE)
+	set(${identifier_to_use} "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../.." PARENT_SCOPE)
 endfunction()
 
 
@@ -72,7 +72,7 @@ function (acf_custom_build_ext PROJECT_BINARY_DIR ARXC_FILES ARXC_CONFIG ACF_CON
 
 		if(NOT ARX_DEPS_GENERATION_RESULT_CODE EQUAL 0)
 			message("!!! ARX Cannot to create dependens")
-		        message("TARGETNAME ${TARGETNAME}")
+				message("TARGETNAME ${TARGETNAME}")
 
 			file(STRINGS ${ARX_DEPS_FILE_PATH} ERRORS1_ARX_DEPS_LIST)
 			message("${ERRORS1_ARX_DEPS_LIST}")
